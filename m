@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C8A5FA335
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 20:14:53 +0200 (CEST)
-Received: from localhost ([::1]:60200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2FD55FA362
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 20:31:43 +0200 (CEST)
+Received: from localhost ([::1]:39138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohxIi-0002xH-Ja
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 14:14:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55300)
+	id 1ohxYz-0001l3-PA
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 14:31:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwcD-00030V-6K
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:30:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27483)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwcI-00032Q-KP
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:31:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38811)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwcA-00076t-FC
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:30:56 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwcF-00077t-E6
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:31:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665423053;
+ s=mimecast20190719; t=1665423058;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=nVrfuhIwqzfInAD0rVBmDi4J8sT2us7b0lHytetQ4rc=;
- b=GCD+tnsduQd13ciM6UDDuLvXvpkSy1lCBcYlROMWCUtz9csVIAwwYHkLDIgWDlpMKnHryB
- wlxhiIWtFEdlZDS4l89bs6RRIF6n5uFl5J0wvKHiUQu5Vc8O/Ls0p7xpQJGEPo6NWaT5ux
- o6EEsZgocO+tUp1xEKPQD7nHMaWsx5c=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=9cxJb1dEd33VM9QAxxhn0l0rb0p7kiIaB1Wpir2Wp88=;
+ b=PrCXwqiX9Rljy7UBYhsaAgO8CivfbUIxG9rFK2/5EdaE+vjSUq9ZRr04nEd9LTjlv53kY0
+ /WlxWIqqc8p0II7dGY504KWfjzyULoQVdx1XmsuxoLW2hQ2/vNUTPxH8lN9oc9JPmzZVu/
+ heh+bPyOlK8sq5xEFIcSzgzjbxeAyBM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-549-vWbj0mvPM_aZa20nGm7cuQ-1; Mon, 10 Oct 2022 13:30:52 -0400
-X-MC-Unique: vWbj0mvPM_aZa20nGm7cuQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- h4-20020adfa4c4000000b0022ec3966c3aso1991743wrb.6
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:30:52 -0700 (PDT)
+ us-mta-619-07nYwWn1NVKd2KjnaFqPMw-1; Mon, 10 Oct 2022 13:30:57 -0400
+X-MC-Unique: 07nYwWn1NVKd2KjnaFqPMw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ ay21-20020a05600c1e1500b003b45fd14b53so5820246wmb.1
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:30:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nVrfuhIwqzfInAD0rVBmDi4J8sT2us7b0lHytetQ4rc=;
- b=ttuDMJy238jBgekOW3QdJBifHM0CkVYzhfLIqrBWTHRUmxx9Mh0MuJzkjsIqDi6oCL
- PaIP413tnslhcoLViQqSgt1sGLihVi1Oo8wD2mNjFKddnvKNzl5EjulyOp3ctGovem3I
- 4k24jQYhpp+rPV4Hc4nm2jU0G50P2Wv7z+W/3AYiZGpdvsiYWSGnCMzQIiM/0OJUSN3g
- Aa2yd0qCMRdEA6kwCtLxhxQqhGQ3cd//8UDHlGZh4G0jGFR9bGirddi7MVcNrfT0cYEj
- TVvdIzpSUnPZQsDxdF+VEMzumPHgNuM/CQBTXMFgd0JzahkFwgLK5wOgE6nrJVsEk67L
- Bgcw==
-X-Gm-Message-State: ACrzQf30FJlvcNvtkl8WsIOfSvI8pZjn1tQkpfuBd9d0RH7sS6n5MYXh
- tjsh9vJNCvH+MaSa69FRjNd3h66jYJy+LRsqRQ6hZ2BWtZtzRxsTFfo1iNffWd9VxrfHURU27E4
- iXyi5EuvaVHvSa/L8wR1yhcGJVuTwlzehgFWeVOLe2Qw+YVW0nfC8bF0n0QBM
-X-Received: by 2002:a5d:51d1:0:b0:22e:4701:fc5d with SMTP id
- n17-20020a5d51d1000000b0022e4701fc5dmr12735660wrv.515.1665423051315; 
- Mon, 10 Oct 2022 10:30:51 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM43HoqHI7zjtEKz7g+0aKhCWluLbs5BMmKNwC0KB/7De8H949WGJehpXM45xwr+WkenLknAQw==
-X-Received: by 2002:a5d:51d1:0:b0:22e:4701:fc5d with SMTP id
- n17-20020a5d51d1000000b0022e4701fc5dmr12735631wrv.515.1665423050990; 
- Mon, 10 Oct 2022 10:30:50 -0700 (PDT)
+ bh=9cxJb1dEd33VM9QAxxhn0l0rb0p7kiIaB1Wpir2Wp88=;
+ b=muINlgus5P7i80GqQ/IDVXgwKgKaYJyKMYjS+ghHtxade8aB0pehUDcWpw1Rh7uuOQ
+ ekDuOuI9XZznESex2apOZuiNEa9k0lYAfLKJqUX+LbJnLvl5G3cJ/3iZUbs8SlYxvkZ2
+ zoFnBLEttAYA1mTKA09pDqVolFLu0kXnOXBm+oW8fPbO14TiSnyaP56q6D7I6YZVqLBk
+ Ot08+d2g3y+vc+/+XM6PHW7ID93A0wsn01UIZP2s2B2idUlCSvOIogW8oBszblDBt8AO
+ VT3OlvRcGvMMMTKG9IHVM2hBY4oB+e8IalYJHQ4XHEbWqBIKYeF/bjX+AWleRNz2vP4p
+ hPHw==
+X-Gm-Message-State: ACrzQf0qdiWwEN66gun+0o8pJ21UqVyq58/ZgQnxqwPUumf/m2zHCYw+
+ apvxxhPfdPGR6Gov3Ysizq1BEGdgTVbVYOvuiXuiBwbt+OzKaBpdFYvHfaTcHAvaJuxktHP7xvZ
+ mi3jePE6ZCpdqvz5UMm2c8YOgk+8U19ZnYucuIKBvAt1s/8quDJrduWN23pCt
+X-Received: by 2002:adf:f301:0:b0:22e:4479:c1ba with SMTP id
+ i1-20020adff301000000b0022e4479c1bamr12285802wro.133.1665423056442; 
+ Mon, 10 Oct 2022 10:30:56 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4R3/inZPYzzlITQIwVg/mfR6zFaSY6WX3hoPyfn8Xr1MBgnTd0mYvtwSD8YG0cJRmvIrwYjg==
+X-Received: by 2002:adf:f301:0:b0:22e:4479:c1ba with SMTP id
+ i1-20020adff301000000b0022e4479c1bamr12285774wro.133.1665423056034; 
+ Mon, 10 Oct 2022 10:30:56 -0700 (PDT)
 Received: from redhat.com ([2.55.183.131]) by smtp.gmail.com with ESMTPSA id
- z10-20020a05600c0a0a00b003a2f2bb72d5sm24621241wmp.45.2022.10.10.10.30.47
+ m29-20020a05600c3b1d00b003a1980d55c4sm919540wms.47.2022.10.10.10.30.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 10:30:50 -0700 (PDT)
-Date: Mon, 10 Oct 2022 13:30:46 -0400
+ Mon, 10 Oct 2022 10:30:55 -0700 (PDT)
+Date: Mon, 10 Oct 2022 13:30:51 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Peter Xu <peterx@redhat.com>,
- David Woodhouse <dwmw2@infradead.org>, Claudio Fontana <cfontana@suse.de>,
- Igor Mammedov <imammedo@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: [PULL 29/55] Revert "intel_iommu: Fix irqchip / X2APIC configuration
- checks"
-Message-ID: <20221010172813.204597-30-mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Jonah Palmer <jonah.palmer@oracle.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Eric Blake <eblake@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PULL 30/55] qmp: add QMP command x-query-virtio
+Message-ID: <20221010172813.204597-31-mst@redhat.com>
 References: <20221010172813.204597-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -104,73 +102,290 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Xu <peterx@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
 
-It's true that when vcpus<=255 we don't require the length of 32bit APIC
-IDs.  However here since we already have EIM=ON it means the hypervisor
-will declare the VM as x2apic supported (e.g. VT-d ECAP register will have
-EIM bit 4 set), so the guest should assume the APIC IDs are 32bits width
-even if vcpus<=255.  In short, commit 77250171bdc breaks any simple cmdline
-that wants to boot a VM with >=9 but <=255 vcpus with:
+This new command lists all the instances of VirtIODevices with
+their canonical QOM path and name.
 
-  -device intel-iommu,intremap=on
+[Jonah: @virtio_list duplicates information that already exists in
+ the QOM composition tree. However, extracting necessary information
+ from this tree seems to be a bit convoluted.
 
-For anyone who does not want to enable x2apic, we can use eim=off in the
-intel-iommu parameters to skip enabling KVM x2apic.
+ Instead, we still create our own list of realized virtio devices
+ but use @qmp_qom_get with the device's canonical QOM path to confirm
+ that the device exists and is realized. If the device exists but
+ is actually not realized, then we remove it from our list (for
+ synchronicity to the QOM composition tree).
 
-This partly reverts commit 77250171bdc02aee106083fd2a068147befa1a38, while
-keeping the valid bit on checking split irqchip, but revert the other change.
+ Also, the QMP command @x-query-virtio is redundant as @qom-list
+ and @qom-get are sufficient to search '/machine/' for realized
+ virtio devices. However, @x-query-virtio is much more convenient
+ in listing realized virtio devices.]
 
-One thing to mention is that this patch may break migration compatibility
-of such VM, however that's probably the best thing we can do, because the
-old behavior was simply wrong and not working for >8 vcpus.  For <=8 vcpus,
-there could be a light guest ABI change (by enabling KVM x2apic after this
-patch), but logically it shouldn't affect the migration from working.
-
-Also, this is not the 1st commit to change x2apic behavior.  Igor provided
-a full history of how this evolved for the past few years:
-
-https://lore.kernel.org/qemu-devel/20220922154617.57d1a1fb@redhat.com/
-
-Relevant commits for reference:
-
-  fb506e701e ("intel_iommu: reject broken EIM", 2016-10-17)
-  c1bb5418e3 ("target/i386: Support up to 32768 CPUs without IRQ remapping", 2020-12-10)
-  77250171bd ("intel_iommu: Fix irqchip / X2APIC configuration checks", 2022-05-16)
-  dc89f32d92 ("target/i386: Fix sanity check on max APIC ID / X2APIC enablement", 2022-05-16)
-
-We may want to have this for stable too (mostly for 7.1.0 only).  Adding a
-fixes tag.
-
-Cc: David Woodhouse <dwmw2@infradead.org>
-Cc: Claudio Fontana <cfontana@suse.de>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Fixes: 77250171bd ("intel_iommu: Fix irqchip / X2APIC configuration checks")
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20220926153206.10881-1-peterx@redhat.com>
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
+Message-Id: <1660220684-24909-2-git-send-email-jonah.palmer@oracle.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/i386/intel_iommu.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ qapi/qapi-schema.json      |  1 +
+ qapi/virtio.json           | 68 ++++++++++++++++++++++++++++++++++++++
+ include/hw/virtio/virtio.h |  1 +
+ hw/virtio/virtio-stub.c    | 14 ++++++++
+ hw/virtio/virtio.c         | 44 ++++++++++++++++++++++++
+ tests/qtest/qmp-cmd-test.c |  1 +
+ hw/virtio/meson.build      |  2 ++
+ qapi/meson.build           |  1 +
+ 8 files changed, 132 insertions(+)
+ create mode 100644 qapi/virtio.json
+ create mode 100644 hw/virtio/virtio-stub.c
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 05d53a1aa9..6524c2ee32 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -3818,6 +3818,11 @@ static bool vtd_decide_config(IntelIOMMUState *s, Error **errp)
-             error_setg(errp, "eim=on requires accel=kvm,kernel-irqchip=split");
-             return false;
-         }
-+        if (!kvm_enable_x2apic()) {
-+            error_setg(errp, "eim=on requires support on the KVM side"
-+                             "(X2APIC_API, first shipped in v4.7)");
-+            return false;
-+        }
+diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+index 92d7ecc52c..f000b90744 100644
+--- a/qapi/qapi-schema.json
++++ b/qapi/qapi-schema.json
+@@ -94,3 +94,4 @@
+ { 'include': 'acpi.json' }
+ { 'include': 'pci.json' }
+ { 'include': 'stats.json' }
++{ 'include': 'virtio.json' }
+diff --git a/qapi/virtio.json b/qapi/virtio.json
+new file mode 100644
+index 0000000000..03896e423f
+--- /dev/null
++++ b/qapi/virtio.json
+@@ -0,0 +1,68 @@
++# -*- Mode: Python -*-
++# vim: filetype=python
++#
++
++##
++# = Virtio devices
++##
++
++##
++# @VirtioInfo:
++#
++# Basic information about a given VirtIODevice
++#
++# @path: The VirtIODevice's canonical QOM path
++#
++# @name: Name of the VirtIODevice
++#
++# Since: 7.1
++#
++##
++{ 'struct': 'VirtioInfo',
++  'data': { 'path': 'str',
++            'name': 'str' } }
++
++##
++# @x-query-virtio:
++#
++# Returns a list of all realized VirtIODevices
++#
++# Features:
++# @unstable: This command is meant for debugging.
++#
++# Returns: List of gathered VirtIODevices
++#
++# Since: 7.1
++#
++# Example:
++#
++# -> { "execute": "x-query-virtio" }
++# <- { "return": [
++#          {
++#              "name": "virtio-input",
++#              "path": "/machine/peripheral-anon/device[4]/virtio-backend"
++#          },
++#          {
++#              "name": "virtio-crypto",
++#              "path": "/machine/peripheral/crypto0/virtio-backend"
++#          },
++#          {
++#              "name": "virtio-scsi",
++#              "path": "/machine/peripheral-anon/device[2]/virtio-backend"
++#          },
++#          {
++#              "name": "virtio-net",
++#              "path": "/machine/peripheral-anon/device[1]/virtio-backend"
++#          },
++#          {
++#              "name": "virtio-serial",
++#              "path": "/machine/peripheral-anon/device[0]/virtio-backend"
++#          }
++#      ]
++#    }
++#
++##
++
++{ 'command': 'x-query-virtio',
++  'returns': [ 'VirtioInfo' ],
++  'features': [ 'unstable' ] }
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index cecfb7c552..9eeb958e39 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -122,6 +122,7 @@ struct VirtIODevice
+     bool use_guest_notifier_mask;
+     AddressSpace *dma_as;
+     QLIST_HEAD(, VirtQueue) *vector_queues;
++    QTAILQ_ENTRY(VirtIODevice) next;
+ };
+ 
+ struct VirtioDeviceClass {
+diff --git a/hw/virtio/virtio-stub.c b/hw/virtio/virtio-stub.c
+new file mode 100644
+index 0000000000..05a81edc92
+--- /dev/null
++++ b/hw/virtio/virtio-stub.c
+@@ -0,0 +1,14 @@
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "qapi/qapi-commands-virtio.h"
++
++static void *qmp_virtio_unsupported(Error **errp)
++{
++    error_setg(errp, "Virtio is disabled");
++    return NULL;
++}
++
++VirtioInfoList *qmp_x_query_virtio(Error **errp)
++{
++    return qmp_virtio_unsupported(errp);
++}
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 2cc1d7d24a..4fc7c80d3f 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -13,12 +13,18 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
++#include "qapi/qmp/qdict.h"
++#include "qapi/qapi-commands-virtio.h"
++#include "qapi/qapi-commands-qom.h"
++#include "qapi/qapi-visit-virtio.h"
++#include "qapi/qmp/qjson.h"
+ #include "cpu.h"
+ #include "trace.h"
+ #include "qemu/error-report.h"
+ #include "qemu/log.h"
+ #include "qemu/main-loop.h"
+ #include "qemu/module.h"
++#include "qom/object_interfaces.h"
+ #include "hw/virtio/virtio.h"
+ #include "migration/qemu-file-types.h"
+ #include "qemu/atomic.h"
+@@ -29,6 +35,9 @@
+ #include "sysemu/runstate.h"
+ #include "standard-headers/linux/virtio_ids.h"
+ 
++/* QAPI list of realized VirtIODevices */
++static QTAILQ_HEAD(, VirtIODevice) virtio_list;
++
+ /*
+  * The alignment to use between consumer and producer parts of vring.
+  * x86 pagesize again. This is the default, used by transports like PCI
+@@ -3707,6 +3716,7 @@ static void virtio_device_realize(DeviceState *dev, Error **errp)
+     vdev->listener.commit = virtio_memory_listener_commit;
+     vdev->listener.name = "virtio";
+     memory_listener_register(&vdev->listener, vdev->dma_as);
++    QTAILQ_INSERT_TAIL(&virtio_list, vdev, next);
+ }
+ 
+ static void virtio_device_unrealize(DeviceState *dev)
+@@ -3721,6 +3731,7 @@ static void virtio_device_unrealize(DeviceState *dev)
+         vdc->unrealize(dev);
      }
  
-     /* Currently only address widths supported are 39 and 48 bits */
++    QTAILQ_REMOVE(&virtio_list, vdev, next);
+     g_free(vdev->bus_name);
+     vdev->bus_name = NULL;
+ }
+@@ -3894,6 +3905,8 @@ static void virtio_device_class_init(ObjectClass *klass, void *data)
+     vdc->stop_ioeventfd = virtio_device_stop_ioeventfd_impl;
+ 
+     vdc->legacy_features |= VIRTIO_LEGACY_FEATURES;
++
++    QTAILQ_INIT(&virtio_list);
+ }
+ 
+ bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev)
+@@ -3904,6 +3917,37 @@ bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev)
+     return virtio_bus_ioeventfd_enabled(vbus);
+ }
+ 
++VirtioInfoList *qmp_x_query_virtio(Error **errp)
++{
++    VirtioInfoList *list = NULL;
++    VirtioInfoList *node;
++    VirtIODevice *vdev;
++
++    QTAILQ_FOREACH(vdev, &virtio_list, next) {
++        DeviceState *dev = DEVICE(vdev);
++        Error *err = NULL;
++        QObject *obj = qmp_qom_get(dev->canonical_path, "realized", &err);
++
++        if (err == NULL) {
++            GString *is_realized = qobject_to_json_pretty(obj, true);
++            /* virtio device is NOT realized, remove it from list */
++            if (!strncmp(is_realized->str, "false", 4)) {
++                QTAILQ_REMOVE(&virtio_list, vdev, next);
++            } else {
++                node = g_new0(VirtioInfoList, 1);
++                node->value = g_new(VirtioInfo, 1);
++                node->value->path = g_strdup(dev->canonical_path);
++                node->value->name = g_strdup(vdev->name);
++                QAPI_LIST_PREPEND(list, node->value);
++            }
++           g_string_free(is_realized, true);
++        }
++        qobject_unref(obj);
++    }
++
++    return list;
++}
++
+ static const TypeInfo virtio_device_info = {
+     .name = TYPE_VIRTIO_DEVICE,
+     .parent = TYPE_DEVICE,
+diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
+index af00712458..897e4e937b 100644
+--- a/tests/qtest/qmp-cmd-test.c
++++ b/tests/qtest/qmp-cmd-test.c
+@@ -103,6 +103,7 @@ static bool query_is_ignored(const char *cmd)
+         "query-gic-capabilities", /* arm */
+         /* Success depends on target-specific build configuration: */
+         "query-pci",              /* CONFIG_PCI */
++        "x-query-virtio",         /* CONFIG_VIRTIO */
+         /* Success depends on launching SEV guest */
+         "query-sev-launch-measure",
+         /* Success depends on Host or Hypervisor SEV support */
+diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
+index c14e3db10a..dfed1e7af5 100644
+--- a/hw/virtio/meson.build
++++ b/hw/virtio/meson.build
+@@ -62,4 +62,6 @@ virtio_ss.add_all(when: 'CONFIG_VIRTIO_PCI', if_true: virtio_pci_ss)
+ specific_ss.add_all(when: 'CONFIG_VIRTIO', if_true: virtio_ss)
+ softmmu_ss.add_all(when: 'CONFIG_VIRTIO', if_true: softmmu_virtio_ss)
+ softmmu_ss.add(when: 'CONFIG_VIRTIO', if_false: files('vhost-stub.c'))
++softmmu_ss.add(when: 'CONFIG_VIRTIO', if_false: files('virtio-stub.c'))
+ softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost-stub.c'))
++softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('virtio-stub.c'))
+diff --git a/qapi/meson.build b/qapi/meson.build
+index 840f1b0e19..9a36c15c04 100644
+--- a/qapi/meson.build
++++ b/qapi/meson.build
+@@ -49,6 +49,7 @@ qapi_all_modules = [
+   'stats',
+   'trace',
+   'transaction',
++  'virtio',
+   'yank',
+ ]
+ if have_system
 -- 
 MST
 
