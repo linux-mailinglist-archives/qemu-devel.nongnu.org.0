@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C06EF5F9BEA
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 11:32:01 +0200 (CEST)
-Received: from localhost ([::1]:37804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70DE55F9BB9
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 11:16:41 +0200 (CEST)
+Received: from localhost ([::1]:54548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohp8i-0007QY-96
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 05:32:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41938)
+	id 1ohots-0000u0-FE
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 05:16:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ohop8-0003Yz-Nf
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 05:11:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36291)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ohopC-0003ad-BB
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 05:11:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53252)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ohop0-000117-Tx
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 05:11:45 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ohop4-00011L-ID
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 05:11:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665393098;
+ s=mimecast20190719; t=1665393101;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=62hARk+N/kTyI5T7W1ZKM+hhw9JJCjF7olZBnbVVpzQ=;
- b=DGcgpuuySLTnYMQT4TAQo58v/JkdSXprPyeMNnmt7Xd6A43FtQFmEIgXIFXqKHvGsXvPqC
- gaMq0M2Kq4ezWnubla6eeU9bjwbx1g/+Mcrt05Me8WHiGoh+qOfrcJBKLbcbuK18mkg104
- o+pwelxtgFVL7jpuGjozojWGDyZg85U=
+ bh=/iUqoR3jSAOwGR+0kZWjYXliTHkpXJJ3VhSOj1j8buc=;
+ b=TKiaPZT4WUPBFyYalmsoqrGwdf17W1wfVY4OFsrDsCZzNj2oEXbYrn8K31D/9VSzSqhXE4
+ /w3Efm8tMHhUx/uysofvFmhnfoT25VS9EZOGuheZvTO9je3jZHDIHQmh9KKpBUa2fj8Iv2
+ GQJBACLfaRrP2XEIMKxfACAUHQdJ6+k=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-169-FMNoRrBiP7aA7RDmi0uH8w-1; Mon, 10 Oct 2022 05:11:36 -0400
-X-MC-Unique: FMNoRrBiP7aA7RDmi0uH8w-1
+ us-mta-618-fwNnnmCfMleiGJzDjyYz5w-1; Mon, 10 Oct 2022 05:11:38 -0400
+X-MC-Unique: fwNnnmCfMleiGJzDjyYz5w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0FF3685A59D;
- Mon, 10 Oct 2022 09:11:36 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8191E185A7A4;
+ Mon, 10 Oct 2022 09:11:38 +0000 (UTC)
 Received: from t480s.redhat.com (unknown [10.39.193.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AA15F1121314;
- Mon, 10 Oct 2022 09:11:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4B80F1121314;
+ Mon, 10 Oct 2022 09:11:36 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>,
@@ -53,16 +53,16 @@ Cc: David Hildenbrand <david@redhat.com>,
  Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Stefan Weil <sw@weilnetz.de>
-Subject: [PATCH v2 5/7] util: Make qemu_prealloc_mem() optionally consume a
- ThreadContext
-Date: Mon, 10 Oct 2022 11:11:15 +0200
-Message-Id: <20221010091117.88603-6-david@redhat.com>
+Subject: [PATCH v2 6/7] hostmem: Allow for specifying a ThreadContext for
+ preallocation
+Date: Mon, 10 Oct 2022 11:11:16 +0200
+Message-Id: <20221010091117.88603-7-david@redhat.com>
 In-Reply-To: <20221010091117.88603-1-david@redhat.com>
 References: <20221010091117.88603-1-david@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -86,143 +86,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-... and implement it under POSIX. When a ThreadContext is provided,
-create new threads via the context such that these new threads obtain a
-porperly configured CPU affinity.
+Let's allow for specifying a thread context via the "prealloc-context"
+property. When set, preallcoation threads will be crated via the
+thread context -- inheriting the same CPU affinity as the thread
+context.
+
+Pinning preallcoation threads to CPUs can heavily increase performance
+in NUMA setups, because, preallocation from a CPU close to the target
+NUMA node(s) is faster then preallocation from a CPU further remote,
+simply because of memory bandwidth for initializing memory with zeroes.
+This is especially relevant for very large VMs backed by huge/gigantic
+pages, whereby preallocation is mandatory.
 
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- backends/hostmem.c     |  5 +++--
- hw/virtio/virtio-mem.c |  2 +-
- include/qemu/osdep.h   |  4 +++-
- util/oslib-posix.c     | 20 ++++++++++++++------
- util/oslib-win32.c     |  2 +-
- 5 files changed, 22 insertions(+), 11 deletions(-)
+ backends/hostmem.c       | 12 +++++++++---
+ include/sysemu/hostmem.h |  2 ++
+ qapi/qom.json            |  4 ++++
+ 3 files changed, 15 insertions(+), 3 deletions(-)
 
 diff --git a/backends/hostmem.c b/backends/hostmem.c
-index 491cb10b97..76f0394490 100644
+index 76f0394490..8640294c10 100644
 --- a/backends/hostmem.c
 +++ b/backends/hostmem.c
-@@ -232,7 +232,8 @@ static void host_memory_backend_set_prealloc(Object *obj, bool value,
+@@ -232,8 +232,8 @@ static void host_memory_backend_set_prealloc(Object *obj, bool value,
          void *ptr = memory_region_get_ram_ptr(&backend->mr);
          uint64_t sz = memory_region_size(&backend->mr);
  
--        qemu_prealloc_mem(fd, ptr, sz, backend->prealloc_threads, &local_err);
-+        qemu_prealloc_mem(fd, ptr, sz, backend->prealloc_threads, NULL,
-+                          &local_err);
+-        qemu_prealloc_mem(fd, ptr, sz, backend->prealloc_threads, NULL,
+-                          &local_err);
++        qemu_prealloc_mem(fd, ptr, sz, backend->prealloc_threads,
++                          backend->prealloc_context, &local_err);
          if (local_err) {
              error_propagate(errp, local_err);
              return;
-@@ -384,7 +385,7 @@ host_memory_backend_memory_complete(UserCreatable *uc, Error **errp)
+@@ -385,7 +385,8 @@ host_memory_backend_memory_complete(UserCreatable *uc, Error **errp)
           */
          if (backend->prealloc) {
              qemu_prealloc_mem(memory_region_get_fd(&backend->mr), ptr, sz,
--                              backend->prealloc_threads, &local_err);
-+                              backend->prealloc_threads, NULL, &local_err);
+-                              backend->prealloc_threads, NULL, &local_err);
++                              backend->prealloc_threads,
++                              backend->prealloc_context, &local_err);
              if (local_err) {
                  goto out;
              }
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index 0e9ef4ff19..ed170def48 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -467,7 +467,7 @@ static int virtio_mem_set_block_state(VirtIOMEM *vmem, uint64_t start_gpa,
-             int fd = memory_region_get_fd(&vmem->memdev->mr);
-             Error *local_err = NULL;
+@@ -493,6 +494,11 @@ host_memory_backend_class_init(ObjectClass *oc, void *data)
+         NULL, NULL);
+     object_class_property_set_description(oc, "prealloc-threads",
+         "Number of CPU threads to use for prealloc");
++    object_class_property_add_link(oc, "prealloc-context",
++        TYPE_THREAD_CONTEXT, offsetof(HostMemoryBackend, prealloc_context),
++        object_property_allow_set_link, OBJ_PROP_LINK_STRONG);
++    object_class_property_set_description(oc, "prealloc-context",
++        "Context to use for creating CPU threads for preallocation");
+     object_class_property_add(oc, "size", "int",
+         host_memory_backend_get_size,
+         host_memory_backend_set_size,
+diff --git a/include/sysemu/hostmem.h b/include/sysemu/hostmem.h
+index 9ff5c16963..39326f1d4f 100644
+--- a/include/sysemu/hostmem.h
++++ b/include/sysemu/hostmem.h
+@@ -18,6 +18,7 @@
+ #include "qom/object.h"
+ #include "exec/memory.h"
+ #include "qemu/bitmap.h"
++#include "qemu/thread-context.h"
  
--            qemu_prealloc_mem(fd, area, size, 1, &local_err);
-+            qemu_prealloc_mem(fd, area, size, 1, NULL, &local_err);
-             if (local_err) {
-                 static bool warned;
+ #define TYPE_MEMORY_BACKEND "memory-backend"
+ OBJECT_DECLARE_TYPE(HostMemoryBackend, HostMemoryBackendClass,
+@@ -66,6 +67,7 @@ struct HostMemoryBackend {
+     bool merge, dump, use_canonical_path;
+     bool prealloc, is_mapped, share, reserve;
+     uint32_t prealloc_threads;
++    ThreadContext *prealloc_context;
+     DECLARE_BITMAP(host_nodes, MAX_NODES + 1);
+     HostMemPolicy policy;
  
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index e556e45143..625298c8bc 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -568,6 +568,8 @@ unsigned long qemu_getauxval(unsigned long type);
- 
- void qemu_set_tty_echo(int fd, bool echo);
- 
-+typedef struct ThreadContext ThreadContext;
-+
- /**
-  * qemu_prealloc_mem:
-  * @fd: the fd mapped into the area, -1 for anonymous memory
-@@ -582,7 +584,7 @@ void qemu_set_tty_echo(int fd, bool echo);
-  * after allocating file blocks for mapped files.
-  */
- void qemu_prealloc_mem(int fd, char *area, size_t sz, int max_threads,
--                       Error **errp);
-+                       ThreadContext *tc, Error **errp);
- 
- /**
-  * qemu_get_pid_name:
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index 28305cdea3..59a891b6a8 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -419,7 +419,8 @@ static inline int get_memset_num_threads(size_t hpagesize, size_t numpages,
- }
- 
- static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
--                           int max_threads, bool use_madv_populate_write)
-+                           int max_threads, ThreadContext *tc,
-+                           bool use_madv_populate_write)
- {
-     static gsize initialized = 0;
-     MemsetContext context = {
-@@ -458,9 +459,16 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
-         context.threads[i].numpages = numpages_per_thread + (i < leftover);
-         context.threads[i].hpagesize = hpagesize;
-         context.threads[i].context = &context;
--        qemu_thread_create(&context.threads[i].pgthread, "touch_pages",
--                           touch_fn, &context.threads[i],
--                           QEMU_THREAD_JOINABLE);
-+        if (tc) {
-+            thread_context_create_thread(tc, &context.threads[i].pgthread,
-+                                         "touch_pages",
-+                                         touch_fn, &context.threads[i],
-+                                         QEMU_THREAD_JOINABLE);
-+        } else {
-+            qemu_thread_create(&context.threads[i].pgthread, "touch_pages",
-+                               touch_fn, &context.threads[i],
-+                               QEMU_THREAD_JOINABLE);
-+        }
-         addr += context.threads[i].numpages * hpagesize;
-     }
- 
-@@ -496,7 +504,7 @@ static bool madv_populate_write_possible(char *area, size_t pagesize)
- }
- 
- void qemu_prealloc_mem(int fd, char *area, size_t sz, int max_threads,
--                       Error **errp)
-+                       ThreadContext *tc, Error **errp)
- {
-     static gsize initialized;
-     int ret;
-@@ -537,7 +545,7 @@ void qemu_prealloc_mem(int fd, char *area, size_t sz, int max_threads,
-     }
- 
-     /* touch pages simultaneously */
--    ret = touch_all_pages(area, hpagesize, numpages, max_threads,
-+    ret = touch_all_pages(area, hpagesize, numpages, max_threads, tc,
-                           use_madv_populate_write);
-     if (ret) {
-         error_setg_errno(errp, -ret,
-diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index e1cb725ecc..a67cb3822e 100644
---- a/util/oslib-win32.c
-+++ b/util/oslib-win32.c
-@@ -269,7 +269,7 @@ int getpagesize(void)
- }
- 
- void qemu_prealloc_mem(int fd, char *area, size_t sz, int max_threads,
--                       Error **errp)
-+                       ThreadContext *tc, Error **errp)
- {
-     int i;
-     size_t pagesize = qemu_real_host_page_size();
+diff --git a/qapi/qom.json b/qapi/qom.json
+index cb6f700c0c..efa74f9799 100644
+--- a/qapi/qom.json
++++ b/qapi/qom.json
+@@ -578,6 +578,9 @@
+ #
+ # @prealloc-threads: number of CPU threads to use for prealloc (default: 1)
+ #
++# @prealloc-context: thread context to use for creation of preallocation threads
++#                    (default: none) (since 7.2)
++#
+ # @share: if false, the memory is private to QEMU; if true, it is shared
+ #         (default: false)
+ #
+@@ -608,6 +611,7 @@
+             '*policy': 'HostMemPolicy',
+             '*prealloc': 'bool',
+             '*prealloc-threads': 'uint32',
++            '*prealloc-context': 'str',
+             '*share': 'bool',
+             '*reserve': 'bool',
+             'size': 'size',
 -- 
 2.37.3
 
