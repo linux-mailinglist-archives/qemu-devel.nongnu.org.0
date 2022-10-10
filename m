@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9422D5FA361
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 20:31:05 +0200 (CEST)
-Received: from localhost ([::1]:46408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45CC55FA352
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 20:23:37 +0200 (CEST)
+Received: from localhost ([::1]:60972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohxYO-0000jt-DD
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 14:31:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45008)
+	id 1ohxRA-000379-5i
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 14:23:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwc6-0002y1-DW
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:30:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51132)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwc7-0002zJ-Td
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:30:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59795)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwc0-00074M-QY
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:30:49 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwc5-00075a-PP
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:30:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665423044;
+ s=mimecast20190719; t=1665423048;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=J8UxNmNb6BFssnqxntW2+QMQWj8bFAflVBTk3/hujDw=;
- b=OnUqifXJaePXKuckMFAc738ldnPVfTX3YZ0PoCwZpgE74JeYOdSzxb9e88qkWintbSpxsw
- TYtO7tYyIJkGx86c+7DIIPOIBL2osboSKu+y6QXHaXsibCS3XuLnk8ZkaCA4/pe1tqCJI3
- y/1/c+YIUy6/IJk91p0eIcPTlfly960=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=y2BU0beyMHYAmxpgtdUqHlk2qyLNMIAsJObAZ7rSWfo=;
+ b=WT25WjewejQLYSiGeCMKMlwvI4Ls6dWjhEJhIbT4zUUqltjuMnuksshuhy4E5mXAtejfBc
+ ZbR9Brk609fwf88gL3HIwwFUMotayX6WJhcbjzwlUqDVFI+fDG/RT+QwArVXLHzDlpYWJE
+ RYaiQbqc14hwAEo550JVAzb5GyNvfkc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-374-t7dF3SeyNFeLBfuvnC6sWA-1; Mon, 10 Oct 2022 13:30:43 -0400
-X-MC-Unique: t7dF3SeyNFeLBfuvnC6sWA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- h129-20020a1c2187000000b003bf635eac31so4255975wmh.4
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:30:42 -0700 (PDT)
+ us-mta-210-_tcSYkXwMY20VUnyzuir_w-1; Mon, 10 Oct 2022 13:30:47 -0400
+X-MC-Unique: _tcSYkXwMY20VUnyzuir_w-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ g4-20020adfbc84000000b0022fc417f87cso1104841wrh.12
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:30:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=J8UxNmNb6BFssnqxntW2+QMQWj8bFAflVBTk3/hujDw=;
- b=luZ7FbDI+EDIszUwHgTFSMci0sJvZBoFt+05s6+NSSXIjbz5l3puo8/wBNCKpsHy9l
- Q/UySDQVP0jXTxP0t+I4ThH6JDjjzc2sfCXyRkKYni4+doU9QH1zNMfhG09E7rNQCbM4
- T1VtzfdR8DlCi5mpe7bA/qzcMt4toAkFxy6NG0C87+mEAjmSfR4YgiivELf92PCX27jU
- M8oTaSdLOasNd7++QF9+lUx1ETdbR4AYck8YctjcSSiuy9KitBrocVTSAymRbqZe0seW
- TkVzhSZkV2sI1PPOdh0GkzbEg4Ep/pHPyHDgdbyoixExRenlQbM7HYeqlWQ2awdHTeV9
- 5BPw==
-X-Gm-Message-State: ACrzQf2honztYxBTC8yuXrVyP8EzQ9lpgv7X2sx/gSkeITKQIyyAyTRD
- k8cYskaUIYH+l+p5dis2HzTcLOqfKHbVqpTnckJv72BsbsG4O6H3GMP12QlzmHevX+R1/JW4XDc
- aGK+U3KALhio0YqYdgr3E5Ot0m3nPSBoJEMoVnUUR0fgSiuF+UNEIg3MTyIqS
-X-Received: by 2002:a05:600c:3c8a:b0:3b4:eff4:a94f with SMTP id
- bg10-20020a05600c3c8a00b003b4eff4a94fmr20286690wmb.105.1665423041551; 
- Mon, 10 Oct 2022 10:30:41 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM65GBSKLvoQAds+ETQntjzZ5F8PS5Ooz2sizqAwSMQW153mY9lmXEtTV8BLr1vzJRaMVkcN9Q==
-X-Received: by 2002:a05:600c:3c8a:b0:3b4:eff4:a94f with SMTP id
- bg10-20020a05600c3c8a00b003b4eff4a94fmr20286668wmb.105.1665423041112; 
- Mon, 10 Oct 2022 10:30:41 -0700 (PDT)
+ bh=y2BU0beyMHYAmxpgtdUqHlk2qyLNMIAsJObAZ7rSWfo=;
+ b=t1MMd/US6d069wvX9FZ531H7vDWUiFKbH8yIsAhqG7iMxYZ4dwF275AkenZgiWnbjB
+ zGyo0dgEeR3MgmXSCKyCYL34mh3asiibB5PX/iNapYgnUh56vh4D0UttH2ojmkMzUIEr
+ s/Xgj1V7QZqAXBbHQM8ElGDVf/WArbZ5bNAEYs2w/vlh0829JPtsvQlsVqZZp6iDoxaY
+ tygynEEz4Gt2qwmQuYTezBVPkr+e8GVdSGha1BnV79KgTGGUkwX31YLcnHSlRVA02j+r
+ 7sWU3yptHlQjne2DyJe0rNhE6xM4wJ0NdhMZN2oMg5PmUh1nRnYKLpwu/cJ6g9Vyaxxr
+ +diA==
+X-Gm-Message-State: ACrzQf0zRbmWT40fyrfbibQh9wU3a7HSHNZ7boqQRvJvhJueQmAe7wYX
+ lUAjknlixMXxE+TN2JS4Tg05AE0TxBSbaqGSavwnXm2SZNwMO5w2xaiTkFXs/z52iyG3X/+Wiie
+ NAIiGl5JpBEgOqAl0BBGfwucLm2lnyIg6NQZwnrUyOhPHmIKDz1e3xwRkNp8f
+X-Received: by 2002:a05:600c:b4e:b0:3c5:c61c:8e20 with SMTP id
+ k14-20020a05600c0b4e00b003c5c61c8e20mr6060507wmr.103.1665423046062; 
+ Mon, 10 Oct 2022 10:30:46 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5IxZRLTOL79Rt0P4k1f8bnZqAuiG2KKBJqwFQ8W+dKcIqJEObDMtmPOJrs/Uyr5+4WtRpIWg==
+X-Received: by 2002:a05:600c:b4e:b0:3c5:c61c:8e20 with SMTP id
+ k14-20020a05600c0b4e00b003c5c61c8e20mr6060485wmr.103.1665423045750; 
+ Mon, 10 Oct 2022 10:30:45 -0700 (PDT)
 Received: from redhat.com ([2.55.183.131]) by smtp.gmail.com with ESMTPSA id
- k2-20020a5d6d42000000b0022e049586c5sm9364198wri.28.2022.10.10.10.30.39
+ d34-20020a05600c4c2200b003c6b874a0dfsm2862024wmp.14.2022.10.10.10.30.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 10:30:40 -0700 (PDT)
-Date: Mon, 10 Oct 2022 13:30:37 -0400
+ Mon, 10 Oct 2022 10:30:45 -0700 (PDT)
+Date: Mon, 10 Oct 2022 13:30:41 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Miguel Luis <miguel.luis@oracle.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>
-Subject: [PULL 27/55] tests/acpi: virt: update ACPI GTDT binaries
-Message-ID: <20221010172813.204597-28-mst@redhat.com>
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Ben Widawsky <bwidawsk@kernel.org>, Ben Widawsky <ben.widawsky@intel.com>
+Subject: [PULL 28/55] mem/cxl-type3: Add sn option to provide serial number
+ for PCI ecap
+Message-ID: <20221010172813.204597-29-mst@redhat.com>
 References: <20221010172813.204597-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -99,99 +100,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Miguel Luis <miguel.luis@oracle.com>
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Step 6 & 7 of the bios-tables-test.c documented procedure.
+The Device Serial Number Extended Capability PCI r6.0 sec 7.9.3
+provides a standard way to provide a device serial number as
+an IEEE defined 64-bit extended unique identifier EUI-64.
 
-Differences between disassembled ASL files for GTDT:
+CXL 2.0 section 8.1.12.2 Memory Device PCIe Capabilities and
+Extended Capabilities requires this to be used to uniquely
+identify CXL memory devices.
 
-    @@ -13,14 +13,14 @@
-     [000h 0000   4]                    Signature : "GTDT"    [Generic Timer Description Table]
-     [004h 0004   4]                 Table Length : 00000060
-     [008h 0008   1]                     Revision : 02
-    -[009h 0009   1]                     Checksum : 8C
-    +[009h 0009   1]                     Checksum : 9C
-     [00Ah 0010   6]                       Oem ID : "BOCHS "
-     [010h 0016   8]                 Oem Table ID : "BXPC    "
-     [018h 0024   4]                 Oem Revision : 00000001
-     [01Ch 0028   4]              Asl Compiler ID : "BXPC"
-     [020h 0032   4]        Asl Compiler Revision : 00000001
-
-    -[024h 0036   8]        Counter Block Address : 0000000000000000
-    +[024h 0036   8]        Counter Block Address : FFFFFFFFFFFFFFFF
-     [02Ch 0044   4]                     Reserved : 00000000
-
-     [030h 0048   4]         Secure EL1 Interrupt : 0000001D
-    @@ -46,16 +46,16 @@
-                                     Trigger Mode : 0
-                                         Polarity : 0
-                                        Always On : 0
-    -[050h 0080   8]   Counter Read Block Address : 0000000000000000
-    +[050h 0080   8]   Counter Read Block Address : FFFFFFFFFFFFFFFF
-
-     [058h 0088   4]         Platform Timer Count : 00000000
-     [05Ch 0092   4]        Platform Timer Offset : 00000000
-
-     Raw Table Data: Length 96 (0x60)
-
-    -    0000: 47 54 44 54 60 00 00 00 02 8C 42 4F 43 48 53 20  // GTDT`.....BOCHS
-    +    0000: 47 54 44 54 60 00 00 00 02 9C 42 4F 43 48 53 20  // GTDT`.....BOCHS
-         0010: 42 58 50 43 20 20 20 20 01 00 00 00 42 58 50 43  // BXPC    ....BXPC
-    -    0020: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-    +    0020: 01 00 00 00 FF FF FF FF FF FF FF FF 00 00 00 00  // ................
-         0030: 1D 00 00 00 00 00 00 00 1E 00 00 00 04 00 00 00  // ................
-         0040: 1B 00 00 00 00 00 00 00 1A 00 00 00 00 00 00 00  // ................
-    -    0050: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-    +    0050: FF FF FF FF FF FF FF FF 00 00 00 00 00 00 00 00  // ................
-
-Signed-off-by: Miguel Luis <miguel.luis@oracle.com>
-Message-Id: <20220920162137.75239-4-miguel.luis@oracle.com>
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Message-Id: <20220923161835.9805-1-Jonathan.Cameron@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Acked-by: Ani Sinha <ani@anisinha.ca>
+Reviewed-by: Ben Widawsky <bwidawsk@kernel.org>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h |   3 ---
- tests/data/acpi/virt/GTDT                   | Bin 96 -> 96 bytes
- tests/data/acpi/virt/GTDT.memhp             | Bin 96 -> 96 bytes
- tests/data/acpi/virt/GTDT.numamem           | Bin 96 -> 96 bytes
- 4 files changed, 3 deletions(-)
+ include/hw/cxl/cxl_device.h |  1 +
+ hw/mem/cxl_type3.c          | 14 +++++++++++++-
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 957bd1b4f6..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,4 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/virt/GTDT",
--"tests/data/acpi/virt/GTDT.memhp",
--"tests/data/acpi/virt/GTDT.numamem",
-diff --git a/tests/data/acpi/virt/GTDT b/tests/data/acpi/virt/GTDT
-index 9408b71b59c0e0f2991c0053562280155b47bc0b..6f8cb9b8f30b55f4c93fe515982621e3db50feb2 100644
-GIT binary patch
-delta 45
-kcmYdD;BpUf2}xjJU|^avkxPo>KNL*VQ4xT#fs$YV0LH=;ng9R*
-
-delta 45
-jcmYdD;BpUf2}xjJU|{N*$R))AWPrg$9Tfo>8%6^Foy!E8
-
-diff --git a/tests/data/acpi/virt/GTDT.memhp b/tests/data/acpi/virt/GTDT.memhp
-index 9408b71b59c0e0f2991c0053562280155b47bc0b..6f8cb9b8f30b55f4c93fe515982621e3db50feb2 100644
-GIT binary patch
-delta 45
-kcmYdD;BpUf2}xjJU|^avkxPo>KNL*VQ4xT#fs$YV0LH=;ng9R*
-
-delta 45
-jcmYdD;BpUf2}xjJU|{N*$R))AWPrg$9Tfo>8%6^Foy!E8
-
-diff --git a/tests/data/acpi/virt/GTDT.numamem b/tests/data/acpi/virt/GTDT.numamem
-index 9408b71b59c0e0f2991c0053562280155b47bc0b..6f8cb9b8f30b55f4c93fe515982621e3db50feb2 100644
-GIT binary patch
-delta 45
-kcmYdD;BpUf2}xjJU|^avkxPo>KNL*VQ4xT#fs$YV0LH=;ng9R*
-
-delta 45
-jcmYdD;BpUf2}xjJU|{N*$R))AWPrg$9Tfo>8%6^Foy!E8
-
+diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+index 1e141b6621..e4d221cdb3 100644
+--- a/include/hw/cxl/cxl_device.h
++++ b/include/hw/cxl/cxl_device.h
+@@ -237,6 +237,7 @@ struct CXLType3Dev {
+     /* Properties */
+     HostMemoryBackend *hostmem;
+     HostMemoryBackend *lsa;
++    uint64_t sn;
+ 
+     /* State */
+     AddressSpace hostmem_as;
+diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+index ada2108fac..a71bf1afeb 100644
+--- a/hw/mem/cxl_type3.c
++++ b/hw/mem/cxl_type3.c
+@@ -14,6 +14,12 @@
+ #include "sysemu/hostmem.h"
+ #include "hw/cxl/cxl.h"
+ 
++/*
++ * Null value of all Fs suggested by IEEE RA guidelines for use of
++ * EU, OUI and CID
++ */
++#define UI64_NULL ~(0ULL)
++
+ static void build_dvsecs(CXLType3Dev *ct3d)
+ {
+     CXLComponentState *cxl_cstate = &ct3d->cxl_cstate;
+@@ -149,7 +155,12 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+     pci_config_set_class(pci_conf, PCI_CLASS_MEMORY_CXL);
+ 
+     pcie_endpoint_cap_init(pci_dev, 0x80);
+-    cxl_cstate->dvsec_offset = 0x100;
++    if (ct3d->sn != UI64_NULL) {
++        pcie_dev_ser_num_init(pci_dev, 0x100, ct3d->sn);
++        cxl_cstate->dvsec_offset = 0x100 + 0x0c;
++    } else {
++        cxl_cstate->dvsec_offset = 0x100;
++    }
+ 
+     ct3d->cxl_cstate.pdev = pci_dev;
+     build_dvsecs(ct3d);
+@@ -275,6 +286,7 @@ static Property ct3_props[] = {
+                      HostMemoryBackend *),
+     DEFINE_PROP_LINK("lsa", CXLType3Dev, lsa, TYPE_MEMORY_BACKEND,
+                      HostMemoryBackend *),
++    DEFINE_PROP_UINT64("sn", CXLType3Dev, sn, UI64_NULL),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 -- 
 MST
 
