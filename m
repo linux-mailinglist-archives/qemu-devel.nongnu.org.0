@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02B815FA7DB
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 00:52:21 +0200 (CEST)
-Received: from localhost ([::1]:60596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 545165FA7D3
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 00:48:51 +0200 (CEST)
+Received: from localhost ([::1]:55750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oi1dD-0001oI-U4
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 18:52:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49324)
+	id 1oi1Zp-0004SM-Pz
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 18:48:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
- id 1oi1I7-0005vI-C8
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 18:30:31 -0400
-Received: from mga02.intel.com ([134.134.136.20]:24672)
+ id 1oi1I5-0005tQ-92
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 18:30:29 -0400
+Received: from mga02.intel.com ([134.134.136.20]:24675)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
- id 1oi1I3-0005CM-7V
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 18:30:29 -0400
+ id 1oi1I3-0005Dj-0v
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 18:30:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1665441027; x=1696977027;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=N4oN/BU47B6lOfEmpE4C3qKrhsgMUOFba1gHfTLJYqw=;
- b=EB2UwUESnd9rEX4d5oFDQfrRgOAHRZ3MzUqGJw1GmO3W9SdUrZq+u3pq
- 4UNBf3zNex3K49fuphNjnpRHRFV2hoI9qFtLcF+QAke031ckgJdVgoqHm
- pKzF6A8QwxIQl01iGB36+uVftRr12B/F7z9PR7up0VAokMyBE0BwwO/TH
- ApXJ/s+SVX/SBkYW6ggsLWmKeKp7QN5C1qEdoeTwyVtkU/mynJSQeZLeZ
- r2SFtYUqEtDlpoYQV1gQU7+T1yTNaU2yWNnTDPGA8quMXyECBMIB4+v0f
- 6hDFtYdimPrUHNIhNWyhCw0NkcICZMXasplzp1oyIgGN+y3fKhCqCZ1PA Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="291661235"
-X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="291661235"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=aJ1RcbZAq/8zOfhTcPqGwjNzmTWe3mf1nzcgNFpOldo=;
+ b=AyhC/8BtvKrkAJCVs74rUVmTW7hEDAaqiwBmNvvfQcoqLh05+b4EstmI
+ KbZgiJk+nYWGLN5kdq9UtEayQ7YI9K84BoGWJik6j2kkqHEuGhzZu93JE
+ DjV21yS/wQ62533uDmR9qkwk5iUTaMK/oUZn87lzgQXVP4HkdAmkhRdps
+ SYWTYSfQS8ZGaKkWwLLGKYO1VzOl7fqBRPjnzeAypVBcuI4dNYU8bjAYe
+ NpErahAuMSifOVW38XioywxWgSZfeX6qIuTLZiM1JfWMUCcokeD+EauHB
+ fzwyOFpmTg+IzpJOw/H4+dMnRNJ4mYPtmHk6vNDe6iFY0nSkx8IYZCVWz A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="291661237"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="291661237"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Oct 2022 15:30:19 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="628456956"
-X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="628456956"
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="628456969"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="628456969"
 Received: from iweiny-mobl.amr.corp.intel.com (HELO localhost) ([10.212.104.4])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Oct 2022 15:30:18 -0700
+ 10 Oct 2022 15:30:19 -0700
 From: ira.weiny@intel.com
 To: Michael Tsirkin <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
  Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Cc: Ira Weiny <ira.weiny@intel.com>, qemu-devel@nongnu.org,
  linux-cxl@vger.kernel.org
-Subject: [RFC PATCH 0/6] QEMU CXL Provide mock CXL events and irq support
-Date: Mon, 10 Oct 2022 15:29:38 -0700
-Message-Id: <20221010222944.3923556-1-ira.weiny@intel.com>
+Subject: [RFC PATCH 1/6] qemu/bswap: Add const_le64()
+Date: Mon, 10 Oct 2022 15:29:39 -0700
+Message-Id: <20221010222944.3923556-2-ira.weiny@intel.com>
 X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20221010222944.3923556-1-ira.weiny@intel.com>
+References: <20221010222944.3923556-1-ira.weiny@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=134.134.136.20; envelope-from=ira.weiny@intel.com;
@@ -79,73 +81,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ira Weiny <ira.weiny@intel.com>
 
-CXL Event records inform the OS of various CXL device events.  Thus far CXL
-memory devices are emulated and therefore don't naturally have events which
-will occur.
+Gcc requires constant versions of cpu_to_le* calls.
 
-Add mock events and a HMP trigger mechanism to facilitate guest OS testing of
-event support.
+Add a 64 bit version.
 
-This support requires a follow on version of the event patch set.  The RFC was
-submitted and discussed here:
+Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+---
+ include/qemu/bswap.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-	https://lore.kernel.org/linux-cxl/20220813053243.757363-1-ira.weiny@intel.com/
-
-I'll post the lore link to the new version shortly.
-
-Instructions for running this test.
-
-Add qmp option to qemu:
-
-	<host> $ qemu-system-x86_64 ... -qmp unix:/tmp/run_qemu_qmp_0,server,nowait ...
-
-	OR
-
-	<host> $ run_qemu.sh ... --qmp ...
-
-Enable tracing of events within the guest:
-
-	<guest> $ echo "" > /sys/kernel/tracing/trace
-	<guest> $ echo 1 > /sys/kernel/tracing/events/cxl/enable
-	<guest> $ echo 1 > /sys/kernel/tracing/tracing_on
-
-Trigger event generation and interrupts in the host:
-
-	<host> $ echo "cxl_event_inject cxl-devX" | qmp-shell -H /tmp/run_qemu_qmp_0
-
-	Where X == one of the memory devices; cxl-dev0 should work.
-
-View events on the guest:
-
-	<guest> $ cat /sys/kernel/tracing/trace
-
-
-Ira Weiny (6):
-  qemu/bswap: Add const_le64()
-  qemu/uuid: Add UUID static initializer
-  hw/cxl/cxl-events: Add CXL mock events
-  hw/cxl/mailbox: Wire up get/clear event mailbox commands
-  hw/cxl/cxl-events: Add event interrupt support
-  hw/cxl/mailbox: Wire up Get/Set Event Interrupt policy
-
- hmp-commands.hx             |  14 ++
- hw/cxl/cxl-device-utils.c   |   1 +
- hw/cxl/cxl-events.c         | 330 ++++++++++++++++++++++++++++++++++++
- hw/cxl/cxl-host-stubs.c     |   5 +
- hw/cxl/cxl-mailbox-utils.c  | 224 +++++++++++++++++++++---
- hw/cxl/meson.build          |   1 +
- hw/mem/cxl_type3.c          |   7 +-
- include/hw/cxl/cxl_device.h |  22 +++
- include/hw/cxl/cxl_events.h | 194 +++++++++++++++++++++
- include/qemu/bswap.h        |  10 ++
- include/qemu/uuid.h         |  12 ++
- include/sysemu/sysemu.h     |   3 +
- 12 files changed, 802 insertions(+), 21 deletions(-)
- create mode 100644 hw/cxl/cxl-events.c
- create mode 100644 include/hw/cxl/cxl_events.h
-
-
-base-commit: 6f7f81898e4437ea544ee4ca24bef7ec543b1f06
+diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
+index 346d05f2aab3..08e607821102 100644
+--- a/include/qemu/bswap.h
++++ b/include/qemu/bswap.h
+@@ -192,10 +192,20 @@ CPU_CONVERT(le, 64, uint64_t)
+      (((_x) & 0x0000ff00U) <<  8) |              \
+      (((_x) & 0x00ff0000U) >>  8) |              \
+      (((_x) & 0xff000000U) >> 24))
++# define const_le64(_x)                          \
++    ((((_x) & 0x00000000000000ffU) << 56) |      \
++     (((_x) & 0x000000000000ff00U) << 40) |      \
++     (((_x) & 0x0000000000ff0000U) << 24) |      \
++     (((_x) & 0x00000000ff000000U) <<  8) |      \
++     (((_x) & 0x000000ff00000000U) >>  8) |      \
++     (((_x) & 0x0000ff0000000000U) >> 24) |      \
++     (((_x) & 0x00ff000000000000U) >> 40) |      \
++     (((_x) & 0xff00000000000000U) >> 56))
+ # define const_le16(_x)                          \
+     ((((_x) & 0x00ff) << 8) |                    \
+      (((_x) & 0xff00) >> 8))
+ #else
++# define const_le64(_x) (_x)
+ # define const_le32(_x) (_x)
+ # define const_le16(_x) (_x)
+ #endif
 -- 
 2.37.2
 
