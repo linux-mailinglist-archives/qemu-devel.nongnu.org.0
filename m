@@ -2,110 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 709DE5FA2BB
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 19:28:47 +0200 (CEST)
-Received: from localhost ([::1]:51458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A881B5FA2F7
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 19:53:02 +0200 (CEST)
+Received: from localhost ([::1]:53002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohwa6-000752-0f
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 13:28:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51612)
+	id 1ohwxZ-00038w-Nh
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 13:53:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1ohwSt-00013w-6d; Mon, 10 Oct 2022 13:21:20 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:25210)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwaB-0007Tx-Ia
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:28:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24800)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1ohwSP-0004GZ-JM; Mon, 10 Oct 2022 13:21:18 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29AFqPmP011513;
- Mon, 10 Oct 2022 17:20:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=rBobT44tksVqkzpbV2Rgwf7mNkTDcFc5A+kgFq6iwAA=;
- b=bzhT7XI4GT8o/PXNTmI5VUKupZm3dMU18JRxVS6R4nvpzxZfgU9l4oCSHzZDLXTobska
- RTdYwRzhs5ntWBVsMdbm1eib0+t4ASG7MwFU6de+Mxx0TVi2DaQUplppPd69Du1ndlBR
- Xov2Qp7OszJEcV5PWi2dg4WiPYiBOH/ge9pePtdkh163nnPiA/M0D/i//SfWIjfbCgLJ
- wpZ+xa9YDOLMuMB5amI1raedduXq0R4EquHdNmiDZx6E81LG1qkyBrMWvLhWuxGHmzxI
- t+/iKl3+KmXmK+9EB9P72a0nzYehYB8tuZTZUOQFSQLPd47NvRBnwOYiNj44GzqgA9yF JA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k3jvm4gbj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 10 Oct 2022 17:20:39 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29AGkYlt030874;
- Mon, 10 Oct 2022 17:20:39 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k3jvm4gap-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 10 Oct 2022 17:20:39 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29AH549S025869;
- Mon, 10 Oct 2022 17:20:37 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma05fra.de.ibm.com with ESMTP id 3k30u9j9pw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 10 Oct 2022 17:20:37 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 29AHKXZX8258230
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 10 Oct 2022 17:20:33 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B4458AE045;
- Mon, 10 Oct 2022 17:20:33 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B0141AE051;
- Mon, 10 Oct 2022 17:20:32 +0000 (GMT)
-Received: from [9.171.50.118] (unknown [9.171.50.118])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 10 Oct 2022 17:20:32 +0000 (GMT)
-Message-ID: <95d0c5d1-f623-c0a7-bcf6-9bb1fa71fdd4@linux.ibm.com>
-Date: Mon, 10 Oct 2022 19:20:32 +0200
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwa5-0006Na-Kn
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:28:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665422924;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=QFauEX/kutNIpxz+du/GsjxftxR7fqz3Pxd+Ookhkfs=;
+ b=fGrIty5s4+wFtCLvSyYB0M3gE5vCLtSkLTSUl4Kg/4Z3lljbwao3CoKQYlDc1yCGfVx+wW
+ +KsjRqqm6YUSLOUx9CQOSsE7U/3w8z9AVUSgFroMYbNZu+N4XfY1de5lrkxWvYWBXh+8I7
+ JMiFhsjWM5IioBJDl+e/Mi9FuReGmJw=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-371-6SqPlEEaNE-yM7pmmrweyw-1; Mon, 10 Oct 2022 13:28:43 -0400
+X-MC-Unique: 6SqPlEEaNE-yM7pmmrweyw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ i26-20020adfaada000000b0022e2f38ffccso2974642wrc.14
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:28:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:content-disposition:mime-version
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=QFauEX/kutNIpxz+du/GsjxftxR7fqz3Pxd+Ookhkfs=;
+ b=bvTOpGFjgp2OlRQQ8zXZg6QekGeTqQGu6tkbM/9ugCV3gN3tQ6YfJnZjxP2NhP7+IV
+ 7xHrUZmOSqEdu/w3ApfYT8SbzDB0GyyH0IUK7MVHXhJuvI1Z5F3av8kyNzpQ9/Y3s82x
+ 3u0rwYek6QOiw197eNHoR57QTjMPwAZ1dCnogZuUOOO8D1qJ6i7K2wDdkOxgf2pBWKbL
+ 5XLiESQ7ovuiJlkd0BtCN/rAV9/OaQMJtxx1j7EzJi2RL1l3c944uzD9UHf7743rBUcX
+ o0rlJXOdaQNQLm0T6SNh+186MfwlnZyHgWuIHZSbD8frIkLv7Ht0rkWDOrLHvFNGH7lW
+ G0mg==
+X-Gm-Message-State: ACrzQf3HDmru1pt7//QoTRzUQtWE5elKYYlyA0bzj+cWx5onWyGo/K2d
+ EAztQbH4qejuQKasmtMBgEXgaBjSBdKGtX9EXJspxFBRI0/0fmY/7L8GxOV+eLjTuDCOepSrS1O
+ crSfeXch03IJ3StxP1YdCpn7QyuVIrRlvLXsvHcC+9b4PQZ+dcU8/z/RbAZm0
+X-Received: by 2002:a5d:4950:0:b0:230:cc5a:f6b0 with SMTP id
+ r16-20020a5d4950000000b00230cc5af6b0mr2766587wrs.656.1665422921961; 
+ Mon, 10 Oct 2022 10:28:41 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4IHfmHsZ4hdZeUwx3b/FIWke5QUMjQD/JjbhOmltzVW9CcjLVt5I3ZIYPjvySA4Nizu9zj/w==
+X-Received: by 2002:a5d:4950:0:b0:230:cc5a:f6b0 with SMTP id
+ r16-20020a5d4950000000b00230cc5af6b0mr2766566wrs.656.1665422921523; 
+ Mon, 10 Oct 2022 10:28:41 -0700 (PDT)
+Received: from redhat.com ([2.55.183.131]) by smtp.gmail.com with ESMTPSA id
+ l10-20020adfe9ca000000b002286670bafasm9286963wrn.48.2022.10.10.10.28.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Oct 2022 10:28:41 -0700 (PDT)
+Date: Mon, 10 Oct 2022 13:28:38 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 00/55] pc,virtio: features, tests, fixes, cleanups
+Message-ID: <20221010172813.204597-1-mst@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v9 01/10] s390x/cpus: Make absence of multithreading clear
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org, borntraeger@de.ibm.com,
- pasic@linux.ibm.com, richard.henderson@linaro.org, david@redhat.com,
- thuth@redhat.com, cohuck@redhat.com, mst@redhat.com,
- pbonzini@redhat.com, kvm@vger.kernel.org, ehabkost@redhat.com,
- marcel.apfelbaum@gmail.com, eblake@redhat.com, armbru@redhat.com,
- seiden@linux.ibm.com, nrb@linux.ibm.com, frankja@linux.ibm.com,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-References: <20220902075531.188916-1-pmorel@linux.ibm.com>
- <20220902075531.188916-2-pmorel@linux.ibm.com> <YzSOaczjJAgjrHG9@redhat.com>
-Content-Language: en-US
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <YzSOaczjJAgjrHG9@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: uJS5HPbcWPCOgoQ_bwTOKvwXn296G67X
-X-Proofpoint-ORIG-GUID: -iXfmWCf9CXYXmdjGd6Y2lisXqlEV1Wy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-10-10_10,2022-10-10_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0
- priorityscore=1501 impostorscore=0 mlxscore=0 mlxlogscore=999 adultscore=0
- suspectscore=0 bulkscore=0 clxscore=1015 spamscore=0 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210100101
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.007,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,66 +96,202 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit f1d33f55c47dfdaf8daacd618588ad3ae4c452d1:
 
+  Merge tag 'pull-testing-gdbstub-plugins-gitdm-061022-3' of https://github.com/stsquad/qemu into staging (2022-10-06 07:11:56 -0400)
 
-On 9/28/22 20:11, Daniel P. Berrangé wrote:
-> On Fri, Sep 02, 2022 at 09:55:22AM +0200, Pierre Morel wrote:
->> S390x do not support multithreading in the guest.
->> Do not let admin falsely specify multithreading on QEMU
->> smp commandline.
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>   hw/s390x/s390-virtio-ccw.c | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
->> index 70229b102b..b5ca154e2f 100644
->> --- a/hw/s390x/s390-virtio-ccw.c
->> +++ b/hw/s390x/s390-virtio-ccw.c
->> @@ -86,6 +86,9 @@ static void s390_init_cpus(MachineState *machine)
->>       MachineClass *mc = MACHINE_GET_CLASS(machine);
->>       int i;
->>   
->> +    /* Explicitely do not support threads */
->> +    assert(machine->smp.threads == 1);
-> 
-> What is the functional effect for currently released QEMU versions
-> if a user has set threads == 2  for an s390 machine ?  Is the
-> threads setting simply ignored ?
+are available in the Git repository at:
 
-It is not ignored, the number of CPUs per sockets seen by the guest is 
-cores*threads
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
 
-> 
-> If we want to eliminate this mistake, then there's two possible
-> options
-> 
->    * If it had no effect, treat this like a deprecation process
->      where we print a warning for 2 releases, and then turn the
->      warning into an error. Gives a little grace to fix the config
->      mistakes some users might have made, at a time convenient to
->      them.
-> 
-> Or
-> 
->    * If it had effect and we need migration compatibility then forbid
->      threads > 1 only for new machine type versions, so existing
->      deployed guests are not changed.
-> 
-> With regards,
-> Daniel
+for you to fetch changes up to 3216ab2acb08b47d4ff83e709406690d37e44aff:
 
-Thanks for your comments Daniel.
-I will need to forbid threads > 1 for new machine.
+  x86: pci: acpi: consolidate PCI slots creation (2022-10-09 16:38:46 -0400)
 
-regards,
-Pierre
+----------------------------------------------------------------
+pc,virtio: features, tests, fixes, cleanups
 
+virtio introspection
+new serial number opton for cxl
+vhost user blk dynamic config size
+virtio-gpio vhost user backend
 
+Tests fixes cleanups all over the place
 
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 
--- 
-Pierre Morel
-IBM Lab Boeblingen
+----------------------------------------------------------------
+Alex Bennée (17):
+      hw/virtio: incorporate backend features in features
+      include/hw/virtio: more comment for VIRTIO_F_BAD_FEATURE
+      include/hw: document vhost_dev feature life-cycle
+      hw/virtio: fix some coding style issues
+      hw/virtio: log potentially buggy guest drivers
+      hw/virtio: add some vhost-user trace events
+      hw/virtio: move vm_running check to virtio_device_started
+      hw/virtio: move vhd->started check into helper and add FIXME
+      tests/qtest: pass stdout/stderr down to subtests
+      tests/qtest: add a timeout for subprocess_run_one_test
+      tests/qtest: use qos_printf instead of g_test_message
+      tests/qtest: catch unhandled vhost-user messages
+      tests/qtest: plain g_assert for VHOST_USER_F_PROTOCOL_FEATURES
+      tests/qtest: add assert to catch bad features
+      tests/qtest: implement stub for VHOST_USER_GET_CONFIG
+      tests/qtest: add a get_features op to vhost-user-test
+      tests/qtest: enable tests for virtio-gpio
+
+Daniil Tatianin (5):
+      virtio: introduce VirtIOConfigSizeParams & virtio_get_config_size
+      virtio-blk: move config size params to virtio-blk-common
+      vhost-user-blk: make it possible to disable write-zeroes/discard
+      vhost-user-blk: make 'config_wce' part of 'host_features'
+      vhost-user-blk: dynamically resize config space based on features
+
+Hal Martin (1):
+      hw/smbios: support for type 8 (port connector)
+
+Igor Mammedov (17):
+      tests: acpi: whitelist pc/q35 DSDT due to HPET AML move
+      acpi: x86: deduplicate HPET AML building
+      tests: acpi: update expected blobs after HPET move
+      tests: acpi: whitelist pc/q35 DSDT due to HPET AML move
+      acpi: x86: refactor PDSM method to reduce nesting
+      x86: acpi: _DSM: use Package to pass parameters
+      tests: acpi: update expected blobs
+      tests: acpi: whitelist pc/q35 DSDT before switching _DSM to use ASUN
+      x86: acpi: cleanup PCI device _DSM duplication
+      tests: acpi: update expected blobs
+      tests: acpi: whitelist pc/q35 DSDT before moving _ADR field
+      x86: pci: acpi: reorder Device's _ADR and _SUN fields
+      tests: acpi: update expected blobs
+      tests: acpi: whitelist pc/q35 DSDT before moving _ADR field
+      x86: pci: acpi: reorder Device's _DSM method
+      tests: acpi: update expected blobs
+      x86: pci: acpi: consolidate PCI slots creation
+
+Jonathan Cameron (1):
+      mem/cxl-type3: Add sn option to provide serial number for PCI ecap
+
+Laurent Vivier (6):
+      qmp: add QMP command x-query-virtio
+      qmp: add QMP command x-query-virtio-status
+      qmp: decode feature & status bits in virtio-status
+      qmp: add QMP commands for virtio/vhost queue-status
+      qmp: add QMP command x-query-virtio-queue-element
+      hmp: add virtio commands
+
+Miguel Luis (3):
+      tests/acpi: virt: allow acpi GTDT changes
+      acpi: arm/virt: build_gtdt: fix invalid 64-bit physical addresses
+      tests/acpi: virt: update ACPI GTDT binaries
+
+Peter Maydell (2):
+      pci: Remove unused pci_get_*_by_mask() functions
+      pci: Sanity check mask argument to pci_set_*_by_mask()
+
+Peter Xu (1):
+      Revert "intel_iommu: Fix irqchip / X2APIC configuration checks"
+
+Viresh Kumar (2):
+      hw/virtio: add boilerplate for vhost-user-gpio device
+      hw/virtio: add vhost-user-gpio-pci boilerplate
+
+ qapi/qapi-schema.json                 |    1 +
+ qapi/virtio.json                      |  954 ++++++++++++++++++++++++++++++
+ include/hw/cxl/cxl_device.h           |    1 +
+ include/hw/firmware/smbios.h          |   10 +
+ include/hw/pci/pci.h                  |   48 +-
+ include/hw/virtio/vhost-user-blk.h    |    1 -
+ include/hw/virtio/vhost-user-gpio.h   |   35 ++
+ include/hw/virtio/vhost.h             |   18 +
+ include/hw/virtio/virtio-blk-common.h |   20 +
+ include/hw/virtio/virtio.h            |   28 +-
+ include/monitor/hmp.h                 |    5 +
+ tests/qtest/libqos/virtio-gpio.h      |   35 ++
+ hw/arm/virt-acpi-build.c              |    5 +-
+ hw/block/vhost-user-blk.c             |   39 +-
+ hw/block/virtio-blk-common.c          |   39 ++
+ hw/block/virtio-blk.c                 |   28 +-
+ hw/i386/acpi-build.c                  |  300 +++++-----
+ hw/i386/intel_iommu.c                 |    5 +
+ hw/mem/cxl_type3.c                    |   14 +-
+ hw/net/virtio-net.c                   |    9 +-
+ hw/scsi/vhost-scsi.c                  |    4 +-
+ hw/scsi/vhost-user-scsi.c             |    2 +-
+ hw/smbios/smbios.c                    |   63 ++
+ hw/virtio/vhost-user-fs.c             |    9 +-
+ hw/virtio/vhost-user-gpio-pci.c       |   69 +++
+ hw/virtio/vhost-user-gpio.c           |  411 +++++++++++++
+ hw/virtio/vhost-user-i2c.c            |   10 +-
+ hw/virtio/vhost-user-rng.c            |   10 +-
+ hw/virtio/vhost-user-vsock.c          |    8 +-
+ hw/virtio/vhost-user.c                |   16 +-
+ hw/virtio/vhost-vsock-common.c        |    3 +-
+ hw/virtio/vhost-vsock.c               |    8 +-
+ hw/virtio/vhost.c                     |    6 +
+ hw/virtio/virtio-stub.c               |   42 ++
+ hw/virtio/virtio.c                    | 1049 ++++++++++++++++++++++++++++++++-
+ monitor/hmp-cmds.c                    |  310 ++++++++++
+ tests/qtest/libqos/virtio-gpio.c      |  171 ++++++
+ tests/qtest/libqos/virtio.c           |    4 +-
+ tests/qtest/qmp-cmd-test.c            |    1 +
+ tests/qtest/qos-test.c                |    9 +-
+ tests/qtest/vhost-user-test.c         |  177 +++++-
+ MAINTAINERS                           |   12 +
+ hmp-commands-info.hx                  |   70 +++
+ hw/block/meson.build                  |    4 +-
+ hw/virtio/Kconfig                     |    5 +
+ hw/virtio/meson.build                 |    4 +
+ hw/virtio/trace-events                |    9 +
+ qapi/meson.build                      |    1 +
+ qemu-options.hx                       |    2 +
+ tests/data/acpi/pc/DSDT               |  Bin 5987 -> 6422 bytes
+ tests/data/acpi/pc/DSDT.acpierst      |  Bin 5954 -> 6382 bytes
+ tests/data/acpi/pc/DSDT.acpihmat      |  Bin 7312 -> 7747 bytes
+ tests/data/acpi/pc/DSDT.bridge        |  Bin 8653 -> 9496 bytes
+ tests/data/acpi/pc/DSDT.cphp          |  Bin 6451 -> 6886 bytes
+ tests/data/acpi/pc/DSDT.dimmpxm       |  Bin 7641 -> 8076 bytes
+ tests/data/acpi/pc/DSDT.hpbridge      |  Bin 5954 -> 6382 bytes
+ tests/data/acpi/pc/DSDT.hpbrroot      |  Bin 3069 -> 3069 bytes
+ tests/data/acpi/pc/DSDT.ipmikcs       |  Bin 6059 -> 6494 bytes
+ tests/data/acpi/pc/DSDT.memhp         |  Bin 7346 -> 7781 bytes
+ tests/data/acpi/pc/DSDT.nohpet        |  Bin 5845 -> 6280 bytes
+ tests/data/acpi/pc/DSDT.numamem       |  Bin 5993 -> 6428 bytes
+ tests/data/acpi/pc/DSDT.roothp        |  Bin 6195 -> 6656 bytes
+ tests/data/acpi/q35/DSDT              |  Bin 8274 -> 8320 bytes
+ tests/data/acpi/q35/DSDT.acpierst     |  Bin 8291 -> 8337 bytes
+ tests/data/acpi/q35/DSDT.acpihmat     |  Bin 9599 -> 9645 bytes
+ tests/data/acpi/q35/DSDT.applesmc     |  Bin 8320 -> 8366 bytes
+ tests/data/acpi/q35/DSDT.bridge       |  Bin 10988 -> 11449 bytes
+ tests/data/acpi/q35/DSDT.cphp         |  Bin 8738 -> 8784 bytes
+ tests/data/acpi/q35/DSDT.cxl          |  Bin 9600 -> 9646 bytes
+ tests/data/acpi/q35/DSDT.dimmpxm      |  Bin 9928 -> 9974 bytes
+ tests/data/acpi/q35/DSDT.ipmibt       |  Bin 8349 -> 8395 bytes
+ tests/data/acpi/q35/DSDT.ipmismbus    |  Bin 8363 -> 8409 bytes
+ tests/data/acpi/q35/DSDT.ivrs         |  Bin 8291 -> 8337 bytes
+ tests/data/acpi/q35/DSDT.memhp        |  Bin 9633 -> 9679 bytes
+ tests/data/acpi/q35/DSDT.mmio64       |  Bin 9404 -> 9450 bytes
+ tests/data/acpi/q35/DSDT.multi-bridge |  Bin 8568 -> 8640 bytes
+ tests/data/acpi/q35/DSDT.nohpet       |  Bin 8132 -> 8178 bytes
+ tests/data/acpi/q35/DSDT.numamem      |  Bin 8280 -> 8326 bytes
+ tests/data/acpi/q35/DSDT.pvpanic-isa  |  Bin 8375 -> 8421 bytes
+ tests/data/acpi/q35/DSDT.tis.tpm12    |  Bin 8880 -> 8926 bytes
+ tests/data/acpi/q35/DSDT.tis.tpm2     |  Bin 8906 -> 8952 bytes
+ tests/data/acpi/q35/DSDT.viot         |  Bin 9383 -> 9429 bytes
+ tests/data/acpi/q35/DSDT.xapic        |  Bin 35637 -> 35683 bytes
+ tests/data/acpi/virt/GTDT             |  Bin 96 -> 96 bytes
+ tests/data/acpi/virt/GTDT.memhp       |  Bin 96 -> 96 bytes
+ tests/data/acpi/virt/GTDT.numamem     |  Bin 96 -> 96 bytes
+ tests/qtest/libqos/meson.build        |    1 +
+ 87 files changed, 3796 insertions(+), 289 deletions(-)
+ create mode 100644 qapi/virtio.json
+ create mode 100644 include/hw/virtio/vhost-user-gpio.h
+ create mode 100644 include/hw/virtio/virtio-blk-common.h
+ create mode 100644 tests/qtest/libqos/virtio-gpio.h
+ create mode 100644 hw/block/virtio-blk-common.c
+ create mode 100644 hw/virtio/vhost-user-gpio-pci.c
+ create mode 100644 hw/virtio/vhost-user-gpio.c
+ create mode 100644 hw/virtio/virtio-stub.c
+ create mode 100644 tests/qtest/libqos/virtio-gpio.c
+
 
