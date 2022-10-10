@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583AA5FA35A
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 20:27:44 +0200 (CEST)
-Received: from localhost ([::1]:51944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1065C5FA380
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 20:41:58 +0200 (CEST)
+Received: from localhost ([::1]:58772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohxV6-0006ff-OB
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 14:27:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52656)
+	id 1ohxiv-0006s6-4R
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 14:41:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwd7-0003fE-0o
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:31:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51180)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwd8-0003jv-Vm
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:31:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwcg-0007Jp-FE
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:31:52 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwcn-0007NO-Fr
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:31:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665423085;
+ s=mimecast20190719; t=1665423090;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=9qGZK5jOcaN2rqu7K9/IEN4BfTBmzsuWuby5Dy3BdJ8=;
- b=X5FSGc7Avb11wFITVh9ruelHA9APR0yXnMLRQZrM2F424guMPpBAkjLotiRzsJWeoH/3VR
- HY6dACD5r/T4JHs4DGGOg96DLPmXbKQAolIjdadxaEYw1QQ8nFSSdLPsv0JfOI2tZ21ZCp
- eT5kArXbYYfPNhUIyGirM+bhi3VlWfo=
+ bh=jYG4D+Osh2qvpF6MQt1stca/DHn+PvzorECJ71JvQWM=;
+ b=Oy+/1iUdA8+SsxhdsBVflis/gX5Mx9C1zUWZ5dr1f7CWtf7GGanmJmQysrxKiGzMgyh5jS
+ +k94HLJX8VtrdmdgJK4Ki2aPGTzWKVbpSIVz46uMUObBHLVbxm2tAOJVdix25RbezAO02W
+ PvB3IQckmfKiDTOtw0ATsKnVfyPrN90=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-6-RdqmnPJLPNqgZPDpkCT17Q-1; Mon, 10 Oct 2022 13:31:24 -0400
-X-MC-Unique: RdqmnPJLPNqgZPDpkCT17Q-1
+ us-mta-349-qvfJG8OrOpKhJODw-K60WQ-1; Mon, 10 Oct 2022 13:31:29 -0400
+X-MC-Unique: qvfJG8OrOpKhJODw-K60WQ-1
 Received: by mail-wr1-f70.google.com with SMTP id
- j8-20020adfa548000000b0022e2bf8f48fso2980849wrb.23
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:31:24 -0700 (PDT)
+ m20-20020adfa3d4000000b0022e2fa93dd1so2943298wrb.2
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:31:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9qGZK5jOcaN2rqu7K9/IEN4BfTBmzsuWuby5Dy3BdJ8=;
- b=BhX8yGH8W8vShUYYveho9J6ZkLmuNVu81nxjb5omeehSxDM+QFitDsCKqxaJfzZEpL
- 7uSUlSol9iCBG8DpiNvyKsZjD6ApOCiII7exwG6ROBuNw2ZYO/6E4OPXnsywnbNK4rCO
- rgWoXxoDPODUUfCp0lqJbyEn+B1Pt8UU9aLB5zGc2HKOE35oAP4eteF3rVyuz6v5w7bi
- R1PoV/lNy5OS/BLipT8rMbKMkN66t/KJLWajG36bgcXqa65zA8WVFalNRTisWPW8seEl
- rs/Ps9tNBLezNF/+E/36g6MVrpm0Ufz3kNUW0jDQCqHybWo9Y0oY59BZKavxCkxOPffl
- zh2w==
-X-Gm-Message-State: ACrzQf1GlUNbhvnndlqdd7zdIV1LHnacwQrPoPBKW8BWtxov4GDZxiNi
- RGwDV0Bv5DNVDzoN2328/BtOIBX+7qCXh5ALb1ZQtciKi6h5n7XuU5XIFU18MoA2vbWiYYpLx7H
- 8L+Qny+t9rbgYUQO1vnunuxUrY0SLB7J0tiS0pqpd+uIzuiR7rqpcGBYXN8N/
-X-Received: by 2002:a05:6000:170a:b0:22e:bd9c:2630 with SMTP id
- n10-20020a056000170a00b0022ebd9c2630mr11236374wrc.655.1665423083345; 
- Mon, 10 Oct 2022 10:31:23 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5P2tm8bX0GffdRfciSvunEJ8UPB4Aw8wgQaPXEGf+IP2rS+HdvGirJMWymQ1gdImvwGFu5mg==
-X-Received: by 2002:a05:6000:170a:b0:22e:bd9c:2630 with SMTP id
- n10-20020a056000170a00b0022ebd9c2630mr11236352wrc.655.1665423083101; 
- Mon, 10 Oct 2022 10:31:23 -0700 (PDT)
+ bh=jYG4D+Osh2qvpF6MQt1stca/DHn+PvzorECJ71JvQWM=;
+ b=gJTGkPdVnYBLEHXvegJZFk9AI51X2AHENygDbusaC2jr0S+K9HHnPBX/Q9Z84AcF9i
+ a1pkkvNn5WKDbaWP9oeu685fa1Pfjw3xFluNShTHu0RMrHlLQmhPsrgiVC4HHg1CUpAZ
+ DFKc4FN2CUAWrYwO0pBWDsG89zFEVyLRudG+r3+6qGXMwid2OVozXxbDycwIVAvl3/IU
+ zmXZuZEbVMjfY6m4ZK8cN0VGUqmWopuZVxLfMHev0Y8Or4ZQWiUGDblnckmYySiXj6GY
+ Roq6Aspq08vLIOFpK402MbY8THqg+4ApCrOeAIxEwxLrT/D2uLZ/5YF89phlgU3s/8Pk
+ GCZQ==
+X-Gm-Message-State: ACrzQf2/lHDXwpnCeV7Jf6ytz8sSdE5qAUEjXYdaASW0hdl4K1IyEM8p
+ 5/2LNGdyQ/1wahN5krHkIpx0K039D8NDE/IW/8on1JNzr/UMAH5+57X/e93MWu9l6VoQ4Imb59e
+ /9YGUDFXAatvp3VNJ+X0f3AYW2atUoKO9hiL5C9jny0jlVRHdPqFopS/T4LZn
+X-Received: by 2002:a05:6000:711:b0:22e:7b01:db9f with SMTP id
+ bs17-20020a056000071100b0022e7b01db9fmr12847178wrb.38.1665423087884; 
+ Mon, 10 Oct 2022 10:31:27 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4WXI6ZWkViW1XvrKl2414fvtQI0BYQ8zPv0RVdJX3DcCeoN5+o+c0IVrONCQc/2OSSc6mNJg==
+X-Received: by 2002:a05:6000:711:b0:22e:7b01:db9f with SMTP id
+ bs17-20020a056000071100b0022e7b01db9fmr12847165wrb.38.1665423087540; 
+ Mon, 10 Oct 2022 10:31:27 -0700 (PDT)
 Received: from redhat.com ([2.55.183.131]) by smtp.gmail.com with ESMTPSA id
- n19-20020a05600c4f9300b003b4cba4ef71sm17313837wmq.41.2022.10.10.10.31.20
+ k24-20020a05600c1c9800b003c6c182bef9sm951399wms.36.2022.10.10.10.31.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 10:31:22 -0700 (PDT)
-Date: Mon, 10 Oct 2022 13:31:19 -0400
+ Mon, 10 Oct 2022 10:31:27 -0700 (PDT)
+Date: Mon, 10 Oct 2022 13:31:23 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 36/55] pci: Remove unused pci_get_*_by_mask() functions
-Message-ID: <20221010172813.204597-37-mst@redhat.com>
+Subject: [PULL 37/55] pci: Sanity check mask argument to pci_set_*_by_mask()
+Message-ID: <20221010172813.204597-38-mst@redhat.com>
 References: <20221010172813.204597-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -76,7 +76,7 @@ Content-Disposition: inline
 In-Reply-To: <20221010172813.204597-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -102,83 +102,75 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-The helper functions pci_get_{byte,word,long,quad}_by_mask()
-were added in 2012 in commit c9f50cea70a1596. In the decade
-since we have never added a single use of them.
+Coverity complains that in functions like pci_set_word_by_mask()
+we might end up shifting by more than 31 bits. This is true,
+but only if the caller passes in a zero mask. Help Coverity out
+by asserting that the mask argument is valid.
 
-The helpers clearly aren't that helpful, so drop them
-rather than carrying around dead code.
+Fixes: CID 1487168
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20220818135421.2515257-2-peter.maydell@linaro.org>
+Message-Id: <20220818135421.2515257-3-peter.maydell@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/hw/pci/pci.h | 28 ----------------------------
- 1 file changed, 28 deletions(-)
+ include/hw/pci/pci.h | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
 diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index b54b6ef88f..c79144bc5e 100644
+index c79144bc5e..97937cc922 100644
 --- a/include/hw/pci/pci.h
 +++ b/include/hw/pci/pci.h
-@@ -692,13 +692,6 @@ pci_set_byte_by_mask(uint8_t *config, uint8_t mask, uint8_t reg)
+@@ -688,7 +688,10 @@ static inline void
+ pci_set_byte_by_mask(uint8_t *config, uint8_t mask, uint8_t reg)
+ {
+     uint8_t val = pci_get_byte(config);
+-    uint8_t rval = reg << ctz32(mask);
++    uint8_t rval;
++
++    assert(mask);
++    rval = reg << ctz32(mask);
      pci_set_byte(config, (~mask & val) | (mask & rval));
  }
  
--static inline uint8_t
--pci_get_byte_by_mask(uint8_t *config, uint8_t mask)
--{
--    uint8_t val = pci_get_byte(config);
--    return (val & mask) >> ctz32(mask);
--}
--
- static inline void
+@@ -696,7 +699,10 @@ static inline void
  pci_set_word_by_mask(uint8_t *config, uint16_t mask, uint16_t reg)
  {
-@@ -707,13 +700,6 @@ pci_set_word_by_mask(uint8_t *config, uint16_t mask, uint16_t reg)
+     uint16_t val = pci_get_word(config);
+-    uint16_t rval = reg << ctz32(mask);
++    uint16_t rval;
++
++    assert(mask);
++    rval = reg << ctz32(mask);
      pci_set_word(config, (~mask & val) | (mask & rval));
  }
  
--static inline uint16_t
--pci_get_word_by_mask(uint8_t *config, uint16_t mask)
--{
--    uint16_t val = pci_get_word(config);
--    return (val & mask) >> ctz32(mask);
--}
--
- static inline void
+@@ -704,7 +710,10 @@ static inline void
  pci_set_long_by_mask(uint8_t *config, uint32_t mask, uint32_t reg)
  {
-@@ -722,13 +708,6 @@ pci_set_long_by_mask(uint8_t *config, uint32_t mask, uint32_t reg)
+     uint32_t val = pci_get_long(config);
+-    uint32_t rval = reg << ctz32(mask);
++    uint32_t rval;
++
++    assert(mask);
++    rval = reg << ctz32(mask);
      pci_set_long(config, (~mask & val) | (mask & rval));
  }
  
--static inline uint32_t
--pci_get_long_by_mask(uint8_t *config, uint32_t mask)
--{
--    uint32_t val = pci_get_long(config);
--    return (val & mask) >> ctz32(mask);
--}
--
- static inline void
+@@ -712,7 +721,10 @@ static inline void
  pci_set_quad_by_mask(uint8_t *config, uint64_t mask, uint64_t reg)
  {
-@@ -737,13 +716,6 @@ pci_set_quad_by_mask(uint8_t *config, uint64_t mask, uint64_t reg)
+     uint64_t val = pci_get_quad(config);
+-    uint64_t rval = reg << ctz32(mask);
++    uint64_t rval;
++
++    assert(mask);
++    rval = reg << ctz32(mask);
      pci_set_quad(config, (~mask & val) | (mask & rval));
  }
  
--static inline uint64_t
--pci_get_quad_by_mask(uint8_t *config, uint64_t mask)
--{
--    uint64_t val = pci_get_quad(config);
--    return (val & mask) >> ctz32(mask);
--}
--
- PCIDevice *pci_new_multifunction(int devfn, bool multifunction,
-                                     const char *name);
- PCIDevice *pci_new(int devfn, const char *name);
 -- 
 MST
 
