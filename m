@@ -2,88 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CAC05F9D1D
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 12:54:36 +0200 (CEST)
-Received: from localhost ([::1]:56134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C0535F9D2C
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 12:58:43 +0200 (CEST)
+Received: from localhost ([::1]:37634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohqQd-00022j-E9
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 06:54:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54870)
+	id 1ohqUc-0005pt-4F
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 06:58:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1ohqNo-0006Y3-V2; Mon, 10 Oct 2022 06:51:40 -0400
-Received: from mail-lj1-x22c.google.com ([2a00:1450:4864:20::22c]:45932)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ohqR7-0002gR-O0
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 06:55:06 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:36644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1ohqNa-0000eT-75; Mon, 10 Oct 2022 06:51:40 -0400
-Received: by mail-lj1-x22c.google.com with SMTP id f9so12760786ljk.12;
- Mon, 10 Oct 2022 03:51:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=user-agent:in-reply-to:content-transfer-encoding
- :content-disposition:mime-version:references:message-id:subject:cc
- :to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=06aLaxq3675XzXlY7/PQRcT3VQ1fG48d2IlEq856Mbk=;
- b=qe/KxdcPT/CBAi8+eMnaDdVzT++SMOiS6bOFu7loawYT5QgFT0MbZoVcXXw0TaocHl
- M9guESScUq+odfQyrL6jx/3N1VxxV7dRbY2Z0tPBO6pG74p6Oc1+GWtUMoLGJiMXnV2t
- YawQsQUgJYAIX2T181OBjeeJ6qw1NXHocB1V8N91gvJFlhvIyaaNBsgOoBv66lODCAsq
- kR4G86ZB/qaeh8AmDjL60YbFA6ZG49Nz7Ilw1f2FpqccEhd0dG+2UocT/Nv8m/jLC6aU
- fBwTkFvk0bLebVOkl7ZQQiGt6NTr9wvKiT7Weh0yo/H0yDS4IhVJv+EkaqFs6Gr5rICC
- VuoA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ohqR5-0000vM-Qx
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 06:55:05 -0400
+Received: by mail-pl1-x631.google.com with SMTP id c24so10057117plo.3
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 03:55:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=rCR1ZszeABuDB8oLYdEXz3A4Abb5mNA9cC8R24IBJh4=;
+ b=QN+t+HcJnWAM4LVnMiuOsPFpFRh3bfncW0ch16rEv0w+uMxWorcKWqR4dyAwLYWgen
+ gKy6jFNcD60xZiifQZD0HGNexvnH9327IcfBxlkQCaULIerbQwSke+sIYvO3KlzOCUwL
+ r4w0y9ElAVqMdJlx29jDLXcDgjqxzIyoj0XSoCcextJIRQ2P/Zcr5QuC93Z6dzVgdz4P
+ Q8srbBX9b3ppSoTNEcdUNJkgBxFcCiHaNzxVaOUoN7E9iveeISjUAhHfxMolN9EpUR/r
+ /EsQrVoAvp8Xz4q/RWSWXv/qMQ7DlrlHpkTMabwwTfNI+L585N32lgCYlhzV7fUc6ZDC
+ 3Lhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-transfer-encoding
- :content-disposition:mime-version:references:message-id:subject:cc
- :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=06aLaxq3675XzXlY7/PQRcT3VQ1fG48d2IlEq856Mbk=;
- b=0RbvaFPrCIQDhtGcKrCwx0QcuelczLPTRNZkHXsHF4rY5BeSQmZkf6gMj5XlIWPc0D
- UR33taPDf1E1FoU/ZpHp3hBayjPLYv6U6XEw9XKDeyLu5vnJ2nXwql6yBQK39n9NRVwJ
- QLGai3w5gVF+DIi6CWBC/YlEcYK666p3qqZFKtNYcL26aZgfxKnrMiox8BRPMiqURcvc
- ev6jJMr1EYnePNH1227lN3hkcWTW+g+6ZjOx5Lwx9ImNQnQiJkI7JM42Iqt77veJfjcA
- f4DVSeAhaTC4ICAMrBuyw01WgEmoA7Lf2yYiTfP4jXMutBtpBhxv41dXvfgG8AKAS30J
- ozfw==
-X-Gm-Message-State: ACrzQf2jHGEqjvusCJCT14/ZRWTx8bIglp5fIEeYDRVgd7z5LRMklgBx
- QUVZpJMZv6PCoixqLKQTkSo=
-X-Google-Smtp-Source: AMsMyM6akT+8P3Jz8KCiVPIdM4qb3W/AwPURQzDjP5kZz5rwRcERquhkeXCw13SH6DHwn0XC/87EDg==
-X-Received: by 2002:a2e:8552:0:b0:26f:b0c6:f1b with SMTP id
- u18-20020a2e8552000000b0026fb0c60f1bmr420556ljj.165.1665399082540; 
- Mon, 10 Oct 2022 03:51:22 -0700 (PDT)
-Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
- by smtp.gmail.com with ESMTPSA id
- f7-20020a056512360700b004996fbfd75esm1373307lfs.71.2022.10.10.03.51.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 03:51:22 -0700 (PDT)
-Date: Mon, 10 Oct 2022 12:51:20 +0200
-From: Francisco Iglesias <frasse.iglesias@gmail.com>
-To: Michael Walle <michael@walle.cc>
-Cc: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-block@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Alistair Francis <alistair@alistair23.me>, Iris Chen <irischenlj@fb.com>
-Subject: Re: [PATCH v3 4/8] m25p80: Add the mx25l25635f SFPD table
-Message-ID: <20221010105120.GA30024@fralle-msi>
-References: <20220722063602.128144-1-clg@kaod.org>
- <20220722063602.128144-5-clg@kaod.org>
- <20221007144431.GE20384@fralle-msi>
- <6726971b-b862-2959-5e7e-c059be2bb07d@kaod.org>
- <d6d2575b520fedb47a5fa7c1031c4ff7@walle.cc>
+ bh=rCR1ZszeABuDB8oLYdEXz3A4Abb5mNA9cC8R24IBJh4=;
+ b=FhEc+zSfJuup6Rme3WGJst08Rg7CJMWRAxBmFis928R3X3zwd97U1WJwouIMbMx/ab
+ 5VZujThxjJhRAPrPvMRRws0CQAdFZAcJjH68M8vpwIabGPXEDXaG2PtPGOj8SQYtkXkc
+ OTHOdOveEr88gVdzcgZ3kyotJ7GKuYf5Nb2hsOdFGjdMspGy1FHgCvndN+SiDV+4wNqT
+ 1P1L0ZDmtg7iQcXV8AOK/u079I63ifNE3keKtaLANdoUidDAlT/Rh6Fk1lmvNm88aLJh
+ XlogAti2UDk1d3JsgjJ1bNdCoLPiPnFOOBF8FoIohecz05j/iWT7UG3AF26m0s+py0Ig
+ yltw==
+X-Gm-Message-State: ACrzQf2j+iprDsvREe1MPlRUop+0z482ceXOOfd6fD5k4/Pt0u8wKmI9
+ c+86DhOsktoEfx4dksw1p5OCPb5f1jjVYb5UUF5JkA==
+X-Google-Smtp-Source: AMsMyM4Pda3F4fWuFbQJ9TRlYJhKU1OXlIHnfbeUODUIph+GXwTW4qiRyfjf8gtgqsF1EjCcFaB8m3jt3yBJaoCXmMw=
+X-Received: by 2002:a17:903:4d7:b0:178:8564:f754 with SMTP id
+ jm23-20020a17090304d700b001788564f754mr18292965plb.60.1665399302197; Mon, 10
+ Oct 2022 03:55:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d6d2575b520fedb47a5fa7c1031c4ff7@walle.cc>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::22c;
- envelope-from=frasse.iglesias@gmail.com; helo=mail-lj1-x22c.google.com
-X-Spam_score_int: -1016
-X-Spam_score: -101.7
-X-Spam_bar: ---------------------------------------------------
-X-Spam_report: (-101.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, FREEMAIL_FROM=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_WELCOMELIST=-0.01,
- USER_IN_WHITELIST=-100 autolearn=no autolearn_force=no
+References: <20220929232339.372813-1-Jason@zx2c4.com>
+ <CAFEAcA-Ac-=i_DK5MUtKtTqH7OpyzHAi6u=tHFAFZyvdr1KP8A@mail.gmail.com>
+In-Reply-To: <CAFEAcA-Ac-=i_DK5MUtKtTqH7OpyzHAi6u=tHFAFZyvdr1KP8A@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 10 Oct 2022 11:54:50 +0100
+Message-ID: <CAFEAcA-fOdNeDz9_Hbm7R3_3o2T4Zw8wPrgOtVLK9tUNMciZow@mail.gmail.com>
+Subject: Re: [PATCH 1/6] device-tree: add re-randomization helper function
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>, 
+ David Gibson <david@gibson.dropbear.id.au>,
+ Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,49 +88,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi  Cedric,
+On Thu, 6 Oct 2022 at 14:16, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Fri, 30 Sept 2022 at 00:23, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> >
+> > When the system reboots, the rng-seed that the FDT has should be
+> > re-randomized, so that the new boot gets a new seed. Several
+> > architectures require this functionality, so export a function for
+> > injecting a new seed into the given FDT.
+> >
+> > Cc: Alistair Francis <alistair.francis@wdc.com>
+> > Cc: David Gibson <david@gibson.dropbear.id.au>
+> > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+>
+> Hi; I've applied this series to target-arm.next (seems the easiest way
+> to take it into the tree).
 
-On [2022 Oct 10] Mon 11:58:40, Michael Walle wrote:
-> Am 2022-10-10 08:23, schrieb Cédric Le Goater:
-> > On 10/7/22 16:44, Francisco Iglesias wrote:
-> 
-> > > > --- a/hw/block/m25p80.c
-> > > > +++ b/hw/block/m25p80.c
-> > > > @@ -234,6 +234,8 @@ static const FlashPartInfo known_devices[] = {
-> > > >       { INFO("mx25l12855e", 0xc22618,      0,  64 << 10, 256, 0) },
-> > > >       { INFO6("mx25l25635e", 0xc22019,     0xc22019,  64 << 10,
-> > > > 512, 0),
-> > > >         .sfdp_read = m25p80_sfdp_mx25l25635e },
-> > > > +    { INFO6("mx25l25635f", 0xc22019,     0xc22019,  64 << 10,
-> > > > 512, 0),
+Unfortunately it turns out that this breaks the reverse-debugging
+test that is part of 'make check-avocado'.
 
-I think I missed the (ER_4K | ER_32K) flags above (in case we go for a v4 we 
-can add it in). 
+Running all of 'check-avocado' takes a long time, so here's how
+to run the specific test:
 
-> > > 
-> > > I think I'm not seeing the extended id part in the datasheet I've
-> > > found so
-> > > might be that you can switch to just INFO and _ext_id 0 above
-> > 
-> > This was added by commit 6bbe036f32dc ("m25p80: Return the JEDEC ID
-> > twice for
-> > mx25l25635e") to fix a real breakage on HW.
-> 
-> From my experience, the ID has a particular length, at least three bytes
-> and if you read past that length for some (all?) devices the id bytes just
-> get repeated. I.e. the counter in the device will just wrap to offset 0
-> again. If you want to emulate the hardware correctly, you would have to
-> take that into consideration.
+      make -C your-build-tree check-venv   # Only for the first time
+      your-build-tree/tests/venv/bin/avocado run
+your-build-tree/tests/avocado/boot_linux.py
 
-If we decide to go with Michael's proposal above you can use '0' on the
-'extended_id' and enable 's->data_read_loop = true' when reading the ID.
+Probably more convenient though is to run the equivalent commands
+by hand:
 
-Best regards,
-Francisco
+wget -O /tmp/vmlinuz
+https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/29/Everything/aarch64/os/images/pxeboot/vmlinuz
+./build/x86/qemu-img create -f qcow2 /tmp/disk.qcow2 128M
+./build/x86/qemu-system-aarch64 -display none -machine virt -serial
+stdio -cpu cortex-a53 -icount
+shift=7,rr=record,rrfile=/tmp/qemu.rr,rrsnapshot=init -net none -drive
+file=/tmp/disk.qcow2 -kernel /tmp/vmlinuz
+# this will boot the kernel to the no-root-fs panic; hit ctrl-C when
+it gets there
+./build/x86/qemu-system-aarch64 -display none -machine virt -serial
+stdio -cpu cortex-a53 -icount
+shift=7,rr=replay,rrfile=/tmp/qemu.rr,rrsnapshot=init  -net none
+-drive file=/tmp/disk.qcow2 -kernel /tmp/vmlinuz
+# same command line, but 'replay' rather than 'record', QEMU will exit
+with an error:
+qemu-system-aarch64: Missing random event in the replay log
 
-> But I don't think it's worth it, OTOH there seems to be some broken
-> software which rely on that (undefined?) behavior.
-> 
-> -michael
+Without these patches the replay step will replay the recorded execution
+up to the guest panic.
 
+The error is essentially the record-and-replay subsystem saying "the
+replay just asked for a random number at point when the recording
+did not ask for one, and so there's no 'this is what the number was'
+info in the record".
+
+I have had a quick look, and I think the reason for this is that
+load_snapshot() ("reset the VM state to the snapshot state stored in the
+disk image or migration stream") does a system reset. The replay
+process involves a lot of "load state from a snapshot and play
+forwards from there" operations. It doesn't expect that load_snapshot()
+would result in something reading random data, but now that we are
+calling qemu_guest_getrandom() in a reset hook, that happens.
+
+I'm not sure exactly what the best approach here is, so I've cc'd
+the migration and replay submaintainers. For the moment I'm dropping
+this patchset from target-arm.next.
+
+thanks
+-- PMM
 
