@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7D815F986D
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 08:35:02 +0200 (CEST)
-Received: from localhost ([::1]:37578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C0AC5F98DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 09:00:48 +0200 (CEST)
+Received: from localhost ([::1]:48838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohmNP-00011u-Ed
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 02:35:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35084)
+	id 1ohmmF-0002f3-TF
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 03:00:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1ohmCr-00012U-O5; Mon, 10 Oct 2022 02:24:07 -0400
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:33039)
+ (Exim 4.90_1) (envelope-from <dclarke@blastwave.org>)
+ id 1ohmjK-0008QA-5r
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 02:57:38 -0400
+Received: from mail.oetec.com ([108.160.241.186]:50510)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1ohmCp-0007HV-Mr; Mon, 10 Oct 2022 02:24:05 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.188])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id A8CC6130CD7AA;
- Mon, 10 Oct 2022 08:23:58 +0200 (CEST)
-Received: from kaod.org (37.59.142.106) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Mon, 10 Oct
- 2022 08:23:56 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R006410a693c-1c49-4800-8236-23b0424505a9,
- 8F9D85B4748BB0730094C5680DDBB13DC71FBC21) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <6726971b-b862-2959-5e7e-c059be2bb07d@kaod.org>
-Date: Mon, 10 Oct 2022 08:23:56 +0200
+ (Exim 4.90_1) (envelope-from <dclarke@blastwave.org>)
+ id 1ohmjF-0004cZ-7F
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 02:57:37 -0400
+X-oetec-MailScanner-From: dclarke@blastwave.org
+X-oetec-MailScanner-SpamCheck: not spam, SpamAssassin (not cached,
+ score=-3.097, required 6, autolearn=not spam, ALL_TRUSTED -1.00,
+ BAYES_00 -1.90, DKIM_SIGNED 0.10, DKIM_VALID -0.10,
+ DKIM_VALID_AU -0.10, DKIM_VALID_EF -0.10, URIBL_BLOCKED 0.00,
+ URIBL_DBL_BLOCKED_OPENDNS 0.00, URIBL_ZEN_BLOCKED_OPENDNS 0.00)
+X-oetec-MailScanner: Found to be clean
+X-oetec-MailScanner-ID: 29A6upUP030702
+X-oetec-MailScanner-Information: Please contact oetec for more information
+Received: from [172.16.35.2]
+ (cpeac202e7325b3-cmac202e7325b0.cpe.net.cable.rogers.com [99.253.170.241])
+ (authenticated bits=0)
+ by mail.oetec.com (8.15.2/8.15.2/Debian-8+deb9u1) with ESMTPSA id
+ 29A6upUP030702
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 02:56:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=blastwave.org;
+ s=default; t=1665385013;
+ bh=LRyxiezqI2ypgrBIF0iyxWZd6sPmTBWFKMlgUQYB5SY=;
+ h=Date:To:From:Subject:From;
+ b=oDk/xQeMhK6E5OriKBfsXhfkjYDSDML9+TzCzAeqviHbDiGu0VB2XfCqfTfThHfKU
+ kIQ3/85YPGIqFuBJftWIa4eyQ+Q0pu/N8hjGV9fIWZPbxBQhe035w2K2F+JcqqxXSp
+ pfDBH26WfEE2G8aYWIJmNWm6eTAnMyoFeKlRsGZFJHTmT94bXyLVRSiqpojTppSvvg
+ 1Uwo7FmNw1X19Xv3aMtODjenPRWLal2eRumQd2m673yR7AhReMArnCQkMLlQIlPd0K
+ nYVNpdQWmQbk3uopuE0PJvcJEenKczhbWJ+PlhWWo4gx1XtyrIoM9tY2+ToVb/LKha
+ hWqUa82F1E+kg==
+Message-ID: <841ab433-7dcd-2cf3-de7a-eb8b890f1652@blastwave.org>
+Date: Mon, 10 Oct 2022 06:56:51 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v3 4/8] m25p80: Add the mx25l25635f SFPD table
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+To: qemu-devel@nongnu.org
 Content-Language: en-US
-To: Francisco Iglesias <frasse.iglesias@gmail.com>
-CC: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <qemu-block@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>, Alistair Francis <alistair@alistair23.me>,
- Iris Chen <irischenlj@fb.com>, Michael Walle <michael@walle.cc>
-References: <20220722063602.128144-1-clg@kaod.org>
- <20220722063602.128144-5-clg@kaod.org> <20221007144431.GE20384@fralle-msi>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20221007144431.GE20384@fralle-msi>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: a9237edd-8eb7-4bf6-ac0a-1092e79716bc
-X-Ovh-Tracer-Id: 13438178339014151090
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeejvddguddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepmhhitghhrggvlhesfigrlhhlvgdrtggtpdfovfetjfhoshhtpehmohehvdel
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.934,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Dennis Clarke <dclarke@blastwave.org>
+Subject: total fail on FreeBSD 14.0 amd64 regardless of compiler
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=108.160.241.186;
+ envelope-from=dclarke@blastwave.org; helo=mail.oetec.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,148 +80,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/7/22 16:44, Francisco Iglesias wrote:
-> On [2022 Jul 22] Fri 08:35:58, Cédric Le Goater wrote:
->> The mx25l25635e and mx25l25635f chips have the same JEDEC id but the
->> mx25l25635f has more capabilities reported in the SFDP table. Support
->> for 4B opcodes is of interest because it is exploited by the Linux
->> kernel.
->>
->> The SFDP table size is 0x200 bytes long. The mandatory table for basic
->> features is available at byte 0x30 and an extra Macronix specific
->> table is available at 0x60.
->>
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->> ---
->>   hw/block/m25p80_sfdp.h |  1 +
->>   hw/block/m25p80.c      |  2 ++
->>   hw/block/m25p80_sfdp.c | 68 ++++++++++++++++++++++++++++++++++++++++++
->>   3 files changed, 71 insertions(+)
->>
->> diff --git a/hw/block/m25p80_sfdp.h b/hw/block/m25p80_sfdp.h
->> index 0c46e669b335..87690a173c78 100644
->> --- a/hw/block/m25p80_sfdp.h
->> +++ b/hw/block/m25p80_sfdp.h
->> @@ -18,6 +18,7 @@
->>   extern uint8_t m25p80_sfdp_n25q256a(uint32_t addr);
->>   
->>   extern uint8_t m25p80_sfdp_mx25l25635e(uint32_t addr);
->> +extern uint8_t m25p80_sfdp_mx25l25635f(uint32_t addr);
-> (optional -extern above)
-> 
->>   
->>   
->>   #endif
->> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
->> index 028b026d8ba2..6b120ce65212 100644
->> --- a/hw/block/m25p80.c
->> +++ b/hw/block/m25p80.c
->> @@ -234,6 +234,8 @@ static const FlashPartInfo known_devices[] = {
->>       { INFO("mx25l12855e", 0xc22618,      0,  64 << 10, 256, 0) },
->>       { INFO6("mx25l25635e", 0xc22019,     0xc22019,  64 << 10, 512, 0),
->>         .sfdp_read = m25p80_sfdp_mx25l25635e },
->> +    { INFO6("mx25l25635f", 0xc22019,     0xc22019,  64 << 10, 512, 0),
-> 
-> I think I'm not seeing the extended id part in the datasheet I've found so
-> might be that you can switch to just INFO and _ext_id 0 above
 
-This was added by commit 6bbe036f32dc ("m25p80: Return the JEDEC ID twice for
-mx25l25635e") to fix a real breakage on HW.
+re: https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg01249.html
 
-Thanks,
+Using GCC 12 is even worse :
 
-C.
+[2040/6841] Compiling C object qemu-system-aarch64.p/softmmu_main.c.o
+[2041/6841] Linking target qemu-system-aarch64
+FAILED: qemu-system-aarch64
+/usr/local/bin/g++12 -m64 -mcx16 @qemu-system-aarch64.rsp
+/usr/local/bin/ld: libqemuutil.a.p/util_filemonitor-inotify.c.o: 
+undefined reference to symbol 'inotify_init1'
+/usr/local/bin/ld: /usr/local/lib/libinotify.so.0: error adding symbols: 
+DSO missing from command line
+collect2: error: ld returned 1 exit status
+ninja: build stopped: subcommand failed.
+gmake[1]: *** [Makefile:165: run-ninja] Error 1
+gmake[1]: Leaving directory '/opt/bw/build/qemu/build'
+gmake: *** [GNUmakefile:11: all] Error 2
+
+So whats the magic here ?
 
 
-  (might be the
-> same in the previous patch with the similar flash). Otherwise looks good to
-> me:
-> 
-> Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-> 
-> 
->> +      .sfdp_read = m25p80_sfdp_mx25l25635f },
->>       { INFO("mx25l25655e", 0xc22619,      0,  64 << 10, 512, 0) },
->>       { INFO("mx66l51235f", 0xc2201a,      0,  64 << 10, 1024, ER_4K | ER_32K) },
->>       { INFO("mx66u51235f", 0xc2253a,      0,  64 << 10, 1024, ER_4K | ER_32K) },
->> diff --git a/hw/block/m25p80_sfdp.c b/hw/block/m25p80_sfdp.c
->> index 6499c4c39954..70c13aea7c63 100644
->> --- a/hw/block/m25p80_sfdp.c
->> +++ b/hw/block/m25p80_sfdp.c
->> @@ -82,3 +82,71 @@ static const uint8_t sfdp_mx25l25635e[] = {
->>       0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->>   };
->>   define_sfdp_read(mx25l25635e)
->> +
->> +static const uint8_t sfdp_mx25l25635f[] = {
->> +    0x53, 0x46, 0x44, 0x50, 0x00, 0x01, 0x01, 0xff,
->> +    0x00, 0x00, 0x01, 0x09, 0x30, 0x00, 0x00, 0xff,
->> +    0xc2, 0x00, 0x01, 0x04, 0x60, 0x00, 0x00, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xe5, 0x20, 0xf3, 0xff, 0xff, 0xff, 0xff, 0x0f,
->> +    0x44, 0xeb, 0x08, 0x6b, 0x08, 0x3b, 0x04, 0xbb,
->> +    0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0xff,
->> +    0xff, 0xff, 0x44, 0xeb, 0x0c, 0x20, 0x0f, 0x52,
->> +    0x10, 0xd8, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0x00, 0x36, 0x00, 0x27, 0x9d, 0xf9, 0xc0, 0x64,
->> +    0x85, 0xcb, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xc2, 0xf5, 0x08, 0x0a,
->> +    0x08, 0x04, 0x03, 0x06, 0x00, 0x00, 0x07, 0x29,
->> +    0x17, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +};
->> +define_sfdp_read(mx25l25635f);
->> -- 
->> 2.35.3
->>
-
+-- 
+Dennis Clarke
+RISC-V/SPARC/PPC/ARM/CISC
+UNIX and Linux spoken
+GreyBeard and suspenders optional
 
