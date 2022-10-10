@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C40DE5FA024
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 16:24:07 +0200 (CEST)
-Received: from localhost ([::1]:45890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0CD75FA029
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 16:24:25 +0200 (CEST)
+Received: from localhost ([::1]:38628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohthO-0001bf-Sx
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 10:24:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45754)
+	id 1ohthf-000277-Bs
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 10:24:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ohtez-0005m5-MD
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:21:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24382)
+ id 1ohtf6-0005xn-5n
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:21:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ohtey-0004cd-70
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:21:37 -0400
+ id 1ohtf3-0004d7-3i
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:21:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665411695;
+ s=mimecast20190719; t=1665411700;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=e3NUxF1+Tzq2ok79UpX3/5w8gQ7pafVbkvz8kbZnNrM=;
- b=BrzeSnNRH48mc36PkXC8pSkXeNkRHATFsSx8ceCMWrdIcG87PLuFFwvTDzH17nEaAnG0pB
- Ee8yaxsB90whhZhwWN96bDluP5x5NTtEfjse+owRPqg/rkU7Z4uCF0uDYwfjRtd81GZUFY
- iNOW1GPGHyq7UZVXI2ctthAe6qUiNxo=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=SzDZUS1W46+P/ZZJtbDKE4QpahPMYUtRHpGx3f4oY2s=;
+ b=FSEodPuuWYh5ZVf2Faq1XYUabaOHAEk+ZIjF9o47WqFdjVzO9ssUrd1euDS5h7bllwp+le
+ omgE+8TQZv2RMjy17TshaaLAFYuSJyeI6n1BkZye/Ky5VRTR/GqMFk6h6Ygw9MU2yutnm/
+ O3WNuouv9lQ4kctXLnRoyO069SiQxeQ=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-102-i9zxCofaM1-G6u4MhOt05w-1; Mon, 10 Oct 2022 10:21:34 -0400
-X-MC-Unique: i9zxCofaM1-G6u4MhOt05w-1
-Received: by mail-ed1-f69.google.com with SMTP id
- h15-20020a056402280f00b004590868099cso9013731ede.2
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 07:21:33 -0700 (PDT)
+ us-mta-314-tlNv0WAAPIKL45Z-NSFFgg-1; Mon, 10 Oct 2022 10:21:36 -0400
+X-MC-Unique: tlNv0WAAPIKL45Z-NSFFgg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ q17-20020a056402519100b00459a2e5adbcso9100389edd.16
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 07:21:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=e3NUxF1+Tzq2ok79UpX3/5w8gQ7pafVbkvz8kbZnNrM=;
- b=q0Af3t1G8RNN6aOwG+ry2HWdwlfg9kXfTFvwlrt+71McKmYOgNpapjQneBJ9eydasx
- thFs2cClN2IEC0+/BTixJogbtwsprbZtgGYnqkVkEvAQ+J2zJ4bbuVMJwXZau8tAwLlM
- tFIPhmbKyIjbcfqSYSXjUPr/oqu9ozEyZt81NwgRLi6+QW9ymH4vAEJMQ+6kLHdQtI+1
- JX8wDD/HxmDZ940hlOZ1PkV6PvVe5Ey2xmCO34SaYrvBzox+ekalLQbVJ4EIRV4yMEia
- h9y4d9pclv32j99n5hNkJXl6QndXuwwkXL/kHM7SW5rjDcJwuZBwJBR0LRoWlS5zkrYJ
- WPEw==
-X-Gm-Message-State: ACrzQf3OJA3sVOZKT/GySlfLdPU3iVdhS+YCExObVAiLRS2Giv84RpBB
- QsciEaEa25HNAAbbfuO8ZdmTSclA4iQkcliA3E0aa+oimDDQsLQUjyzijS5lMC75hUQ8BE5/WXY
- oIK0QdAOZ5xWfX4qM5Lfg8cAZfleIfN28YGe3Xprh8ZFNX9e9F4q7vu45iVryHbr/IwE=
-X-Received: by 2002:a05:6402:148a:b0:459:2eab:9b0a with SMTP id
- e10-20020a056402148a00b004592eab9b0amr18159484edv.139.1665411692560; 
- Mon, 10 Oct 2022 07:21:32 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5pjJNdIqXGht5fxb/x65ZWABl055JMmEy9FRZzfkFDssl1ePhI4uxrQmZHMlBXpTntpRuwNw==
-X-Received: by 2002:a05:6402:148a:b0:459:2eab:9b0a with SMTP id
- e10-20020a056402148a00b004592eab9b0amr18159450edv.139.1665411692241; 
- Mon, 10 Oct 2022 07:21:32 -0700 (PDT)
+ bh=SzDZUS1W46+P/ZZJtbDKE4QpahPMYUtRHpGx3f4oY2s=;
+ b=J1kAq3BfMxUEGMhSrF0kbl/FPPuYEQDjC4sOPFmBckNCNkHtA4M9zpenPg68rm+wbX
+ ZepffAkifiUwDCxr+wM11XdZsbPgQsRzX5ylGEOj0l/c4TZO6VR4XnScIgYKJwblup6k
+ OvlikRa+ti4/Zj/z5boKuji5ITRO9318bqQaQkgJLcnAZ7rIDGCfTMj+am4nM26XzXAa
+ 7hPYxsaYRRsjcA7QzitPjMy4OIkV4q2Sj0r6Iye6DLg0djk7qG+5wjVqtl0WUYxv41SW
+ jUx55Hxn2Izz4vj08/MUiko7hbuwq0XRdQum8UnudAdxlqdTnjaOkQGBZ6XjTop0o5Pv
+ m4rQ==
+X-Gm-Message-State: ACrzQf1TwMWSPvsazR5FaI5/kqoVhOez7QQ7PfBueYPMNcLFlxjtL6+Z
+ 2exq4p+AWNPm123+UuGM1lA5YES17t2ZpNfJh/GkOu8wGkLf1Br9vG3UYjWwYcMJ+8a1s78ClNZ
+ 3Y5KDU715p8tP5rmDaYcjRhNl9CjbFPfxFZLL5qCdwqOiAsW9ShFejhzHob6tZl04X5w=
+X-Received: by 2002:a17:906:5d0d:b0:783:10cb:2829 with SMTP id
+ g13-20020a1709065d0d00b0078310cb2829mr14839811ejt.209.1665411695401; 
+ Mon, 10 Oct 2022 07:21:35 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7KCZX6aQ4m69mVI9yPWjBjkIInBdpDWnJjypurjRM92SKhJjsa81ovQPGpygd2W7TRyfFMcA==
+X-Received: by 2002:a17:906:5d0d:b0:783:10cb:2829 with SMTP id
+ g13-20020a1709065d0d00b0078310cb2829mr14839788ejt.209.1665411694899; 
+ Mon, 10 Oct 2022 07:21:34 -0700 (PDT)
 Received: from avogadro.local ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
  by smtp.gmail.com with ESMTPSA id
- l1-20020a1709060cc100b007402796f065sm1121845ejh.132.2022.10.10.07.21.31
+ b20-20020a17090630d400b0077f20a722dfsm5435230ejb.165.2022.10.10.07.21.34
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 07:21:31 -0700 (PDT)
+ Mon, 10 Oct 2022 07:21:34 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] linux-user: i386/signal: move fpstate at the end of the
- 32-bit frames
-Date: Mon, 10 Oct 2022 16:21:25 +0200
-Message-Id: <20221010142127.295676-2-pbonzini@redhat.com>
+Subject: [PATCH 2/3] linux-user: i386/signal: support FXSAVE fpstate on 32-bit
+ emulation
+Date: Mon, 10 Oct 2022 16:21:26 +0200
+Message-Id: <20221010142127.295676-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221010142127.295676-1-pbonzini@redhat.com>
 References: <20221010142127.295676-1-pbonzini@redhat.com>
@@ -101,47 +101,249 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Recent versions of Linux moved the 32-bit fpstate towards the end of the
-frame, so that the variable-sized xsave data does not overwrite the
-(ABI-defined) extramask[] field.  Follow suit in QEMU.
+Linux can use FXSAVE to save/restore XMM registers even on 32-bit
+systems.  This requires some care in order to keep the FXSAVE area
+aligned to 16 bytes; for this reason, get_sigframe is changed to
+pass the offset into the FXSAVE area rather than the full frame
+size.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- linux-user/i386/signal.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ linux-user/i386/signal.c | 129 +++++++++++++++++++++++----------------
+ 1 file changed, 77 insertions(+), 52 deletions(-)
 
 diff --git a/linux-user/i386/signal.c b/linux-user/i386/signal.c
-index 4372621a4d..76317a3d16 100644
+index 76317a3d16..53c1c05581 100644
 --- a/linux-user/i386/signal.c
 +++ b/linux-user/i386/signal.c
-@@ -163,9 +163,16 @@ struct sigframe {
-     abi_ulong pretcode;
-     int sig;
-     struct target_sigcontext sc;
--    struct target_fpstate fpstate;
-+    /*
-+     * The actual fpstate is placed after retcode[] below, to make
-+     * room for the variable-sized xsave data.  The older unused fpstate
-+     * has to be kept to avoid changing the offset of extramask[], which
-+     * is part of the ABI.
-+     */
-+    struct target_fpstate fpstate_unused;
+@@ -39,29 +39,7 @@ struct target_xmmreg {
+     uint32_t element[4];
+ };
+ 
+-struct target_fpstate_32 {
+-    /* Regular FPU environment */
+-    uint32_t cw;
+-    uint32_t sw;
+-    uint32_t tag;
+-    uint32_t ipoff;
+-    uint32_t cssel;
+-    uint32_t dataoff;
+-    uint32_t datasel;
+-    struct target_fpreg st[8];
+-    uint16_t  status;
+-    uint16_t  magic;          /* 0xffff = regular FPU data only */
+-
+-    /* FXSR FPU environment */
+-    uint32_t _fxsr_env[6];   /* FXSR FPU env is ignored */
+-    uint32_t mxcsr;
+-    uint32_t reserved;
+-    struct target_fpxreg fxsr_st[8]; /* FXSR FPU reg data is ignored */
+-    struct target_xmmreg xmm[8];
+-    uint32_t padding[56];
+-};
+-
+-struct target_fpstate_64 {
++struct target_fpstate_fxsave {
+     /* FXSAVE format */
+     uint16_t cw;
+     uint16_t sw;
+@@ -75,11 +53,36 @@ struct target_fpstate_64 {
+     uint32_t xmm_space[64];
+     uint32_t reserved[24];
+ };
++#define TARGET_FXSAVE_SIZE   sizeof(struct target_fpstate_fxsave)
++QEMU_BUILD_BUG_ON(TARGET_FXSAVE_SIZE != 512);
++
++struct target_fpstate_32 {
++    /* Regular FPU environment */
++    uint32_t cw;
++    uint32_t sw;
++    uint32_t tag;
++    uint32_t ipoff;
++    uint32_t cssel;
++    uint32_t dataoff;
++    uint32_t datasel;
++    struct target_fpreg st[8];
++    uint16_t  status;
++    uint16_t  magic;          /* 0xffff = regular FPU data only */
++    struct target_fpstate_fxsave fxsave;
++};
++
++/*
++ * For simplicity, setup_frame aligns struct target_fpstate_32 to
++ * 16 bytes, so ensure that the FXSAVE area is also aligned.
++ */
++QEMU_BUILD_BUG_ON(offsetof(struct target_fpstate_32, fxsave) & 15);
+ 
+ #ifndef TARGET_X86_64
+ # define target_fpstate target_fpstate_32
++# define TARGET_FPSTATE_FXSAVE_OFFSET offsetof(struct target_fpstate_32, fxsave)
+ #else
+-# define target_fpstate target_fpstate_64
++# define target_fpstate target_fpstate_fxsave
++# define TARGET_FPSTATE_FXSAVE_OFFSET 0
+ #endif
+ 
+ struct target_sigcontext_32 {
+@@ -172,8 +175,16 @@ struct sigframe {
+     struct target_fpstate fpstate_unused;
      abi_ulong extramask[TARGET_NSIG_WORDS-1];
      char retcode[8];
-+    struct target_fpstate fpstate;
+-    struct target_fpstate fpstate;
++
++    /*
++     * This field must be 16-byte aligned in memory.  Applying QEMU_ALIGNED
++     * to it ensures that the base of the frame has an appropriate alignment
++     * too.
++     */
++    struct target_fpstate fpstate QEMU_ALIGNED(8);
  };
++#define TARGET_SIGFRAME_FXSAVE_OFFSET (                                    \
++    offsetof(struct sigframe, fpstate) + TARGET_FPSTATE_FXSAVE_OFFSET)
  
  struct rt_sigframe {
-@@ -175,8 +182,8 @@ struct rt_sigframe {
-     abi_ulong puc;
+     abi_ulong pretcode;
+@@ -183,25 +194,35 @@ struct rt_sigframe {
      struct target_siginfo info;
      struct target_ucontext uc;
--    struct target_fpstate fpstate;
      char retcode[8];
-+    struct target_fpstate fpstate;
+-    struct target_fpstate fpstate;
++    struct target_fpstate fpstate QEMU_ALIGNED(8);
  };
- 
+-
++#define TARGET_RT_SIGFRAME_FXSAVE_OFFSET (                                 \
++    offsetof(struct rt_sigframe, fpstate) + TARGET_FPSTATE_FXSAVE_OFFSET)
  #else
+ 
+ struct rt_sigframe {
+     abi_ulong pretcode;
+     struct target_ucontext uc;
+     struct target_siginfo info;
+-    struct target_fpstate fpstate;
++    struct target_fpstate fpstate QEMU_ALIGNED(16);
+ };
+-
++#define TARGET_RT_SIGFRAME_FXSAVE_OFFSET (                                 \
++    offsetof(struct rt_sigframe, fpstate) + TARGET_FPSTATE_FXSAVE_OFFSET)
+ #endif
+ 
+ /*
+  * Set up a signal frame.
+  */
+ 
+-/* XXX: save x87 state */
++static void fxsave_sigcontext(CPUX86State *env, struct target_fpstate_fxsave *fxsave,
++                              abi_ulong fxsave_addr)
++{
++    /* fxsave_addr must be 16 byte aligned for fxsave */
++    assert(!(fxsave_addr & 0xf));
++
++    cpu_x86_fxsave(env, fxsave_addr);
++}
++
+ static void setup_sigcontext(struct target_sigcontext *sc,
+         struct target_fpstate *fpstate, CPUX86State *env, abi_ulong mask,
+         abi_ulong fpstate_addr)
+@@ -233,13 +254,14 @@ static void setup_sigcontext(struct target_sigcontext *sc,
+ 
+     cpu_x86_fsave(env, fpstate_addr, 1);
+     fpstate->status = fpstate->sw;
+-    magic = 0xffff;
++    if (!(env->features[FEAT_1_EDX] & CPUID_FXSR)) {
++        magic = 0xffff;
++    } else {
++        fxsave_sigcontext(env, &fpstate->fxsave,
++                          fpstate_addr + TARGET_FPSTATE_FXSAVE_OFFSET);
++        magic = 0;
++    }
+     __put_user(magic, &fpstate->magic);
+-    __put_user(fpstate_addr, &sc->fpstate);
+-
+-    /* non-iBCS2 extensions.. */
+-    __put_user(mask, &sc->oldmask);
+-    __put_user(env->cr[2], &sc->cr2);
+ #else
+     __put_user(env->regs[R_EDI], &sc->rdi);
+     __put_user(env->regs[R_ESI], &sc->rsi);
+@@ -269,15 +291,14 @@ static void setup_sigcontext(struct target_sigcontext *sc,
+     __put_user((uint16_t)0, &sc->fs);
+     __put_user(env->segs[R_SS].selector, &sc->ss);
+ 
++    fxsave_sigcontext(env, fpstate, fpstate_addr);
++#endif
++
++    __put_user(fpstate_addr, &sc->fpstate);
++
++    /* non-iBCS2 extensions.. */
+     __put_user(mask, &sc->oldmask);
+     __put_user(env->cr[2], &sc->cr2);
+-
+-    /* fpstate_addr must be 16 byte aligned for fxsave */
+-    assert(!(fpstate_addr & 0xf));
+-
+-    cpu_x86_fxsave(env, fpstate_addr);
+-    __put_user(fpstate_addr, &sc->fpstate);
+-#endif
+ }
+ 
+ /*
+@@ -285,7 +306,7 @@ static void setup_sigcontext(struct target_sigcontext *sc,
+  */
+ 
+ static inline abi_ulong
+-get_sigframe(struct target_sigaction *ka, CPUX86State *env, size_t frame_size)
++get_sigframe(struct target_sigaction *ka, CPUX86State *env, size_t fxsave_offset)
+ {
+     unsigned long esp;
+ 
+@@ -309,11 +330,11 @@ get_sigframe(struct target_sigaction *ka, CPUX86State *env, size_t frame_size)
+ #endif
+     }
+ 
+-#ifndef TARGET_X86_64
+-    return (esp - frame_size) & -8ul;
+-#else
+-    return ((esp - frame_size) & (~15ul)) - 8;
+-#endif
++    if (!(env->features[FEAT_1_EDX] & CPUID_FXSR)) {
++        return (esp - (fxsave_offset + TARGET_FXSAVE_SIZE)) & -8ul;
++    } else {
++        return ((esp - TARGET_FXSAVE_SIZE) & -16ul) - fxsave_offset;
++    }
+ }
+ 
+ #ifndef TARGET_X86_64
+@@ -341,7 +362,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
+     struct sigframe *frame;
+     int i;
+ 
+-    frame_addr = get_sigframe(ka, env, sizeof(*frame));
++    frame_addr = get_sigframe(ka, env, TARGET_SIGFRAME_FXSAVE_OFFSET);
+     trace_user_setup_frame(env, frame_addr);
+ 
+     if (!lock_user_struct(VERIFY_WRITE, frame, frame_addr, 0))
+@@ -397,7 +418,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+     struct rt_sigframe *frame;
+     int i;
+ 
+-    frame_addr = get_sigframe(ka, env, sizeof(*frame));
++    frame_addr = get_sigframe(ka, env, TARGET_RT_SIGFRAME_FXSAVE_OFFSET);
+     trace_user_setup_rt_frame(env, frame_addr);
+ 
+     if (!lock_user_struct(VERIFY_WRITE, frame, frame_addr, 0))
+@@ -529,7 +550,11 @@ restore_sigcontext(CPUX86State *env, struct target_sigcontext *sc)
+             goto badframe;
+         }
+ #ifndef TARGET_X86_64
+-        cpu_x86_frstor(env, fpstate_addr, 1);
++        if (!(env->features[FEAT_1_EDX] & CPUID_FXSR)) {
++            cpu_x86_frstor(env, fpstate_addr, 1);
++        } else {
++            cpu_x86_fxrstor(env, fpstate_addr + TARGET_FPSTATE_FXSAVE_OFFSET);
++        }
+ #else
+         cpu_x86_fxrstor(env, fpstate_addr);
+ #endif
 -- 
 2.37.3
 
