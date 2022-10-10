@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E413F5F9F90
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 15:42:45 +0200 (CEST)
-Received: from localhost ([::1]:43338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A537D5F9F92
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 15:42:53 +0200 (CEST)
+Received: from localhost ([::1]:39854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oht3N-0003sv-17
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 09:42:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40948)
+	id 1oht3U-0004LH-Mq
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 09:42:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ohsvG-000108-M2
+ (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ohsvG-0000zu-NO
  for qemu-devel@nongnu.org; Mon, 10 Oct 2022 09:34:23 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:48746)
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c]:58906)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ohsvB-0005K8-0Z
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 09:34:20 -0400
+ (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ohsvB-0005KD-0Z
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 09:34:18 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 27E1C1F8EF;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 9A6DD219C4;
  Mon, 10 Oct 2022 13:34:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
  t=1665408855; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h5OBUZNH7NOyqSuyiWgAKL7M/7/MeSlkQLE3XtRV5eo=;
- b=P4eXW19zK5ZMbUuCwHd0mvM5Yz7CipvURjDaPZpmoF2McR0DxwB1fbPA8htliOKzdF3/A3
- LNn1rz/kbCb7WNk/LeElTjmlHhKyV8z7tlRWEe5YbLoUYFWa5lKfXNaPvD/Qy3psnNRs6u
- +itgaSOBi+aXayfKUGNAegE3iNX8tq4=
+ bh=wQIQjZe3/s5Z7h2Qk9gj7o9NRBQIR6PIhbUVeetfc3Q=;
+ b=UjuzJSm2yR1T1iPvkR4a+LginrO7nRkQY5bk0Fczed//hmhpScHOjDiWk8ui+TR/wQNM7C
+ SYnWdBT3rMIE2CGq7rmS4OU3hR4sIjR6Xgv4cZjh2559efzZi3rG5TKJJ8Zru82hA30cf7
+ JN11d/EVFWocXnn/pjSPdWhgTAGx8hE=
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9505B13479;
- Mon, 10 Oct 2022 13:34:14 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2B7AD13AF4;
+ Mon, 10 Oct 2022 13:34:15 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id IGeYIVYfRGNsAwAAMHmgww
- (envelope-from <nborisov@suse.com>); Mon, 10 Oct 2022 13:34:14 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id gKGBB1cfRGNsAwAAMHmgww
+ (envelope-from <nborisov@suse.com>); Mon, 10 Oct 2022 13:34:15 +0000
 From: Nikolay Borisov <nborisov@suse.com>
 To: dgilbert@redhat.com,
 	berrange@redhat.com
 Cc: qemu-devel@nongnu.org, jfehlig@suse.com, Claudio.Fontana@suse.com,
  dfaggioli@suse.com, Nikolay Borisov <nborisov@suse.com>
-Subject: [PATCH v2 03/11] migration: Make migration json writer part of
- MigrationState struct
-Date: Mon, 10 Oct 2022 16:34:00 +0300
-Message-Id: <20221010133408.3214433-4-nborisov@suse.com>
+Subject: [PATCH v2 04/11] io: add pwritev support to QIOChannelFile
+Date: Mon, 10 Oct 2022 16:34:01 +0300
+Message-Id: <20221010133408.3214433-5-nborisov@suse.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221010133408.3214433-1-nborisov@suse.com>
 References: <20221010133408.3214433-1-nborisov@suse.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=nborisov@suse.com;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2001:67c:2178:6::1c;
+ envelope-from=nborisov@suse.com; helo=smtp-out1.suse.de
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,162 +78,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is required so that migration stream configuration is written
-to the migration stream. This would allow analyze-migration to
-parse enabled capabilities for the migration and adjust its behavior
-accordingly. This is in preparation for analyze-migration.py to support
-'fixed-ram' capability format changes.
+The upcoming 'fixed-ram' feature would require qemu to write data at
+specific offsets of the file. This is currently missing so this patch
+adds it. I've chosen to implement it as a type-specific function rather
+than plumb it through the generic channel interface as it relies on
+being able to do seeks.
 
 Signed-off-by: Nikolay Borisov <nborisov@suse.com>
 ---
- migration/migration.c |  5 +++++
- migration/migration.h |  3 +++
- migration/savevm.c    | 38 ++++++++++++++++++++++----------------
- 3 files changed, 30 insertions(+), 16 deletions(-)
+ include/io/channel-file.h |  5 +++++
+ io/channel-file.c         | 24 ++++++++++++++++++++++++
+ 2 files changed, 29 insertions(+)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 140b0f1a54bd..d0779bbaf862 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1896,6 +1896,8 @@ static void migrate_fd_cleanup(MigrationState *s)
-     g_free(s->hostname);
-     s->hostname = NULL;
+diff --git a/include/io/channel-file.h b/include/io/channel-file.h
+index 50e8eb113868..0a5d54f5e58e 100644
+--- a/include/io/channel-file.h
++++ b/include/io/channel-file.h
+@@ -89,4 +89,9 @@ qio_channel_file_new_path(const char *path,
+                           mode_t mode,
+                           Error **errp);
  
-+    json_writer_free(s->vmdesc);
-+
-     qemu_savevm_state_cleanup();
- 
-     if (s->to_dst_file) {
-@@ -2154,6 +2156,7 @@ void migrate_init(MigrationState *s)
-     error_free(s->error);
-     s->error = NULL;
-     s->hostname = NULL;
-+    s->vmdesc = NULL;
- 
-     migrate_set_state(&s->state, MIGRATION_STATUS_NONE, MIGRATION_STATUS_SETUP);
- 
-@@ -4269,6 +4272,8 @@ void migrate_fd_connect(MigrationState *s, Error *error_in)
-         return;
-     }
- 
-+    s->vmdesc = json_writer_new(false);
-+
-     if (multifd_save_setup(&local_err) != 0) {
-         error_report_err(local_err);
-         migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
-diff --git a/migration/migration.h b/migration/migration.h
-index cdad8aceaaab..96f27aba2210 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -17,6 +17,7 @@
- #include "exec/cpu-common.h"
- #include "hw/qdev-core.h"
- #include "qapi/qapi-types-migration.h"
-+#include "qapi/qmp/json-writer.h"
- #include "qemu/thread.h"
- #include "qemu/coroutine_int.h"
- #include "io/channel.h"
-@@ -261,6 +262,8 @@ struct MigrationState {
- 
-     int state;
- 
-+    JSONWriter *vmdesc;
-+
-     /* State related to return path */
-     struct {
-         /* Protected by qemu_file_lock */
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 48e85c052c2c..174cdbefc29d 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -1137,13 +1137,18 @@ void qemu_savevm_non_migratable_list(strList **reasons)
- 
- void qemu_savevm_state_header(QEMUFile *f)
- {
-+    MigrationState *s = migrate_get_current();
-     trace_savevm_state_header();
-     qemu_put_be32(f, QEMU_VM_FILE_MAGIC);
-     qemu_put_be32(f, QEMU_VM_FILE_VERSION);
- 
--    if (migrate_get_current()->send_configuration) {
-+    if (s->send_configuration) {
-         qemu_put_byte(f, QEMU_VM_CONFIGURATION);
--        vmstate_save_state(f, &vmstate_configuration, &savevm_state, 0);
-+	json_writer_start_object(s->vmdesc, NULL);
-+	json_writer_start_object(s->vmdesc, "configuration");
-+        vmstate_save_state(f, &vmstate_configuration, &savevm_state, s->vmdesc);
-+	json_writer_end_object(s->vmdesc);
-+
-     }
++ssize_t qio_channel_file_pwritev(QIOChannel *ioc,
++				 const struct iovec *iov,
++				 size_t niov,
++				 off_t offset,
++				 Error **errp);
+ #endif /* QIO_CHANNEL_FILE_H */
+diff --git a/io/channel-file.c b/io/channel-file.c
+index b67687c2aa64..da17d0a11ba7 100644
+--- a/io/channel-file.c
++++ b/io/channel-file.c
+@@ -136,6 +136,30 @@ static ssize_t qio_channel_file_writev(QIOChannel *ioc,
+     return ret;
  }
  
-@@ -1364,15 +1369,16 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
-                                                     bool in_postcopy,
-                                                     bool inactivate_disks)
- {
--    g_autoptr(JSONWriter) vmdesc = NULL;
-+    MigrationState *s = migrate_get_current();
-     int vmdesc_len;
-     SaveStateEntry *se;
-     int ret;
- 
--    vmdesc = json_writer_new(false);
--    json_writer_start_object(vmdesc, NULL);
--    json_writer_int64(vmdesc, "page_size", qemu_target_page_size());
--    json_writer_start_array(vmdesc, "devices");
-+    if (!s->send_configuration) {
-+	    json_writer_start_object(s->vmdesc, NULL);
++ssize_t qio_channel_file_pwritev(QIOChannel *ioc,
++				 const struct iovec *iov,
++				 size_t niov,
++				 off_t offset,
++				 Error **errp)
++{
++    QIOChannelFile *fioc = QIO_CHANNEL_FILE(ioc);
++    ssize_t ret;
++
++ retry:
++    ret = pwritev(fioc->fd, iov, niov, offset);
++    if (ret <= 0) {
++        if (errno == EAGAIN) {
++            return QIO_CHANNEL_ERR_BLOCK;
++        }
++        if (errno == EINTR) {
++            goto retry;
++        }
++        error_setg_errno(errp, errno, "Unable to write to file");
++        return -1;
 +    }
-+    json_writer_int64(s->vmdesc, "page_size", qemu_target_page_size());
-+    json_writer_start_array(s->vmdesc, "devices");
-     QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
- 
-         if ((!se->ops || !se->ops->save_state) && !se->vmsd) {
-@@ -1385,12 +1391,12 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
- 
-         trace_savevm_section_start(se->idstr, se->section_id);
- 
--        json_writer_start_object(vmdesc, NULL);
--        json_writer_str(vmdesc, "name", se->idstr);
--        json_writer_int64(vmdesc, "instance_id", se->instance_id);
-+        json_writer_start_object(s->vmdesc, NULL);
-+        json_writer_str(s->vmdesc, "name", se->idstr);
-+        json_writer_int64(s->vmdesc, "instance_id", se->instance_id);
- 
-         save_section_header(f, se, QEMU_VM_SECTION_FULL);
--        ret = vmstate_save(f, se, vmdesc);
-+        ret = vmstate_save(f, se, s->vmdesc);
-         if (ret) {
-             qemu_file_set_error(f, ret);
-             return ret;
-@@ -1398,7 +1404,7 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
-         trace_savevm_section_end(se->idstr, se->section_id, 0);
-         save_section_footer(f, se);
- 
--        json_writer_end_object(vmdesc);
-+        json_writer_end_object(s->vmdesc);
-     }
- 
-     if (inactivate_disks) {
-@@ -1417,14 +1423,14 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
-         qemu_put_byte(f, QEMU_VM_EOF);
-     }
- 
--    json_writer_end_array(vmdesc);
--    json_writer_end_object(vmdesc);
--    vmdesc_len = strlen(json_writer_get(vmdesc));
-+    json_writer_end_array(s->vmdesc);
-+    json_writer_end_object(s->vmdesc);
-+    vmdesc_len = strlen(json_writer_get(s->vmdesc));
- 
-     if (should_send_vmdesc()) {
-         qemu_put_byte(f, QEMU_VM_VMDESCRIPTION);
-         qemu_put_be32(f, vmdesc_len);
--        qemu_put_buffer(f, (uint8_t *)json_writer_get(vmdesc), vmdesc_len);
-+        qemu_put_buffer(f, (uint8_t *)json_writer_get(s->vmdesc), vmdesc_len);
-     }
- 
-     return 0;
++    return ret;
++}
++
+ static int qio_channel_file_set_blocking(QIOChannel *ioc,
+                                          bool enabled,
+                                          Error **errp)
 -- 
 2.34.1
 
