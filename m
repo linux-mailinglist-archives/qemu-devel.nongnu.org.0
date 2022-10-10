@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F0EE5FA079
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 16:50:26 +0200 (CEST)
-Received: from localhost ([::1]:59484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70CA45FA052
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 16:42:47 +0200 (CEST)
+Received: from localhost ([::1]:44286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohu6r-0001Fe-Ae
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 10:50:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52956)
+	id 1ohtzS-000177-C6
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 10:42:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ohtkw-0006Dg-5F
+ id 1ohtkw-0006GE-PN
  for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:27:46 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:45996)
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:38835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ohtku-0005Yq-1F
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:27:45 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- l16-20020a05600c4f1000b003c6c0d2a445so460947wmq.4
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 07:27:43 -0700 (PDT)
+ id 1ohtkv-0005Z2-3X
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:27:46 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ r8-20020a1c4408000000b003c47d5fd475so3428281wma.3
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 07:27:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=U4bZaH9ewSTtKGJ2hCxNf/XLdmqRHOO4aZlMXbD0cQY=;
- b=GxVYy9sCyoGr8DOHU4jr7vQUSUEbfplVpoo16SMBWSuQ4j+f8cYTzEcKuQ1maR0AAs
- /NYySrY6EtyVgnrmZwnkjIfI3CH4CpByggzj3Yi7gx+qTrKcAO2nhGLxtJOQJgoEUbp5
- PdaUqyEvOuYAU5dcaG1IwTimLGBcustxINrnBAm81V8RgRPOu1OgB5pes4shzX8e+7s0
- 5vWH220hlkulm6I+QfzhgBvt+Ack/9Hixw4ih1AFrrmtIu3z7Mtzkiw2Fr5G2ENZP8c2
- 1L6IWtSmGFBDR67DLL/0bh5oigZagKwvsxKpUqVImgqb3tYKvY0KyGpPjxlDy8275ZTJ
- ZvaQ==
+ :reply-to; bh=sCOloJHZeHe5fACLnqjx6IG4hS5rmNF8WAFU0jQEu+w=;
+ b=auIbe8PW8r8nDIl7SZtwWVk8lk4xuXv1RKsC6JaP+w03HG3hF0xET8qfQQhrMZk7SV
+ XV8NOuzYdY+G6oqhlx/6O0/vO4uyP27ZSFviMR5O7TpghjLQIvLOEqJ/V/hGZwtxNoWw
+ 80Xceu8E6GlzDKPrDquW9fLdvliC2eof6zixDDyk4OcY32fHK0NuqB1/UqHnKagueLVe
+ v8ph497s7LKRC7fDu/49nZz3T1XElxfqPi7c9sCFliNmpUeQJbubAHKQ1N3j0x2ubGJx
+ 72xicsgzKXuoTCvdhPJlF8BVlZMY9gpHuxskGsAydB4umCz7OjykxtWaOAo4Ri0v1U/r
+ xMFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=U4bZaH9ewSTtKGJ2hCxNf/XLdmqRHOO4aZlMXbD0cQY=;
- b=kV6N/2HvMoDuSWFrw7H+Ck9MjCH0et8z74G8JPjluaylfOG1gQUHGRRqOoo+YOwylK
- yHgZ1k1tmUTIhstegwNwcE0H4Zmsd6iVSXUWYpei31wYRC/qXvh1gjdGRkOL11t9B+G7
- AJt7/gWszg1SGaMmnapHYDDZVzaoiTOpguBY1lZshaOKp77j22S6HwtPSOIxkE5ceESx
- 0H5RrBZCqc3k/9o9KTndgyWFIxlcATjYEkmblnBnVEgZV+4PQM9cFR8ygZODh4VY+sHT
- 8vhAOoYQVRhS0IPZFvaxPCjWN8IOobVcbTCQ0pYtcHtWwRckL/cUHYAKnfPw5wouvzqq
- 2T1w==
-X-Gm-Message-State: ACrzQf3bdSmb4I/Kd/dOIltTBEYU7PClaTZtwKAp6zDUd6+UMOC1lhAt
- xHExo1ad8EUFJibBUcyhx/KJcLzOh/YSSw==
-X-Google-Smtp-Source: AMsMyM4a+xBRoQ7ROsXMCd4VBluOhLr/f6oF1Ds2Jlt0aSlS/KfN6DL/BdMaKQKbSV3cS30Rcw+Gow==
-X-Received: by 2002:a05:600c:5114:b0:3b5:428:cf67 with SMTP id
- o20-20020a05600c511400b003b50428cf67mr20539446wms.80.1665412062233; 
- Mon, 10 Oct 2022 07:27:42 -0700 (PDT)
+ bh=sCOloJHZeHe5fACLnqjx6IG4hS5rmNF8WAFU0jQEu+w=;
+ b=ZuI43QjafZj9zxqKauiSeSYthqx0Ju4Xw28Xm3csJH9xrbedpt+lYU7Deqnm5wvqrh
+ JXGz6gCspQPRAQ0Xf0xS0xzqsH48rNPPlJX7i5v6tWyTbaj5X9WVA4U5EIFij8zZG0Qq
+ poYtgs/ahyNqaeb6zUvspxEkrDSO0Ku5iVwphYJWMqeX0HXJh5Mc3hZvtPOUHPWwE5Nr
+ Rbiv+54mtO6dKxqC3H8zmI8sf/Ff0DsWGnGmwyNIHGBBpoi91VYDK2BVtvTTMvwTpapq
+ uCu1542Pdqw7S4cxA6HEfXHWgyUbpO+z1pBdqaRigElri/Pa6WD1M5oHAiXY6UmYANUy
+ DZrw==
+X-Gm-Message-State: ACrzQf34Q1tqM+Pp3ShMt6bHQrWtP/9KjTEUOFB2cJrbqFl6617Mf56P
+ b0kW7JE/jF3ZS7mb4PU/rnKodPVS6LtMew==
+X-Google-Smtp-Source: AMsMyM67zG2IX4jptFXnZfPr5Xc6KY3FCPsjiq6H9mlyjuhN59DmFHT0apE7f1B/YRRxiA/6McjTAQ==
+X-Received: by 2002:a7b:c5c2:0:b0:3c4:fd96:fb68 with SMTP id
+ n2-20020a7bc5c2000000b003c4fd96fb68mr7556742wmk.36.1665412063194; 
+ Mon, 10 Oct 2022 07:27:43 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- u6-20020adfed46000000b0022e04bfa661sm9037054wro.59.2022.10.10.07.27.41
+ u6-20020adfed46000000b0022e04bfa661sm9037054wro.59.2022.10.10.07.27.42
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 07:27:41 -0700 (PDT)
+ Mon, 10 Oct 2022 07:27:42 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/28] target/arm: Split out get_phys_addr_with_secure
-Date: Mon, 10 Oct 2022 15:27:11 +0100
-Message-Id: <20221010142730.502083-10-peter.maydell@linaro.org>
+Subject: [PULL 10/28] target/arm: Add is_secure parameter to v7m_read_half_insn
+Date: Mon, 10 Oct 2022 15:27:12 +0100
+Message-Id: <20221010142730.502083-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221010142730.502083-1-peter.maydell@linaro.org>
 References: <20221010142730.502083-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,141 +93,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Retain the existing get_phys_addr interface using the security
-state derived from mmu_idx.  Move the kerneldoc comments to the
-header file where they belong.
+Remove the use of regime_is_secure from v7m_read_half_insn, using
+the new parameter instead.
+
+As it happens, both callers pass true, propagated from the argument
+to arm_v7m_mmu_idx_for_secstate which created the mmu_idx argument,
+but that is a detail of v7m_handle_execute_nsc we need not expose
+to the callee.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20221001162318.153420-6-richard.henderson@linaro.org
+Message-id: 20221001162318.153420-7-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/internals.h | 40 ++++++++++++++++++++++++++++++++++++++
- target/arm/ptw.c       | 44 ++++++++++++++----------------------------
- 2 files changed, 55 insertions(+), 29 deletions(-)
+ target/arm/m_helper.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 307a5965053..3524d11dc57 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1145,6 +1145,46 @@ typedef struct GetPhysAddrResult {
-     ARMCacheAttrs cacheattrs;
- } GetPhysAddrResult;
- 
-+/**
-+ * get_phys_addr_with_secure: get the physical address for a virtual address
-+ * @env: CPUARMState
-+ * @address: virtual address to get physical address for
-+ * @access_type: 0 for read, 1 for write, 2 for execute
-+ * @mmu_idx: MMU index indicating required translation regime
-+ * @is_secure: security state for the access
-+ * @result: set on translation success.
-+ * @fi: set to fault info if the translation fails
-+ *
-+ * Find the physical address corresponding to the given virtual address,
-+ * by doing a translation table walk on MMU based systems or using the
-+ * MPU state on MPU based systems.
-+ *
-+ * Returns false if the translation was successful. Otherwise, phys_ptr, attrs,
-+ * prot and page_size may not be filled in, and the populated fsr value provides
-+ * information on why the translation aborted, in the format of a
-+ * DFSR/IFSR fault register, with the following caveats:
-+ *  * we honour the short vs long DFSR format differences.
-+ *  * the WnR bit is never set (the caller must do this).
-+ *  * for PSMAv5 based systems we don't bother to return a full FSR format
-+ *    value.
-+ */
-+bool get_phys_addr_with_secure(CPUARMState *env, target_ulong address,
-+                               MMUAccessType access_type,
-+                               ARMMMUIdx mmu_idx, bool is_secure,
-+                               GetPhysAddrResult *result, ARMMMUFaultInfo *fi)
-+    __attribute__((nonnull));
-+
-+/**
-+ * get_phys_addr: get the physical address for a virtual address
-+ * @env: CPUARMState
-+ * @address: virtual address to get physical address for
-+ * @access_type: 0 for read, 1 for write, 2 for execute
-+ * @mmu_idx: MMU index indicating required translation regime
-+ * @result: set on translation success.
-+ * @fi: set to fault info if the translation fails
-+ *
-+ * Similarly, but use the security regime of @mmu_idx.
-+ */
- bool get_phys_addr(CPUARMState *env, target_ulong address,
-                    MMUAccessType access_type, ARMMMUIdx mmu_idx,
-                    GetPhysAddrResult *result, ARMMMUFaultInfo *fi)
-diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index d789807b086..74dcb843fe2 100644
---- a/target/arm/ptw.c
-+++ b/target/arm/ptw.c
-@@ -2260,35 +2260,12 @@ static ARMCacheAttrs combine_cacheattrs(CPUARMState *env,
-     return ret;
+diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
+index 5ee4ee15b36..203ba411f64 100644
+--- a/target/arm/m_helper.c
++++ b/target/arm/m_helper.c
+@@ -1981,7 +1981,7 @@ static bool do_v7m_function_return(ARMCPU *cpu)
+     return true;
  }
  
--/**
-- * get_phys_addr - get the physical address for this virtual address
-- *
-- * Find the physical address corresponding to the given virtual address,
-- * by doing a translation table walk on MMU based systems or using the
-- * MPU state on MPU based systems.
-- *
-- * Returns false if the translation was successful. Otherwise, phys_ptr, attrs,
-- * prot and page_size may not be filled in, and the populated fsr value provides
-- * information on why the translation aborted, in the format of a
-- * DFSR/IFSR fault register, with the following caveats:
-- *  * we honour the short vs long DFSR format differences.
-- *  * the WnR bit is never set (the caller must do this).
-- *  * for PSMAv5 based systems we don't bother to return a full FSR format
-- *    value.
-- *
-- * @env: CPUARMState
-- * @address: virtual address to get physical address for
-- * @access_type: 0 for read, 1 for write, 2 for execute
-- * @mmu_idx: MMU index indicating required translation regime
-- * @result: set on translation success.
-- * @fi: set to fault info if the translation fails
-- */
--bool get_phys_addr(CPUARMState *env, target_ulong address,
--                   MMUAccessType access_type, ARMMMUIdx mmu_idx,
--                   GetPhysAddrResult *result, ARMMMUFaultInfo *fi)
-+bool get_phys_addr_with_secure(CPUARMState *env, target_ulong address,
-+                               MMUAccessType access_type, ARMMMUIdx mmu_idx,
-+                               bool is_secure, GetPhysAddrResult *result,
-+                               ARMMMUFaultInfo *fi)
+-static bool v7m_read_half_insn(ARMCPU *cpu, ARMMMUIdx mmu_idx,
++static bool v7m_read_half_insn(ARMCPU *cpu, ARMMMUIdx mmu_idx, bool secure,
+                                uint32_t addr, uint16_t *insn)
  {
-     ARMMMUIdx s1_mmu_idx = stage_1_mmu_idx(mmu_idx);
--    bool is_secure = regime_is_secure(env, mmu_idx);
+     /*
+@@ -2003,8 +2003,7 @@ static bool v7m_read_half_insn(ARMCPU *cpu, ARMMMUIdx mmu_idx,
+     ARMMMUFaultInfo fi = {};
+     MemTxResult txres;
  
-     if (mmu_idx != s1_mmu_idx) {
+-    v8m_security_lookup(env, addr, MMU_INST_FETCH, mmu_idx,
+-                        regime_is_secure(env, mmu_idx), &sattrs);
++    v8m_security_lookup(env, addr, MMU_INST_FETCH, mmu_idx, secure, &sattrs);
+     if (!sattrs.nsc || sattrs.ns) {
          /*
-@@ -2304,8 +2281,8 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
-             ARMMMUIdx s2_mmu_idx;
-             bool is_el0;
+          * This must be the second half of the insn, and it straddles a
+@@ -2109,7 +2108,7 @@ static bool v7m_handle_execute_nsc(ARMCPU *cpu)
+     /* We want to do the MPU lookup as secure; work out what mmu_idx that is */
+     mmu_idx = arm_v7m_mmu_idx_for_secstate(env, true);
  
--            ret = get_phys_addr(env, address, access_type, s1_mmu_idx,
--                                result, fi);
-+            ret = get_phys_addr_with_secure(env, address, access_type,
-+                                            s1_mmu_idx, is_secure, result, fi);
- 
-             /* If S1 fails or S2 is disabled, return early.  */
-             if (ret || regime_translation_disabled(env, ARMMMUIdx_Stage2,
-@@ -2517,6 +2494,15 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
+-    if (!v7m_read_half_insn(cpu, mmu_idx, env->regs[15], &insn)) {
++    if (!v7m_read_half_insn(cpu, mmu_idx, true, env->regs[15], &insn)) {
+         return false;
      }
- }
  
-+bool get_phys_addr(CPUARMState *env, target_ulong address,
-+                   MMUAccessType access_type, ARMMMUIdx mmu_idx,
-+                   GetPhysAddrResult *result, ARMMMUFaultInfo *fi)
-+{
-+    return get_phys_addr_with_secure(env, address, access_type, mmu_idx,
-+                                     regime_is_secure(env, mmu_idx),
-+                                     result, fi);
-+}
-+
- hwaddr arm_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
-                                          MemTxAttrs *attrs)
- {
+@@ -2125,7 +2124,7 @@ static bool v7m_handle_execute_nsc(ARMCPU *cpu)
+         goto gen_invep;
+     }
+ 
+-    if (!v7m_read_half_insn(cpu, mmu_idx, env->regs[15] + 2, &insn)) {
++    if (!v7m_read_half_insn(cpu, mmu_idx, true, env->regs[15] + 2, &insn)) {
+         return false;
+     }
+ 
 -- 
 2.25.1
 
