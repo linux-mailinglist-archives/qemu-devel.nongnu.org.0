@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69B5A5F9F86
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 15:39:10 +0200 (CEST)
-Received: from localhost ([::1]:39950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07BA65F9FA4
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 15:50:54 +0200 (CEST)
+Received: from localhost ([::1]:49494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohszt-00071N-8n
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 09:39:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49850)
+	id 1ohtBE-0004Cy-33
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 09:50:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ohsvJ-00011R-LE
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 09:34:25 -0400
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d]:41698)
+ (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ohsvL-000129-AJ
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 09:34:27 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:49140)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ohsvF-0005Kn-DL
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 09:34:24 -0400
+ (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ohsvJ-0005LR-1k
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 09:34:26 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id E9D861F8F3;
- Mon, 10 Oct 2022 13:34:18 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7BD811F8F4;
+ Mon, 10 Oct 2022 13:34:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1665408858; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1665408859; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UNbkYhbIU4ghtBPpn9ujfppn4XNmhzrWo/AukZfQa5k=;
- b=B8vcZdrGlSDZrzDFYEUSs67IT1WanQ5CE5205WrxrQnVCyxOzTeohIP9W/1ZKkqXHmaRkC
- peCi7MaQk4ZHdHNWaZeLZQe6OncX4tztjbrCnrZUwznaN/no3s+7X8FkX0d237GKfMO/qA
- ldmx7OXetOWrm85yd19MZ7u2VNQIXTk=
+ bh=A50mByhzWHrQsuuwumxFXgwiK/RPKzRr2vW+FrGIFeg=;
+ b=WEQknGil4c6as8U/TYuG4+STQSZuKcACcuc5LYv7CK/qg+eDRpG4qez80e8rYGT0o0ql4M
+ qumPqfQT3q3vBoopNEdRr7jygdkGFiXr7HIc/RXuTSkfG1Cr66LUpaaDgC6GZ0MySh7KPq
+ qJ03g5CcTvmZRtBLBanYnmGL0TNa9zo=
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 758D713479;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0710F13479;
  Mon, 10 Oct 2022 13:34:18 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id OHgDGlofRGNsAwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id aFt/OlofRGNsAwAAMHmgww
  (envelope-from <nborisov@suse.com>); Mon, 10 Oct 2022 13:34:18 +0000
 From: Nikolay Borisov <nborisov@suse.com>
 To: dgilbert@redhat.com,
 	berrange@redhat.com
 Cc: qemu-devel@nongnu.org, jfehlig@suse.com, Claudio.Fontana@suse.com,
  dfaggioli@suse.com, Nikolay Borisov <nborisov@suse.com>
-Subject: [PATCH v2 10/11] migration: Add support for 'fixed-ram' migration
- restore
-Date: Mon, 10 Oct 2022 16:34:07 +0300
-Message-Id: <20221010133408.3214433-11-nborisov@suse.com>
+Subject: [PATCH v2 11/11] analyze-migration.py: add initial support for fixed
+ ram streams
+Date: Mon, 10 Oct 2022 16:34:08 +0300
+Message-Id: <20221010133408.3214433-12-nborisov@suse.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221010133408.3214433-1-nborisov@suse.com>
 References: <20221010133408.3214433-1-nborisov@suse.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d;
- envelope-from=nborisov@suse.com; helo=smtp-out2.suse.de
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=nborisov@suse.com;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,156 +79,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the necessary code to parse the format changes for 'fixed-ram'
-capability. One of the more notable changes in behavior is that in the
-'fixed-ram' case ram pages are restored in one go rather than constantly
-looping through the migration stream. Also due to idiosyncrasies of the
-format I have added the 'ram_migrated' since it was easier to simply
-return directly from ->load_state rather than introducing more
-conditionals around the code to prevent ->load_state being called
-multiple times (from
-qemu_loadvm_section_start_full/qemu_loadvm_section_part_end i.e. from
-multiple QEMU_VM_SECTION_(PART|END) flags).
+This commit introduces the minimum code necessary to support parsing
+migration strems with 'fixed-ram' capability set. The only thing really
+missing is the implementation of write_or_dump_fixed_ram() which deals
+with '-x'/'-m' options.
 
 Signed-off-by: Nikolay Borisov <nborisov@suse.com>
 ---
- migration/migration.h |  2 +
- migration/ram.c       | 95 ++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 95 insertions(+), 2 deletions(-)
+ scripts/analyze-migration.py | 49 +++++++++++++++++++++++++++++++++---
+ 1 file changed, 46 insertions(+), 3 deletions(-)
 
-diff --git a/migration/migration.h b/migration/migration.h
-index 9aab1b16f407..7a832d072415 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -96,6 +96,8 @@ struct MigrationIncomingState {
-     bool           have_listen_thread;
-     QemuThread     listen_thread;
+diff --git a/scripts/analyze-migration.py b/scripts/analyze-migration.py
+index b82a1b0c58c4..9785a640fbf8 100755
+--- a/scripts/analyze-migration.py
++++ b/scripts/analyze-migration.py
+@@ -23,6 +23,7 @@
+ import collections
+ import struct
+ import sys
++import math
  
-+    bool ram_migrated;
-+
-     /* For the kernel to send us notifications */
-     int       userfault_fd;
-     /* To notify the fault_thread to wake, e.g., when need to quit */
-diff --git a/migration/ram.c b/migration/ram.c
-index 1dd68c221667..15441ed9f745 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -4330,6 +4330,90 @@ static int parse_ramblocks(QEMUFile *f, ram_addr_t total_ram_bytes)
-     return ret;
- }
  
-+
-+static int parse_ramblocks_fixed_ram(QEMUFile *f)
-+{
-+    int ret = 0;
-+
-+    while (!ret) {
-+        char id[256];
-+        RAMBlock *block;
-+        ram_addr_t length;
-+        unsigned long clear_bit_idx;
-+        long num_pages, bitmap_size;
-+        int len = qemu_get_byte(f);
-+        g_autofree unsigned long *dirty_bitmap = NULL;
-+
-+        qemu_get_buffer(f, (uint8_t *)id, len);
-+        id[len] = 0;
-+        length = qemu_get_be64(f);
-+
-+        block = qemu_ram_block_by_name(id);
-+        if (block) {
-+            ret = parse_ramblock(f, block, length);
-+            if (ret < 0) {
-+                return ret;
-+            }
-+        } else {
-+            error_report("Unknown ramblock \"%s\", cannot accept "
-+                         "migration", id);
-+            ret = -EINVAL;
-+            continue;
-+        }
-+
-+        /* 1. read the bitmap size */
-+        num_pages = length >> TARGET_PAGE_BITS;
-+        bitmap_size = qemu_get_be32(f);
-+
-+        assert(bitmap_size == BITS_TO_LONGS(num_pages)*sizeof(unsigned long));
-+
-+        block->pages_offset = qemu_get_be64(f);
-+
-+        /* 2. read the actual bitmap */
-+        dirty_bitmap = g_malloc0(bitmap_size);
-+        if (qemu_get_buffer(f, (uint8_t *)dirty_bitmap, bitmap_size) != bitmap_size) {
-+            error_report("Error parsing dirty bitmap");
-+            return -EINVAL;
-+        }
-+
-+#define BUFSIZE (4*1024*1024)
-+        for (unsigned long set_bit_idx = find_first_bit(dirty_bitmap, num_pages);
-+             set_bit_idx < num_pages;
-+             set_bit_idx = find_next_bit(dirty_bitmap, num_pages, clear_bit_idx + 1)) {
-+
-+            clear_bit_idx = find_next_zero_bit(dirty_bitmap, num_pages, set_bit_idx + 1);
-+            unsigned long len = TARGET_PAGE_SIZE * (clear_bit_idx - set_bit_idx);
-+            ram_addr_t offset = set_bit_idx << TARGET_PAGE_BITS;
-+
-+            for (size_t written = 0, completed = 0; completed < len; offset += written) {
-+                void *host = host_from_ram_block_offset(block, offset);
-+                size_t read_len = MIN(len, BUFSIZE);
-+
-+                written = qemu_get_buffer_at(f, host, read_len,
-+                                             block->pages_offset + offset);
-+                completed += written;
-+            }
-+        }
-+
-+        /* Skip pages array */
-+        qemu_set_offset(f, block->pages_offset + length, SEEK_SET);
-+
-+        /* Check if this is the last ramblock */
-+        if (qemu_get_be64(f) == RAM_SAVE_FLAG_EOS) {
-+            ret = 1;
-+        } else {
-+            /*
-+             * If not, adjust the internal file index to account for the
-+             * previous 64 bit read
-+             */
-+            qemu_file_skip(f, -8);
-+            ret = 0;
-+        }
-+    }
-+
-+    return ret;
-+}
-+
- /**
-  * ram_load_precopy: load pages in precopy case
-  *
-@@ -4349,7 +4433,7 @@ static int ram_load_precopy(QEMUFile *f)
-         invalid_flags |= RAM_SAVE_FLAG_COMPRESS_PAGE;
-     }
+ def mkdir_p(path):
+@@ -119,11 +120,16 @@ def __init__(self, file, version_id, ramargs, section_key):
+         self.file = file
+         self.section_key = section_key
+         self.TARGET_PAGE_SIZE = ramargs['page_size']
++        self.TARGET_PAGE_BITS = math.log2(self.TARGET_PAGE_SIZE)
+         self.dump_memory = ramargs['dump_memory']
+         self.write_memory = ramargs['write_memory']
++        self.fixed_ram = ramargs['fixed-ram']
+         self.sizeinfo = collections.OrderedDict()
++        self.bitmap_offset = collections.OrderedDict()
++        self.pages_offset = collections.OrderedDict()
+         self.data = collections.OrderedDict()
+         self.data['section sizes'] = self.sizeinfo
++        self.ram_read = False
+         self.name = ''
+         if self.write_memory:
+             self.files = { }
+@@ -140,7 +146,13 @@ def __str__(self):
+     def getDict(self):
+         return self.data
  
--    while (!ret && !(flags & RAM_SAVE_FLAG_EOS)) {
-+    while (!ret && !(flags & RAM_SAVE_FLAG_EOS) && !mis->ram_migrated) {
-         ram_addr_t addr;
-         void *host = NULL, *host_bak = NULL;
-         uint8_t ch;
-@@ -4421,7 +4505,14 @@ static int ram_load_precopy(QEMUFile *f)
++    def write_or_dump_fixed_ram(self):
++        pass
++
+     def read(self):
++        if self.fixed_ram and self.ram_read:
++            return
++
+         # Read all RAM sections
+         while True:
+             addr = self.file.read64()
+@@ -167,7 +179,25 @@ def read(self):
+                         f.truncate(0)
+                         f.truncate(len)
+                         self.files[self.name] = f
++
++                    if self.fixed_ram:
++                        bitmap_len = self.file.read32()
++                        # skip the pages_offset which we don't need
++                        offset = self.file.tell() + 8
++                        self.bitmap_offset[self.name] = offset
++                        offset = ((offset + bitmap_len + self.TARGET_PAGE_SIZE - 1) // self.TARGET_PAGE_SIZE) * self.TARGET_PAGE_SIZE
++                        self.pages_offset[self.name] = offset
++                        self.file.file.seek(offset + len)
++
+                 flags &= ~self.RAM_SAVE_FLAG_MEM_SIZE
++                if self.fixed_ram:
++                    self.ram_read = True
++                # now we should rewind to the ram page offset of the first
++                # ram section
++                if self.fixed_ram:
++                    if self.write_memory or self.dump_memory:
++                        self.write_or_dump_fixed_ram()
++                        return
  
-         switch (flags & ~RAM_SAVE_FLAG_CONTINUE) {
-         case RAM_SAVE_FLAG_MEM_SIZE:
--            ret = parse_ramblocks(f, addr);
-+            if (migrate_fixed_ram()) {
-+                ret = parse_ramblocks_fixed_ram(f);
-+                if (ret == 1) {
-+                    mis->ram_migrated = true;
-+                }
-+            } else {
-+                ret = parse_ramblocks(f, addr);
-+            }
-             break;
+             if flags & self.RAM_SAVE_FLAG_COMPRESS:
+                 if flags & self.RAM_SAVE_FLAG_CONTINUE:
+@@ -208,7 +238,7 @@ def read(self):
  
-         case RAM_SAVE_FLAG_ZERO:
+             # End of RAM section
+             if flags & self.RAM_SAVE_FLAG_EOS:
+-                break
++               return
+ 
+             if flags != 0:
+                 raise Exception("Unknown RAM flags: %x" % flags)
+@@ -521,6 +551,7 @@ def read(self, desc_only = False, dump_memory = False, write_memory = False):
+         ramargs['page_size'] = self.vmsd_desc['page_size']
+         ramargs['dump_memory'] = dump_memory
+         ramargs['write_memory'] = write_memory
++        ramargs['fixed-ram'] = False
+         self.section_classes[('ram',0)][1] = ramargs
+ 
+         while True:
+@@ -528,8 +559,20 @@ def read(self, desc_only = False, dump_memory = False, write_memory = False):
+             if section_type == self.QEMU_VM_EOF:
+                 break
+             elif section_type == self.QEMU_VM_CONFIGURATION:
+-                section = ConfigurationSection(file)
+-                section.read()
++                config_desc = self.vmsd_desc.get('configuration')
++                if config_desc is not None:
++                    config = VMSDSection(file, 1, config_desc, 'configuration')
++                    config.read()
++                    caps = config.data.get("configuration/capabilities")
++                    if caps is not None:
++                        caps = caps.data["capabilities"]
++                        if type(caps) != list:
++                            caps = [caps]
++                        for i in caps:
++                            # chomp out string length
++                            cap = i.data[1:].decode("utf8")
++                            if cap == "fixed-ram":
++                                ramargs['fixed-ram'] = True
+             elif section_type == self.QEMU_VM_SECTION_START or section_type == self.QEMU_VM_SECTION_FULL:
+                 section_id = file.read32()
+                 name = file.readstr()
 -- 
 2.34.1
 
