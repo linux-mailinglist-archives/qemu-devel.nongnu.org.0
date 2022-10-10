@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 848675F9F5D
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 15:28:58 +0200 (CEST)
-Received: from localhost ([::1]:60426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8305D5F9F5A
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 15:27:06 +0200 (CEST)
+Received: from localhost ([::1]:47920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohsq1-0005TN-49
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 09:28:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52346)
+	id 1ohsoD-00023m-Km
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 09:27:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <miguel.luis@oracle.com>)
- id 1ohsko-0005hL-Lk; Mon, 10 Oct 2022 09:23:34 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:34106)
+ id 1ohskw-0005uG-4G; Mon, 10 Oct 2022 09:23:42 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:10562)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <miguel.luis@oracle.com>)
- id 1ohskk-0003To-Na; Mon, 10 Oct 2022 09:23:32 -0400
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29AC0VDf029778;
- Mon, 10 Oct 2022 13:23:25 GMT
+ id 1ohsku-0003Um-5b; Mon, 10 Oct 2022 09:23:41 -0400
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29ABv1Kk012837;
+ Mon, 10 Oct 2022 13:23:34 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id : reply-to : mime-version :
- content-transfer-encoding; s=corp-2022-7-12;
- bh=lrdteXD0GlNp/UCruHJlFtZpY6asEO1L0gvnwY64d88=;
- b=ktHWpR8T45NRuTyUmZl2nwzegy4qRii85jvmD6A4kezeWBkbSOwbUg04vlHihclXR5kj
- 3dvwLUUULcnqSzOeklwiwNTI9uIdxZcmMZIjAgwgDxMQXt9FsGsv5RkP4o65uLQzvc0W
- Bh+n0OETMvC6wntOHL+qlKHj6Q182yJL+ZjoV3DNEXdVNSjvwUI/W8glYFoSTzskps2Q
- Vkaes95xjej/Ij2aSpfMesqs5UF1yeUMqJeazYwp9rfCjHFBCRX4IPkfTpCuxOCuu0T5
- 3odLdMU57/XtY+20XsWLPdkP3rBPEuve+1MS51sYLsDWJ3flbUs1Sn/3eGmkwIM3orbk 4g== 
+ subject : date : message-id : in-reply-to : references : reply-to :
+ mime-version : content-transfer-encoding; s=corp-2022-7-12;
+ bh=5GHVn7JC7YycS7J8f1l8OLLsQyao+YPeGmO4bOOeT10=;
+ b=DUNSpnm1crfdjwG3kIU5sEdTk8NvHm5aogFQviq8agd2xUjRzZGt+udS4jrH4tbp92AF
+ 0nBXz2pWq9wuF8JB4jkuBDLeLNCvgsBneIhZ3g41tf4tD2Q7DQEhEjTPv8C0cueaJcT8
+ RWGFb7VtnfUDlvzm8YlXHyOFsNcdJaXGPVGAM3ZBwrXZHB8rVXLDB8Sm79MUXjpQ2Fhq
+ ZcnrgKmTPAazPoNI9ke4OfE257wiSxECdegroLKXvCOFNZtKIekoa3F14OSzV393IJUf
+ /wadUEzM+ffLw/+AHQSMQ9fDruPucAtUF34U080LzQ2EHWKBDOXSZMYvInc8uwwDt6wa MQ== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3k30tt3gm8-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3k31rtbk72-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 10 Oct 2022 13:23:25 +0000
+ Mon, 10 Oct 2022 13:23:34 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 29AATDG3022039; Mon, 10 Oct 2022 13:23:24 GMT
+ with ESMTP id 29ADDD1B021822; Mon, 10 Oct 2022 13:23:33 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3k2yn347xx-1
+ 3k2yn3482a-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 10 Oct 2022 13:23:24 +0000
+ Mon, 10 Oct 2022 13:23:33 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29ADNNh0019450;
- Mon, 10 Oct 2022 13:23:23 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29ADNNh2019450;
+ Mon, 10 Oct 2022 13:23:33 GMT
 Received: from mlluis-mac.uk.oracle.com (dhcp-10-175-204-94.vpn.oracle.com
  [10.175.204.94])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id
- 3k2yn347wn-1; Mon, 10 Oct 2022 13:23:23 +0000
+ 3k2yn347wn-2; Mon, 10 Oct 2022 13:23:32 +0000
 From: Miguel Luis <miguel.luis@oracle.com>
 To: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Cc: mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca,
  shannon.zhaosl@gmail.com, peter.maydell@linaro.org, miguel.luis@oracle.com
-Subject: [RFC PATCH v2 0/4] ACPI MADT and FADT update according to the ACPI
- 6.0 spec
-Date: Mon, 10 Oct 2022 13:22:56 +0000
-Message-Id: <20221010132300.96935-1-miguel.luis@oracle.com>
+Subject: [RFC PATCH v2 1/4] tests/acpi: virt: allow acpi MADT and FADT changes
+Date: Mon, 10 Oct 2022 13:22:57 +0000
+Message-Id: <20221010132300.96935-2-miguel.luis@oracle.com>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20221010132300.96935-1-miguel.luis@oracle.com>
+References: <20221010132300.96935-1-miguel.luis@oracle.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=baseguard
@@ -71,10 +72,10 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
  phishscore=0 mlxscore=0 malwarescore=0 spamscore=0 mlxlogscore=999
  bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2209130000 definitions=main-2210100080
-X-Proofpoint-GUID: azJC2kF7LVsMbkY2ZTxu5IqbDJDEy393
-X-Proofpoint-ORIG-GUID: azJC2kF7LVsMbkY2ZTxu5IqbDJDEy393
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=miguel.luis@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Proofpoint-GUID: 3l1drk8VkhU8H6AQlwSNvhBnaW9hI9SL
+X-Proofpoint-ORIG-GUID: 3l1drk8VkhU8H6AQlwSNvhBnaW9hI9SL
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=miguel.luis@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -98,54 +99,25 @@ Reply-To: miguel.luis@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The MADT table structure has been updated in commit 37f33084ed2e                 
-("acpi: arm/virt: madt: use build_append_int_noprefix() API to compose MADT table")
-to include the 5.2.12.18 GIC ITS Structure and so table's revision also needs to 
-be updated. MADT and the FADT tables from the same spec need to be in sync and in
-this case also the FADT needs to be updated.                                     
-                                                                                 
-Revision 6.0 of the ACPI FADT table introduces the field "Hypervisor Vendor      
-Identity" which is missing and must be included. Patch 2/4 includes a
-suggestion for the value of this field.
+Step 3 from bios-tables-test.c documented procedure.
 
-Ref: https://uefi.org/sites/default/files/resources/ACPI_6_0_Errata_A.PDF        
+Signed-off-by: Miguel Luis <miguel.luis@oracle.com>
+---
+ tests/qtest/bios-tables-test-allowed-diff.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Changelog:
-
-v2:
-    patch 2/4:
-    fix expression that checks for the revision number (Ani Sinha)
-    use "QEMU" as the Hypervisor Vendor ID [1] (Ani Sinha)
-
-    patch 3/4:
-    add Reviewed-by tag from Ani Sinha <ani@anisinha.ca>
-    
-
-v1: https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg00910.html
-
-Open to discussion, your comments, thoughts and suggestions are very welcome.    
-Thanks in advance.                                                               
-Miguel
-
-[1]: https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg00989.html
-
-Miguel Luis (4):
-  tests/acpi: virt: allow acpi MADT and FADT changes
-  acpi: fadt: support revision 6.0 of the ACPI specification
-  acpi: arm/virt: madt: bump to revision 4 accordingly to ACPI 6.0
-    Errata A
-  tests/acpi: virt: update ACPI MADT and FADT binaries
-
- hw/acpi/aml-build.c               |  13 ++++++++++---
- hw/arm/virt-acpi-build.c          |  26 ++++++++++++--------------
- tests/data/acpi/virt/APIC         | Bin 168 -> 172 bytes
- tests/data/acpi/virt/APIC.memhp   | Bin 168 -> 172 bytes
- tests/data/acpi/virt/APIC.numamem | Bin 168 -> 172 bytes
- tests/data/acpi/virt/FACP         | Bin 268 -> 276 bytes
- tests/data/acpi/virt/FACP.memhp   | Bin 268 -> 276 bytes
- tests/data/acpi/virt/FACP.numamem | Bin 268 -> 276 bytes
- 8 files changed, 22 insertions(+), 17 deletions(-)
-
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..8dc50f7a8a 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,7 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/virt/FACP",
++"tests/data/acpi/virt/FACP.numamem",
++"tests/data/acpi/virt/FACP.memhp",
++"tests/data/acpi/virt/APIC",
++"tests/data/acpi/virt/APIC.memhp",
++"tests/data/acpi/virt/APIC.numamem",
 -- 
 2.37.3
 
