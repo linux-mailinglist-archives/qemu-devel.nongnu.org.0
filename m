@@ -2,88 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 570595F8EF4
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Oct 2022 23:24:15 +0200 (CEST)
-Received: from localhost ([::1]:55026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D13D5F9666
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 02:56:43 +0200 (CEST)
+Received: from localhost ([::1]:33592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohdmP-0007BZ-WC
-	for lists+qemu-devel@lfdr.de; Sun, 09 Oct 2022 17:24:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42148)
+	id 1ohh61-00008j-6K
+	for lists+qemu-devel@lfdr.de; Sun, 09 Oct 2022 20:56:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ohdke-0004wl-EE; Sun, 09 Oct 2022 17:22:24 -0400
-Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:43594)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ohh4f-00070p-2x; Sun, 09 Oct 2022 20:55:17 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:36522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ohdkc-0000St-Nj; Sun, 09 Oct 2022 17:22:24 -0400
-Received: by mail-oi1-x22c.google.com with SMTP id g10so3834290oif.10;
- Sun, 09 Oct 2022 14:22:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ohh4d-0003HP-JA; Sun, 09 Oct 2022 20:55:16 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ d7-20020a17090a2a4700b0020d268b1f02so2362515pjg.1; 
+ Sun, 09 Oct 2022 17:55:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=AFKyPfZPwB0t12WItzt+LYYfbaC1i9IWPneAGDHehLg=;
- b=Bp6WfXKLV8ZWfF2YvnMzWDBgfKGMAg+tMfLrFFAXHEil9P9G3cNiHLeeb+XKehWrL8
- 5g0fCy7/OMXIawJaoTgLVO+JsNbM0A4yfJj0ZYwGfOmPv/ic6yWOzbkY6rCPhADGxii8
- 7l1h6HqnGxw0UKBF6ZlIZrAlMhBl7qlQxJyscSdN2/W6pkYHcy3jVJONyLV/IuEdrb6r
- j7Lrf6apzu9iVHwTzkAJ5TM9aeXOJ4XrxjY7xAJG9Q1rmoFxHUn8mz+ZULJsRBpxzJ4P
- VD08yJMtQtUgHQTXpI1ow3kIwdhWIVRluXpCe876v1dV0VuSWyLigy5OxIo47BMIjFqa
- RL+w==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=XDp7xeE4xN9mo2bpGh3E+Xfj/GY9xfGg2DLnMAKvId4=;
+ b=BDC3NTnWkpKbOZcv8brdczaObnSsEPf21GT9QLAMLous7Bz0Anh5ditYkI6M1Yc2pD
+ w/z0Qo2pUyJVQWypYJGQYxKXmPvLhnsVUhyp1aU39YB/IUe3lHuIEu0opR0F4ln04PAV
+ Hllcey7LitpVNqxvjaQEZhnjG0aU4JodgUTebDt4xubDaYzALMcseP0rtCfQ37MxW+8c
+ t16rol4N8oY4+zlv+hmv2bVMK2R17fFBG9Vb2kKFdTXnX0g3QTLdLoJIogjpVDVaXoYo
+ yblXtjeMKRLa5HBaQ8hpTSC+HwVRcwop+7SN9k1BTHY9/o83z6JiP0sxbdMBAHkr70oV
+ JaEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AFKyPfZPwB0t12WItzt+LYYfbaC1i9IWPneAGDHehLg=;
- b=8DzsX2ka5YJgYl6WPhh3h96UkdgqMgpggqAstWa6rn2BsKR279t8qjqDW7emmzDmc4
- zhUdtir0bdjG+cSGkq0z+bFalzUl7c2dl7L8yde19kCMN5PPVQRnJ9ErWExxzta72LpY
- 8F9NaxxbvNPry3oaVEgCNU492DzI+F9MZPPPE+BIGtLrFwnyL40/MomGEe77PsNEVKTN
- G5azXbO+JM1kSnQRx1hBG76mDZgMfuTgbyTWZ3F1yNLGQezHGP15H5sy/2ECtwXtvjrp
- eW6JmB2UfZkFaCwZ1wEugUFmzdpqs30PIpfO9KioktoFcRT/aGhj6h9w7kf8ahhdJk9H
- Av/Q==
-X-Gm-Message-State: ACrzQf1Dd2lmg34OKUQRTe9ey5JcOUJoNxW22NLrupAUT4jA5A3FCMCj
- g7WQUW/O4XJiaRcFA6DUQmQ=
-X-Google-Smtp-Source: AMsMyM4IpWndg1LVVCMs6HaUoHar+mp+vLREJooNIi3yd47/pBRTKg8oiQRvz/AXEl257wLt7BK/VQ==
-X-Received: by 2002:a05:6808:bca:b0:350:b366:157 with SMTP id
- o10-20020a0568080bca00b00350b3660157mr7670571oik.3.1665350540148; 
- Sun, 09 Oct 2022 14:22:20 -0700 (PDT)
-Received: from [192.168.10.102] ([179.247.162.105])
- by smtp.gmail.com with ESMTPSA id
- r14-20020a056870414e00b00127a6357bd5sm4262223oad.49.2022.10.09.14.22.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 09 Oct 2022 14:22:18 -0700 (PDT)
-Message-ID: <5ffbb774-d1bb-c7f6-3f0b-c9869ad9fc4d@gmail.com>
-Date: Sun, 9 Oct 2022 18:22:13 -0300
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=XDp7xeE4xN9mo2bpGh3E+Xfj/GY9xfGg2DLnMAKvId4=;
+ b=Usb2Xi/YsOnED8jqZD9kG7+fRuaxKDaaNx/SkbndsY8oJsNijnQ/UNBhnDc8jJ8Euj
+ KsCk0MVPsAHQrMaajDVbzB/YpLpX3HLPQRa6zILNA44x7ARglUswsoIsXXG6hwm2n+RV
+ /t5w3D3+QyXQ194lLJUBZJHXr5Kx4L51LgMRNtcV6jUUy+O4cDYQKaJPPa+6YCkJ6qFj
+ PTnLfAi8lYZcZKdQgit0M5kfFziy5GcX58mwotV2bKwNuiox1JEgmggTwP3ye7YnCuDF
+ G4ewe/oEUkAig+lj/jKnQL7cEjdB9ubNUIMRSMc7fNcv4okOhKrWFFESsrypVaKw4Yu9
+ ypYA==
+X-Gm-Message-State: ACrzQf2enflal2XpVPYN/aeskSByZtpRtJid0wjky1jhAOcMfPzTPriJ
+ BY9WGQ7TSb5y6VpcPQd+ggfuFPdrNWAoAzGi2LI=
+X-Google-Smtp-Source: AMsMyM4ZkdtoDR4VkYdTJSzERTy4ihsUsds0tVng0w0hocfANDfdSkl2LoaYXbGqcwEAao+hbshaxe5WZHtHAVufh54=
+X-Received: by 2002:a17:902:b092:b0:17b:833e:74f7 with SMTP id
+ p18-20020a170902b09200b0017b833e74f7mr16380591plr.149.1665363313373; Sun, 09
+ Oct 2022 17:55:13 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v2 00/13] ppc/e500: Add support for two types of flash,
- cleanup
-To: Bin Meng <bmeng.cn@gmail.com>, Bernhard Beschow <shentey@gmail.com>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, qemu-ppc <qemu-ppc@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>
-References: <20221003203142.24355-1-shentey@gmail.com>
- <da8a2a03-0e54-fe81-7a13-cd5e79d69d18@amsat.org>
- <ba62aabc-0023-c5e6-d156-67d027bb6ff3@gmail.com>
- <45BEF5EF-3259-4B50-8F17-115C31A0D3EB@gmail.com>
- <CAEUhbmXPo67x67ckQSYGb4XNg+TbWYn1NT+Xap8qzCLAm+zA=Q@mail.gmail.com>
-Content-Language: en-US
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <CAEUhbmXPo67x67ckQSYGb4XNg+TbWYn1NT+Xap8qzCLAm+zA=Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22c.google.com
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <BN7PR08MB435525C92550BAC5467BE672BF219@BN7PR08MB4355.namprd08.prod.outlook.com>
+In-Reply-To: <BN7PR08MB435525C92550BAC5467BE672BF219@BN7PR08MB4355.namprd08.prod.outlook.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 10 Oct 2022 10:54:47 +1000
+Message-ID: <CAKmqyKOJe1PYhU2dAEnXUG09MuDHT14JtTU-HDAQdpDByFWgbQ@mail.gmail.com>
+Subject: Re: [PATCH] hw/riscv: Update comment for qtest check in
+ riscv_find_firmware()
+To: Bin Meng <bmeng@outlook.com>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org, Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=alistair23@gmail.com; helo=mail-pj1-x1029.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-3.934,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -101,54 +85,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sun, Oct 9, 2022 at 11:04 PM Bin Meng <bmeng@outlook.com> wrote:
+>
+> From: Bin Meng <bmeng.cn@gmail.com>
+>
+> Since commit 4211fc553234 ("roms/opensbi: Remove ELF images"), the
+> comment for qtest check in riscv_find_firmware() is out of date.
+> Update it to reflect the latest status.
+>
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-On 10/9/22 00:30, Bin Meng wrote:
-> On Sun, Oct 9, 2022 at 12:11 AM Bernhard Beschow <shentey@gmail.com> wrote:
->>
->> Am 4. Oktober 2022 12:43:35 UTC schrieb Daniel Henrique Barboza <danielhb413@gmail.com>:
->>> Hey,
->>>
->>> On 10/3/22 18:27, Philippe Mathieu-Daudé wrote:
->>>> Hi Daniel,
->>>>
->>>> On 3/10/22 22:31, Bernhard Beschow wrote:
->>>>> Cover letter:
->>>>> ~~~~~~~~~~~~~
->>>>>
->>>>> This series adds support for -pflash and direct SD card access to the
->>>>> PPC e500 boards. The idea is to increase compatibility with "real" firmware
->>>>> images where only the bare minimum of drivers is compiled in.
->>>>
->>>>> Bernhard Beschow (13):
->>>>>     hw/ppc/meson: Allow e500 boards to be enabled separately
->>>>>     hw/gpio/meson: Introduce dedicated config switch for hw/gpio/mpc8xxx
->>>>>     docs/system/ppc/ppce500: Add heading for networking chapter
->>>>>     hw/ppc/e500: Reduce usage of sysbus API
->>>>>     hw/ppc/mpc8544ds: Rename wrongly named method
->>>>>     hw/ppc/mpc8544ds: Add platform bus
->>>>>     hw/ppc/e500: Remove if statement which is now always true
->>>>
->>>> This first part is mostly reviewed and can already go via your
->>>> ppc-next queue.
->>>
->>> We're missing an ACK in patch 6/13:
->>>
->>> hw/ppc/mpc8544ds: Add platform bus
->>
->> Bin: Ping?
->>
-> 
-> Sorry for the delay. I have provided the R-b to this patch.
+Alistair
 
-Thanks for the review.
-
-Patches 1-7 queued in gitlab.com/danielhb/qemu/tree/ppc-next.
-
-
-Daniel
-
-> 
-> Regards,
-> Bin
+> ---
+>
+>  hw/riscv/boot.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+> index 1ae7596873..f6e8eafa28 100644
+> --- a/hw/riscv/boot.c
+> +++ b/hw/riscv/boot.c
+> @@ -111,8 +111,8 @@ char *riscv_find_firmware(const char *firmware_filename)
+>      if (filename == NULL) {
+>          if (!qtest_enabled()) {
+>              /*
+> -             * We only ship plain binary bios images in the QEMU source.
+> -             * With Spike machine that uses ELF images as the default bios,
+> +             * We only ship OpenSBI binary bios images in the QEMU source.
+> +             * For machines that use images other than the default bios,
+>               * running QEMU test will complain hence let's suppress the error
+>               * report for QEMU testing.
+>               */
+> --
+> 2.25.1
+>
+>
 
