@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 635A45F975A
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 06:16:19 +0200 (CEST)
-Received: from localhost ([::1]:38430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D57F45F981D
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 08:13:19 +0200 (CEST)
+Received: from localhost ([::1]:41734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohkDC-0003BE-72
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 00:16:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60658)
+	id 1ohm2Q-0001K1-0w
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 02:13:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ohk94-0000A5-Vi; Mon, 10 Oct 2022 00:12:04 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:38734)
+ (Exim 4.90_1) (envelope-from <hare@suse.de>)
+ id 1ohlwy-0005WW-KO; Mon, 10 Oct 2022 02:07:40 -0400
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d]:39374)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ohk93-0004Lv-9A; Mon, 10 Oct 2022 00:12:02 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- x1-20020a17090ab00100b001fda21bbc90so12016924pjq.3; 
- Sun, 09 Oct 2022 21:12:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=gVBwyphToZBKpUWHMv0pIDbvXzh9eE1Sj16WSyMxO5g=;
- b=lSZqYQ9NMe/B6dIEFGOdTkJ8HCW9+cwN0IitQhvGKecBB/KeiGS2b2lbM/IekAIQi7
- ba2kn2CKFRY0ueOUTlHc0k0FdkjsqEVHdUNgonG3Zo3tVmbonqGpgMFUdedGbcTvQfks
- 2/cHzobXnrbS8jngf9gxYjy9Hk+aODVCCko35f4vPymDgwBPwHRungTe0jWVAp7bPkVJ
- PosFwstcTNtxBRtejcfIPcu/byWKb1s36iEwc4XRjsOoD9KIWHWY9sMyU3W0mP7F5Kfj
- MhLV1Gts66k66Qq3jdQbPy7Lst/wPRR/WxGoTR7RhV6bOhayJtj4x736j24PslFduk16
- cTGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=gVBwyphToZBKpUWHMv0pIDbvXzh9eE1Sj16WSyMxO5g=;
- b=j/AAcl7yEdbmaLepA7KnoD1MH/fZq8sTampCdHlJyJepo1STPKnVC/HlJoIyikscBW
- yCFBcWAJZJ04IFUY3NlEsZ2ZqS23b217o18w/Wc+jmvE3gV9Q+FdHLkDVdhU1nWrQRQ+
- neFZkR0PXPij3cNdNPVDbjlRDgCX5PeY4d+FpSCWyV0Dr+NFFs4e8III0ytQX2tjbI8H
- f8gv2drRbX6OG6VDuzeXGocT2MsaTrDusMERZCtQrUVxJZ1p7Cn86wgBmOakf1sD8PzM
- GcXwAbpMB3/yk+BkHgCLwIuPVjmHzmB5I5DGILff/jaqXKu4pJuy8GyFhHeyqQlNtMMe
- JeXw==
-X-Gm-Message-State: ACrzQf3Gw8z2uJoss2wLnJOi0GoeX7zveEsJT28pehSmOhIdRS+AeapB
- J700HZ7+U7wLZaygXQw03lxgwm/QhdwEXlKRN6M=
-X-Google-Smtp-Source: AMsMyM7UXZ81yQ/Gy9V7ln8+9Fi195Gnw8qmmzwLbzJDmR7d+/++HkqJLY/0vzi3Bb6U4F5SMVRj344ob0kbShru5AI=
-X-Received: by 2002:a17:90a:6405:b0:203:6eaa:4999 with SMTP id
- g5-20020a17090a640500b002036eaa4999mr29467361pjj.8.1665375119390; Sun, 09 Oct
- 2022 21:11:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <hare@suse.de>)
+ id 1ohlwx-0004qD-4o; Mon, 10 Oct 2022 02:07:40 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 4E65B1F8C7;
+ Mon, 10 Oct 2022 06:07:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1665382054; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HRH56VkY3xf+VAxavsJOaLA9kTgRkzs8szd2lGLIO7M=;
+ b=O4OlWQ24Gp6mrPU0UE+P7aBeiAE1pU/o5htm28XVR9Elqum6L4pe8o5VaHc2+sN8hKNHD7
+ Iv7+PSBfrjIrRCTUM5DKmCRIm5sQtTPtFRHV5KWb08FyfrPETvynOTK0Pk+NEkuasZmDh5
+ KexLnwXs195IQNnZORrBOXNq6C2KzqE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1665382054;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HRH56VkY3xf+VAxavsJOaLA9kTgRkzs8szd2lGLIO7M=;
+ b=Kp7qbXxUA6z7t10TWKBAgWwDm6PycbrLzk7xBwMDYx4Nv0Cz6ooSo0mzc4YbqOmixTiIAx
+ zQKxrfviEaGjo4Dw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C35BF13ACA;
+ Mon, 10 Oct 2022 06:07:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 13I7LqW2Q2OwNgAAMHmgww
+ (envelope-from <hare@suse.de>); Mon, 10 Oct 2022 06:07:33 +0000
+Message-ID: <fb66c8de-3ffd-a415-97df-0fa9c7140b42@suse.de>
+Date: Mon, 10 Oct 2022 08:07:33 +0200
 MIME-Version: 1.0
-References: <20220928051842.16207-1-liuyang22@iscas.ac.cn>
-In-Reply-To: <20220928051842.16207-1-liuyang22@iscas.ac.cn>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 10 Oct 2022 14:11:33 +1000
-Message-ID: <CAKmqyKOLpZw8Q+VmwVaNeFOt1fB7Kumex6Co6k2=o5XqFZbRmg@mail.gmail.com>
-Subject: Re: [PATCH v3] disas/riscv.c: rvv: Add disas support for vector
- instructions
-To: Yang Liu <liuyang22@iscas.ac.cn>
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com, 
- tommy.wu@sifive.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org, 
- wangjunqiang@iscas.ac.cn, lazyparser@gmail.com, liweiwei@iscas.ac.cn
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=alistair23@gmail.com; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v11 1/7] include: add zoned device structs
+Content-Language: en-US
+To: Sam Li <faithilikerun@gmail.com>, qemu-devel@nongnu.org
+Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ dmitry.fomichev@wdc.com, Stefan Hajnoczi <stefanha@redhat.com>,
+ Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ damien.lemoal@opensource.wdc.com
+References: <20221010022116.41942-1-faithilikerun@gmail.com>
+ <20221010022116.41942-2-faithilikerun@gmail.com>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20221010022116.41942-2-faithilikerun@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=hare@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -59
+X-Spam_score: -6.0
+X-Spam_bar: ------
+X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.934,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,19 +93,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 28, 2022 at 3:19 PM Yang Liu <liuyang22@iscas.ac.cn> wrote:
->
-> Tested with https://github.com/ksco/rvv-decoder-tests
->
-> Expected checkpatch errors for consistency and brevity reasons:
->
-> ERROR: line over 90 characters
-> ERROR: trailing statements should be on next line
-> ERROR: braces {} are necessary for all arms of this statement
->
-> Signed-off-by: Yang Liu <liuyang22@iscas.ac.cn>
+On 10/10/22 04:21, Sam Li wrote:
+> Signed-off-by: Sam Li <faithilikerun@gmail.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+> ---
+>   include/block/block-common.h | 43 ++++++++++++++++++++++++++++++++++++
+>   1 file changed, 43 insertions(+)
+> 
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Cheers,
 
-Alistair
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
+Myers, Andrew McDonald, Martje Boudien Moerman
+
 
