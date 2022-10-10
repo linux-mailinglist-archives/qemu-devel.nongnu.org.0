@@ -2,76 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4658B5F9B86
+	by mail.lfdr.de (Postfix) with ESMTPS id 458DA5F9B85
 	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 10:59:42 +0200 (CEST)
-Received: from localhost ([::1]:48342 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:46180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohodR-0001PJ-Ay
+	id 1ohodR-0001U8-57
 	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 04:59:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53250)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lkujaw@mailbox.org>)
- id 1ohoWl-00030c-N4; Mon, 10 Oct 2022 04:52:51 -0400
-Received: from mout-p-201.mailbox.org ([80.241.56.171]:36258)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <lkujaw@mailbox.org>)
- id 1ohoWj-0006DX-Hg; Mon, 10 Oct 2022 04:52:47 -0400
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
- [IPv6:2001:67c:2050:b231:465::2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4MmCNQ5fBfz9sQr;
- Mon, 10 Oct 2022 10:52:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1665391958;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TndfG5ZLHuG7kaSjvXs28bs8nV6vF1WJXNxtA+qxG5w=;
- b=GTa1DoTA8D7Ha9iYr8UKh3zG+ZcrCy7Xim+eRW1Q2uCyhPbrsBQfPK62/1f/d9bRwiTqol
- 9AHUbnCmk2U4IJ3XXdN7HAgfIacdDTAqqXmnjtLi8EX/bRxHZMX+OuZX1C7t1BglLLiK2h
- C3ZK+iEbkpvChtj3umJ7lzszUliRFwS4RArJeLYOHF11MZTBZH6XeF6Dz1L9JBAyyurNvv
- gUNFX0FfX4ULfjElI6uLnZ5URuF1fX4TrnVlg6YZLcIfBzjG/zhoU0UmfcVcchU6zZE7k3
- GJP2vFY+HzFT8UYi3M88bcDXxyBZA6C9XXmZqsV+TdwJjJQtSrMN6iIHFFu82g==
-From: Lev Kujawski <lkujaw@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1665391956;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TndfG5ZLHuG7kaSjvXs28bs8nV6vF1WJXNxtA+qxG5w=;
- b=vgPB3Qt7/xSb1v227VirmFReJf6zkvDHnjGpFUUtaNpHKKgGnML4IWFaEbm05toUmEbytb
- pGueee0kz7NXdR85CVmjFZrSn4WZ18R1mosXFrU5D6aWqXR3yYswNE9jYlLShFRdLMAfN/
- pVRUMJ2kXrSIx6cIo1Ts/zDUj15zZza1f9XKK1cKllQ4LYI9y2zNTwX1i0ZGiEej+MfWNV
- id4MzV75srfigxaj9Hz9y9gJbjheNCXijboioyJZJy3u6PmuWsk8IF/YF9aAIgLW1jAsMy
- XqTeeB+1hFiaS1bvdKaG1Uus3HbhWpBZ3VRXWpZH4QyMgITAShlfAkm3ibhuAQ==
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Thomas Huth <thuth@redhat.com>,
- John Snow <jsnow@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Lev Kujawski <lkujaw@mailbox.org>
-Subject: [PATCH 2/2] tests/qtest/ide-test: Verify READ NATIVE MAX ADDRESS is
- not limited
-Date: Mon, 10 Oct 2022 08:52:29 +0000
-Message-Id: <20221010085229.2431276-2-lkujaw@mailbox.org>
-In-Reply-To: <20221010085229.2431276-1-lkujaw@mailbox.org>
-References: <20221010085229.2431276-1-lkujaw@mailbox.org>
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1ohoY8-0004SQ-U3
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 04:54:14 -0400
+Received: from mout.gmx.net ([212.227.17.22]:58675)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1ohoY5-0006MB-Pp
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 04:54:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1665392030;
+ bh=TmKewXBy5Dc8BVcW624YtcCJuFsXJT4Hfj0Rd2uafdA=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=Y7en3Bbmv1mitp3NkKVrLaIBNsFCMZnVQQI9txteF9WvBXyOuhtyzBdfvIfhiYurl
+ TE5Go2svesD9rMVnA28DijxoI8G3mBx0OZZmHLfml69rOUR6wpkZGK5n2UyXOimNC4
+ tHThbpy82Lk2xUtkgKKUeYhV3by5f8RI2UwmMk0s=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.160.63]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MRCKC-1oVcoD4BLo-00NCuX; Mon, 10
+ Oct 2022 10:53:50 +0200
+Message-ID: <f47945b7-afce-f0e3-2ca9-6c6cd119cae7@gmx.de>
+Date: Mon, 10 Oct 2022 10:53:48 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: bbcbf016e9e1ddb75f5
-X-MBO-RS-META: m3zzy1nous44qwebfffz4jxrj1p69wgn
-X-Rspamd-Queue-Id: 4MmCNQ5fBfz9sQr
-Received-SPF: pass client-ip=80.241.56.171; envelope-from=lkujaw@mailbox.org;
- helo=mout-p-201.mailbox.org
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH] linux-user: Implement faccessat2
+Content-Language: en-US
+To: WANG Xuerui <xen0n@gentoo.org>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Andreas_K_=2e_H=c3=bcttel?= <dilfridge@gentoo.org>
+References: <20221009060813.2289077-1-xen0n@gentoo.org>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <20221009060813.2289077-1-xen0n@gentoo.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:yOlNTRUbBZI5AaL/Q5Hkw18Bq1UDIz+I73zL/4OgrHgXsPjT1j1
+ a4EXDsYvvcsR2sx3H7mDPdKV1xMbhITABqptb6VJHR0rg0IbziYfxgtaVvxz1/qPw1j6hOo
+ HARuG4r5voqNIKuXLpOzvFEXigOUiGG7ae8jDHCQY82rqYjTCEcPs3W7MUAZTcSY/d7YjRJ
+ n7Id93sdEXy9cFfFSLYQQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:kUMtzVbgS8E=:jxIubYS8got0ppbqxJF6lE
+ 4UBQM7D51cMGfwS0spAjGyjoO7KUGiNWUF51ply4U1ZSMw8YTkkIUVWEfhvBZ8q5XqmQIhE0X
+ kUpEZfJDDrpwEGpt9op5EPpLw0W/3Txe+FiW73ttPh/at7BNpfJi1LohuKhEExYqkIO0NdD+m
+ 3LdmpGXnZGQdiOAAqwNTZritxgx7Uf1pTBxdYBhszgdMwgl1bvqKvCwQgjnLpbbKU2bA2k35m
+ a59nHZwfYVm1RWmOA+Sz+L/zLKQZbgyxu0KRZU+vEJxj834xbkgwC+VW1jtyhok66yevTce4W
+ vGjckKCl3wrzmgtNWpcL0yHEE+YeP1Twqe0c3/NbIHOve1U4RrAOJhAty5tWni+atmLKm30lF
+ e8Ctjic8XIFDQ2VK/wdjnMjQ596xa6W14pWoqpx4jMdXQCMl4SMFSdQ/2xgzdXphgeSWtyxfI
+ f+T10Cdq6n+DxL9ypX1YoTCqV2BNV+xnujnwBKxdbkr/d8j0TdYj47/o93Jgl8lOwFBHw9y2o
+ kTX/A6ylfONNapJw7tU3I5JEJ6J96MJRsTFNKD0HBt+MrJqr8Thbz4yZmxr2qDC2cvQ7DrNo9
+ wQU0+rb3XqxGQl8heEZHt2SghLFeeFb4sZ2LyiYtfUEPn8JpVpTTaCQNp91aeGzx/tw9VJwYM
+ uH1lRs7tNZBK80zcnfXlmTldB1Rz4yIWJOiC/4oE4qmluaKyqoAGreKKUF9Ec23IW0gdXcj3z
+ YW72ISn95sNQRxlEtaZJF3O3GfvKZ4wXCnD/6QeyzkHWQlarUXC/dfENkku53XlwNg3z13kI1
+ B6hq+eLJE2aTdIIwXm25is1VwWy25e4x47scGkL0Mg8U3L8CWciQGD/rhFBN27IUYzO050M3e
+ KAcA3GvlyvABEmdzbi70TaAcBNAqL4pf223568qJTsvqbMjHDqtTAgdp3dV6Oy6orzHMc7aaw
+ cNdWmwMUdbMceJ6/azZ73NEFkz3VyAW6gI05OFP6c+ewtUkDQp7sah0VDoZu/EYrnPOfyxgEg
+ Epn9Pg3LTeKpAUxKF3kWXJq4s3NrDo4r/4NOdkClLs0mhbeaXnQ52lTwJCu2OPoZJubKc0RkR
+ QWEXHoXbqq+hAhDXafQPmUYdMlmlgUrkhOaxPkFU78bmnKBHV19vcBaUoSNAGFLiGW2oOf7MS
+ f3owiR7xTJDSoLQLMyx6o0yj82EzqFeDX4heCIX3JfOsM3oTXeJdNkQiEmhSI8jqa8YT/LxNz
+ NqzHl5cu2GwpIKnl4nx09AjbRrPYm+/VeN49mdliuZjEuceIuP58SEfgV5UQ4U23YSZZcaMVY
+ GFfhjjDtYJxuqqD6ypFFlxDm0X6AZL9q7e/z2cOK5Vst9ZJ+P6YXCcSdClohTK5QG3wYzZZLQ
+ hYZ4ChfoEm2yZJ6KXS6SsyONleF0K4wQJ9GIsaahQqKcRzjgDvR0rn9x61PS9GnrF4JVMHxBU
+ jmkBs4Xg1V+DDk9b8QktJl5j+Jd/3d68PfFHI3Sw9MnDeDR0msQBCW0eKsAmcEXFR2x/TP1W4
+ 97B78kqGZEDU2lKa2KK6VMUtJKw9fqJtQ703xo714Fnnw
+Received-SPF: pass client-ip=212.227.17.22; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -64
+X-Spam_score: -6.5
+X-Spam_bar: ------
+X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-3.934,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,100 +95,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Verify that the ATA command READ NATIVE MAX ADDRESS returns the last
-valid CHS tuple for the native device rather than any limit
-established by INITIALIZE DEVICE PARAMETERS.
+On 10/9/22 08:08, WANG Xuerui wrote:
+> User space has been preferring this syscall for a while, due to its
+> closer match with C semantics, and newer platforms such as LoongArch
+> apparently have libc implementations that don't fallback to faccessat
+> so normal access checks are failing without the emulation in place.
+>
+> Tested by successfully emerging several packages within a Gentoo loong
+> stage3 chroot, emulated on amd64 with help of static qemu-loongarch64.
+>
+> Reported-by: Andreas K. H=C3=BCttel <dilfridge@gentoo.org>
+> Signed-off-by: WANG Xuerui <xen0n@gentoo.org>
+> ---
+>   linux-user/strace.list | 3 +++
+>   linux-user/syscall.c   | 9 +++++++++
+>   2 files changed, 12 insertions(+)
 
-Signed-off-by: Lev Kujawski <lkujaw@mailbox.org>
----
- tests/qtest/ide-test.c | 47 +++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 46 insertions(+), 1 deletion(-)
+There were two similar approaches from Richard and me:
+https://lore.kernel.org/qemu-devel/20220729201414.29869-1-richard.henderso=
+n@linaro.org/#t
+and
+https://lore.kernel.org/qemu-devel/YzLdcnL6x646T61W@p100/
 
-diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
-index dbe1563b23..c406e6752a 100644
---- a/tests/qtest/ide-test.c
-+++ b/tests/qtest/ide-test.c
-@@ -37,7 +37,8 @@
- /* TODO actually test the results and get rid of this */
- #define qmp_discard_response(q, ...) qobject_unref(qtest_qmp(q, __VA_ARGS__))
- 
--#define TEST_IMAGE_SIZE 64 * 1024 * 1024
-+/* Specified by ATA (physical) CHS geometry for ~64 MiB device.  */
-+#define TEST_IMAGE_SIZE ((130 * 16 * 63) * 512)
- 
- #define IDE_PCI_DEV     1
- #define IDE_PCI_FUNC    1
-@@ -91,11 +92,13 @@ enum {
- enum {
-     CMD_DSM         = 0x06,
-     CMD_DIAGNOSE    = 0x90,
-+    CMD_INIT_DP     = 0x91,  /* INITIALIZE DEVICE PARAMETERS */
-     CMD_READ_DMA    = 0xc8,
-     CMD_WRITE_DMA   = 0xca,
-     CMD_FLUSH_CACHE = 0xe7,
-     CMD_IDENTIFY    = 0xec,
-     CMD_PACKET      = 0xa0,
-+    CMD_READ_NATIVE = 0xf8,  /* READ NATIVE MAX ADDRESS */
- 
-     CMDF_ABORT      = 0x100,
-     CMDF_NO_BM      = 0x200,
-@@ -562,6 +565,46 @@ static void string_cpu_to_be16(uint16_t *s, size_t bytes)
-     }
- }
- 
-+static void test_specify(void)
-+{
-+    QTestState *qts;
-+    QPCIDevice *dev;
-+    QPCIBar bmdma_bar, ide_bar;
-+    uint16_t cyls;
-+    uint8_t heads, spt;
-+
-+    qts = ide_test_start(
-+        "-blockdev driver=file,node-name=hda,filename=%s "
-+        "-device ide-hd,drive=hda,bus=ide.0,unit=0 ",
-+        tmp_path[0]);
-+
-+    dev = get_pci_device(qts, &bmdma_bar, &ide_bar);
-+
-+    /* Initialize drive with zero sectors per track and one head.  */
-+    qpci_io_writeb(dev, ide_bar, reg_nsectors, 0);
-+    qpci_io_writeb(dev, ide_bar, reg_device, 0);
-+    qpci_io_writeb(dev, ide_bar, reg_command, CMD_INIT_DP);
-+
-+    /* READ NATIVE MAX ADDRESS (CHS mode).  */
-+    qpci_io_writeb(dev, ide_bar, reg_device, 0xa0);
-+    qpci_io_writeb(dev, ide_bar, reg_command, CMD_READ_NATIVE);
-+
-+    heads = qpci_io_readb(dev, ide_bar, reg_device) & 0xf;
-+    ++heads;
-+    g_assert_cmpint(heads, ==, 16);
-+
-+    cyls = qpci_io_readb(dev, ide_bar, reg_lba_high) << 8;
-+    cyls |= qpci_io_readb(dev, ide_bar, reg_lba_middle);
-+    ++cyls;
-+    g_assert_cmpint(cyls, ==, 130);
-+
-+    spt = qpci_io_readb(dev, ide_bar, reg_lba_low);
-+    g_assert_cmpint(spt, ==, 63);
-+
-+    ide_test_quit(qts);
-+    free_pci_device(dev);
-+}
-+
- static void test_identify(void)
- {
-     QTestState *qts;
-@@ -1079,6 +1122,8 @@ int main(int argc, char **argv)
-     /* Run the tests */
-     g_test_init(&argc, &argv, NULL);
- 
-+    qtest_add_func("/ide/read_native", test_specify);
-+
-     qtest_add_func("/ide/identify", test_identify);
- 
-     qtest_add_func("/ide/diagnostic", test_diagnostic);
--- 
-2.34.1
+> diff --git a/linux-user/strace.list b/linux-user/strace.list
+> index a87415bf3d..3df2184580 100644
+> --- a/linux-user/strace.list
+> +++ b/linux-user/strace.list
+> @@ -178,6 +178,9 @@
+>   #ifdef TARGET_NR_faccessat
+>   { TARGET_NR_faccessat, "faccessat" , NULL, print_faccessat, NULL },
+>   #endif
+> +#ifdef TARGET_NR_faccessat2
+> +{ TARGET_NR_faccessat2, "faccessat2" , NULL, print_faccessat, NULL },
+> +#endif
+
+You are missing that part (from my patch):
+
+=2D-- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -1931,7 +1931,7 @@ print_execv(CPUArchState *cpu_env, const struct sysc=
+allname *name,
+  }
+  #endif
+
+-#ifdef TARGET_NR_faccessat
++#if defined(TARGET_NR_faccessat) || defined(TARGET_NR_faccessat2)
+
+otherwise if TARGET_NR_faccessat isn't defined, you won't have
+the function print_faccessat() in strace.c defined.
+
+
+>   #ifdef TARGET_NR_fadvise64
+>   { TARGET_NR_fadvise64, "fadvise64" , NULL, NULL, NULL },
+>   #endif
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 2e954d8dbd..a81f0b65b9 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -9110,6 +9110,15 @@ static abi_long do_syscall1(CPUArchState *cpu_env=
+, int num, abi_long arg1,
+>           unlock_user(p, arg2, 0);
+>           return ret;
+>   #endif
+> +#if defined(TARGET_NR_faccessat2) && defined(__NR_faccessat2)
+> +    case TARGET_NR_faccessat2:
+> +        if (!(p =3D lock_user_string(arg2))) {
+> +            return -TARGET_EFAULT;
+> +        }
+> +        ret =3D get_errno(faccessat(arg1, p, arg3, arg4));
+
+You rely here on the libc faccessat() function to either use
+faccessat2() or faccessat() syscalls - which is probably the
+best way around...
+
+Helge
+
+> +        unlock_user(p, arg2, 0);
+> +        return ret;
+> +#endif
+>   #ifdef TARGET_NR_nice /* not on alpha */
+>       case TARGET_NR_nice:
+>           return get_errno(nice(arg1));
 
 
