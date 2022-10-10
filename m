@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C0535F9D2C
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 12:58:43 +0200 (CEST)
-Received: from localhost ([::1]:37634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 163755F9D40
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 13:03:35 +0200 (CEST)
+Received: from localhost ([::1]:39224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohqUc-0005pt-4F
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 06:58:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36056)
+	id 1ohqZJ-0001T8-VL
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 07:03:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ohqR7-0002gR-O0
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 06:55:06 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:36644)
+ id 1ohqUq-0005xq-O3
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 06:58:56 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:55133)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ohqR5-0000vM-Qx
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 06:55:05 -0400
-Received: by mail-pl1-x631.google.com with SMTP id c24so10057117plo.3
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 03:55:03 -0700 (PDT)
+ id 1ohqUp-0001l1-3d
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 06:58:56 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id 70so9529678pjo.4
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 03:58:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=rCR1ZszeABuDB8oLYdEXz3A4Abb5mNA9cC8R24IBJh4=;
- b=QN+t+HcJnWAM4LVnMiuOsPFpFRh3bfncW0ch16rEv0w+uMxWorcKWqR4dyAwLYWgen
- gKy6jFNcD60xZiifQZD0HGNexvnH9327IcfBxlkQCaULIerbQwSke+sIYvO3KlzOCUwL
- r4w0y9ElAVqMdJlx29jDLXcDgjqxzIyoj0XSoCcextJIRQ2P/Zcr5QuC93Z6dzVgdz4P
- Q8srbBX9b3ppSoTNEcdUNJkgBxFcCiHaNzxVaOUoN7E9iveeISjUAhHfxMolN9EpUR/r
- /EsQrVoAvp8Xz4q/RWSWXv/qMQ7DlrlHpkTMabwwTfNI+L585N32lgCYlhzV7fUc6ZDC
- 3Lhg==
+ bh=EBEu6+4XooF2QTBR41U4r5/84nUUuzBQ/3onbfHDkcM=;
+ b=st0z7kiAhgIA3VvPAeeLZYhQObWuPwZmi6GOpnwLyfJPw/ZMCrSAoMghQpK6UZn9BV
+ KwlFQwM8Yp3JBEzMBsyAWHslTERGdz66nS5kCEk3to0iWH0r1XxUBMzOF9IISyDjtLFV
+ 0D9PZu/TsX2RhYIg3Xv6U8W5TbDViH6irNA20FSF5Gv2CC94XZZhUxbhEYyAgNNqfg8P
+ FcbobNtztoOcOECl/Qdd65zq/Lf3ZVwFO3ngvnO+V95Uw9rj5hJSNHU1TOrJZSCvrjKf
+ krkc+lNqWVQ5hdltRQsShFBfLwKF6iPRTf61pIUQvh3fST8iCMzcwgEl8ZEDPezm+xR3
+ sREw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=rCR1ZszeABuDB8oLYdEXz3A4Abb5mNA9cC8R24IBJh4=;
- b=FhEc+zSfJuup6Rme3WGJst08Rg7CJMWRAxBmFis928R3X3zwd97U1WJwouIMbMx/ab
- 5VZujThxjJhRAPrPvMRRws0CQAdFZAcJjH68M8vpwIabGPXEDXaG2PtPGOj8SQYtkXkc
- OTHOdOveEr88gVdzcgZ3kyotJ7GKuYf5Nb2hsOdFGjdMspGy1FHgCvndN+SiDV+4wNqT
- 1P1L0ZDmtg7iQcXV8AOK/u079I63ifNE3keKtaLANdoUidDAlT/Rh6Fk1lmvNm88aLJh
- XlogAti2UDk1d3JsgjJ1bNdCoLPiPnFOOBF8FoIohecz05j/iWT7UG3AF26m0s+py0Ig
- yltw==
-X-Gm-Message-State: ACrzQf2j+iprDsvREe1MPlRUop+0z482ceXOOfd6fD5k4/Pt0u8wKmI9
- c+86DhOsktoEfx4dksw1p5OCPb5f1jjVYb5UUF5JkA==
-X-Google-Smtp-Source: AMsMyM4Pda3F4fWuFbQJ9TRlYJhKU1OXlIHnfbeUODUIph+GXwTW4qiRyfjf8gtgqsF1EjCcFaB8m3jt3yBJaoCXmMw=
-X-Received: by 2002:a17:903:4d7:b0:178:8564:f754 with SMTP id
- jm23-20020a17090304d700b001788564f754mr18292965plb.60.1665399302197; Mon, 10
- Oct 2022 03:55:02 -0700 (PDT)
+ bh=EBEu6+4XooF2QTBR41U4r5/84nUUuzBQ/3onbfHDkcM=;
+ b=jsMpobXz0k01n285bCWcGnpqYSE3kRQhwAn8yFdT2q+Ggd2U9V4vWopmCZ0ESCK9px
+ r7ZXuLEs0NHaxdUHFKC+nqZegXiH6RCmPPjBe7M8o7gKEDg3q0hpw0h4RncyLGj/lqaL
+ V2hGqEOqYRv/LFK5GGTh1iuEZA6jfAxR1QxXNTuDahWtuicDLcidMoWetCnEbPAZA4U0
+ YBpDFrcyWbFUIT4J5w0pAUxIjY4p4d74LCzaEtjtYEWH6QJ5kMCjDTCjk2Gr73CBcCTW
+ mzv8E0wK2Po8tqztHcEOr/SNTmPxY7btZczpHsFH6mBtU8kHplIs9oXDa2E00v0nj9QD
+ Akig==
+X-Gm-Message-State: ACrzQf0g5KtNxCF+/CDsVeoknChirNjIziK8UHbuptDIBxdveDlnIMip
+ +SGqzvktQoGKmIEWmaScvdEuOJALMQpcxyJZujwwAQ==
+X-Google-Smtp-Source: AMsMyM77E1Z+pNoeJGrQZJNRhK314qO+3dmtvJcWg36ZTkwNOcwyfu/ccTstvRJDUkAFuine11Y3ltjZt+JM6nbpKmg=
+X-Received: by 2002:a17:902:aa8b:b0:178:8f1d:6936 with SMTP id
+ d11-20020a170902aa8b00b001788f1d6936mr18616959plr.168.1665399533635; Mon, 10
+ Oct 2022 03:58:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220929232339.372813-1-Jason@zx2c4.com>
  <CAFEAcA-Ac-=i_DK5MUtKtTqH7OpyzHAi6u=tHFAFZyvdr1KP8A@mail.gmail.com>
-In-Reply-To: <CAFEAcA-Ac-=i_DK5MUtKtTqH7OpyzHAi6u=tHFAFZyvdr1KP8A@mail.gmail.com>
+ <CAFEAcA-fOdNeDz9_Hbm7R3_3o2T4Zw8wPrgOtVLK9tUNMciZow@mail.gmail.com>
+In-Reply-To: <CAFEAcA-fOdNeDz9_Hbm7R3_3o2T4Zw8wPrgOtVLK9tUNMciZow@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 10 Oct 2022 11:54:50 +0100
-Message-ID: <CAFEAcA-fOdNeDz9_Hbm7R3_3o2T4Zw8wPrgOtVLK9tUNMciZow@mail.gmail.com>
+Date: Mon, 10 Oct 2022 11:58:42 +0100
+Message-ID: <CAFEAcA8+m=8KgYU7FBzV+=jjbcevH_TFCgtG4XS_kdKFCxnpSw@mail.gmail.com>
 Subject: Re: [PATCH 1/6] device-tree: add re-randomization helper function
 To: "Jason A. Donenfeld" <Jason@zx2c4.com>
 Cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>, 
@@ -64,8 +65,8 @@ Cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>, 
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,72 +89,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 6 Oct 2022 at 14:16, Peter Maydell <peter.maydell@linaro.org> wrote:
+On Mon, 10 Oct 2022 at 11:54, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> On Fri, 30 Sept 2022 at 00:23, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> On Thu, 6 Oct 2022 at 14:16, Peter Maydell <peter.maydell@linaro.org> wrote:
 > >
-> > When the system reboots, the rng-seed that the FDT has should be
-> > re-randomized, so that the new boot gets a new seed. Several
-> > architectures require this functionality, so export a function for
-> > injecting a new seed into the given FDT.
+> > On Fri, 30 Sept 2022 at 00:23, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> > >
+> > > When the system reboots, the rng-seed that the FDT has should be
+> > > re-randomized, so that the new boot gets a new seed. Several
+> > > architectures require this functionality, so export a function for
+> > > injecting a new seed into the given FDT.
+> > >
+> > > Cc: Alistair Francis <alistair.francis@wdc.com>
+> > > Cc: David Gibson <david@gibson.dropbear.id.au>
+> > > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 > >
-> > Cc: Alistair Francis <alistair.francis@wdc.com>
-> > Cc: David Gibson <david@gibson.dropbear.id.au>
-> > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> > Hi; I've applied this series to target-arm.next (seems the easiest way
+> > to take it into the tree).
 >
-> Hi; I've applied this series to target-arm.next (seems the easiest way
-> to take it into the tree).
+> Unfortunately it turns out that this breaks the reverse-debugging
+> test that is part of 'make check-avocado'.
+>
+> Running all of 'check-avocado' takes a long time, so here's how
+> to run the specific test:
+>
+>       make -C your-build-tree check-venv   # Only for the first time
+>       your-build-tree/tests/venv/bin/avocado run
+> your-build-tree/tests/avocado/boot_linux.py
 
-Unfortunately it turns out that this breaks the reverse-debugging
-test that is part of 'make check-avocado'.
+derp, wrong test name, should be
 
-Running all of 'check-avocado' takes a long time, so here's how
-to run the specific test:
+ your-build-tree/tests/venv/bin/avocado run
+your-build-tree/tests/avocado/reverse_debugging.py
 
-      make -C your-build-tree check-venv   # Only for the first time
-      your-build-tree/tests/venv/bin/avocado run
-your-build-tree/tests/avocado/boot_linux.py
-
-Probably more convenient though is to run the equivalent commands
-by hand:
-
-wget -O /tmp/vmlinuz
-https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/29/Everything/aarch64/os/images/pxeboot/vmlinuz
-./build/x86/qemu-img create -f qcow2 /tmp/disk.qcow2 128M
-./build/x86/qemu-system-aarch64 -display none -machine virt -serial
-stdio -cpu cortex-a53 -icount
-shift=7,rr=record,rrfile=/tmp/qemu.rr,rrsnapshot=init -net none -drive
-file=/tmp/disk.qcow2 -kernel /tmp/vmlinuz
-# this will boot the kernel to the no-root-fs panic; hit ctrl-C when
-it gets there
-./build/x86/qemu-system-aarch64 -display none -machine virt -serial
-stdio -cpu cortex-a53 -icount
-shift=7,rr=replay,rrfile=/tmp/qemu.rr,rrsnapshot=init  -net none
--drive file=/tmp/disk.qcow2 -kernel /tmp/vmlinuz
-# same command line, but 'replay' rather than 'record', QEMU will exit
-with an error:
-qemu-system-aarch64: Missing random event in the replay log
-
-Without these patches the replay step will replay the recorded execution
-up to the guest panic.
-
-The error is essentially the record-and-replay subsystem saying "the
-replay just asked for a random number at point when the recording
-did not ask for one, and so there's no 'this is what the number was'
-info in the record".
-
-I have had a quick look, and I think the reason for this is that
-load_snapshot() ("reset the VM state to the snapshot state stored in the
-disk image or migration stream") does a system reset. The replay
-process involves a lot of "load state from a snapshot and play
-forwards from there" operations. It doesn't expect that load_snapshot()
-would result in something reading random data, but now that we are
-calling qemu_guest_getrandom() in a reset hook, that happens.
-
-I'm not sure exactly what the best approach here is, so I've cc'd
-the migration and replay submaintainers. For the moment I'm dropping
-this patchset from target-arm.next.
-
-thanks
 -- PMM
 
