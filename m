@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ECD35FA07A
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 16:50:47 +0200 (CEST)
-Received: from localhost ([::1]:53040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 293405FA0CF
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 17:01:00 +0200 (CEST)
+Received: from localhost ([::1]:43040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohu7C-0001Ss-ES
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 10:50:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60098)
+	id 1ohuH4-0001IM-Du
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 11:00:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ohtlD-0006c1-KO
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:28:03 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:46963)
+ id 1ohtlF-0006fo-51
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:28:05 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:55182)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ohtlB-0005c6-I5
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:28:03 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- az22-20020a05600c601600b003c6b72797fdso1474665wmb.5
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 07:28:00 -0700 (PDT)
+ id 1ohtlC-0005cH-9Q
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:28:04 -0400
+Received: by mail-wm1-x336.google.com with SMTP id iv17so6953191wmb.4
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 07:28:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=jy15vtNWJUoTZz5dOl5JPn5PUMEvXzpyspwJEl564+Y=;
- b=JH46iBzp2d2ZCI9t60RAGocROJqJyNmQZbAiTM6Y6dGz5JFm6SsB0SN8xo00Vy4qLT
- BAKHvWD8VYDVdKYoSolHASrI4W6/ueFiT/IzP5WBZ2SNlCwZ+3ng06FYyg6NVdyLSTtE
- 1iN2yqIa9hPyvPQEJ/Q1UzPw2JZk/joULv50bNgL5WKRb9cBPdm1TSe+zhVNWmok6BvF
- 3Ta9NKIN+8OArrUEO+E8hN1BrMgEtuMBqChAd3IPPxQltsVQFNnAeFiqfEUsicdVmmoB
- nLdp/BFgXeb+xBY403FHvrvwuK+E9PCcB0knp7mGXne+02RK2Y2xiDkmGGgQyksExyX0
- QQMA==
+ :reply-to; bh=4WEyc+UOMjigXkaKxU362KXr8MSgbNuL5VrZCUOmcFw=;
+ b=LCE2VdkCPFL1kqB6MT5jioEr9HR5/lalnFjCdn4G/XPeMwqpMK6i40bg8l7N5tLxx3
+ WpUq2VUDv/lwgds4CaGedYX13XBgELsJnB7Gdl+mt0dki9oa5BCf4171xAkVgMedBiC9
+ oWijOdzn5PZ4wdMhDvT5FNWCF3+8IuwRojqQaq/zQ+RoR+VsfWi98FFmzmSNPpesrgvG
+ ItW3/Cl2jB/Fd9iofGCdLoI3Z0zRKWNFSgtzSMngvaQs5nm5tt4w6tPGe3nITBAhbgG1
+ NIYU617WQ6XiEqasH9R67iaH/plxEof44CqbGnQ4714Re1CL2MoqcvrVl90qRHx2wq7M
+ 4NAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jy15vtNWJUoTZz5dOl5JPn5PUMEvXzpyspwJEl564+Y=;
- b=j20uwUrodWghgrMGZ4+iqDrtJlSLvr+mbJvAaFkM3sIxwSDxBhefNQdRYnWuLb93Ud
- CB/1NFJYI04z9Cx22AfCc3xiNj2eg5azbFrl3DlAarLzl2xTDuKRizIdZE+6Lrzn1HNf
- U/73EZSOeIC4EtGOGeEjfDJ3ItKbMIGT0xq4DpEQjFZW2dYFqp5nIcUztLLZFKuRKlTx
- DqkoSh7D0m2B3QHo0ra5tD428EuPL4ppvLKn7I5BzHQ5VtAEqa+gCQCIhGzGZg470/ls
- tu4YMQc215fhhpUy0NLxNtzXo25nKbMxkCEnMIoVUwnQ09j5ZKI09jWvFQbS+lzSUTeW
- wEzA==
-X-Gm-Message-State: ACrzQf0429i2BHUIzCUsOZ0lGZbr7DLFg3XCNUn6VeG/RCsImiEdHlmF
- ENlhLQF9Q+31gpQ9PWRObDwspq5asPJPYw==
-X-Google-Smtp-Source: AMsMyM7Ne7FN/SMQoi4hztxXKCSuO0ucZNLwgQphw6D2GxOs5ldpSeLzl/ukhqaru2iWPPb0HqqJ5w==
-X-Received: by 2002:a05:600c:a05:b0:3b9:cecc:9846 with SMTP id
- z5-20020a05600c0a0500b003b9cecc9846mr19810402wmp.3.1665412079652; 
- Mon, 10 Oct 2022 07:27:59 -0700 (PDT)
+ bh=4WEyc+UOMjigXkaKxU362KXr8MSgbNuL5VrZCUOmcFw=;
+ b=SUA3rQPC5mxeQz9mwJ9/txvKpBUMd9maSVtDw2naRJYXEJLOaaBXBjBqvhmd/k6hMd
+ LWgAfTeNCy/QiKGmvp+lWukgglRt1JOOG/MF9uR2xIgDu+TXwfUN/K1GcEwN1KN/6kU8
+ HjdSCGvYp0Cn8JG2RdwYHTzgDak581ldUrAuQV1a3ThEQNejqmWzt75LZsJW6WQvUCWC
+ MfdywBXixYCkGxdFTjJ2ktyuspwbreUFF6eyw8+eihTO4GVecMny+X8peQrk3h/6sqrK
+ C/KuBomva/8ZP7WxqrefdvCqI2XRIiEf/Jmfsz+5ZX4lSbeZH3uHUgUfkaipFnU7jlWu
+ jpZg==
+X-Gm-Message-State: ACrzQf3svx4UU/IE/mPy1jBlTTaTNR8Fs8qJenD+QV7rTFNpsAZ5TXvS
+ 11EDBQGyey0xvJgilgp+LnfuWDql02AANQ==
+X-Google-Smtp-Source: AMsMyM6IF1uaUzsAgWcZyoLjPXdcNb/VYdUTycM+AiHZj7L4RuFRcMbNwUmWECntT4IEqXX8GnJHBg==
+X-Received: by 2002:a05:600c:12c6:b0:3bd:eeec:309 with SMTP id
+ v6-20020a05600c12c600b003bdeeec0309mr20583446wmd.167.1665412080665; 
+ Mon, 10 Oct 2022 07:28:00 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- u6-20020adfed46000000b0022e04bfa661sm9037054wro.59.2022.10.10.07.27.58
+ u6-20020adfed46000000b0022e04bfa661sm9037054wro.59.2022.10.10.07.27.59
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 07:27:59 -0700 (PDT)
+ Mon, 10 Oct 2022 07:28:00 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/28] target/arm: Don't allow guest to use unimplemented
- granule sizes
-Date: Mon, 10 Oct 2022 15:27:28 +0100
-Message-Id: <20221010142730.502083-27-peter.maydell@linaro.org>
+Subject: [PULL 27/28] target/arm: Use ARMGranuleSize in ARMVAParameters
+Date: Mon, 10 Oct 2022 15:27:29 +0100
+Message-Id: <20221010142730.502083-28-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221010142730.502083-1-peter.maydell@linaro.org>
 References: <20221010142730.502083-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,124 +89,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Arm CPUs support some subset of the granule (page) sizes 4K, 16K and
-64K.  The guest selects the one it wants using bits in the TCR_ELx
-registers.  If it tries to program these registers with a value that
-is either reserved or which requests a size that the CPU does not
-implement, the architecture requires that the CPU behaves as if the
-field was programmed to some size that has been implemented.
-Currently we don't implement this, and instead let the guest use any
-granule size, even if the CPU ID register fields say it isn't
-present.
+Now we have an enum for the granule size, use it in the
+ARMVAParameters struct instead of the using16k/using64k bools.
 
-Make aa64_va_parameters() check against the supported granule size
-and force use of a different one if it is not implemented.
-
-(A subsequent commit will make ARMVAParameters use the new enum
-rather than the current pair of using16k/using64k bools.)
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20221003162315.2833797-2-peter.maydell@linaro.org
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20221003162315.2833797-3-peter.maydell@linaro.org
 ---
- target/arm/cpu.h       |  33 +++++++++++++
- target/arm/internals.h |   9 ++++
- target/arm/helper.c    | 102 +++++++++++++++++++++++++++++++++++++----
- 3 files changed, 136 insertions(+), 8 deletions(-)
+ target/arm/internals.h | 23 +++++++++++++++++++++--
+ target/arm/helper.c    | 39 ++++++++++++++++++++++++++++-----------
+ target/arm/ptw.c       |  8 +-------
+ 3 files changed, 50 insertions(+), 20 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index d541392170e..1a909a1b436 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -4097,6 +4097,39 @@ static inline bool isar_feature_aa64_tgran16_2_lpa2(const ARMISARegisters *id)
-     return t >= 3 || (t == 0 && isar_feature_aa64_tgran16_lpa2(id));
- }
- 
-+static inline bool isar_feature_aa64_tgran4(const ARMISARegisters *id)
-+{
-+    return FIELD_SEX64(id->id_aa64mmfr0, ID_AA64MMFR0, TGRAN4) >= 0;
-+}
-+
-+static inline bool isar_feature_aa64_tgran16(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64mmfr0, ID_AA64MMFR0, TGRAN16) >= 1;
-+}
-+
-+static inline bool isar_feature_aa64_tgran64(const ARMISARegisters *id)
-+{
-+    return FIELD_SEX64(id->id_aa64mmfr0, ID_AA64MMFR0, TGRAN64) >= 0;
-+}
-+
-+static inline bool isar_feature_aa64_tgran4_2(const ARMISARegisters *id)
-+{
-+    unsigned t = FIELD_EX64(id->id_aa64mmfr0, ID_AA64MMFR0, TGRAN4_2);
-+    return t >= 2 || (t == 0 && isar_feature_aa64_tgran4(id));
-+}
-+
-+static inline bool isar_feature_aa64_tgran16_2(const ARMISARegisters *id)
-+{
-+    unsigned t = FIELD_EX64(id->id_aa64mmfr0, ID_AA64MMFR0, TGRAN16_2);
-+    return t >= 2 || (t == 0 && isar_feature_aa64_tgran16(id));
-+}
-+
-+static inline bool isar_feature_aa64_tgran64_2(const ARMISARegisters *id)
-+{
-+    unsigned t = FIELD_EX64(id->id_aa64mmfr0, ID_AA64MMFR0, TGRAN64_2);
-+    return t >= 2 || (t == 0 && isar_feature_aa64_tgran64(id));
-+}
-+
- static inline bool isar_feature_aa64_ccidx(const ARMISARegisters *id)
- {
-     return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, CCIDX) != 0;
 diff --git a/target/arm/internals.h b/target/arm/internals.h
-index fd17aee4599..6166ac0a98f 100644
+index 6166ac0a98f..9566364dcae 100644
 --- a/target/arm/internals.h
 +++ b/target/arm/internals.h
-@@ -998,6 +998,15 @@ static inline uint32_t aarch64_pstate_valid_mask(const ARMISARegisters *id)
-     return valid;
- }
+@@ -1007,6 +1007,26 @@ typedef enum ARMGranuleSize {
+     GranInvalid,
+ } ARMGranuleSize;
  
-+/* Granule size (i.e. page size) */
-+typedef enum ARMGranuleSize {
-+    /* Same order as TG0 encoding */
-+    Gran4K,
-+    Gran64K,
-+    Gran16K,
-+    GranInvalid,
-+} ARMGranuleSize;
++/**
++ * arm_granule_bits: Return address size of the granule in bits
++ *
++ * Return the address size of the granule in bits. This corresponds
++ * to the pseudocode TGxGranuleBits().
++ */
++static inline int arm_granule_bits(ARMGranuleSize gran)
++{
++    switch (gran) {
++    case Gran64K:
++        return 16;
++    case Gran16K:
++        return 14;
++    case Gran4K:
++        return 12;
++    default:
++        g_assert_not_reached();
++    }
++}
 +
  /*
   * Parameters of a given virtual address, as extracted from the
   * translation control register (TCR) for a given regime.
+@@ -1019,10 +1039,9 @@ typedef struct ARMVAParameters {
+     bool tbi        : 1;
+     bool epd        : 1;
+     bool hpd        : 1;
+-    bool using16k   : 1;
+-    bool using64k   : 1;
+     bool tsz_oob    : 1;  /* tsz has been clamped to legal range */
+     bool ds         : 1;
++    ARMGranuleSize gran : 2;
+ } ARMVAParameters;
+ 
+ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index e1338ed6e22..d7f578f2baa 100644
+index d7f578f2baa..dde64a487ae 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -10287,20 +10287,105 @@ static int aa64_va_parameter_tcma(uint64_t tcr, ARMMMUIdx mmu_idx)
-     }
- }
+@@ -4473,6 +4473,24 @@ typedef struct {
+     uint64_t length;
+ } TLBIRange;
  
-+static ARMGranuleSize tg0_to_gran_size(int tg)
++static ARMGranuleSize tlbi_range_tg_to_gran_size(int tg)
 +{
-+    switch (tg) {
-+    case 0:
-+        return Gran4K;
-+    case 1:
-+        return Gran64K;
-+    case 2:
-+        return Gran16K;
-+    default:
-+        return GranInvalid;
-+    }
-+}
-+
-+static ARMGranuleSize tg1_to_gran_size(int tg)
-+{
++    /*
++     * Note that the TLBI range TG field encoding differs from both
++     * TG0 and TG1 encodings.
++     */
 +    switch (tg) {
 +    case 1:
-+        return Gran16K;
-+    case 2:
 +        return Gran4K;
++    case 2:
++        return Gran16K;
 +    case 3:
 +        return Gran64K;
 +    default:
@@ -216,113 +170,110 @@ index e1338ed6e22..d7f578f2baa 100644
 +    }
 +}
 +
-+static inline bool have4k(ARMCPU *cpu, bool stage2)
-+{
-+    return stage2 ? cpu_isar_feature(aa64_tgran4_2, cpu)
-+        : cpu_isar_feature(aa64_tgran4, cpu);
-+}
-+
-+static inline bool have16k(ARMCPU *cpu, bool stage2)
-+{
-+    return stage2 ? cpu_isar_feature(aa64_tgran16_2, cpu)
-+        : cpu_isar_feature(aa64_tgran16, cpu);
-+}
-+
-+static inline bool have64k(ARMCPU *cpu, bool stage2)
-+{
-+    return stage2 ? cpu_isar_feature(aa64_tgran64_2, cpu)
-+        : cpu_isar_feature(aa64_tgran64, cpu);
-+}
-+
-+static ARMGranuleSize sanitize_gran_size(ARMCPU *cpu, ARMGranuleSize gran,
-+                                         bool stage2)
-+{
-+    switch (gran) {
-+    case Gran4K:
-+        if (have4k(cpu, stage2)) {
-+            return gran;
-+        }
-+        break;
-+    case Gran16K:
-+        if (have16k(cpu, stage2)) {
-+            return gran;
-+        }
-+        break;
-+    case Gran64K:
-+        if (have64k(cpu, stage2)) {
-+            return gran;
-+        }
-+        break;
-+    case GranInvalid:
-+        break;
-+    }
-+    /*
-+     * If the guest selects a granule size that isn't implemented,
-+     * the architecture requires that we behave as if it selected one
-+     * that is (with an IMPDEF choice of which one to pick). We choose
-+     * to implement the smallest supported granule size.
-+     */
-+    if (have4k(cpu, stage2)) {
-+        return Gran4K;
-+    }
-+    if (have16k(cpu, stage2)) {
-+        return Gran16K;
-+    }
-+    assert(have64k(cpu, stage2));
-+    return Gran64K;
-+}
-+
- ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+ static TLBIRange tlbi_aa64_get_range(CPUARMState *env, ARMMMUIdx mmuidx,
+                                      uint64_t value)
+ {
+@@ -4481,17 +4499,19 @@ static TLBIRange tlbi_aa64_get_range(CPUARMState *env, ARMMMUIdx mmuidx,
+     uint64_t select = sextract64(value, 36, 1);
+     ARMVAParameters param = aa64_va_parameters(env, select, mmuidx, true);
+     TLBIRange ret = { };
++    ARMGranuleSize gran;
+ 
+     page_size_granule = extract64(value, 46, 2);
++    gran = tlbi_range_tg_to_gran_size(page_size_granule);
+ 
+     /* The granule encoded in value must match the granule in use. */
+-    if (page_size_granule != (param.using64k ? 3 : param.using16k ? 2 : 1)) {
++    if (gran != param.gran) {
+         qemu_log_mask(LOG_GUEST_ERROR, "Invalid tlbi page size granule %d\n",
+                       page_size_granule);
+         return ret;
+     }
+ 
+-    page_shift = (page_size_granule - 1) * 2 + 12;
++    page_shift = arm_granule_bits(gran);
+     num = extract64(value, 39, 5);
+     scale = extract64(value, 44, 2);
+     exponent = (5 * scale) + 1;
+@@ -10375,7 +10395,7 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
                                     ARMMMUIdx mmu_idx, bool data)
  {
      uint64_t tcr = regime_tcr(env, mmu_idx);
-     bool epd, hpd, using16k, using64k, tsz_oob, ds;
+-    bool epd, hpd, using16k, using64k, tsz_oob, ds;
++    bool epd, hpd, tsz_oob, ds;
      int select, tsz, tbi, max_tsz, min_tsz, ps, sh;
-+    ARMGranuleSize gran;
+     ARMGranuleSize gran;
      ARMCPU *cpu = env_archcpu(env);
-+    bool stage2 = mmu_idx == ARMMMUIdx_Stage2 || mmu_idx == ARMMMUIdx_Stage2_S;
- 
-     if (!regime_has_2_ranges(mmu_idx)) {
-         select = 0;
-         tsz = extract32(tcr, 0, 6);
--        using64k = extract32(tcr, 14, 1);
--        using16k = extract32(tcr, 15, 1);
--        if (mmu_idx == ARMMMUIdx_Stage2 || mmu_idx == ARMMMUIdx_Stage2_S) {
-+        gran = tg0_to_gran_size(extract32(tcr, 14, 2));
-+        if (stage2) {
-             /* VTCR_EL2 */
-             hpd = false;
-         } else {
-@@ -10318,16 +10403,13 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-         select = extract64(va, 55, 1);
-         if (!select) {
-             tsz = extract32(tcr, 0, 6);
-+            gran = tg0_to_gran_size(extract32(tcr, 14, 2));
-             epd = extract32(tcr, 7, 1);
-             sh = extract32(tcr, 12, 2);
--            using64k = extract32(tcr, 14, 1);
--            using16k = extract32(tcr, 15, 1);
-             hpd = extract64(tcr, 41, 1);
-         } else {
--            int tg = extract32(tcr, 30, 2);
--            using16k = tg == 1;
--            using64k = tg == 3;
-             tsz = extract32(tcr, 16, 6);
-+            gran = tg1_to_gran_size(extract32(tcr, 30, 2));
-             epd = extract32(tcr, 23, 1);
-             sh = extract32(tcr, 28, 2);
-             hpd = extract64(tcr, 42, 1);
-@@ -10336,6 +10418,10 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-         ds = extract64(tcr, 59, 1);
+@@ -10419,11 +10439,9 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
      }
  
-+    gran = sanitize_gran_size(cpu, gran, stage2);
-+    using64k = gran == Gran64K;
-+    using16k = gran == Gran16K;
-+
+     gran = sanitize_gran_size(cpu, gran, stage2);
+-    using64k = gran == Gran64K;
+-    using16k = gran == Gran16K;
+ 
      if (cpu_isar_feature(aa64_st, cpu)) {
-         max_tsz = 48 - using64k;
+-        max_tsz = 48 - using64k;
++        max_tsz = 48 - (gran == Gran64K);
      } else {
+         max_tsz = 39;
+     }
+@@ -10433,7 +10451,7 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+      * adjust the effective value of DS, as documented.
+      */
+     min_tsz = 16;
+-    if (using64k) {
++    if (gran == Gran64K) {
+         if (cpu_isar_feature(aa64_lva, cpu)) {
+             min_tsz = 12;
+         }
+@@ -10442,14 +10460,14 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+         switch (mmu_idx) {
+         case ARMMMUIdx_Stage2:
+         case ARMMMUIdx_Stage2_S:
+-            if (using16k) {
++            if (gran == Gran16K) {
+                 ds = cpu_isar_feature(aa64_tgran16_2_lpa2, cpu);
+             } else {
+                 ds = cpu_isar_feature(aa64_tgran4_2_lpa2, cpu);
+             }
+             break;
+         default:
+-            if (using16k) {
++            if (gran == Gran16K) {
+                 ds = cpu_isar_feature(aa64_tgran16_lpa2, cpu);
+             } else {
+                 ds = cpu_isar_feature(aa64_tgran4_lpa2, cpu);
+@@ -10486,10 +10504,9 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+         .tbi = tbi,
+         .epd = epd,
+         .hpd = hpd,
+-        .using16k = using16k,
+-        .using64k = using64k,
+         .tsz_oob = tsz_oob,
+         .ds = ds,
++        .gran = gran,
+     };
+ }
+ 
+diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+index ddacffa7ee6..23f16f4ff7f 100644
+--- a/target/arm/ptw.c
++++ b/target/arm/ptw.c
+@@ -1062,13 +1062,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
+         }
+     }
+ 
+-    if (param.using64k) {
+-        stride = 13;
+-    } else if (param.using16k) {
+-        stride = 11;
+-    } else {
+-        stride = 9;
+-    }
++    stride = arm_granule_bits(param.gran) - 3;
+ 
+     /*
+      * Note that QEMU ignores shareability and cacheability attributes,
 -- 
 2.25.1
 
