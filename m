@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02A175FA32A
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 20:07:39 +0200 (CEST)
-Received: from localhost ([::1]:43010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD0D55FA330
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 20:12:43 +0200 (CEST)
+Received: from localhost ([::1]:39612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohxBh-00040e-QF
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 14:07:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49024)
+	id 1ohxGc-0008A0-M7
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 14:12:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwbU-00029Y-Bd
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:30:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52059)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwbY-0002Dm-Dn
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:30:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33469)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwbQ-0006uJ-Rr
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:30:12 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwbV-0006vQ-Bb
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:30:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665423008;
+ s=mimecast20190719; t=1665423012;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pXh/xwoTWbI+N3CES2T4w4Es2zHnFfvO5ql2hJM0dgE=;
- b=f/JmTzjR/DpohPhrod06dlikNKDg5jyNF+PPUG3AqdbKSfjzqU34m3CKfAJpiPzzIcLKL9
- nAwxMY1tTVRugMTkqqyZ1Tch8JF0IkvqDM3IypLufIqYdBgYk1yjHL/yn+XbRapZUTxtnq
- y+WiJspSo9DNBYAK9xs5z7iz3V7M68E=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=a6Zgc/f/oExp1Oq3yCEWAHTzhom8dFVVHPot0BXkafs=;
+ b=JI01/RVT6liu2BoRNkNsTlOGjR2yXiHcyR2iCi2yoL9VyIpbsLU/gzLcrOFBKfoL+ZZV65
+ VpAxjN7jcfS9WS8fQC0/LKOEPnxxEcXc0DfI0deFdYAm6O4ZoQHvCTh7nq9tpU+lrJ+4lS
+ jEOZnGXW1XRnhojPrOD3uiHV96G3+zQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-556-drVHpmOWNtaVZR-LKcIgDQ-1; Mon, 10 Oct 2022 13:30:07 -0400
-X-MC-Unique: drVHpmOWNtaVZR-LKcIgDQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- e14-20020adf9bce000000b0022d18139c79so2947385wrc.5
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:30:07 -0700 (PDT)
+ us-mta-605-sttR7A0-NFGkqxHti4Myhg-1; Mon, 10 Oct 2022 13:30:11 -0400
+X-MC-Unique: sttR7A0-NFGkqxHti4Myhg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ s4-20020adfbc04000000b0022e03fc10a9so2955539wrg.15
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:30:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pXh/xwoTWbI+N3CES2T4w4Es2zHnFfvO5ql2hJM0dgE=;
- b=sH5auG0DaWP3SRNCWHdSQVUdiKSJEAMypNVhedZCYehhhHeC4SWt5ZzyPcdARSpAfB
- HGitLEVEESyMyF8Ptq2QBIXOoyflB/ulgpG8i2kwMt7HK8w4jlKd4G+2hRy5+Ig76uG0
- 7wS+3UEuubgMMLVKd9ACqeULQTewx+5X9YRx8MGFuM6IQvSIr6LF7+fSWp/nfWP5XWA9
- 6IO3AFR/HJu0nlnkyHuCHhFW1Z58GZ9LXaeVOOeWe2ADIp09ev9Ddyl/ByKoEtjXqM5e
- 1pa39S38qDGA2iG9LUqqr1Rit9KPkLcAU+TSC+g0c6LJAvpgNgUZoNvIxW7LExjCfmu+
- 5I4A==
-X-Gm-Message-State: ACrzQf2wWoY6mSTqZUE+EMnUdCFCnoDp2/egLm7z7GC7oiWDQw7jG4Ts
- CAbqTI9PnEL9Qlyb3WVFwp+BalpKdGucwShutPduKe9qMvPKAAQzWunO5LnMsPj0aQZu/POSuod
- JTCMrAjTa2VKlT3ceAIbvBgxd3XDtFB2H8U9fhjvJh+EqtbBsXgGpwNHDyT0d
-X-Received: by 2002:adf:d842:0:b0:22e:33e2:f379 with SMTP id
- k2-20020adfd842000000b0022e33e2f379mr12162830wrl.23.1665423005370; 
- Mon, 10 Oct 2022 10:30:05 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5BId/tMwnIyb7VB28ChDzIHSTtFy1CiaO/r6Msw+PfA01GDaxqbS1/cmNklwrTK2HHoshkyA==
-X-Received: by 2002:adf:d842:0:b0:22e:33e2:f379 with SMTP id
- k2-20020adfd842000000b0022e33e2f379mr12162804wrl.23.1665423005058; 
- Mon, 10 Oct 2022 10:30:05 -0700 (PDT)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=a6Zgc/f/oExp1Oq3yCEWAHTzhom8dFVVHPot0BXkafs=;
+ b=YplNnP4HzQl2Samgm6pPGlKgGZWbvOK6FDnGUTpa7WQFzDyNqBGNAsSOLSGhTWZPCM
+ /2Qce8a8yqh0vGh55ZkCeMLPlt/puqnPkAhKcJPhGSZOPuSAil8x4RXKLxmDs1VmRf2O
+ l5FwociFS3Vk4n74kzHFwVuDQ9SW3oi5LeETgtctwNxEVvbZch1keHqgziyL8y04VUdc
+ kP1DAOitYDvmIF3WMJuM6JrT5RQjQe6maNPKzAO2wrpqHdxiME2CJ9j7TIAt1+y9cYBr
+ /gTA7wurjMUXuK/PZIAERhp0mV9WIRQ+t8Xm6JThM1MI68325J+Qp1wyDHz74mcoaDsK
+ T+ow==
+X-Gm-Message-State: ACrzQf2udxr4Y4OyLXM/xREfkvnyMf4Oy/Zwu2XkOczE8lgZ+h9fBhds
+ 1MCPib4y1FDnZETmE4RPDWJSgJajynWQAMJ69RBL+J3SGsk0oT71s+e6aUeqnTn1nRM4srlHy7w
+ ObZDDRRLVqu1mSfy2vM2b6hgwCwTrtvtV22vJYNFKWIguB5xbZ7cZ5f3S8jAk
+X-Received: by 2002:adf:d215:0:b0:22e:479e:8cc1 with SMTP id
+ j21-20020adfd215000000b0022e479e8cc1mr13028651wrh.39.1665423010018; 
+ Mon, 10 Oct 2022 10:30:10 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6bfRSsNOgYba3EOI4xorECx4f7WukBzalel3I6UMI9a2VU6inI8ZKA2pvihrNADgT5VGVkVQ==
+X-Received: by 2002:adf:d215:0:b0:22e:479e:8cc1 with SMTP id
+ j21-20020adfd215000000b0022e479e8cc1mr13028625wrh.39.1665423009643; 
+ Mon, 10 Oct 2022 10:30:09 -0700 (PDT)
 Received: from redhat.com ([2.55.183.131]) by smtp.gmail.com with ESMTPSA id
- c8-20020a05600c0a4800b003b4fdbb6319sm18489197wmq.21.2022.10.10.10.30.02
+ g11-20020a5d488b000000b00228d7078c4esm9349924wrq.4.2022.10.10.10.30.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 10:30:04 -0700 (PDT)
-Date: Mon, 10 Oct 2022 13:30:00 -0400
+ Mon, 10 Oct 2022 10:30:09 -0700 (PDT)
+Date: Mon, 10 Oct 2022 13:30:05 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>
-Subject: [PULL 19/55] tests/qtest: enable tests for virtio-gpio
-Message-ID: <20221010172813.204597-20-mst@redhat.com>
+ Daniil Tatianin <d-tatianin@yandex-team.ru>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-block@nongnu.org
+Subject: [PULL 20/55] virtio: introduce VirtIOConfigSizeParams &
+ virtio_get_config_size
+Message-ID: <20221010172813.204597-21-mst@redhat.com>
 References: <20221010172813.204597-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20221010172813.204597-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -104,394 +103,172 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alex Bennée <alex.bennee@linaro.org>
+From: Daniil Tatianin <d-tatianin@yandex-team.ru>
 
-We don't have a virtio-gpio implementation in QEMU and only
-support a vhost-user backend. The QEMU side of the code is minimal so
-it should be enough to instantiate the device and pass some vhost-user
-messages over the control socket. To do this we hook into the existing
-vhost-user-test code and just add the bits required for gpio.
+This is the first step towards moving all device config size calculation
+logic into the virtio core code. In particular, this adds a struct that
+contains all the necessary information for common virtio code to be able
+to calculate the final config size for a device. This is expected to be
+used with the new virtio_get_config_size helper, which calculates the
+final length based on the provided host features.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Eric Auger <eric.auger@redhat.com>
-Message-Id: <20220408155704.2777166-1-alex.bennee@linaro.org>
+This builds on top of already existing code like VirtIOFeature and
+virtio_feature_get_config_size(), but adds additional fields, as well as
+sanity checking so that device-specifc code doesn't have to duplicate it.
 
-Message-Id: <20220802095010.3330793-23-alex.bennee@linaro.org>
+An example usage would be:
+
+    static const VirtIOFeature dev_features[] = {
+        {.flags = 1ULL << FEATURE_1_BIT,
+         .end = endof(struct virtio_dev_config, feature_1)},
+        {.flags = 1ULL << FEATURE_2_BIT,
+         .end = endof(struct virtio_dev_config, feature_2)},
+        {}
+    };
+
+    static const VirtIOConfigSizeParams dev_cfg_size_params = {
+        .min_size = DEV_BASE_CONFIG_SIZE,
+        .max_size = sizeof(struct virtio_dev_config),
+        .feature_sizes = dev_features
+    };
+
+    // code inside my_dev_device_realize()
+    size_t config_size = virtio_get_config_size(&dev_cfg_size_params,
+                                                host_features);
+    virtio_init(vdev, VIRTIO_ID_MYDEV, config_size);
+
+Currently every device is expected to write its own boilerplate from the
+example above in device_realize(), however, the next step of this
+transition is moving VirtIOConfigSizeParams into VirtioDeviceClass,
+so that it can be done automatically by the virtio initialization code.
+
+All of the users of virtio_feature_get_config_size have been converted
+to use virtio_get_config_size so it's no longer needed and is removed
+with this commit.
+
+Signed-off-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
+Message-Id: <20220906073111.353245-2-d-tatianin@yandex-team.ru>
+Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/libqos/virtio-gpio.h |  35 +++++++
- tests/qtest/libqos/virtio-gpio.c | 171 +++++++++++++++++++++++++++++++
- tests/qtest/libqos/virtio.c      |   2 +-
- tests/qtest/vhost-user-test.c    |  66 ++++++++++++
- MAINTAINERS                      |   1 +
- tests/qtest/libqos/meson.build   |   1 +
- 6 files changed, 275 insertions(+), 1 deletion(-)
- create mode 100644 tests/qtest/libqos/virtio-gpio.h
- create mode 100644 tests/qtest/libqos/virtio-gpio.c
+ include/hw/virtio/virtio.h | 10 ++++++++--
+ hw/block/virtio-blk.c      | 16 +++++++---------
+ hw/net/virtio-net.c        |  9 +++++++--
+ hw/virtio/virtio.c         | 10 ++++++----
+ 4 files changed, 28 insertions(+), 17 deletions(-)
 
-diff --git a/tests/qtest/libqos/virtio-gpio.h b/tests/qtest/libqos/virtio-gpio.h
-new file mode 100644
-index 0000000000..f11d41bd19
---- /dev/null
-+++ b/tests/qtest/libqos/virtio-gpio.h
-@@ -0,0 +1,35 @@
-+/*
-+ * virtio-gpio structures
-+ *
-+ * Copyright (c) 2022 Linaro Ltd
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#ifndef TESTS_LIBQOS_VIRTIO_GPIO_H
-+#define TESTS_LIBQOS_VIRTIO_GPIO_H
-+
-+#include "qgraph.h"
-+#include "virtio.h"
-+#include "virtio-pci.h"
-+
-+typedef struct QVhostUserGPIO QVhostUserGPIO;
-+typedef struct QVhostUserGPIOPCI QVhostUserGPIOPCI;
-+typedef struct QVhostUserGPIODevice QVhostUserGPIODevice;
-+
-+struct QVhostUserGPIO {
-+    QVirtioDevice *vdev;
-+    QVirtQueue **queues;
-+};
-+
-+struct QVhostUserGPIOPCI {
-+    QVirtioPCIDevice pci_vdev;
-+    QVhostUserGPIO gpio;
-+};
-+
-+struct QVhostUserGPIODevice {
-+    QOSGraphObject obj;
-+    QVhostUserGPIO gpio;
-+};
-+
-+#endif
-diff --git a/tests/qtest/libqos/virtio-gpio.c b/tests/qtest/libqos/virtio-gpio.c
-new file mode 100644
-index 0000000000..762aa6695b
---- /dev/null
-+++ b/tests/qtest/libqos/virtio-gpio.c
-@@ -0,0 +1,171 @@
-+/*
-+ * virtio-gpio nodes for testing
-+ *
-+ * Copyright (c) 2022 Linaro Ltd
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "standard-headers/linux/virtio_config.h"
-+#include "../libqtest.h"
-+#include "qemu/module.h"
-+#include "qgraph.h"
-+#include "virtio-gpio.h"
-+
-+static QGuestAllocator *alloc;
-+
-+static void virtio_gpio_cleanup(QVhostUserGPIO *gpio)
-+{
-+    QVirtioDevice *vdev = gpio->vdev;
-+    int i;
-+
-+    for (i = 0; i < 2; i++) {
-+        qvirtqueue_cleanup(vdev->bus, gpio->queues[i], alloc);
-+    }
-+    g_free(gpio->queues);
-+}
-+
-+/*
-+ * This handles the VirtIO setup from the point of view of the driver
-+ * frontend and therefor doesn't present any vhost specific features
-+ * and in fact masks of the re-used bit.
-+ */
-+static void virtio_gpio_setup(QVhostUserGPIO *gpio)
-+{
-+    QVirtioDevice *vdev = gpio->vdev;
-+    uint64_t features;
-+    int i;
-+
-+    features = qvirtio_get_features(vdev);
-+    features &= ~QVIRTIO_F_BAD_FEATURE;
-+    qvirtio_set_features(vdev, features);
-+
-+    gpio->queues = g_new(QVirtQueue *, 2);
-+    for (i = 0; i < 2; i++) {
-+        gpio->queues[i] = qvirtqueue_setup(vdev, alloc, i);
-+    }
-+    qvirtio_set_driver_ok(vdev);
-+}
-+
-+static void *qvirtio_gpio_get_driver(QVhostUserGPIO *v_gpio,
-+                                     const char *interface)
-+{
-+    if (!g_strcmp0(interface, "vhost-user-gpio")) {
-+        return v_gpio;
-+    }
-+    if (!g_strcmp0(interface, "virtio")) {
-+        return v_gpio->vdev;
-+    }
-+
-+    g_assert_not_reached();
-+}
-+
-+static void *qvirtio_gpio_device_get_driver(void *object,
-+                                            const char *interface)
-+{
-+    QVhostUserGPIODevice *v_gpio = object;
-+    return qvirtio_gpio_get_driver(&v_gpio->gpio, interface);
-+}
-+
-+/* virtio-gpio (mmio) */
-+static void qvirtio_gpio_device_destructor(QOSGraphObject *obj)
-+{
-+    QVhostUserGPIODevice *gpio_dev = (QVhostUserGPIODevice *) obj;
-+    virtio_gpio_cleanup(&gpio_dev->gpio);
-+}
-+
-+static void qvirtio_gpio_device_start_hw(QOSGraphObject *obj)
-+{
-+    QVhostUserGPIODevice *gpio_dev = (QVhostUserGPIODevice *) obj;
-+    virtio_gpio_setup(&gpio_dev->gpio);
-+}
-+
-+static void *virtio_gpio_device_create(void *virtio_dev,
-+                                       QGuestAllocator *t_alloc,
-+                                       void *addr)
-+{
-+    QVhostUserGPIODevice *virtio_device = g_new0(QVhostUserGPIODevice, 1);
-+    QVhostUserGPIO *interface = &virtio_device->gpio;
-+
-+    interface->vdev = virtio_dev;
-+    alloc = t_alloc;
-+
-+    virtio_device->obj.get_driver = qvirtio_gpio_device_get_driver;
-+    virtio_device->obj.start_hw = qvirtio_gpio_device_start_hw;
-+    virtio_device->obj.destructor = qvirtio_gpio_device_destructor;
-+
-+    return &virtio_device->obj;
-+}
-+
-+/* virtio-gpio-pci */
-+static void qvirtio_gpio_pci_destructor(QOSGraphObject *obj)
-+{
-+    QVhostUserGPIOPCI *gpio_pci = (QVhostUserGPIOPCI *) obj;
-+    QOSGraphObject *pci_vobj =  &gpio_pci->pci_vdev.obj;
-+
-+    virtio_gpio_cleanup(&gpio_pci->gpio);
-+    qvirtio_pci_destructor(pci_vobj);
-+}
-+
-+static void qvirtio_gpio_pci_start_hw(QOSGraphObject *obj)
-+{
-+    QVhostUserGPIOPCI *gpio_pci = (QVhostUserGPIOPCI *) obj;
-+    QOSGraphObject *pci_vobj =  &gpio_pci->pci_vdev.obj;
-+
-+    qvirtio_pci_start_hw(pci_vobj);
-+    virtio_gpio_setup(&gpio_pci->gpio);
-+}
-+
-+static void *qvirtio_gpio_pci_get_driver(void *object, const char *interface)
-+{
-+    QVhostUserGPIOPCI *v_gpio = object;
-+
-+    if (!g_strcmp0(interface, "pci-device")) {
-+        return v_gpio->pci_vdev.pdev;
-+    }
-+    return qvirtio_gpio_get_driver(&v_gpio->gpio, interface);
-+}
-+
-+static void *virtio_gpio_pci_create(void *pci_bus, QGuestAllocator *t_alloc,
-+                                    void *addr)
-+{
-+    QVhostUserGPIOPCI *virtio_spci = g_new0(QVhostUserGPIOPCI, 1);
-+    QVhostUserGPIO *interface = &virtio_spci->gpio;
-+    QOSGraphObject *obj = &virtio_spci->pci_vdev.obj;
-+
-+    virtio_pci_init(&virtio_spci->pci_vdev, pci_bus, addr);
-+    interface->vdev = &virtio_spci->pci_vdev.vdev;
-+    alloc = t_alloc;
-+
-+    obj->get_driver = qvirtio_gpio_pci_get_driver;
-+    obj->start_hw = qvirtio_gpio_pci_start_hw;
-+    obj->destructor = qvirtio_gpio_pci_destructor;
-+
-+    return obj;
-+}
-+
-+static void virtio_gpio_register_nodes(void)
-+{
-+    QPCIAddress addr = {
-+        .devfn = QPCI_DEVFN(4, 0),
-+    };
-+
-+    QOSGraphEdgeOptions edge_opts = { };
-+
-+    /* vhost-user-gpio-device */
-+    edge_opts.extra_device_opts = "id=gpio0,chardev=chr-vhost-user-test";
-+    qos_node_create_driver("vhost-user-gpio-device",
-+                            virtio_gpio_device_create);
-+    qos_node_consumes("vhost-user-gpio-device", "virtio-bus", &edge_opts);
-+    qos_node_produces("vhost-user-gpio-device", "vhost-user-gpio");
-+
-+    /* virtio-gpio-pci */
-+    edge_opts.extra_device_opts = "id=gpio0,addr=04.0,chardev=chr-vhost-user-test";
-+    add_qpci_address(&edge_opts, &addr);
-+    qos_node_create_driver("vhost-user-gpio-pci", virtio_gpio_pci_create);
-+    qos_node_consumes("vhost-user-gpio-pci", "pci-bus", &edge_opts);
-+    qos_node_produces("vhost-user-gpio-pci", "vhost-user-gpio");
-+}
-+
-+libqos_init(virtio_gpio_register_nodes);
-diff --git a/tests/qtest/libqos/virtio.c b/tests/qtest/libqos/virtio.c
-index 03056e5187..410513225f 100644
---- a/tests/qtest/libqos/virtio.c
-+++ b/tests/qtest/libqos/virtio.c
-@@ -110,7 +110,7 @@ void qvirtio_set_features(QVirtioDevice *d, uint64_t features)
-      * This could be a separate function for drivers that want to access
-      * configuration space before setting FEATURES_OK, but no existing users
-      * need that and it's less code for callers if this is done implicitly.
--    */
-+     */
-     if (features & (1ull << VIRTIO_F_VERSION_1)) {
-         uint8_t status = d->bus->get_status(d) |
-                          VIRTIO_CONFIG_S_FEATURES_OK;
-diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
-index 4f4fcc09f5..e8d2da7228 100644
---- a/tests/qtest/vhost-user-test.c
-+++ b/tests/qtest/vhost-user-test.c
-@@ -32,6 +32,7 @@
- #include "standard-headers/linux/vhost_types.h"
- #include "standard-headers/linux/virtio_ids.h"
- #include "standard-headers/linux/virtio_net.h"
-+#include "standard-headers/linux/virtio_gpio.h"
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index 74e7ad5a92..cecfb7c552 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -49,8 +49,14 @@ typedef struct VirtIOFeature {
+     size_t end;
+ } VirtIOFeature;
  
- #ifdef CONFIG_LINUX
- #include <sys/vfs.h>
-@@ -53,9 +54,12 @@
- #define VHOST_MAX_VIRTQUEUES    0x100
- 
- #define VHOST_USER_F_PROTOCOL_FEATURES 30
-+#define VIRTIO_F_VERSION_1 32
+-size_t virtio_feature_get_config_size(const VirtIOFeature *features,
+-                                      uint64_t host_features);
++typedef struct VirtIOConfigSizeParams {
++    size_t min_size;
++    size_t max_size;
++    const VirtIOFeature *feature_sizes;
++} VirtIOConfigSizeParams;
 +
- #define VHOST_USER_PROTOCOL_F_MQ 0
- #define VHOST_USER_PROTOCOL_F_LOG_SHMFD 1
- #define VHOST_USER_PROTOCOL_F_CROSS_ENDIAN   6
-+#define VHOST_USER_PROTOCOL_F_CONFIG 9
++size_t virtio_get_config_size(const VirtIOConfigSizeParams *params,
++                              uint64_t host_features);
  
- #define VHOST_LOG_PAGE 0x1000
+ typedef struct VirtQueue VirtQueue;
  
-@@ -140,6 +144,7 @@ enum {
- 
- enum {
-     VHOST_USER_NET,
-+    VHOST_USER_GPIO,
+diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+index e9ba752f6b..10c47c2934 100644
+--- a/hw/block/virtio-blk.c
++++ b/hw/block/virtio-blk.c
+@@ -49,13 +49,11 @@ static const VirtIOFeature feature_sizes[] = {
+     {}
  };
  
- typedef struct TestServer {
-@@ -198,6 +203,19 @@ static void append_vhost_net_opts(TestServer *s, GString *cmd_line,
-                            chr_opts, s->chr_name);
- }
+-static void virtio_blk_set_config_size(VirtIOBlock *s, uint64_t host_features)
+-{
+-    s->config_size = MAX(VIRTIO_BLK_CFG_SIZE,
+-        virtio_feature_get_config_size(feature_sizes, host_features));
+-
+-    assert(s->config_size <= sizeof(struct virtio_blk_config));
+-}
++static const VirtIOConfigSizeParams cfg_size_params = {
++    .min_size = VIRTIO_BLK_CFG_SIZE,
++    .max_size = sizeof(struct virtio_blk_config),
++    .feature_sizes = feature_sizes
++};
  
-+/*
-+ * For GPIO there are no other magic devices we need to add (like
-+ * block or netdev) so all we need to worry about is the vhost-user
-+ * chardev socket.
-+ */
-+static void append_vhost_gpio_opts(TestServer *s, GString *cmd_line,
-+                             const char *chr_opts)
-+{
-+    g_string_append_printf(cmd_line, QEMU_CMD_CHR,
-+                           s->chr_name, s->socket_path,
-+                           chr_opts);
-+}
-+
- static void append_mem_opts(TestServer *server, GString *cmd_line,
-                             int size, enum test_memfd memfd)
- {
-@@ -1090,3 +1108,51 @@ static void register_vhost_user_test(void)
-                  test_multiqueue, &opts);
- }
- libqos_init(register_vhost_user_test);
-+
-+static uint64_t vu_gpio_get_features(TestServer *s)
-+{
-+    return 0x1ULL << VIRTIO_F_VERSION_1 |
-+        0x1ULL << VIRTIO_GPIO_F_IRQ |
-+        0x1ULL << VHOST_USER_F_PROTOCOL_FEATURES;
-+}
-+
-+/*
-+ * This stub can't handle all the message types but we should reply
-+ * that we support VHOST_USER_PROTOCOL_F_CONFIG as gpio would use it
-+ * talking to a read vhost-user daemon.
-+ */
-+static void vu_gpio_get_protocol_features(TestServer *s, CharBackend *chr,
-+                                          VhostUserMsg *msg)
-+{
-+    /* send back features to qemu */
-+    msg->flags |= VHOST_USER_REPLY_MASK;
-+    msg->size = sizeof(m.payload.u64);
-+    msg->payload.u64 = 1ULL << VHOST_USER_PROTOCOL_F_CONFIG;
-+
-+    qemu_chr_fe_write_all(chr, (uint8_t *)msg, VHOST_USER_HDR_SIZE + msg->size);
-+}
-+
-+static struct vhost_user_ops g_vu_gpio_ops = {
-+    .type = VHOST_USER_GPIO,
-+
-+    .append_opts = append_vhost_gpio_opts,
-+
-+    .get_features = vu_gpio_get_features,
-+    .set_features = vu_net_set_features,
-+    .get_protocol_features = vu_gpio_get_protocol_features,
+ static void virtio_blk_init_request(VirtIOBlock *s, VirtQueue *vq,
+                                     VirtIOBlockReq *req)
+@@ -1204,8 +1202,8 @@ static void virtio_blk_device_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
+-    virtio_blk_set_config_size(s, s->host_features);
+-
++    s->config_size = virtio_get_config_size(&cfg_size_params,
++                                            s->host_features);
+     virtio_init(vdev, VIRTIO_ID_BLOCK, s->config_size);
+ 
+     s->blk = conf->conf.blk;
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 63a8332cd0..e9f696b4cf 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -106,6 +106,12 @@ static const VirtIOFeature feature_sizes[] = {
+     {}
+ };
+ 
++static const VirtIOConfigSizeParams cfg_size_params = {
++    .min_size = endof(struct virtio_net_config, mac),
++    .max_size = sizeof(struct virtio_net_config),
++    .feature_sizes = feature_sizes
 +};
 +
-+static void register_vhost_gpio_test(void)
-+{
-+    QOSGraphTestOptions opts = {
-+        .before = vhost_user_test_setup,
-+        .subprocess = true,
-+        .arg = &g_vu_gpio_ops,
-+    };
-+
-+    qemu_add_opts(&qemu_chardev_opts);
-+
-+    qos_add_test("read-guest-mem/memfile",
-+                 "vhost-user-gpio", test_read_guest_mem, &opts);
-+}
-+libqos_init(register_vhost_gpio_test);
-diff --git a/MAINTAINERS b/MAINTAINERS
-index beccce4a7a..d0c0c8a55b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2104,6 +2104,7 @@ R: Viresh Kumar <viresh.kumar@linaro.org>
- S: Maintained
- F: hw/virtio/vhost-user-gpio*
- F: include/hw/virtio/vhost-user-gpio.h
-+F: tests/qtest/libqos/virtio-gpio.*
+ static VirtIONetQueue *virtio_net_get_subqueue(NetClientState *nc)
+ {
+     VirtIONet *n = qemu_get_nic_opaque(nc);
+@@ -3241,8 +3247,7 @@ static void virtio_net_set_config_size(VirtIONet *n, uint64_t host_features)
+ {
+     virtio_add_feature(&host_features, VIRTIO_NET_F_MAC);
  
- virtio-crypto
- M: Gonglei <arei.gonglei@huawei.com>
-diff --git a/tests/qtest/libqos/meson.build b/tests/qtest/libqos/meson.build
-index cff83c86d9..a5b6d5197a 100644
---- a/tests/qtest/libqos/meson.build
-+++ b/tests/qtest/libqos/meson.build
-@@ -45,6 +45,7 @@ libqos_srcs = files(
-         'virtio-scsi.c',
-         'virtio-serial.c',
-         'virtio-iommu.c',
-+        'virtio-gpio.c',
-         'generic-pcihost.c',
+-    n->config_size = virtio_feature_get_config_size(feature_sizes,
+-                                                    host_features);
++    n->config_size = virtio_get_config_size(&cfg_size_params, host_features);
+ }
  
-         # qgraph machines:
+ void virtio_net_set_netclient_name(VirtIONet *n, const char *name,
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 97a6307c0f..2cc1d7d24a 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -3006,11 +3006,12 @@ int virtio_set_features(VirtIODevice *vdev, uint64_t val)
+     return ret;
+ }
+ 
+-size_t virtio_feature_get_config_size(const VirtIOFeature *feature_sizes,
+-                                      uint64_t host_features)
++size_t virtio_get_config_size(const VirtIOConfigSizeParams *params,
++                              uint64_t host_features)
+ {
+-    size_t config_size = 0;
+-    int i;
++    size_t config_size = params->min_size;
++    const VirtIOFeature *feature_sizes = params->feature_sizes;
++    size_t i;
+ 
+     for (i = 0; feature_sizes[i].flags != 0; i++) {
+         if (host_features & feature_sizes[i].flags) {
+@@ -3018,6 +3019,7 @@ size_t virtio_feature_get_config_size(const VirtIOFeature *feature_sizes,
+         }
+     }
+ 
++    assert(config_size <= params->max_size);
+     return config_size;
+ }
+ 
 -- 
 MST
 
