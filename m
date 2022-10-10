@@ -2,90 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 452385F9B3B
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 10:43:02 +0200 (CEST)
-Received: from localhost ([::1]:54512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19A545F9B27
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 10:39:59 +0200 (CEST)
+Received: from localhost ([::1]:39254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohoNI-0003vT-CR
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 04:43:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58416)
+	id 1ohoKL-0000vz-NN
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 04:39:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1ohoIW-0007Si-5X
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 04:38:04 -0400
-Received: from mga05.intel.com ([192.55.52.43]:20776)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1ohoIQ-0003g6-8B
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 04:38:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665391078; x=1696927078;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=/vuv9C+O7yyfz0UZadWdOspuDVGHXflFppFtBTStze0=;
- b=jFvFO9WpRsYGtbjLxOmZ9K+Zo6Eay2gUenEXlHbJYixA6rsKpnjUYhSD
- 41UZCULFVUNEyEi/NXL2135kVosB7ZUd+mcFi3FAH9VWbWV8+dea6rfy2
- iMc7ytmsC3/LtLYTiKdpkzLsrLuBqKLTjg4FdFX6Xq6kV1glsX2YHUM/n
- rYYs82ICml4I976JHqVO75Zmn6Dbsufj7d00nk4D0P5aThm7c0kI49uj4
- HiKApuoH/3/eX6rUJVpMhDaarSomp4h6vdx9gyVi0ezZBma/bp/aSXZ6i
- 2zBpK12n6AQ4Y+N7ZnROhrY5cGybD/hmg0PQ8Lio6qejXF8qt7+oMfLD6 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10495"; a="390481358"
-X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="390481358"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Oct 2022 01:37:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10495"; a="656855059"
-X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="656855059"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by orsmga008.jf.intel.com with ESMTP; 10 Oct 2022 01:37:46 -0700
-Date: Mon, 10 Oct 2022 16:33:13 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Fuad Tabba <tabba@google.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v8 8/8] KVM: Enable and expose KVM_MEM_PRIVATE
-Message-ID: <20221010083313.GB3145236@chaop.bj.intel.com>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-9-chao.p.peng@linux.intel.com>
- <CA+EHjTwXPrHYb2us7+vrdS9jwYXv3j5UniG0bpb6dKgV77A=8A@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <nivanov@cloudlinux.com>)
+ id 1ohoEq-0004lw-7x
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 04:34:16 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:36453)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <nivanov@cloudlinux.com>)
+ id 1ohoEi-00032P-2j
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 04:34:15 -0400
+Received: by mail-ej1-x635.google.com with SMTP id 13so23344265ejn.3
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 01:34:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cloudlinux.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=euwXIDLgwlnZXzDVATCfmapVnwZszMNFxheoF+olP/8=;
+ b=LxDAHqrHyWWxo0vKiQdc5uFwpmDTT6CMdWAyx2T9lknUVi9vDmtVLA7Svp5OnU1dck
+ xc/vSj5on+Bj+VEURPQlj9UKWidDB6LIhoEJePRMNMmuhPJPlwL+9TGxreN/3odmZ1Ue
+ MyitUivQPlVw2HGg1jSLZLN6r35rAZLzKIRkSPeLCJ8lP0DhYS0gJH3PUtTYHgxd+zC7
+ B6qDREcmyKjA471v0z2nn3KXXJU6CXLBRJRGetzca6c+NbRbZJAyn+PJQ9ZQprhn52tu
+ LyokfXAhxxaC+dlcP1/StoisLfRndPSEP1XRAh8tzUoRd3T0lU3qoA1GO+QMN8YjTIST
+ r/0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=euwXIDLgwlnZXzDVATCfmapVnwZszMNFxheoF+olP/8=;
+ b=6lsHyiv542ONKMOr/sdXa85kZzOkfU5zmFixuS8G16r4wuZGkziOM4vnm0ER2aigYK
+ SZWQMkwDO3+DqzRFPRvPQr0Hsl1lSDfISLTi4n91hYW1QUmpGbzDgDhzPEzFr5CsbtEg
+ qX3Ll25+lC/EuBk8PtCnBgNLzv04yo1IDkaIgVKOdHAbrjyHI5u56DKe6Gdpx08SY+9Y
+ ysQFpIa8rwTwLV+2Nuh3CT9kuiEiezrIkAzk/ttVfwLEo0ztop1fNjEbjJfMYNA3eXwD
+ 1dcj3V9DIVs6W1b3ROPpFBgoj68u9VlD83ed6Y6KO8fIu59iKps0gOTFfs5blAVmL0Ju
+ Jy8A==
+X-Gm-Message-State: ACrzQf3cN/ylgY/cwbydrLQp28M4GDGoYzL83VDKiJ6qzTwDKN/lvKf1
+ xFCXyrymSKrk1Pzy1GRO2RbYhO7DHG9exdM/Nkmneg==
+X-Google-Smtp-Source: AMsMyM6ZXcGEI2SKkUwDdrjcO2Rb9HahYplSbnJEbC6dmzxhAntw+BzRsDTC7YLAsp44Cj7wqFEH3QbIk8o9M1A1/jM=
+X-Received: by 2002:a17:907:2c68:b0:78d:7981:3f8d with SMTP id
+ ib8-20020a1709072c6800b0078d79813f8dmr12160613ejc.724.1665390844731; Mon, 10
+ Oct 2022 01:34:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+EHjTwXPrHYb2us7+vrdS9jwYXv3j5UniG0bpb6dKgV77A=8A@mail.gmail.com>
-Received-SPF: none client-ip=192.55.52.43;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga05.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <CAAJ4Ao9crXap1OYiutSgG5caZHzVkM=WvQYpVD2XN1M8JsD3cQ@mail.gmail.com>
+ <CAAJ4Ao9M8CnfBtiricqteAfhPhV9sOhiicSYVsrqtCp7CisK_Q@mail.gmail.com>
+ <CAFEAcA80d1Qd3VrzV79_ywEryikfLrLNMbe50hjMEP8_HKNBvg@mail.gmail.com>
+ <1727925.InMztqvFxb@silver>
+ <CAFEAcA9PcDk5pnRrKQf2zRaX8h8KSA9SDHODS102iK3jd_fpUQ@mail.gmail.com>
+ <CAAJ4Ao8sxnuxgeUFwvdwceMn6=xy_QxYuOzhAJcGthnSd1pRgQ@mail.gmail.com>
+ <CAFEAcA-jRHEGyW-oA1rSXDuYa81x2SNt+vqrvUPtgK6Wr93sJg@mail.gmail.com>
+In-Reply-To: <CAFEAcA-jRHEGyW-oA1rSXDuYa81x2SNt+vqrvUPtgK6Wr93sJg@mail.gmail.com>
+From: Nikita Ivanov <nivanov@cloudlinux.com>
+Date: Mon, 10 Oct 2022 11:33:53 +0300
+Message-ID: <CAAJ4Ao8wyZAE-r-ad9DwF-CrqNqTukZTYL5PYBX4_uUTrC3R7Q@mail.gmail.com>
+Subject: Re: [PATCH] error handling: Use TFR() macro where applicable
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org, 
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Greg Kurz <groug@kaod.org>, Jason Wang <jasowang@redhat.com>, 
+ Michael Roth <michael.roth@amd.com>, Konstantin Kostiuk <kkostiuk@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000b6858805eaaa0508"
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=nivanov@cloudlinux.com; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,268 +92,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 06, 2022 at 09:55:31AM +0100, Fuad Tabba wrote:
-> Hi,
-> 
-> On Thu, Sep 15, 2022 at 3:37 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> >
-> > Expose KVM_MEM_PRIVATE and memslot fields private_fd/offset to
-> > userspace. KVM will register/unregister private memslot to fd-based
-> > memory backing store and response to invalidation event from
-> > inaccessible_notifier to zap the existing memory mappings in the
-> > secondary page table.
-> >
-> > Whether KVM_MEM_PRIVATE is actually exposed to userspace is determined
-> > by architecture code which can turn on it by overriding the default
-> > kvm_arch_has_private_mem().
-> >
-> > A 'kvm' reference is added in memslot structure since in
-> > inaccessible_notifier callback we can only obtain a memslot reference
-> > but 'kvm' is needed to do the zapping.
-> >
-> > Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > ---
-> >  include/linux/kvm_host.h |   1 +
-> >  virt/kvm/kvm_main.c      | 116 +++++++++++++++++++++++++++++++++++++--
-> >  2 files changed, 111 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> > index b9906cdf468b..cb4eefac709c 100644
-> > --- a/include/linux/kvm_host.h
-> > +++ b/include/linux/kvm_host.h
-> > @@ -589,6 +589,7 @@ struct kvm_memory_slot {
-> >         struct file *private_file;
-> >         loff_t private_offset;
-> >         struct inaccessible_notifier notifier;
-> > +       struct kvm *kvm;
-> >  };
-> >
-> >  static inline bool kvm_slot_can_be_private(const struct kvm_memory_slot *slot)
-> > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> > index 97d893f7482c..87e239d35b96 100644
-> > --- a/virt/kvm/kvm_main.c
-> > +++ b/virt/kvm/kvm_main.c
-> > @@ -983,6 +983,57 @@ static int kvm_vm_ioctl_set_mem_attr(struct kvm *kvm, gpa_t gpa, gpa_t size,
-> >                 xa_erase(&kvm->mem_attr_array, index);
-> >         return r;
-> >  }
-> > +
-> > +static void kvm_private_notifier_invalidate(struct inaccessible_notifier *notifier,
-> > +                                           pgoff_t start, pgoff_t end)
-> > +{
-> > +       struct kvm_memory_slot *slot = container_of(notifier,
-> > +                                                   struct kvm_memory_slot,
-> > +                                                   notifier);
-> > +       unsigned long base_pgoff = slot->private_offset >> PAGE_SHIFT;
-> > +       gfn_t start_gfn = slot->base_gfn;
-> > +       gfn_t end_gfn = slot->base_gfn + slot->npages;
-> > +
-> > +
-> > +       if (start > base_pgoff)
-> > +               start_gfn = slot->base_gfn + start - base_pgoff;
-> > +
-> > +       if (end < base_pgoff + slot->npages)
-> > +               end_gfn = slot->base_gfn + end - base_pgoff;
-> > +
-> > +       if (start_gfn >= end_gfn)
-> > +               return;
-> > +
-> > +       kvm_zap_gfn_range(slot->kvm, start_gfn, end_gfn);
-> > +}
-> > +
-> > +static struct inaccessible_notifier_ops kvm_private_notifier_ops = {
-> > +       .invalidate = kvm_private_notifier_invalidate,
-> > +};
-> > +
-> > +static inline void kvm_private_mem_register(struct kvm_memory_slot *slot)
-> > +{
-> > +       slot->notifier.ops = &kvm_private_notifier_ops;
-> > +       inaccessible_register_notifier(slot->private_file, &slot->notifier);
-> > +}
-> > +
-> > +static inline void kvm_private_mem_unregister(struct kvm_memory_slot *slot)
-> > +{
-> > +       inaccessible_unregister_notifier(slot->private_file, &slot->notifier);
-> > +}
-> > +
-> > +#else /* !CONFIG_HAVE_KVM_PRIVATE_MEM */
-> > +
-> > +static inline void kvm_private_mem_register(struct kvm_memory_slot *slot)
-> > +{
-> > +       WARN_ON_ONCE(1);
-> > +}
-> > +
-> > +static inline void kvm_private_mem_unregister(struct kvm_memory_slot *slot)
-> > +{
-> > +       WARN_ON_ONCE(1);
-> > +}
-> > +
-> >  #endif /* CONFIG_HAVE_KVM_PRIVATE_MEM */
-> >
-> >  #ifdef CONFIG_HAVE_KVM_PM_NOTIFIER
-> > @@ -1029,6 +1080,11 @@ static void kvm_destroy_dirty_bitmap(struct kvm_memory_slot *memslot)
-> >  /* This does not remove the slot from struct kvm_memslots data structures */
-> >  static void kvm_free_memslot(struct kvm *kvm, struct kvm_memory_slot *slot)
+--000000000000b6858805eaaa0508
+Content-Type: text/plain; charset="UTF-8"
+
+Hi! Thanks for your notes. I'll try to send updated patches by the end of
+the day.
+
+On Fri, Oct 7, 2022 at 6:32 PM Peter Maydell <peter.maydell@linaro.org>
+wrote:
+
+> I think this patch is doing things in the wrong order. Instead of
+> converting code to use the old macro that we don't like and then
+> updating it again in patch 2 to use the new macro, we should
+> first introduce the new macro, and then after that we can update
+> code that's currently not using a macro at all to use the new one.
+> This makes code review easier because we don't have to look at a
+> change to this code which is then going to be rewritten anyway.
+
+
+Sounds smooth. I'll refactor patches accordingly.
+
+
+> >      if (ret < 0) {
+> >          ret = -errno;
+>
+>
+> > @@ -1472,8 +1472,8 @@ static ssize_t
+> handle_aiocb_rw_vector(RawPosixAIOData *aiocb)
 > >  {
-> > +       if (slot->flags & KVM_MEM_PRIVATE) {
-> > +               kvm_private_mem_unregister(slot);
-> > +               fput(slot->private_file);
-> > +       }
-> > +
-> >         kvm_destroy_dirty_bitmap(slot);
+> >      ssize_t len;
 > >
-> >         kvm_arch_free_memslot(kvm, slot);
-> > @@ -1600,10 +1656,16 @@ bool __weak kvm_arch_has_private_mem(struct kvm *kvm)
-> >         return false;
-> >  }
-> >
-> > -static int check_memory_region_flags(const struct kvm_user_mem_region *mem)
-> > +static int check_memory_region_flags(struct kvm *kvm,
-> > +                                    const struct kvm_user_mem_region *mem)
-> >  {
-> >         u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
-> >
-> > +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
-> > +       if (kvm_arch_has_private_mem(kvm))
-> > +               valid_flags |= KVM_MEM_PRIVATE;
-> > +#endif
-> > +
-> >  #ifdef __KVM_HAVE_READONLY_MEM
-> >         valid_flags |= KVM_MEM_READONLY;
+> > -    TFR(
+> > -        len = (aiocb->aio_type & QEMU_AIO_WRITE) ?
+> > +    len = TEMP_FAILURE_RETRY(
+> > +        (aiocb->aio_type & QEMU_AIO_WRITE) ?
+> >              qemu_pwritev(aiocb->aio_fildes,
+> >                             aiocb->io.iov,
+> >                             aiocb->io.niov,
+>
+> I'm not sure why you've put the TEMP_FAILURE_RETRY on the outside here
+> rather than just on the individual function calls.
+>
+
+The original code contained both branches in one while loop, so I was
+afraid that
+value `aiocb->aio_type & QEMU_AIO_WRITE` would change somehow during the
+loop.
+If you'll say that this is impossible, I'll adjust the code as you propose.
+
+> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> > index b1c161c035..6e244f15fa 100644
+> > --- a/include/qemu/osdep.h
+> > +++ b/include/qemu/osdep.h
+> > @@ -243,7 +243,13 @@ void QEMU_ERROR("code path is reachable")
+> >  #define ESHUTDOWN 4099
 > >  #endif
-> > @@ -1679,6 +1741,9 @@ static int kvm_prepare_memory_region(struct kvm *kvm,
-> >  {
-> >         int r;
 > >
-> > +       if (change == KVM_MR_CREATE && new->flags & KVM_MEM_PRIVATE)
-> > +               kvm_private_mem_register(new);
-> > +
-> 
-> >From the discussion I had with Kirill in the first patch *, should
-> this check that the private_fd is inaccessible?
+> > -#define TFR(expr) do { if ((expr) != -1) break; } while (errno == EINTR)
+> > +#define TEMP_FAILURE_RETRY(expr) \
+>
+> We can't call the macro this, because the glibc system headers already
+> may define a macro of that name, so the compiler will complain if they're
+> both defined at the same time, and depending on header ordering it might
+> not be clear which version you're getting.
+>
 
-Yes I can add a check in KVM code, see below for where I want to add it.
+Sorry, my fault. I will rename it to "RETRY_ON_EINTR" as it was proposed
+earlier in this thread.
+-- 
+Best Regards,
+*Nikita Ivanov* | C developer
 
-> 
-> [*] https://lore.kernel.org/all/20221003110129.bbee7kawhw5ed745@box.shutemov.name/
-> 
-> Cheers,
-> /fuad
-> 
-> >         /*
-> >          * If dirty logging is disabled, nullify the bitmap; the old bitmap
-> >          * will be freed on "commit".  If logging is enabled in both old and
-> > @@ -1707,6 +1772,9 @@ static int kvm_prepare_memory_region(struct kvm *kvm,
-> >         if (r && new && new->dirty_bitmap && (!old || !old->dirty_bitmap))
-> >                 kvm_destroy_dirty_bitmap(new);
-> >
-> > +       if (r && change == KVM_MR_CREATE && new->flags & KVM_MEM_PRIVATE)
-> > +               kvm_private_mem_unregister(new);
-> > +
-> >         return r;
-> >  }
-> >
-> > @@ -2004,7 +2072,7 @@ int __kvm_set_memory_region(struct kvm *kvm,
-> >         int as_id, id;
-> >         int r;
-> >
-> > -       r = check_memory_region_flags(mem);
-> > +       r = check_memory_region_flags(kvm, mem);
-> >         if (r)
-> >                 return r;
-> >
-> > @@ -2023,6 +2091,10 @@ int __kvm_set_memory_region(struct kvm *kvm,
-> >              !access_ok((void __user *)(unsigned long)mem->userspace_addr,
-> >                         mem->memory_size))
-> >                 return -EINVAL;
-> > +       if (mem->flags & KVM_MEM_PRIVATE &&
-> > +               (mem->private_offset & (PAGE_SIZE - 1) ||
-> > +                mem->private_offset > U64_MAX - mem->memory_size))
-> > +               return -EINVAL;
-> >         if (as_id >= KVM_ADDRESS_SPACE_NUM || id >= KVM_MEM_SLOTS_NUM)
-> >                 return -EINVAL;
-> >         if (mem->guest_phys_addr + mem->memory_size < mem->guest_phys_addr)
-> > @@ -2061,6 +2133,9 @@ int __kvm_set_memory_region(struct kvm *kvm,
-> >                 if ((kvm->nr_memslot_pages + npages) < kvm->nr_memslot_pages)
-> >                         return -EINVAL;
-> >         } else { /* Modify an existing slot. */
-> > +               /* Private memslots are immutable, they can only be deleted. */
-> > +               if (mem->flags & KVM_MEM_PRIVATE)
-> > +                       return -EINVAL;
-> >                 if ((mem->userspace_addr != old->userspace_addr) ||
-> >                     (npages != old->npages) ||
-> >                     ((mem->flags ^ old->flags) & KVM_MEM_READONLY))
-> > @@ -2089,10 +2164,27 @@ int __kvm_set_memory_region(struct kvm *kvm,
-> >         new->npages = npages;
-> >         new->flags = mem->flags;
-> >         new->userspace_addr = mem->userspace_addr;
-> > +       if (mem->flags & KVM_MEM_PRIVATE) {
-> > +               new->private_file = fget(mem->private_fd);
-> > +               if (!new->private_file) {
-> > +                       r = -EINVAL;
+--000000000000b6858805eaaa0508
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The check will go here.
+<div dir=3D"ltr"><div dir=3D"ltr">Hi! Thanks for your notes. I&#39;ll try t=
+o send updated patches by the end of the day.=C2=A0<br></div><div dir=3D"lt=
+r"><br></div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_att=
+r">On Fri, Oct 7, 2022 at 6:32 PM Peter Maydell &lt;<a href=3D"mailto:peter=
+.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; wrote:<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">I think this patch is doing th=
+ings in the wrong order. Instead of<br>
+converting code to use the old macro that we don&#39;t like and then<br>
+updating it again in patch 2 to use the new macro, we should<br>
+first introduce the new macro, and then after that we can update<br>
+code that&#39;s currently not using a macro at all to use the new one.<br>
+This makes code review easier because we don&#39;t have to look at a<br>
+change to this code which is then going to be rewritten anyway.</blockquote=
+><div><br></div><div>Sounds smooth. I&#39;ll refactor patches=C2=A0accordin=
+gly.</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if (ret &lt; 0) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D -errno;<br>
+<br>
+<br>
+&gt; @@ -1472,8 +1472,8 @@ static ssize_t handle_aiocb_rw_vector(RawPosixAI=
+OData *aiocb)<br>
+&gt;=C2=A0 {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ssize_t len;<br>
+&gt;<br>
+&gt; -=C2=A0 =C2=A0 TFR(<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 len =3D (aiocb-&gt;aio_type &amp; QEMU_AI=
+O_WRITE) ?<br>
+&gt; +=C2=A0 =C2=A0 len =3D TEMP_FAILURE_RETRY(<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 (aiocb-&gt;aio_type &amp; QEMU_AIO_WRITE)=
+ ?<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_pwritev(aiocb-&gt=
+;aio_fildes,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0aiocb-&gt;io.iov,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0aiocb-&gt;io.niov,<br>
+<br>
+I&#39;m not sure why you&#39;ve put the TEMP_FAILURE_RETRY on the outside h=
+ere<br>
+rather than just on the individual function calls.<br></blockquote><div>=C2=
+=A0</div><div>The original code contained both branches in one while loop, =
+so I was afraid that</div><div>value `aiocb-&gt;aio_type &amp; QEMU_AIO_WRI=
+TE` would change somehow during the loop.</div><div>If you&#39;ll say that =
+this is impossible, I&#39;ll adjust the code as you propose.</div><div><br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">
+&gt; diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h<br>
+&gt; index b1c161c035..6e244f15fa 100644<br>
+&gt; --- a/include/qemu/osdep.h<br>
+&gt; +++ b/include/qemu/osdep.h<br>
+&gt; @@ -243,7 +243,13 @@ void QEMU_ERROR(&quot;code path is reachable&quot=
+;)<br>
+&gt;=C2=A0 #define ESHUTDOWN 4099<br>
+&gt;=C2=A0 #endif<br>
+&gt;<br>
+&gt; -#define TFR(expr) do { if ((expr) !=3D -1) break; } while (errno =3D=
+=3D EINTR)<br>
+&gt; +#define TEMP_FAILURE_RETRY(expr) \<br>
+<br>
+We can&#39;t call the macro this, because the glibc system headers already<=
+br>
+may define a macro of that name, so the compiler will complain if they&#39;=
+re<br>
+both defined at the same time, and depending on header ordering it might<br=
+>
+not be clear which version you&#39;re getting.<br></blockquote><div>=C2=A0<=
+/div><div>Sorry, my fault. I will rename it to &quot;RETRY_ON_EINTR&quot; a=
+s it was proposed earlier in this thread.</div></div>-- <br><div dir=3D"ltr=
+" class=3D"gmail_signature"><div dir=3D"ltr">Best Regards,<div><b>Nikita Iv=
+anov</b> | C developer</div></div></div></div>
 
-> > +                       goto out;
-> > +               }
-> > +               new->private_offset = mem->private_offset;
-> > +       }
-> > +
-> > +       new->kvm = kvm;
-> >
-> >         r = kvm_set_memslot(kvm, old, new, change);
-> >         if (r)
-> > -               kfree(new);
-> > +               goto out;
-> > +
-> > +       return 0;
-> > +
-> > +out:
-> > +       if (new->private_file)
-> > +               fput(new->private_file);
-> > +       kfree(new);
-> >         return r;
-> >  }
-> >  EXPORT_SYMBOL_GPL(__kvm_set_memory_region);
-> > @@ -4747,16 +4839,28 @@ static long kvm_vm_ioctl(struct file *filp,
-> >         }
-> >         case KVM_SET_USER_MEMORY_REGION: {
-> >                 struct kvm_user_mem_region mem;
-> > -               unsigned long size = sizeof(struct kvm_userspace_memory_region);
-> > +               unsigned int flags_offset = offsetof(typeof(mem), flags);
-> > +               unsigned long size;
-> > +               u32 flags;
-> >
-> >                 kvm_sanity_check_user_mem_region_alias();
-> >
-> > +               memset(&mem, 0, sizeof(mem));
-> > +
-> >                 r = -EFAULT;
-> > -               if (copy_from_user(&mem, argp, size);
-> > +               if (get_user(flags, (u32 __user *)(argp + flags_offset)))
-> > +                       goto out;
-> > +
-> > +               if (flags & KVM_MEM_PRIVATE)
-> > +                       size = sizeof(struct kvm_userspace_memory_region_ext);
-> > +               else
-> > +                       size = sizeof(struct kvm_userspace_memory_region);
-> > +
-> > +               if (copy_from_user(&mem, argp, size))
-> >                         goto out;
-> >
-> >                 r = -EINVAL;
-> > -               if (mem.flags & KVM_MEM_PRIVATE)
-> > +               if ((flags ^ mem.flags) & KVM_MEM_PRIVATE)
-> >                         goto out;
-> >
-> >                 r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
-> > --
-> > 2.25.1
-> >
+--000000000000b6858805eaaa0508--
 
