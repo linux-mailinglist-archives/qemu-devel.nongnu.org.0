@@ -2,87 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 128B95F9FAB
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 15:54:46 +0200 (CEST)
-Received: from localhost ([::1]:35240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC885F9FBE
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 16:01:24 +0200 (CEST)
+Received: from localhost ([::1]:36346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohtEz-0007Pe-6Q
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 09:54:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41612)
+	id 1ohtLO-0003wt-CS
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 10:01:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oht9m-0003ca-6c
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 09:49:22 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39699)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oht9g-0007Vk-Lj
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 09:49:21 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id f11so17158495wrm.6
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 06:49:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=HhJXZKi9i836/v6eLeGNGvows+myixEcDMRhAAY3sCk=;
- b=lsO9NvW+XOjuhXNACAhAw1IrJUA6BTflhk5Nd+XBMYu8ANTbp9KnCIPzSNrE4qRFap
- l3XobFMUxiQyn4tAp8Q8hF2tBpu6nIvA00RHLyfGHi3v7uqkx1ycSHzRyFEdng44XxvY
- 3sH4FHmKGnaSINcDe726d6+Qb4/Jel5yhj5ZbkG85Ztl56dBHnWVPfH68YFKBBr52dg3
- VJ2Wq/zh1xX4/SWmwHg/StjYLdhsdBfylB19c/crxp9GpxTraGQJ5MrqPiuhZ36SEsq1
- dkh0PUn590SweS8Oz02mPl20FNnXt5YdPmyZv2sgrfLF+3Kexgyh+dqC+KQjSaBDR5XD
- g4fQ==
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1ohtIp-0002NB-6W
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 09:58:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57502)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1ohtIa-0000j2-6J
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 09:58:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665410306;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zvIEApFf+udIs6OoniyBs/pnAS4bl6FQU6JPVBBJUAE=;
+ b=Ik/J8kh//P10ku7Bvv0VRKe3qiS6Ah+34W7dVaVYu0z/rb49OZaacWjjTvTKP4DPWs5Kat
+ x7AgtQ4U4TQfioM9332smhhP7A0DJVJu+Qu8qphMgszJGzB+WbDCi03HiT+2ctzx5VGpDo
+ It89TZk5F5niEmetMi1AwZktPQEtUzI=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-615-UnoADlLgMJuqR5xuCpxY0w-1; Mon, 10 Oct 2022 09:58:25 -0400
+X-MC-Unique: UnoADlLgMJuqR5xuCpxY0w-1
+Received: by mail-il1-f198.google.com with SMTP id
+ c3-20020a056e020bc300b002fa92ba4606so8391701ilu.14
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 06:58:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=HhJXZKi9i836/v6eLeGNGvows+myixEcDMRhAAY3sCk=;
- b=mPZT4LJ8FvVRYeIPkVocsEPXkKEjTylhx6+F8JwjBzof+xyG7jqNhGXrMLShR6rxHh
- IOLI+QlmWlT6iass+r8iikF305lwTePfXIzDhaXYzg6pIzGhAV+TNhNmDnE/kOricvoW
- oT9mKuZXZO7kEBEA3u/3NiQN9W77tKvRVdq2XwVPUMedexBDUqvpVAmEnxBPGdTJUyMG
- +1KPsonJcjfzYEoJUAMNnzJwO1lxWcynAShnSztxiuJe+FWHkxoQwxbIIKxVlicM6sGr
- bbeR38Y1IuSLn7ZmYryZo4WO4QLjmNF3PL9G2eHW5gC7gL/vRY2D0UnAp0V6AjRS5V19
- x+Xw==
-X-Gm-Message-State: ACrzQf0tUG4GzgYx98Duppt8SDeoqQLE33YQ/dVwKHYr2zw+Jsbr+P6c
- qE1T51AwDOZfWUkNOesKyIX05DmpGZ9c4Q==
-X-Google-Smtp-Source: AMsMyM6msD/hyio733YLEcLSvm0IejawXcUkcZNH3EgoEgliqjf+q6u7goordkuaOKSp+/nQkMFstw==
-X-Received: by 2002:a5d:474b:0:b0:22e:3180:f748 with SMTP id
- o11-20020a5d474b000000b0022e3180f748mr10840265wrs.504.1665409754184; 
- Mon, 10 Oct 2022 06:49:14 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- o5-20020adfe805000000b00228cd9f6349sm8934861wrm.106.2022.10.10.06.49.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 06:49:13 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CF3541FFB7;
- Mon, 10 Oct 2022 14:49:12 +0100 (BST)
-References: <20221004130138.2299307-1-alex.bennee@linaro.org>
- <20221004130138.2299307-29-alex.bennee@linaro.org>
- <Y0QV+B+Wz6fxceh1@redhat.com>
-User-agent: mu4e 1.9.1; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com, Paolo Bonzini
- <pbonzini@redhat.com>
-Subject: Re: [PULL 28/54] configure: build ROMs with container-based cross
- compilers
-Date: Mon, 10 Oct 2022 14:47:15 +0100
-In-reply-to: <Y0QV+B+Wz6fxceh1@redhat.com>
-Message-ID: <87v8orss9z.fsf@linaro.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=zvIEApFf+udIs6OoniyBs/pnAS4bl6FQU6JPVBBJUAE=;
+ b=GNYCeaCs/N5VyT3rq+si/Z4Z/S6IpXcCZldc21pauP1XC6TbgLHIaLcC40SV6qZSpq
+ WQ9DcnM/Pe9w+Kv2XIXqQjPDM55Pn5JjHvm8r+Kr4y9FKYwRLJOxn7ZjNXUZs0k+Tjd3
+ A7Do/E2oPFehOXKqUCBESxk1opI+du1t3RFb+HPT4oI0Vsl+jbIssktONnC1p+LCnmeC
+ bE7yetLuzG4g8Udz9GN1kIm5+jSGk9scXenK3NfWEnt8hH0ic/gIe5Oe/oUcOQkgmJYO
+ sG9c5G/0FR1h6akxiY8HB0fSkIknKnDfo3zYZXW8W8zwi2QZVLA0eEeQXVrYoqpbDMyc
+ E1hg==
+X-Gm-Message-State: ACrzQf1NqrJyw6Sbvl8MfkBBP/atvo9g2LqFLgqlgauihMYdqOxr5HYy
+ zji5uZQvDLOuM+FNM+eNNpjUGMOnwq/6C1SgIPbsMfXAQn+53Vd5qv8NhbIk3hs2a98UdaBnKee
+ rS7bT92TZY7sjV3DOGRkWRpJc65d/5+E=
+X-Received: by 2002:a05:6e02:152e:b0:2f9:e082:7fc7 with SMTP id
+ i14-20020a056e02152e00b002f9e0827fc7mr8968357ilu.167.1665410304463; 
+ Mon, 10 Oct 2022 06:58:24 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6FmqsdjfwIfqWQr6ncVHG8DTaL1PSFfICnhGVODJFj7TzWI0pIfjQA9MhAxlG6QBAjDxa5phsakC4OIuK1oeI=
+X-Received: by 2002:a05:6e02:152e:b0:2f9:e082:7fc7 with SMTP id
+ i14-20020a056e02152e00b002f9e0827fc7mr8968324ilu.167.1665410304086; Mon, 10
+ Oct 2022 06:58:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+References: <20221006213507.645402-1-stefanha@redhat.com>
+ <20221006213507.645402-13-stefanha@redhat.com>
+In-Reply-To: <20221006213507.645402-13-stefanha@redhat.com>
+From: Alberto Faria <afaria@redhat.com>
+Date: Mon, 10 Oct 2022 14:57:47 +0100
+Message-ID: <CAELaAXySt1gpxOHPgtvuaQR49E6kuuGk4gQr8Ky0wO54ZNp0KA@mail.gmail.com>
+Subject: Re: [PATCH v6 12/13] blkio: implement BDRV_REQ_REGISTERED_BUF
+ optimization
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org, Yanan Wang <wangyanan55@huawei.com>,
+ sgarzare@redhat.com, 
+ "Richard W.M. Jones" <rjones@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Hanna Reitz <hreitz@redhat.com>, 
+ David Hildenbrand <david@redhat.com>, integration@gluster.org,
+ qemu-block@nongnu.org, 
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ Kevin Wolf <kwolf@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Eric Blake <eblake@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, 
+ Xie Changlong <xiechanglong.d@gmail.com>, John Snow <jsnow@redhat.com>, 
+ Eduardo Habkost <eduardo@habkost.net>, Jeff Cody <codyprime@gmail.com>, 
+ "Denis V. Lunev" <den@openvz.org>, Markus Armbruster <armbru@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, 
+ Peter Xu <peterx@redhat.com>, Raphael Norwitz <raphael.norwitz@nutanix.com>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Wen Congyang <wencongyang2@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=afaria@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,201 +109,295 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Oct 6, 2022 at 10:35 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> Avoid bounce buffers when QEMUIOVector elements are within previously
+> registered bdrv_register_buf() buffers.
+>
+> The idea is that emulated storage controllers will register guest RAM
+> using bdrv_register_buf() and set the BDRV_REQ_REGISTERED_BUF on I/O
+> requests. Therefore no blkio_map_mem_region() calls are necessary in the
+> performance-critical I/O code path.
+>
+> This optimization doesn't apply if the I/O buffer is internally
+> allocated by QEMU (e.g. qcow2 metadata). There we still take the slow
+> path because BDRV_REQ_REGISTERED_BUF is not set.
+>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  block/blkio.c | 183 +++++++++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 180 insertions(+), 3 deletions(-)
+>
+> diff --git a/block/blkio.c b/block/blkio.c
+> index 9a79789a39..5ce61d5d94 100644
+> --- a/block/blkio.c
+> +++ b/block/blkio.c
+> @@ -11,9 +11,13 @@
+>  #include "qemu/osdep.h"
+>  #include <blkio.h>
+>  #include "block/block_int.h"
+> +#include "exec/memory.h"
+> +#include "exec/cpu-common.h" /* for qemu_ram_get_fd() */
+>  #include "qapi/error.h"
+> +#include "qemu/error-report.h"
+>  #include "qapi/qmp/qdict.h"
+>  #include "qemu/module.h"
+> +#include "exec/memory.h" /* for ram_block_discard_disable() */
+>
+>  /*
+>   * Keep the QEMU BlockDriver names identical to the libblkio driver names.
+> @@ -73,6 +77,12 @@ typedef struct {
+>
+>      /* Can we skip adding/deleting blkio_mem_regions? */
+>      bool needs_mem_regions;
+> +
+> +    /* Are file descriptors necessary for blkio_mem_regions? */
+> +    bool needs_mem_region_fd;
+> +
+> +    /* Are madvise(MADV_DONTNEED)-style operations unavailable? */
+> +    bool mem_regions_pinned;
+>  } BDRVBlkioState;
+>
+>  /* Called with s->bounce_lock held */
+> @@ -347,7 +357,8 @@ blkio_co_preadv(BlockDriverState *bs, int64_t offset, int64_t bytes,
+>          .coroutine = qemu_coroutine_self(),
+>      };
+>      BDRVBlkioState *s = bs->opaque;
+> -    bool use_bounce_buffer = s->needs_mem_regions;
+> +    bool use_bounce_buffer =
+> +        s->needs_mem_regions && !(flags & BDRV_REQ_REGISTERED_BUF);
+>      BlkioBounceBuf bounce;
+>      struct iovec *iov = qiov->iov;
+>      int iovcnt = qiov->niov;
+> @@ -390,7 +401,8 @@ static int coroutine_fn blkio_co_pwritev(BlockDriverState *bs, int64_t offset,
+>          .coroutine = qemu_coroutine_self(),
+>      };
+>      BDRVBlkioState *s = bs->opaque;
+> -    bool use_bounce_buffer = s->needs_mem_regions;
+> +    bool use_bounce_buffer =
+> +        s->needs_mem_regions && !(flags & BDRV_REQ_REGISTERED_BUF);
+>      BlkioBounceBuf bounce;
+>      struct iovec *iov = qiov->iov;
+>      int iovcnt = qiov->niov;
+> @@ -473,6 +485,130 @@ static void blkio_io_unplug(BlockDriverState *bs)
+>      }
+>  }
+>
+> +typedef enum {
+> +    BMRR_OK,
+> +    BMRR_SKIP,
+> +    BMRR_FAIL,
+> +} BlkioMemRegionResult;
+> +
+> +/*
+> + * Produce a struct blkio_mem_region for a given address and size.
+> + *
+> + * This function produces identical results when called multiple times with the
+> + * same arguments. This property is necessary because blkio_unmap_mem_region()
+> + * must receive the same struct blkio_mem_region field values that were passed
+> + * to blkio_map_mem_region().
+> + */
+> +static BlkioMemRegionResult
+> +blkio_mem_region_from_host(BlockDriverState *bs,
+> +                           void *host, size_t size,
+> +                           struct blkio_mem_region *region,
+> +                           Error **errp)
+> +{
+> +    BDRVBlkioState *s = bs->opaque;
+> +    int fd = -1;
+> +    ram_addr_t fd_offset = 0;
+> +
+> +    if (((uintptr_t)host | size) % s->mem_region_alignment) {
+> +        error_setg(errp, "unaligned buf %p with size %zu", host, size);
+> +        return BMRR_FAIL;
+> +    }
+> +
+> +    /* Attempt to find the fd for the underlying memory */
+> +    if (s->needs_mem_region_fd) {
+> +        RAMBlock *ram_block;
+> +        RAMBlock *end_block;
+> +        ram_addr_t offset;
+> +
+> +        /*
+> +         * bdrv_register_buf() is called with the BQL held so mr lives at least
+> +         * until this function returns.
+> +         */
+> +        ram_block = qemu_ram_block_from_host(host, false, &fd_offset);
+> +        if (ram_block) {
+> +            fd = qemu_ram_get_fd(ram_block);
+> +        }
+> +        if (fd == -1) {
+> +            /*
+> +             * Ideally every RAMBlock would have an fd. pc-bios and other
+> +             * things don't. Luckily they are usually not I/O buffers and we
+> +             * can just ignore them.
+> +             */
+> +            return BMRR_SKIP;
+> +        }
+> +
+> +        /* Make sure the fd covers the entire range */
+> +        end_block = qemu_ram_block_from_host(host + size - 1, false, &offset);
+> +        if (ram_block != end_block) {
+> +            error_setg(errp, "registered buffer at %p with size %zu extends "
+> +                       "beyond RAMBlock", host, size);
+> +            return BMRR_FAIL;
+> +        }
+> +    }
+> +
+> +    *region = (struct blkio_mem_region){
+> +        .addr = host,
+> +        .len = size,
+> +        .fd = fd,
+> +        .fd_offset = fd_offset,
+> +    };
+> +    return BMRR_OK;
+> +}
+> +
+> +static bool blkio_register_buf(BlockDriverState *bs, void *host, size_t size,
+> +                               Error **errp)
+> +{
+> +    BDRVBlkioState *s = bs->opaque;
+> +    struct blkio_mem_region region;
+> +    BlkioMemRegionResult region_result;
+> +    int ret;
+> +
+> +    /*
+> +     * Mapping memory regions conflicts with RAM discard (virtio-mem) when
+> +     * there is pinning, so only do it when necessary.
+> +     */
+> +    if (!s->needs_mem_regions && s->mem_regions_pinned) {
+> +        return true;
+> +    }
+> +
+> +    region_result = blkio_mem_region_from_host(bs, host, size, &region, errp);
+> +    if (region_result == BMRR_SKIP) {
+> +        return true;
+> +    } else if (region_result != BMRR_OK) {
+> +        return false;
+> +    }
+> +
+> +    WITH_QEMU_LOCK_GUARD(&s->blkio_lock) {
+> +        ret = blkio_map_mem_region(s->blkio, &region);
+> +    }
+> +
+> +    if (ret < 0) {
+> +        error_setg(errp, "Failed to add blkio mem region %p with size %zu: %s",
+> +                   host, size, blkio_get_error_msg());
+> +        return false;
+> +    }
+> +    return true;
+> +}
+> +
+> +static void blkio_unregister_buf(BlockDriverState *bs, void *host, size_t size)
+> +{
+> +    BDRVBlkioState *s = bs->opaque;
+> +    struct blkio_mem_region region;
+> +
+> +    /* See blkio_register_buf() */
+> +    if (!s->needs_mem_regions && s->mem_regions_pinned) {
+> +        return;
+> +    }
+> +
+> +    if (blkio_mem_region_from_host(bs, host, size, &region, NULL) != BMRR_OK) {
+> +        return;
+> +    }
+> +
+> +    WITH_QEMU_LOCK_GUARD(&s->blkio_lock) {
+> +        blkio_unmap_mem_region(s->blkio, &region);
+> +    }
+> +}
+> +
+>  static int blkio_io_uring_open(BlockDriverState *bs, QDict *options, int flags,
+>                                 Error **errp)
+>  {
+> @@ -609,6 +745,17 @@ static int blkio_file_open(BlockDriverState *bs, QDict *options, int flags,
+>          return ret;
+>      }
+>
+> +    ret = blkio_get_bool(s->blkio,
+> +                         "needs-mem-region-fd",
+> +                         &s->needs_mem_region_fd);
+> +    if (ret < 0) {
+> +        error_setg_errno(errp, -ret,
+> +                         "failed to get needs-mem-region-fd: %s",
+> +                         blkio_get_error_msg());
+> +        blkio_destroy(&s->blkio);
+> +        return ret;
+> +    }
+> +
+>      ret = blkio_get_uint64(s->blkio,
+>                             "mem-region-alignment",
+>                             &s->mem_region_alignment);
+> @@ -620,15 +767,39 @@ static int blkio_file_open(BlockDriverState *bs, QDict *options, int flags,
+>          return ret;
+>      }
+>
+> +    ret = blkio_get_bool(s->blkio,
+> +                         "mem-regions-pinned",
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+Should the property be named "may-pin-mem-regions" or similar? For
+drivers like vhost-user we may not be able to determine for sure
+whether memory regions will be pinned, and making that uncertainty
+explicit in the name may be a good idea, for instance to ensure users
+don't decide to rely on memory regions being pinned when the property
+is true.
 
-> On Tue, Oct 04, 2022 at 02:01:12PM +0100, Alex Benn=C3=A9e wrote:
->> From: Paolo Bonzini <pbonzini@redhat.com>
->>=20
->> s390-ccw remains a bit more complex, because the -march=3Dz900 test is d=
-one
->> only for the native cross compiler.  Otherwise, all that is needed is
->> to pass the (now mandatory) target argument to write_target_makefile.
->>=20
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Message-Id: <20220929114231.583801-29-alex.bennee@linaro.org>
+> +                         &s->mem_regions_pinned);
+> +    if (ret < 0) {
+> +        /* Be conservative (assume pinning) if the property is not supported */
+> +        s->mem_regions_pinned = s->needs_mem_regions;
+> +    }
+> +
+> +    /*
+> +     * Notify if libblkio drivers pin memory and prevent features like
+> +     * virtio-mem from working.
+> +     */
+> +    if (s->mem_regions_pinned) {
+> +        ret = ram_block_discard_disable(true);
+> +        if (ret < 0) {
+> +            error_setg_errno(errp, -ret, "ram_block_discard_disable() failed");
+> +            blkio_destroy(&s->blkio);
+> +            return ret;
+> +        }
+> +    }
+> +
+>      ret = blkio_start(s->blkio);
+>      if (ret < 0) {
+>          error_setg_errno(errp, -ret, "blkio_start failed: %s",
+>                           blkio_get_error_msg());
+>          blkio_destroy(&s->blkio);
+> +        if (s->mem_regions_pinned) {
+> +            ram_block_discard_disable(false);
+> +        }
+>          return ret;
+>      }
 >
-> I'm not at all convinced this change was/is a good idea.
+> -    bs->supported_write_flags = BDRV_REQ_FUA;
+> +    bs->supported_write_flags = BDRV_REQ_FUA | BDRV_REQ_REGISTERED_BUF;
+>      bs->supported_zero_flags = BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP |
+>                                 BDRV_REQ_NO_FALLBACK;
 >
-> First of all, it causes 'make' to now download about 1 GB of
-> container images
+> @@ -652,6 +823,10 @@ static void blkio_close(BlockDriverState *bs)
+>      qemu_mutex_destroy(&s->blkio_lock);
+>      blkio_detach_aio_context(bs);
+>      blkio_destroy(&s->blkio);
+> +
+> +    if (s->mem_regions_pinned) {
+> +        ram_block_discard_disable(false);
+> +    }
+>  }
 >
->   $ ./configure --target-list=3Dx86_64-softmmu
->   $ make
->   ...snip...
->   BUILD   debian-powerpc-test-cross
->   Trying to pull registry.gitlab.com/qemu-project/qemu/qemu/debian-powerp=
-c-test-cross:latest...
->   Getting image source signatures
->   Copying blob 2a205c8a1d36 [=3D>------------------------------------] 12=
-.4MiB / 257.2MiB
+>  static int64_t blkio_getlength(BlockDriverState *bs)
+> @@ -798,6 +973,8 @@ static void blkio_refresh_limits(BlockDriverState *bs, Error **errp)
+>          .bdrv_co_pwrite_zeroes   = blkio_co_pwrite_zeroes, \
+>          .bdrv_io_unplug          = blkio_io_unplug, \
+>          .bdrv_refresh_limits     = blkio_refresh_limits, \
+> +        .bdrv_register_buf       = blkio_register_buf, \
+> +        .bdrv_unregister_buf     = blkio_unregister_buf, \
+>          __VA_ARGS__ \
+>      }
 >
->   ...
->   ...snip...
->=20=20=20
-> Despite downloading this image, it then proceeded to rebuild the
-> image from scratch, requiring another few 100MBs of downloads
-> of dpkgs. This time the download was without progress information
-> until it entirely failed due to a dead Debia mirror server, needing
-> a retry.
+> --
+> 2.37.3
 >
-> It then went on to download an s390x image which seems to have
-> two layers, each with 360 MB.
->
->   BUILD   debian-s390x-cross
-> Trying to pull registry.gitlab.com/qemu-project/qemu/qemu/debian-s390x-cr=
-oss:latest...
-> Getting image source signatures
-> Copying blob fc8d65e34cd5 [>-------------------------------------] 12.0Mi=
-B / 360.2MiB
-> Copying blob bd159e379b3b skipped: already exists=20=20
-> Copying blob 13224e2971af [>-------------------------------------] 12.2Mi=
-B / 366.5MiB
->
-> So overall it was more than 1 GB of downloads when typing 'make'
->
-> I wasn't too amuzed by seeing this downloaded data , given that
-> I'm usually running off a 4G mobile connection, and it took a
-> very long time.
 
-Yikes, sorry I didn't notice that (probably because I always have most
-of the containers built).
-
-I was hoping the next set of patches would reduce the total re-build
-time to just the mirror operation by dumping docker.py and any caching
-that breaks.
-
-> The progress information printed by docker when downloading
-> the images splatters all over the output meson displays, when
-> doing a parallel make making everything unintelligible.
->
->
-> Finally, I had requested only building x86_64, so we shouldn't
-> be doing anything related to ppc or s390 at all, but even if
->
-> AFAICT, it enables this downloading unconditionally merely by
-> having 'docker'/'podman' binaries installed, if you don't
-> otherwise have cross compuilers present.
->
-> I'd really not want to see any of this stuff downloaded without
-> an explicit opt-in choice at configure time.
->
-> I'm also a little concerned at what happens if we have to stop
-> publishing the containers at registry.gitlab.com in future. Are
-> we going to break the default 'make' for existing released QEMU
-> tarballs ?
-
-We can easily move the registry around. The aim of this work is to
-eventually stop local re-builds for most people.
-
->
-> Generally we've only relied on the gitlab infra for our CI
-> testing, so we have been free to change infra or alter the
-> way we publish images at any time, without risk of impact on
-> the released tarballs.
->
-> This isn't a theoretical problem, because GitLab has announced
-> their intention to limit storage usage in gitlab.com, and even
-> having joined the Open Source Program, our quota is only increased
-> from 5 GB to 25 GB.  I'd be concerned we're at risk of exceeding
-> that 25 GB limit, when they start to enforce it, requiring us to
-> move container image host to somewhere else such as quay.io
->
->
->> diff --git a/configure b/configure
->> index c175650eb9..a54e17aca9 100755
->> --- a/configure
->> +++ b/configure
->> @@ -2152,7 +2152,7 @@ probe_target_compiler() {
->>      target_ranlib=3D
->>      target_strip=3D
->>    fi
->> -  test -n "$target_cc"
->> +  test -n "$target_cc" || test -n "$container_image"
->>  }
->>=20=20
->>  write_target_makefile() {
->> @@ -2307,7 +2307,7 @@ if test "$targetos" !=3D "darwin" && test "$target=
-os" !=3D "sunos" && \
->>      config_mak=3Dpc-bios/optionrom/config.mak
->>      echo "# Automatically generated by configure - do not modify" > $co=
-nfig_mak
->>      echo "TOPSRC_DIR=3D$source_path" >> $config_mak
->> -    write_target_makefile >> $config_mak
->> +    write_target_makefile pc-bios/optionrom/all >> $config_mak
->>  fi
->>=20=20
->>  if test "$softmmu" =3D yes && probe_target_compiler ppc-softmmu; then
->> @@ -2315,25 +2315,31 @@ if test "$softmmu" =3D yes && probe_target_compi=
-ler ppc-softmmu; then
->>      config_mak=3Dpc-bios/vof/config.mak
->>      echo "# Automatically generated by configure - do not modify" > $co=
-nfig_mak
->>      echo "SRC_DIR=3D$source_path/pc-bios/vof" >> $config_mak
->> -    write_target_makefile >> $config_mak
->> +    write_target_makefile pc-bios/vof/all >> $config_mak
->>  fi
->>=20=20
->>  # Only build s390-ccw bios if the compiler has -march=3Dz900 or -march=
-=3Dz10
->>  # (which is the lowest architecture level that Clang supports)
->>  if test "$softmmu" =3D yes && probe_target_compiler s390x-softmmu; then
->> -  write_c_skeleton
->> -  do_compiler "$target_cc" $target_cc_cflags -march=3Dz900 -o $TMPO -c =
-$TMPC
->> -  has_z900=3D$?
->> -  if [ $has_z900 =3D 0 ] || do_compiler "$target_cc" $target_cc_cflags =
--march=3Dz10 -msoft-float -Werror -o $TMPO -c $TMPC; then
->> -    if [ $has_z900 !=3D 0 ]; then
->> -      echo "WARNING: Your compiler does not support the z900!"
->> -      echo "         The s390-ccw bios will only work with guest CPUs >=
-=3D z10."
->> +  got_cross_cc=3Dno
->> +  if test -n "$target_cc"; then
->> +    write_c_skeleton
->> +    do_compiler "$target_cc" $target_cc_cflags -march=3Dz900 -o $TMPO -=
-c $TMPC
->> +    has_z900=3D$?
->> +    if [ $has_z900 =3D 0 ] || do_compiler "$target_cc" $target_cc_cflag=
-s -march=3Dz10 -msoft-float -Werror -o $TMPO -c $TMPC; then
->> +      if [ $has_z900 !=3D 0 ]; then
->> +        echo "WARNING: Your compiler does not support the z900!"
->> +        echo "         The s390-ccw bios will only work with guest CPUs=
- >=3D z10."
->> +      fi
->> +      got_cross_cc=3Dyes
->>      fi
->> +  fi
->> +  if test "$got_cross_cc" =3D yes || test -n "$container_image"; then
->>      roms=3D"$roms pc-bios/s390-ccw"
->>      config_mak=3Dpc-bios/s390-ccw/config-host.mak
->>      echo "# Automatically generated by configure - do not modify" > $co=
-nfig_mak
->>      echo "SRC_PATH=3D$source_path/pc-bios/s390-ccw" >> $config_mak
->> -    write_target_makefile >> $config_mak
->> +    write_target_makefile pc-bios/s390-ccw/all >> $config_mak
->>      # SLOF is required for building the s390-ccw firmware on s390x,
->>      # since it is using the libnet code from SLOF for network booting.
->>      git_submodules=3D"${git_submodules} roms/SLOF"
->> @@ -2554,7 +2560,7 @@ for target in $target_list; do
->>        ;;
->>    esac
->>=20=20
->> -  if probe_target_compiler $target || test -n "$container_image"; then
->> +  if probe_target_compiler $target; then
->>        test -n "$container_image" && build_static=3Dy
->>        mkdir -p "tests/tcg/$target"
->>        config_target_mak=3Dtests/tcg/$target/config-target.mak
->> --=20
->> 2.34.1
->>=20
->>=20
->
-> With regards,
-> Daniel
-
-
---=20
-Alex Benn=C3=A9e
 
