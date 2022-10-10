@@ -2,71 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32A135F9D18
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 12:53:56 +0200 (CEST)
-Received: from localhost ([::1]:58852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CAC05F9D1D
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 12:54:36 +0200 (CEST)
+Received: from localhost ([::1]:56134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohqPz-00014H-70
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 06:53:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37994)
+	id 1ohqQd-00022j-E9
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 06:54:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ohqMd-0005co-1O
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 06:50:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39741)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ohqMZ-0000U1-UK
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 06:50:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665399023;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BvNmGgUQRx5CpCyC77okwpQdJRk5SNjdpVFrVp+/Cp4=;
- b=fgDA6nuotQ3omteG2z2NdC5yYURX7cwdJ8bL9wn2Cu2YeTMzxj32ambI3CMS1yZYlpWGiG
- 0rtNpJgjLK/3TN4HHyKIpJcohzvL0nuKAuiAEQWOaX2nAu8rl0eRF/omlaKaLXpuOfMiaR
- 0vJGNbv0iOrSpcL3QZp8KulZmxiXK3o=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-127-H5WFMztoP4ifP3Gg4E5JKA-1; Mon, 10 Oct 2022 06:50:20 -0400
-X-MC-Unique: H5WFMztoP4ifP3Gg4E5JKA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C206F185A792;
- Mon, 10 Oct 2022 10:50:19 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.76])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 44ACF112D401;
- Mon, 10 Oct 2022 10:50:15 +0000 (UTC)
-Date: Mon, 10 Oct 2022 12:50:14 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Markus Armbruster <armbru@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 07/11] block-backend: implement .change_aio_ctx in
- child_root
-Message-ID: <Y0P45nyuqwlTS7Tu@redhat.com>
-References: <20220725122120.309236-1-eesposit@redhat.com>
- <20220725122120.309236-8-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1ohqNo-0006Y3-V2; Mon, 10 Oct 2022 06:51:40 -0400
+Received: from mail-lj1-x22c.google.com ([2a00:1450:4864:20::22c]:45932)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1ohqNa-0000eT-75; Mon, 10 Oct 2022 06:51:40 -0400
+Received: by mail-lj1-x22c.google.com with SMTP id f9so12760786ljk.12;
+ Mon, 10 Oct 2022 03:51:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=user-agent:in-reply-to:content-transfer-encoding
+ :content-disposition:mime-version:references:message-id:subject:cc
+ :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=06aLaxq3675XzXlY7/PQRcT3VQ1fG48d2IlEq856Mbk=;
+ b=qe/KxdcPT/CBAi8+eMnaDdVzT++SMOiS6bOFu7loawYT5QgFT0MbZoVcXXw0TaocHl
+ M9guESScUq+odfQyrL6jx/3N1VxxV7dRbY2Z0tPBO6pG74p6Oc1+GWtUMoLGJiMXnV2t
+ YawQsQUgJYAIX2T181OBjeeJ6qw1NXHocB1V8N91gvJFlhvIyaaNBsgOoBv66lODCAsq
+ kR4G86ZB/qaeh8AmDjL60YbFA6ZG49Nz7Ilw1f2FpqccEhd0dG+2UocT/Nv8m/jLC6aU
+ fBwTkFvk0bLebVOkl7ZQQiGt6NTr9wvKiT7Weh0yo/H0yDS4IhVJv+EkaqFs6Gr5rICC
+ VuoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-transfer-encoding
+ :content-disposition:mime-version:references:message-id:subject:cc
+ :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=06aLaxq3675XzXlY7/PQRcT3VQ1fG48d2IlEq856Mbk=;
+ b=0RbvaFPrCIQDhtGcKrCwx0QcuelczLPTRNZkHXsHF4rY5BeSQmZkf6gMj5XlIWPc0D
+ UR33taPDf1E1FoU/ZpHp3hBayjPLYv6U6XEw9XKDeyLu5vnJ2nXwql6yBQK39n9NRVwJ
+ QLGai3w5gVF+DIi6CWBC/YlEcYK666p3qqZFKtNYcL26aZgfxKnrMiox8BRPMiqURcvc
+ ev6jJMr1EYnePNH1227lN3hkcWTW+g+6ZjOx5Lwx9ImNQnQiJkI7JM42Iqt77veJfjcA
+ f4DVSeAhaTC4ICAMrBuyw01WgEmoA7Lf2yYiTfP4jXMutBtpBhxv41dXvfgG8AKAS30J
+ ozfw==
+X-Gm-Message-State: ACrzQf2jHGEqjvusCJCT14/ZRWTx8bIglp5fIEeYDRVgd7z5LRMklgBx
+ QUVZpJMZv6PCoixqLKQTkSo=
+X-Google-Smtp-Source: AMsMyM6akT+8P3Jz8KCiVPIdM4qb3W/AwPURQzDjP5kZz5rwRcERquhkeXCw13SH6DHwn0XC/87EDg==
+X-Received: by 2002:a2e:8552:0:b0:26f:b0c6:f1b with SMTP id
+ u18-20020a2e8552000000b0026fb0c60f1bmr420556ljj.165.1665399082540; 
+ Mon, 10 Oct 2022 03:51:22 -0700 (PDT)
+Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
+ by smtp.gmail.com with ESMTPSA id
+ f7-20020a056512360700b004996fbfd75esm1373307lfs.71.2022.10.10.03.51.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Oct 2022 03:51:22 -0700 (PDT)
+Date: Mon, 10 Oct 2022 12:51:20 +0200
+From: Francisco Iglesias <frasse.iglesias@gmail.com>
+To: Michael Walle <michael@walle.cc>
+Cc: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-block@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Alistair Francis <alistair@alistair23.me>, Iris Chen <irischenlj@fb.com>
+Subject: Re: [PATCH v3 4/8] m25p80: Add the mx25l25635f SFPD table
+Message-ID: <20221010105120.GA30024@fralle-msi>
+References: <20220722063602.128144-1-clg@kaod.org>
+ <20220722063602.128144-5-clg@kaod.org>
+ <20221007144431.GE20384@fralle-msi>
+ <6726971b-b862-2959-5e7e-c059be2bb07d@kaod.org>
+ <d6d2575b520fedb47a5fa7c1031c4ff7@walle.cc>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220725122120.309236-8-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d6d2575b520fedb47a5fa7c1031c4ff7@walle.cc>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=2a00:1450:4864:20::22c;
+ envelope-from=frasse.iglesias@gmail.com; helo=mail-lj1-x22c.google.com
+X-Spam_score_int: -1016
+X-Spam_score: -101.7
+X-Spam_bar: ---------------------------------------------------
+X-Spam_report: (-101.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, FREEMAIL_FROM=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_WELCOMELIST=-0.01,
+ USER_IN_WHITELIST=-100 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,18 +99,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 25.07.2022 um 14:21 hat Emanuele Giuseppe Esposito geschrieben:
-> blk_root_change_aio_ctx() is very similar to blk_root_can_set_aio_ctx(),
-> but implements a new transaction so that if all check pass, the new
-> transaction's .commit will take care of changing the BlockBackend
-> AioContext. blk_root_set_aio_ctx_commit() is the same as
-> blk_root_set_aio_ctx().
-> 
-> Note: bdrv_child_try_change_aio_context() is not called by
-> anyone at this point.
-> 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Hi  Cedric,
 
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+On [2022 Oct 10] Mon 11:58:40, Michael Walle wrote:
+> Am 2022-10-10 08:23, schrieb Cédric Le Goater:
+> > On 10/7/22 16:44, Francisco Iglesias wrote:
+> 
+> > > > --- a/hw/block/m25p80.c
+> > > > +++ b/hw/block/m25p80.c
+> > > > @@ -234,6 +234,8 @@ static const FlashPartInfo known_devices[] = {
+> > > >       { INFO("mx25l12855e", 0xc22618,      0,  64 << 10, 256, 0) },
+> > > >       { INFO6("mx25l25635e", 0xc22019,     0xc22019,  64 << 10,
+> > > > 512, 0),
+> > > >         .sfdp_read = m25p80_sfdp_mx25l25635e },
+> > > > +    { INFO6("mx25l25635f", 0xc22019,     0xc22019,  64 << 10,
+> > > > 512, 0),
+
+I think I missed the (ER_4K | ER_32K) flags above (in case we go for a v4 we 
+can add it in). 
+
+> > > 
+> > > I think I'm not seeing the extended id part in the datasheet I've
+> > > found so
+> > > might be that you can switch to just INFO and _ext_id 0 above
+> > 
+> > This was added by commit 6bbe036f32dc ("m25p80: Return the JEDEC ID
+> > twice for
+> > mx25l25635e") to fix a real breakage on HW.
+> 
+> From my experience, the ID has a particular length, at least three bytes
+> and if you read past that length for some (all?) devices the id bytes just
+> get repeated. I.e. the counter in the device will just wrap to offset 0
+> again. If you want to emulate the hardware correctly, you would have to
+> take that into consideration.
+
+If we decide to go with Michael's proposal above you can use '0' on the
+'extended_id' and enable 's->data_read_loop = true' when reading the ID.
+
+Best regards,
+Francisco
+
+> But I don't think it's worth it, OTOH there seems to be some broken
+> software which rely on that (undefined?) behavior.
+> 
+> -michael
 
 
