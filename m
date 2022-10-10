@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639545F9ECB
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 14:37:05 +0200 (CEST)
-Received: from localhost ([::1]:39352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7AA75F9EF6
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 14:56:37 +0200 (CEST)
+Received: from localhost ([::1]:34964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohs1n-0007k7-Tj
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 08:37:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42540)
+	id 1ohsKh-0005Gz-TS
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 08:56:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ohrxE-0005pB-Kn
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 08:32:30 -0400
-Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:46625)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ohrxC-0003KY-21
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 08:32:19 -0400
-Received: by mail-io1-xd34.google.com with SMTP id n73so3471507iod.13
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 05:32:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kTcfRl2f7CT4FVmCj3DSCrpQ+4WT70SD0chnFx1+i0g=;
- b=cDx6cpSctTcpxQJ+36jto7gC07Z/mGqX7u/ogotmkKLCzz/gwnKkKv8gN+jC/Gn4Wa
- /GkHLOCFc/R9glI490FBQ7o7IZgOUZuAVEZQJZizM4Se69yH7prZtINI0N5nh2HBqugz
- ELWLjR2RY9soYIy6WBk5z7JfERN0jBXxJwJs/ccJfxwt7b+neHKWYzd3XlZuyfhuV27L
- n7AXGPV4rQAYThW1Cjd8vvi7V4yyKsvE0XHV8QaL9EaBVU++hwxpq1+7kYGp067e2w+r
- dMiYWKGpNJXQVphlk9nD1ewcO8gS+CSuL3Jic/4X+CxXfbL8KumrJSsS4ovVC3turO0D
- 16Ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kTcfRl2f7CT4FVmCj3DSCrpQ+4WT70SD0chnFx1+i0g=;
- b=UhasM3YauM88HoOIxNgc/ZgCG2ndm/gMtjcQiw5+BK+z8eYnscTZSY+VeG80CfQXOY
- PH5hfVOqSyQ2mkiZ3oGYpDVgYaRlJLhcNHXGhAST2iDQBraNWGXci4bVpdu0opvITnE1
- rk5U4em6nZZ2Uq8FPM5ZXJFOJTGv9ZPeZr6cJ/wb5kXO0rU/fGC1c6QvGhADCe0qIrGG
- yfcPLsJBRPOkGXCdPA3bJioyQbh367qlAFX0c2ouWg2QRE4m6cP61pzt6XcC7nPvraQn
- FYkWxJTVq04BeDwZBM2HLOrjlgDqy3rkZb+dH0f+obKnH22rY96nrSNfLo/YVaNCQhbu
- ZHJw==
-X-Gm-Message-State: ACrzQf3i7UyQe2SeO1RK7ESjRHcT+6TaFxyJ/BtkEkp7d4dupxoy7Th8
- o+lvxL2kKGq30gIP07l3rl5K+i+Z1iUDKAmdFoBGNtktzFA=
-X-Google-Smtp-Source: AMsMyM6YuxKq5l9YzU7eOwbSJLvmwkuNAgH5OhUiifjdRfuG6gHVGFa+vcTG7wlUbNOdWG+gHh5zDlwbZTNLNBvdd4k=
-X-Received: by 2002:a05:6638:25c5:b0:35a:69fd:946e with SMTP id
- u5-20020a05663825c500b0035a69fd946emr9989065jat.174.1665405136043; Mon, 10
- Oct 2022 05:32:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ohsIf-0003lV-46
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 08:54:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24100)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ohsIb-0006Yo-0w
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 08:54:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665406463;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ssLyrtoroDf3IZbVnhPqccpeEAN2QQ3s45MmbcoWkD0=;
+ b=jONKiTVmvnNm8Mzc1WdJ0egi2X/d0HNDGSRCDMgn/C1rjsmdwI3uxmXtH/IH/MKhcsrhJn
+ nojuTbCvjngWxuHedXxcKUFAIQBnhanWgTiV3AM4sInD3w/+EXNh27cUR5EAwdhLVgy7fL
+ xRfRb1AlJBDEuYnWl0JX7Kvoh3XNMmA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-664-tXboxYgSMZqPEa2xDDO46A-1; Mon, 10 Oct 2022 08:54:20 -0400
+X-MC-Unique: tXboxYgSMZqPEa2xDDO46A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5AB9529AB443;
+ Mon, 10 Oct 2022 12:54:20 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E1684414A809;
+ Mon, 10 Oct 2022 12:54:18 +0000 (UTC)
+Date: Mon, 10 Oct 2022 13:54:16 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PULL 28/54] configure: build ROMs with container-based cross
+ compilers
+Message-ID: <Y0QV+B+Wz6fxceh1@redhat.com>
+References: <20221004130138.2299307-1-alex.bennee@linaro.org>
+ <20221004130138.2299307-29-alex.bennee@linaro.org>
 MIME-Version: 1.0
-References: <20221010075619.4147111-2-ani@anisinha.ca>
- <20221010075619.4147111-9-ani@anisinha.ca>
-In-Reply-To: <20221010075619.4147111-9-ani@anisinha.ca>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Mon, 10 Oct 2022 18:02:04 +0530
-Message-ID: <CAARzgwy+CW_7HyabkS+7a4KOQNWE6TpEjqh9LDn8P4g6XtL3vQ@mail.gmail.com>
-Subject: Re: [PATCH v3 08/10] acpi/tests/avocado/bits: add acpi and smbios
- avocado tests that uses biosbits
-To: qemu-devel@nongnu.org, Ani Sinha <ani@anisinha.ca>,
- Cleber Rosa <crosa@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Cc: mst@redhat.com, imammedo@redhat.com, 
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Maydell Peter <peter.maydell@linaro.org>, 
- John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2607:f8b0:4864:20::d34;
- envelope-from=ani@anisinha.ca; helo=mail-io1-xd34.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221004130138.2299307-29-alex.bennee@linaro.org>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,145 +82,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 10, 2022 at 1:27 PM Ani Sinha <ani@anisinha.ca> wrote:
->
-> This introduces QEMU acpi/smbios biosbits avocado test which is run
-> from within the python virtual environment. When the bios bits tests are =
-run,
-> bios bits binaries are downloaded from an external repo/location.
->
-> Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Maydell Peter <peter.maydell@linaro.org>
-> Cc: John Snow <jsnow@redhat.com>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> ---
->  tests/avocado/acpi-bits.py | 334 +++++++++++++++++++++++++++++++++++++
->  1 file changed, 334 insertions(+)
->  create mode 100644 tests/avocado/acpi-bits.py
->
-> diff --git a/tests/avocado/acpi-bits.py b/tests/avocado/acpi-bits.py
-> new file mode 100644
-> index 0000000000..d4b74b6624
-> --- /dev/null
-> +++ b/tests/avocado/acpi-bits.py
-> @@ -0,0 +1,334 @@
-> +#!/usr/bin/env python3
-> +# group: rw quick
-> +# Exercize QEMU generated ACPI/SMBIOS tables using biosbits,
-> +# https://biosbits.org/
-> +#
-> +# This program is free software; you can redistribute it and/or modify
-> +# it under the terms of the GNU General Public License as published by
-> +# the Free Software Foundation; either version 2 of the License, or
-> +# (at your option) any later version.
-> +#
-> +# This program is distributed in the hope that it will be useful,
-> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> +# GNU General Public License for more details.
-> +#
-> +# You should have received a copy of the GNU General Public License
-> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-> +#
-> +#
-> +# Author:
-> +#  Ani Sinha <ani@anisinha.ca>
-> +
-> +# pylint: disable=3Dinvalid-name
-> +# pylint: disable=3Dconsider-using-f-string
-> +
-> +"""
-> +This is QEMU ACPI/SMBIOS avocado tests using biosbits.
-> +Biosbits is available originally at https://biosbits.org/.
-> +This test uses a fork of the upstream bits and has numerous fixes
-> +including an upgraded acpica. The fork is located here:
-> +https://gitlab.com/qemu-project/biosbits-bits .
-> +"""
-> +
-> +import logging
-> +import os
-> +import re
-> +import shutil
+On Tue, Oct 04, 2022 at 02:01:12PM +0100, Alex Bennée wrote:
+> From: Paolo Bonzini <pbonzini@redhat.com>
+> 
+> s390-ccw remains a bit more complex, because the -march=z900 test is done
+> only for the native cross compiler.  Otherwise, all that is needed is
+> to pass the (now mandatory) target argument to write_target_makefile.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Message-Id: <20220929114231.583801-29-alex.bennee@linaro.org>
 
-<snip>
+I'm not at all convinced this change was/is a good idea.
 
-> +    def parse_log(self):
-> +        """parse the log generated by running bits tests and
-> +           check for failures.
-> +        """
-> +        debugconf =3D os.path.join(self._workDir, self._debugcon_log)
-> +        log =3D ""
-> +        with open(debugconf, 'r', encoding=3D'utf-8') as filehandle:
-> +            log =3D filehandle.read()
-> +
-> +        if os.getenv('V'):
-> +            print('\nlogs from biosbits follows:')
-> +            print('=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-\n')
-> +            print(log)
-> +            print('=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-\n')
+First of all, it causes 'make' to now download about 1 GB of
+container images
 
-There is a bug here. I unknowingly removed the actual parsing of
-failed and passed tests from the bios bits logs. It was present in v2.
-I will fix this by re-adding this again in v4.
+  $ ./configure --target-list=x86_64-softmmu
+  $ make
+  ...snip...
+  BUILD   debian-powerpc-test-cross
+  Trying to pull registry.gitlab.com/qemu-project/qemu/qemu/debian-powerpc-test-cross:latest...
+  Getting image source signatures
+  Copying blob 2a205c8a1d36 [=>------------------------------------] 12.4MiB / 257.2MiB
 
-> +
-> +    def tearDown(self):
-> +        """
-> +           Lets do some cleanups.
-> +        """
-> +        if self._vm:
-> +            self.assertFalse(not self._vm.is_running)
-> +        logging.info('removing the work directory %s', self._workDir)
-> +        shutil.rmtree(self._workDir)
-> +        super().tearDown()
-> +
-> +    def test_acpi_smbios_bits(self):
-> +        """The main test case implementaion."""
-> +
-> +        iso_file =3D os.path.join(self._workDir,
-> +                                'bits-%d.iso' %self._bitsInternalVer)
-> +
-> +        self.assertTrue(os.access(iso_file, os.R_OK))
-> +
-> +        self._vm =3D QEMUBitsMachine(binary=3Dself.qemu_bin,
-> +                                   base_temp_dir=3Dself._workDir,
-> +                                   debugcon_log=3Dself._debugcon_log,
-> +                                   debugcon_addr=3Dself._debugcon_addr)
-> +
-> +        self._vm.add_args('-cdrom', '%s' %iso_file)
-> +
-> +        args =3D " ".join(str(arg) for arg in self._vm.base_args()) + \
-> +            " " + " ".join(str(arg) for arg in self._vm.args)
-> +
-> +        logging.info("launching QEMU vm with the following arguments: %s=
-",
-> +                     args)
-> +
-> +        self._vm.launch()
-> +        # biosbits has been configured to run all the specified test sui=
-tes
-> +        # in batch mode and then automatically initiate a vm shutdown.
-> +        # sleep for maximum of one minute
-> +        max_sleep_time =3D time.monotonic() + 60
-> +        while self._vm.is_running() and time.monotonic() < max_sleep_tim=
-e:
-> +            time.sleep(1)
-> +
-> +        self.assertFalse(time.monotonic() > max_sleep_time,
-> +                         'The VM seems to have failed to shutdown in tim=
-e')
-> +
-> +        self.parse_log()
-> --
+  ...
+  ...snip...
+  
+Despite downloading this image, it then proceeded to rebuild the
+image from scratch, requiring another few 100MBs of downloads
+of dpkgs. This time the download was without progress information
+until it entirely failed due to a dead Debia mirror server, needing
+a retry.
+
+It then went on to download an s390x image which seems to have
+two layers, each with 360 MB.
+
+  BUILD   debian-s390x-cross
+Trying to pull registry.gitlab.com/qemu-project/qemu/qemu/debian-s390x-cross:latest...
+Getting image source signatures
+Copying blob fc8d65e34cd5 [>-------------------------------------] 12.0MiB / 360.2MiB
+Copying blob bd159e379b3b skipped: already exists  
+Copying blob 13224e2971af [>-------------------------------------] 12.2MiB / 366.5MiB
+
+So overall it was more than 1 GB of downloads when typing 'make'
+
+I wasn't too amuzed by seeing this downloaded data , given that
+I'm usually running off a 4G mobile connection, and it took a
+very long time.
+
+
+The progress information printed by docker when downloading
+the images splatters all over the output meson displays, when
+doing a parallel make making everything unintelligible.
+
+
+Finally, I had requested only building x86_64, so we shouldn't
+be doing anything related to ppc or s390 at all, but even if
+
+AFAICT, it enables this downloading unconditionally merely by
+having 'docker'/'podman' binaries installed, if you don't
+otherwise have cross compuilers present.
+
+I'd really not want to see any of this stuff downloaded without
+an explicit opt-in choice at configure time.
+
+I'm also a little concerned at what happens if we have to stop
+publishing the containers at registry.gitlab.com in future. Are
+we going to break the default 'make' for existing released QEMU
+tarballs ?
+
+Generally we've only relied on the gitlab infra for our CI
+testing, so we have been free to change infra or alter the
+way we publish images at any time, without risk of impact on
+the released tarballs.
+
+This isn't a theoretical problem, because GitLab has announced
+their intention to limit storage usage in gitlab.com, and even
+having joined the Open Source Program, our quota is only increased
+from 5 GB to 25 GB.  I'd be concerned we're at risk of exceeding
+that 25 GB limit, when they start to enforce it, requiring us to
+move container image host to somewhere else such as quay.io
+
+
+> diff --git a/configure b/configure
+> index c175650eb9..a54e17aca9 100755
+> --- a/configure
+> +++ b/configure
+> @@ -2152,7 +2152,7 @@ probe_target_compiler() {
+>      target_ranlib=
+>      target_strip=
+>    fi
+> -  test -n "$target_cc"
+> +  test -n "$target_cc" || test -n "$container_image"
+>  }
+>  
+>  write_target_makefile() {
+> @@ -2307,7 +2307,7 @@ if test "$targetos" != "darwin" && test "$targetos" != "sunos" && \
+>      config_mak=pc-bios/optionrom/config.mak
+>      echo "# Automatically generated by configure - do not modify" > $config_mak
+>      echo "TOPSRC_DIR=$source_path" >> $config_mak
+> -    write_target_makefile >> $config_mak
+> +    write_target_makefile pc-bios/optionrom/all >> $config_mak
+>  fi
+>  
+>  if test "$softmmu" = yes && probe_target_compiler ppc-softmmu; then
+> @@ -2315,25 +2315,31 @@ if test "$softmmu" = yes && probe_target_compiler ppc-softmmu; then
+>      config_mak=pc-bios/vof/config.mak
+>      echo "# Automatically generated by configure - do not modify" > $config_mak
+>      echo "SRC_DIR=$source_path/pc-bios/vof" >> $config_mak
+> -    write_target_makefile >> $config_mak
+> +    write_target_makefile pc-bios/vof/all >> $config_mak
+>  fi
+>  
+>  # Only build s390-ccw bios if the compiler has -march=z900 or -march=z10
+>  # (which is the lowest architecture level that Clang supports)
+>  if test "$softmmu" = yes && probe_target_compiler s390x-softmmu; then
+> -  write_c_skeleton
+> -  do_compiler "$target_cc" $target_cc_cflags -march=z900 -o $TMPO -c $TMPC
+> -  has_z900=$?
+> -  if [ $has_z900 = 0 ] || do_compiler "$target_cc" $target_cc_cflags -march=z10 -msoft-float -Werror -o $TMPO -c $TMPC; then
+> -    if [ $has_z900 != 0 ]; then
+> -      echo "WARNING: Your compiler does not support the z900!"
+> -      echo "         The s390-ccw bios will only work with guest CPUs >= z10."
+> +  got_cross_cc=no
+> +  if test -n "$target_cc"; then
+> +    write_c_skeleton
+> +    do_compiler "$target_cc" $target_cc_cflags -march=z900 -o $TMPO -c $TMPC
+> +    has_z900=$?
+> +    if [ $has_z900 = 0 ] || do_compiler "$target_cc" $target_cc_cflags -march=z10 -msoft-float -Werror -o $TMPO -c $TMPC; then
+> +      if [ $has_z900 != 0 ]; then
+> +        echo "WARNING: Your compiler does not support the z900!"
+> +        echo "         The s390-ccw bios will only work with guest CPUs >= z10."
+> +      fi
+> +      got_cross_cc=yes
+>      fi
+> +  fi
+> +  if test "$got_cross_cc" = yes || test -n "$container_image"; then
+>      roms="$roms pc-bios/s390-ccw"
+>      config_mak=pc-bios/s390-ccw/config-host.mak
+>      echo "# Automatically generated by configure - do not modify" > $config_mak
+>      echo "SRC_PATH=$source_path/pc-bios/s390-ccw" >> $config_mak
+> -    write_target_makefile >> $config_mak
+> +    write_target_makefile pc-bios/s390-ccw/all >> $config_mak
+>      # SLOF is required for building the s390-ccw firmware on s390x,
+>      # since it is using the libnet code from SLOF for network booting.
+>      git_submodules="${git_submodules} roms/SLOF"
+> @@ -2554,7 +2560,7 @@ for target in $target_list; do
+>        ;;
+>    esac
+>  
+> -  if probe_target_compiler $target || test -n "$container_image"; then
+> +  if probe_target_compiler $target; then
+>        test -n "$container_image" && build_static=y
+>        mkdir -p "tests/tcg/$target"
+>        config_target_mak=tests/tcg/$target/config-target.mak
+> -- 
 > 2.34.1
->
+> 
+> 
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
