@@ -2,82 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60D6F5F9854
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 08:29:04 +0200 (CEST)
-Received: from localhost ([::1]:38038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7D815F986D
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 08:35:02 +0200 (CEST)
+Received: from localhost ([::1]:37578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohmHf-0005zy-5T
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 02:29:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39404)
+	id 1ohmNP-00011u-Ed
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 02:35:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hare@suse.de>)
- id 1ohm8R-0005p0-3G; Mon, 10 Oct 2022 02:19:31 -0400
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c]:51408)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hare@suse.de>)
- id 1ohm8O-0006dE-Pd; Mon, 10 Oct 2022 02:19:30 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 05F4C218B5;
- Mon, 10 Oct 2022 06:19:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1665382767; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jHSq3lnV1ntb+gBs+uDHec2XALzRAzjJrFF+tPmpPck=;
- b=BNadTHmaan/y7lGEfNQXxpbPqP9ltoZ+OOzoh3gm1pe3TEQsF90P9YwoYjGfsi7g/7wwls
- k54G5XrSQlhVh7xwPh6hZc5n2uRoJUkyJyMA+HWqZT2ZjMNOSUFeW/i7kcFo4e/6HRMSD5
- nmbDrZ91bTkIYVY1trIHhMIwAwBnNLE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1665382767;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jHSq3lnV1ntb+gBs+uDHec2XALzRAzjJrFF+tPmpPck=;
- b=YE7bg+NbLS2qSuHRY4Ij6LcBHUfcy3fU0GBg7cpJCYmdm5797kvvesYStROZP3FFpqvb8q
- EAJr+sTsrDd8wICg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0214E13479;
- Mon, 10 Oct 2022 06:19:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SsE6OW25Q2N2OgAAMHmgww
- (envelope-from <hare@suse.de>); Mon, 10 Oct 2022 06:19:25 +0000
-Message-ID: <976d2b9d-1059-7256-5d5d-0a127293d88a@suse.de>
-Date: Mon, 10 Oct 2022 08:19:25 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1ohmCr-00012U-O5; Mon, 10 Oct 2022 02:24:07 -0400
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:33039)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1ohmCp-0007HV-Mr; Mon, 10 Oct 2022 02:24:05 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.188])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id A8CC6130CD7AA;
+ Mon, 10 Oct 2022 08:23:58 +0200 (CEST)
+Received: from kaod.org (37.59.142.106) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Mon, 10 Oct
+ 2022 08:23:56 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R006410a693c-1c49-4800-8236-23b0424505a9,
+ 8F9D85B4748BB0730094C5680DDBB13DC71FBC21) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <6726971b-b862-2959-5e7e-c059be2bb07d@kaod.org>
+Date: Mon, 10 Oct 2022 08:23:56 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v11 7/7] docs/zoned-storage: add zoned device documentation
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v3 4/8] m25p80: Add the mx25l25635f SFPD table
 Content-Language: en-US
-To: Sam Li <faithilikerun@gmail.com>, qemu-devel@nongnu.org
-Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- dmitry.fomichev@wdc.com, Stefan Hajnoczi <stefanha@redhat.com>,
- Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- damien.lemoal@opensource.wdc.com
-References: <20221010022116.41942-1-faithilikerun@gmail.com>
- <20221010022116.41942-8-faithilikerun@gmail.com>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20221010022116.41942-8-faithilikerun@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Francisco Iglesias <frasse.iglesias@gmail.com>
+CC: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <qemu-block@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>, Alistair Francis <alistair@alistair23.me>,
+ Iris Chen <irischenlj@fb.com>, Michael Walle <michael@walle.cc>
+References: <20220722063602.128144-1-clg@kaod.org>
+ <20220722063602.128144-5-clg@kaod.org> <20221007144431.GE20384@fralle-msi>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20221007144431.GE20384@fralle-msi>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=hare@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.934,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: a9237edd-8eb7-4bf6-ac0a-1092e79716bc
+X-Ovh-Tracer-Id: 13438178339014151090
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeejvddguddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepmhhitghhrggvlhesfigrlhhlvgdrtggtpdfovfetjfhoshhtpehmohehvdel
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
+X-Spam_score_int: -57
+X-Spam_score: -5.8
+X-Spam_bar: -----
+X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.934,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,109 +76,148 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/10/22 04:21, Sam Li wrote:
-> Add the documentation about the zoned device support to virtio-blk
-> emulation.
+On 10/7/22 16:44, Francisco Iglesias wrote:
+> On [2022 Jul 22] Fri 08:35:58, Cédric Le Goater wrote:
+>> The mx25l25635e and mx25l25635f chips have the same JEDEC id but the
+>> mx25l25635f has more capabilities reported in the SFDP table. Support
+>> for 4B opcodes is of interest because it is exploited by the Linux
+>> kernel.
+>>
+>> The SFDP table size is 0x200 bytes long. The mandatory table for basic
+>> features is available at byte 0x30 and an extra Macronix specific
+>> table is available at 0x60.
+>>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>>   hw/block/m25p80_sfdp.h |  1 +
+>>   hw/block/m25p80.c      |  2 ++
+>>   hw/block/m25p80_sfdp.c | 68 ++++++++++++++++++++++++++++++++++++++++++
+>>   3 files changed, 71 insertions(+)
+>>
+>> diff --git a/hw/block/m25p80_sfdp.h b/hw/block/m25p80_sfdp.h
+>> index 0c46e669b335..87690a173c78 100644
+>> --- a/hw/block/m25p80_sfdp.h
+>> +++ b/hw/block/m25p80_sfdp.h
+>> @@ -18,6 +18,7 @@
+>>   extern uint8_t m25p80_sfdp_n25q256a(uint32_t addr);
+>>   
+>>   extern uint8_t m25p80_sfdp_mx25l25635e(uint32_t addr);
+>> +extern uint8_t m25p80_sfdp_mx25l25635f(uint32_t addr);
+> (optional -extern above)
 > 
-> Signed-off-by: Sam Li <faithilikerun@gmail.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->   docs/devel/zoned-storage.rst           | 40 ++++++++++++++++++++++++++
->   docs/system/qemu-block-drivers.rst.inc |  6 ++++
->   2 files changed, 46 insertions(+)
->   create mode 100644 docs/devel/zoned-storage.rst
+>>   
+>>   
+>>   #endif
+>> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+>> index 028b026d8ba2..6b120ce65212 100644
+>> --- a/hw/block/m25p80.c
+>> +++ b/hw/block/m25p80.c
+>> @@ -234,6 +234,8 @@ static const FlashPartInfo known_devices[] = {
+>>       { INFO("mx25l12855e", 0xc22618,      0,  64 << 10, 256, 0) },
+>>       { INFO6("mx25l25635e", 0xc22019,     0xc22019,  64 << 10, 512, 0),
+>>         .sfdp_read = m25p80_sfdp_mx25l25635e },
+>> +    { INFO6("mx25l25635f", 0xc22019,     0xc22019,  64 << 10, 512, 0),
 > 
-> diff --git a/docs/devel/zoned-storage.rst b/docs/devel/zoned-storage.rst
-> new file mode 100644
-> index 0000000000..deaa4ce99b
-> --- /dev/null
-> +++ b/docs/devel/zoned-storage.rst
-> @@ -0,0 +1,40 @@
-> +=============
-> +zoned-storage
-> +=============
-> +
-> +Zoned Block Devices (ZBDs) devide the LBA space into block regions called zones
+> I think I'm not seeing the extended id part in the datasheet I've found so
+> might be that you can switch to just INFO and _ext_id 0 above
 
-divide
+This was added by commit 6bbe036f32dc ("m25p80: Return the JEDEC ID twice for
+mx25l25635e") to fix a real breakage on HW.
 
-> +that are larger than the LBA size. They can only allow sequential writes, which
-> +can reduce write amplification in SSDs, and potentially lead to higher
-> +throughput and increased capacity. More details about ZBDs can be found at:
-> +
-> +https://zonedstorage.io/docs/introduction/zoned-storage
-> +
-> +1. Block layer APIs for zoned storage
-> +-------------------------------------
-> +QEMU block layer has three zoned storage model:
-> +- BLK_Z_HM: This model only allows sequential writes access. It supports a set
-> +of ZBD-specific I/O request that used by the host to manage device zones.
+Thanks,
 
-Maybe:
-This model only allow for sequential write access to zones. It supports 
-ZBD-specific I/O requests to manage device zones.
+C.
 
-> +- BLK_Z_HA: It deals with both sequential writes and random writes access.
 
-Maybe better:
-This model allows sequential and random writes to zones. It supports 
-ZBD-specific I/O requests to manage device zones.
-
-> +- BLK_Z_NONE: Regular block devices and drive-managed ZBDs are treated as
-> +non-zoned devices.
-
-Maybe:
-This is the default model with no zones support; it includes both 
-regular and drive-managed ZBD devices. ZBD-specific I/O requests are not 
-supported.
-
-> +
-> +The block device information resides inside BlockDriverState. QEMU uses
-> +BlockLimits struct(BlockDriverState::bl) that is continuously accessed by the
-> +block layer while processing I/O requests. A BlockBackend has a root pointer to
-> +a BlockDriverState graph(for example, raw format on top of file-posix). The
-> +zoned storage information can be propagated from the leaf BlockDriverState all
-> +the way up to the BlockBackend. If the zoned storage model in file-posix is
-> +set to BLK_Z_HM, then block drivers will declare support for zoned host device.
-> +
-> +The block layer APIs support commands needed for zoned storage devices,
-> +including report zones, four zone operations, and zone append.
-> +
-> +2. Emulating zoned storage controllers
-> +--------------------------------------
-> +When the BlockBackend's BlockLimits model reports a zoned storage device, users
-> +like the virtio-blk emulation or the qemu-io-cmds.c utility can use block layer
-> +APIs for zoned storage emulation or testing.
-> +
-> +For example, to test zone_report on a null_blk device using qemu-io is:
-> +$ path/to/qemu-io --image-opts -n driver=zoned_host_device,filename=/dev/nullb0
-> +-c "zrp offset nr_zones"
-> diff --git a/docs/system/qemu-block-drivers.rst.inc b/docs/system/qemu-block-drivers.rst.inc
-> index dfe5d2293d..0b97227fd9 100644
-> --- a/docs/system/qemu-block-drivers.rst.inc
-> +++ b/docs/system/qemu-block-drivers.rst.inc
-> @@ -430,6 +430,12 @@ Hard disks
->     you may corrupt your host data (use the ``-snapshot`` command
->     line option or modify the device permissions accordingly).
->   
-> +Zoned block devices
-> +  Zoned block devices can be passed through to the guest if the emulated storage
-> +  controller supports zoned storage. Use ``--blockdev zoned_host_device,
-> +  node-name=drive0,filename=/dev/nullb0`` to pass through ``/dev/nullb0``
-> +  as ``drive0``.
-> +
->   Windows
->   ^^^^^^^
->   
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
+  (might be the
+> same in the previous patch with the similar flash). Otherwise looks good to
+> me:
+> 
+> Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+> 
+> 
+>> +      .sfdp_read = m25p80_sfdp_mx25l25635f },
+>>       { INFO("mx25l25655e", 0xc22619,      0,  64 << 10, 512, 0) },
+>>       { INFO("mx66l51235f", 0xc2201a,      0,  64 << 10, 1024, ER_4K | ER_32K) },
+>>       { INFO("mx66u51235f", 0xc2253a,      0,  64 << 10, 1024, ER_4K | ER_32K) },
+>> diff --git a/hw/block/m25p80_sfdp.c b/hw/block/m25p80_sfdp.c
+>> index 6499c4c39954..70c13aea7c63 100644
+>> --- a/hw/block/m25p80_sfdp.c
+>> +++ b/hw/block/m25p80_sfdp.c
+>> @@ -82,3 +82,71 @@ static const uint8_t sfdp_mx25l25635e[] = {
+>>       0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>>   };
+>>   define_sfdp_read(mx25l25635e)
+>> +
+>> +static const uint8_t sfdp_mx25l25635f[] = {
+>> +    0x53, 0x46, 0x44, 0x50, 0x00, 0x01, 0x01, 0xff,
+>> +    0x00, 0x00, 0x01, 0x09, 0x30, 0x00, 0x00, 0xff,
+>> +    0xc2, 0x00, 0x01, 0x04, 0x60, 0x00, 0x00, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xe5, 0x20, 0xf3, 0xff, 0xff, 0xff, 0xff, 0x0f,
+>> +    0x44, 0xeb, 0x08, 0x6b, 0x08, 0x3b, 0x04, 0xbb,
+>> +    0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0xff,
+>> +    0xff, 0xff, 0x44, 0xeb, 0x0c, 0x20, 0x0f, 0x52,
+>> +    0x10, 0xd8, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0x00, 0x36, 0x00, 0x27, 0x9d, 0xf9, 0xc0, 0x64,
+>> +    0x85, 0xcb, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xc2, 0xf5, 0x08, 0x0a,
+>> +    0x08, 0x04, 0x03, 0x06, 0x00, 0x00, 0x07, 0x29,
+>> +    0x17, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> +};
+>> +define_sfdp_read(mx25l25635f);
+>> -- 
+>> 2.35.3
+>>
 
 
