@@ -2,72 +2,145 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 280735F9746
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 05:57:01 +0200 (CEST)
-Received: from localhost ([::1]:59692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE2B75F975B
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 06:16:34 +0200 (CEST)
+Received: from localhost ([::1]:41168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohjuV-000376-Pc
-	for lists+qemu-devel@lfdr.de; Sun, 09 Oct 2022 23:56:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57918)
+	id 1ohkDR-0003Pa-RF
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 00:16:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ohjt4-0001cv-Kn
- for qemu-devel@nongnu.org; Sun, 09 Oct 2022 23:55:30 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:41684)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ohjt3-0002E3-0f
- for qemu-devel@nongnu.org; Sun, 09 Oct 2022 23:55:30 -0400
-Received: by mail-pg1-x536.google.com with SMTP id q9so9327646pgq.8
- for <qemu-devel@nongnu.org>; Sun, 09 Oct 2022 20:55:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=R+ct7dzgZh3HHcaBGOahJXeo8uvzSvby2EkmUs4iIaQ=;
- b=cCZ65diF7kd2wvutLB6kn4j3h4OSqNWZDBPFDXHd60/M7Klcu7YIlQlNt4w7K38acc
- w/y/zUbQ1SgYwH+HBPCGhcqYipkfRCV07RmbK+KXJ5khzCBf+6Kl4hnjiBz+Ts2VCQ4h
- VnRwd6IdJEZumsQURyXwB2R7mW/fB1hTd5+Zz9Q8q5GIsNT1/OykRDi2rkoY3wKpCtd5
- TbVhwqTpRUczkWwHFo1eptpr8KXuOq3H1KAGLJzKX4uxTr/U3AlLpn6yn2UulX1kLcYM
- DHBOBWscB+WmtZ3j3Jg8B9WErjCdHwnqGg3MJKctSacEbXmwcTaIJ8gc07Jtk+3UhbIg
- wQ7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=R+ct7dzgZh3HHcaBGOahJXeo8uvzSvby2EkmUs4iIaQ=;
- b=1P0Idb0LPgQRl8E8zYcA+NsO4XY24B8QxgPv1dbg4GNghzf016RwHhfmNf+5kUIxdn
- 1kBmB6sPntdZa8nGZezLP6mmpbUUrEdTe84lRQ2cMoaBew8VtBeE09lUkEudGwNZpVup
- +5PrzWIIWV5WyhjExI0uY65MnyZb5fkDAF/K60F8hWBZaAprvY5qfZB2SN2b6MWj+tfm
- YpGDjf1MyW5q7L2Nv7sfXZqB3y8s94iPkDZRSK9KifK72FyOmomG2COVQ5qRZPHIUGJT
- WaNeJh/WHP2z1kJY9B5Zofx5qw8qguxhqfo+Wo0UpTsZupbZEGX6mt7sPsSHkIjIVBYJ
- BpGg==
-X-Gm-Message-State: ACrzQf15vJNlaDbjtWq7JgPgsYyuS+qAxVVO5HePYjRzid66grZ/pVU1
- i+Eb2qmFlSO5gu9mFofSZsmdVxP9BNOoDskYMsk=
-X-Google-Smtp-Source: AMsMyM68/zZA2Yb696fMAC0/VWmQ4nSWBkXfvnh8J/EphHZPgLkl3kj4TG9rqS8JVK8OsQXVpu/w3PAA6mDemihUcEk=
-X-Received: by 2002:a63:1a65:0:b0:460:d5db:8688 with SMTP id
- a37-20020a631a65000000b00460d5db8688mr7095786pgm.221.1665374127361; Sun, 09
- Oct 2022 20:55:27 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <prvs=7282db322c=bin.meng@windriver.com>)
+ id 1ohk2M-0004eC-R4; Mon, 10 Oct 2022 00:05:07 -0400
+Received: from mx0a-0064b401.pphosted.com ([205.220.166.238]:33964)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=7282db322c=bin.meng@windriver.com>)
+ id 1ohk2K-0003GD-R1; Mon, 10 Oct 2022 00:05:06 -0400
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+ by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.5) with ESMTP id
+ 29A3qTi2008565; Sun, 9 Oct 2022 21:04:57 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=PPS06212021;
+ bh=1qeWhE+rJX6yHjv14S0VeaIe0u40rTX5lWhl2aB0Xlo=;
+ b=HdO1pUXLfYgomZl25ZgGZtY+hIUW1DXK1M7l8azSmzfjwFmOn/1jEBidTBeOXINuQWio
+ K/Wb1TQlEZYFCeHtn0C0X3qipOezULjc+NXJXlDqsAYtLFMZ2NaNTmHEzgR29Bf64crK
+ YM0kRBKC/cc+AAex7QejZ6RraNXZm7CcJ0F19NmKFj7i4adNoyEjTD+NCvhlD68eNRiG
+ /cYEi/yupcjYwdi2w39PyWOJj3drXRLx3pegASK+HXQ0Mkbn0pcAk8MtbesgxTgv10at
+ w1CLYfcw64d/F7zBKNU/eVoH4gCAhCdajC1ytwdMIX7nrqKPIWwIfgh8qO9RWrb5/nkP JA== 
+Received: from nam11-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11lp2176.outbound.protection.outlook.com [104.47.57.176])
+ by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3k38qj8yu7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 09 Oct 2022 21:04:57 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aM7kKK+i0kBE4RyzmwoeFocDl5WDZDl1hY9cTmXCy+Bo2UVM2Fm8sp0/cczQ22xCw6MVvgsNZxhEah5Eeh9lygGrDktRc+QwL9HMALVDwIuQj5pP1haNin8PyrmIVUz1IJJpmHo/qdU8DTWcPRWUj1XEzhLsjkqTxuDYtuHlgLLFIaeQgIi1hXf981nXDos7ZaP2zQvU3OFg3uQjs6UNHbTFI+arSNb3xdeDN4DVoneWJnlJciqNX2YGE0YGO2Fk3yShVpKeQf/36+dHJL+jUgMWunt4q/+TMVxdLE/SKlyyDFehIHfJUXvhXOkRfEkCEWGmtgqEt9tHJtlP9esh9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1qeWhE+rJX6yHjv14S0VeaIe0u40rTX5lWhl2aB0Xlo=;
+ b=IY8S//s50nYf/e8SklNY8FbTc5M6gMKzgf82vdM1T+683d+xd6Wsw7OBnGVGM1avQNSyVPkI0eUoO7bqe0V6kUx3G2TQlEosrXRisKuNoVoFUw5YEj3VQl3YxdBNnN5gi6O1fAtTePWI75tn/CwNm++w6VXoo8SA87UFRv1lfNo61Tr/TGXLDq+CuDtwNjGU8su/3KL8HB/mQCV/iKaE8dNCX4cE6oO+3SdcaMGq2PPzwPY+Sucgn5uI6mbURHKkLq/pbIsLDhyzyRIcJkWhdRbw3g5CsR0tYU1GO4qjU7D7GiWcMkmryhHqKj/9kuiQrIv3kaqOu/oxg0e1Dot1wQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DM4PR11MB5358.namprd11.prod.outlook.com (2603:10b6:5:395::7) by
+ PH7PR11MB5957.namprd11.prod.outlook.com (2603:10b6:510:1e0::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.40; Mon, 10 Oct
+ 2022 04:04:54 +0000
+Received: from DM4PR11MB5358.namprd11.prod.outlook.com
+ ([fe80::1c50:83e9:d2fa:ebe9]) by DM4PR11MB5358.namprd11.prod.outlook.com
+ ([fe80::1c50:83e9:d2fa:ebe9%8]) with mapi id 15.20.5676.031; Mon, 10 Oct 2022
+ 04:04:53 +0000
+From: Bin Meng <bin.meng@windriver.com>
+To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+Cc: Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v6 1/2] block: Ignore close() failure in get_tmp_filename()
+Date: Mon, 10 Oct 2022 12:04:30 +0800
+Message-Id: <20221010040432.3380478-1-bin.meng@windriver.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SL2PR04CA0010.apcprd04.prod.outlook.com
+ (2603:1096:100:2d::22) To DM4PR11MB5358.namprd11.prod.outlook.com
+ (2603:10b6:5:395::7)
 MIME-Version: 1.0
-References: <CACv+nXAT-tfuabs04y5+DE-R=Hn81nmM3bKsgOkVkWTOYpTHFA@mail.gmail.com>
-In-Reply-To: <CACv+nXAT-tfuabs04y5+DE-R=Hn81nmM3bKsgOkVkWTOYpTHFA@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 10 Oct 2022 13:55:00 +1000
-Message-ID: <CAKmqyKNAi1NS=6BSANK2HeeN=GH3kkDtQaH8AwkSetdxMmuy3Q@mail.gmail.com>
-Subject: Re: Question about RISC-V brom register a1 set value
-To: Eric Chan <e14002270@gmail.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=alistair23@gmail.com; helo=mail-pg1-x536.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5358:EE_|PH7PR11MB5957:EE_
+X-MS-Office365-Filtering-Correlation-Id: a6283e48-96dd-4366-37a9-08daaa749612
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5vZFUNR9O9twvNnRQUTHmF5yVSIytoSLWzosANnOaClfaegV8wQwLZyOigqP95cM3ZvJDwlkHZYUPnzJ2O5q/UrDemCJu3E8rh94qbkz6VichCsC/UVX3tKRNaKXUhz3vYmaA4TuxIMW/g6bBY2frdAh7V7Ke1AGcwXg85ngCo0XHpL+mIkPrJnpMdJZlMMNolrRsYIzzyF2o27f+hzujhIZS3qfHqIg53H5G47o8ELTuqkeexBqdH45tpGbiVedUm1zPmOqc6wJL7/q8xDyWyLAxRKWXPG5TD5flGiYDltyaQ807DrimKmcJj+sPNFGO5dxzi9C3c9F41PG/dZXRnLOSBhoiAgbpGKcVViPp8M1/RNVnlMPn+j1Xm9o5dVrdi/rdQX/UvX/GWoPJq9BW8USTwmjqXPKx3qTHc5NAOESPdBintITVsgM3Wji5HKi1KHq+2RsU/OpB+vhsBZ/fgeoQ36U0i4JXwlG9qxUnqKFgajfc53PoFvdi2lhQ622CQpDYaNe7awg4hERLvrNXPVu5zzMX5psc8PJZ8mRTYb9YI5gMvI0kG5Z/3HFvuiEShwLxe4idDP6ABdaey+UWzViwEaxbeC5hSaRgH5sk8M4rAHpPlayZW3hWHSBA/OBOBDqB12PrsdofMtYaYo1UCQje1oB82JskjCFgBC+uqqcBuaz1ygOfK4mmHrKeqn0xylej9ggQj7QSd1vDhagi5SLTlXdtkNtLqCglVL5KZxLX6WaWievw9X8ovOnuxS5
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5358.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(136003)(39840400004)(376002)(366004)(346002)(396003)(451199015)(54906003)(110136005)(6486002)(66946007)(66556008)(66476007)(4744005)(478600001)(4326008)(41300700001)(44832011)(8676002)(36756003)(5660300002)(316002)(8936002)(6666004)(38350700002)(38100700002)(26005)(6512007)(2616005)(1076003)(86362001)(6506007)(52116002)(83380400001)(186003)(2906002)(66899015);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2j2Nhwmyv+IGefBrMP9VlgbCfKY7b5TJdv8+mpdZOUYStvtJCi3BWtn/TYwd?=
+ =?us-ascii?Q?vsWKXd4VgE2rTheR8cfDJjY2+ecmckbZ+gbYKjXkIoZoXduLS9LuuUx85pzu?=
+ =?us-ascii?Q?Qm3prggXU48veIxE5yBc8MWZ+2FSQ5tyAxwnqCUdm4oAWhLgJety/OlH/R6h?=
+ =?us-ascii?Q?UYwlpDE0oyAvhL6NpvaUMmBOeMS4/hPKBre0VQy0xjvaf/g5okNOVCK8z/r0?=
+ =?us-ascii?Q?yG1udhy/Z04bsaxHArdf/uevHE2WBE7ixQieH1vhv9X/lmHKdF5Kfcg7ruZt?=
+ =?us-ascii?Q?GIhLnrxilGZyAnTjJPc5VAvVhWCpLNQUeFQoZsJYlPdevKKMrCkF/aGmX0Kv?=
+ =?us-ascii?Q?4gq7usltvQtceNcDZ8ZDvJ+f2r0ncWW29AuisWGX/T6AMl80XFqB6Nu3wYA3?=
+ =?us-ascii?Q?gBM2YuUXqJSp/xn+NN7hO6Rr7Si3Mzcl75bx+sO98TlNUid5j+2rZJEzXGAo?=
+ =?us-ascii?Q?8gb8vtBG5zQ+A6oltJPJSaYoblcJjPTnd9n3dvV/hS5EE7oGwxWOFObOsb7g?=
+ =?us-ascii?Q?4wwsSeRRS+8TFGU8//TCZvY1tzU/CG4MpnpWus2HxJBYVl6HXdX9Mv3Ckn97?=
+ =?us-ascii?Q?s6vYSwsNTHEIXWpSEuLxAmOb/+WwcwF7QPxO2JqbLvbd6Hu7G2LhkS5gwiKU?=
+ =?us-ascii?Q?Tavcy1gIgn4thWdVc38OSVed8dRaR55AsAEUSbTlWh+CQ2mvWJ3tGsgmnNdj?=
+ =?us-ascii?Q?FTvsXGBdDEUt3+M7FLfJ6UMTSYHvluQOUZ/o5GLMe1d1dnji06lcAQspT9jI?=
+ =?us-ascii?Q?sUmJF0aQMyT23rxSvjG7NALtNd0qB3pfQyGAztCgzfriLNJlgtf+KvnNKtZW?=
+ =?us-ascii?Q?CCMmg0br6rhLNvVDSYQtNSYc9ApoK+WmfBOPXtYxZznDs9trISI89ZdAxUdH?=
+ =?us-ascii?Q?Rainn/TlcuqrGfz0eQYl5kWIXucbX94aZz58bSR/qkCrGjljo62BO6sP2iGe?=
+ =?us-ascii?Q?YMeMlZyV4NrGKO4x/Q2g+hutuQiuzl6KE22lsd8I8yWrZYDdmeLS2kyyFOeC?=
+ =?us-ascii?Q?wIpCRYjgx8UqccbL0mxVPByiEXv9i0IXUJF8WMHsqJIL6jsSYR/OSu60rufl?=
+ =?us-ascii?Q?JbHVB9w5eSX8x6Qsf+jmm0VbBspkEEg+FiyWFsa5UDoaSMPBJeRHvkd6Bfs4?=
+ =?us-ascii?Q?eyB9uKGm6G7GjKbb9jW6f8dMdO0YBr/FN8wrwUtArN6hjPRPGaA+jnqCUW7O?=
+ =?us-ascii?Q?Y2tbfuXzTu5DIC5kwCMOIRP80GEquwFrehSPhHUXKoWZ/ZGlx18eq94pdfRU?=
+ =?us-ascii?Q?Yge8tXMrWRUnOyCAafAe/8cau7uSd/OTGWohCA8z14Ig3+clz+nSM9Yzfc//?=
+ =?us-ascii?Q?EdfFZ5eJK5faUFXLNowVMclpAfrD+BRzGa50B8kgs5wOH4WxhcHOe2SLD16d?=
+ =?us-ascii?Q?69afk6unkbjRe9z0NJFjMCGLXWSVQLq791+50/ghHOCkp18Ps19Umpjn5jf1?=
+ =?us-ascii?Q?Jpmzq5xMdWAl5uqbjz+s3gAurtuwONlu+N/5hPb7nhYqXZ7WROW2Vse07HZF?=
+ =?us-ascii?Q?m7syZMmlMWyp3MyOzOVONlpEa/9aWqKXHcEeV9qBS14aWYAx4bdK4biSGNR8?=
+ =?us-ascii?Q?dR45hn77tcWJpob5PSq8yCJ/e8VE9YacsVWFua6q?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a6283e48-96dd-4366-37a9-08daaa749612
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5358.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2022 04:04:53.8301 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ayXOzWP6+lb3YnJoix2iTG5nfeiOa9kmdFovJfaN6DhBqhQOaGAZVumVjE5BDbB+tHIpEDmM5OZ9IcKxi1eBqQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5957
+X-Proofpoint-ORIG-GUID: 1OXoRG8ddgmsmqPHLe16kPUgJtNQIzCG
+X-Proofpoint-GUID: 1OXoRG8ddgmsmqPHLe16kPUgJtNQIzCG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-10-07_04,2022-10-07_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ malwarescore=0 spamscore=0 suspectscore=0 priorityscore=1501
+ mlxlogscore=999 bulkscore=0 impostorscore=0 mlxscore=0 adultscore=0
+ clxscore=1011 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210100022
+Received-SPF: pass client-ip=205.220.166.238;
+ envelope-from=prvs=7282db322c=bin.meng@windriver.com;
+ helo=mx0a-0064b401.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,113 +157,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Oct 1, 2022 at 11:33 AM Eric Chan <e14002270@gmail.com> wrote:
->
-> Hi, qemu
->
-> As I know, brom will pass 3 parameters to the next stage bootloader, ex: openSBI.
-> a0 will pass hartid, a2 will pass fw_dynamic_info start address.
-> although a1 doesn't use directly in openSBI.
-> a1 read value is determined in compile time rather than read from the original a1 that passes from brom.
-> In qemu/hw/riscv/boot.c
-> both 32bit and 64bit machines read 4byte that offset 32byte from the brom start address.
->
-> for 64 bits machine: a1 read low 32bit data member magic of fw_dynamic_info,
+The temporary file has been created and is ready for use. Checking
+return value of close() does not seem useful. The file descriptor
+is almost certainly closed; see close(2) under "Dealing with error
+returns from close()".
 
-Hello Eric,
+Let's simply ignore close() failure here.
 
-a2 will contain the address of the fw_dynamic_info
+Suggested-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+---
 
-> the value will same as FW_DYNAMIC_INFO_MAGIC_VALUE because risc-v is little endian.
->
-> for 32bits machine: each data member of fw_dynamic_info is 4 bytes, so a1 will read the version rather than magic.
+(no changes since v5)
 
-On 32-bit RISC-V a2 will also contain the address of fw_dynamic_info
+Changes in v5:
+- new patch: "block: Ignore close() failure in get_tmp_filename()"
 
->
-> Do the 32bit and 64bit pass different parameters are expected?
+ block.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-I'm not clear what the difference between the 32-bit and 64-bit
-variants are. We use different load instructions, but otherwise they
-should be the same functionality.
+diff --git a/block.c b/block.c
+index bc85f46eed..582c205307 100644
+--- a/block.c
++++ b/block.c
+@@ -886,10 +886,7 @@ int get_tmp_filename(char *filename, int size)
+     if (fd < 0) {
+         return -errno;
+     }
+-    if (close(fd) != 0) {
+-        unlink(filename);
+-        return -errno;
+-    }
++    close(fd);
+     return 0;
+ #endif
+ }
+-- 
+2.25.1
 
-> If it is not expected, I guess the original version is 64bit machine, and then supports 32bit but misses this detail, I hope I can have an opportunity to fix this problem.
-> If it is expected, why they must be done?
-
-It might be easier to send a patch with any fixes you think should be
-made. That way it's easy to understand what you think needs to be
-fixed.
-
-Alistair
-
->
-> Thanks,
-> Eric Chan
->
-> qemu/include/hw/riscv/boot_opensbi.h
-> #define FW_DYNAMIC_INFO_MAGIC_VALUE     0x4942534f
-> qemu/hw/riscv/boot.c
-> void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts,
->                                hwaddr start_addr,
->                                hwaddr rom_base, hwaddr rom_size,
->                                uint64_t kernel_entry,
->                                uint64_t fdt_load_addr)
-> {
->     int i;
->     uint32_t start_addr_hi32 = 0x00000000;
->     uint32_t fdt_load_addr_hi32 = 0x00000000;
->
->     if (!riscv_is_32bit(harts)) {
->         start_addr_hi32 = start_addr >> 32;
->         fdt_load_addr_hi32 = fdt_load_addr >> 32;
->     }
->     /* reset vector */
->     uint32_t reset_vec[10] = {
->         0x00000297,                  /* 1:  auipc  t0, %pcrel_hi(fw_dyn) */
->         0x02828613,                  /*     addi   a2, t0, %pcrel_lo(1b) */
->         0xf1402573,                  /*     csrr   a0, mhartid  */
->         0,
->         0,
->         0x00028067,                  /*     jr     t0 */
->         start_addr,                  /* start: .dword */
->         start_addr_hi32,
->         fdt_load_addr,               /* fdt_laddr: .dword */
->         fdt_load_addr_hi32,
->                                      /* fw_dyn: */
->     };
->     if (riscv_is_32bit(harts)) {
->         reset_vec[3] = 0x0202a583;   /*     lw     a1, 32(t0) */
->         reset_vec[4] = 0x0182a283;   /*     lw     t0, 24(t0) */
->     } else {
->         reset_vec[3] = 0x0202b583;   /*     ld     a1, 32(t0) */
->         reset_vec[4] = 0x0182b283;   /*     ld     t0, 24(t0) */
->     }
->
->     /* copy in the reset vector in little_endian byte order */
->     for (i = 0; i < ARRAY_SIZE(reset_vec); i++) {
->         reset_vec[i] = cpu_to_le32(reset_vec[i]);
->     }
->     rom_add_blob_fixed_as("mrom.reset", reset_vec, sizeof(reset_vec),
->                           rom_base, &address_space_memory);
->     riscv_rom_copy_firmware_info(machine, rom_base, rom_size, sizeof(reset_vec),
->                                  kernel_entry);
-> }
->
-> opensbi/firmware/fw_dynamic.S
-> fw_boot_hart:
->         /* Sanity checks */
->         li      a1, FW_DYNAMIC_INFO_MAGIC_VALUE
->         REG_L   a0, FW_DYNAMIC_INFO_MAGIC_OFFSET(a2)
->         bne     a0, a1, _bad_dynamic_info
->         li      a1, FW_DYNAMIC_INFO_VERSION_MAX
->         REG_L   a0, FW_DYNAMIC_INFO_VERSION_OFFSET(a2)
->         bgt     a0, a1, _bad_dynamic_info
->
->         /* Read boot HART id */
->         li      a1, FW_DYNAMIC_INFO_VERSION_2
->         blt     a0, a1, 2f
->         REG_L   a0, FW_DYNAMIC_INFO_BOOT_HART_OFFSET(a2)
->         ret
-> 2:      li      a0, -1
->         ret
 
