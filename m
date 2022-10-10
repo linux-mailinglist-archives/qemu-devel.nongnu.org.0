@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F238C5F9AC3
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 10:14:39 +0200 (CEST)
-Received: from localhost ([::1]:49688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66DDE5F9A94
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 10:03:28 +0200 (CEST)
+Received: from localhost ([::1]:43040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohnvr-0001W9-1P
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 04:14:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56902)
+	id 1ohnl1-0001Eb-3i
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 04:03:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ohnfR-0003uh-NJ
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 03:57:41 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:33383)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ohnfX-0003wA-IR
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 03:57:49 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:38715)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ohnfP-0005qR-BF
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 03:57:41 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id f193so9755372pgc.0
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 00:57:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ohnfV-0005r2-QQ
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 03:57:47 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ x1-20020a17090ab00100b001fda21bbc90so12388668pjq.3
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 00:57:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5XTUGRenuq7iFRoYAPaRY1jpCC1XbHGFNbh7ZWhZHmw=;
- b=pNO6uWZZPMuO/qOQs6YPvKVJcSsM/JZdTAnHzlU53nK2oXEaPkUE8bU6ResmUKJ/81
- ++znR3RPORNClgIF+jk6tJgf4cFiK4wP3vAyon9HA8IoRoKe+TKGc0ARVjZB1eaxI2/7
- cnA/gYx//UzPiGxC6sYVCuFiu5pN2yuvGoAap98FAC/SaTeDydujUz34u8zcQ3UVr58g
- mpXK1VU9mRk5Oy5JXRlrHnF5q4oEDj0gUdhGxYDwcLtYc3L9gFtVVdOoiKblOIcuLRdx
- uI0sHSsWG4DiKkSrHn6S5VevR9AigC2p7iCdvfTfDqkvMakG4K+MFoTW/i21mOJfxSld
- 6U2w==
+ bh=iQZ+FgCz5SrCTdStkCDUF1z7fXi8GkHJqh1qsWGmHaA=;
+ b=DT0yIf7wV5yDwZdiUnoucvHd6TVAevqafts9LP8REGrZncaRBUb/Ae63UxGNStZ6FX
+ orJd418KbDoCLHTwSorGdocV81Ywf/HtCz9R8GUgCx8i/nP3LAobm6W8ouRZJ0wGPHh3
+ 6G/BztPQ3G1efQG2VY8HNaPJrQ7g2ImbOAgQ2pv9wYlaO4OuXYHAzMMSl8GuYuOhjhkP
+ c0WxsZDUAL2P6nlVoVU97SLyH/fEAf6Tw1miEmEJ+Yw8o1Yif/1Z7YrahFpjI4bWu726
+ 0ZRk2lRSDFU4tpJUxJkNORAa2q7myI1IqPCtVwxyNs3BkikTsTHqxdSVLzV49T3qsMl/
+ 1Yug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5XTUGRenuq7iFRoYAPaRY1jpCC1XbHGFNbh7ZWhZHmw=;
- b=nXlSkiUHhYEtsMdO7kkdthzuGwk6LKVVQEra0Dg1IO8NK5afNfD4ewr1fVciYXJEIO
- CUltfotBIVABjIRBJk79AG2RpnqQOKiw11cm+ES83uHLU6T7+HJv0RutOFp155tHjHuz
- jbfo+/3lKEJKhRo1qcJ8NOZAzYsxXf0fz34kM5Tl5pm2Brp6AH8ZXBGTA4Bu8FgU5L6a
- bqFB404VS8lkqEPFPHA4UaZrzOamnIB6AwhOQWBx+r8GqdNpQaIljKNuvY9P3BAwbU60
- B9lWcOygGZHay9JjWTnNYZO++obucBCPwaJmdHFza4QA1INNgJLQo/WZCtxApkPLpvHa
- EnLA==
-X-Gm-Message-State: ACrzQf1kxLJEXcdnr5Qb86SkJRlHBBBwzZLAqHqpTLNauUfD8qBzdfau
- PsdmyhQYKv7TYKdSgkNeQGE2Ez7aN3IghA==
-X-Google-Smtp-Source: AMsMyM62WLx0LjG5LJAWTEInTFT4aN6HpJF43H1BllNxQPZ9IEq0idZ/iYOg2cP8vZGSNJ/lZ7iqEA==
-X-Received: by 2002:a62:1a8d:0:b0:544:1309:19f3 with SMTP id
- a135-20020a621a8d000000b00544130919f3mr18550564pfa.37.1665388657797; 
- Mon, 10 Oct 2022 00:57:37 -0700 (PDT)
+ bh=iQZ+FgCz5SrCTdStkCDUF1z7fXi8GkHJqh1qsWGmHaA=;
+ b=XEuLE8E/9QUXIFNOfzsbi7wPsw6TxWUfLptqVwJsXjg3h2TcX+jmzCFtWwJ6nFUceK
+ e7l0m+q1EAA3tv+z37/IRcyXY631VFtqusr2yv02FnS5SdSPhrMj9vd6JTqTyt/kqH2Q
+ CFH+v/xCN5T7gmWoNxyQXoYBSatb2OH5Klt5WtcgWXia2FVWCjBKBNYpCvzHq18cxRTy
+ LxmRfrdHvqHWSqgvnZ5l+K8CaUydeu9fb6Ea3QGu8kQzbUv93oJshcCTv5kLXDCDiec+
+ ydIEz5muFKsUWtRzXolqqJaxgq8B8SAQ5fJKOKQprNpooMPioC+gr4FRwP7wwzuB/+Cj
+ Hevw==
+X-Gm-Message-State: ACrzQf1WrBDgyENisfamV+WOYYjG5/WD3O/gjHO98NC70GibqHkLZikS
+ xRVEWpvuW3omqIB21EIieegbYYCwvtXanw==
+X-Google-Smtp-Source: AMsMyM7rLrerDG8+Robr7U0Ek6g0S9DPaBNEz98RyfpLu0KUrLKl6FAao+otjfxHQCcAfuYGZMMATg==
+X-Received: by 2002:a17:902:b942:b0:178:be25:203f with SMTP id
+ h2-20020a170902b94200b00178be25203fmr18184466pls.101.1665388663998; 
+ Mon, 10 Oct 2022 00:57:43 -0700 (PDT)
 Received: from anisinha-lenovo.ba.nuagenetworks.net ([203.163.239.238])
  by smtp.googlemail.com with ESMTPSA id
- s2-20020a625e02000000b005624b4bd738sm6200379pfb.156.2022.10.10.00.57.32
+ s2-20020a625e02000000b005624b4bd738sm6200379pfb.156.2022.10.10.00.57.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 00:57:37 -0700 (PDT)
+ Mon, 10 Oct 2022 00:57:43 -0700 (PDT)
 From: Ani Sinha <ani@anisinha.ca>
 To: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
@@ -64,18 +65,18 @@ Cc: mst@redhat.com, imammedo@redhat.com, Ani Sinha <ani@anisinha.ca>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Maydell Peter <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
  Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v3 06/10] acpi/tests/avocado/bits: disable smilatency test
- since it does not pass everytime
-Date: Mon, 10 Oct 2022 13:26:15 +0530
-Message-Id: <20221010075619.4147111-7-ani@anisinha.ca>
+Subject: [PATCH v3 07/10] acpi/tests/avocado/bits: add biosbits config file
+ for running bios tests
+Date: Mon, 10 Oct 2022 13:26:16 +0530
+Message-Id: <20221010075619.4147111-8-ani@anisinha.ca>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221010075619.4147111-2-ani@anisinha.ca>
 References: <20221010075619.4147111-2-ani@anisinha.ca>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::52b;
- envelope-from=ani@anisinha.ca; helo=mail-pg1-x52b.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -97,24 +98,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-smilatency test is latency sensitive and does not pass deterministically when
-run in QEMU environment under biosbits. Disable the test suite for now.
-
-Example failure:
-
-==== SMI latency test ====
-Warning: touching the keyboard can affect the results of this test.
-Starting test. Wait here, I will be back in 15 seconds.
-[assert] SMI latency < 150us to minimize risk of OS timeouts FAIL
-  1us   < t <=  10us; average = 1372ns; count = 10912449
-   Times between first few observations:  176us 1646ns 1441ns 1450ns 1462ns
-  10us  < t <= 100us; average = 16us; count = 1187
-   Times between first few observations:   15ms 3148us 5856us   49ms   33ms
-  100us < t <=   1ms; average = 259us; count = 8
-   Times between first few observations:  111ms 2227ms 1779ms  999ms  219ms
-  0 SMI detected using MSR_SMI_COUNT (MSR 0x34)
-  Summary of impact: observed maximum latency = 298us
-Summary: 0 passed, 1 failed
+This change adds initial biosbits config file that instructs biosbits to run
+bios test suits in batch mode. Additionally acpi and smbios structures are also
+dumped.
 
 Cc: Daniel P. Berrangé <berrange@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
@@ -123,25 +109,34 @@ Cc: John Snow <jsnow@redhat.com>
 Cc: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
 ---
- tests/avocado/acpi-bits/bits-tests/smilatency.py | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ .../avocado/acpi-bits/bits-config/bits-cfg.txt | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+ create mode 100644 tests/avocado/acpi-bits/bits-config/bits-cfg.txt
 
-diff --git a/tests/avocado/acpi-bits/bits-tests/smilatency.py b/tests/avocado/acpi-bits/bits-tests/smilatency.py
-index d616970b31..e907c55cc2 100644
---- a/tests/avocado/acpi-bits/bits-tests/smilatency.py
-+++ b/tests/avocado/acpi-bits/bits-tests/smilatency.py
-@@ -37,8 +37,9 @@
- import usb
- 
- def register_tests():
--    testsuite.add_test("SMI latency test", smi_latency);
--    testsuite.add_test("SMI latency test with USB disabled via BIOS handoff", test_with_usb_disabled, runall=False);
-+    pass
-+    # testsuite.add_test("SMI latency test", smi_latency);
-+    # testsuite.add_test("SMI latency test with USB disabled via BIOS handoff", test_with_usb_disabled, runall=False);
- 
- def smi_latency():
-     MSR_SMI_COUNT = 0x34
+diff --git a/tests/avocado/acpi-bits/bits-config/bits-cfg.txt b/tests/avocado/acpi-bits/bits-config/bits-cfg.txt
+new file mode 100644
+index 0000000000..8010804453
+--- /dev/null
++++ b/tests/avocado/acpi-bits/bits-config/bits-cfg.txt
+@@ -0,0 +1,18 @@
++# BITS configuration file
++[bits]
++
++# To run BITS in batch mode, set batch to a list of one or more of the
++# following keywords; BITS will then run all of the requested operations, then
++# save the log file to disk.
++#
++# test: Run the full BITS testsuite.
++# acpi: Dump all ACPI structures.
++# smbios: Dump all SMBIOS structures.
++#
++# Leave batch set to an empty string to disable batch mode.
++# batch =
++
++# Uncomment the following to run all available batch operations
++# please take a look at boot/python/init.py in bits zip file
++# to see how these options are parsed and used.
++batch = test acpi smbios
 -- 
 2.34.1
 
