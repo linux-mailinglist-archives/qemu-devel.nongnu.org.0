@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 863875FA32E
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 20:10:51 +0200 (CEST)
-Received: from localhost ([::1]:48874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ED045FA31D
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 20:03:49 +0200 (CEST)
+Received: from localhost ([::1]:35596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohxEo-0006Av-CV
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 14:10:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43010)
+	id 1ohx80-0001bz-Ap
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 14:03:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwbB-0001d6-Vd
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:29:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39207)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwbM-000218-Al
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:30:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwb8-0006d6-Cz
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:29:53 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwbH-0006fp-NN
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:30:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665422989;
+ s=mimecast20190719; t=1665422999;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5SkDIYazeL5AgpK2mExrNLbpNnLXzfMlqNa5jH9gxLw=;
- b=DXP+zBqDrZxzfOaW/67BqHQC83sgxFka+q1fxg4RO4JhdfYY50lEMcUQDgXkgwbGwGQrL2
- x6elStXIXz9vlUcPhc91t2IDIKzmb2jZ4wKwHVyBkwsaxpYNaLZ4Z9eOA//48jRdzgO8Z8
- w+F6uhL0/CbLXEXjf1NpmiGedD1mYvo=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jmsSQG3tgR/SeJWv4vUdgBQ5eNjunHANNe2NjKH/GKc=;
+ b=bv1zbCC1joPeY513Fli5YVjjtN0Fw/dkyjardc8OD7yJVMtBYIH3FTIAvIIINGtNFKoAS2
+ kBN5lnw4TU+WwwvvJwUigNQBVpUxRYTrDuU61cRKFlB3xzUg+jnyTS3CdO6aG2lhvwIq0C
+ xPIwjukd5zoMWq3FydVdpqWRpFSfdao=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-664-6g58VjdFMAWlCA0nVyYKuQ-1; Mon, 10 Oct 2022 13:29:48 -0400
-X-MC-Unique: 6g58VjdFMAWlCA0nVyYKuQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- h129-20020a1c2187000000b003bf635eac31so4254741wmh.4
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:29:48 -0700 (PDT)
+ us-mta-477-y8tcy04lOGeE4Za_ITBT0g-1; Mon, 10 Oct 2022 13:29:58 -0400
+X-MC-Unique: y8tcy04lOGeE4Za_ITBT0g-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ i5-20020a1c3b05000000b003c47c8569easo4143228wma.1
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:29:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5SkDIYazeL5AgpK2mExrNLbpNnLXzfMlqNa5jH9gxLw=;
- b=heFyOGZNLavZcXTYc8GE167xlG7dzmvlg+DaB9ScDhR6meKJgE75eKRNn16lltVszR
- JluDy4muYdPskSlPNOWysia7bSnIKS5k1xa2ViIi/mfBB0nG1p509txeZA1+X1LAMCDf
- Hl39U87KiwwUqRnPbhLHvkqNINnJqGri9do+NQiwGID3fCH70di57CmEvgyMJ/f/XIC8
- v10MuqBErJkW+S1tFqbAhNJzgvyukkd3BkkMaQdw6pHOOizXQH0aBgtau+svH+jk2yts
- e+H7VEOUDPalzoEcM7ZfkQZm4Et7bVtNQ2TuxPG7Ady/FdOuqDIR9FYmNlKUTYjHiZpz
- Ra7Q==
-X-Gm-Message-State: ACrzQf0FtfRCcSNVXTp6ZN4FXWl4gSVD597nHsVe67Aqf9H96YqZkeNv
- tR01nVpv4ZThzu64auGw3YnCbDqNKHOxYuX5Pr2t/C12pGrw2PWAyl5JJRQ0UIdW4uV7hrCzgct
- cT+gUo4MLqHhyCIQuQbXe/os0TFdgfz2xghj0i1i9mAKUOjS6moLd/cIciSFy
-X-Received: by 2002:a05:6000:1683:b0:230:d0b5:72c9 with SMTP id
- y3-20020a056000168300b00230d0b572c9mr2857810wrd.336.1665422987492; 
- Mon, 10 Oct 2022 10:29:47 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4evNBO3oIsl4Y40dhOtwzdR7BSowYA389BkMHQZWlZdQ+UENQegUItiSTAAPkTei+73pXtVA==
-X-Received: by 2002:a05:6000:1683:b0:230:d0b5:72c9 with SMTP id
- y3-20020a056000168300b00230d0b572c9mr2857794wrd.336.1665422987253; 
- Mon, 10 Oct 2022 10:29:47 -0700 (PDT)
+ bh=jmsSQG3tgR/SeJWv4vUdgBQ5eNjunHANNe2NjKH/GKc=;
+ b=mloUVSgYFjf5iQwjKwyoioSXvaRyqVktEV5hIcH0vL3a4ODHl58KdDBrv/DhW3SqQL
+ ZCLQti70M2KbpDyOxFxjFqyFpoLf2fesgbNMJf8Rjf0gc9y8QpFRsXO3R5gqUFjNJbRT
+ gicpQN4Rl05BfYWznu6wB6+aJ7mdZFrGnDy0sKaFb5KOITJRaEnrTwu7d47Nq4h6IeNK
+ 7etyeEGQ2uI0/9Kpejomg1BBsrLQr60SV6BQ+YsJW8W8N3hwLFgIifWKAY44gLlH/HcO
+ OtZWdMDsLZyv8MVhWh47mt0eXA9FYinnamY2WT+4yE3b9Lynx+ainYguDKhHfpuAf9iK
+ +sTg==
+X-Gm-Message-State: ACrzQf23O+1j6Or5x0FEY1oxyzdlOfiW/bEQO+XyjOA8dOx9jB3hWqpg
+ /m087sYUG5CNYKNOad4Ix5ti3f8zeGhDfIvRwtIfNHNvA7I9LnKoIv93QDKqvSPFiGuPY5iRkcX
+ 1ivuxs0WmtIJHzV1jpzlfsnMS/4/ZqnS3V6bZ3t2f/aFZB3EQ85gGnJkM+JmM
+X-Received: by 2002:a05:600c:a09:b0:3b5:2f6b:c7c5 with SMTP id
+ z9-20020a05600c0a0900b003b52f6bc7c5mr13385641wmp.141.1665422996017; 
+ Mon, 10 Oct 2022 10:29:56 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4FmHxJF736rb5iIVLjVTMzfMFrxR8ya/9qffebxLtQdXawZ5s0TEAcuXjALd+ICNeYzLSTOQ==
+X-Received: by 2002:a05:600c:a09:b0:3b5:2f6b:c7c5 with SMTP id
+ z9-20020a05600c0a0900b003b52f6bc7c5mr13385616wmp.141.1665422995721; 
+ Mon, 10 Oct 2022 10:29:55 -0700 (PDT)
 Received: from redhat.com ([2.55.183.131]) by smtp.gmail.com with ESMTPSA id
- l9-20020adfe589000000b0022e6178bd84sm9313795wrm.8.2022.10.10.10.29.44
+ u19-20020a05600c19d300b003bf6da9d2cesm15887970wmq.28.2022.10.10.10.29.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 10:29:46 -0700 (PDT)
-Date: Mon, 10 Oct 2022 13:29:43 -0400
+ Mon, 10 Oct 2022 10:29:55 -0700 (PDT)
+Date: Mon, 10 Oct 2022 13:29:51 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PULL 15/55] tests/qtest: plain g_assert for
- VHOST_USER_F_PROTOCOL_FEATURES
-Message-ID: <20221010172813.204597-16-mst@redhat.com>
+Subject: [PULL 17/55] tests/qtest: implement stub for VHOST_USER_GET_CONFIG
+Message-ID: <20221010172813.204597-18-mst@redhat.com>
 References: <20221010172813.204597-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -79,7 +78,7 @@ Content-Transfer-Encoding: 8bit
 In-Reply-To: <20221010172813.204597-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -105,31 +104,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alex Bennée <alex.bennee@linaro.org>
 
-checkpatch.pl warns that non-plain asserts should be avoided so
-convert the check to a plain g_assert.
+We don't implement the full solution because frankly none of the tests
+need to at the moment. We may end up re-implementing libvhostuser in
+the end.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220802095010.3330793-19-alex.bennee@linaro.org>
+Message-Id: <20220802095010.3330793-21-alex.bennee@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/vhost-user-test.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ tests/qtest/vhost-user-test.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
-index 8d2d4ba535..a99f55ed84 100644
+index a99f55ed84..3052386634 100644
 --- a/tests/qtest/vhost-user-test.c
 +++ b/tests/qtest/vhost-user-test.c
-@@ -985,8 +985,7 @@ static void test_multiqueue(void *obj, void *arg, QGuestAllocator *alloc)
- static void vu_net_set_features(TestServer *s, CharBackend *chr,
-         VhostUserMsg *msg)
- {
--    g_assert_cmpint(msg->payload.u64 &
--            (0x1ULL << VHOST_USER_F_PROTOCOL_FEATURES), !=, 0ULL);
-+    g_assert(msg->payload.u64 & (0x1ULL << VHOST_USER_F_PROTOCOL_FEATURES));
-     if (s->test_flags == TEST_FLAGS_DISCONNECT) {
-         qemu_chr_fe_disconnect(chr);
-         s->test_flags = TEST_FLAGS_BAD;
+@@ -79,6 +79,8 @@ typedef enum VhostUserRequest {
+     VHOST_USER_SET_PROTOCOL_FEATURES = 16,
+     VHOST_USER_GET_QUEUE_NUM = 17,
+     VHOST_USER_SET_VRING_ENABLE = 18,
++    VHOST_USER_GET_CONFIG = 24,
++    VHOST_USER_SET_CONFIG = 25,
+     VHOST_USER_MAX
+ } VhostUserRequest;
+ 
+@@ -372,6 +374,17 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
+         }
+         break;
+ 
++    case VHOST_USER_GET_CONFIG:
++        /*
++         * Treat GET_CONFIG as a NOP and just reply and let the guest
++         * consider we have updated its memory. Tests currently don't
++         * require working configs.
++         */
++        msg.flags |= VHOST_USER_REPLY_MASK;
++        p = (uint8_t *) &msg;
++        qemu_chr_fe_write_all(chr, p, VHOST_USER_HDR_SIZE + msg.size);
++        break;
++
+     case VHOST_USER_SET_PROTOCOL_FEATURES:
+         /*
+          * We did set VHOST_USER_F_PROTOCOL_FEATURES so its valid for
 -- 
 MST
 
