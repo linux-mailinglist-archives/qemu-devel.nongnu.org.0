@@ -2,133 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC67C5FA15F
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 17:47:54 +0200 (CEST)
-Received: from localhost ([::1]:47994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85F8B5FA14E
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 17:42:14 +0200 (CEST)
+Received: from localhost ([::1]:36412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohv0T-000117-RV
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 11:47:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33846)
+	id 1ohuuz-0002DB-Jx
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 11:42:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1ohuew-0005vF-13
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 11:25:38 -0400
-Received: from mail-dm6nam12on2078.outbound.protection.outlook.com
- ([40.107.243.78]:27968 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1ohuet-0006MZ-QP
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 11:25:37 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mzvHecqbLJVEqp2raDH+vUrLiaIHFGgJioh9wHsfyc8YEeogp7ls+8FuqpgYIMscjHgFF50kAODwTutk1ZEXVxf/r5OIg+67W9WVlRip3zXiQnoum1bA+AV5uYehiUCo4+jANBIJPAek7QDIuO7OVAlgGLCnP9sp7F4rzPYN3srwE13dxHFhbvKqpVgbNssae20DRhHD5zp1Akz6+Mlgh5j/LIU11ODU8fkMYLvxaes4KCGaxgk3cMnucar4rBZz0uItw+R1B8PvVusbNnGF7MGuTWjjhrltwUl1SUaJ1YPCZf+9dC7FutcGTGx4OQ3BrcvLkdUBPDrr/k/0GswMYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=URviAwFUgt9C6jojsiVOF7kKCZJijZKnDhzNk4RtHPs=;
- b=FtTidGYa5937fx6+1CAV70R/XKqLBcznVoAACI6E3t1ROEKHVuC4yh3XS6jNqyEJlHwjIJR5iGY2mxpFbC9UGofNAR+u6o5kN/ReTPX+56pII4iQwe+HtLgdx+vjjyVykmFbilh84eeKFYSGCp8pOyC4uKHY0SANOo3RqSASaTMRQJl+0enVaMkOoboY3iTlWk8EAAhDWGXLnq2GB1D2vHeZf2LWKsnFIKRMYGLs0sHX2Cp57oeGlTo0I74mAMvvwd6axsgkwQXpP/e2mJcI8h5l+RNz+wSg0R/K/9IF+yoPouJxwVnv3uLWKznLCrL++5Xwp0WzY5r3rdaq7NDSfA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=URviAwFUgt9C6jojsiVOF7kKCZJijZKnDhzNk4RtHPs=;
- b=lLsMdYXXbJ3kV8hCMLUxRDPSGmYUjQCcO3PsMvukLYYiz9VEmW2OqfhzpBOuPrJqDlO6giRrLHoFHj8BaKtp/Me/KoZusUBK3w23FPGaFyNfn/ol8hQp6GKQ344NJqQbpwp5XcLvVVb2qM2UrNHQjUPxroiqlQgJNgfBgoUJLg0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
- by SA0PR17MB4268.namprd17.prod.outlook.com (2603:10b6:806:e9::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5709.15; Mon, 10 Oct
- 2022 15:25:33 +0000
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::655f:bfa9:e33a:5af4]) by BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::655f:bfa9:e33a:5af4%5]) with mapi id 15.20.5709.015; Mon, 10 Oct 2022
- 15:25:33 +0000
-Date: Mon, 10 Oct 2022 11:25:31 -0400
-From: Gregory Price <gregory.price@memverge.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Gregory Price <gourry.memverge@gmail.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, Alison Schofield <alison.schofield@intel.com>,
- Davidlohr Bueso <dave@stgolabs.net>,
- "a.manzanares@samsung.com" <a.manzanares@samsung.com>,
- Ben Widawsky <bwidawsk@kernel.org>
-Subject: Re: [PATCH RFC] hw/cxl: type 3 devices can now present volatile or
- persistent memory
-Message-ID: <Y0Q5a2Wx3qFB2eKI@memverge.com>
-References: <20221006000103.49542-1-gregory.price@memverge.com>
- <20221006094557.000035ab@huawei.com>
- <20221006095007.00001271@huawei.com> <Yz75ppPOwYCvNamy@fedora>
- <20221006174214.000059c7@huawei.com> <Yz8QlQ9yLFrWxWsN@fedora>
- <CAD3UvdT1ZHJDaqj05C+n7t4rM7yhjZyM6fooXAfG12rAYnBqmw@mail.gmail.com>
- <20221010161809.00006f8e@huawei.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221010161809.00006f8e@huawei.com>
-X-ClientProxiedBy: MN2PR19CA0019.namprd19.prod.outlook.com
- (2603:10b6:208:178::32) To BN6PR17MB3121.namprd17.prod.outlook.com
- (2603:10b6:405:7c::19)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ohui2-0002Wx-Nr
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 11:28:50 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:36724)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ohui0-000705-Uq
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 11:28:50 -0400
+Received: by mail-pl1-x630.google.com with SMTP id c24so10697213plo.3
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 08:28:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=+DOhMwYzBOvnAvdo2W0uOjepVwSD3PGWt+5OiuOV55w=;
+ b=rZ+UH8XCQdNqDR0p8l0oTHVxugojgF/VH0qLZD9h7s3lW5jhdhr4d3sSt2WyfF7hsh
+ E/EnHwpHb9IPtUniuSfFlr14qqgdNIpGwwd+6+IdQK/HAw5RqC+O/mq48GEV+GOrnru3
+ hoYb9RxqjgF8XoQnaDCQlxZwfiYTBualj3hbhgevYJgeh87YaKDx+Ur/GN1tFJol77Yq
+ S6XQ6fQCkCNnxYB6c3Z1kyInn1xb1Zyf6XSUQq3AJTYyKoDae3V/AGUxZ3Ri+6aXONwH
+ SA0SoVVOICk8xgdbgRERlGhxgdIEgBofrhqyF49y9yGyYl+fRl0KkAGkY8J7w5y44OGe
+ V6WA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+DOhMwYzBOvnAvdo2W0uOjepVwSD3PGWt+5OiuOV55w=;
+ b=vpApWFv/J0QtcsCjegFLsR69W6HDZY7vIyqcxlVg1J3ClUmBGmWrhNotHo2vnbUW9Q
+ mwzrfB5tVrIuznr5AhxAhROunhRwcFKTT2fjskbVPBJp7XBim9/4tF62J+ZmrXHod6fB
+ fA/p/QYIMr44bs+uE36/rrNSF0o/rndrqcYtzPTy6cWK5F5GyzIvfy6JHBN0KajnTXLS
+ 3+7mXTvF/xBZgLX41Bf0pWhMCgL/A05kIRTjUbcPzVxnqrDkfnldbi68JlPcInBY+dV/
+ nvWZWBLfZS+dIoGyFKqmvTrrHXKUs6G7iNPYNZffzSNTre0c8yjf7OEBzTPj0q8Jz70L
+ 5uBA==
+X-Gm-Message-State: ACrzQf34QoOIwG8QfkQqvhZs6u2mubSwKpJ1TIKiP65J26fa2+Ahb6Qv
+ pzJugWD6KftltjPhv6LY7BFNdQ==
+X-Google-Smtp-Source: AMsMyM7uZN99PsizHteMWS6GVDRsjPb5fD0dPadk+SL7o/o6Dmp6W3KIbHn4BgcNon7m20eyo6HK/g==
+X-Received: by 2002:a17:902:d50f:b0:17c:1b89:20ee with SMTP id
+ b15-20020a170902d50f00b0017c1b8920eemr19812427plg.60.1665415727379; 
+ Mon, 10 Oct 2022 08:28:47 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49d:ec01:5aa4:aba1:1c91:a9b7?
+ ([2602:47:d49d:ec01:5aa4:aba1:1c91:a9b7])
+ by smtp.gmail.com with ESMTPSA id
+ s11-20020a63214b000000b0043a18cef977sm6247640pgm.13.2022.10.10.08.28.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Oct 2022 08:28:46 -0700 (PDT)
+Message-ID: <f59e7cae-93bc-7df9-93f4-10b7d1637b2b@linaro.org>
+Date: Mon, 10 Oct 2022 08:28:44 -0700
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|SA0PR17MB4268:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7c5faaed-9a75-44b4-c79b-08daaad3ac19
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mv+TbUk/PPmjTCGVUQJDqEQvhJoPu4B3ChNOm5Ko1igT+pnuAWLb9M6JCwxMJPff2h44MZp2/g0iB3JAt1zLR84DSotxLgnopak/PVG2ckE6bEdbTM1C1MjJiEwRwr4UkY0XFj65U+VNae7KaDH4AimQa4gp0zC1pD7bRJbbsYvWMeeKjvDEAkjMSXYif41zBJwPSxqYQMYHA+Xu1QhbHUPIIrCCV9dLDQHPvQMnxxe7cVe9NnGudnv6EB9V2BoBGCllEuOG6VQiCNMzEnUIKGzJ5HUxLzRlnf8UAi5j3i+R8P07sM5jM1Mw9eW5vy1LFxJaqKCotru7G5irH4ylEGEnpPIqGbMyb2uD3QlfrWRKFX+6bz8+daUljySztUpszCkkVg1GG4bN506HQhUxFTrk46Tq9nRX4stkiyh0p/fUnw+qYaJsDOnH5xVZ5yYamTp73HwN1VILx/Ccs0BlGF9hqd8Q7p4P4nMBWulbADaZE7AKNRkEfCV4tTVmnXL7wd8Gs9+EL/wmS/Ho22M9EHW85eiFJQFOhTPDU/Chu3JrVoe/rPwdFGEaXGXCiKPp1S9yVVpWCBgtnmGKcJwtRu5j7PBq9Fbn0hky+QMFGdAOYmDJZThB2TfRG6dLnG1G3VoAZ9K9193UDrgLx8G6rvNRbhcAz/JDezBVb27Zy6VwxqYPRdETZe5UU98IbJLUxYXWA8JWMI9SKlhYWjlP03oCNHKmjin3CeyF3Cy57Xeh2jnG26bzHUhfP2NeY/hYL6PXR+nE1TitwBeFnH9dbKCwsQp9wv7kpyrUrzpp4eQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN6PR17MB3121.namprd17.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(366004)(346002)(39840400004)(136003)(376002)(396003)(451199015)(316002)(6916009)(54906003)(2906002)(6486002)(4744005)(186003)(2616005)(66476007)(41300700001)(83380400001)(66556008)(66946007)(478600001)(8936002)(8676002)(4326008)(5660300002)(966005)(44832011)(6506007)(26005)(52116002)(38100700002)(36756003)(86362001)(38350700002)(6512007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TlCDQ9pj2X8DolJdqZjGm635lYkaO9ExACDLY5IYl4tEwofegmJmx92zTi50?=
- =?us-ascii?Q?OwJbh6hR0qPzKL9/CG6OTziYxTh4rC8+hX5wNgbJVPf6dn07VO2huBuFHFL/?=
- =?us-ascii?Q?OWPp3uHCoU87S98A0m0e/2Ck4UpyeMr0EiRWXfBDaVKGlpGl0CqT6yozSW2j?=
- =?us-ascii?Q?wjNRjbhckKOKVX+I9UNXTBijDxfbcBUtj9jaCGbfufSJ4zH42skpK5Jhm64W?=
- =?us-ascii?Q?0RIziNepDPlBFVirx1bF12fGa0+izfkrX297refexp/esBfmUZhqh+Hcvwdv?=
- =?us-ascii?Q?J3kwVHPZggTgYBEkIl/wf/FpwOcdzZc1+wLEsQjeT4X+rzumpdavGJ7eU4iW?=
- =?us-ascii?Q?yCwop9DnUHD9on30wzFkF/PCJ219jkM6fyRi6AS1hUborA+MKzqqrfuSqGuz?=
- =?us-ascii?Q?K+j8dkpV9fHajzlNccfK2G7JyTd0gRcd13FlZj2BlBPEyYy3mKBXUC7RBYjq?=
- =?us-ascii?Q?Ez4W6X+273c9t7ia5zdanIy1Nvx1ZHggko7yWCBFu/NLNNQWKHKU1U4Xf407?=
- =?us-ascii?Q?C/NYhWJeeXjpw2KAVr+ctC2Tk/XVAhAiJwu7YjUnlILbEiIh+ohDxnKniRAU?=
- =?us-ascii?Q?BfK7ONB8PeZQDPbz8hO8gI381e0PdOjXEa5LRPP/2xffVqtu8nbKotU+Ykju?=
- =?us-ascii?Q?sZqf3ezDRx8vDJaEsIQwJAbXTayPucKgXXY7GcPnFb2a3/DJi+9wpnbVY/1U?=
- =?us-ascii?Q?dtCQc1XmgkFtBay2vj4e3vbdmFeNQg/FB4Vd82KTpn1uRaOpF7Ts2FoxfgBh?=
- =?us-ascii?Q?a34I7RgRrYy/ELCO9x2dLhW5taqIUz3dCNE9lsZo1KYtbSqj8ZRy38N5GkQP?=
- =?us-ascii?Q?dGEAj2QgFoMJobQioChCeSX6vrXISkWj7hDwivjODOaZ0laXzhj9yijyM/6K?=
- =?us-ascii?Q?ZCLy9gJfKXaUMWPx8kTYC+6BtkvQeOeY+pVRWHKA1GKqqGib2oqqg9iRGNrm?=
- =?us-ascii?Q?8ZNicRXmQwfzpqty4+XAgx2iXaDat1yFUHfLcgjRFO8n9M6V32d3ZoTUn3PU?=
- =?us-ascii?Q?EtJc9noAXkvBLTgNk+5JgSanmi5/9dPn1LOh9yjNGsQXKCR+2whc9O56U9Dt?=
- =?us-ascii?Q?0dhhcbRV4r7bqybmCRGXrnNkUE6DwFxBpwVcd5D16esECw3SIbYjQG9lft07?=
- =?us-ascii?Q?74Bu1tH4fzjGiuorBkUk5w33e5XhKvi05g0lLstw5QC3fbF+Kkww/KknUwxX?=
- =?us-ascii?Q?TjPd6GD69KB2lcvc0SyR7X05r6PQA55jfTcjFRasDeKoaSBRvql/84atquWi?=
- =?us-ascii?Q?i4f72kOgAmmrSIYt4fw5SU8mkmQbLY+szss1A+aIbRVkEGe3BBGi7WaxTeSl?=
- =?us-ascii?Q?CDKqLQ5F98jBqi/pdwIv6wCr1N26A3908SG5Iqj9exySuWVg/uUkZ2zHN/dK?=
- =?us-ascii?Q?JRhIKpAXLE32BvPA8HthOcB1ILFwlpzui1ze0lS3AGeKfxlH69jps5bT2vKI?=
- =?us-ascii?Q?5ORy6RQge7DO0YeKUNb63jvk2eEUMFpObu0/uBeFgzUZdY3W+SmNsa4vE+T8?=
- =?us-ascii?Q?gmhnlz5j7UA48BnewCQIhhCXeGNsQyAtbkzPxbe+AZu67dtDnMGbfp/I5AEa?=
- =?us-ascii?Q?QbX6sXlNQe6kxgneJedtdjWAD55P+4kGx6ljN2eVGnNqXrl7ODwqB/6nGtVc?=
- =?us-ascii?Q?Og=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c5faaed-9a75-44b4-c79b-08daaad3ac19
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2022 15:25:32.9163 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kfEvlHJNov2eSbmxcFNocZ297VHQymOpHoN7imQtuUBRXjXC1EMJ/U7f4ujkPWJbi7P5e7klrBe56jxHBk+SxE4A1NOmf8CCBUPOOIdqeGs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR17MB4268
-Received-SPF: pass client-ip=40.107.243.78;
- envelope-from=gregory.price@memverge.com;
- helo=NAM12-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 1/3] linux-user: i386/signal: move fpstate at the end of
+ the 32-bit frames
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20221010142127.295676-1-pbonzini@redhat.com>
+ <20221010142127.295676-2-pbonzini@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221010142127.295676-2-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.007,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -145,17 +95,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 10/10/22 07:21, Paolo Bonzini wrote:
+> Recent versions of Linux moved the 32-bit fpstate towards the end of the
+> frame, so that the variable-sized xsave data does not overwrite the
+> (ABI-defined) extramask[] field.  Follow suit in QEMU.
 > 
-> https://gitlab.com/jic23/qemu/-/commits/cxl-2022-10-09
-> There are a few messy corners in that tree but it should work. I'll be
-> pushing out a new version in a few days.
-> 
-> I updated that in latest version to build the tables based on the
-> memdev provided.  We'll want to add the volatile support to that alongside
-> your patch.
-> 
+> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
+> ---
+>   linux-user/i386/signal.c | 11 +++++++++--
+>   1 file changed, 9 insertions(+), 2 deletions(-)
 
-I will rebase my --persistent-memdev and --volatile-memdev patch on your
-branch and send out the commits when i'm done.  I may also add the
-scafolding for the partitionable-pmem field but not actually expose it.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
 
