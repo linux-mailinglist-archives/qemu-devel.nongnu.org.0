@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8305D5F9F5A
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 15:27:06 +0200 (CEST)
-Received: from localhost ([::1]:47920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2286C5F9F7D
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 15:36:01 +0200 (CEST)
+Received: from localhost ([::1]:58784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohsoD-00023m-Km
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 09:27:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47146)
+	id 1ohswo-0002Sf-Oe
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 09:35:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <miguel.luis@oracle.com>)
- id 1ohskw-0005uG-4G; Mon, 10 Oct 2022 09:23:42 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:10562)
+ id 1ohskz-00063l-Su; Mon, 10 Oct 2022 09:23:45 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:21488)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <miguel.luis@oracle.com>)
- id 1ohsku-0003Um-5b; Mon, 10 Oct 2022 09:23:41 -0400
+ id 1ohskx-0003VE-Ly; Mon, 10 Oct 2022 09:23:45 -0400
 Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29ABv1Kk012837;
- Mon, 10 Oct 2022 13:23:34 GMT
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29ABxbQP012858;
+ Mon, 10 Oct 2022 13:23:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : reply-to :
  mime-version : content-transfer-encoding; s=corp-2022-7-12;
- bh=5GHVn7JC7YycS7J8f1l8OLLsQyao+YPeGmO4bOOeT10=;
- b=DUNSpnm1crfdjwG3kIU5sEdTk8NvHm5aogFQviq8agd2xUjRzZGt+udS4jrH4tbp92AF
- 0nBXz2pWq9wuF8JB4jkuBDLeLNCvgsBneIhZ3g41tf4tD2Q7DQEhEjTPv8C0cueaJcT8
- RWGFb7VtnfUDlvzm8YlXHyOFsNcdJaXGPVGAM3ZBwrXZHB8rVXLDB8Sm79MUXjpQ2Fhq
- ZcnrgKmTPAazPoNI9ke4OfE257wiSxECdegroLKXvCOFNZtKIekoa3F14OSzV393IJUf
- /wadUEzM+ffLw/+AHQSMQ9fDruPucAtUF34U080LzQ2EHWKBDOXSZMYvInc8uwwDt6wa MQ== 
+ bh=occ8mz+2XJr1oVuKO/QRWCF380lFZDnwUXkqWPMyE0I=;
+ b=bfRVJBsUtb4xIxMrr3/XXoYaas4jJaMNlYtrcv8anisAtAxC1O1zCSsNydlCnKVsmXEV
+ PDwUYhKq2IYyFm3+iperGwhUHfheaEdnSEeOywyaENeGHvFy9jBxyt4CuG5JzTnWJTtv
+ ojYSn2rMriTUdoQ9quyFQhz0C/E3vnyIlwsYn2a4KPEOKYzF81fofeyqYSPlNsJstN2M
+ MWerSnW2qv+TCP1o078PLOnZjY0nPsng18FjkeHw8JmRqh5t1Ecee2CSrWXqpaG6Nn0n
+ vlLsRP0WXI84kmJLH13aiNdXT1SsLXZkpnwEPgEhT7QIK8+S8ak/28A4RrdlQekPxelR hQ== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3k31rtbk72-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3k31rtbk79-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 10 Oct 2022 13:23:34 +0000
+ Mon, 10 Oct 2022 13:23:39 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 29ADDD1B021822; Mon, 10 Oct 2022 13:23:33 GMT
+ with ESMTP id 29AATCwZ021956; Mon, 10 Oct 2022 13:23:39 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3k2yn3482a-1
+ 3k2yn3484d-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 10 Oct 2022 13:23:33 +0000
+ Mon, 10 Oct 2022 13:23:39 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29ADNNh2019450;
- Mon, 10 Oct 2022 13:23:33 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29ADNNh4019450;
+ Mon, 10 Oct 2022 13:23:38 GMT
 Received: from mlluis-mac.uk.oracle.com (dhcp-10-175-204-94.vpn.oracle.com
  [10.175.204.94])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id
- 3k2yn347wn-2; Mon, 10 Oct 2022 13:23:32 +0000
+ 3k2yn347wn-3; Mon, 10 Oct 2022 13:23:38 +0000
 From: Miguel Luis <miguel.luis@oracle.com>
 To: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Cc: mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca,
  shannon.zhaosl@gmail.com, peter.maydell@linaro.org, miguel.luis@oracle.com
-Subject: [RFC PATCH v2 1/4] tests/acpi: virt: allow acpi MADT and FADT changes
-Date: Mon, 10 Oct 2022 13:22:57 +0000
-Message-Id: <20221010132300.96935-2-miguel.luis@oracle.com>
+Subject: [RFC PATCH v2 2/4] acpi: fadt: support revision 6.0 of the ACPI
+ specification
+Date: Mon, 10 Oct 2022 13:22:58 +0000
+Message-Id: <20221010132300.96935-3-miguel.luis@oracle.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221010132300.96935-1-miguel.luis@oracle.com>
 References: <20221010132300.96935-1-miguel.luis@oracle.com>
@@ -72,8 +73,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
  phishscore=0 mlxscore=0 malwarescore=0 spamscore=0 mlxlogscore=999
  bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2209130000 definitions=main-2210100080
-X-Proofpoint-GUID: 3l1drk8VkhU8H6AQlwSNvhBnaW9hI9SL
-X-Proofpoint-ORIG-GUID: 3l1drk8VkhU8H6AQlwSNvhBnaW9hI9SL
+X-Proofpoint-GUID: zARCsTkVB8bNGVBoowIPxAV-78gWY3Rz
+X-Proofpoint-ORIG-GUID: zARCsTkVB8bNGVBoowIPxAV-78gWY3Rz
 Received-SPF: pass client-ip=205.220.165.32;
  envelope-from=miguel.luis@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -99,25 +100,101 @@ Reply-To: miguel.luis@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Step 3 from bios-tables-test.c documented procedure.
+Update the Fixed ACPI Description Table (FADT) to revision 6.0 of the ACPI
+specification adding the field "Hypervisor Vendor Identity" that was missing.
+
+This field's description states the following: "64-bit identifier of hypervisor
+vendor. All bytes in this field are considered part of the vendor identity.
+These identifiers are defined independently by the vendors themselves,
+usually following the name of the hypervisor product. Version information
+should NOT be included in this field - this shall simply denote the vendor's
+name or identifier. Version information can be communicated through a
+supplemental vendor-specific hypervisor API. Firmware implementers would
+place zero bytes into this field, denoting that no hypervisor is present in
+the actual firmware."
+
+Hereupon, what should a valid identifier of an Hypervisor Vendor ID be and
+where should QEMU provide that information?
+
+On the v1 [1] of this RFC there's the suggestion of having this information
+in sync by the current acceleration name. This also seems to imply that QEMU,
+which generates the FADT table, and the FADT consumer need to be in sync with
+the values of this field.
+
+This version follows Ani Sinha's suggestion [2] of using "QEMU" for the
+hypervisor vendor ID.
+
+[1]: https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg00911.html
+[2]: https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg00989.html
 
 Signed-off-by: Miguel Luis <miguel.luis@oracle.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/acpi/aml-build.c      | 13 ++++++++++---
+ hw/arm/virt-acpi-build.c | 10 +++++-----
+ 2 files changed, 15 insertions(+), 8 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..8dc50f7a8a 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,7 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/virt/FACP",
-+"tests/data/acpi/virt/FACP.numamem",
-+"tests/data/acpi/virt/FACP.memhp",
-+"tests/data/acpi/virt/APIC",
-+"tests/data/acpi/virt/APIC.memhp",
-+"tests/data/acpi/virt/APIC.numamem",
+diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+index e6bfac95c7..42feb4d4d7 100644
+--- a/hw/acpi/aml-build.c
++++ b/hw/acpi/aml-build.c
+@@ -2070,7 +2070,7 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+     acpi_table_end(linker, &table);
+ }
+ 
+-/* build rev1/rev3/rev5.1 FADT */
++/* build rev1/rev3/rev5.1/rev6.0 FADT */
+ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+                 const char *oem_id, const char *oem_table_id)
+ {
+@@ -2193,8 +2193,15 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+     /* SLEEP_STATUS_REG */
+     build_append_gas_from_struct(tbl, &f->sleep_sts);
+ 
+-    /* TODO: extra fields need to be added to support revisions above rev5 */
+-    assert(f->rev == 5);
++    if (f->rev == 5) {
++        goto done;
++    }
++
++    /* Hypervisor Vendor Identity */
++    build_append_padded_str(tbl, "QEMU", 8, '\0');
++
++    /* TODO: extra fields need to be added to support revisions above rev6 */
++    assert(f->rev == 6);
+ 
+ done:
+     acpi_table_end(linker, &table);
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 9b3aee01bf..72bb6f61a5 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -809,13 +809,13 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+ }
+ 
+ /* FADT */
+-static void build_fadt_rev5(GArray *table_data, BIOSLinker *linker,
++static void build_fadt_rev6(GArray *table_data, BIOSLinker *linker,
+                             VirtMachineState *vms, unsigned dsdt_tbl_offset)
+ {
+-    /* ACPI v5.1 */
++    /* ACPI v6.0 */
+     AcpiFadtData fadt = {
+-        .rev = 5,
+-        .minor_ver = 1,
++        .rev = 6,
++        .minor_ver = 0,
+         .flags = 1 << ACPI_FADT_F_HW_REDUCED_ACPI,
+         .xdsdt_tbl_offset = &dsdt_tbl_offset,
+     };
+@@ -945,7 +945,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+ 
+     /* FADT MADT PPTT GTDT MCFG SPCR DBG2 pointed to by RSDT */
+     acpi_add_table(table_offsets, tables_blob);
+-    build_fadt_rev5(tables_blob, tables->linker, vms, dsdt);
++    build_fadt_rev6(tables_blob, tables->linker, vms, dsdt);
+ 
+     acpi_add_table(table_offsets, tables_blob);
+     build_madt(tables_blob, tables->linker, vms);
 -- 
 2.37.3
 
