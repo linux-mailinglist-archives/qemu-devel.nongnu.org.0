@@ -2,104 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75E785FA388
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 20:45:03 +0200 (CEST)
-Received: from localhost ([::1]:36928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 863875FA32E
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 20:10:51 +0200 (CEST)
+Received: from localhost ([::1]:48874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohxlu-0004I4-Cl
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 14:45:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60096)
+	id 1ohxEo-0006Av-CV
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 14:10:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dave@stgolabs.net>) id 1ohwkn-00020w-F1
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:39:49 -0400
-Received: from insect.birch.relay.mailchannels.net ([23.83.209.93]:11527)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwbB-0001d6-Vd
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:29:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39207)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dave@stgolabs.net>) id 1ohwkl-0000Wu-33
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:39:48 -0400
-X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
- by relay.mailchannels.net (Postfix) with ESMTP id 2C799921FFD;
- Mon, 10 Oct 2022 17:39:41 +0000 (UTC)
-Received: from pdx1-sub0-mail-a236.dreamhost.com (unknown [127.0.0.6])
- (Authenticated sender: dreamhost)
- by relay.mailchannels.net (Postfix) with ESMTPA id 648F0921DD5;
- Mon, 10 Oct 2022 17:39:40 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1665423580; a=rsa-sha256;
- cv=none;
- b=ndKHUhRi9yKT0qQCaTNe3cbI8S90SV8aqU/PeCi3yjrQGj6Eln8962B0jB/rEZmTnjRQz/
- ibxNsCZeZGGXJaSuHl0PZsydHEBOjqvMVMCdewCU28v4Qrss5+ri7IVE89XOospfaQiFnf
- 4gCKgFAO9PQjtML3FO2LYNXTG/KZAqXLlJ2Wcjk19reUzE8CcMDVX4aoxzdaWu3MrVOW8V
- /AkwGGBOPg2k8+MicO9jCcG3mGFSCpAio2lvGVISETaDxHnFKsfBAHTPzrhwDCO18jssUN
- eOWfmL9AJDpv7bflbLfynLXpgtbfHCOo2OIRvCPoHS3H3rUJZTDeJavKfhvE1w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net; s=arc-2022; t=1665423580;
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwb8-0006d6-Cz
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:29:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665422989;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:dkim-signature;
- bh=gGmlWW7IjW5I6T1Q1olP9QULCjSHVNP8cLU/WlKtH8o=;
- b=cIHwfvYJM6qQRFCsDjsaaAg1p62o3H03jIhFyRanriBjmBkcLyMf5D6ucvH69o6VZ6Uimm
- 7IrhTSPWV3Vol/B46m8kDpCpwGeLkQKYeu79dvX14VZEpIlHVjrX95yFRodjyyDz6/7/OK
- cEBxTuCc1hbdEqAhSwUBM37Cd3IGb2g7uM7zVnHHSyi2Vk3Twra5lH+Fkb+0oGEdP3nnvp
- aWyy4B07PH15aRLsL/po5PfoRVlqshKV2LkCd6o5uWtkIsXp1PNklH8gkCff3Fhpn6TJ/K
- 5HwRlWOTpsvFxgDARQVOPWXj1PZTrOhuivdk/Vt/APakTbsRMq/z80mTxSZ0rQ==
-ARC-Authentication-Results: i=1; rspamd-7c485dd8cf-xj8f2;
- auth=pass smtp.auth=dreamhost smtp.mailfrom=dave@stgolabs.net
-X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
-X-MailChannels-Auth-Id: dreamhost
-X-Bitter-Continue: 027f11f70c9975ff_1665423580913_1980910223
-X-MC-Loop-Signature: 1665423580913:2291040994
-X-MC-Ingress-Time: 1665423580913
-Received: from pdx1-sub0-mail-a236.dreamhost.com (pop.dreamhost.com
- [64.90.62.162]) (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
- by 100.116.63.144 (trex/6.7.1); Mon, 10 Oct 2022 17:39:40 +0000
-Received: from offworld (ip72-199-50-187.sd.sd.cox.net [72.199.50.187])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- (Authenticated sender: dave@stgolabs.net)
- by pdx1-sub0-mail-a236.dreamhost.com (Postfix) with ESMTPSA id 4MmR4W3Fv5z6s; 
- Mon, 10 Oct 2022 10:39:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
- s=dreamhost; t=1665423580;
- bh=gGmlWW7IjW5I6T1Q1olP9QULCjSHVNP8cLU/WlKtH8o=;
- h=Date:From:To:Cc:Subject:Content-Type;
- b=UXEbqIuuyvY+3fP/kksMsIEIesqr+mNBngDDpJp+jrFJGFOn+97Bwnyj4Dy/f+OVs
- TZoMRErULyZDIGPcIhBeET+vV/r1mzjh9qourCPjHYzjp/PndXiememNpCE8ZOmbh/
- KeDVF7TtmdBi+wsAz1I5/PZdlqSJ+axGqsR9emplHa7JQmNweizIqDFn6qTVqDJs8y
- spuBSLOc05aNsUZ7e0rhBmFHueUyid/nRP8mhL/6nU28GicF50TcO8PoxNSJCk6//m
- AkrUtkkuWud41BhtRgK93cu/SolHViMULPeQHa2bGGXMxAsoAYtEhJacLQqgVCHwdK
- jEwQP13/8IWvw==
-Date: Mon, 10 Oct 2022 10:18:55 -0700
-From: Davidlohr Bueso <dave@stgolabs.net>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Gregory Price <gourry.memverge@gmail.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, Alison Schofield <alison.schofield@intel.com>,
- "a.manzanares@samsung.com" <a.manzanares@samsung.com>,
- Ben Widawsky <bwidawsk@kernel.org>
-Subject: Re: [PATCH RFC] hw/cxl: type 3 devices can now present volatile or
- persistent memory
-Message-ID: <20221010171855.mgpfwnz3ugq2jnrh@offworld>
-References: <20221006000103.49542-1-gregory.price@memverge.com>
- <20221006094557.000035ab@huawei.com>
- <20221006095007.00001271@huawei.com> <Yz75ppPOwYCvNamy@fedora>
- <20221006174214.000059c7@huawei.com> <Yz8QlQ9yLFrWxWsN@fedora>
- <20221010154343.00007afd@huawei.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5SkDIYazeL5AgpK2mExrNLbpNnLXzfMlqNa5jH9gxLw=;
+ b=DXP+zBqDrZxzfOaW/67BqHQC83sgxFka+q1fxg4RO4JhdfYY50lEMcUQDgXkgwbGwGQrL2
+ x6elStXIXz9vlUcPhc91t2IDIKzmb2jZ4wKwHVyBkwsaxpYNaLZ4Z9eOA//48jRdzgO8Z8
+ w+F6uhL0/CbLXEXjf1NpmiGedD1mYvo=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-664-6g58VjdFMAWlCA0nVyYKuQ-1; Mon, 10 Oct 2022 13:29:48 -0400
+X-MC-Unique: 6g58VjdFMAWlCA0nVyYKuQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ h129-20020a1c2187000000b003bf635eac31so4254741wmh.4
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:29:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5SkDIYazeL5AgpK2mExrNLbpNnLXzfMlqNa5jH9gxLw=;
+ b=heFyOGZNLavZcXTYc8GE167xlG7dzmvlg+DaB9ScDhR6meKJgE75eKRNn16lltVszR
+ JluDy4muYdPskSlPNOWysia7bSnIKS5k1xa2ViIi/mfBB0nG1p509txeZA1+X1LAMCDf
+ Hl39U87KiwwUqRnPbhLHvkqNINnJqGri9do+NQiwGID3fCH70di57CmEvgyMJ/f/XIC8
+ v10MuqBErJkW+S1tFqbAhNJzgvyukkd3BkkMaQdw6pHOOizXQH0aBgtau+svH+jk2yts
+ e+H7VEOUDPalzoEcM7ZfkQZm4Et7bVtNQ2TuxPG7Ady/FdOuqDIR9FYmNlKUTYjHiZpz
+ Ra7Q==
+X-Gm-Message-State: ACrzQf0FtfRCcSNVXTp6ZN4FXWl4gSVD597nHsVe67Aqf9H96YqZkeNv
+ tR01nVpv4ZThzu64auGw3YnCbDqNKHOxYuX5Pr2t/C12pGrw2PWAyl5JJRQ0UIdW4uV7hrCzgct
+ cT+gUo4MLqHhyCIQuQbXe/os0TFdgfz2xghj0i1i9mAKUOjS6moLd/cIciSFy
+X-Received: by 2002:a05:6000:1683:b0:230:d0b5:72c9 with SMTP id
+ y3-20020a056000168300b00230d0b572c9mr2857810wrd.336.1665422987492; 
+ Mon, 10 Oct 2022 10:29:47 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4evNBO3oIsl4Y40dhOtwzdR7BSowYA389BkMHQZWlZdQ+UENQegUItiSTAAPkTei+73pXtVA==
+X-Received: by 2002:a05:6000:1683:b0:230:d0b5:72c9 with SMTP id
+ y3-20020a056000168300b00230d0b572c9mr2857794wrd.336.1665422987253; 
+ Mon, 10 Oct 2022 10:29:47 -0700 (PDT)
+Received: from redhat.com ([2.55.183.131]) by smtp.gmail.com with ESMTPSA id
+ l9-20020adfe589000000b0022e6178bd84sm9313795wrm.8.2022.10.10.10.29.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Oct 2022 10:29:46 -0700 (PDT)
+Date: Mon, 10 Oct 2022 13:29:43 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PULL 15/55] tests/qtest: plain g_assert for
+ VHOST_USER_F_PROTOCOL_FEATURES
+Message-ID: <20221010172813.204597-16-mst@redhat.com>
+References: <20221010172813.204597-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221010154343.00007afd@huawei.com>
-User-Agent: NeoMutt/20220429
-Received-SPF: pass client-ip=23.83.209.93; envelope-from=dave@stgolabs.net;
- helo=insect.birch.relay.mailchannels.net
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221010172813.204597-1-mst@redhat.com>
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -116,16 +103,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 10 Oct 2022, Jonathan Cameron wrote:
+From: Alex Bennée <alex.bennee@linaro.org>
 
->I wonder if we care to emulate beyond 1 volatile and 1 persistent.
->Sure devices might exist, but if we can exercise all the code paths
->with a simpler configuration, perhaps we don't need to handle the
->more complex ones?
+checkpatch.pl warns that non-plain asserts should be avoided so
+convert the check to a plain g_assert.
 
-Yes, I completely agree. 1 of each seems like the best balance between
-exercising code paths vs complexity.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20220802095010.3330793-19-alex.bennee@linaro.org>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ tests/qtest/vhost-user-test.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Thanks,
-Davidlohr
+diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
+index 8d2d4ba535..a99f55ed84 100644
+--- a/tests/qtest/vhost-user-test.c
++++ b/tests/qtest/vhost-user-test.c
+@@ -985,8 +985,7 @@ static void test_multiqueue(void *obj, void *arg, QGuestAllocator *alloc)
+ static void vu_net_set_features(TestServer *s, CharBackend *chr,
+         VhostUserMsg *msg)
+ {
+-    g_assert_cmpint(msg->payload.u64 &
+-            (0x1ULL << VHOST_USER_F_PROTOCOL_FEATURES), !=, 0ULL);
++    g_assert(msg->payload.u64 & (0x1ULL << VHOST_USER_F_PROTOCOL_FEATURES));
+     if (s->test_flags == TEST_FLAGS_DISCONNECT) {
+         qemu_chr_fe_disconnect(chr);
+         s->test_flags = TEST_FLAGS_BAD;
+-- 
+MST
+
 
