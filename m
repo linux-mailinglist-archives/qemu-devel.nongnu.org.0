@@ -2,95 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49FCD5FA236
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 18:53:44 +0200 (CEST)
-Received: from localhost ([::1]:37528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C7375FA279
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 19:11:22 +0200 (CEST)
+Received: from localhost ([::1]:47408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohw2A-0008Bt-AG
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 12:53:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36496)
+	id 1ohwJA-0008WG-4n
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 13:11:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1ohvuO-0007Vl-3k
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 12:45:44 -0400
-Received: from mx0a-0031df01.pphosted.com ([205.220.168.131]:4948)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1ohvuL-00058m-MJ
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 12:45:39 -0400
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29AApnN3008248;
- Mon, 10 Oct 2022 16:45:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-type :
- content-transfer-encoding; s=qcppdkim1;
- bh=waYmqSjdyxfUQpQlp2ywcDx1KHg+mhuKzQkbBz38HdY=;
- b=mqiwQHnvOAzo2xBj3r1sKZIcXIVJ2dZ9qSYl6FR4QY1uirClzG2wleMV6/96pXCEbixs
- iXGNAFv6Sw61ey26M042VlKLO8krlXUeO8Sxi8t3ngts08UJ4ZcYz8lLuPf24V2dMTxa
- Y7Z6x+XaOmx6Rm5f89VvcWvJ6ffdyoT2nGjsL5jj6XJZ10ui4wSsIbo86JTGPRQqBuD7
- oy5Ri9Atv/5udLioKVGwivYqnfc144w1AuyutpE8Awg5iW0xLW+3YKtCvI/rS5B9GTvP
- tsDSZs5qpImfS3agpIEHMqXs7FbeHUTYoHeNuM+/aoFfs1dGFP4mO5hsNIbPm4DQTDOy Vg== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3k32csctjq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 10 Oct 2022 16:45:29 +0000
-Received: from pps.filterd (NALASPPMTA05.qualcomm.com [127.0.0.1])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 29AGjTIY027857; 
- Mon, 10 Oct 2022 16:45:29 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by NALASPPMTA05.qualcomm.com (PPS) with ESMTPS id 3k3jncw8kq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Mon, 10 Oct 2022 16:45:29 +0000
-Received: from NALASPPMTA05.qualcomm.com (NALASPPMTA05.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29AGj6fY027090;
- Mon, 10 Oct 2022 16:45:28 GMT
-Received: from hu-devc-lv-u18-c.qualcomm.com (hu-tsimpson-lv.qualcomm.com
- [10.47.235.220])
- by NALASPPMTA05.qualcomm.com (PPS) with ESMTP id 29AGjSaO027848;
- Mon, 10 Oct 2022 16:45:28 +0000
-Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 47164)
- id 41C335000A7; Mon, 10 Oct 2022 09:45:28 -0700 (PDT)
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: qemu-devel@nongnu.org
-Cc: tsimpson@quicinc.com, richard.henderson@linaro.org, f4bug@amsat.org,
- ale@rev.ng, anjo@rev.ng, bcain@quicinc.com, quic_mathbern@quicinc.com
-Subject: [PATCH v2] Hexagon (target/hexagon) Fix predicated assignment to .tmp
- and .cur
-Date: Mon, 10 Oct 2022 09:45:24 -0700
-Message-Id: <20221010164524.8298-1-tsimpson@quicinc.com>
-X-Mailer: git-send-email 2.17.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ohw8J-0001JI-DQ
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:00:03 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:45015)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ohw8H-0008EB-8K
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:00:02 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id i3so1707164pfc.11
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:00:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Jbf8aY2aUcuQreSF+YEmAg5LFbSRZ8zwkc/OmLCnCNc=;
+ b=wGkMVDcUGAj11g2gdgSHzR10a7WKDHhm3CTh3UUYFNDEX+dMb4nyxf9PcxXaCMp6oV
+ qY3zCoPReNr3aNwma69N/K7PhbSbeupxz2M84RnCT89mG6OfYy5272Dpis40qzvvlJQR
+ qw9ofUD0U6+zFj4tD/gHIewjAzQNE9DNRUReuwCq34eCAApWX6tIESIBsZ2Uzv6xb/cv
+ Xzf1BLOaCxT2lbd/Lkv1ZW15xj5nY07A9oLnS1z9JoS9PbLOD70Dn/SKkxfevY9adyy5
+ T7FGW41ACMHWTV32pAzE14jwi8w5dI/EmXDM5bh9J7IBcloup4fp9R4eAdD44fHakVsU
+ 0krg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Jbf8aY2aUcuQreSF+YEmAg5LFbSRZ8zwkc/OmLCnCNc=;
+ b=d5aaqBjA8vWdsQypX//olHIUv3LmVzpR6MWAW63zpr/NB0LotzYMtdd8Nu8eme0SW8
+ sgFFaXUKoXpXR28Dand7XovOCyrj5S7Gev4Drolz57Et92LhwxdPZ4iyMdXyuZGA1xkZ
+ 2UxW8xOJYFTIEI5/N5UkbvuY54CsbqhBEXI/uQCzsGJYNliTDWkIpRpvETHCL37xNuQK
+ 8S1NC4k3BU/evbbCFItouVabmR+iZL6zfusIlqRACeAKhIEhqzmoz03qUQdo6YFL3dCO
+ McxdvawzJsjEIxCcn9nntbIJgUxWWY9TWfmx5/SijdKzfFoZ1wrffBudH4Z9jA/36La9
+ HtKQ==
+X-Gm-Message-State: ACrzQf0/R7o3SXq9VzOnqJAGNlFQGrRMlryt1yjcITBGIwvDhN1Cu2Ei
+ HfPY9qb+jkqdUJ8uJC0o7zN6fooH6YY50zxaR2l+Zg==
+X-Google-Smtp-Source: AMsMyM6D9A++oHzTY7ndFrHyRYkBUrgG3nVD7JSiQ+rzx3gKTIdziUcYSXrsifGPdrCDRcFwXZxvDbpwsqp2U/RgldI=
+X-Received: by 2002:a63:2212:0:b0:43b:f03d:856a with SMTP id
+ i18-20020a632212000000b0043bf03d856amr17277581pgi.192.1665421199519; Mon, 10
+ Oct 2022 09:59:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: ZfuK96Yclg7iMQpwoeUy2OqpeVVF_wfB
-X-Proofpoint-ORIG-GUID: ZfuK96Yclg7iMQpwoeUy2OqpeVVF_wfB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-10-10_10,2022-10-10_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 spamscore=0
- impostorscore=0 adultscore=0 suspectscore=0 bulkscore=0 mlxlogscore=863
- priorityscore=1501 clxscore=1015 mlxscore=0 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210100099
-Received-SPF: pass client-ip=205.220.168.131;
- envelope-from=tsimpson@qualcomm.com; helo=mx0a-0031df01.pphosted.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+References: <MW3PR18MB3532CFE7760D160B6F27F1E594209@MW3PR18MB3532.namprd18.prod.outlook.com>
+ <87r0zfskm9.fsf@linaro.org>
+In-Reply-To: <87r0zfskm9.fsf@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 10 Oct 2022 17:59:47 +0100
+Message-ID: <CAFEAcA_BAa8v30mjND5qm0Am7v-Hm+-oz0ofjciD_mKxCWq88w@mail.gmail.com>
+Subject: Re: Building Qemu Error
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Yedelli Navya <yedelli.navya@axiado.com>, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,120 +86,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KioqIENoYW5nZXMgaW4gdjIgKioqClVwZGF0ZSB0ZXN0IGNhc2UgdG8gdXNlIGJvdGggdHJ1ZSBh
-bmQgZmFsc2UgcHJlZGljYXRlcwpBZGQgZml4IGZvciAuY3VyCgpIZXJlIGFyZSBleGFtcGxlIGlu
-c3RydWN0aW9ucyB3aXRoIGEgcHJlZGljYXRlZCAudG1wLy5jdXIgYXNzaWdubWVudAogICAgaWYg
-KHAxKSB2MTIudG1wID0gdm1lbShyNyArICMwKQogICAgaWYgKHAwKSB2MTIuY3VyID0gdm1lbShy
-OSArICMwKQpUaGUgLnRtcC8uY3VyIGluZGljYXRlcyB0aGF0IHJlZmVyZW5jZXMgdG8gdjEyIGlu
-IHRoZSBzYW1lIHBhY2tldAp0YWtlIHRoZSByZXN1bHQgb2YgdGhlIGxvYWQuICBIb3dldmVyLCB3
-aGVuIHRoZSBwcmVkaWNhdGUgaXMgZmFsc2UsCnRoZSB2YWx1ZSBhdCB0aGUgc3RhcnQgb2YgdGhl
-IHBhY2tldCBzaG91bGQgYmUgdXNlZC4gIEFmdGVyIHRoZSBwYWNrZXQKY29tbWl0cywgdGhlIC50
-bXAgdmFsdWUgaXMgZHJvcHBlZCwgYnV0IHRoZSAuY3VyIHZhbHVlIGlzIG1haW50YWluZWQuCgpU
-byBmaXggdGhpcyBidWcsIHdlIHByZWxvYWQgdGhlIG9yaWdpbmFsIHZhbHVlIGZyb20gdGhlIEhW
-WCByZWdpc3RlcgppbnRvIHRoZSB0ZW1wb3JhcnkgdXNlZCBmb3IgdGhlIHJlc3VsdC4KClRlc3Qg
-Y2FzZXMgYWRkZWQgdG8gdGVzdHMvdGNnL2hleGFnb24vaHZ4X21pc2MuYwoKQ28tYXV0aG9yZWQt
-Ynk6IE1hdGhldXMgVGF2YXJlcyBCZXJuYXJkaW5vIDxxdWljX21hdGhiZXJuQHF1aWNpbmMuY29t
-PgpTaWduZWQtb2ZmLWJ5OiBNYXRoZXVzIFRhdmFyZXMgQmVybmFyZGlubyA8cXVpY19tYXRoYmVy
-bkBxdWljaW5jLmNvbT4KU2lnbmVkLW9mZi1ieTogVGF5bG9yIFNpbXBzb24gPHRzaW1wc29uQHF1
-aWNpbmMuY29tPgotLS0KIHRhcmdldC9oZXhhZ29uL3RyYW5zbGF0ZS5oICAgICAgfCAxMiArKysr
-Ky0KIHRlc3RzL3RjZy9oZXhhZ29uL2h2eF9taXNjLmMgICAgfCA3MiArKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysKIHRhcmdldC9oZXhhZ29uL2dlbl90Y2dfZnVuY3MucHkgfCAxNiAr
-KysrKysrKwogMyBmaWxlcyBjaGFuZ2VkLCA5OSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0p
-CgpkaWZmIC0tZ2l0IGEvdGFyZ2V0L2hleGFnb24vdHJhbnNsYXRlLmggYi90YXJnZXQvaGV4YWdv
-bi90cmFuc2xhdGUuaAppbmRleCBhMjQ1MTcyODI3Li4yZDU2M2NlYTE0IDEwMDY0NAotLS0gYS90
-YXJnZXQvaGV4YWdvbi90cmFuc2xhdGUuaAorKysgYi90YXJnZXQvaGV4YWdvbi90cmFuc2xhdGUu
-aApAQCAtMSw1ICsxLDUgQEAKIC8qCi0gKiAgQ29weXJpZ2h0KGMpIDIwMTktMjAyMSBRdWFsY29t
-bSBJbm5vdmF0aW9uIENlbnRlciwgSW5jLiBBbGwgUmlnaHRzIFJlc2VydmVkLgorICogIENvcHly
-aWdodChjKSAyMDE5LTIwMjIgUXVhbGNvbW0gSW5ub3ZhdGlvbiBDZW50ZXIsIEluYy4gQWxsIFJp
-Z2h0cyBSZXNlcnZlZC4KICAqCiAgKiAgVGhpcyBwcm9ncmFtIGlzIGZyZWUgc29mdHdhcmU7IHlv
-dSBjYW4gcmVkaXN0cmlidXRlIGl0IGFuZC9vciBtb2RpZnkKICAqICBpdCB1bmRlciB0aGUgdGVy
-bXMgb2YgdGhlIEdOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIGFzIHB1Ymxpc2hlZCBieQpAQCAt
-ODMsNiArODMsMTYgQEAgc3RhdGljIGlubGluZSBib29sIGlzX3ByZWxvYWRlZChEaXNhc0NvbnRl
-eHQgKmN0eCwgaW50IG51bSkKICAgICByZXR1cm4gdGVzdF9iaXQobnVtLCBjdHgtPnJlZ3Nfd3Jp
-dHRlbik7CiB9CiAKK3N0YXRpYyBpbmxpbmUgYm9vbCBpc190bXBfdnJlZ19wcmVsb2FkZWQoRGlz
-YXNDb250ZXh0ICpjdHgsIGludCBudW0pCit7CisgICAgcmV0dXJuIHRlc3RfYml0KG51bSwgY3R4
-LT52cmVnc191cGRhdGVkX3RtcCk7Cit9CisKK3N0YXRpYyBpbmxpbmUgYm9vbCBpc19mdXR1cmVf
-dnJlZ19wcmVsb2FkZWQoRGlzYXNDb250ZXh0ICpjdHgsIGludCBudW0pCit7CisgICAgcmV0dXJu
-IHRlc3RfYml0KG51bSwgY3R4LT52cmVnc19zZWxlY3QpOworfQorCiBpbnRwdHJfdCBjdHhfZnV0
-dXJlX3ZyZWdfb2ZmKERpc2FzQ29udGV4dCAqY3R4LCBpbnQgcmVnbnVtLAogICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICBpbnQgbnVtLCBib29sIGFsbG9jX29rKTsKIGludHB0cl90IGN0eF90
-bXBfdnJlZ19vZmYoRGlzYXNDb250ZXh0ICpjdHgsIGludCByZWdudW0sCmRpZmYgLS1naXQgYS90
-ZXN0cy90Y2cvaGV4YWdvbi9odnhfbWlzYy5jIGIvdGVzdHMvdGNnL2hleGFnb24vaHZ4X21pc2Mu
-YwppbmRleCA2ZTJjOWFiM2NkLi41M2Q1YzliNDRmIDEwMDY0NAotLS0gYS90ZXN0cy90Y2cvaGV4
-YWdvbi9odnhfbWlzYy5jCisrKyBiL3Rlc3RzL3RjZy9oZXhhZ29uL2h2eF9taXNjLmMKQEAgLTU0
-MSw2ICs1NDEsNzUgQEAgc3RhdGljIHZvaWQgdGVzdF92c2h1ZmYodm9pZCkKICAgICBjaGVja19v
-dXRwdXRfYihfX0xJTkVfXywgMSk7CiB9CiAKK3N0YXRpYyB2b2lkIHRlc3RfbG9hZF90bXBfcHJl
-ZGljYXRlZCh2b2lkKQoreworICAgIHZvaWQgKnAwID0gYnVmZmVyMDsKKyAgICB2b2lkICpwMSA9
-IGJ1ZmZlcjE7CisgICAgdm9pZCAqcG91dCA9IG91dHB1dDsKKyAgICBib29sIHByZWQgPSB0cnVl
-OworCisgICAgZm9yIChpbnQgaSA9IDA7IGkgPCBCVUZTSVpFOyBpKyspIHsKKyAgICAgICAgLyoK
-KyAgICAgICAgICogTG9hZCBpbnRvIHYxMiBhcyAudG1wIHdpdGggYSBwcmVkaWNhdGUKKyAgICAg
-ICAgICogV2hlbiB0aGUgcHJlZGljYXRlIGlzIHRydWUsIHdlIGdldCB0aGUgdmVjdG9yIGZyb20g
-YnVmZmVyMVtpXQorICAgICAgICAgKiBXaGVuIHRoZSBwcmVkaWNhdGUgaXMgZmFsc2UsIHdlIGdl
-dCBhIHZlY3RvciBvZiBhbGwgMSdzCisgICAgICAgICAqIFJlZ2FyZGxlc3Mgb2YgdGhlIHByZWRp
-Y2F0ZSwgdGhlIG5leHQgcGFja2V0IHNob3VsZCBoYXZlCisgICAgICAgICAqIGEgdmVjdG9yIG9m
-IGFsbCAxJ3MKKyAgICAgICAgICovCisgICAgICAgIGFzbSgidjMgPSB2bWVtKCUwICsgIzApXG5c
-dCIKKyAgICAgICAgICAgICJyMSA9ICMxXG5cdCIKKyAgICAgICAgICAgICJ2MTIgPSB2c3BsYXQo
-cjEpXG5cdCIKKyAgICAgICAgICAgICJwMSA9ICFjbXAuZXEoJTMsICMwKVxuXHQiCisgICAgICAg
-ICAgICAie1xuXHQiCisgICAgICAgICAgICAiICAgIGlmIChwMSkgdjEyLnRtcCA9IHZtZW0oJTEg
-KyAjMClcblx0IgorICAgICAgICAgICAgIiAgICB2NC53ID0gdmFkZCh2MTIudywgdjMudylcblx0
-IgorICAgICAgICAgICAgIn1cblx0IgorICAgICAgICAgICAgInY0LncgPSB2YWRkKHY0LncsIHYx
-Mi53KVxuXHQiCisgICAgICAgICAgICAidm1lbSglMiArICMwKSA9IHY0XG5cdCIKKyAgICAgICAg
-ICAgIDogOiAiciIocDApLCAiciIocDEpLCAiciIocG91dCksICJyIihwcmVkKQorICAgICAgICAg
-ICAgOiAicjEiLCAicDEiLCAidjEyIiwgInYzIiwgInY0IiwgInY2IiwgIm1lbW9yeSIpOworICAg
-ICAgICBwMCArPSBzaXplb2YoTU1WZWN0b3IpOworICAgICAgICBwMSArPSBzaXplb2YoTU1WZWN0
-b3IpOworICAgICAgICBwb3V0ICs9IHNpemVvZihNTVZlY3Rvcik7CisKKyAgICAgICAgZm9yIChp
-bnQgaiA9IDA7IGogPCBNQVhfVkVDX1NJWkVfQllURVMgLyA0OyBqKyspIHsKKyAgICAgICAgICAg
-IGV4cGVjdFtpXS53W2pdID0KKyAgICAgICAgICAgICAgICBwcmVkID8gYnVmZmVyMFtpXS53W2pd
-ICsgYnVmZmVyMVtpXS53W2pdICsgMQorICAgICAgICAgICAgICAgICAgICAgOiBidWZmZXIwW2ld
-Lndbal0gKyAyOworICAgICAgICB9CisgICAgICAgIHByZWQgPSAhcHJlZDsKKyAgICB9CisKKyAg
-ICBjaGVja19vdXRwdXRfdyhfX0xJTkVfXywgQlVGU0laRSk7Cit9CisKK3N0YXRpYyB2b2lkIHRl
-c3RfbG9hZF9jdXJfcHJlZGljYXRlZCh2b2lkKQoreworICAgIGJvb2wgcHJlZCA9IHRydWU7Cisg
-ICAgZm9yIChpbnQgaSA9IDA7IGkgPCBCVUZTSVpFOyBpKyspIHsKKyAgICAgICAgYXNtIHZvbGF0
-aWxlKCJwMCA9ICFjbXAuZXEoJTMsICMwKVxuXHQiCisgICAgICAgICAgICAgICAgICAgICAidjMg
-PSB2bWVtKCUwKyMwKVxuXHQiCisgICAgICAgICAgICAgICAgICAgICAvKgorICAgICAgICAgICAg
-ICAgICAgICAgICogUHJlbG9hZCB2NCB0byBtYWtlIHN1cmUgdGhhdCB0aGUgYXNzaWdubWVudCBm
-cm9tIHRoZQorICAgICAgICAgICAgICAgICAgICAgICogcGFja2V0IGJlbG93IGlzIG5vdCBiZWlu
-ZyBpZ25vcmVkIHdoZW4gcHJlZCBpcyBmYWxzZS4KKyAgICAgICAgICAgICAgICAgICAgICAqLwor
-ICAgICAgICAgICAgICAgICAgICAgInIwID0gIzB4MDEyMzc2NTRcblx0IgorICAgICAgICAgICAg
-ICAgICAgICAgInY0ID0gdnNwbGF0KHIwKVxuXHQiCisgICAgICAgICAgICAgICAgICAgICAie1xu
-XHQiCisgICAgICAgICAgICAgICAgICAgICAiICAgIGlmIChwMCkgdjMuY3VyID0gdm1lbSglMSsj
-MClcblx0IgorICAgICAgICAgICAgICAgICAgICAgIiAgICB2NCA9IHYzXG5cdCIKKyAgICAgICAg
-ICAgICAgICAgICAgICJ9XG5cdCIKKyAgICAgICAgICAgICAgICAgICAgICJ2bWVtKCUyKyMwKSA9
-IHY0XG5cdCIKKyAgICAgICAgICAgICAgICAgICAgIDoKKyAgICAgICAgICAgICAgICAgICAgIDog
-InIiKCZidWZmZXIwW2ldKSwgInIiKCZidWZmZXIxW2ldKSwKKyAgICAgICAgICAgICAgICAgICAg
-ICAgInIiKCZvdXRwdXRbaV0pLCAiciIocHJlZCkKKyAgICAgICAgICAgICAgICAgICAgIDogInIw
-IiwgInAwIiwgInYzIiwgInY0IiwgIm1lbW9yeSIpOworICAgICAgICBleHBlY3RbaV0gPSBwcmVk
-ID8gYnVmZmVyMVtpXSA6IGJ1ZmZlcjBbaV07CisgICAgICAgIHByZWQgPSAhcHJlZDsKKyAgICB9
-CisgICAgY2hlY2tfb3V0cHV0X3coX19MSU5FX18sIEJVRlNJWkUpOworfQorCiBpbnQgbWFpbigp
-CiB7CiAgICAgaW5pdF9idWZmZXJzKCk7CkBAIC01NzgsNiArNjQ3LDkgQEAgaW50IG1haW4oKQog
-CiAgICAgdGVzdF92c2h1ZmYoKTsKIAorICAgIHRlc3RfbG9hZF90bXBfcHJlZGljYXRlZCgpOwor
-ICAgIHRlc3RfbG9hZF9jdXJfcHJlZGljYXRlZCgpOworCiAgICAgcHV0cyhlcnIgPyAiRkFJTCIg
-OiAiUEFTUyIpOwogICAgIHJldHVybiBlcnIgPyAxIDogMDsKIH0KZGlmZiAtLWdpdCBhL3Rhcmdl
-dC9oZXhhZ29uL2dlbl90Y2dfZnVuY3MucHkgYi90YXJnZXQvaGV4YWdvbi9nZW5fdGNnX2Z1bmNz
-LnB5CmluZGV4IDZkZWEwMmIwYjkuLmRlMGUwNmFiNzEgMTAwNzU1Ci0tLSBhL3RhcmdldC9oZXhh
-Z29uL2dlbl90Y2dfZnVuY3MucHkKKysrIGIvdGFyZ2V0L2hleGFnb24vZ2VuX3RjZ19mdW5jcy5w
-eQpAQCAtMTczLDYgKzE3MywyMiBAQCBkZWYgZ2VucHRyX2RlY2woZiwgdGFnLCByZWd0eXBlLCBy
-ZWdpZCwgcmVnbm8pOgogICAgICAgICAgICAgICAgIGYud3JpdGUoIiAgICAgICAgY3R4X2Z1dHVy
-ZV92cmVnX29mZihjdHgsICVzJXNOLCIgJSBcCiAgICAgICAgICAgICAgICAgICAgIChyZWd0eXBl
-LCByZWdpZCkpCiAgICAgICAgICAgICAgICAgZi53cml0ZSgiIDEsIHRydWUpO1xuIik7CisgICAg
-ICAgICAgICBpZiByZWdpZCAhPSAieSIgYW5kICdBX0NPTkRFWEVDJyBpbiBoZXhfY29tbW9uLmF0
-dHJpYmRpY3RbdGFnXToKKyAgICAgICAgICAgICAgICBpZiBoZXhfY29tbW9uLmlzX3RtcF9yZXN1
-bHQodGFnKToKKyAgICAgICAgICAgICAgICAgICAgcHJlbG9hZF90ZXN0X2ZuID0gImlzX3RtcF92
-cmVnX3ByZWxvYWRlZCIKKyAgICAgICAgICAgICAgICBlbHNlOgorICAgICAgICAgICAgICAgICAg
-ICBwcmVsb2FkX3Rlc3RfZm4gPSAiaXNfZnV0dXJlX3ZyZWdfcHJlbG9hZGVkIgorICAgICAgICAg
-ICAgICAgIGYud3JpdGUoIiAgICBpZiAoISVzKGN0eCwgJXMpKSB7XG4iICUgKHByZWxvYWRfdGVz
-dF9mbiwgcmVnTikpCisgICAgICAgICAgICAgICAgZi53cml0ZSgiICAgICAgICBpbnRwdHJfdCBz
-cmNfb2ZmID0iKQorICAgICAgICAgICAgICAgIGYud3JpdGUoIiBvZmZzZXRvZihDUFVIZXhhZ29u
-U3RhdGUsIFZSZWdzWyVzJXNOXSk7XG4iJSBcCisgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgKHJlZ3R5cGUsIHJlZ2lkKSkKKyAgICAgICAgICAgICAgICBmLndyaXRlKCIgICAg
-ICAgIHRjZ19nZW5fZ3ZlY19tb3YoTU9fNjQsICVzJXNWX29mZixcbiIgJSBcCisgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgKHJlZ3R5cGUsIHJlZ2lkKSkKKyAgICAgICAgICAg
-ICAgICBmLndyaXRlKCIgICAgICAgICAgICAgICAgICAgICAgICAgc3JjX29mZixcbiIpCisgICAg
-ICAgICAgICAgICAgZi53cml0ZSgiICAgICAgICAgICAgICAgICAgICAgICAgIHNpemVvZihNTVZl
-Y3RvciksXG4iKQorICAgICAgICAgICAgICAgIGYud3JpdGUoIiAgICAgICAgICAgICAgICAgICAg
-ICAgICBzaXplb2YoTU1WZWN0b3IpKTtcbiIpCisgICAgICAgICAgICAgICAgZi53cml0ZSgiICAg
-IH1cbiIpCisKICAgICAgICAgICAgIGlmIChub3QgaGV4X2NvbW1vbi5za2lwX3FlbXVfaGVscGVy
-KHRhZykpOgogICAgICAgICAgICAgICAgIGYud3JpdGUoIiAgICBUQ0d2X3B0ciAlcyVzViA9IHRj
-Z190ZW1wX25ld19wdHIoKTtcbiIgJSBcCiAgICAgICAgICAgICAgICAgICAgIChyZWd0eXBlLCBy
-ZWdpZCkpCi0tIAoyLjE3LjEKCg==
+On Mon, 10 Oct 2022 at 17:50, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+>
+> Yedelli Navya <yedelli.navya@axiado.com> writes:
+>
+> > Hi,
+> >
+> > I am working on zynq qemu. Downloaded the qemu source from " https://gi=
+thub.com/Xilinx/qemu.git".
+> > Followed the compilation steps from
+> > "https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/822312999/Buildi=
+ng+and+Running+QEMU+from+Source+Code"
+> > while executing the Make command following error is appeared.
+> >
+> > *
+> >
+> > Please provide working sources or any other solutions is highly
+> > appriciated.
+>
+> You need to contact the downstream repository owners
+
+Agreed, you should ask Xilinx about their fork. That said, this
+looks like it's because you're building with a newer compiler
+than that version of QEMU was expecting, so there are new (but
+fairly harmless) warnings generated. Pass configure
+  --disable-werror
+and it should make the warnings non-fatal.
+
+-- PMM
 
