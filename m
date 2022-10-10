@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2FD55FA362
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 20:31:43 +0200 (CEST)
-Received: from localhost ([::1]:39138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF31E5FA35C
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 20:28:46 +0200 (CEST)
+Received: from localhost ([::1]:40614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohxYz-0001l3-PA
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 14:31:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55302)
+	id 1ohxVy-00078r-Sf
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 14:28:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwcI-00032Q-KP
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwcV-00032t-JK
  for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:31:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38811)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34258)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwcF-00077t-E6
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:31:02 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwcN-0007AX-IL
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:31:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665423058;
+ s=mimecast20190719; t=1665423063;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=9cxJb1dEd33VM9QAxxhn0l0rb0p7kiIaB1Wpir2Wp88=;
- b=PrCXwqiX9Rljy7UBYhsaAgO8CivfbUIxG9rFK2/5EdaE+vjSUq9ZRr04nEd9LTjlv53kY0
- /WlxWIqqc8p0II7dGY504KWfjzyULoQVdx1XmsuxoLW2hQ2/vNUTPxH8lN9oc9JPmzZVu/
- heh+bPyOlK8sq5xEFIcSzgzjbxeAyBM=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=71fByqtzz3V1myRZTp6mDfuO9MkyXBsQaGOmLHOchvQ=;
+ b=Pkaqc9EvWGZxIOAMso2v3l/7Lm9ZWpojr4Ptrx0rZyb6S6Iwp7pjHZt2978+wD9Vt32IG5
+ BHWL7VEj8pQ0lRKQJkOEZXK6nq4hKdIG1w2H63slPNhitgQcicQudXBf2Vj8h2vkA7s1ru
+ tgRMXIBVIKou+2DhCBqJ9jDJLezLofM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-619-07nYwWn1NVKd2KjnaFqPMw-1; Mon, 10 Oct 2022 13:30:57 -0400
-X-MC-Unique: 07nYwWn1NVKd2KjnaFqPMw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- ay21-20020a05600c1e1500b003b45fd14b53so5820246wmb.1
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:30:57 -0700 (PDT)
+ us-mta-131-d5DhNTgMNGC-9EyZ8kbKqA-1; Mon, 10 Oct 2022 13:31:02 -0400
+X-MC-Unique: d5DhNTgMNGC-9EyZ8kbKqA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ k2-20020a05600c1c8200b003c3dd3aa638so4809337wms.1
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:31:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9cxJb1dEd33VM9QAxxhn0l0rb0p7kiIaB1Wpir2Wp88=;
- b=muINlgus5P7i80GqQ/IDVXgwKgKaYJyKMYjS+ghHtxade8aB0pehUDcWpw1Rh7uuOQ
- ekDuOuI9XZznESex2apOZuiNEa9k0lYAfLKJqUX+LbJnLvl5G3cJ/3iZUbs8SlYxvkZ2
- zoFnBLEttAYA1mTKA09pDqVolFLu0kXnOXBm+oW8fPbO14TiSnyaP56q6D7I6YZVqLBk
- Ot08+d2g3y+vc+/+XM6PHW7ID93A0wsn01UIZP2s2B2idUlCSvOIogW8oBszblDBt8AO
- VT3OlvRcGvMMMTKG9IHVM2hBY4oB+e8IalYJHQ4XHEbWqBIKYeF/bjX+AWleRNz2vP4p
- hPHw==
-X-Gm-Message-State: ACrzQf0qdiWwEN66gun+0o8pJ21UqVyq58/ZgQnxqwPUumf/m2zHCYw+
- apvxxhPfdPGR6Gov3Ysizq1BEGdgTVbVYOvuiXuiBwbt+OzKaBpdFYvHfaTcHAvaJuxktHP7xvZ
- mi3jePE6ZCpdqvz5UMm2c8YOgk+8U19ZnYucuIKBvAt1s/8quDJrduWN23pCt
-X-Received: by 2002:adf:f301:0:b0:22e:4479:c1ba with SMTP id
- i1-20020adff301000000b0022e4479c1bamr12285802wro.133.1665423056442; 
- Mon, 10 Oct 2022 10:30:56 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4R3/inZPYzzlITQIwVg/mfR6zFaSY6WX3hoPyfn8Xr1MBgnTd0mYvtwSD8YG0cJRmvIrwYjg==
-X-Received: by 2002:adf:f301:0:b0:22e:4479:c1ba with SMTP id
- i1-20020adff301000000b0022e4479c1bamr12285774wro.133.1665423056034; 
- Mon, 10 Oct 2022 10:30:56 -0700 (PDT)
+ bh=71fByqtzz3V1myRZTp6mDfuO9MkyXBsQaGOmLHOchvQ=;
+ b=sHjjYh8t30nQx76qTn3xhx2ni+saEKr2x65U0L1KpTgaN3aqwgD+tgfDqapZicMH4z
+ GBz1B9spNeVe7BnBgyeuBGpSlQ4bAo6BvbTTgmxf4J135y1ZLL2yj3COZQze0T4UzZYD
+ uVq/lltGtKgwMw/GzaerI1Nz0oB9kBHt7Zx5wHyiKn0xRj9BF4sPSNm6FKNyVZ/TpMAr
+ MuPixNW5bls2ERB51vH/igmVfsfBsaSGVlJUg8W7fbAkvVgEPuIgn7MU79m3610KqceY
+ 5+DH6e8FYPCDzXj66HEmp/eugJBKw6brNbrFG0Fj+27mMm5SvA9FMeMR20axPA7kr2E3
+ BT+A==
+X-Gm-Message-State: ACrzQf2Rcs+mGacTemRnTvyMhXQgDKkT66OIiarzvk8/KS3tfSy0iTSb
+ 6GBHt8ocpO+FjFR0wazcoJdEYl+WV6+1sh3EoaV0ENpHez5dhkdwhqwXT05VTHHKUsP8KkjTfIO
+ 0XI6xbifRCZGCBz3Dz5JaZZLq7LyQHxKxu73YclFW0fF1akff442ShF2MclRd
+X-Received: by 2002:a5d:6483:0:b0:22e:4804:8be4 with SMTP id
+ o3-20020a5d6483000000b0022e48048be4mr11902375wri.528.1665423060807; 
+ Mon, 10 Oct 2022 10:31:00 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM71peGiPCzSVRO5O8wl0158+Q1fRpC2Hgpm4ALaRfQCVRblqGSKexVcH5bCujlTOpT9OQE+2A==
+X-Received: by 2002:a5d:6483:0:b0:22e:4804:8be4 with SMTP id
+ o3-20020a5d6483000000b0022e48048be4mr11902348wri.528.1665423060372; 
+ Mon, 10 Oct 2022 10:31:00 -0700 (PDT)
 Received: from redhat.com ([2.55.183.131]) by smtp.gmail.com with ESMTPSA id
- m29-20020a05600c3b1d00b003a1980d55c4sm919540wms.47.2022.10.10.10.30.52
+ j39-20020a05600c48a700b003a5537bb2besm10313662wmp.25.2022.10.10.10.30.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 10:30:55 -0700 (PDT)
-Date: Mon, 10 Oct 2022 13:30:51 -0400
+ Mon, 10 Oct 2022 10:30:59 -0700 (PDT)
+Date: Mon, 10 Oct 2022 13:30:56 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Laurent Vivier <lvivier@redhat.com>,
- Jonah Palmer <jonah.palmer@oracle.com>,
- Markus Armbruster <armbru@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Eric Blake <eblake@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PULL 30/55] qmp: add QMP command x-query-virtio
-Message-ID: <20221010172813.204597-31-mst@redhat.com>
+ Jonah Palmer <jonah.palmer@oracle.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+Subject: [PULL 31/55] qmp: add QMP command x-query-virtio-status
+Message-ID: <20221010172813.204597-32-mst@redhat.com>
 References: <20221010172813.204597-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -104,288 +102,386 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Laurent Vivier <lvivier@redhat.com>
 
-This new command lists all the instances of VirtIODevices with
-their canonical QOM path and name.
+This new command shows the status of a VirtIODevice, including
+its corresponding vhost device's status (if active).
 
-[Jonah: @virtio_list duplicates information that already exists in
- the QOM composition tree. However, extracting necessary information
- from this tree seems to be a bit convoluted.
+Next patch will improve output by decoding feature bits, including
+vhost device's feature bits (backend, protocol, acked, and features).
+Also will decode status bits of a VirtIODevice.
 
- Instead, we still create our own list of realized virtio devices
- but use @qmp_qom_get with the device's canonical QOM path to confirm
- that the device exists and is realized. If the device exists but
- is actually not realized, then we remove it from our list (for
- synchronicity to the QOM composition tree).
-
- Also, the QMP command @x-query-virtio is redundant as @qom-list
- and @qom-get are sufficient to search '/machine/' for realized
- virtio devices. However, @x-query-virtio is much more convenient
- in listing realized virtio devices.]
+[Jonah: From patch v12; added a check to @virtio_device_find to ensure
+ synchronicity between @virtio_list and the devices in the QOM
+ composition tree.]
 
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
-Message-Id: <1660220684-24909-2-git-send-email-jonah.palmer@oracle.com>
+Message-Id: <1660220684-24909-3-git-send-email-jonah.palmer@oracle.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- qapi/qapi-schema.json      |  1 +
- qapi/virtio.json           | 68 ++++++++++++++++++++++++++++++++++++++
- include/hw/virtio/virtio.h |  1 +
- hw/virtio/virtio-stub.c    | 14 ++++++++
- hw/virtio/virtio.c         | 44 ++++++++++++++++++++++++
- tests/qtest/qmp-cmd-test.c |  1 +
- hw/virtio/meson.build      |  2 ++
- qapi/meson.build           |  1 +
- 8 files changed, 132 insertions(+)
- create mode 100644 qapi/virtio.json
- create mode 100644 hw/virtio/virtio-stub.c
+ qapi/virtio.json        | 222 ++++++++++++++++++++++++++++++++++++++++
+ hw/virtio/virtio-stub.c |   5 +
+ hw/virtio/virtio.c      | 104 +++++++++++++++++++
+ 3 files changed, 331 insertions(+)
 
-diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-index 92d7ecc52c..f000b90744 100644
---- a/qapi/qapi-schema.json
-+++ b/qapi/qapi-schema.json
-@@ -94,3 +94,4 @@
- { 'include': 'acpi.json' }
- { 'include': 'pci.json' }
- { 'include': 'stats.json' }
-+{ 'include': 'virtio.json' }
 diff --git a/qapi/virtio.json b/qapi/virtio.json
-new file mode 100644
-index 0000000000..03896e423f
---- /dev/null
+index 03896e423f..c86b3bc635 100644
+--- a/qapi/virtio.json
 +++ b/qapi/virtio.json
-@@ -0,0 +1,68 @@
-+# -*- Mode: Python -*-
-+# vim: filetype=python
-+#
+@@ -66,3 +66,225 @@
+ { 'command': 'x-query-virtio',
+   'returns': [ 'VirtioInfo' ],
+   'features': [ 'unstable' ] }
 +
 +##
-+# = Virtio devices
-+##
-+
-+##
-+# @VirtioInfo:
++# @VhostStatus:
 +#
-+# Basic information about a given VirtIODevice
++# Information about a vhost device. This information will only be
++# displayed if the vhost device is active.
 +#
-+# @path: The VirtIODevice's canonical QOM path
++# @n-mem-sections: vhost_dev n_mem_sections
 +#
-+# @name: Name of the VirtIODevice
++# @n-tmp-sections: vhost_dev n_tmp_sections
++#
++# @nvqs: vhost_dev nvqs (number of virtqueues being used)
++#
++# @vq-index: vhost_dev vq_index
++#
++# @features: vhost_dev features
++#
++# @acked-features: vhost_dev acked_features
++#
++# @backend-features: vhost_dev backend_features
++#
++# @protocol-features: vhost_dev protocol_features
++#
++# @max-queues: vhost_dev max_queues
++#
++# @backend-cap: vhost_dev backend_cap
++#
++# @log-enabled: vhost_dev log_enabled flag
++#
++# @log-size: vhost_dev log_size
 +#
 +# Since: 7.1
 +#
 +##
-+{ 'struct': 'VirtioInfo',
-+  'data': { 'path': 'str',
-+            'name': 'str' } }
++
++{ 'struct': 'VhostStatus',
++  'data': { 'n-mem-sections': 'int',
++            'n-tmp-sections': 'int',
++            'nvqs': 'uint32',
++            'vq-index': 'int',
++            'features': 'uint64',
++            'acked-features': 'uint64',
++            'backend-features': 'uint64',
++            'protocol-features': 'uint64',
++            'max-queues': 'uint64',
++            'backend-cap': 'uint64',
++            'log-enabled': 'bool',
++            'log-size': 'uint64' } }
 +
 +##
-+# @x-query-virtio:
++# @VirtioStatus:
 +#
-+# Returns a list of all realized VirtIODevices
++# Full status of the virtio device with most VirtIODevice members.
++# Also includes the full status of the corresponding vhost device
++# if the vhost device is active.
++#
++# @name: VirtIODevice name
++#
++# @device-id: VirtIODevice ID
++#
++# @vhost-started: VirtIODevice vhost_started flag
++#
++# @guest-features: VirtIODevice guest_features
++#
++# @host-features: VirtIODevice host_features
++#
++# @backend-features: VirtIODevice backend_features
++#
++# @device-endian: VirtIODevice device_endian
++#
++# @num-vqs: VirtIODevice virtqueue count. This is the number of active
++#           virtqueues being used by the VirtIODevice.
++#
++# @status: VirtIODevice configuration status (VirtioDeviceStatus)
++#
++# @isr: VirtIODevice ISR
++#
++# @queue-sel: VirtIODevice queue_sel
++#
++# @vm-running: VirtIODevice vm_running flag
++#
++# @broken: VirtIODevice broken flag
++#
++# @disabled: VirtIODevice disabled flag
++#
++# @use-started: VirtIODevice use_started flag
++#
++# @started: VirtIODevice started flag
++#
++# @start-on-kick: VirtIODevice start_on_kick flag
++#
++# @disable-legacy-check: VirtIODevice disabled_legacy_check flag
++#
++# @bus-name: VirtIODevice bus_name
++#
++# @use-guest-notifier-mask: VirtIODevice use_guest_notifier_mask flag
++#
++# @vhost-dev: Corresponding vhost device info for a given VirtIODevice.
++#             Present if the given VirtIODevice has an active vhost
++#             device.
++#
++# Since: 7.1
++#
++##
++
++{ 'struct': 'VirtioStatus',
++  'data': { 'name': 'str',
++            'device-id': 'uint16',
++            'vhost-started': 'bool',
++            'device-endian': 'str',
++            'guest-features': 'uint64',
++            'host-features': 'uint64',
++            'backend-features': 'uint64',
++            'num-vqs': 'int',
++            'status': 'uint8',
++            'isr': 'uint8',
++            'queue-sel': 'uint16',
++            'vm-running': 'bool',
++            'broken': 'bool',
++            'disabled': 'bool',
++            'use-started': 'bool',
++            'started': 'bool',
++            'start-on-kick': 'bool',
++            'disable-legacy-check': 'bool',
++            'bus-name': 'str',
++            'use-guest-notifier-mask': 'bool',
++            '*vhost-dev': 'VhostStatus' } }
++
++##
++# @x-query-virtio-status:
++#
++# Poll for a comprehensive status of a given virtio device
++#
++# @path: Canonical QOM path of the VirtIODevice
 +#
 +# Features:
 +# @unstable: This command is meant for debugging.
 +#
-+# Returns: List of gathered VirtIODevices
++# Returns: VirtioStatus of the virtio device
 +#
 +# Since: 7.1
 +#
-+# Example:
++# Examples:
 +#
-+# -> { "execute": "x-query-virtio" }
-+# <- { "return": [
-+#          {
-+#              "name": "virtio-input",
-+#              "path": "/machine/peripheral-anon/device[4]/virtio-backend"
++# 1. Poll for the status of virtio-crypto (no vhost-crypto active)
++#
++# -> { "execute": "x-query-virtio-status",
++#      "arguments": { "path": "/machine/peripheral/crypto0/virtio-backend" }
++#    }
++# <- { "return": {
++#          "device-endian": "little",
++#          "bus-name": "",
++#          "disable-legacy-check": false,
++#          "name": "virtio-crypto",
++#          "started": true,
++#          "device-id": 20,
++#          "backend-features": 0,
++#          "start-on-kick": false,
++#          "isr": 1,
++#          "broken": false,
++#          "status": 15,
++#          "num-vqs": 2,
++#          "guest-features": 5100273664,
++#          "host-features": 6325010432,
++#          "use-guest-notifier-mask": true,
++#          "vm-running": true,
++#          "queue-sel": 1,
++#          "disabled": false,
++#          "vhost-started": false,
++#          "use-started": true
++#      }
++#    }
++#
++# 2. Poll for the status of virtio-net (vhost-net is active)
++#
++# -> { "execute": "x-query-virtio-status",
++#      "arguments": { "path": "/machine/peripheral-anon/device[1]/virtio-backend" }
++#    }
++# <- { "return": {
++#          "device-endian": "little",
++#          "bus-name": "",
++#          "disabled-legacy-check": false,
++#          "name": "virtio-net",
++#          "started": true,
++#          "device-id": 1,
++#          "vhost-dev": {
++#              "n-tmp-sections": 4,
++#              "n-mem-sections": 4,
++#              "max-queues": 1,
++#              "backend-cap": 2,
++#              "log-size": 0,
++#              "backend-features": 0,
++#              "nvqs": 2,
++#              "protocol-features": 0,
++#              "vq-index": 0,
++#              "log-enabled": false,
++#              "acked-features": 5100306432,
++#              "features": 13908344832
 +#          },
-+#          {
-+#              "name": "virtio-crypto",
-+#              "path": "/machine/peripheral/crypto0/virtio-backend"
-+#          },
-+#          {
-+#              "name": "virtio-scsi",
-+#              "path": "/machine/peripheral-anon/device[2]/virtio-backend"
-+#          },
-+#          {
-+#              "name": "virtio-net",
-+#              "path": "/machine/peripheral-anon/device[1]/virtio-backend"
-+#          },
-+#          {
-+#              "name": "virtio-serial",
-+#              "path": "/machine/peripheral-anon/device[0]/virtio-backend"
-+#          }
-+#      ]
++#          "backend-features": 6337593319,
++#          "start-on-kick": false,
++#          "isr": 1,
++#          "broken": false,
++#          "status": 15,
++#          "num-vqs": 3,
++#          "guest-features": 5111807911,
++#          "host-features": 6337593319,
++#          "use-guest-notifier-mask": true,
++#          "vm-running": true,
++#          "queue-sel": 2,
++#          "disabled": false,
++#          "vhost-started": true,
++#          "use-started": true
++#      }
 +#    }
 +#
 +##
 +
-+{ 'command': 'x-query-virtio',
-+  'returns': [ 'VirtioInfo' ],
++{ 'command': 'x-query-virtio-status',
++  'data': { 'path': 'str' },
++  'returns': 'VirtioStatus',
 +  'features': [ 'unstable' ] }
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index cecfb7c552..9eeb958e39 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -122,6 +122,7 @@ struct VirtIODevice
-     bool use_guest_notifier_mask;
-     AddressSpace *dma_as;
-     QLIST_HEAD(, VirtQueue) *vector_queues;
-+    QTAILQ_ENTRY(VirtIODevice) next;
- };
- 
- struct VirtioDeviceClass {
 diff --git a/hw/virtio/virtio-stub.c b/hw/virtio/virtio-stub.c
-new file mode 100644
-index 0000000000..05a81edc92
---- /dev/null
+index 05a81edc92..0b432e8de7 100644
+--- a/hw/virtio/virtio-stub.c
 +++ b/hw/virtio/virtio-stub.c
-@@ -0,0 +1,14 @@
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "qapi/qapi-commands-virtio.h"
+@@ -12,3 +12,8 @@ VirtioInfoList *qmp_x_query_virtio(Error **errp)
+ {
+     return qmp_virtio_unsupported(errp);
+ }
 +
-+static void *qmp_virtio_unsupported(Error **errp)
-+{
-+    error_setg(errp, "Virtio is disabled");
-+    return NULL;
-+}
-+
-+VirtioInfoList *qmp_x_query_virtio(Error **errp)
++VirtioStatus *qmp_x_query_virtio_status(const char *path, Error **errp)
 +{
 +    return qmp_virtio_unsupported(errp);
 +}
 diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 2cc1d7d24a..4fc7c80d3f 100644
+index 4fc7c80d3f..696e19126a 100644
 --- a/hw/virtio/virtio.c
 +++ b/hw/virtio/virtio.c
-@@ -13,12 +13,18 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qapi/qapi-commands-virtio.h"
-+#include "qapi/qapi-commands-qom.h"
-+#include "qapi/qapi-visit-virtio.h"
-+#include "qapi/qmp/qjson.h"
- #include "cpu.h"
- #include "trace.h"
- #include "qemu/error-report.h"
- #include "qemu/log.h"
- #include "qemu/main-loop.h"
- #include "qemu/module.h"
-+#include "qom/object_interfaces.h"
- #include "hw/virtio/virtio.h"
- #include "migration/qemu-file-types.h"
- #include "qemu/atomic.h"
-@@ -29,6 +35,9 @@
- #include "sysemu/runstate.h"
- #include "standard-headers/linux/virtio_ids.h"
- 
-+/* QAPI list of realized VirtIODevices */
-+static QTAILQ_HEAD(, VirtIODevice) virtio_list;
-+
- /*
-  * The alignment to use between consumer and producer parts of vring.
-  * x86 pagesize again. This is the default, used by transports like PCI
-@@ -3707,6 +3716,7 @@ static void virtio_device_realize(DeviceState *dev, Error **errp)
-     vdev->listener.commit = virtio_memory_listener_commit;
-     vdev->listener.name = "virtio";
-     memory_listener_register(&vdev->listener, vdev->dma_as);
-+    QTAILQ_INSERT_TAIL(&virtio_list, vdev, next);
+@@ -3948,6 +3948,110 @@ VirtioInfoList *qmp_x_query_virtio(Error **errp)
+     return list;
  }
  
- static void virtio_device_unrealize(DeviceState *dev)
-@@ -3721,6 +3731,7 @@ static void virtio_device_unrealize(DeviceState *dev)
-         vdc->unrealize(dev);
-     }
- 
-+    QTAILQ_REMOVE(&virtio_list, vdev, next);
-     g_free(vdev->bus_name);
-     vdev->bus_name = NULL;
- }
-@@ -3894,6 +3905,8 @@ static void virtio_device_class_init(ObjectClass *klass, void *data)
-     vdc->stop_ioeventfd = virtio_device_stop_ioeventfd_impl;
- 
-     vdc->legacy_features |= VIRTIO_LEGACY_FEATURES;
-+
-+    QTAILQ_INIT(&virtio_list);
- }
- 
- bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev)
-@@ -3904,6 +3917,37 @@ bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev)
-     return virtio_bus_ioeventfd_enabled(vbus);
- }
- 
-+VirtioInfoList *qmp_x_query_virtio(Error **errp)
++static VirtIODevice *virtio_device_find(const char *path)
 +{
-+    VirtioInfoList *list = NULL;
-+    VirtioInfoList *node;
 +    VirtIODevice *vdev;
 +
 +    QTAILQ_FOREACH(vdev, &virtio_list, next) {
 +        DeviceState *dev = DEVICE(vdev);
++
++        if (strcmp(dev->canonical_path, path) != 0) {
++            continue;
++        }
++
 +        Error *err = NULL;
 +        QObject *obj = qmp_qom_get(dev->canonical_path, "realized", &err);
-+
 +        if (err == NULL) {
 +            GString *is_realized = qobject_to_json_pretty(obj, true);
 +            /* virtio device is NOT realized, remove it from list */
 +            if (!strncmp(is_realized->str, "false", 4)) {
++                g_string_free(is_realized, true);
++                qobject_unref(obj);
 +                QTAILQ_REMOVE(&virtio_list, vdev, next);
-+            } else {
-+                node = g_new0(VirtioInfoList, 1);
-+                node->value = g_new(VirtioInfo, 1);
-+                node->value->path = g_strdup(dev->canonical_path);
-+                node->value->name = g_strdup(vdev->name);
-+                QAPI_LIST_PREPEND(list, node->value);
++                return NULL;
 +            }
-+           g_string_free(is_realized, true);
++            g_string_free(is_realized, true);
++        } else {
++            /* virtio device doesn't exist in QOM tree */
++            QTAILQ_REMOVE(&virtio_list, vdev, next);
++            qobject_unref(obj);
++            return NULL;
 +        }
++        /* device exists in QOM tree & is realized */
 +        qobject_unref(obj);
++        return vdev;
++    }
++    return NULL;
++}
++
++VirtioStatus *qmp_x_query_virtio_status(const char *path, Error **errp)
++{
++    VirtIODevice *vdev;
++    VirtioStatus *status;
++
++    vdev = virtio_device_find(path);
++    if (vdev == NULL) {
++        error_setg(errp, "Path %s is not a VirtIODevice", path);
++        return NULL;
 +    }
 +
-+    return list;
++    status = g_new0(VirtioStatus, 1);
++    status->name = g_strdup(vdev->name);
++    status->device_id = vdev->device_id;
++    status->vhost_started = vdev->vhost_started;
++    status->guest_features = vdev->guest_features;
++    status->host_features = vdev->host_features;
++    status->backend_features = vdev->backend_features;
++
++    switch (vdev->device_endian) {
++    case VIRTIO_DEVICE_ENDIAN_LITTLE:
++        status->device_endian = g_strdup("little");
++        break;
++    case VIRTIO_DEVICE_ENDIAN_BIG:
++        status->device_endian = g_strdup("big");
++        break;
++    default:
++        status->device_endian = g_strdup("unknown");
++        break;
++    }
++
++    status->num_vqs = virtio_get_num_queues(vdev);
++    status->status = vdev->status;
++    status->isr = vdev->isr;
++    status->queue_sel = vdev->queue_sel;
++    status->vm_running = vdev->vm_running;
++    status->broken = vdev->broken;
++    status->disabled = vdev->disabled;
++    status->use_started = vdev->use_started;
++    status->started = vdev->started;
++    status->start_on_kick = vdev->start_on_kick;
++    status->disable_legacy_check = vdev->disable_legacy_check;
++    status->bus_name = g_strdup(vdev->bus_name);
++    status->use_guest_notifier_mask = vdev->use_guest_notifier_mask;
++    status->has_vhost_dev = vdev->vhost_started;
++
++    if (vdev->vhost_started) {
++        VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
++        struct vhost_dev *hdev = vdc->get_vhost(vdev);
++
++        status->vhost_dev = g_new0(VhostStatus, 1);
++        status->vhost_dev->n_mem_sections = hdev->n_mem_sections;
++        status->vhost_dev->n_tmp_sections = hdev->n_tmp_sections;
++        status->vhost_dev->nvqs = hdev->nvqs;
++        status->vhost_dev->vq_index = hdev->vq_index;
++        status->vhost_dev->features = hdev->features;
++        status->vhost_dev->acked_features = hdev->acked_features;
++        status->vhost_dev->backend_features = hdev->backend_features;
++        status->vhost_dev->protocol_features = hdev->protocol_features;
++        status->vhost_dev->max_queues = hdev->max_queues;
++        status->vhost_dev->backend_cap = hdev->backend_cap;
++        status->vhost_dev->log_enabled = hdev->log_enabled;
++        status->vhost_dev->log_size = hdev->log_size;
++    }
++
++    return status;
 +}
 +
  static const TypeInfo virtio_device_info = {
      .name = TYPE_VIRTIO_DEVICE,
      .parent = TYPE_DEVICE,
-diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
-index af00712458..897e4e937b 100644
---- a/tests/qtest/qmp-cmd-test.c
-+++ b/tests/qtest/qmp-cmd-test.c
-@@ -103,6 +103,7 @@ static bool query_is_ignored(const char *cmd)
-         "query-gic-capabilities", /* arm */
-         /* Success depends on target-specific build configuration: */
-         "query-pci",              /* CONFIG_PCI */
-+        "x-query-virtio",         /* CONFIG_VIRTIO */
-         /* Success depends on launching SEV guest */
-         "query-sev-launch-measure",
-         /* Success depends on Host or Hypervisor SEV support */
-diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-index c14e3db10a..dfed1e7af5 100644
---- a/hw/virtio/meson.build
-+++ b/hw/virtio/meson.build
-@@ -62,4 +62,6 @@ virtio_ss.add_all(when: 'CONFIG_VIRTIO_PCI', if_true: virtio_pci_ss)
- specific_ss.add_all(when: 'CONFIG_VIRTIO', if_true: virtio_ss)
- softmmu_ss.add_all(when: 'CONFIG_VIRTIO', if_true: softmmu_virtio_ss)
- softmmu_ss.add(when: 'CONFIG_VIRTIO', if_false: files('vhost-stub.c'))
-+softmmu_ss.add(when: 'CONFIG_VIRTIO', if_false: files('virtio-stub.c'))
- softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost-stub.c'))
-+softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('virtio-stub.c'))
-diff --git a/qapi/meson.build b/qapi/meson.build
-index 840f1b0e19..9a36c15c04 100644
---- a/qapi/meson.build
-+++ b/qapi/meson.build
-@@ -49,6 +49,7 @@ qapi_all_modules = [
-   'stats',
-   'trace',
-   'transaction',
-+  'virtio',
-   'yank',
- ]
- if have_system
 -- 
 MST
 
