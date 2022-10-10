@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F076A5FA108
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 17:22:01 +0200 (CEST)
-Received: from localhost ([::1]:33080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A4F85FA0E2
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 17:07:37 +0200 (CEST)
+Received: from localhost ([::1]:33498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohubQ-00006D-D6
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 11:22:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43762)
+	id 1ohuNU-0000FG-BT
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 11:07:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ohu0W-0003IP-AF
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:43:52 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2710)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ohu0T-0007uo-BO
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:43:51 -0400
-Received: from fraeml715-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4MmM6N5QB1z67bJY;
- Mon, 10 Oct 2022 22:41:00 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml715-chm.china.huawei.com (10.206.15.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 10 Oct 2022 16:43:44 +0200
-Received: from localhost (10.202.226.42) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 10 Oct
- 2022 15:43:44 +0100
-Date: Mon, 10 Oct 2022 15:43:43 +0100
-To: Gregory Price <gourry.memverge@gmail.com>
-CC: <qemu-devel@nongnu.org>, <linux-cxl@vger.kernel.org>, Alison Schofield
- <alison.schofield@intel.com>, Davidlohr Bueso <dave@stgolabs.net>,
- "a.manzanares@samsung.com" <a.manzanares@samsung.com>, Ben Widawsky
- <bwidawsk@kernel.org>
-Subject: Re: [PATCH RFC] hw/cxl: type 3 devices can now present volatile or
- persistent memory
-Message-ID: <20221010154343.00007afd@huawei.com>
-In-Reply-To: <Yz8QlQ9yLFrWxWsN@fedora>
-References: <20221006000103.49542-1-gregory.price@memverge.com>
- <20221006094557.000035ab@huawei.com>
- <20221006095007.00001271@huawei.com> <Yz75ppPOwYCvNamy@fedora>
- <20221006174214.000059c7@huawei.com> <Yz8QlQ9yLFrWxWsN@fedora>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1ohu4U-0008DJ-0K; Mon, 10 Oct 2022 10:47:58 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:37478 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1ohu4R-0000Ad-2c; Mon, 10 Oct 2022 10:47:57 -0400
+Received: from [192.168.124.8] (unknown [139.227.114.201])
+ by APP-05 (Coremail) with SMTP id zQCowAA3PraRMERj0lsmBA--.27396S2;
+ Mon, 10 Oct 2022 22:47:45 +0800 (CST)
+Message-ID: <773a30ca-66e3-471c-a4c8-1d48f97d72de@iscas.ac.cn>
+Date: Mon, 10 Oct 2022 22:47:45 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.42]
-X-ClientProxiedBy: lhrpeml500001.china.huawei.com (7.191.163.213) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v10 3/5] target/riscv: generate virtual instruction
+ exception
+Content-Language: en-US
+To: Mayuresh Chitale <mchitale@ventanamicro.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Cc: alistair.francis@wdc.com, liweiwei@iscas.ac.cn
+References: <20221003114718.30659-1-mchitale@ventanamicro.com>
+ <20221003114718.30659-4-mchitale@ventanamicro.com>
+From: weiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <20221003114718.30659-4-mchitale@ventanamicro.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowAA3PraRMERj0lsmBA--.27396S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7KrWrGw17tr47tF4UGrWfZrb_yoW8uFy3pF
+ 4jkry3Kr98XFy3uFZ7JFs0qr17Jw4kKr48Awn29w4rtrsxXrs0kF1DKrWakF4DZrs2gF42
+ vFs0yryUuF12vrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
+ Y487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+ 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y
+ 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+ WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
+ IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbWCJPUUUU
+ U==
+X-Originating-IP: [139.227.114.201]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.007,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,163 +77,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
 
-> 
-> I was unaware that an SLD could be comprised of multiple regions
-> of both persistent and volatile memory.  I was under the impression that
-> it could only be one type of memory.  Of course that makes sense in the
-> case of a memory expander that simply lets you plug DIMMs in *facepalm*
-> 
-> I see the reason to have separate backends in this case.
-> 
-> The reason to allow an array of backing devices is if we believe each
-> individual DIMM plugged into a memexpander is likely to show up as
-> (configurably?) individual NUMA nodes, or if it's likely to get
-> classified as one numa node.
-
-I'm not sure it would be each DIMM separately as there are likely to only
-be a couple of types.
-
-> 
-> Maybe we should consider 2 new options:
-> --persistent-memdevs=pm1 pm2 pm3
-> --volatile-memdevs=vm1 vm2 vm3
-> 
-> etc, and deprecate --memdev, and go with your array of memdevs idea.
-> 
-> I think I could probably whip that up in a day or two.  Thoughts?
-
-I wonder if we care to emulate beyond 1 volatile and 1 persistent.
-Sure devices might exist, but if we can exercise all the code paths
-with a simpler configuration, perhaps we don't need to handle the
-more complex ones?
-
-The sticky corner here is Set Partition Info 
-CXL r3.0 8.2.9.8.2.1
-
-Separation between volatile and non volatile is configurable at runtime.
-
-> 
-> 
-> 
-> > > 
-> > > 2) EDK2 sets the memory area as a reserved, and the memory is not
-> > > configured by the system as ram.  I'm fairly sure edk2 just doesn't
-> > > support this yet, but there's a chicken/egg problem.  If the device
-> > > isn't there, there's nothing to test against... if there's nothing to
-> > > test against, no one will write the support.  So I figure we should kick
-> > > start the process (probably by getting it wrong on the first go around!)  
-> > 
-> > Yup, if the bios left it alone, OS drivers need to treat it the same as
-> > they would deal with hotplugged memory.  Note my strong suspicion is there
-> > will be host vendors who won't ever handle volatile CXL memory in firmware.
-> > They will just let the OS bring it up after boot. As long as you have DDR
-> > as well on the system that will be fine.  Means there is one code path
-> > to verify rather than two.  Not everyone will care about legacy OS support.
-> >   
-> 
-> Presently i'm failing to bring up a region of memory even when this is
-> set to persistent (even on upstream configuration).  The kernel is
-> presently failing to set_size because the region is used.
-> 
-> I can't tell if this is a driver error or because EDK2 is marking the
-> region as reserved.
-> 
-> relevant boot output:
-> [    0.000000] BIOS-e820: [mem 0x0000000290000000-0x000000029fffffff] reserved
-> [    1.229097] acpi ACPI0016:00: _OSC: OS supports [ExtendedConfig ASPM ClockPM Segments MSI EDR HPX-Type3]
-> [    1.244082] acpi ACPI0016:00: _OSC: OS supports [CXL20PortDevRegAccess CXLProtocolErrorReporting CXLNativeHotPlug]
-> [    1.261245] acpi ACPI0016:00: _OSC: platform does not support [LTR DPC]
-> [    1.272347] acpi ACPI0016:00: _OSC: OS now controls [PCIeHotplug SHPCHotplug PME AER PCIeCapability]
-> [    1.286092] acpi ACPI0016:00: _OSC: OS now controls [CXLMemErrorReporting]
-> 
-> The device is otherwise available for use
-> 
-> cli output
-> # cxl list
-> [
+On 2022/10/3 19:47, Mayuresh Chitale wrote:
+> This patch adds a mechanism to generate a virtual instruction
+> instruction exception instead of an illegal instruction exception
+> during instruction decode when virt is enabled.
+>
+> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
+> ---
+>   target/riscv/translate.c | 9 ++++++++-
+>   1 file changed, 8 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index db123da5ec..6926b639de 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -76,6 +76,7 @@ typedef struct DisasContext {
+>          to reset this known value.  */
+>       int frm;
+>       RISCVMXL ol;
+> +    bool virt_inst_excp;
+>       bool virt_enabled;
+>       const RISCVCPUConfig *cfg_ptr;
+>       bool hlsx;
+> @@ -243,7 +244,11 @@ static void gen_exception_illegal(DisasContext *ctx)
 >   {
->     "memdev":"mem0",
->     "pmem_size":268435456,
->     "ram_size":0,
->     "serial":0,
->     "host":"0000:35:00.0"
+>       tcg_gen_st_i32(tcg_constant_i32(ctx->opcode), cpu_env,
+>                      offsetof(CPURISCVState, bins));
+> -    generate_exception(ctx, RISCV_EXCP_ILLEGAL_INST);
+> +    if (ctx->virt_inst_excp) {
+> +        generate_exception(ctx, RISCV_EXCP_VIRT_INSTRUCTION_FAULT);
+> +    } else {
+> +        generate_exception(ctx, RISCV_EXCP_ILLEGAL_INST);
+> +    }
 >   }
-> ]
-> 
-> but it fails to setup correctly
-> 
-> cxl create-region -m -d decoder0.0 -w 1 -g 256 mem0
-> cxl region: create_region: region0: set_size failed: Numerical result out of range
-> cxl region: cmd_create_region: created 0 regions
-> 
-> I tracked this down to this part of the kernel:
-> 
-> kernel/resource.c
-> 
-> static struct resource *get_free_mem_region(...)
-> {
-> 	... snip ...
-> 	enumerate regions, fail to find a useable region
-> 	... snip ...
-> 	return ERR_PTR(-ERANGE);
-> }
-> 
-> but i'm not sure of what to do with this info.  We have some proof
-> that real hardware works with this no problem, and the only difference
-> is that the EFI/bios/firmware is setting the memory regions as `usable`
-> or `soft reserved`, which would imply the EDK2 is the blocker here
-> regardless of the OS driver status.
-> 
-> But I'd seen elsewhere you had gotten some of this working, and I'm
-> failing to get anything working at the moment.  If you have any input i
-> would greatly appreciate the help.
-> 
-> QEMU config:
-> 
-> /opt/qemu-cxl2/bin/qemu-system-x86_64 \
-> -drive file=/var/lib/libvirt/images/cxl.qcow2,format=qcow2,index=0,media=d\
-> -m 2G,slots=4,maxmem=4G \
-> -smp 4 \
-> -machine type=q35,accel=kvm,cxl=on \
-> -enable-kvm \
-> -nographic \
-> -device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 \
-> -device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 \
-> -object memory-backend-file,id=cxl-mem0,mem-path=/tmp/cxl-mem0,size=256M \
-> -object memory-backend-file,id=lsa0,mem-path=/tmp/cxl-lsa0,size=256M \
-> -device cxl-type3,bus=rp0,pmem=true,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 \
-> -M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.size=256M
-> 
-> I'd seen on the lists that you had seen issues with single-rp setups,
-> but no combination of configuration I've tried (including all the ones
-> in the docs and tests) lead to a successful region creation with
-> `cxl create-region`
+>   
+>   static void gen_exception_inst_addr_mis(DisasContext *ctx)
+> @@ -1067,6 +1072,7 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+>           if (!has_ext(ctx, RVC)) {
+>               gen_exception_illegal(ctx);
 
-Hmm. Let me have a play.  I've not run x86 tests for a while so
-perhaps something is missing there.
+I think we should also set virt_inst_excp to false before this gen_exception_illegal.
 
-I'm carrying a patch to override check_last_peer() in
-cxl_port_setup_targets() as that is wrong for some combinations,
-but that doesn't look like it's related to what you are seeing.
+By the way, why not just put  "ctx->virt_inst_excp = false;" at the 
+begin of the decode_opc?
 
-> 
-> > > 
-> > > 3) Upstream linux drivers haven't touched ram configurations yet.  I
-> > > just configured this with Dan Williams yesterday on IRC.  My
-> > > understanding is that it's been worked on but nothing has been
-> > > upstreamed, in part because there are only a very small set of devices
-> > > available to developers at the moment.  
-> > 
-> > There was an offer of similar volatile memory QEMU emulation in the
-> > session on QEMU CXL at Linux Plumbers.  That will look something like you have
-> > here and maybe reflects that someone has hardware as well...
-> >   
-> 
-> I saw that, and I figured I'd start the conversation by pushing
-> something :].
+Regards,
+
+Weiwei Li
+
+>           } else {
+> +            ctx->virt_inst_excp = false;
+>               ctx->opcode = opcode;
+>               ctx->pc_succ_insn = ctx->base.pc_next + 2;
+>               if (decode_insn16(ctx, opcode)) {
+> @@ -1078,6 +1084,7 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+>           opcode32 = deposit32(opcode32, 16, 16,
+>                                translator_lduw(env, &ctx->base,
+>                                                ctx->base.pc_next + 2));
+> +        ctx->virt_inst_excp = false;
+>           ctx->opcode = opcode32;
+>           ctx->pc_succ_insn = ctx->base.pc_next + 4;
+>   
 
 
