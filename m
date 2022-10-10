@@ -2,88 +2,130 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37C695FA48D
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 22:11:42 +0200 (CEST)
-Received: from localhost ([::1]:41712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AEC05FA48C
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 22:10:54 +0200 (CEST)
+Received: from localhost ([::1]:54414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohz7l-0004WQ-5H
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 16:11:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37058)
+	id 1ohz6y-0003GT-HW
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 16:10:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ohyQ2-0006x1-Vr
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 15:26:32 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:40755)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ohyPz-0005W4-DH
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 15:26:29 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id h13so10136441pfr.7
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 12:26:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=CVzO/3PMxHtoSkUBsfbLeN6XvAAfB+B1oY5f3Tl+eYg=;
- b=yG6ClIwjxkY2mWOQIEq00PxFDFQiMmCq8/PwijdOjQrCDYTnm7gGCJNmHXDthqq3IK
- gyLuePpK7NvbKiT7+X62oSJ4h56dCIEx6laqEDqA/k5g8xjlXD2t1rbCkR5/mL1cc1q1
- rNzJDIclpydLlnweqXcoqnQoyMrHbqYzrM4L2ungqNsJzf0nDFo63lm5WqEsHBR6LKDH
- 2lmOO37E/IVK/xKmluPXOpSZvBpiMebY0H8nDuoNbfYGsUtuhgR7DIWlny0gWbCQZPAR
- qBs9p2GefvuEzseD4e65ND5kGZAiAUFXQ5LeWkwxxHQha+Op9ztO8Tcu8BX3gwCtsIxK
- hH6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CVzO/3PMxHtoSkUBsfbLeN6XvAAfB+B1oY5f3Tl+eYg=;
- b=3IrBsXL5L+wzRbcfaNUjfFqtoNYiq7wt/fI1ZIsgKeSOs+RamqbxCdSrbQxgNOV7Wi
- vowZGwrMURwYTnXSga4VGSfC6RcoiSxt8oTmAfKkASU1xGp1RgVLUMJQspEvEgYkVIiO
- 122cujFHR23ctZfl/ayEgGJZ0riG5y6AKyHeRM0O15R7GHlu7WiQKX5Iq5u4fMHpQFJF
- 2EmdcLPfX1N+eWL+vNbvSpl0lXIscDvbfTPhuYb3zNyMT3vbQmR0JDy8KAihy9uFgt3i
- ghHmz9qXEA7BRUywVqSRRJqz/R6DIQ+W6z5G8hUR3PV03Z+VDYIkTI4yCEsfq1TE63sk
- lrFw==
-X-Gm-Message-State: ACrzQf0U8XpkrSJ3fCVJzIKTURfQhiN66/Bp+d/8f0KyDzX62S/BnX9n
- XAWgcCUL8VcbRakl4keoIHV1IQ==
-X-Google-Smtp-Source: AMsMyM4Av68ppMoTtNZvhRfgcbychVwrWH0By8e/9Ny2cmjcj209X8mnj4mZrFDjC21mLh2jox+4ug==
-X-Received: by 2002:a05:6a00:174a:b0:562:781f:eca3 with SMTP id
- j10-20020a056a00174a00b00562781feca3mr21011839pfc.41.1665429985807; 
- Mon, 10 Oct 2022 12:26:25 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:5aa4:aba1:1c91:a9b7?
- ([2602:47:d49d:ec01:5aa4:aba1:1c91:a9b7])
- by smtp.gmail.com with ESMTPSA id
- u6-20020a170903124600b00176dc67df44sm7072649plh.132.2022.10.10.12.26.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Oct 2022 12:26:25 -0700 (PDT)
-Message-ID: <d4c812fc-08ba-9475-ec2b-972182cb1906@linaro.org>
-Date: Mon, 10 Oct 2022 12:26:23 -0700
+ (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
+ id 1ohz4C-0000bX-Ma
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 16:08:01 -0400
+Received: from mail-dm6nam11on2045.outbound.protection.outlook.com
+ ([40.107.223.45]:31969 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
+ id 1ohz47-0005GO-P0
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 16:07:58 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bnj90TlE7547pOdBWz9HhobVxqThm7xPilnOJCad3xyfAZ5LzZgEnSBHthtkQFHyPvW1gx7pZIkQyvPdaJsRU5/keaWn8f9bliqsA02E2UHPT2MNOF/W2rS7hhGmvQzrLPIjlluExOLarghPSzXlIwGfLeYkozYHZjBZgeHU9jORhhi8Uj0by4yITVueZYyQ5YU79dwup/Em0lKDTwBj5xlUtO0ijG89jrZB/1UiT92PROQUVdRzsNkwMJ4gqI0gFYrboCNwyoM0c04/d/yVqrZb6yycm3rEF+3jzUPC0+uI5sRwFYfjipqGUQbEn26jz+PbkztM54uNjHjbDfyYOA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6Vi1ja634c5BG9GPMXsCJE6shgvUQoXC51sSWijhlxA=;
+ b=GplVG+iY/o//R2Ok8wdDZv2vgKDIvADhgPJszhc3d0+omlmdnD8jXxxjCNKpx+5cfE38IOUKAAJyBLSrOWKI4MBf99bgFDL7VnTVTB/tV9RYxaecU9BdnPrmeassPa+pJSSim5F93TnNqnWrwLDdq5cCwTnEdTGAf7ryPzIG60XWfZLsHBjy8ekGeAX64fCYRi1tseKQOInjxxMmSOyBpmG1jSTXkv7VfVSpHEsF/2NeBslA0wkbwvvlc2C9xkxlZHnyM1xdFsKNhVVv+AQ9ehdl6BZdjHtZdmeA2vpKo0TI5UFIvCnLDqY6HcqA46m1rRw+g3ml4bA2k4s/tq/Yjg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6Vi1ja634c5BG9GPMXsCJE6shgvUQoXC51sSWijhlxA=;
+ b=jvs6sY9uyZXZa5DzdemZt/w5cziFdievjalPiMQqVUf3/f5gvblYzMfkKqC2iRLssJq191lJKYjYG87mMLoHZHHlOosvSkEKju9DR8Nx9mpli2mwIjsMn1xBLrLiq0b5kbiUhkUZJroFqOwsgE8thLGj3Je/VXVSML4s3yyTWow=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
+ by PH0PR17MB5035.namprd17.prod.outlook.com (2603:10b6:510:d4::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5709.15; Mon, 10 Oct
+ 2022 20:07:49 +0000
+Received: from BN6PR17MB3121.namprd17.prod.outlook.com
+ ([fe80::655f:bfa9:e33a:5af4]) by BN6PR17MB3121.namprd17.prod.outlook.com
+ ([fe80::655f:bfa9:e33a:5af4%5]) with mapi id 15.20.5709.015; Mon, 10 Oct 2022
+ 20:07:49 +0000
+Date: Mon, 10 Oct 2022 16:07:47 -0400
+From: Gregory Price <gregory.price@memverge.com>
+To: Davidlohr Bueso <dave@stgolabs.net>
+Cc: Gregory Price <gourry.memverge@gmail.com>, qemu-devel@nongnu.org,
+ jonathan.cameron@huawei.com, linux-cxl@vger.kernel.org,
+ alison.schofield@intel.com, a.manzanares@samsung.com, bwidawsk@kernel.org
+Subject: Re: [PATCH 2/2] hw/cxl: Allow CXL type-3 devices to be persistent or
+ volatile
+Message-ID: <Y0R7kxVjgkn4+oWH@memverge.com>
+References: <20221006233702.18532-1-gregory.price@memverge.com>
+ <20221006233702.18532-2-gregory.price@memverge.com>
+ <20221010171229.let7egonsflyjixh@offworld>
+ <20221010193654.khne63svaaf3piz4@offworld>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221010193654.khne63svaaf3piz4@offworld>
+X-ClientProxiedBy: MN2PR01CA0027.prod.exchangelabs.com (2603:10b6:208:10c::40)
+ To BN6PR17MB3121.namprd17.prod.outlook.com
+ (2603:10b6:405:7c::19)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 05/12] target/ppc: Move VPRTYB[WDQ] to decodetree and
- use gvec
-Content-Language: en-US
-To: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-References: <20221010191356.83659-1-lucas.araujo@eldorado.org.br>
- <20221010191356.83659-6-lucas.araujo@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221010191356.83659-6-lucas.araujo@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.007,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|PH0PR17MB5035:EE_
+X-MS-Office365-Filtering-Correlation-Id: a84ab0d3-0a0e-4113-3d41-08daaafb1aba
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: XGV1wBhfFzE0yzm/WNKWJE4Bj1j+WINSLdheQ4Be6ALrlim+jVGlZFveeux2BvM2BFcKQqHoo+Bw443ZfWHr+4nweEm0kiGlHTN7LnYi580tyBFLW/tWKp6250kxri3QyLTw/lMd18hey1T7XBYRIUzkTN5HV+ov2Qp4RPFz6Swfww3XrWi0MFhTNv3qBX+19D35hQMPStX9HK1wTTBVi0/Ws2miv0LX5gWUkljX71SzJ/Sg/StF0Rg3o5oQ/fOc/nG6rGS/5sAvQzoJ9mPbBOGzWtBryhZqCJZmjW3wNJ1YWnhH6DCUSUsgOm8Yqy8FYyx/lLjGdLz0QC6DEbKQPB1k+xvb4J/JfYt016BQNFc/Ang2LTGrR7fQI+oWWWWbl1JIjQP9HJsfmwONvvwDgNw0Q1/nped9qIn/HtY8M5qpDWRTtC10aGicrhiXPXkUFL5ycr6cpROS46GJvzRrBnr3AfaPmCL1id71YJXNEJIl6uIegDAjFxdP4cKGlBjy0WUfzfvwO0d1NPQ74MCl0/QsXRvIex6fPSqMJ6G1ovP2Q+JdkUeBtF58olIvVQ9zLfWTopfLGNV4SjgbI1BCWkXfacdW/d1cJCKWFoWmqViw+jVxXkvxGwaJyl4UNsF29lrPMMKyS3pZjRQ0mScIFNRMxelQduYWXSL6rGItN/VyGJIJu4+MuyqJLAppeC8wF7kI9sqQVUxWqqzhAQwpOKWWjQ9W2YkSEbEdS1XVDYC4sa/+s2aFM+CQ04KIi71LTYFt1ImGNCcBJE/Apynwj4S0b4JKfyaFsUrQPbmTC10=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN6PR17MB3121.namprd17.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(39840400004)(136003)(366004)(396003)(376002)(346002)(451199015)(316002)(6916009)(2906002)(8676002)(186003)(6486002)(66476007)(2616005)(66946007)(41300700001)(30864003)(66556008)(8936002)(4326008)(5660300002)(44832011)(26005)(478600001)(6506007)(86362001)(36756003)(52116002)(6512007)(38350700002)(38100700002)(67856001)(309714004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?z58yNBcWKjIDabXX/vyxAHMKkBxxbSSM9uP6J0X5iXrnboUy+csa7qUF07/R?=
+ =?us-ascii?Q?kdY9/3rYzBQj+h8xZa8yLGWQWpudzW9aCLnD2pY3RyZkeXnEyySOxUdOo6Qt?=
+ =?us-ascii?Q?MhxaZ+r2YWJIfVcaoCHiUv7OxTUbKQAmdWdnOCzuUb6E0GtahSOzpCtmxKV0?=
+ =?us-ascii?Q?EDcdr1JfWbQCPHEI7Mvm0iUExYRaAKzGACAJngpi2C86gvdhHufGk8TzDfgp?=
+ =?us-ascii?Q?qzYKG3yqdkt6EbwSadW8bs0bKq/usWbp19IavDGAcLQpDCmPjBKOj3p6vWQM?=
+ =?us-ascii?Q?XdWBcRFfqGOf0wf7DQZj76iHnz9x8TlBvEyFPDAKpXdu8NAOmitpBhsc78Js?=
+ =?us-ascii?Q?fCmNgSxQMC7rypoCU+8ZDMKMRCzpyJdVY8ezOaiQLvgWU4zF9GJLzT7mpURH?=
+ =?us-ascii?Q?PvCieyU3dhSwjmeIGjUm5HO2LJ1wqr/vsKun0X4gKs63+EfS3O0Do7C9MiF5?=
+ =?us-ascii?Q?iHHW7RX75Y9ceOHTbpk+BZftc3uePHVZrgjm91Zt6WJcPlrltn366//ZX8Hd?=
+ =?us-ascii?Q?iILn6Iv4t/t0H4yV6/ZJuXxGMCH4JwY3zp1S/KtEO/goucopjMnqCxMS4iao?=
+ =?us-ascii?Q?qqhQWkJ+WQGQBhX3nCoU/CL/f92R/Jurp2SYZ2gATcFcTYzv5EZs8I5Pxpl8?=
+ =?us-ascii?Q?LnZPLImawxeiKYYvDtyz2Whmw6BgcSo47gAPGqnyLK/xkY/sjKrp7Rdy1O0v?=
+ =?us-ascii?Q?dBiYzeybGxIuR6UmhSudEXvMk6KU+cAIz4Sa7a4xm5V7I8qJwDkQ+TDT5ols?=
+ =?us-ascii?Q?tNQsZBsK06y5MfttjNtVxzUio0Ytsc3E7f5PHggoI8apaqP9O4dAwy3t3i0+?=
+ =?us-ascii?Q?gyiUpw+lNBsp7WokMYJVOWK/ERXkM1A9tdAmJzhyPyswBE5a+oChsbC+lODU?=
+ =?us-ascii?Q?nddF9oy3hdo5pY0ejGLibMXvZVif+NncsQNDHLo5TOyWWepzIwCkzrLsK+C2?=
+ =?us-ascii?Q?2n0AF/FlHqzYb/1KmDF3wcxP2hTEHx7D78L3BtbkZ7J1ZMLpioaNRmbu+TA8?=
+ =?us-ascii?Q?swy2jMschc/DmVCziwJ1Lau9lbFLdvQVu4GUlBTBKG8DzrtNJ4fGQMfto8zj?=
+ =?us-ascii?Q?lO11BKCjQ2o/hNU+nBWqDY1ajIJJKieMYS0HHh/kPxMaW5fLuD/zgRo9PaUF?=
+ =?us-ascii?Q?e3CUfVegwcSw1BGnTzRWT/rn3efWMZ9P9CEgQtpMXFfsGv/XiaLBOScdbZpo?=
+ =?us-ascii?Q?AcrLitrEyCI+xTxolxj+G26tdQJ9D8dO5/Yd0u9sBVhmWyQpjnvI49QfUW2f?=
+ =?us-ascii?Q?kTEkw+z6HqlxJh2aWhm9Z5tZf5F4YXGBeLv7/jwoD8JgPxZ/8wqiHfw+JT/C?=
+ =?us-ascii?Q?gAzeRDiLsYsX+t057OStZm6P3/miaEorY4oXR65F5h7Maf9KmIWZlqScRU8t?=
+ =?us-ascii?Q?80KKnUelGY8v0lWhQaGFK8UdEZNuQJ/x1MrVb/gNkO5118js1ITafHDoWTmT?=
+ =?us-ascii?Q?/B3THqZnFFO6uS/zB54y+jmu8nMCaXqTM3qOYbKQBFRWD6LYehiP9OoB2oeV?=
+ =?us-ascii?Q?CO5uwK4PlG+paS4X00ajmgiIxSpgbM7RgbNUSO/dwsBPxZWIxaPXnvBi+cNR?=
+ =?us-ascii?Q?bkPUCNzjL5QhOhCj9fr+dfOrPVE6hczfp8d/lOBkrD7MtdOI4wFuHjEXcG34?=
+ =?us-ascii?Q?RA=3D=3D?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a84ab0d3-0a0e-4113-3d41-08daaafb1aba
+X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2022 20:07:48.9522 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NOIOEKUP0B/oYk/5KmFBmVPa8AFQtsZwJi6gZXB9fXMTAkcWsOEFM9lIlSHTMyvE3P1dlw1g93QnxViPPcRXjqmxZEV5BqzdFVFJB/Kkt/w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR17MB5035
+Received-SPF: pass client-ip=40.107.223.45;
+ envelope-from=gregory.price@memverge.com;
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,180 +141,330 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/10/22 12:13, Lucas Mateus Castro(alqotel) wrote:
-> From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
+
+Hang tight, I'm whipping up a multi-region patch that will support a
+vmem and pmem region and such.  Finally got oriented enough to figure
+out the DPA decoding a bit.  I will probably need some help validating
+the decoder logic and the CDAT table logic.
+
+I will integrate the suggestions below into that patch set.
+
+Jonathan i'm building on top of your gitlab branch and will make a
+branch available for review when done.
+
+On Mon, Oct 10, 2022 at 12:36:54PM -0700, Davidlohr Bueso wrote:
+> On Mon, 10 Oct 2022, Davidlohr Bueso wrote:
 > 
-> Moved VPRTYBW and VPRTYBD to use gvec and both of them and VPRTYBQ to
-> decodetree. VPRTYBW and VPRTYBD now also use .fni4 and .fni8,
-> respectively.
+> > This hides requirement details as to the necessary changes that are needed for
+> > volatile support - for example, build_dvsecs(). Imo using two backends (without
+> > breaking current configs, of course) should be the initial version, not something
+> > to leave pending.
 > 
-> vprtybw:
-> rept    loop    master             patch
-> 8       12500   0,00991200         0,00626300 (-36.8%)
-> 25      4000    0,01040600         0,00550600 (-47.1%)
-> 100     1000    0,01084500         0,00601100 (-44.6%)
-> 500     200     0,01490600         0,01394100 (-6.5%)
-> 2500    40      0,03285100         0,05143000 (+56.6%)
-> 8000    12      0,08971500         0,14662500 (+63.4%)
+> Minimally this is along the lines I was thinking of. I rebased some of my original
+> patches on top of yours. It builds and passes tests/qtest/cxl-test, but certainly
+> untested otherwise. The original code did show the volatile support as per cxl-list.
 > 
-> vprtybd:
-> rept    loop    master             patch
-> 8       12500   0,00665800         0,00652800 (-2.0%)
-> 25      4000    0,00589300         0,00670400 (+13.8%)
-> 100     1000    0,00646800         0,00743900 (+15.0%)
-> 500     200     0,01065800         0,01586400 (+48.8%)
-> 2500    40      0,03497000         0,07180100 (+105.3%)
-> 8000    12      0,09242200         0,21566600 (+133.3%)
+> As such users can still use memdev which will map to the pmemdev. One thing which I
+> had not explored was the lsa + vmem thing, so the below prevents this for the time
+> being, fyi.
 > 
-> vprtybq:
-> rept    loop    master             patch
-> 8       12500   0,00656200         0,00665800 (+1.5%)
-> 25      4000    0,00620500         0,00644900 (+3.9%)
-> 100     1000    0,00707500         0,00764900 (+8.1%)
-> 500     200     0,01203500         0,01349500 (+12.1%)
-> 2500    40      0,03505700         0,04123100 (+17.6%)
-> 8000    12      0,09590600         0,11586700 (+20.8%)
+> Thanks,
+> Davidlohr
 > 
-> I wasn't expecting such a performance lost in both VPRTYBD and VPRTYBQ,
-> I'm not sure if it's worth to move those instructions. Comparing the
-> assembly of the helper with the TCGop they are pretty similar, so
-> I'm not sure why vprtybd took so much more time.
+> ----8<----------------------------------------------------
 > 
-> Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
-> ---
->   target/ppc/helper.h                 |  4 +-
->   target/ppc/insn32.decode            |  4 ++
->   target/ppc/int_helper.c             | 25 +--------
->   target/ppc/translate/vmx-impl.c.inc | 80 +++++++++++++++++++++++++++--
->   target/ppc/translate/vmx-ops.c.inc  |  3 --
->   5 files changed, 83 insertions(+), 33 deletions(-)
-> 
-> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-> index b2e910b089..a06193bc67 100644
-> --- a/target/ppc/helper.h
-> +++ b/target/ppc/helper.h
-> @@ -193,9 +193,7 @@ DEF_HELPER_FLAGS_3(vslo, TCG_CALL_NO_RWG, void, avr, avr, avr)
->   DEF_HELPER_FLAGS_3(vsro, TCG_CALL_NO_RWG, void, avr, avr, avr)
->   DEF_HELPER_FLAGS_3(vsrv, TCG_CALL_NO_RWG, void, avr, avr, avr)
->   DEF_HELPER_FLAGS_3(vslv, TCG_CALL_NO_RWG, void, avr, avr, avr)
-> -DEF_HELPER_FLAGS_2(vprtybw, TCG_CALL_NO_RWG, void, avr, avr)
-> -DEF_HELPER_FLAGS_2(vprtybd, TCG_CALL_NO_RWG, void, avr, avr)
-> -DEF_HELPER_FLAGS_2(vprtybq, TCG_CALL_NO_RWG, void, avr, avr)
-> +DEF_HELPER_FLAGS_3(VPRTYBQ, TCG_CALL_NO_RWG, void, avr, avr, i32)
->   DEF_HELPER_FLAGS_5(vaddsbs, TCG_CALL_NO_RWG, void, avr, avr, avr, avr, i32)
->   DEF_HELPER_FLAGS_5(vaddshs, TCG_CALL_NO_RWG, void, avr, avr, avr, avr, i32)
->   DEF_HELPER_FLAGS_5(vaddsws, TCG_CALL_NO_RWG, void, avr, avr, avr, avr, i32)
-> diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-> index 2658dd3395..aa4968e6b9 100644
-> --- a/target/ppc/insn32.decode
-> +++ b/target/ppc/insn32.decode
-> @@ -529,6 +529,10 @@ VCTZDM          000100 ..... ..... ..... 11111000100    @VX
->   VPDEPD          000100 ..... ..... ..... 10111001101    @VX
->   VPEXTD          000100 ..... ..... ..... 10110001101    @VX
->   
-> +VPRTYBD         000100 ..... 01001 ..... 11000000010    @VX_tb
-> +VPRTYBQ         000100 ..... 01010 ..... 11000000010    @VX_tb
-> +VPRTYBW         000100 ..... 01000 ..... 11000000010    @VX_tb
+> diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+> index e8341a818467..cd079dbddd9a 100644
+> --- a/hw/mem/cxl_type3.c
+> +++ b/hw/mem/cxl_type3.c
+> @@ -18,14 +18,21 @@ static void build_dvsecs(CXLType3Dev *ct3d)
+>  {
+>      CXLComponentState *cxl_cstate = &ct3d->cxl_cstate;
+>      uint8_t *dvsec;
+> +    uint64_t size = 0;
 > +
->   ## Vector Permute and Formatting Instruction
->   
->   VEXTDUBVLX      000100 ..... ..... ..... ..... 011000   @VA
-> diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-> index c7fd0d1faa..c6ce4665fa 100644
-> --- a/target/ppc/int_helper.c
-> +++ b/target/ppc/int_helper.c
-> @@ -492,31 +492,8 @@ static inline void set_vscr_sat(CPUPPCState *env)
->       env->vscr_sat.u32[0] = 1;
->   }
->   
-> -/* vprtybw */
-> -void helper_vprtybw(ppc_avr_t *r, ppc_avr_t *b)
-> -{
-> -    int i;
-> -    for (i = 0; i < ARRAY_SIZE(r->u32); i++) {
-> -        uint64_t res = b->u32[i] ^ (b->u32[i] >> 16);
-> -        res ^= res >> 8;
-> -        r->u32[i] = res & 1;
-> -    }
-> -}
-> -
-> -/* vprtybd */
-> -void helper_vprtybd(ppc_avr_t *r, ppc_avr_t *b)
-> -{
-> -    int i;
-> -    for (i = 0; i < ARRAY_SIZE(r->u64); i++) {
-> -        uint64_t res = b->u64[i] ^ (b->u64[i] >> 32);
-> -        res ^= res >> 16;
-> -        res ^= res >> 8;
-> -        r->u64[i] = res & 1;
-> -    }
-> -}
-> -
->   /* vprtybq */
-> -void helper_vprtybq(ppc_avr_t *r, ppc_avr_t *b)
-> +void helper_VPRTYBQ(ppc_avr_t *r, ppc_avr_t *b, uint32_t v)
->   {
->       uint64_t res = b->u64[0] ^ b->u64[1];
->       res ^= res >> 32;
-> diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-> index b9a9e83ab3..23601942bc 100644
-> --- a/target/ppc/translate/vmx-impl.c.inc
-> +++ b/target/ppc/translate/vmx-impl.c.inc
-> @@ -1659,9 +1659,83 @@ GEN_VXFORM_NOA_ENV(vrfim, 5, 11);
->   GEN_VXFORM_NOA_ENV(vrfin, 5, 8);
->   GEN_VXFORM_NOA_ENV(vrfip, 5, 10);
->   GEN_VXFORM_NOA_ENV(vrfiz, 5, 9);
-> -GEN_VXFORM_NOA(vprtybw, 1, 24);
-> -GEN_VXFORM_NOA(vprtybd, 1, 24);
-> -GEN_VXFORM_NOA(vprtybq, 1, 24);
-> +
-> +static void gen_vprtyb_vec(unsigned vece, TCGv_vec t, TCGv_vec b)
-> +{
-> +    int i;
-> +    TCGv_vec tmp = tcg_temp_new_vec_matching(b);
-> +    /* MO_32 is 2, so 2 iteractions for MO_32 and 3 for MO_64 */
-> +    for (i = 0; i < vece; i++) {
-> +        tcg_gen_shri_vec(vece, tmp, b, (4 << (vece - i)));
-> +        tcg_gen_xor_vec(vece, b, tmp, b);
+> +    if (ct3d->hostvmem) {
+> +        size += ct3d->hostvmem->size;
 > +    }
-> +    tcg_gen_and_vec(vece, t, b, tcg_constant_vec_matching(t, vece, 1));
-> +    tcg_temp_free_vec(tmp);
-> +}
+> +    if (ct3d->hostpmem) {
+> +        size += ct3d->hostpmem->size;
+> +    }
+> 
+>      dvsec = (uint8_t *)&(CXLDVSECDevice){
+> -        .cap = 0x1e,
+> +        .cap = 0x1e, /* one HDM range */
+> 	 .ctrl = 0x2,
+> 	 .status2 = 0x2,
+> -        .range1_size_hi = ct3d->hostmem->size >> 32,
+> -        .range1_size_lo = (2 << 5) | (2 << 2) | 0x3 |
+> -        (ct3d->hostmem->size & 0xF0000000),
+> +        .range1_size_hi = size >> 32,
+> +        .range1_size_lo = (2 << 5) | (2 << 2) | 0x3 | (size & 0xF0000000),
+> 	 .range1_base_hi = 0,
+> 	 .range1_base_lo = 0,
+>      };
+> @@ -98,70 +105,60 @@ static void ct3d_reg_write(void *opaque, hwaddr offset, uint64_t value,
+>  static bool cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
+>  {
+>      DeviceState *ds = DEVICE(ct3d);
+> -    MemoryRegion *mr;
+>      char *name;
+> -    bool is_pmem = false;
+> 
+> -    /*
+> -     * FIXME: For now we only allow a single host memory region.
+> -     * Handle the deprecated memdev property usage cases
+> -     */
+> -    if (!ct3d->hostmem && !ct3d->host_vmem && !ct3d->host_pmem) {
+> +    if (!ct3d->hostvmem && !ct3d->hostpmem) {
+> 	 error_setg(errp, "at least one memdev property must be set");
+> 	 return false;
+> -    } else if (ct3d->hostmem && (ct3d->host_vmem || ct3d->host_pmem)) {
+> -        error_setg(errp, "deprecated [memdev] cannot be used with new "
+> -                         "persistent and volatile memdev properties");
+> -        return false;
+> -    } else if (ct3d->hostmem) {
+> -        warn_report("memdev is deprecated and defaults to pmem. "
+> -                    "Use (persistent|volatile)-memdev instead.");
+> -        is_pmem = true;
+> -    } else {
+> -        if (ct3d->host_vmem && ct3d->host_pmem) {
+> -            error_setg(errp, "Multiple memory devices not supported yet");
+> -            return false;
+> -        }
+> -        is_pmem = !!ct3d->host_pmem;
+> -        ct3d->hostmem = ct3d->host_pmem ? ct3d->host_pmem : ct3d->host_vmem;
+>      }
+> 
+> -    /*
+> -     * for now, since there is only one memdev, we can set the type
+> -     * based on whether this was a ram region or file region
+> -     */
+> -    mr = host_memory_backend_get_memory(ct3d->hostmem);
+> -    if (!mr) {
+> -        error_setg(errp, "memdev property must be set");
+> +    /* TODO: volatile devices may have LSA */
+> +    if (ct3d->hostvmem && ct3d->lsa) {
+> +        error_setg(errp, "lsa property must be set");
+> 	 return false;
+>      }
+> 
+> -    /*
+> -     * FIXME: This code should eventually enumerate each memory region and
+> -     * report vmem and pmem capacity separate, but for now just set to one
+> -     */
+> -    memory_region_set_nonvolatile(mr, is_pmem);
+> -    memory_region_set_enabled(mr, true);
+> -    host_memory_backend_set_mapped(ct3d->hostmem, true);
+> -
+>      if (ds->id) {
+> 	 name = g_strdup_printf("cxl-type3-dpa-space:%s", ds->id);
+>      } else {
+> 	 name = g_strdup("cxl-type3-dpa-space");
+>      }
+> -    address_space_init(&ct3d->hostmem_as, mr, name);
+> -    g_free(name);
+> 
+> -    /* FIXME: When multiple regions are supported, this needs to aggregate */
+> -    ct3d->cxl_dstate.mem_size = ct3d->hostmem->size;
+> -    ct3d->cxl_dstate.vmem_size = is_pmem ? 0 : ct3d->hostmem->size;
+> -    ct3d->cxl_dstate.pmem_size = is_pmem ? ct3d->hostmem->size : 0;
+> +    if (ct3d->hostvmem) {
+> +        MemoryRegion *vmr;
+> 
+> -    if (!ct3d->lsa) {
+> -        error_setg(errp, "lsa property must be set");
+> -        return false;
+> +        vmr = host_memory_backend_get_memory(ct3d->hostvmem);
+> +        if (!vmr) {
+> +            error_setg(errp, "volatile-memdev property must be set");
+> +            return false;
+> +        }
 > +
-> +/* vprtybw */
-> +static void gen_vprtyb_i32(TCGv_i32 t, TCGv_i32 b)
-> +{
-> +    TCGv_i32 tmp = tcg_temp_new_i32();
-> +    tcg_gen_shri_i32(tmp, b, 16);
-> +    tcg_gen_xor_i32(b, tmp, b);
-> +    tcg_gen_shri_i32(tmp, b, 8);
-> +    tcg_gen_xor_i32(b, tmp, b);
-> +    tcg_gen_and_i32(t, b, tcg_constant_i32(1));
-> +    tcg_temp_free_i32(tmp);
-
-tcg_gen_ctpop_i32(t, b);
-tcg_gen_andi_i32(t, t, 1);
-
-> +}
+> +        memory_region_set_nonvolatile(vmr, false);
+> +        memory_region_set_enabled(vmr, true);
+> +        host_memory_backend_set_mapped(ct3d->hostvmem, true);
+> +        address_space_init(&ct3d->hostvmem_as, vmr, name);
+> +        ct3d->cxl_dstate.vmem_size = ct3d->hostvmem->size;
+> +        ct3d->cxl_dstate.mem_size += ct3d->hostvmem->size;
+>      }
+> 
+> +    if (ct3d->hostpmem) {
+> +        MemoryRegion *pmr;
 > +
-> +/* vprtybd */
-> +static void gen_vprtyb_i64(TCGv_i64 t, TCGv_i64 b)
-> +{
-> +    TCGv_i64 tmp = tcg_temp_new_i64();
-> +    tcg_gen_shri_i64(tmp, b, 32);
-> +    tcg_gen_xor_i64(b, tmp, b);
-> +    tcg_gen_shri_i64(tmp, b, 16);
-> +    tcg_gen_xor_i64(b, tmp, b);
-> +    tcg_gen_shri_i64(tmp, b, 8);
-> +    tcg_gen_xor_i64(b, tmp, b);
-> +    tcg_gen_and_i64(t, b, tcg_constant_i64(1));
-> +    tcg_temp_free_i64(tmp);
-
-Similarly.
-
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-
-r~
+> +        pmr = host_memory_backend_get_memory(ct3d->hostpmem);
+> +        if (!pmr) {
+> +            error_setg(errp, "legacy memdev or persistent-memdev property must be set");
+> +            return false;
+> +        }
+> +
+> +        memory_region_set_nonvolatile(pmr, true);
+> +        memory_region_set_enabled(pmr, true);
+> +        host_memory_backend_set_mapped(ct3d->hostpmem, true);
+> +        address_space_init(&ct3d->hostpmem_as, pmr, name);
+> +        ct3d->cxl_dstate.pmem_size = ct3d->hostpmem->size;
+> +        ct3d->cxl_dstate.mem_size += ct3d->hostpmem->size;
+> +    }
+> +    g_free(name);
+> +
+>      return true;
+>  }
+> 
+> @@ -210,7 +207,13 @@ static void ct3_exit(PCIDevice *pci_dev)
+>      ComponentRegisters *regs = &cxl_cstate->crb;
+> 
+>      g_free(regs->special_ops);
+> -    address_space_destroy(&ct3d->hostmem_as);
+> +
+> +    if (ct3d->hostvmem) {
+> +        address_space_destroy(&ct3d->hostvmem_as);
+> +    }
+> +    if (ct3d->hostpmem) {
+> +        address_space_destroy(&ct3d->hostpmem_as);
+> +    }
+>  }
+> 
+>  /* TODO: Support multiple HDM decoders and DPA skip */
+> @@ -249,47 +252,86 @@ MemTxResult cxl_type3_read(PCIDevice *d, hwaddr host_addr, uint64_t *data,
+> 			    unsigned size, MemTxAttrs attrs)
+>  {
+>      CXLType3Dev *ct3d = CXL_TYPE3(d);
+> -    uint64_t dpa_offset;
+> -    MemoryRegion *mr;
+> +    uint64_t total_size = 0, dpa_offset;
+> +    MemoryRegion *vmr, *pmr;
+> 
+> -    /* TODO support volatile region */
+> -    mr = host_memory_backend_get_memory(ct3d->hostmem);
+> -    if (!mr) {
+> +    vmr = host_memory_backend_get_memory(ct3d->hostvmem);
+> +    pmr = host_memory_backend_get_memory(ct3d->hostpmem);
+> +    if (!vmr && !pmr) {
+> 	 return MEMTX_ERROR;
+>      }
+> 
+> +    if (vmr) {
+> +        total_size += vmr->size;
+> +    }
+> +    if (pmr) {
+> +        total_size += pmr->size;
+> +    }
+>      if (!cxl_type3_dpa(ct3d, host_addr, &dpa_offset)) {
+> 	 return MEMTX_ERROR;
+>      }
+> -
+> -    if (dpa_offset > int128_get64(mr->size)) {
+> +    if (dpa_offset > total_size) {
+> 	 return MEMTX_ERROR;
+>      }
+> 
+> -    return address_space_read(&ct3d->hostmem_as, dpa_offset, attrs, data, size);
+> +    if (vmr) {
+> +        /* volatile starts at DPA 0 */
+> +        if (dpa_offset <= int128_get64(vmr->size)) {
+> +            return address_space_read(&ct3d->hostvmem_as,
+> +                                  dpa_offset, attrs, data, size);
+> +        }
+> +    }
+> +    if (pmr) {
+> +        if (dpa_offset > int128_get64(pmr->size)) {
+> +            return MEMTX_ERROR;
+> +        }
+> +        return address_space_read(&ct3d->hostpmem_as, dpa_offset,
+> +                                  attrs, data, size);
+> +    }
+> +
+> +    return MEMTX_ERROR;
+>  }
+> 
+>  MemTxResult cxl_type3_write(PCIDevice *d, hwaddr host_addr, uint64_t data,
+> 			     unsigned size, MemTxAttrs attrs)
+>  {
+>      CXLType3Dev *ct3d = CXL_TYPE3(d);
+> -    uint64_t dpa_offset;
+> -    MemoryRegion *mr;
+> +    uint64_t total_size = 0, dpa_offset;
+> +    MemoryRegion *vmr, *pmr;
+> 
+> -    mr = host_memory_backend_get_memory(ct3d->hostmem);
+> -    if (!mr) {
+> +    vmr = host_memory_backend_get_memory(ct3d->hostpmem);
+> +    pmr = host_memory_backend_get_memory(ct3d->hostpmem);
+> +    if (!vmr && !pmr) {
+> 	 return MEMTX_OK;
+>      }
+> -
+> +    if (vmr) {
+> +        total_size += vmr->size;
+> +    }
+> +    if (pmr) {
+> +        total_size += pmr->size;
+> +    }
+>      if (!cxl_type3_dpa(ct3d, host_addr, &dpa_offset)) {
+> 	 return MEMTX_OK;
+>      }
+> +    if (dpa_offset > total_size) {
+> +        return MEMTX_ERROR;
+> +    }
+> 
+> -    if (dpa_offset > int128_get64(mr->size)) {
+> -        return MEMTX_OK;
+> +    if (vmr) {
+> +        if (dpa_offset <= int128_get64(vmr->size)) {
+> +                return address_space_write(&ct3d->hostvmem_as,
+> +                                  dpa_offset, attrs, &data, size);
+> +        }
+>      }
+> -    return address_space_write(&ct3d->hostmem_as, dpa_offset, attrs,
+> +    if (pmr) {
+> +        if (dpa_offset > int128_get64(pmr->size)) {
+> +            return MEMTX_OK;
+> +        }
+> +        return address_space_write(&ct3d->hostpmem_as, dpa_offset, attrs,
+> 				&data, size);
+> +    }
+> +
+> +    return MEMTX_ERROR;
+>  }
+> 
+>  static void ct3d_reset(DeviceState *dev)
+> @@ -303,11 +345,11 @@ static void ct3d_reset(DeviceState *dev)
+>  }
+> 
+>  static Property ct3_props[] = {
+> -    DEFINE_PROP_LINK("memdev", CXLType3Dev, hostmem, TYPE_MEMORY_BACKEND,
+> -                     HostMemoryBackend *),
+> -    DEFINE_PROP_LINK("persistent-memdev", CXLType3Dev, host_pmem,
+> +    DEFINE_PROP_LINK("memdev", CXLType3Dev, hostpmem, TYPE_MEMORY_BACKEND,
+> +                     HostMemoryBackend *), /* for backward-compatibility */
+> +    DEFINE_PROP_LINK("persistent-memdev", CXLType3Dev, hostpmem,
+> 		      TYPE_MEMORY_BACKEND, HostMemoryBackend *),
+> -    DEFINE_PROP_LINK("volatile-memdev", CXLType3Dev, host_vmem,
+> +    DEFINE_PROP_LINK("volatile-memdev", CXLType3Dev, hostvmem,
+> 		      TYPE_MEMORY_BACKEND, HostMemoryBackend *),
+>      DEFINE_PROP_LINK("lsa", CXLType3Dev, lsa, TYPE_MEMORY_BACKEND,
+> 		      HostMemoryBackend *),
+> diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+> index fd96a5ea4e47..c81f92ecf093 100644
+> --- a/include/hw/cxl/cxl_device.h
+> +++ b/include/hw/cxl/cxl_device.h
+> @@ -237,14 +237,13 @@ struct CXLType3Dev {
+>      PCIDevice parent_obj;
+> 
+>      /* Properties */
+> -    /* TODO: remove hostmem when multi-dev is implemented */
+> -    HostMemoryBackend *hostmem;
+> -    HostMemoryBackend *host_vmem;
+> -    HostMemoryBackend *host_pmem;
+> +    HostMemoryBackend *hostvmem;
+> +    HostMemoryBackend *hostpmem;
+>      HostMemoryBackend *lsa;
+> 
+>      /* State */
+> -    AddressSpace hostmem_as;
+> +    AddressSpace hostvmem_as;
+> +    AddressSpace hostpmem_as;
+>      CXLComponentState cxl_cstate;
+>      CXLDeviceState cxl_dstate;
+>  };
 
