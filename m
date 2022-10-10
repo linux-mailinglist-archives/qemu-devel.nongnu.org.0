@@ -2,82 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EA325FA022
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 16:23:35 +0200 (CEST)
-Received: from localhost ([::1]:35972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C969C5FA02F
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 16:25:53 +0200 (CEST)
+Received: from localhost ([::1]:51990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohtgs-00007f-DU
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 10:23:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60898)
+	id 1ohtj4-0003nM-FO
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 10:25:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ohtdX-0003ra-UE
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:20:11 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:45875)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ohtdV-0004Fe-Eu
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:20:06 -0400
-Received: by mail-pl1-x634.google.com with SMTP id i6so5451010pli.12
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 07:20:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=srrNkT58I3cvoIqssDj2sKYEDwui6He8sTYpZbKvUyU=;
- b=Rg85uKhtGxeGgNJLRBsijXMbeAnKVcNFElxnly7Tv/6Oiq9yZM9qJzt5b5qNVI4dJV
- 3yHTs2w8pZaskKOjOgHQ+Ld1jzfkEQfFNyz8BnfyXxKHzNHtXKXIOvLk9+98TI2PjWGc
- P42ScJ+fXJaQ6hsacqy6AUL3ZGaOudg2VhDudOkxjkq7ob8s3DgOQQHBzBP2dguWR5Dy
- Ep3s7vRcr8NaQv3fdRrfxvK4rz8XcOV4fEq8hIew5U7y1iAr21aRGAjy4MXXEeOwCOuP
- ebHE4RqeBHz0+JRC8o2QIp0a/Ur3THgmpBv+vwXCdWRXQP26BbAmGv/BUToVr1kRbCqC
- q+0A==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ohtez-0005iQ-Ab
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:21:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28764)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ohtew-0004cV-N8
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:21:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665411693;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=AebqChOaDYq7yIDiTmRx5ouy/xOW4a8MFi9ab5gAfy8=;
+ b=CFhG64ZGg9kR4UXUySop1COBHwJ+RLvAbyHQ49BxhRGsPOk07vpfuKNHdxBmkTHayAQAJa
+ XVDWZLHiRlK0z7fyguu1TgfGNB6gQGFagiGTOU/qbI1nbHKMpyl5SVGWBdRAszFBcPnOTg
+ 9BkRT4sS3S+w7DQ0UhXkcIhnl2YHqN0=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-339-LK88M5KqPkqSv5TGhKS8bg-1; Mon, 10 Oct 2022 10:21:32 -0400
+X-MC-Unique: LK88M5KqPkqSv5TGhKS8bg-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ ht14-20020a170907608e00b0078d437c268dso4438264ejc.20
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 07:21:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=srrNkT58I3cvoIqssDj2sKYEDwui6He8sTYpZbKvUyU=;
- b=iV4E5IHtzTxhRoIZNf8QbGhG+itHnQhGA1avhD3WteJKL6iheHjSS47Ms0nLCWcmg2
- 8jLiYj8F2Bv4zxe2HBka+gxCze0ngYaFMfHtsEOpEpUXtnvLN5StwURv3TQYdSjjoZ+z
- XxEbc69/n3Q9GPqsA4bNWeNXyNgs8Ffwtl9gjYSWuTHr7Am7E1CtiXxh1z6BnfBDsvkH
- p3+tWQWqvuhDpsTDVqFnf6o8O5sIj55ZYpHyS1KjNmbd/nYSWNYBHdjGEUbAtbV57hn0
- 6xMv2OToA0iDW75/zTe8RbJg0I9A9BfN9k5Uf0Vgj9Bn6VKEbXGhS0+mp5pxPeKr0b3r
- CB6A==
-X-Gm-Message-State: ACrzQf0s0u6TCzXCzw1FPLbCUolpIb1lODTYNgCjkQsmxz/2dAAflau/
- 9ALs/Lg3NPYbAQbkGTlWxJzkhA==
-X-Google-Smtp-Source: AMsMyM7ZVB8kw//kGS77XNeoLlrScFAu4LhBzyPr6LrZN9QrUPIWKz92gyFWG/cvkz0ybEwYBpHwtg==
-X-Received: by 2002:a17:90b:1e43:b0:20d:59b9:751b with SMTP id
- pi3-20020a17090b1e4300b0020d59b9751bmr901817pjb.90.1665411603225; 
- Mon, 10 Oct 2022 07:20:03 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:5aa4:aba1:1c91:a9b7?
- ([2602:47:d49d:ec01:5aa4:aba1:1c91:a9b7])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=AebqChOaDYq7yIDiTmRx5ouy/xOW4a8MFi9ab5gAfy8=;
+ b=elVAmt310T0o09C+E9p2retPBi9eiSEchLdo0sKKnCF8rGMCF/0r++ln8E7r+yVE7Q
+ ycz5212QNcE+hqdx8pGmNNE2wiB2wWlhoTuCr0tgjH0kgqD+CnPm7l7xghQIMKtx88mC
+ STtdbyGgW+qIA2lIa6CDB/FS67+8FDCyNz3lE767qf9wt9MBWxlHVnOBjD3byqKtYjj7
+ AiVVYNRyzQc+0Cku0YhCvz5rqv6UqmXDpSFM2MNDV4u3zvgoZ/mF11+dLQYiM+SRAH5a
+ 4c1PbJFZOAyD8M0PgPFAC2CMrtNvJDLs134mBXBStxjJ3GEP6k7K96Ny/Fp4wyk+6Ai/
+ vKww==
+X-Gm-Message-State: ACrzQf2G5j9BUQ4kBmw8tD5mT6Op7cx11+x0dPVL1pswNnidEKuS5IZF
+ TsuLfKatX94S6EZodpRPc2Z58cFhdeBSvSvmG7VPoFlzMnHgMSa5X4FPzZZjuJvehPCOQN1EafW
+ uftFy0ndK3v5z2YDaad8mODDHvCYi19kvCrSYKqpbwv6pKIgoSW7FkvuhPuBibyBjXlc=
+X-Received: by 2002:a05:6402:5106:b0:45c:2c80:94a4 with SMTP id
+ m6-20020a056402510600b0045c2c8094a4mr3579083edd.298.1665411690539; 
+ Mon, 10 Oct 2022 07:21:30 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6k2b7K1u2jtIaaK25yn3TwK8Ypkj+9vK2daN6kRhiDrclyityL+qLxsVwROK5AZnxUSUwU4w==
+X-Received: by 2002:a05:6402:5106:b0:45c:2c80:94a4 with SMTP id
+ m6-20020a056402510600b0045c2c8094a4mr3579048edd.298.1665411690187; 
+ Mon, 10 Oct 2022 07:21:30 -0700 (PDT)
+Received: from avogadro.local ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
  by smtp.gmail.com with ESMTPSA id
- i20-20020a63e914000000b00434272fe870sm6384352pgh.88.2022.10.10.07.20.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Oct 2022 07:20:02 -0700 (PDT)
-Message-ID: <82e86c6f-4304-119a-49e6-d0b16bd9a7e0@linaro.org>
-Date: Mon, 10 Oct 2022 07:20:00 -0700
+ bq15-20020a056402214f00b00457b5ba968csm7129726edb.27.2022.10.10.07.21.29
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Oct 2022 07:21:29 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] linux-user: i386/signal: support XSAVE/XRSTOR for signal
+ frame fpstate
+Date: Mon, 10 Oct 2022 16:21:24 +0200
+Message-Id: <20221010142127.295676-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [RISU PATCH 1/5] risu: Use alternate stack
-Content-Language: en-US
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org, maobibo@loongson.cn
-References: <20220917074317.1410274-1-gaosong@loongson.cn>
- <20220917074317.1410274-2-gaosong@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220917074317.1410274-2-gaosong@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.007,
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,19 +97,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/17/22 00:43, Song Gao wrote:
-> We can use alternate stack, so that we can use sp register as intput/ouput register.
-> I had tested aarch64/LoongArch architecture.
-> 
-> Signed-off-by: Song Gao<gaosong@loongson.cn>
-> ---
->   risu.c | 16 +++++++++++++++-
->   1 file changed, 15 insertions(+), 1 deletion(-)
+These three patches add support for x86 XSAVE/XRSTOR signal frames in
+linux-user emulation.  This ensures that signals save and restore the
+extended save states as well.
 
-Good idea.
+For 32-bit emulation not even FXSAVE was used, even though the
+signal frame supports it.  Therefore, patch 2 extends 32-bit emulation
+to use FXSAVE/FXRSTOR if the FXSR bit is set in CPUID.  If it is not
+set, QEMU will use FSAVE/FRSTOR as usual; note that recent builds of
+glibc most likely will check for FXSR bit even on 32-bit builds, and
+will refuse to start with a "CPU ISA level is lower than required"
+error.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Paolo
 
+Paolo Bonzini (3):
+  linux-user: i386/signal: move fpstate at the end of the 32-bit frames
+  linux-user: i386/signal: support FXSAVE fpstate on 32-bit emulation
+  linux-user: i386/signal: support XSAVE/XRSTOR for signal frame fpstate
 
-r~
+ linux-user/i386/signal.c     | 227 ++++++++++++++++++++++++++---------
+ target/i386/cpu.c            |   2 +-
+ target/i386/cpu.h            |   3 +
+ target/i386/tcg/fpu_helper.c |  64 ++++++----
+ 4 files changed, 210 insertions(+), 86 deletions(-)
+
+-- 
+2.37.3
+
 
