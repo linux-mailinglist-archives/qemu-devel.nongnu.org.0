@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10FFF5F9BD2
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 11:25:46 +0200 (CEST)
-Received: from localhost ([::1]:41654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E3975F9BDA
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 11:29:12 +0200 (CEST)
+Received: from localhost ([::1]:60472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohp2e-0000Gn-Vu
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 05:25:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37774)
+	id 1ohp5w-0004TI-QS
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 05:29:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1ohonp-0001PT-P8
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 05:10:25 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:47356 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1ohonn-0000g7-4P
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 05:10:25 -0400
-Received: from [192.168.124.2] (unknown [36.5.191.229])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Bxnmty4UNj8fgpAA--.6221S3; 
- Mon, 10 Oct 2022 17:10:11 +0800 (CST)
-Message-ID: <3bd67910-88ec-a991-b1d8-75286544e119@loongson.cn>
-Date: Mon, 10 Oct 2022 17:10:10 +0800
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ohoou-0003Fj-Lc
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 05:11:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34593)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ohoop-0000yk-D2
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 05:11:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665393085;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=MYAk15I/7YN+N48AfjAMgIWCGs3cdSzZd4anlJiPeh0=;
+ b=aK612n2UGnkmJjYSrD3jq6zAeQUVwHQyARQKf5vryIoHecCCieEABIgaTkoYlSmtuhtrns
+ IZUoMTGQ7BTWfaA0lrrW12nan4sg0DdlVChfaeBPCX5H0mi7OTMMB4bE9+uuPkRNz9sarH
+ 8/aaR9FcOxiD3mAvksx5hsFjiqoOwNg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-318-RAxexYjrOJe1f_pWl5UKkw-1; Mon, 10 Oct 2022 05:11:22 -0400
+X-MC-Unique: RAxexYjrOJe1f_pWl5UKkw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 95701380673D;
+ Mon, 10 Oct 2022 09:11:21 +0000 (UTC)
+Received: from t480s.redhat.com (unknown [10.39.193.119])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7FDED112D164;
+ Mon, 10 Oct 2022 09:11:18 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: David Hildenbrand <david@redhat.com>,
+ Michal Privoznik <mprivozn@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefan Weil <sw@weilnetz.de>
+Subject: [PATCH v2 0/7] hostmem: NUMA-aware memory preallocation using
+ ThreadContext
+Date: Mon, 10 Oct 2022 11:11:10 +0200
+Message-Id: <20221010091117.88603-1-david@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH RESEND] linux-user: Fix struct statfs ABI on loongarch64
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- WANG Xuerui <xen0n@gentoo.org>, qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>,
- =?UTF-8?Q?Andreas_K_=2e_H=c3=bcttel?= <dilfridge@gentoo.org>
-References: <20221006100710.427252-1-xen0n@gentoo.org>
- <a41ded5c-3b98-3a75-1dc0-6c5caaad9a9c@amsat.org>
-From: gaosong <gaosong@loongson.cn>
-In-Reply-To: <a41ded5c-3b98-3a75-1dc0-6c5caaad9a9c@amsat.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Bxnmty4UNj8fgpAA--.6221S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7urW7Cr1rJF4fCrWDWw1Utrb_yoW8Zr1UpF
- 4kKF98KF4vqw4kAr429ry5uFnaqws7tF18XFZ8tFy09F98Ww48Gr4UCr95urW293WxJ3Wj
- vry5t3sIqF1fJaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU901xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2
- jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
- 8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
- Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
- ACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAYIcxG8wCY02Avz4vE14v_
- GFWl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW5Wr1UJr1l4I8I3I0E4IkC6x
- 0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
- zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
- 4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
- CwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIda
- VFxhVjvjDU0xZFpf9x0JUhNVgUUUUU=
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.934,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,71 +84,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is a follow-up on "util: NUMA aware memory preallocation" [1] by
+Michal.
 
-在 2022/10/6 19:11, Philippe Mathieu-Daudé 写道:
-> On 6/10/22 12:07, WANG Xuerui wrote:
->> Previously the 32-bit version was incorrectly chosen, leading to funny
->> but incorrect output from e.g. df(1). Simply select the version
->> corresponding to the 64-bit asm-generic definition.
->>
->> For reference, this program should produce the same output no matter
->> natively compiled or not, for loongarch64 or not:
->>
->> ```c
->> #include <stdio.h>
->> #include <sys/statfs.h>
->>
->> int main(int argc, const char *argv[])
->> {
->>    struct statfs b;
->>    if (statfs(argv[0], &b))
->>      return 1;
->>
->>    printf("f_type = 0x%lx\n", b.f_type);
->>    printf("f_bsize = %ld\n", b.f_bsize);
->>    printf("f_blocks = %ld\n", b.f_blocks);
->>    printf("f_bfree = %ld\n", b.f_bfree);
->>    printf("f_bavail = %ld\n", b.f_bavail);
->>
->>    return 0;
->> }
->>
->> // Example output on my amd64 box, with the test binary residing on a
->> // btrfs partition.
->>
->> // Native and emulated output after the fix:
->> //
->> // f_type = 0x9123683e
->> // f_bsize = 4096
->> // f_blocks = 268435456
->> // f_bfree = 168406890
->> // f_bavail = 168355058
->>
->> // Output before the fix, note the messed layout:
->> //
->> // f_type = 0x10009123683e
->> // f_bsize = 723302085239504896
->> // f_blocks = 168355058
->> // f_bfree = 2250817541779750912
->> // f_bavail = 1099229433104
->> ```
->>
->> Fixes: 1f63019632 ("linux-user: Add LoongArch syscall support")
->> Signed-off-by: WANG Xuerui <xen0n@gentoo.org>
->> Cc: Song Gao <gaosong@loongson.cn>
->> Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>
->> Cc: Andreas K. Hüttel <dilfridge@gentoo.org>
->> ---
->>
->> Resend with amended commit message to 100% clarify the example output
->> are generated on my box and will differ for everyone else. Sorry for
->> the noise.
->
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Applied to loongarch-next.
+Setting the CPU affinity of threads from inside QEMU usually isn't
+easily possible, because we don't want QEMU -- once started and running
+guest code -- to be able to mess up the system. QEMU disallows relevant
+syscalls using seccomp, such that any such invocation will fail.
 
-Thanks.
-Song Gao
+Especially for memory preallocation in memory backends, the CPU affinity
+can significantly increase guest startup time, for example, when running
+large VMs backed by huge/gigantic pages, because of NUMA effects. For
+NUMA-aware preallocation, we have to set the CPU affinity, however:
 
+(1) Once preallocation threads are created during preallocation, management
+    tools cannot intercept anymore to change the affinity. These threads
+    are created automatically on demand.
+(2) QEMU cannot easily set the CPU affinity itself.
+(3) The CPU affinity derived from the NUMA bindings of the memory backend
+    might not necessarily be exactly the CPUs we actually want to use
+    (e.g., CPU-less NUMA nodes, CPUs that are pinned/used for other VMs).
+
+There is an easy "workaround". If we have a thread with the right CPU
+affinity, we can simply create new threads on demand via that prepared
+context. So, all we have to do is setup and create such a context ahead
+of time, to then configure preallocation to create new threads via that
+environment.
+
+So, let's introduce a user-creatable "thread-context" object that
+essentially consists of a context thread used to create new threads.
+QEMU can either try setting the CPU affinity itself ("cpu-affinity",
+"node-affinity" property), or upper layers can extract the thread id
+("thread-id" property) to configure it externally.
+
+Make memory-backends consume a thread-context object
+(via the "prealloc-context" property) and use it when preallocating to
+create new threads with the desired CPU affinity. Further, to make it
+easier to use, allow creation of "thread-context" objects, including
+setting the CPU affinity directly from QEMU, before enabling the
+sandbox option.
+
+
+Quick test on a system with 2 NUMA nodes:
+
+Without CPU affinity:
+    time qemu-system-x86_64 \
+        -object memory-backend-memfd,id=md1,hugetlb=on,hugetlbsize=2M,size=64G,prealloc-threads=12,prealloc=on,host-nodes=0,policy=bind \
+        -nographic -monitor stdio
+
+    real    0m5.383s
+    real    0m3.499s
+    real    0m5.129s
+    real    0m4.232s
+    real    0m5.220s
+    real    0m4.288s
+    real    0m3.582s
+    real    0m4.305s
+    real    0m5.421s
+    real    0m4.502s
+
+    -> It heavily depends on the scheduler CPU selection
+
+With CPU affinity:
+    time qemu-system-x86_64 \
+        -object thread-context,id=tc1,node-affinity=0 \
+        -object memory-backend-memfd,id=md1,hugetlb=on,hugetlbsize=2M,size=64G,prealloc-threads=12,prealloc=on,host-nodes=0,policy=bind,prealloc-context=tc1 \
+        -sandbox enable=on,resourcecontrol=deny \
+        -nographic -monitor stdio
+
+    real    0m1.959s
+    real    0m1.942s
+    real    0m1.943s
+    real    0m1.941s
+    real    0m1.948s
+    real    0m1.964s
+    real    0m1.949s
+    real    0m1.948s
+    real    0m1.941s
+    real    0m1.937s
+
+On reasonably large VMs, the speedup can be quite significant.
+
+While this concept is currently only used for short-lived preallocation
+threads, nothing major speaks against reusing the concept for other
+threads that are harder to identify/configure -- except that
+we need additional (idle) context threads that are otherwise left unused.
+
+This series does not yet tackle concurrent preallocation of memory
+backends. Memory backend objects are created and memory is preallocated one
+memory backend at a time -- and there is currently no way to do
+preallocation asynchronously.
+
+[1] https://lkml.kernel.org/r/ffdcd118d59b379ede2b64745144165a40f6a813.1652165704.git.mprivozn@redhat.com
+
+v1 -> v2:
+* Fixed some minor style nits
+* "util: Introduce ThreadContext user-creatable object"
+ -> Impove documentation and patch description. [Markus]
+* "util: Add write-only "node-affinity" property for ThreadContext"
+ -> Impove documentation and patch description. [Markus]
+
+RFC -> v1:
+* "vl: Allow ThreadContext objects to be created before the sandbox option"
+ -> Move parsing of the "name" property before object_create_pre_sandbox
+* Added RB's
+
+Cc: Michal Privoznik <mprivozn@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Daniel P. Berrangé" <berrange@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Stefan Weil <sw@weilnetz.de>
+
+David Hildenbrand (7):
+  util: Cleanup and rename os_mem_prealloc()
+  util: Introduce qemu_thread_set_affinity() and
+    qemu_thread_get_affinity()
+  util: Introduce ThreadContext user-creatable object
+  util: Add write-only "node-affinity" property for ThreadContext
+  util: Make qemu_prealloc_mem() optionally consume a ThreadContext
+  hostmem: Allow for specifying a ThreadContext for preallocation
+  vl: Allow ThreadContext objects to be created before the sandbox
+    option
+
+ backends/hostmem.c            |  13 +-
+ hw/virtio/virtio-mem.c        |   2 +-
+ include/qemu/osdep.h          |  19 +-
+ include/qemu/thread-context.h |  57 ++++++
+ include/qemu/thread.h         |   4 +
+ include/sysemu/hostmem.h      |   2 +
+ meson.build                   |  16 ++
+ qapi/qom.json                 |  28 +++
+ softmmu/cpus.c                |   2 +-
+ softmmu/vl.c                  |  36 +++-
+ util/meson.build              |   1 +
+ util/oslib-posix.c            |  39 ++--
+ util/oslib-win32.c            |   8 +-
+ util/qemu-thread-posix.c      |  70 +++++++
+ util/qemu-thread-win32.c      |  12 ++
+ util/thread-context.c         | 362 ++++++++++++++++++++++++++++++++++
+ 16 files changed, 641 insertions(+), 30 deletions(-)
+ create mode 100644 include/qemu/thread-context.h
+ create mode 100644 util/thread-context.c
+
+-- 
+2.37.3
 
 
