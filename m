@@ -2,75 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2C8C5F9F52
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 15:23:53 +0200 (CEST)
-Received: from localhost ([::1]:51988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 848675F9F5D
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 15:28:58 +0200 (CEST)
+Received: from localhost ([::1]:60426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohsl6-0006Bk-Oq
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 09:23:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52600)
+	id 1ohsq1-0005TN-49
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 09:28:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ohsgO-0002R8-RB
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 09:19:00 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:41760)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ohsgM-0002lx-4u
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 09:18:59 -0400
-Received: by mail-pl1-x634.google.com with SMTP id l4so10356977plb.8
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 06:18:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=VNmKvjs0yhbDrxDv/9vSERVwwBL+HckugvIkF9wNoCs=;
- b=tJotEwSFaCixPBFon/KrfbbAQJicbe+1NhHNKHjpagEW2wE8VRWybt6HCko3pAJCtJ
- NKF+uwfG0CXueB/4hWAEx0QsA7IHmfGyZT4yEKuppI8AA0eTzluImD506R9SzadRt1R2
- CTkV51Wrn9I8d2AOw6H9u3wRWoQzqVAY/sicei2VSlMqILAnu9XPYhfocH132QucNwaG
- ExC8cODWhisgFyjBKRaMKydaLWrJcbk2WHBcaeVUQHpDRTAVCcKanpIMkqmL6GrOGvFn
- S0mxgojkmeseJ9yUmDk2Ku34DIwQ8X//JHOKV8ahWNpmNVeB6RFODgkuog3Sh3hb/ILF
- aPQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=VNmKvjs0yhbDrxDv/9vSERVwwBL+HckugvIkF9wNoCs=;
- b=C+CfW66blAyCLpKZzmVz68Qm2WODkP8HQpXc8DMHU9s2qD/5rqarBuUKBKqdQ24+gJ
- TnxxEfN2ZZqd9/GgqNp+2aLiUNXgDvf6IZ1jlct824u+AtLYQG5TZCJQf5QbyMRbsRdF
- L+s92dFZ71yUQlz3xuaquiiR6Ye9uBoZjknSwfbGv9RMRHp3Wllkof3HLDQ6CLD1STPN
- t7Wz9w8/VCjsjVSzTbYpFJA41DCkmdSK0Hy3Cj2kKerphQ6pyVL3xglAYjIyih7YWv8E
- PsUrntUkHswq8A5m+CtDHj6tZSvvmYymOXieWJIifHB/uNcNlu33TzlroC9tTw/Doicp
- L0KA==
-X-Gm-Message-State: ACrzQf20pWdzuRfkJrXnpsMVW8chN2H+rU2mV3aAN9i/VPnBhKpzFNns
- C2/xeVDhi0HUq78mFxsaQ9Y2FS6NL83Z8r6OTXBJ3A==
-X-Google-Smtp-Source: AMsMyM6yfg1GldRdFN3VzMQkuKZD+B4cG93TJgcsQTc5L0AzI6EQm8g72gVfzS2ZhUzVkqOCKncFYAyBrs69mGZaGvc=
-X-Received: by 2002:a17:902:7c97:b0:17f:5abf:9450 with SMTP id
- y23-20020a1709027c9700b0017f5abf9450mr18639223pll.19.1665407936585; Mon, 10
- Oct 2022 06:18:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <miguel.luis@oracle.com>)
+ id 1ohsko-0005hL-Lk; Mon, 10 Oct 2022 09:23:34 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:34106)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <miguel.luis@oracle.com>)
+ id 1ohskk-0003To-Na; Mon, 10 Oct 2022 09:23:32 -0400
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29AC0VDf029778;
+ Mon, 10 Oct 2022 13:23:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : reply-to : mime-version :
+ content-transfer-encoding; s=corp-2022-7-12;
+ bh=lrdteXD0GlNp/UCruHJlFtZpY6asEO1L0gvnwY64d88=;
+ b=ktHWpR8T45NRuTyUmZl2nwzegy4qRii85jvmD6A4kezeWBkbSOwbUg04vlHihclXR5kj
+ 3dvwLUUULcnqSzOeklwiwNTI9uIdxZcmMZIjAgwgDxMQXt9FsGsv5RkP4o65uLQzvc0W
+ Bh+n0OETMvC6wntOHL+qlKHj6Q182yJL+ZjoV3DNEXdVNSjvwUI/W8glYFoSTzskps2Q
+ Vkaes95xjej/Ij2aSpfMesqs5UF1yeUMqJeazYwp9rfCjHFBCRX4IPkfTpCuxOCuu0T5
+ 3odLdMU57/XtY+20XsWLPdkP3rBPEuve+1MS51sYLsDWJ3flbUs1Sn/3eGmkwIM3orbk 4g== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3k30tt3gm8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 10 Oct 2022 13:23:25 +0000
+Received: from pps.filterd
+ (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
+ with ESMTP id 29AATDG3022039; Mon, 10 Oct 2022 13:23:24 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3k2yn347xx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 10 Oct 2022 13:23:24 +0000
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29ADNNh0019450;
+ Mon, 10 Oct 2022 13:23:23 GMT
+Received: from mlluis-mac.uk.oracle.com (dhcp-10-175-204-94.vpn.oracle.com
+ [10.175.204.94])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id
+ 3k2yn347wn-1; Mon, 10 Oct 2022 13:23:23 +0000
+From: Miguel Luis <miguel.luis@oracle.com>
+To: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Cc: mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca,
+ shannon.zhaosl@gmail.com, peter.maydell@linaro.org, miguel.luis@oracle.com
+Subject: [RFC PATCH v2 0/4] ACPI MADT and FADT update according to the ACPI
+ 6.0 spec
+Date: Mon, 10 Oct 2022 13:22:56 +0000
+Message-Id: <20221010132300.96935-1-miguel.luis@oracle.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-References: <20221003145641.1921467-1-jerome.forissier@linaro.org>
- <CAFEAcA9bWzD5gKyHGOsz+8KCH1ykgU6sx2soDTVKiTHEa0D7KA@mail.gmail.com>
-In-Reply-To: <CAFEAcA9bWzD5gKyHGOsz+8KCH1ykgU6sx2soDTVKiTHEa0D7KA@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 10 Oct 2022 14:18:45 +0100
-Message-ID: <CAFEAcA_Bg=sC_aA_1PMZ4wrP-RfDYTAtP7m2QN4Jv1agdca9tw@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm/boot: set CPTR_EL3.ESM and SCR_EL3.EnTP2 when
- booting Linux with EL3
-To: Jerome Forissier <jerome.forissier@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Richard Henderson <richard.henderson@linaro.org>, qemu-stable@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-10-10_08,2022-10-10_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ suspectscore=0
+ phishscore=0 mlxscore=0 malwarescore=0 spamscore=0 mlxlogscore=999
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210100080
+X-Proofpoint-GUID: azJC2kF7LVsMbkY2ZTxu5IqbDJDEy393
+X-Proofpoint-ORIG-GUID: azJC2kF7LVsMbkY2ZTxu5IqbDJDEy393
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=miguel.luis@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,56 +94,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: miguel.luis@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 10 Oct 2022 at 14:16, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Mon, 3 Oct 2022 at 15:57, Jerome Forissier
-> <jerome.forissier@linaro.org> wrote:
-> >
-> > According to the Linux kernel booting.rst [1], CPTR_EL3.ESM and
-> > SCR_EL3.EnTP2 must be initialized to 1 when EL3 is present and FEAT_SME
-> > is advertised. This has to be taken care of when QEMU boots directly
-> > into the kernel (i.e., "-M virt,secure=on -cpu max -kernel Image").
-> >
-> > Cc: qemu-stable@nongnu.org
-> > Fixes: 78cb9776662a ("target/arm: Enable SME for -cpu max")
-> > Link: [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/arm64/booting.rst?h=v6.0#n321
->
-> Ooh, that detailed set of control bit requirements is new
-> since I last read that doc -- we should probably go through
-> and cross-check that we're setting them all correctly.
->
-> > Signed-off-by: Jerome Forissier <jerome.forissier@linaro.org>
-> > ---
-> >  hw/arm/boot.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-> > index ada2717f76..ee3858b673 100644
-> > --- a/hw/arm/boot.c
-> > +++ b/hw/arm/boot.c
-> > @@ -763,6 +763,10 @@ static void do_cpu_reset(void *opaque)
-> >                      if (cpu_isar_feature(aa64_sve, cpu)) {
-> >                          env->cp15.cptr_el[3] |= R_CPTR_EL3_EZ_MASK;
-> >                      }
-> > +                    if (cpu_isar_feature(aa64_sme, cpu)) {
-> > +                        env->cp15.cptr_el[3] |= R_CPTR_EL3_ESM_MASK;
-> > +                        env->cp15.scr_el3 |= SCR_ENTP2;
-> > +                    }
->
-> The doc also says that we (as fake EL3) should be setting
-> SMCR_EL3.LEN to the same value for all CPUs. Currently we do
-> do that, but it's always the reset value of 0. Richard: does
-> that have any odd effects (I have a feeling it clamps the
-> VL to the minimum supported value)? Should we be setting
-> SMCR_EL3.LEN to the max supported value here ?
+The MADT table structure has been updated in commit 37f33084ed2e                 
+("acpi: arm/virt: madt: use build_append_int_noprefix() API to compose MADT table")
+to include the 5.2.12.18 GIC ITS Structure and so table's revision also needs to 
+be updated. MADT and the FADT tables from the same spec need to be in sync and in
+this case also the FADT needs to be updated.                                     
+                                                                                 
+Revision 6.0 of the ACPI FADT table introduces the field "Hypervisor Vendor      
+Identity" which is missing and must be included. Patch 2/4 includes a
+suggestion for the value of this field.
 
-In any case, this patch is right as far as it goes and
-obviously improves the current situation, and it puts
-SME into the same place as SVE, so I'll take this into
-target-arm.next.
+Ref: https://uefi.org/sites/default/files/resources/ACPI_6_0_Errata_A.PDF        
 
--- PMM
+Changelog:
+
+v2:
+    patch 2/4:
+    fix expression that checks for the revision number (Ani Sinha)
+    use "QEMU" as the Hypervisor Vendor ID [1] (Ani Sinha)
+
+    patch 3/4:
+    add Reviewed-by tag from Ani Sinha <ani@anisinha.ca>
+    
+
+v1: https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg00910.html
+
+Open to discussion, your comments, thoughts and suggestions are very welcome.    
+Thanks in advance.                                                               
+Miguel
+
+[1]: https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg00989.html
+
+Miguel Luis (4):
+  tests/acpi: virt: allow acpi MADT and FADT changes
+  acpi: fadt: support revision 6.0 of the ACPI specification
+  acpi: arm/virt: madt: bump to revision 4 accordingly to ACPI 6.0
+    Errata A
+  tests/acpi: virt: update ACPI MADT and FADT binaries
+
+ hw/acpi/aml-build.c               |  13 ++++++++++---
+ hw/arm/virt-acpi-build.c          |  26 ++++++++++++--------------
+ tests/data/acpi/virt/APIC         | Bin 168 -> 172 bytes
+ tests/data/acpi/virt/APIC.memhp   | Bin 168 -> 172 bytes
+ tests/data/acpi/virt/APIC.numamem | Bin 168 -> 172 bytes
+ tests/data/acpi/virt/FACP         | Bin 268 -> 276 bytes
+ tests/data/acpi/virt/FACP.memhp   | Bin 268 -> 276 bytes
+ tests/data/acpi/virt/FACP.numamem | Bin 268 -> 276 bytes
+ 8 files changed, 22 insertions(+), 17 deletions(-)
+
+-- 
+2.37.3
+
 
