@@ -2,90 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 061875F9B84
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 10:59:03 +0200 (CEST)
-Received: from localhost ([::1]:35002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F7595F9B99
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 11:07:12 +0200 (CEST)
+Received: from localhost ([::1]:34530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohocn-0000jr-JL
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 04:59:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51776)
+	id 1ohokh-0006a9-6h
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 05:07:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1ohoS1-0007hG-Iq
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 04:47:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34757)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ohoUg-0001c4-CR
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 04:50:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38465)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1ohoRo-0005Lf-F2
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 04:47:51 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ohoUc-0005uq-8y
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 04:50:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665391656;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1665391832;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Luciw3QrPkUyTunXvw8an62Zw5Mk07shANqqe30YmjU=;
- b=UraRycK95t+NJSIk68rfUTCSN3BwwJ1etg5g+aSmssr08OUdHzkHoPRK8MGmJkBiu1GpF8
- fqcvncoc9hp2WfR1GqadVhd5Yu5xujBJLUBGFWl7PUxE/PFdIZNWu3bj9Q0wItQMQbg6n9
- 92dwUpJTFu5ro/amiWeYYUmyNsffdhw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-100-gjx0ble4PxOkJ3Prc2H8oA-1; Mon, 10 Oct 2022 04:47:34 -0400
-X-MC-Unique: gjx0ble4PxOkJ3Prc2H8oA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- k21-20020a7bc415000000b003b4fac53006so2900260wmi.3
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 01:47:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Luciw3QrPkUyTunXvw8an62Zw5Mk07shANqqe30YmjU=;
- b=Ncq7J6jBp50lO6aPI3cyjFYstc+2qAiV1UrRczAmGsfQCMUv2tSPY1hiVn21d/puty
- JCPEq+6KpBX40csTDqvOc7Thb/2q4/cuueVQ5uCXnNANuQqFDAPXSxwxeab1XbogvRxe
- z2xU/2G1dyXNqwidDH6cj7RQi9ucZjiQP0Fye75ZQauwou+UL7s8k8HW+Fh7cZxpTTfO
- f3l9DuWt/coB4VxrU1JjUaDfH8XpyjfW4GztIjsXcomDjoSSaOBD/Y38D725kB2eX+RM
- WrSvkZ9AG3fVtk1wprU9u+ud/FChKjGKEvxF1E7ksD9DAPAIcly49n4ncVDerN+TZjPB
- l6bQ==
-X-Gm-Message-State: ACrzQf15mM0f3k1TpL6vjBW8jq0YpB1YwpHPebm8X8ArkygULK8GPM0R
- jfsioDutNByOqkzs7pAE5Qtr8UiY+d+2lF0Pe5Medp2K904uoysgni8DYdDmU1QBGac+3xajSmz
- di/XQ7uLSmXTx9jU=
-X-Received: by 2002:a5d:6384:0:b0:22e:6027:9da4 with SMTP id
- p4-20020a5d6384000000b0022e60279da4mr10204685wru.686.1665391653695; 
- Mon, 10 Oct 2022 01:47:33 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM66+gfHjA/Vm2BGNERFvRXBBLRtNd5fdKKjPDRZe5SYeQvMjCATd91BeAFJsdz5EA1u8sdjhQ==
-X-Received: by 2002:a5d:6384:0:b0:22e:6027:9da4 with SMTP id
- p4-20020a5d6384000000b0022e60279da4mr10204665wru.686.1665391653332; 
- Mon, 10 Oct 2022 01:47:33 -0700 (PDT)
-Received: from sgarzare-redhat (host-87-11-6-34.retail.telecomitalia.it.
- [87.11.6.34]) by smtp.gmail.com with ESMTPSA id
- n24-20020a7bc5d8000000b003b6b3202e22sm14962310wmk.33.2022.10.10.01.47.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 01:47:32 -0700 (PDT)
-Date: Mon, 10 Oct 2022 10:47:28 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Sam Li <faithilikerun@gmail.com>
-Cc: qemu-stable@nongnu.org, qemu-devel@nongnu.org,
- Julia Suvorova <jusual@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Aarushi Mehta <mehta.aaru20@gmail.com>, qemu-block@nongnu.org
-Subject: Re: [PATCH] block/io_uring: revert "Use io_uring_register_ring_fd()
- to skip fd operations"
-Message-ID: <20221010084728.cvdjptxf5sgadgum@sgarzare-redhat>
-References: <20220924144815.5591-1-faithilikerun@gmail.com>
+ bh=arakQlFf/W3CgNE0jQOsN7wPkZQNFeJtxgCX9iZZdgI=;
+ b=Ihdc7J2hJZbFjVrwrjH8I3H5pLgGwm7CO1W15aC2OdPsAd9dEYK+hJ08eJE178NBVdgk6T
+ SYJ8LflGFTwMQ5T4q4d4+AjCyWDm/oeloIUxTIJOofFGGvd8V+YJ0gML4ZZApS+hy34pVt
+ c7qa1uDfUVoKS2xRo062phb1cemsLHI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-460-Qk3zn7R_P9WdyK7d_3SIwA-1; Mon, 10 Oct 2022 04:50:29 -0400
+X-MC-Unique: Qk3zn7R_P9WdyK7d_3SIwA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A0C41382F1A0;
+ Mon, 10 Oct 2022 08:50:28 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CE10E200BA7D;
+ Mon, 10 Oct 2022 08:50:26 +0000 (UTC)
+Date: Mon, 10 Oct 2022 09:50:24 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Brad Smith <brad@comstyle.com>
+Cc: Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
+ Ed Maste <emaste@freebsd.org>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ Alex Benn_e <alex.bennee@linaro.org>,
+ Philippe Mathieu-Daud_ <f4bug@amsat.org>, Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2] tests: Add sndio to the FreeBSD CI containers / VM
+Message-ID: <Y0Pc0NQQVrXDPgCH@redhat.com>
+References: <Yz/TeblRI77AIHJe@humpty.home.comstyle.com>
+ <CANCZdfoE=cXBnamXYFLV0ZDOYUsPKGr8RNpOLMmpRT3=w6ug8A@mail.gmail.com>
+ <56a8c363-d2f2-3aa5-6b35-5c11cc967bf8@comstyle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220924144815.5591-1-faithilikerun@gmail.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <56a8c363-d2f2-3aa5-6b35-5c11cc967bf8@comstyle.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,96 +86,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Sep 24, 2022 at 10:48:15PM +0800, Sam Li wrote:
->Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1193
->
->The commit "Use io_uring_register_ring_fd() to skip fd operations" broke
->when booting a guest with iothread and io_uring. That is because the
->io_uring_register_ring_fd() call is made from the main thread instead of
->IOThread where io_uring_submit() is called. It can not be guaranteed
->to register the ring fd in the correct thread or unregister the same ring
->fd if the IOThread is disabled. This optimization is not critical so we
->will revert previous commit.
+On Fri, Oct 07, 2022 at 06:27:29PM -0400, Brad Smith wrote:
+> On 10/7/2022 4:33 PM, Warner Losh wrote:
+> > 
+> > 
+> > On Fri, Oct 7, 2022 at 1:21 AM Brad Smith <brad@comstyle.com> wrote:
+> > 
+> >     tests: Add sndio to the FreeBSD CI containers / VM
+> > 
+> >     ---
+> >      .gitlab-ci.d/cirrus/freebsd-12.vars           |   2 +-
+> >      .gitlab-ci.d/cirrus/freebsd-13.vars           |   2 +-
+> >      tests/docker/dockerfiles/alpine.docker        |   3 +-
+> >      tests/docker/dockerfiles/centos8.docker       |   2 +-
+> >      .../dockerfiles/debian-amd64-cross.docker     | 235 ++++++++---------
+> >      tests/docker/dockerfiles/debian-amd64.docker  | 237
+> >     +++++++++---------
+> >      .../dockerfiles/debian-arm64-cross.docker     | 233 ++++++++---------
+> >      .../dockerfiles/debian-armel-cross.docker     | 231 ++++++++---------
+> >      .../dockerfiles/debian-armhf-cross.docker     | 233 ++++++++---------
+> >      .../dockerfiles/debian-mips64el-cross.docker  | 227 ++++++++---------
+> >      .../dockerfiles/debian-mipsel-cross.docker    | 227 ++++++++---------
+> >      .../dockerfiles/debian-ppc64el-cross.docker   | 231 ++++++++---------
+> >      .../dockerfiles/debian-s390x-cross.docker     | 229 ++++++++---------
+> >      tests/docker/dockerfiles/fedora.docker        | 230 ++++++++---------
+> >      tests/docker/dockerfiles/opensuse-leap.docker |   3 +-
+> >      tests/docker/dockerfiles/ubuntu2004.docker    | 235 ++++++++---------
+> >      tests/lcitool/libvirt-ci                      |   2 +-
+> >      tests/lcitool/projects/qemu.yml               |   1 +
+> >      tests/vm/freebsd                              |   3 +
+> >      19 files changed, 1291 insertions(+), 1275 deletions(-)
+> > 
+> > 
+> > This looks good to me. Why did the Linux containers need updating for
+> > the FreeBSD update?
+> > 
+> > Otherwise, the changes look good to my eye
+> > 
+> > Reviewed-by:  Warner Losh <imp@bsdimp.com>
+> 
+> 
+> Because the CI configs are auto-generated. When refreshing them it generates
+> them all. The intent was
+> to update the FreeBSD configs, but when adding the dependency to
+> tests/lcitool/projects/qemu.yml
+> the FreeBSD configs are updated as well as the rest. Whatever OS's have a
+> corresponding mapping
+> in libvirt-ci are updated.
 
-Right, maybe we can call it on the first submit.
+The POV of libvirt-ci, is that if the dependancy exists in any given
+platform, we add it to the package list, so that we maximise the test
+coverage across platforms. Surprisingly sndio was available in several
+Linux distros.
 
->
->This reverts commit e2848bc574fe2715c694bf8fe9a1ba7f78a1125a
->and 77e3f038af1764983087e3551a0fde9951952c4d.
-
-Yep, better to revert for now:
-
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-
-
-Should we queue this for stable?
-
-Thanks,
-Stefano
-
->
->Signed-off-by: Sam Li <faithilikerun@gmail.com>
->---
-> block/io_uring.c | 13 +------------
-> meson.build      |  1 -
-> 2 files changed, 1 insertion(+), 13 deletions(-)
->
->diff --git a/block/io_uring.c b/block/io_uring.c
->index a1760152e0..973e15d876 100644
->--- a/block/io_uring.c
->+++ b/block/io_uring.c
->@@ -11,7 +11,6 @@
-> #include "qemu/osdep.h"
-> #include <liburing.h>
-> #include "block/aio.h"
->-#include "qemu/error-report.h"
-> #include "qemu/queue.h"
-> #include "block/block.h"
-> #include "block/raw-aio.h"
->@@ -19,7 +18,6 @@
-> #include "qapi/error.h"
-> #include "trace.h"
->
->-
-> /* io_uring ring size */
-> #define MAX_ENTRIES 128
->
->@@ -432,17 +430,8 @@ LuringState *luring_init(Error **errp)
->     }
->
->     ioq_init(&s->io_q);
->-#ifdef CONFIG_LIBURING_REGISTER_RING_FD
->-    if (io_uring_register_ring_fd(&s->ring) < 0) {
->-        /*
->-         * Only warn about this error: we will fallback to the non-optimized
->-         * io_uring operations.
->-         */
->-        warn_report("failed to register linux io_uring ring file descriptor");
->-    }
->-#endif
->-
->     return s;
->+
-> }
->
-> void luring_cleanup(LuringState *s)
->diff --git a/meson.build b/meson.build
->index 3885fc1076..63cfb844cf 100644
->--- a/meson.build
->+++ b/meson.build
->@@ -1793,7 +1793,6 @@ config_host_data.set('CONFIG_LIBNFS', libnfs.found())
-> config_host_data.set('CONFIG_LIBSSH', libssh.found())
-> config_host_data.set('CONFIG_LINUX_AIO', libaio.found())
-> config_host_data.set('CONFIG_LINUX_IO_URING', linux_io_uring.found())
->-config_host_data.set('CONFIG_LIBURING_REGISTER_RING_FD', cc.has_function('io_uring_register_ring_fd', prefix: '#include <liburing.h>', dependencies:linux_io_uring))
-> config_host_data.set('CONFIG_LIBPMEM', libpmem.found())
-> config_host_data.set('CONFIG_NUMA', numa.found())
-> config_host_data.set('CONFIG_OPENGL', opengl.found())
->-- 
->2.37.3
->
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
