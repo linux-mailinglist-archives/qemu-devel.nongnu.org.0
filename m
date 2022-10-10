@@ -2,53 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 448A25FA46A
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 21:59:15 +0200 (CEST)
-Received: from localhost ([::1]:40074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F5B75FA44D
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 21:46:15 +0200 (CEST)
+Received: from localhost ([::1]:49970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohyvi-00035a-9J
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 15:59:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53906)
+	id 1ohyj7-0005P1-60
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 15:46:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1ohyFc-00022R-H7; Mon, 10 Oct 2022 15:15:44 -0400
-Received: from [200.168.210.66] (port=19040 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1ohyFY-0003Ag-8u; Mon, 10 Oct 2022 15:15:43 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Mon, 10 Oct 2022 16:14:01 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 5FDC8800278;
- Mon, 10 Oct 2022 16:14:01 -0300 (-03)
-From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Cc: richard.henderson@linaro.org,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-Subject: [PATCH v2 11/12] target/ppc: Moved XSTSTDC[QDS]P to decodetree
-Date: Mon, 10 Oct 2022 16:13:55 -0300
-Message-Id: <20221010191356.83659-12-lucas.araujo@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221010191356.83659-1-lucas.araujo@eldorado.org.br>
-References: <20221010191356.83659-1-lucas.araujo@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ohyMh-0000VJ-H0
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 15:23:03 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:43762)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ohyMf-0004Wy-LB
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 15:23:03 -0400
+Received: by mail-pg1-x534.google.com with SMTP id h185so3964881pgc.10
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 12:23:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=WqLFe7v9gnl6SNP1mQ1mj5X5784qK44yiTbv1N3EoNI=;
+ b=F+Sol3SAOuG0RFdoxGkPVP6CigyqaqM4QkftKlTQrCnoZ60V+LeOPy/zZpSxQa5pgR
+ SFUItC5Inzhb2qiXpp9okjH1OfpGUUH+6rqhPhbaYXYvFVELNMqO9W4ZN/3BLoTsbYHP
+ KyYqfJZrNbvXQ2jQ4TDZyRJdL+O44q1qFZ7FbtwGmTpkS3dpN8GG9PJgv0IYOdyzJVZH
+ iWNuMiRyCUib5vC6k8WKS4JYot4JQcW13nXZGwLgfkvA/4ZTeIlsxku5u6Oj9Ov+hczQ
+ 3dCpoAhY/zg5gAUOekIN7cdKgPHA0RI4TsyGkJZ8aFphXnxLR/zYDC1Sfw+8IPlMmWM8
+ dowQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=WqLFe7v9gnl6SNP1mQ1mj5X5784qK44yiTbv1N3EoNI=;
+ b=0gjB/ulXtBkz8geCXOJLUyMenqKZlUKMQD3J3QXXnIn77OBPVQshKDRgJUllsHAmy8
+ sYIbONblsC9uGJIFYBPEnEPRytPwWlKvGfuMAr/oDlFwrRPXqKn60VxoMJuKKZhSsJOv
+ rBIHbGGVDS+36ybAqsucZwy0iruefjP6oXSwQ819mhdau0oZxTXKtbQpYU5lh7eSwYx0
+ Ap/HSB2Ghno1RV4E79H2RxyH7TZpG3PX931bFv1HO6BpfVpSe/jaGx2ZatpdRsouEuVx
+ ALA2g92utZjYEj3jPMR5kozQW5zU1Xi+Z27eF7nSwZtBmG/XD/dfQ1lNHvhOazLodEAo
+ 0NaQ==
+X-Gm-Message-State: ACrzQf0+O+BkgZj1dtIPibBTTMRWTBfgM4pnT5zzhdyUb4uT12G1SbGQ
+ 9B1HS+R/9NP2pjdtQ65WweXpjA==
+X-Google-Smtp-Source: AMsMyM6KYZaW7pzZ7AHmMgZno+f19ltfUmahqAwU3HU+J6G+5HqRM2N5AVXNtQa4zfhxyBlLyEpgIw==
+X-Received: by 2002:a05:6a00:150c:b0:563:9f05:bd68 with SMTP id
+ q12-20020a056a00150c00b005639f05bd68mr1736537pfu.44.1665429780102; 
+ Mon, 10 Oct 2022 12:23:00 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49d:ec01:5aa4:aba1:1c91:a9b7?
+ ([2602:47:d49d:ec01:5aa4:aba1:1c91:a9b7])
+ by smtp.gmail.com with ESMTPSA id
+ h8-20020a17090a3d0800b001fd76f7a0d1sm9638855pjc.54.2022.10.10.12.22.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Oct 2022 12:22:59 -0700 (PDT)
+Message-ID: <063bd050-a09e-b099-b50e-7d673e061ee1@linaro.org>
+Date: Mon, 10 Oct 2022 12:22:57 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 10 Oct 2022 19:14:01.0642 (UTC)
- FILETIME=[74B5D8A0:01D8DCDC]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2 03/12] target/ppc: Move V(ADD|SUB)CUW to decodetree and
+ use gvec
+To: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+References: <20221010191356.83659-1-lucas.araujo@eldorado.org.br>
+ <20221010191356.83659-4-lucas.araujo@eldorado.org.br>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221010191356.83659-4-lucas.araujo@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.007,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,293 +99,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
+On 10/10/22 12:13, Lucas Mateus Castro(alqotel) wrote:
+> From: "Lucas Mateus Castro (alqotel)"<lucas.araujo@eldorado.org.br>
+> 
+> This patch moves VADDCUW and VSUBCUW to decodtree with gvec using an
+> implementation based on the helper, with the main difference being
+> changing the -1 (aka all bits set to 1) result returned by cmp when
+> true to +1. It also implemented a .fni4 version of those instructions
+> and dropped the helper.
+> 
+> vaddcuw:
+> rept    loop    master             patch
+> 8       12500   0,01008200         0,00612400 (-39.3%)
+> 25      4000    0,01091500         0,00471600 (-56.8%)
+> 100     1000    0,01332500         0,00593700 (-55.4%)
+> 500     200     0,01998500         0,01275700 (-36.2%)
+> 2500    40      0,04704300         0,04364300 (-7.2%)
+> 8000    12      0,10748200         0,11241000 (+4.6%)
+> 
+> vsubcuw:
+> rept    loop    master             patch
+> 8       12500   0,01226200         0,00571600 (-53.4%)
+> 25      4000    0,01493500         0,00462100 (-69.1%)
+> 100     1000    0,01522700         0,00455100 (-70.1%)
+> 500     200     0,02384600         0,01133500 (-52.5%)
+> 2500    40      0,04935200         0,03178100 (-35.6%)
+> 8000    12      0,09039900         0,09440600 (+4.4%)
+> 
+> Overall there was a gain in performance, but the TCGop code was still
+> slightly bigger in the new version (it went from 4 to 5).
+> 
+> Signed-off-by: Lucas Mateus Castro (alqotel)<lucas.araujo@eldorado.org.br>
+> ---
+>   target/ppc/helper.h                 |  2 -
+>   target/ppc/insn32.decode            |  2 +
+>   target/ppc/int_helper.c             | 18 ---------
+>   target/ppc/translate/vmx-impl.c.inc | 61 +++++++++++++++++++++++++++--
+>   target/ppc/translate/vmx-ops.c.inc  |  3 +-
+>   5 files changed, 60 insertions(+), 26 deletions(-)
 
-Moved XSTSTDCSP, XSTSTDCDP and XSTSTDCQP to decodetree and moved some of
-its decoding away from the helper as previously the DCMX, XB and BF were
-calculated in the helper with the help of cpu_env, now that part was
-moved to the decodetree with the rest.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-xvtstdcsp:
-rept    loop    master             patch
-8       12500   1,85393600         1,94683600 (+5.0%)
-25      4000    1,78779800         1,92479000 (+7.7%)
-100     1000    2,12775000         2,28895500 (+7.6%)
-500     200     2,99655300         3,23102900 (+7.8%)
-2500    40      6,89082200         7,44827500 (+8.1%)
-8000    12     17,50585500        18,95152100 (+8.3%)
-
-xvtstdcdp:
-rept    loop    master             patch
-8       12500   1,39043100         1,33539800 (-4.0%)
-25      4000    1,35731800         1,37347800 (+1.2%)
-100     1000    1,51514800         1,56053000 (+3.0%)
-500     200     2,21014400         2,47906000 (+12.2%)
-2500    40      5,39488200         6,68766700 (+24.0%)
-8000    12     13,98623900        18,17661900 (+30.0%)
-
-xvtstdcdp:
-rept    loop    master             patch
-8       12500   1,35123800         1,34455800 (-0.5%)
-25      4000    1,36441200         1,36759600 (+0.2%)
-100     1000    1,49763500         1,54138400 (+2.9%)
-500     200     2,19020200         2,46196400 (+12.4%)
-2500    40      5,39265700         6,68147900 (+23.9%)
-8000    12     14,04163600        18,19669600 (+29.6%)
-
-As some values are now decoded outside the helper and passed to it as an
-argument the number of arguments of the helper increased, the number
-of TCGop needed to load the arguments increased. I suspect that's why
-the slow-down in the tests with a high REPT but low LOOP.
-
-Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
----
- target/ppc/fpu_helper.c             | 114 +++++++++-------------------
- target/ppc/helper.h                 |   6 +-
- target/ppc/insn32.decode            |   6 ++
- target/ppc/translate/vsx-impl.c.inc |  20 ++++-
- target/ppc/translate/vsx-ops.c.inc  |   4 -
- 5 files changed, 60 insertions(+), 90 deletions(-)
-
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 960a76a8a5..a66e16c212 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -3241,63 +3241,6 @@ void helper_XVXSIGSP(ppc_vsr_t *xt, ppc_vsr_t *xb)
-     *xt = t;
- }
- 
--/*
-- * VSX_TEST_DC - VSX floating point test data class
-- *   op    - instruction mnemonic
-- *   nels  - number of elements (1, 2 or 4)
-- *   xbn   - VSR register number
-- *   tp    - type (float32 or float64)
-- *   fld   - vsr_t field (VsrD(*) or VsrW(*))
-- *   tfld   - target vsr_t field (VsrD(*) or VsrW(*))
-- *   fld_max - target field max
-- *   scrf - set result in CR and FPCC
-- */
--#define VSX_TEST_DC(op, nels, xbn, tp, fld, tfld, fld_max, scrf)  \
--void helper_##op(CPUPPCState *env, uint32_t opcode)         \
--{                                                           \
--    ppc_vsr_t *xt = &env->vsr[xT(opcode)];                  \
--    ppc_vsr_t *xb = &env->vsr[xbn];                         \
--    ppc_vsr_t t = { };                                      \
--    uint32_t i, sign, dcmx;                                 \
--    uint32_t cc, match = 0;                                 \
--                                                            \
--    if (!scrf) {                                            \
--        dcmx = DCMX_XV(opcode);                             \
--    } else {                                                \
--        t = *xt;                                            \
--        dcmx = DCMX(opcode);                                \
--    }                                                       \
--                                                            \
--    for (i = 0; i < nels; i++) {                            \
--        sign = tp##_is_neg(xb->fld);                        \
--        if (tp##_is_any_nan(xb->fld)) {                     \
--            match = extract32(dcmx, 6, 1);                  \
--        } else if (tp##_is_infinity(xb->fld)) {             \
--            match = extract32(dcmx, 4 + !sign, 1);          \
--        } else if (tp##_is_zero(xb->fld)) {                 \
--            match = extract32(dcmx, 2 + !sign, 1);          \
--        } else if (tp##_is_zero_or_denormal(xb->fld)) {     \
--            match = extract32(dcmx, 0 + !sign, 1);          \
--        }                                                   \
--                                                            \
--        if (scrf) {                                         \
--            cc = sign << CRF_LT_BIT | match << CRF_EQ_BIT;  \
--            env->fpscr &= ~FP_FPCC;                         \
--            env->fpscr |= cc << FPSCR_FPCC;                 \
--            env->crf[BF(opcode)] = cc;                      \
--        } else {                                            \
--            t.tfld = match ? fld_max : 0;                   \
--        }                                                   \
--        match = 0;                                          \
--    }                                                       \
--    if (!scrf) {                                            \
--        *xt = t;                                            \
--    }                                                       \
--}
--
--VSX_TEST_DC(xststdcdp, 1, xB(opcode), float64, VsrD(0), VsrD(0), 0, 1)
--VSX_TEST_DC(xststdcqp, 1, (rB(opcode) + 32), float128, f128, VsrD(0), 0, 1)
--
- #define VSX_TSTDC(tp)                                       \
- static int32_t tp##_tstdc(tp b, uint32_t dcmx)              \
- {                                                           \
-@@ -3317,6 +3260,7 @@ static int32_t tp##_tstdc(tp b, uint32_t dcmx)              \
- 
- VSX_TSTDC(float32)
- VSX_TSTDC(float64)
-+VSX_TSTDC(float128)
- #undef VSX_TSTDC
- 
- void helper_XVTSTDCDP(ppc_vsr_t *t, ppc_vsr_t *b, uint64_t dcmx, uint32_t v)
-@@ -3335,34 +3279,44 @@ void helper_XVTSTDCSP(ppc_vsr_t *t, ppc_vsr_t *b, uint64_t dcmx, uint32_t v)
-     }
- }
- 
--void helper_xststdcsp(CPUPPCState *env, uint32_t opcode, ppc_vsr_t *xb)
-+static bool not_SP_value(float64 val)
- {
--    uint32_t dcmx, sign, exp;
--    uint32_t cc, match = 0, not_sp = 0;
--    float64 arg = xb->VsrD(0);
--    float64 arg_sp;
--
--    dcmx = DCMX(opcode);
--    exp = (arg >> 52) & 0x7FF;
--    sign = float64_is_neg(arg);
--
--    if (float64_is_any_nan(arg)) {
--        match = extract32(dcmx, 6, 1);
--    } else if (float64_is_infinity(arg)) {
--        match = extract32(dcmx, 4 + !sign, 1);
--    } else if (float64_is_zero(arg)) {
--        match = extract32(dcmx, 2 + !sign, 1);
--    } else if (float64_is_zero_or_denormal(arg) || (exp > 0 && exp < 0x381)) {
--        match = extract32(dcmx, 0 + !sign, 1);
--    }
--
--    arg_sp = helper_todouble(helper_tosingle(arg));
--    not_sp = arg != arg_sp;
-+    return val != helper_todouble(helper_tosingle(val));
-+}
- 
-+/*
-+ * VSX_XS_TSTDC - VSX Scalar Test Data Class
-+ *   NAME  - instruction name
-+ *   FLD   - vsr_t field (VsrD(0) or f128)
-+ *   TP    - type (float64 or float128)
-+ */
-+#define VSX_XS_TSTDC(NAME, FLD, TP)                                         \
-+    void helper_##NAME(CPUPPCState *env, uint32_t bf,                       \
-+                       uint32_t dcmx, ppc_vsr_t *b)                         \
-+    {                                                                       \
-+        uint32_t cc, match, sign = TP##_is_neg(b->FLD);                     \
-+        match = TP##_tstdc(b->FLD, dcmx);                                   \
-+        cc = sign << CRF_LT_BIT | match << CRF_EQ_BIT;                      \
-+        env->fpscr &= ~FP_FPCC;                                             \
-+        env->fpscr |= cc << FPSCR_FPCC;                                     \
-+        env->crf[bf] = cc;                                                  \
-+    }
-+
-+VSX_XS_TSTDC(XSTSTDCDP, VsrD(0), float64)
-+VSX_XS_TSTDC(XSTSTDCQP, f128, float128)
-+#undef VSX_XS_TSTDC
-+
-+void helper_XSTSTDCSP(CPUPPCState *env, uint32_t bf,
-+                      uint32_t dcmx, ppc_vsr_t *b)
-+{
-+    uint32_t cc, match, sign = float64_is_neg(b->VsrD(0));
-+    uint32_t exp = (b->VsrD(0) >> 52) & 0x7FF;
-+    int not_sp = (int)not_SP_value(b->VsrD(0));
-+    match = float64_tstdc(b->VsrD(0), dcmx) || (exp > 0 && exp < 0x381);
-     cc = sign << CRF_LT_BIT | match << CRF_EQ_BIT | not_sp << CRF_SO_BIT;
-     env->fpscr &= ~FP_FPCC;
-     env->fpscr |= cc << FPSCR_FPCC;
--    env->crf[BF(opcode)] = cc;
-+    env->crf[bf] = cc;
- }
- 
- void helper_xsrqpi(CPUPPCState *env, uint32_t opcode,
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 9e5d11939b..8344fe39c6 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -417,9 +417,9 @@ DEF_HELPER_3(xscvuxdsp, void, env, vsr, vsr)
- DEF_HELPER_3(xscvsxdsp, void, env, vsr, vsr)
- DEF_HELPER_4(xscvudqp, void, env, i32, vsr, vsr)
- DEF_HELPER_3(xscvuxddp, void, env, vsr, vsr)
--DEF_HELPER_3(xststdcsp, void, env, i32, vsr)
--DEF_HELPER_2(xststdcdp, void, env, i32)
--DEF_HELPER_2(xststdcqp, void, env, i32)
-+DEF_HELPER_4(XSTSTDCSP, void, env, i32, i32, vsr)
-+DEF_HELPER_4(XSTSTDCDP, void, env, i32, i32, vsr)
-+DEF_HELPER_4(XSTSTDCQP, void, env, i32, i32, vsr)
- DEF_HELPER_3(xsrdpi, void, env, vsr, vsr)
- DEF_HELPER_3(xsrdpic, void, env, vsr, vsr)
- DEF_HELPER_3(xsrdpim, void, env, vsr, vsr)
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index c0a531be5c..334eb1beca 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -202,6 +202,9 @@
- %xx_uim7        6:1 2:1 16:5
- @XX2_uim7       ...... ..... ..... ..... .... . ... . ..        &XX2_uim xt=%xx_xt xb=%xx_xb uim=%xx_uim7
- 
-+&XX2_bf_uim     bf xb uim
-+@XX2_bf_uim     ...... bf:3 uim:7 ..... ......... . .           &XX2_bf_uim
-+
- &XX2_bf_xb      bf xb
- @XX2_bf_xb      ...... bf:3 .. ..... ..... ......... . .        &XX2_bf_xb xb=%xx_xb
- 
-@@ -853,6 +856,9 @@ XSCVSPDPN       111100 ..... ----- ..... 101001011 ..   @XX2
- XVXSIGSP        111100 ..... 01001 ..... 111011011 ..   @XX2
- XVTSTDCDP       111100 ..... ..... ..... 1111 . 101 ... @XX2_uim7
- XVTSTDCSP       111100 ..... ..... ..... 1101 . 101 ... @XX2_uim7
-+XSTSTDCSP       111100 ... ....... ..... 100101010 . -  @XX2_bf_uim xb=%xx_xb
-+XSTSTDCDP       111100 ... ....... ..... 101101010 . -  @XX2_bf_uim xb=%xx_xb
-+XSTSTDCQP       111111 ... ....... xb:5  1011000100 -   @XX2_bf_uim
- 
- ## VSX Vector Test Least-Significant Bit by Byte Instruction
- 
-diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index 8b42402343..4fdbc45ff4 100644
---- a/target/ppc/translate/vsx-impl.c.inc
-+++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -1137,6 +1137,23 @@ static bool do_xvtstdc(DisasContext *ctx, arg_XX2_uim *a, unsigned vece)
- TRANS_FLAGS2(VSX, XVTSTDCSP, do_xvtstdc, MO_32)
- TRANS_FLAGS2(VSX, XVTSTDCDP, do_xvtstdc, MO_64)
- 
-+static bool do_XX2_bf_uim(DisasContext *ctx, arg_XX2_bf_uim *a, bool vsr,
-+                     void (*gen_helper)(TCGv_env, TCGv_i32, TCGv_i32, TCGv_ptr))
-+{
-+    TCGv_ptr xb;
-+
-+    REQUIRE_VSX(ctx);
-+    xb = vsr ? gen_vsr_ptr(a->xb) : gen_avr_ptr(a->xb);
-+    gen_helper(cpu_env, tcg_constant_i32(a->bf), tcg_constant_i32(a->uim), xb);
-+    tcg_temp_free_ptr(xb);
-+
-+    return true;
-+}
-+
-+TRANS_FLAGS2(ISA300, XSTSTDCSP, do_XX2_bf_uim, true, gen_helper_XSTSTDCSP)
-+TRANS_FLAGS2(ISA300, XSTSTDCDP, do_XX2_bf_uim, true, gen_helper_XSTSTDCDP)
-+TRANS_FLAGS2(ISA300, XSTSTDCQP, do_XX2_bf_uim, false, gen_helper_XSTSTDCQP)
-+
- bool trans_XSCVSPDPN(DisasContext *ctx, arg_XX2 *a)
- {
-     TCGv_i64 tmp;
-@@ -1183,9 +1200,6 @@ GEN_VSX_HELPER_X2(xssqrtsp, 0x16, 0x00, 0, PPC2_VSX207)
- GEN_VSX_HELPER_X2(xsrsqrtesp, 0x14, 0x00, 0, PPC2_VSX207)
- GEN_VSX_HELPER_X2(xscvsxdsp, 0x10, 0x13, 0, PPC2_VSX207)
- GEN_VSX_HELPER_X2(xscvuxdsp, 0x10, 0x12, 0, PPC2_VSX207)
--GEN_VSX_HELPER_X1(xststdcsp, 0x14, 0x12, 0, PPC2_ISA300)
--GEN_VSX_HELPER_2(xststdcdp, 0x14, 0x16, 0, PPC2_ISA300)
--GEN_VSX_HELPER_2(xststdcqp, 0x04, 0x16, 0, PPC2_ISA300)
- 
- GEN_VSX_HELPER_X3(xvadddp, 0x00, 0x0C, 0, PPC2_VSX)
- GEN_VSX_HELPER_X3(xvsubdp, 0x00, 0x0D, 0, PPC2_VSX)
-diff --git a/target/ppc/translate/vsx-ops.c.inc b/target/ppc/translate/vsx-ops.c.inc
-index 4b317d4b06..a3ba094d62 100644
---- a/target/ppc/translate/vsx-ops.c.inc
-+++ b/target/ppc/translate/vsx-ops.c.inc
-@@ -147,10 +147,6 @@ GEN_HANDLER_E(xsiexpdp, 0x3C, 0x16, 0x1C, 0, PPC_NONE, PPC2_ISA300),
- GEN_VSX_XFORM_300(xsiexpqp, 0x4, 0x1B, 0x00000001),
- #endif
- 
--GEN_XX2FORM(xststdcdp, 0x14, 0x16, PPC2_ISA300),
--GEN_XX2FORM(xststdcsp, 0x14, 0x12, PPC2_ISA300),
--GEN_VSX_XFORM_300(xststdcqp, 0x04, 0x16, 0x00000001),
--
- GEN_XX3FORM(xviexpsp, 0x00, 0x1B, PPC2_ISA300),
- GEN_XX3FORM(xviexpdp, 0x00, 0x1F, PPC2_ISA300),
- GEN_XX2FORM_EO(xvxexpdp, 0x16, 0x1D, 0x00, PPC2_ISA300),
--- 
-2.37.3
-
+r~
 
