@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D57F45F981D
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 08:13:19 +0200 (CEST)
-Received: from localhost ([::1]:41734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FDCF5F9823
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 08:14:05 +0200 (CEST)
+Received: from localhost ([::1]:45660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohm2Q-0001K1-0w
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 02:13:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48156)
+	id 1ohm3A-00026i-MF
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 02:14:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <hare@suse.de>)
- id 1ohlwy-0005WW-KO; Mon, 10 Oct 2022 02:07:40 -0400
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d]:39374)
+ id 1ohlxf-0005lO-Hm; Mon, 10 Oct 2022 02:08:27 -0400
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c]:54646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <hare@suse.de>)
- id 1ohlwx-0004qD-4o; Mon, 10 Oct 2022 02:07:40 -0400
+ id 1ohlxd-0004xa-9h; Mon, 10 Oct 2022 02:08:23 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 4E65B1F8C7;
- Mon, 10 Oct 2022 06:07:34 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E032421921;
+ Mon, 10 Oct 2022 06:08:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1665382054; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1665382099; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HRH56VkY3xf+VAxavsJOaLA9kTgRkzs8szd2lGLIO7M=;
- b=O4OlWQ24Gp6mrPU0UE+P7aBeiAE1pU/o5htm28XVR9Elqum6L4pe8o5VaHc2+sN8hKNHD7
- Iv7+PSBfrjIrRCTUM5DKmCRIm5sQtTPtFRHV5KWb08FyfrPETvynOTK0Pk+NEkuasZmDh5
- KexLnwXs195IQNnZORrBOXNq6C2KzqE=
+ bh=hqXxEtQqDGbMmbE88D9MvZCuvBbsqcZeIevugtgoApQ=;
+ b=OAT7mw1wOloG0/I1xM4Of40+yXCL2Mb6x8CGY22mIfmPUlCOssb8MGE4jrX6F1VRmDFF/u
+ EJyZ+StaTQeX+YDLnRCRU4zGKX9tnVLBx0jL4RWOHxbyohjjlADaV/dmspTucfbKiMnVSd
+ rPPUT9iadWdP3lYLJUWYYQyDoA2XjNU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1665382054;
+ s=susede2_ed25519; t=1665382099;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HRH56VkY3xf+VAxavsJOaLA9kTgRkzs8szd2lGLIO7M=;
- b=Kp7qbXxUA6z7t10TWKBAgWwDm6PycbrLzk7xBwMDYx4Nv0Cz6ooSo0mzc4YbqOmixTiIAx
- zQKxrfviEaGjo4Dw==
+ bh=hqXxEtQqDGbMmbE88D9MvZCuvBbsqcZeIevugtgoApQ=;
+ b=ot212qlClasM7Q73uw432akr+2pa4J0vIrJ06kx43xLALyZTxY+8lx1WBTDbQ6LZbDfAfG
+ eW9lMHcYR7/4Z+BA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C35BF13ACA;
- Mon, 10 Oct 2022 06:07:33 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5F03813ACA;
+ Mon, 10 Oct 2022 06:08:19 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 13I7LqW2Q2OwNgAAMHmgww
- (envelope-from <hare@suse.de>); Mon, 10 Oct 2022 06:07:33 +0000
-Message-ID: <fb66c8de-3ffd-a415-97df-0fa9c7140b42@suse.de>
-Date: Mon, 10 Oct 2022 08:07:33 +0200
+ by imap2.suse-dmz.suse.de with ESMTPSA id t5HJE9O2Q2MlNwAAMHmgww
+ (envelope-from <hare@suse.de>); Mon, 10 Oct 2022 06:08:19 +0000
+Message-ID: <d32c3406-b12f-d87c-070c-517741a7a536@suse.de>
+Date: Mon, 10 Oct 2022 08:08:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH v11 1/7] include: add zoned device structs
+Subject: Re: [PATCH v11 4/7] raw-format: add zone operations to pass through
+ requests
 Content-Language: en-US
 To: Sam Li <faithilikerun@gmail.com>, qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
@@ -64,19 +65,19 @@ Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  damien.lemoal@opensource.wdc.com
 References: <20221010022116.41942-1-faithilikerun@gmail.com>
- <20221010022116.41942-2-faithilikerun@gmail.com>
+ <20221010022116.41942-5-faithilikerun@gmail.com>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20221010022116.41942-2-faithilikerun@gmail.com>
+In-Reply-To: <20221010022116.41942-5-faithilikerun@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=hare@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -59
-X-Spam_score: -6.0
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=hare@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -66
+X-Spam_score: -6.7
 X-Spam_bar: ------
-X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.934,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,12 +95,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/10/22 04:21, Sam Li wrote:
+> raw-format driver usually sits on top of file-posix driver. It needs to
+> pass through requests of zone commands.
+> 
 > Signed-off-by: Sam Li <faithilikerun@gmail.com>
 > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 > Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
 > ---
->   include/block/block-common.h | 43 ++++++++++++++++++++++++++++++++++++
->   1 file changed, 43 insertions(+)
+>   block/raw-format.c | 13 +++++++++++++
+>   1 file changed, 13 insertions(+)
 > 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
