@@ -2,90 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3AC45FA317
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 20:02:00 +0200 (CEST)
-Received: from localhost ([::1]:60050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FA825FA3E0
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 21:03:46 +0200 (CEST)
+Received: from localhost ([::1]:39956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohx6F-0007RK-Pt
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 14:01:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49022)
+	id 1ohy41-0001Yq-9L
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 15:03:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwbQ-00027Z-Qe
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:30:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39240)
+ (Exim 4.90_1) (envelope-from <dave@stgolabs.net>) id 1ohwed-0005b8-G6
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:33:27 -0400
+Received: from antelope.elm.relay.mailchannels.net ([23.83.212.4]:61472)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwbM-0006ji-9N
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:30:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665423003;
+ (Exim 4.90_1) (envelope-from <dave@stgolabs.net>) id 1ohweY-0007kL-0f
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:33:26 -0400
+X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+ by relay.mailchannels.net (Postfix) with ESMTP id 7C75D8C0A61;
+ Mon, 10 Oct 2022 17:33:15 +0000 (UTC)
+Received: from pdx1-sub0-mail-a236.dreamhost.com (unknown [127.0.0.6])
+ (Authenticated sender: dreamhost)
+ by relay.mailchannels.net (Postfix) with ESMTPA id D8B738C10D6;
+ Mon, 10 Oct 2022 17:33:14 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1665423195; a=rsa-sha256;
+ cv=none;
+ b=w0wi6j0eORnOJHf1IWf1hMlU5dVqudzFgSQvxaPyXeG+9K5GApMG4iP2MGIGhpenANAfkI
+ moiHFaq7x6dM/U2uoVBduacKgGzrbkhZGEpnVusHXNHt+H2O+v7b1TMHNXotA9/mH2ifXV
+ c6TCwic7wnqjhRhgFY7zv317oLclxnfNtt1jTLAASHFjS7HUswqLlY7GkGMekyj7wmGUQX
+ OnF4I5iqbmjlebFxocT/LrQlqjTZ+PTlVve4wFq7h58XGqtBBMK1agILN1erryd57CY3Gh
+ gL1Cc80SYfRwXXhKOtLUFeqawNWdFLTxQxtk2mGiP4+tGL4wIGi91nzyAtMu6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net; s=arc-2022; t=1665423195;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wr3TVnZ7tk/u0Lm4bIhIKs4gYKeGgKd9uCvxQFfv5EM=;
- b=d9WXmRBdycEvi3VLKKaSkBZ5t9wr4wLBvEfZxjodT6O/D/RJ4p7/BaZzX2t97j2GsulZBZ
- C6oW8l2gpuP8KvimNYuHgUok2VHe2CLkWu8Y6sc/ijJPSJoGGiH0ViK8DXyT+T4edCeFwD
- +UmB/b0GdJUgt/YpOMCnwFkBCseGWRw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-221-nPJt9wF4Oom_ktKMfcPCNw-1; Mon, 10 Oct 2022 13:30:02 -0400
-X-MC-Unique: nPJt9wF4Oom_ktKMfcPCNw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- i5-20020a1c3b05000000b003c47c8569easo4143320wma.1
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:30:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wr3TVnZ7tk/u0Lm4bIhIKs4gYKeGgKd9uCvxQFfv5EM=;
- b=62wHyI6kgeR2fOAznaYNAcp+Sms7dUZQw0REfQlKlX+gGPb4nXtHbWzc6Zp1mUWkQB
- WT/CXvxSWI7MtoD6q7lZAi3q/kuxkEsNUa0e42sPa8selVt6VsY+SoZCyvEyt4AtDhUe
- Tw1hoEbK0ivbS45gPdp2r0KH+BeiiswYdUO2BxV3SFxNmocUZ0dyLMTOyzVLxCslssNK
- LMb/nUqKhqB4TiD7uOS0OmksMeL0hXOrilgzJWqgrdRbRbVMeQstQLfv0pF61MaqIdQJ
- MDMfdgB+IRVnR5pSHTGmagpYCfuzCeWAxppfYiUba2XUCYm0H5guW6I4o3FIU/dEafY4
- khrw==
-X-Gm-Message-State: ACrzQf26ijHEX64YmDZyR8JHVEAFUaBuEj1YaxbRbG31ajY5UJKTV1cR
- ygNQ4b0w9Vpv/sGnRF8XVJu/llHnSXiXsGrtjCXTIlGR4vtJ2G/LxMBgtzt58/hy14SlRWufyhM
- nh2rRvAIjryO2VQx299i3pjsyQ3ZVUydZrifuXlUWtTRMuC+ZjOcr+WtKc0vD
-X-Received: by 2002:a05:600c:3c84:b0:3b4:eff4:ab69 with SMTP id
- bg4-20020a05600c3c8400b003b4eff4ab69mr20441174wmb.104.1665423000747; 
- Mon, 10 Oct 2022 10:30:00 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5NLmptfnnAhUUEu7T+QsjdZfIQa53Us2Mj/FL7vravmr4qfPROmwkj1d7aoaKc0T2Ds2dquA==
-X-Received: by 2002:a05:600c:3c84:b0:3b4:eff4:ab69 with SMTP id
- bg4-20020a05600c3c8400b003b4eff4ab69mr20441153wmb.104.1665423000431; 
- Mon, 10 Oct 2022 10:30:00 -0700 (PDT)
-Received: from redhat.com ([2.55.183.131]) by smtp.gmail.com with ESMTPSA id
- y8-20020a5d6208000000b0022c96d3b6f2sm11926483wru.54.2022.10.10.10.29.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 10:30:00 -0700 (PDT)
-Date: Mon, 10 Oct 2022 13:29:56 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PULL 18/55] tests/qtest: add a get_features op to vhost-user-test
-Message-ID: <20221010172813.204597-19-mst@redhat.com>
-References: <20221010172813.204597-1-mst@redhat.com>
+ in-reply-to:in-reply-to:references:references:dkim-signature;
+ bh=t8viUkUj1KrzJ1YJZvAeDehpOIrGVSGFA7zYGt76I9Q=;
+ b=9Fs2WpQtb3TsjH6i/f11sb3jzbBWOagaLLfJaQ7XszbyzFLfWoW5tN+qBxoaUXWEHsH+Eh
+ xsBwuI0zQym85NuLmXgdR2RZkrgnsUh+d7U8AtOplvuRCmYD/877Ml4oDRz8z05eaaTw+2
+ F/m2HtspjDioEpjScU1DnJUcDMnIkwSe4/3TlyX19lNANGc/eUn9RQR1H6kpqoxqMW5on8
+ vy9YnVXR6u/7kSxpdXk3rBKiHQtPOF6+9tHETSL6PCmuKPeH75E7lVOnutRBQjneonPcOn
+ w/ZNFPcS99F0hrQYVxylczTxAvn00LRUF3srDSgDMa2au/ht44FNmP/2mG1ETg==
+ARC-Authentication-Results: i=1; rspamd-7c485dd8cf-2c8rr;
+ auth=pass smtp.auth=dreamhost smtp.mailfrom=dave@stgolabs.net
+X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
+X-MailChannels-Auth-Id: dreamhost
+X-Well-Made-Shelf: 0be60b285bb54b9c_1665423195255_3442516789
+X-MC-Loop-Signature: 1665423195255:1269252574
+X-MC-Ingress-Time: 1665423195255
+Received: from pdx1-sub0-mail-a236.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162]) (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+ by 100.126.129.213 (trex/6.7.1); Mon, 10 Oct 2022 17:33:15 +0000
+Received: from offworld (ip72-199-50-187.sd.sd.cox.net [72.199.50.187])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: dave@stgolabs.net)
+ by pdx1-sub0-mail-a236.dreamhost.com (Postfix) with ESMTPSA id 4MmQx56QHgz5j; 
+ Mon, 10 Oct 2022 10:33:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
+ s=dreamhost; t=1665423194;
+ bh=t8viUkUj1KrzJ1YJZvAeDehpOIrGVSGFA7zYGt76I9Q=;
+ h=Date:From:To:Cc:Subject:Content-Type;
+ b=F1W3/KaAWDkTzbwNavZ7py1P6drF/pMH8BOs7TSSJR8dKtl2MCNI/DKz1uDGf8mI0
+ iFIlntRGIBaW+9zPNiLxUzDI2s3hrPbqeBpfVel2wlzeFDNWVCV4lxwYVI/+lfbMVw
+ 1b+0JWHT4OuLgJJ/FNuilEPuEGAqaXUlpyM5XFn+aF68y4vvvxgULDWIxaD4bFV6Ot
+ O3DU3OVUzvMyzqqwOcE9ClNYu79Ts+TIR7ONHQCxrCoeAjXY5l8C8jUslpR3nIW83g
+ 2c1bdeAUMy04d02EpaqJR78NZnyHhYxfC478TUOpSOjELOig4DQ5C9wYiaVWv26yRO
+ BleJSf+ZaUr7Q==
+Date: Mon, 10 Oct 2022 10:12:29 -0700
+From: Davidlohr Bueso <dave@stgolabs.net>
+To: Gregory Price <gourry.memverge@gmail.com>
+Cc: qemu-devel@nongnu.org, jonathan.cameron@huawei.com,
+ linux-cxl@vger.kernel.org, alison.schofield@intel.com,
+ a.manzanares@samsung.com, bwidawsk@kernel.org,
+ Gregory Price <gregory.price@memverge.com>
+Subject: Re: [PATCH 2/2] hw/cxl: Allow CXL type-3 devices to be persistent or
+ volatile
+Message-ID: <20221010171229.let7egonsflyjixh@offworld>
+References: <20221006233702.18532-1-gregory.price@memverge.com>
+ <20221006233702.18532-2-gregory.price@memverge.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221010172813.204597-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+In-Reply-To: <20221006233702.18532-2-gregory.price@memverge.com>
+User-Agent: NeoMutt/20220429
+Received-SPF: pass client-ip=23.83.212.4; envelope-from=dave@stgolabs.net;
+ helo=antelope.elm.relay.mailchannels.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,100 +113,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alex Bennée <alex.bennee@linaro.org>
+On Thu, 06 Oct 2022, Gregory Price wrote:
 
-As we expand this test for more virtio devices we will need to support
-different feature sets. Add a mandatory op field to fetch the list of
-features needed for the test itself.
+>diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+>index bc1bb18844..dfec11a1b5 100644
+>--- a/hw/cxl/cxl-mailbox-utils.c
+>+++ b/hw/cxl/cxl-mailbox-utils.c
+>@@ -138,7 +138,7 @@ static ret_code cmd_firmware_update_get_info(struct cxl_cmd *cmd,
+>     } QEMU_PACKED *fw_info;
+>     QEMU_BUILD_BUG_ON(sizeof(*fw_info) != 0x50);
+>
+>-    if (cxl_dstate->pmem_size < (256 << 20)) {
+>+    if (cxl_dstate->mem_size < (256 << 20)) {
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220802095010.3330793-22-alex.bennee@linaro.org>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- tests/qtest/vhost-user-test.c | 37 +++++++++++++++++++++++++----------
- 1 file changed, 27 insertions(+), 10 deletions(-)
+Nit but we probably want to abstract this out (in a pre-patch), just like in the
+kernel side. Ie:
 
-diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
-index 3052386634..4f4fcc09f5 100644
---- a/tests/qtest/vhost-user-test.c
-+++ b/tests/qtest/vhost-user-test.c
-@@ -171,10 +171,11 @@ struct vhost_user_ops {
-             const char *chr_opts);
- 
-     /* VHOST-USER commands. */
-+    uint64_t (*get_features)(TestServer *s);
-     void (*set_features)(TestServer *s, CharBackend *chr,
--            VhostUserMsg *msg);
-+                         VhostUserMsg *msg);
-     void (*get_protocol_features)(TestServer *s,
--            CharBackend *chr, VhostUserMsg *msg);
-+                                  CharBackend *chr, VhostUserMsg *msg);
- };
- 
- static const char *init_hugepagefs(void);
-@@ -338,20 +339,22 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
- 
-     switch (msg.request) {
-     case VHOST_USER_GET_FEATURES:
-+        /* Mandatory for tests to define get_features */
-+        g_assert(s->vu_ops->get_features);
-+
-         /* send back features to qemu */
-         msg.flags |= VHOST_USER_REPLY_MASK;
-         msg.size = sizeof(m.payload.u64);
--        msg.payload.u64 = 0x1ULL << VHOST_F_LOG_ALL |
--            0x1ULL << VHOST_USER_F_PROTOCOL_FEATURES;
--        if (s->queues > 1) {
--            msg.payload.u64 |= 0x1ULL << VIRTIO_NET_F_MQ;
--        }
-+
-         if (s->test_flags >= TEST_FLAGS_BAD) {
-             msg.payload.u64 = 0;
-             s->test_flags = TEST_FLAGS_END;
-+        } else {
-+            msg.payload.u64 = s->vu_ops->get_features(s);
-         }
--        p = (uint8_t *) &msg;
--        qemu_chr_fe_write_all(chr, p, VHOST_USER_HDR_SIZE + msg.size);
-+
-+        qemu_chr_fe_write_all(chr, (uint8_t *) &msg,
-+                              VHOST_USER_HDR_SIZE + msg.size);
-         break;
- 
-     case VHOST_USER_SET_FEATURES:
-@@ -995,8 +998,21 @@ static void test_multiqueue(void *obj, void *arg, QGuestAllocator *alloc)
-     wait_for_rings_started(s, s->queues * 2);
- }
- 
-+
-+static uint64_t vu_net_get_features(TestServer *s)
-+{
-+    uint64_t features = 0x1ULL << VHOST_F_LOG_ALL |
-+        0x1ULL << VHOST_USER_F_PROTOCOL_FEATURES;
-+
-+    if (s->queues > 1) {
-+        features |= 0x1ULL << VIRTIO_NET_F_MQ;
-+    }
-+
-+    return features;
-+}
-+
- static void vu_net_set_features(TestServer *s, CharBackend *chr,
--        VhostUserMsg *msg)
-+                                VhostUserMsg *msg)
- {
-     g_assert(msg->payload.u64 & (0x1ULL << VHOST_USER_F_PROTOCOL_FEATURES));
-     if (s->test_flags == TEST_FLAGS_DISCONNECT) {
-@@ -1025,6 +1041,7 @@ static struct vhost_user_ops g_vu_net_ops = {
- 
-     .append_opts = append_vhost_net_opts,
- 
-+    .get_features = vu_net_get_features,
-     .set_features = vu_net_set_features,
-     .get_protocol_features = vu_net_get_protocol_features,
- };
--- 
-MST
+#define CXL_CAPACITY_MULTIPLIER   0x10000000 /* SZ_256M */
 
+>         return CXL_MBOX_INTERNAL_ERROR;
+>     }
+>
+>@@ -281,9 +281,10 @@ static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
+>
+>     CXLType3Dev *ct3d = container_of(cxl_dstate, CXLType3Dev, cxl_dstate);
+>     CXLType3Class *cvc = CXL_TYPE3_GET_CLASS(ct3d);
+>-    uint64_t size = cxl_dstate->pmem_size;
+>
+>-    if (!QEMU_IS_ALIGNED(size, 256 << 20)) {
+>+    if ((!QEMU_IS_ALIGNED(cxl_dstate->mem_size, 256 << 20)) ||
+
+is the full mem_size check here really needed?
+
+>+        (!QEMU_IS_ALIGNED(cxl_dstate->vmem_size, 256 << 20)) ||
+>+        (!QEMU_IS_ALIGNED(cxl_dstate->pmem_size, 256 << 20))) {
+>         return CXL_MBOX_INTERNAL_ERROR;
+>     }
+>
+>@@ -293,8 +294,9 @@ static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
+>     /* PMEM only */
+
+This comment wants removed.
+
+>     snprintf(id->fw_revision, 0x10, "BWFW VERSION %02d", 0);
+>
+>-    id->total_capacity = size / (256 << 20);
+>-    id->persistent_capacity = size / (256 << 20);
+>+    id->total_capacity = cxl_dstate->mem_size / (256 << 20);
+>+    id->persistent_capacity = cxl_dstate->pmem_size / (256 << 20);
+>+    id->volatile_capacity = cxl_dstate->vmem_size / (256 << 20);
+>     id->lsa_size = cvc->get_lsa_size(ct3d);
+>
+>     *len = sizeof(*id);
+>@@ -312,16 +314,16 @@ static ret_code cmd_ccls_get_partition_info(struct cxl_cmd *cmd,
+>         uint64_t next_pmem;
+>     } QEMU_PACKED *part_info = (void *)cmd->payload;
+>     QEMU_BUILD_BUG_ON(sizeof(*part_info) != 0x20);
+>-    uint64_t size = cxl_dstate->pmem_size;
+>
+>-    if (!QEMU_IS_ALIGNED(size, 256 << 20)) {
+>+    if ((!QEMU_IS_ALIGNED(cxl_dstate->mem_size, 256 << 20)) ||
+>+        (!QEMU_IS_ALIGNED(cxl_dstate->vmem_size, 256 << 20)) ||
+>+        (!QEMU_IS_ALIGNED(cxl_dstate->pmem_size, 256 << 20))) {
+>         return CXL_MBOX_INTERNAL_ERROR;
+>     }
+>
+>-    /* PMEM only */
+>-    part_info->active_vmem = 0;
+>+    part_info->active_vmem = cxl_dstate->vmem_size / (256 << 20);
+>     part_info->next_vmem = 0;
+>-    part_info->active_pmem = size / (256 << 20);
+>+    part_info->active_pmem = cxl_dstate->pmem_size / (256 << 20);
+>     part_info->next_pmem = 0;
+>
+>     *len = sizeof(*part_info);
+>diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+>index 1837c1c83a..998461dac1 100644
+>--- a/hw/mem/cxl_type3.c
+>+++ b/hw/mem/cxl_type3.c
+>@@ -100,18 +100,47 @@ static bool cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
+>     DeviceState *ds = DEVICE(ct3d);
+>     MemoryRegion *mr;
+>     char *name;
+>+    bool is_pmem = false;
+>
+>-    if (!ct3d->hostmem) {
+>-        error_setg(errp, "memdev property must be set");
+>+    /*
+>+     * FIXME: For now we only allow a single host memory region.
+>+     * Handle the deprecated memdev property usage cases
+>+     */
+>+    if (!ct3d->hostmem && !ct3d->host_vmem && !ct3d->host_pmem) {
+>+        error_setg(errp, "at least one memdev property must be set");
+>         return false;
+>+    } else if (ct3d->hostmem && (ct3d->host_vmem || ct3d->host_pmem)) {
+>+        error_setg(errp, "deprecated [memdev] cannot be used with new "
+>+                         "persistent and volatile memdev properties");
+>+        return false;
+>+    } else if (ct3d->hostmem) {
+>+        warn_report("memdev is deprecated and defaults to pmem. "
+>+                    "Use (persistent|volatile)-memdev instead.");
+>+        is_pmem = true;
+>+    } else {
+>+        if (ct3d->host_vmem && ct3d->host_pmem) {
+>+            error_setg(errp, "Multiple memory devices not supported yet");
+>+            return false;
+>+        }
+>+        is_pmem = !!ct3d->host_pmem;
+>+        ct3d->hostmem = ct3d->host_pmem ? ct3d->host_pmem : ct3d->host_vmem;
+
+This hides requirement details as to the necessary changes that are needed for
+volatile support - for example, build_dvsecs(). Imo using two backends (without
+breaking current configs, of course) should be the initial version, not something
+to leave pending.
+
+Thanks,
+Davidlohr
 
