@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 644505F9E44
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 14:02:16 +0200 (CEST)
-Received: from localhost ([::1]:35456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1402D5F9EAD
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 14:22:54 +0200 (CEST)
+Received: from localhost ([::1]:60800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohrU7-0006mO-0m
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 08:02:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58010)
+	id 1ohro4-0004J3-MW
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 08:22:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ohrRK-0004mA-3I
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 07:59:22 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:44577)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ohrRI-0005Da-6z
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 07:59:21 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id x6so10157425pll.11
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 04:59:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=+Z8nA2h81k8dhiaZfIS2NppGaRDzaUfj/ZgulA2QB3U=;
- b=i+jI1IlyI0YN4a7Jnp4qZEmcF78/uIEfCsA8/xheLsYBMvq99kxKVBIIIKG5/+VZzh
- sdWLd2Hw3QL5pZqpulzdCCUuYBOydTqm90SUgc6N3S3L6HvgjcCP3PMbsz+ZseTYvzOX
- FIqIbhrdvVZzYY9nsu6cJDHsKn3v/lwditPLLIWF7sBHiQAnJowkubueeCInPqMO5+Rl
- 28PtBbOIN/R42JoZDbyI20tckT0eW2gJ8tIIqqfLlPvYGMuxzPBjmYmlDHo2tz9gPIoE
- +enkagqD98ICX+0NDXjAvs4Mze1bNP8UQ2kpYt6SwmF5GIBJP7d0bGydriKztRELPjqE
- 5r0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+Z8nA2h81k8dhiaZfIS2NppGaRDzaUfj/ZgulA2QB3U=;
- b=oE9HSIll/mB912yL6TeJblr0XGe79nKHN8+7J54eWunG24c5DvOufb7VldYzcBunXo
- yDzbcJAWjRffZslguPvl5FHL1/ryjNiO9vDYRpfsol8t8iXFwx4pcBwurG0Ys4mRiSVk
- AMbWjMAn/SHy9usvU4VyZ5ufsH8tw4AGEVb4X4uHVUScLaDMRyRatzj2eNUUTLekCskH
- oR+MGOmrzJhyQwWmEXVXEcbqkeX3kvjxdIHvjyNbtXaXMWgxouTOGxXEYDlMOMyJwOaa
- L+xnbNMr+EkKvR6E7ByreOjr2eQM+c60JttYMWpbQBO/Zf/JHnLWixj//fefbzwqZbry
- An+g==
-X-Gm-Message-State: ACrzQf3vvlNO0aN9BgUkFkkm3a87OLAxfM7iy0mb9RM7IdhAMtK1WUTD
- 1t7Am9kCDevGKeGNFNPxxxRE3RfCAFK/eqXiSwaBTw==
-X-Google-Smtp-Source: AMsMyM72qQHo/EMSQQRKoxk/5etD29LMdn2C1dZkeZvXF1Z5tIa4SeOPoEzClRg3XQx8093iyVogbdnAyyNisI9OQPw=
-X-Received: by 2002:a17:90b:4b8e:b0:20a:f240:9b23 with SMTP id
- lr14-20020a17090b4b8e00b0020af2409b23mr20263409pjb.19.1665403158743; Mon, 10
- Oct 2022 04:59:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ohrln-0002VS-7R
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 08:20:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58071)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ohrlj-0000hW-QO
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 08:20:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665404425;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9s5o6SdS8P0CfqhmvZD+bK03/Hb+EKcKUZ78+emLMaY=;
+ b=bWBUVwYPtfNSI4Jp6m8177McPZKchga+bHoqUcAVYhLq3xNAWAkIwKr89RRArS+TIahvPZ
+ fS5duPsQQIpnItuIA1lB9WB3xl9/AH0a4KE6C/+bF7OSW+RBztQo4hpLVxY/jPZ2PvcWxk
+ TJeIq0KYLonKZW8okfXwf3f65ZxA7ds=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-473-in94mBAVOtyavCUM4Jip9g-1; Mon, 10 Oct 2022 08:20:19 -0400
+X-MC-Unique: in94mBAVOtyavCUM4Jip9g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D5D98811E81;
+ Mon, 10 Oct 2022 12:20:18 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.195.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 74061B2798;
+ Mon, 10 Oct 2022 12:20:18 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 368161800605; Mon, 10 Oct 2022 09:30:20 +0200 (CEST)
+Date: Mon, 10 Oct 2022 09:30:20 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Sergio Lopez <slp@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ kvm <kvm@vger.kernel.org>, Marcelo Tosatti <mtosatti@redhat.com>
+Subject: Re: [PATCH v4] x86: add etc/phys-bits fw_cfg file
+Message-ID: <20221010073020.d3bfkm6xi55a7dqd@sirius.home.kraxel.org>
+References: <20220922101454.1069462-1-kraxel@redhat.com>
+ <YyxF2TNwnXaefT6u@redhat.com>
+ <20220922122058.vesh352623uaon6e@sirius.home.kraxel.org>
+ <CABgObfavcPLUbMzaLQS2Rj2=r5eAhuBuKdiHQ4wJGfgPm_=XsQ@mail.gmail.com>
+ <20220922203345.3r7jteg7l75vcysv@sirius.home.kraxel.org>
+ <CABgObfZS+xW9dTKNy34d0ew1VbxzH8EKtEZO3MwGsX+DUPzWqw@mail.gmail.com>
+ <20220923062312.sibqhfhfznnc22km@sirius.home.kraxel.org>
+ <20221007094427-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-References: <20221007152159.1414065-1-richard.henderson@linaro.org>
- <CAFEAcA93Urww5F+_gJonUUaLeS-7W8BhYqRgcJT1hcVY3LaUdA@mail.gmail.com>
- <ed0332cf-5bf0-34ef-3233-de6840439e02@linaro.org>
-In-Reply-To: <ed0332cf-5bf0-34ef-3233-de6840439e02@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 10 Oct 2022 12:59:07 +0100
-Message-ID: <CAFEAcA9-4iNodxpnqizh-eH5VHWTcr+4Lwmqt7rLPO7F6SYRvw@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: Make the final stage1+2 write to secure be
- unconditional
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221007094427-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,33 +91,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 7 Oct 2022 at 17:53, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 10/7/22 09:20, Peter Maydell wrote:
-> >> -            /* Check if IPA translates to secure or non-secure PA space. */
-> >> -            if (is_secure) {
-> >> -                if (ipa_secure) {
-> >> -                    result->attrs.secure =
-> >> -                        !(env->cp15.vstcr_el2 & (VSTCR_SA | VSTCR_SW));
-> >> -                } else {
-> >> -                    result->attrs.secure =
-> >> -                        !((env->cp15.vtcr_el2 & (VTCR_NSA | VTCR_NSW))
-> >> -                        || (env->cp15.vstcr_el2 & (VSTCR_SA | VSTCR_SW)));
-> >> -                }
-> >> -            }
-> >
-> > If:
-> >   is_secure == true
-> >   ipa_secure == false
-> >   (env->cp15.vstcr_el2 & (VSTCR_SA | VSTCR_SW) is non-zero
-> >   (env->cp15.vtcr_el2 & (VTCR_NSA | VTCR_NSW) is zero
-> > then the old code sets attrs.secure to true...
->
-> No, I think the misalignment of the two lines wrt the !() may have been confusing:
+  Hi,
 
-Ah, yes -- I was indeed confused by the misalignment.
+> > > > Given newer processors have more than 40 and for older ones we know
+> > > > the possible values for the two relevant x86 vendors we could do
+> > > > something along the lines of:
+> > > >
+> > > >    phys-bits >= 41                   -> valid
+> > > >    phys-bits == 40    + AuthenticAMD -> valid
+> > > >    phys-bits == 36,39 + GenuineIntel -> valid
+> > > >    everything else                   -> invalid
 
-thanks
--- PMM
+> I dropped the patch for now.
+
+You can drop it forever.
+
+For the mail archives and anyone interested:  The approach outlined
+above appears to work well, patches just landed in edk2 master branch.
+Next edk2 stable tag (2022-11) will have it.
+
+take care,
+  Gerd
+
 
