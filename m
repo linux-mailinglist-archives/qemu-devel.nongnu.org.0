@@ -2,95 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FA825FA3E0
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 21:03:46 +0200 (CEST)
-Received: from localhost ([::1]:39956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E785FA388
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 20:45:03 +0200 (CEST)
+Received: from localhost ([::1]:36928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohy41-0001Yq-9L
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 15:03:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40614)
+	id 1ohxlu-0004I4-Cl
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 14:45:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dave@stgolabs.net>) id 1ohwed-0005b8-G6
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:33:27 -0400
-Received: from antelope.elm.relay.mailchannels.net ([23.83.212.4]:61472)
+ (Exim 4.90_1) (envelope-from <dave@stgolabs.net>) id 1ohwkn-00020w-F1
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:39:49 -0400
+Received: from insect.birch.relay.mailchannels.net ([23.83.209.93]:11527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dave@stgolabs.net>) id 1ohweY-0007kL-0f
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:33:26 -0400
+ (Exim 4.90_1) (envelope-from <dave@stgolabs.net>) id 1ohwkl-0000Wu-33
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:39:48 -0400
 X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
 Received: from relay.mailchannels.net (localhost [127.0.0.1])
- by relay.mailchannels.net (Postfix) with ESMTP id 7C75D8C0A61;
- Mon, 10 Oct 2022 17:33:15 +0000 (UTC)
+ by relay.mailchannels.net (Postfix) with ESMTP id 2C799921FFD;
+ Mon, 10 Oct 2022 17:39:41 +0000 (UTC)
 Received: from pdx1-sub0-mail-a236.dreamhost.com (unknown [127.0.0.6])
  (Authenticated sender: dreamhost)
- by relay.mailchannels.net (Postfix) with ESMTPA id D8B738C10D6;
- Mon, 10 Oct 2022 17:33:14 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1665423195; a=rsa-sha256;
+ by relay.mailchannels.net (Postfix) with ESMTPA id 648F0921DD5;
+ Mon, 10 Oct 2022 17:39:40 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1665423580; a=rsa-sha256;
  cv=none;
- b=w0wi6j0eORnOJHf1IWf1hMlU5dVqudzFgSQvxaPyXeG+9K5GApMG4iP2MGIGhpenANAfkI
- moiHFaq7x6dM/U2uoVBduacKgGzrbkhZGEpnVusHXNHt+H2O+v7b1TMHNXotA9/mH2ifXV
- c6TCwic7wnqjhRhgFY7zv317oLclxnfNtt1jTLAASHFjS7HUswqLlY7GkGMekyj7wmGUQX
- OnF4I5iqbmjlebFxocT/LrQlqjTZ+PTlVve4wFq7h58XGqtBBMK1agILN1erryd57CY3Gh
- gL1Cc80SYfRwXXhKOtLUFeqawNWdFLTxQxtk2mGiP4+tGL4wIGi91nzyAtMu6g==
+ b=ndKHUhRi9yKT0qQCaTNe3cbI8S90SV8aqU/PeCi3yjrQGj6Eln8962B0jB/rEZmTnjRQz/
+ ibxNsCZeZGGXJaSuHl0PZsydHEBOjqvMVMCdewCU28v4Qrss5+ri7IVE89XOospfaQiFnf
+ 4gCKgFAO9PQjtML3FO2LYNXTG/KZAqXLlJ2Wcjk19reUzE8CcMDVX4aoxzdaWu3MrVOW8V
+ /AkwGGBOPg2k8+MicO9jCcG3mGFSCpAio2lvGVISETaDxHnFKsfBAHTPzrhwDCO18jssUN
+ eOWfmL9AJDpv7bflbLfynLXpgtbfHCOo2OIRvCPoHS3H3rUJZTDeJavKfhvE1w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net; s=arc-2022; t=1665423195;
+ d=mailchannels.net; s=arc-2022; t=1665423580;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:dkim-signature;
- bh=t8viUkUj1KrzJ1YJZvAeDehpOIrGVSGFA7zYGt76I9Q=;
- b=9Fs2WpQtb3TsjH6i/f11sb3jzbBWOagaLLfJaQ7XszbyzFLfWoW5tN+qBxoaUXWEHsH+Eh
- xsBwuI0zQym85NuLmXgdR2RZkrgnsUh+d7U8AtOplvuRCmYD/877Ml4oDRz8z05eaaTw+2
- F/m2HtspjDioEpjScU1DnJUcDMnIkwSe4/3TlyX19lNANGc/eUn9RQR1H6kpqoxqMW5on8
- vy9YnVXR6u/7kSxpdXk3rBKiHQtPOF6+9tHETSL6PCmuKPeH75E7lVOnutRBQjneonPcOn
- w/ZNFPcS99F0hrQYVxylczTxAvn00LRUF3srDSgDMa2au/ht44FNmP/2mG1ETg==
-ARC-Authentication-Results: i=1; rspamd-7c485dd8cf-2c8rr;
+ bh=gGmlWW7IjW5I6T1Q1olP9QULCjSHVNP8cLU/WlKtH8o=;
+ b=cIHwfvYJM6qQRFCsDjsaaAg1p62o3H03jIhFyRanriBjmBkcLyMf5D6ucvH69o6VZ6Uimm
+ 7IrhTSPWV3Vol/B46m8kDpCpwGeLkQKYeu79dvX14VZEpIlHVjrX95yFRodjyyDz6/7/OK
+ cEBxTuCc1hbdEqAhSwUBM37Cd3IGb2g7uM7zVnHHSyi2Vk3Twra5lH+Fkb+0oGEdP3nnvp
+ aWyy4B07PH15aRLsL/po5PfoRVlqshKV2LkCd6o5uWtkIsXp1PNklH8gkCff3Fhpn6TJ/K
+ 5HwRlWOTpsvFxgDARQVOPWXj1PZTrOhuivdk/Vt/APakTbsRMq/z80mTxSZ0rQ==
+ARC-Authentication-Results: i=1; rspamd-7c485dd8cf-xj8f2;
  auth=pass smtp.auth=dreamhost smtp.mailfrom=dave@stgolabs.net
 X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
 X-MC-Relay: Neutral
 X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
 X-MailChannels-Auth-Id: dreamhost
-X-Well-Made-Shelf: 0be60b285bb54b9c_1665423195255_3442516789
-X-MC-Loop-Signature: 1665423195255:1269252574
-X-MC-Ingress-Time: 1665423195255
+X-Bitter-Continue: 027f11f70c9975ff_1665423580913_1980910223
+X-MC-Loop-Signature: 1665423580913:2291040994
+X-MC-Ingress-Time: 1665423580913
 Received: from pdx1-sub0-mail-a236.dreamhost.com (pop.dreamhost.com
  [64.90.62.162]) (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
- by 100.126.129.213 (trex/6.7.1); Mon, 10 Oct 2022 17:33:15 +0000
+ by 100.116.63.144 (trex/6.7.1); Mon, 10 Oct 2022 17:39:40 +0000
 Received: from offworld (ip72-199-50-187.sd.sd.cox.net [72.199.50.187])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
  (Authenticated sender: dave@stgolabs.net)
- by pdx1-sub0-mail-a236.dreamhost.com (Postfix) with ESMTPSA id 4MmQx56QHgz5j; 
- Mon, 10 Oct 2022 10:33:13 -0700 (PDT)
+ by pdx1-sub0-mail-a236.dreamhost.com (Postfix) with ESMTPSA id 4MmR4W3Fv5z6s; 
+ Mon, 10 Oct 2022 10:39:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
- s=dreamhost; t=1665423194;
- bh=t8viUkUj1KrzJ1YJZvAeDehpOIrGVSGFA7zYGt76I9Q=;
+ s=dreamhost; t=1665423580;
+ bh=gGmlWW7IjW5I6T1Q1olP9QULCjSHVNP8cLU/WlKtH8o=;
  h=Date:From:To:Cc:Subject:Content-Type;
- b=F1W3/KaAWDkTzbwNavZ7py1P6drF/pMH8BOs7TSSJR8dKtl2MCNI/DKz1uDGf8mI0
- iFIlntRGIBaW+9zPNiLxUzDI2s3hrPbqeBpfVel2wlzeFDNWVCV4lxwYVI/+lfbMVw
- 1b+0JWHT4OuLgJJ/FNuilEPuEGAqaXUlpyM5XFn+aF68y4vvvxgULDWIxaD4bFV6Ot
- O3DU3OVUzvMyzqqwOcE9ClNYu79Ts+TIR7ONHQCxrCoeAjXY5l8C8jUslpR3nIW83g
- 2c1bdeAUMy04d02EpaqJR78NZnyHhYxfC478TUOpSOjELOig4DQ5C9wYiaVWv26yRO
- BleJSf+ZaUr7Q==
-Date: Mon, 10 Oct 2022 10:12:29 -0700
+ b=UXEbqIuuyvY+3fP/kksMsIEIesqr+mNBngDDpJp+jrFJGFOn+97Bwnyj4Dy/f+OVs
+ TZoMRErULyZDIGPcIhBeET+vV/r1mzjh9qourCPjHYzjp/PndXiememNpCE8ZOmbh/
+ KeDVF7TtmdBi+wsAz1I5/PZdlqSJ+axGqsR9emplHa7JQmNweizIqDFn6qTVqDJs8y
+ spuBSLOc05aNsUZ7e0rhBmFHueUyid/nRP8mhL/6nU28GicF50TcO8PoxNSJCk6//m
+ AkrUtkkuWud41BhtRgK93cu/SolHViMULPeQHa2bGGXMxAsoAYtEhJacLQqgVCHwdK
+ jEwQP13/8IWvw==
+Date: Mon, 10 Oct 2022 10:18:55 -0700
 From: Davidlohr Bueso <dave@stgolabs.net>
-To: Gregory Price <gourry.memverge@gmail.com>
-Cc: qemu-devel@nongnu.org, jonathan.cameron@huawei.com,
- linux-cxl@vger.kernel.org, alison.schofield@intel.com,
- a.manzanares@samsung.com, bwidawsk@kernel.org,
- Gregory Price <gregory.price@memverge.com>
-Subject: Re: [PATCH 2/2] hw/cxl: Allow CXL type-3 devices to be persistent or
- volatile
-Message-ID: <20221010171229.let7egonsflyjixh@offworld>
-References: <20221006233702.18532-1-gregory.price@memverge.com>
- <20221006233702.18532-2-gregory.price@memverge.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Gregory Price <gourry.memverge@gmail.com>, qemu-devel@nongnu.org,
+ linux-cxl@vger.kernel.org, Alison Schofield <alison.schofield@intel.com>,
+ "a.manzanares@samsung.com" <a.manzanares@samsung.com>,
+ Ben Widawsky <bwidawsk@kernel.org>
+Subject: Re: [PATCH RFC] hw/cxl: type 3 devices can now present volatile or
+ persistent memory
+Message-ID: <20221010171855.mgpfwnz3ugq2jnrh@offworld>
+References: <20221006000103.49542-1-gregory.price@memverge.com>
+ <20221006094557.000035ab@huawei.com>
+ <20221006095007.00001271@huawei.com> <Yz75ppPOwYCvNamy@fedora>
+ <20221006174214.000059c7@huawei.com> <Yz8QlQ9yLFrWxWsN@fedora>
+ <20221010154343.00007afd@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20221006233702.18532-2-gregory.price@memverge.com>
+In-Reply-To: <20221010154343.00007afd@huawei.com>
 User-Agent: NeoMutt/20220429
-Received-SPF: pass client-ip=23.83.212.4; envelope-from=dave@stgolabs.net;
- helo=antelope.elm.relay.mailchannels.net
+Received-SPF: pass client-ip=23.83.209.93; envelope-from=dave@stgolabs.net;
+ helo=insect.birch.relay.mailchannels.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -113,119 +116,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 06 Oct 2022, Gregory Price wrote:
+On Mon, 10 Oct 2022, Jonathan Cameron wrote:
 
->diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
->index bc1bb18844..dfec11a1b5 100644
->--- a/hw/cxl/cxl-mailbox-utils.c
->+++ b/hw/cxl/cxl-mailbox-utils.c
->@@ -138,7 +138,7 @@ static ret_code cmd_firmware_update_get_info(struct cxl_cmd *cmd,
->     } QEMU_PACKED *fw_info;
->     QEMU_BUILD_BUG_ON(sizeof(*fw_info) != 0x50);
->
->-    if (cxl_dstate->pmem_size < (256 << 20)) {
->+    if (cxl_dstate->mem_size < (256 << 20)) {
+>I wonder if we care to emulate beyond 1 volatile and 1 persistent.
+>Sure devices might exist, but if we can exercise all the code paths
+>with a simpler configuration, perhaps we don't need to handle the
+>more complex ones?
 
-Nit but we probably want to abstract this out (in a pre-patch), just like in the
-kernel side. Ie:
-
-#define CXL_CAPACITY_MULTIPLIER   0x10000000 /* SZ_256M */
-
->         return CXL_MBOX_INTERNAL_ERROR;
->     }
->
->@@ -281,9 +281,10 @@ static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
->
->     CXLType3Dev *ct3d = container_of(cxl_dstate, CXLType3Dev, cxl_dstate);
->     CXLType3Class *cvc = CXL_TYPE3_GET_CLASS(ct3d);
->-    uint64_t size = cxl_dstate->pmem_size;
->
->-    if (!QEMU_IS_ALIGNED(size, 256 << 20)) {
->+    if ((!QEMU_IS_ALIGNED(cxl_dstate->mem_size, 256 << 20)) ||
-
-is the full mem_size check here really needed?
-
->+        (!QEMU_IS_ALIGNED(cxl_dstate->vmem_size, 256 << 20)) ||
->+        (!QEMU_IS_ALIGNED(cxl_dstate->pmem_size, 256 << 20))) {
->         return CXL_MBOX_INTERNAL_ERROR;
->     }
->
->@@ -293,8 +294,9 @@ static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
->     /* PMEM only */
-
-This comment wants removed.
-
->     snprintf(id->fw_revision, 0x10, "BWFW VERSION %02d", 0);
->
->-    id->total_capacity = size / (256 << 20);
->-    id->persistent_capacity = size / (256 << 20);
->+    id->total_capacity = cxl_dstate->mem_size / (256 << 20);
->+    id->persistent_capacity = cxl_dstate->pmem_size / (256 << 20);
->+    id->volatile_capacity = cxl_dstate->vmem_size / (256 << 20);
->     id->lsa_size = cvc->get_lsa_size(ct3d);
->
->     *len = sizeof(*id);
->@@ -312,16 +314,16 @@ static ret_code cmd_ccls_get_partition_info(struct cxl_cmd *cmd,
->         uint64_t next_pmem;
->     } QEMU_PACKED *part_info = (void *)cmd->payload;
->     QEMU_BUILD_BUG_ON(sizeof(*part_info) != 0x20);
->-    uint64_t size = cxl_dstate->pmem_size;
->
->-    if (!QEMU_IS_ALIGNED(size, 256 << 20)) {
->+    if ((!QEMU_IS_ALIGNED(cxl_dstate->mem_size, 256 << 20)) ||
->+        (!QEMU_IS_ALIGNED(cxl_dstate->vmem_size, 256 << 20)) ||
->+        (!QEMU_IS_ALIGNED(cxl_dstate->pmem_size, 256 << 20))) {
->         return CXL_MBOX_INTERNAL_ERROR;
->     }
->
->-    /* PMEM only */
->-    part_info->active_vmem = 0;
->+    part_info->active_vmem = cxl_dstate->vmem_size / (256 << 20);
->     part_info->next_vmem = 0;
->-    part_info->active_pmem = size / (256 << 20);
->+    part_info->active_pmem = cxl_dstate->pmem_size / (256 << 20);
->     part_info->next_pmem = 0;
->
->     *len = sizeof(*part_info);
->diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
->index 1837c1c83a..998461dac1 100644
->--- a/hw/mem/cxl_type3.c
->+++ b/hw/mem/cxl_type3.c
->@@ -100,18 +100,47 @@ static bool cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
->     DeviceState *ds = DEVICE(ct3d);
->     MemoryRegion *mr;
->     char *name;
->+    bool is_pmem = false;
->
->-    if (!ct3d->hostmem) {
->-        error_setg(errp, "memdev property must be set");
->+    /*
->+     * FIXME: For now we only allow a single host memory region.
->+     * Handle the deprecated memdev property usage cases
->+     */
->+    if (!ct3d->hostmem && !ct3d->host_vmem && !ct3d->host_pmem) {
->+        error_setg(errp, "at least one memdev property must be set");
->         return false;
->+    } else if (ct3d->hostmem && (ct3d->host_vmem || ct3d->host_pmem)) {
->+        error_setg(errp, "deprecated [memdev] cannot be used with new "
->+                         "persistent and volatile memdev properties");
->+        return false;
->+    } else if (ct3d->hostmem) {
->+        warn_report("memdev is deprecated and defaults to pmem. "
->+                    "Use (persistent|volatile)-memdev instead.");
->+        is_pmem = true;
->+    } else {
->+        if (ct3d->host_vmem && ct3d->host_pmem) {
->+            error_setg(errp, "Multiple memory devices not supported yet");
->+            return false;
->+        }
->+        is_pmem = !!ct3d->host_pmem;
->+        ct3d->hostmem = ct3d->host_pmem ? ct3d->host_pmem : ct3d->host_vmem;
-
-This hides requirement details as to the necessary changes that are needed for
-volatile support - for example, build_dvsecs(). Imo using two backends (without
-breaking current configs, of course) should be the initial version, not something
-to leave pending.
+Yes, I completely agree. 1 of each seems like the best balance between
+exercising code paths vs complexity.
 
 Thanks,
 Davidlohr
