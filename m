@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E3975F9BDA
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 11:29:12 +0200 (CEST)
-Received: from localhost ([::1]:60472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F2375F9BD5
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 11:27:09 +0200 (CEST)
+Received: from localhost ([::1]:58824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohp5w-0004TI-QS
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 05:29:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43308)
+	id 1ohp3z-0001zv-Gy
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 05:27:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ohoou-0003Fj-Lc
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 05:11:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34593)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ohoov-0003FN-TO
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 05:11:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50901)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ohoop-0000yk-D2
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ohoor-0000z1-4M
  for qemu-devel@nongnu.org; Mon, 10 Oct 2022 05:11:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665393085;
+ s=mimecast20190719; t=1665393088;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=MYAk15I/7YN+N48AfjAMgIWCGs3cdSzZd4anlJiPeh0=;
- b=aK612n2UGnkmJjYSrD3jq6zAeQUVwHQyARQKf5vryIoHecCCieEABIgaTkoYlSmtuhtrns
- IZUoMTGQ7BTWfaA0lrrW12nan4sg0DdlVChfaeBPCX5H0mi7OTMMB4bE9+uuPkRNz9sarH
- 8/aaR9FcOxiD3mAvksx5hsFjiqoOwNg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JmU4qW/qMHX4cizrbM9+JYbp01hAFOZCMtWcHYj6Cu4=;
+ b=NWDZG7MiV74QECwrNysNkNzNkPbWWGO0C1ipjQbtLgBPp6gBo9wn1krOzR/qZdzgO04kZg
+ m12AbqzXilS8gfGF1KiFodjZ2cN6pVJGqQsHxfR0FGO6DF4e7FVwmrtOVxLBkHpf+NgTZS
+ ji1sANsqAtXr5Lawr3WmyiZ9ES5xr94=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-318-RAxexYjrOJe1f_pWl5UKkw-1; Mon, 10 Oct 2022 05:11:22 -0400
-X-MC-Unique: RAxexYjrOJe1f_pWl5UKkw-1
+ us-mta-590-Zy9yR3VtPN2XashvtoMaPw-1; Mon, 10 Oct 2022 05:11:25 -0400
+X-MC-Unique: Zy9yR3VtPN2XashvtoMaPw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 95701380673D;
- Mon, 10 Oct 2022 09:11:21 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BF03185A59D;
+ Mon, 10 Oct 2022 09:11:24 +0000 (UTC)
 Received: from t480s.redhat.com (unknown [10.39.193.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7FDED112D164;
- Mon, 10 Oct 2022 09:11:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F4092112D164;
+ Mon, 10 Oct 2022 09:11:21 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>,
@@ -52,12 +53,12 @@ Cc: David Hildenbrand <david@redhat.com>,
  Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Stefan Weil <sw@weilnetz.de>
-Subject: [PATCH v2 0/7] hostmem: NUMA-aware memory preallocation using
- ThreadContext
-Date: Mon, 10 Oct 2022 11:11:10 +0200
-Message-Id: <20221010091117.88603-1-david@redhat.com>
+Subject: [PATCH v2 1/7] util: Cleanup and rename os_mem_prealloc()
+Date: Mon, 10 Oct 2022 11:11:11 +0200
+Message-Id: <20221010091117.88603-2-david@redhat.com>
+In-Reply-To: <20221010091117.88603-1-david@redhat.com>
+References: <20221010091117.88603-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
@@ -84,154 +85,215 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a follow-up on "util: NUMA aware memory preallocation" [1] by
-Michal.
+Let's
+* give the function a "qemu_*" style name
+* make sure the parameters in the implementation match the prototype
+* rename smp_cpus to max_threads, which makes the semantics of that
+  parameter clearer
 
-Setting the CPU affinity of threads from inside QEMU usually isn't
-easily possible, because we don't want QEMU -- once started and running
-guest code -- to be able to mess up the system. QEMU disallows relevant
-syscalls using seccomp, such that any such invocation will fail.
+... and add a function documentation.
 
-Especially for memory preallocation in memory backends, the CPU affinity
-can significantly increase guest startup time, for example, when running
-large VMs backed by huge/gigantic pages, because of NUMA effects. For
-NUMA-aware preallocation, we have to set the CPU affinity, however:
+Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ backends/hostmem.c     |  6 +++---
+ hw/virtio/virtio-mem.c |  2 +-
+ include/qemu/osdep.h   | 17 +++++++++++++++--
+ softmmu/cpus.c         |  2 +-
+ util/oslib-posix.c     | 24 ++++++++++++------------
+ util/oslib-win32.c     |  8 ++++----
+ 6 files changed, 36 insertions(+), 23 deletions(-)
 
-(1) Once preallocation threads are created during preallocation, management
-    tools cannot intercept anymore to change the affinity. These threads
-    are created automatically on demand.
-(2) QEMU cannot easily set the CPU affinity itself.
-(3) The CPU affinity derived from the NUMA bindings of the memory backend
-    might not necessarily be exactly the CPUs we actually want to use
-    (e.g., CPU-less NUMA nodes, CPUs that are pinned/used for other VMs).
-
-There is an easy "workaround". If we have a thread with the right CPU
-affinity, we can simply create new threads on demand via that prepared
-context. So, all we have to do is setup and create such a context ahead
-of time, to then configure preallocation to create new threads via that
-environment.
-
-So, let's introduce a user-creatable "thread-context" object that
-essentially consists of a context thread used to create new threads.
-QEMU can either try setting the CPU affinity itself ("cpu-affinity",
-"node-affinity" property), or upper layers can extract the thread id
-("thread-id" property) to configure it externally.
-
-Make memory-backends consume a thread-context object
-(via the "prealloc-context" property) and use it when preallocating to
-create new threads with the desired CPU affinity. Further, to make it
-easier to use, allow creation of "thread-context" objects, including
-setting the CPU affinity directly from QEMU, before enabling the
-sandbox option.
-
-
-Quick test on a system with 2 NUMA nodes:
-
-Without CPU affinity:
-    time qemu-system-x86_64 \
-        -object memory-backend-memfd,id=md1,hugetlb=on,hugetlbsize=2M,size=64G,prealloc-threads=12,prealloc=on,host-nodes=0,policy=bind \
-        -nographic -monitor stdio
-
-    real    0m5.383s
-    real    0m3.499s
-    real    0m5.129s
-    real    0m4.232s
-    real    0m5.220s
-    real    0m4.288s
-    real    0m3.582s
-    real    0m4.305s
-    real    0m5.421s
-    real    0m4.502s
-
-    -> It heavily depends on the scheduler CPU selection
-
-With CPU affinity:
-    time qemu-system-x86_64 \
-        -object thread-context,id=tc1,node-affinity=0 \
-        -object memory-backend-memfd,id=md1,hugetlb=on,hugetlbsize=2M,size=64G,prealloc-threads=12,prealloc=on,host-nodes=0,policy=bind,prealloc-context=tc1 \
-        -sandbox enable=on,resourcecontrol=deny \
-        -nographic -monitor stdio
-
-    real    0m1.959s
-    real    0m1.942s
-    real    0m1.943s
-    real    0m1.941s
-    real    0m1.948s
-    real    0m1.964s
-    real    0m1.949s
-    real    0m1.948s
-    real    0m1.941s
-    real    0m1.937s
-
-On reasonably large VMs, the speedup can be quite significant.
-
-While this concept is currently only used for short-lived preallocation
-threads, nothing major speaks against reusing the concept for other
-threads that are harder to identify/configure -- except that
-we need additional (idle) context threads that are otherwise left unused.
-
-This series does not yet tackle concurrent preallocation of memory
-backends. Memory backend objects are created and memory is preallocated one
-memory backend at a time -- and there is currently no way to do
-preallocation asynchronously.
-
-[1] https://lkml.kernel.org/r/ffdcd118d59b379ede2b64745144165a40f6a813.1652165704.git.mprivozn@redhat.com
-
-v1 -> v2:
-* Fixed some minor style nits
-* "util: Introduce ThreadContext user-creatable object"
- -> Impove documentation and patch description. [Markus]
-* "util: Add write-only "node-affinity" property for ThreadContext"
- -> Impove documentation and patch description. [Markus]
-
-RFC -> v1:
-* "vl: Allow ThreadContext objects to be created before the sandbox option"
- -> Move parsing of the "name" property before object_create_pre_sandbox
-* Added RB's
-
-Cc: Michal Privoznik <mprivozn@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: "Daniel P. Berrangé" <berrange@redhat.com>
-Cc: Eduardo Habkost <eduardo@habkost.net>
-Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Cc: Eric Blake <eblake@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Stefan Weil <sw@weilnetz.de>
-
-David Hildenbrand (7):
-  util: Cleanup and rename os_mem_prealloc()
-  util: Introduce qemu_thread_set_affinity() and
-    qemu_thread_get_affinity()
-  util: Introduce ThreadContext user-creatable object
-  util: Add write-only "node-affinity" property for ThreadContext
-  util: Make qemu_prealloc_mem() optionally consume a ThreadContext
-  hostmem: Allow for specifying a ThreadContext for preallocation
-  vl: Allow ThreadContext objects to be created before the sandbox
-    option
-
- backends/hostmem.c            |  13 +-
- hw/virtio/virtio-mem.c        |   2 +-
- include/qemu/osdep.h          |  19 +-
- include/qemu/thread-context.h |  57 ++++++
- include/qemu/thread.h         |   4 +
- include/sysemu/hostmem.h      |   2 +
- meson.build                   |  16 ++
- qapi/qom.json                 |  28 +++
- softmmu/cpus.c                |   2 +-
- softmmu/vl.c                  |  36 +++-
- util/meson.build              |   1 +
- util/oslib-posix.c            |  39 ++--
- util/oslib-win32.c            |   8 +-
- util/qemu-thread-posix.c      |  70 +++++++
- util/qemu-thread-win32.c      |  12 ++
- util/thread-context.c         | 362 ++++++++++++++++++++++++++++++++++
- 16 files changed, 641 insertions(+), 30 deletions(-)
- create mode 100644 include/qemu/thread-context.h
- create mode 100644 util/thread-context.c
-
+diff --git a/backends/hostmem.c b/backends/hostmem.c
+index 4428e06738..491cb10b97 100644
+--- a/backends/hostmem.c
++++ b/backends/hostmem.c
+@@ -232,7 +232,7 @@ static void host_memory_backend_set_prealloc(Object *obj, bool value,
+         void *ptr = memory_region_get_ram_ptr(&backend->mr);
+         uint64_t sz = memory_region_size(&backend->mr);
+ 
+-        os_mem_prealloc(fd, ptr, sz, backend->prealloc_threads, &local_err);
++        qemu_prealloc_mem(fd, ptr, sz, backend->prealloc_threads, &local_err);
+         if (local_err) {
+             error_propagate(errp, local_err);
+             return;
+@@ -383,8 +383,8 @@ host_memory_backend_memory_complete(UserCreatable *uc, Error **errp)
+          * specified NUMA policy in place.
+          */
+         if (backend->prealloc) {
+-            os_mem_prealloc(memory_region_get_fd(&backend->mr), ptr, sz,
+-                            backend->prealloc_threads, &local_err);
++            qemu_prealloc_mem(memory_region_get_fd(&backend->mr), ptr, sz,
++                              backend->prealloc_threads, &local_err);
+             if (local_err) {
+                 goto out;
+             }
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index 30d03e987a..0e9ef4ff19 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -467,7 +467,7 @@ static int virtio_mem_set_block_state(VirtIOMEM *vmem, uint64_t start_gpa,
+             int fd = memory_region_get_fd(&vmem->memdev->mr);
+             Error *local_err = NULL;
+ 
+-            os_mem_prealloc(fd, area, size, 1, &local_err);
++            qemu_prealloc_mem(fd, area, size, 1, &local_err);
+             if (local_err) {
+                 static bool warned;
+ 
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index b1c161c035..e556e45143 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -568,8 +568,21 @@ unsigned long qemu_getauxval(unsigned long type);
+ 
+ void qemu_set_tty_echo(int fd, bool echo);
+ 
+-void os_mem_prealloc(int fd, char *area, size_t sz, int smp_cpus,
+-                     Error **errp);
++/**
++ * qemu_prealloc_mem:
++ * @fd: the fd mapped into the area, -1 for anonymous memory
++ * @area: start address of the are to preallocate
++ * @sz: the size of the area to preallocate
++ * @max_threads: maximum number of threads to use
++ * @errp: returns an error if this function fails
++ *
++ * Preallocate memory (populate/prefault page tables writable) for the virtual
++ * memory area starting at @area with the size of @sz. After a successful call,
++ * each page in the area was faulted in writable at least once, for example,
++ * after allocating file blocks for mapped files.
++ */
++void qemu_prealloc_mem(int fd, char *area, size_t sz, int max_threads,
++                       Error **errp);
+ 
+ /**
+  * qemu_get_pid_name:
+diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+index 61b27ff59d..01c94fd298 100644
+--- a/softmmu/cpus.c
++++ b/softmmu/cpus.c
+@@ -354,7 +354,7 @@ static void qemu_init_sigbus(void)
+ 
+     /*
+      * ALERT: when modifying this, take care that SIGBUS forwarding in
+-     * os_mem_prealloc() will continue working as expected.
++     * qemu_prealloc_mem() will continue working as expected.
+      */
+     memset(&action, 0, sizeof(action));
+     action.sa_flags = SA_SIGINFO;
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index 827a7aadba..905cbc27cc 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -329,7 +329,7 @@ static void sigbus_handler(int signal)
+         return;
+     }
+ #endif /* CONFIG_LINUX */
+-    warn_report("os_mem_prealloc: unrelated SIGBUS detected and ignored");
++    warn_report("qemu_prealloc_mem: unrelated SIGBUS detected and ignored");
+ }
+ 
+ static void *do_touch_pages(void *arg)
+@@ -399,13 +399,13 @@ static void *do_madv_populate_write_pages(void *arg)
+ }
+ 
+ static inline int get_memset_num_threads(size_t hpagesize, size_t numpages,
+-                                         int smp_cpus)
++                                         int max_threads)
+ {
+     long host_procs = sysconf(_SC_NPROCESSORS_ONLN);
+     int ret = 1;
+ 
+     if (host_procs > 0) {
+-        ret = MIN(MIN(host_procs, MAX_MEM_PREALLOC_THREAD_COUNT), smp_cpus);
++        ret = MIN(MIN(host_procs, MAX_MEM_PREALLOC_THREAD_COUNT), max_threads);
+     }
+ 
+     /* Especially with gigantic pages, don't create more threads than pages. */
+@@ -418,11 +418,11 @@ static inline int get_memset_num_threads(size_t hpagesize, size_t numpages,
+ }
+ 
+ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+-                           int smp_cpus, bool use_madv_populate_write)
++                           int max_threads, bool use_madv_populate_write)
+ {
+     static gsize initialized = 0;
+     MemsetContext context = {
+-        .num_threads = get_memset_num_threads(hpagesize, numpages, smp_cpus),
++        .num_threads = get_memset_num_threads(hpagesize, numpages, max_threads),
+     };
+     size_t numpages_per_thread, leftover;
+     void *(*touch_fn)(void *);
+@@ -494,13 +494,13 @@ static bool madv_populate_write_possible(char *area, size_t pagesize)
+            errno != EINVAL;
+ }
+ 
+-void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+-                     Error **errp)
++void qemu_prealloc_mem(int fd, char *area, size_t sz, int max_threads,
++                       Error **errp)
+ {
+     static gsize initialized;
+     int ret;
+     size_t hpagesize = qemu_fd_getpagesize(fd);
+-    size_t numpages = DIV_ROUND_UP(memory, hpagesize);
++    size_t numpages = DIV_ROUND_UP(sz, hpagesize);
+     bool use_madv_populate_write;
+     struct sigaction act;
+ 
+@@ -530,24 +530,24 @@ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+         if (ret) {
+             qemu_mutex_unlock(&sigbus_mutex);
+             error_setg_errno(errp, errno,
+-                "os_mem_prealloc: failed to install signal handler");
++                "qemu_prealloc_mem: failed to install signal handler");
+             return;
+         }
+     }
+ 
+     /* touch pages simultaneously */
+-    ret = touch_all_pages(area, hpagesize, numpages, smp_cpus,
++    ret = touch_all_pages(area, hpagesize, numpages, max_threads,
+                           use_madv_populate_write);
+     if (ret) {
+         error_setg_errno(errp, -ret,
+-                         "os_mem_prealloc: preallocating memory failed");
++                         "qemu_prealloc_mem: preallocating memory failed");
+     }
+ 
+     if (!use_madv_populate_write) {
+         ret = sigaction(SIGBUS, &sigbus_oldact, NULL);
+         if (ret) {
+             /* Terminate QEMU since it can't recover from error */
+-            perror("os_mem_prealloc: failed to reinstall signal handler");
++            perror("qemu_prealloc_mem: failed to reinstall signal handler");
+             exit(1);
+         }
+         qemu_mutex_unlock(&sigbus_mutex);
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index 5723d3eb4c..e1cb725ecc 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -268,14 +268,14 @@ int getpagesize(void)
+     return system_info.dwPageSize;
+ }
+ 
+-void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+-                     Error **errp)
++void qemu_prealloc_mem(int fd, char *area, size_t sz, int max_threads,
++                       Error **errp)
+ {
+     int i;
+     size_t pagesize = qemu_real_host_page_size();
+ 
+-    memory = (memory + pagesize - 1) & -pagesize;
+-    for (i = 0; i < memory / pagesize; i++) {
++    sz = (sz + pagesize - 1) & -pagesize;
++    for (i = 0; i < sz / pagesize; i++) {
+         memset(area + pagesize * i, 0, 1);
+     }
+ }
 -- 
 2.37.3
 
