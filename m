@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 160D25FA2EF
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 19:51:02 +0200 (CEST)
-Received: from localhost ([::1]:58458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A41135FA302
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 19:56:16 +0200 (CEST)
+Received: from localhost ([::1]:38098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohwvc-0000pj-Sf
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 13:51:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34440)
+	id 1ohx0g-0006rY-FT
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 13:56:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwax-0000wF-5X
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:29:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45452)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwb9-0001Vd-2q
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:29:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30056)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwar-0006Zh-Or
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:29:38 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwb3-0006bo-IF
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:29:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665422972;
+ s=mimecast20190719; t=1665422984;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2iwODXw0y1ZBoetM/4mM4qd7/Y+WK2plkhEqQ5sfQbQ=;
- b=JHCuPQ1dAmOFeGoh8A7MnH8rzCoOeTSeOM28PZLr9vdFloY5pDllM+Hvp/m7GhPsY6p95p
- 1yjHr0SyXGoRrDKjpaaG9Acx3n4foO7/rP/GLYIvxZXB7s3vp+wdwMbyRmbWQuQeqEYnzJ
- LYPAxDSjSWu6DfQTH/XQOM9UPR028F4=
+ bh=Rf0XQwc/BmRyvyPNJvIiGLwnDIY+n+JfNAjnoyzxZeU=;
+ b=Ufoe2x8l9U+m/Zez6oPtjf9z8wtRR6B75jej+d/1MTJxKcyt/WU6gEseTkw/A0QceqZ26c
+ 9/EnVGOLHzrjhpeZuYTOm0z6tV2OVU2y/eKC1ewdYtCQM5Z6lnHQmr0dioA7TO0KGCp7ls
+ dnipucej8OcILnNaL1M/zlu6f41R8Zg=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-498-F1Lmhsh5NrmAOjl1jyQD4A-1; Mon, 10 Oct 2022 13:29:31 -0400
-X-MC-Unique: F1Lmhsh5NrmAOjl1jyQD4A-1
+ us-mta-483-GRlA71w7PhqN71wKPcs7qQ-1; Mon, 10 Oct 2022 13:29:36 -0400
+X-MC-Unique: GRlA71w7PhqN71wKPcs7qQ-1
 Received: by mail-wm1-f69.google.com with SMTP id
- fc12-20020a05600c524c00b003b5054c70d3so7291277wmb.5
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:29:31 -0700 (PDT)
+ ay21-20020a05600c1e1500b003b45fd14b53so5819195wmb.1
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:29:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2iwODXw0y1ZBoetM/4mM4qd7/Y+WK2plkhEqQ5sfQbQ=;
- b=gCRfQmoyEA5hbILX2H7poqZ6PND03ml/6nil9Yy7ou5EBtk+3YZySAbQBfVbltkyOh
- alyvCBulpkn1/j/jtc5an+i7wvYL7KLm5thy6zylkqzMH4PSsSE6beu4FiSL0Fw38ZCz
- 2Zh+3rDw4PsR25h0LXa/br0ellq+s2hrgHYt7JFcWUhlPg8TUTy3RomkC9UD6ySAUAwo
- 0UzGqosvoJ1zYuvqfwhiycRxwT83TLyeAXK559Un/7RsdRP90t8A5bP7DOuHfZxzCD1V
- 9Ry6I1Ntq51eQhIPE3mUnElT8yuCW2usd0kurqsfpw5U29XQ4tu4HsJvcw44zhtRt29F
- Pkig==
-X-Gm-Message-State: ACrzQf0n8dU5a4+hOWl+81yNfi1rWzFEzypblgTO0Aj/IyaBCGwrSfrd
- 1Fa559hTh6dGfx2C2ERvh4gvPwim9Ead1EvXLYpQJpdDxQhqPNRonJ1vvdQJ3XrKedM36w0liyM
- RsKRYHJo0EUIxah5TWHCUHALKKhAZlsrB57Gp8rW4kxjUHf64pj8+CosNG2Da
-X-Received: by 2002:adf:e112:0:b0:21d:7195:3a8d with SMTP id
- t18-20020adfe112000000b0021d71953a8dmr12813380wrz.371.1665422969920; 
- Mon, 10 Oct 2022 10:29:29 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM707a/IObCaFtb9WHMjypQEwjKKu5V7Zo3e15IxTnCB4Ee7Pg0J5tEictIfHozO+veB074yyA==
-X-Received: by 2002:adf:e112:0:b0:21d:7195:3a8d with SMTP id
- t18-20020adfe112000000b0021d71953a8dmr12813361wrz.371.1665422969623; 
- Mon, 10 Oct 2022 10:29:29 -0700 (PDT)
+ bh=Rf0XQwc/BmRyvyPNJvIiGLwnDIY+n+JfNAjnoyzxZeU=;
+ b=1jMBjw5k3imc9ti9brVgRuqvIelMR9QmUpn/8maInV9IEgw/OPPJb2PNe+emOtC7VG
+ rG8LyR5ttlZvZu9IsFQoFA8U6nJBw+NDlq+8WXAwiXrcEvIucoNWTfO7U1DzCTaXhzxy
+ yigKcBPpF7k8oRmtXjakagl02ka2DcT13I5UFtMmvnHzWhG0wPZEicYt+fyuTWZuGkYD
+ 9E3DJRBe+CuTiWmV3ibxi+HzXXHg62Q/1oG9ZGHrXDqlp5ojFkGu83eDwFabhq+EMqW4
+ zS4afbZ2IEqte7n4DCk7ABwB87U7ObrvCtTnbDCyBxC8KYWuNaeU1yJ9IEB3W5Ar4t6S
+ 8miQ==
+X-Gm-Message-State: ACrzQf2rRX36zP9SLUqM04kQCQ/y2fAR/zILrdcoVBI93N8jDLH4JHoX
+ T1Bj6jGiGj5DIAbWjUZPdguMzU6QDQn6k36QeSvIPRMaDQnXQY1MRUdo/IOg2wO6bVbBDo70nAG
+ o138nKOJIKjeA1kX7vpMs83t98FpnbibeT/JRRjcRnzYySRo4szmBwnnyihSU
+X-Received: by 2002:adf:cf0a:0:b0:22e:3f43:a5f7 with SMTP id
+ o10-20020adfcf0a000000b0022e3f43a5f7mr12321396wrj.634.1665422974565; 
+ Mon, 10 Oct 2022 10:29:34 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7CMka6eloDJzCaI32P+S8Mr/ZX7Dfq8Moc+AA2H0zzMcphSlgOJ4l+2wTNEDwICYWIqqgxww==
+X-Received: by 2002:adf:cf0a:0:b0:22e:3f43:a5f7 with SMTP id
+ o10-20020adfcf0a000000b0022e3f43a5f7mr12321377wrj.634.1665422974255; 
+ Mon, 10 Oct 2022 10:29:34 -0700 (PDT)
 Received: from redhat.com ([2.55.183.131]) by smtp.gmail.com with ESMTPSA id
- d4-20020adffbc4000000b00225307f43fbsm7281023wrs.44.2022.10.10.10.29.27
+ l22-20020a05600c089600b003c43dc42b4dsm7812799wmp.16.2022.10.10.10.29.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 10:29:29 -0700 (PDT)
-Date: Mon, 10 Oct 2022 13:29:25 -0400
+ Mon, 10 Oct 2022 10:29:33 -0700 (PDT)
+Date: Mon, 10 Oct 2022 13:29:29 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PULL 11/55] tests/qtest: pass stdout/stderr down to subtests
-Message-ID: <20221010172813.204597-12-mst@redhat.com>
+ Thomas Huth <thuth@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PULL 12/55] tests/qtest: add a timeout for subprocess_run_one_test
+Message-ID: <20221010172813.204597-13-mst@redhat.com>
 References: <20221010172813.204597-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -78,7 +79,7 @@ Content-Transfer-Encoding: 8bit
 In-Reply-To: <20221010172813.204597-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -104,38 +105,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alex Bennée <alex.bennee@linaro.org>
 
-When trying to work out what the virtio-net-tests where doing it was
-hard because the g_test_trap_subprocess redirects all output to
-/dev/null. Lift this restriction by using the appropriate flags so you
-can see something similar to what the vhost-user-blk tests show when
-running.
+Hangs have been observed in the tests and currently we don't timeout
+if a subprocess hangs. Rectify that.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20220407150042.2338562-1-alex.bennee@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-Message-Id: <20220802095010.3330793-15-alex.bennee@linaro.org>
+Message-Id: <20220802095010.3330793-16-alex.bennee@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/qtest/qos-test.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ tests/qtest/qos-test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/tests/qtest/qos-test.c b/tests/qtest/qos-test.c
-index 831db5cf2a..33cdada380 100644
+index 33cdada380..566cb3b00b 100644
 --- a/tests/qtest/qos-test.c
 +++ b/tests/qtest/qos-test.c
-@@ -185,7 +185,9 @@ static void run_one_test(const void *arg)
+@@ -185,7 +185,7 @@ static void run_one_test(const void *arg)
  static void subprocess_run_one_test(const void *arg)
  {
      const gchar *path = arg;
--    g_test_trap_subprocess(path, 0, 0);
-+    g_test_trap_subprocess(path, 0,
-+                           G_TEST_SUBPROCESS_INHERIT_STDOUT |
-+                           G_TEST_SUBPROCESS_INHERIT_STDERR);
+-    g_test_trap_subprocess(path, 0,
++    g_test_trap_subprocess(path, 180 * G_USEC_PER_SEC,
+                            G_TEST_SUBPROCESS_INHERIT_STDOUT |
+                            G_TEST_SUBPROCESS_INHERIT_STDERR);
      g_test_trap_assert_passed();
- }
- 
 -- 
 MST
 
