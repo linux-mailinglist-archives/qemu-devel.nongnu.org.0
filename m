@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0CD75FA029
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 16:24:25 +0200 (CEST)
-Received: from localhost ([::1]:38628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 189C65FA030
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 16:27:00 +0200 (CEST)
+Received: from localhost ([::1]:57386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohthf-000277-Bs
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 10:24:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45756)
+	id 1ohtkA-0004ou-T7
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 10:26:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ohtf6-0005xn-5n
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:21:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21653)
+ id 1ohtf5-0005zk-NX
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:21:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56595)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ohtf3-0004d7-3i
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:21:42 -0400
+ id 1ohtf3-0004dB-IT
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:21:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665411700;
+ s=mimecast20190719; t=1665411701;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SzDZUS1W46+P/ZZJtbDKE4QpahPMYUtRHpGx3f4oY2s=;
- b=FSEodPuuWYh5ZVf2Faq1XYUabaOHAEk+ZIjF9o47WqFdjVzO9ssUrd1euDS5h7bllwp+le
- omgE+8TQZv2RMjy17TshaaLAFYuSJyeI6n1BkZye/Ky5VRTR/GqMFk6h6Ygw9MU2yutnm/
- O3WNuouv9lQ4kctXLnRoyO069SiQxeQ=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0O1Xfq9fIDRiDp+PL8kxL194HZlKP1v9WSPjd2eXsqM=;
+ b=ixrZCYriI9rRA+9OI7IceIcXMXhntY4uoby+h6eIxjfKBVLJ8R4HPqsDCjjqh2nHj+Ta6v
+ ADrhc4HRrptNySD1rCkeMxSYHxmylAlKffhvAX+UgZcoulHCbpir28ZeRg3+oWsuCSlmsV
+ yfwA23muCMz52krQ7ODONhEZ08+1Lm0=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-314-tlNv0WAAPIKL45Z-NSFFgg-1; Mon, 10 Oct 2022 10:21:36 -0400
-X-MC-Unique: tlNv0WAAPIKL45Z-NSFFgg-1
-Received: by mail-ed1-f72.google.com with SMTP id
- q17-20020a056402519100b00459a2e5adbcso9100389edd.16
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 07:21:36 -0700 (PDT)
+ us-mta-50-JfoDhTWLNaCtH6Wd2u1bKA-1; Mon, 10 Oct 2022 10:21:39 -0400
+X-MC-Unique: JfoDhTWLNaCtH6Wd2u1bKA-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ hr29-20020a1709073f9d00b0078333782c48so4534516ejc.10
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 07:21:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=SzDZUS1W46+P/ZZJtbDKE4QpahPMYUtRHpGx3f4oY2s=;
- b=J1kAq3BfMxUEGMhSrF0kbl/FPPuYEQDjC4sOPFmBckNCNkHtA4M9zpenPg68rm+wbX
- ZepffAkifiUwDCxr+wM11XdZsbPgQsRzX5ylGEOj0l/c4TZO6VR4XnScIgYKJwblup6k
- OvlikRa+ti4/Zj/z5boKuji5ITRO9318bqQaQkgJLcnAZ7rIDGCfTMj+am4nM26XzXAa
- 7hPYxsaYRRsjcA7QzitPjMy4OIkV4q2Sj0r6Iye6DLg0djk7qG+5wjVqtl0WUYxv41SW
- jUx55Hxn2Izz4vj08/MUiko7hbuwq0XRdQum8UnudAdxlqdTnjaOkQGBZ6XjTop0o5Pv
- m4rQ==
-X-Gm-Message-State: ACrzQf1TwMWSPvsazR5FaI5/kqoVhOez7QQ7PfBueYPMNcLFlxjtL6+Z
- 2exq4p+AWNPm123+UuGM1lA5YES17t2ZpNfJh/GkOu8wGkLf1Br9vG3UYjWwYcMJ+8a1s78ClNZ
- 3Y5KDU715p8tP5rmDaYcjRhNl9CjbFPfxFZLL5qCdwqOiAsW9ShFejhzHob6tZl04X5w=
-X-Received: by 2002:a17:906:5d0d:b0:783:10cb:2829 with SMTP id
- g13-20020a1709065d0d00b0078310cb2829mr14839811ejt.209.1665411695401; 
- Mon, 10 Oct 2022 07:21:35 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7KCZX6aQ4m69mVI9yPWjBjkIInBdpDWnJjypurjRM92SKhJjsa81ovQPGpygd2W7TRyfFMcA==
-X-Received: by 2002:a17:906:5d0d:b0:783:10cb:2829 with SMTP id
- g13-20020a1709065d0d00b0078310cb2829mr14839788ejt.209.1665411694899; 
- Mon, 10 Oct 2022 07:21:34 -0700 (PDT)
+ bh=0O1Xfq9fIDRiDp+PL8kxL194HZlKP1v9WSPjd2eXsqM=;
+ b=HuQhH9t/8QGsXPiCD1HB7ttVog+rHH7s8Q0OIr62vGDjixWmcrTSU5Mxs6JQldSPmx
+ YX4lkS+rMcIa/SnhyFqDalT7RAjx1lluOQxSPTWt9BBtvvZr4Kr14pAQCbCHjztfFAwf
+ g2Mx+Ja3hP2KaxEmDqLz+k4baai2QfR5h66XT337fvJIvU3HzT2VfqjRx82ZasFiPtwx
+ enDJSCbEiS0mSZv/O5tEYZc0T//8uSoHineqYUXS8WxTn9mV4yKmPb1A5WsaG0zfgZGa
+ QWxRAiimTgs4r6GUBfqfBTfUwPMj8itysl059k4AFWNtvL6sMGWOqDKGUvm0zBhZefj7
+ il+A==
+X-Gm-Message-State: ACrzQf29qUeHLRCidRF5MqKfocAoRbBlliEEdWzJH2WRVd3D3lUBLmTh
+ lYky1BjdcxXAm/J434lvnZydJlWqLKb4CjvDQ+9zw29TSCXWxHQxy9obR0FBpmMOjSXI5LuwkkK
+ 7cLYY7nRdbij2ZjhJ2ozrIvHqISbL+F8NyxyR41UjnniGomu9kf+STSwU+tFK03md38I=
+X-Received: by 2002:a05:6402:1587:b0:458:fbea:436c with SMTP id
+ c7-20020a056402158700b00458fbea436cmr18033454edv.407.1665411698100; 
+ Mon, 10 Oct 2022 07:21:38 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7pvynWJzJ99VYMuE1dvWhhuvZnPgpQ5MX97diClbOViKMVqQaLSyelfFtuqdzUbONqZcCKbQ==
+X-Received: by 2002:a05:6402:1587:b0:458:fbea:436c with SMTP id
+ c7-20020a056402158700b00458fbea436cmr18033408edv.407.1665411697547; 
+ Mon, 10 Oct 2022 07:21:37 -0700 (PDT)
 Received: from avogadro.local ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
  by smtp.gmail.com with ESMTPSA id
- b20-20020a17090630d400b0077f20a722dfsm5435230ejb.165.2022.10.10.07.21.34
+ z11-20020aa7d40b000000b00458d50b4a24sm7082995edq.96.2022.10.10.07.21.36
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 07:21:34 -0700 (PDT)
+ Mon, 10 Oct 2022 07:21:37 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] linux-user: i386/signal: support FXSAVE fpstate on 32-bit
- emulation
-Date: Mon, 10 Oct 2022 16:21:26 +0200
-Message-Id: <20221010142127.295676-3-pbonzini@redhat.com>
+Subject: [PATCH 3/3] linux-user: i386/signal: support XSAVE/XRSTOR for signal
+ frame fpstate
+Date: Mon, 10 Oct 2022 16:21:27 +0200
+Message-Id: <20221010142127.295676-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221010142127.295676-1-pbonzini@redhat.com>
 References: <20221010142127.295676-1-pbonzini@redhat.com>
@@ -101,249 +101,344 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Linux can use FXSAVE to save/restore XMM registers even on 32-bit
-systems.  This requires some care in order to keep the FXSAVE area
-aligned to 16 bytes; for this reason, get_sigframe is changed to
-pass the offset into the FXSAVE area rather than the full frame
-size.
+Add support for saving/restoring extended save states when signals
+are delivered.  This allows using AVX, MPX or PKRU registers in
+signal handlers.  The patch follows the Linux ABI.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- linux-user/i386/signal.c | 129 +++++++++++++++++++++++----------------
- 1 file changed, 77 insertions(+), 52 deletions(-)
+ linux-user/i386/signal.c     | 115 +++++++++++++++++++++++++++++------
+ target/i386/cpu.c            |   2 +-
+ target/i386/cpu.h            |   3 +
+ target/i386/tcg/fpu_helper.c |  64 +++++++++++--------
+ 4 files changed, 138 insertions(+), 46 deletions(-)
 
 diff --git a/linux-user/i386/signal.c b/linux-user/i386/signal.c
-index 76317a3d16..53c1c05581 100644
+index 53c1c05581..7dd52eb5dc 100644
 --- a/linux-user/i386/signal.c
 +++ b/linux-user/i386/signal.c
-@@ -39,29 +39,7 @@ struct target_xmmreg {
+@@ -39,6 +39,15 @@ struct target_xmmreg {
      uint32_t element[4];
  };
  
--struct target_fpstate_32 {
--    /* Regular FPU environment */
--    uint32_t cw;
--    uint32_t sw;
--    uint32_t tag;
--    uint32_t ipoff;
--    uint32_t cssel;
--    uint32_t dataoff;
--    uint32_t datasel;
--    struct target_fpreg st[8];
--    uint16_t  status;
--    uint16_t  magic;          /* 0xffff = regular FPU data only */
--
--    /* FXSR FPU environment */
--    uint32_t _fxsr_env[6];   /* FXSR FPU env is ignored */
--    uint32_t mxcsr;
--    uint32_t reserved;
--    struct target_fpxreg fxsr_st[8]; /* FXSR FPU reg data is ignored */
--    struct target_xmmreg xmm[8];
--    uint32_t padding[56];
--};
--
--struct target_fpstate_64 {
-+struct target_fpstate_fxsave {
++struct target_fpx_sw_bytes {
++    uint32_t magic1;
++    uint32_t extended_size;
++    uint64_t xfeatures;
++    uint32_t xstate_size;
++    uint32_t reserved[7];
++};
++QEMU_BUILD_BUG_ON(sizeof(struct target_fpx_sw_bytes) != 12*4);
++
+ struct target_fpstate_fxsave {
      /* FXSAVE format */
      uint16_t cw;
-     uint16_t sw;
-@@ -75,11 +53,36 @@ struct target_fpstate_64 {
+@@ -51,10 +60,13 @@ struct target_fpstate_fxsave {
+     uint32_t mxcsr_mask;
+     uint32_t st_space[32];
      uint32_t xmm_space[64];
-     uint32_t reserved[24];
+-    uint32_t reserved[24];
++    uint32_t hw_reserved[12];
++    struct target_fpx_sw_bytes sw_reserved;
++    uint8_t xfeatures[];
  };
-+#define TARGET_FXSAVE_SIZE   sizeof(struct target_fpstate_fxsave)
-+QEMU_BUILD_BUG_ON(TARGET_FXSAVE_SIZE != 512);
-+
-+struct target_fpstate_32 {
-+    /* Regular FPU environment */
-+    uint32_t cw;
-+    uint32_t sw;
-+    uint32_t tag;
-+    uint32_t ipoff;
-+    uint32_t cssel;
-+    uint32_t dataoff;
-+    uint32_t datasel;
-+    struct target_fpreg st[8];
-+    uint16_t  status;
-+    uint16_t  magic;          /* 0xffff = regular FPU data only */
-+    struct target_fpstate_fxsave fxsave;
-+};
-+
-+/*
-+ * For simplicity, setup_frame aligns struct target_fpstate_32 to
-+ * 16 bytes, so ensure that the FXSAVE area is also aligned.
-+ */
-+QEMU_BUILD_BUG_ON(offsetof(struct target_fpstate_32, fxsave) & 15);
+ #define TARGET_FXSAVE_SIZE   sizeof(struct target_fpstate_fxsave)
+ QEMU_BUILD_BUG_ON(TARGET_FXSAVE_SIZE != 512);
++QEMU_BUILD_BUG_ON(offsetof(struct target_fpstate_fxsave, sw_reserved) != 464);
  
- #ifndef TARGET_X86_64
- # define target_fpstate target_fpstate_32
-+# define TARGET_FPSTATE_FXSAVE_OFFSET offsetof(struct target_fpstate_32, fxsave)
- #else
--# define target_fpstate target_fpstate_64
-+# define target_fpstate target_fpstate_fxsave
-+# define TARGET_FPSTATE_FXSAVE_OFFSET 0
- #endif
- 
- struct target_sigcontext_32 {
-@@ -172,8 +175,16 @@ struct sigframe {
-     struct target_fpstate fpstate_unused;
-     abi_ulong extramask[TARGET_NSIG_WORDS-1];
-     char retcode[8];
--    struct target_fpstate fpstate;
-+
-+    /*
-+     * This field must be 16-byte aligned in memory.  Applying QEMU_ALIGNED
-+     * to it ensures that the base of the frame has an appropriate alignment
-+     * too.
-+     */
-+    struct target_fpstate fpstate QEMU_ALIGNED(8);
- };
-+#define TARGET_SIGFRAME_FXSAVE_OFFSET (                                    \
-+    offsetof(struct sigframe, fpstate) + TARGET_FPSTATE_FXSAVE_OFFSET)
- 
- struct rt_sigframe {
-     abi_ulong pretcode;
-@@ -183,25 +194,35 @@ struct rt_sigframe {
-     struct target_siginfo info;
-     struct target_ucontext uc;
-     char retcode[8];
--    struct target_fpstate fpstate;
-+    struct target_fpstate fpstate QEMU_ALIGNED(8);
- };
--
-+#define TARGET_RT_SIGFRAME_FXSAVE_OFFSET (                                 \
-+    offsetof(struct rt_sigframe, fpstate) + TARGET_FPSTATE_FXSAVE_OFFSET)
- #else
- 
- struct rt_sigframe {
-     abi_ulong pretcode;
-     struct target_ucontext uc;
-     struct target_siginfo info;
--    struct target_fpstate fpstate;
-+    struct target_fpstate fpstate QEMU_ALIGNED(16);
- };
--
-+#define TARGET_RT_SIGFRAME_FXSAVE_OFFSET (                                 \
-+    offsetof(struct rt_sigframe, fpstate) + TARGET_FPSTATE_FXSAVE_OFFSET)
- #endif
- 
- /*
+ struct target_fpstate_32 {
+     /* Regular FPU environment */
+@@ -214,13 +226,39 @@ struct rt_sigframe {
   * Set up a signal frame.
   */
  
--/* XXX: save x87 state */
-+static void fxsave_sigcontext(CPUX86State *env, struct target_fpstate_fxsave *fxsave,
-+                              abi_ulong fxsave_addr)
-+{
-+    /* fxsave_addr must be 16 byte aligned for fxsave */
-+    assert(!(fxsave_addr & 0xf));
-+
-+    cpu_x86_fxsave(env, fxsave_addr);
-+}
-+
- static void setup_sigcontext(struct target_sigcontext *sc,
-         struct target_fpstate *fpstate, CPUX86State *env, abi_ulong mask,
-         abi_ulong fpstate_addr)
-@@ -233,13 +254,14 @@ static void setup_sigcontext(struct target_sigcontext *sc,
+-static void fxsave_sigcontext(CPUX86State *env, struct target_fpstate_fxsave *fxsave,
+-                              abi_ulong fxsave_addr)
++static void xsave_sigcontext(CPUX86State *env, struct target_fpstate_fxsave *fxsave,
++                             abi_ulong fxsave_addr)
+ {
+-    /* fxsave_addr must be 16 byte aligned for fxsave */
+-    assert(!(fxsave_addr & 0xf));
++    if (!(env->features[FEAT_1_ECX] & CPUID_EXT_XSAVE)) {
++        /* fxsave_addr must be 16 byte aligned for fxsave */
++        assert(!(fxsave_addr & 0xf));
  
-     cpu_x86_fsave(env, fpstate_addr, 1);
-     fpstate->status = fpstate->sw;
--    magic = 0xffff;
-+    if (!(env->features[FEAT_1_EDX] & CPUID_FXSR)) {
-+        magic = 0xffff;
+-    cpu_x86_fxsave(env, fxsave_addr);
++        cpu_x86_fxsave(env, fxsave_addr);
++        __put_user(0, &fxsave->sw_reserved.magic1);
 +    } else {
-+        fxsave_sigcontext(env, &fpstate->fxsave,
-+                          fpstate_addr + TARGET_FPSTATE_FXSAVE_OFFSET);
-+        magic = 0;
++        uint32_t xstate_size = xsave_area_size(env->xcr0, false);
++        uint32_t xfeatures_size = xstate_size - TARGET_FXSAVE_SIZE;
++
++        /*
++         * extended_size is the offset from fpstate_addr to right after the end
++         * of the extended save states.  On 32-bit that includes the legacy
++         * FSAVE area.
++         */
++        uint32_t extended_size = TARGET_FPSTATE_FXSAVE_OFFSET
++            + xstate_size + FP_XSTATE_MAGIC2_SIZE;
++
++        /* fxsave_addr must be 64 byte aligned for xsave */
++        assert(!(fxsave_addr & 0x3f));
++
++        /* Zero the header, XSAVE *adds* features to an existing save state.  */
++        memset(fxsave->xfeatures, 0, 64);
++        cpu_x86_xsave(env, fxsave_addr);
++        __put_user(FP_XSTATE_MAGIC1, &fxsave->sw_reserved.magic1);
++        __put_user(extended_size, &fxsave->sw_reserved.extended_size);
++        __put_user(env->xcr0, &fxsave->sw_reserved.xfeatures);
++        __put_user(xstate_size, &fxsave->sw_reserved.xstate_size);
++        __put_user(FP_XSTATE_MAGIC2, (uint32_t *) &fxsave->xfeatures[xfeatures_size]);
 +    }
+ }
+ 
+ static void setup_sigcontext(struct target_sigcontext *sc,
+@@ -257,8 +295,8 @@ static void setup_sigcontext(struct target_sigcontext *sc,
+     if (!(env->features[FEAT_1_EDX] & CPUID_FXSR)) {
+         magic = 0xffff;
+     } else {
+-        fxsave_sigcontext(env, &fpstate->fxsave,
+-                          fpstate_addr + TARGET_FPSTATE_FXSAVE_OFFSET);
++        xsave_sigcontext(env, &fpstate->fxsave,
++                         fpstate_addr + TARGET_FPSTATE_FXSAVE_OFFSET);
+         magic = 0;
+     }
      __put_user(magic, &fpstate->magic);
--    __put_user(fpstate_addr, &sc->fpstate);
--
--    /* non-iBCS2 extensions.. */
--    __put_user(mask, &sc->oldmask);
--    __put_user(env->cr[2], &sc->cr2);
- #else
-     __put_user(env->regs[R_EDI], &sc->rdi);
-     __put_user(env->regs[R_ESI], &sc->rsi);
-@@ -269,15 +291,14 @@ static void setup_sigcontext(struct target_sigcontext *sc,
+@@ -291,7 +329,7 @@ static void setup_sigcontext(struct target_sigcontext *sc,
      __put_user((uint16_t)0, &sc->fs);
      __put_user(env->segs[R_SS].selector, &sc->ss);
  
-+    fxsave_sigcontext(env, fpstate, fpstate_addr);
-+#endif
-+
-+    __put_user(fpstate_addr, &sc->fpstate);
-+
-+    /* non-iBCS2 extensions.. */
-     __put_user(mask, &sc->oldmask);
-     __put_user(env->cr[2], &sc->cr2);
--
--    /* fpstate_addr must be 16 byte aligned for fxsave */
--    assert(!(fpstate_addr & 0xf));
--
--    cpu_x86_fxsave(env, fpstate_addr);
--    __put_user(fpstate_addr, &sc->fpstate);
--#endif
+-    fxsave_sigcontext(env, fpstate, fpstate_addr);
++    xsave_sigcontext(env, fpstate, fpstate_addr);
+ #endif
+ 
+     __put_user(fpstate_addr, &sc->fpstate);
+@@ -332,8 +370,12 @@ get_sigframe(struct target_sigaction *ka, CPUX86State *env, size_t fxsave_offset
+ 
+     if (!(env->features[FEAT_1_EDX] & CPUID_FXSR)) {
+         return (esp - (fxsave_offset + TARGET_FXSAVE_SIZE)) & -8ul;
+-    } else {
++    } else if (!(env->features[FEAT_1_ECX] & CPUID_EXT_XSAVE)) {
+         return ((esp - TARGET_FXSAVE_SIZE) & -16ul) - fxsave_offset;
++    } else {
++        size_t xstate_size =
++               xsave_area_size(env->xcr0, false) + FP_XSTATE_MAGIC2_SIZE;
++        return ((esp - xstate_size) & -64ul) - fxsave_offset;
+     }
  }
  
- /*
-@@ -285,7 +306,7 @@ static void setup_sigcontext(struct target_sigcontext *sc,
-  */
- 
- static inline abi_ulong
--get_sigframe(struct target_sigaction *ka, CPUX86State *env, size_t frame_size)
-+get_sigframe(struct target_sigaction *ka, CPUX86State *env, size_t fxsave_offset)
- {
-     unsigned long esp;
- 
-@@ -309,11 +330,11 @@ get_sigframe(struct target_sigaction *ka, CPUX86State *env, size_t frame_size)
- #endif
+@@ -437,7 +479,11 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
      }
  
--#ifndef TARGET_X86_64
--    return (esp - frame_size) & -8ul;
--#else
--    return ((esp - frame_size) & (~15ul)) - 8;
--#endif
-+    if (!(env->features[FEAT_1_EDX] & CPUID_FXSR)) {
-+        return (esp - (fxsave_offset + TARGET_FXSAVE_SIZE)) & -8ul;
+     /* Create the ucontext.  */
+-    __put_user(0, &frame->uc.tuc_flags);
++    if (env->features[FEAT_1_ECX] & CPUID_EXT_XSAVE) {
++        __put_user(1, &frame->uc.tuc_flags);
 +    } else {
-+        return ((esp - TARGET_FXSAVE_SIZE) & -16ul) - fxsave_offset;
++        __put_user(0, &frame->uc.tuc_flags);
 +    }
+     __put_user(0, &frame->uc.tuc_link);
+     target_save_altstack(&frame->uc.tuc_stack, env);
+     setup_sigcontext(&frame->uc.tuc_mcontext, &frame->fpstate, env,
+@@ -491,10 +537,37 @@ give_sigsegv:
+     force_sigsegv(sig);
  }
  
- #ifndef TARGET_X86_64
-@@ -341,7 +362,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
-     struct sigframe *frame;
-     int i;
++static int xrstor_sigcontext(CPUX86State *env, struct target_fpstate_fxsave *fxsave,
++                             abi_ulong fxsave_addr)
++{
++    if (env->features[FEAT_1_ECX] & CPUID_EXT_XSAVE) {
++        uint32_t extended_size = tswapl(fxsave->sw_reserved.extended_size);
++        uint32_t xstate_size = tswapl(fxsave->sw_reserved.xstate_size);
++        uint32_t xfeatures_size = xstate_size - TARGET_FXSAVE_SIZE;
++
++        /* Linux checks MAGIC2 using xstate_size, not extended_size.  */
++        if (tswapl(fxsave->sw_reserved.magic1) == FP_XSTATE_MAGIC1 &&
++            extended_size >= TARGET_FPSTATE_FXSAVE_OFFSET + xstate_size + FP_XSTATE_MAGIC2_SIZE) {
++            if (!access_ok(env_cpu(env), VERIFY_READ, fxsave_addr,
++                           extended_size - TARGET_FPSTATE_FXSAVE_OFFSET)) {
++                return 1;
++            }
++            if (tswapl(*(uint32_t *) &fxsave->xfeatures[xfeatures_size]) == FP_XSTATE_MAGIC2) {
++                cpu_x86_xrstor(env, fxsave_addr);
++                return 0;
++            }
++        }
++        /* fall through to fxrstor */
++    }
++
++    cpu_x86_fxrstor(env, fxsave_addr);
++    return 0;
++}
++
+ static int
+ restore_sigcontext(CPUX86State *env, struct target_sigcontext *sc)
+ {
+-    unsigned int err = 0;
++    int err = 1;
+     abi_ulong fpstate_addr;
+     unsigned int tmpflags;
  
--    frame_addr = get_sigframe(ka, env, sizeof(*frame));
-+    frame_addr = get_sigframe(ka, env, TARGET_SIGFRAME_FXSAVE_OFFSET);
-     trace_user_setup_frame(env, frame_addr);
+@@ -545,24 +618,28 @@ restore_sigcontext(CPUX86State *env, struct target_sigcontext *sc)
  
-     if (!lock_user_struct(VERIFY_WRITE, frame, frame_addr, 0))
-@@ -397,7 +418,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-     struct rt_sigframe *frame;
-     int i;
- 
--    frame_addr = get_sigframe(ka, env, sizeof(*frame));
-+    frame_addr = get_sigframe(ka, env, TARGET_RT_SIGFRAME_FXSAVE_OFFSET);
-     trace_user_setup_rt_frame(env, frame_addr);
- 
-     if (!lock_user_struct(VERIFY_WRITE, frame, frame_addr, 0))
-@@ -529,7 +550,11 @@ restore_sigcontext(CPUX86State *env, struct target_sigcontext *sc)
-             goto badframe;
+     fpstate_addr = tswapl(sc->fpstate);
+     if (fpstate_addr != 0) {
+-        if (!access_ok(env_cpu(env), VERIFY_READ, fpstate_addr,
+-                       sizeof(struct target_fpstate))) {
+-            goto badframe;
++        struct target_fpstate *fpstate;
++        if (!lock_user_struct(VERIFY_READ, fpstate, fpstate_addr,
++                              sizeof(struct target_fpstate))) {
++            return err;
          }
  #ifndef TARGET_X86_64
--        cpu_x86_frstor(env, fpstate_addr, 1);
-+        if (!(env->features[FEAT_1_EDX] & CPUID_FXSR)) {
-+            cpu_x86_frstor(env, fpstate_addr, 1);
-+        } else {
-+            cpu_x86_fxrstor(env, fpstate_addr + TARGET_FPSTATE_FXSAVE_OFFSET);
-+        }
+         if (!(env->features[FEAT_1_EDX] & CPUID_FXSR)) {
+             cpu_x86_frstor(env, fpstate_addr, 1);
++            err = 0;
+         } else {
+-            cpu_x86_fxrstor(env, fpstate_addr + TARGET_FPSTATE_FXSAVE_OFFSET);
++            err = xrstor_sigcontext(env, &fpstate->fxsave,
++                                    fpstate_addr + TARGET_FPSTATE_FXSAVE_OFFSET);
+         }
  #else
-         cpu_x86_fxrstor(env, fpstate_addr);
+-        cpu_x86_fxrstor(env, fpstate_addr);
++        err = xrstor_sigcontext(env, fpstate, fpstate_addr);
  #endif
++        unlock_user_struct(fpstate, fpstate_addr, 0);
++    } else {
++        err = 0;
+     }
+ 
+     return err;
+-badframe:
+-    return 1;
+ }
+ 
+ /* Note: there is no sigreturn on x86_64, there is only rt_sigreturn */
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 06884177fa..8a11470507 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -1467,7 +1467,7 @@ ExtSaveArea x86_ext_save_areas[XSAVE_STATE_AREA_COUNT] = {
+     },
+ };
+ 
+-static uint32_t xsave_area_size(uint64_t mask, bool compacted)
++uint32_t xsave_area_size(uint64_t mask, bool compacted)
+ {
+     uint64_t ret = x86_ext_save_areas[0].size;
+     const ExtSaveArea *esa;
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index d4124973ce..9327353fff 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -2071,6 +2071,8 @@ void cpu_x86_fsave(CPUX86State *s, target_ulong ptr, int data32);
+ void cpu_x86_frstor(CPUX86State *s, target_ulong ptr, int data32);
+ void cpu_x86_fxsave(CPUX86State *s, target_ulong ptr);
+ void cpu_x86_fxrstor(CPUX86State *s, target_ulong ptr);
++void cpu_x86_xsave(CPUX86State *s, target_ulong ptr);
++void cpu_x86_xrstor(CPUX86State *s, target_ulong ptr);
+ 
+ /* cpu.c */
+ void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
+@@ -2327,6 +2329,7 @@ bool cpu_is_bsp(X86CPU *cpu);
+ 
+ void x86_cpu_xrstor_all_areas(X86CPU *cpu, const void *buf, uint32_t buflen);
+ void x86_cpu_xsave_all_areas(X86CPU *cpu, void *buf, uint32_t buflen);
++uint32_t xsave_area_size(uint64_t mask, bool compacted);
+ void x86_update_hflags(CPUX86State* env);
+ 
+ static inline bool hyperv_feat_enabled(X86CPU *cpu, int feat)
+diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
+index 30bc44fcf8..ad58931751 100644
+--- a/target/i386/tcg/fpu_helper.c
++++ b/target/i386/tcg/fpu_helper.c
+@@ -2502,18 +2502,6 @@ void helper_frstor(CPUX86State *env, target_ulong ptr, int data32)
+     do_frstor(env, ptr, data32, GETPC());
+ }
+ 
+-#if defined(CONFIG_USER_ONLY)
+-void cpu_x86_fsave(CPUX86State *env, target_ulong ptr, int data32)
+-{
+-    do_fsave(env, ptr, data32, 0);
+-}
+-
+-void cpu_x86_frstor(CPUX86State *env, target_ulong ptr, int data32)
+-{
+-    do_frstor(env, ptr, data32, 0);
+-}
+-#endif
+-
+ #define XO(X)  offsetof(X86XSaveArea, X)
+ 
+ static void do_xsave_fpu(CPUX86State *env, target_ulong ptr, uintptr_t ra)
+@@ -2787,21 +2775,8 @@ void helper_fxrstor(CPUX86State *env, target_ulong ptr)
+     do_fxrstor(env, ptr, GETPC());
+ }
+ 
+-#if defined(CONFIG_USER_ONLY)
+-void cpu_x86_fxsave(CPUX86State *env, target_ulong ptr)
++static void do_xrstor(CPUX86State *env, target_ulong ptr, uint64_t rfbm, uintptr_t ra)
+ {
+-    do_fxsave(env, ptr, 0);
+-}
+-
+-void cpu_x86_fxrstor(CPUX86State *env, target_ulong ptr)
+-{
+-    do_fxrstor(env, ptr, 0);
+-}
+-#endif
+-
+-void helper_xrstor(CPUX86State *env, target_ulong ptr, uint64_t rfbm)
+-{
+-    uintptr_t ra = GETPC();
+     uint64_t xstate_bv, xcomp_bv, reserve0;
+ 
+     rfbm &= env->xcr0;
+@@ -2894,6 +2869,43 @@ void helper_xrstor(CPUX86State *env, target_ulong ptr, uint64_t rfbm)
+ 
+ #undef XO
+ 
++void helper_xrstor(CPUX86State *env, target_ulong ptr, uint64_t rfbm)
++{
++    do_xrstor(env, ptr, rfbm, GETPC());
++}
++
++#if defined(CONFIG_USER_ONLY)
++void cpu_x86_fsave(CPUX86State *env, target_ulong ptr, int data32)
++{
++    do_fsave(env, ptr, data32, 0);
++}
++
++void cpu_x86_frstor(CPUX86State *env, target_ulong ptr, int data32)
++{
++    do_frstor(env, ptr, data32, 0);
++}
++
++void cpu_x86_fxsave(CPUX86State *env, target_ulong ptr)
++{
++    do_fxsave(env, ptr, 0);
++}
++
++void cpu_x86_fxrstor(CPUX86State *env, target_ulong ptr)
++{
++    do_fxrstor(env, ptr, 0);
++}
++
++void cpu_x86_xsave(CPUX86State *env, target_ulong ptr)
++{
++    do_xsave(env, ptr, -1, get_xinuse(env), -1, 0);
++}
++
++void cpu_x86_xrstor(CPUX86State *env, target_ulong ptr)
++{
++    do_xrstor(env, ptr, -1, 0);
++}
++#endif
++
+ uint64_t helper_xgetbv(CPUX86State *env, uint32_t ecx)
+ {
+     /* The OS must have enabled XSAVE.  */
 -- 
 2.37.3
 
