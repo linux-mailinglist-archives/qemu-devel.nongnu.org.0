@@ -2,109 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ABFC5F9DF9
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 13:52:44 +0200 (CEST)
-Received: from localhost ([::1]:43492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 644505F9E44
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 14:02:16 +0200 (CEST)
+Received: from localhost ([::1]:35456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohrKs-0003AV-Qr
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 07:52:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55410)
+	id 1ohrU7-0006mO-0m
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 08:02:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ohrIA-0001S2-0t
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 07:49:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28577)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ohrI7-0003HO-2x
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 07:49:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665402590;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BKpANNFDmGg0Ni9qpwDAtLylPLlBd4oQwnluqxbh0L4=;
- b=CDW51pqWuupyMFywMxlUzyumhuA1PMwxpbXORSD0ABd0hRTrKALtZhvuKrBwrtksVcWJ22
- o8i+fAwJmB5ZRIebmnnoDmZP+0eEhp3Nttg7doJGm/bipXlRd5TUACkv6pOcKgR5f7gdH5
- nr0lmCw6No1Ke2604+wY3e3ItHkcEGg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-454-LKhgOJpnOMe5PLjpgqvOMQ-1; Mon, 10 Oct 2022 07:49:49 -0400
-X-MC-Unique: LKhgOJpnOMe5PLjpgqvOMQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- u20-20020adfc654000000b0022cc05e9119so2636513wrg.16
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 04:49:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ohrRK-0004mA-3I
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 07:59:22 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:44577)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ohrRI-0005Da-6z
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 07:59:21 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id x6so10157425pll.11
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 04:59:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=+Z8nA2h81k8dhiaZfIS2NppGaRDzaUfj/ZgulA2QB3U=;
+ b=i+jI1IlyI0YN4a7Jnp4qZEmcF78/uIEfCsA8/xheLsYBMvq99kxKVBIIIKG5/+VZzh
+ sdWLd2Hw3QL5pZqpulzdCCUuYBOydTqm90SUgc6N3S3L6HvgjcCP3PMbsz+ZseTYvzOX
+ FIqIbhrdvVZzYY9nsu6cJDHsKn3v/lwditPLLIWF7sBHiQAnJowkubueeCInPqMO5+Rl
+ 28PtBbOIN/R42JoZDbyI20tckT0eW2gJ8tIIqqfLlPvYGMuxzPBjmYmlDHo2tz9gPIoE
+ +enkagqD98ICX+0NDXjAvs4Mze1bNP8UQ2kpYt6SwmF5GIBJP7d0bGydriKztRELPjqE
+ 5r0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=BKpANNFDmGg0Ni9qpwDAtLylPLlBd4oQwnluqxbh0L4=;
- b=v6jylImq0VMWB6TLSXNKhsCLd8H5gcoUaBOuBTOiWNO+SWdm85WOB4kWO9ejZ7whgJ
- uzOeYXWhyOPSz/o39mR8zhW5rgYFvsCQkxVQQ1EB35QRFAidL+m6LGqtQQBE8Rcew3KW
- LWQazJBGQtJKSPFiZBceW4xdb/kClL8TWBlpOzpJ8OXYX9Q1Qu1E4LBFeU7BpR+eZhDQ
- DdGtTm09eWTwwYFy/oWJltCbGsP0r0ycvMrlhNRCM8fyL/2El9pUzbrnO84CQl23mIcc
- 9ICJtB7a3PA39Ip2yIVNbo3uKSjg8+dUYvkLT/MMaaTtQM3AeXqWj6w+Cl3oQdNhCYq7
- C7dw==
-X-Gm-Message-State: ACrzQf11iwOpDMdQzBcqnFtmBvm20MfQ/be5nkZENZAmmI184qhpKHvk
- Sh8QetTc8twF6zvEWYGhgATw9AYKFDXu18TabbbESSdZhgPdI3p/K8kZVDeAjPl03mRQPN9CEgN
- zB/L+vppc+Jju+Ik=
-X-Received: by 2002:a05:600c:1e88:b0:3c3:ecf:ce3e with SMTP id
- be8-20020a05600c1e8800b003c30ecfce3emr11133172wmb.15.1665402588264; 
- Mon, 10 Oct 2022 04:49:48 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4YzlALb88CqAihmqFhAFr3qxXEtDmgfWLAae+ZMuhkV/UgzpJzLdymIrKs+YXZHtMcbvBWZA==
-X-Received: by 2002:a05:600c:1e88:b0:3c3:ecf:ce3e with SMTP id
- be8-20020a05600c1e8800b003c30ecfce3emr11133127wmb.15.1665402587922; 
- Mon, 10 Oct 2022 04:49:47 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c704:e600:3a4a:f000:b085:4839?
- (p200300cbc704e6003a4af000b0854839.dip0.t-ipconnect.de.
- [2003:cb:c704:e600:3a4a:f000:b085:4839])
- by smtp.gmail.com with ESMTPSA id
- v24-20020a1cf718000000b003a6125562e1sm9643031wmh.46.2022.10.10.04.49.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Oct 2022 04:49:47 -0700 (PDT)
-Message-ID: <bdc5092b-49e1-f3d8-e08a-71f2fa8c82d3@redhat.com>
-Date: Mon, 10 Oct 2022 13:49:45 +0200
+ bh=+Z8nA2h81k8dhiaZfIS2NppGaRDzaUfj/ZgulA2QB3U=;
+ b=oE9HSIll/mB912yL6TeJblr0XGe79nKHN8+7J54eWunG24c5DvOufb7VldYzcBunXo
+ yDzbcJAWjRffZslguPvl5FHL1/ryjNiO9vDYRpfsol8t8iXFwx4pcBwurG0Ys4mRiSVk
+ AMbWjMAn/SHy9usvU4VyZ5ufsH8tw4AGEVb4X4uHVUScLaDMRyRatzj2eNUUTLekCskH
+ oR+MGOmrzJhyQwWmEXVXEcbqkeX3kvjxdIHvjyNbtXaXMWgxouTOGxXEYDlMOMyJwOaa
+ L+xnbNMr+EkKvR6E7ByreOjr2eQM+c60JttYMWpbQBO/Zf/JHnLWixj//fefbzwqZbry
+ An+g==
+X-Gm-Message-State: ACrzQf3vvlNO0aN9BgUkFkkm3a87OLAxfM7iy0mb9RM7IdhAMtK1WUTD
+ 1t7Am9kCDevGKeGNFNPxxxRE3RfCAFK/eqXiSwaBTw==
+X-Google-Smtp-Source: AMsMyM72qQHo/EMSQQRKoxk/5etD29LMdn2C1dZkeZvXF1Z5tIa4SeOPoEzClRg3XQx8093iyVogbdnAyyNisI9OQPw=
+X-Received: by 2002:a17:90b:4b8e:b0:20a:f240:9b23 with SMTP id
+ lr14-20020a17090b4b8e00b0020af2409b23mr20263409pjb.19.1665403158743; Mon, 10
+ Oct 2022 04:59:18 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v6 08/13] numa: use QLIST_FOREACH_SAFE() for RAM block
- notifiers
-Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-Cc: Yanan Wang <wangyanan55@huawei.com>, sgarzare@redhat.com,
- "Richard W.M. Jones" <rjones@redhat.com>, Fam Zheng <fam@euphon.net>,
- Hanna Reitz <hreitz@redhat.com>, integration@gluster.org,
- qemu-block@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- afaria@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
- Eric Blake <eblake@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Xie Changlong <xiechanglong.d@gmail.com>,
- John Snow <jsnow@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Jeff Cody <codyprime@gmail.com>, "Denis V. Lunev" <den@openvz.org>,
- Markus Armbruster <armbru@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Peter Xu <peterx@redhat.com>, Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wen Congyang <wencongyang2@huawei.com>
-References: <20221006213507.645402-1-stefanha@redhat.com>
- <20221006213507.645402-9-stefanha@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20221006213507.645402-9-stefanha@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.007, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20221007152159.1414065-1-richard.henderson@linaro.org>
+ <CAFEAcA93Urww5F+_gJonUUaLeS-7W8BhYqRgcJT1hcVY3LaUdA@mail.gmail.com>
+ <ed0332cf-5bf0-34ef-3233-de6840439e02@linaro.org>
+In-Reply-To: <ed0332cf-5bf0-34ef-3233-de6840439e02@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 10 Oct 2022 12:59:07 +0100
+Message-ID: <CAFEAcA9-4iNodxpnqizh-eH5VHWTcr+4Lwmqt7rLPO7F6SYRvw@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Make the final stage1+2 write to secure be
+ unconditional
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -121,58 +86,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06.10.22 23:35, Stefan Hajnoczi wrote:
-> Make list traversal work when a callback removes a notifier
-> mid-traversal. This is a cleanup to prevent bugs in the future.
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->   hw/core/numa.c | 9 ++++++---
->   1 file changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/core/numa.c b/hw/core/numa.c
-> index 31e6fe1caa..ea24a5fa8c 100644
-> --- a/hw/core/numa.c
-> +++ b/hw/core/numa.c
-> @@ -857,8 +857,9 @@ void ram_block_notifier_remove(RAMBlockNotifier *n)
->   void ram_block_notify_add(void *host, size_t size, size_t max_size)
->   {
->       RAMBlockNotifier *notifier;
-> +    RAMBlockNotifier *next;
->   
-> -    QLIST_FOREACH(notifier, &ram_list.ramblock_notifiers, next) {
-> +    QLIST_FOREACH_SAFE(notifier, &ram_list.ramblock_notifiers, next, next) {
->           if (notifier->ram_block_added) {
->               notifier->ram_block_added(notifier, host, size, max_size);
->           }
-> @@ -868,8 +869,9 @@ void ram_block_notify_add(void *host, size_t size, size_t max_size)
->   void ram_block_notify_remove(void *host, size_t size, size_t max_size)
->   {
->       RAMBlockNotifier *notifier;
-> +    RAMBlockNotifier *next;
->   
-> -    QLIST_FOREACH(notifier, &ram_list.ramblock_notifiers, next) {
-> +    QLIST_FOREACH_SAFE(notifier, &ram_list.ramblock_notifiers, next, next) {
->           if (notifier->ram_block_removed) {
->               notifier->ram_block_removed(notifier, host, size, max_size);
->           }
-> @@ -879,8 +881,9 @@ void ram_block_notify_remove(void *host, size_t size, size_t max_size)
->   void ram_block_notify_resize(void *host, size_t old_size, size_t new_size)
->   {
->       RAMBlockNotifier *notifier;
-> +    RAMBlockNotifier *next;
->   
-> -    QLIST_FOREACH(notifier, &ram_list.ramblock_notifiers, next) {
-> +    QLIST_FOREACH_SAFE(notifier, &ram_list.ramblock_notifiers, next, next) {
->           if (notifier->ram_block_resized) {
->               notifier->ram_block_resized(notifier, host, old_size, new_size);
->           }
+On Fri, 7 Oct 2022 at 17:53, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 10/7/22 09:20, Peter Maydell wrote:
+> >> -            /* Check if IPA translates to secure or non-secure PA space. */
+> >> -            if (is_secure) {
+> >> -                if (ipa_secure) {
+> >> -                    result->attrs.secure =
+> >> -                        !(env->cp15.vstcr_el2 & (VSTCR_SA | VSTCR_SW));
+> >> -                } else {
+> >> -                    result->attrs.secure =
+> >> -                        !((env->cp15.vtcr_el2 & (VTCR_NSA | VTCR_NSW))
+> >> -                        || (env->cp15.vstcr_el2 & (VSTCR_SA | VSTCR_SW)));
+> >> -                }
+> >> -            }
+> >
+> > If:
+> >   is_secure == true
+> >   ipa_secure == false
+> >   (env->cp15.vstcr_el2 & (VSTCR_SA | VSTCR_SW) is non-zero
+> >   (env->cp15.vtcr_el2 & (VTCR_NSA | VTCR_NSW) is zero
+> > then the old code sets attrs.secure to true...
+>
+> No, I think the misalignment of the two lines wrt the !() may have been confusing:
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+Ah, yes -- I was indeed confused by the misalignment.
 
--- 
-Thanks,
-
-David / dhildenb
-
+thanks
+-- PMM
 
