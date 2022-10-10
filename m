@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A41135FA302
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 19:56:16 +0200 (CEST)
-Received: from localhost ([::1]:38098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E3E05FA311
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 19:59:29 +0200 (CEST)
+Received: from localhost ([::1]:46168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohx0g-0006rY-FT
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 13:56:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43002)
+	id 1ohx3o-00047o-J2
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 13:59:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwb9-0001Vd-2q
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwb9-0001Ys-Vo
  for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:29:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30056)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60138)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwb3-0006bo-IF
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:29:50 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwb0-0006b5-Ag
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:29:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665422984;
+ s=mimecast20190719; t=1665422981;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Rf0XQwc/BmRyvyPNJvIiGLwnDIY+n+JfNAjnoyzxZeU=;
- b=Ufoe2x8l9U+m/Zez6oPtjf9z8wtRR6B75jej+d/1MTJxKcyt/WU6gEseTkw/A0QceqZ26c
- 9/EnVGOLHzrjhpeZuYTOm0z6tV2OVU2y/eKC1ewdYtCQM5Z6lnHQmr0dioA7TO0KGCp7ls
- dnipucej8OcILnNaL1M/zlu6f41R8Zg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7npCfBPJ3SU6f/b3cEDN5Cf+Lw7VA1jtIVngNbIXD3s=;
+ b=DkOFXOGLhGjKPS7FJLoVRtnf16aeARBM/W3VTy7opniRB1PYCX4US/Ji+YnvJ4S/O3IXHY
+ YaQMkS8vfCls8jbmF9ZCA29NXX4k0u95zD/ZVwX33WyDxLesoCGIWpDayZusgwtz5GwaPx
+ 89Tjn/BGWGqVMQrGCWYm+icbQxeF5SU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-483-GRlA71w7PhqN71wKPcs7qQ-1; Mon, 10 Oct 2022 13:29:36 -0400
-X-MC-Unique: GRlA71w7PhqN71wKPcs7qQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- ay21-20020a05600c1e1500b003b45fd14b53so5819195wmb.1
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:29:35 -0700 (PDT)
+ us-mta-471-4TC5cJ_xNJaDYz2lcjLRGA-1; Mon, 10 Oct 2022 13:29:40 -0400
+X-MC-Unique: 4TC5cJ_xNJaDYz2lcjLRGA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ f26-20020a7bcc1a000000b003c03db14864so3261411wmh.6
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:29:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Rf0XQwc/BmRyvyPNJvIiGLwnDIY+n+JfNAjnoyzxZeU=;
- b=1jMBjw5k3imc9ti9brVgRuqvIelMR9QmUpn/8maInV9IEgw/OPPJb2PNe+emOtC7VG
- rG8LyR5ttlZvZu9IsFQoFA8U6nJBw+NDlq+8WXAwiXrcEvIucoNWTfO7U1DzCTaXhzxy
- yigKcBPpF7k8oRmtXjakagl02ka2DcT13I5UFtMmvnHzWhG0wPZEicYt+fyuTWZuGkYD
- 9E3DJRBe+CuTiWmV3ibxi+HzXXHg62Q/1oG9ZGHrXDqlp5ojFkGu83eDwFabhq+EMqW4
- zS4afbZ2IEqte7n4DCk7ABwB87U7ObrvCtTnbDCyBxC8KYWuNaeU1yJ9IEB3W5Ar4t6S
- 8miQ==
-X-Gm-Message-State: ACrzQf2rRX36zP9SLUqM04kQCQ/y2fAR/zILrdcoVBI93N8jDLH4JHoX
- T1Bj6jGiGj5DIAbWjUZPdguMzU6QDQn6k36QeSvIPRMaDQnXQY1MRUdo/IOg2wO6bVbBDo70nAG
- o138nKOJIKjeA1kX7vpMs83t98FpnbibeT/JRRjcRnzYySRo4szmBwnnyihSU
-X-Received: by 2002:adf:cf0a:0:b0:22e:3f43:a5f7 with SMTP id
- o10-20020adfcf0a000000b0022e3f43a5f7mr12321396wrj.634.1665422974565; 
- Mon, 10 Oct 2022 10:29:34 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7CMka6eloDJzCaI32P+S8Mr/ZX7Dfq8Moc+AA2H0zzMcphSlgOJ4l+2wTNEDwICYWIqqgxww==
-X-Received: by 2002:adf:cf0a:0:b0:22e:3f43:a5f7 with SMTP id
- o10-20020adfcf0a000000b0022e3f43a5f7mr12321377wrj.634.1665422974255; 
- Mon, 10 Oct 2022 10:29:34 -0700 (PDT)
+ bh=7npCfBPJ3SU6f/b3cEDN5Cf+Lw7VA1jtIVngNbIXD3s=;
+ b=78Fo7r06OJHlTj/2fLihdFSwYSsDb6/sUWo5mXi+L4zGQr6J2BY6BvaFx+RA3xd3wU
+ nc0ECxTRk6GY4IW5FvTcKgl+BoQvGxS4hnxCMy/D7wVlik8XpGgndjjZIz9ExYde3jZa
+ /EUGMaTPU2i7cKx4ZqY2VMkZDfxJWnrKzvi/e8aoiZQisdVEHhS+K4p6PaOhfmaP0JCl
+ 9serqI6a9zGq4K91DTiqFfjUkv1qDID57eOMFYmuy/weSRiWrL9lA6Lzx2vLI/mvk3Yr
+ 3kGJU6upVJu+5bTqyc/JnYRwnEfFRWVUAdZ7t1NFWTrgUagqKTArZmanec2hwdK5WqeN
+ ykfA==
+X-Gm-Message-State: ACrzQf1j9Cjim3zhrxj/DYh9gXJHpaX7I9Rck7TU9qkrKRefgzcizCom
+ gilFFXW6Gyy8oNS52KM/5+sfEXVwiKD1zWED97oOwGQ5IQaD1vGLITM47jPkJOTJKkUR+QWamVn
+ 1rAptoQ1A2UyEtlW8o7aSuSqVjYlwhD0RbxjYXLtVmoYAwOiUF5ubxoiiUAss
+X-Received: by 2002:adf:d1ec:0:b0:22e:3341:a8cb with SMTP id
+ g12-20020adfd1ec000000b0022e3341a8cbmr11952006wrd.151.1665422978932; 
+ Mon, 10 Oct 2022 10:29:38 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4wqqVUCk9+Hi+zHaBbJw5rdEzajJJk0uL6fkhqMZe6r5B4PtuMbpmFhS3beZUvRqRbE0Fb+A==
+X-Received: by 2002:adf:d1ec:0:b0:22e:3341:a8cb with SMTP id
+ g12-20020adfd1ec000000b0022e3341a8cbmr11951984wrd.151.1665422978556; 
+ Mon, 10 Oct 2022 10:29:38 -0700 (PDT)
 Received: from redhat.com ([2.55.183.131]) by smtp.gmail.com with ESMTPSA id
- l22-20020a05600c089600b003c43dc42b4dsm7812799wmp.16.2022.10.10.10.29.31
+ u16-20020adfdd50000000b002238ea5750csm11850269wrm.72.2022.10.10.10.29.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 10:29:33 -0700 (PDT)
-Date: Mon, 10 Oct 2022 13:29:29 -0400
+ Mon, 10 Oct 2022 10:29:38 -0700 (PDT)
+Date: Mon, 10 Oct 2022 13:29:34 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PULL 12/55] tests/qtest: add a timeout for subprocess_run_one_test
-Message-ID: <20221010172813.204597-13-mst@redhat.com>
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PULL 13/55] tests/qtest: use qos_printf instead of g_test_message
+Message-ID: <20221010172813.204597-14-mst@redhat.com>
 References: <20221010172813.204597-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -81,13 +80,12 @@ X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,33 +103,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alex Bennée <alex.bennee@linaro.org>
 
-Hangs have been observed in the tests and currently we don't timeout
-if a subprocess hangs. Rectify that.
+The vhost-user tests respawn qos-test as a standalone process. As a
+result the gtester framework squashes all messages coming out of it
+which make it hard to debug. As the test does not care about asserting
+certain messages just convert the tests to use the direct qos_printf.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-
-Message-Id: <20220802095010.3330793-16-alex.bennee@linaro.org>
+Message-Id: <20220802095010.3330793-17-alex.bennee@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/qtest/qos-test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qtest/qos-test.c        |  5 +++++
+ tests/qtest/vhost-user-test.c | 13 +++++++------
+ 2 files changed, 12 insertions(+), 6 deletions(-)
 
 diff --git a/tests/qtest/qos-test.c b/tests/qtest/qos-test.c
-index 33cdada380..566cb3b00b 100644
+index 566cb3b00b..5da4091ec3 100644
 --- a/tests/qtest/qos-test.c
 +++ b/tests/qtest/qos-test.c
-@@ -185,7 +185,7 @@ static void run_one_test(const void *arg)
- static void subprocess_run_one_test(const void *arg)
+@@ -321,6 +321,11 @@ static void walk_path(QOSGraphNode *orig_path, int len)
+ int main(int argc, char **argv, char** envp)
  {
-     const gchar *path = arg;
--    g_test_trap_subprocess(path, 0,
-+    g_test_trap_subprocess(path, 180 * G_USEC_PER_SEC,
-                            G_TEST_SUBPROCESS_INHERIT_STDOUT |
-                            G_TEST_SUBPROCESS_INHERIT_STDERR);
-     g_test_trap_assert_passed();
+     g_test_init(&argc, &argv, NULL);
++
++    if (g_test_subprocess()) {
++        qos_printf("qos_test running single test in subprocess\n");
++    }
++
+     if (g_test_verbose()) {
+         qos_printf("ENVIRONMENT VARIABLES: {\n");
+         for (char **env = envp; *env != 0; env++) {
+diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
+index 84498941a6..99dc6080e5 100644
+--- a/tests/qtest/vhost-user-test.c
++++ b/tests/qtest/vhost-user-test.c
+@@ -26,6 +26,7 @@
+ #include "libqos/virtio-pci.h"
+ 
+ #include "libqos/malloc-pc.h"
++#include "libqos/qgraph_internal.h"
+ #include "hw/virtio/virtio-net.h"
+ 
+ #include "standard-headers/linux/vhost_types.h"
+@@ -316,7 +317,7 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
+     }
+ 
+     if (size != VHOST_USER_HDR_SIZE) {
+-        g_test_message("Wrong message size received %d", size);
++        qos_printf("%s: Wrong message size received %d\n", __func__, size);
+         return;
+     }
+ 
+@@ -327,8 +328,8 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
+         p += VHOST_USER_HDR_SIZE;
+         size = qemu_chr_fe_read_all(chr, p, msg.size);
+         if (size != msg.size) {
+-            g_test_message("Wrong message size received %d != %d",
+-                           size, msg.size);
++            qos_printf("%s: Wrong message size received %d != %d\n",
++                       __func__, size, msg.size);
+             return;
+         }
+     }
+@@ -450,7 +451,7 @@ static const char *init_hugepagefs(void)
+     }
+ 
+     if (access(path, R_OK | W_OK | X_OK)) {
+-        g_test_message("access on path (%s): %s", path, strerror(errno));
++        qos_printf("access on path (%s): %s", path, strerror(errno));
+         g_test_fail();
+         return NULL;
+     }
+@@ -460,13 +461,13 @@ static const char *init_hugepagefs(void)
+     } while (ret != 0 && errno == EINTR);
+ 
+     if (ret != 0) {
+-        g_test_message("statfs on path (%s): %s", path, strerror(errno));
++        qos_printf("statfs on path (%s): %s", path, strerror(errno));
+         g_test_fail();
+         return NULL;
+     }
+ 
+     if (fs.f_type != HUGETLBFS_MAGIC) {
+-        g_test_message("Warning: path not on HugeTLBFS: %s", path);
++        qos_printf("Warning: path not on HugeTLBFS: %s", path);
+         g_test_fail();
+         return NULL;
+     }
 -- 
 MST
 
