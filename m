@@ -2,77 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DD7B5FA16B
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 17:53:32 +0200 (CEST)
-Received: from localhost ([::1]:37392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB7B5FA159
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 17:45:22 +0200 (CEST)
+Received: from localhost ([::1]:48132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohv5u-0006KB-KP
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 11:53:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42602)
+	id 1ohuy1-0006xG-Bb
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 11:45:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ohule-0007Ro-Gt
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 11:32:34 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:33441)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ohum4-0007zI-DI
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 11:33:00 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:43922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ohulc-0007k7-WC
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 11:32:34 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id a3so17642094wrt.0
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 08:32:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ohum2-0007pJ-S2
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 11:33:00 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ x31-20020a17090a38a200b0020d2afec803so3580271pjb.2
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 08:32:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=4752IJONL5xSCJN2+/Gu2cMcuMZkY4mGQ6IaZ7UWEw8=;
- b=VgZNIeqqgkG4+eHqHIQmofDjcSOpwB7ktfjSh+jypOX8mk1D/YJ2g9XQ9FqLyK2zrv
- jmw9PyLB3xIcYGSyeSaWqZO6hMo/5v/LYhVGO825iGfqCTYWzSnfLC8gTj4o6OIRr7ty
- W9vVgS3N43BlumgOo8T2Nfk910YL9fFm2yq6HV8AD4aogzMy6h5Ufm3tnc6AJAS8TcRm
- UdKqwf7VYZ6JVznGiGJlpo8MkySws142RyySHJsNk61p3SSg65BwOPl8MnYMRgMgOT9e
- BZj0h1wuYZNMnxblInDOukjCWr0TDcW5RwjSIRvQmERLZbYPkiX88AkQrX10TDNmZHnC
- 35ag==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=ER2YKxk+DhIpOc6Cb5PS4WYx+lvuZgpp11sRliO5W5E=;
+ b=TWElC5PpKdXkGpBTAyMdLiUNsqgiZjyZK3dG2ct7YcYNTnsLaDV3EYpYVLnzC0gIZz
+ qV1a05JEO93SjHqxXzbAgfG7ObyDUozV8bbXkY+SgqM44echgFiYzuJOabNJot/IzA8T
+ XYQO7+TBfzVoDltPEIc8FxFbhhwBtDuKuRiYrdiFZIKIYEryoe438TvEo/6PnYnU5fnY
+ qnIF/8mWR77HcjL65GpigYLiEvU95aiqpWsza7B3+7iliMWZqNhSQrxeL7JigPJJ296z
+ x6UyKg8vV1Mc4WLlk4IsyYjzU2JZCN7VjtZtZr3cnjUU54IvRt9JZGe4TUhJSbjN0Z8P
+ 2LEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=4752IJONL5xSCJN2+/Gu2cMcuMZkY4mGQ6IaZ7UWEw8=;
- b=W86TeYNu4SPeeSWKjzx5CJ6I7AFv7oO//GQ9EgIi/S+XvSwrmKXyh5MKR+sZmHAi23
- WgCg5CrSpfVVSlXseJKYZ5eM2QNDtxX0LJFOU87e01Qp8UZmjunQKX/qtysfDslMMbMp
- yxPKiWI4Ii99/Ui8BlBxfNGIC3L1PPzfYtRbOHZdsdHRaroGPZZ+p56o+kmZGVysF6V9
- isJZHXfCploZkpJ3+ReVW8iWsizWA7vqpNNz3ZIsuIMGPLCt9RshRizRgou6dTgm70Xa
- DIhqxOR+lgZYI8XucMd3SOek/SjcPBJZyhghJOSba5kfRxDSrsr4Fm6DrZuNeP3iluhm
- YEWw==
-X-Gm-Message-State: ACrzQf3ueRfLB+IBWhFzBI+5gzirMyAMCqVfpFsVQAsOco3MIcPAHXIh
- SSuQNdgL0755xnnvjVC7WGoVxw==
-X-Google-Smtp-Source: AMsMyM63OTinc8Oyc2jy+sviU3bt4cFwmSadMlSOWhKkAJq/X59bSt11rZke6vTXMYqvuiHVRf919A==
-X-Received: by 2002:adf:ea08:0:b0:22e:46e9:2a8a with SMTP id
- q8-20020adfea08000000b0022e46e92a8amr12409212wrm.636.1665415951272; 
- Mon, 10 Oct 2022 08:32:31 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- ck15-20020a5d5e8f000000b0022afe4fb459sm9399509wrb.51.2022.10.10.08.32.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 08:32:30 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DF37A1FFB7;
- Mon, 10 Oct 2022 16:32:29 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Arnd Bergmann <arnd@linaro.org>, Anders Roxell <anders.roxell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2] target/arm: update the cortex-a15 MIDR to latest rev
-Date: Mon, 10 Oct 2022 16:32:25 +0100
-Message-Id: <20221010153225.506394-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ bh=ER2YKxk+DhIpOc6Cb5PS4WYx+lvuZgpp11sRliO5W5E=;
+ b=1DUo5B3BSxhxuH6CBOs7Ve/XGL3Jd+u8nYizb4ql4PmEFWV+cQ5j6IWIvldylQALvG
+ e7LWLJ25l3CI4R3WnVMLS6pmX7iVAUphcZxbJAE4rv6fKsF2twUypiXipPLaJTHm0PeA
+ wPKxtBAsGaGmrG4f7SeH7g6cmTTCxaR5wqNIin+Cz24cUVI0trpEdH2SuB1z0nqLm1j5
+ BCmwKsA6BpEj8c5ymeiEyVARGRchoZWK9hLxFa5PXlZSnDAkGq7QUed+9lr6ZZDIZTPX
+ nKzKEx7XehURK0o9x4vTCnUr7jey475JxbK7ew1O6KjeSPGN/ebPU/N8FZRnF/HolmED
+ nbwA==
+X-Gm-Message-State: ACrzQf0YZmj5XIzmxFaDFjsY+anzpW8QWYAyKwSmc9lgxWRlEdTfwLEC
+ zMNG59q1lnHdscfdm2zjAFhj945qwB6ELnksAzaKjg==
+X-Google-Smtp-Source: AMsMyM60hL8uZz52r0zKYP2qDoTLLrp6r1OJneErkdBinLYuT4BTawk1N9Uwu+QrgDipYu63WJTPjU3McVkWgv+6D1w=
+X-Received: by 2002:a17:90b:1d04:b0:20b:cb40:4b3 with SMTP id
+ on4-20020a17090b1d0400b0020bcb4004b3mr17784586pjb.215.1665415976967; Mon, 10
+ Oct 2022 08:32:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+References: <20220929232339.372813-1-Jason@zx2c4.com>
+ <CAFEAcA-Ac-=i_DK5MUtKtTqH7OpyzHAi6u=tHFAFZyvdr1KP8A@mail.gmail.com>
+ <CAFEAcA-fOdNeDz9_Hbm7R3_3o2T4Zw8wPrgOtVLK9tUNMciZow@mail.gmail.com>
+ <Y0Q4Vugq+d0vaF97@zx2c4.com>
+In-Reply-To: <Y0Q4Vugq+d0vaF97@zx2c4.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 10 Oct 2022 16:32:45 +0100
+Message-ID: <CAFEAcA9h05S=MmUgKWA2cg9H8Rn7aiRrSDBJAO8yTyFvC7FQ2w@mail.gmail.com>
+Subject: Re: [PATCH 1/6] device-tree: add re-randomization helper function
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>, 
+ David Gibson <david@gibson.dropbear.id.au>,
+ Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,48 +91,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU doesn't model micro-architectural details which includes most
-chip errata. The ARM_ERRATA_798181 work around in the Linux
-kernel (see erratum_a15_798181_init) currently detects QEMU's
-cortex-a15 as broken and triggers additional expensive TLB flushes as
-a result.
+On Mon, 10 Oct 2022 at 16:21, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+>
+> On Mon, Oct 10, 2022 at 11:54:50AM +0100, Peter Maydell wrote:
+> > The error is essentially the record-and-replay subsystem saying "the
+> > replay just asked for a random number at point when the recording
+> > did not ask for one, and so there's no 'this is what the number was'
+> > info in the record".
+> >
+> > I have had a quick look, and I think the reason for this is that
+> > load_snapshot() ("reset the VM state to the snapshot state stored in the
+> > disk image or migration stream") does a system reset. The replay
+> > process involves a lot of "load state from a snapshot and play
+> > forwards from there" operations. It doesn't expect that load_snapshot()
+> > would result in something reading random data, but now that we are
+> > calling qemu_guest_getrandom() in a reset hook, that happens.
+>
+> Hmm... so this seems like a bug in the replay code then? Shouldn't that
+> reset handler get hit during both passes, so the entry should be in
+> each?
 
-Change the MIDR to report what the latest silicon would (r4p0). We
-explicitly set the IMPDEF revidr bits to 0 because we don't need to
-set anything other than the silicon revision to indicate these flushes
-are not needed. This cuts about 5s from my Debian kernel boot with the
-latest 6.0rc1 kernel (29s->24s).
+No, because record is just
+"reset the system, record all the way to the end stop",
+but replay is
+"set the system to the point we want to start at by using
+load_snapshot, play from there", and depending on the actions
+you do in the debugger like reverse-continue we might repeatedly
+do "reload that snapshot (implying a system reset) and play from there"
+multiple times.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Arnd Bergmann <arnd@linaro.org>
-Cc: Anders Roxell <anders.roxell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Anders Roxell <anders.roxell@linaro.org>
-Message-Id: <20220906172257.2776521-1-alex.bennee@linaro.org>
-
----
-v2
-  - set revdir=0 instead of 0x200, update commit message
----
- target/arm/cpu_tcg.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index 98b5ba2160..60ff539fa1 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/cpu_tcg.c
-@@ -592,7 +592,9 @@ static void cortex_a15_initfn(Object *obj)
-     set_feature(&cpu->env, ARM_FEATURE_EL3);
-     set_feature(&cpu->env, ARM_FEATURE_PMU);
-     cpu->kvm_target = QEMU_KVM_ARM_TARGET_CORTEX_A15;
--    cpu->midr = 0x412fc0f1;
-+    /* r4p0 cpu, not requiring expensive tlb flush errata */
-+    cpu->midr = 0x414fc0f0;
-+    cpu->revidr = 0x0;
-     cpu->reset_fpsid = 0x410430f0;
-     cpu->isar.mvfr0 = 0x10110222;
-     cpu->isar.mvfr1 = 0x11111111;
--- 
-2.34.1
-
+thanks
+-- PMM
 
