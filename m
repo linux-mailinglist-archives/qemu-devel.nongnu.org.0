@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51ED75F96D0
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 04:29:55 +0200 (CEST)
-Received: from localhost ([::1]:33270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 856335F96D9
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 04:36:02 +0200 (CEST)
+Received: from localhost ([::1]:56448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohiYE-00077f-EA
-	for lists+qemu-devel@lfdr.de; Sun, 09 Oct 2022 22:29:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57218)
+	id 1ohie9-0005X3-Kf
+	for lists+qemu-devel@lfdr.de; Sun, 09 Oct 2022 22:36:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ohiVk-0003m1-26; Sun, 09 Oct 2022 22:27:20 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:46687)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1ohiba-0001GN-S3; Sun, 09 Oct 2022 22:33:27 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:39848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ohiVi-00077V-9s; Sun, 09 Oct 2022 22:27:19 -0400
-Received: by mail-pg1-x533.google.com with SMTP id 78so9181698pgb.13;
- Sun, 09 Oct 2022 19:27:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1ohibY-0007om-3i; Sun, 09 Oct 2022 22:33:22 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ v10-20020a17090a634a00b00205e48cf845so11891275pjs.4; 
+ Sun, 09 Oct 2022 19:33:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=hYF0M3197sbfDCq7XeDcroDWgDDuL9YLI+RJgp9EjTM=;
- b=be+4IVfH03PT1dldn78yWMxLH//j2qtOfZDNQAxsJWkj7mWnmuR8O4B5Yfc0s0uBtj
- 6dhgzBnw845LyeXiWGimPgMXzoVZvLHaWJ+56ovfpsBovijIzq5zsO3ImWShDwha16O6
- FFw7Zhk0CITZ//Gk13CTOpg4bjZ9jNCUX8i+X0/FlWWuYELsGQJ/Pe26GupGVBLMY7Ug
- ClOySb5liuRhvaAmd5EE1HCFa7G15PxKXvOnXNtivOjrH4+8baP4buzF2+/Ebp6Szhnr
- xgRIX5R8sh0baZied3F8ZsJOhKlxeWIuHpN4dm/XpdPmw9U2AOnjEKsF1YQN1vLC8eAn
- yjJg==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=mQu0xSeBdFh0OBmncdcSyCrRF2TnNs8L6m99W/T0F1A=;
+ b=PpdtwWWgEoYFw+RmfrKVaJMheD7Ceye1f46IjIks6HL1XbMMqoyYYNxoZRG5OQOKEz
+ UIXEVx9NY+2iWMtH4BE3ABJ9klgPS7ciWBDBtWzJaf7bRy6rnRqBmh700FWSCiNWhViZ
+ g7Z5M5NGcM+9IIwEE8mfmTVdsL/TDba5gminb1g+SlindQ889oc+9txOR4Cc2R0fy3fY
+ tf3m4dWrZXALx4/ZKVY2ncWBtXOa0RGvkKnJrhue1qDqWhzG5UXS493ZJmpeCzuc8C3J
+ oidtDjGvlSxZgRmJJvqp0ky5s0lnRBJicXFioqBZYHXu/BDSCUULn+3b+YHBXK3xTXcb
+ l58A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=hYF0M3197sbfDCq7XeDcroDWgDDuL9YLI+RJgp9EjTM=;
- b=cS1nkIEuFVLcisD9wiZXiexFCm24JX8BOC2WC/zpeace+YY8+4ZOG6b9sjWDSRClDe
- CG5hwmMqNFfRS1JJR6PQrE+6c0U0B1PAvEavO3u7/CauGFZog2cCskNjfJ4Nevs1yxs0
- mdo1BpIHT6ysuS0KzIFHHa6VcNKohSL/nFcVj7Y0z3LZ3ChZpzplAvOYMdgcUNaQEVZI
- 9nmv/3HobSLNArdrsK17WsI8aLOQ2/sjwFjSo4qewe38jkKT3zbsWiIJk+gcBccsW0/d
- laUCd67AJtBCXev6i66R6e7sxO2Con64sLdGKU1xN4J0zdzWjAdbLf5mzHvR8ngU7byq
- Tlcw==
-X-Gm-Message-State: ACrzQf1SmXCg1X/EO9eHNpaStXFwPi8x0pRO09kQYt1B0i55GKKn2s0P
- Er8A20Ee8WkNcN7DjJ3dCLSyTPQ8Q42Fd7pYIvw=
-X-Google-Smtp-Source: AMsMyM5y7HXrZkT97oXBBGv8jEP40Sp+edZSsJ8PSarGb5rFipbdfLJrcqFFYPRE9cCE0/IOzfc+AbeJeF56EDYHNfI=
-X-Received: by 2002:a63:ce43:0:b0:45b:d6ed:6c2 with SMTP id
- r3-20020a63ce43000000b0045bd6ed06c2mr14659887pgi.406.1665368836478; Sun, 09
- Oct 2022 19:27:16 -0700 (PDT)
+ bh=mQu0xSeBdFh0OBmncdcSyCrRF2TnNs8L6m99W/T0F1A=;
+ b=e6nn/3x1ZO2zWZ1nsAE8Na7xwfIsenvT4jgboWG64MCfhEoMfHwY2k1QQje8YMzwg1
+ i6u4zBi/GvRqp2xvnjhrxeNXCVtgRY3kzFhpxyozLV+6SAZzwSoPwK3rqVx5t/8xpLoJ
+ CStDkbGZkuAYm040tvULXGLDOgrjHCAMlj8pL80Mh3Tiorp1E8kYXPGwCCVgm+Jmoqvi
+ YdQdO3IhAIlULwRMzQstfqbwaqhXEoiLikJ18NNX1MgZsYHiLNfAbZS8XkuSHNPI5E4+
+ zn+QtPI/KOEWHx8U0wsvxzukGJFOJIUDw1M7Pvb28/GtAxCT/A65dX0i3meXmoO0JXu5
+ 61Jg==
+X-Gm-Message-State: ACrzQf3MVEI7tx/VGEE+1XNDDMtE/svEuTEQpjZZqyaPV+uQs7cA1f4e
+ l4uoDuDj3ASgYLB9o6zk/WEamSUN4+EdXf9cXIc=
+X-Google-Smtp-Source: AMsMyM5XrseMWg/GOHyGy/RWOmX3HbGUAqBkrYB5T8sporCkPYcg8AWGR0xIrUeOQJNSNcWshHVhDw==
+X-Received: by 2002:a17:90b:3846:b0:20a:e735:f84c with SMTP id
+ nl6-20020a17090b384600b0020ae735f84cmr17975538pjb.183.1665369197845; 
+ Sun, 09 Oct 2022 19:33:17 -0700 (PDT)
+Received: from roots.. ([112.44.203.212]) by smtp.gmail.com with ESMTPSA id
+ j64-20020a625543000000b00537b1aa9191sm5743995pfb.178.2022.10.09.19.33.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 09 Oct 2022 19:33:17 -0700 (PDT)
+From: Sam Li <faithilikerun@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: stefanha@redhat.com, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, dmitry.fomichev@wdc.com, hare@suse.de,
+ Fam Zheng <fam@euphon.net>, damien.lemoal@opensource.wdc.com,
+ qemu-block@nongnu.org, Sam Li <faithilikerun@gmail.com>
+Subject: [PATCH v3 0/3] Add zone append write for zoned device
+Date: Mon, 10 Oct 2022 10:33:03 +0800
+Message-Id: <20221010023306.43610-1-faithilikerun@gmail.com>
+X-Mailer: git-send-email 2.37.3
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220922084107.2834285-1-tommy.wu@sifive.com>
- <20220922084107.2834285-3-tommy.wu@sifive.com>
-In-Reply-To: <20220922084107.2834285-3-tommy.wu@sifive.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 10 Oct 2022 12:26:50 +1000
-Message-ID: <CAKmqyKOAYD_eigVNY48pgqZu0ytxGzt_4qj1CL_AzRuxP4TvJQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] hw/riscv: sifive_e: Support the watchdog timer of
- HiFive 1 rev b.
-To: Tommy Wu <tommy.wu@sifive.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
- palmer@dabbelt.com, bin.meng@windriver.com, jim.shu@sifive.com, 
- frank.chang@sifive.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=alistair23@gmail.com; helo=mail-pg1-x533.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=faithilikerun@gmail.com; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,86 +89,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 22, 2022 at 6:45 PM Tommy Wu <tommy.wu@sifive.com> wrote:
->
-> Create the AON device when we realize the sifive_e machine.
-> This patch only implemented the functionality of the watchdog timer,
-> not all the functionality of the AON device.
->
-> Signed-off-by: Tommy Wu <tommy.wu@sifive.com>
-> ---
->  hw/riscv/Kconfig            | 1 +
->  hw/riscv/sifive_e.c         | 5 +++--
->  include/hw/riscv/sifive_e.h | 7 ++++---
->  3 files changed, 8 insertions(+), 5 deletions(-)
->
-> diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-> index 79ff61c464..50890b1b75 100644
-> --- a/hw/riscv/Kconfig
-> +++ b/hw/riscv/Kconfig
-> @@ -59,6 +59,7 @@ config SIFIVE_E
->      select SIFIVE_PLIC
->      select SIFIVE_UART
->      select SIFIVE_E_PRCI
-> +    select SIFIVE_E_AON
->      select UNIMP
->
->  config SIFIVE_U
-> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-> index d65d2fd869..f9c05cfd3a 100644
-> --- a/hw/riscv/sifive_e.c
-> +++ b/hw/riscv/sifive_e.c
-> @@ -45,6 +45,7 @@
->  #include "hw/intc/riscv_aclint.h"
->  #include "hw/intc/sifive_plic.h"
->  #include "hw/misc/sifive_e_prci.h"
-> +#include "hw/misc/sifive_e_aon.h"
->  #include "chardev/char.h"
->  #include "sysemu/sysemu.h"
->
-> @@ -222,8 +223,8 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
->          RISCV_ACLINT_DEFAULT_MTIMER_SIZE, 0, ms->smp.cpus,
->          RISCV_ACLINT_DEFAULT_MTIMECMP, RISCV_ACLINT_DEFAULT_MTIME,
->          RISCV_ACLINT_DEFAULT_TIMEBASE_FREQ, false);
+v3:
+- only read wps when it is locked [Damien]
+- allow last smaller zone case [Damien]
+- add zone type and state checks in zone_mgmt command [Damien]
+- fix RESET_ALL related problems
 
-Newline here
+v2:
+- split patch to two patches for better reviewing
+- change BlockZoneWps's structure to an array of integers
+- use only mutex lock on locking conditions of zone wps
+- coding styles and clean-ups
 
-> -    create_unimplemented_device("riscv.sifive.e.aon",
-> -        memmap[SIFIVE_E_DEV_AON].base, memmap[SIFIVE_E_DEV_AON].size);
-> +    sifive_e_aon_create(sys_mem, memmap[SIFIVE_E_DEV_AON].base,
-> +        qdev_get_gpio_in(DEVICE(s->plic), SIFIVE_E_AON_WDT_IRQ));
+v1:
+- introduce zone append write
 
-and here please
+Sam Li (3):
+  file-posix:add the tracking of the zones write pointers
+  block: introduce zone append write for zoned devices
+  qemu-iotests: test zone append operation
 
-Otherwise:
+ block/block-backend.c              |  64 +++++++++
+ block/file-posix.c                 | 216 ++++++++++++++++++++++++++++-
+ block/io.c                         |  21 +++
+ block/raw-format.c                 |   7 +
+ include/block/block-common.h       |  14 ++
+ include/block/block-io.h           |   3 +
+ include/block/block_int-common.h   |   8 ++
+ include/block/raw-aio.h            |   4 +-
+ include/sysemu/block-backend-io.h  |   9 ++
+ qemu-io-cmds.c                     |  62 +++++++++
+ tests/qemu-iotests/tests/zoned.out |   7 +
+ tests/qemu-iotests/tests/zoned.sh  |   9 ++
+ 12 files changed, 420 insertions(+), 4 deletions(-)
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+-- 
+2.37.3
 
-Alistair
-
->      sifive_e_prci_create(memmap[SIFIVE_E_DEV_PRCI].base);
->
->      /* GPIO */
-> diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
-> index 83604da805..7de2221564 100644
-> --- a/include/hw/riscv/sifive_e.h
-> +++ b/include/hw/riscv/sifive_e.h
-> @@ -75,9 +75,10 @@ enum {
->  };
->
->  enum {
-> -    SIFIVE_E_UART0_IRQ  = 3,
-> -    SIFIVE_E_UART1_IRQ  = 4,
-> -    SIFIVE_E_GPIO0_IRQ0 = 8
-> +    SIFIVE_E_AON_WDT_IRQ  = 1,
-> +    SIFIVE_E_UART0_IRQ    = 3,
-> +    SIFIVE_E_UART1_IRQ    = 4,
-> +    SIFIVE_E_GPIO0_IRQ0   = 8
->  };
->
->  #define SIFIVE_E_PLIC_HART_CONFIG "M"
-> --
-> 2.27.0
->
->
 
