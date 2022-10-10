@@ -2,80 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6215B5F96FB
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 04:37:39 +0200 (CEST)
-Received: from localhost ([::1]:58072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 880D55F971A
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 04:53:33 +0200 (CEST)
+Received: from localhost ([::1]:54084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohifi-0007ok-GA
-	for lists+qemu-devel@lfdr.de; Sun, 09 Oct 2022 22:37:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48930)
+	id 1ohiv6-0004xV-Lb
+	for lists+qemu-devel@lfdr.de; Sun, 09 Oct 2022 22:53:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1ohibr-0001KA-Ep; Sun, 09 Oct 2022 22:33:39 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:42632)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1ohibp-0007pk-JN; Sun, 09 Oct 2022 22:33:39 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- l1-20020a17090a72c100b0020a6949a66aso9238706pjk.1; 
- Sun, 09 Oct 2022 19:33:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=sNDpjghhIJzk3ZF5nExh31OS+OUK/eTgV50nYtZkFLA=;
- b=gdWGVWv6T4Dl4lRUQ7gIoO6qJf4co9GnJMxO1gjA2zIpQ8BxbF584LwmhSDG2HyXIV
- CWcta5Mz+AjTnEpL8PURltsWr1/Q33GkYfLt1Aabw3tyHaouqZhKl2y579F0tQaOHG1K
- zAGmJqngBTkx6WAAC98BRm2Ij/4gE7yLPGdSHeaDf0ANwhtPi9vtpFnxkVRgiajH3ebf
- Ihl73pc68cSlJ4YpU38KbfCFU9xsetyAl1C4QUMZP5LsIYzd1oS3Ki7xEjYllaSqNc+1
- Bl6xcZ/+TAsfzH3iQWNMVVzT0LweqLgGUrjYIZZTU3LV1rYdSP3Fn2MEQn4MHOgEzjw9
- eWQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=sNDpjghhIJzk3ZF5nExh31OS+OUK/eTgV50nYtZkFLA=;
- b=pNY5aOZ38VkKqXqtMlVFBh+E87Gx4oUz3wnbaq5dOhRxwxbKf11OCEqp/+hiO3rKet
- 0QBXInpfeTigGS/6x0XeZVMrY/V3EKsKgR7a6S9dlwd67D6myzUHJtXOY0ibxTyDb7aa
- jiuLavX7EGbQnVw5dk7zAMuLuwkEeKfMuAYYbXNN+H9wLxPdZPiWVYdhRHHj0hrsnI6S
- pqx4gP6j4kh6V+yXebQgKIQ7ZTuFRLXS2gxdV4JwiMpBnVcRRap3i+fNK/ywS6WuzYoL
- 59wadt0ctrb7mJmmBmVH77H82BrePxhMY2i4CxQQiG1wN99qNGPeqw+Z8d3EkUwsUQDQ
- LdoQ==
-X-Gm-Message-State: ACrzQf32UHOnEJtbYh3gBNvExFaKpObWOpF2ZE64dPtUfxnX4Aq6kOR+
- KeqDwiNFJBdMVgkhfZCkNfbR13EpjKo4TPXWpM4=
-X-Google-Smtp-Source: AMsMyM4j5T9YSRv81Bf1XwfLTv8IUjnPqN7XP4rlnsyOF6ghgoMHfK+nvixFMMNYysJegI+HPM9Q5A==
-X-Received: by 2002:a17:903:245:b0:178:e0ba:e507 with SMTP id
- j5-20020a170903024500b00178e0bae507mr17253654plh.115.1665369214601; 
- Sun, 09 Oct 2022 19:33:34 -0700 (PDT)
-Received: from roots.. ([112.44.203.212]) by smtp.gmail.com with ESMTPSA id
- j64-20020a625543000000b00537b1aa9191sm5743995pfb.178.2022.10.09.19.33.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 09 Oct 2022 19:33:34 -0700 (PDT)
-From: Sam Li <faithilikerun@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, dmitry.fomichev@wdc.com, hare@suse.de,
- Fam Zheng <fam@euphon.net>, damien.lemoal@opensource.wdc.com,
- qemu-block@nongnu.org, Sam Li <faithilikerun@gmail.com>
-Subject: [PATCH v3 3/3] qemu-iotests: test zone append operation
-Date: Mon, 10 Oct 2022 10:33:06 +0800
-Message-Id: <20221010023306.43610-4-faithilikerun@gmail.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221010023306.43610-1-faithilikerun@gmail.com>
-References: <20221010023306.43610-1-faithilikerun@gmail.com>
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <taisei1212@outlook.jp>)
+ id 1ohiu8-0003ct-9o
+ for qemu-devel@nongnu.org; Sun, 09 Oct 2022 22:52:32 -0400
+Received: from mail-sgaapc01olkn20814.outbound.protection.outlook.com
+ ([2a01:111:f400:feab::814]:65248
+ helo=APC01-SG2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <taisei1212@outlook.jp>)
+ id 1ohiu6-0001tP-Aq
+ for qemu-devel@nongnu.org; Sun, 09 Oct 2022 22:52:31 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I5m317IE3cr12xZSq2C6fhxHtN9Bs27ay+TjXhLeA4fwpAX8Mms966DEQKvtrrr8i03bNBXUq+ozRvqp/j3nmSwu8cnIIpQ4NSzb1J0tvfdXkf8PERp/DLoGRWJLactmjy3M0Ou6thB0JcVc2WGVBxcmdcw0aZfE+oTJCT9SSiy/yriocrYInW3D78jYjtB85bjkMFZj45ioutD0VDoK7ydfqnHK+VHCHJQyaAvAreaE+nylgtUZKprPuYnf761hFfOC+ArgxqfCkIptk1Tv3L3+ocdWnMfjOhO5FUWm/qdE08U55MV8LT9nW3mLUe8Boiu6YiVbqlk+TWM9igiQGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ffemJ4AYzGIgtgpXBmoRFetlyQyp0g7SFJTwlVMWLs8=;
+ b=kQzOQvp9X1e/P1fa7Zoh7jTIVvM1aBsHELDP/DJdRy97FKVXIFrKyOwLArma1CBi4DoZznMsSfPDeAk2SoRjvKItusAzN3DY01XFZ3XGig2F0qd9CAaQEBRb6q13jov81LR8DW208svQXW3M/fhkmUzCNMB1Q/aLiOWO6Q7aJfSxm/pRGoPs3u0ql8E1ykQRPF687oOTPUClQwSyzjiIR1maD3LXhZyq6WOCtBjpitw4/hV4BdcfZID4qeejBgecE8Vr0tzl0be19OYDj9LT29VK8So4tFQwGi4kX/FMnA0PCrN6ChtRTJ+KzNTkL8u0EsCJdioAqbN2PPXY+08uRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
+ (2603:1096:400:1b0::11) by SG2PR01MB4435.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:1b6::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.34; Mon, 10 Oct
+ 2022 02:47:19 +0000
+Received: from TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
+ ([fe80::d219:190d:d802:bbc4]) by
+ TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
+ ([fe80::d219:190d:d802:bbc4%4]) with mapi id 15.20.5654.025; Mon, 10 Oct 2022
+ 02:47:19 +0000
+From: TaiseiIto <taisei1212@outlook.jp>
+To: taisei1212@outlook.jp
+Cc: alex.bennee@linaro.org,
+	f4bug@amsat.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH] [PING] gdb-xml: Fix size of EFER register on i386
+ architecture when debugged by GDB
+Date: Mon, 10 Oct 2022 11:46:53 +0900
+Message-ID: <TY0PR0101MB4285FA2526435F8CEC158355A4209@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <TY0PR0101MB4285F637209075C9F65FCDA6A4479@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com>
+References: <TY0PR0101MB4285F637209075C9F65FCDA6A4479@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com>
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=faithilikerun@gmail.com; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-TMN: [ZxbOVSU4DMMVdOnzIvBVpjPO0hCdPkGE]
+X-ClientProxiedBy: TYCPR01CA0045.jpnprd01.prod.outlook.com
+ (2603:1096:405:1::33) To TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
+ (2603:1096:400:1b0::11)
+X-Microsoft-Original-Message-ID: <20221010024653.465-1-taisei1212@outlook.jp>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY0PR0101MB4285:EE_|SG2PR01MB4435:EE_
+X-MS-Office365-Filtering-Correlation-Id: a9693642-ee38-4efa-f819-08daaa69bf7b
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PrYcxuqvclYo+G7qoMVHduFuzBWZ9exB/juJc7qSwfhIDoirrOCnUKoVne0CHrqcyvtqJOwMmZKyxtChP2JNo+6XxpJUUchJocon5sQxUqYHTxL74JL7GRDtON9rMGGnbq5pXB7Iw04o00Z37sN3j+d07JB0cMSPpcJJaA0bEsJELfqFrgvTv3wH0yqhoS5q/j5BTPL/e7bn2EZGzPsirJ29J8tF9vuzUSLlcAASTs8WmCOQlggHRVjCy0Rzi2EYbPJ47kHAN+/h/s6PDDK7mkTlZlsjFV9FlWspxi010J4EdTgzB0ycuGM2gMnReRpM2F6s/uIztga0ZIBhHAnM6oBxyWmEIOaEdeZmBCUWvTLm6CuTLmAsRxm5JEsC1Rv6fvahPy7pS8BCLLvT797bAT9YcKDR+OpY8yoR6J/S1CP6Cni2j6Gr1AqMKPU+TRCv4GZ9B7Q7Up2WBunsNym6TFfW+LPfl3fe2zRFqhyZNeCrzfkoPgaJhphqhrJWbXkVXgbZ/f594dlgOJ8rmJLjdAA+FngQQCzEBWU3dHe+JXy5C0VKlpE604UcdIvOM/keYKqvk2Hzb8+u737ddjeLJSZeGE5EktcEs/eVYbf6yjDIfhJTfqWwsiJuedsuLKGcoBXl/EEzDZQlqW0AMovj7lIPp8WBMuV9mlPYg7oLqXL6pPVR0iTV/vtBnr2/+ZvT
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?l5W+bcBmBO6eci3Au6h8M0OcQa9qBZDDY5H3tfl4/TMOGJHMlRVmqZoyKXZX?=
+ =?us-ascii?Q?CNpE7zzHDtTR+Os1tzBmUkbzHQUrpFRL3gEsQgNlttwJ8YYfaugaZSploxz/?=
+ =?us-ascii?Q?B2Qi5c5kc2CX/Fd5SQtjHtB8Y8ZPspoWDZIupcaQ38IvjKr9k1PaEx09ElDb?=
+ =?us-ascii?Q?5pSZdgd48EGmA6f6HWMjuvKbe9IxcPdaEVvDwcdZQEgkUIGEonu1DGO1PG4a?=
+ =?us-ascii?Q?lcvj3ExpLi/wM3pUUBbs32I9A/V/sLRzIqWVgLHB9dUCHixDOCZ9z+Chyh1G?=
+ =?us-ascii?Q?Xz6agW+Iaj4LvldRCpBhKO13LbLcoZ4sirHknT2Cvk0p0KLLxIBSTgMa4B+N?=
+ =?us-ascii?Q?A0hyCOhtsqtgnWosZChig8T3mYdqNdIIsKgnWfJdFYzKvjUXRW/8fw0oEJmn?=
+ =?us-ascii?Q?QgHYtzyY5p9HzfKVysSRVY0Zifm7rc4HMTOgHZnXI33g2L0kW+Ii8Z5Lk2i5?=
+ =?us-ascii?Q?fN4o4L8GRL5dWoYNmVtH4Cf8XWrOQGkow/A4Cv4n6bcAocodXahpt9Czm/Sm?=
+ =?us-ascii?Q?rBdRClG8WAoAFzUw0Y44ayqvsU59O4TP6hjUNi/ztqVL6idWMZbo0SCTWkX+?=
+ =?us-ascii?Q?A73+w+4gDqxFV4alRHPqViLqeyh9M8o7O+YImd9UQAAnXO/sTikQn1QsJ053?=
+ =?us-ascii?Q?WT7vHmwYG5Op9ZstR7YZpUeAF5T46C+b4UN6VGUITVa+RbFVOwZse3CNNmpj?=
+ =?us-ascii?Q?l1kEi7CG6Ty5/Tfvv+xa/gEmJWwpLldK2SjDQBc3uxv/4cnJaT9pUiVtr0nn?=
+ =?us-ascii?Q?2/F58u9+A0ilZ1a+X/hS3ajfQePwTle0/wxKpV1swScDm37owOxRjNJ+eBIt?=
+ =?us-ascii?Q?ZVd5IqvQMgLu6sMRJLdEHCq6SwDyEySatwodPLqjfw0BQK2kLtYprxscwoeK?=
+ =?us-ascii?Q?BvDOC0hbnfI9SwWOLJaOcoAYA9+SeSjFrLIeFPIIAYhOArWVHNbMR/qeaT7n?=
+ =?us-ascii?Q?rmYLJh5CV+0FYy/Sz1xr3jvFiVKRt7jhHQOk33KFhgsYMwJQ+1Yyv1et0KT9?=
+ =?us-ascii?Q?vYVDfDwUc7C+7RDb6PRO9ayF+6Zgi1jWD0wQJJbDiWIDRM2BKSWAORY0Ia5N?=
+ =?us-ascii?Q?puQlE++d5kKs5JaEl67r9EqviIzi7xlwDuL3cgq8mn45FGYeBvd+2XxLqCQ4?=
+ =?us-ascii?Q?03YEpgnxw3+yCTJtVpvX9JbwIilExJF1rfrRxBHgShgHJsKJaY6iFL1H4Lnr?=
+ =?us-ascii?Q?mEKqPi3ZZp3lbQbEp1A3gAqSKRY8bH5K2RE6OZWtUbK8pDpPOyvdDh+IuV2N?=
+ =?us-ascii?Q?1cMiCMwVv3/y+XEzXcYIOlD274zNzbViU6dLUZE1Kw=3D=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-d8e84.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: a9693642-ee38-4efa-f819-08daaa69bf7b
+X-MS-Exchange-CrossTenant-AuthSource: TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2022 02:47:19.5633 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR01MB4435
+Received-SPF: pass client-ip=2a01:111:f400:feab::814;
+ envelope-from=taisei1212@outlook.jp;
+ helo=APC01-SG2-obe.outbound.protection.outlook.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FROM=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,133 +122,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This tests is mainly a helper to indicate append writes in block layer
-behaves as expected.
+This is a ping to the patch below.
 
-Signed-off-by: Sam Li <faithilikerun@gmail.com>
+https://patchew.org/QEMU/TY0PR0101MB4285F637209075C9F65FCDA6A4479@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com/
+https://lore.kernel.org/qemu-devel/TY0PR0101MB4285F637209075C9F65FCDA6A4479@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com/
+
+Before this commit, there were contradictory descriptions about size of EFER
+register.
+Line 113 says the size is 8 bytes.
+Line 129 says the size is 4 bytes.
+
+As a result, when GDB is debugging an OS running on QEMU, the GDB cannot
+read 'g' packets correctly. This 'g' packet transmits values of each
+registers of machine emulated by QEMU to GDB. QEMU, the packet sender,
+assign 4 bytes for EFER in 'g' packet based on the line 113.
+GDB, the packet receiver, extract 8 bytes for EFER in 'g' packet based on
+the line 129. Therefore, all registers located behind EFER in 'g' packet
+has been shifted 4 bytes in GDB.
+
+After this commit, GDB can read 'g' packets correctly.
+
+Signed-off-by: TaiseiIto <taisei1212@outlook.jp>
 ---
- qemu-io-cmds.c                     | 62 ++++++++++++++++++++++++++++++
- tests/qemu-iotests/tests/zoned.out |  7 ++++
- tests/qemu-iotests/tests/zoned.sh  |  9 +++++
- 3 files changed, 78 insertions(+)
+ gdb-xml/i386-32bit.xml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
-index e56c8d1c30..6cb86de35b 100644
---- a/qemu-io-cmds.c
-+++ b/qemu-io-cmds.c
-@@ -1855,6 +1855,67 @@ static const cmdinfo_t zone_reset_cmd = {
-     .oneline = "reset a zone write pointer in zone block device",
- };
+diff --git a/gdb-xml/i386-32bit.xml b/gdb-xml/i386-32bit.xml
+index 872fcea9c2..7a66a02b67 100644
+--- a/gdb-xml/i386-32bit.xml
++++ b/gdb-xml/i386-32bit.xml
+@@ -110,7 +110,7 @@
+ 	<field name="PKE" start="22" end="22"/>
+   </flags>
  
-+static int do_aio_zone_append(BlockBackend *blk, QEMUIOVector *qiov,
-+                              int64_t *offset, int flags, int *total)
-+{
-+    int async_ret = NOT_DONE;
-+
-+    blk_aio_zone_append(blk, offset, qiov, flags, aio_rw_done, &async_ret);
-+    while (async_ret == NOT_DONE) {
-+        main_loop_wait(false);
-+    }
-+
-+    *total = qiov->size;
-+    return async_ret < 0 ? async_ret : 1;
-+}
-+
-+static int zone_append_f(BlockBackend *blk, int argc, char **argv) {
-+    int ret;
-+    int flags = 0;
-+    int total = 0;
-+    int64_t offset;
-+    char *buf;
-+    int nr_iov;
-+    int pattern = 0xcd;
-+    QEMUIOVector qiov;
-+
-+    if (optind > argc - 2) {
-+        return -EINVAL;
-+    }
-+    optind++;
-+    offset = cvtnum(argv[optind]);
-+    if (offset < 0) {
-+        print_cvtnum_err(offset, argv[optind]);
-+        return offset;
-+    }
-+    optind++;
-+    nr_iov = argc - optind;
-+    buf = create_iovec(blk, &qiov, &argv[optind], nr_iov, pattern);
-+    if (buf == NULL) {
-+        return -EINVAL;
-+    }
-+    ret = do_aio_zone_append(blk, &qiov, &offset, flags, &total);
-+    if (ret < 0) {
-+        printf("zone append failed: %s\n", strerror(-ret));
-+        goto out;
-+    }
-+
-+    out:
-+    qemu_iovec_destroy(&qiov);
-+    qemu_io_free(buf);
-+    return ret;
-+}
-+
-+static const cmdinfo_t zone_append_cmd = {
-+    .name = "zone_append",
-+    .altname = "zap",
-+    .cfunc = zone_append_f,
-+    .argmin = 3,
-+    .argmax = 3,
-+    .args = "offset len [len..]",
-+    .oneline = "append write a number of bytes at a specified offset",
-+};
-+
- static int truncate_f(BlockBackend *blk, int argc, char **argv);
- static const cmdinfo_t truncate_cmd = {
-     .name       = "truncate",
-@@ -2652,6 +2713,7 @@ static void __attribute((constructor)) init_qemuio_commands(void)
-     qemuio_add_command(&zone_close_cmd);
-     qemuio_add_command(&zone_finish_cmd);
-     qemuio_add_command(&zone_reset_cmd);
-+    qemuio_add_command(&zone_append_cmd);
-     qemuio_add_command(&truncate_cmd);
-     qemuio_add_command(&length_cmd);
-     qemuio_add_command(&info_cmd);
-diff --git a/tests/qemu-iotests/tests/zoned.out b/tests/qemu-iotests/tests/zoned.out
-index 0c8f96deb9..b3b139b4ec 100644
---- a/tests/qemu-iotests/tests/zoned.out
-+++ b/tests/qemu-iotests/tests/zoned.out
-@@ -50,4 +50,11 @@ start: 0x80000, len 0x80000, cap 0x80000, wptr 0x100000, zcond:14, [type: 2]
- (5) resetting the second zone
- After resetting a zone:
- start: 0x80000, len 0x80000, cap 0x80000, wptr 0x80000, zcond:1, [type: 2]
-+
-+
-+(6) append write
-+After appending the first zone:
-+start: 0x0, len 0x80000, cap 0x80000, wptr 0x18, zcond:2, [type: 2]
-+After appending the second zone:
-+start: 0x80000, len 0x80000, cap 0x80000, wptr 0x80018, zcond:2, [type: 2]
- *** done
-diff --git a/tests/qemu-iotests/tests/zoned.sh b/tests/qemu-iotests/tests/zoned.sh
-index fced0194c5..888711eef2 100755
---- a/tests/qemu-iotests/tests/zoned.sh
-+++ b/tests/qemu-iotests/tests/zoned.sh
-@@ -79,6 +79,15 @@ echo "(5) resetting the second zone"
- sudo $QEMU_IO $IMG -c "zrs 268435456 268435456"
- echo "After resetting a zone:"
- sudo $QEMU_IO $IMG -c "zrp 268435456 1"
-+echo
-+echo
-+echo "(6) append write" # physical block size of the device is 4096
-+sudo $QEMU_IO $IMG -c "zap 0 0x1000 0x2000"
-+echo "After appending the first zone:"
-+sudo $QEMU_IO $IMG -c "zrp 0 1"
-+sudo $QEMU_IO $IMG -c "zap 268435456 0x1000 0x2000"
-+echo "After appending the second zone:"
-+sudo $QEMU_IO $IMG -c "zrp 268435456 1"
- 
- # success, all done
- echo "*** done"
+-  <flags id="i386_efer" size="8">
++  <flags id="i386_efer" size="4">
+ 	<field name="TCE" start="15" end="15"/>
+ 	<field name="FFXSR" start="14" end="14"/>
+ 	<field name="LMSLE" start="13" end="13"/>
 -- 
-2.37.3
+2.34.1
 
 
