@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06D705F9F87
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 15:39:15 +0200 (CEST)
-Received: from localhost ([::1]:39954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24E645F9F91
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 15:42:53 +0200 (CEST)
+Received: from localhost ([::1]:39852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohszy-00078z-1J
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 09:39:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40938)
+	id 1oht3U-0004JC-83
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 09:42:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ohsvG-0000zv-Fc
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 09:34:23 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:48750)
+ (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ohsvL-00012A-Ah
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 09:34:27 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:49306)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ohsvC-0005KU-Em
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 09:34:21 -0400
+ (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ohsvD-0005Kc-HD
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 09:34:26 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 508661F8F2;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id D4688219C7;
  Mon, 10 Oct 2022 13:34:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
  t=1665408857; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kPCQLiTt+xycLpMdzoecrm8X5xdA5JatxxJh/K6EFXQ=;
- b=nbp8qs7V3CumbEVUcOBVCtHWoewLDq3+XiTsTXFiFWXOl733FNc1bGtafxUyzhz8Zgo5Yy
- GmvOZTx2yxJccB6oxXDBzowN5Y01s5EixuZOsL8fqBMte+oIGgYc0LLfL5tl79en4ri1TA
- e2IUyG0pY460uWeF4PwYAIlSLPPaBQI=
+ bh=Mcxb1KkOXDsWsAQ+5oEd/2owC+DHHQstkS+CY/0AUxw=;
+ b=CxBy4PMUI5M1F4h4UtJKkOdhSWOrmwuB5naGKiW5z3LUayPCHXLb7P+DeaXmZxceV4thil
+ llSY5yOnAqWBqG6uP8rNP/mzqmOOOmQ5mInqpqRMnhzYQQV3OsejCUQW2Cgoqo2VkcKVZc
+ yUS9dCFJpyHaqYd1/Rzwc7A8ukPlFw4=
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C180C13479;
- Mon, 10 Oct 2022 13:34:16 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5781C13479;
+ Mon, 10 Oct 2022 13:34:17 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id MF1zLFgfRGNsAwAAMHmgww
- (envelope-from <nborisov@suse.com>); Mon, 10 Oct 2022 13:34:16 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id OOqjEVkfRGNsAwAAMHmgww
+ (envelope-from <nborisov@suse.com>); Mon, 10 Oct 2022 13:34:17 +0000
 From: Nikolay Borisov <nborisov@suse.com>
 To: dgilbert@redhat.com,
 	berrange@redhat.com
 Cc: qemu-devel@nongnu.org, jfehlig@suse.com, Claudio.Fontana@suse.com,
  dfaggioli@suse.com, Nikolay Borisov <nborisov@suse.com>
-Subject: [PATCH v2 07/11] migration: add qemu_get_buffer_at
-Date: Mon, 10 Oct 2022 16:34:04 +0300
-Message-Id: <20221010133408.3214433-8-nborisov@suse.com>
+Subject: [PATCH v2 08/11] migration/ram: Introduce 'fixed-ram' migration
+ stream capability
+Date: Mon, 10 Oct 2022 16:34:05 +0300
+Message-Id: <20221010133408.3214433-9-nborisov@suse.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221010133408.3214433-1-nborisov@suse.com>
 References: <20221010133408.3214433-1-nborisov@suse.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=nborisov@suse.com;
- helo=smtp-out2.suse.de
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=nborisov@suse.com;
+ helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
 X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,62 +79,372 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Restoring a 'fixed-ram' enabled migration stream would require reading
-from specific offsets in the file so add a helper to QEMUFile that uses
-the newly introduced qio_channel_file_preadv.
+Implement 'fixed-ram' feature. The core of the feature is to ensure that
+each ram page of the migration stream has a specific offset in the
+resulting migration stream. The reason why we'd want such behavior are
+two fold:
+
+ - When doing a 'fixed-ram' migration the resulting file will have a
+   bounded size, since pages which are dirtied multiple times will
+   always go to a fixed location in the file, rather than constantly
+   being added to a sequential stream. This eliminates cases where a vm
+   with, say, 1g of ram can result in a migration file that's 10s of
+   Gbs, provided that the workload constantly redirties memory.
+
+ - It paves the way to implement DIO-enabled save/restore of the
+   migration stream as the pages are ensured to be written at aligned
+   offsets.
+
+The features requires changing the format. First, a bitmap is introduced
+which tracks which pages have been written (i.e are dirtied) during
+migration and subsequently it's being written in the resultin file,
+again at a fixed location for every ramblock. Zero pages are ignored as
+they'd be zero in the destination migration as well. With the changed
+format data would look like the following:
+
+|name len|name|used_len|pc*|bitmap_size|pages_offset|bitmap|pages|
+
+* pc - refers to the page_size/mr->addr members, so newly added members
+begin from "bitmap_size".
+
+This layout is initialized during ram_save_setup so instead of having a
+sequential stream of pages that follow the ramblock headers the dirty
+pages for a ramblock follow its header. Since all pages have a fixed
+location RAM_SAVE_FLAG_EOS is no longer generated on every migration
+iteration but there is effectively a single RAM_SAVE_FLAG_EOS right at
+the end.
 
 Signed-off-by: Nikolay Borisov <nborisov@suse.com>
 ---
- migration/qemu-file.c | 23 +++++++++++++++++++++++
- migration/qemu-file.h |  1 +
- 2 files changed, 24 insertions(+)
+ include/exec/ramblock.h |  7 +++
+ migration/migration.c   | 51 +++++++++++++++++++++-
+ migration/migration.h   |  1 +
+ migration/ram.c         | 97 +++++++++++++++++++++++++++++++++--------
+ migration/savevm.c      |  1 +
+ qapi/migration.json     |  2 +-
+ 6 files changed, 138 insertions(+), 21 deletions(-)
 
-diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index 07ba1125e83f..73fffbdb9b7e 100644
---- a/migration/qemu-file.c
-+++ b/migration/qemu-file.c
-@@ -564,6 +564,29 @@ void qemu_put_buffer_at(QEMUFile *f, const uint8_t *buf, size_t buflen, off_t po
-     return;
+diff --git a/include/exec/ramblock.h b/include/exec/ramblock.h
+index 6cbedf9e0c9a..30216c1a41d3 100644
+--- a/include/exec/ramblock.h
++++ b/include/exec/ramblock.h
+@@ -43,6 +43,13 @@ struct RAMBlock {
+     size_t page_size;
+     /* dirty bitmap used during migration */
+     unsigned long *bmap;
++    /* shadow dirty bitmap used when migrating to a file */
++    unsigned long *shadow_bmap;
++    /* offset in the file pages belonging to this ramblock are saved, used
++     * only during migration to a file
++     */
++    off_t bitmap_offset;
++    uint64_t pages_offset;
+     /* bitmap of already received pages in postcopy */
+     unsigned long *receivedmap;
+ 
+diff --git a/migration/migration.c b/migration/migration.c
+index d0779bbaf862..1d08664da5db 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -165,7 +165,8 @@ INITIALIZE_MIGRATE_CAPS_SET(check_caps_background_snapshot,
+     MIGRATION_CAPABILITY_XBZRLE,
+     MIGRATION_CAPABILITY_X_COLO,
+     MIGRATION_CAPABILITY_VALIDATE_UUID,
+-    MIGRATION_CAPABILITY_ZERO_COPY_SEND);
++    MIGRATION_CAPABILITY_ZERO_COPY_SEND,
++    MIGRATION_CAPABILITY_FIXED_RAM);
+ 
+ /* When we add fault tolerance, we could have several
+    migrations at once.  For now we don't need to add
+@@ -1325,6 +1326,27 @@ static bool migrate_caps_check(bool *cap_list,
+     }
+ #endif
+ 
++    if (cap_list[MIGRATION_CAPABILITY_FIXED_RAM]) {
++	    if (cap_list[MIGRATION_CAPABILITY_MULTIFD]) {
++		    error_setg(errp, "Directly mapped memory incompatible with multifd");
++		    return false;
++	    }
++
++	    if (cap_list[MIGRATION_CAPABILITY_XBZRLE]) {
++		    error_setg(errp, "Directly mapped memory incompatible with xbzrle");
++		    return false;
++	    }
++
++	    if (cap_list[MIGRATION_CAPABILITY_COMPRESS]) {
++		    error_setg(errp, "Directly mapped memory incompatible with compression");
++		    return false;
++	    }
++
++	    if (cap_list[MIGRATION_CAPABILITY_POSTCOPY_RAM]) {
++		    error_setg(errp, "Directly mapped memory incompatible with postcopy ram");
++		    return false;
++	    }
++    }
+ 
+     /* incoming side only */
+     if (runstate_check(RUN_STATE_INMIGRATE) &&
+@@ -2629,6 +2651,11 @@ MultiFDCompression migrate_multifd_compression(void)
+     return s->parameters.multifd_compression;
  }
  
-+
-+size_t qemu_get_buffer_at(QEMUFile *f, const uint8_t *buf, size_t buflen, off_t pos)
++int migrate_fixed_ram(void)
 +{
-+    Error *err = NULL;
-+    struct iovec iov = { .iov_base = (char *)buf, .iov_len = buflen };
-+    ssize_t ret;
++    return migrate_get_current()->enabled_capabilities[MIGRATION_CAPABILITY_FIXED_RAM];
++}
 +
-+    if (f->last_error) {
+ int migrate_multifd_zlib_level(void)
+ {
+     MigrationState *s;
+@@ -4189,6 +4216,21 @@ static void *bg_migration_thread(void *opaque)
+     return NULL;
+ }
+ 
++static int
++migrate_check_fixed_ram(MigrationState *s, Error **errp)
++{
++    if (!s->enabled_capabilities[MIGRATION_CAPABILITY_FIXED_RAM])
 +        return 0;
++
++    if (!qemu_file_is_seekable(s->to_dst_file)) {
++        error_setg(errp, "Directly mapped memory requires a seekable transport");
++        return -1;
 +    }
 +
-+    ret = qio_channel_file_preadv(f->ioc, &iov, 1, pos, &err);
-+    if (ret == -1) {
-+	    goto error;
-+    }
-+
-+    return (size_t)ret;
-+
-+ error:
-+    qemu_file_set_error_obj(f, -EIO, err);
 +    return 0;
 +}
 +
- void qemu_set_offset(QEMUFile *f, off_t off, int whence)
++
+ void migrate_fd_connect(MigrationState *s, Error *error_in)
  {
-     Error *err = NULL;
-diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-index 33cfc07b81d1..ab10c3ad7e42 100644
---- a/migration/qemu-file.h
-+++ b/migration/qemu-file.h
-@@ -151,6 +151,7 @@ void qemu_file_set_blocking(QEMUFile *f, bool block);
- void qemu_set_offset(QEMUFile *f, off_t off, int whence);
- off_t qemu_get_offset(QEMUFile *f);
- void qemu_put_buffer_at(QEMUFile *f, const uint8_t *buf, size_t buflen, off_t pos);
-+size_t qemu_get_buffer_at(QEMUFile *f, const uint8_t *buf, size_t buflen, off_t pos);
+     Error *local_err = NULL;
+@@ -4264,6 +4306,12 @@ void migrate_fd_connect(MigrationState *s, Error *error_in)
+         return;
+     }
  
- void ram_control_before_iterate(QEMUFile *f, uint64_t flags);
- void ram_control_after_iterate(QEMUFile *f, uint64_t flags);
++    if (migrate_check_fixed_ram(s, &local_err) < 0) {
++	    migrate_fd_cleanup(s);
++	    migrate_fd_error(s, local_err);
++	    return;
++    }
++
+     if (resume) {
+         /* Wakeup the main migration thread to do the recovery */
+         migrate_set_state(&s->state, MIGRATION_STATUS_POSTCOPY_PAUSED,
+@@ -4397,6 +4445,7 @@ static Property migration_properties[] = {
+     DEFINE_PROP_STRING("tls-authz", MigrationState, parameters.tls_authz),
+ 
+     /* Migration capabilities */
++    DEFINE_PROP_MIG_CAP("x-fixed-ram", MIGRATION_CAPABILITY_FIXED_RAM),
+     DEFINE_PROP_MIG_CAP("x-xbzrle", MIGRATION_CAPABILITY_XBZRLE),
+     DEFINE_PROP_MIG_CAP("x-rdma-pin-all", MIGRATION_CAPABILITY_RDMA_PIN_ALL),
+     DEFINE_PROP_MIG_CAP("x-auto-converge", MIGRATION_CAPABILITY_AUTO_CONVERGE),
+diff --git a/migration/migration.h b/migration/migration.h
+index 96f27aba2210..9aab1b16f407 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -410,6 +410,7 @@ bool migrate_zero_blocks(void);
+ bool migrate_dirty_bitmaps(void);
+ bool migrate_ignore_shared(void);
+ bool migrate_validate_uuid(void);
++int migrate_fixed_ram(void);
+ 
+ bool migrate_auto_converge(void);
+ bool migrate_use_multifd(void);
+diff --git a/migration/ram.c b/migration/ram.c
+index dc1de9ddbc68..4f5ddaff356b 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -1261,9 +1261,14 @@ static int save_zero_page_to_file(RAMState *rs, QEMUFile *file,
+     int len = 0;
+ 
+     if (buffer_is_zero(p, TARGET_PAGE_SIZE)) {
+-        len += save_page_header(rs, file, block, offset | RAM_SAVE_FLAG_ZERO);
+-        qemu_put_byte(file, 0);
+-        len += 1;
++        if (migrate_fixed_ram()) {
++            /* for zero pages we don't need to do anything */
++            len = 1;
++        } else {
++            len += save_page_header(rs, file, block, offset | RAM_SAVE_FLAG_ZERO);
++            qemu_put_byte(file, 0);
++            len += 1;
++        }
+         ram_release_page(block->idstr, offset);
+     }
+     return len;
+@@ -1342,15 +1347,22 @@ static bool control_save_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
+ static int save_normal_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
+                             uint8_t *buf, bool async)
+ {
+-    ram_transferred_add(save_page_header(rs, rs->f, block,
+-                                         offset | RAM_SAVE_FLAG_PAGE));
+-    if (async) {
+-        qemu_put_buffer_async(rs->f, buf, TARGET_PAGE_SIZE,
+-                              migrate_release_ram() &&
+-                              migration_in_postcopy());
+-    } else {
+-        qemu_put_buffer(rs->f, buf, TARGET_PAGE_SIZE);
+-    }
++
++	if (migrate_fixed_ram()) {
++		qemu_put_buffer_at(rs->f, buf, TARGET_PAGE_SIZE,
++				   block->pages_offset + offset);
++		set_bit(offset >> TARGET_PAGE_BITS, block->shadow_bmap);
++	} else {
++		ram_transferred_add(save_page_header(rs, rs->f, block,
++						     offset | RAM_SAVE_FLAG_PAGE));
++		if (async) {
++			qemu_put_buffer_async(rs->f, buf, TARGET_PAGE_SIZE,
++					      migrate_release_ram() &&
++					      migration_in_postcopy());
++		} else {
++			qemu_put_buffer(rs->f, buf, TARGET_PAGE_SIZE);
++		}
++	}
+     ram_transferred_add(TARGET_PAGE_SIZE);
+     ram_counters.normal++;
+     return 1;
+@@ -2683,6 +2695,8 @@ static void ram_save_cleanup(void *opaque)
+         block->clear_bmap = NULL;
+         g_free(block->bmap);
+         block->bmap = NULL;
++        g_free(block->shadow_bmap);
++        block->shadow_bmap = NULL;
+     }
+ 
+     xbzrle_cleanup();
+@@ -3044,6 +3058,7 @@ static void ram_list_init_bitmaps(void)
+              */
+             block->bmap = bitmap_new(pages);
+             bitmap_set(block->bmap, 0, pages);
++            block->shadow_bmap = bitmap_new(block->used_length >> TARGET_PAGE_BITS);
+             block->clear_bmap_shift = shift;
+             block->clear_bmap = bitmap_new(clear_bmap_size(pages, shift));
+         }
+@@ -3226,12 +3241,34 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
+             qemu_put_buffer(f, (uint8_t *)block->idstr, strlen(block->idstr));
+             qemu_put_be64(f, block->used_length);
+             if (migrate_postcopy_ram() && block->page_size !=
+-                                          qemu_host_page_size) {
++                qemu_host_page_size) {
+                 qemu_put_be64(f, block->page_size);
+             }
+             if (migrate_ignore_shared()) {
+                 qemu_put_be64(f, block->mr->addr);
+             }
++
++            if (migrate_fixed_ram()) {
++                long num_pages = block->used_length >> TARGET_PAGE_BITS;
++                long bitmap_size = BITS_TO_LONGS(num_pages) * sizeof(unsigned long);
++
++
++                /* Needed for external programs (think analyze-migration.py) */
++                qemu_put_be32(f, bitmap_size);
++
++                /*
++                 * Make pages offset aligned to TARGET_PAGE_SIZE to enable
++                 * DIO in the future. Also add 8 to account for the page offset
++                 * itself
++                 */
++                block->bitmap_offset = qemu_get_offset(f) + 8;
++                block->pages_offset = ROUND_UP(block->bitmap_offset +
++                                               bitmap_size, TARGET_PAGE_SIZE);
++                qemu_put_be64(f, block->pages_offset);
++
++                /* Now prepare offset for next ramblock */
++                qemu_set_offset(f, block->pages_offset + block->used_length, SEEK_SET);
++            }
+         }
+     }
+ 
+@@ -3249,6 +3286,17 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
+     return 0;
+ }
+ 
++static void ram_save_shadow_bmap(QEMUFile *f)
++{
++    RAMBlock *block;
++
++    RAMBLOCK_FOREACH_MIGRATABLE(block) {
++        long num_pages = block->used_length >> TARGET_PAGE_BITS;
++        long bitmap_size = BITS_TO_LONGS(num_pages) * sizeof(unsigned long);
++        qemu_put_buffer_at(f, (uint8_t *)block->shadow_bmap, bitmap_size, block->bitmap_offset);
++    }
++}
++
+ /**
+  * ram_save_iterate: iterative stage for migration
+  *
+@@ -3358,9 +3406,15 @@ static int ram_save_iterate(QEMUFile *f, void *opaque)
+             return ret;
+         }
+ 
+-        qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
+-        qemu_fflush(f);
+-        ram_transferred_add(8);
++	/*
++	 * For fixed ram we don't want to pollute the migration stream with
++	 * EOS flags.
++	 */
++	if (!migrate_fixed_ram()) {
++            qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
++            qemu_fflush(f);
++            ram_transferred_add(8);
++	}
+ 
+         ret = qemu_file_get_error(f);
+     }
+@@ -3405,7 +3459,10 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
+             pages = ram_find_and_save_block(rs);
+             /* no more blocks to sent */
+             if (pages == 0) {
+-                break;
++                if (migrate_fixed_ram()) {
++                    ram_save_shadow_bmap(f);
++                }
++            break;
+             }
+             if (pages < 0) {
+                 ret = pages;
+@@ -3428,8 +3485,10 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
+         return ret;
+     }
+ 
+-    qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
+-    qemu_fflush(f);
++    if (!migrate_fixed_ram()) {
++        qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
++        qemu_fflush(f);
++    }
+ 
+     return 0;
+ }
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 174cdbefc29d..654f64dd08e2 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -240,6 +240,7 @@ static bool should_validate_capability(int capability)
+     /* Validate only new capabilities to keep compatibility. */
+     switch (capability) {
+     case MIGRATION_CAPABILITY_X_IGNORE_SHARED:
++    case MIGRATION_CAPABILITY_FIXED_RAM:
+         return true;
+     default:
+         return false;
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 88ecf86ac876..6196617171e8 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -485,7 +485,7 @@
+ ##
+ { 'enum': 'MigrationCapability',
+   'data': ['xbzrle', 'rdma-pin-all', 'auto-converge', 'zero-blocks',
+-           'compress', 'events', 'postcopy-ram',
++           'compress', 'events', 'postcopy-ram', 'fixed-ram',
+            { 'name': 'x-colo', 'features': [ 'unstable' ] },
+            'release-ram',
+            'block', 'return-path', 'pause-before-switchover', 'multifd',
 -- 
 2.34.1
 
