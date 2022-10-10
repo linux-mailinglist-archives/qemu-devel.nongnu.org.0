@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A4B05F9849
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 08:23:16 +0200 (CEST)
-Received: from localhost ([::1]:41058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2E305F9851
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 08:24:18 +0200 (CEST)
+Received: from localhost ([::1]:57526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohmC1-00008v-Dq
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 02:23:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40762)
+	id 1ohmD2-0001B8-7D
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 02:24:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1ohm4x-00043v-2d; Mon, 10 Oct 2022 02:15:55 -0400
-Received: from 7.mo552.mail-out.ovh.net ([188.165.59.253]:44139)
+ (Exim 4.90_1) (envelope-from <dclarke@blastwave.org>)
+ id 1ohm8F-0005iJ-R5
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 02:19:19 -0400
+Received: from mail.oetec.com ([108.160.241.186]:50492)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1ohm4s-0006PD-Sn; Mon, 10 Oct 2022 02:15:54 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.237])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id E057322BC9;
- Mon, 10 Oct 2022 06:15:46 +0000 (UTC)
-Received: from kaod.org (37.59.142.105) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Mon, 10 Oct
- 2022 08:15:46 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G006c6f006da-1820-4fd2-99e1-088b8de77256,
- 8F9D85B4748BB0730094C5680DDBB13DC71FBC21) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <19338ccf-31f2-7afa-022e-abb15553609f@kaod.org>
-Date: Mon, 10 Oct 2022 08:15:45 +0200
+ (Exim 4.90_1) (envelope-from <dclarke@blastwave.org>)
+ id 1ohm8D-0006bh-Qa
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 02:19:19 -0400
+X-oetec-MailScanner-From: dclarke@blastwave.org
+X-oetec-MailScanner-SpamCheck: not spam, SpamAssassin (not cached,
+ score=-3.097, required 6, autolearn=not spam, ALL_TRUSTED -1.00,
+ BAYES_00 -1.90, DKIM_SIGNED 0.10, DKIM_VALID -0.10,
+ DKIM_VALID_AU -0.10, DKIM_VALID_EF -0.10, URIBL_BLOCKED 0.00,
+ URIBL_DBL_BLOCKED_OPENDNS 0.00, URIBL_ZEN_BLOCKED_OPENDNS 0.00)
+X-oetec-MailScanner: Found to be clean
+X-oetec-MailScanner-ID: 29A6IZSB030097
+X-oetec-MailScanner-Information: Please contact oetec for more information
+Received: from [172.16.35.2]
+ (cpeac202e7325b3-cmac202e7325b0.cpe.net.cable.rogers.com [99.253.170.241])
+ (authenticated bits=0)
+ by mail.oetec.com (8.15.2/8.15.2/Debian-8+deb9u1) with ESMTPSA id
+ 29A6IZSB030097
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 02:18:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=blastwave.org;
+ s=default; t=1665382716;
+ bh=rhY6ol1kuH0RMjXReh/wRgHT/SlsoqbhAH9T8Jk3A5M=;
+ h=Date:To:From:Subject:From;
+ b=gYajuzL/QJnpyeUIVZ1tdQnHwnB2dQKNw8xsqXjiEyfv0ynNcVPXO5BRBFset10UK
+ nUo/x3LkuuXs3yaLq7Ywnhui9Ped24mOD4L80VYny/HcG+Au/VuFfuKuhFeYE5mnAM
+ hxoisJuFVTzdCuRxan/57tOnD0Pm/59vr+2EBOj/iZCjPuRbyKTQUZaX64JS8vitHd
+ iMuLA2WxQm+ADE839bLV4uiXi0SsaWy+WX10RWViT5qr1zAA4I8Snss8AiIgZ27zNA
+ jNvEQG0cbadJUVGWlYi5k4JBzNpqWCfOIs7omwIigXia/09DvV2QNkdUhjvLEN9gO+
+ f2D5aQpAacDZA==
+Message-ID: <af7a54fd-8194-a7fc-cfed-0c8e0cf101a0@blastwave.org>
+Date: Mon, 10 Oct 2022 06:18:35 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v3 2/8] m25p80: Add the n25q256a SFDP table
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
 Content-Language: en-US
-To: Francisco Iglesias <frasse.iglesias@gmail.com>
-CC: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <qemu-block@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>, Alistair Francis <alistair@alistair23.me>,
- Iris Chen <irischenlj@fb.com>, Michael Walle <michael@walle.cc>
-References: <20220722063602.128144-1-clg@kaod.org>
- <20220722063602.128144-3-clg@kaod.org> <20221007140337.GC20384@fralle-msi>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20221007140337.GC20384@fralle-msi>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: a983627e-51b4-4a9b-babf-65f4bd5866be
-X-Ovh-Tracer-Id: 13299692652137843634
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeejvddguddtjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeeltddtuddtjeevheeltdevjeejkeeguedtkeefjeevkeetfffgvdeltdffjedunecuffhomhgrihhnpehotghtohhprghrthdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehmihgthhgrvghlseifrghllhgvrdgttgdpoffvtefjohhsthepmhhoheehvd
-Received-SPF: pass client-ip=188.165.59.253; envelope-from=clg@kaod.org;
- helo=7.mo552.mail-out.ovh.net
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.934,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+To: qemu-devel@nongnu.org
+From: Dennis Clarke <dclarke@blastwave.org>
+Subject: FAILED: libqemu-arm-bsd-user.fa.p/bsd-user_signal.c.o
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=108.160.241.186;
+ envelope-from=dclarke@blastwave.org; helo=mail.oetec.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,154 +80,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/7/22 16:03, Francisco Iglesias wrote:
-> On [2022 Jul 22] Fri 08:35:56, Cédric Le Goater wrote:
->> The same values were collected on 4 differents OpenPower systems,
->> palmettos, romulus and tacoma.
->>
->> The SFDP table size is defined as being 0x100 bytes but it could be
->> bigger. Only the mandatory table for basic features is available at
->> byte 0x30.
->>
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->> ---
->>   hw/block/m25p80_sfdp.h |  2 ++
->>   hw/block/m25p80.c      |  8 +++---
->>   hw/block/m25p80_sfdp.c | 58 ++++++++++++++++++++++++++++++++++++++++++
->>   hw/block/meson.build   |  1 +
->>   4 files changed, 66 insertions(+), 3 deletions(-)
->>   create mode 100644 hw/block/m25p80_sfdp.c
->>
->> diff --git a/hw/block/m25p80_sfdp.h b/hw/block/m25p80_sfdp.h
->> index 230b07ef3308..d3a0a778ae84 100644
->> --- a/hw/block/m25p80_sfdp.h
->> +++ b/hw/block/m25p80_sfdp.h
->> @@ -15,4 +15,6 @@
->>    */
->>   #define M25P80_SFDP_MAX_SIZE  (1 << 24)
->>   
->> +extern uint8_t m25p80_sfdp_n25q256a(uint32_t addr);
-> 
-> (-extern above if we would like)
-> 
-> 
->> +
->>   #endif
->> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
->> index abdc4c0b0da7..13e7b28fd2b0 100644
->> --- a/hw/block/m25p80.c
->> +++ b/hw/block/m25p80.c
->> @@ -247,13 +247,15 @@ static const FlashPartInfo known_devices[] = {
->>       { INFO("n25q128a11",  0x20bb18,      0,  64 << 10, 256, ER_4K) },
->>       { INFO("n25q128a13",  0x20ba18,      0,  64 << 10, 256, ER_4K) },
->>       { INFO("n25q256a11",  0x20bb19,      0,  64 << 10, 512, ER_4K) },
->> -    { INFO("n25q256a13",  0x20ba19,      0,  64 << 10, 512, ER_4K) },
->> +    { INFO("n25q256a13",  0x20ba19,      0,  64 << 10, 512, ER_4K),
->> +      .sfdp_read = m25p80_sfdp_n25q256a },
->>       { INFO("n25q512a11",  0x20bb20,      0,  64 << 10, 1024, ER_4K) },
->>       { INFO("n25q512a13",  0x20ba20,      0,  64 << 10, 1024, ER_4K) },
->>       { INFO("n25q128",     0x20ba18,      0,  64 << 10, 256, 0) },
->>       { INFO("n25q256a",    0x20ba19,      0,  64 << 10, 512,
->> -           ER_4K | HAS_SR_BP3_BIT6 | HAS_SR_TB) },
->> -    { INFO("n25q512a",    0x20ba20,      0,  64 << 10, 1024, ER_4K) },
->> +           ER_4K | HAS_SR_BP3_BIT6 | HAS_SR_TB),
->> +      .sfdp_read = m25p80_sfdp_n25q256a },
->> +   { INFO("n25q512a",    0x20ba20,      0,  64 << 10, 1024, ER_4K) },
->>       { INFO("n25q512ax3",  0x20ba20,  0x1000,  64 << 10, 1024, ER_4K) },
->>       { INFO("mt25ql512ab", 0x20ba20, 0x1044, 64 << 10, 1024, ER_4K | ER_32K) },
->>       { INFO_STACKED("mt35xu01g", 0x2c5b1b, 0x104100, 128 << 10, 1024,
->> diff --git a/hw/block/m25p80_sfdp.c b/hw/block/m25p80_sfdp.c
->> new file mode 100644
->> index 000000000000..24ec05de79a1
->> --- /dev/null
->> +++ b/hw/block/m25p80_sfdp.c
->> @@ -0,0 +1,58 @@
->> +/*
->> + * M25P80 Serial Flash Discoverable Parameter (SFDP)
->> + *
->> + * Copyright (c) 2020, IBM Corporation.
->> + *
->> + * This code is licensed under the GPL version 2 or later. See the
->> + * COPYING file in the top-level directory.
->> + */
->> +
->> +#include "qemu/osdep.h"
->> +#include "qemu/host-utils.h"
->> +#include "m25p80_sfdp.h"
->> +
->> +#define define_sfdp_read(model)                                       \
->> +    uint8_t m25p80_sfdp_##model(uint32_t addr)                        \
->> +    {                                                                 \
->> +        assert(is_power_of_2(sizeof(sfdp_##model)));                  \
->> +        return sfdp_##model[addr & (sizeof(sfdp_##model) - 1)];       \
->> +    }
->> +
->> +/*
->> + * Micron
->> + */
->> +static const uint8_t sfdp_n25q256a[] = {
-> 
-> The datasheets I found wasn't completetly as this table but I can't argue
-> with the hw read out of 4 flashes.
 
-It is mentioned there :
+On FreeBSD 14.0 CURRENT amd64 everything seems to go swimmingly until :
 
-   http://datasheet.octopart.com/N25Q256A13E1241F-Micron-datasheet-11552757.pdf
+[5679/6848] Compiling C object libqemu-arm-bsd-user.fa.p/bsd-user_mmap.c.o
+[5680/6848] Compiling C object libqemu-arm-bsd-user.fa.p/bsd-user_signal.c.o
+FAILED: libqemu-arm-bsd-user.fa.p/bsd-user_signal.c.o
+/usr/bin/cc -m64 -mcx16 -Ilibqemu-arm-bsd-user.fa.p -I. -I.. 
+-Itarget/arm -I../target/arm -I../common-user/host/x86_64 
+-I../bsd-user/include -Ibsd-user/freebsd -I../bsd-user/freebsd 
+-I../bsd-user/host/x86_64 -Ibsd-user -I../bsd-user -I../bsd-user/arm 
+-Iqapi -Itrace -Iui -Iui/shader -I/usr/local/include 
+-I/usr/local/include/glib-2.0 -I/usr/local/lib/glib-2.0/include 
+-fcolor-diagnostics -Wall -Winvalid-pch -std=gnu11 -O0 -g -iquote . 
+-iquote /opt/bw/build/qemu -iquote /opt/bw/build/qemu/include -iquote 
+/opt/bw/build/qemu/tcg/i386 -pthread -D_GNU_SOURCE 
+-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Wstrict-prototypes 
+-Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototypes 
+-fno-strict-aliasing -fno-common -fwrapv -Wold-style-definition 
+-Wtype-limits -Wformat-security -Wformat-y2k -Winit-self 
+-Wignored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels 
+-Wexpansion-to-defined -Wno-initializer-overrides 
+-Wno-missing-include-dirs -Wno-shift-negative-value -Wno-string-plus-int 
+-Wno-typedef-redefinition -Wno-tautological-type-limit-compare 
+-Wno-psabi -Wno-gnu-variable-sized-type-not-at-end 
+-fstack-protector-strong -m64 -g -O0 -fno-builtin -fPIE -DNEED_CPU_H 
+'-DCONFIG_TARGET="arm-bsd-user-config-target.h"' 
+'-DCONFIG_DEVICES="arm-bsd-user-config-devices.h"' -MD -MQ 
+libqemu-arm-bsd-user.fa.p/bsd-user_signal.c.o -MF 
+libqemu-arm-bsd-user.fa.p/bsd-user_signal.c.o.d -o 
+libqemu-arm-bsd-user.fa.p/bsd-user_signal.c.o -c ../bsd-user/signal.c
+In file included from ../bsd-user/signal.c:27:
+In file included from ../bsd-user/host/x86_64/host-signal.h:14:
+In file included from /usr/include/vm/pmap.h:92:
+/usr/include/machine/pmap.h:452:2: error: fields must have a constant 
+size: 'variable length array in structure' extension will never be supported
+         PV_CHUNK_HEADER
+         ^
+/usr/include/machine/pmap.h:448:12: note: expanded from macro 
+'PV_CHUNK_HEADER'
+         uint64_t                pc_map[_NPCM];  /* bitmap; 1 = free */  \
+                                 ^
+/usr/include/machine/pmap.h:456:2: error: fields must have a constant 
+size: 'variable length array in structure' extension will never be supported
+         PV_CHUNK_HEADER
+         ^
+/usr/include/machine/pmap.h:448:12: note: expanded from macro 
+'PV_CHUNK_HEADER'
+         uint64_t                pc_map[_NPCM];  /* bitmap; 1 = free */  \
+                                 ^
+2 errors generated.
+ninja: build stopped: subcommand failed.
+gmake[1]: *** [Makefile:165: run-ninja] Error 1
+gmake[1]: Leaving directory '/opt/bw/build/qemu/build'
+gmake: *** [GNUmakefile:11: all] Error 2
 
-C.
+phobos#
+
+Is there a trivial patch ?  Or perhaps try again using GCC and not 
+LLVM/Clang?
 
 
-> 
-> Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-> 
->> +    0x53, 0x46, 0x44, 0x50, 0x00, 0x01, 0x00, 0xff,
->> +    0x00, 0x00, 0x01, 0x09, 0x30, 0x00, 0x00, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xe5, 0x20, 0xfb, 0xff, 0xff, 0xff, 0xff, 0x0f,
->> +    0x29, 0xeb, 0x27, 0x6b, 0x08, 0x3b, 0x27, 0xbb,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x27, 0xbb,
->> +    0xff, 0xff, 0x29, 0xeb, 0x0c, 0x20, 0x10, 0xd8,
->> +    0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
->> +};
->> +define_sfdp_read(n25q256a);
->> diff --git a/hw/block/meson.build b/hw/block/meson.build
->> index 2389326112ae..3129ca4c52eb 100644
->> --- a/hw/block/meson.build
->> +++ b/hw/block/meson.build
->> @@ -12,6 +12,7 @@ softmmu_ss.add(when: 'CONFIG_ONENAND', if_true: files('onenand.c'))
->>   softmmu_ss.add(when: 'CONFIG_PFLASH_CFI01', if_true: files('pflash_cfi01.c'))
->>   softmmu_ss.add(when: 'CONFIG_PFLASH_CFI02', if_true: files('pflash_cfi02.c'))
->>   softmmu_ss.add(when: 'CONFIG_SSI_M25P80', if_true: files('m25p80.c'))
->> +softmmu_ss.add(when: 'CONFIG_SSI_M25P80', if_true: files('m25p80_sfdp.c'))
->>   softmmu_ss.add(when: 'CONFIG_SWIM', if_true: files('swim.c'))
->>   softmmu_ss.add(when: 'CONFIG_XEN', if_true: files('xen-block.c'))
->>   softmmu_ss.add(when: 'CONFIG_TC58128', if_true: files('tc58128.c'))
->> -- 
->> 2.35.3
->>
-
+-- 
+Dennis Clarke
+RISC-V/SPARC/PPC/ARM/CISC
+UNIX and Linux spoken
+GreyBeard and suspenders optional
 
