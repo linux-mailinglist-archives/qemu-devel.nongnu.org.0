@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 545165FA7D3
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 00:48:51 +0200 (CEST)
-Received: from localhost ([::1]:55750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E9085FA7D9
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 00:51:01 +0200 (CEST)
+Received: from localhost ([::1]:58534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oi1Zp-0004SM-Pz
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 18:48:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49322)
+	id 1oi1bw-0007TU-A9
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 18:51:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
- id 1oi1I5-0005tQ-92
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 18:30:29 -0400
+ id 1oi1I7-0005vv-0G
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 18:30:31 -0400
 Received: from mga02.intel.com ([134.134.136.20]:24675)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
- id 1oi1I3-0005Dj-0v
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 18:30:28 -0400
+ id 1oi1I5-0005Dj-8j
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 18:30:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665441027; x=1696977027;
+ t=1665441029; x=1696977029;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=aJ1RcbZAq/8zOfhTcPqGwjNzmTWe3mf1nzcgNFpOldo=;
- b=AyhC/8BtvKrkAJCVs74rUVmTW7hEDAaqiwBmNvvfQcoqLh05+b4EstmI
- KbZgiJk+nYWGLN5kdq9UtEayQ7YI9K84BoGWJik6j2kkqHEuGhzZu93JE
- DjV21yS/wQ62533uDmR9qkwk5iUTaMK/oUZn87lzgQXVP4HkdAmkhRdps
- SYWTYSfQS8ZGaKkWwLLGKYO1VzOl7fqBRPjnzeAypVBcuI4dNYU8bjAYe
- NpErahAuMSifOVW38XioywxWgSZfeX6qIuTLZiM1JfWMUCcokeD+EauHB
- fzwyOFpmTg+IzpJOw/H4+dMnRNJ4mYPtmHk6vNDe6iFY0nSkx8IYZCVWz A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="291661237"
-X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="291661237"
+ bh=/t8uS0dJ6+AOQCZeLPwusIK7WCU31QkWkBGL5ijeEMc=;
+ b=m3kSAEF7FnXop4C+8S+lGEAdqKc4tz7qsWfdQybHQhXgegWGldCDyMtw
+ 0KBRuM113mgc+Lvda8kbKSUwhmisTOPujgqc6sqY3NDR+M82vUlQIxGmd
+ oyeZ9w6xHM0Gh2HAw7otj12QVipKymx8xh5REB5sGHbWys2Y0jgCUAP8M
+ 9xShtZVF+vsN8GrDbrocj/PfEu9TTDo7n+tu8TMEI5xs7jz+1mI1T86EB
+ 5BQwi4OBTgoB6P43YdsdSrvbnsTpNIHkgo2ksh2gUZVvBP0WNnGZ89Awv
+ ZhSb8HsuEVGjVO353/JiHuxSZ3qlP5EA1951pt2JG0FmEcaEtp3TZ0tkP w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="291661240"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="291661240"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Oct 2022 15:30:19 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="628456969"
-X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="628456969"
+ 10 Oct 2022 15:30:20 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="628456977"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="628456977"
 Received: from iweiny-mobl.amr.corp.intel.com (HELO localhost) ([10.212.104.4])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Oct 2022 15:30:19 -0700
@@ -46,9 +46,9 @@ To: Michael Tsirkin <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
  Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Cc: Ira Weiny <ira.weiny@intel.com>, qemu-devel@nongnu.org,
  linux-cxl@vger.kernel.org
-Subject: [RFC PATCH 1/6] qemu/bswap: Add const_le64()
-Date: Mon, 10 Oct 2022 15:29:39 -0700
-Message-Id: <20221010222944.3923556-2-ira.weiny@intel.com>
+Subject: [RFC PATCH 2/6] qemu/uuid: Add UUID static initializer
+Date: Mon, 10 Oct 2022 15:29:40 -0700
+Message-Id: <20221010222944.3923556-3-ira.weiny@intel.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20221010222944.3923556-1-ira.weiny@intel.com>
 References: <20221010222944.3923556-1-ira.weiny@intel.com>
@@ -81,40 +81,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ira Weiny <ira.weiny@intel.com>
 
-Gcc requires constant versions of cpu_to_le* calls.
+UUID's are defined as network byte order fields.  No static initializer
+was available for UUID's in their standard big endian format.
 
-Add a 64 bit version.
+Define a big endian initializer for UUIDs.
 
 Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 ---
- include/qemu/bswap.h | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ include/qemu/uuid.h | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-index 346d05f2aab3..08e607821102 100644
---- a/include/qemu/bswap.h
-+++ b/include/qemu/bswap.h
-@@ -192,10 +192,20 @@ CPU_CONVERT(le, 64, uint64_t)
-      (((_x) & 0x0000ff00U) <<  8) |              \
-      (((_x) & 0x00ff0000U) >>  8) |              \
-      (((_x) & 0xff000000U) >> 24))
-+# define const_le64(_x)                          \
-+    ((((_x) & 0x00000000000000ffU) << 56) |      \
-+     (((_x) & 0x000000000000ff00U) << 40) |      \
-+     (((_x) & 0x0000000000ff0000U) << 24) |      \
-+     (((_x) & 0x00000000ff000000U) <<  8) |      \
-+     (((_x) & 0x000000ff00000000U) >>  8) |      \
-+     (((_x) & 0x0000ff0000000000U) >> 24) |      \
-+     (((_x) & 0x00ff000000000000U) >> 40) |      \
-+     (((_x) & 0xff00000000000000U) >> 56))
- # define const_le16(_x)                          \
-     ((((_x) & 0x00ff) << 8) |                    \
-      (((_x) & 0xff00) >> 8))
- #else
-+# define const_le64(_x) (_x)
- # define const_le32(_x) (_x)
- # define const_le16(_x) (_x)
- #endif
+diff --git a/include/qemu/uuid.h b/include/qemu/uuid.h
+index 9925febfa54d..dc40ee1fc998 100644
+--- a/include/qemu/uuid.h
++++ b/include/qemu/uuid.h
+@@ -61,6 +61,18 @@ typedef struct {
+     (clock_seq_hi_and_reserved), (clock_seq_low), (node0), (node1), (node2),\
+     (node3), (node4), (node5) }
+ 
++/* Normal (network byte order) UUID */
++#define UUID(time_low, time_mid, time_hi_and_version,                    \
++  clock_seq_hi_and_reserved, clock_seq_low, node0, node1, node2,         \
++  node3, node4, node5)                                                   \
++  { ((time_low) >> 24) & 0xff, ((time_low) >> 16) & 0xff,                \
++    ((time_low) >> 8) & 0xff, (time_low) & 0xff,                         \
++    ((time_mid) >> 8) & 0xff, (time_mid) & 0xff,                         \
++    ((time_hi_and_version) >> 8) & 0xff, (time_hi_and_version) & 0xff,   \
++    (clock_seq_hi_and_reserved), (clock_seq_low),                        \
++    (node0), (node1), (node2), (node3), (node4), (node5)                 \
++  }
++
+ #define UUID_FMT "%02hhx%02hhx%02hhx%02hhx-" \
+                  "%02hhx%02hhx-%02hhx%02hhx-" \
+                  "%02hhx%02hhx-" \
 -- 
 2.37.2
 
