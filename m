@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A7135FA2CF
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 19:43:33 +0200 (CEST)
-Received: from localhost ([::1]:47060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE61C5FA2F6
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 19:52:58 +0200 (CEST)
+Received: from localhost ([::1]:52998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohwoO-0003Y9-72
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 13:43:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40722)
+	id 1ohwxW-0002wL-02
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 13:52:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwaP-000840-W7
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:29:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49262)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwaT-0008CO-Eb
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:29:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwaL-0006RJ-9T
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:29:05 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwaP-0006SB-AE
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:29:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665422940;
+ s=mimecast20190719; t=1665422944;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Utw17k59pDTuaZhHiKWHR5GCzq1rexlKpcJDjdcDlak=;
- b=R6NIjFiCyQc5dQVPvwlv3fWfoS+V0ARUiytgY76I4t/v2/k4TswDbURXl0oq64B0gHR1mF
- 4Ln9UpSC5Y7W5/RbXzvoNP7sG7789rGOeepDC4Zw0zuxaChCxXALMhgXbmacVYqrMnXzj6
- z2Of4uy/FHQ8seDDylj4hjZHqI+yraA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=nvGXlozHC+df8Bjp/q5u04uDCnJ0h7GQtmXnBTatQbk=;
+ b=YDGNasLZjUH9sRfUCqUmv19Q4HdV6p/JJauseK6kW2FbRb6MdexVKMB/shYLgwwlfAWgKx
+ a/xVTOkCvxOMcaBLHX9zI0bQvNZ7K2giz7gYGlZaGbt6YMFY/xuR/RV1KcufKO4x8v26u3
+ Md0YYKWd1qsDDIA7FG0GYixVCeO0ofw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-508-KYge1n_QN1u7K6rj4Nu1SA-1; Mon, 10 Oct 2022 13:28:59 -0400
-X-MC-Unique: KYge1n_QN1u7K6rj4Nu1SA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- e19-20020adfa453000000b0022e3608df56so2975819wra.10
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:28:59 -0700 (PDT)
+ us-mta-408-YvHTMqN6M6uINC-rPaBPAA-1; Mon, 10 Oct 2022 13:29:03 -0400
+X-MC-Unique: YvHTMqN6M6uINC-rPaBPAA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ u20-20020adfc654000000b0022cc05e9119so2950737wrg.16
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:29:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Utw17k59pDTuaZhHiKWHR5GCzq1rexlKpcJDjdcDlak=;
- b=XsQncWk25TDwsi8PAh6BZfH95IfMPk9PoCy6pecq2gb5JhpRYjRR4bt2pJnPGTyo7G
- XWN2hAnwPhnsaNlxV20NK1SS9luqNTcoXlcqOBolBhulcB7qoHL4ntXUYUVtbzXSgpTu
- MBBDarde5EHbMrtJmk98HWnRQbNFdJg/sfZiBamsBBuGInNJrBQ4CoDr0aGOlKPid7T+
- rMTCTCEjb1MOrBVX2iH+i8R1UcP+oIZOlYn6k1sV1b7SdvbMa4nuKgQ3XbMj6w5q2dgs
- Hq88YDhMPRj+iHkb2cflwwQYen8kQXZ/MR1Q/j7lduyoT3IGtN88VlqX2S1CESs0leO2
- HcwA==
-X-Gm-Message-State: ACrzQf2UCOPsuk7nuR4+vp4VAmQsusF7/VSrXFEkEMctiCXFdG9iJwU7
- qfeqEJJOCp2PFKEeuF/pgVFYve3vaslzk6xZl4x1CCkbOdTqF7hgLv13CJDF+ey3NLmv6NcIHPH
- ulJzyJ9K8qFEwcx/h9zuzXdHUZLdTI8zbcXMzyOjnZn7P8G5cCHtqIKl4vY5q
-X-Received: by 2002:a05:6000:1861:b0:22a:bb41:886d with SMTP id
- d1-20020a056000186100b0022abb41886dmr12185283wri.661.1665422937966; 
- Mon, 10 Oct 2022 10:28:57 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4fJLi5vrlxUPeXHhF6K9HZowwWn/bhwoFgzXQC+S2B31G+2SJxpR+Q74qywCinCvfBB7/1ag==
-X-Received: by 2002:a05:6000:1861:b0:22a:bb41:886d with SMTP id
- d1-20020a056000186100b0022abb41886dmr12185267wri.661.1665422937671; 
- Mon, 10 Oct 2022 10:28:57 -0700 (PDT)
+ bh=nvGXlozHC+df8Bjp/q5u04uDCnJ0h7GQtmXnBTatQbk=;
+ b=4zQQY6SEWKgB2Nkf1tDLSnqOSmu0LfAQlbKJ+RxEC5egKetR/u7CjjCODNsk/5mh+J
+ Wzuvz9MlDgETrC2SWYVsigv3jP5StD9IBsuDrONJMMdxlNUEVcQaPjNxFVYsQkFWXjOj
+ lD8IQK78ZoxtvxHHgZUfGXvVKut5TJb9yVBjWju2DadpM/sizn3uEzB2T5WogwvgAOya
+ jXaQUY1Dei15RsOFgMBmFYfhsuZULCrnXHJLQQwnqItfSQzSguVsi6R/++qcP3Z8I4L7
+ 14Iv7Xjl39EBbNKBz8o6L9DA65xHNRIX4GoQ/P/TvKYPTc7GNqpJQYsqYD06GCVnSm61
+ PlLA==
+X-Gm-Message-State: ACrzQf0IENGjv19yLH7XKve0NVZ83GhIlksZ0pWxN2RTJQpAO4ycfoq0
+ AjH8NIIei8xnazTEJydz5hJXt83rQ/w0slV9VOXi1xklrDE6F1uMjvaXki4bBxt5AAlKXK+oJ4T
+ p280Sau/aizjBzMrGlfsCUc/LdgIrqtGfOR+w6I8U09VuBwGPr76EbaxVi0EG
+X-Received: by 2002:a05:6000:1885:b0:22e:7851:b257 with SMTP id
+ a5-20020a056000188500b0022e7851b257mr12127296wri.418.1665422942159; 
+ Mon, 10 Oct 2022 10:29:02 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6rN232I1sxE53ZMJfjzA7yOYL0lpqi0UTFuSy5memIv55IbfmoAejglhy67jcawMCZ7zbRiw==
+X-Received: by 2002:a05:6000:1885:b0:22e:7851:b257 with SMTP id
+ a5-20020a056000188500b0022e7851b257mr12127279wri.418.1665422941861; 
+ Mon, 10 Oct 2022 10:29:01 -0700 (PDT)
 Received: from redhat.com ([2.55.183.131]) by smtp.gmail.com with ESMTPSA id
- k18-20020a5d5192000000b00228dbf15072sm9388945wrv.62.2022.10.10.10.28.55
+ u9-20020a5d4349000000b0022cdb687bf9sm12062396wrr.0.2022.10.10.10.28.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 10:28:57 -0700 (PDT)
-Date: Mon, 10 Oct 2022 13:28:54 -0400
+ Mon, 10 Oct 2022 10:29:01 -0700 (PDT)
+Date: Mon, 10 Oct 2022 13:28:57 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Jason Wang <jasowang@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 04/55] hw/virtio: fix some coding style issues
-Message-ID: <20221010172813.204597-5-mst@redhat.com>
+ Jason Wang <jasowang@redhat.com>
+Subject: [PULL 05/55] hw/virtio: log potentially buggy guest drivers
+Message-ID: <20221010172813.204597-6-mst@redhat.com>
 References: <20221010172813.204597-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -104,48 +103,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alex Bennée <alex.bennee@linaro.org>
 
+If the guest driver attempts to use the UNUSED(30) bit it is
+potentially buggy as 6.3 Legacy Interface: Reserved Feature Bits
+states it "SHOULD NOT be negotiated". For now just log this guest
+error.
+
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Acked-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20220802095010.3330793-8-alex.bennee@linaro.org>
+Message-Id: <20220802095010.3330793-9-alex.bennee@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/virtio/vhost-user.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ hw/virtio/virtio.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 0b7e41ffe8..03415b6c95 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -200,7 +200,7 @@ typedef struct {
-     VhostUserRequest request;
- 
- #define VHOST_USER_VERSION_MASK     (0x3)
--#define VHOST_USER_REPLY_MASK       (0x1<<2)
-+#define VHOST_USER_REPLY_MASK       (0x1 << 2)
- #define VHOST_USER_NEED_REPLY_MASK  (0x1 << 3)
-     uint32_t flags;
-     uint32_t size; /* the following payload size */
-@@ -208,7 +208,7 @@ typedef struct {
- 
- typedef union {
- #define VHOST_USER_VRING_IDX_MASK   (0xff)
--#define VHOST_USER_VRING_NOFD_MASK  (0x1<<8)
-+#define VHOST_USER_VRING_NOFD_MASK  (0x1 << 8)
-         uint64_t u64;
-         struct vhost_vring_state state;
-         struct vhost_vring_addr addr;
-@@ -248,7 +248,8 @@ struct vhost_user {
-     size_t             region_rb_len;
-     /* RAMBlock associated with a given region */
-     RAMBlock         **region_rb;
--    /* The offset from the start of the RAMBlock to the start of the
-+    /*
-+     * The offset from the start of the RAMBlock to the start of the
-      * vhost region.
-      */
-     ram_addr_t        *region_rb_offset;
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 5d607aeaa0..97a6307c0f 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2980,6 +2980,13 @@ int virtio_set_features(VirtIODevice *vdev, uint64_t val)
+     if (vdev->status & VIRTIO_CONFIG_S_FEATURES_OK) {
+         return -EINVAL;
+     }
++
++    if (val & (1ull << VIRTIO_F_BAD_FEATURE)) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: guest driver for %s has enabled UNUSED(30) feature bit!\n",
++                      __func__, vdev->name);
++    }
++
+     ret = virtio_set_features_nocheck(vdev, val);
+     if (virtio_vdev_has_feature(vdev, VIRTIO_RING_F_EVENT_IDX)) {
+         /* VIRTIO_RING_F_EVENT_IDX changes the size of the caches.  */
 -- 
 MST
 
