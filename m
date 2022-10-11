@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 488845FAC13
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 08:03:48 +0200 (CEST)
-Received: from localhost ([::1]:59430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C25E75FAC9C
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 08:21:40 +0200 (CEST)
+Received: from localhost ([::1]:37758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oi8Mi-0000eN-59
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 02:03:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41210)
+	id 1oi8e3-00074K-SI
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 02:21:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oi8AB-0002xs-38; Tue, 11 Oct 2022 01:50:58 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:55237)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oi8A7-0002XV-TU; Tue, 11 Oct 2022 01:50:46 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id 70so11566997pjo.4;
- Mon, 10 Oct 2022 22:50:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GrMzEa9OlJlw3Zx/EKsC9JKzqEjp1oIc/wBShsbet6U=;
- b=KITQzxa7N7ZdOja6N6tOL+LkMmQqtMUlbvrglHeDTw0XHKV6HXov8T2jx6w7JA8AcK
- lb0TyE2qSEQC5X90R/PvST3uW5VWm/TRH3g7IdPl1reYCosvdUfo+W060sCflQobZVnH
- fpGJvUBU664pH9WssMi4RZWtByo099RUGLpEJj2fiIoRqzh1Sx/bXjuc9gHip6mjEyYz
- gydCDFYgsrQRvcwncyiYsZVrRivkpm2c2W+pKHoB4mp2Or5kwtMVdCgtu9y4njNn5g+e
- 7FaIyutyyoXGXdXASEegRsIfrTbVJdJ/cz9OtfTFggrbcAnK0N/i6G/AXlZ6geghLA6/
- 55FA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=GrMzEa9OlJlw3Zx/EKsC9JKzqEjp1oIc/wBShsbet6U=;
- b=pX91g4GxJnxAP6iFjBN0d26Hema+h3gjhyj/u56JIUS+8cPBosTZlsagvoq9f5vHiW
- 31hqcfCjeDiDdu2FF3JwgKFjaWdZOFDJ7K5daPbMF25fn8Amyx25l52sC07lMBG8KDPk
- gmJyarGf50Tfh6i/W8O7IyUTyJjtqwAyf3tWoEfOngQWdb01xAyI+A46IcmTgryq5qdo
- Sei9+2EfdosXufubSZA40f003fb8zEHT959xJ3kPFvfNe/9/op8xxowcl8PPOw13DO3y
- cUpZiAGOwO0aIdxbIyLO/kPGjIYFF3AtL2OMRHFtQAfzXQjGfQK/DjePy0N3pAQLrqKx
- hbgQ==
-X-Gm-Message-State: ACrzQf0D+cfUsrPPS9L2xmb6I2tLew61WipXHs7o9GaoCCsAj0z9YFK+
- tc5vArvX7xaFVpxSNAhTfJvDpJv/kUw3Uw68fjY=
-X-Google-Smtp-Source: AMsMyM7BjYilYYRHDWpQj7wegX6Chjf5KHy31M+jM48xUCWYsYJqLTp2A5SenL28Xxvgfs584W8iGD1a+lY6l8YCFuQ=
-X-Received: by 2002:a17:902:b092:b0:17b:833e:74f7 with SMTP id
- p18-20020a170902b09200b0017b833e74f7mr22638094plr.149.1665467439157; Mon, 10
- Oct 2022 22:50:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oi8Ml-0000sb-Sb
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 02:03:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45358)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oi8Mh-0004ue-98
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 02:03:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665468219;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pk31QPmss5w3QGxY1+C2Gq/HIYVauHjhZhK0JRsAJWU=;
+ b=fAybRKSNuPt5onJzeZyVm1PUe4Bgc3a1hBLMaZtdxTuz8uN0qEmuSQqJE8luE+2tuUIoZ5
+ zvqwyivKCXGGl1mCxRrBky/2i9wQ42iTJx4+UxjiFAUX1gSMQqOPOKZZCW7vWc0YqWApW9
+ +xo2rNYrYbqbqefIs7i/uZa0Jly8iko=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-412--bFGXOw_P_aCRo-pTegGbA-1; Tue, 11 Oct 2022 02:03:36 -0400
+X-MC-Unique: -bFGXOw_P_aCRo-pTegGbA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EC7F387B2A0;
+ Tue, 11 Oct 2022 06:03:35 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.110])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BB45C1410F36;
+ Tue, 11 Oct 2022 06:03:35 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A814121E691D; Tue, 11 Oct 2022 08:03:34 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: qemu-devel@nongnu.org,  Michal Privoznik <mprivozn@redhat.com>,  Igor
+ Mammedov <imammedo@redhat.com>,  "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
+ <berrange@redhat.com>,  Eduardo Habkost <eduardo@habkost.net>,  "Dr .
+ David Alan Gilbert" <dgilbert@redhat.com>,  Eric Blake
+ <eblake@redhat.com>,  Richard Henderson <richard.henderson@linaro.org>,
+ Stefan Weil <sw@weilnetz.de>
+Subject: Re: [PATCH v2 4/7] util: Add write-only "node-affinity" property
+ for ThreadContext
+References: <20221010091117.88603-1-david@redhat.com>
+ <20221010091117.88603-5-david@redhat.com>
+Date: Tue, 11 Oct 2022 08:03:34 +0200
+In-Reply-To: <20221010091117.88603-5-david@redhat.com> (David Hildenbrand's
+ message of "Mon, 10 Oct 2022 11:11:14 +0200")
+Message-ID: <8735buj3rd.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20221003041440.2320-1-jim.shu@sifive.com>
- <20221003041440.2320-3-jim.shu@sifive.com>
- <CAJ307EjG0j8ydXk8_y5j0jsdmhqY3Fm1FqohMAY1J1hpfmvVMw@mail.gmail.com>
-In-Reply-To: <CAJ307EjG0j8ydXk8_y5j0jsdmhqY3Fm1FqohMAY1J1hpfmvVMw@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 11 Oct 2022 15:50:12 +1000
-Message-ID: <CAKmqyKOSubH3b7qUZxWd_64Cjz1QjYu2hriYEn_WY6154j56mw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] hw/intc: sifive_plic: change interrupt priority
- register to WARL field
-To: =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>
-Cc: Jim Shu <jim.shu@sifive.com>, qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=alistair23@gmail.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,87 +87,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 3, 2022 at 5:07 PM Cl=C3=A9ment Chigot <chigot@adacore.com> wro=
-te:
->
-> On Mon, Oct 3, 2022 at 6:14 AM Jim Shu <jim.shu@sifive.com> wrote:
-> >
-> > PLIC spec [1] requires interrupt source priority registers are WARL
-> > field and the number of supported priority is power-of-2 to simplify SW
-> > discovery.
-> >
-> > Existing QEMU RISC-V machine (e.g. shakti_c) don't strictly follow PLIC
-> > spec, whose number of supported priority is not power-of-2. Just change
-> > each bit of interrupt priority register to WARL field when the number o=
-f
-> > supported priority is power-of-2.
-> >
-> > [1] https://github.com/riscv/riscv-plic-spec/blob/master/riscv-plic.ado=
-c#interrupt-priorities
-> >
-> > Signed-off-by: Jim Shu <jim.shu@sifive.com>
+David Hildenbrand <david@redhat.com> writes:
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
-> > ---
-> >  hw/intc/sifive_plic.c | 21 +++++++++++++++++++--
-> >  1 file changed, 19 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-> > index f864efa761..c2dfacf028 100644
-> > --- a/hw/intc/sifive_plic.c
-> > +++ b/hw/intc/sifive_plic.c
-> > @@ -180,7 +180,15 @@ static void sifive_plic_write(void *opaque, hwaddr=
- addr, uint64_t value,
-> >      if (addr_between(addr, plic->priority_base, plic->num_sources << 2=
-)) {
-> >          uint32_t irq =3D ((addr - plic->priority_base) >> 2) + 1;
-> >
-> > -        if (value <=3D plic->num_priorities) {
-> > +        if (((plic->num_priorities + 1) & plic->num_priorities) =3D=3D=
- 0) {
-> > +            /*
-> > +             * if "num_priorities + 1" is power-of-2, make each regist=
-er bit of
-> > +             * interrupt priority WARL (Write-Any-Read-Legal). Just fi=
-lter
-> > +             * out the access to unsupported priority bits.
-> > +             */
-> > +            plic->source_priority[irq] =3D value % (plic->num_prioriti=
-es + 1);
-> > +            sifive_plic_update(plic);
-> > +        } else if (value <=3D plic->num_priorities) {
-> >              plic->source_priority[irq] =3D value;
-> >              sifive_plic_update(plic);
-> >          }
-> > @@ -207,7 +215,16 @@ static void sifive_plic_write(void *opaque, hwaddr=
- addr, uint64_t value,
-> >          uint32_t contextid =3D (addr & (plic->context_stride - 1));
-> >
-> >          if (contextid =3D=3D 0) {
-> > -            if (value <=3D plic->num_priorities) {
-> > +            if (((plic->num_priorities + 1) & plic->num_priorities) =
-=3D=3D 0) {
-> > +                /*
-> > +                 * if "num_priorities + 1" is power-of-2, each registe=
-r bit of
-> > +                 * interrupt priority is WARL (Write-Any-Read-Legal). =
-Just
-> > +                 * filter out the access to unsupported priority bits.
-> > +                 */
-> > +                plic->target_priority[addrid] =3D value %
-> > +                                                (plic->num_priorities =
-+ 1);
-> > +                sifive_plic_update(plic);
-> > +            } else if (value <=3D plic->num_priorities) {
-> >                  plic->target_priority[addrid] =3D value;
-> >                  sifive_plic_update(plic);
-> >              }
-> > --
-> > 2.17.1
+> Let's make it easier to pin threads created via a ThreadContext to
+> all CPUs currently belonging to a given set of NUMA nodes -- which is the
+> common case.
 >
-> Reviewed-by: Cl=C3=A9ment Chigot <chigot@adacore.com>
+> "node-affinity" is simply a shortcut for setting "cpu-affinity" manually
+> to the list of CPUs belonging to the set of nodes. This property can only
+> be written.
 >
+> A simple QEMU example to set the CPU affinity to Node 1 on a system with
+> two NUMA nodes, 24 CPUs each:
+>     qemu-system-x86_64 -S \
+>       -object thread-context,id=tc1,node-affinity=1
+>
+> And we can query the cpu-affinity via HMP/QMP:
+>     (qemu) qom-get tc1 cpu-affinity
+>     [
+>         1,
+>         3,
+>         5,
+>         7,
+>         9,
+>         11,
+>         13,
+>         15,
+>         17,
+>         19,
+>         21,
+>         23,
+>         25,
+>         27,
+>         29,
+>         31,
+>         33,
+>         35,
+>         37,
+>         39,
+>         41,
+>         43,
+>         45,
+>         47
+>     ]
+
+Double-checking my understanding: on this system, the even CPUs belong
+to NUMA node 0, and the odd ones to node 1.  Setting node-affinity=1 is
+therefore sugar for setting cpu-affinity to the set of even CPUs.
+Correct?
+
+> We cannot query the node-affinity:
+>     (qemu) qom-get tc1 node-affinity
+>     Error: Insufficient permission to perform this operation
+
+The error message is somewhat misleading.  "Insufficient permission"
+suggests this could work if I had more "permission".  Not the case.  The
+message comes from object_property_get(), i.e. it's not this patch's
+fault.  I'll post a patch to improve it.
+
+> But note that due to dynamic library loading this example will not work
+> before we actually make use of thread_context_create_thread() in QEMU
+> code, because the type will otherwise not get registered.
+>
+> Note that if the CPUs for a node change due do physical CPU hotplug or
+> hotunplug (e.g., lscpu output changes) after the ThreadContext was started,
+> the CPU affinity will not get updated.
+>
+> Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  qapi/qom.json         |  9 ++++-
+>  util/meson.build      |  2 +-
+>  util/thread-context.c | 84 +++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 93 insertions(+), 2 deletions(-)
+>
+> diff --git a/qapi/qom.json b/qapi/qom.json
+> index 67d47f4051..cb6f700c0c 100644
+> --- a/qapi/qom.json
+> +++ b/qapi/qom.json
+> @@ -839,10 +839,17 @@
+>  #                created in the thread context (default: QEMU main thread
+>  #                affinity)
+>  #
+> +# @node-affinity: the list of node numbers that will be resolved to a list
+> +#                 of CPU numbers used as CPU affinity. This is a shortcut for
+> +#                 specifying the list of CPU numbers belonging to the nodes
+> +#                 manually by setting @cpu-affinity. (default: QEMU main thread
+> +#                 affinity)
+> +#
+>  # Since: 7.2
+>  ##
+>  { 'struct': 'ThreadContextProperties',
+> -  'data': { '*cpu-affinity': ['uint16'] } }
+> +  'data': { '*cpu-affinity': ['uint16'],
+> +            '*node-affinity': ['uint16'] } }
+>  
+>  
+>  ##
+
+[...]
+
 
