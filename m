@@ -2,95 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BA555FAF57
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 11:29:11 +0200 (CEST)
-Received: from localhost ([::1]:55758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A0B35FAF19
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 11:09:57 +0200 (CEST)
+Received: from localhost ([::1]:43398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiBZV-0000bH-Qm
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 05:29:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40570)
+	id 1oiBGt-0003yb-CL
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 05:09:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oiBA9-00070y-E4
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 05:02:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51136)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1oiBAZ-0007GI-T2
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 05:03:25 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oiBA5-0003gR-BA
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 05:02:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665478972;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=AW+r9aBGVRSWlo80xywtS0hD5L2nSq2SzppzhbWobjk=;
- b=Js70WahNb7TTM18RU9popk3R70VYRgq4goSkj8YDODyHJqoMWpFi5K3v5hdf0f/hafayvy
- hzwVmjF9thHDCsWHsPwJ2w+4Yf/rU4Ws+yY2k6Tus9uPLxe1q/m9IAva+FEhSZG9sE1bNK
- r/gzZjljhCg2cq1bLr8jWC8aOJsXufA=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-168-h62qxQbUNyKWFvjb6uFsiQ-1; Tue, 11 Oct 2022 05:02:51 -0400
-X-MC-Unique: h62qxQbUNyKWFvjb6uFsiQ-1
-Received: by mail-ej1-f71.google.com with SMTP id
- dm10-20020a170907948a00b00781fa5e140fso5653585ejc.21
- for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 02:02:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=AW+r9aBGVRSWlo80xywtS0hD5L2nSq2SzppzhbWobjk=;
- b=iQ3RqqA/00wumM/j8Gczn20/y4Ezd09ZmB4yA9wkmkV6wg5yIZdiKqkRk7hGnuvxYo
- XAhlgNpbIdg4ex+RSDNfYCSnEgwiVWsLz13qMqh/exJ0FbiYrUybUaBhl9CJaugc/dF9
- ui2RnEIdfgr52Km7lLlcuU927SPkWRIXRTj+CyLuny4w48AQctkzMAOZTqw9XTmA0WEB
- s2QsS0Cw2ygsUs86BTZkKCz8KUO3ydXnfpK+Xyd0FGR0+QHseix2A/9kFoK1RFbSs5UO
- EkWhUfaNC+DiqxmNdV4nBqBaqWHXhnVfWSLkjgEnT/dvsOYGAVdQJhylEYKGdsGGrb6s
- fFpQ==
-X-Gm-Message-State: ACrzQf2rfXJsNetC2/qTcB2gQmfeUnDxVanUPSNEJg9rZVLNk1nux7jt
- eM+H2qsN9UX1Y9XQgKwb5OtMsVgF8/qS530nh5XJX16nLLDGr8lFH7UxlYPmV+7PN8nicq3h/z5
- 3ZcAL2/MMxw/mnBI=
-X-Received: by 2002:a17:907:2672:b0:734:a952:439a with SMTP id
- ci18-20020a170907267200b00734a952439amr16966562ejc.539.1665478969727; 
- Tue, 11 Oct 2022 02:02:49 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4QgxwouE+rfYYBKKMC/QnWwh+/oousluo8fFKqNQcmbWxJoYZ0wvFL0DvMOb4LdT7sqpW3VQ==
-X-Received: by 2002:a17:907:2672:b0:734:a952:439a with SMTP id
- ci18-20020a170907267200b00734a952439amr16966536ejc.539.1665478969451; 
- Tue, 11 Oct 2022 02:02:49 -0700 (PDT)
-Received: from work-vm (82-132-238-187.dab.02.net. [82.132.238.187])
- by smtp.gmail.com with ESMTPSA id
- b1-20020a1709063ca100b007305d408b3dsm6565625ejh.78.2022.10.11.02.02.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Oct 2022 02:02:48 -0700 (PDT)
-Date: Tue, 11 Oct 2022 10:02:45 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: qemu-devel@nongnu.org, Michal Privoznik <mprivozn@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefan Weil <sw@weilnetz.de>
-Subject: Re: [PATCH v2 0/7] hostmem: NUMA-aware memory preallocation using
- ThreadContext
-Message-ID: <Y0UxNX5Y2dgZsUyN@work-vm>
-References: <23dd0ce0-5393-3aa0-affe-11277c6a123b@redhat.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1oiBAI-0003i4-KO
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 05:03:21 -0400
+Received: from fraeml706-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4MmqX95RFYz67xwN;
+ Tue, 11 Oct 2022 17:01:29 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
+ fraeml706-chm.china.huawei.com (10.206.15.55) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2375.31; Tue, 11 Oct 2022 11:03:02 +0200
+Received: from localhost (10.202.226.42) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Tue, 11 Oct
+ 2022 10:03:01 +0100
+Date: Tue, 11 Oct 2022 10:03:00 +0100
+To: <ira.weiny@intel.com>
+CC: Michael Tsirkin <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
+ <qemu-devel@nongnu.org>, <linux-cxl@vger.kernel.org>
+Subject: Re: [RFC PATCH 1/6] qemu/bswap: Add const_le64()
+Message-ID: <20221011100300.00006c99@huawei.com>
+In-Reply-To: <20221010222944.3923556-2-ira.weiny@intel.com>
+References: <20221010222944.3923556-1-ira.weiny@intel.com>
+ <20221010222944.3923556-2-ira.weiny@intel.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <23dd0ce0-5393-3aa0-affe-11277c6a123b@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.226.42]
+X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,126 +68,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-* David Hildenbrand (david@redhat.com) wrote:
-> On 10.10.22 12:40, Dr. David Alan Gilbert wrote:
-> > * David Hildenbrand (david@redhat.com) wrote:
-> > > This is a follow-up on "util: NUMA aware memory preallocation" [1] by
-> > > Michal.
-> > > 
-> > > Setting the CPU affinity of threads from inside QEMU usually isn't
-> > > easily possible, because we don't want QEMU -- once started and running
-> > > guest code -- to be able to mess up the system. QEMU disallows relevant
-> > > syscalls using seccomp, such that any such invocation will fail.
-> > > 
-> > > Especially for memory preallocation in memory backends, the CPU affinity
-> > > can significantly increase guest startup time, for example, when running
-> > > large VMs backed by huge/gigantic pages, because of NUMA effects. For
-> > > NUMA-aware preallocation, we have to set the CPU affinity, however:
-> > > 
-> > > (1) Once preallocation threads are created during preallocation, management
-> > >      tools cannot intercept anymore to change the affinity. These threads
-> > >      are created automatically on demand.
-> > > (2) QEMU cannot easily set the CPU affinity itself.
-> > > (3) The CPU affinity derived from the NUMA bindings of the memory backend
-> > >      might not necessarily be exactly the CPUs we actually want to use
-> > >      (e.g., CPU-less NUMA nodes, CPUs that are pinned/used for other VMs).
-> > > 
-> > > There is an easy "workaround". If we have a thread with the right CPU
-> > > affinity, we can simply create new threads on demand via that prepared
-> > > context. So, all we have to do is setup and create such a context ahead
-> > > of time, to then configure preallocation to create new threads via that
-> > > environment.
-> > > 
-> > > So, let's introduce a user-creatable "thread-context" object that
-> > > essentially consists of a context thread used to create new threads.
-> > > QEMU can either try setting the CPU affinity itself ("cpu-affinity",
-> > > "node-affinity" property), or upper layers can extract the thread id
-> > > ("thread-id" property) to configure it externally.
-> > > 
-> > > Make memory-backends consume a thread-context object
-> > > (via the "prealloc-context" property) and use it when preallocating to
-> > > create new threads with the desired CPU affinity. Further, to make it
-> > > easier to use, allow creation of "thread-context" objects, including
-> > > setting the CPU affinity directly from QEMU, before enabling the
-> > > sandbox option.
-> > > 
-> > > 
-> > > Quick test on a system with 2 NUMA nodes:
-> > > 
-> > > Without CPU affinity:
-> > >      time qemu-system-x86_64 \
-> > >          -object memory-backend-memfd,id=md1,hugetlb=on,hugetlbsize=2M,size=64G,prealloc-threads=12,prealloc=on,host-nodes=0,policy=bind \
-> > >          -nographic -monitor stdio
-> > > 
-> > >      real    0m5.383s
-> > >      real    0m3.499s
-> > >      real    0m5.129s
-> > >      real    0m4.232s
-> > >      real    0m5.220s
-> > >      real    0m4.288s
-> > >      real    0m3.582s
-> > >      real    0m4.305s
-> > >      real    0m5.421s
-> > >      real    0m4.502s
-> > > 
-> > >      -> It heavily depends on the scheduler CPU selection
-> > > 
-> > > With CPU affinity:
-> > >      time qemu-system-x86_64 \
-> > >          -object thread-context,id=tc1,node-affinity=0 \
-> > >          -object memory-backend-memfd,id=md1,hugetlb=on,hugetlbsize=2M,size=64G,prealloc-threads=12,prealloc=on,host-nodes=0,policy=bind,prealloc-context=tc1 \
-> > >          -sandbox enable=on,resourcecontrol=deny \
-> > >          -nographic -monitor stdio
-> > > 
-> > >      real    0m1.959s
-> > >      real    0m1.942s
-> > >      real    0m1.943s
-> > >      real    0m1.941s
-> > >      real    0m1.948s
-> > >      real    0m1.964s
-> > >      real    0m1.949s
-> > >      real    0m1.948s
-> > >      real    0m1.941s
-> > >      real    0m1.937s
-> > > 
-> > > On reasonably large VMs, the speedup can be quite significant.
-> > > 
-> > > While this concept is currently only used for short-lived preallocation
-> > > threads, nothing major speaks against reusing the concept for other
-> > > threads that are harder to identify/configure -- except that
-> > > we need additional (idle) context threads that are otherwise left unused.
-> > > 
-> > > This series does not yet tackle concurrent preallocation of memory
-> > > backends. Memory backend objects are created and memory is preallocated one
-> > > memory backend at a time -- and there is currently no way to do
-> > > preallocation asynchronously.
+On Mon, 10 Oct 2022 15:29:39 -0700
+ira.weiny@intel.com wrote:
+
+> From: Ira Weiny <ira.weiny@intel.com>
 > 
-> Hi Dave,
+> Gcc requires constant versions of cpu_to_le* calls.
 > 
-> > 
-> > Since you seem to have a full set of r-b's - do you intend to merge this
-> > as-is or do the cuncurrenct preallocation first?
+> Add a 64 bit version.
 > 
-> I intent to merge this as is, as it provides a benefit as it stands and
-> concurrent preallcoation might not require user interface changes.
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 
-Yep, that's fair enough.
+Seems reasonable to me but I'm not an expert in this stuff.
+FWIW
 
-> I do have some ideas on how to implement concurrent preallocation, but it
-> needs more thought (and more importantly, time).
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Yep, it would be nice for the really huge VMs.
+There are probably a lot of places in the CXL emulation where
+our endian handling isn't correct but so far it hasn't mattered
+as all the supported architectures are little endian.
 
-Dave
+Good to not introduce more cases however!
+
+Jonathan
 
 
-> -- 
-> Thanks,
+> ---
+>  include/qemu/bswap.h | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 > 
-> David / dhildenb
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
+> index 346d05f2aab3..08e607821102 100644
+> --- a/include/qemu/bswap.h
+> +++ b/include/qemu/bswap.h
+> @@ -192,10 +192,20 @@ CPU_CONVERT(le, 64, uint64_t)
+>       (((_x) & 0x0000ff00U) <<  8) |              \
+>       (((_x) & 0x00ff0000U) >>  8) |              \
+>       (((_x) & 0xff000000U) >> 24))
+> +# define const_le64(_x)                          \
+> +    ((((_x) & 0x00000000000000ffU) << 56) |      \
+> +     (((_x) & 0x000000000000ff00U) << 40) |      \
+> +     (((_x) & 0x0000000000ff0000U) << 24) |      \
+> +     (((_x) & 0x00000000ff000000U) <<  8) |      \
+> +     (((_x) & 0x000000ff00000000U) >>  8) |      \
+> +     (((_x) & 0x0000ff0000000000U) >> 24) |      \
+> +     (((_x) & 0x00ff000000000000U) >> 40) |      \
+> +     (((_x) & 0xff00000000000000U) >> 56))
+>  # define const_le16(_x)                          \
+>      ((((_x) & 0x00ff) << 8) |                    \
+>       (((_x) & 0xff00) >> 8))
+>  #else
+> +# define const_le64(_x) (_x)
+>  # define const_le32(_x) (_x)
+>  # define const_le16(_x) (_x)
+>  #endif
 
 
