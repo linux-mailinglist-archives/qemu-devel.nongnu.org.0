@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D30755FAD99
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 09:36:29 +0200 (CEST)
-Received: from localhost ([::1]:34166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B45EB5FAE39
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 10:15:20 +0200 (CEST)
+Received: from localhost ([::1]:60212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oi9oR-0004f8-Cx
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 03:36:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35354)
+	id 1oiAQ3-0002wt-7J
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 04:15:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
- id 1oi9fB-0007gt-Q2; Tue, 11 Oct 2022 03:26:57 -0400
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200]:51662)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oi9gq-0000Vf-7H
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 03:28:36 -0400
+Received: from 6.mo552.mail-out.ovh.net ([188.165.49.222]:36333)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
- id 1oi9f4-0002EN-KX; Tue, 11 Oct 2022 03:26:53 -0400
-Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
- (sas1-c73b4b4f4b95.qloud-c.yandex.net
- [IPv6:2a02:6b8:c08:12a9:0:640:c73b:4b4f])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 06A055FF24;
- Tue, 11 Oct 2022 10:21:52 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:a424::1:1b] (unknown
- [2a02:6b8:b081:a424::1:1b])
- by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- dAQAA47q3c-LoOODGSt; Tue, 11 Oct 2022 10:21:51 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Precedence: bulk
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1665472911; bh=gE8K34QJuLAoxKhbgnXka6uzSnAwil9iVEKrFWpD2cM=;
- h=In-Reply-To:Cc:Date:References:To:From:Subject:Message-ID;
- b=CQekmCn9057VfeRG63OdqEutEeQRJ2vW/gqGsif89VyIoBvGe5fGZTK1QDncQckAh
- UHWHf1y5dVxEf4x0+67kFJVbComRfofGmCRX48KwvQAPrCtLHKpUstGVuS7W6K0Ds0
- nGXFxuo8fGM4A3bGPgZjBiUHYumQ+psvOgg4xdBY=
-Authentication-Results: sas1-c73b4b4f4b95.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <d3867613-0031-a816-40ba-b62f2828c2f4@yandex-team.ru>
-Date: Tue, 11 Oct 2022 10:21:49 +0300
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oi9gm-0002Rh-Bg
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 03:28:35 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.149])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 678A92565A;
+ Tue, 11 Oct 2022 07:28:20 +0000 (UTC)
+Received: from kaod.org (37.59.142.101) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Tue, 11 Oct
+ 2022 09:28:18 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G00444200b5b-e075-49ba-b716-5c6790d0e890,
+ D76C732790D2D2C2DE3D1CB86A566AEA08299A57) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <496e0c8b-17fe-9c9b-fbb3-7abb9ba61db4@kaod.org>
+Date: Tue, 11 Oct 2022 09:28:17 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v3 0/5] vhost-user-blk: dynamically resize config space
- based on features
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v9 01/10] s390x/cpus: Make absence of multithreading clear
 Content-Language: en-US
-From: Daniil Tatianin <d-tatianin@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Cc: yc-core@yandex-team.ru, mst@redhat.com, stefanha@redhat.com,
- raphael.norwitz@nutanix.com, kwolf@redhat.com, qemu-block@nongnu.org,
- jasowang@redhat.com
-References: <20220906073111.353245-1-d-tatianin@yandex-team.ru>
- <5f1c19e6-3bca-fbd4-f332-fafa36638522@yandex-team.ru>
-In-Reply-To: <5f1c19e6-3bca-fbd4-f332-fafa36638522@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Pierre Morel <pmorel@linux.ibm.com>, Nico Boehr <nrb@linux.ibm.com>,
+ <qemu-s390x@nongnu.org>
+CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
+ <richard.henderson@linaro.org>, <david@redhat.com>, <thuth@redhat.com>,
+ <cohuck@redhat.com>, <mst@redhat.com>, <pbonzini@redhat.com>,
+ <kvm@vger.kernel.org>, <ehabkost@redhat.com>, <marcel.apfelbaum@gmail.com>,
+ <eblake@redhat.com>, <armbru@redhat.com>, <seiden@linux.ibm.com>,
+ <frankja@linux.ibm.com>, <berrange@redhat.com>
+References: <20220902075531.188916-1-pmorel@linux.ibm.com>
+ <20220902075531.188916-2-pmorel@linux.ibm.com>
+ <166237756810.5995.16085197397341513582@t14-nrb>
+ <c394823e-edd5-a722-486f-438e5fba2c9d@linux.ibm.com>
+ <0d3fd34e-d060-c72e-ee19-e9054e06832a@kaod.org>
+ <724d962a-c11b-c18d-f67f-9010eb2f32e2@linux.ibm.com>
+ <dff1744f-3242-af11-6b4b-02037a7e2af5@linux.ibm.com>
+ <3becce0a-1b7a-385a-4180-f68cf192595a@kaod.org>
+ <e48d20de-11a4-9e2b-77a1-0a6014f7e0ea@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <e48d20de-11a4-9e2b-77a1-0a6014f7e0ea@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=d-tatianin@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.007,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: dfe08c96-21f1-44ad-8d43-b07fd2991925
+X-Ovh-Tracer-Id: 1951184539371670288
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeejhedguddukecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepsggvrhhrrghnghgvsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhoheehvd
+Received-SPF: pass client-ip=188.165.49.222; envelope-from=clg@kaod.org;
+ helo=6.mo552.mail-out.ovh.net
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.007,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,57 +87,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 10/11/22 09:21, Pierre Morel wrote:
+> 
+> 
+> On 9/28/22 18:28, Cédric Le Goater wrote:
+>> On 9/28/22 18:16, Pierre Morel wrote:
+>>> More thinking about this I will drop this patch for backward compatibility and in topology masks treat CPUs as being cores*threads
+>>
+>> yes. You never know, people might have set threads=2 in their
+>> domain file (like me). You could give the user a warning though,
+>> with warn_report().
+> 
+> More thinking, I come back to the first idea after Daniel comment and protect the change with a new machine type version.
 
+yes. That would be another machine class attribute to set in the new machine,
+may be 'max_threads' to compare with the user provided value.
 
-On 10/11/22 10:20 AM, Daniil Tatianin wrote:
-> Ping :)
-Oops, didn't see the pull request. Disregard this.
+C.
 
-> On 9/6/22 10:31 AM, Daniil Tatianin wrote:
->> This patch set attempts to align vhost-user-blk with virtio-blk in
->> terms of backward compatibility and flexibility. It also improves
->> the virtio core by introducing new common code that can be used by
->> a virtio device to calculate its config space size.
+> 
+> 
 >>
->> In particular it adds the following things:
->> - Common virtio code for deducing the required device config size based
->>    on provided host features.
->> - Ability to disable modern virtio-blk features like
->>    discard/write-zeroes for vhost-user-blk.
->> - Dynamic configuration space resizing based on enabled features,
->>    by reusing the common code introduced in the earlier commits.
->> - Cleans up the VHostUserBlk structure by reusing parent fields.
+>> Thanks,
 >>
->> Changes since v1 (mostly addresses Stefan's feedback):
->> - Introduce VirtIOConfigSizeParams & virtio_get_config_size
->> - Remove virtio_blk_set_config_size altogether, make virtio-blk-common.c
->>    only hold the virtio-blk config size parameters.
->> - Reuse parent fields in vhost-user-blk instead of introducing new ones.
+>> C.
 >>
->> Changes since v2:
->> - Squash the first four commits into one
->> - Set .min_size for virtio-net as well
->> - Move maintainer/meson user-blk bits to the last commit
 >>
->> Daniil Tatianin (5):
->>    virtio: introduce VirtIOConfigSizeParams & virtio_get_config_size
->>    virtio-blk: move config size params to virtio-blk-common
->>    vhost-user-blk: make it possible to disable write-zeroes/discard
->>    vhost-user-blk: make 'config_wce' part of 'host_features'
->>    vhost-user-blk: dynamically resize config space based on features
->>
->>   MAINTAINERS                           |  4 +++
->>   hw/block/meson.build                  |  4 +--
->>   hw/block/vhost-user-blk.c             | 29 +++++++++++---------
->>   hw/block/virtio-blk-common.c          | 39 +++++++++++++++++++++++++++
->>   hw/block/virtio-blk.c                 | 28 +++----------------
->>   hw/net/virtio-net.c                   |  9 +++++--
->>   hw/virtio/virtio.c                    | 10 ++++---
->>   include/hw/virtio/vhost-user-blk.h    |  1 -
->>   include/hw/virtio/virtio-blk-common.h | 20 ++++++++++++++
->>   include/hw/virtio/virtio.h            | 10 +++++--
->>   10 files changed, 105 insertions(+), 49 deletions(-)
->>   create mode 100644 hw/block/virtio-blk-common.c
->>   create mode 100644 include/hw/virtio/virtio-blk-common.h
->>
+>>>
+> 
+
 
