@@ -2,69 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 563DE5FBD22
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 23:42:23 +0200 (CEST)
-Received: from localhost ([::1]:57758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C2075FBD8F
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 00:01:24 +0200 (CEST)
+Received: from localhost ([::1]:51406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiN14-0002pH-FQ
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 17:42:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39726)
+	id 1oiNJT-0002T4-AL
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 18:01:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oiMPN-0000gA-CJ
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 17:03:35 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:33657)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oiMPL-0003xV-Jo
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 17:03:25 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N30VJ-1p9PS60Olh-013Q7V; Tue, 11 Oct 2022 23:03:19 +0200
-Message-ID: <cca657c4-67a4-f579-3d3d-c0ddd886b87d@vivier.eu>
-Date: Tue, 11 Oct 2022 23:03:17 +0200
+ (Exim 4.90_1) (envelope-from <gourry.memverge@gmail.com>)
+ id 1oiMfM-00045t-32
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 17:19:58 -0400
+Received: from mail-qv1-xf42.google.com ([2607:f8b0:4864:20::f42]:44742)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <gourry.memverge@gmail.com>)
+ id 1oiMfK-00069G-19
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 17:19:55 -0400
+Received: by mail-qv1-xf42.google.com with SMTP id y10so2217387qvo.11
+ for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 14:19:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=sINKuKOEiCIa2vTfT03+2MwDHadp410OQVmZv4nahEQ=;
+ b=JS6ro4eUzOk5m8PvhdpkI8lEQazk4kTsWazJK/19fHWcvoFvPqEQ9g/MsEbN3GSO1t
+ 7LleBBuov8J0It2JsFh/80VOc7dmAhTQ/x5CfZjBwOQcrJe9AazjwsRNO5eAr/7jNc4B
+ y/RvNxKv5G1wtCQS9XwYLwWO+oPI6wkrv2/kNCzdLIo3MtCSgoqTQDCs6Kv6ZjYCmsnO
+ rNXO/8qtY52Ip2pdfRgUYw72K6TB3Rroayp5nCXAHjPze9rMuimyGUhGYDB0KvzIS6P2
+ aQcNZClR7d7Mp3bX9hWXj7wg5AifIrd4d7/yLtbKWp0yJcrqs8skoQ0f0N0SWmHD8F+b
+ CivQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=sINKuKOEiCIa2vTfT03+2MwDHadp410OQVmZv4nahEQ=;
+ b=tFk9TAcvVSQ9B0Cp8+fWZP7rp7mEgRLfAOpLZp/5DMgoDMVqYIjvbCZlD+X8RxvLQn
+ u0sp5+K2s8R/gcyvlpJU0M1Ree53Rxyx0H9iQKzN3Lnd4riGzpoDerfTMwR1n2WpdCIq
+ KxCIeZaEL/4HcoVAlFog1Z70pQ1VPXnaTKNnMscS9isvGzRjeN5Siroi0tCTEZ3aBvKH
+ KZroBj8p4m8H8CPvfTYYE8MaifPQGSXNReGssAl5v3hENCOR2pNSKumbCMrnRY0GB4gH
+ q72+TUEhLZUZzP5M3Dn/rlVrDXlugDR3CqlXOt3y7QCbqmVBZIo2ykEfQzprVA4T4gSH
+ 7Mvw==
+X-Gm-Message-State: ACrzQf3vDG355x3yGRt8mAE0yUUpYsNiN0evo4zLl3toSRq2D4pPRQGU
+ fmBGsu7oDq35dyO7bD/rdw==
+X-Google-Smtp-Source: AMsMyM6xWK8SW1sM8jvBB7Dboe/AwAeyLQA71qPNTgf5hzfxjiqGycnQBoUoYzVPLczCY0lLZdqK1g==
+X-Received: by 2002:ad4:5e85:0:b0:4b1:ab8f:41d6 with SMTP id
+ jl5-20020ad45e85000000b004b1ab8f41d6mr20799887qvb.73.1665523192821; 
+ Tue, 11 Oct 2022 14:19:52 -0700 (PDT)
+Received: from fedora.mshome.net (pool-173-79-56-208.washdc.fios.verizon.net.
+ [173.79.56.208]) by smtp.gmail.com with ESMTPSA id
+ y21-20020a05620a44d500b006b8f4ade2c9sm14493164qkp.19.2022.10.11.14.19.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Oct 2022 14:19:52 -0700 (PDT)
+From: Gregory Price <gourry.memverge@gmail.com>
+X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
+To: jonathan.cameron@huawei.com
+Cc: qemu-devel@nongnu.org, linux-cxl@vger.kernel.org,
+ alison.schofield@intel.com, dave@stgolabs.net, a.manzanares@samsung.com,
+ bwidawsk@kernel.org, gregory.price@memverge.com, mst@redhat.com,
+ hchkuo@avery-design.com.tw, cbrowy@avery-design.com, ira.weiny@intel.com
+Subject: [PATCH 0/5] Multi-Region and Volatile Memory support for CXL Type-3
+ Devices
+Date: Tue, 11 Oct 2022 17:19:11 -0400
+Message-Id: <20221011211916.117552-1-gregory.price@memverge.com>
+X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20221007152156.24883-1-Jonathan.Cameron@huawei.com>
+References: <20221007152156.24883-1-Jonathan.Cameron@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v3] m68k: write bootinfo as rom section and re-randomize
- on reboot
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20221002103707.909560-1-Jason@zx2c4.com>
- <20221003110221.971024-1-Jason@zx2c4.com>
- <ebeb90c7-8f46-4af0-073d-6f1710d3eeb2@vivier.eu>
- <CAFEAcA-0Uz_nT6V5_7Mkqrg17sX-syrxfyBjZQFUjU5UnPdPcg@mail.gmail.com>
- <Y0WC1i1fWi9Q8WsJ@zx2c4.com>
-Content-Language: fr
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <Y0WC1i1fWi9Q8WsJ@zx2c4.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ep8G5Gh5K7VuCBYzwfk4eiSQOGL4Dbm/+RxDHsKe1O6Wvtw4r1+
- rdFhtKWiglTzWhpI3vukobiu0XPbX91CRu6v1iTqULp9JPphiNnlfozUbG9N4Q9/gcwMODN
- b0IsKTZmIzvIpdrxQOYA58UZcMIo2p6SKISFBpmF/HmtyqY9JZxno17q2W27s3gxJUUd9fg
- wWvSK5VZIWDnHjdkfnd5Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:t7wpfYt3INI=:C8FiLqTLO/jk/DUJY6qF+v
- mo53f7F67zgr00lFPNgGPMEH+up0h+qPm7CcndvDvtXthCWxUpTLmcGCqhoHm3DGm4znou4W1
- 9UCuID8bA3m0KBgXKBj1x0816FtQEJrLgthD11rXOA13pPnWdAAwwnclSkjfdLk8s0z8TfPmu
- aPyKhvPg3bH7XafmjEqnaU2b6vU0wAhQDDnzv3PEN0cIH9Nb0Km86BTbPto9I2f/golkv0AvR
- cfJRYYybhCpIxXD+9tdVGJGeP7m0ZMxNEa7eMnYFmL3k7er8Wh+xuFy3aB1fsG3RLelEKzuJS
- ijC6xNJyKrV/dudB9bHu/qj6QtjByma+uqRQPp8WwoRd6IhwDcOrPGnBhmxd5Sk5EBrwASBKp
- hQL5PBm3rOPGgrIKSZMFWQlRsXKKcrDqeCx0NhCSwCP/I3diBHmXgeYHJwGsemtS+65KxVXRz
- WiIkvXBdP5nHCSzb4ySmMAm1kclhxS4Xak88hGIM3X1AOMIlA9UUefF6ImAz03usrl/yWYe7E
- FUYZz1pYe5QISOUXJUjwBFJZ8HGuDFjxK8XThR7mSHQSn3fyPQ2XBTyoIuxWIpBumz0rUv17N
- wNs0VgrstbKbHF6wFDgZk6sMmpGkJogrkjOcvcmhirVXcE649ZdJWduHEOjvj/MUtw2B70Ccn
- PypXbE+ThokCARuVjFrK0SvV84GmY5FX+yDAAUTa2QE1BN8C7iIcvthcX1WbNw7d22Zf5Nejy
- mUYLG9CQ/2Eb4DjyNpIW2co2NWtux1jo77XOtQFIn2cQQqeaELHChv+IJPxQuSSX/Oeq7Gna+
- p0Jhe2C
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.934,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f42;
+ envelope-from=gourry.memverge@gmail.com; helo=mail-qv1-xf42.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,36 +95,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 11/10/2022 à 16:56, Jason A. Donenfeld a écrit :
-> On Tue, Oct 11, 2022 at 10:29:45AM +0100, Peter Maydell wrote:
->> On Tue, 11 Oct 2022 at 09:41, Laurent Vivier <laurent@vivier.eu> wrote:
->>>
->>> Le 03/10/2022 à 13:02, Jason A. Donenfeld a écrit :
->>>> Rather than poking directly into RAM, add the bootinfo block as a proper
->>>> ROM, so that it's restored when rebooting the system. This way, if the
->>>> guest corrupts any of the bootinfo items, but then tries to reboot,
->>>> it'll still be restored back to normal as expected.
->>>>
->>>> Then, since the RNG seed needs to be fresh on each boot, regenerate the
->>>> RNG seed in the ROM when reseting the CPU.
->>>
->>> As it's needed to be refreshed, I think it would better not to use a ROM and to regenerate all the
->>> bootinfo data on the reset.
->>
->> I quite liked the use of a rom blob in this patch -- it gets rid
->> of a lot of direct stl_phys() calls (which is a semi-deprecated
->> API because it ignores the possibility of failure).
-> 
-> A ROM is also how other archs do it. I'm good either way though.
-> Laurent/Peter - can you guys decide something and let me know if I need
-> a v+1 that avoids the ROM, or if you'll go with this v3 that uses the
-> ROM? Just make a decision, and I'll follow it.
-> 
+Summary of Changes:
+1) Correction of PCI_CLASS from STORAGE_EXPRESS to MEMORY_CXL on init
+2) Add CXL_CAPACITY_MULTIPLIER definition to replace magic numbers
+3) Refactor CDAT DSMAS Initialization for multi-region initialization
+4) Multi-Region and Volatile Memory support for CXL Type-3 Devices
+5) Test and Documentation updates
 
-If Peter likes it, it's ok.
+Developed with input from Jonathan Cameron and Davidloh Bueso.
 
-Applied to my m68k-for-7.2 branch
+This series brings 2 features to CXL Type-3 Devices:
+    1) Volatile Memory Region support
+    2) Multi-Region support (1 Volatile, 1 Persistent)
 
-Thanks,
-Laurent
+In this series we implement multi-region and volatile region support
+through 6 major changes to CXL devices
+    1) The HostMemoryBackend [hostmem] has been replaced by two
+       [hostvmem] and [hostpmem] to store volatile and persistent memory
+       respectively
+    2) The single AddressSpace has been replaced by two AddressSpaces
+       [hostvmem_as] and [hostpmem_as] to map respective memdevs.
+    3) Each memory region size and total region are stored separately
+    4) The CDAT and DVSEC memory map entries have been updated:
+       a) if vmem is present, vmem is mapped at DPA(0)
+       b) if pmem is present
+          i)  and vmem is present, pmem is mapped at DPA(vmem->size)
+          ii) else, pmem is mapped at DPA(0)
+       c) partitioning of pmem is not supported in this patch set but
+          has been discussed and this design should suffice.
+    5) Read/Write functions have been updated to access AddressSpaces
+       according to the mapping described in #4
+    6) cxl-mailbox has been updated to report the respective size of
+       volatile and persistent memory regions
+
+CXL Spec (3.0) Section 8.2.9.8.2.0 - Get Partition Info
+  Active Volatile Memory
+    The device shall provide this volatile capacity starting at DPA 0
+  Active Persistent Memory
+    The device shall provide this persistent capacity starting at the
+    DPA immediately following the volatile capacity
+
+Partitioning of Persistent Memory regions may be supported on following
+patch sets.
+
+Submitted as an extention to the CDAT emulation because the CDAT DSMAS
+entry concerns memory mapping and is required to successfully map memory
+regions correctly in bios/efi.
+
+Gregory Price (5):
+  hw/cxl: set cxl-type3 device type to PCI_CLASS_MEMORY_CXL
+  hw/cxl: Add CXL_CAPACITY_MULTIPLIER definition
+  hw/mem/cxl_type: Generalize CDATDsmas initialization for Memory
+    Regions
+  hw/cxl: Multi-Region CXL Type-3 Devices (Volatile and Persistent)
+  cxl: update tests and documentation for new cxl properties
+
+ docs/system/devices/cxl.rst |  53 ++++-
+ hw/cxl/cxl-mailbox-utils.c  |  23 +-
+ hw/mem/cxl_type3.c          | 449 +++++++++++++++++++++++-------------
+ include/hw/cxl/cxl_device.h |  11 +-
+ tests/qtest/cxl-test.c      |  81 ++++++-
+ 5 files changed, 416 insertions(+), 201 deletions(-)
+
+-- 
+2.37.3
+
 
