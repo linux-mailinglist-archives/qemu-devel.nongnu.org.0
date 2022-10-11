@@ -2,93 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 489E75FBDE1
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 00:34:55 +0200 (CEST)
-Received: from localhost ([::1]:41612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD6C45FBDE2
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 00:42:13 +0200 (CEST)
+Received: from localhost ([::1]:32988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiNpt-0007bK-TQ
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 18:34:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41826)
+	id 1oiNwy-0001ru-DC
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 18:42:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oiNo3-0005yo-5g
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 18:32:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40399)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oiNns-0000EW-3q
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 18:32:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665527567;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sZvFQHt2ff9TL0skezgV22Q346FNkHVg+Duha76Bk3c=;
- b=K5pZcAGghza9FlnfocOch260tAgHUT0Vuwqwbw6MGAMhXRK84YBC0xNnIWdVQpSlGzitns
- 3O63zGOC04/NW87OwajWEjv/FyqaRpYqOI7Xfx059KBqrMGJVDw8tJ1Tt0iePDnf2Eo/+7
- ON7WsycqvOhU/mmyRkCkcAlclTuXFVY=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-654-jC5NEJVYMNaAUIY-8WN_WA-1; Tue, 11 Oct 2022 18:32:46 -0400
-X-MC-Unique: jC5NEJVYMNaAUIY-8WN_WA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- s4-20020adfbc04000000b0022e03fc10a9so4310341wrg.15
- for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 15:32:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oiNvI-00006m-TO; Tue, 11 Oct 2022 18:40:28 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:35767)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oiNvG-0001RP-TC; Tue, 11 Oct 2022 18:40:28 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id h10so14581095plb.2;
+ Tue, 11 Oct 2022 15:40:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=K4rENLlk1pqovVAyYJPfZUVgTvC8JwSjkTBrrydmKnE=;
+ b=qHzWu3r1Moo/XGjGg5711k4vNTjd8DbxjtSRwpTQymISetPNLX36eNaJtYKB14fzNl
+ ncnZIAgXGgXvCrauV90aeKty+fiiisdMQa+vNjOLRCnbBXhH60vFEAXDFekT2NFvIg0w
+ t5fzz/F1ex0wmyci0dQeoso/eOz4T4XkuIMPWioo8DZ+04C5dRBqZt1gb2LMDA8onJRU
+ BZ4QoBMm6scF2c8XHxRw8Yy17D7vWR9OQm58fUpQM+Wats1iefy8nx/0/41/w7QdzTEU
+ gpnS++uVFRLo5Xmy4wglF1slfxGyY1aG0IOJenddOzZsqgv/oyvSajzTkCkop9Y7LuOX
+ KQ3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sZvFQHt2ff9TL0skezgV22Q346FNkHVg+Duha76Bk3c=;
- b=jGhBT4Yza6D2MwMBWy97Y+9pnjpcDJAa3I4HtlKA0gnHTJHY/7aPvULZD4VYn6iZld
- 0Jb0eYTye17zA8McPUMdVsqEcsrZIWITmDvhh+QnaicoJR/gX5BjdIs7bLNF7ZNYF9G/
- 8S7sok30efhdac6bthjCvdWugDvCF8QjxI+FC72NtAZbcvXzW/cDpKzySSULZw2dLO15
- GlzpSoJmdMT9VfKNNiz6My5T5xSKfr8g6pafyaDULBySHL46lVq/69+ZSlHBnpxZDcrg
- /Tyt1bScgT6uYJm9ziYkGEjvSUEFRXW+i7jAyqkvyZ03KxWrgzIlTUJ6hxJHUC//St1a
- 5jbw==
-X-Gm-Message-State: ACrzQf048TdyHZTBVD0t823Z/mOmuvhRUMElyGZFgGZ/WatPGEero5mj
- C/2Oo0dmRuZq3zsPpXTDLnhVX9r729VyI4zXDemQK0XANhjieiCiZdSiic6X78KhtOFZvdjbCpZ
- 44uYgKx9Fnb9rCwM=
-X-Received: by 2002:a5d:47c5:0:b0:22e:6573:5621 with SMTP id
- o5-20020a5d47c5000000b0022e65735621mr16344231wrc.478.1665527564923; 
- Tue, 11 Oct 2022 15:32:44 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6HmQEqQQOAUmlTGN9IwWh1cJbM5T3MbzIYSdum85yCGRJR83Vpa1a/C/RuzDkuzVYANAiewg==
-X-Received: by 2002:a5d:47c5:0:b0:22e:6573:5621 with SMTP id
- o5-20020a5d47c5000000b0022e65735621mr16344220wrc.478.1665527564689; 
- Tue, 11 Oct 2022 15:32:44 -0700 (PDT)
-Received: from redhat.com ([2.55.183.131]) by smtp.gmail.com with ESMTPSA id
- q65-20020a1c4344000000b003a8434530bbsm202195wma.13.2022.10.11.15.32.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Oct 2022 15:32:43 -0700 (PDT)
-Date: Tue, 11 Oct 2022 18:32:40 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH] gitmodules: recurse by default
-Message-ID: <20221011183124-mutt-send-email-mst@kernel.org>
-References: <20221006113906.179963-1-mst@redhat.com>
- <Yz8kfJcfbbTAnmuR@redhat.com>
- <20221006202250-mutt-send-email-mst@kernel.org>
- <Yz/eNaP994pc+P6Q@redhat.com>
- <20221007061037-mutt-send-email-mst@kernel.org>
- <Y0ADZAQbjIJMVzXp@redhat.com> <Y0AI9G66wl/+vVMB@redhat.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=K4rENLlk1pqovVAyYJPfZUVgTvC8JwSjkTBrrydmKnE=;
+ b=mTkTx5fI/T0PtNKLMsLD7HsvNp9tegKrF2hLMMjgIhrqHtbTk3o27YMRaj5IJLE3Vl
+ 5NLdtbj9aA3fnzApIRMxLu+Y68cQs0aBlvbNSyoibCxAy6/N+wjkAZVrkaCIfjIE8KmM
+ nbc9/sPLB5FDD5Gi3TXJ7oSh9p5g71oUUXAgv4OakoFqkt2Fl/++nq3hkTbR2L0DE47n
+ ARRPQT7l1VCku2y/iTUPreUuxJjm6viSHnz9JRgk18OpzSf5ce0uXTmXEQiPMzwroWX5
+ DhO2yrGkHNQ4UiKZjt22Y+buJJzNf5OaRZiYMguqz3l7EKXl5iGQLFiSHxhOlYE76XJf
+ vZfQ==
+X-Gm-Message-State: ACrzQf13ZqH5LUgYfMcL6odkJ+gQY3Y1ezT37EKZBP/UvMCsMJZmBugV
+ vFwfnCs0wEGawQ+UFF7ZA5eqVIwd3JWyVQgNAVE=
+X-Google-Smtp-Source: AMsMyM7aIldt6dG18DMbEGhYFz1d3+0NkiE7UsSQSyH4Q6ePcuBgkVKt/SVsqxmen10i1eRG9N+IksJQn4mUMd+YfKw=
+X-Received: by 2002:a17:903:32c4:b0:178:5206:b396 with SMTP id
+ i4-20020a17090332c400b001785206b396mr26500372plr.99.1665528024654; Tue, 11
+ Oct 2022 15:40:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y0AI9G66wl/+vVMB@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221004092351.18209-1-sunilvl@ventanamicro.com>
+In-Reply-To: <20221004092351.18209-1-sunilvl@ventanamicro.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 12 Oct 2022 08:39:57 +1000
+Message-ID: <CAKmqyKPkaDnKDwpSLZHcCgQxTg8XEiijmtJVz3opPSLoqjNvJQ@mail.gmail.com>
+Subject: Re: [PATCH V5 0/3] hw/riscv: virt: Enable booting S-mode firmware
+ from pflash
+To: Sunil V L <sunilvl@ventanamicro.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>, Song Gao <gaosong@loongson.cn>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Gerd Hoffmann <kraxel@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=alistair23@gmail.com; helo=mail-pl1-x62d.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,67 +88,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 07, 2022 at 12:09:40PM +0100, Daniel P. Berrangé wrote:
-> On Fri, Oct 07, 2022 at 11:45:56AM +0100, Daniel P. Berrangé wrote:
-> > On Fri, Oct 07, 2022 at 06:11:25AM -0400, Michael S. Tsirkin wrote:
-> > > On Fri, Oct 07, 2022 at 09:07:17AM +0100, Daniel P. Berrangé wrote:
-> > > > On Thu, Oct 06, 2022 at 08:24:01PM -0400, Michael S. Tsirkin wrote:
-> > > > > On Thu, Oct 06, 2022 at 07:54:52PM +0100, Daniel P. Berrangé wrote:
-> > > > > > On Thu, Oct 06, 2022 at 07:39:07AM -0400, Michael S. Tsirkin wrote:
-> > > > > > > The most commmon complaint about submodules is that
-> > > > > > > they don't follow when one switches branches in the
-> > > > > > > main repo. Enable recursing into submodules by default
-> > > > > > > to address that.
-> > > > > > > 
-> > > > > > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > > > > > > ---
-> > > > > > >  .gitmodules | 23 +++++++++++++++++++++++
-> > > > > > >  1 file changed, 23 insertions(+)
-> 
-> snip
-> 
-> > > I just retested and it's not working for me either :(
-> > > I was sure it worked but I guess the testing wasn't done properly.
-> > > Back to the drawing board sorry.
-> > 
-> > I think the problem is that this setting doesn't apply in the context
-> > of .gitmodules. Various commands take a '--recurse-submodules' parameter,
-> > and like many params this can be set in the .git/config file. The
-> > problem is .git/config isn't a file we can influence automatically,
-> > it is upto the dev to set things for every clone they do :-(
-> 
-> With the correct setting in my .git/config, I've just discovered
-> an unexpected & undesirable consequence of using recurse=true.
-> It affects the 'push' command. If your submodule contains a hash
-> that is not present in the upstream of the submodule, then when
-> you try to push, it will also try to push the submodule change.
-> 
-> eg, I have a qemu.git branch 'work' and i made a change to
-> ui/keycodemapdb. If I try to push to my gitlab fork, whose
-> remote I called 'gitlab', then it will also try to push
-> ui/keycodemapdb to a fork called 'gitlab'.  Except I don't
-> have any such fork existing, so my attempt to push my qemu.git
-> changes fails because of the submodule.
-> 
-> This is going to be annoying to people who are working on branches
-> with updates to the git submodules if we were to set recurse=true
-> by default, as they'll have to also setup remotes for submodules
-> they work on.
-> 
-> With regards,
-> Daniel
+On Tue, Oct 4, 2022 at 7:25 PM Sunil V L <sunilvl@ventanamicro.com> wrote:
+>
+> This series adds the support to boot S-mode FW like EDK2 from the flash. The
+> S-mode firmware should be kept in pflash unit 1.
+>
+> When -kernel (and -initrd) option is also provided along with the flash,
+> the kernel (and initrd) will be loaded into fw_cfg table and opensbi will
+> branch to the flash address which will be the entry point of the S-mode
+> firmware. The S-mode FW then loads and launches the kernel.
+>
+> When only -pflash option is provided in the command line, the kernel
+> will be located and loaded in the usual way by the S-mode firmware.
+>
+> These patches are available in below branch.
+> https://github.com/vlsunil/qemu/tree/pflash_v2
+>
+> The first two patches in this series are refactor patches.
+>
+> These changes are tested with a WIP EDK2 port for virt machine. Below
+> are the instructions to build and test this feature.
+>
+> 1) Get EDK2 sources from below branches.
+> https://github.com/vlsunil/edk2/tree/virt_refactor_smode_v1
+> https://github.com/vlsunil/edk2-platforms/tree/virt_refactor_smode_v1
+>
+> 2) Build EDK2 for RISC-V
+>         export WORKSPACE=`pwd`
+>         export GCC5_RISCV64_PREFIX=riscv64-linux-gnu-
+>         export PACKAGES_PATH=$WORKSPACE/edk2:$WORKSPACE/edk2-platforms
+>         export EDK_TOOLS_PATH=$WORKSPACE/edk2/BaseTools
+>         source edk2/edksetup.sh
+>         make -C edk2/BaseTools clean
+>         make -C edk2/BaseTools
+>         make -C edk2/BaseTools/Source/C
+>         source edk2/edksetup.sh BaseTools
+>         build -a RISCV64  -p Platform/Qemu/RiscVVirt/RiscVVirt.dsc -t GCC5
+>
+> 3)Make the EDK2 image size to match with what qemu flash expects
+> truncate -s 32M Build/RiscVVirt/DEBUG_GCC5/FV/RISCV_VIRT.fd
+>
+> 4) Run
+> a) Boot to EFI shell (no -kernel / -initrd option)
+> qemu-system-riscv64  -nographic   -drive file=Build/RiscVVirt/DEBUG_GCC5/FV/RISCV_VIRT.fd,if=pflash,format=raw,unit=1  -machine virt -M 2G
+>
+> b) With -kernel, -initrd and -pflash
+> qemu-system-riscv64  -nographic   -drive file=Build/RiscVVirt/DEBUG_GCC5/FV/RISCV_VIRT.fd,if=pflash,format=raw,unit=1  -machine virt -M 2G -kernel arch/riscv/boot/Image.gz -initrd rootfs.cpio
+>
+>
+> Changes since V4:
+>         1) Rebased on riscv-to-apply.next branch
+>         2) Added RB tags
+>         3) Gerd's feedback on removing the truncate requirement will be addressed as separate
+>            patch in future.
+>
+> Changes since V3:
+>         1) White space and comment edits
+>         2) Added RB tag
+>
+> Changes since V2:
+>         1) Moved the doc comment to .h file
+>
+> Changes since V1:
+>         1) Modified code to support the use case when both -kernel and -pflash are configured.
+>         2) Refactor patches added to help (1) above.
+>         3) Cover letter added with test instructions.
+>
+> Sunil V L (3):
+>   hw/arm,loongarch: Move load_image_to_fw_cfg() to common location
+>   hw/riscv: virt: Move create_fw_cfg() prior to loading kernel
+>   hw/riscv: virt: Enable booting S-mode firmware from pflash
 
+Thanks!
 
-Well this seems like a reasonable thing to do, no?
+Applied to riscv-to-apply.next
 
-If you push qemu commit referring to hash 0xABC, you want
-that 0xABC to be available in the remote, no?
-Otherwise how will people fetching your tree check it out?
+Alistair
 
-
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+>
+>  hw/arm/boot.c             | 49 ---------------------------------------
+>  hw/loongarch/virt.c       | 33 --------------------------
+>  hw/nvram/fw_cfg.c         | 32 +++++++++++++++++++++++++
+>  hw/riscv/boot.c           | 29 +++++++++++++++++++++++
+>  hw/riscv/virt.c           | 32 ++++++++++++++++++-------
+>  include/hw/nvram/fw_cfg.h | 21 +++++++++++++++++
+>  include/hw/riscv/boot.h   |  1 +
+>  7 files changed, 107 insertions(+), 90 deletions(-)
+>
+> --
+> 2.25.1
+>
+>
 
