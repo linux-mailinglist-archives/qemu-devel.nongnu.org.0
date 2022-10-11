@@ -2,91 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C91805FB2DF
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 15:07:18 +0200 (CEST)
-Received: from localhost ([::1]:53742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 316745FB2CC
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 15:00:10 +0200 (CEST)
+Received: from localhost ([::1]:60344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiEyb-0001ND-Po
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 09:07:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37058)
+	id 1oiErg-0003JN-VM
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 09:00:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oiDQg-0008RF-I7
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 07:28:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24105)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oiDQd-0002iU-L9
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 07:28:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665487685;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Rnw+pxA7kEWD6yPnfNcCnIZWUBAUEs2soUA/TwYXqYY=;
- b=S/0u9fwlOFJQ3HBaHK2WGeUK+5L6fqbH6YZLMfVee75aRM7jVB2jmhKY4uigU7dzKFGf8c
- FreZUy9sylYagGxQFWsHcpFgezdms6j4U5IsHrRE8BJMpU2Fkds7KSgy+sgqMONqngYena
- iy3udtUS6F4UcqkpgBjjk84UdE73MSk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-602-kVnr90_XMR6cv_PQvU7NMg-1; Tue, 11 Oct 2022 07:27:56 -0400
-X-MC-Unique: kVnr90_XMR6cv_PQvU7NMg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- m20-20020adfa3d4000000b0022e2fa93dd1so3709879wrb.2
- for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 04:27:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oiDWf-0004dZ-Rm
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 07:34:24 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:42544)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oiDWd-0004KK-T7
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 07:34:21 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id bp11so8398471wrb.9
+ for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 04:34:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=swpAeTXkw+r3Pdnuc+Et6l8kTLpvDMCsn+BVyozRXBk=;
+ b=PiL+vx+N7gkYZuVTltmhXIIwRhpZoCmOPsrr1S6zIvFsxCKMkPVwtH7sYvWc9n/vYn
+ IREeLZhprKwGZqhzEU6sxv84mhvtnrE80vfj8SxvkGmL6hvuf7u5cO8rohv0+fpORP4x
+ kyLbniooJ1Z9Gi2Vo7Mu0ih9J2pM9gjzg9rv4oGb5X1/8G9r3s2M03nhT70afMIgl+yH
+ OzVrJdKqmzHfaKX3EJIImyBfKnxE4Ie4haGcPnOoVix5/4P0lUb5A62lDCWh3lSluSmo
+ FxzXEWe6bYB+bYJWc4mHyuzLn9fmvyiY335hvYUDCIwREdOpg3CH5eUTY42JTXGvbx16
+ 96qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Rnw+pxA7kEWD6yPnfNcCnIZWUBAUEs2soUA/TwYXqYY=;
- b=VFcDEayvNCjaYai2iA0qVnLGIxDxDApe7iIxpvKeWTdmrPeHNRi6i//WbyVHgH9yPm
- +GabOKUVQSYPCJE8fi8jHRdexc6CeeobnAPMvYL95UYq+c62LUr+L5Cmobb0hwhBHtrX
- CgijrbRwud54oZU6qvGy33zww8zgDFWJ5tmy5DRhNA5JaZPn5NyOj/WCeKN0aQH9WTWx
- khO+z4nAnTQsKfz9IVxbz3QSfjkk/d2Q7GnPdV7npCE/Vve6v7o4EzXek4AoULqwfAB+
- REs6Dh0WzlGDWeykA8nQ6wGrY5fPF9jlNVvPZVX2xbMUmlUQgJLozdekjANb4+nWo3RK
- 83+w==
-X-Gm-Message-State: ACrzQf1W/WaRD2JZEJq0+KDEBS7P6pNRYDM9lh6R07XaiduqNpXihb5c
- Nu17aXE2tTV0tFbT5jbqXOZGIU85Ic2Dxp+4vqDFq3XqLQkFKtHAvqWO/kzjx7RIcY8eEjhDFrn
- sSh/0H+E242gkaOg=
-X-Received: by 2002:a05:6000:1a8e:b0:230:848c:416d with SMTP id
- f14-20020a0560001a8e00b00230848c416dmr6428872wry.264.1665487675688; 
- Tue, 11 Oct 2022 04:27:55 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5MSlLPJHY9RIhOI2QzUpLXHq+56fFxWkEp2svNkqsWJR8yYEhw8YkfXquJ7muHDjv8c4/F+w==
-X-Received: by 2002:a05:6000:1a8e:b0:230:848c:416d with SMTP id
- f14-20020a0560001a8e00b00230848c416dmr6428857wry.264.1665487675516; 
- Tue, 11 Oct 2022 04:27:55 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-176-11.web.vodafone.de.
- [109.43.176.11]) by smtp.gmail.com with ESMTPSA id
- ba1-20020a0560001c0100b002252884cc91sm11202448wrb.43.2022.10.11.04.27.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Oct 2022 04:27:55 -0700 (PDT)
-Message-ID: <2280c594-2ae1-bc42-d9d4-7f3598725564@redhat.com>
-Date: Tue, 11 Oct 2022 13:27:53 +0200
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=swpAeTXkw+r3Pdnuc+Et6l8kTLpvDMCsn+BVyozRXBk=;
+ b=NFttJXVsWdgqutIMJy9I2Gg1t/PMAtojOLLCQwgw7Q7iLfWGpaLmGhaD2090UTL+yU
+ Lk4+HzCA17EdGkY8fEFNrSS5aEUjTK7bk6xguU8RH5Gml2A0IlOKTxZn4OIZbiFzx0Iv
+ iCPSYjk6PijZctp6hBQP6/cBTGga4B24/8mrn5kvJucV0PsgM/VrG3UsX1ScJoIjsJAO
+ LBE9Wba034WLubxhbSnMlRHJFu5B2laIiOuSAdcm2l8Uu2PAJectK19/HSqQXQ4hTwnY
+ jCqG4YAXaDbzfW+s8W3GluOMIwaqmt5G623c1fbUC4wS78zwz9Q88KBn6Ksf9Hcg4Vba
+ ZFYw==
+X-Gm-Message-State: ACrzQf113ZPAolQ2ZVg/in6CNy43WTrgRVhzH7whZSOw5HwDuQV50jbI
+ 3TXks27aA7J9p+/AizIbJ3k5zw==
+X-Google-Smtp-Source: AMsMyM6ReULISw3MsSV19WmLr9Ea3kv/5HawNg+Qou2pvCNViuqZceun7zGUzS6+ORhkEu3B1m7dJw==
+X-Received: by 2002:adf:e109:0:b0:225:4ca5:80d5 with SMTP id
+ t9-20020adfe109000000b002254ca580d5mr14443492wrz.465.1665488058469; 
+ Tue, 11 Oct 2022 04:34:18 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ v127-20020a1cac85000000b003b505d26776sm17913809wme.5.2022.10.11.04.34.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Oct 2022 04:34:18 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3C2401FFB7;
+ Tue, 11 Oct 2022 12:34:17 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
+ pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH  v1 0/4] testing/next hotfix (revert bios build, mingw)
+Date: Tue, 11 Oct 2022 12:34:13 +0100
+Message-Id: <20221011113417.794841-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v5 7/9] tests/x86: replace snprint() by g_strdup_printf()
- in drive_del-test
-Content-Language: en-US
-To: Michael Labiuk <michael.labiuk@virtuozzo.com>, qemu-devel@nongnu.org
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, den@virtuozzo.com
-References: <20220929223547.1429580-1-michael.labiuk@virtuozzo.com>
- <20220929223547.1429580-8-michael.labiuk@virtuozzo.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220929223547.1429580-8-michael.labiuk@virtuozzo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.934, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,37 +93,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/09/2022 00.35, Michael Labiuk via wrote:
-> Using g_autofree char* and  g_strdup_printf(...) instead of ugly
-> snprintf on stack array.
-> 
-> Signed-off-by: Michael Labiuk <michael.labiuk@virtuozzo.com>
-> ---
->   tests/qtest/drive_del-test.c | 10 ++++------
->   1 file changed, 4 insertions(+), 6 deletions(-)
-> 
-> diff --git a/tests/qtest/drive_del-test.c b/tests/qtest/drive_del-test.c
-> index 44b9578801..106c613f4f 100644
-> --- a/tests/qtest/drive_del-test.c
-> +++ b/tests/qtest/drive_del-test.c
-> @@ -123,12 +123,10 @@ static const char *qvirtio_get_dev_type(void)
->   
->   static void device_add(QTestState *qts)
->   {
-> -    QDict *response;
-> -    char driver[32];
-> -    snprintf(driver, sizeof(driver), "virtio-blk-%s",
-> -             qvirtio_get_dev_type());
-> -
-> -    response = qtest_qmp(qts, "{'execute': 'device_add',"
-> +    g_autofree char *driver = g_strdup_printf("virtio-blk-%s",
-> +                                              qvirtio_get_dev_type());
-> +    QDict *response =
-> +               qtest_qmp(qts, "{'execute': 'device_add',"
->                                 " 'arguments': {"
->                                 "   'driver': %s,"
->                                 "   'drive': 'drive0',"
+Hi,
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Consider this a hotfix testing/next series. I hadn't noticed the
+update to build the BIOS's would trigger a lot of downloading for a
+normal build. I've reverted one patch which stops that from happening
+and we can revisit enabling this is a more sustainable way later.
+
+Also we have updates for the win32/64 builds which didn't make the
+last PR although they currently rely on a out-of-tree libvirt-ci
+update.
+
+I'm still without CI minutes so haven't been able to run this through
+gitlab yet.
+
+Please review (and push to CI) so I can spin a PR today.
+
+Alex Bennée (4):
+  tests/docker: update fedora-win[32|64]-cross with lcitool
+  tests/docker: update test-mingw to run single build
+  Revert "configure: build ROMs with container-based cross compilers"
+  configure: expose the direct container command
+
+ configure                                     |  33 ++-
+ tests/docker/dockerfiles/alpine.docker        |   2 +-
+ tests/docker/dockerfiles/centos8.docker       |   2 +-
+ .../dockerfiles/debian-amd64-cross.docker     | 234 ++++++++---------
+ tests/docker/dockerfiles/debian-amd64.docker  | 236 +++++++++---------
+ .../dockerfiles/debian-arm64-cross.docker     | 232 ++++++++---------
+ .../dockerfiles/debian-armel-cross.docker     | 230 ++++++++---------
+ .../dockerfiles/debian-armhf-cross.docker     | 232 ++++++++---------
+ .../dockerfiles/debian-mips64el-cross.docker  | 226 ++++++++---------
+ .../dockerfiles/debian-mipsel-cross.docker    | 226 ++++++++---------
+ .../dockerfiles/debian-ppc64el-cross.docker   | 230 ++++++++---------
+ .../dockerfiles/debian-s390x-cross.docker     | 228 ++++++++---------
+ .../dockerfiles/fedora-win32-cross.docker     | 139 ++++++++---
+ .../dockerfiles/fedora-win64-cross.docker     | 138 +++++++---
+ tests/docker/dockerfiles/fedora.docker        | 230 ++++++++---------
+ tests/docker/dockerfiles/opensuse-leap.docker |   2 +-
+ tests/docker/dockerfiles/ubuntu2004.docker    | 234 ++++++++---------
+ tests/docker/test-mingw                       |  16 +-
+ tests/lcitool/libvirt-ci                      |   2 +-
+ tests/lcitool/refresh                         |  48 ++--
+ 20 files changed, 1520 insertions(+), 1400 deletions(-)
+
+-- 
+2.34.1
 
 
