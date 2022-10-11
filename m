@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C10945FB08C
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 12:36:31 +0200 (CEST)
-Received: from localhost ([::1]:54762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00C555FB09E
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 12:42:39 +0200 (CEST)
+Received: from localhost ([::1]:55060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiCcf-0008Q0-Qh
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 06:36:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57536)
+	id 1oiCid-0004zh-1A
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 06:42:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oiCTi-0001ji-NH
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 06:27:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37643)
+ id 1oiCTh-0001fn-ND
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 06:27:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oiCTc-0004Ep-8H
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 06:27:13 -0400
+ id 1oiCTe-0004FS-Cx
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 06:27:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665484026;
+ s=mimecast20190719; t=1665484029;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:  content-type:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=WN7vyw/Yghj0NMLMlAFEEXC6xzopuV54jhpmsmUPG4g=;
- b=aPcNqFOr1x9wE+nLQkKxMdEZkHnkMUY+7n15ITRz3TR74Bt/JwfJAhy/RQzt2LsT9tXGZE
- GvhSV6z7FGiyBS9ON1dngkx0+t0cgoiw6nu7oZpGj3L7zb4AsG09ZsPG4kxWQgUExsKza5
- nZNLa2/nGU4DwgpfxKTmnO9mU/IPWxA=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cuphIr+mFW20bUhhqmhIieGdN2By5F1MAq8fBtfFWvI=;
+ b=icGIHlbU7cQdqTqtR9jr0+95LHbThCWqOSQ+LKh55QHxV9saV49vRbC7vDspWh9cx2xGjs
+ Dz8YuDNIZu4wJtzA1wbGNy+pkZzhaWqLnjYG/7LcBt+8lTVA3/39Z0qi+jk1Y5gkF2MPrr
+ EBuOEc26y+NDGL0z9bypIPaCm8Fd7cE=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-104-apwm2jzIMCiwxuexKcKeuA-1; Tue, 11 Oct 2022 06:27:05 -0400
-X-MC-Unique: apwm2jzIMCiwxuexKcKeuA-1
-Received: by mail-ej1-f71.google.com with SMTP id
- ga20-20020a1709070c1400b0078db506c555so1944261ejc.6
- for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 03:27:05 -0700 (PDT)
+ us-mta-407-Lm6_Oqt0Pb6-FNM6_krNBA-1; Tue, 11 Oct 2022 06:27:08 -0400
+X-MC-Unique: Lm6_Oqt0Pb6-FNM6_krNBA-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ dz21-20020a0564021d5500b004599f697666so10794793edb.18
+ for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 03:27:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WN7vyw/Yghj0NMLMlAFEEXC6xzopuV54jhpmsmUPG4g=;
- b=p8kvrmF7MRsgo5c7p/4neqoo0mk56VdVzFU+0ZTOloMlmAQA9+MgFXAv3iNwGmE0k3
- WZSB+Mv2HdKi1DgF6UO70DZzldzW7FACft3Uq45g9laXbo92+oX9YV+RyFOOtfeIeivT
- Iq8g2VqS5okGwhmNG6ee3H0rxfl9V3QYezml27bEzcbioR+YfXweofikAumAmqIR8pqC
- Ubxkdfv+Mgk2aRs/Tb/yCqi426E8mbvBidrAH23DTqcwO10TH9ooAEEphQy82/isIHR2
- EJCGJ2gugccVGv8rWU3CLcrArpCjnHqgPlFQTfIigxFwodFyMQZRxZce4XA7Nb0HUx/z
- HW2A==
-X-Gm-Message-State: ACrzQf37QKyjXJpgp5Klp3k+7WRTXdwv/KkQDrokSrZFcA8HhZMRL6xZ
- W9qDb5WFAy0ojrlYYGo22qhull79qz6jKOFWImr269Dd8OpQnYeovg9ylnbj/wUxlRoUlGZ0gY3
- 2wohH6H3yvSRoI2NAbErObO+3/ElPG34nJIf/QGH1RG9lre63saaFfnEdDctrn93SfBE=
-X-Received: by 2002:a17:907:2cf1:b0:78d:c7a1:172d with SMTP id
- hz17-20020a1709072cf100b0078dc7a1172dmr5588096ejc.51.1665484024021; 
- Tue, 11 Oct 2022 03:27:04 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7EqsPDgj0Xs36w0fUXKdP2m573EoTstFU77e+90VJFkwDrnLON+E27ubV1zlMj8tEdW/bRag==
-X-Received: by 2002:a17:907:2cf1:b0:78d:c7a1:172d with SMTP id
- hz17-20020a1709072cf100b0078dc7a1172dmr5588064ejc.51.1665484023526; 
- Tue, 11 Oct 2022 03:27:03 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cuphIr+mFW20bUhhqmhIieGdN2By5F1MAq8fBtfFWvI=;
+ b=jAG+dMuBdiCrbpKVOkPcJ7a/lujOSUmh5pypTgJGWfsmuPjezRVetWrhG3vt2GYIN6
+ al0w7S+siFH07YQN45coF1At7vyEbzicv9/G4nHvixhU9l3nHJaL5iaIu/d4bbAagZe6
+ +ixvku8tv5p0NzYwpzPrDkQVvFqv1BYDXoAHBOajYQq7EpHqaH9AAQGBhvqCgp6z/0+I
+ xQvbcW4bazT6sklb/AcETE9xrV3CR5X1K7sWIOiUN+LxziRlMaY7/r4lFvoqqHbG4GLy
+ Cv10LPObB7Gdv5zRXczIxQkHh6ETJa9/1G6JSarG8F59VEXqHAbkeG+OksnNeV+Vcp08
+ FVrQ==
+X-Gm-Message-State: ACrzQf1471ZE3qLIhVAg/M3hY7wnhFfPwgkkqYE4Kmube2i8WIHkjEdl
+ CMLBbSYdclf1FipgyTARuiC0pas69O+Iq09s1qY7DtY31iSK+pHhMrkf2iSH/2QqAcy4I2NofwU
+ qMDTO5EfsGS6hRQkczjIv3dqdaLVl25GaWltbjtqd73IjnW189lUXrnU41/edw4GfK/k=
+X-Received: by 2002:a17:907:94c6:b0:787:9157:a87a with SMTP id
+ dn6-20020a17090794c600b007879157a87amr18111987ejc.5.1665484026617; 
+ Tue, 11 Oct 2022 03:27:06 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5VAMPYQvYLAYgsUPHpF5B/xA8YY/QVWBp3cuHkBOnWnV2UW40TP5d8ui1yNFGmy8GRNFS/Mg==
+X-Received: by 2002:a17:907:94c6:b0:787:9157:a87a with SMTP id
+ dn6-20020a17090794c600b007879157a87amr18111980ejc.5.1665484026396; 
+ Tue, 11 Oct 2022 03:27:06 -0700 (PDT)
 Received: from avogadro.local ([2001:b07:6468:f312:aad8:f393:e009:e014])
  by smtp.gmail.com with ESMTPSA id
- k7-20020a170906a38700b0077b523d309asm6717008ejz.185.2022.10.11.03.27.02
- for <qemu-devel@nongnu.org>
+ kx1-20020a170907774100b00738467f743dsm6746650ejc.5.2022.10.11.03.27.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Oct 2022 03:27:02 -0700 (PDT)
+ Tue, 11 Oct 2022 03:27:05 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/37] SCSI, i386 patches for 2022-10-11
-Date: Tue, 11 Oct 2022 12:26:23 +0200
-Message-Id: <20221011102700.319178-1-pbonzini@redhat.com>
+Cc: John Millikin <john@john-millikin.com>
+Subject: [PULL 01/37] scsi-disk: support setting CD-ROM block size via device
+ options
+Date: Tue, 11 Oct 2022 12:26:24 +0200
+Message-Id: <20221011102700.319178-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20221011102700.319178-1-pbonzini@redhat.com>
+References: <20221011102700.319178-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -97,98 +101,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit f1d33f55c47dfdaf8daacd618588ad3ae4c452d1:
+From: John Millikin <john@john-millikin.com>
 
-  Merge tag 'pull-testing-gdbstub-plugins-gitdm-061022-3' of https://github.com/stsquad/qemu into staging (2022-10-06 07:11:56 -0400)
+SunOS expects CD-ROM devices to have a block size of 512, and will
+fail to mount or install using QEMU's default block size of 2048.
 
-are available in the Git repository at:
+When initializing the SCSI device, allow the `physical_block_size'
+block device option to override the default block size.
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+Signed-off-by: John Millikin <john@john-millikin.com>
+Message-Id: <20220804122950.1577012-1-john@john-millikin.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ hw/scsi/scsi-disk.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-for you to fetch changes up to 5d2456789ac50b11c2bd560ddf3470fe820bb0ff:
-
-  linux-user: i386/signal: support XSAVE/XRSTOR for signal frame fpstate (2022-10-11 10:27:35 +0200)
-
-----------------------------------------------------------------
-* scsi-disk: support setting CD-ROM block size via device options
-* target/i386: Implement MSR_CORE_THREAD_COUNT MSR
-* target/i386: notify VM exit support
-* target/i386: PC-relative translation block support
-* target/i386: support for XSAVE state in signal frames (linux-user)
-
-----------------------------------------------------------------
-Alexander Graf (3):
-      x86: Implement MSR_CORE_THREAD_COUNT MSR
-      i386: kvm: Add support for MSR filtering
-      KVM: x86: Implement MSR_CORE_THREAD_COUNT MSR
-
-Chenyi Qiang (3):
-      i386: kvm: extend kvm_{get, put}_vcpu_events to support pending triple fault
-      kvm: expose struct KVMState
-      i386: add notify VM exit support
-
-John Millikin (1):
-      scsi-disk: support setting CD-ROM block size via device options
-
-Paolo Bonzini (4):
-      kvm: allow target-specific accelerator properties
-      linux-user: i386/signal: move fpstate at the end of the 32-bit frames
-      linux-user: i386/signal: support FXSAVE fpstate on 32-bit emulation
-      linux-user: i386/signal: support XSAVE/XRSTOR for signal frame fpstate
-
-Richard Henderson (26):
-      target/i386: Remove pc_start
-      target/i386: Return bool from disas_insn
-      target/i386: Remove cur_eip argument to gen_exception
-      target/i386: Remove cur_eip, next_eip arguments to gen_interrupt
-      target/i386: Create gen_update_eip_cur
-      target/i386: Create gen_update_eip_next
-      target/i386: Introduce DISAS_EOB*
-      target/i386: Use DISAS_EOB* in gen_movl_seg_T0
-      target/i386: Use DISAS_EOB_NEXT
-      target/i386: USe DISAS_EOB_ONLY
-      target/i386: Create cur_insn_len, cur_insn_len_i32
-      target/i386: Remove cur_eip, next_eip arguments to gen_repz*
-      target/i386: Introduce DISAS_JUMP
-      target/i386: Truncate values for lcall_real to i32
-      target/i386: Create eip_next_*
-      target/i386: Use DISAS_TOO_MANY to exit after gen_io_start
-      target/i386: Create gen_jmp_rel
-      target/i386: Use gen_jmp_rel for loop, repz, jecxz insns
-      target/i386: Use gen_jmp_rel for gen_jcc
-      target/i386: Use gen_jmp_rel for DISAS_TOO_MANY
-      target/i386: Remove MemOp argument to gen_op_j*_ecx
-      target/i386: Merge gen_jmp_tb and gen_goto_tb into gen_jmp_rel
-      target/i386: Create eip_cur_tl
-      target/i386: Add cpu_eip
-      target/i386: Inline gen_jmp_im
-      target/i386: Enable TARGET_TB_PCREL
-
- accel/kvm/kvm-all.c                  |  78 +---
- hw/scsi/scsi-disk.c                  |   7 +-
- include/sysemu/kvm.h                 |   2 +
- include/sysemu/kvm_int.h             |  76 ++++
- linux-user/i386/signal.c             | 231 +++++++---
- qapi/run-state.json                  |  17 +
- qemu-options.hx                      |  11 +
- target/arm/kvm.c                     |   4 +
- target/i386/cpu-param.h              |   4 +
- target/i386/cpu.c                    |   3 +-
- target/i386/cpu.h                    |   4 +
- target/i386/helper.h                 |   2 +-
- target/i386/kvm/kvm.c                | 266 +++++++++++
- target/i386/kvm/kvm_i386.h           |  11 +
- target/i386/machine.c                |  20 +
- target/i386/tcg/fpu_helper.c         |  64 +--
- target/i386/tcg/seg_helper.c         |   6 +-
- target/i386/tcg/sysemu/misc_helper.c |   5 +
- target/i386/tcg/tcg-cpu.c            |   8 +-
- target/i386/tcg/translate.c          | 830 ++++++++++++++++++-----------------
- target/mips/kvm.c                    |   4 +
- target/ppc/kvm.c                     |   4 +
- target/riscv/kvm.c                   |   4 +
- target/s390x/kvm/kvm.c               |   4 +
- 24 files changed, 1102 insertions(+), 563 deletions(-)
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index 399e1787ea..e493c28814 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -2544,6 +2544,7 @@ static void scsi_cd_realize(SCSIDevice *dev, Error **errp)
+     SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, dev);
+     AioContext *ctx;
+     int ret;
++    uint32_t blocksize = 2048;
+ 
+     if (!dev->conf.blk) {
+         /* Anonymous BlockBackend for an empty drive. As we put it into
+@@ -2553,9 +2554,13 @@ static void scsi_cd_realize(SCSIDevice *dev, Error **errp)
+         assert(ret == 0);
+     }
+ 
++    if (dev->conf.physical_block_size != 0) {
++        blocksize = dev->conf.physical_block_size;
++    }
++
+     ctx = blk_get_aio_context(dev->conf.blk);
+     aio_context_acquire(ctx);
+-    s->qdev.blocksize = 2048;
++    s->qdev.blocksize = blocksize;
+     s->qdev.type = TYPE_ROM;
+     s->features |= 1 << SCSI_DISK_F_REMOVABLE;
+     if (!s->product) {
 -- 
 2.37.3
 
