@@ -2,59 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 102095FB702
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 17:26:46 +0200 (CEST)
-Received: from localhost ([::1]:59560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43A315FB6FE
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 17:26:35 +0200 (CEST)
+Received: from localhost ([::1]:54396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiH9Y-00044t-28
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 11:26:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60080)
+	id 1oiH9N-0003mX-QF
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 11:26:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <smitterl@redhat.com>)
- id 1oiGwr-0003US-RA
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 11:13:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52507)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oiGw1-00030G-1d
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 11:12:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36233)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <smitterl@redhat.com>)
- id 1oiGwo-0000dH-Gl
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 11:13:36 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oiGvz-0000Zv-Gk
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 11:12:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665501210;
+ s=mimecast20190719; t=1665501162;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=6M0TxInMFLEYVUqXH7zLeBF60EeWWGKXkxks3lC0MOs=;
- b=Rgbp51bCwi0EtKRYwFeKvY+O4dXunmR/HwMAPCtPhXBa6PhIwqU3WsmaML2HuDHhKL1WXs
- rp4kI5wQdWDIXw0vDPW76kg+MlM42ffE8fjEnKm5XjLYnA+Z7fwEN7chLS89Z4+UcmEc3S
- qgUrQZ3bfyuYwwa9OvsxJ/1S6aqsTN0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hHX8szJU5lcx5EEtgywgG95dJJ6buvOr4N4lK8qFRng=;
+ b=g4h03FFkW1oL+XrY/BzbGZs8pjdNtoW8kQzG77+JSI0fNloXbre0XokG2CgFbYF3dCur3L
+ 9NQY34sgX5vnT3s9Ej7L1hXI/1Vh/HJ/UQDQLCcewf9YbBpVPyNXOD5OD88yNei2QqoJcI
+ fnI6dSBxaEj2mJZxbH4+fCfO6cQMJ88=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-47-Xfro8_jLOKidYuAGEuPTgA-1; Tue, 11 Oct 2022 11:12:18 -0400
-X-MC-Unique: Xfro8_jLOKidYuAGEuPTgA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-642-pcPQJl3tMVegkmptjmZ4CQ-1; Tue, 11 Oct 2022 11:12:39 -0400
+X-MC-Unique: pcPQJl3tMVegkmptjmZ4CQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5F76D29AB42F;
- Tue, 11 Oct 2022 15:12:18 +0000 (UTC)
-Received: from fedora.. (unknown [10.39.192.241])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 600682166B26;
- Tue, 11 Oct 2022 15:12:17 +0000 (UTC)
-From: Sebastian Mitterle <smitterl@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: kraxel@redhat.com,
-	thuth@redhat.com,
-	qemu-trivial@nongnu.org
-Subject: [PATCH] qemu-edid: Restrict input parameter -d to avoid division by
- zero
-Date: Tue, 11 Oct 2022 17:12:16 +0200
-Message-Id: <20221011151216.64897-1-smitterl@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E7867101A528;
+ Tue, 11 Oct 2022 15:12:38 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.119])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 41B7D492B05;
+ Tue, 11 Oct 2022 15:12:37 +0000 (UTC)
+Date: Tue, 11 Oct 2022 11:12:35 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ qemu-ppc@nongnu.org, qemu-s390x@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ viktor.prutyanov@redhat.com, Greg Kurz <groug@kaod.org>,
+ frankja@linux.ibm.com, David Hildenbrand <david@redhat.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-arm@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>
+Subject: Re: [PULL 00/10] Dump patches
+Message-ID: <Y0WH4+1zi8SmJqtq@fedora>
+References: <20221006153430.2775580-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=smitterl@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="BAQDXEqVhTaktHoJ"
+Content-Disposition: inline
+In-Reply-To: <20221006153430.2775580-1-marcandre.lureau@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -62,7 +75,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,33 +91,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A zero value for dpi will lead to a division by zero in qemu_edid_dpi_to_mm().
-Tested by runnig qemu-edid -dX, X = 0, 100.
 
-Resolves: qemu-project/qemu#1249
+--BAQDXEqVhTaktHoJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Suggested-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Sebastian Mitterle <smitterl@redhat.com>
----
- qemu-edid.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Applied, thanks.
 
-diff --git a/qemu-edid.c b/qemu-edid.c
-index 20c958d9c7..92e1a660a7 100644
---- a/qemu-edid.c
-+++ b/qemu-edid.c
-@@ -92,6 +92,10 @@ int main(int argc, char *argv[])
-                 fprintf(stderr, "not a number: %s\n", optarg);
-                 exit(1);
-             }
-+            if (dpi == 0) {
-+                fprintf(stderr, "cannot be zero: %s\n", optarg);
-+                exit(1);
-+            }
-             break;
-         case 'v':
-             info.vendor = optarg;
--- 
-2.37.3
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
+
+--BAQDXEqVhTaktHoJ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNFh+MACgkQnKSrs4Gr
+c8jGSgf9GgMdODAWykAqQVDjYL02ZPZ1OCJzdqT1xtcY+HQz7v+UtpCL0Q3+14LG
+CDxobk6SgXBUTQCIRcHroJRnG4HYshQNTboLlUjKoiMN3jM7e4NExPyTMKpFKlFI
+PhQnD2fjUEfvTsWE1vdwKwIMsVr6eTes21kW/igOUE+FAbvABCciMjwA6FCqYN3+
+V8hfUfoN2+t2I8Q5gCgEJDoRzjmvD3JIu7DrDHBW7NGGtfSsKeddyZ/xfkBv1E9O
+S5Brz/HpZqm1MO3pIlSFpTgMi/oKC+7r5LVUvFqqP3hKp2LE23+XagiUtxYYVtS1
+3ivn5b/bjEutjhszMd0M6Z3xpIZ9pw==
+=V0Rp
+-----END PGP SIGNATURE-----
+
+--BAQDXEqVhTaktHoJ--
 
 
