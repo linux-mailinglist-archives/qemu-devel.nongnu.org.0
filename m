@@ -2,86 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4C055FBA6D
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 20:34:05 +0200 (CEST)
-Received: from localhost ([::1]:48088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4DF55FBAA7
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 20:44:05 +0200 (CEST)
+Received: from localhost ([::1]:39556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiK4q-0000LN-P9
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 14:34:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34842)
+	id 1oiKEW-000897-3t
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 14:44:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <miguel.luis@oracle.com>)
- id 1oiJpf-0006x3-0n; Tue, 11 Oct 2022 14:18:23 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:32900)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <miguel.luis@oracle.com>)
- id 1oiJpc-0003Uu-PU; Tue, 11 Oct 2022 14:18:22 -0400
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29BHTbkM012066;
- Tue, 11 Oct 2022 18:18:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : reply-to :
- mime-version : content-transfer-encoding; s=corp-2022-7-12;
- bh=2kQKhCNTaxp257o1Z8Hr6lSwk+tA2n9Qb3+CjAS3uRc=;
- b=WMAIutT3dYLu1BsTDkjitv2jVKSfXrC+/UPXz78+kM4Fzb6GbN/KJ3h1irTR+vXh05n9
- QxPb/KR6oTApzFlvzggg+HA7s4L7bHcibe8THpAEKNPR7kqhh/taZh9EfvQpYXw0yIev
- 98XpiGJRnhYLC/hMGI+nssYxOOG2Sr2XZQ7DJ7tIru0smQfxgW6RBbtDgD7cBXD1k3Pe
- LzeTVtgNcS3RY71AYDraCPAM2OGwzp9N0MXSmAWN4ZD6rj66x5yV4rOHa9YQi/jXpNzH
- Jy3p/N47VQd5JLDNcY00vQiuQPB1xbnwfOp9YlC54FvOBS+ld5Bbczs+swiJVtlT/wRJ gw== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3k3139yhdh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 11 Oct 2022 18:18:17 +0000
-Received: from pps.filterd
- (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 29BG7EZY027354; Tue, 11 Oct 2022 18:18:15 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3k2ynaf4r5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 11 Oct 2022 18:18:15 +0000
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29BIEwgu034553;
- Tue, 11 Oct 2022 18:18:15 GMT
-Received: from mlluis-mac.uk.oracle.com (dhcp-10-175-196-28.vpn.oracle.com
- [10.175.196.28])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
- 3k2ynaf4fc-5; Tue, 11 Oct 2022 18:18:15 +0000
-From: Miguel Luis <miguel.luis@oracle.com>
-To: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Cc: mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca,
- shannon.zhaosl@gmail.com, peter.maydell@linaro.org, miguel.luis@oracle.com
-Subject: [PATCH 4/4] tests/acpi: virt: update ACPI MADT and FADT binaries
-Date: Tue, 11 Oct 2022 18:17:30 +0000
-Message-Id: <20221011181730.10885-5-miguel.luis@oracle.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221011181730.10885-1-miguel.luis@oracle.com>
-References: <20221011181730.10885-1-miguel.luis@oracle.com>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oiK9C-0004Uo-Lp
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 14:38:34 -0400
+Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32]:36661)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oiK9A-0006cE-OA
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 14:38:34 -0400
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-136b5dd6655so5125882fac.3
+ for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 11:38:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Cmgic9LPeXmhOxXgnDPIi4MkkNfS9Wjx6pPuS2Du/NM=;
+ b=a2B4csWDpekAUC5ItRzCjm0mnHeAmC7Mp1ZtduR3g6In+JvWNu+D9wIKQz2JddSDda
+ 9oQL+xuyTmb+jhQjK1krR5H7xiRnwNLKfEWzOJL0X5o4SBD5GAzH5lWR7SSRNEY6XIPW
+ 9wadBJxDtqdzMP5pAvmcb33T9eXHCuQ4q7zdjypo/74gvlF75vi7/aH7yTQd4W8qCIZX
+ cZzH2DkxSM6of9amxsoUgVJZzPt9pAStEnr0KdgbV7MRzZpZv6ncZmgWPX5D8lbLeaTr
+ 1DO5H1YotFDPcm0AsQ0RxD1RJV76X7jSbXj6cnceSNFfP/wWSy29oDmXmmcYpJS4bh3X
+ Bv+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Cmgic9LPeXmhOxXgnDPIi4MkkNfS9Wjx6pPuS2Du/NM=;
+ b=PWhuw2qbiw8c48n4RkwAJXwlecIny5KQsYl1Ev+5bVEIxCzXDiwbQLaOQYAH7vDUDq
+ SL6TDH6rbLszjOTnyegURxXSaAADzyTbFsg7H9MbOTtkXq/7779/eu/3NwgWCjusCtOC
+ ItC4RdI1HR5jkjMJHowzzJI7wa3lWOSVFp6deDlmTziEV01DOTKmbMasw4KlUk4d0NYg
+ +KRis+BXcKx+SJGpapZSd3GbsIvgYuPeqv1ugiRYdgGkWw6DhUgbVvkddNuE4fmzMc3Q
+ jhVAIsNImJYwujOcjLyIo96qOcqDPz0iE1UBxz+6gcoPRoW5XZHPePbAi6A2qYH2xF+t
+ wh1g==
+X-Gm-Message-State: ACrzQf2DIHew7nw60abk+abBmKa6nx0O42hlXxc2fYrcHiih7n3Fzmq/
+ V3tg9M9udHI6aZZmmeyPV+M=
+X-Google-Smtp-Source: AMsMyM5mEJaTkDJKxudYpY+iT8MZhS6eMIGUUCHOMvnDldXeKTyOdJct6RFmEJmp4Ma6SGXqftWzsQ==
+X-Received: by 2002:a05:6870:45a0:b0:131:9207:7d95 with SMTP id
+ y32-20020a05687045a000b0013192077d95mr326724oao.148.1665513511002; 
+ Tue, 11 Oct 2022 11:38:31 -0700 (PDT)
+Received: from [192.168.10.102] ([179.247.162.105])
+ by smtp.gmail.com with ESMTPSA id
+ r2-20020a9d30c2000000b006619f9a0c73sm2439044otg.1.2022.10.11.11.38.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Oct 2022 11:38:30 -0700 (PDT)
+Message-ID: <38bf39f9-4c67-eb20-516d-ecd613c1caf8@gmail.com>
+Date: Tue, 11 Oct 2022 15:38:25 -0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v1 3/4] Revert "configure: build ROMs with container-based
+ cross compilers"
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
+ aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
+ crosa@redhat.com
+References: <20221011113417.794841-1-alex.bennee@linaro.org>
+ <20221011113417.794841-4-alex.bennee@linaro.org>
+Content-Language: en-US
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20221011113417.794841-4-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-11_08,2022-10-11_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- suspectscore=0
- adultscore=0 mlxscore=0 bulkscore=0 malwarescore=0 phishscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210110107
-X-Proofpoint-GUID: ZZrsCZAkx76UMzTveZNHLxmdzNHC77yH
-X-Proofpoint-ORIG-GUID: ZZrsCZAkx76UMzTveZNHLxmdzNHC77yH
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=miguel.luis@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2001:4860:4864:20::32;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x32.google.com
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-2.934,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,215 +97,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: miguel.luis@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Step 6 & 7 of the bios-tables-test.c documented procedure.
 
-Differences between disassembled ASL files for MADT:
 
-@@ -11,9 +11,9 @@
-  */
+On 10/11/22 08:34, Alex Bennée wrote:
+> This reverts commit 730fe750fba63023e294ff0acf0f874369f1946f.
+> 
+> Unconditionally building all the bios for all arches was a little too
+> far too fast.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> ---
 
- [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Description Table (MADT)]
--[004h 0004   4]                 Table Length : 000000A8
--[008h 0008   1]                     Revision : 03
--[009h 0009   1]                     Checksum : 50
-+[004h 0004   4]                 Table Length : 000000AC
-+[008h 0008   1]                     Revision : 04
-+[009h 0009   1]                     Checksum : 47
- [00Ah 0010   6]                       Oem ID : "BOCHS "
- [010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
-@@ -34,7 +34,7 @@
- [041h 0065   3]                     Reserved : 000000
+Thanks for this patch. I was having problems building the ppc64 targets in
+an x86 Intel Xeon host today. 'make -j' was being spammed with errors like
+this:
 
- [044h 0068   1]                Subtable Type : 0B [Generic Interrupt Controller]
--[045h 0069   1]                       Length : 4C
-+[045h 0069   1]                       Length : 50
- [046h 0070   2]                     Reserved : 0000
- [048h 0072   4]         CPU Interface Number : 00000000
- [04Ch 0076   4]                Processor UID : 00000000
-@@ -51,28 +51,29 @@
- [07Ch 0124   4]        Virtual GIC Interrupt : 00000000
- [080h 0128   8]   Redistributor Base Address : 0000000000000000
- [088h 0136   8]                    ARM MPIDR : 0000000000000000
--/**** ACPI subtable terminates early - may be older version (dump table) */
-+[090h 0144   1]             Efficiency Class : 00
-+[091h 0145   3]                     Reserved : 000000
+make[1]: *** [/home/danielhb/qemu/pc-bios/s390-ccw/netboot.mak:32: strstr.o] Error 1
+make[1]: *** [/home/danielhb/qemu/pc-bios/s390-ccw/netboot.mak:44: sbrk.o] Error 1
+make[1]: *** [Makefile:24: virtio.o] Error 1
+Traceback (most recent call last):
+   File "/home/danielhb/qemu/tests/docker/docker.py", line 683, in <module>
+     sys.exit(main())
+   File "/home/danielhb/qemu/tests/docker/docker.py", line 679, in main
+     return args.cmdobj.run(args, argv)
+   File "/home/danielhb/qemu/tests/docker/docker.py", line 657, in run
+     return Docker().run(cmd, False, quiet=args.quiet,
+   File "/home/danielhb/qemu/tests/docker/docker.py", line 370, in run
+     ret = self._do_check(["run", "--rm", "--label",
+   File "/home/danielhb/qemu/tests/docker/docker.py", line 247, in _do_check
+     return subprocess.check_call(self._command + cmd, **kwargs)
+   File "/usr/lib64/python3.9/subprocess.py", line 373, in check_call
+     raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['podman', 'run', '--rm', '--label', 'com.qemu.instance.uuid=7782aa219ff64bc89847adf489cf49c3', '--userns=keep-id', '-u', '1005', '-w', '/home/danielhb/qemu/build/pc-bios/s390-ccw', '-v', '/home/danielhb/qemu/build/pc-bios/s390-ccw:/home/danielhb/qemu/build/pc-bios/s390-ccw:rw', '-v', '/home/danielhb/qemu:/home/danielhb/qemu:ro,z', 'qemu/debian-s390x-cross', 's390x-linux-gnu-gcc', '-Wall', '-ffreestanding', '-fno-delete-null-pointer-checks', '-fno-common', '-fPIE', '-fwrapv', '-fno-strict-aliasing', '-fno-asynchronous-unwind-tables', '-msoft-float', '-std=gnu99', '-march=z10', '-O2', '-g', '-nostdinc', '-I/home/danielhb/qemu/pc-bios/s390-ccw/../../roms/SLOF/lib/libc/include', '-I/home/danielhb/qemu/pc-bios/s390-ccw/../../roms/SLOF/lib/libnet', '-MMD', '-MP', '-MT', 'rand.o', '-MF', 'rand.d', '-c', '-o', 'rand.o', '/home/danielhb/qemu/pc-bios/s390-ccw/../../roms/SLOF/lib/libc/stdlib/rand.c']' returned non-zero exit status 127.
+filter=--filter=label=com.qemu.instance.uuid=7782aa219ff64bc89847adf489cf49c3
+make[1]: *** [/home/danielhb/qemu/pc-bios/s390-ccw/netboot.mak:41: fprintf.o] Error 1
+make[1]: *** [/home/danielhb/qemu/pc-bios/s390-ccw/netboot.mak:32: strncasecmp.o] Error 1
+make[1]: *** [/home/danielhb/qemu/pc-bios/s390-ccw/netboot.mak:26: isdigit.o] Error 1
+make[1]: *** [/home/danielhb/qemu/pc-bios/s390-ccw/netboot.mak:36: rand.o] Error 1
+make: *** [Makefile:195: pc-bios/s390-ccw/all] Error 2
 
--[090h 0144   1]                Subtable Type : 0D [Generic MSI Frame]
--[091h 0145   1]                       Length : 18
--[092h 0146   2]                     Reserved : 0000
--[094h 0148   4]                 MSI Frame ID : 00000000
--[098h 0152   8]                 Base Address : 0000000008020000
--[0A0h 0160   4]        Flags (decoded below) : 00000001
-+[094h 0148   1]                Subtable Type : 0D [Generic MSI Frame]
-+[095h 0149   1]                       Length : 18
-+[096h 0150   2]                     Reserved : 0000
-+[098h 0152   4]                 MSI Frame ID : 00000000
-+[09Ch 0156   8]                 Base Address : 0000000008020000
-+[0A4h 0164   4]        Flags (decoded below) : 00000001
-                                   Select SPI : 1
--[0A4h 0164   2]                    SPI Count : 0040
--[0A6h 0166   2]                     SPI Base : 0050
-+[0A8h 0168   2]                    SPI Count : 0040
-+[0AAh 0170   2]                     SPI Base : 0050
 
--Raw Table Data: Length 168 (0xA8)
-+Raw Table Data: Length 172 (0xAC)
+I don't see this error in my development box though. I was going to check whether I
+was missing packages from one system to the other.
 
--    0000: 41 50 49 43 A8 00 00 00 03 50 42 4F 43 48 53 20  // APIC.....PBOCHS
-+    0000: 41 50 49 43 AC 00 00 00 04 47 42 4F 43 48 53 20  // APIC.....GBOCHS
-     0010: 42 58 50 43 20 20 20 20 01 00 00 00 42 58 50 43  // BXPC    ....BXPC
-     0020: 01 00 00 00 00 00 00 00 00 00 00 00 0C 18 00 00  // ................
-     0030: 00 00 00 00 00 00 00 08 00 00 00 00 00 00 00 00  // ................
--    0040: 02 00 00 00 0B 4C 00 00 00 00 00 00 00 00 00 00  // .....L..........
-+    0040: 02 00 00 00 0B 50 00 00 00 00 00 00 00 00 00 00  // .....P..........
-     0050: 01 00 00 00 00 00 00 00 17 00 00 00 00 00 00 00  // ................
-     0060: 00 00 00 00 00 00 01 08 00 00 00 00 00 00 04 08  // ................
-     0070: 00 00 00 00 00 00 03 08 00 00 00 00 00 00 00 00  // ................
-     0080: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
--    0090: 0D 18 00 00 00 00 00 00 00 00 02 08 00 00 00 00  // ................
--    00A0: 01 00 00 00 40 00 50 00                          // ....@.P.
-+    0090: 00 00 00 00 0D 18 00 00 00 00 00 00 00 00 02 08  // ................
-+    00A0: 00 00 00 00 01 00 00 00 40 00 50 00              // ........@.P.
 
-Differences between disassembled ASL files for FADT:
+But this patch makes 'make -j' functional again for me.
 
-@@ -11,9 +11,9 @@
-  */
 
- [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
--[004h 0004   4]                 Table Length : 0000010C
--[008h 0008   1]                     Revision : 05
--[009h 0009   1]                     Checksum : 55
-+[004h 0004   4]                 Table Length : 00000114
-+[008h 0008   1]                     Revision : 06
-+[009h 0009   1]                     Checksum : 15
- [00Ah 0010   6]                       Oem ID : "BOCHS "
- [010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
-@@ -99,7 +99,7 @@
-                               PSCI Compliant : 1
-                        Must use HVC for PSCI : 1
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Tested-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
--[083h 0131   1]          FADT Minor Revision : 01
-+[083h 0131   1]          FADT Minor Revision : 00
- [084h 0132   8]                 FACS Address : 0000000000000000
- [08Ch 0140   8]                 DSDT Address : 0000000000000000
- [094h 0148  12]             PM1A Event Block : [Generic Address Structure]
-@@ -173,11 +173,11 @@
- [103h 0259   1]         Encoded Access Width : 00 [Undefined/Legacy]
- [104h 0260   8]                      Address : 0000000000000000
 
--/**** ACPI table terminates in the middle of a data structure! (dump table) */
-+[10Ch 0268   8]                Hypervisor ID : 00000000554D4551
-
--Raw Table Data: Length 268 (0x10C)
-+Raw Table Data: Length 276 (0x114)
-
--    0000: 46 41 43 50 0C 01 00 00 05 55 42 4F 43 48 53 20  // FACP.....UBOCHS
-+    0000: 46 41 43 50 14 01 00 00 06 15 42 4F 43 48 53 20  // FACP......BOCHS
-     0010: 42 58 50 43 20 20 20 20 01 00 00 00 42 58 50 43  // BXPC    ....BXPC
-     0020: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-     0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-@@ -185,7 +185,7 @@ Raw Table Data: Length 268 (0x10C)
-     0050: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-     0060: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-     0070: 00 00 10 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
--    0080: 00 03 00 01 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-+    0080: 00 03 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-     0090: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-     00A0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-     00B0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-@@ -193,4 +193,5 @@ Raw Table Data: Length 268 (0x10C)
-     00D0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-     00E0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-     00F0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
--    0100: 00 00 00 00 00 00 00 00 00 00 00 00              // ............
-+    0100: 00 00 00 00 00 00 00 00 00 00 00 00 51 45 4D 55  // ............QEMU
-+    0110: 00 00 00 00                                      // ....
-
-Signed-off-by: Miguel Luis <miguel.luis@oracle.com>
----
- tests/data/acpi/virt/APIC                   | Bin 168 -> 172 bytes
- tests/data/acpi/virt/APIC.memhp             | Bin 168 -> 172 bytes
- tests/data/acpi/virt/APIC.numamem           | Bin 168 -> 172 bytes
- tests/data/acpi/virt/FACP                   | Bin 268 -> 276 bytes
- tests/data/acpi/virt/FACP.memhp             | Bin 268 -> 276 bytes
- tests/data/acpi/virt/FACP.numamem           | Bin 268 -> 276 bytes
- tests/qtest/bios-tables-test-allowed-diff.h |   6 ------
- 7 files changed, 6 deletions(-)
-
-diff --git a/tests/data/acpi/virt/APIC b/tests/data/acpi/virt/APIC
-index 023f15f12e74fb9a3a6d3d9dc994541016947d6a..179d274770a23209b949c90a929525e22368568b 100644
-GIT binary patch
-delta 26
-hcmZ3%xQ3C-F~HM#4FdxMi~B?_YsP?yZeA06WB^*d2KE2|
-
-delta 26
-icmZ3(xPp<(F~HM#1p@;EbHGF{Yet`mZeA0oNB{s@&<6Sd
-
-diff --git a/tests/data/acpi/virt/APIC.memhp b/tests/data/acpi/virt/APIC.memhp
-index 023f15f12e74fb9a3a6d3d9dc994541016947d6a..179d274770a23209b949c90a929525e22368568b 100644
-GIT binary patch
-delta 26
-hcmZ3%xQ3C-F~HM#4FdxMi~B?_YsP?yZeA06WB^*d2KE2|
-
-delta 26
-icmZ3(xPp<(F~HM#1p@;EbHGF{Yet`mZeA0oNB{s@&<6Sd
-
-diff --git a/tests/data/acpi/virt/APIC.numamem b/tests/data/acpi/virt/APIC.numamem
-index 023f15f12e74fb9a3a6d3d9dc994541016947d6a..179d274770a23209b949c90a929525e22368568b 100644
-GIT binary patch
-delta 26
-hcmZ3%xQ3C-F~HM#4FdxMi~B?_YsP?yZeA06WB^*d2KE2|
-
-delta 26
-icmZ3(xPp<(F~HM#1p@;EbHGF{Yet`mZeA0oNB{s@&<6Sd
-
-diff --git a/tests/data/acpi/virt/FACP b/tests/data/acpi/virt/FACP
-index 1f764220f8533c427168e80ccf298604826a00b4..ac05c35a69451519bd1152c54d1e741af36390f5 100644
-GIT binary patch
-delta 33
-ncmeBSn!?28=I9(C!pOkDCOVO;a^j?_i3a=}fv&!x3_t(?fr|$^
-
-delta 26
-hcmbQj)WgK(=I9*2!^ptE8ak1yl96%Z#OjF#yZ}u&1~C8t
-
-diff --git a/tests/data/acpi/virt/FACP.memhp b/tests/data/acpi/virt/FACP.memhp
-index 1f764220f8533c427168e80ccf298604826a00b4..ac05c35a69451519bd1152c54d1e741af36390f5 100644
-GIT binary patch
-delta 33
-ncmeBSn!?28=I9(C!pOkDCOVO;a^j?_i3a=}fv&!x3_t(?fr|$^
-
-delta 26
-hcmbQj)WgK(=I9*2!^ptE8ak1yl96%Z#OjF#yZ}u&1~C8t
-
-diff --git a/tests/data/acpi/virt/FACP.numamem b/tests/data/acpi/virt/FACP.numamem
-index 1f764220f8533c427168e80ccf298604826a00b4..ac05c35a69451519bd1152c54d1e741af36390f5 100644
-GIT binary patch
-delta 33
-ncmeBSn!?28=I9(C!pOkDCOVO;a^j?_i3a=}fv&!x3_t(?fr|$^
-
-delta 26
-hcmbQj)WgK(=I9*2!^ptE8ak1yl96%Z#OjF#yZ}u&1~C8t
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 8dc50f7a8a..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,7 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/virt/FACP",
--"tests/data/acpi/virt/FACP.numamem",
--"tests/data/acpi/virt/FACP.memhp",
--"tests/data/acpi/virt/APIC",
--"tests/data/acpi/virt/APIC.memhp",
--"tests/data/acpi/virt/APIC.numamem",
--- 
-2.37.3
-
+>   configure | 30 ++++++++++++------------------
+>   1 file changed, 12 insertions(+), 18 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index baa69189f0..45ee6f4eb3 100755
+> --- a/configure
+> +++ b/configure
+> @@ -2121,7 +2121,7 @@ probe_target_compiler() {
+>       target_ranlib=
+>       target_strip=
+>     fi
+> -  test -n "$target_cc" || test -n "$container_image"
+> +  test -n "$target_cc"
+>   }
+>   
+>   write_target_makefile() {
+> @@ -2268,7 +2268,7 @@ if test "$targetos" != "darwin" && test "$targetos" != "sunos" && \
+>       config_mak=pc-bios/optionrom/config.mak
+>       echo "# Automatically generated by configure - do not modify" > $config_mak
+>       echo "TOPSRC_DIR=$source_path" >> $config_mak
+> -    write_target_makefile pc-bios/optionrom/all >> $config_mak
+> +    write_target_makefile >> $config_mak
+>   fi
+>   
+>   if test "$softmmu" = yes && probe_target_compiler ppc-softmmu; then
+> @@ -2276,31 +2276,25 @@ if test "$softmmu" = yes && probe_target_compiler ppc-softmmu; then
+>       config_mak=pc-bios/vof/config.mak
+>       echo "# Automatically generated by configure - do not modify" > $config_mak
+>       echo "SRC_DIR=$source_path/pc-bios/vof" >> $config_mak
+> -    write_target_makefile pc-bios/vof/all >> $config_mak
+> +    write_target_makefile >> $config_mak
+>   fi
+>   
+>   # Only build s390-ccw bios if the compiler has -march=z900 or -march=z10
+>   # (which is the lowest architecture level that Clang supports)
+>   if test "$softmmu" = yes && probe_target_compiler s390x-softmmu; then
+> -  got_cross_cc=no
+> -  if test -n "$target_cc"; then
+> -    write_c_skeleton
+> -    do_compiler "$target_cc" $target_cc_cflags -march=z900 -o $TMPO -c $TMPC
+> -    has_z900=$?
+> -    if [ $has_z900 = 0 ] || do_compiler "$target_cc" $target_cc_cflags -march=z10 -msoft-float -Werror -o $TMPO -c $TMPC; then
+> -      if [ $has_z900 != 0 ]; then
+> -        echo "WARNING: Your compiler does not support the z900!"
+> -        echo "         The s390-ccw bios will only work with guest CPUs >= z10."
+> -      fi
+> -      got_cross_cc=yes
+> +  write_c_skeleton
+> +  do_compiler "$target_cc" $target_cc_cflags -march=z900 -o $TMPO -c $TMPC
+> +  has_z900=$?
+> +  if [ $has_z900 = 0 ] || do_compiler "$target_cc" $target_cc_cflags -march=z10 -msoft-float -Werror -o $TMPO -c $TMPC; then
+> +    if [ $has_z900 != 0 ]; then
+> +      echo "WARNING: Your compiler does not support the z900!"
+> +      echo "         The s390-ccw bios will only work with guest CPUs >= z10."
+>       fi
+> -  fi
+> -  if test "$got_cross_cc" = yes || test -n "$container_image"; then
+>       roms="$roms pc-bios/s390-ccw"
+>       config_mak=pc-bios/s390-ccw/config-host.mak
+>       echo "# Automatically generated by configure - do not modify" > $config_mak
+>       echo "SRC_PATH=$source_path/pc-bios/s390-ccw" >> $config_mak
+> -    write_target_makefile pc-bios/s390-ccw/all >> $config_mak
+> +    write_target_makefile >> $config_mak
+>       # SLOF is required for building the s390-ccw firmware on s390x,
+>       # since it is using the libnet code from SLOF for network booting.
+>       git_submodules="${git_submodules} roms/SLOF"
+> @@ -2488,7 +2482,7 @@ for target in $target_list; do
+>         ;;
+>     esac
+>   
+> -  if probe_target_compiler $target; then
+> +  if probe_target_compiler $target || test -n "$container_image"; then
+>         test -n "$container_image" && build_static=y
+>         mkdir -p "tests/tcg/$target"
+>         config_target_mak=tests/tcg/$target/config-target.mak
 
