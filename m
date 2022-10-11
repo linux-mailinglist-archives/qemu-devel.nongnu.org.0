@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 882365FB3F2
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 15:55:14 +0200 (CEST)
-Received: from localhost ([::1]:33480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D58F5FB405
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 16:00:51 +0200 (CEST)
+Received: from localhost ([::1]:48300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiFiz-00073P-AG
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 09:55:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42060)
+	id 1oiFoO-0005Bq-Rx
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 10:00:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oiFKq-0007ff-7E
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 09:30:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39750)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oiFR8-00057o-0j
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 09:36:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57218)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oiFKn-000761-9q
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 09:30:14 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oiFR4-0008HM-Kn
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 09:36:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665495011;
+ s=mimecast20190719; t=1665495400;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=dYTrghk8Td9LIdsqf13jzqHC9hyJSMVG2CpHb2ZEnZc=;
- b=Up+rF+ZVJONz1szDhgtzE984DR9gQ0XjzYYSLWpQJ4YnfdCOyBWHklqYeSMu4twvOf6hjg
- LhBn+o/HnywwkD3PrTmIuISflaF2KeOkldX+zvAgbHZm2m5E/4sCa14L9PTD0xCtDPxA49
- 90jeXMi/hKC9yHpSZ7SBBun6wxe8qVw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Pm+pA4P5JNoZhwY7P/k970AtA1Znegfk6qJ4kZC85QE=;
+ b=hsh3s885IFkj1I1ghXDy25oFxYYlGW8FVIiXhCzVqd2BJ+fr+lTATdKDbAC2RqBv0VxKAU
+ BtEDq2ILnIobDCtomY/I93I10DRDlEURmaxJUUuhKZcmeJD4B//kRtJi+2UAQEC1i5eips
+ yzienzwCIOJhlAz3AElAv392eDo4s6g=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-425-DXM0YrYiP-i2T5_PzcwRkw-1; Tue, 11 Oct 2022 09:30:10 -0400
-X-MC-Unique: DXM0YrYiP-i2T5_PzcwRkw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-549-6y2oYGRwMkmEmCFMk2PzvA-1; Tue, 11 Oct 2022 09:36:39 -0400
+X-MC-Unique: 6y2oYGRwMkmEmCFMk2PzvA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DCF2885704A;
- Tue, 11 Oct 2022 13:30:09 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4428D3C01DF8;
+ Tue, 11 Oct 2022 13:36:39 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.195.183])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D5F62144B24;
- Tue, 11 Oct 2022 13:30:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CF51E1111C60;
+ Tue, 11 Oct 2022 13:36:38 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 2958A180093B; Tue, 11 Oct 2022 15:30:08 +0200 (CEST)
-Date: Tue, 11 Oct 2022 15:30:08 +0200
+ id 4F9EC1800082; Tue, 11 Oct 2022 15:36:37 +0200 (CEST)
+Date: Tue, 11 Oct 2022 15:36:37 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: Helge Konetzka <hk@zapateado.de>
-Cc: qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: [PATCH 1/2] audio: fix in.voices test
-Message-ID: <20221011133008.xyqxua4vmwxijppv@sirius.home.kraxel.org>
-References: <40de48d2-6acc-6525-34d4-cb2eec9977e8@zapateado.de>
+To: Mauro Matteo Cascella <mcascell@redhat.com>
+Cc: qemu-devel@nongnu.org, tangpeng@qianxin.com
+Subject: Re: [PATCH] ui/vnc-clipboard: fix integer underflow in
+ vnc_client_cut_text_ext
+Message-ID: <20221011133637.f56bj4btaqirl64c@sirius.home.kraxel.org>
+References: <20220925204511.1103214-1-mcascell@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <40de48d2-6acc-6525-34d4-cb2eec9977e8@zapateado.de>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+In-Reply-To: <20220925204511.1103214-1-mcascell@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -78,29 +79,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Sep 25, 2022 at 10:56:56AM +0200, Helge Konetzka wrote:
+On Sun, Sep 25, 2022 at 10:45:11PM +0200, Mauro Matteo Cascella wrote:
+> Extended ClientCutText messages start with a 4-byte header. If len < 4,
+> an integer underflow occurs in vnc_client_cut_text_ext. The result is
+> used to decompress data in a while loop in inflate_buffer, leading to
+> CPU consumption and denial of service. Prevent this by checking dlen in
+> protocol_client_msg.
 > 
-> Calling qemu with valid -audiodev ...,in.voices=0 results in an obsolete
-> warning:
->   audio: Bogus number of capture voices 0, setting to 0
-> This patch fixes the in.voices test.
-> 
-> Signed-off-by: Helge Konetzka <hk@zapateado.de>
-> ---
->  audio/audio.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/audio/audio.c b/audio/audio.c
-> index cfa4119c05..8a0ade4052 100644
-> --- a/audio/audio.c
-> +++ b/audio/audio.c
-> @@ -1756,7 +1756,7 @@ static AudioState *audio_init(Audiodev *dev, const
-> char *name)
+> Fixes: CVE-2022-3165
+> Fixes: 0bf41cab93e5 ("ui/vnc: clipboard support")
+> Reported-by: TangPeng <tangpeng@qianxin.com>
+> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
 
-Patch is mangled (line-wrapped) here, 'git am' refuses to accept it.
-Please use 'git send-email' to post patches,
+Added to queue.
 
-thanks & take care,
+thanks,
   Gerd
 
 
