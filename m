@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54F065FBA53
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 20:25:53 +0200 (CEST)
-Received: from localhost ([::1]:45252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9239D5FBA54
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 20:26:19 +0200 (CEST)
+Received: from localhost ([::1]:47320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiJwt-0002aB-IT
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 14:25:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54694)
+	id 1oiJxJ-00031b-Fc
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 14:26:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <miguel.luis@oracle.com>)
- id 1oiJpK-0006bC-Tr; Tue, 11 Oct 2022 14:18:02 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:5414)
+ id 1oiJpS-0006it-5o; Tue, 11 Oct 2022 14:18:10 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:64394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <miguel.luis@oracle.com>)
- id 1oiJpI-0003TC-GY; Tue, 11 Oct 2022 14:18:02 -0400
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29BHTBab001498;
- Tue, 11 Oct 2022 18:17:57 GMT
+ id 1oiJpQ-0003Th-AU; Tue, 11 Oct 2022 14:18:09 -0400
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29BHTasb012021;
+ Tue, 11 Oct 2022 18:18:03 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : reply-to :
  mime-version : content-transfer-encoding; s=corp-2022-7-12;
- bh=5GHVn7JC7YycS7J8f1l8OLLsQyao+YPeGmO4bOOeT10=;
- b=bu1cjTkDHgO3A+sIi2sinWfM+OY0z4lCw86nzyrXjfGLioS7dRtVza/xdtMB6RrnCTSb
- ikpwgrk9CR1j/NIM7XmbURVnvYryEbA/0R5Osw0gbjoWqb6N8yJ3WX9uS1r8gsomN23K
- XWYlfkyGB8LoCrInZwPj9HGxyRaVqRIHRrC6ZnG41LeR5iTgZqEHVUnc8OYtp1YiYZzh
- 2jQP9R8QvBiSE8B3wG+2KF0vqI8vu8Kx2JLqnk7oKdsrONAOvwAiyLsVwWa4g2yXMZ5I
- 4WXc7JYeKrMZVmitmWGmEClrBE6bZIZ5OSP/C3pdHO3Rd3LcsgusJ+cJuZRtfi7paEbO JQ== 
+ bh=q4SCAvrzpUZp+tppEb8sYXNtOjtBTKwJQtiP2DYzA0Y=;
+ b=Uy/4JCL8VQQerl3z0JDdgMzYHqlQlw3pjMDNRPyMLKoin4RolqtZcuAcfoT74YeKoRpH
+ Vy1XXZzno5hFZqbA5MsKMeLa3sEkI0PraMS0qHnEK2IJUzS8Xzvk1N/Zxe3UUXiJytls
+ ydPFu0DKP6OqmYuLTnIQ5bMQoQeaG53mi/nFEo9vTTgM8/IDPu6BKrx10Q2Nc4z0lOAi
+ O5hYfgVUjHpt1dTU1NKO2/zjLQJOFD6AEJFEdJXIry1tNg0uZfw1j6bcXk1AlGHGR7by
+ 8aRtsGzqjTDUhv5Y64IR8gyb5qeHwsUDL/LtJm+6dR5vIcANn35arR8MkUFMV07kK0pV Ag== 
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3k2ymcyen9-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3k3139yhd1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 11 Oct 2022 18:17:57 +0000
+ Tue, 11 Oct 2022 18:18:03 +0000
 Received: from pps.filterd
  (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
  by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 29BFWbtu027624; Tue, 11 Oct 2022 18:17:56 GMT
+ with ESMTP id 29BIBr1J027365; Tue, 11 Oct 2022 18:18:01 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3k2ynaf4hj-1
+ 3k2ynaf4jy-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 11 Oct 2022 18:17:56 +0000
+ Tue, 11 Oct 2022 18:18:01 +0000
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29BIEwgo034553;
- Tue, 11 Oct 2022 18:17:56 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29BIEwgq034553;
+ Tue, 11 Oct 2022 18:18:01 GMT
 Received: from mlluis-mac.uk.oracle.com (dhcp-10-175-196-28.vpn.oracle.com
  [10.175.196.28])
  by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
- 3k2ynaf4fc-2; Tue, 11 Oct 2022 18:17:56 +0000
+ 3k2ynaf4fc-3; Tue, 11 Oct 2022 18:18:01 +0000
 From: Miguel Luis <miguel.luis@oracle.com>
 To: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Cc: mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca,
  shannon.zhaosl@gmail.com, peter.maydell@linaro.org, miguel.luis@oracle.com
-Subject: [PATCH 1/4] tests/acpi: virt: allow acpi MADT and FADT changes
-Date: Tue, 11 Oct 2022 18:17:27 +0000
-Message-Id: <20221011181730.10885-2-miguel.luis@oracle.com>
+Subject: [PATCH 2/4] acpi: fadt: support revision 6.0 of the ACPI specification
+Date: Tue, 11 Oct 2022 18:17:28 +0000
+Message-Id: <20221011181730.10885-3-miguel.luis@oracle.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221011181730.10885-1-miguel.luis@oracle.com>
 References: <20221011181730.10885-1-miguel.luis@oracle.com>
@@ -72,10 +72,10 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
  adultscore=0 mlxscore=0 bulkscore=0 malwarescore=0 phishscore=0
  spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2209130000 definitions=main-2210110106
-X-Proofpoint-GUID: fsodX5ora60tBtbIFd5HMJj1Y-4k4B2t
-X-Proofpoint-ORIG-GUID: fsodX5ora60tBtbIFd5HMJj1Y-4k4B2t
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=miguel.luis@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Proofpoint-GUID: edKTIFxyppXS3XYEckxeIhTHkXt2qsA5
+X-Proofpoint-ORIG-GUID: edKTIFxyppXS3XYEckxeIhTHkXt2qsA5
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=miguel.luis@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -99,25 +99,88 @@ Reply-To: miguel.luis@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Step 3 from bios-tables-test.c documented procedure.
+Update the Fixed ACPI Description Table (FADT) to revision 6.0 of the ACPI
+specification adding the field "Hypervisor Vendor Identity".
+
+This field's description states the following: "64-bit identifier of hypervisor
+vendor. All bytes in this field are considered part of the vendor identity.
+These identifiers are defined independently by the vendors themselves,
+usually following the name of the hypervisor product. Version information
+should NOT be included in this field - this shall simply denote the vendor's
+name or identifier. Version information can be communicated through a
+supplemental vendor-specific hypervisor API. Firmware implementers would
+place zero bytes into this field, denoting that no hypervisor is present in
+the actual firmware."
 
 Signed-off-by: Miguel Luis <miguel.luis@oracle.com>
+Reviewed-by: Ani Sinha <ani@anisinha.ca>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/acpi/aml-build.c      | 13 ++++++++++---
+ hw/arm/virt-acpi-build.c | 10 +++++-----
+ 2 files changed, 15 insertions(+), 8 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..8dc50f7a8a 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,7 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/virt/FACP",
-+"tests/data/acpi/virt/FACP.numamem",
-+"tests/data/acpi/virt/FACP.memhp",
-+"tests/data/acpi/virt/APIC",
-+"tests/data/acpi/virt/APIC.memhp",
-+"tests/data/acpi/virt/APIC.numamem",
+diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+index e6bfac95c7..42feb4d4d7 100644
+--- a/hw/acpi/aml-build.c
++++ b/hw/acpi/aml-build.c
+@@ -2070,7 +2070,7 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+     acpi_table_end(linker, &table);
+ }
+ 
+-/* build rev1/rev3/rev5.1 FADT */
++/* build rev1/rev3/rev5.1/rev6.0 FADT */
+ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+                 const char *oem_id, const char *oem_table_id)
+ {
+@@ -2193,8 +2193,15 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+     /* SLEEP_STATUS_REG */
+     build_append_gas_from_struct(tbl, &f->sleep_sts);
+ 
+-    /* TODO: extra fields need to be added to support revisions above rev5 */
+-    assert(f->rev == 5);
++    if (f->rev == 5) {
++        goto done;
++    }
++
++    /* Hypervisor Vendor Identity */
++    build_append_padded_str(tbl, "QEMU", 8, '\0');
++
++    /* TODO: extra fields need to be added to support revisions above rev6 */
++    assert(f->rev == 6);
+ 
+ done:
+     acpi_table_end(linker, &table);
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 9b3aee01bf..72bb6f61a5 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -809,13 +809,13 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+ }
+ 
+ /* FADT */
+-static void build_fadt_rev5(GArray *table_data, BIOSLinker *linker,
++static void build_fadt_rev6(GArray *table_data, BIOSLinker *linker,
+                             VirtMachineState *vms, unsigned dsdt_tbl_offset)
+ {
+-    /* ACPI v5.1 */
++    /* ACPI v6.0 */
+     AcpiFadtData fadt = {
+-        .rev = 5,
+-        .minor_ver = 1,
++        .rev = 6,
++        .minor_ver = 0,
+         .flags = 1 << ACPI_FADT_F_HW_REDUCED_ACPI,
+         .xdsdt_tbl_offset = &dsdt_tbl_offset,
+     };
+@@ -945,7 +945,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+ 
+     /* FADT MADT PPTT GTDT MCFG SPCR DBG2 pointed to by RSDT */
+     acpi_add_table(table_offsets, tables_blob);
+-    build_fadt_rev5(tables_blob, tables->linker, vms, dsdt);
++    build_fadt_rev6(tables_blob, tables->linker, vms, dsdt);
+ 
+     acpi_add_table(table_offsets, tables_blob);
+     build_madt(tables_blob, tables->linker, vms);
 -- 
 2.37.3
 
