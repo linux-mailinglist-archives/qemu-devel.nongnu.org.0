@@ -2,64 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABD425FAD36
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 09:07:55 +0200 (CEST)
-Received: from localhost ([::1]:49198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D9345FAD46
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 09:13:56 +0200 (CEST)
+Received: from localhost ([::1]:58136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oi9Mm-0001cD-K2
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 03:07:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51466)
+	id 1oi9Sd-0005aa-Er
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 03:13:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1oi929-0000Bb-AH
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 02:46:41 -0400
-Received: from mail.ispras.ru ([83.149.199.84]:56152)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1oi925-0003jN-DT
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 02:46:32 -0400
-Received: from [10.12.102.111] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id 61AA44075263;
- Tue, 11 Oct 2022 06:46:02 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 61AA44075263
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
- s=default; t=1665470762;
- bh=ly5qXkKlrQZyBOpFla9P73LjQaRv7MKwy0GbpXVezMQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=cRQAlqWsGes6FwW3v2K6r6krILIvGpp/QmuoiyxOZpV9aPQzRI4HgVpA1KEC7JcVy
- VIJfX1Nv5R+478aztm76K/UthBPPOZADyn2xOK1hmIMYJFGMzh9Bz+hXcXbFbf5zyX
- 1nBJ7QS58IOzRZ/6TwCwvvFWBtk58sdoBBQk74jw=
-Message-ID: <13302545-b542-dc43-820f-2fb46fa85cd8@ispras.ru>
-Date: Tue, 11 Oct 2022 09:46:01 +0300
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oi95e-0001pz-Tg
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 02:50:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39629)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oi95a-0004SM-9B
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 02:50:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665471005;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ODNWiZG+c+PiPSoqvIcQN509t43MEXIAkMuwOSRBXI4=;
+ b=ZLHjjOBNyl9kruVrUY9aCtQCnz4v7nji5Z8rq4tAVo7r8gSitRsU6ABgI+I0axfYybav0a
+ G0xQX26LavUD4Ej6sQOLnvSVIKH/nPkKn/DN+1wCum5CaTHVD0iqlRhK6yCoECJ1A2nh34
+ 7TOVzTtwLV3DdhQEw5xB6xvNdwJu5Q4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-584-AEY9nD4jPYecnGgMBnl6oQ-1; Tue, 11 Oct 2022 02:50:03 -0400
+X-MC-Unique: AEY9nD4jPYecnGgMBnl6oQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ f9-20020adfc989000000b0022b3bbc7a7eso3479542wrh.13
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 23:50:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ODNWiZG+c+PiPSoqvIcQN509t43MEXIAkMuwOSRBXI4=;
+ b=MFvCWQW8gSFmFPT5LUFnxipdA9iUFJ89tqQ/StVnCp1REryi7XTOUASSagKAiPaThj
+ moanL0NJ8ZfD0W34V4IN3ycwfiG1IWfaGVIlkGmJ3FuwZF7yx3Og7eHULEyFyFSe7Ip6
+ 3N/s/Vv8Nk67Ic8D6Vnm0CQ+xw/H+E0r1v8zqDwxPFYpXD74Ih7om4kV54pN3Ro7ftO9
+ g87cdT++JMqqzEPx7uFfxfCgpfYM0BX9g4LPAPYEWfz9XPnrH/I4eU9e4Nyzegi992FW
+ eVrurjOcvVFYLNavEitUeKU0mUjTMe+A5VPKJFHJTDHBAyfel0ioVT39e7UJgJMwfSEw
+ 8a/Q==
+X-Gm-Message-State: ACrzQf34faEcD95iHJE6AKjRKFMaryNL7+3n/PDBVc/rMGFqlPs5vPEF
+ 0hO1nJwuuVkuxE1G0QXbFa8zYCv2XEyfM5VCc8Sfa733RAj3O3VElhGQhMETm0ooJpNBfjmwTvO
+ dnWcWxkNAYRL5Z2E=
+X-Received: by 2002:a05:6000:170b:b0:22e:44d0:6bae with SMTP id
+ n11-20020a056000170b00b0022e44d06baemr13630354wrc.99.1665471002656; 
+ Mon, 10 Oct 2022 23:50:02 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7U2Bm6e+HkDUAKitQed6hhHHwe7l7vqZnlWHUVJRXQfK5SnvN6TOqrFTDx2+hyCihPpXpQbQ==
+X-Received: by 2002:a05:6000:170b:b0:22e:44d0:6bae with SMTP id
+ n11-20020a056000170b00b0022e44d06baemr13630345wrc.99.1665471002428; 
+ Mon, 10 Oct 2022 23:50:02 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-176-11.web.vodafone.de.
+ [109.43.176.11]) by smtp.gmail.com with ESMTPSA id
+ m5-20020a056000180500b0022f40a2d06esm8068609wrh.35.2022.10.10.23.50.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Oct 2022 23:50:01 -0700 (PDT)
+Message-ID: <e48006dd-6952-e9c8-272f-999064cf4991@redhat.com>
+Date: Tue, 11 Oct 2022 08:50:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/6] device-tree: add re-randomization helper function
+ Thunderbird/91.13.0
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20220929232339.372813-1-Jason@zx2c4.com>
- <CAFEAcA-Ac-=i_DK5MUtKtTqH7OpyzHAi6u=tHFAFZyvdr1KP8A@mail.gmail.com>
- <CAFEAcA-fOdNeDz9_Hbm7R3_3o2T4Zw8wPrgOtVLK9tUNMciZow@mail.gmail.com>
- <Y0Q4Vugq+d0vaF97@zx2c4.com>
- <CAFEAcA9h05S=MmUgKWA2cg9H8Rn7aiRrSDBJAO8yTyFvC7FQ2w@mail.gmail.com>
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-In-Reply-To: <CAFEAcA9h05S=MmUgKWA2cg9H8Rn7aiRrSDBJAO8yTyFvC7FQ2w@mail.gmail.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+References: <20221010160957.40779-1-cohuck@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] s390x: step down as general arch maintainer
+In-Reply-To: <20221010160957.40779-1-cohuck@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.007,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.007, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,46 +100,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10.10.2022 18:32, Peter Maydell wrote:
-> On Mon, 10 Oct 2022 at 16:21, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
->>
->> On Mon, Oct 10, 2022 at 11:54:50AM +0100, Peter Maydell wrote:
->>> The error is essentially the record-and-replay subsystem saying "the
->>> replay just asked for a random number at point when the recording
->>> did not ask for one, and so there's no 'this is what the number was'
->>> info in the record".
->>>
->>> I have had a quick look, and I think the reason for this is that
->>> load_snapshot() ("reset the VM state to the snapshot state stored in the
->>> disk image or migration stream") does a system reset. The replay
->>> process involves a lot of "load state from a snapshot and play
->>> forwards from there" operations. It doesn't expect that load_snapshot()
->>> would result in something reading random data, but now that we are
->>> calling qemu_guest_getrandom() in a reset hook, that happens.
->>
->> Hmm... so this seems like a bug in the replay code then? Shouldn't that
->> reset handler get hit during both passes, so the entry should be in
->> each?
+On 10/10/2022 18.09, Cornelia Huck wrote:
+> I haven't really been working on s390x for some time now, and in
+> practice, I don't have time for it, either. So let's remove myself
+> from this entry.
 > 
-> No, because record is just
-> "reset the system, record all the way to the end stop",
-> but replay is
-> "set the system to the point we want to start at by using
-> load_snapshot, play from there", and depending on the actions
-> you do in the debugger like reverse-continue we might repeatedly
-> do "reload that snapshot (implying a system reset) and play from there"
-> multiple times.
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> ---
+>   MAINTAINERS | 2 --
+>   1 file changed, 2 deletions(-)
 
-The idea of the patches is fdt randomization during reset, right?
-But reset is used not only for real reboot, but also for restoring the 
-snapshots.
-In the latter case it is like "just clear the hw registers to simplify 
-the initialization".
-Therefore no other virtual hardware tried to read external data yet. And 
-random numbers are external to the machine, they come from the outer world.
+Cornelia, thank you again very much for all your s390x work that you did 
+through all those years! If you ever want to come back to the heavy metal 
+computers (those that you cannot throw that easily through a window ;-)), 
+you're very welcome to send a reverting patch for this one here!
 
-It means that this is completely new reset case and new solution should 
-be found for it.
+Queued to my s390x-next branch:
 
-Pavel Dovgalyuk
+  https://gitlab.com/thuth/qemu/-/commits/s390x-next/
+
+  Thomas
+
 
