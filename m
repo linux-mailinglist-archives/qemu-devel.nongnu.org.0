@@ -2,75 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7885FBE2C
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 01:09:38 +0200 (CEST)
-Received: from localhost ([::1]:49646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F3715FBE63
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 01:21:22 +0200 (CEST)
+Received: from localhost ([::1]:56222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiONV-0001yL-DS
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 19:09:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59584)
+	id 1oiOYo-0001FV-Ge
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 19:21:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1oiOL1-00085a-Q8
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 19:07:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27423)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1oiOWf-0004MW-HQ
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 19:19:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41660)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1oiOKy-00051g-GN
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 19:07:01 -0400
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1oiOWc-0006Oi-FV
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 19:19:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665529619;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=diqwjVVZzlldCiXSMcGCpovutdly8AtP+B7OZc7bvh0=;
- b=bFnhN40SzLoVHfZvFNSHDI4HrlaFCoyj4k0u4MBiTM2gapRRxv7wZEh5C6j7s0abv8I6uy
- GygSyFg247P0j7IoKjmWeBx+FhzYBo565tlovMHmpU4eLs6aKv+yX3jvk3/ZAF7/ijSc7i
- FgoarzDAjixGI4PalG3C4EEYPQnwxLU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1665530341;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=96V88CcrRlXApHTOWcATYol6fWaKmNpCsWy7rKr09xw=;
+ b=feb1wuH3kMZvF9b/HSH2zzDPjOKHI3jrwZBYvBP9JJoK4YdaEn6mN2fMTX4ct50DE8ZBjU
+ LpoM1VxnBk34XHVk9yaoYCQmiFZgPcEP01ZuzHiT/ojGFbEvvOqE9uH9CrkrUq9bXbPyc1
+ 6R4u3cGP92xBQojtco02e1zdQ+buCTg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-137-UDtMRY26P-is9JTcsqDI4A-1; Tue, 11 Oct 2022 19:06:56 -0400
-X-MC-Unique: UDtMRY26P-is9JTcsqDI4A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-204-Y2mpU22hPlChSgMiELM4YQ-1; Tue, 11 Oct 2022 19:18:58 -0400
+X-MC-Unique: Y2mpU22hPlChSgMiELM4YQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7B4AF811E81;
- Tue, 11 Oct 2022 23:06:55 +0000 (UTC)
-Received: from [10.64.54.52] (vpn2-54-52.bne.redhat.com [10.64.54.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6626C40C6FA0;
- Tue, 11 Oct 2022 23:06:52 +0000 (UTC)
-Subject: Re: [PATCH v4 4/6] hw/arm/virt: Introduce
- virt_get_high_memmap_enabled() helper
-To: eric.auger@redhat.com, Cornelia Huck <cohuck@redhat.com>,
- qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, maz@kernel.org, zhenyzha@redhat.com,
- richard.henderson@linaro.org, peter.maydell@linaro.org, shan.gavin@gmail.com
-References: <20221004002627.59172-1-gshan@redhat.com>
- <20221004002627.59172-5-gshan@redhat.com> <87edvnooqb.fsf@redhat.com>
- <a4bb90c8-3793-23ec-79a6-edf44565c8ff@redhat.com>
- <5d804a6b-c55d-8a7b-415b-dadf807152fa@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F20823815D2E;
+ Tue, 11 Oct 2022 23:18:57 +0000 (UTC)
+Received: from gshan.redhat.com (vpn2-54-52.bne.redhat.com [10.64.54.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 269882166B2F;
+ Tue, 11 Oct 2022 23:18:53 +0000 (UTC)
 From: Gavin Shan <gshan@redhat.com>
-Message-ID: <8e50093c-f2ee-f4b2-8caf-08412ceb847d@redhat.com>
-Date: Wed, 12 Oct 2022 07:06:49 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+To: qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, maz@kernel.org, eric.auger@redhat.com,
+ cohuck@redhat.com, zhenyzha@redhat.com, richard.henderson@linaro.org,
+ peter.maydell@linaro.org, shan.gavin@gmail.com
+Subject: [PATCH v5 0/6] hw/arm/virt: Improve address assignment for high
+ memory regions
+Date: Wed, 12 Oct 2022 07:18:26 +0800
+Message-Id: <20221011231832.149839-1-gshan@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <5d804a6b-c55d-8a7b-415b-dadf807152fa@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.934, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,71 +74,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Gavin Shan <gshan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/12/22 12:45 AM, Eric Auger wrote:
-> On 10/5/22 00:47, Gavin Shan wrote:
->> On 10/4/22 6:41 PM, Cornelia Huck wrote:
->>> On Tue, Oct 04 2022, Gavin Shan <gshan@redhat.com> wrote:
->>>
->>>> This introduces virt_get_high_memmap_enabled() helper, which returns
->>>> the pointer to vms->highmem_{redists, ecam, mmio}. The pointer will
->>>> be used in the subsequent patches.
->>>>
->>>> No functional change intended.
->>>>
->>>> Signed-off-by: Gavin Shan <gshan@redhat.com>
->>>> ---
->>>>    hw/arm/virt.c | 30 +++++++++++++++++-------------
->>>>    1 file changed, 17 insertions(+), 13 deletions(-)
->>>>
->>>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
->>>> index b0b679d1f4..59de7b78b5 100644
->>>> --- a/hw/arm/virt.c
->>>> +++ b/hw/arm/virt.c
->>>> @@ -1689,14 +1689,29 @@ static uint64_t
->>>> virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
->>>>        return arm_cpu_mp_affinity(idx, clustersz);
->>>>    }
->>>>    +static inline bool *virt_get_high_memmap_enabled(VirtMachineState
->>>> *vms,
->>>> +                                                 int index)
->>>> +{
->>>> +    bool *enabled_array[] = {
->>>> +        &vms->highmem_redists,
->>>> +        &vms->highmem_ecam,
->>>> +        &vms->highmem_mmio,
->>>> +    };
->>>> +
->>>> +    assert(index - VIRT_LOWMEMMAP_LAST < ARRAY_SIZE(enabled_array));
->>>
->>> I wonder whether we want an assert(ARRAY_SIZE(extended_memmap) ==
->>> ARRAY_SIZE(enabled_array))? IIUC, we never want those two to get out of
->>> sync?
->>>
->>
->> Yeah, It makes sense to ensure both arrays synchronized. I will add
->> the extra check in next respin.
-> 
-> With Connie's suggestion this looks good to me.
-> 
+There are three high memory regions, which are VIRT_HIGH_REDIST2,
+VIRT_HIGH_PCIE_ECAM and VIRT_HIGH_PCIE_MMIO. Their base addresses
+are floating on highest RAM address. However, they can be disabled
+in several cases.
 
-What we need is actually like below because the array (extended_memmap)
-starts from VIRT_LOWMEMMAP_LAST instead of zero. I'm adding the extra
-check into v5, which will be posted shortly.
+(1) One specific high memory region is disabled by developer by
+    toggling vms->highmem_{redists, ecam, mmio}.
 
-    assert(ARRAY_SIZE(extended_memmap) - VIRT_LOWMEMMAP_LAST ==
-           ARRAY_SIZE(enabled_array));
+(2) VIRT_HIGH_PCIE_ECAM region is disabled on machine, which is
+    'virt-2.12' or ealier than it.
 
->>
->>>> +
->>>> +    return enabled_array[index - VIRT_LOWMEMMAP_LAST];
->>>> +}
->>>> +
+(3) VIRT_HIGH_PCIE_ECAM region is disabled when firmware is loaded
+    on 32-bits system.
 
-Thanks,
-Gavin
+(4) One specific high memory region is disabled when it breaks the
+    PA space limit.
+
+The current implementation of virt_set_memmap() isn't comprehensive
+because the space for one specific high memory region is always
+reserved from the PA space for case (1), (2) and (3). In the code,
+'base' and 'vms->highest_gpa' are always increased for those three
+cases. It's unnecessary since the assigned space of the disabled
+high memory region won't be used afterwards.
+
+The series intends to improve the address assignment for these
+high memory regions.
+
+PATCH[1-4] preparatory work for the improvment
+PATCH[5]   improve high memory region address assignment
+PATCH[6]   adds 'compact-highmem' to enable or disable the optimization
+
+v4: https://lists.nongnu.org/archive/html/qemu-arm/2022-10/msg00067.html
+v3: https://lists.nongnu.org/archive/html/qemu-arm/2022-09/msg00258.html
+v2: https://lore.kernel.org/all/20220815062958.100366-1-gshan@redhat.com/T/
+v1: https://lists.nongnu.org/archive/html/qemu-arm/2022-08/msg00013.html
+
+Changelog
+==========
+v5:
+  * Pick review-by and tested-by                               (Connie/Zhenyu)
+  * Add extra check in PATCH[v5 4/6]                           (Connie)
+  * Improve comments about compatibility for disabled regions
+    in PATCH[v5 5/6]                                           (Connie)
+v4:
+  * Add virt_get_high_memmap_enabled() helper                  (Eric)
+  * Move 'vms->highmem_compact' and related logic from
+    PATCH[v4 6/6] to PATCH[v4 5/6] to avoid git-bisect
+    breakage                                                   (Eric)
+  * Document the legacy and optimized high memory region
+    layout in commit log and source code                       (Eric)
+v3:
+  * Reorder the patches                                        (Gavin)
+  * Add 'highmem-compact' property for backwards compatibility (Eric)
+v2:
+  * Split the patches for easier review                        (Gavin)
+  * Improved changelog                                         (Marc)
+  * Use 'bool fits' in virt_set_high_memmap()                  (Eric)
+
+Gavin Shan (6):
+  hw/arm/virt: Introduce virt_set_high_memmap() helper
+  hw/arm/virt: Rename variable size to region_size in
+    virt_set_high_memmap()
+  hw/arm/virt: Introduce variable region_base in virt_set_high_memmap()
+  hw/arm/virt: Introduce virt_get_high_memmap_enabled() helper
+  hw/arm/virt: Improve high memory region address assignment
+  hw/arm/virt: Add 'compact-highmem' property
+
+ docs/system/arm/virt.rst |   4 ++
+ hw/arm/virt.c            | 135 +++++++++++++++++++++++++++++----------
+ include/hw/arm/virt.h    |   2 +
+ 3 files changed, 108 insertions(+), 33 deletions(-)
+
+-- 
+2.23.0
 
 
