@@ -2,73 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01F2D5FB245
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 14:18:08 +0200 (CEST)
-Received: from localhost ([::1]:41324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E4E95FB26F
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 14:30:00 +0200 (CEST)
+Received: from localhost ([::1]:45538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiED0-0008Ut-TW
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 08:18:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57386)
+	id 1oiEOU-0007Dv-P7
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 08:29:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oiCZy-0006bW-VM
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 06:33:43 -0400
-Received: from mail-qv1-xf31.google.com ([2607:f8b0:4864:20::f31]:46057)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oiCZw-0005wr-AW
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 06:33:42 -0400
-Received: by mail-qv1-xf31.google.com with SMTP id g9so8643065qvo.12
- for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 03:33:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dmxOmnrCLrbMam8M1xeuWJQjek5QMLJr12uO3vcJwpk=;
- b=EGCdm8i5GewtaSn2KvjAJeZGnTKefV/jCs2+dhTyYjAwidElkDMmRXq/8mgVP3qX/J
- fBa+uyXBJNi4uEuhypy0UhwoGFb+3fiokVwQKs5PipiVriDnh1C6ZD9vkJS9NI35pL5w
- 0KMBYD5V8uR99vm/d/sPRQBeN7d/ypyPwWCuovCXTP0wLunV7L15ZOa4t5tVdgejGqXG
- 4kWbggrUPgcx2Wma57y6bhXMPHJmfQCldrpMyrCnprJPm7JjGtpYJha2KyOMCaehFQ5y
- 3R+HGZv1aPeT045ydjGSoKoQhhha744xXZSRktsd0hU/+2HEkehs8z7ekyPOFWlprLHA
- L28Q==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oiCbM-0007br-Ic
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 06:35:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43301)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oiCbK-0006IN-7Z
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 06:35:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665484504;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=LJgY/NC9iDbCJ02T7z7OARSSuT1RK7Z579pL3jWZEbqqbjUActeM3vdhzUmyNu7meGYxOc
+ pJHalfsV1JXoZmG2lUiaI8EYHiEKHIEI3WojD6gvXb96j/JEXvdyjEwAxwaV43ECtdZ5F6
+ 6hnO61Mnic97AoQ8RqzBFxZ9d0qGGps=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-362-UyUf1mc_NquKLUMfjdZ-9w-1; Tue, 11 Oct 2022 06:35:01 -0400
+X-MC-Unique: UyUf1mc_NquKLUMfjdZ-9w-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ v4-20020a056402348400b0045bd50cb9adso5624980edc.0
+ for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 03:35:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=dmxOmnrCLrbMam8M1xeuWJQjek5QMLJr12uO3vcJwpk=;
- b=u3WD+yPWwBkdNJwc4fb5n6g17KS2jSootDr+T9ZTo4TUvTBBIUFu8Fgp1EOH82woob
- OjHQ+YKwLYzDSGgP1MDLWryKhxl/Og9MQ7WiQZpx4loS9z+1AtD2BhCExJYby4m+LRlS
- CrsgmaYBa5/qmxTGdZl7B6AONjVi4NLCpJhOxo63a1yirBJiprJsIZ7OEv4dfPq4Ekd8
- ueyrof9/Tleawt5CtFIIWTSvSxMqXokh0X70UhUaXSyDlcq7ugyfJFDD5m2J3rNYRtpm
- ZV999ZL9SuWWxiwzZCNojJkgVmPh37XQ/flp+dw3czfU4yggX/gq3Pz3XAvYHP1vf8PD
- KIww==
-X-Gm-Message-State: ACrzQf0tPUrOrT41jMe9HSCucaxuLIRKtCuHVaPzhJAuwqu1etGxmB99
- 8TI6B5E4RIBH0askOo8ClCIYvFEwHx5QMMr/t4LnpAh9YvM=
-X-Google-Smtp-Source: AMsMyM5g4KxPuJ9jWPZHmiCxiL9X3tEnsTs1AleMI8DkQhcjuAMiwDpBBCOv7PxeondGGSwIodi2n4PAtaXUWeZWutQ=
-X-Received: by 2002:a05:6214:20a7:b0:4b1:7c4f:a218 with SMTP id
- 7-20020a05621420a700b004b17c4fa218mr18286963qvd.85.1665484417552; Tue, 11 Oct
- 2022 03:33:37 -0700 (PDT)
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=JDpKAa0lWAnXfdaVkC1AzElhw2gN6sBbkx7Un66849pe1JdmCssMMRowUj/kIOBiS2
+ NDa8AXuupK2YclTdv3/XbpcOCjfn56niNgyLgYPBSyYMfnHQC9gkUM8pHq3Zoj/FRTv/
+ 3DJ7sQHLcZV09UA8JFkPl/r6B+VpKlH0MFGpdfsnnTXWd8ZY5FOtCj0vpyg0H/0GLqb0
+ ilTym6snFeLpFMJDEMk+jOyOvqcwXBkaJlGGDLgf7wvXAqGeyQDrcxTln4FPYQVLbTrm
+ VIPCwxTcMILBJ8gdx2fezBRj6via1VB8oW9aMS75mOqu4uH+xIFicNqVsXAS+z7fI7me
+ CtzA==
+X-Gm-Message-State: ACrzQf16OnqQI80ZtJHx6pPa5hozynm3f5QE8KcVFPrOkfy18kz0LV8s
+ 4K+oTjy1aMZ7WiakuvWY7jVLsXW9YVpWm4kF8xiXey4gSHXm4JBMdudJza3EcYQXvxqcXXgc1wY
+ BmcBlkXvu0TMRx1w=
+X-Received: by 2002:aa7:cc13:0:b0:453:52dc:1bbf with SMTP id
+ q19-20020aa7cc13000000b0045352dc1bbfmr22140204edt.30.1665484500222; 
+ Tue, 11 Oct 2022 03:35:00 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4sRrEs4pidR3T3eb/sH0Py792WiV0yQIyokIRL6wyxioImdhqzr/F0WvbF5f/Grrjn2YDSFg==
+X-Received: by 2002:aa7:cc13:0:b0:453:52dc:1bbf with SMTP id
+ q19-20020aa7cc13000000b0045352dc1bbfmr22140189edt.30.1665484500034; 
+ Tue, 11 Oct 2022 03:35:00 -0700 (PDT)
+Received: from avogadro.local ([2001:b07:6468:f312:aad8:f393:e009:e014])
+ by smtp.gmail.com with ESMTPSA id
+ 2-20020a170906300200b0077a11b79b9bsm2438849ejz.133.2022.10.11.03.34.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Oct 2022 03:34:59 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: Venu Busireddy <venu.busireddy@oracle.com>
+Cc: qemu-devel@nongnu.org, Fam Zheng <fam@euphon.net>,
+ "Michael S . Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v4] virtio-scsi: Send "REPORTED LUNS CHANGED" sense data
+ upon disk hotplug events.
+Date: Tue, 11 Oct 2022 12:34:56 +0200
+Message-Id: <20221011103456.320555-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20221006194946.24134-1-venu.busireddy@oracle.com>
+References: 
 MIME-Version: 1.0
-References: <20221011090835.3534934-1-marcandre.lureau@redhat.com>
-In-Reply-To: <20221011090835.3534934-1-marcandre.lureau@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 11 Oct 2022 18:33:26 +0800
-Message-ID: <CAEUhbmWNkLbt7ik2REQ4w+2FRCAr9NwFm+aGw85LHAzbQ9-n6Q@mail.gmail.com>
-Subject: Re: [PATCH v4] win32: set threads name
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org, bin.meng@windriver.com, 
- richard.henderson@linaro.org, Stefan Weil <sw@weilnetz.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f31;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf31.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,124 +101,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 11, 2022 at 5:29 PM <marcandre.lureau@redhat.com> wrote:
->
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> As described in:
-> https://learn.microsoft.com/en-us/visualstudio/debugger/how-to-set-a-thre=
-ad-name-in-native-code?view=3Dvs-2022
->
-> SetThreadDescription() is available since Windows 10, version 1607 and
-> in some versions only by "Run Time Dynamic Linking". Its declaration is
-> not yet in mingw, so we lookup the function the same way glib does.
->
-> Tested with Visual Studio Community 2022 debugger.
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Acked-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  util/qemu-thread-win32.c | 55 ++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 53 insertions(+), 2 deletions(-)
->
-> diff --git a/util/qemu-thread-win32.c b/util/qemu-thread-win32.c
-> index a2d5a6e825..b20bfa9c1f 100644
-> --- a/util/qemu-thread-win32.c
-> +++ b/util/qemu-thread-win32.c
-> @@ -19,12 +19,39 @@
->
->  static bool name_threads;
->
-> +typedef HRESULT (WINAPI *pSetThreadDescription) (HANDLE hThread,
-> +                                                 PCWSTR lpThreadDescript=
-ion);
-> +static pSetThreadDescription SetThreadDescriptionFunc;
-> +static HMODULE kernel32_module;
-> +
-> +static bool load_set_thread_description(void)
-> +{
-> +    static gsize _init_once =3D 0;
-> +
-> +    if (g_once_init_enter(&_init_once)) {
-> +        kernel32_module =3D LoadLibrary("kernel32.dll");
-> +        if (kernel32_module) {
-> +            SetThreadDescriptionFunc =3D
-> +                (pSetThreadDescription)GetProcAddress(kernel32_module,
-> +                                                      "SetThreadDescript=
-ion");
-> +            if (!SetThreadDescriptionFunc) {
-> +                FreeLibrary(kernel32_module);
-> +            }
-> +        }
-> +        g_once_init_leave(&_init_once, 1);
-> +    }
-> +
-> +    return !!SetThreadDescriptionFunc;
-> +}
-> +
->  void qemu_thread_naming(bool enable)
->  {
-> -    /* But note we don't actually name them on Windows yet */
->      name_threads =3D enable;
->
-> -    fprintf(stderr, "qemu: thread naming not supported on this host\n");
-> +    if (enable && !load_set_thread_description()) {
-> +        fprintf(stderr, "qemu: thread naming not supported on this host\=
-n");
-> +        name_threads =3D false;
-> +    }
->  }
->
->  static void error_exit(int err, const char *msg)
-> @@ -400,6 +427,26 @@ void *qemu_thread_join(QemuThread *thread)
->      return ret;
->  }
->
-> +static bool
+Queued, thanks.
 
-This is still not fixed
+Paolo
 
-> +set_thread_description(HANDLE h, const char *name)
-> +{
-> +  HRESULT hr;
-
-and the 4 spaces here ...
-
-> +  g_autofree wchar_t *namew =3D NULL;
-> +
-> +  if (!load_set_thread_description()) {
-> +      return false;
-> +  }
-> +
-> +  namew =3D g_utf8_to_utf16(name, -1, NULL, NULL, NULL);
-> +  if (!namew) {
-> +      return false;
-> +  }
-> +
-> +  hr =3D SetThreadDescriptionFunc(h, namew);
-> +
-> +  return SUCCEEDED(hr);
-> +}
-> +
->  void qemu_thread_create(QemuThread *thread, const char *name,
->                         void *(*start_routine)(void *),
->                         void *arg, int mode)
-> @@ -423,7 +470,11 @@ void qemu_thread_create(QemuThread *thread, const ch=
-ar *name,
->      if (!hThread) {
->          error_exit(GetLastError(), __func__);
->      }
-> +    if (name_threads && name && !set_thread_description(hThread, name)) =
-{
-> +        fprintf(stderr, "qemu: failed to set thread description: %s\n", =
-name);
-> +    }
->      CloseHandle(hThread);
-> +
->      thread->data =3D data;
->  }
->
-
-Regards,
-Bin
 
