@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5EF55FAB32
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 05:31:07 +0200 (CEST)
-Received: from localhost ([::1]:39362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AFFC5FAB29
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 05:27:30 +0200 (CEST)
+Received: from localhost ([::1]:52368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oi5z0-0005Z5-Tf
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 23:31:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33690)
+	id 1oi5vV-0008Fj-Eu
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 23:27:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oi5nx-0002Rq-AD
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 23:19:41 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:33413)
+ id 1oi5ny-0002Ta-5b
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 23:19:42 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:37874)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oi5nu-00033r-L0
+ id 1oi5nw-00034U-LA
  for qemu-devel@nongnu.org; Mon, 10 Oct 2022 23:19:41 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id 10so12090016pli.0
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 20:19:38 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id 3so10807899pfw.4
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 20:19:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=n9Z+kZUU1DH+gId3ANvvv1sspQkR6K8eMCHwpMHk7cU=;
- b=rqhjFnVWtZoo9ZEIi2g/V+/xLiXbQjbvZTSIwOY5Q5Jov3LPxEiGZ4JeYTf0PvYIvp
- rbu6mX0iU3L0Q2bSq+loPSQ2A0x3OWXzKAgh+/FppLPzcrURF80DC8TeJkru+KVM1pw8
- rKKqonjzyZ+l8qhI9TP/sLmecnmtrZpKvACKnXQx2StpRofNdF1dGZ5gauNm+J2SCN5T
- EpZYpeIpT2MXkVPDhYJAFu/y4NKShNDQ36IAMgKEE1GxqId5FVUz5XPke9ikvZ1D+PAS
- GgajYQkR3hCUZXfxjVfVh+a8xJ/cOy3/1IEAEJLSyuYUnaMg3oFbWpDWb7j/85iNYhzq
- JF+A==
+ bh=Z0R2KmhXeUORlGWyUT5i12Xi4lPWlzT7EyIDQTN1DvA=;
+ b=KcMqU/Xcr2CHBCE2paYhzoNSizm9vQdhkyX/ZfGPOHF59yAEZ+nVT0N1g0rEFTGNOq
+ BG8iaobKYuU/ByRbLfdF1fZq9Guq9ZujszQTg/ZgSNrBGcUn7eOD6+WfiRuZ/saQQ3jS
+ 3HI804XfwoQtmiiDKsO7uwhPLjMb6mKm29i67MWqj7wpsIJbh87FqhC5k8J1o8ZhuLJ6
+ S6gAHN44Q+j/nqpIk4aBGieNfHaImM8YBgVTPrUgkK9gKvUcHOR37Vv6YxhHOZY2BsbR
+ MpC+1OE7VxYFPW/QMQ9SR915CCaPqvlEejKpdjg+ngAv6DlNU+U1DCXvBD5ksgCBIKAM
+ ThMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=n9Z+kZUU1DH+gId3ANvvv1sspQkR6K8eMCHwpMHk7cU=;
- b=aywjPPccVel0Ct58JNufssf5d1rBJ+thPTWKnX4ZexYlaKNQk1R8G9NMNKdyfmrRlq
- bVoSQXra7PzXOubySrYNgFnv2DBvkb9Ksj2bRC/JEQZEq87rMXd0u4clI9aGx5amNj3B
- KQ9xwZciwmHK0Itihc1OfcjPZkopGwrYF3ThZVlVTD668E0QMhYD6Eov5/+fNpnwSqsS
- Ph2bHOlvAM/6aFzpeEumf53N+irJDmMIpSOX7pTTjbz6cK6JWSl8tAdbtSCSuInTkcpm
- Eo3cgKsKHEBIjj9SKnUX+r4kTXCmcaLAwezAylquBS8Tgu4QVdoapOFEOmQ/0eeo5i3O
- KE4w==
-X-Gm-Message-State: ACrzQf1pS/+5N2DsaHolti52rPGUXSSWdxu5BA80iujR09ArmX5jK7GX
- BIMQiLnJfpwrTImw72v2h1zd146tvsvoaA==
-X-Google-Smtp-Source: AMsMyM7S0/flc1QzRDsr0VikZAFZwYY+aZIy6oYpF7IsHeGmk6Q8PeLw/aIqFx3nP+a7MrfFMoWiiw==
-X-Received: by 2002:a17:902:ce12:b0:17a:3e76:8568 with SMTP id
- k18-20020a170902ce1200b0017a3e768568mr22405431plg.11.1665458377307; 
- Mon, 10 Oct 2022 20:19:37 -0700 (PDT)
+ bh=Z0R2KmhXeUORlGWyUT5i12Xi4lPWlzT7EyIDQTN1DvA=;
+ b=QNvDzOXjaWbRGIjQiiiFHnnDG67zsBmOyGCNWs7xCDVKFTMNdyOmJEiFEQtCxKCEHH
+ yGcyWVGB1ZCDHzek4vfir7bvjTu3v5mBWmnbG66ktiBKr7eUeJis/MCwdVdkiFft3F1s
+ IfjVBlihJ7Y+breLJcqajSEq9vN9J5O4/yCVN2uhfr/UNgJLcJyZHOC4aGzxKItWGRLw
+ x6k0CQJKIEWsI/OdPk9WthA2+N+2tveriAqVAiE7B6q2LkaI+u0VQkvGkpmrldgfDK2c
+ P2IjI8zK0l4g/KYQhVkP561yvBhn0WzsrXvs6qWaLTvBVuaReKpVwJmtGKYPvpiboMnA
+ oHsQ==
+X-Gm-Message-State: ACrzQf3Q8nR91CpQbSLi7FZY3wJujgaVd2Os43/q1t2gCgCoaUu7wG2s
+ kAodO3omhsiEVFLh0iwr3yJTiIIgLe97Zg==
+X-Google-Smtp-Source: AMsMyM7JTqP0GG1Cg7g7vBTkGqq19Sq4SPzxLB+E3bbsq1uK6Wch/KAT+KvWvaUcTA9zD3S5LF0wiA==
+X-Received: by 2002:a05:6a02:303:b0:458:1e4b:1e89 with SMTP id
+ bn3-20020a056a02030300b004581e4b1e89mr18543551pgb.123.1665458379381; 
+ Mon, 10 Oct 2022 20:19:39 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49d:ec01:5aa4:aba1:1c91:a9b7])
  by smtp.gmail.com with ESMTPSA id
- o74-20020a62cd4d000000b0055f209690c0sm7663567pfg.50.2022.10.10.20.19.34
+ o74-20020a62cd4d000000b0055f209690c0sm7663567pfg.50.2022.10.10.20.19.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 20:19:35 -0700 (PDT)
+ Mon, 10 Oct 2022 20:19:37 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org
-Subject: [PATCH v4 13/24] target/arm: Add ptw_idx to S1Translate
-Date: Mon, 10 Oct 2022 20:19:00 -0700
-Message-Id: <20221011031911.2408754-14-richard.henderson@linaro.org>
+Cc: qemu-arm@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v4 14/24] target/arm: Add isar predicates for FEAT_HAFDBS
+Date: Mon, 10 Oct 2022 20:19:01 -0700
+Message-Id: <20221011031911.2408754-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221011031911.2408754-1-richard.henderson@linaro.org>
 References: <20221011031911.2408754-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,131 +91,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hoist the computation of the mmu_idx for the ptw up to
-get_phys_addr_with_struct and get_phys_addr_twostage.
-This removes the duplicate check for stage2 disabled
-from the middle of the walk, performing it only once.
+The MMFR1 field may indicate support for hardware update of
+access flag alone, or access flag and dirty bit.
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/ptw.c | 53 ++++++++++++++++++++++++++++++++++++++----------
- 1 file changed, 42 insertions(+), 11 deletions(-)
+ target/arm/cpu.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 6c5ed56a10..b2bfcfde9a 100644
---- a/target/arm/ptw.c
-+++ b/target/arm/ptw.c
-@@ -17,6 +17,7 @@
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index e9e77b7563..cde4e86db2 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -4139,6 +4139,16 @@ static inline bool isar_feature_aa64_lva(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, VARANGE) != 0;
+ }
  
- typedef struct S1Translate {
-     ARMMMUIdx in_mmu_idx;
-+    ARMMMUIdx in_ptw_idx;
-     bool in_secure;
-     bool in_debug;
-     bool out_secure;
-@@ -233,17 +234,12 @@ static bool S1_ptw_translate(CPUARMState *env, S1Translate *ptw,
++static inline bool isar_feature_aa64_hafs(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, HAFDBS) != 0;
++}
++
++static inline bool isar_feature_aa64_hdbs(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, HAFDBS) >= 2;
++}
++
+ static inline bool isar_feature_aa64_tts2uxn(const ARMISARegisters *id)
  {
-     bool is_secure = ptw->in_secure;
-     ARMMMUIdx mmu_idx = ptw->in_mmu_idx;
--    ARMMMUIdx s2_mmu_idx = is_secure ? ARMMMUIdx_Stage2_S : ARMMMUIdx_Stage2;
--    bool s2_phys = false;
-+    ARMMMUIdx s2_mmu_idx = ptw->in_ptw_idx;
-+    bool s2_phys = s2_mmu_idx == ARMMMUIdx_Phys_S ||
-+                   s2_mmu_idx == ARMMMUIdx_Phys_NS;
-     uint8_t pte_attrs;
-     bool pte_secure;
- 
--    if (!arm_mmu_idx_is_stage1_of_2(mmu_idx)
--        || regime_translation_disabled(env, s2_mmu_idx, is_secure)) {
--        s2_mmu_idx = is_secure ? ARMMMUIdx_Phys_S : ARMMMUIdx_Phys_NS;
--        s2_phys = true;
--    }
--
-     if (unlikely(ptw->in_debug)) {
-         /*
-          * From gdbstub, do not use softmmu so that we don't modify the
-@@ -256,10 +252,12 @@ static bool S1_ptw_translate(CPUARMState *env, S1Translate *ptw,
-         } else {
-             S1Translate s2ptw = {
-                 .in_mmu_idx = s2_mmu_idx,
-+                .in_ptw_idx = is_secure ? ARMMMUIdx_Phys_S : ARMMMUIdx_Phys_NS,
-                 .in_secure = is_secure,
-                 .in_debug = true,
-             };
-             GetPhysAddrResult s2 = { };
-+
-             if (!get_phys_addr_lpae(env, &s2ptw, addr, MMU_DATA_LOAD,
-                                     false, &s2, fi)) {
-                 goto fail;
-@@ -1283,7 +1281,11 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
-         descaddr |= (address >> (stride * (4 - level))) & indexmask;
-         descaddr &= ~7ULL;
-         nstable = extract32(tableattrs, 4, 1);
--        ptw->in_secure = !nstable;
-+        if (!nstable) {
-+            /* Stage2_S -> Stage2 or Phys_S -> Phys_NS */
-+            ptw->in_ptw_idx &= ~1;
-+            ptw->in_secure = false;
-+        }
-         descriptor = arm_ldq_ptw(env, ptw, descaddr, fi);
-         if (fi->type != ARMFault_None) {
-             goto do_fault;
-@@ -2470,6 +2472,7 @@ static bool get_phys_addr_twostage(CPUARMState *env, S1Translate *ptw,
- 
-     is_el0 = ptw->in_mmu_idx == ARMMMUIdx_Stage1_E0;
-     ptw->in_mmu_idx = s2walk_secure ? ARMMMUIdx_Stage2_S : ARMMMUIdx_Stage2;
-+    ptw->in_ptw_idx = s2walk_secure ? ARMMMUIdx_Phys_S : ARMMMUIdx_Phys_NS;
-     ptw->in_secure = s2walk_secure;
- 
-     /*
-@@ -2529,10 +2532,32 @@ static bool get_phys_addr_with_struct(CPUARMState *env, S1Translate *ptw,
-                                       ARMMMUFaultInfo *fi)
- {
-     ARMMMUIdx mmu_idx = ptw->in_mmu_idx;
--    ARMMMUIdx s1_mmu_idx = stage_1_mmu_idx(mmu_idx);
-     bool is_secure = ptw->in_secure;
-+    ARMMMUIdx s1_mmu_idx;
- 
--    if (mmu_idx != s1_mmu_idx) {
-+    switch (mmu_idx) {
-+    case ARMMMUIdx_Phys_S:
-+    case ARMMMUIdx_Phys_NS:
-+        /* Checking Phys early avoids special casing later vs regime_el. */
-+        return get_phys_addr_disabled(env, address, access_type, mmu_idx,
-+                                      is_secure, result, fi);
-+
-+    case ARMMMUIdx_Stage1_E0:
-+    case ARMMMUIdx_Stage1_E1:
-+    case ARMMMUIdx_Stage1_E1_PAN:
-+        /* First stage lookup uses second stage for ptw. */
-+        ptw->in_ptw_idx = is_secure ? ARMMMUIdx_Stage2_S : ARMMMUIdx_Stage2;
-+        break;
-+
-+    case ARMMMUIdx_E10_0:
-+        s1_mmu_idx = ARMMMUIdx_Stage1_E0;
-+        goto do_twostage;
-+    case ARMMMUIdx_E10_1:
-+        s1_mmu_idx = ARMMMUIdx_Stage1_E1;
-+        goto do_twostage;
-+    case ARMMMUIdx_E10_1_PAN:
-+        s1_mmu_idx = ARMMMUIdx_Stage1_E1_PAN;
-+    do_twostage:
-         /*
-          * Call ourselves recursively to do the stage 1 and then stage 2
-          * translations if mmu_idx is a two-stage regime, and EL2 present.
-@@ -2543,6 +2568,12 @@ static bool get_phys_addr_with_struct(CPUARMState *env, S1Translate *ptw,
-             return get_phys_addr_twostage(env, ptw, address, access_type,
-                                           result, fi);
-         }
-+        /* fall through */
-+
-+    default:
-+        /* Single stage and second stage uses physical for ptw. */
-+        ptw->in_ptw_idx = is_secure ? ARMMMUIdx_Phys_S : ARMMMUIdx_Phys_NS;
-+        break;
-     }
- 
-     /*
+     return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, XNX) != 0;
 -- 
 2.34.1
 
