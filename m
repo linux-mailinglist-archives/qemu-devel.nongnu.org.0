@@ -2,86 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14AD45FB21C
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 14:09:48 +0200 (CEST)
-Received: from localhost ([::1]:40174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48AD95FB265
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 14:26:45 +0200 (CEST)
+Received: from localhost ([::1]:51940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiE4v-0000uK-3r
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 08:09:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55264)
+	id 1oiELL-0004m4-MV
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 08:26:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oiCmo-0008LJ-EB
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 06:46:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57561)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oiCzj-0005W3-Jd
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 07:00:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oiCml-0000Jy-9S
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 06:46:57 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oiCzg-00033S-T3
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 07:00:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665485214;
+ s=mimecast20190719; t=1665486015;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=7qv2GTUg6QEcdO8tL3iFRveohL/iPQWYr0IAI2CxpHY=;
- b=gTkKTPRrdcAPt8QEFEeG/1MZ2fhydAkCzRXA0+KgRNh402RnLHggUATzLChyQTlBNisZPJ
- A+/gjfoD9BXTkn/UBzUAUxcHkeVJhRSjIiTmUKT+RRUKT82Cta32wPl28zsOeeXcPhn1Wb
- Ljuf6tvMbBS4gQvkEqyNHrvIuTz5k5g=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=v1RLzGM9DCGl8KoTWg3f8sCJHZxHMBl1oKrmzDc1dag=;
+ b=TAUfVY+QDayu1QN7+Bme+VX4HmEma/ZGrgHIu1FSMbZnSPdmx/TpEem8Brbg7r3fgd7o4G
+ UgTMM00ThpjaVbe3NMtGqcWQjtMNZ+zlf2zG3y0WIJDj6uc4oBDZvAeE3IgmgYytK2Xoze
+ xygjM2K5tYLXUaXvR9mZcsh1qo8AMf4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-651-PvBEMok2MmqVg8e-ihHstg-1; Tue, 11 Oct 2022 06:46:53 -0400
-X-MC-Unique: PvBEMok2MmqVg8e-ihHstg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- z16-20020a05640235d000b0045c0360bfcfso4498526edc.14
- for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 03:46:53 -0700 (PDT)
+ us-mta-201-ZQLL99psMyaK6IB1icU8xg-1; Tue, 11 Oct 2022 06:59:55 -0400
+X-MC-Unique: ZQLL99psMyaK6IB1icU8xg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ h4-20020adfa4c4000000b0022ec3966c3aso2734544wrb.6
+ for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 03:59:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=7qv2GTUg6QEcdO8tL3iFRveohL/iPQWYr0IAI2CxpHY=;
- b=TkwZzK6hmgEOHwIFdvitN9O3SEhm79aU3qy4tY97sf6Tdks/Zt37U7GtXK6vgjHZBQ
- gvIoaGEapr30dkdhz3IUT/HtiOiL1v/bCLza5QMeQgmNk+D7FHa6mTurP4mS2G5xXyIz
- luOGqJXvxUz0XglGhZupApFOZJ4zc6Nt3TpLIpKFD3sgCqRj3aDLc868pruXfEjSCfsR
- tZ9Ipij9zoBn1YkrjLS+iWWodpcpg2Lnx9i4s+UmRcD08pt5Cc0bV29uv63QsIPI6IrA
- jpfiJjWi6LDDEXbwx9Ke84DH7B2jC6ppZbjsNz5hhZw0X5+xf7eQu2QrVpMQcobcVEJO
- wnFg==
-X-Gm-Message-State: ACrzQf0JgTxAQGPXR6sB/2a1KLbk0Kcj/32+pw7nrRDaaLAytFwir+SZ
- BXB2YJVbccieSRiOEOAxa5UraAP5PN42QTXQ2HFZSDoPiOVSIHHy8oXn3ZP4ytifWuRxWy8hvUL
- fT7xA/I+PIgER+Qi4kO3r8K11cajPlkxYKTQdTMQNFmHVI49bTd3vkJVmEgoQKZtdTck=
-X-Received: by 2002:a05:6402:2793:b0:45c:21f4:35a3 with SMTP id
- b19-20020a056402279300b0045c21f435a3mr8570408ede.345.1665485212179; 
- Tue, 11 Oct 2022 03:46:52 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5NZm+cRAj4ZoFsM+8zHRWh/xHE6uyPW51KGHi65LUn7YADc52iWZldLYSwBfysy6LcIqnJWQ==
-X-Received: by 2002:a05:6402:2793:b0:45c:21f4:35a3 with SMTP id
- b19-20020a056402279300b0045c21f435a3mr8570385ede.345.1665485211884; 
- Tue, 11 Oct 2022 03:46:51 -0700 (PDT)
-Received: from avogadro.local ([2001:b07:6468:f312:aad8:f393:e009:e014])
- by smtp.gmail.com with ESMTPSA id
- vx12-20020a170907a78c00b00770880dfc4fsm755377ejc.29.2022.10.11.03.46.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Oct 2022 03:46:51 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: eesposit@redhat.com,
-	alex.bennee@linaro.org
-Subject: [PATCH] qgraph: implement stack as a linked list
-Date: Tue, 11 Oct 2022 12:46:49 +0200
-Message-Id: <20221011104649.324963-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.37.3
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=v1RLzGM9DCGl8KoTWg3f8sCJHZxHMBl1oKrmzDc1dag=;
+ b=1Rf4wkCxJzEa/t/eEwZLdArfoVb4Z4b1/lmJUQPVBEfbxljQgD0QaQB//fvs3R8MUI
+ Nvl5OBJUO5CxcvbFE1+Zr7GR4OXSpXNEGRDKvBrA7mADD6q7aGCqUS8I5VL/v1gTPtEU
+ r3QjPD1+QkVCuJtjkswMWvwT9e+urykWzok1Ydywo9/1C6vQ81fEeXiI9pEBuBkdkhp1
+ v4cufzE8JWQUVVFsprEUs+P43FnpKjUvvc0RElRyF9z0cql4ugYITwZsRY6gf1cf3N3k
+ D8F/oPGq5dgZZvTtOLj4k+06Z/YJ3b9/USVP2MM0gnIGqE0MjzCBWScZIQUElZu9Tl3S
+ /LpA==
+X-Gm-Message-State: ACrzQf0FCXjbP9DPdajl0ndX5mmMBbokC4IwmqX33wl7xLSwuTz2+2UD
+ sc62A7O6gk4T7gweKk7VtZHEF2Rzcqns2rHZ770ImLRqS34wcBnAPgWF98IymQjM6K9XBYXxMDw
+ wOKAAtNteec6Ga48=
+X-Received: by 2002:a05:600c:6003:b0:3b5:aef:d8d7 with SMTP id
+ az3-20020a05600c600300b003b50aefd8d7mr15938214wmb.50.1665485990515; 
+ Tue, 11 Oct 2022 03:59:50 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6iPygyh4NRrj/dXyw6+F6x4c+qtlqsqJAm8AMCgwlqJvyBi1fhUCS1TlRhRO3IbSPR5AFUrQ==
+X-Received: by 2002:a05:600c:6003:b0:3b5:aef:d8d7 with SMTP id
+ az3-20020a05600c600300b003b50aefd8d7mr15938197wmb.50.1665485990291; 
+ Tue, 11 Oct 2022 03:59:50 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-176-11.web.vodafone.de.
+ [109.43.176.11]) by smtp.gmail.com with ESMTPSA id
+ n11-20020a05600c3b8b00b003a540fef440sm20478970wms.1.2022.10.11.03.59.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Oct 2022 03:59:49 -0700 (PDT)
+Message-ID: <63cddf91-606d-cdb1-e569-6b450443c62f@redhat.com>
+Date: Tue, 11 Oct 2022 12:59:48 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v5 1/9] tests/x86: add helper qtest_qmp_device_del_send()
+Content-Language: en-US
+To: Michael Labiuk <michael.labiuk@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, den@virtuozzo.com
+References: <20220929223547.1429580-1-michael.labiuk@virtuozzo.com>
+ <20220929223547.1429580-2-michael.labiuk@virtuozzo.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220929223547.1429580-2-michael.labiuk@virtuozzo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-2.934, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,102 +102,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The stack used to visit the graph is implemented as a fixed-size array,
-and the array is sized according to the maximum anticipated length of
-a path on the graph.  However, the worst case for a depth-first search
-is to push all nodes on the graph, and in fact stack overflows have
-been observed in the past depending on the ordering of the constructors.
+On 30/09/2022 00.35, Michael Labiuk via wrote:
+> Move sending 'device_del' command to separate function.
+> Function can be used in case of addition action is needed to start
+> actual removing device after sending command.
+> 
+> Signed-off-by: Michael Labiuk <michael.labiuk@virtuozzo.com>
+> ---
+>   tests/qtest/device-plug-test.c | 15 ++-------------
+>   tests/qtest/drive_del-test.c   |  6 +-----
+>   tests/qtest/libqos/pci-pc.c    |  8 +-------
+>   tests/qtest/libqtest.c         | 16 ++++++++++------
+>   tests/qtest/libqtest.h         | 10 ++++++++++
+>   5 files changed, 24 insertions(+), 31 deletions(-)
+[...]
+> diff --git a/tests/qtest/libqtest.h b/tests/qtest/libqtest.h
+> index 3abc75964d..29ea9c697d 100644
+> --- a/tests/qtest/libqtest.h
+> +++ b/tests/qtest/libqtest.h
+> @@ -761,12 +761,22 @@ void qtest_qmp_device_add(QTestState *qts, const char *driver, const char *id,
+>   void qtest_qmp_add_client(QTestState *qts, const char *protocol, int fd);
+>   #endif /* _WIN32 */
+>   
+> +/**
+> + * qtest_qmp_device_del_send:
+> + * @qts: QTestState instance to operate on
+> + * @id: Identification string
+> + *
+> + * Generic hot-unplugging test via the device_del QMP command.
+> + */
+> +void qtest_qmp_device_del_send(QTestState *qts, const char *id);
+> +
+>   /**
+>    * qtest_qmp_device_del:
+>    * @qts: QTestState instance to operate on
+>    * @id: Identification string
+>    *
+>    * Generic hot-unplugging test via the device_del QMP command.
+> + * Waiting for command comlition event.
 
-To fix the problem once and for all, use a QSLIST instead of the array,
-allocating QOSStackElements from the heap.
+Typo: "comlition" should be "completion", I guess?
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- tests/qtest/libqos/qgraph.c | 35 +++++++++++------------------------
- 1 file changed, 11 insertions(+), 24 deletions(-)
-
-diff --git a/tests/qtest/libqos/qgraph.c b/tests/qtest/libqos/qgraph.c
-index 0a2dddfafa..2433e6ea4b 100644
---- a/tests/qtest/libqos/qgraph.c
-+++ b/tests/qtest/libqos/qgraph.c
-@@ -52,6 +52,7 @@ struct QOSStackElement {
-     QOSStackElement *parent;
-     QOSGraphEdge *parent_edge;
-     int length;
-+    QSLIST_ENTRY(QOSStackElement) next;
- };
- 
- /* Each enty in these hash table will consist of <string, node/edge> pair. */
-@@ -59,8 +60,7 @@ static GHashTable *edge_table;
- static GHashTable *node_table;
- 
- /* stack used by the DFS algorithm to store the path from machine to test */
--static QOSStackElement qos_node_stack[QOS_PATH_MAX_ELEMENT_SIZE];
--static int qos_node_tos;
-+static QSLIST_HEAD(, QOSStackElement) qos_node_stack;
- 
- /**
-  * add_edge(): creates an edge of type @type
-@@ -325,40 +325,27 @@ static void qos_print_cb(QOSGraphNode *path, int length)
- static void qos_push(QOSGraphNode *el, QOSStackElement *parent,
-                      QOSGraphEdge *e)
- {
-+    QOSStackElement *elem = g_new0(QOSStackElement, 1);
-     int len = 0; /* root is not counted */
--    if (qos_node_tos == QOS_PATH_MAX_ELEMENT_SIZE) {
--        g_printerr("QOSStack: full stack, cannot push");
--        abort();
--    }
--
-     if (parent) {
-         len = parent->length + 1;
-     }
--    qos_node_stack[qos_node_tos++] = (QOSStackElement) {
-+    *elem = (QOSStackElement) {
-         .node = el,
-         .parent = parent,
-         .parent_edge = e,
-         .length = len,
-     };
--}
--
--/* qos_tos(): returns the top of stack, without popping */
--static QOSStackElement *qos_tos(void)
--{
--    return &qos_node_stack[qos_node_tos - 1];
-+    QSLIST_INSERT_HEAD(qos_node_stack, elem, next);
- }
- 
- /* qos_pop(): pops an element from the tos, setting it unvisited*/
--static QOSStackElement *qos_pop(void)
-+static void qos_pop(void)
- {
--    if (qos_node_tos == 0) {
--        g_printerr("QOSStack: empty stack, cannot pop");
--        abort();
--    }
--    QOSStackElement *e = qos_tos();
-+    QOSStackElement *e = QSLIST_FIRST(qos_node_stack);
-     e->node->visited = false;
--    qos_node_tos--;
--    return e;
-+    QSLIST_REMOVE_HEAD(qos_node_stack, next);
-+    g_free(e);
- }
- 
- /**
-@@ -400,8 +387,8 @@ static void qos_traverse_graph(QOSGraphNode *root, QOSTestCallback callback)
- 
-     qos_push(root, NULL, NULL);
- 
--    while (qos_node_tos > 0) {
--        s_el = qos_tos();
-+    while (!QSLIST_EMPTY(qos_node_stack)) {
-+        s_el = QSLIST_HEAD(qos_node_stack);
-         v = s_el->node;
-         if (v->visited) {
-             qos_pop();
--- 
-2.37.3
+Apart from that, patch looks fine, so with that fixed:
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
