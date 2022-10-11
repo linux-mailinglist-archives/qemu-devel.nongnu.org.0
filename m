@@ -2,99 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A87A5FB557
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 16:53:41 +0200 (CEST)
-Received: from localhost ([::1]:51584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 560A45FB558
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 16:53:42 +0200 (CEST)
+Received: from localhost ([::1]:51600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiGdX-00051t-Hb
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 10:53:39 -0400
+	id 1oiGdZ-00053F-FE
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 10:53:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10]:41196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oiGYA-0001Ry-FT
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 10:48:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20752)
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1oiGXz-0001Ry-2W
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 10:48:00 -0400
+Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200]:60426)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oiGRZ-0003xH-R6
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 10:41:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665499276;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AzXxEtr1NPxG3KBsTphFD3c+dk0gvBPHG19K0phW0pQ=;
- b=EsSUPXPxXDBJQ253rYYV20U/9zwsFg8q7JTwu955sWeVQix1v/Yligqs4hjJ/55tZhojJl
- x3QXYHT0JENaBlWFjvJxPrkNg6gjR6BBaDCmPjl6xfRQDO/tsMs83UXDkSf4/EY4Z9ieOC
- RSx5DoWXJ7t5ctUVbF+JEhGSgDt2Qs8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-548-jp4GsNTmO92tnzf74k5RRw-1; Tue, 11 Oct 2022 10:41:15 -0400
-X-MC-Unique: jp4GsNTmO92tnzf74k5RRw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- k21-20020a7bc415000000b003b4fac53006so3803008wmi.3
- for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 07:41:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AzXxEtr1NPxG3KBsTphFD3c+dk0gvBPHG19K0phW0pQ=;
- b=j9Ql1WR1cb+6SFosZPaHsJyJWytabAouivTR/wIH2f5kc1bvgQLHi36FNpo8C0tqU0
- Zvr5L+rAWpizDdRej+pJA/UVwc+K0+Yy0Oy6DT2PBlJVzqv1NG4N11oq3urn9GyoyKTU
- UYDtnn4ZUXhm/GRDndO7ea8Pik6fVD99TzR5lkJilNFlL7zQ+IkaLI6yPXKDadLc/W1R
- Qt3IwaLf7L6zaCl5+E7GMDeCISj6Vrb/K9EgOb39LZde+sH0wNF8R6PKPEspjt2rykji
- 82+3vHbHYlskn360PTCQeyblUi1fG3/qvDAmEXmlqSwoB409MMNuSBdTlXO8SdJLXNUd
- vfNg==
-X-Gm-Message-State: ACrzQf3k7waOgthxoibz8EW2A1FYp4mwpXBjpMka07Xs5Ox5DmowusCy
- mCGZe1G3V4k+vl6wu/zKq/z1364TfFuon6U/ZhrvzzA/VRar/3/jc/KNpwDMkE6jx3SF9G9phyS
- jeH+MYA7dezCUClA=
-X-Received: by 2002:a5d:4e4f:0:b0:22e:3e3a:a65d with SMTP id
- r15-20020a5d4e4f000000b0022e3e3aa65dmr15739843wrt.115.1665499274516; 
- Tue, 11 Oct 2022 07:41:14 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7On2nfamtxQXe8qrmgieHRDE02GzC+jv3HLaAAIVQ1WLlbP61GOuCFhLiaCm/N61nasHEXIQ==
-X-Received: by 2002:a5d:4e4f:0:b0:22e:3e3a:a65d with SMTP id
- r15-20020a5d4e4f000000b0022e3e3aa65dmr15739824wrt.115.1665499274309; 
- Tue, 11 Oct 2022 07:41:14 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-176-11.web.vodafone.de.
- [109.43.176.11]) by smtp.gmail.com with ESMTPSA id
- z5-20020a056000110500b0022b11a27e39sm11338325wrw.1.2022.10.11.07.41.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Oct 2022 07:41:13 -0700 (PDT)
-Message-ID: <e80726cc-633d-435c-7a2a-5cae43624282@redhat.com>
-Date: Tue, 11 Oct 2022 16:41:12 +0200
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1oiGVe-0004O6-2j
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 10:45:33 -0400
+Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
+ (sas1-c73b4b4f4b95.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:12a9:0:640:c73b:4b4f])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 8C53460108;
+ Tue, 11 Oct 2022 17:45:18 +0300 (MSK)
+Received: from den-plotnikov-w.yandex-team.ru (unknown [2a02:6b8:b081:9::1:36])
+ by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ zfeAkQMvyu-jGOWvuZ2; Tue, 11 Oct 2022 17:45:17 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Precedence: bulk
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1665499517; bh=ZjCJ/23Vzu7j3qRPx1xJB//ruXY/6YIukAIlC8gf2sY=;
+ h=Message-Id:Date:Cc:Subject:To:From;
+ b=KKzvZIfnrE9OoHMy7uhajeeaZ+6TginnQ0dHgrAAT4G/Uic1emcSvHv0Fv1HXsUzz
+ ssW3/8S9OuSlN0MR7KLA78wjieKiMX+9t4EBA78Ycakwlcr67J0Q9VivWnoISU9lz+
+ SfmVKPEmGRJAdZwyDDV92OWmIwW/KBdIR3LurylU=
+Authentication-Results: sas1-c73b4b4f4b95.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+To: qemu-devel@nongnu.org
+Cc: yc-core@yandex-team.ru, armbru@redhat.com, michael.roth@amd.com,
+ vsementsov@yandex-team.ru, berrange@redhat.com
+Subject: [PATCH v2] qapi/qmp: Add timestamps to qmp command responses
+Date: Tue, 11 Oct 2022 17:45:09 +0300
+Message-Id: <20221011144509.493646-1-den-plotnikov@yandex-team.ru>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-References: <20221006151927.2079583-1-bmeng.cn@gmail.com>
- <20221006151927.2079583-18-bmeng.cn@gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v5 17/18] .gitlab-ci.d/windows.yml: Increase the timeout
- to 90 minutes
-In-Reply-To: <20221006151927.2079583-18-bmeng.cn@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.934, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=178.154.239.200;
+ envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -106,72 +72,272 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/10/2022 17.19, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
-> 
-> commit 9f8e6cad65a6 ("gitlab-ci: Speed up the msys2-64bit job by using --without-default-devices"
-> changed to compile QEMU with the --without-default-devices switch for
-> the msys2-64bit job, due to the build could not complete within the
-> project timeout (1h), and also mentioned that a bigger timeout was
-> getting ignored on the shared Gitlab-CI Windows runners.
-> 
-> However as of today it seems the shared Gitlab-CI Windows runners does
-> honor the job timeout, and the runner has the timeout limit of 2h, so
-> let's increase the timeout to 90 minutes and drop the configure switch
-> "--without-default-devices" to get a larger build coverage.
-> 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> ---
-> 
-> (no changes since v2)
-> 
-> Changes in v2:
-> - Change the timeout limit to 90 minutes
-> 
->   .gitlab-ci.d/windows.yml | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
-> index a3e7a37022..093276ddbc 100644
-> --- a/.gitlab-ci.d/windows.yml
-> +++ b/.gitlab-ci.d/windows.yml
-> @@ -10,7 +10,7 @@
->         - ${CI_PROJECT_DIR}/msys64/var/cache
->     needs: []
->     stage: build
-> -  timeout: 70m
-> +  timeout: 90m
->     before_script:
->     - If ( !(Test-Path -Path msys64\var\cache ) ) {
->         mkdir msys64\var\cache
-> @@ -60,7 +60,7 @@ msys2-64bit:
->     - $env:MSYSTEM = 'MINGW64'     # Start a 64 bit Mingw environment
->     - $env:MSYS = 'winsymlinks:native' # Enable native Windows symlink
->     - .\msys64\usr\bin\bash -lc './configure --target-list=x86_64-softmmu
-> -      --enable-capstone --without-default-devices'
-> +      --enable-capstone'
->     - .\msys64\usr\bin\bash -lc 'make'
->     - .\msys64\usr\bin\bash -lc 'make check || { cat build/meson-logs/testlog.txt; exit 1; } ;'
->   
+Add "start" & "end" time values to qmp command responses.
 
-I just gave your patch set a try in the gitlab-CI, and for me it even did 
-not finish within 90 minutes:
+These time values are added to let the qemu management layer get the exact
+command execution time without any other time variance which might be brought by
+other parts of management layer or qemu internals. This is particulary useful
+for the management layer logging for later problems resolving.
 
-  https://gitlab.com/thuth/qemu/-/jobs/3156107033
+Example of result:
 
-I think we have to do something different if we want to run the qtests in 
-this CI pipeline ... e.g. disable some subsystems? Try if compiling with 
-"-O1" is faster than compiling with "-O2" ? Use a different target-list ? 
-(well, the latter would be a pity since we would lose compile-testing the 
-HAX and WHPX support) ... Sorry, I've got no really good clue here :-/
+    ./qemu/scripts/qmp/qmp-shell /tmp/qmp.socket
 
-Additionally, there was also this error in line 2792:
+    (QEMU) query-status
+    {"end": {"seconds": 1650367305, "microseconds": 831032},
+     "start": {"seconds": 1650367305, "microseconds": 831012},
+     "return": {"status": "running", "singlestep": false, "running": true}}
 
-ERROR:../tests/unit/test-aio.c:501:test_timer_schedule: assertion failed: 
-(aio_poll(ctx, true))
+The responce of the qmp command contains the start & end time of
+the qmp command processing.
 
-Is that something new?
+Suggested-by: Andrey Ryabinin <arbn@yandex-team.ru>
+Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+---
+v0->v1:
+ - remove interface to control "start" and "end" time values: return timestamps unconditionally
+ - add description to qmp specification
+ - leave the same timestamp format in "seconds", "microseconds" to be consistent with events
+   timestamp
+ - fix patch description
 
-  Thomas
+v1->v2:
+ - rephrase doc descriptions [Daniel]
+ - add tests for qmp timestamps to qmp test and qga test [Daniel]
+ - adjust asserts in test-qmp-cmds according to the new number of returning keys
+
+ docs/interop/qmp-spec.txt  | 28 ++++++++++++++++++++++++++--
+ qapi/qmp-dispatch.c        | 18 ++++++++++++++++++
+ tests/qtest/qmp-test.c     | 34 ++++++++++++++++++++++++++++++++++
+ tests/unit/test-qga.c      | 31 +++++++++++++++++++++++++++++++
+ tests/unit/test-qmp-cmds.c |  4 ++--
+ 5 files changed, 111 insertions(+), 4 deletions(-)
+
+diff --git a/docs/interop/qmp-spec.txt b/docs/interop/qmp-spec.txt
+index b0e8351d5b261..2e0b7de0c4dc7 100644
+--- a/docs/interop/qmp-spec.txt
++++ b/docs/interop/qmp-spec.txt
+@@ -158,7 +158,9 @@ responses that have an unknown "id" field.
+ 
+ The format of a success response is:
+ 
+-{ "return": json-value, "id": json-value }
++{ "return": json-value, "id": json-value,
++  "start": {"seconds": json-value, "microseconds": json-value},
++  "end": {"seconds": json-value, "microseconds": json-value} }
+ 
+  Where,
+ 
+@@ -169,13 +171,25 @@ The format of a success response is:
+   command does not return data
+ - The "id" member contains the transaction identification associated
+   with the command execution if issued by the Client
++- The "start" member contains the exact time of when the server
++  started executing the command. This excludes any time the
++  command request spent queued, after reading it off the wire.
++  It is a fixed json-object with time in seconds and microseconds
++  relative to the Unix Epoch (1 Jan 1970)
++- The "end" member contains the exact time of when the server
++  finished executing the command. This excludes any time the
++  command response spent queued, waiting to be sent on the wire.
++  It is a fixed json-object with time in seconds and microseconds
++  relative to the Unix Epoch (1 Jan 1970)
+ 
+ 2.4.2 error
+ -----------
+ 
+ The format of an error response is:
+ 
+-{ "error": { "class": json-string, "desc": json-string }, "id": json-value }
++{ "error": { "class": json-string, "desc": json-string }, "id": json-value
++  "start": {"seconds": json-value, "microseconds": json-value},
++  "end": {"seconds": json-value, "microseconds": json-value} }
+ 
+  Where,
+ 
+@@ -184,6 +198,16 @@ The format of an error response is:
+   not attempt to parse this message.
+ - The "id" member contains the transaction identification associated with
+   the command execution if issued by the Client
++- The "start" member contains the exact time of when the server
++  started executing the command. This excludes any time the
++  command request spent queued, after reading it off the wire.
++  It is a fixed json-object with time in seconds and microseconds
++  relative to the Unix Epoch (1 Jan 1970)
++- The "end" member contains the exact time of when the server
++  finished executing the command. This excludes any time the
++  command response spent queued, waiting to be sent on the wire.
++  It is a fixed json-object with time in seconds and microseconds
++  relative to the Unix Epoch (1 Jan 1970)
+ 
+ NOTE: Some errors can occur before the Server is able to read the "id" member,
+ in these cases the "id" member will not be part of the error response, even
+diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+index 0990873ec8ec1..fce87416f2128 100644
+--- a/qapi/qmp-dispatch.c
++++ b/qapi/qmp-dispatch.c
+@@ -130,6 +130,22 @@ static void do_qmp_dispatch_bh(void *opaque)
+     aio_co_wake(data->co);
+ }
+ 
++static void add_timestamps(QDict *qdict, uint64_t start_ms, uint64_t end_ms)
++{
++    QDict *start_dict, *end_dict;
++
++    start_dict = qdict_new();
++    qdict_put_int(start_dict, "seconds", start_ms / G_USEC_PER_SEC);
++    qdict_put_int(start_dict, "microseconds", start_ms % G_USEC_PER_SEC);
++
++    end_dict = qdict_new();
++    qdict_put_int(end_dict, "seconds", end_ms / G_USEC_PER_SEC);
++    qdict_put_int(end_dict, "microseconds", end_ms % G_USEC_PER_SEC);
++
++    qdict_put_obj(qdict, "start", QOBJECT(start_dict));
++    qdict_put_obj(qdict, "end", QOBJECT(end_dict));
++}
++
+ /*
+  * Runs outside of coroutine context for OOB commands, but in coroutine
+  * context for everything else.
+@@ -146,6 +162,7 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+     QObject *id;
+     QObject *ret = NULL;
+     QDict *rsp = NULL;
++    uint64_t ts_start = g_get_real_time();
+ 
+     dict = qobject_to(QDict, request);
+     if (!dict) {
+@@ -270,5 +287,6 @@ out:
+         qdict_put_obj(rsp, "id", qobject_ref(id));
+     }
+ 
++    add_timestamps(rsp, ts_start, g_get_real_time());
+     return rsp;
+ }
+diff --git a/tests/qtest/qmp-test.c b/tests/qtest/qmp-test.c
+index 22957fa49c228..e0d83eea91ae5 100644
+--- a/tests/qtest/qmp-test.c
++++ b/tests/qtest/qmp-test.c
+@@ -33,6 +33,30 @@ static void test_version(QObject *version)
+     visit_free(v);
+ }
+ 
++static void test_timestamps(QDict *resp)
++{
++    QDict *start, *end;
++    uint64_t start_s, start_us, end_s, end_us, start_ts, end_ts;
++
++    start = qdict_get_qdict(resp, "start");
++    g_assert(start);
++    end = qdict_get_qdict(resp, "end");
++    g_assert(end);
++
++    start_s = qdict_get_try_int(start, "seconds", 0);
++    g_assert(start_s);
++    start_us = qdict_get_try_int(start, "microseconds", 0);
++
++    end_s = qdict_get_try_int(end, "seconds", 0);
++    g_assert(end_s);
++    end_us = qdict_get_try_int(end, "microseconds", 0);
++
++    start_ts = (start_s * G_USEC_PER_SEC) + start_us;
++    end_ts = (end_s * G_USEC_PER_SEC) + end_us;
++
++    g_assert(end_ts > start_ts);
++}
++
+ static void assert_recovered(QTestState *qts)
+ {
+     QDict *resp;
+@@ -156,6 +180,16 @@ static void test_qmp_protocol(void)
+     g_assert_cmpint(qdict_get_int(resp, "id"), ==, 2);
+     qmp_expect_error_and_unref(resp, "GenericError");
+ 
++    /* Test timestamps on success */
++    resp = qtest_qmp(qts, "{ 'execute': 'query-version' }");
++    test_timestamps(resp);
++    qobject_unref(resp);
++
++    /* Test timestamps on error */
++    resp = qtest_qmp(qts, "{ 'execute': 'not-existing-cmd' }");
++    test_timestamps(resp);
++    qobject_unref(resp);
++
+     qtest_quit(qts);
+ }
+ 
+diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
+index b4e0a145737d1..b30a3d1abe55f 100644
+--- a/tests/unit/test-qga.c
++++ b/tests/unit/test-qga.c
+@@ -217,6 +217,36 @@ static void test_qga_ping(gconstpointer fix)
+     qmp_assert_no_error(ret);
+ }
+ 
++static void test_qga_timestamps(gconstpointer fix)
++{
++    QDict *start, *end;
++    uint64_t start_s, start_us, end_s, end_us, start_ts, end_ts;
++    const TestFixture *fixture = fix;
++    g_autoptr(QDict) ret = NULL;
++
++    ret = qmp_fd(fixture->fd, "{'execute': 'guest-ping'}");
++    g_assert_nonnull(ret);
++    qmp_assert_no_error(ret);
++
++    start = qdict_get_qdict(ret, "start");
++    g_assert(start);
++    end = qdict_get_qdict(ret, "end");
++    g_assert(end);
++
++    start_s = qdict_get_try_int(start, "seconds", 0);
++    g_assert(start_s);
++    start_us = qdict_get_try_int(start, "microseconds", 0);
++
++    end_s = qdict_get_try_int(end, "seconds", 0);
++    g_assert(end_s);
++    end_us = qdict_get_try_int(end, "microseconds", 0);
++
++    start_ts = (start_s * G_USEC_PER_SEC) + start_us;
++    end_ts = (end_s * G_USEC_PER_SEC) + end_us;
++
++    g_assert(end_ts > start_ts);
++}
++
+ static void test_qga_id(gconstpointer fix)
+ {
+     const TestFixture *fixture = fix;
+@@ -948,6 +978,7 @@ int main(int argc, char **argv)
+     g_test_add_data_func("/qga/sync-delimited", &fix, test_qga_sync_delimited);
+     g_test_add_data_func("/qga/sync", &fix, test_qga_sync);
+     g_test_add_data_func("/qga/ping", &fix, test_qga_ping);
++    g_test_add_data_func("/qga/timestaps", &fix, test_qga_timestamps);
+     g_test_add_data_func("/qga/info", &fix, test_qga_info);
+     g_test_add_data_func("/qga/network-get-interfaces", &fix,
+                          test_qga_network_get_interfaces);
+diff --git a/tests/unit/test-qmp-cmds.c b/tests/unit/test-qmp-cmds.c
+index 6085c099950b5..54d63bb8e346f 100644
+--- a/tests/unit/test-qmp-cmds.c
++++ b/tests/unit/test-qmp-cmds.c
+@@ -154,7 +154,7 @@ static QObject *do_qmp_dispatch(bool allow_oob, const char *template, ...)
+     g_assert(resp);
+     ret = qdict_get(resp, "return");
+     g_assert(ret);
+-    g_assert(qdict_size(resp) == 1);
++    g_assert(qdict_size(resp) == 3);
+ 
+     qobject_ref(ret);
+     qobject_unref(resp);
+@@ -181,7 +181,7 @@ static void do_qmp_dispatch_error(bool allow_oob, ErrorClass cls,
+                     ==, QapiErrorClass_str(cls));
+     g_assert(qdict_get_try_str(error, "desc"));
+     g_assert(qdict_size(error) == 2);
+-    g_assert(qdict_size(resp) == 1);
++    g_assert(qdict_size(resp) == 3);
+ 
+     qobject_unref(resp);
+     qobject_unref(req);
+-- 
+2.25.1
 
 
