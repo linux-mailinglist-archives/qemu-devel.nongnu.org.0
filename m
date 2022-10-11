@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5AC55FBD28
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 23:44:47 +0200 (CEST)
-Received: from localhost ([::1]:57480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85A8B5FBD35
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 23:54:26 +0200 (CEST)
+Received: from localhost ([::1]:34068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiN3O-000057-1b
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 17:44:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55568)
+	id 1oiNCj-0006bh-Kn
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 17:54:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gourry.memverge@gmail.com>)
- id 1oiMfq-0004Te-D7
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 17:20:31 -0400
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:43794)
+ id 1oiMfx-0004Wd-3N
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 17:20:33 -0400
+Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:35406)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <gourry.memverge@gmail.com>)
- id 1oiMfo-0006SS-SJ
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 17:20:26 -0400
-Received: by mail-qk1-x741.google.com with SMTP id o2so2162993qkk.10
- for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 14:20:24 -0700 (PDT)
+ id 1oiMfv-0006TL-35
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 17:20:32 -0400
+Received: by mail-qk1-x744.google.com with SMTP id t25so2288896qkm.2
+ for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 14:20:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2ozVAThgn2oeccWPcE+jwIIHUv3uIclTtkDlamqTwwk=;
- b=k4fm6dEkcYzgX5Q7VPbkNgie4EmRxxWgLPHRI3Nax8PSmgCd7AbMlPrjI3hyajdpsD
- OLh9ezcYAu/z46FVdEr3qpsCfGnR5uASxk3kWBknjPlz9ChU1BKL/3GBfH7a/S2T5HUE
- ZT3CVG+ctHA27V3xOsWC2jtopjCdiW7VKk3vlGh1/ZdZxnBWfkySpHYKndA0anhZDaLr
- TzgelghthKQk2+vTvYjHcRKCcMUyHO91rMycqIlPojbBNyxdyBSVQYMHkNSeBi9a99He
- m9xREuRmkubmc/iijzY2yvkOBPDGnEYfvQ73y4tWCpjyK9hnd9PbUTApFV22FYFfXzvZ
- Hzfg==
+ bh=FEsY8vod6zC9rVPrYYS0T9zyb/vlYbm5XlYZdRBYkDo=;
+ b=h0iddW6AEYNxaJP5LAfQrgN08/tnQWYtABmOjtfpnF/jimzdVYK/kKQl4M8HsGt7U8
+ TOLw164ivuxr7ComAtxciN9B6+om1pJ+ZghvxngYfgDPcQlyhyBALc7GwNKeYZgSAIOM
+ 7ZFN5QuJSDB3XTAebZC5NMZXrWhf5qF6qUcng+MylSEet8/Q7eLv5SxVIg8FWmv55DV8
+ UDr0zo0wK5jPeWpMyDLqS5Bv5n0rv40VFW+nw7Ga5uaybog8nSWVcVYzDDvgERzw+WLJ
+ OF6SqNdkBWuxjjej8Pe0HSXEcM2d+Y9Uuk0WBid8+UHlgrOascuf2uaCXuc/au7mRBEt
+ NE+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2ozVAThgn2oeccWPcE+jwIIHUv3uIclTtkDlamqTwwk=;
- b=KeQSutlIq5US2ZggSUty0uCIT0kHl9icUvh8R/WEPSWbaxRQNmcUeowO6pi6oxm3L3
- QUlc/IqXF0FGXUVXCluWNN+levfDjwxhxKdgsLppauw4T2Gc0QPxBGUGzbgP8h1aSark
- CHTHSLInP+zVThoZt7Xrj2Hzl8wi2iUUnbfru7YTAB4uqKX51q1kwcY1GmDblF0Me381
- RpWBt97X2Vdt1FSMl3LQse1kKjp1qqmJL4PoI66zBh4jLEihsIvNLxwcOmZfdX0DDkQc
- IRVtNVVst6uVqCGYjKOTvSe+W4eJe0m73dZF30WeSGgsNtqfdR37o/2KjA4qdrag2zES
- RHng==
-X-Gm-Message-State: ACrzQf0hDa0qiKmU8loqtDOAEFbY5aANmK7VYGyri9o3IbugvzcY2hBL
- W0zh3ujgr+W2YHNJkbR+rA==
-X-Google-Smtp-Source: AMsMyM7kFZvP7defG2iJkjuNTo0HSF3VoSHFoaf7ehStKnxdYQZUqMA9fVaJJS+cPNwjYDO4WLwAiw==
-X-Received: by 2002:a05:620a:22c3:b0:6ec:53bb:d296 with SMTP id
- o3-20020a05620a22c300b006ec53bbd296mr10773609qki.158.1665523223758; 
- Tue, 11 Oct 2022 14:20:23 -0700 (PDT)
+ bh=FEsY8vod6zC9rVPrYYS0T9zyb/vlYbm5XlYZdRBYkDo=;
+ b=cyDCRLXZGrwqj6wby8V7B56Rz2QmJLPr3v37muyApS+gG3aPteSVMK2kplSSBi0d6v
+ JnncpKFkykmFUZ5H6vEnb4N+eW96IbSEkJfKhF9S39wD2FyR/wGsOcoHUbHrrqyuFSeU
+ dRA9yRY8x3dFpO4vpt/TIojhTfpqkQHvfGcCgIlLA1S3sNJMpFTo/Wy6Dfb2foGBpE++
+ uXmtAKWALNExx8u1pWyZRZJjRlloE6uM7FvZNIRfprJDPzkDYlq4pItiFpS13FV6KL5a
+ 22vhuIsn/TuRi7fLBaV2VPQaIAFNDPRcJFDUnmauQSPkfTv7l36h/82yUiNuUbchoer5
+ Gprg==
+X-Gm-Message-State: ACrzQf0dgyQZWFz7fn0j7BDLKwiPhfKP+DUvQYRqO2yOS01DqqwKJZjz
+ Ma0/J0SaR6ig0gwflxjzyQ==
+X-Google-Smtp-Source: AMsMyM4GJTv0qKRb4+WrRd4T4Ry+IBGN2HKAGGqClGeeFPX1ffh50YZBkJC7ACLFRb3/qQUABmtFkw==
+X-Received: by 2002:a05:620a:e:b0:6ee:86e5:66f8 with SMTP id
+ j14-20020a05620a000e00b006ee86e566f8mr2895888qki.163.1665523229084; 
+ Tue, 11 Oct 2022 14:20:29 -0700 (PDT)
 Received: from fedora.mshome.net (pool-173-79-56-208.washdc.fios.verizon.net.
  [173.79.56.208]) by smtp.gmail.com with ESMTPSA id
- y21-20020a05620a44d500b006b8f4ade2c9sm14493164qkp.19.2022.10.11.14.20.23
+ y21-20020a05620a44d500b006b8f4ade2c9sm14493164qkp.19.2022.10.11.14.20.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Oct 2022 14:20:23 -0700 (PDT)
+ Tue, 11 Oct 2022 14:20:28 -0700 (PDT)
 From: Gregory Price <gourry.memverge@gmail.com>
 X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
 To: jonathan.cameron@huawei.com
 Cc: qemu-devel@nongnu.org, linux-cxl@vger.kernel.org,
  alison.schofield@intel.com, dave@stgolabs.net, a.manzanares@samsung.com,
  bwidawsk@kernel.org, gregory.price@memverge.com, mst@redhat.com,
- hchkuo@avery-design.com.tw, cbrowy@avery-design.com, ira.weiny@intel.com,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [PATCH 1/5] hw/cxl: set cxl-type3 device type to PCI_CLASS_MEMORY_CXL
-Date: Tue, 11 Oct 2022 17:19:12 -0400
-Message-Id: <20221011211916.117552-2-gregory.price@memverge.com>
+ hchkuo@avery-design.com.tw, cbrowy@avery-design.com, ira.weiny@intel.com
+Subject: [PATCH 3/5] hw/mem/cxl_type: Generalize CDATDsmas initialization for
+ Memory Regions
+Date: Tue, 11 Oct 2022 17:19:14 -0400
+Message-Id: <20221011211916.117552-4-gregory.price@memverge.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221011211916.117552-1-gregory.price@memverge.com>
 References: <20221007152156.24883-1-Jonathan.Cameron@huawei.com>
  <20221011211916.117552-1-gregory.price@memverge.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::741;
- envelope-from=gourry.memverge@gmail.com; helo=mail-qk1-x741.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::744;
+ envelope-from=gourry.memverge@gmail.com; helo=mail-qk1-x744.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,36 +96,320 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Current code sets to STORAGE_EXPRESS and then overrides it.
+This is a preparatory commit for enabling multiple memory regions within
+a single CXL Type-3 device.  We will need to initialize multiple CDAT
+DSMAS regions (and subsequent DSLBIS, and DSEMTS entries), so generalize
+the intialization into a function.
 
 Signed-off-by: Gregory Price <gregory.price@memverge.com>
-Reviewed-by: Davidlohr Bueso <dave@stgolabs.net>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- hw/mem/cxl_type3.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/mem/cxl_type3.c | 275 +++++++++++++++++++++++++--------------------
+ 1 file changed, 154 insertions(+), 121 deletions(-)
 
 diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index 3e7ca7a455..282f274266 100644
+index 282f274266..dda78704c2 100644
 --- a/hw/mem/cxl_type3.c
 +++ b/hw/mem/cxl_type3.c
-@@ -535,7 +535,6 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+@@ -24,145 +24,178 @@
+ #define UI64_NULL ~(0ULL)
+ #define DWORD_BYTE 4
+ 
++static int ct3_build_dsmas(CDATDsmas *dsmas,
++                           CDATDslbis *dslbis,
++                           CDATDsemts *dsemts,
++                           MemoryRegion *mr,
++                           int dsmad_handle,
++                           bool is_pmem,
++                           uint64_t dpa_base)
++{
++    int len = 0;
++    /* ttl_len should be incremented for every entry */
++
++    /* Device Scoped Memory Affinity Structure */
++    *dsmas = (CDATDsmas) {
++        .header = {
++            .type = CDAT_TYPE_DSMAS,
++            .length = sizeof(*dsmas),
++        },
++        .DSMADhandle = dsmad_handle,
++        .flags = (is_pmem ? CDAT_DSMAS_FLAG_NV : 0),
++        .DPA_base = dpa_base,
++        .DPA_length = int128_get64(mr->size),
++    };
++    len++;
++
++    /* For now, no memory side cache, plausiblish numbers */
++    dslbis[0] = (CDATDslbis) {
++        .header = {
++            .type = CDAT_TYPE_DSLBIS,
++            .length = sizeof(*dslbis),
++        },
++        .handle = dsmad_handle,
++        .flags = HMAT_LB_MEM_MEMORY,
++        .data_type = HMAT_LB_DATA_READ_LATENCY,
++        .entry_base_unit = 10000, /* 10ns base */
++        .entry[0] = 15, /* 150ns */
++    };
++    len++;
++
++    dslbis[1] = (CDATDslbis) {
++        .header = {
++            .type = CDAT_TYPE_DSLBIS,
++            .length = sizeof(*dslbis),
++        },
++        .handle = dsmad_handle,
++        .flags = HMAT_LB_MEM_MEMORY,
++        .data_type = HMAT_LB_DATA_WRITE_LATENCY,
++        .entry_base_unit = 10000,
++        .entry[0] = 25, /* 250ns */
++    };
++    len++;
++
++    dslbis[2] = (CDATDslbis) {
++        .header = {
++            .type = CDAT_TYPE_DSLBIS,
++            .length = sizeof(*dslbis),
++            },
++        .handle = dsmad_handle,
++        .flags = HMAT_LB_MEM_MEMORY,
++        .data_type = HMAT_LB_DATA_READ_BANDWIDTH,
++        .entry_base_unit = 1000, /* GB/s */
++        .entry[0] = 16,
++    };
++    len++;
++
++    dslbis[3] = (CDATDslbis) {
++        .header = {
++            .type = CDAT_TYPE_DSLBIS,
++            .length = sizeof(*dslbis),
++        },
++        .handle = dsmad_handle,
++        .flags = HMAT_LB_MEM_MEMORY,
++        .data_type = HMAT_LB_DATA_WRITE_BANDWIDTH,
++        .entry_base_unit = 1000, /* GB/s */
++        .entry[0] = 16,
++    };
++    len++;
++
++    *dsemts = (CDATDsemts) {
++        .header = {
++            .type = CDAT_TYPE_DSEMTS,
++            .length = sizeof(*dsemts),
++        },
++        .DSMAS_handle = dsmad_handle,
++        /* EFI_MEMORY_NV implies EfiReservedMemoryType */
++        .EFI_memory_type_attr = is_pmem ? 2 : 0,
++        /* Reserved - the non volatile from DSMAS matters */
++        .DPA_offset = 0,
++        .DPA_length = int128_get64(mr->size),
++    };
++    len++;
++    return len;
++}
++
+ static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
+                                 void *priv)
+ {
+-    g_autofree CDATDsmas *dsmas_nonvolatile = NULL;
+-    g_autofree CDATDslbis *dslbis_nonvolatile = NULL;
+-    g_autofree CDATDsemts *dsemts_nonvolatile = NULL;
++    g_autofree CDATDsmas *dsmas = NULL;
++    g_autofree CDATDslbis *dslbis = NULL;
++    g_autofree CDATDsemts *dsemts = NULL;
+     CXLType3Dev *ct3d = priv;
+-    int len = 0;
+-    int i = 0;
+-    int next_dsmad_handle = 0;
+-    int nonvolatile_dsmad = -1;
+-    int dslbis_nonvolatile_num = 4;
++    int cdat_len = 0;
++    int cdat_idx = 0, sub_idx = 0;
++    int dsmas_num, dslbis_num, dsemts_num;
++    int dsmad_handle = 0;
++    uint64_t dpa_base = 0;
+     MemoryRegion *mr;
+ 
+-    /* Non volatile aspects */
+-    if (ct3d->hostmem) {
+-        dsmas_nonvolatile = g_malloc(sizeof(*dsmas_nonvolatile));
+-        if (!dsmas_nonvolatile) {
+-            return -ENOMEM;
+-        }
+-        nonvolatile_dsmad = next_dsmad_handle++;
+-        mr = host_memory_backend_get_memory(ct3d->hostmem);
+-        if (!mr) {
+-            return -EINVAL;
+-        }
+-        *dsmas_nonvolatile = (CDATDsmas) {
+-            .header = {
+-                .type = CDAT_TYPE_DSMAS,
+-                .length = sizeof(*dsmas_nonvolatile),
+-            },
+-            .DSMADhandle = nonvolatile_dsmad,
+-            .flags = CDAT_DSMAS_FLAG_NV,
+-            .DPA_base = 0,
+-            .DPA_length = int128_get64(mr->size),
+-        };
+-        len++;
+-
+-        /* For now, no memory side cache, plausiblish numbers */
+-        dslbis_nonvolatile = g_malloc(sizeof(*dslbis_nonvolatile) * dslbis_nonvolatile_num);
+-        if (!dslbis_nonvolatile)
+-            return -ENOMEM;
+-
+-        dslbis_nonvolatile[0] = (CDATDslbis) {
+-            .header = {
+-                .type = CDAT_TYPE_DSLBIS,
+-                .length = sizeof(*dslbis_nonvolatile),
+-            },
+-            .handle = nonvolatile_dsmad,
+-            .flags = HMAT_LB_MEM_MEMORY,
+-            .data_type = HMAT_LB_DATA_READ_LATENCY,
+-            .entry_base_unit = 10000, /* 10ns base */
+-            .entry[0] = 15, /* 150ns */
+-        };
+-        len++;
+-
+-        dslbis_nonvolatile[1] = (CDATDslbis) {
+-            .header = {
+-                .type = CDAT_TYPE_DSLBIS,
+-                .length = sizeof(*dslbis_nonvolatile),
+-            },
+-            .handle = nonvolatile_dsmad,
+-            .flags = HMAT_LB_MEM_MEMORY,
+-            .data_type = HMAT_LB_DATA_WRITE_LATENCY,
+-            .entry_base_unit = 10000,
+-            .entry[0] = 25, /* 250ns */
+-        };
+-        len++;
+-       
+-        dslbis_nonvolatile[2] = (CDATDslbis) {
+-            .header = {
+-                .type = CDAT_TYPE_DSLBIS,
+-                .length = sizeof(*dslbis_nonvolatile),
+-            },
+-            .handle = nonvolatile_dsmad,
+-            .flags = HMAT_LB_MEM_MEMORY,
+-            .data_type = HMAT_LB_DATA_READ_BANDWIDTH,
+-            .entry_base_unit = 1000, /* GB/s */
+-            .entry[0] = 16,
+-        };
+-        len++;
+-
+-        dslbis_nonvolatile[3] = (CDATDslbis) {
+-            .header = {
+-                .type = CDAT_TYPE_DSLBIS,
+-                .length = sizeof(*dslbis_nonvolatile),
+-            },
+-            .handle = nonvolatile_dsmad,
+-            .flags = HMAT_LB_MEM_MEMORY,
+-            .data_type = HMAT_LB_DATA_WRITE_BANDWIDTH,
+-            .entry_base_unit = 1000, /* GB/s */
+-            .entry[0] = 16,
+-        };
+-        len++;
+-
+-        mr = host_memory_backend_get_memory(ct3d->hostmem);
+-        if (!mr) {
+-            return -EINVAL;
+-        }
+-        dsemts_nonvolatile = g_malloc(sizeof(*dsemts_nonvolatile));
+-        *dsemts_nonvolatile = (CDATDsemts) {
+-            .header = {
+-                .type = CDAT_TYPE_DSEMTS,
+-                .length = sizeof(*dsemts_nonvolatile),
+-            },
+-            .DSMAS_handle = nonvolatile_dsmad,
+-            .EFI_memory_type_attr = 2, /* Reserved - the non volatile from DSMAS matters */
+-            .DPA_offset = 0,
+-            .DPA_length = int128_get64(mr->size),
+-        };
+-        len++;
++    if (!ct3d->hostmem | !host_memory_backend_get_memory(ct3d->hostmem)) {
++        return -EINVAL;
++    }
++
++    dsmas_num = 1;
++    dslbis_num = 4 * dsmas_num;
++    dsemts_num = dsmas_num;
++
++    dsmas = g_malloc(sizeof(*dsmas) * dsmas_num);
++    dslbis = g_malloc(sizeof(*dslbis) * dslbis_num);
++    dsemts = g_malloc(sizeof(*dsemts) * dsemts_num);
++
++    if (!dsmas || !dslbis || !dsemts) {
++        return -ENOMEM;
++    }
++
++    mr = host_memory_backend_get_memory(ct3d->hostmem);
++    cdat_len += ct3_build_dsmas(&dsmas[dsmad_handle],
++                                &dslbis[4 * dsmad_handle],
++                                &dsemts[dsmad_handle],
++                                mr,
++                                dsmad_handle,
++                                false,
++                                dpa_base);
++    dpa_base += mr->size;
++    dsmad_handle++;
++
++    /* Allocate and fill in the CDAT table */
++    *cdat_table = g_malloc0(cdat_len * sizeof(*cdat_table));
++    if (!*cdat_table) {
++        return -ENOMEM;
      }
  
-     pci_config_set_prog_interface(pci_conf, 0x10);
--    pci_config_set_class(pci_conf, PCI_CLASS_MEMORY_CXL);
+-    *cdat_table = g_malloc0(len * sizeof(*cdat_table));
+     /* Header always at start of structure */
+-    if (dsmas_nonvolatile) {
+-        (*cdat_table)[i++] = g_steal_pointer(&dsmas_nonvolatile);
++    CDATDsmas *dsmas_ent = g_steal_pointer(&dsmas);
++    for (sub_idx = 0; sub_idx < dsmas_num; sub_idx++) {
++        (*cdat_table)[cdat_idx++] = (CDATSubHeader*)&dsmas_ent[sub_idx];
+     }
+-    if (dslbis_nonvolatile) {
+-        CDATDslbis *dslbis = g_steal_pointer(&dslbis_nonvolatile);        
+-        int j;
  
-     pcie_endpoint_cap_init(pci_dev, 0x80);
-     if (ct3d->sn != UI64_NULL) {
-@@ -763,7 +762,7 @@ static void ct3_class_init(ObjectClass *oc, void *data)
-     pc->config_read = ct3d_config_read;
-     pc->realize = ct3_realize;
-     pc->exit = ct3_exit;
--    pc->class_id = PCI_CLASS_STORAGE_EXPRESS;
-+    pc->class_id = PCI_CLASS_MEMORY_CXL;
-     pc->vendor_id = PCI_VENDOR_ID_INTEL;
-     pc->device_id = 0xd93; /* LVF for now */
-     pc->revision = 1;
+-        for (j = 0; j < dslbis_nonvolatile_num; j++) {
+-            (*cdat_table)[i++] = (CDATSubHeader *)&dslbis[j];
+-        }
++    CDATDslbis *dslbis_ent = g_steal_pointer(&dslbis);
++    for (sub_idx = 0; sub_idx < dslbis_num; sub_idx++) {
++        (*cdat_table)[cdat_idx++] = (CDATSubHeader*)&dslbis_ent[sub_idx];
+     }
+-    if (dsemts_nonvolatile) {
+-        (*cdat_table)[i++] = g_steal_pointer(&dsemts_nonvolatile);
++
++    CDATDsemts *dsemts_ent = g_steal_pointer(&dsemts);
++    for (sub_idx = 0; sub_idx < dsemts_num; sub_idx++) {
++        (*cdat_table)[cdat_idx++] = (CDATSubHeader*)&dsemts_ent[sub_idx];
+     }
+-    
+-    return len;
++
++    return cdat_len;
+ }
+ 
+ static void ct3_free_cdat_table(CDATSubHeader **cdat_table, int num, void *priv)
+ {
+-    int i;
++    int dsmas_num = 1;
++    int dslbis_idx = dsmas_num;
++    int dsemts_idx = dsmas_num + (dsmas_num * 4);
++
++    /* There are only 3 sub-tables to free: dsmas, dslbis, dsemts */
++    assert(num == (dsmas_num + (dsmas_num * 4) + (dsmas_num)));
++
++    g_free(cdat_table[0]);
++    g_free(cdat_table[dslbis_idx]);
++    g_free(cdat_table[dsemts_idx]);
+ 
+-    for (i = 0; i < num; i++) {
+-        g_free(cdat_table[i]);
+-    }
+     g_free(cdat_table);
+ }
+ 
 -- 
 2.37.3
 
