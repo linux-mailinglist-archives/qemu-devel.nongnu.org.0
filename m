@@ -2,84 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85A8B5FBD35
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 23:54:26 +0200 (CEST)
-Received: from localhost ([::1]:34068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 062335FBD46
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 23:59:24 +0200 (CEST)
+Received: from localhost ([::1]:50578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiNCj-0006bh-Kn
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 17:54:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55572)
+	id 1oiNHW-0007IP-Ie
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 17:59:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gourry.memverge@gmail.com>)
- id 1oiMfx-0004Wd-3N
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 17:20:33 -0400
-Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:35406)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <gourry.memverge@gmail.com>)
- id 1oiMfv-0006TL-35
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 17:20:32 -0400
-Received: by mail-qk1-x744.google.com with SMTP id t25so2288896qkm.2
- for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 14:20:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FEsY8vod6zC9rVPrYYS0T9zyb/vlYbm5XlYZdRBYkDo=;
- b=h0iddW6AEYNxaJP5LAfQrgN08/tnQWYtABmOjtfpnF/jimzdVYK/kKQl4M8HsGt7U8
- TOLw164ivuxr7ComAtxciN9B6+om1pJ+ZghvxngYfgDPcQlyhyBALc7GwNKeYZgSAIOM
- 7ZFN5QuJSDB3XTAebZC5NMZXrWhf5qF6qUcng+MylSEet8/Q7eLv5SxVIg8FWmv55DV8
- UDr0zo0wK5jPeWpMyDLqS5Bv5n0rv40VFW+nw7Ga5uaybog8nSWVcVYzDDvgERzw+WLJ
- OF6SqNdkBWuxjjej8Pe0HSXEcM2d+Y9Uuk0WBid8+UHlgrOascuf2uaCXuc/au7mRBEt
- NE+w==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oiNER-0001a7-Kg
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 17:56:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30345)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oiNEL-0003UP-EZ
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 17:56:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665525364;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f8P8rC6b0KNfCTgsUdutxidXaOSDJ5QtY1XIgKgEULM=;
+ b=YZB8eUxnL3h3saxv9QepFgZ3MX4EPd8g5RV5UWstMRk9EQ/4mP1L0wFpTi/O0TSlp2rljr
+ yxykt2dfuFPQUaZ2+Ed1iezBAQaN6mFCwmr1tcGBBefMhzZIs2mI7yr/T4I+HsfVN2fGu+
+ mCr03Ng+R+RiIK9eiTA86xUhXZpZHl0=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-491-yZTFJIuzNou2lc8Yhl0VbA-1; Tue, 11 Oct 2022 17:56:03 -0400
+X-MC-Unique: yZTFJIuzNou2lc8Yhl0VbA-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ fz10-20020a05622a5a8a00b0035ce18717daso9962542qtb.11
+ for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 14:56:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=FEsY8vod6zC9rVPrYYS0T9zyb/vlYbm5XlYZdRBYkDo=;
- b=cyDCRLXZGrwqj6wby8V7B56Rz2QmJLPr3v37muyApS+gG3aPteSVMK2kplSSBi0d6v
- JnncpKFkykmFUZ5H6vEnb4N+eW96IbSEkJfKhF9S39wD2FyR/wGsOcoHUbHrrqyuFSeU
- dRA9yRY8x3dFpO4vpt/TIojhTfpqkQHvfGcCgIlLA1S3sNJMpFTo/Wy6Dfb2foGBpE++
- uXmtAKWALNExx8u1pWyZRZJjRlloE6uM7FvZNIRfprJDPzkDYlq4pItiFpS13FV6KL5a
- 22vhuIsn/TuRi7fLBaV2VPQaIAFNDPRcJFDUnmauQSPkfTv7l36h/82yUiNuUbchoer5
- Gprg==
-X-Gm-Message-State: ACrzQf0dgyQZWFz7fn0j7BDLKwiPhfKP+DUvQYRqO2yOS01DqqwKJZjz
- Ma0/J0SaR6ig0gwflxjzyQ==
-X-Google-Smtp-Source: AMsMyM4GJTv0qKRb4+WrRd4T4Ry+IBGN2HKAGGqClGeeFPX1ffh50YZBkJC7ACLFRb3/qQUABmtFkw==
-X-Received: by 2002:a05:620a:e:b0:6ee:86e5:66f8 with SMTP id
- j14-20020a05620a000e00b006ee86e566f8mr2895888qki.163.1665523229084; 
- Tue, 11 Oct 2022 14:20:29 -0700 (PDT)
-Received: from fedora.mshome.net (pool-173-79-56-208.washdc.fios.verizon.net.
- [173.79.56.208]) by smtp.gmail.com with ESMTPSA id
- y21-20020a05620a44d500b006b8f4ade2c9sm14493164qkp.19.2022.10.11.14.20.28
+ bh=f8P8rC6b0KNfCTgsUdutxidXaOSDJ5QtY1XIgKgEULM=;
+ b=AxHcRD52/pNqkv5wF1umEBQeXWi10rlSlrPwIwKlPTeNMdHeODOQTeVQRTwjovFeRW
+ DVX7qQRST/wpYvMV6Q86XNTr5gsXYRcRVLgzujRPdo0oMIBamzaWR3zXkV2ZyOZ+4YL9
+ D/evhOdAVklQRiZ+RWwfI0fjAr3bHOA90eikO6Jhy98Hhl17NgXBvkLD0U3pPNa88EZW
+ m6Q2A84o/xqDZqBGxf3F2x3a5mEjgQUYrKUx8p89cu9Rtng2ie3V1CpghqMf8CMkDtvk
+ 7lXx1jUhGDFIyRl6qFYVm4mUVNQe2xAs18mKYRIShu/nu3DDYMzj/x1IkLLmXgsnUBFy
+ kmqg==
+X-Gm-Message-State: ACrzQf1pqUuCTNiX3ZaDyBIR2XRLmlHAqLkAr91iYwgGLy8SwmdUgjIG
+ 37OlEcQbFVwxqhkVQsX4aFpzUcbqnsDbzAULqxiB+pEZdmAcEkkkZ/KFr1qDEYBqRCdXK3fLO9G
+ t+9cd4gVhlVyLSk1rHiZuF8yzWQjjPBCQ5uugjyUXi3dwENOx+JvHctXUufIQ2PvQ
+X-Received: by 2002:ac8:7d13:0:b0:35c:e54e:9c8 with SMTP id
+ g19-20020ac87d13000000b0035ce54e09c8mr20944707qtb.320.1665525363015; 
+ Tue, 11 Oct 2022 14:56:03 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5bneUi2UtgLyVELKcfQwLK1Ca6lcAPsgBvHOI1W/RY+2D2E1KTPs3fsU66ACLUatJYzx3l9Q==
+X-Received: by 2002:ac8:7d13:0:b0:35c:e54e:9c8 with SMTP id
+ g19-20020ac87d13000000b0035ce54e09c8mr20944691qtb.320.1665525362766; 
+ Tue, 11 Oct 2022 14:56:02 -0700 (PDT)
+Received: from x1n.redhat.com
+ (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca. [70.31.27.79])
+ by smtp.gmail.com with ESMTPSA id
+ u10-20020a05620a430a00b006ce7cd81359sm13863230qko.110.2022.10.11.14.56.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Oct 2022 14:20:28 -0700 (PDT)
-From: Gregory Price <gourry.memverge@gmail.com>
-X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
-To: jonathan.cameron@huawei.com
-Cc: qemu-devel@nongnu.org, linux-cxl@vger.kernel.org,
- alison.schofield@intel.com, dave@stgolabs.net, a.manzanares@samsung.com,
- bwidawsk@kernel.org, gregory.price@memverge.com, mst@redhat.com,
- hchkuo@avery-design.com.tw, cbrowy@avery-design.com, ira.weiny@intel.com
-Subject: [PATCH 3/5] hw/mem/cxl_type: Generalize CDATDsmas initialization for
- Memory Regions
-Date: Tue, 11 Oct 2022 17:19:14 -0400
-Message-Id: <20221011211916.117552-4-gregory.price@memverge.com>
+ Tue, 11 Oct 2022 14:56:02 -0700 (PDT)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, ani@anisinha.ca,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Manish Mishra <manish.mishra@nutanix.com>
+Subject: [PATCH v2 01/15] migration: Take bitmap mutex when completing ram
+ migration
+Date: Tue, 11 Oct 2022 17:55:45 -0400
+Message-Id: <20221011215559.602584-2-peterx@redhat.com>
 X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221011211916.117552-1-gregory.price@memverge.com>
-References: <20221007152156.24883-1-Jonathan.Cameron@huawei.com>
- <20221011211916.117552-1-gregory.price@memverge.com>
+In-Reply-To: <20221011215559.602584-1-peterx@redhat.com>
+References: <20221011215559.602584-1-peterx@redhat.com>
 MIME-Version: 1.0
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::744;
- envelope-from=gourry.memverge@gmail.com; helo=mail-qk1-x744.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,320 +104,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a preparatory commit for enabling multiple memory regions within
-a single CXL Type-3 device.  We will need to initialize multiple CDAT
-DSMAS regions (and subsequent DSLBIS, and DSEMTS entries), so generalize
-the intialization into a function.
+Any call to ram_find_and_save_block() needs to take the bitmap mutex.  We
+used to not take it for most of ram_save_complete() because we thought
+we're the only one left using the bitmap, but it's not true after the
+preempt full patchset applied, since the return path can be taking it too.
 
-Signed-off-by: Gregory Price <gregory.price@memverge.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- hw/mem/cxl_type3.c | 275 +++++++++++++++++++++++++--------------------
- 1 file changed, 154 insertions(+), 121 deletions(-)
+ migration/ram.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index 282f274266..dda78704c2 100644
---- a/hw/mem/cxl_type3.c
-+++ b/hw/mem/cxl_type3.c
-@@ -24,145 +24,178 @@
- #define UI64_NULL ~(0ULL)
- #define DWORD_BYTE 4
+diff --git a/migration/ram.c b/migration/ram.c
+index 1338e47665..cfeb571800 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -3406,6 +3406,7 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
+         /* try transferring iterative blocks of memory */
  
-+static int ct3_build_dsmas(CDATDsmas *dsmas,
-+                           CDATDslbis *dslbis,
-+                           CDATDsemts *dsemts,
-+                           MemoryRegion *mr,
-+                           int dsmad_handle,
-+                           bool is_pmem,
-+                           uint64_t dpa_base)
-+{
-+    int len = 0;
-+    /* ttl_len should be incremented for every entry */
-+
-+    /* Device Scoped Memory Affinity Structure */
-+    *dsmas = (CDATDsmas) {
-+        .header = {
-+            .type = CDAT_TYPE_DSMAS,
-+            .length = sizeof(*dsmas),
-+        },
-+        .DSMADhandle = dsmad_handle,
-+        .flags = (is_pmem ? CDAT_DSMAS_FLAG_NV : 0),
-+        .DPA_base = dpa_base,
-+        .DPA_length = int128_get64(mr->size),
-+    };
-+    len++;
-+
-+    /* For now, no memory side cache, plausiblish numbers */
-+    dslbis[0] = (CDATDslbis) {
-+        .header = {
-+            .type = CDAT_TYPE_DSLBIS,
-+            .length = sizeof(*dslbis),
-+        },
-+        .handle = dsmad_handle,
-+        .flags = HMAT_LB_MEM_MEMORY,
-+        .data_type = HMAT_LB_DATA_READ_LATENCY,
-+        .entry_base_unit = 10000, /* 10ns base */
-+        .entry[0] = 15, /* 150ns */
-+    };
-+    len++;
-+
-+    dslbis[1] = (CDATDslbis) {
-+        .header = {
-+            .type = CDAT_TYPE_DSLBIS,
-+            .length = sizeof(*dslbis),
-+        },
-+        .handle = dsmad_handle,
-+        .flags = HMAT_LB_MEM_MEMORY,
-+        .data_type = HMAT_LB_DATA_WRITE_LATENCY,
-+        .entry_base_unit = 10000,
-+        .entry[0] = 25, /* 250ns */
-+    };
-+    len++;
-+
-+    dslbis[2] = (CDATDslbis) {
-+        .header = {
-+            .type = CDAT_TYPE_DSLBIS,
-+            .length = sizeof(*dslbis),
-+            },
-+        .handle = dsmad_handle,
-+        .flags = HMAT_LB_MEM_MEMORY,
-+        .data_type = HMAT_LB_DATA_READ_BANDWIDTH,
-+        .entry_base_unit = 1000, /* GB/s */
-+        .entry[0] = 16,
-+    };
-+    len++;
-+
-+    dslbis[3] = (CDATDslbis) {
-+        .header = {
-+            .type = CDAT_TYPE_DSLBIS,
-+            .length = sizeof(*dslbis),
-+        },
-+        .handle = dsmad_handle,
-+        .flags = HMAT_LB_MEM_MEMORY,
-+        .data_type = HMAT_LB_DATA_WRITE_BANDWIDTH,
-+        .entry_base_unit = 1000, /* GB/s */
-+        .entry[0] = 16,
-+    };
-+    len++;
-+
-+    *dsemts = (CDATDsemts) {
-+        .header = {
-+            .type = CDAT_TYPE_DSEMTS,
-+            .length = sizeof(*dsemts),
-+        },
-+        .DSMAS_handle = dsmad_handle,
-+        /* EFI_MEMORY_NV implies EfiReservedMemoryType */
-+        .EFI_memory_type_attr = is_pmem ? 2 : 0,
-+        /* Reserved - the non volatile from DSMAS matters */
-+        .DPA_offset = 0,
-+        .DPA_length = int128_get64(mr->size),
-+    };
-+    len++;
-+    return len;
-+}
-+
- static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
-                                 void *priv)
- {
--    g_autofree CDATDsmas *dsmas_nonvolatile = NULL;
--    g_autofree CDATDslbis *dslbis_nonvolatile = NULL;
--    g_autofree CDATDsemts *dsemts_nonvolatile = NULL;
-+    g_autofree CDATDsmas *dsmas = NULL;
-+    g_autofree CDATDslbis *dslbis = NULL;
-+    g_autofree CDATDsemts *dsemts = NULL;
-     CXLType3Dev *ct3d = priv;
--    int len = 0;
--    int i = 0;
--    int next_dsmad_handle = 0;
--    int nonvolatile_dsmad = -1;
--    int dslbis_nonvolatile_num = 4;
-+    int cdat_len = 0;
-+    int cdat_idx = 0, sub_idx = 0;
-+    int dsmas_num, dslbis_num, dsemts_num;
-+    int dsmad_handle = 0;
-+    uint64_t dpa_base = 0;
-     MemoryRegion *mr;
+         /* flush all remaining blocks regardless of rate limiting */
++        qemu_mutex_lock(&rs->bitmap_mutex);
+         while (true) {
+             int pages;
  
--    /* Non volatile aspects */
--    if (ct3d->hostmem) {
--        dsmas_nonvolatile = g_malloc(sizeof(*dsmas_nonvolatile));
--        if (!dsmas_nonvolatile) {
--            return -ENOMEM;
--        }
--        nonvolatile_dsmad = next_dsmad_handle++;
--        mr = host_memory_backend_get_memory(ct3d->hostmem);
--        if (!mr) {
--            return -EINVAL;
--        }
--        *dsmas_nonvolatile = (CDATDsmas) {
--            .header = {
--                .type = CDAT_TYPE_DSMAS,
--                .length = sizeof(*dsmas_nonvolatile),
--            },
--            .DSMADhandle = nonvolatile_dsmad,
--            .flags = CDAT_DSMAS_FLAG_NV,
--            .DPA_base = 0,
--            .DPA_length = int128_get64(mr->size),
--        };
--        len++;
--
--        /* For now, no memory side cache, plausiblish numbers */
--        dslbis_nonvolatile = g_malloc(sizeof(*dslbis_nonvolatile) * dslbis_nonvolatile_num);
--        if (!dslbis_nonvolatile)
--            return -ENOMEM;
--
--        dslbis_nonvolatile[0] = (CDATDslbis) {
--            .header = {
--                .type = CDAT_TYPE_DSLBIS,
--                .length = sizeof(*dslbis_nonvolatile),
--            },
--            .handle = nonvolatile_dsmad,
--            .flags = HMAT_LB_MEM_MEMORY,
--            .data_type = HMAT_LB_DATA_READ_LATENCY,
--            .entry_base_unit = 10000, /* 10ns base */
--            .entry[0] = 15, /* 150ns */
--        };
--        len++;
--
--        dslbis_nonvolatile[1] = (CDATDslbis) {
--            .header = {
--                .type = CDAT_TYPE_DSLBIS,
--                .length = sizeof(*dslbis_nonvolatile),
--            },
--            .handle = nonvolatile_dsmad,
--            .flags = HMAT_LB_MEM_MEMORY,
--            .data_type = HMAT_LB_DATA_WRITE_LATENCY,
--            .entry_base_unit = 10000,
--            .entry[0] = 25, /* 250ns */
--        };
--        len++;
--       
--        dslbis_nonvolatile[2] = (CDATDslbis) {
--            .header = {
--                .type = CDAT_TYPE_DSLBIS,
--                .length = sizeof(*dslbis_nonvolatile),
--            },
--            .handle = nonvolatile_dsmad,
--            .flags = HMAT_LB_MEM_MEMORY,
--            .data_type = HMAT_LB_DATA_READ_BANDWIDTH,
--            .entry_base_unit = 1000, /* GB/s */
--            .entry[0] = 16,
--        };
--        len++;
--
--        dslbis_nonvolatile[3] = (CDATDslbis) {
--            .header = {
--                .type = CDAT_TYPE_DSLBIS,
--                .length = sizeof(*dslbis_nonvolatile),
--            },
--            .handle = nonvolatile_dsmad,
--            .flags = HMAT_LB_MEM_MEMORY,
--            .data_type = HMAT_LB_DATA_WRITE_BANDWIDTH,
--            .entry_base_unit = 1000, /* GB/s */
--            .entry[0] = 16,
--        };
--        len++;
--
--        mr = host_memory_backend_get_memory(ct3d->hostmem);
--        if (!mr) {
--            return -EINVAL;
--        }
--        dsemts_nonvolatile = g_malloc(sizeof(*dsemts_nonvolatile));
--        *dsemts_nonvolatile = (CDATDsemts) {
--            .header = {
--                .type = CDAT_TYPE_DSEMTS,
--                .length = sizeof(*dsemts_nonvolatile),
--            },
--            .DSMAS_handle = nonvolatile_dsmad,
--            .EFI_memory_type_attr = 2, /* Reserved - the non volatile from DSMAS matters */
--            .DPA_offset = 0,
--            .DPA_length = int128_get64(mr->size),
--        };
--        len++;
-+    if (!ct3d->hostmem | !host_memory_backend_get_memory(ct3d->hostmem)) {
-+        return -EINVAL;
-+    }
-+
-+    dsmas_num = 1;
-+    dslbis_num = 4 * dsmas_num;
-+    dsemts_num = dsmas_num;
-+
-+    dsmas = g_malloc(sizeof(*dsmas) * dsmas_num);
-+    dslbis = g_malloc(sizeof(*dslbis) * dslbis_num);
-+    dsemts = g_malloc(sizeof(*dsemts) * dsemts_num);
-+
-+    if (!dsmas || !dslbis || !dsemts) {
-+        return -ENOMEM;
-+    }
-+
-+    mr = host_memory_backend_get_memory(ct3d->hostmem);
-+    cdat_len += ct3_build_dsmas(&dsmas[dsmad_handle],
-+                                &dslbis[4 * dsmad_handle],
-+                                &dsemts[dsmad_handle],
-+                                mr,
-+                                dsmad_handle,
-+                                false,
-+                                dpa_base);
-+    dpa_base += mr->size;
-+    dsmad_handle++;
-+
-+    /* Allocate and fill in the CDAT table */
-+    *cdat_table = g_malloc0(cdat_len * sizeof(*cdat_table));
-+    if (!*cdat_table) {
-+        return -ENOMEM;
-     }
+@@ -3419,6 +3420,7 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
+                 break;
+             }
+         }
++        qemu_mutex_unlock(&rs->bitmap_mutex);
  
--    *cdat_table = g_malloc0(len * sizeof(*cdat_table));
-     /* Header always at start of structure */
--    if (dsmas_nonvolatile) {
--        (*cdat_table)[i++] = g_steal_pointer(&dsmas_nonvolatile);
-+    CDATDsmas *dsmas_ent = g_steal_pointer(&dsmas);
-+    for (sub_idx = 0; sub_idx < dsmas_num; sub_idx++) {
-+        (*cdat_table)[cdat_idx++] = (CDATSubHeader*)&dsmas_ent[sub_idx];
-     }
--    if (dslbis_nonvolatile) {
--        CDATDslbis *dslbis = g_steal_pointer(&dslbis_nonvolatile);        
--        int j;
- 
--        for (j = 0; j < dslbis_nonvolatile_num; j++) {
--            (*cdat_table)[i++] = (CDATSubHeader *)&dslbis[j];
--        }
-+    CDATDslbis *dslbis_ent = g_steal_pointer(&dslbis);
-+    for (sub_idx = 0; sub_idx < dslbis_num; sub_idx++) {
-+        (*cdat_table)[cdat_idx++] = (CDATSubHeader*)&dslbis_ent[sub_idx];
-     }
--    if (dsemts_nonvolatile) {
--        (*cdat_table)[i++] = g_steal_pointer(&dsemts_nonvolatile);
-+
-+    CDATDsemts *dsemts_ent = g_steal_pointer(&dsemts);
-+    for (sub_idx = 0; sub_idx < dsemts_num; sub_idx++) {
-+        (*cdat_table)[cdat_idx++] = (CDATSubHeader*)&dsemts_ent[sub_idx];
-     }
--    
--    return len;
-+
-+    return cdat_len;
- }
- 
- static void ct3_free_cdat_table(CDATSubHeader **cdat_table, int num, void *priv)
- {
--    int i;
-+    int dsmas_num = 1;
-+    int dslbis_idx = dsmas_num;
-+    int dsemts_idx = dsmas_num + (dsmas_num * 4);
-+
-+    /* There are only 3 sub-tables to free: dsmas, dslbis, dsemts */
-+    assert(num == (dsmas_num + (dsmas_num * 4) + (dsmas_num)));
-+
-+    g_free(cdat_table[0]);
-+    g_free(cdat_table[dslbis_idx]);
-+    g_free(cdat_table[dsemts_idx]);
- 
--    for (i = 0; i < num; i++) {
--        g_free(cdat_table[i]);
--    }
-     g_free(cdat_table);
- }
- 
+         flush_compressed_data(rs);
+         ram_control_after_iterate(f, RAM_CONTROL_FINISH);
 -- 
 2.37.3
 
