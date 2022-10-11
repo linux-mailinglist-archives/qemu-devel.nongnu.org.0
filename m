@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D06535FBC8C
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 22:58:25 +0200 (CEST)
-Received: from localhost ([::1]:42866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE1275FBC72
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 22:54:42 +0200 (CEST)
+Received: from localhost ([::1]:33526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiMKW-0003Au-UF
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 16:58:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43116)
+	id 1oiMGv-0004tM-AA
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 16:54:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=aME8=2M=zx2c4.com=Jason@kernel.org>)
- id 1oiM9k-0004eE-Ku; Tue, 11 Oct 2022 16:47:18 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217]:58018)
+ id 1oiM9m-0004er-KI
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 16:47:18 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217]:58028)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=aME8=2M=zx2c4.com=Jason@kernel.org>)
- id 1oiM9h-0001Qy-VK; Tue, 11 Oct 2022 16:47:15 -0400
+ id 1oiM9j-0001RB-4Z
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 16:47:17 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4089F612D1;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E82EE612B2;
+ Tue, 11 Oct 2022 20:47:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0E8CC433C1;
  Tue, 11 Oct 2022 20:47:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8318C433D6;
- Tue, 11 Oct 2022 20:47:10 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
  dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="JXbI+oyg"
+ header.b="HpOpRsFw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1665521230;
+ t=1665521232;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5HftbmP2bOLL0qaTIFvjVy40wbSWxhakG63dKzx542s=;
- b=JXbI+oygxbexujYID8wNacllKfWIMBez3cgAGsY1310uEodT4qOI2+Xv0jb5ee/ZPYNVcZ
- Z4VXl8X2TmrCvAV9NL/voHLwGUAZyUIFc4ySFqvDyOmvZt3V7ea5JIB8yx5szCjT5UnhoJ
- 4L9s5kYG0Tz0sDGGOCD4nRPq124Rq3Y=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 5a4a35ac
+ bh=P4hQ4wkuxSrVvM7QYmUcDj4jM9oE2hTmc0xeWMOFJsg=;
+ b=HpOpRsFwBsxEgHn3opNnkDCva9ILqj4im9eJlgen1KiT94H5rrJYvubyqgv1fpjxN3L38P
+ Q+D2jpBaxIdedWj9ZZlThAudzYY7ct4FiLth0n1vc6kbY+iSbToVvysG/2h9FMdGT+YYGJ
+ 9lk9Q1brD2VG78F2dJMHFdydm63MG3g=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id de58475a
  (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Tue, 11 Oct 2022 20:47:10 +0000 (UTC)
+ Tue, 11 Oct 2022 20:47:12 +0000 (UTC)
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 To: peter.maydell@linaro.org,
 	pbonzini@redhat.com,
 	qemu-devel@nongnu.org
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org
-Subject: [PATCH v2 3/8] riscv: re-randomize rng-seed on reboot
-Date: Tue, 11 Oct 2022 14:46:40 -0600
-Message-Id: <20221011204645.1160916-4-Jason@zx2c4.com>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Stafford Horne <shorne@gmail.com>
+Subject: [PATCH v2 4/8] openrisc: re-randomize rng-seed on reboot
+Date: Tue, 11 Oct 2022 14:46:41 -0600
+Message-Id: <20221011204645.1160916-5-Jason@zx2c4.com>
 In-Reply-To: <20221011204645.1160916-1-Jason@zx2c4.com>
 References: <20221011204645.1160916-1-Jason@zx2c4.com>
 MIME-Version: 1.0
@@ -87,28 +86,25 @@ re-randomized, so that the new boot gets a new seed. Since the FDT is in
 the ROM region at this point, we add a hook right after the ROM has been
 added, so that we have a pointer to that copy of the FDT.
 
-Cc: Palmer Dabbelt <palmer@dabbelt.com>
-Cc: Alistair Francis <alistair.francis@wdc.com>
-Cc: Bin Meng <bin.meng@windriver.com>
-Cc: qemu-riscv@nongnu.org
+Cc: Stafford Horne <shorne@gmail.com>
 Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 ---
- hw/riscv/boot.c | 3 +++
+ hw/openrisc/boot.c | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index 1ae7596873..aaecf21543 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -30,6 +30,7 @@
+diff --git a/hw/openrisc/boot.c b/hw/openrisc/boot.c
+index 128ccbcba2..8b9f11b6d8 100644
+--- a/hw/openrisc/boot.c
++++ b/hw/openrisc/boot.c
+@@ -14,6 +14,7 @@
+ #include "hw/openrisc/boot.h"
  #include "sysemu/device_tree.h"
  #include "sysemu/qtest.h"
- #include "sysemu/kvm.h"
 +#include "sysemu/reset.h"
  
  #include <libfdt.h>
  
-@@ -241,6 +242,8 @@ uint64_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+@@ -111,6 +112,8 @@ uint32_t openrisc_load_fdt(void *fdt, hwaddr load_start,
  
      rom_add_blob_fixed_as("fdt", fdt, fdtsize, fdt_addr,
                            &address_space_memory);
