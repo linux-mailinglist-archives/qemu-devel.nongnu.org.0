@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03BEA5FBC1C
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 22:34:45 +0200 (CEST)
-Received: from localhost ([::1]:51822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0FC25FBBF1
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 22:17:27 +0200 (CEST)
+Received: from localhost ([::1]:58822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiLxc-0004pc-15
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 16:34:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55052)
+	id 1oiLgs-0000wK-PL
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 16:17:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1oiLVy-0006PQ-FR
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 16:06:19 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:35899)
+ id 1oiLVz-0006PS-10
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 16:06:18 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:52933)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1oiLVu-0003kl-Vt
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 16:06:09 -0400
+ id 1oiLVw-0003l6-6L
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 16:06:10 -0400
 Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Mzyi6-1p3bSX1O22-00x1UI; Tue, 11 Oct 2022 22:05:55 +0200
+ id 1MwfrG-1p6tmY3H2o-00y7x8; Tue, 11 Oct 2022 22:05:57 +0200
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Stefano Stabellini <sstabellini@kernel.org>,
@@ -36,33 +36,34 @@ Cc: Stefano Stabellini <sstabellini@kernel.org>,
  Markus Armbruster <armbru@redhat.com>, Paul Durrant <paul@xen.org>,
  David Gibson <david@gibson.dropbear.id.au>, xen-devel@lists.xenproject.org,
  Stefano Brivio <sbrivio@redhat.com>
-Subject: [PATCH v11 07/17] net: socket: Don't ignore EINVAL on netdev socket
+Subject: [PATCH v11 08/17] net: stream: Don't ignore EINVAL on netdev socket
  connection
-Date: Tue, 11 Oct 2022 22:05:29 +0200
-Message-Id: <20221011200539.1486809-8-lvivier@redhat.com>
+Date: Tue, 11 Oct 2022 22:05:30 +0200
+Message-Id: <20221011200539.1486809-9-lvivier@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221011200539.1486809-1-lvivier@redhat.com>
 References: <20221011200539.1486809-1-lvivier@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:s2d3Wu4MO8ol5DA6PF+FwRX2ngxklqX0Xg022HDVmevHfVNwSNH
- wNVip7KNnUp+1d6oD/lzE6UuU2ptIv0OUC+VJvfArwZSeHBalDq3QRxn9aursvew6XDrERc
- /dOp3LLGjARYN3oHDHZXdNFQvCtZZd07alTYAPeSy3wuoB56esM4Fv5u6IVhrkMxXYcxKpa
- 5jTmu3R9fuCPRsqmZtIZg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:SsKt/PrHzOg=:RxXaAGqCcFTPq1Ui9f+XFu
- QvGhxbqWiHZ93SyVG59hGfTFa1pHKN7gxx4s5r1HazWDiCTWTqZgh1JOM0QjIAR2qVAIawO74
- F7UFf6X3vvQNZmy+cnbJMOfIW7FgvOG815DFO7IS5d8/1Jw9pEul+1jvw4SwyO7VYV1eNwjaz
- IDVf0LhI6rd8Y9lyKnHLrpSNIjooJYTeKyX8MhDgo5sR2BLGcNhqShiBbhB8mWeWw86NVVVhG
- rgKaUMU+P32b/fJ/xa0WqGa2ItdRfC9bpPhsmEhDwvFIeF7N5tNyNvWiK5YeDeAZ94KkLF5uK
- d6jkLKfETNs4Ist6FIMRTFs5Y1FliJ89R0cQ0/tagOcH998wYfIHWnM+z4YW9GTIxuJkUBR6F
- DWgGoHApOkSVQOwAb4p9vXeDhb/rdG8tgIy+3KhZYINESx5/0aL4miBAGAR6DyHYxG6vXqvqP
- e+Ah0OpluVNIb8ZLX6HrTZo4ITr9BnY5dbZpIOUWRXe36VIMxgX5lv8uDd3zvvsbHpZQe69Z/
- txcFYbX4pBEYiu/19N+ZA5KddJlT+Qwp15ra9W5TJnZ2qyfgCWtjj2sjpdB87I6nOY9vr4hYw
- 2FBt0nOoWsD78F59XD6keFsE0sjo/b2xghk7A8K7wdkc2OI0BbIqmTVQQpykGTToyADJrGStn
- G997YVCvjhsCW/gyu7Fysj+2TXtFAuStHpH3Uadyaoqu8Ryc+aj5SHWMDlDn2ZDlSAXkGRBQj
- Yk2lf8kSWc7wJ+EJI5OuHXPeQXUqsZ1/ZXu+tmH0LtiU2SBZUUBQW6ac6rdFAW93/MfhicUoz
- fmWAe+T
-Received-SPF: permerror client-ip=212.227.126.134;
+X-Provags-ID: V03:K1:hsXLS+idoNRuKDGwDRk5k6KJvjvwEodY2MyHrLAIA+6jzR3kbMo
+ YyGSQ6QSZsQ0Y1Q60v7RcYI5u2aR0VecKnTza8nTft0FolUWPbc5ieffcOQE+Lba/08VqGO
+ YoyNRcZjmjrLl/7WpLEbLKT2+KJgIAxW4eOJean9QgLqyv1mqbYYmEaqRBBRQyCbTKlr6jX
+ oFqfndp3YTa2SJ0n2r2Vw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:44cApntTpF4=:uuFvEBLvztbGc76J9T6Y0x
+ n4jZ/h2QXLOnV991KjsKN3na46udr4Xj6KC6iRba1cHIk3Y+z8mSzKlWRJ8v4Ybo+ptU6pH8Z
+ qAV26xLr900crAaAB7p6HP1u3Ydp1fhoFKZoMLNRkCEmwVstb0PdeRmMs+62XXwkU3huzqZyQ
+ PWl6pKYRyy8k8XYQlTxgzZXHeXJAoZrxqWaqh3h37km94Zm6L3v5+nzjItMrAfkqrN6sxOHyf
+ +pIw65mqnXuz6+32+TceHcujYazPsdP9fZhlyaWl6D1tJS19/a1XzL0ShjTp6RCX5U4SqITKG
+ pXoQPX5JcRM2ezxZa8vx/CQ5/g88eQr9uDRTTI2KifVokhCs71+4KoD9xigISSGPOkGM6P1dD
+ IHGPpCP6E6bOh0Opss3fRv09QEqKweUSNEDzLPLQHq+kasqDLsaYQ2/bir2xAgoz8BOOm2kdd
+ oIRjLAxTHc+OQHKC10exX7Du7J84Z2EfF6dOGjgQl0Wt8Rt3pLJ/2O0hwNY4ZOpeTjOYGNEQB
+ c0SRaN+j7cxEIdP3XrrPsgl81e6d73LWmQw4poLO+MyPxtA8tk6/pfnbIhXFzrjS+QDPW6XR2
+ I3o6goKppnDWj6i7iRab5KbdZuAR+NFcD7bdJ/r3DtDHK3TnXC+BjOHl8xJ/GqueUTIIhgaWm
+ BIyDBO0im1M6oNGiD9cPYjFCOdnenXb4oE+dLoUG6bqQDhIdoP6d8/mbUc0px1rUiRsd1p1uY
+ 2uEOBuJSfgTdnlJlpSD/o89FXfBykvRVleieb3es8dLVZaF1A7LXrIdd8L+287FFc0Rjt1/fc
+ qooeXv7
+Received-SPF: permerror client-ip=212.227.126.130;
  envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -87,32 +88,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefano Brivio <sbrivio@redhat.com>
 
-Other errors are treated as failure by net_socket_connect_init(),
+Other errors are treated as failure by net_stream_client_init(),
 but if connect() returns EINVAL, we'll fail silently. Remove the
 related exception.
 
 Signed-off-by: Stefano Brivio <sbrivio@redhat.com>
+[lvivier: applied to net/stream.c]
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- net/socket.c | 3 +--
+ net/stream.c | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/net/socket.c b/net/socket.c
-index ade1ecf38b87..4944bb70d580 100644
---- a/net/socket.c
-+++ b/net/socket.c
-@@ -577,8 +577,7 @@ static int net_socket_connect_init(NetClientState *peer,
-             if (errno == EINTR || errno == EWOULDBLOCK) {
-                 /* continue */
-             } else if (errno == EINPROGRESS ||
--                       errno == EALREADY ||
--                       errno == EINVAL) {
-+                       errno == EALREADY) {
-                 break;
-             } else {
-                 error_setg_errno(errp, errno, "can't connect socket");
+diff --git a/net/stream.c b/net/stream.c
+index 37965eb74e1a..26e485438718 100644
+--- a/net/stream.c
++++ b/net/stream.c
+@@ -360,8 +360,7 @@ static int net_stream_client_init(NetClientState *peer,
+                 if (errno == EINTR || errno == EWOULDBLOCK) {
+                     /* continue */
+                 } else if (errno == EINPROGRESS ||
+-                           errno == EALREADY ||
+-                           errno == EINVAL) {
++                           errno == EALREADY) {
+                     break;
+                 } else {
+                     error_setg_errno(errp, errno, "can't connect socket");
 -- 
 2.37.3
 
