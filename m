@@ -2,75 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E0565FB2A5
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 14:47:48 +0200 (CEST)
-Received: from localhost ([::1]:38780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 624DD5FB298
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 14:43:07 +0200 (CEST)
+Received: from localhost ([::1]:45012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiEfi-0000X9-06
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 08:47:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56280)
+	id 1oiEbC-0002yU-FF
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 08:43:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oiCiY-00055d-EU
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 06:42:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55286)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oiCiS-0007sX-DO
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 06:42:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665484947;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DPFDxTBnsRnQpeGqKNXXcky9QctdLhlpbSkmYK5HBIE=;
- b=R9q49byznFIGg17R3cdaR8ttH9Nles67sBil/BVfAxUb+K2EwdU6lcdzry6sLOKDtwgizD
- ISDqGkrySYdyzLOTYrn0OcQN+biN8rPdPU2ox8pBbsDuJ1R9k8IPVU3JAHfMQ9fU32w6A/
- CZA9PIR2VW4q2OYpqG75GSErpmo/1Cg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-269-yt_mMouoNPeu7-wkdTlNQQ-1; Tue, 11 Oct 2022 06:42:22 -0400
-X-MC-Unique: yt_mMouoNPeu7-wkdTlNQQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 62B28380390B;
- Tue, 11 Oct 2022 10:42:21 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.193.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 30ADA492B09;
- Tue, 11 Oct 2022 10:42:18 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Gautam Dawar <gdawar@xilinx.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, Jason Wang <jasowang@redhat.com>,
- Si-Wei Liu <si-wei.liu@oracle.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eli Cohen <eli@mellanox.com>, Parav Pandit <parav@mellanox.com>,
- Laurent Vivier <lvivier@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Cindy Lu <lulu@redhat.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>, Cornelia Huck <cohuck@redhat.com>,
- kvm@vger.kernel.org, Harpreet Singh Anand <hanand@xilinx.com>
-Subject: [PATCH v5 6/6] vdpa: Always start CVQ in SVQ mode
-Date: Tue, 11 Oct 2022 12:41:54 +0200
-Message-Id: <20221011104154.1209338-7-eperezma@redhat.com>
-In-Reply-To: <20221011104154.1209338-1-eperezma@redhat.com>
-References: <20221011104154.1209338-1-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oiCiP-0004u3-Ur
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 06:42:25 -0400
+Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:38621)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oiCiN-0007q8-Qd
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 06:42:25 -0400
+Received: by mail-qt1-x829.google.com with SMTP id z8so3436517qtv.5
+ for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 03:42:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=h5AoNuEqW8cG/2fV/Mjec/7fCms6H27N4JWPA9q0dMA=;
+ b=MwMLPAXNYdsLnITtxw0SSvKSV22RLmSJq89sijT3W15gw/t/dgXw13AjG4rDLlQPwf
+ RgNTyXhIrNPZraQIUHZ6vXTayPuzDPGjbT7xjLceMdOvZdTU6tsA1YM0AzhokvAvXz5y
+ /qwj8OqBjFwROINHv44Cdi12GJibjbjVPHg86yZpsMmVJauiYl33WNi0r2RN1LwTHBcW
+ JlHAAJocBzHhsRycaxK1fpzbReXOrWXcMM8wKRGXS6jk/yD4DH/Xie1ryR+p1oQOP1ua
+ WkTHtPQmRJshTFkYBjlLr+yNU8BpW3Un5pnbov65aUmFXJKCpukHQSRQC1rodvNyFbnt
+ Zt1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=h5AoNuEqW8cG/2fV/Mjec/7fCms6H27N4JWPA9q0dMA=;
+ b=0qHclRuwq+ybbEMjyPgS/XaEbWTzijg6h0s/QgBlpDU9uxhDwrdsV4L7LQCmIJwO17
+ 2WHCwhU9/teb4bcdE6l/1TU5CvyUyls/LkPHrtqvDeYRkVZduVibi0BOTC5u0J+8+mkH
+ 1dq+VmAYIIvZ6E2NyAQrUdaPJFl7nq5DIrbLLcA/nZMQo5U2bO2mG3y3F/XeLEnsA6l5
+ ii9mWSjxbtSLmX/v55fIEJ2YnwKWU8c0SjeamTzidPTIH1UwfqP9eP3CLPYuf9NaFTl3
+ 0/I0h2TXqZBdBvUQqI800bbKUPwGw+iydVvuUQBR0Wxq5FUjbMYe9OrZKh2cwyVejmrM
+ x13Q==
+X-Gm-Message-State: ACrzQf27m48lbfu1ZReCr6XGc453Hoo8iNTo2wnIE2ZGRJI4WOBJPhDd
+ BgCWyYQ5oXHFPv/cSraa+RZx+4M4XjMHs+yKRhc=
+X-Google-Smtp-Source: AMsMyM76KBNA3XFdSlpHjySuIlZg2EREf+YNwnO2jaYjkaDXZOK8nCQ3ihRsp9F3bj+ThAPkFGtnIdO2JoXxD4GkZuI=
+X-Received: by 2002:ac8:5d49:0:b0:39c:526f:217d with SMTP id
+ g9-20020ac85d49000000b0039c526f217dmr1621990qtx.543.1665484942788; Tue, 11
+ Oct 2022 03:42:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
+ <20220824094029.1634519-50-bmeng.cn@gmail.com>
+ <CAJ+F1C+-4U1huf=Jv_uJP-XXnXu88Gj9HHvrGS0dTFyKGv=qBg@mail.gmail.com>
+ <CAEUhbmV_UU1TpRXfyz5U9kRj5r1ihm-HrXhzw_D-L96_Skxy+g@mail.gmail.com>
+ <CAJ+F1CJo-0isj2LKdabMHu854e7kukwjp=CCejgk_TzLRwtA3w@mail.gmail.com>
+ <CAEUhbmXjHCEOy+U3zABsvCU20rDj5pogNVTUCUEevdrqhcjuoA@mail.gmail.com>
+ <CAJ307EiOGrHqfdzSfb6L3MPKtAWLPCQT8ZVY7M+R5mT6d9wVvQ@mail.gmail.com>
+ <CAEUhbmW0v_5Ro3mY6Ztt=MmZJf=ueApmNGpT=+1RTPLrWd4=Rg@mail.gmail.com>
+ <CAJ307EhBSg4ENykkbqsT=5oBjc34JR+d3bJAVSTaxRM-uG4LGg@mail.gmail.com>
+ <CAEUhbmUAF0W_SCtYOuAZ+xc7Y4So3J4QB29Us0AV44eVF8KtLg@mail.gmail.com>
+ <CAJ307EjyXxbGLK-PhBjf18p3AApYM-jGqA2L9q3xLS9wX16h_w@mail.gmail.com>
+ <CAEUhbmWStgz4oUEgrtAVU_YFdKSPFJrK-4kd+DP4jqLS51+X+A@mail.gmail.com>
+ <CAEUhbmVYPo46nx8LLXcS21myzxcwT0HAzKt+cTRprmn06+g0PQ@mail.gmail.com>
+ <CAEUhbmUSLgiZM4w-rnrOeW+tER8SBdj5=1DvC85jp1e4GvKFoA@mail.gmail.com>
+ <CAEUhbmUXUiW_Gr4wpeJR-32djq=-E_UJRYc8KN86Ko16w_ysNw@mail.gmail.com>
+ <CAEUhbmVs3QXP7iDH1O5M9utLeyVmkMwf7hW8gty49SDcSBFj+w@mail.gmail.com>
+In-Reply-To: <CAEUhbmVs3QXP7iDH1O5M9utLeyVmkMwf7hW8gty49SDcSBFj+w@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 11 Oct 2022 18:42:11 +0800
+Message-ID: <CAEUhbmWkS1rx9O=mhPaoYm-Bk7AC6USrVb1iw-Vf0q6SB4Jn2w@mail.gmail.com>
+Subject: Re: [PATCH 49/51] io/channel-watch: Fix socket watch on Windows
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x829.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,247 +104,165 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Isolate control virtqueue in its own group, allowing to intercept control
-commands but letting dataplane run totally passthrough to the guest.
+Hi Paolo,
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
----
-v5:
-* Fixing the not adding cvq buffers when x-svq=on is specified.
-* Move vring state in vhost_vdpa_get_vring_group instead of using a
-  parameter.
-* Rename VHOST_VDPA_NET_CVQ_PASSTHROUGH to VHOST_VDPA_NET_DATA_ASID
+On Thu, Oct 6, 2022 at 11:03 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> Hi Paolo,
+>
+> On Wed, Sep 28, 2022 at 2:10 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > Hi Paolo,
+> >
+> > On Wed, Sep 21, 2022 at 9:02 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > >
+> > > On Wed, Sep 14, 2022 at 4:08 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > > >
+> > > > On Wed, Sep 7, 2022 at 1:07 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > > > >
+> > > > > Hi Cl=C3=A9ment,
+> > > > >
+> > > > > On Tue, Sep 6, 2022 at 8:06 PM Cl=C3=A9ment Chigot <chigot@adacor=
+e.com> wrote:
+> > > > > >
+> > > > > > > > > I checked your patch, what you did seems to be something =
+one would
+> > > > > > > > > naturally write, but what is currently in the QEMU source=
+s seems to be
+> > > > > > > > > written intentionally.
+> > > > > > > > >
+> > > > > > > > > +Paolo Bonzini , you are the one who implemented the sock=
+et watch on
+> > > > > > > > > Windows. Could you please help analyze this issue?
+> > > > > > > > >
+> > > > > > > > > > to avoid WSAEnumNetworkEvents for the master GSource wh=
+ich only has
+> > > > > > > > > > G_IO_HUP (or for any GSource having only that).
+> > > > > > > > > > As I said above, the current code doesn't do anything w=
+ith it anyway.
+> > > > > > > > > > So, IMO, it's safe to do so.
+> > > > > > > > > >
+> > > > > > > > > > I'll send you my patch attached. I was planning to send=
+ it in the following
+> > > > > > > > > > weeks anyway. I was just waiting to be sure everything =
+looks fine on our
+> > > > > > > > > > CI. Feel free to test and modify it if needed.
+> > > > > > > > >
+> > > > > > > > > I tested your patch. Unfortunately there is still one tes=
+t case
+> > > > > > > > > (migration-test.exe) throwing up the "Broken pipe" messag=
+e.
+> > > > > > > >
+> > > > > > > > I must say I didn't fully test it against qemu testsuite ye=
+t. Maybe there are
+> > > > > > > > some refinements to be done. "Broken pipe" might be linked =
+to the missing
+> > > > > > > > G_IO_HUP support.
+> > > > > > > >
+> > > > > > > > > Can you test my patch instead to see if your gdb issue ca=
+n be fixed?
+> > > > > > > >
+> > > > > > > > Yeah sure. I'll try to do it this afternoon.
+> > > > > >
+> > > > > > I can't explain how mad at me I am... I'm pretty sure your patc=
+h was the first
+> > > > > > thing I've tried when I encountered this issue. But it wasn't w=
+orking
+> > > > > > or IIRC the
+> > > > > > issue went away but that was because the polling was actually d=
+isabled (looping
+> > > > > > indefinitely)...I'm suspecting that I already had changed the C=
+reateEvent for
+> > > > > > WSACreateEvent which forces you to handle the reset.
+> > > > > > Finally, I end up struggling reworking the whole check function=
+...
+> > > > > > But yeah, your patch does work fine on my gdb issues too.
+> > > > >
+> > > > > Good to know this patch works for you too.
+> > > > >
+> > > > > > And I guess the events are reset when recv() is being called be=
+cause of the
+> > > > > > auto-reset feature set up by CreateEvent().
+> > > > > > IIUC, what Marc-Andr=C3=A9 means by busy loop is the polling be=
+ing looping
+> > > > > > indefinitely as I encountered. I can ensure that this patch doe=
+sn't do that.
+> > > > > > It can be easily checked by setting the env variable G_MAIN_POL=
+L_DEBUG.
+> > > > > > It'll show what g_poll is doing and it's normally always availa=
+ble on
+> > > > > > Windows.
+> > > > > >
+> > > > > > Anyway, we'll wait for Paolo to see if he remembers why he had =
+to call
+> > > > > > WSAEnumNetworkEvents. Otherwize, let's go for your patch. Mine =
+might
+> > > > > > be a good start to improve the whole polling on Windows but if =
+it doesn't
+> > > > > > work in your case, it then needs some refinements.
+> > > > > >
+> > > > >
+> > > > > Yeah, this issue bugged me quite a lot. If we want to reset the e=
+vent
+> > > > > in qio_channel_socket_source_check(), we will have to do the foll=
+owing
+> > > > > to make sure qtests are happy.
+> > > > >
+> > > > > diff --git a/io/channel-watch.c b/io/channel-watch.c
+> > > > > index 43d38494f7..f1e1650b81 100644
+> > > > > --- a/io/channel-watch.c
+> > > > > +++ b/io/channel-watch.c
+> > > > > @@ -124,8 +124,6 @@ qio_channel_socket_source_check(GSource *sour=
+ce)
+> > > > > return 0;
+> > > > > }
+> > > > > - WSAEnumNetworkEvents(ssource->socket, ssource->ioc->event, &ev)=
+;
+> > > > > -
+> > > > > FD_ZERO(&rfds);
+> > > > > FD_ZERO(&wfds);
+> > > > > FD_ZERO(&xfds);
+> > > > > @@ -153,6 +151,10 @@ qio_channel_socket_source_check(GSource *sou=
+rce)
+> > > > > ssource->revents |=3D G_IO_PRI;
+> > > > > }
+> > > > > + if (ssource->revents) {
+> > > > > + WSAEnumNetworkEvents(ssource->socket, ssource->ioc->event, &ev)=
+;
+> > > > > + }
+> > > > > +
+> > > > > return ssource->revents;
+> > > > > }
+> > > > >
+> > > > > Removing "if (ssource->revents)" won't work.
+> > > > >
+> > > > > It seems to me that resetting the event twice (one time with the
+> > > > > master Gsource, and the other time with the child GSource) causes=
+ some
+> > > > > bizarre behavior. But MSDN [1] says
+> > > > >
+> > > > >     "Resetting an event that is already reset has no effect."
+> > > > >
+> > > > > [1] https://docs.microsoft.com/en-us/windows/win32/api/synchapi/n=
+f-synchapi-resetevent
+> > > > >
+> > > >
+> > > > Paolo, any comments about this issue?
+> > > >
+> > >
+> > > v2 series has been sent out, and this patch remains unchanged.
+> > >
+> > > Paolo, still would appreciate your comments.
+> > >
+> >
+> > Ping?
+> >
+>
+> Ping? Can you please comment??
+>
 
-v4:
-* Squash vhost_vdpa_cvq_group_is_independent.
-* Rebased on last CVQ start series, that allocated CVQ cmd bufs at load
-* Do not check for cvq index on vhost_vdpa_net_prepare, we only have one
-  that callback registered in that NetClientInfo.
+Ping?
 
-v3:
-* Make asid related queries print a warning instead of returning an
-  error and stop the start of qemu.
----
- hw/virtio/vhost-vdpa.c |   3 +-
- net/vhost-vdpa.c       | 118 +++++++++++++++++++++++++++++++++++++++--
- 2 files changed, 115 insertions(+), 6 deletions(-)
-
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 29d009c02b..fd4de06eab 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -682,7 +682,8 @@ static int vhost_vdpa_set_backend_cap(struct vhost_dev *dev)
- {
-     uint64_t features;
-     uint64_t f = 0x1ULL << VHOST_BACKEND_F_IOTLB_MSG_V2 |
--        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH;
-+        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH |
-+        0x1ULL << VHOST_BACKEND_F_IOTLB_ASID;
-     int r;
- 
-     if (vhost_vdpa_call(dev, VHOST_GET_BACKEND_FEATURES, &features)) {
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index f7831aeb8d..6f6ef59ea3 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -38,6 +38,9 @@ typedef struct VhostVDPAState {
-     void *cvq_cmd_out_buffer;
-     virtio_net_ctrl_ack *status;
- 
-+    /* Number of address spaces supported by the device */
-+    unsigned address_space_num;
-+
-     /* The device always have SVQ enabled */
-     bool always_svq;
-     bool started;
-@@ -102,6 +105,9 @@ static const uint64_t vdpa_svq_device_features =
-     BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
-     BIT_ULL(VIRTIO_NET_F_STANDBY);
- 
-+#define VHOST_VDPA_NET_DATA_ASID 0
-+#define VHOST_VDPA_NET_CVQ_ASID 1
-+
- VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
- {
-     VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
-@@ -226,6 +232,34 @@ static NetClientInfo net_vhost_vdpa_info = {
-         .check_peer_type = vhost_vdpa_check_peer_type,
- };
- 
-+static uint32_t vhost_vdpa_get_vring_group(int device_fd, unsigned vq_index)
-+{
-+    struct vhost_vring_state state = {
-+        .index = vq_index,
-+    };
-+    int r = ioctl(device_fd, VHOST_VDPA_GET_VRING_GROUP, &state);
-+
-+    return r < 0 ? 0 : state.num;
-+}
-+
-+static int vhost_vdpa_set_address_space_id(struct vhost_vdpa *v,
-+                                           unsigned vq_group,
-+                                           unsigned asid_num)
-+{
-+    struct vhost_vring_state asid = {
-+        .index = vq_group,
-+        .num = asid_num,
-+    };
-+    int ret;
-+
-+    ret = ioctl(v->device_fd, VHOST_VDPA_SET_GROUP_ASID, &asid);
-+    if (unlikely(ret < 0)) {
-+        warn_report("Can't set vq group %u asid %u, errno=%d (%s)",
-+            asid.index, asid.num, errno, g_strerror(errno));
-+    }
-+    return ret;
-+}
-+
- static void vhost_vdpa_cvq_unmap_buf(struct vhost_vdpa *v, void *addr)
- {
-     VhostIOVATree *tree = v->iova_tree;
-@@ -300,11 +334,50 @@ dma_map_err:
- static int vhost_vdpa_net_cvq_start(NetClientState *nc)
- {
-     VhostVDPAState *s;
--    int r;
-+    struct vhost_vdpa *v;
-+    uint32_t cvq_group;
-+    int cvq_index, r;
- 
-     assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
- 
-     s = DO_UPCAST(VhostVDPAState, nc, nc);
-+    v = &s->vhost_vdpa;
-+
-+    v->listener_shadow_vq = s->always_svq;
-+    v->shadow_vqs_enabled = s->always_svq;
-+    s->vhost_vdpa.address_space_id = VHOST_VDPA_NET_DATA_ASID;
-+
-+    if (s->always_svq) {
-+        goto out;
-+    }
-+
-+    if (s->address_space_num < 2) {
-+        return 0;
-+    }
-+
-+    /**
-+     * Check if all the virtqueues of the virtio device are in a different vq
-+     * than the last vq. VQ group of last group passed in cvq_group.
-+     */
-+    cvq_index = v->dev->vq_index_end - 1;
-+    cvq_group = vhost_vdpa_get_vring_group(v->device_fd, cvq_index);
-+    for (int i = 0; i < cvq_index; ++i) {
-+        uint32_t group = vhost_vdpa_get_vring_group(v->device_fd, i);
-+
-+        if (unlikely(group == cvq_group)) {
-+            warn_report("CVQ %u group is the same as VQ %u one (%u)", cvq_group,
-+                        i, group);
-+            return 0;
-+        }
-+    }
-+
-+    r = vhost_vdpa_set_address_space_id(v, cvq_group, VHOST_VDPA_NET_CVQ_ASID);
-+    if (r == 0) {
-+        v->shadow_vqs_enabled = true;
-+        s->vhost_vdpa.address_space_id = VHOST_VDPA_NET_CVQ_ASID;
-+    }
-+
-+out:
-     if (!s->vhost_vdpa.shadow_vqs_enabled) {
-         return 0;
-     }
-@@ -576,12 +649,38 @@ static const VhostShadowVirtqueueOps vhost_vdpa_net_svq_ops = {
-     .avail_handler = vhost_vdpa_net_handle_ctrl_avail,
- };
- 
-+static uint32_t vhost_vdpa_get_as_num(int vdpa_device_fd)
-+{
-+    uint64_t features;
-+    unsigned num_as;
-+    int r;
-+
-+    r = ioctl(vdpa_device_fd, VHOST_GET_BACKEND_FEATURES, &features);
-+    if (unlikely(r < 0)) {
-+        warn_report("Cannot get backend features");
-+        return 1;
-+    }
-+
-+    if (!(features & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID))) {
-+        return 1;
-+    }
-+
-+    r = ioctl(vdpa_device_fd, VHOST_VDPA_GET_AS_NUM, &num_as);
-+    if (unlikely(r < 0)) {
-+        warn_report("Cannot retrieve number of supported ASs");
-+        return 1;
-+    }
-+
-+    return num_as;
-+}
-+
- static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-                                            const char *device,
-                                            const char *name,
-                                            int vdpa_device_fd,
-                                            int queue_pair_index,
-                                            int nvqs,
-+                                           unsigned nas,
-                                            bool is_datapath,
-                                            bool svq,
-                                            VhostIOVATree *iova_tree)
-@@ -600,6 +699,7 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-     snprintf(nc->info_str, sizeof(nc->info_str), TYPE_VHOST_VDPA);
-     s = DO_UPCAST(VhostVDPAState, nc, nc);
- 
-+    s->address_space_num = nas;
-     s->vhost_vdpa.device_fd = vdpa_device_fd;
-     s->vhost_vdpa.index = queue_pair_index;
-     s->always_svq = svq;
-@@ -686,6 +786,8 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-     g_autoptr(VhostIOVATree) iova_tree = NULL;
-     NetClientState *nc;
-     int queue_pairs, r, i = 0, has_cvq = 0;
-+    unsigned num_as = 1;
-+    bool svq_cvq;
- 
-     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-     opts = &netdev->u.vhost_vdpa;
-@@ -711,7 +813,13 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-         return queue_pairs;
-     }
- 
--    if (opts->x_svq) {
-+    svq_cvq = opts->x_svq;
-+    if (has_cvq && !opts->x_svq) {
-+        num_as = vhost_vdpa_get_as_num(vdpa_device_fd);
-+        svq_cvq = num_as > 1;
-+    }
-+
-+    if (opts->x_svq || svq_cvq) {
-         struct vhost_vdpa_iova_range iova_range;
- 
-         uint64_t invalid_dev_features =
-@@ -734,15 +842,15 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
- 
-     for (i = 0; i < queue_pairs; i++) {
-         ncs[i] = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
--                                     vdpa_device_fd, i, 2, true, opts->x_svq,
--                                     iova_tree);
-+                                     vdpa_device_fd, i, 2, num_as, true,
-+                                     opts->x_svq, iova_tree);
-         if (!ncs[i])
-             goto err;
-     }
- 
-     if (has_cvq) {
-         nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
--                                 vdpa_device_fd, i, 1, false,
-+                                 vdpa_device_fd, i, 1, num_as, false,
-                                  opts->x_svq, iova_tree);
-         if (!nc)
-             goto err;
--- 
-2.31.1
-
+Regards,
+Bin
 
