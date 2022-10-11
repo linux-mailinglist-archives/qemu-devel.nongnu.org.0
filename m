@@ -2,75 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD6C45FBDE2
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 00:42:13 +0200 (CEST)
-Received: from localhost ([::1]:32988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57C615FBDE4
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 00:44:26 +0200 (CEST)
+Received: from localhost ([::1]:59250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiNwy-0001ru-DC
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 18:42:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37726)
+	id 1oiNz7-00065E-FK
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 18:44:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oiNvI-00006m-TO; Tue, 11 Oct 2022 18:40:28 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:35767)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oiNvG-0001RP-TC; Tue, 11 Oct 2022 18:40:28 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id h10so14581095plb.2;
- Tue, 11 Oct 2022 15:40:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=K4rENLlk1pqovVAyYJPfZUVgTvC8JwSjkTBrrydmKnE=;
- b=qHzWu3r1Moo/XGjGg5711k4vNTjd8DbxjtSRwpTQymISetPNLX36eNaJtYKB14fzNl
- ncnZIAgXGgXvCrauV90aeKty+fiiisdMQa+vNjOLRCnbBXhH60vFEAXDFekT2NFvIg0w
- t5fzz/F1ex0wmyci0dQeoso/eOz4T4XkuIMPWioo8DZ+04C5dRBqZt1gb2LMDA8onJRU
- BZ4QoBMm6scF2c8XHxRw8Yy17D7vWR9OQm58fUpQM+Wats1iefy8nx/0/41/w7QdzTEU
- gpnS++uVFRLo5Xmy4wglF1slfxGyY1aG0IOJenddOzZsqgv/oyvSajzTkCkop9Y7LuOX
- KQ3w==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oiNwo-0001o3-Vi
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 18:42:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27163)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oiNwl-0001ca-EV
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 18:42:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665528118;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=i8TTtposSZYQTtB9V6JPIFQIxeYJS2AvR7pe9z9adFg=;
+ b=QHaVH29Gh8DNyypWsqHYFsOzHEnSMSmJLDO00pL9uFsDSKH8+sClZxYfEXK1tgpRiizZGi
+ 6DWyjeKWVnm3U4K/JnKabi0QzKf13/+NPO2YM6/+mI+dR1xYb6g4tZ8CifineuISkP5KEQ
+ i4JQrRDveTzgwadsqvKKSpE8Wy2x8HI=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-126-8Ffqk4RbNda3nKuYzlqgQA-1; Tue, 11 Oct 2022 18:41:57 -0400
+X-MC-Unique: 8Ffqk4RbNda3nKuYzlqgQA-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ h9-20020a05620a244900b006ee944ec451so511354qkn.13
+ for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 15:41:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=K4rENLlk1pqovVAyYJPfZUVgTvC8JwSjkTBrrydmKnE=;
- b=mTkTx5fI/T0PtNKLMsLD7HsvNp9tegKrF2hLMMjgIhrqHtbTk3o27YMRaj5IJLE3Vl
- 5NLdtbj9aA3fnzApIRMxLu+Y68cQs0aBlvbNSyoibCxAy6/N+wjkAZVrkaCIfjIE8KmM
- nbc9/sPLB5FDD5Gi3TXJ7oSh9p5g71oUUXAgv4OakoFqkt2Fl/++nq3hkTbR2L0DE47n
- ARRPQT7l1VCku2y/iTUPreUuxJjm6viSHnz9JRgk18OpzSf5ce0uXTmXEQiPMzwroWX5
- DhO2yrGkHNQ4UiKZjt22Y+buJJzNf5OaRZiYMguqz3l7EKXl5iGQLFiSHxhOlYE76XJf
- vZfQ==
-X-Gm-Message-State: ACrzQf13ZqH5LUgYfMcL6odkJ+gQY3Y1ezT37EKZBP/UvMCsMJZmBugV
- vFwfnCs0wEGawQ+UFF7ZA5eqVIwd3JWyVQgNAVE=
-X-Google-Smtp-Source: AMsMyM7aIldt6dG18DMbEGhYFz1d3+0NkiE7UsSQSyH4Q6ePcuBgkVKt/SVsqxmen10i1eRG9N+IksJQn4mUMd+YfKw=
-X-Received: by 2002:a17:903:32c4:b0:178:5206:b396 with SMTP id
- i4-20020a17090332c400b001785206b396mr26500372plr.99.1665528024654; Tue, 11
- Oct 2022 15:40:24 -0700 (PDT)
+ bh=i8TTtposSZYQTtB9V6JPIFQIxeYJS2AvR7pe9z9adFg=;
+ b=fQD6XK7p1w5DqNFPmkjrTKX0v48c/Q9v16qc9dwnXl9B5g/lk5Lpj+ktCMrv/Jw5xz
+ Xt7xdWxf3hq30+qyEvPbuOfFdTjtxEeJXNlSG9/3ie+VznglZovVe6/FWaZ8IHFbyYVu
+ S9uQliEBmsgSNnWXi5Ym+XfYW65DHUTLR8tYG42BdJyfvAL8eP8uLLeF3g+aQRTttMsX
+ Enw6k9f27RPYhS46gYJQup/vf4OK1py3kKHEdfndlgr7m8MQJbBN7e2CcFbOGHqFVZ0T
+ y7ZlS8md/rmZD9iocDHjz8qspUAgsn/NaiFejSB384QnGp1jJk2NJL/LMlsX7bG5eVtV
+ yJOg==
+X-Gm-Message-State: ACrzQf0WACRMsVlzwEyOvF5dOCdbCjQBrCRyUWu+u604mrvOM4K5YsMj
+ xxxdgHIVVCHkS7x8KkL7qrlDV9ljE75PpIUFLoSIrkdQ3vRlFcfChn+mRFzxyoToVSIyyjNnj9b
+ BYpFtdR+WAgefFC+1YzkrEc2n+d5CL/sDgIBdeo61znvRzPT64juH6m0pG625zCjy
+X-Received: by 2002:a05:6214:509a:b0:4b1:b089:366e with SMTP id
+ kk26-20020a056214509a00b004b1b089366emr21648838qvb.99.1665528116565; 
+ Tue, 11 Oct 2022 15:41:56 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM619v4vDz1stPZUNnMEWKLVrKLZsgU89zS86ukICQmz3yQg9S5JMeRm/+QNvpgiSK050mzMXg==
+X-Received: by 2002:a05:6214:509a:b0:4b1:b089:366e with SMTP id
+ kk26-20020a056214509a00b004b1b089366emr21648808qvb.99.1665528116267; 
+ Tue, 11 Oct 2022 15:41:56 -0700 (PDT)
+Received: from x1n.redhat.com
+ (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca. [70.31.27.79])
+ by smtp.gmail.com with ESMTPSA id
+ h17-20020ac87771000000b0039ad65104fasm4258660qtu.12.2022.10.11.15.41.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Oct 2022 15:41:55 -0700 (PDT)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: peterx@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Yury Kotov <yury-kotov@yandex-team.ru>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: [PATCH RFC 0/2] qemu-thread: Strict unlock check
+Date: Tue, 11 Oct 2022 18:41:52 -0400
+Message-Id: <20221011224154.644379-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.37.3
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20221004092351.18209-1-sunilvl@ventanamicro.com>
-In-Reply-To: <20221004092351.18209-1-sunilvl@ventanamicro.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 12 Oct 2022 08:39:57 +1000
-Message-ID: <CAKmqyKPkaDnKDwpSLZHcCgQxTg8XEiijmtJVz3opPSLoqjNvJQ@mail.gmail.com>
-Subject: Re: [PATCH V5 0/3] hw/riscv: virt: Enable booting S-mode firmware
- from pflash
-To: Sunil V L <sunilvl@ventanamicro.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>, Song Gao <gaosong@loongson.cn>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Gerd Hoffmann <kraxel@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=alistair23@gmail.com; helo=mail-pl1-x62d.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,95 +99,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 4, 2022 at 7:25 PM Sunil V L <sunilvl@ventanamicro.com> wrote:
->
-> This series adds the support to boot S-mode FW like EDK2 from the flash. The
-> S-mode firmware should be kept in pflash unit 1.
->
-> When -kernel (and -initrd) option is also provided along with the flash,
-> the kernel (and initrd) will be loaded into fw_cfg table and opensbi will
-> branch to the flash address which will be the entry point of the S-mode
-> firmware. The S-mode FW then loads and launches the kernel.
->
-> When only -pflash option is provided in the command line, the kernel
-> will be located and loaded in the usual way by the S-mode firmware.
->
-> These patches are available in below branch.
-> https://github.com/vlsunil/qemu/tree/pflash_v2
->
-> The first two patches in this series are refactor patches.
->
-> These changes are tested with a WIP EDK2 port for virt machine. Below
-> are the instructions to build and test this feature.
->
-> 1) Get EDK2 sources from below branches.
-> https://github.com/vlsunil/edk2/tree/virt_refactor_smode_v1
-> https://github.com/vlsunil/edk2-platforms/tree/virt_refactor_smode_v1
->
-> 2) Build EDK2 for RISC-V
->         export WORKSPACE=`pwd`
->         export GCC5_RISCV64_PREFIX=riscv64-linux-gnu-
->         export PACKAGES_PATH=$WORKSPACE/edk2:$WORKSPACE/edk2-platforms
->         export EDK_TOOLS_PATH=$WORKSPACE/edk2/BaseTools
->         source edk2/edksetup.sh
->         make -C edk2/BaseTools clean
->         make -C edk2/BaseTools
->         make -C edk2/BaseTools/Source/C
->         source edk2/edksetup.sh BaseTools
->         build -a RISCV64  -p Platform/Qemu/RiscVVirt/RiscVVirt.dsc -t GCC5
->
-> 3)Make the EDK2 image size to match with what qemu flash expects
-> truncate -s 32M Build/RiscVVirt/DEBUG_GCC5/FV/RISCV_VIRT.fd
->
-> 4) Run
-> a) Boot to EFI shell (no -kernel / -initrd option)
-> qemu-system-riscv64  -nographic   -drive file=Build/RiscVVirt/DEBUG_GCC5/FV/RISCV_VIRT.fd,if=pflash,format=raw,unit=1  -machine virt -M 2G
->
-> b) With -kernel, -initrd and -pflash
-> qemu-system-riscv64  -nographic   -drive file=Build/RiscVVirt/DEBUG_GCC5/FV/RISCV_VIRT.fd,if=pflash,format=raw,unit=1  -machine virt -M 2G -kernel arch/riscv/boot/Image.gz -initrd rootfs.cpio
->
->
-> Changes since V4:
->         1) Rebased on riscv-to-apply.next branch
->         2) Added RB tags
->         3) Gerd's feedback on removing the truncate requirement will be addressed as separate
->            patch in future.
->
-> Changes since V3:
->         1) White space and comment edits
->         2) Added RB tag
->
-> Changes since V2:
->         1) Moved the doc comment to .h file
->
-> Changes since V1:
->         1) Modified code to support the use case when both -kernel and -pflash are configured.
->         2) Refactor patches added to help (1) above.
->         3) Cover letter added with test instructions.
->
-> Sunil V L (3):
->   hw/arm,loongarch: Move load_image_to_fw_cfg() to common location
->   hw/riscv: virt: Move create_fw_cfg() prior to loading kernel
->   hw/riscv: virt: Enable booting S-mode firmware from pflash
+NOTE: mark patchset RFC because "make check" will easily fail; but I didn't
+yet dig into why as I'm not familiar with the code paths that triggers, it
+can be bugs hidden or something I missed.  So RFC to just have some thoughts.
 
-Thanks!
+The first patch converts the new timedwait to use DEBUG_MUTEX paths too.
+IMO this one is pretty much wanted.  The second patch add a strict version
+of pthread_mutex_unlock() check by making sure the lock is locked first.
 
-Applied to riscv-to-apply.next
+This comes from a debugging of migration code where we have had functions
+like:
 
-Alistair
+  /* func() must be with lockA held */
+  func() {
+    ...
+    /* Temporarily release the lock */
+    qemu_mutex_unlock(lockA);
+    ...
+    /* Retake the lock */
+    qemu_mutex_lock(lockA);
+    ...
+  }
 
->
->  hw/arm/boot.c             | 49 ---------------------------------------
->  hw/loongarch/virt.c       | 33 --------------------------
->  hw/nvram/fw_cfg.c         | 32 +++++++++++++++++++++++++
->  hw/riscv/boot.c           | 29 +++++++++++++++++++++++
->  hw/riscv/virt.c           | 32 ++++++++++++++++++-------
->  include/hw/nvram/fw_cfg.h | 21 +++++++++++++++++
->  include/hw/riscv/boot.h   |  1 +
->  7 files changed, 107 insertions(+), 90 deletions(-)
->
-> --
-> 2.25.1
->
->
+Since I found that pthread lib is very "friendly" to unpaired unlock and
+just silently ignore it, returning 0 as succeed.  It means when func() is
+called without lockA held the unlock() above will be ignored, but the
+follow up lock() will be real.  Later it will easily cause deadlock
+afterwards in func() above because they just don't pair anymore right after
+the one ignored unlock().
+
+Since it's harder to know where should we take the lock, it's still easily
+to fail the unlock() upon a lock not being held at all, so it's at least
+earlier than the deadlock later on lockA in some other thread.
+
+Patch 2 can also be used to further replace [sg]et_iothread_locked(), I
+think, then we need to move the "locked" to be outside DEBUG_MUTEX but only
+keep the assert() inside.  But we can discuss that later.
+
+Comments welcomed, thanks.
+
+Peter Xu (2):
+  qemu-thread: Enable the new timedwait to use DEBUG_MUTEX too
+  qemu-thread: Fail hard for suspecious mutex unlocks
+
+ include/qemu/thread-posix.h |  1 +
+ util/qemu-thread-common.h   | 10 ++++++++++
+ util/qemu-thread-posix.c    |  4 ++--
+ 3 files changed, 13 insertions(+), 2 deletions(-)
+
+-- 
+2.37.3
+
 
