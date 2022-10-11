@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F02785FBC37
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 22:38:11 +0200 (CEST)
-Received: from localhost ([::1]:40050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE3D85FBC51
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 22:42:40 +0200 (CEST)
+Received: from localhost ([::1]:34090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiM0x-0001r5-3E
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 16:38:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60970)
+	id 1oiM5H-0007mW-NS
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 16:42:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1oiLWR-0006TQ-3m
+ id 1oiLWR-0006TR-5r
  for qemu-devel@nongnu.org; Tue, 11 Oct 2022 16:06:40 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:59499)
+Received: from mout.kundenserver.de ([212.227.126.130]:54521)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1oiLWN-0003nC-7W
+ id 1oiLWO-0003n1-PQ
  for qemu-devel@nongnu.org; Tue, 11 Oct 2022 16:06:38 -0400
 Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N32y5-1p9Nwj3EBZ-013LA1; Tue, 11 Oct 2022 22:06:09 +0200
+ id 1MkYLW-1pRsXE1Tsk-00m5IA; Tue, 11 Oct 2022 22:06:10 +0200
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Stefano Stabellini <sstabellini@kernel.org>,
@@ -35,32 +35,33 @@ Cc: Stefano Stabellini <sstabellini@kernel.org>,
  Samuel Thibault <samuel.thibault@ens-lyon.org>,
  Markus Armbruster <armbru@redhat.com>, Paul Durrant <paul@xen.org>,
  David Gibson <david@gibson.dropbear.id.au>, xen-devel@lists.xenproject.org
-Subject: [PATCH v11 16/17] tests/qtest: netdev: test stream and dgram backends
-Date: Tue, 11 Oct 2022 22:05:38 +0200
-Message-Id: <20221011200539.1486809-17-lvivier@redhat.com>
+Subject: [PATCH v11 17/17] net: stream: add QAPI events to report connection
+ state
+Date: Tue, 11 Oct 2022 22:05:39 +0200
+Message-Id: <20221011200539.1486809-18-lvivier@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221011200539.1486809-1-lvivier@redhat.com>
 References: <20221011200539.1486809-1-lvivier@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:RJBHOfXCnWbuHXI+J/jOEkoFW7ShFepPBrX3ec7hwHHPGeG8JdK
- rEuxrIG+kTQqx5QaoYMvDd0qhjLIWLsCQfMQ57s7il9o1ZGgoqRj+x+jeg3DNTSlUc89+at
- qE8xOdRU/SFStmsleJoQf+1HpwmZKnb6o/fxwuiqIkLh3NUFw7JD2lt6Yhsl2e5G56dKUpm
- uKIZfev54bXqoILRtYDGg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:2i6XrCzfqRs=:QHmxzJyycATjMXlf6gT2i+
- 7zFkqo751SH3KulzD0sA9WCg5+l4LqdkKP8irk7pO3mkKLY2g2ieQrbN5IaVW3/oUOV6Qj/6C
- V7C0hmxuoorvWoqHzwVcAexAFoeARYTVZXxhq7+LJRSJ1+StDeuW7W8ZfgFId/sytgvMJw/bI
- BF6Ay+t9lnZ+1dj/kBCBuHwkAHYLQawCueBkAKVvQ+z4VuMf0CVKi5AjzzAOaM5scHR3k+OHw
- zQW6TUqnHWVbX4KTJRBS6ouQ5qeqBRcl4kIb1Dsc9+ORDJISugHplKh22e5XNdXVE+c9t55IW
- fKN1e4StGHYc/XXAlWv+bGUyiN+dn4pwT0HJB9JRyAnFAW8doWteHiQRtCnyaz91zRMUj38+q
- 4ac2TRoZUP6KLUmypLOFU4Jv25b7vMLdLgsvEWA/1rCDC7DBQRFs8wNWYaal6lEpj3s2eMiF/
- ANcE8voQHDiqTHHG/pekpuNu8bN0wW01G4uijiMnYpoQ9ulgYrKW+HMSJaqHOoOBOafXNgxTH
- 2K5vbZkRDwtNh5kYXatRNk9bysGmbWm9jgdgjTK8Ni0qNdcwODuzdvS8jT2KZ3WBiA3lG0JKH
- SUr+0VFgbFNt0UzhIQov2wVJNmEe+dGIwgDatIFw2U5ouSRAXxwtEZscDOBxVuCxEWAgQnEZu
- je6sst00ugwc1e5eb/VKxvrZ5B3FhTORz5D+ZJUoCJ4claQTtQ2+uSnDs6WvgFl7iSc8Dz///
- b78Eft7a6O3Nh5pfHYA1AK/Ke4TnQo2vJLLJOIEMa4iy14xPmT7Pcye/0pa1wXFsKZ5H1HiAJ
- WjX9puI
-Received-SPF: permerror client-ip=212.227.126.131;
+X-Provags-ID: V03:K1:ukB643UynxESkuvexvwLMO3uLV40x/y239Rykp2Y8sCiFWsyJzz
+ 351vqoEiEJ+zfGSWXiI8XZ0XxoDl75/BoX8hEZBsBrZQRf7ry6FHk62R2I9B7JdBl8SOFqV
+ G9iftbojj91MV499/58NxR26Ka9FYnfrnqkyhvFfI6Dbl89+juAGFqb1WNwMcQjsJ1JiA4F
+ 4xVtj1/D/e2gkxRQkwCAg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:aw+E7ZncHHc=:sGiI6m52tLA4EWvJQWVP1v
+ wqQwOtOSmF+ipRzx0rMfFy78aiXhu++rHuFct7/hixs5OutDiOy2cFQAs23H3LMEZrV+Fj+w2
+ Jxum8wTo2mnQOH9V63eme0Vk9ldwizckHyFbYzhmN5o0TlkCarhyKt4JuNi9NUkLDSyCBIZbX
+ Exm3/VS7xtcUFMGtrBCWdo/LSwVf31G6ViTPzv1F1tCMlDyNKwGN86ZEsMBCyYANIJMNEkiN7
+ F5shUVmMlTWl98xQoJyPNCSaezFhoWi5zua8k4ZOGXjDFpFjkDVkSPs3pakeq+qjK9YliM1eL
+ 0yUApUMAiU8uYcUJm0y2H+9Y3NsuJzKVo0mrgB2CDpA4cb5zsPmWTGNJO7oW4is3iYpCcv2uA
+ x420htJSvn727nVtYfz12NUDtqJnYngX4WW68CT9RxuuFSPMdfWYLp1QFzTCvpIOeLlEuLS69
+ zM7joIFwsjKL3Ws/t9Rk8xsi99GgGNFGhjJbJP3f3ioXi/Co/MLcg0dlQtXv3146ZyY7F4b+n
+ MSr0CvZz4LUx0230ZXxoN98l81Af4ai3jQujngFai9+pMcXdBwCqmOCy+F6kirkyPjCKFvWDU
+ N7laJXqxe5RDMfeMiJHGm3+Q2i4VJ/AfVSm1k7LqTxv2HRcDBtV9ZqF7aF0dCcW0VaZLHnRh/
+ N8qvPBPHUzZVcGeDmjk/MPxCtKKuRMerXVo/GNlcVDuGf8bop8WWZpBuo/kS44bWnOr/E+M1m
+ +Rq6Tt4F8wSaFL8PgNCx3mhYlPX2B4zgZtVYHkKdHksYw6B7vZlNND8Un8x1uzYt9v8F5Kwdw
+ ZM9HMrG
+Received-SPF: permerror client-ip=212.227.126.130;
  envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -83,449 +84,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The netdev reports NETDEV_STREAM_CONNECTED event when the backend
+is connected, and NETDEV_STREAM_EOC when it is disconnected.
+
+The NETDEV_STREAM_CONNECTED event includes the URI of the destination
+address.
+
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/meson.build     |   1 +
- tests/qtest/netdev-socket.c | 417 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 418 insertions(+)
- create mode 100644 tests/qtest/netdev-socket.c
+ net/stream.c  | 11 +++++++++--
+ qapi/net.json | 46 ++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 55 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 455f1bbb7e52..464774e7b630 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -27,6 +27,7 @@ qtests_generic = [
-   'test-hmp',
-   'qos-test',
-   'readconfig-test',
-+  'netdev-socket',
- ]
- if config_host.has_key('CONFIG_MODULES')
-   qtests_generic += [ 'modules-test' ]
-diff --git a/tests/qtest/netdev-socket.c b/tests/qtest/netdev-socket.c
-new file mode 100644
-index 000000000000..4ea66b4c6988
---- /dev/null
-+++ b/tests/qtest/netdev-socket.c
-@@ -0,0 +1,417 @@
-+/*
-+ * QTest testcase for netdev stream and dgram
-+ *
-+ * Copyright (c) 2022 Red Hat, Inc.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "libqtest.h"
-+
-+#define CONNECTION_TIMEOUT    5
-+
-+#define EXPECT_STATE(q, e, t)                             \
-+do {                                                      \
-+    char *resp = qtest_hmp(q, "info network");            \
-+    if (t) {                                              \
-+        strrchr(resp, t)[0] = 0;                          \
-+    }                                                     \
-+    g_test_timer_start();                                 \
-+    while (g_test_timer_elapsed() < CONNECTION_TIMEOUT) { \
-+        if (strcmp(resp, e) == 0) {                       \
-+            break;                                        \
-+        }                                                 \
-+        g_free(resp);                                     \
-+        resp = qtest_hmp(q, "info network");              \
-+        if (t) {                                          \
-+            strrchr(resp, t)[0] = 0;                      \
-+        }                                                 \
-+    }                                                     \
-+    g_assert_cmpstr(resp, ==, e);                         \
-+    g_free(resp);                                         \
-+} while (0)
-+
-+static int inet_get_free_port_socket(int sock)
-+{
-+    struct sockaddr_in addr;
-+    socklen_t len;
-+
-+    memset(&addr, 0, sizeof(addr));
-+    addr.sin_family = AF_INET;
-+    addr.sin_addr.s_addr = INADDR_ANY;
-+    addr.sin_port = 0;
-+    if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
-+        return -1;
-+    }
-+
-+    len = sizeof(addr);
-+    if (getsockname(sock,  (struct sockaddr *)&addr, &len) < 0) {
-+        return -1;
-+    }
-+
-+    return ntohs(addr.sin_port);
-+}
-+
-+static int inet_get_free_port_multiple(int nb, int *port)
-+{
-+    int sock[nb];
-+    int i;
-+
-+    for (i = 0; i < nb; i++) {
-+        sock[i] = socket(AF_INET, SOCK_STREAM, 0);
-+        if (sock[i] < 0) {
-+            break;
-+        }
-+        port[i] = inet_get_free_port_socket(sock[i]);
-+    }
-+
-+    nb = i;
-+    for (i = 0; i < nb; i++) {
-+        closesocket(sock[i]);
-+    }
-+
-+    return nb;
-+}
-+
-+static int inet_get_free_port(void)
-+{
-+    int nb, port;
-+
-+    nb = inet_get_free_port_multiple(1, &port);
-+    g_assert_cmpint(nb, ==, 1);
-+
-+    return port;
-+}
-+
-+static void test_stream_inet_ipv4(void)
-+{
-+    QTestState *qts0, *qts1;
-+    char *expect;
-+    int port;
-+
-+    port = inet_get_free_port();
-+    qts0 = qtest_initf("-nodefaults "
-+                       "-netdev stream,id=st0,addr.type=inet,"
-+                       "addr.ipv4=on,addr.ipv6=off,"
-+                       "addr.host=localhost,addr.port=%d", port);
-+
-+    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
-+
-+    qts1 = qtest_initf("-nodefaults "
-+                       "-netdev stream,server=false,id=st0,addr.type=inet,"
-+                       "addr.ipv4=on,addr.ipv6=off,"
-+                       "addr.host=localhost,addr.port=%d", port);
-+
-+    expect = g_strdup_printf("st0: index=0,type=stream,tcp:127.0.0.1:%d\r\n",
-+                             port);
-+    EXPECT_STATE(qts1, expect, 0);
-+    g_free(expect);
-+
-+    /* the port is unknown, check only the address */
-+    EXPECT_STATE(qts0, "st0: index=0,type=stream,tcp:127.0.0.1", ':');
-+
-+    qtest_quit(qts1);
-+    qtest_quit(qts0);
-+}
-+
-+static void test_stream_inet_ipv6(void)
-+{
-+    QTestState *qts0, *qts1;
-+    char *expect;
-+    int port;
-+
-+    port = inet_get_free_port();
-+    qts0 = qtest_initf("-nodefaults "
-+                       "-netdev stream,id=st0,addr.type=inet,"
-+                       "addr.ipv4=off,addr.ipv6=on,"
-+                       "addr.host=localhost,addr.port=%d", port);
-+
-+    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
-+
-+    qts1 = qtest_initf("-nodefaults "
-+                       "-netdev stream,server=false,id=st0,addr.type=inet,"
-+                       "addr.ipv4=off,addr.ipv6=on,"
-+                       "addr.host=localhost,addr.port=%d", port);
-+
-+    expect = g_strdup_printf("st0: index=0,type=stream,tcp:::1:%d\r\n",
-+                             port);
-+    EXPECT_STATE(qts1, expect, 0);
-+    g_free(expect);
-+
-+    /* the port is unknown, check only the address */
-+    EXPECT_STATE(qts0, "st0: index=0,type=stream,tcp:::1", ':');
-+
-+    qtest_quit(qts1);
-+    qtest_quit(qts0);
-+}
-+
-+static void test_stream_unix(void)
-+{
-+    QTestState *qts0, *qts1;
-+    char *expect;
-+    gchar *path;
-+    int ret;
-+
-+    ret = g_file_open_tmp("netdev-XXXXXX", &path, NULL);
-+    g_assert_true(ret >= 0);
-+    close(ret);
-+
-+    qts0 = qtest_initf("-nodefaults "
-+                       "-netdev stream,id=st0,addr.type=unix,addr.path=%s,",
-+                       path);
-+
-+    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
-+
-+    qts1 = qtest_initf("-nodefaults "
-+                       "-netdev stream,id=st0,server=false,"
-+                       "addr.type=unix,addr.path=%s",
-+                       path);
-+
-+    expect = g_strdup_printf("st0: index=0,type=stream,unix:%s\r\n", path);
-+    EXPECT_STATE(qts1, expect, 0);
-+    EXPECT_STATE(qts0, expect, 0);
-+    g_free(expect);
-+    unlink(path);
-+    g_free(path);
-+
-+    qtest_quit(qts1);
-+    qtest_quit(qts0);
-+}
-+
-+static void test_stream_unix_abstract(void)
-+{
-+    QTestState *qts0, *qts1;
-+    char *expect;
-+    gchar *path;
-+    int ret;
-+
-+    ret = g_file_open_tmp("netdev-XXXXXX", &path, NULL);
-+    g_assert_true(ret >= 0);
-+    close(ret);
-+
-+    qts0 = qtest_initf("-nodefaults "
-+                       "-netdev stream,id=st0,addr.type=unix,addr.path=%s,"
-+                       "addr.abstract=on",
-+                       path);
-+
-+    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
-+
-+    qts1 = qtest_initf("-nodefaults "
-+                       "-netdev stream,id=st0,server=false,"
-+                       "addr.type=unix,addr.path=%s,addr.abstract=on",
-+                       path);
-+
-+    expect = g_strdup_printf("st0: index=0,type=stream,unix:%s\r\n", path);
-+    EXPECT_STATE(qts1, expect, 0);
-+    EXPECT_STATE(qts0, expect, 0);
-+    g_free(expect);
-+    unlink(path);
-+    g_free(path);
-+
-+    qtest_quit(qts1);
-+    qtest_quit(qts0);
-+}
-+
-+static void test_stream_fd(void)
-+{
-+    QTestState *qts0, *qts1;
-+    char *expect;
-+    int ret, sock0, sock1;
-+    struct sockaddr_un addr;
-+    gchar *path;
-+
-+    ret = g_file_open_tmp("netdev-XXXXXX", &path, NULL);
-+    g_assert_true(ret >= 0);
-+    close(ret);
-+    addr.sun_family = AF_UNIX;
-+    strcpy(addr.sun_path, path);
-+
-+    unlink(addr.sun_path);
-+    sock0 = socket(AF_LOCAL, SOCK_STREAM, 0);
-+    g_assert_cmpint(sock0, !=, -1);
-+
-+    ret = bind(sock0, (struct sockaddr *)&addr, sizeof(addr));
-+    g_assert_cmpint(ret, !=, -1);
-+
-+    qts0 = qtest_initf("-nodefaults "
-+                       "-netdev stream,id=st0,addr.type=fd,addr.str=%d",
-+                       sock0);
-+
-+    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
-+
-+    sock1 = socket(AF_LOCAL, SOCK_STREAM, 0);
-+    g_assert_cmpint(sock1, !=, -1);
-+
-+    ret = connect(sock1, (struct sockaddr *)&addr, sizeof(addr));
-+    g_assert_cmpint(ret, !=, -1);
-+
-+    qts1 = qtest_initf("-nodefaults "
-+                       "-netdev stream,id=st0,server=off,addr.type=fd,addr.str=%d",
-+                       sock1);
-+
-+
-+    expect = g_strdup_printf("st0: index=0,type=stream,unix:%s\r\n", path);
-+    EXPECT_STATE(qts1, expect, 0);
-+    EXPECT_STATE(qts0, expect, 0);
-+    g_free(expect);
-+
-+    qtest_quit(qts1);
-+    qtest_quit(qts0);
-+
-+    closesocket(sock0);
-+    closesocket(sock1);
-+
-+    g_free(path);
-+}
-+
-+static void test_dgram_inet(void)
-+{
-+    QTestState *qts0, *qts1;
-+    char *expect;
-+    int port[2];
-+    int nb;
-+
-+    nb = inet_get_free_port_multiple(2, port);
-+    g_assert_cmpint(nb, ==, 2);
-+
-+    qts0 = qtest_initf("-nodefaults "
-+                       "-netdev dgram,id=st0,"
-+                       "local.type=inet,local.host=localhost,local.port=%d,"
-+                       "remote.type=inet,remote.host=localhost,remote.port=%d",
-+                        port[0], port[1]);
-+
-+    expect = g_strdup_printf("st0: index=0,type=dgram,"
-+                             "udp=127.0.0.1:%d/127.0.0.1:%d\r\n",
-+                             port[0], port[1]);
-+    EXPECT_STATE(qts0, expect, 0);
-+    g_free(expect);
-+
-+    qts1 = qtest_initf("-nodefaults "
-+                       "-netdev dgram,id=st0,"
-+                       "local.type=inet,local.host=localhost,local.port=%d,"
-+                       "remote.type=inet,remote.host=localhost,remote.port=%d",
-+                        port[1], port[0]);
-+
-+    expect = g_strdup_printf("st0: index=0,type=dgram,"
-+                             "udp=127.0.0.1:%d/127.0.0.1:%d\r\n",
-+                             port[1], port[0]);
-+    EXPECT_STATE(qts1, expect, 0);
-+    g_free(expect);
-+
-+    qtest_quit(qts1);
-+    qtest_quit(qts0);
-+}
-+
-+static void test_dgram_mcast(void)
-+{
-+    QTestState *qts;
-+
-+    qts = qtest_initf("-nodefaults "
-+                       "-netdev dgram,id=st0,"
-+                       "remote.type=inet,remote.host=230.0.0.1,remote.port=1234");
-+
-+    EXPECT_STATE(qts, "st0: index=0,type=dgram,mcast=230.0.0.1:1234\r\n", 0);
-+
-+    qtest_quit(qts);
-+}
-+
-+static void test_dgram_unix(void)
-+{
-+    QTestState *qts0, *qts1;
-+    char *expect;
-+    gchar *path0, *path1;
-+    int ret;
-+
-+    ret = g_file_open_tmp("netdev-XXXXXX", &path0, NULL);
-+    g_assert_true(ret >= 0);
-+    close(ret);
-+
-+    ret = g_file_open_tmp("netdev-XXXXXX", &path1, NULL);
-+    g_assert_true(ret >= 0);
-+    close(ret);
-+
-+    qts0 = qtest_initf("-nodefaults "
-+                       "-netdev dgram,id=st0,local.type=unix,local.path=%s,"
-+                       "remote.type=unix,remote.path=%s",
-+                       path0, path1);
-+
-+    expect = g_strdup_printf("st0: index=0,type=dgram,udp=%s:%s\r\n",
-+                             path0, path1);
-+    EXPECT_STATE(qts0, expect, 0);
-+    g_free(expect);
-+
-+    qts1 = qtest_initf("-nodefaults "
-+                       "-netdev dgram,id=st0,local.type=unix,local.path=%s,"
-+                       "remote.type=unix,remote.path=%s",
-+                       path1, path0);
-+
-+
-+    expect = g_strdup_printf("st0: index=0,type=dgram,udp=%s:%s\r\n",
-+                             path1, path0);
-+    EXPECT_STATE(qts1, expect, 0);
-+    g_free(expect);
-+
-+    unlink(path0);
-+    g_free(path0);
-+    unlink(path1);
-+    g_free(path1);
-+
-+    qtest_quit(qts1);
-+    qtest_quit(qts0);
-+}
-+
-+static void test_dgram_fd(void)
-+{
-+    QTestState *qts0, *qts1;
-+    char *expect;
-+    int ret;
-+    int sv[2];
-+
-+    ret = socketpair(PF_UNIX, SOCK_DGRAM, 0, sv);
-+    g_assert_cmpint(ret, !=, -1);
-+
-+    qts0 = qtest_initf("-nodefaults "
-+                       "-netdev dgram,id=st0,local.type=fd,local.str=%d",
-+                       sv[0]);
-+
-+    expect = g_strdup_printf("st0: index=0,type=dgram,fd=%d unix\r\n", sv[0]);
-+    EXPECT_STATE(qts0, expect, 0);
-+    g_free(expect);
-+
-+    qts1 = qtest_initf("-nodefaults "
-+                       "-netdev dgram,id=st0,local.type=fd,local.str=%d",
-+                       sv[1]);
-+
-+
-+    expect = g_strdup_printf("st0: index=0,type=dgram,fd=%d unix\r\n", sv[1]);
-+    EXPECT_STATE(qts1, expect, 0);
-+    g_free(expect);
-+
-+    qtest_quit(qts1);
-+    qtest_quit(qts0);
-+
-+    closesocket(sv[0]);
-+    closesocket(sv[1]);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    int ret;
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+    qtest_add_func("/netdev/stream/inet/ipv4", test_stream_inet_ipv4);
-+    qtest_add_func("/netdev/stream/inet/ipv6", test_stream_inet_ipv6);
-+    qtest_add_func("/netdev/stream/unix", test_stream_unix);
-+    qtest_add_func("/netdev/stream/unix/abstract", test_stream_unix_abstract);
-+    qtest_add_func("/netdev/stream/fd", test_stream_fd);
-+    qtest_add_func("/netdev/dgram/inet", test_dgram_inet);
-+    qtest_add_func("/netdev/dgram/mcast", test_dgram_mcast);
-+    qtest_add_func("/netdev/dgram/unix", test_dgram_unix);
-+    qtest_add_func("/netdev/dgram/fd", test_dgram_fd);
-+
-+    ret = g_test_run();
-+
-+    return ret;
-+}
+diff --git a/net/stream.c b/net/stream.c
+index 0293e38e5b57..821ae3265356 100644
+--- a/net/stream.c
++++ b/net/stream.c
+@@ -38,6 +38,7 @@
+ #include "io/channel.h"
+ #include "io/channel-socket.h"
+ #include "io/net-listener.h"
++#include "qapi/qapi-events-net.h"
+ 
+ typedef struct NetStreamState {
+     NetClientState nc;
+@@ -168,6 +169,8 @@ static gboolean net_stream_send(QIOChannel *ioc,
+         s->nc.link_down = true;
+         qemu_set_info_str(&s->nc, "");
+ 
++        qapi_event_send_netdev_stream_eoc(s->nc.name);
++
+         return G_SOURCE_REMOVE;
+     }
+     buf = buf1;
+@@ -243,9 +246,10 @@ static void net_stream_listen(QIONetListener *listener,
+     g_assert(addr != NULL);
+     uri = socket_uri(addr);
+     qemu_set_info_str(&s->nc, uri);
+-    g_free(uri);
+     qapi_free_SocketAddress(addr);
+ 
++    qapi_event_send_netdev_stream_connected(s->nc.name, uri);
++    g_free(uri);
+ }
+ 
+ static void net_stream_server_listening(QIOTask *task, gpointer opaque)
+@@ -317,12 +321,12 @@ static void net_stream_client_connected(QIOTask *task, gpointer opaque)
+     g_assert(addr != NULL);
+     uri = socket_uri(addr);
+     qemu_set_info_str(&s->nc, uri);
+-    g_free(uri);
+ 
+     ret = qemu_socket_try_set_nonblock(sioc->fd);
+     if (addr->type == SOCKET_ADDRESS_TYPE_FD && ret < 0) {
+         qemu_set_info_str(&s->nc, "can't use file descriptor %s (errno %d)",
+                           addr->u.fd.str, -ret);
++        g_free(uri);
+         qapi_free_SocketAddress(addr);
+         goto error;
+     }
+@@ -338,6 +342,9 @@ static void net_stream_client_connected(QIOTask *task, gpointer opaque)
+                                             s, NULL);
+     s->nc.link_down = false;
+ 
++    qapi_event_send_netdev_stream_connected(s->nc.name, uri);
++    g_free(uri);
++
+     return;
+ error:
+     object_unref(OBJECT(s->ioc));
+diff --git a/qapi/net.json b/qapi/net.json
+index 6a1a49749294..69f83bceff3f 100644
+--- a/qapi/net.json
++++ b/qapi/net.json
+@@ -895,3 +895,49 @@
+ ##
+ { 'event': 'FAILOVER_NEGOTIATED',
+   'data': {'device-id': 'str'} }
++
++##
++# @NETDEV_STREAM_CONNECTED:
++#
++# Emitted when the netdev stream backend is connected
++#
++# @netdev-id: QEMU netdev id that is connected
++# @uri: The Uniform Resource Identifier identifying the destination address
++#
++# Since: 7.2
++#
++# Example:
++#
++# <- { 'event': 'NETDEV_STREAM_CONNECTED',
++#      'data': {'uri': 'tcp:::1:1234', 'netdev-id': 'netdev0'},
++#      'timestamp': {'seconds': 1663330564, 'microseconds': 804317} }
++#
++# or
++#
++# <- { 'event': 'NETDEV_STREAM_CONNECTED',
++#      'data': {'uri': ''unix:/tmp/qemu0', 'netdev-id': 'netdev0'},
++#      'timestamp': {'seconds': 1663330564, 'microseconds': 804317} }
++#
++##
++{ 'event': 'NETDEV_STREAM_CONNECTED',
++  'data': { 'netdev-id': 'str',
++            'uri': 'str' } }
++
++##
++# @NETDEV_STREAM_EOC:
++#
++# Emitted when the netdev stream backend is disconnected
++#
++# @netdev-id: QEMU netdev id that is disconnected
++#
++# Since: 7.2
++#
++# Example:
++#
++# <- { 'event': 'NETDEV_STREAM_EOC',
++#      'data': {'netdev-id': 'netdev0'},
++#      'timestamp': {'seconds': 1663330937, 'microseconds': 526695} }
++#
++##
++{ 'event': 'NETDEV_STREAM_EOC',
++  'data': { 'netdev-id': 'str' } }
 -- 
 2.37.3
 
