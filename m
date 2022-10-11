@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBA245FB2A9
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 14:48:59 +0200 (CEST)
-Received: from localhost ([::1]:42760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A35AC5FB211
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 14:08:37 +0200 (CEST)
+Received: from localhost ([::1]:47666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiEgs-00020q-VJ
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 08:48:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56484)
+	id 1oiE3n-0008I9-EM
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 08:08:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oiCiB-0004Yy-90
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 06:42:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26478)
+ id 1oiCiG-0004d9-Qm
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 06:42:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50011)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oiCi9-0007n5-Mn
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 06:42:11 -0400
+ id 1oiCiE-0007ng-2u
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 06:42:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665484929;
+ s=mimecast20190719; t=1665484932;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3DZzVaTb8ZcE2rexgrMNXJqh3vRsjkFL61vNK5okDmI=;
- b=bJk4XKkqSHfJVsrqMHHE+NwgAFKe7px+8tx8wIPa5eilJJb1EG2T+iS1sh5Lh23XL85owR
- nN2hx9nWQje/7T+m97xFZdA5qdKhSASRLKfHp5URSHGTbs7rLIDlOjTbXRYY/rYsK9zU/v
- qkUCafRWMUIro2pYAru63EB2I1oTgWM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xtxKFnWxYar2cgRx3GrYp3WJGhmrWZQWUyc94CiOZQI=;
+ b=V0BB3gnpD8o2XkzJvkGKlcXVA6PMsYjDIgZZR88qn+9q+XSL3KcM5yoNPyrGxuWSr/kb6v
+ MRujJ0NcDGXzBhWp6sg8qc8jHp1bGXFE/ZNuaKNdN4NvzdQmdMUPLmuUke5bCQVrrQe38N
+ 3b7hHwU4pBPTwHO3/YRKKGENtKdd+YA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-632-sOY-PxuONzalk5cMh8gaHA-1; Tue, 11 Oct 2022 06:42:04 -0400
-X-MC-Unique: sOY-PxuONzalk5cMh8gaHA-1
+ us-mta-370-dv2X6QnjPzeSZfnb0bWTwA-1; Tue, 11 Oct 2022 06:42:07 -0400
+X-MC-Unique: dv2X6QnjPzeSZfnb0bWTwA-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8D9B5299E742;
- Tue, 11 Oct 2022 10:42:03 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 02BA580280D;
+ Tue, 11 Oct 2022 10:42:07 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.193.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6524B53592D;
- Tue, 11 Oct 2022 10:42:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D5452492B09;
+ Tue, 11 Oct 2022 10:42:03 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Gautam Dawar <gdawar@xilinx.com>, "Michael S. Tsirkin" <mst@redhat.com>,
@@ -55,10 +55,9 @@ Cc: Gautam Dawar <gdawar@xilinx.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  "Gonglei (Arei)" <arei.gonglei@huawei.com>, Cindy Lu <lulu@redhat.com>,
  Liuxiangdong <liuxiangdong5@huawei.com>, Cornelia Huck <cohuck@redhat.com>,
  kvm@vger.kernel.org, Harpreet Singh Anand <hanand@xilinx.com>
-Subject: [PATCH v5 1/6] vdpa: Use v->shadow_vqs_enabled in
- vhost_vdpa_svqs_start & stop
-Date: Tue, 11 Oct 2022 12:41:49 +0200
-Message-Id: <20221011104154.1209338-2-eperezma@redhat.com>
+Subject: [PATCH v5 2/6] vdpa: Allocate SVQ unconditionally
+Date: Tue, 11 Oct 2022 12:41:50 +0200
+Message-Id: <20221011104154.1209338-3-eperezma@redhat.com>
 In-Reply-To: <20221011104154.1209338-1-eperezma@redhat.com>
 References: <20221011104154.1209338-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -89,39 +88,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function used to trust in v->shadow_vqs != NULL to know if it must
-start svq or not.
+SVQ may run or not in a device depending on runtime conditions (for
+example, if the device can move CVQ to its own group or not).
 
-This is not going to be valid anymore, as qemu is going to allocate svq
-unconditionally (but it will only start them conditionally).
+Allocate the resources unconditionally, and decide later if to use them
+or not.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-vdpa.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/virtio/vhost-vdpa.c | 33 +++++++++++++++------------------
+ 1 file changed, 15 insertions(+), 18 deletions(-)
 
 diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 7468e44b87..7f0ff4df5b 100644
+index 7f0ff4df5b..d966966131 100644
 --- a/hw/virtio/vhost-vdpa.c
 +++ b/hw/virtio/vhost-vdpa.c
-@@ -1029,7 +1029,7 @@ static bool vhost_vdpa_svqs_start(struct vhost_dev *dev)
-     Error *err = NULL;
-     unsigned i;
+@@ -410,6 +410,21 @@ static int vhost_vdpa_init_svq(struct vhost_dev *hdev, struct vhost_vdpa *v,
+     int r;
+     bool ok;
  
--    if (!v->shadow_vqs) {
-+    if (!v->shadow_vqs_enabled) {
-         return true;
++    shadow_vqs = g_ptr_array_new_full(hdev->nvqs, vhost_svq_free);
++    for (unsigned n = 0; n < hdev->nvqs; ++n) {
++        g_autoptr(VhostShadowVirtqueue) svq;
++
++        svq = vhost_svq_new(v->iova_tree, v->shadow_vq_ops,
++                            v->shadow_vq_ops_opaque);
++        if (unlikely(!svq)) {
++            error_setg(errp, "Cannot create svq %u", n);
++            return -1;
++        }
++        g_ptr_array_add(shadow_vqs, g_steal_pointer(&svq));
++    }
++
++    v->shadow_vqs = g_steal_pointer(&shadow_vqs);
++
+     if (!v->shadow_vqs_enabled) {
+         return 0;
+     }
+@@ -426,20 +441,6 @@ static int vhost_vdpa_init_svq(struct vhost_dev *hdev, struct vhost_vdpa *v,
+         return -1;
      }
  
-@@ -1082,7 +1082,7 @@ static void vhost_vdpa_svqs_stop(struct vhost_dev *dev)
- {
+-    shadow_vqs = g_ptr_array_new_full(hdev->nvqs, vhost_svq_free);
+-    for (unsigned n = 0; n < hdev->nvqs; ++n) {
+-        g_autoptr(VhostShadowVirtqueue) svq;
+-
+-        svq = vhost_svq_new(v->iova_tree, v->shadow_vq_ops,
+-                            v->shadow_vq_ops_opaque);
+-        if (unlikely(!svq)) {
+-            error_setg(errp, "Cannot create svq %u", n);
+-            return -1;
+-        }
+-        g_ptr_array_add(shadow_vqs, g_steal_pointer(&svq));
+-    }
+-
+-    v->shadow_vqs = g_steal_pointer(&shadow_vqs);
+     return 0;
+ }
+ 
+@@ -580,10 +581,6 @@ static void vhost_vdpa_svq_cleanup(struct vhost_dev *dev)
      struct vhost_vdpa *v = dev->opaque;
+     size_t idx;
  
 -    if (!v->shadow_vqs) {
-+    if (!v->shadow_vqs_enabled) {
-         return;
+-        return;
+-    }
+-
+     for (idx = 0; idx < v->shadow_vqs->len; ++idx) {
+         vhost_svq_stop(g_ptr_array_index(v->shadow_vqs, idx));
      }
- 
 -- 
 2.31.1
 
