@@ -2,77 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4645F5FB7DB
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 17:59:24 +0200 (CEST)
-Received: from localhost ([::1]:36090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E0265FB809
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 18:12:39 +0200 (CEST)
+Received: from localhost ([::1]:44000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiHf7-000689-PE
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 11:59:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39636)
+	id 1oiHrx-0003k3-LY
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 12:12:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <34Y9FYwcKCjgpYhnolYaiiafY.WigkYgo-XYpYfhihaho.ila@flex--venture.bounces.google.com>)
- id 1oiHSv-0000LZ-L9
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 11:46:45 -0400
-Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49]:49752)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oiHYf-0002vb-Ca
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 11:52:46 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:35697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <34Y9FYwcKCjgpYhnolYaiiafY.WigkYgo-XYpYfhihaho.ila@flex--venture.bounces.google.com>)
- id 1oiHSt-0005fX-Cl
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 11:46:44 -0400
-Received: by mail-yb1-xb49.google.com with SMTP id
- a2-20020a5b0002000000b006b48689da76so13787502ybp.16
- for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 08:46:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=CZ3k1SLfFmUEjk+3ZnDSRBaEoZBUuBiFPw8PLhOQgNQ=;
- b=CWneG8+mmY/y1rEUfLtrD7TABr82gnZoX/VPC+XmSeHkWqfjzN2m9Ze+y2bHggwt/r
- /eeEh5LemEXVgz4lDJ6r0tSbD8C1iLjEPdm2I/m4L/rpKdEk6+Dmo1/4hvYKjlUkv1+0
- KE7gsgNbEeSoyPwIH8n/oEde9bF9pV7pj1dOJVYRiqtVnKolLfs26ZM6pwzATWuGZpA8
- fxRJ6Ka0go3f0DzX2JakeFcGbWrJsw0GhaKpL/llUWbKXyOJkkGJkQ7qRvk9jYzg0wli
- drMUQL4RllO2a3YkHvRtw7pl2XB29heGrxSqKIcqxK0pCnmbo8fV4xAcYLusPGPttvEH
- fP0w==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oiHYc-0006QU-Nn
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 11:52:41 -0400
+Received: by mail-pg1-x531.google.com with SMTP id u71so5633466pgd.2
+ for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 08:52:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=6nFglZ8MgjP+W6rdlMRQtongSGxE69d7vg8Hx3SmH3A=;
+ b=wNpKYeO2BvpIMPUyKA0oddPYX8AZ6n9b+sqEbmGW4BahHqLGKb1rshzajXr6gt+bhH
+ aujRN3s3E5QOvOSUi8dBfB743+LX4HerK6wiCuezCjPVxDJJ6stJO0uCZufU2V4p2C5W
+ DqLD6X3VZufM53iJrkO8g27qeFWtJ1A+d5H9KEizDWdI4OCLmejEfZqj5x1xYcK9+8Zv
+ 1ZWw6sEIP1MeDS3F1j+Fke0xSBuGZysE6qy8KtnHY7jouG0+aErOeXx1UZGHk+G2hIzv
+ rtCNbM3q3nBvx9BQJNd8ypvu04cmranGwXgllfQG5Z1dR6r6+K8MRvfw/m/1931tg/cS
+ MXwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=CZ3k1SLfFmUEjk+3ZnDSRBaEoZBUuBiFPw8PLhOQgNQ=;
- b=ZP2Bi9dN+VLjdSJRORtgvRYOTE0gs4e9YveC34dJ3bmL7QU6rsirgSOT6fzj6s8fNh
- 4LTmzCojV5QgJ06CNK2lIndClag6wToWyHpj1m0hwUznTmB6t61xJ/mPp65OeovPuuBL
- uBk4MyrVi6F12bt+dA+PME9Mo0Fd0Q57HjchS4kzAI+fSbrnuyCM5UdMJSTb6uRUxfSA
- yi4U/AV+QrQKsGF9FQfwTs+iAbenFEP4Hr3mnjkiMAQTGGSWcfFHVKRAqjTxrhciCve0
- OnFCEf/NgAh5XwI6uyQzgfUWSyPZrutQVKCHJpYNt9dDooHrhO+QLE9dHGHeXKg8Iuas
- d5hw==
-X-Gm-Message-State: ACrzQf1LquZqo8is4WWMbw2Ele0kTsyn3k3o/ZcZ33PpjP7Stb3N/YQo
- 2GtEDAqeaX+cwmcYaiiObzdTWI7l4tTy
-X-Google-Smtp-Source: AMsMyM4kaipPI059B1SOopLMhG98DiDJ+e+NN252BLZOVGU9AYYbu0O8w1EYxuHPtfqiwrbSa85U/IEIJOK0
-X-Received: from venture.svl.corp.google.com
- ([2620:15c:2a3:201:bf11:a252:e4fc:5281])
- (user=venture job=sendgmr) by 2002:a81:148c:0:b0:360:db30:c1e5 with SMTP id
- 134-20020a81148c000000b00360db30c1e5mr8806251ywu.230.1665503201446; Tue, 11
- Oct 2022 08:46:41 -0700 (PDT)
-Date: Tue, 11 Oct 2022 08:46:37 -0700
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.38.0.rc1.362.ged0d419d3c-goog
-Message-ID: <20221011154637.1383553-1-venture@google.com>
-Subject: [PATCH RESEND] hw/i2c: Enable an id for the pca954x devices
-From: Patrick Venture <venture@google.com>
-To: f4bug@amsat.org, peter.maydell@linaro.org
-Cc: qemu-devel@nongnu.org, Patrick Venture <venture@google.com>,
- Hao Wu <wuhaotsh@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
- envelope-from=34Y9FYwcKCjgpYhnolYaiiafY.WigkYgo-XYpYfhihaho.ila@flex--venture.bounces.google.com;
- helo=mail-yb1-xb49.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6nFglZ8MgjP+W6rdlMRQtongSGxE69d7vg8Hx3SmH3A=;
+ b=6LNg9aQ4rLXNxNZ+5IGzTk8diAoP5MgXZ2Wc0XpSPOpzSWcnMAqowBSqkCqagnu+1v
+ lQV0WKapnkfe3qo7Au2k2jsyt+HN7pla1vHsRCrjDkUStEZgia6sObj4KgHmJFYSWs+n
+ 0rU7SsMiXxfHl7fTyLvxzCDKbSARdgXsZ+JEud54GyRqhf+DQrDYhWiJsxwiKirmPSrL
+ 7retVAkQGF0GOtwX8In+A+H3SNZV4JLdEZ4igO6+8Mjt3UMVL6DiNgp6uipt7yIyBxsz
+ P9A4NqUIhZtwIG2eQwLRSYz6t9d11FVF0V0kzsGkkkVxVO9JNfDpZ5IPDMlJYUNOyR47
+ ipZA==
+X-Gm-Message-State: ACrzQf1lJ3IIr3t1/Ns+YjLBB2E6yq8X3WEGsT9LB6lcpHRH5/wA95k4
+ pbV1e2HPqQhl05780+pHgn/ZFw==
+X-Google-Smtp-Source: AMsMyM7hmPqeka7JLoz/0u4PxTshkvqDGo2l4A1dqnkO19xsNR0VU/nhTkmTzDmG/N0T4Uda/eT2kA==
+X-Received: by 2002:a63:5243:0:b0:43c:96a:8528 with SMTP id
+ s3-20020a635243000000b0043c096a8528mr21350905pgl.47.1665503557071; 
+ Tue, 11 Oct 2022 08:52:37 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49d:ec01:67e1:640e:ccb8:1a4a?
+ ([2602:47:d49d:ec01:67e1:640e:ccb8:1a4a])
+ by smtp.gmail.com with ESMTPSA id
+ jm5-20020a17090304c500b0016be834d54asm8754025plb.306.2022.10.11.08.52.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Oct 2022 08:52:36 -0700 (PDT)
+Message-ID: <3dd4aa84-8921-2b84-6cc1-c3a3b2bdd6ac@linaro.org>
+Date: Tue, 11 Oct 2022 08:52:34 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v5 8/9] target/arm: Introduce gen_pc_plus_diff for aarch32
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20220930220312.135327-1-richard.henderson@linaro.org>
+ <20220930220312.135327-9-richard.henderson@linaro.org>
+ <CAFEAcA_0ZbNpZKyWdQWhh80dc+Y2R08UH9RWWzBOVOsDdWPi1g@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA_0ZbNpZKyWdQWhh80dc+Y2R08UH9RWWzBOVOsDdWPi1g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.934,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,85 +97,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows the devices to be more readily found and specified.
-Without setting the id field, they can only be found by device type
-name, which doesn't let you specify the second of the same device type
-behind a bus.
+On 10/11/22 07:51, Peter Maydell wrote:
+> On Fri, 30 Sept 2022 at 23:05, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> In preparation for TARGET_TB_PCREL, reduce reliance on absolute values.
+>>
+>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   target/arm/translate.c | 29 ++++++++++++++++++-----------
+>>   1 file changed, 18 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/target/arm/translate.c b/target/arm/translate.c
+>> index fd35db8c8c..050da9e740 100644
+>> --- a/target/arm/translate.c
+>> +++ b/target/arm/translate.c
+>> @@ -276,11 +276,16 @@ static target_long jmp_diff(DisasContext *s, target_long diff)
+>>       return diff + (s->thumb ? 4 : 8);
+>>   }
+>>
+>> +static void gen_pc_plus_diff(DisasContext *s, TCGv_i32 var, target_long diff)
+>> +{
+>> +    tcg_gen_movi_i32(var, s->pc_curr + diff);
+>> +}
+>> +
+>>   /* Set a variable to the value of a CPU register.  */
+>>   void load_reg_var(DisasContext *s, TCGv_i32 var, int reg)
+>>   {
+>>       if (reg == 15) {
+>> -        tcg_gen_movi_i32(var, read_pc(s));
+>> +        gen_pc_plus_diff(s, var, jmp_diff(s, 0));
+>>       } else {
+>>           tcg_gen_mov_i32(var, cpu_R[reg]);
+>>       }
+>> @@ -296,7 +301,8 @@ TCGv_i32 add_reg_for_lit(DisasContext *s, int reg, int ofs)
+>>       TCGv_i32 tmp = tcg_temp_new_i32();
+>>
+>>       if (reg == 15) {
+>> -        tcg_gen_movi_i32(tmp, (read_pc(s) & ~3) + ofs);
+>> +        /* This difference computes a page offset so ok for TARGET_TB_PCREL. */
+>> +        gen_pc_plus_diff(s, tmp, (read_pc(s) & ~3) - s->pc_curr + ofs);
+> 
+> We could rephrase this one also to not do the "pc_curr - pc_curr" thing,
+> the way we did for BLX in patch 6, right ?
 
-Tested: Verified that by default the device was findable with the id
-'pca954x[77]', for an instance attached at that address.
+Ah yes.  I missed that in revision.
 
-Signed-off-by: Patrick Venture <venture@google.com>
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
----
- hw/i2c/i2c_mux_pca954x.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
 
-diff --git a/hw/i2c/i2c_mux_pca954x.c b/hw/i2c/i2c_mux_pca954x.c
-index a9517b612a..4f8c2d6ae1 100644
---- a/hw/i2c/i2c_mux_pca954x.c
-+++ b/hw/i2c/i2c_mux_pca954x.c
-@@ -20,6 +20,7 @@
- #include "hw/i2c/i2c_mux_pca954x.h"
- #include "hw/i2c/smbus_slave.h"
- #include "hw/qdev-core.h"
-+#include "hw/qdev-properties.h"
- #include "hw/sysbus.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-@@ -43,6 +44,8 @@ typedef struct Pca954xState {
- 
-     bool enabled[PCA9548_CHANNEL_COUNT];
-     I2CBus *bus[PCA9548_CHANNEL_COUNT];
-+
-+    char *id;
- } Pca954xState;
- 
- /*
-@@ -181,6 +184,17 @@ static void pca9548_class_init(ObjectClass *klass, void *data)
-     s->nchans = PCA9548_CHANNEL_COUNT;
- }
- 
-+static void pca954x_realize(DeviceState *dev, Error **errp)
-+{
-+    Pca954xState *s = PCA954X(dev);
-+    DeviceState *d = DEVICE(s);
-+    if (s->id) {
-+        d->id = g_strdup(s->id);
-+    } else {
-+        d->id = g_strdup_printf("pca954x[%x]", s->parent.i2c.address);
-+    }
-+}
-+
- static void pca954x_init(Object *obj)
- {
-     Pca954xState *s = PCA954X(obj);
-@@ -197,6 +211,11 @@ static void pca954x_init(Object *obj)
-     }
- }
- 
-+static Property pca954x_props[] = {
-+    DEFINE_PROP_STRING("id", Pca954xState, id),
-+    DEFINE_PROP_END_OF_LIST()
-+};
-+
- static void pca954x_class_init(ObjectClass *klass, void *data)
- {
-     I2CSlaveClass *sc = I2C_SLAVE_CLASS(klass);
-@@ -209,9 +228,12 @@ static void pca954x_class_init(ObjectClass *klass, void *data)
-     rc->phases.enter = pca954x_enter_reset;
- 
-     dc->desc = "Pca954x i2c-mux";
-+    dc->realize = pca954x_realize;
- 
-     k->write_data = pca954x_write_data;
-     k->receive_byte = pca954x_read_byte;
-+
-+    device_class_set_props(dc, pca954x_props);
- }
- 
- static const TypeInfo pca954x_info[] = {
--- 
-2.35.1.894.gb6a874cedc-goog
+r~
 
 
