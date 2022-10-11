@@ -2,101 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EE9E5FAE8E
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 10:38:29 +0200 (CEST)
-Received: from localhost ([::1]:38058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF6645FAE95
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 10:41:32 +0200 (CEST)
+Received: from localhost ([::1]:48848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiAmS-0002e8-3g
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 04:38:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36764)
+	id 1oiApP-00059q-Qz
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 04:41:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oiA5Z-0007mP-CR
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 03:54:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40695)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oiAWy-0008PO-6h
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 04:22:28 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:55209)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oiA5M-0007CO-I7
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 03:54:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665474834;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FNRWK8zPojeJyXBy6sl38li5TPqYZIwbfUXOOfluKnk=;
- b=cXlj7Q1/cycB1NZgO6xifs65m7PDxTYCqXl4NWU8E/vKYqirbBYsGGuyjNMyNV++PKn9qm
- PeZI20trhZNm3Vq2KmqTFprKuSSaOgbNO8/lGm3tE0qoCDYJFLjRA3CUom1BhgSQWNUB+J
- 7El5geQiOAUHZSK6+1w3e7j+iSJRMSk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-518-EXJXUtMBNUGdKPmzuz_oGQ-1; Tue, 11 Oct 2022 03:53:53 -0400
-X-MC-Unique: EXJXUtMBNUGdKPmzuz_oGQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- f9-20020adfc989000000b0022b3bbc7a7eso3543055wrh.13
- for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 00:53:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:organization:from
- :references:cc:to:content-language:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=FNRWK8zPojeJyXBy6sl38li5TPqYZIwbfUXOOfluKnk=;
- b=6vcAKYdVTCTokviQXY76nXWHKXCmTc/vTp6sEXTJ73iQKP2daEwlEdinxG2n7zyvv3
- /N6wvrVIa3KMyo+UZQ7UXQZrFIQMp0nH+nEnRieFK1ctkyXAGgDf3LDnHoDfmYA9F6OW
- 6M63xsoYrnEzQx89T8pN/YmJN88ItlbUfyWcH8OYKm+aR1I58Kchf4SiS6kZHkObVfQn
- JLVQ2EEzNa8oj+UhGAMbdmRIu9d3+NqGgbrqUUKxSbifsbDge4qgB0SISzy+wID45vWg
- j/h0pMtEvqnsB84uVPj5PR3MmMtrOuDkuvCA7vwqY23Z+esCKh6+MEItDmWqh9NdQbaT
- yKow==
-X-Gm-Message-State: ACrzQf1nV5rgkd3f4eBbzCt8sATyvcgFpkfoW9WNseQjbtlTIc5VEUA8
- QFYd2JQcSmXbTqWLwCAt3/YBqdcfTIDp4CnudeAhN2uLhThlMu8kFCTFD1c9k5frKpzSFe1s3T9
- ByS9DZfvq6awODzk=
-X-Received: by 2002:a05:600c:4209:b0:3b4:fb11:3b8b with SMTP id
- x9-20020a05600c420900b003b4fb113b8bmr22050876wmh.144.1665474831686; 
- Tue, 11 Oct 2022 00:53:51 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5jaAmi56n2EfscvfJHARwrmP4/oLjUJgEEsisIgFXPJOf7nQYH145xscKZAgGqvEVsGLpeqA==
-X-Received: by 2002:a05:600c:4209:b0:3b4:fb11:3b8b with SMTP id
- x9-20020a05600c420900b003b4fb113b8bmr22050857wmh.144.1665474831369; 
- Tue, 11 Oct 2022 00:53:51 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c709:6900:f110:6527:aa46:a922?
- (p200300cbc7096900f1106527aa46a922.dip0.t-ipconnect.de.
- [2003:cb:c709:6900:f110:6527:aa46:a922])
- by smtp.gmail.com with ESMTPSA id
- d5-20020a05600c34c500b003c409244bb0sm10265137wmq.6.2022.10.11.00.53.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Oct 2022 00:53:50 -0700 (PDT)
-Message-ID: <e689f938-f95d-f34c-117d-da58315576fa@redhat.com>
-Date: Tue, 11 Oct 2022 09:53:49 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oiAWu-0004Do-Vl
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 04:22:27 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MCska-1oqvxC2fhY-008tGK; Tue, 11 Oct 2022 10:22:18 +0200
+Message-ID: <ebeb90c7-8f46-4af0-073d-6f1710d3eeb2@vivier.eu>
+Date: Tue, 11 Oct 2022 10:22:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, Michal Privoznik <mprivozn@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Blake <eblake@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefan Weil <sw@weilnetz.de>
-References: <20221010091117.88603-1-david@redhat.com>
- <20221010091117.88603-4-david@redhat.com> <87czayj4ig.fsf@pond.sub.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v2 3/7] util: Introduce ThreadContext user-creatable object
-In-Reply-To: <87czayj4ig.fsf@pond.sub.org>
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v3] m68k: write bootinfo as rom section and re-randomize
+ on reboot
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>, qemu-devel@nongnu.org
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20221002103707.909560-1-Jason@zx2c4.com>
+ <20221003110221.971024-1-Jason@zx2c4.com>
+Content-Language: fr
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20221003110221.971024-1-Jason@zx2c4.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.007, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:xSQp8PMCgwK6LXiPc7T8v4QS3y5cHvLK3PQQ74tH45Av2KY4gnj
+ 9YF6YVd5Crm0Th4mkKCF5b7CEP1P7v8VDfv08fkr0ju6YlKoN9FQZkF20ukSYamuKQswfqY
+ hx0ZL3nKuCvTmIRZP1lETsK5RgzZnRhY8pMHTtekvOUbYnPsS2BQoVee9ke/O9G9vQjrVQr
+ pWU1pJ2SZmBOUmEZ14xhw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:BSHGN//V3hM=:90DIaQhGKgiOPTHWXT9i+1
+ WtCX30Eb9deqp8Efqvpk6sK8Iv0U8RGNCx0GKnXftvFuVvfL6ujuDVfnq5FWuzrmgfZLEHu6k
+ cqy0zVWgEHo7kQvWFbHG2A1qmYmbzETtfFlfKaNHgx4Vcd4bhcfjhJjDNWTcXksH7SHqicnnt
+ 07KeD8eX5XRjUePKfLIyjPIjstDCVUIJccQ3D/jQAkw0o9fum22k/8qi5to2Pltch6SZrhfKl
+ 4WLZwDa+xYTCA9VZxtjsPAJ7iUC/6b+3n0kIQapfRRcWLpAR0dAOwHW5hvViT65kcNUgKAw/b
+ MzL2rU2HckSNCfiJQSkt6XQF8W6mMIj5WS9/kUiyXEXESM8ARe1S7kPXI+H+nFKw+xSfofP/i
+ /d/ESDAN50P2Z6KsV+CqBJfi9sYww+MlGAbb43DNJhtmNF/lo5QeWZvYPMupTlpgkpGjjL71U
+ T9FzQnyMJOuATzRnRHUUEYCyv96kONcfLbp+3WusAolGGm4+JkUcCTdEAg2pCVJUG9fvIqwAT
+ 1CZacIb8++32l1EN/uBlyo9EVle7Z5fjCzpA+z7p0WwMlGSB/eWNC8pbepfe2ilIqxiCRoeZ/
+ vjxCpYdkwNlvUbnXWkDJFGn9mz0ncWLkiFwmdnc/9xcn7sIBsxG1RlFtj5EUqpILJuo1c8gAB
+ uICPqNKkqRGPbNwJpXu3qbZfQR+Tb0BESZo6RSDjAnaRTxbxLm4EST7WeWJwslZeVb1ILd/vZ
+ oixTLRxTbXJEuCaBOE98cL7joojqaq54A+o5o4lD4OOMrjXd4T+haqVKo4uFdtIDotn+tbWdY
+ Ta/H/TM
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.007,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,192 +76,379 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->> But note that due to dynamic library loading this example will not work
->> before we actually make use of thread_context_create_thread() in QEMU
->> code, because the type will otherwise not get registered.
+Le 03/10/2022 à 13:02, Jason A. Donenfeld a écrit :
+> Rather than poking directly into RAM, add the bootinfo block as a proper
+> ROM, so that it's restored when rebooting the system. This way, if the
+> guest corrupts any of the bootinfo items, but then tries to reboot,
+> it'll still be restored back to normal as expected.
 > 
-> What do you mean exactly by "not work"?  It's not "CLI option or HMP
-> command fails":
-> 
+> Then, since the RNG seed needs to be fresh on each boot, regenerate the
+> RNG seed in the ROM when reseting the CPU.
 
-For me, if I compile patch #1-#3 only, I get:
+As it's needed to be refreshed, I think it would better not to use a ROM and to regenerate all the 
+bootinfo data on the reset. This will also avoid the conditional g_malloc().
 
-$ ./build/qemu-system-x86_64 -S -display none -nodefaults -monitor stdio 
--object thread-context,id=tc1,cpu-affinity=0-1,cpu-affinity=6-7
-qemu-system-x86_64: invalid object type: thread-context
-
-
-Reason is that, without a call to thread_context_create_thread(), we 
-won't trigger type_init(thread_context_register_types) and consequently, 
-the type won't be registered.
-
-Is it really different in your environment? Maybe it depends on the QEMU 
-config?
-
->      $ upstream-qemu -S -display none -nodefaults -monitor stdio -object thread-context,id=tc1,cpu-affinity=0-1,cpu-affinity=6-7
->      QEMU 7.1.50 monitor - type 'help' for more information
->      (qemu) qom-get tc1 cpu-affinity
->      [
->          0,
->          1,
->          6,
->          7
->      ]
->      (qemu) info cpus
->      * CPU #0: thread_id=1670613
-> 
-> Even though the affinities refer to nonexistent CPUs :)
-
-CPU affinities are CPU numbers on your system (host), not QEMU vCPU 
-numbers. I could talk about physical CPU numbers in the doc here, 
-although I am not sure if that really helps. What about "host CPU 
-numbers" and in patch #4 "host node numbers"?
-
-Seems to match what we document for @MemoryBackendProperties: 
-"@host-nodes: the list of NUMA host nodes to bind the memory to"
-
-
-
-But unrelated to that, pthread_setaffinity_np() won't bail out on CPUs 
-that are currently not available in the host -- because one might 
-online/hotplug them later. It only bails out if none of the CPUs is 
-currently available in the host:
-
-https://man7.org/linux/man-pages/man3/pthread_setaffinity_np.3.html
-
-
-        EINVAL (pthread_setaffinity_np()) The affinity bit mask mask
-               contains no processors that are currently physically on
-               the system and permitted to the thread according to any
-               restrictions that may be imposed by the "cpuset" mechanism
-               described in cpuset(7).
-
-It will bail out on CPUs that cannot be available in the host though, 
-because it's impossible due to the kernel config:
-
-
-        EINVAL (pthread_setaffinity_np()) cpuset specified a CPU that was
-               outside the set supported by the kernel.  (The kernel
-               configuration option CONFIG_NR_CPUS defines the range of
-               the set supported by the kernel data type used to
-               represent CPU sets.)
-
-
-> 
->> A ThreadContext can be reused, simply by reconfiguring the CPU affinity.
-> 
-> So, when a thread is created, its affinity comes from its thread context
-> (if any).  When I later change the context's affinity, it does *not*
-> affect existing threads, only future ones.  Correct?
-
-Yes, that's the current state.
-
-> 
->> Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>   include/qemu/thread-context.h |  57 +++++++
->>   qapi/qom.json                 |  17 +++
->>   util/meson.build              |   1 +
->>   util/oslib-posix.c            |   1 +
->>   util/thread-context.c         | 278 ++++++++++++++++++++++++++++++++++
->>   5 files changed, 354 insertions(+)
->>   create mode 100644 include/qemu/thread-context.h
->>   create mode 100644 util/thread-context.c
->>
->> diff --git a/include/qemu/thread-context.h b/include/qemu/thread-context.h
->> new file mode 100644
->> index 0000000000..2ebd6b7fe1
->> --- /dev/null
->> +++ b/include/qemu/thread-context.h
->> @@ -0,0 +1,57 @@
->> +/*
->> + * QEMU Thread Context
->> + *
->> + * Copyright Red Hat Inc., 2022
->> + *
->> + * Authors:
->> + *  David Hildenbrand <david@redhat.com>
->> + *
->> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
->> + * See the COPYING file in the top-level directory.
->> + */
->> +
->> +#ifndef SYSEMU_THREAD_CONTEXT_H
->> +#define SYSEMU_THREAD_CONTEXT_H
->> +
->> +#include "qapi/qapi-types-machine.h"
->> +#include "qemu/thread.h"
->> +#include "qom/object.h"
->> +
->> +#define TYPE_THREAD_CONTEXT "thread-context"
->> +OBJECT_DECLARE_TYPE(ThreadContext, ThreadContextClass,
->> +                    THREAD_CONTEXT)
->> +
->> +struct ThreadContextClass {
->> +    ObjectClass parent_class;
->> +};
->> +
->> +struct ThreadContext {
->> +    /* private */
->> +    Object parent;
->> +
->> +    /* private */
->> +    unsigned int thread_id;
->> +    QemuThread thread;
->> +
->> +    /* Semaphore to wait for context thread action. */
->> +    QemuSemaphore sem;
->> +    /* Semaphore to wait for action in context thread. */
->> +    QemuSemaphore sem_thread;
->> +    /* Mutex to synchronize requests. */
->> +    QemuMutex mutex;
->> +
->> +    /* Commands for the thread to execute. */
->> +    int thread_cmd;
->> +    void *thread_cmd_data;
->> +
->> +    /* CPU affinity bitmap used for initialization. */
->> +    unsigned long *init_cpu_bitmap;
->> +    int init_cpu_nbits;
->> +};
->> +
->> +void thread_context_create_thread(ThreadContext *tc, QemuThread *thread,
->> +                                  const char *name,
->> +                                  void *(*start_routine)(void *), void *arg,
->> +                                  int mode);
->> +
->> +#endif /* SYSEMU_THREAD_CONTEXT_H */
->> diff --git a/qapi/qom.json b/qapi/qom.json
->> index 80dd419b39..67d47f4051 100644
->> --- a/qapi/qom.json
->> +++ b/qapi/qom.json
->> @@ -830,6 +830,21 @@
->>               'reduced-phys-bits': 'uint32',
->>               '*kernel-hashes': 'bool' } }
->>   
->> +##
->> +# @ThreadContextProperties:
->> +#
->> +# Properties for thread context objects.
->> +#
->> +# @cpu-affinity: the list of CPU numbers used as CPU affinity for all threads
->> +#                created in the thread context (default: QEMU main thread
->> +#                affinity)
-> 
-> Another ignorant question: is the QEMU main thread affinity fixed or
-> configurable?  If configurable, how?
-
-AFAIK, it's only configurable externally, for example, via "virsh 
-emulatorpin". There is no QEMU interface to adjust that (because it 
-wouldn't work).
-
-Libvirt will essentially trigger "taskset" on the emulator thread to 
-change its CPU affinity.
-
--- 
 Thanks,
+Laurent
 
-David / dhildenb
+> 
+> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> Cc: Laurent Vivier <laurent@vivier.eu>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> ---
+>   hw/m68k/bootinfo.h | 48 +++++++++++++++----------------
+>   hw/m68k/q800.c     | 71 +++++++++++++++++++++++++++++++++-------------
+>   hw/m68k/virt.c     | 51 +++++++++++++++++++++++----------
+>   3 files changed, 111 insertions(+), 59 deletions(-)
+> 
+> diff --git a/hw/m68k/bootinfo.h b/hw/m68k/bootinfo.h
+> index 897162b818..eb92937cf6 100644
+> --- a/hw/m68k/bootinfo.h
+> +++ b/hw/m68k/bootinfo.h
+> @@ -12,66 +12,66 @@
+>   #ifndef HW_M68K_BOOTINFO_H
+>   #define HW_M68K_BOOTINFO_H
+>   
+> -#define BOOTINFO0(as, base, id) \
+> +#define BOOTINFO0(base, id) \
+>       do { \
+> -        stw_phys(as, base, id); \
+> +        stw_p(base, id); \
+>           base += 2; \
+> -        stw_phys(as, base, sizeof(struct bi_record)); \
+> +        stw_p(base, sizeof(struct bi_record)); \
+>           base += 2; \
+>       } while (0)
+>   
+> -#define BOOTINFO1(as, base, id, value) \
+> +#define BOOTINFO1(base, id, value) \
+>       do { \
+> -        stw_phys(as, base, id); \
+> +        stw_p(base, id); \
+>           base += 2; \
+> -        stw_phys(as, base, sizeof(struct bi_record) + 4); \
+> +        stw_p(base, sizeof(struct bi_record) + 4); \
+>           base += 2; \
+> -        stl_phys(as, base, value); \
+> +        stl_p(base, value); \
+>           base += 4; \
+>       } while (0)
+>   
+> -#define BOOTINFO2(as, base, id, value1, value2) \
+> +#define BOOTINFO2(base, id, value1, value2) \
+>       do { \
+> -        stw_phys(as, base, id); \
+> +        stw_p(base, id); \
+>           base += 2; \
+> -        stw_phys(as, base, sizeof(struct bi_record) + 8); \
+> +        stw_p(base, sizeof(struct bi_record) + 8); \
+>           base += 2; \
+> -        stl_phys(as, base, value1); \
+> +        stl_p(base, value1); \
+>           base += 4; \
+> -        stl_phys(as, base, value2); \
+> +        stl_p(base, value2); \
+>           base += 4; \
+>       } while (0)
+>   
+> -#define BOOTINFOSTR(as, base, id, string) \
+> +#define BOOTINFOSTR(base, id, string) \
+>       do { \
+>           int i; \
+> -        stw_phys(as, base, id); \
+> +        stw_p(base, id); \
+>           base += 2; \
+> -        stw_phys(as, base, \
+> +        stw_p(base, \
+>                    (sizeof(struct bi_record) + strlen(string) + \
+>                     1 /* null termination */ + 3 /* padding */) & ~3); \
+>           base += 2; \
+>           for (i = 0; string[i]; i++) { \
+> -            stb_phys(as, base++, string[i]); \
+> +            stb_p(base++, string[i]); \
+>           } \
+> -        stb_phys(as, base++, 0); \
+> -        base = (base + 3) & ~3; \
+> +        stb_p(base++, 0); \
+> +        base = (void *)(((unsigned long)base + 3) & ~3); \
+>       } while (0)
+>   
+> -#define BOOTINFODATA(as, base, id, data, len) \
+> +#define BOOTINFODATA(base, id, data, len) \
+>       do { \
+>           int i; \
+> -        stw_phys(as, base, id); \
+> +        stw_p(base, id); \
+>           base += 2; \
+> -        stw_phys(as, base, \
+> +        stw_p(base, \
+>                    (sizeof(struct bi_record) + len + \
+>                     2 /* length field */ + 3 /* padding */) & ~3); \
+>           base += 2; \
+> -        stw_phys(as, base, len); \
+> +        stw_p(base, len); \
+>           base += 2; \
+>           for (i = 0; i < len; ++i) { \
+> -            stb_phys(as, base++, data[i]); \
+> +            stb_p(base++, data[i]); \
+>           } \
+> -        base = (base + 3) & ~3; \
+> +        base = (void *)(((unsigned long)base + 3) & ~3); \
+>       } while (0)
+>   #endif
+> diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+> index a4590c2cb0..e09e244ddc 100644
+> --- a/hw/m68k/q800.c
+> +++ b/hw/m68k/q800.c
+> @@ -321,11 +321,22 @@ static const TypeInfo glue_info = {
+>       },
+>   };
+>   
+> +typedef struct {
+> +    M68kCPU *cpu;
+> +    struct bi_record *rng_seed;
+> +} ResetInfo;
+> +
+>   static void main_cpu_reset(void *opaque)
+>   {
+> -    M68kCPU *cpu = opaque;
+> +    ResetInfo *reset_info = opaque;
+> +    M68kCPU *cpu = reset_info->cpu;
+>       CPUState *cs = CPU(cpu);
+>   
+> +    if (reset_info->rng_seed) {
+> +        qemu_guest_getrandom_nofail((void *)reset_info->rng_seed->data + 2,
+> +            be16_to_cpu(*(uint16_t *)reset_info->rng_seed->data));
+> +    }
+> +
+>       cpu_reset(cs);
+>       cpu->env.aregs[7] = ldl_phys(cs->as, 0);
+>       cpu->env.pc = ldl_phys(cs->as, 4);
+> @@ -386,6 +397,7 @@ static void q800_init(MachineState *machine)
+>       NubusBus *nubus;
+>       DeviceState *glue;
+>       DriveInfo *dinfo;
+> +    ResetInfo *reset_info;
+>       uint8_t rng_seed[32];
+>   
+>       linux_boot = (kernel_filename != NULL);
+> @@ -396,9 +408,12 @@ static void q800_init(MachineState *machine)
+>           exit(1);
+>       }
+>   
+> +    reset_info = g_new0(ResetInfo, 1);
+> +
+>       /* init CPUs */
+>       cpu = M68K_CPU(cpu_create(machine->cpu_type));
+> -    qemu_register_reset(main_cpu_reset, cpu);
+> +    reset_info->cpu = cpu;
+> +    qemu_register_reset(main_cpu_reset, reset_info);
+>   
+>       /* RAM */
+>       memory_region_add_subregion(get_system_memory(), 0, machine->ram);
+> @@ -598,6 +613,14 @@ static void q800_init(MachineState *machine)
+>       cs = CPU(cpu);
+>       if (linux_boot) {
+>           uint64_t high;
+> +        void *param_blob, *param_ptr, *param_rng_seed;
+> +
+> +        if (kernel_cmdline) {
+> +            param_blob = g_malloc(strlen(kernel_cmdline) + 1024);
+> +        } else {
+> +            param_blob = g_malloc(1024);
+> +        }
+> +
+>           kernel_size = load_elf(kernel_filename, NULL, NULL, NULL,
+>                                  &elf_entry, NULL, &high, NULL, 1,
+>                                  EM_68K, 0, 0);
+> @@ -607,23 +630,24 @@ static void q800_init(MachineState *machine)
+>           }
+>           stl_phys(cs->as, 4, elf_entry); /* reset initial PC */
+>           parameters_base = (high + 1) & ~1;
+> -
+> -        BOOTINFO1(cs->as, parameters_base, BI_MACHTYPE, MACH_MAC);
+> -        BOOTINFO1(cs->as, parameters_base, BI_FPUTYPE, FPU_68040);
+> -        BOOTINFO1(cs->as, parameters_base, BI_MMUTYPE, MMU_68040);
+> -        BOOTINFO1(cs->as, parameters_base, BI_CPUTYPE, CPU_68040);
+> -        BOOTINFO1(cs->as, parameters_base, BI_MAC_CPUID, CPUB_68040);
+> -        BOOTINFO1(cs->as, parameters_base, BI_MAC_MODEL, MAC_MODEL_Q800);
+> -        BOOTINFO1(cs->as, parameters_base,
+> +        param_ptr = param_blob;
+> +
+> +        BOOTINFO1(param_ptr, BI_MACHTYPE, MACH_MAC);
+> +        BOOTINFO1(param_ptr, BI_FPUTYPE, FPU_68040);
+> +        BOOTINFO1(param_ptr, BI_MMUTYPE, MMU_68040);
+> +        BOOTINFO1(param_ptr, BI_CPUTYPE, CPU_68040);
+> +        BOOTINFO1(param_ptr, BI_MAC_CPUID, CPUB_68040);
+> +        BOOTINFO1(param_ptr, BI_MAC_MODEL, MAC_MODEL_Q800);
+> +        BOOTINFO1(param_ptr,
+>                     BI_MAC_MEMSIZE, ram_size >> 20); /* in MB */
+> -        BOOTINFO2(cs->as, parameters_base, BI_MEMCHUNK, 0, ram_size);
+> -        BOOTINFO1(cs->as, parameters_base, BI_MAC_VADDR,
+> +        BOOTINFO2(param_ptr, BI_MEMCHUNK, 0, ram_size);
+> +        BOOTINFO1(param_ptr, BI_MAC_VADDR,
+>                     VIDEO_BASE + macfb_mode->offset);
+> -        BOOTINFO1(cs->as, parameters_base, BI_MAC_VDEPTH, graphic_depth);
+> -        BOOTINFO1(cs->as, parameters_base, BI_MAC_VDIM,
+> +        BOOTINFO1(param_ptr, BI_MAC_VDEPTH, graphic_depth);
+> +        BOOTINFO1(param_ptr, BI_MAC_VDIM,
+>                     (graphic_height << 16) | graphic_width);
+> -        BOOTINFO1(cs->as, parameters_base, BI_MAC_VROW, macfb_mode->stride);
+> -        BOOTINFO1(cs->as, parameters_base, BI_MAC_SCCBASE, SCC_BASE);
+> +        BOOTINFO1(param_ptr, BI_MAC_VROW, macfb_mode->stride);
+> +        BOOTINFO1(param_ptr, BI_MAC_SCCBASE, SCC_BASE);
+>   
+>           rom = g_malloc(sizeof(*rom));
+>           memory_region_init_ram_ptr(rom, NULL, "m68k_fake_mac.rom",
+> @@ -632,13 +656,14 @@ static void q800_init(MachineState *machine)
+>           memory_region_add_subregion(get_system_memory(), MACROM_ADDR, rom);
+>   
+>           if (kernel_cmdline) {
+> -            BOOTINFOSTR(cs->as, parameters_base, BI_COMMAND_LINE,
+> +            BOOTINFOSTR(param_ptr, BI_COMMAND_LINE,
+>                           kernel_cmdline);
+>           }
+>   
+>           /* Pass seed to RNG. */
+> +        param_rng_seed = param_ptr;
+>           qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
+> -        BOOTINFODATA(cs->as, parameters_base, BI_RNG_SEED,
+> +        BOOTINFODATA(param_ptr, BI_RNG_SEED,
+>                        rng_seed, sizeof(rng_seed));
+>   
+>           /* load initrd */
+> @@ -653,13 +678,19 @@ static void q800_init(MachineState *machine)
+>               initrd_base = (ram_size - initrd_size) & TARGET_PAGE_MASK;
+>               load_image_targphys(initrd_filename, initrd_base,
+>                                   ram_size - initrd_base);
+> -            BOOTINFO2(cs->as, parameters_base, BI_RAMDISK, initrd_base,
+> +            BOOTINFO2(param_ptr, BI_RAMDISK, initrd_base,
+>                         initrd_size);
+>           } else {
+>               initrd_base = 0;
+>               initrd_size = 0;
+>           }
+> -        BOOTINFO0(cs->as, parameters_base, BI_LAST);
+> +        BOOTINFO0(param_ptr, BI_LAST);
+> +        rom_add_blob_fixed_as("bootinfo", param_blob, param_ptr - param_blob,
+> +                              parameters_base, cs->as);
+> +        reset_info->rng_seed = rom_ptr_for_as(cs->as, parameters_base,
+> +                                              param_ptr - param_blob) +
+> +                               (param_rng_seed - param_blob);
+> +        g_free(param_blob);
+>       } else {
+>           uint8_t *ptr;
+>           /* allocate and load BIOS */
+> diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
+> index f7b903ea1b..89c4108eb5 100644
+> --- a/hw/m68k/virt.c
+> +++ b/hw/m68k/virt.c
+> @@ -89,6 +89,7 @@ typedef struct {
+>       M68kCPU *cpu;
+>       hwaddr initial_pc;
+>       hwaddr initial_stack;
+> +    struct bi_record *rng_seed;
+>   } ResetInfo;
+>   
+>   static void main_cpu_reset(void *opaque)
+> @@ -97,6 +98,11 @@ static void main_cpu_reset(void *opaque)
+>       M68kCPU *cpu = reset_info->cpu;
+>       CPUState *cs = CPU(cpu);
+>   
+> +    if (reset_info->rng_seed) {
+> +        qemu_guest_getrandom_nofail((void *)reset_info->rng_seed->data + 2,
+> +            be16_to_cpu(*(uint16_t *)reset_info->rng_seed->data));
+> +    }
+> +
+>       cpu_reset(cs);
+>       cpu->env.aregs[7] = reset_info->initial_stack;
+>       cpu->env.pc = reset_info->initial_pc;
+> @@ -212,6 +218,13 @@ static void virt_init(MachineState *machine)
+>       if (kernel_filename) {
+>           CPUState *cs = CPU(cpu);
+>           uint64_t high;
+> +        void *param_blob, *param_ptr, *param_rng_seed;
+> +
+> +        if (kernel_cmdline) {
+> +            param_blob = g_malloc(strlen(kernel_cmdline) + 1024);
+> +        } else {
+> +            param_blob = g_malloc(1024);
+> +        }
+>   
+>           kernel_size = load_elf(kernel_filename, NULL, NULL, NULL,
+>                                  &elf_entry, NULL, &high, NULL, 1,
+> @@ -222,35 +235,37 @@ static void virt_init(MachineState *machine)
+>           }
+>           reset_info->initial_pc = elf_entry;
+>           parameters_base = (high + 1) & ~1;
+> +        param_ptr = param_blob;
+>   
+> -        BOOTINFO1(cs->as, parameters_base, BI_MACHTYPE, MACH_VIRT);
+> -        BOOTINFO1(cs->as, parameters_base, BI_FPUTYPE, FPU_68040);
+> -        BOOTINFO1(cs->as, parameters_base, BI_MMUTYPE, MMU_68040);
+> -        BOOTINFO1(cs->as, parameters_base, BI_CPUTYPE, CPU_68040);
+> -        BOOTINFO2(cs->as, parameters_base, BI_MEMCHUNK, 0, ram_size);
+> +        BOOTINFO1(param_ptr, BI_MACHTYPE, MACH_VIRT);
+> +        BOOTINFO1(param_ptr, BI_FPUTYPE, FPU_68040);
+> +        BOOTINFO1(param_ptr, BI_MMUTYPE, MMU_68040);
+> +        BOOTINFO1(param_ptr, BI_CPUTYPE, CPU_68040);
+> +        BOOTINFO2(param_ptr, BI_MEMCHUNK, 0, ram_size);
+>   
+> -        BOOTINFO1(cs->as, parameters_base, BI_VIRT_QEMU_VERSION,
+> +        BOOTINFO1(param_ptr, BI_VIRT_QEMU_VERSION,
+>                     ((QEMU_VERSION_MAJOR << 24) | (QEMU_VERSION_MINOR << 16) |
+>                      (QEMU_VERSION_MICRO << 8)));
+> -        BOOTINFO2(cs->as, parameters_base, BI_VIRT_GF_PIC_BASE,
+> +        BOOTINFO2(param_ptr, BI_VIRT_GF_PIC_BASE,
+>                     VIRT_GF_PIC_MMIO_BASE, VIRT_GF_PIC_IRQ_BASE);
+> -        BOOTINFO2(cs->as, parameters_base, BI_VIRT_GF_RTC_BASE,
+> +        BOOTINFO2(param_ptr, BI_VIRT_GF_RTC_BASE,
+>                     VIRT_GF_RTC_MMIO_BASE, VIRT_GF_RTC_IRQ_BASE);
+> -        BOOTINFO2(cs->as, parameters_base, BI_VIRT_GF_TTY_BASE,
+> +        BOOTINFO2(param_ptr, BI_VIRT_GF_TTY_BASE,
+>                     VIRT_GF_TTY_MMIO_BASE, VIRT_GF_TTY_IRQ_BASE);
+> -        BOOTINFO2(cs->as, parameters_base, BI_VIRT_CTRL_BASE,
+> +        BOOTINFO2(param_ptr, BI_VIRT_CTRL_BASE,
+>                     VIRT_CTRL_MMIO_BASE, VIRT_CTRL_IRQ_BASE);
+> -        BOOTINFO2(cs->as, parameters_base, BI_VIRT_VIRTIO_BASE,
+> +        BOOTINFO2(param_ptr, BI_VIRT_VIRTIO_BASE,
+>                     VIRT_VIRTIO_MMIO_BASE, VIRT_VIRTIO_IRQ_BASE);
+>   
+>           if (kernel_cmdline) {
+> -            BOOTINFOSTR(cs->as, parameters_base, BI_COMMAND_LINE,
+> +            BOOTINFOSTR(param_ptr, BI_COMMAND_LINE,
+>                           kernel_cmdline);
+>           }
+>   
+>           /* Pass seed to RNG. */
+> +        param_rng_seed = param_ptr;
+>           qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
+> -        BOOTINFODATA(cs->as, parameters_base, BI_RNG_SEED,
+> +        BOOTINFODATA(param_ptr, BI_RNG_SEED,
+>                        rng_seed, sizeof(rng_seed));
+>   
+>           /* load initrd */
+> @@ -265,13 +280,19 @@ static void virt_init(MachineState *machine)
+>               initrd_base = (ram_size - initrd_size) & TARGET_PAGE_MASK;
+>               load_image_targphys(initrd_filename, initrd_base,
+>                                   ram_size - initrd_base);
+> -            BOOTINFO2(cs->as, parameters_base, BI_RAMDISK, initrd_base,
+> +            BOOTINFO2(param_ptr, BI_RAMDISK, initrd_base,
+>                         initrd_size);
+>           } else {
+>               initrd_base = 0;
+>               initrd_size = 0;
+>           }
+> -        BOOTINFO0(cs->as, parameters_base, BI_LAST);
+> +        BOOTINFO0(param_ptr, BI_LAST);
+> +        rom_add_blob_fixed_as("bootinfo", param_blob, param_ptr - param_blob,
+> +                              parameters_base, cs->as);
+> +        reset_info->rng_seed = rom_ptr_for_as(cs->as, parameters_base,
+> +                                              param_ptr - param_blob) +
+> +                               (param_rng_seed - param_blob);
+> +        g_free(param_blob);
+>       }
+>   }
+>   
 
 
