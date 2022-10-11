@@ -2,86 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AE575FB86F
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 18:43:42 +0200 (CEST)
-Received: from localhost ([::1]:46944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 389EF5FB89E
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 18:53:40 +0200 (CEST)
+Received: from localhost ([::1]:36568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiILx-0004SE-VU
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 12:43:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45518)
+	id 1oiIVe-0000jI-KB
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 12:53:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oiIIA-00021c-K7
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 12:39:42 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:34727)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oiII8-0005HB-WE
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 12:39:42 -0400
-Received: by mail-pf1-x432.google.com with SMTP id f140so14046485pfa.1
- for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 09:39:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=OMHm+xKHdNgHa6LllHjMCNSb9WoqkkLlvUgIvQ2f6tw=;
- b=i/rRziyvhBJ3D08Y0dMYr1T5CHmvEniakuZTxrtwSOGoJBLxApHKpnSw/hMH1WQH1H
- G5roXO/2+ALvxLxFo8Cu+r1QZr5hmVzR4IB72HtiXPxengZ0uo/gjJJm5yqafN8Qnm8N
- EhJLQsIKkklRqsZCCf8cjiL7HWYuBg3UieqK47BjG2tPPH3b0dfAVnWMo9rsKmTs40hd
- tr0mqbf2Wwb/EizZz6P1OC4uLMHXqfEt7YaBt6OIUtyVAq5W0Db6VmT3KhilTuYYuEqO
- SoONJsuzdzPl8kYqlK36E8jwoK7lQMAgI/6YP51fUEFVy4amFLDQn6BzxSvwMTv8wcd8
- SBgQ==
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1oiIO1-0005uN-TF
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 12:45:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44467)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1oiINx-0006Fc-Oz
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 12:45:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665506738;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=c8PsTf3WUZOpkSD0nQM22s+p53eQm1J9rsvpnT1ys3M=;
+ b=S5MqWmhoTkuVpFk9BoEYvqx3fu4uEa4E2cmr6GRHSR26esxTVV/7KWmDjFW5SP1TE7z18B
+ O1BabjpMw6lWZyNeIG17SLtcjCWKutuqhv5f5iYGMeY58fy43sa6h9x/0DAa0aCGLNnsxM
+ 5SBNt9er6jJpxSZ1LLSN5HfPzZlEKFQ=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-515-q1jVLmPENgaxYnrPCDpGXA-1; Tue, 11 Oct 2022 12:45:37 -0400
+X-MC-Unique: q1jVLmPENgaxYnrPCDpGXA-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ x22-20020a05620a259600b006b552a69231so12052065qko.18
+ for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 09:45:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OMHm+xKHdNgHa6LllHjMCNSb9WoqkkLlvUgIvQ2f6tw=;
- b=RAdKKpSnVd6a0RCtaPbIxa1TelQ2okPXlcNGRmxSY9fU8T5ANPbWulPr1cdVUuHlkd
- 3wO2wlEZBbddrvKhnaE3g9N00Bn1FQ51QrM1Xk+Pl/35tR6LS8gBY3c3ktALo7z91MDy
- fUJV+frzfo+muAI/I21z4XtKnFeKBfNED6YVTFlDfrcAy8788ebhGPcrLiR0FICKQhWu
- KihiP+/1QuXDnXTU15kgjOpYHWs7y0xv7DiEF6aLxcMkO2bKhdyIujbrD8T5/Ue9NZC8
- ZfK3Bzgs1sVoIy5/+Y8/LleoVZTGvor9+Op1kWswSDFc8nymfTVbcEvV8I7Ip5RXMg9/
- yxWA==
-X-Gm-Message-State: ACrzQf1mhmeVROa2vgrnAEiEVUo+Tx+/oUPdM4ScftLe6ArTNpppAYCd
- vFAuijo2WfBJXVKfbVxynfMGAw==
-X-Google-Smtp-Source: AMsMyM79SlTqsM8HCxWCyoOkB/qQ5K6fmxPuYYkhetxF6HwVu6SeI/qh9mL1iuweb9/kq4GlrfIUbw==
-X-Received: by 2002:a65:464b:0:b0:42c:b0:9643 with SMTP id
- k11-20020a65464b000000b0042c00b09643mr22347387pgr.232.1665506379421; 
- Tue, 11 Oct 2022 09:39:39 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:67e1:640e:ccb8:1a4a?
- ([2602:47:d49d:ec01:67e1:640e:ccb8:1a4a])
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=c8PsTf3WUZOpkSD0nQM22s+p53eQm1J9rsvpnT1ys3M=;
+ b=Ffhsx0+UbZGp71NEgRVCLQqgHNgb5IPknDHZORdXO9qXWA9MWTaqH/4kEEy8lEiZIf
+ QZ4HVZ5DmInGFG7Hll2LIyl5YR7DstiOa5qOGddhssebe1BBAFSQODhJ7yUU4a3m9vZT
+ K7kDRBjQ4W2S+Hp4bDpdpWKNDPJwdowsjP5vZBmFBhXR5YKW4ZuO+z2HFkTl+HBnQCSj
+ UXQeQVk19M5DwN7AdnuVr0xv8+TLffKpmYKmhkGX8x4mWJeg9yWt/mqyxOgk+12JxTo8
+ seEuasF3Xw2m0tgqg8zKf04uqY0ks9sg82MjI54VAKCVMaVtwDtMI53xhnlRWSktlexZ
+ DgPg==
+X-Gm-Message-State: ACrzQf2FEkOvMCw9jFAA6A341pF24TD+EcFsdmgIB1OSOsBN2FU1NO5J
+ jwk/xe/7gJYMDYxumat/cXQ20STpHAxEYI635gE7xktMy9hImsa7gDxd9YB3U/82XXJRhYUvR5/
+ 6zCxkahrPBqsXnJc=
+X-Received: by 2002:a05:622a:196:b0:35d:442b:ab45 with SMTP id
+ s22-20020a05622a019600b0035d442bab45mr20096231qtw.565.1665506736719; 
+ Tue, 11 Oct 2022 09:45:36 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7HSOqqgFBkKys3bx4FoD16vk4TCAPLfM+VfZ/8NLOGFk6yybkM2PBDt/DXwgQRehczisJBZw==
+X-Received: by 2002:a05:622a:196:b0:35d:442b:ab45 with SMTP id
+ s22-20020a05622a019600b0035d442bab45mr20096214qtw.565.1665506736482; 
+ Tue, 11 Oct 2022 09:45:36 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
  by smtp.gmail.com with ESMTPSA id
- h9-20020a170902f54900b0017f8edd3d8asm4056184plf.177.2022.10.11.09.39.37
+ x4-20020ac86b44000000b003986fc4d9fdsm7301566qts.49.2022.10.11.09.45.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Oct 2022 09:39:38 -0700 (PDT)
-Message-ID: <53453ca7-295d-7fc6-b053-94cedb72cfef@linaro.org>
-Date: Tue, 11 Oct 2022 09:39:36 -0700
+ Tue, 11 Oct 2022 09:45:35 -0700 (PDT)
+Message-ID: <5d804a6b-c55d-8a7b-415b-dadf807152fa@redhat.com>
+Date: Tue, 11 Oct 2022 18:45:32 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] target/s390x: Fix emulation of the VISTR instruction
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v4 4/6] hw/arm/virt: Introduce
+ virt_get_high_memmap_enabled() helper
 Content-Language: en-US
-To: David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org
-References: <20221011101401.81849-1-thuth@redhat.com>
- <d7873010-8d15-360a-39c5-d94acad5d4bc@redhat.com>
- <c357577e-f8e8-0b1c-7c12-80c0528ed50d@redhat.com>
- <ba70d3ff-cf74-2da4-62bc-fcc05fd990f9@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <ba70d3ff-cf74-2da4-62bc-fcc05fd990f9@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
+To: Gavin Shan <gshan@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, maz@kernel.org, zhenyzha@redhat.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org, shan.gavin@gmail.com
+References: <20221004002627.59172-1-gshan@redhat.com>
+ <20221004002627.59172-5-gshan@redhat.com> <87edvnooqb.fsf@redhat.com>
+ <a4bb90c8-3793-23ec-79a6-edf44565c8ff@redhat.com>
+From: Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <a4bb90c8-3793-23ec-79a6-edf44565c8ff@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -56
+X-Spam_score: -5.7
 X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.934,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.934, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,25 +107,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/11/22 06:24, David Hildenbrand wrote:
->>>> +++ b/tests/tcg/s390x/vf.c
->>>
->>> In general, we use "vx" when talking about vector extension. Maybe name this
->>> vx.c
+
+
+On 10/5/22 00:47, Gavin Shan wrote:
+> Hi Connie,
+>
+> On 10/4/22 6:41 PM, Cornelia Huck wrote:
+>> On Tue, Oct 04 2022, Gavin Shan <gshan@redhat.com> wrote:
 >>
->> Ok... or maybe "vecstring.c" in case we only want to test the vector string
->> functions here? (they are in a separate chapter in the PoP)
-> 
-> Also works for me. Or "vx_str.c" or sth like that.
+>>> This introduces virt_get_high_memmap_enabled() helper, which returns
+>>> the pointer to vms->highmem_{redists, ecam, mmio}. The pointer will
+>>> be used in the subsequent patches.
+>>>
+>>> No functional change intended.
+>>>
+>>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>>> ---
+>>>   hw/arm/virt.c | 30 +++++++++++++++++-------------
+>>>   1 file changed, 17 insertions(+), 13 deletions(-)
+>>>
+>>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+>>> index b0b679d1f4..59de7b78b5 100644
+>>> --- a/hw/arm/virt.c
+>>> +++ b/hw/arm/virt.c
+>>> @@ -1689,14 +1689,29 @@ static uint64_t
+>>> virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
+>>>       return arm_cpu_mp_affinity(idx, clustersz);
+>>>   }
+>>>   +static inline bool *virt_get_high_memmap_enabled(VirtMachineState
+>>> *vms,
+>>> +                                                 int index)
+>>> +{
+>>> +    bool *enabled_array[] = {
+>>> +        &vms->highmem_redists,
+>>> +        &vms->highmem_ecam,
+>>> +        &vms->highmem_mmio,
+>>> +    };
+>>> +
+>>> +    assert(index - VIRT_LOWMEMMAP_LAST < ARRAY_SIZE(enabled_array));
+>>
+>> I wonder whether we want an assert(ARRAY_SIZE(extended_memmap) ==
+>> ARRAY_SIZE(enabled_array))? IIUC, we never want those two to get out of
+>> sync?
+>>
+>
+> Yeah, It makes sense to ensure both arrays synchronized. I will add
+> the extra check in next respin.
 
-If we're going to bikeshed the name, use the insn being tested.
+With Connie's suggestion this looks good to me.
 
-What you don't want is one big file testing lots of things.
-What you do want is lots of little files each testing one thing.
+Thanks
 
+Eric
+>
+>>> +
+>>> +    return enabled_array[index - VIRT_LOWMEMMAP_LAST];
+>>> +}
+>>> +
+>
+> Thanks,
+> Gavin
+>
 
-r~
 
