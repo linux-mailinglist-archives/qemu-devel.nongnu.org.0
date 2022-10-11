@@ -2,80 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B7715FB61A
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 17:00:58 +0200 (CEST)
-Received: from localhost ([::1]:54988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A5945FB69D
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 17:09:03 +0200 (CEST)
+Received: from localhost ([::1]:58980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiGkZ-0002dm-Uu
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 11:00:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52280)
+	id 1oiGsP-000814-K9
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 11:09:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oiGeF-0005Wm-56
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 10:54:25 -0400
-Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f]:39498)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oiGeC-0005kG-WC
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 10:54:22 -0400
-Received: by mail-qv1-xf2f.google.com with SMTP id z18so9090081qvn.6
- for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 07:54:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=lXwF3VD6iZJnWnPo/yeadFX5HxlnAMt2tjOzD7n/PsA=;
- b=PyXLVbFktNfu9l2bT0wwajeJ9o0Z4h5EPedxiooX+6Kb0AKHpCMlcWksiTfNYN59vK
- 9ngKHecpKkoay1jaomqJsdexqGJnHh0qJFSX4IqrUZaLxpOZj5tIe/xG8pf1Ha961BF2
- zcjD9mpK8YEUEkH//8EH4cJYAh/NDmabFffpy9+bOvXegUguFEeLT51RBkkjIQ7QBiFE
- aCBhcWtEcHBqO8ZvxYoZir1fuzfSoOpbmEnfX2YjBHi1+vSwE/6ZdUyXdtQVJ6afkMmA
- k/SliM6O0g5GDgRS89FMnlXDfI97Ma7gC7GcyKAhSlXJ4RnUBUzLpreXbzCjgtpMPhkN
- 7DCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=lXwF3VD6iZJnWnPo/yeadFX5HxlnAMt2tjOzD7n/PsA=;
- b=AJ2i9timZCxlswi84/A9uVqob0TGhhgHAQMiDyZE0i5yifQsCbWjhQxQJjL/rth7vO
- EW3t5HHVzMDBWik++WdQcjmt4zA1AJsoENysopp+23I976NsmUBvIWl+BBjUoQdTMq5T
- tIjwSYs61970xrEdfNuFk1DDdBhHKptYXeCzMH6dCW8USRYRk7SoXPrKej+YWxntyGDS
- oM7M/0zpeC9gWbRYfEFxX0PAcjQDqscvUwb6DmcdtPakp/Diaq3CqMFvnPoe2KJk+hPT
- 08mW/VM9nsj6yVVUDZ9y7BtC4mPkBw0SKzuxVu9tgjNYpmqMT60TuORcjgVSn6MQNi8L
- fflw==
-X-Gm-Message-State: ACrzQf1gUz2xSDdz5PkKD3UMwjfX53MnLbcWmkimJBndA3JiOdj8a9iz
- fehH4Y+jNqV6ny8AkrbfuipDj5u4xkLB/+GUzwTyJ2yu6UvEpXF5
-X-Google-Smtp-Source: AMsMyM6qdWirZ2xi693ci/NeFnsDxzgiFs6+PFIGaVZKMbLNi0lUXxQ9CgoLTOvaZjzm9bAIGiEcljKCEiVDLcZCiMM=
-X-Received: by 2002:a0c:810f:0:b0:47b:299a:56d7 with SMTP id
- 15-20020a0c810f000000b0047b299a56d7mr19037598qvc.12.1665500059861; Tue, 11
- Oct 2022 07:54:19 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=aME8=2M=zx2c4.com=Jason@kernel.org>)
+ id 1oiGgc-00075Y-Gx
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 10:56:55 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:38972)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=aME8=2M=zx2c4.com=Jason@kernel.org>)
+ id 1oiGga-0006Ov-98
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 10:56:50 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D5EA9611D6;
+ Tue, 11 Oct 2022 14:56:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9218CC433C1;
+ Tue, 11 Oct 2022 14:56:38 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="S345a0FZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1665500196;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pxAGmXh3efN5w/CP8oFKPpSb9XU8O30jbhNp4+y/BO0=;
+ b=S345a0FZxmY64nbMlnd6cOr0EyTwGjTp9v1D9oHpBCZSpVQ7gj5hYkDS+Qrx3XDN0oK0GF
+ FpsMBCdjRRX4yGEY5HgJFMlOfyLQ7uExnywbcSOHq7NH0/6UGati1/zgwR0U/C58ROcUyi
+ XBVNIiksGuqhYk5d8ocz5OtATC2kXV4=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id fee072f8
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Tue, 11 Oct 2022 14:56:36 +0000 (UTC)
+Date: Tue, 11 Oct 2022 08:56:33 -0600
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v3] m68k: write bootinfo as rom section and re-randomize
+ on reboot
+Message-ID: <Y0WC1i1fWi9Q8WsJ@zx2c4.com>
+References: <20221002103707.909560-1-Jason@zx2c4.com>
+ <20221003110221.971024-1-Jason@zx2c4.com>
+ <ebeb90c7-8f46-4af0-073d-6f1710d3eeb2@vivier.eu>
+ <CAFEAcA-0Uz_nT6V5_7Mkqrg17sX-syrxfyBjZQFUjU5UnPdPcg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20221006151927.2079583-1-bmeng.cn@gmail.com>
- <20221006151927.2079583-11-bmeng.cn@gmail.com>
- <4a301dfb-2c85-c7ef-4d1a-e85cc3b9d171@redhat.com>
-In-Reply-To: <4a301dfb-2c85-c7ef-4d1a-e85cc3b9d171@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 11 Oct 2022 22:54:08 +0800
-Message-ID: <CAEUhbmWq+ZNE5dM0kQvsShaYXDEed7K_TJ+_L5YpBCXDbqmR4A@mail.gmail.com>
-Subject: Re: [PATCH v5 10/18] tests/qtest: libqtest: Install signal handler
- via signal()
-To: Thomas Huth <thuth@redhat.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "Daniel P. Berrange" <berrange@redhat.com>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf2f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFEAcA-0Uz_nT6V5_7Mkqrg17sX-syrxfyBjZQFUjU5UnPdPcg@mail.gmail.com>
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=SRS0=aME8=2M=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,88 +86,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 11, 2022 at 10:14 PM Thomas Huth <thuth@redhat.com> wrote:
->
-> On 06/10/2022 17.19, Bin Meng wrote:
-> > From: Bin Meng <bin.meng@windriver.com>
+On Tue, Oct 11, 2022 at 10:29:45AM +0100, Peter Maydell wrote:
+> On Tue, 11 Oct 2022 at 09:41, Laurent Vivier <laurent@vivier.eu> wrote:
 > >
-> > At present the codes uses sigaction() to install signal handler with
-> > a flag SA_RESETHAND. Such usage can be covered by the signal() API
-> > that is a simplified interface to the general sigaction() facility.
+> > Le 03/10/2022 à 13:02, Jason A. Donenfeld a écrit :
+> > > Rather than poking directly into RAM, add the bootinfo block as a proper
+> > > ROM, so that it's restored when rebooting the system. This way, if the
+> > > guest corrupts any of the bootinfo items, but then tries to reboot,
+> > > it'll still be restored back to normal as expected.
+> > >
+> > > Then, since the RNG seed needs to be fresh on each boot, regenerate the
+> > > RNG seed in the ROM when reseting the CPU.
 > >
-> > Update to use signal() to install the signal handler, as it is
-> > available on Windows which we are going to support.
-> >
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >
-> > Changes in v5:
-> > - Replace sighandler_t with its actual definition, since it is not
-> >    available on BSD hosts
-> >
-> >   tests/qtest/libqtest.c | 14 +++-----------
-> >   1 file changed, 3 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-> > index 8228262938..54e5f64f20 100644
-> > --- a/tests/qtest/libqtest.c
-> > +++ b/tests/qtest/libqtest.c
-> > @@ -66,7 +66,7 @@ struct QTestState
-> >   };
-> >
-> >   static GHookList abrt_hooks;
-> > -static struct sigaction sigact_old;
-> > +static void (*sighandler_old)(int);
-> >
-> >   static int qtest_query_target_endianness(QTestState *s);
-> >
-> > @@ -179,20 +179,12 @@ static void sigabrt_handler(int signo)
-> >
-> >   static void setup_sigabrt_handler(void)
-> >   {
-> > -    struct sigaction sigact;
-> > -
-> > -    /* Catch SIGABRT to clean up on g_assert() failure */
-> > -    sigact =3D (struct sigaction){
-> > -        .sa_handler =3D sigabrt_handler,
-> > -        .sa_flags =3D SA_RESETHAND,
-> > -    };
-> > -    sigemptyset(&sigact.sa_mask);
-> > -    sigaction(SIGABRT, &sigact, &sigact_old);
-> > +    sighandler_old =3D signal(SIGABRT, sigabrt_handler);
-> >   }
-> >
-> >   static void cleanup_sigabrt_handler(void)
-> >   {
-> > -    sigaction(SIGABRT, &sigact_old, NULL);
-> > +    signal(SIGABRT, sighandler_old);
-> >   }
-> >
-> >   static bool hook_list_is_empty(GHookList *hook_list)
->
-> Hmm, did you notice the error from checkpatch.pl ?
->
-> ERROR: use sigaction to establish signal handlers; signal is not portable
->
-> ... rationale is given in the commit description here:
->
-> https://gitlab.com/qemu-project/qemu/-/commit/e8c2091d4c4dd
+> > As it's needed to be refreshed, I think it would better not to use a ROM and to regenerate all the
+> > bootinfo data on the reset.
+> 
+> I quite liked the use of a rom blob in this patch -- it gets rid
+> of a lot of direct stl_phys() calls (which is a semi-deprecated
+> API because it ignores the possibility of failure).
 
-Yes, I noticed this checkpatch warning.
+A ROM is also how other archs do it. I'm good either way though.
+Laurent/Peter - can you guys decide something and let me know if I need
+a v+1 that avoids the ROM, or if you'll go with this v3 that uses the
+ROM? Just make a decision, and I'll follow it.
 
->
-> ... but since we likely don't care about continuing running after the fir=
-st
-> signal has been delivered, I guess it's ok here to use signal() instead o=
-f
-> sigaction?
->
-
-I think so. I mentioned in the commit message that the code is using
-SA_RESETHAND for sigaction, and such usage can be replaced with
-signal().
-
-Regards,
-Bin
+Jason
 
