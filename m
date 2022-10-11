@@ -2,118 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BD9D5FADEF
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 10:01:33 +0200 (CEST)
-Received: from localhost ([::1]:54754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D30755FAD99
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 09:36:29 +0200 (CEST)
+Received: from localhost ([::1]:34166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiACh-0004Sm-Uw
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 04:01:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55718)
+	id 1oi9oR-0004f8-Cx
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 03:36:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oi9aJ-0003KO-Ll; Tue, 11 Oct 2022 03:21:51 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:48208)
+ (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
+ id 1oi9fB-0007gt-Q2; Tue, 11 Oct 2022 03:26:57 -0400
+Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200]:51662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oi9aF-0001Ct-Pg; Tue, 11 Oct 2022 03:21:51 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29B6W4QI015541;
- Tue, 11 Oct 2022 07:21:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=smmXResZ6f3D913gi8urH/JnshMq5UDRdNt+b1aTpHM=;
- b=WfMWyw2aME2BepkEl4E+HFb5B2Zhs/2WYfMeTdAXs11R2o1guLOdUfD/Iu/9DfRx1jgp
- 7cLnt5UKm/yG2E4fl0MI/uEKgyggQaVcNyXrPbJHaCKvNFqp04EwvnaB5pnddGPfLsVt
- iBjnrxxPGbx8krHJabR4S+yT+kKZP+x9vw2bEoDTg4Z6CCHOTQrio1MFLfB2oP9WARgS
- PXEzOc6zCrqmMUQDWYncADt/fDDzebqPo7x9+lZADlvx7UnH4DaUgoN76LTlWLqWlTZp
- +9LR5I05iUDqs+WmYHngKd5uw/RmCT5txzuf9B0gM1DT9T6Mx5tpgG/5WKZH8fu8RtCz Ag== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k510jcmgf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Oct 2022 07:21:41 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29B6XWLq024949;
- Tue, 11 Oct 2022 07:21:40 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k510jcmfd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Oct 2022 07:21:40 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29B7KcnS013474;
- Tue, 11 Oct 2022 07:21:38 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma03ams.nl.ibm.com with ESMTP id 3k30u93uk2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Oct 2022 07:21:38 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 29B7LYVw22610346
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 11 Oct 2022 07:21:34 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D197652052;
- Tue, 11 Oct 2022 07:21:34 +0000 (GMT)
-Received: from [9.171.33.113] (unknown [9.171.33.113])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 5EE9452050;
- Tue, 11 Oct 2022 07:21:32 +0000 (GMT)
-Message-ID: <e48d20de-11a4-9e2b-77a1-0a6014f7e0ea@linux.ibm.com>
-Date: Tue, 11 Oct 2022 09:21:32 +0200
+ (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
+ id 1oi9f4-0002EN-KX; Tue, 11 Oct 2022 03:26:53 -0400
+Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
+ (sas1-c73b4b4f4b95.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:12a9:0:640:c73b:4b4f])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 06A055FF24;
+ Tue, 11 Oct 2022 10:21:52 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:a424::1:1b] (unknown
+ [2a02:6b8:b081:a424::1:1b])
+ by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ dAQAA47q3c-LoOODGSt; Tue, 11 Oct 2022 10:21:51 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Precedence: bulk
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1665472911; bh=gE8K34QJuLAoxKhbgnXka6uzSnAwil9iVEKrFWpD2cM=;
+ h=In-Reply-To:Cc:Date:References:To:From:Subject:Message-ID;
+ b=CQekmCn9057VfeRG63OdqEutEeQRJ2vW/gqGsif89VyIoBvGe5fGZTK1QDncQckAh
+ UHWHf1y5dVxEf4x0+67kFJVbComRfofGmCRX48KwvQAPrCtLHKpUstGVuS7W6K0Ds0
+ nGXFxuo8fGM4A3bGPgZjBiUHYumQ+psvOgg4xdBY=
+Authentication-Results: sas1-c73b4b4f4b95.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <d3867613-0031-a816-40ba-b62f2828c2f4@yandex-team.ru>
+Date: Tue, 11 Oct 2022 10:21:49 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v9 01/10] s390x/cpus: Make absence of multithreading clear
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v3 0/5] vhost-user-blk: dynamically resize config space
+ based on features
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Nico Boehr <nrb@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- frankja@linux.ibm.com, berrange@redhat.com
-References: <20220902075531.188916-1-pmorel@linux.ibm.com>
- <20220902075531.188916-2-pmorel@linux.ibm.com>
- <166237756810.5995.16085197397341513582@t14-nrb>
- <c394823e-edd5-a722-486f-438e5fba2c9d@linux.ibm.com>
- <0d3fd34e-d060-c72e-ee19-e9054e06832a@kaod.org>
- <724d962a-c11b-c18d-f67f-9010eb2f32e2@linux.ibm.com>
- <dff1744f-3242-af11-6b4b-02037a7e2af5@linux.ibm.com>
- <3becce0a-1b7a-385a-4180-f68cf192595a@kaod.org>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <3becce0a-1b7a-385a-4180-f68cf192595a@kaod.org>
+From: Daniil Tatianin <d-tatianin@yandex-team.ru>
+To: qemu-devel@nongnu.org
+Cc: yc-core@yandex-team.ru, mst@redhat.com, stefanha@redhat.com,
+ raphael.norwitz@nutanix.com, kwolf@redhat.com, qemu-block@nongnu.org,
+ jasowang@redhat.com
+References: <20220906073111.353245-1-d-tatianin@yandex-team.ru>
+ <5f1c19e6-3bca-fbd4-f332-fafa36638522@yandex-team.ru>
+In-Reply-To: <5f1c19e6-3bca-fbd4-f332-fafa36638522@yandex-team.ru>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: CjHXYjK9yxikh4N73u43zzkEViyqZQDW
-X-Proofpoint-GUID: qKtZy4TeqV25a_rKk4YOciIulF8JNBC_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-10-11_03,2022-10-10_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 mlxscore=0
- phishscore=0 impostorscore=0 bulkscore=0 priorityscore=1501 suspectscore=0
- clxscore=1011 mlxlogscore=889 spamscore=0 adultscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
- definitions=main-2210110039
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
+Received-SPF: pass client-ip=178.154.239.200;
+ envelope-from=d-tatianin@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Spam_score_int: -40
+X-Spam_score: -4.1
 X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.007,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.007,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -127,28 +81,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 9/28/22 18:28, Cédric Le Goater wrote:
-> On 9/28/22 18:16, Pierre Morel wrote:
->> More thinking about this I will drop this patch for backward 
->> compatibility and in topology masks treat CPUs as being cores*threads
-> 
-> yes. You never know, people might have set threads=2 in their
-> domain file (like me). You could give the user a warning though,
-> with warn_report().
+On 10/11/22 10:20 AM, Daniil Tatianin wrote:
+> Ping :)
+Oops, didn't see the pull request. Disregard this.
 
-More thinking, I come back to the first idea after Daniel comment and 
-protect the change with a new machine type version.
-
-
-> 
-> Thanks,
-> 
-> C.
-> 
-> 
+> On 9/6/22 10:31 AM, Daniil Tatianin wrote:
+>> This patch set attempts to align vhost-user-blk with virtio-blk in
+>> terms of backward compatibility and flexibility. It also improves
+>> the virtio core by introducing new common code that can be used by
+>> a virtio device to calculate its config space size.
 >>
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
+>> In particular it adds the following things:
+>> - Common virtio code for deducing the required device config size based
+>>    on provided host features.
+>> - Ability to disable modern virtio-blk features like
+>>    discard/write-zeroes for vhost-user-blk.
+>> - Dynamic configuration space resizing based on enabled features,
+>>    by reusing the common code introduced in the earlier commits.
+>> - Cleans up the VHostUserBlk structure by reusing parent fields.
+>>
+>> Changes since v1 (mostly addresses Stefan's feedback):
+>> - Introduce VirtIOConfigSizeParams & virtio_get_config_size
+>> - Remove virtio_blk_set_config_size altogether, make virtio-blk-common.c
+>>    only hold the virtio-blk config size parameters.
+>> - Reuse parent fields in vhost-user-blk instead of introducing new ones.
+>>
+>> Changes since v2:
+>> - Squash the first four commits into one
+>> - Set .min_size for virtio-net as well
+>> - Move maintainer/meson user-blk bits to the last commit
+>>
+>> Daniil Tatianin (5):
+>>    virtio: introduce VirtIOConfigSizeParams & virtio_get_config_size
+>>    virtio-blk: move config size params to virtio-blk-common
+>>    vhost-user-blk: make it possible to disable write-zeroes/discard
+>>    vhost-user-blk: make 'config_wce' part of 'host_features'
+>>    vhost-user-blk: dynamically resize config space based on features
+>>
+>>   MAINTAINERS                           |  4 +++
+>>   hw/block/meson.build                  |  4 +--
+>>   hw/block/vhost-user-blk.c             | 29 +++++++++++---------
+>>   hw/block/virtio-blk-common.c          | 39 +++++++++++++++++++++++++++
+>>   hw/block/virtio-blk.c                 | 28 +++----------------
+>>   hw/net/virtio-net.c                   |  9 +++++--
+>>   hw/virtio/virtio.c                    | 10 ++++---
+>>   include/hw/virtio/vhost-user-blk.h    |  1 -
+>>   include/hw/virtio/virtio-blk-common.h | 20 ++++++++++++++
+>>   include/hw/virtio/virtio.h            | 10 +++++--
+>>   10 files changed, 105 insertions(+), 49 deletions(-)
+>>   create mode 100644 hw/block/virtio-blk-common.c
+>>   create mode 100644 include/hw/virtio/virtio-blk-common.h
+>>
 
