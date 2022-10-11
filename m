@@ -2,90 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A7B45FB2EE
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 15:11:58 +0200 (CEST)
-Received: from localhost ([::1]:42072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C50D5FB30B
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 15:15:44 +0200 (CEST)
+Received: from localhost ([::1]:40326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiF37-0008Tf-HU
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 09:11:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38914)
+	id 1oiF6l-00060b-5I
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 09:15:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oiDP2-0006Kv-6G
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 07:26:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24436)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oiDOV-0001RD-65
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 07:26:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665487549;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HX/WJX+6eQp3OzMFPNdLWWorQxBBjC8ejbhoMyUurmY=;
- b=gQ6IMDM25ULW8nx8gM5sqyzsQQjJq84Z+u7ITPMu66OyOK+aaNDnoVAJNit0eJHp2MJ645
- AjdoB04qrdMEyivyt1EeTySAI8cDHoUVG3U5XsoRu1I/lj2eVFhjDg8x8Z5Klkypu0sZe6
- GJPpRCLrXi8rr1UWE5KqR3CUl3khP/c=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-13-F7ByO6JXMM2n-y0fGxNOqQ-1; Tue, 11 Oct 2022 07:25:48 -0400
-X-MC-Unique: F7ByO6JXMM2n-y0fGxNOqQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v191-20020a1cacc8000000b003bdf7b78dccso8316622wme.3
- for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 04:25:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oiDQJ-0008AG-14
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 07:27:47 -0400
+Received: from mail-il1-x134.google.com ([2607:f8b0:4864:20::134]:34745)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oiDQG-0002eu-2b
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 07:27:46 -0400
+Received: by mail-il1-x134.google.com with SMTP id a17so6984917ilq.1
+ for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 04:27:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KOdlws63Xw27l3OBBm6UODo1357OkyolVq1NsXP4HtE=;
+ b=3IhuRXyt0X8DijwES5N2bMkyYcVvbhSj57xvgT8fGRQs9mB0Nu7WPSBjoQK3TslePu
+ ZRq7UHZyUyPwtAqBcXmomwIH1JH3RGEOwP8yyG/YiKQZGvvzdKN9memVEaXeti9uhsmX
+ yMGFEGV+9fEDRDnOnBnKwEZLbTkIgUSruIXnytgfDDRF1zqk45IIpoFIS5XTLQlMc4S+
+ aeVsxzJWpPLMPvUIdLSxUCNJDdWaV/hKd2vdgjKabMfkwLOpz2VR/4gA+5/6+H3sxiyk
+ F93FmlBuYC7M4tXa+mB/6lwpstviHoQXIGJDnM7XkJ+C63V0wVqvFjf2vcjrwrDZO/m5
+ t59A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HX/WJX+6eQp3OzMFPNdLWWorQxBBjC8ejbhoMyUurmY=;
- b=iSW8p71zlW752T1jrUiIH+rH9pYeASgQDt3TcmFRUSG0rrbrMoLHlPqv8TDxBexu16
- PpAWQrHKzfhNBQdw6H5+RXZBlErDER+SFy9Sdde46t1scZCLsXpkjCg37d+4VsRw0RgY
- DmTiyMaiiL7XYeb4BeCKH/msx2AItnUttv3vqY/o3kyj166FSsHs4ftwSk8nHRVr1o/y
- tqHlsQR4zAtApRQ/S9RTI103MbFGPUZXaKM3be2Q9QZRsxXME/XwAegL0gtrkfI/5oGa
- kLBgq6Ge4vhHMgkgM3hNH32YqTv9vhvKi2b4WLCATPmKsaseHojxBQEcD/HinKIFPlYy
- rIKQ==
-X-Gm-Message-State: ACrzQf3Oa8zceC5nLM6thlboDle2W6fPgADszYXMrLtFEnd/qFSmaNuE
- ECXXssWf+H/dN6Jx5AT7+GRswsbZJCIhzScrxvFFNqvcwAHCkDjtkBD9k4vPz1nRiTLjGtl5mgZ
- onPLlmJbablzKdtc=
-X-Received: by 2002:a05:600c:5490:b0:3b4:8db0:54d7 with SMTP id
- iv16-20020a05600c549000b003b48db054d7mr23003351wmb.62.1665487547073; 
- Tue, 11 Oct 2022 04:25:47 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7z0vFJEpvrNJsgfGwNC0NqYgix3KgXDDdGlFlgUaIjCf2hgznoqA0HBkQLpWKn9zZ0NAhQgw==
-X-Received: by 2002:a05:600c:5490:b0:3b4:8db0:54d7 with SMTP id
- iv16-20020a05600c549000b003b48db054d7mr23003338wmb.62.1665487546913; 
- Tue, 11 Oct 2022 04:25:46 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-176-11.web.vodafone.de.
- [109.43.176.11]) by smtp.gmail.com with ESMTPSA id
- j13-20020a5d604d000000b0022ae4f8395dsm10916621wrt.96.2022.10.11.04.25.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Oct 2022 04:25:46 -0700 (PDT)
-Message-ID: <7c18626e-1a28-e0c6-1da1-d338c9792423@redhat.com>
-Date: Tue, 11 Oct 2022 13:25:44 +0200
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KOdlws63Xw27l3OBBm6UODo1357OkyolVq1NsXP4HtE=;
+ b=H6gF7UNCRCH5sLVgLgQteRcpCdyzvyhpJe3pwHxefAACvWoaRighLxEqYdpjc4F0sJ
+ B90pRKKqTDjfifvkUkHWGOb8ltaoEiWrXEkrZlfkTzFvV4iUqMY7ePVmwCZdj1SRifDH
+ 2IaMUaqQFd6NGlYhg2iHqf382QzKMdcseGmTzSQonTpDwAcF0l4Jp2E0xn1ODUidY/0w
+ dHQ3eqxCTGtAegUTltXcBO6SSVi1xXp9jV8UMrBNv+iWPznrwPYmRJmtPcFxpBfLzpC0
+ 5W1BM2d+j4+NxKjpBP4eXehw+IFxprABfYFA+kjophs+X/m5FKy/hdR+TNl86g1+LK7v
+ t1/A==
+X-Gm-Message-State: ACrzQf1UKzHjYIrpuS2Q0yQ+lY/3DP5gp7P+iVSZn3T89B0WuqrKJgED
+ afNNKh5eeSw3Ky5/s8TycCCPFo5K8NkHoSvpQ1CqfA==
+X-Google-Smtp-Source: AMsMyM4Cf3iPzfJZ2xaWs3g4NWoQ36j+UwXTZOGVYNhnC9/Q68qlMNdyFpfLxDHpQwopH4Opf633pfTpx4+Ei/78MkY=
+X-Received: by 2002:a92:2601:0:b0:2fc:48be:e77a with SMTP id
+ n1-20020a922601000000b002fc48bee77amr4477239ile.202.1665487658930; Tue, 11
+ Oct 2022 04:27:38 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v5 6/9] tests/x86: Fix comment typo in drive_del-test
-Content-Language: en-US
-To: Michael Labiuk <michael.labiuk@virtuozzo.com>, qemu-devel@nongnu.org
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, den@virtuozzo.com
-References: <20220929223547.1429580-1-michael.labiuk@virtuozzo.com>
- <20220929223547.1429580-7-michael.labiuk@virtuozzo.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220929223547.1429580-7-michael.labiuk@virtuozzo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, NICE_REPLY_A=-2.934, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221010132300.96935-1-miguel.luis@oracle.com>
+ <20221010132300.96935-3-miguel.luis@oracle.com>
+ <CAARzgwxOxPqAGe76LS-ETpReGrCHvLQjHKvJUJ6AZCmCGMy6tg@mail.gmail.com>
+ <6D761DCF-3713-4A16-8253-F2F1212B45C5@oracle.com>
+In-Reply-To: <6D761DCF-3713-4A16-8253-F2F1212B45C5@oracle.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Tue, 11 Oct 2022 16:57:27 +0530
+Message-ID: <CAARzgwxsyjkFua7=asn9CFj_+YvQ_GiUC1gWaLaBo_MBf64tcQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 2/4] acpi: fadt: support revision 6.0 of the ACPI
+ specification
+To: Miguel Luis <miguel.luis@oracle.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, 
+ "mst@redhat.com" <mst@redhat.com>, "imammedo@redhat.com" <imammedo@redhat.com>,
+ "shannon.zhaosl@gmail.com" <shannon.zhaosl@gmail.com>, 
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: none client-ip=2607:f8b0:4864:20::134;
+ envelope-from=ani@anisinha.ca; helo=mail-il1-x134.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,26 +91,202 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/09/2022 00.35, Michael Labiuk via wrote:
-> Signed-off-by: Michael Labiuk <michael.labiuk@virtuozzo.com>
-> ---
->   tests/qtest/drive_del-test.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tests/qtest/drive_del-test.c b/tests/qtest/drive_del-test.c
-> index 467e752b0d..44b9578801 100644
-> --- a/tests/qtest/drive_del-test.c
-> +++ b/tests/qtest/drive_del-test.c
-> @@ -327,7 +327,7 @@ static void test_blockdev_add_device_add_and_del(void)
->       qts = qtest_init(machine_addition);
->   
->       /*
-> -     * blockdev_add/device_add and device_del.  The it drive is used by a
-> +     * blockdev_add/device_add and device_del. The drive is used by a
->        * device that unplugs after reset, but it doesn't go away.
->        */
->       blockdev_add_with_media(qts);
+On Tue, Oct 11, 2022 at 4:33 PM Miguel Luis <miguel.luis@oracle.com> wrote:
+>
+>
+> > On 11 Oct 2022, at 05:02, Ani Sinha <ani@anisinha.ca> wrote:
+> >
+> > On Mon, Oct 10, 2022 at 6:53 PM Miguel Luis <miguel.luis@oracle.com> wr=
+ote:
+> >>
+> >> Update the Fixed ACPI Description Table (FADT) to revision 6.0 of the =
+ACPI
+> >> specification adding the field "Hypervisor Vendor Identity" that was m=
+issing.
+> >>
+> >> This field's description states the following: "64-bit identifier of h=
+ypervisor
+> >> vendor. All bytes in this field are considered part of the vendor iden=
+tity.
+> >> These identifiers are defined independently by the vendors themselves,
+> >> usually following the name of the hypervisor product. Version informat=
+ion
+> >> should NOT be included in this field - this shall simply denote the ve=
+ndor's
+> >> name or identifier. Version information can be communicated through a
+> >> supplemental vendor-specific hypervisor API. Firmware implementers wou=
+ld
+> >> place zero bytes into this field, denoting that no hypervisor is prese=
+nt in
+> >> the actual firmware."
+> >>
+> >> Hereupon, what should a valid identifier of an Hypervisor Vendor ID be=
+ and
+> >> where should QEMU provide that information?
+> >>
+> >> On the v1 [1] of this RFC there's the suggestion of having this inform=
+ation
+> >> in sync by the current acceleration name. This also seems to imply tha=
+t QEMU,
+> >> which generates the FADT table, and the FADT consumer need to be in sy=
+nc with
+> >> the values of this field.
+> >>
+> >> This version follows Ani Sinha's suggestion [2] of using "QEMU" for th=
+e
+> >> hypervisor vendor ID.
+> >>
+> >> [1]: https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg00911=
+.html
+> >> [2]: https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg00989=
+.html
+> >>
+> >> Signed-off-by: Miguel Luis <miguel.luis@oracle.com>
+> >
+> > Reviewed-by: Ani Sinha <ani@anisinha.ca>
+> >
+>
+> Thank you Ani. In the meanwhile, taking the description part of: =E2=80=
+=9CFirmware
+> implementers would place zero bytes into this field, denoting that no
+> hypervisor is present in the actual firmware.", I reached to something al=
+ong
+> the lines below:
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+That line is meant for hardware vendors when shipping bioses with
+physical HW. All VMs run with QEMU are run from a hypervisor
+environment.
 
+>
+> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+> index 42feb4d4d7..e719afe0cb 100644
+> --- a/hw/acpi/aml-build.c
+> +++ b/hw/acpi/aml-build.c
+> @@ -2198,7 +2198,11 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, c=
+onst AcpiFadtData *f,
+>      }
+>
+>      /* Hypervisor Vendor Identity */
+> -    build_append_padded_str(tbl, "QEMU", 8, '\0');
+> +    if (f->hyp_is_present) {
+> +        build_append_padded_str(tbl, "QEMU", 8, '\0');
+> +    } else {
+> +        build_append_int_noprefix(tbl, 0, 8);
+> +    }
+>
+>      /* TODO: extra fields need to be added to support revisions above re=
+v6 */
+>      assert(f->rev =3D=3D 6);
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index 72bb6f61a5..d238ce2b88 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -818,6 +818,7 @@ static void build_fadt_rev6(GArray *table_data, BIOSL=
+inker *linker,
+>          .minor_ver =3D 0,
+>          .flags =3D 1 << ACPI_FADT_F_HW_REDUCED_ACPI,
+>          .xdsdt_tbl_offset =3D &dsdt_tbl_offset,
+> +        .hyp_is_present =3D vms->virt && (kvm_enabled() || hvf_enabled()=
+),
+>      };
+>
+>      switch (vms->psci_conduit) {
+> diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+> index 2b42e4192b..2aff5304af 100644
+> --- a/include/hw/acpi/acpi-defs.h
+> +++ b/include/hw/acpi/acpi-defs.h
+> @@ -79,7 +79,7 @@ typedef struct AcpiFadtData {
+>      uint16_t arm_boot_arch;    /* ARM_BOOT_ARCH */
+>      uint16_t iapc_boot_arch;   /* IAPC_BOOT_ARCH */
+>      uint8_t minor_ver;         /* FADT Minor Version */
+> -
+> +    bool hyp_is_present;
+>      /*
+>       * respective tables offsets within ACPI_BUILD_TABLE_FILE,
+>       * NULL if table doesn't exist (in that case field's value
+>
+> Any thoughts on this?
+>
+> Thanks
+> Miguel
+>
+> >> ---
+> >> hw/acpi/aml-build.c      | 13 ++++++++++---
+> >> hw/arm/virt-acpi-build.c | 10 +++++-----
+> >> 2 files changed, 15 insertions(+), 8 deletions(-)
+> >>
+> >> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+> >> index e6bfac95c7..42feb4d4d7 100644
+> >> --- a/hw/acpi/aml-build.c
+> >> +++ b/hw/acpi/aml-build.c
+> >> @@ -2070,7 +2070,7 @@ void build_pptt(GArray *table_data, BIOSLinker *=
+linker, MachineState *ms,
+> >>     acpi_table_end(linker, &table);
+> >> }
+> >>
+> >> -/* build rev1/rev3/rev5.1 FADT */
+> >> +/* build rev1/rev3/rev5.1/rev6.0 FADT */
+> >> void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f=
+,
+> >>                 const char *oem_id, const char *oem_table_id)
+> >> {
+> >> @@ -2193,8 +2193,15 @@ void build_fadt(GArray *tbl, BIOSLinker *linker=
+, const AcpiFadtData *f,
+> >>     /* SLEEP_STATUS_REG */
+> >>     build_append_gas_from_struct(tbl, &f->sleep_sts);
+> >>
+> >> -    /* TODO: extra fields need to be added to support revisions above=
+ rev5 */
+> >> -    assert(f->rev =3D=3D 5);
+> >> +    if (f->rev =3D=3D 5) {
+> >> +        goto done;
+> >> +    }
+> >> +
+> >> +    /* Hypervisor Vendor Identity */
+> >> +    build_append_padded_str(tbl, "QEMU", 8, '\0');
+> >> +
+> >> +    /* TODO: extra fields need to be added to support revisions above=
+ rev6 */
+> >> +    assert(f->rev =3D=3D 6);
+> >>
+> >> done:
+> >>     acpi_table_end(linker, &table);
+> >> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> >> index 9b3aee01bf..72bb6f61a5 100644
+> >> --- a/hw/arm/virt-acpi-build.c
+> >> +++ b/hw/arm/virt-acpi-build.c
+> >> @@ -809,13 +809,13 @@ build_madt(GArray *table_data, BIOSLinker *linke=
+r, VirtMachineState *vms)
+> >> }
+> >>
+> >> /* FADT */
+> >> -static void build_fadt_rev5(GArray *table_data, BIOSLinker *linker,
+> >> +static void build_fadt_rev6(GArray *table_data, BIOSLinker *linker,
+> >>                             VirtMachineState *vms, unsigned dsdt_tbl_o=
+ffset)
+> >> {
+> >> -    /* ACPI v5.1 */
+> >> +    /* ACPI v6.0 */
+> >>     AcpiFadtData fadt =3D {
+> >> -        .rev =3D 5,
+> >> -        .minor_ver =3D 1,
+> >> +        .rev =3D 6,
+> >> +        .minor_ver =3D 0,
+> >>         .flags =3D 1 << ACPI_FADT_F_HW_REDUCED_ACPI,
+> >>         .xdsdt_tbl_offset =3D &dsdt_tbl_offset,
+> >>     };
+> >> @@ -945,7 +945,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBu=
+ildTables *tables)
+> >>
+> >>     /* FADT MADT PPTT GTDT MCFG SPCR DBG2 pointed to by RSDT */
+> >>     acpi_add_table(table_offsets, tables_blob);
+> >> -    build_fadt_rev5(tables_blob, tables->linker, vms, dsdt);
+> >> +    build_fadt_rev6(tables_blob, tables->linker, vms, dsdt);
+> >>
+> >>     acpi_add_table(table_offsets, tables_blob);
+> >>     build_madt(tables_blob, tables->linker, vms);
+> >> --
+> >> 2.37.3
+> >>
+>
 
