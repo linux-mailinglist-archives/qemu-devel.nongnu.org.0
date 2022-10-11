@@ -2,102 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 294B65FBBE8
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 22:12:11 +0200 (CEST)
-Received: from localhost ([::1]:34734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0688E5FBBF2
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 22:17:28 +0200 (CEST)
+Received: from localhost ([::1]:58826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiLbk-0004B6-4a
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 16:12:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58444)
+	id 1oiLgt-0000wj-1w
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 16:17:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1oiLV2-0005u0-Gc
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 16:05:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24922)
+ id 1oiLVv-0006PE-0V
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 16:06:08 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:53709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1oiLUu-0003G3-Hf
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 16:05:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665518700;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1/7zf7Ibt1ygGcMkEHfe+7QjBDAKJVjRrdct3+Ke1mY=;
- b=O/n6Y2OCXHwl68Z9aSucuowLjHDfFM8yKE6FU3805bVaD5hlTmMj9N4KV1NDeIYdxxHSz0
- B7JUwglyNuAiSkulhsH16DxHcZWuGYBVmA/dpSkCyTLtXzvtky4VfRL1ISoFogv0hGUd+r
- etWlUomGey70Caml9p1MJnDBlXZ2C4U=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-609-CANqYy1gO4SGvZtRh4-fCQ-1; Tue, 11 Oct 2022 16:04:59 -0400
-X-MC-Unique: CANqYy1gO4SGvZtRh4-fCQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- j8-20020adfa548000000b0022e2bf8f48fso4263465wrb.23
- for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 13:04:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1/7zf7Ibt1ygGcMkEHfe+7QjBDAKJVjRrdct3+Ke1mY=;
- b=pozBqmgBCbmtai0bEv+OtjNi69ib/fY36/Gb6UehYBWQZIxYGUbL4MTjsFnUS8SnjD
- 4YN46RyNloKVdSfdjh+BZitbMk5nzNK9y76IdkNn1OO1G9ZDe7SO8Pq/VxA74ZaVCByj
- s8ZT7aoV/rk8ozJhQWr4M2p0c1i7kN1vaGOkxW3cEf9lbCDSKb6XbsAXrt7yXGlGmbYx
- 5k8eMTSa4hv/We9Xx9WLPK3hxNmoiaWPnEg8mbTjpx1ZwwLJq+peKv6lBFvyyfOppkPz
- svPZW6CBxtyL90EwQ8xqS9gyBxgGLbImBDZdYcydsBS6TpDdKqeiWcbW8szbrniTC4SM
- LZKQ==
-X-Gm-Message-State: ACrzQf3ED6aJEtN0I2J9CzdkpwTbPoruyU/x8EJbPLq6X+Ka28m6caGD
- pA+sxg3p52mFWLmdQBMnx+DCnPdXQ9dMHuj/OeOuRcK4NOYkFsRiunO7tFVXyY1IQKVlnNVQmvG
- lW7XnwwX2OcLnN4Q=
-X-Received: by 2002:a5d:6181:0:b0:22e:3db0:67a2 with SMTP id
- j1-20020a5d6181000000b0022e3db067a2mr16670122wru.257.1665518698045; 
- Tue, 11 Oct 2022 13:04:58 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4PbUAAP+cw8LPYj9voDHqo0Y5MP5TC+1erku9wWXhlhZNZoVbraH0xfSvIuOjMQNXc1islnA==
-X-Received: by 2002:a5d:6181:0:b0:22e:3db0:67a2 with SMTP id
- j1-20020a5d6181000000b0022e3db067a2mr16670105wru.257.1665518697760; 
- Tue, 11 Oct 2022 13:04:57 -0700 (PDT)
-Received: from [192.168.100.30] ([82.142.8.70])
- by smtp.gmail.com with ESMTPSA id
- m4-20020a05600c3b0400b003c6bd12ac27sm5475754wms.37.2022.10.11.13.04.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Oct 2022 13:04:57 -0700 (PDT)
-Message-ID: <8b598d01-3231-6bfa-fe3f-d2608ef3d7bc@redhat.com>
-Date: Tue, 11 Oct 2022 22:04:55 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v10 00/17] qapi: net: add unix socket type support to
- netdev backend
-Content-Language: en-US
-To: Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
+ id 1oiLVp-0003jV-AR
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 16:06:06 -0400
+Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
+ mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MNtGq-1oXHpg2D4y-00OFAa; Tue, 11 Oct 2022 22:05:44 +0200
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, Greg Kurz <groug@kaod.org>,
+ Eric Blake <eblake@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Thomas Huth <thuth@redhat.com>,
  Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Greg Kurz <groug@kaod.org>,
+ Markus Armbruster <armbru@redhat.com>, Paul Durrant <paul@xen.org>,
+ David Gibson <david@gibson.dropbear.id.au>, xen-devel@lists.xenproject.org,
  Ralph Schmieder <ralph.schmieder@gmail.com>,
  Stefano Brivio <sbrivio@redhat.com>
-References: <20221005162051.1120041-1-lvivier@redhat.com>
- <20221006071948-mutt-send-email-mst@kernel.org>
- <CACGkMEutaeUPgeS1ZqhzuwoVJy3YpuQ_oZx6YkSCBvkdxAe+VA@mail.gmail.com>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <CACGkMEutaeUPgeS1ZqhzuwoVJy3YpuQ_oZx6YkSCBvkdxAe+VA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.934, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH v11 00/17] qapi: net: add unix socket type support to netdev
+ backend
+Date: Tue, 11 Oct 2022 22:05:22 +0200
+Message-Id: <20221011200539.1486809-1-lvivier@redhat.com>
+X-Mailer: git-send-email 2.37.3
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Nln9Gtj/1WNDvrTSIdIGFKJUB9N07Pw8TDtYNs5lhZ8aT32Ma37
+ nI+4nbGHH78n6UWGmIIXu7dj6KPWS+/HTsCIiNQqtTtiLD908UuvOwg9fxrabDFD7VAtNE9
+ F4LHqGid6KUEHmdgLut4OXk06N6Du92qYHvCAfpeGTVfoOJp3U7VTM5zs65LcUuGcfBXXSM
+ ZqyFJ+2ccOUNcGg//eHlA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:00KjuUH4dqA=:BViBiyFp6xn91aBxmfLhwq
+ Uey2/ESCv0NaCarXaL8yh/6Ky+cjlOr0CW6PSxSQ5fUyS/TWPaiUqVyf8CyzSAWS+ANg+zule
+ mzV6PTSSqOOkv/iWA0xH/UdTTGg3OKt+G3LtZnigAqw3D//r7qoLWbNNjf6+LO8fslr31gnTY
+ EFJaIEZ9sixiec243FIH1v+Gs79UrlJTSaPOACbqvHfNdFbwuJbqLYBwcMZoQSqSgvTLnFDzv
+ XpV27LdOzEoPH+ob0xkeS8+fVDIphj/kkhtWBYqPjVan+5Vquj+EQIhIDqVy1ry+m1rSs91YC
+ T4niTKw6uVw7iyLHMZIeiTK84bmu9g4Dmeg4kWATcSeiPljeBGvB8lUcbK3kW7RsNpKgM2zLG
+ LNZ3uo88+JyiqvY26w864KHBiOGn/cOBfk5xxhl4/DoVm9OKqXA/A4K3fJKWItwQGZBofj7r9
+ tZzjMwZv+Ez1GEdJBs2H6kIwQfzdhcDTfXVmPdE3//bGQXl7iu8c6PCBXKuALC9jKQLcTIKvH
+ aGyAtF6B2MadTNPKU2nJ6CHEVk75n8FGk4hKPT5wLD6YFjEWUQVhKGeNZl8itT02TSJhbl1IX
+ oC6yGeHCfZc2oyBxo0Pz0maAlzzreqmXz5SyfwDXe3k/EnDd9NY3+9dbXZ2d20HbIvUNBQ+yx
+ eRcb1agz6OzjeWzb0aaukPBDXQf+wJ3uNkwpv3T/WDXOt83bUkxBXSfwbu5eAqh8xzgrBWdCI
+ XwmZ5Qb1P78NhWCuINuy72bb9a+pYaxK7pKYPp451kPoaBiMoI8x4hJNRwl2bLgXrwUedgfwD
+ olCKJ7B
+Received-SPF: permerror client-ip=212.227.126.133;
+ envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,205 +85,198 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/9/22 07:52, Jason Wang wrote:
-> On Thu, Oct 6, 2022 at 7:21 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->>
->> On Wed, Oct 05, 2022 at 06:20:34PM +0200, Laurent Vivier wrote:
->>> "-netdev socket" only supports inet sockets.
->>>
->>> It's not a complex task to add support for unix sockets, but
->>> the socket netdev parameters are not defined to manage well unix
->>> socket parameters.
->>
->> Looks good.
->>
->> Acked-by: Michael S. Tsirkin <mst@redhat.com>
->>
->> Belongs in Jason's tree.
-> 
-> I've queued this series.
-
-I've found some minor problems. Could you queue incoming v11 instead?
-
-Thanks,
-Laurent
-
-> 
-> Thanks
-> 
-> 
->>
->>> As discussed in:
->>>
->>>    "socket.c added support for unix domain socket datagram transport"
->>>    https://lore.kernel.org/qemu-devel/1C0E1BC5-904F-46B0-8044-68E43E67BE60@gmail.com/
->>>
->>> This series adds support of unix socket type using SocketAddress QAPI structure.
->>>
->>> Two new netdev backends, "stream" and "dgram" are added, that are barely a copy of "socket"
->>> backend but they use the SocketAddress QAPI to provide socket parameters.
->>> And then they also implement unix sockets (TCP and UDP).
->>>
->>> Some examples of CLI syntax:
->>>
->>>    for TCP:
->>>
->>>    -netdev stream,id=socket0,addr.type=inet,addr.host=localhost,addr.port=1234
->>>    -netdev stream,id=socket0,server=off,addr.type=inet,addr.host=localhost,addr.port=1234
->>>
->>>    -netdev dgram,id=socket0,\
->>>            local.type=inet,local.host=localhost,local.port=1234,\
->>>            remote.type=inet,remote.host=localhost,remote.port=1235
->>>
->>>    for UNIX:
->>>
->>>    -netdev stream,id=socket0,addr.type=unix,addr.path=/tmp/qemu0
->>>    -netdev stream,id=socket0,server=off,addr.type=unix,addr.path=/tmp/qemu0
->>>
->>>    -netdev dgram,id=socket0,\
->>>            local.type=unix,local.path=/tmp/qemu0,\
->>>            remote.type=unix,remote.path=/tmp/qemu1
->>>
->>>    for FD:
->>>
->>>    -netdev stream,id=socket0,addr.type=fd,addr.str=4
->>>    -netdev stream,id=socket0,server=off,addr.type=fd,addr.str=5
->>>
->>>    -netdev dgram,id=socket0,local.type=fd,addr.str=4
->>>
->>> v10:
->>>    - add Red Hat copyright
->>>    - initialize dgram_dst to NULL in SOCKET_ADDRESS_TYPE_FD
->>>    - remove redundente _stream / _dgram in functions name
->>>    - move net_dgram_init() into net_init_dgram()
->>>    - address Thomas' comments on qtest
->>>    - add a function qemu_set_info_str() to set info string
->>>    - tested stream netdev with fd type using qrap/passt and
->>>      "-netdev stream,addr.type=fd,server=off,addr.str=5,id=netdev0"
->>>
->>> v9:
->>>    - add events to report stream connection/disconnection
->>>    - remove from net/dgram.c send_fn, listen_fd, net_dgram_accept()
->>>      net_dgram_connect() and net_dgram_send() that are only
->>>      needed by net/stream.c
->>>    - remove from net/stream.c send_fn
->>>    - add Red Hat copyright
->>>    - add original net/socket.c Stefano's patch (EINVAL)
->>>
->>> v8:
->>>    - test ipv4 and ipv6 parameters (stream inet)
->>>    - test abstract parameter (stream unix)
->>>    - add SocketAddressInet supported parameters in qemu-options.hx
->>>      (only stream, supported by the move to QIO)
->>>    - with qio_channel_writev() replace (ret == -1 && errno == EAGAIN)
->>>      by (ret == QIO_CHANNEL_ERR_BLOCK)
->>>
->>> v7:
->>>    - add qtests
->>>    - update parameters table in net.json
->>>    - update socket_uri() and socket_parse()
->>>
->>> v6:
->>>    - s/netdev option/-netdev option/ PATCH 4
->>>    - s/ / /
->>>    - update @NetdevStreamOptions and @NetdevDgramOptions comments
->>>    - update PATCH 4 description message
->>>    - add missing return in error case for unix stream socket
->>>    - split socket_uri() patch: move and rename, then change content
->>>
->>> v5:
->>>    - remove RFC prefix
->>>    - put the change of net_client_parse() into its own patch (exit() in the
->>>      function)
->>>    - update comments regarding netdev_is_modern() and netdev_parse_modern()
->>>    - update error case in net_stream_server_init()
->>>    - update qemu-options.hx with unix type
->>>    - fix HMP "info network" with unix protocol/server side.
->>>
->>> v4:
->>>    - net_client_parse() fails with exit() rather than with return.
->>>    - keep "{ 'name': 'vmnet-host', 'if': 'CONFIG_VMNET' }" on its
->>>      own line in qapi/net.json
->>>    - add a comment in qapi/net.json about parameters usage
->>>    - move netdev_is_modern() check to qemu_init()
->>>    - in netdev_is_modern(), check for JSON and use qemu_opts_do_parse()
->>>      to parse parameters and detect type value.
->>>    - add a blank line after copyright comment
->>>
->>> v3:
->>>    - remove support of "-net" for dgram and stream. They are only
->>>      supported with "-netdev" option.
->>>    - use &error_fatal directly in net_client_inits()
->>>    - update qemu-options.hx
->>>    - move to QIO for stream socket
->>>
->>> v2:
->>>    - use "stream" and "dgram" rather than "socket-ng,mode=stream"
->>>      and ""socket-ng,mode=dgram"
->>>    - extract code to bypass qemu_opts_parse_noisily() to
->>>      a new patch
->>>    - do not ignore EINVAL (Stefano)
->>>    - fix "-net" option
->>>
->>> CC: Ralph Schmieder <ralph.schmieder@gmail.com>
->>> CC: Stefano Brivio <sbrivio@redhat.com>
->>> CC: Daniel P. Berrangé <berrange@redhat.com>
->>> CC: Markus Armbruster <armbru@redhat.com>
->>>
->>> Laurent Vivier (15):
->>>    net: introduce convert_host_port()
->>>    net: remove the @errp argument of net_client_inits()
->>>    net: simplify net_client_parse() error management
->>>    qapi: net: introduce a way to bypass qemu_opts_parse_noisily()
->>>    net: introduce qemu_set_info_str() function
->>>    qapi: net: add stream and dgram netdevs
->>>    net: stream: add unix socket
->>>    net: dgram: make dgram_dst generic
->>>    net: dgram: move mcast specific code from net_socket_fd_init_dgram()
->>>    net: dgram: add unix socket
->>>    qemu-sockets: move and rename SocketAddress_to_str()
->>>    qemu-sockets: update socket_uri() and socket_parse()  to be consistent
->>>    net: stream: move to QIO to enable additional parameters
->>>    tests/qtest: netdev: test stream and dgram backends
->>>    net: stream: add QAPI events to report connection state
->>>
->>> Stefano Brivio (2):
->>>    net: socket: Don't ignore EINVAL on netdev socket connection
->>>    net: stream: Don't ignore EINVAL on netdev socket connection
->>>
->>>   hmp-commands.hx             |   2 +-
->>>   include/net/net.h           |   7 +-
->>>   include/qemu/sockets.h      |   4 +-
->>>   monitor/hmp-cmds.c          |  23 +-
->>>   net/clients.h               |   6 +
->>>   net/dgram.c                 | 622 ++++++++++++++++++++++++++++++++++++
->>>   net/hub.c                   |   2 +
->>>   net/l2tpv3.c                |   3 +-
->>>   net/meson.build             |   2 +
->>>   net/net.c                   | 186 ++++++++---
->>>   net/slirp.c                 |   5 +-
->>>   net/socket.c                |  36 +--
->>>   net/stream.c                | 382 ++++++++++++++++++++++
->>>   net/tap-win32.c             |   3 +-
->>>   net/tap.c                   |  13 +-
->>>   net/vde.c                   |   3 +-
->>>   net/vhost-user.c            |   3 +-
->>>   net/vhost-vdpa.c            |   2 +-
->>>   qapi/net.json               | 108 ++++++-
->>>   qemu-options.hx             |  14 +
->>>   softmmu/vl.c                |  16 +-
->>>   tests/qtest/meson.build     |   1 +
->>>   tests/qtest/netdev-socket.c | 417 ++++++++++++++++++++++++
->>>   util/qemu-sockets.c         |  25 ++
->>>   24 files changed, 1757 insertions(+), 128 deletions(-)
->>>   create mode 100644 net/dgram.c
->>>   create mode 100644 net/stream.c
->>>   create mode 100644 tests/qtest/netdev-socket.c
->>>
->>> --
->>> 2.37.3
->>>
->>
-> 
-
+"-netdev socket" only supports inet sockets.=0D
+=0D
+It's not a complex task to add support for unix sockets, but=0D
+the socket netdev parameters are not defined to manage well unix=0D
+socket parameters.=0D
+=0D
+As discussed in:=0D
+=0D
+  "socket.c added support for unix domain socket datagram transport"=0D
+  https://lore.kernel.org/qemu-devel/1C0E1BC5-904F-46B0-8044-68E43E67BE60@g=
+mail.com/=0D
+=0D
+This series adds support of unix socket type using SocketAddress QAPI struc=
+ture.=0D
+=0D
+Two new netdev backends, "stream" and "dgram" are added, that are barely a =
+copy of "socket"=0D
+backend but they use the SocketAddress QAPI to provide socket parameters.=0D
+And then they also implement unix sockets (TCP and UDP).=0D
+=0D
+Some examples of CLI syntax:=0D
+=0D
+  for TCP:=0D
+=0D
+  -netdev stream,id=3Dsocket0,addr.type=3Dinet,addr.host=3Dlocalhost,addr.p=
+ort=3D1234=0D
+  -netdev stream,id=3Dsocket0,server=3Doff,addr.type=3Dinet,addr.host=3Dloc=
+alhost,addr.port=3D1234=0D
+=0D
+  -netdev dgram,id=3Dsocket0,\=0D
+          local.type=3Dinet,local.host=3Dlocalhost,local.port=3D1234,\=0D
+          remote.type=3Dinet,remote.host=3Dlocalhost,remote.port=3D1235=0D
+=0D
+  for UNIX:=0D
+=0D
+  -netdev stream,id=3Dsocket0,addr.type=3Dunix,addr.path=3D/tmp/qemu0=0D
+  -netdev stream,id=3Dsocket0,server=3Doff,addr.type=3Dunix,addr.path=3D/tm=
+p/qemu0=0D
+=0D
+  -netdev dgram,id=3Dsocket0,\=0D
+          local.type=3Dunix,local.path=3D/tmp/qemu0,\=0D
+          remote.type=3Dunix,remote.path=3D/tmp/qemu1=0D
+=0D
+  for FD:=0D
+=0D
+  -netdev stream,id=3Dsocket0,addr.type=3Dfd,addr.str=3D4=0D
+  -netdev stream,id=3Dsocket0,server=3Doff,addr.type=3Dfd,addr.str=3D5=0D
+=0D
+  -netdev dgram,id=3Dsocket0,local.type=3Dfd,addr.str=3D4=0D
+=0D
+v11:=0D
+  - use qemu_set_info_str() in hw/net/xen_nic.c=0D
+  - fix link_down state in stream client mode=0D
+  - cleanup error case in net_stream_receive()=0D
+  - update qapi version to 7.2=0D
+=0D
+v10:=0D
+  - add Red Hat copyright=0D
+  - initialize dgram_dst to NULL in SOCKET_ADDRESS_TYPE_FD=0D
+  - remove redundente _stream / _dgram in functions name=0D
+  - move net_dgram_init() into net_init_dgram()=0D
+  - address Thomas' comments on qtest=0D
+  - add a function qemu_set_info_str() to set info string=0D
+  - tested stream netdev with fd type using qrap/passt and=0D
+    "-netdev stream,addr.type=3Dfd,server=3Doff,addr.str=3D5,id=3Dnetdev0"=
+=0D
+=0D
+v9:=0D
+  - add events to report stream connection/disconnection=0D
+  - remove from net/dgram.c send_fn, listen_fd, net_dgram_accept()=0D
+    net_dgram_connect() and net_dgram_send() that are only=0D
+    needed by net/stream.c=0D
+  - remove from net/stream.c send_fn=0D
+  - add Red Hat copyright=0D
+  - add original net/socket.c Stefano's patch (EINVAL)=0D
+=0D
+v8:=0D
+  - test ipv4 and ipv6 parameters (stream inet)=0D
+  - test abstract parameter (stream unix)=0D
+  - add SocketAddressInet supported parameters in qemu-options.hx=0D
+    (only stream, supported by the move to QIO)=0D
+  - with qio_channel_writev() replace (ret =3D=3D -1 && errno =3D=3D EAGAIN=
+)=0D
+    by (ret =3D=3D QIO_CHANNEL_ERR_BLOCK)=0D
+=0D
+v7:=0D
+  - add qtests=0D
+  - update parameters table in net.json=0D
+  - update socket_uri() and socket_parse()=0D
+=0D
+v6:=0D
+  - s/netdev option/-netdev option/ PATCH 4=0D
+  - s/=C2=A0/ /=0D
+  - update @NetdevStreamOptions and @NetdevDgramOptions comments=0D
+  - update PATCH 4 description message=0D
+  - add missing return in error case for unix stream socket=0D
+  - split socket_uri() patch: move and rename, then change content=0D
+=0D
+v5:=0D
+  - remove RFC prefix=0D
+  - put the change of net_client_parse() into its own patch (exit() in the=
+=0D
+    function)=0D
+  - update comments regarding netdev_is_modern() and netdev_parse_modern()=
+=0D
+  - update error case in net_stream_server_init()=0D
+  - update qemu-options.hx with unix type=0D
+  - fix HMP "info network" with unix protocol/server side.=0D
+=0D
+v4:=0D
+  - net_client_parse() fails with exit() rather than with return.=0D
+  - keep "{ 'name': 'vmnet-host', 'if': 'CONFIG_VMNET' }" on its=0D
+    own line in qapi/net.json=0D
+  - add a comment in qapi/net.json about parameters usage=0D
+  - move netdev_is_modern() check to qemu_init()=0D
+  - in netdev_is_modern(), check for JSON and use qemu_opts_do_parse()=0D
+    to parse parameters and detect type value.=0D
+  - add a blank line after copyright comment=0D
+=0D
+v3:=0D
+  - remove support of "-net" for dgram and stream. They are only=0D
+    supported with "-netdev" option.=0D
+  - use &error_fatal directly in net_client_inits()=0D
+  - update qemu-options.hx=0D
+  - move to QIO for stream socket=0D
+=0D
+v2:=0D
+  - use "stream" and "dgram" rather than "socket-ng,mode=3Dstream"=0D
+    and ""socket-ng,mode=3Ddgram"=0D
+  - extract code to bypass qemu_opts_parse_noisily() to=0D
+    a new patch=0D
+  - do not ignore EINVAL (Stefano)=0D
+  - fix "-net" option=0D
+=0D
+CC: Ralph Schmieder <ralph.schmieder@gmail.com>=0D
+CC: Stefano Brivio <sbrivio@redhat.com>=0D
+CC: Daniel P. Berrang=C3=A9 <berrange@redhat.com>=0D
+CC: Markus Armbruster <armbru@redhat.com>=0D
+=0D
+Laurent Vivier (15):=0D
+  net: introduce convert_host_port()=0D
+  net: remove the @errp argument of net_client_inits()=0D
+  net: simplify net_client_parse() error management=0D
+  qapi: net: introduce a way to bypass qemu_opts_parse_noisily()=0D
+  net: introduce qemu_set_info_str() function=0D
+  qapi: net: add stream and dgram netdevs=0D
+  net: stream: add unix socket=0D
+  net: dgram: make dgram_dst generic=0D
+  net: dgram: move mcast specific code from net_socket_fd_init_dgram()=0D
+  net: dgram: add unix socket=0D
+  qemu-sockets: move and rename SocketAddress_to_str()=0D
+  qemu-sockets: update socket_uri() and socket_parse()  to be consistent=0D
+  net: stream: move to QIO to enable additional parameters=0D
+  tests/qtest: netdev: test stream and dgram backends=0D
+  net: stream: add QAPI events to report connection state=0D
+=0D
+Stefano Brivio (2):=0D
+  net: socket: Don't ignore EINVAL on netdev socket connection=0D
+  net: stream: Don't ignore EINVAL on netdev socket connection=0D
+=0D
+ hmp-commands.hx             |   2 +-=0D
+ hw/net/xen_nic.c            |   5 +-=0D
+ include/net/net.h           |   7 +-=0D
+ include/qemu/sockets.h      |   4 +-=0D
+ meson                       |   2 +-=0D
+ monitor/hmp-cmds.c          |  23 +-=0D
+ net/clients.h               |   6 +=0D
+ net/dgram.c                 | 622 ++++++++++++++++++++++++++++++++++++=0D
+ net/hub.c                   |   2 +=0D
+ net/l2tpv3.c                |   3 +-=0D
+ net/meson.build             |   2 +=0D
+ net/net.c                   | 186 ++++++++---=0D
+ net/slirp.c                 |   5 +-=0D
+ net/socket.c                |  36 +--=0D
+ net/stream.c                | 389 ++++++++++++++++++++++=0D
+ net/tap-win32.c             |   3 +-=0D
+ net/tap.c                   |  13 +-=0D
+ net/vde.c                   |   3 +-=0D
+ net/vhost-user.c            |   3 +-=0D
+ net/vhost-vdpa.c            |   2 +-=0D
+ qapi/net.json               | 112 ++++++-=0D
+ qemu-options.hx             |  14 +=0D
+ softmmu/vl.c                |  16 +-=0D
+ tests/qtest/meson.build     |   1 +=0D
+ tests/qtest/netdev-socket.c | 417 ++++++++++++++++++++++++=0D
+ util/qemu-sockets.c         |  25 ++=0D
+ 26 files changed, 1771 insertions(+), 132 deletions(-)=0D
+ create mode 100644 net/dgram.c=0D
+ create mode 100644 net/stream.c=0D
+ create mode 100644 tests/qtest/netdev-socket.c=0D
+=0D
+-- =0D
+2.37.3=0D
+=0D
 
