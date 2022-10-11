@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C11CD5FAC1A
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 08:05:29 +0200 (CEST)
-Received: from localhost ([::1]:47740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28C885FAC88
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 08:19:50 +0200 (CEST)
+Received: from localhost ([::1]:60484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oi8OO-0001JK-QP
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 02:05:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60810)
+	id 1oi8cG-0006XV-M0
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 02:19:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oi86z-0001sp-9H
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 01:47:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37534)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oi86v-00024E-Js
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 01:47:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665467243;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SyhWNMlQymQcZLYC2p09McvGhpaukBU7izV0U9ibGEc=;
- b=RsXCGj9i2GhyitfMA/ChPbcC66+MY4NcPw4qFIPtSPrtY9vby1Xc1AeT+j4sq5h9x33/jW
- CDxM+dN9Hy37DFJWXiR4Vs7WUH0N+AD9uitrqjstfn9ZOPAz7/DfWdGB1gETtLx9iyxAcD
- TYMWt1lTbAeEJbk97cwZ2ddNhccQLzg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-170-vKBQ2KoHPJqou2jxAiHRdQ-1; Tue, 11 Oct 2022 01:47:22 -0400
-X-MC-Unique: vKBQ2KoHPJqou2jxAiHRdQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9CFFB85A59D;
- Tue, 11 Oct 2022 05:47:21 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.110])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2723B492B09;
- Tue, 11 Oct 2022 05:47:21 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D123721E691D; Tue, 11 Oct 2022 07:47:19 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: qemu-devel@nongnu.org,  Michal Privoznik <mprivozn@redhat.com>,  Igor
- Mammedov <imammedo@redhat.com>,  "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
- <berrange@redhat.com>,  Eduardo Habkost <eduardo@habkost.net>,  "Dr .
- David Alan Gilbert" <dgilbert@redhat.com>,  Eric Blake
- <eblake@redhat.com>,  Richard Henderson <richard.henderson@linaro.org>,
- Stefan Weil <sw@weilnetz.de>
-Subject: Re: [PATCH v2 3/7] util: Introduce ThreadContext user-creatable object
-References: <20221010091117.88603-1-david@redhat.com>
- <20221010091117.88603-4-david@redhat.com>
-Date: Tue, 11 Oct 2022 07:47:19 +0200
-In-Reply-To: <20221010091117.88603-4-david@redhat.com> (David Hildenbrand's
- message of "Mon, 10 Oct 2022 11:11:13 +0200")
-Message-ID: <87czayj4ig.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oi87Z-0001xy-Cb; Tue, 11 Oct 2022 01:48:12 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:33630)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oi87W-00025Z-2x; Tue, 11 Oct 2022 01:48:04 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ n18-20020a17090ade9200b0020b0012097cso872031pjv.0; 
+ Mon, 10 Oct 2022 22:47:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=BXDybcr/OY6njQdNKiZgnVVOPp/+u3A1yPBopFTABhg=;
+ b=JDEduLWdGHHOZgWkmD8H4rLdNLzbdvav7AghiEGOD0AJD4ov8GawFdwN0AqdhjUNoo
+ oITUdbXVfQiCuWswvoN5uPFXR/KADcRM8yqeCPzhutxZxKg8NJe9DD64CAv/khaYiP0V
+ ayJVsA8uC1Y8yp4/k+x1del09cMrzadqlp2kYcdRrCI1Az3St5iwRXXpw/PaRd82g5V6
+ +MTMxYlK+3EQdChcsYGQwjq5bW6eqWo/U/WJdTmTKB90dGwADQQOKQ5WG7UwwxGra8/M
+ ZUCkcPe1H5SSbe4/rVdGOOrk5AVg2hF4cKbfZ07PM71i58d9p7PtQ5QITGzB/JnCXjDb
+ szhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=BXDybcr/OY6njQdNKiZgnVVOPp/+u3A1yPBopFTABhg=;
+ b=TbBLlWUq9gGrj+fQz3ri8UYKFdMHzvs9o03M5bF1688swPZO93IrMD4ZME+8xzTT+l
+ J5ZL2y9s9UtslQJVJUkBFMCZsc2g19FjkJtKxE0tzL+TNo70rj/kHnCtKhy2AYiwRJSv
+ KhQnHwBqPVivLaSXgC4hA0fY/l0VUyht4kVOc08hPcv4AXK3GsVqqWGs5LIh9WAByLXq
+ AEM1Pe4plhJ4N4Q+AdwWvMGB5uyQU25A9IZhMolVggHVgQCj7/YJB5BNIom7HeSxEWNU
+ RnAIQinLRYZhIrhrqjKhciFw2kyNxG0bePjJWwqOdP8GDzNn/5XdvoAelkhEMjC+j4o/
+ YkyA==
+X-Gm-Message-State: ACrzQf3UUIhZFd/rt+n6HRpKE6ddECVyKIEVel3x4a4Ai1YtFPLoHHH0
+ dLCwl+Co3Knliq6BRK3q9aXTvhwnYpY9gC8qEE8=
+X-Google-Smtp-Source: AMsMyM7nJ/1LD45NAYugS2HN2vRIF2aZHGVE5Hjvg99LVt22EkJL7BWfI6KGpoSWBaSTrkbMtfrtwmXWSvEd+E0LKBk=
+X-Received: by 2002:a17:90b:3843:b0:20d:54f2:a78d with SMTP id
+ nl3-20020a17090b384300b0020d54f2a78dmr5793953pjb.85.1665467277449; Mon, 10
+ Oct 2022 22:47:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+References: <20221003041440.2320-1-jim.shu@sifive.com>
+ <20221003041440.2320-2-jim.shu@sifive.com>
+In-Reply-To: <20221003041440.2320-2-jim.shu@sifive.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 11 Oct 2022 15:47:31 +1000
+Message-ID: <CAKmqyKMTv-KXrPmDiKuthiRuhd1PB55GRsxYRWuHvT5_+ZaOrw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] hw/intc: sifive_plic: fix hard-coded max priority
+ level
+To: Jim Shu <jim.shu@sifive.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, 
+ Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, chigot@adacore.com, 
+ Emmanuel Blot <emmanuel.blot@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=alistair23@gmail.com; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,202 +88,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-David Hildenbrand <david@redhat.com> writes:
+On Mon, Oct 3, 2022 at 2:16 PM Jim Shu <jim.shu@sifive.com> wrote:
+>
+> The maximum priority level is hard-coded when writing to interrupt
+> priority register. However, when writing to priority threshold register,
+> the maximum priority level is from num_priorities Property which is
+> configured by platform.
+>
+> Also change interrupt priority register to use num_priorities Property
+> in maximum priority level.
+>
+> Signed-off-by: Emmanuel Blot <emmanuel.blot@sifive.com>
+> Signed-off-by: Jim Shu <jim.shu@sifive.com>
+> Reviewed-by: Frank Chang <frank.chang@sifive.com>
 
-> Setting the CPU affinity of QEMU threads is a bit problematic, because
-> QEMU doesn't always have permissions to set the CPU affinity itself,
-> for example, with seccomp after initialized by QEMU:
->     -sandbox enable=on,resourcecontrol=deny
->
-> General information about CPU affinities can be found in the man page of
-> taskset:
->     CPU affinity is a scheduler property that "bonds" a process to a given
->     set of CPUs on the system. The Linux scheduler will honor the given CPU
->     affinity and the process will not run on any other CPUs.
->
-> While upper layers are already aware of how to handle CPU affinities for
-> long-lived threads like iothreads or vcpu threads, especially short-lived
-> threads, as used for memory-backend preallocation, are more involved to
-> handle. These threads are created on demand and upper layers are not even
-> able to identify and configure them.
->
-> Introduce the concept of a ThreadContext, that is essentially a thread
-> used for creating new threads. All threads created via that context
-> thread inherit the configured CPU affinity. Consequently, it's
-> sufficient to create a ThreadContext and configure it once, and have all
-> threads created via that ThreadContext inherit the same CPU affinity.
->
-> The CPU affinity of a ThreadContext can be configured two ways:
->
-> (1) Obtaining the thread id via the "thread-id" property and setting the
->     CPU affinity manually.
->
-> (2) Setting the "cpu-affinity" property and letting QEMU try set the
->     CPU affinity itself. This will fail if QEMU doesn't have permissions
->     to do so anymore after seccomp was initialized.
->
-> A simple QEMU example to set the CPU affinity to CPU 0,1,6,7 would be:
->     qemu-system-x86_64 -S \
->       -object thread-context,id=tc1,cpu-affinity=0-1,cpu-affinity=6-7
->
-> And we can query it via HMP/QMP:
->     (qemu) qom-get tc1 cpu-affinity
->     [
->         0,
->         1,
->         6,
->         7
->     ]
->
-> But note that due to dynamic library loading this example will not work
-> before we actually make use of thread_context_create_thread() in QEMU
-> code, because the type will otherwise not get registered.
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
-What do you mean exactly by "not work"?  It's not "CLI option or HMP
-command fails":
+Alistair
 
-    $ upstream-qemu -S -display none -nodefaults -monitor stdio -object thread-context,id=tc1,cpu-affinity=0-1,cpu-affinity=6-7
-    QEMU 7.1.50 monitor - type 'help' for more information
-    (qemu) qom-get tc1 cpu-affinity
-    [
-        0,
-        1,
-        6,
-        7
-    ]
-    (qemu) info cpus
-    * CPU #0: thread_id=1670613
-
-Even though the affinities refer to nonexistent CPUs :)
-
-> A ThreadContext can be reused, simply by reconfiguring the CPU affinity.
-
-So, when a thread is created, its affinity comes from its thread context
-(if any).  When I later change the context's affinity, it does *not*
-affect existing threads, only future ones.  Correct?
-
-> Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->  include/qemu/thread-context.h |  57 +++++++
->  qapi/qom.json                 |  17 +++
->  util/meson.build              |   1 +
->  util/oslib-posix.c            |   1 +
->  util/thread-context.c         | 278 ++++++++++++++++++++++++++++++++++
->  5 files changed, 354 insertions(+)
->  create mode 100644 include/qemu/thread-context.h
->  create mode 100644 util/thread-context.c
+>  hw/intc/sifive_plic.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 >
-> diff --git a/include/qemu/thread-context.h b/include/qemu/thread-context.h
-> new file mode 100644
-> index 0000000000..2ebd6b7fe1
-> --- /dev/null
-> +++ b/include/qemu/thread-context.h
-> @@ -0,0 +1,57 @@
-> +/*
-> + * QEMU Thread Context
-> + *
-> + * Copyright Red Hat Inc., 2022
-> + *
-> + * Authors:
-> + *  David Hildenbrand <david@redhat.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#ifndef SYSEMU_THREAD_CONTEXT_H
-> +#define SYSEMU_THREAD_CONTEXT_H
-> +
-> +#include "qapi/qapi-types-machine.h"
-> +#include "qemu/thread.h"
-> +#include "qom/object.h"
-> +
-> +#define TYPE_THREAD_CONTEXT "thread-context"
-> +OBJECT_DECLARE_TYPE(ThreadContext, ThreadContextClass,
-> +                    THREAD_CONTEXT)
-> +
-> +struct ThreadContextClass {
-> +    ObjectClass parent_class;
-> +};
-> +
-> +struct ThreadContext {
-> +    /* private */
-> +    Object parent;
-> +
-> +    /* private */
-> +    unsigned int thread_id;
-> +    QemuThread thread;
-> +
-> +    /* Semaphore to wait for context thread action. */
-> +    QemuSemaphore sem;
-> +    /* Semaphore to wait for action in context thread. */
-> +    QemuSemaphore sem_thread;
-> +    /* Mutex to synchronize requests. */
-> +    QemuMutex mutex;
-> +
-> +    /* Commands for the thread to execute. */
-> +    int thread_cmd;
-> +    void *thread_cmd_data;
-> +
-> +    /* CPU affinity bitmap used for initialization. */
-> +    unsigned long *init_cpu_bitmap;
-> +    int init_cpu_nbits;
-> +};
-> +
-> +void thread_context_create_thread(ThreadContext *tc, QemuThread *thread,
-> +                                  const char *name,
-> +                                  void *(*start_routine)(void *), void *arg,
-> +                                  int mode);
-> +
-> +#endif /* SYSEMU_THREAD_CONTEXT_H */
-> diff --git a/qapi/qom.json b/qapi/qom.json
-> index 80dd419b39..67d47f4051 100644
-> --- a/qapi/qom.json
-> +++ b/qapi/qom.json
-> @@ -830,6 +830,21 @@
->              'reduced-phys-bits': 'uint32',
->              '*kernel-hashes': 'bool' } }
->  
-> +##
-> +# @ThreadContextProperties:
-> +#
-> +# Properties for thread context objects.
-> +#
-> +# @cpu-affinity: the list of CPU numbers used as CPU affinity for all threads
-> +#                created in the thread context (default: QEMU main thread
-> +#                affinity)
-
-Another ignorant question: is the QEMU main thread affinity fixed or
-configurable?  If configurable, how?
-
-> +#
-> +# Since: 7.2
-> +##
-> +{ 'struct': 'ThreadContextProperties',
-> +  'data': { '*cpu-affinity': ['uint16'] } }
-> +
-> +
->  ##
->  # @ObjectType:
->  #
-> @@ -882,6 +897,7 @@
->      { 'name': 'secret_keyring',
->        'if': 'CONFIG_SECRET_KEYRING' },
->      'sev-guest',
-> +    'thread-context',
->      's390-pv-guest',
->      'throttle-group',
->      'tls-creds-anon',
-> @@ -948,6 +964,7 @@
->        'secret_keyring':             { 'type': 'SecretKeyringProperties',
->                                        'if': 'CONFIG_SECRET_KEYRING' },
->        'sev-guest':                  'SevGuestProperties',
-> +      'thread-context':             'ThreadContextProperties',
->        'throttle-group':             'ThrottleGroupProperties',
->        'tls-creds-anon':             'TlsCredsAnonProperties',
->        'tls-creds-psk':              'TlsCredsPskProperties',
-
-[...]
-
+> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
+> index af4ae3630e..f864efa761 100644
+> --- a/hw/intc/sifive_plic.c
+> +++ b/hw/intc/sifive_plic.c
+> @@ -180,8 +180,10 @@ static void sifive_plic_write(void *opaque, hwaddr addr, uint64_t value,
+>      if (addr_between(addr, plic->priority_base, plic->num_sources << 2)) {
+>          uint32_t irq = ((addr - plic->priority_base) >> 2) + 1;
+>
+> -        plic->source_priority[irq] = value & 7;
+> -        sifive_plic_update(plic);
+> +        if (value <= plic->num_priorities) {
+> +            plic->source_priority[irq] = value;
+> +            sifive_plic_update(plic);
+> +        }
+>      } else if (addr_between(addr, plic->pending_base,
+>                              plic->num_sources >> 3)) {
+>          qemu_log_mask(LOG_GUEST_ERROR,
+> --
+> 2.17.1
+>
+>
 
