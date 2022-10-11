@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 140825FAD4F
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 09:19:54 +0200 (CEST)
-Received: from localhost ([::1]:51148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44B745FADAD
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 09:46:43 +0200 (CEST)
+Received: from localhost ([::1]:50194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oi9YO-0001V7-AT
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 03:19:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49380)
+	id 1oi9yL-0001R0-Bb
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 03:46:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1oi9C9-00051c-Tn
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 02:56:53 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:39776 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1oi9C5-0005Wx-CI
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 02:56:53 -0400
-Received: from [192.168.124.2] (unknown [183.160.207.220])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Axy2qrE0VjJMIqAA--.19352S3; 
- Tue, 11 Oct 2022 14:56:43 +0800 (CST)
-Message-ID: <34b95105-711e-7dab-d5cb-fad315e8c26b@loongson.cn>
-Date: Tue, 11 Oct 2022 14:56:32 +0800
+ (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
+ id 1oi9jT-0002JJ-8v; Tue, 11 Oct 2022 03:31:19 -0400
+Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136]:51338)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
+ id 1oi9jP-0003E2-JA; Tue, 11 Oct 2022 03:31:18 -0400
+Received: from myt6-81d8ab6a9f9d.qloud-c.yandex.net
+ (myt6-81d8ab6a9f9d.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:520a:0:640:81d8:ab6a])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 649AE60C21;
+ Tue, 11 Oct 2022 10:20:17 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:a424::1:1b] (unknown
+ [2a02:6b8:b081:a424::1:1b])
+ by myt6-81d8ab6a9f9d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ MAhYHwkhy1-KFP8IcLf; Tue, 11 Oct 2022 10:20:16 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Precedence: bulk
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1665472816; bh=OgckGtEDSQgKBbE2wP4L3f59o0m2zAAqgvs7o7T1JLs=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=Q6xDWIU3/qx95k1S8EzEiAg5BIpHbyA77pXeEFSIVJX1jJR9Mk2hamq+MWYazpnGg
+ sN2MIkK5bs4/Njm3a5vBJ1ZAEInPjtEwyu+AfjsjZC0hDzJvrP7lzLZ5Rak+DWx82U
+ 7dqI3R3Tip46A/fHOQJ8PE6ZCIMZjo1lhHbloCAQ=
+Authentication-Results: myt6-81d8ab6a9f9d.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <5f1c19e6-3bca-fbd4-f332-fafa36638522@yandex-team.ru>
+Date: Tue, 11 Oct 2022 10:20:15 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [RISU PATCH 1/5] risu: Use alternate stack
-To: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, alex.bennee@linaro.org, maobibo@loongson.cn
-References: <20220917074317.1410274-1-gaosong@loongson.cn>
- <20220917074317.1410274-2-gaosong@loongson.cn>
- <82e86c6f-4304-119a-49e6-d0b16bd9a7e0@linaro.org>
- <CAFEAcA_T7T=9gt3Xm37zMpY5AZDRz9sKMjagQOXX9AX-CgqFNw@mail.gmail.com>
-From: gaosong <gaosong@loongson.cn>
-In-Reply-To: <CAFEAcA_T7T=9gt3Xm37zMpY5AZDRz9sKMjagQOXX9AX-CgqFNw@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v3 0/5] vhost-user-blk: dynamically resize config space
+ based on features
+Content-Language: en-US
+To: qemu-devel@nongnu.org
+Cc: yc-core@yandex-team.ru, mst@redhat.com, stefanha@redhat.com,
+ raphael.norwitz@nutanix.com, kwolf@redhat.com, qemu-block@nongnu.org,
+ jasowang@redhat.com
+References: <20220906073111.353245-1-d-tatianin@yandex-team.ru>
+From: Daniil Tatianin <d-tatianin@yandex-team.ru>
+In-Reply-To: <20220906073111.353245-1-d-tatianin@yandex-team.ru>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Axy2qrE0VjJMIqAA--.19352S3
-X-Coremail-Antispam: 1UD129KBjvdXoWrZFWrWw1ktFW7KryUurykZrb_yoW3KrXEgF
- WIyF9rAr1DtF1vkFyjqrs5Ja4IkF40q3W5JF95tr17Xw4fXayfJr48CrZ7ZF12qF4rtrsx
- KasYvryfCry2qjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUba8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
- wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
- vE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
- 87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
- Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j
- 6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
- 1lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CEbIxvr21lc2xSY4AK67AK
- 6r47MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_XrWUJr1UMxC20s026xCaFV
- Cjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWl
- x4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r
- 1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_
- JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcS
- sGvfC2KfnxnUUI43ZEXa7VUjHUDJUUUUU==
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.007,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=178.154.239.136;
+ envelope-from=d-tatianin@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.007,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,27 +78,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Ping :)
 
-在 2022/10/10 22:43, Peter Maydell 写道:
-> On Mon, 10 Oct 2022 at 15:20, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->> On 9/17/22 00:43, Song Gao wrote:
->>> We can use alternate stack, so that we can use sp register as intput/ouput register.
->>> I had tested aarch64/LoongArch architecture.
->>>
->>> Signed-off-by: Song Gao<gaosong@loongson.cn>
->>> ---
->>>    risu.c | 16 +++++++++++++++-
->>>    1 file changed, 15 insertions(+), 1 deletion(-)
->> Good idea.
-> Depending on the architecture there might still need to be
-> restrictions on use of the stack pointer, eg aarch64's
-> alignment requirements, but this at least means you can
-> in theory write some risu rules that use SP.
-I really want use alternate stack, this way can reduce risu rules.
-what about use this only on LoongArch architecture ?
-
-Thanks.
-Song Gao
-
+On 9/6/22 10:31 AM, Daniil Tatianin wrote:
+> This patch set attempts to align vhost-user-blk with virtio-blk in
+> terms of backward compatibility and flexibility. It also improves
+> the virtio core by introducing new common code that can be used by
+> a virtio device to calculate its config space size.
+> 
+> In particular it adds the following things:
+> - Common virtio code for deducing the required device config size based
+>    on provided host features.
+> - Ability to disable modern virtio-blk features like
+>    discard/write-zeroes for vhost-user-blk.
+> - Dynamic configuration space resizing based on enabled features,
+>    by reusing the common code introduced in the earlier commits.
+> - Cleans up the VHostUserBlk structure by reusing parent fields.
+> 
+> Changes since v1 (mostly addresses Stefan's feedback):
+> - Introduce VirtIOConfigSizeParams & virtio_get_config_size
+> - Remove virtio_blk_set_config_size altogether, make virtio-blk-common.c
+>    only hold the virtio-blk config size parameters.
+> - Reuse parent fields in vhost-user-blk instead of introducing new ones.
+> 
+> Changes since v2:
+> - Squash the first four commits into one
+> - Set .min_size for virtio-net as well
+> - Move maintainer/meson user-blk bits to the last commit
+> 
+> Daniil Tatianin (5):
+>    virtio: introduce VirtIOConfigSizeParams & virtio_get_config_size
+>    virtio-blk: move config size params to virtio-blk-common
+>    vhost-user-blk: make it possible to disable write-zeroes/discard
+>    vhost-user-blk: make 'config_wce' part of 'host_features'
+>    vhost-user-blk: dynamically resize config space based on features
+> 
+>   MAINTAINERS                           |  4 +++
+>   hw/block/meson.build                  |  4 +--
+>   hw/block/vhost-user-blk.c             | 29 +++++++++++---------
+>   hw/block/virtio-blk-common.c          | 39 +++++++++++++++++++++++++++
+>   hw/block/virtio-blk.c                 | 28 +++----------------
+>   hw/net/virtio-net.c                   |  9 +++++--
+>   hw/virtio/virtio.c                    | 10 ++++---
+>   include/hw/virtio/vhost-user-blk.h    |  1 -
+>   include/hw/virtio/virtio-blk-common.h | 20 ++++++++++++++
+>   include/hw/virtio/virtio.h            | 10 +++++--
+>   10 files changed, 105 insertions(+), 49 deletions(-)
+>   create mode 100644 hw/block/virtio-blk-common.c
+>   create mode 100644 include/hw/virtio/virtio-blk-common.h
+> 
 
