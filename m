@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F01E5FBB2D
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 21:12:10 +0200 (CEST)
-Received: from localhost ([::1]:33596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD4FA5FBB61
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 21:34:18 +0200 (CEST)
+Received: from localhost ([::1]:33970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiKff-000585-8w
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 15:12:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36356)
+	id 1oiL17-0005E2-B5
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 15:34:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oiKSr-00064W-PB
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 14:58:58 -0400
-Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:38476)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oiKw2-0000ae-Mh
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 15:29:02 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:53809)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oiKSq-0001Op-DL
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 14:58:53 -0400
-Received: by mail-yb1-xb2a.google.com with SMTP id r3so2860475yba.5
- for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 11:58:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=wAS5X5CZk6dFU7ryKt7IK3EPeBLCjXvSSOuGa7eqjpY=;
- b=Hdor8iHBkWXY9AcAIMsueVuXdpVO3PskdSRW7Ts9u9P9JYmDnIUNysCLpMUhtRj/vt
- v7RcaF3ufkMQ7owZXu3Wi2eI24XxMOYZzvWKlw0lP6GeO4ECohEyvVGvHhWRIe0GgZKu
- 5NH/UlL2jznJBLX6a7wT04y6zITC/V01fXQXYhUZV3ppbSek/pYFDvtpl8unSXBEmIqB
- k19BQCOkRmqv7rto0jlTSRf61NzyuVnuiyjFS+dGYzcwu0Rvh4j+IiiIkUB6i2lho02b
- lg9sMAw1D24ww6htWcesSBz5vcXGdYMs6ZgJvyzSDJX/08DMm4GqlYIvjYQORTJSAJjO
- vH0w==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oiKw1-0005tU-3b
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 15:29:02 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id e18so9214681wmq.3
+ for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 12:29:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=e4q/thTgAYn2lHSPlyLmsKnMOPAVGDmLK/MULOnQ38I=;
+ b=Wi2083ZghDu3ehdYO43F/XJgRujkdHzQuhb000g2VRs46swRb1Tg/aXFrsFvb+5Ouo
+ MsXdF04/xALiRz1+UAg/XZe49RhcrPvgLbGNi1weWFG1xBH1mEN09ayGSIQVi+jow3Dy
+ M0C/YySoZ8gEA5XX8mseUoZW8LIAMmf56+p2wNsrriqHoIGoyukBQPZbDJ+BrOOiJtSz
+ yaXpx5LBpYtB4v6uKGJLUDqlUnmiEAq4xrxevYvioBszWllrTYw+xi8R5HMp0il52baC
+ M1k0C5P1fUvbEOAgSAu24Bem3pY96bdR+WnHPkF66XbJPr7dag8VecCnuBWvTmFVX960
+ 02wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=wAS5X5CZk6dFU7ryKt7IK3EPeBLCjXvSSOuGa7eqjpY=;
- b=Rq2ndU9VX17ZTNFN5LT3mZJQpRj7CQed7AoM9e1uOe3RtRVr+Ik1ekFoGUbjrbizij
- djiV1iLJA01D4kzrmpx6yzSolnHb5Sn2AoKywdXhDILJ36HCGRo8ISsVnrCa6/C7d8L0
- bS/IzRQygeyEYHjKzyA0UsItkN/3AW1ZQI3Unlz1Bh3YNK2DOaEuVwHM3fAVlh7zL72t
- WbjpfN+9IaZF2cVAFj5VvCbVFpqNh1ctnygVzM7HPEcb6IzPUh4Uy219wS/vE21WEgkk
- s9mQYtq1xF3co//BhtCJ1WMwCNvk9cD2Uw8uabnSnQYHty/+MXf1aSvdzxD5Y+/Zt3rP
- L7KA==
-X-Gm-Message-State: ACrzQf1NSF7rhVclqMdhFrjd076PeyEDyNQuw8D63f4s1U4+u/e6LDl3
- 6CEHALHo+mwT6PcOmET6wMXp6Z+tsvYWwlgiGx0=
-X-Google-Smtp-Source: AMsMyM7YRw8T1KqYNdBZMSBWQNUbwLLcfi231iHZ/eWRv+qTnKokVzyAoyFeJXMOxKztAigfqEepOn0JFa0cFpNnEso=
-X-Received: by 2002:a25:4883:0:b0:6c0:7938:5b4d with SMTP id
- v125-20020a254883000000b006c079385b4dmr15447569yba.537.1665514731445; Tue, 11
- Oct 2022 11:58:51 -0700 (PDT)
+ bh=e4q/thTgAYn2lHSPlyLmsKnMOPAVGDmLK/MULOnQ38I=;
+ b=PdIOKuM2FrpNDKiRk6FB7LaSOl7wji2wzG007xIVu7OTIMrHSLZ81S7hAtoNCu0LAe
+ HNkFq9MqD5bXGyuNWrlXGp2EG8n70ZtkqqziRKDAUa7l/Xj+5Lbz/OpA9etLRvq/lZSx
+ iShn3teApDXSMFJ3MrhAJ7zuhxhfV0fF4Gj7vwg3ILJ+3L6D5pztyadQ1ETdyNicIeXE
+ u/8xwaOj6mpb7Lrl9F18GB60ozZXaeR2r6DlYjzlyV5SfEJNs1UODqZFc+DV+KHyH4dX
+ ZA5EaJISvFcmGpdW3+H7YxfYTLc9uffSLj3x8eLHcTnVjQPnCJJ14JdeG+mwVX55Y6ax
+ /9wQ==
+X-Gm-Message-State: ACrzQf3MeSkaLLimtHoLQuM4ksN+idxcS3pmb5GDn8Pu9A/HTr+1qoWw
+ QivcveNfJt6NuQlni2TRPlUpdg==
+X-Google-Smtp-Source: AMsMyM7HZI+ebEz+Ysj2Lq+41lBuEfDcGMczT7ZkZaZ1VICQ4g6vzMCX9lChBLzTcfNfD5GgpCBfqQ==
+X-Received: by 2002:a05:600c:4e89:b0:3b4:8648:c4e1 with SMTP id
+ f9-20020a05600c4e8900b003b48648c4e1mr438780wmq.26.1665516539357; 
+ Tue, 11 Oct 2022 12:28:59 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ p1-20020a5d68c1000000b0022cce7689d3sm15040830wrw.36.2022.10.11.12.28.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Oct 2022 12:28:58 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 69D9E1FFB7;
+ Tue, 11 Oct 2022 20:28:58 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: stefanha@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL 0/1] testing: revert pc-bios build patch
+Date: Tue, 11 Oct 2022 20:28:57 +0100
+Message-Id: <20221011192858.956078-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20221011113417.794841-1-alex.bennee@linaro.org>
-In-Reply-To: <20221011113417.794841-1-alex.bennee@linaro.org>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 11 Oct 2022 14:58:39 -0400
-Message-ID: <CAJSP0QUKNXHqjXRh5McFVZ=n5wO5HVzBbvbc62gS7ggYYMvOwQ@mail.gmail.com>
-Subject: Re: [PATCH v1 0/4] testing/next hotfix (revert bios build, mingw)
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, fam@euphon.net, berrange@redhat.com, 
- f4bug@amsat.org, aurelien@aurel32.net, pbonzini@redhat.com, 
- stefanha@redhat.com, crosa@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2a.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,9 +92,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
-Please send a pull request and I'll kick off the CI.
+The following changes since commit 42e1e350bffc8d4614e568a03380b2ec34a131bf:
 
-Thanks,
-Stefan
+  Merge tag 'dump-pull-request' of https://gitlab.com/marcandre.lureau/qemu into staging (2022-10-11 09:31:19 -0400)
+
+are available in the Git repository at:
+
+  https://github.com/stsquad/qemu.git tags/pull-testing-gdbstub-plugins-gitdm-111022-1
+
+for you to fetch changes up to fde10960ed6a6435d89315d4fd3af9d0b51aebb6:
+
+  Revert "configure: build ROMs with container-based cross compilers" (2022-10-11 20:26:25 +0100)
+
+----------------------------------------------------------------
+testing:
+
+  - revert patch to stop always building pc-bios roms
+
+----------------------------------------------------------------
+Alex Bennée (1):
+      Revert "configure: build ROMs with container-based cross compilers"
+
+ configure | 30 ++++++++++++------------------
+ 1 file changed, 12 insertions(+), 18 deletions(-)
+
+-- 
+2.34.1
+
 
