@@ -2,69 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA6435FC893
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 17:41:39 +0200 (CEST)
-Received: from localhost ([::1]:55118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92F775FC89D
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 17:44:42 +0200 (CEST)
+Received: from localhost ([::1]:49336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oidrW-00055c-U7
-	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 11:41:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59250)
+	id 1oiduT-0008Iz-MZ
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 11:44:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oidoC-0006eV-4g
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 11:38:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56163)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oidsy-0006Tr-A0
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 11:43:08 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:46519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oido8-0001E4-30
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 11:38:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665589086;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YIvDcrxlins/ENDK7DqxpRIFOz5Xmkq25RXSfjK+BAE=;
- b=G7cH0zh5ecyGnNs26ZJnf9Ig4gDuP8zCr+WAMsYA8EQUPXHr0tMMPGLT7r5mSWXgvK4U0I
- okZ1DUGXyZVyQY4RM5p4SWHr2YNahuy7YtdYYLFu56eKBfLEqAbrbW4I8/eeGDj4POtoT/
- Ei8PqrDCFUlqnnucVa8YvMQMqmzBS0c=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-356-F72bLJF0OvWMG-4MG7odYg-1; Wed, 12 Oct 2022 11:38:03 -0400
-X-MC-Unique: F72bLJF0OvWMG-4MG7odYg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4EFA6804186;
- Wed, 12 Oct 2022 15:38:03 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.110])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D1E534EA53;
- Wed, 12 Oct 2022 15:38:02 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7612C21E693E; Wed, 12 Oct 2022 17:38:01 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: arei.gonglei@huawei.com, lvivier@redhat.com, amit@kernel.org,
- mst@redhat.com, pbonzini@redhat.com, berrange@redhat.com,
- eduardo@habkost.net, thuth@redhat.com, david@redhat.com
-Subject: [PATCH 4/4] qerror: QERR_PERMISSION_DENIED is no longer used, drop
-Date: Wed, 12 Oct 2022 17:38:01 +0200
-Message-Id: <20221012153801.2604340-5-armbru@redhat.com>
-In-Reply-To: <20221012153801.2604340-1-armbru@redhat.com>
-References: <20221012153801.2604340-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oidsv-0001wy-BD
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 11:43:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=A1p8jT666p1tRqcFdIAMa9fsNgV9zJdVyg/u0Oq9Dws=; b=drR7eE3V2cNWvmX4nRGLXwm0tu
+ vO/HAj24TXb0q8Ic8WpwVWcfu2sXfMSHJW/BqWKIm/V5auoMmWaPlonV+JGJRIFjgpxVb0lgLB5cU
+ y1DE5nkkE8+slWD5n84O/2A1YqU9TefWMjm+BxBrH1YGMKGuO0Foi4TC7TQSAVZnVLG4352Dr5dwI
+ efSUJYeuuCL8oK2ysb76fk0oZW4aLdBSJcrVshCVbGjhtJt/NuNM8OrlomTe2bc15G1OHrAUfSD7p
+ aAlqhfw1gPvJpCSgriS1bd3ngjMaanuXD/YH9VhDhdMeg3axppWSV3aa1uHAX5gLCMPHOWg0xCywC
+ 2fpi3hskNrx5a86N95j5GF0i5ZXt1rN3y2Ydp58ETO8d0qAN6yVKjIea8wfocQU21uFKQiTbVfkfF
+ 3WrO2ITBRujfn1zUkwshuVWlU9RDsA7mDnRcxOpZqFslnUJUbeIe1LMPaUUWSR7BsCbhxr1mz+vGq
+ TfQghVpYmrNgLXPCdG3aS2kaWga5pANo4TBtdelhZWR33pcX7OsBp9HZvK7l2HSKp5I4/x3KNgNqR
+ 6BRzJXnLtCBHGdcvgicjaunEju0fK2xw2IldSM2EgpRKjvtdF5UTA33sZQXLiUXeKcmsopG/EqKtT
+ yJ8gJvlcamqEBH+rN3ABZzGbOQrqDiRbbgczt0B3Q=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: Nikita Ivanov <nivanov@cloudlinux.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Jason Wang <jasowang@redhat.com>,
+ Michael Roth <michael.roth@amd.com>,
+ Konstantin Kostiuk <kkostiuk@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Bin Meng <bmeng.cn@gmail.com>
+Subject: Re: [PATCH v2 2/2] error handling: Use RETRY_ON_EINTR() macro where
+ applicable
+Date: Wed, 12 Oct 2022 17:43:00 +0200
+Message-ID: <2564015.mS1nRVYtUv@silver>
+In-Reply-To: <CAEUhbmU561dwFmVCqZG7WdTUhRtfSR_wB8pa0KP2YVXwyHaZuQ@mail.gmail.com>
+References: <CAAJ4Ao87Dbjc11xE9b2Mj=6VMX5J4LHJ2vt_Kn-SPEHWQ7Gu_g@mail.gmail.com>
+ <CAEUhbmU561dwFmVCqZG7WdTUhRtfSR_wB8pa0KP2YVXwyHaZuQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,26 +75,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- include/qapi/qmp/qerror.h | 3 ---
- 1 file changed, 3 deletions(-)
+On Mittwoch, 12. Oktober 2022 17:17:46 CEST Bin Meng wrote:
+> Hi,
+> 
+> On Wed, Oct 12, 2022 at 8:32 PM Nikita Ivanov <nivanov@cloudlinux.com> wrote:
+> > There is a defined RETRY_ON_EINTR() macro in qemu/osdep.h which
+> > handles the same while loop.
+> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/415
+> > 
+> > Signed-off-by: Nikita Ivanov <nivanov@cloudlinux.com>
+> > ---
+> > 
+> >  block/file-posix.c        | 37 ++++++++++++++++---------------------
+> >  chardev/char-pty.c        |  4 +---
+> >  hw/9pfs/9p-local.c        |  8 ++------
+> >  net/l2tpv3.c              | 17 +++++------------
+> >  net/socket.c              | 16 +++++++---------
+> >  net/tap.c                 | 12 ++++--------
+> >  qga/commands-posix.c      |  4 +---
+> >  semihosting/syscalls.c    |  4 +---
+> >  tests/qtest/libqtest.c    | 14 ++++++--------
+> >  tests/vhost-user-bridge.c |  4 +---
+> >  util/main-loop.c          |  4 +---
+> >  util/osdep.c              |  4 +---
+> >  util/vfio-helpers.c       | 12 ++++++------
+> >  13 files changed, 52 insertions(+), 88 deletions(-)
+> 
+> This patch has to be squashed into patch 1 for bisectability, as TFR
+> is already removed in patch 1.
 
-diff --git a/include/qapi/qmp/qerror.h b/include/qapi/qmp/qerror.h
-index 596fce0c54..87ca83b155 100644
---- a/include/qapi/qmp/qerror.h
-+++ b/include/qapi/qmp/qerror.h
-@@ -50,9 +50,6 @@
- #define QERR_MISSING_PARAMETER \
-     "Parameter '%s' is missing"
- 
--#define QERR_PERMISSION_DENIED \
--    "Insufficient permission to perform this operation"
--
- #define QERR_PROPERTY_VALUE_BAD \
-     "Property '%s.%s' doesn't take value '%s'"
- 
--- 
-2.37.2
+They are intentionally separated: 1st patch replaces occurrences of TFR,
+whereas 2nd patch introduces use of macro at locations where not used yet.
+
+Nikita, could you please move those 2 hunks that still had TFR() occurrence to
+patch 1?
+
+And please use git's --thread option next time, so that individual patch 
+emails are linked to cover letter email (which adds appropriate `References:`
+and `In-Reply-To:` email headers).
+
+Best regards,
+Christian Schoenebeck
+
 
 
