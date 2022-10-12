@@ -2,73 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FE6C5FCB35
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 20:59:52 +0200 (CEST)
-Received: from localhost ([::1]:47588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D79F95FCB4A
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 21:05:35 +0200 (CEST)
+Received: from localhost ([::1]:40874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oigxK-0007GH-J7
-	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 14:59:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41148)
+	id 1oih2s-0000ik-Lk
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 15:05:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1oigv5-0005RS-R8
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 14:57:33 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:33490)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1oigv4-0007HU-5t
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 14:57:31 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id q9so35391635ejd.0
- for <qemu-devel@nongnu.org>; Wed, 12 Oct 2022 11:57:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=lTYXB1oyHkvanGgnmedRC1aEkxFtOzddVtCrZ9sBanA=;
- b=rjnKE6EAINE2GZ5bxryZwiphdwWbwnIYFI5Ygb9XP7/SXrR9dE9gpT6E66VoQ98fFB
- mrIizWEfRopU67UdlCYzZVxtgy7tj/C7CfCPYq3wOG9yvjOc3xVfkAoLiuyNDjA553ig
- Mg9Sytxjw+hq9RS9IGXm+9khmygSnlWOkQRVR4x4i+Q44qMe28dSG3ABF8MfG/totAGa
- YzWHGTCBvOAV3INJDa6nuzyxlKoo0xKdJNGmA+bBy4Q303VyzPS4uJ8qqIZDqY6s/v4n
- AGULbrRV+fWRNaASB8iHXnXCc8/tx1XmqRXCGLJpEDHCMWN/B/cBGWNF+t3VKCtorMd9
- 83PQ==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oigzy-0007eN-JH
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 15:02:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30090)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oigzj-0008BY-Qa
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 15:02:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665601336;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5lGnjmk4QXLnhNqdwHBPxF72WybIXh4Ra987sk9L3oQ=;
+ b=boddau4F0csbVQ8xyAfK7XReE9DaiD0cGHUa50Ka6DtAgjtIc7D6tzQ5lu4HrBuRh1MXOY
+ vkmDZpqFWaGG1zlXXghstU33+FMdUKvB43cp3+fvTFYBm8frQc0uUmheP0GmzXvCTdNSNX
+ oRUuo6JQArvssFxdxm5zfQTjykFii9M=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-356-6vx15wTJMNefZW3UgZew7A-1; Wed, 12 Oct 2022 15:02:14 -0400
+X-MC-Unique: 6vx15wTJMNefZW3UgZew7A-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ fc12-20020a05600c524c00b003b5054c70d3so10434504wmb.5
+ for <qemu-devel@nongnu.org>; Wed, 12 Oct 2022 12:02:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=lTYXB1oyHkvanGgnmedRC1aEkxFtOzddVtCrZ9sBanA=;
- b=3t/HoQO/ibSkHhevAEMxomfqDMC7kjNJsux0GD81k2FAIBGaG3h/hnxAW5X/EHqy3e
- MBNBvYUdws/U29Z5m3eIbtw5Hzjfs6lpi9TsthOFgX4g859AIhNrQbdOC1ebgB4wJb3b
- DvK9nW+dDrL4I9qAXNPfdeNDmmAYZ6jJwuTncnkMbK5uL9ax4jKurHcqoIkYSTmGNcLT
- xtuWs2Og47SRTgJttxZUWQGW1hEMfe0lOxg4ddu7hDo6hC9PJVWf1GG/TaVK5iCjHUBq
- X15ClY/GMZkR08JvM7/13McxOcoWdgOx0hDD+ZIAPNMAcagINVIjBM9/9PxGmjuNM76g
- fwYw==
-X-Gm-Message-State: ACrzQf3wJ8JM1tmice6eXtlB/YR0+EIYe+Oe5F5OS8B3Wcb0oIchv3NU
- IFyuzVxXTFGMURmHzpS6MjRgR6Z1tw0SWAMlMntiiPWtAkc=
-X-Google-Smtp-Source: AMsMyM43yk2IbYAjcd89AzlLXMuXRqwGfAA70BdAf4MdzpLCK2Qe03yzPgD60+CY3v9ZXLvnAyPObUF9nVAF3xRMzxE=
-X-Received: by 2002:a17:907:1689:b0:78d:e460:1d98 with SMTP id
- hc9-20020a170907168900b0078de4601d98mr6562883ejc.451.1665601047776; Wed, 12
- Oct 2022 11:57:27 -0700 (PDT)
+ bh=5lGnjmk4QXLnhNqdwHBPxF72WybIXh4Ra987sk9L3oQ=;
+ b=tiTkCbv3pqIdQO/9S3ICgBf0dyLPyJi0FHXRcGyP4coyAu0nKgaCa8v4bHsde9Ct7j
+ BCJ9Zaw5LwnjhCTRXYLRrLbrB2NXtj8nlhgY64UHmog09+BiN+nxfkAyYcsCuK8Fk3/A
+ eu3lw6qbF+Thls57lW9gHa+axVVyulOhutWovLUFnaWGch+HVZVoB+MUNIyoH+9luLTS
+ RK+QZ4UOQR7IyLW8DGJEBg9pnmMcqaJ1sed87lq8g4ffcNrUjfaKd4R/11usAYFTCcIg
+ ZSyXw6UA8o9OSCBctQgovYu3FHEnpFI2w1V9jUQjAgT5YBvErMmynXGvIHlk6t0XV1bl
+ 0ujA==
+X-Gm-Message-State: ACrzQf0rWu56GQZ7T5qhkwfoF4LLp2c929u0we5XWhWJO/8UWijzlbhn
+ Mj5R4tSA8znu9o/dda9mMuVdq5JAx7626yWIXgynROvz47jgz1gFcxm1Qg0Td0BMtZnU5kh6Wd1
+ fffeB7NTtqbuKPYU=
+X-Received: by 2002:a05:600c:444b:b0:3b4:cb9e:bd5c with SMTP id
+ v11-20020a05600c444b00b003b4cb9ebd5cmr3789550wmn.124.1665601333224; 
+ Wed, 12 Oct 2022 12:02:13 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4zfnZLqKhzo6Pd0xsPwRTQmegRT1QPcE053UeeonfEMp9xQcbueO1uCpBI1STvMF8WorMf1w==
+X-Received: by 2002:a05:600c:444b:b0:3b4:cb9e:bd5c with SMTP id
+ v11-20020a05600c444b00b003b4cb9ebd5cmr3789502wmn.124.1665601332447; 
+ Wed, 12 Oct 2022 12:02:12 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c713:fd00:9f9b:c2f8:47fc:4836?
+ (p200300cbc713fd009f9bc2f847fc4836.dip0.t-ipconnect.de.
+ [2003:cb:c713:fd00:9f9b:c2f8:47fc:4836])
+ by smtp.gmail.com with ESMTPSA id
+ i18-20020adfefd2000000b00231a5fa1ae2sm389849wrp.20.2022.10.12.12.02.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Oct 2022 12:02:12 -0700 (PDT)
+Message-ID: <aded961a-3367-3430-be04-36dd0b89629e@redhat.com>
+Date: Wed, 12 Oct 2022 21:02:11 +0200
 MIME-Version: 1.0
-References: <20221012185631.89617-1-imp@bsdimp.com>
-In-Reply-To: <20221012185631.89617-1-imp@bsdimp.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Wed, 12 Oct 2022 12:57:16 -0600
-Message-ID: <CANCZdfpUVhe3i97bZ6VPqnsGQrRxq3jqpt3ufX7T2pOQSiYi=A@mail.gmail.com>
-Subject: Re: [PATCH] bsd-user: Catch up with sys/param.h requirement for
- machine/pmap.h
-To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- John Baldwin <jhb@freebsd.org>, 
- Kyle Evans <kevans@freebsd.org>, Muhammad Moinur Rahman <bofh@freebsd.org>
-Content-Type: multipart/alternative; boundary="000000000000ca69eb05eadaf6e9"
-Received-SPF: none client-ip=2a00:1450:4864:20::62e;
- envelope-from=wlosh@bsdimp.com; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH 3/4] qtest: Improve error messages when property can not
+ be set right now
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: arei.gonglei@huawei.com, lvivier@redhat.com, amit@kernel.org,
+ mst@redhat.com, pbonzini@redhat.com, berrange@redhat.com, eduardo@habkost.net
+References: <20221012153801.2604340-1-armbru@redhat.com>
+ <20221012153801.2604340-4-armbru@redhat.com>
+ <e5dd172e-1b9f-3817-a87f-3ed52a0ce120@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <e5dd172e-1b9f-3817-a87f-3ed52a0ce120@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.528, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,124 +109,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ca69eb05eadaf6e9
-Content-Type: text/plain; charset="UTF-8"
+On 12.10.22 20:05, Thomas Huth wrote:
+> On 12/10/2022 17.38, Markus Armbruster wrote:
+>> When you try to set qtest property "log" while the qtest object is
+>> active, the error message blames "insufficient permission":
+>>
+>>       $ qemu-system-x86_64 -S -display none -nodefaults -monitor stdio -chardev socket,id=chrqt0,path=qtest.socket,server=on,wait=off -object qtest,id=qt0,chardev=chrqt0,log=/dev/null
+>>       QEMU 7.1.50 monitor - type 'help' for more information
+>>       (qemu) qom-set /objects/qt0 log qtest.log
+>>       Error: Insufficient permission to perform this operation
+>>
+>> This implies it could work with "sufficient permission".  It can't.
+>> Change the error message to:
+>>
+>>       Error: Property 'log' can not be set now
+> 
+> Can it be set later? ... if not, that error message is almost as confusing
+> as the original one. Maybe it's better to tell the users *when* they can set
+> the property?
 
-Note: This is my first patch that someone else wrote that I'm trying to
-accept
-and land as the bsd-user maintainer unrelated to the other upstreaming work.
-Please be let me know if I'm doing something wrong. I'll queue it to this
-month's
-bsd-user pull request (which likely will only include this patch).
+I assume it's mostly about "This property cannot be set." and "This 
+property can no longer be set." ?
 
-Thanks!
+-- 
+Thanks,
 
-On Wed, Oct 12, 2022 at 12:54 PM Warner Losh <imp@bsdimp.com> wrote:
+David / dhildenb
 
-> From: Muhammad Moinur Rahman <bofh@FreeBSD.org>
->
-> Some versions of FreeBSD now require sys/param.h for machine/pmap.h on
-> x86. Include them here to meet that requirement. It does no harm on
-> older versions, so there's no need to #ifdef it.
->
-> Signed-off-by:  Muhammad Moinur Rahman <bofh@FreeBSD.org>
-> Reviewed-by:    John Baldwin <jhb@FreeBSD.org>
-> Signed-off-by:  Warner Losh <imp@bsdimp.com>
-> ---
->  bsd-user/host/i386/host-signal.h   | 1 +
->  bsd-user/host/x86_64/host-signal.h | 1 +
->  2 files changed, 2 insertions(+)
->
-> diff --git a/bsd-user/host/i386/host-signal.h
-> b/bsd-user/host/i386/host-signal.h
-> index 169e61b154c..ffdfaba534a 100644
-> --- a/bsd-user/host/i386/host-signal.h
-> +++ b/bsd-user/host/i386/host-signal.h
-> @@ -9,6 +9,7 @@
->  #ifndef I386_HOST_SIGNAL_H
->  #define I386_HOST_SIGNAL_H
->
-> +#include <sys/param.h>
->  #include <sys/ucontext.h>
->  #include <machine/trap.h>
->  #include <vm/pmap.h>
-> diff --git a/bsd-user/host/x86_64/host-signal.h
-> b/bsd-user/host/x86_64/host-signal.h
-> index 47ca19f8814..32ac4e41803 100644
-> --- a/bsd-user/host/x86_64/host-signal.h
-> +++ b/bsd-user/host/x86_64/host-signal.h
-> @@ -9,6 +9,7 @@
->  #ifndef X86_64_HOST_SIGNAL_H
->  #define X86_64_HOST_SIGNAL_H
->
-> +#include <sys/param.h>
->  #include <sys/ucontext.h>
->  #include <machine/trap.h>
->  #include <vm/pmap.h>
-> --
-> 2.33.1
->
->
-
---000000000000ca69eb05eadaf6e9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Note: This is my first patch that someone else wrote that =
-I&#39;m trying to accept<div>and land as the bsd-user maintainer unrelated =
-to the other upstreaming work.</div><div>Please be let me know if I&#39;m d=
-oing=C2=A0something wrong. I&#39;ll queue it to this month&#39;s</div><div>=
-bsd-user pull request (which likely will only include this patch).</div><di=
-v><br></div><div>Thanks!</div></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Wed, Oct 12, 2022 at 12:54 PM Warner Losh =
-&lt;<a href=3D"mailto:imp@bsdimp.com">imp@bsdimp.com</a>&gt; wrote:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex">From: Muhammad Moinur R=
-ahman &lt;bofh@FreeBSD.org&gt;<br>
-<br>
-Some versions of FreeBSD now require sys/param.h for machine/pmap.h on<br>
-x86. Include them here to meet that requirement. It does no harm on<br>
-older versions, so there&#39;s no need to #ifdef it.<br>
-<br>
-Signed-off-by:=C2=A0 Muhammad Moinur Rahman &lt;bofh@FreeBSD.org&gt;<br>
-Reviewed-by:=C2=A0 =C2=A0 John Baldwin &lt;jhb@FreeBSD.org&gt;<br>
-Signed-off-by:=C2=A0 Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" targ=
-et=3D"_blank">imp@bsdimp.com</a>&gt;<br>
----<br>
-=C2=A0bsd-user/host/i386/host-signal.h=C2=A0 =C2=A0| 1 +<br>
-=C2=A0bsd-user/host/x86_64/host-signal.h | 1 +<br>
-=C2=A02 files changed, 2 insertions(+)<br>
-<br>
-diff --git a/bsd-user/host/i386/host-signal.h b/bsd-user/host/i386/host-sig=
-nal.h<br>
-index 169e61b154c..ffdfaba534a 100644<br>
---- a/bsd-user/host/i386/host-signal.h<br>
-+++ b/bsd-user/host/i386/host-signal.h<br>
-@@ -9,6 +9,7 @@<br>
-=C2=A0#ifndef I386_HOST_SIGNAL_H<br>
-=C2=A0#define I386_HOST_SIGNAL_H<br>
-<br>
-+#include &lt;sys/param.h&gt;<br>
-=C2=A0#include &lt;sys/ucontext.h&gt;<br>
-=C2=A0#include &lt;machine/trap.h&gt;<br>
-=C2=A0#include &lt;vm/pmap.h&gt;<br>
-diff --git a/bsd-user/host/x86_64/host-signal.h b/bsd-user/host/x86_64/host=
--signal.h<br>
-index 47ca19f8814..32ac4e41803 100644<br>
---- a/bsd-user/host/x86_64/host-signal.h<br>
-+++ b/bsd-user/host/x86_64/host-signal.h<br>
-@@ -9,6 +9,7 @@<br>
-=C2=A0#ifndef X86_64_HOST_SIGNAL_H<br>
-=C2=A0#define X86_64_HOST_SIGNAL_H<br>
-<br>
-+#include &lt;sys/param.h&gt;<br>
-=C2=A0#include &lt;sys/ucontext.h&gt;<br>
-=C2=A0#include &lt;machine/trap.h&gt;<br>
-=C2=A0#include &lt;vm/pmap.h&gt;<br>
--- <br>
-2.33.1<br>
-<br>
-</blockquote></div>
-
---000000000000ca69eb05eadaf6e9--
 
