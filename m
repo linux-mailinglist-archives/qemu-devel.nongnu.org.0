@@ -2,76 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B30D75FC1E1
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 10:21:14 +0200 (CEST)
-Received: from localhost ([::1]:55112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F8E5FC1ED
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 10:24:19 +0200 (CEST)
+Received: from localhost ([::1]:34736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiWzJ-0003hJ-PO
-	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 04:21:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60980)
+	id 1oiX2I-0006mw-KX
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 04:24:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oiWtO-0008Az-8e
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 04:15:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21182)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oiWxT-000220-B7
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 04:19:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52070)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oiWtL-0001Zo-Eo
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 04:15:05 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oiWxQ-0002FS-IB
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 04:19:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665562497;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1665562755;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PPsOz6AMo7eV3hngAwojeeL75kz+nOYv6o/0JyQy6oA=;
- b=CQZJcqaihQkVa4zFj0G2St3X9y7zoh4u7QkSFeppPbhw3fr5x9WN7ecRxbCpjqUak5LSnf
- afrrsFzomflsUoe51eWczDrgzgetI7rNUgtpMAxfsyLji4ymxukrT3El7G00ybeQUMc95X
- ulyXHvbM/sPy6pSZMOt3l82fhRcGTgY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-192-3xB8-6dwPM6OiJWcT6VRyw-1; Wed, 12 Oct 2022 04:14:56 -0400
-X-MC-Unique: 3xB8-6dwPM6OiJWcT6VRyw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 682A1858282;
- Wed, 12 Oct 2022 08:14:56 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DFC86492B05;
- Wed, 12 Oct 2022 08:14:54 +0000 (UTC)
-Date: Wed, 12 Oct 2022 09:14:52 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- "Hajnoczi, Stefan" <stefanha@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PULL 1/1] Revert "configure: build ROMs with container-based
- cross compilers"
-Message-ID: <Y0Z3fMpQo+8fz9ul@redhat.com>
-References: <20221011192858.956078-1-alex.bennee@linaro.org>
- <20221011192858.956078-2-alex.bennee@linaro.org>
- <CABgObfY42pEWRe67qZJ78LdnEmL+xK+V5c_Ut+cxoqJ7Gw4mzQ@mail.gmail.com>
+ bh=1H+4DWrJ9NLdgxI30afdrRPolBETFlmVa3laoe1pgCQ=;
+ b=J9zwelO9Ayy5dLq7b8sODP3YwZA7+xSQrAPePIj47gi9B1IlC+WQQYUcUIXnPjyPzy5LvQ
+ 76HPTeSUM9o/y65fvnsl2oT9A8GqfqLQrojVA13Z8TPVwraW1vLFG5X0kbgq1zSGJxWnvq
+ POkox0NYES9aisX+S6Xki7AhJfeptu0=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-277-GL9TLcaVO_is_VZOfihfaA-1; Wed, 12 Oct 2022 04:19:14 -0400
+X-MC-Unique: GL9TLcaVO_is_VZOfihfaA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ r81-20020a1c4454000000b003c41e9ae97dso774031wma.6
+ for <qemu-devel@nongnu.org>; Wed, 12 Oct 2022 01:19:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1H+4DWrJ9NLdgxI30afdrRPolBETFlmVa3laoe1pgCQ=;
+ b=LhdBMz3iWRE/3SDDxx2aR650HSaQHgjQ0uuX3FW7N6k1DYDJuJo7dN3QaX4chcIcF2
+ us1nLkCeXyL+E37hK2DGfQ6MqN9cOVlqv1Ob2M8z3R3kDSHTVFQkF2RZvH8myXcacyV5
+ 6GbQ6j10o/hxCs1N7bi3Pa8ACaPY7/6C5bYwI8Lawp464BhJiiaMxFOCUyNzVPaKhg2X
+ FoGBFlT5Ytfu8lSaD1/yyPCqweyBd2CW3bEybIYB1Gy0LV295d6VH8yWez/fgEGFbuTr
+ P4JwwgmQPiXsRnXYZHezTT88XMEcKsFabjhzR1ZXBCrM76cUASlbZSynO+72xLfPi/jR
+ 9SIA==
+X-Gm-Message-State: ACrzQf1t69VIRD6nRCj8Ms0sj4+VvNAWyO3FEgVGdmn9A4tVb030tmiv
+ t9NviZIwZFYyeo/zHmTIXEhoFtYmecvjRsEqziEVujX7FCAwwrfN269uEZAd3xAJET0RvD+pc1k
+ +veKDTUiyHYUQBS8=
+X-Received: by 2002:a5d:64cd:0:b0:22e:2fc1:9511 with SMTP id
+ f13-20020a5d64cd000000b0022e2fc19511mr16799187wri.415.1665562753170; 
+ Wed, 12 Oct 2022 01:19:13 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4VtxA/QrxkKJ0H6Qye4Mt4F8QZ9NtP7Bhavxl0OLPT4Uc6cUKHRkJdsy0YB9dIrngGS3YRUA==
+X-Received: by 2002:a5d:64cd:0:b0:22e:2fc1:9511 with SMTP id
+ f13-20020a5d64cd000000b0022e2fc19511mr16799166wri.415.1665562752918; 
+ Wed, 12 Oct 2022 01:19:12 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c704:3a00:4f2c:105b:3371:a623?
+ (p200300cbc7043a004f2c105b3371a623.dip0.t-ipconnect.de.
+ [2003:cb:c704:3a00:4f2c:105b:3371:a623])
+ by smtp.gmail.com with ESMTPSA id
+ m19-20020a05600c4f5300b003a2e92edeccsm1092813wmq.46.2022.10.12.01.19.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Oct 2022 01:19:12 -0700 (PDT)
+Message-ID: <ee441feb-3293-efe7-e273-3d28910a0b19@redhat.com>
+Date: Wed, 12 Oct 2022 10:19:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CABgObfY42pEWRe67qZJ78LdnEmL+xK+V5c_Ut+cxoqJ7Gw4mzQ@mail.gmail.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v2 3/7] util: Introduce ThreadContext user-creatable object
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Michal Privoznik <mprivozn@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefan Weil <sw@weilnetz.de>
+References: <20221010091117.88603-1-david@redhat.com>
+ <20221010091117.88603-4-david@redhat.com> <87czayj4ig.fsf@pond.sub.org>
+ <e689f938-f95d-f34c-117d-da58315576fa@redhat.com>
+ <874jw9fp0j.fsf@pond.sub.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <874jw9fp0j.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-2.934, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,71 +111,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 12, 2022 at 08:46:35AM +0200, Paolo Bonzini wrote:
-> Il mar 11 ott 2022, 21:29 Alex Bennée <alex.bennee@linaro.org> ha scritto:
+Thanks Markus!
+
+> I just tested again, and get the same result as you.  I figure my
+> previous test was with the complete series.
 > 
-> > This reverts commit 730fe750fba63023e294ff0acf0f874369f1946f.
-> >
-> > Unconditionally building all the bios for all arches was a little too
-> > far too fast.
-> >
+> PATCH 5 appears to make it work.  Suggest to say something like "The
+> commit after next will make this work".
+
+I'll phrase it like " We'll wire this up next to make it work."
+
+[...]
+
+>>> So, when a thread is created, its affinity comes from its thread context
+>>> (if any).  When I later change the context's affinity, it does *not*
+>>> affect existing threads, only future ones.  Correct?
+>>
+>> Yes, that's the current state.
 > 
-> I would like to understand the issue better, because chances are that it is
-> preexisting and applies to the TCG tests as well.
+> Thanks!
 > 
-> Daniel, does building the TCG tests work for you? If not, I think we should
-> just disable containers by default.
 
-I've never (knowingly) tried running TCG tests. IIUC, they are strictly
-an opt-in test needing explicit 'make check-tcg', so any container usage
-wouldn't be encountered by most contributors ?
+I'm adding
 
-Note, my objection wasn't that the containers are broken - it did
-eventually work. Rather the issues I see were
+"Note that the CPU affinity of previously created threads will not get 
+adjusted."
 
- * Downloading and building containers as part of 'make' made
-   the build insanely slow due to my limited 4G network connectivity.
-   It took over 1 GB of downloads, which doesn't sound like much
-   for those with reliably high speed internet, but was absolutely
-   awful for me as my 4G was very degraded at the time.
+and
 
- * Downloading and building the containers printed lots of
-   verbose progress information that destroyed the progress
-   output from meson when doing a parallel build
+"In general, the interface behaves like pthread_setaffinity_np(): host 
+CPU numbers that are currently not available are ignored; only host CPU 
+numbers that are impossible with the current kernel will fail. If the 
+list of host CPU numbers does not include a single CPU that is 
+available, setting the CPU affinity will fail."
 
- * The containers being built were not even used by the build
-   process, as I filtered the target list to only x86 and thus
-   had no cause to build s390 / ppc64 firmware.
-
- * When the container rebuild failed, restarting seemed to use
-   the downloaded image, that was previously considered stale,
-   instead of trying the fresh rebuild again.
-
-IOW, I'd like to see
-
- - Explicit opt-in at configure time for use of container
-   downloads during 'make'
- - Tailor downloads wrt the target list configured
- - Supress the verbose output to preserve meson progress
-   readability
- - Handle failure during container builds correctly
-
-
-The problem of data downloads during 'make' arguably applies to
-submodules too, but few submodules are needed when the distro
-has provided the required deps in packages, and so those submodules
-left are small and their download isn't noticably slow / large data
-volumes.
-
-With regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Thanks,
+
+David / dhildenb
 
 
