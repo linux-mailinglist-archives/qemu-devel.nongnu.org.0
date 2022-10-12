@@ -2,66 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C14C05FC97F
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 18:52:01 +0200 (CEST)
-Received: from localhost ([::1]:45528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2F745FC975
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 18:48:30 +0200 (CEST)
+Received: from localhost ([::1]:35762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiexb-0001bg-Cu
-	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 12:51:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46110)
+	id 1oieuD-0006wQ-Sw
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 12:48:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1oiehB-0004Iu-C4
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 12:35:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47367)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oiepu-0003ey-RQ
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 12:44:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35837)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1oieh8-0001j6-47
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 12:34:59 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oieps-0003Di-Ae
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 12:44:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665592497;
+ s=mimecast20190719; t=1665593039;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=1CrT6XlBsVhRYGW+bi7HygppH/qW1D1IAayxzH2Ba+I=;
- b=XtPcemidrC6zAnvLh6+pqwEmOno+vXi0D/e3Uooe4zxUcqEel0MfHisnR7y1zB5kCdygHd
- bOuZBq/3n22dJtF3rMg6X/6dWkCaBukSRHkoUYQAPc6qNlDYY3cOBjqhATuPBlzEC2wH85
- biv4iIIr3HY2tOI9e+SwI2Oq6mFdc4Y=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-528-ltT9UBwUM2ufTx0XBnuzQw-1; Wed, 12 Oct 2022 12:34:53 -0400
-X-MC-Unique: ltT9UBwUM2ufTx0XBnuzQw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 17A4A833AEE;
- Wed, 12 Oct 2022 16:34:53 +0000 (UTC)
-Received: from virt-mtcollins-01.lab.eng.rdu2.redhat.com
- (virt-mtcollins-01.lab.eng.rdu2.redhat.com [10.8.1.196])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EC88A4EA4D;
- Wed, 12 Oct 2022 16:34:52 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, mst@redhat.com,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org, jean-philippe@linaro.org
-Subject: [PATCH] hw/virtio/virtio-iommu-pci: Enforce the device is plugged on
- the root bus
-Date: Wed, 12 Oct 2022 12:34:48 -0400
-Message-Id: <20221012163448.121368-1-eric.auger@redhat.com>
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=n6OprDxGVPVlD6sVApApoVTdrYWxQnuX9DlQq5vuleM=;
+ b=QBcrDPEbsKbOiRqjqUfjlJFJx9hwNrnL/OXbNEMWfLkc/4FkasKWfVAxWQeY58G+PjYSuQ
+ /K5kc6ceEzz9bPcwWGDXYUm+Y69qR9PjjCqelLUzia4qJuK/rzwq9xPdqCkBV7nqBFIrXa
+ bAmy1gGonriu/Z1azhiS7cKaGZdeBQY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-53-WO80avyoMI6fvolbAIChnw-1; Wed, 12 Oct 2022 12:43:57 -0400
+X-MC-Unique: WO80avyoMI6fvolbAIChnw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ i5-20020a1c3b05000000b003c47c8569easo1383206wma.1
+ for <qemu-devel@nongnu.org>; Wed, 12 Oct 2022 09:43:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=n6OprDxGVPVlD6sVApApoVTdrYWxQnuX9DlQq5vuleM=;
+ b=MnqzXrtCJGMmHOufbOerasSOcIGJgAcZBZnEejKdCXkx6nijn+HBGLONNbFq36p64h
+ +ReP2mRy6lcAmW1sBwksqyEcFgUJElLsqtcJRyCTKOIQcFufV1RSJrSdGFh2wKX3YeHK
+ HlhRjCywjzSv+EonAetFPQ/9eQlq2Pa83GLnsLB3ax/6GnWyVsbE2cUHVeMOA5LQ7BTz
+ XWSpW7uDuBJA+mXYT8EJdZ4b7IMId7pC+F4j5HJ9Pk7UsCnAvWwmMyKMXcDgXbrSQ16v
+ pRZUyXTzvkO23Hbjp5Bjof0JjvsacoZHnv2/w83pAAkH7dhX0no0IxBC5P+g3rIBQAgC
+ czeA==
+X-Gm-Message-State: ACrzQf12/7pB2ZhC1QwtQ5qV5P6ISt+AUYt4JthU0RlxoT91C3lgiw8u
+ UypgTOj7PHt+tyahRTS/Mqv+Wl30zNV/KVXukFnXM6HV6yKfrCmgmd1pKtNr+q1yFTCtJ40gCja
+ tzPA3uB2S3TZtJ1s=
+X-Received: by 2002:a5d:5585:0:b0:22d:f0cd:e3b9 with SMTP id
+ i5-20020a5d5585000000b0022df0cde3b9mr18370475wrv.347.1665593036670; 
+ Wed, 12 Oct 2022 09:43:56 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4aN8Ukeup0b1ADJ9y76t427kJmoTWcDHXO1xJPP5q7HXaNZD3pVAxx3S/WTDAGU742JlASYQ==
+X-Received: by 2002:a5d:5585:0:b0:22d:f0cd:e3b9 with SMTP id
+ i5-20020a5d5585000000b0022df0cde3b9mr18370457wrv.347.1665593036444; 
+ Wed, 12 Oct 2022 09:43:56 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ r5-20020a5d6945000000b0022cc0a2cbecsm157264wrw.15.2022.10.12.09.43.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Oct 2022 09:43:55 -0700 (PDT)
+Date: Wed, 12 Oct 2022 17:43:53 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, "Daniel P . Berrange" <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, ani@anisinha.ca,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Manish Mishra <manish.mishra@nutanix.com>
+Subject: Re: [PATCH v2 06/15] migration: Yield bitmap_mutex properly when
+ sending/sleeping
+Message-ID: <Y0buySbboE3xOVoQ@work-vm>
+References: <20221011215559.602584-1-peterx@redhat.com>
+ <20221011215559.602584-7-peterx@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221011215559.602584-7-peterx@redhat.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,66 +104,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In theory the virtio-iommu-pci could be plugged anywhere in the PCIe
-topology and as long as the dt/acpi info are properly built this should
-work. However at the moment we fail to do that because the
-virtio-iommu-pci BDF is not computed at plug time and in that case
-vms->virtio_iommu_bdf gets an incorrect value.
+* Peter Xu (peterx@redhat.com) wrote:
+> Don't take the bitmap mutex when sending pages, or when being throttled by
+> migration_rate_limit() (which is a bit tricky to call it here in ram code,
+> but seems still helpful).
+> 
+> It prepares for the possibility of concurrently sending pages in >1 threads
+> using the function ram_save_host_page() because all threads may need the
+> bitmap_mutex to operate on bitmaps, so that either sendmsg() or any kind of
+> qemu_sem_wait() blocking for one thread will not block the other from
+> progressing.
+> 
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-For instance if the virtio-iommu-pci is plugged onto a pcie root port
-and the virtio-iommu protects a virtio-block-pci device the guest does
-not boot.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-So let's do not pretend we do support this case and fail the initialize()
-if we detect the virtio-iommu-pci is plugged anywhere else than on the
-root bus. Anyway this ability is not needed.
+although a comment above the reclaration of ram_save_host_pages saying
+it can drop the lock would be veyr good.
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
----
- hw/virtio/virtio-iommu-pci.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+Dave
 
-diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
-index 79ea8334f0..7ef2f9dcdb 100644
---- a/hw/virtio/virtio-iommu-pci.c
-+++ b/hw/virtio/virtio-iommu-pci.c
-@@ -17,6 +17,7 @@
- #include "hw/qdev-properties-system.h"
- #include "qapi/error.h"
- #include "hw/boards.h"
-+#include "hw/pci/pci_bus.h"
- #include "qom/object.h"
- 
- typedef struct VirtIOIOMMUPCI VirtIOIOMMUPCI;
-@@ -44,6 +45,7 @@ static Property virtio_iommu_pci_properties[] = {
- static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
- {
-     VirtIOIOMMUPCI *dev = VIRTIO_IOMMU_PCI(vpci_dev);
-+    PCIBus *pbus = pci_get_bus(&vpci_dev->pci_dev);
-     DeviceState *vdev = DEVICE(&dev->vdev);
-     VirtIOIOMMU *s = VIRTIO_IOMMU(vdev);
- 
-@@ -57,11 +59,17 @@ static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-             s->reserved_regions[i].type != VIRTIO_IOMMU_RESV_MEM_T_MSI) {
-             error_setg(errp, "reserved region %d has an invalid type", i);
-             error_append_hint(errp, "Valid values are 0 and 1\n");
-+            return;
-         }
-     }
-+    if (!pci_bus_is_root(pbus)) {
-+        error_setg(errp, "virtio-iommu-pci must be plugged on the root bus");
-+        return;
-+    }
-+
-     object_property_set_link(OBJECT(dev), "primary-bus",
--                             OBJECT(pci_get_bus(&vpci_dev->pci_dev)),
--                             &error_abort);
-+                             OBJECT(pbus), &error_abort);
-+
-     virtio_pci_force_virtio_1(vpci_dev);
-     qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
- }
+
+> ---
+>  migration/ram.c | 41 ++++++++++++++++++++++++++++++-----------
+>  1 file changed, 30 insertions(+), 11 deletions(-)
+> 
+> diff --git a/migration/ram.c b/migration/ram.c
+> index b9ac2d6921..578ad8d70a 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -2462,6 +2462,7 @@ static void postcopy_preempt_reset_channel(RAMState *rs)
+>   */
+>  static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
+>  {
+> +    bool page_dirty, preempt_active = postcopy_preempt_active();
+>      int tmppages, pages = 0;
+>      size_t pagesize_bits =
+>          qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
+> @@ -2485,22 +2486,40 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
+>              break;
+>          }
+>  
+> -        /* Check the pages is dirty and if it is send it */
+> -        if (migration_bitmap_clear_dirty(rs, pss->block, pss->page)) {
+> -            tmppages = ram_save_target_page(rs, pss);
+> -            if (tmppages < 0) {
+> -                return tmppages;
+> -            }
+> +        page_dirty = migration_bitmap_clear_dirty(rs, pss->block, pss->page);
+>  
+> -            pages += tmppages;
+> +        /* Check the pages is dirty and if it is send it */
+> +        if (page_dirty) {
+>              /*
+> -             * Allow rate limiting to happen in the middle of huge pages if
+> -             * something is sent in the current iteration.
+> +             * Properly yield the lock only in postcopy preempt mode
+> +             * because both migration thread and rp-return thread can
+> +             * operate on the bitmaps.
+>               */
+> -            if (pagesize_bits > 1 && tmppages > 0) {
+> -                migration_rate_limit();
+> +            if (preempt_active) {
+> +                qemu_mutex_unlock(&rs->bitmap_mutex);
+> +            }
+> +            tmppages = ram_save_target_page(rs, pss);
+> +            if (tmppages >= 0) {
+> +                pages += tmppages;
+> +                /*
+> +                 * Allow rate limiting to happen in the middle of huge pages if
+> +                 * something is sent in the current iteration.
+> +                 */
+> +                if (pagesize_bits > 1 && tmppages > 0) {
+> +                    migration_rate_limit();
+> +                }
+>              }
+> +            if (preempt_active) {
+> +                qemu_mutex_lock(&rs->bitmap_mutex);
+> +            }
+> +        } else {
+> +            tmppages = 0;
+>          }
+> +
+> +        if (tmppages < 0) {
+> +            return tmppages;
+> +        }
+> +
+>          pss->page = migration_bitmap_find_dirty(rs, pss->block, pss->page);
+>      } while ((pss->page < hostpage_boundary) &&
+>               offset_in_ramblock(pss->block,
+> -- 
+> 2.37.3
+> 
 -- 
-2.31.1
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
