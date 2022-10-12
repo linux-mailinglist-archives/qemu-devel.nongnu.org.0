@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD0B15FCD22
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 23:28:31 +0200 (CEST)
-Received: from localhost ([::1]:35602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 015075FCE55
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 00:23:37 +0200 (CEST)
+Received: from localhost ([::1]:50568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oijHC-0007aF-N6
-	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 17:28:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49210)
+	id 1oik8V-0001Uo-KR
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 18:23:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oijEa-0003SW-GN
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 17:25:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22177)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oijEY-0003hx-To
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 17:25:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665609946;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Nt9/RL0Q2HuNiLuoJsZmgt1YjpePzAfWA5WiBsNDMuE=;
- b=Yu8P59gxk0/x+9xwF3x6rjaSfFe7om1cyvEaG3dReJtLa3LaJQz2AiFzoSWgQK/k+557Ro
- A97mwKc26M1ATnnCM0G8M+AAVTzf+EQmsksXRWUpXRRV7Fuh0xFXFngTh7hCYECiW8ooeE
- BkFyw5YOEqdYegaRQgP9qdAcwsxlxMo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-365-KfQypZ3WPHemlOYxtfHmeA-1; Wed, 12 Oct 2022 17:25:44 -0400
-X-MC-Unique: KfQypZ3WPHemlOYxtfHmeA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1D65B811E7A;
- Wed, 12 Oct 2022 21:25:44 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8F01E492B0A;
- Wed, 12 Oct 2022 21:25:43 +0000 (UTC)
-Date: Wed, 12 Oct 2022 17:25:41 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, kwolf@redhat.com, stefanha@redhat.com,
- qemu-devel@nongnu.org
-Subject: Re: [PULL 00/50] Block layer patches
-Message-ID: <Y0cw1WKUAFDtIKJ7@fedora>
-References: <20221007104752.141361-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <cwrogg@umich.edu>) id 1oijtl-0006JI-DG
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 18:08:21 -0400
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:36748)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cwrogg@umich.edu>) id 1oijti-000227-7L
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 18:08:19 -0400
+Received: by mail-yb1-xb36.google.com with SMTP id 126so62528ybw.3
+ for <qemu-devel@nongnu.org>; Wed, 12 Oct 2022 15:08:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=umich.edu; s=google-2016-06-03;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=KkHguknvAFk7BEm9X9Q7YbQ0YifkJ0YknRfDZIpP6m0=;
+ b=dmOyThPaD4Sg/qN5e9vGIj0g2ntJJzxIDs0rw0pISOuQ8t9ejgslWEV08skLiDtKAM
+ Oh8Z28PEG2sVjBow64sxY9T3vDcR9ZULkI9tb+ceMWXpGrRtvUH5Lqsl5nJLHzqxre/T
+ Op0b8ct7lzABhJcUAPAkKNt0VR87LyCieMN1j+U57QTgtF6z8j3PbYEgWVF7GcQRJO22
+ lysWn4MHovwWUAZXlguYgPOXLJYDT0EZ1YVClmBB1n7jLJXZ9VcFr6DJFyGni600Ic7h
+ Oxz1+YOqGcgbtXiVQfNfD6yxw3XJNgey2g5178PL7HevBU2RL3unQRW4+Q4CDiDT9iE4
+ 6/ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=KkHguknvAFk7BEm9X9Q7YbQ0YifkJ0YknRfDZIpP6m0=;
+ b=DNUXquqGZYeZwvu04gBUnVz85BAbLIHW/pB0P5SAsbs0jT7rTnFVGHLx/uMio0SQIg
+ GWgKeGOgaxShbMrmgat4L8LzcXOf4VvYJ4UWcx3coz93q5atreAjX7q7Gd2ItTzekEXB
+ FQeqiVcKo5NvcF5nYllI9f7GGXLy+hzlvhh//PMs6CngJipWL0FCpMbVnATR1EzT9mfG
+ +QjbVReZZrI1A2Sg9KFekJTqPMs9bxFi+ygF+vRD3Pjt3o2gKWLwb+Bjwqx0kP/iNyK8
+ Jbp7xWHQ0GbCttQshoGbI96gXRbjDiepZZNmHLNPedchZ+WTdLw7rvjCrE8etOLudzus
+ RKJA==
+X-Gm-Message-State: ACrzQf1xixX3W3CW3oN+Nqe7zJi6QVZkjfvmc8GzDZHU+6ATvrUTMh3j
+ 8ez9EFH6xakmgrXi1OvwSPE1Us943Bj//ndARiAdokCU3KgRaw==
+X-Google-Smtp-Source: AMsMyM4y2jlRpqz7QkGFqjWPV/aL2mPv5SarBXlUlMyBieAIgI0zQgUQu/w0lMbSrAJE5S8vky3Ue7qF+wz5T4+1Vx8=
+X-Received: by 2002:a5b:a0f:0:b0:691:6fea:deda with SMTP id
+ k15-20020a5b0a0f000000b006916feadedamr30106867ybq.377.1665612493341; Wed, 12
+ Oct 2022 15:08:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="3aFAb/Das5vpt9//"
-Content-Disposition: inline
-In-Reply-To: <20221007104752.141361-1-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+From: Christopher Wrogg <cwrogg@umich.edu>
+Date: Wed, 12 Oct 2022 18:08:02 -0400
+Message-ID: <CAG7Es25Xv=WmA3VbgB2DzMZ7D9XYLe9CAnA3q2mHxiKHONvjcg@mail.gmail.com>
+Subject: [PATCH v2] Properly sign extend BBIT branch offset during calculation
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Aurelien Jarno <aurelien@aurel32.net>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ qemu-trivial@nongnu.org, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+Content-Type: multipart/alternative; boundary="000000000000ffd8dd05eadda0bc"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
+ envelope-from=cwrogg@umich.edu; helo=mail-yb1-xb36.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 12 Oct 2022 18:21:53 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,30 +82,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000ffd8dd05eadda0bc
+Content-Type: text/plain; charset="UTF-8"
 
---3aFAb/Das5vpt9//
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+The Octeon specific BBIT instruction incorrectly computes
+the branch offset. The 16 bit value is not sign extended.
 
-Applied, thanks.
+Signed-off-by: Christopher Wrogg <cwrogg@umich.edu>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1251
+---
+ target/mips/tcg/octeon_translate.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
+diff --git a/target/mips/tcg/octeon_translate.c
+b/target/mips/tcg/octeon_translate.c
+index 6a207d2e7e..90f7b105cb 100644
+--- a/target/mips/tcg/octeon_translate.c
++++ b/target/mips/tcg/octeon_translate.c
+@@ -38,7 +38,10 @@ static bool trans_BBIT(DisasContext *ctx, arg_BBIT *a)
+     }
 
---3aFAb/Das5vpt9//
-Content-Type: application/pgp-signature; name="signature.asc"
+     ctx->hflags |= MIPS_HFLAG_BC;
+-    ctx->btarget = ctx->base.pc_next + 4 + a->offset * 4;
++    a->offset *= 4;
++    a->offset = (target_long)(int16_t)a->offset;
++    ctx->btarget = ctx->base.pc_next + 4 + a->offset;
++
+     ctx->hflags |= MIPS_HFLAG_BDS32;
 
------BEGIN PGP SIGNATURE-----
+     tcg_temp_free(t0);
+-- 
+2.30.2
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNHMNUACgkQnKSrs4Gr
-c8gwQAf/QhdIm9PF++QmKv2qA3XCOoCywjo7Ib9tEwxMi5CUksXKQHgPeZTAURy3
-KQ0bTmGau6QCV83xFAFjABTnst1bfjK8DMRYXZcWCXlzbWKhuSjWVONW3KUvjqGp
-V6rPvTfzSZR9VwylGSAwyPUoYjOSdNNIhKxYO1orkeF+I63ISTbNNpb0somgdBaL
-eeW4RqCe8xBHilb0UDzwtO1yRydSHwZa8BzGifDgUByFr+QRsow83Q0WMIPsHux7
-XrS9iTgyNtlOnQQAIldE8i1keMMN6rSGGPCvlftTmg14mKQBgRkvU8b/wLfAlYwz
-/+N+x7rOpkI3TmMgOVgiuypHS91UmA==
-=2P98
------END PGP SIGNATURE-----
+--000000000000ffd8dd05eadda0bc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---3aFAb/Das5vpt9//--
+<div dir=3D"ltr">The Octeon specific BBIT instruction incorrectly computes<=
+br>the branch offset. The 16 bit value is not sign extended.<br><br>Signed-=
+off-by: Christopher Wrogg &lt;<a href=3D"mailto:cwrogg@umich.edu">cwrogg@um=
+ich.edu</a>&gt;<br>Resolves: <a href=3D"https://gitlab.com/qemu-project/qem=
+u/-/issues/1251">https://gitlab.com/qemu-project/qemu/-/issues/1251</a><br>=
+---<br>=C2=A0target/mips/tcg/octeon_translate.c | 5 ++++-<br>=C2=A01 file c=
+hanged, 4 insertions(+), 1 deletion(-)<br><br>diff --git a/target/mips/tcg/=
+octeon_translate.c b/target/mips/tcg/octeon_translate.c<br>index 6a207d2e7e=
+..90f7b105cb 100644<br>--- a/target/mips/tcg/octeon_translate.c<br>+++ b/ta=
+rget/mips/tcg/octeon_translate.c<br>@@ -38,7 +38,10 @@ static bool trans_BB=
+IT(DisasContext *ctx, arg_BBIT *a)<br>=C2=A0 =C2=A0 =C2=A0}<br>=C2=A0<br>=
+=C2=A0 =C2=A0 =C2=A0ctx-&gt;hflags |=3D MIPS_HFLAG_BC;<br>- =C2=A0 =C2=A0ct=
+x-&gt;btarget =3D ctx-&gt;base.pc_next + 4 + a-&gt;offset * 4;<br>+ =C2=A0 =
+=C2=A0a-&gt;offset *=3D 4;<br>+ =C2=A0 =C2=A0a-&gt;offset =3D (target_long)=
+(int16_t)a-&gt;offset;<br>+ =C2=A0 =C2=A0ctx-&gt;btarget =3D ctx-&gt;base.p=
+c_next + 4 + a-&gt;offset;<br>+<br>=C2=A0 =C2=A0 =C2=A0ctx-&gt;hflags |=3D =
+MIPS_HFLAG_BDS32;<br>=C2=A0<br>=C2=A0 =C2=A0 =C2=A0tcg_temp_free(t0);<br>--=
+ <br>2.30.2<br></div>
 
+--000000000000ffd8dd05eadda0bc--
 
