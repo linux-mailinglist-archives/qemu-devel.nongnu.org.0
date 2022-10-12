@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 417375FC901
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 18:18:10 +0200 (CEST)
-Received: from localhost ([::1]:48846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C670C5FC8E6
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 18:10:26 +0200 (CEST)
+Received: from localhost ([::1]:47074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oieQr-00007V-53
-	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 12:18:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56984)
+	id 1oieJN-0000i3-TI
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 12:10:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oieE8-0003Am-P3
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 12:05:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41751)
+ id 1oieEG-0003B9-GW
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 12:05:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oieE3-0005TE-CC
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 12:04:59 -0400
+ id 1oieE4-0005V2-VX
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 12:05:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665590689;
+ s=mimecast20190719; t=1665590695;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=UlAeU0kk5XE4TEsZVrH4G0XLRNgVrE59MG03vn6XSpo=;
- b=btDV8jthcTfL2DDCavVXreGTTmrePoGW8gRYHN3bNy5SU9NAfwyzdvA0MoXVJ/sfrkPiiV
- dpIoqZEPX5m9Hszb+61AI2YPOZyWanMUPQntWoRgT93HGmF5qYSLVmhWALnpM/F42Wv5XO
- 1PoWjtWy92iNnqDDLLo2s3+qm5yqjC8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6KR8vlqJRcmecgBUCD195hRbO9PvQLssXSaePlqkxvw=;
+ b=GE/KnP8tDWy8rVkTNhmbuALKjsQISExiN43A+i5lKZY6DsjQ+vBKZI92/2fNWzh45br8iK
+ w8wOjeCahO97kBk7vwXFVduSgSI39EqIWXN1r+x0+DWjCRVcfsCC8YtU81cSKM1Pd1uzEl
+ /C8oEkzDCBUzCRRkkWi3vKJHYFSEHYI=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-450-4jfbJLHDMCe6VfzOV227Ww-1; Wed, 12 Oct 2022 12:04:48 -0400
-X-MC-Unique: 4jfbJLHDMCe6VfzOV227Ww-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-619-hGseXee8O1CCLR8pjYn62w-1; Wed, 12 Oct 2022 12:04:52 -0400
+X-MC-Unique: hGseXee8O1CCLR8pjYn62w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 56B461C05ACA;
- Wed, 12 Oct 2022 16:04:48 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 40E8F299E75B;
+ Wed, 12 Oct 2022 16:04:52 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3F23D49BB64;
- Wed, 12 Oct 2022 16:04:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 568174EA4A;
+ Wed, 12 Oct 2022 16:04:51 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Stefan Weil <sw@weilnetz.de>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 0/7] Win32 patches
-Date: Wed, 12 Oct 2022 20:04:37 +0400
-Message-Id: <20221012160444.3762795-1-marcandre.lureau@redhat.com>
+Subject: [PULL 1/7] win32: set threads name
+Date: Wed, 12 Oct 2022 20:04:38 +0400
+Message-Id: <20221012160444.3762795-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20221012160444.3762795-1-marcandre.lureau@redhat.com>
+References: <20221012160444.3762795-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -81,41 +84,105 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The following changes since commit ab44ea1059242ff2dbbde44e94468f6c6e5f87be:
+As described in:
+https://learn.microsoft.com/en-us/visualstudio/debugger/how-to-set-a-thread-name-in-native-code?view=vs-2022
 
-  Merge tag 'pull-testing-gdbstub-plugins-gitdm-111022-1' of https://github.com/stsquad/qemu into staging (2022-10-11 15:31:27 -0400)
+SetThreadDescription() is available since Windows 10, version 1607 and
+in some versions only by "Run Time Dynamic Linking". Its declaration is
+not yet in mingw, so we lookup the function the same way glib does.
 
-are available in the Git repository at:
+Tested with Visual Studio Community 2022 debugger.
 
-  https://gitlab.com/marcandre.lureau/qemu.git tags/win32-pull-request
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ util/qemu-thread-win32.c | 54 ++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 52 insertions(+), 2 deletions(-)
 
-for you to fetch changes up to 76f5148c21b4543e62a6ad605ac4b44133421401:
-
-  tests/unit: make test-io-channel-command work on win32 (2022-10-12 19:22:01 +0400)
-
-----------------------------------------------------------------
-win32-related misc patches
-
-----------------------------------------------------------------
-
-Marc-André Lureau (7):
-  win32: set threads name
-  osdep: make readv_writev() work with partial read/write
-  util: make do_send_recv work with partial send/recv
-  tests/channel-helper: set blocking in main thread
-  io/command: use glib GSpawn, instead of open-coding fork/exec
-  io/command: implement support for win32
-  tests/unit: make test-io-channel-command work on win32
-
- include/io/channel-command.h         |   5 +-
- io/channel-command.c                 | 185 +++++++++++----------------
- tests/unit/io-channel-helpers.c      |   9 +-
- tests/unit/test-io-channel-command.c |  37 +++---
- util/iov.c                           |  10 +-
- util/osdep.c                         |  11 +-
- util/qemu-thread-win32.c             |  54 +++++++-
- 7 files changed, 171 insertions(+), 140 deletions(-)
-
+diff --git a/util/qemu-thread-win32.c b/util/qemu-thread-win32.c
+index a2d5a6e825..b9a467d7db 100644
+--- a/util/qemu-thread-win32.c
++++ b/util/qemu-thread-win32.c
+@@ -19,12 +19,39 @@
+ 
+ static bool name_threads;
+ 
++typedef HRESULT (WINAPI *pSetThreadDescription) (HANDLE hThread,
++                                                 PCWSTR lpThreadDescription);
++static pSetThreadDescription SetThreadDescriptionFunc;
++static HMODULE kernel32_module;
++
++static bool load_set_thread_description(void)
++{
++    static gsize _init_once = 0;
++
++    if (g_once_init_enter(&_init_once)) {
++        kernel32_module = LoadLibrary("kernel32.dll");
++        if (kernel32_module) {
++            SetThreadDescriptionFunc =
++                (pSetThreadDescription)GetProcAddress(kernel32_module,
++                                                      "SetThreadDescription");
++            if (!SetThreadDescriptionFunc) {
++                FreeLibrary(kernel32_module);
++            }
++        }
++        g_once_init_leave(&_init_once, 1);
++    }
++
++    return !!SetThreadDescriptionFunc;
++}
++
+ void qemu_thread_naming(bool enable)
+ {
+-    /* But note we don't actually name them on Windows yet */
+     name_threads = enable;
+ 
+-    fprintf(stderr, "qemu: thread naming not supported on this host\n");
++    if (enable && !load_set_thread_description()) {
++        fprintf(stderr, "qemu: thread naming not supported on this host\n");
++        name_threads = false;
++    }
+ }
+ 
+ static void error_exit(int err, const char *msg)
+@@ -400,6 +427,25 @@ void *qemu_thread_join(QemuThread *thread)
+     return ret;
+ }
+ 
++static bool set_thread_description(HANDLE h, const char *name)
++{
++    HRESULT hr;
++    g_autofree wchar_t *namew = NULL;
++
++    if (!load_set_thread_description()) {
++        return false;
++    }
++
++    namew = g_utf8_to_utf16(name, -1, NULL, NULL, NULL);
++    if (!namew) {
++        return false;
++    }
++
++    hr = SetThreadDescriptionFunc(h, namew);
++
++    return SUCCEEDED(hr);
++}
++
+ void qemu_thread_create(QemuThread *thread, const char *name,
+                        void *(*start_routine)(void *),
+                        void *arg, int mode)
+@@ -423,7 +469,11 @@ void qemu_thread_create(QemuThread *thread, const char *name,
+     if (!hThread) {
+         error_exit(GetLastError(), __func__);
+     }
++    if (name_threads && name && !set_thread_description(hThread, name)) {
++        fprintf(stderr, "qemu: failed to set thread description: %s\n", name);
++    }
+     CloseHandle(hThread);
++
+     thread->data = data;
+ }
+ 
 -- 
 2.37.3
 
