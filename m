@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 547CD5FCCBF
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 23:07:09 +0200 (CEST)
-Received: from localhost ([::1]:34926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F13DA5FCD20
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 23:28:10 +0200 (CEST)
+Received: from localhost ([::1]:49366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiiwW-0000NA-2f
-	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 17:07:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51004)
+	id 1oijGr-0006wO-KN
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 17:28:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oiirc-0005Vk-VA
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 17:02:12 -0400
-Received: from mail-yw1-x1133.google.com ([2607:f8b0:4864:20::1133]:43680)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oiira-0000F6-Vo
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 17:02:04 -0400
-Received: by mail-yw1-x1133.google.com with SMTP id
- 00721157ae682-333a4a5d495so215517b3.10
- for <qemu-devel@nongnu.org>; Wed, 12 Oct 2022 14:02:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ARHubrMRCCtgOqm4QtOEydgDieeCHMHhqUru5w8iCDg=;
- b=gxMj3zneSYux10/2BNDwktyx77vduTHSrp+KIG5LlVsvmSr/9T07V1nQGZH07LRw0E
- mpplEBj83+Vn29RIg7h13SXVuaf5LHAKq0ZtHHV+N8ex9c4SwPBxDIOu1Maap5dpOZpu
- Vs52u5WBoDFnZIz7qzw3hcx87CG8afowXDj5MRHtwlBe8VfhdCE0WmkkMbLrm0miOrHg
- WX41/dxef0iyhWi0dpzHI8gDVJHopRGR6OiCFUVt1+x8H5VBDspeNeCYJ6YH/4B2xLC8
- Zm1FSl+Qy5G2dSAFGss/I8oqgXBTFxtxcaA/bTDKJ55yq/SUT9lQWzEQPuzeNP59TOmP
- lzPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ARHubrMRCCtgOqm4QtOEydgDieeCHMHhqUru5w8iCDg=;
- b=iRvYEf2oahW6A6XBRjlNr5i7m+68xUcVUX79bAVGX6lQwf/pTaRpwgj3tj9E9ETCQv
- DRHSNuXSxmAA9+0NP1cl23ummFZ8zXxLZE1Mx0Hv5x22PL912ouKU1Hui+S2Wen8SzSA
- JexZb665PYQt5wxfEZdF0A7NHD2ioNfxiCfVUSUNhugREbxVyqI0k6wsaNVdPPVmPYVr
- fw9HtvBL8qDzJjP1+MuBPwqyOjkDCTFAqDC1uLTGPYkrYduOcDfXZB/FHRixPSia8KgA
- 4ThHo1pnEDaKeYeaqzg9YL0y5hqB1Fcq5WbErmf6mt990c5ICohjlNheKjQWQAo/XsCO
- xUmQ==
-X-Gm-Message-State: ACrzQf0q+my1oaGHqz2S7GLvla8ZX71seGrnSinLhFZTPE9mMsEfpKRu
- TLWbId3Un5wh/dFvJrqj6F2/fYE7WNOTuyWAMhU=
-X-Google-Smtp-Source: AMsMyM5pVGiG7nDOx080er9C/VPKuJanOgD4VLHvif6anZhF87enp2E4VAZfmGN5fcGQ9GN/8G9AS3lyhVPMOTWsz1g=
-X-Received: by 2002:a0d:fb45:0:b0:354:cb73:5f81 with SMTP id
- l66-20020a0dfb45000000b00354cb735f81mr28548345ywf.111.1665608521092; Wed, 12
- Oct 2022 14:02:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <20221010172813.204597-1-mst@redhat.com>
- <CAJSP0QX9S-VgT9ooinu=BTF6ysrsMOJ29wRJMrDVY5ZbizXTSg@mail.gmail.com>
- <20221012165418-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20221012165418-mutt-send-email-mst@kernel.org>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Wed, 12 Oct 2022 17:01:48 -0400
-Message-ID: <CAJSP0QW1c+UsAFvnCjNUsNcUvqsn8ZgpRj2nm8MgkmyAyLniZw@mail.gmail.com>
-Subject: Re: [PULL 00/55] pc,virtio: features, tests, fixes, cleanups
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oijEE-00037Q-PF
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 17:25:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45199)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oijEC-0003QE-8M
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 17:25:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665609918;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=aK+Qih/3+vVVDrz8GzGA6mqJ9j6F9jcHMWttVsAv/JU=;
+ b=MK9tUdcP3kksVKxmzO94eWyiO/D8RT4VOkYDPCCmxVGCouRLp6tyga94hVGyqTP+n5q8dZ
+ JEQ/Beq8P9BFbX/cdfsDb0VTKr6RCQ4u9Rp0WvhXT+Ci01DPTVjEn6rR8YGwFd1jwoBTkR
+ g+qi4nlzh6FDylIPHT61lxnzXYW+j28=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-614-tmLNyNj7Nj2Saa_xVc6GXA-1; Wed, 12 Oct 2022 17:25:15 -0400
+X-MC-Unique: tmLNyNj7Nj2Saa_xVc6GXA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 530B18027F5;
+ Wed, 12 Oct 2022 21:25:15 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CEF4E2166BA3;
+ Wed, 12 Oct 2022 21:25:14 +0000 (UTC)
+Date: Wed, 12 Oct 2022 17:25:12 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
 To: "Michael S. Tsirkin" <mst@redhat.com>
 Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1133;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x1133.google.com
+Subject: Re: [PULL 00/55] pc,virtio: features, tests, fixes, cleanups
+Message-ID: <Y0cwuN+SnU5OvF+/@fedora>
+References: <20221010172813.204597-1-mst@redhat.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="fnou/bu772RUSm3T"
+Content-Disposition: inline
+In-Reply-To: <20221010172813.204597-1-mst@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,35 +79,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 12 Oct 2022 at 17:00, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Wed, Oct 12, 2022 at 04:04:31PM -0400, Stefan Hajnoczi wrote:
-> > On Mon, 10 Oct 2022 at 13:46, Michael S. Tsirkin <mst@redhat.com> wrote:
-> > >
-> > > The following changes since commit f1d33f55c47dfdaf8daacd618588ad3ae4c452d1:
-> > >
-> > >   Merge tag 'pull-testing-gdbstub-plugins-gitdm-061022-3' of https://github.com/stsquad/qemu into staging (2022-10-06 07:11:56 -0400)
-> > >
-> > > are available in the Git repository at:
-> > >
-> > >   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> >
-> > Hi Michael,
-> > Please update your .git/config with the https URL for future pull requests:
-> >
-> >   https://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git
-> >
-> > The pull request is signed with your GPG, so modifications should be
-> > detected when verifying the signature. It still seems like a good idea
-> > to use https:// when possible instead of unencrypted git://.
-> >
-> > Stefan
->
-> I don't think this is from .git/config, this is just a parameter
-> to request-pull. OK, I will switch to that.
 
-You're right. For some reason I thought the URL was pulled from the
-remote's configuration in .git/config.
+--fnou/bu772RUSm3T
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Stefan
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
+
+--fnou/bu772RUSm3T
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNHMLgACgkQnKSrs4Gr
+c8gThggAkd9p8gsR99jat4Lx1TAX+hi/AM7KAMv+0AjFVuRG2th1QuCbipzhl7sI
+teCiShVTzy4xEVDs3xWPQdqhr39S/ZTlBIwYxIUqIFsIn4KdPjIkZvUkF0O5OmeS
+jywvTienPdB5XpL026slOLX3atQIEeg6Dv/bw176w2GQURiU/nTXrfHjAiv/zBSJ
+Qwr5zuw33uGPZ+sgCdmclxjzNBapB5r+SlPYs2XgXT2t+3UBlI0zWIGRTAR6ruxm
+6C2nKrKHDS4/5VmtHlRy3CZYJHoQIY7XaQheP6PPCNvuh/2R4K5W2WgXom7RjgLI
+DvkCS1dh/za1jERQ+iT0E49khy7U7Q==
+=iAP2
+-----END PGP SIGNATURE-----
+
+--fnou/bu772RUSm3T--
+
 
