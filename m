@@ -2,98 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79F95FCB4A
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 21:05:35 +0200 (CEST)
-Received: from localhost ([::1]:40874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E611C5FCB76
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 21:26:30 +0200 (CEST)
+Received: from localhost ([::1]:39160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oih2s-0000ik-Lk
-	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 15:05:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50788)
+	id 1oihN7-0004Qg-IG
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 15:26:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oigzy-0007eN-JH
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 15:02:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30090)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oihKD-0008UI-VQ
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 15:23:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58101)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oigzj-0008BY-Qa
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 15:02:32 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oihKB-0002Nv-2X
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 15:23:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665601336;
+ s=mimecast20190719; t=1665602606;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5lGnjmk4QXLnhNqdwHBPxF72WybIXh4Ra987sk9L3oQ=;
- b=boddau4F0csbVQ8xyAfK7XReE9DaiD0cGHUa50Ka6DtAgjtIc7D6tzQ5lu4HrBuRh1MXOY
- vkmDZpqFWaGG1zlXXghstU33+FMdUKvB43cp3+fvTFYBm8frQc0uUmheP0GmzXvCTdNSNX
- oRUuo6JQArvssFxdxm5zfQTjykFii9M=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=pcX9gtjnWe/gtt/k1zW1BcHUUgmbhTXz04U5cc9GZ44=;
+ b=cSszwnho/FnDgbL5jrisY5dqiNAhc7vb5YKNo3+6ibAv6vjuH+4j3MWm6oY7yue6BvZoVF
+ YCSAkKXFJHGW+2jM1ZKBFyhY6OND1OdUDTxP89q8tti9YDbJZLzdPN5sYVgElTMuSwOceJ
+ aPZJfa+YzC2t9vylU/jneWfQ5T6Vttg=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-356-6vx15wTJMNefZW3UgZew7A-1; Wed, 12 Oct 2022 15:02:14 -0400
-X-MC-Unique: 6vx15wTJMNefZW3UgZew7A-1
-Received: by mail-wm1-f69.google.com with SMTP id
- fc12-20020a05600c524c00b003b5054c70d3so10434504wmb.5
- for <qemu-devel@nongnu.org>; Wed, 12 Oct 2022 12:02:14 -0700 (PDT)
+ us-mta-85-16n5JTOLMoGxAjiukTjlaw-1; Wed, 12 Oct 2022 15:23:20 -0400
+X-MC-Unique: 16n5JTOLMoGxAjiukTjlaw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ l16-20020adfc790000000b00230c2505f96so3075229wrg.4
+ for <qemu-devel@nongnu.org>; Wed, 12 Oct 2022 12:23:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:organization:from:references
  :cc:to:content-language:subject:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=5lGnjmk4QXLnhNqdwHBPxF72WybIXh4Ra987sk9L3oQ=;
- b=tiTkCbv3pqIdQO/9S3ICgBf0dyLPyJi0FHXRcGyP4coyAu0nKgaCa8v4bHsde9Ct7j
- BCJ9Zaw5LwnjhCTRXYLRrLbrB2NXtj8nlhgY64UHmog09+BiN+nxfkAyYcsCuK8Fk3/A
- eu3lw6qbF+Thls57lW9gHa+axVVyulOhutWovLUFnaWGch+HVZVoB+MUNIyoH+9luLTS
- RK+QZ4UOQR7IyLW8DGJEBg9pnmMcqaJ1sed87lq8g4ffcNrUjfaKd4R/11usAYFTCcIg
- ZSyXw6UA8o9OSCBctQgovYu3FHEnpFI2w1V9jUQjAgT5YBvErMmynXGvIHlk6t0XV1bl
- 0ujA==
-X-Gm-Message-State: ACrzQf0rWu56GQZ7T5qhkwfoF4LLp2c929u0we5XWhWJO/8UWijzlbhn
- Mj5R4tSA8znu9o/dda9mMuVdq5JAx7626yWIXgynROvz47jgz1gFcxm1Qg0Td0BMtZnU5kh6Wd1
- fffeB7NTtqbuKPYU=
-X-Received: by 2002:a05:600c:444b:b0:3b4:cb9e:bd5c with SMTP id
- v11-20020a05600c444b00b003b4cb9ebd5cmr3789550wmn.124.1665601333224; 
- Wed, 12 Oct 2022 12:02:13 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4zfnZLqKhzo6Pd0xsPwRTQmegRT1QPcE053UeeonfEMp9xQcbueO1uCpBI1STvMF8WorMf1w==
-X-Received: by 2002:a05:600c:444b:b0:3b4:cb9e:bd5c with SMTP id
- v11-20020a05600c444b00b003b4cb9ebd5cmr3789502wmn.124.1665601332447; 
- Wed, 12 Oct 2022 12:02:12 -0700 (PDT)
+ bh=pcX9gtjnWe/gtt/k1zW1BcHUUgmbhTXz04U5cc9GZ44=;
+ b=KAUhGPzL31SOS6+FMgLKNHFRrNMolQeylG2irz1zNyVWLR/3aTClkFDM4uU6tK9/O0
+ aTRhMyJFttGWS/JFrk10YbYBlZuUGp9klzG0iBah1Oa606Wa6/TCWiUuRJaGauSTg6zb
+ t+hpnyCXo8ZF/8CrUHc/C5vRg0/B9tmm21pDLzLsngpq4fFzLQotcPsNjEOiwp/rT9fq
+ t9GQ/GLTmJhlitwycGhxYZ2GC+YFPsNflVlNdyEycI+XSRH00B34gk5U1aYcMuzV+hYm
+ ifH+0G5W7sMxwmF5yngotQrSWVQ+yUshkeza/bRU0fdlafeheRpCr0QssOt5ssLQXNCI
+ iUkA==
+X-Gm-Message-State: ACrzQf3j3hcieuvucnnO1qmr4zKXDCnPXcEf9EAsoLm4nNH4wdVY7jTh
+ Cv3WFvHLSNsgVXLD4l8AqJbr7bJ9efnyWeKq0fiY9/keULgqHZWwyA+COICl26I5MVipmVhuyj7
+ GoT2u49Wqo/ko1kU=
+X-Received: by 2002:a05:600c:3b98:b0:3c6:c36e:a637 with SMTP id
+ n24-20020a05600c3b9800b003c6c36ea637mr3815765wms.148.1665602599120; 
+ Wed, 12 Oct 2022 12:23:19 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7bJirtj2WQSNPnPaJDH2/nAXAw8tDPAdmQkfveJ4fVALHtIeoMst/Pe7SjCqVYOqAJavA0nQ==
+X-Received: by 2002:a05:600c:3b98:b0:3c6:c36e:a637 with SMTP id
+ n24-20020a05600c3b9800b003c6c36ea637mr3815750wms.148.1665602598774; 
+ Wed, 12 Oct 2022 12:23:18 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c713:fd00:9f9b:c2f8:47fc:4836?
  (p200300cbc713fd009f9bc2f847fc4836.dip0.t-ipconnect.de.
  [2003:cb:c713:fd00:9f9b:c2f8:47fc:4836])
  by smtp.gmail.com with ESMTPSA id
- i18-20020adfefd2000000b00231a5fa1ae2sm389849wrp.20.2022.10.12.12.02.11
+ t21-20020a1c7715000000b003b4de550e34sm2441986wmi.40.2022.10.12.12.23.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Oct 2022 12:02:12 -0700 (PDT)
-Message-ID: <aded961a-3367-3430-be04-36dd0b89629e@redhat.com>
-Date: Wed, 12 Oct 2022 21:02:11 +0200
+ Wed, 12 Oct 2022 12:23:18 -0700 (PDT)
+Message-ID: <a76e8464-907c-7cc3-c5d1-590296e93128@redhat.com>
+Date: Wed, 12 Oct 2022 21:23:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH 3/4] qtest: Improve error messages when property can not
- be set right now
+Subject: Re: [PATCH 1/3] tests/tcg/s390x: Test compiler flags only once, not
+ every time
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org
-Cc: arei.gonglei@huawei.com, lvivier@redhat.com, amit@kernel.org,
- mst@redhat.com, pbonzini@redhat.com, berrange@redhat.com, eduardo@habkost.net
-References: <20221012153801.2604340-1-armbru@redhat.com>
- <20221012153801.2604340-4-armbru@redhat.com>
- <e5dd172e-1b9f-3817-a87f-3ed52a0ce120@redhat.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+References: <20221012182755.1014853-1-thuth@redhat.com>
+ <20221012182755.1014853-2-thuth@redhat.com>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-In-Reply-To: <e5dd172e-1b9f-3817-a87f-3ed52a0ce120@redhat.com>
+In-Reply-To: <20221012182755.1014853-2-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.528, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.528, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,27 +107,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12.10.22 20:05, Thomas Huth wrote:
-> On 12/10/2022 17.38, Markus Armbruster wrote:
->> When you try to set qtest property "log" while the qtest object is
->> active, the error message blames "insufficient permission":
->>
->>       $ qemu-system-x86_64 -S -display none -nodefaults -monitor stdio -chardev socket,id=chrqt0,path=qtest.socket,server=on,wait=off -object qtest,id=qt0,chardev=chrqt0,log=/dev/null
->>       QEMU 7.1.50 monitor - type 'help' for more information
->>       (qemu) qom-set /objects/qt0 log qtest.log
->>       Error: Insufficient permission to perform this operation
->>
->> This implies it could work with "sufficient permission".  It can't.
->> Change the error message to:
->>
->>       Error: Property 'log' can not be set now
+On 12.10.22 20:27, Thomas Huth wrote:
+> This is common practice, see the Makefile.target in the aarch64
+> folder for example.
 > 
-> Can it be set later? ... if not, that error message is almost as confusing
-> as the original one. Maybe it's better to tell the users *when* they can set
-> the property?
+> Suggested-by: Alex Bennée <alex.bennee@linaro.org>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   tests/tcg/s390x/Makefile.target | 27 +++++++++++++++++----------
+>   1 file changed, 17 insertions(+), 10 deletions(-)
+> 
+> diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
+> index c830313e67..29c8af8207 100644
+> --- a/tests/tcg/s390x/Makefile.target
+> +++ b/tests/tcg/s390x/Makefile.target
+> @@ -1,6 +1,13 @@
+>   S390X_SRC=$(SRC_PATH)/tests/tcg/s390x
+>   VPATH+=$(S390X_SRC)
+>   CFLAGS+=-march=zEC12 -m64
+> +
+> +config-cc.mak: Makefile
+> +	$(quiet-@)( \
+> +	    $(call cc-option,-march=z14, CROSS_CC_HAS_Z14); \
+> +	    $(call cc-option,-march=z15, CROSS_CC_HAS_Z15)) 3> config-cc.mak
+> +-include config-cc.mak
+> +
+>   TESTS+=hello-s390x
+>   TESTS+=csst
+>   TESTS+=ipm
+> @@ -18,20 +25,20 @@ TESTS+=signals-s390x
+>   TESTS+=branch-relative-long
+>   TESTS+=noexec
+>   
+> +ifneq ($(CROSS_CC_HAS_Z14),)
+>   Z14_TESTS=vfminmax
+>   vfminmax: LDFLAGS+=-lm
+>   $(Z14_TESTS): CFLAGS+=-march=z14 -O2
+> +TESTS+=$(Z14_TESTS)
+> +endif
+>   
+> -TESTS+=$(if $(shell $(CC) -march=z14 -S -o /dev/null -xc /dev/null \
+> -			 >/dev/null 2>&1 && echo OK),$(Z14_TESTS))
+> -
+> -VECTOR_TESTS=vxeh2_vs
+> -VECTOR_TESTS+=vxeh2_vcvt
+> -VECTOR_TESTS+=vxeh2_vlstr
+> -$(VECTOR_TESTS): CFLAGS+=-march=z15 -O2
+> -
+> -TESTS+=$(if $(shell $(CC) -march=z15 -S -o /dev/null -xc /dev/null \
+> -			 >/dev/null 2>&1 && echo OK),$(VECTOR_TESTS))
+> +ifneq ($(CROSS_CC_HAS_Z15),)
+> +Z15_TESTS=vxeh2_vs
+> +Z15_TESTS+=vxeh2_vcvt
+> +Z15_TESTS+=vxeh2_vlstr
+> +$(Z15_TESTS): CFLAGS+=-march=z15 -O2
+> +TESTS+=$(Z15_TESTS)
+> +endif
+>   
+>   ifneq ($(HAVE_GDB_BIN),)
+>   GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
 
-I assume it's mostly about "This property cannot be set." and "This 
-property can no longer be set." ?
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
 -- 
 Thanks,
