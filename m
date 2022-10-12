@@ -2,93 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 447305FC713
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 16:15:47 +0200 (CEST)
-Received: from localhost ([::1]:43442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A85BE5FC723
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 16:20:06 +0200 (CEST)
+Received: from localhost ([::1]:44994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oicWP-0007fO-UF
-	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 10:15:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53058)
+	id 1oicab-0002bu-GC
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 10:20:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oicS1-0004Pt-UA
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 10:11:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56682)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oicRy-0002Qy-Vv
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 10:11:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665583869;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cdw+aTCA95Mo2wZDG2m4FfTuGA7UFlTWbhnQRxnSfC8=;
- b=BqczTg2sVUsrSiTuplmMRYznUAilSLmPN9VlSG0NOxp3UvhP6V2xXw5iDGPTjfr2OFHBt4
- ucHqHKWvB6MgSSCw7bt0usJOsref/yqjil8X1ojgWxMXdbgADf+IMMZTMUIHwiLisbn90Q
- zfv/v6p/1fSCf6mwBJaYEq53fDJSmIk=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-125-MvUFzIO0P2GJpJY9JS7wkg-1; Wed, 12 Oct 2022 10:11:08 -0400
-X-MC-Unique: MvUFzIO0P2GJpJY9JS7wkg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- j20-20020a05640211d400b0045bd72f05d6so8467915edw.11
- for <qemu-devel@nongnu.org>; Wed, 12 Oct 2022 07:11:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oicWN-0007js-Cz
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 10:15:43 -0400
+Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a]:33540)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oicWL-00038b-QX
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 10:15:43 -0400
+Received: by mail-yw1-x112a.google.com with SMTP id
+ 00721157ae682-354c7abf786so157148467b3.0
+ for <qemu-devel@nongnu.org>; Wed, 12 Oct 2022 07:15:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=x5q5UaeIrzODWUHdSNbpGgDcgQ6EbQBZ+oosfLDb2YI=;
+ b=m+2+i6+ySOcQ9xYX0M8qcI3zldLPcVnGR/MREtYGOuwWUR8klZ7DxqMRxCQG1uvI6T
+ o4EaPCUuvRKHTjmCuCDazJc7eS2AOG2HADNfAH3b8zA9AyRuYn8I7cytI/+EfoAHfnPJ
+ CO49E/nWCh8FWwSUSfO7j2yUY3sRIypwg+z6C6CCgQaGd6s0Qp82KXM4cMzLADYnOAy+
+ Ne3OjEhvU0r/w6HKrdK+96gU3Ne3zWGXdhUaS7lXFr54viXrwB0lHGeRmMjANhL6+MHt
+ VtqC46mrB7u4rntkAdUjf8yj/wxPqvadrP/EdSJURKYiGpPA6njKUdlSc2Eo8JNkqRk2
+ Ayxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cdw+aTCA95Mo2wZDG2m4FfTuGA7UFlTWbhnQRxnSfC8=;
- b=Byaq8VcjBMtlS2RSiTxYFhYe6n8Qqfq3ZiwTAP8ZY1M/MkwlWLPDuog+BQdmIsHzNp
- yWuccDJft/XZwA6DGgi+IOumVyilUm27kJRZ7CJDBJpmfsNZIVDCBYIEzeppFvIbJMrz
- Lp6mx6Ts5fk/zPHeNYtgRxfTzwGleQEDUzqGAZvUspZ/dZNaf4LjJN8eNVkZwzYMi3n6
- l7POoWSP9LaTQwETLdyZFLors4aGGMM2UNDKx294HECDTIqYFXONWa3g4mEorWPoEl3D
- Oev0zJgf6GuucY/UjwzCZTqVrlr8ppACWCq9w+c6RbTBxQx+1n0WWgsTk+Oy7xL9XURm
- ilrw==
-X-Gm-Message-State: ACrzQf2i4xnjT0nHMAiQn/2f59Yi018srMuGrdXj4XBQv5RUdlcdYQuK
- oC3xJLQEA4npsO9lyZXSjjG80N8gh4HYrVudFPRVp+KBDGqjFM8mf3RSRrNxxChbLgfiiAg5Msx
- Jve78pIc20xbLA8Q=
-X-Received: by 2002:a17:906:ee89:b0:73d:70c5:1a4e with SMTP id
- wt9-20020a170906ee8900b0073d70c51a4emr22265651ejb.683.1665583867301; 
- Wed, 12 Oct 2022 07:11:07 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4bSdr/1zNzEJglPvQWzikfgZZOAxGsCgul7+JvfS6ay8c/ugASZVEsRA9UmaKjq6T0D2BVAQ==
-X-Received: by 2002:a17:906:ee89:b0:73d:70c5:1a4e with SMTP id
- wt9-20020a170906ee8900b0073d70c51a4emr22265626ejb.683.1665583866966; 
- Wed, 12 Oct 2022 07:11:06 -0700 (PDT)
-Received: from ?IPV6:2001:b07:add:ec09:c399:bc87:7b6c:fb2a?
- ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
- by smtp.googlemail.com with ESMTPSA id
- ig1-20020a1709072e0100b0078dd2f9357fsm1332831ejc.89.2022.10.12.07.11.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Oct 2022 07:11:06 -0700 (PDT)
-Message-ID: <b30292a6-7508-5bc9-ae7f-1a7d4e3ea23a@redhat.com>
-Date: Wed, 12 Oct 2022 16:11:05 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=x5q5UaeIrzODWUHdSNbpGgDcgQ6EbQBZ+oosfLDb2YI=;
+ b=mXezjWnQIBDiofD6ePAdcmtQ+8rUz8F9ZCRsHWbWDffbhq+n6pPX799sfUIz9Lr5ke
+ AdkXNt9O1IlAjcNgWe74Ys30l2oyU1JgxxeFGVDTO/L8AvUbCRUTV4VIR8n6DEd2+8Ch
+ XnKwAD5iXmondbUFi53R0ZwHFOhk/h7NZ43wPkjub7ReyrQ8bCumxsbwZb+LcnUD2fdz
+ CBeeS3YIfWaKTncyKMyQ47Lcrug96kY/jDdwr8y/wDedNL2aW/xkG+/Jh1sVNqTA0vM1
+ qnc8cZl2GOle+gmgpqJMuUwDccRDGqoJ+TBixfoHchp/Fm13QeyyPsiCFrKdbBOwqSNL
+ +8Qg==
+X-Gm-Message-State: ACrzQf1RmlDW+u7+yx1ri8ZYSw3EBzN0y0Feyf2JaQiiwQPnSG6/9Kra
+ WZT4mjnh05Osydip6nbhR3m7LZKpzqf4kZgYvyM=
+X-Google-Smtp-Source: AMsMyM78XpQ2emyq3cEKwe6c/B+RtPQuw0V4XAcVx9GYt9ubZEDpXJ+zfRaTOZj2b/YhUXRskbRctqj6quzdULOPTkI=
+X-Received: by 2002:a0d:d78c:0:b0:360:bbf0:ef88 with SMTP id
+ z134-20020a0dd78c000000b00360bbf0ef88mr15764109ywd.206.1665584140677; Wed, 12
+ Oct 2022 07:15:40 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH] build: disable container-based cross compilers by default
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20221012090855.359847-1-pbonzini@redhat.com>
- <878rllqlq5.fsf@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <878rllqlq5.fsf@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+References: <Yza1u1KfKa7ycQm0@T590> <Yzs9xQlVuW41TuNC@fedora>
+ <YzwARuAZdaoGTUfP@T590>
+ <CAJSP0QXVK=wUy_JgJ9NmNMtKTRoRX0MwOZUuFWU-1mVWWKij8A@mail.gmail.com>
+ <20221006101400.GC7636@redhat.com>
+In-Reply-To: <20221006101400.GC7636@redhat.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Wed, 12 Oct 2022 10:15:28 -0400
+Message-ID: <CAJSP0QXbnhkVgfgMfC=MAyvF63Oof_ZGDvNFhniDCvVY-f6Hmw@mail.gmail.com>
+Subject: Re: ublk-qcow2: ublk-qcow2 is available
+To: "Richard W.M. Jones" <rjones@redhat.com>
+Cc: Ming Lei <tom.leiming@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ io-uring@vger.kernel.org, 
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Kirill Tkhai <kirill.tkhai@openvz.org>,
+ Manuel Bentele <development@manuel-bentele.de>, 
+ qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>, 
+ Xie Yongji <xieyongji@bytedance.com>, "Denis V. Lunev" <den@openvz.org>, 
+ Stefano Garzarella <sgarzare@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x112a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.528, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,31 +94,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/12/22 14:17, Alex Bennée wrote:
->> Container-based cross compilers have some issues which were overlooked
->> when they were only used for TCG tests, but are more visible since
->> firmware builds try to use them:
-> We seem to have dropped our gating somewhere. Previously if a user did
-> not have docker or podman on their system none of the container stuff
-> would run.
+On Thu, 6 Oct 2022 at 06:14, Richard W.M. Jones <rjones@redhat.com> wrote:
+>
+> On Tue, Oct 04, 2022 at 09:53:32AM -0400, Stefan Hajnoczi wrote:
+> > qemu-nbd doesn't use io_uring to handle the backend IO,
+>
+> Would this be fixed by your (not yet upstream) libblkio driver for
+> qemu?
 
-It's still there:
+I was wrong, qemu-nbd has syntax to use io_uring:
 
-container="no"
-if test $use_containers = "yes"; then
-     case $($python "$source_path"/tests/docker/docker.py probe) in
-         *docker) container=docker ;;
-         podman) container=podman ;;
-         no) container=no ;;
-     esac
-     if test "$container" != "no"; then
-         docker_py="$python $source_path/tests/docker/docker.py --engine $container"
-     fi
-fi
+  $ qemu-nbd ... --image-opts driver=file,filename=test.img,aio=io_uring
 
-I think what's happening is that podman is there but there's no support
-for rootless containers, so "podman run" fails.
+The new libblkio driver will also support io_uring, but QEMU's
+built-in io_uring support is already available and can be used as
+shown above.
 
-Paolo
-
+Stefan
 
