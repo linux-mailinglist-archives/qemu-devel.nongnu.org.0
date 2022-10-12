@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB2D55FC2CF
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 11:14:50 +0200 (CEST)
-Received: from localhost ([::1]:42614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C93385FC2D3
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 11:16:03 +0200 (CEST)
+Received: from localhost ([::1]:43360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiXpB-0003Z5-66
-	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 05:14:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46264)
+	id 1oiXqM-0004lr-N3
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 05:16:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oiXjN-0007gq-FM
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 05:08:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35365)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oiXjb-0007vh-Ea
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 05:09:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44315)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oiXjJ-0001Aq-Gk
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 05:08:48 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oiXjZ-0001BH-6h
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 05:09:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665565724;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fbL7ar16b35BCiT9eoC5+F7aQ5L3YDhb4MZyc4sNZ1k=;
- b=f8yXonwz6/gpMJz0dCCVxGKLrg+FLc1Dd1URwH1sXXi8/svvVcHqR990qOeH/n1dn2R8ST
- t3Bct8LbQ30DlXbmyZBWJMxdUhAWwAk9QnAuDWmJxqCKiBwnKiPPwHTb/sdf+bTmMCYlLt
- yGw9mLOC2CocddK3RNMcb5kXQHRjNnU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-635-6ntF6pE1NE-ft731u45Z1Q-1; Wed, 12 Oct 2022 05:08:41 -0400
-X-MC-Unique: 6ntF6pE1NE-ft731u45Z1Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3EC38185A792;
- Wed, 12 Oct 2022 09:08:41 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 52C5D40E993C;
- Wed, 12 Oct 2022 09:08:40 +0000 (UTC)
-Date: Wed, 12 Oct 2022 10:08:37 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- "Hajnoczi, Stefan" <stefanha@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PULL 1/1] Revert "configure: build ROMs with container-based
- cross compilers"
-Message-ID: <Y0aEFUOU0DCWgvcL@redhat.com>
-References: <20221011192858.956078-1-alex.bennee@linaro.org>
- <20221011192858.956078-2-alex.bennee@linaro.org>
- <CABgObfY42pEWRe67qZJ78LdnEmL+xK+V5c_Ut+cxoqJ7Gw4mzQ@mail.gmail.com>
- <Y0Z3fMpQo+8fz9ul@redhat.com>
- <bd325ff3-831e-ca4d-4ada-e2650a0a908b@redhat.com>
+ s=mimecast20190719; t=1665565740;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=EVxpKTNee62t5SKdMs1YcNhNJkpVpWYDm3dWA8552i8=;
+ b=HZxcitbCyP5/McSi+j3gcm/b4QC8QDwcGWgNZTBSTksk6/QbEbJ8riTJ0yzzQZSr9ltMIT
+ ESy22IrqLK9oVvVxO3mIaIV2yLS1Y1eHbtLoaO9bJtOkNCr7tTsPvIBSix9XjCU7CevENn
+ x5iEErcFyG5vPO1lqFT1lmi1Jqh/rG4=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-373-xUHcPwPUM4uPJA-y1IriEg-1; Wed, 12 Oct 2022 05:08:53 -0400
+X-MC-Unique: xUHcPwPUM4uPJA-y1IriEg-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ nb9-20020a1709071c8900b0078d858f15c1so4909235ejc.1
+ for <qemu-devel@nongnu.org>; Wed, 12 Oct 2022 02:08:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EVxpKTNee62t5SKdMs1YcNhNJkpVpWYDm3dWA8552i8=;
+ b=vOj0dQIrdqENLzxQDQcbBuwv/qcN2NDUrU3kUhf5xfEhAr5RKCF1yAadRpbl2+8mvE
+ /FvrcSqL1BqxJkuTSBVM0VJpvb8F4gDJXgfmBWd/f+k9onkCyBOjomjIHQ5NHXgNe1gB
+ tIt0YrU7bpvKw0e2aGFH3Bz4F1mQiu9N2YH3kyK7h1fZ69+TRJGPXae8IbXPEaiwz1Qe
+ T2zsIbSBOuoDgOriRcti2aFWix3Yr2KyMtsFKOJaLoJMaEWhq7jgoKqY8X1bZgZ4eOtc
+ 1Otk687WKrmpVWYZO1aGEEgJ5hJVFjiImzzC6jwjfpH1vXBxhUptNWJUfes+I8oWw1XN
+ ozpw==
+X-Gm-Message-State: ACrzQf3IdBvok2wfHOEQNhOFDEP4L3c3SGOacm8yENVl0UNzc3jreYCc
+ KFLM8HQICcmnrXx4AbUmc4JhTPY85n9TjDxFk96JbJLZRqrOtpYa/9PYU43xDnzcUGLUqEkZb3/
+ EqRLnLRVsaal6cGGWL7gCOD/y2yUg047rKSqmob33qK67O2IJdQd/Z2iHEEBcqs4H7pY=
+X-Received: by 2002:a05:6402:5510:b0:459:5ea:9bc0 with SMTP id
+ fi16-20020a056402551000b0045905ea9bc0mr25617807edb.152.1665565731562; 
+ Wed, 12 Oct 2022 02:08:51 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7EpjGjXahO9uwBu9cA4wa1qanD8XgNxvIc8s7TlFZok8R47j/Iqf+vbLm18bxG/DDGIW1Czw==
+X-Received: by 2002:a05:6402:5510:b0:459:5ea:9bc0 with SMTP id
+ fi16-20020a056402551000b0045905ea9bc0mr25617782edb.152.1665565731248; 
+ Wed, 12 Oct 2022 02:08:51 -0700 (PDT)
+Received: from avogadro.local ([2001:b07:6468:f312:2f4b:62da:3159:e077])
+ by smtp.gmail.com with ESMTPSA id
+ g16-20020a50d0d0000000b00458a243df3esm10827260edf.65.2022.10.12.02.08.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Oct 2022 02:08:50 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH] qgraph: implement stack as a linked list
+Date: Wed, 12 Oct 2022 11:08:48 +0200
+Message-Id: <20221012090848.359764-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <bd325ff3-831e-ca4d-4ada-e2650a0a908b@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -87,89 +94,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 12, 2022 at 10:59:54AM +0200, Paolo Bonzini wrote:
-> On 10/12/22 10:14, Daniel P. Berrangé wrote:
-> > > Daniel, does building the TCG tests work for you? If not, I think we should
-> > > just disable containers by default.
-> > 
-> > I've never (knowingly) tried running TCG tests. IIUC, they are strictly
-> > an opt-in test needing explicit 'make check-tcg', so any container usage
-> > wouldn't be encountered by most contributors ?
-> 
-> Yeah, that is true.  But the problems below affect all container usage
-> rather than just firmware builds, so they should be fixed there. configure
-> is able to only run 'make check-tcg' for targets which have a compiler
-> installed.
-> 
-> > IOW, I'd like to see
-> > 
-> >   - Explicit opt-in at configure time for use of container
-> >     downloads during 'make'
-> 
-> This is what I'm proposing, and extending to all targets.
+The stack used to visit the graph is implemented as a fixed-size array,
+and the array is sized according to the maximum anticipated length of
+a path on the graph.  However, the worst case for a depth-first search
+is to push all nodes on the graph, and in fact stack overflows have
+been observed in the past depending on the ordering of the constructors.
 
-Ok, makes sense.
+To fix the problem once and for all, use a QSLIST instead of the array,
+allocating QOSStackElements from the heap.
 
-> >   - Tailor downloads wrt the target list configured
-> 
-> This is already done.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ tests/qtest/libqos/qgraph.c | 35 +++++++++++------------------------
+ 1 file changed, 11 insertions(+), 24 deletions(-)
 
-Where's the patch for that, I hadn't noticed it being posted yet ?
-
-> >   - Suppress the verbose output to preserve meson progress
-> >     readability
-> 
-> That's in general a tradeoff with long-running tasks.  It's difficult to say
-> which is better, for example "make check" also has a verbose output.
-
-If 'make' was running with V=1, then also letting docker download be
-verbose makes sense.
-
-The plain 'make' though is intentionally quite terse, just giving a
-list of files meson compiles. Right now, the output ends up looking
-like this:
-
-[2715/2945] Compiling C object tests/unit/test-xbzrle.p/test-xbzrle.c.o
-[2716/2945] Linking target tests/unit/test-authz-pam
-Copying blob bd159e379b3b skipped: already exists  
-Copying blob fc8d65e34cd5 [>-------------------------------------] 9.3MiB / 360.2MiB
-Copying blob 13224e2971af [--------------------------------------] 1.1MiB / 366.5MiB
-[2720/2945] Linking target tests/unit/test-io-channel-tls
-Copying blob bd159e379b3b skipped: already exists  
-Copying blob fc8d65e34cd5 [>-------------------------------------] 9.4MiB / 360.2MiB
-Copying blob 13224e2971af [--------------------------------------] 1.2MiB / 366.5MiB
-[2724/2945] Linking target tests/unit/test-io-task
-[2725/2945] Compiling C object tests/unit/test-util-sockets.p/test-util-sockets.c.o
-[2726/2945] Compiling C object tests/unit/test-util-sockets.p/socket-helpers.c.o
-[2727/2945] Linking target tests/unit/test-xbzrle
-[2728/2945] Compiling C object tests/unit/test-base64.p/test-base64.c.o
-[2729/2945] Linking target tests/unit/test-timed-average
-[2730/2945] Compiling C object tests/unit/test-bufferiszero.p/test-bufferiszero.c.o
-Copying blob bd159e379b3b skipped: already exists  
-Copying blob 2a205c8a1d36 [>-------------------------------------] 4.4MiB / 257.2MiB
-Copying blob bd159e379b3b skipped: already exists  
-Copying blob fc8d65e34cd5 [>-------------------------------------] 9.5MiB / 360.2MiB
-Copying blob 13224e2971af [--------------------------------------] 1.3MiB / 366.5MiB
-[2736/2945] Compiling C object tests/unit/test-yank.p/test-yank.c.o
-[2737/2945] Compiling C object tests/unit/test-util-filemonitor.p/test-util-filemonitor.c.o
-Copying blob bd159e379b3b skipped: already exists  
-Copying blob fc8d65e34cd5 [>-------------------------------------] 9.6MiB / 360.2MiB
-Copying blob 13224e2971af [--------------------------------------] 1.3MiB / 366.5MiB
-
-
-which I feel is quite unplesant, especially when you then get
-multiple parallel docker downloads concurrently refreshing the
-screen and overwriting each others' output.
-
-With regards,
-Daniel
+diff --git a/tests/qtest/libqos/qgraph.c b/tests/qtest/libqos/qgraph.c
+index 0a2dddfafa..ff9d389f12 100644
+--- a/tests/qtest/libqos/qgraph.c
++++ b/tests/qtest/libqos/qgraph.c
+@@ -52,6 +52,7 @@ struct QOSStackElement {
+     QOSStackElement *parent;
+     QOSGraphEdge *parent_edge;
+     int length;
++    QSLIST_ENTRY(QOSStackElement) next;
+ };
+ 
+ /* Each enty in these hash table will consist of <string, node/edge> pair. */
+@@ -59,8 +60,7 @@ static GHashTable *edge_table;
+ static GHashTable *node_table;
+ 
+ /* stack used by the DFS algorithm to store the path from machine to test */
+-static QOSStackElement qos_node_stack[QOS_PATH_MAX_ELEMENT_SIZE];
+-static int qos_node_tos;
++static QSLIST_HEAD(, QOSStackElement) qos_node_stack;
+ 
+ /**
+  * add_edge(): creates an edge of type @type
+@@ -325,40 +325,27 @@ static void qos_print_cb(QOSGraphNode *path, int length)
+ static void qos_push(QOSGraphNode *el, QOSStackElement *parent,
+                      QOSGraphEdge *e)
+ {
++    QOSStackElement *elem = g_new(QOSStackElement, 1);
+     int len = 0; /* root is not counted */
+-    if (qos_node_tos == QOS_PATH_MAX_ELEMENT_SIZE) {
+-        g_printerr("QOSStack: full stack, cannot push");
+-        abort();
+-    }
+-
+     if (parent) {
+         len = parent->length + 1;
+     }
+-    qos_node_stack[qos_node_tos++] = (QOSStackElement) {
++    *elem = (QOSStackElement) {
+         .node = el,
+         .parent = parent,
+         .parent_edge = e,
+         .length = len,
+     };
+-}
+-
+-/* qos_tos(): returns the top of stack, without popping */
+-static QOSStackElement *qos_tos(void)
+-{
+-    return &qos_node_stack[qos_node_tos - 1];
++    QSLIST_INSERT_HEAD(qos_node_stack, elem, next);
+ }
+ 
+ /* qos_pop(): pops an element from the tos, setting it unvisited*/
+-static QOSStackElement *qos_pop(void)
++static void qos_pop(void)
+ {
+-    if (qos_node_tos == 0) {
+-        g_printerr("QOSStack: empty stack, cannot pop");
+-        abort();
+-    }
+-    QOSStackElement *e = qos_tos();
++    QOSStackElement *e = QSLIST_FIRST(qos_node_stack);
+     e->node->visited = false;
+-    qos_node_tos--;
+-    return e;
++    QSLIST_REMOVE_HEAD(qos_node_stack, next);
++    g_free(e);
+ }
+ 
+ /**
+@@ -400,8 +387,8 @@ static void qos_traverse_graph(QOSGraphNode *root, QOSTestCallback callback)
+ 
+     qos_push(root, NULL, NULL);
+ 
+-    while (qos_node_tos > 0) {
+-        s_el = qos_tos();
++    while (!QSLIST_EMPTY(qos_node_stack)) {
++        s_el = QSLIST_HEAD(qos_node_stack);
+         v = s_el->node;
+         if (v->visited) {
+             qos_pop();
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.37.3
 
 
