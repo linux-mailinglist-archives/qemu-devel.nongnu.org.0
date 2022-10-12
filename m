@@ -2,58 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BCBD5FC891
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 17:41:17 +0200 (CEST)
-Received: from localhost ([::1]:58164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5265B5FC894
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 17:43:01 +0200 (CEST)
+Received: from localhost ([::1]:42774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oidrA-00045u-3Z
-	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 11:41:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59256)
+	id 1oidsq-0006GS-Bg
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 11:43:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oidoF-0006nW-DI
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 11:38:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34103)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oidoH-0006pT-Bi
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 11:38:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45140)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oido8-0001E6-B1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oido8-0001EK-IT
  for qemu-devel@nongnu.org; Wed, 12 Oct 2022 11:38:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665589086;
+ s=mimecast20190719; t=1665589088;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=WegYvfA7hG6BG2FSOAxcqDaJ81MGGYM9IxoWNxCIcoA=;
- b=LNfDESnu88vXkAfCJWfpI9IbPww48QtKYzJ7B+kEQsb2IB5WGtemeh5d6Ish2XgD6HQ+K2
- tbv6tZoNRgRiNi93FJ8P+mEUFa27kfFTMc1pcrwLa+B/DiLulH/scu0feRfQzxBlInYHxg
- OEQSSTcxO20oBJ7Dz5qSHGEE0eenWb0=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CGyiNRcDvp1yt2vo5ajS0q1H+fALnTj+obGbwNJPbJw=;
+ b=KZVij3Usc7DpEsvqvJlwZjvkIQyw4S633jXBSLdhuPU69KV3UGlr7uEyKEQ3URVJx34KfF
+ FgatCMD+TqaFpagh6kIUJn9UDuAF/EtMcx5UDVRASCekVjx5H9fixgumcnGVhiuBoiz7tV
+ qT/k0oUcbrFpf7F/NPVATbbRvqi3eOI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-215-Gl32JGEmPieb45DaFELYoA-1; Wed, 12 Oct 2022 11:38:03 -0400
-X-MC-Unique: Gl32JGEmPieb45DaFELYoA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-173-V6GUV4scO_Sf-i0YpMKDPA-1; Wed, 12 Oct 2022 11:38:03 -0400
+X-MC-Unique: V6GUV4scO_Sf-i0YpMKDPA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4D05C802C17;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4E0E4185A7A3;
  Wed, 12 Oct 2022 15:38:03 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.110])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D1C882156892;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D1BFF111E3FD;
  Wed, 12 Oct 2022 15:38:02 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6C66021E691D; Wed, 12 Oct 2022 17:38:01 +0200 (CEST)
+ id 6DEF121E6928; Wed, 12 Oct 2022 17:38:01 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: arei.gonglei@huawei.com, lvivier@redhat.com, amit@kernel.org,
  mst@redhat.com, pbonzini@redhat.com, berrange@redhat.com,
  eduardo@habkost.net, thuth@redhat.com, david@redhat.com
-Subject: [PATCH 0/4] Replace QERR_PERMISSION_DENIED by better error messages
-Date: Wed, 12 Oct 2022 17:37:57 +0200
-Message-Id: <20221012153801.2604340-1-armbru@redhat.com>
+Subject: [PATCH 1/4] qom: Improve error messages when property has no getter
+ or setter
+Date: Wed, 12 Oct 2022 17:37:58 +0200
+Message-Id: <20221012153801.2604340-2-armbru@redhat.com>
+In-Reply-To: <20221012153801.2604340-1-armbru@redhat.com>
+References: <20221012153801.2604340-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -78,21 +82,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster (4):
-  qom: Improve error messages when property has no getter or setter
-  backends: Improve error messages when property can no longer be set
-  qtest: Improve error messages when property can not be set right now
-  qerror: QERR_PERMISSION_DENIED is no longer used, drop
+When you try to set a property that has no setter, the error message
+blames "insufficient permission":
 
- include/qapi/qmp/qerror.h       | 3 ---
- backends/cryptodev-vhost-user.c | 2 +-
- backends/rng-egd.c              | 2 +-
- backends/rng-random.c           | 2 +-
- backends/vhost-user.c           | 2 +-
- qom/object.c                    | 6 ++++--
- softmmu/qtest.c                 | 4 ++--
- 7 files changed, 10 insertions(+), 11 deletions(-)
+    $ qemu-system-x86_64 -S -display none -nodefaults -monitor stdio
+    QEMU 7.1.50 monitor - type 'help' for more information
+    (qemu) qom-set /machine type q35
+    Error: Insufficient permission to perform this operation
 
+This implies it could work with "sufficient permission".  It can't.
+Change the error message to:
+
+    Error: Property 'pc-i440fx-7.2-machine.type' is not writable
+
+Do the same for getting a property that has no getter.
+
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ qom/object.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/qom/object.c b/qom/object.c
+index d34608558e..e5cef30f6d 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -1383,7 +1383,8 @@ bool object_property_get(Object *obj, const char *name, Visitor *v,
+     }
+ 
+     if (!prop->get) {
+-        error_setg(errp, QERR_PERMISSION_DENIED);
++        error_setg(errp, "Property '%s.%s' is not readable",
++                   object_get_typename(obj), name);
+         return false;
+     }
+     prop->get(obj, v, name, prop->opaque, &err);
+@@ -1402,7 +1403,8 @@ bool object_property_set(Object *obj, const char *name, Visitor *v,
+     }
+ 
+     if (!prop->set) {
+-        error_setg(errp, QERR_PERMISSION_DENIED);
++        error_setg(errp, "Property '%s.%s' is not writable",
++                   object_get_typename(obj), name);
+         return false;
+     }
+     prop->set(obj, v, name, prop->opaque, errp);
 -- 
 2.37.2
 
