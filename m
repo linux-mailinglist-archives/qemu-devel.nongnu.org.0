@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB4BC5FCAB8
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 20:36:38 +0200 (CEST)
-Received: from localhost ([::1]:34888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16D2B5FCACB
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 20:39:41 +0200 (CEST)
+Received: from localhost ([::1]:51036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oigar-0000FX-Ov
-	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 14:36:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55368)
+	id 1oigdn-0004Jc-Oy
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 14:39:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oigSc-00029I-HJ
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 14:28:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59662)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oigSg-0002Jn-AK
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 14:28:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26319)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oigSa-0002wQ-Ml
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 14:28:06 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oigSe-0002yz-R7
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 14:28:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665599284;
+ s=mimecast20190719; t=1665599288;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=noJzKbbdefCfLpUbj0cOlOZkwGegKHgpzZnm4rGIAwY=;
- b=WlTpP40Rg1rdjzsxTjBMfE9kPLh/AOq4PO1DTWq5ierpH2dqQgdLjoBrj14Q+FB2coPB9T
- JlblvRIrffCjnK8iZwgJBqugQRC+5xwH2VXLCDSh6Lw4PECn6GBBHaA4LYjBEL3e+czd18
- fexJZBZk9AEwONp3Fq8INQ5MGqhemdI=
+ bh=ic1Z/fuoED9JpLTkBXsxU+qPtK+cLrnnrf/sxAUcYwY=;
+ b=Xdl0rc2eVpvjW7RUBwAyU6xqyf0Bg9klFDlbq4jp2P8KffK162d0ST55/Wxcc0q+Bj/oZc
+ HGzGV2h5u2Z/KxQzEpjNrIffgreoacGtKo8bVXwey+aYw2J6njPwO1A2ZP0Gy1ZLaPgKjb
+ 20+bEgErxyaOcqd65WKmgu+T+Gy/yZI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-497-BlR0IwCVOzy7CvJNFGb3GQ-1; Wed, 12 Oct 2022 14:28:02 -0400
-X-MC-Unique: BlR0IwCVOzy7CvJNFGb3GQ-1
+ us-mta-614-3Aa1n8NBMIiWJrWxq_fYQA-1; Wed, 12 Oct 2022 14:28:05 -0400
+X-MC-Unique: 3Aa1n8NBMIiWJrWxq_fYQA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 538D0804186;
- Wed, 12 Oct 2022 18:28:02 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 95EFC803D48;
+ Wed, 12 Oct 2022 18:28:04 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E30E40449D5;
- Wed, 12 Oct 2022 18:28:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F3D540449D8;
+ Wed, 12 Oct 2022 18:28:02 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-s390x@nongnu.org, David Hildenbrand <david@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] target/s390x: Fix emulation of the VISTR instruction
-Date: Wed, 12 Oct 2022 20:27:54 +0200
-Message-Id: <20221012182755.1014853-3-thuth@redhat.com>
+Subject: [PATCH 3/3] tests/tcg/s390x: Add a test for the vistr instruction
+Date: Wed, 12 Oct 2022 20:27:55 +0200
+Message-Id: <20221012182755.1014853-4-thuth@redhat.com>
 In-Reply-To: <20221012182755.1014853-1-thuth@redhat.com>
 References: <20221012182755.1014853-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -77,30 +77,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The element size is encoded in the M3 field, not in the M4
-field.
+This test can be used to verify that the change in the previous
+commit is indeed fixing the problem with the M3 vs. M4 field
+mixup.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1248
-Fixes: be6324c6b734 ("s390x/tcg: Implement VECTOR ISOLATE STRING")
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- target/s390x/tcg/translate_vx.c.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/tcg/s390x/vistr.c         | 45 +++++++++++++++++++++++++++++++++
+ tests/tcg/s390x/Makefile.target |  4 +++
+ 2 files changed, 49 insertions(+)
+ create mode 100644 tests/tcg/s390x/vistr.c
 
-diff --git a/target/s390x/tcg/translate_vx.c.inc b/target/s390x/tcg/translate_vx.c.inc
-index 3526ba3e3b..b69c1a111c 100644
---- a/target/s390x/tcg/translate_vx.c.inc
-+++ b/target/s390x/tcg/translate_vx.c.inc
-@@ -2723,7 +2723,7 @@ static DisasJumpType op_vfene(DisasContext *s, DisasOps *o)
+diff --git a/tests/tcg/s390x/vistr.c b/tests/tcg/s390x/vistr.c
+new file mode 100644
+index 0000000000..8e3e987d71
+--- /dev/null
++++ b/tests/tcg/s390x/vistr.c
+@@ -0,0 +1,45 @@
++/*
++ * Test the VECTOR ISOLATE STRING (vistr) instruction
++ */
++#include <stdint.h>
++#include <stdio.h>
++#include "vx.h"
++
++static inline void vistr(S390Vector *v1, S390Vector *v2,
++                         const uint8_t m3, const uint8_t m5)
++{
++    asm volatile("vistr %[v1], %[v2], %[m3], %[m5]\n"
++                 : [v1] "=v" (v1->v)
++                 : [v2]  "v" (v2->v)
++                 , [m3]  "i" (m3)
++                 , [m5]  "i" (m5)
++                 : "cc");
++}
++
++int main(int argc, char *argv[])
++{
++    S390Vector vd = {};
++    S390Vector vs16 = {
++        .h[0] = 0x1234, .h[1] = 0x0056, .h[2] = 0x7800, .h[3] = 0x0000,
++        .h[4] = 0x0078, .h[5] = 0x0000, .h[6] = 0x6543, .h[7] = 0x2100
++    };
++    S390Vector vs32 = {
++        .w[0] = 0x12340000, .w[1] = 0x78654300,
++        .w[2] = 0x0, .w[3] = 0x12,
++    };
++
++    vistr(&vd, &vs16, 1, 0);
++    if (vd.h[0] != 0x1234 || vd.h[1] != 0x0056 || vd.h[2] != 0x7800 ||
++        vd.h[3] || vd.h[4] || vd.h[5] || vd.h[6] || vd.h[7]) {
++        puts("ERROR: vitrh failed!");
++        return 1;
++    }
++
++    vistr(&vd, &vs32, 2, 0);
++    if (vd.w[0] != 0x12340000 || vd.w[1] != 0x78654300 || vd.w[2] || vd.w[3]) {
++        puts("ERROR: vitrf failed!");
++        return 1;
++    }
++
++    return 0;
++}
+diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
+index 29c8af8207..07fcc6d0ce 100644
+--- a/tests/tcg/s390x/Makefile.target
++++ b/tests/tcg/s390x/Makefile.target
+@@ -25,6 +25,10 @@ TESTS+=signals-s390x
+ TESTS+=branch-relative-long
+ TESTS+=noexec
  
- static DisasJumpType op_vistr(DisasContext *s, DisasOps *o)
- {
--    const uint8_t es = get_field(s, m4);
-+    const uint8_t es = get_field(s, m3);
-     const uint8_t m5 = get_field(s, m5);
-     static gen_helper_gvec_2 * const g[3] = {
-         gen_helper_gvec_vistr8,
++Z13_TESTS=vistr
++$(Z13_TESTS): CFLAGS+=-march=z13 -O2
++TESTS+=$(Z13_TESTS)
++
+ ifneq ($(CROSS_CC_HAS_Z14),)
+ Z14_TESTS=vfminmax
+ vfminmax: LDFLAGS+=-lm
 -- 
 2.31.1
 
