@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EB875FBF86
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 05:29:14 +0200 (CEST)
-Received: from localhost ([::1]:43376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0D185FC00E
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 07:08:18 +0200 (CEST)
+Received: from localhost ([::1]:33876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiSQj-0000gL-Pg
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 23:29:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44156)
+	id 1oiTyb-00009E-0J
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 01:08:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oiSP2-0007LE-AW
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 23:27:31 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:45680)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oiTui-000566-9L
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 01:04:16 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:38559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oiSP0-0002TQ-9y
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 23:27:28 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id r18so14424791pgr.12
- for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 20:27:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:message-id:in-reply-to:subject:cc:to:date
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=yvTbyvzcqITM3lDqWBEPjbS93arClejppyDYwGYkZ8Y=;
- b=mYtPpcUn3urkZKpUEWa62PWm4VXbdzwWY3eGGPW+SN/EGKOwaLItrP40RwwcptR5CM
- amN/2/fbG3e/dVNQDl8BZ3ltB2bWboLNr7LhpLxbsY+OlIxEZ+j3A0yLBsbj54j7A3L5
- wH9G4SNmbtw4LmnkjEU+YrK6h4AXvPBiDVRb0XmXnQpW3cgg8qumCkFXBMIlZ7/bRfvr
- 5eEEmKrpBF/VazH7/ZSnt3T/E9ak+iUpzlm7TqZsOcFE1FHQgF1YEIX8GwLThwGZC9Hj
- 4WUydqFXA8OFwrm9yPfcaMycdPz/hnRswRTgDP9T/rr33VcMy7QLUEGOTTB5pSlbmZPi
- jjJw==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oiTug-0007NL-LH
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 01:04:16 -0400
+Received: by mail-pl1-x634.google.com with SMTP id c20so5638749plc.5
+ for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 22:04:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ro3GPRTym5Lmpira4+tBf8Eafdf5B2Dif0HUxPI6FLg=;
+ b=VvGt1lajixJ+m3JQgWL9AmpsOjhKTpc2ywzYvUPLh0+wYLTHTslGLzHxvJPZMabdXe
+ 5oKn20GY76F6qWN7mfKquOxhZ8zw389T59VaXQoNnNE3XnE2qDzI9krVY23omM+BzjtL
+ bjHEKG5YX3TW9Goz66Me4wtcGyGBxsnxsUM4cLFmJqpevMDvZpruV5QPjhnKWQ681YDq
+ am0wQdYVJr+oOPhcP/f056Swieq+8pC66NMPTYk6lyMg1cUoNOJCnSvFGY0vHs7U04bx
+ aA9sqo8yKmKdQIVm5IZeMYXDXHKyxtgH27ORWhLXrECPhwqBZdBpK75+yOrWNaYk38+H
+ 9ThA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:references:message-id:in-reply-to:subject:cc:to:date
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yvTbyvzcqITM3lDqWBEPjbS93arClejppyDYwGYkZ8Y=;
- b=TPWNKvvBTyxlwvJqwmIhu85kmQMz6yrG/+faS/h1qQk6qP9Pao88pYG/PVeqpUEDzO
- 0ASf+OC4O8N/Lq7au9EDqeWCvIQdpKxZ9ISHA8jXa+LjbZkMtJIha+YBsRgswXcnF7tb
- AvA3HUrK0vFSIxfi6oP7vjV/83K06qUXeGyXO1378zpUUfoxMQIuCue3o6log9vzBy7/
- 5NuZzuBgN0PStEFFdzf5kKU9/12dvNJhjKyJV1Z18rCyp1d2UeXDCJy9KxhEA2JxybOJ
- oYSAZzLV2nrnPhoLMIfgGEID8n1uwC3XCuiCsic+mxVVY6gDGv/yr6WwHp5rK0MGnbZ8
- 5O0w==
-X-Gm-Message-State: ACrzQf0HrQc7f61+QKCr12RLdv8gcjrqOEM4DMzpUiVp8iznOPT70bZz
- p7U55Z6iLH9OwjKngGyTzl0t4w==
-X-Google-Smtp-Source: AMsMyM4QguTUdmF60hKn5fnmAeRgwVGM9RZT7NLyDLnxlofpvi+sQz/V+el8u7t22W/nHwvnJH5mAg==
-X-Received: by 2002:a63:db14:0:b0:44d:e4f3:b45c with SMTP id
- e20-20020a63db14000000b0044de4f3b45cmr23157094pgg.267.1665545244659; 
- Tue, 11 Oct 2022 20:27:24 -0700 (PDT)
-Received: from anisinha-lenovo ([115.96.117.164])
- by smtp.googlemail.com with ESMTPSA id
- t1-20020a62d141000000b00562664d5027sm9738373pfl.61.2022.10.11.20.27.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Oct 2022 20:27:24 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Wed, 12 Oct 2022 08:57:18 +0530 (IST)
-To: Miguel Luis <miguel.luis@oracle.com>
-cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, mst@redhat.com, 
- imammedo@redhat.com, ani@anisinha.ca, shannon.zhaosl@gmail.com, 
- peter.maydell@linaro.org
-Subject: Re: [PATCH 1/4] tests/acpi: virt: allow acpi MADT and FADT changes
-In-Reply-To: <20221011181730.10885-2-miguel.luis@oracle.com>
-Message-ID: <fb6b0af-3fe5-ae4f-66ff-b1ab8ccbdfe5@anisinha.ca>
-References: <20221011181730.10885-1-miguel.luis@oracle.com>
- <20221011181730.10885-2-miguel.luis@oracle.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Ro3GPRTym5Lmpira4+tBf8Eafdf5B2Dif0HUxPI6FLg=;
+ b=D4Rj+6pmqIAXVkj09+ng79GZO1C153mCFXHW6TWf5HO07d3DMDA2HR85WJWqKHMLA9
+ DkqUvxJyrBWyVwD1EEPuhOtvkXPVMJO26AblmLKnWqs7qaXDVy93Hvhc+SqZmXEL8AZW
+ dQ4udBglT3WRUR+599GL6tZGZYMiaie4SRq04yLTCTTDZoqmVhtYBuEFkMu7DSUshUML
+ 2pnQPQE2Gkk6sOD1uXwidV5VlmnhmG2LyQS2Ry/MXqhZChb09Y/d1qOxoRzON/nnBD5+
+ CXwW/irgkqhvexxwfcMEDCxSNWU6GKxKFpBTc60++cCTak4bgqO30AZ9Sx9HBDVqhMum
+ CTZA==
+X-Gm-Message-State: ACrzQf0zea0AEgxmw2gYdN2RBcGjvXEx8hUvjS3ZkkfvcFalB7yWjp4g
+ wNSeZmP2q66LGcbUSsZbg2GjKIdmRFAzOD65Qto=
+X-Google-Smtp-Source: AMsMyM6P/rs9MttV//2k4wKlqBt4lCIraE6VkZtvRukTsXnlY6xkl1PaOE/XLHj39XBJqL1UGLUQQeZSt6661X9Ydzo=
+X-Received: by 2002:a17:90b:3843:b0:20d:54f2:a78d with SMTP id
+ nl3-20020a17090b384300b0020d54f2a78dmr3071393pjb.85.1665551052585; Tue, 11
+ Oct 2022 22:04:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=2607:f8b0:4864:20::52d;
- envelope-from=ani@anisinha.ca; helo=mail-pg1-x52d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <20221011204645.1160916-1-Jason@zx2c4.com>
+ <20221011204645.1160916-2-Jason@zx2c4.com>
+In-Reply-To: <20221011204645.1160916-2-Jason@zx2c4.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 12 Oct 2022 15:03:45 +1000
+Message-ID: <CAKmqyKPSCi_SnshewHE0MxmOQBu1R4YWgGZFXr-4HvtWK3XXvg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/8] device-tree: add re-randomization helper function
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: peter.maydell@linaro.org, pbonzini@redhat.com, qemu-devel@nongnu.org, 
+ Alistair Francis <alistair.francis@wdc.com>,
+ David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=alistair23@gmail.com; helo=mail-pl1-x634.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,32 +87,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On Tue, 11 Oct 2022, Miguel Luis wrote:
-
-> Step 3 from bios-tables-test.c documented procedure.
+On Wed, Oct 12, 2022 at 6:57 AM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
 >
-> Signed-off-by: Miguel Luis <miguel.luis@oracle.com>
+> When the system reboots, the rng-seed that the FDT has should be
+> re-randomized, so that the new boot gets a new seed. Several
+> architectures require this functionality, so export a function for
+> injecting a new seed into the given FDT.
+>
+> Cc: Alistair Francis <alistair.francis@wdc.com>
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 
-Acked-by: Ani Sinha <ani@anisinha.ca>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
 
 > ---
->  tests/qtest/bios-tables-test-allowed-diff.h | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  include/sysemu/device_tree.h |  9 +++++++++
+>  softmmu/device_tree.c        | 21 +++++++++++++++++++++
+>  2 files changed, 30 insertions(+)
 >
-> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> index dfb8523c8b..8dc50f7a8a 100644
-> --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> @@ -1 +1,7 @@
->  /* List of comma-separated changed AML files to ignore */
-> +"tests/data/acpi/virt/FACP",
-> +"tests/data/acpi/virt/FACP.numamem",
-> +"tests/data/acpi/virt/FACP.memhp",
-> +"tests/data/acpi/virt/APIC",
-> +"tests/data/acpi/virt/APIC.memhp",
-> +"tests/data/acpi/virt/APIC.numamem",
+> diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
+> index ef060a9759..d552f324b6 100644
+> --- a/include/sysemu/device_tree.h
+> +++ b/include/sysemu/device_tree.h
+> @@ -196,6 +196,15 @@ int qemu_fdt_setprop_sized_cells_from_array(void *fdt,
+>                                                  qdt_tmp);                 \
+>      })
+>
+> +
+> +/**
+> + * qemu_fdt_randomize_seeds:
+> + * @fdt: device tree blob
+> + *
+> + * Re-randomize all "rng-seed" properties with new seeds.
+> + */
+> +void qemu_fdt_randomize_seeds(void *fdt);
+> +
+>  #define FDT_PCI_RANGE_RELOCATABLE          0x80000000
+>  #define FDT_PCI_RANGE_PREFETCHABLE         0x40000000
+>  #define FDT_PCI_RANGE_ALIASED              0x20000000
+> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
+> index 6ca3fad285..d986c7b7b3 100644
+> --- a/softmmu/device_tree.c
+> +++ b/softmmu/device_tree.c
+> @@ -22,6 +22,7 @@
+>  #include "qemu/option.h"
+>  #include "qemu/bswap.h"
+>  #include "qemu/cutils.h"
+> +#include "qemu/guest-random.h"
+>  #include "sysemu/device_tree.h"
+>  #include "hw/loader.h"
+>  #include "hw/boards.h"
+> @@ -643,3 +644,23 @@ out:
+>      g_free(propcells);
+>      return ret;
+>  }
+> +
+> +void qemu_fdt_randomize_seeds(void *fdt)
+> +{
+> +    int noffset, poffset, len;
+> +    const char *name;
+> +    uint8_t *data;
+> +
+> +    for (noffset = fdt_next_node(fdt, 0, NULL);
+> +         noffset >= 0;
+> +         noffset = fdt_next_node(fdt, noffset, NULL)) {
+> +        for (poffset = fdt_first_property_offset(fdt, noffset);
+> +             poffset >= 0;
+> +             poffset = fdt_next_property_offset(fdt, poffset)) {
+> +            data = (uint8_t *)fdt_getprop_by_offset(fdt, poffset, &name, &len);
+> +            if (!data || strcmp(name, "rng-seed"))
+> +                continue;
+> +            qemu_guest_getrandom_nofail(data, len);
+> +        }
+> +    }
+> +}
 > --
 > 2.37.3
 >
