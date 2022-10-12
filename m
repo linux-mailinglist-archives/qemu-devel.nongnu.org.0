@@ -2,91 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7888E5FC0DB
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 08:44:09 +0200 (CEST)
-Received: from localhost ([::1]:38630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CDC75FC114
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 09:09:03 +0200 (CEST)
+Received: from localhost ([::1]:40670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiVTM-0003KP-FF
-	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 02:44:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47586)
+	id 1oiVrE-00013W-Rv
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 03:08:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oiVPf-0000HG-I1
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 02:40:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22957)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oiVW9-0004nK-AT
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 02:47:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36291)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oiVPa-0003tv-VG
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 02:40:17 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oiVW5-00053S-I2
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 02:46:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665556814;
+ s=mimecast20190719; t=1665557216;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kXH48xQ+gz3tZOKclLYoYk5Rq8QaujtWFwREynqmIrg=;
- b=DNEKtQJ1WLM+tSzE0Upprv6rJ7ClFOplWetXxpTzWNaDiLKbVhPrSgHmpejbYwzzxqDGIe
- H7fhWfVwJZ/Rdc9dRCc/XMdIDalceEWkLk6rRiRvnX9kJQNvHOtJl7KvL1Rc+Lw8oaxawZ
- Q0u/u2BbP9F7h24yWI5ieRVmfVUrt8M=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mAxZF6+PVj+uQ067zL9c+mHShyklUPndq2GyFQ+pspY=;
+ b=TCgmShHCtyaYdl3Jw9yBVCrwo4nFbckvyzaoAautbx4TXa9gCLUz7zJIsyPtbWR70VL865
+ kuk/UfghTR/DHb8lg4dvlmqWSPyAeQUKlMVHP5MP4gAO1jlLnE+0bhIDhGju/Z4b/B9Unw
+ ZxF2mS5TaKKRYRJIRrt6AaZ8W7p5K48=
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
+ [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-261-jb9j4FCkP42b1-qes2NhDA-1; Wed, 12 Oct 2022 02:40:12 -0400
-X-MC-Unique: jb9j4FCkP42b1-qes2NhDA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- i26-20020adfaada000000b0022e2f38ffccso4625340wrc.14
- for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 23:40:12 -0700 (PDT)
+ us-mta-447-1P0p7yDbOJ6X9CXROICu0Q-1; Wed, 12 Oct 2022 02:46:48 -0400
+X-MC-Unique: 1P0p7yDbOJ6X9CXROICu0Q-1
+Received: by mail-vs1-f72.google.com with SMTP id
+ a6-20020a671a06000000b003986a4e277dso3878651vsa.12
+ for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 23:46:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kXH48xQ+gz3tZOKclLYoYk5Rq8QaujtWFwREynqmIrg=;
- b=WOIJgOUxdWZYObGipcSjSVxYME/N3pXG3hDFiWS3hj5Unmf6oEoNL0QI4avd3TwX3/
- ZKE/+aZ5WYBxte4JhcFzJeqjOXtno/0Jw7pHmr7ICRUdCJiiOfxjjJvCZvNWUYxhP3DO
- QfDihmP+lUkqWJQ7cV1mmix8QYXEoz+rUogQr8H/GwzHxb8eeiXC/6LGdQEtOxJUsMHm
- 56ibpbr6B7YQpuDsZXhSQlTomS87qJaGN+9EfsQGWKBxHqukj7MxauB1NDPgwDb2zFxs
- +XZAzMsMDS+/aIaDqW7uUsFFKAot44FXX0PWRM85OPQ+06ki0SYubasnT5TuI4CJQo87
- K0kA==
-X-Gm-Message-State: ACrzQf3Pnj+UCMRqqoqzifBYthRgjxY6ao+N2dLfkLz+YJW2G+lUNqsM
- oqGVUD1kemQeprQ2svIDIGr0KsnC/93L6w2auVB38AV+w3yq8KclWl6DJWgF9qlD5eFGZ5sexky
- ns2pemM/atoXimfc=
-X-Received: by 2002:a05:600c:4f93:b0:3b4:c026:85a1 with SMTP id
- n19-20020a05600c4f9300b003b4c02685a1mr1645008wmq.39.1665556811683; 
- Tue, 11 Oct 2022 23:40:11 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4vxw5NVYCBtVA/y9lt2vgWIVCHCPhkyxcoCBj1K0IXP6jFKEc59meCc1h5onMVUxaNetRs8Q==
-X-Received: by 2002:a05:600c:4f93:b0:3b4:c026:85a1 with SMTP id
- n19-20020a05600c4f9300b003b4c02685a1mr1644988wmq.39.1665556811239; 
- Tue, 11 Oct 2022 23:40:11 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-176-11.web.vodafone.de.
- [109.43.176.11]) by smtp.gmail.com with ESMTPSA id
- f6-20020a7bcd06000000b003b4a699ce8esm935740wmj.6.2022.10.11.23.40.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Oct 2022 23:40:10 -0700 (PDT)
-Message-ID: <27bd3a3a-ca64-539e-0f3d-60fb4049eaf7@redhat.com>
-Date: Wed, 12 Oct 2022 08:40:09 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mAxZF6+PVj+uQ067zL9c+mHShyklUPndq2GyFQ+pspY=;
+ b=Zag9MJXpWp9AOhY3nU/HlXMrhQFsfFAuFS0cGqJufgLKg/EIfdqGmZSXHnZwQDEFnq
+ SEmk7o9sQTEIKuXgUyw8i0ID7UWC1ehwhZWWGkBN0koQEOUXmhM4xCrkclcDJ38zWu/w
+ zXRsoQ3kt8ytc1kHiSEFJ0VP46WuYDmu7rehV+OMjUgVvA6/+XkXhQkB6RIdHc9bEm/9
+ 6+KMnHawsGixJwCZ2TfEkRUClTuoNF3/2481JXWtGmzHjpCwazdNIqWq1t73P51ySYpX
+ qqqs6v0w8TV4UXfNW0cxXLEAJA8wKjacOat5msUVAi5H+JvFajk6gsrwuBwgaUHyk3zt
+ suDQ==
+X-Gm-Message-State: ACrzQf3OtI8UzaItnxxhQmQPptyNnk2mNLlAFIm5NDLYKIEiygZIDIf5
+ +xN4ip9Ix6Se2ZNGRhCRGCRKrXsq6Rsi2D2Wn+efcPAq72h6FD3JLOfMB5zsfnxqiW6hIq0uG/c
+ Y1VNeLqrGjNvecuO31u4FtiE69NS1WSQ=
+X-Received: by 2002:ab0:7083:0:b0:3d1:8663:cb9c with SMTP id
+ m3-20020ab07083000000b003d18663cb9cmr14413826ual.75.1665557208119; 
+ Tue, 11 Oct 2022 23:46:48 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4Hg3NasyibcZ/X6g0HLpV8P1bSqy4cyCCuF12wd0pq/7+339psNEDAxlOlUfIcCtTp1FGMMmW+80rzX/YSRfA=
+X-Received: by 2002:ab0:7083:0:b0:3d1:8663:cb9c with SMTP id
+ m3-20020ab07083000000b003d18663cb9cmr14413824ual.75.1665557207923; Tue, 11
+ Oct 2022 23:46:47 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 2/2] tests/qtest/ide-test: Verify READ NATIVE MAX ADDRESS
- is not limited
-Content-Language: en-US
-To: Lev Kujawski <lkujaw@mailbox.org>, qemu-devel@nongnu.org,
- John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20221010085229.2431276-1-lkujaw@mailbox.org>
- <20221010085229.2431276-2-lkujaw@mailbox.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20221010085229.2431276-2-lkujaw@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+References: <20221011192858.956078-1-alex.bennee@linaro.org>
+ <20221011192858.956078-2-alex.bennee@linaro.org>
+In-Reply-To: <20221011192858.956078-2-alex.bennee@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Wed, 12 Oct 2022 08:46:35 +0200
+Message-ID: <CABgObfY42pEWRe67qZJ78LdnEmL+xK+V5c_Ut+cxoqJ7Gw4mzQ@mail.gmail.com>
+Subject: Re: [PULL 1/1] Revert "configure: build ROMs with container-based
+ cross compilers"
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel <qemu-devel@nongnu.org>, "Hajnoczi,
+ Stefan" <stefanha@redhat.com>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000bb501c05ead0c145"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.934, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,101 +96,268 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/10/2022 10.52, Lev Kujawski wrote:
-> Verify that the ATA command READ NATIVE MAX ADDRESS returns the last
-> valid CHS tuple for the native device rather than any limit
-> established by INITIALIZE DEVICE PARAMETERS.
-> 
-> Signed-off-by: Lev Kujawski <lkujaw@mailbox.org>
-> ---
->   tests/qtest/ide-test.c | 47 +++++++++++++++++++++++++++++++++++++++++-
->   1 file changed, 46 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
-> index dbe1563b23..c406e6752a 100644
-> --- a/tests/qtest/ide-test.c
-> +++ b/tests/qtest/ide-test.c
-> @@ -37,7 +37,8 @@
->   /* TODO actually test the results and get rid of this */
->   #define qmp_discard_response(q, ...) qobject_unref(qtest_qmp(q, __VA_ARGS__))
->   
-> -#define TEST_IMAGE_SIZE 64 * 1024 * 1024
-> +/* Specified by ATA (physical) CHS geometry for ~64 MiB device.  */
-> +#define TEST_IMAGE_SIZE ((130 * 16 * 63) * 512)
->   
->   #define IDE_PCI_DEV     1
->   #define IDE_PCI_FUNC    1
-> @@ -91,11 +92,13 @@ enum {
->   enum {
->       CMD_DSM         = 0x06,
->       CMD_DIAGNOSE    = 0x90,
-> +    CMD_INIT_DP     = 0x91,  /* INITIALIZE DEVICE PARAMETERS */
->       CMD_READ_DMA    = 0xc8,
->       CMD_WRITE_DMA   = 0xca,
->       CMD_FLUSH_CACHE = 0xe7,
->       CMD_IDENTIFY    = 0xec,
->       CMD_PACKET      = 0xa0,
-> +    CMD_READ_NATIVE = 0xf8,  /* READ NATIVE MAX ADDRESS */
->   
->       CMDF_ABORT      = 0x100,
->       CMDF_NO_BM      = 0x200,
-> @@ -562,6 +565,46 @@ static void string_cpu_to_be16(uint16_t *s, size_t bytes)
->       }
->   }
->   
-> +static void test_specify(void)
-> +{
-> +    QTestState *qts;
-> +    QPCIDevice *dev;
-> +    QPCIBar bmdma_bar, ide_bar;
-> +    uint16_t cyls;
-> +    uint8_t heads, spt;
-> +
-> +    qts = ide_test_start(
-> +        "-blockdev driver=file,node-name=hda,filename=%s "
-> +        "-device ide-hd,drive=hda,bus=ide.0,unit=0 ",
-> +        tmp_path[0]);
-> +
-> +    dev = get_pci_device(qts, &bmdma_bar, &ide_bar);
-> +
-> +    /* Initialize drive with zero sectors per track and one head.  */
-> +    qpci_io_writeb(dev, ide_bar, reg_nsectors, 0);
-> +    qpci_io_writeb(dev, ide_bar, reg_device, 0);
-> +    qpci_io_writeb(dev, ide_bar, reg_command, CMD_INIT_DP);
-> +
-> +    /* READ NATIVE MAX ADDRESS (CHS mode).  */
-> +    qpci_io_writeb(dev, ide_bar, reg_device, 0xa0);
-> +    qpci_io_writeb(dev, ide_bar, reg_command, CMD_READ_NATIVE);
-> +
-> +    heads = qpci_io_readb(dev, ide_bar, reg_device) & 0xf;
-> +    ++heads;
-> +    g_assert_cmpint(heads, ==, 16);
-> +
-> +    cyls = qpci_io_readb(dev, ide_bar, reg_lba_high) << 8;
-> +    cyls |= qpci_io_readb(dev, ide_bar, reg_lba_middle);
-> +    ++cyls;
-> +    g_assert_cmpint(cyls, ==, 130);
-> +
-> +    spt = qpci_io_readb(dev, ide_bar, reg_lba_low);
-> +    g_assert_cmpint(spt, ==, 63);
-> +
-> +    ide_test_quit(qts);
-> +    free_pci_device(dev);
-> +}
-> +
->   static void test_identify(void)
->   {
->       QTestState *qts;
-> @@ -1079,6 +1122,8 @@ int main(int argc, char **argv)
->       /* Run the tests */
->       g_test_init(&argc, &argv, NULL);
->   
-> +    qtest_add_func("/ide/read_native", test_specify);
-> +
->       qtest_add_func("/ide/identify", test_identify);
->   
->       qtest_add_func("/ide/diagnostic", test_diagnostic);
+--000000000000bb501c05ead0c145
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Thomas Huth <thuth@redhat.com>
+Il mar 11 ott 2022, 21:29 Alex Benn=C3=A9e <alex.bennee@linaro.org> ha scri=
+tto:
+
+> This reverts commit 730fe750fba63023e294ff0acf0f874369f1946f.
+>
+> Unconditionally building all the bios for all arches was a little too
+> far too fast.
+>
+
+I would like to understand the issue better, because chances are that it is
+preexisting and applies to the TCG tests as well.
+
+Daniel, does building the TCG tests work for you? If not, I think we should
+just disable containers by default.
+
+
+
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> Tested-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> Message-Id: <20221011113417.794841-4-alex.bennee@linaro.org>
+>
+> diff --git a/configure b/configure
+> index baa69189f0..45ee6f4eb3 100755
+> --- a/configure
+> +++ b/configure
+> @@ -2121,7 +2121,7 @@ probe_target_compiler() {
+>      target_ranlib=3D
+>      target_strip=3D
+>    fi
+> -  test -n "$target_cc" || test -n "$container_image"
+> +  test -n "$target_cc"
+>  }
+>
+>  write_target_makefile() {
+> @@ -2268,7 +2268,7 @@ if test "$targetos" !=3D "darwin" && test "$targeto=
+s"
+> !=3D "sunos" && \
+>      config_mak=3Dpc-bios/optionrom/config.mak
+>      echo "# Automatically generated by configure - do not modify" >
+> $config_mak
+>      echo "TOPSRC_DIR=3D$source_path" >> $config_mak
+> -    write_target_makefile pc-bios/optionrom/all >> $config_mak
+> +    write_target_makefile >> $config_mak
+>  fi
+>
+>  if test "$softmmu" =3D yes && probe_target_compiler ppc-softmmu; then
+> @@ -2276,31 +2276,25 @@ if test "$softmmu" =3D yes && probe_target_compil=
+er
+> ppc-softmmu; then
+>      config_mak=3Dpc-bios/vof/config.mak
+>      echo "# Automatically generated by configure - do not modify" >
+> $config_mak
+>      echo "SRC_DIR=3D$source_path/pc-bios/vof" >> $config_mak
+> -    write_target_makefile pc-bios/vof/all >> $config_mak
+> +    write_target_makefile >> $config_mak
+>  fi
+>
+>  # Only build s390-ccw bios if the compiler has -march=3Dz900 or -march=
+=3Dz10
+>  # (which is the lowest architecture level that Clang supports)
+>  if test "$softmmu" =3D yes && probe_target_compiler s390x-softmmu; then
+> -  got_cross_cc=3Dno
+> -  if test -n "$target_cc"; then
+> -    write_c_skeleton
+> -    do_compiler "$target_cc" $target_cc_cflags -march=3Dz900 -o $TMPO -c
+> $TMPC
+> -    has_z900=3D$?
+> -    if [ $has_z900 =3D 0 ] || do_compiler "$target_cc" $target_cc_cflags
+> -march=3Dz10 -msoft-float -Werror -o $TMPO -c $TMPC; then
+> -      if [ $has_z900 !=3D 0 ]; then
+> -        echo "WARNING: Your compiler does not support the z900!"
+> -        echo "         The s390-ccw bios will only work with guest CPUs
+> >=3D z10."
+> -      fi
+> -      got_cross_cc=3Dyes
+> +  write_c_skeleton
+> +  do_compiler "$target_cc" $target_cc_cflags -march=3Dz900 -o $TMPO -c $=
+TMPC
+> +  has_z900=3D$?
+> +  if [ $has_z900 =3D 0 ] || do_compiler "$target_cc" $target_cc_cflags
+> -march=3Dz10 -msoft-float -Werror -o $TMPO -c $TMPC; then
+> +    if [ $has_z900 !=3D 0 ]; then
+> +      echo "WARNING: Your compiler does not support the z900!"
+> +      echo "         The s390-ccw bios will only work with guest CPUs >=
+=3D
+> z10."
+>      fi
+> -  fi
+> -  if test "$got_cross_cc" =3D yes || test -n "$container_image"; then
+>      roms=3D"$roms pc-bios/s390-ccw"
+>      config_mak=3Dpc-bios/s390-ccw/config-host.mak
+>      echo "# Automatically generated by configure - do not modify" >
+> $config_mak
+>      echo "SRC_PATH=3D$source_path/pc-bios/s390-ccw" >> $config_mak
+> -    write_target_makefile pc-bios/s390-ccw/all >> $config_mak
+> +    write_target_makefile >> $config_mak
+>      # SLOF is required for building the s390-ccw firmware on s390x,
+>      # since it is using the libnet code from SLOF for network booting.
+>      git_submodules=3D"${git_submodules} roms/SLOF"
+> @@ -2488,7 +2482,7 @@ for target in $target_list; do
+>        ;;
+>    esac
+>
+> -  if probe_target_compiler $target; then
+> +  if probe_target_compiler $target || test -n "$container_image"; then
+>        test -n "$container_image" && build_static=3Dy
+>        mkdir -p "tests/tcg/$target"
+>        config_target_mak=3Dtests/tcg/$target/config-target.mak
+> --
+> 2.34.1
+>
+>
+
+--000000000000bb501c05ead0c145
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">Il mar 11 ott 2022, 21:29 Alex Benn=C3=A9e &lt;<a href=
+=3D"mailto:alex.bennee@linaro.org">alex.bennee@linaro.org</a>&gt; ha scritt=
+o:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex">This reverts commit 730fe750fba6=
+3023e294ff0acf0f874369f1946f.<br>
+<br>
+Unconditionally building all the bios for all arches was a little too<br>
+far too fast.<br></blockquote></div></div><div dir=3D"auto"><br></div><div =
+dir=3D"auto">I would like to understand the issue better, because chances a=
+re that it is preexisting and applies to the TCG tests as well.</div><div d=
+ir=3D"auto"><br></div><div dir=3D"auto">Daniel, does building the TCG tests=
+ work for you? If not, I think we should just disable containers by default=
+.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div><div dir=3D"=
+auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+Signed-off-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.or=
+g" target=3D"_blank" rel=3D"noreferrer">alex.bennee@linaro.org</a>&gt;<br>
+Cc: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=3D"_bla=
+nk" rel=3D"noreferrer">pbonzini@redhat.com</a>&gt;<br>
+Reviewed-by: Daniel Henrique Barboza &lt;<a href=3D"mailto:danielhb413@gmai=
+l.com" target=3D"_blank" rel=3D"noreferrer">danielhb413@gmail.com</a>&gt;<b=
+r>
+Tested-by: Daniel Henrique Barboza &lt;<a href=3D"mailto:danielhb413@gmail.=
+com" target=3D"_blank" rel=3D"noreferrer">danielhb413@gmail.com</a>&gt;<br>
+Message-Id: &lt;<a href=3D"mailto:20221011113417.794841-4-alex.bennee@linar=
+o.org" target=3D"_blank" rel=3D"noreferrer">20221011113417.794841-4-alex.be=
+nnee@linaro.org</a>&gt;<br>
+<br>
+diff --git a/configure b/configure<br>
+index baa69189f0..45ee6f4eb3 100755<br>
+--- a/configure<br>
++++ b/configure<br>
+@@ -2121,7 +2121,7 @@ probe_target_compiler() {<br>
+=C2=A0 =C2=A0 =C2=A0target_ranlib=3D<br>
+=C2=A0 =C2=A0 =C2=A0target_strip=3D<br>
+=C2=A0 =C2=A0fi<br>
+-=C2=A0 test -n &quot;$target_cc&quot; || test -n &quot;$container_image&qu=
+ot;<br>
++=C2=A0 test -n &quot;$target_cc&quot;<br>
+=C2=A0}<br>
+<br>
+=C2=A0write_target_makefile() {<br>
+@@ -2268,7 +2268,7 @@ if test &quot;$targetos&quot; !=3D &quot;darwin&quot;=
+ &amp;&amp; test &quot;$targetos&quot; !=3D &quot;sunos&quot; &amp;&amp; \<=
+br>
+=C2=A0 =C2=A0 =C2=A0config_mak=3Dpc-bios/optionrom/config.mak<br>
+=C2=A0 =C2=A0 =C2=A0echo &quot;# Automatically generated by configure - do =
+not modify&quot; &gt; $config_mak<br>
+=C2=A0 =C2=A0 =C2=A0echo &quot;TOPSRC_DIR=3D$source_path&quot; &gt;&gt; $co=
+nfig_mak<br>
+-=C2=A0 =C2=A0 write_target_makefile pc-bios/optionrom/all &gt;&gt; $config=
+_mak<br>
++=C2=A0 =C2=A0 write_target_makefile &gt;&gt; $config_mak<br>
+=C2=A0fi<br>
+<br>
+=C2=A0if test &quot;$softmmu&quot; =3D yes &amp;&amp; probe_target_compiler=
+ ppc-softmmu; then<br>
+@@ -2276,31 +2276,25 @@ if test &quot;$softmmu&quot; =3D yes &amp;&amp; pro=
+be_target_compiler ppc-softmmu; then<br>
+=C2=A0 =C2=A0 =C2=A0config_mak=3Dpc-bios/vof/config.mak<br>
+=C2=A0 =C2=A0 =C2=A0echo &quot;# Automatically generated by configure - do =
+not modify&quot; &gt; $config_mak<br>
+=C2=A0 =C2=A0 =C2=A0echo &quot;SRC_DIR=3D$source_path/pc-bios/vof&quot; &gt=
+;&gt; $config_mak<br>
+-=C2=A0 =C2=A0 write_target_makefile pc-bios/vof/all &gt;&gt; $config_mak<b=
+r>
++=C2=A0 =C2=A0 write_target_makefile &gt;&gt; $config_mak<br>
+=C2=A0fi<br>
+<br>
+=C2=A0# Only build s390-ccw bios if the compiler has -march=3Dz900 or -marc=
+h=3Dz10<br>
+=C2=A0# (which is the lowest architecture level that Clang supports)<br>
+=C2=A0if test &quot;$softmmu&quot; =3D yes &amp;&amp; probe_target_compiler=
+ s390x-softmmu; then<br>
+-=C2=A0 got_cross_cc=3Dno<br>
+-=C2=A0 if test -n &quot;$target_cc&quot;; then<br>
+-=C2=A0 =C2=A0 write_c_skeleton<br>
+-=C2=A0 =C2=A0 do_compiler &quot;$target_cc&quot; $target_cc_cflags -march=
+=3Dz900 -o $TMPO -c $TMPC<br>
+-=C2=A0 =C2=A0 has_z900=3D$?<br>
+-=C2=A0 =C2=A0 if [ $has_z900 =3D 0 ] || do_compiler &quot;$target_cc&quot;=
+ $target_cc_cflags -march=3Dz10 -msoft-float -Werror -o $TMPO -c $TMPC; the=
+n<br>
+-=C2=A0 =C2=A0 =C2=A0 if [ $has_z900 !=3D 0 ]; then<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &quot;WARNING: Your compiler does not sup=
+port the z900!&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &quot;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0T=
+he s390-ccw bios will only work with guest CPUs &gt;=3D z10.&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 fi<br>
+-=C2=A0 =C2=A0 =C2=A0 got_cross_cc=3Dyes<br>
++=C2=A0 write_c_skeleton<br>
++=C2=A0 do_compiler &quot;$target_cc&quot; $target_cc_cflags -march=3Dz900 =
+-o $TMPO -c $TMPC<br>
++=C2=A0 has_z900=3D$?<br>
++=C2=A0 if [ $has_z900 =3D 0 ] || do_compiler &quot;$target_cc&quot; $targe=
+t_cc_cflags -march=3Dz10 -msoft-float -Werror -o $TMPO -c $TMPC; then<br>
++=C2=A0 =C2=A0 if [ $has_z900 !=3D 0 ]; then<br>
++=C2=A0 =C2=A0 =C2=A0 echo &quot;WARNING: Your compiler does not support th=
+e z900!&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 echo &quot;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0The s390=
+-ccw bios will only work with guest CPUs &gt;=3D z10.&quot;<br>
+=C2=A0 =C2=A0 =C2=A0fi<br>
+-=C2=A0 fi<br>
+-=C2=A0 if test &quot;$got_cross_cc&quot; =3D yes || test -n &quot;$contain=
+er_image&quot;; then<br>
+=C2=A0 =C2=A0 =C2=A0roms=3D&quot;$roms pc-bios/s390-ccw&quot;<br>
+=C2=A0 =C2=A0 =C2=A0config_mak=3Dpc-bios/s390-ccw/config-host.mak<br>
+=C2=A0 =C2=A0 =C2=A0echo &quot;# Automatically generated by configure - do =
+not modify&quot; &gt; $config_mak<br>
+=C2=A0 =C2=A0 =C2=A0echo &quot;SRC_PATH=3D$source_path/pc-bios/s390-ccw&quo=
+t; &gt;&gt; $config_mak<br>
+-=C2=A0 =C2=A0 write_target_makefile pc-bios/s390-ccw/all &gt;&gt; $config_=
+mak<br>
++=C2=A0 =C2=A0 write_target_makefile &gt;&gt; $config_mak<br>
+=C2=A0 =C2=A0 =C2=A0# SLOF is required for building the s390-ccw firmware o=
+n s390x,<br>
+=C2=A0 =C2=A0 =C2=A0# since it is using the libnet code from SLOF for netwo=
+rk booting.<br>
+=C2=A0 =C2=A0 =C2=A0git_submodules=3D&quot;${git_submodules} roms/SLOF&quot=
+;<br>
+@@ -2488,7 +2482,7 @@ for target in $target_list; do<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0;;<br>
+=C2=A0 =C2=A0esac<br>
+<br>
+-=C2=A0 if probe_target_compiler $target; then<br>
++=C2=A0 if probe_target_compiler $target || test -n &quot;$container_image&=
+quot;; then<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0test -n &quot;$container_image&quot; &amp;&amp; =
+build_static=3Dy<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p &quot;tests/tcg/$target&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0config_target_mak=3Dtests/tcg/$target/config-tar=
+get.mak<br>
+-- <br>
+2.34.1<br>
+<br>
+</blockquote></div></div></div>
+
+--000000000000bb501c05ead0c145--
 
 
