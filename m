@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 499675FC92A
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 18:24:40 +0200 (CEST)
-Received: from localhost ([::1]:43866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10ED05FC921
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 18:22:58 +0200 (CEST)
+Received: from localhost ([::1]:43920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oieX9-0007t1-3O
-	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 12:24:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54134)
+	id 1oieVV-0005kf-5e
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 12:22:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oieEH-0003B8-R1
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 12:05:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37671)
+ id 1oieEO-0003F7-Aq
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 12:05:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oieE8-0005VR-Ki
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 12:05:06 -0400
+ id 1oieEG-0005gD-6F
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 12:05:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665590700;
+ s=mimecast20190719; t=1665590704;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PiH6T6gMly3jr1v1LsPfDdUntrgXMzzWBurcO7SULak=;
- b=GTGDo71eW7GDz0GMTyNbY83DGL824euRCnxlTy8//He3bj3bfUwboqM4Bk2woekPpn+imq
- 2wApUVyKPTmMY5iiNmM3r772ZVFQoxqfIsviZkzT1HXbiWG8ORQshvDhU5iZut+GDJRrNR
- BAN5WqKm+loR/JC6uqiojoMd/y/Jm5E=
+ bh=k4PKj4wwLVipahbwgyxDEoKO+wr2/j8Ozv4HRqeDjXs=;
+ b=aHK2m9fH0UuqFvGS1GQL/QDdP89w8wsV+FZn5GKKA7er4yMIxdscGK7+bMNj619vDPJok1
+ Utt3PuzUe3fbej0QoOcj755UWdi8mn1gxEwXvPtjLZQAn3Hn0l5QdiIEx24ekpJnLGqJs0
+ Ih+NukE2mEXEDxKNEXlvAeYDTQoa2L4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-563-Kq9cBApLPkmV7zgaL52M1Q-1; Wed, 12 Oct 2022 12:04:56 -0400
-X-MC-Unique: Kq9cBApLPkmV7zgaL52M1Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-13-JVbB42TnNcm8rOxP4-L92w-1; Wed, 12 Oct 2022 12:05:00 -0400
+X-MC-Unique: JVbB42TnNcm8rOxP4-L92w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 49C4C85A5A6;
- Wed, 12 Oct 2022 16:04:56 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 09939185A792;
+ Wed, 12 Oct 2022 16:05:00 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 812A6404CD9B;
- Wed, 12 Oct 2022 16:04:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3FA8C2028DC1;
+ Wed, 12 Oct 2022 16:04:58 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Stefan Weil <sw@weilnetz.de>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 2/7] osdep: make readv_writev() work with partial read/write
-Date: Wed, 12 Oct 2022 20:04:39 +0400
-Message-Id: <20221012160444.3762795-3-marcandre.lureau@redhat.com>
+Subject: [PULL 3/7] util: make do_send_recv work with partial send/recv
+Date: Wed, 12 Oct 2022 20:04:40 +0400
+Message-Id: <20221012160444.3762795-4-marcandre.lureau@redhat.com>
 In-Reply-To: <20221012160444.3762795-1-marcandre.lureau@redhat.com>
 References: <20221012160444.3762795-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -84,40 +84,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-With a pipe or other reasons, read/write may return less than the
-requested bytes. This happens with the test-io-channel-command test on
-Windows. glib spawn code uses a binary pipe of 4096 bytes, and the first
-read returns that much (although more are requested), for some unclear
-reason...
+According to msdn documentation and Linux man pages, send() should try
+to send as much as possible in blocking mode, while recv() may return
+earlier with a smaller available amount, we should try to continue
+send/recv from there.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20221006113657.2656108-2-marcandre.lureau@redhat.com>
+Message-Id: <20221006113657.2656108-3-marcandre.lureau@redhat.com>
 ---
- util/osdep.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ util/iov.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/util/osdep.c b/util/osdep.c
-index 60fcbbaebe..746d5f7d71 100644
---- a/util/osdep.c
-+++ b/util/osdep.c
-@@ -538,18 +538,22 @@ int socket_init(void)
- 
- 
- #ifndef CONFIG_IOVEC
--/* helper function for iov_send_recv() */
- static ssize_t
- readv_writev(int fd, const struct iovec *iov, int iov_cnt, bool do_write)
- {
+diff --git a/util/iov.c b/util/iov.c
+index 22d6996cce..b4be580022 100644
+--- a/util/iov.c
++++ b/util/iov.c
+@@ -111,12 +111,17 @@ do_send_recv(int sockfd, struct iovec *iov, unsigned iov_cnt, bool do_send)
+     /*XXX Note: windows has WSASend() and WSARecv() */
      unsigned i = 0;
      ssize_t ret = 0;
 +    ssize_t off = 0;
      while (i < iov_cnt) {
-         ssize_t r = do_write
--            ? write(fd, iov[i].iov_base, iov[i].iov_len)
--            : read(fd, iov[i].iov_base, iov[i].iov_len);
-+            ? write(fd, iov[i].iov_base + off, iov[i].iov_len - off)
-+            : read(fd, iov[i].iov_base + off, iov[i].iov_len - off);
+         ssize_t r = do_send
+-            ? send(sockfd, iov[i].iov_base, iov[i].iov_len, 0)
+-            : recv(sockfd, iov[i].iov_base, iov[i].iov_len, 0);
++            ? send(sockfd, iov[i].iov_base + off, iov[i].iov_len - off, 0)
++            : recv(sockfd, iov[i].iov_base + off, iov[i].iov_len - off, 0);
          if (r > 0) {
              ret += r;
 +            off += r;
@@ -127,7 +120,7 @@ index 60fcbbaebe..746d5f7d71 100644
          } else if (!r) {
              break;
          } else if (errno == EINTR) {
-@@ -562,6 +566,7 @@ readv_writev(int fd, const struct iovec *iov, int iov_cnt, bool do_write)
+@@ -129,6 +134,7 @@ do_send_recv(int sockfd, struct iovec *iov, unsigned iov_cnt, bool do_send)
              }
              break;
          }
