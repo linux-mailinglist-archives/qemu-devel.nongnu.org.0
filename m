@@ -2,96 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 229975FC459
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 13:36:45 +0200 (CEST)
-Received: from localhost ([::1]:44220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 811865FC45B
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 13:37:46 +0200 (CEST)
+Received: from localhost ([::1]:53706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oia2V-0007g4-KK
-	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 07:36:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53952)
+	id 1oia3V-0001cc-Kp
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 07:37:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oiZxc-0003sX-1A
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 07:31:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38454)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1oia0h-00057m-HP
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 07:34:53 -0400
+Received: from mail.xen0n.name ([115.28.160.31]:49672
+ helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oiZxX-000862-Gt
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 07:31:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665574294;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6b3xTPOwa9kc7Zg9yyuLlhSbWfbT406JCY+XnrlXpWI=;
- b=GmkZe6zseV9lvVEmUwW+60CYnXtW1BKsafUqGrwC1PvD/lBWLYRQ5J4jKLYvs67uimSbFm
- BWfaV60GsFX44DGck2cf3NCbYoanHNaECZDb1oUpphZimYs87YKtJYHSElNUd4hXMxA9Ri
- 4mlkkkVbHlsulYD8bwrSA9dZNEVrEro=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-219-Iu6Ce-YbOPuVSXr76TQODg-1; Wed, 12 Oct 2022 07:31:33 -0400
-X-MC-Unique: Iu6Ce-YbOPuVSXr76TQODg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- e11-20020adfa74b000000b0022e39e5c151so4834662wrd.3
- for <qemu-devel@nongnu.org>; Wed, 12 Oct 2022 04:31:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6b3xTPOwa9kc7Zg9yyuLlhSbWfbT406JCY+XnrlXpWI=;
- b=48YHmBm6ugmSiiliLwQXMtdxaOugOwXhKfQLK4u1WJoskiYXjDE0zhMdx3X438nHvv
- VCbsPZ3RSLmOeqjgk27H1mSQ5TZyfWLa2lpNAG0jj2ev/sYP595edNj7vg7XGFcjuPyk
- vmtVM2EmTb0k/UyFmCwBHOFLoT+r3HWI1Jv+NJy6vNCemq8RqnDOZTrwMnlXe+sUtBCS
- Z4Ve31Pu75t7CqVAF1uMhS72yJOXimAfB8wvJv+CJely4h/NNLYuuyF3WGxx0xG4vt/r
- j6aZNujYPdcnved6MdCKvrnOgv4a5Hi7RpTcB7E7MtyljWN2rTsNKjG7cHPj0VObEUxa
- UKyQ==
-X-Gm-Message-State: ACrzQf19wWHeIh90Mfhw1Hw3DNOievNUhy7zZK4rXXgO3ZtuCsBuwe0Q
- PE2MUL8kNFmiXfdRfdvmo9RICq57P1L1KLw/3gXfuWBMhKtULhMPg+k4qr8sVnqWKs3Pi1TCZGP
- o57Q3+TJfw6SewXg=
-X-Received: by 2002:a5d:6dca:0:b0:22c:c6f9:57d2 with SMTP id
- d10-20020a5d6dca000000b0022cc6f957d2mr17766332wrz.474.1665574291986; 
- Wed, 12 Oct 2022 04:31:31 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4+GMEWKuLT9+bAPq95vmIAUGEz2EnupFgkerRHJjeJKRjNVz85p4re3sbK7vpdssBNkQWhrg==
-X-Received: by 2002:a5d:6dca:0:b0:22c:c6f9:57d2 with SMTP id
- d10-20020a5d6dca000000b0022cc6f957d2mr17766302wrz.474.1665574291653; 
- Wed, 12 Oct 2022 04:31:31 -0700 (PDT)
-Received: from redhat.com ([2.54.162.123]) by smtp.gmail.com with ESMTPSA id
- g7-20020a056000118700b0022ac38fb20asm13507112wrx.111.2022.10.12.04.31.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Oct 2022 04:31:30 -0700 (PDT)
-Date: Wed, 12 Oct 2022 07:31:28 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH] gitmodules: recurse by default
-Message-ID: <20221012073015-mutt-send-email-mst@kernel.org>
-References: <20221006113906.179963-1-mst@redhat.com>
- <Yz8kfJcfbbTAnmuR@redhat.com>
- <20221006202250-mutt-send-email-mst@kernel.org>
- <Yz/eNaP994pc+P6Q@redhat.com>
- <20221007061037-mutt-send-email-mst@kernel.org>
- <Y0ADZAQbjIJMVzXp@redhat.com> <Y0AI9G66wl/+vVMB@redhat.com>
- <20221011183124-mutt-send-email-mst@kernel.org>
- <Y0ZyFwoERvefrrBp@redhat.com>
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1oia0d-0008Nk-SS
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 07:34:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
+ t=1665574482; bh=Na5y9wtc3yuYUWJK0ZkBGY/tTpdHiXzuXKtkBJtU4ew=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=WIZ5Q53h1K1dc+ofc58TrnLseRJeosKpnlc6CyxfPEE6l+9Jnk/shHSnwBszslObs
+ PPlBhFcEqkP5Liei3II5TBmYBj56Njz8XUKWoV1tR2X8Y6TZprgI+idPC2FtaifGTV
+ tq1evhBDuzRNXV/g8srufW6i7NBTn4VPOZjPOp6Q=
+Received: from [100.100.57.122] (unknown [220.248.53.61])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id F0D8C6009B;
+ Wed, 12 Oct 2022 19:34:41 +0800 (CST)
+Message-ID: <d386cad2-02ea-e062-9a9d-86dbbf47b251@xen0n.name>
+Date: Wed, 12 Oct 2022 19:34:41 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y0ZyFwoERvefrrBp@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:107.0)
+ Gecko/20100101 Thunderbird/107.0a1
+Subject: Re: [PATCH 2/2] tcg/loongarch64: Add direct jump support
+Content-Language: en-US
+To: Qi Hu <huqi@loongson.cn>, WANG Xuerui <git@xen0n.name>,
+ Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+References: <cover.1665405913.git.huqi@loongson.cn>
+ <cc5770f1a03bf90fa8b990666fb061b1e063b803.1665405913.git.huqi@loongson.cn>
+From: WANG Xuerui <i.qemu@xen0n.name>
+In-Reply-To: <cc5770f1a03bf90fa8b990666fb061b1e063b803.1665405913.git.huqi@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
+ helo=mailbox.box.xen0n.name
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.528,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,78 +69,161 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 12, 2022 at 08:51:51AM +0100, Daniel P. Berrangé wrote:
-> On Tue, Oct 11, 2022 at 06:32:40PM -0400, Michael S. Tsirkin wrote:
-> > On Fri, Oct 07, 2022 at 12:09:40PM +0100, Daniel P. Berrangé wrote:
-> > > On Fri, Oct 07, 2022 at 11:45:56AM +0100, Daniel P. Berrangé wrote:
-> > > > On Fri, Oct 07, 2022 at 06:11:25AM -0400, Michael S. Tsirkin wrote:
-> > > > > On Fri, Oct 07, 2022 at 09:07:17AM +0100, Daniel P. Berrangé wrote:
-> > > > > > On Thu, Oct 06, 2022 at 08:24:01PM -0400, Michael S. Tsirkin wrote:
-> > > > > > > On Thu, Oct 06, 2022 at 07:54:52PM +0100, Daniel P. Berrangé wrote:
-> > > > > > > > On Thu, Oct 06, 2022 at 07:39:07AM -0400, Michael S. Tsirkin wrote:
-> > > > > > > > > The most commmon complaint about submodules is that
-> > > > > > > > > they don't follow when one switches branches in the
-> > > > > > > > > main repo. Enable recursing into submodules by default
-> > > > > > > > > to address that.
-> > > > > > > > > 
-> > > > > > > > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > > > > > > > > ---
-> > > > > > > > >  .gitmodules | 23 +++++++++++++++++++++++
-> > > > > > > > >  1 file changed, 23 insertions(+)
-> > > 
-> > > snip
-> > > 
-> > > > > I just retested and it's not working for me either :(
-> > > > > I was sure it worked but I guess the testing wasn't done properly.
-> > > > > Back to the drawing board sorry.
-> > > > 
-> > > > I think the problem is that this setting doesn't apply in the context
-> > > > of .gitmodules. Various commands take a '--recurse-submodules' parameter,
-> > > > and like many params this can be set in the .git/config file. The
-> > > > problem is .git/config isn't a file we can influence automatically,
-> > > > it is upto the dev to set things for every clone they do :-(
-> > > 
-> > > With the correct setting in my .git/config, I've just discovered
-> > > an unexpected & undesirable consequence of using recurse=true.
-> > > It affects the 'push' command. If your submodule contains a hash
-> > > that is not present in the upstream of the submodule, then when
-> > > you try to push, it will also try to push the submodule change.
-> > > 
-> > > eg, I have a qemu.git branch 'work' and i made a change to
-> > > ui/keycodemapdb. If I try to push to my gitlab fork, whose
-> > > remote I called 'gitlab', then it will also try to push
-> > > ui/keycodemapdb to a fork called 'gitlab'.  Except I don't
-> > > have any such fork existing, so my attempt to push my qemu.git
-> > > changes fails because of the submodule.
-> > > 
-> > > This is going to be annoying to people who are working on branches
-> > > with updates to the git submodules if we were to set recurse=true
-> > > by default, as they'll have to also setup remotes for submodules
-> > > they work on.
-> > > 
-> > 
-> > Well this seems like a reasonable thing to do, no?
-> > 
-> > If you push qemu commit referring to hash 0xABC, you want
-> > that 0xABC to be available in the remote, no?
-> > Otherwise how will people fetching your tree check it out?
-> 
-> Don't assume I'm making it available for other people. I push to
-> remotes simply for moving code around for myself between machines.
-> I still have the submodule code I need elsewhere, so forcing me
-> to push the submodule & main repos so the same named remote is
-> getting in the way. 
-> 
-> With regards,
-> Daniel
+Hi,
 
-So you are pushing this main tree but the submodule won't be
-needed there? Sounds like an unusual enough thing that
-it's reasonable to ask user to tweak config to enable it.
+Thanks for the improvement! Some room for improvement though...
 
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+On 2022/10/12 17:13, Qi Hu wrote:
+> Similar to the ARM64, LoongArch has PC-relative instructions such as
+> PCADDU18I. These instructions can be used to support direct jump for
+> LoongArch. Additionally, if instruction "B offset" can cover the target
+> address, "tb_target_set_jmp_target" will only patch the "B offset".
 
+"if the target is within +/- 28 bits range, a single "B offset" plus a 
+nop will be used instead" might sound better?
+
+>
+> Signed-off-by: Qi Hu <huqi@loongson.cn>
+> ---
+>   tcg/loongarch64/tcg-insn-defs.c.inc |  3 ++
+>   tcg/loongarch64/tcg-target.c.inc    | 49 ++++++++++++++++++++++++++---
+>   tcg/loongarch64/tcg-target.h        |  2 +-
+>   3 files changed, 48 insertions(+), 6 deletions(-)
+>
+> diff --git a/tcg/loongarch64/tcg-insn-defs.c.inc b/tcg/loongarch64/tcg-insn-defs.c.inc
+> index d162571856..f5869c6bb1 100644
+> --- a/tcg/loongarch64/tcg-insn-defs.c.inc
+> +++ b/tcg/loongarch64/tcg-insn-defs.c.inc
+> @@ -112,6 +112,9 @@ typedef enum {
+>       OPC_BLE = 0x64000000,
+>       OPC_BGTU = 0x68000000,
+>       OPC_BLEU = 0x6c000000,
+> +    /* pseudo-instruction */
+> +    NOP = 0x03400000,
+> +
+
+You certainly saw the big fat comment block saying the file was 
+auto-generated and thus shouldn't be touched, didn't you? ;-)
+
+I saw your need for a NOP constant later though, and you can instead add 
+`#define OPC_NOP OPC_ANDI` in tcg-target.c.inc, just below the include 
+of tcg-insn-defs.c.inc.
+
+>   } LoongArchInsn;
+>   
+>   static int32_t __attribute__((unused))
+> diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
+> index f5a214a17f..3a7b1df081 100644
+> --- a/tcg/loongarch64/tcg-target.c.inc
+> +++ b/tcg/loongarch64/tcg-target.c.inc
+> @@ -1058,11 +1058,24 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+>           break;
+>   
+>       case INDEX_op_goto_tb:
+> -        assert(s->tb_jmp_insn_offset == 0);
+> -        /* indirect jump method */
+> -        tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP0, TCG_REG_ZERO,
+> -                   (uintptr_t)(s->tb_jmp_target_addr + a0));
+> -        tcg_out_opc_jirl(s, TCG_REG_ZERO, TCG_REG_TMP0, 0);
+> +        if (s->tb_jmp_insn_offset != NULL) {
+> +            /* TCG_TARGET_HAS_direct_jump */
+> +            /* Ensure that PCADD+JIRL are 8-byte aligned so that an atomic
+> +               write can be used to patch the target address. */
+There isn't a "PCADD" in LoongArch, and it's possible for the 2 insns to 
+be "B + NOP" as well. So better reword a bit like "Ensure that the 
+8-byte direct jump fragment is aligned ..." (and add another space after 
+the period at the end of the sentence).
+> +            if ((uintptr_t)s->code_ptr & 7) {
+> +                tcg_out32(s, NOP);
+> +            }
+> +            s->tb_jmp_insn_offset[a0] = tcg_current_code_size(s);
+> +            /* actual branch destination will be patched by
+> +               tb_target_set_jmp_target later. */
+Either make it a proper sentence by title-casing "actual" and adding 
+another space after the trailing period, or remove the period.
+> +            tcg_out_opc_pcaddu18i(s, TCG_REG_TMP0, 0);
+> +            tcg_out_opc_jirl(s, TCG_REG_ZERO, TCG_REG_TMP0, 0);
+> +        } else {
+> +            /* !TCG_TARGET_HAS_direct_jump */
+> +            tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP0, TCG_REG_ZERO,
+> +                    (uintptr_t)(s->tb_jmp_target_addr + a0));
+> +            tcg_out_opc_jirl(s, TCG_REG_ZERO, TCG_REG_TMP0, 0);
+> +        }
+We unconditionally support the direct jump method after the change, so 
+do we need to retain this block any more? Note the aarch64 port 
+currently does the same (declaring unconditional support for direct 
+jumps but keeping both code paths), if we want to remove this code path 
+then you may want to remove the aarch64 one respectively too.
+>           set_jmp_reset_offset(s, a0);
+>           break;
+>   
+> @@ -1708,6 +1721,32 @@ static void tcg_target_init(TCGContext *s)
+>       tcg_regset_set_reg(s->reserved_regs, TCG_REG_RESERVED);
+>   }
+>   
+> +void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
+> +                              uintptr_t jmp_rw, uintptr_t addr)
+> +{
+
+Move the function to somewhere above, like above the "/* Entrypoints */" 
+section (and maybe introduce another section)? The various parts are 
+more-or-less arranged in a particular order, so it's like going back to 
+implementing concrete things after finishing everything and calling it a 
+day.
+
+Also you forgot to remove the now inappropriate comment about this 
+helper in tcg-target.h.
+
+> +    tcg_insn_unit i1, i2;
+> +
+> +    ptrdiff_t offset = addr - jmp_rx;
+> +
+> +    if (offset == sextreg(offset, 0, 28)) {
+> +        i1 = OPC_B | ((offset >> 18) & 0x3ff) | ((offset << 8) & 0x3fffc00);
+Use encode_sd10k16_insn instead. No need to juggle the bits yourself and 
+you get nice range assertion for free.
+> +        i2 = NOP;
+> +    } else {
+> +        offset >>= 2;
+> +
+> +        ptrdiff_t upper, lower;
+Promote the declaration to the top of the block (before offset 
+shifting), IIRC that's the official coding style.
+> +        upper = ((offset + (1 << 15)) >> 16) & 0xfffff;
+> +        lower = (offset & 0xffff);
+> +        /* patch pcaddu18i */
+> +        i1 = OPC_PCADDU18I | upper << 5 | TCG_REG_T0;
+> +        /* patch jirl */
+> +        i2 = OPC_JIRL | lower << 10 | TCG_REG_T0 << 5;
+
+Similarly you could simplify the assembly here, with encode_dsj20_insn 
+and encode_djsk16_insn respectively.
+
+And the code is straight-forward enough to not need the "patch foo" 
+comments.
+
+> +    }
+> +    uint64_t pair = (uint64_t)i2 << 32 | i1;
+Maybe add a couple more parentheses to make the precedence easier to 
+follow? (for people who struggle to remember things like this, like me)
+> +    qatomic_set((uint64_t *)jmp_rw, pair);
+> +    flush_idcache_range(jmp_rx, jmp_rw, 8);
+> +}
+> +
+>   typedef struct {
+>       DebugFrameHeader h;
+>       uint8_t fde_def_cfa[4];
+> diff --git a/tcg/loongarch64/tcg-target.h b/tcg/loongarch64/tcg-target.h
+> index 67380b2432..0e552731f5 100644
+> --- a/tcg/loongarch64/tcg-target.h
+> +++ b/tcg/loongarch64/tcg-target.h
+> @@ -123,7 +123,7 @@ typedef enum {
+>   #define TCG_TARGET_HAS_clz_i32          1
+>   #define TCG_TARGET_HAS_ctz_i32          1
+>   #define TCG_TARGET_HAS_ctpop_i32        0
+> -#define TCG_TARGET_HAS_direct_jump      0
+> +#define TCG_TARGET_HAS_direct_jump      1
+>   #define TCG_TARGET_HAS_brcond2          0
+>   #define TCG_TARGET_HAS_setcond2         0
+>   #define TCG_TARGET_HAS_qemu_st8_i32     0
 
