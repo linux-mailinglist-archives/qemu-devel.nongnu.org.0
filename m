@@ -2,61 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45C475FC6E2
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 16:01:15 +0200 (CEST)
-Received: from localhost ([::1]:59762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DE365FC7F2
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 17:07:58 +0200 (CEST)
+Received: from localhost ([::1]:54814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oicIL-00067U-S3
-	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 10:01:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50490)
+	id 1oidKu-0007Bn-Po
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 11:07:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1oicFe-0004Pr-MW
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 09:58:26 -0400
-Received: from 10.mo548.mail-out.ovh.net ([46.105.77.235]:36235)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oidCu-00014U-VZ
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 10:59:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43517)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1oicFZ-0008OZ-Bw
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 09:58:25 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.124])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 152C4227CC;
- Wed, 12 Oct 2022 13:58:08 +0000 (UTC)
-Received: from kaod.org (37.59.142.98) by DAG8EX2.mxp5.local (172.16.2.72)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Wed, 12 Oct
- 2022 15:58:07 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R0023dbba2e0-3e19-4038-bcaf-febcdb888918,
- A6FB56ABCB84ED256178F5478BD78B6B7DB9F895) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Wed, 12 Oct 2022 15:58:06 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-CC: <qemu-devel@nongnu.org>, Laurent Vivier <lvivier@redhat.com>, Thomas Huth
- <thuth@redhat.com>
-Subject: Re: [PATCH 00/20] tests/9p: introduce declarative function calls
-Message-ID: <20221012155806.64f67dc8@bahia>
-In-Reply-To: <2170356.SogY61Bk0U@silver>
-References: <cover.1664917004.git.qemu_oss@crudebyte.com>
- <2170356.SogY61Bk0U@silver>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oidCs-0002P4-5b
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 10:59:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665586777;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=oVIJ/7iPCs5h5C4xmhkCbFxEOyXDoMgf7I8mNyKeLL4=;
+ b=cbpFHiP0KVmmvzWplfSUBx/OfSrkQR0eMMiCdAZryz69Eg3hGxmGhlvG75he2s6Np5XsiR
+ PYY1i8xGG6SKSizfmlzyQ9atpfuqJO3kREoeUlAQVwfYR3nehh4JzCFA63hVFfXsk6ttmn
+ jY/qNh/hIyg7BQiV+19MUweBQXh7CP8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-401-BJz2I1bqPCGNGT7cRW-bgw-1; Wed, 12 Oct 2022 10:59:36 -0400
+X-MC-Unique: BJz2I1bqPCGNGT7cRW-bgw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BA2413C0D851;
+ Wed, 12 Oct 2022 14:59:35 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.133])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1E698140EBF3;
+ Wed, 12 Oct 2022 14:59:34 +0000 (UTC)
+Date: Wed, 12 Oct 2022 10:09:58 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ pbonzini@redhat.com
+Subject: Re: [PULL 0/1] testing: revert pc-bios build patch
+Message-ID: <Y0bKtttz3pdzSct2@fedora>
+References: <20221011192858.956078-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG8EX2.mxp5.local
- (172.16.2.72)
-X-Ovh-Tracer-GUID: 315ef78b-2943-4d5f-9556-35cce3350400
-X-Ovh-Tracer-Id: 14406733737054214624
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeejkedgjeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepvdfhudeiuddvfefhtdeuleeggeevueevfeegheduheekjeeggfetueeivdffueeknecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpghhithhhuhgsrdgtohhmnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehgrhhouhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhupghoshhssegtrhhuuggvsgihthgvrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhlvhhivhhivghrsehrvgguhhgrthdrtghomhdpthhhuhhthhesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehgeekpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=46.105.77.235; envelope-from=groug@kaod.org;
- helo=10.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="uwZ9q4aBxtnYvfVY"
+Content-Disposition: inline
+In-Reply-To: <20221011192858.956078-1-alex.bennee@linaro.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,84 +81,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 12 Oct 2022 12:00:40 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-> On Dienstag, 4. Oktober 2022 22:56:44 CEST Christian Schoenebeck wrote:
-> > This series converts relevant 9p (test) client functions to use named
-> > function arguments. For instance
-> > 
-> >     do_walk_expect_error(v9p, "non-existent", ENOENT);
-> > 
-> > becomes
-> > 
-> >     twalk({
-> >         .client = v9p, .path = "non-existent", .expectErr = ENOENT
-> >     });
-> > 
-> > The intention is to make the actual 9p test code more readable, and easier
-> > to maintain on the long-term.
-> > 
-> > Not only makes it clear what a literal passed to a function is supposed to
-> > do, it also makes the order and selection of arguments very liberal, and
-> > allows to merge multiple, similar functions into one single function.
-> > 
-> > This is basically just refactoring, it does not change behaviour.
-> 
-> Too massive for review?
-> 
+--uwZ9q4aBxtnYvfVY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Yeah, sorry :-(
+Applied, thanks.
 
-But since the approach you're taking here may be valuable elsewhere,
-and this is qtest, it seems fair to ask Thomas and Laurent to have
-a look :-)
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
 
-> If so, then I'll probably just go ahead and prepare a PR early next week with 
-> this queued as well. It's just test code refactoring, so I am quite painless 
-> about these changes.
-> 
-> Best regards,
-> Christian Schoenebeck
-> 
-> > 
-> > PREREQUISITES
-> > =============
-> > 
-> > This series requires the following additional patch to work correctly:
-> > 
-> > https://lore.kernel.org/all/E1odrya-0004Fv-97@lizzy.crudebyte.com/
-> > https://github.com/cschoenebeck/qemu/commit/23d01367fc7a4f27be323ed6d195c527
-> > bec9ede1
-> > 
-> > Christian Schoenebeck (20):
-> >   tests/9p: merge *walk*() functions
-> >   tests/9p: simplify callers of twalk()
-> >   tests/9p: merge v9fs_tversion() and do_version()
-> >   tests/9p: merge v9fs_tattach(), do_attach(), do_attach_rqid()
-> >   tests/9p: simplify callers of tattach()
-> >   tests/9p: convert v9fs_tgetattr() to declarative arguments
-> >   tests/9p: simplify callers of tgetattr()
-> >   tests/9p: convert v9fs_treaddir() to declarative arguments
-> >   tests/9p: simplify callers of treaddir()
-> >   tests/9p: convert v9fs_tlopen() to declarative arguments
-> >   tests/9p: simplify callers of tlopen()
-> >   tests/9p: convert v9fs_twrite() to declarative arguments
-> >   tests/9p: simplify callers of twrite()
-> >   tests/9p: convert v9fs_tflush() to declarative arguments
-> >   tests/9p: merge v9fs_tmkdir() and do_mkdir()
-> >   tests/9p: merge v9fs_tlcreate() and do_lcreate()
-> >   tests/9p: merge v9fs_tsymlink() and do_symlink()
-> >   tests/9p: merge v9fs_tlink() and do_hardlink()
-> >   tests/9p: merge v9fs_tunlinkat() and do_unlinkat()
-> >   tests/9p: remove unnecessary g_strdup() calls
-> > 
-> >  tests/qtest/libqos/virtio-9p-client.c | 569 +++++++++++++++++++++-----
-> >  tests/qtest/libqos/virtio-9p-client.h | 408 ++++++++++++++++--
-> >  tests/qtest/virtio-9p-test.c          | 529 ++++++++----------------
-> >  3 files changed, 1031 insertions(+), 475 deletions(-)
-> 
-> 
-> 
+--uwZ9q4aBxtnYvfVY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNGyrYACgkQnKSrs4Gr
+c8igdAf/XLn9avqpZ/kltVhvUiulMRk2oWW4iAAKCYOkTZCJi1Jo5hVH/5bVry8s
+38alXtyhmLEweXe+wx1+zgs08SGWpZBRlSrDg+1dxkxJ2L9sNXq+uEHOvMX7rKs9
+GBckN33EB3D2eELbaeKWk/iiIts/tOOyJ1zlqj64B/QtACLFDIEbwn0BtAKaghBG
+WvqrkWxCuV7v3deaf8J8z8I9Bzf5RcBh/Z+mVrw0+D0L+leJz7vWklGDsFid5ixB
+8PYbiIHGSPiuHrDOQDN8x664YoetqN/BhQjuudfqdqOMukrqPlEeJFUAoK3GMrlO
+OrbDhr+mhRhZe2Yyq2+EepuFRvBxPQ==
+=LrOl
+-----END PGP SIGNATURE-----
+
+--uwZ9q4aBxtnYvfVY--
 
 
