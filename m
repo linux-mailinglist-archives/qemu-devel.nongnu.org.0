@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B87D95FC885
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 17:38:22 +0200 (CEST)
-Received: from localhost ([::1]:58248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BCBD5FC891
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 17:41:17 +0200 (CEST)
+Received: from localhost ([::1]:58164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oidoL-0006pa-Ce
-	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 11:38:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46388)
+	id 1oidrA-00045u-3Z
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 11:41:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oidlZ-0003ck-Bz
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 11:35:30 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:51528 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>) id 1oidlR-0000mB-P6
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 11:35:27 -0400
-Received: from [127.0.0.1] (unknown [221.220.143.85])
- by APP-01 (Coremail) with SMTP id qwCowADHzvKp3kZj8dXHBA--.34125S2;
- Wed, 12 Oct 2022 23:35:06 +0800 (CST)
-Message-ID: <ce082eb5-e362-87f7-c4fc-bc786515017c@ict.ac.cn>
-Date: Wed, 12 Oct 2022 23:35:05 +0800
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oidoF-0006nW-DI
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 11:38:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34103)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oido8-0001E6-B1
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 11:38:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665589086;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=WegYvfA7hG6BG2FSOAxcqDaJ81MGGYM9IxoWNxCIcoA=;
+ b=LNfDESnu88vXkAfCJWfpI9IbPww48QtKYzJ7B+kEQsb2IB5WGtemeh5d6Ish2XgD6HQ+K2
+ tbv6tZoNRgRiNi93FJ8P+mEUFa27kfFTMc1pcrwLa+B/DiLulH/scu0feRfQzxBlInYHxg
+ OEQSSTcxO20oBJ7Dz5qSHGEE0eenWb0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-215-Gl32JGEmPieb45DaFELYoA-1; Wed, 12 Oct 2022 11:38:03 -0400
+X-MC-Unique: Gl32JGEmPieb45DaFELYoA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4D05C802C17;
+ Wed, 12 Oct 2022 15:38:03 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.110])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D1C882156892;
+ Wed, 12 Oct 2022 15:38:02 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6C66021E691D; Wed, 12 Oct 2022 17:38:01 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: arei.gonglei@huawei.com, lvivier@redhat.com, amit@kernel.org,
+ mst@redhat.com, pbonzini@redhat.com, berrange@redhat.com,
+ eduardo@habkost.net, thuth@redhat.com, david@redhat.com
+Subject: [PATCH 0/4] Replace QERR_PERMISSION_DENIED by better error messages
+Date: Wed, 12 Oct 2022 17:37:57 +0200
+Message-Id: <20221012153801.2604340-1-armbru@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH 0/3] iothread and irqfd support
-To: Klaus Jensen <its@irrelevant.dk>, Stefan Hajnoczi <stefanha@gmail.com>
-Cc: qemu-devel@nongnu.org, kbusch@kernel.org
-References: <20220826111834.3014912-1-fanjinhao21s@ict.ac.cn>
- <CAJSP0QViGDCNrdPNPnT87go=ofCxTE7cWMGHFnOH5v+8rw8BGA@mail.gmail.com>
- <Y0bRsLWaSaUnPFqM@cormorant.local>
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-In-Reply-To: <Y0bRsLWaSaUnPFqM@cormorant.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: qwCowADHzvKp3kZj8dXHBA--.34125S2
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
- VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY07k0a2IF6FyUM7kC6x804xWl14x267AK
- xVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGw
- A2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1j
- 6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Cr
- 1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv
- 0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z2
- 80aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IE
- e2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
- Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r12
- 6r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
- kF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AK
- xVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07
- joGQDUUUUU=
-X-Originating-IP: [221.220.143.85]
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
-Received-SPF: pass client-ip=159.226.251.21;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.528,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,18 +78,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/12/2022 10:39 PM, Klaus Jensen wrote:
-> I have been meaning to pick it up, but I got side-tracked. The polling
-> performance drop needs to be address as we discussed offline.
-> 
-> But the v4 looks pretty good and I can pick that up without the polling
-> support for now.
+Markus Armbruster (4):
+  qom: Improve error messages when property has no getter or setter
+  backends: Improve error messages when property can no longer be set
+  qtest: Improve error messages when property can not be set right now
+  qerror: QERR_PERMISSION_DENIED is no longer used, drop
 
-I've been using the v4 without polling for my daily work. It worked 
-pretty well for my test workloads.
+ include/qapi/qmp/qerror.h       | 3 ---
+ backends/cryptodev-vhost-user.c | 2 +-
+ backends/rng-egd.c              | 2 +-
+ backends/rng-random.c           | 2 +-
+ backends/vhost-user.c           | 2 +-
+ qom/object.c                    | 6 ++++--
+ softmmu/qtest.c                 | 4 ++--
+ 7 files changed, 10 insertions(+), 11 deletions(-)
 
-I'm not sure what needs to be done for the polling problem. I can try to 
-add a completion batching mechanism with BH, similar to virtio-blk. Do 
-you think this is the right direction?
+-- 
+2.37.2
 
 
