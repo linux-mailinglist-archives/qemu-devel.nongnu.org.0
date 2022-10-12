@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0D185FC00E
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 07:08:18 +0200 (CEST)
-Received: from localhost ([::1]:33876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A5225FC010
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 07:09:46 +0200 (CEST)
+Received: from localhost ([::1]:54552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiTyb-00009E-0J
-	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 01:08:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55668)
+	id 1oiU01-0001HJ-ED
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 01:09:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oiTui-000566-9L
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 01:04:16 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:38559)
+ id 1oiTvT-0005qB-KU; Wed, 12 Oct 2022 01:05:03 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:37815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oiTug-0007NL-LH
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 01:04:16 -0400
-Received: by mail-pl1-x634.google.com with SMTP id c20so5638749plc.5
- for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 22:04:13 -0700 (PDT)
+ id 1oiTvQ-0007QA-Tw; Wed, 12 Oct 2022 01:05:03 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id 3so13929444pfw.4;
+ Tue, 11 Oct 2022 22:05:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Ro3GPRTym5Lmpira4+tBf8Eafdf5B2Dif0HUxPI6FLg=;
- b=VvGt1lajixJ+m3JQgWL9AmpsOjhKTpc2ywzYvUPLh0+wYLTHTslGLzHxvJPZMabdXe
- 5oKn20GY76F6qWN7mfKquOxhZ8zw389T59VaXQoNnNE3XnE2qDzI9krVY23omM+BzjtL
- bjHEKG5YX3TW9Goz66Me4wtcGyGBxsnxsUM4cLFmJqpevMDvZpruV5QPjhnKWQ681YDq
- am0wQdYVJr+oOPhcP/f056Swieq+8pC66NMPTYk6lyMg1cUoNOJCnSvFGY0vHs7U04bx
- aA9sqo8yKmKdQIVm5IZeMYXDXHKyxtgH27ORWhLXrECPhwqBZdBpK75+yOrWNaYk38+H
- 9ThA==
+ bh=IgqjnJM3hucQ5z5R5Tux/MUljENLke8o3wZRLJ7zrnk=;
+ b=JfCAsm/hE59u7/fMceJaFJ//rSrSLjJRh2vGqvv4ZmF41VqkYSxtz6NNa/wWbneqiE
+ kB3EbYLhl0P1qpOm3P6qCOD+SSDx+x+o1isHiRIv3FR2VpO+VOyyE5mwQiGUIZ53m6/k
+ u++nWSWusIweIZsOybliD9BH8nva0L3lDwpH91i5WQYLiee8sLkJUmx93lzREPbE//cq
+ nzxA2alOZ8d7QKXURiu1rwkTxEClichxF211guRNsvRqZ5DptzBdQehnl0e0EtNu49Gh
+ 7uMS7Dqxsh0nn9nB+rpgKumSBvr54YvwfkUY5Otio0msT3qJvSKp0nXbDINiomB38F1b
+ fIjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Ro3GPRTym5Lmpira4+tBf8Eafdf5B2Dif0HUxPI6FLg=;
- b=D4Rj+6pmqIAXVkj09+ng79GZO1C153mCFXHW6TWf5HO07d3DMDA2HR85WJWqKHMLA9
- DkqUvxJyrBWyVwD1EEPuhOtvkXPVMJO26AblmLKnWqs7qaXDVy93Hvhc+SqZmXEL8AZW
- dQ4udBglT3WRUR+599GL6tZGZYMiaie4SRq04yLTCTTDZoqmVhtYBuEFkMu7DSUshUML
- 2pnQPQE2Gkk6sOD1uXwidV5VlmnhmG2LyQS2Ry/MXqhZChb09Y/d1qOxoRzON/nnBD5+
- CXwW/irgkqhvexxwfcMEDCxSNWU6GKxKFpBTc60++cCTak4bgqO30AZ9Sx9HBDVqhMum
- CTZA==
-X-Gm-Message-State: ACrzQf0zea0AEgxmw2gYdN2RBcGjvXEx8hUvjS3ZkkfvcFalB7yWjp4g
- wNSeZmP2q66LGcbUSsZbg2GjKIdmRFAzOD65Qto=
-X-Google-Smtp-Source: AMsMyM6P/rs9MttV//2k4wKlqBt4lCIraE6VkZtvRukTsXnlY6xkl1PaOE/XLHj39XBJqL1UGLUQQeZSt6661X9Ydzo=
-X-Received: by 2002:a17:90b:3843:b0:20d:54f2:a78d with SMTP id
- nl3-20020a17090b384300b0020d54f2a78dmr3071393pjb.85.1665551052585; Tue, 11
- Oct 2022 22:04:12 -0700 (PDT)
+ bh=IgqjnJM3hucQ5z5R5Tux/MUljENLke8o3wZRLJ7zrnk=;
+ b=rn1tUEl+PVFRnDGRULJEbzTWSa+4KkNp5iqNyev64J0JiqYnypnEsOIwqmIrDZOz8R
+ uGAYFLA1nGYA2V2ArNakhoPG8BC9kWeBvbnoFr6nETwJyFKkv6sLYU2CaH79fV3wYQeR
+ X/jEY2Gl79MHpfwzOCXTM82WLS5f4q8N0ohCp47KL53qMdqjvPMtYlOC1TaY9slcmEXP
+ p9zzd/lgBvcl+/MYdz+5B9+OX5pCtNLyoxWhp37U7BBtGOTnqWXPDHDhQr2K9LH4cBnk
+ zexYD/o7RB+5MlPCDDy9XFatK5t87vAe+ywPXXMaJBX2MHibw5m9TGUpduj70wQP0dAX
+ 939g==
+X-Gm-Message-State: ACrzQf1ATLd3A2hM10WXFIJ4d1iDtpIiRLaH1VbuzfDo8bZNIEd9lkB+
+ E4BQAQUGYz2/FtAGmDbjw5OHx1moumnFkbTmFINSV5+3Prk=
+X-Google-Smtp-Source: AMsMyM5vsIlRKAhck8/9NOQvZ+Kv5LTQJT9vskSSTP29A66Q64z4TXnZO2C7peCZA5pVzWkTp12IOPzLD38gyFaZvc8=
+X-Received: by 2002:a63:ce43:0:b0:45b:d6ed:6c2 with SMTP id
+ r3-20020a63ce43000000b0045bd6ed06c2mr23789884pgi.406.1665551099406; Tue, 11
+ Oct 2022 22:04:59 -0700 (PDT)
 MIME-Version: 1.0
 References: <20221011204645.1160916-1-Jason@zx2c4.com>
- <20221011204645.1160916-2-Jason@zx2c4.com>
-In-Reply-To: <20221011204645.1160916-2-Jason@zx2c4.com>
+ <20221011204645.1160916-4-Jason@zx2c4.com>
+In-Reply-To: <20221011204645.1160916-4-Jason@zx2c4.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 12 Oct 2022 15:03:45 +1000
-Message-ID: <CAKmqyKPSCi_SnshewHE0MxmOQBu1R4YWgGZFXr-4HvtWK3XXvg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/8] device-tree: add re-randomization helper function
+Date: Wed, 12 Oct 2022 15:04:33 +1000
+Message-ID: <CAKmqyKMYPcf+T4BtGGnUHXoUWBptwuMzUH5-Lwe1XmS5c+QgZw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/8] riscv: re-randomize rng-seed on reboot
 To: "Jason A. Donenfeld" <Jason@zx2c4.com>
 Cc: peter.maydell@linaro.org, pbonzini@redhat.com, qemu-devel@nongnu.org, 
- Alistair Francis <alistair.francis@wdc.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=alistair23@gmail.com; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=alistair23@gmail.com; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -87,15 +86,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 12, 2022 at 6:57 AM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+On Wed, Oct 12, 2022 at 6:55 AM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
 >
 > When the system reboots, the rng-seed that the FDT has should be
-> re-randomized, so that the new boot gets a new seed. Several
-> architectures require this functionality, so export a function for
-> injecting a new seed into the given FDT.
+> re-randomized, so that the new boot gets a new seed. Since the FDT is in
+> the ROM region at this point, we add a hook right after the ROM has been
+> added, so that we have a pointer to that copy of the FDT.
 >
+> Cc: Palmer Dabbelt <palmer@dabbelt.com>
 > Cc: Alistair Francis <alistair.francis@wdc.com>
-> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Cc: Bin Meng <bin.meng@windriver.com>
+> Cc: qemu-riscv@nongnu.org
 > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
@@ -103,66 +104,30 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  include/sysemu/device_tree.h |  9 +++++++++
->  softmmu/device_tree.c        | 21 +++++++++++++++++++++
->  2 files changed, 30 insertions(+)
+>  hw/riscv/boot.c | 3 +++
+>  1 file changed, 3 insertions(+)
 >
-> diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
-> index ef060a9759..d552f324b6 100644
-> --- a/include/sysemu/device_tree.h
-> +++ b/include/sysemu/device_tree.h
-> @@ -196,6 +196,15 @@ int qemu_fdt_setprop_sized_cells_from_array(void *fdt,
->                                                  qdt_tmp);                 \
->      })
->
-> +
-> +/**
-> + * qemu_fdt_randomize_seeds:
-> + * @fdt: device tree blob
-> + *
-> + * Re-randomize all "rng-seed" properties with new seeds.
-> + */
-> +void qemu_fdt_randomize_seeds(void *fdt);
-> +
->  #define FDT_PCI_RANGE_RELOCATABLE          0x80000000
->  #define FDT_PCI_RANGE_PREFETCHABLE         0x40000000
->  #define FDT_PCI_RANGE_ALIASED              0x20000000
-> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-> index 6ca3fad285..d986c7b7b3 100644
-> --- a/softmmu/device_tree.c
-> +++ b/softmmu/device_tree.c
-> @@ -22,6 +22,7 @@
->  #include "qemu/option.h"
->  #include "qemu/bswap.h"
->  #include "qemu/cutils.h"
-> +#include "qemu/guest-random.h"
+> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+> index 1ae7596873..aaecf21543 100644
+> --- a/hw/riscv/boot.c
+> +++ b/hw/riscv/boot.c
+> @@ -30,6 +30,7 @@
 >  #include "sysemu/device_tree.h"
->  #include "hw/loader.h"
->  #include "hw/boards.h"
-> @@ -643,3 +644,23 @@ out:
->      g_free(propcells);
->      return ret;
+>  #include "sysemu/qtest.h"
+>  #include "sysemu/kvm.h"
+> +#include "sysemu/reset.h"
+>
+>  #include <libfdt.h>
+>
+> @@ -241,6 +242,8 @@ uint64_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+>
+>      rom_add_blob_fixed_as("fdt", fdt, fdtsize, fdt_addr,
+>                            &address_space_memory);
+> +    qemu_register_reset(qemu_fdt_randomize_seeds,
+> +                        rom_ptr_for_as(&address_space_memory, fdt_addr, fdtsize));
+>
+>      return fdt_addr;
 >  }
-> +
-> +void qemu_fdt_randomize_seeds(void *fdt)
-> +{
-> +    int noffset, poffset, len;
-> +    const char *name;
-> +    uint8_t *data;
-> +
-> +    for (noffset = fdt_next_node(fdt, 0, NULL);
-> +         noffset >= 0;
-> +         noffset = fdt_next_node(fdt, noffset, NULL)) {
-> +        for (poffset = fdt_first_property_offset(fdt, noffset);
-> +             poffset >= 0;
-> +             poffset = fdt_next_property_offset(fdt, poffset)) {
-> +            data = (uint8_t *)fdt_getprop_by_offset(fdt, poffset, &name, &len);
-> +            if (!data || strcmp(name, "rng-seed"))
-> +                continue;
-> +            qemu_guest_getrandom_nofail(data, len);
-> +        }
-> +    }
-> +}
 > --
 > 2.37.3
 >
