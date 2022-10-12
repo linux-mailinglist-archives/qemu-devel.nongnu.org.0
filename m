@@ -2,67 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 372C05FC7EA
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 17:03:03 +0200 (CEST)
-Received: from localhost ([::1]:34514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 427165FC7F7
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 17:08:42 +0200 (CEST)
+Received: from localhost ([::1]:47386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oidGA-0002nF-92
-	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 11:03:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54380)
+	id 1oidLd-0008ML-Ay
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 11:08:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oicnl-0005QR-Jo
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 10:33:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48694)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oictn-0004k1-3d
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 10:39:56 -0400
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:37205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oicnk-0006mC-2I
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 10:33:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665585219;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AuHzGaGBncmQNomGwdGk/BrdHJBvT87m/cL3VKwyV7I=;
- b=AnPayDw2DmnGqJod1CgJHiOISFd3Pw9QAIM96eQ/xrfJSHEccturuUu8bChbQz1fDUjyjB
- gj44d1w0XIm1VjffBokPaIwTDEojAwb17UF30y5FuzGMJOny5eR3xONOJYo8KNzVUbXp1Y
- ZmIeAms+G6chw+rJiqIlaIuBDcX90XE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-301-44vC0LlrOkuqWEQCMvG7cA-1; Wed, 12 Oct 2022 10:33:38 -0400
-X-MC-Unique: 44vC0LlrOkuqWEQCMvG7cA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 047F1382ECC6
- for <qemu-devel@nongnu.org>; Wed, 12 Oct 2022 14:33:38 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.235])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 383A62144B20;
- Wed, 12 Oct 2022 14:33:37 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>,
-	qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 16/16] tests/unit/test-image-locking: Fix handling of temporary
- files
-Date: Wed, 12 Oct 2022 16:33:16 +0200
-Message-Id: <20221012143316.988561-17-thuth@redhat.com>
-In-Reply-To: <20221012143316.988561-1-thuth@redhat.com>
-References: <20221012143316.988561-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oictl-0007XW-0W
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 10:39:54 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 3D62B320047A;
+ Wed, 12 Oct 2022 10:39:49 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 12 Oct 2022 10:39:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1665585588; x=1665671988; bh=Hd
+ lnIuG0Pnt4GxUOmUP2xOwgREFrlo7LWyzRlghirMI=; b=jQocleq9ae4EmLh21l
+ oYbBfRwn2bZ21PyfYXR//FKYbwmntsHarpMSmZLmbFX3a3o0swkQo6Ixwo6iOQ7L
+ W9L6UMt4V9f7FeQgX3squGUuiR1DiC7jDqJaaKfkHnXfmCvErQ2MHInrfNZrQqD+
+ cCD0C7J85/wlefF/VhCiNORLy0tCjfsdoymhtjda4i+WRc0P5AlBSMhNg0kmpm1R
+ /Amd0+5KlPIVb2qDoQVXdO8Vad9ADandljurvwbjsFCyDKVb9n8lHALBAZKjkfXc
+ vKd2dJVsJnnCvqD4xzQV7KWhNnBoVzNF7b6CafChAKTGGQZn9tyd4nMQLKdJcK6F
+ EJxQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1665585588; x=1665671988; bh=HdlnIuG0Pnt4GxUOmUP2xOwgREFr
+ lo7LWyzRlghirMI=; b=i0Yj4vEGz02+lAEkbc2hr0pfPrh3O3YXn8Oci8KEf9HA
+ JW00Ro8OqzSSIe8/2dytBpAJx8msUkni7ktSWlkrb+KqGAflSlALDcsW7chbCswa
+ WDB3ZMM3sJi5JbpMqTi22CPO8o5EJAsehRMYnkCGydGdEwp1g0nMLPZ/bes8ldrc
+ qaywefJ9T1WESD5HkvZcyOiGGf6HYnp4DYTxdNTLTKIrNZgEzjTPyxMY88d0LJ1B
+ RPOuXUUPPZKBSVV6jv4Q+F1V2V9HPfARUHdCC9HrCRMXTwbj8xK2i8Zg7oWJrAUY
+ 15LpmxKUo+qeaqR0kIlcTGIpo62+IFiTzKM2Xcjy+A==
+X-ME-Sender: <xms:s9FGYxS88pr9Xl1woBbW53S-2E86Fh93PSlH79YXALG061H3191Xiw>
+ <xme:s9FGY6wouhApwG6jkGfSJs5B86Fe_4V1JPlglnnGN6PsiNtU8OkYn12J_y8Lc5UkH
+ _Tro-PxTSuh2KOhxcw>
+X-ME-Received: <xmr:s9FGY20xvv0RtoixELOJZhmPGV-paoWyJ8HDHBtp9j0F6KbVLLD6D4T4mlRsaqVAVOZ3>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeejkedgjeelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
+ jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:s9FGY5BlwkXO8osZXw9qorWECJUHJQBWnuUo6LN9zZpyX_Eha-DCyA>
+ <xmx:s9FGY6hiCBglVBYgQNKnVx0Mcr-vZTkTWzFyM-lejALe_gQ6LnZeAw>
+ <xmx:s9FGY9qN--fSV77zKp2QEajSNnF86g_aBEkALowlQ4tZv7v3QR2hGQ>
+ <xmx:tNFGY7sUsvBwkmBLWLys0XzR5Ys6n0zCe427chNbtT3ntE8W5nLrXQ>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 12 Oct 2022 10:39:46 -0400 (EDT)
+Date: Wed, 12 Oct 2022 16:39:44 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: Jinhao Fan <fanjinhao21s@ict.ac.cn>, qemu-devel@nongnu.org,
+ kbusch@kernel.org
+Subject: Re: [PATCH 0/3] iothread and irqfd support
+Message-ID: <Y0bRsLWaSaUnPFqM@cormorant.local>
+References: <20220826111834.3014912-1-fanjinhao21s@ict.ac.cn>
+ <CAJSP0QViGDCNrdPNPnT87go=ofCxTE7cWMGHFnOH5v+8rw8BGA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="89d/YDLuDqRdWwVL"
+Content-Disposition: inline
+In-Reply-To: <CAJSP0QViGDCNrdPNPnT87go=ofCxTE7cWMGHFnOH5v+8rw8BGA@mail.gmail.com>
+Received-SPF: pass client-ip=64.147.123.20; envelope-from=its@irrelevant.dk;
+ helo=wout4-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,51 +102,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-test-image-locking leaves some temporary files around - clean
-them up. While we're at it, test-image-locking is a unit test,
-so it should not use "qtest.*" for temporary file names. Give
-them better names instead, so that it clear where the temporary
-files come from.
 
-Message-Id: <20221012085932.799221-1-thuth@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/unit/test-image-locking.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+--89d/YDLuDqRdWwVL
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/tests/unit/test-image-locking.c b/tests/unit/test-image-locking.c
-index a47299c247..2624cec6a0 100644
---- a/tests/unit/test-image-locking.c
-+++ b/tests/unit/test-image-locking.c
-@@ -79,7 +79,7 @@ static void test_image_locking_basic(void)
-     g_autofree char *img_path = NULL;
-     uint64_t perm, shared_perm;
- 
--    int fd = g_file_open_tmp("qtest.XXXXXX", &img_path, NULL);
-+    int fd = g_file_open_tmp("qemu-tst-img-lock.XXXXXX", &img_path, NULL);
-     assert(fd >= 0);
- 
-     perm = BLK_PERM_WRITE | BLK_PERM_CONSISTENT_READ;
-@@ -120,7 +120,7 @@ static void test_set_perm_abort(void)
-     g_autofree char *img_path = NULL;
-     uint64_t perm, shared_perm;
-     int r;
--    int fd = g_file_open_tmp("qtest.XXXXXX", &img_path, NULL);
-+    int fd = g_file_open_tmp("qemu-tst-img-lock.XXXXXX", &img_path, NULL);
-     assert(fd >= 0);
- 
-     perm = BLK_PERM_WRITE | BLK_PERM_CONSISTENT_READ;
-@@ -140,6 +140,8 @@ static void test_set_perm_abort(void)
-     check_locked_bytes(fd, perm, ~shared_perm);
-     blk_unref(blk1);
-     blk_unref(blk2);
-+    close(fd);
-+    unlink(img_path);
- }
- 
- int main(int argc, char **argv)
--- 
-2.31.1
+On Okt 12 10:28, Stefan Hajnoczi wrote:
+> On Fri, 26 Aug 2022 at 07:18, Jinhao Fan <fanjinhao21s@ict.ac.cn> wrote:
+> >
+> > This patch series adds support for using a seperate iothread for NVMe
+> > IO emulation, which brings the potential of applying polling. The
+> > first two patches implements support for irqfd, which solves thread
+> > safety problems for interrupt emulation outside the main loop thread.
+> >
+> > Jinhao Fan (3):
+> >   hw/nvme: support irq(de)assertion with eventfd
+> >   hw/nvme: use KVM irqfd when available
+> >   hw/nvme: add iothread support
+>=20
+> Hi,
+> What is the status of this series?
+>=20
 
+I have been meaning to pick it up, but I got side-tracked. The polling
+performance drop needs to be address as we discussed offline.
+
+But the v4 looks pretty good and I can pick that up without the polling
+support for now.
+
+--89d/YDLuDqRdWwVL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmNG0a8ACgkQTeGvMW1P
+DenKEAgAhJIRRzfvZhhVbk+UJHbR7igMzuq9KMyuavl0oyOeJdxcBdASUI0rcwZm
++44U006R1HEuUezbbPXbRxOG3Yx1jH0kJ83PZSlxzMcVO8X8LCrGA3i4twd+QfLo
+5+DA6ExgLtkBuCbDFrQPtLBfW9WxWkIBOsWjjkUKmvWrbN7IuZM16wKhf9j4F1eZ
+mRoFLCUP9RI+hQKcojG6YZmpD/KajyyRCSDF7k1bV/7HPAomSlJTUbEulQ6tHryC
+rq+XvktABZwK866GnYSpGyQCFozRU2oCRiuaLkX1RoLJAT1Au5qmOUAKF6uWbeFb
+AQyu3WpWX+1/FsdpjUH9/ZO8ist8yw==
+=Yu9u
+-----END PGP SIGNATURE-----
+
+--89d/YDLuDqRdWwVL--
 
