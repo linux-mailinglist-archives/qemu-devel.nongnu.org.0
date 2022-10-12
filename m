@@ -2,99 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4530D5FC1B0
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 10:15:00 +0200 (CEST)
-Received: from localhost ([::1]:42428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E22F55FC1DE
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 10:21:13 +0200 (CEST)
+Received: from localhost ([::1]:55096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiWtH-0007zl-2K
-	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 04:14:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55462)
+	id 1oiWzI-0003fW-NL
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 04:21:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oiWkz-0003Gn-Pb; Wed, 12 Oct 2022 04:06:27 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:45915)
+ (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1oiWsy-0007zq-EB
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 04:14:40 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:39282)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oiWko-0000XH-L5; Wed, 12 Oct 2022 04:06:25 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id CCB975C00DD;
- Wed, 12 Oct 2022 04:06:10 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Wed, 12 Oct 2022 04:06:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1665561970; x=1665648370; bh=V6
- BGlPmkoCohFtVlbh0xNbeKR3+7FF5bGWP4k4m0wnc=; b=KAboZhmkPUQwAKasDC
- 8PKBauxPtzT7BVA5kBsZGNJrE+biSzW8FVFADKE2eO7NLrkFagkEmSEfMAH2fPrO
- T9fu3Ck1LuQbZN+QV4AUjtChFM3WRVoTUxOwEbvbyJWs+Nh8DlIQUDVlsL53UGtt
- QlCFmFDp5aHa9tXzAd+FkotgfpbncA2c68wxaXiAcfUShRNEh3qWqwUflPPcCi2P
- 6T9d144IbHl3/POcdoTLo6x+y/3F2gFKWli/C/J4PcK/rGNxXjbhNbcFfmVKu+8O
- P6BqAWUupgDmlqcFCMbES7JKN5W5W6+jINuYslRoq1X3ytXkNfJ0UUlLJznIFVsd
- eCJg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1665561970; x=1665648370; bh=V6BGlPmkoCohFtVlbh0xNbeKR3+7
- FF5bGWP4k4m0wnc=; b=F1xvDgnMT4tI1U7MMGJT/bjYqn/tcJuVca+n/TPy4FJJ
- Egb1Jmyxm9ONviBfhRvpbNaR/30oAfIg9YNc7SpfGHbiXGArUINzveuF0sW8xqyZ
- L8kJ1lFZthgsULiMRf3taJpUHXDIVLqmddVQlYFkuYgeCHOMFDK7YJq93nDE5c0P
- B+IAjqyxutBk6Tx6zS9B/DqCFLy1UDfEbJ/rdE29FaHTlQruZzJIqs9Dh4dOqipR
- IXHsREA1cJo3C+uJhF8J0maiS/6FZKW2H/sM5YvPUdwYnpTjajVQGJtVc2tQ9mrg
- GciYmd3Ho17WkFAC+IF5OaxA9kF48QiTkYkXRyC2mQ==
-X-ME-Sender: <xms:cnVGY45m470EWUsG9BNYyzAJNAIuiaM7l0kMtpU0_fvo3qKicBK8IQ>
- <xme:cnVGY55a1B6jCXFfM2PxvlIFH7X0Jh2xZMitTWacAb6uF7lBGT715elp5U__w0bgI
- 1wPcuDZL_BjAtWI1i8>
-X-ME-Received: <xmr:cnVGY3fh3G7FI6zFJhKYOOr84fIFdbhmZvjmTlTH9IWzUzwpqBiYB4V6SZ6Ab8bZT4G1>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeejjedguddvjecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgr
- uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
- htthgvrhhnpeejgfejfeffvdeuhfeifefhgffgueelhedukeevjeevtdduudegieegteff
- ffejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:cnVGY9JVNPe_t3Ut2bLxwjIkW1MUOacBRVRCfRI19x-Fuq6d-h1LbA>
- <xmx:cnVGY8L6PrxOZAodYss3G-M89T_rQFRRjPmciWice8enApff_UnWkg>
- <xmx:cnVGY-ys2aN8JVNEI91nIs7fG40bGLp4qq2EGXhE9F2PcGg0949DpA>
- <xmx:cnVGY2h-RoZo5nIXgKZTuTwnKUMPCqz1Nt8TByLJQec9SQTKHNXOBw>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 12 Oct 2022 04:06:09 -0400 (EDT)
-Date: Wed, 12 Oct 2022 10:06:07 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Daniel Wagner <wagi@monom.org>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Keith Busch <keith.busch@wdc.com>
-Subject: Re: [PATCH] hw/block/nvme: re-enable NVMe PCI hotplug
-Message-ID: <Y0Z1b8C0zi3Kjw9G@cormorant.local>
-References: <20210511073511.32511-1-hare@suse.de>
- <YJp2/AeqfgQ46ZyV@apples.localdomain>
- <5fe71d92-842b-2b86-1d5e-c7a106753d2a@suse.de>
- <YJqImppDvOKSbgh2@apples.localdomain>
- <27cc0341-3a32-4a75-f5fd-9987b1b37799@suse.de>
- <YJqq6rTRTL3mxMK6@apples.localdomain>
- <7f4c0a64-582b-edc7-7362-2da45c137702@suse.de>
- <20221010170100.o326gwco547y3qrz@carbon.lan>
- <deb27a4f-a053-40b8-b46b-5b4dbd4674a5@suse.de>
+ (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1oiWsv-0001Yp-Tq
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 04:14:39 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id A8A2EB819B5;
+ Wed, 12 Oct 2022 08:14:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF244C433D6;
+ Wed, 12 Oct 2022 08:14:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1665562467;
+ bh=LztmwvXdNCm1f+34a+megCcYhhpdDqS6aiTmicYdPF8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kleJYJtMEas4yS4RIXkTvXxxmFB47lcONJVV4sKjv+gcua2rPdtmCSedjkBabAc5b
+ hURHMNdHWx7r4wowISznvsizi5Im+t49R31DXBrxGFTPbODdfTQ45XZDHhKYo+JvHL
+ t6QsJW8EDjUc9rhZsiuHIKhUNbaOtRdEwyO+hSXYPGCmYEKpWNusDs75tgGv3i7DGB
+ Cabm5X3AcR4lCdWi6S4ohFHrXaIkXFb5OiLHlboF0GIBH8p74FABaO+Qze8RI5WE1J
+ AOOcOtKMetuPMcewlepYLN3mlBduTOUDyUr3WWYASoOrEnFMPOJaqW2LeRPKXF8rL8
+ D1OfYmz8/fNBA==
+Date: Wed, 12 Oct 2022 11:14:24 +0300
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <Y0Z3YH7buJHfpHsC@kernel.org>
+References: <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
+ <Yz7s+JIexAHJm5dc@kernel.org> <Yz7vHXZmU3EpmI0j@kernel.org>
+ <Yz71ogila0mSHxxJ@google.com> <Y0AJ++m/TxoscOZg@kernel.org>
+ <Y0A+rogB6TRDtbyE@google.com> <Y0CgFIq6JnHmdWrL@kernel.org>
+ <Y0GiEW0cYCNx5jyK@kernel.org> <Y0G085xCmFBxSodG@kernel.org>
+ <20221010082507.GA3144879@chaop.bj.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="9GBHeSZjQC5cEvKB"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <deb27a4f-a053-40b8-b46b-5b4dbd4674a5@suse.de>
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <20221010082507.GA3144879@chaop.bj.intel.com>
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=jarkko@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,121 +99,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Oct 10, 2022 at 04:25:07PM +0800, Chao Peng wrote:
+> On Sat, Oct 08, 2022 at 08:35:47PM +0300, Jarkko Sakkinen wrote:
+> > On Sat, Oct 08, 2022 at 07:15:17PM +0300, Jarkko Sakkinen wrote:
+> > > On Sat, Oct 08, 2022 at 12:54:32AM +0300, Jarkko Sakkinen wrote:
+> > > > On Fri, Oct 07, 2022 at 02:58:54PM +0000, Sean Christopherson wrote:
+> > > > > On Fri, Oct 07, 2022, Jarkko Sakkinen wrote:
+> > > > > > On Thu, Oct 06, 2022 at 03:34:58PM +0000, Sean Christopherson wrote:
+> > > > > > > On Thu, Oct 06, 2022, Jarkko Sakkinen wrote:
+> > > > > > > > On Thu, Oct 06, 2022 at 05:58:03PM +0300, Jarkko Sakkinen wrote:
+> > > > > > > > > On Thu, Sep 15, 2022 at 10:29:07PM +0800, Chao Peng wrote:
+> > > > > > > > > > This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
+> > > > > > > > > > additional KVM memslot fields private_fd/private_offset to allow
+> > > > > > > > > > userspace to specify that guest private memory provided from the
+> > > > > > > > > > private_fd and guest_phys_addr mapped at the private_offset of the
+> > > > > > > > > > private_fd, spanning a range of memory_size.
+> > > > > > > > > > 
+> > > > > > > > > > The extended memslot can still have the userspace_addr(hva). When use, a
+> > > > > > > > > > single memslot can maintain both private memory through private
+> > > > > > > > > > fd(private_fd/private_offset) and shared memory through
+> > > > > > > > > > hva(userspace_addr). Whether the private or shared part is visible to
+> > > > > > > > > > guest is maintained by other KVM code.
+> > > > > > > > > 
+> > > > > > > > > What is anyway the appeal of private_offset field, instead of having just
+> > > > > > > > > 1:1 association between regions and files, i.e. one memfd per region?
+> > > > > > > 
+> > > > > > > Modifying memslots is slow, both in KVM and in QEMU (not sure about Google's VMM).
+> > > > > > > E.g. if a vCPU converts a single page, it will be forced to wait until all other
+> > > > > > > vCPUs drop SRCU, which can have severe latency spikes, e.g. if KVM is faulting in
+> > > > > > > memory.  KVM's memslot updates also hold a mutex for the entire duration of the
+> > > > > > > update, i.e. conversions on different vCPUs would be fully serialized, exacerbating
+> > > > > > > the SRCU problem.
+> > > > > > > 
+> > > > > > > KVM also has historical baggage where it "needs" to zap _all_ SPTEs when any
+> > > > > > > memslot is deleted.
+> > > > > > > 
+> > > > > > > Taking both a private_fd and a shared userspace address allows userspace to convert
+> > > > > > > between private and shared without having to manipulate memslots.
+> > > > > > 
+> > > > > > Right, this was really good explanation, thank you.
+> > > > > > 
+> > > > > > Still wondering could this possibly work (or not):
+> > > > > > 
+> > > > > > 1. Union userspace_addr and private_fd.
+> > > > > 
+> > > > > No, because userspace needs to be able to provide both userspace_addr (shared
+> > > > > memory) and private_fd (private memory) for a single memslot.
+> > > > 
+> > > > Got it, thanks for clearing my misunderstandings on this topic, and it
+> > > > is quite obviously visible in 5/8 and 7/8. I.e. if I got it right,
+> > > > memblock can be partially private, and you dig the shared holes with
+> > > > KVM_MEMORY_ENCRYPT_UNREG_REGION. We have (in Enarx) ATM have memblock
+> > > > per host mmap, I was looking into this dilated by that mindset but makes
+> > > > definitely sense to support that.
+> > > 
+> > > For me the most useful reference with this feature is kvm_set_phys_mem()
+> > > implementation in privmem-v8 branch. Took while to find it because I did
+> > > not have much experience with QEMU code base. I'd even recommend to mention
+> > > that function in the cover letter because it is really good reference on
+> > > how this feature is supposed to be used.
+> 
+> That's a good point, I can mention that if people find useful. 
 
---9GBHeSZjQC5cEvKB
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yeah, I did implementation for Enarx (https://www.enarx.dev/) using just
+that part as a reference. It has all the essentials what you need to
+consider when you are already using KVM API, and want to add private
+regions.
 
-On Okt 12 08:24, Hannes Reinecke wrote:
-> On 10/10/22 19:01, Daniel Wagner wrote:
-> > On Tue, May 11, 2021 at 06:12:47PM +0200, Hannes Reinecke wrote:
-> > > On 5/11/21 6:03 PM, Klaus Jensen wrote:
-> > > > On May 11 16:54, Hannes Reinecke wrote:
-> > > > > On 5/11/21 3:37 PM, Klaus Jensen wrote:
-> > > > > > On May 11 15:12, Hannes Reinecke wrote:
-> > > > > > > On 5/11/21 2:22 PM, Klaus Jensen wrote:
-> > > > > [ .. ]
-> > > > > > > > The hotplug fix looks good - I'll post a series that
-> > > > > > > > tries to integrate
-> > > > > > > > both.
-> > > > > > > >=20
-> > > > > > > Ta.
-> > > > > > >=20
-> > > > > > > The more I think about it, the more I think we should be look=
-ing into
-> > > > > > > reparenting the namespaces to the subsystem.
-> > > > > > > That would have the _immediate_ benefit that 'device_del' and
-> > > > > > > 'device_add' becomes symmetric (ie one doesn't have to do a s=
-eparate
-> > > > > > > 'device_add nvme-ns'), as the nvme namespace is not affected =
-by the
-> > > > > > > hotplug event.
-> > > > > > >=20
-> > > > > >=20
-> > > > > > I have that working, but I'm struggling with a QEMU API technic=
-ality in
-> > > > > > that I apparently cannot simply move the NvmeBus creation to the
-> > > > > > nvme-subsys device. For some reason the bus is not available fo=
-r the
-> > > > > > nvme-ns devices. That is, if one does something like this:
-> > > > > >=20
-> > > > > >  =C2=A0 -device nvme-subsys,...
-> > > > > >  =C2=A0 -device nvme-ns,...
-> > > > > >=20
-> > > > > > Then I get an error that "no 'nvme-bus' bus found for device 'n=
-vme'ns".
-> > > > > > This is probably just me not grok'ing the qdev well enough, so =
-I'll keep
-> > > > > > trying to fix that. What works now is to have the regular setup:
-> > > > > >=20
-> > > > > _Normally_ the 'id' of the parent device spans a bus, so the synt=
-ax
-> > > > > should be
-> > > > >=20
-> > > > > -device nvme-subsys,id=3Dsubsys1,...
-> > > > > -device nvme-ns,bus=3Dsubsys1,...
-> > > >=20
-> > > > Yeah, I know, I just oversimplified the example. This *is* how I wa=
-nted
-> > > > it to work ;)
-> > > >=20
-> > > > >=20
-> > > > > As for the nvme device I would initially expose any namespace fro=
-m the
-> > > > > subsystem to the controller; the nvme spec has some concept of 'a=
-ctive'
-> > > > > or 'inactive' namespaces which would allow us to blank out indivi=
-dual
-> > > > > namespaces on a per-controller basis, but I fear that's not easy =
-to
-> > > > > model with qdev and the structure above.
-> > > > >=20
-> > > >=20
-> > > > The nvme-ns device already supports the boolean 'detached' paramete=
-r to
-> > > > support the concept of an inactive namespace.
-> > > >=20
-> > > Yeah, but that doesn't really work if we move the namespace to the
-> > > subsystem; the 'detached' parameter is for the controller<->namespace
-> > > relationship.
-> > > That's why I meant we have to have some sort of NSID map for the cont=
-roller
-> > > such that the controller knows with NSID to access.
-> > > I guess we can copy the trick with the NSID array, and reverse the op=
-eration
-> > > we have now wrt subsystem; keep the main NSID array in the subsystem,=
- and
-> > > per-controller NSID arrays holding those which can be accessed.
-> > >=20
-> > > And ignore the commandline for now; figure that one out later.
-> > >=20
-> [..]
-> >=20
-> > Sorry to ask but has there been any progress on this topic? Just run
-> > into the same issue that adding nvme device during runtime is not
-> > showing any namespace.
-> >=20
-> I _thought_ that the pci hotplug fixes have now been merged with qemu
-> upstream. Klaus?
->=20
-
-Yup. It's all upstream.
-
---9GBHeSZjQC5cEvKB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmNGdW4ACgkQTeGvMW1P
-DelKBgf/c7wWdsdV2sIRhhkmXUXPhkvaRrLQyO0+uE6nDhHEr3Qi3AXREq280whZ
-K1mjZbYaeedfs8Ve8T1gNcl9NmeIiqxP+Kqy9nAECL7Iwm/jDPo3Ua/dbXzHHggR
-n4zCiim2cliy8I2SpYMSmDmDV7WtKl9VxhYqFVRRouo4A3gZJXIkVEtDLw+iEURW
-nSkI0+yKXeH6l7/h/DDDbllvSQ2hP/axznKxNWJBygPqx65K7zFiia8nUsrIljpj
-Yqc3UwYLgLs34UUMWzi/pA6XkVAyg3rKSFJqmwSSsE707TEI51/SWdt50+apDAzg
-JAta7BOuStjK/FRTMVcROVGJgDY8wg==
-=L6nV
------END PGP SIGNATURE-----
-
---9GBHeSZjQC5cEvKB--
+BR, Jarkko
 
