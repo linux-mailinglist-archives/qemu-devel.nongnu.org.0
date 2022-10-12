@@ -2,85 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68BD25FC0D5
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 08:42:38 +0200 (CEST)
-Received: from localhost ([::1]:43516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7888E5FC0DB
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 08:44:09 +0200 (CEST)
+Received: from localhost ([::1]:38630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiVRt-0002EF-1s
-	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 02:42:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51974)
+	id 1oiVTM-0003KP-FF
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 02:44:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hare@suse.de>)
- id 1oiVAF-0001DF-H5; Wed, 12 Oct 2022 02:24:29 -0400
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c]:52292)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hare@suse.de>)
- id 1oiVAD-0001bh-Ew; Wed, 12 Oct 2022 02:24:22 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D618921A0F;
- Wed, 12 Oct 2022 06:24:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1665555843; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oiVPf-0000HG-I1
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 02:40:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22957)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oiVPa-0003tv-VG
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 02:40:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665556814;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IEUoIdnslYorIil9+iUGpoic8UMgw2NIsbQr8POKDKk=;
- b=qWWvy10PRxiUg1MNWROKMg+Uut+8iP2lKNp8ujseb6E8VJAwfxOI5EmkyyeMRWIsjGsD+U
- ybXL5g/7CHA1ja+nEUsGpTJLh0VpW0vL1NxowLtrBMrI5dSzn6nI62iYhM5kTBr+vgzzJ8
- EwliWLKxYjrKFjnB8Ayhp7rq5IeIiF8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1665555843;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IEUoIdnslYorIil9+iUGpoic8UMgw2NIsbQr8POKDKk=;
- b=Ij+cmwF/08+gZtYFeEGx4IuWIRcZsXyGLbWWWr6RXIjYGYDa5H4XYcvsX5BGH6XFpY5kic
- 9wEUpH+Qblt5yuCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 590FD13ACD;
- Wed, 12 Oct 2022 06:24:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id njB6EoNdRmPCJAAAMHmgww
- (envelope-from <hare@suse.de>); Wed, 12 Oct 2022 06:24:03 +0000
-Message-ID: <deb27a4f-a053-40b8-b46b-5b4dbd4674a5@suse.de>
-Date: Wed, 12 Oct 2022 08:24:02 +0200
+ bh=kXH48xQ+gz3tZOKclLYoYk5Rq8QaujtWFwREynqmIrg=;
+ b=DNEKtQJ1WLM+tSzE0Upprv6rJ7ClFOplWetXxpTzWNaDiLKbVhPrSgHmpejbYwzzxqDGIe
+ H7fhWfVwJZ/Rdc9dRCc/XMdIDalceEWkLk6rRiRvnX9kJQNvHOtJl7KvL1Rc+Lw8oaxawZ
+ Q0u/u2BbP9F7h24yWI5ieRVmfVUrt8M=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-261-jb9j4FCkP42b1-qes2NhDA-1; Wed, 12 Oct 2022 02:40:12 -0400
+X-MC-Unique: jb9j4FCkP42b1-qes2NhDA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ i26-20020adfaada000000b0022e2f38ffccso4625340wrc.14
+ for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 23:40:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kXH48xQ+gz3tZOKclLYoYk5Rq8QaujtWFwREynqmIrg=;
+ b=WOIJgOUxdWZYObGipcSjSVxYME/N3pXG3hDFiWS3hj5Unmf6oEoNL0QI4avd3TwX3/
+ ZKE/+aZ5WYBxte4JhcFzJeqjOXtno/0Jw7pHmr7ICRUdCJiiOfxjjJvCZvNWUYxhP3DO
+ QfDihmP+lUkqWJQ7cV1mmix8QYXEoz+rUogQr8H/GwzHxb8eeiXC/6LGdQEtOxJUsMHm
+ 56ibpbr6B7YQpuDsZXhSQlTomS87qJaGN+9EfsQGWKBxHqukj7MxauB1NDPgwDb2zFxs
+ +XZAzMsMDS+/aIaDqW7uUsFFKAot44FXX0PWRM85OPQ+06ki0SYubasnT5TuI4CJQo87
+ K0kA==
+X-Gm-Message-State: ACrzQf3Pnj+UCMRqqoqzifBYthRgjxY6ao+N2dLfkLz+YJW2G+lUNqsM
+ oqGVUD1kemQeprQ2svIDIGr0KsnC/93L6w2auVB38AV+w3yq8KclWl6DJWgF9qlD5eFGZ5sexky
+ ns2pemM/atoXimfc=
+X-Received: by 2002:a05:600c:4f93:b0:3b4:c026:85a1 with SMTP id
+ n19-20020a05600c4f9300b003b4c02685a1mr1645008wmq.39.1665556811683; 
+ Tue, 11 Oct 2022 23:40:11 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4vxw5NVYCBtVA/y9lt2vgWIVCHCPhkyxcoCBj1K0IXP6jFKEc59meCc1h5onMVUxaNetRs8Q==
+X-Received: by 2002:a05:600c:4f93:b0:3b4:c026:85a1 with SMTP id
+ n19-20020a05600c4f9300b003b4c02685a1mr1644988wmq.39.1665556811239; 
+ Tue, 11 Oct 2022 23:40:11 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-176-11.web.vodafone.de.
+ [109.43.176.11]) by smtp.gmail.com with ESMTPSA id
+ f6-20020a7bcd06000000b003b4a699ce8esm935740wmj.6.2022.10.11.23.40.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Oct 2022 23:40:10 -0700 (PDT)
+Message-ID: <27bd3a3a-ca64-539e-0f3d-60fb4049eaf7@redhat.com>
+Date: Wed, 12 Oct 2022 08:40:09 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] hw/block/nvme: re-enable NVMe PCI hotplug
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 2/2] tests/qtest/ide-test: Verify READ NATIVE MAX ADDRESS
+ is not limited
 Content-Language: en-US
-To: Daniel Wagner <wagi@monom.org>
-Cc: Klaus Jensen <its@irrelevant.dk>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Keith Busch <keith.busch@wdc.com>
-References: <20210511073511.32511-1-hare@suse.de>
- <YJp2/AeqfgQ46ZyV@apples.localdomain>
- <5fe71d92-842b-2b86-1d5e-c7a106753d2a@suse.de>
- <YJqImppDvOKSbgh2@apples.localdomain>
- <27cc0341-3a32-4a75-f5fd-9987b1b37799@suse.de>
- <YJqq6rTRTL3mxMK6@apples.localdomain>
- <7f4c0a64-582b-edc7-7362-2da45c137702@suse.de>
- <20221010170100.o326gwco547y3qrz@carbon.lan>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20221010170100.o326gwco547y3qrz@carbon.lan>
+To: Lev Kujawski <lkujaw@mailbox.org>, qemu-devel@nongnu.org,
+ John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20221010085229.2431276-1-lkujaw@mailbox.org>
+ <20221010085229.2431276-2-lkujaw@mailbox.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20221010085229.2431276-2-lkujaw@mailbox.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=hare@suse.de;
- helo=smtp-out1.suse.de
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
 X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.934,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.934, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,88 +103,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/10/22 19:01, Daniel Wagner wrote:
-> On Tue, May 11, 2021 at 06:12:47PM +0200, Hannes Reinecke wrote:
->> On 5/11/21 6:03 PM, Klaus Jensen wrote:
->>> On May 11 16:54, Hannes Reinecke wrote:
->>>> On 5/11/21 3:37 PM, Klaus Jensen wrote:
->>>>> On May 11 15:12, Hannes Reinecke wrote:
->>>>>> On 5/11/21 2:22 PM, Klaus Jensen wrote:
->>>> [ .. ]
->>>>>>> The hotplug fix looks good - I'll post a series that
->>>>>>> tries to integrate
->>>>>>> both.
->>>>>>>
->>>>>> Ta.
->>>>>>
->>>>>> The more I think about it, the more I think we should be looking into
->>>>>> reparenting the namespaces to the subsystem.
->>>>>> That would have the _immediate_ benefit that 'device_del' and
->>>>>> 'device_add' becomes symmetric (ie one doesn't have to do a separate
->>>>>> 'device_add nvme-ns'), as the nvme namespace is not affected by the
->>>>>> hotplug event.
->>>>>>
->>>>>
->>>>> I have that working, but I'm struggling with a QEMU API technicality in
->>>>> that I apparently cannot simply move the NvmeBus creation to the
->>>>> nvme-subsys device. For some reason the bus is not available for the
->>>>> nvme-ns devices. That is, if one does something like this:
->>>>>
->>>>>    -device nvme-subsys,...
->>>>>    -device nvme-ns,...
->>>>>
->>>>> Then I get an error that "no 'nvme-bus' bus found for device 'nvme'ns".
->>>>> This is probably just me not grok'ing the qdev well enough, so I'll keep
->>>>> trying to fix that. What works now is to have the regular setup:
->>>>>
->>>> _Normally_ the 'id' of the parent device spans a bus, so the syntax
->>>> should be
->>>>
->>>> -device nvme-subsys,id=subsys1,...
->>>> -device nvme-ns,bus=subsys1,...
->>>
->>> Yeah, I know, I just oversimplified the example. This *is* how I wanted
->>> it to work ;)
->>>
->>>>
->>>> As for the nvme device I would initially expose any namespace from the
->>>> subsystem to the controller; the nvme spec has some concept of 'active'
->>>> or 'inactive' namespaces which would allow us to blank out individual
->>>> namespaces on a per-controller basis, but I fear that's not easy to
->>>> model with qdev and the structure above.
->>>>
->>>
->>> The nvme-ns device already supports the boolean 'detached' parameter to
->>> support the concept of an inactive namespace.
->>>
->> Yeah, but that doesn't really work if we move the namespace to the
->> subsystem; the 'detached' parameter is for the controller<->namespace
->> relationship.
->> That's why I meant we have to have some sort of NSID map for the controller
->> such that the controller knows with NSID to access.
->> I guess we can copy the trick with the NSID array, and reverse the operation
->> we have now wrt subsystem; keep the main NSID array in the subsystem, and
->> per-controller NSID arrays holding those which can be accessed.
->>
->> And ignore the commandline for now; figure that one out later.
->>
-[..]
+On 10/10/2022 10.52, Lev Kujawski wrote:
+> Verify that the ATA command READ NATIVE MAX ADDRESS returns the last
+> valid CHS tuple for the native device rather than any limit
+> established by INITIALIZE DEVICE PARAMETERS.
 > 
-> Sorry to ask but has there been any progress on this topic? Just run
-> into the same issue that adding nvme device during runtime is not
-> showing any namespace.
+> Signed-off-by: Lev Kujawski <lkujaw@mailbox.org>
+> ---
+>   tests/qtest/ide-test.c | 47 +++++++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 46 insertions(+), 1 deletion(-)
 > 
-I _thought_ that the pci hotplug fixes have now been merged with qemu 
-upstream. Klaus?
+> diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
+> index dbe1563b23..c406e6752a 100644
+> --- a/tests/qtest/ide-test.c
+> +++ b/tests/qtest/ide-test.c
+> @@ -37,7 +37,8 @@
+>   /* TODO actually test the results and get rid of this */
+>   #define qmp_discard_response(q, ...) qobject_unref(qtest_qmp(q, __VA_ARGS__))
+>   
+> -#define TEST_IMAGE_SIZE 64 * 1024 * 1024
+> +/* Specified by ATA (physical) CHS geometry for ~64 MiB device.  */
+> +#define TEST_IMAGE_SIZE ((130 * 16 * 63) * 512)
+>   
+>   #define IDE_PCI_DEV     1
+>   #define IDE_PCI_FUNC    1
+> @@ -91,11 +92,13 @@ enum {
+>   enum {
+>       CMD_DSM         = 0x06,
+>       CMD_DIAGNOSE    = 0x90,
+> +    CMD_INIT_DP     = 0x91,  /* INITIALIZE DEVICE PARAMETERS */
+>       CMD_READ_DMA    = 0xc8,
+>       CMD_WRITE_DMA   = 0xca,
+>       CMD_FLUSH_CACHE = 0xe7,
+>       CMD_IDENTIFY    = 0xec,
+>       CMD_PACKET      = 0xa0,
+> +    CMD_READ_NATIVE = 0xf8,  /* READ NATIVE MAX ADDRESS */
+>   
+>       CMDF_ABORT      = 0x100,
+>       CMDF_NO_BM      = 0x200,
+> @@ -562,6 +565,46 @@ static void string_cpu_to_be16(uint16_t *s, size_t bytes)
+>       }
+>   }
+>   
+> +static void test_specify(void)
+> +{
+> +    QTestState *qts;
+> +    QPCIDevice *dev;
+> +    QPCIBar bmdma_bar, ide_bar;
+> +    uint16_t cyls;
+> +    uint8_t heads, spt;
+> +
+> +    qts = ide_test_start(
+> +        "-blockdev driver=file,node-name=hda,filename=%s "
+> +        "-device ide-hd,drive=hda,bus=ide.0,unit=0 ",
+> +        tmp_path[0]);
+> +
+> +    dev = get_pci_device(qts, &bmdma_bar, &ide_bar);
+> +
+> +    /* Initialize drive with zero sectors per track and one head.  */
+> +    qpci_io_writeb(dev, ide_bar, reg_nsectors, 0);
+> +    qpci_io_writeb(dev, ide_bar, reg_device, 0);
+> +    qpci_io_writeb(dev, ide_bar, reg_command, CMD_INIT_DP);
+> +
+> +    /* READ NATIVE MAX ADDRESS (CHS mode).  */
+> +    qpci_io_writeb(dev, ide_bar, reg_device, 0xa0);
+> +    qpci_io_writeb(dev, ide_bar, reg_command, CMD_READ_NATIVE);
+> +
+> +    heads = qpci_io_readb(dev, ide_bar, reg_device) & 0xf;
+> +    ++heads;
+> +    g_assert_cmpint(heads, ==, 16);
+> +
+> +    cyls = qpci_io_readb(dev, ide_bar, reg_lba_high) << 8;
+> +    cyls |= qpci_io_readb(dev, ide_bar, reg_lba_middle);
+> +    ++cyls;
+> +    g_assert_cmpint(cyls, ==, 130);
+> +
+> +    spt = qpci_io_readb(dev, ide_bar, reg_lba_low);
+> +    g_assert_cmpint(spt, ==, 63);
+> +
+> +    ide_test_quit(qts);
+> +    free_pci_device(dev);
+> +}
+> +
+>   static void test_identify(void)
+>   {
+>       QTestState *qts;
+> @@ -1079,6 +1122,8 @@ int main(int argc, char **argv)
+>       /* Run the tests */
+>       g_test_init(&argc, &argv, NULL);
+>   
+> +    qtest_add_func("/ide/read_native", test_specify);
+> +
+>       qtest_add_func("/ide/identify", test_identify);
+>   
+>       qtest_add_func("/ide/diagnostic", test_diagnostic);
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
+Acked-by: Thomas Huth <thuth@redhat.com>
 
 
