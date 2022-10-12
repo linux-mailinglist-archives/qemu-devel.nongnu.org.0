@@ -2,80 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2E775FC94A
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 18:29:24 +0200 (CEST)
-Received: from localhost ([::1]:49570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37EE05FC917
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 18:22:19 +0200 (CEST)
+Received: from localhost ([::1]:35836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiebj-0008PO-P7
-	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 12:29:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47866)
+	id 1oieUs-0004MH-AQ
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 12:22:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nivanov@cloudlinux.com>)
- id 1oieEb-0003Lq-7n
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 12:05:32 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37393)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nivanov@cloudlinux.com>)
- id 1oieEP-0005hl-Rc
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 12:05:27 -0400
-Received: by mail-wr1-x435.google.com with SMTP id bv10so23356593wrb.4
- for <qemu-devel@nongnu.org>; Wed, 12 Oct 2022 09:05:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cloudlinux.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ttdsxqe1BCv5kbTJINwfIADTokOMlF+5K/6lRVYzsbs=;
- b=Wj8c8Ky4I2i3YDGwUnBon0HS1WFMgWON1/6YousJWGI8MWgRUH2HjTzekuPErjImB+
- PiZcl9mDOwY2FQ36+dDDF41n0HbdB0ALYxR5HWR0YFzSi7A3/w6B1IJMVcs2u2wH7JF8
- GIb6gWdtt4bhBd0qR4onzrBz/ViV2i07IKF28TlDxS0zrqVnEovqshfOJrHMicRfZMau
- z7vbAjOWNJUuvHJbffmRD51hAEkmzeTPDixewB/ouVtL6DFhH9S8OFObiXZATrQkZj9a
- ewnDLHLM83kbmBWbWbBkGSkaaMhgsTQJXVp5H0y9MtMm1cAQ2OVZCpO0f4e3l0waYisx
- nr9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ttdsxqe1BCv5kbTJINwfIADTokOMlF+5K/6lRVYzsbs=;
- b=TxuzKSkny4yw/4ABl+Tx7xQLs0L1wnTl5VN2d68PARDZGh8hqv3PKEF2AdCcV6iYeH
- AI/6doFolKH6SJXKMtepc0Oi4cX/Foch2OX9CzC7IqyvDCpaiVKuuxvVJtQ86yVjIfN/
- jPuu5r1oelL4X7bijGJ8oMEsn9ZzZvhee37zT17TKhd8un52fK9/ov+ub10/reIZU1Cw
- 6XmzC3qU4RIM4FerkysrOgKYTzrZwGqhSz9vSVboDuL4/h+vRkQA0yh0QX1tYFuvi6Np
- ZVEuccmaw+n6sWmL77QI9Y9zMWr/lWXeCe0RANvNMgcIa8iHoPTBwFguGghQDIWEnOtI
- mfZQ==
-X-Gm-Message-State: ACrzQf2UgRGRTv2qOcqcia+Aa44nMDWPIUT3sAqK6OUvjtLX5/PwTbOA
- h2jPR3fvMvLjmDob0EZMfvBzu3XZcDmEW9JxNQwhWw==
-X-Google-Smtp-Source: AMsMyM7Pj/uxUbDfJHoKBjOlnOCX5g0QQCkp2T5ZIguYbnr7kq/I6G/1EbY8WO+seLD6RXQg6AevVXJnpH97XVTORVs=
-X-Received: by 2002:adf:d215:0:b0:22e:479e:8cc1 with SMTP id
- j21-20020adfd215000000b0022e479e8cc1mr19728853wrh.39.1665590715931; Wed, 12
- Oct 2022 09:05:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAAJ4Ao87Dbjc11xE9b2Mj=6VMX5J4LHJ2vt_Kn-SPEHWQ7Gu_g@mail.gmail.com>
- <CAEUhbmU561dwFmVCqZG7WdTUhRtfSR_wB8pa0KP2YVXwyHaZuQ@mail.gmail.com>
- <2564015.mS1nRVYtUv@silver>
-In-Reply-To: <2564015.mS1nRVYtUv@silver>
-From: Nikita Ivanov <nivanov@cloudlinux.com>
-Date: Wed, 12 Oct 2022 19:05:05 +0300
-Message-ID: <CAAJ4Ao_RN=GN1DdrKAicAzBjqJ=Mqn3DokCVhDLKvJr7XTzvXg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] error handling: Use RETRY_ON_EINTR() macro where
- applicable
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, 
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oieHk-0006zU-QC
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 12:08:44 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:56199)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oieHi-00067p-FY
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 12:08:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=ahBEq+M0LZDi6UusmKW5TuNFr/Fezrp/bL5umyxDA5Q=; b=MBQ1CK7+KALdMV3TkeD8jPB8M9
+ EUfeYlwQxSfqKH30FjmgWxoIU7pVndz2aHPuMBKmWpFUiNRKD/CHkNbpGDf8a3n9bd7n27U+9//SR
+ LGqaqQPdlWbpnStATUEoVcpAXWKr1+UHl82/IUVhveufgijnmUBeeacOhQm89+p6GkP9pELlzHuwz
+ iukqZb7dTqQY8zMWyI7B2FZWnsnPiA0dnFWN7PBKbRbvA+jksMrCuzDCmSay9ev80pCGFubIqsphl
+ kj6HXD2WWP3Ib8BoVQekaUD0dBDoHxNIK5GgEXrVfZL1M3q6jkvtBBIzafGF1RrM+AoIPlY8xYEPV
+ 7OjoQK1mqFC3XbiwZQS0rsnXaxv3UQIsOcsQjK+HP843c87O83To2zgwDyGzbFskDTHWYHwg3Wtxv
+ Qkydj0/9VS9jYXAKhrfgEojMg9+veWAanWihLNJKn4k62IyDsSdNYjfYpNNkvm1I43AwvgK/xvuWv
+ 4pCwvYfEIT9McSQfi0c1bvAUHGtQbiW0dDiZQpy8lvc+UFtxDDg2JrHAsz3PpdePpuhuLvlIAFhy/
+ ThbkLQIs9IDas4ReEVmPecwDqqKpvDRVUg1Ujz6c5meeU3LmPl2DAlYq33z3OnuCCOz3aOAgNWEAY
+ aUJHKR4043unWk1EIqdZXepkNEUNLWOnkTFsv1NN8=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org, Nikita Ivanov <nivanov@cloudlinux.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
  Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Greg Kurz <groug@kaod.org>, Jason Wang <jasowang@redhat.com>, 
- Michael Roth <michael.roth@amd.com>, Konstantin Kostiuk <kkostiuk@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Bin Meng <bmeng.cn@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000f6f47d05ead88e5f"
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=nivanov@cloudlinux.com; helo=mail-wr1-x435.google.com
+ =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Jason Wang <jasowang@redhat.com>,
+ Michael Roth <michael.roth@amd.com>,
+ Konstantin Kostiuk <kkostiuk@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 1/2] Refactoring: refactor TFR() macro to
+ RETRY_ON_EINTR()
+Date: Wed, 12 Oct 2022 18:08:39 +0200
+Message-ID: <3046525.4nXOIBtuzV@silver>
+In-Reply-To: <CAAJ4Ao-4+a4UtWKf0XyrQ6kQD8EsyDbn3H5O=R2DdzP76VSdZQ@mail.gmail.com>
+References: <CAAJ4Ao-4+a4UtWKf0XyrQ6kQD8EsyDbn3H5O=R2DdzP76VSdZQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,143 +73,194 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000f6f47d05ead88e5f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mittwoch, 12. Oktober 2022 14:28:23 CEST Nikita Ivanov wrote:
+> Rename macro name to more transparent one and refactor
+> it to expression.
+> 
+> Signed-off-by: Nikita Ivanov <nivanov@cloudlinux.com>
+> ---
+>  chardev/char-fd.c    | 2 +-
+>  chardev/char-pipe.c  | 8 +++++---
+>  include/qemu/osdep.h | 8 +++++++-
+>  net/tap-bsd.c        | 6 +++---
+>  net/tap-linux.c      | 2 +-
+>  net/tap-solaris.c    | 8 ++++----
+>  os-posix.c           | 2 +-
+>  7 files changed, 22 insertions(+), 14 deletions(-)
+> 
+> diff --git a/chardev/char-fd.c b/chardev/char-fd.c
+> index cf78454841..d2c4923359 100644
+> --- a/chardev/char-fd.c
+> +++ b/chardev/char-fd.c
+> @@ -198,7 +198,7 @@ int qmp_chardev_open_file_source(char *src, int flags,
+> Error **errp)
+>  {
+>      int fd = -1;
+> 
+> -    TFR(fd = qemu_open_old(src, flags, 0666));
+> +    fd = RETRY_ON_EINTR(qemu_open_old(src, flags, 0666));
+>      if (fd == -1) {
+>          error_setg_file_open(errp, errno, src);
+>      }
+> diff --git a/chardev/char-pipe.c b/chardev/char-pipe.c
+> index 66d3b85091..5ad30bcc59 100644
+> --- a/chardev/char-pipe.c
+> +++ b/chardev/char-pipe.c
+> @@ -131,8 +131,8 @@ static void qemu_chr_open_pipe(Chardev *chr,
+> 
+>      filename_in = g_strdup_printf("%s.in", filename);
+>      filename_out = g_strdup_printf("%s.out", filename);
+> -    TFR(fd_in = qemu_open_old(filename_in, O_RDWR | O_BINARY));
+> -    TFR(fd_out = qemu_open_old(filename_out, O_RDWR | O_BINARY));
+> +    fd_in = RETRY_ON_EINTR(qemu_open_old(filename_in, O_RDWR | O_BINARY));
+> +    fd_out = RETRY_ON_EINTR(qemu_open_old(filename_out, O_RDWR |
+> O_BINARY));
+>      g_free(filename_in);
+>      g_free(filename_out);
+>      if (fd_in < 0 || fd_out < 0) {
+> @@ -142,7 +142,9 @@ static void qemu_chr_open_pipe(Chardev *chr,
+>          if (fd_out >= 0) {
+>              close(fd_out);
+>          }
+> -        TFR(fd_in = fd_out = qemu_open_old(filename, O_RDWR | O_BINARY));
+> +        fd_in = fd_out = RETRY_ON_EINTR(
+> +            qemu_open_old(filename, O_RDWR | O_BINARY)
+> +        );
+>          if (fd_in < 0) {
+>              error_setg_file_open(errp, errno, filename);
+>              return;
+> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> index b1c161c035..a470905475 100644
+> --- a/include/qemu/osdep.h
+> +++ b/include/qemu/osdep.h
+> @@ -243,7 +243,13 @@ void QEMU_ERROR("code path is reachable")
+>  #define ESHUTDOWN 4099
+>  #endif
+> 
+> -#define TFR(expr) do { if ((expr) != -1) break; } while (errno == EINTR)
+> +#define RETRY_ON_EINTR(expr) \
+> +    (__extension__                                          \
+> +        ({ typeof(expr) __result;                               \
+> +           do {                                             \
+> +                __result = (typeof(expr)) (expr);         \
 
-Hi!
-Execuse me, my fault. Overlooked TFR occurrences in second patch. I will
-correct it.
+Not a big deal, but as Peter already pointed out in previous version: you 
+could drop the type cast in this particular form here.
 
-=D1=81=D1=80, 12 =D0=BE=D0=BA=D1=82. 2022 =D0=B3., 18:43 Christian Schoeneb=
-eck <qemu_oss@crudebyte.com>:
+glibc's TEMP_FAILURE_RETRY() version needs the cast as it uses `long int` as 
+hard coded type for the result variable, whereas this version here uses a 
+generic approach by declaring the result variable already exactly with the 
+type the passed expression evaluates to, so the cast is redundant in this 
+version here.
 
-> On Mittwoch, 12. Oktober 2022 17:17:46 CEST Bin Meng wrote:
-> > Hi,
-> >
-> > On Wed, Oct 12, 2022 at 8:32 PM Nikita Ivanov <nivanov@cloudlinux.com>
-> wrote:
-> > > There is a defined RETRY_ON_EINTR() macro in qemu/osdep.h which
-> > > handles the same while loop.
-> > > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/415
-> > >
-> > > Signed-off-by: Nikita Ivanov <nivanov@cloudlinux.com>
-> > > ---
-> > >
-> > >  block/file-posix.c        | 37 ++++++++++++++++---------------------
-> > >  chardev/char-pty.c        |  4 +---
-> > >  hw/9pfs/9p-local.c        |  8 ++------
-> > >  net/l2tpv3.c              | 17 +++++------------
-> > >  net/socket.c              | 16 +++++++---------
-> > >  net/tap.c                 | 12 ++++--------
-> > >  qga/commands-posix.c      |  4 +---
-> > >  semihosting/syscalls.c    |  4 +---
-> > >  tests/qtest/libqtest.c    | 14 ++++++--------
-> > >  tests/vhost-user-bridge.c |  4 +---
-> > >  util/main-loop.c          |  4 +---
-> > >  util/osdep.c              |  4 +---
-> > >  util/vfio-helpers.c       | 12 ++++++------
-> > >  13 files changed, 52 insertions(+), 88 deletions(-)
-> >
-> > This patch has to be squashed into patch 1 for bisectability, as TFR
-> > is already removed in patch 1.
->
-> They are intentionally separated: 1st patch replaces occurrences of TFR,
-> whereas 2nd patch introduces use of macro at locations where not used yet=
-.
->
-> Nikita, could you please move those 2 hunks that still had TFR()
-> occurrence to
-> patch 1?
->
-> And please use git's --thread option next time, so that individual patch
-> emails are linked to cover letter email (which adds appropriate
-> `References:`
-> and `In-Reply-To:` email headers).
->
-> Best regards,
-> Christian Schoenebeck
->
->
->
+> +           } while (__result == -1L && errno == EINTR);     \
+> +           __result; }))
+> 
+>  /* time_t may be either 32 or 64 bits depending on the host OS, and
+>   * can be either signed or unsigned, so we can't just hardcode a
+> diff --git a/net/tap-bsd.c b/net/tap-bsd.c
+> index 005ce05c6e..4c98fdd337 100644
+> --- a/net/tap-bsd.c
+> +++ b/net/tap-bsd.c
+> @@ -56,7 +56,7 @@ int tap_open(char *ifname, int ifname_size, int *vnet_hdr,
+> } else {
+>              snprintf(dname, sizeof dname, "/dev/tap%d", i);
+>          }
+> -        TFR(fd = open(dname, O_RDWR));
+> +        fd = RETRY_ON_EINTR(open(dname, O_RDWR));
+>          if (fd >= 0) {
+>              break;
+>          }
+> @@ -111,7 +111,7 @@ static int tap_open_clone(char *ifname, int
+> ifname_size, Error **errp)
+>      int fd, s, ret;
+>      struct ifreq ifr;
+> 
+> -    TFR(fd = open(PATH_NET_TAP, O_RDWR));
+> +    fd = RETRY_ON_EINTR(open(PATH_NET_TAP, O_RDWR));
+>      if (fd < 0) {
+>          error_setg_errno(errp, errno, "could not open %s", PATH_NET_TAP);
+>          return -1;
+> @@ -159,7 +159,7 @@ int tap_open(char *ifname, int ifname_size, int
+> *vnet_hdr,
+>      if (ifname[0] != '\0') {
+>          char dname[100];
+>          snprintf(dname, sizeof dname, "/dev/%s", ifname);
+> -        TFR(fd = open(dname, O_RDWR));
+> +        fd = RETRY_ON_EINTR(open(dname, O_RDWR));
+>          if (fd < 0 && errno != ENOENT) {
+>              error_setg_errno(errp, errno, "could not open %s", dname);
+>              return -1;
+> diff --git a/net/tap-linux.c b/net/tap-linux.c
+> index 304ff45071..f54f308d35 100644
+> --- a/net/tap-linux.c
+> +++ b/net/tap-linux.c
+> @@ -45,7 +45,7 @@ int tap_open(char *ifname, int ifname_size, int *vnet_hdr,
+> int len = sizeof(struct virtio_net_hdr);
+>      unsigned int features;
+> 
+> -    TFR(fd = open(PATH_NET_TUN, O_RDWR));
+> +    fd = RETRY_ON_EINTR(open(PATH_NET_TUN, O_RDWR));
+>      if (fd < 0) {
+>          error_setg_errno(errp, errno, "could not open %s", PATH_NET_TUN);
+>          return -1;
+> diff --git a/net/tap-solaris.c b/net/tap-solaris.c
+> index a44f8805c2..38e15028bf 100644
+> --- a/net/tap-solaris.c
+> +++ b/net/tap-solaris.c
+> @@ -84,13 +84,13 @@ static int tap_alloc(char *dev, size_t dev_size, Error
+> **errp)
+>      if( ip_fd )
+>         close(ip_fd);
+> 
+> -    TFR(ip_fd = open("/dev/udp", O_RDWR, 0));
+> +    ip_fd = RETRY_ON_EINTR(open("/dev/udp", O_RDWR, 0));
+>      if (ip_fd < 0) {
+>          error_setg(errp, "Can't open /dev/ip (actually /dev/udp)");
+>          return -1;
+>      }
+> 
+> -    TFR(tap_fd = open("/dev/tap", O_RDWR, 0));
+> +    tap_fd = RETRY_ON_EINTR(open("/dev/tap", O_RDWR, 0));
+>      if (tap_fd < 0) {
+>          error_setg(errp, "Can't open /dev/tap");
+>          return -1;
+> @@ -104,7 +104,7 @@ static int tap_alloc(char *dev, size_t dev_size, Error
+> **errp)
+>      if ((ppa = ioctl (tap_fd, I_STR, &strioc_ppa)) < 0)
+>          error_report("Can't assign new interface");
+> 
+> -    TFR(if_fd = open("/dev/tap", O_RDWR, 0));
+> +    if_fd = RETRY_ON_EINTR(open("/dev/tap", O_RDWR, 0));
+>      if (if_fd < 0) {
+>          error_setg(errp, "Can't open /dev/tap (2)");
+>          return -1;
+> @@ -137,7 +137,7 @@ static int tap_alloc(char *dev, size_t dev_size, Error
+> **errp)
+>      if (ioctl (ip_fd, I_PUSH, "arp") < 0)
+>          error_report("Can't push ARP module (3)");
+>      /* Open arp_fd */
+> -    TFR(arp_fd = open ("/dev/tap", O_RDWR, 0));
+> +    arp_fd = RETRY_ON_EINTR(open("/dev/tap", O_RDWR, 0));
+>      if (arp_fd < 0)
+>          error_report("Can't open %s", "/dev/tap");
+> 
+> diff --git a/os-posix.c b/os-posix.c
+> index 321fc4bd13..bb27f67bac 100644
+> --- a/os-posix.c
+> +++ b/os-posix.c
+> @@ -266,7 +266,7 @@ void os_setup_post(void)
+>              error_report("not able to chdir to /: %s", strerror(errno));
+>              exit(1);
+>          }
+> -        TFR(fd = qemu_open_old("/dev/null", O_RDWR));
+> +        fd = RETRY_ON_EINTR(qemu_open_old("/dev/null", O_RDWR));
+>          if (fd == -1) {
+>              exit(1);
+>          }
+> --
+> 2.37.3
 
---000000000000f6f47d05ead88e5f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">Hi!<div dir=3D"auto">Execuse me, my fault. Overlooked TFR=
- occurrences in second patch. I will correct it.=C2=A0</div></div><br><div =
-class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=D1=81=D1=80, 1=
-2 =D0=BE=D0=BA=D1=82. 2022 =D0=B3., 18:43 Christian Schoenebeck &lt;<a href=
-=3D"mailto:qemu_oss@crudebyte.com">qemu_oss@crudebyte.com</a>&gt;:<br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
-px #ccc solid;padding-left:1ex">On Mittwoch, 12. Oktober 2022 17:17:46 CEST=
- Bin Meng wrote:<br>
-&gt; Hi,<br>
-&gt; <br>
-&gt; On Wed, Oct 12, 2022 at 8:32 PM Nikita Ivanov &lt;<a href=3D"mailto:ni=
-vanov@cloudlinux.com" target=3D"_blank" rel=3D"noreferrer">nivanov@cloudlin=
-ux.com</a>&gt; wrote:<br>
-&gt; &gt; There is a defined RETRY_ON_EINTR() macro in qemu/osdep.h which<b=
-r>
-&gt; &gt; handles the same while loop.<br>
-&gt; &gt; Resolves: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issue=
-s/415" rel=3D"noreferrer noreferrer" target=3D"_blank">https://gitlab.com/q=
-emu-project/qemu/-/issues/415</a><br>
-&gt; &gt; <br>
-&gt; &gt; Signed-off-by: Nikita Ivanov &lt;<a href=3D"mailto:nivanov@cloudl=
-inux.com" target=3D"_blank" rel=3D"noreferrer">nivanov@cloudlinux.com</a>&g=
-t;<br>
-&gt; &gt; ---<br>
-&gt; &gt; <br>
-&gt; &gt;=C2=A0 block/file-posix.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 37 ++++++++=
-++++++++---------------------<br>
-&gt; &gt;=C2=A0 chardev/char-pty.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 4 +--=
--<br>
-&gt; &gt;=C2=A0 hw/9pfs/9p-local.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 8 ++-=
------<br>
-&gt; &gt;=C2=A0 net/l2tpv3.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | 17 +++++------------<br>
-&gt; &gt;=C2=A0 net/socket.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | 16 +++++++---------<br>
-&gt; &gt;=C2=A0 net/tap.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0| 12 ++++--------<br>
-&gt; &gt;=C2=A0 qga/commands-posix.c=C2=A0 =C2=A0 =C2=A0 |=C2=A0 4 +---<br>
-&gt; &gt;=C2=A0 semihosting/syscalls.c=C2=A0 =C2=A0 |=C2=A0 4 +---<br>
-&gt; &gt;=C2=A0 tests/qtest/libqtest.c=C2=A0 =C2=A0 | 14 ++++++--------<br>
-&gt; &gt;=C2=A0 tests/vhost-user-bridge.c |=C2=A0 4 +---<br>
-&gt; &gt;=C2=A0 util/main-loop.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
-4 +---<br>
-&gt; &gt;=C2=A0 util/osdep.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 4 +---<br>
-&gt; &gt;=C2=A0 util/vfio-helpers.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 12 ++++++--=
-----<br>
-&gt; &gt;=C2=A0 13 files changed, 52 insertions(+), 88 deletions(-)<br>
-&gt; <br>
-&gt; This patch has to be squashed into patch 1 for bisectability, as TFR<b=
-r>
-&gt; is already removed in patch 1.<br>
-<br>
-They are intentionally separated: 1st patch replaces occurrences of TFR,<br=
->
-whereas 2nd patch introduces use of macro at locations where not used yet.<=
-br>
-<br>
-Nikita, could you please move those 2 hunks that still had TFR() occurrence=
- to<br>
-patch 1?<br>
-<br>
-And please use git&#39;s --thread option next time, so that individual patc=
-h <br>
-emails are linked to cover letter email (which adds appropriate `References=
-:`<br>
-and `In-Reply-To:` email headers).<br>
-<br>
-Best regards,<br>
-Christian Schoenebeck<br>
-<br>
-<br>
-</blockquote></div>
 
---000000000000f6f47d05ead88e5f--
 
