@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72AD45FC7D9
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 16:57:25 +0200 (CEST)
-Received: from localhost ([::1]:44420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 071EE5FC7D3
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 16:54:22 +0200 (CEST)
+Received: from localhost ([::1]:60082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oidAi-0006bM-Hc
-	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 10:57:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54376)
+	id 1oid7l-0002Lo-1y
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 10:54:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oicnj-0005JV-MZ
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oicni-0005HF-V4
  for qemu-devel@nongnu.org; Wed, 12 Oct 2022 10:33:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28772)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24762)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oicnh-0006lQ-Kp
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 10:33:39 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oicng-0006lF-LJ
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 10:33:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665585217;
+ s=mimecast20190719; t=1665585216;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U3eXGvdUk/VfHhShsHnHO9DAbvoGG8vf+bPbjE1OJJc=;
- b=SC+ol6+SzHxq1+yD7vWhhsTxHpUjcCX70pShzubEj6G4JWrYSAZY3rchcpXZMDQgFKJL7i
- 9tgiYe9azIkq7DQHgTosh9VVxuzuQYgLR2bt63uAaM4zHfZsjFw/ySyCGv23EsgU/IShEP
- UqoPHYeOOLCY2Gq3ZphHPIxMID+0k2k=
+ bh=hANHaf84v0nOxHvSTCu1XX5AcSLKOywXqLsXd8iIbvY=;
+ b=Zm8pDJTFMPoHegwRjTmrlDUhxJD0Z/zv5d8oXWg8RDeQHAYWq1QDRWS69CyPdVTK2cI888
+ VW8XtgohSddMSYBd7k5bqOdCT3D8LN51IhJglnz/iU74mZ9gzV/q7fd2+vzYUBjHbe4WqF
+ DdB5eBxU9eVCsd2bcPiTFWjcks6ZPAI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-5-FVAv2GA6MrqdQqgNBRNWSw-1; Wed, 12 Oct 2022 10:33:33 -0400
-X-MC-Unique: FVAv2GA6MrqdQqgNBRNWSw-1
+ us-mta-298-qCS9Tl1fOYaSnxDZovofVA-1; Wed, 12 Oct 2022 10:33:34 -0400
+X-MC-Unique: qCS9Tl1fOYaSnxDZovofVA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 15510185A7A8;
- Wed, 12 Oct 2022 14:33:33 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4706A833AEF
+ for <qemu-devel@nongnu.org>; Wed, 12 Oct 2022 14:33:34 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.235])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 084522144B20;
- Wed, 12 Oct 2022 14:33:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 62F7D2144B20;
+ Wed, 12 Oct 2022 14:33:33 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
 	qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 12/16] tests/avocado: Add missing require_netdev('user') checks
-Date: Wed, 12 Oct 2022 16:33:12 +0200
-Message-Id: <20221012143316.988561-13-thuth@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PULL 13/16] qtest: start a VNC test
+Date: Wed, 12 Oct 2022 16:33:13 +0200
+Message-Id: <20221012143316.988561-14-thuth@redhat.com>
 In-Reply-To: <20221012143316.988561-1-thuth@redhat.com>
 References: <20221012143316.988561-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,91 +78,154 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Some avocado tests fail if QEMU was built without libslirp. Add
-require_netdev('user') checks where necessary:
+This is some of the simplest test we could perform, it simply connects
+to the VNC server via passed-in socket FDs and checks the connection can
+be established.
 
-These tests try to ping 10.0.2.2 and expect it to succeed:
-  boot_linux_console.py:BootLinuxConsole.test_arm_emcraft_sf2
-  boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd
-  ppc_bamboo.py:BambooMachine.test_ppc_bamboo
+Another series will make this test work on Windows as well.
 
-These tests run a commandline that includes '-net user':
-  machine_aspeed.py:AST2x00Machine.test_arm_ast2500_evb_builroot
-  (and others that use the do_test_arm_aspeed_buidroot_start()
-  or do_test_arm_aspeed_sdk_start() helper functions)
+As always, more tests can be added later! :)
 
-These changes seem to be sufficient for 'make check-avocado'
-to not fail on a --disable-slirp build.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20221001195224.2453581-1-peter.maydell@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20221006130513.2683873-1-marcandre.lureau@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/avocado/boot_linux_console.py | 4 ++++
- tests/avocado/machine_aspeed.py     | 3 +++
- tests/avocado/ppc_bamboo.py         | 1 +
- 3 files changed, 8 insertions(+)
+ tests/qtest/vnc-display-test.c | 103 +++++++++++++++++++++++++++++++++
+ tests/qtest/meson.build        |   8 ++-
+ 2 files changed, 110 insertions(+), 1 deletion(-)
+ create mode 100644 tests/qtest/vnc-display-test.c
 
-diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
-index f26e036ab5..ca9d09b0d7 100644
---- a/tests/avocado/boot_linux_console.py
-+++ b/tests/avocado/boot_linux_console.py
-@@ -381,6 +381,8 @@ def test_arm_emcraft_sf2(self):
-         :avocado: tags=u-boot
-         :avocado: tags=accel:tcg
-         """
-+        self.require_netdev('user')
+diff --git a/tests/qtest/vnc-display-test.c b/tests/qtest/vnc-display-test.c
+new file mode 100644
+index 0000000000..e2a9d682bb
+--- /dev/null
++++ b/tests/qtest/vnc-display-test.c
+@@ -0,0 +1,103 @@
++/*
++ * VNC display tests
++ *
++ * Copyright (c) 2022 Red Hat, Inc.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
 +
-         uboot_url = ('https://raw.githubusercontent.com/'
-                      'Subbaraya-Sundeep/qemu-test-binaries/'
-                      'fe371d32e50ca682391e1e70ab98c2942aeffb01/u-boot')
-@@ -779,6 +781,8 @@ def test_arm_orangepi_sd(self):
-         :avocado: tags=machine:orangepi-pc
-         :avocado: tags=device:sd
-         """
-+        self.require_netdev('user')
++#include "qemu/osdep.h"
++#include "qemu/sockets.h"
++#include "libqtest.h"
++#include <gio/gio.h>
++#include <gvnc.h>
 +
-         deb_url = ('https://apt.armbian.com/pool/main/l/'
-                    'linux-5.10.16-sunxi/linux-image-current-sunxi_21.02.2_armhf.deb')
-         deb_hash = '9fa84beda245cabf0b4fa84cf6eaa7738ead1da0'
-diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_aspeed.py
-index 0f64eb636c..124649a24b 100644
---- a/tests/avocado/machine_aspeed.py
-+++ b/tests/avocado/machine_aspeed.py
-@@ -93,6 +93,8 @@ def test_arm_ast2500_romulus_openbmc_v2_9_0(self):
-         self.do_test_arm_aspeed(image_path)
++typedef struct Test {
++    QTestState *qts;
++    VncConnection *conn;
++    GMainLoop *loop;
++} Test;
++
++static void on_vnc_error(VncConnection* self,
++                         const char* msg)
++{
++    g_error("vnc-error: %s", msg);
++}
++
++static void on_vnc_auth_failure(VncConnection *self,
++                                const char *msg)
++{
++    g_error("vnc-auth-failure: %s", msg);
++}
++
++static bool
++test_setup(Test *test)
++{
++#ifdef WIN32
++    g_test_skip("Not supported on Windows yet");
++    return false;
++#else
++    int pair[2];
++
++    test->qts = qtest_init("-vnc none -name vnc-test");
++
++    g_assert_cmpint(qemu_socketpair(AF_UNIX, SOCK_STREAM, 0, pair), ==, 0);
++
++    qtest_qmp_add_client(test->qts, "vnc", pair[1]);
++
++    test->conn = vnc_connection_new();
++    g_signal_connect(test->conn, "vnc-error",
++                     G_CALLBACK(on_vnc_error), NULL);
++    g_signal_connect(test->conn, "vnc-auth-failure",
++                     G_CALLBACK(on_vnc_auth_failure), NULL);
++    vnc_connection_set_auth_type(test->conn, VNC_CONNECTION_AUTH_NONE);
++    vnc_connection_open_fd(test->conn, pair[0]);
++
++    test->loop = g_main_loop_new(NULL, FALSE);
++    return true;
++#endif
++}
++
++static void
++test_vnc_basic_on_vnc_initialized(VncConnection *self,
++                                 Test *test)
++{
++    const char *name = vnc_connection_get_name(test->conn);
++
++    g_assert_cmpstr(name, ==, "QEMU (vnc-test)");
++    g_main_loop_quit(test->loop);
++}
++
++static void
++test_vnc_basic(void)
++{
++    Test test;
++
++    if (!test_setup(&test)) {
++        return;
++    }
++
++    g_signal_connect(test.conn, "vnc-initialized",
++                     G_CALLBACK(test_vnc_basic_on_vnc_initialized), &test);
++
++    g_main_loop_run(test.loop);
++
++    qtest_quit(test.qts);
++    g_object_unref(test.conn);
++    g_main_loop_unref(test.loop);
++}
++
++int
++main(int argc, char **argv)
++{
++    if (getenv("GTK_VNC_DEBUG")) {
++        vnc_util_set_debug(true);
++    }
++
++    g_test_init(&argc, &argv, NULL);
++
++    qtest_add_func("/vnc-display/basic", test_vnc_basic);
++
++    return g_test_run();
++}
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 455f1bbb7e..c07a5b1a5f 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -306,8 +306,14 @@ qtests = {
+   'vmgenid-test': files('boot-sector.c', 'acpi-utils.c'),
+ }
  
-     def do_test_arm_aspeed_buidroot_start(self, image, cpu_id):
-+        self.require_netdev('user')
++gvnc = dependency('gvnc-1.0', required: false)
++if gvnc.found()
++  qtests += {'vnc-display-test': [gvnc]}
++  qtests_generic += [ 'vnc-display-test' ]
++endif
 +
-         self.vm.set_console()
-         self.vm.add_args('-drive', 'file=' + image + ',if=mtd,format=raw',
-                          '-net', 'nic', '-net', 'user')
-@@ -193,6 +195,7 @@ def wait_for_console_pattern(self, success_message, vm=None):
-                                  vm=vm)
+ if dbus_display
+-qtests += {'dbus-display-test': [dbus_display1, gio]}
++  qtests += {'dbus-display-test': [dbus_display1, gio]}
+ endif
  
-     def do_test_arm_aspeed_sdk_start(self, image, cpu_id):
-+        self.require_netdev('user')
-         self.vm.set_console()
-         self.vm.add_args('-drive', 'file=' + image + ',if=mtd,format=raw',
-                          '-net', 'nic', '-net', 'user')
-diff --git a/tests/avocado/ppc_bamboo.py b/tests/avocado/ppc_bamboo.py
-index 102ff252df..a81be3d608 100644
---- a/tests/avocado/ppc_bamboo.py
-+++ b/tests/avocado/ppc_bamboo.py
-@@ -23,6 +23,7 @@ def test_ppc_bamboo(self):
-         :avocado: tags=accel:tcg
-         """
-         self.require_accelerator("tcg")
-+        self.require_netdev('user')
-         tar_url = ('http://landley.net/aboriginal/downloads/binaries/'
-                    'system-image-powerpc-440fp.tar.gz')
-         tar_hash = '53e5f16414b195b82d2c70272f81c2eedb39bad9'
+ qtest_executables = {}
 -- 
 2.31.1
 
