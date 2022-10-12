@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C968E5FC892
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 17:41:21 +0200 (CEST)
-Received: from localhost ([::1]:58196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA6435FC893
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 17:41:39 +0200 (CEST)
+Received: from localhost ([::1]:55118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oidrE-0004LM-Kz
-	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 11:41:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59254)
+	id 1oidrW-00055c-U7
+	for lists+qemu-devel@lfdr.de; Wed, 12 Oct 2022 11:41:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oidoD-0006ia-HX
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 11:38:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22485)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oidoC-0006eV-4g
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 11:38:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56163)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oido8-0001E5-C8
- for qemu-devel@nongnu.org; Wed, 12 Oct 2022 11:38:13 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oido8-0001E4-30
+ for qemu-devel@nongnu.org; Wed, 12 Oct 2022 11:38:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1665589086;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Vu2BDGvGheYQIOeqRYZ1hohehzucKNLtNnhUERa5vag=;
- b=c+lPyJVkoGQUi7sCm1WTC+Ri2/GTsKK6ZyzDFUJS4lvLdVGdbEgqdXmuU93XIogBsWIW4N
- zdb3XwwFcCnzqxolIyJZB2Dym8P/sK2dHAZ5YIGPGyHUIeMKKzcJvn3/cSEeMAHozGHd6M
- IQTzS7gqKfd31tRcS80Wg33EL5aU/F4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=YIvDcrxlins/ENDK7DqxpRIFOz5Xmkq25RXSfjK+BAE=;
+ b=G7cH0zh5ecyGnNs26ZJnf9Ig4gDuP8zCr+WAMsYA8EQUPXHr0tMMPGLT7r5mSWXgvK4U0I
+ okZ1DUGXyZVyQY4RM5p4SWHr2YNahuy7YtdYYLFu56eKBfLEqAbrbW4I8/eeGDj4POtoT/
+ Ei8PqrDCFUlqnnucVa8YvMQMqmzBS0c=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-215-vZZZFTI4PyWhAb4x1vliSw-1; Wed, 12 Oct 2022 11:38:03 -0400
-X-MC-Unique: vZZZFTI4PyWhAb4x1vliSw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-356-F72bLJF0OvWMG-4MG7odYg-1; Wed, 12 Oct 2022 11:38:03 -0400
+X-MC-Unique: F72bLJF0OvWMG-4MG7odYg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4D415381A722;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4EFA6804186;
  Wed, 12 Oct 2022 15:38:03 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.110])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D1CC92156897;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D1E534EA53;
  Wed, 12 Oct 2022 15:38:02 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 735CF21E6939; Wed, 12 Oct 2022 17:38:01 +0200 (CEST)
+ id 7612C21E693E; Wed, 12 Oct 2022 17:38:01 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: arei.gonglei@huawei.com, lvivier@redhat.com, amit@kernel.org,
  mst@redhat.com, pbonzini@redhat.com, berrange@redhat.com,
  eduardo@habkost.net, thuth@redhat.com, david@redhat.com
-Subject: [PATCH 3/4] qtest: Improve error messages when property can not be
- set right now
-Date: Wed, 12 Oct 2022 17:38:00 +0200
-Message-Id: <20221012153801.2604340-4-armbru@redhat.com>
+Subject: [PATCH 4/4] qerror: QERR_PERMISSION_DENIED is no longer used, drop
+Date: Wed, 12 Oct 2022 17:38:01 +0200
+Message-Id: <20221012153801.2604340-5-armbru@redhat.com>
 In-Reply-To: <20221012153801.2604340-1-armbru@redhat.com>
 References: <20221012153801.2604340-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -82,47 +81,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When you try to set qtest property "log" while the qtest object is
-active, the error message blames "insufficient permission":
-
-    $ qemu-system-x86_64 -S -display none -nodefaults -monitor stdio -chardev socket,id=chrqt0,path=qtest.socket,server=on,wait=off -object qtest,id=qt0,chardev=chrqt0,log=/dev/null
-    QEMU 7.1.50 monitor - type 'help' for more information
-    (qemu) qom-set /objects/qt0 log qtest.log
-    Error: Insufficient permission to perform this operation
-
-This implies it could work with "sufficient permission".  It can't.
-Change the error message to:
-
-    Error: Property 'log' can not be set now
-
-Same for property "chardev".
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- softmmu/qtest.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/qapi/qmp/qerror.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/softmmu/qtest.c b/softmmu/qtest.c
-index f8acef2628..afea7693d0 100644
---- a/softmmu/qtest.c
-+++ b/softmmu/qtest.c
-@@ -977,7 +977,7 @@ static void qtest_set_log(Object *obj, const char *value, Error **errp)
-     QTest *q = QTEST(obj);
+diff --git a/include/qapi/qmp/qerror.h b/include/qapi/qmp/qerror.h
+index 596fce0c54..87ca83b155 100644
+--- a/include/qapi/qmp/qerror.h
++++ b/include/qapi/qmp/qerror.h
+@@ -50,9 +50,6 @@
+ #define QERR_MISSING_PARAMETER \
+     "Parameter '%s' is missing"
  
-     if (qtest == q) {
--        error_setg(errp, QERR_PERMISSION_DENIED);
-+        error_setg(errp, "Property 'log' can not be set now");
-     } else {
-         g_free(q->log);
-         q->log = g_strdup(value);
-@@ -997,7 +997,7 @@ static void qtest_set_chardev(Object *obj, const char *value, Error **errp)
-     Chardev *chr;
- 
-     if (qtest == q) {
--        error_setg(errp, QERR_PERMISSION_DENIED);
-+        error_setg(errp, "Property 'chardev' can not be set now");
-         return;
-     }
+-#define QERR_PERMISSION_DENIED \
+-    "Insufficient permission to perform this operation"
+-
+ #define QERR_PROPERTY_VALUE_BAD \
+     "Property '%s.%s' doesn't take value '%s'"
  
 -- 
 2.37.2
