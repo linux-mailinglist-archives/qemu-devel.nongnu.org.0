@@ -2,68 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 123C65FBE66
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 01:21:56 +0200 (CEST)
-Received: from localhost ([::1]:54458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 475F45FBED2
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Oct 2022 03:18:19 +0200 (CEST)
+Received: from localhost ([::1]:51562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiOZP-0002RY-1Z
-	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 19:21:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36890)
+	id 1oiQO1-0001Y2-Ot
+	for lists+qemu-devel@lfdr.de; Tue, 11 Oct 2022 21:18:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1oiOX2-0005Lx-VY
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 19:19:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25361)
+ (Exim 4.90_1)
+ (envelope-from <prvs=277d47975=alistair.francis@opensource.wdc.com>)
+ id 1oiQL3-0008IZ-Vq
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 21:15:14 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:23146)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1oiOX1-0006Rn-3g
- for qemu-devel@nongnu.org; Tue, 11 Oct 2022 19:19:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665530366;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WOV+X2uAyYJ1zbRPt7RYGPi78UrAvsYebPcSYhy9acs=;
- b=PRNtc1xOuJpfYwx0bOY1VZWLEG1eIy7a1pXiftxDH6hpoXpUy1jkPq8XCWXZWbUuhUCYgD
- qYfYR6yMUPG9xxCVgAojX+uHYNGDJNpyyq1aixWoCMjhCcPmAgtEFjNcW4l22biD8xwp9r
- VhCZSgE85LQcVrkgsGGSKTLNSSptAeU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-587-Yu0iQ-DtNHKRONQrmrsRuQ-1; Tue, 11 Oct 2022 19:19:23 -0400
-X-MC-Unique: Yu0iQ-DtNHKRONQrmrsRuQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 080D1801585;
- Tue, 11 Oct 2022 23:19:23 +0000 (UTC)
-Received: from gshan.redhat.com (vpn2-54-52.bne.redhat.com [10.64.54.52])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 991BA2166B2F;
- Tue, 11 Oct 2022 23:19:19 +0000 (UTC)
-From: Gavin Shan <gshan@redhat.com>
-To: qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, maz@kernel.org, eric.auger@redhat.com,
- cohuck@redhat.com, zhenyzha@redhat.com, richard.henderson@linaro.org,
- peter.maydell@linaro.org, shan.gavin@gmail.com
-Subject: [PATCH v5 6/6] hw/arm/virt: Add 'compact-highmem' property
-Date: Wed, 12 Oct 2022 07:18:32 +0800
-Message-Id: <20221011231832.149839-7-gshan@redhat.com>
-In-Reply-To: <20221011231832.149839-1-gshan@redhat.com>
-References: <20221011231832.149839-1-gshan@redhat.com>
+ (Exim 4.90_1)
+ (envelope-from <prvs=277d47975=alistair.francis@opensource.wdc.com>)
+ id 1oiQL2-00079x-7F
+ for qemu-devel@nongnu.org; Tue, 11 Oct 2022 21:15:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1665537312; x=1697073312;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=+OpQTEF8UgNdGDhyzHmfDFQFjpK4Tr4WQ2QIYAH5hro=;
+ b=aY/qmgiyRvGV8NfJ1QsxnYI9anYdeQKSyI8tkVuKaR2xq5gy2NzfR8k7
+ UCK/u+px6mjBaUmE2eUqpCD+EJC4HlAIiDBExkN+mCnUe5Hcw30XPAG0S
+ 8YmL/CBagZdwyOVuq9Fx2RV95WKmONlZ570dcuTwlM+Jl23a8EJE9Dbg/
+ afMyz0RxeTAvTesuUsMeEpA3d50Li6zK7xCxVutQgNQYjhusMqUoHoNQA
+ gTKVepi/eQQfVTvmOYxhnvZvOM4EM/mF6ISPQrLiQtyyVE1X0SBgB3/Ur
+ 1LbCx7oi8XVIC7fShHG9ZRWyZfyzA+fiYcB46RyPz1WhOB3SXCXUEd67c w==;
+X-IronPort-AV: E=Sophos;i="5.95,177,1661788800"; d="scan'208";a="213551685"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 12 Oct 2022 09:15:02 +0800
+IronPort-SDR: NujC9ocVwLHOhCuzkRPJGde6Jul3aq+rWazRmadNsVSW6EMeGGr3zemnzq5yqluACIsleaZ6lG
+ WjAFhXkJtsVFwvrQefzjAthKmyVAH7jKMODXFMeUZxjh5HtU/OA0th54tWaCkJNm6BCPxrFINc
+ Vrk/TW+vSkEKf9e42nvWsghdgzxTmogyMzsEf43EXfmKbWqc+FrhpWjKFG8D/qtimGy2jPw42x
+ g2YpZkdiMjx6c4KmfR+RpLlts34qCLvIm+2tIEiRGlUgY+jOKeeD4fOiSNdlegL08ZzdcsnmIz
+ Rmjly4x0txV2sWgC2vUoQ8qs
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 11 Oct 2022 17:34:41 -0700
+IronPort-SDR: 0Qb9ZbzIcdEkswwpYTwXmB5mh9ketUrlfVT3qBaVSEFD6r3PZ4tjy4q0TbAkZFJFyvDGtoxSdR
+ fYtOoR6Z4KHSCPx5uUQUBhTFeUUOhfDnXL5cnChSOME12HMnZz75c0rOhj+/Pyd5BDi+xn3yrx
+ rIJ8nycFrNR5MDgCxCZhKleG7qGd2R+0eC1kAVcFkPrvKgcKjr6J0SpYL2p6bcP4Anfsk0GA0F
+ MxmwHFsdYHG0qaUK26ssATZBtjsTZDxFrRnobnd/FZ3f64TqhIbno81p8j4tM3qLW90vKLggdj
+ jhU=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 11 Oct 2022 18:15:03 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4MnF7V4Ltlz1RwtC
+ for <qemu-devel@nongnu.org>; Tue, 11 Oct 2022 18:15:02 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :x-mailer:message-id:date:subject:to:from; s=dkim; t=1665537301;
+ x=1668129302; bh=+OpQTEF8UgNdGDhyzHmfDFQFjpK4Tr4WQ2QIYAH5hro=; b=
+ hwTmuvurrhYQVDftXtM7sEKbknMud5RkYlS4OHKE4PxFINccE+nzIq34sILOwf+g
+ VMFcTdEjLtw1kCfW8/4wiGx16w98IJtS7AV2beDY2+fSVGDGh20hlVz9b8Q80iJu
+ t3qHtn4Zf0c6Ge3LKJr4XvAnMwU2KWtobMPTdVvJw/+7RAZFDL+MwbWgXfsM7Ocu
+ conVN8yrD56Tnmc4AUX6JVs/RIUc5Lpo68gotBY5rSZAo1pWwLMpCr82V7uWf2SG
+ pq3XG1SQZYapf8DYub7vnkdrnSpT1POQBAt7pn5n1nD/xVsVW630O2MC4f7SuzF1
+ Neu5PJtTw0oldp87YZqEQA==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id 2ZdFtSls3mol for <qemu-devel@nongnu.org>;
+ Tue, 11 Oct 2022 18:15:01 -0700 (PDT)
+Received: from toolbox.wdc.com (unknown [10.225.167.19])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4MnF7Q30FYz1RvLy;
+ Tue, 11 Oct 2022 18:14:57 -0700 (PDT)
+From: Alistair Francis <alistair.francis@opensource.wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Cc: bmeng.cn@gmail.com, palmer@dabbelt.com, alistair.francis@wdc.com,
+ alistair23@gmail.com, richard.henderson@linaro.org
+Subject: [PATCH] target/riscv: pmp: Fixup TLB size calculation
+Date: Wed, 12 Oct 2022 11:14:49 +1000
+Message-Id: <20221012011449.506928-1-alistair.francis@opensource.wdc.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.71.153.144;
+ envelope-from=prvs=277d47975=alistair.francis@opensource.wdc.com;
+ helo=esa5.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,158 +114,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After the improvement to high memory region address assignment is
-applied, the memory layout can be changed, introducing possible
-migration breakage. For example, VIRT_HIGH_PCIE_MMIO memory region
-is disabled or enabled when the optimization is applied or not, with
-the following configuration.
+From: Alistair Francis <alistair.francis@wdc.com>
 
-  pa_bits              = 40;
-  vms->highmem_redists = false;
-  vms->highmem_ecam    = false;
-  vms->highmem_mmio    = true;
+Since commit 4047368938f6 "accel/tcg: Introduce tlb_set_page_full" we
+have been seeing this assert
 
-  # qemu-system-aarch64 -accel kvm -cpu host    \
-    -machine virt-7.2,compact-highmem={on, off} \
-    -m 4G,maxmem=511G -monitor stdio
+    ../accel/tcg/cputlb.c:1294: tlb_set_page_with_attrs: Assertion `is_po=
+wer_of_2(size)' failed.
 
-  Region            compact-highmem=off         compact-highmem=on
-  ----------------------------------------------------------------
-  RAM               [1GB         512GB]        [1GB         512GB]
-  HIGH_GIC_REDISTS  [512GB       512GB+64MB]   [disabled]
-  HIGH_PCIE_ECAM    [512GB+256MB 512GB+512MB]  [disabled]
-  HIGH_PCIE_MMIO    [disabled]                 [512GB       1TB]
+When running Tock on the OpenTitan machine.
 
-In order to keep backwords compatibility, we need to disable the
-optimization on machines, which is virt-7.1 or ealier than it. It
-means the optimization is enabled by default from virt-7.2. Besides,
-'compact-highmem' property is added so that the optimization can be
-explicitly enabled or disabled on all machine types by users.
+The issue is that pmp_get_tlb_size() would return a TLB size that wasn't
+a power of 2. The size was also smaller then TARGET_PAGE_SIZE.
 
-Signed-off-by: Gavin Shan <gshan@redhat.com>
-Tested-by: Zhenyu Zhang <zhenyzha@redhat.com>
+This patch ensures that any TLB size less then TARGET_PAGE_SIZE is
+rounded down to 1 to ensure it's a valid size.
+
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- docs/system/arm/virt.rst |  4 ++++
- hw/arm/virt.c            | 47 ++++++++++++++++++++++++++++++++++++++++
- include/hw/arm/virt.h    |  1 +
- 3 files changed, 52 insertions(+)
+This is based on advice from Richard:
+https://patchwork.kernel.org/project/qemu-devel/patch/20221004141051.1106=
+53-9-richard.henderson@linaro.org/#25043166
 
-diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
-index 20442ea2c1..75bf5a4994 100644
---- a/docs/system/arm/virt.rst
-+++ b/docs/system/arm/virt.rst
-@@ -94,6 +94,10 @@ highmem
-   address space above 32 bits. The default is ``on`` for machine types
-   later than ``virt-2.12``.
- 
-+compact-highmem
-+  Set ``on``/``off`` to enable/disable compact space for high memory regions.
-+  The default is ``on`` for machine types later than ``virt-7.2``
+ target/riscv/pmp.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+index ea2b67d947..2b43e399b8 100644
+--- a/target/riscv/pmp.c
++++ b/target/riscv/pmp.c
+@@ -628,6 +628,18 @@ bool pmp_is_range_in_tlb(CPURISCVState *env, hwaddr =
+tlb_sa,
+     }
+=20
+     if (*tlb_size !=3D 0) {
++        /*
++         * At this point we have a tlb_size that is the smallest possibl=
+e size
++         * That fits within a TARGET_PAGE_SIZE and the PMP region.
++         *
++         * If the size is less then TARGET_PAGE_SIZE we drop the size to=
+ 1.
++         * This means the result isn't cached in the TLB and is only use=
+d for
++         * a single translation.
++         */
++        if (*tlb_size < TARGET_PAGE_SIZE) {
++            *tlb_size =3D 1;
++        }
 +
- gic-version
-   Specify the version of the Generic Interrupt Controller (GIC) to provide.
-   Valid values are:
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index c05cfb5314..8f1dba0ece 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -174,6 +174,27 @@ static const MemMapEntry base_memmap[] = {
-  * Note the extended_memmap is sized so that it eventually also includes the
-  * base_memmap entries (VIRT_HIGH_GIC_REDIST2 index is greater than the last
-  * index of base_memmap).
-+ *
-+ * The addresses assigned to these regions are affected by 'compact-highmem'
-+ * property, which is to enable or disable the compact space in the Highmem
-+ * IO regions. For example, VIRT_HIGH_PCIE_MMIO can be disabled or enabled
-+ * depending on the property in the following scenario.
-+ *
-+ * pa_bits              = 40;
-+ * vms->highmem_redists = false;
-+ * vms->highmem_ecam    = false;
-+ * vms->highmem_mmio    = true;
-+ *
-+ * # qemu-system-aarch64 -accel kvm -cpu host    \
-+ *   -machine virt-7.2,compact-highmem={on, off} \
-+ *   -m 4G,maxmem=511G -monitor stdio
-+ *
-+ * Region            compact-highmem=off        compact-highmem=on
-+ * ----------------------------------------------------------------
-+ * RAM               [1GB         512GB]        [1GB         512GB]
-+ * HIGH_GIC_REDISTS  [512GB       512GB+64MB]   [disabled]
-+ * HIGH_PCIE_ECAM    [512GB+256GB 512GB+512MB]  [disabled]
-+ * HIGH_PCIE_MMIO    [disabled]                 [512GB       1TB]
-  */
- static MemMapEntry extended_memmap[] = {
-     /* Additional 64 MB redist region (can contain up to 512 redistributors) */
-@@ -2353,6 +2374,20 @@ static void virt_set_highmem(Object *obj, bool value, Error **errp)
-     vms->highmem = value;
- }
- 
-+static bool virt_get_compact_highmem(Object *obj, Error **errp)
-+{
-+    VirtMachineState *vms = VIRT_MACHINE(obj);
-+
-+    return vms->highmem_compact;
-+}
-+
-+static void virt_set_compact_highmem(Object *obj, bool value, Error **errp)
-+{
-+    VirtMachineState *vms = VIRT_MACHINE(obj);
-+
-+    vms->highmem_compact = value;
-+}
-+
- static bool virt_get_its(Object *obj, Error **errp)
- {
-     VirtMachineState *vms = VIRT_MACHINE(obj);
-@@ -2971,6 +3006,13 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-                                           "Set on/off to enable/disable using "
-                                           "physical address space above 32 bits");
- 
-+    object_class_property_add_bool(oc, "compact-highmem",
-+                                   virt_get_compact_highmem,
-+                                   virt_set_compact_highmem);
-+    object_class_property_set_description(oc, "compact-highmem",
-+                                          "Set on/off to enable/disable compact "
-+                                          "space for high memory regions");
-+
-     object_class_property_add_str(oc, "gic-version", virt_get_gic_version,
-                                   virt_set_gic_version);
-     object_class_property_set_description(oc, "gic-version",
-@@ -3055,6 +3097,7 @@ static void virt_instance_init(Object *obj)
- 
-     /* High memory is enabled by default */
-     vms->highmem = true;
-+    vms->highmem_compact = !vmc->no_highmem_compact;
-     vms->gic_version = VIRT_GIC_VERSION_NOSEL;
- 
-     vms->highmem_ecam = !vmc->no_highmem_ecam;
-@@ -3124,8 +3167,12 @@ DEFINE_VIRT_MACHINE_AS_LATEST(7, 2)
- 
- static void virt_machine_7_1_options(MachineClass *mc)
- {
-+    VirtMachineClass *vmc = VIRT_MACHINE_CLASS(OBJECT_CLASS(mc));
-+
-     virt_machine_7_2_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_7_1, hw_compat_7_1_len);
-+    /* Compact space for high memory regions was introduced with 7.2 */
-+    vmc->no_highmem_compact = true;
- }
- DEFINE_VIRT_MACHINE(7, 1)
- 
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index 709f623741..c7dd59d7f1 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -125,6 +125,7 @@ struct VirtMachineClass {
-     bool no_pmu;
-     bool claim_edge_triggered_timers;
-     bool smbios_old_sys_ver;
-+    bool no_highmem_compact;
-     bool no_highmem_ecam;
-     bool no_ged;   /* Machines < 4.2 have no support for ACPI GED device */
-     bool kvm_no_adjvtime;
--- 
-2.23.0
+         return true;
+     }
+=20
+--=20
+2.37.3
 
 
