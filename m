@@ -2,90 +2,128 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D58765FDE5D
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 18:40:30 +0200 (CEST)
-Received: from localhost ([::1]:55056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFE445FDE96
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 18:59:12 +0200 (CEST)
+Received: from localhost ([::1]:54276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj1G1-00071K-GM
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 12:40:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52138)
+	id 1oj1Y7-0004lm-9E
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 12:59:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oj0vi-0001bX-Tz
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 12:19:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42390)
+ (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
+ id 1oj18K-0007Fs-CM
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 12:32:32 -0400
+Received: from mail-bn8nam12on20601.outbound.protection.outlook.com
+ ([2a01:111:f400:fe5b::601]:27361
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oj0vg-0003Zh-CB
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 12:19:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665677967;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+BevHFThJEfx5RdnlF1eRYLTZ7UhOKL1Q2z/qoUIgZM=;
- b=Czs3wbO/cG18JslIzqqPY+Lzfb0FTLHyfhWH+3xikhnPtQRgMV5+eQaQYrtNi5jBkYz5ls
- MqQ9CyGdgLEUo1Y/TQPlk77zaViRzh4GbTkXPl8vIKEnPLNt0mUxG+K9EWMkTziW2uLlic
- AOlk1Af8Mo0GsbQHfeoMLIaFAsXNIpY=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-240-BKlHnl9lNbOghUhf7PqlGA-1; Thu, 13 Oct 2022 12:19:25 -0400
-X-MC-Unique: BKlHnl9lNbOghUhf7PqlGA-1
-Received: by mail-qt1-f199.google.com with SMTP id
- k9-20020ac85fc9000000b00399e6517f9fso1705126qta.18
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 09:19:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+BevHFThJEfx5RdnlF1eRYLTZ7UhOKL1Q2z/qoUIgZM=;
- b=DDtyad3xN5TtBa9eFN5htpjqUA0kfLwMwniJoLcOthhQ/8GU9bX7qyYVflXde/EMu/
- qUXqkg1+onMFxP1nFiUFU5Jvv0PO5RFOH39EoYANMj7tqhSaA3uAzGWDYHIbZxvQ68GK
- znJ498LXCnQeRXbH3Rwbt1zvUXTsXrVGzh7s40VzQfTX6H0n7gWWcevVJfKgQLcyV+gb
- znEOZr409ErjNKT2ATOdJsiEMwR1o/jnD73nsUusJ3jiMmovJZqxvazPusHTrtHvlGXP
- 6eQY4lgHg+jhxL8WBY4/NEzobxuQr8NQiYXBu1isXF0X5NB3ACOYalTR/vpGahd3ClmB
- 0+Tw==
-X-Gm-Message-State: ACrzQf2dKHjT+NmsgeY9LJWlAqpXCqEB0voBN6nHKdauaRUyBV+b8JRK
- lKmHXvAlzQIyO/zxVMpvEugEgbq3Q2hInY5pigjPDyTID9bqGpKZOy4oFZp1w0Z6ZaFjFZ+zaY5
- rGBiHTMVEs9V6Ab0=
-X-Received: by 2002:a05:622a:1110:b0:39c:d568:8b26 with SMTP id
- e16-20020a05622a111000b0039cd5688b26mr520436qty.280.1665677965283; 
- Thu, 13 Oct 2022 09:19:25 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4jo5YZZ1FYp7rTwuddVngtfjoppsLsTVDU4rrp2AC6GyZzEd1k/R6CCNFouaxMIjIJqrJRzA==
-X-Received: by 2002:a05:622a:1110:b0:39c:d568:8b26 with SMTP id
- e16-20020a05622a111000b0039cd5688b26mr520414qty.280.1665677965021; 
- Thu, 13 Oct 2022 09:19:25 -0700 (PDT)
-Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
- [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
- bb33-20020a05622a1b2100b00399fe4aac3esm219853qtb.50.2022.10.13.09.19.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Oct 2022 09:19:24 -0700 (PDT)
-Date: Thu, 13 Oct 2022 12:19:23 -0400
-From: Peter Xu <peterx@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org, "Daniel P . Berrange" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, ani@anisinha.ca,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- Manish Mishra <manish.mishra@nutanix.com>
-Subject: Re: [PATCH v2 06/15] migration: Yield bitmap_mutex properly when
- sending/sleeping
-Message-ID: <Y0g6i6z3K4mglmPb@x1n>
-References: <20221011215559.602584-1-peterx@redhat.com>
- <20221011215559.602584-7-peterx@redhat.com>
- <Y0buySbboE3xOVoQ@work-vm> <Y0b+i6vliRkBC2MI@x1n>
-MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="1Om8LZn7jeGInJKW"
+ (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
+ id 1oj188-0006PV-EJ
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 12:32:31 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Yeoo+ul5qCqhzSI7GAb/4mgqbfPQYbqtxF130CCDzeQS0LTtOhjLVz6Etca2rxvVTEhdhNjEHzp6v7CJVKahSq8DjrX/JKcuiXU5dOMwDH555BdIXuH0a9cgs/Avnl4j1YK7/Yl8ODUeiNGWWCKK4YLVS4zNkoLvbdOoOgCwzkwMI4ZUizS1H8effEsg+GOR3Jm+/x/JXIzlmhGNS1qpcYaxWZTSlJE+bjBe4vDSeA6AFDOW86dYsBEtkd+CRvf7usqNNsy6qap5ZL7ex0Br2iE0YSpv74Zj0rtGwvxaHs9uZHEf2avPphGPYG+kvvO6pUo+xC39/n2ZJY/ldSO8lQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=azGL0t5LMjk1iP7tgVayjuNPiRSkX2SEOJto0/1l9K8=;
+ b=a5wE67yta7l/ElWzdY1oWHPvnTKWDyXQYXOTJMV2QnPA4QT+cFG6/8O6vEFHUqZCrzcHrYBRdwZIqRkR4HK8UQEq0WivfinYwPqUPDik0EBUHPtox1F1Dwq1s+Ua5q1JMsIzQmuqS0eTSt7rvnbFBOSPSIr4lkg7Fu3AEPUJpMdJsSK+Zgl3fPkHUHBrIM9UyveHw1AUVhw+IgQqn6t3GzbBiDXdUC4AoL4G97m964GYG/U+hCa+ciGkTNQwxXGM1dCwCFf/iHZ5+rn/Ce7KTBFTLQei3MjMKKqbnO+8wtTuYJpQfxBi2VgtnSqbAjOpmXlTqzvt248/cXLNwWPuFg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=azGL0t5LMjk1iP7tgVayjuNPiRSkX2SEOJto0/1l9K8=;
+ b=YPh/bj0l4RdXj1xHCSPvplBHUwLESvXPStKUg8PRArdNxY+TMhXpY6UyXEiIrZFrKy/714AtRRffJIAbohmPLyTLRHd2F+Ao5wYBQT/xEL2VH1uui59QS1ErvzfDRKc+JzX58wLhmIXlldCI67YvaXqp+g1ndmD8y3vBXEzi2+s=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
+ by MW4PR17MB5097.namprd17.prod.outlook.com (2603:10b6:303:11c::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.26; Thu, 13 Oct
+ 2022 16:27:14 +0000
+Received: from BN6PR17MB3121.namprd17.prod.outlook.com
+ ([fe80::655f:bfa9:e33a:5af4]) by BN6PR17MB3121.namprd17.prod.outlook.com
+ ([fe80::655f:bfa9:e33a:5af4%5]) with mapi id 15.20.5723.026; Thu, 13 Oct 2022
+ 16:27:12 +0000
+Date: Thu, 13 Oct 2022 12:26:58 -0400
+From: Gregory Price <gregory.price@memverge.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: qemu-devel@nongnu.org, Michael Tsirkin <mst@redhat.com>,
+ Ben Widawsky <bwidawsk@kernel.org>, linux-cxl@vger.kernel.org,
+ Huai-Cheng Kuo <hchkuo@avery-design.com.tw>,
+ Chris Browy <cbrowy@avery-design.com>, ira.weiny@intel.com,
+ linuxarm@huawei.com
+Subject: Re: [PATCH v8 4/5] hw/mem/cxl-type3: Add CXL CDAT Data Object Exchange
+Message-ID: <Y0g8UgumJwqU4QyB@memverge.com>
+References: <20221013120009.15541-1-Jonathan.Cameron@huawei.com>
+ <20221013120009.15541-5-Jonathan.Cameron@huawei.com>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y0b+i6vliRkBC2MI@x1n>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+In-Reply-To: <20221013120009.15541-5-Jonathan.Cameron@huawei.com>
+X-ClientProxiedBy: BL1P222CA0027.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:208:2c7::32) To BN6PR17MB3121.namprd17.prod.outlook.com
+ (2603:10b6:405:7c::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|MW4PR17MB5097:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7717c743-f06b-4022-3734-08daad37c83e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 860a+qAWLTi0Qy4ZZ9GR+vOcT6drmw2owUrL2hkK9pG4asuOi+l05t4OnVw3hmsfUl5UiVI22TLhyqsuiF1owuRDgvriXBZMJa8Ja7Wq+Wbmd7I+XapAD7FK4G4kvY8423RY1nxRu/7y68hi5j9ILMVoghzWvJndgFpPT6zfMvmyqxTexXFSS/DWPAJqL5AO6cjaD1VFZzOvEPtklr3ihvOjPW0GgJoUffUsx1Ip73spbYda9lfzBb0Pl8W5F+ovOLxR100Q7sHO91Pgn5IDWHmyN97RGmg9Ffun/sPybL1bq0kCXz/G2EivUSTl2STYMc8+GWLHLDVUKtvcMHCECtKqYPktzNgFS0WMW6jmoOMG/vBj/CuYTLvxsjawVfFzdTEPwzaIa3M916rPSQ1NoT9mTBnpXpeHcehQhxdZiHAbHSqDCmRHGek/Lk6rrogqO82FK+uCAkk/QXsU5ZiC+zpq3gjScPtHsFqdTGuM5GWwIw90IGnZOk4Tw9887GAEkdgEN8h7iawUdPj2Z+BpzeG3wTBS5SsUUMMUeywszSEPHuZAwLsfSNVandFq2cZKVCSr2kYh0HrpffMYs9IEUiurTLKDbVPS4iCI/kG+Kczlbmykul2AFjhjef6kj1sRhdRtnK3qHDAzmb2N1n2MSF28/lSJFO26ye8xpmesijUXJzyd1dLKYk0KUg6dSWGyrA/w+FUtZYYYZSrYAUzanw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN6PR17MB3121.namprd17.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(136003)(376002)(366004)(346002)(39840400004)(396003)(451199015)(86362001)(5660300002)(8936002)(44832011)(478600001)(6486002)(41300700001)(66946007)(66556008)(8676002)(4326008)(66476007)(54906003)(316002)(2906002)(36756003)(38100700002)(6512007)(26005)(2616005)(6916009)(6506007)(6666004)(186003);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vTNN2SI8ICABWKFJt5uJljFBHB2jl2g8ULHUEFSDssc4RKL9QhzXfPajEuJ8?=
+ =?us-ascii?Q?w538o/iTYTKEmK5aYWzh6cU55WcQgWNulXYgie0sOxvv0kQblzBn0b2Uq3kg?=
+ =?us-ascii?Q?eYwdQiIpL9IJTlghOzbvEb5x3/td7e2V/6tSzOjwEOPx5sBGEAyNkfWk/dpi?=
+ =?us-ascii?Q?EGEXDuPcTaJ4BnIlNwN917IF7hiMv/9HT85mm5zQOQ1gh1WehOuvacS0x/l7?=
+ =?us-ascii?Q?gsUtXjC9XnAO5TkGKi6B9QxFXH6TpDsBbeipZe2S5fO+jOjZtaVoWgdAR97B?=
+ =?us-ascii?Q?XskrYbNruWSb9rv63r2UgFB90kBq7W7ezH4fkVwtznPlD+nEzXKiIubmBn5Z?=
+ =?us-ascii?Q?1VtCE70pVq2mX4DIFHw0JqwlyRoZq/RFTJu18IH/2/xyAgGGYk39R7LR7XU/?=
+ =?us-ascii?Q?TubaCbc9Nj5o5BGdkzWYAbmH7ewpmUU9ikeCyLnqhwWPtp0A+vrHnjKjBWJv?=
+ =?us-ascii?Q?eCI/0kxtcFBBNoy6VC23YZcHUJO9VKfcKSTOUMysDfdTtMqnfW9l6/EAZLi1?=
+ =?us-ascii?Q?wiVazQEgUvTksuBzcEoAwcsBZ/6Lezr3cMIS+1Lf7kpDItoO7XgVAtEks7lW?=
+ =?us-ascii?Q?RVDspKlcXx0O+4OyURXddeYZYY5Z6EW02ezj1gplKkvrQ3gAnG7Aeib1JQo0?=
+ =?us-ascii?Q?9nEsjscQ3Uf6VE03VrVBDg75dmgJA1a877YDR1p/mS//duJEeWCxf3ujwPEt?=
+ =?us-ascii?Q?LeivsV94DKUV8uTFy5tq0CLVD8XwLG9liAI96TIfV2UMUSFyaeYO/VYZHa1U?=
+ =?us-ascii?Q?FVK69/kz5dYU4db6KOTJcBZr8lHgc0IuzQPXe/z1YHJpkdKFzvyKVhEL89oc?=
+ =?us-ascii?Q?mDW34GT8WV6zScG6msDJdmpKXSJbzmur6md9YtVesST2Kntz7y7WrtwCZgn9?=
+ =?us-ascii?Q?OcMoPQWAnUOG97fzaZVfacYnxhy4uZJQAiEarzx8wi6M8w19PqiMXwJqbyDj?=
+ =?us-ascii?Q?CiKMHO7lK50SAcM/XpsjbNSla4xHuamHUL6cMkSV24B9ZQTxwek0b4FUsC4y?=
+ =?us-ascii?Q?1tziBP6FKCt7l48TJ727Gng//pQ3wMeseOM0iJdJkVYXSX8ELP6FmA6JHUH1?=
+ =?us-ascii?Q?EhDEYPSzzd/yrwDASSp/DjTKF5QhBS0RACSO8XmwhshJXqbQhEXRaPlEQ5pv?=
+ =?us-ascii?Q?LJgk4axfsUqqc4GEKgc2xCLB+u7bM/wb28BgvZaUlKgAT4DRRts6GnQtrS6I?=
+ =?us-ascii?Q?g/NHC/TGN7HoBQ70JrkBte77bzWj+R9Tu68eip+bZOyuJpcwT25WtpP/lVLw?=
+ =?us-ascii?Q?zyvzU4LuFN3T867etfyzefX5eI3WSbnjJSzSY8jmB3jJErm15KMv5kurx0vf?=
+ =?us-ascii?Q?5Lft8KT2svVBKutr0Iw2wR1w9GQS/Y4QMfJnu67AH39RGofgApwpVkCkt8GR?=
+ =?us-ascii?Q?0gYGPtfFk0f2nmFq1LvqEkUHjEv6M+o3sm1S0VVI7go1xvOanWGuHkifosPn?=
+ =?us-ascii?Q?t80OKLz830oljGj0WMM15cadag+5rO31hj6j7NnsXHS881a9kmDtC0bvMOnB?=
+ =?us-ascii?Q?CEy+UecaKtz/X1gY3g0EsiWP6XnBd6QZQHjn7DS2WlMNOzoYNdFXFIMzNxzv?=
+ =?us-ascii?Q?f+rf+8nuDBe/3A2N7dbb7EXjjG+y5rreWhgQ3u6NPRgpz3IIN0igVaphhtwl?=
+ =?us-ascii?Q?sQ=3D=3D?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7717c743-f06b-4022-3734-08daad37c83e
+X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2022 16:27:12.2548 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BY8JBdnlpvO7zfBx3strELk1E3Doz0SwXVi59XYZtoDrhOQ7ljWLGoM+/hinhbAqDXrjsy31MFHWtyw/GBD5BDSWlOrqTmSN/r2Q39gfT70=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR17MB5097
+Received-SPF: pass client-ip=2a01:111:f400:fe5b::601;
+ envelope-from=gregory.price@memverge.com;
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,79 +140,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Other than the nitpicks below, lgtm.  Not sure if you need a sign off
+from me given the contributions:
 
---1Om8LZn7jeGInJKW
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Signed-off-by: Gregory Price <gregory.price@memverge.com>
 
-On Wed, Oct 12, 2022 at 01:51:07PM -0400, Peter Xu wrote:
-> On Wed, Oct 12, 2022 at 05:43:53PM +0100, Dr. David Alan Gilbert wrote:
-> > * Peter Xu (peterx@redhat.com) wrote:
-> > > Don't take the bitmap mutex when sending pages, or when being throttled by
-> > > migration_rate_limit() (which is a bit tricky to call it here in ram code,
-> > > but seems still helpful).
-> > > 
-> > > It prepares for the possibility of concurrently sending pages in >1 threads
-> > > using the function ram_save_host_page() because all threads may need the
-> > > bitmap_mutex to operate on bitmaps, so that either sendmsg() or any kind of
-> > > qemu_sem_wait() blocking for one thread will not block the other from
-> > > progressing.
-> > > 
-> > > Signed-off-by: Peter Xu <peterx@redhat.com>
-> > 
-> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > 
-> > although a comment above the reclaration of ram_save_host_pages saying
-> > it can drop the lock would be veyr good.
-> 
-> Let me add that.  Thanks,
+> +/* If no cdat_table == NULL returns number of entries */
+> +static int ct3_build_cdat_entries_for_mr(CDATSubHeader **cdat_table,
+> +                                         int dsmad_handle, MemoryRegion *mr)
+> +{
+> +    enum {
+> +        DSMAS,
+> +        DSLBIS0,
+> +        DSLBIS1,
+> +        DSLBIS2,
+> +        DSLBIS3,
+> +        DSEMTS,
+> +        NUM_ENTRIES
+> +    };
+// ...
+> +    if (!cdat_table) {
+> +        return NUM_ENTRIES;
+> +    }
 
-A fixup to this patch attached to touch up the comment for
-ram_save_host_page().
+the only thing that i would recommend is making this enum global (maybe
+renaming them CT3_CDAT_[ENTRY_NAME]) and using CT3_CDAT_NUM_ENTRIES
+directly in the function that allocates the cdat buffer itself. I do
+understand the want to keep the enum and the code creating the entries
+co-located though, so i'm just nitpicking here i guess.
 
--- 
-Peter Xu
+Generally I dislike the pattern of passing a NULL into a function to get
+configuration data, and then calling that function again.  This function
+wants to be named...
 
---1Om8LZn7jeGInJKW
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: attachment;
-	filename="0001-fixup-migration-Yield-bitmap_mutex-properly-when-sen.patch"
+ct3_build_cdat_entries_for_mr_or_get_table_size_if_cdat_is_null(...)
 
-From dcc3adce062df7216851890d49f7d2b1fa2e84a4 Mon Sep 17 00:00:00 2001
-From: Peter Xu <peterx@redhat.com>
-Date: Thu, 13 Oct 2022 12:18:04 -0400
-Subject: [PATCH] fixup! migration: Yield bitmap_mutex properly when
- sending/sleeping
-Content-type: text/plain
+to accurately describe what it does.  Just kinda feels like an extra
+function call for no reason.
 
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- migration/ram.c | 5 +++++
- 1 file changed, 5 insertions(+)
+But either way, it works, this is just a nitpick on my side.
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 538667b974..b311ece48c 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -2407,9 +2407,14 @@ out:
-  * a host page in which case the remainder of the hostpage is sent.
-  * Only dirty target pages are sent. Note that the host page size may
-  * be a huge page for this block.
-+ *
-  * The saving stops at the boundary of the used_length of the block
-  * if the RAMBlock isn't a multiple of the host page size.
-  *
-+ * The caller must be with ram_state.bitmap_mutex held to call this
-+ * function.  Note that this function can temporarily release the lock, but
-+ * when the function is returned it'll make sure the lock is still held.
-+ *
-  * Returns the number of pages written or negative on error
-  *
-  * @rs: current RAM state
--- 
-2.37.3
+> +static int ct3_build_cdat_table(CDATSubHeader ***cdat_table, void *priv)
+> +{
+> +    g_autofree CDATSubHeader **table = NULL;
+> +    CXLType3Dev *ct3d = priv;
+> +    MemoryRegion *volatile_mr;
+> +    /* ... snip ... */
+> +}
 
-
---1Om8LZn7jeGInJKW--
-
+s/volatile/nonvolatile
 
