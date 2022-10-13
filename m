@@ -2,96 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FA725FE172
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 20:40:11 +0200 (CEST)
-Received: from localhost ([::1]:51540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05ADB5FE184
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 20:41:46 +0200 (CEST)
+Received: from localhost ([::1]:33702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj37q-00064G-D0
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 14:40:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43818)
+	id 1oj39N-0000wL-3X
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 14:41:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1oj34e-0003J2-KE; Thu, 13 Oct 2022 14:36:52 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:33466)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oj37z-0006Ma-Kj
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:40:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1oj34c-00014H-M0; Thu, 13 Oct 2022 14:36:52 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29DHfJkk028681;
- Thu, 13 Oct 2022 18:36:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=rHwKY9VuyK0VU1bWPwo/qgzHzPGT9ANwR92bPwpDyS0=;
- b=DuPXKi79ehaIxVboMcw6GUeZ1ccog3YGJP5SUgEf5Z/NHQedWBKqbdWMt7+schp473nR
- wqcY//uBYSvbUNRzdudkouIvoSQw4n6HZA/vXXcJM6x45dKZDPDNFQsmIxlaU6YC5fcx
- Usd35q1B3RPDSGr7UnW+Na4fLzIQw/mmsRv2uXoTDsO9igyKGQGEZKl+msEJIJNbJ2/W
- UcWdqOKKXHs8pwNw9IGnqqbuZLBFjLIJoc/qamJjmnXNvrVNMXGIG3ADgsiw7kAL+O0N
- ZoljuaOsrem/BzUHLvqldiVTp4VseLRW/PpeDcpw/kHB9/dASoOeS+Np0jrIYIdQLkew yA== 
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k6gp8xw39-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Oct 2022 18:36:45 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29DIZ8P6015740;
- Thu, 13 Oct 2022 18:36:45 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma04dal.us.ibm.com with ESMTP id 3k30uaj0w2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 13 Oct 2022 18:36:45 +0000
-Received: from smtpav01.wdc07v.mail.ibm.com ([9.208.128.113])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 29DIahLK18154112
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 13 Oct 2022 18:36:44 GMT
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 428AB58067;
- Thu, 13 Oct 2022 18:36:43 +0000 (GMT)
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 77BBC5804B;
- Thu, 13 Oct 2022 18:36:42 +0000 (GMT)
-Received: from [9.77.158.13] (unknown [9.77.158.13])
- by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Thu, 13 Oct 2022 18:36:42 +0000 (GMT)
-Message-ID: <906b6fdc-5b09-8cb6-cd6b-4b11317bd6ee@linux.ibm.com>
-Date: Thu, 13 Oct 2022 14:36:41 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oj37w-0001Z4-HN
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:40:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665686415;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=I/mvNORg+N2jdf1nlPY2ldE+CQ5bUkBKjDATsRFbF0Y=;
+ b=TkB7ao3TmtFvuPD6oDCRIH+lUVZ6+aVoQkcTFbncxF8YhzaUI017Ds88ATx8tXS157bRMi
+ u9lu18lBNu78e0ZVUaEY5u7zsnbZ66q1uHcwyXN8PM1udI/nz863jFGQ6JGx9+vwS/36I2
+ hM3VKMtL8vecMrO8+DC5dZuV3rfY5B8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-203-xEe_xn2iNtqGzv_NHoFglA-1; Thu, 13 Oct 2022 14:40:12 -0400
+X-MC-Unique: xEe_xn2iNtqGzv_NHoFglA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1BCD180280D;
+ Thu, 13 Oct 2022 18:40:11 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D23B640315F;
+ Thu, 13 Oct 2022 18:40:09 +0000 (UTC)
+Date: Thu, 13 Oct 2022 14:40:07 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Alberto Faria <afaria@redhat.com>
+Cc: qemu-devel@nongnu.org, Yanan Wang <wangyanan55@huawei.com>,
+ sgarzare@redhat.com, "Richard W.M. Jones" <rjones@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Hanna Reitz <hreitz@redhat.com>,
+ David Hildenbrand <david@redhat.com>, integration@gluster.org,
+ qemu-block@nongnu.org,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eric Blake <eblake@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Xie Changlong <xiechanglong.d@gmail.com>,
+ John Snow <jsnow@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Jeff Cody <codyprime@gmail.com>, "Denis V. Lunev" <den@openvz.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Wen Congyang <wencongyang2@huawei.com>
+Subject: Re: [PATCH v6 00/13] blkio: add libblkio BlockDriver
+Message-ID: <Y0hbhx4ZslieREdo@fedora>
+References: <20221006213507.645402-1-stefanha@redhat.com>
+ <CAELaAXya2pSuX5AYwDBTti8AAUYxmMZj_6jwwRBcAjZYfmn=mg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH] hw/s390x/s390-pci-inst.c: Use device_cold_reset() to
- reset PCI devices
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org, Eric Farman <farman@linux.ibm.com>
-References: <20221013172123.1448288-1-peter.maydell@linaro.org>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-In-Reply-To: <20221013172123.1448288-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: xTd4GBHZH6dIymokzYAGYBBlahjcjlpd
-X-Proofpoint-GUID: xTd4GBHZH6dIymokzYAGYBBlahjcjlpd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-13_08,2022-10-13_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- lowpriorityscore=0 spamscore=0 mlxscore=0 suspectscore=0 clxscore=1015
- malwarescore=0 phishscore=0 mlxlogscore=999 adultscore=0 impostorscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210130105
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.25,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="hSNIoUBKOKTWoFar"
+Content-Disposition: inline
+In-Reply-To: <CAELaAXya2pSuX5AYwDBTti8AAUYxmMZj_6jwwRBcAjZYfmn=mg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,43 +97,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/13/22 1:21 PM, Peter Maydell wrote:
-> The semantic difference between the deprecated device_legacy_reset()
-> function and the newer device_cold_reset() function is that the new
-> function resets both the device itself and any qbuses it owns,
-> whereas the legacy function resets just the device itself and nothing
-> else.
-> 
-> In s390-pci-inst.c we use device_legacy_reset() to reset an
-> S390PCIBusDevice.  This device doesn't have any child qbuses, so the
-> functions do the same thing and we can stop using the deprecated one.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> NB: tested only with 'make check' and 'make check-avocado', which
-> probably don't exercise this codepath.
->
 
-I exercised the codepath by triggering the associated clp using both virtio and vfio pci devices on s390x; looks good to me.
+--hSNIoUBKOKTWoFar
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
+On Mon, Oct 10, 2022 at 10:46:59AM +0100, Alberto Faria wrote:
+> On Thu, Oct 6, 2022 at 10:35 PM Stefan Hajnoczi <stefanha@redhat.com> wro=
+te:
+> > v6:
+> > - Add untested nvme-io_uring driver. Please test in your nested NVMe en=
+vironment, Alberto. [Alberto]
+>=20
+> I did some I/O verification using fio [1] and it seems to be working fine.
 
- 
->  hw/s390x/s390-pci-inst.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
-> index 20a9bcc7afb..16f5a3e81b4 100644
-> --- a/hw/s390x/s390-pci-inst.c
-> +++ b/hw/s390x/s390-pci-inst.c
-> @@ -272,7 +272,7 @@ int clp_service_call(S390CPU *cpu, uint8_t r2, uintptr_t ra)
->                  stw_p(&ressetpci->hdr.rsp, CLP_RC_SETPCIFN_FHOP);
->                  goto out;
->              }
-> -            device_legacy_reset(DEVICE(pbdev));
-> +            device_cold_reset(DEVICE(pbdev));
->              pbdev->fh &= ~FH_MASK_ENABLE;
->              pbdev->state = ZPCI_FS_DISABLED;
->              stl_p(&ressetpci->fh, pbdev->fh);
+Thank you, Alberto!
+
+Stefan
+
+>=20
+> Alberto
+>=20
+> [1] https://fio.readthedocs.io/en/latest/fio_doc.html#verification
+>=20
+
+--hSNIoUBKOKTWoFar
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNIW4cACgkQnKSrs4Gr
+c8jfNwgAxr9+ThO0qEuP+qKsqUjBfKdxUxG6nr9reznMTPD8a/ivgu1DkmgAFdow
+lFMrUf6Jm8Ec5M3GPDT9n4y0Y0txa++93Vl9FJ0p9ZExR7l3FK+0xc6w8Vs28qDy
+who8D3dKRgk/OdbcV8o3V1C9TJFhI0ZrgsQja8wbLjDKh064qceqtRDtH5TJCZqq
+uDA/5q3N5b+2BCdk/y/IOjkA+JxVLSPgioj6Wzv0tFggwAU1jMD5RxQ7p497p+Pe
+L5pywc0WeL0hz53TbPxCpnCU1uJOn+MQLGK8uMQIedzbtCryaguOrAZgm45hhJ/5
+5Q5sfxCsjqlSbDW9l5YA+1ypM4axLg==
+=OVBF
+-----END PGP SIGNATURE-----
+
+--hSNIoUBKOKTWoFar--
 
 
