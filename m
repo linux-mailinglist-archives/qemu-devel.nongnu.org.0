@@ -2,132 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 312FA5FDF24
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 19:39:42 +0200 (CEST)
-Received: from localhost ([::1]:59226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E90B5FDF27
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 19:40:56 +0200 (CEST)
+Received: from localhost ([::1]:55064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj2BI-0004Mf-CJ
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 13:39:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58008)
+	id 1oj2CV-0005AM-8n
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 13:40:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1oj24U-0000wG-Uy
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 13:32:40 -0400
-Received: from mail-dm6nam12on2082.outbound.protection.outlook.com
- ([40.107.243.82]:1857 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oj25n-0001Qj-9X
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 13:34:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53135)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1oj24P-0008Ae-Jh
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 13:32:36 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ULiOhGP1zK9tajT9HfLK6Tz4xEUooG2y+evYMaP6h7xSiMi+vsQzRcc6/JWMzPtMFLIcrqy6GhXwS71NyWrHqEePsRdJMRN125HpKWK9XvBsf5CwEQn7/3LVzwCVpjnZXrG6ftAUEjAfvbC4s8kgWjpX87VBmOciBN9XvWfl2KPOe6UiPNGhleJyxP1XXbSnzbNzoBP8QsG0R+ISbOqqLGTJvB0u29lsjUP7NyoYw4GnJr+1k5AxEqmSFQaTSym/peLo6iLj8+BIMfBi8sg9jDovBgIc02mkUA2Cq9cuw9w2BdoZdcMljEB1fw3VSYeoTfCcP43ZwtMedkfy6u83iA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=r9OStwsGnhMYr9+560mY/LU2tpY02Ns9Thckun1B5ZM=;
- b=EGEwpp7Fp6r84sfq/OoXhNNZ/hWee5wmpcIH/vSTXRhFFjxVCLEYHXj4OsIcCsiXyL9M9bUny79hmapVVlrZKfJyPYofv1wITuhHeQQ9g+IJ5seH8NBFh2uayUe467Ykky5TJROB0n2CU9X7OiJZbFyXeCbn4Q9AvCwvKPbO7jChn7S9YfuMDNoqlkOkO3MUXiVN/YabjdB/5IYtojoNAYA/ELcAQOIbKgrJhptsnb9TCn6++laMTqZDKT3TZzTOpwNm3usP85ry2WfTHrdTqzs9zLUKho+Doe/wHAaDUkA8mSL3F2YWFC3JYFg77vLD3WwGBo1t5nw/xWidkWLDjg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r9OStwsGnhMYr9+560mY/LU2tpY02Ns9Thckun1B5ZM=;
- b=EcFYl7OcP1I/G5q68vrkPNhy75/BGUGWDLcl2F2PDENlZlrP0/Zj/Pm4m7zryptxPCTq8EAw9e/yWs0gGc/1LXQ7nMtExWLQHG6jxKotGIkdzEQk/bhnnKlkZWtvxYSXAcJIXdxSdaGVAyboUV0K0yNY8S73GdVjI2mRxse6A4E=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
- by MN2PR17MB3853.namprd17.prod.outlook.com (2603:10b6:208:201::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.26; Thu, 13 Oct
- 2022 17:32:28 +0000
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::655f:bfa9:e33a:5af4]) by BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::655f:bfa9:e33a:5af4%5]) with mapi id 15.20.5723.026; Thu, 13 Oct 2022
- 17:32:28 +0000
-Date: Thu, 13 Oct 2022 13:32:26 -0400
-From: Gregory Price <gregory.price@memverge.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Ben Widawsky <bwidawsk@kernel.org>, linux-cxl@vger.kernel.org,
- Huai-Cheng Kuo <hchkuo@avery-design.com.tw>,
- Chris Browy <cbrowy@avery-design.com>, ira.weiny@intel.com,
- linuxarm@huawei.com
-Subject: Re: [PATCH v8 4/5] hw/mem/cxl-type3: Add CXL CDAT Data Object Exchange
-Message-ID: <Y0hLquDTg8jv9SbE@memverge.com>
-References: <20221013120009.15541-1-Jonathan.Cameron@huawei.com>
- <20221013120009.15541-5-Jonathan.Cameron@huawei.com>
- <Y0g8UgumJwqU4QyB@memverge.com>
- <20221013130840-mutt-send-email-mst@kernel.org>
- <20221013182144.00004466@huawei.com>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oj25Y-0008GH-Ct
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 13:33:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665682419;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mQCBEtPrLUnUdMQk4VuE5iGpnh0hhrHyo6hbmOyKyMg=;
+ b=ScY3zsmuXICFYxT7XY2EKo+abSQzn2rONCrVY5VLt1URNRIhhcH6fFLFSQr9KPRas4EBrA
+ WMbHcPkLJ5hhu0KcRyVeNHv7mWXBdyDNEQ9XyuxXrj4NRrY5HYCqpT8oAUcxG9ipz5KZ5J
+ +yxfYVc/3yHjO8Iw0+exI2PaGBwVSYw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-259-koaOlrloMnu4fGv9fgmIFg-1; Thu, 13 Oct 2022 13:33:30 -0400
+X-MC-Unique: koaOlrloMnu4fGv9fgmIFg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ n19-20020a7bcbd3000000b003c4a72334e7so1131175wmi.8
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 10:33:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mQCBEtPrLUnUdMQk4VuE5iGpnh0hhrHyo6hbmOyKyMg=;
+ b=vDZ92NHfciVwpsTe0+INrdJUIiPmco5Bh69Q4pmaE+VEzkS2QsxDAmgxJXrgM6ceiq
+ gojrXAMUaAp8dGxyJ8S8lsVX+VH0KI+s9DmDWNaL6g+v/0h/ShzVOYeIoNbNVdCfUlTQ
+ VOkOCp9d7x4iEyTFDC3WIcba2zZttbdcaig2mjbA8B8R2Yg5q7rM377plspH+9vKxZXb
+ /Fb6QOb03MrV/UlT0pvD+HfeywYoBIbX+A2DdbQa8BJyIa+2S4DjKifeyNxns6a/RXsX
+ DFkbB50HhQDCzzlHNVL7RqXv6oA92QtqFCmASVrMpvYlwIeMJeoWCC0V3Dp+oXzX9BlB
+ lncQ==
+X-Gm-Message-State: ACrzQf1qFxcZM4S4PG22v1ZC4gHgV3k4ADYjLcw9DygI2M6Ul03QNUCB
+ gQV5YvXiBLkOhQJz41lTLX4YT9ZBWBSE9Dh84cAUxBShW0a38GSzS40H8Jb9i6xBJeqC5ZsjWyj
+ Hglqr3OqCoOsFBU8=
+X-Received: by 2002:a1c:ed0b:0:b0:3c1:d16e:a827 with SMTP id
+ l11-20020a1ced0b000000b003c1d16ea827mr641740wmh.127.1665682409251; 
+ Thu, 13 Oct 2022 10:33:29 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5dsxdrf5bN+HVc+7ul3HQsy85ZwWkBAGgXny3x5rsbozZ4H4358Hab2aR8RgZmLHUGrGTdxA==
+X-Received: by 2002:a1c:ed0b:0:b0:3c1:d16e:a827 with SMTP id
+ l11-20020a1ced0b000000b003c1d16ea827mr641724wmh.127.1665682409011; 
+ Thu, 13 Oct 2022 10:33:29 -0700 (PDT)
+Received: from redhat.com ([2.54.162.123]) by smtp.gmail.com with ESMTPSA id
+ bd21-20020a05600c1f1500b003b95ed78275sm106997wmb.20.2022.10.13.10.33.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Oct 2022 10:33:28 -0700 (PDT)
+Date: Thu, 13 Oct 2022 13:33:25 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Sergio Lopez <slp@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: Re: [PATCH] hw/i386: Use device_cold_reset() to reset the APIC
+Message-ID: <20221013133311-mutt-send-email-mst@kernel.org>
+References: <20221013171926.1447899-1-peter.maydell@linaro.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221013182144.00004466@huawei.com>
-X-ClientProxiedBy: MN2PR05CA0008.namprd05.prod.outlook.com
- (2603:10b6:208:c0::21) To BN6PR17MB3121.namprd17.prod.outlook.com
- (2603:10b6:405:7c::19)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|MN2PR17MB3853:EE_
-X-MS-Office365-Filtering-Correlation-Id: ba5dfe88-b1e4-4520-bfd1-08daad40e6a8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VZnQJI/FcOxQXooL5yFQgGAIqEei7amC5+c/kvYlQ7bKP4w+G8BQuoY4gIyK8353yNnlVG6mI3pNFh5U2sHTbqlTzHSQOKjjbqoQOb4vUekv8PSSXjA6/iqgH7qpOP/eu2isW5nUt1FKwgTwSql1AYJdMkuIjfM/AI0FQfAta2psw43Kd8Jr9x/wDoVSwYZksQie99E58303LwuumtouL9v6Xaut3PRTUE7RKT5XYa0gSStT7/EP4ZHrcaviE35+uaGzQsfnDia7htg0BbXEIg4w1N5aoFffpxJi8V1YcBcni+2d5VjxOXzE6JDBz/8Ui2+W3+ldjRNRlKoVQ0O+sOWUBz7UtOr4qhc7mJPj68pPsmQdyw5lqgja7F5WRCRKmC2i9sVWwAT+lWtd+3dKjscmJ7Qvn8ABVfGjyZdUKqpK4kjhpmkXV+FseN/94UTCORGFfXkjQ9lLkj4/uTNWC+5ceSonJTCdcAATwPu+tfUdN6A1RWz5LgGlzhC+k3en3sQytT/4EgtIZZWbCSTPrtOkWYojNM/6+e4bxqDf/7fto36W2pmRdcEialrpivZTgJtH3iifLRnBLXV8Qr2my0R4gjut7n+raK2eZAFerwYr6hBgAIzrLyngpj5bg+gnkKTb/trFmX8AKxFID5gfpWBjETCAAUU2bJ65+gIKTx7Ugomp0hT25RQ7GSozGfR19s20BGqi++b81Zwyj3Kwqg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN6PR17MB3121.namprd17.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(136003)(346002)(39840400004)(366004)(396003)(376002)(451199015)(8936002)(36756003)(2616005)(316002)(5660300002)(44832011)(186003)(2906002)(4326008)(8676002)(41300700001)(6506007)(38100700002)(6512007)(26005)(66476007)(66556008)(66946007)(86362001)(6916009)(478600001)(6486002)(54906003);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?gz2j1+zMUpG+vRaN2yfa3+TLQXhV+cYSQRE46jzMTM+EOSTIDYY6+GW3bUw4?=
- =?us-ascii?Q?RaC1g4dNPSuJqdhGZiPdUD/EL8pKvWAQijtC1zIhuhITQnCUQfmK/1Ho/CQf?=
- =?us-ascii?Q?737/6aGeYCeHZAQo4Q22qI9LDzTKlfP6RyVvGjFZffDNwOLagZFgjD7S1Ctr?=
- =?us-ascii?Q?DSIffa/DtxGuMV2/gVwiwaLNh/mtn8wZLP4XPnuJMVgN4ACROnwo+zCbQpZ6?=
- =?us-ascii?Q?xZdUM1kd1Wq0cE85vPOZjUdzZzr4kHduVSE9REI56r0wstzjhg3GDdQkLp41?=
- =?us-ascii?Q?SCyhTWScsC65jA0wgYCONo7hgIgon2DEdp+IBlfrkPBGrXULkRlnVTN4raiV?=
- =?us-ascii?Q?dR4QKVlD9XKOgN2KPsU+v+qUkuCgeajZPnyyrI04hZ7BJzarUkPmD9v2hANy?=
- =?us-ascii?Q?ZPlOPQWJJieItayNVQkCvodT9ef2cawn1VBYRjBmJDEV6WCr91YsCHtp6/8d?=
- =?us-ascii?Q?FG+3hmRZ7lsYF8xAyq2jiHJ8GCdT3wC+EruHIrnaNnN1yG6718jCfOrjILGb?=
- =?us-ascii?Q?mHpIWXQbpUO8nkA7rnXN4vqlZz2PI6X/EYsrwIFWjAc/7Xt6tp4RKh1CrrnW?=
- =?us-ascii?Q?jOJ7RlRQIxXQ+zFr40y0O21Dl8LYQXDM7cjw2stMw90goo8lN4b2GQ5vjltS?=
- =?us-ascii?Q?4gW0Lm8dlC0Wm0tnWs7Fk2OBYyk1I/MglsjdXfjShXLP8Wg3bRsekyFv9771?=
- =?us-ascii?Q?xoGz25VPqiKBVdG6WQC7c6kc7S4ZFxnjgvquyIDvlYEoRUihRBPQuxpdXI+V?=
- =?us-ascii?Q?G9wg4FVE8/fiZWwIPriA57OxFQd4+C5mM1WUF3vkw+EAjAmVip210s+M+Sll?=
- =?us-ascii?Q?Gmua1A2X+4JMe4SrmnuOX7pTBp7A7fegE+UkFswZjTyNz/BGDbZPcs+xqh3e?=
- =?us-ascii?Q?COULaJIN0HvjvtmV9R9L86dQYswaFWBdGxLGhV/LClDEXt7SN6m6Lz5YbzYO?=
- =?us-ascii?Q?qbA7zACzRH2piyIJfpBn51pjSMZPItl3KidT2w6UJmE/+b67ouJ/npbBC1Ef?=
- =?us-ascii?Q?Y8imLHW3a0Uaa2oap3rPJONyvoQi3XYW2Bj9j//7jZmx+H1c1SydkrDYg7zD?=
- =?us-ascii?Q?KWRCHx3QR/SMgZ9pEY7UTR08f7A1nwrMYovO1P9V411yO87O1iFg9KdYX08A?=
- =?us-ascii?Q?wFYwR0Ac+FtPqOTwxqIX6FPLyqPu5rVfYQp/nA7uF+erlUFJNe6Yr1dbg64h?=
- =?us-ascii?Q?3z7VlHYIz7s2iOM+ma/TBVr1+m1ob859yedXhXMcSHxfmcGprMgBGRc7sMm/?=
- =?us-ascii?Q?tdKb6BehgqFQLQKyAAL0VrAoywnOaCw6Pd/Um175fxdqvv+7TP6Cb4Py0mDd?=
- =?us-ascii?Q?IqYAwAIAuMwZWqcG6qK3lbKenqUbB13bnowqU3T6dZBAaNPVJBeAj9LVRNok?=
- =?us-ascii?Q?Yt+Zx+mjuO27gmKIizNa9ChfBzFyNO3ysCA5TU3rt541tz2eXZvO9333c6Cf?=
- =?us-ascii?Q?lYxKohp7+wQKXG9oCwZavBvD1ZvXyYPn+neaL5kSYNk0Uf9YCNs2Xk59G6BP?=
- =?us-ascii?Q?Xg5weTDl9k8Q8cKQHemPi9K/OR4ShTj1JHElExFXEjjOI5VJXUvnAAK93LyR?=
- =?us-ascii?Q?lUgEl/yMLCtcmy0fEIthqzUpcwcPnYf9dJzPMI/gdT5fG/oySrUeR8yYQbS+?=
- =?us-ascii?Q?Tg=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba5dfe88-b1e4-4520-bfd1-08daad40e6a8
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2022 17:32:28.6927 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Jfg+eFfD5yAS5tD0/3qSsSFcp1lPFnigAWnGc5JlYdy+2nPCwkyQKYmfU1eGFMJjx5jnT3CiPm8grUsrDi9JGmcCGx+KBY1bqz83tagKcHE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR17MB3853
-Received-SPF: pass client-ip=40.107.243.82;
- envelope-from=gregory.price@memverge.com;
- helo=NAM12-DM6-obe.outbound.protection.outlook.com
+In-Reply-To: <20221013171926.1447899-1-peter.maydell@linaro.org>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -143,82 +96,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If you're expecting this to be dynamic in size in the future, then maybe
-what we really want here is a function
+On Thu, Oct 13, 2022 at 06:19:26PM +0100, Peter Maydell wrote:
+> The semantic difference between the deprecated device_legacy_reset()
+> function and the newer device_cold_reset() function is that the new
+> function resets both the device itself and any qbuses it owns,
+> whereas the legacy function resets just the device itself and nothing
+> else.
+> 
+> The pc_machine_reset() and microvm_machine_reset() functions use
+> device_legacy_reset() to reset the APIC; this is an APICCommonState
+> and does not have any qbuses, so for this purpose the two functions
+> behave identically and we can stop using the deprecated one.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-static int ct3_get_cdat_size(CXLType3Dev ct3d) {
-    /* TODO: Dynamic sizing calculations */
-    return CT3_CDAT_NUM_ENTRIES;
-}
 
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
-On Thu, Oct 13, 2022 at 06:21:44PM +0100, Jonathan Cameron wrote:
-> On Thu, 13 Oct 2022 13:09:26 -0400
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> ---
+> NB: tested only with 'make check' and 'make check-avocado'
 > 
-> > On Thu, Oct 13, 2022 at 12:26:58PM -0400, Gregory Price wrote:
-> > > Other than the nitpicks below, lgtm.  Not sure if you need a sign off
-> > > from me given the contributions:
-> > > 
-> > > Signed-off-by: Gregory Price <gregory.price@memverge.com>
-> > >   
-> > > > +/* If no cdat_table == NULL returns number of entries */
-> > > > +static int ct3_build_cdat_entries_for_mr(CDATSubHeader **cdat_table,
-> > > > +                                         int dsmad_handle, MemoryRegion *mr)
-> > > > +{
-> > > > +    enum {
-> > > > +        DSMAS,
-> > > > +        DSLBIS0,
-> > > > +        DSLBIS1,
-> > > > +        DSLBIS2,
-> > > > +        DSLBIS3,
-> > > > +        DSEMTS,
-> > > > +        NUM_ENTRIES
-> > > > +    };  
-> > > // ...  
-> > > > +    if (!cdat_table) {
-> > > > +        return NUM_ENTRIES;
-> > > > +    }  
-> > > 
-> > > the only thing that i would recommend is making this enum global (maybe
-> > > renaming them CT3_CDAT_[ENTRY_NAME]) and using CT3_CDAT_NUM_ENTRIES
-> > > directly in the function that allocates the cdat buffer itself.  
-> > 
-> > 
-> > Yes I think I agree here.
+>  hw/i386/microvm.c | 2 +-
+>  hw/i386/pc.c      | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> Ok, seems a consensus against having this local.
-> 
-> I can do this for now and then revisit if / when things become more complex
-> and this becomes not global.  I guess a potential case of premature flexibility.
-> 
-> Jonathan
-> 
-> > 
-> > > I do
-> > > understand the want to keep the enum and the code creating the entries
-> > > co-located though, so i'm just nitpicking here i guess.
-> > > 
-> > > Generally I dislike the pattern of passing a NULL into a function to get
-> > > configuration data, and then calling that function again.  This function
-> > > wants to be named...
-> > > 
-> > > ct3_build_cdat_entries_for_mr_or_get_table_size_if_cdat_is_null(...)
-> > > 
-> > > to accurately describe what it does.  Just kinda feels like an extra
-> > > function call for no reason.
-> > > 
-> > > But either way, it works, this is just a nitpick on my side.
-> > >   
-> > > > +static int ct3_build_cdat_table(CDATSubHeader ***cdat_table, void *priv)
-> > > > +{
-> > > > +    g_autofree CDATSubHeader **table = NULL;
-> > > > +    CXLType3Dev *ct3d = priv;
-> > > > +    MemoryRegion *volatile_mr;
-> > > > +    /* ... snip ... */
-> > > > +}  
-> > > 
-> > > s/volatile/nonvolatile  
-> > 
-> 
+> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+> index 7fe8cce03e9..0b08010bf0a 100644
+> --- a/hw/i386/microvm.c
+> +++ b/hw/i386/microvm.c
+> @@ -486,7 +486,7 @@ static void microvm_machine_reset(MachineState *machine)
+>          cpu = X86_CPU(cs);
+>  
+>          if (cpu->apic_state) {
+> -            device_legacy_reset(cpu->apic_state);
+> +            device_cold_reset(cpu->apic_state);
+>          }
+>      }
+>  }
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 566accf7e60..2b2d0bc2b33 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -1860,7 +1860,7 @@ static void pc_machine_reset(MachineState *machine)
+>          cpu = X86_CPU(cs);
+>  
+>          if (cpu->apic_state) {
+> -            device_legacy_reset(cpu->apic_state);
+> +            device_cold_reset(cpu->apic_state);
+>          }
+>      }
+>  }
+> -- 
+> 2.25.1
+
 
