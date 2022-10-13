@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 601AD5FE22B
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 20:55:45 +0200 (CEST)
-Received: from localhost ([::1]:43852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E5145FE25A
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 21:03:55 +0200 (CEST)
+Received: from localhost ([::1]:36806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj3Mt-0005Y6-Lr
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 14:55:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50810)
+	id 1oj3Un-0002ZS-Qi
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 15:03:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oj3Jm-0003qN-Dm
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:52:30 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:41611)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oj3Jk-0003D2-B3
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:52:30 -0400
-Received: by mail-pf1-x436.google.com with SMTP id g28so2743608pfk.8
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 11:52:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=SGSNW/Pk2NI22LtzX1Xu3pb5bHWbQD3oXGrcm5U2Ssg=;
- b=nFG+ORV7yqp11AgJlRIA8n41/vFB9jJyCjFktX+aikoCl2do3P5+SrOkjwCwqo369/
- klmYmESpaUNzJK/PCUvZYQZ+ev35J2wvpPLVPPzAh/7QO3yQoYbqqbFjaCtkeHp7ZXc+
- MQLIQo6MDCm4Cg8GSh4rsQDi5HVx9ruvfYXySbBUUvd8634f0ekspvBjSHbzWpCsLIl4
- qMklXk0D8Uu4PjjFLCNMnuOzKy82AgV5QVNWhUaUFLVsl4XRbZlUgZXTXKoGZnQfB16C
- RguwZ68yJBmkwTYrWkBI4GVzkiKZwFm7QliE1zpCD47u50zqeONT219H/5EJNI7Hz4iA
- bppQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SGSNW/Pk2NI22LtzX1Xu3pb5bHWbQD3oXGrcm5U2Ssg=;
- b=XmyUCQvZDHc2GRo0cTk+KSkLZmwPyZ2+wojK1oJO4f8lwr7FzISMsNVoTpSmT0WAjU
- dF7aOIkN0Xr4+vMD3tmPYru5yKUdj2Z26o1lkgiPQYqB+BhOOREivmTWbyfebNRxPMkR
- ty8azxNCWBunFL/+eRBiO5n/lZvV4KDMXk6vfWUn4Yx/09CT3Ur+ae4MAEM0nVa79sCQ
- 4AOD1WUaUqPMP/VLZa1yIt/ssNGN3M5icjNEIkZoUHVdjhRHXvBGmwTPIEiGkO3tHkWt
- SLo5kmSNzeNMRTFML+kkUtqNhK6ye++PomVu0IenYvFBU3bG33VoB3OCo+66am7JFuID
- WVPw==
-X-Gm-Message-State: ACrzQf2j/nUCQ4oYB8AiJ19+rnRKCezwOR0V9/jdb5o1OWTrhhFrFWjw
- Dip5qCVPoFMk6eSzHFMz1jG3RQ==
-X-Google-Smtp-Source: AMsMyM4WFGSdqX1GeWX9pTJGKSZTsRc+bUgyD0fRGcw3bqJWyz0UrqIBwLD/1Q/tMRHp8AvS6olPEg==
-X-Received: by 2002:a62:1490:0:b0:563:51e7:693b with SMTP id
- 138-20020a621490000000b0056351e7693bmr962976pfu.39.1665687146685; 
- Thu, 13 Oct 2022 11:52:26 -0700 (PDT)
-Received: from [10.1.28.222] (110-175-13-142.static.tpgi.com.au.
- [110.175.13.142]) by smtp.gmail.com with ESMTPSA id
- u32-20020a631420000000b004393c5a8006sm48524pgl.75.2022.10.13.11.52.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Oct 2022 11:52:26 -0700 (PDT)
-Message-ID: <7ca40cf8-f49f-6a84-c384-f031f69a3305@linaro.org>
-Date: Fri, 14 Oct 2022 05:52:20 +1100
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oj3QW-0006IZ-9r
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:59:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41857)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oj3QS-00042I-I7
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:59:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665687563;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kWDrgxNkTT8mbt8cc9hG3Z0Hj3anMwQlGTFYnYMqmvc=;
+ b=eNe9QOMli4U266QbfCM3x4YbexU4NGg/2raLlE/Zq6K8dpywmk5d1NQQ8/9Bqa8CYJIIGe
+ 7Dh7w/YWm9Wu5xwBly41s0XISYEIQoxD03vCgxQjhyOiBDjndn9E1SSyyjr5rEV2dGP7N3
+ lRJHxTHeglciOyTRx9FaZJYE6atn/nk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-378-xj8XLdR9OdGSMLfLLWjlZw-1; Thu, 13 Oct 2022 14:59:20 -0400
+X-MC-Unique: xj8XLdR9OdGSMLfLLWjlZw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 446112932498;
+ Thu, 13 Oct 2022 18:59:19 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 65A9F40BB22;
+ Thu, 13 Oct 2022 18:59:10 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Markus Armbruster <armbru@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Wen Congyang <wencongyang2@huawei.com>, Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>, qemu-block@nongnu.org,
+ Eric Blake <eblake@redhat.com>, John Snow <jsnow@redhat.com>,
+ afaria@redhat.com, Jeff Cody <codyprime@gmail.com>,
+ Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>, sgarzare@redhat.com,
+ integration@gluster.org, Peter Xu <peterx@redhat.com>,
+ "Richard W.M. Jones" <rjones@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ "Denis V. Lunev" <den@openvz.org>
+Subject: [PATCH v7 00/13] blkio: add libblkio BlockDriver
+Date: Thu, 13 Oct 2022 14:58:55 -0400
+Message-Id: <20221013185908.1297568-1-stefanha@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2] tcg/loongarch64: Add direct jump support
-Content-Language: en-US
-To: Qi Hu <huqi@loongson.cn>, WANG Xuerui <git@xen0n.name>
-Cc: qemu-devel@nongnu.org
-References: <cc5770f1a03bf90fa8b990666fb061b1e063b803.1665405913.git.huqi@loongson.cn>
- <20221013030123.979720-1-huqi@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221013030123.979720-1-huqi@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.25,
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,114 +93,172 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/13/22 20:01, Qi Hu wrote:
-> Similar to the ARM64, LoongArch has PC-relative instructions such as
-> PCADDU18I. These instructions can be used to support direct jump for
-> LoongArch. Additionally, if instruction "B offset" can cover the target
-> address(target is within ±128MB range), a single "B offset" plus a nop
-> will be used by "tb_target_set_jump_target".
-> 
-> Signed-off-by: Qi Hu <huqi@loongson.cn>
+v7:
+- Add nvme-io_uring and virtio-blk-vhost-user syntax examples to commit description [Markus]
+- Add missing nvme-io_uring QAPI [Markus, Alberto]
+- Rename mem-regions-pinned to may-pin-mem-regions [Alberto]
+- Fix value/bs->bl.max_iov mix-up [Stefano]
+v6:
+- Add untested nvme-io_uring driver. Please test in your nested NVMe environment, Alberto. [Alberto]
+- Map blkio mem regions only when necessary to reduce conflicts with RAM discard [Alberto]
+- Reduce duplication by having a single blkio_virtio_blk_common_open() function [Alberto]
+- Avoid duplication in BlockDriver definitions using a macro [Alberto]
+- Avoid ram block registrar segfault [Stefano]
+- Use QLIST_FOREACH_SAFE() in ram block notifier code so callbacks can remove themselves
+v5:
+- Drop "RFC" since libblkio 1.0 has been released and the library API is stable
+- Disable BDRV_REQ_REGISTERED_BUF if we run out of blkio_mem_regions. The
+  bounce buffer slow path is taken when there are not enough blkio_mem_regions
+  to cover guest RAM. [Hanna & David Hildenbrand]
+- Call ram_block_discard_disable() when mem-region-pinned property is true or
+  absent [David Hildenbrand]
+- Use a bounce buffer pool instead of allocating/freeing a buffer for each
+  request. This reduces the number of blkio_mem_regions required for bounce
+  buffers to 1 and avoids frequent blkio_mem_region_map/unmap() calls.
+- Switch to .bdrv_co_*() instead of .bdrv_aio_*(). Needed for the bounce buffer
+  pool's CoQueue.
+v4:
+- Patch 1:
+  - Add virtio-blk-vhost-user driver [Kevin]
+  - Drop .bdrv_parse_filename() and .bdrv_needs_filename for virtio-blk-vhost-vdpa [Stefano]
+  - Add copyright and license header [Hanna]
+  - Drop .bdrv_parse_filename() in favor of --blockdev or json: [Hanna]
+  - Clarify that "filename" is always non-NULL for io_uring [Hanna]
+  - Check that virtio-blk-vhost-vdpa "path" option is non-NULL [Hanna]
+  - Fix virtio-blk-vhost-vdpa cache.direct=off logic [Hanna]
+  - Use macros for driver names [Hanna]
+  - Assert that the driver name is valid [Hanna]
+  - Update "readonly" property name to "read-only" [Hanna]
+  - Call blkio_detach_aio_context() in blkio_close() [Hanna]
+  - Avoid uint32_t * to int * casts in blkio_refresh_limits() [Hanna]
+  - Remove write zeroes and discard from the todo list [Hanna]
+  - Use PRIu32 instead of %d for uint32_t [Hanna]
+  - Fix error messages with buf-alignment instead of optimal-io-size [Hanna]
+  - Call map/unmap APIs since libblkio alloc/free APIs no longer do that
+  - Update QAPI schema QEMU version to 7.2
+- Patch 5:
+  - Expand the BDRV_REQ_REGISTERED_BUF flag passthrough and drop assert(!flags)
+    in drivers [Hanna]
+- Patch 7:
+  - Fix BLK->BDRV typo [Hanna]
+  - Make BlockRAMRegistrar handle failure [Hanna]
+- Patch 8:
+  - Replace memory_region_get_fd() approach with qemu_ram_get_fd()
+- Patch 10:
+  - Use (void)ret; to discard unused return value [Hanna]
+  - libblkio's blkio_unmap_mem_region() API no longer has a return value
+  - Check for registered bufs that cross RAMBlocks [Hanna]
+- Patch 11:
+  - Handle bdrv_register_buf() errors [Hanna]
+v3:
+- Add virtio-blk-vhost-vdpa for vdpa-blk devices including VDUSE
+- Add discard and write zeroes support
+- Rebase and adopt latest libblkio APIs
+v2:
+- Add BDRV_REQ_REGISTERED_BUF to bs.supported_write_flags [Stefano]
+- Use new blkioq_get_num_completions() API
+- Implement .bdrv_refresh_limits()
 
-First, when sending a v2, do not reply to a different thread.
-This confuses our patch tracking tools like patchew.org.
+This patch series adds a QEMU BlockDriver for libblkio
+(https://gitlab.com/libblkio/libblkio/), a library for high-performance block
+device I/O. This work was presented at KVM Forum 2022 and slides are available
+here:
+https://static.sched.com/hosted_files/kvmforum2022/8c/libblkio-kvm-forum-2022.pdf
 
-> +void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
-> +                              uintptr_t jmp_rw, uintptr_t addr)
-> +{
-> +    tcg_insn_unit i1, i2;
-> +    ptrdiff_t upper, lower;
-> +    ptrdiff_t offset = (addr - jmp_rx) >> 2;
-> +
-> +    if (offset == sextreg(offset, 0, 28)) {
-> +        i1 = encode_sd10k16_insn(OPC_B, offset);
-> +        i2 = NOP;
-> +    } else {
-> +        upper = ((offset + (1 << 15)) >> 16) & 0xfffff;
-> +        lower = (offset & 0xffff);
+The second patch adds the core BlockDriver and most of the libblkio API usage.
+Three libblkio drivers are included:
+- io_uring
+- virtio-blk-vhost-user
+- virtio-blk-vhost-vdpa
 
-This computation is incorrect, cropping the values to unsigned.
-This will assert inside
+The remainder of the patch series reworks the existing QEMU bdrv_register_buf()
+API so virtio-blk emulation efficiently map guest RAM for libblkio - some
+libblkio drivers require that I/O buffer memory is pre-registered (think VFIO,
+vhost, etc).
 
-> +        /* patch pcaddu18i */
-> +        i1 = encode_dsj20_insn(OPC_PCADDU18I, TCG_REG_T0, upper);
-> +        /* patch jirl */
-> +        i2 = encode_djsk16_insn(OPC_JIRL, TCG_REG_ZERO, TCG_REG_T0, lower);
+Vladimir requested performance results that show the effect of the
+BDRV_REQ_REGISTERED_BUF flag. I ran the patches against qemu-storage-daemon's
+vhost-user-blk export with iodepth=1 bs=512 to see the per-request overhead due
+to bounce buffer allocation/mapping:
 
-these encoding functions.  You want
+Name                                   IOPS   Error
+bounce-buf                          4373.81 ± 0.01%
+registered-buf                     13062.80 ± 0.67%
 
-     lower = (int16_t)offset;
-     upper = (offset - lower) >> 16;
+The BDRV_REQ_REGISTERED_BUF optimization version is about 3x faster.
 
-Wang Xuerui asked you to remove the redundant comments there, which give no more 
-information than the code itself.
+See the BlockDriver struct in block/blkio.c for a list of APIs that still need
+to be implemented. The core functionality is covered.
 
-> @@ -1058,11 +1088,24 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
->           break;
->   
->       case INDEX_op_goto_tb:
-> -        assert(s->tb_jmp_insn_offset == 0);
-> -        /* indirect jump method */
-> -        tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP0, TCG_REG_ZERO,
-> -                   (uintptr_t)(s->tb_jmp_target_addr + a0));
-> -        tcg_out_opc_jirl(s, TCG_REG_ZERO, TCG_REG_TMP0, 0);
-> +        if (s->tb_jmp_insn_offset != NULL) {
-> +            /* TCG_TARGET_HAS_direct_jump */
-> +            /* Ensure that "patch area" are 8-byte aligned so that an
-> +               atomic write can be used to patch the target address. */
-> +            if ((uintptr_t)s->code_ptr & 7) {
-> +                tcg_out_nop(s);
-> +            }
-> +            s->tb_jmp_insn_offset[a0] = tcg_current_code_size(s);
-> +            /* actual branch destination will be patched by
-> +               tb_target_set_jmp_target later */
-> +            tcg_out_opc_pcaddu18i(s, TCG_REG_TMP0, 0);
-> +            tcg_out_opc_jirl(s, TCG_REG_ZERO, TCG_REG_TMP0, 0);
-> +        } else {
-> +            /* !TCG_TARGET_HAS_direct_jump */
-> +            tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP0, TCG_REG_ZERO,
-> +                    (uintptr_t)(s->tb_jmp_target_addr + a0));
-> +            tcg_out_opc_jirl(s, TCG_REG_ZERO, TCG_REG_TMP0, 0);
-> +        }
+Regarding the design: each libblkio driver is a separately named BlockDriver.
+That means there is an "io_uring" BlockDriver and not a generic "libblkio"
+BlockDriver. This way QAPI and open parameters are type-safe and mandatory
+parameters can be checked by QEMU.
 
-Your comment formatting does not follow our coding style.  It must be
+Stefan Hajnoczi (13):
+  coroutine: add flag to re-queue at front of CoQueue
+  blkio: add libblkio block driver
+  numa: call ->ram_block_removed() in ram_block_notifer_remove()
+  block: pass size to bdrv_unregister_buf()
+  block: use BdrvRequestFlags type for supported flag fields
+  block: add BDRV_REQ_REGISTERED_BUF request flag
+  block: return errors from bdrv_register_buf()
+  numa: use QLIST_FOREACH_SAFE() for RAM block notifiers
+  block: add BlockRAMRegistrar
+  exec/cpu-common: add qemu_ram_get_fd()
+  stubs: add qemu_ram_block_from_host() and qemu_ram_get_fd()
+  blkio: implement BDRV_REQ_REGISTERED_BUF optimization
+  virtio-blk: use BDRV_REQ_REGISTERED_BUF optimization hint
 
-     /*
-      * Comment with
-      * multiple lines.
-      */
+ MAINTAINERS                                 |    7 +
+ meson_options.txt                           |    2 +
+ qapi/block-core.json                        |   77 +-
+ meson.build                                 |    9 +
+ include/block/block-common.h                |    9 +
+ include/block/block-global-state.h          |   10 +-
+ include/block/block_int-common.h            |   15 +-
+ include/exec/cpu-common.h                   |    1 +
+ include/hw/virtio/virtio-blk.h              |    2 +
+ include/qemu/coroutine.h                    |   15 +-
+ include/sysemu/block-backend-global-state.h |    4 +-
+ include/sysemu/block-ram-registrar.h        |   37 +
+ block.c                                     |   14 +
+ block/blkio.c                               | 1008 +++++++++++++++++++
+ block/blkverify.c                           |    4 +-
+ block/block-backend.c                       |    8 +-
+ block/block-ram-registrar.c                 |   58 ++
+ block/crypto.c                              |    4 +-
+ block/file-posix.c                          |    1 -
+ block/gluster.c                             |    1 -
+ block/io.c                                  |  101 +-
+ block/mirror.c                              |    2 +
+ block/nbd.c                                 |    1 -
+ block/nvme.c                                |   20 +-
+ block/parallels.c                           |    1 -
+ block/qcow.c                                |    2 -
+ block/qed.c                                 |    1 -
+ block/raw-format.c                          |    2 +
+ block/replication.c                         |    1 -
+ block/ssh.c                                 |    1 -
+ block/vhdx.c                                |    1 -
+ hw/block/virtio-blk.c                       |   39 +-
+ hw/core/numa.c                              |   26 +-
+ qemu-img.c                                  |    6 +-
+ softmmu/physmem.c                           |    5 +
+ stubs/physmem.c                             |   13 +
+ tests/qtest/modules-test.c                  |    3 +
+ util/qemu-coroutine-lock.c                  |    9 +-
+ util/vfio-helpers.c                         |    5 +-
+ block/meson.build                           |    2 +
+ scripts/meson-buildoptions.sh               |    3 +
+ stubs/meson.build                           |    1 +
+ 42 files changed, 1435 insertions(+), 96 deletions(-)
+ create mode 100644 include/sysemu/block-ram-registrar.h
+ create mode 100644 block/blkio.c
+ create mode 100644 block/block-ram-registrar.c
+ create mode 100644 stubs/physmem.c
 
-There is a tool, ./scripts/check_patch.pl, that will diagnose this error.
-
-> diff --git a/tcg/loongarch64/tcg-target.h b/tcg/loongarch64/tcg-target.h
-> index 67380b2432..c008d5686d 100644
-> --- a/tcg/loongarch64/tcg-target.h
-> +++ b/tcg/loongarch64/tcg-target.h
-> @@ -123,7 +123,7 @@ typedef enum {
->   #define TCG_TARGET_HAS_clz_i32          1
->   #define TCG_TARGET_HAS_ctz_i32          1
->   #define TCG_TARGET_HAS_ctpop_i32        0
-> -#define TCG_TARGET_HAS_direct_jump      0
-> +#define TCG_TARGET_HAS_direct_jump      1
->   #define TCG_TARGET_HAS_brcond2          0
->   #define TCG_TARGET_HAS_setcond2         0
->   #define TCG_TARGET_HAS_qemu_st8_i32     0
-> @@ -166,7 +166,6 @@ typedef enum {
->   #define TCG_TARGET_HAS_muluh_i64        1
->   #define TCG_TARGET_HAS_mulsh_i64        1
->   
-> -/* not defined -- call should be eliminated at compile time */
->   void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
->   
->   #define TCG_TARGET_DEFAULT_MO (0)
-
-You are missing a change to
-
-#define MAX_CODE_GEN_BUFFER_SIZE  SIZE_MAX
-
-The branch distance with pcaddu18i is +/- 37 bits (128GB) not 64 bits.
-
-
-r~
+-- 
+2.37.3
 
 
