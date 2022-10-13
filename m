@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67FA05FE492
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 23:54:49 +0200 (CEST)
-Received: from localhost ([::1]:33190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A814E5FE49B
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 23:58:13 +0200 (CEST)
+Received: from localhost ([::1]:58514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj6AC-0005QI-Ei
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 17:54:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50508)
+	id 1oj6DU-0002i1-OF
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 17:58:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oj636-0002au-R2
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 17:47:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59010)
+ id 1oj63B-0002eI-4d
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 17:47:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43009)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oj635-0005EW-4j
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 17:47:28 -0400
+ id 1oj638-0005Fx-Qs
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 17:47:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665697646;
+ s=mimecast20190719; t=1665697650;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZrsFbZrksxRdixl7OjnTw4wWKEtKGk44EhOWWwZVK4c=;
- b=T1nuR3O3v24jAxDGhMIYZ87ugBvStWOvNh97MbMnp9RFekTiaTT7C+k5+q6gl9S1WB8RO2
- htWVnNSbOyHoXQuzw3fssGZbWqn1+AwqFHGWpi4LLqG7D/0JmTsZgODPpxnxQJkf+qU8p3
- o9qi9d5398+jhyYQVBlDlUe2p7KXlHU=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=uc7wD+lI3WJ/B3hYnqHB7VyRq1+TbEhatASAzR8zQNI=;
+ b=CllrQJq7XKjofZn2At2wEUEGvxegseGJ874xqT6Z9oJ92MjyePqLnXgGvrdNcfYUtRbhnB
+ bUW0KgDTwc5PWEWrunFt3Rwmzcy/2yFGK8L51m1ibqk/iHOakQ3FduhmWsCkaCH5geFeP9
+ zGFcD3Hpfc3Kl+D13Kv1f39Ac8C97gc=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-274-fFdcSxsoOG6gMgBddEQ-Pw-1; Thu, 13 Oct 2022 17:47:23 -0400
-X-MC-Unique: fFdcSxsoOG6gMgBddEQ-Pw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- v4-20020a056402348400b0045bd50cb9adso2350703edc.0
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 14:47:22 -0700 (PDT)
+ us-mta-641-f1CH54RxOk-y9SmuezXzKw-1; Thu, 13 Oct 2022 17:47:29 -0400
+X-MC-Unique: f1CH54RxOk-y9SmuezXzKw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ z11-20020a056402274b00b0045ca9510fc8so2342748edd.23
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 14:47:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZrsFbZrksxRdixl7OjnTw4wWKEtKGk44EhOWWwZVK4c=;
- b=FCQihNC+LiYlD9u6qfrT1eCWeKxw0HQocc67pMQ6HXQ12p4mYmSsSouMX/8fyQaQBv
- CQg9g9enBygv7II2wCDKveIfSSgwkBnXUK0TQtEDvta38h1QAJSkO93pTY07euBIvmMp
- Is3PpSR/H/IWl7RWwYSeDC2rEq/yxDO6QWn+8/9DoF0I3IAuHHts/PKTYtYSc72vHvU8
- OYRp5ujZbSpmJvG945kg/ljf+YuxUm8IXekJsL8Z7agAIbxwHPt4BedS6yZuZTMJ0GRD
- crHN+dk0JvP0HdgDEwrFJUkvu3gcEe/g99vYPUYc9ucTqkSfTIgJZddvtx7J5uKU37Ao
- ZiKQ==
-X-Gm-Message-State: ACrzQf0BVFX2nlO7/JXyuDjYNQMQ0LN1jTozFkWJOAtAPKyTKBDmMYvK
- SO6cjQbJtsGgkqsBOvJ4fghBI6sNHwdZ7AqyNuHiA7mH3xs8HtDfGyUiNAxaBpqxJ6tRvVAkl7C
- jsXQDHngErMUpTXj5eK/Q24P3SWFfH/HGSNpn/J3jUjdXWdSesL1Q6dRVbQfhRIBVV2o=
-X-Received: by 2002:a05:6402:5110:b0:459:e912:17c8 with SMTP id
- m16-20020a056402511000b00459e91217c8mr1568420edd.137.1665697641619; 
- Thu, 13 Oct 2022 14:47:21 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7ydhCDNoZvF/BPuO+rNtI77RbA3fsnw/UbYgzqUXbLEyhOEjyFJnj+tXPO31+0E9hA+8L8dw==
-X-Received: by 2002:a05:6402:5110:b0:459:e912:17c8 with SMTP id
- m16-20020a056402511000b00459e91217c8mr1568407edd.137.1665697641395; 
- Thu, 13 Oct 2022 14:47:21 -0700 (PDT)
+ bh=uc7wD+lI3WJ/B3hYnqHB7VyRq1+TbEhatASAzR8zQNI=;
+ b=B7S8cEW7OQFmYWhR5OUB9AsN9viUZduQtlOusEdZuZdNdx2ndFPgXoF6MbKkRtiFGE
+ XqmjZ4wimF8yb9hqtz5tOqNS2K4WeWzM3EEF4hM3H4rt7DPDTJmx3dEkAR7T2B6kPSdM
+ jyKDTATq0n0islyY5jR00vU7CBD0K7wpsemmvE5reZZ/0VlsSyPDt/8lZho4aUxH1gTP
+ /dOkw8bBvINbjN50L15CG1a+84/NXl6oPKsnqsNCBAiyz/0w67vYMCHojKq0qL56Qimz
+ q4aemKIiDeIo05f6eTS5zByh36IIqF9yAmdpvgxWte6ARaU7ugu3uPzM36oOPLlGY5Xr
+ JVxQ==
+X-Gm-Message-State: ACrzQf2ZW1mdvC86OuP8bVV3QTArSxZCVfOlsH2yR7uA2Bzm87UDcL0d
+ QsWfsVNRU5zeoKLbFBCB7wJz0Xr5U7n/2i810954d9PitB28xJqrDfYPlKVNQRFt2gVEomkC9iK
+ mqFxUsW+cesLd/3kvDS8oK3tmd7Zlz+amNS4vmKyMosgfwm6+Fv24fKMHoLXNBH9GHjU=
+X-Received: by 2002:a05:6402:1941:b0:457:13a:cce9 with SMTP id
+ f1-20020a056402194100b00457013acce9mr1541293edz.265.1665697647647; 
+ Thu, 13 Oct 2022 14:47:27 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5dUOY3GMOi6cxATUbbkPeLPphCBFa0oGEp/QfdMHEAPNXQcMK4zehBwa1Sj8OYszaR8tNu+A==
+X-Received: by 2002:a05:6402:1941:b0:457:13a:cce9 with SMTP id
+ f1-20020a056402194100b00457013acce9mr1541271edz.265.1665697647225; 
+ Thu, 13 Oct 2022 14:47:27 -0700 (PDT)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- ku15-20020a170907788f00b0078b551d2fa3sm450848ejc.103.2022.10.13.14.47.20
+ v1-20020a170906292100b0078116c361d9sm501323ejd.10.2022.10.13.14.47.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Oct 2022 14:47:20 -0700 (PDT)
+ Thu, 13 Oct 2022 14:47:26 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: paul@nowt.org,
 	richard.henderson@linaro.org
-Subject: [PATCH 09/35] target/i386: validate SSE prefixes directly in the
- decoding table
-Date: Thu, 13 Oct 2022 23:46:25 +0200
-Message-Id: <20221013214651.672114-10-pbonzini@redhat.com>
+Subject: [PATCH 11/35] target/i386: Prepare ops_sse_header.h for 256 bit AVX
+Date: Thu, 13 Oct 2022 23:46:27 +0200
+Message-Id: <20221013214651.672114-12-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221013214651.672114-1-pbonzini@redhat.com>
 References: <20221013214651.672114-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -102,91 +101,277 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Many SSE and AVX instructions are only valid with specific prefixes
-(none, 66, F3, F2).  Introduce a direct way to encode this in the
-decoding table to avoid using decode groups too much.
+From: Paul Brook <paul@nowt.org>
 
+Adjust all #ifdefs to match the ones in ops_sse.h.
+
+Signed-off-by: Paul Brook <paul@nowt.org>
+Message-Id: <20220424220204.2493824-23-paul@nowt.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/tcg/decode-new.c.inc | 37 ++++++++++++++++++++++++++++++++
- target/i386/tcg/decode-new.h     |  1 +
- 2 files changed, 38 insertions(+)
+ target/i386/ops_sse_header.h | 114 +++++++++++++++++++++++------------
+ 1 file changed, 75 insertions(+), 39 deletions(-)
 
-diff --git a/target/i386/tcg/decode-new.c.inc b/target/i386/tcg/decode-new.c.inc
-index f0d7b24a07..ff3f45dc8c 100644
---- a/target/i386/tcg/decode-new.c.inc
-+++ b/target/i386/tcg/decode-new.c.inc
-@@ -110,6 +110,22 @@
+diff --git a/target/i386/ops_sse_header.h b/target/i386/ops_sse_header.h
+index 400b24c091..9d9a115df4 100644
+--- a/target/i386/ops_sse_header.h
++++ b/target/i386/ops_sse_header.h
+@@ -43,7 +43,7 @@ DEF_HELPER_3(glue(pslld, SUFFIX), void, env, Reg, Reg)
+ DEF_HELPER_3(glue(psrlq, SUFFIX), void, env, Reg, Reg)
+ DEF_HELPER_3(glue(psllq, SUFFIX), void, env, Reg, Reg)
  
- #define avx2_256 .vex_special = X86_VEX_AVX2_256,
+-#if SHIFT == 1
++#if SHIFT >= 1
+ DEF_HELPER_3(glue(psrldq, SUFFIX), void, env, Reg, Reg)
+ DEF_HELPER_3(glue(pslldq, SUFFIX), void, env, Reg, Reg)
+ #endif
+@@ -101,7 +101,7 @@ SSE_HELPER_L(pcmpeql, FCMPEQ)
  
-+#define P_00          1
-+#define P_66          (1 << PREFIX_DATA)
-+#define P_F3          (1 << PREFIX_REPZ)
-+#define P_F2          (1 << PREFIX_REPNZ)
-+
-+#define p_00          .valid_prefix = P_00,
-+#define p_66          .valid_prefix = P_66,
-+#define p_f3          .valid_prefix = P_F3,
-+#define p_f2          .valid_prefix = P_F2,
-+#define p_00_66       .valid_prefix = P_00 | P_66,
-+#define p_00_f3       .valid_prefix = P_00 | P_F3,
-+#define p_66_f2       .valid_prefix = P_66 | P_F2,
-+#define p_00_66_f3    .valid_prefix = P_00 | P_66 | P_F3,
-+#define p_66_f3_f2    .valid_prefix = P_66 | P_F3 | P_F2,
-+#define p_00_66_f3_f2 .valid_prefix = P_00 | P_66 | P_F3 | P_F2,
-+
- static uint8_t get_modrm(DisasContext *s, CPUX86State *env)
- {
-     if (!s->has_modrm) {
-@@ -480,6 +496,23 @@ static bool decode_op(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode,
-     return true;
- }
+ SSE_HELPER_W(pmullw, FMULLW)
+ #if SHIFT == 0
+-SSE_HELPER_W(pmulhrw, FMULHRW)
++DEF_HELPER_3(glue(pmulhrw, SUFFIX), void, env, Reg, Reg)
+ #endif
+ SSE_HELPER_W(pmulhuw, FMULHUW)
+ SSE_HELPER_W(pmulhw, FMULHW)
+@@ -113,7 +113,9 @@ DEF_HELPER_3(glue(pmuludq, SUFFIX), void, env, Reg, Reg)
+ DEF_HELPER_3(glue(pmaddwd, SUFFIX), void, env, Reg, Reg)
  
-+static bool validate_sse_prefix(DisasContext *s, X86OpEntry *e)
-+{
-+    uint16_t sse_prefixes;
-+
-+    if (!e->valid_prefix) {
-+        return true;
-+    }
-+    if (s->prefix & (PREFIX_REPZ | PREFIX_REPNZ)) {
-+        /* In SSE instructions, 0xF3 and 0xF2 cancel 0x66.  */
-+        s->prefix &= ~PREFIX_DATA;
-+    }
-+
-+    /* Now, either zero or one bit is set in sse_prefixes.  */
-+    sse_prefixes = s->prefix & (PREFIX_REPZ | PREFIX_REPNZ | PREFIX_DATA);
-+    return e->valid_prefix & (1 << sse_prefixes);
-+}
-+
- static bool decode_insn(DisasContext *s, CPUX86State *env, X86DecodeFunc decode_func,
-                         X86DecodedInsn *decode)
- {
-@@ -491,6 +524,10 @@ static bool decode_insn(DisasContext *s, CPUX86State *env, X86DecodeFunc decode_
-         e->decode(s, env, e, &decode->b);
-     }
+ DEF_HELPER_3(glue(psadbw, SUFFIX), void, env, Reg, Reg)
++#if SHIFT < 2
+ DEF_HELPER_4(glue(maskmov, SUFFIX), void, env, Reg, Reg, tl)
++#endif
+ DEF_HELPER_2(glue(movl_mm_T0, SUFFIX), void, Reg, i32)
+ #ifdef TARGET_X86_64
+ DEF_HELPER_2(glue(movq_mm_T0, SUFFIX), void, Reg, i64)
+@@ -122,38 +124,63 @@ DEF_HELPER_2(glue(movq_mm_T0, SUFFIX), void, Reg, i64)
+ #if SHIFT == 0
+ DEF_HELPER_3(glue(pshufw, SUFFIX), void, Reg, Reg, int)
+ #else
+-DEF_HELPER_3(glue(shufps, SUFFIX), void, Reg, Reg, int)
+-DEF_HELPER_3(glue(shufpd, SUFFIX), void, Reg, Reg, int)
+ DEF_HELPER_3(glue(pshufd, SUFFIX), void, Reg, Reg, int)
+ DEF_HELPER_3(glue(pshuflw, SUFFIX), void, Reg, Reg, int)
+ DEF_HELPER_3(glue(pshufhw, SUFFIX), void, Reg, Reg, int)
+ #endif
  
-+    if (!validate_sse_prefix(s, e)) {
-+        return false;
-+    }
-+
-     /* First compute size of operands in order to initialize s->rip_offset.  */
-     if (e->op0 != X86_TYPE_None) {
-         if (!decode_op_size(s, e, e->s0, &decode->op[0].ot)) {
-diff --git a/target/i386/tcg/decode-new.h b/target/i386/tcg/decode-new.h
-index 25e5400a8a..8456ae67ad 100644
---- a/target/i386/tcg/decode-new.h
-+++ b/target/i386/tcg/decode-new.h
-@@ -212,6 +212,7 @@ struct X86OpEntry {
-     X86CPUIDFeature cpuid:8;
-     unsigned     vex_class:8;
-     X86VEXSpecial vex_special:8;
-+    uint16_t     valid_prefix:16;
-     bool         is_decode:1;
- };
+-#if SHIFT == 1
++#if SHIFT >= 1
+ /* FPU ops */
+ /* XXX: not accurate */
  
+-#define SSE_HELPER_S(name, F)                            \
+-    DEF_HELPER_3(glue(name ## ps, SUFFIX), void, env, Reg, Reg)        \
+-    DEF_HELPER_3(name ## ss, void, env, Reg, Reg)        \
+-    DEF_HELPER_3(glue(name ## pd, SUFFIX), void, env, Reg, Reg)        \
++#define SSE_HELPER_P4(name)                                             \
++    DEF_HELPER_3(glue(name ## ps, SUFFIX), void, env, Reg, Reg)         \
++    DEF_HELPER_3(glue(name ## pd, SUFFIX), void, env, Reg, Reg)
++
++#define SSE_HELPER_P3(name, ...)                                        \
++    DEF_HELPER_3(glue(name ## ps, SUFFIX), void, env, Reg, Reg)         \
++    DEF_HELPER_3(glue(name ## pd, SUFFIX), void, env, Reg, Reg)
++
++#if SHIFT == 1
++#define SSE_HELPER_S4(name)                                             \
++    SSE_HELPER_P4(name)                                                 \
++    DEF_HELPER_3(name ## ss, void, env, Reg, Reg)                       \
+     DEF_HELPER_3(name ## sd, void, env, Reg, Reg)
++#define SSE_HELPER_S3(name)                                             \
++    SSE_HELPER_P3(name)                                                 \
++    DEF_HELPER_3(name ## ss, void, env, Reg, Reg)                       \
++    DEF_HELPER_3(name ## sd, void, env, Reg, Reg)
++#else
++#define SSE_HELPER_S4(name, ...) SSE_HELPER_P4(name)
++#define SSE_HELPER_S3(name, ...) SSE_HELPER_P3(name)
++#endif
+ 
+-SSE_HELPER_S(add, FPU_ADD)
+-SSE_HELPER_S(sub, FPU_SUB)
+-SSE_HELPER_S(mul, FPU_MUL)
+-SSE_HELPER_S(div, FPU_DIV)
+-SSE_HELPER_S(min, FPU_MIN)
+-SSE_HELPER_S(max, FPU_MAX)
+-SSE_HELPER_S(sqrt, FPU_SQRT)
++DEF_HELPER_3(glue(shufps, SUFFIX), void, Reg, Reg, int)
++DEF_HELPER_3(glue(shufpd, SUFFIX), void, Reg, Reg, int)
+ 
++SSE_HELPER_S4(add)
++SSE_HELPER_S4(sub)
++SSE_HELPER_S4(mul)
++SSE_HELPER_S4(div)
++SSE_HELPER_S4(min)
++SSE_HELPER_S4(max)
++
++SSE_HELPER_S3(sqrt)
+ 
+ DEF_HELPER_3(glue(cvtps2pd, SUFFIX), void, env, Reg, Reg)
+ DEF_HELPER_3(glue(cvtpd2ps, SUFFIX), void, env, Reg, Reg)
+-DEF_HELPER_3(cvtss2sd, void, env, Reg, Reg)
+-DEF_HELPER_3(cvtsd2ss, void, env, Reg, Reg)
+ DEF_HELPER_3(glue(cvtdq2ps, SUFFIX), void, env, Reg, Reg)
+ DEF_HELPER_3(glue(cvtdq2pd, SUFFIX), void, env, Reg, Reg)
++
++DEF_HELPER_3(glue(cvtps2dq, SUFFIX), void, env, ZMMReg, ZMMReg)
++DEF_HELPER_3(glue(cvtpd2dq, SUFFIX), void, env, ZMMReg, ZMMReg)
++
++DEF_HELPER_3(glue(cvttps2dq, SUFFIX), void, env, ZMMReg, ZMMReg)
++DEF_HELPER_3(glue(cvttpd2dq, SUFFIX), void, env, ZMMReg, ZMMReg)
++
++#if SHIFT == 1
++DEF_HELPER_3(cvtss2sd, void, env, Reg, Reg)
++DEF_HELPER_3(cvtsd2ss, void, env, Reg, Reg)
+ DEF_HELPER_3(cvtpi2ps, void, env, ZMMReg, MMXReg)
+ DEF_HELPER_3(cvtpi2pd, void, env, ZMMReg, MMXReg)
+ DEF_HELPER_3(cvtsi2ss, void, env, ZMMReg, i32)
+@@ -164,8 +191,6 @@ DEF_HELPER_3(cvtsq2ss, void, env, ZMMReg, i64)
+ DEF_HELPER_3(cvtsq2sd, void, env, ZMMReg, i64)
+ #endif
+ 
+-DEF_HELPER_3(glue(cvtps2dq, SUFFIX), void, env, ZMMReg, ZMMReg)
+-DEF_HELPER_3(glue(cvtpd2dq, SUFFIX), void, env, ZMMReg, ZMMReg)
+ DEF_HELPER_3(cvtps2pi, void, env, MMXReg, ZMMReg)
+ DEF_HELPER_3(cvtpd2pi, void, env, MMXReg, ZMMReg)
+ DEF_HELPER_2(cvtss2si, s32, env, ZMMReg)
+@@ -175,8 +200,6 @@ DEF_HELPER_2(cvtss2sq, s64, env, ZMMReg)
+ DEF_HELPER_2(cvtsd2sq, s64, env, ZMMReg)
+ #endif
+ 
+-DEF_HELPER_3(glue(cvttps2dq, SUFFIX), void, env, ZMMReg, ZMMReg)
+-DEF_HELPER_3(glue(cvttpd2dq, SUFFIX), void, env, ZMMReg, ZMMReg)
+ DEF_HELPER_3(cvttps2pi, void, env, MMXReg, ZMMReg)
+ DEF_HELPER_3(cvttpd2pi, void, env, MMXReg, ZMMReg)
+ DEF_HELPER_2(cvttss2si, s32, env, ZMMReg)
+@@ -185,27 +208,24 @@ DEF_HELPER_2(cvttsd2si, s32, env, ZMMReg)
+ DEF_HELPER_2(cvttss2sq, s64, env, ZMMReg)
+ DEF_HELPER_2(cvttsd2sq, s64, env, ZMMReg)
+ #endif
++#endif
+ 
+ DEF_HELPER_3(glue(rsqrtps, SUFFIX), void, env, ZMMReg, ZMMReg)
+-DEF_HELPER_3(rsqrtss, void, env, ZMMReg, ZMMReg)
+ DEF_HELPER_3(glue(rcpps, SUFFIX), void, env, ZMMReg, ZMMReg)
++#if SHIFT == 1
++DEF_HELPER_3(rsqrtss, void, env, ZMMReg, ZMMReg)
+ DEF_HELPER_3(rcpss, void, env, ZMMReg, ZMMReg)
+ DEF_HELPER_3(extrq_r, void, env, ZMMReg, ZMMReg)
+ DEF_HELPER_4(extrq_i, void, env, ZMMReg, int, int)
+ DEF_HELPER_3(insertq_r, void, env, ZMMReg, ZMMReg)
+ DEF_HELPER_5(insertq_i, void, env, ZMMReg, ZMMReg, int, int)
+-DEF_HELPER_3(glue(haddps, SUFFIX), void, env, ZMMReg, ZMMReg)
+-DEF_HELPER_3(glue(haddpd, SUFFIX), void, env, ZMMReg, ZMMReg)
+-DEF_HELPER_3(glue(hsubps, SUFFIX), void, env, ZMMReg, ZMMReg)
+-DEF_HELPER_3(glue(hsubpd, SUFFIX), void, env, ZMMReg, ZMMReg)
+-DEF_HELPER_3(glue(addsubps, SUFFIX), void, env, ZMMReg, ZMMReg)
+-DEF_HELPER_3(glue(addsubpd, SUFFIX), void, env, ZMMReg, ZMMReg)
++#endif
+ 
+-#define SSE_HELPER_CMP(name, F, C)                              \
+-    DEF_HELPER_3(glue(name ## ps, SUFFIX), void, env, Reg, Reg) \
+-    DEF_HELPER_3(name ## ss, void, env, Reg, Reg)               \
+-    DEF_HELPER_3(glue(name ## pd, SUFFIX), void, env, Reg, Reg) \
+-    DEF_HELPER_3(name ## sd, void, env, Reg, Reg)
++SSE_HELPER_P4(hadd)
++SSE_HELPER_P4(hsub)
++SSE_HELPER_P4(addsub)
++
++#define SSE_HELPER_CMP(name, F, C) SSE_HELPER_S4(name)
+ 
+ SSE_HELPER_CMP(cmpeq, FPU_CMPQ, FPU_EQ)
+ SSE_HELPER_CMP(cmplt, FPU_CMPS, FPU_LT)
+@@ -216,10 +236,13 @@ SSE_HELPER_CMP(cmpnlt, FPU_CMPS, !FPU_LT)
+ SSE_HELPER_CMP(cmpnle, FPU_CMPS, !FPU_LE)
+ SSE_HELPER_CMP(cmpord, FPU_CMPQ, !FPU_UNORD)
+ 
++#if SHIFT == 1
+ DEF_HELPER_3(ucomiss, void, env, Reg, Reg)
+ DEF_HELPER_3(comiss, void, env, Reg, Reg)
+ DEF_HELPER_3(ucomisd, void, env, Reg, Reg)
+ DEF_HELPER_3(comisd, void, env, Reg, Reg)
++#endif
++
+ DEF_HELPER_2(glue(movmskps, SUFFIX), i32, env, Reg)
+ DEF_HELPER_2(glue(movmskpd, SUFFIX), i32, env, Reg)
+ #endif
+@@ -236,7 +259,7 @@ DEF_HELPER_3(glue(packssdw, SUFFIX), void, env, Reg, Reg)
+ UNPCK_OP(l, 0)
+ UNPCK_OP(h, 1)
+ 
+-#if SHIFT == 1
++#if SHIFT >= 1
+ DEF_HELPER_3(glue(punpcklqdq, SUFFIX), void, env, Reg, Reg)
+ DEF_HELPER_3(glue(punpckhqdq, SUFFIX), void, env, Reg, Reg)
+ #endif
+@@ -283,7 +306,7 @@ DEF_HELPER_3(glue(psignd, SUFFIX), void, env, Reg, Reg)
+ DEF_HELPER_4(glue(palignr, SUFFIX), void, env, Reg, Reg, s32)
+ 
+ /* SSE4.1 op helpers */
+-#if SHIFT == 1
++#if SHIFT >= 1
+ DEF_HELPER_3(glue(pblendvb, SUFFIX), void, env, Reg, Reg)
+ DEF_HELPER_3(glue(blendvps, SUFFIX), void, env, Reg, Reg)
+ DEF_HELPER_3(glue(blendvpd, SUFFIX), void, env, Reg, Reg)
+@@ -312,22 +335,30 @@ DEF_HELPER_3(glue(pmaxsd, SUFFIX), void, env, Reg, Reg)
+ DEF_HELPER_3(glue(pmaxuw, SUFFIX), void, env, Reg, Reg)
+ DEF_HELPER_3(glue(pmaxud, SUFFIX), void, env, Reg, Reg)
+ DEF_HELPER_3(glue(pmulld, SUFFIX), void, env, Reg, Reg)
++#if SHIFT == 1
+ DEF_HELPER_3(glue(phminposuw, SUFFIX), void, env, Reg, Reg)
++#endif
+ DEF_HELPER_4(glue(roundps, SUFFIX), void, env, Reg, Reg, i32)
+ DEF_HELPER_4(glue(roundpd, SUFFIX), void, env, Reg, Reg, i32)
++#if SHIFT == 1
+ DEF_HELPER_4(glue(roundss, SUFFIX), void, env, Reg, Reg, i32)
+ DEF_HELPER_4(glue(roundsd, SUFFIX), void, env, Reg, Reg, i32)
++#endif
+ DEF_HELPER_4(glue(blendps, SUFFIX), void, env, Reg, Reg, i32)
+ DEF_HELPER_4(glue(blendpd, SUFFIX), void, env, Reg, Reg, i32)
+ DEF_HELPER_4(glue(pblendw, SUFFIX), void, env, Reg, Reg, i32)
+ DEF_HELPER_4(glue(dpps, SUFFIX), void, env, Reg, Reg, i32)
++#if SHIFT == 1
+ DEF_HELPER_4(glue(dppd, SUFFIX), void, env, Reg, Reg, i32)
++#endif
+ DEF_HELPER_4(glue(mpsadbw, SUFFIX), void, env, Reg, Reg, i32)
+ #endif
+ 
+ /* SSE4.2 op helpers */
+-#if SHIFT == 1
++#if SHIFT >= 1
+ DEF_HELPER_3(glue(pcmpgtq, SUFFIX), void, env, Reg, Reg)
++#endif
++#if SHIFT == 1
+ DEF_HELPER_4(glue(pcmpestri, SUFFIX), void, env, Reg, Reg, i32)
+ DEF_HELPER_4(glue(pcmpestrm, SUFFIX), void, env, Reg, Reg, i32)
+ DEF_HELPER_4(glue(pcmpistri, SUFFIX), void, env, Reg, Reg, i32)
+@@ -336,13 +367,15 @@ DEF_HELPER_3(crc32, tl, i32, tl, i32)
+ #endif
+ 
+ /* AES-NI op helpers */
+-#if SHIFT == 1
++#if SHIFT >= 1
+ DEF_HELPER_3(glue(aesdec, SUFFIX), void, env, Reg, Reg)
+ DEF_HELPER_3(glue(aesdeclast, SUFFIX), void, env, Reg, Reg)
+ DEF_HELPER_3(glue(aesenc, SUFFIX), void, env, Reg, Reg)
+ DEF_HELPER_3(glue(aesenclast, SUFFIX), void, env, Reg, Reg)
++#if SHIFT == 1
+ DEF_HELPER_3(glue(aesimc, SUFFIX), void, env, Reg, Reg)
+ DEF_HELPER_4(glue(aeskeygenassist, SUFFIX), void, env, Reg, Reg, i32)
++#endif
+ DEF_HELPER_4(glue(pclmulqdq, SUFFIX), void, env, Reg, Reg, i32)
+ #endif
+ 
+@@ -354,6 +387,9 @@ DEF_HELPER_4(glue(pclmulqdq, SUFFIX), void, env, Reg, Reg, i32)
+ #undef SSE_HELPER_W
+ #undef SSE_HELPER_L
+ #undef SSE_HELPER_Q
+-#undef SSE_HELPER_S
++#undef SSE_HELPER_S3
++#undef SSE_HELPER_S4
++#undef SSE_HELPER_P3
++#undef SSE_HELPER_P4
+ #undef SSE_HELPER_CMP
+ #undef UNPCK_OP
 -- 
 2.37.3
 
