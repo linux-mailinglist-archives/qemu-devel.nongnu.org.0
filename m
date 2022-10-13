@@ -2,76 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82BED5FD93B
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 14:33:16 +0200 (CEST)
-Received: from localhost ([::1]:55208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B4B35FD990
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 14:51:14 +0200 (CEST)
+Received: from localhost ([::1]:46350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oixOl-00076S-2j
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 08:33:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41642)
+	id 1oixg9-0005C9-DG
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 08:51:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oixIM-0002fB-IR
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:26:40 -0400
-Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233]:44730)
+ (Exim 4.90_1) (envelope-from <gourry.memverge@gmail.com>)
+ id 1oixQo-0000Kv-6N
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:35:22 -0400
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:40675)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oixIJ-00026g-9s
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:26:38 -0400
-Received: by mail-lj1-x233.google.com with SMTP id h8so2085673lja.11
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 05:26:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <gourry.memverge@gmail.com>)
+ id 1oixQk-0003Tr-GG
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:35:21 -0400
+Received: by mail-qt1-x844.google.com with SMTP id h24so527451qta.7
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 05:35:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=n48bZAuz8Zo+CTqO/aVA5XDqUedGj4w0ltzWESSB2ek=;
- b=GqId+REjToansBtBksDq5CIqcpGxYuM9vDP+Ei6MHExwRCsOvlKqp0bSMYkJXTbfDR
- mlNNvUNUAzZBh6mIDquuJW6t9gfeLl1MBtK7EU+/aL/YJPAOe/HrutL5Iob9ABeNHy9N
- w98J5apiTn1Ff/fl7BlWnlW7KBePGYyv5xj5DjU42FPC9y0O5b8Kh1XwfezAZU4BIBLa
- 4n1KiFgF7fzgP/FLKCLMo2WP41tKmJZHpqMltwvF4lSBUn9KtmspQOmG21k2FsMv/bel
- svpOUixmqM2sSV/0rcKJ0Yvgm9V7l/8kJK8nIUAFJYG5tik2TgHgbgRrfjyUWY/pr+uo
- ApbQ==
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=gozgW6W4zcxbp7BYJvo59EouJU4f/yerB3KkmxDpsx8=;
+ b=FJA5ppSNG4xaKAGyTpVrxLWoJIhWpSU6tM9oxiik7uNlpHe5FG1ikbISzXmssLzm81
+ g1WuGn4QUV2q8vJg/KuajCCSzVmdXNr5fKgwJT3RP+8Ev72c+RxeW3QMXDFUSRW27gSA
+ 9qX5qK05fAwMWAONsvwry2zkGjc8qS7ETsXB3Fl4aY5p/3rQTBiGrNgAOKeENehJEHPm
+ pwglM1W0wT+N383LmFJRxI6/rIxweDWR3mWjS4aIofiv2IqmCaVeJKnOePTEaNDL9yw3
+ 7AbJogT3eQKV12vKzXW5UYpUNYWRGT0X8bIDMhd3bGpaDLZk0V5xkaBzVzPbEKHQVvmB
+ zRbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=n48bZAuz8Zo+CTqO/aVA5XDqUedGj4w0ltzWESSB2ek=;
- b=J3WQH4/STZfywaz6V7lgct0950jT4X5xvVjrIAPiPIwDL+80ajjLiuB05T41j4fy+y
- mRfE2UA/WebCN3QSyqNsvn0U3uvM+bvRL5tW16N/4pG+0Cw+deo/RcGwKZ3CYy2TKsFi
- vY/soN12Mv9Ed+qLj4coh/h9hQvP2iiYkorQ5HaZzZSTL6SVlimhk1vjk4GBGDQs+Gsd
- 7xUeMWhQaKoRXg0Ge29sOLVPHsfwpkuuZWr4zu00lAvzQ9g0rsVV28WaCFlqQw0ySZpt
- Ase1BErZ3nUX8Qlkcm2bB1uuH8gHp7s39TYB1xXdYGgXC8JmbbbmvSo3SEVp8vF3gsok
- +chg==
-X-Gm-Message-State: ACrzQf11OhdijYJNog2NCPMOsifEowc0Tgz2AGAQ6uJ/GEyueWPiMBwa
- 7OXms4kZ7Xqzp9fS780lJb6VRf/lre7Uuh7qkJc=
-X-Google-Smtp-Source: AMsMyM68KUjon8GrW6G0mU3sW39rR6ogeZU9PEgvewUYYn7y4AHYxv+71hNoHGUemKnHUTWtnTzAS0jsb0b1rvtJ5hQ=
-X-Received: by 2002:a2e:552:0:b0:26e:4c9:bcd1 with SMTP id
- 79-20020a2e0552000000b0026e04c9bcd1mr12490054ljf.529.1665663993352; 
- Thu, 13 Oct 2022 05:26:33 -0700 (PDT)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gozgW6W4zcxbp7BYJvo59EouJU4f/yerB3KkmxDpsx8=;
+ b=uzc0NGXHoN1teYzgNONUJeKVSTgGwC0KS+6vHpTxx6aKTwYSYrJhBkKb0guBns+gQt
+ +IcetYN8cOw2qDYsPzNNjB2SRcUc+3TFUdprRB2UsTNOs08+6OpDe3hppTzf0s4BgUg4
+ kRE8do1ASrPZXqVZep7xV6LE4rpQLzVqvjtHkdiHNMVqUnnebJXowrTp2pJVg65vn26D
+ dcvaUyOZh7ix4gZzwu85B4UjE/7Zt22LJH2w765rJ/fE1OhP8poWYT7tXsjJ2OP7hS+0
+ 8e3ZloVPsmVrV2lK+aq1qZaFJHTtcE54QyelPb0e2FwM3spiwuFBXKFo6Vrgm+r1ZXsb
+ 4cyw==
+X-Gm-Message-State: ACrzQf0H8Z7cTzORfFJiaCvFqugGHYW5+CjJ3EWLnKFGghK+yaOZuV9T
+ CESTW04rDF8IX2IWTlwuyQ==
+X-Google-Smtp-Source: AMsMyM5T5X4/5hiCtyI5IbuIYTXINSAus/WICqfXG2JFz0CTadvo+fatND4Ka7rXWscCJRxUcsIdjg==
+X-Received: by 2002:a05:622a:18b:b0:35d:5ba6:ef55 with SMTP id
+ s11-20020a05622a018b00b0035d5ba6ef55mr26772763qtw.603.1665664515311; 
+ Thu, 13 Oct 2022 05:35:15 -0700 (PDT)
+Received: from fedora (pool-173-79-56-208.washdc.fios.verizon.net.
+ [173.79.56.208]) by smtp.gmail.com with ESMTPSA id
+ y11-20020ac8128b000000b0039a275607c3sm8575516qti.55.2022.10.13.05.35.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Oct 2022 05:35:14 -0700 (PDT)
+Date: Thu, 13 Oct 2022 08:35:13 -0400
+From: Gregory Price <gourry.memverge@gmail.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: qemu-devel@nongnu.org, linux-cxl@vger.kernel.org,
+ Alison Schofield <alison.schofield@intel.com>,
+ Davidlohr Bueso <dave@stgolabs.net>, a.manzanares@samsung.com,
+ Ben Widawsky <bwidawsk@kernel.org>,
+ Gregory Price <gregory.price@memverge.com>, mst@redhat.com,
+ hchkuo@avery-design.com.tw, cbrowy@avery-design.com, ira.weiny@intel.com
+Subject: Re: [PATCH v7 4/5] hw/mem/cxl-type3: Add CXL CDAT Data Object Exchange
+Message-ID: <Y0gGAW6eRPuv1Y3b@fedora>
+References: <20221007152156.24883-5-Jonathan.Cameron@huawei.com>
+ <20221012182120.174142-1-gregory.price@memverge.com>
+ <20221013095749.0000052d@huawei.com>
+ <CAD3UvdRYH2NVck-kLYLQcBym-5TY0WXWj7vCzcRi5yEuVfgzcQ@mail.gmail.com>
+ <20221013125313.00007016@huawei.com>
 MIME-Version: 1.0
-References: <83824abdddf124d76f9f265f77808e859dc094a8.1665650275.git.mprivozn@redhat.com>
- <CAFEAcA_U_mXy5haEZjEKbH_qS_oi38LK4RMD-z42QC5h2Z67cA@mail.gmail.com>
- <Y0fxjk5zaeDYCPIo@redhat.com>
- <CAFEAcA95S8rM39_Uxv_mDQNagsgo81JTc-aUVJmOnHhiN8R_zQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA95S8rM39_Uxv_mDQNagsgo81JTc-aUVJmOnHhiN8R_zQ@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 13 Oct 2022 16:26:21 +0400
-Message-ID: <CAJ+F1CKsfJetjCSwvavfLzqcC0JPW=22A-dNbNbfWBi9qdYp8Q@mail.gmail.com>
-Subject: Re: [PATCH] configure: Avoid using strings binary
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Michal Privoznik <mprivozn@redhat.com>, qemu-devel@nongnu.org, 
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000a3960605eae99eb1"
-Received-SPF: pass client-ip=2a00:1450:4864:20::233;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x233.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221013125313.00007016@huawei.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::844;
+ envelope-from=gourry.memverge@gmail.com; helo=mail-qt1-x844.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,138 +98,196 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a3960605eae99eb1
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi
+fwiw this is what my function looked like after the prior changes, very
+similar to yours proposed below
+
+static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
+                                void *priv)
+{
+    CXLType3Dev *ct3d = priv;
+    MemoryRegion *vmr = NULL, *pmr = NULL;
+    uint64_t dpa_base = 0;
+    int dsmad_handle = 0;
+    int num_ents = 0;
+    int cur_ent = 0;
+    int ret = 0;
+
+    if (ct3d->hostvmem) {
+        vmr = host_memory_backend_get_memory(ct3d->hostvmem);
+        if (!vmr)
+            return -EINVAL;
+        num_ents += CT3_CDAT_SUBTABLE_SIZE;
+    }
+    if (ct3d->hostpmem) {
+        pmr = host_memory_backend_get_memory(ct3d->hostpmem);
+        if (!pmr)
+            return -EINVAL;
+        num_ents += CT3_CDAT_SUBTABLE_SIZE;
+    }
+    if (!num_ents) {
+        return 0;
+    }
+
+    *cdat_table = g_malloc0(num_ents * sizeof(*cdat_table));
+    if (!*cdat_table) {
+        return -ENOMEM;
+    }
+
+    /* Volatile aspects are mapped first */
+    if (vmr) {
+        ret = ct3_build_cdat_subtable(*cdat_table, vmr, dsmad_handle++,
+                                      false, dpa_base);
+        if (ret < 0) {
+            goto error_cleanup;
+        }
+        dpa_base = vmr->size;
+        cur_ent += ret;
+    }
+    /* Non volatile aspects */
+    if (pmr) {
+        /* non-volatile entries follow the volatile entries */
+        ret = ct3_build_cdat_subtable(&(*cdat_table)[cur_ent], pmr,
+                                      dsmad_handle, true, dpa_base);
+        if (ret < 0) {
+            goto error_cleanup;
+        }
+        cur_ent += ret;
+    }
+    assert(cur_ent == num_ents);
+
+    return ret;
+error_cleanup:
+    int i;
+    for (i = 0; i < num_ents; i++) {
+        g_free(*cdat_table[i]);
+    }
+    g_free(*cdat_table);
+    return ret;
+}
 
 
-On Thu, Oct 13, 2022 at 3:50 PM Peter Maydell <peter.maydell@linaro.org>
-wrote:
-
-> On Thu, 13 Oct 2022 at 12:08, Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m>
-> wrote:
-> >
-> > On Thu, Oct 13, 2022 at 11:39:34AM +0100, Peter Maydell wrote:
-> > > On Thu, 13 Oct 2022 at 09:47, Michal Privoznik <mprivozn@redhat.com>
-> wrote:
+On Thu, Oct 13, 2022 at 12:53:13PM +0100, Jonathan Cameron wrote:
+> On Thu, 13 Oct 2022 07:36:28 -0400
+> Gregory Price <gourry.memverge@gmail.com> wrote:
+> 
+> > Reading through your notes, everything seems reasonable, though I'm not
+> > sure I agree with the two pass notion, though I'll wait to see the patch
+> > set.
+> > 
+> > The enum is a good idea, *forehead slap*, I should have done it.  If we
+> > have a local enum, why not just make it global (within the file) and
+> > allocate the table as I have once we know how many MRs are present?
+> 
+> It's not global as we need the entries to be packed.  So if just one mr
+> (which ever one) the entries for that need to be at the beginning of
+> cdat_table.  I also don't want to bake into the outer caller that the
+> entries will always be the same size for different MRs.
+> 
+> For the two pass case...
+> 
+> I'll send code in a few mins, but in meantime my thought is that
+> the extended code for volatile + non volatile will looks something like:
+> (variable names made up)
+> 
+> 	if (ct3d->volatile_mem) {
+> 		volatile_mr = host_memory_backend_get_memory(ct3d->volatile_mem....);
+> 		if (!volatile_mr) {
+> 			return -ENINVAL;
+> 		}
+> 		rc = ct3_build_cdat_entries_for_mr(NULL, dsmad++, volatile_mr);
+> 		if (rc < 0) {
+> 			return rc;
+> 		}
+> 		volatile_len = rc;
+> 	}
+> 
+> 	if (ct3d->nonvolatile_mem) {
+> 		nonvolatile_mr = host_memory_backend_get_memory(ct3d->nonvolatile_mem);
+> 		if (!nonvolatile_mr) {
+> 			return -ENINVAL;
+> 		}
+> 		rc = ct3_build_cdat_entries_for_mr(NULL, dmsmad++, nonvolatile_mr....);
+> 		if (rc < 0) {
+> 			return rc;
+> 		}
+> 		nonvolatile_len = rc;
+> 	}
+> 
+> 	dsmad = 0;
+> 
+> 	table = g_malloc(0, (volatile_len + nonvolatile_len) * sizeof(*table));
+> 	if (!table) {
+> 		return -ENOMEM;
+> 	}
+> 	
+> 	if (volatile_len) {
+> 		rc = ct3_build_cdat_entries_for_mr(&table[0], dmsad++, volatile_mr....);
+> 		if (rc < 0) {
+> 			return rc;
+> 		}
+> 	}	
+> 	if (nonvolatile_len) {
+> 		rc = ct3_build_cdat_entries_for_mr(&table[volatile_len], dsmad++, nonvolatile_mr...);
+> 		if (rc < 0) {
+> 			/* Only place we need error handling.  Could make it more generic of course */
+> 			for (i = 0; i < volatile_len; i++) {
+> 				g_free(cdat_table[i]);
+> 			}
+> 			return rc;
+> 		}
+> 	}
+> 
+> 	*cdat_table = g_steal_pointer(&table);
+> 
+> 
+> Jonathan
+> 
+> > 
+> > 6 eggs/half dozen though, I'm ultimately fine with either.
+> > 
+> > On Thu, Oct 13, 2022, 4:58 AM Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > wrote:
+> > 
+> > > On Wed, 12 Oct 2022 14:21:15 -0400
+> > > Gregory Price <gourry.memverge@gmail.com> wrote:
+> > >  
+> > > > Included in this response is a recommended patch set on top of this
+> > > > patch that resolves a number of issues, including style and a heap
+> > > > corruption bug.
 > > > >
-> > > > When determining the endiandness of the target architecture we're
-> > > > building for a small program is compiled, which in an obfuscated
-> > > > way declares two strings. Then, we look which string is in
-> > > > correct order (using strings binary) and deduct the endiandness.
-> > > > But using the strings binary is problematic, because it's part of
-> > > > toolchain (strings is just a symlink to
-> > > > x86_64-pc-linux-gnu-strings or llvm-strings). And when
-> > > > (cross-)compiling, it requires users to set the symlink to the
-> > > > correct toolchain.
+> > > > The purpose of this patch set is to refactor the CDAT initialization
+> > > > code to support future patch sets that will introduce multi-region
+> > > > support in CXL Type3 devices.
 > > > >
-> > > > Fortunately, we have a better alternative anyways. Since we
-> > > > require either clang or gcc we can rely on macros they declare.
+> > > > 1) Checkpatch errors in the immediately prior patch
+> > > > 2) Flatting of code in cdat initialization
+> > > > 3) Changes in allocation and error checking for cleanliness
+> > > > 4) Change in the allocation/free strategy of CDAT sub-tables to simplify
+> > > >    multi-region allocation in the future.  Also resolves a heap
+> > > >    corruption bug
+> > > > 5) Refactor of CDAT initialization code into a function that initializes
+> > > >    sub-tables per memory-region.
 > > > >
-> > > > Bug: https://bugs.gentoo.org/876933
-> > > > Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+> > > > Gregory Price (5):
+> > > >   hw/mem/cxl_type3: fix checkpatch errors
+> > > >   hw/mem/cxl_type3: Pull validation checks ahead of functional code
+> > > >   hw/mem/cxl_type3: CDAT pre-allocate and check resources prior to work
+> > > >   hw/mem/cxl_type3: Change the CDAT allocation/free strategy
+> > > >   hw/mem/cxl_type3: Refactor CDAT sub-table entry initialization into a
+> > > >     function
+> > > >
+> > > >  hw/mem/cxl_type3.c | 240 +++++++++++++++++++++++----------------------
+> > > >  1 file changed, 122 insertions(+), 118 deletions(-)
+> > > >  
 > > >
-> > > If we can determine this just by looking at C macros, does
-> > > this really need to be a configure test at all ? Paolo?
-> >
-> > We don't need to rely on CLang / GCC macros either, as this
-> > is exposed by GLib
-> >
-> > $ grep BYTE_ORDER /usr/lib64/glib-2.0/include/glibconfig.h
-> > #define G_BYTE_ORDER G_LITTLE_ENDIAN
-> >
-> > IOW, any code that needs to know can do one of:
-> >
-> >   #if G_BYTE_ORDER =3D=3D G_LITTLE_ENDIAN
-> >
-> >   #if G_BYTE_ORDER =3D=3D G_BIG_ENDIAN
->
-> It would be more consistent for configure to do this the same
-> way that compiler.h does, though:
->
-> #define HOST_BIG_ENDIAN (__BYTE_ORDER__ =3D=3D __ORDER_BIG_ENDIAN__)
->
->
-Weird, it should have been introduced with commit e03b56863d ("Replace
-config-time define HOST_WORDS_BIGENDIAN"), and it's part of commit
-519655970 ("Move HOST_LONG_BITS to compiler.h")...probably my bad with a
-rebase.
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000a3960605eae99eb1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi<div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 13, 2022 at 3:50 PM Pet=
-er Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@li=
-naro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">On Thu, 13 Oct 2022 at 12:08, Daniel P. Berrang=C3=A9 &lt;<a href=
-=3D"mailto:berrange@redhat.com" target=3D"_blank">berrange@redhat.com</a>&g=
-t; wrote:<br>
-&gt;<br>
-&gt; On Thu, Oct 13, 2022 at 11:39:34AM +0100, Peter Maydell wrote:<br>
-&gt; &gt; On Thu, 13 Oct 2022 at 09:47, Michal Privoznik &lt;<a href=3D"mai=
-lto:mprivozn@redhat.com" target=3D"_blank">mprivozn@redhat.com</a>&gt; wrot=
-e:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; When determining the endiandness of the target architecture =
-we&#39;re<br>
-&gt; &gt; &gt; building for a small program is compiled, which in an obfusc=
-ated<br>
-&gt; &gt; &gt; way declares two strings. Then, we look which string is in<b=
-r>
-&gt; &gt; &gt; correct order (using strings binary) and deduct the endiandn=
-ess.<br>
-&gt; &gt; &gt; But using the strings binary is problematic, because it&#39;=
-s part of<br>
-&gt; &gt; &gt; toolchain (strings is just a symlink to<br>
-&gt; &gt; &gt; x86_64-pc-linux-gnu-strings or llvm-strings). And when<br>
-&gt; &gt; &gt; (cross-)compiling, it requires users to set the symlink to t=
-he<br>
-&gt; &gt; &gt; correct toolchain.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Fortunately, we have a better alternative anyways. Since we<=
-br>
-&gt; &gt; &gt; require either clang or gcc we can rely on macros they decla=
-re.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Bug: <a href=3D"https://bugs.gentoo.org/876933" rel=3D"noref=
-errer" target=3D"_blank">https://bugs.gentoo.org/876933</a><br>
-&gt; &gt; &gt; Signed-off-by: Michal Privoznik &lt;<a href=3D"mailto:mprivo=
-zn@redhat.com" target=3D"_blank">mprivozn@redhat.com</a>&gt;<br>
-&gt; &gt;<br>
-&gt; &gt; If we can determine this just by looking at C macros, does<br>
-&gt; &gt; this really need to be a configure test at all ? Paolo?<br>
-&gt;<br>
-&gt; We don&#39;t need to rely on CLang / GCC macros either, as this<br>
-&gt; is exposed by GLib<br>
-&gt;<br>
-&gt; $ grep BYTE_ORDER /usr/lib64/glib-2.0/include/glibconfig.h<br>
-&gt; #define G_BYTE_ORDER G_LITTLE_ENDIAN<br>
-&gt;<br>
-&gt; IOW, any code that needs to know can do one of:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0#if G_BYTE_ORDER =3D=3D G_LITTLE_ENDIAN<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0#if G_BYTE_ORDER =3D=3D G_BIG_ENDIAN<br>
-<br>
-It would be more consistent for configure to do this the same<br>
-way that compiler.h does, though:<br>
-<br>
-#define HOST_BIG_ENDIAN (__BYTE_ORDER__ =3D=3D __ORDER_BIG_ENDIAN__)<br>
-<br></blockquote><div><br></div><div>Weird, it should have been introduced =
-with commit e03b56863d (&quot;Replace config-time define HOST_WORDS_BIGENDI=
-AN&quot;), and it&#39;s part of commit 519655970 (&quot;Move HOST_LONG_BITS=
- to compiler.h&quot;)...probably my bad with a rebase.</div></div><div clas=
-s=3D"gmail_quote"><br></div>-- <br><div dir=3D"ltr" class=3D"gmail_signatur=
-e">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000a3960605eae99eb1--
+> > > Thanks, I'm going to roll this stuff into the original patch set for v8.
+> > > Some of this I already have (like the check patch stuff).
+> > > Some I may disagree with in which case  I'll reply to the patches - note
+> > > I haven't looked at them in detail yet!
+> > >
+> > > Jonathan
+> > >  
+> > 
+> 
 
