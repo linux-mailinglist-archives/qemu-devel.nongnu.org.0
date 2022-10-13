@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C1075FDED7
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 19:21:37 +0200 (CEST)
-Received: from localhost ([::1]:57166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 851AA5FDEDA
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 19:22:39 +0200 (CEST)
+Received: from localhost ([::1]:45930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj1tn-0001cC-Vh
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 13:21:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49954)
+	id 1oj1uo-0003Z3-L2
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 13:22:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oj1qh-0007RO-T8
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 13:18:29 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:38869)
+ id 1oj1ro-00086S-TX
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 13:19:33 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:35674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oj1qf-0005g1-SA
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 13:18:23 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- r8-20020a1c4408000000b003c47d5fd475so3720052wma.3
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 10:18:21 -0700 (PDT)
+ id 1oj1rm-0005kN-03
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 13:19:32 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id u10so3894686wrq.2
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 10:19:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=UFxWRmJrq4zBwXzsWUnNv0z8VgSCJCrMWgJTtg9fkHU=;
- b=m338Pnjd0w+xiDMtRaxE5ZPJ/0IH0XeMrkLSTjyfULJ8+55c1ZvnQnWlDTIVVxJt/J
- QVxLfgZ0Goyp8OA62hWCLuSOAAZ1/yF8URUOMQEwEN1rGA4oUxP7cRHVaGJnCzqEt13t
- LmzKV6CCDg96BuIMDvc12dyRJ720mWR3Dv0bnKBRj/wIM2gX+B/uIfBITm5ScnG2Sc9G
- /v5wr18k/IuGVvLOKxYTBMV+HwYeMA8DN3pC2/qodyXmy5A02HC91MYWYDZTTY1hgVs9
- Vbp6sPTmL+6affTTLhq1DhA0FDbcfIawtDYbV81HW8WnJR61l4vT6X6kkl1LGbfXKi7I
- HfbA==
+ bh=pA/r/wR34UCRcAHrPtSKaI1T56yoEpb2xy7U6UnAWQE=;
+ b=lCVEc6Vo8crY9lEgq5QiBPSGrBjZxoVr6gJr3U+wNvHMXMarw2Qo4xKngUucwWswkb
+ LSBednjh3DP0O1v09QUjif297XvXl1BSBN/LHj5tW///TGcnVHKHd/e3szqkQI00y6ju
+ w0d5uxsTwwDANoHLIQptery9A6QbxLpp/uEJDIE6MQCJP2pGQvhCh3grWh5JQDF45qsD
+ C/vDFxkk4F6zz1ORmXu+Bu7SGrwDA4KgvG1ebzgyJ1gesM2TSk1co2fROp1lZCiET0Uh
+ gB05oHpPr4ePE4/161ZKrKvJSqBqAy5BUT+pH3t/6eGuxW1JOg7hbbRAhX+gji8UA9hK
+ yWPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=UFxWRmJrq4zBwXzsWUnNv0z8VgSCJCrMWgJTtg9fkHU=;
- b=X7hGUaeFzJMyAou2RQICyx9BnDorKrzK9MOYpOE9Lz4PdSyk8s7iIxJ3kpDRCBRyPd
- bz1HpshXvUbOKMOgSS49xbIT2HbcBDkrvN0MduB1gbxYO+dx4jaTyLmJpcx4geKnQhdc
- DjC5p/xK5cSlrHNrm3FDli+P1oLTOvhmhqQQWnt946dXxvhm9ZPUzijAm4BlhLers1LF
- b0SqnlYbeEiJgf2MfwoGC/zFZxMoXfLFF3Z6+JWVN3ixWQe3esOKCZjbdYcL1xxMdZKf
- ylyX/UtZsz/yMr8et2cjrPlf5OaJm2xMSmDI0KSp45iOjpXIoLLMYLRq8Nk0WBLxVC0r
- ev1g==
-X-Gm-Message-State: ACrzQf1kb+GeVn/wW+5dI4JgxUmmTrLS0sc0KDliqumxaQYILfkbsDz+
- T/ffk2/QGEyOp4HNpki6OjrVep9Sjmcf7g==
-X-Google-Smtp-Source: AMsMyM7evREjWEwH3rOSbgjnogOCjR58GIgkxINK0AF3rggTFYD2musEesoWKNq210d0CLSNPtBp1g==
-X-Received: by 2002:a05:600c:458d:b0:3c3:bf4e:5c60 with SMTP id
- r13-20020a05600c458d00b003c3bf4e5c60mr604728wmo.189.1665681500256; 
- Thu, 13 Oct 2022 10:18:20 -0700 (PDT)
+ bh=pA/r/wR34UCRcAHrPtSKaI1T56yoEpb2xy7U6UnAWQE=;
+ b=TFxNLh/fBpm+hZ2tsOmyjT2pn9HBPjfwQSIHVo7fHqjhY0hKY42HeSaEaFOkrd1pj3
+ IKgewl1PmtP0nAhVld2UEZ48G5MRCqQPHS1f+y5i2C/sO/K2yitHOvG1MningAlnqTgg
+ 8EJ6pGrv+4TffGg5ty3fnQM+mNdcl3SGd6IGrpa6FDN/ventahe1sC/Qp7EtxTYalLBe
+ gIaU09XXjRtqRrY2hvPxWoZyjOscX64jbb1TI2X+PaRmMMneh4of84Sj4CiqgHguR+CB
+ GFAalAcYrNZvIs3PdgbdlV/DLvrjy/2hcJQ6AX8h8SBTmZQZbqgUjjgdEal61oi5hPbs
+ gQjw==
+X-Gm-Message-State: ACrzQf3IXtfz4X+nwuI17LjUF1esHK6s9Cl+fUz9iy3ZxtDYBfQf1/Bt
+ gPudywBZDcN1jkWK8vXOsHXrOlj6++LxQA==
+X-Google-Smtp-Source: AMsMyM7pcRIb9fxNfpERR20eNu+0FLxX+SxfWwKUDsIKdz9T2/bEIYyGW/Qirum4uQeXUyyQIsG4tg==
+X-Received: by 2002:a5d:504a:0:b0:22e:3edd:3c86 with SMTP id
+ h10-20020a5d504a000000b0022e3edd3c86mr747490wrt.360.1665681568307; 
+ Thu, 13 Oct 2022 10:19:28 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- 123-20020a1c1981000000b003c6c4639ac6sm42018wmz.34.2022.10.13.10.18.19
+ s1-20020adfeb01000000b0022cc3e67fc5sm96617wrn.65.2022.10.13.10.19.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Oct 2022 10:18:19 -0700 (PDT)
+ Thu, 13 Oct 2022 10:19:27 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: "Maciej S . Szmigiero" <maciej.szmigiero@oracle.com>
-Subject: [PATCH] hw/hyperv/hyperv.c: Use device_cold_reset() instead of
- device_legacy_reset()
-Date: Thu, 13 Oct 2022 18:18:17 +0100
-Message-Id: <20221013171817.1447562-1-peter.maydell@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PATCH] hw/i386: Use device_cold_reset() to reset the APIC
+Date: Thu, 13 Oct 2022 18:19:26 +0100
+Message-Id: <20221013171926.1447899-1-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,31 +93,47 @@ The semantic difference between the deprecated device_legacy_reset()
 function and the newer device_cold_reset() function is that the new
 function resets both the device itself and any qbuses it owns,
 whereas the legacy function resets just the device itself and nothing
-else.  In hyperv_synic_reset() we reset a SynICState, which has no
-qbuses, so for this purpose the two functions behave identically and
-we can stop using the deprecated one.
+else.
+
+The pc_machine_reset() and microvm_machine_reset() functions use
+device_legacy_reset() to reset the APIC; this is an APICCommonState
+and does not have any qbuses, so for this purpose the two functions
+behave identically and we can stop using the deprecated one.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-NB: tested only with 'make check' and 'make check-avocado', which
-may well not exercise this.
+NB: tested only with 'make check' and 'make check-avocado'
 
- hw/hyperv/hyperv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/i386/microvm.c | 2 +-
+ hw/i386/pc.c      | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/hyperv/hyperv.c b/hw/hyperv/hyperv.c
-index 4a1b59cb9db..57b402b9561 100644
---- a/hw/hyperv/hyperv.c
-+++ b/hw/hyperv/hyperv.c
-@@ -157,7 +157,7 @@ void hyperv_synic_reset(CPUState *cs)
-     SynICState *synic = get_synic(cs);
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 7fe8cce03e9..0b08010bf0a 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -486,7 +486,7 @@ static void microvm_machine_reset(MachineState *machine)
+         cpu = X86_CPU(cs);
  
-     if (synic) {
--        device_legacy_reset(DEVICE(synic));
-+        device_cold_reset(DEVICE(synic));
+         if (cpu->apic_state) {
+-            device_legacy_reset(cpu->apic_state);
++            device_cold_reset(cpu->apic_state);
+         }
      }
  }
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 566accf7e60..2b2d0bc2b33 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1860,7 +1860,7 @@ static void pc_machine_reset(MachineState *machine)
+         cpu = X86_CPU(cs);
  
+         if (cpu->apic_state) {
+-            device_legacy_reset(cpu->apic_state);
++            device_cold_reset(cpu->apic_state);
+         }
+     }
+ }
 -- 
 2.25.1
 
