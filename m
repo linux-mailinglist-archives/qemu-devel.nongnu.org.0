@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1CFC5FD9AC
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 14:57:23 +0200 (CEST)
-Received: from localhost ([::1]:43740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 732085FD9A0
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 14:53:18 +0200 (CEST)
+Received: from localhost ([::1]:34752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oixm6-0003DP-T2
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 08:57:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60198)
+	id 1oixi9-0007Mf-F4
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 08:53:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oixSz-0001Wr-91
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:37:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43233)
+ id 1oixT1-0001Xw-1E
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:37:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38178)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oixSx-00045b-Ns
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:37:36 -0400
+ id 1oixSz-00046Y-Il
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:37:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665664654;
+ s=mimecast20190719; t=1665664657;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WdDoyT0lop3J/es469dq/DCk1xlE21mkYbcqsSC+DX0=;
- b=KIn81dp07BH+1M+tniJbvmWhI6xzDn6Ba0CAy+YKkhXmm2e7HRN2l3Vx0Ue8XeA9x1mwdQ
- nYx5mNicF1aCVFtxauO8IVXlxo8g6YapRzZhkiKyyyrLk8soazHgEB/rAvOpSCV4L7+FVo
- iZCeN2MPzNO4Q9bg67+kPIhe0xT5bQk=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=BK9V7BF4FDWFPbVioi/6hP2ritYONTmY8uKeRXf0/70=;
+ b=fVOcmNEd1ffl46Udhl0UMeSq7hSPnE0pPdl/lcNSBsGqToLZ7WC/MG8tGWdC5vYDwdREEZ
+ aHBze5Nyi69Zeb4Tat6LuLu6M+ekXaW+Ui4BQSHyIUxRjgEDsaeQk3vIrDVvuWkCZ2jmL4
+ PXnndqf5lFvQxdmmqULhyeDec9XIqIA=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-39-w8a-rmKzNhSTSQXl4Cu_EA-1; Thu, 13 Oct 2022 08:37:33 -0400
-X-MC-Unique: w8a-rmKzNhSTSQXl4Cu_EA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- i17-20020a05640242d100b0044f18a5379aso1420510edc.21
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 05:37:32 -0700 (PDT)
+ us-mta-79-AYMd0I9XPziFuCNUJf6iqw-1; Thu, 13 Oct 2022 08:37:36 -0400
+X-MC-Unique: AYMd0I9XPziFuCNUJf6iqw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ z16-20020a05640235d000b0045c0360bfcfso1407628edc.14
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 05:37:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WdDoyT0lop3J/es469dq/DCk1xlE21mkYbcqsSC+DX0=;
- b=imIo8ELmyUzeza2hhwxIKS4fv3Pwr2RdIX2YozUM/owV5Zqlgcn3J5gYU2PaRwkzE8
- 3izwkVZDl7shraBozSsanGpAX9s2DuHg+BWQx7B1o2KgV6dsBmsxepds3M1WRSSVpWl0
- QJXjQ8v8KHZmcZmfvZtet2CYC3KVaqA2cwz3uMD52rIizqk2IflJUuMDHm5l0rAXiVOj
- AF2C1H0933hDAXugSKAkiiiNhRyQ4Q54T9lZZ/efMCfQIusjEM6z1Qp5j/HtchpEy6Pu
- La94vOdByfyc5mvFqQ7uI3AUeUX0Fz8bdDONkR/IGNOoWogyLoABjpAGw5fmPAE490mf
- gyPA==
-X-Gm-Message-State: ACrzQf1s7XklXSp/AbNdKBU7P15dBboyeIr2l3yhCj3sREHPI1IZlU+f
- ckCSj9A84+E87qiSoLGwHOxWPRM+yOg6T608VmRTqZR9eJuArYO5DOe3/+EwWrJ7mcDD/JISr5Z
- NMpAYvIzkffRCJTm5WJ/R3OEkq/v960+zM7SmWH6OcqMWxdHH1qqJafcPKmiI+aX146I=
-X-Received: by 2002:a17:906:9c82:b0:781:5752:4f2b with SMTP id
- fj2-20020a1709069c8200b0078157524f2bmr25415489ejc.561.1665664651530; 
- Thu, 13 Oct 2022 05:37:31 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6DQJlBZrnDp3dsbbIIJqLFiOqxzPqTOoh/03Vhrn3c0QE1K7INt9j5INmeaudMpCB4HB2ZMA==
-X-Received: by 2002:a17:906:9c82:b0:781:5752:4f2b with SMTP id
- fj2-20020a1709069c8200b0078157524f2bmr25415469ejc.561.1665664651220; 
- Thu, 13 Oct 2022 05:37:31 -0700 (PDT)
+ bh=BK9V7BF4FDWFPbVioi/6hP2ritYONTmY8uKeRXf0/70=;
+ b=ljhaOlo7+dgKi0ux2IdD57J4QKA0WuPRK6BKJE7DHMSaM0SBrMGMwQ3cfloGZaME5t
+ THVfJgusqF9JAQMRos5joVsI6+vdKVOo+ByLE+bXn24k8dvsNXH7/woLW9aGhLih2nbS
+ eXHqkonqE0w54KSw5H99+p9lBSq3dbPc0jRJZ1Y04i2R265xQqmBfuKUr3xKDuIzHnJg
+ 1hpTHU/d/VUXHKShTz93Rc4JugkE8CzbKKAj0WFa2LYhW9hhzfQAJwP/ercHZS/PQn5R
+ k9Q1MMA8qoEFa4mdMIatkXmx+LvMbUuZJ4+L54fnD0813js3vvFSiphApJbuYXUcwSMG
+ 4BSA==
+X-Gm-Message-State: ACrzQf20u9IJUNAGMnSSyqUex1wOYStpVjG8Y7wgGUNxtuRNsP3B+sTr
+ xpeFUiwqatTZA8u/GlcifdyP1fLe5SgNHvX27CAvRFyTTi/m6cD7YJZZ8HJR4qhB9NK4+IzZAIs
+ /5uzH8z3/iOPcJqzac9QoJxMeyVis4S1FB3CVuPCiTvy1pRO8UGlioFpzNRhrvQxq9gY=
+X-Received: by 2002:a05:6402:d5f:b0:458:dc7e:f728 with SMTP id
+ ec31-20020a0564020d5f00b00458dc7ef728mr32499910edb.220.1665664654655; 
+ Thu, 13 Oct 2022 05:37:34 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4V4Bx/HddNnBFFCEgOTvvJueRMUhfCw+zOer3WoJLr9dI8xqN47c10lq3w55rUbhr+EGVy1Q==
+X-Received: by 2002:a05:6402:d5f:b0:458:dc7e:f728 with SMTP id
+ ec31-20020a0564020d5f00b00458dc7ef728mr32499889edb.220.1665664654367; 
+ Thu, 13 Oct 2022 05:37:34 -0700 (PDT)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- p7-20020a17090653c700b0078d175d6dc5sm2902764ejo.201.2022.10.13.05.37.30
+ d12-20020a170906304c00b0078afe360800sm2922825ejd.199.2022.10.13.05.37.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Oct 2022 05:37:30 -0700 (PDT)
+ Thu, 13 Oct 2022 05:37:33 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org,
 	afaria@redhat.com
-Subject: [PATCH 06/24] coroutine-lock: add missing coroutine_fn annotation to
+Subject: [PATCH 07/24] coroutine-io: add missing coroutine_fn annotation to
  prototypes
-Date: Thu, 13 Oct 2022 14:36:53 +0200
-Message-Id: <20221013123711.620631-7-pbonzini@redhat.com>
+Date: Thu, 13 Oct 2022 14:36:54 +0200
+Message-Id: <20221013123711.620631-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221013123711.620631-1-pbonzini@redhat.com>
 References: <20221013123711.620631-1-pbonzini@redhat.com>
@@ -104,60 +104,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alberto Faria <afaria@redhat.com>
 
-The functions are marked coroutine_fn in the definition.
-
 Signed-off-by: Alberto Faria <afaria@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu/coroutine.h | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ include/qemu/coroutine.h | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
-index aae33cce17..d848489b65 100644
+index d848489b65..06d323143c 100644
 --- a/include/qemu/coroutine.h
 +++ b/include/qemu/coroutine.h
-@@ -276,7 +276,7 @@ void qemu_co_rwlock_init(CoRwlock *lock);
-  * of a parallel writer, control is transferred to the caller of the current
-  * coroutine.
+@@ -378,8 +378,9 @@ void qemu_coroutine_dec_pool_size(unsigned int additional_pool_size);
+  * The same interface as qemu_sendv_recvv(), with added yielding.
+  * XXX should mark these as coroutine_fn
   */
--void qemu_co_rwlock_rdlock(CoRwlock *lock);
-+void coroutine_fn qemu_co_rwlock_rdlock(CoRwlock *lock);
- 
+-ssize_t qemu_co_sendv_recvv(int sockfd, struct iovec *iov, unsigned iov_cnt,
+-                            size_t offset, size_t bytes, bool do_send);
++ssize_t coroutine_fn qemu_co_sendv_recvv(int sockfd, struct iovec *iov,
++                                         unsigned iov_cnt, size_t offset,
++                                         size_t bytes, bool do_send);
+ #define qemu_co_recvv(sockfd, iov, iov_cnt, offset, bytes) \
+   qemu_co_sendv_recvv(sockfd, iov, iov_cnt, offset, bytes, false)
+ #define qemu_co_sendv(sockfd, iov, iov_cnt, offset, bytes) \
+@@ -388,7 +389,8 @@ ssize_t qemu_co_sendv_recvv(int sockfd, struct iovec *iov, unsigned iov_cnt,
  /**
-  * Write Locks the CoRwlock from a reader.  This is a bit more efficient than
-@@ -285,7 +285,7 @@ void qemu_co_rwlock_rdlock(CoRwlock *lock);
-  * to the caller of the current coroutine; another writer might run while
-  * @qemu_co_rwlock_upgrade blocks.
+  * The same as above, but with just a single buffer
   */
--void qemu_co_rwlock_upgrade(CoRwlock *lock);
-+void coroutine_fn qemu_co_rwlock_upgrade(CoRwlock *lock);
- 
- /**
-  * Downgrades a write-side critical section to a reader.  Downgrading with
-@@ -293,20 +293,20 @@ void qemu_co_rwlock_upgrade(CoRwlock *lock);
-  * followed by @qemu_co_rwlock_rdlock.  This makes it more efficient, but
-  * may also sometimes be necessary for correctness.
-  */
--void qemu_co_rwlock_downgrade(CoRwlock *lock);
-+void coroutine_fn qemu_co_rwlock_downgrade(CoRwlock *lock);
- 
- /**
-  * Write Locks the mutex. If the lock cannot be taken immediately because
-  * of a parallel reader, control is transferred to the caller of the current
-  * coroutine.
-  */
--void qemu_co_rwlock_wrlock(CoRwlock *lock);
-+void coroutine_fn qemu_co_rwlock_wrlock(CoRwlock *lock);
- 
- /**
-  * Unlocks the read/write lock and schedules the next coroutine that was
-  * waiting for this lock to be run.
-  */
--void qemu_co_rwlock_unlock(CoRwlock *lock);
-+void coroutine_fn qemu_co_rwlock_unlock(CoRwlock *lock);
- 
- typedef struct QemuCoSleep {
-     Coroutine *to_wake;
+-ssize_t qemu_co_send_recv(int sockfd, void *buf, size_t bytes, bool do_send);
++ssize_t coroutine_fn qemu_co_send_recv(int sockfd, void *buf, size_t bytes,
++                                       bool do_send);
+ #define qemu_co_recv(sockfd, buf, bytes) \
+   qemu_co_send_recv(sockfd, buf, bytes, false)
+ #define qemu_co_send(sockfd, buf, bytes) \
 -- 
 2.37.3
 
