@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AFBB5FD828
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 13:13:44 +0200 (CEST)
-Received: from localhost ([::1]:47888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CDAD5FD827
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 13:13:20 +0200 (CEST)
+Received: from localhost ([::1]:39476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiw9m-0006Ju-Qk
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 07:13:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51414)
+	id 1oiw9O-0005Pz-TN
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 07:13:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1oivhl-00086A-54
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 06:44:45 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2729)
+ id 1oivin-0000Mu-Tb
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 06:45:55 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2730)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1oivhj-0001NU-7H
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 06:44:44 -0400
-Received: from fraeml714-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Mp5fz4CBhz67Q1M;
- Thu, 13 Oct 2022 18:41:47 +0800 (CST)
+ id 1oivik-0001lJ-AN
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 06:45:49 -0400
+Received: from fraeml708-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Mp5jf5TMGz67PjK;
+ Thu, 13 Oct 2022 18:44:06 +0800 (CST)
 Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml714-chm.china.huawei.com (10.206.15.33) with Microsoft SMTP Server
+ fraeml708-chm.china.huawei.com (10.206.15.36) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 13 Oct 2022 12:44:40 +0200
+ 15.1.2375.31; Thu, 13 Oct 2022 12:45:42 +0200
 Received: from localhost (10.202.226.42) by lhrpeml500005.china.huawei.com
  (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 13 Oct
- 2022 11:44:39 +0100
-Date: Thu, 13 Oct 2022 11:44:38 +0100
+ 2022 11:45:41 +0100
+Date: Thu, 13 Oct 2022 11:45:40 +0100
 To: Gregory Price <gourry.memverge@gmail.com>
 CC: <qemu-devel@nongnu.org>, <linux-cxl@vger.kernel.org>,
  <alison.schofield@intel.com>, <dave@stgolabs.net>,
  <a.manzanares@samsung.com>, <bwidawsk@kernel.org>,
  <gregory.price@memverge.com>, <mst@redhat.com>, <hchkuo@avery-design.com.tw>, 
  <cbrowy@avery-design.com>, <ira.weiny@intel.com>
-Subject: Re: [PATCH 3/5] hw/mem/cxl_type3: CDAT pre-allocate and check
- resources prior to work
-Message-ID: <20221013114438.00007de8@huawei.com>
-In-Reply-To: <20221012182120.174142-4-gregory.price@memverge.com>
+Subject: Re: [PATCH 4/5] hw/mem/cxl_type3: Change the CDAT allocation/free
+ strategy
+Message-ID: <20221013114540.00006027@huawei.com>
+In-Reply-To: <20221012182120.174142-5-gregory.price@memverge.com>
 References: <20221007152156.24883-5-Jonathan.Cameron@huawei.com>
  <20221012182120.174142-1-gregory.price@memverge.com>
- <20221012182120.174142-4-gregory.price@memverge.com>
+ <20221012182120.174142-5-gregory.price@memverge.com>
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.202.226.42]
-X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
+X-ClientProxiedBy: lhrpeml100003.china.huawei.com (7.191.160.210) To
  lhrpeml500005.china.huawei.com (7.191.163.240)
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=185.176.79.56;
@@ -77,197 +77,150 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
 From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Wed, 12 Oct 2022 14:21:18 -0400
+On Wed, 12 Oct 2022 14:21:19 -0400
 Gregory Price <gourry.memverge@gmail.com> wrote:
 
-> Makes the size of the allocated cdat table static (6 entries),
-> flattens the code, and reduces the number of exit conditions
+> The existing code allocates a subtable for SLBIS entries, uses a
+> local variable to avoid a g_autofree footgun, and the cleanup code
+> causes heap corruption.
+
+Ah good point (particularly given I moaned about how you were handling
+the frees and still failed to notice the current code was broken!)
+
+
+> 
+> Rather than allocate a table, explicitly allocate each individual entry
+> and make the sub-table size static.
 > 
 > Signed-off-by: Gregory Price <gregory.price@memverge.com>
 
-Hmm. I don't entirely like this as it stands because it leads to more
-fragile code as we don't have clear association between number
-of entries and actual assignments.
-
-So, what I've done (inspired by this) is moved to a local enum
-in the factored out building function that has an element for
-each of the entries (used ultimately to assign them) and
-a trailing NUM_ENTRIES element we can then use in place of
-the CT3_CDAT_SUBTABLE_SIZE define you have here.
-
-I went with the 2 pass approach mentioned in a later patch, so
-if cdat_table passed to the factored out code is NULL, we just
-return NUM_ENTRIES directly.
+I'll integrate a change in the spirit of what you have here, but
+without aggregating the error handling paths.
 
 > ---
->  hw/mem/cxl_type3.c | 52 ++++++++++++++++++++--------------------------
->  1 file changed, 22 insertions(+), 30 deletions(-)
+>  hw/mem/cxl_type3.c | 49 ++++++++++++++++++++++++----------------------
+>  1 file changed, 26 insertions(+), 23 deletions(-)
 > 
 > diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-> index 43b2b9e041..0e0ea70387 100644
+> index 0e0ea70387..220b9f09a9 100644
 > --- a/hw/mem/cxl_type3.c
 > +++ b/hw/mem/cxl_type3.c
-> @@ -17,6 +17,7 @@
->  #include "hw/pci/msix.h"
->  
->  #define DWORD_BYTE 4
-> +#define CT3_CDAT_SUBTABLE_SIZE 6
-
->  
->  static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
+> @@ -23,13 +23,14 @@ static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
 >                                  void *priv)
-> @@ -25,7 +26,6 @@ static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
->      g_autofree CDATDslbis *dslbis_nonvolatile = NULL;
+>  {
+>      g_autofree CDATDsmas *dsmas_nonvolatile = NULL;
+> -    g_autofree CDATDslbis *dslbis_nonvolatile = NULL;
+> +    g_autofree CDATDslbis *dslbis_nonvolatile1 = NULL;
+> +    g_autofree CDATDslbis *dslbis_nonvolatile2 = NULL;
+> +    g_autofree CDATDslbis *dslbis_nonvolatile3 = NULL;
+> +    g_autofree CDATDslbis *dslbis_nonvolatile4 = NULL;
 >      g_autofree CDATDsemts *dsemts_nonvolatile = NULL;
 >      CXLType3Dev *ct3d = priv;
-> -    int len = 0;
->      int i = 0;
+> -    int i = 0;
 >      int next_dsmad_handle = 0;
 >      int nonvolatile_dsmad = -1;
-> @@ -33,7 +33,7 @@ static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
+> -    int dslbis_nonvolatile_num = 4;
 >      MemoryRegion *mr;
 >  
 >      if (!ct3d->hostmem) {
-> -        return len;
-> +        return 0;
->      }
+> @@ -48,10 +49,15 @@ static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
 >  
->      mr = host_memory_backend_get_memory(ct3d->hostmem);
-> @@ -41,11 +41,22 @@ static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
->          return -EINVAL;
->      }
->  
-> +    *cdat_table = g_malloc0(CT3_CDAT_SUBTABLE_SIZE * sizeof(*cdat_table));
-> +    if (!*cdat_table) {
-> +        return -ENOMEM;
-> +    }
-> +
 >      /* Non volatile aspects */
 >      dsmas_nonvolatile = g_malloc(sizeof(*dsmas_nonvolatile));
-> -    if (!dsmas_nonvolatile) {
-> +    dslbis_nonvolatile =
-> +        g_malloc(sizeof(*dslbis_nonvolatile) * dslbis_nonvolatile_num);
-> +    dsemts_nonvolatile = g_malloc(sizeof(*dsemts_nonvolatile));
-> +    if (!dsmas_nonvolatile || !dslbis_nonvolatile || !dsemts_nonvolatile) {
-
-I don't like aggregated error checking. It saves lines of code, but leads
-to generally less mantainable code.  I prefer to do one thing, check it and handle
-necessary errors - provides a small localized chunk of code that is easy to
-review and maintain.
-1. Allocate structure
-2. Fill structure.
-
-We have to leave the assignment till later as only want to steal the pointers
-once we know there are no error paths.
-
-> +        g_free(*cdat_table);
-
-We have auto free to clean this up. So if this did make sense, use a local
-g_autofree CDATSubHeader **cdat_table = NULL;
-and steal the pointer when assigning *cdat_table at the end of this function
-after all the failure paths.
-
-This code all ends up in the caller of the factored out code anyway so
-that comment becomes irrelevant on the version I've ended up with.
-
-Jonathan
-
-
-
-> +        *cdat_table = NULL;
->          return -ENOMEM;
->      }
-> +
->      nonvolatile_dsmad = next_dsmad_handle++;
->      *dsmas_nonvolatile = (CDATDsmas) {
->          .header = {
-> @@ -57,15 +68,8 @@ static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
->          .DPA_base = 0,
->          .DPA_length = int128_get64(mr->size),
->      };
-> -    len++;
->  
->      /* For now, no memory side cache, plausiblish numbers */
 > -    dslbis_nonvolatile =
 > -        g_malloc(sizeof(*dslbis_nonvolatile) * dslbis_nonvolatile_num);
-> -    if (!dslbis_nonvolatile) {
-> -        return -ENOMEM;
-> -    }
-> -
->      dslbis_nonvolatile[0] = (CDATDslbis) {
+> +    dslbis_nonvolatile1 = g_malloc(sizeof(*dslbis_nonvolatile1));
+> +    dslbis_nonvolatile2 = g_malloc(sizeof(*dslbis_nonvolatile2));
+> +    dslbis_nonvolatile3 = g_malloc(sizeof(*dslbis_nonvolatile3));
+> +    dslbis_nonvolatile4 = g_malloc(sizeof(*dslbis_nonvolatile4));
+>      dsemts_nonvolatile = g_malloc(sizeof(*dsemts_nonvolatile));
+> -    if (!dsmas_nonvolatile || !dslbis_nonvolatile || !dsemts_nonvolatile) {
+> +
+> +    if (!dsmas_nonvolatile || !dsemts_nonvolatile ||
+> +        !dslbis_nonvolatile1 || !dslbis_nonvolatile2 ||
+> +        !dslbis_nonvolatile3 || !dslbis_nonvolatile4) {
+>          g_free(*cdat_table);
+>          *cdat_table = NULL;
+>          return -ENOMEM;
+> @@ -70,10 +76,10 @@ static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
+>      };
+>  
+>      /* For now, no memory side cache, plausiblish numbers */
+> -    dslbis_nonvolatile[0] = (CDATDslbis) {
+> +    *dslbis_nonvolatile1 = (CDATDslbis) {
 >          .header = {
 >              .type = CDAT_TYPE_DSLBIS,
-> @@ -77,7 +81,6 @@ static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
->          .entry_base_unit = 10000, /* 10ns base */
+> -            .length = sizeof(*dslbis_nonvolatile),
+> +            .length = sizeof(*dslbis_nonvolatile1),
+>          },
+>          .handle = nonvolatile_dsmad,
+>          .flags = HMAT_LB_MEM_MEMORY,
+> @@ -82,10 +88,10 @@ static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
 >          .entry[0] = 15, /* 150ns */
 >      };
-> -    len++;
 >  
->      dslbis_nonvolatile[1] = (CDATDslbis) {
+> -    dslbis_nonvolatile[1] = (CDATDslbis) {
+> +    *dslbis_nonvolatile2 = (CDATDslbis) {
 >          .header = {
-> @@ -90,7 +93,6 @@ static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
->          .entry_base_unit = 10000,
+>              .type = CDAT_TYPE_DSLBIS,
+> -            .length = sizeof(*dslbis_nonvolatile),
+> +            .length = sizeof(*dslbis_nonvolatile2),
+>          },
+>          .handle = nonvolatile_dsmad,
+>          .flags = HMAT_LB_MEM_MEMORY,
+> @@ -94,10 +100,10 @@ static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
 >          .entry[0] = 25, /* 250ns */
 >      };
-> -    len++;
 >  
->      dslbis_nonvolatile[2] = (CDATDslbis) {
+> -    dslbis_nonvolatile[2] = (CDATDslbis) {
+> +    *dslbis_nonvolatile3 = (CDATDslbis) {
 >          .header = {
-> @@ -103,7 +105,6 @@ static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
->          .entry_base_unit = 1000, /* GB/s */
+>              .type = CDAT_TYPE_DSLBIS,
+> -            .length = sizeof(*dslbis_nonvolatile),
+> +            .length = sizeof(*dslbis_nonvolatile3),
+>          },
+>          .handle = nonvolatile_dsmad,
+>          .flags = HMAT_LB_MEM_MEMORY,
+> @@ -106,10 +112,10 @@ static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
 >          .entry[0] = 16,
 >      };
-> -    len++;
 >  
->      dslbis_nonvolatile[3] = (CDATDslbis) {
+> -    dslbis_nonvolatile[3] = (CDATDslbis) {
+> +    *dslbis_nonvolatile4 = (CDATDslbis) {
 >          .header = {
-> @@ -116,9 +117,7 @@ static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
->          .entry_base_unit = 1000, /* GB/s */
->          .entry[0] = 16,
+>              .type = CDAT_TYPE_DSLBIS,
+> -            .length = sizeof(*dslbis_nonvolatile),
+> +            .length = sizeof(*dslbis_nonvolatile4),
+>          },
+>          .handle = nonvolatile_dsmad,
+>          .flags = HMAT_LB_MEM_MEMORY,
+> @@ -131,15 +137,12 @@ static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
 >      };
-> -    len++;
 >  
-> -    dsemts_nonvolatile = g_malloc(sizeof(*dsemts_nonvolatile));
->      *dsemts_nonvolatile = (CDATDsemts) {
->          .header = {
->              .type = CDAT_TYPE_DSEMTS,
-> @@ -130,26 +129,19 @@ static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
->          .DPA_offset = 0,
->          .DPA_length = int128_get64(mr->size),
->      };
-> -    len++;
->  
-> -    *cdat_table = g_malloc0(len * sizeof(*cdat_table));
 >      /* Header always at start of structure */
-> -    if (dsmas_nonvolatile) {
-> -        (*cdat_table)[i++] = g_steal_pointer(&dsmas_nonvolatile);
+> -    (*cdat_table)[i++] = g_steal_pointer(&dsmas_nonvolatile);
+> -
+> -    CDATDslbis *dslbis = g_steal_pointer(&dslbis_nonvolatile);
+> -    int j;
+> -    for (j = 0; j < dslbis_nonvolatile_num; j++) {
+> -        (*cdat_table)[i++] = (CDATSubHeader *)&dslbis[j];
 > -    }
-> -    if (dslbis_nonvolatile) {
-> -        CDATDslbis *dslbis = g_steal_pointer(&dslbis_nonvolatile);
-> -        int j;
-> +    (*cdat_table)[i++] = g_steal_pointer(&dsmas_nonvolatile);
->  
-> -        for (j = 0; j < dslbis_nonvolatile_num; j++) {
-> -            (*cdat_table)[i++] = (CDATSubHeader *)&dslbis[j];
-> -        }
-> -    }
-> -    if (dsemts_nonvolatile) {
-> -        (*cdat_table)[i++] = g_steal_pointer(&dsemts_nonvolatile);
-> +    CDATDslbis *dslbis = g_steal_pointer(&dslbis_nonvolatile);
-Removing the paranoid checking makes sense if we are going to handle
-the volatile / non volatile as 'whole sets of tables'.
+> -
+> -    (*cdat_table)[i++] = g_steal_pointer(&dsemts_nonvolatile);
+> +    (*cdat_table)[0] = g_steal_pointer(&dsmas_nonvolatile);
+> +    (*cdat_table)[1] = (CDATSubHeader *)g_steal_pointer(&dslbis_nonvolatile1);
+> +    (*cdat_table)[2] = (CDATSubHeader *)g_steal_pointer(&dslbis_nonvolatile2);
+> +    (*cdat_table)[3] = (CDATSubHeader *)g_steal_pointer(&dslbis_nonvolatile3);
+> +    (*cdat_table)[4] = (CDATSubHeader *)g_steal_pointer(&dslbis_nonvolatile4);
+> +    (*cdat_table)[5] = g_steal_pointer(&dsemts_nonvolatile);
+Moving to simple indexing makes sense now they are all in one place (making
+introducing a bug much less likely!)
 
-> +    int j;
-> +    for (j = 0; j < dslbis_nonvolatile_num; j++) {
-> +        (*cdat_table)[i++] = (CDATSubHeader *)&dslbis[j];
->      }
+I've introduced an enum so that we have an automatic agreement between
+number of elements and these assignments.
+
 >  
-> -    return len;
-> +    (*cdat_table)[i++] = g_steal_pointer(&dsemts_nonvolatile);
-> +
-> +    return CT3_CDAT_SUBTABLE_SIZE;
+>      return CT3_CDAT_SUBTABLE_SIZE;
 >  }
->  
->  static void ct3_free_cdat_table(CDATSubHeader **cdat_table, int num, void *priv)
 
 
