@@ -2,43 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6138A5FE36A
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 22:41:06 +0200 (CEST)
-Received: from localhost ([::1]:49924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A07D5FE375
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 22:43:29 +0200 (CEST)
+Received: from localhost ([::1]:33404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj50q-0005cQ-V1
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 16:41:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43796)
+	id 1oj53A-00016C-HP
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 16:43:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.zhadchenko@virtuozzo.com>)
- id 1oj4t2-0001QU-UN; Thu, 13 Oct 2022 16:33:01 -0400
-Received: from relay.virtuozzo.com ([130.117.225.111]:42522)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.zhadchenko@virtuozzo.com>)
- id 1oj4sy-00025f-Sb; Thu, 13 Oct 2022 16:33:00 -0400
-Received: from dev006.ch-qa.sw.ru ([172.29.1.11])
- by relay.virtuozzo.com with esmtp (Exim 4.95)
- (envelope-from <andrey.zhadchenko@virtuozzo.com>)
- id 1oj4pr-00Bba4-0n; Thu, 13 Oct 2022 22:32:33 +0200
-To: stefanha@redhat.com
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, kwolf@redhat.com,
- hreitz@redhat.com, mst@redhat.com, den@virtuozzo.com,
- andrey.drobyshev@virtuozzo.com
-Subject: [RFC PATCH v2 1/1] block: add vhost-blk backend
-Date: Thu, 13 Oct 2022 23:31:30 +0300
-Message-Id: <20221013203130.690327-2-andrey.zhadchenko@virtuozzo.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20221013203130.690327-1-andrey.zhadchenko@virtuozzo.com>
-References: <20221013203130.690327-1-andrey.zhadchenko@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oj4vF-0003vL-VC
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 16:35:24 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:45774)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oj4vE-0002RE-4T
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 16:35:17 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ o9-20020a17090a0a0900b0020ad4e758b3so2894742pjo.4
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 13:35:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=JR6evI19xXKGI3mjU4yvYUQfbj0iWH0QgxekktTuz8Y=;
+ b=BeGWYzyXjr0+62MCw98seEuoSL15aPqe9JmJ3ycIHbUG/pcUJ17ziCQ76JoPJencK1
+ 8tQacpbiLe3pgqQJS6sX57AnZM527AKsAcR8TK9RXPWQzzlDb0Rd1Om/4FKIKokYkUSa
+ fNWz5uYvNboivFvwnhRnPcl47N1Oj3EqaUhnnxBEu+pqbUoKXyEYyx7WPHli2VJ/r2nX
+ 5zpBfZrVSKkOPHl3Hjzt9ItCRLCQpq5hJg6N0IY+hElX7Dk7RGd4QxGl24k8w0csAhIO
+ J7YPdRxnPSGGPW6oB6/ZUYg3kWhJ5wrHwQqcW7YhaiYfDmYKoroZoSB25rlvHnkhh8jV
+ sanw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=JR6evI19xXKGI3mjU4yvYUQfbj0iWH0QgxekktTuz8Y=;
+ b=l8PPOGO7WkbxyW3v7N8BPDBJSQe3X7AsbUmJk3j/r38P3OEsGW1947DQT5GeNnkQXV
+ pQs0rFjOrzro/IbEtZe4xQwD9z8XHrtQepPtF+vmyRWP4H/NgEjdXzCF67i2VrCeWqfK
+ R+R+t1DPQeaf+t2X7Ad+eVLbil2V9vE4AZE6KGDMpYDLJ4KSvLUWNChjVlFzcOVxPnVG
+ ZEcn1nvDX29HCWog4xG2+2CakpozOQgA2/8NcB7rlkfqWfJIN6mOHOC6f27w49A9nKAz
+ UhKfrB72J7eoTObIVsd9xkXVvDawbS6urrzHJlTYGKylUsYbSS4r9YwYWre9eaLo4dxr
+ to5w==
+X-Gm-Message-State: ACrzQf1onMOLsMuXwNLPqEvcf7dG25xYv29f+/Il2x4VGDzPEQNQoRcy
+ who93GMoP8o35plFbr+sXXMIxQ==
+X-Google-Smtp-Source: AMsMyM5/QGOTrKfd1Uyfmt+pDWoQ8maCvisFmZo3/8p6+Hhb4thHg2OtOH1oj/T176Oq/nwa16XhHw==
+X-Received: by 2002:a17:902:f786:b0:180:6f9e:23b with SMTP id
+ q6-20020a170902f78600b001806f9e023bmr1810210pln.37.1665693314465; 
+ Thu, 13 Oct 2022 13:35:14 -0700 (PDT)
+Received: from [10.1.28.222] (110-175-13-142.static.tpgi.com.au.
+ [110.175.13.142]) by smtp.gmail.com with ESMTPSA id
+ x2-20020a170902a38200b00177ff4019d9sm236094pla.274.2022.10.13.13.35.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 Oct 2022 13:35:13 -0700 (PDT)
+Message-ID: <cd7d0223-f539-982b-cc52-96b9c2f7b1ad@linaro.org>
+Date: Fri, 14 Oct 2022 07:35:08 +1100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 1/1] tcg: add perfmap and jitdump
+Content-Language: en-US
+To: Ilya Leoshkevich <iii@linux.ibm.com>
+Cc: "Vanderson M . do Rosario" <vandersonmr2@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20221012051846.1432050-1-iii@linux.ibm.com>
+ <20221012051846.1432050-2-iii@linux.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221012051846.1432050-2-iii@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=130.117.225.111;
- envelope-from=andrey.zhadchenko@virtuozzo.com; helo=relay.virtuozzo.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -54,750 +96,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Andrey Zhadchenko <andrey.zhadchenko@virtuozzo.com>
-From:  Andrey Zhadchenko via <qemu-devel@nongnu.org>
 
-Although QEMU virtio is quite fast, there is still some room for
-improvements. Disk latency can be reduced if we handle virito-blk requests
-in host kernel istead of passing them to QEMU. The patch adds vhost-blk
-backend which sets up vhost-blk kernel module to process requests.
+On 10/12/22 22:18, Ilya Leoshkevich wrote:
+> Add ability to dump /tmp/perf-<pid>.map and jit-<pid>.dump.
+> The first one allows the perf tool to map samples to each individual
+> translation block. The second one adds the ability to resolve symbol
+> names, line numbers and inspect JITed code.
+> 
+> Example of use:
+> 
+>      perf record qemu-x86_64 -perfmap ./a.out
+>      perf report
+> 
+> or
+> 
+>      perf record -k 1 qemu-x86_64 -jitdump ./a.out
+>      perf inject -j -i perf.data -o perf.data.jitted
+>      perf report -i perf.data.jitted
+> 
+> Co-developed-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
+> Co-developed-by: Alex Bennée <alex.bennee@linaro.org>
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 
-test setup and results:
-fio --direct=1 --rw=randread  --bs=4k  --ioengine=libaio --iodepth=128
-QEMU drive options: cache=none
-filesystem: xfs
+I think I remember this, and the question that was never answered was:
 
-SSD:
-               | randread, IOPS  | randwrite, IOPS |
-Host           |      95.8k	 |	85.3k	   |
-QEMU virtio    |      61.5k	 |	79.9k	   |
-QEMU vhost-blk |      95.6k	 |	84.3k	   |
+> @@ -1492,6 +1493,8 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+>       }
+>       tb->tc.size = gen_code_size;
+>   
+> +    perf_report_code(gen_code_buf, gen_code_size, tb->icount, tb->pc);
 
-RAMDISK (vq == vcpu == numjobs):
-                 | randread, IOPS | randwrite, IOPS |
-virtio, 1vcpu    |	133k	  |	 133k       |
-virtio, 2vcpu    |	305k	  |	 306k       |
-virtio, 4vcpu    |	310k	  |	 298k       |
-virtio, 8vcpu    |	271k	  |	 252k       |
-vhost-blk, 1vcpu |      110k      |      113k       |
-vhost-blk, 2vcpu |      247k      |      252k       |
-vhost-blk, 4vcpu |      558k      |      556k       |
-vhost-blk, 8vcpu |      576k      |      575k       | *single kernel thread
-vhost-blk, 8vcpu |	803k	  |	 779k       | *two kernel threads
+When do_tb_flush is called, everything that is recorded in perfmap is invalidated.
+How do you tell perf about that?
 
-v2:
- - fix g_new() to g_new0() for vq allocations
- - add multithreading support
- - fix last agrument in vhost_dev_init()
- - kick all vqueues in start, not only the first one
 
-Signed-off-by: Andrey Zhadchenko <andrey.zhadchenko@virtuozzo.com>
----
- hw/block/Kconfig              |   5 +
- hw/block/meson.build          |   4 +
- hw/block/vhost-blk.c          | 403 ++++++++++++++++++++++++++++++++++
- hw/virtio/meson.build         |   3 +
- hw/virtio/vhost-blk-pci.c     | 102 +++++++++
- include/hw/virtio/vhost-blk.h |  52 +++++
- meson.build                   |   6 +
- meson_options.txt             |   2 +
- scripts/meson-buildoptions.sh |   3 +
- 9 files changed, 580 insertions(+)
- create mode 100644 hw/block/vhost-blk.c
- create mode 100644 hw/virtio/vhost-blk-pci.c
- create mode 100644 include/hw/virtio/vhost-blk.h
-
-diff --git a/hw/block/Kconfig b/hw/block/Kconfig
-index 9e8f28f982..b4286ad10e 100644
---- a/hw/block/Kconfig
-+++ b/hw/block/Kconfig
-@@ -36,6 +36,11 @@ config VIRTIO_BLK
-     default y
-     depends on VIRTIO
- 
-+config VHOST_BLK
-+    bool
-+    default y
-+    depends on VIRTIO && LINUX
-+
- config VHOST_USER_BLK
-     bool
-     # Only PCI devices are provided for now
-diff --git a/hw/block/meson.build b/hw/block/meson.build
-index 2389326112..caf9bedff3 100644
---- a/hw/block/meson.build
-+++ b/hw/block/meson.build
-@@ -19,4 +19,8 @@ softmmu_ss.add(when: 'CONFIG_TC58128', if_true: files('tc58128.c'))
- specific_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true: files('virtio-blk.c'))
- specific_ss.add(when: 'CONFIG_VHOST_USER_BLK', if_true: files('vhost-user-blk.c'))
- 
-+if have_vhost_blk
-+  specific_ss.add(files('vhost-blk.c'))
-+endif
-+
- subdir('dataplane')
-diff --git a/hw/block/vhost-blk.c b/hw/block/vhost-blk.c
-new file mode 100644
-index 0000000000..2ebd09299c
---- /dev/null
-+++ b/hw/block/vhost-blk.c
-@@ -0,0 +1,403 @@
-+/*
-+ * Copyright (c) 2022 Virtuozzo International GmbH.
-+ * Author: Andrey Zhadchenko <andrey.zhadchenko@virtuozzo.com>
-+ *
-+ * vhost-blk is host kernel accelerator for virtio-blk.
-+ *
-+ * This work is licensed under the terms of the GNU LGPL, version 2 or later.
-+ * See the COPYING.LIB file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "qemu/error-report.h"
-+#include "qom/object.h"
-+#include "hw/qdev-core.h"
-+#include "hw/boards.h"
-+#include "hw/virtio/vhost.h"
-+#include "hw/virtio/vhost-blk.h"
-+#include "hw/virtio/virtio.h"
-+#include "hw/virtio/virtio-blk.h"
-+#include "hw/virtio/virtio-bus.h"
-+#include "hw/virtio/virtio-access.h"
-+#include "hw/virtio/virtio-pci.h"
-+#include "sysemu/sysemu.h"
-+#include "linux-headers/linux/vhost.h"
-+#include <sys/ioctl.h>
-+#include <linux/fs.h>
-+
-+static int vhost_blk_start(VirtIODevice *vdev)
-+{
-+    VHostBlk *s = VHOST_BLK(vdev);
-+    struct vhost_vring_file backend;
-+    int ret, i, nworkers;
-+    int *fd = blk_bs(s->conf.conf.blk)->file->bs->opaque;
-+    BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
-+    VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
-+
-+    if (!k->set_guest_notifiers) {
-+        error_report("vhost-blk: binding does not support guest notifiers");
-+        return -ENOSYS;
-+    }
-+
-+    if (s->vhost_started) {
-+        return 0;
-+    }
-+
-+    if (ioctl(s->vhostfd, VHOST_SET_OWNER, NULL)) {
-+        error_report("vhost-blk: unable to set owner");
-+        return -ENOSYS;
-+    }
-+
-+    nworkers = s->conf.num_threads;
-+    if (nworkers != 1 && ioctl(s->vhostfd, VHOST_SET_NWORKERS, &nworkers)) {
-+        error_report("vhost-blk: unable to set number of kernel threads");
-+        return -ENOSYS;
-+    }
-+
-+    ret = k->set_guest_notifiers(qbus->parent, s->dev.nvqs, true);
-+    if (ret < 0) {
-+        error_report("vhost-blk: unable to bind guest notifiers");
-+        goto out;
-+    }
-+
-+    ret = vhost_dev_enable_notifiers(&s->dev, vdev);
-+    if (ret < 0) {
-+        error_report("vhost-blk: unable to enable dev notifiers", errno);
-+        return ret;
-+    }
-+
-+    s->dev.acked_features = vdev->guest_features & s->dev.backend_features;
-+
-+    ret = vhost_dev_start(&s->dev, vdev);
-+    if (ret < 0) {
-+        error_report("vhost-blk: unable to start vhost dev");
-+        return ret;
-+    }
-+
-+    memset(&backend, 0, sizeof(backend));
-+    backend.index = 0;
-+    backend.fd = *fd;
-+    if (ioctl(s->vhostfd, VHOST_BLK_SET_BACKEND, &backend)) {
-+        error_report("vhost-blk: unable to set backend");
-+        ret = -errno;
-+        goto out;
-+    }
-+
-+    for (i = 0; i < s->dev.nvqs; i++) {
-+        vhost_virtqueue_mask(&s->dev, vdev, i, false);
-+    }
-+
-+    for (i = 0; i < s->dev.nvqs; i++) {
-+        event_notifier_set(virtio_queue_get_host_notifier(virtio_get_queue(vdev, i)));
-+    }
-+
-+    s->vhost_started = true;
-+
-+    return 0;
-+
-+out:
-+    vhost_dev_stop(&s->dev, vdev);
-+    return ret;
-+
-+}
-+
-+static void vhost_blk_stop(VirtIODevice *vdev)
-+{
-+    BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
-+    VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
-+    VHostBlk *s = VHOST_BLK(vdev);
-+    int ret;
-+
-+    if (!s->vhost_started) {
-+        return;
-+    }
-+
-+    ret = k->set_guest_notifiers(qbus->parent, s->dev.nvqs, false);
-+    if (ret < 0) {
-+        error_report("vhost-blk: unable to unbind guest notifiers");
-+    }
-+    vhost_dev_disable_notifiers(&s->dev, vdev);
-+    vhost_dev_stop(&s->dev, vdev);
-+
-+    s->vhost_started = false;
-+}
-+
-+static void vhost_blk_reset(VirtIODevice *vdev)
-+{
-+    VHostBlk *s = VHOST_BLK(vdev);
-+    int ret;
-+
-+    vhost_blk_stop(vdev);
-+    ret = ioctl(s->vhostfd, VHOST_RESET_OWNER, NULL);
-+    if (ret && errno != EPERM) {
-+            error_report("vhost-blk: failed to reset owner %d", errno);
-+    }
-+}
-+
-+static void vhost_blk_set_status(VirtIODevice *vdev, uint8_t status)
-+{
-+    if (status & (VIRTIO_CONFIG_S_NEEDS_RESET | VIRTIO_CONFIG_S_FAILED)) {
-+        vhost_blk_stop(vdev);
-+        return;
-+    }
-+
-+    if (!(status & VIRTIO_CONFIG_S_DRIVER_OK)) {
-+        return;
-+    }
-+
-+    if (vhost_blk_start(vdev)) {
-+        error_report("vhost-blk: failed to start");
-+    }
-+}
-+
-+static void vhost_blk_handle_output(VirtIODevice *vdev, VirtQueue *vq)
-+{
-+}
-+
-+static void vhost_blk_device_realize(DeviceState *dev, Error **errp)
-+{
-+    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-+    VHostBlk *s = VHOST_BLK(vdev);
-+    VhostBlkConf *conf = &s->conf;
-+    int i, ret;
-+
-+    if (!conf->conf.blk) {
-+        error_setg(errp, "vhost-blk: drive property not set");
-+        return;
-+    }
-+
-+    if (!blk_is_inserted(conf->conf.blk)) {
-+        error_setg(errp, "vhost-blk: device needs media, but drive is empty");
-+        return;
-+    }
-+
-+    if (conf->num_queues == VHOST_BLK_AUTO_NUM_QUEUES) {
-+        conf->num_queues = MIN(virtio_pci_optimal_num_queues(0),
-+                               VHOST_BLK_MAX_QUEUES);
-+    }
-+
-+    if (!conf->num_queues) {
-+        error_setg(errp, "vhost-blk: num-queues property must be larger than 0");
-+        return;
-+    }
-+
-+    if (conf->queue_size <= 2) {
-+        error_setg(errp, "vhost-blk: invalid queue-size property (%" PRIu16 "), "
-+                   "must be > 2", conf->queue_size);
-+        return;
-+    }
-+
-+    if (!is_power_of_2(conf->queue_size) ||
-+        conf->queue_size > VIRTQUEUE_MAX_SIZE) {
-+        error_setg(errp, "vhost_blk: invalid queue-size property (%" PRIu16 "), "
-+                   "must be a power of 2 (max %d)",
-+                   conf->queue_size, VIRTQUEUE_MAX_SIZE);
-+        return;
-+    }
-+
-+    if (!blkconf_apply_backend_options(&conf->conf,
-+                                       !blk_supports_write_perm(conf->conf.blk),
-+                                       true, errp)) {
-+        return;
-+    }
-+
-+    if (!blkconf_geometry(&conf->conf, NULL, 65535, 255, 255, errp)) {
-+        return;
-+    }
-+
-+    if (!blkconf_blocksizes(&conf->conf, errp)) {
-+        return;
-+    }
-+
-+    s->dev.nvqs = conf->num_queues;
-+    s->dev.max_queues = conf->num_queues;
-+    s->dev.vqs = g_new0(struct vhost_virtqueue, s->dev.nvqs);
-+    s->dev.vq_index = 0;
-+
-+    virtio_init(vdev, VIRTIO_ID_BLOCK, sizeof(struct virtio_blk_config));
-+
-+    for (i = 0; i < conf->num_queues; i++) {
-+        virtio_add_queue(vdev, conf->queue_size, vhost_blk_handle_output);
-+    }
-+
-+    s->vhostfd = open("/dev/vhost-blk", O_RDWR);
-+    if (s->vhostfd < 0) {
-+        error_setg(errp, "vhost-blk: unable to open /dev/vhost-blk");
-+        goto cleanup;
-+    }
-+
-+    s->dev.acked_features = 0;
-+    ret = ioctl(s->vhostfd, VHOST_GET_FEATURES, &s->dev.backend_features);
-+    if (ret < 0) {
-+        error_setg(errp, "vhost-blk: unable to get backend features");
-+        goto cleanup;
-+    }
-+
-+    ret = vhost_dev_init(&s->dev, (void *)((size_t)s->vhostfd),
-+                         VHOST_BACKEND_TYPE_KERNEL, 0, NULL);
-+    if (ret < 0) {
-+        error_setg(errp, "vhost-blk: vhost initialization failed: %s",
-+                strerror(-ret));
-+        goto cleanup;
-+    }
-+
-+    return;
-+
-+cleanup:
-+    g_free(s->dev.vqs);
-+    close(s->vhostfd);
-+    for (i = 0; i < conf->num_queues; i++) {
-+        virtio_del_queue(vdev, i);
-+    }
-+    virtio_cleanup(vdev);
-+    return;
-+}
-+
-+static void vhost_blk_device_unrealize(DeviceState *dev)
-+{
-+    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-+    VHostBlk *s = VHOST_BLK(dev);
-+
-+    vhost_blk_set_status(vdev, 0);
-+    vhost_dev_cleanup(&s->dev);
-+    g_free(s->dev.vqs);
-+    virtio_cleanup(vdev);
-+}
-+
-+static const int user_feature_bits[] = {
-+    VIRTIO_BLK_F_FLUSH,
-+    VIRTIO_RING_F_INDIRECT_DESC,
-+    VIRTIO_RING_F_EVENT_IDX,
-+    VHOST_INVALID_FEATURE_BIT
-+};
-+
-+
-+static uint64_t vhost_blk_get_features(VirtIODevice *vdev,
-+                                            uint64_t features,
-+                                            Error **errp)
-+{
-+    VHostBlk *s = VHOST_BLK(vdev);
-+    uint64_t res;
-+
-+    features |= s->host_features;
-+
-+    virtio_add_feature(&features, VIRTIO_BLK_F_BLK_SIZE);
-+    virtio_add_feature(&features, VIRTIO_BLK_F_SEG_MAX);
-+    virtio_add_feature(&features, VIRTIO_BLK_F_GEOMETRY);
-+    virtio_add_feature(&features, VIRTIO_BLK_F_TOPOLOGY);
-+    virtio_add_feature(&features, VIRTIO_BLK_F_SIZE_MAX);
-+
-+    virtio_add_feature(&features, VIRTIO_F_VERSION_1);
-+
-+    if (!blk_is_writable(s->conf.conf.blk)) {
-+        virtio_add_feature(&features, VIRTIO_BLK_F_RO);
-+    }
-+
-+    if (s->conf.num_queues > 1) {
-+        virtio_add_feature(&features, VIRTIO_BLK_F_MQ);
-+    }
-+
-+    res = vhost_get_features(&s->dev, user_feature_bits, features);
-+
-+    return res;
-+}
-+
-+static void vhost_blk_update_config(VirtIODevice *vdev, uint8_t *config)
-+{
-+    VHostBlk *s = VHOST_BLK(vdev);
-+    BlockConf *conf = &s->conf.conf;
-+    struct virtio_blk_config blkcfg;
-+    uint64_t capacity;
-+    int64_t length;
-+    int blk_size = conf->logical_block_size;
-+
-+    blk_get_geometry(s->conf.conf.blk, &capacity);
-+    memset(&blkcfg, 0, sizeof(blkcfg));
-+    virtio_stq_p(vdev, &blkcfg.capacity, capacity);
-+    virtio_stl_p(vdev, &blkcfg.seg_max, s->conf.queue_size - 2);
-+    virtio_stw_p(vdev, &blkcfg.geometry.cylinders, conf->cyls);
-+    virtio_stl_p(vdev, &blkcfg.blk_size, blk_size);
-+    blkcfg.geometry.heads = conf->heads;
-+
-+    length = blk_getlength(s->conf.conf.blk);
-+    if (length > 0 && length / conf->heads / conf->secs % blk_size) {
-+        unsigned short mask;
-+
-+        mask = (s->conf.conf.logical_block_size / BDRV_SECTOR_SIZE) - 1;
-+        blkcfg.geometry.sectors = conf->secs & ~mask;
-+    } else {
-+        blkcfg.geometry.sectors = conf->secs;
-+    }
-+
-+    blkcfg.size_max = 0;
-+    blkcfg.physical_block_exp = get_physical_block_exp(conf);
-+    blkcfg.alignment_offset = 0;
-+    virtio_stw_p(vdev, &blkcfg.num_queues, s->conf.num_queues);
-+
-+    memcpy(config, &blkcfg, sizeof(struct virtio_blk_config));
-+}
-+
-+static Property vhost_blk_properties[] = {
-+    DEFINE_BLOCK_PROPERTIES(VHostBlk, conf.conf),
-+    DEFINE_PROP_UINT16("num-queues", VHostBlk, conf.num_queues,
-+                       VHOST_BLK_AUTO_NUM_QUEUES),
-+    DEFINE_PROP_UINT16("queue-size", VHostBlk, conf.queue_size, 256),
-+    DEFINE_PROP_UINT16("num-threads", VHostBlk, conf.num_threads, 1),
-+/* Discard and write-zeroes not yet implemented in kernel module */
-+    DEFINE_PROP_BIT64("discard", VHostBlk, host_features,
-+                      VIRTIO_BLK_F_DISCARD, false),
-+    DEFINE_PROP_BIT64("write-zeroes", VHostBlk, host_features,
-+                      VIRTIO_BLK_F_WRITE_ZEROES, false),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static const VMStateDescription vmstate_vhost_blk = {
-+    .name = "vhost-blk",
-+    .minimum_version_id = 1,
-+    .version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_VIRTIO_DEVICE,
-+        VMSTATE_END_OF_LIST()
-+    },
-+};
-+
-+static void vhost_blk_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    VirtioDeviceClass *vdc = VIRTIO_DEVICE_CLASS(klass);
-+
-+    device_class_set_props(dc, vhost_blk_properties);
-+    dc->vmsd = &vmstate_vhost_blk;
-+    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-+    vdc->realize = vhost_blk_device_realize;
-+    vdc->unrealize = vhost_blk_device_unrealize;
-+    vdc->get_config = vhost_blk_update_config;
-+    vdc->get_features = vhost_blk_get_features;
-+    vdc->set_status = vhost_blk_set_status;
-+    vdc->reset = vhost_blk_reset;
-+}
-+
-+static void vhost_blk_instance_init(Object *obj)
-+{
-+    VHostBlk *s = VHOST_BLK(obj);
-+
-+    device_add_bootindex_property(obj, &s->conf.conf.bootindex,
-+                                  "bootindex", "/disk@0,0",
-+                                  DEVICE(obj));
-+}
-+
-+static const TypeInfo vhost_blk_info = {
-+    .name = TYPE_VHOST_BLK,
-+    .parent = TYPE_VIRTIO_DEVICE,
-+    .instance_size = sizeof(VHostBlk),
-+    .instance_init = vhost_blk_instance_init,
-+    .class_init = vhost_blk_class_init,
-+};
-+
-+static void virtio_register_types(void)
-+{
-+    type_register_static(&vhost_blk_info);
-+}
-+
-+type_init(virtio_register_types)
-diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-index 7e8877fd64..fb2c0e7242 100644
---- a/hw/virtio/meson.build
-+++ b/hw/virtio/meson.build
-@@ -40,6 +40,9 @@ virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_RNG', if_true: files('vhost-user-rng-
- virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_SCSI', if_true: files('vhost-user-scsi-pci.c'))
- virtio_pci_ss.add(when: 'CONFIG_VHOST_SCSI', if_true: files('vhost-scsi-pci.c'))
- virtio_pci_ss.add(when: 'CONFIG_VHOST_USER_FS', if_true: files('vhost-user-fs-pci.c'))
-+if have_vhost_blk
-+  virtio_ss.add(files('vhost-blk-pci.c'))
-+endif
- 
- virtio_pci_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('virtio-crypto-pci.c'))
- virtio_pci_ss.add(when: 'CONFIG_VIRTIO_INPUT_HOST', if_true: files('virtio-input-host-pci.c'))
-diff --git a/hw/virtio/vhost-blk-pci.c b/hw/virtio/vhost-blk-pci.c
-new file mode 100644
-index 0000000000..f3b6e112b4
---- /dev/null
-+++ b/hw/virtio/vhost-blk-pci.c
-@@ -0,0 +1,102 @@
-+/*
-+ * Copyright (c) 2022 Virtuozzo International GmbH.
-+ * Author: Andrey Zhadchenko <andrey.zhadchenko@virtuozzo.com>
-+ *
-+ * vhost-blk PCI bindings
-+ *
-+ * This work is licensed under the terms of the GNU LGPL, version 2 or later.
-+ * See the COPYING.LIB file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include "standard-headers/linux/virtio_pci.h"
-+#include "hw/virtio/virtio.h"
-+#include "hw/virtio/vhost-blk.h"
-+#include "hw/pci/pci.h"
-+#include "hw/qdev-properties.h"
-+#include "qapi/error.h"
-+#include "qemu/error-report.h"
-+#include "qemu/module.h"
-+#include "hw/virtio/virtio-pci.h"
-+#include "qom/object.h"
-+
-+typedef struct VHostBlkPCI VHostBlkPCI;
-+
-+/*
-+ * vhost-blk-pci: This extends VirtioPCIProxy.
-+ */
-+#define TYPE_VHOST_BLK_PCI "vhost-blk-pci-base"
-+DECLARE_INSTANCE_CHECKER(VHostBlkPCI, VHOST_BLK_PCI,
-+                         TYPE_VHOST_BLK_PCI)
-+
-+struct VHostBlkPCI {
-+    VirtIOPCIProxy parent_obj;
-+    VHostBlk vdev;
-+};
-+
-+static Property vhost_blk_pci_properties[] = {
-+    DEFINE_PROP_UINT32("class", VirtIOPCIProxy, class_code, 0),
-+    DEFINE_PROP_UINT32("vectors", VirtIOPCIProxy, nvectors,
-+                       DEV_NVECTORS_UNSPECIFIED),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void vhost_blk_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-+{
-+    VHostBlkPCI *dev = VHOST_BLK_PCI(vpci_dev);
-+    DeviceState *vdev = DEVICE(&dev->vdev);
-+
-+    if (dev->vdev.conf.num_queues == VHOST_BLK_AUTO_NUM_QUEUES) {
-+        dev->vdev.conf.num_queues = MIN(virtio_pci_optimal_num_queues(0),
-+                                        VHOST_BLK_MAX_QUEUES);
-+    }
-+
-+    if (vpci_dev->nvectors == DEV_NVECTORS_UNSPECIFIED) {
-+        vpci_dev->nvectors = dev->vdev.conf.num_queues + 1;
-+    }
-+
-+    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
-+}
-+
-+static void vhost_blk_pci_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    VirtioPCIClass *k = VIRTIO_PCI_CLASS(klass);
-+    PCIDeviceClass *pcidev_k = PCI_DEVICE_CLASS(klass);
-+
-+    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-+    device_class_set_props(dc, vhost_blk_pci_properties);
-+    k->realize = vhost_blk_pci_realize;
-+    pcidev_k->vendor_id = PCI_VENDOR_ID_REDHAT_QUMRANET;
-+    pcidev_k->device_id = PCI_DEVICE_ID_VIRTIO_BLOCK;
-+    pcidev_k->revision = VIRTIO_PCI_ABI_VERSION;
-+    pcidev_k->class_id = PCI_CLASS_STORAGE_SCSI;
-+}
-+
-+static void vhost_blk_pci_instance_init(Object *obj)
-+{
-+    VHostBlkPCI *dev = VHOST_BLK_PCI(obj);
-+
-+    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
-+                                TYPE_VHOST_BLK);
-+    object_property_add_alias(obj, "bootindex", OBJECT(&dev->vdev),
-+                              "bootindex");
-+}
-+
-+static const VirtioPCIDeviceTypeInfo vhost_blk_pci_info = {
-+    .base_name               = TYPE_VHOST_BLK_PCI,
-+    .generic_name            = "vhost-blk-pci",
-+    .transitional_name       = "vhost-blk-pci-transitional",
-+    .non_transitional_name   = "vhost-blk-pci-non-transitional",
-+    .instance_size  = sizeof(VHostBlkPCI),
-+    .instance_init  = vhost_blk_pci_instance_init,
-+    .class_init     = vhost_blk_pci_class_init,
-+};
-+
-+static void vhost_blk_pci_register(void)
-+{
-+    virtio_pci_types_register(&vhost_blk_pci_info);
-+}
-+
-+type_init(vhost_blk_pci_register)
-diff --git a/include/hw/virtio/vhost-blk.h b/include/hw/virtio/vhost-blk.h
-new file mode 100644
-index 0000000000..58f847077d
---- /dev/null
-+++ b/include/hw/virtio/vhost-blk.h
-@@ -0,0 +1,52 @@
-+/*
-+ * Copyright (c) 2022 Virtuozzo International GmbH.
-+ * Author: Andrey Zhadchenko <andrey.zhadchenko@virtuozzo.com>
-+ *
-+ * vhost-blk is host kernel accelerator for virtio-blk.
-+ *
-+ * This work is licensed under the terms of the GNU LGPL, version 2 or later.
-+ * See the COPYING.LIB file in the top-level directory.
-+ */
-+
-+#ifndef VHOST_BLK_H
-+#define VHOST_BLK_H
-+
-+#include "standard-headers/linux/virtio_blk.h"
-+#include "hw/block/block.h"
-+#include "hw/virtio/vhost.h"
-+#include "sysemu/block-backend.h"
-+
-+#define TYPE_VHOST_BLK "vhost-blk"
-+#define VHOST_BLK(obj) \
-+        OBJECT_CHECK(VHostBlk, (obj), TYPE_VHOST_BLK)
-+
-+#define VHOST_BLK_AUTO_NUM_QUEUES UINT16_MAX
-+#define VHOST_BLK_MAX_QUEUES 16
-+
-+/*
-+ * normally should be visible from imported headers
-+ * temporary define here to simplify development
-+ */
-+#define VHOST_BLK_SET_BACKEND          _IOW(VHOST_VIRTIO, 0xFF, \
-+                                            struct vhost_vring_file)
-+#define VHOST_SET_NWORKERS             _IOW(VHOST_VIRTIO, 0x1F, int)
-+
-+typedef struct VhostBlkConf {
-+    BlockConf conf;
-+    uint16_t num_queues;
-+    uint16_t queue_size;
-+    uint16_t num_threads;
-+} VhostBlkConf;
-+
-+typedef struct VHostBlk {
-+    VirtIODevice parent_obj;
-+    VhostBlkConf conf;
-+    uint64_t host_features;
-+    uint64_t decided_features;
-+    struct virtio_blk_config blkcfg;
-+    int vhostfd;
-+    struct vhost_dev dev;
-+    bool vhost_started;
-+} VHostBlk;
-+
-+#endif
-diff --git a/meson.build b/meson.build
-index 8a8c415fc1..886b778079 100644
---- a/meson.build
-+++ b/meson.build
-@@ -336,6 +336,9 @@ have_vhost_kernel = get_option('vhost_kernel') \
- have_vhost_user_crypto = get_option('vhost_crypto') \
-   .require(have_vhost_user,
-            error_message: 'vhost-crypto requires vhost-user to be enabled').allowed()
-+have_vhost_blk = get_option('vhost_blk') \
-+  .require(targetos == 'linux',
-+           error_message: 'vhost-kernel is only available on Linux').allowed()
- 
- have_vhost = have_vhost_user or have_vhost_vdpa or have_vhost_kernel
- 
-@@ -1814,6 +1817,7 @@ config_host_data.set('CONFIG_VHOST_KERNEL', have_vhost_kernel)
- config_host_data.set('CONFIG_VHOST_USER', have_vhost_user)
- config_host_data.set('CONFIG_VHOST_CRYPTO', have_vhost_user_crypto)
- config_host_data.set('CONFIG_VHOST_VDPA', have_vhost_vdpa)
-+config_host_data.set('CONFIG_VHOST_BLK', have_vhost_blk)
- config_host_data.set('CONFIG_VMNET', vmnet.found())
- config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
- config_host_data.set('CONFIG_VDUSE_BLK_EXPORT', have_vduse_blk_export)
-@@ -2421,6 +2425,7 @@ host_kconfig = \
-   (x11.found() ? ['CONFIG_X11=y'] : []) + \
-   (have_vhost_user ? ['CONFIG_VHOST_USER=y'] : []) + \
-   (have_vhost_vdpa ? ['CONFIG_VHOST_VDPA=y'] : []) + \
-+  (have_vhost_blk ? ['CONFIG_VHOST_BLK=y'] : []) + \
-   (have_vhost_kernel ? ['CONFIG_VHOST_KERNEL=y'] : []) + \
-   (have_virtfs ? ['CONFIG_VIRTFS=y'] : []) + \
-   ('CONFIG_LINUX' in config_host ? ['CONFIG_LINUX=y'] : []) + \
-@@ -3756,6 +3761,7 @@ summary_info += {'vhost-user support': have_vhost_user}
- summary_info += {'vhost-user-crypto support': have_vhost_user_crypto}
- summary_info += {'vhost-user-blk server support': have_vhost_user_blk_server}
- summary_info += {'vhost-vdpa support': have_vhost_vdpa}
-+summary_info += {'vhost-blk support': have_vhost_blk}
- summary_info += {'build guest agent': have_ga}
- summary(summary_info, bool_yn: true, section: 'Configurable features')
- 
-diff --git a/meson_options.txt b/meson_options.txt
-index e58e158396..277bd49525 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -251,6 +251,8 @@ option('vhost_crypto', type: 'feature', value: 'auto',
-        description: 'vhost-user crypto backend support')
- option('vhost_vdpa', type: 'feature', value: 'auto',
-        description: 'vhost-vdpa kernel backend support')
-+option('vhost_blk', type: 'feature', value: 'auto',
-+       description: 'vhost-blk kernel backend support')
- option('vhost_user_blk_server', type: 'feature', value: 'auto',
-        description: 'build vhost-user-blk server')
- option('virtfs', type: 'feature', value: 'auto',
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index 359b04e0e6..94afde8f6b 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -156,6 +156,7 @@ meson_options_help() {
-   printf "%s\n" '  vdi             vdi image format support'
-   printf "%s\n" '  vfio-user-server'
-   printf "%s\n" '                  vfio-user server support'
-+  printf "%s\n" '  vhost-blk       vhost-blk kernel backend support'
-   printf "%s\n" '  vhost-crypto    vhost-user crypto backend support'
-   printf "%s\n" '  vhost-kernel    vhost kernel backend support'
-   printf "%s\n" '  vhost-net       vhost-net kernel acceleration support'
-@@ -424,6 +425,8 @@ _meson_option_parse() {
-     --disable-vdi) printf "%s" -Dvdi=disabled ;;
-     --enable-vfio-user-server) printf "%s" -Dvfio_user_server=enabled ;;
-     --disable-vfio-user-server) printf "%s" -Dvfio_user_server=disabled ;;
-+    --enable-vhost-blk) printf "%s" -Dvhost_blk=enabled ;;
-+    --disable-vhost-blk) printf "%s" -Dvhost_blk=disabled ;;
-     --enable-vhost-crypto) printf "%s" -Dvhost_crypto=enabled ;;
-     --disable-vhost-crypto) printf "%s" -Dvhost_crypto=disabled ;;
-     --enable-vhost-kernel) printf "%s" -Dvhost_kernel=enabled ;;
--- 
-2.31.1
+r~
 
 
