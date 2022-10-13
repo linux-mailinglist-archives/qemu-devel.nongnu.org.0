@@ -2,95 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8677B5FDD5E
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 17:44:33 +0200 (CEST)
-Received: from localhost ([::1]:48394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02C855FDD96
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 17:53:14 +0200 (CEST)
+Received: from localhost ([::1]:52590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj0Ns-0003ZI-ER
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 11:44:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57878)
+	id 1oj0WE-0003O9-Qy
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 11:53:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oj0Ke-0008NO-7w
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 11:41:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57757)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oj0Ka-0005kY-PH
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 11:41:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665675668;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PG93ggOtJmIXOV/xHvBiK06/sv7Beq9bICgdpukDh1k=;
- b=ZMz2evkLVPdw2sYEe4CXGaS9lJ4S8SY3X998sS6ilp2OZcmjXGk5nZfSJL1vki7CowJJGL
- QB54ZJNp8LSfUN6xNgPuCWzcP+shV52XkMXfavU+qH9j2CkuPSul3PG1t+bYLrbQr4DXod
- iOwFM4jwI7SHKboVhJitUmP6gBxQB1w=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-116-a-Nz-Tf5NumBhIcdgKhIVw-1; Thu, 13 Oct 2022 11:41:06 -0400
-X-MC-Unique: a-Nz-Tf5NumBhIcdgKhIVw-1
-Received: by mail-ej1-f71.google.com with SMTP id
- dt13-20020a170907728d00b007825956d979so1097811ejc.15
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 08:41:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oj0QS-00063n-Gw
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 11:47:12 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:36706)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oj0QQ-0006nh-92
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 11:47:12 -0400
+Received: by mail-wr1-x430.google.com with SMTP id j7so3501357wrr.3
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 08:47:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=s9tLEkGMjx+LeRH2K1bXF7eut3rxyi+ihNtthl4Zd5o=;
+ b=nkQI8G3be+0K6dP7DRKs4rH4rDiNECC0S+1S9GwSa2u6ef/th9+UWAQMnibxL4Ddpr
+ X/naGim0Lnmsz82U+hYbs3ds0HxcIkrGT+3lLdUpHRLp8gBKtjl5qIRf/QF90P84rQfW
+ Po2CjSuf0aPwkf8/f+xM7ZjhU7wgTpNR2V79QaFrnGJZxwItF+v6pG+kr1Xp1YV+7Rtu
+ Gs6iG9w0ZJ8tm4rHKBYq3Symm0hcu/qv7Zw0k2Dufxr9uywa6Oc5PFtbJQpcNp/5wqST
+ gqjZibEU8y/+87HW3/KHOwmABpXpUmBvfuAwONNe/W3yOrwo1KB48ihQS3pkBlr259UC
+ AFIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PG93ggOtJmIXOV/xHvBiK06/sv7Beq9bICgdpukDh1k=;
- b=qAjEwiz2rUXnS38uRBgrFkCH9GaDUG1lIkpBVEoz7I1/xgjSe7IjX9m1ym9b0ZkWAS
- s6cVtFm77+BdBGzxuMim27w0p0pZHDs3KST9bNhOShlS2u2503Opxo4t9M+QWOxu0JIj
- uUuljkivHsq5JA9p7xyqU3yd7DF2UyGaDdzMv8o7qFRhOoX23Z+qZdKAqkw66Z3Nlnpj
- W2ryFP+6itX/300tuFPlXYgegIsziK4WFU1W4456+JfkhSMlQ6VQvYWUgz3mxL/vLcUY
- Ml0sbS4W5CdxNMxXamxLoVQ/sxFNYBMxd7Me39Ro5muMBw+wrbMfPUsZDDb5mEGKCRmJ
- dmkA==
-X-Gm-Message-State: ACrzQf0ZJzz0ST11qD6LYSdyNKkyeHoLaERxPF7QizdR2AXRUCSRJzED
- 0H4WQn7wZyyT1PQH4r190aLejFD+N0OITaROznrwfE4S64+S82cX8Q8xwPV3FRaId/9RK5W+n5h
- T6LSCplahB/UxRyI=
-X-Received: by 2002:a17:907:9707:b0:78d:45d1:487e with SMTP id
- jg7-20020a170907970700b0078d45d1487emr271841ejc.566.1665675665258; 
- Thu, 13 Oct 2022 08:41:05 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7uHkpp4g2IWAB4YHg0019Yq9pXWCg9kmrATKDwVCCnmCr+V7YEFDJUhhATEx8oqeSHjTrgbQ==
-X-Received: by 2002:a17:907:9707:b0:78d:45d1:487e with SMTP id
- jg7-20020a170907970700b0078d45d1487emr271829ejc.566.1665675665020; 
- Thu, 13 Oct 2022 08:41:05 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
- ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.googlemail.com with ESMTPSA id
- k13-20020a17090627cd00b0077826b92d99sm57922ejc.12.2022.10.13.08.41.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Oct 2022 08:41:04 -0700 (PDT)
-Message-ID: <ae19fc6f-7ff8-87a7-345e-38c0e864f9d1@redhat.com>
-Date: Thu, 13 Oct 2022 17:41:03 +0200
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=s9tLEkGMjx+LeRH2K1bXF7eut3rxyi+ihNtthl4Zd5o=;
+ b=6bibk1D3zZ8dzRgq4RigyLT89TEDTG1S/SyuKS9oIbEJ5K35FX32Avi5Ymp5YJtg/5
+ gjCBEIuvtmy7McsVBrLcfvoEsRxfDn047khQYrUY72PqvgGUYARIp6N21XnVsDD/4JXa
+ LLflnHD1mRvxyB5LQqwjwZHonc3MObZtXXM/vIJgZtrjN38os4VfBgnIWqTv3rI5kcFu
+ Htchu6uCnIN1ZQFbWAdkL9YnJ7l5VktHjgH0hmKYnOjCkbRFZwne2g7QX1e27wBtjENR
+ dITjkyfKhMZY3vGTWTaDXwC7L6b4ycUYvb+BrKSSYr+eH3tJaDen7uytrf8M79qJfkND
+ tVXg==
+X-Gm-Message-State: ACrzQf2EnVwA+wr3oa1L9KRXXo3sWvT91B1AFXDxl2SZQ/Rt+SzTM/hA
+ YgSyINhLUFxAb43vKLz7KbfwqQ==
+X-Google-Smtp-Source: AMsMyM53QrpIprRhvx1VpQX3RfgaHUUQeik0pwMEaHmRtCLHVb/sZCoq0lOtaPZEaACaJsoPT6/oOQ==
+X-Received: by 2002:adf:f2c8:0:b0:22e:223a:330e with SMTP id
+ d8-20020adff2c8000000b0022e223a330emr443614wrp.8.1665676027712; 
+ Thu, 13 Oct 2022 08:47:07 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ j12-20020a05600c190c00b003a601a1c2f7sm5101579wmq.19.2022.10.13.08.47.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Oct 2022 08:47:07 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 892251FFB7;
+ Thu, 13 Oct 2022 16:47:05 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
+ pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH  v2 0/7] testing/next (configure, RUNC, win32|64)
+Date: Thu, 13 Oct 2022 16:46:58 +0100
+Message-Id: <20221013154705.1846261-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH] blkdebug: ignore invalid rules in non-coroutine context
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, qemu-block@nongnu.org
-References: <20221013093523.586361-1-pbonzini@redhat.com>
- <87a660yosv.fsf@pond.sub.org>
- <a6e941b0-ce20-916b-7ea1-d575056d8282@redhat.com>
- <878rljyhs4.fsf@pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <878rljyhs4.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.25, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,34 +93,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/13/22 15:28, Markus Armbruster wrote:
-> Let's have another look at the remaining patch hunk:
-> 
->      @@ -858,7 +864,12 @@ static void blkdebug_debug_event(BlockDriverState *bs, BlkdebugEvent event)
->           }
-> 
->           while (actions_count[ACTION_SUSPEND] > 0) {
->      -        qemu_coroutine_yield();
->      +        if (qemu_in_coroutine()) {
->      +            qemu_coroutine_yield();
->      +        } else {
->      +            error_report("Non-coroutine event %s cannot suspend\n",
->      +                         BlkdebugEvent_lookup.array[event]);
->      +        }
->               actions_count[ACTION_SUSPEND]--;
->           }
->       }
-> 
-> If I understand this correctly, the user asked us to suspend, but it now
-> turns out suspend doesn't make sense, so we ignore the request.
-> Correct?
+Hi,
 
-Yes.
+OK back to hopefully a less hectic set of testing updates. This
+includes a number of patches from the last iteration and also an
+attempt to avoid using docker.py for the builds and instead call the
+container engine directly.
 
-> warn_report()?  info_report()?
+I've actually pushed the results of:
 
-Sure, warn_report() can work too.
+  make docker-image-debian-hexagon-cross V=1 NOCACHE=1 NOUSER=1
+  docker tag qemu/debian-hexagon-cross:latest registry.gitlab.com/qemu-project/qemu/qemu/debian-hexagon-cross
+  docker push registry.gitlab.com/qemu-project/qemu/qemu/debian-hexagon-cross
 
-Paolo
+but sadly the build attempts to regenerate the container locally
+(rather than caching all the steps except the last).
+
+Please review.
+
+
+Alex Bennée (6):
+  tests/docker: update fedora-win[32|64]-cross with lcitool
+  tests/docker: update test-mingw to run single build
+  configure: don't enable cross compilers unless in target_list
+  configure: fix the --enable-static --disable-pie case
+  configure: expose the direct container command
+  tests/docker: use direct RUNC call in debian-toolchain
+
+Anton Johansson (1):
+  tests/docker: Add flex/bison to `debian-all-test`
+
+ configure                                     |  13 +-
+ tests/docker/Makefile.include                 |  38 +--
+ tests/docker/dockerfiles/alpine.docker        |   2 +-
+ tests/docker/dockerfiles/centos8.docker       |   2 +-
+ .../dockerfiles/debian-all-test-cross.docker  |   2 +
+ .../dockerfiles/debian-amd64-cross.docker     | 234 ++++++++---------
+ tests/docker/dockerfiles/debian-amd64.docker  | 236 +++++++++---------
+ .../dockerfiles/debian-arm64-cross.docker     | 232 ++++++++---------
+ .../dockerfiles/debian-armel-cross.docker     | 230 ++++++++---------
+ .../dockerfiles/debian-armhf-cross.docker     | 232 ++++++++---------
+ .../dockerfiles/debian-hexagon-cross.docker   |   5 +
+ .../dockerfiles/debian-mips64el-cross.docker  | 226 ++++++++---------
+ .../dockerfiles/debian-mipsel-cross.docker    | 226 ++++++++---------
+ .../dockerfiles/debian-ppc64el-cross.docker   | 230 ++++++++---------
+ .../dockerfiles/debian-s390x-cross.docker     | 228 ++++++++---------
+ .../dockerfiles/debian-toolchain.docker       |   5 +
+ .../dockerfiles/fedora-win32-cross.docker     | 139 ++++++++---
+ .../dockerfiles/fedora-win64-cross.docker     | 138 +++++++---
+ tests/docker/dockerfiles/fedora.docker        | 230 ++++++++---------
+ tests/docker/dockerfiles/opensuse-leap.docker |   2 +-
+ tests/docker/dockerfiles/ubuntu2004.docker    | 234 ++++++++---------
+ tests/docker/test-mingw                       |  16 +-
+ tests/lcitool/libvirt-ci                      |   2 +-
+ tests/lcitool/refresh                         |  48 ++--
+ 24 files changed, 1549 insertions(+), 1401 deletions(-)
+
+-- 
+2.34.1
 
 
