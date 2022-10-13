@@ -2,61 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E588D5FDEC5
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 19:17:24 +0200 (CEST)
-Received: from localhost ([::1]:35670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C1075FDED7
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 19:21:37 +0200 (CEST)
+Received: from localhost ([::1]:57166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj1pk-0007H4-1l
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 13:17:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52868)
+	id 1oj1tn-0001cC-Vh
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 13:21:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1oj1mR-0004yr-1T
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 13:13:59 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2743)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1oj1mM-00052B-Vk
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 13:13:58 -0400
-Received: from fraeml735-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4MpGKR538vz67GTC;
- Fri, 14 Oct 2022 01:12:11 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml735-chm.china.huawei.com (10.206.15.216) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 13 Oct 2022 19:13:47 +0200
-Received: from localhost (10.202.226.42) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 13 Oct
- 2022 18:13:46 +0100
-Date: Thu, 13 Oct 2022 18:13:45 +0100
-To: Gregory Price <gregory.price@memverge.com>
-CC: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Ben Widawsky
- <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>, Huai-Cheng Kuo
- <hchkuo@avery-design.com.tw>, Chris Browy <cbrowy@avery-design.com>,
- <ira.weiny@intel.com>, <linuxarm@huawei.com>
-Subject: Re: [PATCH v8 4/5] hw/mem/cxl-type3: Add CXL CDAT Data Object Exchange
-Message-ID: <20221013181345.0000630a@huawei.com>
-In-Reply-To: <Y0g8UgumJwqU4QyB@memverge.com>
-References: <20221013120009.15541-1-Jonathan.Cameron@huawei.com>
- <20221013120009.15541-5-Jonathan.Cameron@huawei.com>
- <Y0g8UgumJwqU4QyB@memverge.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oj1qh-0007RO-T8
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 13:18:29 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:38869)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oj1qf-0005g1-SA
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 13:18:23 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ r8-20020a1c4408000000b003c47d5fd475so3720052wma.3
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 10:18:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=UFxWRmJrq4zBwXzsWUnNv0z8VgSCJCrMWgJTtg9fkHU=;
+ b=m338Pnjd0w+xiDMtRaxE5ZPJ/0IH0XeMrkLSTjyfULJ8+55c1ZvnQnWlDTIVVxJt/J
+ QVxLfgZ0Goyp8OA62hWCLuSOAAZ1/yF8URUOMQEwEN1rGA4oUxP7cRHVaGJnCzqEt13t
+ LmzKV6CCDg96BuIMDvc12dyRJ720mWR3Dv0bnKBRj/wIM2gX+B/uIfBITm5ScnG2Sc9G
+ /v5wr18k/IuGVvLOKxYTBMV+HwYeMA8DN3pC2/qodyXmy5A02HC91MYWYDZTTY1hgVs9
+ Vbp6sPTmL+6affTTLhq1DhA0FDbcfIawtDYbV81HW8WnJR61l4vT6X6kkl1LGbfXKi7I
+ HfbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UFxWRmJrq4zBwXzsWUnNv0z8VgSCJCrMWgJTtg9fkHU=;
+ b=X7hGUaeFzJMyAou2RQICyx9BnDorKrzK9MOYpOE9Lz4PdSyk8s7iIxJ3kpDRCBRyPd
+ bz1HpshXvUbOKMOgSS49xbIT2HbcBDkrvN0MduB1gbxYO+dx4jaTyLmJpcx4geKnQhdc
+ DjC5p/xK5cSlrHNrm3FDli+P1oLTOvhmhqQQWnt946dXxvhm9ZPUzijAm4BlhLers1LF
+ b0SqnlYbeEiJgf2MfwoGC/zFZxMoXfLFF3Z6+JWVN3ixWQe3esOKCZjbdYcL1xxMdZKf
+ ylyX/UtZsz/yMr8et2cjrPlf5OaJm2xMSmDI0KSp45iOjpXIoLLMYLRq8Nk0WBLxVC0r
+ ev1g==
+X-Gm-Message-State: ACrzQf1kb+GeVn/wW+5dI4JgxUmmTrLS0sc0KDliqumxaQYILfkbsDz+
+ T/ffk2/QGEyOp4HNpki6OjrVep9Sjmcf7g==
+X-Google-Smtp-Source: AMsMyM7evREjWEwH3rOSbgjnogOCjR58GIgkxINK0AF3rggTFYD2musEesoWKNq210d0CLSNPtBp1g==
+X-Received: by 2002:a05:600c:458d:b0:3c3:bf4e:5c60 with SMTP id
+ r13-20020a05600c458d00b003c3bf4e5c60mr604728wmo.189.1665681500256; 
+ Thu, 13 Oct 2022 10:18:20 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ 123-20020a1c1981000000b003c6c4639ac6sm42018wmz.34.2022.10.13.10.18.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Oct 2022 10:18:19 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: "Maciej S . Szmigiero" <maciej.szmigiero@oracle.com>
+Subject: [PATCH] hw/hyperv/hyperv.c: Use device_cold_reset() instead of
+ device_legacy_reset()
+Date: Thu, 13 Oct 2022 18:18:17 +0100
+Message-Id: <20221013171817.1447562-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.42]
-X-ClientProxiedBy: lhrpeml100005.china.huawei.com (7.191.160.25) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,85 +88,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Thu, 13 Oct 2022 12:26:58 -0400
-Gregory Price <gregory.price@memverge.com> wrote:
+The semantic difference between the deprecated device_legacy_reset()
+function and the newer device_cold_reset() function is that the new
+function resets both the device itself and any qbuses it owns,
+whereas the legacy function resets just the device itself and nothing
+else.  In hyperv_synic_reset() we reset a SynICState, which has no
+qbuses, so for this purpose the two functions behave identically and
+we can stop using the deprecated one.
 
-> Other than the nitpicks below, lgtm.  Not sure if you need a sign off
-> from me given the contributions:
-> 
-> Signed-off-by: Gregory Price <gregory.price@memverge.com>
-> 
-> > +/* If no cdat_table == NULL returns number of entries */
-> > +static int ct3_build_cdat_entries_for_mr(CDATSubHeader **cdat_table,
-> > +                                         int dsmad_handle, MemoryRegion *mr)
-> > +{
-> > +    enum {
-> > +        DSMAS,
-> > +        DSLBIS0,
-> > +        DSLBIS1,
-> > +        DSLBIS2,
-> > +        DSLBIS3,
-> > +        DSEMTS,
-> > +        NUM_ENTRIES
-> > +    };  
-> // ...
-> > +    if (!cdat_table) {
-> > +        return NUM_ENTRIES;
-> > +    }  
-> 
-> the only thing that i would recommend is making this enum global (maybe
-> renaming them CT3_CDAT_[ENTRY_NAME]) and using CT3_CDAT_NUM_ENTRIES
-> directly in the function that allocates the cdat buffer itself. I do
-> understand the want to keep the enum and the code creating the entries
-> co-located though, so i'm just nitpicking here i guess.
-> 
-> Generally I dislike the pattern of passing a NULL into a function to get
-> configuration data, and then calling that function again.  This function
-> wants to be named...
-> 
-> ct3_build_cdat_entries_for_mr_or_get_table_size_if_cdat_is_null(...)
-> 
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+NB: tested only with 'make check' and 'make check-avocado', which
+may well not exercise this.
 
-I agree it's a messy pattern, but as things become dynamic I'd expect
-we'll have a bunch of checks that really need to be in that function
-and would be replicated at the caller to calculate the size of the array.
+ hw/hyperv/hyperv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'm expecting this code to get more complex over time.
-
-For example adding memory-side cache support based on commandline parameters.
-Once we do that, the enum will almost certainly no longer be global as we'll have
-a bunch of other entries (potentially different numbers for each region).
-Whether that is done with calls to a separate function, or by changing this
-one isn't clear to me yet.
-
-
-> to accurately describe what it does.  Just kinda feels like an extra
-> function call for no reason.
-> 
-> But either way, it works, this is just a nitpick on my side.
-
-
-> 
-> > +static int ct3_build_cdat_table(CDATSubHeader ***cdat_table, void *priv)
-> > +{
-> > +    g_autofree CDATSubHeader **table = NULL;
-> > +    CXLType3Dev *ct3d = priv;
-> > +    MemoryRegion *volatile_mr;
-> > +    /* ... snip ... */
-> > +}  
-> 
-> s/volatile/nonvolatile
-
-Doh. I'll update the gitlab tree in a minute for this, but leave sending
-out the updated version for a few days to let others take a look if they wish.
-
-In meantime, regression in mainline kernel against CXL qemu emulation.
-Bisection with 8 steps to go. *sigh*
-
-Jonathan
-
+diff --git a/hw/hyperv/hyperv.c b/hw/hyperv/hyperv.c
+index 4a1b59cb9db..57b402b9561 100644
+--- a/hw/hyperv/hyperv.c
++++ b/hw/hyperv/hyperv.c
+@@ -157,7 +157,7 @@ void hyperv_synic_reset(CPUState *cs)
+     SynICState *synic = get_synic(cs);
+ 
+     if (synic) {
+-        device_legacy_reset(DEVICE(synic));
++        device_cold_reset(DEVICE(synic));
+     }
+ }
+ 
+-- 
+2.25.1
 
 
