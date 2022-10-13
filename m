@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C745FD5CA
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 09:57:39 +0200 (CEST)
-Received: from localhost ([::1]:55214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 174F65FD593
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 09:34:49 +0200 (CEST)
+Received: from localhost ([::1]:60174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oit62-0003vm-B6
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 03:57:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34304)
+	id 1oisjv-0004tP-AR
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 03:34:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois67-0005Vc-Li
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:53:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33911)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois6K-0005YM-90
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:53:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36911)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois65-0006tX-J5
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:53:38 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois6E-0006uZ-Lr
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:53:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665644017;
+ s=mimecast20190719; t=1665644024;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=orj1cWEpHZrryYGgIml/yIel5Qox1PVeAwkSFDP8qQc=;
- b=C9eV6H5wI6alOEbVDKdohkpNhGFpHA2DOtjm1B9FNiZKZ2eJzKzauHixBiWNY1dlyRjQmd
- OgdKa4d0vdccnYPlYuymjm11S0nWm3HhVQwNJCiXhoAEA0RA7m65BY/81K1ahmIL8DBB9v
- +8h/sXcUbpczWY7kbhksFjUW4gbgBkk=
+ bh=4gI1fLccebbUVqqPVjGWv+XNJrT4nWYODgDu80gP414=;
+ b=SficZLCGOujX++wk0kEHLi0gzIJfuMA9CSJr0xGkz9ORw5P5y6b25AxkIE4UOYz7hHyyUz
+ WBy9jtLSm0akuULzevPFwZUBk7AgcjYp3WAKiI4GEkVPrb8lPBR/uEuBYRldGVUH3E6gl2
+ +fTEGyLpUQ+BGtOBZdOrOWiaoD2JG7w=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-402-E35dspHcNMGt7DD-Cjvueg-1; Thu, 13 Oct 2022 02:53:33 -0400
-X-MC-Unique: E35dspHcNMGt7DD-Cjvueg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-348-QBFUYuhpPoKPD55AqD9OJA-1; Thu, 13 Oct 2022 02:53:40 -0400
+X-MC-Unique: QBFUYuhpPoKPD55AqD9OJA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7C68881F46A;
- Thu, 13 Oct 2022 06:53:33 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A76C986C046;
+ Thu, 13 Oct 2022 06:53:39 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.195.183])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7ACDF492B0F;
- Thu, 13 Oct 2022 06:53:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2FB412086F7A;
+ Thu, 13 Oct 2022 06:53:39 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 50AE518009F6; Thu, 13 Oct 2022 08:52:25 +0200 (CEST)
+ id 6F1921800D44; Thu, 13 Oct 2022 08:52:25 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
@@ -53,15 +53,16 @@ Cc: David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Eric Blake <eblake@redhat.com>
-Subject: [PULL 17/26] pci-ids: drop PCI_DEVICE_ID_VIRTIO_IOMMU
-Date: Thu, 13 Oct 2022 08:52:15 +0200
-Message-Id: <20221013065224.1864145-18-kraxel@redhat.com>
+ "Michael S. Tsirkin" <mst@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Pankaj Gupta <pankaj.gupta@amd.com>
+Subject: [PULL 19/26] pci-ids: drop PCI_DEVICE_ID_VIRTIO_PMEM
+Date: Thu, 13 Oct 2022 08:52:17 +0200
+Message-Id: <20221013065224.1864145-20-kraxel@redhat.com>
 In-Reply-To: <20221013065224.1864145-1-kraxel@redhat.com>
 References: <20221013065224.1864145-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -90,48 +91,40 @@ Not needed for a virtio 1.0 device.  virtio_pci_device_plugged()
 overrides them anyway (so no functional change).
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Tested-by: Eric Auger <eric.auger@redhat.com>
-Message-Id: <20221004112100.301935-2-kraxel@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Pankaj Gupta <pankaj.gupta@amd.com>
+Tested-by: Pankaj Gupta <pankaj.gupta@amd.com>
+Message-Id: <20221004112100.301935-4-kraxel@redhat.com>
 ---
- include/hw/pci/pci.h         | 1 -
- hw/virtio/virtio-iommu-pci.c | 4 +---
- 2 files changed, 1 insertion(+), 4 deletions(-)
+ include/hw/pci/pci.h        | 1 -
+ hw/virtio/virtio-pmem-pci.c | 2 --
+ 2 files changed, 3 deletions(-)
 
 diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index b54b6ef88fc3..89eaca429389 100644
+index b6aefb33fb17..42c83cb5ed00 100644
 --- a/include/hw/pci/pci.h
 +++ b/include/hw/pci/pci.h
-@@ -85,7 +85,6 @@ extern bool pci_available;
+@@ -84,7 +84,6 @@ extern bool pci_available;
+ #define PCI_DEVICE_ID_VIRTIO_RNG         0x1005
  #define PCI_DEVICE_ID_VIRTIO_9P          0x1009
  #define PCI_DEVICE_ID_VIRTIO_VSOCK       0x1012
- #define PCI_DEVICE_ID_VIRTIO_PMEM        0x1013
--#define PCI_DEVICE_ID_VIRTIO_IOMMU       0x1014
- #define PCI_DEVICE_ID_VIRTIO_MEM         0x1015
+-#define PCI_DEVICE_ID_VIRTIO_PMEM        0x1013
  
  #define PCI_VENDOR_ID_REDHAT             0x1b36
-diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
-index 844d64770406..79ea8334f04e 100644
---- a/hw/virtio/virtio-iommu-pci.c
-+++ b/hw/virtio/virtio-iommu-pci.c
-@@ -74,8 +74,6 @@ static void virtio_iommu_pci_class_init(ObjectClass *klass, void *data)
-     k->realize = virtio_iommu_pci_realize;
+ #define PCI_DEVICE_ID_REDHAT_BRIDGE      0x0001
+diff --git a/hw/virtio/virtio-pmem-pci.c b/hw/virtio/virtio-pmem-pci.c
+index 2b2a0b1eae10..7d9f4ec189b9 100644
+--- a/hw/virtio/virtio-pmem-pci.c
++++ b/hw/virtio/virtio-pmem-pci.c
+@@ -90,8 +90,6 @@ static void virtio_pmem_pci_class_init(ObjectClass *klass, void *data)
+ 
+     k->realize = virtio_pmem_pci_realize;
      set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-     device_class_set_props(dc, virtio_iommu_pci_properties);
 -    pcidev_k->vendor_id = PCI_VENDOR_ID_REDHAT_QUMRANET;
--    pcidev_k->device_id = PCI_DEVICE_ID_VIRTIO_IOMMU;
+-    pcidev_k->device_id = PCI_DEVICE_ID_VIRTIO_PMEM;
      pcidev_k->revision = VIRTIO_PCI_ABI_VERSION;
      pcidev_k->class_id = PCI_CLASS_OTHERS;
-     dc->hotpluggable = false;
-@@ -90,7 +88,7 @@ static void virtio_iommu_pci_instance_init(Object *obj)
- }
  
- static const VirtioPCIDeviceTypeInfo virtio_iommu_pci_info = {
--    .generic_name          = TYPE_VIRTIO_IOMMU_PCI,
-+    .generic_name  = TYPE_VIRTIO_IOMMU_PCI,
-     .instance_size = sizeof(VirtIOIOMMUPCI),
-     .instance_init = virtio_iommu_pci_instance_init,
-     .class_init    = virtio_iommu_pci_class_init,
 -- 
 2.37.3
 
