@@ -2,90 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 376775FE501
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 00:10:18 +0200 (CEST)
-Received: from localhost ([::1]:56782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C189F5FE543
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 00:31:02 +0200 (CEST)
+Received: from localhost ([::1]:40090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj6PB-0003Ro-94
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 18:10:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45216)
+	id 1oj6jF-0007oo-Rc
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 18:31:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oj644-0002tj-IG
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 17:48:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20468)
+ id 1oj647-0002uE-UG
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 17:48:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46329)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oj642-0005Lv-Q6
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 17:48:28 -0400
+ id 1oj646-0005NC-CF
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 17:48:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665697706;
+ s=mimecast20190719; t=1665697709;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YQtOx2llSZVuu9ce9q0XarL83jV3E780EhdVaB39olw=;
- b=ZABlV929ZYf10StbJ0rJBPnMQpZ/08ynXMD6OnaL9u5qxjVz1kWofL9igIkH+IxjG9sck3
- d9uIp0/IynPqdUa9WWH9JIIAfrezjnxPoV1xV7V4f3Bfu7StbV4SyQ8oIds29nOr1Uk9Qo
- zNH3MdPJvmPPNM9OgVCjbep5v11H5SM=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qp97G7ViPp9QEykDICkKhhGxX1E1AgyNcp7WMN3ofbg=;
+ b=ESV+MTc6b5WDtdwtQoy6m86Hjv2ZjWCzchtQGjfwEIQRV5I7uOqbjy0trgorEGSrywgq+B
+ AaUbAT7K9kum+6dHaLYQNFQ7pQ8Hy4vVxHKJn+xCmTw/vTvFEMzNeR5g+8wXDhLwXo28b1
+ nbg0/WI84jvG6BRov5soa8wkFf1j+0Q=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-663-NEBplf_JP_ObDED4fksLJQ-1; Thu, 13 Oct 2022 17:48:25 -0400
-X-MC-Unique: NEBplf_JP_ObDED4fksLJQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- x4-20020a05640226c400b0045c09fc1bd4so2317706edd.7
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 14:48:24 -0700 (PDT)
+ us-mta-216-zm5v0yzUPZGKVrYBw_8llA-1; Thu, 13 Oct 2022 17:48:27 -0400
+X-MC-Unique: zm5v0yzUPZGKVrYBw_8llA-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ dm10-20020a170907948a00b00781fa5e140fso1496793ejc.21
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 14:48:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YQtOx2llSZVuu9ce9q0XarL83jV3E780EhdVaB39olw=;
- b=Zd8wOsVx2I+6cwm+po+8dzukf8AIkFClSWE+9TyuttC8wZs8RNJ9YMURPyajgpWBUl
- /VYgOJ4PkXOsmRD1q+xb5R7ESMuUDfrwsXP11H1Qy/hYLriT5Pq3TOuH1XbWlf/0RyDm
- AZEyC9kRCD94H2yBjPGI3GOXutfTt8Unlkw7RrZyVRX5YzNSrQS5OMpK7rr8wLTAziHQ
- ktOD8VPaG3dFgd+FhdvipxTfka5tLSn2SHUMldDQDZ+4AlSz9VXkOsyt1USGT8YRCKU0
- fe+kzoDaVEVPX+MQ/CCHbLjpGkpUdvKbV1klMFJMdd9//+VuBKuXgaAgGm5e34G7fUat
- WooQ==
-X-Gm-Message-State: ACrzQf0nx8Sc61cWPozAyHZrzzwHKIIAStbgOCZVtplh6k/hkGAj3a9j
- JBdWx4ziDq/jWNd4N3k4zZm3KxsVogW6yl5cEBninXsA5nKJfpU6a2uP2WdPDKQ6OMAZ5ngj/0k
- l+/u9hY+k1p7WcGz8cCH50U7t00O9VzlHMblLmfPtsbACr6c8UQHrD47EsE1cqZ84/GQ=
-X-Received: by 2002:a17:906:1e08:b0:73d:c724:4876 with SMTP id
- g8-20020a1709061e0800b0073dc7244876mr1313940ejj.62.1665697703475; 
- Thu, 13 Oct 2022 14:48:23 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7/ZS7juMyOv0DeaYQuDkShlfP663j1+aUDy7sUtOmVAdNthBWJJLc/CepfsIR3ySvGHFJMdw==
-X-Received: by 2002:a17:906:1e08:b0:73d:c724:4876 with SMTP id
- g8-20020a1709061e0800b0073dc7244876mr1313928ejj.62.1665697703124; 
- Thu, 13 Oct 2022 14:48:23 -0700 (PDT)
+ bh=qp97G7ViPp9QEykDICkKhhGxX1E1AgyNcp7WMN3ofbg=;
+ b=bm4QvZTOiuMQL+OcImx4xn3+HkXxAWZ5d59xAfF7Xte/lGNEU/gLKW198ge+C9B2gK
+ T4TFwDMiLWtg3SwWOh0rVo/Ig/H8MGhIOHSJoeSRF+7pUnlSTGmdRzqW1ZQZSwl1+TQ+
+ i/kcXsN+VgUQIgF96B6JcuLOECVNAeooHZc0MnD11dL8rLTiH6MGZO40VztjFcwjoQlm
+ E+o/eWcSb8i2TIav3up1cDev8HligbBeTyahtjRf0gwDCPRcCWfLVBey84ThgY5OgAfa
+ 56NnoJw7hQgSIAnTfpDoNnl5AgBo7URzNWft7P8QxEg3vMEHoRuxQGxDlYdBQaPiJA+O
+ XApQ==
+X-Gm-Message-State: ACrzQf1OM3pVtFRU/OPAHobl4lpAqDOSZqPwlRT/6E7nBe4PmcxSL0+1
+ FVn3c5UpKfTxj27MMfvzdrgXOe2nx15M30iPShUgm/JbEykqgUjiNPgY/JFNbwELqIwtpOaxnmj
+ pfdxeQZn4BVnMIatxI/gt+B9WlZXs83TGPFueRkHl6mhDLF60xEezjyg9Bd8Y9uPe9Ss=
+X-Received: by 2002:a17:907:3e85:b0:73d:60cc:5d06 with SMTP id
+ hs5-20020a1709073e8500b0073d60cc5d06mr1340012ejc.722.1665697706128; 
+ Thu, 13 Oct 2022 14:48:26 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4AINDYZ6js52T5Tq4o3OvWMQzqE21KLSETycOJ8P3uTo76ejhjlD9+/n1SsEGiD/pb2gZDwg==
+X-Received: by 2002:a17:907:3e85:b0:73d:60cc:5d06 with SMTP id
+ hs5-20020a1709073e8500b0073d60cc5d06mr1339999ejc.722.1665697705871; 
+ Thu, 13 Oct 2022 14:48:25 -0700 (PDT)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- i18-20020a0564020f1200b00458a03203b1sm541063eda.31.2022.10.13.14.48.22
+ kv20-20020a17090778d400b0078d261f9f44sm400280ejc.224.2022.10.13.14.48.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Oct 2022 14:48:22 -0700 (PDT)
+ Thu, 13 Oct 2022 14:48:25 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: paul@nowt.org,
 	richard.henderson@linaro.org
-Subject: [PATCH 31/35] target/i386: implement VLDMXCSR/VSTMXCSR
-Date: Thu, 13 Oct 2022 23:46:47 +0200
-Message-Id: <20221013214651.672114-32-pbonzini@redhat.com>
+Subject: [PATCH 32/35] target/i386: Enable AVX cpuid bits when using TCG
+Date: Thu, 13 Oct 2022 23:46:48 +0200
+Message-Id: <20221013214651.672114-33-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221013214651.672114-1-pbonzini@redhat.com>
 References: <20221013214651.672114-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,104 +101,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These are exactly the same as the non-VEX version, but one has to be careful
-that only VEX.L=0 is allowed.
+From: Paul Brook <paul@nowt.org>
 
+Include AVX, AVX2 and VAES in the guest cpuid features supported by TCG.
+
+Signed-off-by: Paul Brook <paul@nowt.org>
+Message-Id: <20220424220204.2493824-40-paul@nowt.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/tcg/decode-new.c.inc | 25 +++++++++++++++++++++++++
- target/i386/tcg/emit.c.inc       | 20 ++++++++++++++++++++
- 2 files changed, 45 insertions(+)
+ target/i386/cpu.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/target/i386/tcg/decode-new.c.inc b/target/i386/tcg/decode-new.c.inc
-index 2105d080b4..20ab702c0f 100644
---- a/target/i386/tcg/decode-new.c.inc
-+++ b/target/i386/tcg/decode-new.c.inc
-@@ -82,6 +82,10 @@
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 8a11470507..15c28c632b 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -625,12 +625,12 @@ void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
+           CPUID_EXT_SSE41 | CPUID_EXT_SSE42 | CPUID_EXT_POPCNT | \
+           CPUID_EXT_XSAVE | /* CPUID_EXT_OSXSAVE is dynamic */   \
+           CPUID_EXT_MOVBE | CPUID_EXT_AES | CPUID_EXT_HYPERVISOR | \
+-          CPUID_EXT_RDRAND)
++          CPUID_EXT_RDRAND | CPUID_EXT_AVX)
+           /* missing:
+           CPUID_EXT_DTES64, CPUID_EXT_DSCPL, CPUID_EXT_VMX, CPUID_EXT_SMX,
+           CPUID_EXT_EST, CPUID_EXT_TM2, CPUID_EXT_CID, CPUID_EXT_FMA,
+           CPUID_EXT_XTPR, CPUID_EXT_PDCM, CPUID_EXT_PCID, CPUID_EXT_DCA,
+-          CPUID_EXT_X2APIC, CPUID_EXT_TSC_DEADLINE_TIMER, CPUID_EXT_AVX,
++          CPUID_EXT_X2APIC, CPUID_EXT_TSC_DEADLINE_TIMER,
+           CPUID_EXT_F16C */
  
- #define X86_OP_ENTRY2(op, op0, s0, op1, s1, ...)                  \
-     X86_OP_ENTRY3(op, op0, s0, 2op, s0, op1, s1, ## __VA_ARGS__)
-+#define X86_OP_ENTRYw(op, op0, s0, ...)                           \
-+    X86_OP_ENTRY3(op, op0, s0, None, None, None, None, ## __VA_ARGS__)
-+#define X86_OP_ENTRYr(op, op0, s0, ...)                           \
-+    X86_OP_ENTRY3(op, None, None, None, None, op0, s0, ## __VA_ARGS__)
- #define X86_OP_ENTRY0(op, ...)                                    \
-     X86_OP_ENTRY3(op, None, None, None, None, None, None, ## __VA_ARGS__)
- 
-@@ -149,6 +153,25 @@ static inline const X86OpEntry *decode_by_prefix(DisasContext *s, const X86OpEnt
-     }
- }
- 
-+static void decode_group15(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
-+{
-+    /* only includes ldmxcsr and stmxcsr, because they have AVX variants.  */
-+    static const X86OpEntry group15_reg[8] = {
-+    };
-+
-+    static const X86OpEntry group15_mem[8] = {
-+        [2] = X86_OP_ENTRYr(LDMXCSR,    E,d, vex5),
-+        [3] = X86_OP_ENTRYw(STMXCSR,    E,d, vex5),
-+    };
-+
-+    uint8_t modrm = get_modrm(s, env);
-+    if ((modrm >> 6) == 3) {
-+        *entry = group15_reg[(modrm >> 3) & 7];
-+    } else {
-+        *entry = group15_mem[(modrm >> 3) & 7];
-+    }
-+}
-+
- static void decode_group17(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
- {
-     static const X86GenFunc group17_gen[8] = {
-@@ -837,6 +860,8 @@ static const X86OpEntry opcodes_0F[256] = {
-     [0x7e] = X86_OP_GROUP0(0F7E),
-     [0x7f] = X86_OP_GROUP0(0F7F),
- 
-+    [0xae] = X86_OP_GROUP0(group15),
-+
-     [0xc2] = X86_OP_ENTRY4(VCMP,       V,x, H,x, W,x,       vex2_rep3 p_00_66_f3_f2),
-     [0xc4] = X86_OP_ENTRY4(PINSRW,     V,dq,H,dq,E,w,       vex5 mmx p_00_66),
-     [0xc5] = X86_OP_ENTRY3(PEXTRW,     G,d, U,dq,I,b,       vex5 mmx p_00_66),
-diff --git a/target/i386/tcg/emit.c.inc b/target/i386/tcg/emit.c.inc
-index c4bf47eac2..aa5cd6730f 100644
---- a/target/i386/tcg/emit.c.inc
-+++ b/target/i386/tcg/emit.c.inc
-@@ -1099,6 +1099,16 @@ static void gen_INSERTQ_r(DisasContext *s, CPUX86State *env, X86DecodedInsn *dec
-     gen_helper_insertq_r(cpu_env, OP_PTR0, OP_PTR2);
- }
- 
-+static void gen_LDMXCSR(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-+{
-+    if (s->vex_l) {
-+        gen_illegal_opcode(s);
-+        return;
-+    }
-+    tcg_gen_trunc_tl_i32(s->tmp2_i32, s->T1);
-+    gen_helper_ldmxcsr(cpu_env, s->tmp2_i32);
-+}
-+
- static void gen_MASKMOV(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
- {
-     tcg_gen_mov_tl(s->A0, cpu_regs[R_EDI]);
-@@ -1693,6 +1703,16 @@ static void gen_VAESKEYGEN(DisasContext *s, CPUX86State *env, X86DecodedInsn *de
-     gen_helper_aeskeygenassist_xmm(cpu_env, OP_PTR0, OP_PTR1, imm);
- }
- 
-+static void gen_STMXCSR(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-+{
-+    if (s->vex_l) {
-+        gen_illegal_opcode(s);
-+        return;
-+    }
-+    gen_helper_update_mxcsr(cpu_env);
-+    tcg_gen_ld32u_tl(s->T0, cpu_env, offsetof(CPUX86State, mxcsr));
-+}
-+
- static void gen_VAESIMC(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
- {
-     assert(!s->vex_l);
+ #ifdef TARGET_X86_64
+@@ -653,14 +653,14 @@ void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
+           CPUID_7_0_EBX_BMI1 | CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_ADX | \
+           CPUID_7_0_EBX_PCOMMIT | CPUID_7_0_EBX_CLFLUSHOPT |            \
+           CPUID_7_0_EBX_CLWB | CPUID_7_0_EBX_MPX | CPUID_7_0_EBX_FSGSBASE | \
+-          CPUID_7_0_EBX_ERMS)
++          CPUID_7_0_EBX_ERMS | CPUID_7_0_EBX_AVX2)
+           /* missing:
+-          CPUID_7_0_EBX_HLE, CPUID_7_0_EBX_AVX2,
++          CPUID_7_0_EBX_HLE
+           CPUID_7_0_EBX_INVPCID, CPUID_7_0_EBX_RTM,
+           CPUID_7_0_EBX_RDSEED */
+ #define TCG_7_0_ECX_FEATURES (CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_PKU | \
+           /* CPUID_7_0_ECX_OSPKE is dynamic */ \
+-          CPUID_7_0_ECX_LA57 | CPUID_7_0_ECX_PKS)
++          CPUID_7_0_ECX_LA57 | CPUID_7_0_ECX_PKS | CPUID_7_0_ECX_VAES)
+ #define TCG_7_0_EDX_FEATURES 0
+ #define TCG_7_1_EAX_FEATURES 0
+ #define TCG_APM_FEATURES 0
 -- 
 2.37.3
 
