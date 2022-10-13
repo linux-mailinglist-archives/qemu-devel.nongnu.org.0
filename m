@@ -2,92 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0543E5FDC29
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 16:13:45 +0200 (CEST)
-Received: from localhost ([::1]:52328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB69F5FDC35
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 16:15:53 +0200 (CEST)
+Received: from localhost ([::1]:49152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiyxz-0002a5-7J
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 10:13:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33420)
+	id 1oiz04-0005nO-HP
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 10:15:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oixun-0004LJ-1c
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 09:06:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49991)
+ id 1oiy1R-0004M3-Vi
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 09:13:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44367)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oixuj-0001Pm-LI
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 09:06:18 -0400
+ id 1oiy1P-0002Ll-H3
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 09:13:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665666377;
+ s=mimecast20190719; t=1665666790;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GxFd+lRRPEKdLzM1DiS0NeCe/S4UvD6o4vpLiQ1s4yA=;
- b=Cp44uYyExOYyOXIOyn1h44soLadnjkbcH3fRLhiieCtHB45DgUBGLUfu16k+eNnnr0jfS4
- ovoDMq3pI5p9O3txKRkfTMbVf1uZneHxeU/gXKZTntXiTOwWD15L6P7HYHrR0oTS8KCKml
- rxyi3n+tGuMG91h8roBeF7K4RhGt8es=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=55hvTOn3Z7hIweYsTXdtgJt3cf5wqIwdhV5MxRsnZuk=;
+ b=ePvqJBo28792+kQ6vNhj2o+jVSdi0RDcBsPm4DLzS5ds2MlAYesZdGg301oIUgD+J3ymH3
+ 0NMLyj+dNdM3MXocgJs0Xr/UN5z/X4pBTwRJybutJfuoTF3r1olAHACAgNzJ5M8WdiUBZE
+ 9EKL/DB1fRzZQZsC6TxSqWOCkPJhvQg=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-164-JxmYBTU6M-qmznteG-0YAg-1; Thu, 13 Oct 2022 09:06:16 -0400
-X-MC-Unique: JxmYBTU6M-qmznteG-0YAg-1
-Received: by mail-ed1-f69.google.com with SMTP id
- f18-20020a056402355200b0045c13ee57d9so1483623edd.20
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 06:06:15 -0700 (PDT)
+ us-mta-195-S-4LjCvFOhSGXfud4Otvcw-1; Thu, 13 Oct 2022 09:13:09 -0400
+X-MC-Unique: S-4LjCvFOhSGXfud4Otvcw-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ qa14-20020a170907868e00b0078db5ba61bdso873633ejc.12
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 06:13:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GxFd+lRRPEKdLzM1DiS0NeCe/S4UvD6o4vpLiQ1s4yA=;
- b=nA/0G5dFTfkdo30SFlN3TXc+mAjtdkfmffkCTTvUkylRDimyQDUoh0I352Njtb+NBV
- 728KEsMsaMb53OUGZckKyOx8Lqmdf+geCtNm9kFkRv8dEjA0gvw+wEWW6pHf6YZYvdyv
- qZ4V09ygzBxm6ih/nkuoKx5lRXGba+vZeSwNk4fHG9jADW1sz84geF1UNATy9jMXTfMr
- lnfnFNCooNPmLMuhB/aVJP70CYrqMtARUPTIIPbQnfXstcX6gd460z3Jkhbi7SNDMjxJ
- sgH5ayt6ZVqXOjS0knl5bdHimx+4WkF3tb7HbGNqVglFdfpkx9R+OeSoNeT6nUSfOCDP
- 77pQ==
-X-Gm-Message-State: ACrzQf1N+hMs7t3O/Qr+WqabVDDES8WWz11q8Oi3paEwuLh60Ha1yXaN
- 8pzeTh02Qy2+GDkZEgO5UJ9J2us4EzJAvUZ5D9T73HEakk+buBpNli0PpoBglyVkhWEiHcJkE/G
- 3hTADloZPRktusJ4=
-X-Received: by 2002:a17:907:e88:b0:78d:fb98:6f5d with SMTP id
- ho8-20020a1709070e8800b0078dfb986f5dmr5069493ejc.5.1665666374809; 
- Thu, 13 Oct 2022 06:06:14 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4TTx5e1P4hlyHDX0oMKCOeQiux+9FcGlEDGWfsz/pGYkw+lnkGpTye36HImLhmfbCeqWYH4w==
-X-Received: by 2002:a17:907:e88:b0:78d:fb98:6f5d with SMTP id
- ho8-20020a1709070e8800b0078dfb986f5dmr5069474ejc.5.1665666374616; 
- Thu, 13 Oct 2022 06:06:14 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
- ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.googlemail.com with ESMTPSA id
- y12-20020a17090614cc00b0078194737761sm2961305ejc.124.2022.10.13.06.06.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Oct 2022 06:06:13 -0700 (PDT)
-Message-ID: <a6e941b0-ce20-916b-7ea1-d575056d8282@redhat.com>
-Date: Thu, 13 Oct 2022 15:06:12 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH] blkdebug: ignore invalid rules in non-coroutine context
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, qemu-block@nongnu.org
-References: <20221013093523.586361-1-pbonzini@redhat.com>
- <87a660yosv.fsf@pond.sub.org>
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=55hvTOn3Z7hIweYsTXdtgJt3cf5wqIwdhV5MxRsnZuk=;
+ b=JRfb4zz6QGb+QloHkKQZ59m481QCt8MKdaPhtyN8ZjK1zy/yDl9rJ6woGhBUkGWDzH
+ hiLyHCNEQETtu6vSDTaw9wN9ef3zRsAZL4sB/DNqzH7KA2xhx0njyMtyvuN85cg8qkZe
+ TXMxHe/vAsL3u3slLK4D7oiM/n44d+UK807gUjipMbzoNPPpJrqVVqkLcmFEldCmW50J
+ 0kxU5bZZ3M7zdULh53ERDA+rXmA6N8l3gr8giV6wbzGFKEjWFbfjEy/V5dJxdE6840Rw
+ ZG4CwMAAbQyM9+BnLVxanQF4aRsOJ4Wjl42ceYZsOoT9hA29VzfhxtiFGA2P5x39W1DV
+ BUnw==
+X-Gm-Message-State: ACrzQf2EiKnFCjE8qxN+vHrXdTK5JqOQFcI/Ozgxf80C0u2TsnblqmfC
+ LWumL44vnRslkBCC2+GVVdXt1tin9jt/r1LYlvoYGLXEf0HdeVCisuWJrPzfN6LsaX3jKSbu+o3
+ GHS53CNPxN2pG9E9BUPICcUKzjta4HvA4BC0VoWpcLHJVLHQdPt9y6CpN4tVr/NAXv1E=
+X-Received: by 2002:a50:fe0a:0:b0:458:dce8:2b6b with SMTP id
+ f10-20020a50fe0a000000b00458dce82b6bmr32014392edt.84.1665666787897; 
+ Thu, 13 Oct 2022 06:13:07 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6BZD+DHB5rkn32u3SUUJg6FYKmlQu6v37RfL/HMzvA5Gdu1/v0XhrjIEhriD9sNZn4jbtHcw==
+X-Received: by 2002:a50:fe0a:0:b0:458:dce8:2b6b with SMTP id
+ f10-20020a50fe0a000000b00458dce82b6bmr32014364edt.84.1665666787521; 
+ Thu, 13 Oct 2022 06:13:07 -0700 (PDT)
+Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.gmail.com with ESMTPSA id
+ r23-20020aa7c157000000b0044e937ddcabsm13397031edp.77.2022.10.13.06.13.06
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Oct 2022 06:13:07 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <87a660yosv.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests/tcg: include CONFIG_PLUGIN in config-host.mak
+Date: Thu, 13 Oct 2022 15:13:04 +0200
+Message-Id: <20221013131304.623740-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.37.3
+MIME-Version: 1.0
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.25, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,32 +96,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/13/22 12:56, Markus Armbruster wrote:
-> rule_check() is called from blkdebug_co_preadv(), blkdebug_co_pwritev(),
-> blkdebug_co_pwrite_zeroes(), blkdebug_co_pdiscard(),
-> blkdebug_co_block_status() (all marked coroutine_fn), and
-> blkdebug_co_flush() (which looks like it should be marked coroutine_fn).
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ configure | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Yes (separate patch sent, 
-https://lore.kernel.org/qemu-devel/20221013123711.620631-11-pbonzini@redhat.com/T/#u).
-
-> Ignorant question: how could it be called outside coroutine context?
-
-You're right, only blkdebug_debug_event() can be called outside 
-coroutine context.  I confused process_rule() (called by 
-blkdebug_debug_event(), both inside and outside coroutine context) with 
-rule_check() (called in coroutine context).
-
-> Also, code smell: reporting an error without taking an error path.  But
-> let's worry about that only after I understand the problem you're trying
-> to fix.
-
-Unfortunately there's no way to know in advance if an event will be 
-called inside vs. outside a coroutine.  I can keep the abort() if you 
-think it's preferrable, so what you get is still a crash but with a 
-nicer error message.  Since this is debugging code either solution has 
-pros and cons.
-
-Paolo
+diff --git a/configure b/configure
+index f4ff1cf305..a5af9c524f 100755
+--- a/configure
++++ b/configure
+@@ -2474,6 +2474,9 @@ echo "HOST_CC=$host_cc" >> $config_host_mak
+ if test -n "$gdb_bin"; then
+     echo "HAVE_GDB_BIN=$gdb_bin" >> $config_host_mak
+ fi
++if test "$plugins" = "yes" ; then
++    echo "CONFIG_PLUGIN=y" >> $config_host_mak
++fi
+ 
+ tcg_tests_targets=
+ for target in $target_list; do
+-- 
+2.37.3
 
 
