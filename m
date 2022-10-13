@@ -2,63 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B94995FD830
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 13:17:24 +0200 (CEST)
-Received: from localhost ([::1]:54278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 737755FD833
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 13:19:18 +0200 (CEST)
+Received: from localhost ([::1]:32906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiwDL-0001od-Rx
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 07:17:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60218)
+	id 1oiwFB-0003GI-DX
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 07:19:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1oivkO-0001WH-HM
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 06:47:29 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2731)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1oivkB-0002BC-D0
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 06:47:28 -0400
-Received: from fraeml710-chm.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Mp5lP5S9xz6865q;
- Thu, 13 Oct 2022 18:45:37 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml710-chm.china.huawei.com (10.206.15.59) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 13 Oct 2022 12:47:13 +0200
-Received: from localhost (10.202.226.42) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 13 Oct
- 2022 11:47:12 +0100
-Date: Thu, 13 Oct 2022 11:47:11 +0100
-To: Gregory Price <gourry.memverge@gmail.com>
-CC: <qemu-devel@nongnu.org>, <linux-cxl@vger.kernel.org>,
- <alison.schofield@intel.com>, <dave@stgolabs.net>,
- <a.manzanares@samsung.com>, <bwidawsk@kernel.org>,
- <gregory.price@memverge.com>, <mst@redhat.com>, <hchkuo@avery-design.com.tw>, 
- <cbrowy@avery-design.com>, <ira.weiny@intel.com>
-Subject: Re: [PATCH 5/5] hw/mem/cxl_type3: Refactor CDAT sub-table entry
- initialization into a function
-Message-ID: <20221013114711.00005623@huawei.com>
-In-Reply-To: <20221012182120.174142-6-gregory.price@memverge.com>
-References: <20221007152156.24883-5-Jonathan.Cameron@huawei.com>
- <20221012182120.174142-1-gregory.price@memverge.com>
- <20221012182120.174142-6-gregory.price@memverge.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oivmD-0002ZR-TG
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 06:49:21 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43766)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oivmC-0002WA-6r
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 06:49:21 -0400
+Received: by mail-wr1-x434.google.com with SMTP id n12so2169368wrp.10
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 03:49:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=zcNOnDvexFUonbNQQRbuneLsiVQTEcKfHxTg8Eiz3vk=;
+ b=mMh/mX5kYf3zdVHjYZ2mEqS/EO0B9H5g+ShsyJMPGIfHShsRA6nE42rvFwLP0kBw5G
+ SslcamE9AEE7S/zmosWj+yUtFMigmIGrGz/i49NArWuF/D5rjYvEy4Zmny6UMXkD4Akv
+ ZYWuKc5gYsuSgQpWj3s8LJQEpVSbIpugqV4g6yRscuTS9qXDhtIllYahdMSlvOL4s+RP
+ VmFNE5Vof9dTZx0yGQe34iZNaFOirAYmBPTDmZ+HbC7P9Tem6odl/rxaLA8f+pIh7JIq
+ 4iroUdMSRoDq65VpbNvxGyNqHIw39a4TLc8nrkWtwdgpX+o1bDsICQ3gKT3BHNcr3T8g
+ kulg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=zcNOnDvexFUonbNQQRbuneLsiVQTEcKfHxTg8Eiz3vk=;
+ b=J5ZOCsUlTbQ6H28Mkxg9zsz069C5x1dUYZfxz2j0lbTHdKib4tO8wcesiLPXsUCtQz
+ KQaL7CRx7mq+CEW2mC7e0sqe6TYBp3tj37dJCR3gOokXG2lzfTF1kv6xCBiPpD4SgWys
+ bz8SPn9kPv7wIX5Rlht1qhVExJK52yIMRu1Fmu3YoOVfxwdfvoWx2hQDnAWPZzXPVRdp
+ bJeriVHPSHC9ahZ3QFZASmFT+SqcVVoel0og3rpEqJuolraXd7EoYDk7Z6Q89sOdq+8y
+ s02rcYZ3VdKanBMEP+XDGGbq/P2fQ5aiuz17QqanCKHpiUyCTj1wybk5krMh3rmEGP7j
+ lIGg==
+X-Gm-Message-State: ACrzQf2RHIfdWg/A8bwe7GCbg8Qkk4mqE0Z1CJ/r5Z7gdgQeKELjMgPb
+ u0HALQA54p9PFkOv8zOA9XKFwu3YBBVKxA==
+X-Google-Smtp-Source: AMsMyM7wNUWvRE58olCa59V50sSRvCXafdUir9ZRH6WBxdEoPZurpDh4IklnBi2+5D1nTQEHg/6JsA==
+X-Received: by 2002:a05:6000:10d1:b0:22e:3bc5:c91c with SMTP id
+ b17-20020a05600010d100b0022e3bc5c91cmr20234951wrx.368.1665658157147; 
+ Thu, 13 Oct 2022 03:49:17 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ x16-20020a5d4910000000b00232251d71c7sm1718573wrq.68.2022.10.13.03.49.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Oct 2022 03:49:16 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 2AD5D1FFB7;
+ Thu, 13 Oct 2022 11:49:16 +0100 (BST)
+References: <20221011173229.57909-1-anjo@rev.ng>
+User-agent: mu4e 1.9.1; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Anton Johansson <anjo@rev.ng>
+Cc: qemu-devel@nongnu.org, ale@rev.ng, tsimpson@quicinc.com,
+ bcain@quicinc.com, mlambert@quicinc.com
+Subject: Re: [PATCH] tests/docker: Add flex/bison to `debian-all-test`
+Date: Thu, 13 Oct 2022 11:49:10 +0100
+In-reply-to: <20221011173229.57909-1-anjo@rev.ng>
+Message-ID: <87r0zcov6b.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.42]
-X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,270 +94,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
-
-On Wed, 12 Oct 2022 14:21:20 -0400
-Gregory Price <gourry.memverge@gmail.com> wrote:
-
-> The CDAT can contain multiple entries for multiple memory regions, this
-> will allow us to re-use the initialization code when volatile memory
-> region support is added.
-> 
-> Signed-off-by: Gregory Price <gregory.price@memverge.com>
-
-I'm in two minds about this... We could integrate it in the original series,
-but at that time the change is justified.  Or we could leave it as a first
-patch in your follow on series.
-
-Anyhow, I went with a similar refactor inspired by this.
 
 
-> ---
->  hw/mem/cxl_type3.c | 137 ++++++++++++++++++++++++---------------------
->  1 file changed, 72 insertions(+), 65 deletions(-)
-> 
-> diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-> index 220b9f09a9..3c5485abd0 100644
-> --- a/hw/mem/cxl_type3.c
-> +++ b/hw/mem/cxl_type3.c
-> @@ -19,117 +19,93 @@
->  #define DWORD_BYTE 4
->  #define CT3_CDAT_SUBTABLE_SIZE 6
->  
-> -static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
-> -                                void *priv)
-> +static int ct3_build_cdat_subtable(CDATSubHeader **cdat_table,
-> +        MemoryRegion *mr, int dsmad_handle)
+Anton Johansson <anjo@rev.ng> writes:
 
-subtable is particularly well defined.  Maybe
-ct3_build_cdat_entries_for_mr()?
+> Adds flex/bison to the debian-all-test-cross container which was missed
+> in the previous CI patch. These dependencies are required by the
+> idef-parser patchset for target/hexagon.
+>
+> Signed-off-by: Anton Johansson <anjo@rev.ng>
 
->  {
-> -    g_autofree CDATDsmas *dsmas_nonvolatile = NULL;
-> -    g_autofree CDATDslbis *dslbis_nonvolatile1 = NULL;
-> -    g_autofree CDATDslbis *dslbis_nonvolatile2 = NULL;
-> -    g_autofree CDATDslbis *dslbis_nonvolatile3 = NULL;
-> -    g_autofree CDATDslbis *dslbis_nonvolatile4 = NULL;
-> -    g_autofree CDATDsemts *dsemts_nonvolatile = NULL;
-> -    CXLType3Dev *ct3d = priv;
-> -    int next_dsmad_handle = 0;
-> -    int nonvolatile_dsmad = -1;
-> -    MemoryRegion *mr;
-> -
-> -    if (!ct3d->hostmem) {
-> -        return 0;
-> -    }
-> -
-> -    mr = host_memory_backend_get_memory(ct3d->hostmem);
-> -    if (!mr) {
-> -        return -EINVAL;
-> -    }
-> -
-> -    *cdat_table = g_malloc0(CT3_CDAT_SUBTABLE_SIZE * sizeof(*cdat_table));
-> -    if (!*cdat_table) {
-> -        return -ENOMEM;
-> -    }
-> -
-> -    /* Non volatile aspects */
-> -    dsmas_nonvolatile = g_malloc(sizeof(*dsmas_nonvolatile));
-> -    dslbis_nonvolatile1 = g_malloc(sizeof(*dslbis_nonvolatile1));
-> -    dslbis_nonvolatile2 = g_malloc(sizeof(*dslbis_nonvolatile2));
-> -    dslbis_nonvolatile3 = g_malloc(sizeof(*dslbis_nonvolatile3));
-> -    dslbis_nonvolatile4 = g_malloc(sizeof(*dslbis_nonvolatile4));
-> -    dsemts_nonvolatile = g_malloc(sizeof(*dsemts_nonvolatile));
-> -
-> -    if (!dsmas_nonvolatile || !dsemts_nonvolatile ||
-> -        !dslbis_nonvolatile1 || !dslbis_nonvolatile2 ||
-> -        !dslbis_nonvolatile3 || !dslbis_nonvolatile4) {
-> -        g_free(*cdat_table);
-> -        *cdat_table = NULL;
-> +    g_autofree CDATDsmas *dsmas = NULL;
-> +    g_autofree CDATDslbis *dslbis1 = NULL;
-> +    g_autofree CDATDslbis *dslbis2 = NULL;
-> +    g_autofree CDATDslbis *dslbis3 = NULL;
-> +    g_autofree CDATDslbis *dslbis4 = NULL;
-> +    g_autofree CDATDsemts *dsemts = NULL;
-> +
-> +    dsmas = g_malloc(sizeof(*dsmas));
-> +    dslbis1 = g_malloc(sizeof(*dslbis1));
-> +    dslbis2 = g_malloc(sizeof(*dslbis2));
-> +    dslbis3 = g_malloc(sizeof(*dslbis3));
-> +    dslbis4 = g_malloc(sizeof(*dslbis4));
-> +    dsemts = g_malloc(sizeof(*dsemts));
-> +
-> +    if (!dsmas || !dslbis1 || !dslbis2 || !dslbis3 || !dslbis4 || !dsemts) {
->          return -ENOMEM;
->      }
->  
-> -    nonvolatile_dsmad = next_dsmad_handle++;
-> -    *dsmas_nonvolatile = (CDATDsmas) {
-> +    *dsmas = (CDATDsmas) {
->          .header = {
->              .type = CDAT_TYPE_DSMAS,
-> -            .length = sizeof(*dsmas_nonvolatile),
-> +            .length = sizeof(*dsmas),
->          },
-> -        .DSMADhandle = nonvolatile_dsmad,
-> +        .DSMADhandle = dsmad_handle,
->          .flags = CDAT_DSMAS_FLAG_NV,
->          .DPA_base = 0,
->          .DPA_length = int128_get64(mr->size),
->      };
->  
->      /* For now, no memory side cache, plausiblish numbers */
-> -    *dslbis_nonvolatile1 = (CDATDslbis) {
-> +    *dslbis1 = (CDATDslbis) {
->          .header = {
->              .type = CDAT_TYPE_DSLBIS,
-> -            .length = sizeof(*dslbis_nonvolatile1),
-> +            .length = sizeof(*dslbis1),
->          },
-> -        .handle = nonvolatile_dsmad,
-> +        .handle = dsmad_handle,
->          .flags = HMAT_LB_MEM_MEMORY,
->          .data_type = HMAT_LB_DATA_READ_LATENCY,
->          .entry_base_unit = 10000, /* 10ns base */
->          .entry[0] = 15, /* 150ns */
+Queued to testing/next, thanks.
 
-If we are going to wrap this up for volatile / non-volatile 
-we probably need to pass in a reasonable value for these.
-Whilst not technically always true, to test the Linux handling
-I'd want non-volatile to report as longer latency.
-
->      };
->  
-> -    *dslbis_nonvolatile2 = (CDATDslbis) {
-> +    *dslbis2 = (CDATDslbis) {
->          .header = {
->              .type = CDAT_TYPE_DSLBIS,
-> -            .length = sizeof(*dslbis_nonvolatile2),
-> +            .length = sizeof(*dslbis2),
->          },
-> -        .handle = nonvolatile_dsmad,
-> +        .handle = dsmad_handle,
->          .flags = HMAT_LB_MEM_MEMORY,
->          .data_type = HMAT_LB_DATA_WRITE_LATENCY,
->          .entry_base_unit = 10000,
->          .entry[0] = 25, /* 250ns */
->      };
->  
-> -    *dslbis_nonvolatile3 = (CDATDslbis) {
-> +    *dslbis3 = (CDATDslbis) {
->          .header = {
->              .type = CDAT_TYPE_DSLBIS,
-> -            .length = sizeof(*dslbis_nonvolatile3),
-> +            .length = sizeof(*dslbis3),
->          },
-> -        .handle = nonvolatile_dsmad,
-> +        .handle = dsmad_handle,
->          .flags = HMAT_LB_MEM_MEMORY,
->          .data_type = HMAT_LB_DATA_READ_BANDWIDTH,
->          .entry_base_unit = 1000, /* GB/s */
->          .entry[0] = 16,
->      };
->  
-> -    *dslbis_nonvolatile4 = (CDATDslbis) {
-> +    *dslbis4 = (CDATDslbis) {
->          .header = {
->              .type = CDAT_TYPE_DSLBIS,
-> -            .length = sizeof(*dslbis_nonvolatile4),
-> +            .length = sizeof(*dslbis4),
->          },
-> -        .handle = nonvolatile_dsmad,
-> +        .handle = dsmad_handle,
->          .flags = HMAT_LB_MEM_MEMORY,
->          .data_type = HMAT_LB_DATA_WRITE_BANDWIDTH,
->          .entry_base_unit = 1000, /* GB/s */
->          .entry[0] = 16,
->      };
->  
-> -    *dsemts_nonvolatile = (CDATDsemts) {
-> +    *dsemts = (CDATDsemts) {
->          .header = {
->              .type = CDAT_TYPE_DSEMTS,
-> -            .length = sizeof(*dsemts_nonvolatile),
-> +            .length = sizeof(*dsemts),
->          },
-> -        .DSMAS_handle = nonvolatile_dsmad,
-> +        .DSMAS_handle = dsmad_handle,
->          /* Reserved - the non volatile from DSMAS matters */
->          .EFI_memory_type_attr = 2,
->          .DPA_offset = 0,
-> @@ -137,16 +113,47 @@ static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
->      };
->  
->      /* Header always at start of structure */
-> -    (*cdat_table)[0] = g_steal_pointer(&dsmas_nonvolatile);
-> -    (*cdat_table)[1] = (CDATSubHeader *)g_steal_pointer(&dslbis_nonvolatile1);
-> -    (*cdat_table)[2] = (CDATSubHeader *)g_steal_pointer(&dslbis_nonvolatile2);
-> -    (*cdat_table)[3] = (CDATSubHeader *)g_steal_pointer(&dslbis_nonvolatile3);
-> -    (*cdat_table)[4] = (CDATSubHeader *)g_steal_pointer(&dslbis_nonvolatile4);
-> -    (*cdat_table)[5] = g_steal_pointer(&dsemts_nonvolatile);
-> +    cdat_table[0] = g_steal_pointer(&dsmas);
-> +    cdat_table[1] = (CDATSubHeader *)g_steal_pointer(&dslbis1);
-> +    cdat_table[2] = (CDATSubHeader *)g_steal_pointer(&dslbis2);
-> +    cdat_table[3] = (CDATSubHeader *)g_steal_pointer(&dslbis3);
-> +    cdat_table[4] = (CDATSubHeader *)g_steal_pointer(&dslbis4);
-> +    cdat_table[5] = g_steal_pointer(&dsemts);
->  
->      return CT3_CDAT_SUBTABLE_SIZE;
->  }
->  
-> +static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
-> +                                void *priv)
-> +{
-> +    CXLType3Dev *ct3d = priv;
-> +    MemoryRegion *mr;
-> +    int ret = 0;
-> +
-> +    if (!ct3d->hostmem) {
-> +        return 0;
-> +    }
-> +
-> +    mr = host_memory_backend_get_memory(ct3d->hostmem);
-> +    if (!mr) {
-> +        return -EINVAL;
-> +    }
-> +
-> +    *cdat_table = g_malloc0(CT3_CDAT_SUBTABLE_SIZE * sizeof(*cdat_table));
-
-This bakes in assumptions at the wrong layer in the code.  Out here we should not
-know how big the table is - that is a job just for the ct3_build_cdat_subtable()
-part.
-
-Various options come to mind..
-1) Two pass approach. First call ct3_build_cdat_subtable() with NULL pointer
-   passed in.  For that all it does it return the number of elements.
-   The the caller calls it again providing suitable storage.
-2) Allocate in ct3_build_cdat_subtable() then copy in the caller or use
-   directly if only one type of memory present.
-
-I've gone with the 2 pass approach.  Let me know what you think of it
-once I send the patches out in a few mins.
-
-Thanks,
-
-Jonathan
-
-
-
-> +    if (!*cdat_table) {
-> +        return -ENOMEM;
-> +    }
-> +
-> +    /* Non volatile aspects */
-> +    ret = ct3_build_cdat_subtable(*cdat_table, mr, 0);
-> +    if (ret < 0) {
-> +        g_free(*cdat_table);
-> +        *cdat_table = NULL;
-> +    }
-> +
-> +    return ret;
-> +}
-> +
->  static void ct3_free_cdat_table(CDATSubHeader **cdat_table, int num, void *priv)
->  {
->      int i;
-
+--=20
+Alex Benn=C3=A9e
 
