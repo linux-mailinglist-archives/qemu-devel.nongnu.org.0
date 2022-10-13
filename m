@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 553C45FD574
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 09:13:37 +0200 (CEST)
-Received: from localhost ([::1]:45800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFB655FD59D
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 09:40:09 +0200 (CEST)
+Received: from localhost ([::1]:58032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oisPP-00012l-SO
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 03:13:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34308)
+	id 1oisp6-0007bX-LJ
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 03:40:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois68-0005W4-PJ
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:53:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56413)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois6A-0005Wl-T1
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:53:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30299)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois67-0006tj-1x
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:53:40 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois69-0006u4-Ch
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:53:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665644018;
+ s=mimecast20190719; t=1665644020;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Zz+Qt34oE4M5mrMgManCQwGhH1+sbvEnpgqeJuJljuY=;
- b=SGXfSgcgMb3XSKbQ7mAhURCgP7pbwzATpsArTSDbcQezF/IiDy0HYbfuE/AvzeVPRbVmi3
- xAXyC3uIn8YzToXzBSWh13BgSktPyF2bupAX8IgvbtkWXHWYIcWHoGjAb9GLm0hdF4WAXs
- aUMpf/oa6u0vL6HgE3MTdC958E0tZec=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=9vPzUD7JjyVy8PFTQACn2r3YXj5SoY9IZjSsTzOKOOs=;
+ b=IJO+BCX181pZypKRruk9wbSObeqgDH5nXaYOLm7p36TX7GS/vT559yhgRvsS8APf0n1Zw/
+ tkdLE0iRYIsONXp494wDlhpgMADU7ZWpzTrPYbGB9BIhb0IiteE18XHCaPSD0G09hbpQHE
+ 4tox9JwB+W+fUCgdrUallF+1aNqhUY8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-617-0HHEpvmUNPqxI2T_vu6GLg-1; Thu, 13 Oct 2022 02:53:34 -0400
-X-MC-Unique: 0HHEpvmUNPqxI2T_vu6GLg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-169-ujabm6BdOCGcu-COkbT2VQ-1; Thu, 13 Oct 2022 02:53:35 -0400
+X-MC-Unique: ujabm6BdOCGcu-COkbT2VQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BFAB929DD9AF;
- Thu, 13 Oct 2022 06:53:23 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 37946857F8F;
+ Thu, 13 Oct 2022 06:53:35 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.195.183])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6FAE8140EBF3;
- Thu, 13 Oct 2022 06:53:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C9E4B492B0F;
+ Thu, 13 Oct 2022 06:53:34 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3318718009DB; Thu, 13 Oct 2022 08:52:25 +0200 (CEST)
+ id 413D418009E5; Thu, 13 Oct 2022 08:52:25 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
@@ -53,16 +53,15 @@ Cc: David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Eric Blake <eblake@redhat.com>,
- lu zhipeng <luzhipeng@cestc.cn>
-Subject: [PULL 15/26] cirrus_vga: fix potential memory overflow
-Date: Thu, 13 Oct 2022 08:52:13 +0200
-Message-Id: <20221013065224.1864145-16-kraxel@redhat.com>
+ "Michael S. Tsirkin" <mst@redhat.com>, Eric Blake <eblake@redhat.com>
+Subject: [PULL 16/26] docs: add firmware feature flags
+Date: Thu, 13 Oct 2022 08:52:14 +0200
+Message-Id: <20221013065224.1864145-17-kraxel@redhat.com>
 In-Reply-To: <20221013065224.1864145-1-kraxel@redhat.com>
 References: <20221013065224.1864145-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -87,28 +86,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: lu zhipeng <luzhipeng@cestc.cn>
+Add new firmware feature flags for the recently added confidential
+computing operating modes by amd and intel.
 
-Signed-off-by: lu zhipeng <luzhipeng@cestc.cn>
-Message-Id: <20220929122352.1891-1-luzhipeng@cestc.cn>
+While being at it also fix the path to the amd sev documentation.
+
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>
+Message-Id: <20220930133220.1771336-1-kraxel@redhat.com>
 ---
- hw/display/cirrus_vga.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ docs/interop/firmware.json | 21 ++++++++++++++++-----
+ 1 file changed, 16 insertions(+), 5 deletions(-)
 
-diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
-index 3bb6a58698c1..2577005d03ce 100644
---- a/hw/display/cirrus_vga.c
-+++ b/hw/display/cirrus_vga.c
-@@ -834,7 +834,7 @@ static void cirrus_bitblt_cputovideo_next(CirrusVGAState * s)
-                    word alignment, so we keep them for the next line */
-                 /* XXX: keep alignment to speed up transfer */
-                 end_ptr = s->cirrus_bltbuf + s->cirrus_blt_srcpitch;
--                copy_count = s->cirrus_srcptr_end - end_ptr;
-+                copy_count = MIN(s->cirrus_srcptr_end - end_ptr, CIRRUS_BLTBUFSIZE);
-                 memmove(s->cirrus_bltbuf, end_ptr, copy_count);
-                 s->cirrus_srcptr = s->cirrus_bltbuf + copy_count;
-                 s->cirrus_srcptr_end = s->cirrus_bltbuf + s->cirrus_blt_srcpitch;
+diff --git a/docs/interop/firmware.json b/docs/interop/firmware.json
+index 4e049b1c7ca0..56814f02b3c0 100644
+--- a/docs/interop/firmware.json
++++ b/docs/interop/firmware.json
+@@ -113,13 +113,22 @@
+ #           Virtualization, as specified in the AMD64 Architecture
+ #           Programmer's Manual. QEMU command line options related to
+ #           this feature are documented in
+-#           "docs/amd-memory-encryption.txt".
++#           "docs/system/i386/amd-memory-encryption.rst".
+ #
+ # @amd-sev-es: The firmware supports running under AMD Secure Encrypted
+ #              Virtualization - Encrypted State, as specified in the AMD64
+ #              Architecture Programmer's Manual. QEMU command line options
+ #              related to this feature are documented in
+-#              "docs/amd-memory-encryption.txt".
++#              "docs/system/i386/amd-memory-encryption.rst".
++#
++# @amd-sev-snp: The firmware supports running under AMD Secure Encrypted
++#               Virtualization - Secure Nested Paging, as specified in the
++#               AMD64 Architecture Programmer's Manual. QEMU command line
++#               options related to this feature are documented in
++#               "docs/system/i386/amd-memory-encryption.rst".
++#
++# @intel-tdx: The firmware supports running under Intel Trust Domain
++#             Extensions (TDX).
+ #
+ # @enrolled-keys: The variable store (NVRAM) template associated with
+ #                 the firmware binary has the UEFI Secure Boot
+@@ -185,9 +194,11 @@
+ # Since: 3.0
+ ##
+ { 'enum' : 'FirmwareFeature',
+-  'data' : [ 'acpi-s3', 'acpi-s4', 'amd-sev', 'amd-sev-es', 'enrolled-keys',
+-             'requires-smm', 'secure-boot', 'verbose-dynamic',
+-             'verbose-static' ] }
++  'data' : [ 'acpi-s3', 'acpi-s4',
++             'amd-sev', 'amd-sev-es', 'amd-sev-snp',
++             'intel-tdx',
++             'enrolled-keys', 'requires-smm', 'secure-boot',
++             'verbose-dynamic', 'verbose-static' ] }
+ 
+ ##
+ # @FirmwareFlashFile:
 -- 
 2.37.3
 
