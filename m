@@ -2,63 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EABC5FD70F
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 11:27:51 +0200 (CEST)
-Received: from localhost ([::1]:59356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 451D85FD737
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 11:42:29 +0200 (CEST)
+Received: from localhost ([::1]:39910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiuVJ-0005kv-3o
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 05:27:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58170)
+	id 1oiujT-0007VX-Vb
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 05:42:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1oiuBw-0007ID-I7
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 05:07:52 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2726)
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1oiuLJ-0006qu-5c
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 05:17:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42448)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1oiuBt-0002Ea-4b
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 05:07:48 -0400
-Received: from fraeml741-chm.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Mp3W56HxMz689Qn;
- Thu, 13 Oct 2022 17:04:49 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml741-chm.china.huawei.com (10.206.15.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 13 Oct 2022 11:07:42 +0200
-Received: from localhost (10.202.226.42) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 13 Oct
- 2022 10:07:41 +0100
-Date: Thu, 13 Oct 2022 10:07:40 +0100
-To: Gregory Price <gourry.memverge@gmail.com>
-CC: <qemu-devel@nongnu.org>, <linux-cxl@vger.kernel.org>,
- <alison.schofield@intel.com>, <dave@stgolabs.net>,
- <a.manzanares@samsung.com>, <bwidawsk@kernel.org>,
- <gregory.price@memverge.com>, <mst@redhat.com>, <hchkuo@avery-design.com.tw>, 
- <cbrowy@avery-design.com>, <ira.weiny@intel.com>
-Subject: Re: [PATCH 2/5] hw/mem/cxl_type3: Pull validation checks ahead of
- functional code
-Message-ID: <20221013100740.0000471b@huawei.com>
-In-Reply-To: <20221012182120.174142-3-gregory.price@memverge.com>
-References: <20221007152156.24883-5-Jonathan.Cameron@huawei.com>
- <20221012182120.174142-1-gregory.price@memverge.com>
- <20221012182120.174142-3-gregory.price@memverge.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1oiuLF-0003n3-U9
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 05:17:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665652644;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7vMk9jAx0qHOm+qgBqfkvbRk2HkmywhOalr6VDIaviE=;
+ b=bNNfe++HqPorY2997xLMx9huebtCoCg4z6Fw2ISVfNLNo293Cq4pZVFWVTB9UpDvbW6tiv
+ cY44rp3v6ufHZvMPUb1Xyp+z08TyoBps7NVbbUcNFAzO/N3Grdg2DOEyuzN69hM5wBT/j6
+ zUeoaGWMyWqRFGgWPgHX+oNu4ONu8Yg=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-253-4RJjnRbrMg6TYKvtrmfFDA-1; Thu, 13 Oct 2022 05:17:23 -0400
+X-MC-Unique: 4RJjnRbrMg6TYKvtrmfFDA-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ s8-20020a056402520800b0045cab560d5eso1083318edd.1
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 02:17:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :to:from:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7vMk9jAx0qHOm+qgBqfkvbRk2HkmywhOalr6VDIaviE=;
+ b=iz/ew1jlhDbdJNe+CrwvQIXEGx7Oiq5rQLhSRBh889UoQ4LjPOjPv31GjsRNfjeV1u
+ x5fxY4Qld+95QgMVxH/E4abrQL+MEBaGD0C8YQLf6q5EWJYyb7B2mQIsGCbHOMG70vgP
+ saZI7myX95ZPV11+Fqm+2JXNbDP4xyf3aZM5/ncF3DFVyfZk+rBkmKt11dM46IQaPAXg
+ 42hZ/HEVZ3jVlQ5kWgzyp0bHx2E9pTbVzLhFN3ryPKkM3o/39UEjbRJqkHIuOZSNvcc0
+ VsEZSQuhsKM0GCgjaWyvJpxrJfCwJwQhi0mQQUoIsxfex5JiYKrAiWFFNuAVfl7DMkME
+ momg==
+X-Gm-Message-State: ACrzQf3nza2bAybxK8kMkabhOdXXaHlxrh2glFFld6njq0ooXIUW+NDG
+ oZQmVlF4wbLcwIUMEsjF/GF+XIAbvFdrUWKUxIkIkKrPnTWjPVWkL7bLV30mvWe74RY8nxdga25
+ gcutlLST9Bmk/hJmN1CyT6YreKoQPZuI4ls+xHJwfXRfX7CnFKqQsIAxwGN5nFab0Zys=
+X-Received: by 2002:a17:907:b05:b0:78d:9bc9:b96f with SMTP id
+ h5-20020a1709070b0500b0078d9bc9b96fmr19153918ejl.468.1665652641693; 
+ Thu, 13 Oct 2022 02:17:21 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7kIoNMnEmC5Lq/xbSHtyid/rRgV5YM9mp4jWuzWxjPvbkNjDtQlSArsm1Nh/dzEkkD0G21Qg==
+X-Received: by 2002:a17:907:b05:b0:78d:9bc9:b96f with SMTP id
+ h5-20020a1709070b0500b0078d9bc9b96fmr19153905ejl.468.1665652641238; 
+ Thu, 13 Oct 2022 02:17:21 -0700 (PDT)
+Received: from [10.43.2.39] (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ z14-20020a170906074e00b007828150a2f1sm2683752ejb.36.2022.10.13.02.17.20
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 Oct 2022 02:17:20 -0700 (PDT)
+Message-ID: <cdd75cdf-d8a3-a254-8f12-57436e60d257@redhat.com>
+Date: Thu, 13 Oct 2022 11:17:19 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH] configure: Avoid using strings binary
+From: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>
+To: qemu-devel@nongnu.org
+References: <83824abdddf124d76f9f265f77808e859dc094a8.1665650275.git.mprivozn@redhat.com>
+Content-Language: en-US
+In-Reply-To: <83824abdddf124d76f9f265f77808e859dc094a8.1665650275.git.mprivozn@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.42]
-X-ClientProxiedBy: lhrpeml500003.china.huawei.com (7.191.162.67) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mprivozn@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.528, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,238 +101,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Wed, 12 Oct 2022 14:21:17 -0400
-Gregory Price <gourry.memverge@gmail.com> wrote:
-
-> For style - pulling these validations ahead flattens the code.
-
-True, but at the cost of separating the check from where it is
-obvious why we have the check.  I'd prefer to see it next to the
-use. 
-
-Inverting the hostmem check is resonable so I'll make that change.
-
-My original thinking is that doing so would make adding non volatile
-support messier but given you plan to factor out most of this the
-change won't be too bad anyway.
-
-
+On 10/13/22 10:37, Michal Privoznik wrote:
+> When determining the endiandness of the target architecture we're
+> building for a small program is compiled, which in an obfuscated
+> way declares two strings. Then, we look which string is in
+> correct order (using strings binary) and deduct the endiandness.
+> But using the strings binary is problematic, because it's part of
+> toolchain (strings is just a symlink to
+> x86_64-pc-linux-gnu-strings or llvm-strings). And when
+> (cross-)compiling, it requires users to set the symlink to the
+> correct toolchain.
 > 
-> Signed-off-by: Gregory Price <gregory.price@memverge.com>
+> Fortunately, we have a better alternative anyways. Since we
+> require either clang or gcc we can rely on macros they declare.
+> 
+> Bug: https://bugs.gentoo.org/876933
+> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
 > ---
->  hw/mem/cxl_type3.c | 193 ++++++++++++++++++++++-----------------------
->  1 file changed, 96 insertions(+), 97 deletions(-)
+>  configure | 33 ++++++++++++++++++---------------
+>  1 file changed, 18 insertions(+), 15 deletions(-)
 > 
-> diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-> index 94bc439d89..43b2b9e041 100644
-> --- a/hw/mem/cxl_type3.c
-> +++ b/hw/mem/cxl_type3.c
-> @@ -32,107 +32,106 @@ static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
->      int dslbis_nonvolatile_num = 4;
->      MemoryRegion *mr;
+> diff --git a/configure b/configure
+> index 45ee6f4eb3..91e04635cb 100755
+> --- a/configure
+> +++ b/configure
+> @@ -1426,27 +1426,30 @@ fi
+>  # ---
+>  # big/little endian test
+>  cat > $TMPC << EOF
+> -#include <stdio.h>
+> -short big_endian[] = { 0x4269, 0x4765, 0x4e64, 0x4961, 0x4e00, 0, };
+> -short little_endian[] = { 0x694c, 0x7454, 0x654c, 0x6e45, 0x6944, 0x6e41, 0, };
+> -int main(int argc, char *argv[])
+> -{
+> -    return printf("%s %s\n", (char *)big_endian, (char *)little_endian);
+> -}
+> +#if defined(__BYTE_ORDER) && __BYTE_ORDER == __BIG_ENDIAN || \
+
+Actually, this needs to be __BYTE_ORDER__ (missing those two underscores
+at the end).
+
+> +    defined(__BIG_ENDIAN__)
+> +# error BIG
+> +#endif
+> +int main(void) { return 0; }
+>  EOF
 >  
-> +    if (!ct3d->hostmem) {
-> +        return len;
-> +    }
-> +
-> +    mr = host_memory_backend_get_memory(ct3d->hostmem);
-> +    if (!mr) {
-> +        return -EINVAL;
-> +    }
-> +
->      /* Non volatile aspects */
-> -    if (ct3d->hostmem) {
-> -        dsmas_nonvolatile = g_malloc(sizeof(*dsmas_nonvolatile));
-> -        if (!dsmas_nonvolatile) {
-> -            return -ENOMEM;
-> -        }
-> -        nonvolatile_dsmad = next_dsmad_handle++;
-> -        mr = host_memory_backend_get_memory(ct3d->hostmem);
-> -        if (!mr) {
-> -            return -EINVAL;
-> -        }
-> -        *dsmas_nonvolatile = (CDATDsmas) {
-> -            .header = {
-> -                .type = CDAT_TYPE_DSMAS,
-> -                .length = sizeof(*dsmas_nonvolatile),
-> -            },
-> -            .DSMADhandle = nonvolatile_dsmad,
-> -            .flags = CDAT_DSMAS_FLAG_NV,
-> -            .DPA_base = 0,
-> -            .DPA_length = int128_get64(mr->size),
-> -        };
-> -        len++;
-> -
-> -        /* For now, no memory side cache, plausiblish numbers */
-> -        dslbis_nonvolatile =
-> -            g_malloc(sizeof(*dslbis_nonvolatile) * dslbis_nonvolatile_num);
-> -        if (!dslbis_nonvolatile) {
-> -            return -ENOMEM;
-> -        }
-> +    dsmas_nonvolatile = g_malloc(sizeof(*dsmas_nonvolatile));
-> +    if (!dsmas_nonvolatile) {
-> +        return -ENOMEM;
-> +    }
-> +    nonvolatile_dsmad = next_dsmad_handle++;
-> +    *dsmas_nonvolatile = (CDATDsmas) {
-> +        .header = {
-> +            .type = CDAT_TYPE_DSMAS,
-> +            .length = sizeof(*dsmas_nonvolatile),
-> +        },
-> +        .DSMADhandle = nonvolatile_dsmad,
-> +        .flags = CDAT_DSMAS_FLAG_NV,
-> +        .DPA_base = 0,
-> +        .DPA_length = int128_get64(mr->size),
-> +    };
-> +    len++;
->  
-> -        dslbis_nonvolatile[0] = (CDATDslbis) {
-> -            .header = {
-> -                .type = CDAT_TYPE_DSLBIS,
-> -                .length = sizeof(*dslbis_nonvolatile),
-> -            },
-> -            .handle = nonvolatile_dsmad,
-> -            .flags = HMAT_LB_MEM_MEMORY,
-> -            .data_type = HMAT_LB_DATA_READ_LATENCY,
-> -            .entry_base_unit = 10000, /* 10ns base */
-> -            .entry[0] = 15, /* 150ns */
-> -        };
-> -        len++;
-> -
-> -        dslbis_nonvolatile[1] = (CDATDslbis) {
-> -            .header = {
-> -                .type = CDAT_TYPE_DSLBIS,
-> -                .length = sizeof(*dslbis_nonvolatile),
-> -            },
-> -            .handle = nonvolatile_dsmad,
-> -            .flags = HMAT_LB_MEM_MEMORY,
-> -            .data_type = HMAT_LB_DATA_WRITE_LATENCY,
-> -            .entry_base_unit = 10000,
-> -            .entry[0] = 25, /* 250ns */
-> -        };
-> -        len++;
-> -
-> -        dslbis_nonvolatile[2] = (CDATDslbis) {
-> -            .header = {
-> -                .type = CDAT_TYPE_DSLBIS,
-> -                .length = sizeof(*dslbis_nonvolatile),
-> -            },
-> -            .handle = nonvolatile_dsmad,
-> -            .flags = HMAT_LB_MEM_MEMORY,
-> -            .data_type = HMAT_LB_DATA_READ_BANDWIDTH,
-> -            .entry_base_unit = 1000, /* GB/s */
-> -            .entry[0] = 16,
-> -        };
-> -        len++;
-> -
-> -        dslbis_nonvolatile[3] = (CDATDslbis) {
-> -            .header = {
-> -                .type = CDAT_TYPE_DSLBIS,
-> -                .length = sizeof(*dslbis_nonvolatile),
-> -            },
-> -            .handle = nonvolatile_dsmad,
-> -            .flags = HMAT_LB_MEM_MEMORY,
-> -            .data_type = HMAT_LB_DATA_WRITE_BANDWIDTH,
-> -            .entry_base_unit = 1000, /* GB/s */
-> -            .entry[0] = 16,
-> -        };
-> -        len++;
-> -
-> -        mr = host_memory_backend_get_memory(ct3d->hostmem);
-> -        if (!mr) {
-> -            return -EINVAL;
-> -        }
-> -        dsemts_nonvolatile = g_malloc(sizeof(*dsemts_nonvolatile));
-> -        *dsemts_nonvolatile = (CDATDsemts) {
-> -            .header = {
-> -                .type = CDAT_TYPE_DSEMTS,
-> -                .length = sizeof(*dsemts_nonvolatile),
-> -            },
-> -            .DSMAS_handle = nonvolatile_dsmad,
-> -            /* Reserved - the non volatile from DSMAS matters */
-> -            .EFI_memory_type_attr = 2,
-> -            .DPA_offset = 0,
-> -            .DPA_length = int128_get64(mr->size),
-> -        };
-> -        len++;
-> +    /* For now, no memory side cache, plausiblish numbers */
-> +    dslbis_nonvolatile =
-> +        g_malloc(sizeof(*dslbis_nonvolatile) * dslbis_nonvolatile_num);
-> +    if (!dslbis_nonvolatile) {
-> +        return -ENOMEM;
->      }
->  
-> +    dslbis_nonvolatile[0] = (CDATDslbis) {
-> +        .header = {
-> +            .type = CDAT_TYPE_DSLBIS,
-> +            .length = sizeof(*dslbis_nonvolatile),
-> +        },
-> +        .handle = nonvolatile_dsmad,
-> +        .flags = HMAT_LB_MEM_MEMORY,
-> +        .data_type = HMAT_LB_DATA_READ_LATENCY,
-> +        .entry_base_unit = 10000, /* 10ns base */
-> +        .entry[0] = 15, /* 150ns */
-> +    };
-> +    len++;
-> +
-> +    dslbis_nonvolatile[1] = (CDATDslbis) {
-> +        .header = {
-> +            .type = CDAT_TYPE_DSLBIS,
-> +            .length = sizeof(*dslbis_nonvolatile),
-> +        },
-> +        .handle = nonvolatile_dsmad,
-> +        .flags = HMAT_LB_MEM_MEMORY,
-> +        .data_type = HMAT_LB_DATA_WRITE_LATENCY,
-> +        .entry_base_unit = 10000,
-> +        .entry[0] = 25, /* 250ns */
-> +    };
-> +    len++;
-> +
-> +    dslbis_nonvolatile[2] = (CDATDslbis) {
-> +        .header = {
-> +            .type = CDAT_TYPE_DSLBIS,
-> +            .length = sizeof(*dslbis_nonvolatile),
-> +        },
-> +        .handle = nonvolatile_dsmad,
-> +        .flags = HMAT_LB_MEM_MEMORY,
-> +        .data_type = HMAT_LB_DATA_READ_BANDWIDTH,
-> +        .entry_base_unit = 1000, /* GB/s */
-> +        .entry[0] = 16,
-> +    };
-> +    len++;
-> +
-> +    dslbis_nonvolatile[3] = (CDATDslbis) {
-> +        .header = {
-> +            .type = CDAT_TYPE_DSLBIS,
-> +            .length = sizeof(*dslbis_nonvolatile),
-> +        },
-> +        .handle = nonvolatile_dsmad,
-> +        .flags = HMAT_LB_MEM_MEMORY,
-> +        .data_type = HMAT_LB_DATA_WRITE_BANDWIDTH,
-> +        .entry_base_unit = 1000, /* GB/s */
-> +        .entry[0] = 16,
-> +    };
-> +    len++;
-> +
-> +    dsemts_nonvolatile = g_malloc(sizeof(*dsemts_nonvolatile));
-> +    *dsemts_nonvolatile = (CDATDsemts) {
-> +        .header = {
-> +            .type = CDAT_TYPE_DSEMTS,
-> +            .length = sizeof(*dsemts_nonvolatile),
-> +        },
-> +        .DSMAS_handle = nonvolatile_dsmad,
-> +        /* Reserved - the non volatile from DSMAS matters */
-> +        .EFI_memory_type_attr = 2,
-> +        .DPA_offset = 0,
-> +        .DPA_length = int128_get64(mr->size),
-> +    };
-> +    len++;
-> +
->      *cdat_table = g_malloc0(len * sizeof(*cdat_table));
->      /* Header always at start of structure */
->      if (dsmas_nonvolatile) {
+>  if compile_prog ; then
+> -    if strings -a $TMPE | grep -q BiGeNdIaN ; then
+> -        bigendian="yes"
+> -    elif strings -a $TMPE | grep -q LiTtLeEnDiAn ; then
+> -        bigendian="no"
+> -    else
+> -        echo big/little test failed
+> -        exit 1
+> -    fi
+> +  bigendian="yes"
+
+And this needs to be no. Will post v2 shortly.
+
+Michal
 
 
