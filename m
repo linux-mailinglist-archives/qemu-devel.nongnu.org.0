@@ -2,95 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84BC15FDBC2
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 15:56:42 +0200 (CEST)
-Received: from localhost ([::1]:45756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F7375FDB15
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 15:40:01 +0200 (CEST)
+Received: from localhost ([::1]:53532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiyhV-0004YK-I7
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 09:56:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44618)
+	id 1oiyRL-000195-A1
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 09:39:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oiyE9-0008V4-R1
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 09:26:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54332)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oiyGS-0005Fu-9c
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 09:28:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59165)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oiyE6-0004fX-Lm
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 09:26:19 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oiyGQ-00052Q-Ph
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 09:28:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665667577;
+ s=mimecast20190719; t=1665667722;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tUGZ10lTNiwQ6aescPux8I8EIy6Mrrt9FVJrzm2ZbLw=;
- b=IfMc+XamGZ1VD48l5oU7sp+QjkyLWFkriwSNSqegMuHSQZIHl0lNsdhbUN/jq5UeDd7MBB
- zRf2zeDsQH6+iQgD9Hg97qVuT5U1dBfI2JGrLHCaV/f4RzByQzWN4IQIZUxRByspB2DGiK
- UnVvGXV1MmVTIYfi8mKbRlNKPAi+7sY=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-568-cUHF2pRlPJqJiDZMRtuqdw-1; Thu, 13 Oct 2022 09:26:16 -0400
-X-MC-Unique: cUHF2pRlPJqJiDZMRtuqdw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- s8-20020a056402520800b0045cab560d5eso1526649edd.1
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 06:26:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tUGZ10lTNiwQ6aescPux8I8EIy6Mrrt9FVJrzm2ZbLw=;
- b=th5MrNDfDwqw0ReZAt5tKYZyngtvKg9fMPtTe8+OXwceV6LlsNxImRH6pXi2xJ/Ppb
- N9D8qUbhSLH8NnSvrWIrlu8qXVpb5E615xUJTzCiGxYuQhLqZb8OJuXJsd/SdUSTgj02
- qDNOX0QQ1s56AFce+/AuMkSM8iUcPkLNxuhdoLF+gaYZBUQ6cD53MYP1dy4BU0f2br1y
- 3DW7d/6ohMjS3Dac/OkNBbxCIxtFZagZpX7bfAd3BD2lOh3mPini1OB5dxyhkEG1fA/W
- wcoN+78fOfsPkI4ItH3mE8hFebvkmWoqoR257easTK1CgVkTvqxntDtlJAcGR082K6/z
- uIxg==
-X-Gm-Message-State: ACrzQf34b20GPnDQpVxiMrxUjfJsL+K5wacVTUf1kC5oqvWkI8x8xlWh
- MMbYmG054q4yp2vK8BxH7jT4YWF0RdbDjd48tp/JbY7efUyIaXonDGBNBiUb5CtxcZ8YGzR8ElP
- wgfU2cusZ+V0IdMk=
-X-Received: by 2002:a17:907:9816:b0:787:4350:3a19 with SMTP id
- ji22-20020a170907981600b0078743503a19mr25195213ejc.627.1665667575398; 
- Thu, 13 Oct 2022 06:26:15 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5NsMndaVfUEjOY71X/zhQlmfNY8pTto1dKPidZkBgZcEbaMwpBN8v0JfeyvZwa9iEVQdF9Dg==
-X-Received: by 2002:a17:907:9816:b0:787:4350:3a19 with SMTP id
- ji22-20020a170907981600b0078743503a19mr25195172ejc.627.1665667574670; 
- Thu, 13 Oct 2022 06:26:14 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
- ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.googlemail.com with ESMTPSA id
- b17-20020a170906d11100b0077077c62cadsm3030246ejz.31.2022.10.13.06.26.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Oct 2022 06:26:14 -0700 (PDT)
-Message-ID: <f1e5d7d0-6414-3219-83ef-55fc9dd72a21@redhat.com>
-Date: Thu, 13 Oct 2022 15:26:13 +0200
+ bh=8hrZ9U/C4fvSASZ3tz5f8u32RDr4F0E/I9Z6nvAA5aY=;
+ b=DCujpiMy2/34Y7U11wpzElsnCfGg/HLNPBs50DFAuA3++I2IQzh4C7tEdHbhm+/9DCSn5v
+ bxPHp0imQ3TCFAAe3R8IQKyc0wsYv6p1ImligfBvlddFRED8vcX/5HL/346y233iPnjNlj
+ uPyevyXYC2AzLikUDbSGs6mD57qmZXg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-418-rMepfIICM0mhB2uW6I0ZiA-1; Thu, 13 Oct 2022 09:28:39 -0400
+X-MC-Unique: rMepfIICM0mhB2uW6I0ZiA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 898A186F147;
+ Thu, 13 Oct 2022 13:28:38 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.110])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4585EC2DF63;
+ Thu, 13 Oct 2022 13:28:29 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4B4E221E691D; Thu, 13 Oct 2022 15:28:27 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org,  kwolf@redhat.com,  qemu-block@nongnu.org
+Subject: Re: [PATCH] blkdebug: ignore invalid rules in non-coroutine context
+References: <20221013093523.586361-1-pbonzini@redhat.com>
+ <87a660yosv.fsf@pond.sub.org>
+ <a6e941b0-ce20-916b-7ea1-d575056d8282@redhat.com>
+Date: Thu, 13 Oct 2022 15:28:27 +0200
+In-Reply-To: <a6e941b0-ce20-916b-7ea1-d575056d8282@redhat.com> (Paolo
+ Bonzini's message of "Thu, 13 Oct 2022 15:06:12 +0200")
+Message-ID: <878rljyhs4.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH] configure: Avoid using strings binary
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: Michal Privoznik <mprivozn@redhat.com>, qemu-devel@nongnu.org
-References: <83824abdddf124d76f9f265f77808e859dc094a8.1665650275.git.mprivozn@redhat.com>
- <CAFEAcA_U_mXy5haEZjEKbH_qS_oi38LK4RMD-z42QC5h2Z67cA@mail.gmail.com>
- <Y0fxjk5zaeDYCPIo@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <Y0fxjk5zaeDYCPIo@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.25, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,36 +81,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/13/22 13:07, Daniel P. Berrangé wrote:
-> The only thing 'configure' seems to be doing with the 'bigendian'
-> env var it sets, is to construct a meson cross compiler spec
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Yes, this is then available from host_machine.endian() in Meson.  It was 
-used via
+> On 10/13/22 12:56, Markus Armbruster wrote:
+>> rule_check() is called from blkdebug_co_preadv(), blkdebug_co_pwritev(),
+>> blkdebug_co_pwrite_zeroes(), blkdebug_co_pdiscard(),
+>> blkdebug_co_block_status() (all marked coroutine_fn), and
+>> blkdebug_co_flush() (which looks like it should be marked coroutine_fn).
+>
+> Yes (separate patch sent, https://lore.kernel.org/qemu-devel/20221013123711.620631-11-pbonzini@redhat.com/T/#u).
+>
+>> Ignorant question: how could it be called outside coroutine context?
+>
+> You're right, only blkdebug_debug_event() can be called outside coroutine context.  I confused process_rule() (called by 
+> blkdebug_debug_event(), both inside and outside coroutine context) with rule_check() (called in coroutine context).
 
-config_host_data.set('HOST_WORDS_BIGENDIAN',
-                      host_machine.endian() == 'big')
+Let's drop the rule_check() hunk then.
 
-until 6.2.  Now there's no explicit use but I think it's better to keep 
-it correct just in case, and avoid future hard to debug issues[1].
+>> Also, code smell: reporting an error without taking an error path.  But
+>> let's worry about that only after I understand the problem you're trying
+>> to fix.
+>
+> Unfortunately there's no way to know in advance if an event will be called inside vs. outside a coroutine.  I can keep the abort() if you 
+> think it's preferrable, so what you get is still a crash but with a nicer error message.  Since this is debugging code either solution has 
+> pros and cons.
 
-> so we do need a compile time test in configure, but I'd suggest
-> using G_BYTE_ORDER
+Let's have another look at the remaining patch hunk:
 
-It is imaginable that configure produces multiple cross-compilation 
-environments for meson, e.g. to compile qboot from sources.  In that 
-case glib would not be available, so please do not introduce any uses of 
-glib in configure.
+    @@ -858,7 +864,12 @@ static void blkdebug_debug_event(BlockDriverState *bs, BlkdebugEvent event)
+         }
 
-More in general, configure should not be doing any compile tests / 
-package detection specific to building the emulators.  Meson 0.63 will 
-*finally* make it possible to get there.
+         while (actions_count[ACTION_SUSPEND] > 0) {
+    -        qemu_coroutine_yield();
+    +        if (qemu_in_coroutine()) {
+    +            qemu_coroutine_yield();
+    +        } else {
+    +            error_report("Non-coroutine event %s cannot suspend\n",
+    +                         BlkdebugEvent_lookup.array[event]);
+    +        }
+             actions_count[ACTION_SUSPEND]--;
+         }
+     }
 
-That said, using __BYTE_ORDER__ is a good idea!
+If I understand this correctly, the user asked us to suspend, but it now
+turns out suspend doesn't make sense, so we ignore the request.
+Correct?
 
-Paolo
-
-[1] there is one build_machine.endian() which I think wants host_machine 
-instead, in fact, but it only affects the final summary.
+warn_report()?  info_report()?
 
 
