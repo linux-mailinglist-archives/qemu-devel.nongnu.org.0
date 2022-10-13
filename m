@@ -2,85 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 479D55FDB35
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 15:42:22 +0200 (CEST)
-Received: from localhost ([::1]:44946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCE965FD8DF
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 14:11:26 +0200 (CEST)
+Received: from localhost ([::1]:59096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiyTd-0005YK-C1
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 09:42:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46794)
+	id 1oix3d-0003UV-9N
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 08:11:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrea@rivosinc.com>)
- id 1oivPY-0004lR-Bk
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 06:25:56 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:40830)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrea@rivosinc.com>)
- id 1oivPU-0006n5-JI
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 06:25:55 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id w18so2099479wro.7
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 03:25:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=MRGUhw9Z/rclYNgAUGnmhtys4SylygHphWSaYymH1nE=;
- b=m/PpNdCNtFLQiZ3aQsmMytC43YlmkSkVKmzuaPip/LspGBlVVd41Ee/nPlZKD3vNNx
- QzFApRXCXUn5i80syu2XWhzC7dnplgQL9EVgZDR+7OwfZE2dPDk6fAYEbreqEq4RJFZi
- sZpaD8DN93jJY8omx+nOQ0KPzmNxwMcUYtCEhCdy5Ekx1W2Fro2CmL9IhcuWKPjHuEfN
- ryRprYkYM1q3FdyNAI/Bwff8vfo0h+POlnoWWXUmSOy3ZNG84BLr3qPLXlUU7HJgAKf9
- sz2KYEiUPBMev5c3G6XsnERKsslYhq2MPdreu/54qnlqPZpA6gJIlbPEVTXrXMD4dz7b
- 2wYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MRGUhw9Z/rclYNgAUGnmhtys4SylygHphWSaYymH1nE=;
- b=AEJE618qrWt0GeBWkvxP5jGOKBIpHDjyf/+ktIGKIWmL3EORF+Q7JVyFTarGCkGoJ+
- D7QbkjOFEG2rnoeKm79Xm8DYBnP6p+yUDmTwbC2vDP/l8Fu/41bQRhjveOUY+W3m4bTm
- m4ht+upCp4ALbAK56c0TqMIcRhNOfuDLVZDtWRHrnYVm56XQh8+QG04FFvVYwgyXbESW
- FYRQsg/zuH7CLtoHLTUBSa665uXp8UCrrGLANJvM0uLWpMKwEOOTIs6AnT4OPTNDsAXP
- bHWmbWwoYdo/GGgPEzeRMddhCXv0ytlKqklz4iWah5MJNLx/I84kAjKhlmgMl5hKeA1v
- +Slw==
-X-Gm-Message-State: ACrzQf21+WLrphcLFogeLDaHuM/p0Wh5ajtVKQlT2Jt6+juARHkCqfU7
- 6iNDbaEypIJGMi1m1q1WJuOeWA==
-X-Google-Smtp-Source: AMsMyM682ldcEl8+Qspxt36yqLXlqCAqkxbZtO7OHf4VYybBis1hyoaAdIeiVzLKk139SD+g5QWZkg==
-X-Received: by 2002:adf:eec9:0:b0:22c:de88:3656 with SMTP id
- a9-20020adfeec9000000b0022cde883656mr20750439wrp.26.1665656749314; 
- Thu, 13 Oct 2022 03:25:49 -0700 (PDT)
-Received: from andrea ([77.89.52.45]) by smtp.gmail.com with ESMTPSA id
- l17-20020adffe91000000b0022cd0c8c696sm1650135wrr.103.2022.10.13.03.25.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Oct 2022 03:25:48 -0700 (PDT)
-Date: Thu, 13 Oct 2022 12:25:43 +0200
-From: Andrea Parri <andrea@rivosinc.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Palmer Dabbelt <palmer@rivosinc.com>, alex.bennee@linaro.org,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH] RISC-V: Add support for Ztso
-Message-ID: <Y0fnp2uEjzF9XDK+@andrea>
-References: <YzXvIKVeFcHQ3ZQI@work-vm>
- <mhng-36837e18-1883-443f-85a7-69010d5d38ef@palmer-ri-x1c9>
- <YzqhAdsGwC0so55O@work-vm> <Y0fX/VloiH7Bqewm@andrea>
- <Y0fhi2/hcvb37uiO@work-vm>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1oiwsm-0005jF-Hg
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:00:13 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2735)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1oiwsk-0006O3-H7
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:00:12 -0400
+Received: from fraeml738-chm.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Mp7L05j68z67LCy;
+ Thu, 13 Oct 2022 19:57:12 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
+ fraeml738-chm.china.huawei.com (10.206.15.219) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 13 Oct 2022 14:00:05 +0200
+Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
+ lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 13 Oct 2022 13:00:05 +0100
+To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Ben Widawsky
+ <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>, Huai-Cheng Kuo
+ <hchkuo@avery-design.com.tw>, Chris Browy <cbrowy@avery-design.com>, "Gregory
+ Price" <gregory.price@memverge.com>, <ira.weiny@intel.com>
+CC: <linuxarm@huawei.com>
+Subject: [PATCH v8 0/5] QEMU PCIe DOE for PCIe 4.0/5.0 and CXL 2.
+Date: Thu, 13 Oct 2022 13:00:04 +0100
+Message-ID: <20221013120009.15541-1-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y0fhi2/hcvb37uiO@work-vm>
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=andrea@rivosinc.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml100005.china.huawei.com (7.191.160.25) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 13 Oct 2022 09:17:25 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,37 +68,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-> > AFAICT, Ztso allows the forwarding in question too.  Simulations with
-> > the axiomatic formalization confirm such expectation:
-> 
-> OK that seems to be what it says in:
-> https://five-embeddev.com/riscv-isa-manual/latest/ztso.html
->   'In both of these memory models, it is the that allows a hart to
-> forward a value from its store buffer to a subsequent (in program order)
-> load—that is to say that stores can be forwarded locally before they are
-> visible to other harts'
+Changes since v7: Details in individual patches:
+Thanks to Gregory Price for reviewing!
+ - Fix heap corruption.
+ - Check allocations succeed.
+ - Substantial refactor of type 3 cdat table build to make it
+   simpler and easier to add volatile entry support.
 
-Indeed, thanks for the remark.
+V7 Cover letter - lightly edited.
 
+Whilst I have carried on Huai-Cheng Kuo's series version numbering and
+naming, there have been very substantial changes since v6 so I would
+suggest fresh review makes sense for anyone who has looked at this before.
+In particularly if the Avery design folks could check I haven't broken
+anything that would be great.
 
-> > RISCV intra-processor-forwarding
-> > {
-> > 0:x5=1; 0:x6=x; 0:x8=y;
-> > 1:x5=1; 1:x6=y; 1:x8=x;
-> > }
-> >  P0          | P1          ;
-> >  sw x5,0(x6) | sw x5,0(x6) ;
-> >  lw x9,0(x6) | lw x9,0(x6) ;
-> >  lw x7,0(x8) | lw x7,0(x8) ;
-> > exists
-> > (0:x7=0 /\ 1:x7=0 /\ 0:x9=1 /\ 1:x9=1)
-> 
-> (I'm a bit fuzzy reading this...)
-> So is that the interesting case - where x7 is saying neither processor
-> saw the other processors write yet, but they did see their own?
+For reference v6: QEMU PCIe DOE for PCIe 4.0/5.0 and CXL 2.0
+https://lore.kernel.org/qemu-devel/1623330943-18290-1-git-send-email-cbrowy@avery-design.com/
 
-Right, it was inspired by the homonymous test in the Intel's specs.
+Summary of changes:
+1) Linux headers definitions for DOE are now upstream so drop that patch.
+2) Add CDAT for switch upstream port.
+3) Generate 'plausible' default CDAT tables when a file is not provided.
+4) General refactoring to calculate the correct table sizes and allocate
+   based on that rather than copying from a local static array.
+5) Changes from earlier reviews such as matching QEMU type naming style.
+6) Moved compliance and SPDM usecases to future patch sets.
 
-  Andrea
+Sign-offs on these are complex because the patches were originally developed
+by Huai-Cheng Kuo, but posted by Chris Browy and then picked up by Jonathan
+Cameron who made substantial changes.
+
+Huai-Cheng Kuo confirmed they are happy to maintain this updated code.
+
+What's here?
+
+This series brings generic PCI Express Data Object Exchange support (DOE)
+DOE is defined in the PCIe Base Spec r6.0. It consists of a mailbox in PCI
+config space via a PCIe Extended Capability Structure.
+The PCIe spec defines several protocols (including one to discover what
+protocols a given DOE instance supports) and other specification such as
+CXL define additional protocols using their own vendor IDs.
+
+In this series we make use of the DOE to support the CXL spec defined
+Table Access Protocol, specifically to provide access to CDAT - a
+table specified in a specification that is hosted by the UEFI forum
+and is used to provide runtime discoverability of the sort of information
+that would otherwise be available in firmware tables (memory types,
+latency and bandwidth information etc).
+
+The Linux kernel gained support for DOE / CDAT on CXL type 3 EPs in 6.0.
+The version merged did not support interrupts (earlier versions did
+so that support in the emulation was tested a while back).
+
+This series provides CDAT emulation for CXL switch upstream ports
+and CXL type 3 memory devices. Note that to exercise the switch support
+additional Linux kernel patches are needed.
+https://lore.kernel.org/linux-cxl/20220503153449.4088-1-Jonathan.Cameron@huawei.com/
+(I'll post a new version of that support shortly)
+
+Additional protocols will be supported by follow on patch sets:
+* CXL compliance protocol.
+* CMA / SPDM device attestation.
+(Old version at https://gitlab.com/jic23/qemu/-/commits/cxl-next - will refresh
+that tree next week)
+
+Huai-Cheng Kuo (3):
+  hw/pci: PCIe Data Object Exchange emulation
+  hw/cxl/cdat: CXL CDAT Data Object Exchange implementation
+  hw/mem/cxl-type3: Add CXL CDAT Data Object Exchange
+
+Jonathan Cameron (2):
+  hw/mem/cxl-type3: Add MSIX support
+  hw/pci-bridge/cxl-upstream: Add a CDAT table access DOE
+
+ MAINTAINERS                    |   7 +
+ hw/cxl/cxl-cdat.c              | 224 ++++++++++++++++++++
+ hw/cxl/meson.build             |   1 +
+ hw/mem/cxl_type3.c             | 276 +++++++++++++++++++++++++
+ hw/pci-bridge/cxl_upstream.c   | 194 ++++++++++++++++-
+ hw/pci/meson.build             |   1 +
+ hw/pci/pcie_doe.c              | 367 +++++++++++++++++++++++++++++++++
+ include/hw/cxl/cxl_cdat.h      | 166 +++++++++++++++
+ include/hw/cxl/cxl_component.h |   7 +
+ include/hw/cxl/cxl_device.h    |   3 +
+ include/hw/cxl/cxl_pci.h       |   1 +
+ include/hw/pci/pci_ids.h       |   3 +
+ include/hw/pci/pcie.h          |   1 +
+ include/hw/pci/pcie_doe.h      | 123 +++++++++++
+ include/hw/pci/pcie_regs.h     |   4 +
+ 15 files changed, 1377 insertions(+), 1 deletion(-)
+ create mode 100644 hw/cxl/cxl-cdat.c
+ create mode 100644 hw/pci/pcie_doe.c
+ create mode 100644 include/hw/cxl/cxl_cdat.h
+ create mode 100644 include/hw/pci/pcie_doe.h
+
+-- 
+2.37.2
+
 
