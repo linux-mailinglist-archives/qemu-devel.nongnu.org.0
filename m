@@ -2,58 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8209D5FD7FD
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 12:57:57 +0200 (CEST)
-Received: from localhost ([::1]:58062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BED4B5FD829
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 13:14:05 +0200 (CEST)
+Received: from localhost ([::1]:36020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oivuT-0000lr-HR
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 06:57:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51600)
+	id 1oiwA8-0006sa-8i
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 07:14:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jb-gnumlists@wisemo.com>)
- id 1oivF8-0007Qc-0X
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 06:15:10 -0400
-Received: from smtpv6n-hq2.wisemo.com ([2a01:4f0:4018::24b]:14268)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oivV5-0007uZ-Ah
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 06:31:39 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:38885)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jb-gnumlists@wisemo.com>)
- id 1oivF5-0004Vc-9J
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 06:15:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=wisemo.com;
- s=v2016; 
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID;
- bh=UJ5mdMOhcvHkhBaF1Gm8ABc070ZuO15WCAqbfcHJf0c=; 
- b=EKBJREj+msiNP/BFFc26B7SHBOKzHXfzMIcWEWhj4WDD2x62Lt+/enw+sZMoK3RRlgibZt9l9qKj3QoXn9kxCFzIkZ56T8qj8NMV0PnJ7gqsYIacfK3SE+JNH0ieaxIB1V6uiTHWtoSckYmy77dD5qGJcbfVkR/EL2YUaKAB9mYFSjtBulSHMa7OoxT0nJw4fcmy0QASEo1EsIJmwaDlws9EVMHHPF4dudAH79MMZLwrQrZcRuTVyhu1qDc+Oj0BEcjPusI4A2Hv7GQ8c4IfKL5Cnai6VUVCX5FlgBeSXiTCeVz2PCJBAW5xvr5npCPBiG4hJPH5WCTbaBTwHWhv6w==;
-Received: from spaceout.i.wisemo.com ([192.168.2.112] helo=[10.240.3.11])
- by mailout.i.wisemo.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.84_2) (envelope-from <jb-gnumlists@wisemo.com>)
- id 1oivEx-0008ET-Ri; Thu, 13 Oct 2022 12:14:59 +0200
-Message-ID: <a461e20d-2f90-84a8-4c4c-ae6e94eb4685@wisemo.com>
-Date: Thu, 13 Oct 2022 12:14:59 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oivV3-0007pp-0M
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 06:31:38 -0400
+Received: by mail-pl1-x634.google.com with SMTP id c20so1425811plc.5
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 03:31:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=wUrB3Ia+LrhOUrq0NGqNaV0bsBeTtPh27i03z5r8f6w=;
+ b=tvhorjsqjXsG4ZoLHN58EVn76M8cnayDLzhuAJR0zZISr7Un/JkrCnjfDzuMA5Fc+Q
+ dnreTzuL9HWv+XCb6eZiTdKdy+cIyf7LRZAB9lL35GAddOuNF+90+R5On24jxIuCueFJ
+ A8VBNakS+pnnvFArlJjNXWB2MDxyhsBl67RG9pXbzfgGhRtfBWKNT0YEcx3IFHOX+8G7
+ IENU0fwArNyhvOYEwMTub2iGI/SNDMtFO/NMQiwGvcKLM5LtNC+rAp7lbmRAXAvoANqJ
+ zq0eo2YVlc801xW1TcWUbTUv6HGIX+2gjKj08JIdnSYc5ZvFtUoDDstJeLAkkoJdlUfz
+ cHBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wUrB3Ia+LrhOUrq0NGqNaV0bsBeTtPh27i03z5r8f6w=;
+ b=GYPGrSnap5wyqYCTIBqfo0jlRTOodBXCQjyYt7VHquQTo5ey5KZ0n0A6qXxDyF3IKb
+ SuNIET2HLpMz9gaOLuZCmt9EceWqFHR1aARAC2HIw5lkpGqKkeCEDHIHi54YGiEpHopU
+ 3GaUhEmuV/U99Oi/Fy+BcDhOEBIXCX++lVz/8UbmXLkfFcilxnaKABy2CO7uc4/STN0U
+ 6OM0w/ZQ98EAha+vJgDF5WleHEveLcn6J8y+pCVbxC6S0qXggRs85fE6ouVMp3Ktx16D
+ 7c1eMbjoHAlswBa0OhEPneayUp0HOR6eeBDHnHRL50VfwNdk5BGoBH6XVmiln3Ndd7Db
+ teIQ==
+X-Gm-Message-State: ACrzQf3bhnedat3cnpF+iDPN33ruv3N5d5/INRQxhAx/JG5Pe9QkFe/b
+ p9jGpA25btN7gNpnHsHLncpvjM7GEcB1uT5hbMr3nA==
+X-Google-Smtp-Source: AMsMyM4VA9zxQOM4KzAkg5wnZXzseNPLLuxQ9EwY0ctxt0vD78DyxnP2WHFeE6YLZOIwLTUHt+GGM72mrpVuY76F338=
+X-Received: by 2002:a17:902:aa8b:b0:178:8f1d:6936 with SMTP id
+ d11-20020a170902aa8b00b001788f1d6936mr34632984plr.168.1665657092424; Thu, 13
+ Oct 2022 03:31:32 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH] net: print a more actionable error when slirp is not found
-Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: qemu-devel@nongnu.org, thuth@redhat.com, jasowang@redhat.com
-References: <20220929163237.1417215-1-marcandre.lureau@redhat.com>
- <2973900.g0HVWOepMQ@silver>
- <CAMxuvawttTSHMwzaUYpmKNCh8fauR1xCgEhaQD3C2GJDKFyZ5Q@mail.gmail.com>
-From: Jakob Bohm <jb-gnumlists@wisemo.com>
-Organization: WiseMo A/S
-In-Reply-To: <CAMxuvawttTSHMwzaUYpmKNCh8fauR1xCgEhaQD3C2GJDKFyZ5Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a01:4f0:4018::24b;
- envelope-from=jb-gnumlists@wisemo.com; helo=smtpv6n-hq2.wisemo.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+References: <20221011224154.644379-1-peterx@redhat.com> <Y0cEjAT6yMX/Xasv@x1n>
+In-Reply-To: <Y0cEjAT6yMX/Xasv@x1n>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 13 Oct 2022 11:31:20 +0100
+Message-ID: <CAFEAcA_wvnwoSo8jnddEJ5+87xxRdXLpR0r-20E5JkLTTXXbzQ@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/2] qemu-thread: Strict unlock check
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
+ Yury Kotov <yury-kotov@yandex-team.ru>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.528,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,129 +85,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/10/2022 15:49, Marc-André Lureau wrote:
-> Hi
+On Wed, 12 Oct 2022 at 19:16, Peter Xu <peterx@redhat.com> wrote:
 >
-> On Fri, Sep 30, 2022 at 11:49 PM Christian Schoenebeck
-> <qemu_oss@crudebyte.com> wrote:
->> On Donnerstag, 29. September 2022 18:32:37 CEST Marc-André Lureau wrote:
->>> From: Marc-AndrÃ© Lureau <marcandre.lureau@redhat.com>
->>>
->>> If slirp is not found during compile-time, and not manually disabled,
->>> print a friendly error message, as suggested in the "If your networking
->>> is failing after updating to the latest git version of QEMU..." thread
->>> by various people.
->>>
->>> Signed-off-by: Marc-AndrÃ© Lureau <marcandre.lureau@redhat.com>
->>> ---
->>>   meson.build |  4 ++++
->>>   net/net.c   | 19 +++++++++++++++++--
->>>   2 files changed, 21 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/meson.build b/meson.build
->>> index 8dc661363f..4f69d7d0b4 100644
->>> --- a/meson.build
->>> +++ b/meson.build
->>> @@ -657,6 +657,10 @@ if not get_option('slirp').auto() or have_system
->>>     endif
->>>   endif
->>>
->>> +if get_option('slirp').disabled()
->>> +  config_host_data.set('CONFIG_SLIRP_DISABLED', true)
->>> +endif
->>> +
->>>   vde = not_found
->>>   if not get_option('vde').auto() or have_system or have_tools
->>>     vde = cc.find_library('vdeplug', has_headers: ['libvdeplug.h'],
->>> diff --git a/net/net.c b/net/net.c
->>> index 2db160e063..e6072a5ddd 100644
->>> --- a/net/net.c
->>> +++ b/net/net.c
->>> @@ -990,14 +990,29 @@ static int net_init_nic(const Netdev *netdev, const
->>> char *name, return idx;
->>>   }
->>>
->>> +#if (defined(CONFIG_SLIRP) || !defined(CONFIG_SLIRP_DISABLED))
->>> +static int net_init_user(const Netdev *netdev, const char *name,
->>> +                         NetClientState *peer, Error **errp)
->>> +{
->>> +#ifdef CONFIG_SLIRP
->>> +    return net_init_slirp(netdev, name, peer, errp);
->>> +#else
->>> +    error_setg(errp,
->>> +               "Type 'user' is not a supported netdev backend by this QEMU
->>> build " +               "because the libslirp development files were not
->>> found during build " +               "of QEMU.");
->>> +#endif
->>> +    return -1;
->>> +}
->>> +#endif
->> I just tried this, but somehow it is not working for me. net_init_user() is
->> never called and therefore I don't get the error message. That should be
->> working if the user launched QEMU without any networking arg, right?
->>
-> That's because vl.c has:
-> if (default_net) {
-> ...
-> #ifdef CONFIG_SLIRP
->          qemu_opts_parse(net, "user", true, &error_abort);
-> #endif
+> On Tue, Oct 11, 2022 at 06:41:52PM -0400, Peter Xu wrote:
+> > NOTE: mark patchset RFC because "make check" will easily fail; but I didn't
+> > yet dig into why as I'm not familiar with the code paths that triggers, it
+> > can be bugs hidden or something I missed.  So RFC to just have some thoughts.
 >
-> Iow, it doesn't try to use slirp by default if it's not found at
-> compile time. We can eventually change that, but that might break
-> existing users who don't build with slirp.
+> I just noticed (after reminded from Dave) that the reclock was actually the
+> recursive lock, which definitely won't work with patch 2 at all.
 >
-> Alternatively, it could error out only if slirp was not explicitly
-> disabled at configure time.
->
->> And still, I would find it better if there was also a clear build-time error
->> if there was no libslirp and slirp feature was not explicitly disabled.
-> That's not the typical way we deal with dependencies, but I can try to
-> do that as well.
-Maybe change that ifdef section to report the error early instead of 
-introducing the new
-helper function, something like
+> OTOH I also noticed PTHREAD_MUTEX_ERRORCHECK which does the same unlock
+> check that we can leverage (and it'll also check re-lock from the same
+> thread which causes deadlock).  I'll give that a shot instead.
 
-  #ifdef CONFIG_SLIRP
-          qemu_opts_parse(net, "user", true, &error_abort);
-+        // Explicit error messages, because it is not obvious to users that
-+        //     "user" networking is based on code from libslirp.
-+#elif !defined(CONFIG_SLIRP_DISABLED))
-+        some_error_function(
-+            "Type 'user' is not a supported netdev backend by this QEMU build "
-+            "because the libslirp development files were not found during build "
-+            "of QEMU.");
-+#else
-+        some_error_function(
-+            "Type 'user' is not a supported netdev backend by this QEMU build "
-+            "because QEMU was explicitly built without libslirp");
-  #endif
+We used to use PTHREAD_MUTEX_ERRORCHECK, but stopped because it
+does not work with the idiom we use for handling mutexes across
+fork() where you take the lock in the parent, and then unlock it
+in the child after the fork. With glibc's implementation of
+PTHREAD_MUTEX_ERRORCHECK the unlock in the child fails. See
+commit 24fa90499f8b24bcba29 from 2015.
 
-Also output these messages when the user backend is explicitly requested 
-and not CONFIG_SLIRP.
-
->>>   static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
->>>       const Netdev *netdev,
->>>       const char *name,
->>>       NetClientState *peer, Error **errp) = {
->>>           [NET_CLIENT_DRIVER_NIC]       = net_init_nic,
->>> -#ifdef CONFIG_SLIRP
->>> -        [NET_CLIENT_DRIVER_USER]      = net_init_slirp,
->>> +#if (defined(CONFIG_SLIRP) || !defined(CONFIG_SLIRP_DISABLED))
->>> +        [NET_CLIENT_DRIVER_USER]      = net_init_user,
->>>   #endif
->>>           [NET_CLIENT_DRIVER_TAP]       = net_init_tap,
->>>           [NET_CLIENT_DRIVER_SOCKET]    = net_init_socket,
->>>
-
-
-Enjoy
-
-Jakob
--- 
-Jakob Bohm, CIO, Partner, WiseMo A/S.  http://www.wisemo.com
-Transformervej 29, 2860 Soborg, Denmark.  Direct +45 31 13 16 10
-This public discussion message is non-binding and may contain errors.
-WiseMo - Remote Service Management for PCs, Phones and Embedded
-
+thanks
+-- PMM
 
