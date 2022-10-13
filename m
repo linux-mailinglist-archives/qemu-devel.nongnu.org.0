@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3386D5FD82C
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 13:14:36 +0200 (CEST)
-Received: from localhost ([::1]:35344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A30955FD896
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 13:42:55 +0200 (CEST)
+Received: from localhost ([::1]:45698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiwAd-0007On-8n
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 07:14:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42944)
+	id 1oiwc0-00060E-QE
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 07:42:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oiw4S-0000yT-0x
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 07:08:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55782)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oiw4N-0005hI-1q
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 07:08:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665659284;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=/kJPiBZ5zfxdxSwquLFhM/7N7AYGkTbgX77zyoGtj9E=;
- b=Fq6sKJhjrNdlf07rnE/8tDaIxwBzEcvZmDWj0hLvuD1BvzVVpIyMFbzmO3gZNZ8tTHkQmT
- lnUBkXDHI+Cc39XVsdTf84M7vrpGiuX6BXuRWtOPc/NX0UEh744Qv+LYPNlRh6Oy0vt/3s
- sBt6WPGW2IqoCvcoHuVWc5CyO4QEfCM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-357-vaHzrHTzPZCLsVSmBR044Q-1; Thu, 13 Oct 2022 07:08:03 -0400
-X-MC-Unique: vaHzrHTzPZCLsVSmBR044Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1EDC93811F28;
- Thu, 13 Oct 2022 11:08:03 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4365040C6F9F;
- Thu, 13 Oct 2022 11:08:02 +0000 (UTC)
-Date: Thu, 13 Oct 2022 12:07:58 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Michal Privoznik <mprivozn@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] configure: Avoid using strings binary
-Message-ID: <Y0fxjk5zaeDYCPIo@redhat.com>
-References: <83824abdddf124d76f9f265f77808e859dc094a8.1665650275.git.mprivozn@redhat.com>
- <CAFEAcA_U_mXy5haEZjEKbH_qS_oi38LK4RMD-z42QC5h2Z67cA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <gourry.memverge@gmail.com>)
+ id 1oiwW2-0003yw-QO
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 07:36:42 -0400
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:42563)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <gourry.memverge@gmail.com>)
+ id 1oiwW0-00033s-TP
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 07:36:42 -0400
+Received: by mail-qk1-x741.google.com with SMTP id j21so859188qkk.9
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 04:36:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=FfB92XLO1eDeU1fbo/jeYP1FGMsA0M+4vYPO/tAGlDs=;
+ b=jlcSIsVmfFW8n8M+DZ0KV20jtDLaMOuTdJIoWZVDxVVSap5Ta8CWPoOGVZKrbsGo0C
+ NoXZn279KdvFviwwkEr3ooBisRYq/IpFLrSiJ05RVLwJ12UalFsL2OE5vuczPjXY5NrI
+ +fzbwpbk8Ctaq6Qm26r1361dn4LRqAj/M83meXPUEqyQaZFrPic8ruPqhSVIO+yAjs3G
+ N8sPwZizTLqE1XecsznSAtalKDTh89wyEao/i+sMYQ+zuLl0qoo4v1KLK4FSpss1/62+
+ LTjd1PfAXBomVik3p1YDm0yPOdeLBSZLjkJ5Gw4ppLIHJZE0dek7easQZAdz3wxIohx4
+ ubpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FfB92XLO1eDeU1fbo/jeYP1FGMsA0M+4vYPO/tAGlDs=;
+ b=R4t/zuvi+hRgMDrCYZDVeihe0fWAl/Pogl0Ksl3Ba7duITwU0lu9jc9doWIcWmQ5r6
+ 1RqLcp2KmqflMRuk/TThHRFTffIk7vb9gGOvFns3JkzzulhaK5Ve5Y+VclbDmlolVWz2
+ yem/TzG3YpJO0u8sAL8fHGIWRTcasQf8GcYT23v71ZK+ucG5wqeFI4ZXCPbYcPbW6wOz
+ BWZE9xg3T3hYWTtP2XLsMqKOeDykiroDfQ91ukfIM9qxxiz/NZ5INDgRie5CboASJ9kj
+ gqPMWLtnlK/YdxgZVAPU7497YWAJYbzGdfAZB7o006roGbjawdTw26gwyzVx0lSgy1Np
+ 8eFw==
+X-Gm-Message-State: ACrzQf1bOdzXz597nYxBksO4sd8Besri+Al8A9pZMkeO2GpkPh3TPhm1
+ IwGlhP38uhTmC6SR/gp8EjTt5Okv0mEDil8VOw==
+X-Google-Smtp-Source: AMsMyM5j+/AmBlp6nVFvHrg5JnYqNaa8yhgD5M4MNZA20og8BXk3aI9gqoDWar6roLWnWWJ+H4s5QxKB7s+rsl8Vbp0=
+X-Received: by 2002:a37:658b:0:b0:6ee:7998:d694 with SMTP id
+ z133-20020a37658b000000b006ee7998d694mr9842396qkb.777.1665660999445; Thu, 13
+ Oct 2022 04:36:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA_U_mXy5haEZjEKbH_qS_oi38LK4RMD-z42QC5h2Z67cA@mail.gmail.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20221007152156.24883-5-Jonathan.Cameron@huawei.com>
+ <20221012182120.174142-1-gregory.price@memverge.com>
+ <20221013095749.0000052d@huawei.com>
+In-Reply-To: <20221013095749.0000052d@huawei.com>
+From: Gregory Price <gourry.memverge@gmail.com>
+Date: Thu, 13 Oct 2022 07:36:28 -0400
+Message-ID: <CAD3UvdRYH2NVck-kLYLQcBym-5TY0WXWj7vCzcRi5yEuVfgzcQ@mail.gmail.com>
+Subject: Re: [PATCH v7 4/5] hw/mem/cxl-type3: Add CXL CDAT Data Object Exchange
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: qemu-devel@nongnu.org, linux-cxl@vger.kernel.org, 
+ Alison Schofield <alison.schofield@intel.com>,
+ Davidlohr Bueso <dave@stgolabs.net>, a.manzanares@samsung.com, 
+ Ben Widawsky <bwidawsk@kernel.org>, Gregory Price <gregory.price@memverge.com>,
+ mst@redhat.com, 
+ hchkuo@avery-design.com.tw, cbrowy@avery-design.com, ira.weiny@intel.com
+Content-Type: multipart/alternative; boundary="000000000000302f1b05eae8ecc1"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::741;
+ envelope-from=gourry.memverge@gmail.com; helo=mail-qk1-x741.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,75 +87,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 13, 2022 at 11:39:34AM +0100, Peter Maydell wrote:
-> On Thu, 13 Oct 2022 at 09:47, Michal Privoznik <mprivozn@redhat.com> wrote:
+--000000000000302f1b05eae8ecc1
+Content-Type: text/plain; charset="UTF-8"
+
+Reading through your notes, everything seems reasonable, though I'm not
+sure I agree with the two pass notion, though I'll wait to see the patch
+set.
+
+The enum is a good idea, *forehead slap*, I should have done it.  If we
+have a local enum, why not just make it global (within the file) and
+allocate the table as I have once we know how many MRs are present?
+
+6 eggs/half dozen though, I'm ultimately fine with either.
+
+On Thu, Oct 13, 2022, 4:58 AM Jonathan Cameron <Jonathan.Cameron@huawei.com>
+wrote:
+
+> On Wed, 12 Oct 2022 14:21:15 -0400
+> Gregory Price <gourry.memverge@gmail.com> wrote:
+>
+> > Included in this response is a recommended patch set on top of this
+> > patch that resolves a number of issues, including style and a heap
+> > corruption bug.
 > >
-> > When determining the endiandness of the target architecture we're
-> > building for a small program is compiled, which in an obfuscated
-> > way declares two strings. Then, we look which string is in
-> > correct order (using strings binary) and deduct the endiandness.
-> > But using the strings binary is problematic, because it's part of
-> > toolchain (strings is just a symlink to
-> > x86_64-pc-linux-gnu-strings or llvm-strings). And when
-> > (cross-)compiling, it requires users to set the symlink to the
-> > correct toolchain.
+> > The purpose of this patch set is to refactor the CDAT initialization
+> > code to support future patch sets that will introduce multi-region
+> > support in CXL Type3 devices.
 > >
-> > Fortunately, we have a better alternative anyways. Since we
-> > require either clang or gcc we can rely on macros they declare.
+> > 1) Checkpatch errors in the immediately prior patch
+> > 2) Flatting of code in cdat initialization
+> > 3) Changes in allocation and error checking for cleanliness
+> > 4) Change in the allocation/free strategy of CDAT sub-tables to simplify
+> >    multi-region allocation in the future.  Also resolves a heap
+> >    corruption bug
+> > 5) Refactor of CDAT initialization code into a function that initializes
+> >    sub-tables per memory-region.
 > >
-> > Bug: https://bugs.gentoo.org/876933
-> > Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
-> 
-> If we can determine this just by looking at C macros, does
-> this really need to be a configure test at all ? Paolo?
+> > Gregory Price (5):
+> >   hw/mem/cxl_type3: fix checkpatch errors
+> >   hw/mem/cxl_type3: Pull validation checks ahead of functional code
+> >   hw/mem/cxl_type3: CDAT pre-allocate and check resources prior to work
+> >   hw/mem/cxl_type3: Change the CDAT allocation/free strategy
+> >   hw/mem/cxl_type3: Refactor CDAT sub-table entry initialization into a
+> >     function
+> >
+> >  hw/mem/cxl_type3.c | 240 +++++++++++++++++++++++----------------------
+> >  1 file changed, 122 insertions(+), 118 deletions(-)
+> >
+>
+> Thanks, I'm going to roll this stuff into the original patch set for v8.
+> Some of this I already have (like the check patch stuff).
+> Some I may disagree with in which case  I'll reply to the patches - note
+> I haven't looked at them in detail yet!
+>
+> Jonathan
+>
 
-We don't need to rely on CLang / GCC macros either, as this
-is exposed by GLib 
+--000000000000302f1b05eae8ecc1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-$ grep BYTE_ORDER /usr/lib64/glib-2.0/include/glibconfig.h
-#define G_BYTE_ORDER G_LITTLE_ENDIAN
+<div dir=3D"auto">Reading through your notes, everything seems reasonable, =
+though I&#39;m not sure I agree with the two pass notion, though I&#39;ll w=
+ait to see the patch set.<div dir=3D"auto"><br></div><div dir=3D"auto">The =
+enum is a good idea, *forehead slap*, I should have done it.=C2=A0 If we ha=
+ve a local enum, why not just make it global (within the file) and allocate=
+ the table as I have once we know how many MRs are present?</div><div dir=
+=3D"auto"><br></div><div dir=3D"auto">6 eggs/half dozen though, I&#39;m ult=
+imately fine with either.=C2=A0</div></div><br><div class=3D"gmail_quote"><=
+div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 13, 2022, 4:58 AM Jonathan=
+ Cameron &lt;<a href=3D"mailto:Jonathan.Cameron@huawei.com">Jonathan.Camero=
+n@huawei.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Wed,=
+ 12 Oct 2022 14:21:15 -0400<br>
+Gregory Price &lt;<a href=3D"mailto:gourry.memverge@gmail.com" target=3D"_b=
+lank" rel=3D"noreferrer">gourry.memverge@gmail.com</a>&gt; wrote:<br>
+<br>
+&gt; Included in this response is a recommended patch set on top of this<br=
+>
+&gt; patch that resolves a number of issues, including style and a heap<br>
+&gt; corruption bug.<br>
+&gt; <br>
+&gt; The purpose of this patch set is to refactor the CDAT initialization<b=
+r>
+&gt; code to support future patch sets that will introduce multi-region<br>
+&gt; support in CXL Type3 devices.<br>
+&gt; <br>
+&gt; 1) Checkpatch errors in the immediately prior patch<br>
+&gt; 2) Flatting of code in cdat initialization<br>
+&gt; 3) Changes in allocation and error checking for cleanliness<br>
+&gt; 4) Change in the allocation/free strategy of CDAT sub-tables to simpli=
+fy<br>
+&gt;=C2=A0 =C2=A0 multi-region allocation in the future.=C2=A0 Also resolve=
+s a heap<br>
+&gt;=C2=A0 =C2=A0 corruption bug<br>
+&gt; 5) Refactor of CDAT initialization code into a function that initializ=
+es<br>
+&gt;=C2=A0 =C2=A0 sub-tables per memory-region.<br>
+&gt; <br>
+&gt; Gregory Price (5):<br>
+&gt;=C2=A0 =C2=A0hw/mem/cxl_type3: fix checkpatch errors<br>
+&gt;=C2=A0 =C2=A0hw/mem/cxl_type3: Pull validation checks ahead of function=
+al code<br>
+&gt;=C2=A0 =C2=A0hw/mem/cxl_type3: CDAT pre-allocate and check resources pr=
+ior to work<br>
+&gt;=C2=A0 =C2=A0hw/mem/cxl_type3: Change the CDAT allocation/free strategy=
+<br>
+&gt;=C2=A0 =C2=A0hw/mem/cxl_type3: Refactor CDAT sub-table entry initializa=
+tion into a<br>
+&gt;=C2=A0 =C2=A0 =C2=A0function<br>
+&gt; <br>
+&gt;=C2=A0 hw/mem/cxl_type3.c | 240 +++++++++++++++++++++++----------------=
+------<br>
+&gt;=C2=A0 1 file changed, 122 insertions(+), 118 deletions(-)<br>
+&gt; <br>
+<br>
+Thanks, I&#39;m going to roll this stuff into the original patch set for v8=
+.<br>
+Some of this I already have (like the check patch stuff).<br>
+Some I may disagree with in which case=C2=A0 I&#39;ll reply to the patches =
+- note<br>
+I haven&#39;t looked at them in detail yet!<br>
+<br>
+Jonathan<br>
+</blockquote></div>
 
-IOW, any code that needs to know can do one of:
-
-  #if G_BYTE_ORDER == G_LITTLE_ENDIAN
-
-  #if G_BYTE_ORDER == G_BIG_ENDIAN
-
-
-The only thing 'configure' seems to be doing with the 'bigendian'
-env var it sets, is to construct a meson cross compiler spec
-
-  if test "$cross_compile" = "yes"; then
-    cross_arg="--cross-file config-meson.cross"
-    echo "[host_machine]" >> $cross
-    echo "system = '$targetos'" >> $cross
-    case "$cpu" in
-        i386)
-            echo "cpu_family = 'x86'" >> $cross
-            ;;
-        *)
-            echo "cpu_family = '$cpu'" >> $cross
-            ;;
-    esac
-    echo "cpu = '$cpu'" >> $cross
-    if test "$bigendian" = "yes" ; then
-        echo "endian = 'big'" >> $cross
-    else
-        echo "endian = 'little'" >> $cross
-    fi
-
-so we do need a compile time test in configure, but I'd suggest
-using G_BYTE_ORDER
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+--000000000000302f1b05eae8ecc1--
 
