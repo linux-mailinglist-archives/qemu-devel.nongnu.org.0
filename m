@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26CCC5FE49E
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 23:58:30 +0200 (CEST)
-Received: from localhost ([::1]:57296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2245C5FE4EA
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 00:00:43 +0200 (CEST)
+Received: from localhost ([::1]:55236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj6Dl-0003Ms-6w
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 17:58:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50930)
+	id 1oj6Ft-0008NN-GW
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 18:00:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oj62y-0002VZ-Qg
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 17:47:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40882)
+ id 1oj634-0002YW-Ad
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 17:47:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oj62x-0005DO-6d
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 17:47:20 -0400
+ id 1oj630-0005EL-Py
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 17:47:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665697638;
+ s=mimecast20190719; t=1665697642;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ds+oyezvjsvQGyPBBqDdCHyAyAoEkuJZ5PMWpBjju5g=;
- b=HR23JbjFCo4fe6MiQd897i55N+gnSAIrBsMBW+4+6zQegIg9emL9YiSLMcm5Qy0vF/TNKk
- 6v151T5L7PBakjEDsHz6mC0O7x0GG0F9mdcaT53CEpIA+zugGarOfi3Frk5twMmnLHV1He
- FpnISUFnTZXRH2WAOfPM6HC2xB/fkoo=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=LpMlhKbH1w7WCEPLs6ndy62uIWinVXIOPCCenWPLDjk=;
+ b=UVDZz+2GdmbnvaRZpSyNZqI0r95WWKRsbte76NZDkPEvgqxl3AvoAc722bWNjQGLOok229
+ N/wjfW4Lo6L7OZDPOqYQ/cFc+OAI9gFHW679NuSoe5b5qelGrfcGPA5nYKxew5CFNlfFyI
+ xBw/kKglo7iQBSG4IexO//B2R0X1AaQ=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-93-UeNYLA28MWmv84OHS6SlDA-1; Thu, 13 Oct 2022 17:47:17 -0400
-X-MC-Unique: UeNYLA28MWmv84OHS6SlDA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- m13-20020a056402510d00b0045c1a055ee7so2355007edd.22
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 14:47:16 -0700 (PDT)
+ us-mta-601-fnqCSe42OmSuKcS9FoKX8w-1; Thu, 13 Oct 2022 17:47:20 -0400
+X-MC-Unique: fnqCSe42OmSuKcS9FoKX8w-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ y6-20020a056402358600b0045932521633so2341123edc.17
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 14:47:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ds+oyezvjsvQGyPBBqDdCHyAyAoEkuJZ5PMWpBjju5g=;
- b=wVEnDturfGRZMtesfqe1nmnKc18abIZgpqycmfKFCAS1Q49noCnbP9VLSclbV0YyjU
- 6Lij3oWBluDbcLEaKeDC4+mymtFr8P0j/piI8NqLDoodr1jy7CGqaMhIHMBDoZ2o9Cik
- X0yEcuh6BRgFCq1iQju8GD5hUuJ7YZufA8jYjyF0SVbF8AVRJ+1jPeD4Dmb8j4YrYj2I
- rNozlFWukxpwaYINhb0JNL9oCasKS4sYqaiYr2pnBocFFunZcW7D0r7F4XZduwkpTI52
- qA0B5XsHBSAyCqj/Rx1SfQ9hACh4JBR5lJm31MYrc8XzN1abCKXNcl5C1cIcO6inNWfr
- 3jRg==
-X-Gm-Message-State: ACrzQf04A88YqiEJ3L29BSUwJDC8FWEUy414YPy0VMfN4TU+evHHVOQN
- Iubxy6wuWXtAHrSkFRQ5n2tvi5q92TPSNt4Y4xKH3goiM6YMlT4C8FuVD2uQSiNQytPuz0yEZ9u
- FdjqL48cwbac2cXwHsWsjPGjPypRYJ2ulkjWT5bL31/BrqFP6r1VhvLiz3OBkIEy1aTA=
-X-Received: by 2002:a17:906:8479:b0:78d:cf17:2d70 with SMTP id
- hx25-20020a170906847900b0078dcf172d70mr1274643ejc.319.1665697635437; 
- Thu, 13 Oct 2022 14:47:15 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4P7DUL9wWTu9Pyx/NmmwxgeFfb+CD0VNLj7I/h5BaT/kpp2CLcXRnGao0QlalmBFRSjMcFCg==
-X-Received: by 2002:a17:906:8479:b0:78d:cf17:2d70 with SMTP id
- hx25-20020a170906847900b0078dcf172d70mr1274627ejc.319.1665697635139; 
- Thu, 13 Oct 2022 14:47:15 -0700 (PDT)
+ bh=LpMlhKbH1w7WCEPLs6ndy62uIWinVXIOPCCenWPLDjk=;
+ b=73rCFwsGFPlXP7wOBak/kvHS0iykE1VpBo3z+XSGNqC46qoPI2ekysMbQgVDD08RAI
+ IeppJ89EgNdOmompltB1VnK757wRE+vzx2qHhuclTKYQmkuB5ZPNJXaEs7meQLtkDRsX
+ CdfOwO8o8j3NOiKzvnBj4jnkLqPa/gytNWXNnF/BV+TI2kHjbOmiVglKpE3XHSty5Y2U
+ Sgf6cXw5dprnOAvb5FyCPVvoJJEW/La8PGBDfjyP/i8jv1Kw+6r/BNQRU6oo7evqialE
+ QOCVvM8yRsWhe0BBU2JysmbkbplS6/q/rrhvq/j9uF96XSw9YHSsQVztvUPQkoS7hkj0
+ G8hg==
+X-Gm-Message-State: ACrzQf0gEJfnefjK1s+PZINon3t6m4V91mxFb+T5HOAsLXCv3YpQQIOU
+ TqGlmnty4zAUW9+5oqBFUJfVeVcmNMtG4ushrt1LdHprgANGOm7D6/PXbjaPIvnMZkGQF+zVYZE
+ D5p/yl8ooyFeqZynNv1Iug9lVY4ONSXaxILDMuc/O9tJvSiBjB/RlUxuaXoNRY+XHpKY=
+X-Received: by 2002:a05:6402:254d:b0:45c:94ed:396c with SMTP id
+ l13-20020a056402254d00b0045c94ed396cmr1580043edb.124.1665697639046; 
+ Thu, 13 Oct 2022 14:47:19 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6/zyt4OSyWwftU/pBhiwHwd7wQ9ztQ7jeWtClx7KqN21Rf876Psppx9zuNaXHi02nw2Y4xxA==
+X-Received: by 2002:a05:6402:254d:b0:45c:94ed:396c with SMTP id
+ l13-20020a056402254d00b0045c94ed396cmr1580026edb.124.1665697638688; 
+ Thu, 13 Oct 2022 14:47:18 -0700 (PDT)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- j12-20020a170906474c00b0076f0ab9591esm429625ejs.125.2022.10.13.14.47.14
+ e11-20020a056402104b00b00459f4974128sm531969edu.50.2022.10.13.14.47.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Oct 2022 14:47:14 -0700 (PDT)
+ Thu, 13 Oct 2022 14:47:18 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: paul@nowt.org,
 	richard.henderson@linaro.org
-Subject: [PATCH 07/35] target/i386: add AVX_EN hflag
-Date: Thu, 13 Oct 2022 23:46:23 +0200
-Message-Id: <20221013214651.672114-8-pbonzini@redhat.com>
+Subject: [PATCH 08/35] target/i386: validate VEX prefixes via the
+ instructions' exception classes
+Date: Thu, 13 Oct 2022 23:46:24 +0200
+Message-Id: <20221013214651.672114-9-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221013214651.672114-1-pbonzini@redhat.com>
 References: <20221013214651.672114-1-pbonzini@redhat.com>
@@ -101,90 +102,419 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paul Brook <paul@nowt.org>
-
-Add a new hflag bit to determine whether AVX instructions are allowed
-
-Signed-off-by: Paul Brook <paul@nowt.org>
-Message-Id: <20220424220204.2493824-4-paul@nowt.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.h            |  3 +++
- target/i386/helper.c         | 12 ++++++++++++
- target/i386/tcg/fpu_helper.c |  1 +
- 3 files changed, 16 insertions(+)
+ target/i386/tcg/decode-new.c.inc | 164 ++++++++++++++++++++++++++++++-
+ target/i386/tcg/decode-new.h     |  32 ++++++
+ target/i386/tcg/emit.c.inc       |  37 ++++++-
+ target/i386/tcg/translate.c      |  18 ++--
+ 4 files changed, 239 insertions(+), 12 deletions(-)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 63bb500d07..2687f3ba50 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -169,6 +169,7 @@ typedef enum X86Seg {
- #define HF_MPX_EN_SHIFT     25 /* MPX Enabled (CR4+XCR0+BNDCFGx) */
- #define HF_MPX_IU_SHIFT     26 /* BND registers in-use */
- #define HF_UMIP_SHIFT       27 /* CR4.UMIP */
-+#define HF_AVX_EN_SHIFT     28 /* AVX Enabled (CR4+XCR0) */
+diff --git a/target/i386/tcg/decode-new.c.inc b/target/i386/tcg/decode-new.c.inc
+index e268b5fb48..f0d7b24a07 100644
+--- a/target/i386/tcg/decode-new.c.inc
++++ b/target/i386/tcg/decode-new.c.inc
+@@ -93,6 +93,23 @@
+ #define zext0 .special = X86_SPECIAL_ZExtOp0,
+ #define zext2 .special = X86_SPECIAL_ZExtOp2,
  
- #define HF_CPL_MASK          (3 << HF_CPL_SHIFT)
- #define HF_INHIBIT_IRQ_MASK  (1 << HF_INHIBIT_IRQ_SHIFT)
-@@ -195,6 +196,7 @@ typedef enum X86Seg {
- #define HF_MPX_EN_MASK       (1 << HF_MPX_EN_SHIFT)
- #define HF_MPX_IU_MASK       (1 << HF_MPX_IU_SHIFT)
- #define HF_UMIP_MASK         (1 << HF_UMIP_SHIFT)
-+#define HF_AVX_EN_MASK       (1 << HF_AVX_EN_SHIFT)
++#define vex1 .vex_class = 1,
++#define vex1_rep3 .vex_class = 1, .vex_special = X86_VEX_REPScalar,
++#define vex2 .vex_class = 2,
++#define vex2_rep3 .vex_class = 2, .vex_special = X86_VEX_REPScalar,
++#define vex3 .vex_class = 3,
++#define vex4 .vex_class = 4,
++#define vex4_unal .vex_class = 4, .vex_special = X86_VEX_SSEUnaligned,
++#define vex5 .vex_class = 5,
++#define vex6 .vex_class = 6,
++#define vex7 .vex_class = 7,
++#define vex8 .vex_class = 8,
++#define vex11 .vex_class = 11,
++#define vex12 .vex_class = 12,
++#define vex13 .vex_class = 13,
++
++#define avx2_256 .vex_special = X86_VEX_AVX2_256,
++
+ static uint8_t get_modrm(DisasContext *s, CPUX86State *env)
+ {
+     if (!s->has_modrm) {
+@@ -157,6 +174,18 @@ static const X86OpEntry opcodes_root[256] = {
+ };
  
- /* hflags2 */
+ #undef mmx
++#undef vex1
++#undef vex2
++#undef vex3
++#undef vex4
++#undef vex4_unal
++#undef vex5
++#undef vex6
++#undef vex7
++#undef vex8
++#undef vex11
++#undef vex12
++#undef vex13
  
-@@ -2124,6 +2126,7 @@ void host_cpuid(uint32_t function, uint32_t count,
+ /*
+  * Decode the fixed part of the opcode and place the last
+@@ -564,6 +593,136 @@ static bool has_cpuid_feature(DisasContext *s, X86CPUIDFeature cpuid)
+     g_assert_not_reached();
+ }
  
- /* helper.c */
- void x86_cpu_set_a20(X86CPU *cpu, int a20_state);
-+void cpu_sync_avx_hflag(CPUX86State *env);
- 
- #ifndef CONFIG_USER_ONLY
- static inline int x86_asidx_from_attrs(CPUState *cs, MemTxAttrs attrs)
-diff --git a/target/i386/helper.c b/target/i386/helper.c
-index b954ccda50..b62a1e48e2 100644
---- a/target/i386/helper.c
-+++ b/target/i386/helper.c
-@@ -29,6 +29,17 @@
- #endif
- #include "qemu/log.h"
- 
-+void cpu_sync_avx_hflag(CPUX86State *env)
++static bool validate_vex(DisasContext *s, X86DecodedInsn *decode)
 +{
-+    if ((env->cr[4] & CR4_OSXSAVE_MASK)
-+        && (env->xcr0 & (XSTATE_SSE_MASK | XSTATE_YMM_MASK))
-+            == (XSTATE_SSE_MASK | XSTATE_YMM_MASK)) {
-+        env->hflags |= HF_AVX_EN_MASK;
-+    } else{
-+        env->hflags &= ~HF_AVX_EN_MASK;
++    X86OpEntry *e = &decode->e;
++
++    switch (e->vex_special) {
++    case X86_VEX_REPScalar:
++        /*
++         * Instructions which differ between 00/66 and F2/F3 in the
++         * exception classification and the size of the memory operand.
++         */
++        assert(e->vex_class == 1 || e->vex_class == 2);
++        if (s->prefix & (PREFIX_REPZ | PREFIX_REPNZ)) {
++            e->vex_class = 3;
++            if (s->vex_l) {
++                goto illegal;
++            }
++            assert(decode->e.s2 == X86_SIZE_x);
++            if (decode->op[2].has_ea) {
++                decode->op[2].ot = s->prefix & PREFIX_REPZ ? MO_32 : MO_64;
++            }
++        }
++        break;
++
++    case X86_VEX_SSEUnaligned:
++        /* handled in sse_needs_alignment.  */
++        break;
++
++    case X86_VEX_AVX2_256:
++        if ((s->prefix & PREFIX_VEX) && s->vex_l && !has_cpuid_feature(s, X86_FEAT_AVX2)) {
++            goto illegal;
++        }
++    }
++
++    /* TODO: instructions that require VEX.W=0 (Table 2-16) */
++
++    switch (e->vex_class) {
++    case 0:
++        if (s->prefix & PREFIX_VEX) {
++            goto illegal;
++        }
++        return true;
++    case 1:
++    case 2:
++    case 3:
++    case 4:
++    case 5:
++    case 7:
++        if (s->prefix & PREFIX_VEX) {
++            if (!(s->flags & HF_AVX_EN_MASK)) {
++                goto illegal;
++            }
++        } else {
++            if (!(s->flags & HF_OSFXSR_MASK)) {
++                goto illegal;
++            }
++        }
++        break;
++    case 12:
++        /* Must have a VSIB byte and no address prefix.  */
++        assert(s->has_modrm);
++        if ((s->modrm & 7) != 4 || s->aflag == MO_16) {
++            goto illegal;
++        }
++
++        /* Check no overlap between registers.  */
++        if (!decode->op[0].has_ea &&
++            (decode->op[0].n == decode->mem.index || decode->op[0].n == decode->op[1].n)) {
++            goto illegal;
++        }
++        assert(!decode->op[1].has_ea);
++        if (decode->op[1].n == decode->mem.index) {
++            goto illegal;
++        }
++        if (!decode->op[2].has_ea &&
++            (decode->op[2].n == decode->mem.index || decode->op[2].n == decode->op[1].n)) {
++            goto illegal;
++        }
++        /* fall through */
++    case 6:
++    case 11:
++        if (!(s->prefix & PREFIX_VEX)) {
++            goto illegal;
++        }
++        if (!(s->flags & HF_AVX_EN_MASK)) {
++            goto illegal;
++        }
++        break;
++    case 8:
++        if (!(s->prefix & PREFIX_VEX)) {
++            /* EMMS */
++            return true;
++        }
++        if (!(s->flags & HF_AVX_EN_MASK)) {
++            goto illegal;
++        }
++        break;
++    case 13:
++        if (!(s->prefix & PREFIX_VEX)) {
++            goto illegal;
++        }
++        if (s->vex_l) {
++            goto illegal;
++        }
++        /* All integer instructions use VEX.vvvv, so exit.  */
++        return true;
++    }
++
++    if (s->vex_v != 0 &&
++        e->op0 != X86_TYPE_H && e->op0 != X86_TYPE_B &&
++        e->op1 != X86_TYPE_H && e->op1 != X86_TYPE_B &&
++        e->op2 != X86_TYPE_H && e->op2 != X86_TYPE_B) {
++        goto illegal;
++    }
++
++    if (s->flags & HF_TS_MASK) {
++        goto nm_exception;
++    }
++    if (s->flags & HF_EM_MASK) {
++        goto illegal;
++    }
++    return true;
++
++nm_exception:
++    gen_NM_exception(s);
++    return false;
++illegal:
++    gen_illegal_opcode(s);
++    return false;
++}
++
+ static void decode_temp_free(X86DecodedOp *op)
+ {
+     if (op->v_ptr) {
+@@ -804,8 +963,11 @@ static void disas_insn_new(DisasContext *s, CPUState *cpu, int b)
+         break;
+     }
+ 
++    if (!validate_vex(s, &decode)) {
++        return;
++    }
+     if (decode.op[0].has_ea || decode.op[1].has_ea || decode.op[2].has_ea) {
+-        gen_load_ea(s, &decode.mem);
++        gen_load_ea(s, &decode.mem, decode.e.vex_class == 12);
+     }
+     if (s->prefix & PREFIX_LOCK) {
+         if (decode.op[0].unit != X86_OP_INT || !decode.op[0].has_ea) {
+diff --git a/target/i386/tcg/decode-new.h b/target/i386/tcg/decode-new.h
+index e62e9c9d87..25e5400a8a 100644
+--- a/target/i386/tcg/decode-new.h
++++ b/target/i386/tcg/decode-new.h
+@@ -152,6 +152,36 @@ typedef enum X86InsnSpecial {
+     X86_SPECIAL_o64,
+ } X86InsnSpecial;
+ 
++/*
++ * Special cases for instructions that operate on XMM/YMM registers.  Intel
++ * retconned all of them to have VEX exception classes other than 0 and 13, so
++ * all these only matter for instructions that have a VEX exception class.
++ * Based on tables in the "AVX and SSE Instruction Exception Specification"
++ * section of the manual.
++ */
++typedef enum X86VEXSpecial {
++    /* Legacy SSE instructions that allow unaligned operands */
++    X86_VEX_SSEUnaligned,
++
++    /*
++     * Used for instructions that distinguish the XMM operand type with an
++     * instruction prefix; legacy SSE encodings will allow unaligned operands
++     * for scalar operands only (identified by a REP prefix).  In this case,
++     * the decoding table uses "x" for the vector operands instead of specifying
++     * pd/ps/sd/ss individually.
++     */
++    X86_VEX_REPScalar,
++
++    /*
++     * VEX instructions that only support 256-bit operands with AVX2 (Table 2-17
++     * column 3).  Columns 2 and 4 (instructions limited to 256- and 127-bit
++     * operands respectively) are implicit in the presence of dq and qq
++     * operands, and thus handled by decode_op_size.
++     */
++    X86_VEX_AVX2_256,
++} X86VEXSpecial;
++
++
+ typedef struct X86OpEntry  X86OpEntry;
+ typedef struct X86DecodedInsn X86DecodedInsn;
+ 
+@@ -180,6 +210,8 @@ struct X86OpEntry {
+ 
+     X86InsnSpecial special:8;
+     X86CPUIDFeature cpuid:8;
++    unsigned     vex_class:8;
++    X86VEXSpecial vex_special:8;
+     bool         is_decode:1;
+ };
+ 
+diff --git a/target/i386/tcg/emit.c.inc b/target/i386/tcg/emit.c.inc
+index f8ba888c33..85b0aeac60 100644
+--- a/target/i386/tcg/emit.c.inc
++++ b/target/i386/tcg/emit.c.inc
+@@ -19,14 +19,19 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
+ 
++static void gen_NM_exception(DisasContext *s)
++{
++    gen_exception(s, EXCP07_PREX);
++}
++
+ static void gen_illegal(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+ {
+     gen_illegal_opcode(s);
+ }
+ 
+-static void gen_load_ea(DisasContext *s, AddressParts *mem)
++static void gen_load_ea(DisasContext *s, AddressParts *mem, bool is_vsib)
+ {
+-    TCGv ea = gen_lea_modrm_1(s, *mem);
++    TCGv ea = gen_lea_modrm_1(s, *mem, is_vsib);
+     gen_lea_v_seg(s, s->aflag, ea, mem->def_seg, s->override);
+ }
+ 
+@@ -113,6 +118,25 @@ static void gen_load_sse(DisasContext *s, TCGv temp, MemOp ot, int dest_ofs, boo
+     }
+ }
+ 
++static bool sse_needs_alignment(DisasContext *s, X86DecodedInsn *decode, MemOp ot)
++{
++    switch (decode->e.vex_class) {
++    case 2:
++    case 4:
++        if ((s->prefix & PREFIX_VEX) ||
++            decode->e.vex_special == X86_VEX_SSEUnaligned) {
++            /* MOST legacy SSE instructions require aligned memory operands, but not all.  */
++            return false;
++        }
++        /* fall through */
++    case 1:
++        return ot >= MO_128;
++
++    default:
++        return false;
 +    }
 +}
 +
- void cpu_sync_bndcs_hflags(CPUX86State *env)
+ static void gen_load(DisasContext *s, X86DecodedInsn *decode, int opn, TCGv v)
  {
-     uint32_t hflags = env->hflags;
-@@ -209,6 +220,7 @@ void cpu_x86_update_cr4(CPUX86State *env, uint32_t new_cr4)
-     env->hflags = hflags;
+     X86DecodedOp *op = &decode->op[opn];
+@@ -149,7 +173,8 @@ static void gen_load(DisasContext *s, X86DecodedInsn *decode, int opn, TCGv v)
+         compute_xmm_offset(op);
+     load_vector:
+         if (op->has_ea) {
+-            gen_load_sse(s, v, op->ot, op->offset, true);
++            bool aligned = sse_needs_alignment(s, decode, op->ot);
++            gen_load_sse(s, v, op->ot, op->offset, aligned);
+         }
+         break;
  
-     cpu_sync_bndcs_hflags(env);
-+    cpu_sync_avx_hflag(env);
+@@ -176,7 +201,13 @@ static void gen_writeback(DisasContext *s, X86DecodedInsn *decode, int opn, TCGv
+         }
+         break;
+     case X86_OP_MMX:
++        break;
+     case X86_OP_SSE:
++        if ((s->prefix & PREFIX_VEX) && op->ot == MO_128) {
++            tcg_gen_gvec_dup_imm(MO_64,
++                                 offsetof(CPUX86State, xmm_regs[op->n].ZMM_X(1)),
++                                 16, 16, 0);
++        }
+         break;
+     case X86_OP_CR:
+     case X86_OP_DR:
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index f3ba3275d2..89d8492e34 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -23,6 +23,7 @@
+ #include "disas/disas.h"
+ #include "exec/exec-all.h"
+ #include "tcg/tcg-op.h"
++#include "tcg/tcg-op-gvec.h"
+ #include "exec/cpu_ldst.h"
+ #include "exec/translator.h"
+ 
+@@ -2281,11 +2282,11 @@ static AddressParts gen_lea_modrm_0(CPUX86State *env, DisasContext *s,
  }
  
- #if !defined(CONFIG_USER_ONLY)
-diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
-index ad58931751..9b59026e37 100644
---- a/target/i386/tcg/fpu_helper.c
-+++ b/target/i386/tcg/fpu_helper.c
-@@ -2955,6 +2955,7 @@ void helper_xsetbv(CPUX86State *env, uint32_t ecx, uint64_t mask)
+ /* Compute the address, with a minimum number of TCG ops.  */
+-static TCGv gen_lea_modrm_1(DisasContext *s, AddressParts a)
++static TCGv gen_lea_modrm_1(DisasContext *s, AddressParts a, bool is_vsib)
+ {
+     TCGv ea = NULL;
  
-     env->xcr0 = mask;
-     cpu_sync_bndcs_hflags(env);
-+    cpu_sync_avx_hflag(env);
-     return;
+-    if (a.index >= 0) {
++    if (a.index >= 0 && !is_vsib) {
+         if (a.scale == 0) {
+             ea = cpu_regs[a.index];
+         } else {
+@@ -2318,7 +2319,7 @@ static TCGv gen_lea_modrm_1(DisasContext *s, AddressParts a)
+ static void gen_lea_modrm(CPUX86State *env, DisasContext *s, int modrm)
+ {
+     AddressParts a = gen_lea_modrm_0(env, s, modrm);
+-    TCGv ea = gen_lea_modrm_1(s, a);
++    TCGv ea = gen_lea_modrm_1(s, a, false);
+     gen_lea_v_seg(s, s->aflag, ea, a.def_seg, s->override);
+ }
  
-  do_gpf:
+@@ -2331,7 +2332,8 @@ static void gen_nop_modrm(CPUX86State *env, DisasContext *s, int modrm)
+ static void gen_bndck(CPUX86State *env, DisasContext *s, int modrm,
+                       TCGCond cond, TCGv_i64 bndv)
+ {
+-    TCGv ea = gen_lea_modrm_1(s, gen_lea_modrm_0(env, s, modrm));
++    AddressParts a = gen_lea_modrm_0(env, s, modrm);
++    TCGv ea = gen_lea_modrm_1(s, a, false);
+ 
+     tcg_gen_extu_tl_i64(s->tmp1_i64, ea);
+     if (!CODE64(s)) {
+@@ -6003,7 +6005,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+         reg = ((modrm >> 3) & 7) | REX_R(s);
+         {
+             AddressParts a = gen_lea_modrm_0(env, s, modrm);
+-            TCGv ea = gen_lea_modrm_1(s, a);
++            TCGv ea = gen_lea_modrm_1(s, a, false);
+             gen_lea_v_seg(s, s->aflag, ea, -1, -1);
+             gen_op_mov_reg_v(s, dflag, reg, s->A0);
+         }
+@@ -6226,7 +6228,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+             if (mod != 3) {
+                 /* memory op */
+                 AddressParts a = gen_lea_modrm_0(env, s, modrm);
+-                TCGv ea = gen_lea_modrm_1(s, a);
++                TCGv ea = gen_lea_modrm_1(s, a, false);
+                 TCGv last_addr = tcg_temp_new();
+                 bool update_fdp = true;
+ 
+@@ -7221,7 +7223,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+             gen_exts(ot, s->T1);
+             tcg_gen_sari_tl(s->tmp0, s->T1, 3 + ot);
+             tcg_gen_shli_tl(s->tmp0, s->tmp0, ot);
+-            tcg_gen_add_tl(s->A0, gen_lea_modrm_1(s, a), s->tmp0);
++            tcg_gen_add_tl(s->A0, gen_lea_modrm_1(s, a, false), s->tmp0);
+             gen_lea_v_seg(s, s->aflag, s->A0, a.def_seg, s->override);
+             if (!(s->prefix & PREFIX_LOCK)) {
+                 gen_op_ld_v(s, ot, s->T0, s->A0);
+@@ -8270,7 +8272,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+                     /* rip-relative generates #ud */
+                     goto illegal_op;
+                 }
+-                tcg_gen_not_tl(s->A0, gen_lea_modrm_1(s, a));
++                tcg_gen_not_tl(s->A0, gen_lea_modrm_1(s, a, false));
+                 if (!CODE64(s)) {
+                     tcg_gen_ext32u_tl(s->A0, s->A0);
+                 }
 -- 
 2.37.3
 
