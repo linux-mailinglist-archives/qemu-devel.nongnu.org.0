@@ -2,89 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 399865FE417
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 23:17:33 +0200 (CEST)
-Received: from localhost ([::1]:39414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCD365FE42A
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 23:27:23 +0200 (CEST)
+Received: from localhost ([::1]:60866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj5a7-0002Qt-N6
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 17:17:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42544)
+	id 1oj5je-0004x5-HC
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 17:27:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oj5Y1-0000wo-En
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 17:15:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30580)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oj5iV-0003MD-Hk; Thu, 13 Oct 2022 17:26:11 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57210)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oj5Xy-0000tP-K0
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 17:15:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665695717;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=SegXCIIR0nrxlk7jBGJksHZY/0bUNX+fAzXCxOcJYwDwdxKkn50WNfHxdJRn7g9UkJ57Xm
- V2WplrwA5FqBin5dJAtipGYtHmuC0nSmAt4RfuDTAjp1rCY+Xk8+6o3LaZ7ipE3JtpP+QD
- G7/DOhmHw5vCXKa1lCWtswj2n9UQZrg=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-492-B19ASrcCOTGlBrF7B9PrBw-1; Thu, 13 Oct 2022 17:15:16 -0400
-X-MC-Unique: B19ASrcCOTGlBrF7B9PrBw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- c17-20020a05640227d100b0045c91f982a1so2289685ede.2
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 14:15:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=XIn5az9YCdap9s86SrNajPc9H6U0tCP+Eq5LnpB8xZr9w9bioUwlfMf75pOLXTqH/x
- j9cGQSw9zdqWddIuCrgQbQCeiJ3dO/RkrWYn2ebSSLSoivFWWH6Y2HLJgaSveg530AS7
- 3yRe8UHlbTGGSzzrY1lnKIkAj/HOn7BUleJmIwrKepgueBRyy6M+YwEb4Uo447qJgkWM
- rhzyIkj5lnSAn41CP2wkf0pNM+T1m2D1rjKAOUmMz0/yX5maox+2KrudaaNxKgAG1fj4
- 5NEKXau3HFTg4skv8y+s6CTsDNM8Eci/vXy8+ohSpfDVLkGYALWcPdg3czsNtKTALq/p
- PSQg==
-X-Gm-Message-State: ACrzQf1AqaWpIPAeoCanCWAHvT19Ie+313e2WEbxFnc1GqLxdc0zw/Zq
- 1f6UdlyStj4kcOblKCjXsuMjRupE78gUitPBG1OcBv0GEukr3kieqIJ2lFJtt+I3bk+X6WU2ABh
- utGkgymwlRTeKRig=
-X-Received: by 2002:a05:6402:3890:b0:45c:2b5:b622 with SMTP id
- fd16-20020a056402389000b0045c02b5b622mr1464471edb.69.1665695715461; 
- Thu, 13 Oct 2022 14:15:15 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6jqbKR9Dv9HJt6zOqt8lzI1Vmi0yFQITYPVoyDzSCJdjmMG/yCSGagVMfXy7LOPjeAuGwr+w==
-X-Received: by 2002:a05:6402:3890:b0:45c:2b5:b622 with SMTP id
- fd16-20020a056402389000b0045c02b5b622mr1464454edb.69.1665695715219; 
- Thu, 13 Oct 2022 14:15:15 -0700 (PDT)
-Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.gmail.com with ESMTPSA id
- s25-20020a50ab19000000b004587f9d3ce8sm469527edc.56.2022.10.13.14.15.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Oct 2022 14:15:14 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org,
-	pbonzini@redhat.com
-Subject: Re: [PATCH v2 0/9] target/i386: Use atomic operations for pte updates
-Date: Thu, 13 Oct 2022 23:15:11 +0200
-Message-Id: <20221013211511.657425-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221002172956.265735-1-richard.henderson@linaro.org>
-References: 
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oj5iR-0002P3-Rx; Thu, 13 Oct 2022 17:26:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ZOzEMSz0YTWFuHW7vXWnnhpDBggeDRcp24bG41AUCX4=; b=YM/ZPyZP7upqj8vLBUnIRhT+1R
+ 5fSxCTrVpGppYuwkpFuf3POZqniRmivEzo0T6s+8kMBijhu6lNjrBl7yNfha3hN2OXxQ/ud77xGEv
+ 7gnBTTw1NmwtMAr4n17LxmdRnz/ygvrOWHkDMDcYhRSjc6CDCzr0mupkzKLLDpaz5Lw/LE3SjgjtK
+ WJwPqvW8qPWqNRP2SfRVXrumzBAihObEc0VDb6qG4Q2qqpSb8ZW0o2ebL94lun6y3OyEuWrh+Hsyx
+ KocvDxDhT68heDc2Tf0GWMbxQpq//Jg914brsBhVtrIXAFuMwE1Y1Wnc8YylSvBwOotYhDd8HvLma
+ nbd0U9kH3NKCCvFNjciemUQIxJ0EExq0VYJvN1/Gt6ZA9dZhJQW/1RLo6Dg6OpaUL+AC1Bd6NMqGv
+ fcTJAA6INHF5PJwzzd4EgKOnpixPtfvKKG8thEwOevzL0eh3bXBFICEls3dbJEwKu+eF2kXjqYNBC
+ HTW6XLoRJabhRw7eWrURmBQvS+HwnYr2gYSmlEreY6Gy60r4LPAfbDFNiDf2aZeOTnpAyY+uKGmzH
+ tDHc85kJMeYUihkBNIs/zK3Z4Sn10jZr9VPVY7R0w63cSi35Np3BzzIR2lTOejWfZAYMbgLBOSaU2
+ IZg/XcSwintm4j7YS1bHWWzDNiWFkYqRS+wh4+cL8=;
+Received: from [2a00:23c4:8ba8:7100:6571:576d:97b8:647b]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oj5gY-0007Bu-Kn; Thu, 13 Oct 2022 22:24:14 +0100
+Message-ID: <03c92a12-b7de-a10d-33c2-76ab6885ebb9@ilande.co.uk>
+Date: Thu, 13 Oct 2022 22:25:54 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <cover.1663368422.git.balaton@eik.bme.hu>
+ <f6b04802d0a62668ba99c0086d0dda8ad103a65d.1663368422.git.balaton@eik.bme.hu>
+ <861b0aed-f6c3-93f3-187f-90ef721b18df@ilande.co.uk>
+ <23dc642e-cf89-a7f2-6f54-d13d1ec95a19@eik.bme.hu>
+ <aa31b36f-8e81-1fec-e4ae-66a26a4c9680@ilande.co.uk>
+ <ca129c-e8d1-6c2d-9ac2-f364314ba285@eik.bme.hu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <ca129c-e8d1-6c2d-9ac2-f364314ba285@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba8:7100:6571:576d:97b8:647b
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 03/10] mac_{old|new}world: Set default values for some
+ local variables
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.25,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,8 +84,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Queued, thanks.
+On 03/10/2022 23:08, BALATON Zoltan wrote:
 
-Paolo
+> On Thu, 29 Sep 2022, Mark Cave-Ayland wrote:
+>> On 25/09/2022 10:16, BALATON Zoltan wrote:
+>>> On Sun, 25 Sep 2022, Mark Cave-Ayland wrote:
+>>>> On 17/09/2022 00:07, BALATON Zoltan wrote:
+>>>>> Some lines can be dropped making the code flow simpler and easier to
+>>>>> follow by setting default values at variable declaration for some
+>>>>> variables in both mac_oldworld.c and mac_newworld.c.
+>>>>>
+>>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>>>> ---
+>>>>>   hw/ppc/mac_newworld.c | 28 +++++-----------------------
+>>>>>   hw/ppc/mac_oldworld.c | 27 +++++----------------------
+>>>>>   2 files changed, 10 insertions(+), 45 deletions(-)
+>>>>>
+>>>>> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+>>>>> index 27e4e8d136..6bc3bd19be 100644
+>>>>> --- a/hw/ppc/mac_newworld.c
+>>>>> +++ b/hw/ppc/mac_newworld.c
+>>>>> @@ -111,11 +111,11 @@ static void ppc_core99_init(MachineState *machine)
+>>>>>       CPUPPCState *env = NULL;
+>>>>>       char *filename;
+>>>>>       IrqLines *openpic_irqs;
+>>>>> -    int i, j, k, ppc_boot_device, machine_arch, bios_size;
+>>>>> +    int i, j, k, ppc_boot_device, machine_arch, bios_size = -1;
+>>>>>       const char *bios_name = machine->firmware ?: PROM_FILENAME;
+>>>>>       MemoryRegion *bios = g_new(MemoryRegion, 1);
+>>>>> -    hwaddr kernel_base, initrd_base, cmdline_base = 0;
+>>>>> -    long kernel_size, initrd_size;
+>>>>> +    hwaddr kernel_base = 0, initrd_base = 0, cmdline_base = 0;
+>>>>> +    long kernel_size = 0, initrd_size = 0;
+>>>>>       UNINHostState *uninorth_pci;
+>>>>>       PCIBus *pci_bus;
+>>>>>       PCIDevice *macio;
+>>>>> @@ -130,7 +130,7 @@ static void ppc_core99_init(MachineState *machine)
+>>>>>       DeviceState *dev, *pic_dev;
+>>>>>       DeviceState *uninorth_internal_dev = NULL, *uninorth_agp_dev = NULL;
+>>>>>       hwaddr nvram_addr = 0xFFF04000;
+>>>>> -    uint64_t tbfreq;
+>>>>> +    uint64_t tbfreq = kvm_enabled() ? kvmppc_get_tbfreq() : TBFREQ;
+>>>>>         /* init CPUs */
+>>>>>       for (i = 0; i < machine->smp.cpus; i++) {
+>>>>> @@ -165,8 +165,6 @@ static void ppc_core99_init(MachineState *machine)
+>>>>>               bios_size = load_image_targphys(filename, PROM_BASE, PROM_SIZE);
+>>>>>           }
+>>>>>           g_free(filename);
+>>>>> -    } else {
+>>>>> -        bios_size = -1;
+>>>>>       }
+>>>>>       if (bios_size < 0 || bios_size > PROM_SIZE) {
+>>>>>           error_report("could not load PowerPC bios '%s'", bios_name);
+>>>>> @@ -174,15 +172,12 @@ static void ppc_core99_init(MachineState *machine)
+>>>>>       }
+>>>>>         if (machine->kernel_filename) {
+>>>>> -        int bswap_needed;
+>>>>> +        int bswap_needed = 0;
+>>>>>     #ifdef BSWAP_NEEDED
+>>>>>           bswap_needed = 1;
+>>>>> -#else
+>>>>> -        bswap_needed = 0;
+>>>>>   #endif
+>>>>>           kernel_base = KERNEL_LOAD_ADDR;
+>>>>> -
+>>>>>           kernel_size = load_elf(machine->kernel_filename, NULL,
+>>>>>                                  translate_kernel_address, NULL, NULL, NULL,
+>>>>>                                  NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
+>>>>> @@ -212,16 +207,10 @@ static void ppc_core99_init(MachineState *machine)
+>>>>>               }
+>>>>>               cmdline_base = TARGET_PAGE_ALIGN(initrd_base + initrd_size);
+>>>>>           } else {
+>>>>> -            initrd_base = 0;
+>>>>> -            initrd_size = 0;
+>>>>
+>>>> This bit seems a bit odd...
+>>>>
+>>>>>               cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size + 
+>>>>> KERNEL_GAP);
+>>>>>           }
+>>>>>           ppc_boot_device = 'm';
+>>>>>       } else {
+>>>>> -        kernel_base = 0;
+>>>>> -        kernel_size = 0;
+>>>>> -        initrd_base = 0;
+>>>>> -        initrd_size = 0;
+>>>>
+>>>> and also here. The only reason I can think that someone would explicitly set 
+>>>> these variables back to 0 would be if there are cases in the load_*() functions 
+>>>> where non-zero values could be returned for failure. It's worth having a look to 
+>>>> confirm this and see if this also needs some additional tweaks to the logic flow 
+>>>> here.
+>>>
+>>> They aren't set back to 0 but set here the first time. Nothing touches these 
+>>> variables before this if-else do this patch just moves the zero init to the 
+>>> variable declaration and only leaves the cases which set a value different than 
+>>> zero here which I think is easier to follow.
+>>
+>> Okay - in that case if you can test with a non-kernel ELF to verify this, and add a 
+>> note confirming that everything still works for the error paths then that will be 
+>> fine.
+> 
+> I've originally added non-elf loading to be able to use -bios macrom.bin which I've 
+> now verified that it still works so this should be OK. I've also split this patch up 
+> to more parts for easier review in the later versions of the series but what it does 
+> is basically instead of
+> 
+> int x;
+> if (cond) {
+>    x = a;
+> } else {
+>    x = 0;
+> }
+> 
+> we do
+> 
+> int x = 0;
+> if (cond) {
+>    x = a;
+> }
+> 
+> which I thought would be simple to review.
 
+Great - thanks for confirming that this still works for all intended cases.
+
+
+ATB,
+
+Mark.
 
