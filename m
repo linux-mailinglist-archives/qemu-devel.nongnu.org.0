@@ -2,173 +2,151 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1D2D5FD6D4
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 11:16:47 +0200 (CEST)
-Received: from localhost ([::1]:45946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6308D5FD710
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 11:27:53 +0200 (CEST)
+Received: from localhost ([::1]:59376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiuKc-0005ck-HI
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 05:16:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43092)
+	id 1oiuVM-0005ub-Ej
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 05:27:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kai.huang@intel.com>)
- id 1oitsr-0002di-On
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 04:48:15 -0400
-Received: from mga03.intel.com ([134.134.136.65]:34526)
+ (Exim 4.90_1) (envelope-from <manish.mishra@nutanix.com>)
+ id 1oiuFA-0000B1-KX
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 05:11:08 -0400
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:33426)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kai.huang@intel.com>)
- id 1oitsn-0007SD-BV
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 04:48:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665650881; x=1697186881;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=QDfU7VyDNwihJoA1/Swch20+4yg7aIB+su5evgeuwac=;
- b=UZ3b8uwL7eMD+6gIQ/Oy4WSeaVu8mmNVN7Ggi92s/P6G9MMGwfBr/Xmk
- UQSchss17L+R4jkZV7SGnMy1kutYugC/iSstMVRENz42Lf2WV1XscVNeI
- yHgW6lvAPODpXF+yLAFtNV2LB3u7ILD2wvoMoIs99Dx7bOD8mxU+CvJ3Z
- +6yMiObqwY4RghjHNmfGmVGCpbNVnGNGYT2euMvV55El6uVm37/9ncKlz
- VdcdfeR34TjC5/kaBaHcl+hyMKdJ8CID9Fb+lAQVhFo+uxtVqP/zC01ri
- vDWCYDjjZj86l/cLXe/eNiL4Ccz5Usm7BwcUY70UpYvpG0crTD4Gk+FXs g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="306656950"
-X-IronPort-AV: E=Sophos;i="5.95,180,1661842800"; d="scan'208";a="306656950"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2022 01:47:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="716252742"
-X-IronPort-AV: E=Sophos;i="5.95,180,1661842800"; d="scan'208";a="716252742"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by FMSMGA003.fm.intel.com with ESMTP; 13 Oct 2022 01:47:58 -0700
-Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 13 Oct 2022 01:47:58 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 13 Oct 2022 01:47:57 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Thu, 13 Oct 2022 01:47:57 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Thu, 13 Oct 2022 01:47:57 -0700
+ (Exim 4.90_1) (envelope-from <manish.mishra@nutanix.com>)
+ id 1oiuF5-0002p0-Er
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 05:11:07 -0400
+Received: from pps.filterd (m0127837.ppops.net [127.0.0.1])
+ by mx0a-002c1b01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29D8cobS004643;
+ Thu, 13 Oct 2022 02:10:58 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=proofpoint20171006;
+ bh=7nrVTsQZmqr6Gg3f96bR5J+vunS45UvWB0EiSvjZavw=;
+ b=LCvcEnBJLPvFI7nOfgSnkaSFYiLDcgJvN9Azaq3n8tNemR0dtTFm+WGk30ib3Mqjp8wp
+ hHLlJb9LR2teLgGIKiy5kzN0zkX8QrPivTWRfYRp5mntkS4GvrFQWNL1cEje3HHmBchd
+ ka4dX9/DP3xKhRTeEUzPu6VeyyvprtN4EEM5jqHqL/9xlNlmbG/K7dErk3zs34Pr0zeZ
+ +NyiIsvXhViZ6SsU5NivKLMeVuOrTbEjEJ1t0f9Ctv7K1+Ld5xf0RB7PTsozW+mMpq6t
+ PrYsq1mxT2IyjwruAxs79sxmcxT/BYYIApEBW88diUzB9ASeoXKvFabwHczhn6zhgUDs CA== 
+Received: from nam11-co1-obe.outbound.protection.outlook.com
+ (mail-co1nam11lp2176.outbound.protection.outlook.com [104.47.56.176])
+ by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3k35474fw1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Oct 2022 02:10:58 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y+Fpi+DLRpz8PW0D/FmV/UYxwCAnDcq2O7V/DqxA/vLAPEmQfF8xbxD1De39sR+d7WZGQ8Nc0B9K+bdcO7l/XqEp5zYCyFKar5IgFxRAXVRMVIcZ7Vmra6eFgUevIUae+Sh/CLzCHrxzV39W+KxoY86cFp5iTEksdHlz4LVAWzUfW1R0GNqDm5DtSDHbNwthB9OgCufi7KeRfZ7E7bGk+FVr9poA/kqI1bCzbajIg+5H+MIfV4oRRHAS5Am5WLb66kIQl4b/Hbd4hS2RilWEFTqc68ZgEhaEgiD9Rm3POwF+uOJJdiKQfpqoTUbI1pFaTKIPNhv1pyWIOcLik75azg==
+ b=kpE/AvIGJ2dEBtrVL6u59/Jl5oEGdfK1DnXReFg+3SFpxDaAhzQUKEXO+BvKAKxhpN+S8VBqrGcNBMaNJxuSJjl+BtpMdCT12qLxjgeg/zT3w97KLoP9NPge3017PT7plPr4wdKV5qDoDVhPOncherrNigFL9RlvApffuNBBT+Bu5DvT+NV4wtRQiA+uQ5dRGiv9GoWnKOUedU36AqeuY3j6X5ZKAO2NpzzPZrsQ8HjY8yvDHK1/6jGlA6zr5r7Fv0sG3islTMdrHQI5i71MfCQxsGecYJMYmAkj9bV1SiuWf0J1UFTPcwDooeAQhbXGRGqy8LvrHpp0h6pON15KxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QDfU7VyDNwihJoA1/Swch20+4yg7aIB+su5evgeuwac=;
- b=dcw3LgK2qrgPVmhZrJYODhnD88OyBml/5WO9y4NErl/xVpkPOASa5u/koM2dRdPWi5Z66NAdpGAbvR2u3O93IWn0e6wbmggtAE6s4yqgNV/559AxWAXNDCX8U1FcwvETwkfUGr8AwXUryRviz3UBnTURG/UiIIHbvjDMdg6b9yAgSxeOcaIv3ps/yL8wFzBj7SFjjlFWZYSFriwcqTympSvK2YSkPqyi6XcUonftLT+MaNc3BY5ldPn+z3D+6nLJuNl1tah0PFo+m2wVDEF7dehrOKsfa4PHufKP1TV24bOw1rwcK7k2nFpJHLKWyyE7ha2o08/4xvMz8pkKF3DAxw==
+ bh=7nrVTsQZmqr6Gg3f96bR5J+vunS45UvWB0EiSvjZavw=;
+ b=E+ENNTTwPUqSbhjYjYzrt9py3I7BCyFGiwxuxf3pdnNgwPGiGHP4jEKpALKw+snQA1wH1m94fQoPVOV+uwksE8PbiR25ZVPGs6E/tBikNY/g1wxbrUxvRs/hk54bID2CzL/VxhP6CkjBaI9GN1V74sNCv0Kp7h+9ObMsMaANAv9Eyc8dRPf6CkH2Rgo9ZBJDnLxHv1pL3dI5yTLEDwWwdOdAevr4FsyRlF1edgPYp5uVSO94frtDDXijAqp0WJAgYU94CtzJHDHoIJqSgL/eaVY2uQPlJ+vbbef59BISYcnVRGbsxTwN/FQ0e3Pla+ZwhiusSFAoYs3m+dCrm8mTcA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BL1PR11MB5978.namprd11.prod.outlook.com (2603:10b6:208:385::18)
- by MW4PR11MB6786.namprd11.prod.outlook.com (2603:10b6:303:20b::12)
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from PH0PR02MB7384.namprd02.prod.outlook.com (2603:10b6:510:12::12)
+ by SJ0PR02MB7248.namprd02.prod.outlook.com (2603:10b6:a03:293::12)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5709.15; Thu, 13 Oct
- 2022 08:47:55 +0000
-Received: from BL1PR11MB5978.namprd11.prod.outlook.com
- ([fe80::6eb:99bf:5c45:a94b]) by BL1PR11MB5978.namprd11.prod.outlook.com
- ([fe80::6eb:99bf:5c45:a94b%3]) with mapi id 15.20.5676.032; Thu, 13 Oct 2022
- 08:47:55 +0000
-From: "Huang, Kai" <kai.huang@intel.com>
-To: "yang.zhong@linux.intel.com" <yang.zhong@linux.intel.com>
-CC: "pbonzini@redhat.com" <pbonzini@redhat.com>, "Yang, Weijiang"
- <weijiang.yang@intel.com>, "Zhong, Yang" <yang.zhong@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Re: [PATCH] target/i386: Switch back XFRM value
-Thread-Topic: [PATCH] target/i386: Switch back XFRM value
-Thread-Index: AQHY3hS042J7brQJD0unJ5PY0M7GAK4KhlqAgAFWMQCAAChDAA==
-Date: Thu, 13 Oct 2022 08:47:55 +0000
-Message-ID: <0582a898ae1b6423be498201a77c4f1927dd1f27.camel@intel.com>
-References: <20221012082609.922631-1-yang.zhong@intel.com>
- <3a08ba1b681315cc1062d68f86392bb7d94eb680.camel@intel.com>
- <Y0eu9Nq/fhZLKwCt@yangzhon>
-In-Reply-To: <Y0eu9Nq/fhZLKwCt@yangzhon>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.44.4 (3.44.4-2.fc36) 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BL1PR11MB5978:EE_|MW4PR11MB6786:EE_
-x-ms-office365-filtering-correlation-id: 9b102c08-0da8-495b-a20c-08daacf79f06
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Sx8oCZW2cfkjiyvRyRdW9Dlb0c8ngqEH028GgYJftyhRZVzH3gs8dNBZKWzOvqoMPoMubztmlIRwGtzR0WQoO3DQrBkvxAkN5fp0zOdSquqXvw7YVZOgKP2DllJFp+VzHr6fK2Lf1+LmjJIghED3xsL3bRg2UIbpgageCT0k4ozDy8C6R1gWizf9icG9WNKqnwpzuUkIIcYc5+xI+hVrgLfz229f5Z04WBpH7wV/rKRCV4D5UXMHNoCYKOXuI28wAOy0gd2S+aJqByRfvQPHo65BB5n4XbIUJdSwibcetdxdadd8+489gVlRCkLyp0VvdkcxUJtFDgCP5a5sMa4JDKk4xf/ZcnDlhMZvvXNlL7AEXq96aHjw4COTJG8aVOSLVZfkRXJJXlIAVVdZCDi8Dh5Hvm9dzE1v/pZR3MImlFJu87WOddg5B8NmZF5uJwvahrnJbsF5JP0P8aU6MUpN6ZrLY+R57ioD4Bi1rXdYe6i0d6ZWuP0Miahma0jdMIyfSn6h9NIj/+JaSyccnZrIJxfLxDzM0OiBLPaDEud5nfaiHG00acdbxza8W9Wz7yfpRnl5bdZTrgKlW7OPad58XKqqRi6m7q0flpJIkyCY/72d/IJWlU2kw0pu2co2HLdzbRx3Bnc/l1p4R4zTB5ARl/cFcPGlShzgfbCdpQpJyuTFTk77p4SjffbJBxAb561IUadi5ru/tvq/ehN7E6pbOGFKLBQ0lVwbKDUbTihOl4FZa/kwkxZhVrCKW7fmYfVWAt0DxR9UyOQ1SdGxwQtpEw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL1PR11MB5978.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(346002)(396003)(39860400002)(136003)(376002)(366004)(451199015)(54906003)(66446008)(4326008)(8676002)(8936002)(76116006)(82960400001)(36756003)(41300700001)(122000001)(66946007)(91956017)(66476007)(4001150100001)(26005)(6512007)(64756008)(86362001)(2906002)(66556008)(4744005)(6506007)(38070700005)(5660300002)(71200400001)(478600001)(186003)(6486002)(316002)(2616005)(38100700002)(6916009);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?OFNhbDR1UVBSNk1qZjJvM0lQL1gzQnFqL05TdGp2VitHYzlrMVpwOThyTkpR?=
- =?utf-8?B?c01nWXBmQ3VwSGdBc0Y4cnRVd2hSUjd6WnoycURzS0k4YXRhaFdyOUxPcVJ2?=
- =?utf-8?B?Y1I3Vjc5REdGUDk0dE5PZkQ4VVNxWnFhL2tzY3psdEVJZXhnaFZyMWVEd1ds?=
- =?utf-8?B?ZkhCeHVESit4VXVaQnNJMXd4Q0wrRmxJWWkrVE8rNkZCNmxmaEdVVmZDaUlV?=
- =?utf-8?B?WUxEUWI4cjBCK1F5amE1ZTAvRklsYjZNOXVDMCtpcjB5b1F3am5ZRmQ3dDhY?=
- =?utf-8?B?SHpOcFFZOC8xV1BtT3NGRkMxL1BqWmlsNTZXMkd4ei8wUGM0bEg0dVJ0dHFJ?=
- =?utf-8?B?WVFGMVlLdmdZZFp2cXlUYTZ2V3dwRTVxZVNGRTlQMXVMOWgyNGxFYmM3cWF0?=
- =?utf-8?B?cTlqY3o3dFlMb3pScFR6emYvKzdjbUtQY1FiKy84YU90TzQ1bUIvQnZKVnJQ?=
- =?utf-8?B?YVZTYnp3ckF3bUFqQ0tGRzM4ZDZNcFk1eHNSaFRVUEVXMkdKdnFzY0NEYkd1?=
- =?utf-8?B?ZjRveGZPWjQ4WVNJUkM2Uk9BbUUwdmVCclZIeFhVeDVoNElrQnpENldZQ1hp?=
- =?utf-8?B?T2hvNlUxNmhjTzBHM3ZYcmczK1B2N0hjRW8zbCtNbXBERFVpejZlZ0orTEM3?=
- =?utf-8?B?b2FyY3dSckpNeDA4dlVDVkZ1czV3cG43cnhmVldqcWNCZmhJQUxleVo1bjVt?=
- =?utf-8?B?bUh5cU5wQ0dmQ2Yvc3BGeWgrNGlOUUFDSTBvbDdweFhsMUhlK2dUVWVWU001?=
- =?utf-8?B?QUs5Vzh1RTJPZTNpL29CQlEvc3ZxZm9hSElzUkxpdEtYQVQrdDRWeVE5RDRn?=
- =?utf-8?B?Z0hnUWxmQ1pCY0swWUp3aTloZ3BHRmh4TFh5ZHhwaGFiSFl5eHVBM0o1V09i?=
- =?utf-8?B?WXp3TFpYRUp2Wk1pTXBMajlxSzArRFVHNjM5SldSc3FXKzVsZE1CWHBLNWRS?=
- =?utf-8?B?R2c1bENWZ0d2bk5zOHJGODd1dXJJa2ZQOTZpVlNNR2NoQ1NVTERKWWw5K2d3?=
- =?utf-8?B?Ymt1Syt5MWV6cU1wZHNoWDk3WUlUc2V2OFZWYjRXYXVSRW5NV3V5N3BlUnRP?=
- =?utf-8?B?NEdTQ2U1KzVSbEJFSVQ5UzhOa0J3US9Dc0lydzFOcjJ2YTI1em5ybGJRRlcz?=
- =?utf-8?B?dlhpUDV4WEx2b1kweVlFOU04Qzhjb1Q1dDYrTjQwSTlqajdFMFBMR1lCVExQ?=
- =?utf-8?B?OC9RT21iSlRsVzhOT3l2MGd1V29Vbkt2VjlBRGRaSzJDUmIyKzJPOGg2KzRT?=
- =?utf-8?B?WDErOUVteElDZ2o3Rk1XalNsM3R3TVNYMlBzTG9OS09TcjVGK1FCc2R5dmFK?=
- =?utf-8?B?WWxPZVl5RTRjcG9TM3dXdWljaHdRQjRQaEdDWE1KeWhJaWdTOGI5RWNlSk12?=
- =?utf-8?B?TFlWc0F1RGc4Y0ZNS0wyOUdva0cxL3dvRnEzYW02bDloTlZ0bDlYK0hCMlM1?=
- =?utf-8?B?SjBQM09vQW9sSUU4blVtSzkvOEVXMmU0UWhFdjJiMzM1K3NHcFJrLzdndE5y?=
- =?utf-8?B?aVo3YzBtTzh6RmYrN1BVd1BKYXMxanZBY1BXNjFiRWJlbUIweTg4SDF6cTQ4?=
- =?utf-8?B?OG14QjF4SklRcUNrbG5NQjR0WXhrUnhNWjZLRzBQT0lPL3NFWmNNWUIvNWFr?=
- =?utf-8?B?YkRZb2FtY2NGbXV4NG5NcUpmekdQenRhVWphTCtQZUVyMWFaNU93TVJsQksx?=
- =?utf-8?B?RndYNHg0OWx4bzR4aWx3ODBrSGg0elBqK0NRZmZBajIyK2RTWVdPSnpURXpC?=
- =?utf-8?B?d1lvcmpZUGM3WXFCZFRnS2w0dmYxRW1ua2tQVk5ubktVd2h0NmlWaFhLY3VI?=
- =?utf-8?B?M0FocTBSNVFrWUtNRDAybCt5c1JOdEpmeVhlOHZ0Zm56V1VHQVhhYS9YV3Ix?=
- =?utf-8?B?TDQ0WndSZnVtVnlhV2pSQXQyY1RpQ3IwSis3b1hzbjljYWhBeE81ZWpOZytl?=
- =?utf-8?B?ZUk0ZjFjOE51MTZnYldHOEV2VmVNUStXVEV4aWV2TE1FWStBTmlwR0NJUEcz?=
- =?utf-8?B?UWt4a3dHdE1IRVNHUnZ4NmFVdU5TY1FTQnlUMEJ3SUsyQTEzUTFTZ3Q1bG9N?=
- =?utf-8?B?SW9PWEhCODJUajF2V2h6ZjVuZHpVWHpEQjc5Z1luM1FlUndlRzc0ZmJhbVp6?=
- =?utf-8?B?K0F3R1FmMWk1ZytwRmxRWm9SN0RCTjRTQi9sMjBucytpTHpwZ1pJZkJyallP?=
- =?utf-8?B?RUE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <C6A96BED4180BB4CB6B6CFC33E138C38@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5709.22; Thu, 13 Oct
+ 2022 08:56:26 +0000
+Received: from PH0PR02MB7384.namprd02.prod.outlook.com
+ ([fe80::a88:8114:7d28:5834]) by PH0PR02MB7384.namprd02.prod.outlook.com
+ ([fe80::a88:8114:7d28:5834%8]) with mapi id 15.20.5723.026; Thu, 13 Oct 2022
+ 08:56:26 +0000
+Message-ID: <8090e692-7919-ea47-5eb9-30834656593d@nutanix.com>
+Date: Thu, 13 Oct 2022 14:26:15 +0530
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.2
+Subject: Re: MultiFD and default channel out of order mapping on receive side.
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>
+References: <9f02255a-ceb9-9ca6-2606-b91c5e9e6459@nutanix.com>
+ <Y0fJFcj9+wcnKYqd@redhat.com>
+From: "manish.mishra" <manish.mishra@nutanix.com>
+In-Reply-To: <Y0fJFcj9+wcnKYqd@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PN3PR01CA0070.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:99::22) To PH0PR02MB7384.namprd02.prod.outlook.com
+ (2603:10b6:510:12::12)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR02MB7384:EE_|SJ0PR02MB7248:EE_
+X-MS-Office365-Filtering-Correlation-Id: 627604f4-32af-492d-c54a-08daacf8cf59
+x-proofpoint-crosstenant: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: kk4FQv5J39uwVDrhdSlcGZar0a3EKVRSERa7LrGbIN2QSinGoLjIIl24ohXCS+eayZ3oE8rKGnBEpgCkd1sUb4hd7NmvFAd3weBLmquZfb9wOfX36GNQDjcKTp42OQm5qdtJ2QxeT/EpmQWSuEUofMl32HID38k6+6bva3Vtel03CHeiR71ywy1i5/agEnkSOJZDcDEgPq4wTnDQ4O2Pd22ScLqxRFSuAszdwPCJvUjuxhCT469YSA6u6wTRuguq7Z8rTKHtWPlqD4HrzRcZPg4qc8nAUfXSujA3UGBbLk7Wsa9t+TcjnscrsP3quLs5pZWxrjP90iRd4VosbeD1fOlCDWU5xPCDuNBRDsyaKMvPkmNbB1ECNEGgrxBppA0I2DLsB28e3E6XTK3KNv+h533eME03VG+jjjUF5S1tJqlFpyHNfIaqIZcI12bYRlbtkfN1+vGoYjmfMEol4+5PJrVCjeXNIcKKGI4dFbbCsnxFpnQLwf2nms3h8WjtjRjr63nvAAOzQPnqb0ps/eTGe99bKHB9GfiC0cTj5TMP7nVwQzofs9kg60LjHnNqj3AJJdRqPhkzOJGdIln0XZetiDk97VTNNreoTkvlA0MAfJTKmuPQI1D75lDF+K94b5h8Q9EL2qpl9/MWLvF1VIUbh+6Ubmwov6zphaiuNAyiNXdcip6xIv/K12M9/+HObL+bJ7TAQZnn9fDdYgRWsWa7rRJtCTgPAfctt0XBC5D6IdpjA+CHuub8GcOpCxAYmXdmE+v/2tHfChi58Ymtpfcr96zTtr8SFkDGMOymhfxjkY+fF0+usCvv26rLHkBYwy1X
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR02MB7384.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(366004)(39860400002)(346002)(376002)(396003)(136003)(451199015)(54906003)(4326008)(31696002)(36756003)(41300700001)(53546011)(6506007)(38100700002)(6666004)(86362001)(26005)(6512007)(66556008)(8936002)(5660300002)(66476007)(66946007)(478600001)(8676002)(6916009)(6486002)(966005)(316002)(2616005)(2906002)(186003)(83380400001)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q0VoMWhncFZVV0Q2T2ludWowbFQ3a1VIYlVBL3d2OVlwbHVRWXd0NWFLZXNB?=
+ =?utf-8?B?bWg5aHVDSjZudks3Zk80S1lDdmtGRlIrQ2hqSFVSbXNWdWhRQkNuQ2syUWpO?=
+ =?utf-8?B?emkxNVJRWUtPcTdqYlBtRkFwa1BraW1kOTBlYXZDWmU4dGo2cjdxblVoVm9S?=
+ =?utf-8?B?Z1o5SEFTSXdoL1hQVHVMV3dOZkVoSzZtQVFxRTRheWovdHU1UkVuTVBtdHhQ?=
+ =?utf-8?B?TmRqS0JsbXlLUVdBS0hjdWFLb0szNjZRdXRqaDhlWDJwNFJiUXk0YzVvdmtC?=
+ =?utf-8?B?VDlTUUMva3kwUG9OT05YWlJpeldVZThyc0cxc01KT29ZTmtJTHYrMHk0eFBs?=
+ =?utf-8?B?VGNKcWYwYzVML0Y3WnJScHNmWTAyZmJMNHdDR3BFMWtNRmxuZzc1dFlpaUd6?=
+ =?utf-8?B?RTJlUzF2cDZkTlBUVEl5aWNocnMxK3VVWkJkWUNEN0liOEhiMVJQM1A3c05i?=
+ =?utf-8?B?QTRma0VqNWQ1MnJWd3loZUhZTGFUUXIxbW0zM3JqU052SWVkTXdlMHpFRXF1?=
+ =?utf-8?B?YzhXTS9wc3pHWkxEazlsNTRWY2x2Zmt2dERaT0Nla09rYUdFSldIZkM5MTYr?=
+ =?utf-8?B?UU1ncGdqWS9LL0w4ZG5xSDJEN3JqYXlIQmVBTUpsQTBSMHh4Z2VKK1paQjNO?=
+ =?utf-8?B?alhtS1lDMGtqazJaOEZ2VXN0SlJTZzFCOUdQU1hhenBpRFA2OTdaSDFTZ2xm?=
+ =?utf-8?B?Z0M3dTNCVldBSmVJREw0NU9jekczbTROMU5Yd1BsMmw3Snl5U3Q5cTRYbGtn?=
+ =?utf-8?B?MTlwKzN2TlZTcUh3VTh6cGxFQjJ1VFBUSVhkRng4R2VJN2N4NDFka2NyQjJ0?=
+ =?utf-8?B?aDBEeWJqaitvQ095Q1hRNitoVGpKZFNwR29nQU1CcVd3SE16MlRnYVIvU3R6?=
+ =?utf-8?B?bmRsd3BzYm1ld0xFT3VTOHpRTGN2MFh3bk5Nc1NNUlE3b2lxVjJQUnViZzJl?=
+ =?utf-8?B?bzhYNUlQZVA5SGluU3hYY3lwNzhUYXVRejZZaWxQZU9IRVhieWs5azZGUzhR?=
+ =?utf-8?B?aitPZ2Y0K0p1eEZid0c0Z0ZRMnRMTlZmYm11Zm5saUpqSTM4aE9FcWhvL0xY?=
+ =?utf-8?B?ejY0cHlPY3QrZnJwVVRKNVhkRC91eVBIaERFUXlUVldoeEU0NkZScTJ3dDNk?=
+ =?utf-8?B?bmNxTFVWdVlXSGNLT1FBMi9TMkRBUjZFbHY5Wnp0akVRQWxqSEFjM05MTXNN?=
+ =?utf-8?B?anQ5Rm9GN0dVREIzeFlOdG5pRVVobDJqamc0bTg5TWVmdGlDZldTakExNXNS?=
+ =?utf-8?B?UVFPbi9neFloTUs5RGppVmpTdktwcDM2SkNrNTNlRWsxQXQ0MkMrTWpGMmpj?=
+ =?utf-8?B?YVBlS2dmRFZoekV2QXdGUEhoYWJEd1dabDUweE1OVWR2Wmk0MVRMVXJNRGE3?=
+ =?utf-8?B?UFNPNk14RE8zV01XM3g1bWgrdkgySkFtcTNGVnFwTVg0YVAxYTJWelFQZ2E0?=
+ =?utf-8?B?NXpMSFdSZkJLK0VKbTZ2MFl5ZVFQUUQvQXFObm5sdFdpbXpRT1NZV3ZFUGlU?=
+ =?utf-8?B?b2lzLyszYlF0bHp2Z0RzV29Zam0wTXF6bzkvakxKdlNXQi9YTzNFRDhoUFNp?=
+ =?utf-8?B?SmVPbXNpVGdBOWNNNWJkYXg0NG02a1AyTXNOVWNTQ1NYakFEbEgvL3k3R3NC?=
+ =?utf-8?B?N1UxUUtVU3draG9TazMrY2crV3dOenh0eVNSckRxTmpQbUpzcUNQNVFNckwx?=
+ =?utf-8?B?MUlVWkZRSnQyeUp1d1hUTmFWY01OTmE5NjVXZFZFVnZDaXpwcDk0WnFiN1NQ?=
+ =?utf-8?B?NjVIaE5qK0k3SXA5ckZSVHU0RXhFK1ZCeGxvY2o3RnF3c2F2UkVYQ0V4MGt4?=
+ =?utf-8?B?d21Pa2pZbmoxeVdwTmV3dlg2UDFDVjk5ekJYdWVlQ00zd3MvNUlrakFOdTBw?=
+ =?utf-8?B?ckhXY1N0a0l1K2grdkgwRjZOdmh6ekV1Yk9kbVB4REJ6aDFPY2lxZ0tTakVz?=
+ =?utf-8?B?QitiZm5qV3huS2NaZFN1L255QkhwRzMzakg5SVd3M01PWFJWaFh2SWhQVGVj?=
+ =?utf-8?B?aFFTWkZTYUFkZHlXVW5reHNhSXAxYlNtSERMWVhjU0djeldxTzVySXIwNVJT?=
+ =?utf-8?B?RVNDUDZWclJXNjEvVUwybkRoNUhSK0thL201L2N2SGN3ZGNmcG94RS94S2RQ?=
+ =?utf-8?B?WmFaTGxjejd5Q2FicXFjbDhhdUxJRExOT1RMVEFuUjdtdDcwUitGZmZYRGZJ?=
+ =?utf-8?B?MkE9PQ==?=
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 627604f4-32af-492d-c54a-08daacf8cf59
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR02MB7384.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR11MB5978.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b102c08-0da8-495b-a20c-08daacf79f06
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Oct 2022 08:47:55.0633 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Hy4w/2WsTNfvJIe4nfrZu1UYE0lPfMPQ7cCHJ6b8EqmkLON7un8jpR8YUGp/Cqi77inMbMQTDPt0AIT9Ib9liw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6786
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=134.134.136.65; envelope-from=kai.huang@intel.com;
- helo=mga03.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2022 08:56:26.0897 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rUnuvUAIy2hFIEHs+WtwUuonfeboQ8Kyon5Co/hvHJqSBldFN66b0L8asIgBq3ck2rttdiX0gfqpDrc6j+yqKcb9QetZA4Viv/lsVlz+6Kw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR02MB7248
+X-Proofpoint-ORIG-GUID: 6Tx0RMRi-L_MPuVD-k7wivjQNfgZR_D3
+X-Proofpoint-GUID: 6Tx0RMRi-L_MPuVD-k7wivjQNfgZR_D3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-13_06,2022-10-12_01,2022-06-22_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.151.68;
+ envelope-from=manish.mishra@nutanix.com; helo=mx0a-002c1b01.pphosted.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.528,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -184,16 +162,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gVGh1LCAyMDIyLTEwLTEzIGF0IDAyOjIzIC0wNDAwLCBZYW5nIFpob25nIHdyb3RlOg0KPiA+
-ID4gZW5jbGF2ZSBvbmx5IHN1cHBvcnRlZCBTU0UgYW5kIHg4NyBmZWF0dXJlKHhmcm09MHgzKS4N
-Cj4gPiANCj4gPiBJcyB0aGlzIHRydWU/wqAgUGVyaGFwcyBJIGFtIG1pc3Npbmcgc29tZXRoaW5n
-LCBidXQgaXQgc2VlbXMgZW52LQ0KPiA+ID4gZmVhdHVyZXNbRkVBVF9YU0FWRV9YQ1IwX0xPXSBv
-bmx5IGluY2x1ZGVzIExCUiBiaXQsIHdoaWNoIGlzIGJpdCAxNS4NCj4gDQo+IMKgIFdlIHByaW50
-ZWQgdGhlIFhGUk0gdmFsdWUgZnJvbSBTR1ggU0RLIHRvIGZpbmQgdGhpcyBpc3N1ZS4NCg0KSSBk
-b24ndCBrbm93IGhvdyB5b3UgYWRkZWQgdGhlIHByaW50LCBidXQgdGhlIGV4YWN0IHZhbHVlIHRo
-YXQgc2V0IHRvIFNHWCBDUFVJRA0KaXMgaXJyZWxldmFudCwgYXMgaXQgaXMgd3JvbmcgYW55d2F5
-LiAgVGhlIHZhbHVlIGNhbiBhbHNvIGRpZmZlciB3aGVuIHlvdSBydW4gb24NCmRpZmZlcmVudCBt
-YWNoaW5lcywgZXRjLiAgSU1ITyBpbiBjaGFuZ2Vsb2cgd2UganVzdCBuZWVkIHRvIHBvaW50IG91
-dCB0aGUgZmFjdA0KdGhhdCB0aGUgWFNBVkUgZW5hYmxpbmcgcGF0Y2ggd3JvbmdseSBtZXNzZWQg
-dXAgd2l0aCBTR1ggQ1BVSUQgYW5kIHRoaXMgcGF0Y2gNCmZpeGVzIHRoYXQuDQo=
+
+On 13/10/22 1:45 pm, Daniel P. Berrangé wrote:
+> On Thu, Oct 13, 2022 at 01:23:40AM +0530, manish.mishra wrote:
+>> Hi Everyone,
+>> Hope everyone is doing great. I have seen some live migration issues with qemu-4.2 when using multiFD. Signature of issue is something like this.
+>> 2022-10-01T09:57:53.972864Z qemu-kvm: failed to receive packet via multifd channel 0: multifd: received packet magic 5145564d expected 11223344
+>>
+>> Basically default live migration channel packet is received on multiFD channel. I see a older patch explaining potential reason for this behavior.
+>> https://urldefense.proofpoint.com/v2/url?u=https-3A__lists.gnu.org_archive_html_qemu-2Ddevel_2019-2D10_msg05920.html&d=DwIBaQ&c=s883GpUCOChKOHiocYtGcg&r=c4KON2DiMd-szjwjggQcuUvTsPWblztAL0gVzaHnNmc&m=LZBcU_C3HMbpUCFZgqxkS-pV8C2mHOjqUTzt45LlLwa26DA0pCAjJVDoamnX8vnC&s=B-b_HMnn_ee6JeA87-PVNBrBqxzdWYgo5PpaP91dqT8&e=
+>>> [PATCH 3/3] migration/multifd: fix potential wrong acception order of IO.
+>> But i see this patch was not merged. By looking at qemu master code, i
+>> could not find any other patch too which can handle this issue. So as
+>> per my understanding this is still a potential issue even in qemu
+>> master. I mainly wanted to check why this patch was dropped?
+> See my repllies in that message - it broke compatilibity of data on
+> the wire, meaning old QEMU can't talk to new QEMU and vica-verca.
+>
+> We need a fix for this issue, but it needs to take into account
+> wire compatibility.
+>
+> With regards,
+> Daniel
+
+ok got it, thank you so much Daniel, in that case i will try to create some patch considering backward compatibility and send for review. Mainly i wanted to understand if it is handled somehow differently in upstream master, but manually looking code it did not look like that, so just wanted to confirm.
+
+Thanks
+
+Manish Mishra
+
+
 
