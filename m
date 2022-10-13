@@ -2,87 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B4B35FD990
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 14:51:14 +0200 (CEST)
-Received: from localhost ([::1]:46350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9674B5FD96E
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 14:44:59 +0200 (CEST)
+Received: from localhost ([::1]:57306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oixg9-0005C9-DG
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 08:51:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45462)
+	id 1oixa6-0008W8-Ji
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 08:44:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gourry.memverge@gmail.com>)
- id 1oixQo-0000Kv-6N
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:35:22 -0400
-Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:40675)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <gourry.memverge@gmail.com>)
- id 1oixQk-0003Tr-GG
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:35:21 -0400
-Received: by mail-qt1-x844.google.com with SMTP id h24so527451qta.7
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 05:35:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=gozgW6W4zcxbp7BYJvo59EouJU4f/yerB3KkmxDpsx8=;
- b=FJA5ppSNG4xaKAGyTpVrxLWoJIhWpSU6tM9oxiik7uNlpHe5FG1ikbISzXmssLzm81
- g1WuGn4QUV2q8vJg/KuajCCSzVmdXNr5fKgwJT3RP+8Ev72c+RxeW3QMXDFUSRW27gSA
- 9qX5qK05fAwMWAONsvwry2zkGjc8qS7ETsXB3Fl4aY5p/3rQTBiGrNgAOKeENehJEHPm
- pwglM1W0wT+N383LmFJRxI6/rIxweDWR3mWjS4aIofiv2IqmCaVeJKnOePTEaNDL9yw3
- 7AbJogT3eQKV12vKzXW5UYpUNYWRGT0X8bIDMhd3bGpaDLZk0V5xkaBzVzPbEKHQVvmB
- zRbw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oixSt-0001Ug-Fn
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:37:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42410)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oixSp-000403-Hq
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:37:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665664637;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=MnFglijVdVUei1H8yyNMxeF85agUnru0AVwLKFJqDqQ=;
+ b=IddRuyYfy8isb27wM2MJtXB5quNVPPRMcaNkn9GD7/nFAHRJskWCwqyJa3aZMw71zUD8mo
+ ubYq5yiyLNPu89fu921nwPHcWEuw+w6w1NRSeC7P+Mmv/IJOGs0UvTGCR199lnlljK12pB
+ wWrmS0AFH5QrOAJoersA6EE4AP6Q3hY=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-479-gzS1XZgfPkySQ7QwGN2zHw-1; Thu, 13 Oct 2022 08:37:16 -0400
+X-MC-Unique: gzS1XZgfPkySQ7QwGN2zHw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ z11-20020a056402274b00b0045ca9510fc8so1410996edd.23
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 05:37:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gozgW6W4zcxbp7BYJvo59EouJU4f/yerB3KkmxDpsx8=;
- b=uzc0NGXHoN1teYzgNONUJeKVSTgGwC0KS+6vHpTxx6aKTwYSYrJhBkKb0guBns+gQt
- +IcetYN8cOw2qDYsPzNNjB2SRcUc+3TFUdprRB2UsTNOs08+6OpDe3hppTzf0s4BgUg4
- kRE8do1ASrPZXqVZep7xV6LE4rpQLzVqvjtHkdiHNMVqUnnebJXowrTp2pJVg65vn26D
- dcvaUyOZh7ix4gZzwu85B4UjE/7Zt22LJH2w765rJ/fE1OhP8poWYT7tXsjJ2OP7hS+0
- 8e3ZloVPsmVrV2lK+aq1qZaFJHTtcE54QyelPb0e2FwM3spiwuFBXKFo6Vrgm+r1ZXsb
- 4cyw==
-X-Gm-Message-State: ACrzQf0H8Z7cTzORfFJiaCvFqugGHYW5+CjJ3EWLnKFGghK+yaOZuV9T
- CESTW04rDF8IX2IWTlwuyQ==
-X-Google-Smtp-Source: AMsMyM5T5X4/5hiCtyI5IbuIYTXINSAus/WICqfXG2JFz0CTadvo+fatND4Ka7rXWscCJRxUcsIdjg==
-X-Received: by 2002:a05:622a:18b:b0:35d:5ba6:ef55 with SMTP id
- s11-20020a05622a018b00b0035d5ba6ef55mr26772763qtw.603.1665664515311; 
- Thu, 13 Oct 2022 05:35:15 -0700 (PDT)
-Received: from fedora (pool-173-79-56-208.washdc.fios.verizon.net.
- [173.79.56.208]) by smtp.gmail.com with ESMTPSA id
- y11-20020ac8128b000000b0039a275607c3sm8575516qti.55.2022.10.13.05.35.14
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=MnFglijVdVUei1H8yyNMxeF85agUnru0AVwLKFJqDqQ=;
+ b=D20+j8I5zKkL9rGUU58R6f97knbifGyviN4cYB275/vJnsWNjO4hTPpkLxs/H4911C
+ 76xR5uLw3BSIG8tp1WPz4cXPOhF7/fiudX90eJ+1I3b8ij9ZsQLAPq13yLcuU/m6FRQp
+ RsuFMhQxI9xIk9Xo9l15P8hOj7UA6m9KapYMF4RbcqIgcz3SwBMNSV9+SqQ704eIr/U7
+ kPHGN/CChRaM6yddVgPxLfeFyW2JU74Dl7j8N6PIN5+pMTI7mrH/45ggdS8A5vIt+FDh
+ jz6L5P0uxrtdlSYcB+R0Dzr+6e7qcAW407mUiGrLOhg6qT9bvYqzmRi2EkiR/SyvBUV7
+ P94A==
+X-Gm-Message-State: ACrzQf2NoXYOJWWhQaKxknCYwOKVPglvSz24spVszcz3n5MUFgJeJhXF
+ r+s6otfOxISQITZBuRVa4/ZtmPy+79aL8BaCvjCfcp9i3HHsBRQmYCy6W1+nNTsVCG1IfQ7n7O+
+ hEsa05QmRI3cXYk/RyrepteQe5g2rv7pxYVx+ASiNlst1CVxlHeNq+JqgC6dVyDtnISw=
+X-Received: by 2002:a05:6402:368:b0:458:9b5e:fd35 with SMTP id
+ s8-20020a056402036800b004589b5efd35mr2492957edw.141.1665664634623; 
+ Thu, 13 Oct 2022 05:37:14 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4Mwe+Wn0LBL+tTJ7nTzdLh6ZTElDtkUM1tYe1nXWPChzivHoasCTnRkETmmAS17/hY/Wewhg==
+X-Received: by 2002:a05:6402:368:b0:458:9b5e:fd35 with SMTP id
+ s8-20020a056402036800b004589b5efd35mr2492934edw.141.1665664634318; 
+ Thu, 13 Oct 2022 05:37:14 -0700 (PDT)
+Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.gmail.com with ESMTPSA id
+ bx24-20020a170906a1d800b0077a201f6d1esm2970186ejb.87.2022.10.13.05.37.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Oct 2022 05:35:14 -0700 (PDT)
-Date: Thu, 13 Oct 2022 08:35:13 -0400
-From: Gregory Price <gourry.memverge@gmail.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: qemu-devel@nongnu.org, linux-cxl@vger.kernel.org,
- Alison Schofield <alison.schofield@intel.com>,
- Davidlohr Bueso <dave@stgolabs.net>, a.manzanares@samsung.com,
- Ben Widawsky <bwidawsk@kernel.org>,
- Gregory Price <gregory.price@memverge.com>, mst@redhat.com,
- hchkuo@avery-design.com.tw, cbrowy@avery-design.com, ira.weiny@intel.com
-Subject: Re: [PATCH v7 4/5] hw/mem/cxl-type3: Add CXL CDAT Data Object Exchange
-Message-ID: <Y0gGAW6eRPuv1Y3b@fedora>
-References: <20221007152156.24883-5-Jonathan.Cameron@huawei.com>
- <20221012182120.174142-1-gregory.price@memverge.com>
- <20221013095749.0000052d@huawei.com>
- <CAD3UvdRYH2NVck-kLYLQcBym-5TY0WXWj7vCzcRi5yEuVfgzcQ@mail.gmail.com>
- <20221013125313.00007016@huawei.com>
+ Thu, 13 Oct 2022 05:37:13 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org,
+	afaria@redhat.com
+Subject: [PATCH 00/24] More coroutine_fn fixes
+Date: Thu, 13 Oct 2022 14:36:47 +0200
+Message-Id: <20221013123711.620631-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221013125313.00007016@huawei.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::844;
- envelope-from=gourry.memverge@gmail.com; helo=mail-qt1-x844.google.com
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,196 +98,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Most of these were extracted from Alberto's static analysis series.
+After this series, the only errors reported by the analyzer are:
 
-fwiw this is what my function looked like after the prior changes, very
-similar to yours proposed below
+- a call to bs->drv->bdrv_co_drain_begin from bdrv_open_driver.  This
+  relies on bdrv_co_drain_begin not having to yield, which is indeed the
+  case right after opening but is iffy
 
-static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
-                                void *priv)
-{
-    CXLType3Dev *ct3d = priv;
-    MemoryRegion *vmr = NULL, *pmr = NULL;
-    uint64_t dpa_base = 0;
-    int dsmad_handle = 0;
-    int num_ents = 0;
-    int cur_ent = 0;
-    int ret = 0;
+- assigning coroutine_fn to non-coroutine_fn in the human monitor
+  for the two coroutine commands screendump and block_resize.
 
-    if (ct3d->hostvmem) {
-        vmr = host_memory_backend_get_memory(ct3d->hostvmem);
-        if (!vmr)
-            return -EINVAL;
-        num_ents += CT3_CDAT_SUBTABLE_SIZE;
-    }
-    if (ct3d->hostpmem) {
-        pmr = host_memory_backend_get_memory(ct3d->hostpmem);
-        if (!pmr)
-            return -EINVAL;
-        num_ents += CT3_CDAT_SUBTABLE_SIZE;
-    }
-    if (!num_ents) {
-        return 0;
-    }
+Paolo
 
-    *cdat_table = g_malloc0(num_ents * sizeof(*cdat_table));
-    if (!*cdat_table) {
-        return -ENOMEM;
-    }
+Alberto Faria (20):
+  backup: remove incorrect coroutine_fn annotation
+  block: remove incorrect coroutine_fn annotation
+  monitor: add missing coroutine_fn annotation
+  ssh: add missing coroutine_fn annotation
+  block: add missing coroutine_fn annotation to prototypes
+  coroutine-lock: add missing coroutine_fn annotation to prototypes
+  coroutine-io: add missing coroutine_fn annotation to prototypes
+  block: add missing coroutine_fn annotation to BlockDriverState
+    callbacks
+  qcow2: add coroutine_fn annotation for indirect-called functions
+  commit: switch to *_co_* functions
+  block: switch to *_co_* functions
+  mirror: switch to *_co_* functions
+  parallels: switch to *_co_* functions
+  qcow: switch to *_co_* functions
+  qcow2: switch to *_co_* functions
+  qed: switch to *_co_* functions
+  vdi: switch to *_co_* functions
+  vhdx: switch to *_co_* functions
+  vmdk: switch to *_co_* functions
+  monitor: switch to *_co_* functions
 
-    /* Volatile aspects are mapped first */
-    if (vmr) {
-        ret = ct3_build_cdat_subtable(*cdat_table, vmr, dsmad_handle++,
-                                      false, dpa_base);
-        if (ret < 0) {
-            goto error_cleanup;
-        }
-        dpa_base = vmr->size;
-        cur_ent += ret;
-    }
-    /* Non volatile aspects */
-    if (pmr) {
-        /* non-volatile entries follow the volatile entries */
-        ret = ct3_build_cdat_subtable(&(*cdat_table)[cur_ent], pmr,
-                                      dsmad_handle, true, dpa_base);
-        if (ret < 0) {
-            goto error_cleanup;
-        }
-        cur_ent += ret;
-    }
-    assert(cur_ent == num_ents);
+Paolo Bonzini (4):
+  blkdebug: add missing coroutine_fn annotation for indirect-called
+    functions
+  qcow: manually add more coroutine_fn annotations
+  qcow2: manually add more coroutine_fn annotations
+  vmdk: manually add more coroutine_fn annotations
 
-    return ret;
-error_cleanup:
-    int i;
-    for (i = 0; i < num_ents; i++) {
-        g_free(*cdat_table[i]);
-    }
-    g_free(*cdat_table);
-    return ret;
-}
+ block.c                          |  2 +-
+ block/backup.c                   |  2 +-
+ block/blkdebug.c                 |  2 +-
+ block/commit.c                   |  2 +-
+ block/io.c                       |  8 +--
+ block/mirror.c                   |  4 +-
+ block/monitor/block-hmp-cmds.c   |  2 +-
+ block/parallels.c                | 28 +++++-----
+ block/qcow.c                     | 56 ++++++++++----------
+ block/qcow2-bitmap.c             |  4 +-
+ block/qcow2-cluster.c            | 26 ++++-----
+ block/qcow2-refcount.c           | 18 +++----
+ block/qcow2-snapshot.c           |  6 +--
+ block/qcow2.c                    | 32 ++++++------
+ block/qcow2.h                    | 32 ++++++------
+ block/qed-table.c                |  2 +-
+ block/qed.c                      | 12 ++---
+ block/ssh.c                      |  6 +--
+ block/vdi.c                      | 17 +++---
+ block/vhdx.c                     |  8 +--
+ block/vmdk.c                     | 90 ++++++++++++++++----------------
+ blockdev.c                       |  2 +-
+ include/block/block-hmp-cmds.h   |  2 +-
+ include/block/block-io.h         |  5 +-
+ include/block/block_int-common.h | 12 ++---
+ include/monitor/hmp.h            |  3 +-
+ include/qemu/coroutine.h         | 18 ++++---
+ 27 files changed, 202 insertions(+), 199 deletions(-)
 
+-- 
+2.37.3
 
-On Thu, Oct 13, 2022 at 12:53:13PM +0100, Jonathan Cameron wrote:
-> On Thu, 13 Oct 2022 07:36:28 -0400
-> Gregory Price <gourry.memverge@gmail.com> wrote:
-> 
-> > Reading through your notes, everything seems reasonable, though I'm not
-> > sure I agree with the two pass notion, though I'll wait to see the patch
-> > set.
-> > 
-> > The enum is a good idea, *forehead slap*, I should have done it.  If we
-> > have a local enum, why not just make it global (within the file) and
-> > allocate the table as I have once we know how many MRs are present?
-> 
-> It's not global as we need the entries to be packed.  So if just one mr
-> (which ever one) the entries for that need to be at the beginning of
-> cdat_table.  I also don't want to bake into the outer caller that the
-> entries will always be the same size for different MRs.
-> 
-> For the two pass case...
-> 
-> I'll send code in a few mins, but in meantime my thought is that
-> the extended code for volatile + non volatile will looks something like:
-> (variable names made up)
-> 
-> 	if (ct3d->volatile_mem) {
-> 		volatile_mr = host_memory_backend_get_memory(ct3d->volatile_mem....);
-> 		if (!volatile_mr) {
-> 			return -ENINVAL;
-> 		}
-> 		rc = ct3_build_cdat_entries_for_mr(NULL, dsmad++, volatile_mr);
-> 		if (rc < 0) {
-> 			return rc;
-> 		}
-> 		volatile_len = rc;
-> 	}
-> 
-> 	if (ct3d->nonvolatile_mem) {
-> 		nonvolatile_mr = host_memory_backend_get_memory(ct3d->nonvolatile_mem);
-> 		if (!nonvolatile_mr) {
-> 			return -ENINVAL;
-> 		}
-> 		rc = ct3_build_cdat_entries_for_mr(NULL, dmsmad++, nonvolatile_mr....);
-> 		if (rc < 0) {
-> 			return rc;
-> 		}
-> 		nonvolatile_len = rc;
-> 	}
-> 
-> 	dsmad = 0;
-> 
-> 	table = g_malloc(0, (volatile_len + nonvolatile_len) * sizeof(*table));
-> 	if (!table) {
-> 		return -ENOMEM;
-> 	}
-> 	
-> 	if (volatile_len) {
-> 		rc = ct3_build_cdat_entries_for_mr(&table[0], dmsad++, volatile_mr....);
-> 		if (rc < 0) {
-> 			return rc;
-> 		}
-> 	}	
-> 	if (nonvolatile_len) {
-> 		rc = ct3_build_cdat_entries_for_mr(&table[volatile_len], dsmad++, nonvolatile_mr...);
-> 		if (rc < 0) {
-> 			/* Only place we need error handling.  Could make it more generic of course */
-> 			for (i = 0; i < volatile_len; i++) {
-> 				g_free(cdat_table[i]);
-> 			}
-> 			return rc;
-> 		}
-> 	}
-> 
-> 	*cdat_table = g_steal_pointer(&table);
-> 
-> 
-> Jonathan
-> 
-> > 
-> > 6 eggs/half dozen though, I'm ultimately fine with either.
-> > 
-> > On Thu, Oct 13, 2022, 4:58 AM Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > wrote:
-> > 
-> > > On Wed, 12 Oct 2022 14:21:15 -0400
-> > > Gregory Price <gourry.memverge@gmail.com> wrote:
-> > >  
-> > > > Included in this response is a recommended patch set on top of this
-> > > > patch that resolves a number of issues, including style and a heap
-> > > > corruption bug.
-> > > >
-> > > > The purpose of this patch set is to refactor the CDAT initialization
-> > > > code to support future patch sets that will introduce multi-region
-> > > > support in CXL Type3 devices.
-> > > >
-> > > > 1) Checkpatch errors in the immediately prior patch
-> > > > 2) Flatting of code in cdat initialization
-> > > > 3) Changes in allocation and error checking for cleanliness
-> > > > 4) Change in the allocation/free strategy of CDAT sub-tables to simplify
-> > > >    multi-region allocation in the future.  Also resolves a heap
-> > > >    corruption bug
-> > > > 5) Refactor of CDAT initialization code into a function that initializes
-> > > >    sub-tables per memory-region.
-> > > >
-> > > > Gregory Price (5):
-> > > >   hw/mem/cxl_type3: fix checkpatch errors
-> > > >   hw/mem/cxl_type3: Pull validation checks ahead of functional code
-> > > >   hw/mem/cxl_type3: CDAT pre-allocate and check resources prior to work
-> > > >   hw/mem/cxl_type3: Change the CDAT allocation/free strategy
-> > > >   hw/mem/cxl_type3: Refactor CDAT sub-table entry initialization into a
-> > > >     function
-> > > >
-> > > >  hw/mem/cxl_type3.c | 240 +++++++++++++++++++++++----------------------
-> > > >  1 file changed, 122 insertions(+), 118 deletions(-)
-> > > >  
-> > >
-> > > Thanks, I'm going to roll this stuff into the original patch set for v8.
-> > > Some of this I already have (like the check patch stuff).
-> > > Some I may disagree with in which case  I'll reply to the patches - note
-> > > I haven't looked at them in detail yet!
-> > >
-> > > Jonathan
-> > >  
-> > 
-> 
 
