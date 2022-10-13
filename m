@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EAAD5FD589
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 09:29:41 +0200 (CEST)
-Received: from localhost ([::1]:37706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BAB85FD553
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 09:02:49 +0200 (CEST)
+Received: from localhost ([::1]:56500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oisey-0002D4-B0
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 03:29:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34444)
+	id 1oisEw-0002tP-S6
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 03:02:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois57-000563-Eb
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:52:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35255)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois54-0006lc-Ja
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois56-00055U-V2
  for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:52:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30782)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois53-0006lW-HC
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:52:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665643953;
+ s=mimecast20190719; t=1665643952;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=tBKWxClp6HCU/eZLf3LFmc3X6NhAOcBFsouyBHfWonw=;
- b=P+wpoMybhsYdz9EYzuSI4PNzqTPlF+zxkrKr520zY+w/3s/GFuILpkGacGMdYEPKteMPBt
- uFKTTX4iGgeX1aDA5zJB1w0KqBn8LoAfLhZNB4ng/eEROIBu6jD15BOweqTJnQZW+G5toE
- CZtcJ7gshVBG0jq0+zZdeKDo5DmOHbI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IqYykLpsWy7mnomN9/W5L+PfGO1/B21WKaL4Tr3EfxM=;
+ b=YAsAXWJGS/HBJ/3/I1T6mLtO1bb7A+AZzIhgaczUU18Cut9y41/G63KmaOfET1lq/ppb6O
+ ujr1lxYez4jfLoXOABHEHdjY5qcxGt2aIqSC2OJKjlXhdP0B1dGqUU2KnfReGMiXJUEpqg
+ Givb5ltXEIFofYKT8kHyUif8QHVYJ6k=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-390-mR1n4U8cNyCGoLfhRtzXNQ-1; Thu, 13 Oct 2022 02:52:30 -0400
-X-MC-Unique: mR1n4U8cNyCGoLfhRtzXNQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-142-RygBbv0zMoC6FnfTmVHx3g-1; Thu, 13 Oct 2022 02:52:28 -0400
+X-MC-Unique: RygBbv0zMoC6FnfTmVHx3g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D7650101A528;
- Thu, 13 Oct 2022 06:52:29 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0B636299E77D;
+ Thu, 13 Oct 2022 06:52:28 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.195.183])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 66371492B05;
- Thu, 13 Oct 2022 06:52:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7090E112C071;
+ Thu, 13 Oct 2022 06:52:27 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 4F4BC18000A6; Thu, 13 Oct 2022 08:52:24 +0200 (CEST)
+ id 5B3D718003A8; Thu, 13 Oct 2022 08:52:24 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
@@ -52,14 +53,17 @@ Cc: David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Eric Blake <eblake@redhat.com>
-Subject: [PULL 00/26] Kraxel 20221013 patches
-Date: Thu, 13 Oct 2022 08:51:58 +0200
-Message-Id: <20221013065224.1864145-1-kraxel@redhat.com>
+ "Michael S. Tsirkin" <mst@redhat.com>, Eric Blake <eblake@redhat.com>,
+ =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
+Subject: [PULL 01/26] audio: refactor code in audio_run_out()
+Date: Thu, 13 Oct 2022 08:51:59 +0200
+Message-Id: <20221013065224.1864145-2-kraxel@redhat.com>
+In-Reply-To: <20221013065224.1864145-1-kraxel@redhat.com>
+References: <20221013065224.1864145-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -84,95 +88,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit f1d33f55c47dfdaf8daacd618588ad3ae4c452d1:
+From: Volker Rümelin <vr_qemu@t-online.de>
 
-  Merge tag 'pull-testing-gdbstub-plugins-gitdm-061022-3' of https://github.com/stsquad/qemu into staging (2022-10-06 07:11:56 -0400)
+Refactoring the code in audio_run_out() avoids code duplication
+in the next patch. There's no functional change.
 
-are available in the Git repository at:
+Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20220923183640.8314-1-vr_qemu@t-online.de>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ audio/audio.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
-  https://gitlab.com/kraxel/qemu.git tags/kraxel-20221013-pull-request
-
-for you to fetch changes up to 61ddafbcfac4975ee245cd3453be86b0632a5605:
-
-  audio: improve out.voices test (2022-10-12 20:36:17 +0200)
-
-----------------------------------------------------------------
-pci: cleanup virtio ids.
-audio: bugfixes and latency improvements.
-misc fixes for hw/display and ui
-
-----------------------------------------------------------------
-
-Akihiko Odaki (1):
-  ui/gtk: Fix the implicit mouse ungrabbing logic
-
-Bryce Mills (1):
-  gtk: Add show_menubar=on|off command line option.
-
-Dongwon Kim (1):
-  ui/gtk-egl: egl context needs to be unbound in the end of
-    gd_egl_switch
-
-Gerd Hoffmann (6):
-  docs: add firmware feature flags
-  pci-ids: drop PCI_DEVICE_ID_VIRTIO_IOMMU
-  pci-ids: drop PCI_DEVICE_ID_VIRTIO_MEM
-  pci-ids: drop PCI_DEVICE_ID_VIRTIO_PMEM
-  pci-ids: drop list of modern virtio devices
-  pci-ids: document modern virtio-pci ids in pci.h too
-
-Helge Konetzka (2):
-  audio: fix in.voices test
-  audio: improve out.voices test
-
-Mauro Matteo Cascella (1):
-  ui/vnc-clipboard: fix integer underflow in vnc_client_cut_text_ext
-
-Sebastian Mitterle (1):
-  qemu-edid: Restrict input parameter -d to avoid division by zero
-
-Volker Rümelin (12):
-  audio: refactor code in audio_run_out()
-  audio: fix GUS audio playback with out.mixing-engine=off
-  audio: run downstream playback queue unconditionally
-  alsaaudio: reduce playback latency
-  audio: add more audio rate control functions
-  spiceaudio: add a pcm_ops buffer_get_free function
-  spiceaudio: update comment
-  audio: swap audio_rate_get_bytes() function parameters
-  audio: rename audio_sw_bytes_free()
-  audio: refactor audio_get_avail()
-  audio: fix sw->buf size for audio recording
-  audio: prevent an integer overflow in resampling code
-
-lu zhipeng (1):
-  cirrus_vga: fix potential memory overflow
-
- docs/specs/pci-ids.txt       |  16 +++--
- audio/audio_int.h            |   4 +-
- audio/audio_template.h       |   4 ++
- audio/rate_template.h        |  11 ++--
- include/hw/pci/pci.h         |  13 +++-
- audio/alsaaudio.c            |  38 +++++++++++-
- audio/audio.c                | 111 +++++++++++++++++++++++------------
- audio/dbusaudio.c            |   4 +-
- audio/noaudio.c              |   4 +-
- audio/spiceaudio.c           |  19 ++++--
- audio/wavaudio.c             |   2 +-
- hw/display/cirrus_vga.c      |   2 +-
- hw/virtio/virtio-iommu-pci.c |   4 +-
- hw/virtio/virtio-mem-pci.c   |   2 -
- hw/virtio/virtio-pci.c       |   2 +-
- hw/virtio/virtio-pmem-pci.c  |   2 -
- qemu-edid.c                  |   4 ++
- ui/gtk-egl.c                 |   3 +
- ui/gtk.c                     |  25 +++++---
- ui/vnc.c                     |  11 +++-
- docs/interop/firmware.json   |  21 +++++--
- qapi/ui.json                 |   5 +-
- qemu-options.hx              |   3 +
- 23 files changed, 218 insertions(+), 92 deletions(-)
-
+diff --git a/audio/audio.c b/audio/audio.c
+index df6818ed5598..08aec51e7085 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -1121,8 +1121,12 @@ static void audio_run_out (AudioState *s)
+     HWVoiceOut *hw = NULL;
+     SWVoiceOut *sw;
+ 
+-    if (!audio_get_pdo_out(s->dev)->mixing_engine) {
+-        while ((hw = audio_pcm_hw_find_any_enabled_out(s, hw))) {
++    while ((hw = audio_pcm_hw_find_any_enabled_out(s, hw))) {
++        size_t played, live, prev_rpos;
++        size_t hw_free = audio_pcm_hw_get_free(hw);
++        int nb_live;
++
++        if (!audio_get_pdo_out(s->dev)->mixing_engine) {
+             /* there is exactly 1 sw for each hw with no mixeng */
+             sw = hw->sw_head.lh_first;
+ 
+@@ -1137,14 +1141,9 @@ static void audio_run_out (AudioState *s)
+             if (sw->active) {
+                 sw->callback.fn(sw->callback.opaque, INT_MAX);
+             }
+-        }
+-        return;
+-    }
+ 
+-    while ((hw = audio_pcm_hw_find_any_enabled_out(s, hw))) {
+-        size_t played, live, prev_rpos;
+-        size_t hw_free = audio_pcm_hw_get_free(hw);
+-        int nb_live;
++            continue;
++        }
+ 
+         for (sw = hw->sw_head.lh_first; sw; sw = sw->entries.le_next) {
+             if (sw->active) {
 -- 
 2.37.3
 
