@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 212325FE48B
+	by mail.lfdr.de (Postfix) with ESMTPS id C80245FE48C
 	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 23:52:46 +0200 (CEST)
-Received: from localhost ([::1]:33186 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:33198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj68D-0008JI-7T
+	id 1oj68D-0008KK-J0
 	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 17:52:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44878)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oj62i-0002SV-Ke
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 17:47:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52975)
+ id 1oj62m-0002Sp-0K
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 17:47:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21131)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oj62g-0005BD-62
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 17:47:03 -0400
+ id 1oj62k-0005BX-4L
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 17:47:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665697621;
+ s=mimecast20190719; t=1665697624;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kEyemxO9xMYMhd66NPRMZhd75CaPXlPzvYN7a53fY5Y=;
- b=MomER4icUgIJZbLQUsMxD+iFF6QUnT46cFMVlFYuimKRhjedMMQGjvorGaHTV/ishSygpc
- /3Zh9jHo8xKN963YTeW9Y8dyQH6VetcIfJkmOTaO6c9/Fnl7ilKn9gveWav9YFsU+GvkEc
- FjpmTNsAYvG7Ql86LciLdEWgvTwN3lk=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=U1Qr8/T6Q2NpqQHQJDLdWR/xvdeIlZ+M0wCk1UAdl9w=;
+ b=eIxBXlNxXRdrICUh0ezhra+RVi4MC6BQhMwecSuR4Z6JCx8b76VlmrHi2w6WmnXJx6Y23b
+ ZrgJVHoifSL0VcKqc0yvE+v7ta9Z3S99oTdhW7FFpCoYyd9KkCobb2iSPjaNjDionsDJEH
+ z6VNIgkxAURHNLbhYj37vV7ah9vl8Dk=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-43-HEVpW308PyyQxMuG94rgJA-1; Thu, 13 Oct 2022 17:47:00 -0400
-X-MC-Unique: HEVpW308PyyQxMuG94rgJA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- h13-20020a056402280d00b0045cb282161cso2331433ede.8
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 14:47:00 -0700 (PDT)
+ us-mta-488-BkAU6dinPruTn3X8CvYL8w-1; Thu, 13 Oct 2022 17:47:03 -0400
+X-MC-Unique: BkAU6dinPruTn3X8CvYL8w-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ r16-20020a05640251d000b004599cfb8b95so2314221edd.5
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 14:47:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=kEyemxO9xMYMhd66NPRMZhd75CaPXlPzvYN7a53fY5Y=;
- b=YPjWEmO2hT8CW7g19YfcqwSPb/R43GOW98ULVtfuLppY0yA3T0nr7Gfx09hwxjua4G
- bYEHh2C71rXwhlzBDThUBOtuwOZHHEBMc2xwSLSfRzCbO+9UveHVPvQSdDIDM8tbzmjt
- EYJe1ifwJ8XSoRfF/EERZijhhFb2mCXUt9T6NAN4gX+GXY5oijPFxs+uF+RFRKO1pj6h
- Iyf+cWKrbBpBROeRIqMAjC/WASvmkUm0egoSVa/LgYrlpq0kUnztGEX4zrVF3H0/kmWE
- QtT/VhPCQ1M/fWKgF8gtU/MEm+u79X9KBGt2kF7UyrGaMw+5SHKkraKU6hBJA2bgTlAY
- E96Q==
-X-Gm-Message-State: ACrzQf3o53pEAJ28+5NBfXvgS/Ice6Gk2wgwqwSra2XH7Caa4SZhdxcO
- odopmjMrS41SJ+oS0GupfGcP9GEB7CRLNE/Txr0cZuSE80QlEDKkb1yUqGfoMvgGEZaAFu/8zYs
- QO5C5WGTl1tjuX5YNvoSFp5S53IZRH/n7yhwH7RMho4/ZQdjKccd2nZqqMMrMulILl00=
-X-Received: by 2002:a05:6402:27cd:b0:45c:db6f:7e77 with SMTP id
- c13-20020a05640227cd00b0045cdb6f7e77mr1575920ede.149.1665697618830; 
- Thu, 13 Oct 2022 14:46:58 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4z6D3tpvKuvm9BwS4TIGLlbpn13zOCte7MjkP8ZsuOcPcF6VYO9l5XkYlnZ5fewDEkKNeQZQ==
-X-Received: by 2002:a05:6402:27cd:b0:45c:db6f:7e77 with SMTP id
- c13-20020a05640227cd00b0045cdb6f7e77mr1575906ede.149.1665697618540; 
- Thu, 13 Oct 2022 14:46:58 -0700 (PDT)
+ bh=U1Qr8/T6Q2NpqQHQJDLdWR/xvdeIlZ+M0wCk1UAdl9w=;
+ b=XD9z87Dp71uHGSfYMLVAXppCb7ET/zNCXgSHpxkdIcujgADunnsCCmUZsGhXFULpvC
+ pLHm75zM22C2N24EHdkLpQ82UUrK8DjCdlYWVDgIjQeks2nTwMAUUMZi5Dq9T3RcAjrt
+ A2civD79gu8SS6dgSqKmSUli6ekWQGbeLp9to5cLdH6qoPYHo4kIvwXp6ug2S5qJ2bb6
+ GwlY9/WHs5NJ4Dmp87UvC9lbmVGJufkUv620xJkvHcUEfMsmSKmlVC22RsJCwdBh3r2U
+ aQhP0Pv16dDrmZjN+6ndLVc1mROH2Dg0Z8Bxk1rEdpa4SaB2iuRF3MaO7u4kmcwQMO81
+ MOMw==
+X-Gm-Message-State: ACrzQf09eg+eBfaofMEpXnHDWmdDjI+M2dRV09SAK2ectdKl9O/wZE1v
+ omrRO+i0y7DL3+WlJhRRlmENhc7SZKAHI1a3PQ0DhY7CXQersvGWG7i2jMRBm6w2awJuJ6KLSMZ
+ tj0jwDGKvScaxYHPimYfTeV3fjRc+HR3/NDpYs55mk+/mUUC9Tt1mstR9wjzeuJyL0kg=
+X-Received: by 2002:a05:6402:1555:b0:458:ed89:24e9 with SMTP id
+ p21-20020a056402155500b00458ed8924e9mr1563709edx.55.1665697621699; 
+ Thu, 13 Oct 2022 14:47:01 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6FV9uVqs9/7Tsi0HxZdhPfVRRDqUv2p8o69TsEsnNy+uxQa1vi8xwzcOTN+aEcykyeiIPtcg==
+X-Received: by 2002:a05:6402:1555:b0:458:ed89:24e9 with SMTP id
+ p21-20020a056402155500b00458ed8924e9mr1563698edx.55.1665697621422; 
+ Thu, 13 Oct 2022 14:47:01 -0700 (PDT)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- k17-20020aa7c391000000b00456cbd8c65bsm556218edq.6.2022.10.13.14.46.57
+ a16-20020a170906191000b0078ae49ad169sm464286eje.91.2022.10.13.14.47.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Oct 2022 14:46:57 -0700 (PDT)
+ Thu, 13 Oct 2022 14:47:00 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: paul@nowt.org,
 	richard.henderson@linaro.org
-Subject: [PATCH 01/35] target/i386: Define XMMReg and access macros,
- align ZMM registers
-Date: Thu, 13 Oct 2022 23:46:17 +0200
-Message-Id: <20221013214651.672114-2-pbonzini@redhat.com>
+Subject: [PATCH 02/35] target/i386: make ldo/sto operations consistent with ldq
+Date: Thu, 13 Oct 2022 23:46:18 +0200
+Message-Id: <20221013214651.672114-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221013214651.672114-1-pbonzini@redhat.com>
 References: <20221013214651.672114-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -102,106 +101,171 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+ldq takes a pointer to the first byte to load the 64-bit word in;
+ldo takes a pointer to the first byte of the ZMMReg.  Make them
+consistent, which will be useful in the new SSE decoder's
+load/writeback routines.
 
-This will be used for emission and endian adjustments of gvec operations.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220822223722.1697758-2-richard.henderson@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.h | 56 ++++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 43 insertions(+), 13 deletions(-)
+ target/i386/tcg/translate.c | 43 +++++++++++++++++++------------------
+ 1 file changed, 22 insertions(+), 21 deletions(-)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 9327353fff..63bb500d07 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1233,18 +1233,34 @@ typedef struct SegmentCache {
-     uint32_t flags;
- } SegmentCache;
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index 279a3ae999..41ee9450db 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -2868,29 +2868,29 @@ static inline void gen_ldo_env_A0(DisasContext *s, int offset, bool align)
+     int mem_index = s->mem_index;
+     tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0, mem_index,
+                         MO_LEUQ | (align ? MO_ALIGN_16 : 0));
+-    tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(0)));
++    tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(XMMReg, XMM_Q(0)));
+     tcg_gen_addi_tl(s->tmp0, s->A0, 8);
+     tcg_gen_qemu_ld_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEUQ);
+-    tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(1)));
++    tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(XMMReg, XMM_Q(1)));
+ }
  
--#define MMREG_UNION(n, bits)        \
--    union n {                       \
--        uint8_t  _b_##n[(bits)/8];  \
--        uint16_t _w_##n[(bits)/16]; \
--        uint32_t _l_##n[(bits)/32]; \
--        uint64_t _q_##n[(bits)/64]; \
--        float32  _s_##n[(bits)/32]; \
--        float64  _d_##n[(bits)/64]; \
--    }
-+typedef union MMXReg {
-+    uint8_t  _b_MMXReg[64 / 8];
-+    uint16_t _w_MMXReg[64 / 16];
-+    uint32_t _l_MMXReg[64 / 32];
-+    uint64_t _q_MMXReg[64 / 64];
-+    float32  _s_MMXReg[64 / 32];
-+    float64  _d_MMXReg[64 / 64];
-+} MMXReg;
+ static inline void gen_sto_env_A0(DisasContext *s, int offset, bool align)
+ {
+     int mem_index = s->mem_index;
+-    tcg_gen_ld_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(0)));
++    tcg_gen_ld_i64(s->tmp1_i64, cpu_env, offset + offsetof(XMMReg, XMM_Q(0)));
+     tcg_gen_qemu_st_i64(s->tmp1_i64, s->A0, mem_index,
+                         MO_LEUQ | (align ? MO_ALIGN_16 : 0));
+     tcg_gen_addi_tl(s->tmp0, s->A0, 8);
+-    tcg_gen_ld_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(1)));
++    tcg_gen_ld_i64(s->tmp1_i64, cpu_env, offset + offsetof(XMMReg, XMM_Q(1)));
+     tcg_gen_qemu_st_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEUQ);
+ }
  
--typedef MMREG_UNION(ZMMReg, 512) ZMMReg;
--typedef MMREG_UNION(MMXReg, 64)  MMXReg;
-+typedef union XMMReg {
-+    uint64_t _q_XMMReg[128 / 64];
-+} XMMReg;
-+
-+typedef union YMMReg {
-+    uint64_t _q_YMMReg[256 / 64];
-+    XMMReg   _x_YMMReg[256 / 128];
-+} YMMReg;
-+
-+typedef union ZMMReg {
-+    uint8_t  _b_ZMMReg[512 / 8];
-+    uint16_t _w_ZMMReg[512 / 16];
-+    uint32_t _l_ZMMReg[512 / 32];
-+    uint64_t _q_ZMMReg[512 / 64];
-+    float32  _s_ZMMReg[512 / 32];
-+    float64  _d_ZMMReg[512 / 64];
-+    XMMReg   _x_ZMMReg[512 / 128];
-+    YMMReg   _y_ZMMReg[512 / 256];
-+} ZMMReg;
+ static inline void gen_op_movo(DisasContext *s, int d_offset, int s_offset)
+ {
+-    tcg_gen_ld_i64(s->tmp1_i64, cpu_env, s_offset + offsetof(ZMMReg, ZMM_Q(0)));
+-    tcg_gen_st_i64(s->tmp1_i64, cpu_env, d_offset + offsetof(ZMMReg, ZMM_Q(0)));
+-    tcg_gen_ld_i64(s->tmp1_i64, cpu_env, s_offset + offsetof(ZMMReg, ZMM_Q(1)));
+-    tcg_gen_st_i64(s->tmp1_i64, cpu_env, d_offset + offsetof(ZMMReg, ZMM_Q(1)));
++    tcg_gen_ld_i64(s->tmp1_i64, cpu_env, s_offset + offsetof(XMMReg, XMM_Q(0)));
++    tcg_gen_st_i64(s->tmp1_i64, cpu_env, d_offset + offsetof(XMMReg, XMM_Q(0)));
++    tcg_gen_ld_i64(s->tmp1_i64, cpu_env, s_offset + offsetof(XMMReg, XMM_Q(1)));
++    tcg_gen_st_i64(s->tmp1_i64, cpu_env, d_offset + offsetof(XMMReg, XMM_Q(1)));
+ }
  
- typedef struct BNDReg {
-     uint64_t lb;
-@@ -1267,6 +1283,13 @@ typedef struct BNDCSReg {
- #define ZMM_S(n) _s_ZMMReg[15 - (n)]
- #define ZMM_Q(n) _q_ZMMReg[7 - (n)]
- #define ZMM_D(n) _d_ZMMReg[7 - (n)]
-+#define ZMM_X(n) _x_ZMMReg[3 - (n)]
-+#define ZMM_Y(n) _y_ZMMReg[1 - (n)]
-+
-+#define XMM_Q(n) _q_XMMReg[1 - (n)]
-+
-+#define YMM_Q(n) _q_YMMReg[3 - (n)]
-+#define YMM_X(n) _x_YMMReg[1 - (n)]
+ static inline void gen_op_movq(DisasContext *s, int d_offset, int s_offset)
+@@ -2912,6 +2912,7 @@ static inline void gen_op_movq_env_0(DisasContext *s, int d_offset)
+ }
  
- #define MMX_B(n) _b_MMXReg[7 - (n)]
- #define MMX_W(n) _w_MMXReg[3 - (n)]
-@@ -1279,6 +1302,13 @@ typedef struct BNDCSReg {
- #define ZMM_S(n) _s_ZMMReg[n]
- #define ZMM_Q(n) _q_ZMMReg[n]
- #define ZMM_D(n) _d_ZMMReg[n]
-+#define ZMM_X(n) _x_ZMMReg[n]
-+#define ZMM_Y(n) _y_ZMMReg[n]
-+
-+#define XMM_Q(n) _q_XMMReg[n]
-+
-+#define YMM_Q(n) _q_YMMReg[n]
-+#define YMM_X(n) _x_YMMReg[n]
+ #define ZMM_OFFSET(reg) offsetof(CPUX86State, xmm_regs[reg])
++#define XMM_OFFSET(reg) offsetof(CPUX86State, xmm_regs[reg].ZMM_X(0))
  
- #define MMX_B(n) _b_MMXReg[n]
- #define MMX_W(n) _w_MMXReg[n]
-@@ -1556,8 +1586,8 @@ typedef struct CPUArchState {
-     float_status mmx_status; /* for 3DNow! float ops */
-     float_status sse_status;
-     uint32_t mxcsr;
--    ZMMReg xmm_regs[CPU_NB_REGS == 8 ? 8 : 32];
--    ZMMReg xmm_t0;
-+    ZMMReg xmm_regs[CPU_NB_REGS == 8 ? 8 : 32] QEMU_ALIGNED(16);
-+    ZMMReg xmm_t0 QEMU_ALIGNED(16);
-     MMXReg mmx_t0;
+ typedef void (*SSEFunc_i_ep)(TCGv_i32 val, TCGv_ptr env, TCGv_ptr reg);
+ typedef void (*SSEFunc_l_ep)(TCGv_i64 val, TCGv_ptr env, TCGv_ptr reg);
+@@ -3424,13 +3425,13 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
+             if (mod == 3)
+                 goto illegal_op;
+             gen_lea_modrm(env, s, modrm);
+-            gen_sto_env_A0(s, ZMM_OFFSET(reg), true);
++            gen_sto_env_A0(s, XMM_OFFSET(reg), true);
+             break;
+         case 0x3f0: /* lddqu */
+             if (mod == 3)
+                 goto illegal_op;
+             gen_lea_modrm(env, s, modrm);
+-            gen_ldo_env_A0(s, ZMM_OFFSET(reg), false);
++            gen_ldo_env_A0(s, XMM_OFFSET(reg), true);
+             break;
+         case 0x22b: /* movntss */
+         case 0x32b: /* movntsd */
+@@ -3499,12 +3500,12 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
+         case 0x26f: /* movdqu xmm, ea */
+             if (mod != 3) {
+                 gen_lea_modrm(env, s, modrm);
+-                gen_ldo_env_A0(s, ZMM_OFFSET(reg),
++                gen_ldo_env_A0(s, XMM_OFFSET(reg),
+                                /* movaps, movapd, movdqa */
+                                b == 0x028 || b == 0x128 || b == 0x16f);
+             } else {
+                 rm = (modrm & 7) | REX_B(s);
+-                gen_op_movo(s, ZMM_OFFSET(reg), ZMM_OFFSET(rm));
++                gen_op_movo(s, XMM_OFFSET(reg), XMM_OFFSET(rm));
+             }
+             break;
+         case 0x210: /* movss xmm, ea */
+@@ -3560,7 +3561,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
+         case 0x212: /* movsldup */
+             if (mod != 3) {
+                 gen_lea_modrm(env, s, modrm);
+-                gen_ldo_env_A0(s, ZMM_OFFSET(reg), true);
++                gen_ldo_env_A0(s, XMM_OFFSET(reg), true);
+             } else {
+                 rm = (modrm & 7) | REX_B(s);
+                 gen_op_movl(s, offsetof(CPUX86State, xmm_regs[reg].ZMM_L(0)),
+@@ -3602,7 +3603,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
+         case 0x216: /* movshdup */
+             if (mod != 3) {
+                 gen_lea_modrm(env, s, modrm);
+-                gen_ldo_env_A0(s, ZMM_OFFSET(reg), true);
++                gen_ldo_env_A0(s, XMM_OFFSET(reg), true);
+             } else {
+                 rm = (modrm & 7) | REX_B(s);
+                 gen_op_movl(s, offsetof(CPUX86State, xmm_regs[reg].ZMM_L(1)),
+@@ -3706,12 +3707,12 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
+         case 0x27f: /* movdqu ea, xmm */
+             if (mod != 3) {
+                 gen_lea_modrm(env, s, modrm);
+-                gen_sto_env_A0(s, ZMM_OFFSET(reg),
++                gen_sto_env_A0(s, XMM_OFFSET(reg),
+                                /* movaps, movapd, movdqa */
+                                b == 0x029 || b == 0x129 || b == 0x17f);
+             } else {
+                 rm = (modrm & 7) | REX_B(s);
+-                gen_op_movo(s, ZMM_OFFSET(rm), ZMM_OFFSET(reg));
++                gen_op_movo(s, XMM_OFFSET(rm), XMM_OFFSET(reg));
+             }
+             break;
+         case 0x211: /* movss ea, xmm */
+@@ -3863,7 +3864,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
+             gen_helper_enter_mmx(cpu_env);
+             if (mod != 3) {
+                 gen_lea_modrm(env, s, modrm);
+-                op2_offset = offsetof(CPUX86State,xmm_t0);
++                op2_offset = offsetof(CPUX86State, xmm_t0.ZMM_X(0));
+                 /* FIXME: should be 64-bit access if b1 == 0.  */
+                 gen_ldo_env_A0(s, op2_offset, !!b1);
+             } else {
+@@ -4055,10 +4056,10 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
+                                         offsetof(ZMMReg, ZMM_W(0)));
+                         break;
+                     case 0x2a:            /* movntdqa */
+-                        gen_ldo_env_A0(s, op1_offset, true);
++                        gen_ldo_env_A0(s, op1_offset + offsetof(ZMMReg, ZMM_X(0)), true);
+                         return;
+                     default:
+-                        gen_ldo_env_A0(s, op2_offset, true);
++                        gen_ldo_env_A0(s, op2_offset + offsetof(ZMMReg, ZMM_X(0)), true);
+                     }
+                 }
+                 if (!op6->fn[b1].op1) {
+@@ -4640,7 +4641,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
+             } else {
+                 op2_offset = offsetof(CPUX86State, xmm_t0);
+                 gen_lea_modrm(env, s, modrm);
+-                gen_ldo_env_A0(s, op2_offset, true);
++                gen_ldo_env_A0(s, op2_offset + offsetof(ZMMReg, ZMM_X(0)), true);
+             }
  
-     uint64_t opmask_regs[NB_OPMASK_REGS];
+             val = x86_ldub_code(env, s);
+@@ -4747,7 +4748,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
+                     break;
+                 default:
+                     /* 128 bit access */
+-                    gen_ldo_env_A0(s, op2_offset, true);
++                    gen_ldo_env_A0(s, offsetof(CPUX86State, xmm_t0.ZMM_X(0)), true);
+                     break;
+                 }
+             } else {
 -- 
 2.37.3
 
