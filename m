@@ -2,63 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D91015FDBCE
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 15:59:41 +0200 (CEST)
-Received: from localhost ([::1]:60866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD7895FDBEF
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 16:04:07 +0200 (CEST)
+Received: from localhost ([::1]:49624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiykO-0001ft-SS
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 09:59:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37308)
+	id 1oiyog-0005zu-0y
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 10:04:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1oiyVR-00082E-Qc
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 09:44:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30210)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1oixc6-0002uQ-Nt; Thu, 13 Oct 2022 08:47:03 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58958
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1oiyVL-0007qq-Mb
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 09:44:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665668641;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=L87ORQtDX+dFNtRrgysY+v8gRTd0/DT0+wOeucMtRcU=;
- b=ehFguCEqUsPar2sn3QympSP883H+wysy3MboZUI6EXdfQt2qcRqkEXbMsxAviyZEtnLwNO
- Fw5K1cDhAF0kyHsOSlcrbtTCJjlBOcOqZbcaoab8SY3G0xy8zIuPThdBoyzTpDZRXECE1i
- YKeS3j2A4Lb9TZqJbmnuctzyy9LmOMw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-537-skqk1M2XMUeEpLv15HS02w-1; Thu, 13 Oct 2022 09:44:00 -0400
-X-MC-Unique: skqk1M2XMUeEpLv15HS02w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1BB4838173D4
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 13:43:54 +0000 (UTC)
-Received: from maggie.redhat.com (unknown [10.43.2.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 67D49402686B
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 13:43:52 +0000 (UTC)
-From: Michal Privoznik <mprivozn@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] configure: Avoid using strings binary
-Date: Thu, 13 Oct 2022 15:43:48 +0200
-Message-Id: <3936c716d6fe31bd6c2a8779775c5c0d1cf7fea9.1665668535.git.mprivozn@redhat.com>
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1oixc5-0006TZ-C1; Thu, 13 Oct 2022 08:47:02 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29DCdxP9005163;
+ Thu, 13 Oct 2022 12:46:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=9qFncEseyFDdyThy1Q2SPAH2lTvvd5qFLLR1AiZcI6Y=;
+ b=Lq1Y+CiCHJ3m1DET7j1bif8mH+ZZ/MpLcI4P/jKnGWo8GAkdQjPly+kPWvmRlgur8XoS
+ Emel1dvLDE+vErZwtPR+1DmhqV1A5eOy8Kmks7puzcHAn3tVF6TAZryXX7D0TlcwKChs
+ TLVvmKZ3AVEQTYMZkz/J1XX8SxFGqyXMGCvamZkpSD82N6IQIWd7Dzmyuel/dBZRwvMv
+ rvTCwG0K2UPgSXZUE4oGlf9sMUtmMvlh8fL2Ew7PBmSZPH4JOP0/96cRoorX4XnXzJMT
+ JtLAEx2y2YYEBVTBE16vQGFXdqU0SO+I3C0ciAIK8iEw9OdsmcyGv0dltHT0BuYYMG6a eA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3k6gw0uq0a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Oct 2022 12:46:46 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29DCeG4a006802;
+ Thu, 13 Oct 2022 12:46:46 GMT
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3k6gw0uq02-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Oct 2022 12:46:45 +0000
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29DCZVhA014678;
+ Thu, 13 Oct 2022 12:46:45 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma02wdc.us.ibm.com with ESMTP id 3k30uafkq4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Oct 2022 12:46:45 +0000
+Received: from smtpav06.wdc07v.mail.ibm.com ([9.208.128.115])
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 29DCki8c13828524
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 13 Oct 2022 12:46:44 GMT
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2431858054;
+ Thu, 13 Oct 2022 12:46:44 +0000 (GMT)
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6DD1F5804E;
+ Thu, 13 Oct 2022 12:46:43 +0000 (GMT)
+Received: from localhost (unknown [9.160.174.55])
+ by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTPS;
+ Thu, 13 Oct 2022 12:46:43 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, fbarrat@linux.ibm.com, alex.bennee@linaro.org, Matheus
+ Ferst <matheus.ferst@eldorado.org.br>
+Subject: Re: [PATCH v3 09/29] target/ppc: remove generic architecture checks
+ from p9_deliver_interrupt
+In-Reply-To: <20221011204829.1641124-10-matheus.ferst@eldorado.org.br>
+References: <20221011204829.1641124-1-matheus.ferst@eldorado.org.br>
+ <20221011204829.1641124-10-matheus.ferst@eldorado.org.br>
+Date: Thu, 13 Oct 2022 09:46:41 -0300
+Message-ID: <874jw7evri.fsf@linux.ibm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mprivozn@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: uSVfPRw-dSDjlUBOn1JIxgjzkW9tzTHz
+X-Proofpoint-GUID: eRdZfZQOCRZ9_UlTQMxjwWm_ygNgE9g4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-13_08,2022-10-13_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ priorityscore=1501 impostorscore=0 suspectscore=0 mlxscore=0
+ malwarescore=0 phishscore=0 spamscore=0 bulkscore=0 lowpriorityscore=0
+ adultscore=0 mlxlogscore=696 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2209130000 definitions=main-2210130074
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,88 +113,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When determining the endiandness of the target architecture we're
-building for a small program is compiled, which in an obfuscated
-way declares two strings. Then, we look which string is in
-correct order (using strings binary) and deduct the endiandness.
-But using the strings binary is problematic, because it's part of
-toolchain (strings is just a symlink to
-x86_64-pc-linux-gnu-strings or llvm-strings). And when
-(cross-)compiling, it requires users to set the symlink to the
-correct toolchain.
+Matheus Ferst <matheus.ferst@eldorado.org.br> writes:
 
-Fortunately, we have a better alternative anyways. We can mimic
-what compiler.h is already doing: comparing __BYTE_ORDER__
-against values for little/big endiandness.
+> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Bug: https://bugs.gentoo.org/876933
-Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
----
-
-v2 of:
-
-https://lists.gnu.org/archive/html/qemu-devel/2022-10/msg02054.html
-
-diff to v1:
-- Fixed reversed logic
-- Ditched custom compiler macros in favor of __BYTE_ORDER__
-
- configure | 33 +++++++++++++++++----------------
- 1 file changed, 17 insertions(+), 16 deletions(-)
-
-diff --git a/configure b/configure
-index 45ee6f4eb3..2ac26c6978 100755
---- a/configure
-+++ b/configure
-@@ -1423,30 +1423,31 @@ if test "$tcg" = "enabled"; then
-     git_submodules="$git_submodules tests/fp/berkeley-softfloat-3"
- fi
- 
--# ---
-+##########################################
- # big/little endian test
- cat > $TMPC << EOF
--#include <stdio.h>
--short big_endian[] = { 0x4269, 0x4765, 0x4e64, 0x4961, 0x4e00, 0, };
--short little_endian[] = { 0x694c, 0x7454, 0x654c, 0x6e45, 0x6944, 0x6e41, 0, };
--int main(int argc, char *argv[])
--{
--    return printf("%s %s\n", (char *)big_endian, (char *)little_endian);
--}
-+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
-+# error LITTLE
-+#endif
-+int main(void) { return 0; }
- EOF
- 
- if compile_prog ; then
--    if strings -a $TMPE | grep -q BiGeNdIaN ; then
--        bigendian="yes"
--    elif strings -a $TMPE | grep -q LiTtLeEnDiAn ; then
--        bigendian="no"
--    else
--        echo big/little test failed
--        exit 1
--    fi
-+  bigendian="yes"
- else
-+  cat > $TMPC << EOF
-+#if __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
-+# error BIG
-+#endif
-+int main(void) { return 0; }
-+EOF
-+
-+  if compile_prog ; then
-+    bigendian="no"
-+  else
-     echo big/little test failed
-     exit 1
-+  fi
- fi
- 
- ##########################################
--- 
-2.35.1
-
+Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
 
