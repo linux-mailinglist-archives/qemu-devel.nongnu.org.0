@@ -2,79 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9674B5FD96E
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 14:44:59 +0200 (CEST)
-Received: from localhost ([::1]:57306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67D985FD9AF
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 14:57:45 +0200 (CEST)
+Received: from localhost ([::1]:33720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oixa6-0008W8-Ji
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 08:44:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42312)
+	id 1oixmS-0004DE-GD
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 08:57:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oixSt-0001Ug-Fn
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:37:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42410)
+ id 1oixSs-0001Tg-Aq
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:37:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25876)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oixSp-000403-Hq
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:37:30 -0400
+ id 1oixSo-00040M-VV
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:37:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665664637;
+ s=mimecast20190719; t=1665664640;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=MnFglijVdVUei1H8yyNMxeF85agUnru0AVwLKFJqDqQ=;
- b=IddRuyYfy8isb27wM2MJtXB5quNVPPRMcaNkn9GD7/nFAHRJskWCwqyJa3aZMw71zUD8mo
- ubYq5yiyLNPu89fu921nwPHcWEuw+w6w1NRSeC7P+Mmv/IJOGs0UvTGCR199lnlljK12pB
- wWrmS0AFH5QrOAJoersA6EE4AP6Q3hY=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nvPbeyR3iC5ZpngBtqEB9ftpVEgqxKy5BhkU02l0abI=;
+ b=Uqy/wrCLsTZrh7FJkJY2sSG06tLV/EJ6Fa6sW7vek9Ougjsxlf89JKisKy3UfAuDVbMuwH
+ ZJRjcUu6xtrddf249epDdwZ+MdMmlmfLcC68Y2586lq+ZKiFE/XSlck3GfF20VngRDA6ob
+ 2GP2JwvftZDX8B8x7K8jefqZhDD05vM=
 Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
  [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-479-gzS1XZgfPkySQ7QwGN2zHw-1; Thu, 13 Oct 2022 08:37:16 -0400
-X-MC-Unique: gzS1XZgfPkySQ7QwGN2zHw-1
+ us-mta-96-IUsnCF-TPXuHuU2YIRSahQ-1; Thu, 13 Oct 2022 08:37:19 -0400
+X-MC-Unique: IUsnCF-TPXuHuU2YIRSahQ-1
 Received: by mail-ed1-f72.google.com with SMTP id
- z11-20020a056402274b00b0045ca9510fc8so1410996edd.23
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 05:37:16 -0700 (PDT)
+ y6-20020a056402358600b0045932521633so1415825edc.17
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 05:37:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=MnFglijVdVUei1H8yyNMxeF85agUnru0AVwLKFJqDqQ=;
- b=D20+j8I5zKkL9rGUU58R6f97knbifGyviN4cYB275/vJnsWNjO4hTPpkLxs/H4911C
- 76xR5uLw3BSIG8tp1WPz4cXPOhF7/fiudX90eJ+1I3b8ij9ZsQLAPq13yLcuU/m6FRQp
- RsuFMhQxI9xIk9Xo9l15P8hOj7UA6m9KapYMF4RbcqIgcz3SwBMNSV9+SqQ704eIr/U7
- kPHGN/CChRaM6yddVgPxLfeFyW2JU74Dl7j8N6PIN5+pMTI7mrH/45ggdS8A5vIt+FDh
- jz6L5P0uxrtdlSYcB+R0Dzr+6e7qcAW407mUiGrLOhg6qT9bvYqzmRi2EkiR/SyvBUV7
- P94A==
-X-Gm-Message-State: ACrzQf2NoXYOJWWhQaKxknCYwOKVPglvSz24spVszcz3n5MUFgJeJhXF
- r+s6otfOxISQITZBuRVa4/ZtmPy+79aL8BaCvjCfcp9i3HHsBRQmYCy6W1+nNTsVCG1IfQ7n7O+
- hEsa05QmRI3cXYk/RyrepteQe5g2rv7pxYVx+ASiNlst1CVxlHeNq+JqgC6dVyDtnISw=
-X-Received: by 2002:a05:6402:368:b0:458:9b5e:fd35 with SMTP id
- s8-20020a056402036800b004589b5efd35mr2492957edw.141.1665664634623; 
- Thu, 13 Oct 2022 05:37:14 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4Mwe+Wn0LBL+tTJ7nTzdLh6ZTElDtkUM1tYe1nXWPChzivHoasCTnRkETmmAS17/hY/Wewhg==
-X-Received: by 2002:a05:6402:368:b0:458:9b5e:fd35 with SMTP id
- s8-20020a056402036800b004589b5efd35mr2492934edw.141.1665664634318; 
- Thu, 13 Oct 2022 05:37:14 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=nvPbeyR3iC5ZpngBtqEB9ftpVEgqxKy5BhkU02l0abI=;
+ b=NmIvK21r7gN0fUKkQijyQ7PaYANI0Mi0MjTP1uvmteylhzWD0SAV+cFA4E3sLN/apR
+ Onk+U+zinQ4E+q4qYhHVgPBSZr/YyI13ftDqqLoL9bi/t38kkviBnMeey4PTJQEfu03s
+ XokzPUlpQi2b0ge4Lhs4Lz0jakGbvWxAfIdte4PpFZ1OKu4XB7bJUN7imKioaH7NJjPv
+ YERKHWlxZuUvyjJBMSAnABVEknhHfePh5aFiuO7bZc/dh5ZBxoXz/Y4y19iaEpo4wL7t
+ qTQLCgpnHyGGPGRDnpyilRKvNRwvjncQgxHyQhwNJmepB2o2EKYp+V9ET7JY7Kh715Zl
+ +Vlg==
+X-Gm-Message-State: ACrzQf2/HoGV5JaBiHDsPn6F01Ee7k8hqt78pTJiGS/Gwz9n1h7jMNQh
+ mgSxY9ANSWwwQ3YDEx6VM73VMatf0+4L1EClpvvfKKAKeOVNU/MbP7MOKaWRAp4JqnTVizm0baB
+ TEW0WSiXIhRYm+5Pv1hgflv032DfvRb11YdMLfP8cigRxxUXkNz2ybbO9ipkHWnM3MjU=
+X-Received: by 2002:aa7:c144:0:b0:459:f897:793e with SMTP id
+ r4-20020aa7c144000000b00459f897793emr32145158edp.8.1665664637423; 
+ Thu, 13 Oct 2022 05:37:17 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7/FwaBrabrjGHsBugl8llV0etFYA+JNOkVHbFEwX/XYPEn4ebz2/gUkPdXxrAqlUHrEzSx2A==
+X-Received: by 2002:aa7:c144:0:b0:459:f897:793e with SMTP id
+ r4-20020aa7c144000000b00459f897793emr32145134edp.8.1665664637227; 
+ Thu, 13 Oct 2022 05:37:17 -0700 (PDT)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- bx24-20020a170906a1d800b0077a201f6d1esm2970186ejb.87.2022.10.13.05.37.13
+ k20-20020a17090632d400b00772061034dbsm2939260ejk.182.2022.10.13.05.37.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Oct 2022 05:37:13 -0700 (PDT)
+ Thu, 13 Oct 2022 05:37:16 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org,
 	afaria@redhat.com
-Subject: [PATCH 00/24] More coroutine_fn fixes
-Date: Thu, 13 Oct 2022 14:36:47 +0200
-Message-Id: <20221013123711.620631-1-pbonzini@redhat.com>
+Subject: [PATCH 01/24] backup: remove incorrect coroutine_fn annotation
+Date: Thu, 13 Oct 2022 14:36:48 +0200
+Message-Id: <20221013123711.620631-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20221013123711.620631-1-pbonzini@redhat.com>
+References: <20221013123711.620631-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -82,7 +85,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,77 +101,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Most of these were extracted from Alberto's static analysis series.
-After this series, the only errors reported by the analyzer are:
+From: Alberto Faria <afaria@redhat.com>
 
-- a call to bs->drv->bdrv_co_drain_begin from bdrv_open_driver.  This
-  relies on bdrv_co_drain_begin not having to yield, which is indeed the
-  case right after opening but is iffy
+The .set_speed callback is not called from coroutine.
 
-- assigning coroutine_fn to non-coroutine_fn in the human monitor
-  for the two coroutine commands screendump and block_resize.
+Signed-off-by: Alberto Faria <afaria@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ block/backup.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Paolo
-
-Alberto Faria (20):
-  backup: remove incorrect coroutine_fn annotation
-  block: remove incorrect coroutine_fn annotation
-  monitor: add missing coroutine_fn annotation
-  ssh: add missing coroutine_fn annotation
-  block: add missing coroutine_fn annotation to prototypes
-  coroutine-lock: add missing coroutine_fn annotation to prototypes
-  coroutine-io: add missing coroutine_fn annotation to prototypes
-  block: add missing coroutine_fn annotation to BlockDriverState
-    callbacks
-  qcow2: add coroutine_fn annotation for indirect-called functions
-  commit: switch to *_co_* functions
-  block: switch to *_co_* functions
-  mirror: switch to *_co_* functions
-  parallels: switch to *_co_* functions
-  qcow: switch to *_co_* functions
-  qcow2: switch to *_co_* functions
-  qed: switch to *_co_* functions
-  vdi: switch to *_co_* functions
-  vhdx: switch to *_co_* functions
-  vmdk: switch to *_co_* functions
-  monitor: switch to *_co_* functions
-
-Paolo Bonzini (4):
-  blkdebug: add missing coroutine_fn annotation for indirect-called
-    functions
-  qcow: manually add more coroutine_fn annotations
-  qcow2: manually add more coroutine_fn annotations
-  vmdk: manually add more coroutine_fn annotations
-
- block.c                          |  2 +-
- block/backup.c                   |  2 +-
- block/blkdebug.c                 |  2 +-
- block/commit.c                   |  2 +-
- block/io.c                       |  8 +--
- block/mirror.c                   |  4 +-
- block/monitor/block-hmp-cmds.c   |  2 +-
- block/parallels.c                | 28 +++++-----
- block/qcow.c                     | 56 ++++++++++----------
- block/qcow2-bitmap.c             |  4 +-
- block/qcow2-cluster.c            | 26 ++++-----
- block/qcow2-refcount.c           | 18 +++----
- block/qcow2-snapshot.c           |  6 +--
- block/qcow2.c                    | 32 ++++++------
- block/qcow2.h                    | 32 ++++++------
- block/qed-table.c                |  2 +-
- block/qed.c                      | 12 ++---
- block/ssh.c                      |  6 +--
- block/vdi.c                      | 17 +++---
- block/vhdx.c                     |  8 +--
- block/vmdk.c                     | 90 ++++++++++++++++----------------
- blockdev.c                       |  2 +-
- include/block/block-hmp-cmds.h   |  2 +-
- include/block/block-io.h         |  5 +-
- include/block/block_int-common.h | 12 ++---
- include/monitor/hmp.h            |  3 +-
- include/qemu/coroutine.h         | 18 ++++---
- 27 files changed, 202 insertions(+), 199 deletions(-)
-
+diff --git a/block/backup.c b/block/backup.c
+index b2b649e305..6a9ad97a53 100644
+--- a/block/backup.c
++++ b/block/backup.c
+@@ -309,7 +309,7 @@ static void coroutine_fn backup_pause(Job *job)
+     }
+ }
+ 
+-static void coroutine_fn backup_set_speed(BlockJob *job, int64_t speed)
++static void backup_set_speed(BlockJob *job, int64_t speed)
+ {
+     BackupBlockJob *s = container_of(job, BackupBlockJob, common);
+ 
 -- 
 2.37.3
 
