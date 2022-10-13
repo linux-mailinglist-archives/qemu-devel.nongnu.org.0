@@ -2,85 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5202E5FE092
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 20:11:45 +0200 (CEST)
-Received: from localhost ([::1]:52212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A41B5FE0BB
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 20:15:04 +0200 (CEST)
+Received: from localhost ([::1]:46626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj2gK-0005Sb-E5
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 14:11:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47858)
+	id 1oj2jW-0000RC-AL
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 14:15:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oj2cl-0001f3-Ph
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:08:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24828)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oj2ck-0005Dl-BY
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:08:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665684481;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OOzG0ly7qbdciLS8NCk50Kql3DenNg6/9UlXFovGxiM=;
- b=Jkx7nK9EQkBvcWrdWfpCy/iPC6Avkqx1kKyISnh/LOWxpRNlRUhfjBaz5WExjaj8FeqtTK
- pjStjxVSKBV05wSd5xdG7H4Y4v/1tUMGmhiPz1x64mtIeSuHnvc3tARPItOXbDLaVQwDP5
- Qy3PfJ4832UEXe5oEgX34/qGR0Jn6l4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-398-eMXmqoVKOP6KDNV1lWtsYg-1; Thu, 13 Oct 2022 14:07:58 -0400
-X-MC-Unique: eMXmqoVKOP6KDNV1lWtsYg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 25E7D101A54E;
- Thu, 13 Oct 2022 18:07:49 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 68279208744F;
- Thu, 13 Oct 2022 18:07:48 +0000 (UTC)
-Date: Thu, 13 Oct 2022 14:07:46 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Cc: qemu-devel@nongnu.org, Yanan Wang <wangyanan55@huawei.com>,
- "Richard W.M. Jones" <rjones@redhat.com>,
- Fam Zheng <fam@euphon.net>, Hanna Reitz <hreitz@redhat.com>,
- David Hildenbrand <david@redhat.com>, integration@gluster.org,
- qemu-block@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- afaria@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
- Eric Blake <eblake@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Xie Changlong <xiechanglong.d@gmail.com>,
- John Snow <jsnow@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Jeff Cody <codyprime@gmail.com>, "Denis V. Lunev" <den@openvz.org>,
- Markus Armbruster <armbru@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Peter Xu <peterx@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Wen Congyang <wencongyang2@huawei.com>
-Subject: Re: [PATCH v6 02/13] blkio: add libblkio block driver
-Message-ID: <Y0hT8rvWu7hoxad3@fedora>
-References: <20221006213507.645402-1-stefanha@redhat.com>
- <20221006213507.645402-3-stefanha@redhat.com>
- <20221007103905.vvwq3nladi3rtbim@sgarzare-redhat>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oj2hK-0006R8-Fj
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:12:46 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:43549)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oj2hH-0005rr-0X
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:12:46 -0400
+Received: by mail-pl1-x633.google.com with SMTP id z20so2508156plb.10
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 11:12:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=TV7RvzMQm9elidyZsFlsKnYOBqSCg+pEfmVdIlOHq8o=;
+ b=vi9ZpuVZymBtN+MQINRuODZEwTVhlQEZcYoZQ+MniVoY4QfPGRGX5M1VqN5YkkvdrF
+ hem9cEGO2xCYnGk8O7tKfLAL66ttZ1Xby/yIQuQ7HWtFdDvcN8U+Oe9QLMnXghhe2JAw
+ 0GIRLMxJllsRMQ4uZcgd+L+Skzv8JnL3GcNOlFrjIBtqAOGE8bEYOB9YaiDD9jV5xjrv
+ ozwYoVh0tH7HonOcZN1X4KoMYIAB1U0hUEGBTCeBWv1hiOZi8wr3aBwA+SNLP02VOtb6
+ bUrs9aYr4rZoq2ZfVWW0hkvF1uYM1V1RJIfa9qYtEJFw3glTm5Yrtjs+tFMv9E/K80jF
+ 4WUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=TV7RvzMQm9elidyZsFlsKnYOBqSCg+pEfmVdIlOHq8o=;
+ b=f25Cs3ZcLomVJiSH9g5o1TPBA6sfCsMa6eH4fgYbkmwGpa5pnnXdMyPVwF87letWKn
+ uMme47Iy9Pb1C1oclzDAm6Jqvq6+L1/e5XP8c1hkvEwi1X17aqz7QfEFgAceulD7V/Uy
+ yY6mAmlfQqcaJmQ5180s2T0jOpseBZ0xLe9PAoemOFvzySWr5pT2EKaOS11tZ2Jpj6CD
+ C+LDpob4oCDFjIvas2OWYAnUej8325UajbskLcUWrJgpn+vxB+PK9qC56NGzuFrrCRwR
+ rMXf9ndwkkcgsl5qG6vhfeSaJlJ1lC+NPs7h+TQmgGjp4MdN9fYzICFbcSLlm03ptqRh
+ wfVg==
+X-Gm-Message-State: ACrzQf1Z6dfX/Ps2lzwPC1mlepm9I4LzBoCQHcqx3gtAMQYWwjxmzIF7
+ zOt7ryuGaN8fod8J4Wg/K++BnQ==
+X-Google-Smtp-Source: AMsMyM57MhpJUieJ1Eih7/JrMWnvk9iqU0uIRCUOOyvPLHJknAz6ssbx4shAVUpRZGew85ZuA6qc0g==
+X-Received: by 2002:a17:902:f693:b0:17f:6974:cf7f with SMTP id
+ l19-20020a170902f69300b0017f6974cf7fmr908026plg.60.1665684760801; 
+ Thu, 13 Oct 2022 11:12:40 -0700 (PDT)
+Received: from [10.1.28.222] (110-175-13-142.static.tpgi.com.au.
+ [110.175.13.142]) by smtp.gmail.com with ESMTPSA id
+ u5-20020a170903124500b00174c0dd29f0sm159829plh.144.2022.10.13.11.12.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 Oct 2022 11:12:40 -0700 (PDT)
+Message-ID: <43a26fdb-fe70-1e11-174f-38110bd1f592@linaro.org>
+Date: Fri, 14 Oct 2022 05:12:34 +1100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="hLygo8Bx5hVW1zN/"
-Content-Disposition: inline
-In-Reply-To: <20221007103905.vvwq3nladi3rtbim@sgarzare-redhat>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH] semihosting: Write back semihosting data before
+ completion callback
+To: Keith Packard <keithp@keithp.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20221012014822.1242170-1-keithp@keithp.com>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221012014822.1242170-1-keithp@keithp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.25,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,48 +94,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 10/12/22 18:48, Keith Packard via wrote:
+> 'lock_user' allocates a host buffer to shadow a target buffer,
+> 'unlock_user' copies that host buffer back to the target and frees the
+> host memory. If the completion function uses the target buffer, it
+> must be called after unlock_user to ensure the data are present.
+> 
+> This caused the arm-compatible TARGET_SYS_READC to fail as the
+> completion function, common_semi_readc_cb, pulled data from the target
+> buffer which would not have been gotten the console data.
+> 
+> I decided to fix all instances of this pattern instead of just the
+> console_read function to make things consistent and potentially fix
+> bugs in other cases.
+> 
+> Signed-off-by: Keith Packard<keithp@keithp.com>
+> ---
+>   semihosting/syscalls.c | 20 ++++++++++----------
+>   1 file changed, 10 insertions(+), 10 deletions(-)
 
---hLygo8Bx5hVW1zN/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-On Fri, Oct 07, 2022 at 12:39:05PM +0200, Stefano Garzarella wrote:
-> On Thu, Oct 06, 2022 at 05:34:56PM -0400, Stefan Hajnoczi wrote:
-> > +    ret =3D blkio_get_int(s->blkio, "max-segments", &bs->bl.max_iov);
->                                                      ^
-> Should we use `value` here, since we check it in next lines?
->=20
-> > +    if (ret < 0) {
-> > +        error_setg_errno(errp, -ret, "failed to get \"max-segments\": =
-%s",
-> > +                         blkio_get_error_msg());
-> > +        return;
-> > +    }
-> > +    if (value < 1) {
-> > +        error_setg(errp, "invalid \"max-segments\" value %d, must be p=
-ositive",
-> > +                   bs->bl.max_iov);
->                      ^
-> Ditto.
-
-Yes, thanks for catching this.
-
---hLygo8Bx5hVW1zN/
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNIU/IACgkQnKSrs4Gr
-c8iVqggAoHoQrBY566BTVHFnJVnwH+YXBIdgrCmCjX+TxvMv3cLTfUk4Ce2OLW1V
-WwLl/+R+14Cfo5hvse7Gq0tS7+X3Wp6UcRvkEU1PVybkReOoe6RUbuQ02diAsi5Z
-6pfhMwZL6iCXGt0x94mcxWpVKUIsW4OGkDvjIahgjF7tfuRyJapj71uA4RwvYKOz
-WyI/jqUsGcer4wrH+USu16CrFN3MRNYBdOrGYL8Wkx+aaLeowk8LRSKBhxnjPCSA
-js17bpYi12qcEbWmUu23tRIHU8uKAzf93fySNkjl3283NwhF+R+uHL0oTjCYBKRz
-XY3bS/RbMEoicByQTEW8vQ+iFHRatg==
-=TddN
------END PGP SIGNATURE-----
-
---hLygo8Bx5hVW1zN/--
-
+r~
 
