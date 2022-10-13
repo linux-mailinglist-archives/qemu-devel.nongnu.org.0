@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2635FD584
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 09:24:45 +0200 (CEST)
-Received: from localhost ([::1]:48204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42D475FD594
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 09:35:06 +0200 (CEST)
+Received: from localhost ([::1]:51928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oisaC-0007M8-QA
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 03:24:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34448)
+	id 1oiskC-0005GB-9e
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 03:35:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois5C-0005Ip-OS
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:52:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38008)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois5C-0005J7-UF
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:52:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39423)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois5B-0006nF-8Q
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois5B-0006nH-8p
  for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:52:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1665643960;
@@ -23,26 +23,26 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4+aV8cwUpP4Ab/cg1wz5vfBJnkqaJmgBOg4hBVfa+Zw=;
- b=Xiei9O8XmKezO7hqYffUXzrH+zneDb6T/wmX/ELDtrpsbVmPoUve0fjDY5I9ZgxOA82QFq
- wbbvY9RPLp1Ljtr/Eb7kEu6tD99X992e4UdjbyrN/wk9ZGzABBwHkwaapDYfS/xYFqS55+
- sxG4OkJBBeG/jGFNOWEkYjhzhZ2GQyA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=22pBYRTIMvEPA0Y2kGJFhykaWUMI7kqIIgn167stpvc=;
+ b=BS5JyL3r1BhSeBTWip6y6mWyCNlVAJ238qhHnZGMm1QMJZN+mmszuwIjaycr1XNxI5khuX
+ OhLbVqd6kBLDNyMojkvYv4iytjijIzolIHGx2KPhPal4kamspEQ8PKXrZzDzA1St6E3quN
+ 7ebWvCPwBgnQ9EqX/atzZJinsNKGLAY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-470-u-o7f8EPOcCFmN40JKbB9Q-1; Thu, 13 Oct 2022 02:52:34 -0400
-X-MC-Unique: u-o7f8EPOcCFmN40JKbB9Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-498-AsYnbbXWPB2xkgMuqHcWcg-1; Thu, 13 Oct 2022 02:52:37 -0400
+X-MC-Unique: AsYnbbXWPB2xkgMuqHcWcg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5251885A59D;
- Thu, 13 Oct 2022 06:52:34 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D501F3806703;
+ Thu, 13 Oct 2022 06:52:36 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.195.183])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C3E692017DF0;
- Thu, 13 Oct 2022 06:52:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 74B742166BA3;
+ Thu, 13 Oct 2022 06:52:36 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 74D361800620; Thu, 13 Oct 2022 08:52:24 +0200 (CEST)
+ id 81AF5180062C; Thu, 13 Oct 2022 08:52:24 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
@@ -55,15 +55,15 @@ Cc: David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Eric Blake <eblake@redhat.com>,
  =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
-Subject: [PULL 03/26] audio: run downstream playback queue unconditionally
-Date: Thu, 13 Oct 2022 08:52:01 +0200
-Message-Id: <20221013065224.1864145-4-kraxel@redhat.com>
+Subject: [PULL 04/26] alsaaudio: reduce playback latency
+Date: Thu, 13 Oct 2022 08:52:02 +0200
+Message-Id: <20221013065224.1864145-5-kraxel@redhat.com>
 In-Reply-To: <20221013065224.1864145-1-kraxel@redhat.com>
 References: <20221013065224.1864145-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -90,47 +90,73 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-Run the downstream playback queue even if the emulated audio
-device didn't write new samples. There still may be buffered
-audio samples downstream.
-
-This is for the -audiodev out.mixing-engine=off case. Commit
-a8a98cfd42 ("audio: run downstream playback queue uncondition-
-ally") fixed the out.mixing-engine=on case.
+Change the buffer_get_free pcm_ops function to report the free
+ALSA playback buffer. The generic buffer becomes a temporary
+buffer and is empty after a call to audio_run_out().
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 Acked-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220923183640.8314-3-vr_qemu@t-online.de>
+Message-Id: <20220923183640.8314-4-vr_qemu@t-online.de>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/audio.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ audio/alsaaudio.c | 38 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 37 insertions(+), 1 deletion(-)
 
-diff --git a/audio/audio.c b/audio/audio.c
-index 29da359b416b..567f953e66f9 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -1143,6 +1143,10 @@ static void audio_run_out (AudioState *s)
-                                 hw_free * sw->info.bytes_per_frame);
-             }
- 
-+            if (hw->pcm_ops->run_buffer_out) {
-+                hw->pcm_ops->run_buffer_out(hw);
-+            }
-+
-             continue;
-         }
- 
-@@ -1501,10 +1505,6 @@ size_t audio_generic_write(HWVoiceOut *hw, void *buf, size_t size)
-         }
-     }
- 
--    if (hw->pcm_ops->run_buffer_out) {
--        hw->pcm_ops->run_buffer_out(hw);
--    }
--
-     return total;
+diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
+index 4a61378cd757..7a2a94cd427d 100644
+--- a/audio/alsaaudio.c
++++ b/audio/alsaaudio.c
+@@ -602,6 +602,42 @@ static int alsa_open(bool in, struct alsa_params_req *req,
+     return -1;
  }
+ 
++static size_t alsa_buffer_get_free(HWVoiceOut *hw)
++{
++    ALSAVoiceOut *alsa = (ALSAVoiceOut *)hw;
++    snd_pcm_sframes_t avail;
++    size_t alsa_free, generic_free, generic_in_use;
++
++    avail = snd_pcm_avail_update(alsa->handle);
++    if (avail < 0) {
++        if (avail == -EPIPE) {
++            if (!alsa_recover(alsa->handle)) {
++                avail = snd_pcm_avail_update(alsa->handle);
++            }
++        }
++        if (avail < 0) {
++            alsa_logerr(avail,
++                        "Could not obtain number of available frames\n");
++            avail = 0;
++        }
++    }
++
++    alsa_free = avail * hw->info.bytes_per_frame;
++    generic_free = audio_generic_buffer_get_free(hw);
++    generic_in_use = hw->samples * hw->info.bytes_per_frame - generic_free;
++    if (generic_in_use) {
++        /*
++         * This code can only be reached in the unlikely case that
++         * snd_pcm_avail_update() returned a larger number of frames
++         * than snd_pcm_writei() could write. Make sure that all
++         * remaining bytes in the generic buffer can be written.
++         */
++        alsa_free = alsa_free > generic_in_use ? alsa_free - generic_in_use : 0;
++    }
++
++    return alsa_free;
++}
++
+ static size_t alsa_write(HWVoiceOut *hw, void *buf, size_t len)
+ {
+     ALSAVoiceOut *alsa = (ALSAVoiceOut *) hw;
+@@ -916,7 +952,7 @@ static struct audio_pcm_ops alsa_pcm_ops = {
+     .init_out = alsa_init_out,
+     .fini_out = alsa_fini_out,
+     .write    = alsa_write,
+-    .buffer_get_free = audio_generic_buffer_get_free,
++    .buffer_get_free = alsa_buffer_get_free,
+     .run_buffer_out = audio_generic_run_buffer_out,
+     .enable_out = alsa_enable_out,
  
 -- 
 2.37.3
