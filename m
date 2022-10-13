@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E5A5FD5B7
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 09:48:46 +0200 (CEST)
-Received: from localhost ([::1]:48046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 319475FD579
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 09:17:11 +0200 (CEST)
+Received: from localhost ([::1]:51854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oisxR-0006DW-A3
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 03:48:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55258)
+	id 1oisSr-0003Sb-TM
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 03:17:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois60-0005Tv-M1
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:53:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35159)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois5j-0005Sf-IT
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:53:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29675)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois5x-0006rb-Uj
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:53:32 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois5c-0006px-GH
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:53:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665644009;
+ s=mimecast20190719; t=1665643987;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VaoOLD866Vv+iJJJCfZMtkIRjPcnzma/W44vHVgYlKo=;
- b=XD7gVDsjY5IIzqnuk9x7Qzl4B0yw1xA+5CaJDF5G0elxMkoTC8ILENMbvOw3YR1B525xm5
- PlAba8zC4bFpgg+kR7d9v9OlMoDM0RS41REeEMfRnu0qcxIr+7oocEnhZ9FLn0RFgI7K8Z
- bOUWU5sQ2IM2Vd6OwBHEAD8pB3R3Tyk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=oe/bA1NghX+pkkJCL4QRBTkli058N6Ldvjf7q2z7Zbk=;
+ b=MKoTrKt0H2u5hKdols94972nxgUtVv2ZgWBmVgDUQi1OTbe4pBrzZJu1hZxi9Hqk+YU+aK
+ 7dbCaY3fPALEoA+2s/QDxapPZU1VHRIs166pHlxM35Ny3BnA0GZ4kiTj48K3eyyLHWvKEM
+ 05fYNXq9VWA8nO83E5fEvvnTAM2vRQs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-6-X32Mbye9MHqJwt2nPS02iA-1; Thu, 13 Oct 2022 02:53:25 -0400
-X-MC-Unique: X32Mbye9MHqJwt2nPS02iA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-591-mQJPigrYMKuuL_mt72V94A-1; Thu, 13 Oct 2022 02:53:06 -0400
+X-MC-Unique: mQJPigrYMKuuL_mt72V94A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BA8F81C075AA;
- Thu, 13 Oct 2022 06:53:09 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E768C857020;
+ Thu, 13 Oct 2022 06:53:05 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.195.183])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 06BC6492B0F;
- Thu, 13 Oct 2022 06:52:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 69904112C070;
+ Thu, 13 Oct 2022 06:53:04 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id DFCC118009A2; Thu, 13 Oct 2022 08:52:24 +0200 (CEST)
+ id EE7FD18009BF; Thu, 13 Oct 2022 08:52:24 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
@@ -55,16 +55,16 @@ Cc: David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Eric Blake <eblake@redhat.com>,
  =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
-Subject: [PULL 10/26] audio: refactor audio_get_avail()
-Date: Thu, 13 Oct 2022 08:52:08 +0200
-Message-Id: <20221013065224.1864145-11-kraxel@redhat.com>
+Subject: [PULL 11/26] audio: fix sw->buf size for audio recording
+Date: Thu, 13 Oct 2022 08:52:09 +0200
+Message-Id: <20221013065224.1864145-12-kraxel@redhat.com>
 In-Reply-To: <20221013065224.1864145-1-kraxel@redhat.com>
 References: <20221013065224.1864145-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -90,73 +90,62 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-Split out the code in audio_get_avail() that calculates the
-buffer size that the audio frontend can read. This is similar
-to the code changes in audio_get_free().
+The calculation of the buffer size needed to store audio samples
+after resampling is wrong for audio recording. For audio recording
+sw->ratio is calculated as
 
+sw->ratio = frontend sample rate / backend sample rate.
+
+From this follows
+
+frontend samples = frontend sample rate / backend sample rate
+ * backend samples
+frontend samples = sw->ratio * backend samples
+
+In 2 of 3 places in the audio recording code where sw->ratio
+is used in a calculation to get the number of frontend frames,
+the calculation is wrong. Fix this. The 3rd formula in
+audio_pcm_sw_read() is correct.
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/71
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220923183640.8314-10-vr_qemu@t-online.de>
+Acked-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20220923183640.8314-11-vr_qemu@t-online.de>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/audio.c | 24 +++++++++++++++++++-----
- 1 file changed, 19 insertions(+), 5 deletions(-)
+ audio/audio_template.h | 4 ++++
+ audio/audio.c          | 2 +-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
+diff --git a/audio/audio_template.h b/audio/audio_template.h
+index 98ab557684d8..720a32e57e7d 100644
+--- a/audio/audio_template.h
++++ b/audio/audio_template.h
+@@ -110,7 +110,11 @@ static int glue (audio_pcm_sw_alloc_resources_, TYPE) (SW *sw)
+         return 0;
+     }
+ 
++#ifdef DAC
+     samples = ((int64_t) sw->HWBUF->size << 32) / sw->ratio;
++#else
++    samples = (int64_t)sw->HWBUF->size * sw->ratio >> 32;
++#endif
+ 
+     sw->buf = audio_calloc(__func__, samples, sizeof(struct st_sample));
+     if (!sw->buf) {
 diff --git a/audio/audio.c b/audio/audio.c
-index 28262ffd58a5..ed2b9d5f7e15 100644
+index ed2b9d5f7e15..886725747bda 100644
 --- a/audio/audio.c
 +++ b/audio/audio.c
-@@ -986,6 +986,18 @@ void AUD_set_active_in (SWVoiceIn *sw, int on)
-     }
- }
- 
-+/**
-+ * audio_frontend_frames_in() - returns the number of frames the resampling
-+ * code generates from frames_in frames
-+ *
-+ * @sw: audio recording frontend
-+ * @frames_in: number of frames
-+ */
-+static size_t audio_frontend_frames_in(SWVoiceIn *sw, size_t frames_in)
-+{
-+    return ((int64_t)frames_in << 32) / sw->ratio;
-+}
-+
- static size_t audio_get_avail (SWVoiceIn *sw)
+@@ -995,7 +995,7 @@ void AUD_set_active_in (SWVoiceIn *sw, int on)
+  */
+ static size_t audio_frontend_frames_in(SWVoiceIn *sw, size_t frames_in)
  {
-     size_t live;
-@@ -1002,12 +1014,12 @@ static size_t audio_get_avail (SWVoiceIn *sw)
-     }
- 
-     ldebug (
--        "%s: get_avail live %zu ret %" PRId64 "\n",
-+        "%s: get_avail live %zu frontend frames %zu\n",
-         SW_NAME (sw),
--        live, (((int64_t) live << 32) / sw->ratio) * sw->info.bytes_per_frame
-+        live, audio_frontend_frames_in(sw, live)
-         );
- 
--    return (((int64_t) live << 32) / sw->ratio) * sw->info.bytes_per_frame;
-+    return live;
+-    return ((int64_t)frames_in << 32) / sw->ratio;
++    return (int64_t)frames_in * sw->ratio >> 32;
  }
  
- /**
-@@ -1309,11 +1321,13 @@ static void audio_run_in (AudioState *s)
-             sw->total_hw_samples_acquired -= min;
- 
-             if (sw->active) {
-+                size_t sw_avail = audio_get_avail(sw);
-                 size_t avail;
- 
--                avail = audio_get_avail (sw);
-+                avail = audio_frontend_frames_in(sw, sw_avail);
-                 if (avail > 0) {
--                    sw->callback.fn (sw->callback.opaque, avail);
-+                    sw->callback.fn(sw->callback.opaque,
-+                                    avail * sw->info.bytes_per_frame);
-                 }
-             }
-         }
+ static size_t audio_get_avail (SWVoiceIn *sw)
 -- 
 2.37.3
 
