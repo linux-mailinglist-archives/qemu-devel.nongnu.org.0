@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCD365FE42A
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 23:27:23 +0200 (CEST)
-Received: from localhost ([::1]:60866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D04765FE456
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 23:40:47 +0200 (CEST)
+Received: from localhost ([::1]:59966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj5je-0004x5-HC
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 17:27:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34008)
+	id 1oj5wa-0001RN-NO
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 17:40:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oj5iV-0003MD-Hk; Thu, 13 Oct 2022 17:26:11 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57210)
+ (Exim 4.90_1) (envelope-from <robh+dt@kernel.org>)
+ id 1oj5jj-00052w-H3; Thu, 13 Oct 2022 17:27:27 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217]:57042)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oj5iR-0002P3-Rx; Thu, 13 Oct 2022 17:26:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ZOzEMSz0YTWFuHW7vXWnnhpDBggeDRcp24bG41AUCX4=; b=YM/ZPyZP7upqj8vLBUnIRhT+1R
- 5fSxCTrVpGppYuwkpFuf3POZqniRmivEzo0T6s+8kMBijhu6lNjrBl7yNfha3hN2OXxQ/ud77xGEv
- 7gnBTTw1NmwtMAr4n17LxmdRnz/ygvrOWHkDMDcYhRSjc6CDCzr0mupkzKLLDpaz5Lw/LE3SjgjtK
- WJwPqvW8qPWqNRP2SfRVXrumzBAihObEc0VDb6qG4Q2qqpSb8ZW0o2ebL94lun6y3OyEuWrh+Hsyx
- KocvDxDhT68heDc2Tf0GWMbxQpq//Jg914brsBhVtrIXAFuMwE1Y1Wnc8YylSvBwOotYhDd8HvLma
- nbd0U9kH3NKCCvFNjciemUQIxJ0EExq0VYJvN1/Gt6ZA9dZhJQW/1RLo6Dg6OpaUL+AC1Bd6NMqGv
- fcTJAA6INHF5PJwzzd4EgKOnpixPtfvKKG8thEwOevzL0eh3bXBFICEls3dbJEwKu+eF2kXjqYNBC
- HTW6XLoRJabhRw7eWrURmBQvS+HwnYr2gYSmlEreY6Gy60r4LPAfbDFNiDf2aZeOTnpAyY+uKGmzH
- tDHc85kJMeYUihkBNIs/zK3Z4Sn10jZr9VPVY7R0w63cSi35Np3BzzIR2lTOejWfZAYMbgLBOSaU2
- IZg/XcSwintm4j7YS1bHWWzDNiWFkYqRS+wh4+cL8=;
-Received: from [2a00:23c4:8ba8:7100:6571:576d:97b8:647b]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oj5gY-0007Bu-Kn; Thu, 13 Oct 2022 22:24:14 +0100
-Message-ID: <03c92a12-b7de-a10d-33c2-76ab6885ebb9@ilande.co.uk>
-Date: Thu, 13 Oct 2022 22:25:54 +0100
+ (Exim 4.90_1) (envelope-from <robh+dt@kernel.org>)
+ id 1oj5jh-0002ad-HW; Thu, 13 Oct 2022 17:27:27 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 72254617AB;
+ Thu, 13 Oct 2022 21:27:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D20F0C433D7;
+ Thu, 13 Oct 2022 21:27:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1665696436;
+ bh=ZVty32Eta7qbqugjeIYRFIZcE5wSHvhcmMJ40gLvtQQ=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=I47/oIQ+iarLkwpW4HKwbb6079Tsl3ncfE/nv76YidVOY+oOgJvk2idDgQL59oqNm
+ cvNrghBCUduUqf+M/BzbWTWHm4fWqRfi/pv4TQ1l8ZDbLQmaF9xdef1b2H1ka93agS
+ vJ+AxT68df+f3Iv/3pPs3tBVxrn/fl007C1o6gLgq2tZryeXRfON5mxC77Z31s6GU2
+ d+q1EppaYnyBF/JAuZiQd8DGcKR5r1KzJprwG4NL+OT3gLHFEXGjQvoYO1T0cI/dI4
+ 2lB5eCxWQXH579fGagwIjGu4HjdtoZ3BBovRjOh5OLzgrzHVki1bTJ6NrgEjazssQ3
+ hcWGkoe3BsQFQ==
+Received: by mail-vk1-f174.google.com with SMTP id b81so1428058vkf.1;
+ Thu, 13 Oct 2022 14:27:16 -0700 (PDT)
+X-Gm-Message-State: ACrzQf35ptMDG/jxmiL7IYIK9WXiqv8V6u0mcRa6kGRixWSCe7GcviWL
+ 43waVWNluNd2Bol8zFngezeEr6BK2vOMe+QgPw==
+X-Google-Smtp-Source: AMsMyM4oC3UItuVfBPtu4RLh5YcMo3MNJ+J6WqvAZ9XgTjnzaaDew0sVLk1FXF7lZK2Dy649yp9GFdgR2kxyd1MTiGA=
+X-Received: by 2002:a1f:3d4c:0:b0:3aa:feb8:3ec6 with SMTP id
+ k73-20020a1f3d4c000000b003aafeb83ec6mr1235295vka.26.1665696435808; Thu, 13
+ Oct 2022 14:27:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <cover.1663368422.git.balaton@eik.bme.hu>
- <f6b04802d0a62668ba99c0086d0dda8ad103a65d.1663368422.git.balaton@eik.bme.hu>
- <861b0aed-f6c3-93f3-187f-90ef721b18df@ilande.co.uk>
- <23dc642e-cf89-a7f2-6f54-d13d1ec95a19@eik.bme.hu>
- <aa31b36f-8e81-1fec-e4ae-66a26a4c9680@ilande.co.uk>
- <ca129c-e8d1-6c2d-9ac2-f364314ba285@eik.bme.hu>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <ca129c-e8d1-6c2d-9ac2-f364314ba285@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba8:7100:6571:576d:97b8:647b
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 03/10] mac_{old|new}world: Set default values for some
- local variables
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.25,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220927100347.176606-1-jean-philippe@linaro.org>
+ <20220927100347.176606-9-jean-philippe@linaro.org>
+ <CAFEAcA8uuzcHS3B3VY=J38gSrZUhnaTDKq1ei0rwtJtoG843bA@mail.gmail.com>
+In-Reply-To: <CAFEAcA8uuzcHS3B3VY=J38gSrZUhnaTDKq1ei0rwtJtoG843bA@mail.gmail.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Thu, 13 Oct 2022 16:27:06 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKvXZ6J_H8zhsAkvpAyZvymVbxk1X-3JMV44-9yn7z+1w@mail.gmail.com>
+Message-ID: <CAL_JsqKvXZ6J_H8zhsAkvpAyZvymVbxk1X-3JMV44-9yn7z+1w@mail.gmail.com>
+Subject: Re: [PATCH v2 8/8] hw/arm/virt: Fix devicetree warnings about node
+ names
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=139.178.84.217; envelope-from=robh+dt@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 13 Oct 2022 17:39:07 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,132 +82,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/10/2022 23:08, BALATON Zoltan wrote:
+On Tue, Sep 27, 2022 at 6:28 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Tue, 27 Sept 2022 at 11:12, Jean-Philippe Brucker
+> <jean-philippe@linaro.org> wrote:
+> >
+> > The devicetree specification requires that nodes use a generic name
+> > where appropriate. Fix the corresponding dt-validate warnings:
+>
+> Either:
+> (1) guests are looking for devices in the DT by node name. In that
+> case we can't change the node names without breaking them
 
-> On Thu, 29 Sep 2022, Mark Cave-Ayland wrote:
->> On 25/09/2022 10:16, BALATON Zoltan wrote:
->>> On Sun, 25 Sep 2022, Mark Cave-Ayland wrote:
->>>> On 17/09/2022 00:07, BALATON Zoltan wrote:
->>>>> Some lines can be dropped making the code flow simpler and easier to
->>>>> follow by setting default values at variable declaration for some
->>>>> variables in both mac_oldworld.c and mac_newworld.c.
->>>>>
->>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>>>> ---
->>>>>   hw/ppc/mac_newworld.c | 28 +++++-----------------------
->>>>>   hw/ppc/mac_oldworld.c | 27 +++++----------------------
->>>>>   2 files changed, 10 insertions(+), 45 deletions(-)
->>>>>
->>>>> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
->>>>> index 27e4e8d136..6bc3bd19be 100644
->>>>> --- a/hw/ppc/mac_newworld.c
->>>>> +++ b/hw/ppc/mac_newworld.c
->>>>> @@ -111,11 +111,11 @@ static void ppc_core99_init(MachineState *machine)
->>>>>       CPUPPCState *env = NULL;
->>>>>       char *filename;
->>>>>       IrqLines *openpic_irqs;
->>>>> -    int i, j, k, ppc_boot_device, machine_arch, bios_size;
->>>>> +    int i, j, k, ppc_boot_device, machine_arch, bios_size = -1;
->>>>>       const char *bios_name = machine->firmware ?: PROM_FILENAME;
->>>>>       MemoryRegion *bios = g_new(MemoryRegion, 1);
->>>>> -    hwaddr kernel_base, initrd_base, cmdline_base = 0;
->>>>> -    long kernel_size, initrd_size;
->>>>> +    hwaddr kernel_base = 0, initrd_base = 0, cmdline_base = 0;
->>>>> +    long kernel_size = 0, initrd_size = 0;
->>>>>       UNINHostState *uninorth_pci;
->>>>>       PCIBus *pci_bus;
->>>>>       PCIDevice *macio;
->>>>> @@ -130,7 +130,7 @@ static void ppc_core99_init(MachineState *machine)
->>>>>       DeviceState *dev, *pic_dev;
->>>>>       DeviceState *uninorth_internal_dev = NULL, *uninorth_agp_dev = NULL;
->>>>>       hwaddr nvram_addr = 0xFFF04000;
->>>>> -    uint64_t tbfreq;
->>>>> +    uint64_t tbfreq = kvm_enabled() ? kvmppc_get_tbfreq() : TBFREQ;
->>>>>         /* init CPUs */
->>>>>       for (i = 0; i < machine->smp.cpus; i++) {
->>>>> @@ -165,8 +165,6 @@ static void ppc_core99_init(MachineState *machine)
->>>>>               bios_size = load_image_targphys(filename, PROM_BASE, PROM_SIZE);
->>>>>           }
->>>>>           g_free(filename);
->>>>> -    } else {
->>>>> -        bios_size = -1;
->>>>>       }
->>>>>       if (bios_size < 0 || bios_size > PROM_SIZE) {
->>>>>           error_report("could not load PowerPC bios '%s'", bios_name);
->>>>> @@ -174,15 +172,12 @@ static void ppc_core99_init(MachineState *machine)
->>>>>       }
->>>>>         if (machine->kernel_filename) {
->>>>> -        int bswap_needed;
->>>>> +        int bswap_needed = 0;
->>>>>     #ifdef BSWAP_NEEDED
->>>>>           bswap_needed = 1;
->>>>> -#else
->>>>> -        bswap_needed = 0;
->>>>>   #endif
->>>>>           kernel_base = KERNEL_LOAD_ADDR;
->>>>> -
->>>>>           kernel_size = load_elf(machine->kernel_filename, NULL,
->>>>>                                  translate_kernel_address, NULL, NULL, NULL,
->>>>>                                  NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
->>>>> @@ -212,16 +207,10 @@ static void ppc_core99_init(MachineState *machine)
->>>>>               }
->>>>>               cmdline_base = TARGET_PAGE_ALIGN(initrd_base + initrd_size);
->>>>>           } else {
->>>>> -            initrd_base = 0;
->>>>> -            initrd_size = 0;
->>>>
->>>> This bit seems a bit odd...
->>>>
->>>>>               cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size + 
->>>>> KERNEL_GAP);
->>>>>           }
->>>>>           ppc_boot_device = 'm';
->>>>>       } else {
->>>>> -        kernel_base = 0;
->>>>> -        kernel_size = 0;
->>>>> -        initrd_base = 0;
->>>>> -        initrd_size = 0;
->>>>
->>>> and also here. The only reason I can think that someone would explicitly set 
->>>> these variables back to 0 would be if there are cases in the load_*() functions 
->>>> where non-zero values could be returned for failure. It's worth having a look to 
->>>> confirm this and see if this also needs some additional tweaks to the logic flow 
->>>> here.
->>>
->>> They aren't set back to 0 but set here the first time. Nothing touches these 
->>> variables before this if-else do this patch just moves the zero init to the 
->>> variable declaration and only leaves the cases which set a value different than 
->>> zero here which I think is easier to follow.
->>
->> Okay - in that case if you can test with a non-kernel ELF to verify this, and add a 
->> note confirming that everything still works for the error paths then that will be 
->> fine.
-> 
-> I've originally added non-elf loading to be able to use -bios macrom.bin which I've 
-> now verified that it still works so this should be OK. I've also split this patch up 
-> to more parts for easier review in the later versions of the series but what it does 
-> is basically instead of
-> 
-> int x;
-> if (cond) {
->    x = a;
-> } else {
->    x = 0;
-> }
-> 
-> we do
-> 
-> int x = 0;
-> if (cond) {
->    x = a;
-> }
-> 
-> which I thought would be simple to review.
+Using node names is generally wrong unless the node name to use is
+defined and that's the only way to identify them (e.g. /chosen).
 
-Great - thanks for confirming that this still works for all intended cases.
+> Or:
+> (2) guest look for nodes by compatibility, in which case why
+> do we care what the exact format of the node name is?
 
+The spec[1] has defined standard class node names going back to 2008.
+That covered all the names here except for 'iommu' and those names
+date back to the 1990s. Obviously, there has been no checking of them
+or many things for a long time, but now we can check much more than
+reviews ever could we have a huge technical debt. The main reason on
+care on these is just consistency.
 
-ATB,
+Rob
 
-Mark.
+[1] https://elinux.org/images/c/cf/Power_ePAPR_APPROVED_v1.1.pdf
 
