@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BD7F5FDACF
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 15:28:03 +0200 (CEST)
-Received: from localhost ([::1]:59728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 568695FDA2A
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 15:16:44 +0200 (CEST)
+Received: from localhost ([::1]:59958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiyFm-00038y-48
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 09:28:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51508)
+	id 1oiy4p-0008MD-Bw
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 09:16:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oixTL-0001fA-RE
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:38:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46892)
+ id 1oixTP-0001fC-2d
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:38:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42153)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oixTK-0004AH-By
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:37:59 -0400
+ id 1oixTN-0004DR-G6
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:38:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665664677;
+ s=mimecast20190719; t=1665664680;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rCIh+kWFUgLaHVSIufoAJ6Cycswz/EUJ5NdLNcYpSp4=;
- b=dkslxj21F4lQOfl49c0j9wzii5evxZjfh/scmmrEKjzUjWU15J03RwDNjvR5GnYBAER/UD
- qHlVGyOX6mH2pn+TGq07Zy8cQ3r9YgQEAieSuHGjmWPP4lIJoVOoheTNQ/25HJVAukYLqk
- jLWNzYRNWc3upLXiKUWM2iqUvWIXtHw=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4ZgPHv5HXmmvEvP18d2RTE8qvepuBhdcIwk0L2mSSJY=;
+ b=HEEM4B+/w7lYrU6RWo02fEkKBE49W+hF/W9IUpGwpbi5yI9fww1acKzoXdrVjdkvoqcxDS
+ 2Y/quvkV9k4mIwRINhym407x5vWi8ktEpmBeh4VjNsxFT2AmBRhQr0BG3DQ1UC2aLjkGH8
+ 4mw+qZEJOaVAyPgasDIPFqCqcJ+sM5M=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-620-5cIcrgw4NXemj5irdNOxcQ-1; Thu, 13 Oct 2022 08:37:56 -0400
-X-MC-Unique: 5cIcrgw4NXemj5irdNOxcQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- j20-20020a05640211d400b0045bd72f05d6so1424793edw.11
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 05:37:56 -0700 (PDT)
+ us-mta-635-yZigkx0ONGiVBKbPPZzvpQ-1; Thu, 13 Oct 2022 08:37:59 -0400
+X-MC-Unique: yZigkx0ONGiVBKbPPZzvpQ-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ hq13-20020a1709073f0d00b0078dce6a32fcso825400ejc.13
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 05:37:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rCIh+kWFUgLaHVSIufoAJ6Cycswz/EUJ5NdLNcYpSp4=;
- b=uPRm0P75/TZVGp00dtov2KQXAdwX3ieTdSFPYzgmX45zq4QpdPiGycc2/sbD/Wp9bG
- d4erTmDXCXxoZbuoitJuxCEC4tp1pxWSZYO1cp8poGr3f6M/pltjB3pL/Oqi5GmshC1t
- H8mgMmRjI9CGGVYtQJZFqKNwFjazGh/Ss4ATNWigxTuSyKXmPRRjFihN9rLezIAb0aN+
- 4azcIkZBEci1t9nu7TeXybGBxTwqE32TdI/ZPa5Mn9iyTW0EXXhvNyEA3CWhWaDFvaEj
- LCTvIrBreTwBSsQjv2ExHmP4/mXctX0UML9SReshg9flnqtP5PmKaQosQOry2Ea9nDWp
- SIuQ==
-X-Gm-Message-State: ACrzQf3H+Bclb3y70ibqgSrFBFcOp4bThzCJ1y131sxw7WV9v8bkGkbL
- MgLRXmXE94BEV9mVokOMZud0Fj/nXKQBNmIkcOXoOgAwiDyYGVlg4degJ0Jt0frQfNiHWXYXcnO
- CBNyR+3ZQ80mfHs0ODL99B2Godtvd5Gkad77axYcHjMxe/zhW01Ikl4nY9ClZWqS9IV8=
-X-Received: by 2002:a17:906:6a8d:b0:741:6a3b:536e with SMTP id
- p13-20020a1709066a8d00b007416a3b536emr26960462ejr.11.1665664675445; 
- Thu, 13 Oct 2022 05:37:55 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4Z1LYLG9t4aDYaSu27RGXgUZ8uyc8ubpGqxrAirG27WaKjxN/wSw8KJfwbDZWQ5wRKyVTrrg==
-X-Received: by 2002:a17:906:6a8d:b0:741:6a3b:536e with SMTP id
- p13-20020a1709066a8d00b007416a3b536emr26960447ejr.11.1665664675134; 
- Thu, 13 Oct 2022 05:37:55 -0700 (PDT)
+ bh=4ZgPHv5HXmmvEvP18d2RTE8qvepuBhdcIwk0L2mSSJY=;
+ b=gx1dLTvG3ioSa339rKQkeOMd0QqICPMidKm2DLdgln61pUQ+w4a3VTidhOvjAJIW6z
+ G8UhKAKEjx/YF1s2qkW3tV/SNqLCR4ZcqWaYVPiIwl3IDAJTo9jCqp77NWNhkzq5BMr6
+ zwh6SqlJHYC6OIFLmloTfI8PnMrNFn7b5wNfQQ3tTVGx7ASIZGjssJqEUoo/rSly+T1u
+ wHpoOXiB0p2f3kAvNKg6tIyIwoBsfReV7tYDF1bSBgtE6VIVnkdVcA9ZpmOYF90FEOXD
+ X9RFDIIEzc+o2yrp3eXiOij4pwhH0vg/uXqeSstcxDhIje4AE/BKjjJ4I20dtJTxoLHi
+ +QYg==
+X-Gm-Message-State: ACrzQf1Hsg5vDe302Hy26Xao6P9k9qlL3yIiyOmUL2Oacgw0UfuGnXkY
+ 8tWAKm/YiRlJXBoSEXSkGgJWZrri2Giv0Oy+elEPasMzdtblq+kdEQX2Nl4Op1MuPWX4H5ZGQxR
+ uuY1hZIGgCFuIswS0g/6Ata8mH5XSGZQb08qqUycIl6dpZfMWOXECzy7JtEf45TmJKuw=
+X-Received: by 2002:a05:6402:1205:b0:458:c1b2:e428 with SMTP id
+ c5-20020a056402120500b00458c1b2e428mr31401489edw.94.1665664677862; 
+ Thu, 13 Oct 2022 05:37:57 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7GC0+PBDTPjrIJsIVsWDAz9MP8SZRwng7uZk/zC+qzpfKmpWkf65oRp1pofoUh4ajQYDjb2A==
+X-Received: by 2002:a05:6402:1205:b0:458:c1b2:e428 with SMTP id
+ c5-20020a056402120500b00458c1b2e428mr31401464edw.94.1665664677627; 
+ Thu, 13 Oct 2022 05:37:57 -0700 (PDT)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- t22-20020a170906065600b00780982d77d1sm2916798ejb.154.2022.10.13.05.37.54
+ i24-20020a0564020f1800b0045cba869e84sm3025480eda.26.2022.10.13.05.37.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Oct 2022 05:37:54 -0700 (PDT)
+ Thu, 13 Oct 2022 05:37:57 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org,
 	afaria@redhat.com
-Subject: [PATCH 14/24] commit: switch to *_co_* functions
-Date: Thu, 13 Oct 2022 14:37:01 +0200
-Message-Id: <20221013123711.620631-15-pbonzini@redhat.com>
+Subject: [PATCH 15/24] block: switch to *_co_* functions
+Date: Thu, 13 Oct 2022 14:37:02 +0200
+Message-Id: <20221013123711.620631-16-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221013123711.620631-1-pbonzini@redhat.com>
 References: <20221013123711.620631-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -106,22 +106,38 @@ From: Alberto Faria <afaria@redhat.com>
 Signed-off-by: Alberto Faria <afaria@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/commit.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block.c    | 2 +-
+ block/io.c | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/block/commit.c b/block/commit.c
-index 38571510cb..945945de05 100644
---- a/block/commit.c
-+++ b/block/commit.c
-@@ -135,7 +135,7 @@ static int coroutine_fn commit_run(Job *job, Error **errp)
+diff --git a/block.c b/block.c
+index 1fbf6b9e69..e44801fd28 100644
+--- a/block.c
++++ b/block.c
+@@ -643,7 +643,7 @@ create_file_fallback_zero_first_sector(BlockBackend *blk,
+ 
+     bytes_to_clear = MIN(current_size, BDRV_SECTOR_SIZE);
+     if (bytes_to_clear) {
+-        ret = blk_pwrite_zeroes(blk, 0, bytes_to_clear, BDRV_REQ_MAY_UNMAP);
++        ret = blk_co_pwrite_zeroes(blk, 0, bytes_to_clear, BDRV_REQ_MAY_UNMAP);
+         if (ret < 0) {
+             error_setg_errno(errp, -ret,
+                              "Failed to clear the new image's first sector");
+diff --git a/block/io.c b/block/io.c
+index 236b12da2a..5518a9d1e6 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -2729,8 +2729,8 @@ int coroutine_fn bdrv_co_is_zero_fast(BlockDriverState *bs, int64_t offset,
+         return 1;
      }
  
-     if (base_len < len) {
--        ret = blk_truncate(s->base, len, false, PREALLOC_MODE_OFF, 0, NULL);
-+        ret = blk_co_truncate(s->base, len, false, PREALLOC_MODE_OFF, 0, NULL);
-         if (ret) {
-             return ret;
-         }
+-    ret = bdrv_common_block_status_above(bs, NULL, false, false, offset,
+-                                         bytes, &pnum, NULL, NULL, NULL);
++    ret = bdrv_co_common_block_status_above(bs, NULL, false, false, offset,
++                                            bytes, &pnum, NULL, NULL, NULL);
+ 
+     if (ret < 0) {
+         return ret;
 -- 
 2.37.3
 
