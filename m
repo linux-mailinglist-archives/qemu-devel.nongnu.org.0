@@ -2,94 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C4765FDBA5
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 15:53:55 +0200 (CEST)
-Received: from localhost ([::1]:57886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84BC15FDBC2
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 15:56:42 +0200 (CEST)
+Received: from localhost ([::1]:45756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiyen-000083-KZ
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 09:53:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42166)
+	id 1oiyhV-0004YK-I7
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 09:56:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oiyAJ-0004km-OL
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 09:22:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47340)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oiyE9-0008V4-R1
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 09:26:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54332)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oiyAB-0003ft-9I
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 09:22:17 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oiyE6-0004fX-Lm
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 09:26:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665667332;
+ s=mimecast20190719; t=1665667577;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Np/xKXltzXPRoyGoqjxon73Wso5Ilyk/NloINlOdpl0=;
- b=RsG9iAJP05E7ukfTbW4dpkkeTzfYT+Gg5bdF3ym+Rdc/64O4UYT3kTVnwkrDqlFG9J2ApT
- pBlFbwz4FhG/dx+ibwfi/nFOuw8qsVdY0s/dMGf6XcCUjubgx5WxKQ2j7bscP/EYmHDlvl
- GZVKZkf2KVx0PsvdgcF0qopYAkRoaws=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=tUGZ10lTNiwQ6aescPux8I8EIy6Mrrt9FVJrzm2ZbLw=;
+ b=IfMc+XamGZ1VD48l5oU7sp+QjkyLWFkriwSNSqegMuHSQZIHl0lNsdhbUN/jq5UeDd7MBB
+ zRf2zeDsQH6+iQgD9Hg97qVuT5U1dBfI2JGrLHCaV/f4RzByQzWN4IQIZUxRByspB2DGiK
+ UnVvGXV1MmVTIYfi8mKbRlNKPAi+7sY=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-115-Xrqy1dHtMWyCF85zoo10WQ-1; Thu, 13 Oct 2022 09:22:11 -0400
-X-MC-Unique: Xrqy1dHtMWyCF85zoo10WQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- c3-20020a7bc843000000b003b486fc6a40so822702wml.7
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 06:22:11 -0700 (PDT)
+ us-mta-568-cUHF2pRlPJqJiDZMRtuqdw-1; Thu, 13 Oct 2022 09:26:16 -0400
+X-MC-Unique: cUHF2pRlPJqJiDZMRtuqdw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ s8-20020a056402520800b0045cab560d5eso1526649edd.1
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 06:26:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Np/xKXltzXPRoyGoqjxon73Wso5Ilyk/NloINlOdpl0=;
- b=w4PN2OvDmcBdNBwGMl8GScJagLquc1cezZ5L0Jg0uw6PsBSp0YQWbN95WTclwmYPnY
- GCIE2CoUYiKUU0ro8jxGALsNtTTOsmu2iWUz1Km1hac0ODE5WJ892UNSD1srcka7ZKbJ
- v9nN4wbDMVoCA/ALFkp3cPHQrfDeqDbWfoqvVWI/A8L9FwSIr95KcvzXM0QPud9t5DiH
- Qi0jlKVDEtArmeHEGUD9KxfiM3ywct1LRP4kf5CbfAWg08PVFWyvnhOu/CWnLOhaHXjG
- dfUXGxvEzV5zgNTAXHmq1UC2GVmD8igsGBRMZRNUIWpvdLfGtWKPl/TdiznOFc+5lEv+
- BuGA==
-X-Gm-Message-State: ACrzQf0Es99Pkj6ZpuzckbLraZPp/AiDfc0LaG5+ODX+6swnHkLZ/7wY
- vtZlsfBDvA7CXOwCmy8HZwUUE5ocK9m/YBpCsEkcwPaERs/yCDAlumnnEkdzjQQz0VQ/Lok7mQJ
- wOdYBglOOtqFXjL4=
-X-Received: by 2002:a5d:6ac3:0:b0:22e:657f:2e54 with SMTP id
- u3-20020a5d6ac3000000b0022e657f2e54mr22381594wrw.73.1665667330530; 
- Thu, 13 Oct 2022 06:22:10 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6aVznmZ0I0KtaxkOYpmw5P7CS87aTQGXssjZIvQv0UwJ6Tyd3a9OGWQ157Yxn/Y4uxAobhmw==
-X-Received: by 2002:a5d:6ac3:0:b0:22e:657f:2e54 with SMTP id
- u3-20020a5d6ac3000000b0022e657f2e54mr22381567wrw.73.1665667330251; 
- Thu, 13 Oct 2022 06:22:10 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- z10-20020a05600c0a0a00b003a2f2bb72d5sm6550770wmp.45.2022.10.13.06.22.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Oct 2022 06:22:09 -0700 (PDT)
-Date: Thu, 13 Oct 2022 14:22:07 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Tom Lendacky <thomas.lendacky@amd.com>
-Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Michael Roth <michael.roth@amd.com>
-Subject: Re: [PATCH 1/4] qapi, i386/sev: Change the reduced-phys-bits value
- from 5 to 1
-Message-ID: <Y0gQ/3Vx7Y8KOhQH@work-vm>
-References: <cover.1664550870.git.thomas.lendacky@amd.com>
- <cb96d8e09154533af4b4e6988469bc0b32390b65.1664550870.git.thomas.lendacky@amd.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tUGZ10lTNiwQ6aescPux8I8EIy6Mrrt9FVJrzm2ZbLw=;
+ b=th5MrNDfDwqw0ReZAt5tKYZyngtvKg9fMPtTe8+OXwceV6LlsNxImRH6pXi2xJ/Ppb
+ N9D8qUbhSLH8NnSvrWIrlu8qXVpb5E615xUJTzCiGxYuQhLqZb8OJuXJsd/SdUSTgj02
+ qDNOX0QQ1s56AFce+/AuMkSM8iUcPkLNxuhdoLF+gaYZBUQ6cD53MYP1dy4BU0f2br1y
+ 3DW7d/6ohMjS3Dac/OkNBbxCIxtFZagZpX7bfAd3BD2lOh3mPini1OB5dxyhkEG1fA/W
+ wcoN+78fOfsPkI4ItH3mE8hFebvkmWoqoR257easTK1CgVkTvqxntDtlJAcGR082K6/z
+ uIxg==
+X-Gm-Message-State: ACrzQf34b20GPnDQpVxiMrxUjfJsL+K5wacVTUf1kC5oqvWkI8x8xlWh
+ MMbYmG054q4yp2vK8BxH7jT4YWF0RdbDjd48tp/JbY7efUyIaXonDGBNBiUb5CtxcZ8YGzR8ElP
+ wgfU2cusZ+V0IdMk=
+X-Received: by 2002:a17:907:9816:b0:787:4350:3a19 with SMTP id
+ ji22-20020a170907981600b0078743503a19mr25195213ejc.627.1665667575398; 
+ Thu, 13 Oct 2022 06:26:15 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5NsMndaVfUEjOY71X/zhQlmfNY8pTto1dKPidZkBgZcEbaMwpBN8v0JfeyvZwa9iEVQdF9Dg==
+X-Received: by 2002:a17:907:9816:b0:787:4350:3a19 with SMTP id
+ ji22-20020a170907981600b0078743503a19mr25195172ejc.627.1665667574670; 
+ Thu, 13 Oct 2022 06:26:14 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
+ ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.googlemail.com with ESMTPSA id
+ b17-20020a170906d11100b0077077c62cadsm3030246ejz.31.2022.10.13.06.26.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 Oct 2022 06:26:14 -0700 (PDT)
+Message-ID: <f1e5d7d0-6414-3219-83ef-55fc9dd72a21@redhat.com>
+Date: Thu, 13 Oct 2022 15:26:13 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cb96d8e09154533af4b4e6988469bc0b32390b65.1664550870.git.thomas.lendacky@amd.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH] configure: Avoid using strings binary
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: Michal Privoznik <mprivozn@redhat.com>, qemu-devel@nongnu.org
+References: <83824abdddf124d76f9f265f77808e859dc094a8.1665650275.git.mprivozn@redhat.com>
+ <CAFEAcA_U_mXy5haEZjEKbH_qS_oi38LK4RMD-z42QC5h2Z67cA@mail.gmail.com>
+ <Y0fxjk5zaeDYCPIo@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <Y0fxjk5zaeDYCPIo@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-1.25, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,37 +106,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Tom Lendacky (thomas.lendacky@amd.com) wrote:
-> A guest only ever experiences, at most, 1 bit of reduced physical
-> addressing. Change the query-sev-capabilities json comment to use 1.
-> 
-> Fixes: 31dd67f684 ("sev/i386: qmp: add query-sev-capabilities command")
-> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+On 10/13/22 13:07, Daniel P. Berrangé wrote:
+> The only thing 'configure' seems to be doing with the 'bigendian'
+> env var it sets, is to construct a meson cross compiler spec
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Yes, this is then available from host_machine.endian() in Meson.  It was 
+used via
 
-> ---
->  qapi/misc-target.json | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/qapi/misc-target.json b/qapi/misc-target.json
-> index 4944c0528f..398fd09f25 100644
-> --- a/qapi/misc-target.json
-> +++ b/qapi/misc-target.json
-> @@ -172,7 +172,7 @@
->  # -> { "execute": "query-sev-capabilities" }
->  # <- { "return": { "pdh": "8CCDD8DDD", "cert-chain": "888CCCDDDEE",
->  #                  "cpu0-id": "2lvmGwo+...61iEinw==",
-> -#                  "cbitpos": 47, "reduced-phys-bits": 5}}
-> +#                  "cbitpos": 47, "reduced-phys-bits": 1}}
->  #
->  ##
->  { 'command': 'query-sev-capabilities', 'returns': 'SevCapability',
-> -- 
-> 2.37.3
-> 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+config_host_data.set('HOST_WORDS_BIGENDIAN',
+                      host_machine.endian() == 'big')
+
+until 6.2.  Now there's no explicit use but I think it's better to keep 
+it correct just in case, and avoid future hard to debug issues[1].
+
+> so we do need a compile time test in configure, but I'd suggest
+> using G_BYTE_ORDER
+
+It is imaginable that configure produces multiple cross-compilation 
+environments for meson, e.g. to compile qboot from sources.  In that 
+case glib would not be available, so please do not introduce any uses of 
+glib in configure.
+
+More in general, configure should not be doing any compile tests / 
+package detection specific to building the emulators.  Meson 0.63 will 
+*finally* make it possible to get there.
+
+That said, using __BYTE_ORDER__ is a good idea!
+
+Paolo
+
+[1] there is one build_machine.endian() which I think wants host_machine 
+instead, in fact, but it only affects the final summary.
 
 
