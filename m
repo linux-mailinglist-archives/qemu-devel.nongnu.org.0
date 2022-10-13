@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB6805FD73E
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 11:44:56 +0200 (CEST)
-Received: from localhost ([::1]:55034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F403C5FD71E
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 11:33:57 +0200 (CEST)
+Received: from localhost ([::1]:33392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiulr-00019s-UG
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 05:44:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34354)
+	id 1oiubE-0002hw-3P
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 05:33:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1oiuRW-0002KE-K3
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 05:23:55 -0400
+ id 1oiuRa-0002Ll-DD
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 05:23:59 -0400
 Received: from mail-eopbgr140123.outbound.protection.outlook.com
  ([40.107.14.123]:28929 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1oiuRU-0004g6-LY
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 05:23:54 -0400
+ id 1oiuRX-0004g6-Tt
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 05:23:57 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RybOU+TMjgRfyC0Fy4xt+sWgIZWj9ZFq5qH99Jm+CiMvmHTL/dXQ+DSDUH3JXagWjzj0DMNbC/KionrL03wmyHyqQrMy6YCdz8GgRSVx3ikZVy6CEmtvbuSFaeDck9YupodnQAMEelthylnbnp0gTDWpAfJT2+krh0e5PPHaHWESfnLDU2+/V6M7uR10sT4DNsgE8kZwNeYYX7/Tt5CxJO5XW6aYH2jQdDS8OqVAq/AlOy8WmdypCN9EKWfXbZf31k0ruoTXrEX85ZXBZV5XWSeMxE3RdJ9gRLqtJhOhq3C/ymx1c3EHm0spQmTsIZBZ6LfjwvkGDAZh0byB+K8noA==
+ b=JcciapBzLuNKsRW0JRlO6csm3SrZ9img6WyiseARORedqnsdDXxameDx2R/CyCoO/Q/s3Cm37a6qamS4Sp1iABdy6p4OenMp0KTOawxV9inQ1NEMg/0v1bBtkptgliT4zas9ga1c3WGxGCZbReg6JAFJAOKH9Ijz5qxPfMFS3bHVM1rlqwgNmrcP6cSr3A9tlNK/mFCXmJIOlWZckZnpOegr7U5idiMXNcr51pimYWcc2RyOsF4iu0BehexAe/5ZEpdLgp72iTYhDXt+KxbBKRWXIireTlqf+N5YScsgrnXHUX8mFocS49LLYRuxgz8eaxxppRZv8PZSy0D47oUpHg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vH3fbWs6m5SwLq6wrkYI4EghiwTsdYD/b7xbrn6+BCc=;
- b=JP/ouK312SkW92j1BHPxgGIhEpPUhV1qWn2twpfM9iNfjOBnxvhdUGONQSvHfnqFBJxgrXAEsa4IQl0xL5cY6i0+NTvb5FSZDMrjcrBXmegDyn/HxI/igbFSgZ/i64LH1s+VhfKx/AdQa6GnhfujhtP5rm4lBVCyuMON5EQ6/Wt2lHK+DGry6MffEcgISWaz1UEOnp6iwxavqDNn9ySkgI68dQpY6eDk8Yw+NtXpVJDT7aGYJAzka46UtjLygYTVmGJsQ1kmv5wfZY+fS04ClL4nB3xLXFUIQ6VRincKTOQlkDIp/GSeEu/K+7rsN21xKHBNM0JwN48m5nqIUq2ZKQ==
+ bh=gxxmbxAcZk965Xpx44CaaKqYjArE71BENpKHlF/1fPc=;
+ b=Hbg6909E7NWtSNzcVF4PByKzN4ueHl55KxdFniyid1WF3upHJhJugNVwVSByhLVq8sWaSNQOf+Vs/klpFSm5tsXcxc8Uerouui2mH81Zhg5ylmBVBF04mso1JYJC9kUzaQHHezcbUxFER4aV+cO9GHs1AFDjxoRYKjvhtk3x4cOlcSoEL1kAoA1oSo47svP0VQftDlWVDwSx8BG+sNcu8fQHP+SWv6m7Avnw+RRJm95XJooy1sVx3YtbWkJDpOFsJXRF7ctBhuV37s4xALqlp3HZb38kIbN0f9HyDEHGqvBXFpeE/3SguwisyQZA7H+ax25soOMr3x39pyiFJxhcrg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vH3fbWs6m5SwLq6wrkYI4EghiwTsdYD/b7xbrn6+BCc=;
- b=b19HqBMcbbf0d8gLqAIbawW75d0AUGZScDBtcMvexY6ssVgpd5Z2Q5WKBo/ms7WawomF9M7SFJpfCQ8mCKQctBRL1n88X+zv+RJJKBPbjK4RiOdOIAJckNX8CDtLt1ngLN54+ab09KnLmEfwPGeuIQU/U5Et5k9bawGzvyuEUauPARSqFSN+o4H8+I3Mpv8oba9Q74Gu8NN/BLuFHzycXEFfmDLrtC4ndI+TmfNZqKoZqg/hv3Dp0XMS9ftvAvLe4PYwOWdRJ5RdbHs7kFoX5X7VjafvqhhCNKYqHuNWFITgBksGqUQticigurt6Qw4jMh2gTckkad4MVUZV97G8lg==
+ bh=gxxmbxAcZk965Xpx44CaaKqYjArE71BENpKHlF/1fPc=;
+ b=EbueDlinO6p8g7IuOxDMc2REII/o1t7ikKgH7xZFKVrwkVyQVf7nr3SnignppVAPDc3GlrQF20kFjTqqD1De6X4I3HEnOcs/KUBW+bg06n49yIxVLal64+60z8EZJqwDfSKMZHywPGutEz42q6ODqgoXy8wd45ywuB1uvcCpMyJ7zXmkqksZVfjqNl3D5ktOGoan8IqXAnqmqnRQUTiNKMqHkVzJ9/fvCkzcVjLUBqOalUGdPmt+qB0YtK7aoOwT9lurnlmuYo6N61vwYN0d0i2PJSKqwgZr6hQed/LAAFZmue0A67YiKvKMuW4RNCXn8nbpF2qOrXl4eClcR0Mx5Q==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AS8PR08MB7095.eurprd08.prod.outlook.com (2603:10a6:20b:402::11)
  by AM8PR08MB6466.eurprd08.prod.outlook.com (2603:10a6:20b:363::11)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5709.21; Thu, 13 Oct
- 2022 09:23:39 +0000
+ 2022 09:23:40 +0000
 Received: from AS8PR08MB7095.eurprd08.prod.outlook.com
  ([fe80::5174:25c7:6df8:741b]) by AS8PR08MB7095.eurprd08.prod.outlook.com
  ([fe80::5174:25c7:6df8:741b%8]) with mapi id 15.20.5676.040; Thu, 13 Oct 2022
- 09:23:39 +0000
+ 09:23:40 +0000
 From: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 To: qemu-devel@nongnu.org
 Cc: den@virtuozzo.com, michael.roth@amd.com, kkostiuk@redhat.com,
  marcandre.lureau@gmail.com
-Subject: [PATCH v4 6/7] qga: Move HW address getting to a separate function
-Date: Thu, 13 Oct 2022 11:23:25 +0200
-Message-Id: <20221013092326.2194646-7-alexander.ivanov@virtuozzo.com>
+Subject: [PATCH v4 7/7] qga: Add HW address getting for FreeBSD
+Date: Thu, 13 Oct 2022 11:23:26 +0200
+Message-Id: <20221013092326.2194646-8-alexander.ivanov@virtuozzo.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221013092326.2194646-1-alexander.ivanov@virtuozzo.com>
 References: <20221013092326.2194646-1-alexander.ivanov@virtuozzo.com>
@@ -64,62 +64,62 @@ X-ClientProxiedBy: FR0P281CA0069.DEUP281.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AS8PR08MB7095:EE_|AM8PR08MB6466:EE_
-X-MS-Office365-Filtering-Correlation-Id: b907b779-6266-43d4-6344-08daacfc9d27
+X-MS-Office365-Filtering-Correlation-Id: 09540233-3558-411c-1f58-08daacfc9d89
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: eevKZ0K0itz/tRTCV6ecTqdwekw/hTntfPPMBj0Pe7mTb3jJy7C/O6KxZfgKsHVuFke+f0TyMXkv0LgaOUOSJSSi/O0zfx0phbPDU8mXCwklooXb3IVUAuSTHFX26GZ2ByjCI0H8dCD4jEUj5vM8cffPBqMgVeWMlqRXXiN9yFUElKLxf8Lzqnka/nd+Bwgjc1MNuigxRW+elwi7Sps1RBM5Pj3SmNf7gGYtPv3bXYmdsK0Qj+em32t0M9qx+/CgY5Zr+B4o6gD1i6CQbk9dO9FnshOCnjaI02Ec6XLsbGMiBzINxfEUqxP549jcry9rtREq2RMEClDuW0htnZPp/kVRLb1gQRbVWjcrB/dBrIZsdw+/IBHjsRy+8lY6GmnPrVZvNyi52PhqlYKqAnPER+XFI8u+G7sQGf8Xyk9EdKZeUajSxV7gcg6dlmJ7o4jLoOYT2Y6TCzW4JBBmq0sF1YmObohruhJksRIL+pf2PyUQP0B///cNfIHgmr68DSiEfAK5ZlGpyh/CNRrVO15iVjPj6uI+s2oM1SSoykwwAa75I5IQhnD+p5hdiPNnwtyP33bnnC1PCIhcR0W53VemQSXXlACvnxchPIJbpg44d95nolOTTdTLwmqvZfItXv4XnQZyCJ/5nBWqPhUz/cPMeKwURipOVxpEr7vQKQXG9mRlr+7rt+anBsCc4PAh96XXwOaEapFI6tCI2mCHBr9KY0vcLa7rkCVykFPFDfzLdijC36YlyoN5UyethCk/uOyg5KGQcVq4OuFiMToO8KdTyw==
+X-Microsoft-Antispam-Message-Info: wbZLJNcSnhXIbLr9RHFKETFSr2YLqiHaj0Mlvy4NIGGUoWMJuHSmvArh33RIkvM/7K0CcvHVmRa1RWfFwDD0+wwxVur6siXUSH9M+P/WKq6bM6zpP+XcLqhBIfailztRDLWmtoleX1MKoRbV0G6ibC2AVPOQjRx/P5KeO4WwamcqqkdNa3vWG+j3ZZY5cIL2saMkAcxKridym7teprL6ZSvTa+9qoDRYPW/USMgdl+9xhvvHjR8T8mFw/kzhF7xjEo6Gn0MpRv29nBRvFDE+86mxyytvsu2A0wRlVBLBkn2suY+CM1g+LMgmqMhB2tiSg/GhmGeqXlcVEJNyAzNm2u+WNzCtnvbto7EkOSGMYqVmcuZOiLBD+2zHNIdA9f6jyr05rWf4HaCNqAwsCMe0Qac0yXVCQYqbKPxcg3Fw/XsQ5jeimjxeiYmCLRrbaBeVMQG0WK2UJi5fq8Li/TEpSPHX+CvItNYQ79xwKfWHY2ZjphWC0QxLcTvX3edT+aXbV0FAZ92Sp06+iXvHqYo1GHtPuetLw1o1BNg1wcVd5Tu4ao/l7gV8kDh5LfI9AtBsqZwJZ8mzCEU8bPh/huqm09Qhus1hXxMBwtIVW1DIo+lshef2IXTbx0jF9disH+bReeWYjGpqFBBA0/sS7LLC9QUf4Q3DvTKX5da3OUXUD+TZ0rcv8d/zLQJpGcFUHSW3YZCLFhxa9RfbVO70u+dN4zjOkko6de7C38TI4bjIk35qaDusFChS3rmod2p9x1PShBXuDANhU+SpHp5eRWGhjA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AS8PR08MB7095.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(376002)(346002)(136003)(39850400004)(396003)(451199015)(36756003)(2906002)(44832011)(4326008)(6512007)(5660300002)(41300700001)(8676002)(66556008)(316002)(86362001)(6916009)(66946007)(66476007)(8936002)(38100700002)(478600001)(6486002)(6666004)(38350700002)(83380400001)(26005)(6506007)(52116002)(2616005)(186003)(1076003);
+ SFS:(13230022)(4636009)(366004)(376002)(346002)(136003)(39850400004)(396003)(451199015)(36756003)(2906002)(44832011)(4326008)(6512007)(5660300002)(41300700001)(8676002)(66556008)(316002)(86362001)(6916009)(66946007)(66476007)(8936002)(38100700002)(478600001)(6486002)(6666004)(38350700002)(26005)(6506007)(52116002)(2616005)(186003)(1076003);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y2g1ZGhkZXJ3ZElmREs1ak80RTNoY3FacmRoRS9wTi8wWVZEaUVEeUlERXNE?=
- =?utf-8?B?eTJseng5U0Y3VUdOQkxzUGFMOFQ3T0kwVFVjTTViT0pIeVo3bnhnZmVEbjNF?=
- =?utf-8?B?MnlINkhjVkE5SEM4U0FoZ3N3L0tzUVpmWWNFVHZVbDB5Y1V3Y0NiT2VMdE1o?=
- =?utf-8?B?a0xNOEtvSmFuS2JGQ3k0L2dzdFI3RGM3OGdkTkRaSGFraTBnaGRTbUR6L2tq?=
- =?utf-8?B?dnVFU0c1ODZ0Zit2SmFCVXozSGlZTVNKKzY2SkZwOHY2Ynd5T1hTU2ttQ1J3?=
- =?utf-8?B?Z1BuZERFNFBqaW00NDdTeFhBNHNyb3dmcGw2K0pkdTZBTFh1Q1V0UDVoV29S?=
- =?utf-8?B?cE9ZYTlBQW41a2tpNFN0MXJ5RE12TWMxbG5xazdOK2ZNUzc3TkQ5dUhoQWF6?=
- =?utf-8?B?RHAvbW92OFFyQUtJRjZ4NXFFempNNFk5RURObWRCRmE5Rmc2WE1BSzdMb1dJ?=
- =?utf-8?B?RHFwYytiL3IwWVZIRkRLMCtEUHN0bFZxWEZ4MkxheVdtUUZsVk9XL3QxSnVj?=
- =?utf-8?B?Z0tiRXVwNnRxUjZIZmpDcDBtd3R3b0FIMm91OTAxWldNN05FNTFrS3gxOFQv?=
- =?utf-8?B?WEdkSkk0YVVxNnJYWG04dkwrNEVsLzBqM2JxTmVob3p3WXNjby8xenVQNTlQ?=
- =?utf-8?B?a3BSN0lnVWFRZDhIelF1RlN1Z3FCakdPTUNxOGlZYjFtSEVrZ2xiWjZyRW9Q?=
- =?utf-8?B?MWFhY2N0VW5YNlk1ajRxTGU0Q0c3Y2Zzd3JXTXc1b3g3cUJpSWk4c0ZJeEtC?=
- =?utf-8?B?MWxsZHROY3JEMlVoTjZHU2pJcHFGQWtaamE0SVpsRHBxbGNBTE5LRTlsSXI2?=
- =?utf-8?B?TjZoNE5PUjhpZktrWjZ5QlRTVElIU1NVUDNTYytBR1FkYm5scVlhbTl5K3hp?=
- =?utf-8?B?b0ZGbDdtUUx4dnVuOGtRTFpKdjkzaXBzbHFiZFVCNGp0QkNaOUdadzNEVW8w?=
- =?utf-8?B?cXhEcGFxNHFTZllja1hYN2I1WWc1Nmw5S0x1YlNoVTJDSlc1bnpHV255R1ph?=
- =?utf-8?B?c0t0eGE3bDRnN1JRUWlNTDAvazNnUjIycFdrTnhMajBDZjdVTGowT1RCKzRR?=
- =?utf-8?B?eE1nWjBrSmppUC9jSVU3NTE5S3AvMWJ6QlpKWTY1UTBHSDE5MTR5WnhqZ3Ra?=
- =?utf-8?B?OE4rTnFLVjh3a1hSZjZubmh4V0xlMGI4dWF3Ky8ybkdoWFlhQW00SDFlR3pB?=
- =?utf-8?B?ckhWMmE3dThQNEp4ZG5CU0FBcVFyK0NsWTNDaytIR3lFM0JIelhVeWZTY2Ur?=
- =?utf-8?B?S0FSQzJuOUtSNCtoNGtWdHNiVVBBcDBPejRwekVwdFcvSVAvdzdxYzVCUzV0?=
- =?utf-8?B?NTBsNGtJZG9pcHJzbDQ0R2dLaEsrQWM5WHNBdVJBVnkwS1FEODcwczJMSGpJ?=
- =?utf-8?B?a2dFN3NvblJjYUZLeUpuZERWcmlDWE1rUzFKWmdJVHpaTG45RE1ielgyN2hu?=
- =?utf-8?B?anJDU1lnWE8wbFRsajRiSmNkcHp1TUgyYnhIMTJCYTJPeWNMUDFsOVMyeUFY?=
- =?utf-8?B?R2lpRkVrVjNjcjZrMnIybUdEcjRsY3R2aHgwbUI2ampEMHNWVEVxT0g1SW5J?=
- =?utf-8?B?QkYxL25UcXcrQmpDOFFBUm1mRUU5VkZaN1BtWnUyR0UvdlpZSkhBL000RUdz?=
- =?utf-8?B?S2VaVGNmZUx5akh3eXdZTFl1VmlYUmk0djN6Nks0WkZLSGRYQkVBMjZrekJM?=
- =?utf-8?B?VWhXWVRxaFpaTjNPdnJyeFE3R1AwdUVESTU3V1NQeGcxNEtJVG9lbVVHNFor?=
- =?utf-8?B?cCtiNHBzUXpkR2JlaFY0dXlabTVsZ0xoTUxUcWVsWWRHMkxGQXFuRlFhN0hE?=
- =?utf-8?B?TjNKcVQ1dnhHVXltSFVWUFZRZTVXbzVJUE05OUV3SGJ0SVl0TnpldzhvbTc4?=
- =?utf-8?B?Rld1UGg5cjdQTm1RbWpkMDlBSmNib2tmdDZEZFNEYnNyVmROYmFJeFpXeWlz?=
- =?utf-8?B?Z2E1QzlzSzVWNlh3Zk1hcGJNN05vYWlwTFV1cmhDOXEyYmdNTzlXVWxhbGVZ?=
- =?utf-8?B?OTBwb1RNb3p1cERSNGt1VUlkLzZia3lMOWhFU1VHa0l1WUs1S21uMFgydHZT?=
- =?utf-8?B?T0tJdkV3NS9xUkplNFQwdVVQeEdnODhEOThmbmQySEZhN25uVVM3VEJTU3Y4?=
- =?utf-8?B?QUVBcEJiYU4wdmMrR1A1ZUxUalRnWk9pa1dMd3VScHQyRlJQWDQwcHovbzlV?=
- =?utf-8?Q?sOKF1JMto7i2871lnnvRCcc=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UXJzTUJibG05U3lORlBJeWNCZkhDMTYrTFBOeTFVTjAvKzlwSnBaWW1nVDc3?=
+ =?utf-8?B?bVVPV1FZa2hVd2RTK0Q0V1VtRzY5Q01jaWxwenBqb25jYXNnVVR4eHoxQmJ4?=
+ =?utf-8?B?Z293QXpCKytJV200VERHR25tSklMdFFEWjc3ZGtBYkQ3eWN6NG5pMWhneGtp?=
+ =?utf-8?B?dHR3MzU1SnlKTkl0UzI4eUk2WUdwVjZUME95QW9RKzdSeHBvVVBTTjdmalJK?=
+ =?utf-8?B?Smprand0dEVzbHFPTXYrVkprWXRlQzJaeEJ4amZYc0FhMXByK1VFTm9qK0h1?=
+ =?utf-8?B?bk9RMUY3dEN6K0pWVUEzcGYvU1lCVlpwMEdRN01jeFRDdTFDaFUxSnA3MDkr?=
+ =?utf-8?B?WitWWWV6Uk4xdDBoRWwwSFRtOXgvbTNlMVYrT1NRalREandYek05Z05yMUk1?=
+ =?utf-8?B?MDcwbkVkUmUzMmxaN3lvdGZyb3BDL3k3cXVJTlp4MW5FS3FQL2kzK3pkMFRX?=
+ =?utf-8?B?bDRYZGpRbHhWZm1uQWtIeUJ4LzA1V1FYQlh5YXBabnM3aFJYcnIvSzZ4Zzds?=
+ =?utf-8?B?eVhFV0gwYzlTNFFxcUNYcDg0T3ZVa1NnUy9LR2F1ejF1MDRPL2h0bUxLbkdi?=
+ =?utf-8?B?aFBZQkhyUHEzSlFKV3lsWDRzdlNNREdkRGszb3JwaEc4RXU2Q2ZCK0RkV0Rl?=
+ =?utf-8?B?cnMwWllCMm0rRStNd1Mxak9nOVlhM0Y3ZlRwank1ZWc1SG9mZVg0RHRhSnA4?=
+ =?utf-8?B?bDFLWENJL01JR0RDWkVRR0U0RGpLdmhQUHFrdWNKU1o4QXZkS0dlODdQclpU?=
+ =?utf-8?B?dU1JcDJBSHRCZVZmTmEzaStVTkI3NmRhWGhOSzhZT3I2cXBmVmdPQXh3Y0dP?=
+ =?utf-8?B?R3FwcmpMclp4QU93ZTN2Q1J5ZXFmT0U4NkZycnRDc2pqN2ZUMU1rL1NMbW1q?=
+ =?utf-8?B?d1dORm1LaUUySkNEODhpSkpiNVlTLzJCSWJNV21UckFIc2N6NG9kbzQ1b2Vu?=
+ =?utf-8?B?ZEZhVExMV2orbTFGQ05ScHRDVDI2RHZJcFJhZExRWENjMzdKb01XWUhIaFBj?=
+ =?utf-8?B?a2xvVG1FcnJhUkJQTUVsTXJFRUJ3UDdVYnFvL0E1OHV3SzhLTFNhQ3dzUlFN?=
+ =?utf-8?B?Y0ZZYTJHUDJId2I0c2tjY1pSVjdlbVZJVHJvTW0wRFYvczVOOGV3N0V3NC9H?=
+ =?utf-8?B?SjJrcVdzeXlldndkNDBGMHYxYlV0SDhWWGZpYk1ScXBjbzRyZ1BXaWtOZGFD?=
+ =?utf-8?B?QlFXTFRMYnBTRGE2R2loeCtlSE1YeEpCUFFocEdCZU9vTnBhZnllNTJCL2tP?=
+ =?utf-8?B?K2dDaHdKMFZoay9tbW9RaUloZGZtci9YbmNGaVBTQkFzTDIzWmIzLytxTCtG?=
+ =?utf-8?B?c2ErdTVmdURROHlTaVVhMHRIR3VqMEZER2Vhd1hzVkU5WGkwdWhUQjd4bXRn?=
+ =?utf-8?B?Skl5cXA1eVhibHhUSVdIY0ZxU1BWeHlyWU9ZVXhoZzZVbkprSDdWeUxPdnJ5?=
+ =?utf-8?B?eE9tSkpKQVVoN20ydkxnTzczL2tQL0tzUG0xVVVQYzI1NFA1akU3eXVaZ0VK?=
+ =?utf-8?B?R0swUGV2ei9SNmtHMXV5YmMxSkFsL1UveEhKdTZhdkQyb2Q3SDhKR1hCZEI1?=
+ =?utf-8?B?OUR4RWdjTWFHQlZmNE12eXJCQkZWMUliTC9ML2RJVGU0QXRmN3hpU01NbHNj?=
+ =?utf-8?B?SWI5SG5QRlYxZ1JUc0pjNEluRkNpb3owdmprT3R1ci9oMzlkcG96NnpNVUM5?=
+ =?utf-8?B?SlZrOG1xaC9QSGh4YmVueUI5YUVOUGlwbXIyQkFlU1UrL1grMGcyaFBYQ2ZT?=
+ =?utf-8?B?NjBJd3M4K2Q2TWFJZFdMSTRqaUM4NnV4YWFBVXEvYXZ0SWxYWTRkWUFhNGVa?=
+ =?utf-8?B?eCtkS2hXNXpXdjJBcGREMzZhZDJrVmNhaGNTTkd6bXU4OWhqU0UwdFZzL0NM?=
+ =?utf-8?B?UGhEZTdNRzlqekJzTndIWDQrQ2lRYVUyME43QmtXZ0tXckUyUUNDaVJLY0g0?=
+ =?utf-8?B?V3NWVmdGaHVrOW81S0xXSHVvY1U0NUwzTXBiaFJZVFFUbytVWS9xakttWXdV?=
+ =?utf-8?B?NTNHVm0xdFJBVFNlNDI4YytDbmZSVnVQcEtES00yWW1pRGdVbk00cXY5djdv?=
+ =?utf-8?B?eTYrS2xLek5mWXBmRkxMNXpsZzR0dVpRZ2RFVHhKRkJlMSs1U2ZHMFR4UTNM?=
+ =?utf-8?B?UGNybHlzc2NHUDhpVzRsQUo4SjNMdFNWR0huRVNwU2N0eTA4STRLVWtlWEw5?=
+ =?utf-8?B?YkE9PQ==?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b907b779-6266-43d4-6344-08daacfc9d27
+X-MS-Exchange-CrossTenant-Network-Message-Id: 09540233-3558-411c-1f58-08daacfc9d89
 X-MS-Exchange-CrossTenant-AuthSource: AS8PR08MB7095.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2022 09:23:39.5624 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2022 09:23:40.2498 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LwRR3iXNL/tGgDN2ogMxm34Ke4iCg+yrqPzLyDgSCDOBuHIDZsYr/kTLu1yUKbxMQ+Q2cvq9elktoFzceBGZIf8FAk4S1a1wQPSEyf22ueQ=
+X-MS-Exchange-CrossTenant-UserPrincipalName: zWTjW3Akn9pXYo+onZHVA50YvGLNePnA4LX4nRkPODSk+CETakxqmpDBMZxwfRvL8QY746Mt19Ge7UGL6Qkey42ED0ly4VIk3OHGLsPYoA8=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB6466
 Received-SPF: pass client-ip=40.107.14.123;
  envelope-from=alexander.ivanov@virtuozzo.com;
@@ -146,204 +146,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the next patch FreeBSD support for guest-network-get-interfaces will be
-added. Previously move Linux-specific code of HW address getting to a
-separate functions and add a dumb function to commands-bsd.c.
+Replace a dumb function in commands-bsd.c by the code of HW address
+getting.
 
 Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 ---
- qga/commands-bsd.c    | 16 +++++++
- qga/commands-common.h |  6 +++
- qga/commands-posix.c  | 98 ++++++++++++++++++++++++-------------------
- 3 files changed, 78 insertions(+), 42 deletions(-)
+ qga/commands-bsd.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
 diff --git a/qga/commands-bsd.c b/qga/commands-bsd.c
-index ca06692179..ebf0fb8b0f 100644
+index ebf0fb8b0f..15cade2d4c 100644
 --- a/qga/commands-bsd.c
 +++ b/qga/commands-bsd.c
-@@ -167,3 +167,19 @@ GuestCpuStatsList *qmp_guest_get_cpustats(Error **errp)
-     return NULL;
- }
- #endif /* CONFIG_FSFREEZE */
-+
-+#ifdef HAVE_GETIFADDRS
-+/*
-+ * Fill "buf" with MAC address by ifaddrs. Pointer buf must point to a
-+ * buffer with ETHER_ADDR_LEN length at least.
-+ *
-+ * Returns false in case of an error, otherwise true. "obtained" arguument
-+ * is true if a MAC address was obtained successful, otherwise false.
-+ */
-+bool guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf,
-+                       bool *obtained, Error **errp)
-+{
-+    *obtained = false;
-+    return true;
-+}
-+#endif /* HAVE_GETIFADDRS */
-diff --git a/qga/commands-common.h b/qga/commands-common.h
-index 2d9878a634..05d1f7ccdd 100644
---- a/qga/commands-common.h
-+++ b/qga/commands-common.h
-@@ -56,6 +56,12 @@ int64_t qmp_guest_fsfreeze_do_freeze_list(bool has_mountpoints,
- int qmp_guest_fsfreeze_do_thaw(Error **errp);
- #endif /* CONFIG_FSFREEZE */
- 
-+#ifdef HAVE_GETIFADDRS
-+#include <ifaddrs.h>
-+bool guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf,
-+                       bool *obtained, Error **errp);
-+#endif
-+
- typedef struct GuestFileHandle GuestFileHandle;
- 
- GuestFileHandle *guest_file_handle_find(int64_t id, Error **errp);
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index f5b9e5c530..787ffb1562 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -41,20 +41,12 @@
- #endif
- #endif
- 
--#ifdef __FreeBSD__
--/*
-- * The code under HAVE_GETIFADDRS condition can't be compiled in FreeBSD.
-- * Fix it in one of the following patches.
-- */
--#undef HAVE_GETIFADDRS
--#endif
--
- #ifdef HAVE_GETIFADDRS
- #include <arpa/inet.h>
- #include <sys/socket.h>
- #include <net/if.h>
+@@ -20,6 +20,8 @@
+ #include <sys/param.h>
+ #include <sys/ucred.h>
+ #include <sys/mount.h>
++#include <net/if_dl.h>
 +#include <net/ethernet.h>
- #include <sys/types.h>
--#include <ifaddrs.h>
- #ifdef CONFIG_SOLARIS
- #include <sys/sockio.h>
- #endif
-@@ -2889,6 +2881,57 @@ static int guest_get_network_stats(const char *name,
-     return -1;
+ #include <paths.h>
+ 
+ #if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)
+@@ -179,7 +181,20 @@ GuestCpuStatsList *qmp_guest_get_cpustats(Error **errp)
+ bool guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf,
+                        bool *obtained, Error **errp)
+ {
++    struct sockaddr_dl *sdp;
++
+     *obtained = false;
++
++    if (ifa->ifa_addr->sa_family != AF_LINK) {
++        /* We can get HW address only for AF_LINK family. */
++        g_debug("failed to get MAC address of %s", ifa->ifa_name);
++        return true;
++    }
++
++    sdp = (struct sockaddr_dl *)ifa->ifa_addr;
++    memcpy(buf, sdp->sdl_data + sdp->sdl_nlen, ETHER_ADDR_LEN);
++    *obtained = true;
++
+     return true;
  }
- 
-+#ifndef __FreeBSD__
-+/*
-+ * Fill "buf" with MAC address by ifaddrs. Pointer buf must point to a
-+ * buffer with ETHER_ADDR_LEN length at least.
-+ *
-+ * Returns false in case of an error, otherwise true. "obtained" argument
-+ * is true if a MAC address was obtained successful, otherwise false.
-+ */
-+bool guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf,
-+                       bool *obtained, Error **errp)
-+{
-+    struct ifreq ifr;
-+    int sock;
-+
-+    *obtained = false;
-+
-+    /* we haven't obtained HW address yet */
-+    sock = socket(PF_INET, SOCK_STREAM, 0);
-+    if (sock == -1) {
-+        error_setg_errno(errp, errno, "failed to create socket");
-+        return false;
-+    }
-+
-+    memset(&ifr, 0, sizeof(ifr));
-+    pstrcpy(ifr.ifr_name, IF_NAMESIZE, ifa->ifa_name);
-+    if (ioctl(sock, SIOCGIFHWADDR, &ifr) == -1) {
-+        /*
-+         * We can't get the hw addr of this interface, but that's not a
-+         * fatal error.
-+         */
-+        if (errno == EADDRNOTAVAIL) {
-+            /* The interface doesn't have a hw addr (e.g. loopback). */
-+            g_debug("failed to get MAC address of %s: %s",
-+                    ifa->ifa_name, strerror(errno));
-+        } else{
-+            g_warning("failed to get MAC address of %s: %s",
-+                      ifa->ifa_name, strerror(errno));
-+        }
-+    } else {
-+#ifdef CONFIG_SOLARIS
-+        memcpy(buf, &ifr.ifr_addr.sa_data, ETHER_ADDR_LEN);
-+#else
-+        memcpy(buf, &ifr.ifr_hwaddr.sa_data, ETHER_ADDR_LEN);
-+#endif
-+        *obtained = true;
-+    }
-+    close(sock);
-+    return true;
-+}
-+#endif /* __FreeBSD__ */
-+
- /*
-  * Build information about guest interfaces
-  */
-@@ -2909,9 +2952,8 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
-         GuestNetworkInterfaceStat *interface_stat = NULL;
-         char addr4[INET_ADDRSTRLEN];
-         char addr6[INET6_ADDRSTRLEN];
--        int sock;
--        struct ifreq ifr;
--        unsigned char *mac_addr;
-+        unsigned char mac_addr[ETHER_ADDR_LEN];
-+        bool obtained;
-         void *p;
- 
-         g_debug("Processing %s interface", ifa->ifa_name);
-@@ -2926,45 +2968,17 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
-         }
- 
-         if (!info->has_hardware_address) {
--            /* we haven't obtained HW address yet */
--            sock = socket(PF_INET, SOCK_STREAM, 0);
--            if (sock == -1) {
--                error_setg_errno(errp, errno, "failed to create socket");
-+            if (!guest_get_hw_addr(ifa, mac_addr, &obtained, errp)) {
-                 goto error;
-             }
--
--            memset(&ifr, 0, sizeof(ifr));
--            pstrcpy(ifr.ifr_name, IF_NAMESIZE, info->name);
--            if (ioctl(sock, SIOCGIFHWADDR, &ifr) == -1) {
--                /*
--                 * We can't get the hw addr of this interface, but that's not a
--                 * fatal error. Don't set info->hardware_address, but keep
--                 * going.
--                 */
--                if (errno == EADDRNOTAVAIL) {
--                    /* The interface doesn't have a hw addr (e.g. loopback). */
--                    g_debug("failed to get MAC address of %s: %s",
--                            ifa->ifa_name, strerror(errno));
--                } else{
--                    g_warning("failed to get MAC address of %s: %s",
--                              ifa->ifa_name, strerror(errno));
--                }
--
--            } else {
--#ifdef CONFIG_SOLARIS
--                mac_addr = (unsigned char *) &ifr.ifr_addr.sa_data;
--#else
--                mac_addr = (unsigned char *) &ifr.ifr_hwaddr.sa_data;
--#endif
-+            if (obtained) {
-                 info->hardware_address =
-                     g_strdup_printf("%02x:%02x:%02x:%02x:%02x:%02x",
-                                     (int) mac_addr[0], (int) mac_addr[1],
-                                     (int) mac_addr[2], (int) mac_addr[3],
-                                     (int) mac_addr[4], (int) mac_addr[5]);
--
-                 info->has_hardware_address = true;
-             }
--            close(sock);
-         }
- 
-         if (ifa->ifa_addr &&
+ #endif /* HAVE_GETIFADDRS */
 -- 
 2.34.1
 
