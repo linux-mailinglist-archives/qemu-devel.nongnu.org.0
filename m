@@ -2,88 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CB385FDCAE
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 16:53:27 +0200 (CEST)
-Received: from localhost ([::1]:43526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0A6D5FDD30
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 17:28:56 +0200 (CEST)
+Received: from localhost ([::1]:38916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oizaQ-0007Re-EY
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 10:53:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58988)
+	id 1oj08l-0003j0-14
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 11:28:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oizVZ-0004XX-Mm
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 10:48:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35239)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oizVX-0005IP-H6
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 10:48:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665672502;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mNyvdnO0lLvd+ukbViz9xPvDTmt3h2PL7xmunDp1kIE=;
- b=Mrxr3T/1mhuOWHzvDikk+78kUMq4i9PcKK/Ma2hcDpR7n7ZRxcy3u0R0/vZ7DJVUbPhV+c
- lD3V/I5f9xE1Qjzc4x1e/Jq5tphm8MQ6KQF2OvIxLwf/GoBA29krrdmfk6YvAPjNCDZJor
- UZZtV3f+3OCCGp8sI2ZZwC3094sVung=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-494-Z9RpjCwPNLOiN_ZbuVtxzA-1; Thu, 13 Oct 2022 10:48:20 -0400
-X-MC-Unique: Z9RpjCwPNLOiN_ZbuVtxzA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- i26-20020adfaada000000b0022e2f38ffccso658202wrc.14
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 07:48:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@fungible.com>)
+ id 1oizZz-0007M9-HJ
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 10:53:02 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:33685)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@fungible.com>)
+ id 1oizZx-0005xb-QD
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 10:52:59 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id f193so1799498pgc.0
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 07:52:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fungible.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=kzhl50aOlvlc9AFhnRtfvrWWr51z7zvPwDaFRmiAhpg=;
+ b=h54qwv9NXzfqDs3LUFiXDN5od9beqyBFGaPXVHhSQxOCsWGGKiQCpFh2esdiU8Thxj
+ BFZj2Pb07fJeB02Cr/5GH/88LZAva3nvnS2qq9m9nbI6v6nuyz3TIWKPdi7TwaEq8iS6
+ k8xKzHf4zV2YNV+w7QbMGu93sPbppWsfhqylM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mNyvdnO0lLvd+ukbViz9xPvDTmt3h2PL7xmunDp1kIE=;
- b=TnMLyuuVlkdG7vV2eGjysVkZS9BBkEGuYJAIq0qFWeb+PyK0Q+QaVKForPwBUrpL1L
- 07+yC5myZbgeEAFF/XoXX+SmCyr/3VbmCY2hw+fErvFwxaLojDmZy62+mH6KCbDkglw7
- XI5ionF7agwkC+AKrsw4srCesUhSs+6Gi6I7+c/mGeXAhT6zMYr+4UxwSW5TFAIwsM+l
- FZp1RUEYG78W8K8ehYOoPgmm4+EknLT7i9Rq+A/6bt6ce+tez/R4onzR+qITnVfsxvye
- I3t8flQJPDA8BfyK4cbumySFYVtlxZyWeKtTcvSJtyLA/+pxBdVYyOGq3K3hxRetVPsz
- fS7w==
-X-Gm-Message-State: ACrzQf1wOWYem+9owDxgd1cZrbmOoAXefXbfV+pIhK8zuZUIEVkxR8Mx
- 2HKIRrnivzmXbWaR1My7I18YnjTD+/lja4mmEf9e3M9Ft1duWOGZwYBAmBb23Lsm+UltqFVY11H
- zv2ikQl6yM9jobD0=
-X-Received: by 2002:a05:6000:611:b0:22e:c347:2943 with SMTP id
- bn17-20020a056000061100b0022ec3472943mr213176wrb.603.1665672498884; 
- Thu, 13 Oct 2022 07:48:18 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5ON/8r/0K/CBlunZvyTiHyZnwAj4XAVegTonixdwCyK0qCC+ES5lLN/Xy63fIK1bHaA4K1Vg==
-X-Received: by 2002:a05:6000:611:b0:22e:c347:2943 with SMTP id
- bn17-20020a056000061100b0022ec3472943mr213160wrb.603.1665672498598; 
- Thu, 13 Oct 2022 07:48:18 -0700 (PDT)
-Received: from redhat.com ([2.54.162.123]) by smtp.gmail.com with ESMTPSA id
- z1-20020adfec81000000b0022e36c1113fsm2219985wrn.13.2022.10.13.07.48.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Oct 2022 07:48:18 -0700 (PDT)
-Date: Thu, 13 Oct 2022 10:48:14 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
- Jason Wang <jasowang@redhat.com>,
- Stefano Brivio <sbrivio@redhat.com>, alex.williamson@redhat.com
-Subject: Re: [PATCH RFC] virtio-net: fix bottom-half packet TX on
- asynchronous completion
-Message-ID: <20221013104724-mutt-send-email-mst@kernel.org>
-References: <20221013140057.63575-1-lvivier@redhat.com>
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kzhl50aOlvlc9AFhnRtfvrWWr51z7zvPwDaFRmiAhpg=;
+ b=zo6gTPoRKMIz78x++vCvNkW+HVX7W/ZOMYmhOBvVKyjMofNt7sDPIRWsBfHEguNNMs
+ tl7Wktr3uL3yxvkdZ2yd7YyBbBAlCxA7FdVSFGlcyWf3z2tEjbaRb0UB3KNV96OdhRKJ
+ oce1CESFg92hAtmnq//aun666tReeDp6gBfrbwC3tFhX2kTr24VrP7IV3BPzNlgHL2+q
+ TOWBuLahWmKq3pAi4yi5QZajgsE22WQj/zQjgcdKGiEexdQgiMGAKmr3HaDOVbRNCcAb
+ AhRQtssnvkcGP/vB22Y1vjDL+gU0eq4z0Igzot4Tj+vg+aKq+Y304odbnHDkQwD9gbiv
+ gUSQ==
+X-Gm-Message-State: ACrzQf1QXDtBESyA7fZkfAd2KEXps3sreTSuIf1VR4jMIoaqLT+YRydm
+ 9c3osn7qOpwfGYn/EC8ObBCZoZBUpgq3piKK
+X-Google-Smtp-Source: AMsMyM4XEISF71i0ZsbjIct0I/4P7jbuMzctASIRA2HP8VZ9sfRkhP8aoelB7EVV/Lx2htPW2eMAJg==
+X-Received: by 2002:a63:2b4b:0:b0:440:2963:5863 with SMTP id
+ r72-20020a632b4b000000b0044029635863mr252574pgr.28.1665672775730; 
+ Thu, 13 Oct 2022 07:52:55 -0700 (PDT)
+Received: from localhost.localdomain ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ y17-20020aa793d1000000b0053e6d352ae4sm2118015pff.24.2022.10.13.07.52.51
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Thu, 13 Oct 2022 07:52:55 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@fungible.com>
+To: qemu-devel@nongnu.org
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ David Daney <david.daney@fungible.com>,
+ Marcin Nowakowski <marcin.nowakowski@fungible.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@fungible.com>
+Subject: [PATCH] disas/mips: Fix branch displacement for BEQZC and BNEZC
+Date: Thu, 13 Oct 2022 16:52:46 +0200
+Message-Id: <20221013145246.4922-1-philmd@fungible.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221013140057.63575-1-lvivier@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=philmd@fungible.com; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 13 Oct 2022 11:26:31 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,104 +92,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 13, 2022 at 04:00:57PM +0200, Laurent Vivier wrote:
-> When virtio-net is used with the socket netdev backend, the backend
-> can be busy and not able to collect new packets.
-> 
-> In this case, net_socket_receive() returns 0 and registers a poll function
-> to detect when the socket is ready again.
-> 
-> In virtio_net_tx_bh(), virtio_net_flush_tx() forwards the 0, the virtio
-> notifications are disabled and the function is not rescheduled, waiting
-> for the backend to be ready.
-> 
-> When the socket netdev backend is again able to send packets, the poll
-> function re-starts to flush remaining packets. This is done by
-> calling virtio_net_tx_complete(). It re-enables notifications and calls
-> again virtio_net_flush_tx().
-> 
-> But it seems if virtio_net_flush_tx() reaches the tx_burst value all
-> the queue is not flushed and no new notification is sent to reschedule
-> virtio_net_tx_bh(). Nothing re-start to flush the queue and remaining packets
-> are stuck in the queue.
-> 
-> To fix that, detect in virtio_net_tx_complete() if virtio_net_flush_tx()
-> has been stopped by tx_burst and if yes reschedule the bottom half
-> function virtio_net_tx_bh() to flush the remaining packets.
-> 
-> This is what is done in virtio_net_tx_bh() when the virtio_net_flush_tx()
-> is synchronous, and completely by-passed when the operation needs to be
-> asynchronous.
-> 
-> RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC
-> 
-> Do we need to reschedule the function in the other case managed
-> in virtio_net_tx_bh() and by-passed when the completion is asynchronous?
+From: David Daney <david.daney@fungible.com>
 
+disas/mips.c got added in commit 6643d27ea0 ("MIPS disas support")
+apparently based on binutils tag 'gdb_6_1-branchpoint' [1].
+Back then, MIPSr6 was not supported (added in binutils commit
+7361da2c952 during 2014 [2]).
 
-I am guessing no.
+Binutils codebase diverged so much over the last 18 years, it is
+not possible to simply cherry-pick their changes, so fix it BEQZC /
+BNEZC 21-bit signed branch displacement locally.
 
->     /* If less than a full burst, re-enable notification and flush
->      * anything that may have come in while we weren't looking.  If
->      * we find something, assume the guest is still active and reschedule */
->     virtio_queue_set_notification(q->tx_vq, 1);
->     ret = virtio_net_flush_tx(q);
->     if (ret == -EINVAL) {
->         return;
->     } else if (ret > 0) {
->         virtio_queue_set_notification(q->tx_vq, 0);
->         qemu_bh_schedule(q->tx_bh);
->         q->tx_waiting = 1;
->     }
-> 
-> RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC
-> 
-> Fixes: a697a334b3c4 ("virtio-net: Introduce a new bottom half packet TX")
-> Cc: alex.williamson@redhat.com
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+[1] https://sourceware.org/git/?p=binutils-gdb.git;a=blob;f=opcodes/mips-dis.c;hb=refs/tags/gdb_6_1-branchpoint
+[2] https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=7361da2c952
 
-Looks ok superficially
+Fixes: 31837be3ee ("target-mips: add compact and CP1 branches")
+Signed-off-by: David Daney <david.daney@fungible.com>
+Reviewed-by: Marcin Nowakowski <marcin.nowakowski@fungible.com>
+[PMD: Added commit description]
+Signed-off-by: Philippe Mathieu-Daudé <philmd@fungible.com>
+---
+ disas/mips.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-
-Jason, your area.
-
-> ---
->  hw/net/virtio-net.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index e9f696b4cfeb..1fbf2f3e19a7 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -2526,6 +2526,7 @@ static void virtio_net_tx_complete(NetClientState *nc, ssize_t len)
->      VirtIONet *n = qemu_get_nic_opaque(nc);
->      VirtIONetQueue *q = virtio_net_get_subqueue(nc);
->      VirtIODevice *vdev = VIRTIO_DEVICE(n);
-> +    int ret;
->  
->      virtqueue_push(q->tx_vq, q->async_tx.elem, 0);
->      virtio_notify(vdev, q->tx_vq);
-> @@ -2534,7 +2535,17 @@ static void virtio_net_tx_complete(NetClientState *nc, ssize_t len)
->      q->async_tx.elem = NULL;
->  
->      virtio_queue_set_notification(q->tx_vq, 1);
-> -    virtio_net_flush_tx(q);
-> +    ret = virtio_net_flush_tx(q);
-> +    if (q->tx_bh && ret >= n->tx_burst) {
-> +        /*
-> +         * the flush has been stopped by tx_burst
-> +         * we will not receive notification for the
-> +         * remainining part, so re-schedule
-> +         */
-> +        virtio_queue_set_notification(q->tx_vq, 0);
-> +        qemu_bh_schedule(q->tx_bh);
-> +        q->tx_waiting = 1;
-> +    }
->  }
->  
->  /* TX */
-> -- 
-> 2.37.3
+diff --git a/disas/mips.c b/disas/mips.c
+index b9a5204304..68640b96d2 100644
+--- a/disas/mips.c
++++ b/disas/mips.c
+@@ -1334,9 +1334,9 @@ const struct mips_opcode mips_builtin_opcodes[] =
+ {"balc",    "+p",       0xe8000000, 0xfc000000, UBD|WR_31,            0, I32R6},
+ {"bc",      "+p",       0xc8000000, 0xfc000000, UBD|WR_31,            0, I32R6},
+ {"jic",     "t,o",      0xd8000000, 0xffe00000, UBD|RD_t,             0, I32R6},
+-{"beqzc",   "s,+p",     0xd8000000, 0xfc000000, CBD|RD_s,             0, I32R6},
++{"beqzc",   "s,+q",     0xd8000000, 0xfc000000, CBD|RD_s,             0, I32R6},
+ {"jialc",   "t,o",      0xf8000000, 0xffe00000, UBD|RD_t,             0, I32R6},
+-{"bnezc",   "s,+p",     0xf8000000, 0xfc000000, CBD|RD_s,             0, I32R6},
++{"bnezc",   "s,+q",     0xf8000000, 0xfc000000, CBD|RD_s,             0, I32R6},
+ {"beqzalc", "s,t,p",    0x20000000, 0xffe00000, CBD|RD_s|RD_t,        0, I32R6},
+ {"bovc",    "s,t,p",    0x20000000, 0xfc000000, CBD|RD_s|RD_t,        0, I32R6},
+ {"beqc",    "s,t,p",    0x20000000, 0xfc000000, CBD|RD_s|RD_t,        0, I32R6},
+@@ -4462,6 +4462,16 @@ print_insn_args (const char *d,
+                 (*info->print_address_func) (info->target, info);
+                 break;
+ 
++            case 'q':
++                /* Sign extend the displacement with 21 bits.  */
++                delta = l & 0x1FFFFF;
++                if (delta & 0x100000) {
++                    delta |= ~0x1FFFFF;
++                }
++                info->target = (delta << 2) + pc + INSNLEN;
++                (*info->print_address_func) (info->target, info);
++                break;
++
+ 	    case 't': /* Coprocessor 0 reg name */
+ 	      (*info->fprintf_func) (info->stream, "%s",
+ 				     mips_cp0_names[(l >> OP_SH_RT) &
+-- 
+2.37.3
 
 
