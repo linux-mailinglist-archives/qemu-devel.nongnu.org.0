@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96F405FDE03
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 18:11:18 +0200 (CEST)
-Received: from localhost ([::1]:38644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9D605FDE0A
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 18:14:32 +0200 (CEST)
+Received: from localhost ([::1]:39978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj0nl-0006vE-3K
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 12:11:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38550)
+	id 1oj0qt-000392-Hk
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 12:14:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oj0eF-00063D-5g
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 12:01:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28260)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oj0eB-0000sD-6f
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 12:01:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665676882;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8zDpItjAu5ov3bsFW3VuwHkUUIWynjpwr1yozwTgapc=;
- b=aIMtsnDCAKrngufJ8rzZVT85wPAelqk2MOYADbP6PQt2Rw9o0Orr7dFJmdSFY9UprvfR8L
- /vHnKMLAOAAX6UCjU+gv9aQbC0dPHl12kJuju/or3xc072BGKq1yHLnc1HsgVaVp25SRNi
- BBylecEh7akvghQog5LEJ7SjO84g1+8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-623-d12DpK2UMWyMz9fvft9LNA-1; Thu, 13 Oct 2022 12:01:14 -0400
-X-MC-Unique: d12DpK2UMWyMz9fvft9LNA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BFF16811E7A;
- Thu, 13 Oct 2022 16:01:13 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A3D1840398B1;
- Thu, 13 Oct 2022 16:01:12 +0000 (UTC)
-Date: Thu, 13 Oct 2022 12:01:10 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Ming Lei <tom.leiming@gmail.com>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>,
- "Richard W.M. Jones" <rjones@redhat.com>, io-uring@vger.kernel.org,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- Kirill Tkhai <kirill.tkhai@openvz.org>,
- Manuel Bentele <development@manuel-bentele.de>,
- qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Xie Yongji <xieyongji@bytedance.com>, "Denis V. Lunev" <den@openvz.org>,
- Stefano Garzarella <sgarzare@redhat.com>
-Subject: Re: ublk-qcow2: ublk-qcow2 is available
-Message-ID: <Y0g2Rg9nAU5grjCV@fedora>
-References: <Yza1u1KfKa7ycQm0@T590> <Yzs9xQlVuW41TuNC@fedora>
- <YzwARuAZdaoGTUfP@T590>
- <CAJSP0QXVK=wUy_JgJ9NmNMtKTRoRX0MwOZUuFWU-1mVWWKij8A@mail.gmail.com>
- <20221006101400.GC7636@redhat.com>
- <CAJSP0QXbnhkVgfgMfC=MAyvF63Oof_ZGDvNFhniDCvVY-f6Hmw@mail.gmail.com>
- <Y0du/9K3II70tZTD@T590>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oj0jB-0001wv-7I
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 12:06:34 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:35331)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oj0j7-0001cg-SK
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 12:06:31 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id u10so3594719wrq.2
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 09:06:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Zv+bKMgvsxIo1fDsjMTryCcHqvv+FI35a0k6LkQpHp0=;
+ b=FUrCxapuMkEUio5uj9iNr1nYph6DBHaHb0FPQfAuqJOeMxCgQE/TnQOj9gWNSKyHFx
+ cdUV+v7zdpI1qZYEeAsHTATos1dj1lN7tp3EyoaCgHmJ/PLM6+kqypcsJcBb2Cs/BUwH
+ ZbTnhMIavitTLBff5Ggr3+0+/MZm6Fi4mr9/0xKH4DdUIIuFhYy04hOWXjw9fXaY5ENI
+ ThMrQM645Tgn4rdHHSzAc48gobS/3z/xgn12p93G2K+BB0GJ+ulUFRcs8nw5u4LLOe6A
+ 6SzvxDGOd5RT0iOmNmr8Fk8/rgZhP1VOf43ZnRC+4bniZj3DGztVDqxtVExm+/X5XsEA
+ 14LA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Zv+bKMgvsxIo1fDsjMTryCcHqvv+FI35a0k6LkQpHp0=;
+ b=bLLNYgLyXwPi92V9Wv4tUuc0a3V9KdPTkMTgTrLVSz7jPrcWtmjY5YAG2NoA/LmVFY
+ ukf5leYuN1cYc3CvyH4z99wHndsWraUgTt2453QDb9agEENOfZkywmukdj1KPMuMIfSM
+ P1Bl2fLLZCg+g4jy03S4UKYNuTx1PIuDVhq63OsMA8N6smP1akPanwFERpk6EFVt38bJ
+ g7bjX9PvMz1l62MU4FlpAthZnxruF+sjuNi73sBJvWzW97Ji6qKmd1Z/iPaEh5AN16K9
+ Mi8hyBJQ+HYIR99VWRprYecWHYBT0eELD+L2QXIvOvSo7Vlb912jZ/aP1UHBm+8p7QNW
+ C+1g==
+X-Gm-Message-State: ACrzQf1WNhiCZDDIePp9ejLRUdtxxJ3vdpCkVfUKQW57QVlApW8JMdL9
+ 9NrWyy6dFOTe6vXv4rWe/w6xGrsZQscRCA==
+X-Google-Smtp-Source: AMsMyM4ZnNeWEbW1qSyq8qAV6ON18yzAkMAvKWm3HhI4+V2X2+25btLg3A6Xr/ftTjkt8yetoSg5aQ==
+X-Received: by 2002:a05:6000:a11:b0:22e:3dab:537c with SMTP id
+ co17-20020a0560000a1100b0022e3dab537cmr492785wrb.638.1665677186797; 
+ Thu, 13 Oct 2022 09:06:26 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ o14-20020a05600c4fce00b003c6b67426b0sm5125617wmq.12.2022.10.13.09.06.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Oct 2022 09:06:26 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Hannes Reinecke <hare@suse.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Greg Kurz <groug@kaod.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, qemu-block@nongnu.org,
+ qemu-ppc@nongnu.org
+Subject: [PATCH 0/2] scsi: Switch to bus_cold_reset() and device_cold_reset()
+Date: Thu, 13 Oct 2022 17:06:21 +0100
+Message-Id: <20221013160623.1296109-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Dz5/1ZuMbMXxUtqp"
-Content-Disposition: inline
-In-Reply-To: <Y0du/9K3II70tZTD@T590>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,60 +93,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Back in 2020 we introduced a new set of reset APIs (the "3-phase
+reset" system, as documented in docs/devel/reset.rst), but we left a
+lot of the existing uses of older reset functions alone.
 
---Dz5/1ZuMbMXxUtqp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patchset converts the SCSI subsystem to use the newer
+device_cold_reset() and bus_cold_reset() instead of the old and
+now-deprecated qdev_reset_all() and qbus_reset_all().
 
-On Thu, Oct 13, 2022 at 09:50:55AM +0800, Ming Lei wrote:
-> On Wed, Oct 12, 2022 at 10:15:28AM -0400, Stefan Hajnoczi wrote:
-> > On Thu, 6 Oct 2022 at 06:14, Richard W.M. Jones <rjones@redhat.com> wro=
-te:
-> > >
-> > > On Tue, Oct 04, 2022 at 09:53:32AM -0400, Stefan Hajnoczi wrote:
-> > > > qemu-nbd doesn't use io_uring to handle the backend IO,
-> > >
-> > > Would this be fixed by your (not yet upstream) libblkio driver for
-> > > qemu?
-> >=20
-> > I was wrong, qemu-nbd has syntax to use io_uring:
-> >=20
-> >   $ qemu-nbd ... --image-opts driver=3Dfile,filename=3Dtest.img,aio=3Di=
-o_uring
->=20
-> Yeah, I saw the option, previously when I tried io_uring via:
->=20
-> qemu-nbd -c /dev/nbd11 -n --aio=3Dio_uring $my_file
->=20
-> It complains that 'qemu-nbd: Invalid aio mode 'io_uring'' even though
-> that 'qemu-nbd --help' does say that io_uring is supported.
->=20
-> Today just tried it on Fedora 37, looks it starts working with
-> --aio=3Dio_uring, but the IOPS is basically same with --aio=3Dnative, and
-> IO trace shows that io_uring is used by qemu-nbd.
+The semantics of qdev_reset_all() are that it recursively resets all
+the devices on the qbus tree starting from the device you pass in,
+resetting the child buses first and the device itself last. 
+qbus_reset_all() is similar, except it starts with a qbus rather than
+a qdev.  In both cases, the bus is reset by calling the
+BusClass::reset method, and the device by calling DeviceClass::reset.
 
-Okay, similar performance to Linux AIO is expected. That's what we've
-seen with io_uring in QEMU. QEMU doesn't use io_uring in polling mode,
-so it's similar to what we get with Linux AIO.
+device_cold_reset() and bus_cold_reset() have identical "recursive
+reset, children first" semantics, except that they are
+three-phase-reset aware (and can handle both a newer device that
+implements the 3 phases, and also older devices that only implement
+the DeviceState::reset method).
 
-Stefan
+I think we should be able to change to these new functions
+mechanically across the whole codebase without any change in
+behaviour, but my experience with reset is that it's not uncommon for
+there to be lurking unforeseen consequences.  So I've opted to start
+by just changing the SCSI subsystem, which has about half of the uses
+of these deprecated functions.  Assuming this works out OK I'll
+proceed to the rest of the tree.
 
---Dz5/1ZuMbMXxUtqp
-Content-Type: application/pgp-signature; name="signature.asc"
+Patch 1 does the qdev_reset_all() -> device_cold_reset() and
+qbus_reset_all() -> bus_cold_reset() change (mechanically
+generated using sed).
 
------BEGIN PGP SIGNATURE-----
+Patch 2 tidies up a loose end where one SCSI controller was using
+device_legacy_reset() to do the "reset a device" action (harmlessly,
+as no SCSI devices have further child buses, so the behaviour
+was the same as qdev_reset_all() and device_cold_reset().
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNINkYACgkQnKSrs4Gr
-c8ib3Qf/Tgw+o0jMenLQv3Ye1i9s4Mg9WNyB6eTM6ksmacLnBLbt225EDtkqMEqS
-wRPgsH9kB6d7yKcgAg3HR4/NoZHS+LCkLH4KCw0SyJxzQdecuDazPPQUOMN2U1D3
-wBj7ZZDv1In33uW587li1IMtzAajS9BVGwbXSCRK7ZqtaDF0WR85RIDFPbjOMrYK
-q9fmplUuSVqxYfAQ0deUiO3pM04CoVWdMpdJorpiUDRD6fJdCZBvNNXAxYov8O+8
-4Hh7Eyt7MpCwhQUR3cKc/TguVTbbza/uVc8k5o5vBrK0eftv9cT7lUr3+35AnPE4
-y+FLbhkaGFOFn4Q0jZDOjcjMRJkdNg==
-=QYko
------END PGP SIGNATURE-----
+NB: tested only with 'make check' and 'make check-avocado'.
 
---Dz5/1ZuMbMXxUtqp--
+thanks
+-- PMM
+
+Peter Maydell (2):
+  scsi: Use device_cold_reset() and bus_cold_reset()
+  hw/scsi/vmw_pvscsi.c: Use device_cold_reset() to reset SCSI devices
+
+ hw/scsi/esp.c         | 2 +-
+ hw/scsi/lsi53c895a.c  | 4 ++--
+ hw/scsi/megasas.c     | 2 +-
+ hw/scsi/mptsas.c      | 8 ++++----
+ hw/scsi/spapr_vscsi.c | 2 +-
+ hw/scsi/virtio-scsi.c | 6 +++---
+ hw/scsi/vmw_pvscsi.c  | 6 +++---
+ 7 files changed, 15 insertions(+), 15 deletions(-)
+
+-- 
+2.25.1
 
 
