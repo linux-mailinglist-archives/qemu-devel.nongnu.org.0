@@ -2,55 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC6ED5FD54C
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 08:59:55 +0200 (CEST)
-Received: from localhost ([::1]:57918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D52325FD50D
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 08:43:46 +0200 (CEST)
+Received: from localhost ([::1]:59144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oisCA-0001Us-AF
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 02:59:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56590)
+	id 1oirwW-0007Vw-Q7
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 02:43:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1oirqG-0002Rr-DU; Thu, 13 Oct 2022 02:37:17 -0400
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:60457)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oirmV-0001Hj-Qb
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:33:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1oirqD-0004L2-FN; Thu, 13 Oct 2022 02:37:15 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R151e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046050;
- MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=11; SR=0;
- TI=SMTPD_---0VS2XrPN_1665642714; 
-Received: from
- roman-VirtualBox.hz.ali.com(mailfrom:zhiwei_liu@linux.alibaba.com
- fp:SMTPD_---0VS2XrPN_1665642714) by smtp.aliyun-inc.com;
- Thu, 13 Oct 2022 14:31:55 +0800
-From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Cc: Alistair.Francis@wdc.com, palmer@dabbelt.com, bin.meng@windriver.com,
- sergey.matyukevich@syntacore.com, vladimir.isaev@syntacore.com,
- anatoly.parshintsev@syntacore.com, philipp.tomsich@vrull.eu,
- zhiwei_liu@c-sky.com, LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Subject: [PATCH v1 4/4] target/riscv: Add itrigger_enabled field to
- CPURISCVState
-Date: Thu, 13 Oct 2022 14:29:46 +0800
-Message-Id: <20221013062946.7530-5-zhiwei_liu@linux.alibaba.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221013062946.7530-1-zhiwei_liu@linux.alibaba.com>
-References: <20221013062946.7530-1-zhiwei_liu@linux.alibaba.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oirmQ-0003l4-4E
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:33:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665642797;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=t1bbncJpkZyBiz/g9qNnQdVPBbDGenrTmaSHWTye9v4=;
+ b=PRrCkI0qjUBhUdk+gE73GXzp4frJfNWq9C00qwmS3f88PlsoCtR943ScxYeh74mU1tk5U+
+ VgCGBr6VWzaB3sI012Q+0Xgumu/BnnKgLBJDi1v5TyFLbU4CRj3e8Jfflpl6yWhm6X+W9U
+ 3Rygrod0rEaOnAvrO2cXEw0CUOM3bbY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-354-dA8x_m84PuOUii0dqpvvQw-1; Thu, 13 Oct 2022 02:33:15 -0400
+X-MC-Unique: dA8x_m84PuOUii0dqpvvQw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4D9083C01D84;
+ Thu, 13 Oct 2022 06:33:15 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.110])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F146C2086F7A;
+ Thu, 13 Oct 2022 06:33:14 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E2C9A21E691D; Thu, 13 Oct 2022 08:33:13 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: qemu-devel@nongnu.org,  Nikita Ivanov <nivanov@cloudlinux.com>,  Peter
+ Maydell <peter.maydell@linaro.org>,  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
+ <marcandre.lureau@redhat.com>,  Greg Kurz <groug@kaod.org>,  Jason Wang
+ <jasowang@redhat.com>,  Michael Roth <michael.roth@amd.com>,  Konstantin
+ Kostiuk <kkostiuk@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 1/2] Refactoring: refactor TFR() macro to
+ RETRY_ON_EINTR()
+References: <CAAJ4Ao-4+a4UtWKf0XyrQ6kQD8EsyDbn3H5O=R2DdzP76VSdZQ@mail.gmail.com>
+ <3046525.4nXOIBtuzV@silver>
+Date: Thu, 13 Oct 2022 08:33:13 +0200
+In-Reply-To: <3046525.4nXOIBtuzV@silver> (Christian Schoenebeck's message of
+ "Wed, 12 Oct 2022 18:08:39 +0200")
+Message-ID: <87a6601bdi.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.131;
- envelope-from=zhiwei_liu@linux.alibaba.com;
- helo=out30-131.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,105 +85,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Avoid calling riscv_itrigger_enabled() when calculate the tbflags.
-As the itrigger enable status can only be changed when write
-tdata1, migration load or itrigger fire, update env->itrigger_enabled
-at these places.
+Christian Schoenebeck <qemu_oss@crudebyte.com> writes:
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
----
- target/riscv/cpu.h        |  1 +
- target/riscv/cpu_helper.c |  3 +--
- target/riscv/debug.c      |  3 +++
- target/riscv/machine.c    | 15 +++++++++++++++
- 4 files changed, 20 insertions(+), 2 deletions(-)
+> On Mittwoch, 12. Oktober 2022 14:28:23 CEST Nikita Ivanov wrote:
+>> Rename macro name to more transparent one and refactor
+>> it to expression.
+>> 
+>> Signed-off-by: Nikita Ivanov <nivanov@cloudlinux.com>
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 13ca0f20ae..44499df9da 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -331,6 +331,7 @@ struct CPUArchState {
-     struct CPUWatchpoint *cpu_watchpoint[RV_MAX_TRIGGERS];
-     QEMUTimer *itrigger_timer[RV_MAX_TRIGGERS];
-     int64_t last_icount;
-+    bool itrigger_enabled;
- 
-     /* machine specific rdtime callback */
-     uint64_t (*rdtime_fn)(void *);
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 7d8089b218..95c766aec0 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -106,8 +106,7 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
-                            get_field(env->mstatus_hs, MSTATUS_VS));
-     }
-     if (riscv_feature(env, RISCV_FEATURE_DEBUG) && !icount_enabled()) {
--        flags = FIELD_DP32(flags, TB_FLAGS, ITRIGGER,
--                           riscv_itrigger_enabled(env));
-+        flags = FIELD_DP32(flags, TB_FLAGS, ITRIGGER, env->itrigger_enabled);
-     }
- #endif
- 
-diff --git a/target/riscv/debug.c b/target/riscv/debug.c
-index db7745d4a3..2c0c8b18db 100644
---- a/target/riscv/debug.c
-+++ b/target/riscv/debug.c
-@@ -565,6 +565,7 @@ void helper_itrigger_match(CPURISCVState *env)
-         }
-         itrigger_set_count(env, i, count--);
-         if (!count) {
-+            env->itrigger_enabled = riscv_itrigger_enabled(env);
-             do_trigger_action(env, i);
-         }
-     }
-@@ -662,6 +663,8 @@ static void itrigger_reg_write(CPURISCVState *env, target_ulong index,
-                 /* set the count to timer */
-                 timer_mod(env->itrigger_timer[index],
-                           env->last_icount + itrigger_get_count(env, index));
-+            } else {
-+                env->itrigger_enabled = riscv_itrigger_enabled(env);
-             }
-         }
-         break;
-diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-index c2a94a82b3..cd32a52e19 100644
---- a/target/riscv/machine.c
-+++ b/target/riscv/machine.c
-@@ -21,6 +21,8 @@
- #include "qemu/error-report.h"
- #include "sysemu/kvm.h"
- #include "migration/cpu.h"
-+#include "sysemu/cpu-timers.h"
-+#include "debug.h"
- 
- static bool pmp_needed(void *opaque)
- {
-@@ -229,11 +231,24 @@ static bool debug_needed(void *opaque)
-     return riscv_feature(env, RISCV_FEATURE_DEBUG);
- }
- 
-+static int debug_post_load(void *opaque, int version_id)
-+{
-+    RISCVCPU *cpu = opaque;
-+    CPURISCVState *env = &cpu->env;
-+
-+    if (icount_enabled()) {
-+        env->itrigger_enabled = riscv_itrigger_enabled(env);
-+    }
-+
-+    return 0;
-+}
-+
- static const VMStateDescription vmstate_debug = {
-     .name = "cpu/debug",
-     .version_id = 2,
-     .minimum_version_id = 2,
-     .needed = debug_needed,
-+    .post_load = debug_post_load,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINTTL(env.trigger_cur, RISCVCPU),
-         VMSTATE_UINTTL_ARRAY(env.tdata1, RISCVCPU, RV_MAX_TRIGGERS),
--- 
-2.17.1
+[...]
+
+>> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+>> index b1c161c035..a470905475 100644
+>> --- a/include/qemu/osdep.h
+>> +++ b/include/qemu/osdep.h
+>> @@ -243,7 +243,13 @@ void QEMU_ERROR("code path is reachable")
+>>  #define ESHUTDOWN 4099
+>>  #endif
+>> 
+>> -#define TFR(expr) do { if ((expr) != -1) break; } while (errno == EINTR)
+>> +#define RETRY_ON_EINTR(expr) \
+>> +    (__extension__                                          \
+>> +        ({ typeof(expr) __result;                               \
+>> +           do {                                             \
+>> +                __result = (typeof(expr)) (expr);         \
+>
+> Not a big deal, but as Peter already pointed out in previous version: you 
+> could drop the type cast in this particular form here.
+
+Yes, please.
+
+> glibc's TEMP_FAILURE_RETRY() version needs the cast as it uses `long int` as 
+> hard coded type for the result variable, whereas this version here uses a 
+> generic approach by declaring the result variable already exactly with the 
+> type the passed expression evaluates to, so the cast is redundant in this 
+> version here.
+>
+>> +           } while (__result == -1L && errno == EINTR);     \
+>> +           __result; }))
+>> 
+>>  /* time_t may be either 32 or 64 bits depending on the host OS, and
+>>   * can be either signed or unsigned, so we can't just hardcode a
+
+[...]
 
 
