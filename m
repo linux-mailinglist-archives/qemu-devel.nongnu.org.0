@@ -2,87 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCD935FDCD9
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 17:09:28 +0200 (CEST)
-Received: from localhost ([::1]:55364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9F8B5FDCDD
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 17:10:41 +0200 (CEST)
+Received: from localhost ([::1]:48310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oizpv-0000cO-Dw
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 11:09:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44416)
+	id 1oizr6-0002dt-P0
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 11:10:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oizma-0005Cw-K8
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 11:06:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60401)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1oizpg-0008Qf-K4
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 11:09:12 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2742)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oizmK-0008N7-KC
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 11:05:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665673542;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=S7IyEG9q4CD1KsDUEh17Zrq0601sniWLGuZ4CwuhZ3c=;
- b=N6gsNt+m0jSGsyUqqkjv2WGCvK38i47X+oSrX8gi54vzATMiyzCJNfVGSTYlVMwdfZ0YWN
- 6xsQGOeK9M9TmVbKs6VolummKzBLXPlxiz+0ffvMTBdZB8/kuLMWLLg2+4avJ3J964tRPn
- vFeEMzaWNtnp8P+j6F+U2AyouQh2zDA=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-193-AfLMi43vNhWge4-hmTAMgw-1; Thu, 13 Oct 2022 11:05:41 -0400
-X-MC-Unique: AfLMi43vNhWge4-hmTAMgw-1
-Received: by mail-qv1-f70.google.com with SMTP id
- h3-20020a0ceec3000000b004b17a25f8bcso1543114qvs.23
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 08:05:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=S7IyEG9q4CD1KsDUEh17Zrq0601sniWLGuZ4CwuhZ3c=;
- b=V4yL5CE7CY/7XQR6LiiR8IrmMcQG8MpK21lQFqTKjHGlZw2mzj4pv+zPHjFY/QDW0K
- BF0N3wJLT2tgyJF/ZZGHoBfIjiucG8qGgTluerPnDOydBs/MtU/kIo7iN11DhvdyDBv1
- 5qG8WIdmlbKuJT/pD+anOyS+qHFuXeeQdDvGT8HxS7ieQ1YhIivI0ArbWPqNdbdiFPol
- +H0q64z8xaWlwUIwSTbEya2qIQh+uqkwbjpGP8N3UmypcjZxqoQF2dw/NI36JLkryNzV
- dOyFzo3eRpsqUpTsJbFAT+q3xTDJnMKgQDLsU5hSmZ9tLAdMtOgA/QosLcjlNzK0VNpF
- BesQ==
-X-Gm-Message-State: ACrzQf2LF6Lu79VRIw5MsuqvSYXApqH2XSacYXErO+nkgi3yOuuFzZH7
- 31vg/yxBIhyD/bvjrc72QSAVxMPgWhTekgy3Tfp/DaF+yUK+5LCEkw1yF08pS9a/M816ualx3BW
- 8+mBpIAuWQM8OJ9E=
-X-Received: by 2002:a05:622a:7:b0:39c:14ff:32bc with SMTP id
- x7-20020a05622a000700b0039c14ff32bcmr176149qtw.125.1665673540458; 
- Thu, 13 Oct 2022 08:05:40 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5IHNB1N6c6C/DNFtVPjtxfiZwyhlEh7PtDBeikzjJBNyNsgfS6W95G3cGI1TZ8Btn95umLuA==
-X-Received: by 2002:a05:622a:7:b0:39c:14ff:32bc with SMTP id
- x7-20020a05622a000700b0039c14ff32bcmr176119qtw.125.1665673540138; 
- Thu, 13 Oct 2022 08:05:40 -0700 (PDT)
-Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
- [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
- t4-20020ac865c4000000b0039ccbf75f92sm108530qto.11.2022.10.13.08.05.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Oct 2022 08:05:39 -0700 (PDT)
-Date: Thu, 13 Oct 2022 11:05:38 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Yury Kotov <yury-kotov@yandex-team.ru>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH RFC 0/2] qemu-thread: Strict unlock check
-Message-ID: <Y0gpQtnFizo1e20U@x1n>
-References: <20221011224154.644379-1-peterx@redhat.com> <Y0cEjAT6yMX/Xasv@x1n>
- <CAFEAcA_wvnwoSo8jnddEJ5+87xxRdXLpR0r-20E5JkLTTXXbzQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1oizpc-0000Tl-DO
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 11:09:12 -0400
+Received: from fraeml709-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4MpCYX4Jvsz68735;
+ Thu, 13 Oct 2022 23:07:28 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
+ fraeml709-chm.china.huawei.com (10.206.15.37) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 13 Oct 2022 17:09:04 +0200
+Received: from localhost (10.202.226.42) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 13 Oct
+ 2022 16:09:03 +0100
+Date: Thu, 13 Oct 2022 16:09:02 +0100
+To: Viacheslav A.Dubeyko <viacheslav.dubeyko@bytedance.com>
+CC: Adam Manzanares <a.manzanares@samsung.com>, Cong Wang
+ <cong.wang@bytedance.com>, <qemu-devel@nongnu.org>,
+ <linux-cxl@vger.kernel.org>
+Subject: Re: CXL emulation in QEMU contribution
+Message-ID: <20221013160902.00001c32@huawei.com>
+In-Reply-To: <31569DD4-6502-4188-8962-08E0A15B08FF@bytedance.com>
+References: <20221011095228.00001546@huawei.com>
+ <31569DD4-6502-4188-8962-08E0A15B08FF@bytedance.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA_wvnwoSo8jnddEJ5+87xxRdXLpR0r-20E5JkLTTXXbzQ@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.226.42]
+X-ClientProxiedBy: lhrpeml500003.china.huawei.com (7.191.162.67) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,18 +70,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Thu, Oct 13, 2022 at 11:31:20AM +0100, Peter Maydell wrote:
-> We used to use PTHREAD_MUTEX_ERRORCHECK, but stopped because it
-> does not work with the idiom we use for handling mutexes across
-> fork() where you take the lock in the parent, and then unlock it
-> in the child after the fork. With glibc's implementation of
-> PTHREAD_MUTEX_ERRORCHECK the unlock in the child fails. See
-> commit 24fa90499f8b24bcba29 from 2015.
+On Wed, 12 Oct 2022 15:43:35 -0700
+"Viacheslav A.Dubeyko" <viacheslav.dubeyko@bytedance.com> wrote:
 
-Oops, thanks Peter.
+> Hi Jonathan,
 
--- 
-Peter Xu
+Hi Slava,
 
+Thanks for sending this.
+> 
+> As we agreed, I am moving our discussion into public mailing list.
+> 
+
+> So, I would like to contribute to QEMU emulation of CXL memory
+> support. And I would like to see a TODO list. I hope this list could
+> be useful not only for me. As far as I can see, we can summarize:
+
+Absolutely agree on need for a TODO now there are multiple groups involved.
+https://gitlab.com/jic23/qemu/-/wikis/TODO-list
+is my starting point on this on basis a wiki is a cheap and cheerful way
+to track this.
+
+> 
+
+> 1) Moving towards emulation of everything we need for Dynamic Capacity.
+>   a) Switch CCI - have a PoC but not yet doing tunneling to Type 3 EPs.
+
+See below. Initial support pushed out to gitlab. Doesn't do much yet beyond
+walk some basic info for a static switch.
+
+>   b) Userspace tool to fake enough FM role that we can drive dynamics 
+
+Currently I'm using the IOCTL path used by the cxl tool in ndctl.
+I would definitely not describe my test program as 'good userspace code'
+though :)
+
+>   c) Also need to do CXL 2.0 style HP of LDs on MLD devices (some demand
+>   for this to driver virtualization migration usecases)
+>   d) DCD implementation etc on the type 3 device.
+
+May want to do this on multiport devices first. 
+
+> 2) Lots of smaller features from CXL 3.0 such as setting up BI.
+> 3) Enough to test P2P UIO flows - probably need to invent an accelerator
+>   with appropriate support to test that - DMA engine or similar.
+> 4) Bunch of small features:
+>   a) Multiple HDM decoders.
+
+This is a fairly urgent feature to test mixed volatile / non volatile stuff
+using Gregory Price's emulation of volatile for the type 3 device.
+
+>   b) Poisoning.  Right now we have prototype, but it's not wired up
+> to actually report poison on reads.
+
+The command handling stuff is on the tree below, but this needs exploring
+on qemu side. I'm not even sure what 'poison' would look like.
+
+>   c) CXL non-function map DVSEC. Given QEMU lets you add any function
+> to a given device by just setting  the bus to be the same as another,
+> this is a bit fiddly because we need to updated it late in the QEMU
+> bring up, or possibly easier to do it at read time (that may well be
+> easier).
+
+This one should be a fairly small task for anyone interested.  Not super
+high priority though as kernel driver doesn't care yet ;)
+
+>   d) Most useful of all, but most boring perhaps is review of what's
+> already waiting for upstreaming.
+
+For this one I've pushed out what I currently have queued up.
+https://gitlab.com/jic23/qemu/-/commits/cxl-2022-10-13
+
+I'll also add that stuff to the todo list
+I'm aware of two other series that have been posted.
+
+> 
+> Please, correct me if I miss something. I believe we need to have a
+> TODO list to collaborate efficiently. Any ideas what else can be added into TODO list?
+
+More error injection to support David Jiang's patch set testing.
+Also, rather tangential to the rest but can wire up UEFI CPER record
+reporting as well to test Smita Koralahalli's series.  I have old code
+for doing that on aRM 64.
+
+Also fairly high on what matters to me is arm64 support via DT to hopefully
+help us get the arm-virt support upstream.  That's my daily test
+platform so I'd rather not maintain it out of tree forever!
+
+If anyone wants access to edit the page, DM me a registered gitlab ID and
+I'll you to the project.
+
+Jonathan
+
+> 
+> Thanks,
+> Slava. 
+> 
 
