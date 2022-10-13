@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E0785FD6BA
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 11:13:45 +0200 (CEST)
-Received: from localhost ([::1]:41618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B03CA5FD69F
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 11:07:23 +0200 (CEST)
+Received: from localhost ([::1]:36338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiuHg-00030L-By
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 05:13:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47568)
+	id 1oiuBW-0006w8-Mb
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 05:07:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1oitb6-00071q-Kj
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 04:29:45 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:53864 helo=loongson.cn)
+ id 1oitaW-00061a-4J
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 04:29:08 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:53746 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1oitay-0004UY-3v
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 04:29:44 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1oitaR-0004QV-Bm
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 04:29:07 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxvmtGzEdjCdwsAA--.18330S5; 
- Thu, 13 Oct 2022 16:28:58 +0800 (CST)
+ AQAAf8DxvmtGzEdjCdwsAA--.18330S6; 
+ Thu, 13 Oct 2022 16:28:59 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, peter.maydell@linaro.org,
  alex.bennee@linaro.org, maobibo@loongson.cn
-Subject: [RISU PATCH v2 3/5] loongarch: Implement risugen module
-Date: Thu, 13 Oct 2022 16:28:52 +0800
-Message-Id: <20221013082854.878546-4-gaosong@loongson.cn>
+Subject: [RISU PATCH v2 4/5] loongarch: Add risufile with loongarch
+ instructions
+Date: Thu, 13 Oct 2022 16:28:53 +0800
+Message-Id: <20221013082854.878546-5-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20221013082854.878546-1-gaosong@loongson.cn>
 References: <20221013082854.878546-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxvmtGzEdjCdwsAA--.18330S5
-X-Coremail-Antispam: 1UD129KBjvAXoW3Cry3XF4DJw15Wr4rKr15Jwb_yoW8Jry7Ao
- Wfuws7XF1rtw1UZrn5Crn7J347ZFZ5Gan8A3W5Gr4a9Fy8Jr1Yq34293sxur13Jay5CF1U
- u34vv3WfJayDt3sxn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+X-CM-TRANSID: AQAAf8DxvmtGzEdjCdwsAA--.18330S6
+X-Coremail-Antispam: 1UD129KBjvAXoWfAF45CF47CF1xAF1xAFWxtFb_yoW5Xw1xXo
+ W0y34fZa18K343Xr95Kw1UJw1DCws0vFsFyFy5J34Fy348ZryDtw15t3Z5Cw45J3y7W3Wr
+ Jry3Z3Z8C345twn3n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
  AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -62,20 +63,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- risugen_loongarch64.pm | 486 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 486 insertions(+)
- create mode 100644 risugen_loongarch64.pm
+ loongarch64.risu | 573 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 573 insertions(+)
+ create mode 100644 loongarch64.risu
 
-diff --git a/risugen_loongarch64.pm b/risugen_loongarch64.pm
+diff --git a/loongarch64.risu b/loongarch64.risu
 new file mode 100644
-index 0000000..98948a2
+index 0000000..d059811
 --- /dev/null
-+++ b/risugen_loongarch64.pm
-@@ -0,0 +1,486 @@
-+#!/usr/bin/perl -w
++++ b/loongarch64.risu
+@@ -0,0 +1,573 @@
 +###############################################################################
 +# Copyright (c) 2022 Loongson Technology Corporation Limited
 +# All rights reserved. This program and the accompanying materials
@@ -84,483 +84,571 @@ index 0000000..98948a2
 +# http://www.eclipse.org/legal/epl-v10.html
 +#
 +# Contributors:
-+#     based on Peter Maydell (Linaro) - initial implementation
++#     based on aarch64.risu by Claudio Fontana
++#     based on arm.risu by Peter Maydell
 +###############################################################################
 +
-+# risugen -- generate a test binary file for use with risu
-+# See 'risugen --help' for usage information.
-+package risugen_loongarch64;
-+
-+use strict;
-+use warnings;
-+
-+use risugen_common;
-+
-+require Exporter;
-+
-+our @ISA    = qw(Exporter);
-+our @EXPORT = qw(write_test_code);
-+
-+my $periodic_reg_random = 1;
-+
-+# Maximum alignment restriction permitted for a memory op.
-+my $MAXALIGN = 64;
-+
-+my $OP_COMPARE = 0;        # compare registers
-+my $OP_TESTEND = 1;        # end of test, stop
-+my $OP_SETMEMBLOCK = 2;    # r4 is address of memory block (8192 bytes)
-+my $OP_GETMEMBLOCK = 3;    # add the address of memory block to r4
-+my $OP_COMPAREMEM = 4;     # compare memory block
-+
-+sub write_risuop($)
-+{
-+    my ($op) = @_;
-+    insn32(0x000001f0 | $op);
-+}
-+
-+sub write_set_fcsr($)
-+{
-+    my ($fcsr) = @_;
-+    # movgr2fcsr r0, r0
-+    insn32(0x0114c000);
-+}
-+
-+# Global used to communicate between align(x) and reg() etc.
-+my $alignment_restriction;
-+
-+sub set_reg_w($)
-+{
-+    my($reg)=@_;
-+    # Set reg [0x0, 0x7FFFFFFF]
-+
-+    # $reg << 33
-+    # slli.d  $reg, $reg, 33
-+    insn32(0x410000 | 33 << 10 | $reg << 5 | $reg);
-+    # $reg >> 33
-+    # srli.d  $reg, $reg, 33
-+    insn32(0x450000 | 33 << 10 | $reg << 5 | $reg);
-+
-+    return $reg;
-+}
-+
-+sub align($)
-+{
-+    my ($a) = @_;
-+    if (!is_pow_of_2($a) || ($a < 0) || ($a > $MAXALIGN)) {
-+        die "bad align() value $a\n";
-+    }
-+    $alignment_restriction = $a;
-+}
-+
-+sub write_sub_rrr($$$)
-+{
-+    my ($rd, $rj, $rk) = @_;
-+    # sub.d rd, rj, rk
-+    insn32(0x00118000 | $rk << 10 | $rj << 5 | $rd);
-+}
-+
-+sub write_mov_rr($$$)
-+{
-+    my($rd, $rj, $rk) = @_;
-+    # add.d rd, rj, r0
-+    insn32(0x00108000 | 0 << 10 | $rj << 5 | $rd);
-+}
-+
-+sub write_mov_ri($$)
-+{
-+    my ($rd, $imm) = @_;
-+
-+    if ($imm >= -0x80000000 && $imm <= 0x7fffffff) {
-+        # lu12i.w rd, si20
-+        insn32(0x14000000 | (($imm >> 12) & 0xfffff) << 5 | $rd);
-+        # ori rd, rd, ui12
-+        insn32(0x03800000 | ($imm & 0xfff) << 10 | $rd << 5 | $rd);
-+    } else {
-+	die "unhandled immediate load";
-+    }
-+}
-+
-+sub write_get_offset()
-+{
-+    # Emit code to get a random offset within the memory block, of the
-+    # right alignment, into r4
-+    # We require the offset to not be within 256 bytes of either
-+    # end, to (more than) allow for the worst case data transfer, which is
-+    # 16 * 64 bit regs
-+    my $offset = (rand(2048 - 512) + 256) & ~($alignment_restriction - 1);
-+    write_mov_ri(4, $offset);
-+    write_risuop($OP_GETMEMBLOCK);
-+}
-+
-+sub reg_plus_reg($$@)
-+{
-+    my ($base, $idx, @trashed) = @_;
-+    my $savedidx = 0;
-+    if ($idx == 4) {
-+        # Save the index into some other register for the
-+        # moment, because the risuop will trash r4.
-+        $idx = 5;
-+        $idx++ if $idx == $base;
-+        $savedidx = 1;
-+        write_mov_rr($idx, 4, 0);
-+    }
-+    # Get a random offset within the memory block, of the
-+    # right alignment.
-+    write_get_offset();
-+
-+    write_sub_rrr($base, 4, $idx);
-+    if ($base != 4) {
-+        if ($savedidx) {
-+            write_mov_rr(4, $idx, 0);
-+            write_mov_ri($idx, 0);
-+        } else {
-+            write_mov_ri(4, 0);
-+        }
-+    } else {
-+	if ($savedidx) {
-+            write_mov_ri($idx, 0);
-+	}
-+    }
-+
-+    if (grep $_ == $base, @trashed) {
-+        return -1;
-+    }
-+    return $base;
-+}
-+
-+sub reg_plus_imm($$@)
-+{
-+    # Handle reg + immediate addressing mode
-+    my ($base, $imm, @trashed) = @_;
-+
-+    write_get_offset();
-+    # Now r4 is the address we want to do the access to,
-+    # so set the basereg by doing the inverse of the
-+    # addressing mode calculation, ie base = r4 - imm
-+    # We could do this more cleverly with a sub immediate.
-+    if ($base != 4) {
-+        write_mov_ri($base, $imm);
-+        write_sub_rrr($base, 4, $base);
-+        # Clear r4 to avoid register compare mismatches
-+        # when the memory block location differs between machines.
-+         write_mov_ri(4, 0);
-+    }else {
-+        # We borrow r1 as a temporary (not a problem
-+        # as long as we don't leave anything in a register
-+        # which depends on the location of the memory block)
-+        write_mov_ri(1, $imm);
-+        write_sub_rrr($base, 4, 1);
-+    }
-+
-+    if (grep $_ == $base, @trashed) {
-+        return -1;
-+    }
-+    return $base;
-+}
-+
-+sub write_pc_adr($$)
-+{
-+    my($rd, $imm) = @_;
-+    # pcaddi (si20 | 2bit 0) + pc
-+    insn32(0x18000000 | $imm << 5 | $rd);
-+}
-+
-+sub write_and($$$)
-+{
-+    my($rd, $rj, $rk)  = @_;
-+    # and rd, rj, rk
-+    insn32(0x148000 | $rk << 10 | $rj << 5 | $rd);
-+}
-+
-+sub write_align_reg($$)
-+{
-+    my ($rd, $align) = @_;
-+    # rd = rd & ~($align -1);
-+    # use r1 as a temp register.
-+    write_mov_ri(1, $align -1);
-+    write_sub_rrr(1, 0, 1);
-+    write_and($rd, $rd, 1);
-+}
-+
-+sub write_jump_fwd($)
-+{
-+    my($len) = @_;
-+    # b pc + len
-+    my ($offslo, $offshi) = (($len / 4 + 1) & 0xffff, ($len / 4 + 1) >> 16);
-+    insn32(0x50000000 | $offslo << 10 | $offshi);
-+}
-+
-+sub write_memblock_setup()
-+{
-+    my $align = $MAXALIGN;
-+    my $datalen = 8192 + $align;
-+    if (($align > 255) || !is_pow_of_2($align) || $align < 4) {
-+        die "bad alignment!";
-+    }
-+
-+    # Set r4 to (datablock + (align-1)) & ~(align-1)
-+    # datablock is at PC + (4 * 4 instructions) = PC + 16
-+    write_pc_adr(4, (4 * 4) + ($align - 1)); #insn 1
-+    write_align_reg(4, $align);              #insn 2
-+    write_risuop($OP_SETMEMBLOCK);           #insn 3
-+    write_jump_fwd($datalen);                #insn 4
-+
-+    for(my $i = 0; $i < $datalen / 4; $i++) {
-+        insn32(rand(0xffffffff));
-+    }
-+}
-+
-+# Write random fp value of passed precision (1=single, 2=double, 4=quad)
-+sub write_random_fpreg_var($)
-+{
-+    my ($precision) = @_;
-+    my $randomize_low = 0;
-+
-+    if ($precision != 1 && $precision != 2 && $precision != 4) {
-+        die "write_random_fpreg: invalid precision.\n";
-+    }
-+
-+    my ($low, $high);
-+    my $r = rand(100);
-+    if ($r < 5) {
-+        # +-0 (5%)
-+        $low = $high = 0;
-+        $high |= 0x80000000 if (rand() < 0.5);
-+    } elsif ($r < 10) {
-+        # NaN (5%)
-+        # (plus a tiny chance of generating +-Inf)
-+        $randomize_low = 1;
-+        $high = rand(0xffffffff) | 0x7ff00000;
-+    } elsif ($r < 15) {
-+        # Infinity (5%)
-+        $low = 0;
-+        $high = 0x7ff00000;
-+        $high |= 0x80000000 if (rand() < 0.5);
-+    } elsif ($r < 30) {
-+        # Denormalized number (15%)
-+        # (plus tiny chance of +-0)
-+        $randomize_low = 1;
-+        $high = rand(0xffffffff) & ~0x7ff00000;
-+    } else {
-+        # Normalized number (70%)
-+        # (plus a small chance of the other cases)
-+        $randomize_low = 1;
-+        $high = rand(0xffffffff);
-+    }
-+
-+    for (my $i = 1; $i < $precision; $i++) {
-+        if ($randomize_low) {
-+            $low = rand(0xffffffff);
-+        }
-+        insn32($low);
-+    }
-+    insn32($high);
-+}
-+
-+sub write_random_loongarch64_fpdata()
-+{
-+    # Load floating point registers
-+    my $align = 16;
-+    my $datalen = 32 * 16 + $align;
-+    my $off = 0;
-+    write_pc_adr(5, (4 * 4) + $align);       # insn 1  pcaddi
-+    write_pc_adr(4, (3 * 4) + ($align - 1)); # insn 2  pcaddi
-+    write_align_reg(4, $align);              # insn 3  andi
-+    write_jump_fwd($datalen);                # insn 4  b pc + len
-+
-+    # Align safety
-+    for (my $i = 0; $i < ($align / 4); $i++) {
-+        insn32(rand(0xffffffff));
-+    }
-+
-+    for (my $i = 0; $i < 32; $i++) {
-+        write_random_fpreg_var(4); # double
-+    }
-+
-+    $off = 0;
-+    for (my $i = 0; $i < 32; $i++) {
-+        my $tmp_reg = 6;
-+        # r5 is fp register initial val
-+        # r4 is aligned base address
-+        # copy memory from r5 to r4
-+        # ld.d r6, r5, $off
-+        # st.d r6, r4, $off
-+        # $off = $off + 16
-+        insn32(0x28c00000 | $off << 10 | 5 << 5 | $tmp_reg);
-+        insn32(0x29c00000 | $off << 10 | 4 << 5 | $tmp_reg);
-+        $off = $off + 8;
-+        insn32(0x28c00000 | $off << 10 | 5 << 5 | $tmp_reg);
-+        insn32(0x29c00000 | $off << 10 | 4 << 5 | $tmp_reg);
-+        $off = $off + 8;
-+    }
-+
-+    $off = 0;
-+    for (my $i = 0; $i < 32; $i++) {
-+        # fld.d fd, r4, $off
-+        insn32(0x2b800000 | $off << 10 | 4 << 5 | $i);
-+        $off = $off + 16;
-+    }
-+}
-+
-+sub write_random_regdata()
-+{
-+    # General purpose registers, skip r2
-+    write_mov_ri(1, rand(0x7fffffff)); # init r1
-+    for  (my $i = 3; $i < 32; $i++) {
-+        write_mov_ri($i, rand(0x7fffffff));
-+    }
-+}
-+
-+sub write_random_register_data($)
-+{
-+    my ($fp_enabled) = @_;
-+
-+    # Set fcc0 ~ fcc7
-+    # movgr2cf $fcc0, $zero
-+    insn32(0x114d800);
-+    # movgr2cf $fcc1, $zero
-+    insn32(0x114d801);
-+    # movgr2cf $fcc2, $zero
-+    insn32(0x114d802);
-+    # movgr2cf $fcc3, $zero
-+    insn32(0x114d803);
-+    # movgr2cf $fcc4, $zero
-+    insn32(0x114d804);
-+    # movgr2cf $fcc5, $zero
-+    insn32(0x114d805);
-+    # movgr2cf $fcc6, $zero
-+    insn32(0x114d806);
-+    # movgr2cf $fcc7, $zero
-+    insn32(0x114d807);
-+
-+    if ($fp_enabled) {
-+        # Load floating point registers
-+        write_random_loongarch64_fpdata();
-+    }
-+
-+    write_random_regdata();
-+    write_risuop($OP_COMPARE);
-+}
-+
-+sub gen_one_insn($$)
-+{
-+    # Given an instruction-details array, generate an instruction
-+    my $constraintfailures = 0;
-+
-+    INSN: while(1) {
-+        my ($forcecond, $rec) = @_;
-+        my $insn = int(rand(0xffffffff));
-+        my $insnname = $rec->{name};
-+        my $insnwidth = $rec->{width};
-+        my $fixedbits = $rec->{fixedbits};
-+        my $fixedbitmask = $rec->{fixedbitmask};
-+        my $constraint = $rec->{blocks}{"constraints"};
-+        my $memblock = $rec->{blocks}{"memory"};
-+
-+        $insn &= ~$fixedbitmask;
-+        $insn |= $fixedbits;
-+
-+        if (defined $constraint) {
-+            # User-specified constraint: evaluate in an environment
-+            # with variables set corresponding to the variable fields.
-+            my $v = eval_with_fields($insnname, $insn, $rec, "constraints", $constraint);
-+            if(!$v) {
-+                $constraintfailures++;
-+                if ($constraintfailures > 10000) {
-+                    print "10000 consecutive constraint failures for $insnname constraints string:\n$constraint\n";
-+                    exit (1);
-+                }
-+                next INSN;
-+            }
-+        }
-+
-+        # OK, we got a good one
-+        $constraintfailures = 0;
-+
-+        my $basereg;
-+
-+        if (defined $memblock) {
-+            # This is a load or store. We simply evaluate the block,
-+            # which is expected to be a call to a function which emits
-+            # the code to set up the base register and returns the
-+            # number of the base register.
-+            # Default alignment requirement for ARM is 4 bytes,
-+            # we use 16 for Aarch64, although often unnecessary and overkill.
-+            align(16);
-+            $basereg = eval_with_fields($insnname, $insn, $rec, "memory", $memblock);
-+        }
-+
-+        insn32($insn);
-+
-+        if (defined $memblock) {
-+            # Clean up following a memory access instruction:
-+            # we need to turn the (possibly written-back) basereg
-+            # into an offset from the base of the memory block,
-+            # to avoid making register values depend on memory layout.
-+            # $basereg -1 means the basereg was a target of a load
-+            # (and so it doesn't contain a memory address after the op)
-+            if ($basereg != -1) {
-+                write_mov_ri($basereg, 0);
-+            }
-+            write_risuop($OP_COMPAREMEM);
-+        }
-+        return;
-+    }
-+}
-+
-+sub write_test_code($)
-+{
-+    my ($params) = @_;
-+
-+    my $condprob = $params->{ 'condprob' };
-+    my $fcsr = $params->{'fpscr'};
-+    my $numinsns = $params->{ 'numinsns' };
-+    my $fp_enabled = $params->{ 'fp_enabled' };
-+    my $outfile = $params->{ 'outfile' };
-+
-+    my %insn_details = %{ $params->{ 'details' } };
-+    my @keys = @{ $params->{ 'keys' } };
-+
-+    open_bin($outfile);
-+
-+    # Convert from probability that insn will be conditional to
-+    # probability of forcing insn to unconditional
-+    $condprob = 1 - $condprob;
-+
-+    # TODO better random number generator?
-+    srand(0);
-+
-+    print "Generating code using patterns: @keys...\n";
-+    progress_start(78, $numinsns);
-+
-+    if ($fp_enabled) {
-+        write_set_fcsr($fcsr);
-+    }
-+
-+    if (grep { defined($insn_details{$_}->{blocks}->{"memory"}) } @keys) {
-+        write_memblock_setup();
-+    }
-+    # Memblock setup doesn't clean its registers, so this must come afterwards.
-+    write_random_register_data($fp_enabled);
-+
-+    for my $i (1..$numinsns) {
-+        my $insn_enc = $keys[int rand (@keys)];
-+        my $forcecond = (rand() < $condprob) ? 1 : 0;
-+        gen_one_insn($forcecond, $insn_details{$insn_enc});
-+        write_risuop($OP_COMPARE);
-+        # Rewrite the registers periodically. This avoids the tendency
-+        # for the VFP registers to decay to NaNs and zeroes.
-+        if ($periodic_reg_random && ($i % 100) == 0) {
-+            write_random_register_data($fp_enabled);
-+        }
-+        progress_update($i);
-+    }
-+    write_risuop($OP_TESTEND);
-+    progress_end();
-+    close_bin();
-+}
-+
-+1;
++# Input file for risugen defining LoongArch64 instructions
++.mode loongarch64
++
++#
++# Fixed point arithmetic operation instruction
++#
++add_w LA64 0000 00000001 00000 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++add_d LA64 0000 00000001 00001 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++sub_w LA64 0000 00000001 00010 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++sub_d LA64 0000 00000001 00011 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++slt LA64 0000 00000001 00100 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++sltu LA64 0000 00000001 00101 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++slti LA64 0000 001000 si12:12 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++sltui LA64 0000 001001 si12:12 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++nor LA64 0000 00000001 01000 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++and LA64 0000 00000001 01001 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++or LA64 0000 00000001 01010 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++xor LA64 0000 00000001 01011 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++orn LA64 0000 00000001 01100 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++andn LA64 0000 00000001 01101 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++mul_w LA64 0000 00000001 11000 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++mul_d LA64 0000 00000001 11011 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++mulh_w LA64 0000 00000001 11001 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++mulh_d LA64 0000 00000001 11100 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++mulh_wu LA64 0000 00000001 11010 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++mulh_du LA64 0000 00000001 11101 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++mulw_d_w LA64 0000 00000001 11110 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++mulw_d_wu LA64 0000 00000001 11111 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++
++#div.{w[u]/d[u]} rd,rj,rk
++# the docement 2.2.13,  rk, rj, need in 32bit [0x0 ~0x7FFFFFFF]
++# use function set_reg_w($reg)
++div_w LA64 0000 00000010 00000 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { set_reg_w($rj); set_reg_w($rk); }
++div_wu LA64 0000 00000010 00010 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { set_reg_w($rj); set_reg_w($rk); }
++div_d LA64 0000 00000010 00100 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++div_du LA64 0000 00000010 00110 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++mod_w LA64 0000 00000010 00001 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { set_reg_w($rj); set_reg_w($rk); }
++mod_wu LA64 0000 00000010 00011 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { set_reg_w($rj); set_reg_w($rk); }
++mod_d LA64 0000 00000010 00101 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++mod_du LA64 0000 00000010 00111 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++
++alsl_w LA64 0000 00000000 010 sa2:2 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++alsl_wu LA64 0000 00000000 011 sa2:2 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++alsl_d LA64 0000 00000010 110 sa2:2 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++lu12i_w LA64 0001 010 si20:20 rd:5 \
++    !constraints { $rd != 2; }
++lu32i_d LA64 0001 011 si20:20 rd:5 \
++    !constraints { $rd != 2; }
++lu52i_d LA64 0000 001100 si12:12 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++addi_w LA64 0000 001010 si12:12 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++addi_d LA64 0000 001011 si12:12 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++addu16i_d LA64 0001 00 si16:16 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++andi LA64 0000 001101 ui12:12 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++ori LA64 0000 001110 ui12:12 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++xori LA64 0000 001111 ui12:12 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++
++#
++# Fixed point shift operation instruction
++#
++sll_w LA64 0000 00000001 01110 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++sll_d LA64 0000 00000001 10001 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++srl_w LA64 0000 00000001 01111 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++srl_d LA64 0000 00000001 10010 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++sra_w LA64 0000 00000001 10000 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++sra_d LA64 0000 00000001 10011 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++rotr_w LA64 0000 00000001 10110 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++rotr_d LA64 0000 00000001 10111 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++slli_w LA64 0000 00000100 00001 ui5:5 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++slli_d LA64 0000 00000100 0001 ui6:6 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++srli_w LA64 0000 00000100 01001 ui5:5 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++srli_d LA64 0000 00000100 0101 ui6:6 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++srai_w LA64 0000 00000100 10001 ui5:5 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++srai_d LA64 0000 00000100 1001 ui6:6 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++rotri_w LA64 0000 00000100 11001 ui5:5 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++rotri_d LA64 0000 00000100 1101 ui6:6 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++
++#
++# Fixed point bit operation instruction
++#
++ext_w_h LA64 0000 00000000 00000 10110 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++ext_w_b LA64 0000 00000000 00000 10111 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++clo_w LA64 0000 00000000 00000 00100 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++clz_w LA64 0000 00000000 00000 00101 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++cto_w LA64 0000 00000000 00000 00110 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++ctz_w LA64 0000 00000000 00000 00111 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++clo_d LA64 0000 00000000 00000 01000 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++clz_d LA64 0000 00000000 00000 01001 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++cto_d LA64 0000 00000000 00000 01010 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++ctz_d LA64 0000 00000000 00000 01011 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++revb_2h LA64 0000 00000000 00000 01100 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++revb_4h LA64 0000 00000000 00000 01101 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++revb_2w LA64 0000 00000000 00000 01110 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++revb_d  LA64 0000 00000000 00000 01111 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++revh_2w LA64 0000 00000000 00000 10000 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++revh_d  LA64 0000 00000000 00000 10001 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++bitrev_4b LA64 0000 00000000 00000 10010 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++bitrev_8b LA64 0000 00000000 00000 10011 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++bitrev_w  LA64 0000 00000000 00000 10100 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++bitrev_d  LA64 0000 00000000 00000 10101 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2; }
++bytepick_w LA64 0000 00000000 100 sa2:2 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++bytepick_d LA64 0000 00000000 11 sa3:3 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++maskeqz LA64 0000 00000001 00110 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++masknez LA64 0000 00000001 00111 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++bstrins_w LA64 0000 0000011 msbw:5 0 lsbw:5 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2 && $msbw >= $lsbw; }
++bstrins_d LA64 0000 000010 msbd:6 lsbd:6 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2 && $msbd >= $lsbd; }
++bstrpick_w LA64 0000 0000011 msbw:5 1 lsbw:5 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2 && $msbw >= $lsbw; }
++bstrpick_d LA64 0000 000011 msbd:6 lsbd:6 rj:5 rd:5 \
++    !constraints { $rj != 2 && $rd != 2 && $msbd >= $lsbd; }
++
++#
++# Fixed point load/store instruction
++#
++ld_b  LA64 0010 100000 si12:12 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_imm($rj, sextract($si12, 12)); }
++ld_h  LA64 0010 100001 si12:12 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_imm($rj, sextract($si12, 12)); }
++ld_w  LA64 0010 100010 si12:12 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_imm($rj, sextract($si12, 12)); }
++ld_d  LA64 0010 100011 si12:12 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_imm($rj, sextract($si12, 12)); }
++ld_bu LA64 0010 101000 si12:12 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_imm($rj, sextract($si12, 12)); }
++ld_hu LA64 0010 101001 si12:12 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_imm($rj, sextract($si12, 12)); }
++ld_wu LA64 0010 101010 si12:12 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_imm($rj, sextract($si12, 12)); }
++st_b  LA64 0010 100100 si12:12 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != $rd && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_imm($rj, sextract($si12, 12)); }
++st_h  LA64 0010 100101 si12:12 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != $rd && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_imm($rj, sextract($si12, 12)); }
++st_w  LA64 0010 100110 si12:12 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != $rd && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_imm($rj, sextract($si12, 12)); }
++st_d  LA64 0010 100111 si12:12 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != $rd && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_imm($rj, sextract($si12, 12)); }
++ldx_b LA64 0011 10000000 00000 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, $rk); }
++ldx_h LA64 0011 10000000 01000 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, $rk); }
++ldx_w LA64 0011 10000000 10000 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, $rk); }
++ldx_d LA64 0011 10000000 11000 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, $rk); }
++ldx_bu LA64 0011 10000010 00000 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, $rk); }
++ldx_hu LA64 0011 10000010 01000 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, $rk); }
++ldx_wu LA64 0011 10000010 10000 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, $rk); }
++stx_b LA64 0011 10000001 00000 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != $rk && $rd != $rj && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, $rk); }
++stx_h LA64 0011 10000001 01000 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != $rk && $rd != $rj && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, $rk); }
++stx_w LA64 0011 10000001 10000 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != $rk && $rd != $rj && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, $rk); }
++stx_d LA64 0011 10000001 11000 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != $rk && $rd != $rj && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, $rk); }
++preld  LA64 0010 101011 si12:12 rj:5 hint:5 \
++    !constraints { $rj != 2; } \
++    !memory { reg_plus_imm($rj, sextract($si12, 12)); }
++dbar LA64 0011 10000111 00100 hint:15
++ibar LA64 0011 10000111 00101 hint:15
++ldptr_w LA64 0010 0100 si14:14 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_imm($rj, sextract($si14, 14) * 4); }
++ldptr_d LA64 0010 0110 si14:14 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_imm($rj, sextract($si14, 14) * 4); }
++stptr_w LA64 0010 0101 si14:14 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != $rd && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_imm($rj, sextract($si14, 14) * 4); }
++stptr_d LA64 0010 0111 si14:14 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != $rd && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_imm($rj, sextract($si14, 14) * 4); }
++
++#
++# Fixed point atomic instruction
++#
++ll_w LA64 0010 0000 si14:14 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_imm($rj, sextract($si14, 14) * 4); }
++ll_d LA64 0010 0010 si14:14 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_imm($rj, sextract($si14, 14) * 4); }
++
++amswap_w LA64 0011 10000110 00000 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++amswap_d LA64 0011 10000110 00001 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++amadd_w LA64 0011 10000110 00010 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++amadd_d LA64 0011 10000110 00011 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++amand_w LA64 0011 10000110 00100 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++amand_d LA64 0011 10000110 00101 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++amor_w LA64 0011 10000110 00110 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++amor_d LA64 0011 10000110 00111 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++amxor_w LA64 0011 10000110 01000 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++amxor_d LA64 0011 10000110 01001 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++ammax_w LA64 0011 10000110 01010 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++ammax_d LA64 0011 10000110 01011 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++ammin_w LA64 0011 10000110 01100 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++ammin_d LA64 0011 10000110 01101 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++ammax_wu LA64 0011 10000110 01110 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++ammax_du LA64 0011 10000110 01111 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++ammin_wu LA64 0011 10000110 10000 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++ammin_du LA64 0011 10000110 10001 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++
++amswap_db_w LA64 0011 10000110 10010 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++amswap_db_d LA64 0011 10000110 10011 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++amadd_db_w LA64 0011 10000110 10100 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++amadd_db_d LA64 0011 10000110 10101 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++amand_db_w LA64 0011 10000110 10110 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++amand_db_d LA64 0011 10000110 10111 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++amor_db_w LA64 0011 10000110 11000 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++amor_db_d LA64 0011 10000110 11001 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++amxor_db_w LA64 0011 10000110 11010 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++amxor_db_d LA64 0011 10000110 11011 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++ammax_db_w LA64 0011 10000110 11100 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++ammax_db_d LA64 0011 10000110 11101 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++ammin_db_w LA64 0011 10000110 11110 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++ammin_db_d LA64 0011 10000110 11111 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++ammax_db_wu LA64 0011 10000111 00000 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++ammax_db_du LA64 0011 10000111 00001 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++ammin_db_wu LA64 0011 10000111 00010 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++ammin_db_du LA64 0011 10000111 00011 rk:5 rj:5 rd:5 \
++    !constraints { $rj != 0 && $rd != $rj && $rj != $rk && $rd != $rk && $rk != 2 && $rj != 2 && $rd != 2; } \
++    !memory { reg_plus_reg($rj, 0); }
++
++#
++# Fixed point extra instruction
++#
++crc_w_b_w LA64 0000 00000010 01000 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++crc_w_h_w LA64 0000 00000010 01001 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++crc_w_w_w LA64 0000 00000010 01010 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++crc_w_d_w LA64 0000 00000010 01011 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++crcc_w_b_w LA64 0000 00000010 01100 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++crcc_w_h_w LA64 0000 00000010 01101 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++crcc_w_w_w LA64 0000 00000010 01110 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++crcc_w_d_w LA64 0000 00000010 01111 rk:5 rj:5 rd:5 \
++    !constraints { $rk != 2 && $rj != 2 && $rd != 2; }
++
++#
++# Floating point arithmetic operation instruction
++#
++fadd_s LA64 0000 00010000 00001 fk:5 fj:5 fd:5
++fadd_d LA64 0000 00010000 00010 fk:5 fj:5 fd:5
++fsub_s LA64 0000 00010000 00101 fk:5 fj:5 fd:5
++fsub_d LA64 0000 00010000 00110 fk:5 fj:5 fd:5
++fmul_s LA64 0000 00010000 01001 fk:5 fj:5 fd:5
++fmul_d LA64 0000 00010000 01010 fk:5 fj:5 fd:5
++fdiv_s LA64 0000 00010000 01101 fk:5 fj:5 fd:5
++fdiv_d LA64 0000 00010000 01110 fk:5 fj:5 fd:5
++fmadd_s LA64 0000 10000001 fa:5 fk:5 fj:5 fd:5
++fmadd_d LA64 0000 10000010 fa:5 fk:5 fj:5 fd:5
++fmsub_s LA64 0000 10000101 fa:5 fk:5 fj:5 fd:5
++fmsub_d LA64 0000 10000110 fa:5 fk:5 fj:5 fd:5
++fnmadd_s LA64 0000 10001001 fa:5 fk:5 fj:5 fd:5
++fnmadd_d LA64 0000 10001010 fa:5 fk:5 fj:5 fd:5
++fnmsub_s LA64 0000 10001101 fa:5 fk:5 fj:5 fd:5
++fnmsub_d LA64 0000 10001110 fa:5 fk:5 fj:5 fd:5
++fmax_s LA64 0000 00010000 10001 fk:5 fj:5 fd:5
++fmax_d LA64 0000 00010000 10010 fk:5 fj:5 fd:5
++fmin_s LA64 0000 00010000 10101 fk:5 fj:5 fd:5
++fmin_d LA64 0000 00010000 10110 fk:5 fj:5 fd:5
++fmaxa_s LA64 0000 00010000 11001 fk:5 fj:5 fd:5
++fmaxa_d LA64 0000 00010000 11010 fk:5 fj:5 fd:5
++fmina_s LA64 0000 00010000 11101 fk:5 fj:5 fd:5
++fmina_d LA64 0000 00010000 11110 fk:5 fj:5 fd:5
++fabs_s LA64 0000 00010001 01000 00001 fj:5 fd:5
++fabs_d LA64 0000 00010001 01000 00010 fj:5 fd:5
++fneg_s LA64 0000 00010001 01000 00101 fj:5 fd:5
++fneg_d LA64 0000 00010001 01000 00110 fj:5 fd:5
++fsqrt_s LA64 0000 00010001 01000 10001 fj:5 fd:5
++fsqrt_d LA64 0000 00010001 01000 10010 fj:5 fd:5
++frecip_s LA64 0000 00010001 01000 10101 fj:5 fd:5
++frecip_d LA64 0000 00010001 01000 10110 fj:5 fd:5
++frsqrt_s LA64 0000 00010001 01000 11001 fj:5 fd:5
++frsqrt_d LA64 0000 00010001 01000 11010 fj:5 fd:5
++fscaleb_s LA64 0000 00010001 00001 fk:5 fj:5 fd:5
++fscaleb_d LA64 0000 00010001 00010 fk:5 fj:5 fd:5
++flogb_s LA64 0000 00010001 01000 01001 fj:5 fd:5
++flogb_d LA64 0000 00010001 01000 01010 fj:5 fd:5
++fcopysign_s LA64 0000 00010001 00101 fk:5 fj:5 fd:5
++fcopysign_d LA64 0000 00010001 00110 fk:5 fj:5 fd:5
++fclass_s LA64 0000 00010001 01000 01101 fj:5 fd:5
++fclass_d LA64 0000 00010001 01000 01110 fj:5 fd:5
++
++#
++# Floating point compare instruction
++#
++fcmp_cond_s LA64 0000 11000001 cond:5 fk:5 fj:5 00 cd:3 \
++    !constraints { $cond > 0 && $cond < 0x12; }
++fcmp_cond_d LA64 0000 11000010 cond:5 fk:5 fj:5 00 cd:3 \
++    !constraints { $cond > 0 && $cond < 0x12; }
++
++#
++# Floating point conversion instruction
++#
++fcvt_s_d LA64 0000 00010001 10010 00110 fj:5 fd:5
++fcvt_d_s LA64 0000 00010001 10010 01001 fj:5 fd:5
++ftintrm_w_s LA64 0000 00010001 10100 00001 fj:5 fd:5
++ftintrm_w_d LA64 0000 00010001 10100 00010 fj:5 fd:5
++ftintrm_l_s LA64 0000 00010001 10100 01001 fj:5 fd:5
++ftintrm_l_d LA64 0000 00010001 10100 01010 fj:5 fd:5
++ftintrp_w_s LA64 0000 00010001 10100 10001 fj:5 fd:5
++ftintrp_w_d LA64 0000 00010001 10100 10010 fj:5 fd:5
++ftintrp_l_s LA64 0000 00010001 10100 11001 fj:5 fd:5
++ftintrp_l_d LA64 0000 00010001 10100 11010 fj:5 fd:5
++ftintrz_w_s LA64 0000 00010001 10101 00001 fj:5 fd:5
++ftintrz_w_d LA64 0000 00010001 10101 00010 fj:5 fd:5
++ftintrz_l_s LA64 0000 00010001 10101 01001 fj:5 fd:5
++ftintrz_l_d LA64 0000 00010001 10101 01010 fj:5 fd:5
++ftintrne_w_s LA64 0000 00010001 10101 10001 fj:5 fd:5
++ftintrne_w_d LA64 0000 00010001 10101 10010 fj:5 fd:5
++ftintrne_l_s LA64 0000 00010001 10101 11001 fj:5 fd:5
++ftintrne_l_d LA64 0000 00010001 10101 11010 fj:5 fd:5
++ftint_w_s LA64 0000 00010001 10110 00001 fj:5 fd:5
++ftint_w_d LA64 0000 00010001 10110 00010 fj:5 fd:5
++ftint_l_s LA64 0000 00010001 10110 01001 fj:5 fd:5
++ftint_l_d LA64 0000 00010001 10110 01010 fj:5 fd:5
++ffint_s_w LA64 0000 00010001 11010 00100 fj:5 fd:5
++ffint_s_l LA64 0000 00010001 11010 00110 fj:5 fd:5
++ffint_d_w LA64 0000 00010001 11010 01000 fj:5 fd:5
++ffint_d_l LA64 0000 00010001 11010 01010 fj:5 fd:5
++frint_s LA64 0000 00010001 11100 10001 fj:5 fd:5
++frint_d LA64 0000 00010001 11100 10010 fj:5 fd:5
++
++#
++# Floating point move instruction
++#
++fmov_s LA64 0000 00010001 01001 00101 fj:5 fd:5
++fmov_d LA64 0000 00010001 01001 00110 fj:5 fd:5
++fsel LA64 0000 11010000 00 ca:3 fk:5 fj:5 fd:5
++movgr2fr_w LA64 0000 00010001 01001 01001 rj:5 fd:5 \
++    !constraints { $rj != 2; }
++movgr2fr_d LA64 0000 00010001 01001 01010 rj:5 fd:5 \
++    !constraints { $rj != 2; }
++movgr2frh_w LA64 0000 00010001 01001 01011 rj:5 fd:5 \
++    !constraints { $rj != 2; }
++movfr2gr_s LA64 0000 00010001 01001 01101 fj:5 rd:5 \
++    !constraints { $rd != 2; }
++movfr2gr_d LA64 0000 00010001 01001 01110 fj:5 rd:5 \
++    !constraints { $rd != 2; }
++movfrh2gr_s LA64 0000 00010001 01001 01111 fj:5 rd:5 \
++    !constraints { $rd != 2; }
++movfr2cf LA64 0000 00010001 01001 10100 fj:5 00 cd:3
++movcf2fr LA64 0000 00010001 01001 10101 00 cj:3 fd:5
++movgr2cf LA64 0000 00010001 01001 10110 rj:5 00 cd:3 \
++    !constraints { $rj != 2; }
++movcf2gr LA64 0000 00010001 01001 10111 00 cj:3 rd:5 \
++    !constraints { $rd != 2; }
++
++#
++# Floating point load/store instruction
++#
++fld_s LA64 0010 101100 si12:12 rj:5 fd:5 \
++    !constraints { $rj != 0 && $rj != 2; } \
++    !memory { reg_plus_imm($rj, sextract($si12, 12)); }
++fst_s LA64 0010 101101 si12:12 rj:5 fd:5 \
++    !constraints { $rj != 0 && $rj != 2; } \
++    !memory { reg_plus_imm($rj, sextract($si12, 12)); }
++fld_d LA64 0010 101110 si12:12 rj:5 fd:5 \
++    !constraints { $rj != 0 && $rj != 2; } \
++    !memory { reg_plus_imm($rj, sextract($si12, 12)); }
++fst_d LA64 0010 101111 si12:12 rj:5 fd:5 \
++    !constraints { $rj != 0 && $rj != 2; } \
++    !memory { reg_plus_imm($rj, sextract($si12, 12)); }
++fldx_s LA64 0011 10000011 00000 rk:5 rj:5 fd:5 \
++    !constraints { $rj != 0 && $rj != $rk && $rk != 2 && $rj != 2; } \
++    !memory { reg_plus_reg($rj, $rk); }
++fldx_d LA64 0011 10000011 01000 rk:5 rj:5 fd:5 \
++    !constraints { $rj != 0 && $rj != $rk && $rk != 2 && $rj != 2; } \
++    !memory { reg_plus_reg($rj, $rk); }
++fstx_s LA64 0011 10000011 10000 rk:5 rj:5 fd:5 \
++    !constraints { $rj != 0 && $rj != $rk && $rk != 2 && $rj != 2; } \
++    !memory { reg_plus_reg($rj, $rk); }
++fstx_d LA64 0011 10000011 11000 rk:5 rj:5 fd:5 \
++    !constraints { $rj != 0 && $rj != $rk && $rk != 2 && $rj != 2; } \
++    !memory { reg_plus_reg($rj, $rk); }
 -- 
 2.31.1
 
