@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 960465FE29C
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 21:23:35 +0200 (CEST)
-Received: from localhost ([::1]:48618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DAC95FE2AB
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 21:27:16 +0200 (CEST)
+Received: from localhost ([::1]:50558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj3nq-0004lf-NN
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 15:23:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58168)
+	id 1oj3rP-0007nc-5I
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 15:27:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oj3Qq-0006d0-8r
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:59:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59664)
+ id 1oj3Qz-0006eS-30
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:59:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22331)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oj3Qn-00046D-Si
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:59:48 -0400
+ id 1oj3Qv-00047L-SX
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:59:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665687584;
+ s=mimecast20190719; t=1665687589;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=quCuyXKTrlHuigrwt7ADWSd4FewbZ5zFO53N+o1pttE=;
- b=ajulfJb6ptgC/YMaLMdigwRsTVrjhHgrEAyHo5oz5futoDfHcyIfvhqiphcG2T6o+NS4IR
- uqVL3bzpucGBdl2pX9TTTFcS37baPEdkpfEnyMh/WGwP8hDt0ZT+DMI1IxVWIQEln0knsk
- SHVlHwMrWtf/8TwxxUouqoJBJN4KLnM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ckx8MLOJfZFv8z3iKrpQW9pb0/6EvGKP4ckVJF/JoW8=;
+ b=Fp9yi55UbQKGiMvhSw+US0Q/EFKTeUcuqIVSTS9120D5pNdE4lT8b7x4HlZGVbwP3Lp4XF
+ j49KGWOz92nqPGhqMt6i//vMuP9KNNf/2qRCsGGckXLduC2xW/rMabH/gnnBYl9CAd6/ee
+ 1T8Jp7J/0QtNAZSFeRm7Dm0CvJSBHWk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-131-WygD33I2Py-Zi-jQJ2JIaw-1; Thu, 13 Oct 2022 14:59:41 -0400
-X-MC-Unique: WygD33I2Py-Zi-jQJ2JIaw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-363-xmnZ1UNCNu6rS98iAGf79g-1; Thu, 13 Oct 2022 14:59:43 -0400
+X-MC-Unique: xmnZ1UNCNu6rS98iAGf79g-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 624D33C138A6;
- Thu, 13 Oct 2022 18:59:40 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F1D27811E75;
+ Thu, 13 Oct 2022 18:59:42 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 96B0A1415102;
- Thu, 13 Oct 2022 18:59:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4CAD74B3FCF;
+ Thu, 13 Oct 2022 18:59:42 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Fam Zheng <fam@euphon.net>, Markus Armbruster <armbru@redhat.com>,
@@ -63,14 +63,15 @@ Cc: Fam Zheng <fam@euphon.net>, Markus Armbruster <armbru@redhat.com>,
  "Richard W.M. Jones" <rjones@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
  "Denis V. Lunev" <den@openvz.org>
-Subject: [PATCH v7 07/13] block: return errors from bdrv_register_buf()
-Date: Thu, 13 Oct 2022 14:59:02 -0400
-Message-Id: <20221013185908.1297568-8-stefanha@redhat.com>
+Subject: [PATCH v7 08/13] numa: use QLIST_FOREACH_SAFE() for RAM block
+ notifiers
+Date: Thu, 13 Oct 2022 14:59:03 -0400
+Message-Id: <20221013185908.1297568-9-stefanha@redhat.com>
 In-Reply-To: <20221013185908.1297568-1-stefanha@redhat.com>
 References: <20221013185908.1297568-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -95,187 +96,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Registering an I/O buffer is only a performance optimization hint but it
-is still necessary to return errors when it fails.
-
-Later patches will need to detect errors when registering buffers but an
-immediate advantage is that error_report() calls are no longer needed in
-block driver .bdrv_register_buf() functions.
+Make list traversal work when a callback removes a notifier
+mid-traversal. This is a cleanup to prevent bugs in the future.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 ---
- include/block/block-global-state.h          |  5 ++-
- include/block/block_int-common.h            |  5 ++-
- include/sysemu/block-backend-global-state.h |  2 +-
- block/block-backend.c                       |  4 +--
- block/io.c                                  | 34 +++++++++++++++++++--
- block/nvme.c                                | 18 +++++------
- qemu-img.c                                  |  2 +-
- 7 files changed, 52 insertions(+), 18 deletions(-)
+ hw/core/numa.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/include/block/block-global-state.h b/include/block/block-global-state.h
-index 7901f35863..eba4ed23b4 100644
---- a/include/block/block-global-state.h
-+++ b/include/block/block-global-state.h
-@@ -246,8 +246,11 @@ void bdrv_del_child(BlockDriverState *parent, BdrvChild *child, Error **errp);
-  *
-  * Buffers must not overlap and they must be unregistered with the same <host,
-  * size> values that they were registered with.
-+ *
-+ * Returns: true on success, false on failure
-  */
--void bdrv_register_buf(BlockDriverState *bs, void *host, size_t size);
-+bool bdrv_register_buf(BlockDriverState *bs, void *host, size_t size,
-+                       Error **errp);
- void bdrv_unregister_buf(BlockDriverState *bs, void *host, size_t size);
- 
- void bdrv_cancel_in_flight(BlockDriverState *bs);
-diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-index 19798d0e77..9c569be162 100644
---- a/include/block/block_int-common.h
-+++ b/include/block/block_int-common.h
-@@ -433,8 +433,11 @@ struct BlockDriver {
-      * that it can do IOMMU mapping with VFIO etc., in order to get better
-      * performance. In the case of VFIO drivers, this callback is used to do
-      * DMA mapping for hot buffers.
-+     *
-+     * Returns: true on success, false on failure
-      */
--    void (*bdrv_register_buf)(BlockDriverState *bs, void *host, size_t size);
-+    bool (*bdrv_register_buf)(BlockDriverState *bs, void *host, size_t size,
-+                              Error **errp);
-     void (*bdrv_unregister_buf)(BlockDriverState *bs, void *host, size_t size);
- 
-     /*
-diff --git a/include/sysemu/block-backend-global-state.h b/include/sysemu/block-backend-global-state.h
-index 97f7dad2c3..6858e39cb6 100644
---- a/include/sysemu/block-backend-global-state.h
-+++ b/include/sysemu/block-backend-global-state.h
-@@ -106,7 +106,7 @@ void blk_io_limits_enable(BlockBackend *blk, const char *group);
- void blk_io_limits_update_group(BlockBackend *blk, const char *group);
- void blk_set_force_allow_inactivate(BlockBackend *blk);
- 
--void blk_register_buf(BlockBackend *blk, void *host, size_t size);
-+bool blk_register_buf(BlockBackend *blk, void *host, size_t size, Error **errp);
- void blk_unregister_buf(BlockBackend *blk, void *host, size_t size);
- 
- const BdrvChild *blk_root(BlockBackend *blk);
-diff --git a/block/block-backend.c b/block/block-backend.c
-index ae42474891..4f59664397 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -2545,10 +2545,10 @@ static void blk_root_drained_end(BdrvChild *child, int *drained_end_counter)
-     }
- }
- 
--void blk_register_buf(BlockBackend *blk, void *host, size_t size)
-+bool blk_register_buf(BlockBackend *blk, void *host, size_t size, Error **errp)
+diff --git a/hw/core/numa.c b/hw/core/numa.c
+index 31e6fe1caa..ea24a5fa8c 100644
+--- a/hw/core/numa.c
++++ b/hw/core/numa.c
+@@ -857,8 +857,9 @@ void ram_block_notifier_remove(RAMBlockNotifier *n)
+ void ram_block_notify_add(void *host, size_t size, size_t max_size)
  {
-     GLOBAL_STATE_CODE();
--    bdrv_register_buf(blk_bs(blk), host, size);
-+    return bdrv_register_buf(blk_bs(blk), host, size, errp);
- }
+     RAMBlockNotifier *notifier;
++    RAMBlockNotifier *next;
  
- void blk_unregister_buf(BlockBackend *blk, void *host, size_t size)
-diff --git a/block/io.c b/block/io.c
-index 4207648db6..a9673465dd 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -3277,17 +3277,45 @@ void bdrv_io_unplug(BlockDriverState *bs)
-     }
- }
- 
--void bdrv_register_buf(BlockDriverState *bs, void *host, size_t size)
-+/* Helper that undoes bdrv_register_buf() when it fails partway through */
-+static void bdrv_register_buf_rollback(BlockDriverState *bs,
-+                                       void *host,
-+                                       size_t size,
-+                                       BdrvChild *final_child)
-+{
-+    BdrvChild *child;
-+
-+    QLIST_FOREACH(child, &bs->children, next) {
-+        if (child == final_child) {
-+            break;
-+        }
-+
-+        bdrv_unregister_buf(child->bs, host, size);
-+    }
-+
-+    if (bs->drv && bs->drv->bdrv_unregister_buf) {
-+        bs->drv->bdrv_unregister_buf(bs, host, size);
-+    }
-+}
-+
-+bool bdrv_register_buf(BlockDriverState *bs, void *host, size_t size,
-+                       Error **errp)
+-    QLIST_FOREACH(notifier, &ram_list.ramblock_notifiers, next) {
++    QLIST_FOREACH_SAFE(notifier, &ram_list.ramblock_notifiers, next, next) {
+         if (notifier->ram_block_added) {
+             notifier->ram_block_added(notifier, host, size, max_size);
+         }
+@@ -868,8 +869,9 @@ void ram_block_notify_add(void *host, size_t size, size_t max_size)
+ void ram_block_notify_remove(void *host, size_t size, size_t max_size)
  {
-     BdrvChild *child;
+     RAMBlockNotifier *notifier;
++    RAMBlockNotifier *next;
  
-     GLOBAL_STATE_CODE();
-     if (bs->drv && bs->drv->bdrv_register_buf) {
--        bs->drv->bdrv_register_buf(bs, host, size);
-+        if (!bs->drv->bdrv_register_buf(bs, host, size, errp)) {
-+            return false;
-+        }
-     }
-     QLIST_FOREACH(child, &bs->children, next) {
--        bdrv_register_buf(child->bs, host, size);
-+        if (!bdrv_register_buf(child->bs, host, size, errp)) {
-+            bdrv_register_buf_rollback(bs, host, size, child);
-+            return false;
-+        }
-     }
-+    return true;
- }
- 
- void bdrv_unregister_buf(BlockDriverState *bs, void *host, size_t size)
-diff --git a/block/nvme.c b/block/nvme.c
-index 94b76b16f2..656624c585 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -1587,19 +1587,19 @@ static void nvme_aio_unplug(BlockDriverState *bs)
-     }
- }
- 
--static void nvme_register_buf(BlockDriverState *bs, void *host, size_t size)
-+static bool nvme_register_buf(BlockDriverState *bs, void *host, size_t size,
-+                              Error **errp)
+-    QLIST_FOREACH(notifier, &ram_list.ramblock_notifiers, next) {
++    QLIST_FOREACH_SAFE(notifier, &ram_list.ramblock_notifiers, next, next) {
+         if (notifier->ram_block_removed) {
+             notifier->ram_block_removed(notifier, host, size, max_size);
+         }
+@@ -879,8 +881,9 @@ void ram_block_notify_remove(void *host, size_t size, size_t max_size)
+ void ram_block_notify_resize(void *host, size_t old_size, size_t new_size)
  {
-     int ret;
--    Error *local_err = NULL;
-     BDRVNVMeState *s = bs->opaque;
+     RAMBlockNotifier *notifier;
++    RAMBlockNotifier *next;
  
--    ret = qemu_vfio_dma_map(s->vfio, host, size, false, NULL, &local_err);
--    if (ret) {
--        /* FIXME: we may run out of IOVA addresses after repeated
--         * bdrv_register_buf/bdrv_unregister_buf, because nvme_vfio_dma_unmap
--         * doesn't reclaim addresses for fixed mappings. */
--        error_reportf_err(local_err, "nvme_register_buf failed: ");
--    }
-+    /*
-+     * FIXME: we may run out of IOVA addresses after repeated
-+     * bdrv_register_buf/bdrv_unregister_buf, because nvme_vfio_dma_unmap
-+     * doesn't reclaim addresses for fixed mappings.
-+     */
-+    ret = qemu_vfio_dma_map(s->vfio, host, size, false, NULL, errp);
-+    return ret == 0;
- }
- 
- static void nvme_unregister_buf(BlockDriverState *bs, void *host, size_t size)
-diff --git a/qemu-img.c b/qemu-img.c
-index 9fe94df650..a3b64c88af 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -4570,7 +4570,7 @@ static int img_bench(int argc, char **argv)
-     data.buf = blk_blockalign(blk, buf_size);
-     memset(data.buf, pattern, data.nrreq * data.bufsize);
- 
--    blk_register_buf(blk, data.buf, buf_size);
-+    blk_register_buf(blk, data.buf, buf_size, &error_fatal);
- 
-     data.qiov = g_new(QEMUIOVector, data.nrreq);
-     for (i = 0; i < data.nrreq; i++) {
+-    QLIST_FOREACH(notifier, &ram_list.ramblock_notifiers, next) {
++    QLIST_FOREACH_SAFE(notifier, &ram_list.ramblock_notifiers, next, next) {
+         if (notifier->ram_block_resized) {
+             notifier->ram_block_resized(notifier, host, old_size, new_size);
+         }
 -- 
 2.37.3
 
