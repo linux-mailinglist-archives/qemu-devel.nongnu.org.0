@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 603705FD9A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 14:54:48 +0200 (CEST)
-Received: from localhost ([::1]:48178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 179905FD9CF
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 15:05:19 +0200 (CEST)
+Received: from localhost ([::1]:35040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oixjb-0000Ft-FQ
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 08:54:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42314)
+	id 1oixtl-0002Vi-SZ
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 09:05:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oixSu-0001Uo-5V
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:37:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58659)
+ id 1oixSw-0001W0-1g
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:37:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29166)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oixSr-00042e-S9
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:37:31 -0400
+ id 1oixSu-00043j-0g
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 08:37:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665664648;
+ s=mimecast20190719; t=1665664651;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YaEsHZiiA9mFtPtxQkW5psgLocTBBIsAORT10EacUr4=;
- b=cWPsy88FfHgGqLQarkpyCPR/BzuOXjw2uy/JyfwGAhjsiHsL2efmpn9iSHjmMCxPj3pX6q
- pw6A2p7T3XnJE2oyQuruU2AdcFLQOX7T2a3HzEYcvcPTroXmkEsdAkae8jtrWFZd7UhIRA
- eCqaI7SYWOrnPqcslyNuWNEINiDVDwU=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=MgW0FJhS1AR3ZxmsZrbLa+Ggxo1fR+5TjfuCh1jGz8E=;
+ b=ETnQqnbQWRr839CP2GggJmYTQlMxGoX1GfTTwtTG6eoKMLGoZjE2l2sH1t9UcVqU40Ll2L
+ abst3PEXuaYYiZ1DlRk3XVysP6gBSNBM5OZraAjo4TojZwxt3a6/TUjOJ14b02UFGWs9kV
+ DYsBdBy+m7yATgPflze2uyqKcpl78I4=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-670-dv8x64jwNFuWEp8oGw7ijw-1; Thu, 13 Oct 2022 08:37:27 -0400
-X-MC-Unique: dv8x64jwNFuWEp8oGw7ijw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- z11-20020a056402274b00b0045ca9510fc8so1411435edd.23
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 05:37:27 -0700 (PDT)
+ us-mta-665-pYoXuSjCPsGalUZQoshp8A-1; Thu, 13 Oct 2022 08:37:30 -0400
+X-MC-Unique: pYoXuSjCPsGalUZQoshp8A-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ dt13-20020a170907728d00b007825956d979so833229ejc.15
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 05:37:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YaEsHZiiA9mFtPtxQkW5psgLocTBBIsAORT10EacUr4=;
- b=2TERc/zRlbkxuM+IIS10W/bw6LzMTMAswJ0uZKEEiXjFpU+xny2+6nuNRqByqtZ9H3
- QS+BGYECEYLK1KXmR5yI+Sf0VHiRylkIEoMbGGxgNQDfBI3zCpH4112Q5l4AYeP5QNg2
- mABecJrNvrhb0mVmz4igGT4OjiwYk69xLpzJBAXH832lKNkRA96B4mf40oGVxPyBfblY
- VHjqkwNu7mMH3xxr4LG73289mKTb9ZuO/2ibS+hcDhs4HSxEQWOkEcWpgAHPsLLned25
- UyUxjjAszwZfUZuePYROyE9DN8T8vI7ukW9TI2MBAcktATTzaIcS6oxJnDFcCeouSMp6
- mYIw==
-X-Gm-Message-State: ACrzQf35PmaJOK0uY64PaL7bVtXRS5Xk5OElp6Z45SMLzpyBxYxVR5XH
- dmNv+4VGatPNA3MOYdSSDtU/+tiwd5uzhsNo6X/bd+X9gW7JQ1taWsaYiTt7MVwzclwcMaa/Sd7
- m5pGY/ydQvdiY7tyaflsbD0MZM2jIhGHsJPYK7DkKj3HFocJ9jw+v1XjGAojwvBRsZBk=
-X-Received: by 2002:a17:907:724d:b0:78d:acf4:4c57 with SMTP id
- ds13-20020a170907724d00b0078dacf44c57mr17032802ejc.516.1665664645944; 
- Thu, 13 Oct 2022 05:37:25 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7JEmqJF2BazrM7Pb2ehM0TNcLYLsFQUHF5Sf5ycyElxqDnqbev1Rd7VkNBBXQ7laVu2M6qLg==
-X-Received: by 2002:a17:907:724d:b0:78d:acf4:4c57 with SMTP id
- ds13-20020a170907724d00b0078dacf44c57mr17032792ejc.516.1665664645677; 
- Thu, 13 Oct 2022 05:37:25 -0700 (PDT)
+ bh=MgW0FJhS1AR3ZxmsZrbLa+Ggxo1fR+5TjfuCh1jGz8E=;
+ b=Lxb3d1rb/0fz1rgn5t0fLufPV6BdKiW/G2EkYwfejCo5npnwGs90VuyuyZPOiDrx6N
+ bvXfckl3jaDkBXMckx4HU3CYtH7J74+qplE2aLqUCgeQ1v2am0DVL7pKZnL5GLKnX4T9
+ Em7fPqs97FvuEvVlnUzckn+rpkiPMMGhKBQH1JLL06NMqN0jj2nuRH3tjkhK+j3peuap
+ liFZXLB2D24GKyfrwIwXRfq/mu/00+8YF2VHr7pv6X6+azHAhICWmpn3AIMlK3K393jp
+ EocAknAJgaC+IBJr2MINSd7SE01StC+Aeq1vSTQpVapr6U7hRp40W2sqNhiotPBRDOO0
+ +xKw==
+X-Gm-Message-State: ACrzQf0vWBbD/+GwpsxnLI35WLoAYxp5NPvmvxV7rk55wyK8jLZ3qptu
+ at6lYtx9Qh/mlwrXAVrDvdKAZKG9v4Y3V+T2glBnkZstDlndZa0dlczlar62FC3rxV7G+Qqdvzn
+ UDHo53Fu+LgFUDkw5oaG06/yDgyMnjA+irLY5IEmlSJe/O9EjvmAzjNYsU3yCJBPAWuI=
+X-Received: by 2002:a05:6402:414d:b0:451:73f0:e113 with SMTP id
+ x13-20020a056402414d00b0045173f0e113mr31926437eda.207.1665664648867; 
+ Thu, 13 Oct 2022 05:37:28 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4EOsGfwXGbXBZlA9NUA0vtOa3TbOu6gwAIqc6DbtSBIuGnonPuqlN9iii/PFBcYslP8dYM9w==
+X-Received: by 2002:a05:6402:414d:b0:451:73f0:e113 with SMTP id
+ x13-20020a056402414d00b0045173f0e113mr31926423eda.207.1665664648621; 
+ Thu, 13 Oct 2022 05:37:28 -0700 (PDT)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- y10-20020a170906558a00b0073d796a1043sm2931970ejp.123.2022.10.13.05.37.24
+ z1-20020a50eb41000000b00457c85bd890sm13260388edp.55.2022.10.13.05.37.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Oct 2022 05:37:25 -0700 (PDT)
+ Thu, 13 Oct 2022 05:37:27 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org,
 	afaria@redhat.com
-Subject: [PATCH 04/24] ssh: add missing coroutine_fn annotation
-Date: Thu, 13 Oct 2022 14:36:51 +0200
-Message-Id: <20221013123711.620631-5-pbonzini@redhat.com>
+Subject: [PATCH 05/24] block: add missing coroutine_fn annotation to prototypes
+Date: Thu, 13 Oct 2022 14:36:52 +0200
+Message-Id: <20221013123711.620631-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221013123711.620631-1-pbonzini@redhat.com>
 References: <20221013123711.620631-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -103,31 +103,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alberto Faria <afaria@redhat.com>
 
-ssh_write is only called from ssh_co_writev.
+The functions are marked coroutine_fn in the definition.
 
 Signed-off-by: Alberto Faria <afaria@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/ssh.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ include/block/block-io.h | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/block/ssh.c b/block/ssh.c
-index a2dc646536..ceb4f4c5bc 100644
---- a/block/ssh.c
-+++ b/block/ssh.c
-@@ -1129,9 +1129,9 @@ static coroutine_fn int ssh_co_readv(BlockDriverState *bs,
-     return ret;
- }
+diff --git a/include/block/block-io.h b/include/block/block-io.h
+index 492f95fc05..770ddeb7c8 100644
+--- a/include/block/block-io.h
++++ b/include/block/block-io.h
+@@ -83,12 +83,13 @@ void bdrv_aio_cancel(BlockAIOCB *acb);
+ void bdrv_aio_cancel_async(BlockAIOCB *acb);
  
--static int ssh_write(BDRVSSHState *s, BlockDriverState *bs,
--                     int64_t offset, size_t size,
--                     QEMUIOVector *qiov)
-+static coroutine_fn int ssh_write(BDRVSSHState *s, BlockDriverState *bs,
-+                                  int64_t offset, size_t size,
-+                                  QEMUIOVector *qiov)
- {
-     ssize_t r;
-     size_t written;
+ /* sg packet commands */
+-int bdrv_co_ioctl(BlockDriverState *bs, int req, void *buf);
++int coroutine_fn bdrv_co_ioctl(BlockDriverState *bs, int req, void *buf);
+ 
+ /* Ensure contents are flushed to disk.  */
+ int coroutine_fn bdrv_co_flush(BlockDriverState *bs);
+ 
+-int bdrv_co_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes);
++int coroutine_fn bdrv_co_pdiscard(BdrvChild *child, int64_t offset,
++                                  int64_t bytes);
+ bool bdrv_can_write_zeroes_with_unmap(BlockDriverState *bs);
+ int bdrv_block_status(BlockDriverState *bs, int64_t offset,
+                       int64_t bytes, int64_t *pnum, int64_t *map,
 -- 
 2.37.3
 
