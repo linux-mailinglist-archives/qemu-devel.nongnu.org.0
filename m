@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4BB35FD628
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 10:25:41 +0200 (CEST)
-Received: from localhost ([::1]:39234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B579B5FD63B
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 10:31:58 +0200 (CEST)
+Received: from localhost ([::1]:43488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oitXA-0002tH-ER
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 04:25:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34310)
+	id 1oitdF-0000BN-Pm
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 04:31:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois6E-0005Wk-2e
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois6E-0005Wo-Tn
  for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:53:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27217)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45242)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois69-0006u6-8p
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:53:42 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois69-0006uA-Hv
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:53:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1665644020;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ikFCKxzwAATzDhF0GILYkTYichUaaKdjHXijr3jLnvo=;
- b=EoLF5magveIwRDEZJCdIwz3A/3iHfXxO1E0AnUBbFtlO0xcqpmbj6V5cIW+n2/azQzu+R1
- bNC/pgR5OE1xB7VXxOZK5PD/ma3UcrBW59Lx4JFATvCa57Tfy36/Y6K2uzm9ToO1x7wb4b
- XD0M8VY6oB6KPhMLPLyAymqIgAeuMjQ=
+ bh=wNXvzNQ+lYdZkGoCnac3t6rOsi+CI0MNgBQej2TW9AI=;
+ b=VGQhMVhCdhLWdkeyEX66uTjjGddtoWHHTal8xakxV1MjgK6CbpjRPkfmyZmMrge2PSmWvt
+ j6UgmQEvJTLMRh6lfIgd83rK7NYtfv+FRnGLU1st8K+HxE3EGkNUa1J9fkOB235vnin0ES
+ JMIcvn32+im6to8aY9OwW/1fiHEFJ44=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-423-vYT_5PLqPiO1Wxj6klbu4g-1; Thu, 13 Oct 2022 02:53:34 -0400
-X-MC-Unique: vYT_5PLqPiO1Wxj6klbu4g-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-554-APy7Fw7qNsKoNvvidE1MOQ-1; Thu, 13 Oct 2022 02:53:37 -0400
+X-MC-Unique: APy7Fw7qNsKoNvvidE1MOQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 55FEA29DD994;
- Thu, 13 Oct 2022 06:53:18 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4775E3C0F235;
+ Thu, 13 Oct 2022 06:53:37 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.195.183])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CC8C6492B05;
- Thu, 13 Oct 2022 06:53:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B76287AE5;
+ Thu, 13 Oct 2022 06:53:36 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 19DF818009C2; Thu, 13 Oct 2022 08:52:25 +0200 (CEST)
+ id 5FD821800D40; Thu, 13 Oct 2022 08:52:25 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
@@ -53,19 +53,16 @@ Cc: David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Eric Blake <eblake@redhat.com>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- TangPeng <tangpeng@qianxin.com>
-Subject: [PULL 13/26] ui/vnc-clipboard: fix integer underflow in
- vnc_client_cut_text_ext
-Date: Thu, 13 Oct 2022 08:52:11 +0200
-Message-Id: <20221013065224.1864145-14-kraxel@redhat.com>
+ "Michael S. Tsirkin" <mst@redhat.com>, Eric Blake <eblake@redhat.com>
+Subject: [PULL 18/26] pci-ids: drop PCI_DEVICE_ID_VIRTIO_MEM
+Date: Thu, 13 Oct 2022 08:52:16 +0200
+Message-Id: <20221013065224.1864145-19-kraxel@redhat.com>
 In-Reply-To: <20221013065224.1864145-1-kraxel@redhat.com>
 References: <20221013065224.1864145-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -89,54 +86,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mauro Matteo Cascella <mcascell@redhat.com>
+Not needed for a virtio 1.0 device.  virtio_pci_device_plugged()
+overrides them anyway (so no functional change).
 
-Extended ClientCutText messages start with a 4-byte header. If len < 4,
-an integer underflow occurs in vnc_client_cut_text_ext. The result is
-used to decompress data in a while loop in inflate_buffer, leading to
-CPU consumption and denial of service. Prevent this by checking dlen in
-protocol_client_msg.
-
-Fixes: CVE-2022-3165
-Fixes: 0bf41cab93e5 ("ui/vnc: clipboard support")
-Reported-by: TangPeng <tangpeng@qianxin.com>
-Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
-Message-Id: <20220925204511.1103214-1-mcascell@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20221004112100.301935-3-kraxel@redhat.com>
 ---
- ui/vnc.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ include/hw/pci/pci.h       | 1 -
+ hw/virtio/virtio-mem-pci.c | 2 --
+ 2 files changed, 3 deletions(-)
 
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 6a05d061479e..acb3629cd8e2 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -2442,8 +2442,8 @@ static int protocol_client_msg(VncState *vs, uint8_t *data, size_t len)
-         if (len == 1) {
-             return 8;
-         }
-+        uint32_t dlen = abs(read_s32(data, 4));
-         if (len == 8) {
--            uint32_t dlen = abs(read_s32(data, 4));
-             if (dlen > (1 << 20)) {
-                 error_report("vnc: client_cut_text msg payload has %u bytes"
-                              " which exceeds our limit of 1MB.", dlen);
-@@ -2456,8 +2456,13 @@ static int protocol_client_msg(VncState *vs, uint8_t *data, size_t len)
-         }
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index 89eaca429389..b6aefb33fb17 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -85,7 +85,6 @@ extern bool pci_available;
+ #define PCI_DEVICE_ID_VIRTIO_9P          0x1009
+ #define PCI_DEVICE_ID_VIRTIO_VSOCK       0x1012
+ #define PCI_DEVICE_ID_VIRTIO_PMEM        0x1013
+-#define PCI_DEVICE_ID_VIRTIO_MEM         0x1015
  
-         if (read_s32(data, 4) < 0) {
--            vnc_client_cut_text_ext(vs, abs(read_s32(data, 4)),
--                                    read_u32(data, 8), data + 12);
-+            if (dlen < 4) {
-+                error_report("vnc: malformed payload (header less than 4 bytes)"
-+                             " in extended clipboard pseudo-encoding.");
-+                vnc_client_error(vs);
-+                break;
-+            }
-+            vnc_client_cut_text_ext(vs, dlen, read_u32(data, 8), data + 12);
-             break;
-         }
-         vnc_client_cut_text(vs, read_u32(data, 4), data + 8);
+ #define PCI_VENDOR_ID_REDHAT             0x1b36
+ #define PCI_DEVICE_ID_REDHAT_BRIDGE      0x0001
+diff --git a/hw/virtio/virtio-mem-pci.c b/hw/virtio/virtio-mem-pci.c
+index be2383b0c522..5c5c1e3ae3da 100644
+--- a/hw/virtio/virtio-mem-pci.c
++++ b/hw/virtio/virtio-mem-pci.c
+@@ -104,8 +104,6 @@ static void virtio_mem_pci_class_init(ObjectClass *klass, void *data)
+ 
+     k->realize = virtio_mem_pci_realize;
+     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+-    pcidev_k->vendor_id = PCI_VENDOR_ID_REDHAT_QUMRANET;
+-    pcidev_k->device_id = PCI_DEVICE_ID_VIRTIO_MEM;
+     pcidev_k->revision = VIRTIO_PCI_ABI_VERSION;
+     pcidev_k->class_id = PCI_CLASS_OTHERS;
+ 
 -- 
 2.37.3
 
