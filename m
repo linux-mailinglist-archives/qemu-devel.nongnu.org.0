@@ -2,81 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB52F5FE36D
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 22:41:27 +0200 (CEST)
-Received: from localhost ([::1]:35538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14AAA5FE367
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 22:38:59 +0200 (CEST)
+Received: from localhost ([::1]:51466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj51A-00060t-PX
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 16:41:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54402)
+	id 1oj4yo-0001e5-4y
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 16:38:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oj4vS-00044P-BY
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 16:35:33 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:42986)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oj4vP-0002Rk-M4
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 16:35:29 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id bp11so4598417wrb.9
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 13:35:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YjVk3CJ4slBuNZEdWsoYytNmRJoa5E5Dpq4oTROBO3w=;
- b=PLrviyVCUhdbFGzqE8gDxxEzDEOr5OiZs1g9jDdQZZBSxxPx7VULT9cFk8d8jRgvVd
- bkg8gz+cjA/rCfl4oGPLc43lfTKaIk1Ow/x55tcL6gVrcEwmAC770in12n90SY+9RbwZ
- GmWNM08W7vOUH8hNqY8Hj5HJuHkot21Bn4ZoIhOSzEW71/crsGO74BY8q5rZVzk5kVuZ
- HxtABMuk/a73uHkio+dRckFEUAf8IeGJvipF1hWx2uWeu2OZcfdarnR/pflDLtkVoWtV
- QuyP8UAhOyQ52RDYe6zKTPeBy7lbiuueFlo3MELO77KXDHXq+fzG0r8qisTzDnZ0VL4G
- 0+OQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oj4vi-0004Yr-Bp
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 16:35:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23651)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oj4vf-0002U7-RN
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 16:35:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665693343;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=l5DbuLu8CwonKsXmNZftoeN5nqpMQ1nN57o9wJiF3vE=;
+ b=WLSzBbYdSjVlX9mbm31Sf3kGqf5QwoBTF264RO0XYfvUDqZozvNCCFCerMMB6UPGRYes1d
+ o2WBg9OE+TFyFBhDZINJWQMBM1p8TxXoVkpB9XA84bGFEmFC6I0gWC+LSN8eo56GVrXJPW
+ s8N5vGVAeftBnhvV0YjhI+rpmeJImo8=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-258-YzTupqD6Ozi8Cm1e0PUWwA-1; Thu, 13 Oct 2022 16:35:41 -0400
+X-MC-Unique: YzTupqD6Ozi8Cm1e0PUWwA-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ ga20-20020a1709070c1400b0078db506c555so1394468ejc.6
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 13:35:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=YjVk3CJ4slBuNZEdWsoYytNmRJoa5E5Dpq4oTROBO3w=;
- b=2kt+uMof8IeFDCFjkmXnsK6QNNhnGUwNkWeihnAJFh0isiYTsWYgyaYJGv9yld0At6
- SW67mn+J9TLeb5kUalNDzkE2m5qMdtDJB0yvc4tIODiDkM46NscmLadgvmpoWqbV/IIu
- qNHUNVytiFASZ+YWD/8R+2eX6HIEQoXldhAWXWWkT2onBvyd4FOb8bQBMLp+CR/MFerr
- 8+zX8beefU41DCEB22OGaCaYA73PIfhXLDR5mBPb0GfO/hu/MS+IiLutkya2eKDvOowd
- GVeWtrp/2J9oO5alqzgIad+elzD5vGf0dBCld9iMLWuTdMLumug5O2/+6473ZSQ7wLcA
- tz3A==
-X-Gm-Message-State: ACrzQf2NiV2EfjxoJdaZ6iK9vG6F1Tq6Co212kJj1Yd/6AGDMbAVLQDQ
- mxTjdZ+48jfbJz085CBKoOEQBUlWHXz2tA==
-X-Google-Smtp-Source: AMsMyM60rZ6+XDDy/lqOcSGlHWcr1qGZMw/hghKdYlVrcnLkGEAE3/nmV2fGrpZzYPe6PgCnADeL4g==
-X-Received: by 2002:a5d:456b:0:b0:230:9e5b:c64c with SMTP id
- a11-20020a5d456b000000b002309e5bc64cmr1166676wrc.211.1665693324474; 
- Thu, 13 Oct 2022 13:35:24 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=l5DbuLu8CwonKsXmNZftoeN5nqpMQ1nN57o9wJiF3vE=;
+ b=y8gACGuZUGpYuPjf/EcokHOCjo+ma6PHdx6R6y8Q3g5kdo6dkrI3L1A+hB50YZL9GU
+ R+6/2ddoTqCqEe4fOlUu2/uuUv6PV90rQ0N6JBzKxWY9cHIZGIyx5Da34GiW/rjOnqQ4
+ 71HqEmatbIf4xF4l21Wn9G4dsslzBW6yPOJ7XXV+W6nsLkL18Yb+Wp67qHLW6aEG/q5s
+ ewSIGcpvL5YcKXaNq43wlwn8xvXic6McQs2Y854m8QSBi7bGrQIlQ/0Sd/yrKEnanW7M
+ MbwMNvpDQyx6bqYhWIX8FFJPcoOmwEIM9S1Jg5cPOt7mPrqgiVPFxDtU2O2ki1bzoNVs
+ g6+Q==
+X-Gm-Message-State: ACrzQf2Mey6oWYMM/GfzDb0105AP99pBIPKq7pw5+z59zXbwIF5PPD5C
+ T7sI61ZSSSe+D/S2/1hRSK3sj8+cwyal4WADcbpGH8sf8tzoRhQMGc4B/nep1C4XsJdct+NrvLw
+ 5bUyL45MuNQgbwKwWswqCRjUIsQez4QFsXAc5JoNEBGE4Zs4B6oIIZUfG/5IfSRgBEhI=
+X-Received: by 2002:a17:907:1c8e:b0:78d:fd24:a596 with SMTP id
+ nb14-20020a1709071c8e00b0078dfd24a596mr1132373ejc.534.1665693340192; 
+ Thu, 13 Oct 2022 13:35:40 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5hSQWYbLnTTlkXtU8kenFrWI+iQE+u43KVBQLbi9WNWeZsZzLs14tcBypspfUfgr6tZeWOgA==
+X-Received: by 2002:a17:907:1c8e:b0:78d:fd24:a596 with SMTP id
+ nb14-20020a1709071c8e00b0078dfd24a596mr1132353ejc.534.1665693339843; 
+ Thu, 13 Oct 2022 13:35:39 -0700 (PDT)
+Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- i17-20020a5d6311000000b0022e035a4e93sm357114wru.87.2022.10.13.13.35.23
+ 12-20020a170906300c00b0077a1dd3e7b7sm378253ejz.102.2022.10.13.13.35.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Oct 2022 13:35:24 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8ED981FFB7;
- Thu, 13 Oct 2022 21:35:23 +0100 (BST)
-References: <20221013131304.623740-1-pbonzini@redhat.com>
-User-agent: mu4e 1.9.1; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH] tests/tcg: include CONFIG_PLUGIN in config-host.mak
-Date: Thu, 13 Oct 2022 21:35:12 +0100
-In-reply-to: <20221013131304.623740-1-pbonzini@redhat.com>
-Message-ID: <8735brpilw.fsf@linaro.org>
+ Thu, 13 Oct 2022 13:35:39 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org
+Subject: [PATCH] configure: don't enable firmware for targets that are not
+ built
+Date: Thu, 13 Oct 2022 22:35:36 +0200
+Message-Id: <20221013203536.652512-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,33 +98,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This avoids the unfortunate effect of building pc-bios blobs
+even for targets the user isn't interested in.
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+Due to the bi-arch nature of x86 and PPC firmware, check for the
+desired target by hand, and don't just look for the compilation target
+in $target_list.
 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  configure | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/configure b/configure
-> index f4ff1cf305..a5af9c524f 100755
-> --- a/configure
-> +++ b/configure
-> @@ -2474,6 +2474,9 @@ echo "HOST_CC=3D$host_cc" >> $config_host_mak
->  if test -n "$gdb_bin"; then
->      echo "HAVE_GDB_BIN=3D$gdb_bin" >> $config_host_mak
->  fi
-> +if test "$plugins" =3D "yes" ; then
-> +    echo "CONFIG_PLUGIN=3Dy" >> $config_host_mak
-> +fi
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ configure | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
-Don't we already do that anyway?
+diff --git a/configure b/configure
+index baa69189f0..044eff431f 100755
+--- a/configure
++++ b/configure
+@@ -1841,6 +1841,16 @@ compute_target_variable() {
+   fi
+ }
+ 
++have_target() {
++  for i; do
++    case " $target_list " in
++      *" $i "*) return 0;;
++      *) ;;
++    esac
++  done
++  return 1
++}
++
+ # probe_target_compiler TARGET
+ #
+ # Look for a compiler for the given target, either native or cross.
+@@ -2261,8 +2271,9 @@ echo "# Automatically generated by configure - do not modify" > Makefile.prereqs
+ 
+ # Mac OS X ships with a broken assembler
+ roms=
+-if test "$targetos" != "darwin" && test "$targetos" != "sunos" && \
+-        test "$targetos" != "haiku" && test "$softmmu" = yes && \
++if have_target i386-softmmu x86_64-softmmu && \
++        test "$targetos" != "darwin" && test "$targetos" != "sunos" && \
++        test "$targetos" != "haiku" && \
+         probe_target_compiler i386-softmmu; then
+     roms="pc-bios/optionrom"
+     config_mak=pc-bios/optionrom/config.mak
+@@ -2271,7 +2282,8 @@ if test "$targetos" != "darwin" && test "$targetos" != "sunos" && \
+     write_target_makefile pc-bios/optionrom/all >> $config_mak
+ fi
+ 
+-if test "$softmmu" = yes && probe_target_compiler ppc-softmmu; then
++if have_target ppc-softmmu ppc64-softmmu && \
++        probe_target_compiler ppc-softmmu; then
+     roms="$roms pc-bios/vof"
+     config_mak=pc-bios/vof/config.mak
+     echo "# Automatically generated by configure - do not modify" > $config_mak
+@@ -2281,7 +2293,7 @@ fi
+ 
+ # Only build s390-ccw bios if the compiler has -march=z900 or -march=z10
+ # (which is the lowest architecture level that Clang supports)
+-if test "$softmmu" = yes && probe_target_compiler s390x-softmmu; then
++if have_target s390x-softmmu && probe_target_compiler s390x-softmmu; then
+   got_cross_cc=no
+   if test -n "$target_cc"; then
+     write_c_skeleton
+-- 
+2.37.3
 
->=20=20
->  tcg_tests_targets=3D
->  for target in $target_list; do
-
-
---=20
-Alex Benn=C3=A9e
 
