@@ -2,83 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCF545FE188
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 20:42:22 +0200 (CEST)
-Received: from localhost ([::1]:56008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E78A25FE1CC
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 20:44:22 +0200 (CEST)
+Received: from localhost ([::1]:42720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj39x-0001F0-Jg
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 14:42:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57400)
+	id 1oj3Bu-00034D-1z
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 14:44:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oj385-0006b8-0z; Thu, 13 Oct 2022 14:40:25 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:51974)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oj383-0001dh-3X; Thu, 13 Oct 2022 14:40:24 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id cl1so2683443pjb.1;
- Thu, 13 Oct 2022 11:40:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc:subject:date:message-id:reply-to;
- bh=s9heAK0+f3TTB/yifb8y+1GwxSs7xj8xyiac31cGOBo=;
- b=QeAI6tB1NfspYNkNA9hR7GqN/6Ox8Xv3kuhKthCMmnuPlhdi4FoZhnzDt5/p/TpAtQ
- PFf7H0s6ITAYsxAUfMFTyemABU5zsn0goo6WC2r5wZh0aV99+Ni8zrjVv7IZBqArTxla
- HP+fUkG37YVaXX9Ctg/FCoILjG6YgyqOXjjSmgwIEOtX/45gjHWMEAjyxNWmGSsWZ+FX
- Xy2c4VP8lqP39xyv6NQpF6xz5ppcfVEG4yUIdYG3aH+UU1RplS/qOJxNV6Mu7zS7XtIu
- qUipsMNzFE0EcK4Wk3VeY/ljw/El7/7ZuM/aM3Bf75xTwsjUTPm31/K4SsqrXY2XSzOO
- 5dCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=s9heAK0+f3TTB/yifb8y+1GwxSs7xj8xyiac31cGOBo=;
- b=6lodeqWulHgnwrpIQx7ntk4sSoj2GKnjkrLwYWcqndA1h7wUMUB/xZqthyDH/6jmzs
- rDnRD37Yh+uhhuQUB/89JRYPmtIVIhD09KB89gAci+ZRKq0fybMt7bTgwm6DaIQmVbkp
- YfVmbD7n4Q9oJJ53/vsElfO8LJ8xAn/KKaSokXTVemuzEjoyGZgMSY0CV6f62P7q4zLT
- XWFgKhc+YWApJIBkGtdTHUVRNLyGne0G1Ul3n3RqVc1HO8kTZ/RVtlR90TLaizXT7mry
- LoSHqVt7lucuLeVE2W8FvNSpv9AgS2cOI5xEBQntz+o668X4lwOrqlnODbOLHJvBtfu2
- Gu4g==
-X-Gm-Message-State: ACrzQf1wnDECjCfPOVNScD7jHjFEziJ336fW7t6lv0wxtAx3pF0SzigY
- wJ+CB9Go+jT5Jg+rAF0UGJY=
-X-Google-Smtp-Source: AMsMyM4lk/VfqOQRMGXCdClaNzXQ7Us7aIlgQ+kT8Z/iQnLIs773+rmUBghOtwQ4suiSX43s00BmAA==
-X-Received: by 2002:a17:90a:b103:b0:20d:69aa:a350 with SMTP id
- z3-20020a17090ab10300b0020d69aaa350mr12488578pjq.178.1665686420880; 
- Thu, 13 Oct 2022 11:40:20 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- p3-20020a170903248300b00176d218889esm164190plw.228.2022.10.13.11.40.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Oct 2022 11:40:20 -0700 (PDT)
-Message-ID: <838812c9-f03e-7d78-51c0-923ba4174a1d@amsat.org>
-Date: Thu, 13 Oct 2022 20:40:14 +0200
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oj3A4-0001TQ-Ii
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:42:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42250)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oj3A1-0001tY-7l
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:42:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665686544;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LpFPkv8H6rLLIOH6Y53REsmNoB8VNekRT3ZzF0TszpY=;
+ b=J61uLqvwRt13p9fguLMmb0n1jMYPVzqGKY/QoFg9mIvxmqTQYKoosPZMIr5DSBABlufOU3
+ p4UPZfuOp2gV62etjmzY82uOmJM8tff2bH4/xiKQsgPYazIYM+sGbqBRpQWIEmy8vrmYIk
+ nsXC4+MjVUirj/nh9jvn/qPr/l1pM4c=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-601-LJZOmT07Nk6tUhE62Ow0mA-1; Thu, 13 Oct 2022 14:42:21 -0400
+X-MC-Unique: LJZOmT07Nk6tUhE62Ow0mA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 95BFB3C138A4;
+ Thu, 13 Oct 2022 18:42:20 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 02C17112D416;
+ Thu, 13 Oct 2022 18:42:19 +0000 (UTC)
+Date: Thu, 13 Oct 2022 14:42:18 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Alberto Faria <afaria@redhat.com>
+Cc: qemu-devel@nongnu.org, Yanan Wang <wangyanan55@huawei.com>,
+ sgarzare@redhat.com, "Richard W.M. Jones" <rjones@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Hanna Reitz <hreitz@redhat.com>,
+ David Hildenbrand <david@redhat.com>, integration@gluster.org,
+ qemu-block@nongnu.org,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eric Blake <eblake@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Xie Changlong <xiechanglong.d@gmail.com>,
+ John Snow <jsnow@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Jeff Cody <codyprime@gmail.com>, "Denis V. Lunev" <den@openvz.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Wen Congyang <wencongyang2@huawei.com>
+Subject: Re: [PATCH v6 12/13] blkio: implement BDRV_REQ_REGISTERED_BUF
+ optimization
+Message-ID: <Y0hcCuwVPbz6jPJi@fedora>
+References: <20221006213507.645402-1-stefanha@redhat.com>
+ <20221006213507.645402-13-stefanha@redhat.com>
+ <CAELaAXySt1gpxOHPgtvuaQR49E6kuuGk4gQr8Ky0wO54ZNp0KA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.1
-Subject: Re: [PATCH] include/hw/scsi/scsi.h: Remove unused
- scsi_legacy_handle_cmdline() prototype
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>
-References: <20221013130500.967432-1-peter.maydell@linaro.org>
-In-Reply-To: <20221013130500.967432-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="6ltHTe5GhFIfDJMX"
+Content-Disposition: inline
+In-Reply-To: <CAELaAXySt1gpxOHPgtvuaQR49E6kuuGk4gQr8Ky0wO54ZNp0KA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.25,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,20 +98,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 13/10/22 15:05, Peter Maydell wrote:
-> In commit 1454509726719e0933c80 we removed the function
-> scsi_legacy_handle_cmdline() and all of its callers, but forgot to
-> delete the prototype from the header function.  Delete the prototype
-> too.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   include/hw/scsi/scsi.h | 1 -
->   1 file changed, 1 deletion(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+--6ltHTe5GhFIfDJMX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Oct 10, 2022 at 02:57:47PM +0100, Alberto Faria wrote:
+> On Thu, Oct 6, 2022 at 10:35 PM Stefan Hajnoczi <stefanha@redhat.com> wro=
+te:
+> > @@ -620,15 +767,39 @@ static int blkio_file_open(BlockDriverState *bs, =
+QDict *options, int flags,
+> >          return ret;
+> >      }
+> >
+> > +    ret =3D blkio_get_bool(s->blkio,
+> > +                         "mem-regions-pinned",
+>=20
+> Should the property be named "may-pin-mem-regions" or similar? For
+> drivers like vhost-user we may not be able to determine for sure
+> whether memory regions will be pinned, and making that uncertainty
+> explicit in the name may be a good idea, for instance to ensure users
+> don't decide to rely on memory regions being pinned when the property
+> is true.
+
+Sounds good to me. I'll change the property name in this patch and then
+send a libblkio patch that adds the property.
+
+Stefan
+
+--6ltHTe5GhFIfDJMX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNIXAoACgkQnKSrs4Gr
+c8hHQgf/VPSQVRVAxuDaxpyG02CMVZAW7YO9fuzJ4vuhmFx+T0J+uuvYXO4UnVr8
+Fbm/08zG/5j8kcY5dau9TRYHkhxBg17+CSMmpvl9uiAjl3PlVsjLz5mW1GBc3bo+
+xMP+ibvP2627rNxq727M0ho5tGQZyykg1vGlamujtEkvxroBgpJNewKaWBuGGBcW
+J0z3RQslcCf6PRP9nfGZilWmtx4OdWiLHJJFL14UrS0EtX9DoropALiRT1xJ8HVQ
+4QCqounwPeXb54K6BZxJQx/CLPGa6ihNhWMCeAcqMxaSepQypCjLoEMCOUwP1XZL
+LzdxtXWG5brJLYbFaNWSbSQ8QIXE/Q==
+=VPUA
+-----END PGP SIGNATURE-----
+
+--6ltHTe5GhFIfDJMX--
 
 
