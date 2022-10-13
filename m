@@ -2,40 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F2495FD69C
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 11:06:31 +0200 (CEST)
-Received: from localhost ([::1]:46162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD5FE5FD67C
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 10:55:03 +0200 (CEST)
+Received: from localhost ([::1]:39266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiuAg-0006NJ-FN
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 05:06:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51850)
+	id 1oitza-00066h-75
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 04:55:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1oitaV-00060E-0K
+ id 1oitaT-000608-W8
  for qemu-devel@nongnu.org; Thu, 13 Oct 2022 04:29:07 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:53716 helo=loongson.cn)
+Received: from mail.loongson.cn ([114.242.206.163]:53728 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1oitaR-0004Pe-9B
+ (envelope-from <gaosong@loongson.cn>) id 1oitaR-0004QF-GX
  for qemu-devel@nongnu.org; Thu, 13 Oct 2022 04:29:05 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxvmtGzEdjCdwsAA--.18330S2; 
- Thu, 13 Oct 2022 16:28:54 +0800 (CST)
+ AQAAf8DxvmtGzEdjCdwsAA--.18330S3; 
+ Thu, 13 Oct 2022 16:28:57 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, peter.maydell@linaro.org,
  alex.bennee@linaro.org, maobibo@loongson.cn
-Subject: [RISU PATCH v2 0/5] Add LoongArch architectures support
-Date: Thu, 13 Oct 2022 16:28:49 +0800
-Message-Id: <20221013082854.878546-1-gaosong@loongson.cn>
+Subject: [RISU PATCH v2 1/5] risu: Use alternate stack
+Date: Thu, 13 Oct 2022 16:28:50 +0800
+Message-Id: <20221013082854.878546-2-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20221013082854.878546-1-gaosong@loongson.cn>
+References: <20221013082854.878546-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxvmtGzEdjCdwsAA--.18330S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7AF4DCw48AFW3XF4DZry8AFb_yoW8Gw4kpr
- W3ury5Gr18Jry2qwsxKayUWrnYvr4xWry7WFnIgr1xGrW0yr1vqr18tFyDZF15Aay8Wry0
- vr18tw1UWF13JFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf8DxvmtGzEdjCdwsAA--.18330S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7WFWDGFWUuw18tFWDKw13XFb_yoW8Gr47pw
+ 43Ca4ftrWrJ3y7X39xGrWkW393Jrn7J34UuFsxZ3y7Z3yDGr90v3WDGFy5uFyxKFs8A34D
+ ArsYk3W8uF4DCrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -60,52 +62,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-hi,
+We can use alternate stack, so that we can use sp register as intput/ouput register.
+I had tested aarch64/LoongArch architecture.
 
-This series adds LoongArch architectures support, we had tested two
-mode:
-1. LoongArch host server +  LoongArch host client;
-2. LoongArch host server  + qemu client.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Song Gao <gaosong@loongson.cn>
+---
+ risu.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-You can find all LoongArch instructions at [1].
-This series not contains all LoongArch instructions,
-such as pcadd, syscalls, rdtime and jumps.
-
-[1]:
-https://github.com/loongson/LoongArch-Documentation/releases/download/2022.08.12/LoongArch-Vol1-v1.02-EN.pdf
-
-V2:
-
-- rewrite write_mov_ri();
-- get_risuop return a RisuOp;
-- test again with 1 million instructions.
-
-Thanks.
-Song Gao
-
-Song Gao (5):
-  risu: Use alternate stack
-  loongarch: Add LoongArch basic test support
-  loongarch: Implement risugen module
-  loongarch: Add risufile with loongarch instructions
-  loongarch: Add block 'safefloat' and nanbox_s()
-
- loongarch64.risu           | 612 +++++++++++++++++++++++++++++++++++++
- risu.c                     |  16 +-
- risu_loongarch64.c         |  50 +++
- risu_reginfo_loongarch64.c | 183 +++++++++++
- risu_reginfo_loongarch64.h |  25 ++
- risugen                    |   2 +-
- risugen_loongarch64.pm     | 509 ++++++++++++++++++++++++++++++
- test_loongarch64.s         |  92 ++++++
- 8 files changed, 1487 insertions(+), 2 deletions(-)
- create mode 100644 loongarch64.risu
- create mode 100644 risu_loongarch64.c
- create mode 100644 risu_reginfo_loongarch64.c
- create mode 100644 risu_reginfo_loongarch64.h
- create mode 100644 risugen_loongarch64.pm
- create mode 100644 test_loongarch64.s
-
+diff --git a/risu.c b/risu.c
+index 1c096a8..714074e 100644
+--- a/risu.c
++++ b/risu.c
+@@ -329,7 +329,7 @@ static void set_sigill_handler(void (*fn) (int, siginfo_t *, void *))
+     memset(&sa, 0, sizeof(struct sigaction));
+ 
+     sa.sa_sigaction = fn;
+-    sa.sa_flags = SA_SIGINFO;
++    sa.sa_flags = SA_SIGINFO | SA_ONSTACK;
+     sigemptyset(&sa.sa_mask);
+     if (sigaction(SIGILL, &sa, 0) != 0) {
+         perror("sigaction");
+@@ -550,6 +550,7 @@ int main(int argc, char **argv)
+     char *trace_fn = NULL;
+     struct option *longopts;
+     char *shortopts;
++    stack_t ss;
+ 
+     longopts = setup_options(&shortopts);
+ 
+@@ -617,6 +618,19 @@ int main(int argc, char **argv)
+ 
+     load_image(imgfile);
+ 
++    /* create alternate stack */
++    ss.ss_sp = malloc(SIGSTKSZ);
++    if (ss.ss_sp == NULL) {
++        perror("malloc");
++        exit(EXIT_FAILURE);
++    }
++    ss.ss_size = SIGSTKSZ;
++    ss.ss_flags = 0;
++    if (sigaltstack(&ss, NULL) == -1) {
++        perror("sigaltstac");
++        exit(EXIT_FAILURE);
++    }
++
+     /* E.g. select requested SVE vector length. */
+     arch_init();
+ 
 -- 
 2.31.1
 
