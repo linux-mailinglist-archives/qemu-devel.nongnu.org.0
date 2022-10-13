@@ -2,85 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E90B5FDF27
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 19:40:56 +0200 (CEST)
-Received: from localhost ([::1]:55064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 302FC5FDF43
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 19:47:39 +0200 (CEST)
+Received: from localhost ([::1]:53864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj2CV-0005AM-8n
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 13:40:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33610)
+	id 1oj2Iz-00010E-Dq
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 13:47:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oj25n-0001Qj-9X
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 13:34:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53135)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oj25Y-0008GH-Ct
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 13:33:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665682419;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mQCBEtPrLUnUdMQk4VuE5iGpnh0hhrHyo6hbmOyKyMg=;
- b=ScY3zsmuXICFYxT7XY2EKo+abSQzn2rONCrVY5VLt1URNRIhhcH6fFLFSQr9KPRas4EBrA
- WMbHcPkLJ5hhu0KcRyVeNHv7mWXBdyDNEQ9XyuxXrj4NRrY5HYCqpT8oAUcxG9ipz5KZ5J
- +yxfYVc/3yHjO8Iw0+exI2PaGBwVSYw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-259-koaOlrloMnu4fGv9fgmIFg-1; Thu, 13 Oct 2022 13:33:30 -0400
-X-MC-Unique: koaOlrloMnu4fGv9fgmIFg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- n19-20020a7bcbd3000000b003c4a72334e7so1131175wmi.8
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 10:33:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oj2CP-0005Dl-Br
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 13:40:49 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:41914)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oj2CM-0000u4-V8
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 13:40:49 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ fn7-20020a05600c688700b003b4fb113b86so1980864wmb.0
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 10:40:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=8FM5XpZ8DTUHfnBF91yhMamKEwGHnIFRRp55KtGJXy0=;
+ b=hkmDy0nluB2ty51U98GJcr4Owod3yzVZHGy/sP0x4yiDZ/caccH1ZEkZP9KVT9POaG
+ TjwMW7oZbfyRgiDFgmIJ0S6wQhNjoG2cQj86yTmBfT3kaZ46D/WiH8vhrRYmNVrWFNaL
+ iiuZ4KNywDJSDlDRM6iVMnhfWm+q91xvFS7E9/v0BQalXN7lY/76LEZF5lbrTYwojDGU
+ 17xj8xwJR9Pkyj2Hx4aCm0xZrTL1jnq7Fkzs7EmLlCm555KJsWAJUPYWvwmnIuBzNXXb
+ gwnNNI2Qd7kX7jZyL2ZZJrryDmGf/yLDeeoybknCEYxu56vit7ItVLeTAVpxUjqwxRtG
+ k1Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mQCBEtPrLUnUdMQk4VuE5iGpnh0hhrHyo6hbmOyKyMg=;
- b=vDZ92NHfciVwpsTe0+INrdJUIiPmco5Bh69Q4pmaE+VEzkS2QsxDAmgxJXrgM6ceiq
- gojrXAMUaAp8dGxyJ8S8lsVX+VH0KI+s9DmDWNaL6g+v/0h/ShzVOYeIoNbNVdCfUlTQ
- VOkOCp9d7x4iEyTFDC3WIcba2zZttbdcaig2mjbA8B8R2Yg5q7rM377plspH+9vKxZXb
- /Fb6QOb03MrV/UlT0pvD+HfeywYoBIbX+A2DdbQa8BJyIa+2S4DjKifeyNxns6a/RXsX
- DFkbB50HhQDCzzlHNVL7RqXv6oA92QtqFCmASVrMpvYlwIeMJeoWCC0V3Dp+oXzX9BlB
- lncQ==
-X-Gm-Message-State: ACrzQf1qFxcZM4S4PG22v1ZC4gHgV3k4ADYjLcw9DygI2M6Ul03QNUCB
- gQV5YvXiBLkOhQJz41lTLX4YT9ZBWBSE9Dh84cAUxBShW0a38GSzS40H8Jb9i6xBJeqC5ZsjWyj
- Hglqr3OqCoOsFBU8=
-X-Received: by 2002:a1c:ed0b:0:b0:3c1:d16e:a827 with SMTP id
- l11-20020a1ced0b000000b003c1d16ea827mr641740wmh.127.1665682409251; 
- Thu, 13 Oct 2022 10:33:29 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5dsxdrf5bN+HVc+7ul3HQsy85ZwWkBAGgXny3x5rsbozZ4H4358Hab2aR8RgZmLHUGrGTdxA==
-X-Received: by 2002:a1c:ed0b:0:b0:3c1:d16e:a827 with SMTP id
- l11-20020a1ced0b000000b003c1d16ea827mr641724wmh.127.1665682409011; 
- Thu, 13 Oct 2022 10:33:29 -0700 (PDT)
-Received: from redhat.com ([2.54.162.123]) by smtp.gmail.com with ESMTPSA id
- bd21-20020a05600c1f1500b003b95ed78275sm106997wmb.20.2022.10.13.10.33.27
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=8FM5XpZ8DTUHfnBF91yhMamKEwGHnIFRRp55KtGJXy0=;
+ b=QaRHr737inqll65oCfKiObz6+ChITQ17CcstmCFsnKpiH5QRVgNxrVMlRSS+9WAn38
+ OnJR5qxqKMmSRKN8t6Ys7m5xYKztDOIIT8w3qSTKtCkHZgeMDWkWeoDvZSpi1v0GpgYR
+ ZbmoMNDKUrBm964gEmBbCKNMZYohlDLIyu33TzXy1+fTTbmbrrUQgW4xUuuAom0S9rXh
+ H0nJjVMv9QdTonae1j4/7bOFtW6+963amIwvQdTYUhznK8heGz6EEMJ/lFgU7piLA3QQ
+ 8KT2KlGDkIa7yEld1ZSlRi4wkZF8cyINBtUXXLcsGH/7e09aLiohSTvpwGuASrgLkZqs
+ wgCQ==
+X-Gm-Message-State: ACrzQf0Z9Tzy4FTu4NPrbP3bdUe9CoYFNTRD3NPp+oPcVukehJ7FYKFv
+ l/yOEp4gswa1HJm99AwJkr6mig==
+X-Google-Smtp-Source: AMsMyM7vit7B3i9xLzS3X4FehG1ZrlG5X7GrRXellVDQIptCqyMHNq+C806QBrHn85GjP1RZPJr4PA==
+X-Received: by 2002:a05:600c:a09:b0:3b5:2f6b:c7c5 with SMTP id
+ z9-20020a05600c0a0900b003b52f6bc7c5mr665125wmp.141.1665682845096; 
+ Thu, 13 Oct 2022 10:40:45 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ iw6-20020a05600c54c600b003c6c3fb3cf6sm118482wmb.18.2022.10.13.10.40.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Oct 2022 10:33:28 -0700 (PDT)
-Date: Thu, 13 Oct 2022 13:33:25 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Sergio Lopez <slp@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH] hw/i386: Use device_cold_reset() to reset the APIC
-Message-ID: <20221013133311-mutt-send-email-mst@kernel.org>
-References: <20221013171926.1447899-1-peter.maydell@linaro.org>
+ Thu, 13 Oct 2022 10:40:44 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: John Snow <jsnow@redhat.com>,
+	qemu-block@nongnu.org
+Subject: [PATCH] hw/ide/microdrive: Use device_cold_reset() for self-resets
+Date: Thu, 13 Oct 2022 18:40:42 +0100
+Message-Id: <20221013174042.1602926-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221013171926.1447899-1-peter.maydell@linaro.org>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,57 +90,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 13, 2022 at 06:19:26PM +0100, Peter Maydell wrote:
-> The semantic difference between the deprecated device_legacy_reset()
-> function and the newer device_cold_reset() function is that the new
-> function resets both the device itself and any qbuses it owns,
-> whereas the legacy function resets just the device itself and nothing
-> else.
-> 
-> The pc_machine_reset() and microvm_machine_reset() functions use
-> device_legacy_reset() to reset the APIC; this is an APICCommonState
-> and does not have any qbuses, so for this purpose the two functions
-> behave identically and we can stop using the deprecated one.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Currently the microdrive code uses device_legacy_reset() to reset
+itself, and has its reset method call reset on the IDE bus as the
+last thing it does.  Switch to using device_cold_reset().
 
+The only concrete microdrive device is the TYPE_DSCM1XXXX; it is not
+command-line pluggable, so it is used only by the old pxa2xx Arm
+boards 'akita', 'borzoi', 'spitz', 'terrier' and 'tosa'.
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+You might think that this would result in the IDE bus being
+reset automatically, but it does not, because the IDEBus type
+does not set the BusClass::reset method. Instead the controller
+must explicitly call ide_bus_reset(). We therefore leave that
+call in md_reset().
 
-> ---
-> NB: tested only with 'make check' and 'make check-avocado'
-> 
->  hw/i386/microvm.c | 2 +-
->  hw/i386/pc.c      | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-> index 7fe8cce03e9..0b08010bf0a 100644
-> --- a/hw/i386/microvm.c
-> +++ b/hw/i386/microvm.c
-> @@ -486,7 +486,7 @@ static void microvm_machine_reset(MachineState *machine)
->          cpu = X86_CPU(cs);
->  
->          if (cpu->apic_state) {
-> -            device_legacy_reset(cpu->apic_state);
-> +            device_cold_reset(cpu->apic_state);
->          }
->      }
->  }
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 566accf7e60..2b2d0bc2b33 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -1860,7 +1860,7 @@ static void pc_machine_reset(MachineState *machine)
->          cpu = X86_CPU(cs);
->  
->          if (cpu->apic_state) {
-> -            device_legacy_reset(cpu->apic_state);
-> +            device_cold_reset(cpu->apic_state);
->          }
->      }
->  }
-> -- 
-> 2.25.1
+Note also that because the PCMCIA card device is a direct subclass of
+TYPE_DEVICE and we don't model the PCMCIA controller-to-card
+interface as a qbus, PCMCIA cards are not on any qbus and so they
+don't get reset when the system is reset.  The reset only happens via
+the dscm1xxxx_attach() and dscm1xxxx_detach() functions during
+machine creation.
+
+Because our aim here is merely to try to get rid of calls to the
+device_legacy_reset() function, we leave these other dubious
+reset-related issues alone.  (They all stem from this code being
+absolutely ancient.)
+
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/ide/microdrive.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/hw/ide/microdrive.c b/hw/ide/microdrive.c
+index 6df9b4cbbe1..56c5be36551 100644
+--- a/hw/ide/microdrive.c
++++ b/hw/ide/microdrive.c
+@@ -175,7 +175,7 @@ static void md_attr_write(PCMCIACardState *card, uint32_t at, uint8_t value)
+     case 0x00:	/* Configuration Option Register */
+         s->opt = value & 0xcf;
+         if (value & OPT_SRESET) {
+-            device_legacy_reset(DEVICE(s));
++            device_cold_reset(DEVICE(s));
+         }
+         md_interrupt_update(s);
+         break;
+@@ -318,7 +318,7 @@ static void md_common_write(PCMCIACardState *card, uint32_t at, uint16_t value)
+     case 0xe:	/* Device Control */
+         s->ctrl = value;
+         if (value & CTRL_SRST) {
+-            device_legacy_reset(DEVICE(s));
++            device_cold_reset(DEVICE(s));
+         }
+         md_interrupt_update(s);
+         break;
+@@ -543,7 +543,7 @@ static int dscm1xxxx_attach(PCMCIACardState *card)
+     md->attr_base = pcc->cis[0x74] | (pcc->cis[0x76] << 8);
+     md->io_base = 0x0;
+ 
+-    device_legacy_reset(DEVICE(md));
++    device_cold_reset(DEVICE(md));
+     md_interrupt_update(md);
+ 
+     return 0;
+@@ -553,7 +553,7 @@ static int dscm1xxxx_detach(PCMCIACardState *card)
+ {
+     MicroDriveState *md = MICRODRIVE(card);
+ 
+-    device_legacy_reset(DEVICE(md));
++    device_cold_reset(DEVICE(md));
+     return 0;
+ }
+ 
+-- 
+2.25.1
 
 
