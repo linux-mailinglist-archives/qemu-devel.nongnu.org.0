@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E13A5FD5C7
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 09:54:54 +0200 (CEST)
-Received: from localhost ([::1]:39530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37E5A5FD5B7
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 09:48:46 +0200 (CEST)
+Received: from localhost ([::1]:48046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oit3N-00010f-2p
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 03:54:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59588)
+	id 1oisxR-0006DW-A3
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 03:48:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois5f-0005SV-KM
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:53:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39618)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois60-0005Tv-M1
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:53:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35159)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois5e-0006qA-5H
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:53:11 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ois5x-0006rb-Uj
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 02:53:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665643989;
+ s=mimecast20190719; t=1665644009;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3NjuP7msiZQKgw04bfFBCvc+opey6RGEMdNOIBvRLWI=;
- b=iP0thDt4BkUZgVXrqkPd/LX5zFZgr97458fcNmVS3lIIxCu+FBhuZWCuBye87eeiOsS/Ku
- 6pjzpht+sQj99ti8tlZ1Ta3eU+oL5UPCpQke8bs+UZSlpuAjpXEQ0Esl6lw5Swy2D1WjuB
- gXoxQQMaaciDdNBLIBjotKGpnovWH0I=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VaoOLD866Vv+iJJJCfZMtkIRjPcnzma/W44vHVgYlKo=;
+ b=XD7gVDsjY5IIzqnuk9x7Qzl4B0yw1xA+5CaJDF5G0elxMkoTC8ILENMbvOw3YR1B525xm5
+ PlAba8zC4bFpgg+kR7d9v9OlMoDM0RS41REeEMfRnu0qcxIr+7oocEnhZ9FLn0RFgI7K8Z
+ bOUWU5sQ2IM2Vd6OwBHEAD8pB3R3Tyk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-658-twVefpS_OcyZ9tGuOD6JJA-1; Thu, 13 Oct 2022 02:53:05 -0400
-X-MC-Unique: twVefpS_OcyZ9tGuOD6JJA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-6-X32Mbye9MHqJwt2nPS02iA-1; Thu, 13 Oct 2022 02:53:25 -0400
+X-MC-Unique: X32Mbye9MHqJwt2nPS02iA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BAE138631F4;
- Thu, 13 Oct 2022 06:53:04 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BA8F81C075AA;
+ Thu, 13 Oct 2022 06:53:09 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.195.183])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 305712166BC0;
- Thu, 13 Oct 2022 06:52:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 06BC6492B0F;
+ Thu, 13 Oct 2022 06:52:58 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D2FDA180093B; Thu, 13 Oct 2022 08:52:24 +0200 (CEST)
+ id DFCC118009A2; Thu, 13 Oct 2022 08:52:24 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
@@ -55,15 +55,15 @@ Cc: David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Eric Blake <eblake@redhat.com>,
  =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
-Subject: [PULL 09/26] audio: rename audio_sw_bytes_free()
-Date: Thu, 13 Oct 2022 08:52:07 +0200
-Message-Id: <20221013065224.1864145-10-kraxel@redhat.com>
+Subject: [PULL 10/26] audio: refactor audio_get_avail()
+Date: Thu, 13 Oct 2022 08:52:08 +0200
+Message-Id: <20221013065224.1864145-11-kraxel@redhat.com>
 In-Reply-To: <20221013065224.1864145-1-kraxel@redhat.com>
 References: <20221013065224.1864145-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -90,66 +90,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-Rename and refactor audio_sw_bytes_free(). This function is not
-limited to calculate the free audio buffer size. The renamed
-function returns the number of frames instead of bytes.
+Split out the code in audio_get_avail() that calculates the
+buffer size that the audio frontend can read. This is similar
+to the code changes in audio_get_free().
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220923183640.8314-9-vr_qemu@t-online.de>
+Message-Id: <20220923183640.8314-10-vr_qemu@t-online.de>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/audio.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+ audio/audio.c | 24 +++++++++++++++++++-----
+ 1 file changed, 19 insertions(+), 5 deletions(-)
 
 diff --git a/audio/audio.c b/audio/audio.c
-index 7213f8bf07ca..28262ffd58a5 100644
+index 28262ffd58a5..ed2b9d5f7e15 100644
 --- a/audio/audio.c
 +++ b/audio/audio.c
-@@ -1010,9 +1010,16 @@ static size_t audio_get_avail (SWVoiceIn *sw)
-     return (((int64_t) live << 32) / sw->ratio) * sw->info.bytes_per_frame;
+@@ -986,6 +986,18 @@ void AUD_set_active_in (SWVoiceIn *sw, int on)
+     }
  }
  
--static size_t audio_sw_bytes_free(SWVoiceOut *sw, size_t free)
 +/**
-+ * audio_frontend_frames_out() - returns the number of frames needed to
-+ * get frames_out frames after resampling
++ * audio_frontend_frames_in() - returns the number of frames the resampling
++ * code generates from frames_in frames
 + *
-+ * @sw: audio playback frontend
-+ * @frames_out: number of frames
++ * @sw: audio recording frontend
++ * @frames_in: number of frames
 + */
-+static size_t audio_frontend_frames_out(SWVoiceOut *sw, size_t frames_out)
++static size_t audio_frontend_frames_in(SWVoiceIn *sw, size_t frames_in)
++{
++    return ((int64_t)frames_in << 32) / sw->ratio;
++}
++
+ static size_t audio_get_avail (SWVoiceIn *sw)
  {
--    return (((int64_t)free << 32) / sw->ratio) * sw->info.bytes_per_frame;
-+    return ((int64_t)frames_out << 32) / sw->ratio;
+     size_t live;
+@@ -1002,12 +1014,12 @@ static size_t audio_get_avail (SWVoiceIn *sw)
+     }
+ 
+     ldebug (
+-        "%s: get_avail live %zu ret %" PRId64 "\n",
++        "%s: get_avail live %zu frontend frames %zu\n",
+         SW_NAME (sw),
+-        live, (((int64_t) live << 32) / sw->ratio) * sw->info.bytes_per_frame
++        live, audio_frontend_frames_in(sw, live)
+         );
+ 
+-    return (((int64_t) live << 32) / sw->ratio) * sw->info.bytes_per_frame;
++    return live;
  }
  
- static size_t audio_get_free(SWVoiceOut *sw)
-@@ -1034,8 +1041,8 @@ static size_t audio_get_free(SWVoiceOut *sw)
-     dead = sw->hw->mix_buf->size - live;
+ /**
+@@ -1309,11 +1321,13 @@ static void audio_run_in (AudioState *s)
+             sw->total_hw_samples_acquired -= min;
  
- #ifdef DEBUG_OUT
--    dolog("%s: get_free live %zu dead %zu sw_bytes %zu\n",
--          SW_NAME(sw), live, dead, audio_sw_bytes_free(sw, dead));
-+    dolog("%s: get_free live %zu dead %zu frontend frames %zu\n",
-+          SW_NAME(sw), live, dead, audio_frontend_frames_out(sw, dead));
- #endif
+             if (sw->active) {
++                size_t sw_avail = audio_get_avail(sw);
+                 size_t avail;
  
-     return dead;
-@@ -1156,13 +1163,14 @@ static void audio_run_out (AudioState *s)
-                 size_t free;
- 
-                 if (hw_free > sw->total_hw_samples_mixed) {
--                    free = audio_sw_bytes_free(sw,
-+                    free = audio_frontend_frames_out(sw,
-                         MIN(sw_free, hw_free - sw->total_hw_samples_mixed));
-                 } else {
-                     free = 0;
-                 }
-                 if (free > 0) {
--                    sw->callback.fn(sw->callback.opaque, free);
+-                avail = audio_get_avail (sw);
++                avail = audio_frontend_frames_in(sw, sw_avail);
+                 if (avail > 0) {
+-                    sw->callback.fn (sw->callback.opaque, avail);
 +                    sw->callback.fn(sw->callback.opaque,
-+                                    free * sw->info.bytes_per_frame);
++                                    avail * sw->info.bytes_per_frame);
                  }
              }
          }
