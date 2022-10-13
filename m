@@ -2,79 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14AAA5FE367
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 22:38:59 +0200 (CEST)
-Received: from localhost ([::1]:51466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A5B5FE36E
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 22:41:47 +0200 (CEST)
+Received: from localhost ([::1]:59146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj4yo-0001e5-4y
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 16:38:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58676)
+	id 1oj51W-0006ca-Ln
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 16:41:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oj4vi-0004Yr-Bp
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 16:35:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23651)
+ id 1oj4wn-0006Y5-Qt
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 16:36:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30235)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oj4vf-0002U7-RN
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 16:35:45 -0400
+ id 1oj4wk-0002mP-TM
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 16:36:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665693343;
+ s=mimecast20190719; t=1665693410;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=l5DbuLu8CwonKsXmNZftoeN5nqpMQ1nN57o9wJiF3vE=;
- b=WLSzBbYdSjVlX9mbm31Sf3kGqf5QwoBTF264RO0XYfvUDqZozvNCCFCerMMB6UPGRYes1d
- o2WBg9OE+TFyFBhDZINJWQMBM1p8TxXoVkpB9XA84bGFEmFC6I0gWC+LSN8eo56GVrXJPW
- s8N5vGVAeftBnhvV0YjhI+rpmeJImo8=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=EIwBG8evRwhy+KaA/Do8hcatrlipR4nJpQw7FpV0DJlIh2XCH8mtVKnBvSmS9sEzC1CSkZ
+ HSXUG2YTb0D/JGtXC63sV6Pmaoia/aPEn4t8dd8zrNYAUdj/VbbXWV213uw/TVsoemXubl
+ Wchxb11PiaSmkV8LELDQKMMdvKEGUdg=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-258-YzTupqD6Ozi8Cm1e0PUWwA-1; Thu, 13 Oct 2022 16:35:41 -0400
-X-MC-Unique: YzTupqD6Ozi8Cm1e0PUWwA-1
-Received: by mail-ej1-f71.google.com with SMTP id
- ga20-20020a1709070c1400b0078db506c555so1394468ejc.6
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 13:35:41 -0700 (PDT)
+ us-mta-187-cFFbbW4iOWSWGQj0qjXOrg-1; Thu, 13 Oct 2022 16:36:49 -0400
+X-MC-Unique: cFFbbW4iOWSWGQj0qjXOrg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ y6-20020a056402358600b0045932521633so2243565edc.17
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 13:36:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=l5DbuLu8CwonKsXmNZftoeN5nqpMQ1nN57o9wJiF3vE=;
- b=y8gACGuZUGpYuPjf/EcokHOCjo+ma6PHdx6R6y8Q3g5kdo6dkrI3L1A+hB50YZL9GU
- R+6/2ddoTqCqEe4fOlUu2/uuUv6PV90rQ0N6JBzKxWY9cHIZGIyx5Da34GiW/rjOnqQ4
- 71HqEmatbIf4xF4l21Wn9G4dsslzBW6yPOJ7XXV+W6nsLkL18Yb+Wp67qHLW6aEG/q5s
- ewSIGcpvL5YcKXaNq43wlwn8xvXic6McQs2Y854m8QSBi7bGrQIlQ/0Sd/yrKEnanW7M
- MbwMNvpDQyx6bqYhWIX8FFJPcoOmwEIM9S1Jg5cPOt7mPrqgiVPFxDtU2O2ki1bzoNVs
- g6+Q==
-X-Gm-Message-State: ACrzQf2Mey6oWYMM/GfzDb0105AP99pBIPKq7pw5+z59zXbwIF5PPD5C
- T7sI61ZSSSe+D/S2/1hRSK3sj8+cwyal4WADcbpGH8sf8tzoRhQMGc4B/nep1C4XsJdct+NrvLw
- 5bUyL45MuNQgbwKwWswqCRjUIsQez4QFsXAc5JoNEBGE4Zs4B6oIIZUfG/5IfSRgBEhI=
-X-Received: by 2002:a17:907:1c8e:b0:78d:fd24:a596 with SMTP id
- nb14-20020a1709071c8e00b0078dfd24a596mr1132373ejc.534.1665693340192; 
- Thu, 13 Oct 2022 13:35:40 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5hSQWYbLnTTlkXtU8kenFrWI+iQE+u43KVBQLbi9WNWeZsZzLs14tcBypspfUfgr6tZeWOgA==
-X-Received: by 2002:a17:907:1c8e:b0:78d:fd24:a596 with SMTP id
- nb14-20020a1709071c8e00b0078dfd24a596mr1132353ejc.534.1665693339843; 
- Thu, 13 Oct 2022 13:35:39 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=SuYFWkGudR5Cvq3Ut8vz+xXMxiWKOL8CnH4/WYNF+ZFhT7LjXqrGlSkQgTe5mm639T
+ fNR3ogVkm2LiM1Fj23jDG9LiV2zQ9/HaIvtWnIwA8VwuJtlYZgX6l4/cd2jGd9g2M8DA
+ mDJAZaMNu/3skF9pfci9MT8s2JClnRpIKhPTU/pIM2JzCpH73H5p4RHI/zhYWuYdva0D
+ VRweYXlMY37vdzi5YQnsxGrm6DWVKCDDu03qFfOT2K4P+X2EvJjCslMdlHHmJarpPtq8
+ bkSg+HCtJBbKSrz0M5dNxQQPmVtY598HeCNv5r7LBgNxBRlAkIuIUt2J3y1oLRKAl1CM
+ bZ+g==
+X-Gm-Message-State: ACrzQf0h0xd3hYmD1nB2sxGkY+/ATzgYdMkApztJNRnsrKLQofKIQ/0N
+ ZefFv2KeQ18SnD8CKogZw3rXEKioyi3MgqOXwH0/hGndjkkh31mmqeeAN0Wqsy2CYsRt1/7Axwn
+ Sv2WlLbvisiAHZMU=
+X-Received: by 2002:a05:6402:440a:b0:459:e2eb:9023 with SMTP id
+ y10-20020a056402440a00b00459e2eb9023mr1297366eda.287.1665693407909; 
+ Thu, 13 Oct 2022 13:36:47 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7N2x2u6kXdrYf8G6Fzn2KZwLUx4Dy065A/6rlNc0Er/HZKwV91WZ6yHH7Q6GbX46Nrh9ojiA==
+X-Received: by 2002:a05:6402:440a:b0:459:e2eb:9023 with SMTP id
+ y10-20020a056402440a00b00459e2eb9023mr1297350eda.287.1665693407736; 
+ Thu, 13 Oct 2022 13:36:47 -0700 (PDT)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- 12-20020a170906300c00b0077a1dd3e7b7sm378253ejz.102.2022.10.13.13.35.39
+ r26-20020aa7d59a000000b00457618d3409sm413103edq.68.2022.10.13.13.36.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Oct 2022 13:35:39 -0700 (PDT)
+ Thu, 13 Oct 2022 13:36:47 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org
-Subject: [PATCH] configure: don't enable firmware for targets that are not
- built
-Date: Thu, 13 Oct 2022 22:35:36 +0200
-Message-Id: <20221013203536.652512-1-pbonzini@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Fam Zheng <fam@euphon.net>,
+ Hannes Reinecke <hare@suse.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Greg Kurz <groug@kaod.org>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, qemu-block@nongnu.org,
+ qemu-ppc@nongnu.org
+Subject: Re: [PATCH 0/2] scsi: Switch to bus_cold_reset() and
+ device_cold_reset()
+Date: Thu, 13 Oct 2022 22:36:44 +0200
+Message-Id: <20221013203644.652659-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20221013160623.1296109-1-peter.maydell@linaro.org>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -98,71 +106,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This avoids the unfortunate effect of building pc-bios blobs
-even for targets the user isn't interested in.
+Queued, thanks.
 
-Due to the bi-arch nature of x86 and PPC firmware, check for the
-desired target by hand, and don't just look for the compilation target
-in $target_list.
-
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
-
-diff --git a/configure b/configure
-index baa69189f0..044eff431f 100755
---- a/configure
-+++ b/configure
-@@ -1841,6 +1841,16 @@ compute_target_variable() {
-   fi
- }
- 
-+have_target() {
-+  for i; do
-+    case " $target_list " in
-+      *" $i "*) return 0;;
-+      *) ;;
-+    esac
-+  done
-+  return 1
-+}
-+
- # probe_target_compiler TARGET
- #
- # Look for a compiler for the given target, either native or cross.
-@@ -2261,8 +2271,9 @@ echo "# Automatically generated by configure - do not modify" > Makefile.prereqs
- 
- # Mac OS X ships with a broken assembler
- roms=
--if test "$targetos" != "darwin" && test "$targetos" != "sunos" && \
--        test "$targetos" != "haiku" && test "$softmmu" = yes && \
-+if have_target i386-softmmu x86_64-softmmu && \
-+        test "$targetos" != "darwin" && test "$targetos" != "sunos" && \
-+        test "$targetos" != "haiku" && \
-         probe_target_compiler i386-softmmu; then
-     roms="pc-bios/optionrom"
-     config_mak=pc-bios/optionrom/config.mak
-@@ -2271,7 +2282,8 @@ if test "$targetos" != "darwin" && test "$targetos" != "sunos" && \
-     write_target_makefile pc-bios/optionrom/all >> $config_mak
- fi
- 
--if test "$softmmu" = yes && probe_target_compiler ppc-softmmu; then
-+if have_target ppc-softmmu ppc64-softmmu && \
-+        probe_target_compiler ppc-softmmu; then
-     roms="$roms pc-bios/vof"
-     config_mak=pc-bios/vof/config.mak
-     echo "# Automatically generated by configure - do not modify" > $config_mak
-@@ -2281,7 +2293,7 @@ fi
- 
- # Only build s390-ccw bios if the compiler has -march=z900 or -march=z10
- # (which is the lowest architecture level that Clang supports)
--if test "$softmmu" = yes && probe_target_compiler s390x-softmmu; then
-+if have_target s390x-softmmu && probe_target_compiler s390x-softmmu; then
-   got_cross_cc=no
-   if test -n "$target_cc"; then
-     write_c_skeleton
--- 
-2.37.3
+Paolo
 
 
