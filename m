@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC6CE5FE282
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 21:13:15 +0200 (CEST)
-Received: from localhost ([::1]:34590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53AA25FE28A
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 21:16:03 +0200 (CEST)
+Received: from localhost ([::1]:40178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj3dq-00028F-UM
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 15:13:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55608)
+	id 1oj3gY-0005gh-Cf
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 15:16:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oj3Qc-0006Uu-9E
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:59:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27993)
+ id 1oj3Qd-0006XN-Mp
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:59:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48318)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oj3QY-000430-LW
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:59:34 -0400
+ id 1oj3Qa-00043T-N7
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:59:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665687569;
+ s=mimecast20190719; t=1665687572;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wBihOzmjfFDtOkrFO6JANeWXXmPI2+e8/tQF5amjiIQ=;
- b=OG9GOy39flThbyFfte0IGpoDdQppQnG/5QJaELMondiKnu58AN7qRAw9oA+UXZHl0UFUla
- /DahCXfOT1UR2En4eW+wfVA+8oebakwisFWTyjYPfCyyzc9k7q/vStNx1LxvVDn9dyRo4w
- NUW4QoJ03QigrAH6Spf2koNqch6jiLg=
+ bh=3mgJt1ynd7ZiWF7e8csGQVMXxZYrxlOZeWtbVF2Vfrg=;
+ b=jKuHUSefH8EGfmIo+SvqYJVWaIFh2yru/dMb/4d8YCxPxn0EkeKV2O1Q1qHw8VbZVDgS5f
+ W2fOlDo7BNbpMKc/WremwG6SjeS7+bZ+KxbstksFH6OrtIREfBY1Xkza38K1WCXMtQWjOa
+ /X80W9WXxhRGx3otjdmgly459CXwS0Q=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-447-aPjbTuDjMCOHVGCjnnIjjA-1; Thu, 13 Oct 2022 14:59:26 -0400
-X-MC-Unique: aPjbTuDjMCOHVGCjnnIjjA-1
+ us-mta-426-whgNUt2XMMeu5EkwRX0yew-1; Thu, 13 Oct 2022 14:59:29 -0400
+X-MC-Unique: whgNUt2XMMeu5EkwRX0yew-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 72DC92A5954A;
- Thu, 13 Oct 2022 18:59:25 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 67C45382C965;
+ Thu, 13 Oct 2022 18:59:28 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 01107112C064;
- Thu, 13 Oct 2022 18:59:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 96B5E112C064;
+ Thu, 13 Oct 2022 18:59:27 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Fam Zheng <fam@euphon.net>, Markus Armbruster <armbru@redhat.com>,
@@ -63,15 +63,16 @@ Cc: Fam Zheng <fam@euphon.net>, Markus Armbruster <armbru@redhat.com>,
  "Richard W.M. Jones" <rjones@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
  "Denis V. Lunev" <den@openvz.org>
-Subject: [PATCH v7 02/13] blkio: add libblkio block driver
-Date: Thu, 13 Oct 2022 14:58:57 -0400
-Message-Id: <20221013185908.1297568-3-stefanha@redhat.com>
+Subject: [PATCH v7 03/13] numa: call ->ram_block_removed() in
+ ram_block_notifer_remove()
+Date: Thu, 13 Oct 2022 14:58:58 -0400
+Message-Id: <20221013185908.1297568-4-stefanha@redhat.com>
 In-Reply-To: <20221013185908.1297568-1-stefanha@redhat.com>
 References: <20221013185908.1297568-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -95,1117 +96,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-libblkio (https://gitlab.com/libblkio/libblkio/) is a library for
-high-performance disk I/O. It currently supports io_uring,
-virtio-blk-vhost-user, and virtio-blk-vhost-vdpa with additional drivers
-under development.
+When a RAMBlockNotifier is added, ->ram_block_added() is called with all
+existing RAMBlocks. There is no equivalent ->ram_block_removed() call
+when a RAMBlockNotifier is removed.
 
-One of the reasons for developing libblkio is that other applications
-besides QEMU can use it. This will be particularly useful for
-virtio-blk-vhost-user which applications may wish to use for connecting
-to qemu-storage-daemon.
+The util/vfio-helpers.c code (the sole user of RAMBlockNotifier) is fine
+with this asymmetry because it does not rely on RAMBlockNotifier for
+cleanup. It walks its internal list of DMA mappings and unmaps them by
+itself.
 
-libblkio also gives us an opportunity to develop in Rust behind a C API
-that is easy to consume from QEMU.
+Future users of RAMBlockNotifier may not have an internal data structure
+that records added RAMBlocks so they will need ->ram_block_removed()
+callbacks.
 
-This commit adds io_uring, nvme-io_uring, virtio-blk-vhost-user, and
-virtio-blk-vhost-vdpa BlockDrivers to QEMU using libblkio. It will be
-easy to add other libblkio drivers since they will share the majority of
-code.
+This patch makes ram_block_notifier_remove() symmetric with respect to
+callbacks. Now util/vfio-helpers.c needs to unmap remaining DMA mappings
+after ram_block_notifier_remove() has been called. This is necessary
+since users like block/nvme.c may create additional DMA mappings that do
+not originate from the RAMBlockNotifier.
 
-For now I/O buffers are copied through bounce buffers if the libblkio
-driver requires it. Later commits add an optimization for
-pre-registering guest RAM to avoid bounce buffers.
-
-The syntax is:
-
-  --blockdev io_uring,node-name=drive0,filename=test.img,readonly=on|off,cache.direct=on|off
-
-  --blockdev nvme-io_uring,node-name=drive0,filename=/dev/ng0n1,readonly=on|off,cache.direct=on
-
-  --blockdev virtio-blk-vhost-vdpa,node-name=drive0,path=/dev/vdpa...,readonly=on|off,cache.direct=on
-
-  --blockdev virtio-blk-vhost-user,node-name=drive0,path=vhost-user-blk.sock,readonly=on|off,cache.direct=on
-
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Acked-by: Markus Armbruster <armbru@redhat.com>
 ---
- MAINTAINERS                   |   6 +
- meson_options.txt             |   2 +
- qapi/block-core.json          |  77 +++-
- meson.build                   |   9 +
- block/blkio.c                 | 831 ++++++++++++++++++++++++++++++++++
- tests/qtest/modules-test.c    |   3 +
- block/meson.build             |   1 +
- scripts/meson-buildoptions.sh |   3 +
- 8 files changed, 928 insertions(+), 4 deletions(-)
- create mode 100644 block/blkio.c
+ hw/core/numa.c      | 17 +++++++++++++++++
+ util/vfio-helpers.c |  5 ++++-
+ 2 files changed, 21 insertions(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8ae2e43c83..da30a8b93f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3415,6 +3415,12 @@ L: qemu-block@nongnu.org
- S: Maintained
- F: block/vdi.c
+diff --git a/hw/core/numa.c b/hw/core/numa.c
+index 26d8e5f616..31e6fe1caa 100644
+--- a/hw/core/numa.c
++++ b/hw/core/numa.c
+@@ -822,6 +822,19 @@ static int ram_block_notify_add_single(RAMBlock *rb, void *opaque)
+     return 0;
+ }
  
-+blkio
-+M: Stefan Hajnoczi <stefanha@redhat.com>
-+L: qemu-block@nongnu.org
-+S: Maintained
-+F: block/blkio.c
-+
- iSCSI
- M: Ronnie Sahlberg <ronniesahlberg@gmail.com>
- M: Paolo Bonzini <pbonzini@redhat.com>
-diff --git a/meson_options.txt b/meson_options.txt
-index 79c6af18d5..66128178bf 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -117,6 +117,8 @@ option('bzip2', type : 'feature', value : 'auto',
-        description: 'bzip2 support for DMG images')
- option('cap_ng', type : 'feature', value : 'auto',
-        description: 'cap_ng support')
-+option('blkio', type : 'feature', value : 'auto',
-+       description: 'libblkio block device driver')
- option('bpf', type : 'feature', value : 'auto',
-         description: 'eBPF support')
- option('cocoa', type : 'feature', value : 'auto',
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 882b266532..cb5079e645 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2951,11 +2951,18 @@
-             'file', 'snapshot-access', 'ftp', 'ftps', 'gluster',
-             {'name': 'host_cdrom', 'if': 'HAVE_HOST_BLOCK_DEVICE' },
-             {'name': 'host_device', 'if': 'HAVE_HOST_BLOCK_DEVICE' },
--            'http', 'https', 'iscsi',
--            'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels',
--            'preallocate', 'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
-+            'http', 'https',
-+            { 'name': 'io_uring', 'if': 'CONFIG_BLKIO' },
-+            'iscsi',
-+            'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme',
-+            { 'name': 'nvme-io_uring', 'if': 'CONFIG_BLKIO' },
-+            'parallels', 'preallocate', 'qcow', 'qcow2', 'qed', 'quorum',
-+            'raw', 'rbd',
-             { 'name': 'replication', 'if': 'CONFIG_REPLICATION' },
--            'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat' ] }
-+            'ssh', 'throttle', 'vdi', 'vhdx',
-+            { 'name': 'virtio-blk-vhost-user', 'if': 'CONFIG_BLKIO' },
-+            { 'name': 'virtio-blk-vhost-vdpa', 'if': 'CONFIG_BLKIO' },
-+            'vmdk', 'vpc', 'vvfat' ] }
- 
- ##
- # @BlockdevOptionsFile:
-@@ -3678,6 +3685,58 @@
-             '*debug': 'int',
-             '*logfile': 'str' } }
- 
-+##
-+# @BlockdevOptionsIoUring:
-+#
-+# Driver specific block device options for the io_uring backend.
-+#
-+# @filename: path to the image file
-+#
-+# Since: 7.2
-+##
-+{ 'struct': 'BlockdevOptionsIoUring',
-+  'data': { 'filename': 'str' },
-+  'if': 'CONFIG_BLKIO' }
-+
-+##
-+# @BlockdevOptionsNvmeIoUring:
-+#
-+# Driver specific block device options for the nvme-io_uring backend.
-+#
-+# @filename: path to the image file
-+#
-+# Since: 7.2
-+##
-+{ 'struct': 'BlockdevOptionsNvmeIoUring',
-+  'data': { 'filename': 'str' },
-+  'if': 'CONFIG_BLKIO' }
-+
-+##
-+# @BlockdevOptionsVirtioBlkVhostUser:
-+#
-+# Driver specific block device options for the virtio-blk-vhost-user backend.
-+#
-+# @path: path to the vhost-user UNIX domain socket.
-+#
-+# Since: 7.2
-+##
-+{ 'struct': 'BlockdevOptionsVirtioBlkVhostUser',
-+  'data': { 'path': 'str' },
-+  'if': 'CONFIG_BLKIO' }
-+
-+##
-+# @BlockdevOptionsVirtioBlkVhostVdpa:
-+#
-+# Driver specific block device options for the virtio-blk-vhost-vdpa backend.
-+#
-+# @path: path to the vhost-vdpa character device.
-+#
-+# Since: 7.2
-+##
-+{ 'struct': 'BlockdevOptionsVirtioBlkVhostVdpa',
-+  'data': { 'path': 'str' },
-+  'if': 'CONFIG_BLKIO' }
-+
- ##
- # @IscsiTransport:
- #
-@@ -4305,6 +4364,8 @@
-                        'if': 'HAVE_HOST_BLOCK_DEVICE' },
-       'http':       'BlockdevOptionsCurlHttp',
-       'https':      'BlockdevOptionsCurlHttps',
-+      'io_uring':   { 'type': 'BlockdevOptionsIoUring',
-+                      'if': 'CONFIG_BLKIO' },
-       'iscsi':      'BlockdevOptionsIscsi',
-       'luks':       'BlockdevOptionsLUKS',
-       'nbd':        'BlockdevOptionsNbd',
-@@ -4312,6 +4373,8 @@
-       'null-aio':   'BlockdevOptionsNull',
-       'null-co':    'BlockdevOptionsNull',
-       'nvme':       'BlockdevOptionsNVMe',
-+      'nvme-io_uring': { 'type': 'BlockdevOptionsNvmeIoUring',
-+                         'if': 'CONFIG_BLKIO' },
-       'parallels':  'BlockdevOptionsGenericFormat',
-       'preallocate':'BlockdevOptionsPreallocate',
-       'qcow2':      'BlockdevOptionsQcow2',
-@@ -4327,6 +4390,12 @@
-       'throttle':   'BlockdevOptionsThrottle',
-       'vdi':        'BlockdevOptionsGenericFormat',
-       'vhdx':       'BlockdevOptionsGenericFormat',
-+      'virtio-blk-vhost-user':
-+                    { 'type': 'BlockdevOptionsVirtioBlkVhostUser',
-+                      'if': 'CONFIG_BLKIO' },
-+      'virtio-blk-vhost-vdpa':
-+                    { 'type': 'BlockdevOptionsVirtioBlkVhostVdpa',
-+                      'if': 'CONFIG_BLKIO' },
-       'vmdk':       'BlockdevOptionsGenericCOWFormat',
-       'vpc':        'BlockdevOptionsGenericFormat',
-       'vvfat':      'BlockdevOptionsVVFAT'
-diff --git a/meson.build b/meson.build
-index b686dfef75..1e9068adf6 100644
---- a/meson.build
-+++ b/meson.build
-@@ -771,6 +771,13 @@ if not get_option('virglrenderer').auto() or have_system or have_vhost_user_gpu
-                      required: get_option('virglrenderer'),
-                      kwargs: static_kwargs)
- endif
-+blkio = not_found
-+if not get_option('blkio').auto() or have_block
-+  blkio = dependency('blkio',
-+                     method: 'pkg-config',
-+                     required: get_option('blkio'),
-+                     kwargs: static_kwargs)
-+endif
- curl = not_found
- if not get_option('curl').auto() or have_block
-   curl = dependency('libcurl', version: '>=7.29.0',
-@@ -1815,6 +1822,7 @@ config_host_data.set('CONFIG_LIBUDEV', libudev.found())
- config_host_data.set('CONFIG_LZO', lzo.found())
- config_host_data.set('CONFIG_MPATH', mpathpersist.found())
- config_host_data.set('CONFIG_MPATH_NEW_API', mpathpersist_new_api)
-+config_host_data.set('CONFIG_BLKIO', blkio.found())
- config_host_data.set('CONFIG_CURL', curl.found())
- config_host_data.set('CONFIG_CURSES', curses.found())
- config_host_data.set('CONFIG_GBM', gbm.found())
-@@ -3869,6 +3877,7 @@ summary_info += {'PAM':               pam}
- summary_info += {'iconv support':     iconv}
- summary_info += {'curses support':    curses}
- summary_info += {'virgl support':     virgl}
-+summary_info += {'blkio support':     blkio}
- summary_info += {'curl support':      curl}
- summary_info += {'Multipath support': mpathpersist}
- summary_info += {'PNG support':       png}
-diff --git a/block/blkio.c b/block/blkio.c
-new file mode 100644
-index 0000000000..b0cfd74b36
---- /dev/null
-+++ b/block/blkio.c
-@@ -0,0 +1,831 @@
-+/* SPDX-License-Identifier: LGPL-2.1-or-later */
-+/*
-+ * libblkio BlockDriver
-+ *
-+ * Copyright Red Hat, Inc.
-+ *
-+ * Author:
-+ *   Stefan Hajnoczi <stefanha@redhat.com>
-+ */
-+
-+#include "qemu/osdep.h"
-+#include <blkio.h>
-+#include "block/block_int.h"
-+#include "qapi/error.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qemu/module.h"
-+
-+/*
-+ * Keep the QEMU BlockDriver names identical to the libblkio driver names.
-+ * Using macros instead of typing out the string literals avoids typos.
-+ */
-+#define DRIVER_IO_URING "io_uring"
-+#define DRIVER_NVME_IO_URING "nvme-io_uring"
-+#define DRIVER_VIRTIO_BLK_VHOST_USER "virtio-blk-vhost-user"
-+#define DRIVER_VIRTIO_BLK_VHOST_VDPA "virtio-blk-vhost-vdpa"
-+
-+/*
-+ * Allocated bounce buffers are kept in a list sorted by buffer address.
-+ */
-+typedef struct BlkioBounceBuf {
-+    QLIST_ENTRY(BlkioBounceBuf) next;
-+
-+    /* The bounce buffer */
-+    struct iovec buf;
-+} BlkioBounceBuf;
-+
-+typedef struct {
-+    /*
-+     * libblkio is not thread-safe so this lock protects ->blkio and
-+     * ->blkioq.
-+     */
-+    QemuMutex blkio_lock;
-+    struct blkio *blkio;
-+    struct blkioq *blkioq; /* make this multi-queue in the future... */
-+    int completion_fd;
-+
-+    /*
-+     * Polling fetches the next completion into this field.
-+     *
-+     * No lock is necessary since only one thread calls aio_poll() and invokes
-+     * fd and poll handlers.
-+     */
-+    struct blkio_completion poll_completion;
-+
-+    /*
-+     * Protects ->bounce_pool, ->bounce_bufs, ->bounce_available.
-+     *
-+     * Lock ordering: ->bounce_lock before ->blkio_lock.
-+     */
-+    CoMutex bounce_lock;
-+
-+    /* Bounce buffer pool */
-+    struct blkio_mem_region bounce_pool;
-+
-+    /* Sorted list of allocated bounce buffers */
-+    QLIST_HEAD(, BlkioBounceBuf) bounce_bufs;
-+
-+    /* Queue for coroutines waiting for bounce buffer space */
-+    CoQueue bounce_available;
-+
-+    /* The value of the "mem-region-alignment" property */
-+    size_t mem_region_alignment;
-+
-+    /* Can we skip adding/deleting blkio_mem_regions? */
-+    bool needs_mem_regions;
-+} BDRVBlkioState;
-+
-+/* Called with s->bounce_lock held */
-+static int blkio_resize_bounce_pool(BDRVBlkioState *s, int64_t bytes)
++static int ram_block_notify_remove_single(RAMBlock *rb, void *opaque)
 +{
-+    /* There can be no allocated bounce buffers during resize */
-+    assert(QLIST_EMPTY(&s->bounce_bufs));
-+
-+    /* Pad size to reduce frequency of resize calls */
-+    bytes += 128 * 1024;
-+
-+    WITH_QEMU_LOCK_GUARD(&s->blkio_lock) {
-+        int ret;
-+
-+        if (s->bounce_pool.addr) {
-+            blkio_unmap_mem_region(s->blkio, &s->bounce_pool);
-+            blkio_free_mem_region(s->blkio, &s->bounce_pool);
-+            memset(&s->bounce_pool, 0, sizeof(s->bounce_pool));
-+        }
-+
-+        /* Automatically freed when s->blkio is destroyed */
-+        ret = blkio_alloc_mem_region(s->blkio, &s->bounce_pool, bytes);
-+        if (ret < 0) {
-+            return ret;
-+        }
-+
-+        ret = blkio_map_mem_region(s->blkio, &s->bounce_pool);
-+        if (ret < 0) {
-+            blkio_free_mem_region(s->blkio, &s->bounce_pool);
-+            memset(&s->bounce_pool, 0, sizeof(s->bounce_pool));
-+            return ret;
-+        }
-+    }
-+
-+    return 0;
-+}
-+
-+/* Called with s->bounce_lock held */
-+static bool
-+blkio_do_alloc_bounce_buffer(BDRVBlkioState *s, BlkioBounceBuf *bounce,
-+                             int64_t bytes)
-+{
-+    void *addr = s->bounce_pool.addr;
-+    BlkioBounceBuf *cur = NULL;
-+    BlkioBounceBuf *prev = NULL;
-+    ptrdiff_t space;
-+
-+    /*
-+     * This is just a linear search over the holes between requests. An
-+     * efficient allocator would be nice.
-+     */
-+    QLIST_FOREACH(cur, &s->bounce_bufs, next) {
-+        space = cur->buf.iov_base - addr;
-+        if (bytes <= space) {
-+            QLIST_INSERT_BEFORE(cur, bounce, next);
-+            bounce->buf.iov_base = addr;
-+            bounce->buf.iov_len = bytes;
-+            return true;
-+        }
-+
-+        addr = cur->buf.iov_base + cur->buf.iov_len;
-+        prev = cur;
-+    }
-+
-+    /* Is there space after the last request? */
-+    space = s->bounce_pool.addr + s->bounce_pool.len - addr;
-+    if (bytes > space) {
-+        return false;
-+    }
-+    if (prev) {
-+        QLIST_INSERT_AFTER(prev, bounce, next);
-+    } else {
-+        QLIST_INSERT_HEAD(&s->bounce_bufs, bounce, next);
-+    }
-+    bounce->buf.iov_base = addr;
-+    bounce->buf.iov_len = bytes;
-+    return true;
-+}
-+
-+static int coroutine_fn
-+blkio_alloc_bounce_buffer(BDRVBlkioState *s, BlkioBounceBuf *bounce,
-+                          int64_t bytes)
-+{
-+    /*
-+     * Ensure fairness: first time around we join the back of the queue,
-+     * subsequently we join the front so we don't lose our place.
-+     */
-+    CoQueueWaitFlags wait_flags = 0;
-+
-+    QEMU_LOCK_GUARD(&s->bounce_lock);
-+
-+    /* Ensure fairness: don't even try if other requests are already waiting */
-+    if (!qemu_co_queue_empty(&s->bounce_available)) {
-+        qemu_co_queue_wait_flags(&s->bounce_available, &s->bounce_lock,
-+                                 wait_flags);
-+        wait_flags = CO_QUEUE_WAIT_FRONT;
-+    }
-+
-+    while (true) {
-+        if (blkio_do_alloc_bounce_buffer(s, bounce, bytes)) {
-+            /* Kick the next queued request since there may be space */
-+            qemu_co_queue_next(&s->bounce_available);
-+            return 0;
-+        }
-+
-+        /*
-+         * If there are no in-flight requests then the pool was simply too
-+         * small.
-+         */
-+        if (QLIST_EMPTY(&s->bounce_bufs)) {
-+            bool ok;
-+            int ret;
-+
-+            ret = blkio_resize_bounce_pool(s, bytes);
-+            if (ret < 0) {
-+                /* Kick the next queued request since that may fail too */
-+                qemu_co_queue_next(&s->bounce_available);
-+                return ret;
-+            }
-+
-+            ok = blkio_do_alloc_bounce_buffer(s, bounce, bytes);
-+            assert(ok); /* must have space this time */
-+            return 0;
-+        }
-+
-+        qemu_co_queue_wait_flags(&s->bounce_available, &s->bounce_lock,
-+                                 wait_flags);
-+        wait_flags = CO_QUEUE_WAIT_FRONT;
-+    }
-+}
-+
-+static void coroutine_fn blkio_free_bounce_buffer(BDRVBlkioState *s,
-+                                                  BlkioBounceBuf *bounce)
-+{
-+    QEMU_LOCK_GUARD(&s->bounce_lock);
-+
-+    QLIST_REMOVE(bounce, next);
-+
-+    /* Wake up waiting coroutines since space may now be available */
-+    qemu_co_queue_next(&s->bounce_available);
-+}
-+
-+/* For async to .bdrv_co_*() conversion */
-+typedef struct {
-+    Coroutine *coroutine;
-+    int ret;
-+} BlkioCoData;
-+
-+static void blkio_completion_fd_read(void *opaque)
-+{
-+    BlockDriverState *bs = opaque;
-+    BDRVBlkioState *s = bs->opaque;
-+    uint64_t val;
-+    int ret;
-+
-+    /* Polling may have already fetched a completion */
-+    if (s->poll_completion.user_data != NULL) {
-+        BlkioCoData *cod = s->poll_completion.user_data;
-+        cod->ret = s->poll_completion.ret;
-+
-+        /* Clear it in case aio_co_wake() enters a nested event loop */
-+        s->poll_completion.user_data = NULL;
-+
-+        aio_co_wake(cod->coroutine);
-+    }
-+
-+    /* Reset completion fd status */
-+    ret = read(s->completion_fd, &val, sizeof(val));
-+
-+    /* Ignore errors, there's nothing we can do */
-+    (void)ret;
-+
-+    /*
-+     * Reading one completion at a time makes nested event loop re-entrancy
-+     * simple. Change this loop to get multiple completions in one go if it
-+     * becomes a performance bottleneck.
-+     */
-+    while (true) {
-+        struct blkio_completion completion;
-+
-+        WITH_QEMU_LOCK_GUARD(&s->blkio_lock) {
-+            ret = blkioq_do_io(s->blkioq, &completion, 0, 1, NULL);
-+        }
-+        if (ret != 1) {
-+            break;
-+        }
-+
-+        BlkioCoData *cod = completion.user_data;
-+        cod->ret = completion.ret;
-+        aio_co_wake(cod->coroutine);
-+    }
-+}
-+
-+static bool blkio_completion_fd_poll(void *opaque)
-+{
-+    BlockDriverState *bs = opaque;
-+    BDRVBlkioState *s = bs->opaque;
-+    int ret;
-+
-+    /* Just in case we already fetched a completion */
-+    if (s->poll_completion.user_data != NULL) {
-+        return true;
-+    }
-+
-+    WITH_QEMU_LOCK_GUARD(&s->blkio_lock) {
-+        ret = blkioq_do_io(s->blkioq, &s->poll_completion, 0, 1, NULL);
-+    }
-+    return ret == 1;
-+}
-+
-+static void blkio_completion_fd_poll_ready(void *opaque)
-+{
-+    blkio_completion_fd_read(opaque);
-+}
-+
-+static void blkio_attach_aio_context(BlockDriverState *bs,
-+                                     AioContext *new_context)
-+{
-+    BDRVBlkioState *s = bs->opaque;
-+
-+    aio_set_fd_handler(new_context,
-+                       s->completion_fd,
-+                       false,
-+                       blkio_completion_fd_read,
-+                       NULL,
-+                       blkio_completion_fd_poll,
-+                       blkio_completion_fd_poll_ready,
-+                       bs);
-+}
-+
-+static void blkio_detach_aio_context(BlockDriverState *bs)
-+{
-+    BDRVBlkioState *s = bs->opaque;
-+
-+    aio_set_fd_handler(bdrv_get_aio_context(bs),
-+                       s->completion_fd,
-+                       false, NULL, NULL, NULL, NULL, NULL);
-+}
-+
-+/* Call with s->blkio_lock held to submit I/O after enqueuing a new request */
-+static void blkio_submit_io(BlockDriverState *bs)
-+{
-+    if (qatomic_read(&bs->io_plugged) == 0) {
-+        BDRVBlkioState *s = bs->opaque;
-+
-+        blkioq_do_io(s->blkioq, NULL, 0, 0, NULL);
-+    }
-+}
-+
-+static int coroutine_fn
-+blkio_co_pdiscard(BlockDriverState *bs, int64_t offset, int64_t bytes)
-+{
-+    BDRVBlkioState *s = bs->opaque;
-+    BlkioCoData cod = {
-+        .coroutine = qemu_coroutine_self(),
-+    };
-+
-+    WITH_QEMU_LOCK_GUARD(&s->blkio_lock) {
-+        blkioq_discard(s->blkioq, offset, bytes, &cod, 0);
-+        blkio_submit_io(bs);
-+    }
-+
-+    qemu_coroutine_yield();
-+    return cod.ret;
-+}
-+
-+static int coroutine_fn
-+blkio_co_preadv(BlockDriverState *bs, int64_t offset, int64_t bytes,
-+                QEMUIOVector *qiov, BdrvRequestFlags flags)
-+{
-+    BlkioCoData cod = {
-+        .coroutine = qemu_coroutine_self(),
-+    };
-+    BDRVBlkioState *s = bs->opaque;
-+    bool use_bounce_buffer = s->needs_mem_regions;
-+    BlkioBounceBuf bounce;
-+    struct iovec *iov = qiov->iov;
-+    int iovcnt = qiov->niov;
-+
-+    if (use_bounce_buffer) {
-+        int ret = blkio_alloc_bounce_buffer(s, &bounce, bytes);
-+        if (ret < 0) {
-+            return ret;
-+        }
-+
-+        iov = &bounce.buf;
-+        iovcnt = 1;
-+    }
-+
-+    WITH_QEMU_LOCK_GUARD(&s->blkio_lock) {
-+        blkioq_readv(s->blkioq, offset, iov, iovcnt, &cod, 0);
-+        blkio_submit_io(bs);
-+    }
-+
-+    qemu_coroutine_yield();
-+
-+    if (use_bounce_buffer) {
-+        if (cod.ret == 0) {
-+            qemu_iovec_from_buf(qiov, 0,
-+                                bounce.buf.iov_base,
-+                                bounce.buf.iov_len);
-+        }
-+
-+        blkio_free_bounce_buffer(s, &bounce);
-+    }
-+
-+    return cod.ret;
-+}
-+
-+static int coroutine_fn blkio_co_pwritev(BlockDriverState *bs, int64_t offset,
-+        int64_t bytes, QEMUIOVector *qiov, BdrvRequestFlags flags)
-+{
-+    uint32_t blkio_flags = (flags & BDRV_REQ_FUA) ? BLKIO_REQ_FUA : 0;
-+    BlkioCoData cod = {
-+        .coroutine = qemu_coroutine_self(),
-+    };
-+    BDRVBlkioState *s = bs->opaque;
-+    bool use_bounce_buffer = s->needs_mem_regions;
-+    BlkioBounceBuf bounce;
-+    struct iovec *iov = qiov->iov;
-+    int iovcnt = qiov->niov;
-+
-+    if (use_bounce_buffer) {
-+        int ret = blkio_alloc_bounce_buffer(s, &bounce, bytes);
-+        if (ret < 0) {
-+            return ret;
-+        }
-+
-+        qemu_iovec_to_buf(qiov, 0, bounce.buf.iov_base, bytes);
-+        iov = &bounce.buf;
-+        iovcnt = 1;
-+    }
-+
-+    WITH_QEMU_LOCK_GUARD(&s->blkio_lock) {
-+        blkioq_writev(s->blkioq, offset, iov, iovcnt, &cod, blkio_flags);
-+        blkio_submit_io(bs);
-+    }
-+
-+    qemu_coroutine_yield();
-+
-+    if (use_bounce_buffer) {
-+        blkio_free_bounce_buffer(s, &bounce);
-+    }
-+
-+    return cod.ret;
-+}
-+
-+static int coroutine_fn blkio_co_flush(BlockDriverState *bs)
-+{
-+    BDRVBlkioState *s = bs->opaque;
-+    BlkioCoData cod = {
-+        .coroutine = qemu_coroutine_self(),
-+    };
-+
-+    WITH_QEMU_LOCK_GUARD(&s->blkio_lock) {
-+        blkioq_flush(s->blkioq, &cod, 0);
-+        blkio_submit_io(bs);
-+    }
-+
-+    qemu_coroutine_yield();
-+    return cod.ret;
-+}
-+
-+static int coroutine_fn blkio_co_pwrite_zeroes(BlockDriverState *bs,
-+    int64_t offset, int64_t bytes, BdrvRequestFlags flags)
-+{
-+    BDRVBlkioState *s = bs->opaque;
-+    BlkioCoData cod = {
-+        .coroutine = qemu_coroutine_self(),
-+    };
-+    uint32_t blkio_flags = 0;
-+
-+    if (flags & BDRV_REQ_FUA) {
-+        blkio_flags |= BLKIO_REQ_FUA;
-+    }
-+    if (!(flags & BDRV_REQ_MAY_UNMAP)) {
-+        blkio_flags |= BLKIO_REQ_NO_UNMAP;
-+    }
-+    if (flags & BDRV_REQ_NO_FALLBACK) {
-+        blkio_flags |= BLKIO_REQ_NO_FALLBACK;
-+    }
-+
-+    WITH_QEMU_LOCK_GUARD(&s->blkio_lock) {
-+        blkioq_write_zeroes(s->blkioq, offset, bytes, &cod, blkio_flags);
-+        blkio_submit_io(bs);
-+    }
-+
-+    qemu_coroutine_yield();
-+    return cod.ret;
-+}
-+
-+static void blkio_io_unplug(BlockDriverState *bs)
-+{
-+    BDRVBlkioState *s = bs->opaque;
-+
-+    WITH_QEMU_LOCK_GUARD(&s->blkio_lock) {
-+        blkio_submit_io(bs);
-+    }
-+}
-+
-+static int blkio_io_uring_open(BlockDriverState *bs, QDict *options, int flags,
-+                               Error **errp)
-+{
-+    const char *filename = qdict_get_str(options, "filename");
-+    BDRVBlkioState *s = bs->opaque;
-+    int ret;
-+
-+    ret = blkio_set_str(s->blkio, "path", filename);
-+    qdict_del(options, "filename");
-+    if (ret < 0) {
-+        error_setg_errno(errp, -ret, "failed to set path: %s",
-+                         blkio_get_error_msg());
-+        return ret;
-+    }
-+
-+    if (flags & BDRV_O_NOCACHE) {
-+        ret = blkio_set_bool(s->blkio, "direct", true);
-+        if (ret < 0) {
-+            error_setg_errno(errp, -ret, "failed to set direct: %s",
-+                             blkio_get_error_msg());
-+            return ret;
-+        }
-+    }
-+
-+    return 0;
-+}
-+
-+static int blkio_nvme_io_uring(BlockDriverState *bs, QDict *options, int flags,
-+                               Error **errp)
-+{
-+    const char *filename = qdict_get_str(options, "filename");
-+    BDRVBlkioState *s = bs->opaque;
-+    int ret;
-+
-+    ret = blkio_set_str(s->blkio, "path", filename);
-+    qdict_del(options, "filename");
-+    if (ret < 0) {
-+        error_setg_errno(errp, -ret, "failed to set path: %s",
-+                         blkio_get_error_msg());
-+        return ret;
-+    }
-+
-+    if (!(flags & BDRV_O_NOCACHE)) {
-+        error_setg(errp, "cache.direct=off is not supported");
-+        return -EINVAL;
-+    }
-+
-+    return 0;
-+}
-+
-+static int blkio_virtio_blk_common_open(BlockDriverState *bs,
-+        QDict *options, int flags, Error **errp)
-+{
-+    const char *path = qdict_get_try_str(options, "path");
-+    BDRVBlkioState *s = bs->opaque;
-+    int ret;
-+
-+    if (!path) {
-+        error_setg(errp, "missing 'path' option");
-+        return -EINVAL;
-+    }
-+
-+    ret = blkio_set_str(s->blkio, "path", path);
-+    qdict_del(options, "path");
-+    if (ret < 0) {
-+        error_setg_errno(errp, -ret, "failed to set path: %s",
-+                         blkio_get_error_msg());
-+        return ret;
-+    }
-+
-+    if (!(flags & BDRV_O_NOCACHE)) {
-+        error_setg(errp, "cache.direct=off is not supported");
-+        return -EINVAL;
++    const ram_addr_t max_size = qemu_ram_get_max_length(rb);
++    const ram_addr_t size = qemu_ram_get_used_length(rb);
++    void *host = qemu_ram_get_host_addr(rb);
++    RAMBlockNotifier *notifier = opaque;
++
++    if (host) {
++        notifier->ram_block_removed(notifier, host, size, max_size);
 +    }
 +    return 0;
 +}
 +
-+static int blkio_file_open(BlockDriverState *bs, QDict *options, int flags,
-+                           Error **errp)
-+{
-+    const char *blkio_driver = bs->drv->protocol_name;
-+    BDRVBlkioState *s = bs->opaque;
-+    int ret;
-+
-+    ret = blkio_create(blkio_driver, &s->blkio);
-+    if (ret < 0) {
-+        error_setg_errno(errp, -ret, "blkio_create failed: %s",
-+                         blkio_get_error_msg());
-+        return ret;
-+    }
-+
-+    if (strcmp(blkio_driver, DRIVER_IO_URING) == 0) {
-+        ret = blkio_io_uring_open(bs, options, flags, errp);
-+    } else if (strcmp(blkio_driver, DRIVER_NVME_IO_URING) == 0) {
-+        ret = blkio_nvme_io_uring(bs, options, flags, errp);
-+    } else if (strcmp(blkio_driver, DRIVER_VIRTIO_BLK_VHOST_USER) == 0) {
-+        ret = blkio_virtio_blk_common_open(bs, options, flags, errp);
-+    } else if (strcmp(blkio_driver, DRIVER_VIRTIO_BLK_VHOST_VDPA) == 0) {
-+        ret = blkio_virtio_blk_common_open(bs, options, flags, errp);
-+    } else {
-+        g_assert_not_reached();
-+    }
-+    if (ret < 0) {
-+        blkio_destroy(&s->blkio);
-+        return ret;
-+    }
-+
-+    if (!(flags & BDRV_O_RDWR)) {
-+        ret = blkio_set_bool(s->blkio, "read-only", true);
-+        if (ret < 0) {
-+            error_setg_errno(errp, -ret, "failed to set read-only: %s",
-+                             blkio_get_error_msg());
-+            blkio_destroy(&s->blkio);
-+            return ret;
-+        }
-+    }
-+
-+    ret = blkio_connect(s->blkio);
-+    if (ret < 0) {
-+        error_setg_errno(errp, -ret, "blkio_connect failed: %s",
-+                         blkio_get_error_msg());
-+        blkio_destroy(&s->blkio);
-+        return ret;
-+    }
-+
-+    ret = blkio_get_bool(s->blkio,
-+                         "needs-mem-regions",
-+                         &s->needs_mem_regions);
-+    if (ret < 0) {
-+        error_setg_errno(errp, -ret,
-+                         "failed to get needs-mem-regions: %s",
-+                         blkio_get_error_msg());
-+        blkio_destroy(&s->blkio);
-+        return ret;
-+    }
-+
-+    ret = blkio_get_uint64(s->blkio,
-+                           "mem-region-alignment",
-+                           &s->mem_region_alignment);
-+    if (ret < 0) {
-+        error_setg_errno(errp, -ret,
-+                         "failed to get mem-region-alignment: %s",
-+                         blkio_get_error_msg());
-+        blkio_destroy(&s->blkio);
-+        return ret;
-+    }
-+
-+    ret = blkio_start(s->blkio);
-+    if (ret < 0) {
-+        error_setg_errno(errp, -ret, "blkio_start failed: %s",
-+                         blkio_get_error_msg());
-+        blkio_destroy(&s->blkio);
-+        return ret;
-+    }
-+
-+    bs->supported_write_flags = BDRV_REQ_FUA;
-+    bs->supported_zero_flags = BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP |
-+                               BDRV_REQ_NO_FALLBACK;
-+
-+    qemu_mutex_init(&s->blkio_lock);
-+    qemu_co_mutex_init(&s->bounce_lock);
-+    qemu_co_queue_init(&s->bounce_available);
-+    QLIST_INIT(&s->bounce_bufs);
-+    s->blkioq = blkio_get_queue(s->blkio, 0);
-+    s->completion_fd = blkioq_get_completion_fd(s->blkioq);
-+
-+    blkio_attach_aio_context(bs, bdrv_get_aio_context(bs));
-+    return 0;
-+}
-+
-+static void blkio_close(BlockDriverState *bs)
-+{
-+    BDRVBlkioState *s = bs->opaque;
-+
-+    /* There is no destroy() API for s->bounce_lock */
-+
-+    qemu_mutex_destroy(&s->blkio_lock);
-+    blkio_detach_aio_context(bs);
-+    blkio_destroy(&s->blkio);
-+}
-+
-+static int64_t blkio_getlength(BlockDriverState *bs)
-+{
-+    BDRVBlkioState *s = bs->opaque;
-+    uint64_t capacity;
-+    int ret;
-+
-+    WITH_QEMU_LOCK_GUARD(&s->blkio_lock) {
-+        ret = blkio_get_uint64(s->blkio, "capacity", &capacity);
-+    }
-+    if (ret < 0) {
-+        return -ret;
-+    }
-+
-+    return capacity;
-+}
-+
-+static int blkio_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
-+{
-+    return 0;
-+}
-+
-+static void blkio_refresh_limits(BlockDriverState *bs, Error **errp)
-+{
-+    BDRVBlkioState *s = bs->opaque;
-+    QEMU_LOCK_GUARD(&s->blkio_lock);
-+    int value;
-+    int ret;
-+
-+    ret = blkio_get_int(s->blkio, "request-alignment", &value);
-+    if (ret < 0) {
-+        error_setg_errno(errp, -ret, "failed to get \"request-alignment\": %s",
-+                         blkio_get_error_msg());
-+        return;
-+    }
-+    bs->bl.request_alignment = value;
-+    if (bs->bl.request_alignment < 1 ||
-+        bs->bl.request_alignment >= INT_MAX ||
-+        !is_power_of_2(bs->bl.request_alignment)) {
-+        error_setg(errp, "invalid \"request-alignment\" value %" PRIu32 ", "
-+                   "must be a power of 2 less than INT_MAX",
-+                   bs->bl.request_alignment);
-+        return;
-+    }
-+
-+    ret = blkio_get_int(s->blkio, "optimal-io-size", &value);
-+    if (ret < 0) {
-+        error_setg_errno(errp, -ret, "failed to get \"optimal-io-size\": %s",
-+                         blkio_get_error_msg());
-+        return;
-+    }
-+    bs->bl.opt_transfer = value;
-+    if (bs->bl.opt_transfer > INT_MAX ||
-+        (bs->bl.opt_transfer % bs->bl.request_alignment)) {
-+        error_setg(errp, "invalid \"optimal-io-size\" value %" PRIu32 ", must "
-+                   "be a multiple of %" PRIu32, bs->bl.opt_transfer,
-+                   bs->bl.request_alignment);
-+        return;
-+    }
-+
-+    ret = blkio_get_int(s->blkio, "max-transfer", &value);
-+    if (ret < 0) {
-+        error_setg_errno(errp, -ret, "failed to get \"max-transfer\": %s",
-+                         blkio_get_error_msg());
-+        return;
-+    }
-+    bs->bl.max_transfer = value;
-+    if ((bs->bl.max_transfer % bs->bl.request_alignment) ||
-+        (bs->bl.opt_transfer && (bs->bl.max_transfer % bs->bl.opt_transfer))) {
-+        error_setg(errp, "invalid \"max-transfer\" value %" PRIu32 ", must be "
-+                   "a multiple of %" PRIu32 " and %" PRIu32 " (if non-zero)",
-+                   bs->bl.max_transfer, bs->bl.request_alignment,
-+                   bs->bl.opt_transfer);
-+        return;
-+    }
-+
-+    ret = blkio_get_int(s->blkio, "buf-alignment", &value);
-+    if (ret < 0) {
-+        error_setg_errno(errp, -ret, "failed to get \"buf-alignment\": %s",
-+                         blkio_get_error_msg());
-+        return;
-+    }
-+    if (value < 1) {
-+        error_setg(errp, "invalid \"buf-alignment\" value %d, must be "
-+                   "positive", value);
-+        return;
-+    }
-+    bs->bl.min_mem_alignment = value;
-+
-+    ret = blkio_get_int(s->blkio, "optimal-buf-alignment", &value);
-+    if (ret < 0) {
-+        error_setg_errno(errp, -ret,
-+                         "failed to get \"optimal-buf-alignment\": %s",
-+                         blkio_get_error_msg());
-+        return;
-+    }
-+    if (value < 1) {
-+        error_setg(errp, "invalid \"optimal-buf-alignment\" value %d, "
-+                   "must be positive", value);
-+        return;
-+    }
-+    bs->bl.opt_mem_alignment = value;
-+
-+    ret = blkio_get_int(s->blkio, "max-segments", &value);
-+    if (ret < 0) {
-+        error_setg_errno(errp, -ret, "failed to get \"max-segments\": %s",
-+                         blkio_get_error_msg());
-+        return;
-+    }
-+    if (value < 1) {
-+        error_setg(errp, "invalid \"max-segments\" value %d, must be positive",
-+                   value);
-+        return;
-+    }
-+    bs->bl.max_iov = value;
-+}
-+
-+/*
-+ * TODO
-+ * Missing libblkio APIs:
-+ * - block_status
-+ * - co_invalidate_cache
-+ *
-+ * Out of scope?
-+ * - create
-+ * - truncate
-+ */
-+
-+#define BLKIO_DRIVER(name, ...) \
-+    { \
-+        .format_name             = name, \
-+        .protocol_name           = name, \
-+        .instance_size           = sizeof(BDRVBlkioState), \
-+        .bdrv_file_open          = blkio_file_open, \
-+        .bdrv_close              = blkio_close, \
-+        .bdrv_getlength          = blkio_getlength, \
-+        .bdrv_get_info           = blkio_get_info, \
-+        .bdrv_attach_aio_context = blkio_attach_aio_context, \
-+        .bdrv_detach_aio_context = blkio_detach_aio_context, \
-+        .bdrv_co_pdiscard        = blkio_co_pdiscard, \
-+        .bdrv_co_preadv          = blkio_co_preadv, \
-+        .bdrv_co_pwritev         = blkio_co_pwritev, \
-+        .bdrv_co_flush_to_disk   = blkio_co_flush, \
-+        .bdrv_co_pwrite_zeroes   = blkio_co_pwrite_zeroes, \
-+        .bdrv_io_unplug          = blkio_io_unplug, \
-+        .bdrv_refresh_limits     = blkio_refresh_limits, \
-+        __VA_ARGS__ \
-+    }
-+
-+static BlockDriver bdrv_io_uring = BLKIO_DRIVER(
-+    DRIVER_IO_URING,
-+    .bdrv_needs_filename = true,
-+);
-+
-+static BlockDriver bdrv_nvme_io_uring = BLKIO_DRIVER(
-+    DRIVER_NVME_IO_URING,
-+    .bdrv_needs_filename = true,
-+);
-+
-+static BlockDriver bdrv_virtio_blk_vhost_user = BLKIO_DRIVER(
-+    DRIVER_VIRTIO_BLK_VHOST_USER
-+);
-+
-+static BlockDriver bdrv_virtio_blk_vhost_vdpa = BLKIO_DRIVER(
-+    DRIVER_VIRTIO_BLK_VHOST_VDPA
-+);
-+
-+static void bdrv_blkio_init(void)
-+{
-+    bdrv_register(&bdrv_io_uring);
-+    bdrv_register(&bdrv_nvme_io_uring);
-+    bdrv_register(&bdrv_virtio_blk_vhost_user);
-+    bdrv_register(&bdrv_virtio_blk_vhost_vdpa);
-+}
-+
-+block_init(bdrv_blkio_init);
-diff --git a/tests/qtest/modules-test.c b/tests/qtest/modules-test.c
-index 88217686e1..be2575ae6d 100644
---- a/tests/qtest/modules-test.c
-+++ b/tests/qtest/modules-test.c
-@@ -16,6 +16,9 @@ static void test_modules_load(const void *data)
- int main(int argc, char *argv[])
+ void ram_block_notifier_add(RAMBlockNotifier *n)
  {
-     const char *modules[] = {
-+#ifdef CONFIG_BLKIO
-+        "block-", "blkio",
-+#endif
- #ifdef CONFIG_CURL
-         "block-", "curl",
- #endif
-diff --git a/block/meson.build b/block/meson.build
-index 60bc305597..500878f082 100644
---- a/block/meson.build
-+++ b/block/meson.build
-@@ -92,6 +92,7 @@ block_modules = {}
+     QLIST_INSERT_HEAD(&ram_list.ramblock_notifiers, n, next);
+@@ -835,6 +848,10 @@ void ram_block_notifier_add(RAMBlockNotifier *n)
+ void ram_block_notifier_remove(RAMBlockNotifier *n)
+ {
+     QLIST_REMOVE(n, next);
++
++    if (n->ram_block_removed) {
++        qemu_ram_foreach_block(ram_block_notify_remove_single, n);
++    }
+ }
  
- modsrc = []
- foreach m : [
-+  [blkio, 'blkio', files('blkio.c')],
-   [curl, 'curl', files('curl.c')],
-   [glusterfs, 'gluster', files('gluster.c')],
-   [libiscsi, 'iscsi', [files('iscsi.c'), libm]],
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index eb3267bef5..2cb0de5601 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -67,6 +67,7 @@ meson_options_help() {
-   printf "%s\n" '  auth-pam        PAM access control'
-   printf "%s\n" '  avx2            AVX2 optimizations'
-   printf "%s\n" '  avx512f         AVX512F optimizations'
-+  printf "%s\n" '  blkio           libblkio block device driver'
-   printf "%s\n" '  bochs           bochs image format support'
-   printf "%s\n" '  bpf             eBPF support'
-   printf "%s\n" '  brlapi          brlapi character device driver'
-@@ -198,6 +199,8 @@ _meson_option_parse() {
-     --disable-gcov) printf "%s" -Db_coverage=false ;;
-     --enable-lto) printf "%s" -Db_lto=true ;;
-     --disable-lto) printf "%s" -Db_lto=false ;;
-+    --enable-blkio) printf "%s" -Dblkio=enabled ;;
-+    --disable-blkio) printf "%s" -Dblkio=disabled ;;
-     --block-drv-ro-whitelist=*) quote_sh "-Dblock_drv_ro_whitelist=$2" ;;
-     --block-drv-rw-whitelist=*) quote_sh "-Dblock_drv_rw_whitelist=$2" ;;
-     --enable-block-drv-whitelist-in-tools) printf "%s" -Dblock_drv_whitelist_in_tools=true ;;
+ void ram_block_notify_add(void *host, size_t size, size_t max_size)
+diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
+index 5ba01177bf..0d1520caac 100644
+--- a/util/vfio-helpers.c
++++ b/util/vfio-helpers.c
+@@ -847,10 +847,13 @@ void qemu_vfio_close(QEMUVFIOState *s)
+     if (!s) {
+         return;
+     }
++
++    ram_block_notifier_remove(&s->ram_notifier);
++
+     for (i = 0; i < s->nr_mappings; ++i) {
+         qemu_vfio_undo_mapping(s, &s->mappings[i], NULL);
+     }
+-    ram_block_notifier_remove(&s->ram_notifier);
++
+     g_free(s->usable_iova_ranges);
+     s->nb_iova_ranges = 0;
+     qemu_vfio_reset(s);
 -- 
 2.37.3
 
