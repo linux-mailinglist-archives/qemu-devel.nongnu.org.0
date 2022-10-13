@@ -2,75 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C855FDD96
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 17:53:14 +0200 (CEST)
-Received: from localhost ([::1]:52590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 476905FDD91
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 17:52:57 +0200 (CEST)
+Received: from localhost ([::1]:45926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj0WE-0003O9-Qy
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 11:53:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40600)
+	id 1oj0Vz-0003BW-Qk
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 11:52:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oj0QS-00063n-Gw
+ id 1oj0QS-00063o-HL
  for qemu-devel@nongnu.org; Thu, 13 Oct 2022 11:47:12 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:36706)
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:37717)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oj0QQ-0006nh-92
+ id 1oj0QQ-0006nl-LX
  for qemu-devel@nongnu.org; Thu, 13 Oct 2022 11:47:12 -0400
-Received: by mail-wr1-x430.google.com with SMTP id j7so3501357wrr.3
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 08:47:08 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id bv10so3486007wrb.4
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 08:47:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=s9tLEkGMjx+LeRH2K1bXF7eut3rxyi+ihNtthl4Zd5o=;
- b=nkQI8G3be+0K6dP7DRKs4rH4rDiNECC0S+1S9GwSa2u6ef/th9+UWAQMnibxL4Ddpr
- X/naGim0Lnmsz82U+hYbs3ds0HxcIkrGT+3lLdUpHRLp8gBKtjl5qIRf/QF90P84rQfW
- Po2CjSuf0aPwkf8/f+xM7ZjhU7wgTpNR2V79QaFrnGJZxwItF+v6pG+kr1Xp1YV+7Rtu
- Gs6iG9w0ZJ8tm4rHKBYq3Symm0hcu/qv7Zw0k2Dufxr9uywa6Oc5PFtbJQpcNp/5wqST
- gqjZibEU8y/+87HW3/KHOwmABpXpUmBvfuAwONNe/W3yOrwo1KB48ihQS3pkBlr259UC
- AFIg==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kl2iN6rt6pDhvN8sLa5DXi2F/l3cWenxvR+M48fWHds=;
+ b=d/bIwp2NH0e7L25cYYMPk1M+6Zon07aZYTNi88pksnFD4306LIpL5KhGWyF9oGTjIq
+ XovmDHpSK+xc76Z3QMv+WSFzyQhVpJJ3qDxTTL45t1tKpgh92/WFfFD6KKqg3KatdyBz
+ xWKKJ7KlneAf4Jz4Rj0D3mvGqH8ZXMFzihxqPr9PW+FffHQQfKGTYu17ir6p1YmyNwOW
+ 5XEiC2JUvhjmrOc5c432mjuYPnmd2MYMRlKi+bnKgF1BTOIopiS4RCy+BOB9hzMbPuNW
+ Op1n2qADQRyrctCkYJDzFzk4ZJiTL9l6/Tk6bAUQHpylhRHN+vS562LQSfS0bKc2kgNc
+ feBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=s9tLEkGMjx+LeRH2K1bXF7eut3rxyi+ihNtthl4Zd5o=;
- b=6bibk1D3zZ8dzRgq4RigyLT89TEDTG1S/SyuKS9oIbEJ5K35FX32Avi5Ymp5YJtg/5
- gjCBEIuvtmy7McsVBrLcfvoEsRxfDn047khQYrUY72PqvgGUYARIp6N21XnVsDD/4JXa
- LLflnHD1mRvxyB5LQqwjwZHonc3MObZtXXM/vIJgZtrjN38os4VfBgnIWqTv3rI5kcFu
- Htchu6uCnIN1ZQFbWAdkL9YnJ7l5VktHjgH0hmKYnOjCkbRFZwne2g7QX1e27wBtjENR
- dITjkyfKhMZY3vGTWTaDXwC7L6b4ycUYvb+BrKSSYr+eH3tJaDen7uytrf8M79qJfkND
- tVXg==
-X-Gm-Message-State: ACrzQf2EnVwA+wr3oa1L9KRXXo3sWvT91B1AFXDxl2SZQ/Rt+SzTM/hA
- YgSyINhLUFxAb43vKLz7KbfwqQ==
-X-Google-Smtp-Source: AMsMyM53QrpIprRhvx1VpQX3RfgaHUUQeik0pwMEaHmRtCLHVb/sZCoq0lOtaPZEaACaJsoPT6/oOQ==
-X-Received: by 2002:adf:f2c8:0:b0:22e:223a:330e with SMTP id
- d8-20020adff2c8000000b0022e223a330emr443614wrp.8.1665676027712; 
- Thu, 13 Oct 2022 08:47:07 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kl2iN6rt6pDhvN8sLa5DXi2F/l3cWenxvR+M48fWHds=;
+ b=KMxQ5Ibyz+Bx8esjZaBdVec/wDDTJ6+h5jhYOMmlBYEWGkDAY6KeiF6BeGivDTSqjL
+ ChTVSQwm5WHFCYiK2/stcKe3c4uLgJvFZ+PR2uKzbmj7xWUExBXQHnE4lWQlSjrmcWxO
+ UNGYwnpH6lwCy0Thx04O/h6ZL4TJy0S5vW4uNtUyWkGHE8I9YjarYBBNi54k9b58uD8B
+ t3/JCS0dNSAsN6ZkJujb4MYbvcExe4xJELRuOo5u5B+lJqjb9KgpvBt3E1FUH3XoHyHb
+ ov/bWf2rtrz41fio6VCYJ78Q+x3W3AGDGKgFenzQQ48BR+eyHm2k+FH7iV+8Mu/lnFHQ
+ D5Fw==
+X-Gm-Message-State: ACrzQf28+fpfHgCupvd1r18IrV4BUMsD9UGvi7/lhX3gU9v3OdSHqKLD
+ UoJU5F1L+YTvLa+0NNmxpbHIO7sUyRzTJg==
+X-Google-Smtp-Source: AMsMyM6veteo8pzKG3UR327Ks+H5yt/TMoW9ptyrL1yrPn4gKV8EVEJAojRuvzT8/Egik3j/hXzuIw==
+X-Received: by 2002:a5d:5942:0:b0:225:7425:4e39 with SMTP id
+ e2-20020a5d5942000000b0022574254e39mr412839wri.566.1665676029156; 
+ Thu, 13 Oct 2022 08:47:09 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- j12-20020a05600c190c00b003a601a1c2f7sm5101579wmq.19.2022.10.13.08.47.06
+ n13-20020a5d51cd000000b0022e47b57735sm2163521wrv.97.2022.10.13.08.47.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 13 Oct 2022 08:47:07 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 892251FFB7;
- Thu, 13 Oct 2022 16:47:05 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 0A8991FFBA;
+ Thu, 13 Oct 2022 16:47:06 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH  v2 0/7] testing/next (configure, RUNC, win32|64)
-Date: Thu, 13 Oct 2022 16:46:58 +0100
-Message-Id: <20221013154705.1846261-1-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PATCH  v2 2/7] tests/docker: update test-mingw to run single build
+Date: Thu, 13 Oct 2022 16:47:00 +0100
+Message-Id: <20221013154705.1846261-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221013154705.1846261-1-alex.bennee@linaro.org>
+References: <20221013154705.1846261-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,62 +99,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+While the test-build test happily run for mingw the test-mingw case
+runs more of the packaging inline with what our CI does. It however
+fails if we don't find both compilers and expects to be run on a
+docker image with both.
 
-OK back to hopefully a less hectic set of testing updates. This
-includes a number of patches from the last iteration and also an
-attempt to avoid using docker.py for the builds and instead call the
-container engine directly.
+Remove that distinction and make it work more like the other build
+test scripts.
 
-I've actually pushed the results of:
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ tests/docker/test-mingw | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
-  make docker-image-debian-hexagon-cross V=1 NOCACHE=1 NOUSER=1
-  docker tag qemu/debian-hexagon-cross:latest registry.gitlab.com/qemu-project/qemu/qemu/debian-hexagon-cross
-  docker push registry.gitlab.com/qemu-project/qemu/qemu/debian-hexagon-cross
-
-but sadly the build attempts to regenerate the container locally
-(rather than caching all the steps except the last).
-
-Please review.
-
-
-Alex Bennée (6):
-  tests/docker: update fedora-win[32|64]-cross with lcitool
-  tests/docker: update test-mingw to run single build
-  configure: don't enable cross compilers unless in target_list
-  configure: fix the --enable-static --disable-pie case
-  configure: expose the direct container command
-  tests/docker: use direct RUNC call in debian-toolchain
-
-Anton Johansson (1):
-  tests/docker: Add flex/bison to `debian-all-test`
-
- configure                                     |  13 +-
- tests/docker/Makefile.include                 |  38 +--
- tests/docker/dockerfiles/alpine.docker        |   2 +-
- tests/docker/dockerfiles/centos8.docker       |   2 +-
- .../dockerfiles/debian-all-test-cross.docker  |   2 +
- .../dockerfiles/debian-amd64-cross.docker     | 234 ++++++++---------
- tests/docker/dockerfiles/debian-amd64.docker  | 236 +++++++++---------
- .../dockerfiles/debian-arm64-cross.docker     | 232 ++++++++---------
- .../dockerfiles/debian-armel-cross.docker     | 230 ++++++++---------
- .../dockerfiles/debian-armhf-cross.docker     | 232 ++++++++---------
- .../dockerfiles/debian-hexagon-cross.docker   |   5 +
- .../dockerfiles/debian-mips64el-cross.docker  | 226 ++++++++---------
- .../dockerfiles/debian-mipsel-cross.docker    | 226 ++++++++---------
- .../dockerfiles/debian-ppc64el-cross.docker   | 230 ++++++++---------
- .../dockerfiles/debian-s390x-cross.docker     | 228 ++++++++---------
- .../dockerfiles/debian-toolchain.docker       |   5 +
- .../dockerfiles/fedora-win32-cross.docker     | 139 ++++++++---
- .../dockerfiles/fedora-win64-cross.docker     | 138 +++++++---
- tests/docker/dockerfiles/fedora.docker        | 230 ++++++++---------
- tests/docker/dockerfiles/opensuse-leap.docker |   2 +-
- tests/docker/dockerfiles/ubuntu2004.docker    | 234 ++++++++---------
- tests/docker/test-mingw                       |  16 +-
- tests/lcitool/libvirt-ci                      |   2 +-
- tests/lcitool/refresh                         |  48 ++--
- 24 files changed, 1549 insertions(+), 1401 deletions(-)
-
+diff --git a/tests/docker/test-mingw b/tests/docker/test-mingw
+index 0bc6d78872..18366972eb 100755
+--- a/tests/docker/test-mingw
++++ b/tests/docker/test-mingw
+@@ -13,14 +13,12 @@
+ 
+ . common.rc
+ 
+-requires_binary x86_64-w64-mingw32-gcc
+-requires_binary i686-w64-mingw32-gcc
++requires_binary x86_64-w64-mingw32-gcc i686-w64-mingw32-gcc
+ 
+ cd "$BUILD_DIR"
+ 
+-for prefix in x86_64-w64-mingw32- i686-w64-mingw32-; do
+-    TARGET_LIST=${TARGET_LIST:-$DEF_TARGET_LIST} \
+-        build_qemu --cross-prefix=$prefix \
++TARGET_LIST=${TARGET_LIST:-$DEF_TARGET_LIST} \
++build_qemu \
+         --enable-trace-backends=simple \
+         --enable-gnutls \
+         --enable-nettle \
+@@ -29,8 +27,6 @@ for prefix in x86_64-w64-mingw32- i686-w64-mingw32-; do
+         --enable-bzip2 \
+         --enable-guest-agent \
+         --enable-docs
+-    install_qemu
+-    make installer
+-    make clean
+-
+-done
++install_qemu
++make installer
++make clean
 -- 
 2.34.1
 
