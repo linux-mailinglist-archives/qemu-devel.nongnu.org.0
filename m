@@ -2,84 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A07D5FE375
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 22:43:29 +0200 (CEST)
-Received: from localhost ([::1]:33404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB52F5FE36D
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 22:41:27 +0200 (CEST)
+Received: from localhost ([::1]:35538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj53A-00016C-HP
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 16:43:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55874)
+	id 1oj51A-00060t-PX
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 16:41:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oj4vF-0003vL-VC
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 16:35:24 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:45774)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oj4vS-00044P-BY
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 16:35:33 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:42986)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oj4vE-0002RE-4T
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 16:35:17 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- o9-20020a17090a0a0900b0020ad4e758b3so2894742pjo.4
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 13:35:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oj4vP-0002Rk-M4
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 16:35:29 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id bp11so4598417wrb.9
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 13:35:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=JR6evI19xXKGI3mjU4yvYUQfbj0iWH0QgxekktTuz8Y=;
- b=BeGWYzyXjr0+62MCw98seEuoSL15aPqe9JmJ3ycIHbUG/pcUJ17ziCQ76JoPJencK1
- 8tQacpbiLe3pgqQJS6sX57AnZM527AKsAcR8TK9RXPWQzzlDb0Rd1Om/4FKIKokYkUSa
- fNWz5uYvNboivFvwnhRnPcl47N1Oj3EqaUhnnxBEu+pqbUoKXyEYyx7WPHli2VJ/r2nX
- 5zpBfZrVSKkOPHl3Hjzt9ItCRLCQpq5hJg6N0IY+hElX7Dk7RGd4QxGl24k8w0csAhIO
- J7YPdRxnPSGGPW6oB6/ZUYg3kWhJ5wrHwQqcW7YhaiYfDmYKoroZoSB25rlvHnkhh8jV
- sanw==
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YjVk3CJ4slBuNZEdWsoYytNmRJoa5E5Dpq4oTROBO3w=;
+ b=PLrviyVCUhdbFGzqE8gDxxEzDEOr5OiZs1g9jDdQZZBSxxPx7VULT9cFk8d8jRgvVd
+ bkg8gz+cjA/rCfl4oGPLc43lfTKaIk1Ow/x55tcL6gVrcEwmAC770in12n90SY+9RbwZ
+ GmWNM08W7vOUH8hNqY8Hj5HJuHkot21Bn4ZoIhOSzEW71/crsGO74BY8q5rZVzk5kVuZ
+ HxtABMuk/a73uHkio+dRckFEUAf8IeGJvipF1hWx2uWeu2OZcfdarnR/pflDLtkVoWtV
+ QuyP8UAhOyQ52RDYe6zKTPeBy7lbiuueFlo3MELO77KXDHXq+fzG0r8qisTzDnZ0VL4G
+ 0+OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JR6evI19xXKGI3mjU4yvYUQfbj0iWH0QgxekktTuz8Y=;
- b=l8PPOGO7WkbxyW3v7N8BPDBJSQe3X7AsbUmJk3j/r38P3OEsGW1947DQT5GeNnkQXV
- pQs0rFjOrzro/IbEtZe4xQwD9z8XHrtQepPtF+vmyRWP4H/NgEjdXzCF67i2VrCeWqfK
- R+R+t1DPQeaf+t2X7Ad+eVLbil2V9vE4AZE6KGDMpYDLJ4KSvLUWNChjVlFzcOVxPnVG
- ZEcn1nvDX29HCWog4xG2+2CakpozOQgA2/8NcB7rlkfqWfJIN6mOHOC6f27w49A9nKAz
- UhKfrB72J7eoTObIVsd9xkXVvDawbS6urrzHJlTYGKylUsYbSS4r9YwYWre9eaLo4dxr
- to5w==
-X-Gm-Message-State: ACrzQf1onMOLsMuXwNLPqEvcf7dG25xYv29f+/Il2x4VGDzPEQNQoRcy
- who93GMoP8o35plFbr+sXXMIxQ==
-X-Google-Smtp-Source: AMsMyM5/QGOTrKfd1Uyfmt+pDWoQ8maCvisFmZo3/8p6+Hhb4thHg2OtOH1oj/T176Oq/nwa16XhHw==
-X-Received: by 2002:a17:902:f786:b0:180:6f9e:23b with SMTP id
- q6-20020a170902f78600b001806f9e023bmr1810210pln.37.1665693314465; 
- Thu, 13 Oct 2022 13:35:14 -0700 (PDT)
-Received: from [10.1.28.222] (110-175-13-142.static.tpgi.com.au.
- [110.175.13.142]) by smtp.gmail.com with ESMTPSA id
- x2-20020a170902a38200b00177ff4019d9sm236094pla.274.2022.10.13.13.35.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Oct 2022 13:35:13 -0700 (PDT)
-Message-ID: <cd7d0223-f539-982b-cc52-96b9c2f7b1ad@linaro.org>
-Date: Fri, 14 Oct 2022 07:35:08 +1100
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=YjVk3CJ4slBuNZEdWsoYytNmRJoa5E5Dpq4oTROBO3w=;
+ b=2kt+uMof8IeFDCFjkmXnsK6QNNhnGUwNkWeihnAJFh0isiYTsWYgyaYJGv9yld0At6
+ SW67mn+J9TLeb5kUalNDzkE2m5qMdtDJB0yvc4tIODiDkM46NscmLadgvmpoWqbV/IIu
+ qNHUNVytiFASZ+YWD/8R+2eX6HIEQoXldhAWXWWkT2onBvyd4FOb8bQBMLp+CR/MFerr
+ 8+zX8beefU41DCEB22OGaCaYA73PIfhXLDR5mBPb0GfO/hu/MS+IiLutkya2eKDvOowd
+ GVeWtrp/2J9oO5alqzgIad+elzD5vGf0dBCld9iMLWuTdMLumug5O2/+6473ZSQ7wLcA
+ tz3A==
+X-Gm-Message-State: ACrzQf2NiV2EfjxoJdaZ6iK9vG6F1Tq6Co212kJj1Yd/6AGDMbAVLQDQ
+ mxTjdZ+48jfbJz085CBKoOEQBUlWHXz2tA==
+X-Google-Smtp-Source: AMsMyM60rZ6+XDDy/lqOcSGlHWcr1qGZMw/hghKdYlVrcnLkGEAE3/nmV2fGrpZzYPe6PgCnADeL4g==
+X-Received: by 2002:a5d:456b:0:b0:230:9e5b:c64c with SMTP id
+ a11-20020a5d456b000000b002309e5bc64cmr1166676wrc.211.1665693324474; 
+ Thu, 13 Oct 2022 13:35:24 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ i17-20020a5d6311000000b0022e035a4e93sm357114wru.87.2022.10.13.13.35.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Oct 2022 13:35:24 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8ED981FFB7;
+ Thu, 13 Oct 2022 21:35:23 +0100 (BST)
+References: <20221013131304.623740-1-pbonzini@redhat.com>
+User-agent: mu4e 1.9.1; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH] tests/tcg: include CONFIG_PLUGIN in config-host.mak
+Date: Thu, 13 Oct 2022 21:35:12 +0100
+In-reply-to: <20221013131304.623740-1-pbonzini@redhat.com>
+Message-ID: <8735brpilw.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH 1/1] tcg: add perfmap and jitdump
-Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>
-Cc: "Vanderson M . do Rosario" <vandersonmr2@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20221012051846.1432050-1-iii@linux.ibm.com>
- <20221012051846.1432050-2-iii@linux.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221012051846.1432050-2-iii@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.25,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,39 +94,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/12/22 22:18, Ilya Leoshkevich wrote:
-> Add ability to dump /tmp/perf-<pid>.map and jit-<pid>.dump.
-> The first one allows the perf tool to map samples to each individual
-> translation block. The second one adds the ability to resolve symbol
-> names, line numbers and inspect JITed code.
-> 
-> Example of use:
-> 
->      perf record qemu-x86_64 -perfmap ./a.out
->      perf report
-> 
-> or
-> 
->      perf record -k 1 qemu-x86_64 -jitdump ./a.out
->      perf inject -j -i perf.data -o perf.data.jitted
->      perf report -i perf.data.jitted
-> 
-> Co-developed-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
-> Co-developed-by: Alex Bennée <alex.bennee@linaro.org>
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 
-I think I remember this, and the question that was never answered was:
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> @@ -1492,6 +1493,8 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
->       }
->       tb->tc.size = gen_code_size;
->   
-> +    perf_report_code(gen_code_buf, gen_code_size, tb->icount, tb->pc);
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  configure | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/configure b/configure
+> index f4ff1cf305..a5af9c524f 100755
+> --- a/configure
+> +++ b/configure
+> @@ -2474,6 +2474,9 @@ echo "HOST_CC=3D$host_cc" >> $config_host_mak
+>  if test -n "$gdb_bin"; then
+>      echo "HAVE_GDB_BIN=3D$gdb_bin" >> $config_host_mak
+>  fi
+> +if test "$plugins" =3D "yes" ; then
+> +    echo "CONFIG_PLUGIN=3Dy" >> $config_host_mak
+> +fi
 
-When do_tb_flush is called, everything that is recorded in perfmap is invalidated.
-How do you tell perf about that?
+Don't we already do that anyway?
+
+>=20=20
+>  tcg_tests_targets=3D
+>  for target in $target_list; do
 
 
-r~
-
+--=20
+Alex Benn=C3=A9e
 
