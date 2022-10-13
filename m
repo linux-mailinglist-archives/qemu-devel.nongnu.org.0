@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 465DF5FE0EF
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 20:18:44 +0200 (CEST)
-Received: from localhost ([::1]:37252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C1475FE0FE
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 20:21:20 +0200 (CEST)
+Received: from localhost ([::1]:33752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj2n5-0002nB-0z
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 14:18:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38120)
+	id 1oj2pb-00046p-MD
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 14:21:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oj2ig-0007R6-QK
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:14:11 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:36690)
+ id 1oj2lR-00020g-IV
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:17:07 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:35370)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oj2if-0005xz-8y
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:14:10 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id
- d7-20020a17090a2a4700b0020d268b1f02so5666672pjg.1
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 11:14:06 -0700 (PDT)
+ id 1oj2lP-0006Xj-Np
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:17:01 -0400
+Received: by mail-pl1-x636.google.com with SMTP id h10so2560153plb.2
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 11:16:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=P8c/6NSIVil1WKOR3nxL1QV2Mb4WY8WPJioU1iryS3c=;
- b=PdZB+XdqpU78hOJcqR+SIc3B7xLmCOYgmbV0X66WjsxH6v66w6ui8Gkjla7KXycPa+
- mTcOtD49o/0u7S4u2aafsqYBkTqzufcTFRX20Tq5pmE9qtd00vVBqfay1yJipIFKyMHl
- bLmgFqdBDr+GtDNh/T0GAktRj0kgkybWloM8l/dufe8di+hm4LKj2KBtIq4U9ekklbO6
- BMaG9bd4rR8MkmqDclvN2VfWZcea5HBDdu8MbOAWimeObsyOdpwmoRLRWEGcTK9aG3ry
- V1xk9EGraVI4VfcciohEursHkpF8T7WkDTDwbgsmyHXihz/eVWm0gMtSv2ANhWKMkvJV
- y7EA==
+ bh=iJeu/I31b6hVJSCC8AsqCZpMYRa3PtYLoTet6p+YpGA=;
+ b=Vg0t8Y+Lk4K08y5s/mQwgRn09L5i2n5Hu0BzO3XPZxsMLTK+dNB3SAgubXXR4/CKwX
+ shc6ZQ396q9FVtx3mzGNz99rnuORtt4xCUYUeSaGgUoRthUun1mklJjF0M5kHJuH0rq0
+ rRC6F10QGU2Gaf9+fJmTu9dPYWxITE7QBJE7+Vxnj/yWlXmI2WHUX0Vhj8Bxgb9uCCeO
+ ART45ttbn4sgjmwvnFwBNrFN8fDwIHvMInSDt8OGfuhCRYcVxQ73S4mdT38Upl7tUGXH
+ ADIA5PjkImRfK+UTLgjN0XGyfoUgG23FZQEJ2MSxxRolej7aNkhK7KvTVcVJ/Xvj6NX4
+ UpWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=P8c/6NSIVil1WKOR3nxL1QV2Mb4WY8WPJioU1iryS3c=;
- b=6nOcYgXvQe8BLlZDfrV+2M7TlhSR3QLCa3wUggbiHz8cYKhq8j7/EFb3g8zo0SDxpk
- SdW71a6I827YJNKVyJfvQOMfjw7Dd9SF86fJAdETB7QczbbpiLnTI2WOhfXb+MtPb30X
- lkwe192CtWhxPaRRmFsKaP2gX+nXHvF/kcE5IJODtNSna75Z3tCAvhrwOkGe5yzDef1E
- IoHlva44V0SviuGZKJSWMz8Nwv4n+ZiN5ncxPEi/AC74A0AGvQzp4v+jMSXzvgK+LsYW
- n45BWTdNHDRPuUHck4Jc8qGozsceXMi9+amO/CZadCqcEOUx8cSBY+xotK3dyfiK9AUK
- KzXw==
-X-Gm-Message-State: ACrzQf2hVCFQX6i3n/nBIuq3tT6pYJaJ2S/qQmu1qlrY0Lx909Rm1mIk
- Kv0bLPOUbgGFVCWN+LeMQxUWjyqz/AjxZRaA
-X-Google-Smtp-Source: AMsMyM6udEuCCveSitlSVDmmPiFO9UI+uZ5XZJArsU2lZWV0NGwdI6v58UYnf3ifr5BLqHVTY0NYNw==
-X-Received: by 2002:a17:902:8f91:b0:184:d3ed:afd8 with SMTP id
- z17-20020a1709028f9100b00184d3edafd8mr1210402plo.15.1665684845162; 
- Thu, 13 Oct 2022 11:14:05 -0700 (PDT)
+ bh=iJeu/I31b6hVJSCC8AsqCZpMYRa3PtYLoTet6p+YpGA=;
+ b=igUdYbChhCIQIx3Dkrs5GkPHBkrmzPwNFR4Htn4hMf9pt0fWue4mumeLhyA6jMVW0D
+ anhjHL+wc2GC1gMPTvMdGg1Eam3+yL9/sQd8qSWHDvC+oijyEmX6o5jeGqtkq5yR02rd
+ BOfCPGGwFVuwUerKJc38FEFuJLLLv8XVGBBFTGsTz0+YTVdgzbnxYKECq8Hp+rl3Yqfy
+ 9R21X28Z2JeLRJZMCgo2FWSRBv/dr9DhOAHB4Oc6w4wyE+mcEPn/4MVpqrgg6otIiDG8
+ 4dgZsZotPLL+7lIXqsKkKGzVjgFT+ZxufLp5rN/1l734FtTPfSLkF782PwxOkSD6NWj+
+ pNHw==
+X-Gm-Message-State: ACrzQf3byh2poeDapcs9H2xKaq5Qnp68xO8YQy6AJYSd+HKXtDwmmH7l
+ LKd2gMFvNf6bYUZoPgx2LkXFXQ==
+X-Google-Smtp-Source: AMsMyM66stNhRsBtUyVzFhSvI2TTHt8VWE7GxQAVdBYYa2xp8Cg9Flhi5C9u1LOSEeaeAIueuW3o4w==
+X-Received: by 2002:a17:902:c952:b0:184:ba4f:af39 with SMTP id
+ i18-20020a170902c95200b00184ba4faf39mr1167159pla.58.1665685018156; 
+ Thu, 13 Oct 2022 11:16:58 -0700 (PDT)
 Received: from [10.1.28.222] (110-175-13-142.static.tpgi.com.au.
  [110.175.13.142]) by smtp.gmail.com with ESMTPSA id
- c21-20020a63da15000000b00439c6a4e1ccsm24199pgh.62.2022.10.13.11.14.02
+ b124-20020a62cf82000000b00562b752b38asm6734pfg.145.2022.10.13.11.16.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Oct 2022 11:14:04 -0700 (PDT)
-Message-ID: <6be37344-0c0e-9641-550b-3e1a32726035@linaro.org>
-Date: Fri, 14 Oct 2022 05:13:58 +1100
+ Thu, 13 Oct 2022 11:16:57 -0700 (PDT)
+Message-ID: <24a38a9e-b8e3-9076-8e5e-05b24ada5e34@linaro.org>
+Date: Fri, 14 Oct 2022 05:16:50 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH v2 0/8] rerandomize RNG seeds on reboot and handle
- record&replay
+Subject: Re: [PATCH] target/riscv: pmp: Fixup TLB size calculation
 Content-Language: en-US
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>, peter.maydell@linaro.org,
- pbonzini@redhat.com, qemu-devel@nongnu.org
-References: <20221011204645.1160916-1-Jason@zx2c4.com>
+To: Alistair Francis <alistair.francis@opensource.wdc.com>,
+ qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+Cc: bmeng.cn@gmail.com, palmer@dabbelt.com, alistair.francis@wdc.com,
+ alistair23@gmail.com
+References: <20221012011449.506928-1-alistair.francis@opensource.wdc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221011204645.1160916-1-Jason@zx2c4.com>
+In-Reply-To: <20221012011449.506928-1-alistair.francis@opensource.wdc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
@@ -95,28 +95,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/12/22 13:46, Jason A. Donenfeld wrote:
-> When the system reboots, the rng seed that QEMU passes should be
-> re-randomized, so that the new boot gets a new seed. This series wires
-> that up for FDT.
+On 10/12/22 18:14, Alistair Francis wrote:
+> From: Alistair Francis<alistair.francis@wdc.com>
 > 
-> Then, since the record&replay subsystem makes use of reset as well, we
-> add a new reset cause for record&replay, so that we can avoid
-> re-randomizing in these cases.
+> Since commit 4047368938f6 "accel/tcg: Introduce tlb_set_page_full" we
+> have been seeing this assert
 > 
-> Jason A. Donenfeld (8):
->    device-tree: add re-randomization helper function
->    arm: re-randomize rng-seed on reboot
->    riscv: re-randomize rng-seed on reboot
->    openrisc: re-randomize rng-seed on reboot
->    rx: re-randomize rng-seed on reboot
->    mips: re-randomize rng-seed on reboot
->    reset: allow registering handlers that aren't called by snapshot
->      loading
->    reset: do not re-randomize RNG seed on snapshot load
+>      ../accel/tcg/cputlb.c:1294: tlb_set_page_with_attrs: Assertion `is_power_of_2(size)' failed.
+> 
+> When running Tock on the OpenTitan machine.
+> 
+> The issue is that pmp_get_tlb_size() would return a TLB size that wasn't
+> a power of 2. The size was also smaller then TARGET_PAGE_SIZE.
+> 
+> This patch ensures that any TLB size less then TARGET_PAGE_SIZE is
+> rounded down to 1 to ensure it's a valid size.
+> 
+> Signed-off-by: Alistair Francis<alistair.francis@wdc.com>
+> ---
+> This is based on advice from Richard:
+> https://patchwork.kernel.org/project/qemu-devel/patch/20221004141051.110653-9-richard.henderson@linaro.org/#25043166
+> 
+>   target/riscv/pmp.c | 12 ++++++++++++
+>   1 file changed, 12 insertions(+)
 
-You need to invert the patch order so that the series is bisectable.
-At the moment you still introduce the reported bug, then fix it in the final patch.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
