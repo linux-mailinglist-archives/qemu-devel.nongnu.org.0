@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8B45FDE38
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 18:24:57 +0200 (CEST)
-Received: from localhost ([::1]:49994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D5605FDE3E
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 18:28:37 +0200 (CEST)
+Received: from localhost ([::1]:37428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj10y-0006e3-Ky
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 12:24:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53464)
+	id 1oj14W-00031N-2v
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 12:28:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=HNeY=2O=kaod.org=clg@ozlabs.org>)
- id 1oj0pv-0001as-Mv; Thu, 13 Oct 2022 12:13:31 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:50351)
+ id 1oj0pz-0001pL-8T; Thu, 13 Oct 2022 12:13:35 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:52681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=HNeY=2O=kaod.org=clg@ozlabs.org>)
- id 1oj0pt-0002js-4l; Thu, 13 Oct 2022 12:13:31 -0400
+ id 1oj0px-0002ky-Jf; Thu, 13 Oct 2022 12:13:34 -0400
 Received: from gandalf.ozlabs.org (mail.ozlabs.org
  [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4MpF1f2hzzz4xH0;
- Fri, 14 Oct 2022 03:13:26 +1100 (AEDT)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4MpF1k1XSWz4xGw;
+ Fri, 14 Oct 2022 03:13:30 +1100 (AEDT)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4MpF1Z3ql9z4xDn;
- Fri, 14 Oct 2022 03:13:22 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4MpF1f6KwCz4xH1;
+ Fri, 14 Oct 2022 03:13:26 +1100 (AEDT)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, qemu-block@nongnu.org,
@@ -35,11 +35,10 @@ Cc: qemu-arm@nongnu.org, qemu-block@nongnu.org,
  Alistair Francis <alistair@alistair23.me>,
  Francisco Iglesias <frasse.iglesias@gmail.com>,
  Iris Chen <irischenlj@fb.com>, Michael Walle <michael@walle.cc>,
- Patrick Williams <patrick@stwcx.xyz>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH v4 09/10] m25p80: Add the w25q01jvq SFPD table
-Date: Thu, 13 Oct 2022 18:12:40 +0200
-Message-Id: <20221013161241.2805140-10-clg@kaod.org>
+Subject: [PATCH v4 10/10] arm/aspeed: Replace mx25l25635e chip model
+Date: Thu, 13 Oct 2022 18:12:41 +0200
+Message-Id: <20221013161241.2805140-11-clg@kaod.org>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221013161241.2805140-1-clg@kaod.org>
 References: <20221013161241.2805140-1-clg@kaod.org>
@@ -69,92 +68,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Patrick Williams <patrick@stwcx.xyz>
+A mx25l25635f chip model is generally found on these machines. It's
+newer and uses 4B opcodes which is better to exercise the support in
+the Linux kernel.
 
-Generated from hardware using the following command and then padding
-with 0xff to fill out a power-of-2:
-    hexdump -v -e '8/1 "0x%02x, " "\n"' sfdp`
-
-Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
 Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-[ clg: removed extern ]
-Message-Id: <20221006224424.3556372-1-patrick@stwcx.xyz>
+Message-Id: <20220722063602.128144-9-clg@kaod.org>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/block/m25p80_sfdp.h |  2 ++
- hw/block/m25p80.c      |  3 ++-
- hw/block/m25p80_sfdp.c | 36 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 40 insertions(+), 1 deletion(-)
+ hw/arm/aspeed.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/block/m25p80_sfdp.h b/hw/block/m25p80_sfdp.h
-index e50f57e48e43..df7adfb5cec6 100644
---- a/hw/block/m25p80_sfdp.h
-+++ b/hw/block/m25p80_sfdp.h
-@@ -24,4 +24,6 @@ uint8_t m25p80_sfdp_mx66l1g45g(uint32_t addr);
- uint8_t m25p80_sfdp_w25q256(uint32_t addr);
- uint8_t m25p80_sfdp_w25q512jv(uint32_t addr);
- 
-+uint8_t m25p80_sfdp_w25q01jvq(uint32_t addr);
-+
- #endif
-diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index 8353a00a0595..02adc8752736 100644
---- a/hw/block/m25p80.c
-+++ b/hw/block/m25p80.c
-@@ -349,7 +349,8 @@ static const FlashPartInfo known_devices[] = {
-       .sfdp_read = m25p80_sfdp_w25q256 },
-     { INFO("w25q512jv",   0xef4020,      0,  64 << 10, 1024, ER_4K),
-       .sfdp_read = m25p80_sfdp_w25q512jv },
--    { INFO("w25q01jvq",   0xef4021,      0,  64 << 10, 2048, ER_4K) },
-+    { INFO("w25q01jvq",   0xef4021,      0,  64 << 10, 2048, ER_4K),
-+      .sfdp_read = m25p80_sfdp_w25q01jvq },
- };
- 
- typedef enum {
-diff --git a/hw/block/m25p80_sfdp.c b/hw/block/m25p80_sfdp.c
-index dad3d7e64f9f..77615fa29e5b 100644
---- a/hw/block/m25p80_sfdp.c
-+++ b/hw/block/m25p80_sfdp.c
-@@ -294,3 +294,39 @@ static const uint8_t sfdp_w25q512jv[] = {
-     0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
- };
- define_sfdp_read(w25q512jv);
-+
-+static const uint8_t sfdp_w25q01jvq[] = {
-+    0x53, 0x46, 0x44, 0x50, 0x06, 0x01, 0x01, 0xff,
-+    0x00, 0x06, 0x01, 0x10, 0x80, 0x00, 0x00, 0xff,
-+    0x84, 0x00, 0x01, 0x02, 0xd0, 0x00, 0x00, 0xff,
-+    0x03, 0x00, 0x01, 0x02, 0xf0, 0x00, 0x00, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xe5, 0x20, 0xfb, 0xff, 0xff, 0xff, 0xff, 0x3f,
-+    0x44, 0xeb, 0x08, 0x6b, 0x08, 0x3b, 0x42, 0xbb,
-+    0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00,
-+    0xff, 0xff, 0x40, 0xeb, 0x0c, 0x20, 0x0f, 0x52,
-+    0x10, 0xd8, 0x00, 0x00, 0x36, 0x02, 0xa6, 0x00,
-+    0x82, 0xea, 0x14, 0xe2, 0xe9, 0x63, 0x76, 0x33,
-+    0x7a, 0x75, 0x7a, 0x75, 0xf7, 0xa2, 0xd5, 0x5c,
-+    0x19, 0xf7, 0x4d, 0xff, 0xe9, 0x70, 0xf9, 0xa5,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0x0a, 0xf0, 0xff, 0x21, 0xff, 0xdc, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+};
-+define_sfdp_read(w25q01jvq);
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index bc5c1e167773..f8bc6d4a1406 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -1099,7 +1099,7 @@ static void aspeed_machine_palmetto_class_init(ObjectClass *oc, void *data)
+     amc->soc_name  = "ast2400-a1";
+     amc->hw_strap1 = PALMETTO_BMC_HW_STRAP1;
+     amc->fmc_model = "n25q256a";
+-    amc->spi_model = "mx25l25635e";
++    amc->spi_model = "mx25l25635f";
+     amc->num_cs    = 1;
+     amc->i2c_init  = palmetto_bmc_i2c_init;
+     mc->default_ram_size       = 256 * MiB;
+@@ -1150,7 +1150,7 @@ static void aspeed_machine_ast2500_evb_class_init(ObjectClass *oc, void *data)
+     amc->soc_name  = "ast2500-a1";
+     amc->hw_strap1 = AST2500_EVB_HW_STRAP1;
+     amc->fmc_model = "mx25l25635e";
+-    amc->spi_model = "mx25l25635e";
++    amc->spi_model = "mx25l25635f";
+     amc->num_cs    = 1;
+     amc->i2c_init  = ast2500_evb_i2c_init;
+     mc->default_ram_size       = 512 * MiB;
+@@ -1200,7 +1200,7 @@ static void aspeed_machine_witherspoon_class_init(ObjectClass *oc, void *data)
+     mc->desc       = "OpenPOWER Witherspoon BMC (ARM1176)";
+     amc->soc_name  = "ast2500-a1";
+     amc->hw_strap1 = WITHERSPOON_BMC_HW_STRAP1;
+-    amc->fmc_model = "mx25l25635e";
++    amc->fmc_model = "mx25l25635f";
+     amc->spi_model = "mx66l1g45g";
+     amc->num_cs    = 2;
+     amc->i2c_init  = witherspoon_bmc_i2c_init;
 -- 
 2.37.3
 
