@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A1685FE379
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 22:46:27 +0200 (CEST)
-Received: from localhost ([::1]:56676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 431CC5FE39E
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 22:59:39 +0200 (CEST)
+Received: from localhost ([::1]:43084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj562-0002wW-AS
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 16:46:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37312)
+	id 1oj5In-0007ni-F6
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 16:59:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oj546-0001RF-6N
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 16:44:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26386)
+ id 1oj5Gs-0005Ki-Dl
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 16:57:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29078)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oj543-0003vF-Jc
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 16:44:24 -0400
+ id 1oj5Go-00061L-Rr
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 16:57:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665693863;
+ s=mimecast20190719; t=1665694653;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3lhJv8px2PfIOO/lNX4WS8M26+aCpiQXAT09Al9YpHg=;
- b=XIPogIjum8ZDNqtAu1h4xvfylVgywIU8va3AESrTUqx03Ic/xBp+zGnnUwgpoKYCc7ZgTM
- GoFbUrm8xkf73jBQHc5mtGyd6v4UENhyJmaXeVVEjQGtJMaRZJD52Pa+hWDzpcalY+aI4C
- jNo48gC/DAgVNGvitWI1PzgninO4H14=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=PfMB6UZ6j9o8Ffa/dy5AELtg6EVVYOTwiurJFzKsKQs=;
+ b=B4iBBrr6u7qPqiQdpjG39s1AgTi7aqZ9YnVjmez7fvO9LylcVnsyNivw864PdsqDIrm9Ji
+ GRyuiUhSX26qsGm3BPGcYQxZFZN02HL2CIzpqD/yNw2OCRN3iWR7OsYEjukOzmNMcGxP9E
+ /V7r4Qm/u1gyVikqVnhK3KNU4McPwXI=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-586-zOrj1dc0NCSPSW7QGm5tuw-1; Thu, 13 Oct 2022 16:44:21 -0400
-X-MC-Unique: zOrj1dc0NCSPSW7QGm5tuw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- z16-20020a05640235d000b0045c0360bfcfso2236608edc.14
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 13:44:21 -0700 (PDT)
+ us-mta-19-r5CSg02oMlmzGEjSsMUdlQ-1; Thu, 13 Oct 2022 16:57:32 -0400
+X-MC-Unique: r5CSg02oMlmzGEjSsMUdlQ-1
+Received: by mail-ua1-f71.google.com with SMTP id
+ p18-20020ab01552000000b003e348b9ba6fso1196396uae.14
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 13:57:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3lhJv8px2PfIOO/lNX4WS8M26+aCpiQXAT09Al9YpHg=;
- b=WQ8VVovyVltMjfM/riA63782P1NI/MjQUDKFozc8Jwf0EKaYRXlcPafwkTzkJEiuY/
- V2/sR471xdENosBRZVU0KwI+6PoWht5WuDFkr62O7P8OYDXZx0XxV0UUBzZapnYZZuX7
- ifpR+cTD1K2K4hAWeIkQNN8SktQrLDXWWILKoSu6HlLnw7M8/aEaBEqMwXXXQ/dLNIr8
- whhYUpFesN3MUHNnhwNYoXVKiAboviXdhBh4yUQeqs48z521auWOuEYF+M/jjLj0/Huh
- FX9yzavsewYN5i7UcBzOJr8ENrgZ/LM3lnilssmBgDxWQ0agBr2HHjCeLn9fbDwHm/Uk
- 80Tg==
-X-Gm-Message-State: ACrzQf0sn9qUwJhhSOoaD8Wu3DyZ+qv1CbLM8x/sufPfjq3VJNqB+GdM
- KmtEMaq3L65NsZEQjAmypgIVXtZRxg9z40LtZmkA8dv0QOYIkBjJwgxIGZW5SHmGOdEpYCuIcDX
- IwWVVY3knyGsqPDY=
-X-Received: by 2002:a17:906:730f:b0:783:27c5:f65f with SMTP id
- di15-20020a170906730f00b0078327c5f65fmr1220701ejc.142.1665693860546; 
- Thu, 13 Oct 2022 13:44:20 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM78hJ7+rzpFiaps9iSb34UiWxdUp2XcW0qW4XjJFGUnHu3DmS2FjGGkPKPqbwNtOcRXRiMlIQ==
-X-Received: by 2002:a17:906:730f:b0:783:27c5:f65f with SMTP id
- di15-20020a170906730f00b0078327c5f65fmr1220688ejc.142.1665693860355; 
- Thu, 13 Oct 2022 13:44:20 -0700 (PDT)
-Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.gmail.com with ESMTPSA id
- w11-20020a170906d20b00b0078258a26667sm408400ejz.52.2022.10.13.13.44.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Oct 2022 13:44:19 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Sergio Lopez <slp@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH] hw/i386: Use device_cold_reset() to reset the APIC
-Date: Thu, 13 Oct 2022 22:43:27 +0200
-Message-Id: <20221013204326.654543-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221013171926.1447899-1-peter.maydell@linaro.org>
-References: 
+ bh=PfMB6UZ6j9o8Ffa/dy5AELtg6EVVYOTwiurJFzKsKQs=;
+ b=3RG6lpTGESL3ERwavzP0yoUNwMdUuvBN4/OjtnEdhagTrTE6a34wII7XrW4VQkKmgG
+ A8rdVO8JqohlgjHTzutxsHpV5w8LqHuMspGTAl1O4ajqI1TKkjPtN9xTQjjwuBkxsHcW
+ EbVq+dh7fQ2tR68szZqOyAF8yLMtzxURgdW5gYVv0PTzhwd9pDNh+KvqOo5F9gC65A8/
+ xwru2XOVe17BglY6OPN0rBUw0HJtB3xs5y7qrIZ8sdgVsHh55j/Ul3RelJTfjhoUCsnq
+ 8rC7MHQZJ3wntnMOC5TmopooYEVlcpTQ7yEERBMztmBev+4Q9SAX0Bc4OICMN/Bs8uOC
+ wHlQ==
+X-Gm-Message-State: ACrzQf1iIxF4SOxo4UnGzO3e0baMhdrDjvjhdDmCiaKoK+Bwbp6nRXxE
+ 1oX/IOTaAzPwiT0ReL6kElTOGlTR22grk0RKGVqxEH1nJTJmfa3370KhqFEidDJGhKOYHwgZwvQ
+ rY5Jc+SsZbl40+FAfcF43TEBjhMHb0SE=
+X-Received: by 2002:a05:6102:e52:b0:3a7:c278:b60a with SMTP id
+ p18-20020a0561020e5200b003a7c278b60amr1311576vst.54.1665694650470; 
+ Thu, 13 Oct 2022 13:57:30 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM79y1ptsEkCHIxn7gapczB/Hcb2ewBhWgjRakOXC0riyRKEcwgCA9cjq2LuGW/0khMKiOFXnrB3Nhii5uWDVLQ=
+X-Received: by 2002:a05:6102:e52:b0:3a7:c278:b60a with SMTP id
+ p18-20020a0561020e5200b003a7c278b60amr1311527vst.54.1665694648737; Thu, 13
+ Oct 2022 13:57:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+References: <20221013131304.623740-1-pbonzini@redhat.com>
+ <8735brpilw.fsf@linaro.org>
+In-Reply-To: <8735brpilw.fsf@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Thu, 13 Oct 2022 22:57:17 +0200
+Message-ID: <CABgObfZ3GH9-nFL7wZYxFtA0F49OmMPOKb3=qqfNWtXySr7arA@mail.gmail.com>
+Subject: Re: [PATCH] tests/tcg: include CONFIG_PLUGIN in config-host.mak
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -101,9 +95,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This conflicts with "hyperv: fix SynIC SINT assertion failure on
-guest reset", but the resolution is simply to do the change in a new
-function x86_cpu_after_reset(); adjusted and queued, thanks.
+On Thu, Oct 13, 2022 at 10:35 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
+wrote:
+>
+>
+> Paolo Bonzini <pbonzini@redhat.com> writes:
+>
+> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> > ---
+> >  configure | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/configure b/configure
+> > index f4ff1cf305..a5af9c524f 100755
+> > --- a/configure
+> > +++ b/configure
+> > @@ -2474,6 +2474,9 @@ echo "HOST_CC=3D$host_cc" >> $config_host_mak
+> >  if test -n "$gdb_bin"; then
+> >      echo "HAVE_GDB_BIN=3D$gdb_bin" >> $config_host_mak
+> >  fi
+> > +if test "$plugins" =3D "yes" ; then
+> > +    echo "CONFIG_PLUGIN=3Dy" >> $config_host_mak
+> > +fi
+>
+> Don't we already do that anyway?
+
+No, we don't.  CONFIG_PLUGIN enables "make test-plugins" and "make
+plugins" but not the plugin tests in tests/tcg.
 
 Paolo
 
