@@ -2,86 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7410F5FE16C
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 20:38:05 +0200 (CEST)
-Received: from localhost ([::1]:57174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FA725FE172
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 20:40:11 +0200 (CEST)
+Received: from localhost ([::1]:51540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj35o-00040h-3p
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 14:38:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51586)
+	id 1oj37q-00064G-D0
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 14:40:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oj30u-0001cJ-Vy
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:33:03 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:43829)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oj30s-0000OE-Ml
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 14:33:00 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- x31-20020a17090a38a200b0020d2afec803so2647883pjb.2
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 11:32:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=HGKU1HfSG1B7cf09yGzHx1Ql+djcrgurdKC/39LZ0Mo=;
- b=hcECfpL+qokieG/64JFI2YO3M1GOtN00cRlIScy2dflxyYEcc1ZIBvBdQWvUK0nZ7h
- Wl/DuGPlPUG3ICIEZFKHcE+/iu6pTHdawW49ovlg3JvlBvNumqoQMnrQt314tMK3Z1OJ
- ewPKmAt1sDK/FJCkTvIt5EamwqLLgH27mI7RH04Zp4jPcvlxnvv8q1nKFQkD88IukDXn
- J72tTntoynSL8LXQ2c2JyVoAWJWiKf4ymQyGcic1Oh2KIBwPOyTYPcXRsxF+NZUHuwy+
- 7CpXL6xce30yH3/wqVMjwtMGWLoT/RzqBF2E7q6oVCF0bb5gxQ2/1QFiO//XjCbWlqrh
- 0U0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HGKU1HfSG1B7cf09yGzHx1Ql+djcrgurdKC/39LZ0Mo=;
- b=eX80k/6U9xHSSWFUsjwx6LwD8pM5bDnaLzavIwL/NV2HNa0+S/Wp10bNYVYdez3Jsn
- gqsYPEphAk0nZi8yrnSWh0T5t8QzjPBzXJxMO4wX9+VcRHyII0xSYOU2u+kaOOm8IMUu
- +LrmzAaOaGEHJAW/mjwHMKcmnEuzp/g0ymH2NJubF08EDcUT/FNqkyB38CuLP/xj2EFT
- LEB0nDfZPRqDWrk2bRMmftk66dDndSm0dSW+iQDZbtOHC/pNgypVZnrRC6nXVbgGCJ+6
- 8Idyl1xNzzqQ9Rv+pkAeARAvGqwB6eDwMA9q4VGeGMMuG0PZuBCcgctbDfjAE1cQF7G3
- 5NHw==
-X-Gm-Message-State: ACrzQf06BksXOcHd0aCkzUAIQzk2JvUlG3Z7ors6vKZ+ZsStF9H5bO1E
- OcRPtAhmSudRb4Rk1tSLfhlgUg==
-X-Google-Smtp-Source: AMsMyM76osvACrVRMvfq6uznhuVAR88hIntIJjzMtBKtsb2eGu8cv7jRO95dBMwYl7lMjmo0keQIdQ==
-X-Received: by 2002:a17:902:ec8d:b0:178:2914:b5a0 with SMTP id
- x13-20020a170902ec8d00b001782914b5a0mr1037726plg.17.1665685977047; 
- Thu, 13 Oct 2022 11:32:57 -0700 (PDT)
-Received: from [10.1.28.222] (110-175-13-142.static.tpgi.com.au.
- [110.175.13.142]) by smtp.gmail.com with ESMTPSA id
- gg18-20020a17090b0a1200b0020d352dc81fsm83603pjb.54.2022.10.13.11.32.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Oct 2022 11:32:56 -0700 (PDT)
-Message-ID: <2b16297e-5c4a-fcae-6385-1a30e4c3a817@linaro.org>
-Date: Fri, 14 Oct 2022 05:32:50 +1100
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1oj34e-0003J2-KE; Thu, 13 Oct 2022 14:36:52 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:33466)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1oj34c-00014H-M0; Thu, 13 Oct 2022 14:36:52 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29DHfJkk028681;
+ Thu, 13 Oct 2022 18:36:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=rHwKY9VuyK0VU1bWPwo/qgzHzPGT9ANwR92bPwpDyS0=;
+ b=DuPXKi79ehaIxVboMcw6GUeZ1ccog3YGJP5SUgEf5Z/NHQedWBKqbdWMt7+schp473nR
+ wqcY//uBYSvbUNRzdudkouIvoSQw4n6HZA/vXXcJM6x45dKZDPDNFQsmIxlaU6YC5fcx
+ Usd35q1B3RPDSGr7UnW+Na4fLzIQw/mmsRv2uXoTDsO9igyKGQGEZKl+msEJIJNbJ2/W
+ UcWdqOKKXHs8pwNw9IGnqqbuZLBFjLIJoc/qamJjmnXNvrVNMXGIG3ADgsiw7kAL+O0N
+ ZoljuaOsrem/BzUHLvqldiVTp4VseLRW/PpeDcpw/kHB9/dASoOeS+Np0jrIYIdQLkew yA== 
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k6gp8xw39-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Oct 2022 18:36:45 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29DIZ8P6015740;
+ Thu, 13 Oct 2022 18:36:45 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma04dal.us.ibm.com with ESMTP id 3k30uaj0w2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Oct 2022 18:36:45 +0000
+Received: from smtpav01.wdc07v.mail.ibm.com ([9.208.128.113])
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 29DIahLK18154112
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 13 Oct 2022 18:36:44 GMT
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 428AB58067;
+ Thu, 13 Oct 2022 18:36:43 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 77BBC5804B;
+ Thu, 13 Oct 2022 18:36:42 +0000 (GMT)
+Received: from [9.77.158.13] (unknown [9.77.158.13])
+ by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Thu, 13 Oct 2022 18:36:42 +0000 (GMT)
+Message-ID: <906b6fdc-5b09-8cb6-cd6b-4b11317bd6ee@linux.ibm.com>
+Date: Thu, 13 Oct 2022 14:36:41 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2] Properly sign extend BBIT branch offset during
- calculation
+ Thunderbird/102.3.1
+Subject: Re: [PATCH] hw/s390x/s390-pci-inst.c: Use device_cold_reset() to
+ reset PCI devices
 Content-Language: en-US
-To: Christopher Wrogg <cwrogg@umich.edu>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Jiaxun Yang
- <jiaxun.yang@flygoat.com>, qemu-trivial@nongnu.org,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-References: <CAG7Es25Xv=WmA3VbgB2DzMZ7D9XYLe9CAnA3q2mHxiKHONvjcg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAG7Es25Xv=WmA3VbgB2DzMZ7D9XYLe9CAnA3q2mHxiKHONvjcg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org, Eric Farman <farman@linux.ibm.com>
+References: <20221013172123.1448288-1-peter.maydell@linaro.org>
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+In-Reply-To: <20221013172123.1448288-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: xTd4GBHZH6dIymokzYAGYBBlahjcjlpd
+X-Proofpoint-GUID: xTd4GBHZH6dIymokzYAGYBBlahjcjlpd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-13_08,2022-10-13_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ lowpriorityscore=0 spamscore=0 mlxscore=0 suspectscore=0 clxscore=1015
+ malwarescore=0 phishscore=0 mlxlogscore=999 adultscore=0 impostorscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210130105
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=mjrosato@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.25,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,40 +107,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/13/22 15:08, Christopher Wrogg wrote:
-> The Octeon specific BBIT instruction incorrectly computes
-> the branch offset. The 16 bit value is not sign extended.
+On 10/13/22 1:21 PM, Peter Maydell wrote:
+> The semantic difference between the deprecated device_legacy_reset()
+> function and the newer device_cold_reset() function is that the new
+> function resets both the device itself and any qbuses it owns,
+> whereas the legacy function resets just the device itself and nothing
+> else.
 > 
-> Signed-off-by: Christopher Wrogg <cwrogg@umich.edu <mailto:cwrogg@umich.edu>>
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1251 
-> <https://gitlab.com/qemu-project/qemu/-/issues/1251>
+> In s390-pci-inst.c we use device_legacy_reset() to reset an
+> S390PCIBusDevice.  This device doesn't have any child qbuses, so the
+> functions do the same thing and we can stop using the deprecated one.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   target/mips/tcg/octeon_translate.c | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
+> NB: tested only with 'make check' and 'make check-avocado', which
+> probably don't exercise this codepath.
+>
+
+I exercised the codepath by triggering the associated clp using both virtio and vfio pci devices on s390x; looks good to me.
+
+Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
+
+ 
+>  hw/s390x/s390-pci-inst.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/target/mips/tcg/octeon_translate.c b/target/mips/tcg/octeon_translate.c
-> index 6a207d2e7e..90f7b105cb 100644
-> --- a/target/mips/tcg/octeon_translate.c
-> +++ b/target/mips/tcg/octeon_translate.c
-> @@ -38,7 +38,10 @@ static bool trans_BBIT(DisasContext *ctx, arg_BBIT *a)
->       }
-> 
->       ctx->hflags |= MIPS_HFLAG_BC;
-> -    ctx->btarget = ctx->base.pc_next + 4 + a->offset * 4;
-> +    a->offset *= 4;
-> +    a->offset = (target_long)(int16_t)a->offset;
-> +    ctx->btarget = ctx->base.pc_next + 4 + a->offset;
+> diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
+> index 20a9bcc7afb..16f5a3e81b4 100644
+> --- a/hw/s390x/s390-pci-inst.c
+> +++ b/hw/s390x/s390-pci-inst.c
+> @@ -272,7 +272,7 @@ int clp_service_call(S390CPU *cpu, uint8_t r2, uintptr_t ra)
+>                  stw_p(&ressetpci->hdr.rsp, CLP_RC_SETPCIFN_FHOP);
+>                  goto out;
+>              }
+> -            device_legacy_reset(DEVICE(pbdev));
+> +            device_cold_reset(DEVICE(pbdev));
+>              pbdev->fh &= ~FH_MASK_ENABLE;
+>              pbdev->state = ZPCI_FS_DISABLED;
+>              stl_p(&ressetpci->fh, pbdev->fh);
 
-This looks wrong, because you're sign-extending after scaling, which gives you only 14 
-bits of offset instead of 16.
-
-The correct fix should be earlier in decode:
-
-- BBIT         11 set:1 . 10 rs:5 ..... offset:16 p=%bbit_p
-+ BBIT         11 set:1 . 10 rs:5 ..... offset:s16 p=%bbit_p
-
-to indicate a extract a signed field from the instruction.
-
-
-r~
 
