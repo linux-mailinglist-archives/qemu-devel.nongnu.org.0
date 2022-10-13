@@ -2,63 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E62795FDBFF
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 16:06:26 +0200 (CEST)
-Received: from localhost ([::1]:34892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67D2F5FDC12
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Oct 2022 16:08:26 +0200 (CEST)
+Received: from localhost ([::1]:56150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oiyqv-0008PS-Qa
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 10:06:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38190)
+	id 1oiysq-0001wS-Tj
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 10:08:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1oiylw-0003YK-Q9
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 10:01:16 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:60935)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oiymk-0004M1-Jx
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 10:02:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1oiylr-0003vI-Km
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 10:01:15 -0400
-Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
- mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MbSXf-1pGNm92VPF-00bq9i; Thu, 13 Oct 2022 16:01:00 +0200
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: David Gibson <david@gibson.dropbear.id.au>,
- Jason Wang <jasowang@redhat.com>, Stefano Brivio <sbrivio@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- alex.williamson@redhat.com
-Subject: [PATCH RFC] virtio-net: fix bottom-half packet TX on asynchronous
- completion
-Date: Thu, 13 Oct 2022 16:00:57 +0200
-Message-Id: <20221013140057.63575-1-lvivier@redhat.com>
-X-Mailer: git-send-email 2.37.3
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oiymf-000489-26
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 10:02:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665669719;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cDpQAoNALIq+h8KbThlvz2lpLVvK17PHPFb0cifDAek=;
+ b=KVe+kOdtJbhkemtE0FRlmLiBU0UhC1lbHWJZvUCdCeIlxzxWD4eOHWIeaJRtDWvjgSLfje
+ jqIcSlaTkiqI//YUgkZY/q32ZWrWCtjVJdSiZ0y/135O9bSxWM6HvOP6/Tw4MEvaowm9s3
+ IP7OLoq/1MbGR/XRPvY8lntdcw4rGGU=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-133-PFaal1ioMYS5ye9nvwexBw-1; Thu, 13 Oct 2022 10:01:58 -0400
+X-MC-Unique: PFaal1ioMYS5ye9nvwexBw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ r132-20020a1c448a000000b003c3a87d8abdso1233050wma.2
+ for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 07:01:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cDpQAoNALIq+h8KbThlvz2lpLVvK17PHPFb0cifDAek=;
+ b=o88YGvG85IuBlq+05miTbW6m1FnbF59hkChMDWstbt5RngnnNmqlPrkl683ysVog4W
+ oRNDZJAJZUFCqmJjvyp2y4NYrkLU1nfmz2joF03Ufjf5LEJjlNkucMMVX3fV0gSyP0yU
+ /OwnZgr3P6eIzq143rGlLFnlQIHtUp4xrq/QUre1kxC87DnUlXVgBxRfc78dHISMPM/d
+ O5VV/X0k6fTTIbyf4fKJ0E1VvGuLutNi6bT0S5DLE26Hz6FXRAkE1R2KZ/YfaKg/jqnx
+ kIcZaGNrfJT8ft++FEo46RdIZflG+S0J1Euqv4qJ7+xP+bP+OVsYMKPw1n54TimcktBk
+ cvrQ==
+X-Gm-Message-State: ACrzQf2QrU0bEjWtJtKb1omhbvySqvCkxYKs/HhV+i5I1QmjsZAIVcFY
+ +4MBXhlYKHGskvMvLhuXq7S2meZnHVERh3g47P1ygn/JhxYRGimQv0e4mwZouN+T7nKIHYgE8Pp
+ u5ma+z26wawyqAqQ=
+X-Received: by 2002:adf:9d8a:0:b0:230:5212:d358 with SMTP id
+ p10-20020adf9d8a000000b002305212d358mr62939wre.405.1665669717173; 
+ Thu, 13 Oct 2022 07:01:57 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4imcYQGES8zlCKJ5HwmdvBAJVA4AYX5YQd3dYEFRhf977vBrZlmNHTSJaewCknJLwTPls8BA==
+X-Received: by 2002:adf:9d8a:0:b0:230:5212:d358 with SMTP id
+ p10-20020adf9d8a000000b002305212d358mr62913wre.405.1665669716922; 
+ Thu, 13 Oct 2022 07:01:56 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ bh15-20020a05600c3d0f00b003b31c560a0csm4736635wmb.12.2022.10.13.07.01.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Oct 2022 07:01:56 -0700 (PDT)
+Date: Thu, 13 Oct 2022 15:01:53 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Tom Lendacky <thomas.lendacky@amd.com>
+Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Michael Roth <michael.roth@amd.com>
+Subject: Re: [PATCH 4/4] i386/cpu: Update how the EBX register of CPUID
+ 0x8000001F is set
+Message-ID: <Y0gaUYeH3Wzojd6W@work-vm>
+References: <cover.1664550870.git.thomas.lendacky@amd.com>
+ <5822fd7d02b575121380e1f493a8f6d9eba2b11a.1664550870.git.thomas.lendacky@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:zhbP6L+pLm58WfXKcUyKMs0nTReRNEDpNHo0isWZFrLrJLtJW0z
- rXV7osEr7xKknhfpZJuU9Z4nka4M2lr99BqSsgL25iYOSfOfno0oAyYgA9i9YBTGXqzcEzc
- W/aNTQWWklRQt8KKK8UMAxOGbID9j6NEw60HTauU5n/bgDXmuJsw9huoER2ELXy/VigMksn
- 80kLX2pDjxy3uQZ6OHKVw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:WbO84iE5bg8=:PvF0yLQ6zWu9YFZyHL49WC
- cJkVddWpe643MdY2FSZfhzxECIl5LvONGWpGTaaM9GLpR6f0ivHZ6fmQ9ZtZX8jk27qyTbG5Q
- qU+bUApmdGpoUms1URc5Nxa5Xy6QJ49oaHIeiJyu06EvueREBDtVYI9fOkFFSMO1RTLTmkAlW
- 1Fral60lyX/NPz9MoxdxtrWjHy0bT82N6UHoMQZIEwJRY8owH38xM3J00wxYQ/1XW8u9sB2DN
- yaxPAlroigBtjG61ZboWuADPFAGsC225FRqYTxRaXmNtY6QSIg5fl/ArvBdDlesuXvVIM+qjA
- ytw3/gA00krPKIzs6z8nVYoeiad4HFX2gqDdwbabQYWCYnjj2nl20wogrzceiS+mcFdJ3yDKM
- sKQjL5ZlJKzJ4r22xBPPTdjSHPb15ktyxWYDHskIt1ch5Q6+vEPU49ZezmxZmjQdet5dvzhkW
- cAf3i+klRU6gTnT6cu/h2kEKf3JVmODacwnfqwHSD9v8jR8uxYUUf2X2ZZa/F70/qtsl8mQTz
- Yz9mM1JT1i1MpZvBCIOOZ9G3CwW12gYl3tgAZxJdQfjBkoEtwDS2y1lvF6VbHVjyzRFxyX0tE
- Jl/sy2nQgj8OT8YdkLX6amabvTaihjrghlMbPuck2UZljRplPp63YFveKbNKKfaPxSMWguMd/
- o01hc9NKokoIZ6+oNQ+90F8s6YxIGczwnYGCUQw3Gr6aHENTOSv1+LC/J5CPiWDCe3guWTRbT
- bq/k2TI1MIOdgI/RgShcm79cjqhHH7Kwj5aByiNTM6WXPDZQKSzzir88INXS7QKoaUHAQqJLJ
- o2PmsVp
-Received-SPF: permerror client-ip=217.72.192.75;
- envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_FAIL=0.001, SPF_HELO_NONE=0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5822fd7d02b575121380e1f493a8f6d9eba2b11a.1664550870.git.thomas.lendacky@amd.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,93 +106,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When virtio-net is used with the socket netdev backend, the backend
-can be busy and not able to collect new packets.
+* Tom Lendacky (thomas.lendacky@amd.com) wrote:
+> Update the setting of CPUID 0x8000001F EBX to clearly document the ranges
+> associated with fields being set.
+> 
+> Fixes: 6cb8f2a663 ("cpu/i386: populate CPUID 0x8000_001F when SEV is active")
+> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
 
-In this case, net_socket_receive() returns 0 and registers a poll function
-to detect when the socket is ready again.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-In virtio_net_tx_bh(), virtio_net_flush_tx() forwards the 0, the virtio
-notifications are disabled and the function is not rescheduled, waiting
-for the backend to be ready.
-
-When the socket netdev backend is again able to send packets, the poll
-function re-starts to flush remaining packets. This is done by
-calling virtio_net_tx_complete(). It re-enables notifications and calls
-again virtio_net_flush_tx().
-
-But it seems if virtio_net_flush_tx() reaches the tx_burst value all
-the queue is not flushed and no new notification is sent to reschedule
-virtio_net_tx_bh(). Nothing re-start to flush the queue and remaining packets
-are stuck in the queue.
-
-To fix that, detect in virtio_net_tx_complete() if virtio_net_flush_tx()
-has been stopped by tx_burst and if yes reschedule the bottom half
-function virtio_net_tx_bh() to flush the remaining packets.
-
-This is what is done in virtio_net_tx_bh() when the virtio_net_flush_tx()
-is synchronous, and completely by-passed when the operation needs to be
-asynchronous.
-
-RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC
-
-Do we need to reschedule the function in the other case managed
-in virtio_net_tx_bh() and by-passed when the completion is asynchronous?
-
-    /* If less than a full burst, re-enable notification and flush
-     * anything that may have come in while we weren't looking.  If
-     * we find something, assume the guest is still active and reschedule */
-    virtio_queue_set_notification(q->tx_vq, 1);
-    ret = virtio_net_flush_tx(q);
-    if (ret == -EINVAL) {
-        return;
-    } else if (ret > 0) {
-        virtio_queue_set_notification(q->tx_vq, 0);
-        qemu_bh_schedule(q->tx_bh);
-        q->tx_waiting = 1;
-    }
-
-RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC
-
-Fixes: a697a334b3c4 ("virtio-net: Introduce a new bottom half packet TX")
-Cc: alex.williamson@redhat.com
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
----
- hw/net/virtio-net.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
-
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index e9f696b4cfeb..1fbf2f3e19a7 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -2526,6 +2526,7 @@ static void virtio_net_tx_complete(NetClientState *nc, ssize_t len)
-     VirtIONet *n = qemu_get_nic_opaque(nc);
-     VirtIONetQueue *q = virtio_net_get_subqueue(nc);
-     VirtIODevice *vdev = VIRTIO_DEVICE(n);
-+    int ret;
- 
-     virtqueue_push(q->tx_vq, q->async_tx.elem, 0);
-     virtio_notify(vdev, q->tx_vq);
-@@ -2534,7 +2535,17 @@ static void virtio_net_tx_complete(NetClientState *nc, ssize_t len)
-     q->async_tx.elem = NULL;
- 
-     virtio_queue_set_notification(q->tx_vq, 1);
--    virtio_net_flush_tx(q);
-+    ret = virtio_net_flush_tx(q);
-+    if (q->tx_bh && ret >= n->tx_burst) {
-+        /*
-+         * the flush has been stopped by tx_burst
-+         * we will not receive notification for the
-+         * remainining part, so re-schedule
-+         */
-+        virtio_queue_set_notification(q->tx_vq, 0);
-+        qemu_bh_schedule(q->tx_bh);
-+        q->tx_waiting = 1;
-+    }
- }
- 
- /* TX */
+> ---
+>  target/i386/cpu.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index 1db1278a59..d4b806cfec 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -5853,8 +5853,8 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+>          if (sev_enabled()) {
+>              *eax = 0x2;
+>              *eax |= sev_es_enabled() ? 0x8 : 0;
+> -            *ebx = sev_get_cbit_position();
+> -            *ebx |= sev_get_reduced_phys_bits() << 6;
+> +            *ebx = sev_get_cbit_position() & 0x3f; /* EBX[5:0] */
+> +            *ebx |= (sev_get_reduced_phys_bits() & 0x3f) << 6; /* EBX[11:6] */
+>          }
+>          break;
+>      default:
+> -- 
+> 2.37.3
+> 
+> 
 -- 
-2.37.3
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
