@@ -2,97 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7F715FEA36
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 10:12:04 +0200 (CEST)
-Received: from localhost ([::1]:60514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28BF55FEA31
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 10:11:07 +0200 (CEST)
+Received: from localhost ([::1]:58846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojFnY-0002CK-1v
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 04:12:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50494)
+	id 1ojFmb-00010k-QF
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 04:11:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=2798045df=alistair.francis@opensource.wdc.com>)
- id 1ojFb3-0002bj-4Z
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 03:59:11 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:61598)
+ id 1ojFbH-0002dY-MG
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 03:59:24 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:35409)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=2798045df=alistair.francis@opensource.wdc.com>)
- id 1ojFb0-0001sU-QM
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 03:59:08 -0400
+ id 1ojFbE-0001to-I3
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 03:59:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1665734346; x=1697270346;
+ t=1665734360; x=1697270360;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=NvQpTxAt7Jwe815We3BWQr037VMPQp+0sj7tkdyGg2k=;
- b=dO7ULAHFakZeNKiplDabXV8Q8aNOEnzFicvRQseZBi3m5cqY4DlzNxBz
- NHNbFXm2LcCJtV4purVLo3zn/lYXPmDrrzzNWH3aXu6ZyS9jIpqKKZQZd
- cHMsUogaNfcO1br0CxcQI2Pf4ZcEt06NOSOg7+Wp+DDaAZOOYbTTlBkHQ
- FN6FHUevi4eBAyNZqCLeT8AfaeFL0QKwagYVJQhFle4VoKksm/RoySGq6
- JK4rs+TojoaqQ2PHc3jmalO7zWmi65gW9tl5SwKfFENS6OJGxeD3U+F/R
- iccNU99NgFVVcio9Y2HO6XNRbvBRQ4lwfC3u+9sYt6wFHYszj5UxGmnij Q==;
-X-IronPort-AV: E=Sophos;i="5.95,182,1661788800"; d="scan'208";a="213790427"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ bh=7ASfuB1PE1bBH8PZby4AMXV092rPXBh0GNCgM9O0WMI=;
+ b=aMKbi8QkJf/yjhgOsb81REq51yBjYtrrSwtDHSGdbWUEo6QMRUn+OKUL
+ HlbZDqMJzPC6LIKFTgCOk7x+zfWZK+aRgWVz1DFlvXeBlPEQhEjriVYQS
+ ZqBNBwGbiIMgoLvQ1vXPLGASgut1L6TZigrLTgsw/8LzboXOgqWScHYgO
+ qziV4wVt8ORZD7mzYRiRq5gsejdlfzbBN7dLnd5e6GlbNe1d7ewwsP2n3
+ e8wyEYi/IWre2TPXoGiorIrMviv3/FKElY9m74XxLYD1+OOtzIU53HcZh
+ hiSsdDE4g7cu/rBtWxac/sBOVE/utjdgp81UnlZid35Po6Bz2WPI/xxNc Q==;
+X-IronPort-AV: E=Sophos;i="5.95,182,1661788800"; d="scan'208";a="318091163"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 14 Oct 2022 15:59:05 +0800
-IronPort-SDR: NpUL7me/zLTm0Uonq0G1u03jO72uY2MZdzgB2Cj2GE5/tAwOKTWLsghu/E+pRqjLX/W0SGQeTp
- kd1x6/81dXailK3WXt/zu6JevUxDmrVBWvV9jMEVzMFMDQrj88hGzJ5YCcpGH8THUI/GmSjQ4Q
- G26l9Up1ooIga92gpi1JtNVJipugHVNXb1DMj9Y7KqjrSDu5nJpP36XcC3cjdO3E1HfCRN98jg
- BX7gk5WS8CkEWohVJtWo5ennRzlgY6Li2ai6F4jRcSS0eOGgYs2Zp/xKNswIFH55nCKMTSCcLk
- KY/z4VNTnCLQwu/jiwkJxbiv
+ by ob1.hgst.iphmx.com with ESMTP; 14 Oct 2022 15:59:12 +0800
+IronPort-SDR: 7rILwU9bGcXV/7XFoNi70lfRW7yIM8F4Drx8BmvJbQ255moNQvWu+OTaM/BgG1J8Azv1Q2uuMR
+ buYXpz9SDn5BORP4jP5yjwCBG/tHyUf//piXg8J64PgfM3VQg0yYEWku0qFfe6BWbOIMXGb5Au
+ 4hgb8INx6fc5av0pRsWZU7+poQ84CwbqRT3PvuFq7O6Af0vNs4DDXU4T5pT6qO16pgnnWLD9tA
+ vTtervgawS4LoTT1uSZKL95ESpIu4FEJ1BUS13I1+kQZZrgKZPq2UjFG1rdsM2ONeefxuP+LkM
+ hmvy7lNXwsIeH3qbR5i6DIvZ
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 14 Oct 2022 00:13:04 -0700
-IronPort-SDR: nrY1lHwX/jaYYVqHS+gyTdBYf9//d0WTOqoPVYlh4euoDOJ8rlmv6LDL6j6uF+PvShfJtIBEZW
- Sd1q6NUcgUUC6ouA8ucgAjMPWom1cRnoHfZJCalfkYoRlK5fxVdQRAVxNRBHEOnZReij+BM/HW
- oJpPZO5rY3YCU5UU3Xg0DfLrI0j+TOJbg3WG5wABhigBAZk/ULYG4I+nnIA/PQ6UzqEgT+Jt7Q
- ph5mKy+oaFRfWQo2p03F8yQJ6k/alUklGsMp9+n86if/1lxWg75z4tZ/ewV4d29ke5+ysp0Mlj
- Xms=
+ 14 Oct 2022 00:13:11 -0700
+IronPort-SDR: c0OLmpMQKzevfc96r8RgRqnnnoFugiVLO3CTwFhXp8vUe89HsO9IsfbQWex5xAXB2C0e5Ejabv
+ oz1wPAfYghoQwClg6Jp+l7IwAt1IxtPEyt5XzW17U1cA8flCe3BA8rXMWvlMccvyhcbpPq3JCu
+ XL+/w/A4w14l81cKSbRBbWHkowQ62NQ+MnT1HZOwXLEYel3ZIOyTsiqQIePBNaaCTYRFshUeQC
+ KprCRDeeKRn7jx8K0/A/FM2Az7qnofhCoIxIH63JLSVKeYzhSXJrRMHQpc6yOS7eNxc6LBjelU
+ c1k=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 14 Oct 2022 00:59:05 -0700
+ 14 Oct 2022 00:59:12 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Mpf0n1HLSz1RwqL
- for <qemu-devel@nongnu.org>; Fri, 14 Oct 2022 00:59:05 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Mpf0v6JCjz1RwqL
+ for <qemu-devel@nongnu.org>; Fri, 14 Oct 2022 00:59:11 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1665734344; x=1668326345; bh=NvQpTxAt7Jwe815We3
- BWQr037VMPQp+0sj7tkdyGg2k=; b=ghvTIYIAC3MbCGH/vPMlAfSSEMLvLXqN8F
- 6Fg2csy4vwjZvpKTRQZ3FKdvHhE6icUCTsp4iTFlEg9fokMHmSdCBgh6+qzsMGeD
- 38DRhgNOjsxdWEPTOfspKqo75H3JY6QT3zwpjKPDEyboiRo3A4LL169UaDdDoP2/
- vcmYP/ym1hFi7phsDy3GXIJPWWCtan/g+2FDKL/YE5Vsjuppl0/tG4Hz5b8q/HWe
- w3xEI0f33fvtI8pjvwcaIYhE4kFnaR8+wFRdql+q/GfcrF5vUY6KaunLx5SA7Kxz
- paEE7tY14RgT8tz3/boNwBdCN6SIEa1OJfXJQgm4RqNxxwNLMZsg==
+ :from; s=dkim; t=1665734350; x=1668326351; bh=7ASfuB1PE1bBH8PZby
+ 4AMXV092rPXBh0GNCgM9O0WMI=; b=oVsbjuBmHz+5xC10sE1DngbwNAaBI4dZY5
+ k+YMQhucAm51UYJViU/ON5B89zofEHF5MF9Yt89Vkuy3E8AkThEB+xyjr+hAfmU2
+ XasWjxq6Tqng6L0YuAxpih9JFhEaLKKdkoSgWwRJcZLp40sewiL6gg7oxCWhmA/G
+ zPl7P+6VaWGPJha6SVCQAowQ6ZqIuyBMMSyafyJpc4m5Y0Caqxm3woR9qXl9ZfIP
+ f2w/b1ffpEfv+HDopKEWqL6tjFq8f3XcoDUsmV4WU70ums+w3bu6RothtXSz7km5
+ zl7bjB4qRAIaT/K5HWPpXMThodxva8nycNjt9wMj1DHY91SbgJ1Q==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 1eMwV4MkrFvy for <qemu-devel@nongnu.org>;
- Fri, 14 Oct 2022 00:59:04 -0700 (PDT)
+ port 10026) with ESMTP id w67UmSHQWJ-B for <qemu-devel@nongnu.org>;
+ Fri, 14 Oct 2022 00:59:10 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.167.19])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Mpf0h2vLpz1RvLy;
- Fri, 14 Oct 2022 00:59:00 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Mpf0n5N9jz1RvLy;
+ Fri, 14 Oct 2022 00:59:05 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Wilfred Mallawa <wilfred.mallawa@wdc.com>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 03/10] hw/ssi: ibex_spi: fixup/add rw1c functionality
-Date: Fri, 14 Oct 2022 17:58:23 +1000
-Message-Id: <20221014075830.914722-4-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Sunil V L <sunilvl@ventanamicro.com>,
+ Andrew Jones <ajones@ventanamicro.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Song Gao <gaosong@loongson.cn>
+Subject: [PULL 04/10] hw/arm,
+ loongarch: Move load_image_to_fw_cfg() to common location
+Date: Fri, 14 Oct 2022 17:58:24 +1000
+Message-Id: <20221014075830.914722-5-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221014075830.914722-1-alistair.francis@opensource.wdc.com>
 References: <20221014075830.914722-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.153.144;
+Received-SPF: pass client-ip=68.232.143.124;
  envelope-from=prvs=2798045df=alistair.francis@opensource.wdc.com;
- helo=esa5.hgst.iphmx.com
+ helo=esa2.hgst.iphmx.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -115,108 +117,231 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+From: Sunil V L <sunilvl@ventanamicro.com>
 
-This patch adds the `rw1c` functionality to the respective
-registers. The status fields are cleared when the respective
-field is set.
+load_image_to_fw_cfg() is duplicated by both arm and loongarch. The same
+function will be required by riscv too. So, it's time to refactor and
+move this function to a common path.
 
-Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20220930033241.206581-3-wilfred.mallawa@opensource.wdc.com>
+Reviewed-by: Song Gao <gaosong@loongson.cn>
+Message-Id: <20221004092351.18209-2-sunilvl@ventanamicro.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/ssi/ibex_spi_host.h |  4 ++--
- hw/ssi/ibex_spi_host.c         | 36 +++++++++++++++++++++++++++++++---
- 2 files changed, 35 insertions(+), 5 deletions(-)
+ include/hw/nvram/fw_cfg.h | 21 +++++++++++++++++
+ hw/arm/boot.c             | 49 ---------------------------------------
+ hw/loongarch/virt.c       | 33 --------------------------
+ hw/nvram/fw_cfg.c         | 32 +++++++++++++++++++++++++
+ 4 files changed, 53 insertions(+), 82 deletions(-)
 
-diff --git a/include/hw/ssi/ibex_spi_host.h b/include/hw/ssi/ibex_spi_hos=
-t.h
-index 3fedcb6805..1f6d077766 100644
---- a/include/hw/ssi/ibex_spi_host.h
-+++ b/include/hw/ssi/ibex_spi_host.h
-@@ -40,7 +40,7 @@
-     OBJECT_CHECK(IbexSPIHostState, (obj), TYPE_IBEX_SPI_HOST)
+diff --git a/include/hw/nvram/fw_cfg.h b/include/hw/nvram/fw_cfg.h
+index e4fef393be..2e503904dc 100644
+--- a/include/hw/nvram/fw_cfg.h
++++ b/include/hw/nvram/fw_cfg.h
+@@ -364,4 +364,25 @@ bool fw_cfg_dma_enabled(void *opaque);
+  */
+ const char *fw_cfg_arch_key_name(uint16_t key);
 =20
- /* SPI Registers */
--#define IBEX_SPI_HOST_INTR_STATE         (0x00 / 4)  /* rw */
-+#define IBEX_SPI_HOST_INTR_STATE         (0x00 / 4)  /* rw1c */
- #define IBEX_SPI_HOST_INTR_ENABLE        (0x04 / 4)  /* rw */
- #define IBEX_SPI_HOST_INTR_TEST          (0x08 / 4)  /* wo */
- #define IBEX_SPI_HOST_ALERT_TEST         (0x0c / 4)  /* wo */
-@@ -54,7 +54,7 @@
- #define IBEX_SPI_HOST_TXDATA             (0x28 / 4)
++/**
++ * load_image_to_fw_cfg() - Load an image file into an fw_cfg entry iden=
+tified
++ *                          by key.
++ * @fw_cfg:         The firmware config instance to store the data in.
++ * @size_key:       The firmware config key to store the size of the loa=
+ded
++ *                  data under, with fw_cfg_add_i32().
++ * @data_key:       The firmware config key to store the loaded data und=
+er,
++ *                  with fw_cfg_add_bytes().
++ * @image_name:     The name of the image file to load. If it is NULL, t=
+he
++ *                  function returns without doing anything.
++ * @try_decompress: Whether the image should be decompressed (gunzipped)=
+ before
++ *                  adding it to fw_cfg. If decompression fails, the ima=
+ge is
++ *                  loaded as-is.
++ *
++ * In case of failure, the function prints an error message to stderr an=
+d the
++ * process exits with status 1.
++ */
++void load_image_to_fw_cfg(FWCfgState *fw_cfg, uint16_t size_key,
++                          uint16_t data_key, const char *image_name,
++                          bool try_decompress);
++
+ #endif
+diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+index ee3858b673..b0b92af188 100644
+--- a/hw/arm/boot.c
++++ b/hw/arm/boot.c
+@@ -822,55 +822,6 @@ static void do_cpu_reset(void *opaque)
+     }
+ }
 =20
- #define IBEX_SPI_HOST_ERROR_ENABLE       (0x2c / 4)  /* rw */
--#define IBEX_SPI_HOST_ERROR_STATUS       (0x30 / 4)  /* rw */
-+#define IBEX_SPI_HOST_ERROR_STATUS       (0x30 / 4)  /* rw1c */
- #define IBEX_SPI_HOST_EVENT_ENABLE       (0x34 / 4)  /* rw */
-=20
- /* FIFO Len in Bytes */
-diff --git a/hw/ssi/ibex_spi_host.c b/hw/ssi/ibex_spi_host.c
-index d145a4cdbd..57df462e3c 100644
---- a/hw/ssi/ibex_spi_host.c
-+++ b/hw/ssi/ibex_spi_host.c
-@@ -342,7 +342,7 @@ static void ibex_spi_host_write(void *opaque, hwaddr =
-addr,
+-/**
+- * load_image_to_fw_cfg() - Load an image file into an fw_cfg entry iden=
+tified
+- *                          by key.
+- * @fw_cfg:         The firmware config instance to store the data in.
+- * @size_key:       The firmware config key to store the size of the loa=
+ded
+- *                  data under, with fw_cfg_add_i32().
+- * @data_key:       The firmware config key to store the loaded data und=
+er,
+- *                  with fw_cfg_add_bytes().
+- * @image_name:     The name of the image file to load. If it is NULL, t=
+he
+- *                  function returns without doing anything.
+- * @try_decompress: Whether the image should be decompressed (gunzipped)=
+ before
+- *                  adding it to fw_cfg. If decompression fails, the ima=
+ge is
+- *                  loaded as-is.
+- *
+- * In case of failure, the function prints an error message to stderr an=
+d the
+- * process exits with status 1.
+- */
+-static void load_image_to_fw_cfg(FWCfgState *fw_cfg, uint16_t size_key,
+-                                 uint16_t data_key, const char *image_na=
+me,
+-                                 bool try_decompress)
+-{
+-    size_t size =3D -1;
+-    uint8_t *data;
+-
+-    if (image_name =3D=3D NULL) {
+-        return;
+-    }
+-
+-    if (try_decompress) {
+-        size =3D load_image_gzipped_buffer(image_name,
+-                                         LOAD_IMAGE_MAX_GUNZIP_BYTES, &d=
+ata);
+-    }
+-
+-    if (size =3D=3D (size_t)-1) {
+-        gchar *contents;
+-        gsize length;
+-
+-        if (!g_file_get_contents(image_name, &contents, &length, NULL)) =
+{
+-            error_report("failed to load \"%s\"", image_name);
+-            exit(1);
+-        }
+-        size =3D length;
+-        data =3D (uint8_t *)contents;
+-    }
+-
+-    fw_cfg_add_i32(fw_cfg, size_key, size);
+-    fw_cfg_add_bytes(fw_cfg, data_key, data, size);
+-}
+-
+ static int do_arm_linux_init(Object *obj, void *opaque)
  {
-     IbexSPIHostState *s =3D opaque;
-     uint32_t val32 =3D val64;
--    uint32_t shift_mask =3D 0xff, status =3D 0;
-+    uint32_t shift_mask =3D 0xff, status =3D 0, data =3D 0;
-     uint8_t txqd_len;
+     if (object_dynamic_cast(obj, TYPE_ARM_LINUX_BOOT_IF)) {
+diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
+index 29df99727d..4b595a9ea4 100644
+--- a/hw/loongarch/virt.c
++++ b/hw/loongarch/virt.c
+@@ -598,39 +598,6 @@ static void reset_load_elf(void *opaque)
+     }
+ }
 =20
-     trace_ibex_spi_host_write(addr, size, val64);
-@@ -352,7 +352,17 @@ static void ibex_spi_host_write(void *opaque, hwaddr=
- addr,
+-/* Load an image file into an fw_cfg entry identified by key. */
+-static void load_image_to_fw_cfg(FWCfgState *fw_cfg, uint16_t size_key,
+-                                 uint16_t data_key, const char *image_na=
+me,
+-                                 bool try_decompress)
+-{
+-    size_t size =3D -1;
+-    uint8_t *data;
+-
+-    if (image_name =3D=3D NULL) {
+-        return;
+-    }
+-
+-    if (try_decompress) {
+-        size =3D load_image_gzipped_buffer(image_name,
+-                                         LOAD_IMAGE_MAX_GUNZIP_BYTES, &d=
+ata);
+-    }
+-
+-    if (size =3D=3D (size_t)-1) {
+-        gchar *contents;
+-        gsize length;
+-
+-        if (!g_file_get_contents(image_name, &contents, &length, NULL)) =
+{
+-            error_report("failed to load \"%s\"", image_name);
+-            exit(1);
+-        }
+-        size =3D length;
+-        data =3D (uint8_t *)contents;
+-    }
+-
+-    fw_cfg_add_i32(fw_cfg, size_key, size);
+-    fw_cfg_add_bytes(fw_cfg, data_key, data, size);
+-}
+-
+ static void fw_cfg_add_kernel_info(FWCfgState *fw_cfg)
+ {
+     /*
+diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+index 564bda3395..6edf5ea3e9 100644
+--- a/hw/nvram/fw_cfg.c
++++ b/hw/nvram/fw_cfg.c
+@@ -41,6 +41,7 @@
+ #include "qapi/error.h"
+ #include "hw/acpi/aml-build.h"
+ #include "hw/pci/pci_bus.h"
++#include "hw/loader.h"
 =20
-     switch (addr) {
-     /* Skipping any R/O registers */
--    case IBEX_SPI_HOST_INTR_STATE...IBEX_SPI_HOST_INTR_ENABLE:
-+    case IBEX_SPI_HOST_INTR_STATE:
-+        /* rw1c status register */
-+        if (FIELD_EX32(val32, INTR_STATE, ERROR)) {
-+            data =3D FIELD_DP32(data, INTR_STATE, ERROR, 0);
+ #define FW_CFG_FILE_SLOTS_DFLT 0x20
+=20
+@@ -1221,6 +1222,37 @@ FWCfgState *fw_cfg_find(void)
+     return FW_CFG(object_resolve_path_type("", TYPE_FW_CFG, NULL));
+ }
+=20
++void load_image_to_fw_cfg(FWCfgState *fw_cfg, uint16_t size_key,
++                          uint16_t data_key, const char *image_name,
++                          bool try_decompress)
++{
++    size_t size =3D -1;
++    uint8_t *data;
++
++    if (image_name =3D=3D NULL) {
++        return;
++    }
++
++    if (try_decompress) {
++        size =3D load_image_gzipped_buffer(image_name,
++                                         LOAD_IMAGE_MAX_GUNZIP_BYTES, &d=
+ata);
++    }
++
++    if (size =3D=3D (size_t)-1) {
++        gchar *contents;
++        gsize length;
++
++        if (!g_file_get_contents(image_name, &contents, &length, NULL)) =
+{
++            error_report("failed to load \"%s\"", image_name);
++            exit(1);
 +        }
-+        if (FIELD_EX32(val32, INTR_STATE, SPI_EVENT)) {
-+            data =3D FIELD_DP32(data, INTR_STATE, SPI_EVENT, 0);
-+        }
-+        s->regs[addr] =3D data;
-+        break;
-+    case IBEX_SPI_HOST_INTR_ENABLE:
-         s->regs[addr] =3D val32;
-         break;
-     case IBEX_SPI_HOST_INTR_TEST:
-@@ -495,7 +505,27 @@ static void ibex_spi_host_write(void *opaque, hwaddr=
- addr,
-      *  When an error occurs, the corresponding bit must be cleared
-      *  here before issuing any further commands
-      */
--        s->regs[addr] =3D val32;
-+        status =3D s->regs[addr];
-+        /* rw1c status register */
-+        if (FIELD_EX32(val32, ERROR_STATUS, CMDBUSY)) {
-+            status =3D FIELD_DP32(status, ERROR_STATUS, CMDBUSY, 0);
-+        }
-+        if (FIELD_EX32(val32, ERROR_STATUS, OVERFLOW)) {
-+            status =3D FIELD_DP32(status, ERROR_STATUS, OVERFLOW, 0);
-+        }
-+        if (FIELD_EX32(val32, ERROR_STATUS, UNDERFLOW)) {
-+            status =3D FIELD_DP32(status, ERROR_STATUS, UNDERFLOW, 0);
-+        }
-+        if (FIELD_EX32(val32, ERROR_STATUS, CMDINVAL)) {
-+            status =3D FIELD_DP32(status, ERROR_STATUS, CMDINVAL, 0);
-+        }
-+        if (FIELD_EX32(val32, ERROR_STATUS, CSIDINVAL)) {
-+            status =3D FIELD_DP32(status, ERROR_STATUS, CSIDINVAL, 0);
-+        }
-+        if (FIELD_EX32(val32, ERROR_STATUS, ACCESSINVAL)) {
-+            status =3D FIELD_DP32(status, ERROR_STATUS, ACCESSINVAL, 0);
-+        }
-+        s->regs[addr] =3D status;
-         break;
-     case IBEX_SPI_HOST_EVENT_ENABLE:
-     /* Controls which classes of SPI events raise an interrupt. */
++        size =3D length;
++        data =3D (uint8_t *)contents;
++    }
++
++    fw_cfg_add_i32(fw_cfg, size_key, size);
++    fw_cfg_add_bytes(fw_cfg, data_key, data, size);
++}
+=20
+ static void fw_cfg_class_init(ObjectClass *klass, void *data)
+ {
 --=20
 2.37.3
 
