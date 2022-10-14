@@ -2,93 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68CA35FF0AF
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 16:54:53 +0200 (CEST)
-Received: from localhost ([::1]:43662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33CD05FF0B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 16:54:56 +0200 (CEST)
+Received: from localhost ([::1]:35650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojM5M-0003Ps-9k
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 10:54:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36726)
+	id 1ojM5P-0003Ya-5e
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 10:54:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1ojLzp-0006ap-71; Fri, 14 Oct 2022 10:49:12 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60974)
+ id 1ojM1M-0006vY-7p; Fri, 14 Oct 2022 10:50:44 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:22692)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1ojLzn-0003RF-IB; Fri, 14 Oct 2022 10:49:08 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29EEiBkF033367;
- Fri, 14 Oct 2022 14:48:52 GMT
+ id 1ojM1K-0003iM-NO; Fri, 14 Oct 2022 10:50:44 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29EDg8O3031341;
+ Fri, 14 Oct 2022 14:50:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=nEUV6q2BB2Np4rkWWCfBk6D/IOWGVdStHYIk11aqNUc=;
- b=fprm0RrDUNLcRTD0b66PAEOXxMLyRxp6oxdVVIoiWmNyPq4aQ1+340kjEel0WFDa9uJE
- piV4YJyRA0tkecSiXCvSlSDuHAgpFNwunQByWax2p0u0CTRNIZDXUzF4ZQ1HZvqKt9C3
- 140wsODvWndCgPHInap6ZyORAXKkOjPpBA/+O2oPWp0n5W2ukdrqJlBm1v0BowZGwI8P
- swiusSX8TtW06D6U2dda+zmOn/1cpYGgNL/c9HaWXQRu+0EalUIVHyAuBnw+oGGc1E+C
- 0gRvDgUDXu3VMWqbbIBEGIN6zGeegxrccvPeAm+6gKGALe4JEG6YQVkERzery/exorFb Nw== 
+ content-type; s=pp1; bh=109oB/XSg7IcHwq96j5DysXqaG5iCNHA4zTla1HC3vE=;
+ b=MRVoKGIGUUzrj/d3wHcYQp91Z+PJFkddxPXYCn3yqx+Hqsa31db+8HNM77dzT3JbOTev
+ qBBNMsqwAbsfw86UW6ST479p+LiCX2hOmYXSE4JMvuM+wjqbu0Ea6KZZGGmqUyTD9vlY
+ 2R9in9val5GvEIOsKEckXIcmRyzKlV2gXn69pZ5enD4/pUgoOba+doWsmiVb6h13ucfh
+ K0ySt9NnvV0q8hPU7gZgBnOqhI19aXxOcwmcWmtc121AV330BKCkjtbXYIPDa29nO/y/
+ YqsP+kbImnZVvftdXZPQNsT5ZTxkR1QNIPZ55EF+3O5CkVmEDihePwvoVane87jw4HqM YA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k79st83gt-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k78vk2r9e-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 14 Oct 2022 14:48:51 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29EEjJ7P038218;
- Fri, 14 Oct 2022 14:48:51 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k79st83g7-1
+ Fri, 14 Oct 2022 14:50:27 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29EDgaLV000648;
+ Fri, 14 Oct 2022 14:50:27 GMT
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k78vk2r8u-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 14 Oct 2022 14:48:51 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29EEaQUA003185;
- Fri, 14 Oct 2022 14:48:50 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma01dal.us.ibm.com with ESMTP id 3k6kcmjx4d-1
+ Fri, 14 Oct 2022 14:50:26 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29EEo3mu020954;
+ Fri, 14 Oct 2022 14:50:26 GMT
+Received: from b03cxnp07028.gho.boulder.ibm.com
+ (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
+ by ppma02dal.us.ibm.com with ESMTP id 3k30uat784-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 14 Oct 2022 14:48:50 +0000
-Received: from smtpav04.wdc07v.mail.ibm.com ([9.208.128.116])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 29EEmmuc12583910
+ Fri, 14 Oct 2022 14:50:25 +0000
+Received: from smtpav06.dal12v.mail.ibm.com ([9.208.128.130])
+ by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 29EEoPND5243402
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 14 Oct 2022 14:48:49 GMT
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 92A7E5805F;
- Fri, 14 Oct 2022 14:48:48 +0000 (GMT)
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DCB0D58054;
- Fri, 14 Oct 2022 14:48:47 +0000 (GMT)
+ Fri, 14 Oct 2022 14:50:25 GMT
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7A5EF5805D;
+ Fri, 14 Oct 2022 14:50:24 +0000 (GMT)
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DA26358059;
+ Fri, 14 Oct 2022 14:50:23 +0000 (GMT)
 Received: from localhost (unknown [9.77.138.198])
- by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTPS;
- Fri, 14 Oct 2022 14:48:47 +0000 (GMT)
+ by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTPS;
+ Fri, 14 Oct 2022 14:50:23 +0000 (GMT)
 From: Fabiano Rosas <farosas@linux.ibm.com>
 To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, fbarrat@linux.ibm.com, alex.bennee@linaro.org, Matheus
  Ferst <matheus.ferst@eldorado.org.br>
-Subject: Re: [PATCH v3 17/29] target/ppc: move power-saving interrupt
- masking out of cpu_has_work_POWER8
-In-Reply-To: <20221011204829.1641124-18-matheus.ferst@eldorado.org.br>
+Subject: Re: [PATCH v3 18/29] target/ppc: add power-saving interrupt masking
+ logic to p8_next_unmasked_interrupt
+In-Reply-To: <20221011204829.1641124-19-matheus.ferst@eldorado.org.br>
 References: <20221011204829.1641124-1-matheus.ferst@eldorado.org.br>
- <20221011204829.1641124-18-matheus.ferst@eldorado.org.br>
-Date: Fri, 14 Oct 2022 11:48:45 -0300
-Message-ID: <87edva4g1e.fsf@linux.ibm.com>
+ <20221011204829.1641124-19-matheus.ferst@eldorado.org.br>
+Date: Fri, 14 Oct 2022 11:50:21 -0300
+Message-ID: <87bkqe4fyq.fsf@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: ry4NgDhBzyR9yfr3D2GdZa0EBaShUcEz
-X-Proofpoint-ORIG-GUID: kCLyL9nyQKFaZtdC1miVVuPBVw886aEP
+X-Proofpoint-ORIG-GUID: ySY9xii2iWEPHBGz0D7t5nXxVpyR7imV
+X-Proofpoint-GUID: Na4_H7KMkEz0S2MZ-6xGpNAKCF6DYSD8
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-10-14_08,2022-10-14_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- phishscore=0 priorityscore=1501 impostorscore=0 bulkscore=0
- mlxlogscore=630 lowpriorityscore=0 spamscore=0 malwarescore=0
- suspectscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2209130000 definitions=main-2210140081
+ spamscore=0
+ lowpriorityscore=0 bulkscore=0 malwarescore=0 suspectscore=0 phishscore=0
+ adultscore=0 clxscore=1015 impostorscore=0 mlxscore=0 mlxlogscore=599
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210140081
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
@@ -114,9 +115,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Matheus Ferst <matheus.ferst@eldorado.org.br> writes:
 
-> Move the interrupt masking logic out of cpu_has_work_POWER8 in a new
-> method, p8_interrupt_powersave, that only returns an interrupt if it can
-> wake the processor from power-saving mode.
+> Export p8_interrupt_powersave and use it in p8_next_unmasked_interrupt.
 >
 > Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
