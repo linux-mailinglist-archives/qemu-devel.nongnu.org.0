@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 280695FF350
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 20:02:17 +0200 (CEST)
-Received: from localhost ([::1]:35020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56F145FF371
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 20:07:42 +0200 (CEST)
+Received: from localhost ([::1]:42270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojP0h-0004XW-FJ
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 14:02:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35408)
+	id 1ojP5w-000856-QP
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 14:07:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ojOsX-0003SD-3h
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 13:53:49 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:46690)
+ id 1ojP0Z-0004Yy-Dr
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 14:02:07 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:34679)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ojOsU-0001oU-7W
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 13:53:48 -0400
-Received: by mail-pf1-x432.google.com with SMTP id y8so5542292pfp.13
- for <qemu-devel@nongnu.org>; Fri, 14 Oct 2022 10:53:45 -0700 (PDT)
+ id 1ojP0W-0003Kg-Kx
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 14:02:05 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id 128so4971308pga.1
+ for <qemu-devel@nongnu.org>; Fri, 14 Oct 2022 11:02:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5wT05a1DBUiMB3HdHpeJC+U3IJgoa+a7RGGIrRcmhPU=;
- b=H3QtdDnEb6L+wnwm4pOWsPKKwTX4Ivvy3joaPV/M+fAzDIwHxbt30Uy/EKh/b8fnNP
- mqgQj1eZ+BYyreRuQ2qjRBMOAVxUM2CpPDoqa6jK/QfVjWhfWvJSz8SeUhhZiqo3WHdK
- P6/jsUsfJBsriW5nSf45Sqsx4q1vYsADOznMlw205cXIOtc3djRTMGnyi+zGK/Fa0BgD
- fHvlRSLm5ulsgeTB04A5T94kMswkdN3Nxp/xWRE5dKhyfAO+79bCvBdQkeI7zUtQXpDt
- mGdiSA/fsh9HSXo1BG3tpV25U7qJaonkHLYbSJtexFDAC2aWt8Oz1/chOuFUnAbGD5cD
- s9xg==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=H+p+LhFIEAdK0VxqKGbkg+B7e6WdGPyJ1UPClCrE1rQ=;
+ b=BfWK9Nay9IMsYHlIxfA/yuqHjWFI2y1MgN7OdXEdE72D3fpqar+pbtdFmo4SB7BJFN
+ vhk7nYIbyfHvz1Ozr7lXEBRyfsXGitDiDB0UbH3tTrvWFSOrt6Vq0aJUm5WETJ5RkSPC
+ yp25UTfKhdTKQIUFskyE3i2177LbC3BZuCcT6RigAASr1Op6FhgeR+kP7j+qPv0IsAq1
+ X0H9mCaY7u3sF4iueKShn2rDzJW44jDESJemtQaypvUlf845/NjFUvNNhVgz3EfD+zgp
+ juWBx6QIFdavelm5KHhNl78uuY4YflK/3HsE40z3+p86RhxYx84vhHp/AzTUsJpQ/O9G
+ sPNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5wT05a1DBUiMB3HdHpeJC+U3IJgoa+a7RGGIrRcmhPU=;
- b=yjUo+D11UosOCSwCQkBJqN4+OkD4sJE8tplv98XbY05sJFFXxojF5m9a1JdNDumhN+
- u41gjOl1lKz7od4FRyOWZCHqLsFCQ6d8maJvWSFQziokLjmWXVxV7zgPTo3AdNZIl4c7
- z6LJ9d0Hh4mlspep1lCouLhZjvrXatmPtq93h+HAKwhF2iaOl2sL8nsIfiXQc5MhAaMY
- hkVsxua6vO4R9mwyt4eKbL6OUD1Sceok2QPvNuIjA2e4UMjida6T5HDPpNQ/L0XSgMJz
- T1+rIiUfD0BsoeC+wqWOKgcu2hQYsrsOffMhbJCE5157d0gtJwGySpZlifyACMODFK5d
- ohuQ==
-X-Gm-Message-State: ACrzQf3MMwJmKnevkGgYh2AWpEeK+M+5yFaqELQRe7W0ebK0sjDJCwpr
- NrmEiLJMbAVUegrLHq7BAUmFAFtNdD+lFT0Xr3PxKg==
-X-Google-Smtp-Source: AMsMyM5OJbEg15W68dOABVP5V7wiKO/4m+EaSEMo5oPvlD8zbt+S29sICjCtk2nhsEeyIyX/q9aEPKO7hpOmD32N2To=
-X-Received: by 2002:a05:6a00:1595:b0:563:8fb6:ae53 with SMTP id
- u21-20020a056a00159500b005638fb6ae53mr6270215pfk.51.1665770024568; Fri, 14
- Oct 2022 10:53:44 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=H+p+LhFIEAdK0VxqKGbkg+B7e6WdGPyJ1UPClCrE1rQ=;
+ b=Xqwp1CnrlnaYW62awadlBRHx09L+957i65pq90kV+BFzOL8QqT3Hykq4FFv/x87yXA
+ LYowxZB9uXrzWiKqixnPqevm5CgRjhDOUmN4iIsAP4lCQAF67ZLobA8dpsJ5jVvDotvL
+ xkpEtCA+zV9q2P0FaY0CL2ZwmxYU8LkK2BqV/wJeqo+Dm5uQny/2DDcslL/JCjcStP+f
+ 8euGVxM455AmIFTna3Xin+kAQdqgDC87SrYVl+tS/O7JyHgC2zDiYAKvzAaxMY6tHSmr
+ C4nhgzU39o71xPa1er13aaSIdMd5n2HB8rup5kggJ65cxfUXkxx0bDXft4YtIZpEKvZX
+ w6ww==
+X-Gm-Message-State: ACrzQf0gKfZfmnqE2H2ZD2by+9PDCE5F6OfA7It1jTszcmu9OINfHRMd
+ EOAUmrN3tXzO+JVnCyyoJB3GJqEeI17xNurqO2TLbw==
+X-Google-Smtp-Source: AMsMyM6NIHCiKm0GhsQebqTqmfBqCk6lDwRElGP2jr+zilJ0llpdYhbMlmFzxcpM4PMtRMoplVZbmphYXLb3kC/Cuds=
+X-Received: by 2002:a63:2212:0:b0:43b:f03d:856a with SMTP id
+ i18-20020a632212000000b0043bf03d856amr5578234pgi.192.1665770522172; Fri, 14
+ Oct 2022 11:02:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221006033846.1178422-1-richard.henderson@linaro.org>
- <20221006033846.1178422-9-richard.henderson@linaro.org>
-In-Reply-To: <20221006033846.1178422-9-richard.henderson@linaro.org>
+References: <1408f62a2e45665816527d4845ffde650957d5ab.1665051588.git.baruchs-c@neureality.ai>
+In-Reply-To: <1408f62a2e45665816527d4845ffde650957d5ab.1665051588.git.baruchs-c@neureality.ai>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 14 Oct 2022 18:53:33 +0100
-Message-ID: <CAFEAcA8zy2J06hZVt2ULJmbhQzDKRKrKBX9KaKLVHJhuudZQnA@mail.gmail.com>
-Subject: Re: [PATCH v6 8/9] target/arm: Introduce gen_pc_plus_diff for aarch32
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Fri, 14 Oct 2022 19:01:50 +0100
+Message-ID: <CAFEAcA-QoGwuP0Vx1-cb-PnwbO=c2=RyO56RY+ocBt179mRytA@mail.gmail.com>
+Subject: Re: [PATCH] hw/char/pl011: fix baud rate calculation
+To: Baruch Siach <baruch@tkos.co.il>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,32 +83,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 6 Oct 2022 at 04:55, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Thu, 6 Oct 2022 at 11:20, Baruch Siach <baruch@tkos.co.il> wrote:
 >
-> In preparation for TARGET_TB_PCREL, reduce reliance on absolute values.
+> The PL011 TRM says that "UARTIBRD = 0 is invalid and UARTFBRD is ignored
+> when this is the case". But the code looks at FBRD for the invalid case.
+> Fix this.
 >
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> @@ -296,7 +301,8 @@ TCGv_i32 add_reg_for_lit(DisasContext *s, int reg, in=
-t ofs)
->      TCGv_i32 tmp =3D tcg_temp_new_i32();
+> Signed-off-by: Baruch Siach <baruch@tkos.co.il>
+> ---
+>  hw/char/pl011.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
->      if (reg =3D=3D 15) {
-> -        tcg_gen_movi_i32(tmp, (read_pc(s) & ~3) + ofs);
-> +        /* This difference computes a page offset so ok for TARGET_TB_PC=
-REL. */
-> +        gen_pc_plus_diff(s, tmp, (read_pc(s) & ~3) - s->pc_curr + ofs);
->      } else {
->          tcg_gen_addi_i32(tmp, cpu_R[reg], ofs);
+> diff --git a/hw/char/pl011.c b/hw/char/pl011.c
+> index 6e2d7f75095c..c076813423fc 100644
+> --- a/hw/char/pl011.c
+> +++ b/hw/char/pl011.c
+> @@ -176,7 +176,7 @@ static unsigned int pl011_get_baudrate(const PL011State *s)
+>  {
+>      uint64_t clk;
+>
+> -    if (s->fbrd == 0) {
+> +    if (s->ibrd == 0) {
+>          return 0;
 >      }
 
-This is still doing the pc - pc thing -- I guess my comment on v5
-crossed in the mail with your v6 repost.
+Applied to target-arm.next, thanks. (The only thing we do with the
+calculated baud rate is trace it, so the bug wouldn't have had any
+bad effects on the guest.)
 
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
 -- PMM
 
