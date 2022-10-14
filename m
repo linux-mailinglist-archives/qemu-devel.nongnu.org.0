@@ -2,63 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 829B85FE9B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 09:38:12 +0200 (CEST)
-Received: from localhost ([::1]:59096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1589F5FE9AF
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 09:38:00 +0200 (CEST)
+Received: from localhost ([::1]:40032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojFGk-0002ud-QV
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 03:38:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54558)
+	id 1ojFGY-0002Zq-Er
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 03:37:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1ojF9S-0006NN-Nx
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 03:30:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43601)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1ojF9U-0006PR-Hh
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 03:30:42 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33204)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1ojF9M-0006A1-BG
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 03:30:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665732631;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=ejkB4T5w9HobinTSHkeMQBvJwoemSOWKSmWU4bgp+ME=;
- b=Ad8hIGXgNjtKdRnAEB5FP9ReufGjBu7hHHyHlhQLMgjF3SDMJQzDMTeb4WK3mkGzioATkN
- ananS8QrDp1wRxblNyXwvrp+R2HE7fgJZX3O4BLPjyazEmEidq/RG7/VCWe6E0OKgwRaDL
- Ae61USLgZBOm9LYLMd53afUHhWtb24s=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-329-i64PIH25O7mwMfd3AjfP5g-1; Fri, 14 Oct 2022 03:30:29 -0400
-X-MC-Unique: i64PIH25O7mwMfd3AjfP5g-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 494D53C0F674
- for <qemu-devel@nongnu.org>; Fri, 14 Oct 2022 07:30:29 +0000 (UTC)
-Received: from maggie.redhat.com (unknown [10.43.2.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E667956D21C
- for <qemu-devel@nongnu.org>; Fri, 14 Oct 2022 07:30:28 +0000 (UTC)
-From: Michal Privoznik <mprivozn@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3] configure: Avoid using strings binary
-Date: Fri, 14 Oct 2022 09:30:15 +0200
-Message-Id: <d6d9c7043cfe6d976d96694f2b4ecf85cf3206f1.1665732504.git.mprivozn@redhat.com>
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1ojF9R-0006AA-KZ
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 03:30:39 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29E6wlmS017171;
+ Fri, 14 Oct 2022 07:30:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=UIVQdBfPaD1o1EXblvXBQsMBcOSOdxtd8qEfUxpHWG0=;
+ b=qD6XitCvL+eBnQaTOZJQktDepqBgJzQn08GpHrMS1gzNM/dczhOXFx2RG+7Y5dhlQ8Pb
+ Mz3yReWI/NhCGJyKTRLik3Urt6duM/xISWyBHOG+Ndo8KDQRKx8Xgh0cgGlerh0UfRiN
+ 5hKSEMuaQ4Q0kgiBuEPStRPH/LTbC5BNeCB6UQkULn4YxrxSBxXvCvYkD0l1wX6uTOg6
+ lRFSW/E+q+GL2KlKb5AkwZmklu15OdYwqu+9idJV4Urdbg3VONytJZmnjUCCUXJ/m6jm
+ G0iprFFlWvKcc2ZRQtlfPQmvMNgm90dwivKv28VCEI5ppRDGlB80PgnUKB7dhxsFFvws uA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k6dc9gbcq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Oct 2022 07:30:30 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29E7DgX4025546;
+ Fri, 14 Oct 2022 07:30:30 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k6dc9gbbj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Oct 2022 07:30:29 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29E7L42M028151;
+ Fri, 14 Oct 2022 07:30:27 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma04ams.nl.ibm.com with ESMTP id 3k30u9gscm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Oct 2022 07:30:27 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 29E7UPP93998244
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 14 Oct 2022 07:30:25 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3B9195204E;
+ Fri, 14 Oct 2022 07:30:25 +0000 (GMT)
+Received: from [9.171.35.51] (unknown [9.171.35.51])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id B9E0752059;
+ Fri, 14 Oct 2022 07:30:24 +0000 (GMT)
+Message-ID: <3a002a6a-9135-ad45-3fed-7dd270450d0b@linux.ibm.com>
+Date: Fri, 14 Oct 2022 09:30:24 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Regression save/restore of vsock: (was [PULL 07/55] hw/virtio: move
+ vm_running check to virtio_device_started)
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, virtio-fs@redhat.com
+References: <20221010172813.204597-1-mst@redhat.com>
+ <20221010172813.204597-8-mst@redhat.com>
+Content-Language: en-US
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <20221010172813.204597-8-mst@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mprivozn@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: TF4TZ78tL5NaBj6w5f48XYhD3DFbw4jj
+X-Proofpoint-ORIG-GUID: LMzrfEdw8QVgHH4A1d0IvRK8MQ35jzrM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-14_02,2022-10-13_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 clxscore=1011
+ priorityscore=1501 impostorscore=0 mlxlogscore=999 mlxscore=0 adultscore=0
+ suspectscore=0 lowpriorityscore=0 spamscore=0 phishscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
+ definitions=main-2210140041
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,89 +119,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When determining the endiandness of the target architecture we're
-building for a small program is compiled, which in an obfuscated
-way declares two strings. Then, we look which string is in
-correct order (using strings binary) and deduct the endiandness.
-But using the strings binary is problematic, because it's part of
-toolchain (strings is just a symlink to
-x86_64-pc-linux-gnu-strings or llvm-strings). And when
-(cross-)compiling, it requires users to set the symlink to the
-correct toolchain.
+Am 10.10.22 um 19:29 schrieb Michael S. Tsirkin:
+> From: Alex Bennée <alex.bennee@linaro.org>
+> 
+> All the boilerplate virtio code does the same thing (or should at
+> least) of checking to see if the VM is running before attempting to
+> start VirtIO. Push the logic up to the common function to avoid
+> getting a copy and paste wrong.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Message-Id: <20220802095010.3330793-11-alex.bennee@linaro.org>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 
-Fortunately, we have a better alternative anyways. We can mimic
-what compiler.h is already doing: comparing __BYTE_ORDER__
-against values for little/big endiandness.
+This results in a regression for our s390x CI when doing save/restore of guests with vsock:
 
-Bug: https://bugs.gentoo.org/876933
-Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
----
 
-v3 of:
-
-https://lists.gnu.org/archive/html/qemu-devel/2022-10/msg02149.html
-
-diff to v2:
-- Check whether __BYTE_ORDER__ is defined prior comparing it
-- Switch from 'if compile_prog' to 'if ! compile_prog'
-
- configure | 35 ++++++++++++++++++-----------------
- 1 file changed, 18 insertions(+), 17 deletions(-)
-
-diff --git a/configure b/configure
-index 45ee6f4eb3..d186944d3f 100755
---- a/configure
-+++ b/configure
-@@ -1423,30 +1423,31 @@ if test "$tcg" = "enabled"; then
-     git_submodules="$git_submodules tests/fp/berkeley-softfloat-3"
- fi
- 
--# ---
-+##########################################
- # big/little endian test
- cat > $TMPC << EOF
--#include <stdio.h>
--short big_endian[] = { 0x4269, 0x4765, 0x4e64, 0x4961, 0x4e00, 0, };
--short little_endian[] = { 0x694c, 0x7454, 0x654c, 0x6e45, 0x6944, 0x6e41, 0, };
--int main(int argc, char *argv[])
--{
--    return printf("%s %s\n", (char *)big_endian, (char *)little_endian);
--}
-+#if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
-+# error LITTLE
-+#endif
-+int main(void) { return 0; }
- EOF
- 
--if compile_prog ; then
--    if strings -a $TMPE | grep -q BiGeNdIaN ; then
--        bigendian="yes"
--    elif strings -a $TMPE | grep -q LiTtLeEnDiAn ; then
--        bigendian="no"
--    else
--        echo big/little test failed
--        exit 1
--    fi
-+if ! compile_prog ; then
-+  bigendian="no"
- else
-+  cat > $TMPC << EOF
-+#if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
-+# error BIG
-+#endif
-+int main(void) { return 0; }
-+EOF
-+
-+  if ! compile_prog ; then
-+    bigendian="yes"
-+  else
-     echo big/little test failed
-     exit 1
-+  fi
- fi
- 
- ##########################################
--- 
-2.35.1
+                 #1  0x000003ff9a248580 raise (libc.so.6 + 0x48580)
+                 #2  0x000003ff9a22b5c0 abort (libc.so.6 + 0x2b5c0)
+                 #3  0x000003ff9a2409da __assert_fail_base (libc.so.6 + 0x409da)
+                 #4  0x000003ff9a240a4e __assert_fail (libc.so.6 + 0x40a4e)
+                 #5  0x000002aa2d69a066 vhost_vsock_common_pre_save (qemu-system-s390x + 0x39a066)
+                 #6  0x000002aa2d55570e vmstate_save_state_v (qemu-system-s390x + 0x25570e)
+                 #7  0x000002aa2d556218 vmstate_save_state (qemu-system-s390x + 0x256218)
+                 #8  0x000002aa2d570ba4 qemu_savevm_state_complete_precopy_non_iterable (qemu-system-s390x + 0x270ba4)
+                 #9  0x000002aa2d5710b6 qemu_savevm_state_complete_precopy (qemu-system-s390x + 0x2710b6)
+                 #10 0x000002aa2d564d0e migration_completion (qemu-system-s390x + 0x264d0e)
+                 #11 0x000002aa2d8db25c qemu_thread_start (qemu-system-s390x + 0x5db25c)
+                 #12 0x000003ff9a296248 start_thread (libc.so.6 + 0x96248)
+                 #13 0x000003ff9a31183e thread_start (libc.so.6 + 0x11183e)
 
 
