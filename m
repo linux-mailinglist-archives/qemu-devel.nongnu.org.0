@@ -2,82 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 299175FEA85
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 10:28:50 +0200 (CEST)
-Received: from localhost ([::1]:53720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F9075FEAA6
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 10:40:13 +0200 (CEST)
+Received: from localhost ([::1]:52734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojG3l-0000ip-90
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 04:28:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33766)
+	id 1ojGEm-0007V1-9c
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 04:40:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ojFp7-0003gW-Ck
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 04:13:42 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:38597)
+ id 1ojFtX-0007LQ-PI
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 04:18:15 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44823)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ojFp5-0003nW-Lk
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 04:13:41 -0400
-Received: by mail-wr1-x434.google.com with SMTP id j16so6389925wrh.5
- for <qemu-devel@nongnu.org>; Fri, 14 Oct 2022 01:13:38 -0700 (PDT)
+ id 1ojFtW-0004Ty-6I
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 04:18:15 -0400
+Received: by mail-wr1-x429.google.com with SMTP id r13so6363562wrj.11
+ for <qemu-devel@nongnu.org>; Fri, 14 Oct 2022 01:18:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=25YOUovYgNIRdhOlLNwO0E/UBG0k2sldE8CGMan1J+8=;
- b=JKC7FUMCFDjRBiqr0pTEbLRCdCzX4g72C94GkYanO0RNEfH3xUh0wqvc/H2G6eW+0s
- 9b3V25F3MsFgLp4vtSGT85QvfQQrX1NG0FNtG/pZu1Hk8WrSB/5QfHzLDqoVi244tZgP
- B6UZohvfuw3EMsHTi85eFD1UGgBlvHuuBIV5BZGWIMmRBEjPp0KfcA9ZK9k1D8Gjb9HG
- USKFi+Lg2vT7VEzOSIOlvrJsm1EEBZFWTuDi/MGRbDMxC9DRNTrYvzi866wEsOGQgSX+
- UP6ls/didGd44Iyimb+ttbreLE7zJMHrQmuBoJq4tQZQ7bYLeyzLBSExdwx+uzF5VWx/
- riPA==
+ bh=94lxSeJyJYQi3G+rCYa365dF71hqSSsVJElD3gCkHZg=;
+ b=qSCdEo1bgRU/V1ScDrImx1ES5Dm0PaAc49j2+ogFCC4xKF9NGgCsTESHSxDioq3bxI
+ ZcHJCQ2XwZYm8tXBprSU1QB2w9uLWlTagmxAHjcXdY7zwJkPt2p+9xU7CDiUuE4eT0B1
+ hl99GtnfGrauOKahHUK9jteciu6rjALTbZsS9heFaqoSNUuxBuKRmSgnE46TharUWRpd
+ USjeQAgCMbyf8XA3WKDZKdJ0cJW/DIG66/HQ4Aj1EWy29AKNQZKnoIU8BZhrn2h6NX/S
+ dcqdzS3fyCM7hkv6Z2V0sbaxw73vxx6ahB5/A5gbkmjzeowD4vYp36FEt4vfYpmBF/jG
+ rlBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=25YOUovYgNIRdhOlLNwO0E/UBG0k2sldE8CGMan1J+8=;
- b=wrqnPPwXXcJ/scLKGdIH5NBBTl3H6a2bfxv0ugr48z4bO1is1S+7cp73yNTcFBf/qa
- tnFD93xbiZEfqp1j5sc5aq9VcaIvPxyvlNGmzMG8Oawd+3Y57qf9EMHvWB/lVRMG/WLP
- hBSIgH/3+7D1koC66xQnwiYZ9G5hekeczeGHnynfFJ29iSrc69yU8vtMTVCBlNbUXu3X
- 28RTHenolre7zQd8Gd4QLVlJhKkCnxeVqZd4Troy2kKa2k3azLzENukPBmY536+Wu18g
- f2QMC5mlUOkglM1fESyspn3+bfqG90zNGQqo20nmcO8J6/kI65pi9AQioiHi7xQRFdpb
- ce1Q==
-X-Gm-Message-State: ACrzQf1ta0iYfwx3I/GK+XRZhubnHtPy4hCvKP6GWhgwb8AVjwG3PtVI
- Nncf5RkzC5iYCDSNXb0i1RWvGw==
-X-Google-Smtp-Source: AMsMyM7fTlOBz7qBkEaSEK7bDSPDMct55viYgXivOILi+Y7CaQ6b9KYx8eFvjhQyca7in9ih2rvumA==
-X-Received: by 2002:a5d:5a18:0:b0:22f:4f72:213a with SMTP id
- bq24-20020a5d5a18000000b0022f4f72213amr2503207wrb.57.1665735217430; 
- Fri, 14 Oct 2022 01:13:37 -0700 (PDT)
+ bh=94lxSeJyJYQi3G+rCYa365dF71hqSSsVJElD3gCkHZg=;
+ b=25zmbxcLE8bcS6KomC6oFrwAjX18MUOqnnt/IacPrxst3WJ6V42G2qVrmdaQg97mD8
+ uaDSMtCnUhu33cOBeK/O8uCYqoMSvgDq0y7a5vADdp3am8Y3ytKmb8Nf15scrNAVUNvF
+ n7Wj9zgkfdaiBsbdWz5xgSB9PI9xk/oZY3VTByIYEcV8HZRd06W5h0OzjVoBHnaDnkzH
+ KzRxd8ccKoYp2AP4tyTQV6u0VG6Nzjr3a9JhB4YQ3qSeHAkivvyrsYPHbje1hSrkryxG
+ WfN53CYfwlT4fCoc8742PGzW1mffgt5Hpo29GqkPEiVsO5smMr7Jesn2gSDDN9XPqAIQ
+ plsQ==
+X-Gm-Message-State: ACrzQf3zxkICF6yZVKI8SQY21U+EcQSasb778UOEEmK2qrCDPNZz0yhv
+ z6opTdDGBtXVsi1WA6jF3vOSFSE1539lLg==
+X-Google-Smtp-Source: AMsMyM7rg2Q8U8343DLhRP/RVhQB3xZIbHi7UARlue4HQPlWCXhBHMU7sC/VZsGZ/xpSL83ckop4YA==
+X-Received: by 2002:adf:e7c9:0:b0:22e:3524:9b4b with SMTP id
+ e9-20020adfe7c9000000b0022e35249b4bmr2398087wrn.520.1665735492224; 
+ Fri, 14 Oct 2022 01:18:12 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- g24-20020a7bc4d8000000b003b4935f04a4sm1843835wmk.5.2022.10.14.01.13.36
+ s1-20020adfeb01000000b0022cc3e67fc5sm1355861wrn.65.2022.10.14.01.18.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Oct 2022 01:13:36 -0700 (PDT)
+ Fri, 14 Oct 2022 01:18:11 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 33EDA1FFB7;
- Fri, 14 Oct 2022 09:13:36 +0100 (BST)
-References: <20221013154705.1846261-1-alex.bennee@linaro.org>
- <20221013154705.1846261-5-alex.bennee@linaro.org>
- <877d13pkr5.fsf@linaro.org>
- <bcdc0d01-e6a9-27af-2c54-7a789a43f7be@redhat.com>
+ by zen.linaroharston (Postfix) with ESMTP id EDBFD1FFB7;
+ Fri, 14 Oct 2022 09:18:10 +0100 (BST)
+References: <20221013131304.623740-1-pbonzini@redhat.com>
+ <8735brpilw.fsf@linaro.org>
+ <CABgObfZ3GH9-nFL7wZYxFtA0F49OmMPOKb3=qqfNWtXySr7arA@mail.gmail.com>
 User-agent: mu4e 1.9.1; emacs 28.2.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, fam@euphon.net, berrange@redhat.com,
- f4bug@amsat.org, aurelien@aurel32.net, stefanha@redhat.com,
- crosa@redhat.com
-Subject: Re: [PATCH v2 4/7] configure: don't enable cross compilers unless
- in target_list
-Date: Fri, 14 Oct 2022 09:13:19 +0100
-In-reply-to: <bcdc0d01-e6a9-27af-2c54-7a789a43f7be@redhat.com>
-Message-ID: <87y1tioma7.fsf@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH] tests/tcg: include CONFIG_PLUGIN in config-host.mak
+Date: Fri, 14 Oct 2022 09:18:01 +0100
+In-reply-to: <CABgObfZ3GH9-nFL7wZYxFtA0F49OmMPOKb3=qqfNWtXySr7arA@mail.gmail.com>
+Message-ID: <87tu46om2l.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -103,39 +99,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> On 10/13/22 21:48, Alex Benn=C3=A9e wrote:
->>> +  case " $target_list " in
->>> +    " $1 ") ;;
->>> +    *) return 1 ;;
->>> +  esac
->>> +
->> this of course prevents building of roms by actually disabling all
->> target compilers...
+> On Thu, Oct 13, 2022 at 10:35 PM Alex Benn=C3=A9e <alex.bennee@linaro.org=
+> wrote:
+>>
+>>
+>> Paolo Bonzini <pbonzini@redhat.com> writes:
+>>
+>> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>> > ---
+>> >  configure | 3 +++
+>> >  1 file changed, 3 insertions(+)
+>> >
+>> > diff --git a/configure b/configure
+>> > index f4ff1cf305..a5af9c524f 100755
+>> > --- a/configure
+>> > +++ b/configure
+>> > @@ -2474,6 +2474,9 @@ echo "HOST_CC=3D$host_cc" >> $config_host_mak
+>> >  if test -n "$gdb_bin"; then
+>> >      echo "HAVE_GDB_BIN=3D$gdb_bin" >> $config_host_mak
+>> >  fi
+>> > +if test "$plugins" =3D "yes" ; then
+>> > +    echo "CONFIG_PLUGIN=3Dy" >> $config_host_mak
+>> > +fi
+>>
+>> Don't we already do that anyway?
 >
-> Yeah, two asterisks are missing.  I'll send out a proper patch.
+> No, we don't.  CONFIG_PLUGIN enables "make test-plugins" and "make
+> plugins" but not the plugin tests in tests/tcg.
 
-I tried this:
-
-@@ -1866,6 +1866,15 @@ probe_target_compiler() {
-   container_cross_ranlib=3D
-   container_cross_strip=3D
-=20
-+  # We shall skip configuring the target compiler if the user didn't
-+  # bother enabling an appropriate guest. This avoids building
-+  # extraneous firmware images and tests.
-+  if test "${target_list#*$1}" !=3D "$1"; then
-+      break;
-+  else
-+      return 1
-+  fi
-+
-   target_arch=3D${1%%-*}
-   case $target_arch in
-     aarch64) container_hosts=3D"x86_64 aarch64" ;;
-
->
-> Paolo
-
+Ahh I see. Queued to testing/next, thanks.
 
 --=20
 Alex Benn=C3=A9e
