@@ -2,50 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30D565FF1AF
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 17:48:26 +0200 (CEST)
-Received: from localhost ([::1]:47744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6D705FF179
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 17:35:45 +0200 (CEST)
+Received: from localhost ([::1]:48904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojMv9-0003kx-Lw
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 11:48:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47928)
+	id 1ojMiu-0001of-Hr
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 11:35:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ojMYh-0007uO-Pz; Fri, 14 Oct 2022 11:25:11 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:11502)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1ojMcm-00048f-Ny
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 11:29:24 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ojMYe-0000st-Uz; Fri, 14 Oct 2022 11:25:10 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D406E75A15C;
- Fri, 14 Oct 2022 17:25:04 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 603D175A157; Fri, 14 Oct 2022 17:25:04 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 5E64D75A150;
- Fri, 14 Oct 2022 17:25:04 +0200 (CEST)
-Date: Fri, 14 Oct 2022 17:25:04 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Subject: Re: [PATCH v3 05/13] mac_{old|new}world: Simplify cmdline_base
- calculation
-In-Reply-To: <2c3014a6-ad5-c595-6222-d82ae42ecf@eik.bme.hu>
-Message-ID: <a5fdd3f0-9f2d-4281-d73e-7cef108962a4@eik.bme.hu>
-References: <cover.1664827008.git.balaton@eik.bme.hu>
- <2514e45b2ac438e40180cdf51e156a9dcf6a4df4.1664827008.git.balaton@eik.bme.hu>
- <1a8cace1-1401-1420-d933-0ab7c7d78bfd@ilande.co.uk>
- <2c3014a6-ad5-c595-6222-d82ae42ecf@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1ojMck-0001QV-8i
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 11:29:24 -0400
+Received: from fraeml715-chm.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4MpqyN2nctz67y8R;
+ Fri, 14 Oct 2022 23:27:40 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
+ fraeml715-chm.china.huawei.com (10.206.15.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 14 Oct 2022 17:29:17 +0200
+Received: from localhost (10.202.226.42) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Fri, 14 Oct
+ 2022 16:29:16 +0100
+Date: Fri, 14 Oct 2022 16:29:15 +0100
+To: Gregory Price <gregory.price@memverge.com>
+CC: Gregory Price <gourry.memverge@gmail.com>, <qemu-devel@nongnu.org>,
+ <linux-cxl@vger.kernel.org>, <alison.schofield@intel.com>,
+ <dave@stgolabs.net>, <a.manzanares@samsung.com>, <bwidawsk@kernel.org>,
+ <mst@redhat.com>, <hchkuo@avery-design.com.tw>, <cbrowy@avery-design.com>,
+ <ira.weiny@intel.com>
+Subject: Re: [PATCH 5/5] hw/mem/cxl_type3: Refactor CDAT sub-table entry
+ initialization into a function
+Message-ID: <20221014162915.0000187a@huawei.com>
+In-Reply-To: <Y0hpv8jdqi+r7f4r@memverge.com>
+References: <20221007152156.24883-5-Jonathan.Cameron@huawei.com>
+ <20221012182120.174142-1-gregory.price@memverge.com>
+ <20221012182120.174142-6-gregory.price@memverge.com>
+ <20221013114711.00005623@huawei.com>
+ <Y0hpv8jdqi+r7f4r@memverge.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.226.42]
+X-ClientProxiedBy: lhrpeml500001.china.huawei.com (7.191.163.213) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,117 +76,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Fri, 14 Oct 2022, BALATON Zoltan wrote:
-> On Fri, 14 Oct 2022, Mark Cave-Ayland wrote:
->> On 03/10/2022 21:13, BALATON Zoltan wrote:
->> 
->>> By slight reorganisation we can avoid an else branch and some code
->>> duplication which makes it easier to follow the code.
->>> 
->>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>> ---
->>>   hw/ppc/mac_newworld.c | 6 +++---
->>>   hw/ppc/mac_oldworld.c | 7 +++----
->>>   2 files changed, 6 insertions(+), 7 deletions(-)
->>> 
->>> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
->>> index 6bc3bd19be..73b01e8c6d 100644
->>> --- a/hw/ppc/mac_newworld.c
->>> +++ b/hw/ppc/mac_newworld.c
->>> @@ -194,9 +194,11 @@ static void ppc_core99_init(MachineState *machine)
->>>                            machine->kernel_filename);
->>>               exit(1);
->>>           }
->>> +        cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size +
->>> +                                         KERNEL_GAP);
->>>           /* load initrd */
->>>           if (machine->initrd_filename) {
->>> -            initrd_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size + 
->>> KERNEL_GAP);
->>> +            initrd_base = cmdline_base;
->>>               initrd_size = load_image_targphys(machine->initrd_filename,
->>>                                                 initrd_base,
->>>                                                 machine->ram_size - 
->>> initrd_base);
->>> @@ -206,8 +208,6 @@ static void ppc_core99_init(MachineState *machine)
->>>                   exit(1);
->>>               }
->>>               cmdline_base = TARGET_PAGE_ALIGN(initrd_base + initrd_size);
->>> -        } else {
->>> -            cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size + 
->>> KERNEL_GAP);
->>>           }
->>>           ppc_boot_device = 'm';
->>>       } else {
->>> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
->>> index cb67e44081..b424729a39 100644
->>> --- a/hw/ppc/mac_oldworld.c
->>> +++ b/hw/ppc/mac_oldworld.c
->>> @@ -168,10 +168,11 @@ static void ppc_heathrow_init(MachineState *machine)
->>>                            machine->kernel_filename);
->>>               exit(1);
->>>           }
->>> +        cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size +
->>> +                                         KERNEL_GAP);
->>>           /* load initrd */
->>>           if (machine->initrd_filename) {
->>> -            initrd_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size +
->>> -                                            KERNEL_GAP);
->>> +            initrd_base = cmdline_base;
->>>               initrd_size = load_image_targphys(machine->initrd_filename,
->>>                                                 initrd_base,
->>>                                                 machine->ram_size - 
->>> initrd_base);
->>> @@ -181,8 +182,6 @@ static void ppc_heathrow_init(MachineState *machine)
->>>                   exit(1);
->>>               }
->>>               cmdline_base = TARGET_PAGE_ALIGN(initrd_base + initrd_size);
->>> -        } else {
->>> -            cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size + 
->>> KERNEL_GAP);
->>>           }
->>>           ppc_boot_device = 'm';
->>>       } else {
->> 
->> Is there any particular reason why you would want to avoid the else branch? 
->> I
->
-> It avoids code duplication and to me it's easier to follow than an else 
-> branch. With this patch cmdline_base calculation is clearly tied to 
-> kernel_base and kernel_size if only kernel is used and initrd_base 
-> initrd_size when initrd is used. With the else branch it's less obvious 
-> because it's set much later in the else branch while initrd_base duplicates 
-> it above. So avoiding this duplication makes the code easier to read and less 
-> prone to errors if the calculation is ever modified.
->
->> don't feel this patch is an improvement since by always setting 
->> cmdline_base to a non-zero value, as a reviewer I then have to check all 
->> other uses of cmdline_base in the file to ensure that this doesn't cause 
->> any issues.
->
-> There aren't that many uses that it's difficult to check and this only need 
-> to be done once.
->
->> I much prefer the existing version since setting the values of cmdline_base 
->> and initrd_base is very clearly scoped within the if statement.
->
-> What can I say, it's hard to argue with preferences but avoiding code 
-> duplication is worth the effort reviewing this patch in my opinion.
+On Thu, 13 Oct 2022 15:40:47 -0400
+Gregory Price <gregory.price@memverge.com> wrote:
 
-Also compare the before and after this series:
+> > >      /* For now, no memory side cache, plausiblish numbers */
+> > > -    *dslbis_nonvolatile1 = (CDATDslbis) {
+> > > +    *dslbis1 = (CDATDslbis) {
+> > >          .header = {
+> > >              .type = CDAT_TYPE_DSLBIS,
+> > > -            .length = sizeof(*dslbis_nonvolatile1),
+> > > +            .length = sizeof(*dslbis1),
+> > >          },
+> > > -        .handle = nonvolatile_dsmad,
+> > > +        .handle = dsmad_handle,
+> > >          .flags = HMAT_LB_MEM_MEMORY,
+> > >          .data_type = HMAT_LB_DATA_READ_LATENCY,
+> > >          .entry_base_unit = 10000, /* 10ns base */
+> > >          .entry[0] = 15, /* 150ns */  
+> > 
+> > If we are going to wrap this up for volatile / non-volatile 
+> > we probably need to pass in a reasonable value for these.
+> > Whilst not technically always true, to test the Linux handling
+> > I'd want non-volatile to report as longer latency.
+> >   
+> 
+> Here's a good question
+> 
+> Do we want the base unit and entry to be adjustable for volatile and
+> nonvolatile regions for the purpose of testing?  Or should this simply
+> be a static value for each?
 
-https://github.com/patchew-project/qemu/blob/master/hw/ppc/mac_newworld.c
-https://github.com/patchew-project/qemu/blob/9c1cd2828b3d3bd3a7068134a57ae9bb07f5a681/hw/ppc/mac_newworld.c
+We definitely want a 'default' value if nothing is provided.
+It might be useful to allow it to be adjusted, but lets add that when
+we have a use for it (perhaps testing some stuff in kernel where the
+values matter enough to make them controllable).
 
-I think the result is much easier to follow without else brances as you 
-can read it from top to bottom instead of jumping around in else branches 
-that is less clear and also more lines. Also setting default value avoids 
-any used uninitialised cases which you would need to check if you set vars 
-in if-else instead so unlike what you say this does not introduce such 
-cases but closes the possibility instead. So please take the time to 
-review it in exchange of the time I've put it in writing it.
+> 
+> Since we need to pass in (is_pmem/is_nonvolatile) or whatever into the
+> cdat function, we could just use that to do one of a few options:
+>     1) Select from a static value
+>     2) Select a static value and apply a multiplier for nvmem
+>     3) Use a base/value provided by the use and apply a multiplier
+>     4) Make vmem and pmem have separately configurable latencies
 
-Regards,
-BALATON Zoltan
+For now 1 is fine I think.
+
+I've just pushed out a doe-v9 tag and cxl-2022-10-14 branch to 
+gitlab.com/jic23/qemu  Also advanced the base tree to current QEMU mainline.
+
+Note that if anyone is playing with the switch cci device and mainline kernel
+you'll currently need to revert
+https://lore.kernel.org/linux-pci/20220905080232.36087-5-mika.westerberg@linux.intel.com/
+
+Jonathan
+
 
