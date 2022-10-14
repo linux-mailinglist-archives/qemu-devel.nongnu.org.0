@@ -2,87 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABDA95FF0D2
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 17:11:19 +0200 (CEST)
-Received: from localhost ([::1]:55388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57DF05FF0F3
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 17:15:16 +0200 (CEST)
+Received: from localhost ([::1]:48172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojMLF-0007X6-Sj
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 11:11:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33632)
+	id 1ojMP5-0006dt-BW
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 11:15:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ojMFc-0002hg-2D
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 11:05:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48960)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1ojMGq-0003Te-Vw; Fri, 14 Oct 2022 11:06:45 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15050
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ojMFZ-0006F1-C1
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 11:05:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665759924;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NN9oivWCbrZYnbkDIwyxrFBIxbpU/foO/yGZOpFPULk=;
- b=XF3L1s6CMVZgpank4fhazEG/m4LFajGe04YlB0yOe6QpmAVu/mnEZa7QRKl0V5ywVmKgtR
- LTxVTaCtqK0Um2syPk4/i+/+LUm8GuT0aETFpUAlr7Hne56mB1/7O7iD+LLvCsa2+FY4ar
- 3Yzx5tt6Bj56w3KLftKK+f3w4BDT5c8=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-52-XSoQ21zIP7irmaOi043nMA-1; Fri, 14 Oct 2022 11:05:22 -0400
-X-MC-Unique: XSoQ21zIP7irmaOi043nMA-1
-Received: by mail-qv1-f69.google.com with SMTP id
- ok8-20020a0562143c8800b004b07e9ca57eso3626646qvb.19
- for <qemu-devel@nongnu.org>; Fri, 14 Oct 2022 08:05:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NN9oivWCbrZYnbkDIwyxrFBIxbpU/foO/yGZOpFPULk=;
- b=n8XEItbzLPmfZMkNEFc9C3Wny+Z0PQBPQyyk3PE3F/ZfUos1b7DKDioRpdDhP/rb2u
- MmuPbY7g6qHmrtwHk9gPouk0YGf9dopnVqgDMjeCRLvCASHeO+n4l9q2IWlwS38ClOu1
- hQghzmcVDRNTv3JD2iyOD6ImnIdXWHGSeiLK/ybaxYqi7ihzzRaj4btV2XKuDCiFlVX+
- pzJ2j82LX8PIiNUxJiTlLH4XRzLzK7vw7HPXLERggIBgS8zBB8ZwL0rNNM36fqcy8cJf
- eQqTLT7hwzeTmfO34MQFv3Q5VewEpouzyDtpx8cvroLM1CfyYfU7/rU6Te7XNxojDsgd
- C7iA==
-X-Gm-Message-State: ACrzQf3s3r4g1MGUvVTd9AjzHEYRlrOg8vplmOFKqqO1bjHEI4QN+2he
- R8Dt8CRxgs3XZvqk/7nGB1FP1CsKY1Ub7+AsidWgCqK4YpK7RFkadVjDIASz6czQc1aAjtYkVfp
- wvFnlkk8Yo4xHAFc=
-X-Received: by 2002:a05:622a:446:b0:39c:d995:4548 with SMTP id
- o6-20020a05622a044600b0039cd9954548mr2151999qtx.59.1665759922151; 
- Fri, 14 Oct 2022 08:05:22 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6X9OZ7792VLJDX80tNTrixdiSuVaYVXEFcSbxTvY3+tWG9Fh+toC2Rq8rHezWZTwWefYjk1w==
-X-Received: by 2002:a05:622a:446:b0:39c:d995:4548 with SMTP id
- o6-20020a05622a044600b0039cd9954548mr2151971qtx.59.1665759921911; 
- Fri, 14 Oct 2022 08:05:21 -0700 (PDT)
-Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
- [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
- g10-20020ac8070a000000b0039cc47752casm2115643qth.77.2022.10.14.08.05.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Oct 2022 08:05:21 -0700 (PDT)
-Date: Fri, 14 Oct 2022 11:05:20 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Cc: mst@redhat.com, qemu-devel@nongnu.org, yi.l.liu@intel.com,
- yi.y.sun@linux.intel.com
-Subject: Re: [PATCH V3 1/4] intel-iommu: don't warn guest errors when getting
- rid2pasid entry
-Message-ID: <Y0l6sJD4oJrpgSIG@x1n>
-References: <20221009054835.1540-1-jasowang@redhat.com>
- <20221009054835.1540-2-jasowang@redhat.com>
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1ojMGb-0006Nb-Bf; Fri, 14 Oct 2022 11:06:44 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29EDkshE017277;
+ Fri, 14 Oct 2022 15:06:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=G8F5Yfow2oAc+kzlNiOTcP13hesCLN1r92rtKmki9Jg=;
+ b=TE+832QCTo7yaY7uIkAZfkR9bCaWS0YtfpzQumfRJlGrILRnoOFzaWiUqYxWXGZYVJ/9
+ qawuiSsx5oUH4eJwyEWvoHKe2scltAB11o0kXQOVL2ZMTLjcb0tlRSgjPMrDo6V/i8Ae
+ TH+8/2mwY8ZoM2s81YHmbb2eqT/nQDhyYOeBRGio6xT3wAFdzEJ3xRrJ0+sQFpS4LJRp
+ jmsbv/+GUP8UHwqgiGy7ekqn8xeC/oy4Qz2hz97kN9XB3s5U0fjJuXNgnPjtl6QxlMvo
+ FElW/Y18Xq1iRfBaZ/5rB7s6PLBn3hQS1R/Z8cV4SiPaVJINvhjHnHDFgap9qM0TDSWz cA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3k78xxaucm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Oct 2022 15:06:07 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29EEavfU024633;
+ Fri, 14 Oct 2022 15:06:07 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3k78xxaubb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Oct 2022 15:06:07 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29EF5Bj8029815;
+ Fri, 14 Oct 2022 15:06:06 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma04dal.us.ibm.com with ESMTP id 3k30uat8x5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Oct 2022 15:06:05 +0000
+Received: from smtpav04.wdc07v.mail.ibm.com ([9.208.128.116])
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 29EF64sv21955406
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 14 Oct 2022 15:06:05 GMT
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 69ACD58050;
+ Fri, 14 Oct 2022 15:06:04 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B576958045;
+ Fri, 14 Oct 2022 15:06:03 +0000 (GMT)
+Received: from localhost (unknown [9.77.138.198])
+ by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTPS;
+ Fri, 14 Oct 2022 15:06:03 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, fbarrat@linux.ibm.com, alex.bennee@linaro.org, Matheus
+ Ferst <matheus.ferst@eldorado.org.br>
+Subject: Re: [PATCH v3 19/29] target/ppc: create an interrupt masking method
+ for POWER7
+In-Reply-To: <20221011204829.1641124-20-matheus.ferst@eldorado.org.br>
+References: <20221011204829.1641124-1-matheus.ferst@eldorado.org.br>
+ <20221011204829.1641124-20-matheus.ferst@eldorado.org.br>
+Date: Fri, 14 Oct 2022 12:06:01 -0300
+Message-ID: <878rli4f8m.fsf@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221009054835.1540-2-jasowang@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: WYSKKgzTWZB63IbNnsW3c4MspOQsszPI
+X-Proofpoint-GUID: uOJGXdJ-tz1fxkdeKGsz28A3SOFEb3Py
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-14_08,2022-10-14_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0
+ adultscore=0 impostorscore=0 bulkscore=0 phishscore=0 malwarescore=0
+ priorityscore=1501 mlxscore=0 spamscore=0 mlxlogscore=421
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210140083
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,16 +113,12 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Oct 09, 2022 at 01:48:32PM +0800, Jason Wang wrote:
-> We use to warn on wrong rid2pasid entry. But this error could be
-> triggered by the guest and could happens during initialization. So
-> let's don't warn in this case.
-> 
-> Signed-off-by: Jason Wang <jasowang@redhat.com>
+Matheus Ferst <matheus.ferst@eldorado.org.br> writes:
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+> The new method is identical to ppc_next_unmasked_interrupt_generic,
+> processor-specific code will be added/removed in the following patches.
+>
+> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
--- 
-Peter Xu
-
+Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
 
