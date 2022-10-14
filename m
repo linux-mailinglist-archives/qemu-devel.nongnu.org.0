@@ -2,75 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E62855FEFB6
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 16:05:07 +0200 (CEST)
-Received: from localhost ([::1]:38162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 234B75FEFCE
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 16:08:02 +0200 (CEST)
+Received: from localhost ([::1]:60236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojLJC-0003IV-Lv
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 10:05:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52242)
+	id 1ojLM1-00051r-6k
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 10:08:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ojL38-00069t-2K
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 09:48:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54063)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1ojL9W-0003R9-CG
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 09:55:10 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:44824)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ojL31-0001rR-O4
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 09:48:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665755303;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lpe73JZt7tu/8KEtLPotB4zUZ0Ze/0klMFMNQMlmrZI=;
- b=cFIPCTLIwniE0fNEvPj8Z2aZUxMk9STY2cQfxeWxUZe9XVk7ZJZShzbjYMOeH8GotBSX/n
- +98AiAf0Qt/8Mwf73+NQRKx78TwC/K0wEh6+C/YWdrGoDDx0uVsTQaTESH350J/oy9MxZh
- c8nowAPDqVVP0qSyopIxYsLVr9LQAtI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-144-zVSpiBvfOBSr40gYqBa8Qw-1; Fri, 14 Oct 2022 09:48:18 -0400
-X-MC-Unique: zVSpiBvfOBSr40gYqBa8Qw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 25DD429324A6;
- Fri, 14 Oct 2022 13:48:13 +0000 (UTC)
-Received: from t480s.redhat.com (unknown [10.39.193.239])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 277812093CEB;
- Fri, 14 Oct 2022 13:48:02 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: David Hildenbrand <david@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefan Weil <sw@weilnetz.de>
-Subject: [PATCH v3 7/7] vl: Allow ThreadContext objects to be created before
- the sandbox option
-Date: Fri, 14 Oct 2022 15:47:20 +0200
-Message-Id: <20221014134720.168738-8-david@redhat.com>
-In-Reply-To: <20221014134720.168738-1-david@redhat.com>
-References: <20221014134720.168738-1-david@redhat.com>
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1ojL9O-0002eo-CL
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 09:55:03 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29EDBddr027503;
+ Fri, 14 Oct 2022 13:54:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=IgdA0gZzy3ErRsjoO/C3EqUft0IJFcmKI4PiuSNnljY=;
+ b=WBv534IZtfbNQeawmP9sWvFZvghTNedjWJgieAAcmCFo6iQeuy195Qqz7796LN/0KuB0
+ Eoy0H9ZaedWIsEEZsJmtQFWamvoe3+GWSClj9Rqq5anoLtsOzgrdvBuWj6WesYuusp/2
+ Vlx3iIlGeEz5BVa7byzdeJUPQ0otUvcfFtGSjNDXnocfc1f/BDzgYq7VRF9JYARff1qi
+ B+sbGD8hRitshM3lgd5HGww9bnn89rqnF9btpz2eR0QQdI/+GMkmPawu18u4hpRUGEFm
+ XFJmbXBz/MN83ttVxUHAwClU3J16A35SP/r54Kai2UDuWc0+WYShOhQyZaoFhyAXSUky kg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k75q1eens-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Oct 2022 13:54:55 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29EDD5RC001354;
+ Fri, 14 Oct 2022 13:54:55 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k75q1een2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Oct 2022 13:54:55 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29EDprUx023635;
+ Fri, 14 Oct 2022 13:54:53 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma03fra.de.ibm.com with ESMTP id 3k30u9f3w0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Oct 2022 13:54:52 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 29EDsoXu55968002
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 14 Oct 2022 13:54:50 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4A4AC4C040;
+ Fri, 14 Oct 2022 13:54:50 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1C0804C046;
+ Fri, 14 Oct 2022 13:54:50 +0000 (GMT)
+Received: from [9.171.8.36] (unknown [9.171.8.36])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 14 Oct 2022 13:54:50 +0000 (GMT)
+Message-ID: <498b60ab-7718-91db-50ed-d906b3b19278@linux.ibm.com>
+Date: Fri, 14 Oct 2022 15:54:49 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [RFC PATCH] virtio: re-order vm_running and use_started checks
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20221014132108.2559156-1-alex.bennee@linaro.org>
+Content-Language: en-US
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <20221014132108.2559156-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: I22nkte3ad0fQak3KcGZ-GDW7-suFdQg
+X-Proofpoint-GUID: NCGvJ3xuLoVQSCOVWEBVPoM2FUZoA6j6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-14_08,2022-10-14_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ mlxlogscore=999 malwarescore=0 impostorscore=0 phishscore=0
+ lowpriorityscore=0 bulkscore=0 clxscore=1015 priorityscore=1501
+ adultscore=0 spamscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2209130000 definitions=main-2210140078
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, NICE_REPLY_A=-2.856, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,145 +117,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, there is no way to configure a CPU affinity inside QEMU when
-the sandbox option disables it for QEMU as a whole, for example, via:
-    -sandbox enable=on,resourcecontrol=deny
 
-While ThreadContext objects can be created on the QEMU commandline and
-the CPU affinity can be configured externally via the thread-id, this is
-insufficient if a ThreadContext with a certain CPU affinity is already
-required during QEMU startup, before we can intercept QEMU and
-configure the CPU affinity.
 
-Blocking sched_setaffinity() was introduced in 24f8cdc57224 ("seccomp:
-add resourcecontrol argument to command line"), "to avoid any bigger of the
-process". However, we only care about once QEMU is running, not when
-the instance starting QEMU explicitly requests a certain CPU affinity
-on the QEMU comandline.
+Am 14.10.22 um 15:21 schrieb Alex Bennée:
+> During migration the virtio device state can be restored before we
+> restart the VM. As no devices can be running while the VM is paused it
+> makes sense to bail out early in that case.
+> 
+> This returns the order introduced in:
+> 
+>   9f6bcfd99f (hw/virtio: move vm_running check to virtio_device_started)
+> 
+> to what virtio-sock was doing longhand.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
+Tested-by: Christian Borntraeger <borntraeger@linux.ibm.com>
 
-Right now, for NUMA-aware preallocation of memory backends used for initial
-machine RAM, one has to:
-
-1) Start QEMU with the memory-backend with "prealloc=off"
-2) Pause QEMU before it starts the guest (-S)
-3) Create ThreadContext, configure the CPU affinity using the thread-id
-4) Configure the ThreadContext as "prealloc-context" of the memory
-   backend
-5) Trigger preallocation by setting "prealloc=on"
-
-To simplify this handling especially for initial machine RAM,
-allow creation of ThreadContext objects before parsing sandbox options,
-such that the CPU affinity requested on the QEMU commandline alongside the
-sandbox option can be set. As ThreadContext objects essentially only create
-a persistent context thread and set the CPU affinity, this is easily
-possible.
-
-With this change, we can create a ThreadContext with a CPU affinity on
-the QEMU commandline and use it for preallocation of memory backends
-glued to the machine (simplified example):
-
-To make "-name debug-threads=on" keep working as expected for the
-context threads, perform earlier parsing of "-name".
-
-qemu-system-x86_64 -m 1G \
- -object thread-context,id=tc1,cpu-affinity=3-4 \
- -object memory-backend-ram,id=pc.ram,size=1G,prealloc=on,prealloc-threads=2,prealloc-context=tc1 \
- -machine memory-backend=pc.ram \
- -S -monitor stdio -sandbox enable=on,resourcecontrol=deny
-
-And while we can query the current CPU affinity:
-  (qemu) qom-get tc1 cpu-affinity
-  [
-      3,
-      4
-  ]
-
-We can no longer change it from QEMU directly:
-  (qemu) qom-set tc1 cpu-affinity 1-2
-  Error: Setting CPU affinity failed: Operation not permitted
-
-Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- softmmu/vl.c | 36 ++++++++++++++++++++++++++++++++----
- 1 file changed, 32 insertions(+), 4 deletions(-)
-
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index b464da25bc..b5a23420ac 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -1759,6 +1759,27 @@ static void object_option_parse(const char *optarg)
-     visit_free(v);
- }
- 
-+/*
-+ * Very early object creation, before the sandbox options have been activated.
-+ */
-+static bool object_create_pre_sandbox(const char *type)
-+{
-+    /*
-+     * Objects should in general not get initialized "too early" without
-+     * a reason. If you add one, state the reason in a comment!
-+     */
-+
-+    /*
-+     * Reason: -sandbox on,resourcecontrol=deny disallows setting CPU
-+     * affinity of threads.
-+     */
-+    if (g_str_equal(type, "thread-context")) {
-+        return true;
-+    }
-+
-+    return false;
-+}
-+
- /*
-  * Initial object creation happens before all other
-  * QEMU data types are created. The majority of objects
-@@ -1773,6 +1794,11 @@ static bool object_create_early(const char *type)
-      * add one, state the reason in a comment!
-      */
- 
-+    /* Reason: already created. */
-+    if (object_create_pre_sandbox(type)) {
-+        return false;
-+    }
-+
-     /* Reason: property "chardev" */
-     if (g_str_equal(type, "rng-egd") ||
-         g_str_equal(type, "qtest")) {
-@@ -1895,7 +1921,7 @@ static void qemu_create_early_backends(void)
-  */
- static bool object_create_late(const char *type)
- {
--    return !object_create_early(type);
-+    return !object_create_early(type) && !object_create_pre_sandbox(type);
- }
- 
- static void qemu_create_late_backends(void)
-@@ -2351,6 +2377,11 @@ static int process_runstate_actions(void *opaque, QemuOpts *opts, Error **errp)
- 
- static void qemu_process_early_options(void)
- {
-+    qemu_opts_foreach(qemu_find_opts("name"),
-+                      parse_name, NULL, &error_fatal);
-+
-+    object_option_foreach_add(object_create_pre_sandbox);
-+
- #ifdef CONFIG_SECCOMP
-     QemuOptsList *olist = qemu_find_opts_err("sandbox", NULL);
-     if (olist) {
-@@ -2358,9 +2389,6 @@ static void qemu_process_early_options(void)
-     }
- #endif
- 
--    qemu_opts_foreach(qemu_find_opts("name"),
--                      parse_name, NULL, &error_fatal);
--
-     if (qemu_opts_foreach(qemu_find_opts("action"),
-                           process_runstate_actions, NULL, &error_fatal)) {
-         exit(1);
--- 
-2.37.3
-
+> ---
+>   include/hw/virtio/virtio.h | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> index f41b4a7e64..ebb58feaac 100644
+> --- a/include/hw/virtio/virtio.h
+> +++ b/include/hw/virtio/virtio.h
+> @@ -385,14 +385,14 @@ static inline bool virtio_is_big_endian(VirtIODevice *vdev)
+>   
+>   static inline bool virtio_device_started(VirtIODevice *vdev, uint8_t status)
+>   {
+> -    if (vdev->use_started) {
+> -        return vdev->started;
+> -    }
+> -
+>       if (!vdev->vm_running) {
+>           return false;
+>       }
+>   
+> +    if (vdev->use_started) {
+> +        return vdev->started;
+> +    }
+> +
+>       return status & VIRTIO_CONFIG_S_DRIVER_OK;
+>   }
+>   
 
