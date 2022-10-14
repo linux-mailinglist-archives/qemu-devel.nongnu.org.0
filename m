@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1E5C5FF34A
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 19:57:03 +0200 (CEST)
-Received: from localhost ([::1]:47142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 280695FF350
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 20:02:17 +0200 (CEST)
+Received: from localhost ([::1]:35020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojOve-0007Oe-M3
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 13:57:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55136)
+	id 1ojP0h-0004XW-FJ
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 14:02:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ojOok-0007QG-Ur
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 13:49:56 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:39714)
+ id 1ojOsX-0003SD-3h
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 13:53:49 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:46690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ojOoh-0001Fw-PP
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 13:49:53 -0400
-Received: by mail-pg1-x535.google.com with SMTP id b5so4922098pgb.6
- for <qemu-devel@nongnu.org>; Fri, 14 Oct 2022 10:49:51 -0700 (PDT)
+ id 1ojOsU-0001oU-7W
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 13:53:48 -0400
+Received: by mail-pf1-x432.google.com with SMTP id y8so5542292pfp.13
+ for <qemu-devel@nongnu.org>; Fri, 14 Oct 2022 10:53:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=21ufqUHx7k63zJ2+vBgvQNyvAMpfgyfDDOG1LPEidS0=;
- b=GA5q4oCz7l97ZWnISeFd/O8xv5AsDJUQ64AFfcqDAlqPANDl51veaekJV7uYmQPsma
- m8cy6RzaNknFQLkIdiyMCgM8NNGlPl/LoShAe1CtWZsFx8q8ZzuVVCdiUen4WTEjsBrZ
- uT8kSPfxmoQ+l1aNYM22NKhUpfFTU8//N5+mv1yjFiwSJmSHpR0zh30bL96HRTCl0uE0
- chiCE+vKVGXqtaCxrlRs0UxGDKJE/iX4grAZldCiyIxfSFm1vzBYQgImVanJz6hOMqpP
- aPZ31kNGRIQM6l/5jCOBHAAy7qgCw4q5BUddl1m+bUINyplN69mveyGPOm4Vw2P08pnb
- 61oA==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5wT05a1DBUiMB3HdHpeJC+U3IJgoa+a7RGGIrRcmhPU=;
+ b=H3QtdDnEb6L+wnwm4pOWsPKKwTX4Ivvy3joaPV/M+fAzDIwHxbt30Uy/EKh/b8fnNP
+ mqgQj1eZ+BYyreRuQ2qjRBMOAVxUM2CpPDoqa6jK/QfVjWhfWvJSz8SeUhhZiqo3WHdK
+ P6/jsUsfJBsriW5nSf45Sqsx4q1vYsADOznMlw205cXIOtc3djRTMGnyi+zGK/Fa0BgD
+ fHvlRSLm5ulsgeTB04A5T94kMswkdN3Nxp/xWRE5dKhyfAO+79bCvBdQkeI7zUtQXpDt
+ mGdiSA/fsh9HSXo1BG3tpV25U7qJaonkHLYbSJtexFDAC2aWt8Oz1/chOuFUnAbGD5cD
+ s9xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=21ufqUHx7k63zJ2+vBgvQNyvAMpfgyfDDOG1LPEidS0=;
- b=5uM1kj2nJzjs0PFze+4MAHpQrJwkIGfyh2RlIrkUP6+tBYGGRgl2SIpx7HCSZKRTOP
- B26zO0tjGKr2LhxLzLZFilq6TwlG3SBwRI7TrWeoSHRMHHYxgcGQRNZiK//ikNUiveA+
- 2Ayfu6f93CkpXem4gFJca6Sa+358VgkQ3CWRk+4uBzYShpTMpNaM3IUcrNhplWB/CXpK
- sDZGq18M9r2PXGcWStY46VqCdvWyFy2YWfoF85dVUB4jI3JmE6kPpj2lc+XswttiAU1+
- V2Cdl9YY42QMPVzXW6M9cKUaCo6MYCdaIJgo5Bq90WIhKkw3CpDNKBz/jpAW7iTnp4H/
- oMFg==
-X-Gm-Message-State: ACrzQf1JjHPkQHNFvs3EntNV92djWcALlpdpddO758ItCarABMDEEt5m
- 1Ficgk9QBBi6+abhgc/NnigpJdtYjxGhISW5K0UY/Q==
-X-Google-Smtp-Source: AMsMyM4qYLlhZU9j/kHQ9ZwF2NR6MxeQSzYd8H5/84Crc4RAt2BsvZeNS7bBXrSaKBaQ012I/EC4tRvzAINLm/uJ8jY=
-X-Received: by 2002:a63:2212:0:b0:43b:f03d:856a with SMTP id
- i18-20020a632212000000b0043bf03d856amr5537260pgi.192.1665769790360; Fri, 14
- Oct 2022 10:49:50 -0700 (PDT)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5wT05a1DBUiMB3HdHpeJC+U3IJgoa+a7RGGIrRcmhPU=;
+ b=yjUo+D11UosOCSwCQkBJqN4+OkD4sJE8tplv98XbY05sJFFXxojF5m9a1JdNDumhN+
+ u41gjOl1lKz7od4FRyOWZCHqLsFCQ6d8maJvWSFQziokLjmWXVxV7zgPTo3AdNZIl4c7
+ z6LJ9d0Hh4mlspep1lCouLhZjvrXatmPtq93h+HAKwhF2iaOl2sL8nsIfiXQc5MhAaMY
+ hkVsxua6vO4R9mwyt4eKbL6OUD1Sceok2QPvNuIjA2e4UMjida6T5HDPpNQ/L0XSgMJz
+ T1+rIiUfD0BsoeC+wqWOKgcu2hQYsrsOffMhbJCE5157d0gtJwGySpZlifyACMODFK5d
+ ohuQ==
+X-Gm-Message-State: ACrzQf3MMwJmKnevkGgYh2AWpEeK+M+5yFaqELQRe7W0ebK0sjDJCwpr
+ NrmEiLJMbAVUegrLHq7BAUmFAFtNdD+lFT0Xr3PxKg==
+X-Google-Smtp-Source: AMsMyM5OJbEg15W68dOABVP5V7wiKO/4m+EaSEMo5oPvlD8zbt+S29sICjCtk2nhsEeyIyX/q9aEPKO7hpOmD32N2To=
+X-Received: by 2002:a05:6a00:1595:b0:563:8fb6:ae53 with SMTP id
+ u21-20020a056a00159500b005638fb6ae53mr6270215pfk.51.1665770024568; Fri, 14
+ Oct 2022 10:53:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220930220312.135327-1-richard.henderson@linaro.org>
- <20220930220312.135327-10-richard.henderson@linaro.org>
- <CAFEAcA_x9zJQy1_9_ySO+TNnnXnYPC3Uq37AN1jP65SuEMvJZw@mail.gmail.com>
- <d1196e9c-c983-0b74-9141-ac10154429cd@linaro.org>
-In-Reply-To: <d1196e9c-c983-0b74-9141-ac10154429cd@linaro.org>
+References: <20221006033846.1178422-1-richard.henderson@linaro.org>
+ <20221006033846.1178422-9-richard.henderson@linaro.org>
+In-Reply-To: <20221006033846.1178422-9-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 14 Oct 2022 18:49:38 +0100
-Message-ID: <CAFEAcA8i1sFTA74Oudj3Z7CYYY3P2g0+BeaSy1E_R3HBkTv6dg@mail.gmail.com>
-Subject: Re: [PATCH v5 9/9] target/arm: Enable TARGET_TB_PCREL
+Date: Fri, 14 Oct 2022 18:53:33 +0100
+Message-ID: <CAFEAcA8zy2J06hZVt2ULJmbhQzDKRKrKBX9KaKLVHJhuudZQnA@mail.gmail.com>
+Subject: Re: [PATCH v6 8/9] target/arm: Introduce gen_pc_plus_diff for aarch32
 To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x535.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,63 +87,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 4 Oct 2022 at 20:27, Richard Henderson
+On Thu, 6 Oct 2022 at 04:55, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> On 10/4/22 09:23, Peter Maydell wrote:
-> >> @@ -347,16 +354,22 @@ static void gen_exception_internal(int excp)
-> >>
-> >>   static void gen_exception_internal_insn(DisasContext *s, int excp)
-> >>   {
-> >> +    target_ulong pc_save = s->pc_save;
-> >> +
-> >>       gen_a64_update_pc(s, 0);
-> >>       gen_exception_internal(excp);
-> >>       s->base.is_jmp = DISAS_NORETURN;
-> >> +    s->pc_save = pc_save;
-> >
-> > What is trashing s->pc_save that we have to work around like this,
-> > here and in the other similar changes ?
+> In preparation for TARGET_TB_PCREL, reduce reliance on absolute values.
 >
-> gen_a64_update_pc trashes pc_save.
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> @@ -296,7 +301,8 @@ TCGv_i32 add_reg_for_lit(DisasContext *s, int reg, in=
+t ofs)
+>      TCGv_i32 tmp =3D tcg_temp_new_i32();
 >
-> Off of the top of my head, I can't remember what conditionally uses exceptions (single
-> step?).  But the usage pattern that is interesting is
->
->      brcond(x, y, L1)
->      update_pc(disp1);
->      exit-or-exception.
-> L1:
->      update_pc(disp2);
->      exit-or-exception.
->
-> where at L1 we should have the same pc_save value as we did at the brcond.  Saving and
-> restoring around (at least some of) the DISAS_NORETURN points achieves that.
+>      if (reg =3D=3D 15) {
+> -        tcg_gen_movi_i32(tmp, (read_pc(s) & ~3) + ofs);
+> +        /* This difference computes a page offset so ok for TARGET_TB_PC=
+REL. */
+> +        gen_pc_plus_diff(s, tmp, (read_pc(s) & ~3) - s->pc_curr + ofs);
+>      } else {
+>          tcg_gen_addi_i32(tmp, cpu_R[reg], ofs);
+>      }
 
-(I figured it would be easiest to continue this conversation
-in this thread rather than breaking it up to reply to the v6
-equivalent patch.)
+This is still doing the pc - pc thing -- I guess my comment on v5
+crossed in the mail with your v6 repost.
 
-I guess it does, but it feels like a weird place to be doing that.
-If what we want is "at the label L1 we know the pc_save value
-needs to be some specific thing", then shouldn't we
-achieve that by setting pc_save to a specific value at that
-point? e.g. wrapping gen_set_label() with a function that
-does "set the label here, guest PC value is going to be this".
-Which should generally be the save_pc value at the point
-where you emit the brcond() to this label, right? Maybe you
-could even have a little struct that wraps up "TCGLabel*
-and the pc_save value associated with a branch to it".
-But anyway, I think the less confusing way to handle this is
-that the changes to pc_save happen at the label, because that's
-where the runtime flow-of-control is already being dealt with.
-
-Also, I think that you need to do something for the case
-in translate.c where we call tcg_remove_ops_after() --
-that now needs to fix pc_save back up to the value it had
-when we called tcg_last_op(). (There is also one of those
-in target/i386, I haven't checked whether the i386 pcrel
-handling series took care of that.)
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
