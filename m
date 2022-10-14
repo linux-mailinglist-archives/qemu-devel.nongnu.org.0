@@ -2,87 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DA545FF3E4
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 20:59:00 +0200 (CEST)
-Received: from localhost ([::1]:56312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D2815FF3EB
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 21:03:02 +0200 (CEST)
+Received: from localhost ([::1]:33726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojPta-0000s3-21
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 14:58:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59198)
+	id 1ojPxU-0004EY-Ju
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 15:03:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ojPpL-0003de-NY
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 14:54:37 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:42984)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1ojPs9-00073S-Cw
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 14:57:29 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:36366)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ojPpJ-0002Jx-S0
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 14:54:35 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id c24so5556363pls.9
- for <qemu-devel@nongnu.org>; Fri, 14 Oct 2022 11:54:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=LGAVL8wGR2apolVozh1NDzAYO4WmCG5uj+MoirSpL/I=;
- b=g1sUHykqi1JSnOAg4xCMPOqYs+lBAM3yyozFaTrxfsgXSu8+EW0Vo/9tWT2oZCMGSa
- cZT653rTz0W/mvEeQsA4vbycOKaJ097hVW1E88okjIzETcwj+/50InXI3/joLcl3NzuF
- 8KCe8UX70kb6UoPi9PpNDu/Q+3+4BofAY9z5+zClolz3TFVevivJw98Fszne+/dV5l47
- nKsG4wpx7TsMgIY6pCRK71d6+qwD+xoYoOigc3Vzx0LxVk749LDDri0Md+nTSdyMDihP
- szkMVRFbwyI0qvv3ucGO45c1vEyU1lWwiwgHw+rJdUddeLxTnMUe3deQvxRCxFRTkcSc
- kqmg==
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1ojPs7-0002kG-DE
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 14:57:28 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id s196so3786893pgs.3
+ for <qemu-devel@nongnu.org>; Fri, 14 Oct 2022 11:57:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Hp3yAxY8quCRjHZnHuBPErW5fHEohLMFvOXbDGO/GC8=;
+ b=smV3l+b0gPfxsb+cqdrtrWHgL08g1JwC/C9k3qD53pTkH5zIwd+CIdIyQkxG2V3LLQ
+ vr0fhAZDODX1iShv+uzVVoKO2yI7QS7Dpy4QRu2J0zo+aNXAVzvGg9sHUoPxlMruufUT
+ Kd/EU2UsY1bQRGYb9CuGI8JhB7KR+4XGd9bVk3KgrDAwpXMdf9mvoLDt+7277BOEjAQV
+ 15NUZRhkPpmEySXzwlsNUL2z1AS+68J/MFJRdyKFhuc1w6rWzoLKg91755NPIspVj/io
+ XF7nOZ5WJqalD97V+ZX9AqmTvPbtx0IjpzWhO5nEiArwNwQFjprucchbkW3wnXB21FW0
+ xdnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LGAVL8wGR2apolVozh1NDzAYO4WmCG5uj+MoirSpL/I=;
- b=Oi/6fqfVSV95FZvPzDL3qA+jVFbVjrBWjArtXfkEhN+VEEin9v8lqDqXfsPGi1CVda
- XSechywnMjMLtdIrsl+QT/jCo5EB/57dRgDtZiT+K0GcAxLD/s13bUwwf8KDSytK8k5i
- qhXZDjMmhHA+DQeGgHSOArTP0vOjslD0Mk7oNIwVdjFy1QWDw+y5KQ5ZgIf81F4ZMuXJ
- rxLHKUqo8rwlm0yYb39EqUFtA/0V9qbdjWOw3FLp/uTbYdGEXQ6i6NiKEjf/5uQFNOcq
- o49hH8H+azuXfNZltuhmoLg9amdBNB5C5Ssh6Y8tw3WNn4XyLhuS4UuvumZfOLKFIq5k
- r2/g==
-X-Gm-Message-State: ACrzQf3wgI4F2y93Xe4zLa4KfYGm615ymyNrGeYWJZCDajTfjrUg0xG5
- D9ZNZvKSoeYZ803ZwsJ6VgbcpQ==
-X-Google-Smtp-Source: AMsMyM4vGekMN6TgPv6F6+VYR6vROVbYUjilG5RRGbQgp7bNa432BSUejI4CM9iwnJL8cpqHMTpQiw==
-X-Received: by 2002:a17:90b:4b46:b0:20a:e906:426d with SMTP id
- mi6-20020a17090b4b4600b0020ae906426dmr7568312pjb.48.1665773672188; 
- Fri, 14 Oct 2022 11:54:32 -0700 (PDT)
-Received: from [10.1.28.222] (110-175-13-142.static.tpgi.com.au.
- [110.175.13.142]) by smtp.gmail.com with ESMTPSA id
- mv6-20020a17090b198600b001f559e00473sm5233006pjb.43.2022.10.14.11.54.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Oct 2022 11:54:31 -0700 (PDT)
-Message-ID: <b6aac649-a920-1a86-578a-5a5b7ee3626f@linaro.org>
-Date: Sat, 15 Oct 2022 05:54:25 +1100
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Hp3yAxY8quCRjHZnHuBPErW5fHEohLMFvOXbDGO/GC8=;
+ b=prCd7EqQzRjdffWo8DZEGWmjZ1TNJ4pYw+K08SUYrw+wdguZxmYkdwNhR8AunKkCqI
+ 3cpNJF4uF31nAkHKwE+wytyxi+1DOETWDJzts3/nlxBp7ZfYNUlkR3rM+GALC9qJsmAE
+ okKiR9sCIJCiwoOGW87R6h8OMxg8Wvx8B72baT5XDWchjfKuZ9iYZoogQGthz+EElPKU
+ GWMAeSUA6nAcdlGjQttAe5Xp5KqR6+u63/eLhh6ea2IlhG9xoDZOsA0qMU15malJ6xer
+ fGQbl9MfKvUsg7kNMCfJbh8rmbwQ4suKxcEh29Gge34I0g1NMlU4M0YXu2F7kCBsbyAA
+ 5gkw==
+X-Gm-Message-State: ACrzQf3Shji7EOnti+Kjn1XL3lbIEI2D7n6Kb8e91QZueUed2pox4ZnS
+ HHVoeAivbLaxuhUGH09jTNxJwF0Yfk9j8w==
+X-Google-Smtp-Source: AMsMyM4sMMNxa+29AKQJlblJPyT5lnKnzMKJX7jVmbsXLFeWuFqUiTCO3icedQ7T+zlfYZ0ltLMusQ==
+X-Received: by 2002:a63:2483:0:b0:461:ab67:ccfb with SMTP id
+ k125-20020a632483000000b00461ab67ccfbmr5521853pgk.341.1665773844428; 
+ Fri, 14 Oct 2022 11:57:24 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com.
+ [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
+ j5-20020a625505000000b00562019b961asm2064125pfb.188.2022.10.14.11.57.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Oct 2022 11:57:23 -0700 (PDT)
+Date: Fri, 14 Oct 2022 18:57:20 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 7/8] KVM: Handle page fault for private memory
+Message-ID: <Y0mxEFpvS7O96CCD@google.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-8-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2] disas/mips: Fix branch displacement for BEQZC and BNEZC
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@fungible.com>,
- qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Aurelien Jarno
- <aurelien@aurel32.net>, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- David Daney <david.daney@fungible.com>,
- Marcin Nowakowski <marcin.nowakowski@fungible.com>
-References: <20221014112322.61119-1-philmd@fungible.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221014112322.61119-1-philmd@fungible.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.856,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220915142913.2213336-8-chao.p.peng@linux.intel.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=seanjc@google.com; helo=mail-pg1-x52d.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,33 +112,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/14/22 22:23, Philippe Mathieu-Daudé wrote:
-> From: David Daney<david.daney@fungible.com>
-> 
-> disas/mips.c got added in commit 6643d27ea0 ("MIPS disas support")
-> apparently based on binutils tag 'gdb_6_1-branchpoint' [1].
-> Back then, MIPSr6 was not supported (added in binutils commit
-> 7361da2c952 during 2014 [2]).
-> 
-> Binutils codebase diverged so much over the last 18 years, it is
-> not possible to simply cherry-pick their changes, so fix it BEQZC /
-> BNEZC 21-bit signed branch displacement locally.
-> 
-> [1]https://sourceware.org/git/?p=binutils-gdb.git;a=blob;f=opcodes/mips-dis.c;hb=refs/tags/gdb_6_1-branchpoint
-> [2]https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=7361da2c952
-> 
-> Fixes: 31837be3ee ("target-mips: add compact and CP1 branches")
-> Signed-off-by: David Daney<david.daney@fungible.com>
-> Reviewed-by: Marcin Nowakowski<marcin.nowakowski@fungible.com>
-> [PMD: Added commit description]
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@fungible.com>
-> ---
-> v2: Use sextract32 (rth)
-> ---
->   disas/mips.c | 12 ++++++++++--
->   1 file changed, 10 insertions(+), 2 deletions(-)
+On Thu, Sep 15, 2022, Chao Peng wrote:
+> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> index a0f198cede3d..81ab20003824 100644
+> --- a/arch/x86/kvm/mmu/mmu.c
+> +++ b/arch/x86/kvm/mmu/mmu.c
+> @@ -3028,6 +3028,9 @@ int kvm_mmu_max_mapping_level(struct kvm *kvm,
+>  			break;
+>  	}
+>  
+> +	if (kvm_mem_is_private(kvm, gfn))
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Rather than reload the Xarray info, which is unnecessary overhead, pass in
+@is_private.  The caller must hold mmu_lock, i.e. invalidations from
+private<->shared conversions will be stalled and will zap the new SPTE if the
+state is changed.
 
-r~
+E.g.
+
+diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+index d68944f07b4b..44eea47697d8 100644
+--- a/arch/x86/kvm/mmu/mmu.c
++++ b/arch/x86/kvm/mmu/mmu.c
+@@ -3072,8 +3072,8 @@ void kvm_mmu_hugepage_adjust(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
+         * Enforce the iTLB multihit workaround after capturing the requested
+         * level, which will be used to do precise, accurate accounting.
+         */
+-       fault->req_level = kvm_mmu_max_mapping_level(vcpu->kvm, slot,
+-                                                    fault->gfn, fault->max_level);
++       fault->req_level = kvm_mmu_max_mapping_level(vcpu->kvm, slot, fault->gfn,
++                                                    fault->max_level, fault->is_private);
+        if (fault->req_level == PG_LEVEL_4K || fault->huge_page_disallowed)
+                return;
+ 
+@@ -6460,7 +6460,7 @@ static bool kvm_mmu_zap_collapsible_spte(struct kvm *kvm,
+                 */
+                if (sp->role.direct &&
+                    sp->role.level < kvm_mmu_max_mapping_level(kvm, slot, sp->gfn,
+-                                                              PG_LEVEL_NUM)) {
++                                                              PG_LEVEL_NUM, false)) {
+                        kvm_zap_one_rmap_spte(kvm, rmap_head, sptep);
+ 
+                        if (kvm_available_flush_tlb_with_range())
+diff --git a/arch/x86/kvm/mmu/spte.h b/arch/x86/kvm/mmu/spte.h
+index 7670c13ce251..9acdf72537ce 100644
+--- a/arch/x86/kvm/mmu/spte.h
++++ b/arch/x86/kvm/mmu/spte.h
+@@ -315,6 +315,12 @@ static inline bool is_dirty_spte(u64 spte)
+        return dirty_mask ? spte & dirty_mask : spte & PT_WRITABLE_MASK;
+ }
+ 
++static inline bool is_private_spte(u64 spte)
++{
++       /* FIXME: Query C-bit/S-bit for SEV/TDX. */
++       return false;
++}
++
+ static inline u64 get_rsvd_bits(struct rsvd_bits_validate *rsvd_check, u64 pte,
+                                int level)
+ {
+diff --git a/arch/x86/kvm/mmu/tdp_mmu.c b/arch/x86/kvm/mmu/tdp_mmu.c
+index 672f0432d777..69ba00157e90 100644
+--- a/arch/x86/kvm/mmu/tdp_mmu.c
++++ b/arch/x86/kvm/mmu/tdp_mmu.c
+@@ -1767,8 +1767,9 @@ static void zap_collapsible_spte_range(struct kvm *kvm,
+                if (iter.gfn < start || iter.gfn >= end)
+                        continue;
+ 
+-               max_mapping_level = kvm_mmu_max_mapping_level(kvm, slot,
+-                                                             iter.gfn, PG_LEVEL_NUM);
++               max_mapping_level = kvm_mmu_max_mapping_level(kvm, slot, iter.gfn,
++                                                             PG_LEVEL_NUM,
++                                                             is_private_spte(iter.old_spte));
+                if (max_mapping_level < iter.level)
+                        continue;
+ 
 
