@@ -2,52 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E5F15FE994
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 09:29:20 +0200 (CEST)
-Received: from localhost ([::1]:44724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E61F5FE98B
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 09:28:32 +0200 (CEST)
+Received: from localhost ([::1]:43680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojF8B-0005bn-IK
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 03:29:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36846)
+	id 1ojF7P-0004nm-3S
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 03:28:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ojF3A-0008Om-3U
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ojF3A-0008On-7p
  for qemu-devel@nongnu.org; Fri, 14 Oct 2022 03:24:13 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:48123)
+Received: from mout.kundenserver.de ([212.227.17.10]:41751)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ojF37-0004rn-FM
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 03:24:07 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ojF37-0004rs-EJ
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 03:24:08 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue108
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1N33AR-1p8Ufg3atZ-013Nbm; Fri, 14
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MYNS0-1ofViW1Y3u-00VRlF; Fri, 14
  Oct 2022 09:23:58 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 0/2] M68k for 7.2 patches
-Date: Fri, 14 Oct 2022 09:23:54 +0200
-Message-Id: <20221014072356.2075517-1-laurent@vivier.eu>
+Cc: Laurent Vivier <laurent@vivier.eu>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: [PULL 1/2] m68k: rework BI_VIRT_RNG_SEED as BI_RNG_SEED
+Date: Fri, 14 Oct 2022 09:23:55 +0200
+Message-Id: <20221014072356.2075517-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20221014072356.2075517-1-laurent@vivier.eu>
+References: <20221014072356.2075517-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:HpoLkL7sjOjRYZF46USYXmBHHpc4+xKix6+tVAYxTaXl+lz4irE
- DcwRoP2cuWK2S1IpxAGAzxtZWrdY4fyRAxuMYudONIa34701vP6tnK+PkjEGfk1u/QPpK4C
- aWnprGdlYU26tmlq7luRVwImjJ+zuaoRYlDmN1JvfXC7os6OFzLRo15G5b/d/JAS0B237v0
- 2ZqhpELLwhxL2sTdqdiuw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:uF3htBfQ520=:qPOEZw9W8sroH4+Cr2e98y
- DShWOiLgm+BWV1dKa81BLqZfCaxdMBVyfHfA7D/oAqDLsqXP+C+pii2s9ltmFq6/1dV4OOdS2
- ayOzlPGEWU3+Ep9ywyOmjxF7BnuocoF68Cb6LyN7pYZXXZzplSzQK2m40W9M383ytBgLvdMLl
- TiKFUGM81K0VWQB3BEbPI//Xf4OExi6RQAvaz/ei2wm0O4T4bhJO0O+g7xg8dO+4j4GD3y5HG
- gyDxQ89DbaKWcgufD1+1MEGFljNmdoGSEGYRXRDedFfJuciSTpVKAzq7fWz1zw15VaLkKONHe
- 2EgCxfejrFebZwRgfb7Wr9jXe7JCwURITprVbwUr4HED/SPOuBYAz71W9bVwBGtdipiGNv4ha
- 6HEHUideDnfTdyptBHueHeivbpA2IhpkiSu0yaY4BZkLzXH40mATy3WqU+/lFs8o08T7/bs6D
- J1oTp5B53kX1fJoTqZBgJoqtIk37yrmeUGrhY48TCqL/HLj4WQuJAlT9aRtU2K7LuNh+AjeTs
- wjvWrXX8q0A4U5PAh61VuFKp+aSllbt4pmEi0p7AC4an0jWdBOkp3+eG1/BHVna+rhE3CHsc1
- lw1T9i3oI+RGL9HWXq+La3pr2Fwj6WumI8tH33jckc917YNk8HhVAlyWdz0w7kHYVWkBJ08m7
- i1DI9HG1qamYEVIchKAvdgQVkSOUyWz9pR3inNWuTCZQWSMtMJU3POjZRollm/gC/fLH7EFg9
- 189dE9ovaDER6mu9RidEFrkEqtv85JeW042iGG9FdoKrFUkXL0iCXfm8Q0N5cX38dhRiCn2/n
- DxZPoBU
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:OtVz0zF8+/DJF7qgTPHVihbqtIASO/fHtKo/tgQj0NJrOeCBT8E
+ fQCJCwye7IxU3tJ98HvMCGr4AqPHeovyp4qd8hQY+RKKKAFEkUbo16DBe1c6CzqGYHsIPnh
+ 9yZSII4Bz0YSMEFW9BihLBSpy0SGQeyTOGxOkimshRZvqmgl5e/AfM1rIn5HBU7zY4OIj2O
+ nih9p84KM+FwgTe5IQ8ZA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:E4C/QbJ3gJI=:PPwAjOgQYtVYe99lumNUzP
+ E3urka2bqxXpEcVeiWLhVxaQQ6OEUpwO5ZIqaxPpiHcerTpSd1HHunZDiU32OoWJuF5NbEcHg
+ SYtTsYXaxB5vuCBXgrhBecVcFS00gaY2IsHHJYU4gDG94XzPrF2NKYBCb2LSQGwOkOoKNissh
+ MQGv0WWUjfIHCR6YeUgqOa2i8scKhKSwS7Xc6pcgLGt0WRU0BYRK5k2B2nUp9BOscABdvE2VZ
+ WoPbnS7fBXStBHu8c8QNy95l7THXYEJ8HefOtnHCZMTmHGpp+ttMjvU1mcNzliYlrimhyd9SI
+ ZONw5eB5Hy1Yr40u+D6sv90m/fy+sLVL1wbdOd4nTklBzF06QrVq8FeNyTmFkEqm1bNDZPScD
+ AzXs2MIhWaN9I6YHcpyp1sUSaetqRISv1nzo+JJ7md0V19vdGdcuq4UVbmaTKZflQmabtvIvs
+ xwAWPyN230tK0xoOjRilHqFLuFpaO947DAkZfUezQnAFTY0ubY7fMgKEE+D/ueM/Y/PE1VF6i
+ /TdPLVy4je5762tmG+hGDd2J+l+LG/Q7/ZQ2XgPlVmM3Crjq00wS0l9Zvi6jBSR6Keg603TSV
+ jVAoFwd2XVpKpea0M2HkYleQgqpvb9TxUxXgGZeoPGg9wvPQvtQUDvfaLjU08INpOU9wk1HWB
+ K3lS6tIQrAZRrDs+6z47rJ8WoYuFStCc5xm1iyELXXVvMAKaVZ/xcy2jFUxb9cTUGaNGpukkd
+ ADo6l0cCOrVNO46jlPCTvahUIv1PvP7WP7lH//x4li41hCAUDDoWVzJh5P3HAA9snZcmKM4wo
+ eShv3Al
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,36 +71,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit f1d33f55c47dfdaf8daacd618588ad3ae4c452d1:
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 
-  Merge tag 'pull-testing-gdbstub-plugins-gitdm-061022-3' of https://github.com/stsquad/qemu into staging (2022-10-06 07:11:56 -0400)
+Following a change on the kernel side (see link), pass BI_RNG_SEED
+instead of BI_VIRT_RNG_SEED. This should have no impact on
+compatibility, as there will simply be no effect if it's an old kernel,
+which is how things have always been. We then use this as an opportunity
+to add this to q800, since now we can, which is a nice improvement.
 
-are available in the Git repository at:
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Laurent Vivier <laurent@vivier.eu>
+Link: https://lore.kernel.org/lkml/20220923170340.4099226-3-Jason@zx2c4.com/
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+Message-Id: <20220926113900.1256630-1-Jason@zx2c4.com>
+[lv: s/^I/         /g]
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ include/standard-headers/asm-m68k/bootinfo-virt.h | 4 +++-
+ include/standard-headers/asm-m68k/bootinfo.h      | 8 +++++++-
+ hw/m68k/q800.c                                    | 7 +++++++
+ hw/m68k/virt.c                                    | 8 ++++----
+ 4 files changed, 21 insertions(+), 6 deletions(-)
 
-  https://github.com/vivier/qemu-m68k.git tags/m68k-for-7.2-pull-request
-
-for you to fetch changes up to fa327be58280f76d2565ff0bdb9b0010ac97c3b0:
-
-  m68k: write bootinfo as rom section and re-randomize on reboot (2022-10-11 23:02:46 +0200)
-
-----------------------------------------------------------------
-Pull request m68k branch 20221014
-
-Update rng seed boot parameter
-
-----------------------------------------------------------------
-
-Jason A. Donenfeld (2):
-  m68k: rework BI_VIRT_RNG_SEED as BI_RNG_SEED
-  m68k: write bootinfo as rom section and re-randomize on reboot
-
- hw/m68k/bootinfo.h                            | 48 ++++++------
- .../standard-headers/asm-m68k/bootinfo-virt.h |  4 +-
- include/standard-headers/asm-m68k/bootinfo.h  |  8 +-
- hw/m68k/q800.c                                | 76 ++++++++++++++-----
- hw/m68k/virt.c                                | 57 +++++++++-----
- 5 files changed, 130 insertions(+), 63 deletions(-)
-
+diff --git a/include/standard-headers/asm-m68k/bootinfo-virt.h b/include/standard-headers/asm-m68k/bootinfo-virt.h
+index 1b1ffd4705d6..75ac6bbd7d73 100644
+--- a/include/standard-headers/asm-m68k/bootinfo-virt.h
++++ b/include/standard-headers/asm-m68k/bootinfo-virt.h
+@@ -12,7 +12,9 @@
+ #define BI_VIRT_GF_TTY_BASE	0x8003
+ #define BI_VIRT_VIRTIO_BASE	0x8004
+ #define BI_VIRT_CTRL_BASE	0x8005
+-#define BI_VIRT_RNG_SEED	0x8006
++
++/* No longer used -- replaced with BI_RNG_SEED -- but don't reuse this index:
++ * #define BI_VIRT_RNG_SEED	0x8006 */
+ 
+ #define VIRT_BOOTI_VERSION	MK_BI_VERSION(2, 0)
+ 
+diff --git a/include/standard-headers/asm-m68k/bootinfo.h b/include/standard-headers/asm-m68k/bootinfo.h
+index 7b790e8ec8d6..b7a8dd2514fe 100644
+--- a/include/standard-headers/asm-m68k/bootinfo.h
++++ b/include/standard-headers/asm-m68k/bootinfo.h
+@@ -57,7 +57,13 @@ struct mem_info {
+ 					/* (struct mem_info) */
+ #define BI_COMMAND_LINE		0x0007	/* kernel command line parameters */
+ 					/* (string) */
+-
++/*
++ * A random seed used to initialize the RNG. Record format:
++ *
++ *   - length       [ 2 bytes, 16-bit big endian ]
++ *   - seed data    [ `length` bytes, padded to preserve 4-byte struct alignment ]
++ */
++#define BI_RNG_SEED		0x0008
+ 
+     /*
+      *  Linux/m68k Architectures (BI_MACHTYPE)
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index 101ab0f803f6..a4590c2cb0b1 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -23,6 +23,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+ #include "qemu/datadir.h"
++#include "qemu/guest-random.h"
+ #include "sysemu/sysemu.h"
+ #include "cpu.h"
+ #include "hw/boards.h"
+@@ -385,6 +386,7 @@ static void q800_init(MachineState *machine)
+     NubusBus *nubus;
+     DeviceState *glue;
+     DriveInfo *dinfo;
++    uint8_t rng_seed[32];
+ 
+     linux_boot = (kernel_filename != NULL);
+ 
+@@ -634,6 +636,11 @@ static void q800_init(MachineState *machine)
+                         kernel_cmdline);
+         }
+ 
++        /* Pass seed to RNG. */
++        qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
++        BOOTINFODATA(cs->as, parameters_base, BI_RNG_SEED,
++                     rng_seed, sizeof(rng_seed));
++
+         /* load initrd */
+         if (initrd_filename) {
+             initrd_size = get_image_size(initrd_filename);
+diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
+index 2f3ffc0de677..f7b903ea1b62 100644
+--- a/hw/m68k/virt.c
++++ b/hw/m68k/virt.c
+@@ -248,10 +248,10 @@ static void virt_init(MachineState *machine)
+                         kernel_cmdline);
+         }
+ 
+-	/* Pass seed to RNG. */
+-	qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
+-	BOOTINFODATA(cs->as, parameters_base, BI_VIRT_RNG_SEED,
+-		     rng_seed, sizeof(rng_seed));
++        /* Pass seed to RNG. */
++        qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
++        BOOTINFODATA(cs->as, parameters_base, BI_RNG_SEED,
++                     rng_seed, sizeof(rng_seed));
+ 
+         /* load initrd */
+         if (initrd_filename) {
 -- 
 2.37.3
 
