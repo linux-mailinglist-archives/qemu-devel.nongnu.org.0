@@ -2,95 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 270325FE93D
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 09:09:07 +0200 (CEST)
-Received: from localhost ([::1]:33152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E5F15FE994
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 09:29:20 +0200 (CEST)
+Received: from localhost ([::1]:44724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojEoa-0002an-Qb
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 03:09:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49150)
+	id 1ojF8B-0005bn-IK
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 03:29:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1ojElz-0000xn-5l
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 03:06:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34884)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ojF3A-0008Om-3U
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 03:24:13 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:48123)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1ojElv-0002aE-M6
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 03:06:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665731178;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0NMH2QwwP+jUk5+scPEfG8xRjUL8EMHgz7emLcFpTnw=;
- b=Dr+gRp/560YkZsg7waQNaXbZQHxZ2m6QNIBzPKD8uEBpktMVD+3W2zR1j4Ej0pR3T3SODt
- 3SMfVw8BPRadJk+hcN7Qh18Qj6CtJfeVWPXb8UjXdfeSOV6XoQzTYcgSVuRMAu2zA/zwVx
- Sbc2L2iHa0J34G8D/pVLjKfN2LvO2tA=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-471-w5MY3uTqP66WygGt9utLZQ-1; Fri, 14 Oct 2022 03:06:17 -0400
-X-MC-Unique: w5MY3uTqP66WygGt9utLZQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k22-20020a05600c0b5600b003c6cf5c5592so1742961wmr.3
- for <qemu-devel@nongnu.org>; Fri, 14 Oct 2022 00:06:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0NMH2QwwP+jUk5+scPEfG8xRjUL8EMHgz7emLcFpTnw=;
- b=rcJ0TBl2FJsvXFkX90h3T1NvdqGUNWi1BVDFMktHjxIJ3xH7RYwsUyP+8i8z7mfsyU
- a0a9cmxbvsz/74+5AZ6+MNXiGZlwdnEGvpEtpY/JXQwB2sVtojaKmoUPfaxxQR6a3yJh
- 5eRZz/1ltIE0w3RQl20zXF/dl8oeWtefrz+5QD3a2AYQRp0ap4gNwJAyyT8K6cIABKUk
- 4URXcLcjSO1JaYLMzgmvq9VDOeI/1HI/Ba0o4eq5AfQcAScRBhBykqCZ5xYe1tTHicW6
- cwSuiEpd5kLIOVlEOzF4penFdbOecEREyRB7jB0QJ5ufKop1AGA8qBGyyFoiZ+SRQ1Sc
- xqLQ==
-X-Gm-Message-State: ACrzQf3V08EFVNKBmhQzmKYvU18VP2SGW5NL3Ge+sKDrV8YefdA13iug
- lNecMBSy4hjNk8PMtc+h6UZ6a2iSa34N5TcM3Qgbhv9aPO5vtzs5FH69IpuGSnH2zdubAs9xVoc
- L8FQ/0YJMrHx7mwI=
-X-Received: by 2002:a05:600c:3d96:b0:3bf:bce1:23af with SMTP id
- bi22-20020a05600c3d9600b003bfbce123afmr2393931wmb.112.1665731176092; 
- Fri, 14 Oct 2022 00:06:16 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5QlBgExQuJW90Snpf1tmcQ4HF4wsqYpjYj06KizFUNyZE9XQCAnSp7OMLUePOoqjPuWY7gXg==
-X-Received: by 2002:a05:600c:3d96:b0:3bf:bce1:23af with SMTP id
- bi22-20020a05600c3d9600b003bfbce123afmr2393902wmb.112.1665731175815; 
- Fri, 14 Oct 2022 00:06:15 -0700 (PDT)
-Received: from [192.168.100.30] ([82.142.8.70])
- by smtp.gmail.com with ESMTPSA id
- a13-20020a05600c348d00b003c6c76b43a1sm1355585wmq.13.2022.10.14.00.06.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Oct 2022 00:06:15 -0700 (PDT)
-Message-ID: <0b5a4db0-14e4-09cf-d68c-a0aca8c780c7@redhat.com>
-Date: Fri, 14 Oct 2022 09:06:13 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ojF37-0004rn-FM
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 03:24:07 -0400
+Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue108
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1N33AR-1p8Ufg3atZ-013Nbm; Fri, 14
+ Oct 2022 09:23:58 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 0/2] M68k for 7.2 patches
+Date: Fri, 14 Oct 2022 09:23:54 +0200
+Message-Id: <20221014072356.2075517-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.37.3
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH RFC] virtio-net: fix bottom-half packet TX on asynchronous
- completion
-Content-Language: en-US
-To: Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
- Stefano Brivio <sbrivio@redhat.com>, alex.williamson@redhat.com
-References: <20221013140057.63575-1-lvivier@redhat.com>
- <20221013104724-mutt-send-email-mst@kernel.org>
- <CACGkMEsEhudE-yM7cZ5e9rXP-+w8-YTeL3MV73mghVh1uoF+9g@mail.gmail.com>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <CACGkMEsEhudE-yM7cZ5e9rXP-+w8-YTeL3MV73mghVh1uoF+9g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.25, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:HpoLkL7sjOjRYZF46USYXmBHHpc4+xKix6+tVAYxTaXl+lz4irE
+ DcwRoP2cuWK2S1IpxAGAzxtZWrdY4fyRAxuMYudONIa34701vP6tnK+PkjEGfk1u/QPpK4C
+ aWnprGdlYU26tmlq7luRVwImjJ+zuaoRYlDmN1JvfXC7os6OFzLRo15G5b/d/JAS0B237v0
+ 2ZqhpELLwhxL2sTdqdiuw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:uF3htBfQ520=:qPOEZw9W8sroH4+Cr2e98y
+ DShWOiLgm+BWV1dKa81BLqZfCaxdMBVyfHfA7D/oAqDLsqXP+C+pii2s9ltmFq6/1dV4OOdS2
+ ayOzlPGEWU3+Ep9ywyOmjxF7BnuocoF68Cb6LyN7pYZXXZzplSzQK2m40W9M383ytBgLvdMLl
+ TiKFUGM81K0VWQB3BEbPI//Xf4OExi6RQAvaz/ei2wm0O4T4bhJO0O+g7xg8dO+4j4GD3y5HG
+ gyDxQ89DbaKWcgufD1+1MEGFljNmdoGSEGYRXRDedFfJuciSTpVKAzq7fWz1zw15VaLkKONHe
+ 2EgCxfejrFebZwRgfb7Wr9jXe7JCwURITprVbwUr4HED/SPOuBYAz71W9bVwBGtdipiGNv4ha
+ 6HEHUideDnfTdyptBHueHeivbpA2IhpkiSu0yaY4BZkLzXH40mATy3WqU+/lFs8o08T7/bs6D
+ J1oTp5B53kX1fJoTqZBgJoqtIk37yrmeUGrhY48TCqL/HLj4WQuJAlT9aRtU2K7LuNh+AjeTs
+ wjvWrXX8q0A4U5PAh61VuFKp+aSllbt4pmEi0p7AC4an0jWdBOkp3+eG1/BHVna+rhE3CHsc1
+ lw1T9i3oI+RGL9HWXq+La3pr2Fwj6WumI8tH33jckc917YNk8HhVAlyWdz0w7kHYVWkBJ08m7
+ i1DI9HG1qamYEVIchKAvdgQVkSOUyWz9pR3inNWuTCZQWSMtMJU3POjZRollm/gC/fLH7EFg9
+ 189dE9ovaDER6mu9RidEFrkEqtv85JeW042iGG9FdoKrFUkXL0iCXfm8Q0N5cX38dhRiCn2/n
+ DxZPoBU
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,112 +69,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/14/22 05:10, Jason Wang wrote:
-> On Thu, Oct 13, 2022 at 10:48 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->>
->> On Thu, Oct 13, 2022 at 04:00:57PM +0200, Laurent Vivier wrote:
->>> When virtio-net is used with the socket netdev backend, the backend
->>> can be busy and not able to collect new packets.
->>>
->>> In this case, net_socket_receive() returns 0 and registers a poll function
->>> to detect when the socket is ready again.
->>>
->>> In virtio_net_tx_bh(), virtio_net_flush_tx() forwards the 0, the virtio
->>> notifications are disabled and the function is not rescheduled, waiting
->>> for the backend to be ready.
->>>
->>> When the socket netdev backend is again able to send packets, the poll
->>> function re-starts to flush remaining packets. This is done by
->>> calling virtio_net_tx_complete(). It re-enables notifications and calls
->>> again virtio_net_flush_tx().
->>>
->>> But it seems if virtio_net_flush_tx() reaches the tx_burst value all
->>> the queue is not flushed and no new notification is sent to reschedule
->>> virtio_net_tx_bh(). Nothing re-start to flush the queue and remaining packets
->>> are stuck in the queue.
->>>
->>> To fix that, detect in virtio_net_tx_complete() if virtio_net_flush_tx()
->>> has been stopped by tx_burst and if yes reschedule the bottom half
->>> function virtio_net_tx_bh() to flush the remaining packets.
->>>
->>> This is what is done in virtio_net_tx_bh() when the virtio_net_flush_tx()
->>> is synchronous, and completely by-passed when the operation needs to be
->>> asynchronous.
->>>
->>> RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC
->>>
->>> Do we need to reschedule the function in the other case managed
->>> in virtio_net_tx_bh() and by-passed when the completion is asynchronous?
->>
->>
->> I am guessing no.
->>
->>>      /* If less than a full burst, re-enable notification and flush
->>>       * anything that may have come in while we weren't looking.  If
->>>       * we find something, assume the guest is still active and reschedule */
->>>      virtio_queue_set_notification(q->tx_vq, 1);
->>>      ret = virtio_net_flush_tx(q);
->>>      if (ret == -EINVAL) {
->>>          return;
->>>      } else if (ret > 0) {
->>>          virtio_queue_set_notification(q->tx_vq, 0);
->>>          qemu_bh_schedule(q->tx_bh);
->>>          q->tx_waiting = 1;
->>>      }
->>>
->>> RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC
->>>
->>> Fixes: a697a334b3c4 ("virtio-net: Introduce a new bottom half packet TX")
->>> Cc: alex.williamson@redhat.com
->>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->>
->> Looks ok superficially
->>
->> Acked-by: Michael S. Tsirkin <mst@redhat.com>
->>
->> Jason, your area.
->>
->>> ---
->>>   hw/net/virtio-net.c | 13 ++++++++++++-
->>>   1 file changed, 12 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
->>> index e9f696b4cfeb..1fbf2f3e19a7 100644
->>> --- a/hw/net/virtio-net.c
->>> +++ b/hw/net/virtio-net.c
->>> @@ -2526,6 +2526,7 @@ static void virtio_net_tx_complete(NetClientState *nc, ssize_t len)
->>>       VirtIONet *n = qemu_get_nic_opaque(nc);
->>>       VirtIONetQueue *q = virtio_net_get_subqueue(nc);
->>>       VirtIODevice *vdev = VIRTIO_DEVICE(n);
->>> +    int ret;
->>>
->>>       virtqueue_push(q->tx_vq, q->async_tx.elem, 0);
->>>       virtio_notify(vdev, q->tx_vq);
->>> @@ -2534,7 +2535,17 @@ static void virtio_net_tx_complete(NetClientState *nc, ssize_t len)
->>>       q->async_tx.elem = NULL;
->>>
->>>       virtio_queue_set_notification(q->tx_vq, 1);
->>> -    virtio_net_flush_tx(q);
->>> +    ret = virtio_net_flush_tx(q);
->>> +    if (q->tx_bh && ret >= n->tx_burst) {
->>> +        /*
->>> +         * the flush has been stopped by tx_burst
->>> +         * we will not receive notification for the
->>> +         * remainining part, so re-schedule
->>> +         */
->>> +        virtio_queue_set_notification(q->tx_vq, 0);
->>> +        qemu_bh_schedule(q->tx_bh);
->>> +        q->tx_waiting = 1;
->>> +    }
-> 
-> Do we need to fix the case of tx timer or it doesn't suffer from this issue?
-> 
+The following changes since commit f1d33f55c47dfdaf8daacd618588ad3ae4c452d1:
 
-I think tx_timer suffers the same issue.
+  Merge tag 'pull-testing-gdbstub-plugins-gitdm-061022-3' of https://github.com/stsquad/qemu into staging (2022-10-06 07:11:56 -0400)
 
-I'm going to have a look to the tx timer fix.
+are available in the Git repository at:
 
-Thanks,
-Laurent
+  https://github.com/vivier/qemu-m68k.git tags/m68k-for-7.2-pull-request
+
+for you to fetch changes up to fa327be58280f76d2565ff0bdb9b0010ac97c3b0:
+
+  m68k: write bootinfo as rom section and re-randomize on reboot (2022-10-11 23:02:46 +0200)
+
+----------------------------------------------------------------
+Pull request m68k branch 20221014
+
+Update rng seed boot parameter
+
+----------------------------------------------------------------
+
+Jason A. Donenfeld (2):
+  m68k: rework BI_VIRT_RNG_SEED as BI_RNG_SEED
+  m68k: write bootinfo as rom section and re-randomize on reboot
+
+ hw/m68k/bootinfo.h                            | 48 ++++++------
+ .../standard-headers/asm-m68k/bootinfo-virt.h |  4 +-
+ include/standard-headers/asm-m68k/bootinfo.h  |  8 +-
+ hw/m68k/q800.c                                | 76 ++++++++++++++-----
+ hw/m68k/virt.c                                | 57 +++++++++-----
+ 5 files changed, 130 insertions(+), 63 deletions(-)
+
+-- 
+2.37.3
 
 
