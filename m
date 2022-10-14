@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15CA65FEC8E
+	by mail.lfdr.de (Postfix) with ESMTPS id 534285FEC8F
 	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 12:30:15 +0200 (CEST)
-Received: from localhost ([::1]:49492 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:49498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojHxF-0001jk-I3
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 06:30:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32794)
+	id 1ojHxG-0001kM-CA
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 06:30:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ojHsV-0006fS-2F; Fri, 14 Oct 2022 06:25:25 -0400
-Received: from mail-oa1-x2f.google.com ([2001:4860:4864:20::2f]:41756)
+ id 1ojHsY-0006fW-1h; Fri, 14 Oct 2022 06:25:26 -0400
+Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:45752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ojHsC-00071i-Oh; Fri, 14 Oct 2022 06:25:09 -0400
-Received: by mail-oa1-x2f.google.com with SMTP id
- 586e51a60fabf-132af5e5543so5320495fac.8; 
- Fri, 14 Oct 2022 03:25:00 -0700 (PDT)
+ id 1ojHsS-0007JG-EE; Fri, 14 Oct 2022 06:25:20 -0400
+Received: by mail-oi1-x22c.google.com with SMTP id o64so4539586oib.12;
+ Fri, 14 Oct 2022 03:25:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=SRL8NuJOWEY3H/pfocGcV5LK9Gidr0nRueYkOQnSl94=;
- b=JIzPg3MZSm+nYQ2RWIkSKCwDoYrtM0sQHFFfkObbFhzBd2z6Naxuzc25xBkcAkhmsn
- w0dWg/L1DzwzSLXSjdP0XaPIys7qs24LMuVljRWR7dDF6CyOKZsjBjK63qNQn8NX6hm5
- a3agCotNIqVwFjKk2oR32OvYhKR/WF9BlMT4cmHAWnfqA2N7y7Of/Mub3zkPzQRBQQD2
- zIuJA0QxPFfp/BJuNd4TMtwp8W78PRvKdzno64JgAya0wh5pq27IvOKzB3/YsCzKuTB/
- i9jQ8iJfpkMPblwqxZ4GF/nmGQn514Q0SU1WxW27vZUCm//XWUb8XngAf//Xtwq63zKr
- 7mzA==
+ bh=sRqCPZuuXbrfTo5MQKOPiuW8Sjikg8odNWOn66mm52E=;
+ b=T0VBe1GmBneR5ugGW0R1uqTWVDup6Cg3M2HI2W7o+mS7XePTiHtEkLxhF5MzyEd4k7
+ 40tsd2P9GG5EmrApneRnIfZZyYku2BMa5hngEGN8AN0ATDVYhhB+7xvWeBMy6owEXeC9
+ mWJprvgnHwAxL3fdlu/0zerDsJEWwSgNlyCmtojG44BjqTRVNp9q0NytZpWk6LHFDoyn
+ uBqVbuNVeuQOgHVI1rmO6r4oNkF8+Uw4EGNUCV1nHGlONWIhab0wFDSD0A7q3xAmL8oa
+ 1SPXhvRwsrWN45gLJtYYpIMuUgk8UJiEvkmX+DgUr48D2nFGmBx1V01ibEsNr1cBlUMk
+ 4zag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SRL8NuJOWEY3H/pfocGcV5LK9Gidr0nRueYkOQnSl94=;
- b=yLLy+V1mxCAJ1ofql8yzqUnG3qLqQd+zcP8VFYBwXWxeXiZSAUaO52CIaPJgZevIeo
- F6l1xVSeBYNPrP4L6Vya5wdXyklyVRTd0Ka1qHLGF8SaZAk+BivbMXE14WOk5WNppMaZ
- GlXk5ZLYRTCjIDNu4R7IyHxSbBolRn6gXs3wcyvcArv7USnqPUSWmd9vCl+XIuNIkod+
- P4viU39J07AQKi0VRK5kmH7Sq9d+UwV/UJSbos84nbY28jJfG85ozVcCw7c+wvTTGfVn
- HK5BXci1A7vsqJXEzndIyqarFUXOex1QsGuTSlEdouBGiN4IlqhCeIRAKHwc4hQ4Z3CD
- 72eg==
-X-Gm-Message-State: ACrzQf3/HHNCm7cWB6Ai2j8Jwt/J0YfY0auRfP6YpjOxnwHqIIlEvXvF
- xMGa3DJ8ivdIH4Sex4aNKCNfq0YKo8c=
-X-Google-Smtp-Source: AMsMyM4hBcorg+T92XfUzsLVfGxkwT2jzHq3+Oe1KY2mTf4q+S18j3WU0nn7POMCRLoQrUkM7KWWUw==
-X-Received: by 2002:a05:6870:970f:b0:132:7415:6799 with SMTP id
- n15-20020a056870970f00b0013274156799mr2253266oaq.5.1665743098407; 
- Fri, 14 Oct 2022 03:24:58 -0700 (PDT)
+ bh=sRqCPZuuXbrfTo5MQKOPiuW8Sjikg8odNWOn66mm52E=;
+ b=Pqw5XRv9lcLPDLNRl4Z9OKTBsersb3dryoEkNh20mTo/v84iPH3H2Q3LZhCScMF6sH
+ /na4z7MQiL1MpoaqcDhCLWUu5j6QKx3MFo4lc9LKF2R+UAcvMTXm2+hbPW/WckGGzOfC
+ oKQe0nnoW1vWaeyPM4Lk3PQL23oSDTn2QsYFYdrB0AIqgRb/2QBHNGzsJk1J7lv22vw1
+ NuwphcSf4sm9DX66DchKAPIsNtKfuOy/SOcKn+guXtw9y03PVuzlpTfYy2t2UkxNeQwr
+ Xw+3IGGd4vtPck9MiYGc+r41LctKiVSbQf0bi0mG+9T8t1JZudZ+PZ05c2Is4FtDzB8A
+ GVPg==
+X-Gm-Message-State: ACrzQf2G1Xy6+3eRMJPufokm+Dd3d4GyaRCyfE8IEnICRk+UxYPXol/G
+ +GMD3IQbmhqu/mKxGnYg4DU=
+X-Google-Smtp-Source: AMsMyM4WbApli8I916Gm2M1d/ZaEba+mQYDLGj1ZzMB2BQyGQSaeSU+sMtYwHr0vG8VAMeVMI1HObA==
+X-Received: by 2002:a05:6808:3093:b0:354:250f:f31c with SMTP id
+ bl19-20020a056808309300b00354250ff31cmr2030049oib.79.1665743112814; 
+ Fri, 14 Oct 2022 03:25:12 -0700 (PDT)
 Received: from [192.168.10.102] ([177.45.165.63])
  by smtp.gmail.com with ESMTPSA id
- y20-20020a4a6254000000b0047f89d8c7ebsm729552oog.46.2022.10.14.03.24.55
+ r64-20020acac143000000b00350a8b0637asm882887oif.47.2022.10.14.03.25.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Oct 2022 03:24:57 -0700 (PDT)
-Message-ID: <9992a83b-c36b-8cee-86b5-95f7f461ca82@gmail.com>
-Date: Fri, 14 Oct 2022 07:24:54 -0300
+ Fri, 14 Oct 2022 03:25:12 -0700 (PDT)
+Message-ID: <a9e1f48a-f192-1c1e-aee9-674bdab935ea@gmail.com>
+Date: Fri, 14 Oct 2022 07:25:07 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
-Subject: Re: [PATCH] MAINTAINERS: step back from PPC
+Subject: Re: [PATCH] target/ppc: Fix xvcmp* clearing FI bit
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
-References: <20220929180946.848721-1-clg@kaod.org>
+To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
+ richard.henderson@linaro.org, matheus.ferst@eldorado.org.br,
+ lucas.araujo@eldorado.org.br, leandro.lupori@eldorado.org.br,
+ lucas.coutinho@eldorado.org.br
+References: <20221005121551.27957-1-victor.colombo@eldorado.org.br>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220929180946.848721-1-clg@kaod.org>
+In-Reply-To: <20221005121551.27957-1-victor.colombo@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2f;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22c.google.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.25,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,66 +101,32 @@ Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
 
 Daniel
 
-On 9/29/22 15:09, Cédric Le Goater wrote:
-> I am not active anymore on the PPC maintainership, degrade my self as
-> standard Reviewer. Also degrade PowerNV and XIVE status since I am not
-> funded for this work.
+On 10/5/22 09:15, Víctor Colombo wrote:
+> Vector instructions in general are not supposed to change the FI bit.
+> However, xvcmp* instructions are calling gen_helper_float_check_status,
+> which is leading to a cleared FI flag where it should be kept
+> unchanged.
+> As helper_float_check_status only affects inexact, overflow and
+> underflow, and the xvcmp* instructions don't change these flags, this
+> issue can be fixed by removing the call to helper_float_check_status.
+> By doing this, the FI bit in FPSCR will be preserved as expected.
 > 
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> Fixes: 00084a25adf ("target/ppc: introduce separate VSX_CMP macro for xvcmp* instructions")
+> Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 > ---
->   MAINTAINERS | 10 +++++-----
->   1 file changed, 5 insertions(+), 5 deletions(-)
+>   target/ppc/translate/vsx-impl.c.inc | 1 -
+>   1 file changed, 1 deletion(-)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 1729c0901cea..40f4984b439b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -267,8 +267,8 @@ F: hw/openrisc/
->   F: tests/tcg/openrisc/
->   
->   PowerPC TCG CPUs
-> -M: Cédric Le Goater <clg@kaod.org>
->   M: Daniel Henrique Barboza <danielhb413@gmail.com>
-> +R: Cédric Le Goater <clg@kaod.org>
->   R: David Gibson <david@gibson.dropbear.id.au>
->   R: Greg Kurz <groug@kaod.org>
->   L: qemu-ppc@nongnu.org
-> @@ -392,8 +392,8 @@ F: target/mips/kvm*
->   F: target/mips/sysemu/
->   
->   PPC KVM CPUs
-> -M: Cédric Le Goater <clg@kaod.org>
->   M: Daniel Henrique Barboza <danielhb413@gmail.com>
-> +R: Cédric Le Goater <clg@kaod.org>
->   R: David Gibson <david@gibson.dropbear.id.au>
->   R: Greg Kurz <groug@kaod.org>
->   S: Maintained
-> @@ -1365,8 +1365,8 @@ F: include/hw/rtc/m48t59.h
->   F: tests/avocado/ppc_prep_40p.py
->   
->   sPAPR (pseries)
-> -M: Cédric Le Goater <clg@kaod.org>
->   M: Daniel Henrique Barboza <danielhb413@gmail.com>
-> +R: Cédric Le Goater <clg@kaod.org>
->   R: David Gibson <david@gibson.dropbear.id.au>
->   R: Greg Kurz <groug@kaod.org>
->   L: qemu-ppc@nongnu.org
-> @@ -1387,7 +1387,7 @@ F: tests/avocado/ppc_pseries.py
->   PowerNV (Non-Virtualized)
->   M: Cédric Le Goater <clg@kaod.org>
->   L: qemu-ppc@nongnu.org
-> -S: Maintained
-> +S: Odd Fixes
->   F: docs/system/ppc/powernv.rst
->   F: hw/ppc/pnv*
->   F: hw/intc/pnv*
-> @@ -2321,7 +2321,7 @@ T: git https://github.com/philmd/qemu.git fw_cfg-next
->   XIVE
->   M: Cédric Le Goater <clg@kaod.org>
->   L: qemu-ppc@nongnu.org
-> -S: Supported
-> +S: Odd Fixes
->   F: hw/*/*xive*
->   F: include/hw/*/*xive*
->   F: docs/*/*xive*
+> diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
+> index 7acdbceec4..e6e5c45ffd 100644
+> --- a/target/ppc/translate/vsx-impl.c.inc
+> +++ b/target/ppc/translate/vsx-impl.c.inc
+> @@ -810,7 +810,6 @@ static void gen_##name(DisasContext *ctx)                                     \
+>           gen_helper_##name(ignored, cpu_env, xt, xa, xb);                      \
+>           tcg_temp_free_i32(ignored);                                           \
+>       }                                                                         \
+> -    gen_helper_float_check_status(cpu_env);                                   \
+>       tcg_temp_free_ptr(xt);                                                    \
+>       tcg_temp_free_ptr(xa);                                                    \
+>       tcg_temp_free_ptr(xb);                                                    \
 
