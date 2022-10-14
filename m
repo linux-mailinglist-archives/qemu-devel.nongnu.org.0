@@ -2,71 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03B3A5FEC28
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 11:53:14 +0200 (CEST)
-Received: from localhost ([::1]:38012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49DE25FEC5F
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 12:13:15 +0200 (CEST)
+Received: from localhost ([::1]:53408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojHNQ-0007z9-R2
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 05:53:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43986)
+	id 1ojHgn-0003B4-U8
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 06:13:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1ojHIC-0004FS-Rf
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 05:47:49 -0400
-Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136]:48480)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ojHew-00013Z-N7
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 06:11:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20113)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1ojHI9-0001L4-GB
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 05:47:48 -0400
-Received: from myt6-81d8ab6a9f9d.qloud-c.yandex.net
- (myt6-81d8ab6a9f9d.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:520a:0:640:81d8:ab6a])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 29B9061472;
- Fri, 14 Oct 2022 12:47:36 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:6::1:3c] (unknown [2a02:6b8:b081:6::1:3c])
- by myt6-81d8ab6a9f9d.qloud-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id qNqYlnGqr1-lYO84lud; Fri, 14 Oct 2022 12:47:35 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Precedence: bulk
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1665740855; bh=0Lx7+hSupJCIFN0EY3JqYfKKZBBF8ZX3yOWGIl2SJPw=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=E1RF0kg4wzFYiUBAoaWhg7f1gz8yElPU2DNih2Y+4kAx/+uxqKXZFLX5/HFeyDs1+
- YzVevheRuGqC4Z4V7Lnjv8ayB6I8G+zWiBjcCOB4wT4oi0nZitzMXBQgl02UDxY1eb
- t+Czp0JKk4otseYJnAeXw7QLaMIvewOLZNpYFstM=
-Authentication-Results: myt6-81d8ab6a9f9d.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <029ae995-cf44-1310-45fd-e9951efce35a@yandex-team.ru>
-Date: Fri, 14 Oct 2022 12:47:33 +0300
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ojHet-0005Tw-MR
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 06:11:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665742274;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type; bh=8FGCSnmWS9YSeKOVf31i5PwnQR2o9ASrKbCvKXlkXbo=;
+ b=ak5lus/UbEJ1lkIvtwNNrin9+LgNVEhRIHs/6/9voF+ObPSmMZLlE+aGtHsBmSTZln/oGb
+ 3NPrak2+cKD39rehe42bx/B+JzPunla7R49Mgw3ktmeCKQc6UWPlZXGWV4Uhz000iyK6Ll
+ BKB9lmXNKPNxqu2igxfnUuB4dA+GuI4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-171-EuPDi0o6NDq46BLgpSdgww-1; Fri, 14 Oct 2022 06:11:12 -0400
+X-MC-Unique: EuPDi0o6NDq46BLgpSdgww-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ l16-20020adfc790000000b00230c2505f96so1754338wrg.4
+ for <qemu-devel@nongnu.org>; Fri, 14 Oct 2022 03:11:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:message-id:date:reply-to:user-agent:subject:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8FGCSnmWS9YSeKOVf31i5PwnQR2o9ASrKbCvKXlkXbo=;
+ b=jIEiW2FbMFjKRRqJg6OE1bJBjyjifO7ZO5xuBMxfFnE6301QlR5zDDJ75kN3vn9tYV
+ wbIhBHRnmnhCE6MWN0kqR4E2PtssGJWQqIEz70Wuqc0t1/3R4YmZOAmQzLhKZEuPj3fy
+ J+1PEJXfcIYRPFtQRAm/v2OwXGAUw14E9Vz7BoDgMjGRNpBiRJQqGCZcWM8oAR8Hxgmc
+ 5i1bjBSCwvVHB32MFVLlcYUmhzIxGxcXTZ2t9rYEKp62sqSrnLruYD2kYXlWVz1W1pjX
+ SSIbybNk0apE8Dc/op6tEqM5ByxD7Uv0xFnPUbK5DygKvSGGn81EUmuqkQhye67KEBQ/
+ M05A==
+X-Gm-Message-State: ACrzQf3FOVf4eMRfBuUNKseteajOESVdKBcvPH8BV/0CNO/mgv7/uhum
+ 76pDA5GqYbR1bHqyoaBk7ZbTahCq4l0ZWsBb0jQcQdSvqHg/jXabFCtC4sXPNdJG8aLoQN1il1P
+ M3yIyD2B8X7WESeQ=
+X-Received: by 2002:a05:600c:3543:b0:3b4:ba45:9945 with SMTP id
+ i3-20020a05600c354300b003b4ba459945mr9577712wmq.58.1665742271724; 
+ Fri, 14 Oct 2022 03:11:11 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6A2Bin5AZhSEMXDLhNhYgDun/z4RfB6byLpdAGZq7yTCkkZL3M2MiC2ssF7e8YTATSpoq2dQ==
+X-Received: by 2002:a05:600c:3543:b0:3b4:ba45:9945 with SMTP id
+ i3-20020a05600c354300b003b4ba459945mr9577700wmq.58.1665742271495; 
+ Fri, 14 Oct 2022 03:11:11 -0700 (PDT)
+Received: from localhost (static-28-206-230-77.ipcom.comunitel.net.
+ [77.230.206.28]) by smtp.gmail.com with ESMTPSA id
+ m187-20020a1ca3c4000000b003b476cabf1csm1734772wme.26.2022.10.14.03.11.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Oct 2022 03:11:11 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: kvm-devel <kvm@vger.kernel.org>, qemu-devel@nongnu.org
+Subject: KVM Call for 2022-10-18
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
+Date: Fri, 14 Oct 2022 12:11:10 +0200
+Message-ID: <871qran29t.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v3] qapi/qmp: Add timestamps to qmp command responses
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru, michael.roth@amd.com,
- vsementsov@yandex-team.ru, berrange@redhat.com, marcandre.lureau@gmail.com
-References: <20221011153408.495401-1-den-plotnikov@yandex-team.ru>
- <87tu47vkdx.fsf@pond.sub.org>
-From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-In-Reply-To: <87tu47vkdx.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.136;
- envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.25,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,149 +90,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 13.10.2022 18:00, Markus Armbruster wrote:
-> Denis Plotnikov <den-plotnikov@yandex-team.ru> writes:
->
->> Add "start" & "end" time values to qmp command responses.
-> Please spell it QMP.  More of the same below.
-ok
-> Can you tell me about a problem you cracked (or could have cracked) with
-> the help of this?
 
-We have a management layer which interacts with qemu via qmp. When it 
-issues a qmp command we measure execution time which takes to perform a 
-certain qmp command. Some of that commands seems to execute longer that 
-expected. In that case there is a question what part of command 
-execution takes the majority of time. Is it the flaw in the management 
-layer or in qemu qmp command scheduling or the qmp command execution 
-itself? The timestaps being added help to exclude the qmp command 
-execution time from the question. Also timestamps helps to get know the 
-exact time when the command is started and ended and put that 
-information to a system logs properly according to timestamps.
+Hi
 
->>       "return": {"status": "running", "singlestep": false, "running": true}}
->>
->> The responce of the qmp command contains the start & end time of
-> response
-ok
->
->> the qmp command processing.
->>
->> Suggested-by: Andrey Ryabinin <arbn@yandex-team.ru>
->> Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
->> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> Please spell out that this affects both QMP and qemu-ga.
-ok
->>     command does not return data
->>   - The "id" member contains the transaction identification associated
->>     with the command execution if issued by the Client
->> +- The "start" member contains the exact time of when the server
->> +  started executing the command. This excludes any time the
->> +  command request spent queued, after reading it off the wire.
->> +  It is a fixed json-object with time in seconds and microseconds
->> +  relative to the Unix Epoch (1 Jan 1970)
-> What's a "fixed json-object"?
->
-> Hmm, I guess you're copying from the description of event member
-> "timestamp".
-That's right
-> Let's go with "a json-object with the number of seconds and microseconds
-> since the Unix epoch" everywhere.
-ok
->
-> Make this int64_t, because that's what g_get_real_time() returns.
->
-> Same for add_timestamps() parameters.
-ok, will fix the type everywhere
->
-> +    qobject_unref(resp);
-> I'd be tempted to fold this into existing tests.
+Please, send any topic that you are interested in covering.
 
-Do you want me to put timestamp checking to an existing testcase?
+For next week, we have a topic:
+
+- VFIO and migration
+
+We are going to discuss what to do with vfio devices that support
+migration.  See my RFC on the list, so far we are discussing:
+
+- we need a way to know the size of the vfio device state
+  (In the cases we are discussing, they require that the guest is
+  stopped, so I am redoing how we calculate pending state).
+
+- We need an estimate/exact sizes.
+  Estimate can be the one calculated last time.  This is supposed to be
+  fast, and needs to work with the guest running.
+  Exact size is just that, we have stopped the guest, and we want to
+  know how big is the state for this device, to know if we can complete
+  migration ore we will continue in iterative stage.
+
+- We need to send the state asynchronously.
+  VFIO devices are very fast at doing whatever they are designed to do.
+  But copying its state to memory is not one of the things that they do
+  fast.  So I am working in an asynchronous way to copy that state in
+  parallel.  The particular setup that caused this problem was using 4
+  network vfio cards in the guest.  Current code will:
+
+  for i in network cards:
+     copy the state from card i into memory
+     send the state from memory from card i to destination
+
+  what we want is something like:
+
+  for i in network cards:
+     start asyrchronous copy the state from card i into memory
+
+  for i in network cards:
+     wait for copy the state from card i into memory to finish
+     send the state from memory from card i to destination
+
+So the cards can tranfer its state to memory in parallel.
 
 
-Thanks,
+At the end of Monday I will send an email with the agenda or the
+cancellation of the call, so hurry up.
 
-Denis
+After discussions on the QEMU Summit, we are going to have always open a
+KVM call where you can add topics.
 
->
->> +
->>       qtest_quit(qts);
->>   }
->>   
->> diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
->> index b4e0a145737d1..18ec9bac3650e 100644
->> --- a/tests/unit/test-qga.c
->> +++ b/tests/unit/test-qga.c
->> @@ -217,6 +217,36 @@ static void test_qga_ping(gconstpointer fix)
->>       qmp_assert_no_error(ret);
->>   }
->>   
->> +static void test_qga_timestamps(gconstpointer fix)
->> +{
->> +    QDict *start, *end;
->> +    uint64_t start_s, start_us, end_s, end_us, start_ts, end_ts;
->> +    const TestFixture *fixture = fix;
->> +    g_autoptr(QDict) ret = NULL;
->> +
->> +    ret = qmp_fd(fixture->fd, "{'execute': 'guest-ping'}");
->> +    g_assert_nonnull(ret);
->> +    qmp_assert_no_error(ret);
->> +
->> +    start = qdict_get_qdict(ret, "start");
->> +    g_assert(start);
->> +    end = qdict_get_qdict(ret, "end");
->> +    g_assert(end);
->> +
->> +    start_s = qdict_get_try_int(start, "seconds", 0);
->> +    g_assert(start_s);
->> +    start_us = qdict_get_try_int(start, "microseconds", 0);
->> +
->> +    end_s = qdict_get_try_int(end, "seconds", 0);
->> +    g_assert(end_s);
->> +    end_us = qdict_get_try_int(end, "microseconds", 0);
->> +
->> +    start_ts = (start_s * G_USEC_PER_SEC) + start_us;
->> +    end_ts = (end_s * G_USEC_PER_SEC) + end_us;
->> +
->> +    g_assert(end_ts > start_ts);
->> +}
->> +
->>   static void test_qga_id(gconstpointer fix)
->>   {
->>       const TestFixture *fixture = fix;
->> @@ -948,6 +978,7 @@ int main(int argc, char **argv)
->>       g_test_add_data_func("/qga/sync-delimited", &fix, test_qga_sync_delimited);
->>       g_test_add_data_func("/qga/sync", &fix, test_qga_sync);
->>       g_test_add_data_func("/qga/ping", &fix, test_qga_ping);
->> +    g_test_add_data_func("/qga/timestamps", &fix, test_qga_timestamps);
->>       g_test_add_data_func("/qga/info", &fix, test_qga_info);
->>       g_test_add_data_func("/qga/network-get-interfaces", &fix,
->>                            test_qga_network_get_interfaces);
->> diff --git a/tests/unit/test-qmp-cmds.c b/tests/unit/test-qmp-cmds.c
->> index 6085c099950b5..54d63bb8e346f 100644
->> --- a/tests/unit/test-qmp-cmds.c
->> +++ b/tests/unit/test-qmp-cmds.c
->> @@ -154,7 +154,7 @@ static QObject *do_qmp_dispatch(bool allow_oob, const char *template, ...)
->>       g_assert(resp);
->>       ret = qdict_get(resp, "return");
->>       g_assert(ret);
->> -    g_assert(qdict_size(resp) == 1);
->> +    g_assert(qdict_size(resp) == 3);
->>   
->>       qobject_ref(ret);
->>       qobject_unref(resp);
->> @@ -181,7 +181,7 @@ static void do_qmp_dispatch_error(bool allow_oob, ErrorClass cls,
->>                       ==, QapiErrorClass_str(cls));
->>       g_assert(qdict_get_try_str(error, "desc"));
->>       g_assert(qdict_size(error) == 2);
->> -    g_assert(qdict_size(resp) == 1);
->> +    g_assert(qdict_size(resp) == 3);
->>   
->>       qobject_unref(resp);
->>       qobject_unref(req);
+ Call details:
+
+By popular demand, a google calendar public entry with it
+
+   https://calendar.google.com/calendar/u/0?cid=ZWdlZDdja2kwNWxtdTF0bmd2a2wzdGhpZHNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
+
+(Let me know if you have any problems with the calendar entry.  I just
+gave up about getting right at the same time CEST, CET, EDT and DST).
+
+If you need phone number details,  contact me privately
+
+Thanks, Juan.
+
 
