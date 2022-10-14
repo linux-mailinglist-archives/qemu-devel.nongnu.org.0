@@ -2,77 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 317145FED51
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 13:46:14 +0200 (CEST)
-Received: from localhost ([::1]:45676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BCE85FEDB3
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 13:59:08 +0200 (CEST)
+Received: from localhost ([::1]:32914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojJ8f-0000sN-QX
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 07:46:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56480)
+	id 1ojJLG-0001oz-U4
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 07:59:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ojJ0u-0004Cb-Q0
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 07:38:04 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:46047)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ojJ0r-0003B9-Um
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 07:38:04 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id r18so4055135pgr.12
- for <qemu-devel@nongnu.org>; Fri, 14 Oct 2022 04:38:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=aRG8BR/IjK0Fu7mwIu3t8Q/l3cqVsdtbHs7LyCSzDA8=;
- b=q71dWE/rBnsBURF2swDUuwLNF04lco66KjL92NR/thC3jNAWKdHIUUaaJWkd0Fxiwc
- dguxJFLUY5K+G3KRv4xWffIC7CjocOyPOo3gQ87AegudSjADEeKMtsu/pnhPe1AAZ0fd
- wSc/Abo5OQ1Srzw76cx98aEapFMZZhzCgPV+pOiI+fhCbq4ik51cy6SvFoCgTuQrqnbU
- Qloewf9ebZb6usSpDgtRwwaue3IH08xs0K0FudGDhtsB7BECjUWvwyX8HSQz3I+7zob5
- YmbN4+Aq67lsh3GHelznHUpdF36umyvm7wFRAGFSStkV949X6iYh11QXrS3tDQ0tosKo
- b7Ag==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ojJCh-00039M-Bd
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 07:50:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34828)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ojJCa-0004hp-BY
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 07:50:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665748202;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=YMzEUUYDS27NyzU3f4MXJw+IKSh+Qk7Bj8/bPNGbbKg=;
+ b=Ujq/axeiWj8HRo20X9+TCQizkS9NqJdjKtC2SbEAHpOyh8BsAP8+ON8701yU0V6c1piJnM
+ SNJshrlIXeM7HtmiitcJC0TKA/sp4i48xWghQ/wUcUulB9vLfJeUrXjLdqOVNxnEpY0EYD
+ kvKvXRO9KjCDsN+04gu9k2xKWay38Ac=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-318-OBUItIkNMvOcV3e-eSo_2Q-1; Fri, 14 Oct 2022 07:50:01 -0400
+X-MC-Unique: OBUItIkNMvOcV3e-eSo_2Q-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ j8-20020adfa548000000b0022e2bf8f48fso1880332wrb.23
+ for <qemu-devel@nongnu.org>; Fri, 14 Oct 2022 04:50:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=aRG8BR/IjK0Fu7mwIu3t8Q/l3cqVsdtbHs7LyCSzDA8=;
- b=PONkBED2TpPXTshz6ljeaAFDUVNX7rJFpqozAskK2FDFc26oAYP6Sh1LjPUmjb4yn4
- 1JAYJFckgtHE8mlzeqKui1tOaKcqmkdI6jAc+Xl+Yq9tdBIAPI/lduKx7liUTV6+De2H
- c6ChqkuOOUq7MqeCxjsQxnsyxbfZAFkO0CMH8lYKxC5l9RAGw7EP33vBWC8eQIGYIFLn
- 90nn4pYRUW2wgImi4aH5YEuO3lB90yH0pLe8nGg9PFzdvVmcAZfn4gdOuWW0Sm7uddhl
- 1IzuGj3eBOtnev6+W3XelO4Rtf7u+nIOV8wa8RGWgDNQrgmI/cQi3ihD1jX4wfhv6K4N
- ChYQ==
-X-Gm-Message-State: ACrzQf3OhWyzzPI2s2Aee2lT9yuhufD2ZZDw65fhnvN6+kVcUe85waAI
- 1r/NhR5liqi2kQpwZcTaxq/GhdtNQwE+2cfYqwxcpA==
-X-Google-Smtp-Source: AMsMyM5OX4E/g46xukSazONofNUoMp/20TGw/aVdC2CpIfhkgNEpHzZWdkz8wgOi6WMPXfbljmKPBunxzWyBnztl3vw=
-X-Received: by 2002:a05:6a00:b54:b0:566:917:e57e with SMTP id
- p20-20020a056a000b5400b005660917e57emr4719755pfo.26.1665747479989; Fri, 14
- Oct 2022 04:37:59 -0700 (PDT)
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YMzEUUYDS27NyzU3f4MXJw+IKSh+Qk7Bj8/bPNGbbKg=;
+ b=DAAFUYbxkZ1VoR2i8Hnn85QLNNT9n4QeE5zClPIkOAGzDM2Xyf4k7LAnc15Ns6qfrF
+ bUdUAVMWaruhKZXWuYW/e3z0quJaulnWHU5eqFkfSUgnQMJzP9LdSBA80lkosQTe0sK5
+ PbxJ6QMu6b724HyyT8WtZvIVkw6b3nFWVoaoS4uywQF67NRRRIsGHwACG2/twVY5TM10
+ Xf2lVMSO1CjLkd4vVkmAtCKU2dYXryUm2BQX8QPn0PDbEeGGncf+yx42MftqgUWOC2TX
+ n/aLxQJwAeaM3QnO22NAGwejBPXUj6zOVYi9yQiXFyJkQPmKMcEezrU5xINolWME+9Jx
+ 0bkA==
+X-Gm-Message-State: ACrzQf3SCCe0uyVhn7os0HaY80ykplw3TpH7MxzVY69d/45qECOBKWFH
+ luybp2Y1PWBeuPBZ+eL0kMulHml6xuyr9x7GAuEH2uotZ4ejEPWfxiO0kVESbMqJ82I9EHszwXk
+ KYpexfJaAA7gj7C4=
+X-Received: by 2002:a05:6000:18ad:b0:230:6d12:fc7d with SMTP id
+ b13-20020a05600018ad00b002306d12fc7dmr2991012wri.409.1665748199873; 
+ Fri, 14 Oct 2022 04:49:59 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5yoJqcDFCSQHpKK+1w/ZQf5Y5fykQ0E5wlWzHxjYrE/6dlnysqAuTUsu82I1E6DzpqwUJTxQ==
+X-Received: by 2002:a05:6000:18ad:b0:230:6d12:fc7d with SMTP id
+ b13-20020a05600018ad00b002306d12fc7dmr2991004wri.409.1665748199693; 
+ Fri, 14 Oct 2022 04:49:59 -0700 (PDT)
+Received: from localhost (84.125.93.114.dyn.user.ono.com. [84.125.93.114])
+ by smtp.gmail.com with ESMTPSA id
+ g10-20020a05600c310a00b003a5f54e3bbbsm7119233wmo.38.2022.10.14.04.49.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Oct 2022 04:49:59 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Fiona Ebner <f.ebner@proxmox.com>
+Cc: qemu-devel@nongnu.org,  dgilbert@redhat.com,  berrange@redhat.com
+Subject: Re: [PATCH v2] migration/channel-block: fix return value for
+ qio_channel_block_{readv,writev}
+In-Reply-To: <20221013084100.57740-1-f.ebner@proxmox.com> (Fiona Ebner's
+ message of "Thu, 13 Oct 2022 10:41:00 +0200")
+References: <20221013084100.57740-1-f.ebner@proxmox.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
+Date: Fri, 14 Oct 2022 13:49:58 +0200
+Message-ID: <87czauwro9.fsf@secure.mitica>
 MIME-Version: 1.0
-References: <20220927100347.176606-1-jean-philippe@linaro.org>
- <20220927100347.176606-5-jean-philippe@linaro.org>
- <CAFEAcA-5BDiv6sXJ_kpzCwpu20PJRQzOpS08bAswyJiFMSiT4w@mail.gmail.com>
- <CAL_Jsq+nw2g4fDr4-G3g2OL_mUkAGvNM0DJjuKqzFUijut1Hsw@mail.gmail.com>
-In-Reply-To: <CAL_Jsq+nw2g4fDr4-G3g2OL_mUkAGvNM0DJjuKqzFUijut1Hsw@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 14 Oct 2022 12:37:48 +0100
-Message-ID: <CAFEAcA9OWDiWh3S=0Co7Z27EtOp-1B9H7FxyQy1T2sFnTyNdqA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/8] hw/arm/virt: Fix devicetree warning about the
- gpio-key node
-To: Rob Herring <robh+dt@kernel.org>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, qemu-arm@nongnu.org, 
- QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52a.google.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,46 +97,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 13 Oct 2022 at 22:47, Rob Herring <robh+dt@kernel.org> wrote:
+Fiona Ebner <f.ebner@proxmox.com> wrote:
+> in the error case. The documentation in include/io/channel.h states
+> that -1 or QIO_CHANNEL_ERR_BLOCK should be returned upon error. Simply
+> passing along the return value from the bdrv-functions has the
+> potential to confuse the call sides. Non-blocking mode is not
+> implemented currently, so -1 it is.
 >
-> On Tue, Sep 27, 2022 at 6:56 AM Peter Maydell <peter.maydell@linaro.org> wrote:
-> > Please don't retrospectively make perfectly valid working DTs
-> > non-valid. I don't see any reason to change QEMU here.
-> >
-> > More generally, the set of things you might want the
-> > validator to warn about for a fresh new human-written DTB
-> > doesn't necessarily correspond to the set of things you want
-> > to enforce for a pre-existing code-generated DTB. For the
-> > former it makes much more sense to impose "coding style"
-> > and "naming convention" type rules.
->
-> I too would like to distinguish that, but haven't come up with a way
-> to do that in json-schema yet. The way schemas are applied
-> independently makes that a challenge. So far it's been low on the
-> priority list as any platforms with few enough warnings to get to 0
-> haven't been a problem to fix (in a few cases we do end up relaxing
-> the schemas).
->
-> On the flip side, even existing things eventually get updated for
-> coding style or evolving conventions. As long as we don't break ABIs,
-> the same should apply to DT.
+> Signed-off-by: Fiona Ebner <f.ebner@proxmox.com>
 
-Yeah, but from QEMU's point of view pretty much the whole DT
-*is* ABI, because we have no idea what the guest will be
-doing with it, whether it is looking for things in the
-"correct" way or if it happens to have hard-coded a node
-name or similar: and the guest could be any of a wide
-variety of operating systems or custom code, and including
-pretty old versions of OSes as well as the latest-and-greatest.
-This is different from Linux's handwritten device trees,
-which only need to work with Linux and only with the associated
-Linux version, at that. So the set of things I'm happy changing
-tends to be more restricted than the set of things it's worth
-cleaning up in the dt sources that ship with the kernel.
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-thanks
--- PMM
+Queued in migration tree.
+
 
