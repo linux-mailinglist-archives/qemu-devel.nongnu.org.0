@@ -2,66 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D705FF179
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 17:35:45 +0200 (CEST)
-Received: from localhost ([::1]:48904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69A9C5FF20E
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 18:11:58 +0200 (CEST)
+Received: from localhost ([::1]:34788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojMiu-0001of-Hr
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 11:35:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50558)
+	id 1ojNHw-0007gD-8j
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 12:11:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ojMcm-00048f-Ny
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 11:29:24 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2752)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1ojNDW-00010E-9T
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 12:07:22 -0400
+Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25]:48891)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ojMck-0001QV-8i
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 11:29:24 -0400
-Received: from fraeml715-chm.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4MpqyN2nctz67y8R;
- Fri, 14 Oct 2022 23:27:40 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml715-chm.china.huawei.com (10.206.15.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 14 Oct 2022 17:29:17 +0200
-Received: from localhost (10.202.226.42) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Fri, 14 Oct
- 2022 16:29:16 +0100
-Date: Fri, 14 Oct 2022 16:29:15 +0100
-To: Gregory Price <gregory.price@memverge.com>
-CC: Gregory Price <gourry.memverge@gmail.com>, <qemu-devel@nongnu.org>,
- <linux-cxl@vger.kernel.org>, <alison.schofield@intel.com>,
- <dave@stgolabs.net>, <a.manzanares@samsung.com>, <bwidawsk@kernel.org>,
- <mst@redhat.com>, <hchkuo@avery-design.com.tw>, <cbrowy@avery-design.com>,
- <ira.weiny@intel.com>
-Subject: Re: [PATCH 5/5] hw/mem/cxl_type3: Refactor CDAT sub-table entry
- initialization into a function
-Message-ID: <20221014162915.0000187a@huawei.com>
-In-Reply-To: <Y0hpv8jdqi+r7f4r@memverge.com>
-References: <20221007152156.24883-5-Jonathan.Cameron@huawei.com>
- <20221012182120.174142-1-gregory.price@memverge.com>
- <20221012182120.174142-6-gregory.price@memverge.com>
- <20221013114711.00005623@huawei.com>
- <Y0hpv8jdqi+r7f4r@memverge.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1ojNDU-0001nP-35
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 12:07:21 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.144])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id E68B021C04;
+ Fri, 14 Oct 2022 16:07:15 +0000 (UTC)
+Received: from kaod.org (37.59.142.106) by DAG8EX2.mxp5.local (172.16.2.72)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Fri, 14 Oct
+ 2022 18:07:15 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R0062d29b763-9373-40d0-a39d-518a63c9fb5f,
+ 93E7CCAF9763085C798639D715A644A78EABBAA0) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Fri, 14 Oct 2022 18:07:14 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+CC: <qemu-devel@nongnu.org>, Richard Henderson <richard.henderson@linaro.org>, 
+ Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH] util/log: Always send errors to logfile when daemonized
+Message-ID: <20221014180714.6d423f74@bahia>
+In-Reply-To: <398b4657-7b21-5e15-1db6-e9225e6f3d4e@redhat.com>
+References: <20221014060807.660587-1-groug@kaod.org>
+ <398b4657-7b21-5e15-1db6-e9225e6f3d4e@redhat.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.42]
-X-ClientProxiedBy: lhrpeml500001.china.huawei.com (7.191.163.213) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG8EX2.mxp5.local
+ (172.16.2.72)
+X-Ovh-Tracer-GUID: c13bb62c-c970-47ea-9368-96d90a869790
+X-Ovh-Tracer-Id: 9886245611270740448
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeekvddgleekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgeekjedtveegkeeileffvdetvddvgedtudduiefghffhgfdvhfegjeetkeehfeeknecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeoghhrohhugheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehpsghonhiiihhnihesrhgvughhrghtrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdprghlvgigrdgsvghnnhgvvgeslhhinhgrrhhordhorhhgpdfovfetjfhoshhtpehmohehgeekpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=46.105.33.25; envelope-from=groug@kaod.org;
+ helo=7.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,61 +71,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Thu, 13 Oct 2022 15:40:47 -0400
-Gregory Price <gregory.price@memverge.com> wrote:
+On Fri, 14 Oct 2022 10:51:36 +0200
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-> > >      /* For now, no memory side cache, plausiblish numbers */
-> > > -    *dslbis_nonvolatile1 = (CDATDslbis) {
-> > > +    *dslbis1 = (CDATDslbis) {
-> > >          .header = {
-> > >              .type = CDAT_TYPE_DSLBIS,
-> > > -            .length = sizeof(*dslbis_nonvolatile1),
-> > > +            .length = sizeof(*dslbis1),
-> > >          },
-> > > -        .handle = nonvolatile_dsmad,
-> > > +        .handle = dsmad_handle,
-> > >          .flags = HMAT_LB_MEM_MEMORY,
-> > >          .data_type = HMAT_LB_DATA_READ_LATENCY,
-> > >          .entry_base_unit = 10000, /* 10ns base */
-> > >          .entry[0] = 15, /* 150ns */  
+> On 10/14/22 08:08, Greg Kurz wrote:
 > > 
-> > If we are going to wrap this up for volatile / non-volatile 
-> > we probably need to pass in a reasonable value for these.
-> > Whilst not technically always true, to test the Linux handling
-> > I'd want non-volatile to report as longer latency.
+> > +        need_to_open_file = log_flags && !per_thread;
+> 
+> Pre-existing, but I think this should check log_per_thread instead of 
+> per_thread.
+> 
+
+Yes I agree, and also check qemu_loglevel instead of log_flags for
+the same reason (and to match the comment just above).
+
+> > +    } else if (filename) {
+> > +        /*
+> > +         * If we are daemonized, we will only log if there is a filename.
+> > +         */
+> > +        need_to_open_file = true;
+> 
+> Slightly nicer:
+> 
+>      } else {
+>         /*
+>          * If daemonized, always log to the -D file if present.
+>          */
+>          need_to_open_file = filename != NULL;
+>      }
+> 
+
+Sure.
+
+> > @@ -271,10 +276,22 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
 > >   
+> >       if (!logfile && need_to_open_file) {
+> >           if (filename) {
+> > -            logfile = fopen(filename, log_append ? "a" : "w");
+> > +            g_autofree char *fname = NULL;
+> > +
+> > +            /*
+> > +             * If per-thread, filename contains a single %d that should be
+> > +             * converted.
+> > +             */
+> > +            if (per_thread) {
+> > +                fname = g_strdup_printf(filename, getpid());
+> > +            } else {
+> > +                fname = g_strdup(filename);
+> > +            }
+> > +
+> > +            logfile = fopen(fname, log_append ? "a" : "w");
+> >               if (!logfile) {
+> >                   error_setg_errno(errp, errno, "Error opening logfile %s",
+> > -                                 filename);
+> > +                                 fname);
+> >                   return false;
+> >               }
+> >               /* In case we are a daemon redirect stderr to logfile */
 > 
-> Here's a good question
+> This could conflict with the file opened by qemu_log_trylock() when 
+> per-thread logging is enabled *and* QEMU is daemonized.  Perhaps 
+> something like:
 > 
-> Do we want the base unit and entry to be adjustable for volatile and
-> nonvolatile regions for the purpose of testing?  Or should this simply
-> be a static value for each?
 
-We definitely want a 'default' value if nothing is provided.
-It might be useful to allow it to be adjusted, but lets add that when
-we have a use for it (perhaps testing some stuff in kernel where the
-values matter enough to make them controllable).
+Yeah... if the main thread happens to call qemu_log(), it then opens
+a file with the same name indeed. Thanks for catching that !
 
+> 1) change qemu_log_trylock() to
 > 
-> Since we need to pass in (is_pmem/is_nonvolatile) or whatever into the
-> cdat function, we could just use that to do one of a few options:
->     1) Select from a static value
->     2) Select a static value and apply a multiplier for nvmem
->     3) Use a base/value provided by the use and apply a multiplier
->     4) Make vmem and pmem have separately configurable latencies
+> -        if (log_per_thread) {
+> +        if (log_per_thread && log_thread_id() != getpid()) {
+> 
+> i.e. use the global_file for the main thread
+> 
+> 2) change qemu_log_unlock() to
+> 
+> -        if (!log_per_thread) {
+> +        if (!thread_file) {
+> 
+> to match (1)
+> 
+> 3) change log_thread_id() to something like
+> 
+> ...
+> #else
+>      static __thread int my_id = -1;
+>      static int counter;
+>      if (my_id == -1) {
+>          my_id = getpid() + qatomic_fetch_inc(&counter);
+>      }
+>      return my_id;
+> #endif
+> 
+> and perhaps do a dummy trylock/unlock late in qemu_set_log_internal(), 
+> to ensure that the main thread is the one with log_thread_id() == getpid()?
+> 
+> I think this can be a separate patch before this one.
+> 
 
-For now 1 is fine I think.
+2) and 3) can certainly be preparatory work but I think 1)
+should be squashed in my patch. Because of the !per_thread
+check in need_to_open_file, the existing code in
+qemu_set_log_internal() doesn't even open the global file
+and qemu_log_trylock() would always return NULL for the
+main thread.
 
-I've just pushed out a doe-v9 tag and cxl-2022-10-14 branch to 
-gitlab.com/jic23/qemu  Also advanced the base tree to current QEMU mainline.
+Thanks for the quick answer and suggestions !
 
-Note that if anyone is playing with the switch cci device and mainline kernel
-you'll currently need to revert
-https://lore.kernel.org/linux-pci/20220905080232.36087-5-mika.westerberg@linux.intel.com/
-
-Jonathan
+> Paolo
+> 
 
 
