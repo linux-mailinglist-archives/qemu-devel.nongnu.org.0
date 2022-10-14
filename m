@@ -2,51 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1227E5FF076
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 16:40:11 +0200 (CEST)
-Received: from localhost ([::1]:44846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD16B5FF082
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 16:44:22 +0200 (CEST)
+Received: from localhost ([::1]:51472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojLr7-0000c4-Ol
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 10:40:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45756)
+	id 1ojLvB-0003gi-Iy
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 10:44:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ncopa@alpinelinux.org>)
- id 1ojLmQ-0006fS-3A
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 10:35:20 -0400
-Received: from mx1.tetrasec.net ([66.245.177.37]:39668)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1ojLt6-0001FA-P2; Fri, 14 Oct 2022 10:42:12 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:61972)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ncopa@alpinelinux.org>)
- id 1ojLmO-0001Q9-8L
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 10:35:17 -0400
-Received: from mx1.tetrasec.net (mail.local [127.0.0.1])
- by mx1.tetrasec.net (Postfix) with ESMTP id D7B8CDE1AF;
- Fri, 14 Oct 2022 14:35:11 +0000 (UTC)
-Received: from ncopa-desktop.lan (ti0056a400-4229.bb.online.no
- [85.167.239.146])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- (Authenticated sender: alpine@tanael.org)
- by mx1.tetrasec.net (Postfix) with ESMTPSA id 2EA1DDE1AE;
- Fri, 14 Oct 2022 14:35:10 +0000 (UTC)
-From: Natanael Copa <ncopa@alpinelinux.org>
-To: qemu-devel@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
-	Natanael Copa <ncopa@alpinelinux.org>
-Subject: [PATCH] edk2: fix TPM 2.0 regression
-Date: Fri, 14 Oct 2022 16:35:01 +0200
-Message-Id: <20221014143501.5458-1-ncopa@alpinelinux.org>
-X-Mailer: git-send-email 2.38.0
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1ojLt4-0002Vd-F6; Fri, 14 Oct 2022 10:42:12 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29EEagpu006171;
+ Fri, 14 Oct 2022 14:41:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=K8CifaES3BEwrqMKt03vUCSuPRiPdDT6k036afu8vtU=;
+ b=UGTT3DfqtKJIF/Noioa3PgJ1THo87aQV2P5lKM0Wx9Sxhl1saOGCoi9uJFbY4fuqxGtm
+ Jz36fLnmp3zl6e5wyd/znWWHgUNclDan6V6TCXz6KUfae38uAgHZMEXBdJk6Ha+WVOmg
+ FfpJc46CIL/hs2gsvK9qC/syWgjscmiCGeeTxruzVgsg7LCONzXndAXcB9NpzXgTCIOX
+ 2uPtVhWy3Ij4ScIg61FJmw2Z/XDKctZ2L1ZnjN/zlVXbWxmvIwDlrxzDt9J95ShCFJyK
+ MDlngeZM2cIOub8efvsMl/yzz+5hKniWngZBy9bsYCeuICllZ4qO6U4I+VtkVs8/yWLH PQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k78df39ah-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Oct 2022 14:41:52 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29EEc4Ua016603;
+ Fri, 14 Oct 2022 14:41:52 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k78df399a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Oct 2022 14:41:52 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29EEa1tN025382;
+ Fri, 14 Oct 2022 14:41:50 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma05wdc.us.ibm.com with ESMTP id 3k30ub6k8x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Oct 2022 14:41:50 +0000
+Received: from smtpav06.dal12v.mail.ibm.com ([9.208.128.130])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 29EEfm0i43254194
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 14 Oct 2022 14:41:48 GMT
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8C2F158043;
+ Fri, 14 Oct 2022 14:41:49 +0000 (GMT)
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EBB7F5805E;
+ Fri, 14 Oct 2022 14:41:48 +0000 (GMT)
+Received: from localhost (unknown [9.77.138.198])
+ by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTPS;
+ Fri, 14 Oct 2022 14:41:48 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, fbarrat@linux.ibm.com, alex.bennee@linaro.org, Matheus
+ Ferst <matheus.ferst@eldorado.org.br>
+Subject: Re: [PATCH v3 13/29] target/ppc: remove unused interrupts from
+ p8_next_unmasked_interrupt
+In-Reply-To: <20221011204829.1641124-14-matheus.ferst@eldorado.org.br>
+References: <20221011204829.1641124-1-matheus.ferst@eldorado.org.br>
+ <20221011204829.1641124-14-matheus.ferst@eldorado.org.br>
+Date: Fri, 14 Oct 2022 11:41:46 -0300
+Message-ID: <87pmeu4gd1.fsf@linux.ibm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: softfail client-ip=66.245.177.37;
- envelope-from=ncopa@alpinelinux.org; helo=mx1.tetrasec.net
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: PBftFnlZSV6vW_JKkptfQ-uYV9DfTxjZ
+X-Proofpoint-ORIG-GUID: 29yrwtTEaCbEsXiqAARD5GvmOIg-Rp6W
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-14_08,2022-10-14_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015
+ priorityscore=1501 impostorscore=0 bulkscore=0 spamscore=0
+ lowpriorityscore=0 mlxlogscore=872 mlxscore=0 malwarescore=0 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210140081
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,71 +113,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix a regression that was introduced with the edk2 202202 upgrade
-(commit e2f3137c7344).
+Matheus Ferst <matheus.ferst@eldorado.org.br> writes:
 
-Upstream changed TPM_ENABLE to TPM1_ENABLE and TPM2_ENABLE. This led to
-TPM 2.0 (which is needed for windows 11) silently got disabled.
+> Remove the following unused interrupts from the POWER8 interrupt masking
+> method:
+> - PPC_INTERRUPT_RESET: only raised for 6xx, 7xx, 970, and POWER5p;
+> - Debug Interrupt: removed in Power ISA v2.07;
+> - Hypervisor Virtualization: introduced in Power ISA v3.0;
+> - Critical Input, Watchdog Timer, and Fixed Interval Timer: only defined
+>   for embedded CPUs;
+> - Critical Doorbell: processor does not implement the "Embedded.Processor
+>   Control" category;
+> - Programmable Interval Timer: 40x-only;
+> - PPC_INTERRUPT_THERM: only raised for 970 and POWER5p;
+>
+> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Ref: https://github.com/tianocore/edk2/commit/4de8d61bcec02a13ceed84f92b0cf3ea58adf9c5
-Signed-off-by: Natanael Copa <ncopa@alpinelinux.org>
----
-I have not really been able to test this, due to issues with building
-the OVMF_CODE.fd from the qemu source tree. I do have tested building
-OVMF_CODE.fd for the Alpine Linux package, and adding -D TPM2_ENABLE dis
-solve the issue in windows guests. So I believe it is fine.
-
-I don't think an explicit -D TPM1_ENABLE is needed as I believe it is
-the default.
-https://github.com/tianocore/edk2/blob/8fc06b6e19e3df93cc989b4f85877d8a7783e5bf/OvmfPkg/OvmfTpmDefines.dsc.inc#L8
-
-The -D TPM_CONFIG_ENABLE can probably be removed. It was not found
-anywhere when grepping the sources.
-
- roms/Makefile.edk2 | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/roms/Makefile.edk2 b/roms/Makefile.edk2
-index 485f2244b1..eb47f008c6 100644
---- a/roms/Makefile.edk2
-+++ b/roms/Makefile.edk2
-@@ -101,7 +101,7 @@ submodules:
- 		-D NETWORK_IP6_ENABLE \
- 		-D NETWORK_HTTP_BOOT_ENABLE \
- 		-D NETWORK_TLS_ENABLE \
--		-D TPM_ENABLE \
-+		-D TPM2_ENABLE \
- 		-D TPM_CONFIG_ENABLE
- 	cp edk2/Build/OvmfIa32/$(target)_$(call toolchain,i386)/FV/OVMF_CODE.fd $@
- 
-@@ -113,7 +113,7 @@ submodules:
- 		-D NETWORK_IP6_ENABLE \
- 		-D NETWORK_HTTP_BOOT_ENABLE \
- 		-D NETWORK_TLS_ENABLE \
--		-D TPM_ENABLE \
-+		-D TPM2_ENABLE \
- 		-D TPM_CONFIG_ENABLE \
- 		-D SECURE_BOOT_ENABLE \
- 		-D SMM_REQUIRE
-@@ -127,7 +127,7 @@ submodules:
- 		-D NETWORK_IP6_ENABLE \
- 		-D NETWORK_HTTP_BOOT_ENABLE \
- 		-D NETWORK_TLS_ENABLE \
--		-D TPM_ENABLE \
-+		-D TPM2_ENABLE \
- 		-D TPM_CONFIG_ENABLE
- 	cp edk2/Build/OvmfX64/$(target)_$(call toolchain,x86_64)/FV/OVMF_CODE.fd $@
- 
-@@ -140,7 +140,7 @@ submodules:
- 		-D NETWORK_IP6_ENABLE \
- 		-D NETWORK_HTTP_BOOT_ENABLE \
- 		-D NETWORK_TLS_ENABLE \
--		-D TPM_ENABLE \
-+		-D TPM2_ENABLE \
- 		-D TPM_CONFIG_ENABLE \
- 		-D SECURE_BOOT_ENABLE \
- 		-D SMM_REQUIRE
--- 
-2.38.0
-
+Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
 
