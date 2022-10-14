@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D21825FE672
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 03:03:34 +0200 (CEST)
-Received: from localhost ([::1]:51156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D28A5FE6B2
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 03:47:40 +0200 (CEST)
+Received: from localhost ([::1]:49542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oj96r-0003HT-EO
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 21:03:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50112)
+	id 1oj9nW-0001qm-Si
+	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 21:47:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <guang.zeng@intel.com>)
- id 1oj95P-0001wM-1N
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 21:02:03 -0400
-Received: from mga01.intel.com ([192.55.52.88]:10286)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=NTzD=2P=zx2c4.com=Jason@kernel.org>)
+ id 1oj9kV-00008j-Iv
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 21:44:31 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217]:36994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <guang.zeng@intel.com>)
- id 1oj95M-0008IV-60
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 21:02:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665709320; x=1697245320;
- h=message-id:date:mime-version:subject:from:to:cc:
- references:in-reply-to:content-transfer-encoding;
- bh=N8onz1+4r0f6KBh2AenjHcSU6m4ESpWPrn5RzDkFSwI=;
- b=OF7VHuCwLOI4nCyteB0BMEYTtpe2cwZSqZHl4zt9Uc3t3l4ZDdaW4C9X
- eq6Ytkq+jhi9vw7DL3bJfcSMZfGfgOIGIcEeyIsX3gzkYObf7DmNIF3RX
- oZSoDEu0zu9tMIIpNTxhvnDKi0Ejno7AoAjtwJuRwX+gA5VsUGjVGZDZi
- ESte/p3oFDxDk9nqBULF7Dm0Cp73OZO6I4XT59MqYOYZTKqgLKcAG/vp6
- 0tJKBv6Gz1/ggVCgRKyjvH8y6uWWgGUOEOSzynsghO0GAtaM/Aoa/fP2D
- sgh56KEoAnU37zIYRhihactovC8Ax/Hy4vqwClezHEntA8Tzwogub0Ayq A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10499"; a="331757554"
-X-IronPort-AV: E=Sophos;i="5.95,182,1661842800"; d="scan'208";a="331757554"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2022 18:01:38 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10499"; a="696111821"
-X-IronPort-AV: E=Sophos;i="5.95,182,1661842800"; d="scan'208";a="696111821"
-Received: from zengguan-mobl1.ccr.corp.intel.com (HELO [10.254.209.200])
- ([10.254.209.200])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2022 18:01:35 -0700
-Message-ID: <cea2094f-72e7-a63d-ddca-86160240db7b@intel.com>
-Date: Fri, 14 Oct 2022 09:01:02 +0800
+ (Exim 4.90_1)
+ (envelope-from <SRS0=NTzD=2P=zx2c4.com=Jason@kernel.org>)
+ id 1oj9kT-0005ck-KY
+ for qemu-devel@nongnu.org; Thu, 13 Oct 2022 21:44:31 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id ADB1761990;
+ Fri, 14 Oct 2022 01:44:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8CB4C433D7;
+ Fri, 14 Oct 2022 01:44:25 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="KfQOQlSC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1665711864;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rtqXbxlJS/J8KFTKLoBUXD5oEqpa1hS3NlK3lB7beh8=;
+ b=KfQOQlSCtLdNqihh9s0G46LW8yhg7I16DnUXx6PK9UAETCaoSoNpeuo21hakwCWvk6cAvJ
+ SbrkNHHSYn9HUdLuzBiXeUbWBGm/Z5HFLvuCmmhMDSSVtfbqiQ09/grW/MyPNKrqe9jqHX
+ /siFIjwUU+9XG43DS6NfdNs2IT4Vkqc=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id eadbe0d5
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Fri, 14 Oct 2022 01:44:24 +0000 (UTC)
+Date: Thu, 13 Oct 2022 19:44:21 -0600
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: peter.maydell@linaro.org, pbonzini@redhat.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 0/8] rerandomize RNG seeds on reboot and handle
+ record&replay
+Message-ID: <Y0i+9aM9dV77d5X4@zx2c4.com>
+References: <20221011204645.1160916-1-Jason@zx2c4.com>
+ <6be37344-0c0e-9641-550b-3e1a32726035@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v3] target/i386: Set maximum APIC ID to KVM prior to vCPU
- creation
-Content-Language: en-US
-From: Zeng Guang <guang.zeng@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- "Christopherson,, Sean" <seanjc@google.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, Marcelo Tosatti <mtosatti@redhat.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "Gao, Chao" <chao.gao@intel.com>
-References: <20220825025246.26618-1-guang.zeng@intel.com>
- <2c9d8124-c8f5-5f21-74c5-307e16544143@intel.com>
-In-Reply-To: <2c9d8124-c8f5-5f21-74c5-307e16544143@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.88; envelope-from=guang.zeng@intel.com;
- helo=mga01.intel.com
-X-Spam_score_int: -82
-X-Spam_score: -8.3
-X-Spam_bar: --------
-X-Spam_report: (-8.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.25, RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <6be37344-0c0e-9641-550b-3e1a32726035@linaro.org>
+Received-SPF: pass client-ip=139.178.84.217;
+ envelope-from=SRS0=NTzD=2P=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,84 +81,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PING again !
-This QEMU patch is to optimize max APIC ID set for current VM session 
-introduced since linux v6.0. It's also compatible with previous linux 
-version.
+On Fri, Oct 14, 2022 at 05:13:58AM +1100, Richard Henderson wrote:
+> On 10/12/22 13:46, Jason A. Donenfeld wrote:
+> > When the system reboots, the rng seed that QEMU passes should be
+> > re-randomized, so that the new boot gets a new seed. This series wires
+> > that up for FDT.
+> > 
+> > Then, since the record&replay subsystem makes use of reset as well, we
+> > add a new reset cause for record&replay, so that we can avoid
+> > re-randomizing in these cases.
+> > 
+> > Jason A. Donenfeld (8):
+> >    device-tree: add re-randomization helper function
+> >    arm: re-randomize rng-seed on reboot
+> >    riscv: re-randomize rng-seed on reboot
+> >    openrisc: re-randomize rng-seed on reboot
+> >    rx: re-randomize rng-seed on reboot
+> >    mips: re-randomize rng-seed on reboot
+> >    reset: allow registering handlers that aren't called by snapshot
+> >      loading
+> >    reset: do not re-randomize RNG seed on snapshot load
+> 
+> You need to invert the patch order so that the series is bisectable.
+> At the moment you still introduce the reported bug, then fix it in the final patch.
 
-Thanks.
+I was afraid of that. Okay, will do. v+1 coming your way.
 
-On 9/5/2022 9:27 AM, Zeng Guang wrote:
-> Kindly PING!
->
-> On 8/25/2022 10:52 AM, Zeng Guang wrote:
->> Specify maximum possible APIC ID assigned for current VM session to KVM
->> prior to the creation of vCPUs. By this setting, KVM can set up VM-scoped
->> data structure indexed by the APIC ID, e.g. Posted-Interrupt Descriptor
->> pointer table to support Intel IPI virtualization, with the most optimal
->> memory footprint.
->>
->> It can be achieved by calling KVM_ENABLE_CAP for KVM_CAP_MAX_VCPU_ID
->> capability once KVM has enabled it. Ignoring the return error if KVM
->> doesn't support this capability yet.
->>
->> Signed-off-by: Zeng Guang <guang.zeng@intel.com>
->> ---
->>    hw/i386/x86.c              | 4 ++++
->>    target/i386/kvm/kvm-stub.c | 5 +++++
->>    target/i386/kvm/kvm.c      | 5 +++++
->>    target/i386/kvm/kvm_i386.h | 1 +
->>    4 files changed, 15 insertions(+)
->>
->> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
->> index 050eedc0c8..4831193c86 100644
->> --- a/hw/i386/x86.c
->> +++ b/hw/i386/x86.c
->> @@ -139,6 +139,10 @@ void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
->>            exit(EXIT_FAILURE);
->>        }
->>    
->> +    if (kvm_enabled()) {
->> +        kvm_set_max_apic_id(x86ms->apic_id_limit);
->> +    }
->> +
->>        possible_cpus = mc->possible_cpu_arch_ids(ms);
->>        for (i = 0; i < ms->smp.cpus; i++) {
->>            x86_cpu_new(x86ms, possible_cpus->cpus[i].arch_id, &error_fatal);
->> diff --git a/target/i386/kvm/kvm-stub.c b/target/i386/kvm/kvm-stub.c
->> index f6e7e4466e..e052f1c7b0 100644
->> --- a/target/i386/kvm/kvm-stub.c
->> +++ b/target/i386/kvm/kvm-stub.c
->> @@ -44,3 +44,8 @@ bool kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
->>    {
->>        abort();
->>    }
->> +
->> +void kvm_set_max_apic_id(uint32_t max_apic_id)
->> +{
->> +    return;
->> +}
->> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
->> index f148a6d52f..af4ef1e8f0 100644
->> --- a/target/i386/kvm/kvm.c
->> +++ b/target/i386/kvm/kvm.c
->> @@ -5428,3 +5428,8 @@ void kvm_request_xsave_components(X86CPU *cpu, uint64_t mask)
->>            mask &= ~BIT_ULL(bit);
->>        }
->>    }
->> +
->> +void kvm_set_max_apic_id(uint32_t max_apic_id)
->> +{
->> +    kvm_vm_enable_cap(kvm_state, KVM_CAP_MAX_VCPU_ID, 0, max_apic_id);
->> +}
->> diff --git a/target/i386/kvm/kvm_i386.h b/target/i386/kvm/kvm_i386.h
->> index 4124912c20..c133b32a58 100644
->> --- a/target/i386/kvm/kvm_i386.h
->> +++ b/target/i386/kvm/kvm_i386.h
->> @@ -54,4 +54,5 @@ uint64_t kvm_swizzle_msi_ext_dest_id(uint64_t address);
->>    bool kvm_enable_sgx_provisioning(KVMState *s);
->>    void kvm_request_xsave_components(X86CPU *cpu, uint64_t mask);
->>    
->> +void kvm_set_max_apic_id(uint32_t max_apic_id);
->>    #endif
+Jason
 
