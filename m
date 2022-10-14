@@ -2,61 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69A9C5FF20E
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 18:11:58 +0200 (CEST)
-Received: from localhost ([::1]:34788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B15D5FF219
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 18:14:57 +0200 (CEST)
+Received: from localhost ([::1]:40016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojNHw-0007gD-8j
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 12:11:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60264)
+	id 1ojNKq-0002qI-6e
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 12:14:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1ojNDW-00010E-9T
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 12:07:22 -0400
-Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25]:48891)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1ojNDU-0001nP-35
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 12:07:21 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.144])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id E68B021C04;
- Fri, 14 Oct 2022 16:07:15 +0000 (UTC)
-Received: from kaod.org (37.59.142.106) by DAG8EX2.mxp5.local (172.16.2.72)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Fri, 14 Oct
- 2022 18:07:15 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R0062d29b763-9373-40d0-a39d-518a63c9fb5f,
- 93E7CCAF9763085C798639D715A644A78EABBAA0) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Fri, 14 Oct 2022 18:07:14 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-CC: <qemu-devel@nongnu.org>, Richard Henderson <richard.henderson@linaro.org>, 
- Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH] util/log: Always send errors to logfile when daemonized
-Message-ID: <20221014180714.6d423f74@bahia>
-In-Reply-To: <398b4657-7b21-5e15-1db6-e9225e6f3d4e@redhat.com>
-References: <20221014060807.660587-1-groug@kaod.org>
- <398b4657-7b21-5e15-1db6-e9225e6f3d4e@redhat.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1ojNFy-0004VJ-3B
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 12:09:54 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:40456)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1ojNFv-0002Cf-Tk
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 12:09:53 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ v130-20020a1cac88000000b003bcde03bd44so5686630wme.5
+ for <qemu-devel@nongnu.org>; Fri, 14 Oct 2022 09:09:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=KQcJUmqZu88nfBtXApMM+zI67ONGbz1lPo6e59zltwQ=;
+ b=QhUiOjPCl3nRaenOv00DDl/23HaWplzSIrmlEmNOoV+LloRMudfAcivtEyFU97eCKT
+ eCzTfOjkFTdKRfPR/2e2JNCNKjtrXYNSuAvN58odtyjzB2M3NjaBZP0t7jcLB/+ZSIfY
+ r7EvVl3xbNajBpV8DXyogXlllh7l/mbZY2cW9Y4lRKExzpJeHh3xNjAroZiPlJSIh8P2
+ vqprCjFvCF362aKiy1V7prn+oLsopn+DJfO15ZO1T2djQ1A8B7GHBJHCiN9Uj428UfoM
+ mKtsKTlhWXWKfB2ezzANXqFK0ILrHunn7RD1Fv2/f73GxvVu5IqeTRgit28pjOXjdWBA
+ KMmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KQcJUmqZu88nfBtXApMM+zI67ONGbz1lPo6e59zltwQ=;
+ b=Q4uvM+Bsb2s5dGP/W50m3WqC/IJRoCi5xIP1dMmyXPICnh6OmhDmGYzTKF/90wh2jG
+ wkezcq07k4fBmzsRTFlgZH9rYgkCb3RC2kTT/eINpGPZ9DjKMSSH1QxKor2/qDm0PZGF
+ Uai7Eocnh0AWLNm/AJG8SVI4E+vK5QE+jjIO+I9xZte71ojazwQqHffe/ARQ7JEt0q4w
+ S6OcPu9xBUaKPGLnPYm6TtWzGMVRy812z4191LLzch4FSKByxNT3xwlk/LROIKKY3V+o
+ G9/c2VBooIdWbp/rYhtBx0x6e1yQTMDagWGui+rVEW0/DLdxWXvU2aoI3yUFBD1nsruv
+ O89Q==
+X-Gm-Message-State: ACrzQf1rogSS1yaHi5BQ2acMsJMfErZE+K0//TfQR8yIS75Xgpi/J7Fj
+ 6ta9bnh4PfI64UmFejKugwhCjQ==
+X-Google-Smtp-Source: AMsMyM5LhhaV4Mn9J9SKzMiuNY3eZ6f3/QME1KHrBHrKR5thFHwzL+GGAyJLpwUBryQupKKPR9wI0w==
+X-Received: by 2002:a05:600c:214f:b0:3c6:ce02:8a68 with SMTP id
+ v15-20020a05600c214f00b003c6ce028a68mr11161488wml.187.1665763789915; 
+ Fri, 14 Oct 2022 09:09:49 -0700 (PDT)
+Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
+ [82.27.106.168]) by smtp.gmail.com with ESMTPSA id
+ bv20-20020a0560001f1400b00231a5fa1ae2sm2153599wrb.20.2022.10.14.09.09.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Oct 2022 09:09:49 -0700 (PDT)
+Date: Fri, 14 Oct 2022 17:09:46 +0100
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Eric Auger <eric.auger@redhat.com>
+Cc: eric.auger.pro@gmail.com, mst@redhat.com, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH] hw/virtio/virtio-iommu-pci: Enforce the device is
+ plugged on the root bus
+Message-ID: <Y0mJyjYmTh7DIE1f@myrica>
+References: <20221012163448.121368-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG8EX2.mxp5.local
- (172.16.2.72)
-X-Ovh-Tracer-GUID: c13bb62c-c970-47ea-9368-96d90a869790
-X-Ovh-Tracer-Id: 9886245611270740448
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeekvddgleekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgeekjedtveegkeeileffvdetvddvgedtudduiefghffhgfdvhfegjeetkeehfeeknecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeoghhrohhugheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehpsghonhiiihhnihesrhgvughhrghtrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdprghlvgigrdgsvghnnhgvvgeslhhinhgrrhhordhorhhgpdfovfetjfhoshhtpehmohehgeekpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=46.105.33.25; envelope-from=groug@kaod.org;
- helo=7.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221012163448.121368-1-eric.auger@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,114 +92,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 14 Oct 2022 10:51:36 +0200
-Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Wed, Oct 12, 2022 at 12:34:48PM -0400, Eric Auger wrote:
+> In theory the virtio-iommu-pci could be plugged anywhere in the PCIe
+> topology and as long as the dt/acpi info are properly built this should
+> work. However at the moment we fail to do that because the
+> virtio-iommu-pci BDF is not computed at plug time and in that case
+> vms->virtio_iommu_bdf gets an incorrect value.
+> 
+> For instance if the virtio-iommu-pci is plugged onto a pcie root port
+> and the virtio-iommu protects a virtio-block-pci device the guest does
+> not boot.
+> 
+> So let's do not pretend we do support this case and fail the initialize()
+> if we detect the virtio-iommu-pci is plugged anywhere else than on the
+> root bus. Anyway this ability is not needed.
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
 
-> On 10/14/22 08:08, Greg Kurz wrote:
-> > 
-> > +        need_to_open_file = log_flags && !per_thread;
-> 
-> Pre-existing, but I think this should check log_per_thread instead of 
-> per_thread.
-> 
+I agree with the reasoning. It's not supported, difficult to support and
+not needed, so let's make the error more obvious. If I remember correctly,
+the problem with supporting an IOMMU behind a bridge is that static
+topology descriptions like DT and ACPI identify devices using bus numbers,
+which QEMU would need to allocate.
 
-Yes I agree, and also check qemu_loglevel instead of log_flags for
-the same reason (and to match the comment just above).
+> ---
+>  hw/virtio/virtio-iommu-pci.c | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
+> index 79ea8334f0..7ef2f9dcdb 100644
+> --- a/hw/virtio/virtio-iommu-pci.c
+> +++ b/hw/virtio/virtio-iommu-pci.c
+> @@ -17,6 +17,7 @@
+>  #include "hw/qdev-properties-system.h"
+>  #include "qapi/error.h"
+>  #include "hw/boards.h"
+> +#include "hw/pci/pci_bus.h"
+>  #include "qom/object.h"
+>  
+>  typedef struct VirtIOIOMMUPCI VirtIOIOMMUPCI;
+> @@ -44,6 +45,7 @@ static Property virtio_iommu_pci_properties[] = {
+>  static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+>  {
+>      VirtIOIOMMUPCI *dev = VIRTIO_IOMMU_PCI(vpci_dev);
+> +    PCIBus *pbus = pci_get_bus(&vpci_dev->pci_dev);
+>      DeviceState *vdev = DEVICE(&dev->vdev);
+>      VirtIOIOMMU *s = VIRTIO_IOMMU(vdev);
+>  
+> @@ -57,11 +59,17 @@ static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+>              s->reserved_regions[i].type != VIRTIO_IOMMU_RESV_MEM_T_MSI) {
+>              error_setg(errp, "reserved region %d has an invalid type", i);
+>              error_append_hint(errp, "Valid values are 0 and 1\n");
+> +            return;
 
-> > +    } else if (filename) {
-> > +        /*
-> > +         * If we are daemonized, we will only log if there is a filename.
-> > +         */
-> > +        need_to_open_file = true;
-> 
-> Slightly nicer:
-> 
->      } else {
->         /*
->          * If daemonized, always log to the -D file if present.
->          */
->          need_to_open_file = filename != NULL;
+Should this be a separate fix?  Anyway, for both changes
+
+Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Tested-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+
+>          }
 >      }
+> +    if (!pci_bus_is_root(pbus)) {
+> +        error_setg(errp, "virtio-iommu-pci must be plugged on the root bus");
+> +        return;
+> +    }
+> +
+>      object_property_set_link(OBJECT(dev), "primary-bus",
+> -                             OBJECT(pci_get_bus(&vpci_dev->pci_dev)),
+> -                             &error_abort);
+> +                             OBJECT(pbus), &error_abort);
+> +
+>      virtio_pci_force_virtio_1(vpci_dev);
+>      qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+>  }
+> -- 
+> 2.31.1
 > 
-
-Sure.
-
-> > @@ -271,10 +276,22 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
-> >   
-> >       if (!logfile && need_to_open_file) {
-> >           if (filename) {
-> > -            logfile = fopen(filename, log_append ? "a" : "w");
-> > +            g_autofree char *fname = NULL;
-> > +
-> > +            /*
-> > +             * If per-thread, filename contains a single %d that should be
-> > +             * converted.
-> > +             */
-> > +            if (per_thread) {
-> > +                fname = g_strdup_printf(filename, getpid());
-> > +            } else {
-> > +                fname = g_strdup(filename);
-> > +            }
-> > +
-> > +            logfile = fopen(fname, log_append ? "a" : "w");
-> >               if (!logfile) {
-> >                   error_setg_errno(errp, errno, "Error opening logfile %s",
-> > -                                 filename);
-> > +                                 fname);
-> >                   return false;
-> >               }
-> >               /* In case we are a daemon redirect stderr to logfile */
-> 
-> This could conflict with the file opened by qemu_log_trylock() when 
-> per-thread logging is enabled *and* QEMU is daemonized.  Perhaps 
-> something like:
-> 
-
-Yeah... if the main thread happens to call qemu_log(), it then opens
-a file with the same name indeed. Thanks for catching that !
-
-> 1) change qemu_log_trylock() to
-> 
-> -        if (log_per_thread) {
-> +        if (log_per_thread && log_thread_id() != getpid()) {
-> 
-> i.e. use the global_file for the main thread
-> 
-> 2) change qemu_log_unlock() to
-> 
-> -        if (!log_per_thread) {
-> +        if (!thread_file) {
-> 
-> to match (1)
-> 
-> 3) change log_thread_id() to something like
-> 
-> ...
-> #else
->      static __thread int my_id = -1;
->      static int counter;
->      if (my_id == -1) {
->          my_id = getpid() + qatomic_fetch_inc(&counter);
->      }
->      return my_id;
-> #endif
-> 
-> and perhaps do a dummy trylock/unlock late in qemu_set_log_internal(), 
-> to ensure that the main thread is the one with log_thread_id() == getpid()?
-> 
-> I think this can be a separate patch before this one.
-> 
-
-2) and 3) can certainly be preparatory work but I think 1)
-should be squashed in my patch. Because of the !per_thread
-check in need_to_open_file, the existing code in
-qemu_set_log_internal() doesn't even open the global file
-and qemu_log_trylock() would always return NULL for the
-main thread.
-
-Thanks for the quick answer and suggestions !
-
-> Paolo
-> 
-
 
