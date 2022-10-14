@@ -2,69 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AA8C5FEB5C
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 11:11:11 +0200 (CEST)
-Received: from localhost ([::1]:33704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB60B5FEB81
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 11:27:18 +0200 (CEST)
+Received: from localhost ([::1]:42396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojGij-00028p-UX
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 05:11:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51144)
+	id 1ojGyL-0002eB-4S
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 05:27:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ojGgJ-000866-Pi; Fri, 14 Oct 2022 05:08:39 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57844)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1ojGur-0006xl-FS
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 05:23:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42431)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ojGgI-0003ii-4Q; Fri, 14 Oct 2022 05:08:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=tNpjWxI/KZTYPvSWKP9dbopKA6p49CKfNQSUlLQGtrg=; b=RzVrYlCcUZY50lQbeT3FPMZaF2
- wHyapMo+ksZjiYSNgNoCa4AjwMAS6PGjD8PpYPYuYgDxr+YLKv6CAEL+gfeMqHIrCILsh2QNVZC7W
- nUlKVnNvOeQA7CoUpLwbwx9dNAWGbvkgOF67V4ccXWOIs9bka8/cAH11VKF5wAWC8WTAVqMdemFps
- Ijxo7vPl0eV+NhOKGhiSnAHraO4cqhjRnQEE4dZJyJUd3P8tk4e6NDgvLyhvPvd2JOpOWCQHaruMh
- vF0Wrh8nh9M6M4BkUdDgJOrzyVJqMbUpe2PKypqLHglY5VCsLCRC/M8XtJL3xstvnUMMUgXe9XQ49
- bu4SMoDytfoCAEIyWVeUwxA0CVJT9A/f9nTMQq9ohRPpTm+iKIn9AqyyV3J6PaM5eUHD0T6GUf/BN
- WdWGz9+45EYz9L6GK8yDunPI2Lk9gnktGkA3tlw7FRL1mbM4sJ8BQ/e2aHcZlTxXUZtCdI7Lj6H+x
- miUrXW1fGuIG1akpPhITOympoebowlxPPcRqPR9X3IcPqDIcJxtYeFNekJIlsGS0uVaxIakhyXEdh
- f/4utR8cdqbWrg2gu7D35/4w346WtsVbVEvs8JCvHNl8l77ZJvHuoKQVivA9azKUoxuQG5srVseDU
- JYa19qhNZWFqVrlAHP8N3qy2mrqH6ay30JvFsZapo=;
-Received: from [2a00:23c4:8ba8:7100:6571:576d:97b8:647b]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ojGeQ-0001Qt-Oy; Fri, 14 Oct 2022 10:06:46 +0100
-Message-ID: <a8ef2e11-ca1e-6838-f13e-10b42c7b0108@ilande.co.uk>
-Date: Fri, 14 Oct 2022 10:08:29 +0100
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1ojGuo-00060r-Ag
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 05:23:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665739417;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8vOSrhlu/0S3r4PuhLP2XjHew88NtV6iUswlny+3cRE=;
+ b=Rh3+MOnqV5ZddfrgZivOxPY4k+b3GN77aP0LNxC0Ye+IdSemufnNAvCQHKArjkUCDaswm0
+ wWMsfyKuOQvUzpGryOCzvL+FRmnFUoe/pplWmGn8FiacThF7aGP9yWqKWLA8K+iQDJEP5n
+ JkUraBeFg/j2w9libSA7C/L3vXf+EHw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-613-7lxbN6OvMMuk3VwU1LIkoQ-1; Fri, 14 Oct 2022 05:23:36 -0400
+X-MC-Unique: 7lxbN6OvMMuk3VwU1LIkoQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ v125-20020a1cac83000000b003bd44dc5242so4375668wme.7
+ for <qemu-devel@nongnu.org>; Fri, 14 Oct 2022 02:23:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8vOSrhlu/0S3r4PuhLP2XjHew88NtV6iUswlny+3cRE=;
+ b=XJvSIh7NUXE7LvxrEzx83XSveKElN1159iR9rRnGrtTqZkwLCYa24BRQXjhBKHEp+H
+ nz4NM0Pchw/T3jRhuxo8iRyiKtU/Jev3E+ReUt8WDU2DfAMwoplHD3vsyu5xdVqHUm2V
+ eCjQIFlekPRYYjP+OIqq5vi5B8Jxi+p2645yejdLuKBCG45mp9QbdbZyjr411uIt05DM
+ iPq/KqGOYb73df80UVYOgpvqCVsmWma25N4eOXJ5Yqp+tBuiZKLDO2DvjVj1oHzsNo75
+ TjPstwS4rTvry7rJgkfYh6CIez2PoEL17RKOT9vjDKGclfx8udddwt5ub5/kVNTjDpea
+ RsIQ==
+X-Gm-Message-State: ACrzQf1qG2dKWlYrys0d8H5IBtE980SRSWHVu1epffjZADIu6FAm/Uns
+ ueXRLM3qhxI2U5n38musEeluIEv5M0rtqAIk6FG0O4hoigZbeHg08g5FohDJU0NozzotMqIpMzK
+ Y/nZWnsA3hz7jTpg=
+X-Received: by 2002:a5d:526d:0:b0:22e:4f4d:2546 with SMTP id
+ l13-20020a5d526d000000b0022e4f4d2546mr2700675wrc.464.1665739414578; 
+ Fri, 14 Oct 2022 02:23:34 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5koDWu6hAkljiCmgowA4V8KX3H/6L7mgR9ynjGeMZJBYw/H9gJIa2FFZlqj1Jfa5QDFroiVA==
+X-Received: by 2002:a5d:526d:0:b0:22e:4f4d:2546 with SMTP id
+ l13-20020a5d526d000000b0022e4f4d2546mr2700662wrc.464.1665739414314; 
+ Fri, 14 Oct 2022 02:23:34 -0700 (PDT)
+Received: from [192.168.100.30] ([82.142.8.70])
+ by smtp.gmail.com with ESMTPSA id
+ x8-20020a5d6508000000b00228dff8d975sm1470611wru.109.2022.10.14.02.23.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Oct 2022 02:23:33 -0700 (PDT)
+Message-ID: <e06a3836-1968-1366-802d-a8adecb07def@redhat.com>
+Date: Fri, 14 Oct 2022 11:23:30 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH RFC] virtio-net: fix bottom-half packet TX on asynchronous
+ completion
 Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <cover.1664827008.git.balaton@eik.bme.hu>
- <e626e83dadc82fba08c98e797d150bd8d4f8e22d.1664827008.git.balaton@eik.bme.hu>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <e626e83dadc82fba08c98e797d150bd8d4f8e22d.1664827008.git.balaton@eik.bme.hu>
+From: Laurent Vivier <lvivier@redhat.com>
+To: Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
+ Stefano Brivio <sbrivio@redhat.com>, alex.williamson@redhat.com
+References: <20221013140057.63575-1-lvivier@redhat.com>
+ <20221013104724-mutt-send-email-mst@kernel.org>
+ <CACGkMEsEhudE-yM7cZ5e9rXP-+w8-YTeL3MV73mghVh1uoF+9g@mail.gmail.com>
+ <0b5a4db0-14e4-09cf-d68c-a0aca8c780c7@redhat.com>
+In-Reply-To: <0b5a4db0-14e4-09cf-d68c-a0aca8c780c7@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba8:7100:6571:576d:97b8:647b
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v3 10/13] hw/ppc/mac.h: Move grackle-pcihost type
- declaration out to a header
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.25,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.25, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,143 +107,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/10/2022 21:13, BALATON Zoltan wrote:
-
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->   MAINTAINERS                   |  1 +
->   hw/pci-host/grackle.c         | 14 +----------
->   hw/ppc/mac.h                  |  3 ---
->   hw/ppc/mac_oldworld.c         |  1 +
->   include/hw/pci-host/grackle.h | 44 +++++++++++++++++++++++++++++++++++
->   5 files changed, 47 insertions(+), 16 deletions(-)
->   create mode 100644 include/hw/pci-host/grackle.h
+On 10/14/22 09:06, Laurent Vivier wrote:
+> On 10/14/22 05:10, Jason Wang wrote:
+>> On Thu, Oct 13, 2022 at 10:48 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>>>
+>>> On Thu, Oct 13, 2022 at 04:00:57PM +0200, Laurent Vivier wrote:
+>>>> When virtio-net is used with the socket netdev backend, the backend
+>>>> can be busy and not able to collect new packets.
+>>>>
+>>>> In this case, net_socket_receive() returns 0 and registers a poll function
+>>>> to detect when the socket is ready again.
+>>>>
+>>>> In virtio_net_tx_bh(), virtio_net_flush_tx() forwards the 0, the virtio
+>>>> notifications are disabled and the function is not rescheduled, waiting
+>>>> for the backend to be ready.
+>>>>
+>>>> When the socket netdev backend is again able to send packets, the poll
+>>>> function re-starts to flush remaining packets. This is done by
+>>>> calling virtio_net_tx_complete(). It re-enables notifications and calls
+>>>> again virtio_net_flush_tx().
+>>>>
+>>>> But it seems if virtio_net_flush_tx() reaches the tx_burst value all
+>>>> the queue is not flushed and no new notification is sent to reschedule
+>>>> virtio_net_tx_bh(). Nothing re-start to flush the queue and remaining packets
+>>>> are stuck in the queue.
+>>>>
+>>>> To fix that, detect in virtio_net_tx_complete() if virtio_net_flush_tx()
+>>>> has been stopped by tx_burst and if yes reschedule the bottom half
+>>>> function virtio_net_tx_bh() to flush the remaining packets.
+>>>>
+>>>> This is what is done in virtio_net_tx_bh() when the virtio_net_flush_tx()
+>>>> is synchronous, and completely by-passed when the operation needs to be
+>>>> asynchronous.
+>>>>
+>>>> RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC
+>>>>
+>>>> Do we need to reschedule the function in the other case managed
+>>>> in virtio_net_tx_bh() and by-passed when the completion is asynchronous?
+>>>
+>>>
+>>> I am guessing no.
+>>>
+>>>>      /* If less than a full burst, re-enable notification and flush
+>>>>       * anything that may have come in while we weren't looking.  If
+>>>>       * we find something, assume the guest is still active and reschedule */
+>>>>      virtio_queue_set_notification(q->tx_vq, 1);
+>>>>      ret = virtio_net_flush_tx(q);
+>>>>      if (ret == -EINVAL) {
+>>>>          return;
+>>>>      } else if (ret > 0) {
+>>>>          virtio_queue_set_notification(q->tx_vq, 0);
+>>>>          qemu_bh_schedule(q->tx_bh);
+>>>>          q->tx_waiting = 1;
+>>>>      }
+>>>>
+>>>> RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC RFC
+>>>>
+>>>> Fixes: a697a334b3c4 ("virtio-net: Introduce a new bottom half packet TX")
+>>>> Cc: alex.williamson@redhat.com
+>>>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+>>>
+>>> Looks ok superficially
+>>>
+>>> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+>>>
+>>> Jason, your area.
+>>>
+>>>> ---
+>>>>   hw/net/virtio-net.c | 13 ++++++++++++-
+>>>>   1 file changed, 12 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+>>>> index e9f696b4cfeb..1fbf2f3e19a7 100644
+>>>> --- a/hw/net/virtio-net.c
+>>>> +++ b/hw/net/virtio-net.c
+>>>> @@ -2526,6 +2526,7 @@ static void virtio_net_tx_complete(NetClientState *nc, ssize_t len)
+>>>>       VirtIONet *n = qemu_get_nic_opaque(nc);
+>>>>       VirtIONetQueue *q = virtio_net_get_subqueue(nc);
+>>>>       VirtIODevice *vdev = VIRTIO_DEVICE(n);
+>>>> +    int ret;
+>>>>
+>>>>       virtqueue_push(q->tx_vq, q->async_tx.elem, 0);
+>>>>       virtio_notify(vdev, q->tx_vq);
+>>>> @@ -2534,7 +2535,17 @@ static void virtio_net_tx_complete(NetClientState *nc, ssize_t 
+>>>> len)
+>>>>       q->async_tx.elem = NULL;
+>>>>
+>>>>       virtio_queue_set_notification(q->tx_vq, 1);
+>>>> -    virtio_net_flush_tx(q);
+>>>> +    ret = virtio_net_flush_tx(q);
+>>>> +    if (q->tx_bh && ret >= n->tx_burst) {
+>>>> +        /*
+>>>> +         * the flush has been stopped by tx_burst
+>>>> +         * we will not receive notification for the
+>>>> +         * remainining part, so re-schedule
+>>>> +         */
+>>>> +        virtio_queue_set_notification(q->tx_vq, 0);
+>>>> +        qemu_bh_schedule(q->tx_bh);
+>>>> +        q->tx_waiting = 1;
+>>>> +    }
+>>
+>> Do we need to fix the case of tx timer or it doesn't suffer from this issue?
+>>
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 789172b2a8..6e6819afcd 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1345,6 +1345,7 @@ F: hw/intc/heathrow_pic.c
->   F: hw/input/adb*
->   F: include/hw/intc/heathrow_pic.h
->   F: include/hw/input/adb*
-> +F: include/hw/pci-host/grackle.h
->   F: pc-bios/qemu_vga.ndrv
->   
->   PReP
-> diff --git a/hw/pci-host/grackle.c b/hw/pci-host/grackle.c
-> index b05facf463..e4c7303859 100644
-> --- a/hw/pci-host/grackle.c
-> +++ b/hw/pci-host/grackle.c
-> @@ -24,7 +24,6 @@
->    */
->   
->   #include "qemu/osdep.h"
-> -#include "hw/pci/pci_host.h"
->   #include "hw/ppc/mac.h"
->   #include "hw/qdev-properties.h"
->   #include "hw/pci/pci.h"
-> @@ -33,18 +32,7 @@
->   #include "qemu/module.h"
->   #include "trace.h"
->   #include "qom/object.h"
-> -
-> -OBJECT_DECLARE_SIMPLE_TYPE(GrackleState, GRACKLE_PCI_HOST_BRIDGE)
-> -
-> -struct GrackleState {
-> -    PCIHostState parent_obj;
-> -
-> -    uint32_t ofw_addr;
-> -    qemu_irq irqs[4];
-> -    MemoryRegion pci_mmio;
-> -    MemoryRegion pci_hole;
-> -    MemoryRegion pci_io;
-> -};
-> +#include "hw/pci-host/grackle.h"
->   
->   /* Don't know if this matches real hardware, but it agrees with OHW.  */
->   static int pci_grackle_map_irq(PCIDevice *pci_dev, int irq_num)
-> diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
-> index 55cb02c990..fe77a6c6db 100644
-> --- a/hw/ppc/mac.h
-> +++ b/hw/ppc/mac.h
-> @@ -35,9 +35,6 @@
->   #define KERNEL_LOAD_ADDR 0x01000000
->   #define KERNEL_GAP       0x00100000
->   
-> -/* Grackle PCI */
-> -#define TYPE_GRACKLE_PCI_HOST_BRIDGE "grackle-pcihost"
-> -
->   /* Mac NVRAM */
->   #define TYPE_MACIO_NVRAM "macio-nvram"
->   OBJECT_DECLARE_SIMPLE_TYPE(MacIONVRAMState, MACIO_NVRAM)
-> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-> index a10c884503..e1a22f8eba 100644
-> --- a/hw/ppc/mac_oldworld.c
-> +++ b/hw/ppc/mac_oldworld.c
-> @@ -38,6 +38,7 @@
->   #include "hw/isa/isa.h"
->   #include "hw/pci/pci.h"
->   #include "hw/pci/pci_host.h"
-> +#include "hw/pci-host/grackle.h"
->   #include "hw/nvram/fw_cfg.h"
->   #include "hw/char/escc.h"
->   #include "hw/misc/macio/macio.h"
-> diff --git a/include/hw/pci-host/grackle.h b/include/hw/pci-host/grackle.h
-> new file mode 100644
-> index 0000000000..7ad3a779f0
-> --- /dev/null
-> +++ b/include/hw/pci-host/grackle.h
-> @@ -0,0 +1,44 @@
-> +/*
-> + * QEMU Grackle PCI host (heathrow OldWorld PowerMac)
-> + *
-> + * Copyright (c) 2006-2007 Fabrice Bellard
-> + * Copyright (c) 2007 Jocelyn Mayer
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining a copy
-> + * of this software and associated documentation files (the "Software"), to deal
-> + * in the Software without restriction, including without limitation the rights
-> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-> + * copies of the Software, and to permit persons to whom the Software is
-> + * furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice shall be included in
-> + * all copies or substantial portions of the Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-> + * THE SOFTWARE.
-> + */
-> +
-> +#ifndef GRACKLE_H
-> +#define GRACKLE_H
-> +
-> +#include "hw/pci/pci_host.h"
-> +
-> +#define TYPE_GRACKLE_PCI_HOST_BRIDGE "grackle-pcihost"
-> +OBJECT_DECLARE_SIMPLE_TYPE(GrackleState, GRACKLE_PCI_HOST_BRIDGE)
-> +
-> +struct GrackleState {
-> +    PCIHostState parent_obj;
-> +
-> +    uint32_t ofw_addr;
-> +    qemu_irq irqs[4];
-> +    MemoryRegion pci_mmio;
-> +    MemoryRegion pci_hole;
-> +    MemoryRegion pci_io;
-> +};
-> +
-> +#endif
+> I think tx_timer suffers the same issue.
+> 
+> I'm going to have a look to the tx timer fix.
 
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+It seems worst with tx timer as we have the tx_burst problem even in the synchronous case 
+as the timer is not rearmed.
 
+Thanks,
+Laurent
 
-ATB,
-
-Mark.
 
