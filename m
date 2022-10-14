@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A07D75FF31B
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 19:45:26 +0200 (CEST)
-Received: from localhost ([::1]:58086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8A535FF323
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 19:51:00 +0200 (CEST)
+Received: from localhost ([::1]:45756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojOkP-0003l2-Ld
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 13:45:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60476)
+	id 1ojOpm-0008Hu-7o
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 13:50:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ojObo-0002yd-Qe
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 13:36:36 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:36480)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ojObu-000304-EI
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 13:36:38 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:43995)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ojObc-00083N-AG
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 13:36:32 -0400
-Received: by mail-pg1-x534.google.com with SMTP id s196so3596425pgs.3
- for <qemu-devel@nongnu.org>; Fri, 14 Oct 2022 10:36:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ojObs-000852-0o
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 13:36:37 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ x31-20020a17090a38a200b0020d2afec803so5367367pjb.2
+ for <qemu-devel@nongnu.org>; Fri, 14 Oct 2022 10:36:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dyu7QZZcn9Q1/zGtjEBOGs4FcuSFU9uCRS/DX2QmpGI=;
- b=KVC1LizeBfm+T0hz4XhKC0wFNPYBoYZIp2beMY3MyjS536CNEymGUR/6nQZ2EjS9r+
- 0AVM8iY43zmEmyHBKmbCJaaIRpL0132PPC53D/ry2D1tgK0D2uil8eBDjgJqAJaW9rYg
- yLIcWRy63v9I+olHbQytjyGtCkMATNyfqvxFdnelHxL6xRJmmySRdnFnDPaV6J8UA9gA
- tiQIKgYPV2UMCf/16u2MFBA79wnycDFQx4rD+Zn89ReL5TGgDIkb/ip2J1dgELBq468S
- MVutv1ZZaiuNZVOpJ+c4NKBiYtco9S4L5zo7RyToDuDYjChvqUl9pfFMCpeYxDKhO6D8
- G/rA==
+ bh=jEk7FxdszojxPPvnT3ShmomJx+A87ZwEhsEjJZPdWVk=;
+ b=TRg4xdfZbiBn+OOpNw1hYPezMWiQqQHRt5L/g8B0YEsUKWJP3DBZjBWdsSTps+TouG
+ 46vjHqaqdcf/RB9IfWlLwadKzu7xfRSVZTOiaPQ1676Bcf/JptPzvZLWqEG80RyLc2lF
+ rFK5ntX4UUP4QjC81nZAR0Pc9Tpd8rhRQ5ykksersR3e5ePnM7mGnNqrGf9eY2ECt64b
+ S6UNnYAJxAKNwdFDKlfgewuTCTpBkOi2bCAZLtdvQQoseJSFJBTo8q9LCmZySVy90E2x
+ DqdV5W6nOilzoq5OfhMjPklSP8yzrDRNEWpDCcChgZm5Rw0EGl/r+CpabwDlPnpf8p+p
+ deOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=dyu7QZZcn9Q1/zGtjEBOGs4FcuSFU9uCRS/DX2QmpGI=;
- b=HbGpi632kGqsagzOd2y7YmLUXYXlYAGUoO5rA4u5MuTB5y35ZeAAJ6rKLoicBpVCPA
- 3a9M3kIfFwvxeDNp7hcwppvPI9k5IxcPrLMvMCsKGAFtd2cWckHI4UQUwqPMPC3+85kA
- qEXPgFPbBKVgNFePavmwyjqzCANPs8Rk/kN88qwFLNUPn3FNnBiORvfEkmOZDQJdsW2S
- mN01qH4BT0IXbaze5BzDycwOGFgkoaykltvkXilnvo3/uA3Z8xWN7emx1oE8FlIWvvlg
- ZnoWluvxk44QKD9FZJc87BUR4lFLbK/HpGBS2nEurjb48tE2OcvTbAc+KOzbXAM+IXG8
- KOiQ==
-X-Gm-Message-State: ACrzQf1vmA7Wni4i66r1BLAt7r6w9x7nJLhj3ELMPrvBv6Ez0meMYO25
- dPmDNlmx0Y3US62BLQOZ/4uenw==
-X-Google-Smtp-Source: AMsMyM4D1Jv633qid/qdDA0/NFOpUIZu5su8J7V3yKX7Hpw7JyYXbUM/zLt6G5YhEaQq5OGttRHVFw==
-X-Received: by 2002:a65:6e82:0:b0:41a:9b73:f0e6 with SMTP id
- bm2-20020a656e82000000b0041a9b73f0e6mr5595859pgb.371.1665768978935; 
- Fri, 14 Oct 2022 10:36:18 -0700 (PDT)
+ bh=jEk7FxdszojxPPvnT3ShmomJx+A87ZwEhsEjJZPdWVk=;
+ b=1SWoKYh3c6sRfqxkdC8GBQ7tqmq7sN3PRa+sQPnj2EtQ7IWBWDR1uItv4/IoJ+8p1v
+ xFeLxalzUBs/LWLn6CGOAlhSjzTs5+fXyRXzDDjVqBH2XRPfrD3TYY1dv1wzuR8ewOX2
+ DhzlKD7jbvpx7pDM3jMOCD4Lwqgy3+OK+afnnDBx+66KjFC93t44dzxhxUSQi0QXlE8V
+ iK7vZxbBzVsKSiJqczlG0tkgfm+ZGtBjE3j39io6jPo0njifnmnZDF0ZKngjSFBNiGJJ
+ BtV5uj9wAPdQW1y8n294pHPllOK3vOJiie4W94U73zBNQ1f3s395ULbScpb+/jh3VDYN
+ HKVQ==
+X-Gm-Message-State: ACrzQf1v8ZfHZsf/tKoOoaG//G+g2titWdKRU6nD7KiOo27MUJGD4MrY
+ FiCrv22I5VRyVyoI2+2eJqrOgg==
+X-Google-Smtp-Source: AMsMyM6KEpNUE58pijgTdFryrKQaPToug06GEyd2wHU+n388csWWNkUVPq/HKZ4fvOz0/aprHh4Nyg==
+X-Received: by 2002:a17:903:2cb:b0:171:4f0d:beb6 with SMTP id
+ s11-20020a17090302cb00b001714f0dbeb6mr6056362plk.53.1665768992996; 
+ Fri, 14 Oct 2022 10:36:32 -0700 (PDT)
 Received: from anisinha-lenovo.ba.nuagenetworks.net ([203.163.243.197])
  by smtp.googlemail.com with ESMTPSA id
- t13-20020a1709027fcd00b0016d8d277c02sm2030042plb.25.2022.10.14.10.36.14
+ t13-20020a1709027fcd00b0016d8d277c02sm2030042plb.25.2022.10.14.10.36.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Oct 2022 10:36:18 -0700 (PDT)
+ Fri, 14 Oct 2022 10:36:32 -0700 (PDT)
 From: Ani Sinha <ani@anisinha.ca>
 To: Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
@@ -67,18 +68,18 @@ Cc: Ani Sinha <ani@anisinha.ca>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Igor Mammedov <imammedo@redhat.com>, Michael Tsirkin <mst@redhat.com>,
  qemu-devel@nongnu.org
-Subject: [PATCH v4 05/10] acpi/tests/avocado/bits: add SPDX license
- identifiers for bios bits smilatency tests
-Date: Fri, 14 Oct 2022 23:05:03 +0530
-Message-Id: <20221014173508.222823-6-ani@anisinha.ca>
+Subject: [PATCH v4 06/10] acpi/tests/avocado/bits: disable smilatency test
+ since it does not pass everytime
+Date: Fri, 14 Oct 2022 23:05:04 +0530
+Message-Id: <20221014173508.222823-7-ani@anisinha.ca>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221014173508.222823-1-ani@anisinha.ca>
 References: <20221014173508.222823-1-ani@anisinha.ca>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::534;
- envelope-from=ani@anisinha.ca; helo=mail-pg1-x534.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -100,10 +101,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added the SPDX license identifier for smilatency tests.
-Also added a comment indicating that smilatency test is run from within the
-biosbits environment/VM and hence is not subjected to QEMU build/test
-environment dependency fulfilments or QEMU maintanance activities.
+smilatency test is latency sensitive and does not pass deterministically when
+run in QEMU environment under biosbits. Disable the test suite for now.
+
+Example failure:
+
+==== SMI latency test ====
+Warning: touching the keyboard can affect the results of this test.
+Starting test. Wait here, I will be back in 15 seconds.
+[assert] SMI latency < 150us to minimize risk of OS timeouts FAIL
+  1us   < t <=  10us; average = 1372ns; count = 10912449
+   Times between first few observations:  176us 1646ns 1441ns 1450ns 1462ns
+  10us  < t <= 100us; average = 16us; count = 1187
+   Times between first few observations:   15ms 3148us 5856us   49ms   33ms
+  100us < t <=   1ms; average = 259us; count = 8
+   Times between first few observations:  111ms 2227ms 1779ms  999ms  219ms
+  0 SMI detected using MSR_SMI_COUNT (MSR 0x34)
+  Summary of impact: observed maximum latency = 298us
+Summary: 0 passed, 1 failed
 
 Cc: Daniel P. Berrangé <berrange@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
@@ -115,31 +130,25 @@ Cc: Igor Mammedov <imammedo@redhat.com>
 Cc: Michael Tsirkin <mst@redhat.com>
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
 ---
- tests/avocado/acpi-bits/bits-tests/smilatency.py2 | 4 ++++
- 1 file changed, 4 insertions(+)
+ tests/avocado/acpi-bits/bits-tests/smilatency.py2 | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/tests/avocado/acpi-bits/bits-tests/smilatency.py2 b/tests/avocado/acpi-bits/bits-tests/smilatency.py2
-index fb1b7228e3..d616970b31 100644
+index d616970b31..e907c55cc2 100644
 --- a/tests/avocado/acpi-bits/bits-tests/smilatency.py2
 +++ b/tests/avocado/acpi-bits/bits-tests/smilatency.py2
-@@ -1,6 +1,8 @@
- # Copyright (c) 2015, Intel Corporation
- # All rights reserved.
- #
-+# SPDX-License-Identifier: BSD-3-Clause
-+#
- # Redistribution and use in source and binary forms, with or without
- # modification, are permitted provided that the following conditions are met:
- #
-@@ -24,6 +26,8 @@
- # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+@@ -37,8 +37,9 @@ import time
+ import usb
  
-+# This script runs only from the biosbits VM.
-+
- """SMI latency test."""
+ def register_tests():
+-    testsuite.add_test("SMI latency test", smi_latency);
+-    testsuite.add_test("SMI latency test with USB disabled via BIOS handoff", test_with_usb_disabled, runall=False);
++    pass
++    # testsuite.add_test("SMI latency test", smi_latency);
++    # testsuite.add_test("SMI latency test with USB disabled via BIOS handoff", test_with_usb_disabled, runall=False);
  
- import bits
+ def smi_latency():
+     MSR_SMI_COUNT = 0x34
 -- 
 2.34.1
 
