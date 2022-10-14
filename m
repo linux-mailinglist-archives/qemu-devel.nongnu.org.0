@@ -2,101 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D2815FF3EB
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 21:03:02 +0200 (CEST)
-Received: from localhost ([::1]:33726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B02315FF3EE
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 21:06:38 +0200 (CEST)
+Received: from localhost ([::1]:45328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojPxU-0004EY-Ju
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 15:03:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33246)
+	id 1ojQ0w-0006Tu-Jf
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 15:06:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1ojPs9-00073S-Cw
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 14:57:29 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:36366)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ojPwc-0003Sg-Vk
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 15:02:07 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:54912)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1ojPs7-0002kG-DE
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 14:57:28 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id s196so3786893pgs.3
- for <qemu-devel@nongnu.org>; Fri, 14 Oct 2022 11:57:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Hp3yAxY8quCRjHZnHuBPErW5fHEohLMFvOXbDGO/GC8=;
- b=smV3l+b0gPfxsb+cqdrtrWHgL08g1JwC/C9k3qD53pTkH5zIwd+CIdIyQkxG2V3LLQ
- vr0fhAZDODX1iShv+uzVVoKO2yI7QS7Dpy4QRu2J0zo+aNXAVzvGg9sHUoPxlMruufUT
- Kd/EU2UsY1bQRGYb9CuGI8JhB7KR+4XGd9bVk3KgrDAwpXMdf9mvoLDt+7277BOEjAQV
- 15NUZRhkPpmEySXzwlsNUL2z1AS+68J/MFJRdyKFhuc1w6rWzoLKg91755NPIspVj/io
- XF7nOZ5WJqalD97V+ZX9AqmTvPbtx0IjpzWhO5nEiArwNwQFjprucchbkW3wnXB21FW0
- xdnA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ojPwY-0003YN-6d
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 15:02:06 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id 70so5744415pjo.4
+ for <qemu-devel@nongnu.org>; Fri, 14 Oct 2022 12:02:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=USTjX+345GOPcFwQIAcmCwN5ykLgbkQvDhEP3lZpXOw=;
+ b=fCg547TGA1CRC/SyeWWjTYPhsdPyRy9BAkRzbCDfpKwQVvc696Q4pbY24vxowhYgs+
+ eWvYv1tPNPBscDbRvtZsjTm2PAHXu+M4Okl5WHqNSVZVewN2hTPWaU/7GbzfyOGzTaND
+ GrzmoL2WOiYwNLc1zonY+s7rh1C4Syd0atZH+ZrqLiyyJu9sKOxTBkxCh71+J5e+CM0W
+ MFeWrXLLD3mlH/19djWzO1pkVy8PUcNXTcczvzDePPshoTFvSH726HrqO70OibkTDjhj
+ O2sBXEy/ig+xpC17TM0CsI+bp0AvWxU9IYSwPm0sjOYK2xfmxEvXIgkxYPOxBmxQG6wS
+ a2pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Hp3yAxY8quCRjHZnHuBPErW5fHEohLMFvOXbDGO/GC8=;
- b=prCd7EqQzRjdffWo8DZEGWmjZ1TNJ4pYw+K08SUYrw+wdguZxmYkdwNhR8AunKkCqI
- 3cpNJF4uF31nAkHKwE+wytyxi+1DOETWDJzts3/nlxBp7ZfYNUlkR3rM+GALC9qJsmAE
- okKiR9sCIJCiwoOGW87R6h8OMxg8Wvx8B72baT5XDWchjfKuZ9iYZoogQGthz+EElPKU
- GWMAeSUA6nAcdlGjQttAe5Xp5KqR6+u63/eLhh6ea2IlhG9xoDZOsA0qMU15malJ6xer
- fGQbl9MfKvUsg7kNMCfJbh8rmbwQ4suKxcEh29Gge34I0g1NMlU4M0YXu2F7kCBsbyAA
- 5gkw==
-X-Gm-Message-State: ACrzQf3Shji7EOnti+Kjn1XL3lbIEI2D7n6Kb8e91QZueUed2pox4ZnS
- HHVoeAivbLaxuhUGH09jTNxJwF0Yfk9j8w==
-X-Google-Smtp-Source: AMsMyM4sMMNxa+29AKQJlblJPyT5lnKnzMKJX7jVmbsXLFeWuFqUiTCO3icedQ7T+zlfYZ0ltLMusQ==
-X-Received: by 2002:a63:2483:0:b0:461:ab67:ccfb with SMTP id
- k125-20020a632483000000b00461ab67ccfbmr5521853pgk.341.1665773844428; 
- Fri, 14 Oct 2022 11:57:24 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com.
- [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
- j5-20020a625505000000b00562019b961asm2064125pfb.188.2022.10.14.11.57.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Oct 2022 11:57:23 -0700 (PDT)
-Date: Fri, 14 Oct 2022 18:57:20 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v8 7/8] KVM: Handle page fault for private memory
-Message-ID: <Y0mxEFpvS7O96CCD@google.com>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-8-chao.p.peng@linux.intel.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=USTjX+345GOPcFwQIAcmCwN5ykLgbkQvDhEP3lZpXOw=;
+ b=n9k2vZ1snpqH/RwisdjiB3y8jodgveAOd2bEWGq1jPgfkDQ/98m8MgXse2m+XqY/Bp
+ rOtIM7kcRZEjiQdl5EBb4B3rFTPaMykiWV0VxpSo+j55IkLgl0WZSdXVSaND1yCQYavr
+ mrWLOsNaFK3ZdRZrOJx8YUceJZW6qtKX1tmsIGxdZg+sFhvshrMQxIvAylHpY/ZZi0P6
+ Wd3jDlGhz8GNSfu/W0Z0Wr52AiUHa5uCm4uQAueD5QgDbhbd8YCClGAAhqdYjH456QhP
+ hAqu7iVdEAp01MR5p+sgNq9cec3Z5O7HziATn1BmjLIL97smd7XeWzcUljTArGlKrirw
+ a1ew==
+X-Gm-Message-State: ACrzQf1C59dnaR7whNttIWS3yWymfzyGbgqjoERbJ4MG4Xn11w+OWjUo
+ z24VaAUXeT3GeDEsCg3cPamijQ==
+X-Google-Smtp-Source: AMsMyM48O8qWxWAf9vnKN2ABd7+afZcxlKrNXmG4zoWw+HhZEA32JZcvF3nQpzmF/nDPviknFmzwMA==
+X-Received: by 2002:a17:902:6b04:b0:181:5dc6:5348 with SMTP id
+ o4-20020a1709026b0400b001815dc65348mr6836525plk.69.1665774120127; 
+ Fri, 14 Oct 2022 12:02:00 -0700 (PDT)
+Received: from [10.1.28.222] (110-175-13-142.static.tpgi.com.au.
+ [110.175.13.142]) by smtp.gmail.com with ESMTPSA id
+ u21-20020a62d455000000b0053b2681b0e0sm2081231pfl.39.2022.10.14.12.01.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Oct 2022 12:01:59 -0700 (PDT)
+Message-ID: <420efade-350d-5566-6522-941c9a16aae2@linaro.org>
+Date: Sat, 15 Oct 2022 06:01:54 +1100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220915142913.2213336-8-chao.p.peng@linux.intel.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=seanjc@google.com; helo=mail-pg1-x52d.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v5 9/9] target/arm: Enable TARGET_TB_PCREL
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20220930220312.135327-1-richard.henderson@linaro.org>
+ <20220930220312.135327-10-richard.henderson@linaro.org>
+ <CAFEAcA_x9zJQy1_9_ySO+TNnnXnYPC3Uq37AN1jP65SuEMvJZw@mail.gmail.com>
+ <d1196e9c-c983-0b74-9141-ac10154429cd@linaro.org>
+ <CAFEAcA8i1sFTA74Oudj3Z7CYYY3P2g0+BeaSy1E_R3HBkTv6dg@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA8i1sFTA74Oudj3Z7CYYY3P2g0+BeaSy1E_R3HBkTv6dg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.856,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,79 +97,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 15, 2022, Chao Peng wrote:
-> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-> index a0f198cede3d..81ab20003824 100644
-> --- a/arch/x86/kvm/mmu/mmu.c
-> +++ b/arch/x86/kvm/mmu/mmu.c
-> @@ -3028,6 +3028,9 @@ int kvm_mmu_max_mapping_level(struct kvm *kvm,
->  			break;
->  	}
->  
-> +	if (kvm_mem_is_private(kvm, gfn))
+On 10/15/22 04:49, Peter Maydell wrote:
+> On Tue, 4 Oct 2022 at 20:27, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> On 10/4/22 09:23, Peter Maydell wrote:
+>>>> @@ -347,16 +354,22 @@ static void gen_exception_internal(int excp)
+>>>>
+>>>>    static void gen_exception_internal_insn(DisasContext *s, int excp)
+>>>>    {
+>>>> +    target_ulong pc_save = s->pc_save;
+>>>> +
+>>>>        gen_a64_update_pc(s, 0);
+>>>>        gen_exception_internal(excp);
+>>>>        s->base.is_jmp = DISAS_NORETURN;
+>>>> +    s->pc_save = pc_save;
+>>>
+>>> What is trashing s->pc_save that we have to work around like this,
+>>> here and in the other similar changes ?
+>>
+>> gen_a64_update_pc trashes pc_save.
+>>
+>> Off of the top of my head, I can't remember what conditionally uses exceptions (single
+>> step?).  But the usage pattern that is interesting is
+>>
+>>       brcond(x, y, L1)
+>>       update_pc(disp1);
+>>       exit-or-exception.
+>> L1:
+>>       update_pc(disp2);
+>>       exit-or-exception.
+>>
+>> where at L1 we should have the same pc_save value as we did at the brcond.  Saving and
+>> restoring around (at least some of) the DISAS_NORETURN points achieves that.
+> 
+> (I figured it would be easiest to continue this conversation
+> in this thread rather than breaking it up to reply to the v6
+> equivalent patch.)
+> 
+> I guess it does, but it feels like a weird place to be doing that.
+> If what we want is "at the label L1 we know the pc_save value
+> needs to be some specific thing", then shouldn't we
+> achieve that by setting pc_save to a specific value at that
+> point? e.g. wrapping gen_set_label() with a function that
+> does "set the label here, guest PC value is going to be this".
+> Which should generally be the save_pc value at the point
+> where you emit the brcond() to this label, right? Maybe you
+> could even have a little struct that wraps up "TCGLabel*
+> and the pc_save value associated with a branch to it".
+> But anyway, I think the less confusing way to handle this is
+> that the changes to pc_save happen at the label, because that's
+> where the runtime flow-of-control is already being dealt with.
 
-Rather than reload the Xarray info, which is unnecessary overhead, pass in
-@is_private.  The caller must hold mmu_lock, i.e. invalidations from
-private<->shared conversions will be stalled and will zap the new SPTE if the
-state is changed.
+Ok, I'll re-work this.
 
-E.g.
+> Also, I think that you need to do something for the case
+> in translate.c where we call tcg_remove_ops_after() --
+> that now needs to fix pc_save back up to the value it had
+> when we called tcg_last_op().
 
-diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-index d68944f07b4b..44eea47697d8 100644
---- a/arch/x86/kvm/mmu/mmu.c
-+++ b/arch/x86/kvm/mmu/mmu.c
-@@ -3072,8 +3072,8 @@ void kvm_mmu_hugepage_adjust(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
-         * Enforce the iTLB multihit workaround after capturing the requested
-         * level, which will be used to do precise, accurate accounting.
-         */
--       fault->req_level = kvm_mmu_max_mapping_level(vcpu->kvm, slot,
--                                                    fault->gfn, fault->max_level);
-+       fault->req_level = kvm_mmu_max_mapping_level(vcpu->kvm, slot, fault->gfn,
-+                                                    fault->max_level, fault->is_private);
-        if (fault->req_level == PG_LEVEL_4K || fault->huge_page_disallowed)
-                return;
- 
-@@ -6460,7 +6460,7 @@ static bool kvm_mmu_zap_collapsible_spte(struct kvm *kvm,
-                 */
-                if (sp->role.direct &&
-                    sp->role.level < kvm_mmu_max_mapping_level(kvm, slot, sp->gfn,
--                                                              PG_LEVEL_NUM)) {
-+                                                              PG_LEVEL_NUM, false)) {
-                        kvm_zap_one_rmap_spte(kvm, rmap_head, sptep);
- 
-                        if (kvm_available_flush_tlb_with_range())
-diff --git a/arch/x86/kvm/mmu/spte.h b/arch/x86/kvm/mmu/spte.h
-index 7670c13ce251..9acdf72537ce 100644
---- a/arch/x86/kvm/mmu/spte.h
-+++ b/arch/x86/kvm/mmu/spte.h
-@@ -315,6 +315,12 @@ static inline bool is_dirty_spte(u64 spte)
-        return dirty_mask ? spte & dirty_mask : spte & PT_WRITABLE_MASK;
- }
- 
-+static inline bool is_private_spte(u64 spte)
-+{
-+       /* FIXME: Query C-bit/S-bit for SEV/TDX. */
-+       return false;
-+}
-+
- static inline u64 get_rsvd_bits(struct rsvd_bits_validate *rsvd_check, u64 pte,
-                                int level)
- {
-diff --git a/arch/x86/kvm/mmu/tdp_mmu.c b/arch/x86/kvm/mmu/tdp_mmu.c
-index 672f0432d777..69ba00157e90 100644
---- a/arch/x86/kvm/mmu/tdp_mmu.c
-+++ b/arch/x86/kvm/mmu/tdp_mmu.c
-@@ -1767,8 +1767,9 @@ static void zap_collapsible_spte_range(struct kvm *kvm,
-                if (iter.gfn < start || iter.gfn >= end)
-                        continue;
- 
--               max_mapping_level = kvm_mmu_max_mapping_level(kvm, slot,
--                                                             iter.gfn, PG_LEVEL_NUM);
-+               max_mapping_level = kvm_mmu_max_mapping_level(kvm, slot, iter.gfn,
-+                                                             PG_LEVEL_NUM,
-+                                                             is_private_spte(iter.old_spte));
-                if (max_mapping_level < iter.level)
-                        continue;
- 
+Yes.
+
+
+> (There is also one of those
+> in target/i386, I haven't checked whether the i386 pcrel
+> handling series took care of that.)
+
+I'll double-check that case too, thanks.
+
+
+r~
 
