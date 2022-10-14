@@ -2,59 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2F1D5FE7A7
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 05:42:18 +0200 (CEST)
-Received: from localhost ([::1]:40722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 525FB5FE806
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 06:39:07 +0200 (CEST)
+Received: from localhost ([::1]:59864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojBaS-0001dz-Tk
-	for lists+qemu-devel@lfdr.de; Thu, 13 Oct 2022 23:42:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37760)
+	id 1ojCTS-0002Hy-16
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 00:39:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huqi@loongson.cn>) id 1ojBYj-0000AN-AY
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 23:40:29 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:39018 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huqi@loongson.cn>) id 1ojBYg-00050b-Ir
- for qemu-devel@nongnu.org; Thu, 13 Oct 2022 23:40:29 -0400
-Received: from lingfengzhe-ms7c94.loongson.cn (unknown [10.90.50.23])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxReIk2khjntotAA--.33108S2; 
- Fri, 14 Oct 2022 11:40:20 +0800 (CST)
-From: Qi Hu <huqi@loongson.cn>
-To: WANG Xuerui <git@xen0n.name>,
- Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: [PATCH v3] tcg/loongarch64: Add direct jump support
-Date: Fri, 14 Oct 2022 11:40:20 +0800
-Message-Id: <20221014034020.1167864-1-huqi@loongson.cn>
-X-Mailer: git-send-email 2.37.3
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ojCRZ-0000da-WB; Fri, 14 Oct 2022 00:37:10 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:53985)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ojCRY-0005Js-07; Fri, 14 Oct 2022 00:37:09 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id fw14so3857188pjb.3;
+ Thu, 13 Oct 2022 21:37:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=86VuWO0I+xzUWhCqgIDPGQqTA52GuvpKE6PtyvtoOEc=;
+ b=b8tRnk+MXVctTqeP3bIqdunxAACTN/okwqSLLrd5UmIwLxdBRjSPltabkmedmrl+aD
+ H6t+EKq16zgNJJx4yDZI5BMZLw3myuIFtvgBp3k/kuxCRGNonjAFlBQmwmDubHJGQb24
+ XLslN038opXAlz6/oE9i2Hi70WNVnJgjD3Jd2dSIcJgokpmfL5yKBG//lmaWMci5ALAg
+ aXC+6GWntTS0JOXiZFMxNU+6hdKBKa2JRrxZPr5fuVQ7nOeV77oQHqR7JzTBleFUF/VB
+ XxH5B7hv1ijyScm6pZNR59lPjAHzWPeF66fQ35YnvM0/f41ja07A5GnOm0Si/+s/EfaX
+ yjcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=86VuWO0I+xzUWhCqgIDPGQqTA52GuvpKE6PtyvtoOEc=;
+ b=ehJpc/jhOqwo+kSSP3pSkBX8DuX+9U/HHtHzIXYzgouW3FISjmfQCL3i7q58Jc7lnh
+ NbUEigCEgJ64S9/vMhPYYb0eozgK80hlpyKQU15d8Y0wSQPQW1FmECss/2SuylJiEEl8
+ esNxtYYvTmBym3idR9uOucaqwznUPcXHN1NIWy0vkHVA7C1tILHd3qbmxvXAah/jelr2
+ cB3qK4cu6kLnEMF7tOcgK6dzOnYEBAJ0Vp4hVJfUL7uiA20txfKF6ywMxPBaJiQvH54G
+ xn2IzYvDW9rNG+KCAIZL2WdXqQ6aLG7fyMRl80Wy/Ajl9YU+FuapoiTWsgVsNOz4c92C
+ cfWw==
+X-Gm-Message-State: ACrzQf0jEKAYMS9KRk7E9ugn3KQ8H79hQ5mVVnwQS9NOqWh+mQZ9nlfl
+ m2/RK3bSPkhA9VnC03VDJUTGMoq/VtJBqNkMVNY=
+X-Google-Smtp-Source: AMsMyM6+47u3hM4AleGnZzJ7uTYG1e5saSTVMMEvFA3FhAOlcc7dVdkW9/YFn4P2NdZQB7DSDaTwI7kqgQl5GlWHfSM=
+X-Received: by 2002:a17:902:b092:b0:17b:833e:74f7 with SMTP id
+ p18-20020a170902b09200b0017b833e74f7mr3124318plr.149.1665722224700; Thu, 13
+ Oct 2022 21:37:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxReIk2khjntotAA--.33108S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxAFy3XFWfWFy7JrW7JFyxKrg_yoWrXrWUpr
- 93CFn8tF45JFZIy3yakFn8Jry7Jas5uryUXF4xKr48Zan8t348ZFZ5KrW3tFWjgFyFvrWx
- ZFs0y343Wa1DAaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkjb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
- 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
- A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xII
- jxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4
- vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
- F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
- 4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY02Avz4vE-syl42xK82IY
- c2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s
- 026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF
- 0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0x
- vE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv
- 6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07bOoGdUUUUU=
-X-CM-SenderInfo: pkxtxqxorr0wxvrqhubq/1tbiAQATCWNH-+ATFgACsn
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=huqi@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <20221012011449.506928-1-alistair.francis@opensource.wdc.com>
+In-Reply-To: <20221012011449.506928-1-alistair.francis@opensource.wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 14 Oct 2022 14:36:37 +1000
+Message-ID: <CAKmqyKOXy9XPEVs3HEtrhN6g5k7SJtcEvVuowU74QHi9v3bwng@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: pmp: Fixup TLB size calculation
+To: Alistair Francis <alistair.francis@opensource.wdc.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, bmeng.cn@gmail.com, 
+ palmer@dabbelt.com, alistair.francis@wdc.com, richard.henderson@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=alistair23@gmail.com; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,123 +83,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similar to the ARM64, LoongArch has PC-relative instructions such as
-PCADDU18I. These instructions can be used to support direct jump for
-LoongArch. Additionally, if instruction "B offset" can cover the target
-address(target is within ±128MB range), a single "B offset" plus a nop
-will be used by "tb_target_set_jump_target".
+On Wed, Oct 12, 2022 at 11:15 AM Alistair Francis
+<alistair.francis@opensource.wdc.com> wrote:
+>
+> From: Alistair Francis <alistair.francis@wdc.com>
+>
+> Since commit 4047368938f6 "accel/tcg: Introduce tlb_set_page_full" we
+> have been seeing this assert
+>
+>     ../accel/tcg/cputlb.c:1294: tlb_set_page_with_attrs: Assertion `is_power_of_2(size)' failed.
+>
+> When running Tock on the OpenTitan machine.
+>
+> The issue is that pmp_get_tlb_size() would return a TLB size that wasn't
+> a power of 2. The size was also smaller then TARGET_PAGE_SIZE.
+>
+> This patch ensures that any TLB size less then TARGET_PAGE_SIZE is
+> rounded down to 1 to ensure it's a valid size.
+>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 
-Signed-off-by: Qi Hu <huqi@loongson.cn>
----
- tcg/loongarch64/tcg-target.c.inc | 56 +++++++++++++++++++++++++++++---
- tcg/loongarch64/tcg-target.h     |  5 ++-
- 2 files changed, 53 insertions(+), 8 deletions(-)
+Thanks!
 
-diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index f5a214a17f..2a068a52cc 100644
---- a/tcg/loongarch64/tcg-target.c.inc
-+++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -1031,6 +1031,35 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args)
- #endif
- }
- 
-+/* LoongArch use `andi zero, zero, 0` as NOP.  */
-+#define NOP OPC_ANDI
-+static void tcg_out_nop(TCGContext *s)
-+{
-+    tcg_out32(s, NOP);
-+}
-+
-+void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
-+                              uintptr_t jmp_rw, uintptr_t addr)
-+{
-+    tcg_insn_unit i1, i2;
-+    ptrdiff_t upper, lower;
-+    ptrdiff_t offset = (addr - jmp_rx) >> 2;
-+
-+    if (offset == sextreg(offset, 0, 28)) {
-+        i1 = encode_sd10k16_insn(OPC_B, offset);
-+        i2 = NOP;
-+    } else {
-+        lower = (int16_t)offset;
-+        upper = (offset - lower) >> 16;
-+
-+        i1 = encode_dsj20_insn(OPC_PCADDU18I, TCG_REG_T0, upper);
-+        i2 = encode_djsk16_insn(OPC_JIRL, TCG_REG_ZERO, TCG_REG_T0, lower);
-+    }
-+    uint64_t pair = ((uint64_t)i2 << 32) | i1;
-+    qatomic_set((uint64_t *)jmp_rw, pair);
-+    flush_idcache_range(jmp_rx, jmp_rw, 8);
-+}
-+
- /*
-  * Entry-points
-  */
-@@ -1058,11 +1087,28 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         break;
- 
-     case INDEX_op_goto_tb:
--        assert(s->tb_jmp_insn_offset == 0);
--        /* indirect jump method */
--        tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP0, TCG_REG_ZERO,
--                   (uintptr_t)(s->tb_jmp_target_addr + a0));
--        tcg_out_opc_jirl(s, TCG_REG_ZERO, TCG_REG_TMP0, 0);
-+        if (s->tb_jmp_insn_offset != NULL) {
-+            /* TCG_TARGET_HAS_direct_jump */
-+            /*
-+             * Ensure that "patch area" are 8-byte aligned so that an
-+             * atomic write can be used to patch the target address.
-+             */
-+            if ((uintptr_t)s->code_ptr & 7) {
-+                tcg_out_nop(s);
-+            }
-+            s->tb_jmp_insn_offset[a0] = tcg_current_code_size(s);
-+            /*
-+             * actual branch destination will be patched by
-+             * tb_target_set_jmp_target later
-+             */
-+            tcg_out_opc_pcaddu18i(s, TCG_REG_TMP0, 0);
-+            tcg_out_opc_jirl(s, TCG_REG_ZERO, TCG_REG_TMP0, 0);
-+        } else {
-+            /* !TCG_TARGET_HAS_direct_jump */
-+            tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP0, TCG_REG_ZERO,
-+                    (uintptr_t)(s->tb_jmp_target_addr + a0));
-+            tcg_out_opc_jirl(s, TCG_REG_ZERO, TCG_REG_TMP0, 0);
-+        }
-         set_jmp_reset_offset(s, a0);
-         break;
- 
-diff --git a/tcg/loongarch64/tcg-target.h b/tcg/loongarch64/tcg-target.h
-index 67380b2432..ee207ec32c 100644
---- a/tcg/loongarch64/tcg-target.h
-+++ b/tcg/loongarch64/tcg-target.h
-@@ -42,7 +42,7 @@
- 
- #define TCG_TARGET_INSN_UNIT_SIZE 4
- #define TCG_TARGET_NB_REGS 32
--#define MAX_CODE_GEN_BUFFER_SIZE  SIZE_MAX
-+#define MAX_CODE_GEN_BUFFER_SIZE  (128 * GiB)
- 
- typedef enum {
-     TCG_REG_ZERO,
-@@ -123,7 +123,7 @@ typedef enum {
- #define TCG_TARGET_HAS_clz_i32          1
- #define TCG_TARGET_HAS_ctz_i32          1
- #define TCG_TARGET_HAS_ctpop_i32        0
--#define TCG_TARGET_HAS_direct_jump      0
-+#define TCG_TARGET_HAS_direct_jump      1
- #define TCG_TARGET_HAS_brcond2          0
- #define TCG_TARGET_HAS_setcond2         0
- #define TCG_TARGET_HAS_qemu_st8_i32     0
-@@ -166,7 +166,6 @@ typedef enum {
- #define TCG_TARGET_HAS_muluh_i64        1
- #define TCG_TARGET_HAS_mulsh_i64        1
- 
--/* not defined -- call should be eliminated at compile time */
- void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
- 
- #define TCG_TARGET_DEFAULT_MO (0)
--- 
-2.37.3
+Applied to riscv-to-apply.next
 
+Alistair
+
+> ---
+> This is based on advice from Richard:
+> https://patchwork.kernel.org/project/qemu-devel/patch/20221004141051.110653-9-richard.henderson@linaro.org/#25043166
+>
+>  target/riscv/pmp.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>
+> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+> index ea2b67d947..2b43e399b8 100644
+> --- a/target/riscv/pmp.c
+> +++ b/target/riscv/pmp.c
+> @@ -628,6 +628,18 @@ bool pmp_is_range_in_tlb(CPURISCVState *env, hwaddr tlb_sa,
+>      }
+>
+>      if (*tlb_size != 0) {
+> +        /*
+> +         * At this point we have a tlb_size that is the smallest possible size
+> +         * That fits within a TARGET_PAGE_SIZE and the PMP region.
+> +         *
+> +         * If the size is less then TARGET_PAGE_SIZE we drop the size to 1.
+> +         * This means the result isn't cached in the TLB and is only used for
+> +         * a single translation.
+> +         */
+> +        if (*tlb_size < TARGET_PAGE_SIZE) {
+> +            *tlb_size = 1;
+> +        }
+> +
+>          return true;
+>      }
+>
+> --
+> 2.37.3
+>
 
