@@ -2,80 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A645FF06F
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 16:37:06 +0200 (CEST)
-Received: from localhost ([::1]:50306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1227E5FF076
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 16:40:11 +0200 (CEST)
+Received: from localhost ([::1]:44846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojLo9-0007k6-SL
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 10:37:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43050)
+	id 1ojLr7-0000c4-Ol
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 10:40:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ojLg8-0000jT-Bh
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 10:28:48 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:38433)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ojLg5-0000EE-Ak
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 10:28:48 -0400
-Received: by mail-wr1-x430.google.com with SMTP id j16so7840390wrh.5
- for <qemu-devel@nongnu.org>; Fri, 14 Oct 2022 07:28:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=9BVL8lIrmB6e94ewrgZ2edOtQrRa/f+DyHdENfUpMUM=;
- b=tkMjuCuoj/MdJ5jzxnzQpsrCAFaxnn1WrGSZGE6vL/d8qwmdXABd9MrmhyLBnFpBSp
- Uc0XMSpVBAYCSskjtCtWp1TAxPLEpO/3M+u5KunFz1S6+YxMV6Q41Q3rp+g0HRkKFVq5
- +tHm/veQKUQRYhF4tQa5zGGr1DrKOUnCNhzfKsVwyXBHxT5C0fum+g5WvJkFGUUuMVZT
- k9YZqEc9nGLAh2w4G9cK2NdfkL8E03KmxxmzJ7oIt7D46a/+HdtZYuzkPx41cNe0BP7T
- oNy9zSK+RVpQ19HKbdFprZFMlPyN/96a5ii+DB4hWFew5eFyTq0wWDLWEaVTlmwir+2V
- ktgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=9BVL8lIrmB6e94ewrgZ2edOtQrRa/f+DyHdENfUpMUM=;
- b=aacyYR+FPCI0EFGa55nu2j7+xUZ7Htf/thjgLO8xsccSEacowDnQDvfEK5Ndtuvzf8
- I4R0vEEvyqqAzxPOYtDFA4r3997Uq+YYv8KUH8wWrJXt/C4komKyaV9CZ9aubpIyGiC1
- PQmfDxz4/CV+iLSbnGHB3qzN4y6vEjcUSJfv/UcUHk9yFxoaI9JnMXnYdazf1yR0JgTE
- HEKhGkIIqQAcHtLHRltY9JRNZqOxopHmPL4alTHBO+S3fj9odoLS2YmISaiLdv7xugi7
- 572a7jm5dJH6swRvO04pM3tQTro28O0edpQmUSeC2o/Z3IippYLa2kt3ORrCigK4v9u1
- SO4Q==
-X-Gm-Message-State: ACrzQf0Z0rmC+muicrEpZJNVlSFlV9EQgPOn+LzmW5710pSRWKt2IQXD
- tBivszKMDUBRhJv4IY743bx6YnIwR65Geg==
-X-Google-Smtp-Source: AMsMyM6QmkuB1rBHnsihct5Ny7xVDi27FgFaBaS6BkjaybeBomeW+hpLMuHbYu7dkHDNOsCV2CF3mA==
-X-Received: by 2002:a5d:5249:0:b0:230:1ba4:b6cc with SMTP id
- k9-20020a5d5249000000b002301ba4b6ccmr3607923wrc.197.1665757723532; 
- Fri, 14 Oct 2022 07:28:43 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- j28-20020a5d6e5c000000b0022cd27bc8c1sm2566356wrz.9.2022.10.14.07.28.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Oct 2022 07:28:42 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <ncopa@alpinelinux.org>)
+ id 1ojLmQ-0006fS-3A
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 10:35:20 -0400
+Received: from mx1.tetrasec.net ([66.245.177.37]:39668)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ncopa@alpinelinux.org>)
+ id 1ojLmO-0001Q9-8L
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 10:35:17 -0400
+Received: from mx1.tetrasec.net (mail.local [127.0.0.1])
+ by mx1.tetrasec.net (Postfix) with ESMTP id D7B8CDE1AF;
+ Fri, 14 Oct 2022 14:35:11 +0000 (UTC)
+Received: from ncopa-desktop.lan (ti0056a400-4229.bb.online.no
+ [85.167.239.146])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: alpine@tanael.org)
+ by mx1.tetrasec.net (Postfix) with ESMTPSA id 2EA1DDE1AE;
+ Fri, 14 Oct 2022 14:35:10 +0000 (UTC)
+From: Natanael Copa <ncopa@alpinelinux.org>
 To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH] hw/ppc/spapr_pci.c: Use device_cold_reset() rather than
- device_legacy_reset()
-Date: Fri, 14 Oct 2022 15:28:41 +0100
-Message-Id: <20221014142841.2092784-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+	Natanael Copa <ncopa@alpinelinux.org>
+Subject: [PATCH] edk2: fix TPM 2.0 regression
+Date: Fri, 14 Oct 2022 16:35:01 +0200
+Message-Id: <20221014143501.5458-1-ncopa@alpinelinux.org>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: softfail client-ip=66.245.177.37;
+ envelope-from=ncopa@alpinelinux.org; helo=mx1.tetrasec.net
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,36 +62,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In spapr_phb_children_reset() we call device_legacy_reset() to reset any
-QOM children of the SPAPR PCI host bridge device. This will not reset
-any qbus such a child might own. Switch to device_cold_reset(), which will
-reset both the device and its buses. (If the child has no qbuses then
-there will be no change in behaviour.)
+Fix a regression that was introduced with the edk2 202202 upgrade
+(commit e2f3137c7344).
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-I couldn't figure out what exactly the QOM child objects are in this
-case -- the comment in spapr_phb_reset() suggests there's only one and
-it's the IOMMU? My guess is that they don't have any qbuses in any case.
-This patch was tested with 'make check' and 'make check-avocado' only.
----
- hw/ppc/spapr_pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Upstream changed TPM_ENABLE to TPM1_ENABLE and TPM2_ENABLE. This led to
+TPM 2.0 (which is needed for windows 11) silently got disabled.
 
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index 57c8a4f0855..7b7618d5da0 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -2045,7 +2045,7 @@ static int spapr_phb_children_reset(Object *child, void *opaque)
-     DeviceState *dev = (DeviceState *) object_dynamic_cast(child, TYPE_DEVICE);
+Ref: https://github.com/tianocore/edk2/commit/4de8d61bcec02a13ceed84f92b0cf3ea58adf9c5
+Signed-off-by: Natanael Copa <ncopa@alpinelinux.org>
+---
+I have not really been able to test this, due to issues with building
+the OVMF_CODE.fd from the qemu source tree. I do have tested building
+OVMF_CODE.fd for the Alpine Linux package, and adding -D TPM2_ENABLE dis
+solve the issue in windows guests. So I believe it is fine.
+
+I don't think an explicit -D TPM1_ENABLE is needed as I believe it is
+the default.
+https://github.com/tianocore/edk2/blob/8fc06b6e19e3df93cc989b4f85877d8a7783e5bf/OvmfPkg/OvmfTpmDefines.dsc.inc#L8
+
+The -D TPM_CONFIG_ENABLE can probably be removed. It was not found
+anywhere when grepping the sources.
+
+ roms/Makefile.edk2 | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/roms/Makefile.edk2 b/roms/Makefile.edk2
+index 485f2244b1..eb47f008c6 100644
+--- a/roms/Makefile.edk2
++++ b/roms/Makefile.edk2
+@@ -101,7 +101,7 @@ submodules:
+ 		-D NETWORK_IP6_ENABLE \
+ 		-D NETWORK_HTTP_BOOT_ENABLE \
+ 		-D NETWORK_TLS_ENABLE \
+-		-D TPM_ENABLE \
++		-D TPM2_ENABLE \
+ 		-D TPM_CONFIG_ENABLE
+ 	cp edk2/Build/OvmfIa32/$(target)_$(call toolchain,i386)/FV/OVMF_CODE.fd $@
  
-     if (dev) {
--        device_legacy_reset(dev);
-+        device_cold_reset(dev);
-     }
+@@ -113,7 +113,7 @@ submodules:
+ 		-D NETWORK_IP6_ENABLE \
+ 		-D NETWORK_HTTP_BOOT_ENABLE \
+ 		-D NETWORK_TLS_ENABLE \
+-		-D TPM_ENABLE \
++		-D TPM2_ENABLE \
+ 		-D TPM_CONFIG_ENABLE \
+ 		-D SECURE_BOOT_ENABLE \
+ 		-D SMM_REQUIRE
+@@ -127,7 +127,7 @@ submodules:
+ 		-D NETWORK_IP6_ENABLE \
+ 		-D NETWORK_HTTP_BOOT_ENABLE \
+ 		-D NETWORK_TLS_ENABLE \
+-		-D TPM_ENABLE \
++		-D TPM2_ENABLE \
+ 		-D TPM_CONFIG_ENABLE
+ 	cp edk2/Build/OvmfX64/$(target)_$(call toolchain,x86_64)/FV/OVMF_CODE.fd $@
  
-     return 0;
+@@ -140,7 +140,7 @@ submodules:
+ 		-D NETWORK_IP6_ENABLE \
+ 		-D NETWORK_HTTP_BOOT_ENABLE \
+ 		-D NETWORK_TLS_ENABLE \
+-		-D TPM_ENABLE \
++		-D TPM2_ENABLE \
+ 		-D TPM_CONFIG_ENABLE \
+ 		-D SECURE_BOOT_ENABLE \
+ 		-D SMM_REQUIRE
 -- 
-2.25.1
+2.38.0
 
 
