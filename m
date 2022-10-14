@@ -2,100 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E03455FF181
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 17:37:30 +0200 (CEST)
-Received: from localhost ([::1]:56054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30D565FF1AF
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 17:48:26 +0200 (CEST)
+Received: from localhost ([::1]:47744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojMkb-0003EL-LM
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 11:37:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36116)
+	id 1ojMv9-0003kx-Lw
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 11:48:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1ojMTN-0003ZV-2o; Fri, 14 Oct 2022 11:19:41 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56712)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1ojMYh-0007uO-Pz; Fri, 14 Oct 2022 11:25:11 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:11502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1ojMTI-0008RD-Sr; Fri, 14 Oct 2022 11:19:40 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29EF9Rgo031455;
- Fri, 14 Oct 2022 15:19:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=+5BuR9D/k5u1lGVkXOVFQkX379FT/lWDfSH495eZVjY=;
- b=TwTejw4KkJ7DcVbguZfx2q7VTGuKKwoQH+yZdmZNmIPPsAkrJqRmstI72MA5AXw28jKQ
- oIz9lmTwKtm7hiG26vSDSYaO6A1vVxDOqSTIAZ2HNOdTVm3pjOWSSxLyA/dyoqbIMa5s
- KTG2o3+aaEZ58xPy5w/m+5qkNs7LBLpCQxli0E3iceVaxcn+WRjghjsdCX2Ls4tmxCdg
- f1VJ9O+XYK8m/JkWZSNt1z9UAsp8XVfg7BLwlIdKZzUyuD59cA9pGkX0CFI8whsgcU/9
- QUbUv5cNBH504qL+ZGy8VT/SzrRcprMYen+2GYcvOI3ww7eZaWUF5jDXX2prXEmSismr Mg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k78vk3rsj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 14 Oct 2022 15:19:27 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29EDhdO5009379;
- Fri, 14 Oct 2022 15:19:27 GMT
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k78vk3rsb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 14 Oct 2022 15:19:27 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29EF5Bqo029815;
- Fri, 14 Oct 2022 15:19:26 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma04dal.us.ibm.com with ESMTP id 3k30uatcjx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 14 Oct 2022 15:19:26 +0000
-Received: from smtpav05.wdc07v.mail.ibm.com ([9.208.128.117])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 29EFJPCV20841292
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 14 Oct 2022 15:19:25 GMT
-Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CC47458043;
- Fri, 14 Oct 2022 15:19:24 +0000 (GMT)
-Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 10DEC58053;
- Fri, 14 Oct 2022 15:19:24 +0000 (GMT)
-Received: from localhost (unknown [9.77.138.198])
- by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTPS;
- Fri, 14 Oct 2022 15:19:23 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, fbarrat@linux.ibm.com, alex.bennee@linaro.org, Matheus
- Ferst <matheus.ferst@eldorado.org.br>
-Subject: Re: [PATCH v3 27/29] target/ppc: introduce ppc_maybe_interrupt
-In-Reply-To: <20221011204829.1641124-28-matheus.ferst@eldorado.org.br>
-References: <20221011204829.1641124-1-matheus.ferst@eldorado.org.br>
- <20221011204829.1641124-28-matheus.ferst@eldorado.org.br>
-Date: Fri, 14 Oct 2022 12:19:21 -0300
-Message-ID: <87lepi301y.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1ojMYe-0000st-Uz; Fri, 14 Oct 2022 11:25:10 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id D406E75A15C;
+ Fri, 14 Oct 2022 17:25:04 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 603D175A157; Fri, 14 Oct 2022 17:25:04 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 5E64D75A150;
+ Fri, 14 Oct 2022 17:25:04 +0200 (CEST)
+Date: Fri, 14 Oct 2022 17:25:04 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Subject: Re: [PATCH v3 05/13] mac_{old|new}world: Simplify cmdline_base
+ calculation
+In-Reply-To: <2c3014a6-ad5-c595-6222-d82ae42ecf@eik.bme.hu>
+Message-ID: <a5fdd3f0-9f2d-4281-d73e-7cef108962a4@eik.bme.hu>
+References: <cover.1664827008.git.balaton@eik.bme.hu>
+ <2514e45b2ac438e40180cdf51e156a9dcf6a4df4.1664827008.git.balaton@eik.bme.hu>
+ <1a8cace1-1401-1420-d933-0ab7c7d78bfd@ilande.co.uk>
+ <2c3014a6-ad5-c595-6222-d82ae42ecf@eik.bme.hu>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: DKBBDSh7-WJtijOk4WiBF1fA3ik6VGkI
-X-Proofpoint-GUID: Cfus4a7-YEviEqgf9taWuvzYT98Ra0fo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-14_08,2022-10-14_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- lowpriorityscore=0 bulkscore=0 malwarescore=0 suspectscore=0 phishscore=0
- adultscore=0 clxscore=1015 impostorscore=0 mlxscore=0 mlxlogscore=491
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210140083
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,14 +62,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Matheus Ferst <matheus.ferst@eldorado.org.br> writes:
-
-> This new method will check if any pending interrupt was unmasked and
-> then call cpu_interrupt/cpu_reset_interrupt accordingly. Code that
-> raises/lowers or masks/unmasks interrupts should call this method to
-> keep CPU_INTERRUPT_HARD coherent with env->pending_interrupts.
+On Fri, 14 Oct 2022, BALATON Zoltan wrote:
+> On Fri, 14 Oct 2022, Mark Cave-Ayland wrote:
+>> On 03/10/2022 21:13, BALATON Zoltan wrote:
+>> 
+>>> By slight reorganisation we can avoid an else branch and some code
+>>> duplication which makes it easier to follow the code.
+>>> 
+>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>> ---
+>>>   hw/ppc/mac_newworld.c | 6 +++---
+>>>   hw/ppc/mac_oldworld.c | 7 +++----
+>>>   2 files changed, 6 insertions(+), 7 deletions(-)
+>>> 
+>>> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+>>> index 6bc3bd19be..73b01e8c6d 100644
+>>> --- a/hw/ppc/mac_newworld.c
+>>> +++ b/hw/ppc/mac_newworld.c
+>>> @@ -194,9 +194,11 @@ static void ppc_core99_init(MachineState *machine)
+>>>                            machine->kernel_filename);
+>>>               exit(1);
+>>>           }
+>>> +        cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size +
+>>> +                                         KERNEL_GAP);
+>>>           /* load initrd */
+>>>           if (machine->initrd_filename) {
+>>> -            initrd_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size + 
+>>> KERNEL_GAP);
+>>> +            initrd_base = cmdline_base;
+>>>               initrd_size = load_image_targphys(machine->initrd_filename,
+>>>                                                 initrd_base,
+>>>                                                 machine->ram_size - 
+>>> initrd_base);
+>>> @@ -206,8 +208,6 @@ static void ppc_core99_init(MachineState *machine)
+>>>                   exit(1);
+>>>               }
+>>>               cmdline_base = TARGET_PAGE_ALIGN(initrd_base + initrd_size);
+>>> -        } else {
+>>> -            cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size + 
+>>> KERNEL_GAP);
+>>>           }
+>>>           ppc_boot_device = 'm';
+>>>       } else {
+>>> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+>>> index cb67e44081..b424729a39 100644
+>>> --- a/hw/ppc/mac_oldworld.c
+>>> +++ b/hw/ppc/mac_oldworld.c
+>>> @@ -168,10 +168,11 @@ static void ppc_heathrow_init(MachineState *machine)
+>>>                            machine->kernel_filename);
+>>>               exit(1);
+>>>           }
+>>> +        cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size +
+>>> +                                         KERNEL_GAP);
+>>>           /* load initrd */
+>>>           if (machine->initrd_filename) {
+>>> -            initrd_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size +
+>>> -                                            KERNEL_GAP);
+>>> +            initrd_base = cmdline_base;
+>>>               initrd_size = load_image_targphys(machine->initrd_filename,
+>>>                                                 initrd_base,
+>>>                                                 machine->ram_size - 
+>>> initrd_base);
+>>> @@ -181,8 +182,6 @@ static void ppc_heathrow_init(MachineState *machine)
+>>>                   exit(1);
+>>>               }
+>>>               cmdline_base = TARGET_PAGE_ALIGN(initrd_base + initrd_size);
+>>> -        } else {
+>>> -            cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size + 
+>>> KERNEL_GAP);
+>>>           }
+>>>           ppc_boot_device = 'm';
+>>>       } else {
+>> 
+>> Is there any particular reason why you would want to avoid the else branch? 
+>> I
 >
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+> It avoids code duplication and to me it's easier to follow than an else 
+> branch. With this patch cmdline_base calculation is clearly tied to 
+> kernel_base and kernel_size if only kernel is used and initrd_base 
+> initrd_size when initrd is used. With the else branch it's less obvious 
+> because it's set much later in the else branch while initrd_base duplicates 
+> it above. So avoiding this duplication makes the code easier to read and less 
+> prone to errors if the calculation is ever modified.
+>
+>> don't feel this patch is an improvement since by always setting 
+>> cmdline_base to a non-zero value, as a reviewer I then have to check all 
+>> other uses of cmdline_base in the file to ensure that this doesn't cause 
+>> any issues.
+>
+> There aren't that many uses that it's difficult to check and this only need 
+> to be done once.
+>
+>> I much prefer the existing version since setting the values of cmdline_base 
+>> and initrd_base is very clearly scoped within the if statement.
+>
+> What can I say, it's hard to argue with preferences but avoiding code 
+> duplication is worth the effort reviewing this patch in my opinion.
 
-Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
+Also compare the before and after this series:
+
+https://github.com/patchew-project/qemu/blob/master/hw/ppc/mac_newworld.c
+https://github.com/patchew-project/qemu/blob/9c1cd2828b3d3bd3a7068134a57ae9bb07f5a681/hw/ppc/mac_newworld.c
+
+I think the result is much easier to follow without else brances as you 
+can read it from top to bottom instead of jumping around in else branches 
+that is less clear and also more lines. Also setting default value avoids 
+any used uninitialised cases which you would need to check if you set vars 
+in if-else instead so unlike what you say this does not introduce such 
+cases but closes the possibility instead. So please take the time to 
+review it in exchange of the time I've put it in writing it.
+
+Regards,
+BALATON Zoltan
 
