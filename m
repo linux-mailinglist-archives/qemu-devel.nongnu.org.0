@@ -2,95 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 891ED5FE876
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 07:37:20 +0200 (CEST)
-Received: from localhost ([::1]:41256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BD715FE8B9
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 08:10:54 +0200 (CEST)
+Received: from localhost ([::1]:36770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojDNn-0001K8-7D
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 01:37:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43034)
+	id 1ojDuH-00009Z-53
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 02:10:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ojDL7-0007sl-KJ
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 01:34:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26421)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1ojDrv-0006R9-5d
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 02:08:27 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:30013)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ojDL4-0005Y6-F4
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 01:34:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665725668;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=V8trlJsHTyBYFl3iSoKLkKxiftpMCd5kSe7wrtw8WL4=;
- b=AeDaDqd7mjMHhHjB1TeTpgQVbrlj9sNVaX0kQEhntjZJ8r8pTHDz9h29lz2Hwpblrrc7zK
- LZ+VOf8oXlgMMkbp+G8cGQ1PKl/1rh+yBhEWCV2qLzjDoEqBWa4xV9xp9BOfDBfcZlH87J
- 1b1bCQb+kE/JyOTZcP5Q0s3NUmpyZlU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-177-3uxrHNl_O8CsCHgmyXeaFA-1; Fri, 14 Oct 2022 01:34:26 -0400
-X-MC-Unique: 3uxrHNl_O8CsCHgmyXeaFA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- o18-20020a05600c4fd200b003c6ceb1339bso2460112wmq.1
- for <qemu-devel@nongnu.org>; Thu, 13 Oct 2022 22:34:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=V8trlJsHTyBYFl3iSoKLkKxiftpMCd5kSe7wrtw8WL4=;
- b=Lig8fF48HpSoJ/S9SDKW95Op8jQaAD1QmwarYR6On3+rQQHA5xVISPMrzHecgdMDY3
- UOLHdYMrjWYvMvdppkC6ZmrbPbyU5HGO7Wv/aIjxGQT24axrklWIYt3xvOZvP6BTD2MC
- 94TstbEKKxRlFMZtw9tgaw9g1M+oReenaJptXo/YxfLNS1rPLyHIwnGZKqlq+UHCqQ9v
- i2jQ5q5hdWgoTR1Pecl+3wVHZSEVzEUXDEJryObBNjvYj+dtP6WMOji5CCaTzEwWLc9K
- jzKpSlrKzFLRleFG0dvxNMRfsOvMJm7BdDPI+jLcld6uJ4ro7EDFqPeuc+GxDobVK8pH
- MKRQ==
-X-Gm-Message-State: ACrzQf02okKwDo0ILK83fS7U+XLMVTg8f8hmqfwnwxP7zk4+c19GvdPs
- U4+FxgLCYc5sRM2AW7GskLEGYAWFZifboRYMU7IXpyTeD/SHGhOnR+pijfKpylyqU5ZdgDLXck1
- sz6hlheln3kwKNH0=
-X-Received: by 2002:a05:600c:4611:b0:3c5:e3a3:942a with SMTP id
- m17-20020a05600c461100b003c5e3a3942amr9049123wmo.82.1665725665709; 
- Thu, 13 Oct 2022 22:34:25 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6bB8zKYPiC5hvp1CsHP3BssllLnc3EpU8ceRce26Epnl3AziK2mHwtoH4iEZ7wcoRzL51/lQ==
-X-Received: by 2002:a05:600c:4611:b0:3c5:e3a3:942a with SMTP id
- m17-20020a05600c461100b003c5e3a3942amr9049103wmo.82.1665725665395; 
- Thu, 13 Oct 2022 22:34:25 -0700 (PDT)
-Received: from redhat.com ([2.54.162.123]) by smtp.gmail.com with ESMTPSA id
- bl13-20020adfe24d000000b00228de351fc0sm1076394wrb.38.2022.10.13.22.34.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Oct 2022 22:34:24 -0700 (PDT)
-Date: Fri, 14 Oct 2022 01:34:21 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Zeng Guang <guang.zeng@intel.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Christopherson,, Sean" <seanjc@google.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcelo Tosatti <mtosatti@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "Gao, Chao" <chao.gao@intel.com>
-Subject: Re: [PATCH v3] target/i386: Set maximum APIC ID to KVM prior to vCPU
- creation
-Message-ID: <20221014013323-mutt-send-email-mst@kernel.org>
-References: <20220825025246.26618-1-guang.zeng@intel.com>
- <2c9d8124-c8f5-5f21-74c5-307e16544143@intel.com>
- <cea2094f-72e7-a63d-ddca-86160240db7b@intel.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1ojDrt-0002CK-4k
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 02:08:26 -0400
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-175-1Q4qSoTdMl-1qg5pM6wHgQ-1; Fri, 14 Oct 2022 02:08:09 -0400
+X-MC-Unique: 1Q4qSoTdMl-1qg5pM6wHgQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E36303800C25;
+ Fri, 14 Oct 2022 06:08:08 +0000 (UTC)
+Received: from bahia.redhat.com (unknown [10.39.192.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 24455140215F;
+ Fri, 14 Oct 2022 06:08:07 +0000 (UTC)
+From: Greg Kurz <groug@kaod.org>
+To: qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Greg Kurz <groug@kaod.org>
+Subject: [PATCH] util/log: Always send errors to logfile when daemonized
+Date: Fri, 14 Oct 2022 08:08:07 +0200
+Message-Id: <20221014060807.660587-1-groug@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cea2094f-72e7-a63d-ddca-86160240db7b@intel.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,92 +64,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 14, 2022 at 09:01:02AM +0800, Zeng Guang wrote:
-> PING again !
-> This QEMU patch is to optimize max APIC ID set for current VM session
-> introduced since linux v6.0. It's also compatible with previous linux
-> version.
-> 
-> Thanks.
-> 
-> On 9/5/2022 9:27 AM, Zeng Guang wrote:
-> > Kindly PING!
-> > 
-> > On 8/25/2022 10:52 AM, Zeng Guang wrote:
-> > > Specify maximum possible APIC ID assigned for current VM session to KVM
-> > > prior to the creation of vCPUs. By this setting, KVM can set up VM-scoped
-> > > data structure indexed by the APIC ID, e.g. Posted-Interrupt Descriptor
-> > > pointer table to support Intel IPI virtualization, with the most optimal
-> > > memory footprint.
-> > > 
-> > > It can be achieved by calling KVM_ENABLE_CAP for KVM_CAP_MAX_VCPU_ID
-> > > capability once KVM has enabled it. Ignoring the return error if KVM
-> > > doesn't support this capability yet.
-> > > 
-> > > Signed-off-by: Zeng Guang <guang.zeng@intel.com>
-> > > ---
-> > >    hw/i386/x86.c              | 4 ++++
-> > >    target/i386/kvm/kvm-stub.c | 5 +++++
-> > >    target/i386/kvm/kvm.c      | 5 +++++
-> > >    target/i386/kvm/kvm_i386.h | 1 +
-> > >    4 files changed, 15 insertions(+)
-> > > 
-> > > diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> > > index 050eedc0c8..4831193c86 100644
-> > > --- a/hw/i386/x86.c
-> > > +++ b/hw/i386/x86.c
-> > > @@ -139,6 +139,10 @@ void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
-> > >            exit(EXIT_FAILURE);
-> > >        }
-> > > +    if (kvm_enabled()) {
-> > > +        kvm_set_max_apic_id(x86ms->apic_id_limit);
-> > > +    }
-> > > +
-> > >        possible_cpus = mc->possible_cpu_arch_ids(ms);
-> > >        for (i = 0; i < ms->smp.cpus; i++) {
-> > >            x86_cpu_new(x86ms, possible_cpus->cpus[i].arch_id, &error_fatal);
-> > > diff --git a/target/i386/kvm/kvm-stub.c b/target/i386/kvm/kvm-stub.c
-> > > index f6e7e4466e..e052f1c7b0 100644
-> > > --- a/target/i386/kvm/kvm-stub.c
-> > > +++ b/target/i386/kvm/kvm-stub.c
-> > > @@ -44,3 +44,8 @@ bool kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
-> > >    {
-> > >        abort();
-> > >    }
-> > > +
-> > > +void kvm_set_max_apic_id(uint32_t max_apic_id)
-> > > +{
-> > > +    return;
-> > > +}
-> > > diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-> > > index f148a6d52f..af4ef1e8f0 100644
-> > > --- a/target/i386/kvm/kvm.c
-> > > +++ b/target/i386/kvm/kvm.c
-> > > @@ -5428,3 +5428,8 @@ void kvm_request_xsave_components(X86CPU *cpu, uint64_t mask)
-> > >            mask &= ~BIT_ULL(bit);
-> > >        }
-> > >    }
-> > > +
-> > > +void kvm_set_max_apic_id(uint32_t max_apic_id)
-> > > +{
-> > > +    kvm_vm_enable_cap(kvm_state, KVM_CAP_MAX_VCPU_ID, 0, max_apic_id);
-> > > +}
-> > > diff --git a/target/i386/kvm/kvm_i386.h b/target/i386/kvm/kvm_i386.h
-> > > index 4124912c20..c133b32a58 100644
-> > > --- a/target/i386/kvm/kvm_i386.h
-> > > +++ b/target/i386/kvm/kvm_i386.h
-> > > @@ -54,4 +54,5 @@ uint64_t kvm_swizzle_msi_ext_dest_id(uint64_t address);
-> > >    bool kvm_enable_sgx_provisioning(KVMState *s);
-> > >    void kvm_request_xsave_components(X86CPU *cpu, uint64_t mask);
-> > > +void kvm_set_max_apic_id(uint32_t max_apic_id);
-> > >    #endif
+When QEMU is started with `-daemonize`, all stdio descriptors get
+redirected to `/dev/null`. This basically means that anything
+printed with `error_report()` and friends is lost.
 
+One could hope that passing `-D ${logfile}` would cause the messages
+to go to `${logfile}`, as the documentation tends to suggest:
 
-Looks ok on the surface, but this is Paolo's area.
+      -D logfile
+              Output log in logfile instead of to stderr
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Unfortunately, `-D` belongs to the logging framework and it only
+does this redirection if some log item is also enabled with `-d`
+or if QEMU was configured with `--enable-trace-backend=log`. A
+typical production setup doesn't do tracing or fine-grain
+debugging but it certainly needs to collect errors.
 
+Ignore the check on enabled log items when QEMU is daemonized. Previous
+behaviour is retained for the non-daemonized case. The logic is unrolled
+as a series of `if` for better readability.
+
+Special care is needed for the `-D ${logfile} -d tid` case : `${logfile}`
+is expected to be a template that contains exactly one `%d` that should be
+expanded to a PID or TID. The logic in `qemu_log_trylock()` already takes
+care of that for per-thread logs. Do it as well for the QEMU main thread
+when opening the file.
+
+Signed-off-by: Greg Kurz <groug@kaod.org>
+---
+ util/log.c | 39 ++++++++++++++++++++++++++++-----------
+ 1 file changed, 28 insertions(+), 11 deletions(-)
+
+diff --git a/util/log.c b/util/log.c
+index d6eb0378c3a3..a4592fa9bb70 100644
+--- a/util/log.c
++++ b/util/log.c
+@@ -248,16 +248,21 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
+ #endif
+     qemu_loglevel = log_flags;
+ 
+-    /*
+-     * In all cases we only log if qemu_loglevel is set.
+-     * Also:
+-     *   If per-thread, open the file for each thread in qemu_log_lock.
+-     *   If not daemonized we will always log either to stderr
+-     *     or to a file (if there is a filename).
+-     *   If we are daemonized, we will only log if there is a filename.
+-     */
+     daemonized = is_daemonized();
+-    need_to_open_file = log_flags && !per_thread && (!daemonized || filename);
++    need_to_open_file = false;
++    if (!daemonized) {
++        /*
++         * If not daemonized we only log if qemu_loglevel is set, either to
++         * stderr or to a file (if there is a filename).
++         * If per-thread, open the file for each thread in qemu_log_trylock().
++         */
++        need_to_open_file = log_flags && !per_thread;
++    } else if (filename) {
++        /*
++         * If we are daemonized, we will only log if there is a filename.
++         */
++        need_to_open_file = true;
++    }
+ 
+     if (logfile && (!need_to_open_file || changed_name)) {
+         qatomic_rcu_set(&global_file, NULL);
+@@ -271,10 +276,22 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
+ 
+     if (!logfile && need_to_open_file) {
+         if (filename) {
+-            logfile = fopen(filename, log_append ? "a" : "w");
++            g_autofree char *fname = NULL;
++
++            /*
++             * If per-thread, filename contains a single %d that should be
++             * converted.
++             */
++            if (per_thread) {
++                fname = g_strdup_printf(filename, getpid());
++            } else {
++                fname = g_strdup(filename);
++            }
++
++            logfile = fopen(fname, log_append ? "a" : "w");
+             if (!logfile) {
+                 error_setg_errno(errp, errno, "Error opening logfile %s",
+-                                 filename);
++                                 fname);
+                 return false;
+             }
+             /* In case we are a daemon redirect stderr to logfile */
 -- 
-MST
+2.37.3
 
 
