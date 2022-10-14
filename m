@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 648C85FEE7C
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 15:23:17 +0200 (CEST)
-Received: from localhost ([::1]:45296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7F305FEE7D
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 15:23:18 +0200 (CEST)
+Received: from localhost ([::1]:45298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojKei-0000FK-GU
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 09:23:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52750)
+	id 1ojKej-0000J4-PJ
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 09:23:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1ojKbr-0004Ng-9f
+ id 1ojKbs-0004Ni-TT
  for qemu-devel@nongnu.org; Fri, 14 Oct 2022 09:20:21 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:40753)
+Received: from mout.kundenserver.de ([212.227.17.13]:44017)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1ojKbo-0005Rh-LI
- for qemu-devel@nongnu.org; Fri, 14 Oct 2022 09:20:18 -0400
+ id 1ojKbr-0005Rl-2J
+ for qemu-devel@nongnu.org; Fri, 14 Oct 2022 09:20:20 -0400
 Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N6bwO-1pDduZ0Cqs-01868F; Fri, 14 Oct 2022 15:20:09 +0200
+ id 1N2EDg-1p9E3j30vu-013iQ3; Fri, 14 Oct 2022 15:20:09 +0200
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Stefano Brivio <sbrivio@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>,
  Jason Wang <jasowang@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  alex.williamson@redhat.com
-Subject: [PATCH v2 1/2] virtio-net: fix bottom-half packet TX on asynchronous
- completion
-Date: Fri, 14 Oct 2022 15:20:03 +0200
-Message-Id: <20221014132004.114602-2-lvivier@redhat.com>
+Subject: [PATCH v2 2/2] virtio-net: fix TX timer with tx_burst
+Date: Fri, 14 Oct 2022 15:20:04 +0200
+Message-Id: <20221014132004.114602-3-lvivier@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221014132004.114602-1-lvivier@redhat.com>
 References: <20221014132004.114602-1-lvivier@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:LbT5j+d0cwRRc2EwgnTEbeb/8JFseST9qWis5zeywmRpvzMPDDy
- hzi6WpFX/LB0VXJuWfRyPgFLZu1djVdU52HHgynbti3sKT71ltY5lauEjS00yGI2IMTbcne
- NWW/NQiucx2WmKYlNIA0yDJUOiKkSJd1kRhjOZlcMaAGPXkUCAIqckdiHqBZ1O80XzXbb/b
- AYKJ3HiuYZ1aYP+pPkVpw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:8xJgM/Pg0NQ=:1mvMx7cmh9LPtdtVX6rRVd
- lgY5hvmgvgtfAFpQzrgOjvsgNnloVM93g+/6yRDpZnwNVgmnbYnutM852vhy2rCpddACslV/w
- lenvoWGQNK8Qb+B2eSon+eZ+iXN7PoXFdWVSu9YnZv9hTbo4sIXUkHacPDvhmEG5e2KYI+8Rs
- c1HVxwuVH8XaiSUZ5223E+GT7gIiuan3rQpDjpmAuXJYh779n4HXIuHN88hMH6ZLhtetqCbUv
- 2lmkZH6ZeAPRy6B7bwifdd48tRGPZjwoK4olEEMPkKWzAweBGIoAfVjxZtXLeTHwcX4WWtFRK
- bp97jd5l468BMI9JgI7lZWxvf20vc5+6snira0HrTEEsNF5PYw6VNePmAfN9ka3d85hitdsju
- ElkEWtgyWj6wQPrAGP1mAGWwOaLYm5savZekD+XZau95Von5aaYKHQD3KVR9D5PYJ7+hVwm/y
- Uusxf0nyMS3ZmM4pcIb/VnKjNs3qauHFwqAErQCTWWcgcESNaWCRPskOYLTi2+UhON2xDz2Oj
- 7Hvr6o0kHT5D1p+aDX9Tza3PrafA306G3hNJejAp4Gx81OputBYXTHwzGaIRZaICDvSh8O9Kv
- +fKf+QUQAm1gN6191oA4Xeg4pn5XKhKOG1C4q4IUZybYiAIN0EZM0AW1TKcn7V3w8UE3OdLvh
- DO4k2CfMqzKidFxlOOqOL1UudyeRoLH05ktLRtmFKPpkwDcLQ6BeA4CD0/6IeXWRttOPznTTr
- C1Jeg7EZ2lpJ7qfRhhgqwWgk2jjAMaZNerUdnDQn2R4zkhwVp5pvwaEKc3B0AIHW/wImCE3MN
- s+PE7T0
-Received-SPF: permerror client-ip=217.72.192.75;
+X-Provags-ID: V03:K1:yUYdvKAO8+ratG6LTkQeJMKn2VK8BpDcBDheSNM6OpY7CFk5yIs
+ OpJeFHLtIF4+M58SCUp75HnTSDepzkAdQ7RYV9j4t3AOEhkZH0VMEScEFzLSwxXWtaYQxeu
+ AIUQtjAzJtT7rzT0VNYkDyi5UcXfzpq3NvV8vyNRyoR4YEN9gpAEbPOwec2C+ShDs1uOOpJ
+ 9S6sGPNSW52vvNOo4aS8Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:jghyiOYPz0M=:uiIgM+DkDNdoEZbsaxWuEq
+ x8SuS/nthT/hq+75RmbBAxtlZgpQp7ManBY3+D0fd1N5Qj0nElG+ffPFTNgfvvZ97OboDhrdi
+ 0IsCUnJ7CggEKdJM4nFdXI/+mlX213BHhucQxZvEn98wQuAszSQo+Dos8WQopDVHU+RIjRLlk
+ 1WdV123SoPQ9WqFUqsw7BmAcL7NPnFe8QsJxCQuc8lK5C9zR8RXXAdWebI5sajkUX6+Gge8pj
+ tXi8y+qRNiOG2exPUVY09sgFFV+TCz3fMxPpfAL57hekDosP4fDHREjckc4fog8VffS9+zMW8
+ mxZVWZDMG7k/opXhZO4cICitKYx70nF4u3U6GHtn+XxhjWDHis2+DxdTnMFOHhsTI3XBmviuY
+ 9WcZxWvy2RmAuQYgCBNejQdlRLFowzpa92IBt8DAzQm9fp0q/m5kBWDXOIg5HnDxPtxF8cpKP
+ nhVGKJCCgHwxhi1x4qoIVzCG8T7hyqYmfNNPryv8aK0hJV9eEw4rjwK1SDwSb0eifx4cFYj3H
+ a09edNb7IT6irmdRWoBMi2xw9qO3yC6OkxUWx7sOmEEpP7f9R8Wm52+hiLBdh0Xb0fND03Qoz
+ tlhS9Z6dUd2ljsfzEAnNdPSSesqHkqRjClnP4eOPHaaWDnkpE6P6lHDpiP2iu7duC5VfFdktY
+ 8rwIFMRd5+9ZxsGtg25d+9PS87vun3x3Rs2XWT/SptFjwl/r0T/fXnNL1HUzWJpkwRU/6mMZd
+ mqyEy8UOo/7a8dR417dG3G2PBn9+txmW9jhLqmiIsGdE8cO767VHktmnpceD8LMKAxn7oNkMC
+ P9ttXQJ
+Received-SPF: permerror client-ip=212.227.17.13;
  envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_FAIL=0.001, SPF_HELO_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,73 +75,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When virtio-net is used with the socket netdev backend, the backend
-can be busy and not able to collect new packets.
+When virtio_net_flush_tx() reaches the tx_burst value all
+the queue is not flushed and nothing restart the timer.
 
-In this case, net_socket_receive() returns 0 and registers a poll function
-to detect when the socket is ready again.
+Fix that by doing for TX timer as we do for bottom half TX:
+rearming the timer if we find any packet to send during the
+virtio_net_flush_tx() call.
 
-In virtio_net_tx_bh(), virtio_net_flush_tx() forwards the 0, the virtio
-notifications are disabled and the function is not re-scheduled, waiting
-for the backend to be ready.
-
-When the socket netdev backend is again able to send packets, the poll
-function re-starts to flush remaining packets. This is done by
-calling virtio_net_tx_complete(). It re-enables notifications and calls
-again virtio_net_flush_tx().
-
-But it seems if virtio_net_flush_tx() reaches the tx_burst value all
-the queue is not flushed and no new notification is sent to re-schedule
-virtio_net_tx_bh(). Nothing re-start to flush the queue and remaining
-packets are stuck in the queue.
-
-To fix that, detect in virtio_net_tx_complete() if virtio_net_flush_tx()
-has been stopped by tx_burst and if yes re-schedule the bottom half
-function virtio_net_tx_bh() to flush the remaining packets.
-
-This is what is done in virtio_net_tx_bh() when the virtio_net_flush_tx()
-is synchronous, and completly by-passed when the operation needs to be
-asynchronous.
-
-Fixes: a697a334b3c4 ("virtio-net: Introduce a new bottom half packet TX")
+Fixes: e3f30488e5f8 ("virtio-net: Limit number of packets sent per TX flush")
 Cc: alex.williamson@redhat.com
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/net/virtio-net.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ hw/net/virtio-net.c | 59 +++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 46 insertions(+), 13 deletions(-)
 
 diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index e9f696b4cfeb..1fbf2f3e19a7 100644
+index 1fbf2f3e19a7..b4964b821021 100644
 --- a/hw/net/virtio-net.c
 +++ b/hw/net/virtio-net.c
-@@ -2526,6 +2526,7 @@ static void virtio_net_tx_complete(NetClientState *nc, ssize_t len)
-     VirtIONet *n = qemu_get_nic_opaque(nc);
-     VirtIONetQueue *q = virtio_net_get_subqueue(nc);
+@@ -2536,14 +2536,19 @@ static void virtio_net_tx_complete(NetClientState *nc, ssize_t len)
+ 
+     virtio_queue_set_notification(q->tx_vq, 1);
+     ret = virtio_net_flush_tx(q);
+-    if (q->tx_bh && ret >= n->tx_burst) {
++    if (ret >= n->tx_burst) {
+         /*
+          * the flush has been stopped by tx_burst
+          * we will not receive notification for the
+          * remainining part, so re-schedule
+          */
+         virtio_queue_set_notification(q->tx_vq, 0);
+-        qemu_bh_schedule(q->tx_bh);
++        if (q->tx_bh) {
++            qemu_bh_schedule(q->tx_bh);
++        } else {
++            timer_mod(q->tx_timer,
++                      qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + n->tx_timeout);
++        }
+         q->tx_waiting = 1;
+     }
+ }
+@@ -2644,6 +2649,8 @@ drop:
+     return num_packets;
+ }
+ 
++static void virtio_net_tx_timer(void *opaque);
++
+ static void virtio_net_handle_tx_timer(VirtIODevice *vdev, VirtQueue *vq)
+ {
+     VirtIONet *n = VIRTIO_NET(vdev);
+@@ -2661,18 +2668,17 @@ static void virtio_net_handle_tx_timer(VirtIODevice *vdev, VirtQueue *vq)
+     }
+ 
+     if (q->tx_waiting) {
+-        virtio_queue_set_notification(vq, 1);
++        /* We already have queued packets, immediately flush */
+         timer_del(q->tx_timer);
+-        q->tx_waiting = 0;
+-        if (virtio_net_flush_tx(q) == -EINVAL) {
+-            return;
+-        }
+-    } else {
+-        timer_mod(q->tx_timer,
+-                       qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + n->tx_timeout);
+-        q->tx_waiting = 1;
+-        virtio_queue_set_notification(vq, 0);
++        virtio_net_tx_timer(q);
++        return;
+     }
++
++    /* re-arm timer to flush it (and more) on next tick */
++    timer_mod(q->tx_timer,
++              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + n->tx_timeout);
++    q->tx_waiting = 1;
++    virtio_queue_set_notification(vq, 0);
+ }
+ 
+ static void virtio_net_handle_tx_bh(VirtIODevice *vdev, VirtQueue *vq)
+@@ -2702,6 +2708,8 @@ static void virtio_net_tx_timer(void *opaque)
+     VirtIONetQueue *q = opaque;
+     VirtIONet *n = q->n;
      VirtIODevice *vdev = VIRTIO_DEVICE(n);
 +    int ret;
++
+     /* This happens when device was stopped but BH wasn't. */
+     if (!vdev->vm_running) {
+         /* Make sure tx waiting is set, so we'll run when restarted. */
+@@ -2716,8 +2724,33 @@ static void virtio_net_tx_timer(void *opaque)
+         return;
+     }
  
-     virtqueue_push(q->tx_vq, q->async_tx.elem, 0);
-     virtio_notify(vdev, q->tx_vq);
-@@ -2534,7 +2535,17 @@ static void virtio_net_tx_complete(NetClientState *nc, ssize_t len)
-     q->async_tx.elem = NULL;
- 
++    ret = virtio_net_flush_tx(q);
++    if (ret == -EBUSY || ret == -EINVAL) {
++        return;
++    }
++    /*
++     * If we flush a full burst of packets, assume there are
++     * more coming and immediately rearm
++     */
++    if (ret >= n->tx_burst) {
++        q->tx_waiting = 1;
++        timer_mod(q->tx_timer,
++                  qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + n->tx_timeout);
++        return;
++    }
++    /*
++     * If less than a full burst, re-enable notification and flush
++     * anything that may have come in while we weren't looking.  If
++     * we find something, assume the guest is still active and rearm
++     */
      virtio_queue_set_notification(q->tx_vq, 1);
 -    virtio_net_flush_tx(q);
 +    ret = virtio_net_flush_tx(q);
-+    if (q->tx_bh && ret >= n->tx_burst) {
-+        /*
-+         * the flush has been stopped by tx_burst
-+         * we will not receive notification for the
-+         * remainining part, so re-schedule
-+         */
++    if (ret > 0) {
 +        virtio_queue_set_notification(q->tx_vq, 0);
-+        qemu_bh_schedule(q->tx_bh);
 +        q->tx_waiting = 1;
++        timer_mod(q->tx_timer,
++                  qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + n->tx_timeout);
 +    }
  }
  
- /* TX */
+ static void virtio_net_tx_bh(void *opaque)
 -- 
 2.37.3
 
