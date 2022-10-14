@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E0225FEB48
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 11:00:07 +0200 (CEST)
-Received: from localhost ([::1]:50492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBDD05FEB52
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Oct 2022 11:08:29 +0200 (CEST)
+Received: from localhost ([::1]:52022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojGY1-0005KI-K5
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 05:00:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57748)
+	id 1ojGg8-0007wz-Hu
+	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 05:08:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ojGVK-0003MF-Oc; Fri, 14 Oct 2022 04:57:18 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57818)
+ id 1ojGcq-00064C-Cm; Fri, 14 Oct 2022 05:05:04 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ojGVI-0001wY-58; Fri, 14 Oct 2022 04:57:17 -0400
+ id 1ojGck-00035g-NF; Fri, 14 Oct 2022 05:05:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
  Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=vdAcmGTfj5p49NQiubOLe0YRkZXWdXZlLtsCqUUmX9g=; b=SLuWxxZC1i7tXnSzIwVmnkkr+l
- J2BEEbpCfqy9SUKhem9fEDP2EN21GJ43/mjW87rNXdwYWrP/53y4EboHVTfTusOh+dHXfXCFciIqy
- wizHB0LEphL3K+w3n+66rTCYLb76/srOjLTgJfnxef5aM7wFZdX8h17iORjsMxysOLKNDV4qr0ev0
- mdlPsGZ6fQJU5P9r0zxqok67YQdcJYKJsKtGwoyaFgeXu9WWB3aiUzIVc2QUZb11VyjVQ9Uyf/YAH
- dzO+NbiLvRCHOEUGscnvoz0QMSGMIpsuI0eBeYYEYjKpdJAVX8Gu0jh5xBAG65hhvLbv/X5tFIXzP
- EFbnEgmGuuunQGCi+TbaOBUFYYTkD2jq6zxqy7hrW9yqeyx7GexL/s2xphZ3X9YvjHxeFBRzK4ZVp
- dJrfimDdsr5HSRsS25z7+jlysz868tlM94z8wMaxvBAP5/8+s+aks4vgPTFVmm3uzuRLEzY9ShUAg
- 8iXzq82pdYiZ5WE3Sft7vgQ9z6bSlQaLudAOoTQTu7+12BjKg1eHJESk19wgVVrfreKQq0lXyBa1A
- wqoHMgKp2egCBqHMBDaZCBFGlHhnnEEWKSMUSUyYVi6RVRfcvd5eCnvU9p6xBzgiSKxPPFLyEdYxI
- urDHaEC7KNJOaCk8j5WkCG/oDKNntE+VsrElfijO8=;
+ bh=p8OIulqIhHz5Xx3zNWGfT7JGDKCbNmKQneu0LBNYpCE=; b=k/rxKc8EI9/xWjHhezLWShvA+R
+ ueKf5GqwdgO+B4kt4Jf00wp3LhvdzP6WVdztQMcEfDKClRzZ70xUqXMTCtSeV6zEU/0FdrAgBquoK
+ gaP88qekQnzVXpIGP38dgV9busndtX01+genwlBvM/c1dzcQERSrCm1oV789h7e5KXQ+6XuDz3+lR
+ i68S+Bm+KL5Y5oYbPkl/yg3BxEBX3kgzPCgHksrXQ35MNwPU+qHXE8J2+G9EeHYYQCto8TQkeNsxL
+ njC1Me1Cq+ahzZefsj5F/+ovCUXPjhrU/25R8z2mXc8WxlbGR0GADXBUzbgoFGo10KErkGZyobSS7
+ axKk4GdSTqhPOT7EOUoP3U2V7IPzdPJkJjiGYqViXrvF3DIYdA9/ZP7f3wckGgRswvEpCMVwJc9Yg
+ RUJUzHOJC58Q8oGspFmL1JIvImOk7T9ug/WcSrJ9lzVgRpg7eVjoPlpwmmwb970gyAYoUhKfoVH6e
+ wUSt2dGoxhiiagMHQxSBuTL/F70ssgxfRhcEe5eOWchzbGH8jYMDDLM4/XhF85odXLMw1uOGn+X26
+ UxqPXY/59TrCC9xys13KfCea8XqLZ7JGuhFmfb3GlwQy7FN+oij+7FchWDH91NwKh2sBNWyh9zVkP
+ /Ova8xv+ETeXkbIu2tVasHoJvLCQVpoeYCP5aILLA=;
 Received: from [2a00:23c4:8ba8:7100:6571:576d:97b8:647b]
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ojGTR-0001K2-T6; Fri, 14 Oct 2022 09:55:26 +0100
-Message-ID: <1a8cace1-1401-1420-d933-0ab7c7d78bfd@ilande.co.uk>
-Date: Fri, 14 Oct 2022 09:57:08 +0100
+ id 1ojGat-0001Ok-PV; Fri, 14 Oct 2022 10:03:07 +0100
+Message-ID: <ca4fe34c-f384-195e-c2c2-273e655174be@ilande.co.uk>
+Date: Fri, 14 Oct 2022 10:04:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
@@ -46,15 +46,15 @@ Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
 References: <cover.1664827008.git.balaton@eik.bme.hu>
- <2514e45b2ac438e40180cdf51e156a9dcf6a4df4.1664827008.git.balaton@eik.bme.hu>
+ <f3ed20267d28e7b1f91b83b9bbfae1a6f4e4c133.1664827008.git.balaton@eik.bme.hu>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <2514e45b2ac438e40180cdf51e156a9dcf6a4df4.1664827008.git.balaton@eik.bme.hu>
+In-Reply-To: <f3ed20267d28e7b1f91b83b9bbfae1a6f4e4c133.1664827008.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba8:7100:6571:576d:97b8:647b
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v3 05/13] mac_{old|new}world: Simplify cmdline_base
- calculation
+Subject: Re: [PATCH v3 06/13] mac_newworld: Clean up creation of Uninorth
+ devices
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -82,76 +82,100 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 03/10/2022 21:13, BALATON Zoltan wrote:
 
-> By slight reorganisation we can avoid an else branch and some code
-> duplication which makes it easier to follow the code.
+> Map regions in ascending order and reorganise code a bit to avoid some
+> casts and move Uninorth parts together.
 > 
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->   hw/ppc/mac_newworld.c | 6 +++---
->   hw/ppc/mac_oldworld.c | 7 +++----
->   2 files changed, 6 insertions(+), 7 deletions(-)
+>   hw/ppc/mac_newworld.c | 38 ++++++++++++++++++--------------------
+>   1 file changed, 18 insertions(+), 20 deletions(-)
 > 
 > diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-> index 6bc3bd19be..73b01e8c6d 100644
+> index 73b01e8c6d..be2cb5f057 100644
 > --- a/hw/ppc/mac_newworld.c
 > +++ b/hw/ppc/mac_newworld.c
-> @@ -194,9 +194,11 @@ static void ppc_core99_init(MachineState *machine)
->                            machine->kernel_filename);
->               exit(1);
+> @@ -228,13 +228,6 @@ static void ppc_core99_init(MachineState *machine)
 >           }
-> +        cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size +
-> +                                         KERNEL_GAP);
->           /* load initrd */
->           if (machine->initrd_filename) {
-> -            initrd_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size + KERNEL_GAP);
-> +            initrd_base = cmdline_base;
->               initrd_size = load_image_targphys(machine->initrd_filename,
->                                                 initrd_base,
->                                                 machine->ram_size - initrd_base);
-> @@ -206,8 +208,6 @@ static void ppc_core99_init(MachineState *machine)
->                   exit(1);
->               }
->               cmdline_base = TARGET_PAGE_ALIGN(initrd_base + initrd_size);
-> -        } else {
-> -            cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size + KERNEL_GAP);
+>       }
+>   
+> -    /* UniN init */
+> -    dev = qdev_new(TYPE_UNI_NORTH);
+> -    s = SYS_BUS_DEVICE(dev);
+> -    sysbus_realize_and_unref(s, &error_fatal);
+> -    memory_region_add_subregion(get_system_memory(), 0xf8000000,
+> -                                sysbus_mmio_get_region(s, 0));
+> -
+>       openpic_irqs = g_new0(IrqLines, machine->smp.cpus);
+>       for (i = 0; i < machine->smp.cpus; i++) {
+>           /* Mac99 IRQ connection between OpenPIC outputs pins
+> @@ -275,24 +268,31 @@ static void ppc_core99_init(MachineState *machine)
 >           }
->           ppc_boot_device = 'm';
+>       }
+>   
+> +    /* UniN init */
+> +    s = SYS_BUS_DEVICE(qdev_new(TYPE_UNI_NORTH));
+> +    sysbus_realize_and_unref(s, &error_fatal);
+> +    memory_region_add_subregion(get_system_memory(), 0xf8000000,
+> +                                sysbus_mmio_get_region(s, 0));
+> +
+> +
+>       if (PPC_INPUT(env) == PPC_FLAGS_INPUT_970) {
+> +        machine_arch = ARCH_MAC99_U3;
+>           /* 970 gets a U3 bus */
+>           /* Uninorth AGP bus */
+>           dev = qdev_new(TYPE_U3_AGP_HOST_BRIDGE);
+> -        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>           uninorth_pci = U3_AGP_HOST_BRIDGE(dev);
+>           s = SYS_BUS_DEVICE(dev);
+> +        sysbus_realize_and_unref(s, &error_fatal);
+> +        sysbus_mmio_map(s, 0, 0xf0800000);
+> +        sysbus_mmio_map(s, 1, 0xf0c00000);
+>           /* PCI hole */
+> -        memory_region_add_subregion(get_system_memory(), 0x80000000ULL,
+> +        memory_region_add_subregion(get_system_memory(), 0x80000000,
+>                                       sysbus_mmio_get_region(s, 2));
+>           /* Register 8 MB of ISA IO space */
+>           memory_region_add_subregion(get_system_memory(), 0xf2000000,
+>                                       sysbus_mmio_get_region(s, 3));
+> -        sysbus_mmio_map(s, 0, 0xf0800000);
+> -        sysbus_mmio_map(s, 1, 0xf0c00000);
+> -
+> -        machine_arch = ARCH_MAC99_U3;
 >       } else {
-> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-> index cb67e44081..b424729a39 100644
-> --- a/hw/ppc/mac_oldworld.c
-> +++ b/hw/ppc/mac_oldworld.c
-> @@ -168,10 +168,11 @@ static void ppc_heathrow_init(MachineState *machine)
->                            machine->kernel_filename);
->               exit(1);
->           }
-> +        cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size +
-> +                                         KERNEL_GAP);
->           /* load initrd */
->           if (machine->initrd_filename) {
-> -            initrd_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size +
-> -                                            KERNEL_GAP);
-> +            initrd_base = cmdline_base;
->               initrd_size = load_image_targphys(machine->initrd_filename,
->                                                 initrd_base,
->                                                 machine->ram_size - initrd_base);
-> @@ -181,8 +182,6 @@ static void ppc_heathrow_init(MachineState *machine)
->                   exit(1);
->               }
->               cmdline_base = TARGET_PAGE_ALIGN(initrd_base + initrd_size);
-> -        } else {
-> -            cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size + KERNEL_GAP);
->           }
->           ppc_boot_device = 'm';
->       } else {
+> +        machine_arch = ARCH_MAC99;
+>           /* Use values found on a real PowerMac */
+>           /* Uninorth AGP bus */
+>           uninorth_agp_dev = qdev_new(TYPE_UNI_NORTH_AGP_HOST_BRIDGE);
+> @@ -309,22 +309,20 @@ static void ppc_core99_init(MachineState *machine)
+>           sysbus_mmio_map(s, 0, 0xf4800000);
+>           sysbus_mmio_map(s, 1, 0xf4c00000);
+>   
+> -        /* Uninorth main bus */
+> +        /* Uninorth main bus - this must be last to make it the default */
+>           dev = qdev_new(TYPE_UNI_NORTH_PCI_HOST_BRIDGE);
+>           qdev_prop_set_uint32(dev, "ofw-addr", 0xf2000000);
+> -        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>           uninorth_pci = UNI_NORTH_PCI_HOST_BRIDGE(dev);
+>           s = SYS_BUS_DEVICE(dev);
+> +        sysbus_realize_and_unref(s, &error_fatal);
+> +        sysbus_mmio_map(s, 0, 0xf2800000);
+> +        sysbus_mmio_map(s, 1, 0xf2c00000);
+>           /* PCI hole */
+> -        memory_region_add_subregion(get_system_memory(), 0x80000000ULL,
+> +        memory_region_add_subregion(get_system_memory(), 0x80000000,
+>                                       sysbus_mmio_get_region(s, 2));
+>           /* Register 8 MB of ISA IO space */
+>           memory_region_add_subregion(get_system_memory(), 0xf2000000,
+>                                       sysbus_mmio_get_region(s, 3));
+> -        sysbus_mmio_map(s, 0, 0xf2800000);
+> -        sysbus_mmio_map(s, 1, 0xf2c00000);
+> -
+> -        machine_arch = ARCH_MAC99;
+>       }
+>   
+>       machine->usb |= defaults_enabled() && !machine->usb_disabled;
 
-Is there any particular reason why you would want to avoid the else branch? I don't 
-feel this patch is an improvement since by always setting cmdline_base to a non-zero 
-value, as a reviewer I then have to check all other uses of cmdline_base in the file 
-to ensure that this doesn't cause any issues.
-
-I much prefer the existing version since setting the values of cmdline_base and 
-initrd_base is very clearly scoped within the if statement.
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
 
 ATB,
