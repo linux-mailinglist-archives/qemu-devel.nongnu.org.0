@@ -2,109 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94B485FF893
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Oct 2022 07:17:04 +0200 (CEST)
-Received: from localhost ([::1]:38748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B32DB5FF97C
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Oct 2022 11:30:22 +0200 (CEST)
+Received: from localhost ([::1]:44110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojZXj-0000zQ-Ln
-	for lists+qemu-devel@lfdr.de; Sat, 15 Oct 2022 01:17:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37518)
+	id 1ojdUq-00088k-V1
+	for lists+qemu-devel@lfdr.de; Sat, 15 Oct 2022 05:30:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vikram.garhwal@amd.com>)
- id 1ojZPw-0006kz-23
- for qemu-devel@nongnu.org; Sat, 15 Oct 2022 01:09:00 -0400
-Received: from mail-dm6nam11on2052.outbound.protection.outlook.com
- ([40.107.223.52]:58080 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vikram.garhwal@amd.com>)
- id 1ojZPg-0007VY-0L
- for qemu-devel@nongnu.org; Sat, 15 Oct 2022 01:08:59 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QBBUdUiDkC/gS2g62XBt92Sh9lb5CC7NIcA+25oZK7wQrS96dWa9rn+zKpvfyioPi74lRE2bKA6rBCDA43z3bNiSS+RAi0zQ8JBP5MYd/EsVoFEuYghOx7cMTSmMdcczS1FtxXtJHzvBZJboQyQXMfE/PGWUi5XtAcB+MtIDSD9f/sLGtm2mbADV8GiJ8I/MeDIXRTskJmZb4L7HNAZPBUPSt5bVgipK+Sy6jjme28HX41nAN1u+rgWXHnVVkOBPBX7o5shZ6vHOdMdW63sjJMEgZdyAb/daQhP/lZE76ykqxqqXGc8zocqekMgNauYLpdAoMd9fJdg9bFOfsUeiGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vjwAtttF/C6oErIUh6XAgf+daduq9Ur89areN8mBdM8=;
- b=Itxgqu4MmkLgxR8Jca/q93FlwS+ykZYGxiYdfZx3UJdXFXGSAopWd7irKuDdFj7sIqihIdWCzp5BUp1o4ns0f7YaQ2y5yL6g8KiFLme/aZQjHHNeGNymzS8c5yLsuiqCTTgs0wxZv2XLK0Sp3j7JykZvE5rY33BWMqasvBQAifI7x6S/5XwYJf0EKmtBJMSF2uUd6zphM25e9TvTzP08oZKK+AFH49TNl2ETsp8wP7MceEJFFWuaCKyjrUiTEQ9vI7qGxM2p0J5YQ2QcAyBDzYTeIYMjbr8pvVjow2PKuyWpVUHPDNi1qXmf7Vw9QjMXdDhTNUBMUzvVkSHUoTTh5w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vjwAtttF/C6oErIUh6XAgf+daduq9Ur89areN8mBdM8=;
- b=diB4e6n/n1TiqPinOi/fPrsQkFAIYSmyfcjorvTJodf/oOPEGdaAJ3S/LUe/vhIsKELA2HvJLoIwCJHFYpvx4Spevo9DjG/QAbneLRxGXlCkMqGfA5kS5Dsw/HaR/r4Nrn65I4wDMg7qFyRuci+lojyLdZfUd6s+1vPtBLTpPG0=
-Received: from DS7PR07CA0024.namprd07.prod.outlook.com (2603:10b6:5:3af::6) by
- CH2PR12MB4875.namprd12.prod.outlook.com (2603:10b6:610:35::24) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5723.29; Sat, 15 Oct 2022 05:08:40 +0000
-Received: from CY4PEPF0000B8EB.namprd05.prod.outlook.com
- (2603:10b6:5:3af:cafe::35) by DS7PR07CA0024.outlook.office365.com
- (2603:10b6:5:3af::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.30 via Frontend
- Transport; Sat, 15 Oct 2022 05:08:40 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000B8EB.mail.protection.outlook.com (10.167.241.7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5676.13 via Frontend Transport; Sat, 15 Oct 2022 05:08:39 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Sat, 15 Oct
- 2022 00:08:39 -0500
-Received: from xsjfnuv50.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
- Transport; Sat, 15 Oct 2022 00:08:38 -0500
-From: Vikram Garhwal <vikram.garhwal@amd.com>
-To: <qemu-devel@nongnu.org>
-CC: <vikram.garhwal@amd.com>, <stefano.stabellini@amd.com>
-Subject: [PATCH v1 12/12] meson.build: do not set have_xen_pci_passthrough for
- aarch64 targets
-Date: Fri, 14 Oct 2022 22:07:50 -0700
-Message-ID: <20221015050750.4185-13-vikram.garhwal@amd.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20221015050750.4185-1-vikram.garhwal@amd.com>
-References: <20221015050750.4185-1-vikram.garhwal@amd.com>
+ (Exim 4.90_1) (envelope-from <huqi@loongson.cn>) id 1ojdT4-0006FG-GI
+ for qemu-devel@nongnu.org; Sat, 15 Oct 2022 05:28:30 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:39126 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huqi@loongson.cn>) id 1ojdT1-0008F8-Mg
+ for qemu-devel@nongnu.org; Sat, 15 Oct 2022 05:28:29 -0400
+Received: from lingfengzhe-ms7c94.loongson.cn (unknown [10.90.50.23])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8DxReIvfUpjZikvAA--.36896S2; 
+ Sat, 15 Oct 2022 17:28:15 +0800 (CST)
+From: Qi Hu <huqi@loongson.cn>
+To: WANG Xuerui <git@xen0n.name>
+Cc: qemu-devel@nongnu.org,
+	Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH v4] tcg/loongarch64: Add direct jump support
+Date: Sat, 15 Oct 2022 17:27:54 +0800
+Message-Id: <20221015092754.91971-1-huqi@loongson.cn>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000B8EB:EE_|CH2PR12MB4875:EE_
-X-MS-Office365-Filtering-Correlation-Id: 89d102a8-0959-4145-4f8b-08daae6b52e1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TXm0vfFbJNJcgUbZ+yq20hmX4ZEDTu7dJwf/SFzRX1RkrOf8uZm22LyILdHV/XRp6Mbs/w6lZtTzjH2Ou2ljBOcx01Rlmn+4Pfrtk3JED6HhIfZTKM03vbzY6Po/CZa45w/Suu072DSmm0NaVvnmpO90ahpCdo+nNyUb2/oCvwszujEiS13hz9gKEOnr3hAR+3AL9X1nJs4rccHigqyT8vjiVErhVwzh4CfPf1sMsSkgqsvemFC6iXtxZ6WXXXSIMzuuL/uLmAYkOX4wxO77qQrbOFYW+kF7Ykr0bFMth8OxyF3ia26x1xv8hgQ3HJwWbghN2fPz6hNugW6H6kqQhqgeI1S39EBMYN9c6nUMwu/TcehJS9pOT7og8azdXy+oCvs//53W1uYkAUQrJDGkNyAj8Tgie6VCY0rgwpslEzu1oNOzVstQbYpoK56To9U8Agz9Gqg9cTBC6L/tOm5t+3uYCf/W+1QWfYfNCvfBQtye3sVKc4uLnPYyUsNhfOsYioe4TBCX21HA+EPAcBoqIlNovmS0BYl4f4CiqllfCD4FrUyRM5Xt2HCTKcF/LSMO1PsUBNFBs97h01SIl68sYNtm92XTO+Xv6zuZz9fT3PdzNXxbDq7+5+8ZIzdbk7lnqLWKWJOOObiihUPf+2eIvRP2OISebaSXDMakDNrqyuZ1ShTUC/TB3F8/Cy0J8HbL2u6GnoeBKr5Clv+KG024oz/1t5X3NtySM3mchXncl43nf9YJAq5/aJ255Bgm5MZkYRhoxllAjJ651HjDtv03Q7Rh89eYeYDWx2C1MLDZhzOLQp2pKf0W+OiFslS+EkHp
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230022)(4636009)(136003)(346002)(376002)(39860400002)(396003)(451199015)(46966006)(40470700004)(36840700001)(47076005)(6916009)(478600001)(54906003)(316002)(4326008)(40480700001)(8676002)(70206006)(6666004)(70586007)(41300700001)(426003)(26005)(82310400005)(8936002)(36756003)(5660300002)(356005)(44832011)(4744005)(86362001)(336012)(1076003)(81166007)(82740400003)(186003)(2906002)(2616005)(40460700003)(83380400001)(36860700001)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2022 05:08:39.9859 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 89d102a8-0959-4145-4f8b-08daae6b52e1
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000B8EB.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4875
-Received-SPF: softfail client-ip=40.107.223.52;
- envelope-from=vikram.garhwal@amd.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8DxReIvfUpjZikvAA--.36896S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxAFy3XFWDWF48Kry7WF18uFg_yoWrWry3pr
+ 97CF15tr4rJa9xG3y3GFn8Jry3Ja95WryUXF4Igr48Z390qw18ZFZ3KrW3tFWjgFyFvrW7
+ ZFn0y343uF4DA3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUk0b7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
+ C2z280aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVAC
+ Y4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJV
+ W8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc2xSY4AK6svPMxAIw28I
+ cxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2
+ IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI
+ 42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42
+ IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280
+ aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUgg_TUUUUU
+X-CM-SenderInfo: pkxtxqxorr0wxvrqhubq/1tbiAQAACWNJUWEKMAAAso
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=huqi@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -120,29 +71,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefano Stabellini <stefano.stabellini@amd.com>
+Similar to the ARM64, LoongArch has PC-relative instructions such as
+PCADDU18I. These instructions can be used to support direct jump for
+LoongArch. Additionally, if instruction "B offset" can cover the target
+address(target is within ±128MB range), a single "B offset" plus a nop
+will be used by "tb_target_set_jump_target".
 
-have_xen_pci_passthrough is only used for Xen x86 VMs.
-
-Signed-off-by: Stefano Stabellini <stefano.stabellini@amd.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Qi Hu <huqi@loongson.cn>
 ---
- meson.build | 2 ++
- 1 file changed, 2 insertions(+)
+Changes since v3:
+- Fix the offset check error which is pointed by WANG Xuerui.
+- Use TMP0 instead of T0.
+- Remove useless block due to direct jump support.
+- Add some assertions.
+---
+ tcg/loongarch64/tcg-target.c.inc | 48 +++++++++++++++++++++++++++++---
+ tcg/loongarch64/tcg-target.h     |  9 ++++--
+ 2 files changed, 50 insertions(+), 7 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 0027d7d195..43e70936ee 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1454,6 +1454,8 @@ have_xen_pci_passthrough = get_option('xen_pci_passthrough') \
-            error_message: 'Xen PCI passthrough requested but Xen not enabled') \
-   .require(targetos == 'linux',
-            error_message: 'Xen PCI passthrough not available on this platform') \
-+  .require(cpu == 'x86'  or cpu == 'x86_64',
-+           error_message: 'Xen PCI passthrough not available on this platform') \
-   .allowed()
+diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
+index f5a214a17f..8facd78137 100644
+--- a/tcg/loongarch64/tcg-target.c.inc
++++ b/tcg/loongarch64/tcg-target.c.inc
+@@ -1031,6 +1031,36 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args)
+ #endif
+ }
  
++/* LoongArch uses `andi zero, zero, 0` as NOP.  */
++#define NOP OPC_ANDI
++static void tcg_out_nop(TCGContext *s)
++{
++    tcg_out32(s, NOP);
++}
++
++void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
++                              uintptr_t jmp_rw, uintptr_t addr)
++{
++    tcg_insn_unit i1, i2;
++    ptrdiff_t upper, lower;
++    ptrdiff_t offset = (ptrdiff_t)(addr - jmp_rx) >> 2;
++
++    if (offset == sextreg(offset, 0, 26)) {
++        i1 = encode_sd10k16_insn(OPC_B, offset);
++        i2 = NOP;
++    } else {
++        tcg_debug_assert(offset == sextreg(offset, 0, 36));
++        lower = (int16_t)offset;
++        upper = (offset - lower) >> 16;
++
++        i1 = encode_dsj20_insn(OPC_PCADDU18I, TCG_REG_TMP0, upper);
++        i2 = encode_djsk16_insn(OPC_JIRL, TCG_REG_ZERO, TCG_REG_TMP0, lower);
++    }
++    uint64_t pair = ((uint64_t)i2 << 32) | i1;
++    qatomic_set((uint64_t *)jmp_rw, pair);
++    flush_idcache_range(jmp_rx, jmp_rw, 8);
++}
++
+ /*
+  * Entry-points
+  */
+@@ -1058,10 +1088,20 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+         break;
  
+     case INDEX_op_goto_tb:
+-        assert(s->tb_jmp_insn_offset == 0);
+-        /* indirect jump method */
+-        tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP0, TCG_REG_ZERO,
+-                   (uintptr_t)(s->tb_jmp_target_addr + a0));
++        tcg_debug_assert(s->tb_jmp_insn_offset != NULL);
++        /*
++         * Ensure that patch area is 8-byte aligned so that an
++         * atomic write can be used to patch the target address.
++         */
++        if ((uintptr_t)s->code_ptr & 7) {
++            tcg_out_nop(s);
++        }
++        s->tb_jmp_insn_offset[a0] = tcg_current_code_size(s);
++        /*
++         * actual branch destination will be patched by
++         * tb_target_set_jmp_target later
++         */
++        tcg_out_opc_pcaddu18i(s, TCG_REG_TMP0, 0);
+         tcg_out_opc_jirl(s, TCG_REG_ZERO, TCG_REG_TMP0, 0);
+         set_jmp_reset_offset(s, a0);
+         break;
+diff --git a/tcg/loongarch64/tcg-target.h b/tcg/loongarch64/tcg-target.h
+index 67380b2432..ba05ba552e 100644
+--- a/tcg/loongarch64/tcg-target.h
++++ b/tcg/loongarch64/tcg-target.h
+@@ -42,7 +42,11 @@
+ 
+ #define TCG_TARGET_INSN_UNIT_SIZE 4
+ #define TCG_TARGET_NB_REGS 32
+-#define MAX_CODE_GEN_BUFFER_SIZE  SIZE_MAX
++/*
++ * PCADDU18I + JIRL sequence can give 20 + 16 + 2 = 38 bits
++ * signed offset, which is +/- 128 GiB.
++ */
++#define MAX_CODE_GEN_BUFFER_SIZE  (128 * GiB)
+ 
+ typedef enum {
+     TCG_REG_ZERO,
+@@ -123,7 +127,7 @@ typedef enum {
+ #define TCG_TARGET_HAS_clz_i32          1
+ #define TCG_TARGET_HAS_ctz_i32          1
+ #define TCG_TARGET_HAS_ctpop_i32        0
+-#define TCG_TARGET_HAS_direct_jump      0
++#define TCG_TARGET_HAS_direct_jump      1
+ #define TCG_TARGET_HAS_brcond2          0
+ #define TCG_TARGET_HAS_setcond2         0
+ #define TCG_TARGET_HAS_qemu_st8_i32     0
+@@ -166,7 +170,6 @@ typedef enum {
+ #define TCG_TARGET_HAS_muluh_i64        1
+ #define TCG_TARGET_HAS_mulsh_i64        1
+ 
+-/* not defined -- call should be eliminated at compile time */
+ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
+ 
+ #define TCG_TARGET_DEFAULT_MO (0)
 -- 
-2.17.0
+2.38.0
 
 
