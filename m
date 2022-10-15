@@ -2,50 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F41CA5FF674
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Oct 2022 00:54:26 +0200 (CEST)
-Received: from localhost ([::1]:54126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FCF15FF899
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Oct 2022 07:21:40 +0200 (CEST)
+Received: from localhost ([::1]:47892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojTZR-0005f3-IB
-	for lists+qemu-devel@lfdr.de; Fri, 14 Oct 2022 18:54:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36356)
+	id 1ojZcB-0005q5-9b
+	for lists+qemu-devel@lfdr.de; Sat, 15 Oct 2022 01:21:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ojTXQ-0003I2-05; Fri, 14 Oct 2022 18:52:20 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:59210)
+ (Exim 4.90_1) (envelope-from <vikram.garhwal@amd.com>)
+ id 1ojZUA-0004uY-Kj
+ for qemu-devel@nongnu.org; Sat, 15 Oct 2022 01:13:23 -0400
+Received: from mail-bn8nam12on20618.outbound.protection.outlook.com
+ ([2a01:111:f400:fe5b::618]:13024
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ojTXN-0001mq-4Q; Fri, 14 Oct 2022 18:52:19 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 38B3D75A150;
- Sat, 15 Oct 2022 00:52:13 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id DAB1D746324; Sat, 15 Oct 2022 00:52:12 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id D8F9574633E;
- Sat, 15 Oct 2022 00:52:12 +0200 (CEST)
-Date: Sat, 15 Oct 2022 00:52:12 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org, 
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v6 14/25] ppc440_sdram: Move RAM size check to
- ppc440_sdram_init
-In-Reply-To: <d6be8094-3ab9-58e5-c4ac-a767f552e8e3@gmail.com>
-Message-ID: <81d25c94-ebd5-8a1-37d7-8e82b1523fa@eik.bme.hu>
-References: <cover.1664021647.git.balaton@eik.bme.hu>
- <41da3797392acaacc7963b79512c8af8005fa4b0.1664021647.git.balaton@eik.bme.hu>
- <d6be8094-3ab9-58e5-c4ac-a767f552e8e3@gmail.com>
+ (Exim 4.90_1) (envelope-from <vikram.garhwal@amd.com>)
+ id 1ojZU8-0008Dq-NO
+ for qemu-devel@nongnu.org; Sat, 15 Oct 2022 01:13:22 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BeHOwxI46DzSEr/DSp1/FCCZy5HKPuXrsdseMtCaAH3sGQu+zso4a5ife0DyZfXkmsRoTK8bQXBRMN2RgTYIfmAyHZS2R3qs2Ud/YXI+U4q5dRq7HGGnTY7Xd2FctC6UbYawD05pq11i4EKMHiDRiqhihFQpdF02SwE11gzmQG1Zi6P+y1TExWA3NFmQz31OvHGoeVhOV5scBeG6jDfBvZgeXld00sopLD0c1Uk/llky3y3pD5L0aozsjA9hjS3uiCTcytHeCSF/bSKGHi/KPDYUGxhYL6q+Xn+sfEV0ZoPaDR81RFCfj0whJkmrhirFlMNdaJ1Nuccfp4zwe0ixRA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5AfqqCH0f48EMvmAv7Yui2LY7Fh09KkpnK0SYnY4shg=;
+ b=Pz8Sgb8UNpXK9XdGWnEXuf1JosR3tpDrP6l7TtTVVqFvCwH0BTOLdJ5LMJxmUnJzPuXDeuC1UkbVJfQD7ZuH/LXx1EZ8Zqvy0Y7jJbj12KCSsAEJKvM0hfzrqhLMKcJh8aVql+lEnoBVbVTTpWEQI3tvFNJhIHHoQrqcoiT09oBkhEedThlZbEySUszm7bKcrTdzIzWOU8pSM6mltK128/aIY0XO2ekKg061aEY2Nfj1ZioFTZjNtAXNlBxg6sCfJq2USSt763xatKZVSCkgLPfqxma6b7r3ixMhz0zLe0zmlXlNDrMOO+GnUEJprUopDrWwayROqtybxkyAFQe0jQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5AfqqCH0f48EMvmAv7Yui2LY7Fh09KkpnK0SYnY4shg=;
+ b=uW1VA1hZyweLA2F1xEXHFqxtBCJJGtfB/6x1ScPBsThE65+AOthFcUbg9l3rQ5iwkb7WJ4w8UiuNzwm5h6O/mhFdu+L2/BNKTZrdmTqphlOfGXuB4efdQGO8i4KJY+OzRMcHhSU6O/Vcf5hVQ5qKlV9jPM1h3o3GK3C6wELTFJo=
+Received: from DS7PR05CA0089.namprd05.prod.outlook.com (2603:10b6:8:56::6) by
+ DM6PR12MB4862.namprd12.prod.outlook.com (2603:10b6:5:1b7::13) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5723.30; Sat, 15 Oct 2022 05:08:14 +0000
+Received: from DM6NAM11FT034.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:8:56:cafe::be) by DS7PR05CA0089.outlook.office365.com
+ (2603:10b6:8:56::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.10 via Frontend
+ Transport; Sat, 15 Oct 2022 05:08:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ DM6NAM11FT034.mail.protection.outlook.com (10.13.173.47) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5723.20 via Frontend Transport; Sat, 15 Oct 2022 05:08:13 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Sat, 15 Oct
+ 2022 00:08:13 -0500
+Received: from xsjfnuv50.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
+ Transport; Sat, 15 Oct 2022 00:08:13 -0500
+From: Vikram Garhwal <vikram.garhwal@amd.com>
+To: <qemu-devel@nongnu.org>
+CC: <vikram.garhwal@amd.com>, <stefano.stabellini@amd.com>
+Subject: [PATCH v1 00/12] Introduce xenpv machine for arm architecture 
+Date: Fri, 14 Oct 2022 22:07:38 -0700
+Message-ID: <20221015050750.4185-1-vikram.garhwal@amd.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT034:EE_|DM6PR12MB4862:EE_
+X-MS-Office365-Filtering-Correlation-Id: 91071a93-705f-4e26-8ed0-08daae6b4354
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rcnboj8SO1UdvSg6/527byUi/Mlf26CbzD/DhIf3S5RLApFNGQCOQVU4bpMrzdhnJX/yxzwnml85nvSHYZEsSu/3EsFwlCNCZwULiuV5FWkVkgqAMTGWrdPgXBYyPQC5O4llKP3RRgM34DAv5NXETD1IpVpLkq8IMtVgFiNeM92jFhyvhOGcdwhS7Zwz0JfSo7BO7aGYvaabvcYf2yZrLB84ciQ/TfCmq65JBNhfb+xPmnrAM9w8iePtQ9xBEHO9SHzxLEYje+YWZCnIV2PllOEHAdCCzqBYbG4EjMtyvJES9tsmuJEboom6XQ8pOxtu/999f6limX5THH6NTAdmdYbvGf/NkyJ56637IH8amLA0QjUlj0t8M8K5ugFk3sM5/RYbpeBNXwBCYyrxQ4SwdwXsIiE7THTUxyrxDF/nqqasyW5/erT7a0cYTlrF+t5ZkYREBPo7UMPnTHfuTxASMisUZk6gawI22+Rz1hlK/opikSqRQJLM38KxPT8vvnsQLQ4qDej/KaRzBtUvhoGEVzOCchFkea0Ba3ttVqxyoe5CikBFHE2BhCphxTxYHap+xaJchRvvgHid5/yGpt+8MFoGJYGmA9OG2y+l0yjlJ6ahNesALL0v70qaMPOMkw+5X7D3tH95M7osM26vw9Ko9eauJmH7I4UC1xCDc9E6jf0Tli4htBm0OYSuovCmJXvP+CmjdNNgHUu2NVaokcI6XqS0WoHXc3KzGbgYth8BTBhXY3lDyVHRfiFenwGXGCnI7csaVkmIziVgU9I0A41xrSI8wWlbcZ8qj1gLp7ZERiE=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230022)(4636009)(346002)(376002)(396003)(136003)(39860400002)(451199015)(40470700004)(36840700001)(46966006)(356005)(82740400003)(82310400005)(81166007)(40480700001)(40460700003)(86362001)(41300700001)(4326008)(36756003)(8676002)(26005)(4743002)(44832011)(70586007)(54906003)(478600001)(5660300002)(70206006)(6916009)(336012)(6666004)(36860700001)(316002)(8936002)(47076005)(426003)(2616005)(2906002)(83380400001)(1076003)(186003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2022 05:08:13.9914 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91071a93-705f-4e26-8ed0-08daae6b4354
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT034.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4862
+Received-SPF: softfail client-ip=2a01:111:f400:fe5b::618;
+ envelope-from=vikram.garhwal@amd.com;
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,214 +118,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 14 Oct 2022, Daniel Henrique Barboza wrote:
-> Zoltan,
->
-> Gitlab didn't like this patch. It broke all 32 bits builds due to an overflow
-> down there:
->
-> On 9/24/22 09:28, BALATON Zoltan wrote:
->> Move the check for valid memory sizes from board to sdram controller
->> init. This adds the missing valid memory sizes of 4 GiB, 16 and 8 MiB
->> to the DoC and the board now only checks for additional restrictions
->> imposed by its firmware then sdram init checks for valid sizes for SoC.
->> 
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->> ---
->>   hw/ppc/ppc440.h    |  4 ++--
->>   hw/ppc/ppc440_uc.c | 15 +++++++--------
->>   hw/ppc/sam460ex.c  | 32 +++++++++++++++++---------------
->>   3 files changed, 26 insertions(+), 25 deletions(-)
->> 
->> diff --git a/hw/ppc/ppc440.h b/hw/ppc/ppc440.h
->> index 01d76b8000..29f6f14ed7 100644
->> --- a/hw/ppc/ppc440.h
->> +++ b/hw/ppc/ppc440.h
->> @@ -11,13 +11,13 @@
->>   #ifndef PPC440_H
->>   #define PPC440_H
->>   -#include "hw/ppc/ppc4xx.h"
->> +#include "hw/ppc/ppc.h"
->>     void ppc4xx_l2sram_init(CPUPPCState *env);
->>   void ppc4xx_cpr_init(CPUPPCState *env);
->>   void ppc4xx_sdr_init(CPUPPCState *env);
->>   void ppc440_sdram_init(CPUPPCState *env, int nbanks,
->> -                       Ppc4xxSdramBank *ram_banks);
->> +                       MemoryRegion *ram);
->>   void ppc4xx_ahb_init(CPUPPCState *env);
->>   void ppc4xx_dma_init(CPUPPCState *env, int dcr_base);
->>   void ppc460ex_pcie_init(CPUPPCState *env);
->> diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
->> index edd0781eb7..2b9d666b71 100644
->> --- a/hw/ppc/ppc440_uc.c
->> +++ b/hw/ppc/ppc440_uc.c
->> @@ -487,7 +487,7 @@ void ppc4xx_sdr_init(CPUPPCState *env)
->>   typedef struct ppc440_sdram_t {
->>       uint32_t addr;
->>       uint32_t mcopt2;
->> -    int nbanks;
->> +    int nbanks; /* Banks to use from the 4, e.g. when board has less slots 
->> */
->>       Ppc4xxSdramBank bank[4];
->>   } ppc440_sdram_t;
->>   @@ -733,18 +733,17 @@ static void sdram_ddr2_reset(void *opaque)
->>   }
->>     void ppc440_sdram_init(CPUPPCState *env, int nbanks,
->> -                       Ppc4xxSdramBank *ram_banks)
->> +                       MemoryRegion *ram)
->>   {
->>       ppc440_sdram_t *s;
->> -    int i;
->> +    const ram_addr_t valid_bank_sizes[] = {
->> +        4 * GiB, 2 * GiB, 1 * GiB, 512 * MiB, 256 * MiB, 128 * MiB, 64 * 
->> MiB,
->
->
-> ^ here. ram_addr_t will be a 32 bit var in a 32 bit host, and assigning 4 * 
-> GiB will
-> overflow it back to zero.
->
-> Here's the Gitlab error from the 'cross-win32-system' runner:
->
-> FAILED: libqemu-ppc64-softmmu.fa.p/hw_ppc_ppc440_uc.c.obj
-> 2725i686-w64-mingw32-gcc -m32 -Ilibqemu-ppc64-softmmu.fa.p -I. -I.. 
-> -Itarget/ppc -I../target/ppc -I../dtc/libfdt -Iqapi -Itrace -Iui -Iui/shader 
-> -I/usr/i686-w64-mingw32/sys-root/mingw/include/pixman-1 
-> -I/usr/i686-w64-mingw32/sys-root/mingw/include/glib-2.0 
-> -I/usr/i686-w64-mingw32/sys-root/mingw/lib/glib-2.0/include 
-> -fdiagnostics-color=auto -Wall -Winvalid-pch -Werror -std=gnu11 -O2 -g 
-> -iquote . -iquote /builds/danielhb/qemu -iquote /builds/danielhb/qemu/include 
-> -iquote /builds/danielhb/qemu/tcg/i386 -mms-bitfields -U_FORTIFY_SOURCE 
-> -D_FORTIFY_SOURCE=2 -fno-pie -no-pie -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 
-> -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef 
-> -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv 
-> -Wold-style-declaration -Wold-style-definition -Wtype-limits 
-> -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty-body 
-> -Wnested-externs -Wendif-labels -Wexpansion-to-defined 
-> -Wimplicit-fallthrough=2 -Wno-missing-include-dirs -Wno-shift-negative-value 
-> -Wno-psabi -fstack-protector-strong -DNEED_CPU_H 
-> '-DCONFIG_TARGET="ppc64-softmmu-config-target.h"' 
-> '-DCONFIG_DEVICES="ppc64-softmmu-config-devices.h"' -MD -MQ 
-> libqemu-ppc64-softmmu.fa.p/hw_ppc_ppc440_uc.c.obj -MF 
-> libqemu-ppc64-softmmu.fa.p/hw_ppc_ppc440_uc.c.obj.d -o 
-> libqemu-ppc64-softmmu.fa.p/hw_ppc_ppc440_uc.c.obj -c ../hw/ppc/ppc440_uc.c
-> 2726../hw/ppc/ppc440_uc.c: In function 'ppc4xx_sdram_ddr2_realize':
-> 2727../hw/ppc/ppc440_uc.c:729:9: error: unsigned conversion from 'long long 
-> int' to 'unsigned int' changes value from '4294967296' to '0' 
-> [-Werror=overflow]
-> 2728  729 |         4 * GiB, 2 * GiB, 1 * GiB, 512 * MiB, 256 * MiB, 128 * 
-> MiB, 64 * MiB,
-> 2729      |         ^
-> 2730cc1: all warnings being treated as errors
-> 2731
->
-> A quick fix that I can make in-tree is to avoid the overflow by doing (4 * 
-> GiB) - 1.
-> But since this might affect some logic in the model I figured I should ask 
-> you
-> first.
+Hi,
+This series add xenpv machine for aarch64. Motivation behind creating xenpv
+machine with IOREQ and TPM was to enable each guest on Xen aarch64 to have it's
+own unique and emulated TPM.
 
-I think in that case we can just drop the 4*GiB value from the 
-valid_bank_sizes[] array for now because while it's valid for the SoC the 
-sam460ex firmware also has problems with it so having 2 GiB as largest 
-value is OK. Can you change the patch accordingly or should I send an 
-updated version with this change?
+This series does following:
+    1. Moved common xen functionalities from hw/i386/xen to hw/xen/ so those can
+       be used for aarch64.
+    2. We added a minimal xenpv arm machine which creates an IOREQ server and
+       support TPM.
+
+Please note that patch 05/12 breaks the build. Patch 06/12 fixes the build
+issue. If needed we can merge patch 05/12 and 06/12. For now we kept these
+separate to make changes easy to review.
+
+Also, checkpatch.pl fails for 03/12 and 06/12. These fails are due to
+moving old code to new place which was not QEMU code style compatible.
+No new add code was added.
 
 Regards,
-BALATON Zoltan
+Vikram
 
-> Let me know if this is OK with you. Otherwise feel free to propose another
-> workaround. I appreciate if you can answer quickly because I can't make a 
-> ppc-next
-> PR until this is sorted out.
->
->
->
-> Thanks,
->
->
-> Daniel
->
->
->
->> +        32 * MiB, 16 * MiB, 8 * MiB, 0
->> +    };
->>         s = g_malloc0(sizeof(*s));
->>       s->nbanks = nbanks;
->> -    for (i = 0; i < nbanks; i++) {
->> -        s->bank[i].ram = ram_banks[i].ram;
->> -        s->bank[i].base = ram_banks[i].base;
->> -        s->bank[i].size = ram_banks[i].size;
->> -    }
->> +    ppc4xx_sdram_banks(ram, s->nbanks, s->bank, valid_bank_sizes);
->>       qemu_register_reset(&sdram_ddr2_reset, s);
->>       ppc_dcr_register(env, SDRAM0_CFGADDR,
->>                        s, &sdram_ddr2_dcr_read, &sdram_ddr2_dcr_write);
->> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
->> index b318521b01..13055a8916 100644
->> --- a/hw/ppc/sam460ex.c
->> +++ b/hw/ppc/sam460ex.c
->> @@ -74,13 +74,6 @@
->>   #define EBC_FREQ 115000000
->>   #define UART_FREQ 11059200
->>   -/* The SoC could also handle 4 GiB but firmware does not work with that. 
->> */
->> -/* Maybe it overflows a signed 32 bit number somewhere? */
->> -static const ram_addr_t ppc460ex_sdram_bank_sizes[] = {
->> -    2 * GiB, 1 * GiB, 512 * MiB, 256 * MiB, 128 * MiB, 64 * MiB,
->> -    32 * MiB, 0
->> -};
->> -
->>   struct boot_info {
->>       uint32_t dt_base;
->>       uint32_t dt_size;
->> @@ -273,7 +266,6 @@ static void sam460ex_init(MachineState *machine)
->>   {
->>       MemoryRegion *address_space_mem = get_system_memory();
->>       MemoryRegion *isa = g_new(MemoryRegion, 1);
->> -    Ppc4xxSdramBank *ram_banks = g_new0(Ppc4xxSdramBank, 1);
->>       MemoryRegion *l2cache_ram = g_new(MemoryRegion, 1);
->>       DeviceState *uic[4];
->>       int i;
->> @@ -340,12 +332,22 @@ static void sam460ex_init(MachineState *machine)
->>       }
->>         /* SDRAM controller */
->> -    /* put all RAM on first bank because board has one slot
->> -     * and firmware only checks that */
->> -    ppc4xx_sdram_banks(machine->ram, 1, ram_banks, 
->> ppc460ex_sdram_bank_sizes);
->> -
->> +    /* The SoC could also handle 4 GiB but firmware does not work with 
->> that. */
->> +    if (machine->ram_size > 2 * GiB) {
->> +        error_report("Memory over 2 GiB is not supported");
->> +        exit(1);
->> +    }
->> +    /* Firmware needs at least 64 MiB */
->> +    if (machine->ram_size < 64 * MiB) {
->> +        error_report("Memory below 64 MiB is not supported");
->> +        exit(1);
->> +    }
->> +    /*
->> +     * Put all RAM on first bank because board has one slot
->> +     * and firmware only checks that
->> +     */
->> +    ppc440_sdram_init(env, 1, machine->ram);
->>       /* FIXME: does 460EX have ECC interrupts? */
->> -    ppc440_sdram_init(env, 1, ram_banks);
->>       /* Enable SDRAM memory regions as we may boot without firmware */
->>       ppc4xx_sdram_ddr2_enable(env);
->>   @@ -354,8 +356,8 @@ static void sam460ex_init(MachineState *machine)
->>                                  qdev_get_gpio_in(uic[0], 2));
->>       i2c = PPC4xx_I2C(dev)->bus;
->>       /* SPD EEPROM on RAM module */
->> -    spd_data = spd_data_generate(ram_banks->size < 128 * MiB ? DDR : DDR2,
->> -                                 ram_banks->size);
->> +    spd_data = spd_data_generate(machine->ram_size < 128 * MiB ? DDR : 
->> DDR2,
->> +                                 machine->ram_size);
->>       spd_data[20] = 4; /* SO-DIMM module */
->>       smbus_eeprom_init_one(i2c, 0x50, spd_data);
->>       /* RTC */
->
+Stefano Stabellini (5):
+  hw/i386/xen/xen-hvm: move x86-specific fields out of XenIOState
+  hw/i386/xen/xen-hvm: create arch_handle_ioreq and arch_xen_set_memory
+  include/hw/xen/xen_common: return error from xen_create_ioreq_server
+  hw/xen/xen-hvm-common: skip ioreq creation on ioreq registration
+    failure
+  meson.build: do not set have_xen_pci_passthrough for aarch64 targets
+
+Vikram Garhwal (7):
+  hw/xen: Correct build config for xen_pt_stub
+  hw/i386/xen/: move xen-mapcache.c to hw/xen/
+  hw/i386/xen: rearrange xen_hvm_init_pc
+  xen-hvm: move common functions to hw/xen/xen-hvm-common.c
+  accel/xen/xen-all: export xenstore_record_dm_state
+  hw/arm: introduce xenpv machine
+  meson.build: enable xenpv machine build for ARM
+
+ accel/xen/xen-all.c              |    2 +-
+ hw/arm/meson.build               |    2 +
+ hw/arm/xen_arm.c                 |  163 +++++
+ hw/i386/meson.build              |    1 +
+ hw/i386/xen/meson.build          |    1 -
+ hw/i386/xen/trace-events         |   19 -
+ hw/i386/xen/xen-hvm.c            | 1084 +++---------------------------
+ hw/xen/meson.build               |    9 +-
+ hw/xen/trace-events              |   19 +
+ hw/xen/xen-hvm-common.c          |  863 ++++++++++++++++++++++++
+ hw/{i386 => }/xen/xen-mapcache.c |    0
+ include/hw/arm/xen_arch_hvm.h    |   12 +
+ include/hw/i386/xen_arch_hvm.h   |   11 +
+ include/hw/xen/arch_hvm.h        |    5 +
+ include/hw/xen/xen-hvm-common.h  |   97 +++
+ include/hw/xen/xen.h             |    2 +
+ include/hw/xen/xen_common.h      |   12 +-
+ meson.build                      |    4 +-
+ 18 files changed, 1287 insertions(+), 1019 deletions(-)
+ create mode 100644 hw/arm/xen_arm.c
+ create mode 100644 hw/xen/xen-hvm-common.c
+ rename hw/{i386 => }/xen/xen-mapcache.c (100%)
+ create mode 100644 include/hw/arm/xen_arch_hvm.h
+ create mode 100644 include/hw/i386/xen_arch_hvm.h
+ create mode 100644 include/hw/xen/arch_hvm.h
+ create mode 100644 include/hw/xen/xen-hvm-common.h
+
+-- 
+2.17.0
+
 
