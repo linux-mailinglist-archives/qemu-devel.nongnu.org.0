@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FCF15FF899
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Oct 2022 07:21:40 +0200 (CEST)
-Received: from localhost ([::1]:47892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A6CF5FF89D
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Oct 2022 07:24:46 +0200 (CEST)
+Received: from localhost ([::1]:52126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojZcB-0005q5-9b
-	for lists+qemu-devel@lfdr.de; Sat, 15 Oct 2022 01:21:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44238)
+	id 1ojZfB-000257-5I
+	for lists+qemu-devel@lfdr.de; Sat, 15 Oct 2022 01:24:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vikram.garhwal@amd.com>)
- id 1ojZUA-0004uY-Kj
+ id 1ojZUA-0004uX-Io
  for qemu-devel@nongnu.org; Sat, 15 Oct 2022 01:13:23 -0400
-Received: from mail-bn8nam12on20618.outbound.protection.outlook.com
- ([2a01:111:f400:fe5b::618]:13024
- helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+Received: from mail-dm6nam12on20620.outbound.protection.outlook.com
+ ([2a01:111:f400:fe59::620]:62896
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vikram.garhwal@amd.com>)
- id 1ojZU8-0008Dq-NO
+ id 1ojZU8-0008Dp-PN
  for qemu-devel@nongnu.org; Sat, 15 Oct 2022 01:13:22 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BeHOwxI46DzSEr/DSp1/FCCZy5HKPuXrsdseMtCaAH3sGQu+zso4a5ife0DyZfXkmsRoTK8bQXBRMN2RgTYIfmAyHZS2R3qs2Ud/YXI+U4q5dRq7HGGnTY7Xd2FctC6UbYawD05pq11i4EKMHiDRiqhihFQpdF02SwE11gzmQG1Zi6P+y1TExWA3NFmQz31OvHGoeVhOV5scBeG6jDfBvZgeXld00sopLD0c1Uk/llky3y3pD5L0aozsjA9hjS3uiCTcytHeCSF/bSKGHi/KPDYUGxhYL6q+Xn+sfEV0ZoPaDR81RFCfj0whJkmrhirFlMNdaJ1Nuccfp4zwe0ixRA==
+ b=UnAPJgoGSTmlEeb/+g+WCQZsuL15QSKDzRod2J7y3PmuwhWOR/wgVXFZExIRdDbnlH4nTEErhlwHRVRUGh76A6mQPnhVtKdZIy0ICk2nBNNaoPZZaW2EyyiK2d1GgBbAgCtik1J6LSUmu1Ss3+rnYwmIVSIU3aEbV2pNTX1TcTDzbqC0iVmLhf8owFMUl4c/SCmrMPgivFY8khtP1klpjpW3ef/QpW4XroEhjA87nLQ6ZwVXwKQ4evFIXwk6IgcGEs518PByFJwRLIdtsi1UAs5MBm0bwIRMGlfiqMoAM7skniWEzracEO3rtD462VPPPpFU3KGGdTY0RyCw8GNGJA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5AfqqCH0f48EMvmAv7Yui2LY7Fh09KkpnK0SYnY4shg=;
- b=Pz8Sgb8UNpXK9XdGWnEXuf1JosR3tpDrP6l7TtTVVqFvCwH0BTOLdJ5LMJxmUnJzPuXDeuC1UkbVJfQD7ZuH/LXx1EZ8Zqvy0Y7jJbj12KCSsAEJKvM0hfzrqhLMKcJh8aVql+lEnoBVbVTTpWEQI3tvFNJhIHHoQrqcoiT09oBkhEedThlZbEySUszm7bKcrTdzIzWOU8pSM6mltK128/aIY0XO2ekKg061aEY2Nfj1ZioFTZjNtAXNlBxg6sCfJq2USSt763xatKZVSCkgLPfqxma6b7r3ixMhz0zLe0zmlXlNDrMOO+GnUEJprUopDrWwayROqtybxkyAFQe0jQ==
+ bh=pAQjlB7HyLijB3e709Vr7QvA7lbuariOB/trgP6DhHw=;
+ b=I7lu8yLutpyjXyCOWt+FvnOW0wjMx7fSw1w+JirPX5QvRyoVd9LDiK0dfF1dHH98xvBVxvkXeLOT0G4U7KFouNTw4wf7dd6cFXMADXIKhRHXQ4NKM7vmRiXNJj9B3iK8aMwPuguJQGOZoOnwOuKosFhemkjbeOcBPJtEEGF+fQG84RzaAhlBLWPvjTQaeUK062P5p0A8TSE6Qfsq+8BGDPtUCZYWLwq6oSkhakpjb68uQtSlabh7su8KLgqyHHIGKCMRiOLCnSnfVXGSuj/6yYbRjdRiQdI57s47uE4WuEMAn697POkCbR9dcBuPVs0qV5Bt62lvSCQi0+f67UBv2w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5AfqqCH0f48EMvmAv7Yui2LY7Fh09KkpnK0SYnY4shg=;
- b=uW1VA1hZyweLA2F1xEXHFqxtBCJJGtfB/6x1ScPBsThE65+AOthFcUbg9l3rQ5iwkb7WJ4w8UiuNzwm5h6O/mhFdu+L2/BNKTZrdmTqphlOfGXuB4efdQGO8i4KJY+OzRMcHhSU6O/Vcf5hVQ5qKlV9jPM1h3o3GK3C6wELTFJo=
-Received: from DS7PR05CA0089.namprd05.prod.outlook.com (2603:10b6:8:56::6) by
- DM6PR12MB4862.namprd12.prod.outlook.com (2603:10b6:5:1b7::13) with
+ bh=pAQjlB7HyLijB3e709Vr7QvA7lbuariOB/trgP6DhHw=;
+ b=gNWpTTc2X0P77XawvBXjyo5bABbjESp8JCHWQ46dhoOEEd0z8sxBRgPO7uWGqO1/7F9VIWnMx4Jow39RDjjBREdn3K1FrCKKOMb6A3WkZKCnttllWvXVF8EzKw3SgWka2i+FbL9mxG/Wq9IXVGYdcxbuE0cDP2oaP+jPH2NHdiI=
+Received: from DS7PR05CA0102.namprd05.prod.outlook.com (2603:10b6:8:56::22) by
+ PH8PR12MB6938.namprd12.prod.outlook.com (2603:10b6:510:1bd::8) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5723.30; Sat, 15 Oct 2022 05:08:14 +0000
+ 15.20.5709.21; Sat, 15 Oct 2022 05:08:14 +0000
 Received: from DM6NAM11FT034.eop-nam11.prod.protection.outlook.com
- (2603:10b6:8:56:cafe::be) by DS7PR05CA0089.outlook.office365.com
- (2603:10b6:8:56::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.10 via Frontend
+ (2603:10b6:8:56:cafe::65) by DS7PR05CA0102.outlook.office365.com
+ (2603:10b6:8:56::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.8 via Frontend
  Transport; Sat, 15 Oct 2022 05:08:14 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
@@ -55,48 +55,53 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB03.amd.com (165.204.84.17) by
  DM6NAM11FT034.mail.protection.outlook.com (10.13.173.47) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5723.20 via Frontend Transport; Sat, 15 Oct 2022 05:08:13 +0000
+ 15.20.5723.20 via Frontend Transport; Sat, 15 Oct 2022 05:08:14 +0000
 Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Sat, 15 Oct
- 2022 00:08:13 -0500
+ 2022 00:08:14 -0500
 Received: from xsjfnuv50.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
  Transport; Sat, 15 Oct 2022 00:08:13 -0500
 From: Vikram Garhwal <vikram.garhwal@amd.com>
 To: <qemu-devel@nongnu.org>
-CC: <vikram.garhwal@amd.com>, <stefano.stabellini@amd.com>
-Subject: [PATCH v1 00/12] Introduce xenpv machine for arm architecture 
-Date: Fri, 14 Oct 2022 22:07:38 -0700
-Message-ID: <20221015050750.4185-1-vikram.garhwal@amd.com>
+CC: <vikram.garhwal@amd.com>, <stefano.stabellini@amd.com>, Stefano Stabellini
+ <sstabellini@kernel.org>, Anthony Perard <anthony.perard@citrix.com>, "Paul
+ Durrant" <paul@xen.org>, "open list:X86 Xen CPUs"
+ <xen-devel@lists.xenproject.org>
+Subject: [PATCH v1 01/12] hw/xen: Correct build config for xen_pt_stub
+Date: Fri, 14 Oct 2022 22:07:39 -0700
+Message-ID: <20221015050750.4185-2-vikram.garhwal@amd.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20221015050750.4185-1-vikram.garhwal@amd.com>
+References: <20221015050750.4185-1-vikram.garhwal@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT034:EE_|DM6PR12MB4862:EE_
-X-MS-Office365-Filtering-Correlation-Id: 91071a93-705f-4e26-8ed0-08daae6b4354
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT034:EE_|PH8PR12MB6938:EE_
+X-MS-Office365-Filtering-Correlation-Id: 12cca009-9216-4280-9b60-08daae6b43c4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rcnboj8SO1UdvSg6/527byUi/Mlf26CbzD/DhIf3S5RLApFNGQCOQVU4bpMrzdhnJX/yxzwnml85nvSHYZEsSu/3EsFwlCNCZwULiuV5FWkVkgqAMTGWrdPgXBYyPQC5O4llKP3RRgM34DAv5NXETD1IpVpLkq8IMtVgFiNeM92jFhyvhOGcdwhS7Zwz0JfSo7BO7aGYvaabvcYf2yZrLB84ciQ/TfCmq65JBNhfb+xPmnrAM9w8iePtQ9xBEHO9SHzxLEYje+YWZCnIV2PllOEHAdCCzqBYbG4EjMtyvJES9tsmuJEboom6XQ8pOxtu/999f6limX5THH6NTAdmdYbvGf/NkyJ56637IH8amLA0QjUlj0t8M8K5ugFk3sM5/RYbpeBNXwBCYyrxQ4SwdwXsIiE7THTUxyrxDF/nqqasyW5/erT7a0cYTlrF+t5ZkYREBPo7UMPnTHfuTxASMisUZk6gawI22+Rz1hlK/opikSqRQJLM38KxPT8vvnsQLQ4qDej/KaRzBtUvhoGEVzOCchFkea0Ba3ttVqxyoe5CikBFHE2BhCphxTxYHap+xaJchRvvgHid5/yGpt+8MFoGJYGmA9OG2y+l0yjlJ6ahNesALL0v70qaMPOMkw+5X7D3tH95M7osM26vw9Ko9eauJmH7I4UC1xCDc9E6jf0Tli4htBm0OYSuovCmJXvP+CmjdNNgHUu2NVaokcI6XqS0WoHXc3KzGbgYth8BTBhXY3lDyVHRfiFenwGXGCnI7csaVkmIziVgU9I0A41xrSI8wWlbcZ8qj1gLp7ZERiE=
+X-Microsoft-Antispam-Message-Info: 0Rnh+Q9j0NujYd4j95jGB26ZG+JYfjQE2/aLWnA+rA27CTHSEqvquEdHWVAyQBG6koPEv4pP4m4m/BG9C8nFkQ7sG+K2TInaoWdRCncVG37U14OJ6tqobO2PNCddWRj97FVw4TC25sD4fdq02THcDpcpBBr5Id29knpfHoK37Rh2ViQGEfd4UrioX9UmmkUP5h2J8GI1SWwyqgNJA/mzGFchDbusQK1GY+pr0ejk3fDw9+tlEGnSRIMzFpCsO/kYp0i1FFSXquBfSDYx2+KYI8B8aRFbMOP97B3lcIrNbmcXGnwx/4oA4xN/TljP128ahE2+rnJHCKBkoUftiSxvVkRMxfABTs2M0Fv8a2TB57s6xDkqKVIiAhr+xlXO9ZuSDq4ZKhHXaCgWv6KrryvsdUsImy6FzhYdd0LTc09jxkHDoJWoKh6Un/En21EbmUSnzS4w7kr9Rxqqu9Rz1LfXAaCzjRm6TlIaNYDLDjf6Z7m2DfynmICL3Xt4aQznC+HJmHEjoq7O8DGz9FAoqj+HcdlOilI+6qeWoucJvVMnuNrXKQAT3Ko8t7qc+yruTFA4hFZkXyFHueIC5dshuVeljyUa5L6two0yWJKqDLG48Udw9bKYHl5+icT9NhDRoTdGSJ6bzR12r9VdHsB6Z8ebyUWsZ4TZS+JL9Vq5u3tctD54/8QD8BpCHYqj3KNWVb4ffhWqIV8biSBWCpE05eSjEs4fkU4Hck4UNPaLj6frUQPfyoMs0uABqGWrhVDnz2lF4eSDnEofuVGEI5QkeMD46z7yFsfQRFv1ryrdeyHzvYtVbldSF3ZsRmFyar9l21o9
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230022)(4636009)(346002)(376002)(396003)(136003)(39860400002)(451199015)(40470700004)(36840700001)(46966006)(356005)(82740400003)(82310400005)(81166007)(40480700001)(40460700003)(86362001)(41300700001)(4326008)(36756003)(8676002)(26005)(4743002)(44832011)(70586007)(54906003)(478600001)(5660300002)(70206006)(6916009)(336012)(6666004)(36860700001)(316002)(8936002)(47076005)(426003)(2616005)(2906002)(83380400001)(1076003)(186003)(36900700001);
+ SFS:(13230022)(4636009)(136003)(376002)(346002)(39860400002)(396003)(451199015)(40470700004)(46966006)(36840700001)(2616005)(336012)(186003)(1076003)(83380400001)(356005)(81166007)(426003)(36860700001)(82740400003)(47076005)(5660300002)(4744005)(40460700003)(41300700001)(40480700001)(2906002)(8676002)(26005)(6916009)(70586007)(6666004)(8936002)(82310400005)(316002)(4326008)(54906003)(70206006)(44832011)(478600001)(36756003)(86362001)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2022 05:08:13.9914 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 91071a93-705f-4e26-8ed0-08daae6b4354
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2022 05:08:14.7101 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 12cca009-9216-4280-9b60-08daae6b43c4
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB03.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT034.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4862
-Received-SPF: softfail client-ip=2a01:111:f400:fe5b::618;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6938
+Received-SPF: softfail client-ip=2a01:111:f400:fe59::620;
  envelope-from=vikram.garhwal@amd.com;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -118,72 +123,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-This series add xenpv machine for aarch64. Motivation behind creating xenpv
-machine with IOREQ and TPM was to enable each guest on Xen aarch64 to have it's
-own unique and emulated TPM.
+Build fails when have_xen_pci_passthrough is disabled. This is because of
+incorrect build configuration for xen_pt_stub.c.
 
-This series does following:
-    1. Moved common xen functionalities from hw/i386/xen to hw/xen/ so those can
-       be used for aarch64.
-    2. We added a minimal xenpv arm machine which creates an IOREQ server and
-       support TPM.
+Signed-off-by: Stefano Stabellini <stefano.stabellini@amd.com>
+Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
+---
+ hw/xen/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Please note that patch 05/12 breaks the build. Patch 06/12 fixes the build
-issue. If needed we can merge patch 05/12 and 06/12. For now we kept these
-separate to make changes easy to review.
-
-Also, checkpatch.pl fails for 03/12 and 06/12. These fails are due to
-moving old code to new place which was not QEMU code style compatible.
-No new add code was added.
-
-Regards,
-Vikram
-
-Stefano Stabellini (5):
-  hw/i386/xen/xen-hvm: move x86-specific fields out of XenIOState
-  hw/i386/xen/xen-hvm: create arch_handle_ioreq and arch_xen_set_memory
-  include/hw/xen/xen_common: return error from xen_create_ioreq_server
-  hw/xen/xen-hvm-common: skip ioreq creation on ioreq registration
-    failure
-  meson.build: do not set have_xen_pci_passthrough for aarch64 targets
-
-Vikram Garhwal (7):
-  hw/xen: Correct build config for xen_pt_stub
-  hw/i386/xen/: move xen-mapcache.c to hw/xen/
-  hw/i386/xen: rearrange xen_hvm_init_pc
-  xen-hvm: move common functions to hw/xen/xen-hvm-common.c
-  accel/xen/xen-all: export xenstore_record_dm_state
-  hw/arm: introduce xenpv machine
-  meson.build: enable xenpv machine build for ARM
-
- accel/xen/xen-all.c              |    2 +-
- hw/arm/meson.build               |    2 +
- hw/arm/xen_arm.c                 |  163 +++++
- hw/i386/meson.build              |    1 +
- hw/i386/xen/meson.build          |    1 -
- hw/i386/xen/trace-events         |   19 -
- hw/i386/xen/xen-hvm.c            | 1084 +++---------------------------
- hw/xen/meson.build               |    9 +-
- hw/xen/trace-events              |   19 +
- hw/xen/xen-hvm-common.c          |  863 ++++++++++++++++++++++++
- hw/{i386 => }/xen/xen-mapcache.c |    0
- include/hw/arm/xen_arch_hvm.h    |   12 +
- include/hw/i386/xen_arch_hvm.h   |   11 +
- include/hw/xen/arch_hvm.h        |    5 +
- include/hw/xen/xen-hvm-common.h  |   97 +++
- include/hw/xen/xen.h             |    2 +
- include/hw/xen/xen_common.h      |   12 +-
- meson.build                      |    4 +-
- 18 files changed, 1287 insertions(+), 1019 deletions(-)
- create mode 100644 hw/arm/xen_arm.c
- create mode 100644 hw/xen/xen-hvm-common.c
- rename hw/{i386 => }/xen/xen-mapcache.c (100%)
- create mode 100644 include/hw/arm/xen_arch_hvm.h
- create mode 100644 include/hw/i386/xen_arch_hvm.h
- create mode 100644 include/hw/xen/arch_hvm.h
- create mode 100644 include/hw/xen/xen-hvm-common.h
-
+diff --git a/hw/xen/meson.build b/hw/xen/meson.build
+index 08dc1f6857..ae0ace3046 100644
+--- a/hw/xen/meson.build
++++ b/hw/xen/meson.build
+@@ -18,7 +18,7 @@ if have_xen_pci_passthrough
+     'xen_pt_msi.c',
+   ))
+ else
+-  xen_specific_ss.add('xen_pt_stub.c')
++  xen_specific_ss.add(files('xen_pt_stub.c'))
+ endif
+ 
+ specific_ss.add_all(when: ['CONFIG_XEN', xen], if_true: xen_specific_ss)
 -- 
 2.17.0
 
