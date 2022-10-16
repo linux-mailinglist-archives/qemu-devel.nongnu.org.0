@@ -2,91 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B33F600171
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 Oct 2022 18:40:22 +0200 (CEST)
-Received: from localhost ([::1]:38690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3190B600282
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 Oct 2022 19:49:54 +0200 (CEST)
+Received: from localhost ([::1]:60648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ok6gX-0000Mu-5R
-	for lists+qemu-devel@lfdr.de; Sun, 16 Oct 2022 12:40:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33040)
+	id 1ok7lo-000069-Rj
+	for lists+qemu-devel@lfdr.de; Sun, 16 Oct 2022 13:49:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hi@alyssa.is>) id 1ok6eW-0007LL-AD
- for qemu-devel@nongnu.org; Sun, 16 Oct 2022 12:38:17 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:41591)
+ (Exim 4.90_1) (envelope-from <julien@xen.org>)
+ id 1ok7kE-00079O-Hz; Sun, 16 Oct 2022 13:48:14 -0400
+Received: from mail.xenproject.org ([104.130.215.37]:46126)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hi@alyssa.is>) id 1ok6eT-0004jO-TD
- for qemu-devel@nongnu.org; Sun, 16 Oct 2022 12:38:15 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id EE95F5C00D2;
- Sun, 16 Oct 2022 12:38:10 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Sun, 16 Oct 2022 12:38:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alyssa.is; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1665938290; x=1666024690; bh=kG8k4GZ2Vy
- NHjlWxoIRAfBOmMyyHdZka6FurBCPkwn8=; b=AIaJoSyIgnf391hpOxH11aD4qv
- w2QsgV/dGrK8XXE8s5pA+GZWxByOcCUzT55s93WIiDqfBbUY6/Y9R8W8LOjFQc6O
- Wuf87byMo7LXilvdgfbVvLpoTeDrFqUvFeNr5EJ3SGh1+Tn84v/ib/4qYrVUvris
- PyzOnzjjvlOqwmlx5wR3wbvYHKDyEyKOM4+AacUa8wk8vWHY9EsJebYUjCkPYiEJ
- vHzOgd1G1HDtqYzhl5/u/Sc89JWiCxlUPfcTbu+Masvsbw7dsHvJcWobvmoRs/un
- rn5YFw8b6NydgwX8bxPsOJ0X3iADFUPlklnqoCHIXfWgJxBy0SeCUDkpU6vw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1665938290; x=1666024690; bh=kG8k4GZ2VyNHjlWxoIRAfBOmMyyH
- dZka6FurBCPkwn8=; b=p+gTKI4qtFW7DFCQwGwinNNo9AXQy3C5pbb4cqjJpmUv
- 7xaVA4iEaThRBCdlZUeAiA/tRkUXFU4EtSxCufhwMujqiG/uSI2idHx8NLpiBqpZ
- l2vuPUmSO/uUUNBIgjp/oBAp24hL8OLI0WxH1uDDStFKIeERrDvuzx5P3ndpq70E
- QsLFaNqvdmP6s8ln3NhGG3UhTZgMsTcuh2AjJDDAzfLYCOYgCCErsuZohdaB1DUk
- p3i+cK/RiN4yYKlJhBS8TWo2hUc2Tzq35aX3Hc0N40OgkWhcmIw9yg8Gx7cmzf2m
- nWztoxTcpxKmsITw7Y4vZd82qE0rDAfWGaTTQXRCAg==
-X-ME-Sender: <xms:cjNMY1M4swkcd9e4CY_OxNKKEeqhQY7BE1PiUTFDaokJAJqUXpp-Eg>
- <xme:cjNMY3-pY1Riz53pOqFEpo2foJBbLBJJqFWlUZV_Ry-MXr2h4o4M83XixM8VEAK8c
- 2nI-C6Qw0BYePK7kA>
-X-ME-Received: <xmr:cjNMY0SdK9MBxRngMNFXzF6E4QgqREhTi5-_Gatmc7Obllm8C1kEevBsAprdfuiZqJvk1h7I2HZYcC2IhqfFIytB0_Rp8pC3Iw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeekjedguddtgecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefujghffffkgggtsehgtd
- erredttddtnecuhfhrohhmpeetlhihshhsrgcutfhoshhsuceohhhisegrlhihshhsrgdr
- ihhsqeenucggtffrrghtthgvrhhnpedvudefgffhjeeufeefhfevgfdtvdeghedvudetje
- fhveekgedvhffhudetgfehieenucffohhmrghinhepnhhonhhgnhhurdhorhhgnecuvehl
- uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhephhhisegrlhihsh
- hsrgdrihhs
-X-ME-Proxy: <xmx:cjNMYxt6cFC_XCDT-ENOzk5q7CgJs88Qogx94n-GKmpy7ZxPD3yOYA>
- <xmx:cjNMY9cDwIRih0uAPjyBXHQtIqAgBv5b2_5cSomXIKm2WKHlUaLmTw>
- <xmx:cjNMY91oT4Ypfloktp9_DthpEnhQ_UZkJoqfHBJr0B1OCjfdRG3dfg>
- <xmx:cjNMY9mebW4CbkIVrgGxN4J_IkLMEIpUNR3OVR5aylKmD5ubz8mabA>
-Feedback-ID: i12284293:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 16 Oct 2022 12:38:10 -0400 (EDT)
-Received: by x220.qyliss.net (Postfix, from userid 1000)
- id 259F724E; Sun, 16 Oct 2022 16:38:08 +0000 (UTC)
-From: Alyssa Ross <hi@alyssa.is>
-To: Linus Heckemann <git@sphalerite.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH] docs/devel: remove incorrect claim about git send-email
-In-Reply-To: <ygay1tmej9f.fsf@localhost>
-References: <20220913165214.97241-1-git@sphalerite.org>
- <87sfkqmq2u.fsf@alyssa.is> <87o7vemq0c.fsf@alyssa.is>
- <ygay1tmej9f.fsf@localhost>
-Date: Sun, 16 Oct 2022 16:37:59 +0000
-Message-ID: <87h703rafs.fsf@alyssa.is>
+ (Exim 4.90_1) (envelope-from <julien@xen.org>)
+ id 1ok7kC-0005a3-DA; Sun, 16 Oct 2022 13:48:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=xen.org;
+ s=20200302mail; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID;
+ bh=mXglPGHiPe5q3CHx27YFdei2t2Cv9ep68EGI7/Nw+zQ=; b=Ea8+iCd9f1V/VxiUYrfaPkYw1x
+ U+GwNCEagFGhBRCy294gY06ayqPNKvvQvchxC/H9wGQ1zeRnk17wKUj5Ioh9Vdwuh2w7gmFOUyhev
+ i87S73CNwfeYrPEF79HNTHLtHwIuAXb2jF5Z6fHTvTkzZI0fdk49LKoARw1EqqogDnxc=;
+Received: from xenbits.xenproject.org ([104.239.192.120])
+ by mail.xenproject.org with esmtp (Exim 4.92)
+ (envelope-from <julien@xen.org>)
+ id 1ok7k2-0003KP-Pk; Sun, 16 Oct 2022 17:48:02 +0000
+Received: from 54-240-197-226.amazon.com ([54.240.197.226] helo=[10.85.34.141])
+ by xenbits.xenproject.org with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <julien@xen.org>)
+ id 1ok7k2-0002PU-Hd; Sun, 16 Oct 2022 17:48:02 +0000
+Message-ID: <3e504b1b-197d-b77b-16e1-86530eb3d64c@xen.org>
+Date: Sun, 16 Oct 2022 18:47:59 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=hi@alyssa.is;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.3
+Subject: Re: [PATCH v1 10/12] hw/arm: introduce xenpv machine
+Content-Language: en-US
+To: Vikram Garhwal <vikram.garhwal@amd.com>, qemu-devel@nongnu.org
+Cc: stefano.stabellini@amd.com, Peter Maydell <peter.maydell@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>
+References: <20221015050750.4185-1-vikram.garhwal@amd.com>
+ <20221015050750.4185-11-vikram.garhwal@amd.com>
+From: Julien Grall <julien@xen.org>
+In-Reply-To: <20221015050750.4185-11-vikram.garhwal@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=104.130.215.37; envelope-from=julien@xen.org;
+ helo=mail.xenproject.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,62 +75,203 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---=-=-=
-Content-Type: text/plain
+Hi,
 
-Linus Heckemann <git@sphalerite.org> writes:
+There seem to be some missing patches on xen-devel (including the cover 
+letter). Is that expected?
 
-> Alyssa Ross <hi@alyssa.is> writes:
->
->> Alyssa Ross <hi@alyssa.is> writes:
->>
->>> Linus Heckemann <git@sphalerite.org> writes:
->>>
->>>> While it's unclear to me what git send-email actually does with the
->>>> -v2 parameter (it is not documented, but also not rejected), it does
->>>> not add a v2 tag to the email's subject, which is what led to the
->>>> mishap in [1].
->>>>
->>>> [1]: https://lists.nongnu.org/archive/html/qemu-devel/2022-09/msg00679.html
->>>
->>> It does for me!
->>>
->>> Tested with:
->>>
->>>        git send-email -v2 --to hi@alyssa.is HEAD~
->>>
->>> X-Mailer: git-send-email 2.37.1
->>
->> I wouldn't be surprised if it only adds it when it's generating the
->> patch though.  Did you perhaps run git format-patch first to generate a
->> patch file, and then use git send-email to send it?
->
-> Yes! I didn't realise that git send-email can be used without the
-> intermediate format-patch step. I guess it's a git bug that git
-> send-email will silently ignore -v when used with a patch file. I'll
-> have a look at fixing that.
+On 15/10/2022 06:07, Vikram Garhwal wrote:
+> Add a new machine xenpv which creates a IOREQ server to register/connect with
+> Xen Hypervisor.
 
-Yeah, that sounds like the best way to go.  I think it'll swallow /any/
-format-patch options when used that way.  Would be nice if it warned.
+I don't like the name 'xenpv' because it doesn't convey the fact that 
+some of the HW may be emulated rather than para-virtualized. In fact one 
+may only want to use for emulating devices.
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+Potential name would be 'xen-arm' or re-using 'virt' but with 
+'accel=xen' to select a Xen layout.
 
------BEGIN PGP SIGNATURE-----
+> 
+> Xen IOREQ connection expect the TARGET_PAGE_SIZE to 4096, and the xenpv machine
+> on ARM will have no CPU definitions. We need to define TARGET_PAGE_SIZE
+> appropriately ourselves.
+> 
+> Optional: When CONFIG_TPM is enabled, it also creates a tpm-tis-device, adds a
+> TPM emulator and connects to swtpm running on host machine via chardev socket
+> and support TPM functionalities for a guest domain.
+> 
+> Extra command line for aarch64 xenpv QEMU to connect to swtpm:
+>      -chardev socket,id=chrtpm,path=/tmp/myvtpm2/swtpm-sock \
+>      -tpmdev emulator,id=tpm0,chardev=chrtpm \
+> 
+> swtpm implements a TPM software emulator(TPM 1.2 & TPM 2) built on libtpms and
+> provides access to TPM functionality over socket, chardev and CUSE interface.
+> Github repo: https://github.com/stefanberger/swtpm
+> Example for starting swtpm on host machine:
+>      mkdir /tmp/vtpm2
+>      swtpm socket --tpmstate dir=/tmp/vtpm2 \
+>      --ctrl type=unixio,path=/tmp/vtpm2/swtpm-sock &
 
-iQIzBAEBCAAdFiEEH9wgcxqlHM/ARR3h+dvtSFmyccAFAmNMM2gACgkQ+dvtSFmy
-ccC73BAAkUL9+iOboSRJfSb2wknEV4zJS6eo2z1QdGLqIfUHhPINajK0sJvoLCcI
-+0ef7CgXxLYQJyKvVHvsK4DmsKSnGdcGUJQu5eJZOGg63hIM5OKu7zYoW4adx/Fd
-vRC6x80yLMuM0HpoWPEFnZA2vKg2hY3XvsGh2R63F2x3Rvvq6qp5C2JdVS86TqNn
-XEHLubxQuJF9KQl2QyVppJXaZLuM/vP1doSM0MCIlr/ZZMR5Bjb8bPB30217h/nt
-GbpXCrlZtATQWNdTuTCMmdouwTfCOQd31QHkNG+jB7GV++OU9hGVynBae9CHK6fN
-BKfQWJxkmWnW+4/owDBSnagaw+m0Vt5WNU3Rfa6wOoyftdGPdye11tatcTXSRuY8
-Kpj5fQdreGTJgTR+PDOoOtH6n1VCiwshN3uMH/XFD9krm3S9elU+KppjlRv5BAm6
-2uTsIqCjr8YTIzfhCP4/fmHfNj90ez9fn3mmA7VL+8I2sqpJvI/kfjXaSHlfSBRD
-APHGrn5h0WxGEot9wf9LeAdvmuYUQwlUIwgTIpXDGg5I1zvEsjvtnaahP0Z6Oa44
-/qQpwp+JYPi+eRQT0Fde4WbaAMkCK9yHBahlZHbOhhSoQlZ90i3izf222u03JedM
-7jqe8a5MMGLlQR9LEMpoo4OvTZlXURCPB0eOFZjuKl9gcOp91c8=
-=gzrt
------END PGP SIGNATURE-----
---=-=-=--
+I see patches for QEMU but not Xen. How can this be tested with existing 
+Xen? Will libxl ever create QEMU?
+
+[...]
+
+> +static int xen_init_ioreq(XenIOState *state, unsigned int max_cpus)
+> +{
+> +    xen_dmod = xendevicemodel_open(0, 0);
+> +    xen_xc = xc_interface_open(0, 0, 0);
+> +
+> +    if (xen_xc == NULL) {
+
+You are checking xen_xc but not xen_dmod. Why?
+
+> +        perror("xen: can't open xen interface\n");
+> +        return -1;
+> +    }
+> +
+> +    xen_fmem = xenforeignmemory_open(0, 0);
+> +    if (xen_fmem == NULL) {
+> +        perror("xen: can't open xen fmem interface\n");
+> +        xc_interface_close(xen_xc);
+> +        return -1;
+> +    }
+> +
+> +    xen_register_ioreq(state, max_cpus, xen_memory_listener);
+> +
+> +    xenstore_record_dm_state(xenstore, "running");
+> +
+> +    return 0;
+> +}
+> +
+> +static void xen_enable_tpm(void)
+> +{
+> +/* qemu_find_tpm_be is only available when CONFIG_TPM is enabled. */
+> +#ifdef CONFIG_TPM
+> +    Error *errp = NULL;
+> +    DeviceState *dev;
+> +    SysBusDevice *busdev;
+> +
+> +    TPMBackend *be = qemu_find_tpm_be("tpm0");
+> +    if (be == NULL) {
+> +        DPRINTF("Couldn't fine the backend for tpm0\n");
+> +        return;
+> +    }
+> +    dev = qdev_new(TYPE_TPM_TIS_SYSBUS);
+> +    object_property_set_link(OBJECT(dev), "tpmdev", OBJECT(be), &errp);
+> +    object_property_set_str(OBJECT(dev), "tpmdev", be->id, &errp);
+> +    busdev = SYS_BUS_DEVICE(dev);
+> +    sysbus_realize_and_unref(busdev, &error_fatal);
+> +    sysbus_mmio_map(busdev, 0, GUEST_TPM_BASE);
+
+I can't find where GUEST_TPM_BASE is defined. But then the guest memory 
+layout is not expected to be stable. With your current approach, it 
+means QEMU would need to be rebuilt for every Xen version. Is it what we 
+want?
+
+> +
+> +    DPRINTF("Connected tpmdev at address 0x%lx\n", GUEST_TPM_BASE);
+> +#endif
+> +}
+> +
+> +static void xen_arm_init(MachineState *machine)
+> +{
+> +    XenArmState *xam = XEN_ARM(machine);
+> +
+> +    xam->state =  g_new0(XenIOState, 1);
+> +
+> +    if (xen_init_ioreq(xam->state, machine->smp.cpus)) {
+> +        return;
+
+In another patch, you said the IOREQ would be optional. IHMO, I think 
+this is a bad idea to register it by default because one may only want 
+to use PV drivers. Registering IOREQ will add unnecessary overhead in Xen.
+
+Furthermore, it means that someone selecting TPM but Xen is not built 
+with CONFIG_IOREQ=y (BTW This is still a tech preview but there are 
+security holes on Arm...) will not get an error. Instead, the OS will 
+until it crashes when trying to access the TPM.
+
+Overall I think it would be better if IOREQ is only registered when a 
+device requires (like TPM) it *and* throw an error if there is a problem 
+during the initialization.
+
+> +    } > +
+> +    xen_enable_tpm();
+> +
+> +    return;
+> +}
+> +
+> +static void xen_arm_machine_class_init(ObjectClass *oc, void *data)
+> +{
+> +
+> +    MachineClass *mc = MACHINE_CLASS(oc);
+> +    mc->desc = "Xen Para-virtualized PC";
+> +    mc->init = xen_arm_init;
+> +    mc->max_cpus = 1;
+> +    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_TPM_TIS_SYSBUS);
+
+Shouldn't this be protected with #ifdef CONFIG_TPM?
+
+> +}
+> +
+> +static const TypeInfo xen_arm_machine_type = {
+> +    .name = TYPE_XEN_ARM,
+> +    .parent = TYPE_MACHINE,
+> +    .class_init = xen_arm_machine_class_init,
+> +    .instance_size = sizeof(XenArmState),
+> +};
+> +
+> +static void xen_arm_machine_register_types(void)
+> +{
+> +    type_register_static(&xen_arm_machine_type);
+> +}
+> +
+> +type_init(xen_arm_machine_register_types)
+> diff --git a/include/hw/arm/xen_arch_hvm.h b/include/hw/arm/xen_arch_hvm.h
+> new file mode 100644
+> index 0000000000..f645dfec28
+> --- /dev/null
+> +++ b/include/hw/arm/xen_arch_hvm.h
+> @@ -0,0 +1,12 @@
+> +#ifndef HW_XEN_ARCH_ARM_HVM_H
+> +#define HW_XEN_ARCH_ARM_HVM_H
+> +
+> +#include <xen/hvm/ioreq.h>
+> +void arch_handle_ioreq(XenIOState *state, ioreq_t *req);
+> +void arch_xen_set_memory(XenIOState *state,
+> +                         MemoryRegionSection *section,
+> +                         bool add);
+> +
+> +#undef TARGET_PAGE_SIZE
+
+I am a bit puzzled with this #undef. In the commit message you said that 
+there will be no CPU definition. So the implications is this should not 
+be defined.
+
+If it is defined, then what guarantees that all the source will use the 
+correct value?
+
+
+> +#define TARGET_PAGE_SIZE 4096
+
+It would be better to use XC_PAGE_SIZE (or similar) rather than 
+hardcoding it.
+
+> +#endif
+> diff --git a/include/hw/xen/arch_hvm.h b/include/hw/xen/arch_hvm.h
+> index 26674648d8..c7c515220d 100644
+> --- a/include/hw/xen/arch_hvm.h
+> +++ b/include/hw/xen/arch_hvm.h
+> @@ -1,3 +1,5 @@
+>   #if defined(TARGET_I386) || defined(TARGET_X86_64)
+>   #include "hw/i386/xen_arch_hvm.h"
+> +#elif defined(TARGET_ARM) || defined(TARGET_ARM_64)
+> +#include "hw/arm/xen_arch_hvm.h"
+>   #endif
+
+Cheers,
+
+-- 
+Julien Grall
 
