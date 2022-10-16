@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EF675FFF40
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 Oct 2022 14:43:35 +0200 (CEST)
-Received: from localhost ([::1]:40574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FC1E5FFF53
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 Oct 2022 14:59:17 +0200 (CEST)
+Received: from localhost ([::1]:35024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ok2zO-0001VP-5o
-	for lists+qemu-devel@lfdr.de; Sun, 16 Oct 2022 08:43:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38184)
+	id 1ok3Ea-0008UX-Dh
+	for lists+qemu-devel@lfdr.de; Sun, 16 Oct 2022 08:59:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ok2ky-0002hZ-UB; Sun, 16 Oct 2022 08:28:42 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:34646)
+ id 1ok2l0-0002hr-JA; Sun, 16 Oct 2022 08:28:45 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:44683)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ok2kw-0000Ov-FO; Sun, 16 Oct 2022 08:28:40 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id ot12so19485188ejb.1;
- Sun, 16 Oct 2022 05:28:36 -0700 (PDT)
+ id 1ok2ky-0000TI-G7; Sun, 16 Oct 2022 08:28:42 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id g27so12525652edf.11;
+ Sun, 16 Oct 2022 05:28:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YjMwr8cgXdmnl7qao2/HnRISq2gNWnT6j/SN7k814vg=;
- b=NfJsutzCcawqSgy6sp9sx4BncHauOevGyLJN6PppYmIg/Cy4NJ/uXZL6eRxcdEyafd
- xa2Q22GhaGyIBL9JN2GsEvv0bzfrxMLDA3PIwNIe758HCOY/t7iscO6hMEvGLtoim9y9
- L8e71qgTP7oiE4jc/aaZJcVczf4mKp+YVkiXKc7Y2yOmgfig5O1eYv+19WtMKcQmoM7m
- T35fv6eKMaJHKOL7xQUFJqsNVJV7Xeatw2nF5rTiKi3tW8abt7NLfrfsvE9isNTQVspc
- KIBMO6t0uPTTxu8c1ukpTPEXZI2Fcvr9O7hMFX8NhiZMMKxf/mfQGl62ITvwf9P4JvB4
- xG+Q==
+ bh=FF9RfsFN4QR2CJIO6KQEVLcRc2FmAyIWD1/3AJe2e6g=;
+ b=pK4M+z8S5uDoNXea9U+Dy+GbJdVrHUP0Ai9JR3uTXX02DKoAKY0FDGC49xHb/79x7R
+ cNUCtQDUJrE8yx6eHTC0DiMMCSzyWRw1BrBBvazSuBORAFNITpObtdDKQahQs10zih+u
+ 42S5KhVsIbB+wybjGS1BEc56HcqdTU2BuFpkR6zt/KnSCvr7W17GhpoSf+SecwnF691Y
+ h7kwPnj7ZMWyiv1agbH3hW7d0LUK+tySJNfJ+0J2y+uVJ4u1etIr2qxv2ix8AwrWQYxs
+ nn9L/lbB95E+vPk5kRyrmkZrnWTNKUdqptmDbq1E41rlr9PfzvMGiuqMYyveVjfOGfly
+ JVgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YjMwr8cgXdmnl7qao2/HnRISq2gNWnT6j/SN7k814vg=;
- b=pzbeefMRgzHUH0+RgO/tId4Jov0x7fWvcrTCGU3H25nGajLoVdxLKdEHzoEu6Wu3pE
- eopHuTTdirEUwj6FI7EjpaItRPyIdnBrAEQ4FjyIC95NUIRUNVJPbkf0Rh6Z4NZIY6NP
- egW2Kl7DQzJHn+6ruNCUQNi3dPDJFJ8gwMNK3XyvCRyBFwLtvpu5FvDrhWvLiFuAffac
- yJ88jbhfrDt8quTwAdVSP0KLtHQs08PCU/AKRIRDTV7eWJgmFmXCTvuReTaZtESb3HaI
- 6c7/Sqq3EULC6JwJCIuXx4lm9zBtTMq6ASLWMVjq6+nxzeqJPEgMdjgbYle/VrgU4miG
- sMkA==
-X-Gm-Message-State: ACrzQf2AbWAE+VYnw8nJWE/BBIcwSgwNfsGr31aCPokP6p1SWziJgDnl
- y8bly7HM+YAcONlUafUVXTyJEUSv5BY=
-X-Google-Smtp-Source: AMsMyM4k35PRrtcohrqbwuDVnRU2MW2epTJBwRLkFdfspbVa81Sv8sJubzy2wDq/ak/eP8b7xcfTow==
-X-Received: by 2002:a17:907:7e95:b0:78d:e9cf:82c7 with SMTP id
- qb21-20020a1709077e9500b0078de9cf82c7mr5111302ejc.724.1665923316278; 
- Sun, 16 Oct 2022 05:28:36 -0700 (PDT)
+ bh=FF9RfsFN4QR2CJIO6KQEVLcRc2FmAyIWD1/3AJe2e6g=;
+ b=CuAZ5Vyk8dd7QyWHI4KzNPcD+aa/2lF3hIJWPlhcfJgYUdXcarvuMUgHTR2JdonFOn
+ Zr7GFBFHhM54fflwtM0kdsaT3y4YoiYIxwSK5abhLOsgoOp5DVcLsY/HkoD9o66sBiWr
+ D2kuh8ABVkJ1H+RFGA4mhqXtlfdM5qwGCyYGClaX/rGBrsSgUbGKWuw1mz06ZVkPfbY3
+ ohROyuWkJ9t3kuu/fKPcBnjS+oPCygWW/tI+THW3dp5gRZS8lsnEy88TrbJOhTPt11YS
+ zGBkuvRP3YIm2FY4oYd5P9Br2/62F5G90aHItx3iwnu6f9MQb5i9bYs+f1CAqR+mwd1c
+ W3WQ==
+X-Gm-Message-State: ACrzQf11QbBW1jNk8vr4jG5f9yBJZHIYUMxqThgcqdBAg1Ea0ATJn0/n
+ GAijtdX+DCbvXdTDSVGyA7axafNosbo=
+X-Google-Smtp-Source: AMsMyM7FfAafb1xikDRG2mtuLWI+JTyMcIYq6vxNSwy461zlpy2q2NjDGr4W949VdCSfxBDYNbAnjw==
+X-Received: by 2002:a05:6402:42c3:b0:45c:ec49:aacf with SMTP id
+ i3-20020a05640242c300b0045cec49aacfmr5953828edc.40.1665923317690; 
+ Sun, 16 Oct 2022 05:28:37 -0700 (PDT)
 Received: from localhost.localdomain
  (dynamic-089-014-006-139.89.14.pool.telefonica.de. [89.14.6.139])
  by smtp.gmail.com with ESMTPSA id
- k17-20020aa7c391000000b00456cbd8c65bsm5504467edq.6.2022.10.16.05.28.34
+ k17-20020aa7c391000000b00456cbd8c65bsm5504467edq.6.2022.10.16.05.28.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Oct 2022 05:28:35 -0700 (PDT)
+ Sun, 16 Oct 2022 05:28:37 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
@@ -67,16 +67,16 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Yoshinori Sato <ysato@users.sourceforge.jp>,
  Antony Pavlov <antonynpavlov@gmail.com>, Hanna Reitz <hreitz@redhat.com>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v3 8/9] hw/sd/sdhci: Implement Freescale eSDHC device model
-Date: Sun, 16 Oct 2022 14:27:36 +0200
-Message-Id: <20221016122737.93755-9-shentey@gmail.com>
+Subject: [PATCH v3 9/9] hw/ppc/e500: Add Freescale eSDHC to e500plat
+Date: Sun, 16 Oct 2022 14:27:37 +0200
+Message-Id: <20221016122737.93755-10-shentey@gmail.com>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20221016122737.93755-1-shentey@gmail.com>
 References: <20221016122737.93755-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,187 +99,167 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Will allow e500 boards to access SD cards using just their own devices.
+Adds missing functionality to e500plat machine which increases the
+chance of given "real" firmware images to access SD cards.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/sd/sdhci.c         | 120 +++++++++++++++++++++++++++++++++++++++++-
- include/hw/sd/sdhci.h |   3 ++
- 2 files changed, 122 insertions(+), 1 deletion(-)
+ docs/system/ppc/ppce500.rst | 12 ++++++++++++
+ hw/ppc/Kconfig              |  1 +
+ hw/ppc/e500.c               | 35 ++++++++++++++++++++++++++++++++++-
+ hw/ppc/e500.h               |  1 +
+ hw/ppc/e500plat.c           |  1 +
+ 5 files changed, 49 insertions(+), 1 deletion(-)
 
-diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-index 306070c872..8d8ad9ff24 100644
---- a/hw/sd/sdhci.c
-+++ b/hw/sd/sdhci.c
-@@ -1369,6 +1369,7 @@ void sdhci_initfn(SDHCIState *s)
-     s->transfer_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, sdhci_data_transfer, s);
+diff --git a/docs/system/ppc/ppce500.rst b/docs/system/ppc/ppce500.rst
+index 99d2c680d6..298ee9ee16 100644
+--- a/docs/system/ppc/ppce500.rst
++++ b/docs/system/ppc/ppce500.rst
+@@ -19,6 +19,7 @@ The ``ppce500`` machine supports the following devices:
+ * Power-off functionality via one GPIO pin
+ * 1 Freescale MPC8xxx PCI host controller
+ * VirtIO devices via PCI bus
++* 1 Freescale Enhanced Secure Digital Host controller (eSDHC)
+ * 1 Freescale Enhanced Triple Speed Ethernet controller (eTSEC)
  
-     s->io_ops = &sdhci_mmio_ops;
-+    s->io_registers_map_size = SDHC_REGISTERS_MAP_SIZE;
+ Hardware configuration information
+@@ -181,3 +182,14 @@ as follows:
+       -drive if=pflash,file=/path/to/rootfs.ext2,format=raw \
+       -append "rootwait root=/dev/mtdblock0"
+ 
++Alternatively, the root file system can also reside on an emulated SD card
++whose size must again be a power of two:
++
++.. code-block:: bash
++
++  $ qemu-system-ppc{64|32} -M ppce500 -cpu e500mc -smp 4 -m 2G \
++      -display none -serial stdio \
++      -kernel vmlinux \
++      -device sd-card,drive=mydrive \
++      -drive id=mydrive,if=none,file=/path/to/rootfs.ext2,format=raw \
++      -append "rootwait root=/dev/mmcblk0"
+diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+index 769a1ead1c..6e31f568ba 100644
+--- a/hw/ppc/Kconfig
++++ b/hw/ppc/Kconfig
+@@ -129,6 +129,7 @@ config E500
+     select PFLASH_CFI01
+     select PLATFORM_BUS
+     select PPCE500_PCI
++    select SDHCI
+     select SERIAL
+     select MPC_I2C
+     select FDT_PPC
+diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+index 23d2c3451a..f43a21d8bb 100644
+--- a/hw/ppc/e500.c
++++ b/hw/ppc/e500.c
+@@ -48,6 +48,7 @@
+ #include "hw/net/fsl_etsec/etsec.h"
+ #include "hw/i2c/i2c.h"
+ #include "hw/irq.h"
++#include "hw/sd/sdhci.h"
+ 
+ #define EPAPR_MAGIC                (0x45504150)
+ #define DTC_LOAD_PAD               0x1800000
+@@ -66,11 +67,14 @@
+ #define MPC8544_SERIAL1_REGS_OFFSET 0x4600ULL
+ #define MPC8544_PCI_REGS_OFFSET    0x8000ULL
+ #define MPC8544_PCI_REGS_SIZE      0x1000ULL
++#define MPC85XX_ESDHC_REGS_OFFSET  0x2e000ULL
++#define MPC85XX_ESDHC_REGS_SIZE    0x1000ULL
+ #define MPC8544_UTIL_OFFSET        0xe0000ULL
+ #define MPC8XXX_GPIO_OFFSET        0x000FF000ULL
+ #define MPC8544_I2C_REGS_OFFSET    0x3000ULL
+ #define MPC8XXX_GPIO_IRQ           47
+ #define MPC8544_I2C_IRQ            43
++#define MPC85XX_ESDHC_IRQ          72
+ #define RTC_REGS_OFFSET            0x68
+ 
+ #define PLATFORM_CLK_FREQ_HZ       (400 * 1000 * 1000)
+@@ -203,6 +207,22 @@ static void dt_i2c_create(void *fdt, const char *soc, const char *mpic,
+     g_free(i2c);
  }
  
- void sdhci_uninitfn(SDHCIState *s)
-@@ -1392,7 +1393,7 @@ void sdhci_common_realize(SDHCIState *s, Error **errp)
-     s->fifo_buffer = g_malloc0(s->buf_maxsz);
- 
-     memory_region_init_io(&s->iomem, OBJECT(s), s->io_ops, s, "sdhci",
--                          SDHC_REGISTERS_MAP_SIZE);
-+                          s->io_registers_map_size);
- }
- 
- void sdhci_common_unrealize(SDHCIState *s)
-@@ -1575,6 +1576,122 @@ static const TypeInfo sdhci_bus_info = {
-     .class_init = sdhci_bus_class_init,
- };
- 
-+/* --- qdev Freescale eSDHC --- */
-+
-+/* Watermark Level Register */
-+#define ESDHC_WML                    0x44
-+
-+/* Control Register for DMA transfer */
-+#define ESDHC_DMA_SYSCTL            0x40c
-+
-+#define ESDHC_REGISTERS_MAP_SIZE    0x410
-+
-+static uint64_t esdhci_read(void *opaque, hwaddr offset, unsigned size)
++static void dt_sdhc_create(void *fdt, const char *parent, const char *mpic)
 +{
-+    uint64_t ret;
++    hwaddr mmio = MPC85XX_ESDHC_REGS_OFFSET;
++    hwaddr size = MPC85XX_ESDHC_REGS_SIZE;
++    int irq = MPC85XX_ESDHC_IRQ;
++    g_autofree char *name = NULL;
 +
-+    switch (offset) {
-+    case SDHC_SYSAD:
-+    case SDHC_BLKSIZE:
-+    case SDHC_ARGUMENT:
-+    case SDHC_TRNMOD:
-+    case SDHC_RSPREG0:
-+    case SDHC_RSPREG1:
-+    case SDHC_RSPREG2:
-+    case SDHC_RSPREG3:
-+    case SDHC_BDATA:
-+    case SDHC_PRNSTS:
-+    case SDHC_HOSTCTL:
-+    case SDHC_CLKCON:
-+    case SDHC_NORINTSTS:
-+    case SDHC_NORINTSTSEN:
-+    case SDHC_NORINTSIGEN:
-+    case SDHC_ACMD12ERRSTS:
-+    case SDHC_CAPAB:
-+    case SDHC_SLOT_INT_STATUS:
-+        ret = sdhci_read(opaque, offset, size);
-+        break;
-+
-+    case ESDHC_WML:
-+    case ESDHC_DMA_SYSCTL:
-+        ret = 0;
-+        qemu_log_mask(LOG_UNIMP, "ESDHC rd @0x%02" HWADDR_PRIx
-+                      " not implemented\n", offset);
-+        break;
-+
-+    default:
-+        ret = 0;
-+        qemu_log_mask(LOG_GUEST_ERROR, "ESDHC rd @0x%02" HWADDR_PRIx
-+                      " unknown offset\n", offset);
-+        break;
++    name = g_strdup_printf("%s/sdhc@%" PRIx64, parent, mmio);
++    qemu_fdt_add_subnode(fdt, name);
++    qemu_fdt_setprop(fdt, name, "sdhci,auto-cmd12", NULL, 0);
++    qemu_fdt_setprop_phandle(fdt, name, "interrupt-parent", mpic);
++    qemu_fdt_setprop_cells(fdt, name, "bus-width", 4);
++    qemu_fdt_setprop_cells(fdt, name, "interrupts", irq, 0x2);
++    qemu_fdt_setprop_cells(fdt, name, "reg", mmio, size);
++    qemu_fdt_setprop_string(fdt, name, "compatible", "fsl,esdhc");
++}
+ 
+ typedef struct PlatformDevtreeData {
+     void *fdt;
+@@ -553,6 +573,10 @@ static int ppce500_load_device_tree(PPCE500MachineState *pms,
+ 
+     dt_rtc_create(fdt, "i2c", "rtc");
+ 
++    /* sdhc */
++    if (pmc->has_esdhc) {
++        dt_sdhc_create(fdt, soc, mpic);
 +    }
+ 
+     gutil = g_strdup_printf("%s/global-utilities@%llx", soc,
+                             MPC8544_UTIL_OFFSET);
+@@ -982,7 +1006,8 @@ void ppce500_init(MachineState *machine)
+                        0, qdev_get_gpio_in(mpicdev, 42), 399193,
+                        serial_hd(1), DEVICE_BIG_ENDIAN);
+     }
+-        /* I2C */
 +
-+    return ret;
-+}
-+
-+static void esdhci_write(void *opaque, hwaddr offset, uint64_t val,
-+                         unsigned size)
-+{
-+    switch (offset) {
-+    case SDHC_SYSAD:
-+    case SDHC_BLKSIZE:
-+    case SDHC_ARGUMENT:
-+    case SDHC_TRNMOD:
-+    case SDHC_BDATA:
-+    case SDHC_HOSTCTL:
-+    case SDHC_CLKCON:
-+    case SDHC_NORINTSTS:
-+    case SDHC_NORINTSTSEN:
-+    case SDHC_NORINTSIGEN:
-+    case SDHC_FEAER:
-+        sdhci_write(opaque, offset, val, size);
-+        break;
-+
-+    case ESDHC_WML:
-+    case ESDHC_DMA_SYSCTL:
-+        qemu_log_mask(LOG_UNIMP, "ESDHC wr @0x%02" HWADDR_PRIx " <- 0x%08lx "
-+                      "not implemented\n", offset, val);
-+        break;
-+
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR, "ESDHC wr @0x%02" HWADDR_PRIx
-+                      " <- 0x%08lx unknown offset\n", offset, val);
-+        break;
++    /* I2C */
+     dev = qdev_new("mpc-i2c");
+     s = SYS_BUS_DEVICE(dev);
+     sysbus_realize_and_unref(s, &error_fatal);
+@@ -992,6 +1017,14 @@ void ppce500_init(MachineState *machine)
+     i2c = (I2CBus *)qdev_get_child_bus(dev, "i2c");
+     i2c_slave_create_simple(i2c, "ds1338", RTC_REGS_OFFSET);
+ 
++    /* eSDHC */
++    if (pmc->has_esdhc) {
++        dev = qdev_new(TYPE_FSL_ESDHC);
++        s = SYS_BUS_DEVICE(dev);
++        sysbus_realize_and_unref(s, &error_fatal);
++        sysbus_mmio_map(s, 0, pmc->ccsrbar_base + MPC85XX_ESDHC_REGS_OFFSET);
++        sysbus_connect_irq(s, 0, qdev_get_gpio_in(mpicdev, MPC85XX_ESDHC_IRQ));
 +    }
-+}
-+
-+static const MemoryRegionOps esdhc_mmio_ops = {
-+    .read = esdhci_read,
-+    .write = esdhci_write,
-+    .valid = {
-+        .min_access_size = 4,
-+        .max_access_size = 4,
-+        .unaligned = false
-+    },
-+    .endianness = DEVICE_BIG_ENDIAN,
-+};
-+
-+static void esdhci_init(Object *obj)
-+{
-+    DeviceState *dev = DEVICE(obj);
-+    SDHCIState *s = SYSBUS_SDHCI(obj);
-+
-+    s->io_ops = &esdhc_mmio_ops;
-+    s->io_registers_map_size = ESDHC_REGISTERS_MAP_SIZE;
-+
-+    /*
-+     * Compatible with:
-+     * - SD Host Controller Specification Version 2.0 Part A2
-+     */
-+    qdev_prop_set_uint8(dev, "sd-spec-version", 2);
-+}
-+
-+static const TypeInfo esdhc_info = {
-+    .name = TYPE_FSL_ESDHC,
-+    .parent = TYPE_SYSBUS_SDHCI,
-+    .instance_init = esdhci_init,
-+};
-+
- /* --- qdev i.MX eSDHC --- */
  
- #define USDHC_MIX_CTRL                  0x48
-@@ -1907,6 +2024,7 @@ static void sdhci_register_types(void)
- {
-     type_register_static(&sdhci_sysbus_info);
-     type_register_static(&sdhci_bus_info);
-+    type_register_static(&esdhc_info);
-     type_register_static(&imx_usdhc_info);
-     type_register_static(&sdhci_s3c_info);
- }
-diff --git a/include/hw/sd/sdhci.h b/include/hw/sd/sdhci.h
-index 01a64c5442..5b32e83eee 100644
---- a/include/hw/sd/sdhci.h
-+++ b/include/hw/sd/sdhci.h
-@@ -45,6 +45,7 @@ struct SDHCIState {
-     AddressSpace *dma_as;
-     MemoryRegion *dma_mr;
-     const MemoryRegionOps *io_ops;
-+    uint64_t io_registers_map_size;
+     /* General Utility device */
+     dev = qdev_new("mpc8544-guts");
+diff --git a/hw/ppc/e500.h b/hw/ppc/e500.h
+index 68f754ce50..8c09ef92e4 100644
+--- a/hw/ppc/e500.h
++++ b/hw/ppc/e500.h
+@@ -27,6 +27,7 @@ struct PPCE500MachineClass {
  
-     QEMUTimer *insert_timer;       /* timer for 'changing' sd card. */
-     QEMUTimer *transfer_timer;
-@@ -122,6 +123,8 @@ DECLARE_INSTANCE_CHECKER(SDHCIState, PCI_SDHCI,
- DECLARE_INSTANCE_CHECKER(SDHCIState, SYSBUS_SDHCI,
-                          TYPE_SYSBUS_SDHCI)
- 
-+#define TYPE_FSL_ESDHC "fsl-esdhc"
-+
- #define TYPE_IMX_USDHC "imx-usdhc"
- 
- #define TYPE_S3C_SDHCI "s3c-sdhci"
+     int mpic_version;
+     bool has_mpc8xxx_gpio;
++    bool has_esdhc;
+     hwaddr platform_bus_base;
+     hwaddr platform_bus_size;
+     int platform_bus_first_irq;
+diff --git a/hw/ppc/e500plat.c b/hw/ppc/e500plat.c
+index 5bb1c603da..44bf874b0f 100644
+--- a/hw/ppc/e500plat.c
++++ b/hw/ppc/e500plat.c
+@@ -86,6 +86,7 @@ static void e500plat_machine_class_init(ObjectClass *oc, void *data)
+     pmc->fixup_devtree = e500plat_fixup_devtree;
+     pmc->mpic_version = OPENPIC_MODEL_FSL_MPIC_42;
+     pmc->has_mpc8xxx_gpio = true;
++    pmc->has_esdhc = true;
+     pmc->platform_bus_base = 0xf00000000ULL;
+     pmc->platform_bus_size = 128 * MiB;
+     pmc->platform_bus_first_irq = 5;
 -- 
 2.38.0
 
