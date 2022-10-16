@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49EDB6003DF
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 00:20:09 +0200 (CEST)
-Received: from localhost ([::1]:36082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2840C6003E1
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 00:21:33 +0200 (CEST)
+Received: from localhost ([::1]:52310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okBzL-0002Wr-FR
-	for lists+qemu-devel@lfdr.de; Sun, 16 Oct 2022 18:20:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41044)
+	id 1okC0X-00032Y-Gu
+	for lists+qemu-devel@lfdr.de; Sun, 16 Oct 2022 18:21:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1okBpp-00029v-JC
- for qemu-devel@nongnu.org; Sun, 16 Oct 2022 18:10:17 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:51932)
+ id 1okBpv-0002J8-DB
+ for qemu-devel@nongnu.org; Sun, 16 Oct 2022 18:10:23 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:41809)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1okBpn-0007fy-SP
- for qemu-devel@nongnu.org; Sun, 16 Oct 2022 18:10:17 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id cl1so9336213pjb.1
- for <qemu-devel@nongnu.org>; Sun, 16 Oct 2022 15:10:15 -0700 (PDT)
+ id 1okBpr-0007hE-6A
+ for qemu-devel@nongnu.org; Sun, 16 Oct 2022 18:10:23 -0400
+Received: by mail-pl1-x632.google.com with SMTP id l4so9196926plb.8
+ for <qemu-devel@nongnu.org>; Sun, 16 Oct 2022 15:10:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8swKSgWeilWZrM/mNtFL8crpzMp47VFbNvAGDxXmm3Y=;
- b=yTMJjJe/EYbKfXpEjN9c6TI4KtLneOU3RUB9wxSByq1YMJxM3qoLvQm4TnVPtlxyIr
- q3KxjuJ0M6KWopgeRgEKkteFx0d7V7NApfX+XnfPOH2L54tUqd8zdNy5hyHTfuzQm2Fb
- fyYIFSGhA+J0+toeLQQD8chk8uiFm92wRV3/ue323VfSJzE5bdd2pylALWLfanw8oBnD
- +AIH42koVMgObKOylHXANHpiktNu88FwYE7FVmvI6rlVCShlA22B0puzdX5OAqdP45oj
- 9UV6e6OGI8Q2vT/ggtyASoszM4NMqfXbHFwIHzX2DwB5Ftbo8UJ4gtipU6DctOKPX4YL
- FafQ==
+ bh=KRC0PQi4FuPYcvWsXmno1zqo2C9efqzFcFomIVhlMdI=;
+ b=qHBUtIyv44tKcozQMEVdk3B8rSq+3Lmd0EXhAC2HCVo8YCRa9PXtOf3aeIwOwa9BVq
+ KH/W0KN2Gp6SkO892sse47RD8jQGvkjOkTLEh46Ic3X2xhlus8mHQHHTFQd7Q5HSyU+j
+ f9MrGBcAzJcLh1gV/0bAfxv2Z6jZJxxWcjkkzsQEmxooPg39+j3oxD1fcSgdEtFdZWOB
+ HZtQBzMf7FZ4781DE7rq0aH0eI6NzRXBT7lxS1zey9/3VWOUrqeEn/Briy3yPPZhDbdM
+ +iTNI0FJh1gYtIFUMuwSZPiukSh9RTUw+esLcrOnORrd9yuDG42zFFEjjTzDY8PxmT2O
+ U14w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8swKSgWeilWZrM/mNtFL8crpzMp47VFbNvAGDxXmm3Y=;
- b=sasO4Ooy27F6J56Qu9pqp/1OvI257JJel2UeA0x3a3wPdireKLciTPbVgo8zQ9cMax
- G6Pc8VGu5o7N+y+TSPGlT0MXpbuTKQeUYGPMzzM50vZbMb6Q1MnJEbbTVP5SkhGeeatd
- oIPROOOy3KtyJyvfoCu5GaNrNeproZVojI6Edypl9XL3v2dM7Tpgfp8Ysg+uYYQBt3+s
- bYCql5TUkv/VAqbaTOcEgPRxkh41mJZ0A73taTQwmHnGSiR0qAevr2rCtFzn1zoZJvht
- x+x/gFwiMgPX3wGpcyIwp3ejHJAOSyOlYhrAFXTM7EsG1/16LYfK5umspOpwYeoqOHZy
- 4WQg==
-X-Gm-Message-State: ACrzQf2CXhUqOa4j0U6lxeUjRO7TMfVmGiWIPQYO4oDZlYbrVMqWzU29
- /5nELwfXSMsa/p9WFWofeU5IS7mvTt+cdobk
-X-Google-Smtp-Source: AMsMyM5XCIzSv234FaT+YG2lOxRTiqPLPd1IrIUE7sJwhYJd+q22qk2R/zCZOSYGV2lvBL/5e5NSkw==
-X-Received: by 2002:a17:90b:2705:b0:20a:b4fa:f624 with SMTP id
- px5-20020a17090b270500b0020ab4faf624mr10077840pjb.124.1665958214378; 
- Sun, 16 Oct 2022 15:10:14 -0700 (PDT)
+ bh=KRC0PQi4FuPYcvWsXmno1zqo2C9efqzFcFomIVhlMdI=;
+ b=7RQ3TOWs4KRZyhWJVL87gZZ89seL4wn8G6r0pGLWr9pGJtKeP1MRLdKdDiashxdFA6
+ lxiJtZl1Zl0NK5DZFIEcciZUXe+kbkduuG+SGYHVFs7QE7QbnSUbj3Z8dPja6YZk2PxC
+ tJJFgmDZzT92Ahk3y8K5bv0DQsyFQ9X0QgeFwutLhPxDT++kXBd4KZUzJd6FA2BERYZ6
+ c+vstMefeOXNSnYwo8yuGBwPF4DS/aAshVeYTZFwtpBNd1JkbCkZqSHh0xZ/1TB/9qsy
+ +lTZXVYHSZ1SABSHZnxBB1ZxCs6pfrvINapnUJvlq3ZJT3DMMHmVpUAy110ZmI4X8V2k
+ T/pg==
+X-Gm-Message-State: ACrzQf34wa+pf/m6yN9iHXYMLAZ+faYeUs+dtf5mMR1/YtPIu7Q9kdx5
+ lrbQ18qECgTZ29Q8cByRMtlIsuRtPsbmiYOc
+X-Google-Smtp-Source: AMsMyM7pZryEEwMdRG54Q+mZNNQMZc0i3VM32eC5QyeiEnIEHhQk7fZf9T6QP4ReZ2imQ/nDq8iIwA==
+X-Received: by 2002:a17:90b:33cf:b0:20d:981a:a5b4 with SMTP id
+ lk15-20020a17090b33cf00b0020d981aa5b4mr26883288pjb.137.1665958217809; 
+ Sun, 16 Oct 2022 15:10:17 -0700 (PDT)
 Received: from localhost.localdomain ([149.135.10.35])
  by smtp.gmail.com with ESMTPSA id
- z18-20020aa79592000000b0053e2b61b714sm5454751pfj.114.2022.10.16.15.10.11
+ z18-20020aa79592000000b0053e2b61b714sm5454751pfj.114.2022.10.16.15.10.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Oct 2022 15:10:13 -0700 (PDT)
+ Sun, 16 Oct 2022 15:10:16 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v7 1/9] target/arm: Introduce curr_insn_len
-Date: Mon, 17 Oct 2022 08:09:24 +1000
-Message-Id: <20221016220932.274260-2-richard.henderson@linaro.org>
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v7 2/9] target/arm: Change gen_goto_tb to work on displacements
+Date: Mon, 17 Oct 2022 08:09:25 +1000
+Message-Id: <20221016220932.274260-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221016220932.274260-1-richard.henderson@linaro.org>
 References: <20221016220932.274260-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,68 +91,208 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A simple helper to retrieve the length of the current insn.
+In preparation for TARGET_TB_PCREL, reduce reliance on absolute values.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.h     | 5 +++++
- target/arm/translate-vfp.c | 2 +-
- target/arm/translate.c     | 5 ++---
- 3 files changed, 8 insertions(+), 4 deletions(-)
+ target/arm/translate-a64.c | 40 ++++++++++++++++++++------------------
+ target/arm/translate.c     | 10 ++++++----
+ 2 files changed, 27 insertions(+), 23 deletions(-)
 
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index af5d4a7086..90bf7c57fc 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -226,6 +226,11 @@ static inline void disas_set_insn_syndrome(DisasContext *s, uint32_t syn)
-     s->insn_start = NULL;
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 5b67375f4e..6a372ed184 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -370,8 +370,10 @@ static inline bool use_goto_tb(DisasContext *s, uint64_t dest)
+     return translator_use_goto_tb(&s->base, dest);
  }
  
-+static inline int curr_insn_len(DisasContext *s)
-+{
-+    return s->base.pc_next - s->pc_curr;
-+}
+-static inline void gen_goto_tb(DisasContext *s, int n, uint64_t dest)
++static void gen_goto_tb(DisasContext *s, int n, int64_t diff)
+ {
++    uint64_t dest = s->pc_curr + diff;
 +
- /* is_jmp field values */
- #define DISAS_JUMP      DISAS_TARGET_0 /* only pc was modified dynamically */
- /* CPU state was modified dynamically; exit to main loop for interrupts. */
-diff --git a/target/arm/translate-vfp.c b/target/arm/translate-vfp.c
-index bd5ae27d09..94cc1e4b77 100644
---- a/target/arm/translate-vfp.c
-+++ b/target/arm/translate-vfp.c
-@@ -242,7 +242,7 @@ static bool vfp_access_check_a(DisasContext *s, bool ignore_vfp_enabled)
-     if (s->sme_trap_nonstreaming) {
-         gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
-                            syn_smetrap(SME_ET_Streaming,
--                                       s->base.pc_next - s->pc_curr == 2));
-+                                       curr_insn_len(s) == 2));
-         return false;
-     }
+     if (use_goto_tb(s, dest)) {
+         tcg_gen_goto_tb(n);
+         gen_a64_set_pc_im(dest);
+@@ -1354,7 +1356,7 @@ static inline AArch64DecodeFn *lookup_disas_fn(const AArch64DecodeTable *table,
+  */
+ static void disas_uncond_b_imm(DisasContext *s, uint32_t insn)
+ {
+-    uint64_t addr = s->pc_curr + sextract32(insn, 0, 26) * 4;
++    int64_t diff = sextract32(insn, 0, 26) * 4;
  
+     if (insn & (1U << 31)) {
+         /* BL Branch with link */
+@@ -1363,7 +1365,7 @@ static void disas_uncond_b_imm(DisasContext *s, uint32_t insn)
+ 
+     /* B Branch / BL Branch with link */
+     reset_btype(s);
+-    gen_goto_tb(s, 0, addr);
++    gen_goto_tb(s, 0, diff);
+ }
+ 
+ /* Compare and branch (immediate)
+@@ -1375,14 +1377,14 @@ static void disas_uncond_b_imm(DisasContext *s, uint32_t insn)
+ static void disas_comp_b_imm(DisasContext *s, uint32_t insn)
+ {
+     unsigned int sf, op, rt;
+-    uint64_t addr;
++    int64_t diff;
+     TCGLabel *label_match;
+     TCGv_i64 tcg_cmp;
+ 
+     sf = extract32(insn, 31, 1);
+     op = extract32(insn, 24, 1); /* 0: CBZ; 1: CBNZ */
+     rt = extract32(insn, 0, 5);
+-    addr = s->pc_curr + sextract32(insn, 5, 19) * 4;
++    diff = sextract32(insn, 5, 19) * 4;
+ 
+     tcg_cmp = read_cpu_reg(s, rt, sf);
+     label_match = gen_new_label();
+@@ -1391,9 +1393,9 @@ static void disas_comp_b_imm(DisasContext *s, uint32_t insn)
+     tcg_gen_brcondi_i64(op ? TCG_COND_NE : TCG_COND_EQ,
+                         tcg_cmp, 0, label_match);
+ 
+-    gen_goto_tb(s, 0, s->base.pc_next);
++    gen_goto_tb(s, 0, 4);
+     gen_set_label(label_match);
+-    gen_goto_tb(s, 1, addr);
++    gen_goto_tb(s, 1, diff);
+ }
+ 
+ /* Test and branch (immediate)
+@@ -1405,13 +1407,13 @@ static void disas_comp_b_imm(DisasContext *s, uint32_t insn)
+ static void disas_test_b_imm(DisasContext *s, uint32_t insn)
+ {
+     unsigned int bit_pos, op, rt;
+-    uint64_t addr;
++    int64_t diff;
+     TCGLabel *label_match;
+     TCGv_i64 tcg_cmp;
+ 
+     bit_pos = (extract32(insn, 31, 1) << 5) | extract32(insn, 19, 5);
+     op = extract32(insn, 24, 1); /* 0: TBZ; 1: TBNZ */
+-    addr = s->pc_curr + sextract32(insn, 5, 14) * 4;
++    diff = sextract32(insn, 5, 14) * 4;
+     rt = extract32(insn, 0, 5);
+ 
+     tcg_cmp = tcg_temp_new_i64();
+@@ -1422,9 +1424,9 @@ static void disas_test_b_imm(DisasContext *s, uint32_t insn)
+     tcg_gen_brcondi_i64(op ? TCG_COND_NE : TCG_COND_EQ,
+                         tcg_cmp, 0, label_match);
+     tcg_temp_free_i64(tcg_cmp);
+-    gen_goto_tb(s, 0, s->base.pc_next);
++    gen_goto_tb(s, 0, 4);
+     gen_set_label(label_match);
+-    gen_goto_tb(s, 1, addr);
++    gen_goto_tb(s, 1, diff);
+ }
+ 
+ /* Conditional branch (immediate)
+@@ -1436,13 +1438,13 @@ static void disas_test_b_imm(DisasContext *s, uint32_t insn)
+ static void disas_cond_b_imm(DisasContext *s, uint32_t insn)
+ {
+     unsigned int cond;
+-    uint64_t addr;
++    int64_t diff;
+ 
+     if ((insn & (1 << 4)) || (insn & (1 << 24))) {
+         unallocated_encoding(s);
+         return;
+     }
+-    addr = s->pc_curr + sextract32(insn, 5, 19) * 4;
++    diff = sextract32(insn, 5, 19) * 4;
+     cond = extract32(insn, 0, 4);
+ 
+     reset_btype(s);
+@@ -1450,12 +1452,12 @@ static void disas_cond_b_imm(DisasContext *s, uint32_t insn)
+         /* genuinely conditional branches */
+         TCGLabel *label_match = gen_new_label();
+         arm_gen_test_cc(cond, label_match);
+-        gen_goto_tb(s, 0, s->base.pc_next);
++        gen_goto_tb(s, 0, 4);
+         gen_set_label(label_match);
+-        gen_goto_tb(s, 1, addr);
++        gen_goto_tb(s, 1, diff);
+     } else {
+         /* 0xe and 0xf are both "always" conditions */
+-        gen_goto_tb(s, 0, addr);
++        gen_goto_tb(s, 0, diff);
+     }
+ }
+ 
+@@ -1629,7 +1631,7 @@ static void handle_sync(DisasContext *s, uint32_t insn,
+          * any pending interrupts immediately.
+          */
+         reset_btype(s);
+-        gen_goto_tb(s, 0, s->base.pc_next);
++        gen_goto_tb(s, 0, 4);
+         return;
+ 
+     case 7: /* SB */
+@@ -1641,7 +1643,7 @@ static void handle_sync(DisasContext *s, uint32_t insn,
+          * MB and end the TB instead.
+          */
+         tcg_gen_mb(TCG_MO_ALL | TCG_BAR_SC);
+-        gen_goto_tb(s, 0, s->base.pc_next);
++        gen_goto_tb(s, 0, 4);
+         return;
+ 
+     default:
+@@ -14947,7 +14949,7 @@ static void aarch64_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+         switch (dc->base.is_jmp) {
+         case DISAS_NEXT:
+         case DISAS_TOO_MANY:
+-            gen_goto_tb(dc, 1, dc->base.pc_next);
++            gen_goto_tb(dc, 1, 4);
+             break;
+         default:
+         case DISAS_UPDATE_EXIT:
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 2f72afe019..5752b7af5c 100644
+index 5752b7af5c..ae30c26ca4 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -6650,7 +6650,7 @@ static ISSInfo make_issinfo(DisasContext *s, int rd, bool p, bool w)
-     /* ISS not valid if writeback */
-     if (p && !w) {
-         ret = rd;
--        if (s->base.pc_next - s->pc_curr == 2) {
-+        if (curr_insn_len(s) == 2) {
-             ret |= ISSIs16Bit;
-         }
-     } else {
-@@ -9812,8 +9812,7 @@ static void arm_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-             /* nothing more to generate */
+@@ -2590,8 +2590,10 @@ static void gen_goto_ptr(void)
+  * cpu_loop_exec. Any live exit_requests will be processed as we
+  * enter the next TB.
+  */
+-static void gen_goto_tb(DisasContext *s, int n, target_ulong dest)
++static void gen_goto_tb(DisasContext *s, int n, int diff)
+ {
++    target_ulong dest = s->pc_curr + diff;
++
+     if (translator_use_goto_tb(&s->base, dest)) {
+         tcg_gen_goto_tb(n);
+         gen_set_pc_im(s, dest);
+@@ -2625,7 +2627,7 @@ static inline void gen_jmp_tb(DisasContext *s, uint32_t dest, int tbno)
+          *    gen_jmp();
+          * on the second call to gen_jmp().
+          */
+-        gen_goto_tb(s, tbno, dest);
++        gen_goto_tb(s, tbno, dest - s->pc_curr);
+         break;
+     case DISAS_UPDATE_NOCHAIN:
+     case DISAS_UPDATE_EXIT:
+@@ -9793,7 +9795,7 @@ static void arm_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+         switch (dc->base.is_jmp) {
+         case DISAS_NEXT:
+         case DISAS_TOO_MANY:
+-            gen_goto_tb(dc, 1, dc->base.pc_next);
++            gen_goto_tb(dc, 1, curr_insn_len(dc));
              break;
-         case DISAS_WFI:
--            gen_helper_wfi(cpu_env,
--                           tcg_constant_i32(dc->base.pc_next - dc->pc_curr));
-+            gen_helper_wfi(cpu_env, tcg_constant_i32(curr_insn_len(dc)));
-             /*
-              * The helper doesn't necessarily throw an exception, but we
-              * must go back to the main loop to check for interrupts anyway.
+         case DISAS_UPDATE_NOCHAIN:
+             gen_set_pc_im(dc, dc->base.pc_next);
+@@ -9845,7 +9847,7 @@ static void arm_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+             gen_set_pc_im(dc, dc->base.pc_next);
+             gen_singlestep_exception(dc);
+         } else {
+-            gen_goto_tb(dc, 1, dc->base.pc_next);
++            gen_goto_tb(dc, 1, curr_insn_len(dc));
+         }
+     }
+ }
 -- 
 2.34.1
 
