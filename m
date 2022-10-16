@@ -2,75 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B029D5FFE6D
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 Oct 2022 11:28:41 +0200 (CEST)
-Received: from localhost ([::1]:54450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 446605FFF49
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 Oct 2022 14:51:27 +0200 (CEST)
+Received: from localhost ([::1]:55108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ojzwm-0005qH-8a
-	for lists+qemu-devel@lfdr.de; Sun, 16 Oct 2022 05:28:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40522)
+	id 1ok370-00086B-0H
+	for lists+qemu-devel@lfdr.de; Sun, 16 Oct 2022 08:51:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1ojzuW-0002GH-0x
- for qemu-devel@nongnu.org; Sun, 16 Oct 2022 05:26:20 -0400
-Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136]:47238)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1ojzuS-000618-Kf
- for qemu-devel@nongnu.org; Sun, 16 Oct 2022 05:26:19 -0400
-Received: from iva8-3a65cceff156.qloud-c.yandex.net
- (iva8-3a65cceff156.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:2d80:0:640:3a65:ccef])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id CEEC160E17;
- Sun, 16 Oct 2022 12:25:51 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b641::1:2d] (unknown
- [2a02:6b8:b081:b641::1:2d])
- by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- WZ7GVggHOd-PnOmD6Nl; Sun, 16 Oct 2022 12:25:50 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Precedence: bulk
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1665912350; bh=PsyH9QvLGh5/ga83Ks7QeyC8NeSSc9hCSWK25rgHrx4=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=1zAxupGH4JN0VB9DwkmyNv3uPTaud+/YUOi4+Mkmc+G69qrOhRU+cBs4Z2GCnBiJW
- ErKPh/+2qdzbbzON9m553GFUYass+qBPDhxCm/jGZOoBaIsMsTCkmv/uVJD/E2xV3G
- XNV5o/GGtZwfgyKvvVGZTo8dzadTtfDpzinaBDS0=
-Authentication-Results: iva8-3a65cceff156.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <a2ff7f2d-1655-19fa-8cad-baf9fe65a4fe@yandex-team.ru>
-Date: Sun, 16 Oct 2022 12:25:48 +0300
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1ok2mh-0004Te-Hy; Sun, 16 Oct 2022 08:30:28 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:44766)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1ok2mf-0000mz-1w; Sun, 16 Oct 2022 08:30:27 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id w18so19396457ejq.11;
+ Sun, 16 Oct 2022 05:30:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1E2xXSQga2vK9R+hJBuJ8cdtauJdyjfNnfLSRUgwiMo=;
+ b=qHONOfAqcGQHU2tsgNEF11wYciNxQ94iAtmBNxKIUgOQs+eCR/BecQu/cchjn0beoc
+ ojRKSe2WZTgnjSNgIjTPIkDcr681nlPXBVhFGJBVuU4dkvnzoJ82xuU258mVFD4AwGQy
+ YJmaAFzc0p49odjjCXfZ+PoyV3LzW7LbG+B5YyLBwgXOW7Dws2Z0XiF4ymOQ12J5LO0w
+ 6sF2+I7fUxxBMxCc7QDZifyViZEvXMy0qFKzFplQYyRjt/JjJgyKFvxYkK3KdFaGMpiF
+ djIAs4P5WvTK6bhG1fxpdLoWUUCS0fVf/f3VR8Qc+48SeL3I+xUDlTi18uQG6gRMplO4
+ +v+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=1E2xXSQga2vK9R+hJBuJ8cdtauJdyjfNnfLSRUgwiMo=;
+ b=z5WGE21ZfoX2czMuRon7KvwcknUfZUxb+ZF8basjWsD5FFGTv2zaXKG2b5+XbZq7ZH
+ hd7tSpMwu7R9r4iILvsDmfVBIBccjvrNlSdyFpgtnifRiERYN235eWVlr9XiG5uUipJJ
+ 3n5ukZomjVz1z9U/7qc5FfXf5ubB3um37wA4G9uisoYdeTRsmX06nXdsAwRLSY3hFsuH
+ aw/Kj/Rso1VEtn2XDN4X+lol7DjtYxwN3IT/N9ggT99qYLcEuXUbYSqPSfxZVfVVJto0
+ RKPj/EfRViqtun9VtBUOLP6SeIYSEgMPH3DJ+yGj9+qoOL1eJUmOQRsBRcQpEfv+oyGc
+ zoDw==
+X-Gm-Message-State: ACrzQf2Q/IPqPNUuUaCKxolLhW1Ul4p+LlxWE13KXAll8hibfYW9eAB9
+ L63c/qWmuf7TuGg3JG82ZzvKkK/w/xM=
+X-Google-Smtp-Source: AMsMyM52HBCVRobQOjt2iNXE0qiA8aA3nEbAIBzp3U89MimcD8D8GD+nQbo69KVhf73dAEzaqdkhdg==
+X-Received: by 2002:a17:907:96a0:b0:78d:dd45:a6d4 with SMTP id
+ hd32-20020a17090796a000b0078ddd45a6d4mr5114005ejc.643.1665923422966; 
+ Sun, 16 Oct 2022 05:30:22 -0700 (PDT)
+Received: from [127.0.0.1] (dynamic-089-014-006-139.89.14.pool.telefonica.de.
+ [89.14.6.139]) by smtp.gmail.com with ESMTPSA id
+ r2-20020a1709061ba200b0078d76ee7543sm4426318ejg.222.2022.10.16.05.30.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 16 Oct 2022 05:30:22 -0700 (PDT)
+Date: Sun, 16 Oct 2022 12:04:10 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+CC: qemu-ppc@nongnu.org, qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>, Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2 13/13] hw/ppc/e500: Add Freescale eSDHC to e500 boards
+In-Reply-To: <69fadeb6-ff4d-c327-5716-5a416bf96c20@amsat.org>
+References: <20221003203142.24355-1-shentey@gmail.com>
+ <20221003203142.24355-14-shentey@gmail.com>
+ <69fadeb6-ff4d-c327-5716-5a416bf96c20@amsat.org>
+Message-ID: <C749F10A-8368-4195-A942-8BA8D5609F04@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v3] qapi/qmp: Add timestamps to qmp command responses
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru, michael.roth@amd.com,
- vsementsov@yandex-team.ru, marcandre.lureau@gmail.com
-References: <20221011153408.495401-1-den-plotnikov@yandex-team.ru>
- <87tu47vkdx.fsf@pond.sub.org> <Y0gxfqMXi3gLH/3H@redhat.com>
- <8735bqu4ym.fsf@pond.sub.org> <Y0lIfTS4/5UMItkk@redhat.com>
- <87zgdypnq5.fsf@pond.sub.org> <Y0lhzBo8fx1ptEfn@redhat.com>
-Content-Language: en-US
-From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-In-Reply-To: <Y0lhzBo8fx1ptEfn@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.136;
- envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.961,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,102 +93,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 14.10.2022 16:19, Daniel P. Berrangé wrote:
-> On Fri, Oct 14, 2022 at 02:57:06PM +0200, Markus Armbruster wrote:
->> Daniel P. Berrangé <berrange@redhat.com> writes:
->>
->>> On Fri, Oct 14, 2022 at 11:31:13AM +0200, Markus Armbruster wrote:
->>>> Daniel P. Berrangé <berrange@redhat.com> writes:
->>>>
->>>>> On Thu, Oct 13, 2022 at 05:00:26PM +0200, Markus Armbruster wrote:
->>>>>> Denis Plotnikov <den-plotnikov@yandex-team.ru> writes:
->>>>>>
->>>>>>> Add "start" & "end" time values to qmp command responses.
->>>>>> Please spell it QMP.  More of the same below.
->>>>>>
->>>>>>> These time values are added to let the qemu management layer get the exact
->>>>>>> command execution time without any other time variance which might be brought by
->>>>>>> other parts of management layer or qemu internals. This is particulary useful
->>>>>>> for the management layer logging for later problems resolving.
->>>>>> I'm still having difficulties seeing the value add over existing
->>>>>> tracepoints and logging.
->>>>>>
->>>>>> Can you tell me about a problem you cracked (or could have cracked) with
->>>>>> the help of this?
->>>>> Consider your QMP client is logging all commands and replies in its
->>>>> own logfile (libvirt can do this). Having this start/end timestamps
->>>>> included means the QMP client log is self contained.
->>>> A QMP client can include client-side timestamps in its log.  What value
->>>> is being added by server-side timestamps?  According to the commit
->>>> message, it's for getting "the exact command execution time without any
->>>> other time variance which might be brought by other parts of management
->>>> layer or qemu internals."  Why is that useful?  In particular, why is
->>>> excluding network and QEMU queueing delays (inbound and outbound)
->>>> useful?
->>> Lets, say some commands normally runs in ~100ms, but occasionally
->>> runs in 2secs, and you want to understand why.
->>>
->>> A first step is understanding whether a given command itself is
->>> slow at executing, or whether its execution has merely been
->>> delayed because some other aspect of QEMU has delayed its execution.
->>> If the server timestamps show it was very fast, then that indicates
->>> delayed processing. Thus instead of debugging the slow command, I
->>> can think about what scenarios would be responsible for the delay.
->>> Perhaps a previous QMP command was very slow, or maybe there is
->>> simply a large volume of QMP commands backlogged, or some part of
->>> QEMU got blocked.
->>>
->>> Another case would be a command that is normally fast, and sometimes
->>> is slower, but still relatively fast. The network and queueing side
->>> might be a significant enough proportion of the total time to obscure
->>> the slowdown. If you can eliminate the non-execution time, you can
->>> see the performance trends over time to spot the subtle slowdowns
->>> and detect abnormal behaviour before it becomes too terrible.
->> This is troubleshooting.  Asking for better troubleshooting tools is
->> fair.
->>
->> However, the proposed timestamps provide much more limited insight than
->> existing tracepoints.  For instance, enabling
-> tracepoints are absolutely great and let you get a hell of alot
-> more information, *provided* you are in a position to actually
-> use tracepoints. This is, unfortunately, frequently not the case
-> when supporting real world production deployments.
-Exactly!!! Thanks for the pointing out!
+Am 3=2E Oktober 2022 21:06:57 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <f4=
+bug@amsat=2Eorg>:
+>On 3/10/22 22:31, Bernhard Beschow wrote:
+>> Adds missing functionality to emulated e500 SOCs which increases the
+>> chance of given "real" firmware images to access SD cards=2E
+>>=20
+>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+>> ---
+>>   docs/system/ppc/ppce500=2Erst | 13 +++++++++++++
+>>   hw/ppc/Kconfig              |  1 +
+>>   hw/ppc/e500=2Ec               | 31 ++++++++++++++++++++++++++++++-
+>>   3 files changed, 44 insertions(+), 1 deletion(-)
 >
-> Bug reports from customers typically include little more than a
-> log file they got from the mgmt client at time the problem happened.
-> The problem experianced may no longer exist, so asking them to run
-> a tracepoint script is not possible. They may also be reluctant to
-> actually run tracepoint scripts on a production system, or simply
-> lack the ability todo so at all, due to constraints of the deployment
-> environment. Logs from libvirt are something that are collected by
-> default for many mgmt apps, or can be turned on by the user with
-> minimal risk of disruption.
+>> +static void dt_sdhc_create(void *fdt, const char *parent, const char *=
+mpic)
+>> +{
+>> +    hwaddr mmio =3D MPC85XX_ESDHC_REGS_OFFSET;
+>> +    hwaddr size =3D MPC85XX_ESDHC_REGS_SIZE;
+>> +    int irq =3D MPC85XX_ESDHC_IRQ;
 >
-> Overall, there's a compelling desire to be proactive in collecting
-> information ahead of time, that might be useful in diagnosing
-> future bug reports.
+>Why not pass these 3 variable as argument?
 
-This is the main reason. When you encounter a problem one of the first 
-questions is "Was there something similar in the past. Another question 
-is how often does it happen.
+Besides looking for a way to derive these parameters from QOM properties I=
+ wanted to keep the code consistent to existing one, e=2Eg=2E dt_i2c_create=
+()=2E
 
-With the timestamps these questions answering becomes easier.
-
-Another thing is that with the qmp command timestamps you can build a 
-monitoring system which will report about the cases when 
-execution_time_from_mgmt_perspective - excution_time_qmp_command > 
-some_threshold which in turn proactively tell you about the potential 
-problems. And then you'll start using the qmp tracepoints (and other 
-means) to figure out the real reason of the execution time variance.
-
-Thanks, Denis
-
+Best regards,
+Bernhard
 >
-> So it isn't an 'either / or' decision of QMP reply logs vs use of
-> tracepoints, both are beneficial, with their own pros/cons.
->
-> With regards,
-> Daniel
+>> +    g_autofree char *name =3D NULL;
+>> +
+>> +    name =3D g_strdup_printf("%s/sdhc@%" PRIx64, parent, mmio);
+>> +    qemu_fdt_add_subnode(fdt, name);
+>> +    qemu_fdt_setprop(fdt, name, "sdhci,auto-cmd12", NULL, 0);
+>> +    qemu_fdt_setprop_phandle(fdt, name, "interrupt-parent", mpic);
+>> +    qemu_fdt_setprop_cells(fdt, name, "bus-width", 4);
+>> +    qemu_fdt_setprop_cells(fdt, name, "interrupts", irq, 0x2);
+>> +    qemu_fdt_setprop_cells(fdt, name, "reg", mmio, size);
+>> +    qemu_fdt_setprop_string(fdt, name, "compatible", "fsl,esdhc");
+>> +}
+>>     typedef struct PlatformDevtreeData {
+>>       void *fdt;
+>> @@ -553,6 +573,8 @@ static int ppce500_load_device_tree(PPCE500MachineS=
+tate *pms,
+>>         dt_rtc_create(fdt, "i2c", "rtc");
+>>   +    /* sdhc */
+>> +    dt_sdhc_create(fdt, soc, mpic);
+>>  =20
 
