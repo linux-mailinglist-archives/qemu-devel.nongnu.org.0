@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8121260030A
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 Oct 2022 21:57:47 +0200 (CEST)
-Received: from localhost ([::1]:38456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8441E60038F
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 Oct 2022 23:58:11 +0200 (CEST)
+Received: from localhost ([::1]:58192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ok9lZ-0007uq-L1
-	for lists+qemu-devel@lfdr.de; Sun, 16 Oct 2022 15:57:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52326)
+	id 1okBe5-00080a-Fa
+	for lists+qemu-devel@lfdr.de; Sun, 16 Oct 2022 17:58:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ok9fE-0004GF-70
- for qemu-devel@nongnu.org; Sun, 16 Oct 2022 15:51:12 -0400
-Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:33647)
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1okBc7-00064X-Ay; Sun, 16 Oct 2022 17:56:08 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:43889)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ok9f9-0005an-Pu
- for qemu-devel@nongnu.org; Sun, 16 Oct 2022 15:51:09 -0400
-Received: by mail-yb1-xb2c.google.com with SMTP id b145so11233022yba.0
- for <qemu-devel@nongnu.org>; Sun, 16 Oct 2022 12:51:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=cyvAJXXuBmUA3TCe4fs0DflZiALHevHhuKzfXEPvf4E=;
- b=LKRpvLbQ3SmUTsDHEOicbkTcxS54wujiA3RYymNWo3mJC9Rt9Nakzpjt7oMqOJmEK4
- Ycd57YqGB1g2YC0Z9g7Fz264clg1TjJRVxy1pau5o3Fc4ju8CvxSJal44IrZi8C6SRje
- Xuq6kF3IUZL4YF60EdMRz3UUUexVAULRMQXYe7YE4XLJ+rweiCW/ClJN/SA+TbjO9wTh
- phZg3MesZqMZJr609Gz8nULDVGvWNK+J4uZzY6DVdlyy5DIfZFcRlnxyAlQrgWykahiH
- aZrrRV4OglrgfKKuKnjEE197MOhAlUD4MSn1k/CZYaUKdAdqBubd8+H3hfkM6x7z5mRU
- z/QA==
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1okBc1-0005nd-4t; Sun, 16 Oct 2022 17:56:06 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ r3-20020a05600c35c300b003b4b5f6c6bdso8632126wmq.2; 
+ Sun, 16 Oct 2022 14:55:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RmUvNVt3cWeK/FAqv9JdsMt5wGe1852dfTJg2QOE830=;
+ b=f5SAbn6J1SekRPqcJIOlUmYfGEXplhJ1kK3pvaTe+jWl9rKs22/nQuoO9OWqMWTWQ0
+ xdKWPlJlheK4odcvoCTQABqa81I8JiYZgqqq9aDtWH6qEd1HokTP3Y65ixnXCeTkK6iE
+ PASm7bLeGkT/mJVDWJmio7z33+q3NKKTT9bFI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=cyvAJXXuBmUA3TCe4fs0DflZiALHevHhuKzfXEPvf4E=;
- b=CFcCnqlSlULZrfKGw2U30n71Pe2JfV8pBevtfI/yfwzFLUguaL6WpmjNNjXyP5qZqo
- BQf9RGkQ9DVU5rBZO70uepSdw9j5P0BdPQ4lPxNwb0s4xnZn8nlpb0w2scQF4x4r5Kcd
- KYTt0arW/dGZk7lh2pJD6FAkvjhlA9cRGuqGY4z7N3cwo3EB/1AmDJLhQCcGiRp3HVTd
- yNwkLORPEF/bMWHadEo/R8zaY1OkYyqi394AUVImB2pupMCy733OyOVy6Dq3pB+TSooT
- Yyhwf+KtIet7P0oeONtyaSpT04QjV8H+sflKD68uqHbsfzyEakXkV+Ey3yzSSpI5Dve2
- IuGw==
-X-Gm-Message-State: ACrzQf2r8Bg2aoBHizI31n9s/KzcEJe6I/ZdkmEnfnZX6zSoaUFawkJl
- yKaDZbwnk+5PHi/0bkFR8CSc1xfXcK61doKQEvs=
-X-Google-Smtp-Source: AMsMyM6I5mW/oBKHPLyDlFq9p+zmYpBeMS8OuwCLEuiS2jvLJuE9pefNdHC7623y9nPwT/qSU9+LWClpoXLxM/gqUo0=
-X-Received: by 2002:a25:4fc1:0:b0:6bc:c570:f99e with SMTP id
- d184-20020a254fc1000000b006bcc570f99emr6668070ybb.58.1665949866205; Sun, 16
- Oct 2022 12:51:06 -0700 (PDT)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=RmUvNVt3cWeK/FAqv9JdsMt5wGe1852dfTJg2QOE830=;
+ b=Ls/PmXEhgN5jSD8J2Skmgxs4m8WsYDrU2TGye2VXt+MXqT8Uh0wEWPGD24lqs191um
+ sZRXxQOIiD4v3jtlxiogk/ky6g1ocY4/aXmVFY6en1OUsWfFh9okPHHp4WcC5P6KScYA
+ d78L+itXFSrvjWjh7pNA/6hwP+JuGeblqT74WAlvDqk3gMVKczLvKXbMkKfG+n2i0Hzj
+ pS+PBbsse2d0uwjUxsz0vjsYBs9381vfWQX6B11y9pDFXW3cl2PzTwVEL5RorKkfkn7/
+ 94maCNSPc7DZ9/CXaispZq4rjQMRuus1SGP1BD0mjIzRns5hX9Hx7TmDDZ6fe2cdffVL
+ zayA==
+X-Gm-Message-State: ACrzQf0Ulj30fPeEXQ3Y4wGhoqA02dwzlEXp29W1cpKpNEuKFJaPApz3
+ +hGAwuC36Azp3GmrANrCERupsD10+Uw0VuDFv0s=
+X-Google-Smtp-Source: AMsMyM50C295L5NjoCJul/hu7tKSoOoXOhRlv5Xiga9jdp77zzWR77a8Hks4Op0VmXRlQcDeWT7JQe6Xh6EVJ3saXBo=
+X-Received: by 2002:a05:600c:1d97:b0:3c6:bc3c:9890 with SMTP id
+ p23-20020a05600c1d9700b003c6bc3c9890mr17931851wms.190.1665957358216; Sun, 16
+ Oct 2022 14:55:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221014072356.2075517-1-laurent@vivier.eu>
-In-Reply-To: <20221014072356.2075517-1-laurent@vivier.eu>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Sun, 16 Oct 2022 15:50:54 -0400
-Message-ID: <CAJSP0QWcxLFQnrsqJxVw4k1-bsnq1XVGFQj12FLpAi5ar397VQ@mail.gmail.com>
-Subject: Re: [PULL 0/2] M68k for 7.2 patches
-To: Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-devel@nongnu.org
+References: <20221013161241.2805140-1-clg@kaod.org>
+In-Reply-To: <20221013161241.2805140-1-clg@kaod.org>
+From: Joel Stanley <joel@jms.id.au>
+Date: Sun, 16 Oct 2022 21:55:46 +0000
+Message-ID: <CACPK8XdGvayUXXog0mWAJm7V3fBJ0jUJ7pr7SbCT4v2=p63NFw@mail.gmail.com>
+Subject: Re: [PATCH v4 00/10] m25p80: Add SFDP support
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-block@nongnu.org, 
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>, 
+ Alistair Francis <alistair@alistair23.me>,
+ Francisco Iglesias <frasse.iglesias@gmail.com>, 
+ Iris Chen <irischenlj@fb.com>, Michael Walle <michael@walle.cc>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=joel.stan@gmail.com; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,103 +86,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 14 Oct 2022 at 03:26, Laurent Vivier <laurent@vivier.eu> wrote:
+On Thu, 13 Oct 2022 at 16:12, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> The following changes since commit f1d33f55c47dfdaf8daacd618588ad3ae4c452d1:
+> Hello,
 >
->   Merge tag 'pull-testing-gdbstub-plugins-gitdm-061022-3' of https://github.com/stsquad/qemu into staging (2022-10-06 07:11:56 -0400)
->
-> are available in the Git repository at:
->
->   https://github.com/vivier/qemu-m68k.git tags/m68k-for-7.2-pull-request
->
-> for you to fetch changes up to fa327be58280f76d2565ff0bdb9b0010ac97c3b0:
->
->   m68k: write bootinfo as rom section and re-randomize on reboot (2022-10-11 23:02:46 +0200)
->
-> ----------------------------------------------------------------
-> Pull request m68k branch 20221014
->
-> Update rng seed boot parameter
->
-> ----------------------------------------------------------------
->
-> Jason A. Donenfeld (2):
->   m68k: rework BI_VIRT_RNG_SEED as BI_RNG_SEED
->   m68k: write bootinfo as rom section and re-randomize on reboot
+> This patchset adds support for JEDEC STANDARD JESD216 Serial Flash
+> Discovery Parameters (SFDP). SFDP describes the features of a serial
+> flash device using a set of internal parameter tables. Support in
+> Linux has been added some time ago and the spi-nor driver is using it
+> more often to detect the flash settings and even flash models.
 
-This commit breaks mingw64 due to the Windows LLP64 data model where
-pointers don't fit into unsigned long
-(https://en.wikipedia.org/wiki/LP64#64-bit_data_models). Please use
-uintptr_t instead of unsigned long:
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+Tested-by: Joel Stanley <joel@jms.id.au>
 
-x86_64-w64-mingw32-gcc -m64 -mcx16 -Ilibqemu-m68k-softmmu.fa.p -I.
--I.. -Itarget/m68k -I../target/m68k -Iqapi -Itrace -Iui -Iui/shader
--I/usr/x86_64-w64-mingw32/sys-root/mingw/include/pixman-1
--I/usr/x86_64-w64-mingw32/sys-root/mingw/include/glib-2.0
--I/usr/x86_64-w64-mingw32/sys-root/mingw/lib/glib-2.0/include
--fdiagnostics-color=auto -Wall -Winvalid-pch -Werror -std=gnu11 -O2 -g
--iquote . -iquote /builds/qemu-project/qemu -iquote
-/builds/qemu-project/qemu/include -iquote
-/builds/qemu-project/qemu/tcg/i386 -mms-bitfields -U_FORTIFY_SOURCE
--D_FORTIFY_SOURCE=2 -fno-pie -no-pie -D_GNU_SOURCE
--D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Wstrict-prototypes
--Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototypes
--fno-strict-aliasing -fno-common -fwrapv -Wold-style-declaration
--Wold-style-definition -Wtype-limits -Wformat-security -Wformat-y2k
--Winit-self -Wignored-qualifiers -Wempty-body -Wnested-externs
--Wendif-labels -Wexpansion-to-defined -Wimplicit-fallthrough=2
--Wno-missing-include-dirs -Wno-shift-negative-value -Wno-psabi
--fstack-protector-strong -DNEED_CPU_H
-'-DCONFIG_TARGET="m68k-softmmu-config-target.h"'
-'-DCONFIG_DEVICES="m68k-softmmu-config-devices.h"' -MD -MQ
-libqemu-m68k-softmmu.fa.p/hw_m68k_virt.c.obj -MF
-libqemu-m68k-softmmu.fa.p/hw_m68k_virt.c.obj.d -o
-libqemu-m68k-softmmu.fa.p/hw_m68k_virt.c.obj -c ../hw/m68k/virt.c
-In file included from ../hw/m68k/virt.c:23:
-../hw/m68k/virt.c: In function 'virt_init':
-../hw/m68k/bootinfo.h:58:26: error: cast from pointer to integer of
-different size [-Werror=pointer-to-int-cast]
-58 | base = (void *)(((unsigned long)base + 3) & ~3); \
-| ^
-../hw/m68k/virt.c:261:13: note: in expansion of macro 'BOOTINFOSTR'
-261 | BOOTINFOSTR(param_ptr, BI_COMMAND_LINE,
-| ^~~~~~~~~~~
-../hw/m68k/bootinfo.h:58:16: error: cast to pointer from integer of
-different size [-Werror=int-to-pointer-cast]
-58 | base = (void *)(((unsigned long)base + 3) & ~3); \
-| ^
-../hw/m68k/virt.c:261:13: note: in expansion of macro 'BOOTINFOSTR'
-261 | BOOTINFOSTR(param_ptr, BI_COMMAND_LINE,
-| ^~~~~~~~~~~
-../hw/m68k/bootinfo.h:75:26: error: cast from pointer to integer of
-different size [-Werror=pointer-to-int-cast]
-75 | base = (void *)(((unsigned long)base + 3) & ~3); \
-| ^
-../hw/m68k/virt.c:268:9: note: in expansion of macro 'BOOTINFODATA'
-268 | BOOTINFODATA(param_ptr, BI_RNG_SEED,
-| ^~~~~~~~~~~~
-../hw/m68k/bootinfo.h:75:16: error: cast to pointer from integer of
-different size [-Werror=int-to-pointer-cast]
-75 | base = (void *)(((unsigned long)base + 3) & ~3); \
-| ^
-../hw/m68k/virt.c:268:9: note: in expansion of macro 'BOOTINFODATA'
-268 | BOOTINFODATA(param_ptr, BI_RNG_SEED,
-| ^~~~~~~~~~~~
-cc1: all warnings being treated as errors
-
-https://gitlab.com/qemu-project/qemu/-/jobs/3179717070
-
->
->  hw/m68k/bootinfo.h                            | 48 ++++++------
->  .../standard-headers/asm-m68k/bootinfo-virt.h |  4 +-
->  include/standard-headers/asm-m68k/bootinfo.h  |  8 +-
->  hw/m68k/q800.c                                | 76 ++++++++++++++-----
->  hw/m68k/virt.c                                | 57 +++++++++-----
->  5 files changed, 130 insertions(+), 63 deletions(-)
->
-> --
-> 2.37.3
->
->
+Thanks C=C3=A9dric!
 
