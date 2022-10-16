@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8441E60038F
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 Oct 2022 23:58:11 +0200 (CEST)
-Received: from localhost ([::1]:58192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2909C6003EB
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 00:24:44 +0200 (CEST)
+Received: from localhost ([::1]:40264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okBe5-00080a-Fa
-	for lists+qemu-devel@lfdr.de; Sun, 16 Oct 2022 17:58:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50204)
+	id 1okC3n-0006dn-3W
+	for lists+qemu-devel@lfdr.de; Sun, 16 Oct 2022 18:24:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1okBc7-00064X-Ay; Sun, 16 Oct 2022 17:56:08 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:43889)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1okBc1-0005nd-4t; Sun, 16 Oct 2022 17:56:06 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- r3-20020a05600c35c300b003b4b5f6c6bdso8632126wmq.2; 
- Sun, 16 Oct 2022 14:55:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RmUvNVt3cWeK/FAqv9JdsMt5wGe1852dfTJg2QOE830=;
- b=f5SAbn6J1SekRPqcJIOlUmYfGEXplhJ1kK3pvaTe+jWl9rKs22/nQuoO9OWqMWTWQ0
- xdKWPlJlheK4odcvoCTQABqa81I8JiYZgqqq9aDtWH6qEd1HokTP3Y65ixnXCeTkK6iE
- PASm7bLeGkT/mJVDWJmio7z33+q3NKKTT9bFI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RmUvNVt3cWeK/FAqv9JdsMt5wGe1852dfTJg2QOE830=;
- b=Ls/PmXEhgN5jSD8J2Skmgxs4m8WsYDrU2TGye2VXt+MXqT8Uh0wEWPGD24lqs191um
- sZRXxQOIiD4v3jtlxiogk/ky6g1ocY4/aXmVFY6en1OUsWfFh9okPHHp4WcC5P6KScYA
- d78L+itXFSrvjWjh7pNA/6hwP+JuGeblqT74WAlvDqk3gMVKczLvKXbMkKfG+n2i0Hzj
- pS+PBbsse2d0uwjUxsz0vjsYBs9381vfWQX6B11y9pDFXW3cl2PzTwVEL5RorKkfkn7/
- 94maCNSPc7DZ9/CXaispZq4rjQMRuus1SGP1BD0mjIzRns5hX9Hx7TmDDZ6fe2cdffVL
- zayA==
-X-Gm-Message-State: ACrzQf0Ulj30fPeEXQ3Y4wGhoqA02dwzlEXp29W1cpKpNEuKFJaPApz3
- +hGAwuC36Azp3GmrANrCERupsD10+Uw0VuDFv0s=
-X-Google-Smtp-Source: AMsMyM50C295L5NjoCJul/hu7tKSoOoXOhRlv5Xiga9jdp77zzWR77a8Hks4Op0VmXRlQcDeWT7JQe6Xh6EVJ3saXBo=
-X-Received: by 2002:a05:600c:1d97:b0:3c6:bc3c:9890 with SMTP id
- p23-20020a05600c1d9700b003c6bc3c9890mr17931851wms.190.1665957358216; Sun, 16
- Oct 2022 14:55:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1okBtQ-0000nz-GW
+ for qemu-devel@nongnu.org; Sun, 16 Oct 2022 18:14:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23967)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1okBtN-00082q-Ih
+ for qemu-devel@nongnu.org; Sun, 16 Oct 2022 18:13:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665958435;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MesaVx7h2h5SLoQTh0KXqKxVOdVsHiL1Beoz/Z01Izk=;
+ b=CeRyf5jzZCvymZjpvPVW9adJlcyl/r8moljFDiR6lr6ec6s92ftYmgRu3uN/WIUe7HRLka
+ 4S0/ZTWN31THDmDOtT7zS8+kSKjDUfQRa1i6hGjRrM3ajBbqkT6vBemGdkUN3XT5iJrikm
+ F0Xwn6URjVwq16qpInuFD/D2BN2sZgA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-615-p4M0rn_lMQe-GL1U_A1N3w-1; Sun, 16 Oct 2022 18:13:53 -0400
+X-MC-Unique: p4M0rn_lMQe-GL1U_A1N3w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 554F6185A7AD;
+ Sun, 16 Oct 2022 22:13:53 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A2BFA2166B26;
+ Sun, 16 Oct 2022 22:13:49 +0000 (UTC)
+Date: Sun, 16 Oct 2022 17:52:23 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Alistair Francis <alistair.francis@opensource.wdc.com>
+Cc: qemu-devel@nongnu.org, alistair23@gmail.com,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: Re: [PULL 00/10] riscv-to-apply queue
+Message-ID: <Y0x9F0oIr1IxgjYg@fedora>
+References: <20221014075830.914722-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
-References: <20221013161241.2805140-1-clg@kaod.org>
-In-Reply-To: <20221013161241.2805140-1-clg@kaod.org>
-From: Joel Stanley <joel@jms.id.au>
-Date: Sun, 16 Oct 2022 21:55:46 +0000
-Message-ID: <CACPK8XdGvayUXXog0mWAJm7V3fBJ0jUJ7pr7SbCT4v2=p63NFw@mail.gmail.com>
-Subject: Re: [PATCH v4 00/10] m25p80: Add SFDP support
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-block@nongnu.org, 
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>, 
- Alistair Francis <alistair@alistair23.me>,
- Francisco Iglesias <frasse.iglesias@gmail.com>, 
- Iris Chen <irischenlj@fb.com>, Michael Walle <michael@walle.cc>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=joel.stan@gmail.com; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="zdkFkj933tYmKky1"
+Content-Disposition: inline
+In-Reply-To: <20221014075830.914722-1-alistair.francis@opensource.wdc.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,18 +80,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 13 Oct 2022 at 16:12, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> Hello,
->
-> This patchset adds support for JEDEC STANDARD JESD216 Serial Flash
-> Discovery Parameters (SFDP). SFDP describes the features of a serial
-> flash device using a set of internal parameter tables. Support in
-> Linux has been added some time ago and the spi-nor driver is using it
-> more often to detect the flash settings and even flash models.
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Tested-by: Joel Stanley <joel@jms.id.au>
+--zdkFkj933tYmKky1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks C=C3=A9dric!
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
+
+--zdkFkj933tYmKky1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNMfRcACgkQnKSrs4Gr
+c8gk5Af/RAwx+QQlo5yVCiX7+EoqiElVQC1jvjbMUpJpOr4Pl9EoDFxdip1FRmyp
+czNvjLttVMncN9kOy6nJbzqlPpKU+VmCi+Ytt4ie/iqeEsdfajsmBGyJmdA3Bzuz
+y29CAvNqpZT/ZLlXOSvtZFkIBCvAqXk9NDjdrpYqwRt82T3LkNRQz/032OPR445E
+UL+HEjv+3+nQBQHw+UFDChJw0RJ40vBIY005WylHBXrTi/iviasiE72MP3hDajJo
+Ezi2xjxKwOHXm2Y47neBtX0w4laKOnfaDgGxoAqbsF/olJxKlZrJyOdyR8Z0BUr3
+V1CngECu7gXqSAJFuUGhyM8ywKqZxw==
+=x/zA
+-----END PGP SIGNATURE-----
+
+--zdkFkj933tYmKky1--
+
 
