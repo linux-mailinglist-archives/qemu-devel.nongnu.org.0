@@ -2,114 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41AE7600732
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 09:01:49 +0200 (CEST)
-Received: from localhost ([::1]:50380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32D44600822
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 09:53:57 +0200 (CEST)
+Received: from localhost ([::1]:60354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okK8B-0003SS-Ra
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 03:01:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36060)
+	id 1okKwe-0008Gu-8L
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 03:53:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yajunw@nvidia.com>) id 1okJsc-0003dO-97
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 02:45:58 -0400
-Received: from mail-dm6nam11on2041.outbound.protection.outlook.com
- ([40.107.223.41]:42560 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1okKVN-000266-PS
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 03:25:45 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:46965)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yajunw@nvidia.com>) id 1okJsZ-0003Wd-MD
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 02:45:41 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZzWYSKZi2DX/u/5MXSRyan3rxYsrI8Dg39Nl/unzeV2UjwEY2cmBgnOc5Hg8UNb9OJ4AhWRNdBalkHKKbsbDU/1dLrOXi6g6mnIFXyj5OdcvbhJ4wC1za54BdhxcnZHqznGps/kesmk7EmyoOPs1n3gV7Z9WFcx06lAYNFqGyCuIIORU33a08MyxBvB5mc6pMqPMLsB/Svt5vTQEuofKdoB8PANck+mFxtaUc0/dELbrxXtN3/9QA+lRFo6wqUykg4JwM4swEpwbzc4nnsnS0MAYRkL8GDh6celaxVN9cFfZdfAW1QS5d5Wb5OD93o5obKqttDV1qQmEDG3pjKzEBQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RpOYEJpKQK9ijfjqnUAxvkZTuvtnmdix9wqdO6A93wM=;
- b=P4fPFIZ0LEp5p7nBcsdrm7f/qfDtq5KfUeVHyZwcXanpWy4vmq+z+iQxVqRHQ3mKSjz+h/9pRqpC6LhfbgGRTNSaYxzkvmhgFHwZ1TAOrJ47JSj1S6foksUNkv28IOK6x8JgBeL50/kHeH1AC81IE8HeLmKSi1cXdPB+awWUOqToXsDNN0L08FeG4xSXpEBL1Bxl/fM5TD8UA8LMPfeZR5OH7H93onnIVIQBX4h+VYfFXEqK0R2NSpMWAMmL672H8x9TgxtocU6R8mkv4bonbLkOa1uL1viL6jtEKhu/8miC9S5hJvlE4vdsfDhwugvPfm0tdFF35AJ/hpI4t0lwJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=nongnu.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RpOYEJpKQK9ijfjqnUAxvkZTuvtnmdix9wqdO6A93wM=;
- b=tIVmxISdRtWsDEFkjUN5n7ZT26kbcODVh/09mWBZ5loMFCaE4GOufhTUkzFTrO822s8G85xhOtZ0liNZVN9Xoaw5ccl+Ae8duA9qew/odqAVelaZt+tvhvAo1IoyQy8gq3BDJU6P4hYovpg+5xq8sp9mMWx844mIqbDda1Ma4fPtdlMoEQsrds8v2IVvDzQn8vFsvf5NAel5HoaCvxXPmzhiQzRRhpq3+dPmyHFt/moTHEVKeh9A9DwLKPHznWfAlsW1qgktKLOoDzwP343iK6DX6bhxpOdBwX3WR4h6eklBv1QCe+s9uK3zIsiXhtlvhUqDESVbp6Eqe0xN8j1rTw==
-Received: from BN8PR03CA0017.namprd03.prod.outlook.com (2603:10b6:408:94::30)
- by DM4PR12MB5296.namprd12.prod.outlook.com (2603:10b6:5:39d::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.30; Mon, 17 Oct
- 2022 06:45:37 +0000
-Received: from BN8NAM11FT039.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:94:cafe::78) by BN8PR03CA0017.outlook.office365.com
- (2603:10b6:408:94::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.30 via Frontend
- Transport; Mon, 17 Oct 2022 06:45:37 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- BN8NAM11FT039.mail.protection.outlook.com (10.13.177.169) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5723.20 via Frontend Transport; Mon, 17 Oct 2022 06:45:36 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Sun, 16 Oct
- 2022 23:45:23 -0700
-Received: from nvidia.com (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Sun, 16 Oct
- 2022 23:45:22 -0700
-From: Yajun Wu <yajunw@nvidia.com>
-To: <qemu-devel@nongnu.org>, <mst@redhat.com>, <yajunw@nvidia.com>,
- <parav@nvidia.com>
-Subject: [PATCH v3 2/2] vhost-user: Support vhost_dev_start
-Date: Mon, 17 Oct 2022 14:44:52 +0800
-Message-ID: <20221017064452.1226514-3-yajunw@nvidia.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20221017064452.1226514-1-yajunw@nvidia.com>
-References: <20220629022517.2600911-1-yajunw@nvidia.com>
- <20221017064452.1226514-1-yajunw@nvidia.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1okKVL-0000y5-So
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 03:25:45 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MS3vJ-1oZiIG1VOd-00TUnL; Mon, 17 Oct 2022 09:25:35 +0200
+Message-ID: <fe30a5ce-f318-55f2-165f-b555e19f3160@vivier.eu>
+Date: Mon, 17 Oct 2022 09:25:32 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PULL 0/2] M68k for 7.2 patches
+Content-Language: fr
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@gmail.com>
+References: <20221014072356.2075517-1-laurent@vivier.eu>
+ <CAJSP0QWcxLFQnrsqJxVw4k1-bsnq1XVGFQj12FLpAi5ar397VQ@mail.gmail.com>
+ <Y0zScz9aaUulC78c@zx2c4.com>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <Y0zScz9aaUulC78c@zx2c4.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.126.231.35]
-X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT039:EE_|DM4PR12MB5296:EE_
-X-MS-Office365-Filtering-Correlation-Id: 888015b5-442a-4aa3-1000-08dab00b32ca
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yUxtZkIoF3882o0JGdQNokFr+aH+WIzKNfPczh54vdWQsirhITQOD8WnpFfvOD62YLN83OPenYOgnGooBFvEbDcK/qrR6JXjCO37MyYNcqDH4O7wbifJn69WwYcXp0CJzfUlsdyUIpAZKE8uqkWnNAbMslB+41vx79fVG1ibxRebLt2goqKy2mAl0ayVbYLb+N06C0E+eZHUaRXl0hd1TRUIFM8aq2612jDETdX3XVHXJd585jnrgFUf11+qaaVjGp+gYzNEvrts426+RW+r1VuC2JlogCjsNEhhxQ1UE2MWEwHmv3M1dq28k3xJLX2nAkLf8tYctdu6Xggmg5om61ZC0ZdaFmLEPhyZkF8Fc1a/lUpchRBxRSEE3jPet20StyeN44j8fO1Frlc5/l0+JlE32fH1kKOqULijf6Z7P7GT3PonaciqLDfT0n6vNewhsxH+3+i8WxzPp6k60lhjHYL4Hc523whEsHyegEHiB/1gAqv6dEaz3LFJvRPUQzgZS8LdUczfbD4eA4pJ0Ytdjds5Rus5nsVYkUGy3eTDYjJivO2A65TsjIlZgtPoJKRFjxgQn3lBldMahKJboix0LFQhvDaVX84jdsoywl4SK8hVly51HGiY7Tf6+QjgZvheQfHCL8CCza5aFIRk/fjEHLhnTMyF20cyjMYjg45x8MdgBuUNeFSh3SMjOfajrjykq/SoBaRnHpzwLtkPfvC9kFfWs1WV7n8//Basgt1mNNLSK8zWJaUit5Q7MrQ2cJ0RNLQW1exkzAIgHhCJAa046A==
-X-Forefront-Antispam-Report: CIP:216.228.117.160; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge1.nvidia.com; CAT:NONE;
- SFS:(13230022)(4636009)(136003)(346002)(396003)(376002)(39860400002)(451199015)(36840700001)(46966006)(40470700004)(36756003)(86362001)(2906002)(5660300002)(82740400003)(336012)(2616005)(16526019)(1076003)(186003)(47076005)(426003)(7636003)(356005)(83380400001)(26005)(7696005)(316002)(966005)(478600001)(6286002)(6636002)(70206006)(70586007)(82310400005)(36860700001)(40480700001)(55016003)(8936002)(41300700001)(110136005)(6666004)(40460700003)(8676002);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2022 06:45:36.7391 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 888015b5-442a-4aa3-1000-08dab00b32ca
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.160];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT039.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5296
-Received-SPF: softfail client-ip=40.107.223.41; envelope-from=yajunw@nvidia.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:w3wfTpT7n9vzV0rZ4nLpIgdbE2EKtUYSsr1xlbr1AjFcxVC6+Gk
+ 2DbxCKhOcILDrLekjmtSa1ElzjVrmBh24RUl9rdtvfDSTwSKp4ptXichC2zTXQghRaaGh5H
+ YyZxxYDWxRb3TvpPZc7/hu3njSBxI67+ZQnFfTglI1smfgxhqCE/gieB2UFN/BbdJIiPHCp
+ 5E/kMA+8jpkOlcmPolO0A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:jLoOgWbx4jA=:sHjxfzgjmeqzIs0a2OUS0M
+ +R8fo6sJTj9lYIHIYQUzJbnCrOoUmvAvonJQQoFd6gRcU5nia8PaQvAtqIwV18zlScO9//1oa
+ 0uedA+qFfsZYwCjl2Y8XX9t+6C0kqt4MD2KFINqNLKWnsbn9VRRRanLeS4DYHmBXPxI/XTfbU
+ qZDzyWNCr5Hw6Dt0zEGIakMScT9FUpAdpkDjxSS7lNPs5F9nJ+Gpq1IwbKdnCRd+Rc3/mx8hl
+ /eTb/rx4ydINRP6o996bp+uX9XrIFFgdonxYvXejEtd1zO2wx7Lw0Wxs87l4g/SXMELwC5wL0
+ VaaE2ZZMQOG44kFS6B2HcFVcby0u1PZAQHegz0VuVbtk6aMQTp99dDCm0wAtH3whFc1uBEYIX
+ cjib9rVhGL2azyXeOqspsx1r2ZovT2pwbfkWgH1vVI40HW1aUJokgkYLXMBpp6zasc9NiJxxK
+ t6OOT5as30HjQgnPTkTVRAA2dwn12e4XbVVZahNgL4M9H5D8A99dCSQYBVqHKtSAGN96FrJyh
+ 9cXBQizu/6HdcBo48qWS9inHjTR5zir0ruUiN/M5Mehg46rU45It5Ch98sLvTm3AaePT1zIPE
+ /UbGR7cAumU8aZyUr3cl66isEQ+6c80MLWkxO22eRPVd4AVKBxnDAFL8yiHdM3EHXg7gxbFBo
+ u70XtWGxX+fT/7pGqYl1rW1PeXV573h2qFwelkZibLQDQBXm88czC0VpXeADBDj0HRY5jZe4E
+ z/r76Dt4wTZdFHQ9Vi+qFRoWDU6MBXbyhaGCgunyR/wrrd8fHhZoP+JJvD1n/kWV06BW7WnJK
+ u49XIgR
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -125,168 +76,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The motivation of adding vhost-user vhost_dev_start support is to
-improve backend configuration speed and reduce live migration VM
-downtime.
+Le 17/10/2022 à 05:56, Jason A. Donenfeld via a écrit :
+> On Sun, Oct 16, 2022 at 03:50:54PM -0400, Stefan Hajnoczi wrote:
+>> On Fri, 14 Oct 2022 at 03:26, Laurent Vivier <laurent@vivier.eu> wrote:
+>>>
+>>> The following changes since commit f1d33f55c47dfdaf8daacd618588ad3ae4c452d1:
+>>>
+>>>    Merge tag 'pull-testing-gdbstub-plugins-gitdm-061022-3' of https://github.com/stsquad/qemu into staging (2022-10-06 07:11:56 -0400)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>    https://github.com/vivier/qemu-m68k.git tags/m68k-for-7.2-pull-request
+>>>
+>>> for you to fetch changes up to fa327be58280f76d2565ff0bdb9b0010ac97c3b0:
+>>>
+>>>    m68k: write bootinfo as rom section and re-randomize on reboot (2022-10-11 23:02:46 +0200)
+>>>
+>>> ----------------------------------------------------------------
+>>> Pull request m68k branch 20221014
+>>>
+>>> Update rng seed boot parameter
+>>>
+>>> ----------------------------------------------------------------
+>>>
+>>> Jason A. Donenfeld (2):
+>>>    m68k: rework BI_VIRT_RNG_SEED as BI_RNG_SEED
+>>>    m68k: write bootinfo as rom section and re-randomize on reboot
+>>
+>> This commit breaks mingw64 due to the Windows LLP64 data model where
+>> pointers don't fit into unsigned long
+>> (https://en.wikipedia.org/wiki/LP64#64-bit_data_models). Please use
+>> uintptr_t instead of unsigned long:
+> 
+> Holy smokes; I didn't realize that qemu was ever compiled this way.
+> 
+> Laurent - do you want me to send you a follow-up commit fixing that, a
+> new commit fixing that, or do you want to adjust the current commit
+> yourself? Any choice is fine with me.
 
-Today VQ configuration is issued one by one. For virtio net with
-multi-queue support, backend needs to update RSS (Receive side
-scaling) on every rx queue enable. Updating RSS is time-consuming
-(typical time like 7ms).
+Please update the current patch to fix that and resend.
 
-Implement already defined vhost status and message in the vhost
-specification [1].
-(a) VHOST_USER_PROTOCOL_F_STATUS
-(b) VHOST_USER_SET_STATUS
-(c) VHOST_USER_GET_STATUS
-
-Send message VHOST_USER_SET_STATUS with VIRTIO_CONFIG_S_DRIVER_OK for
-device start and reset(0) for device stop.
-
-On reception of the DRIVER_OK message, backend can apply the needed setting
-only once (instead of incremental) and also utilize parallelism on enabling
-queues.
-
-This improves QEMU's live migration downtime with vhost user backend
-implementation by great margin, specially for the large number of VQs of 64
-from 800 msec to 250 msec.
-
-[1] https://qemu-project.gitlab.io/qemu/interop/vhost-user.html
-
-Signed-off-by: Yajun Wu <yajunw@nvidia.com>
-Acked-by: Parav Pandit <parav@nvidia.com>
----
- hw/virtio/vhost-user.c | 74 +++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 73 insertions(+), 1 deletion(-)
-
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 03415b6c95..bb5164b753 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -81,6 +81,7 @@ enum VhostUserProtocolFeature {
-     VHOST_USER_PROTOCOL_F_RESET_DEVICE = 13,
-     /* Feature 14 reserved for VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS. */
-     VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS = 15,
-+    VHOST_USER_PROTOCOL_F_STATUS = 16,
-     VHOST_USER_PROTOCOL_F_MAX
- };
- 
-@@ -126,6 +127,8 @@ typedef enum VhostUserRequest {
-     VHOST_USER_GET_MAX_MEM_SLOTS = 36,
-     VHOST_USER_ADD_MEM_REG = 37,
-     VHOST_USER_REM_MEM_REG = 38,
-+    VHOST_USER_SET_STATUS = 39,
-+    VHOST_USER_GET_STATUS = 40,
-     VHOST_USER_MAX
- } VhostUserRequest;
- 
-@@ -1452,6 +1455,43 @@ static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64,
-     return 0;
- }
- 
-+static int vhost_user_set_status(struct vhost_dev *dev, uint8_t status)
-+{
-+    return vhost_user_set_u64(dev, VHOST_USER_SET_STATUS, status, false);
-+}
-+
-+static int vhost_user_get_status(struct vhost_dev *dev, uint8_t *status)
-+{
-+    uint64_t value;
-+    int ret;
-+
-+    ret = vhost_user_get_u64(dev, VHOST_USER_GET_STATUS, &value);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+    *status = value;
-+
-+    return 0;
-+}
-+
-+static int vhost_user_add_status(struct vhost_dev *dev, uint8_t status)
-+{
-+    uint8_t s;
-+    int ret;
-+
-+    ret = vhost_user_get_status(dev, &s);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    if ((s & status) == status) {
-+        return 0;
-+    }
-+    s |= status;
-+
-+    return vhost_user_set_status(dev, s);
-+}
-+
- static int vhost_user_set_features(struct vhost_dev *dev,
-                                    uint64_t features)
- {
-@@ -1460,6 +1500,7 @@ static int vhost_user_set_features(struct vhost_dev *dev,
-      * backend is actually logging changes
-      */
-     bool log_enabled = features & (0x1ULL << VHOST_F_LOG_ALL);
-+    int ret;
- 
-     /*
-      * We need to include any extra backend only feature bits that
-@@ -1467,9 +1508,18 @@ static int vhost_user_set_features(struct vhost_dev *dev,
-      * VHOST_USER_F_PROTOCOL_FEATURES bit for enabling protocol
-      * features.
-      */
--    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES,
-+    ret = vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES,
-                               features | dev->backend_features,
-                               log_enabled);
-+
-+    if (virtio_has_feature(dev->protocol_features,
-+                           VHOST_USER_PROTOCOL_F_STATUS)) {
-+        if (!ret) {
-+            return vhost_user_add_status(dev, VIRTIO_CONFIG_S_FEATURES_OK);
-+        }
-+    }
-+
-+    return ret;
- }
- 
- static int vhost_user_set_protocol_features(struct vhost_dev *dev,
-@@ -2615,6 +2665,27 @@ void vhost_user_cleanup(VhostUserState *user)
-     user->chr = NULL;
- }
- 
-+static int vhost_user_dev_start(struct vhost_dev *dev, bool started)
-+{
-+    if (!virtio_has_feature(dev->protocol_features,
-+                            VHOST_USER_PROTOCOL_F_STATUS)) {
-+        return 0;
-+    }
-+
-+    /* Set device status only for last queue pair */
-+    if (dev->vq_index + dev->nvqs != dev->vq_index_end) {
-+        return 0;
-+    }
-+
-+    if (started) {
-+        return vhost_user_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-+                                          VIRTIO_CONFIG_S_DRIVER |
-+                                          VIRTIO_CONFIG_S_DRIVER_OK);
-+    } else {
-+        return vhost_user_set_status(dev, 0);
-+    }
-+}
-+
- const VhostOps user_ops = {
-         .backend_type = VHOST_BACKEND_TYPE_USER,
-         .vhost_backend_init = vhost_user_backend_init,
-@@ -2649,4 +2720,5 @@ const VhostOps user_ops = {
-         .vhost_backend_mem_section_filter = vhost_user_mem_section_filter,
-         .vhost_get_inflight_fd = vhost_user_get_inflight_fd,
-         .vhost_set_inflight_fd = vhost_user_set_inflight_fd,
-+        .vhost_dev_start = vhost_user_dev_start,
- };
--- 
-2.27.0
-
+Thanks,
+Laurent
 
