@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E466D60181D
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 21:56:04 +0200 (CEST)
-Received: from localhost ([::1]:53858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D9836017D7
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 21:39:53 +0200 (CEST)
+Received: from localhost ([::1]:47600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okWDU-00082Y-0P
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 15:56:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51200)
+	id 1okVxn-0001sw-Uh
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 15:39:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1okVg6-0002vA-SP; Mon, 17 Oct 2022 15:21:34 -0400
-Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:40577)
+ id 1okVgE-0003ez-4A; Mon, 17 Oct 2022 15:21:42 -0400
+Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31]:39745)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1okVg5-0002z2-3f; Mon, 17 Oct 2022 15:21:34 -0400
-Received: by mail-oi1-x235.google.com with SMTP id l5so13223031oif.7;
- Mon, 17 Oct 2022 12:21:32 -0700 (PDT)
+ id 1okVgA-00031J-MU; Mon, 17 Oct 2022 15:21:41 -0400
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-1322fa1cf6fso14394255fac.6; 
+ Mon, 17 Oct 2022 12:21:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=pnZp3+RtVWl+Up+vzDAkuOjXA76TOhGWF6jmK21fauw=;
- b=cYzBEpa7KcXCw2a2qUjb1+t/XHQtMUlaC08HHe25Ixlu4VVFCIDbNRWKJ0Xk3UWUom
- 2+/0grOf3c40Vz1ie7i5w5SHzjUFOVB22goRkPxuUJwHWgXzmfeVa7AUcpZs/lA5/6pw
- RNwxhWu7nLKRHU3DePl1FlcFNO295W8ghKuvo7XQgZT0UA+G6B4hndOnKPZQf45JL3zf
- Ks7o3Dbc066ABXlKMp8l7HwIZ8rEzt3lc/+/AhCaqBQ1Ns4evylJ8j/e/PSPyCeuYd7+
- 60FIQ3XKYWB8u5lzIqd3fa1BT03pvUemdv6tz0UjwQVERcO5tGpY9JBhEl2bJVrmHs9B
- Xc8w==
+ bh=aqgkbLfIXWn7D+7LQZe2Ews6I+OeRkOQzRZ5iCESNH4=;
+ b=io7IKIeAmA1uGd0IF+gEJW1ojS0pOcXqAwMAOprKdax1O1Mw+Mt6ke4MHLRNAx4AP1
+ DPPvdi0+6Oyu0rXvAo4JoaHH41zgYkh8Hp71STndxgjaMbSfACUt7y3+ntCIg+FuBqir
+ a6RK0p455Y590pSOeNjBR0QG4JkM6/PqWZ+vMCAxY3xOjqXrkjA8qSAwCzXsUUEW/7av
+ gUGvd0HIRF1FfFSaXM2lT59aWVz9Srq5VvFc3IcBd5d6mPtZ+356dIfq3pY9Vk5HeV/p
+ 5BlWnuqtwcYFMVVnjGQHMUoW1tINT/DzbDRRC/7p1WxfAj+SAJ/F7QA63C/i0OyTaynv
+ XjHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=pnZp3+RtVWl+Up+vzDAkuOjXA76TOhGWF6jmK21fauw=;
- b=J9V3zJBVdLftNOF9cYU0vGhXzNKzNRa98IYZzE9b09jy9dK/uPdDaoCGDEEjaofpw6
- vxxKrK4cTr79VW/qiBE6azCD3SEXyPFrpqMyAOUiK9dpokn+vQXBOz214oAESuIyJvqA
- 2Cr/UkFntYVqFd2vBqR8D9wTJjwaUAf2saBQqEkYhxgfvSxsKDPDEYO44wRHqpNc6K3Q
- g0f/+3ZWVZlUfU44yoFxeBaoUFQTNfREl0JwGv4cFqYk/GFYaTgmrK72M0WyATIV59dQ
- 8exhwHbL0QkbN/A3STK02Du2D88nEOuNLovn2aOffiYHQckfUGlBRYFXn2EgkKc26L6V
- poDQ==
-X-Gm-Message-State: ACrzQf1oSDHhRL10Pr8gsa4+1UKm5ohwChr/aJJ7Eww1gMoYsu98yzVP
- 3Z3LkbJ6aK2jei7CJljMqL7fmaQK3m8=
-X-Google-Smtp-Source: AMsMyM5k1yAtdTZSRqSVjhG0F75rVKDZOT1ObLLAMdKQhiJVgW1v5wweBCAiSsDIdoru+nGbxO78yA==
-X-Received: by 2002:a05:6808:11cb:b0:353:f841:e390 with SMTP id
- p11-20020a05680811cb00b00353f841e390mr5533863oiv.149.1666034491861; 
- Mon, 17 Oct 2022 12:21:31 -0700 (PDT)
+ bh=aqgkbLfIXWn7D+7LQZe2Ews6I+OeRkOQzRZ5iCESNH4=;
+ b=3ctr8qmv6n2/+redlpi/chCMpOpq1Exznb6WRleR4EkFravke3em72y+jmOICPS7iA
+ sPQo2l3HKTjvomsZxxfE8LON45MiR5m0cUWr//THmwmepnBBExvwr4/fGmCldAm/EY1h
+ WVaCVMQzFr3n/CJP066SaJQwE+b0HDaHjSsxbTS8obBXDVJRZQABVcJ158uzOIGaGQ1Z
+ 3DGSs9RdQQKGz7Kouge35F3Zs8C16ZdYTul2eEsQXxx8xS+zgk9EDclj8TUlg1T+i/fA
+ AWO8G+RjfatOoB8lnhrpao+lQ7O0MGVfFFrrTr+x41su+Owg9Q/q+lkKQ5cnNKF3FO/E
+ iOFg==
+X-Gm-Message-State: ACrzQf0asPUaDudxTSbg8RQx10gBB/BjMI5YZsi/TcVbS4mA1u2/yUiO
+ vqyvMYIPSMBX7M5DdgFI9kFiIeceOvE=
+X-Google-Smtp-Source: AMsMyM4vcPeIKPLb/AwjDFzNvZGCT9nTRShvNuFDcsUs7hUqhJrVx+Yahe7MMB/LTg74Fv5weDOPFg==
+X-Received: by 2002:a05:6871:14f:b0:132:901c:31db with SMTP id
+ z15-20020a056871014f00b00132901c31dbmr16392102oab.233.1666034495746; 
+ Mon, 17 Oct 2022 12:21:35 -0700 (PDT)
 Received: from balboa.COMFAST ([179.111.38.2])
  by smtp.gmail.com with ESMTPSA id
- n132-20020aca408a000000b00342eade43d4sm4648005oia.13.2022.10.17.12.21.29
+ n132-20020aca408a000000b00342eade43d4sm4648005oia.13.2022.10.17.12.21.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Oct 2022 12:21:31 -0700 (PDT)
+ Mon, 17 Oct 2022 12:21:35 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 28/38] hw/ppc/spapr_pci.c: Use device_cold_reset() rather than
- device_legacy_reset()
-Date: Mon, 17 Oct 2022 16:19:59 -0300
-Message-Id: <20221017192009.92404-29-danielhb413@gmail.com>
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PULL 29/38] qmp/hmp, device_tree.c: introduce dumpdtb
+Date: Mon, 17 Oct 2022 16:20:00 -0300
+Message-Id: <20221017192009.92404-30-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221017192009.92404-1-danielhb413@gmail.com>
 References: <20221017192009.92404-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x235.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::31;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x31.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -94,36 +97,166 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+To save the FDT blob we have the '-machine dumpdtb=<file>' property.
+With this property set, the machine saves the FDT in <file> and exit.
+The created file can then be converted to plain text dts format using
+'dtc'.
 
-In spapr_phb_children_reset() we call device_legacy_reset() to reset any
-QOM children of the SPAPR PCI host bridge device. This will not reset
-any qbus such a child might own. Switch to device_cold_reset(), which will
-reset both the device and its buses. (If the child has no qbuses then
-there will be no change in behaviour.)
+There's nothing particularly sophisticated into saving the FDT that
+can't be done with the machine at any state, as long as the machine has
+a valid FDT to be saved.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20221014142841.2092784-1-peter.maydell@linaro.org>
+The 'dumpdtb' command receives a 'filename' parameter and, if the FDT is
+available via current_machine->fdt, save it in dtb format to 'filename'.
+In short, this is a '-machine dumpdtb' that can be fired on demand via
+QMP/HMP.
+
+This command will always be executed in-band (i.e. holding BQL),
+avoiding potential race conditions with machines that might change the
+FDT during runtime (e.g. PowerPC 'pseries' machine).
+
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>
+Cc: David Gibson <david@gibson.dropbear.id.au>
+Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20220926173855.1159396-2-danielhb413@gmail.com>
 ---
- hw/ppc/spapr_pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hmp-commands.hx              | 15 +++++++++++++++
+ include/sysemu/device_tree.h |  1 +
+ monitor/misc.c               |  1 +
+ qapi/machine.json            | 18 ++++++++++++++++++
+ softmmu/device_tree.c        | 37 ++++++++++++++++++++++++++++++++++++
+ 5 files changed, 72 insertions(+)
 
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index 57c8a4f085..7b7618d5da 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -2045,7 +2045,7 @@ static int spapr_phb_children_reset(Object *child, void *opaque)
-     DeviceState *dev = (DeviceState *) object_dynamic_cast(child, TYPE_DEVICE);
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 8ab8000acd..12b6d4e2dc 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1800,3 +1800,18 @@ ERST
+         .sub_table  = hmp_info_cmds,
+         .flags      = "p",
+     },
++
++#if defined(CONFIG_FDT)
++    {
++        .name       = "dumpdtb",
++        .args_type  = "filename:F",
++        .params     = "filename",
++        .help       = "dump the FDT in dtb format to 'filename'",
++        .cmd        = hmp_dumpdtb,
++    },
++
++SRST
++``dumpdtb`` *filename*
++  Dump the FDT in dtb format to *filename*.
++ERST
++#endif
+diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
+index ef060a9759..e7c5441f56 100644
+--- a/include/sysemu/device_tree.h
++++ b/include/sysemu/device_tree.h
+@@ -136,6 +136,7 @@ int qemu_fdt_add_path(void *fdt, const char *path);
+     } while (0)
  
-     if (dev) {
--        device_legacy_reset(dev);
-+        device_cold_reset(dev);
-     }
+ void qemu_fdt_dumpdtb(void *fdt, int size);
++void hmp_dumpdtb(Monitor *mon, const QDict *qdict);
  
-     return 0;
+ /**
+  * qemu_fdt_setprop_sized_cells_from_array:
+diff --git a/monitor/misc.c b/monitor/misc.c
+index 6436a8786b..205487e2b9 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -49,6 +49,7 @@
+ #include "sysemu/blockdev.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/tpm.h"
++#include "sysemu/device_tree.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qerror.h"
+ #include "qapi/qmp/qstring.h"
+diff --git a/qapi/machine.json b/qapi/machine.json
+index abb2f48808..b9228a5e46 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -1664,3 +1664,21 @@
+      '*size': 'size',
+      '*max-size': 'size',
+      '*slots': 'uint64' } }
++
++##
++# @dumpdtb:
++#
++# Save the FDT in dtb format.
++#
++# @filename: name of the dtb file to be created
++#
++# Since: 7.2
++#
++# Example:
++#   {"execute": "dumpdtb"}
++#    "arguments": { "filename": "fdt.dtb" } }
++#
++##
++{ 'command': 'dumpdtb',
++  'data': { 'filename': 'str' },
++  'if': 'CONFIG_FDT' }
+diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
+index 6ca3fad285..ce74f3d48d 100644
+--- a/softmmu/device_tree.c
++++ b/softmmu/device_tree.c
+@@ -26,6 +26,9 @@
+ #include "hw/loader.h"
+ #include "hw/boards.h"
+ #include "qemu/config-file.h"
++#include "qapi/qapi-commands-machine.h"
++#include "qapi/qmp/qdict.h"
++#include "monitor/hmp.h"
+ 
+ #include <libfdt.h>
+ 
+@@ -643,3 +646,37 @@ out:
+     g_free(propcells);
+     return ret;
+ }
++
++void qmp_dumpdtb(const char *filename, Error **errp)
++{
++    g_autoptr(GError) err = NULL;
++    uint32_t size;
++
++    if (!current_machine->fdt) {
++        error_setg(errp, "This machine doesn't have a FDT");
++        return;
++    }
++
++    size = fdt_totalsize(current_machine->fdt);
++
++    g_assert(size > 0);
++
++    if (!g_file_set_contents(filename, current_machine->fdt, size, &err)) {
++        error_setg(errp, "Error saving FDT to file %s: %s",
++                   filename, err->message);
++    }
++}
++
++void hmp_dumpdtb(Monitor *mon, const QDict *qdict)
++{
++    const char *filename = qdict_get_str(qdict, "filename");
++    Error *local_err = NULL;
++
++    qmp_dumpdtb(filename, &local_err);
++
++    if (hmp_handle_error(mon, local_err)) {
++        return;
++    }
++
++    info_report("dtb dumped to %s", filename);
++}
 -- 
 2.37.3
 
