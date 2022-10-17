@@ -2,86 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D9836017D7
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 21:39:53 +0200 (CEST)
-Received: from localhost ([::1]:47600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B09F601807
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 21:49:16 +0200 (CEST)
+Received: from localhost ([::1]:39662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okVxn-0001sw-Uh
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 15:39:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37624)
+	id 1okW6s-00075u-Sh
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 15:49:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1okVgE-0003ez-4A; Mon, 17 Oct 2022 15:21:42 -0400
-Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31]:39745)
+ id 1okVgJ-00046G-Vn; Mon, 17 Oct 2022 15:21:48 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:36788)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1okVgA-00031J-MU; Mon, 17 Oct 2022 15:21:41 -0400
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-1322fa1cf6fso14394255fac.6; 
- Mon, 17 Oct 2022 12:21:37 -0700 (PDT)
+ id 1okVgD-00031P-Fq; Mon, 17 Oct 2022 15:21:46 -0400
+Received: by mail-oi1-x236.google.com with SMTP id y72so13251583oia.3;
+ Mon, 17 Oct 2022 12:21:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=aqgkbLfIXWn7D+7LQZe2Ews6I+OeRkOQzRZ5iCESNH4=;
- b=io7IKIeAmA1uGd0IF+gEJW1ojS0pOcXqAwMAOprKdax1O1Mw+Mt6ke4MHLRNAx4AP1
- DPPvdi0+6Oyu0rXvAo4JoaHH41zgYkh8Hp71STndxgjaMbSfACUt7y3+ntCIg+FuBqir
- a6RK0p455Y590pSOeNjBR0QG4JkM6/PqWZ+vMCAxY3xOjqXrkjA8qSAwCzXsUUEW/7av
- gUGvd0HIRF1FfFSaXM2lT59aWVz9Srq5VvFc3IcBd5d6mPtZ+356dIfq3pY9Vk5HeV/p
- 5BlWnuqtwcYFMVVnjGQHMUoW1tINT/DzbDRRC/7p1WxfAj+SAJ/F7QA63C/i0OyTaynv
- XjHg==
+ bh=Ya0usZjpo+eHVeEl1xh5Y1FiouQtJmroW9MogSfqU7U=;
+ b=pzlAgUsqosuwpKnLibS9nwPnqnwp9DiNa/y1Y0wBI15vUaUd2vfRoVRyP5eYcnt03H
+ 0/JmlttsUeONCiP8aOszoOqi3yqus46V5TfYDlVa2LLcbKlyl/jbqMCCU420EYpco5is
+ Z+LgfgLsc0p6W6pg0Hdpi+3063Zxcja4e9pNG/kcmJqXn4Dpop8cfLtoB8nVPX+NFLEi
+ PtQl1Mhl3ug1WY045tMX9S2D6G0XrcqufBN0bQWThD2MMJsAOZasr56TNPc3ZHt82smJ
+ CADhW2GTnCfrB1S794ROn11AsnrXDVjUS/aRk7NsUYEsr4Bl+OO7tUAzm6InSdqcjWYc
+ Mv4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=aqgkbLfIXWn7D+7LQZe2Ews6I+OeRkOQzRZ5iCESNH4=;
- b=3ctr8qmv6n2/+redlpi/chCMpOpq1Exznb6WRleR4EkFravke3em72y+jmOICPS7iA
- sPQo2l3HKTjvomsZxxfE8LON45MiR5m0cUWr//THmwmepnBBExvwr4/fGmCldAm/EY1h
- WVaCVMQzFr3n/CJP066SaJQwE+b0HDaHjSsxbTS8obBXDVJRZQABVcJ158uzOIGaGQ1Z
- 3DGSs9RdQQKGz7Kouge35F3Zs8C16ZdYTul2eEsQXxx8xS+zgk9EDclj8TUlg1T+i/fA
- AWO8G+RjfatOoB8lnhrpao+lQ7O0MGVfFFrrTr+x41su+Owg9Q/q+lkKQ5cnNKF3FO/E
- iOFg==
-X-Gm-Message-State: ACrzQf0asPUaDudxTSbg8RQx10gBB/BjMI5YZsi/TcVbS4mA1u2/yUiO
- vqyvMYIPSMBX7M5DdgFI9kFiIeceOvE=
-X-Google-Smtp-Source: AMsMyM4vcPeIKPLb/AwjDFzNvZGCT9nTRShvNuFDcsUs7hUqhJrVx+Yahe7MMB/LTg74Fv5weDOPFg==
-X-Received: by 2002:a05:6871:14f:b0:132:901c:31db with SMTP id
- z15-20020a056871014f00b00132901c31dbmr16392102oab.233.1666034495746; 
- Mon, 17 Oct 2022 12:21:35 -0700 (PDT)
+ bh=Ya0usZjpo+eHVeEl1xh5Y1FiouQtJmroW9MogSfqU7U=;
+ b=EaZfYN08aPbBc7x+762iLFyW/2V2mhWdLkx1C+p44HhANHDYU2BwuwrzfP9eyBWpfZ
+ WsHHndacKD75aV7TbvZEqLY/rXfp6YWjbtqk2j2iR1S1yhKEXZE91OqmlBp4N30Comms
+ 8m/fUdtjaX7BVjpnDPCACF5z6RBAg0zM234tWVdAs3s2oFBxRGv+I+e2GAdVFhmbdo+M
+ zDhlPXWpNI0s+RPtqiBuLZSzgO5GniQQ6vXLKhFAdMWZdWBAmljZdmCC7EHxNzkVSBAG
+ /Qw0iHJ67WKV5oGfs/aIEPtHQZFN/cxRt8L+EdPvQRFxMbLi5XCDHRIMpgADEzKiQ9OA
+ F6bw==
+X-Gm-Message-State: ACrzQf0ZKWu/ynwVxISX3aVdDXZugfpMS+xnAezMdHvAA9kXztC+xn4F
+ W9F/qciS/MjuSxcbBx47HHaTLm/sVS8=
+X-Google-Smtp-Source: AMsMyM4bUtiLdqtFDvQloJO5xeQacAeVtGvroK/OtHJFv0Etkw264yxu4vT1uEiXlYFuxjPJN7vi7Q==
+X-Received: by 2002:aca:4b8b:0:b0:355:4433:d3ef with SMTP id
+ y133-20020aca4b8b000000b003554433d3efmr712099oia.282.1666034498534; 
+ Mon, 17 Oct 2022 12:21:38 -0700 (PDT)
 Received: from balboa.COMFAST ([179.111.38.2])
  by smtp.gmail.com with ESMTPSA id
- n132-20020aca408a000000b00342eade43d4sm4648005oia.13.2022.10.17.12.21.32
+ n132-20020aca408a000000b00342eade43d4sm4648005oia.13.2022.10.17.12.21.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Oct 2022 12:21:35 -0700 (PDT)
+ Mon, 17 Oct 2022 12:21:38 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- David Gibson <david@gibson.dropbear.id.au>,
+ Chris Wulff <crwulff@gmail.com>, Marek Vasut <marex@denx.de>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 29/38] qmp/hmp, device_tree.c: introduce dumpdtb
-Date: Mon, 17 Oct 2022 16:20:00 -0300
-Message-Id: <20221017192009.92404-30-danielhb413@gmail.com>
+Subject: [PULL 30/38] hw/nios2: set machine->fdt in nios2_load_dtb()
+Date: Mon, 17 Oct 2022 16:20:01 -0300
+Message-Id: <20221017192009.92404-31-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221017192009.92404-1-danielhb413@gmail.com>
 References: <20221017192009.92404-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::31;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x236.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,166 +93,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To save the FDT blob we have the '-machine dumpdtb=<file>' property.
-With this property set, the machine saves the FDT in <file> and exit.
-The created file can then be converted to plain text dts format using
-'dtc'.
+This will enable support for 'dumpdtb' QMP/HMP command for all nios2
+machines that uses nios2_load_dtb().
 
-There's nothing particularly sophisticated into saving the FDT that
-can't be done with the machine at any state, as long as the machine has
-a valid FDT to be saved.
-
-The 'dumpdtb' command receives a 'filename' parameter and, if the FDT is
-available via current_machine->fdt, save it in dtb format to 'filename'.
-In short, this is a '-machine dumpdtb' that can be fired on demand via
-QMP/HMP.
-
-This command will always be executed in-band (i.e. holding BQL),
-avoiding potential race conditions with machines that might change the
-FDT during runtime (e.g. PowerPC 'pseries' machine).
-
-Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>
-Cc: Alistair Francis <alistair.francis@wdc.com>
-Cc: David Gibson <david@gibson.dropbear.id.au>
-Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Chris Wulff <crwulff@gmail.com>
+Cc: Marek Vasut <marex@denx.de>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20220926173855.1159396-2-danielhb413@gmail.com>
+Message-Id: <20220926173855.1159396-7-danielhb413@gmail.com>
 ---
- hmp-commands.hx              | 15 +++++++++++++++
- include/sysemu/device_tree.h |  1 +
- monitor/misc.c               |  1 +
- qapi/machine.json            | 18 ++++++++++++++++++
- softmmu/device_tree.c        | 37 ++++++++++++++++++++++++++++++++++++
- 5 files changed, 72 insertions(+)
+ hw/nios2/boot.c      | 8 +++++++-
+ hw/nios2/meson.build | 2 +-
+ 2 files changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 8ab8000acd..12b6d4e2dc 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1800,3 +1800,18 @@ ERST
-         .sub_table  = hmp_info_cmds,
-         .flags      = "p",
-     },
+diff --git a/hw/nios2/boot.c b/hw/nios2/boot.c
+index 21cbffff47..b30a7b1efb 100644
+--- a/hw/nios2/boot.c
++++ b/hw/nios2/boot.c
+@@ -43,6 +43,8 @@
+ 
+ #include "boot.h"
+ 
++#include <libfdt.h>
 +
-+#if defined(CONFIG_FDT)
-+    {
-+        .name       = "dumpdtb",
-+        .args_type  = "filename:F",
-+        .params     = "filename",
-+        .help       = "dump the FDT in dtb format to 'filename'",
-+        .cmd        = hmp_dumpdtb,
-+    },
+ #define NIOS2_MAGIC    0x534f494e
+ 
+ static struct nios2_boot_info {
+@@ -81,6 +83,7 @@ static uint64_t translate_kernel_address(void *opaque, uint64_t addr)
+ static int nios2_load_dtb(struct nios2_boot_info bi, const uint32_t ramsize,
+                           const char *kernel_cmdline, const char *dtb_filename)
+ {
++    MachineState *machine = MACHINE(qdev_get_machine());
+     int fdt_size;
+     void *fdt = NULL;
+     int r;
+@@ -113,7 +116,10 @@ static int nios2_load_dtb(struct nios2_boot_info bi, const uint32_t ramsize,
+     }
+ 
+     cpu_physical_memory_write(bi.fdt, fdt, fdt_size);
+-    g_free(fdt);
 +
-+SRST
-+``dumpdtb`` *filename*
-+  Dump the FDT in dtb format to *filename*.
-+ERST
-+#endif
-diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
-index ef060a9759..e7c5441f56 100644
---- a/include/sysemu/device_tree.h
-+++ b/include/sysemu/device_tree.h
-@@ -136,6 +136,7 @@ int qemu_fdt_add_path(void *fdt, const char *path);
-     } while (0)
- 
- void qemu_fdt_dumpdtb(void *fdt, int size);
-+void hmp_dumpdtb(Monitor *mon, const QDict *qdict);
- 
- /**
-  * qemu_fdt_setprop_sized_cells_from_array:
-diff --git a/monitor/misc.c b/monitor/misc.c
-index 6436a8786b..205487e2b9 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -49,6 +49,7 @@
- #include "sysemu/blockdev.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/tpm.h"
-+#include "sysemu/device_tree.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qerror.h"
- #include "qapi/qmp/qstring.h"
-diff --git a/qapi/machine.json b/qapi/machine.json
-index abb2f48808..b9228a5e46 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -1664,3 +1664,21 @@
-      '*size': 'size',
-      '*max-size': 'size',
-      '*slots': 'uint64' } }
++    /* Set machine->fdt for 'dumpdtb' QMP/HMP command */
++    machine->fdt = fdt;
 +
-+##
-+# @dumpdtb:
-+#
-+# Save the FDT in dtb format.
-+#
-+# @filename: name of the dtb file to be created
-+#
-+# Since: 7.2
-+#
-+# Example:
-+#   {"execute": "dumpdtb"}
-+#    "arguments": { "filename": "fdt.dtb" } }
-+#
-+##
-+{ 'command': 'dumpdtb',
-+  'data': { 'filename': 'str' },
-+  'if': 'CONFIG_FDT' }
-diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-index 6ca3fad285..ce74f3d48d 100644
---- a/softmmu/device_tree.c
-+++ b/softmmu/device_tree.c
-@@ -26,6 +26,9 @@
- #include "hw/loader.h"
- #include "hw/boards.h"
- #include "qemu/config-file.h"
-+#include "qapi/qapi-commands-machine.h"
-+#include "qapi/qmp/qdict.h"
-+#include "monitor/hmp.h"
- 
- #include <libfdt.h>
- 
-@@ -643,3 +646,37 @@ out:
-     g_free(propcells);
-     return ret;
+     return fdt_size;
  }
-+
-+void qmp_dumpdtb(const char *filename, Error **errp)
-+{
-+    g_autoptr(GError) err = NULL;
-+    uint32_t size;
-+
-+    if (!current_machine->fdt) {
-+        error_setg(errp, "This machine doesn't have a FDT");
-+        return;
-+    }
-+
-+    size = fdt_totalsize(current_machine->fdt);
-+
-+    g_assert(size > 0);
-+
-+    if (!g_file_set_contents(filename, current_machine->fdt, size, &err)) {
-+        error_setg(errp, "Error saving FDT to file %s: %s",
-+                   filename, err->message);
-+    }
-+}
-+
-+void hmp_dumpdtb(Monitor *mon, const QDict *qdict)
-+{
-+    const char *filename = qdict_get_str(qdict, "filename");
-+    Error *local_err = NULL;
-+
-+    qmp_dumpdtb(filename, &local_err);
-+
-+    if (hmp_handle_error(mon, local_err)) {
-+        return;
-+    }
-+
-+    info_report("dtb dumped to %s", filename);
-+}
+ 
+diff --git a/hw/nios2/meson.build b/hw/nios2/meson.build
+index 6c58e8082b..22277bd6c5 100644
+--- a/hw/nios2/meson.build
++++ b/hw/nios2/meson.build
+@@ -1,5 +1,5 @@
+ nios2_ss = ss.source_set()
+-nios2_ss.add(files('boot.c'))
++nios2_ss.add(files('boot.c'), fdt)
+ nios2_ss.add(when: 'CONFIG_NIOS2_10M50', if_true: files('10m50_devboard.c'))
+ nios2_ss.add(when: 'CONFIG_NIOS2_GENERIC_NOMMU', if_true: files('generic_nommu.c'))
+ 
 -- 
 2.37.3
 
