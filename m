@@ -2,82 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50FB0601B5A
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 23:34:23 +0200 (CEST)
-Received: from localhost ([::1]:58290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC726601B88
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 23:51:53 +0200 (CEST)
+Received: from localhost ([::1]:44214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okXkc-0002WT-4U
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 17:34:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38588)
+	id 1okY1Y-0003SH-8l
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 17:51:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1okXel-0007RG-SA; Mon, 17 Oct 2022 17:28:20 -0400
-Received: from mail-oo1-xc31.google.com ([2607:f8b0:4864:20::c31]:35555)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1okXye-0007QX-F6; Mon, 17 Oct 2022 17:48:52 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:42819)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1okXek-0004zP-22; Mon, 17 Oct 2022 17:28:19 -0400
-Received: by mail-oo1-xc31.google.com with SMTP id
- i25-20020a4a8d99000000b0047fa712fc6dso2835430ook.2; 
- Mon, 17 Oct 2022 14:28:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1okXyc-0008JL-TL; Mon, 17 Oct 2022 17:48:52 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id y14so27951127ejd.9;
+ Mon, 17 Oct 2022 14:48:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=dZfbSM/eu6aLP/sf8Nx/h8h8KdrjQj7Qbkfnw0beKBM=;
- b=NmniUuc7/8hPzKwofhWg5Do3jcMLDtOMyippVvj2NQqyulMZNR6UcLiFdYQxzJLmo2
- PHwlK9QBreK9mSFhN9rjQgpTrsyXsMpkc0XA0OS7mSFMYZdRyV6p40LHjOxLkJ5Nz2Am
- QGHHWGJFlV634EdjEOiT1lzGPeV2easSDnnUHjAsm+mJZhvrX+qQ4GrUunNNVF8ik2uK
- D01zSDpJtil5QAL6zaDKODArBjKstQYx4fBaNvXWm3+hmCj9BLVyVQnwuJdFXur3Pjv1
- 9LklvElqVeN4JRzLohJgB3MVBE56xcp5u3w698xEqyvk5sEm+rhNGNUDK8CTMU/q2kLa
- vajA==
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Lj2hjfi+qEWthqi90w1/8TzVCIrOK/VPgaAEWIVRqxE=;
+ b=QOoNh2YEc48XbC+oeO7B2MhwXqTU+Q6cdABra2WGfx9yDq7DFnOgH72cGYs34DCpRJ
+ dDO8+O6gSSbEU4y5+jhALFxCbBULTuGPy8r1PH0Als7co8efQcHgTcvXkzNLBgEEiwcZ
+ FAOMZJ2nYpVTXbtwbYuSYSt9/F3ypXa/bP7fQ8ATSmT4Dl2M62eGd7DPaT3cbeG9g8HT
+ 2P7nSRnO8SPFs4kEwIuz+J00rznFCTarCLAFCYbSjwLv9pslhU/BHrh1U9pdrzJGPhWO
+ andDY9oaL8LMxdoHrtfO5Xh5L2OI8VVv4UhktSSvw4/zCoL/2ShNMV/vRLbPd4re/FCZ
+ gG2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dZfbSM/eu6aLP/sf8Nx/h8h8KdrjQj7Qbkfnw0beKBM=;
- b=XhRD8OGqAviHXe/NFET10JnIqaiAecj7mQS2wyazm/oSEVGhjSKlNc7cr7003LQI50
- HdKvHYfsEj/jPwQeGVi666mCz76TEdafCcUuFnobSR57mpegJhIy387V3h2vixSrfund
- 5c4YFfeFrc7J5JdFYbVan1CAZMKRj95LzzRK5oEL5Y1Nbz8M0xt754CTSk+3vrxibP6j
- aH0u6Qa4oCG0CuIdnrPSE1CENcc8rKJhLh87WPaO9aMSYwXTkm9lZCR5XfhwtjBtDjgg
- OZngABIwIGAWfRa7h4tiUn3nLR9DaxA47liKhkvptENKcMeLfRB7+zNnwj+OMNNBHg+9
- DAyA==
-X-Gm-Message-State: ACrzQf0Ec3EADrUNjRaDgZOCQmwbAcQHNr9LxXMKji8DskGKhY9/XV3n
- 3nNdCSUCrAH1+dZHqC3DjX0=
-X-Google-Smtp-Source: AMsMyM69rgc8euezf8wBYEclH5xTISheBc2AhL80F7eYWPZxdqAyTo1Qm6tGn8Tb0DTCrvpFI5NBYg==
-X-Received: by 2002:a4a:e9f4:0:b0:476:2561:3eed with SMTP id
- w20-20020a4ae9f4000000b0047625613eedmr5037604ooc.53.1666042096531; 
- Mon, 17 Oct 2022 14:28:16 -0700 (PDT)
-Received: from [192.168.10.102] ([179.111.38.2])
- by smtp.gmail.com with ESMTPSA id
- h20-20020a9d6f94000000b006619483182csm5240059otq.18.2022.10.17.14.28.13
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Lj2hjfi+qEWthqi90w1/8TzVCIrOK/VPgaAEWIVRqxE=;
+ b=BeF2bPEpXttrzBVOSJOqWd7vkFhXBx4E2WnW3CdKzk8+3ZLMzAzQzSr8bvXDII9nFp
+ OSXxzIBCpLRY5okdTpputi/0HxtOJHc3IdIPRnZToQPB+DvixUVxL9QsINEEhH5uc2H6
+ o2oqXhl4A9MvjjVddm+u3Q7eN+l4ldLNxb6UyrJ7heerrdQd+nf93oXqUhFnvHHSMjsU
+ ZW2hAX+weBCeX9someLVSW6Us7ZAEEzkvKUwezcSzC/QOp4U/KvsD4QQLBfHsNer1Bvx
+ 06qTpKLUoyX6un0sqGzKIUOlaPOCq4syS1j3Ze0LiHvrf3/mCBAF6NOHPyK7yJ573iql
+ QXZQ==
+X-Gm-Message-State: ACrzQf1t+YB0z+1iXluH4v5w+1AgWsuF93m5jMXgZjyo3kmibMgx5Fo1
+ w9YwR+hj2Jz9QrxQtPFhpOk=
+X-Google-Smtp-Source: AMsMyM7rSUifyEAdOudCuHFu+pX5VGp03hQAlPDmzUkF9cYZ4Y5+lUhXnGxU9Se3pUVVJRGnJDi8Jw==
+X-Received: by 2002:a17:907:16a7:b0:78d:f586:e446 with SMTP id
+ hc39-20020a17090716a700b0078df586e446mr10327902ejc.252.1666043327833; 
+ Mon, 17 Oct 2022 14:48:47 -0700 (PDT)
+Received: from [127.0.0.1] (dynamic-089-012-049-224.89.12.pool.telefonica.de.
+ [89.12.49.224]) by smtp.gmail.com with ESMTPSA id
+ kv25-20020a17090778d900b0078cf8a743d6sm6636940ejc.100.2022.10.17.14.48.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Oct 2022 14:28:16 -0700 (PDT)
-Message-ID: <a57da50b-8d6c-945f-b0ac-dfe311d075c1@gmail.com>
-Date: Mon, 17 Oct 2022 18:28:11 -0300
+ Mon, 17 Oct 2022 14:48:47 -0700 (PDT)
+Date: Mon, 17 Oct 2022 21:48:41 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+CC: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Alistair Francis <alistair@alistair23.me>, Jan Kiszka <jan.kiszka@web.de>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Bin Meng <bin.meng@windriver.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ qemu-ppc@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Antony Pavlov <antonynpavlov@gmail.com>, Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH v3 2/9] hw/{arm,ppc}: Resolve unreachable code
+In-Reply-To: <ac4a6fd0-9e60-df0f-533e-a9e102350deb@linaro.org>
+References: <20221016122737.93755-1-shentey@gmail.com>
+ <20221016122737.93755-3-shentey@gmail.com>
+ <ac4a6fd0-9e60-df0f-533e-a9e102350deb@linaro.org>
+Message-ID: <C15A4702-06BB-4B51-BABB-15D22056CEFE@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v3 00/29] PowerPC interrupt rework
-Content-Language: en-US
-To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
- fbarrat@linux.ibm.com, alex.bennee@linaro.org, farosas@linux.ibm.com
-References: <20221011204829.1641124-1-matheus.ferst@eldorado.org.br>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20221011204829.1641124-1-matheus.ferst@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c31;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc31.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,70 +100,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Matheus,
+Am 17=2E Oktober 2022 20:57:06 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <p=
+hilmd@linaro=2Eorg>:
+>On 16/10/22 14:27, Bernhard Beschow wrote:
+>> pflash_cfi01_register() always returns with a non-NULL pointer (otherwi=
+se
+>> it would crash internally)=2E Therefore, the bodies of the if-statement=
+s
+>> are unreachable=2E
+>
+>This is true, pflash_cfi0X_register() use an hardcoded &error_fatal=2E
+>
+>Shouldn't it be better to pass an Error* argument?
 
-Nice cleanup and rework. The code is way better now.
+You mean that the callers would pass &error_fatal instead, including the o=
+nes in this patch?
 
-I send a PR today without this series. As soon as that gets merged I'll
-push these patches to ppc-next. This will give us more time to test the
-changes and see if we can detect any unintended changes/bugs.
+>
+>From the pflash API perspective I don't see much value in
+>returning a PFlashCFI0X type instead of a simple DeviceState
+>(but this is another story=2E=2E=2E)=2E
 
-Thanks,
+It comes in handy in the following patches when retrieving the memory regi=
+on for memory_region_add_subregion() using pflash_cfi0X_get_memory()=2E Wha=
+t do you think about these next patches?
 
-Daniel
+Furthermore, returning PFlashCFI0X can be downcasted which seems safer tha=
+n upcasting from DeviceState=2E
 
-On 10/11/22 17:48, Matheus Ferst wrote:
-> Link to v2: https://lists.gnu.org/archive/html/qemu-ppc/2022-09/msg00556.html
-> This series is also available as a git branch: https://github.com/PPC64/qemu/tree/ferst-interrupt-fix-v3
-> Patches without review: 3-27
-> 
-> This new version rebases the patch series on the current master and
-> fixes some problems pointed out by Fabiano on v2.
-> 
-> Matheus Ferst (29):
->    target/ppc: define PPC_INTERRUPT_* values directly
->    target/ppc: always use ppc_set_irq to set env->pending_interrupts
->    target/ppc: split interrupt masking and delivery from ppc_hw_interrupt
->    target/ppc: prepare to split interrupt masking and delivery by excp_model
->    target/ppc: create an interrupt masking method for POWER9/POWER10
->    target/ppc: remove unused interrupts from p9_next_unmasked_interrupt
->    target/ppc: create an interrupt deliver method for POWER9/POWER10
->    target/ppc: remove unused interrupts from p9_deliver_interrupt
->    target/ppc: remove generic architecture checks from p9_deliver_interrupt
->    target/ppc: move power-saving interrupt masking out of cpu_has_work_POWER9
->    target/ppc: add power-saving interrupt masking logic to p9_next_unmasked_interrupt
->    target/ppc: create an interrupt masking method for POWER8
->    target/ppc: remove unused interrupts from p8_next_unmasked_interrupt
->    target/ppc: create an interrupt deliver method for POWER8
->    target/ppc: remove unused interrupts from p8_deliver_interrupt
->    target/ppc: remove generic architecture checks from p8_deliver_interrupt
->    target/ppc: move power-saving interrupt masking out of cpu_has_work_POWER8
->    target/ppc: add power-saving interrupt masking logic to p8_next_unmasked_interrupt
->    target/ppc: create an interrupt masking method for POWER7
->    target/ppc: remove unused interrupts from p7_next_unmasked_interrupt
->    target/ppc: create an interrupt deliver method for POWER7
->    target/ppc: remove unused interrupts from p7_deliver_interrupt
->    target/ppc: remove generic architecture checks from p7_deliver_interrupt
->    target/ppc: move power-saving interrupt masking out of cpu_has_work_POWER7
->    target/ppc: add power-saving interrupt masking logic to p7_next_unmasked_interrupt
->    target/ppc: remove ppc_store_lpcr from CONFIG_USER_ONLY builds
->    target/ppc: introduce ppc_maybe_interrupt
->    target/ppc: unify cpu->has_work based on cs->interrupt_request
->    target/ppc: move the p*_interrupt_powersave methods to excp_helper.c
-> 
->   hw/ppc/pnv_core.c        |   1 +
->   hw/ppc/ppc.c             |  17 +-
->   hw/ppc/spapr_hcall.c     |   6 +
->   hw/ppc/spapr_rtas.c      |   2 +-
->   hw/ppc/trace-events      |   2 +-
->   target/ppc/cpu.c         |   4 +
->   target/ppc/cpu.h         |  43 +-
->   target/ppc/cpu_init.c    | 212 +---------
->   target/ppc/excp_helper.c | 887 ++++++++++++++++++++++++++++++++++-----
->   target/ppc/helper.h      |   1 +
->   target/ppc/helper_regs.c |   2 +
->   target/ppc/misc_helper.c |  11 +-
->   target/ppc/translate.c   |   2 +
->   13 files changed, 833 insertions(+), 357 deletions(-)
-> 
+Best regards,
+Bernhard
+
+>
+>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+>> ---
+>>   hw/arm/gumstix=2Ec     | 18 ++++++------------
+>>   hw/arm/mainstone=2Ec   | 13 +++++--------
+>>   hw/arm/omap_sx1=2Ec    | 22 ++++++++--------------
+>>   hw/arm/versatilepb=2Ec |  6 ++----
+>>   hw/arm/z2=2Ec          |  9 +++------
+>>   hw/ppc/sam460ex=2Ec    | 12 ++++--------
+>>   6 files changed, 28 insertions(+), 52 deletions(-)
+
 
