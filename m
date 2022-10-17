@@ -2,99 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E58F4601268
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 17:07:31 +0200 (CEST)
-Received: from localhost ([::1]:43658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE535601260
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 17:06:33 +0200 (CEST)
+Received: from localhost ([::1]:37390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okRiE-0000rJ-NN
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 11:07:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47310)
+	id 1okRhI-00088f-HP
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 11:06:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1okRea-0004lB-Kh
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 11:03:45 -0400
-Received: from mga09.intel.com ([134.134.136.24]:9981)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1okReX-00025h-C6
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 11:03:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666019021; x=1697555021;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=PvgBjoYyaoMX/iKVZUi6GVXenC/pYD5E0G2UFDGF3Zw=;
- b=k6W5aNG7MGj3+voIk1a2K1qhDAdu8fjmeRlyWc0VJ1XF6QqY/fsnYogx
- 6jPvUyK/0j8jpMN9bi1ZdVys07Pbn0YlfE2gvLANqhR/6TMLKXGQyztMB
- ZTNtpseCEoZR2J86nduTD3gw/UMZW8sdXDGvas0iwpcbOwEgWB/viLwg/
- JntG+vf5Tx3TOGWJpdB18XTgkhRkkCcbM0NOdRotiStDwYNZ0tmnwAZQq
- euJ1eRAxZInB5+czAPFBOKAR6O3ewt3D4puABz39obf73JEOXjrsLrjs3
- DfoYoWbsW6Hv/wLUzp+WaNKyj4U4Q0XR7u8a6A3A0WsQYLmqLm/mtnYGV Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="306897488"
-X-IronPort-AV: E=Sophos;i="5.95,191,1661842800"; d="scan'208";a="306897488"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Oct 2022 08:03:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="691387974"
-X-IronPort-AV: E=Sophos;i="5.95,191,1661842800"; d="scan'208";a="691387974"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by fmsmga008.fm.intel.com with ESMTP; 17 Oct 2022 08:03:27 -0700
-Date: Mon, 17 Oct 2022 22:58:56 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Fuad Tabba <tabba@google.com>
-Cc: Sean Christopherson <seanjc@google.com>,
- David Hildenbrand <david@redhat.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
- Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-Message-ID: <20221017145856.GB3417432@chaop.bj.intel.com>
-References: <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
- <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
- <Yyi+l3+p9lbBAC4M@google.com>
- <CA+EHjTzy4iOxLF=5UX=s5v6HSB3Nb1LkwmGqoKhp_PAnFeVPSQ@mail.gmail.com>
- <20220926142330.GC2658254@chaop.bj.intel.com>
- <CA+EHjTz5yGhsxUug+wqa9hrBO60Be0dzWeWzX00YtNxin2eYHg@mail.gmail.com>
- <YzN9gYn1uwHopthW@google.com>
- <CA+EHjTw3din891hMUeRW-cn46ktyMWSdoB31pL+zWpXo_=3UVg@mail.gmail.com>
- <20221013133457.GA3263142@chaop.bj.intel.com>
- <CA+EHjTzZ2zsm7Ru_OKCZg9FCYESgZsmB=7ScKRh6ZN4=4OZ3gw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1okRcH-0002xc-B3; Mon, 17 Oct 2022 11:01:36 -0400
+Received: from mail-qk1-x733.google.com ([2607:f8b0:4864:20::733]:36696)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1okRcC-0001iI-8A; Mon, 17 Oct 2022 11:01:20 -0400
+Received: by mail-qk1-x733.google.com with SMTP id f8so6783642qkg.3;
+ Mon, 17 Oct 2022 08:01:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UsO1nGkDSwWGk4qjElelKMry5SVyfPNpxNU6je61czM=;
+ b=Nx0YPf5eXg/l8KnYmA2lLyw2nl09ts3pVwOlfyCcbZziCyN302D/NsLDrTiNgOdEpB
+ 5j1GTR1oQYGsWa98Sr7ijqPkl7Gr6MXtgrWAaFSJl6e2/RMVDIqWo2xx0BrXURANjKJj
+ XoHbfrtYvk9o1j7AWpwOD94fF/hm+3qKLz/uQeeQXA8Ue6CHgVDtmcmO/jdmj+J5B9NN
+ aks4chOuMQu46UzvPGCmLVq5ym8kUoH1oCR1hoqsmB1kJvoApxySBz7B63VvW1NuYJuG
+ QBdiAJft3X+C1h434Ki0crdJzOcjC8dDnpL7NAxU/NQH15gF5knbZGHVss6Z655gHh7L
+ JzDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=UsO1nGkDSwWGk4qjElelKMry5SVyfPNpxNU6je61czM=;
+ b=EmeepgqqnxUC0z8KynOLRh+E4dgM66dl/weUZRxNco36jU5adCbVdDTAOKO7LZq/2g
+ VPFbkuTz4Lf1jnlBuBf7nnuvTxF/KaKLgojXFnYH7v2tbh0q6a1NqlMztTvM9nVzmIhX
+ Jeemrk9PARPNXkJuU17dG6Gg+26H5u0yFn36cF5MxwRkJkVbA9E7tD1bdk/exfAr9rSG
+ OPs+EqVNfWxEcYRu7JS04ZteTATWvMzO9tgGTPu9sqrOwSjNTt3GU87HIQSZsZKcaxnP
+ eXxCM8t12iwE/CSBH605Nm4Xg/14NCu8FvDgmyR5vtl+mY3+LDl/+ViVpZgSZ/05mHRr
+ kvjw==
+X-Gm-Message-State: ACrzQf2AnbSSosMt6+378zktyvTqhIbPBHfPJOVi8sh2RMaySSrgtrB6
+ iItb3gRSKnpssvfLyR1c7RusIcxheivE4/lg+jc=
+X-Google-Smtp-Source: AMsMyM6n+EmvjjKAcRRLQazaw+0fVHcu9Pv5CkGiV15HvLnqLqhDv1T+AR9sIolyInko4zmRnTsKFTPLB4a/N1yPwc4=
+X-Received: by 2002:a05:620a:29cf:b0:6d3:2762:57e5 with SMTP id
+ s15-20020a05620a29cf00b006d3276257e5mr7848758qkp.389.1666018867690; Mon, 17
+ Oct 2022 08:01:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+EHjTzZ2zsm7Ru_OKCZg9FCYESgZsmB=7ScKRh6ZN4=4OZ3gw@mail.gmail.com>
-Received-SPF: none client-ip=134.134.136.24;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga09.intel.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20221006151927.2079583-1-bmeng.cn@gmail.com>
+ <87ilkwitc6.fsf@linaro.org>
+ <CAEUhbmUfm+V-pN5j17VxRvYd1RGJYa3KF=op9Z-nB5Xq4RhUmA@mail.gmail.com>
+In-Reply-To: <CAEUhbmUfm+V-pN5j17VxRvYd1RGJYa3KF=op9Z-nB5Xq4RhUmA@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 17 Oct 2022 23:00:56 +0800
+Message-ID: <CAEUhbmXc+7s6udZTNE7AeY+YkNr42fQ2HNHpDufZKDhB5qfL6g@mail.gmail.com>
+Subject: Re: [PATCH v5 00/18] tests/qtest: Enable running qtest on Windows
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Beraldo Leal <bleal@redhat.com>, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, 
+ Gerd Hoffmann <kraxel@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Hanna Reitz <hreitz@redhat.com>, 
+ Juan Quintela <quintela@redhat.com>, Kevin Wolf <kwolf@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Yanan Wang <wangyanan55@huawei.com>, qemu-block@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::733;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x733.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,74 +98,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 17, 2022 at 11:31:19AM +0100, Fuad Tabba wrote:
-> Hi,
-> 
-> > >
-> > > Actually, for pKVM, there is no need for the guest memory to be
-> > > GUP'able at all if we use the new inaccessible_get_pfn().
+Hi Alex,
+
+On Fri, Oct 7, 2022 at 1:31 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> On Fri, Oct 7, 2022 at 4:35 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
+wrote:
 > >
-> > If pKVM can use inaccessible_get_pfn() to get pfn and can avoid GUP (I
-> > think that is the major concern?), do you see any other gap from
-> > existing API?
-> 
-> Actually for this part no, there aren't any gaps and
-> inaccessible_get_pfn() is sufficient.
-
-Thanks for the confirmation.
-
-> 
-> > > This of
-> > > course goes back to what I'd mentioned before in v7; it seems that
-> > > representing the memslot memory as a file descriptor should be
-> > > orthogonal to whether the memory is shared or private, rather than a
-> > > private_fd for private memory and the userspace_addr for shared
-> > > memory. The host can then map or unmap the shared/private memory using
-> > > the fd, which allows it more freedom in even choosing to unmap shared
-> > > memory when not needed, for example.
 > >
-> > Using both private_fd and userspace_addr is only needed in TDX and other
-> > confidential computing scenarios, pKVM may only use private_fd if the fd
-> > can also be mmaped as a whole to userspace as Sean suggested.
-> 
-> That does work in practice, for now at least, and is what I do in my
-> current port. However, the naming and how the API is defined as
-> implied by the name and the documentation. By calling the field
-> private_fd, it does imply that it should not be mapped, which is also
-> what api.rst says in PATCH v8 5/8. My worry is that in that case pKVM
-> would be mis/ab-using this interface, and that future changes could
-> cause unforeseen issues for pKVM.
-
-That is fairly enough. We can change the naming and the documents.
-
-> 
-> Maybe renaming this to something like "guest_fp", and specifying in
-> the documentation that it can be restricted, e.g., instead of "the
-> content of the private memory is invisible to userspace" something
-> along the lines of  "the content of the guest memory may be restricted
-> to userspace".
-
-Some other candidates in my mind:
-- restricted_fd: to pair with the mm side restricted_memfd
-- protected_fd: as Sean suggested before
-- fd: how it's explained relies on the memslot.flag.
-
-Thanks,
-Chao
-> 
-> What do you think?
-> 
-> Cheers,
-> /fuad
-> 
+> > Bin Meng <bmeng.cn@gmail.com> writes:
 > >
-> > Thanks,
-> > Chao
-> > >
-> > > Cheers,
-> > > /fuad
+> > > In preparation to adding virtio-9p support on Windows, this series
+> > > enables running qtest on Windows, so that we can run the virtio-9p
+> > > tests on Windows to make sure it does not break accidently.
+> >
+> > I'm happy to take this whole series through my testing/next however I
+> > don't have working CI for the month so need to wait for my minutes to
+> > reset. Have you done a full CI run* with this?
+> >
+>
+> Yes, gitlab CI passed.
+>
+> > (*make sure any CI run is only on a repo forked from
+> > https://gitlab.com/qemu-project as you won't get the discount cost
+> > factor otherwise)
+> >
+
+Patch 4 and 10 are already applied in the mainline by Thomas.
+
+Daniel will queue patch 14, 15, 16.
+
+Could you please help queue patch 1, 2, 3, 5, 6, 7, 9, 13 from this series?
+
+I will rework the rest of the patches.
+
+Regards,
+Bin
 
