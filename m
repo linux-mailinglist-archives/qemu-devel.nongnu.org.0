@@ -2,102 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81CA06010DA
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 16:13:57 +0200 (CEST)
-Received: from localhost ([::1]:39998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D78D86010F9
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 16:20:30 +0200 (CEST)
+Received: from localhost ([::1]:50556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okQsO-0007tr-CA
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 10:13:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34210)
+	id 1okQyg-0005Iv-NJ
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 10:20:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1okQif-0003Bt-DY
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 10:03:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56144)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1okQid-0000Zl-BD
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 10:03:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666015425;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1wsrYdoZKYaMd0e3vhZfGJW60dLJna9JuS/wPJsmy1U=;
- b=PFfAh7ybP8tqHoiDoumCFci6AR/IsrURi07SvvQtpuW3PC9coL1Oa26rQI7e3F6mYyZ6D7
- 9YkwKsoxUbP3qRGiS2xy9POf4DcKJl5UV+QC6M0+VPdMgeTUoLhi5rKwQ/3+O01QDMEd8p
- jlQ902K17UU7oOfUm2Qr440opKuk9eA=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-316-SB8qqISFONeOxGfv9SUnKA-1; Mon, 17 Oct 2022 10:03:43 -0400
-X-MC-Unique: SB8qqISFONeOxGfv9SUnKA-1
-Received: by mail-qk1-f198.google.com with SMTP id
- v1-20020a05620a440100b006eee30cb799so2812921qkp.23
- for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 07:03:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1okQs3-0007WO-HJ
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 10:13:35 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:34810)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1okQrr-00028p-Av
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 10:13:35 -0400
+Received: by mail-pg1-x535.google.com with SMTP id 128so10572059pga.1
+ for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 07:13:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=dmI63+i3xoIWBCbd5XSsui7MT1vR6ghnjtuE5WRRghM=;
+ b=FiAKVxnhBJHOPqa5Pw62utR/LGSBDJDm9ss4GkXNeQ69Y58D+0tdcHN2KPxRPBTg2n
+ m6TVdLD5UrsUPxJgs/DOkYfOMNW5478w5caRQymoT57rMsqRosNXbeMNIGfe18jOQmzo
+ IYqjK2bEqKlkCUn5xL8XNn2muPGmBnAD8qkxfD8RdJ4QaP0BxEcv1ZaOlC2GTDk8qfwQ
+ D7+YoiY3RW5A9tttcVcs2K+l5J7oKpprot4yXYbazCoh01PNuWPUJwDoLepukrwq81t3
+ oLcnQEoSqbgAZiFQL0/DTqj664qPADO+aWJ81MI3Jhp4DxQXTBpK8y03wUJLz9nZNenz
+ J/Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1wsrYdoZKYaMd0e3vhZfGJW60dLJna9JuS/wPJsmy1U=;
- b=e+Z8CqcHZXqTOHP4tYuM+2qUdXaZW8/62zyNkjeRoaq075VQrAqqKRovYDG0W2VNct
- STY3JiodsSms0mRViKB28WBuMOLl73cmBW/AvQnRY/nORsAO2EhTtceW+dbSYr0tnm96
- AMpEGXjNDRV1M2v+rkf5fG6GCeiO5kf88RAQFT/rK4rUukDZP3UH+YM7WTqsvK02jYx7
- 6EhR//5WIYvCTreYvEDJta8m/t9e9HGlvkg+Tf0Xnval55X1zDef0qr3q15o/zbFN8Z2
- PiJjwAxQ6B+LUtPsjRLRO1FtI+WC45Y35cCZqi63a2w/z6bSDwwEzE1Ih5QgtigANHAK
- hqzw==
-X-Gm-Message-State: ACrzQf2fkX4NUEUgXSI8scD3Pl5jxLbeqEZ8+jl7bfA84Igbz74Mt+hL
- t+lOdjvEgVSYGCsEnzbgqzK+KGD/x2bdaTc/s0AbXSUOe87BvyE5qPIed+hYwellFSbhrCgxfTv
- 330pbqZO4tBt5Ax4=
-X-Received: by 2002:a37:f50b:0:b0:6cb:be4d:6ce8 with SMTP id
- l11-20020a37f50b000000b006cbbe4d6ce8mr7686456qkk.135.1666015421468; 
- Mon, 17 Oct 2022 07:03:41 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4u/YeakeV18+4BITTwq9fc/lh0NkQ58t6fwHnLwPvtzPwpZEHppmatLFZkzJtc37r2pYbT0Q==
-X-Received: by 2002:a37:f50b:0:b0:6cb:be4d:6ce8 with SMTP id
- l11-20020a37f50b000000b006cbbe4d6ce8mr7686418qkk.135.1666015421085; 
- Mon, 17 Oct 2022 07:03:41 -0700 (PDT)
-Received: from [192.168.100.30] ([82.142.8.70])
- by smtp.gmail.com with ESMTPSA id
- g3-20020a05620a40c300b006eed14045f4sm8067755qko.48.2022.10.17.07.03.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Oct 2022 07:03:40 -0700 (PDT)
-Message-ID: <7eaa3255-7580-7e06-8b28-ae60ed5e1be6@redhat.com>
-Date: Mon, 17 Oct 2022 16:03:36 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dmI63+i3xoIWBCbd5XSsui7MT1vR6ghnjtuE5WRRghM=;
+ b=t2I4c4XEcnhU653kzNeprHlDnWXKcSFLneXnUE39VVOO9WPAMtVtlbLTAvyOPGtxuB
+ FSeaIuuItx1ynHZ3tnrDqCeWc51dFph4vg5fdyTrRLS/p39LYg1kg8Kk5I9v/8QgbaTi
+ 9M2znfmwtZmauYwklNfy4vFh2N82IvbN4s3+Mdp0WA98tgbI1XpiP3jNsKgtJV14UMTZ
+ zLViNCyJ8gyG2fAkD0dXrkHge5A2h4ENfUDOugw/9fpvd+GxvLRhoiD6NW9wkTOFDgNi
+ HFiDPMRyMmBOSUIO6k/V90rthbi/EpychZ4QpfSZNz3Th7I5w+Ik9AhCfJH+XgT6o4Ue
+ koug==
+X-Gm-Message-State: ACrzQf3AKigNvp6vY4pCKh4PJVvTxsZtpqN+UjKu9uS64zqzK+S5TF6E
+ R//HBjD8lBd88GveQ+IuRUPrNOzOO5SDNQyzWv8rzw==
+X-Google-Smtp-Source: AMsMyM7s0R/Z0DWyEdeVkmebtDQblZPFdh4s3TjD4CqOH7eyIl6uH90UW0UwmbFMw6VdoXjnQxbkso2ou+baYqGQDlY=
+X-Received: by 2002:a63:9043:0:b0:458:6003:30ee with SMTP id
+ a64-20020a639043000000b00458600330eemr11259050pge.231.1666015998754; Mon, 17
+ Oct 2022 07:13:18 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v11 17/17] net: stream: add QAPI events to report
- connection state
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, Stefano Stabellini <sstabellini@kernel.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, Greg Kurz <groug@kaod.org>,
- Eric Blake <eblake@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Thomas Huth <thuth@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>, Paul Durrant <paul@xen.org>,
- David Gibson <david@gibson.dropbear.id.au>, xen-devel@lists.xenproject.org
-References: <20221011200539.1486809-1-lvivier@redhat.com>
- <20221011200539.1486809-18-lvivier@redhat.com> <87mt9u4m9d.fsf@pond.sub.org>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <87mt9u4m9d.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+References: <20221015211025.16781-1-chrisfriedt@gmail.com>
+ <20221017134425.jbqvtccg5w4yej5g@mozz.bu.edu>
+In-Reply-To: <20221017134425.jbqvtccg5w4yej5g@mozz.bu.edu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 17 Oct 2022 15:13:07 +0100
+Message-ID: <CAFEAcA8Cc+XtwcQz3bJom2=MgYZgLHw8SO6uqQQdVN4aqpq4Hg@mail.gmail.com>
+Subject: Re: [v2] hw: misc: edu: fix 2 off-by-one errors
+To: Alexander Bulekov <alxndr@bu.edu>
+Cc: Chris Friedt <chrisfriedt@gmail.com>, qemu-devel@nongnu.org,
+ cfriedt@meta.com, jslaby@suse.cz
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,155 +84,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/17/22 15:23, Markus Armbruster wrote:
-> Laurent Vivier <lvivier@redhat.com> writes:
-> 
->> The netdev reports NETDEV_STREAM_CONNECTED event when the backend
->> is connected, and NETDEV_STREAM_EOC when it is disconnected.
->>
->> The NETDEV_STREAM_CONNECTED event includes the URI of the destination
->> address.
->>
->> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->> Acked-by: Michael S. Tsirkin <mst@redhat.com>
->> ---
->>   net/stream.c  | 11 +++++++++--
->>   qapi/net.json | 46 ++++++++++++++++++++++++++++++++++++++++++++++
->>   2 files changed, 55 insertions(+), 2 deletions(-)
->>
->> diff --git a/net/stream.c b/net/stream.c
->> index 0293e38e5b57..821ae3265356 100644
->> --- a/net/stream.c
->> +++ b/net/stream.c
->> @@ -38,6 +38,7 @@
->>   #include "io/channel.h"
->>   #include "io/channel-socket.h"
->>   #include "io/net-listener.h"
->> +#include "qapi/qapi-events-net.h"
->>   
->>   typedef struct NetStreamState {
->>       NetClientState nc;
->> @@ -168,6 +169,8 @@ static gboolean net_stream_send(QIOChannel *ioc,
->>           s->nc.link_down = true;
->>           qemu_set_info_str(&s->nc, "");
->>   
->> +        qapi_event_send_netdev_stream_eoc(s->nc.name);
->> +
->>           return G_SOURCE_REMOVE;
->>       }
->>       buf = buf1;
->> @@ -243,9 +246,10 @@ static void net_stream_listen(QIONetListener *listener,
->>       g_assert(addr != NULL);
->>       uri = socket_uri(addr);
->>       qemu_set_info_str(&s->nc, uri);
->> -    g_free(uri);
->>       qapi_free_SocketAddress(addr);
->>   
->> +    qapi_event_send_netdev_stream_connected(s->nc.name, uri);
->> +    g_free(uri);
->>   }
->>   
->>   static void net_stream_server_listening(QIOTask *task, gpointer opaque)
->> @@ -317,12 +321,12 @@ static void net_stream_client_connected(QIOTask *task, gpointer opaque)
->>       g_assert(addr != NULL);
->>       uri = socket_uri(addr);
->>       qemu_set_info_str(&s->nc, uri);
->> -    g_free(uri);
->>   
->>       ret = qemu_socket_try_set_nonblock(sioc->fd);
->>       if (addr->type == SOCKET_ADDRESS_TYPE_FD && ret < 0) {
->>           qemu_set_info_str(&s->nc, "can't use file descriptor %s (errno %d)",
->>                             addr->u.fd.str, -ret);
->> +        g_free(uri);
->>           qapi_free_SocketAddress(addr);
->>           goto error;
->>       }
->> @@ -338,6 +342,9 @@ static void net_stream_client_connected(QIOTask *task, gpointer opaque)
->>                                               s, NULL);
->>       s->nc.link_down = false;
->>   
->> +    qapi_event_send_netdev_stream_connected(s->nc.name, uri);
->> +    g_free(uri);
->> +
->>       return;
->>   error:
->>       object_unref(OBJECT(s->ioc));
->> diff --git a/qapi/net.json b/qapi/net.json
->> index 6a1a49749294..69f83bceff3f 100644
->> --- a/qapi/net.json
->> +++ b/qapi/net.json
->> @@ -895,3 +895,49 @@
->>   ##
->>   { 'event': 'FAILOVER_NEGOTIATED',
->>     'data': {'device-id': 'str'} }
->> +
->> +##
->> +# @NETDEV_STREAM_CONNECTED:
->> +#
->> +# Emitted when the netdev stream backend is connected
->> +#
->> +# @netdev-id: QEMU netdev id that is connected
->> +# @uri: The Uniform Resource Identifier identifying the destination address
-> 
-> Is an URI the appropriate representation here?  It's not how we specify
-> such addresses elsewhere in QAPI/QMP...
+On Mon, 17 Oct 2022 at 14:50, Alexander Bulekov <alxndr@bu.edu> wrote:
+>
+> On 221015 1710, Chris Friedt wrote:
+> > From: Christopher Friedt <cfriedt@meta.com>
+> >
+> > In the case that size1 was zero, because of the explicit
+> > 'end1 > addr' check, the range check would fail and the error
+> > message would read as shown below. The correct comparison
+> > is 'end1 >= addr' (or 'addr <= end1').
+> >
+> > EDU: DMA range 0x40000-0x3ffff out of bounds (0x40000-0x40fff)!
+> >
+> > At the opposite end, in the case that size1 was 4096, within()
+> > would fail because of the non-inclusive check 'end1 < end2',
+> > which should have been 'end1 <= end2'. The error message would
+> > previously say
+> >
+> > EDU: DMA range 0x40000-0x40fff out of bounds (0x40000-0x40fff)!
+> >
+> > This change
+> > 1. renames local variables to be more less ambiguous
+> > 2. fixes the two off-by-one errors described above.
+> >
+> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1254
+> >
+> > Signed-off-by: Christopher Friedt <cfriedt@meta.com>
+>
+> Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
+>
+> As a side-note, seems strange that edu_check_range will abort the entire
+> VM if the check fails, rather than handling the error more elegantly.
 
-I put in the event the same information we have in info_str and displayed by the HMP 
-command 'info network'. What would be a more appropriate reprensation?
+Yes, this is bad for a device model, though we have a lot of
+older device models that still do it. The preferred pattern is:
+ * for situations which are "if this happens there is a
+   bug in QEMU itself", use assert. hw_error() is a kind of
+   assert that prints a bunch of guest register state: sometimes
+   you want that, but more often you just want normal assert()
+ * for situations where the guest has misprogrammed the device,
+   log that with qemu_log_mask(LOG_GUEST_ERROR, ...)
+   and continue with whatever the real hardware would do, or
+   some reasonable choice if the h/w spec is vague
+ * for situations where the guest is correct but is trying to
+   get the device to do something our model doesn't implement
+   yet, same as above but with LOG_UNIMP.
 
-> 
->> +#
->> +# Since: 7.2
->> +#
->> +# Example:
->> +#
->> +# <- { 'event': 'NETDEV_STREAM_CONNECTED',
->> +#      'data': {'uri': 'tcp:::1:1234', 'netdev-id': 'netdev0'},
->> +#      'timestamp': {'seconds': 1663330564, 'microseconds': 804317} }
->> +#
->> +# or
->> +#
->> +# <- { 'event': 'NETDEV_STREAM_CONNECTED',
->> +#      'data': {'uri': ''unix:/tmp/qemu0', 'netdev-id': 'netdev0'},
->> +#      'timestamp': {'seconds': 1663330564, 'microseconds': 804317} }
->> +#
->> +##
->> +{ 'event': 'NETDEV_STREAM_CONNECTED',
->> +  'data': { 'netdev-id': 'str',
->> +            'uri': 'str' } }
->> +
->> +##
->> +# @NETDEV_STREAM_EOC:
-> 
-> What does "EOC" mean?
+Probably most hw_error() uses in the codebase should be
+replaced with one of the above options.
 
-End-Of-Connection, this is the nomenclature used in the code when the socket is disconnected.
-> 
-> Could this be named NETDEV_STREAM_DISCONNECTED, for symmetry with
-> NETDEV_STREAM_CONNECTED?
-
-Yes, it can. EOC is shorter, it's why I used it, but if you prefer "disconnected"...
-
-Thanks,
-Laurent
-
-> 
->> +#
->> +# Emitted when the netdev stream backend is disconnected
->> +#
->> +# @netdev-id: QEMU netdev id that is disconnected
->> +#
->> +# Since: 7.2
->> +#
->> +# Example:
->> +#
->> +# <- { 'event': 'NETDEV_STREAM_EOC',
->> +#      'data': {'netdev-id': 'netdev0'},
->> +#      'timestamp': {'seconds': 1663330937, 'microseconds': 526695} }
->> +#
->> +##
->> +{ 'event': 'NETDEV_STREAM_EOC',
->> +  'data': { 'netdev-id': 'str' } }
-> 
-
+thanks
+-- PMM
 
