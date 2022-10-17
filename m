@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EFE9600B1A
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 11:41:35 +0200 (CEST)
-Received: from localhost ([::1]:53410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAB39600B24
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 11:41:46 +0200 (CEST)
+Received: from localhost ([::1]:52516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okMcn-0004Sk-Qk
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 05:41:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55594)
+	id 1okMcy-0005Bv-On
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 05:41:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1okMO4-0005ZV-3J
+ id 1okMO4-0005ZO-2u
  for qemu-devel@nongnu.org; Mon, 17 Oct 2022 05:26:20 -0400
-Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56]:39691)
+Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130]:51157)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1okMNv-0002ny-Ld
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 05:26:15 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R171e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046049;
+ id 1okMNv-0002nz-Hw
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 05:26:13 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R361e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045168;
  MF=xuanzhuo@linux.alibaba.com; NM=1; PH=DS; RN=7; SR=0;
- TI=SMTPD_---0VSMHd8a_1665998758; 
+ TI=SMTPD_---0VSLPRIV_1665998759; 
 Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com
- fp:SMTPD_---0VSMHd8a_1665998758) by smtp.aliyun-inc.com;
- Mon, 17 Oct 2022 17:25:59 +0800
+ fp:SMTPD_---0VSLPRIV_1665998759) by smtp.aliyun-inc.com;
+ Mon, 17 Oct 2022 17:26:00 +0800
 From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 To: qemu-devel@nongnu.org
 Cc: Eduardo Habkost <eduardo@habkost.net>,
@@ -33,24 +33,24 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Yanan Wang <wangyanan55@huawei.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Jason Wang <jasowang@redhat.com>
-Subject: [PATCH v6 00/15] Support VIRTIO_F_RING_RESET for virtio-net,
- vhost-net kernel in virtio pci-modern
-Date: Mon, 17 Oct 2022 17:25:43 +0800
-Message-Id: <20221017092558.111082-1-xuanzhuo@linux.alibaba.com>
+Subject: [PATCH v6 01/15] virtio: introduce __virtio_queue_reset()
+Date: Mon, 17 Oct 2022 17:25:44 +0800
+Message-Id: <20221017092558.111082-2-xuanzhuo@linux.alibaba.com>
 X-Mailer: git-send-email 2.32.0.3.g01195cf9f
+In-Reply-To: <20221017092558.111082-1-xuanzhuo@linux.alibaba.com>
+References: <20221017092558.111082-1-xuanzhuo@linux.alibaba.com>
 MIME-Version: 1.0
 X-Git-Hash: 3b20cde7ef
-Content-Type: text/plain; charset=utf8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.56;
+Received-SPF: pass client-ip=115.124.30.130;
  envelope-from=xuanzhuo@linux.alibaba.com;
- helo=out30-56.freemail.mail.aliyun.com
+ helo=out30-130.freemail.mail.aliyun.com
 X-Spam_score_int: -98
 X-Spam_score: -9.9
 X-Spam_bar: ---------
 X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001,
  USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,129 +67,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The virtio queue reset function has already been defined in the virtio spec 1.2.
-The relevant virtio spec information is here:
+Separate the logic of vq reset. This logic will be called directly
+later.
 
-    https://github.com/oasis-tcs/virtio-spec/issues/124
-    https://github.com/oasis-tcs/virtio-spec/issues/139
+Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
+---
+ hw/virtio/virtio.c | 37 +++++++++++++++++++++----------------
+ 1 file changed, 21 insertions(+), 16 deletions(-)
 
-This patch set is to support this function in QEMU. It consists of several parts:
-1. Patches 1-7 are the basic interfaces for vq reset in virtio and virtio-pci.
-2. Patches 8-11 support vq reset and vq restart for vhost-kernel.
-3. Patches 12-14 support vq reset and vq restart for virtio-net.
-5. Patch 15 enables the vq reset feature for vhost-kernel.
-
-The process of virtqueue reset can be concluded as:
-1. The virtqueue is disabled when VIRTIO_PCI_COMMON_Q_RESET is written.
-2. Then the virtqueue can be optionally restarted(re-enabled).
-
-Since this patch set involves multiple modules and seems a bit messy, we briefly describe the
-calling process for different modes below.
-virtio-net:
-1. VIRTIO_PCI_COMMON_Q_RESET is written [virtio-pci]
-    -> virtio_queue_reset() [virtio]
-        -> virtio_net_queue_reset() [virtio-net]
-        -> __virtio_queue_reset()
-2. VIRTIO_PCI_COMMON_Q_ENABLE is written [virtio-pci]
-    -> set enabled, reset status of vq.
-
-vhost-kernel:
-1. VIRTIO_PCI_COMMON_Q_RESET is written [virtio-pci]
-    -> virtio_queue_reset() [virtio]
-        -> virtio_net_queue_reset() [virtio-net]
-            -> vhost_net_virtqueue_stop() [vhost-net]
-                -> vhost_net_set_backend() [vhost]
-                -> vhost_virtqueue_stop()
-        -> __virtio_queue_reset()
-2. VIRTIO_PCI_COMMON_Q_ENABLE is written [virtio-pci]
-    -> virtio_queue_enable() [virtio]
-        -> virtio_net_queue_enable() [virtio-net]
-            -> vhost_net_virtqueue_restart() [vhost-net]
-                -> vhost_virtqueue_start() [vhost]
-                -> vhost_net_set_backend()
-    -> set enabled, reset status of vq.
-
-
-Test environment and method:
-    Host: 5.19.0-rc3 (With vq reset support)
-    Qemu: QEMU emulator version 7.0.50
-    Guest: 5.19.0-rc3 (With vq reset support)
-    Test Cmd: ethtool -g eth1; ethtool -G eth1 rx $1 tx $2; ethtool -g eth1;
-
-    The drvier can resize the virtio queue, then virtio queue reset function should
-    be triggered.
-
-    The default is split mode, modify Qemu virtio-net to add PACKED feature to
-    test packed mode.
-
-Guest Kernel Patch:
-    https://lore.kernel.org/bpf/20220801063902.129329-1-xuanzhuo@linux.alibaba.com/
-
-Host Kernel Patch:
-    https://lore.kernel.org/bpf/20220825085610.80315-1-kangjie.xu@linux.alibaba.com/
-
-Looking forward to your review and comments. Thanks.
-
-changelog:
-
-v6:
-  1. fix for compile fail for mingw 32 by adding funcs inside vhost_net-stub.c
-  2. add one new commit to add vq reset support inside virtio-net (not wait for vhost-user)
-
-v5:
-  1. vhost_net_virtqueue_restart() use -EBUSY replace -ENOTSUP. @Jason
-  2. reuse  VHOST_FILE_UNBIND. @Jason
-
-v4:
-  1. Add explanation for preventing userspace datapath in virtio-net.
-  2. Return error when vhost is not started in vhost_net_virtqueue_restart().
-  3. Reset the virtqueue in the device reusing vhost_virtqueue_stop().
-  4. Disable queue reset feature for pre-7.2 machine.
-
-v3:
-  1. Remove support for vhost-user in this series and refactor the code.
-  2. Rename 'vhost_net_virtqueue_stop' to 'vhost_net_virtqueue_reset'.
-  3. Make PCI transport ready before device ready when queue_enabled is set to true.
-  4. Add some comments.
-
-v2:
-  1. Add support for vhost-net kernel scenario.
-  2. Add a new vhost-user message VHOST_USER_RESET_VRING.
-  3. Add migration compatibility for virtqueue reset.
-
-Kangjie Xu (10):
-  virtio: introduce virtio_queue_enable()
-  virtio: core: vq reset feature negotation support
-  virtio-pci: support queue enable
-  vhost: expose vhost_virtqueue_start()
-  vhost: expose vhost_virtqueue_stop()
-  vhost-net: vhost-kernel: introduce vhost_net_virtqueue_reset()
-  vhost-net: vhost-kernel: introduce vhost_net_virtqueue_restart()
-  virtio-net: introduce flush_or_purge_queued_packets()
-  virtio-net: support queue_enable
-  vhost: vhost-kernel: enable vq reset feature
-
-Xuan Zhuo (5):
-  virtio: introduce __virtio_queue_reset()
-  virtio: introduce virtio_queue_reset()
-  virtio-pci: support queue reset
-  virtio-net: support queue reset
-  virtio-net: enable vq reset feature
-
- hw/core/machine.c              |  4 +-
- hw/net/vhost_net-stub.c        | 12 ++++++
- hw/net/vhost_net.c             | 79 ++++++++++++++++++++++++++++++++++
- hw/net/virtio-net.c            | 57 +++++++++++++++++++++---
- hw/virtio/vhost.c              | 16 +++----
- hw/virtio/virtio-pci.c         | 16 +++++++
- hw/virtio/virtio.c             | 62 +++++++++++++++++++-------
- include/hw/virtio/vhost.h      |  5 +++
- include/hw/virtio/virtio-pci.h |  5 +++
- include/hw/virtio/virtio.h     |  8 +++-
- include/net/vhost_net.h        |  4 ++
- 11 files changed, 236 insertions(+), 32 deletions(-)
-
---
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 808446b4c9..6f42fcadd7 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2464,6 +2464,26 @@ static enum virtio_device_endian virtio_current_cpu_endian(void)
+     }
+ }
+ 
++static void __virtio_queue_reset(VirtIODevice *vdev, uint32_t i)
++{
++    vdev->vq[i].vring.desc = 0;
++    vdev->vq[i].vring.avail = 0;
++    vdev->vq[i].vring.used = 0;
++    vdev->vq[i].last_avail_idx = 0;
++    vdev->vq[i].shadow_avail_idx = 0;
++    vdev->vq[i].used_idx = 0;
++    vdev->vq[i].last_avail_wrap_counter = true;
++    vdev->vq[i].shadow_avail_wrap_counter = true;
++    vdev->vq[i].used_wrap_counter = true;
++    virtio_queue_set_vector(vdev, i, VIRTIO_NO_VECTOR);
++    vdev->vq[i].signalled_used = 0;
++    vdev->vq[i].signalled_used_valid = false;
++    vdev->vq[i].notification = true;
++    vdev->vq[i].vring.num = vdev->vq[i].vring.num_default;
++    vdev->vq[i].inuse = 0;
++    virtio_virtqueue_reset_region_cache(&vdev->vq[i]);
++}
++
+ void virtio_reset(void *opaque)
+ {
+     VirtIODevice *vdev = opaque;
+@@ -2495,22 +2515,7 @@ void virtio_reset(void *opaque)
+     virtio_notify_vector(vdev, vdev->config_vector);
+ 
+     for(i = 0; i < VIRTIO_QUEUE_MAX; i++) {
+-        vdev->vq[i].vring.desc = 0;
+-        vdev->vq[i].vring.avail = 0;
+-        vdev->vq[i].vring.used = 0;
+-        vdev->vq[i].last_avail_idx = 0;
+-        vdev->vq[i].shadow_avail_idx = 0;
+-        vdev->vq[i].used_idx = 0;
+-        vdev->vq[i].last_avail_wrap_counter = true;
+-        vdev->vq[i].shadow_avail_wrap_counter = true;
+-        vdev->vq[i].used_wrap_counter = true;
+-        virtio_queue_set_vector(vdev, i, VIRTIO_NO_VECTOR);
+-        vdev->vq[i].signalled_used = 0;
+-        vdev->vq[i].signalled_used_valid = false;
+-        vdev->vq[i].notification = true;
+-        vdev->vq[i].vring.num = vdev->vq[i].vring.num_default;
+-        vdev->vq[i].inuse = 0;
+-        virtio_virtqueue_reset_region_cache(&vdev->vq[i]);
++        __virtio_queue_reset(vdev, i);
+     }
+ }
+ 
+-- 
 2.32.0.3.g01195cf9f
 
 
