@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27A24601B02
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 23:09:22 +0200 (CEST)
-Received: from localhost ([::1]:54670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5A98601B04
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 23:09:34 +0200 (CEST)
+Received: from localhost ([::1]:37976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okXMO-0000o2-U7
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 17:09:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58416)
+	id 1okXMb-00016w-Vg
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 17:09:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1okXHG-0002vN-Uq
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 17:04:03 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:39574)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1okXIX-0003T8-LP
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 17:05:24 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42870)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1okXHB-0001CH-Q6
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 17:04:00 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id f11so20383297wrm.6
- for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 14:03:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1okXIW-0001SQ-43
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 17:05:21 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id bp11so20390391wrb.9
+ for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 14:05:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=fsdQbGfPbAaXXBjyWXqnPOZZZme8x7KVaAtmeopWOkQ=;
- b=YKMw/s1/vRkD7kwvMJ8raL3TdlyG4tY8TxJWa1lZj9o19bAq797PQPCavlpI2Ba77k
- //SF0xVK2EPR46cKspkQ3MtOyjFpW6eq6On1L/0LFigJQmyS1V9fDZ/xouvngm2cvw0y
- e/v2YX1YY8z84n5rGzgigSs/B/ZRhoa/DIIyPL3vzfo3OalkT0tJz8tvyzoJCFzYgbPm
- wxGpzPQKqOvaGlW4eoAUKxOeo68WlqHhdp55Tyw2tsMC8m9Q9Sd1ZO08kZQlmae+UCTr
- TYUQaxEGlsQcpafTYg3657jXzWZ6Ksduk39CkuT05cNLpWazfJWCcTvbj9E/5VcEIz2s
- mF/g==
+ bh=Mm9ZNA55oBmFJKRLFyg+CqkOyFyYte7z4MaQiLXG9Y4=;
+ b=utCfxaUBLovNrk3YXE8Oj4jcN63nMzeNRdJ5D5HgTbI1bkhDMw3FC0P9v6t47+DhTP
+ ia2+ARKNklw6EVHZIM1u4zZTNl9XBtkANf4lLeihoZdgKjQGxGF1F1eNThJmJloEzs7i
+ d1bBZviHOH16rzCmGFh3KECaB3K4CBnxlIp5wW0oaQlZKaaJB1bYbmGDwXu1BVghNiXd
+ gAYoD23OoHm4TkR3azd68aOyy8J6c3O3/JwxXkvalpUdg8qhEAhsgFt2JEoIyn09igZC
+ cc7fZRieJ64VsS5H/ycuiFDDdV1eOjki86KCF3X3FXogZoColFD4xH0NOe0AQYnkPQFM
+ EQDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fsdQbGfPbAaXXBjyWXqnPOZZZme8x7KVaAtmeopWOkQ=;
- b=2aldtrM5NjiMYSaTFnyR/sxsJG3FxX/dhQcfqYzqGazrKeEOfP92J3uFVfQEvTZdji
- 9x1SlOYfHe21gbU0PvpyNJfUa3AFM8VDOK3/RuHK2v5VuwpZcNuPIMaImi1IpZ5J6mV1
- si+QnZPJI0J3y5bKj0zFPH33O6pSeTdLqXfEnD/oHpJ90fYFaBNnJ0/7KS8dV0qVF7Sf
- 1r8KDJIpGy9hObOWUmwMLxXzOwAPcdeBSnff83njFWNQyrWgOjdQdNK9yUKqoEX+0zIl
- FvaynLDyM8s1oeMOSOoewQU+eocdf12XjGuKvdQcEzdriqVl/x1KJR9IJQDh36bVhfvQ
- 11ag==
-X-Gm-Message-State: ACrzQf2ZefnN7JLFNAyV4f/7HqJdAU7AoBbTicpUrRhm9iJtrubiKjNb
- LDy9I3FoiYMCCR46KRKtQvK/KA==
-X-Google-Smtp-Source: AMsMyM4QGPYlGwpJNw6YS3rQ6e4dVpNfCiFCQyMCmcvPsmFFEOieeoKQ4oaVHHavrHitbS/wgdB/UQ==
-X-Received: by 2002:a5d:4889:0:b0:22b:214:38dd with SMTP id
- g9-20020a5d4889000000b0022b021438ddmr7868597wrq.32.1666040626984; 
- Mon, 17 Oct 2022 14:03:46 -0700 (PDT)
+ bh=Mm9ZNA55oBmFJKRLFyg+CqkOyFyYte7z4MaQiLXG9Y4=;
+ b=VUuh73giwWT9zI+iiP1P7GL9ntvYrOAYNwXIzrtC2nlaJUlefn2WOXkbwOv6raJGBZ
+ +nt5yX9N4H6WbaJsrL9k255cZ6magCXKxIFKDldCNCOsY9eNJlbN2wL2iRKSpy6kxkl4
+ i2B3/kQszRP6/m7PlwggCgNGu5mtcqi+sCoTQP3W498Cxr9JTBpLuFhlPpVxNkYAmcF+
+ N6LPvAt63ZVKK8e3Ol0qfcgEqDPAj1cg+uH5Z2uYOzCG/oKoJGF4vGwk9b0rDbej40UM
+ J68rPgZw/MMzTDVHvsikb0yCP+zSguBh0JkjZ2OFFuJXwhizMCmbzru0/TxpsH+EaNZ4
+ sUcg==
+X-Gm-Message-State: ACrzQf1wc12Kgrm4DmGCSuPMSs2iCAyHg6Q6t2iu+cI6UH2I4QU0l29t
+ 13Ly/bNHS+04U/4IrmaWl0ihBA==
+X-Google-Smtp-Source: AMsMyM7sL1AGbB9AjfDz+XetD90veYH5sxQD9GnP+oZiNpETm/TIHQxdtMAdwxcJKijQVp0t6+BwPQ==
+X-Received: by 2002:a05:6000:1a87:b0:22e:580d:9cee with SMTP id
+ f7-20020a0560001a8700b0022e580d9ceemr7009031wry.608.1666040718143; 
+ Mon, 17 Oct 2022 14:05:18 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- m6-20020a1c2606000000b003c452678025sm16591377wmm.4.2022.10.17.14.03.45
+ t8-20020a5d5348000000b0022ac119fcc5sm9236021wrv.60.2022.10.17.14.05.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Oct 2022 14:03:46 -0700 (PDT)
-Message-ID: <6aa84e33-8ae2-bb4f-c4fa-1f71ea8301f8@linaro.org>
-Date: Mon, 17 Oct 2022 23:03:44 +0200
+ Mon, 17 Oct 2022 14:05:17 -0700 (PDT)
+Message-ID: <b093ee20-7f66-cc51-ae3c-ff785eb955ca@linaro.org>
+Date: Mon, 17 Oct 2022 23:05:16 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.1
-Subject: Re: [PATCH] input: Allow to choose console with qemu_input_is_absolute
+Subject: Re: [PATCH 1/2] hw/audio/intel-hda: don't reset codecs twice
 Content-Language: en-US
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <20221014115416.63819-1-akihiko.odaki@daynix.com>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+References: <20221014142632.2092404-1-peter.maydell@linaro.org>
+ <20221014142632.2092404-2-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221014115416.63819-1-akihiko.odaki@daynix.com>
+In-Reply-To: <20221014142632.2092404-2-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,25 +92,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/10/22 13:54, Akihiko Odaki wrote:
-> Although an input is routed depending on the console,
-> qemu_input_is_absolute() had no mechanism to specify the console.
+On 14/10/22 16:26, Peter Maydell wrote:
+> Currently the intel-hda device has a reset method which manually
+> resets all the codecs by calling device_legacy_reset() on them.  This
+> means they get reset twice, once because child devices on a qbus get
+> reset before the parent device's reset method is called, and then
+> again because we're manually resetting them.
 > 
-> Accept QemuConsole as an argument for qemu_input_is_absolute, and let
-> the display know the absolute/relative state for a particular console.
+> Drop the manual reset call, and ensure that codecs are still reset
+> when the guest does a reset via ICH6_GCTL_RESET by using
+> device_cold_reset() (which resets all the devices on the qbus as well
+> as the device itself) instead of a direct call to the reset function.
 > 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> This is a slight ordering change because the (only) codec reset now
+> happens before the controller registers etc are reset, rather than
+> once before and then once after, but the codec reset function
+> hda_audio_reset() doesn't care.
+> 
+> This lets us drop a use of device_legacy_reset(), which is
+> deprecated.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   include/ui/input.h |  2 +-
->   ui/cocoa.m         |  2 +-
->   ui/dbus-console.c  |  6 +++---
->   ui/gtk.c           | 12 ++++++------
->   ui/input.c         | 29 +++++++----------------------
->   ui/sdl2.c          | 26 +++++++++++++-------------
->   ui/spice-input.c   |  2 +-
->   ui/trace-events    |  1 -
->   ui/vnc.c           |  2 +-
->   9 files changed, 33 insertions(+), 49 deletions(-)
+>   hw/audio/intel-hda.c | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
