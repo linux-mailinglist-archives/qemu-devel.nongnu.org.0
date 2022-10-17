@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBC75600B9E
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 11:54:52 +0200 (CEST)
-Received: from localhost ([::1]:49570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A6E8600B1B
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 11:41:35 +0200 (CEST)
+Received: from localhost ([::1]:53414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okMpf-0003Js-IO
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 05:54:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51040)
+	id 1okMcn-0004VD-TU
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 05:41:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1okMO5-0005ZQ-CL
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 05:26:21 -0400
-Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:49151)
+ id 1okMO4-0005Za-3X
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 05:26:20 -0400
+Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:49037)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1okMNx-0002sH-3Y
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 05:26:14 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R921e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045192;
+ id 1okMNy-0002sw-Sn
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 05:26:17 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R191e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045176;
  MF=xuanzhuo@linux.alibaba.com; NM=1; PH=DS; RN=8; SR=0;
- TI=SMTPD_---0VSMILXV_1665998766; 
+ TI=SMTPD_---0VSMILYd_1665998767; 
 Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com
- fp:SMTPD_---0VSMILXV_1665998766) by smtp.aliyun-inc.com;
- Mon, 17 Oct 2022 17:26:07 +0800
+ fp:SMTPD_---0VSMILYd_1665998767) by smtp.aliyun-inc.com;
+ Mon, 17 Oct 2022 17:26:08 +0800
 From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 To: qemu-devel@nongnu.org
 Cc: Eduardo Habkost <eduardo@habkost.net>,
@@ -33,24 +33,24 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Yanan Wang <wangyanan55@huawei.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Jason Wang <jasowang@redhat.com>, Kangjie Xu <kangjie.xu@linux.alibaba.com>
-Subject: [PATCH v6 06/15] virtio-pci: support queue enable
-Date: Mon, 17 Oct 2022 17:25:49 +0800
-Message-Id: <20221017092558.111082-7-xuanzhuo@linux.alibaba.com>
+Subject: [PATCH v6 07/15] vhost: expose vhost_virtqueue_start()
+Date: Mon, 17 Oct 2022 17:25:50 +0800
+Message-Id: <20221017092558.111082-8-xuanzhuo@linux.alibaba.com>
 X-Mailer: git-send-email 2.32.0.3.g01195cf9f
 In-Reply-To: <20221017092558.111082-1-xuanzhuo@linux.alibaba.com>
 References: <20221017092558.111082-1-xuanzhuo@linux.alibaba.com>
 MIME-Version: 1.0
 X-Git-Hash: 3b20cde7ef
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.45;
+Received-SPF: pass client-ip=115.124.30.57;
  envelope-from=xuanzhuo@linux.alibaba.com;
- helo=out30-45.freemail.mail.aliyun.com
+ helo=out30-57.freemail.mail.aliyun.com
 X-Spam_score_int: -98
 X-Spam_score: -9.9
 X-Spam_bar: ---------
 X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001,
  USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,30 +69,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 
-PCI devices support device specific vq enable.
-
-Based on this function, the driver can re-enable the virtqueue after the
-virtqueue is reset.
+Expose vhost_virtqueue_start(), we need to use it when restarting a
+virtqueue.
 
 Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 Acked-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/virtio/virtio-pci.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/virtio/vhost.c         | 8 ++++----
+ include/hw/virtio/vhost.h | 3 +++
+ 2 files changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index a41c1dfe71..9d948e21f6 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1342,6 +1342,7 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
-                        proxy->vqs[vdev->queue_sel].used[0]);
-             proxy->vqs[vdev->queue_sel].enabled = 1;
-             proxy->vqs[vdev->queue_sel].reset = 0;
-+            virtio_queue_enable(vdev, vdev->queue_sel);
-         } else {
-             virtio_error(vdev, "wrong value for queue_enable %"PRIx64, val);
-         }
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index 5185c15295..788d0a0679 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -1081,10 +1081,10 @@ out:
+     return ret;
+ }
+ 
+-static int vhost_virtqueue_start(struct vhost_dev *dev,
+-                                struct VirtIODevice *vdev,
+-                                struct vhost_virtqueue *vq,
+-                                unsigned idx)
++int vhost_virtqueue_start(struct vhost_dev *dev,
++                          struct VirtIODevice *vdev,
++                          struct vhost_virtqueue *vq,
++                          unsigned idx)
+ {
+     BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
+     VirtioBusState *vbus = VIRTIO_BUS(qbus);
+diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+index d7eb557885..0054a695dc 100644
+--- a/include/hw/virtio/vhost.h
++++ b/include/hw/virtio/vhost.h
+@@ -297,6 +297,9 @@ int vhost_net_set_backend(struct vhost_dev *hdev,
+ 
+ int vhost_device_iotlb_miss(struct vhost_dev *dev, uint64_t iova, int write);
+ 
++int vhost_virtqueue_start(struct vhost_dev *dev, struct VirtIODevice *vdev,
++                          struct vhost_virtqueue *vq, unsigned idx);
++
+ void vhost_dev_reset_inflight(struct vhost_inflight *inflight);
+ void vhost_dev_free_inflight(struct vhost_inflight *inflight);
+ void vhost_dev_save_inflight(struct vhost_inflight *inflight, QEMUFile *f);
 -- 
 2.32.0.3.g01195cf9f
 
