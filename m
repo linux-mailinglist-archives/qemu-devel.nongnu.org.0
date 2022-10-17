@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 517A6600814
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 09:50:53 +0200 (CEST)
-Received: from localhost ([::1]:48114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7BF360081B
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 09:52:07 +0200 (CEST)
+Received: from localhost ([::1]:55386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okKtg-00034y-8h
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 03:50:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55868)
+	id 1okKus-0004ib-QA
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 03:52:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1okKYn-0004km-64
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 03:29:23 -0400
-Received: from mail-db8eur05on2129.outbound.protection.outlook.com
- ([40.107.20.129]:65301 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ id 1okKd9-00086W-V2
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 03:33:53 -0400
+Received: from mail-vi1eur04on071a.outbound.protection.outlook.com
+ ([2a01:111:f400:fe0e::71a]:42753
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1okKYk-0001Je-F5
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 03:29:16 -0400
+ id 1okKd5-00029p-VR
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 03:33:47 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UnSc399AaTP6gCXQXwCh25yGCoyE6plmgKOeaaCyCXV0XdmNSMsoGb55PY8TddHmhMDvfQvUu8VAMU7MzVmNkPi7dDV3/JXlP+yErOBNiM+qJi7bzZmmqJlI2Bt1D1jxrGd3/A0ns3AJZ6RD6P/0DZsXVQwKlDtpkZVpH3wFBhuu9LLhm9FuLgSckRzzV9g2/uXEigri7IhDwn+Sf/aY9+YBbaxUrJVUQ4QgV0r/SW4SJA9bCneUvGCXzLcR+nEP4mlgY/n8sb9e+B+glgBkMvCtKim76AAaBUN2++K7nmZ6U37GAaaNeX3E11m28zw0Me+XjVFr8ddwZ/5FHCHjjw==
+ b=T0bJcEu7fenr1PFmvRixefOZdt713xyXMWbq1rGJ9g7B64WaCIRSqHfS+oUI11enyNs19SAtdtJ2wkepmeHAbUUq2vCbdl+Nzt8PwE+GFImG2U1K/JmU+AmB3sOitpeGFRakX2lN9rHwpK2VvlwO12sqysfz5VP5oj3lAUpnnnw9WtN1nobtF1weTudB1T08LjhCBM4A2tr0jVUYot8+Rh0Qu15S3VvGEXL6W7SsJfjRIIjpzkk8CwaQgnjWF/hQgx+OyH20jJ3KmlYJqiLLh71PtRZjgRReRZFOBfZkOGct53zQOrUHDX1KthtzYJULoMpKIHURBWmXHdOkbMbC8A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=90yaN/ZPijff8/jFBt2y179WRMXRaLZAWtUrg5jzAEg=;
- b=nOQ0zku9RKC0T3YLIFbrF8Zp7Sz815z0yW9yEdomEr60iKgsnUWRfTzaDRPbBIaqfuF1L6anAzJ+BpuXQDbeGqUY6jnLZzdkU2Sy13RIQALhzxqTeTO52teKgiIPKLUWKs9gn8flnBggooDCyHvBKX7ouMbk1u5EiQwzgL3OBbalRdNCSkuA1Gd8YvFEnLqn68ScpLc9DLhU937e6mvH2DBDB7M0jorLyR1R++sKRYV612QH9t+BPmUETTq9fVbOuj8hi4nPi5AqABlu+vfiCotfO/CN9LW/xjTU9bsGFWzsLC8sZL7lX+qZr7Ft1XxAfru3p3IA/ySD24+uGPg/IQ==
+ bh=ntgPPnTOKgxTnF+LfBEBgtehlf04PvP6KLfYZLNlrmc=;
+ b=Lx+aoK8jvypmnQEiJUshjt++yUNCcmB04upzBfJQUFmPzX7tfL+XMN4JdYgo2HgtQ59aTFjMd2zEpzPJqHiblotl1AohKnvA93XYQcdpC4TnTe/pqpAHgfgZVKrclhQEo2JuUtIBG4EW1a91tOF2OkJPDSwAg7CH/RoLqTcQGrlASs3NJ9tEbHEBWT/8frGi5I5zVqkalT2F91ULGb3RdZLZ2Dxe7T24mKRmsxpLhhzfuukhO7Jmogg0Fk2qO2jcEyq1ANdBLr2QM0ZZ/m4jmZnEqRRdsiX9+WK4aQ01B2EWSL1IA8KcAuNeGCmDMbOvDF0KR6iAQCQfh/oKuP42RQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=90yaN/ZPijff8/jFBt2y179WRMXRaLZAWtUrg5jzAEg=;
- b=sMDKwIzdAvgXlcmKHnCQPzF8c/R/PmZCiNjChIsKZh/OnIPvB0jSNTL4r4kFEaq+m+VIAQz5TYeGkS3Dr+hXQoZdxzYtUotzbsq5ushCeJbYYyz9aevlKm0hloLI/rv6nGb0kCNTHbPjiq2agDV9abtzUBKSnbavLqrZLvvk49CnoPrSD01pMUGyrO6FLrHipaye9MMVPLHof2Ei74ZU3piH+9FeVyXCcdrHfVdhl8FQDRAdS7oDQ+HTbX7OGFvfCvnwSDGt09C6dqeyyrZ4q3/ghcfvCgmHUisa4TlYucYnOoAj28d2XIML3fCwk9sVAIGWrmEJASz1zil5vc+nNw==
+ bh=ntgPPnTOKgxTnF+LfBEBgtehlf04PvP6KLfYZLNlrmc=;
+ b=rqu4JVrcl/Oxz1xLAa4MECrxLaoCKq3vLK+WwvuIb7nb7wwgLA5y2K9bm8Vi71+kydCZNuKyWF6sy2iOFHKce+kJ39Rt4sF01/KxOHpeijFQU1nW8ENZqmMEAxBQCb3KLSKmEhwaQIlrhpP9oQBlkUuUalV73peF2W0BWgJB+exkbF6ZXMAQJ2OX+Su/pHwEM8+FM+a3Pk1FAmLd4ayqqOOcthxPzU+rW21vHS3SjgvyfKjft6eHpYTdoWyi/Tl39Y5xWOD2/CWtr927ZmKJ0edMsrjjYy7PHTTPvx1VFtMqtpPwpKDJw6rqWOgtrGHCuwQeAUPHIgMAmUEQIff/Tg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AS8PR08MB7095.eurprd08.prod.outlook.com (2603:10a6:20b:402::11)
- by AS2PR08MB8286.eurprd08.prod.outlook.com (2603:10a6:20b:555::15)
+ by AS8PR08MB6710.eurprd08.prod.outlook.com (2603:10a6:20b:397::16)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.30; Mon, 17 Oct
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.29; Mon, 17 Oct
  2022 07:28:38 +0000
 Received: from AS8PR08MB7095.eurprd08.prod.outlook.com
  ([fe80::5174:25c7:6df8:741b]) by AS8PR08MB7095.eurprd08.prod.outlook.com
@@ -50,10 +51,9 @@ From: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 To: qemu-devel@nongnu.org
 Cc: den@virtuozzo.com, michael.roth@amd.com, kkostiuk@redhat.com,
  marcandre.lureau@gmail.com
-Subject: [PATCH v5 2/7] qga: Move Linux-specific FS freeze/thaw code to a
- separate file
-Date: Mon, 17 Oct 2022 09:28:20 +0200
-Message-Id: <20221017072825.72867-3-alexander.ivanov@virtuozzo.com>
+Subject: [PATCH v5 3/7] qga: Add UFS freeze/thaw support for FreeBSD
+Date: Mon, 17 Oct 2022 09:28:21 +0200
+Message-Id: <20221017072825.72867-4-alexander.ivanov@virtuozzo.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221017072825.72867-1-alexander.ivanov@virtuozzo.com>
 References: <20221017072825.72867-1-alexander.ivanov@virtuozzo.com>
@@ -64,73 +64,73 @@ X-ClientProxiedBy: FR3P281CA0033.DEUP281.PROD.OUTLOOK.COM
  (2603:10a6:20b:402::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR08MB7095:EE_|AS2PR08MB8286:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8ab22149-e855-43c9-8b4c-08dab0113526
+X-MS-TrafficTypeDiagnostic: AS8PR08MB7095:EE_|AS8PR08MB6710:EE_
+X-MS-Office365-Filtering-Correlation-Id: 39236878-a793-4c63-4737-08dab0113588
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EZnxSaxHjIKTUp9ky9pW52pJsYKA2rU5KnSGTtbODUJRzcBCL+De3eHFqb/Lm2SVNJ95/TK15kmwcegZoUGosICrFOba8VtKn98RcGtUwm4I7bXBhwMBNeClvmro8JNBXhWENePFY+bOL3PhTkmavAVjvHWCcFREZqVBgU8jfSeI9FEvSBawADVnY7kq9pI0zY2I+rn7dGUzSnRNKb2tGt+zOkuZ9cmmqSfV0D4TYxbGo9WceWXinYiwQ/Olzo+2w0ADgcsxiTfqJKBHTN0MKHNs8vyWl60EVJ3xdiXkJ6pCTq2D5fJ7vQNIiVewoU913Nt93UBi42+KY1HNm81ihm1Noq9FRcMWNkfcdSFt0icP9FkuMSlgTvxj6nD9PDRhuNCeF55q+VSNc9mu7Vna7Iugqwq8GtW0AgxIn80tJT6WYs0NGYD94uV9CCIQrounITPBqnxS4smz2oV9zOa0zdOLF1xEegsf0vUsTlJ0z2oged3xzRfJ6EEn4lFZdDZiCROYyY5A7nP0K7MOlxl+J0bxGOzIVqU6mV0gmKnPe9fwfBRtM8jV+3gqbcfSxrVFYzwu4hr4l4KRxDZ1mEmgI4JBSsIoV1kMuECP9iMz4BU4wLksx9+9CvYWPQp8cmGWliUumOoTiglsIuG6Tb6CHQ1avJoZ56/B7JFWCYff6niLrc4fKvCwU1dki6P0WVCatWIgK/6FB/glUJTtir2e/eI6XInUPdszHPiRDFimHJXx6DFzaqxaDwxl5lbDvLW+gV1F+z/BhKZZC2VEhdcDjw==
+X-Microsoft-Antispam-Message-Info: bolLiR5ECIH4wVyhxVAK3e4M7QG6jWdUXel+LA1MTfYt4/riZJ1P3pMdc19UppWKTLqc0J40jvc2dRat4bPveQZTQvLNFu9d/TlwbI7f8N/5GNHHkVkMOlQEVpyKzk/OJXjQB5e6L1TF6XZ9yifqPwX6ke1AxnRSFMC8kev3ZJsARLYKEsfFtUwjED7+E1g1x8/sqlgCu7kHdT7t8HOyJBdQ8Uu3uCqcvh6VU/xDPk3hdjIqI6KbtvBNJM5JJADqPJvk+qgDamKz4yMvNJObpvbdoFHWo2SWJE/2BQ5m4Z8rQok0ScD6fNYfGONRKHlrMgNoriA35gO287dSVkE56/gEcljS4rf2MJF5f1gtG3a7diznmBS010nBwf4XwbD7mN4TKUsS8ZPoqtBc4SrhrMUjh9yNG6cUJvFeFAjI0ka2yGzutjjhgfTyj2hauPasV4LofjpZxWr2lToR+Ibfq74ZYxTvzZEJ9hURZnw4wAXm1ArX8TxiIDf9+lCvyi60X1R4E0Pu4suQyvfmL/MhaMKZhAuUy6ccTHK5SBUD2mBCSAhO97v3LNvdpiUe1sTuX9HFf8lHaHMyDenJ4ZF/ps2VOc0h480NKEBJHjJ4xHGnPnSaTKr/Rodn5zNZejj/CUayVpPrCCk6Xzi6LeLJ+kIZOz3HAGSyxHWmjFPc8KDU3+BR1hsCPDCvUXbsxDSEVyOKobKbVre0EuA+5TUMbjHQQPiBZ/aK2AK79lFlpcfqClZitS/HAzrSvtCFJK+9GntrcjChhryJo3HQej1QWw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AS8PR08MB7095.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(136003)(376002)(346002)(39850400004)(396003)(366004)(451199015)(30864003)(6916009)(66946007)(8676002)(66476007)(6666004)(66556008)(36756003)(6506007)(41300700001)(4326008)(5660300002)(316002)(26005)(6512007)(86362001)(8936002)(83380400001)(2906002)(2616005)(38100700002)(52116002)(186003)(1076003)(38350700002)(478600001)(6486002)(44832011);
+ SFS:(13230022)(4636009)(346002)(376002)(396003)(39850400004)(136003)(366004)(451199015)(316002)(2906002)(1076003)(186003)(83380400001)(86362001)(36756003)(38350700002)(38100700002)(6486002)(478600001)(6916009)(41300700001)(52116002)(44832011)(6506007)(8936002)(2616005)(5660300002)(26005)(30864003)(66476007)(6512007)(66946007)(4326008)(66556008)(8676002)(6666004);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RDFZVnM5b0kxQXhxV3d5QXVnQ2RiQ0pDOXhmaFhyV2w4S1JhaUVtNHZQSjhu?=
- =?utf-8?B?M0FPL2ltR1JPUWJGVlBQcFIzK1NqQ0wrVkRka3pWMWx0MVBzclJQZ1NtZStq?=
- =?utf-8?B?MTRDM0hsVHpRU1dPUkVJLzhTbzUrRVJtSGdyalhGN3pMMXFxeEZXUWZqS1ZT?=
- =?utf-8?B?a0FvMDdMbGpQTmVDRVJHTXZJOXk4RXh6TWhLaWJoeXJlRDFaeHpwcEMwTE8x?=
- =?utf-8?B?ZEg3SVpDRWZxcE5pT1JQREJFRkRmK1R5RDdaOTIrdEd6UVVFY1hJRlozTmxa?=
- =?utf-8?B?Ykg3OVFKN2h3aVUvWmV1YlZrZVBjNDdjb2dyaDlvWUhYR2dzdUtXSlJlZzc4?=
- =?utf-8?B?dFBMdWxqZ2dLWHRDUUVyL3N4Y1VITTlDRFVrQ2I2Vm5tUTZNNTNoTG4zK2lV?=
- =?utf-8?B?OVlpYUZkYVRzNERQcklobDYvVHFrakIwU01ldktKQXJaQis4Z0lJcXYrTmgz?=
- =?utf-8?B?ejMzMVUzYkFVR2VRbURPMitydkI1VVdkR1U1SnpCMVRRM1RxMko1L1RUU1pv?=
- =?utf-8?B?Wk5DM29qbi9Rdm91ZTk0bFN6Y2J3aXhDZzIrQ3dXZERYSDJoZUtkdmV3blZ6?=
- =?utf-8?B?WThXdDRCRFM3RTZtNTh1MnV3bTAwZVhqY3FwWDdhWmxKcVdKZDVJVDZMbG1S?=
- =?utf-8?B?aWxReTEwazNiUHRMU1M2MnB3elZBQlc3MTcvaGJYQ0MzWmxmeitzMllFZ2Rq?=
- =?utf-8?B?Z1pyekF0c0JwRUhzOE5jL3BHNlM3YW0rZFA3TTVoS1Y2ZmdCZ1ZyNEtzTFZR?=
- =?utf-8?B?cjlxR09RS0xXTnVZSHNJMkNUNWh2TmlZSUNIUkJKMklkK1dnci9XY1A5STJB?=
- =?utf-8?B?N1ZTeXlJVjJhK21RT0xTZ0M5eGNVMnlVN2JsSjYxUW5SeCtSb1pnV0pCaHlT?=
- =?utf-8?B?SFhINDNnVmpBQjlwWWFDOGJDQTJnbkRnRHUrL1czM1hqZGFEaGovVy9sSW5F?=
- =?utf-8?B?NzQvMjJqWDhRZTlNc3dCNVhtalloRHUwWktFbGZXdUVUVlFwUTJCWENzU3lm?=
- =?utf-8?B?dlo0R3FYdjZsTmk1Ym5udEsvZ2g1U0VORDhPMjY3NE1RSWZIekNKUExTaGhp?=
- =?utf-8?B?U2drWkRHMUV4YWdXajF1TnZCTVRsNDZpZmlFc1A4U1pSU3A3MG5wcjNCMXV2?=
- =?utf-8?B?bmU2UnF2Y2E4dnN6Wm04Qk5DK2dPNSs1YmdIeVFlT1g3S3V2NEt4Z1ErK2hj?=
- =?utf-8?B?VzE1YUVNUWZPZDlBWTFDeVZkWXVnTkJmNWpHSlJPRGNzRWNGQ1BJZC9WblBs?=
- =?utf-8?B?cmF2R2lvR2I2RHk5NS9lQkY1dWp6Uy9XQkhNM3JWdnZoMFNibFNqTld4NE5D?=
- =?utf-8?B?cWR0RUZpK1lFelV6TjNkWVp5a0E0blpEN1JFWk1OT1hWS0lGK0tBMXpEaHZU?=
- =?utf-8?B?MEloN0wrM3RBRDFzVWZJSVJxTnc4L2FPaktwTmNlOEdaZVBpY1B6QXVPNHo4?=
- =?utf-8?B?ci9NL29DdVV4KzVRcjFnb2piZ3h5WXR3cFNDTW9vQ0pLY2QzUTQ2SnlKcGxt?=
- =?utf-8?B?Vy9GbU05U3RRQ00xR3JpMUE4bVY3UGo1ZVU5QkJiMjV6TEs2TTlzaWVXeWFQ?=
- =?utf-8?B?ZUxDQndvWDkwZ2NZbnhRQnppbS96dTFKVUVXMURtL09WTkNHR29PMHhlV2hO?=
- =?utf-8?B?T0ozTWRCTThmYlp0YUlWL2FENHFxRkxWMlAzbmc2MUhNSmZCTmdEVDhzQzRN?=
- =?utf-8?B?MXhQZTNRSGJnNVQrUDMrUFlBUm0yWDZQSDdZb0k5UWJwaDNFYWxPb3FpU3ZC?=
- =?utf-8?B?YStwTFpUMmF2V2ozR3NWQkRsSFVCTlR4TnMwQ2lZNStabnNaM1Y5S0NNcXJF?=
- =?utf-8?B?eHFEMHR4eWFjUmtNUW1UMEZZN0tjQnFqQVNsYVJlNHRubHJkc2hRMXJEUUNN?=
- =?utf-8?B?Y21KWXhTUVIzdUo2ZUtlN2NzMmNhV0ZWTElCUVBlcHFvWXRvdlZYK0FJTnpn?=
- =?utf-8?B?SHlEOGRPcUlHOE9lYU1rREhMRVA5dWdCcVdhUmZiSEJkWlhFTGt6T1htSENU?=
- =?utf-8?B?Zmp0UDk5Qi9tVEVCN3ZpRGlYV1BvYWJaRkxKa29xNEU4V3h4Lzc4RHVvTUFU?=
- =?utf-8?B?US83M0oxeUhRWnZqc3B1NzBWckFuT3hXcnpFVGhNZ3JReW5Xb1AvT244RmJ4?=
- =?utf-8?B?Z0RibEphSGdsYUJEa2NpT2lUN2pUSEpXSnBjMzhjYk4rM080bEkyWDlZSXYr?=
- =?utf-8?B?Q0E9PQ==?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a3E2clFBQ2NMMnliZU5iWGxlTFZOWDdObHR0d2ZMcDFWZjdJcGdkUGRWeTZU?=
+ =?utf-8?B?Nnk4NEloVld6SGc3Z3VFb1NLSWpFcnIxVzZodExlTUtvenFYN3FpWUFwSGFI?=
+ =?utf-8?B?YlFyZmpnYi8rbUxiZFI4TEhsb0Y2TUpBbUZJU2ZLVmV2amszYzBQeEE5RG4x?=
+ =?utf-8?B?ZHBvY0prNDJKU1NOVUdoOGpYZ1pXSmhJVUFjdkJJUnpFL0ZMc0lXeXh5bURM?=
+ =?utf-8?B?Y2lmNG5IV0VmUVNpekJLcWFyYjVSc095OUdURmJNa0k4VGVSWXY2Qi96emZi?=
+ =?utf-8?B?SG5ROTRrdjJTYzNjNzZwWVFHZWZielR4UTJ2NkFqQ0tuU1RmNkhWYUljemkz?=
+ =?utf-8?B?WlRicWlLajN6SXBQdDR3aWhMcXR2bzVSaGxTTXdBaUR2cDRQNVkxMDB2UEpF?=
+ =?utf-8?B?Rk13cWtpY1IwMmxtemFvS3RtVXpBYVA1WnV2b0Z3UHBHT0pJbHk2S3FXSUVs?=
+ =?utf-8?B?YUpmdlpmT2o1TlhPZ09rMTBqK3dXMEk1QVRNWXZodFpLQVlESVB5ZDZ3N2JO?=
+ =?utf-8?B?YkhNNUx0RnRnVnhvUm1Ea3dXNW84ajN3UFB3U0hSSG9jMnJhd3A1UmZpSjFo?=
+ =?utf-8?B?bjhzZlowc3lQVlVOMmV3OWhJT3VKbjhOcDRUMzhWVWNHNkFJTjlnSHR1R0Nq?=
+ =?utf-8?B?TnhhMmY3SkE0QUMvUUp4NjZyZkh0TGlkYXdLdHJVV0FyV0tDZFIybzJjWllF?=
+ =?utf-8?B?Y1VhTTIzc1hpTFZtbjJUVXQ2Q0JMaXBsOFpRVlIzMDlPb3pBN2ZtZWcxdFlM?=
+ =?utf-8?B?bFZXNW9qN1VtV0VpSkgzVWNHTFpncDVNeVF2VWhvdzMwQmU0RWplNjhEYjBn?=
+ =?utf-8?B?MUUvL2Q3TEFWV0NwUjcvQndHeU5oMlVkamNGOVFmaTBRQ3Rad1cyZVhnU2VO?=
+ =?utf-8?B?MXNFaUhkUE5Yd1B1eittTTZIMTNRNDdKb0FLK2pGU1F2V0dqdmVXWFhyZmxq?=
+ =?utf-8?B?QTFvZTJMaXR6MklzdFk2bVM0ZlhOV042Z0hnZ1BCMElGMXd4Zm5wUVFpcGJY?=
+ =?utf-8?B?SnNENE9rVjByYmFHYWdRVWlDUzhIN3lFRVl3TFB6RkZJK0ZJT1d6RnN0YnJt?=
+ =?utf-8?B?ekZmSGhhWFRQc1lpWlFNS1pES0JxM1BBOSs2KzA2emRJVFY5UEtrNGNyMFh0?=
+ =?utf-8?B?L01jVzR3WVNUdmJBMHNydEMrdU9EcDY3eFJ5YXhtenRLa0twMUkwUEQ0di93?=
+ =?utf-8?B?dVJqcysvR25aR2EzNEZIZFFXQ0daUlU4bmxzckx2ank3TTFsU0l4V1U1NTQ3?=
+ =?utf-8?B?K3AyQ2NGZmgxVC9QY0hyQkg4VnpJb1loQm53N2c5amtMRXNHSk44YzdmTTFP?=
+ =?utf-8?B?ME14eFJMVi81SWVIemQ4WEdLSURPZ0g2RVVFRmlwcDRCSHc4OGp5WGE0OGlM?=
+ =?utf-8?B?ZWtCWUIvMkY3dlBKWnZnTFZrWVhINzd5VDdqbFNvcnB6V2ZqcjVUTGYvNjl6?=
+ =?utf-8?B?UVlsUkdoakdIVWxIcHFUeFdVbDdPRVgvNmFhYXZtL2xmY01aT3hIYVNwb1d2?=
+ =?utf-8?B?OVpkWER0Yko3b00zN29EU3FnbnpNZUxrUHBEWWs2MTFYb3lqakorVHZ1UG9l?=
+ =?utf-8?B?NUVYM1ZEaEZvRXI1SDgzRUtxZ0dTK2hCM0FKN2RUcDEvSXRWVE4zVmRSeUJl?=
+ =?utf-8?B?Zk0yRGJSaGpWbWVkYSs3SVB5NUhzYlpHK1VOTFF4MlZ0WlVkbEFYSzdneXhy?=
+ =?utf-8?B?cVVkZHNRTUFad1BrdVlIRU1CREE1WDYralI5WjREL0F6MDhIVEdhSVlwN2Q2?=
+ =?utf-8?B?NnJUcFloNmxrTnJjMGNvclVoRkVVZURVZDZySllaMHZQdGN0Z29nOEFHT3Vz?=
+ =?utf-8?B?eWhHZ0Yyb254ekdGdmg5cE9FQm8rOUVuVldHOVJvaFk5Q1RZUHl5VmdZR2pP?=
+ =?utf-8?B?VFNwR1lVYXVMSFdFS0J0Zkp1NXJXQnhWbXFEejBiZUViVUJyRkVIcURodjMv?=
+ =?utf-8?B?MG5Ea09namFDQWdYL1R2ZGUzekJDbVRKR1JzTmZQM3ZZZU5HOVYrTzhuTjdr?=
+ =?utf-8?B?bXZuaW1WSDZUWjlyc1M0SmQyOW4vNnA5bmVIcUR4VFlQQ1NRV3N3N29qcCt6?=
+ =?utf-8?B?VW9FUkVVTTh4Sit3SlFQckJyM1kyZ3dmdjNCMkxabUc5OHh4RlBGSGFuQVc0?=
+ =?utf-8?B?UTJIMVR3QXhGZ1VDRWNveVk1UjVmQ3hXU3pkNFg5ZWQyU0NyKysvZ3pJb2lV?=
+ =?utf-8?B?TGc9PQ==?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8ab22149-e855-43c9-8b4c-08dab0113526
+X-MS-Exchange-CrossTenant-Network-Message-Id: 39236878-a793-4c63-4737-08dab0113588
 X-MS-Exchange-CrossTenant-AuthSource: AS8PR08MB7095.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2022 07:28:38.0716 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2022 07:28:38.7121 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6LWIRYraY8sJ0sOhEfL8v1RzY1u+dFUSczK0YonltkSUJMAYNKyhNxVtRD998X0eaIKj6nuYUogV/zPl3jo3OMPj6LKnWNrmEeAXgFJBkIY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB8286
-Received-SPF: pass client-ip=40.107.20.129;
+X-MS-Exchange-CrossTenant-UserPrincipalName: q7CHP29i89bXR3yFn/aU94WiYXOyDQVxpiUXpBm0xeS/AHD7z94XsUbhswMfZZjx+0bNeB3wVITpBv/a+OFH6kBRr6YEhKuHus+QSbLOApI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6710
+Received-SPF: pass client-ip=2a01:111:f400:fe0e::71a;
  envelope-from=alexander.ivanov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -147,267 +147,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the next patches we are going to add FreeBSD support for QEMU Guest
-Agent. In the result, code in commands-posix.c will be too cumbersome.
+UFS supports FS freezing through ioctl UFSSUSPEND on /dev/ufssuspend.
+Frozen FS can be thawed by closing /dev/ufssuspend file descriptior.
 
-Move Linux-specific FS freeze/thaw code to a separate file commands-linux.c
-keeping common POSIX code in commands-posix.c.
+Use getmntinfo to get a list of mounted FS.
 
 Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 ---
- qga/commands-common.h |  34 +++++
- qga/commands-linux.c  | 286 +++++++++++++++++++++++++++++++++++++++++
- qga/commands-posix.c  | 287 +++---------------------------------------
+ qga/commands-bsd.c    | 169 +++++++++++++++++++++++
+ qga/commands-common.h |  11 ++
+ qga/commands-posix.c  | 308 ++++++++++++++++++++----------------------
+ qga/main.c            |   7 +-
  qga/meson.build       |   3 +
- 4 files changed, 338 insertions(+), 272 deletions(-)
- create mode 100644 qga/commands-linux.c
+ 5 files changed, 334 insertions(+), 164 deletions(-)
+ create mode 100644 qga/commands-bsd.c
 
-diff --git a/qga/commands-common.h b/qga/commands-common.h
-index d0e4a9696f..cb51b1c6e9 100644
---- a/qga/commands-common.h
-+++ b/qga/commands-common.h
-@@ -10,6 +10,40 @@
- #define QGA_COMMANDS_COMMON_H
- 
- #include "qga-qapi-types.h"
-+#include "guest-agent-core.h"
-+#include "qemu/queue.h"
-+
-+#if defined(__linux__)
-+#include <linux/fs.h>
-+#ifdef FIFREEZE
-+#define CONFIG_FSFREEZE
-+#endif
-+#ifdef FITRIM
-+#define CONFIG_FSTRIM
-+#endif
-+#endif /* __linux__ */
-+
-+#if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)
-+typedef struct FsMount {
-+    char *dirname;
-+    char *devtype;
-+    unsigned int devmajor, devminor;
-+    QTAILQ_ENTRY(FsMount) next;
-+} FsMount;
-+
-+typedef QTAILQ_HEAD(FsMountList, FsMount) FsMountList;
-+
-+bool build_fs_mount_list(FsMountList *mounts, Error **errp);
-+void free_fs_mount_list(FsMountList *mounts);
-+#endif /* CONFIG_FSFREEZE || CONFIG_FSTRIM */
-+
-+#if defined(CONFIG_FSFREEZE)
-+int64_t qmp_guest_fsfreeze_do_freeze_list(bool has_mountpoints,
-+                                          strList *mountpoints,
-+                                          FsMountList mounts,
-+                                          Error **errp);
-+int qmp_guest_fsfreeze_do_thaw(Error **errp);
-+#endif /* CONFIG_FSFREEZE */
- 
- typedef struct GuestFileHandle GuestFileHandle;
- 
-diff --git a/qga/commands-linux.c b/qga/commands-linux.c
+diff --git a/qga/commands-bsd.c b/qga/commands-bsd.c
 new file mode 100644
-index 0000000000..214e408fcd
+index 0000000000..ca06692179
 --- /dev/null
-+++ b/qga/commands-linux.c
-@@ -0,0 +1,286 @@
++++ b/qga/commands-bsd.c
+@@ -0,0 +1,169 @@
 +/*
-+ * QEMU Guest Agent Linux-specific command implementations
++ * QEMU Guest Agent BSD-specific command implementations
 + *
-+ * Copyright IBM Corp. 2011
++ * Copyright (c) Virtuozzo International GmbH.
 + *
 + * Authors:
-+ *  Michael Roth      <mdroth@linux.vnet.ibm.com>
-+ *  Michal Privoznik  <mprivozn@redhat.com>
++ *  Alexander Ivanov  <alexander.ivanov@virtuozzo.com>
 + *
 + * This work is licensed under the terms of the GNU GPL, version 2 or later.
 + * See the COPYING file in the top-level directory.
 + */
 +
 +#include "qemu/osdep.h"
++#include "qga-qapi-commands.h"
++#include "qapi/qmp/qerror.h"
 +#include "qapi/error.h"
++#include "qemu/queue.h"
 +#include "commands-common.h"
-+#include "cutils.h"
-+#include <mntent.h>
 +#include <sys/ioctl.h>
++#include <sys/param.h>
++#include <sys/ucred.h>
++#include <sys/mount.h>
++#include <paths.h>
 +
 +#if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)
-+static int dev_major_minor(const char *devpath,
-+                           unsigned int *devmajor, unsigned int *devminor)
-+{
-+    struct stat st;
-+
-+    *devmajor = 0;
-+    *devminor = 0;
-+
-+    if (stat(devpath, &st) < 0) {
-+        slog("failed to stat device file '%s': %s", devpath, strerror(errno));
-+        return -1;
-+    }
-+    if (S_ISDIR(st.st_mode)) {
-+        /* It is bind mount */
-+        return -2;
-+    }
-+    if (S_ISBLK(st.st_mode)) {
-+        *devmajor = major(st.st_rdev);
-+        *devminor = minor(st.st_rdev);
-+        return 0;
-+    }
-+    return -1;
-+}
-+
-+static bool build_fs_mount_list_from_mtab(FsMountList *mounts, Error **errp)
-+{
-+    struct mntent *ment;
-+    FsMount *mount;
-+    char const *mtab = "/proc/self/mounts";
-+    FILE *fp;
-+    unsigned int devmajor, devminor;
-+
-+    fp = setmntent(mtab, "r");
-+    if (!fp) {
-+        error_setg(errp, "failed to open mtab file: '%s'", mtab);
-+        return false;
-+    }
-+
-+    while ((ment = getmntent(fp))) {
-+        /*
-+         * An entry which device name doesn't start with a '/' is
-+         * either a dummy file system or a network file system.
-+         * Add special handling for smbfs and cifs as is done by
-+         * coreutils as well.
-+         */
-+        if ((ment->mnt_fsname[0] != '/') ||
-+            (strcmp(ment->mnt_type, "smbfs") == 0) ||
-+            (strcmp(ment->mnt_type, "cifs") == 0)) {
-+            continue;
-+        }
-+        if (dev_major_minor(ment->mnt_fsname, &devmajor, &devminor) == -2) {
-+            /* Skip bind mounts */
-+            continue;
-+        }
-+
-+        mount = g_new0(FsMount, 1);
-+        mount->dirname = g_strdup(ment->mnt_dir);
-+        mount->devtype = g_strdup(ment->mnt_type);
-+        mount->devmajor = devmajor;
-+        mount->devminor = devminor;
-+
-+        QTAILQ_INSERT_TAIL(mounts, mount, next);
-+    }
-+
-+    endmntent(fp);
-+    return true;
-+}
-+
-+static void decode_mntname(char *name, int len)
-+{
-+    int i, j = 0;
-+    for (i = 0; i <= len; i++) {
-+        if (name[i] != '\\') {
-+            name[j++] = name[i];
-+        } else if (name[i + 1] == '\\') {
-+            name[j++] = '\\';
-+            i++;
-+        } else if (name[i + 1] >= '0' && name[i + 1] <= '3' &&
-+                   name[i + 2] >= '0' && name[i + 2] <= '7' &&
-+                   name[i + 3] >= '0' && name[i + 3] <= '7') {
-+            name[j++] = (name[i + 1] - '0') * 64 +
-+                        (name[i + 2] - '0') * 8 +
-+                        (name[i + 3] - '0');
-+            i += 3;
-+        } else {
-+            name[j++] = name[i];
-+        }
-+    }
-+}
-+
-+/*
-+ * Walk the mount table and build a list of local file systems
-+ */
 +bool build_fs_mount_list(FsMountList *mounts, Error **errp)
 +{
 +    FsMount *mount;
-+    char const *mountinfo = "/proc/self/mountinfo";
-+    FILE *fp;
-+    char *line = NULL, *dash;
-+    size_t n;
-+    char check;
-+    unsigned int devmajor, devminor;
-+    int ret, dir_s, dir_e, type_s, type_e, dev_s, dev_e;
++    struct statfs *mntbuf, *mntp;
++    struct stat statbuf;
++    int i, count, ret;
 +
-+    fp = fopen(mountinfo, "r");
-+    if (!fp) {
-+        return build_fs_mount_list_from_mtab(mounts, errp);
++    count = getmntinfo(&mntbuf, MNT_NOWAIT);
++    if (count == 0) {
++        error_setg_errno(errp, errno, "getmntinfo failed");
++        return false;
 +    }
 +
-+    while (getline(&line, &n, fp) != -1) {
-+        ret = sscanf(line, "%*u %*u %u:%u %*s %n%*s%n%c",
-+                     &devmajor, &devminor, &dir_s, &dir_e, &check);
-+        if (ret < 3) {
-+            continue;
-+        }
-+        dash = strstr(line + dir_e, " - ");
-+        if (!dash) {
-+            continue;
-+        }
-+        ret = sscanf(dash, " - %n%*s%n %n%*s%n%c",
-+                     &type_s, &type_e, &dev_s, &dev_e, &check);
-+        if (ret < 1) {
-+            continue;
-+        }
-+        line[dir_e] = 0;
-+        dash[type_e] = 0;
-+        dash[dev_e] = 0;
-+        decode_mntname(line + dir_s, dir_e - dir_s);
-+        decode_mntname(dash + dev_s, dev_e - dev_s);
-+        if (devmajor == 0) {
-+            /* btrfs reports major number = 0 */
-+            if (strcmp("btrfs", dash + type_s) != 0 ||
-+                dev_major_minor(dash + dev_s, &devmajor, &devminor) < 0) {
-+                continue;
-+            }
++    for (i = 0; i < count; i++) {
++        mntp = &mntbuf[i];
++        ret = stat(mntp->f_mntonname, &statbuf);
++        if (ret != 0) {
++            error_setg_errno(errp, errno, "stat failed on %s",
++                             mntp->f_mntonname);
++            return false;
 +        }
 +
 +        mount = g_new0(FsMount, 1);
-+        mount->dirname = g_strdup(line + dir_s);
-+        mount->devtype = g_strdup(dash + type_s);
-+        mount->devmajor = devmajor;
-+        mount->devminor = devminor;
++
++        mount->dirname = g_strdup(mntp->f_mntonname);
++        mount->devtype = g_strdup(mntp->f_fstypename);
++        mount->devmajor = major(mount->dev);
++        mount->devminor = minor(mount->dev);
++        mount->fsid = mntp->f_fsid;
++        mount->dev = statbuf.st_dev;
 +
 +        QTAILQ_INSERT_TAIL(mounts, mount, next);
 +    }
-+    free(line);
-+
-+    fclose(fp);
 +    return true;
 +}
 +#endif /* CONFIG_FSFREEZE || CONFIG_FSTRIM */
 +
-+#ifdef CONFIG_FSFREEZE
-+/*
-+ * Walk list of mounted file systems in the guest, and freeze the ones which
-+ * are real local file systems.
-+ */
++#if defined(CONFIG_FSFREEZE)
++static int ufssuspend_fd = -1;
++static int ufssuspend_cnt;
++
 +int64_t qmp_guest_fsfreeze_do_freeze_list(bool has_mountpoints,
 +                                          strList *mountpoints,
 +                                          FsMountList mounts,
 +                                          Error **errp)
 +{
-+    struct FsMount *mount;
++    int ret;
 +    strList *list;
-+    int fd, ret, i = 0;
++    struct FsMount *mount;
++
++    if (ufssuspend_fd != -1) {
++        error_setg(errp, "filesystems have already frozen");
++        return -1;
++    }
++
++    ufssuspend_cnt = 0;
++    ufssuspend_fd = qemu_open(_PATH_UFSSUSPEND, O_RDWR, errp);
++    if (ufssuspend_fd == -1) {
++        return -1;
++    }
 +
 +    QTAILQ_FOREACH_REVERSE(mount, &mounts, next) {
-+        /* To issue fsfreeze in the reverse order of mounts, check if the
-+         * mount is listed in the list here */
++        /*
++         * To issue fsfreeze in the reverse order of mounts, check if the
++         * mount is listed in the list here
++         */
 +        if (has_mountpoints) {
 +            for (list = mountpoints; list; list = list->next) {
-+                if (strcmp(list->value, mount->dirname) == 0) {
++                if (g_str_equal(list->value, mount->dirname)) {
 +                    break;
 +                }
 +            }
@@ -416,47 +272,232 @@ index 0000000000..214e408fcd
 +            }
 +        }
 +
-+        fd = qga_open_cloexec(mount->dirname, O_RDONLY, 0);
-+        if (fd == -1) {
-+            error_setg_errno(errp, errno, "failed to open %s", mount->dirname);
-+            return -1;
++        /* Only UFS supports suspend */
++        if (!g_str_equal(mount->devtype, "ufs")) {
++            continue;
 +        }
 +
-+        /* we try to cull filesystems we know won't work in advance, but other
-+         * filesystems may not implement fsfreeze for less obvious reasons.
-+         * these will report EOPNOTSUPP. we simply ignore these when tallying
-+         * the number of frozen filesystems.
-+         * if a filesystem is mounted more than once (aka bind mount) a
-+         * consecutive attempt to freeze an already frozen filesystem will
-+         * return EBUSY.
-+         *
-+         * any other error means a failure to freeze a filesystem we
-+         * expect to be freezable, so return an error in those cases
-+         * and return system to thawed state.
-+         */
-+        ret = ioctl(fd, FIFREEZE);
++        ret = ioctl(ufssuspend_fd, UFSSUSPEND, &mount->fsid);
 +        if (ret == -1) {
-+            if (errno != EOPNOTSUPP && errno != EBUSY) {
-+                error_setg_errno(errp, errno, "failed to freeze %s",
-+                                 mount->dirname);
-+                close(fd);
-+                return -1;
++            /*
++             * ioctl returns EBUSY for all the FS except the first one
++             * that was suspended
++             */
++            if (errno == EBUSY) {
++                continue;
 +            }
-+        } else {
-+            i++;
++            error_setg_errno(errp, errno, "failed to freeze %s",
++                             mount->dirname);
++            goto error;
 +        }
-+        close(fd);
++        ufssuspend_cnt++;
 +    }
-+    return i;
++    return ufssuspend_cnt;
++error:
++    close(ufssuspend_fd);
++    ufssuspend_fd = -1;
++    return -1;
++
 +}
 +
++/*
++ * We don't need to call UFSRESUME ioctl because all the frozen FS
++ * are thawed on /dev/ufssuspend closing.
++ */
 +int qmp_guest_fsfreeze_do_thaw(Error **errp)
++{
++    int ret = ufssuspend_cnt;
++    ufssuspend_cnt = 0;
++    if (ufssuspend_fd != -1) {
++        close(ufssuspend_fd);
++        ufssuspend_fd = -1;
++    }
++    return ret;
++}
++
++GuestFilesystemInfoList *qmp_guest_get_fsinfo(Error **errp)
++{
++    error_setg(errp, QERR_UNSUPPORTED);
++    return NULL;
++}
++
++GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
++{
++    error_setg(errp, QERR_UNSUPPORTED);
++    return NULL;
++}
++
++GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
++{
++    error_setg(errp, QERR_UNSUPPORTED);
++    return NULL;
++}
++
++GuestCpuStatsList *qmp_guest_get_cpustats(Error **errp)
++{
++    error_setg(errp, QERR_UNSUPPORTED);
++    return NULL;
++}
++#endif /* CONFIG_FSFREEZE */
+diff --git a/qga/commands-common.h b/qga/commands-common.h
+index cb51b1c6e9..d0583c6ddb 100644
+--- a/qga/commands-common.h
++++ b/qga/commands-common.h
+@@ -23,11 +23,22 @@
+ #endif
+ #endif /* __linux__ */
+ 
++#ifdef __FreeBSD__
++#include <ufs/ffs/fs.h>
++#ifdef UFSSUSPEND
++#define CONFIG_FSFREEZE
++#endif
++#endif /* __FreeBSD__ */
++
+ #if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)
+ typedef struct FsMount {
+     char *dirname;
+     char *devtype;
+     unsigned int devmajor, devminor;
++#if defined(__FreeBSD__)
++    dev_t dev;
++    fsid_t fsid;
++#endif
+     QTAILQ_ENTRY(FsMount) next;
+ } FsMount;
+ 
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index d24f2fafd8..6875ea8888 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -33,20 +33,12 @@
+ 
+ #if defined(__linux__)
+ #include <mntent.h>
+-#include <linux/fs.h>
+ #include <sys/statvfs.h>
+ #include <linux/nvme_ioctl.h>
+ 
+ #ifdef CONFIG_LIBUDEV
+ #include <libudev.h>
+ #endif
+-
+-#ifdef FIFREEZE
+-#define CONFIG_FSFREEZE
+-#endif
+-#ifdef FITRIM
+-#define CONFIG_FSTRIM
+-#endif
+ #endif
+ 
+ #ifdef __FreeBSD__
+@@ -623,9 +615,6 @@ void qmp_guest_file_flush(int64_t handle, Error **errp)
+     }
+ }
+ 
+-/* linux-specific implementations. avoid this if at all possible. */
+-#if defined(__linux__)
+-
+ #if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)
+ void free_fs_mount_list(FsMountList *mounts)
+ {
+@@ -644,6 +633,156 @@ void free_fs_mount_list(FsMountList *mounts)
+ }
+ #endif
+ 
++#if defined(CONFIG_FSFREEZE)
++typedef enum {
++    FSFREEZE_HOOK_THAW = 0,
++    FSFREEZE_HOOK_FREEZE,
++} FsfreezeHookArg;
++
++static const char *fsfreeze_hook_arg_string[] = {
++    "thaw",
++    "freeze",
++};
++
++static void execute_fsfreeze_hook(FsfreezeHookArg arg, Error **errp)
++{
++    int status;
++    pid_t pid;
++    const char *hook;
++    const char *arg_str = fsfreeze_hook_arg_string[arg];
++    Error *local_err = NULL;
++
++    hook = ga_fsfreeze_hook(ga_state);
++    if (!hook) {
++        return;
++    }
++    if (access(hook, X_OK) != 0) {
++        error_setg_errno(errp, errno, "can't access fsfreeze hook '%s'", hook);
++        return;
++    }
++
++    slog("executing fsfreeze hook with arg '%s'", arg_str);
++    pid = fork();
++    if (pid == 0) {
++        setsid();
++        reopen_fd_to_null(0);
++        reopen_fd_to_null(1);
++        reopen_fd_to_null(2);
++
++        execl(hook, hook, arg_str, NULL);
++        _exit(EXIT_FAILURE);
++    } else if (pid < 0) {
++        error_setg_errno(errp, errno, "failed to create child process");
++        return;
++    }
++
++    ga_wait_child(pid, &status, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        return;
++    }
++
++    if (!WIFEXITED(status)) {
++        error_setg(errp, "fsfreeze hook has terminated abnormally");
++        return;
++    }
++
++    status = WEXITSTATUS(status);
++    if (status) {
++        error_setg(errp, "fsfreeze hook has failed with status %d", status);
++        return;
++    }
++}
++
++/*
++ * Return status of freeze/thaw
++ */
++GuestFsfreezeStatus qmp_guest_fsfreeze_status(Error **errp)
++{
++    if (ga_is_frozen(ga_state)) {
++        return GUEST_FSFREEZE_STATUS_FROZEN;
++    }
++
++    return GUEST_FSFREEZE_STATUS_THAWED;
++}
++
++int64_t qmp_guest_fsfreeze_freeze(Error **errp)
++{
++    return qmp_guest_fsfreeze_freeze_list(false, NULL, errp);
++}
++
++int64_t qmp_guest_fsfreeze_freeze_list(bool has_mountpoints,
++                                       strList *mountpoints,
++                                       Error **errp)
 +{
 +    int ret;
 +    FsMountList mounts;
-+    FsMount *mount;
-+    int fd, i = 0, logged;
 +    Error *local_err = NULL;
++
++    slog("guest-fsfreeze called");
++
++    execute_fsfreeze_hook(FSFREEZE_HOOK_FREEZE, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        return -1;
++    }
 +
 +    QTAILQ_INIT(&mounts);
 +    if (!build_fs_mount_list(&mounts, &local_err)) {
@@ -464,403 +505,241 @@ index 0000000000..214e408fcd
 +        return -1;
 +    }
 +
-+    QTAILQ_FOREACH(mount, &mounts, next) {
-+        logged = false;
-+        fd = qga_open_cloexec(mount->dirname, O_RDONLY, 0);
-+        if (fd == -1) {
-+            continue;
-+        }
-+        /* we have no way of knowing whether a filesystem was actually unfrozen
-+         * as a result of a successful call to FITHAW, only that if an error
-+         * was returned the filesystem was *not* unfrozen by that particular
-+         * call.
-+         *
-+         * since multiple preceding FIFREEZEs require multiple calls to FITHAW
-+         * to unfreeze, continuing issuing FITHAW until an error is returned,
-+         * in which case either the filesystem is in an unfreezable state, or,
-+         * more likely, it was thawed previously (and remains so afterward).
-+         *
-+         * also, since the most recent successful call is the one that did
-+         * the actual unfreeze, we can use this to provide an accurate count
-+         * of the number of filesystems unfrozen by guest-fsfreeze-thaw, which
-+         * may * be useful for determining whether a filesystem was unfrozen
-+         * during the freeze/thaw phase by a process other than qemu-ga.
-+         */
-+        do {
-+            ret = ioctl(fd, FITHAW);
-+            if (ret == 0 && !logged) {
-+                i++;
-+                logged = true;
-+            }
-+        } while (ret == 0);
-+        close(fd);
-+    }
++    /* cannot risk guest agent blocking itself on a write in this state */
++    ga_set_frozen(ga_state);
 +
-+    free_fs_mount_list(&mounts);
-+
-+    return i;
-+}
-+#endif /* CONFIG_FSFREEZE */
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 16d67e9f6d..d24f2fafd8 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -16,11 +16,9 @@
- #include <sys/utsname.h>
- #include <sys/wait.h>
- #include <dirent.h>
--#include "guest-agent-core.h"
- #include "qga-qapi-commands.h"
- #include "qapi/error.h"
- #include "qapi/qmp/qerror.h"
--#include "qemu/queue.h"
- #include "qemu/host-utils.h"
- #include "qemu/sockets.h"
- #include "qemu/base64.h"
-@@ -629,16 +627,7 @@ void qmp_guest_file_flush(int64_t handle, Error **errp)
- #if defined(__linux__)
- 
- #if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)
--typedef struct FsMount {
--    char *dirname;
--    char *devtype;
--    unsigned int devmajor, devminor;
--    QTAILQ_ENTRY(FsMount) next;
--} FsMount;
--
--typedef QTAILQ_HEAD(FsMountList, FsMount) FsMountList;
--
--static void free_fs_mount_list(FsMountList *mounts)
-+void free_fs_mount_list(FsMountList *mounts)
- {
-      FsMount *mount, *temp;
- 
-@@ -653,157 +642,6 @@ static void free_fs_mount_list(FsMountList *mounts)
-          g_free(mount);
-      }
- }
--
--static int dev_major_minor(const char *devpath,
--                           unsigned int *devmajor, unsigned int *devminor)
--{
--    struct stat st;
--
--    *devmajor = 0;
--    *devminor = 0;
--
--    if (stat(devpath, &st) < 0) {
--        slog("failed to stat device file '%s': %s", devpath, strerror(errno));
--        return -1;
--    }
--    if (S_ISDIR(st.st_mode)) {
--        /* It is bind mount */
--        return -2;
--    }
--    if (S_ISBLK(st.st_mode)) {
--        *devmajor = major(st.st_rdev);
--        *devminor = minor(st.st_rdev);
--        return 0;
--    }
--    return -1;
--}
--
--/*
-- * Walk the mount table and build a list of local file systems
-- */
--static bool build_fs_mount_list_from_mtab(FsMountList *mounts, Error **errp)
--{
--    struct mntent *ment;
--    FsMount *mount;
--    char const *mtab = "/proc/self/mounts";
--    FILE *fp;
--    unsigned int devmajor, devminor;
--
--    fp = setmntent(mtab, "r");
--    if (!fp) {
--        error_setg(errp, "failed to open mtab file: '%s'", mtab);
--        return false;
--    }
--
--    while ((ment = getmntent(fp))) {
--        /*
--         * An entry which device name doesn't start with a '/' is
--         * either a dummy file system or a network file system.
--         * Add special handling for smbfs and cifs as is done by
--         * coreutils as well.
--         */
--        if ((ment->mnt_fsname[0] != '/') ||
--            (strcmp(ment->mnt_type, "smbfs") == 0) ||
--            (strcmp(ment->mnt_type, "cifs") == 0)) {
--            continue;
--        }
--        if (dev_major_minor(ment->mnt_fsname, &devmajor, &devminor) == -2) {
--            /* Skip bind mounts */
--            continue;
--        }
--
--        mount = g_new0(FsMount, 1);
--        mount->dirname = g_strdup(ment->mnt_dir);
--        mount->devtype = g_strdup(ment->mnt_type);
--        mount->devmajor = devmajor;
--        mount->devminor = devminor;
--
--        QTAILQ_INSERT_TAIL(mounts, mount, next);
--    }
--
--    endmntent(fp);
--    return true;
--}
--
--static void decode_mntname(char *name, int len)
--{
--    int i, j = 0;
--    for (i = 0; i <= len; i++) {
--        if (name[i] != '\\') {
--            name[j++] = name[i];
--        } else if (name[i + 1] == '\\') {
--            name[j++] = '\\';
--            i++;
--        } else if (name[i + 1] >= '0' && name[i + 1] <= '3' &&
--                   name[i + 2] >= '0' && name[i + 2] <= '7' &&
--                   name[i + 3] >= '0' && name[i + 3] <= '7') {
--            name[j++] = (name[i + 1] - '0') * 64 +
--                        (name[i + 2] - '0') * 8 +
--                        (name[i + 3] - '0');
--            i += 3;
--        } else {
--            name[j++] = name[i];
--        }
--    }
--}
--
--static bool build_fs_mount_list(FsMountList *mounts, Error **errp)
--{
--    FsMount *mount;
--    char const *mountinfo = "/proc/self/mountinfo";
--    FILE *fp;
--    char *line = NULL, *dash;
--    size_t n;
--    char check;
--    unsigned int devmajor, devminor;
--    int ret, dir_s, dir_e, type_s, type_e, dev_s, dev_e;
--
--    fp = fopen(mountinfo, "r");
--    if (!fp) {
--        return build_fs_mount_list_from_mtab(mounts, errp);
--    }
--
--    while (getline(&line, &n, fp) != -1) {
--        ret = sscanf(line, "%*u %*u %u:%u %*s %n%*s%n%c",
--                     &devmajor, &devminor, &dir_s, &dir_e, &check);
--        if (ret < 3) {
--            continue;
--        }
--        dash = strstr(line + dir_e, " - ");
--        if (!dash) {
--            continue;
--        }
--        ret = sscanf(dash, " - %n%*s%n %n%*s%n%c",
--                     &type_s, &type_e, &dev_s, &dev_e, &check);
--        if (ret < 1) {
--            continue;
--        }
--        line[dir_e] = 0;
--        dash[type_e] = 0;
--        dash[dev_e] = 0;
--        decode_mntname(line + dir_s, dir_e - dir_s);
--        decode_mntname(dash + dev_s, dev_e - dev_s);
--        if (devmajor == 0) {
--            /* btrfs reports major number = 0 */
--            if (strcmp("btrfs", dash + type_s) != 0 ||
--                dev_major_minor(dash + dev_s, &devmajor, &devminor) < 0) {
--                continue;
--            }
--        }
--
--        mount = g_new0(FsMount, 1);
--        mount->dirname = g_strdup(line + dir_s);
--        mount->devtype = g_strdup(dash + type_s);
--        mount->devmajor = devmajor;
--        mount->devminor = devminor;
--
--        QTAILQ_INSERT_TAIL(mounts, mount, next);
--    }
--    free(line);
--
--    fclose(fp);
--    return true;
--}
- #endif
- 
- #if defined(CONFIG_FSFREEZE)
-@@ -1708,20 +1546,13 @@ int64_t qmp_guest_fsfreeze_freeze(Error **errp)
-     return qmp_guest_fsfreeze_freeze_list(false, NULL, errp);
- }
- 
--/*
-- * Walk list of mounted file systems in the guest, and freeze the ones which
-- * are real local file systems.
-- */
- int64_t qmp_guest_fsfreeze_freeze_list(bool has_mountpoints,
-                                        strList *mountpoints,
-                                        Error **errp)
- {
--    int ret = 0, i = 0;
--    strList *list;
-+    int ret;
-     FsMountList mounts;
--    struct FsMount *mount;
-     Error *local_err = NULL;
--    int fd;
- 
-     slog("guest-fsfreeze called");
- 
-@@ -1740,122 +1571,34 @@ int64_t qmp_guest_fsfreeze_freeze_list(bool has_mountpoints,
-     /* cannot risk guest agent blocking itself on a write in this state */
-     ga_set_frozen(ga_state);
- 
--    QTAILQ_FOREACH_REVERSE(mount, &mounts, next) {
--        /* To issue fsfreeze in the reverse order of mounts, check if the
--         * mount is listed in the list here */
--        if (has_mountpoints) {
--            for (list = mountpoints; list; list = list->next) {
--                if (strcmp(list->value, mount->dirname) == 0) {
--                    break;
--                }
--            }
--            if (!list) {
--                continue;
--            }
--        }
--
--        fd = qga_open_cloexec(mount->dirname, O_RDONLY, 0);
--        if (fd == -1) {
--            error_setg_errno(errp, errno, "failed to open %s", mount->dirname);
--            goto error;
--        }
--
--        /* we try to cull filesystems we know won't work in advance, but other
--         * filesystems may not implement fsfreeze for less obvious reasons.
--         * these will report EOPNOTSUPP. we simply ignore these when tallying
--         * the number of frozen filesystems.
--         * if a filesystem is mounted more than once (aka bind mount) a
--         * consecutive attempt to freeze an already frozen filesystem will
--         * return EBUSY.
--         *
--         * any other error means a failure to freeze a filesystem we
--         * expect to be freezable, so return an error in those cases
--         * and return system to thawed state.
--         */
--        ret = ioctl(fd, FIFREEZE);
--        if (ret == -1) {
--            if (errno != EOPNOTSUPP && errno != EBUSY) {
--                error_setg_errno(errp, errno, "failed to freeze %s",
--                                 mount->dirname);
--                close(fd);
--                goto error;
--            }
--        } else {
--            i++;
--        }
--        close(fd);
--    }
 +    ret = qmp_guest_fsfreeze_do_freeze_list(has_mountpoints, mountpoints,
 +                                            mounts, errp);
- 
-     free_fs_mount_list(&mounts);
-     /* We may not issue any FIFREEZE here.
-      * Just unset ga_state here and ready for the next call.
-      */
--    if (i == 0) {
++
++    free_fs_mount_list(&mounts);
++    /* We may not issue any FIFREEZE here.
++     * Just unset ga_state here and ready for the next call.
++     */
 +    if (ret == 0) {
-         ga_unset_frozen(ga_state);
++        ga_unset_frozen(ga_state);
 +    } else if (ret < 0) {
 +        qmp_guest_fsfreeze_thaw(NULL);
-     }
--    return i;
--
--error:
--    free_fs_mount_list(&mounts);
--    qmp_guest_fsfreeze_thaw(NULL);
--    return 0;
++    }
 +    return ret;
- }
- 
--/*
-- * Walk list of frozen file systems in the guest, and thaw them.
-- */
- int64_t qmp_guest_fsfreeze_thaw(Error **errp)
- {
-     int ret;
--    FsMountList mounts;
--    FsMount *mount;
--    int fd, i = 0, logged;
--    Error *local_err = NULL;
- 
--    QTAILQ_INIT(&mounts);
--    if (!build_fs_mount_list(&mounts, &local_err)) {
--        error_propagate(errp, local_err);
--        return 0;
++}
++
++int64_t qmp_guest_fsfreeze_thaw(Error **errp)
++{
++    int ret;
++
 +    ret = qmp_guest_fsfreeze_do_thaw(errp);
 +    if (ret >= 0) {
 +        ga_unset_frozen(ga_state);
 +        execute_fsfreeze_hook(FSFREEZE_HOOK_THAW, errp);
 +    } else {
 +        ret = 0;
-     }
++    }
++
++    return ret;
++}
++
++static void guest_fsfreeze_cleanup(void)
++{
++    Error *err = NULL;
++
++    if (ga_is_frozen(ga_state) == GUEST_FSFREEZE_STATUS_FROZEN) {
++        qmp_guest_fsfreeze_thaw(&err);
++        if (err) {
++            slog("failed to clean up frozen filesystems: %s",
++                 error_get_pretty(err));
++            error_free(err);
++        }
++    }
++}
++#endif
++
++/* linux-specific implementations. avoid this if at all possible. */
++#if defined(__linux__)
+ #if defined(CONFIG_FSFREEZE)
  
--    QTAILQ_FOREACH(mount, &mounts, next) {
--        logged = false;
--        fd = qga_open_cloexec(mount->dirname, O_RDONLY, 0);
--        if (fd == -1) {
--            continue;
--        }
--        /* we have no way of knowing whether a filesystem was actually unfrozen
--         * as a result of a successful call to FITHAW, only that if an error
--         * was returned the filesystem was *not* unfrozen by that particular
--         * call.
--         *
--         * since multiple preceding FIFREEZEs require multiple calls to FITHAW
--         * to unfreeze, continuing issuing FITHAW until an error is returned,
--         * in which case either the filesystem is in an unfreezable state, or,
--         * more likely, it was thawed previously (and remains so afterward).
--         *
--         * also, since the most recent successful call is the one that did
--         * the actual unfreeze, we can use this to provide an accurate count
--         * of the number of filesystems unfrozen by guest-fsfreeze-thaw, which
--         * may * be useful for determining whether a filesystem was unfrozen
--         * during the freeze/thaw phase by a process other than qemu-ga.
--         */
--        do {
--            ret = ioctl(fd, FITHAW);
--            if (ret == 0 && !logged) {
--                i++;
--                logged = true;
--            }
--        } while (ret == 0);
--        close(fd);
+ static char *get_pci_driver(char const *syspath, int pathlen, Error **errp)
+@@ -1467,153 +1606,6 @@ GuestFilesystemInfoList *qmp_guest_get_fsinfo(Error **errp)
+     free_fs_mount_list(&mounts);
+     return ret;
+ }
+-
+-
+-typedef enum {
+-    FSFREEZE_HOOK_THAW = 0,
+-    FSFREEZE_HOOK_FREEZE,
+-} FsfreezeHookArg;
+-
+-static const char *fsfreeze_hook_arg_string[] = {
+-    "thaw",
+-    "freeze",
+-};
+-
+-static void execute_fsfreeze_hook(FsfreezeHookArg arg, Error **errp)
+-{
+-    int status;
+-    pid_t pid;
+-    const char *hook;
+-    const char *arg_str = fsfreeze_hook_arg_string[arg];
+-    Error *local_err = NULL;
+-
+-    hook = ga_fsfreeze_hook(ga_state);
+-    if (!hook) {
+-        return;
+-    }
+-    if (access(hook, X_OK) != 0) {
+-        error_setg_errno(errp, errno, "can't access fsfreeze hook '%s'", hook);
+-        return;
 -    }
 -
--    ga_unset_frozen(ga_state);
+-    slog("executing fsfreeze hook with arg '%s'", arg_str);
+-    pid = fork();
+-    if (pid == 0) {
+-        setsid();
+-        reopen_fd_to_null(0);
+-        reopen_fd_to_null(1);
+-        reopen_fd_to_null(2);
+-
+-        execl(hook, hook, arg_str, NULL);
+-        _exit(EXIT_FAILURE);
+-    } else if (pid < 0) {
+-        error_setg_errno(errp, errno, "failed to create child process");
+-        return;
+-    }
+-
+-    ga_wait_child(pid, &status, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
+-        return;
+-    }
+-
+-    if (!WIFEXITED(status)) {
+-        error_setg(errp, "fsfreeze hook has terminated abnormally");
+-        return;
+-    }
+-
+-    status = WEXITSTATUS(status);
+-    if (status) {
+-        error_setg(errp, "fsfreeze hook has failed with status %d", status);
+-        return;
+-    }
+-}
+-
+-/*
+- * Return status of freeze/thaw
+- */
+-GuestFsfreezeStatus qmp_guest_fsfreeze_status(Error **errp)
+-{
+-    if (ga_is_frozen(ga_state)) {
+-        return GUEST_FSFREEZE_STATUS_FROZEN;
+-    }
+-
+-    return GUEST_FSFREEZE_STATUS_THAWED;
+-}
+-
+-int64_t qmp_guest_fsfreeze_freeze(Error **errp)
+-{
+-    return qmp_guest_fsfreeze_freeze_list(false, NULL, errp);
+-}
+-
+-int64_t qmp_guest_fsfreeze_freeze_list(bool has_mountpoints,
+-                                       strList *mountpoints,
+-                                       Error **errp)
+-{
+-    int ret;
+-    FsMountList mounts;
+-    Error *local_err = NULL;
+-
+-    slog("guest-fsfreeze called");
+-
+-    execute_fsfreeze_hook(FSFREEZE_HOOK_FREEZE, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
+-        return -1;
+-    }
+-
+-    QTAILQ_INIT(&mounts);
+-    if (!build_fs_mount_list(&mounts, &local_err)) {
+-        error_propagate(errp, local_err);
+-        return -1;
+-    }
+-
+-    /* cannot risk guest agent blocking itself on a write in this state */
+-    ga_set_frozen(ga_state);
+-
+-    ret = qmp_guest_fsfreeze_do_freeze_list(has_mountpoints, mountpoints,
+-                                            mounts, errp);
+-
 -    free_fs_mount_list(&mounts);
+-    /* We may not issue any FIFREEZE here.
+-     * Just unset ga_state here and ready for the next call.
+-     */
+-    if (ret == 0) {
+-        ga_unset_frozen(ga_state);
+-    } else if (ret < 0) {
+-        qmp_guest_fsfreeze_thaw(NULL);
+-    }
+-    return ret;
+-}
 -
--    execute_fsfreeze_hook(FSFREEZE_HOOK_THAW, errp);
+-int64_t qmp_guest_fsfreeze_thaw(Error **errp)
+-{
+-    int ret;
 -
--    return i;
-+    return ret;
- }
+-    ret = qmp_guest_fsfreeze_do_thaw(errp);
+-    if (ret >= 0) {
+-        ga_unset_frozen(ga_state);
+-        execute_fsfreeze_hook(FSFREEZE_HOOK_THAW, errp);
+-    } else {
+-        ret = 0;
+-    }
+-
+-    return ret;
+-}
+-
+-static void guest_fsfreeze_cleanup(void)
+-{
+-    Error *err = NULL;
+-
+-    if (ga_is_frozen(ga_state) == GUEST_FSFREEZE_STATUS_FROZEN) {
+-        qmp_guest_fsfreeze_thaw(&err);
+-        if (err) {
+-            slog("failed to clean up frozen filesystems: %s",
+-                 error_get_pretty(err));
+-            error_free(err);
+-        }
+-    }
+-}
+ #endif /* CONFIG_FSFREEZE */
  
- static void guest_fsfreeze_cleanup(void)
+ #if defined(CONFIG_FSTRIM)
+diff --git a/qga/main.c b/qga/main.c
+index 0d27c97d38..b3580508fa 100644
+--- a/qga/main.c
++++ b/qga/main.c
+@@ -37,12 +37,7 @@
+ #include "qga/service-win32.h"
+ #include "qga/vss-win32.h"
+ #endif
+-#ifdef __linux__
+-#include <linux/fs.h>
+-#ifdef FIFREEZE
+-#define CONFIG_FSFREEZE
+-#endif
+-#endif
++#include "commands-common.h"
+ 
+ #ifndef _WIN32
+ #ifdef __FreeBSD__
 diff --git a/qga/meson.build b/qga/meson.build
-index a0ffd6d268..932b4e7ca8 100644
+index 932b4e7ca8..3cfb9166e5 100644
 --- a/qga/meson.build
 +++ b/qga/meson.build
-@@ -72,6 +72,9 @@ qga_ss.add(when: 'CONFIG_POSIX', if_true: files(
-   'commands-posix.c',
-   'commands-posix-ssh.c',
+@@ -75,6 +75,9 @@ qga_ss.add(when: 'CONFIG_POSIX', if_true: files(
+ qga_ss.add(when: 'CONFIG_LINUX', if_true: files(
+   'commands-linux.c',
  ))
-+qga_ss.add(when: 'CONFIG_LINUX', if_true: files(
-+  'commands-linux.c',
++qga_ss.add(when: 'CONFIG_BSD', if_true: files(
++  'commands-bsd.c',
 +))
  qga_ss.add(when: 'CONFIG_WIN32', if_true: files(
    'channel-win32.c',
