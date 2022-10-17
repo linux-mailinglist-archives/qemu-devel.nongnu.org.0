@@ -2,80 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C3AD601291
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 17:15:14 +0200 (CEST)
-Received: from localhost ([::1]:54456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1E1D6012AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 17:23:52 +0200 (CEST)
+Received: from localhost ([::1]:58346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okRph-0005cw-2W
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 11:15:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41040)
+	id 1okRy3-0008Sw-2d
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 11:23:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1okRnx-0003Jo-Cc
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 11:13:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28033)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1okRvc-0006hU-AR
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 11:21:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54232)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1okRnv-0003tA-2e
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 11:13:24 -0400
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1okRvZ-0005Ey-Bu
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 11:21:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666019599;
+ s=mimecast20190719; t=1666020071;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m358YSRLfTXccSS3APayaPBcT5r2prWVFSxDHkdfJW0=;
- b=SacdGP2BQGrsLFxd2F6XEeL2bOknJ76AL4NoJwOWtmkl/vlCBHbwByBFLjyV18fEYQTEZb
- F9snvJac/hFovwm96EgCwlSh3dThpoKE+TS8D4gof3Sn78Ofg8mIhJegGqpgXqIfAQn8Am
- LV1hBtmtC5sDmSMuegTuXkKou87rfDA=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=for7iQB1PGtbIUW0+HjjHWIA4Z9lpYnPXli5JtxSp0o=;
+ b=OSZcIhH+nZ4AsyX4nLvxZMlTOpPUncA+NWtJPYeN8Z+TLskrniO/3fiphlpaLUX/HjxR5X
+ QJ+S1aUSah1OxtkzRzm6Wg7UNcoxAnXPleOHSul7OQqHJVL5x2b+XH/MDL3jFrlDxLLa4O
+ h0TQd4kvb2/eKvH5OoOXWqRHBgy13O0=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-576-E-QeYIkPO_ur19JyUIUqkw-1; Mon, 17 Oct 2022 11:13:17 -0400
-X-MC-Unique: E-QeYIkPO_ur19JyUIUqkw-1
-Received: by mail-qk1-f199.google.com with SMTP id
- x22-20020a05620a259600b006b552a69231so9788531qko.18
- for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 08:13:17 -0700 (PDT)
+ us-mta-86-8vDCLXI2MSegI1_S_l7swA-1; Mon, 17 Oct 2022 11:21:10 -0400
+X-MC-Unique: 8vDCLXI2MSegI1_S_l7swA-1
+Received: by mail-il1-f197.google.com with SMTP id
+ f15-20020a056e020b4f00b002fa34db70f0so9170330ilu.2
+ for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 08:21:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=m358YSRLfTXccSS3APayaPBcT5r2prWVFSxDHkdfJW0=;
- b=7QNz4T4WrprS7xC6bu5GQTETaHqapVy+NJU3ZuGvKZsScR1brCmnG6vsGMooJcV7c7
- 2RoRkipzYW9L2r4fm9Q2DQQArd1GTfk+I+0PnRbEmw+ShocMVxRuafm48xM0/ONYudXm
- 8YN+MoZ1C5cnqvxHw2+2P7h99uI+ZGmerPRIteN2MQIBCvNIbBR+5W6AyPPdvpzRO2tn
- pIUyEj6quKENlqW99u7y5IxKUcckyE2nfVcAbRPoRwXstgCbxrF1nNUNI0fIsVUGZpeb
- Mhp7hPPUzQXfIACmLHnmsF9QzY7U0PEzFYkZb60JX4Kyb9NRfyRXkKvbpLmskb2Afwig
- 03ng==
-X-Gm-Message-State: ACrzQf19SEuio7EedU41L2Q/xoINkqUWN5yqqHrIz1yhrX/D/IUmB0Rq
- p+baT3S5UcfUPhhb6WvvZv/3x2iDw3o0oLgUjdI+MfswRhkuYKQ1yKtQDi3bMyRA9/BDnp/8XIh
- Qmzc/aXcd3H6WKP4=
-X-Received: by 2002:ac8:7c55:0:b0:39c:e345:9cc6 with SMTP id
- o21-20020ac87c55000000b0039ce3459cc6mr8161643qtv.679.1666019597378; 
- Mon, 17 Oct 2022 08:13:17 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6cmW5GiP568kEA8NlxJu4HP3+vhC1CHdBKpI1GaHRHkMpeVdssW8ulYRGsD3P6a3conTFlwA==
-X-Received: by 2002:ac8:7c55:0:b0:39c:e345:9cc6 with SMTP id
- o21-20020ac87c55000000b0039ce3459cc6mr8161625qtv.679.1666019597154; 
- Mon, 17 Oct 2022 08:13:17 -0700 (PDT)
-Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
- [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
- f11-20020a05620a408b00b006eeb51bb33dsm15053qko.78.2022.10.17.08.13.16
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=for7iQB1PGtbIUW0+HjjHWIA4Z9lpYnPXli5JtxSp0o=;
+ b=i57ZnwXBMdCXRRSyhOQs6JBsAz9EkKcIwPNaKO3qx1rgx1KqDCQQdX1O5TCyT2NTZE
+ TDDAZ6H13PLz/4uk7PW8sYIhgUzG98hqGJV80vqXGOiC1MbtW378befUtjHLFJBLKncC
+ nz06OqASuuhuhVN8tPeisFKHkQZNDpO6AjA6N47QRYziPmZr/qwpOhI3nZmyI6NFQ348
+ uF/aJ9aKry/N0NVYNugQzZVxdyGgqbM2U+I+iN9EIZ1vYkZrtyaKfi3wI8y8fvoRj5SP
+ dyq7tmiBAYuEQHKXlpOwyAIYh4ZEplVojefLuUd/0oxwpyaBZ0BPeQ0onOZO4Tak4xcg
+ 4IQg==
+X-Gm-Message-State: ACrzQf2xnkgMHI44M4/x6AS3YpMe7aDO84FH9ITbhrhPhL61nxZXwsMZ
+ 2YlB+kIQNKCl4KvlwjSP1PsWqhB/78XjdZ2ALkKb3Mpyt0uRhXTDCYaJXOInJLAGn/T5CJyx84a
+ oeqNMpgkb3YhfMaA=
+X-Received: by 2002:a92:c265:0:b0:2f9:ec63:2e3e with SMTP id
+ h5-20020a92c265000000b002f9ec632e3emr4963386ild.275.1666020069605; 
+ Mon, 17 Oct 2022 08:21:09 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7HNsoVlk+hWpcTzVPOZyr9nt1H7xM14yq7UobSMU+VJwkUnPhpoRDNSWZHosFeTAfCr98kfQ==
+X-Received: by 2002:a92:c265:0:b0:2f9:ec63:2e3e with SMTP id
+ h5-20020a92c265000000b002f9ec632e3emr4963367ild.275.1666020069333; 
+ Mon, 17 Oct 2022 08:21:09 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ g12-20020a056602072c00b006a514f67f38sm22081iox.28.2022.10.17.08.21.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Oct 2022 08:13:16 -0700 (PDT)
-Date: Mon, 17 Oct 2022 11:13:15 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Cc: mst@redhat.com, qemu-devel@nongnu.org, yi.l.liu@intel.com,
- yi.y.sun@linux.intel.com
-Subject: Re: [PATCH V3 4/4] intel-iommu: PASID support
-Message-ID: <Y01xC/44lITmJtpu@x1n>
-References: <20221009054835.1540-1-jasowang@redhat.com>
- <20221009054835.1540-5-jasowang@redhat.com> <Y0mLrAQDCj48jsJW@x1n>
- <CACGkMEt2c5jjEMJjpdRawi_L-rrgq3VWQ=DjQojFf1z6OPMLqQ@mail.gmail.com>
+ Mon, 17 Oct 2022 08:21:08 -0700 (PDT)
+Date: Mon, 17 Oct 2022 09:21:05 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Andrey Ryabinin <arbn@yandex-team.com>
+Cc: qemu-devel@nongnu.org, Steve Sistare <steven.sistare@oracle.com>,
+ yc-core@yandex-team.ru, Tony Krowiak <akrowiak@linux.ibm.com>, Halil Pasic
+ <pasic@linux.ibm.com>, Jason Herne <jjherne@linux.ibm.com>, Cornelia Huck
+ <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>, Eric Farman
+ <farman@linux.ibm.com>, Matthew Rosato <mjrosato@linux.ibm.com>, Paolo
+ Bonzini <pbonzini@redhat.com>, "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?="
+ <berrange@redhat.com>, Eduardo Habkost <eduardo@habkost.net>, Eric Blake
+ <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>, Cleber Rosa
+ <crosa@redhat.com>, Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?=
+ <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: Re: [PATCH 0/4] Allow to pass pre-created VFIO container/group to QEMU
+Message-ID: <20221017092105.0476385c.alex.williamson@redhat.com>
+In-Reply-To: <20221017105407.3858-1-arbn@yandex-team.com>
+References: <20221017105407.3858-1-arbn@yandex-team.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CACGkMEt2c5jjEMJjpdRawi_L-rrgq3VWQ=DjQojFf1z6OPMLqQ@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -99,52 +110,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 17, 2022 at 03:52:46PM +0800, Jason Wang wrote:
+On Mon, 17 Oct 2022 13:54:03 +0300
+Andrey Ryabinin <arbn@yandex-team.com> wrote:
 
-[...]
-
-> > > +struct vtd_iotlb_key {
-> > > +    uint16_t sid;
-> > > +    uint32_t pasid;
-> > > +    uint64_t gfn;
-> > > +    uint32_t level;
-> > >  };
-> >
-> > Nit: maybe re-arrange it a bit?
-> >
-> >    struct vtd_iotlb_key {
-> >        uint64_t gfn;
-> >        uint32_t pasid;
-> >        uint32_t level;
-> >        uint16_t sid;
-> >    } __attribute__((__packed__));
-> >
-> > "packed" should save us 6 bytes for each in this case, maybe also
-> > worthwhile but not strongly as we have a limit of 1k objs.
+> These patches add possibility to pass VFIO device to QEMU using file
+> descriptors of VFIO container/group, instead of creating those by QEMU.
+> This allows to take away permissions to open /dev/vfio/* from QEMU and
+> delegate that to managment layer like libvirt.
 > 
-> I think it should be fine to rearrange but for 'packed', would this
-> cause alignment issues that may cause troubles on some arches?
+> The VFIO API doen't allow to pass just fd of device, since we also need to have
+> VFIO container and group. So these patches allow to pass created VFIO container/group
+> to QEMU via command line/QMP, e.g. like this:
+>             -object vfio-container,id=ct,fd=5 \
+>             -object vfio-group,id=grp,fd=6,container=ct \
+>             -device vfio-pci,host=05:00.0,group=grp
 
-Do you mean the gfn reading can be split into 2 * 4 bytes?  Would that
-still work as long as we're protected with a lock when accessing iotlb
-(even though it may be slower than aligned access)?
+This suggests that management tools need to become intimately familiar
+with container and group association restrictions for implicit
+dependencies, such as device AddressSpace.  We had considered this
+before and intentionally chosen to allow QEMU to manage that
+relationship.  Things like PCI bus type and presence of a vIOMMU factor
+into these relationships.
 
-But at least I think you're right it's not always a benefit, so no strong
-opinion here to have it packed.
+In the above example, what happens in a mixed environment, for example
+if we then add '-device vfio-pci,host=06:00.0' to the command line?
+Isn't QEMU still going to try to re-use the container if it exists in
+the same address space?  Potentially this device could also be a member
+of the same group.  How would the management tool know when to expect
+the provided fds be released?
 
+We also have an outstanding RFC for iommufd that already proposes an fd
+passing interface, where iommufd removes many of the issues of the vfio
+container by supporting multiple address spaces within a single fd
+context, avoiding the duplicate locked page accounting issues between
+containers, and proposing a direct device fd interface for vfio.  Why at
+this point in time would we choose to expand the QEMU vfio interface in
+this way?  Thanks,
+
+Alex
+
+> A bit more detailed example can be found in the test:
+> tests/avocado/vfio.py
 > 
-> >
-> > The name "gfn" seems a bit unfortunate - would "iova" be more suitable?  I
-> > do see we used it elsewhere too, so we can also leave that for later.
+>  *Possible future steps*
 > 
-> Right, it has been used for VTDIOTLBEntry before this patch. If
-> possible I would leave it to be done on top with a separate patch.
-
-Definitely.
-
-Thanks,
-
--- 
-Peter Xu
+> Also these patches could be a step for making local migration (within one host)
+> of the QEMU with VFIO devices.
+> I've built some prototype on top of these patches to try such idea.
+> In short the scheme of such migration is following:
+>  - migrate source VM to file.
+>  - retrieve fd numbers of VFIO container/group/device via new property and qom-get command
+>  - get the actual file descriptor via SCM_RIGHTS using new qmp command 'returnfd' which
+>    sends fd from QEMU by the number: { 'command': 'returnfd', 'data': {'fd': 'int'}}
+>  - shutdown source VM
+>  - launch destination VM, plug VFIO devices using obtained file descriptors.
+>  - PCI device reset duriing plugging the device avoided with the help of new parameter
+>     on vfio-pci device.
+> This is alternative to 'cpr-exec' migration scheme proposed here:
+>    https://lore.kernel.org/qemu-devel/1658851843-236870-1-git-send-email-steven.sistare@oracle.com/
+> Unlike cpr-exec it doesn't require new kernel flags VFIO_DMA_UNMAP_FLAG_VADDR/VFIO_DMA_MAP_FLAG_VADDR
+> And doesn't require new migration mode, just some additional steps from management layer.
+> 
+> 
+> Andrey Ryabinin (4):
+>   vfio: add vfio-container user createable object
+>   vfio: add vfio-group user createable object
+>   vfio: Add 'group' property to 'vfio-pci' device
+>   tests/avocado/vfio: add test for vfio devices
+> 
+>  hw/vfio/ap.c                  |   2 +-
+>  hw/vfio/ccw.c                 |   2 +-
+>  hw/vfio/common.c              | 471 +++++++++++++++++++++++-----------
+>  hw/vfio/pci.c                 |  10 +-
+>  hw/vfio/platform.c            |   2 +-
+>  hw/vfio/trace-events          |   4 +-
+>  include/hw/vfio/vfio-common.h |  10 +-
+>  qapi/qom.json                 |  29 +++
+>  tests/avocado/vfio.py         | 156 +++++++++++
+>  9 files changed, 525 insertions(+), 161 deletions(-)
+>  create mode 100644 tests/avocado/vfio.py
+> 
 
 
