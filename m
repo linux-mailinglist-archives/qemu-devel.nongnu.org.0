@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7E98601808
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 21:49:19 +0200 (CEST)
-Received: from localhost ([::1]:49132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35DDC601820
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 21:56:15 +0200 (CEST)
+Received: from localhost ([::1]:57018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okW6w-0007Ko-R1
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 15:49:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34202)
+	id 1okWDe-0008Pe-3d
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 15:56:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1okVgX-0004vZ-F0; Mon, 17 Oct 2022 15:22:02 -0400
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:39898)
+ id 1okVga-0004zZ-7D; Mon, 17 Oct 2022 15:22:04 -0400
+Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31]:38811)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1okVgW-000346-1l; Mon, 17 Oct 2022 15:22:01 -0400
-Received: by mail-ot1-x332.google.com with SMTP id
- br15-20020a056830390f00b0061c9d73b8bdso6371963otb.6; 
- Mon, 17 Oct 2022 12:21:59 -0700 (PDT)
+ id 1okVgY-00032W-MU; Mon, 17 Oct 2022 15:22:03 -0400
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-1322d768ba7so14399963fac.5; 
+ Mon, 17 Oct 2022 12:22:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5FJeaKwncU3G1wudkKdG62ntI4+l0De0HVu2CViF7TA=;
- b=IVMgT1eqfqbzzUMEANVVLu7caEGkJI8/SDCOQZEvMg+qjRPjv6X+zOerMFR7R5+Wp+
- MQEGKfkLHRzpvq3l8wzP+jxIH+yBN4NvPA6ZhXi+ugDFUpBYVzpVdTVyRJrKn5fd7HZ3
- n7ahLQpgsdA/v2rRlaGcXCkukLhWVBB4lQ8SH7AvrFqYhNbJ+Do58NLajrCpGDbLMHl7
- hw6nsKcy9/BBJbzm6Q88UNSpsgHX/rwPQnCh43+pSH7/+GwB3WK67GdMeb6W4tjAuVXy
- BWzd8SJZ/1VpmGB+g3aSO+6wPAzmLu/eMAF33LInI7nu06/c95gNt3kaDJSvZPj6cuuy
- yo/Q==
+ bh=aFMFtM7kKT2i4qXvxZxwYogw4Xl5VgeswLzxx97oPqU=;
+ b=BeTuG7aW3vXCzprA/PiCaQaWvCelmhxI37omepGX4JkngCd4cqEzLoDI4TR9WnEwOd
+ pXGBnj4lBPRaw5dbIk78ofpTd3WUeIHqKJZbQqkiOPF9NHzU/uLCxqorBJfLQMJ3PtBG
+ tAu2J1sKQ9e4sEJs8khzoXP4g8HyJOmhYUGaG/Qc8xyLmSrtcueRc5/eW9ZEmm0veM8/
+ vIGMRveYLnfM5jfBBLa6tfSb6MnyK6cE3VngwdK0Uleg2GHYJiadPuLoS39ZO1DWkZOH
+ oC0NYV8K4GBrWo5LWELV0M1vvtJlkZnA9H4huJaY6FDYsEMve5fcbSJ/Q4FuMClvVeQU
+ Miaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5FJeaKwncU3G1wudkKdG62ntI4+l0De0HVu2CViF7TA=;
- b=Zlefc4BEg77JmzK2K1DKDpv70kE8owfaz5DeZK55sdILSRYB+/cCFsZCmwdRBn0KHG
- +vdhxj4xBZ4fY5RB+v7yoZETW3rNjH4BQKoc/SayEOtBpiymCX5AEEK5y5gpzUj2xtqT
- dZgJ5Ul8qNksUT1zU3qmD+dPBPwXPuXx7YdPpeHT+dypsuc9hcR8Qy9ikMtkKA3RyvYj
- wfXTuhNb9UFlgvJ8BYp1h/SitkCMXUI7BfUl9GsddJ7zzPho8XyXoym18p2oYPv56hOb
- iVv6Mt2kX+eL537Qc32axcylmOaUcqWd0djd+Dn41K+BgzofmxKmGhpOLrSN7nIFYLD5
- 6+LA==
-X-Gm-Message-State: ACrzQf2SS1qJOGX+Up5owf9D0Q9ix5mk2DWZAfrWA0XKh3kqF2OXIvkx
- ovf/lptvI+RuYBhbItk6v0SS/4l+Fhc=
-X-Google-Smtp-Source: AMsMyM5ItiLgJg/NBYBFlt/tIpYbjYy3x2hY8JUJsP1PD2ptkE8trkILR4VbxMmW091+g08aeqrGJA==
-X-Received: by 2002:a05:6830:33e1:b0:655:e771:f572 with SMTP id
- i1-20020a05683033e100b00655e771f572mr5889870otu.245.1666034518584; 
- Mon, 17 Oct 2022 12:21:58 -0700 (PDT)
+ bh=aFMFtM7kKT2i4qXvxZxwYogw4Xl5VgeswLzxx97oPqU=;
+ b=DGmcyu+o/laHvBP/4SwuUz7ivwl5jd8QbuH3snjHqMuzvASCILAvkGDqLLA8ctvV7B
+ lNcQxZNov29Hb5OnsIDOu2ONbIjwwswLpP8qTex95qqi+7ItJAZT9WY3xWgGU5umJZXG
+ EgEk0BMggB/1VSNb79LEmQYtVHGqGisYVXwrK4K+THWCKwt0mdPPqWwqi7+O1YzPwSqd
+ RnFJah0rLiQyYMc3J1zt/1M8kYhDtsZnxmQfOCkbLeaPZ84LmWWJu0evpJzyV9L47H6V
+ TJ5KyzlgDWxSJl8jfX+32x45mx5U/voRm+Rwylfr4NVcGL6PEcNoQL8UIJCu4jul/2Uv
+ JHFw==
+X-Gm-Message-State: ACrzQf1ZY6bpIBRcgfHbsQkUOQXxgvIuD7dWcbOt2otvQb25WMftkofy
+ C4+9baXz5yWDlT3F3sASv7vqX1tDHXQ=
+X-Google-Smtp-Source: AMsMyM6OfaxoA48LWmj2CMiSGSdpa8IFlkA31uiwA71uF1uQhhTDizZ0TrYzc8nrnSwWL0ZlYhmalQ==
+X-Received: by 2002:a05:6871:a6:b0:12b:8d8d:d7b with SMTP id
+ u38-20020a05687100a600b0012b8d8d0d7bmr16453395oaa.197.1666034521524; 
+ Mon, 17 Oct 2022 12:22:01 -0700 (PDT)
 Received: from balboa.COMFAST ([179.111.38.2])
  by smtp.gmail.com with ESMTPSA id
- n132-20020aca408a000000b00342eade43d4sm4648005oia.13.2022.10.17.12.21.55
+ n132-20020aca408a000000b00342eade43d4sm4648005oia.13.2022.10.17.12.21.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Oct 2022 12:21:58 -0700 (PDT)
+ Mon, 17 Oct 2022 12:22:01 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 37/38] hw/riscv: set machine->fdt in sifive_u_machine_init()
-Date: Mon, 17 Oct 2022 16:20:08 -0300
-Message-Id: <20221017192009.92404-38-danielhb413@gmail.com>
+Subject: [PULL 38/38] hw/riscv: set machine->fdt in spike_board_init()
+Date: Mon, 17 Oct 2022 16:20:09 -0300
+Message-Id: <20221017192009.92404-39-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221017192009.92404-1-danielhb413@gmail.com>
 References: <20221017192009.92404-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x332.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::31;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x31.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -96,34 +96,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will enable support for 'dumpdtb' QMP/HMP command for the sifive_u
+This will enable support for the 'dumpdtb' QMP/HMP command for the spike
 machine.
 
-Cc: Alistair Francis <Alistair.Francis@wdc.com>
-Cc: Bin Meng <bin.meng@windriver.com>
 Cc: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>
+Cc: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20220926173855.1159396-15-danielhb413@gmail.com>
+Message-Id: <20220926173855.1159396-16-danielhb413@gmail.com>
 ---
- hw/riscv/sifive_u.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/riscv/spike.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index e4c814a3ea..b139824aab 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -634,6 +634,9 @@ static void sifive_u_machine_init(MachineState *machine)
-         start_addr_hi32 = (uint64_t)start_addr >> 32;
-     }
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index 5ba34543c8..1e1d752c00 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -40,6 +40,8 @@
+ #include "sysemu/device_tree.h"
+ #include "sysemu/sysemu.h"
  
++#include <libfdt.h>
++
+ static const MemMapEntry spike_memmap[] = {
+     [SPIKE_MROM] =     {     0x1000,     0xf000 },
+     [SPIKE_HTIF] =     {  0x1000000,     0x1000 },
+@@ -304,6 +306,10 @@ static void spike_board_init(MachineState *machine)
+     /* Compute the fdt load address in dram */
+     fdt_load_addr = riscv_load_fdt(memmap[SPIKE_DRAM].base,
+                                    machine->ram_size, s->fdt);
++
 +    /* Set machine->fdt for 'dumpdtb' QMP/HMP command */
 +    machine->fdt = s->fdt;
 +
-     /* reset vector */
-     uint32_t reset_vec[12] = {
-         s->msel,                       /* MSEL pin state */
+     /* load the reset vector */
+     riscv_setup_rom_reset_vec(machine, &s->soc[0], memmap[SPIKE_DRAM].base,
+                               memmap[SPIKE_MROM].base,
 -- 
 2.37.3
 
