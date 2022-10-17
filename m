@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 678146017DF
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 21:40:30 +0200 (CEST)
-Received: from localhost ([::1]:58206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8AD6017FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 21:48:05 +0200 (CEST)
+Received: from localhost ([::1]:37788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okVyO-0004UV-Gk
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 15:40:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57418)
+	id 1okW5k-0003oK-Fs
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 15:48:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1okVfu-0002jS-Sq; Mon, 17 Oct 2022 15:21:26 -0400
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:42599)
+ id 1okVfx-0002jp-0D; Mon, 17 Oct 2022 15:21:26 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:37636)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1okVfs-0002yB-8k; Mon, 17 Oct 2022 15:21:21 -0400
-Received: by mail-oi1-x22f.google.com with SMTP id p127so12571873oih.9;
- Mon, 17 Oct 2022 12:21:19 -0700 (PDT)
+ id 1okVfv-0002yO-0a; Mon, 17 Oct 2022 15:21:24 -0400
+Received: by mail-oi1-x236.google.com with SMTP id j188so13231355oih.4;
+ Mon, 17 Oct 2022 12:21:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=oxx+t+Q670EmUPuBO6yT51edHFCy2D4FS62HYiFc8Dw=;
- b=HtRTy4SDeJPH+7FOgqR3HmVg2emvtwvzEPShtk/n+Ci+jtpaXUSUlC7+fR/kVmf/uz
- hcf2wW2bs3WSk+SsUR1AxUJZ4alvGAqyA5Omglp10f3CTaMsRpvZZk9whzFIsHy+KGxR
- HLRkFGg3guI4d/l5Ys0E0CbFsAid8Yn8QsP7cH5G6snHtBZqV+U34m4oSawqC1gfsKL2
- hHbFSMswlj6LiW88CPAR7wJOJiSfNi0k1mgTk5+kRh/mNfUe+XFdO3YSV+k/5nAXVHIy
- 53j7gPWFOCpQVo3KoGnEpY7SPgWTglPrydNnk+22TrAEIe5oZcQfKAQXjvP6y8lgorE4
- sDKg==
+ bh=skOEsAeg6KP2CmeD6Dnh5EmKq4YUbFtPTmqJLa/W+oA=;
+ b=JPpPFhEyQx2TgcotGwcol1YvRFYXc96HuEFQSsDxTdSQKQ0v+YOP77v+2q9s/kaRY1
+ nOZQVzUTIcxU43cy3bx+Tzm4VKQorZfoFkJJ3JhLnyWHggmvxbhaFbpd+qaTeOXPmm2y
+ sqgSQc9p90wVoBzgcpzS4bNYhYZvLMyaO0AOiQv5k3CuYxrnQlE7YI/CiR9FvWgVb0wP
+ JXe57lauzdTpI7EkYav9KmzrS48q44X1+k2824jHU0lnsUmwLKH/wWuIfPIn6WcpPkSd
+ AorA0rHOJRWni8Us+2MOTG8/iJjoA8P9Oq3bhukruWSeB5mcU4mrFVng2hwA6budnpNW
+ fGHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=oxx+t+Q670EmUPuBO6yT51edHFCy2D4FS62HYiFc8Dw=;
- b=CJYGvu0CSAypnta1fL2nrAtrBxFDb1RuLmzPdOchHuRqN9sThJgoMg+4hDcLK6CQr+
- TRga/DqhxD3/dSuAK6/gwfKthpxpBw9p1A6XVnCq0yRG/PDfPfIatRr/Al4eWE3vprxv
- Hk3nF48fIm+2GYrpsylrDheXzMHHS1AIPiQHB5SrsqwfF9ZiTB62s5weNTVopbExWEtK
- sV2varOMg82K2AIJSmQ82HlIzE3TVYaXTCsZsBypvk3PrvwpEzPRysHsH2N76yyQY2Ia
- gdRMisu8ZddbtYpBqiBvmQLke3sguoDkDKNVNSKjCBt0PT9zteVav+1PmaCMtVOut4W3
- LpAA==
-X-Gm-Message-State: ACrzQf0+Z8W7rVyav2IrK1i44UBpNjsV6zEc5pmoCqHkuJeNSE8I3lKy
- l69SKeZPTCQJWQotOH+B73ucFyQAnpw=
-X-Google-Smtp-Source: AMsMyM5edoHW9Wwg3FekKbknrlNuL4ysT+gcs299HXfvlt+cKrgtgnXW6vl9tV3Ri/pEGGBzuiUkiA==
-X-Received: by 2002:a05:6808:1717:b0:333:513e:650e with SMTP id
- bc23-20020a056808171700b00333513e650emr5640982oib.23.1666034478427; 
- Mon, 17 Oct 2022 12:21:18 -0700 (PDT)
+ bh=skOEsAeg6KP2CmeD6Dnh5EmKq4YUbFtPTmqJLa/W+oA=;
+ b=O8VcM1kth2h6Bfi1UVf+AzUrCc+SgvbDU2sj/30Azz4UaISqKhNPIuUzS+9INX/25N
+ ZgcCN7jdp8pDr3CTYQLzsU1Fog+Ob6ARfjpILf4UWUHylQmTpyAzBfq1dgqbwuvYwKhP
+ mFa8tyFZqSYyqHhQjZWVRlS48vmIFiyXSPEONqysr4WtLJm2rCAgqwwvi1gVUFiw9vyD
+ yPw4IYqJx6be0KEH/sBQK8wfsGP5BS7FkIUBX+UsPYUTojJpOb2PlFLPe6h5ykXBeKfr
+ BYely3WIVk+9MdC4LgF2UDKKPwEXGVAkFP5Mbc3r1SvxIDJXoHR7FXbFdaEj2fKGWbRT
+ 3yEg==
+X-Gm-Message-State: ACrzQf21sXlGpWnCq1/75oJDIxJYtsX1rX0vcBYzo1T2ty/f66o6//y5
+ uY5CBy3D85+NHWHaA5ENFkFdPWtMGUA=
+X-Google-Smtp-Source: AMsMyM6wmNFayiT8Q9xHVTClJU/5nHhxHmepjahYoSkxnz68450FfvQFPzHcRyg+abBDI2BKhJxtwQ==
+X-Received: by 2002:a05:6808:b18:b0:354:48e9:ef25 with SMTP id
+ s24-20020a0568080b1800b0035448e9ef25mr14278243oij.86.1666034481015; 
+ Mon, 17 Oct 2022 12:21:21 -0700 (PDT)
 Received: from balboa.COMFAST ([179.111.38.2])
  by smtp.gmail.com with ESMTPSA id
- n132-20020aca408a000000b00342eade43d4sm4648005oia.13.2022.10.17.12.21.15
+ n132-20020aca408a000000b00342eade43d4sm4648005oia.13.2022.10.17.12.21.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Oct 2022 12:21:18 -0700 (PDT)
+ Mon, 17 Oct 2022 12:21:20 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
  Bernhard Beschow <shentey@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Bin Meng <bmeng.cn@gmail.com>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 23/38] hw/ppc/e500: Reduce usage of sysbus API
-Date: Mon, 17 Oct 2022 16:19:54 -0300
-Message-Id: <20221017192009.92404-24-danielhb413@gmail.com>
+Subject: [PULL 24/38] hw/ppc/mpc8544ds: Rename wrongly named method
+Date: Mon, 17 Oct 2022 16:19:55 -0300
+Message-Id: <20221017192009.92404-25-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221017192009.92404-1-danielhb413@gmail.com>
 References: <20221017192009.92404-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x236.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -96,32 +95,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bernhard Beschow <shentey@gmail.com>
 
-PlatformBusDevice has an mmio attribute which gets aliased to
-SysBusDevice::mmio[0]. So PlatformbusDevice::mmio can be used directly,
-avoiding the sysbus API.
-
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-Id: <20221003203142.24355-5-shentey@gmail.com>
+Message-Id: <20221003203142.24355-6-shentey@gmail.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/e500.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/ppc/mpc8544ds.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
-index 32495d0123..496c61b612 100644
---- a/hw/ppc/e500.c
-+++ b/hw/ppc/e500.c
-@@ -1023,7 +1023,7 @@ void ppce500_init(MachineState *machine)
+diff --git a/hw/ppc/mpc8544ds.c b/hw/ppc/mpc8544ds.c
+index 81177505f0..8e674ad195 100644
+--- a/hw/ppc/mpc8544ds.c
++++ b/hw/ppc/mpc8544ds.c
+@@ -36,7 +36,7 @@ static void mpc8544ds_init(MachineState *machine)
+     ppce500_init(machine);
+ }
  
-         memory_region_add_subregion(address_space_mem,
-                                     pmc->platform_bus_base,
--                                    sysbus_mmio_get_region(s, 0));
-+                                    &pms->pbus_dev->mmio);
-     }
+-static void e500plat_machine_class_init(ObjectClass *oc, void *data)
++static void mpc8544ds_machine_class_init(ObjectClass *oc, void *data)
+ {
+     MachineClass *mc = MACHINE_CLASS(oc);
+     PPCE500MachineClass *pmc = PPCE500_MACHINE_CLASS(oc);
+@@ -63,7 +63,7 @@ static void e500plat_machine_class_init(ObjectClass *oc, void *data)
+ static const TypeInfo mpc8544ds_info = {
+     .name          = TYPE_MPC8544DS_MACHINE,
+     .parent        = TYPE_PPCE500_MACHINE,
+-    .class_init    = e500plat_machine_class_init,
++    .class_init    = mpc8544ds_machine_class_init,
+ };
  
-     /*
+ static void mpc8544ds_register_types(void)
 -- 
 2.37.3
 
