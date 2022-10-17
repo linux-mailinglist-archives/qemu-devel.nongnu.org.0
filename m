@@ -2,85 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 185B8600CC4
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 12:45:09 +0200 (CEST)
-Received: from localhost ([::1]:34176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBFDE600C9A
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 12:38:59 +0200 (CEST)
+Received: from localhost ([::1]:51984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okNcJ-000352-4w
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 06:45:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60778)
+	id 1okNWM-0003o9-UT
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 06:38:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1okNaG-0008MA-6S
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 06:43:00 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40828)
+ (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1okNPb-0005kO-Ph
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 06:32:19 -0400
+Received: from mail-lf1-x135.google.com ([2a00:1450:4864:20::135]:45789)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1okNaE-0006A0-Ee
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 06:42:59 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id w18so17805986wro.7
- for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 03:42:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LT8nTGwc8zUU3meQJOiLzzYVXzXetMNkWh++Zu52sRE=;
- b=LfN9nz008fRIToP5aSFA3HeWR0biyHRI063Z982oA/GEAzVr3WG4wtZIdP3K4inPv9
- BoHZrKFNGEQnbNgaa3ECNVrkqPaBGkHDzdSaNu5IxY74z6OyMnLEkig9LFbqOKtjNOX2
- cTAgcP2KkE522iOyqq5y3gsIGY5lkT6PirnJ5tXDAAOpLxt82rlmCwGu5wZIrDaL1zOa
- GhAgAk/n2FzMuFaU8A7iNlRyns6iM0TlqW3raCd76zGXQjBLYkfmwKONkhRcJq8CerIG
- YA2evjFsZWBqPeMl64l1IlEYRlKzLAVC62SP2kc5xhTi/unx7zfSh0tmaUL6QUBrMLeP
- MulQ==
+ (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1okNPZ-0004Vr-Tt
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 06:31:59 -0400
+Received: by mail-lf1-x135.google.com with SMTP id g1so16781380lfu.12
+ for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 03:31:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=5nozSFDmTVpu8GTMuUa17TgcVMpawH1V5x78PIRZetg=;
+ b=SDSplUZ2VPkr2D1rPark9w6rINsj4QsGj8mIaHHj3cG7qqYj2xeg5bRcHWiAiCGNxn
+ GsUn6i3U2OjLAFYiVGFUliiR7Eg727DK3wDSXfnbZMZbfbIZ31+HdQCxkX49ygkx2h2T
+ JvvJpr3zkIRAU4V1EE328YM6hb7KitEqUGTlUdtUSKdTXZdHKruA7oQebxjBvB7yCdng
+ 14amkvXgB/TlF3oG6EUoWuZ8TnSYQkSfag7jNPXgHEtx3NHXccP4GhcHXIeI1JTCLuLR
+ Ff1yL/Q300jH2Amjcw85DuxVyH90T6VnZoMTJKObTmi2YSvh5JYckhqKh2RO00z96P+I
+ iG8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=LT8nTGwc8zUU3meQJOiLzzYVXzXetMNkWh++Zu52sRE=;
- b=LRwc+nuJKL+8rguqFPCQvyFW3Wu3EBElE0CfgwdjqsVog9As7H53T4vdi4tLZ/+AeI
- WEETuWDaMtbDEkmoZ82Vje81UdLfCfoqt6h21RNyKLUC//79sA5FzoH1r3njdejPUG0a
- Snmc3W6h6zJmF8PEMaBpzX6WG2PZRL+F6OOSG2Bp15vMr28cUNydebUnY4O72nOQ3+kg
- dHptf9XAX2DgPCKtFOdYcEJGRnPbU6qhz14RKFyBz38JPJ7ptCiOHu7jmG4yFiMRA1/g
- KLSYNDpbRJEBI1xUttD8oTBAydYVOeFfjQMuyE7jV2IYOCU3/BTTWX6GNydstBDlSgaD
- /Vyg==
-X-Gm-Message-State: ACrzQf2Olg0LBC77DmGGZVmV1dOhKXAPgsMV0oT+ht7Gv81VNjdT8ADS
- uO3Sdxxe7wI9NF9ZzSJzcctEfA==
-X-Google-Smtp-Source: AMsMyM5E3iwUkethO3PdmDXlmwvpqiMTLvTzP3TeLP45L63R6xn8X17wno4RLwW/uRl8eQ6uEsMqkg==
-X-Received: by 2002:a5d:52d0:0:b0:21e:4923:fa09 with SMTP id
- r16-20020a5d52d0000000b0021e4923fa09mr5986765wrv.244.1666003376826; 
- Mon, 17 Oct 2022 03:42:56 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- bg38-20020a05600c3ca600b003c6c182bef9sm19164321wmb.36.2022.10.17.03.42.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Oct 2022 03:42:56 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CC6E11FFB7;
- Mon, 17 Oct 2022 11:42:55 +0100 (BST)
-References: <4672400c-0084-3bf3-a596-7a42115301f0@linux.alibaba.com>
-User-agent: mu4e 1.9.1; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, Richard Henderson
- <richard.henderson@linaro.org>, Alistair Francis
- <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org
-Subject: Re: Question about TCG backend correctness
-Date: Mon, 17 Oct 2022 11:30:51 +0100
-In-reply-to: <4672400c-0084-3bf3-a596-7a42115301f0@linux.alibaba.com>
-Message-ID: <87lepeeno0.fsf@linaro.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5nozSFDmTVpu8GTMuUa17TgcVMpawH1V5x78PIRZetg=;
+ b=FoMS4h9U+nbdL/kdTPFeTPI11enWJic6pIe6n2AqtBz9heNs66YXdtKzm+esP32yhf
+ zBH68PA8jt8XPw4XuEXTEEUMT4v0VSDPpmsUfqB/4CLC2qHTFnTvSY1pkErLkJA5Vge/
+ 2xE5nv43thUB8RfwJ72cx8+ZLVDhTAd32cKk1xxqNA6G0dAZULaLf/BXB6H5jB8sLDfR
+ savhND91E1bnpzy+GjMbahSwfyO18tLnIwwN5nS3D31t/3Pd5CTmUHWX7kudbBH15cFi
+ 3G1YZZm7X/RRjmYComK5wC69UbD6LkjFUdoGYarcqPc1BBF6fV6RiB8AIk8HBPK7/VE+
+ 4H4A==
+X-Gm-Message-State: ACrzQf3vxlGxzgybKmayZaDh5V436oXBjPF5sdUZV/uW7lIq0n6u6tc/
+ KVxqzbWjvTA2QhM59bTmxrZXnhUr1TdHNTHs3m6N8w==
+X-Google-Smtp-Source: AMsMyM5QQdeoCZqf4USHrTYZuLKFaoT483vufBzxBArWmR3pEEZFNUg/KtF5cabXdDzXtcRyF9bfuHIHJTBpaJKALKA=
+X-Received: by 2002:a05:6512:4cb:b0:4a2:25b6:9e73 with SMTP id
+ w11-20020a05651204cb00b004a225b69e73mr3967251lfq.30.1666002715568; Mon, 17
+ Oct 2022 03:31:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+ <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
+ <Yyi+l3+p9lbBAC4M@google.com>
+ <CA+EHjTzy4iOxLF=5UX=s5v6HSB3Nb1LkwmGqoKhp_PAnFeVPSQ@mail.gmail.com>
+ <20220926142330.GC2658254@chaop.bj.intel.com>
+ <CA+EHjTz5yGhsxUug+wqa9hrBO60Be0dzWeWzX00YtNxin2eYHg@mail.gmail.com>
+ <YzN9gYn1uwHopthW@google.com>
+ <CA+EHjTw3din891hMUeRW-cn46ktyMWSdoB31pL+zWpXo_=3UVg@mail.gmail.com>
+ <20221013133457.GA3263142@chaop.bj.intel.com>
+In-Reply-To: <20221013133457.GA3263142@chaop.bj.intel.com>
+From: Fuad Tabba <tabba@google.com>
+Date: Mon, 17 Oct 2022 11:31:19 +0100
+Message-ID: <CA+EHjTzZ2zsm7Ru_OKCZg9FCYESgZsmB=7ScKRh6ZN4=4OZ3gw@mail.gmail.com>
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Sean Christopherson <seanjc@google.com>,
+ David Hildenbrand <david@redhat.com>, kvm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, 
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org, 
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>, 
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>, 
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, 
+ Vishal Annapurve <vannapurve@google.com>, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, 
+ dave.hansen@intel.com, ak@linux.intel.com, aarcange@redhat.com, 
+ ddutile@redhat.com, dhildenb@redhat.com, Quentin Perret <qperret@google.com>, 
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com, 
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com, 
+ Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::135;
+ envelope-from=tabba@google.com; helo=mail-lf1-x135.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,44 +116,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
-LIU Zhiwei <zhiwei_liu@linux.alibaba.com> writes:
-
-> Hi folks,
+> >
+> > Actually, for pKVM, there is no need for the guest memory to be
+> > GUP'able at all if we use the new inaccessible_get_pfn().
 >
-> =C2=A0=C2=A0=C2=A0 For TCG front end, we can test it with tools, such as =
-RISU. But I
-> don't know if=C2=A0 there are some tools that can help
-> to verify the correctness of a TCG backend.
+> If pKVM can use inaccessible_get_pfn() to get pfn and can avoid GUP (I
+> think that is the major concern?), do you see any other gap from
+> existing API?
+
+Actually for this part no, there aren't any gaps and
+inaccessible_get_pfn() is sufficient.
+
+> > This of
+> > course goes back to what I'd mentioned before in v7; it seems that
+> > representing the memslot memory as a file descriptor should be
+> > orthogonal to whether the memory is shared or private, rather than a
+> > private_fd for private memory and the userspace_addr for shared
+> > memory. The host can then map or unmap the shared/private memory using
+> > the fd, which allows it more freedom in even choosing to unmap shared
+> > memory when not needed, for example.
 >
-> =C2=A0=C2=A0=C2=A0 Can someone share the tools or the experience to debug=
- RISC-V
-> backend?=C2=A0 Thanks very much.
+> Using both private_fd and userspace_addr is only needed in TDX and other
+> confidential computing scenarios, pKVM may only use private_fd if the fd
+> can also be mmaped as a whole to userspace as Sean suggested.
 
-It's mostly down to inspection or debugging failures. Sometimes you can
-attempt to shake out bugs by running a stacked QEMU. e.g.
+That does work in practice, for now at least, and is what I do in my
+current port. However, the naming and how the API is defined as
+implied by the name and the documentation. By calling the field
+private_fd, it does imply that it should not be mapped, which is also
+what api.rst says in PATCH v8 5/8. My worry is that in that case pKVM
+would be mis/ab-using this interface, and that future changes could
+cause unforeseen issues for pKVM.
 
-   qemu-system-aarch64 on x86 host
-   qemu-system-aarch64 on qemu-system-riscv64 on x86 host
+Maybe renaming this to something like "guest_fp", and specifying in
+the documentation that it can be restricted, e.g., instead of "the
+content of the private memory is invisible to userspace" something
+along the lines of  "the content of the guest memory may be restricted
+to userspace".
 
-and see if the two aarch64 guests run the same. This of course gets very
-tricky running full OS kernels because as soon as time and async
-interrupts get involved you will get divergence anyway. This would work
-best with simple straight line test cases (e.g. check-tcg test cases).
+What do you think?
 
-I've long wanted to have the ability to have TCG unit tests where a
-virtual processor could be defined for the purpose of directly
-exercising TCG. This would be mainly to check tcg_optimize() works
-correctly but no doubt could be extended to verify the eventual backend
-output. The problem with implementing such an approach has been the
-amount of boilerplate needed to define a simple frontend. Maybe this
-will get simpler as we slowly move to a single binary build but there is
-still quite of lot of things TCG needs to know about the guest it is
-emulating.
+Cheers,
+/fuad
 
-If you would like to attempt improve the testing situation for TCG and its
-backend I'm fully supportive.
-
---=20
-Alex Benn=C3=A9e
+>
+> Thanks,
+> Chao
+> >
+> > Cheers,
+> > /fuad
 
