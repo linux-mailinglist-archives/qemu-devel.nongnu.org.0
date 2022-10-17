@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC225600C83
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 12:33:30 +0200 (CEST)
-Received: from localhost ([::1]:41338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DD1D600C81
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 12:33:17 +0200 (CEST)
+Received: from localhost ([::1]:44496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okNR0-00078K-N3
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 06:33:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60562)
+	id 1okNQn-0006cf-8W
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 06:33:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1okNGT-0006oV-Rx
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 06:22:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42768)
+ id 1okNGH-0006MA-0d
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 06:22:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37195)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1okNGR-0002n0-Nw
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 06:22:33 -0400
+ id 1okNGE-0002m0-Dc
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 06:22:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666002150;
+ s=mimecast20190719; t=1666002137;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ybgzVAdFvWKu+deqzaAk32PDpG0InxJy9tti2MK8jX0=;
- b=BccT3zENODK47T+Iz4osxYfZlV/yPCng33umkZXYCmSNN1rdlBH7fGOJDXKWYk/oB+9HGo
- qB/K7Y7oWkx/VEZ97CVG7qDigR+V5do11WB/94uoa0ZvxkLELrs/QvPlVu4xze/+cRqg1g
- MtB2UfOZ9h6/mIyR4/rs+XMwBCIsYsM=
+ bh=Qu4Pd9atxWKhpPks5SopPHcdkGtNLx4sut7j9KPzELc=;
+ b=TKyasq9otFZBDbo29ZWzPijkvSL9LShjigo0wed3QmrYrNSY+33BpdsfoJNCgHaIoXHHMd
+ DyR7BjT/ebeJio0XuocJ2b8mPBlj5lfvMoVVmf2pXr+xQYeNjZhCBS4e3q2olaC0L9ZjDN
+ FWq96rjXNVExHWiybkkxX29EDJwsx7A=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-647-t1JZ0W7QO8m8pBZjRghSeA-1; Mon, 17 Oct 2022 06:22:23 -0400
-X-MC-Unique: t1JZ0W7QO8m8pBZjRghSeA-1
+ us-mta-547-ayMxTLLHMFKsQCv4Xkz_kg-1; Mon, 17 Oct 2022 06:22:16 -0400
+X-MC-Unique: ayMxTLLHMFKsQCv4Xkz_kg-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2D29C101E14E;
- Mon, 17 Oct 2022 10:22:13 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ECDB718E0044;
+ Mon, 17 Oct 2022 10:22:15 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq2.redhat.com
  (dell-r430-03.lab.eng.brq2.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B8EB492B07;
- Mon, 17 Oct 2022 10:22:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4073F492B0B;
+ Mon, 17 Oct 2022 10:22:03 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com,
 	ani@anisinha.ca
-Subject: [PATCH 09/11] tests: acpi: pc/q35 whitelist DSDT before \_GPE cleanup
-Date: Mon, 17 Oct 2022 12:21:44 +0200
-Message-Id: <20221017102146.2254096-10-imammedo@redhat.com>
+Subject: [PATCH 10/11] acpi: pc/35: sanitize _GPE declaration order
+Date: Mon, 17 Oct 2022 12:21:45 +0200
+Message-Id: <20221017102146.2254096-11-imammedo@redhat.com>
 In-Reply-To: <20221017102146.2254096-1-imammedo@redhat.com>
 References: <20221017102146.2254096-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -81,51 +81,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Move _GPE block declaration before it gets referenced by other
+hotplug handlers. While at it move PCI hotplug (_E01) handler
+after PCI tree description to avoid forward reference to
+to not yet declared methods/devices.
+
+PS:
+Forward 'usage' usualy is fine as long as it's hidden within
+method, however 'iasl' may print warnings. So be nice
+to iasl/guest OS and do things in proper order.
+
+PS2: Also follow up patches will move some of hotplug code
+from PCI tree to _E01 and that also requires PCI Device
+nodes build first, before Scope can reuse that from
+global context.
+
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 34 +++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ hw/i386/acpi-build.c | 47 +++++++++++++++++++++++---------------------
+ 1 file changed, 25 insertions(+), 22 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..725a1dc798 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,35 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/DSDT",
-+"tests/data/acpi/pc/DSDT.bridge",
-+"tests/data/acpi/pc/DSDT.ipmikcs",
-+"tests/data/acpi/pc/DSDT.cphp",
-+"tests/data/acpi/pc/DSDT.memhp",
-+"tests/data/acpi/pc/DSDT.numamem",
-+"tests/data/acpi/pc/DSDT.nohpet",
-+"tests/data/acpi/pc/DSDT.dimmpxm",
-+"tests/data/acpi/pc/DSDT.acpihmat",
-+"tests/data/acpi/pc/DSDT.acpierst",
-+"tests/data/acpi/pc/DSDT.roothp",
-+"tests/data/acpi/pc/DSDT.hpbridge",
-+"tests/data/acpi/pc/DSDT.hpbrroot",
-+"tests/data/acpi/q35/DSDT",
-+"tests/data/acpi/q35/DSDT.tis.tpm2",
-+"tests/data/acpi/q35/DSDT.tis.tpm12",
-+"tests/data/acpi/q35/DSDT.bridge",
-+"tests/data/acpi/q35/DSDT.multi-bridge",
-+"tests/data/acpi/q35/DSDT.mmio64",
-+"tests/data/acpi/q35/DSDT.ipmibt",
-+"tests/data/acpi/q35/DSDT.cphp",
-+"tests/data/acpi/q35/DSDT.memhp",
-+"tests/data/acpi/q35/DSDT.numamem",
-+"tests/data/acpi/q35/DSDT.nohpet",
-+"tests/data/acpi/q35/DSDT.dimmpxm",
-+"tests/data/acpi/q35/DSDT.acpihmat",
-+"tests/data/acpi/q35/DSDT.acpierst",
-+"tests/data/acpi/q35/DSDT.applesmc",
-+"tests/data/acpi/q35/DSDT.pvpanic-isa",
-+"tests/data/acpi/q35/DSDT.ivrs",
-+"tests/data/acpi/q35/DSDT.viot",
-+"tests/data/acpi/q35/DSDT.cxl",
-+"tests/data/acpi/q35/DSDT.ipmismbus",
-+"tests/data/acpi/q35/DSDT.xapic",
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 916343d8d6..960305462c 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -1434,6 +1434,18 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         aml_append(dsdt, sb_scope);
+     }
+ 
++    scope =  aml_scope("_GPE");
++    {
++        aml_append(scope, aml_name_decl("_HID", aml_string("ACPI0006")));
++        if (machine->nvdimms_state->is_enabled) {
++            method = aml_method("_E04", 0, AML_NOTSERIALIZED);
++            aml_append(method, aml_notify(aml_name("\\_SB.NVDR"),
++                                          aml_int(0x80)));
++            aml_append(scope, method);
++        }
++    }
++    aml_append(dsdt, scope);
++
+     if (pcmc->legacy_cpu_hotplug) {
+         build_legacy_cpu_hotplug_aml(dsdt, machine, pm->cpu_hp_io_base);
+     } else {
+@@ -1452,28 +1464,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+                                  pcms->memhp_io_base);
+     }
+ 
+-    scope =  aml_scope("_GPE");
+-    {
+-        aml_append(scope, aml_name_decl("_HID", aml_string("ACPI0006")));
+-
+-        if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
+-            method = aml_method("_E01", 0, AML_NOTSERIALIZED);
+-            aml_append(method,
+-                aml_acquire(aml_name("\\_SB.PCI0.BLCK"), 0xFFFF));
+-            aml_append(method, aml_call0("\\_SB.PCI0.PCNT"));
+-            aml_append(method, aml_release(aml_name("\\_SB.PCI0.BLCK")));
+-            aml_append(scope, method);
+-        }
+-
+-        if (machine->nvdimms_state->is_enabled) {
+-            method = aml_method("_E04", 0, AML_NOTSERIALIZED);
+-            aml_append(method, aml_notify(aml_name("\\_SB.NVDR"),
+-                                          aml_int(0x80)));
+-            aml_append(scope, method);
+-        }
+-    }
+-    aml_append(dsdt, scope);
+-
+     crs_range_set_init(&crs_range_set);
+     bus = PC_MACHINE(machine)->bus;
+     if (bus) {
+@@ -1752,6 +1742,19 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+     }
+     aml_append(dsdt, sb_scope);
+ 
++    if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
++        scope =  aml_scope("_GPE");
++        {
++            method = aml_method("_E01", 0, AML_NOTSERIALIZED);
++            aml_append(method,
++                aml_acquire(aml_name("\\_SB.PCI0.BLCK"), 0xFFFF));
++            aml_append(method, aml_call0("\\_SB.PCI0.PCNT"));
++            aml_append(method, aml_release(aml_name("\\_SB.PCI0.BLCK")));
++            aml_append(scope, method);
++        }
++        aml_append(dsdt, scope);
++    }
++
+     /* copy AML table into ACPI tables blob and patch header there */
+     g_array_append_vals(table_data, dsdt->buf->data, dsdt->buf->len);
+     acpi_table_end(linker, &table);
 -- 
 2.31.1
 
