@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB06960165F
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 20:33:48 +0200 (CEST)
-Received: from localhost ([::1]:42372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F7A3601670
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 20:37:52 +0200 (CEST)
+Received: from localhost ([::1]:45780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okUvr-0003Oz-PZ
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 14:33:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48326)
+	id 1okUzn-00086v-31
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 14:37:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <amarjargal16@gmail.com>)
- id 1okUmm-0003T9-AG
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 14:24:24 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:50835)
+ id 1okUmn-0003Xg-S7
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 14:24:26 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:51886)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <amarjargal16@gmail.com>)
- id 1okUmg-000260-4u
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 14:24:24 -0400
-Received: by mail-wm1-x334.google.com with SMTP id y10so9232462wma.0
- for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 11:24:17 -0700 (PDT)
+ id 1okUmj-00026H-2m
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 14:24:25 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id n9so9212627wms.1
+ for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 11:24:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=p8PI/1B27kLEnEN8LB1k9xglcGBAd0W5EtsseMBfLi8=;
- b=cdIENGFgVLiq0GD9Gzn71HAqNHOfaGeP/tY3TYin1oadsyR+GLl0NdpvBXedSRlXuj
- W4HWsuQ6l3sZ2Gd8KxehFD0VemNlWW8IZmUCdefHFjQlJZU0iCiwV/lelKZMBlxlAXK6
- INkNfffXTuyiEEi9HJGzR27YIXIFfdUG5JUtOPURlDfcQ+7RAx0UwHXkOA1G5oBAwibI
- A8Gp0IeFDltEUeA5mcYyHz1e4+WFmurUWdYkiKEHLJev/gxytRWTK9Bd1xVlaRIYBLAn
- V7IN84nJKzdmbFW05jmeG27vTZs8dYt2RUOFzVsqfmhJ8lFK7NiVeOpTpdHcB52kivMd
- 2vVQ==
+ bh=fC76QjRUXop9mcbHtyXk8rhHApeNVvmDlzfcXpifr9k=;
+ b=kaXmWDnzx6xsw62QacpXvjGe3WxhfNFKDUsxPGZq1bLU445aS90VaQbWb+gfgheuLI
+ wI0eqT6EBaKh9kk5AXfnnGf2MpTZ+nvzO9Dgby86WT9nXJW0DmZkvUUZkQ8jnPA5Ut6S
+ v3KpdNyHU4ybL9Vm5jI5179gu7fBNGtSb8lj1n5e30uW3mM4KR5fu4TPq28tBJbrJ5cL
+ PmGdZTqtEQiAV1lP2OinOGe6kgUViH27L/lZIB/UrvoebYlq0lnvYjswNTib+GQMPWly
+ iMw+U8nMQjzAp+AZT5BvwKeHIuAhTMqQ/43dPpgU/i+LJDHVvH2b0MGQj+kVPcw2vJYa
+ m1Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=p8PI/1B27kLEnEN8LB1k9xglcGBAd0W5EtsseMBfLi8=;
- b=LijMVybZaHDHwW2B5mwioCitBfQts35I7+NC/kSgZvrndEpNifEW2ng4OGPibKMgYY
- DOjHnOry+6u2PAfpP0To8thJhe5mTnqPrbL0Pi+zSM7kAXkQAkjKNoigC8Q68PCaN9+g
- N8YJ1/e9VxH9D5MP3iohlelxBmi61PENNsmoy/347CoLuA1J6ChxLST/s6GwlZ8866t2
- BYQt0vbRaNu9DW3gVUnmjck3yphsLFYUlge1Ghhy5VIVyXfoSkVnESMZiRdVk6A75rMt
- BuLx8sBLA2oNNxjwO/4r08fiaqMbZdNyDYnMSBY+HzemQStnFr83Y9A5zjeyZG8UTq4F
- HE6Q==
-X-Gm-Message-State: ACrzQf3xuiJ4DCWhNtb3w0XkJokztEVixnbC3Qw7lkwADmeeZ54aYu77
- KzgvcVPw+EzQEugyh5NeXwuzF+YCPQKFvQB+Ftc=
-X-Google-Smtp-Source: AMsMyM7ANWJ5NLAfMf/cxrX3d05B9BycRJjBxdQHhB7QPgBNON+1cVHnRI+cwXjlCIZFlckjc+u7Cw==
-X-Received: by 2002:a05:600c:4691:b0:3c6:f154:fdc6 with SMTP id
- p17-20020a05600c469100b003c6f154fdc6mr8025422wmo.195.1666031055159; 
- Mon, 17 Oct 2022 11:24:15 -0700 (PDT)
+ bh=fC76QjRUXop9mcbHtyXk8rhHApeNVvmDlzfcXpifr9k=;
+ b=obfcXEXDwm2GPMNuokUjAySHW4L6wt7S4096GSadn8/xMvhEtuA6IGodg1zSJEs9/w
+ au06iGNyxj2uXHEAPrmljjBBaQxv9dIt5aD/9yHi1kJLY3JCpfgkfDFa+FJOxc7rRTJ9
+ dm5eHsEUlXMjWfc3hBR5P/rax8Lc+dY3fAEvJBUHrNFmuVPkax5t4W71H4bry8/1H+Tj
+ qzsy0HzHGByD/yoQm+3x3ItWxFD8qKdLwwi5Ri8c10fqBM9ZBBuB61XzLKq33abFyZ8s
+ 1fjhuK4JkeZwr9qPboxJmqnH/MqcBCBeFEW9T74HWc55emWeKAFBLnnlHbraUjhCBQ21
+ mvfA==
+X-Gm-Message-State: ACrzQf2gIvxsKy+jwl2aUQo9AtHdmjxU6QujLaxss9Q4RovIuTa2+kXM
+ phjpOHyXHhepPsO85RH88PjTRqCwma4ESU7Rd6g=
+X-Google-Smtp-Source: AMsMyM4QgqjpJhTLldJCp9llKd8QtJO6oph0BhHez412R5xdiXJ6q2Xkdfcaqj3mUZ4dWCJ31TinjQ==
+X-Received: by 2002:a05:600c:1d17:b0:3c5:d7ca:190c with SMTP id
+ l23-20020a05600c1d1700b003c5d7ca190cmr8371175wms.137.1666031058267; 
+ Mon, 17 Oct 2022 11:24:18 -0700 (PDT)
 Received: from localhost.localdomain ([202.21.109.48])
  by smtp.gmail.com with ESMTPSA id
- c3-20020a05600c0a4300b003b4fdbb6319sm17493047wmq.21.2022.10.17.11.24.13
+ c3-20020a05600c0a4300b003b4fdbb6319sm17493047wmq.21.2022.10.17.11.24.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Oct 2022 11:24:14 -0700 (PDT)
+ Mon, 17 Oct 2022 11:24:17 -0700 (PDT)
 From: amarjargal <amarjargal16@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: sgarzare@redhat.com,
 	amarjargal <amarjargal16@gmail.com>
-Subject: [PATCH 3/4] hw/display: fix tab indentation
-Date: Tue, 18 Oct 2022 02:23:58 +0800
-Message-Id: <14763c5783c838d87708045c4c92e7d7ceb3c32e.1666029821.git.amarjargal16@gmail.com>
+Subject: [PATCH 4/4] hw/usb: fix tab indentation
+Date: Tue, 18 Oct 2022 02:23:59 +0800
+Message-Id: <8b6650a2c5ab855ebd9c80a4bba525319431b87e.1666029821.git.amarjargal16@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1666029821.git.amarjargal16@gmail.com>
 References: <cover.1666029821.git.amarjargal16@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=amarjargal16@gmail.com; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=amarjargal16@gmail.com; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,4696 +99,3008 @@ Resolves: https://gitlab.com/qemu-project/qemu/-/issues/370
 
 Signed-off-by: amarjargal <amarjargal16@gmail.com>
 ---
- hw/display/blizzard.c   |  352 ++++-----
- hw/display/cirrus_vga.c | 1602 +++++++++++++++++++--------------------
- hw/display/omap_dss.c   |  598 +++++++--------
- hw/display/omap_lcdc.c  |   24 +-
- hw/display/pxa2xx_lcd.c |  196 ++---
- hw/display/tc6393xb.c   |   74 +-
- hw/display/vga.c        |    6 +-
- hw/display/vga_regs.h   |    6 +-
- hw/display/xenfb.c      |  260 +++----
- 9 files changed, 1559 insertions(+), 1559 deletions(-)
+ hw/usb/dev-hub.c           |   86 +-
+ hw/usb/dev-network.c       |  286 +++----
+ hw/usb/dev-wacom.c         |    4 +-
+ hw/usb/hcd-musb.c          |  328 ++++----
+ hw/usb/quirks-pl2303-ids.h |  180 ++--
+ include/hw/usb.h           |  118 +--
+ include/hw/usb/dwc2-regs.h | 1628 ++++++++++++++++++------------------
+ 7 files changed, 1315 insertions(+), 1315 deletions(-)
 
-diff --git a/hw/display/blizzard.c b/hw/display/blizzard.c
-index 105241577d..ee847559db 100644
---- a/hw/display/blizzard.c
-+++ b/hw/display/blizzard.c
-@@ -123,14 +123,14 @@ typedef struct {
- /* Bytes(!) per pixel */
- static const int blizzard_iformat_bpp[0x10] = {
-     0,
--    2,	/* RGB 5:6:5*/
--    3,	/* RGB 6:6:6 mode 1 */
--    3,	/* RGB 8:8:8 mode 1 */
-+    2,    /* RGB 5:6:5*/
-+    3,    /* RGB 6:6:6 mode 1 */
-+    3,    /* RGB 8:8:8 mode 1 */
-     0, 0,
--    4,	/* RGB 6:6:6 mode 2 */
--    4,	/* RGB 8:8:8 mode 2 */
--    0,	/* YUV 4:2:2 */
--    0,	/* YUV 4:2:0 */
-+    4,    /* RGB 6:6:6 mode 2 */
-+    4,    /* RGB 8:8:8 mode 2 */
-+    0,    /* YUV 4:2:2 */
-+    0,    /* YUV 4:2:0 */
-     0, 0, 0, 0, 0, 0,
+diff --git a/hw/usb/dev-hub.c b/hw/usb/dev-hub.c
+index e35813d772..2873c327b5 100644
+--- a/hw/usb/dev-hub.c
++++ b/hw/usb/dev-hub.c
+@@ -54,46 +54,46 @@ struct USBHubState {
+ #define TYPE_USB_HUB "usb-hub"
+ OBJECT_DECLARE_SIMPLE_TYPE(USBHubState, USB_HUB)
+ 
+-#define ClearHubFeature		(0x2000 | USB_REQ_CLEAR_FEATURE)
+-#define ClearPortFeature	(0x2300 | USB_REQ_CLEAR_FEATURE)
+-#define GetHubDescriptor	(0xa000 | USB_REQ_GET_DESCRIPTOR)
+-#define GetHubStatus		(0xa000 | USB_REQ_GET_STATUS)
+-#define GetPortStatus		(0xa300 | USB_REQ_GET_STATUS)
+-#define SetHubFeature		(0x2000 | USB_REQ_SET_FEATURE)
+-#define SetPortFeature		(0x2300 | USB_REQ_SET_FEATURE)
+-
+-#define PORT_STAT_CONNECTION	0x0001
+-#define PORT_STAT_ENABLE	0x0002
+-#define PORT_STAT_SUSPEND	0x0004
+-#define PORT_STAT_OVERCURRENT	0x0008
+-#define PORT_STAT_RESET		0x0010
+-#define PORT_STAT_POWER		0x0100
+-#define PORT_STAT_LOW_SPEED	0x0200
++#define ClearHubFeature     (0x2000 | USB_REQ_CLEAR_FEATURE)
++#define ClearPortFeature    (0x2300 | USB_REQ_CLEAR_FEATURE)
++#define GetHubDescriptor    (0xa000 | USB_REQ_GET_DESCRIPTOR)
++#define GetHubStatus        (0xa000 | USB_REQ_GET_STATUS)
++#define GetPortStatus       (0xa300 | USB_REQ_GET_STATUS)
++#define SetHubFeature       (0x2000 | USB_REQ_SET_FEATURE)
++#define SetPortFeature      (0x2300 | USB_REQ_SET_FEATURE)
++
++#define PORT_STAT_CONNECTION    0x0001
++#define PORT_STAT_ENABLE        0x0002
++#define PORT_STAT_SUSPEND       0x0004
++#define PORT_STAT_OVERCURRENT   0x0008
++#define PORT_STAT_RESET         0x0010
++#define PORT_STAT_POWER         0x0100
++#define PORT_STAT_LOW_SPEED     0x0200
+ #define PORT_STAT_HIGH_SPEED    0x0400
+ #define PORT_STAT_TEST          0x0800
+ #define PORT_STAT_INDICATOR     0x1000
+ 
+-#define PORT_STAT_C_CONNECTION	0x0001
+-#define PORT_STAT_C_ENABLE	0x0002
+-#define PORT_STAT_C_SUSPEND	0x0004
+-#define PORT_STAT_C_OVERCURRENT	0x0008
+-#define PORT_STAT_C_RESET	0x0010
+-
+-#define PORT_CONNECTION	        0
+-#define PORT_ENABLE		1
+-#define PORT_SUSPEND		2
+-#define PORT_OVERCURRENT	3
+-#define PORT_RESET		4
+-#define PORT_POWER		8
+-#define PORT_LOWSPEED		9
+-#define PORT_HIGHSPEED		10
+-#define PORT_C_CONNECTION	16
+-#define PORT_C_ENABLE		17
+-#define PORT_C_SUSPEND		18
+-#define PORT_C_OVERCURRENT	19
+-#define PORT_C_RESET		20
+-#define PORT_TEST               21
+-#define PORT_INDICATOR          22
++#define PORT_STAT_C_CONNECTION    0x0001
++#define PORT_STAT_C_ENABLE        0x0002
++#define PORT_STAT_C_SUSPEND       0x0004
++#define PORT_STAT_C_OVERCURRENT   0x0008
++#define PORT_STAT_C_RESET         0x0010
++
++#define PORT_CONNECTION       0
++#define PORT_ENABLE           1
++#define PORT_SUSPEND          2
++#define PORT_OVERCURRENT      3
++#define PORT_RESET            4
++#define PORT_POWER            8
++#define PORT_LOWSPEED         9
++#define PORT_HIGHSPEED        10
++#define PORT_C_CONNECTION     16
++#define PORT_C_ENABLE         17
++#define PORT_C_SUSPEND        18
++#define PORT_C_OVERCURRENT    19
++#define PORT_C_RESET          20
++#define PORT_TEST             21
++#define PORT_INDICATOR        22
+ 
+ /* same as Linux kernel root hubs */
+ 
+@@ -155,13 +155,13 @@ static const USBDesc desc_hub = {
+ 
+ static const uint8_t qemu_hub_hub_descriptor[] =
+ {
+-        0x00,			/*  u8  bLength; patched in later */
+-        0x29,			/*  u8  bDescriptorType; Hub-descriptor */
+-        0x00,			/*  u8  bNbrPorts; (patched later) */
+-        0x0a,			/* u16  wHubCharacteristics; */
+-        0x00,			/*   (per-port OC, no power switching) */
+-        0x01,			/*  u8  bPwrOn2pwrGood; 2ms */
+-        0x00			/*  u8  bHubContrCurrent; 0 mA */
++        0x00,            /*  u8  bLength; patched in later */
++        0x29,            /*  u8  bDescriptorType; Hub-descriptor */
++        0x00,            /*  u8  bNbrPorts; (patched later) */
++        0x0a,            /* u16  wHubCharacteristics; */
++        0x00,            /*   (per-port OC, no power switching) */
++        0x01,            /*  u8  bPwrOn2pwrGood; 2ms */
++        0x00            /*  u8  bHubContrCurrent; 0 mA */
+ 
+         /* DeviceRemovable and PortPwrCtrlMask patched in later */
+ };
+diff --git a/hw/usb/dev-network.c b/hw/usb/dev-network.c
+index ac1adca543..b449e402c7 100644
+--- a/hw/usb/dev-network.c
++++ b/hw/usb/dev-network.c
+@@ -52,7 +52,7 @@
+ #define RNDIS_PRODUCT_NUM       0xa4a2  /* Ethernet/RNDIS Gadget */
+ 
+ enum usbstring_idx {
+-    STRING_MANUFACTURER		= 1,
++    STRING_MANUFACTURER        = 1,
+     STRING_PRODUCT,
+     STRING_ETHADDR,
+     STRING_DATA,
+@@ -64,39 +64,39 @@ enum usbstring_idx {
+     STRING_SERIALNUMBER,
  };
  
-@@ -281,196 +281,196 @@ static uint16_t blizzard_reg_read(void *opaque, uint8_t reg)
-     BlizzardState *s = (BlizzardState *) opaque;
+-#define DEV_CONFIG_VALUE		1	/* CDC or a subset */
+-#define DEV_RNDIS_CONFIG_VALUE		2	/* RNDIS; optional */
++#define DEV_CONFIG_VALUE                1    /* CDC or a subset */
++#define DEV_RNDIS_CONFIG_VALUE          2    /* RNDIS; optional */
  
-     switch (reg) {
--    case 0x00:	/* Revision Code */
-+    case 0x00:    /* Revision Code */
-         return 0xa5;
+-#define USB_CDC_SUBCLASS_ACM		0x02
+-#define USB_CDC_SUBCLASS_ETHERNET	0x06
++#define USB_CDC_SUBCLASS_ACM            0x02
++#define USB_CDC_SUBCLASS_ETHERNET       0x06
  
--    case 0x02:	/* Configuration Readback */
--        return 0x83;	/* Macrovision OK, CNF[2:0] = 3 */
-+    case 0x02:    /* Configuration Readback */
-+        return 0x83;    /* Macrovision OK, CNF[2:0] = 3 */
+-#define USB_CDC_PROTO_NONE		0
+-#define USB_CDC_ACM_PROTO_VENDOR	0xff
++#define USB_CDC_PROTO_NONE              0
++#define USB_CDC_ACM_PROTO_VENDOR        0xff
  
--    case 0x04:	/* PLL M-Divider */
-+    case 0x04:    /* PLL M-Divider */
-         return (s->pll - 1) | (1 << 7);
--    case 0x06:	/* PLL Lock Range Control */
-+    case 0x06:    /* PLL Lock Range Control */
-         return s->pll_range;
--    case 0x08:	/* PLL Lock Synthesis Control 0 */
-+    case 0x08:    /* PLL Lock Synthesis Control 0 */
-         return s->pll_ctrl & 0xff;
--    case 0x0a:	/* PLL Lock Synthesis Control 1 */
-+    case 0x0a:    /* PLL Lock Synthesis Control 1 */
-         return s->pll_ctrl >> 8;
--    case 0x0c:	/* PLL Mode Control 0 */
-+    case 0x0c:    /* PLL Mode Control 0 */
-         return s->pll_mode;
+-#define USB_CDC_HEADER_TYPE		0x00	/* header_desc */
+-#define USB_CDC_CALL_MANAGEMENT_TYPE	0x01	/* call_mgmt_descriptor */
+-#define USB_CDC_ACM_TYPE		0x02	/* acm_descriptor */
+-#define USB_CDC_UNION_TYPE		0x06	/* union_desc */
+-#define USB_CDC_ETHERNET_TYPE		0x0f	/* ether_desc */
++#define USB_CDC_HEADER_TYPE             0x00    /* header_desc */
++#define USB_CDC_CALL_MANAGEMENT_TYPE    0x01    /* call_mgmt_descriptor */
++#define USB_CDC_ACM_TYPE                0x02    /* acm_descriptor */
++#define USB_CDC_UNION_TYPE              0x06    /* union_desc */
++#define USB_CDC_ETHERNET_TYPE           0x0f    /* ether_desc */
  
--    case 0x0e:	/* Clock-Source Select */
-+    case 0x0e:    /* Clock-Source Select */
-         return s->clksel;
+-#define USB_CDC_SEND_ENCAPSULATED_COMMAND	0x00
+-#define USB_CDC_GET_ENCAPSULATED_RESPONSE	0x01
+-#define USB_CDC_REQ_SET_LINE_CODING		0x20
+-#define USB_CDC_REQ_GET_LINE_CODING		0x21
+-#define USB_CDC_REQ_SET_CONTROL_LINE_STATE	0x22
+-#define USB_CDC_REQ_SEND_BREAK			0x23
+-#define USB_CDC_SET_ETHERNET_MULTICAST_FILTERS	0x40
+-#define USB_CDC_SET_ETHERNET_PM_PATTERN_FILTER	0x41
+-#define USB_CDC_GET_ETHERNET_PM_PATTERN_FILTER	0x42
+-#define USB_CDC_SET_ETHERNET_PACKET_FILTER	0x43
+-#define USB_CDC_GET_ETHERNET_STATISTIC		0x44
++#define USB_CDC_SEND_ENCAPSULATED_COMMAND         0x00
++#define USB_CDC_GET_ENCAPSULATED_RESPONSE         0x01
++#define USB_CDC_REQ_SET_LINE_CODING               0x20
++#define USB_CDC_REQ_GET_LINE_CODING               0x21
++#define USB_CDC_REQ_SET_CONTROL_LINE_STATE        0x22
++#define USB_CDC_REQ_SEND_BREAK                    0x23
++#define USB_CDC_SET_ETHERNET_MULTICAST_FILTERS    0x40
++#define USB_CDC_SET_ETHERNET_PM_PATTERN_FILTER    0x41
++#define USB_CDC_GET_ETHERNET_PM_PATTERN_FILTER    0x42
++#define USB_CDC_SET_ETHERNET_PACKET_FILTER        0x43
++#define USB_CDC_GET_ETHERNET_STATISTIC            0x44
  
--    case 0x10:	/* Memory Controller Activate */
--    case 0x14:	/* Memory Controller Bank 0 Status Flag */
-+    case 0x10:    /* Memory Controller Activate */
-+    case 0x14:    /* Memory Controller Bank 0 Status Flag */
-         return s->memenable;
+-#define USB_CDC_NETWORK_CONNECTION	0x00
++#define USB_CDC_NETWORK_CONNECTION    0x00
  
--    case 0x18:	/* Auto-Refresh Interval Setting 0 */
-+    case 0x18:    /* Auto-Refresh Interval Setting 0 */
-         return s->memrefresh & 0xff;
--    case 0x1a:	/* Auto-Refresh Interval Setting 1 */
-+    case 0x1a:    /* Auto-Refresh Interval Setting 1 */
-         return s->memrefresh >> 8;
+-#define LOG2_STATUS_INTERVAL_MSEC	5    /* 1 << 5 == 32 msec */
+-#define STATUS_BYTECOUNT		16   /* 8 byte header + data */
++#define LOG2_STATUS_INTERVAL_MSEC   5    /* 1 << 5 == 32 msec */
++#define STATUS_BYTECOUNT            16   /* 8 byte header + data */
  
--    case 0x1c:	/* Power-On Sequence Timing Control */
-+    case 0x1c:    /* Power-On Sequence Timing Control */
-         return s->timing[0];
--    case 0x1e:	/* Timing Control 0 */
-+    case 0x1e:    /* Timing Control 0 */
-         return s->timing[1];
--    case 0x20:	/* Timing Control 1 */
-+    case 0x20:    /* Timing Control 1 */
-         return s->timing[2];
+-#define ETH_FRAME_LEN			1514 /* Max. octets in frame sans FCS */
++#define ETH_FRAME_LEN               1514 /* Max. octets in frame sans FCS */
  
--    case 0x24:	/* Arbitration Priority Control */
-+    case 0x24:    /* Arbitration Priority Control */
-         return s->priority;
+ static const USBDescStrings usb_net_stringtable = {
+     [STRING_MANUFACTURER]       = "QEMU",
+@@ -306,57 +306,57 @@ static const USBDesc desc_net = {
+ /*
+  * RNDIS Definitions - in theory not specific to USB.
+  */
+-#define RNDIS_MAXIMUM_FRAME_SIZE	1518
+-#define RNDIS_MAX_TOTAL_SIZE		1558
++#define RNDIS_MAXIMUM_FRAME_SIZE    1518
++#define RNDIS_MAX_TOTAL_SIZE        1558
  
--    case 0x28:	/* LCD Panel Configuration */
-+    case 0x28:    /* LCD Panel Configuration */
-         return s->lcd_config;
+ /* Remote NDIS Versions */
+-#define RNDIS_MAJOR_VERSION		1
+-#define RNDIS_MINOR_VERSION		0
++#define RNDIS_MAJOR_VERSION        1
++#define RNDIS_MINOR_VERSION        0
  
--    case 0x2a:	/* LCD Horizontal Display Width */
-+    case 0x2a:    /* LCD Horizontal Display Width */
-         return s->x >> 3;
--    case 0x2c:	/* LCD Horizontal Non-display Period */
-+    case 0x2c:    /* LCD Horizontal Non-display Period */
-         return s->hndp;
--    case 0x2e:	/* LCD Vertical Display Height 0 */
-+    case 0x2e:    /* LCD Vertical Display Height 0 */
-         return s->y & 0xff;
--    case 0x30:	/* LCD Vertical Display Height 1 */
-+    case 0x30:    /* LCD Vertical Display Height 1 */
-         return s->y >> 8;
--    case 0x32:	/* LCD Vertical Non-display Period */
-+    case 0x32:    /* LCD Vertical Non-display Period */
-         return s->vndp;
--    case 0x34:	/* LCD HS Pulse-width */
-+    case 0x34:    /* LCD HS Pulse-width */
-         return s->hsync;
--    case 0x36:	/* LCd HS Pulse Start Position */
-+    case 0x36:    /* LCd HS Pulse Start Position */
-         return s->skipx >> 3;
--    case 0x38:	/* LCD VS Pulse-width */
-+    case 0x38:    /* LCD VS Pulse-width */
-         return s->vsync;
--    case 0x3a:	/* LCD VS Pulse Start Position */
-+    case 0x3a:    /* LCD VS Pulse Start Position */
-         return s->skipy;
+ /* Status Values */
+-#define RNDIS_STATUS_SUCCESS		0x00000000U /* Success */
+-#define RNDIS_STATUS_FAILURE		0xc0000001U /* Unspecified error */
+-#define RNDIS_STATUS_INVALID_DATA	0xc0010015U /* Invalid data */
+-#define RNDIS_STATUS_NOT_SUPPORTED	0xc00000bbU /* Unsupported request */
+-#define RNDIS_STATUS_MEDIA_CONNECT	0x4001000bU /* Device connected */
+-#define RNDIS_STATUS_MEDIA_DISCONNECT	0x4001000cU /* Device disconnected */
++#define RNDIS_STATUS_SUCCESS        0x00000000U /* Success */
++#define RNDIS_STATUS_FAILURE        0xc0000001U /* Unspecified error */
++#define RNDIS_STATUS_INVALID_DATA    0xc0010015U /* Invalid data */
++#define RNDIS_STATUS_NOT_SUPPORTED    0xc00000bbU /* Unsupported request */
++#define RNDIS_STATUS_MEDIA_CONNECT    0x4001000bU /* Device connected */
++#define RNDIS_STATUS_MEDIA_DISCONNECT    0x4001000cU /* Device disconnected */
  
--    case 0x3c:	/* PCLK Polarity */
-+    case 0x3c:    /* PCLK Polarity */
-         return s->pclk;
+ /* Message Set for Connectionless (802.3) Devices */
+ enum {
+-    RNDIS_PACKET_MSG		= 1,
+-    RNDIS_INITIALIZE_MSG	= 2,	/* Initialize device */
+-    RNDIS_HALT_MSG		= 3,
+-    RNDIS_QUERY_MSG		= 4,
+-    RNDIS_SET_MSG		= 5,
+-    RNDIS_RESET_MSG		= 6,
+-    RNDIS_INDICATE_STATUS_MSG	= 7,
+-    RNDIS_KEEPALIVE_MSG		= 8,
++    RNDIS_PACKET_MSG        = 1,
++    RNDIS_INITIALIZE_MSG    = 2,    /* Initialize device */
++    RNDIS_HALT_MSG        = 3,
++    RNDIS_QUERY_MSG        = 4,
++    RNDIS_SET_MSG        = 5,
++    RNDIS_RESET_MSG        = 6,
++    RNDIS_INDICATE_STATUS_MSG    = 7,
++    RNDIS_KEEPALIVE_MSG        = 8,
+ };
  
--    case 0x3e:	/* High-speed Serial Interface Tx Configuration Port 0 */
-+    case 0x3e:    /* High-speed Serial Interface Tx Configuration Port 0 */
-         return s->hssi_config[0];
--    case 0x40:	/* High-speed Serial Interface Tx Configuration Port 1 */
-+    case 0x40:    /* High-speed Serial Interface Tx Configuration Port 1 */
-         return s->hssi_config[1];
--    case 0x42:	/* High-speed Serial Interface Tx Mode */
-+    case 0x42:    /* High-speed Serial Interface Tx Mode */
-         return s->hssi_config[2];
--    case 0x44:	/* TV Display Configuration */
-+    case 0x44:    /* TV Display Configuration */
-         return s->tv_config;
--    case 0x46 ... 0x4c:	/* TV Vertical Blanking Interval Data bits */
-+    case 0x46 ... 0x4c:    /* TV Vertical Blanking Interval Data bits */
-         return s->tv_timing[(reg - 0x46) >> 1];
--    case 0x4e:	/* VBI: Closed Caption / XDS Control / Status */
-+    case 0x4e:    /* VBI: Closed Caption / XDS Control / Status */
-         return s->vbi;
--    case 0x50:	/* TV Horizontal Start Position */
-+    case 0x50:    /* TV Horizontal Start Position */
-         return s->tv_x;
--    case 0x52:	/* TV Vertical Start Position */
-+    case 0x52:    /* TV Vertical Start Position */
-         return s->tv_y;
--    case 0x54:	/* TV Test Pattern Setting */
-+    case 0x54:    /* TV Test Pattern Setting */
-         return s->tv_test;
--    case 0x56:	/* TV Filter Setting */
-+    case 0x56:    /* TV Filter Setting */
-         return s->tv_filter_config;
--    case 0x58:	/* TV Filter Coefficient Index */
-+    case 0x58:    /* TV Filter Coefficient Index */
-         return s->tv_filter_idx;
--    case 0x5a:	/* TV Filter Coefficient Data */
-+    case 0x5a:    /* TV Filter Coefficient Data */
-         if (s->tv_filter_idx < 0x20)
-             return s->tv_filter_coeff[s->tv_filter_idx ++];
-         return 0;
+ /* Message completion */
+ enum {
+-    RNDIS_INITIALIZE_CMPLT	= 0x80000002U,
+-    RNDIS_QUERY_CMPLT		= 0x80000004U,
+-    RNDIS_SET_CMPLT		= 0x80000005U,
+-    RNDIS_RESET_CMPLT		= 0x80000006U,
+-    RNDIS_KEEPALIVE_CMPLT	= 0x80000008U,
++    RNDIS_INITIALIZE_CMPLT    = 0x80000002U,
++    RNDIS_QUERY_CMPLT        = 0x80000004U,
++    RNDIS_SET_CMPLT        = 0x80000005U,
++    RNDIS_RESET_CMPLT        = 0x80000006U,
++    RNDIS_KEEPALIVE_CMPLT    = 0x80000008U,
+ };
  
--    case 0x60:	/* Input YUV/RGB Translate Mode 0 */
-+    case 0x60:    /* Input YUV/RGB Translate Mode 0 */
-         return s->yrc[0];
--    case 0x62:	/* Input YUV/RGB Translate Mode 1 */
-+    case 0x62:    /* Input YUV/RGB Translate Mode 1 */
-         return s->yrc[1];
--    case 0x64:	/* U Data Fix */
-+    case 0x64:    /* U Data Fix */
-         return s->u;
--    case 0x66:	/* V Data Fix */
-+    case 0x66:    /* V Data Fix */
-         return s->v;
+ /* Device Flags */
+ enum {
+-    RNDIS_DF_CONNECTIONLESS	= 1,
+-    RNDIS_DF_CONNECTIONORIENTED	= 2,
++    RNDIS_DF_CONNECTIONLESS    = 1,
++    RNDIS_DF_CONNECTIONORIENTED    = 2,
+ };
  
--    case 0x68:	/* Display Mode */
-+    case 0x68:    /* Display Mode */
-         return s->mode;
+-#define RNDIS_MEDIUM_802_3		0x00000000U
++#define RNDIS_MEDIUM_802_3        0x00000000U
  
--    case 0x6a:	/* Special Effects */
-+    case 0x6a:    /* Special Effects */
-         return s->effect;
+ /* from drivers/net/sk98lin/h/skgepnmi.h */
+-#define OID_PNP_CAPABILITIES		0xfd010100
+-#define OID_PNP_SET_POWER		0xfd010101
+-#define OID_PNP_QUERY_POWER		0xfd010102
+-#define OID_PNP_ADD_WAKE_UP_PATTERN	0xfd010103
+-#define OID_PNP_REMOVE_WAKE_UP_PATTERN	0xfd010104
+-#define OID_PNP_ENABLE_WAKE_UP		0xfd010106
++#define OID_PNP_CAPABILITIES        0xfd010100
++#define OID_PNP_SET_POWER        0xfd010101
++#define OID_PNP_QUERY_POWER        0xfd010102
++#define OID_PNP_ADD_WAKE_UP_PATTERN    0xfd010103
++#define OID_PNP_REMOVE_WAKE_UP_PATTERN    0xfd010104
++#define OID_PNP_ENABLE_WAKE_UP        0xfd010106
  
--    case 0x6c:	/* Input Window X Start Position 0 */
-+    case 0x6c:    /* Input Window X Start Position 0 */
-         return s->ix[0] & 0xff;
--    case 0x6e:	/* Input Window X Start Position 1 */
-+    case 0x6e:    /* Input Window X Start Position 1 */
-         return s->ix[0] >> 3;
--    case 0x70:	/* Input Window Y Start Position 0 */
-+    case 0x70:    /* Input Window Y Start Position 0 */
-         return s->ix[0] & 0xff;
--    case 0x72:	/* Input Window Y Start Position 1 */
-+    case 0x72:    /* Input Window Y Start Position 1 */
-         return s->ix[0] >> 3;
--    case 0x74:	/* Input Window X End Position 0 */
-+    case 0x74:    /* Input Window X End Position 0 */
-         return s->ix[1] & 0xff;
--    case 0x76:	/* Input Window X End Position 1 */
-+    case 0x76:    /* Input Window X End Position 1 */
-         return s->ix[1] >> 3;
--    case 0x78:	/* Input Window Y End Position 0 */
-+    case 0x78:    /* Input Window Y End Position 0 */
-         return s->ix[1] & 0xff;
--    case 0x7a:	/* Input Window Y End Position 1 */
-+    case 0x7a:    /* Input Window Y End Position 1 */
-         return s->ix[1] >> 3;
--    case 0x7c:	/* Output Window X Start Position 0 */
-+    case 0x7c:    /* Output Window X Start Position 0 */
-         return s->ox[0] & 0xff;
--    case 0x7e:	/* Output Window X Start Position 1 */
-+    case 0x7e:    /* Output Window X Start Position 1 */
-         return s->ox[0] >> 3;
--    case 0x80:	/* Output Window Y Start Position 0 */
-+    case 0x80:    /* Output Window Y Start Position 0 */
-         return s->oy[0] & 0xff;
--    case 0x82:	/* Output Window Y Start Position 1 */
-+    case 0x82:    /* Output Window Y Start Position 1 */
-         return s->oy[0] >> 3;
--    case 0x84:	/* Output Window X End Position 0 */
-+    case 0x84:    /* Output Window X End Position 0 */
-         return s->ox[1] & 0xff;
--    case 0x86:	/* Output Window X End Position 1 */
-+    case 0x86:    /* Output Window X End Position 1 */
-         return s->ox[1] >> 3;
--    case 0x88:	/* Output Window Y End Position 0 */
-+    case 0x88:    /* Output Window Y End Position 0 */
-         return s->oy[1] & 0xff;
--    case 0x8a:	/* Output Window Y End Position 1 */
-+    case 0x8a:    /* Output Window Y End Position 1 */
-         return s->oy[1] >> 3;
+ typedef uint32_t le32;
  
--    case 0x8c:	/* Input Data Format */
-+    case 0x8c:    /* Input Data Format */
-         return s->iformat;
--    case 0x8e:	/* Data Source Select */
-+    case 0x8e:    /* Data Source Select */
-         return s->source;
--    case 0x90:	/* Display Memory Data Port */
-+    case 0x90:    /* Display Memory Data Port */
-         return 0;
+@@ -494,88 +494,88 @@ enum rndis_state
+ /* from ndis.h */
+ enum ndis_oid {
+     /* Required Object IDs (OIDs) */
+-    OID_GEN_SUPPORTED_LIST		= 0x00010101,
+-    OID_GEN_HARDWARE_STATUS		= 0x00010102,
+-    OID_GEN_MEDIA_SUPPORTED		= 0x00010103,
+-    OID_GEN_MEDIA_IN_USE		= 0x00010104,
+-    OID_GEN_MAXIMUM_LOOKAHEAD		= 0x00010105,
+-    OID_GEN_MAXIMUM_FRAME_SIZE		= 0x00010106,
+-    OID_GEN_LINK_SPEED			= 0x00010107,
+-    OID_GEN_TRANSMIT_BUFFER_SPACE	= 0x00010108,
+-    OID_GEN_RECEIVE_BUFFER_SPACE	= 0x00010109,
+-    OID_GEN_TRANSMIT_BLOCK_SIZE		= 0x0001010a,
+-    OID_GEN_RECEIVE_BLOCK_SIZE		= 0x0001010b,
+-    OID_GEN_VENDOR_ID			= 0x0001010c,
+-    OID_GEN_VENDOR_DESCRIPTION		= 0x0001010d,
+-    OID_GEN_CURRENT_PACKET_FILTER	= 0x0001010e,
+-    OID_GEN_CURRENT_LOOKAHEAD		= 0x0001010f,
+-    OID_GEN_DRIVER_VERSION		= 0x00010110,
+-    OID_GEN_MAXIMUM_TOTAL_SIZE		= 0x00010111,
+-    OID_GEN_PROTOCOL_OPTIONS		= 0x00010112,
+-    OID_GEN_MAC_OPTIONS			= 0x00010113,
+-    OID_GEN_MEDIA_CONNECT_STATUS	= 0x00010114,
+-    OID_GEN_MAXIMUM_SEND_PACKETS	= 0x00010115,
+-    OID_GEN_VENDOR_DRIVER_VERSION	= 0x00010116,
+-    OID_GEN_SUPPORTED_GUIDS		= 0x00010117,
+-    OID_GEN_NETWORK_LAYER_ADDRESSES	= 0x00010118,
+-    OID_GEN_TRANSPORT_HEADER_OFFSET	= 0x00010119,
+-    OID_GEN_MACHINE_NAME		= 0x0001021a,
+-    OID_GEN_RNDIS_CONFIG_PARAMETER	= 0x0001021b,
+-    OID_GEN_VLAN_ID			= 0x0001021c,
++    OID_GEN_SUPPORTED_LIST        = 0x00010101,
++    OID_GEN_HARDWARE_STATUS        = 0x00010102,
++    OID_GEN_MEDIA_SUPPORTED        = 0x00010103,
++    OID_GEN_MEDIA_IN_USE        = 0x00010104,
++    OID_GEN_MAXIMUM_LOOKAHEAD        = 0x00010105,
++    OID_GEN_MAXIMUM_FRAME_SIZE        = 0x00010106,
++    OID_GEN_LINK_SPEED            = 0x00010107,
++    OID_GEN_TRANSMIT_BUFFER_SPACE    = 0x00010108,
++    OID_GEN_RECEIVE_BUFFER_SPACE    = 0x00010109,
++    OID_GEN_TRANSMIT_BLOCK_SIZE        = 0x0001010a,
++    OID_GEN_RECEIVE_BLOCK_SIZE        = 0x0001010b,
++    OID_GEN_VENDOR_ID            = 0x0001010c,
++    OID_GEN_VENDOR_DESCRIPTION        = 0x0001010d,
++    OID_GEN_CURRENT_PACKET_FILTER    = 0x0001010e,
++    OID_GEN_CURRENT_LOOKAHEAD        = 0x0001010f,
++    OID_GEN_DRIVER_VERSION        = 0x00010110,
++    OID_GEN_MAXIMUM_TOTAL_SIZE        = 0x00010111,
++    OID_GEN_PROTOCOL_OPTIONS        = 0x00010112,
++    OID_GEN_MAC_OPTIONS            = 0x00010113,
++    OID_GEN_MEDIA_CONNECT_STATUS    = 0x00010114,
++    OID_GEN_MAXIMUM_SEND_PACKETS    = 0x00010115,
++    OID_GEN_VENDOR_DRIVER_VERSION    = 0x00010116,
++    OID_GEN_SUPPORTED_GUIDS        = 0x00010117,
++    OID_GEN_NETWORK_LAYER_ADDRESSES    = 0x00010118,
++    OID_GEN_TRANSPORT_HEADER_OFFSET    = 0x00010119,
++    OID_GEN_MACHINE_NAME        = 0x0001021a,
++    OID_GEN_RNDIS_CONFIG_PARAMETER    = 0x0001021b,
++    OID_GEN_VLAN_ID            = 0x0001021c,
  
--    case 0xa8:	/* Border Color 0 */
-+    case 0xa8:    /* Border Color 0 */
-         return s->border_r;
--    case 0xaa:	/* Border Color 1 */
-+    case 0xaa:    /* Border Color 1 */
-         return s->border_g;
--    case 0xac:	/* Border Color 2 */
-+    case 0xac:    /* Border Color 2 */
-         return s->border_b;
+     /* Optional OIDs */
+-    OID_GEN_MEDIA_CAPABILITIES		= 0x00010201,
+-    OID_GEN_PHYSICAL_MEDIUM		= 0x00010202,
++    OID_GEN_MEDIA_CAPABILITIES        = 0x00010201,
++    OID_GEN_PHYSICAL_MEDIUM        = 0x00010202,
  
--    case 0xb4:	/* Gamma Correction Enable */
-+    case 0xb4:    /* Gamma Correction Enable */
-         return s->gamma_config;
--    case 0xb6:	/* Gamma Correction Table Index */
-+    case 0xb6:    /* Gamma Correction Table Index */
-         return s->gamma_idx;
--    case 0xb8:	/* Gamma Correction Table Data */
-+    case 0xb8:    /* Gamma Correction Table Data */
-         return s->gamma_lut[s->gamma_idx ++];
+     /* Required statistics OIDs */
+-    OID_GEN_XMIT_OK			= 0x00020101,
+-    OID_GEN_RCV_OK			= 0x00020102,
+-    OID_GEN_XMIT_ERROR			= 0x00020103,
+-    OID_GEN_RCV_ERROR			= 0x00020104,
+-    OID_GEN_RCV_NO_BUFFER		= 0x00020105,
++    OID_GEN_XMIT_OK            = 0x00020101,
++    OID_GEN_RCV_OK            = 0x00020102,
++    OID_GEN_XMIT_ERROR            = 0x00020103,
++    OID_GEN_RCV_ERROR            = 0x00020104,
++    OID_GEN_RCV_NO_BUFFER        = 0x00020105,
  
--    case 0xba:	/* 3x3 Matrix Enable */
-+    case 0xba:    /* 3x3 Matrix Enable */
-         return s->matrix_ena;
--    case 0xbc ... 0xde:	/* Coefficient Registers */
-+    case 0xbc ... 0xde:    /* Coefficient Registers */
-         return s->matrix_coeff[(reg - 0xbc) >> 1];
--    case 0xe0:	/* 3x3 Matrix Red Offset */
-+    case 0xe0:    /* 3x3 Matrix Red Offset */
-         return s->matrix_r;
--    case 0xe2:	/* 3x3 Matrix Green Offset */
-+    case 0xe2:    /* 3x3 Matrix Green Offset */
-         return s->matrix_g;
--    case 0xe4:	/* 3x3 Matrix Blue Offset */
-+    case 0xe4:    /* 3x3 Matrix Blue Offset */
-         return s->matrix_b;
+     /* Optional statistics OIDs */
+-    OID_GEN_DIRECTED_BYTES_XMIT		= 0x00020201,
+-    OID_GEN_DIRECTED_FRAMES_XMIT	= 0x00020202,
+-    OID_GEN_MULTICAST_BYTES_XMIT	= 0x00020203,
+-    OID_GEN_MULTICAST_FRAMES_XMIT	= 0x00020204,
+-    OID_GEN_BROADCAST_BYTES_XMIT	= 0x00020205,
+-    OID_GEN_BROADCAST_FRAMES_XMIT	= 0x00020206,
+-    OID_GEN_DIRECTED_BYTES_RCV		= 0x00020207,
+-    OID_GEN_DIRECTED_FRAMES_RCV		= 0x00020208,
+-    OID_GEN_MULTICAST_BYTES_RCV		= 0x00020209,
+-    OID_GEN_MULTICAST_FRAMES_RCV	= 0x0002020a,
+-    OID_GEN_BROADCAST_BYTES_RCV		= 0x0002020b,
+-    OID_GEN_BROADCAST_FRAMES_RCV	= 0x0002020c,
+-    OID_GEN_RCV_CRC_ERROR		= 0x0002020d,
+-    OID_GEN_TRANSMIT_QUEUE_LENGTH	= 0x0002020e,
+-    OID_GEN_GET_TIME_CAPS		= 0x0002020f,
+-    OID_GEN_GET_NETCARD_TIME		= 0x00020210,
+-    OID_GEN_NETCARD_LOAD		= 0x00020211,
+-    OID_GEN_DEVICE_PROFILE		= 0x00020212,
+-    OID_GEN_INIT_TIME_MS		= 0x00020213,
+-    OID_GEN_RESET_COUNTS		= 0x00020214,
+-    OID_GEN_MEDIA_SENSE_COUNTS		= 0x00020215,
+-    OID_GEN_FRIENDLY_NAME		= 0x00020216,
+-    OID_GEN_MINIPORT_INFO		= 0x00020217,
+-    OID_GEN_RESET_VERIFY_PARAMETERS	= 0x00020218,
++    OID_GEN_DIRECTED_BYTES_XMIT        = 0x00020201,
++    OID_GEN_DIRECTED_FRAMES_XMIT    = 0x00020202,
++    OID_GEN_MULTICAST_BYTES_XMIT    = 0x00020203,
++    OID_GEN_MULTICAST_FRAMES_XMIT    = 0x00020204,
++    OID_GEN_BROADCAST_BYTES_XMIT    = 0x00020205,
++    OID_GEN_BROADCAST_FRAMES_XMIT    = 0x00020206,
++    OID_GEN_DIRECTED_BYTES_RCV        = 0x00020207,
++    OID_GEN_DIRECTED_FRAMES_RCV        = 0x00020208,
++    OID_GEN_MULTICAST_BYTES_RCV        = 0x00020209,
++    OID_GEN_MULTICAST_FRAMES_RCV    = 0x0002020a,
++    OID_GEN_BROADCAST_BYTES_RCV        = 0x0002020b,
++    OID_GEN_BROADCAST_FRAMES_RCV    = 0x0002020c,
++    OID_GEN_RCV_CRC_ERROR        = 0x0002020d,
++    OID_GEN_TRANSMIT_QUEUE_LENGTH    = 0x0002020e,
++    OID_GEN_GET_TIME_CAPS        = 0x0002020f,
++    OID_GEN_GET_NETCARD_TIME        = 0x00020210,
++    OID_GEN_NETCARD_LOAD        = 0x00020211,
++    OID_GEN_DEVICE_PROFILE        = 0x00020212,
++    OID_GEN_INIT_TIME_MS        = 0x00020213,
++    OID_GEN_RESET_COUNTS        = 0x00020214,
++    OID_GEN_MEDIA_SENSE_COUNTS        = 0x00020215,
++    OID_GEN_FRIENDLY_NAME        = 0x00020216,
++    OID_GEN_MINIPORT_INFO        = 0x00020217,
++    OID_GEN_RESET_VERIFY_PARAMETERS    = 0x00020218,
  
--    case 0xe6:	/* Power-save */
-+    case 0xe6:    /* Power-save */
-         return s->pm;
--    case 0xe8:	/* Non-display Period Control / Status */
-+    case 0xe8:    /* Non-display Period Control / Status */
-         return s->status | (1 << 5);
--    case 0xea:	/* RGB Interface Control */
-+    case 0xea:    /* RGB Interface Control */
-         return s->rgbgpio_dir;
--    case 0xec:	/* RGB Interface Status */
-+    case 0xec:    /* RGB Interface Status */
-         return s->rgbgpio;
--    case 0xee:	/* General-purpose IO Pins Configuration */
-+    case 0xee:    /* General-purpose IO Pins Configuration */
-         return s->gpio_dir;
--    case 0xf0:	/* General-purpose IO Pins Status / Control */
-+    case 0xf0:    /* General-purpose IO Pins Status / Control */
-         return s->gpio;
--    case 0xf2:	/* GPIO Positive Edge Interrupt Trigger */
-+    case 0xf2:    /* GPIO Positive Edge Interrupt Trigger */
-         return s->gpio_edge[0];
--    case 0xf4:	/* GPIO Negative Edge Interrupt Trigger */
-+    case 0xf4:    /* GPIO Negative Edge Interrupt Trigger */
-         return s->gpio_edge[1];
--    case 0xf6:	/* GPIO Interrupt Status */
-+    case 0xf6:    /* GPIO Interrupt Status */
-         return s->gpio_irq;
--    case 0xf8:	/* GPIO Pull-down Control */
-+    case 0xf8:    /* GPIO Pull-down Control */
-         return s->gpio_pdown;
+     /* IEEE 802.3 (Ethernet) OIDs */
+-    OID_802_3_PERMANENT_ADDRESS		= 0x01010101,
+-    OID_802_3_CURRENT_ADDRESS		= 0x01010102,
+-    OID_802_3_MULTICAST_LIST		= 0x01010103,
+-    OID_802_3_MAXIMUM_LIST_SIZE		= 0x01010104,
+-    OID_802_3_MAC_OPTIONS		= 0x01010105,
+-    OID_802_3_RCV_ERROR_ALIGNMENT	= 0x01020101,
+-    OID_802_3_XMIT_ONE_COLLISION	= 0x01020102,
+-    OID_802_3_XMIT_MORE_COLLISIONS	= 0x01020103,
+-    OID_802_3_XMIT_DEFERRED		= 0x01020201,
+-    OID_802_3_XMIT_MAX_COLLISIONS	= 0x01020202,
+-    OID_802_3_RCV_OVERRUN		= 0x01020203,
+-    OID_802_3_XMIT_UNDERRUN		= 0x01020204,
+-    OID_802_3_XMIT_HEARTBEAT_FAILURE	= 0x01020205,
+-    OID_802_3_XMIT_TIMES_CRS_LOST	= 0x01020206,
+-    OID_802_3_XMIT_LATE_COLLISIONS	= 0x01020207,
++    OID_802_3_PERMANENT_ADDRESS        = 0x01010101,
++    OID_802_3_CURRENT_ADDRESS        = 0x01010102,
++    OID_802_3_MULTICAST_LIST        = 0x01010103,
++    OID_802_3_MAXIMUM_LIST_SIZE        = 0x01010104,
++    OID_802_3_MAC_OPTIONS        = 0x01010105,
++    OID_802_3_RCV_ERROR_ALIGNMENT    = 0x01020101,
++    OID_802_3_XMIT_ONE_COLLISION    = 0x01020102,
++    OID_802_3_XMIT_MORE_COLLISIONS    = 0x01020103,
++    OID_802_3_XMIT_DEFERRED        = 0x01020201,
++    OID_802_3_XMIT_MAX_COLLISIONS    = 0x01020202,
++    OID_802_3_RCV_OVERRUN        = 0x01020203,
++    OID_802_3_XMIT_UNDERRUN        = 0x01020204,
++    OID_802_3_XMIT_HEARTBEAT_FAILURE    = 0x01020205,
++    OID_802_3_XMIT_TIMES_CRS_LOST    = 0x01020206,
++    OID_802_3_XMIT_LATE_COLLISIONS    = 0x01020207,
+ };
  
-     default:
-@@ -484,157 +484,157 @@ static void blizzard_reg_write(void *opaque, uint8_t reg, uint16_t value)
-     BlizzardState *s = (BlizzardState *) opaque;
+ static const uint32_t oid_supported_list[] =
+@@ -618,13 +618,13 @@ static const uint32_t oid_supported_list[] =
+     OID_802_3_XMIT_MORE_COLLISIONS,
+ };
  
-     switch (reg) {
--    case 0x04:	/* PLL M-Divider */
-+    case 0x04:    /* PLL M-Divider */
-         s->pll = (value & 0x3f) + 1;
-         break;
--    case 0x06:	/* PLL Lock Range Control */
-+    case 0x06:    /* PLL Lock Range Control */
-         s->pll_range = value & 3;
-         break;
--    case 0x08:	/* PLL Lock Synthesis Control 0 */
-+    case 0x08:    /* PLL Lock Synthesis Control 0 */
-         s->pll_ctrl &= 0xf00;
-         s->pll_ctrl |= (value << 0) & 0x0ff;
-         break;
--    case 0x0a:	/* PLL Lock Synthesis Control 1 */
-+    case 0x0a:    /* PLL Lock Synthesis Control 1 */
-         s->pll_ctrl &= 0x0ff;
-         s->pll_ctrl |= (value << 8) & 0xf00;
-         break;
--    case 0x0c:	/* PLL Mode Control 0 */
-+    case 0x0c:    /* PLL Mode Control 0 */
-         s->pll_mode = value & 0x77;
-         if ((value & 3) == 0 || (value & 3) == 3)
-             fprintf(stderr, "%s: wrong PLL Control bits (%i)\n",
-                     __func__, value & 3);
-         break;
+-#define NDIS_MAC_OPTION_COPY_LOOKAHEAD_DATA	(1 << 0)
+-#define NDIS_MAC_OPTION_RECEIVE_SERIALIZED	(1 << 1)
+-#define NDIS_MAC_OPTION_TRANSFERS_NOT_PEND	(1 << 2)
+-#define NDIS_MAC_OPTION_NO_LOOPBACK		(1 << 3)
+-#define NDIS_MAC_OPTION_FULL_DUPLEX		(1 << 4)
+-#define NDIS_MAC_OPTION_EOTX_INDICATION		(1 << 5)
+-#define NDIS_MAC_OPTION_8021P_PRIORITY		(1 << 6)
++#define NDIS_MAC_OPTION_COPY_LOOKAHEAD_DATA    (1 << 0)
++#define NDIS_MAC_OPTION_RECEIVE_SERIALIZED    (1 << 1)
++#define NDIS_MAC_OPTION_TRANSFERS_NOT_PEND    (1 << 2)
++#define NDIS_MAC_OPTION_NO_LOOPBACK        (1 << 3)
++#define NDIS_MAC_OPTION_FULL_DUPLEX        (1 << 4)
++#define NDIS_MAC_OPTION_EOTX_INDICATION        (1 << 5)
++#define NDIS_MAC_OPTION_8021P_PRIORITY        (1 << 6)
  
--    case 0x0e:	/* Clock-Source Select */
-+    case 0x0e:    /* Clock-Source Select */
-         s->clksel = value & 0xff;
-         break;
+ struct rndis_response {
+     QTAILQ_ENTRY(rndis_response) entries;
+@@ -1375,12 +1375,12 @@ static void usb_net_realize(USBDevice *dev, Error **errp)
+     s->rndis_state = RNDIS_UNINITIALIZED;
+     QTAILQ_INIT(&s->rndis_resp);
  
--    case 0x10:	/* Memory Controller Activate */
-+    case 0x10:    /* Memory Controller Activate */
-         s->memenable = value & 1;
-         break;
--    case 0x14:	/* Memory Controller Bank 0 Status Flag */
-+    case 0x14:    /* Memory Controller Bank 0 Status Flag */
-         break;
+-    s->medium = 0;	/* NDIS_MEDIUM_802_3 */
++    s->medium = 0;    /* NDIS_MEDIUM_802_3 */
+     s->speed = 1000000; /* 100MBps, in 100Bps units */
+-    s->media_state = 0;	/* NDIS_MEDIA_STATE_CONNECTED */;
++    s->media_state = 0;    /* NDIS_MEDIA_STATE_CONNECTED */;
+     s->filter = 0;
+     s->vendorid = 0x1234;
+-    s->connection = 1;	/* Connected */
++    s->connection = 1;    /* Connected */
+     s->intr = usb_ep_get(dev, USB_TOKEN_IN, 1);
+     s->bulk_in = usb_ep_get(dev, USB_TOKEN_IN, 2);
  
--    case 0x18:	/* Auto-Refresh Interval Setting 0 */
-+    case 0x18:    /* Auto-Refresh Interval Setting 0 */
-         s->memrefresh &= 0xf00;
-         s->memrefresh |= (value << 0) & 0x0ff;
-         break;
--    case 0x1a:	/* Auto-Refresh Interval Setting 1 */
-+    case 0x1a:    /* Auto-Refresh Interval Setting 1 */
-         s->memrefresh &= 0x0ff;
-         s->memrefresh |= (value << 8) & 0xf00;
-         break;
+diff --git a/hw/usb/dev-wacom.c b/hw/usb/dev-wacom.c
+index 8323650c6a..7177c17f03 100644
+--- a/hw/usb/dev-wacom.c
++++ b/hw/usb/dev-wacom.c
+@@ -36,8 +36,8 @@
+ #include "qom/object.h"
  
--    case 0x1c:	/* Power-On Sequence Timing Control */
-+    case 0x1c:    /* Power-On Sequence Timing Control */
-         s->timing[0] = value & 0x7f;
-         break;
--    case 0x1e:	/* Timing Control 0 */
-+    case 0x1e:    /* Timing Control 0 */
-         s->timing[1] = value & 0x17;
-         break;
--    case 0x20:	/* Timing Control 1 */
-+    case 0x20:    /* Timing Control 1 */
-         s->timing[2] = value & 0x35;
-         break;
+ /* Interface requests */
+-#define WACOM_GET_REPORT	0x2101
+-#define WACOM_SET_REPORT	0x2109
++#define WACOM_GET_REPORT    0x2101
++#define WACOM_SET_REPORT    0x2109
  
--    case 0x24:	/* Arbitration Priority Control */
-+    case 0x24:    /* Arbitration Priority Control */
-         s->priority = value & 1;
-         break;
+ struct USBWacomState {
+     USBDevice dev;
+diff --git a/hw/usb/hcd-musb.c b/hw/usb/hcd-musb.c
+index 85f5ff5bd4..be76e98fad 100644
+--- a/hw/usb/hcd-musb.c
++++ b/hw/usb/hcd-musb.c
+@@ -28,227 +28,227 @@
+ #include "hw/hw.h"
  
--    case 0x28:	/* LCD Panel Configuration */
-+    case 0x28:    /* LCD Panel Configuration */
-         s->lcd_config = value & 0xff;
-         if (value & (1 << 7))
-             fprintf(stderr, "%s: data swap not supported!\n", __func__);
-         break;
+ /* Common USB registers */
+-#define MUSB_HDRC_FADDR		0x00	/* 8-bit */
+-#define MUSB_HDRC_POWER		0x01	/* 8-bit */
+-
+-#define MUSB_HDRC_INTRTX	0x02	/* 16-bit */
+-#define MUSB_HDRC_INTRRX	0x04
+-#define MUSB_HDRC_INTRTXE	0x06  
+-#define MUSB_HDRC_INTRRXE	0x08  
+-#define MUSB_HDRC_INTRUSB	0x0a	/* 8 bit */
+-#define MUSB_HDRC_INTRUSBE	0x0b	/* 8 bit */
+-#define MUSB_HDRC_FRAME		0x0c	/* 16-bit */
+-#define MUSB_HDRC_INDEX		0x0e	/* 8 bit */
+-#define MUSB_HDRC_TESTMODE	0x0f	/* 8 bit */
++#define MUSB_HDRC_FADDR         0x00    /* 8-bit */
++#define MUSB_HDRC_POWER         0x01    /* 8-bit */
++
++#define MUSB_HDRC_INTRTX        0x02    /* 16-bit */
++#define MUSB_HDRC_INTRRX        0x04
++#define MUSB_HDRC_INTRTXE       0x06
++#define MUSB_HDRC_INTRRXE       0x08
++#define MUSB_HDRC_INTRUSB       0x0a    /* 8 bit */
++#define MUSB_HDRC_INTRUSBE      0x0b    /* 8 bit */
++#define MUSB_HDRC_FRAME         0x0c    /* 16-bit */
++#define MUSB_HDRC_INDEX         0x0e    /* 8 bit */
++#define MUSB_HDRC_TESTMODE      0x0f    /* 8 bit */
  
--    case 0x2a:	/* LCD Horizontal Display Width */
-+    case 0x2a:    /* LCD Horizontal Display Width */
-         s->x = value << 3;
-         break;
--    case 0x2c:	/* LCD Horizontal Non-display Period */
-+    case 0x2c:    /* LCD Horizontal Non-display Period */
-         s->hndp = value & 0xff;
-         break;
--    case 0x2e:	/* LCD Vertical Display Height 0 */
-+    case 0x2e:    /* LCD Vertical Display Height 0 */
-         s->y &= 0x300;
-         s->y |= (value << 0) & 0x0ff;
-         break;
--    case 0x30:	/* LCD Vertical Display Height 1 */
-+    case 0x30:    /* LCD Vertical Display Height 1 */
-         s->y &= 0x0ff;
-         s->y |= (value << 8) & 0x300;
-         break;
--    case 0x32:	/* LCD Vertical Non-display Period */
-+    case 0x32:    /* LCD Vertical Non-display Period */
-         s->vndp = value & 0xff;
-         break;
--    case 0x34:	/* LCD HS Pulse-width */
-+    case 0x34:    /* LCD HS Pulse-width */
-         s->hsync = value & 0xff;
-         break;
--    case 0x36:	/* LCD HS Pulse Start Position */
-+    case 0x36:    /* LCD HS Pulse Start Position */
-         s->skipx = value & 0xff;
-         break;
--    case 0x38:	/* LCD VS Pulse-width */
-+    case 0x38:    /* LCD VS Pulse-width */
-         s->vsync = value & 0xbf;
-         break;
--    case 0x3a:	/* LCD VS Pulse Start Position */
-+    case 0x3a:    /* LCD VS Pulse Start Position */
-         s->skipy = value & 0xff;
-         break;
+ /* Per-EP registers in indexed mode */
+-#define MUSB_HDRC_EP_IDX	0x10	/* 8-bit */
++#define MUSB_HDRC_EP_IDX        0x10    /* 8-bit */
  
--    case 0x3c:	/* PCLK Polarity */
-+    case 0x3c:    /* PCLK Polarity */
-         s->pclk = value & 0x82;
-         /* Affects calculation of s->hndp, s->hsync and s->skipx.  */
-         break;
+ /* EP FIFOs */
+-#define MUSB_HDRC_FIFO		0x20
++#define MUSB_HDRC_FIFO          0x20
  
--    case 0x3e:	/* High-speed Serial Interface Tx Configuration Port 0 */
-+    case 0x3e:    /* High-speed Serial Interface Tx Configuration Port 0 */
-         s->hssi_config[0] = value;
-         break;
--    case 0x40:	/* High-speed Serial Interface Tx Configuration Port 1 */
-+    case 0x40:    /* High-speed Serial Interface Tx Configuration Port 1 */
-         s->hssi_config[1] = value;
-         if (((value >> 4) & 3) == 3)
-             fprintf(stderr, "%s: Illegal active-data-links value\n",
-                             __func__);
-         break;
--    case 0x42:	/* High-speed Serial Interface Tx Mode */
-+    case 0x42:    /* High-speed Serial Interface Tx Mode */
-         s->hssi_config[2] = value & 0xbd;
-         break;
+ /* Additional Control Registers */
+-#define	MUSB_HDRC_DEVCTL	0x60	/* 8 bit */
++#define    MUSB_HDRC_DEVCTL     0x60    /* 8 bit */
  
--    case 0x44:	/* TV Display Configuration */
-+    case 0x44:    /* TV Display Configuration */
-         s->tv_config = value & 0xfe;
-         break;
--    case 0x46 ... 0x4c:	/* TV Vertical Blanking Interval Data bits 0 */
-+    case 0x46 ... 0x4c:    /* TV Vertical Blanking Interval Data bits 0 */
-         s->tv_timing[(reg - 0x46) >> 1] = value;
-         break;
--    case 0x4e:	/* VBI: Closed Caption / XDS Control / Status */
-+    case 0x4e:    /* VBI: Closed Caption / XDS Control / Status */
-         s->vbi = value;
-         break;
--    case 0x50:	/* TV Horizontal Start Position */
-+    case 0x50:    /* TV Horizontal Start Position */
-         s->tv_x = value;
-         break;
--    case 0x52:	/* TV Vertical Start Position */
-+    case 0x52:    /* TV Vertical Start Position */
-         s->tv_y = value & 0x7f;
-         break;
--    case 0x54:	/* TV Test Pattern Setting */
-+    case 0x54:    /* TV Test Pattern Setting */
-         s->tv_test = value;
-         break;
--    case 0x56:	/* TV Filter Setting */
-+    case 0x56:    /* TV Filter Setting */
-         s->tv_filter_config = value & 0xbf;
-         break;
--    case 0x58:	/* TV Filter Coefficient Index */
-+    case 0x58:    /* TV Filter Coefficient Index */
-         s->tv_filter_idx = value & 0x1f;
-         break;
--    case 0x5a:	/* TV Filter Coefficient Data */
-+    case 0x5a:    /* TV Filter Coefficient Data */
-         if (s->tv_filter_idx < 0x20)
-             s->tv_filter_coeff[s->tv_filter_idx ++] = value;
-         break;
+ /* These are indexed */
+-#define MUSB_HDRC_TXFIFOSZ	0x62	/* 8 bit (see masks) */
+-#define MUSB_HDRC_RXFIFOSZ	0x63	/* 8 bit (see masks) */
+-#define MUSB_HDRC_TXFIFOADDR	0x64	/* 16 bit offset shifted right 3 */
+-#define MUSB_HDRC_RXFIFOADDR	0x66	/* 16 bit offset shifted right 3 */
++#define MUSB_HDRC_TXFIFOSZ      0x62    /* 8 bit (see masks) */
++#define MUSB_HDRC_RXFIFOSZ      0x63    /* 8 bit (see masks) */
++#define MUSB_HDRC_TXFIFOADDR    0x64    /* 16 bit offset shifted right 3 */
++#define MUSB_HDRC_RXFIFOADDR    0x66    /* 16 bit offset shifted right 3 */
  
--    case 0x60:	/* Input YUV/RGB Translate Mode 0 */
-+    case 0x60:    /* Input YUV/RGB Translate Mode 0 */
-         s->yrc[0] = value & 0xb0;
-         break;
--    case 0x62:	/* Input YUV/RGB Translate Mode 1 */
-+    case 0x62:    /* Input YUV/RGB Translate Mode 1 */
-         s->yrc[1] = value & 0x30;
-         break;
--    case 0x64:	/* U Data Fix */
-+    case 0x64:    /* U Data Fix */
-         s->u = value & 0xff;
-         break;
--    case 0x66:	/* V Data Fix */
-+    case 0x66:    /* V Data Fix */
-         s->v = value & 0xff;
-         break;
+ /* Some more registers */
+-#define MUSB_HDRC_VCTRL		0x68	/* 8 bit */
+-#define MUSB_HDRC_HWVERS	0x6c	/* 8 bit */
++#define MUSB_HDRC_VCTRL         0x68    /* 8 bit */
++#define MUSB_HDRC_HWVERS        0x6c    /* 8 bit */
  
--    case 0x68:	/* Display Mode */
-+    case 0x68:    /* Display Mode */
-         if ((s->mode ^ value) & 3)
-             s->invalidate = 1;
-         s->mode = value & 0xb7;
-@@ -644,83 +644,83 @@ static void blizzard_reg_write(void *opaque, uint8_t reg, uint16_t value)
-             fprintf(stderr, "%s: Macrovision enable attempt!\n", __func__);
-         break;
+ /* Added in HDRC 1.9(?) & MHDRC 1.4 */
+ /* ULPI pass-through */
+-#define MUSB_HDRC_ULPI_VBUSCTL	0x70
+-#define MUSB_HDRC_ULPI_REGDATA	0x74
+-#define MUSB_HDRC_ULPI_REGADDR	0x75
+-#define MUSB_HDRC_ULPI_REGCTL	0x76
++#define MUSB_HDRC_ULPI_VBUSCTL    0x70
++#define MUSB_HDRC_ULPI_REGDATA    0x74
++#define MUSB_HDRC_ULPI_REGADDR    0x75
++#define MUSB_HDRC_ULPI_REGCTL     0x76
  
--    case 0x6a:	/* Special Effects */
-+    case 0x6a:    /* Special Effects */
-         s->effect = value & 0xfb;
-         break;
+ /* Extended config & PHY control */
+-#define MUSB_HDRC_ENDCOUNT	0x78	/* 8 bit */
+-#define MUSB_HDRC_DMARAMCFG	0x79	/* 8 bit */
+-#define MUSB_HDRC_PHYWAIT	0x7a	/* 8 bit */
+-#define MUSB_HDRC_PHYVPLEN	0x7b	/* 8 bit */
+-#define MUSB_HDRC_HS_EOF1	0x7c	/* 8 bit, units of 546.1 us */
+-#define MUSB_HDRC_FS_EOF1	0x7d	/* 8 bit, units of 533.3 ns */
+-#define MUSB_HDRC_LS_EOF1	0x7e	/* 8 bit, units of 1.067 us */
++#define MUSB_HDRC_ENDCOUNT      0x78    /* 8 bit */
++#define MUSB_HDRC_DMARAMCFG     0x79    /* 8 bit */
++#define MUSB_HDRC_PHYWAIT       0x7a    /* 8 bit */
++#define MUSB_HDRC_PHYVPLEN      0x7b    /* 8 bit */
++#define MUSB_HDRC_HS_EOF1       0x7c    /* 8 bit, units of 546.1 us */
++#define MUSB_HDRC_FS_EOF1       0x7d    /* 8 bit, units of 533.3 ns */
++#define MUSB_HDRC_LS_EOF1       0x7e    /* 8 bit, units of 1.067 us */
  
--    case 0x6c:	/* Input Window X Start Position 0 */
-+    case 0x6c:    /* Input Window X Start Position 0 */
-         s->ix[0] &= 0x300;
-         s->ix[0] |= (value << 0) & 0x0ff;
-         break;
--    case 0x6e:	/* Input Window X Start Position 1 */
-+    case 0x6e:    /* Input Window X Start Position 1 */
-         s->ix[0] &= 0x0ff;
-         s->ix[0] |= (value << 8) & 0x300;
-         break;
--    case 0x70:	/* Input Window Y Start Position 0 */
-+    case 0x70:    /* Input Window Y Start Position 0 */
-         s->iy[0] &= 0x300;
-         s->iy[0] |= (value << 0) & 0x0ff;
-         break;
--    case 0x72:	/* Input Window Y Start Position 1 */
-+    case 0x72:    /* Input Window Y Start Position 1 */
-         s->iy[0] &= 0x0ff;
-         s->iy[0] |= (value << 8) & 0x300;
-         break;
--    case 0x74:	/* Input Window X End Position 0 */
-+    case 0x74:    /* Input Window X End Position 0 */
-         s->ix[1] &= 0x300;
-         s->ix[1] |= (value << 0) & 0x0ff;
-         break;
--    case 0x76:	/* Input Window X End Position 1 */
-+    case 0x76:    /* Input Window X End Position 1 */
-         s->ix[1] &= 0x0ff;
-         s->ix[1] |= (value << 8) & 0x300;
-         break;
--    case 0x78:	/* Input Window Y End Position 0 */
-+    case 0x78:    /* Input Window Y End Position 0 */
-         s->iy[1] &= 0x300;
-         s->iy[1] |= (value << 0) & 0x0ff;
-         break;
--    case 0x7a:	/* Input Window Y End Position 1 */
-+    case 0x7a:    /* Input Window Y End Position 1 */
-         s->iy[1] &= 0x0ff;
-         s->iy[1] |= (value << 8) & 0x300;
-         break;
--    case 0x7c:	/* Output Window X Start Position 0 */
-+    case 0x7c:    /* Output Window X Start Position 0 */
-         s->ox[0] &= 0x300;
-         s->ox[0] |= (value << 0) & 0x0ff;
-         break;
--    case 0x7e:	/* Output Window X Start Position 1 */
-+    case 0x7e:    /* Output Window X Start Position 1 */
-         s->ox[0] &= 0x0ff;
-         s->ox[0] |= (value << 8) & 0x300;
-         break;
--    case 0x80:	/* Output Window Y Start Position 0 */
-+    case 0x80:    /* Output Window Y Start Position 0 */
-         s->oy[0] &= 0x300;
-         s->oy[0] |= (value << 0) & 0x0ff;
-         break;
--    case 0x82:	/* Output Window Y Start Position 1 */
-+    case 0x82:    /* Output Window Y Start Position 1 */
-         s->oy[0] &= 0x0ff;
-         s->oy[0] |= (value << 8) & 0x300;
-         break;
--    case 0x84:	/* Output Window X End Position 0 */
-+    case 0x84:    /* Output Window X End Position 0 */
-         s->ox[1] &= 0x300;
-         s->ox[1] |= (value << 0) & 0x0ff;
-         break;
--    case 0x86:	/* Output Window X End Position 1 */
-+    case 0x86:    /* Output Window X End Position 1 */
-         s->ox[1] &= 0x0ff;
-         s->ox[1] |= (value << 8) & 0x300;
-         break;
--    case 0x88:	/* Output Window Y End Position 0 */
-+    case 0x88:    /* Output Window Y End Position 0 */
-         s->oy[1] &= 0x300;
-         s->oy[1] |= (value << 0) & 0x0ff;
-         break;
--    case 0x8a:	/* Output Window Y End Position 1 */
-+    case 0x8a:    /* Output Window Y End Position 1 */
-         s->oy[1] &= 0x0ff;
-         s->oy[1] |= (value << 8) & 0x300;
-         break;
+ /* Per-EP BUSCTL registers */
+-#define MUSB_HDRC_BUSCTL	0x80
++#define MUSB_HDRC_BUSCTL    0x80
  
--    case 0x8c:	/* Input Data Format */
-+    case 0x8c:    /* Input Data Format */
-         s->iformat = value & 0xf;
-         s->bpp = blizzard_iformat_bpp[s->iformat];
-         if (!s->bpp)
-             fprintf(stderr, "%s: Illegal or unsupported input format %x\n",
-                             __func__, s->iformat);
-         break;
--    case 0x8e:	/* Data Source Select */
-+    case 0x8e:    /* Data Source Select */
-         s->source = value & 7;
-         /* Currently all windows will be "destructive overlays".  */
-         if ((!(s->effect & (1 << 3)) && (s->ix[0] != s->ox[0] ||
-@@ -735,7 +735,7 @@ static void blizzard_reg_write(void *opaque, uint8_t reg, uint16_t value)
-         blizzard_transfer_setup(s);
-         break;
+ /* Per-EP registers in flat mode */
+-#define MUSB_HDRC_EP		0x100
++#define MUSB_HDRC_EP        0x100
  
--    case 0x90:	/* Display Memory Data Port */
-+    case 0x90:    /* Display Memory Data Port */
-         if (!s->data.len && !blizzard_transfer_setup(s))
-             break;
+ /* offsets to registers in flat model */
+-#define MUSB_HDRC_TXMAXP	0x00	/* 16 bit apparently */
+-#define MUSB_HDRC_TXCSR		0x02	/* 16 bit apparently */
+-#define MUSB_HDRC_CSR0		MUSB_HDRC_TXCSR		/* re-used for EP0 */
+-#define MUSB_HDRC_RXMAXP	0x04	/* 16 bit apparently */
+-#define MUSB_HDRC_RXCSR		0x06	/* 16 bit apparently */
+-#define MUSB_HDRC_RXCOUNT	0x08	/* 16 bit apparently */
+-#define MUSB_HDRC_COUNT0	MUSB_HDRC_RXCOUNT	/* re-used for EP0 */
+-#define MUSB_HDRC_TXTYPE	0x0a	/* 8 bit apparently */
+-#define MUSB_HDRC_TYPE0		MUSB_HDRC_TXTYPE	/* re-used for EP0 */
+-#define MUSB_HDRC_TXINTERVAL	0x0b	/* 8 bit apparently */
+-#define MUSB_HDRC_NAKLIMIT0	MUSB_HDRC_TXINTERVAL	/* re-used for EP0 */
+-#define MUSB_HDRC_RXTYPE	0x0c	/* 8 bit apparently */
+-#define MUSB_HDRC_RXINTERVAL	0x0d	/* 8 bit apparently */
+-#define MUSB_HDRC_FIFOSIZE	0x0f	/* 8 bit apparently */
+-#define MUSB_HDRC_CONFIGDATA	MGC_O_HDRC_FIFOSIZE	/* re-used for EP0 */
++#define MUSB_HDRC_TXMAXP        0x00    /* 16 bit apparently */
++#define MUSB_HDRC_TXCSR         0x02    /* 16 bit apparently */
++#define MUSB_HDRC_CSR0          MUSB_HDRC_TXCSR        /* re-used for EP0 */
++#define MUSB_HDRC_RXMAXP        0x04    /* 16 bit apparently */
++#define MUSB_HDRC_RXCSR         0x06    /* 16 bit apparently */
++#define MUSB_HDRC_RXCOUNT       0x08    /* 16 bit apparently */
++#define MUSB_HDRC_COUNT0        MUSB_HDRC_RXCOUNT    /* re-used for EP0 */
++#define MUSB_HDRC_TXTYPE        0x0a    /* 8 bit apparently */
++#define MUSB_HDRC_TYPE0         MUSB_HDRC_TXTYPE    /* re-used for EP0 */
++#define MUSB_HDRC_TXINTERVAL    0x0b    /* 8 bit apparently */
++#define MUSB_HDRC_NAKLIMIT0     MUSB_HDRC_TXINTERVAL    /* re-used for EP0 */
++#define MUSB_HDRC_RXTYPE        0x0c    /* 8 bit apparently */
++#define MUSB_HDRC_RXINTERVAL    0x0d    /* 8 bit apparently */
++#define MUSB_HDRC_FIFOSIZE      0x0f    /* 8 bit apparently */
++#define MUSB_HDRC_CONFIGDATA    MGC_O_HDRC_FIFOSIZE    /* re-used for EP0 */
  
-@@ -744,73 +744,73 @@ static void blizzard_reg_write(void *opaque, uint8_t reg, uint16_t value)
-             blizzard_window(s);
-         break;
+ /* "Bus control" registers */
+-#define MUSB_HDRC_TXFUNCADDR	0x00
+-#define MUSB_HDRC_TXHUBADDR	0x02
+-#define MUSB_HDRC_TXHUBPORT	0x03
++#define MUSB_HDRC_TXFUNCADDR    0x00
++#define MUSB_HDRC_TXHUBADDR     0x02
++#define MUSB_HDRC_TXHUBPORT     0x03
  
--    case 0xa8:	/* Border Color 0 */
-+    case 0xa8:    /* Border Color 0 */
-         s->border_r = value;
-         break;
--    case 0xaa:	/* Border Color 1 */
-+    case 0xaa:    /* Border Color 1 */
-         s->border_g = value;
-         break;
--    case 0xac:	/* Border Color 2 */
-+    case 0xac:    /* Border Color 2 */
-         s->border_b = value;
-         break;
+-#define MUSB_HDRC_RXFUNCADDR	0x04
+-#define MUSB_HDRC_RXHUBADDR	0x06
+-#define MUSB_HDRC_RXHUBPORT	0x07
++#define MUSB_HDRC_RXFUNCADDR    0x04
++#define MUSB_HDRC_RXHUBADDR     0x06
++#define MUSB_HDRC_RXHUBPORT     0x07
  
--    case 0xb4:	/* Gamma Correction Enable */
-+    case 0xb4:    /* Gamma Correction Enable */
-         s->gamma_config = value & 0x87;
-         break;
--    case 0xb6:	/* Gamma Correction Table Index */
-+    case 0xb6:    /* Gamma Correction Table Index */
-         s->gamma_idx = value;
-         break;
--    case 0xb8:	/* Gamma Correction Table Data */
-+    case 0xb8:    /* Gamma Correction Table Data */
-         s->gamma_lut[s->gamma_idx ++] = value;
-         break;
+ /*
+  * MUSBHDRC Register bit masks
+  */
  
--    case 0xba:	/* 3x3 Matrix Enable */
-+    case 0xba:    /* 3x3 Matrix Enable */
-         s->matrix_ena = value & 1;
-         break;
--    case 0xbc ... 0xde:	/* Coefficient Registers */
-+    case 0xbc ... 0xde:    /* Coefficient Registers */
-         s->matrix_coeff[(reg - 0xbc) >> 1] = value & ((reg & 2) ? 0x80 : 0xff);
-         break;
--    case 0xe0:	/* 3x3 Matrix Red Offset */
-+    case 0xe0:    /* 3x3 Matrix Red Offset */
-         s->matrix_r = value;
-         break;
--    case 0xe2:	/* 3x3 Matrix Green Offset */
-+    case 0xe2:    /* 3x3 Matrix Green Offset */
-         s->matrix_g = value;
-         break;
--    case 0xe4:	/* 3x3 Matrix Blue Offset */
-+    case 0xe4:    /* 3x3 Matrix Blue Offset */
-         s->matrix_b = value;
-         break;
+ /* POWER */
+-#define MGC_M_POWER_ISOUPDATE		0x80 
+-#define	MGC_M_POWER_SOFTCONN		0x40
+-#define	MGC_M_POWER_HSENAB		0x20
+-#define	MGC_M_POWER_HSMODE		0x10
+-#define MGC_M_POWER_RESET		0x08
+-#define MGC_M_POWER_RESUME		0x04
+-#define MGC_M_POWER_SUSPENDM		0x02
+-#define MGC_M_POWER_ENSUSPEND		0x01
++#define MGC_M_POWER_ISOUPDATE         0x80
++#define MGC_M_POWER_SOFTCONN          0x40
++#define MGC_M_POWER_HSENAB            0x20
++#define MGC_M_POWER_HSMODE            0x10
++#define MGC_M_POWER_RESET             0x08
++#define MGC_M_POWER_RESUME            0x04
++#define MGC_M_POWER_SUSPENDM          0x02
++#define MGC_M_POWER_ENSUSPEND         0x01
  
--    case 0xe6:	/* Power-save */
-+    case 0xe6:    /* Power-save */
-         s->pm = value & 0x83;
-         if (value & s->mode & 1)
-             fprintf(stderr, "%s: The display must be disabled before entering "
-                             "Standby Mode\n", __func__);
-         break;
--    case 0xe8:	/* Non-display Period Control / Status */
-+    case 0xe8:    /* Non-display Period Control / Status */
-         s->status = value & 0x1b;
-         break;
--    case 0xea:	/* RGB Interface Control */
-+    case 0xea:    /* RGB Interface Control */
-         s->rgbgpio_dir = value & 0x8f;
-         break;
--    case 0xec:	/* RGB Interface Status */
-+    case 0xec:    /* RGB Interface Status */
-         s->rgbgpio = value & 0xcf;
-         break;
--    case 0xee:	/* General-purpose IO Pins Configuration */
-+    case 0xee:    /* General-purpose IO Pins Configuration */
-         s->gpio_dir = value;
-         break;
--    case 0xf0:	/* General-purpose IO Pins Status / Control */
-+    case 0xf0:    /* General-purpose IO Pins Status / Control */
-         s->gpio = value;
-         break;
--    case 0xf2:	/* GPIO Positive Edge Interrupt Trigger */
-+    case 0xf2:    /* GPIO Positive Edge Interrupt Trigger */
-         s->gpio_edge[0] = value;
-         break;
--    case 0xf4:	/* GPIO Negative Edge Interrupt Trigger */
-+    case 0xf4:    /* GPIO Negative Edge Interrupt Trigger */
-         s->gpio_edge[1] = value;
-         break;
--    case 0xf6:	/* GPIO Interrupt Status */
-+    case 0xf6:    /* GPIO Interrupt Status */
-         s->gpio_irq &= value;
-         break;
--    case 0xf8:	/* GPIO Pull-down Control */
-+    case 0xf8:    /* GPIO Pull-down Control */
-         s->gpio_pdown = value;
-         break;
+ /* INTRUSB */
+-#define MGC_M_INTR_SUSPEND		0x01
+-#define MGC_M_INTR_RESUME		0x02
+-#define MGC_M_INTR_RESET		0x04
+-#define MGC_M_INTR_BABBLE		0x04
+-#define MGC_M_INTR_SOF			0x08 
+-#define MGC_M_INTR_CONNECT		0x10
+-#define MGC_M_INTR_DISCONNECT		0x20
+-#define MGC_M_INTR_SESSREQ		0x40
+-#define MGC_M_INTR_VBUSERROR		0x80	/* FOR SESSION END */
+-#define MGC_M_INTR_EP0			0x01	/* FOR EP0 INTERRUPT */
++#define MGC_M_INTR_SUSPEND            0x01
++#define MGC_M_INTR_RESUME             0x02
++#define MGC_M_INTR_RESET              0x04
++#define MGC_M_INTR_BABBLE             0x04
++#define MGC_M_INTR_SOF                0x08
++#define MGC_M_INTR_CONNECT            0x10
++#define MGC_M_INTR_DISCONNECT         0x20
++#define MGC_M_INTR_SESSREQ            0x40
++#define MGC_M_INTR_VBUSERROR          0x80    /* FOR SESSION END */
++#define MGC_M_INTR_EP0                0x01    /* FOR EP0 INTERRUPT */
  
-diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
-index 2577005d03..0c36cd2d25 100644
---- a/hw/display/cirrus_vga.c
-+++ b/hw/display/cirrus_vga.c
-@@ -76,12 +76,12 @@
- #define CIRRUS_MEMSIZE_512k        0x08
- #define CIRRUS_MEMSIZE_1M          0x10
- #define CIRRUS_MEMSIZE_2M          0x18
--#define CIRRUS_MEMFLAGS_BANKSWITCH 0x80	// bank switching is enabled.
-+#define CIRRUS_MEMFLAGS_BANKSWITCH 0x80    // bank switching is enabled.
+ /* DEVCTL */
+-#define MGC_M_DEVCTL_BDEVICE		0x80   
+-#define MGC_M_DEVCTL_FSDEV		0x40
+-#define MGC_M_DEVCTL_LSDEV		0x20
+-#define MGC_M_DEVCTL_VBUS		0x18
+-#define MGC_S_DEVCTL_VBUS		3
+-#define MGC_M_DEVCTL_HM			0x04
+-#define MGC_M_DEVCTL_HR			0x02
+-#define MGC_M_DEVCTL_SESSION		0x01
++#define MGC_M_DEVCTL_BDEVICE          0x80
++#define MGC_M_DEVCTL_FSDEV            0x40
++#define MGC_M_DEVCTL_LSDEV            0x20
++#define MGC_M_DEVCTL_VBUS             0x18
++#define MGC_S_DEVCTL_VBUS             3
++#define MGC_M_DEVCTL_HM               0x04
++#define MGC_M_DEVCTL_HR               0x02
++#define MGC_M_DEVCTL_SESSION          0x01
  
- // sequencer 0x12
- #define CIRRUS_CURSOR_SHOW         0x01
- #define CIRRUS_CURSOR_HIDDENPEL    0x02
--#define CIRRUS_CURSOR_LARGE        0x04	// 64x64 if set, 32x32 if clear
-+#define CIRRUS_CURSOR_LARGE        0x04    // 64x64 if set, 32x32 if clear
+ /* TESTMODE */
+-#define MGC_M_TEST_FORCE_HOST		0x80
+-#define MGC_M_TEST_FIFO_ACCESS		0x40
+-#define MGC_M_TEST_FORCE_FS		0x20
+-#define MGC_M_TEST_FORCE_HS		0x10
+-#define MGC_M_TEST_PACKET		0x08
+-#define MGC_M_TEST_K			0x04
+-#define MGC_M_TEST_J			0x02
+-#define MGC_M_TEST_SE0_NAK		0x01
++#define MGC_M_TEST_FORCE_HOST         0x80
++#define MGC_M_TEST_FIFO_ACCESS        0x40
++#define MGC_M_TEST_FORCE_FS           0x20
++#define MGC_M_TEST_FORCE_HS           0x10
++#define MGC_M_TEST_PACKET             0x08
++#define MGC_M_TEST_K                  0x04
++#define MGC_M_TEST_J                  0x02
++#define MGC_M_TEST_SE0_NAK            0x01
  
- // sequencer 0x17
- #define CIRRUS_BUSTYPE_VLBFAST   0x10
-@@ -89,12 +89,12 @@
- #define CIRRUS_BUSTYPE_VLBSLOW   0x30
- #define CIRRUS_BUSTYPE_ISA       0x38
- #define CIRRUS_MMIO_ENABLE       0x04
--#define CIRRUS_MMIO_USE_PCIADDR  0x40	// 0xb8000 if cleared.
-+#define CIRRUS_MMIO_USE_PCIADDR  0x40    // 0xb8000 if cleared.
- #define CIRRUS_MEMSIZEEXT_DOUBLE 0x80
+ /* CSR0 */
+-#define	MGC_M_CSR0_FLUSHFIFO		0x0100
+-#define MGC_M_CSR0_TXPKTRDY		0x0002
+-#define MGC_M_CSR0_RXPKTRDY		0x0001
++#define MGC_M_CSR0_FLUSHFIFO          0x0100
++#define MGC_M_CSR0_TXPKTRDY           0x0002
++#define MGC_M_CSR0_RXPKTRDY           0x0001
  
- // control 0x0b
- #define CIRRUS_BANKING_DUAL             0x01
--#define CIRRUS_BANKING_GRANULARITY_16K  0x20	// set:16k, clear:4k
-+#define CIRRUS_BANKING_GRANULARITY_16K  0x20    // set:16k, clear:4k
+ /* CSR0 in Peripheral mode */
+-#define MGC_M_CSR0_P_SVDSETUPEND	0x0080
+-#define MGC_M_CSR0_P_SVDRXPKTRDY	0x0040
+-#define MGC_M_CSR0_P_SENDSTALL		0x0020
+-#define MGC_M_CSR0_P_SETUPEND		0x0010
+-#define MGC_M_CSR0_P_DATAEND		0x0008
+-#define MGC_M_CSR0_P_SENTSTALL		0x0004
++#define MGC_M_CSR0_P_SVDSETUPEND      0x0080
++#define MGC_M_CSR0_P_SVDRXPKTRDY      0x0040
++#define MGC_M_CSR0_P_SENDSTALL        0x0020
++#define MGC_M_CSR0_P_SETUPEND         0x0010
++#define MGC_M_CSR0_P_DATAEND          0x0008
++#define MGC_M_CSR0_P_SENTSTALL        0x0004
  
- // control 0x30
- #define CIRRUS_BLTMODE_BACKWARDS        0x01
-@@ -143,35 +143,35 @@
- #define CIRRUS_BLTMODEEXT_DWORDGRANULARITY 0x01
+ /* CSR0 in Host mode */
+-#define MGC_M_CSR0_H_NO_PING		0x0800
+-#define MGC_M_CSR0_H_WR_DATATOGGLE	0x0400	/* set to allow setting: */
+-#define MGC_M_CSR0_H_DATATOGGLE		0x0200	/* data toggle control */
+-#define	MGC_M_CSR0_H_NAKTIMEOUT		0x0080
+-#define MGC_M_CSR0_H_STATUSPKT		0x0040
+-#define MGC_M_CSR0_H_REQPKT		0x0020
+-#define MGC_M_CSR0_H_ERROR		0x0010
+-#define MGC_M_CSR0_H_SETUPPKT		0x0008
+-#define MGC_M_CSR0_H_RXSTALL		0x0004
++#define MGC_M_CSR0_H_NO_PING          0x0800
++#define MGC_M_CSR0_H_WR_DATATOGGLE    0x0400    /* set to allow setting: */
++#define MGC_M_CSR0_H_DATATOGGLE       0x0200    /* data toggle control */
++#define MGC_M_CSR0_H_NAKTIMEOUT       0x0080
++#define MGC_M_CSR0_H_STATUSPKT        0x0040
++#define MGC_M_CSR0_H_REQPKT           0x0020
++#define MGC_M_CSR0_H_ERROR            0x0010
++#define MGC_M_CSR0_H_SETUPPKT         0x0008
++#define MGC_M_CSR0_H_RXSTALL          0x0004
  
- // memory-mapped IO
--#define CIRRUS_MMIO_BLTBGCOLOR        0x00	// dword
--#define CIRRUS_MMIO_BLTFGCOLOR        0x04	// dword
--#define CIRRUS_MMIO_BLTWIDTH          0x08	// word
--#define CIRRUS_MMIO_BLTHEIGHT         0x0a	// word
--#define CIRRUS_MMIO_BLTDESTPITCH      0x0c	// word
--#define CIRRUS_MMIO_BLTSRCPITCH       0x0e	// word
--#define CIRRUS_MMIO_BLTDESTADDR       0x10	// dword
--#define CIRRUS_MMIO_BLTSRCADDR        0x14	// dword
--#define CIRRUS_MMIO_BLTWRITEMASK      0x17	// byte
--#define CIRRUS_MMIO_BLTMODE           0x18	// byte
--#define CIRRUS_MMIO_BLTROP            0x1a	// byte
--#define CIRRUS_MMIO_BLTMODEEXT        0x1b	// byte
--#define CIRRUS_MMIO_BLTTRANSPARENTCOLOR 0x1c	// word?
--#define CIRRUS_MMIO_BLTTRANSPARENTCOLORMASK 0x20	// word?
--#define CIRRUS_MMIO_LINEARDRAW_START_X 0x24	// word
--#define CIRRUS_MMIO_LINEARDRAW_START_Y 0x26	// word
--#define CIRRUS_MMIO_LINEARDRAW_END_X  0x28	// word
--#define CIRRUS_MMIO_LINEARDRAW_END_Y  0x2a	// word
--#define CIRRUS_MMIO_LINEARDRAW_LINESTYLE_INC 0x2c	// byte
--#define CIRRUS_MMIO_LINEARDRAW_LINESTYLE_ROLLOVER 0x2d	// byte
--#define CIRRUS_MMIO_LINEARDRAW_LINESTYLE_MASK 0x2e	// byte
--#define CIRRUS_MMIO_LINEARDRAW_LINESTYLE_ACCUM 0x2f	// byte
--#define CIRRUS_MMIO_BRESENHAM_K1      0x30	// word
--#define CIRRUS_MMIO_BRESENHAM_K3      0x32	// word
--#define CIRRUS_MMIO_BRESENHAM_ERROR   0x34	// word
--#define CIRRUS_MMIO_BRESENHAM_DELTA_MAJOR 0x36	// word
--#define CIRRUS_MMIO_BRESENHAM_DIRECTION 0x38	// byte
--#define CIRRUS_MMIO_LINEDRAW_MODE     0x39	// byte
--#define CIRRUS_MMIO_BLTSTATUS         0x40	// byte
-+#define CIRRUS_MMIO_BLTBGCOLOR        0x00    // dword
-+#define CIRRUS_MMIO_BLTFGCOLOR        0x04    // dword
-+#define CIRRUS_MMIO_BLTWIDTH          0x08    // word
-+#define CIRRUS_MMIO_BLTHEIGHT         0x0a    // word
-+#define CIRRUS_MMIO_BLTDESTPITCH      0x0c    // word
-+#define CIRRUS_MMIO_BLTSRCPITCH       0x0e    // word
-+#define CIRRUS_MMIO_BLTDESTADDR       0x10    // dword
-+#define CIRRUS_MMIO_BLTSRCADDR        0x14    // dword
-+#define CIRRUS_MMIO_BLTWRITEMASK      0x17    // byte
-+#define CIRRUS_MMIO_BLTMODE           0x18    // byte
-+#define CIRRUS_MMIO_BLTROP            0x1a    // byte
-+#define CIRRUS_MMIO_BLTMODEEXT        0x1b    // byte
-+#define CIRRUS_MMIO_BLTTRANSPARENTCOLOR 0x1c    // word?
-+#define CIRRUS_MMIO_BLTTRANSPARENTCOLORMASK 0x20    // word?
-+#define CIRRUS_MMIO_LINEARDRAW_START_X 0x24    // word
-+#define CIRRUS_MMIO_LINEARDRAW_START_Y 0x26    // word
-+#define CIRRUS_MMIO_LINEARDRAW_END_X  0x28    // word
-+#define CIRRUS_MMIO_LINEARDRAW_END_Y  0x2a    // word
-+#define CIRRUS_MMIO_LINEARDRAW_LINESTYLE_INC 0x2c    // byte
-+#define CIRRUS_MMIO_LINEARDRAW_LINESTYLE_ROLLOVER 0x2d    // byte
-+#define CIRRUS_MMIO_LINEARDRAW_LINESTYLE_MASK 0x2e    // byte
-+#define CIRRUS_MMIO_LINEARDRAW_LINESTYLE_ACCUM 0x2f    // byte
-+#define CIRRUS_MMIO_BRESENHAM_K1      0x30    // word
-+#define CIRRUS_MMIO_BRESENHAM_K3      0x32    // word
-+#define CIRRUS_MMIO_BRESENHAM_ERROR   0x34    // word
-+#define CIRRUS_MMIO_BRESENHAM_DELTA_MAJOR 0x36    // word
-+#define CIRRUS_MMIO_BRESENHAM_DIRECTION 0x38    // byte
-+#define CIRRUS_MMIO_LINEDRAW_MODE     0x39    // byte
-+#define CIRRUS_MMIO_BLTSTATUS         0x40    // byte
+ /* CONFIGDATA */
+-#define MGC_M_CONFIGDATA_MPRXE		0x80	/* auto bulk pkt combining */
+-#define MGC_M_CONFIGDATA_MPTXE		0x40	/* auto bulk pkt splitting */
+-#define MGC_M_CONFIGDATA_BIGENDIAN	0x20
+-#define MGC_M_CONFIGDATA_HBRXE		0x10	/* HB-ISO for RX */
+-#define MGC_M_CONFIGDATA_HBTXE		0x08	/* HB-ISO for TX */
+-#define MGC_M_CONFIGDATA_DYNFIFO	0x04	/* dynamic FIFO sizing */
+-#define MGC_M_CONFIGDATA_SOFTCONE	0x02	/* SoftConnect */
+-#define MGC_M_CONFIGDATA_UTMIDW		0x01	/* Width, 0 => 8b, 1 => 16b */
++#define MGC_M_CONFIGDATA_MPRXE        0x80    /* auto bulk pkt combining */
++#define MGC_M_CONFIGDATA_MPTXE        0x40    /* auto bulk pkt splitting */
++#define MGC_M_CONFIGDATA_BIGENDIAN    0x20
++#define MGC_M_CONFIGDATA_HBRXE        0x10    /* HB-ISO for RX */
++#define MGC_M_CONFIGDATA_HBTXE        0x08    /* HB-ISO for TX */
++#define MGC_M_CONFIGDATA_DYNFIFO      0x04    /* dynamic FIFO sizing */
++#define MGC_M_CONFIGDATA_SOFTCONE     0x02    /* SoftConnect */
++#define MGC_M_CONFIGDATA_UTMIDW       0x01    /* Width, 0 => 8b, 1 => 16b */
  
- #define CIRRUS_PNPMMIO_SIZE         0x1000
+ /* TXCSR in Peripheral and Host mode */
+-#define MGC_M_TXCSR_AUTOSET		0x8000
+-#define MGC_M_TXCSR_ISO			0x4000
+-#define MGC_M_TXCSR_MODE		0x2000
+-#define MGC_M_TXCSR_DMAENAB		0x1000
+-#define MGC_M_TXCSR_FRCDATATOG		0x0800
+-#define MGC_M_TXCSR_DMAMODE		0x0400
+-#define MGC_M_TXCSR_CLRDATATOG		0x0040
+-#define MGC_M_TXCSR_FLUSHFIFO		0x0008
+-#define MGC_M_TXCSR_FIFONOTEMPTY	0x0002
+-#define MGC_M_TXCSR_TXPKTRDY		0x0001
++#define MGC_M_TXCSR_AUTOSET           0x8000
++#define MGC_M_TXCSR_ISO               0x4000
++#define MGC_M_TXCSR_MODE              0x2000
++#define MGC_M_TXCSR_DMAENAB           0x1000
++#define MGC_M_TXCSR_FRCDATATOG        0x0800
++#define MGC_M_TXCSR_DMAMODE           0x0400
++#define MGC_M_TXCSR_CLRDATATOG        0x0040
++#define MGC_M_TXCSR_FLUSHFIFO         0x0008
++#define MGC_M_TXCSR_FIFONOTEMPTY      0x0002
++#define MGC_M_TXCSR_TXPKTRDY          0x0001
  
-@@ -628,8 +628,8 @@ static inline void cirrus_bitblt_bgcol(CirrusVGAState *s)
+ /* TXCSR in Peripheral mode */
+-#define MGC_M_TXCSR_P_INCOMPTX		0x0080
+-#define MGC_M_TXCSR_P_SENTSTALL		0x0020
+-#define MGC_M_TXCSR_P_SENDSTALL		0x0010
+-#define MGC_M_TXCSR_P_UNDERRUN		0x0004
++#define MGC_M_TXCSR_P_INCOMPTX        0x0080
++#define MGC_M_TXCSR_P_SENTSTALL       0x0020
++#define MGC_M_TXCSR_P_SENDSTALL       0x0010
++#define MGC_M_TXCSR_P_UNDERRUN        0x0004
+ 
+ /* TXCSR in Host mode */
+-#define MGC_M_TXCSR_H_WR_DATATOGGLE	0x0200
+-#define MGC_M_TXCSR_H_DATATOGGLE	0x0100
+-#define MGC_M_TXCSR_H_NAKTIMEOUT	0x0080
+-#define MGC_M_TXCSR_H_RXSTALL		0x0020
+-#define MGC_M_TXCSR_H_ERROR		0x0004
++#define MGC_M_TXCSR_H_WR_DATATOGGLE   0x0200
++#define MGC_M_TXCSR_H_DATATOGGLE      0x0100
++#define MGC_M_TXCSR_H_NAKTIMEOUT      0x0080
++#define MGC_M_TXCSR_H_RXSTALL         0x0020
++#define MGC_M_TXCSR_H_ERROR           0x0004
+ 
+ /* RXCSR in Peripheral and Host mode */
+-#define MGC_M_RXCSR_AUTOCLEAR		0x8000
+-#define MGC_M_RXCSR_DMAENAB		0x2000
+-#define MGC_M_RXCSR_DISNYET		0x1000
+-#define MGC_M_RXCSR_DMAMODE		0x0800
+-#define MGC_M_RXCSR_INCOMPRX		0x0100
+-#define MGC_M_RXCSR_CLRDATATOG		0x0080
+-#define MGC_M_RXCSR_FLUSHFIFO		0x0010
+-#define MGC_M_RXCSR_DATAERROR		0x0008
+-#define MGC_M_RXCSR_FIFOFULL		0x0002
+-#define MGC_M_RXCSR_RXPKTRDY		0x0001
++#define MGC_M_RXCSR_AUTOCLEAR         0x8000
++#define MGC_M_RXCSR_DMAENAB           0x2000
++#define MGC_M_RXCSR_DISNYET           0x1000
++#define MGC_M_RXCSR_DMAMODE           0x0800
++#define MGC_M_RXCSR_INCOMPRX          0x0100
++#define MGC_M_RXCSR_CLRDATATOG        0x0080
++#define MGC_M_RXCSR_FLUSHFIFO         0x0010
++#define MGC_M_RXCSR_DATAERROR         0x0008
++#define MGC_M_RXCSR_FIFOFULL          0x0002
++#define MGC_M_RXCSR_RXPKTRDY          0x0001
+ 
+ /* RXCSR in Peripheral mode */
+-#define MGC_M_RXCSR_P_ISO		0x4000
+-#define MGC_M_RXCSR_P_SENTSTALL		0x0040
+-#define MGC_M_RXCSR_P_SENDSTALL		0x0020
+-#define MGC_M_RXCSR_P_OVERRUN		0x0004
++#define MGC_M_RXCSR_P_ISO             0x4000
++#define MGC_M_RXCSR_P_SENTSTALL       0x0040
++#define MGC_M_RXCSR_P_SENDSTALL       0x0020
++#define MGC_M_RXCSR_P_OVERRUN         0x0004
+ 
+ /* RXCSR in Host mode */
+-#define MGC_M_RXCSR_H_AUTOREQ		0x4000
+-#define MGC_M_RXCSR_H_WR_DATATOGGLE	0x0400
+-#define MGC_M_RXCSR_H_DATATOGGLE	0x0200
+-#define MGC_M_RXCSR_H_RXSTALL		0x0040
+-#define MGC_M_RXCSR_H_REQPKT		0x0020
+-#define MGC_M_RXCSR_H_ERROR		0x0004
++#define MGC_M_RXCSR_H_AUTOREQ         0x4000
++#define MGC_M_RXCSR_H_WR_DATATOGGLE   0x0400
++#define MGC_M_RXCSR_H_DATATOGGLE      0x0200
++#define MGC_M_RXCSR_H_RXSTALL         0x0040
++#define MGC_M_RXCSR_H_REQPKT          0x0020
++#define MGC_M_RXCSR_H_ERROR           0x0004
+ 
+ /* HUBADDR */
+-#define MGC_M_HUBADDR_MULTI_TT		0x80
++#define MGC_M_HUBADDR_MULTI_TT            0x80
+ 
+ /* ULPI: Added in HDRC 1.9(?) & MHDRC 1.4 */
+-#define MGC_M_ULPI_VBCTL_USEEXTVBUSIND	0x02
+-#define MGC_M_ULPI_VBCTL_USEEXTVBUS	0x01
+-#define MGC_M_ULPI_REGCTL_INT_ENABLE	0x08
+-#define MGC_M_ULPI_REGCTL_READNOTWRITE	0x04
+-#define MGC_M_ULPI_REGCTL_COMPLETE	0x02
+-#define MGC_M_ULPI_REGCTL_REG		0x01
++#define MGC_M_ULPI_VBCTL_USEEXTVBUSIND    0x02
++#define MGC_M_ULPI_VBCTL_USEEXTVBUS       0x01
++#define MGC_M_ULPI_REGCTL_INT_ENABLE      0x08
++#define MGC_M_ULPI_REGCTL_READNOTWRITE    0x04
++#define MGC_M_ULPI_REGCTL_COMPLETE        0x02
++#define MGC_M_ULPI_REGCTL_REG             0x01
+ 
+ /* #define MUSB_DEBUG */
+ 
+@@ -296,7 +296,7 @@ struct MUSBEndPoint {
+     uint8_t interval[2];
+     uint8_t config;
+     uint8_t fifosize;
+-    int timeout[2];	/* Always in microframes */
++    int timeout[2];    /* Always in microframes */
+ 
+     uint8_t *buf[2];
+     int fifolen[2];
+@@ -542,7 +542,7 @@ static void musb_cb_tick1(void *opaque)
+     ep->delayed_cb[1](&ep->packey[1].p, opaque);
  }
  
- static void cirrus_invalidate_region(CirrusVGAState * s, int off_begin,
--				     int off_pitch, int bytesperline,
--				     int lines)
-+                     int off_pitch, int bytesperline,
-+                     int lines)
+-#define musb_cb_tick	(dir ? musb_cb_tick1 : musb_cb_tick0)
++#define musb_cb_tick    (dir ? musb_cb_tick1 : musb_cb_tick0)
+ 
+ static void musb_schedule_cb(USBPort *port, USBPacket *packey)
  {
-     int y;
-     int off_cur;
-@@ -708,8 +708,8 @@ static int cirrus_bitblt_solidfill(CirrusVGAState *s, int blt_rop)
-              s->cirrus_blt_dstpitch,
-              s->cirrus_blt_width, s->cirrus_blt_height);
-     cirrus_invalidate_region(s, s->cirrus_blt_dstaddr,
--			     s->cirrus_blt_dstpitch, s->cirrus_blt_width,
--			     s->cirrus_blt_height);
-+                 s->cirrus_blt_dstpitch, s->cirrus_blt_width,
-+                 s->cirrus_blt_height);
-     cirrus_bitblt_reset(s);
-     return 1;
- }
-@@ -773,8 +773,8 @@ static int cirrus_do_copy(CirrusVGAState *s, int dst, int src, int w, int h)
- 
-     (*s->cirrus_rop) (s, s->cirrus_blt_dstaddr,
-                       s->cirrus_blt_srcaddr,
--		      s->cirrus_blt_dstpitch, s->cirrus_blt_srcpitch,
--		      s->cirrus_blt_width, s->cirrus_blt_height);
-+              s->cirrus_blt_dstpitch, s->cirrus_blt_srcpitch,
-+              s->cirrus_blt_width, s->cirrus_blt_height);
- 
-     if (notify) {
-         dpy_gfx_update(s->vga.con, dx, dy,
-@@ -786,8 +786,8 @@ static int cirrus_do_copy(CirrusVGAState *s, int dst, int src, int w, int h)
-        changed since qemu_console_copy implies this */
- 
-     cirrus_invalidate_region(s, s->cirrus_blt_dstaddr,
--				s->cirrus_blt_dstpitch, s->cirrus_blt_width,
--				s->cirrus_blt_height);
-+                s->cirrus_blt_dstpitch, s->cirrus_blt_width,
-+                s->cirrus_blt_height);
- 
-     return 1;
- }
-@@ -854,7 +854,7 @@ static void cirrus_bitblt_reset(CirrusVGAState * s)
-     int need_update;
- 
-     s->vga.gr[0x31] &=
--	~(CIRRUS_BLT_START | CIRRUS_BLT_BUSY | CIRRUS_BLT_FIFOUSED);
-+    ~(CIRRUS_BLT_START | CIRRUS_BLT_BUSY | CIRRUS_BLT_FIFOUSED);
-     need_update = s->cirrus_srcptr != &s->cirrus_bltbuf[0]
-         || s->cirrus_srcptr_end != &s->cirrus_bltbuf[0];
-     s->cirrus_srcptr = &s->cirrus_bltbuf[0];
-@@ -878,24 +878,24 @@ static int cirrus_bitblt_cputovideo(CirrusVGAState * s)
-     s->cirrus_srcptr_end = &s->cirrus_bltbuf[0];
- 
-     if (s->cirrus_blt_mode & CIRRUS_BLTMODE_PATTERNCOPY) {
--	if (s->cirrus_blt_mode & CIRRUS_BLTMODE_COLOREXPAND) {
--	    s->cirrus_blt_srcpitch = 8;
--	} else {
-+    if (s->cirrus_blt_mode & CIRRUS_BLTMODE_COLOREXPAND) {
-+        s->cirrus_blt_srcpitch = 8;
-+    } else {
-             /* XXX: check for 24 bpp */
--	    s->cirrus_blt_srcpitch = 8 * 8 * s->cirrus_blt_pixelwidth;
--	}
--	s->cirrus_srccounter = s->cirrus_blt_srcpitch;
-+        s->cirrus_blt_srcpitch = 8 * 8 * s->cirrus_blt_pixelwidth;
-+    }
-+    s->cirrus_srccounter = s->cirrus_blt_srcpitch;
-     } else {
--	if (s->cirrus_blt_mode & CIRRUS_BLTMODE_COLOREXPAND) {
-+    if (s->cirrus_blt_mode & CIRRUS_BLTMODE_COLOREXPAND) {
-             w = s->cirrus_blt_width / s->cirrus_blt_pixelwidth;
-             if (s->cirrus_blt_modeext & CIRRUS_BLTMODEEXT_DWORDGRANULARITY)
-                 s->cirrus_blt_srcpitch = ((w + 31) >> 5);
-             else
-                 s->cirrus_blt_srcpitch = ((w + 7) >> 3);
--	} else {
-+    } else {
-             /* always align input size to 32 bits */
--	    s->cirrus_blt_srcpitch = (s->cirrus_blt_width + 3) & ~3;
--	}
-+        s->cirrus_blt_srcpitch = (s->cirrus_blt_width + 3) & ~3;
-+    }
-         s->cirrus_srccounter = s->cirrus_blt_srcpitch * s->cirrus_blt_height;
-     }
- 
-@@ -921,12 +921,12 @@ static int cirrus_bitblt_videotovideo(CirrusVGAState * s)
-     int ret;
- 
-     if (s->cirrus_blt_mode & CIRRUS_BLTMODE_PATTERNCOPY) {
--	ret = cirrus_bitblt_videotovideo_patterncopy(s);
-+    ret = cirrus_bitblt_videotovideo_patterncopy(s);
-     } else {
--	ret = cirrus_bitblt_videotovideo_copy(s);
-+    ret = cirrus_bitblt_videotovideo_copy(s);
-     }
-     if (ret)
--	cirrus_bitblt_reset(s);
-+    cirrus_bitblt_reset(s);
-     return ret;
- }
- 
-@@ -945,9 +945,9 @@ static void cirrus_bitblt_start(CirrusVGAState * s)
-     s->cirrus_blt_dstpitch = (s->vga.gr[0x24] | (s->vga.gr[0x25] << 8));
-     s->cirrus_blt_srcpitch = (s->vga.gr[0x26] | (s->vga.gr[0x27] << 8));
-     s->cirrus_blt_dstaddr =
--	(s->vga.gr[0x28] | (s->vga.gr[0x29] << 8) | (s->vga.gr[0x2a] << 16));
-+    (s->vga.gr[0x28] | (s->vga.gr[0x29] << 8) | (s->vga.gr[0x2a] << 16));
-     s->cirrus_blt_srcaddr =
--	(s->vga.gr[0x2c] | (s->vga.gr[0x2d] << 8) | (s->vga.gr[0x2e] << 16));
-+    (s->vga.gr[0x2c] | (s->vga.gr[0x2d] << 8) | (s->vga.gr[0x2e] << 16));
-     s->cirrus_blt_mode = s->vga.gr[0x30];
-     s->cirrus_blt_modeext = s->vga.gr[0x33];
-     blt_rop = s->vga.gr[0x32];
-@@ -968,31 +968,31 @@ static void cirrus_bitblt_start(CirrusVGAState * s)
- 
-     switch (s->cirrus_blt_mode & CIRRUS_BLTMODE_PIXELWIDTHMASK) {
-     case CIRRUS_BLTMODE_PIXELWIDTH8:
--	s->cirrus_blt_pixelwidth = 1;
--	break;
-+    s->cirrus_blt_pixelwidth = 1;
-+    break;
-     case CIRRUS_BLTMODE_PIXELWIDTH16:
--	s->cirrus_blt_pixelwidth = 2;
--	break;
-+    s->cirrus_blt_pixelwidth = 2;
-+    break;
-     case CIRRUS_BLTMODE_PIXELWIDTH24:
--	s->cirrus_blt_pixelwidth = 3;
--	break;
-+    s->cirrus_blt_pixelwidth = 3;
-+    break;
-     case CIRRUS_BLTMODE_PIXELWIDTH32:
--	s->cirrus_blt_pixelwidth = 4;
--	break;
-+    s->cirrus_blt_pixelwidth = 4;
-+    break;
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "cirrus: bitblt - pixel width is unknown\n");
--	goto bitblt_ignore;
-+    goto bitblt_ignore;
-     }
-     s->cirrus_blt_mode &= ~CIRRUS_BLTMODE_PIXELWIDTHMASK;
- 
-     if ((s->
--	 cirrus_blt_mode & (CIRRUS_BLTMODE_MEMSYSSRC |
--			    CIRRUS_BLTMODE_MEMSYSDEST))
--	== (CIRRUS_BLTMODE_MEMSYSSRC | CIRRUS_BLTMODE_MEMSYSDEST)) {
-+     cirrus_blt_mode & (CIRRUS_BLTMODE_MEMSYSSRC |
-+                CIRRUS_BLTMODE_MEMSYSDEST))
-+    == (CIRRUS_BLTMODE_MEMSYSSRC | CIRRUS_BLTMODE_MEMSYSDEST)) {
-         qemu_log_mask(LOG_UNIMP,
-                       "cirrus: bitblt - memory-to-memory copy requested\n");
--	goto bitblt_ignore;
-+    goto bitblt_ignore;
-     }
- 
-     if ((s->cirrus_blt_modeext & CIRRUS_BLTMODEEXT_SOLIDFILL) &&
-@@ -1036,30 +1036,30 @@ static void cirrus_bitblt_start(CirrusVGAState * s)
-                 s->cirrus_rop = cirrus_patternfill[rop_to_index[blt_rop]][s->cirrus_blt_pixelwidth - 1];
-             }
-         } else {
--	    if (s->cirrus_blt_mode & CIRRUS_BLTMODE_TRANSPARENTCOMP) {
--		if (s->cirrus_blt_pixelwidth > 2) {
-+        if (s->cirrus_blt_mode & CIRRUS_BLTMODE_TRANSPARENTCOMP) {
-+        if (s->cirrus_blt_pixelwidth > 2) {
-                     qemu_log_mask(LOG_GUEST_ERROR,
-                                   "cirrus: src transparent without colorexpand "
-                                   "must be 8bpp or 16bpp\n");
--		    goto bitblt_ignore;
--		}
--		if (s->cirrus_blt_mode & CIRRUS_BLTMODE_BACKWARDS) {
--		    s->cirrus_blt_dstpitch = -s->cirrus_blt_dstpitch;
--		    s->cirrus_blt_srcpitch = -s->cirrus_blt_srcpitch;
--		    s->cirrus_rop = cirrus_bkwd_transp_rop[rop_to_index[blt_rop]][s->cirrus_blt_pixelwidth - 1];
--		} else {
--		    s->cirrus_rop = cirrus_fwd_transp_rop[rop_to_index[blt_rop]][s->cirrus_blt_pixelwidth - 1];
--		}
--	    } else {
--		if (s->cirrus_blt_mode & CIRRUS_BLTMODE_BACKWARDS) {
--		    s->cirrus_blt_dstpitch = -s->cirrus_blt_dstpitch;
--		    s->cirrus_blt_srcpitch = -s->cirrus_blt_srcpitch;
--		    s->cirrus_rop = cirrus_bkwd_rop[rop_to_index[blt_rop]];
--		} else {
--		    s->cirrus_rop = cirrus_fwd_rop[rop_to_index[blt_rop]];
--		}
--	    }
--	}
-+            goto bitblt_ignore;
-+        }
-+        if (s->cirrus_blt_mode & CIRRUS_BLTMODE_BACKWARDS) {
-+            s->cirrus_blt_dstpitch = -s->cirrus_blt_dstpitch;
-+            s->cirrus_blt_srcpitch = -s->cirrus_blt_srcpitch;
-+            s->cirrus_rop = cirrus_bkwd_transp_rop[rop_to_index[blt_rop]][s->cirrus_blt_pixelwidth - 1];
-+        } else {
-+            s->cirrus_rop = cirrus_fwd_transp_rop[rop_to_index[blt_rop]][s->cirrus_blt_pixelwidth - 1];
-+        }
-+        } else {
-+        if (s->cirrus_blt_mode & CIRRUS_BLTMODE_BACKWARDS) {
-+            s->cirrus_blt_dstpitch = -s->cirrus_blt_dstpitch;
-+            s->cirrus_blt_srcpitch = -s->cirrus_blt_srcpitch;
-+            s->cirrus_rop = cirrus_bkwd_rop[rop_to_index[blt_rop]];
-+        } else {
-+            s->cirrus_rop = cirrus_fwd_rop[rop_to_index[blt_rop]];
-+        }
-+        }
-+    }
-         // setup bitblt engine.
-         if (s->cirrus_blt_mode & CIRRUS_BLTMODE_MEMSYSSRC) {
-             if (!cirrus_bitblt_cputovideo(s))
-@@ -1085,11 +1085,11 @@ static void cirrus_write_bitblt(CirrusVGAState * s, unsigned reg_value)
-     s->vga.gr[0x31] = reg_value;
- 
-     if (((old_value & CIRRUS_BLT_RESET) != 0) &&
--	((reg_value & CIRRUS_BLT_RESET) == 0)) {
--	cirrus_bitblt_reset(s);
-+    ((reg_value & CIRRUS_BLT_RESET) == 0)) {
-+    cirrus_bitblt_reset(s);
-     } else if (((old_value & CIRRUS_BLT_START) == 0) &&
--	       ((reg_value & CIRRUS_BLT_START) != 0)) {
--	cirrus_bitblt_start(s);
-+           ((reg_value & CIRRUS_BLT_START) != 0)) {
-+    cirrus_bitblt_start(s);
-     }
- }
- 
-@@ -1109,15 +1109,15 @@ static void cirrus_get_offsets(VGACommonState *s1,
-     uint32_t start_addr, line_offset, line_compare;
- 
-     line_offset = s->vga.cr[0x13]
--	| ((s->vga.cr[0x1b] & 0x10) << 4);
-+    | ((s->vga.cr[0x1b] & 0x10) << 4);
-     line_offset <<= 3;
-     *pline_offset = line_offset;
- 
-     start_addr = (s->vga.cr[0x0c] << 8)
--	| s->vga.cr[0x0d]
--	| ((s->vga.cr[0x1b] & 0x01) << 16)
--	| ((s->vga.cr[0x1b] & 0x0c) << 15)
--	| ((s->vga.cr[0x1d] & 0x80) << 12);
-+    | s->vga.cr[0x0d]
-+    | ((s->vga.cr[0x1b] & 0x01) << 16)
-+    | ((s->vga.cr[0x1b] & 0x0c) << 15)
-+    | ((s->vga.cr[0x1d] & 0x80) << 12);
-     *pstart_addr = start_addr;
- 
-     line_compare = s->vga.cr[0x18] |
-@@ -1132,17 +1132,17 @@ static uint32_t cirrus_get_bpp16_depth(CirrusVGAState * s)
- 
-     switch (s->cirrus_hidden_dac_data & 0xf) {
-     case 0:
--	ret = 15;
--	break;			/* Sierra HiColor */
-+    ret = 15;
-+    break;            /* Sierra HiColor */
-     case 1:
--	ret = 16;
--	break;			/* XGA HiColor */
-+    ret = 16;
-+    break;            /* XGA HiColor */
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "cirrus: invalid DAC value 0x%x in 16bpp\n",
-                       (s->cirrus_hidden_dac_data & 0xf));
--	ret = 15;		/* XXX */
--	break;
-+    ret = 15;        /* XXX */
-+    break;
-     }
-     return ret;
- }
-@@ -1153,33 +1153,33 @@ static int cirrus_get_bpp(VGACommonState *s1)
-     uint32_t ret = 8;
- 
-     if ((s->vga.sr[0x07] & 0x01) != 0) {
--	/* Cirrus SVGA */
--	switch (s->vga.sr[0x07] & CIRRUS_SR7_BPP_MASK) {
--	case CIRRUS_SR7_BPP_8:
--	    ret = 8;
--	    break;
--	case CIRRUS_SR7_BPP_16_DOUBLEVCLK:
--	    ret = cirrus_get_bpp16_depth(s);
--	    break;
--	case CIRRUS_SR7_BPP_24:
--	    ret = 24;
--	    break;
--	case CIRRUS_SR7_BPP_16:
--	    ret = cirrus_get_bpp16_depth(s);
--	    break;
--	case CIRRUS_SR7_BPP_32:
--	    ret = 32;
--	    break;
--	default:
-+    /* Cirrus SVGA */
-+    switch (s->vga.sr[0x07] & CIRRUS_SR7_BPP_MASK) {
-+    case CIRRUS_SR7_BPP_8:
-+        ret = 8;
-+        break;
-+    case CIRRUS_SR7_BPP_16_DOUBLEVCLK:
-+        ret = cirrus_get_bpp16_depth(s);
-+        break;
-+    case CIRRUS_SR7_BPP_24:
-+        ret = 24;
-+        break;
-+    case CIRRUS_SR7_BPP_16:
-+        ret = cirrus_get_bpp16_depth(s);
-+        break;
-+    case CIRRUS_SR7_BPP_32:
-+        ret = 32;
-+        break;
-+    default:
- #ifdef DEBUG_CIRRUS
--	    printf("cirrus: unknown bpp - sr7=%x\n", s->vga.sr[0x7]);
-+        printf("cirrus: unknown bpp - sr7=%x\n", s->vga.sr[0x7]);
- #endif
--	    ret = 8;
--	    break;
--	}
-+        ret = 8;
-+        break;
-+    }
-     } else {
--	/* VGA */
--	ret = 0;
-+    /* VGA */
-+    ret = 0;
-     }
- 
-     return ret;
-@@ -1212,36 +1212,36 @@ static void cirrus_update_bank_ptr(CirrusVGAState * s, unsigned bank_index)
-     unsigned offset;
-     unsigned limit;
- 
--    if ((s->vga.gr[0x0b] & 0x01) != 0)	/* dual bank */
--	offset = s->vga.gr[0x09 + bank_index];
--    else			/* single bank */
--	offset = s->vga.gr[0x09];
-+    if ((s->vga.gr[0x0b] & 0x01) != 0)    /* dual bank */
-+    offset = s->vga.gr[0x09 + bank_index];
-+    else            /* single bank */
-+    offset = s->vga.gr[0x09];
- 
-     if ((s->vga.gr[0x0b] & 0x20) != 0)
--	offset <<= 14;
-+    offset <<= 14;
-     else
--	offset <<= 12;
-+    offset <<= 12;
- 
-     if (s->real_vram_size <= offset)
--	limit = 0;
-+    limit = 0;
-     else
--	limit = s->real_vram_size - offset;
-+    limit = s->real_vram_size - offset;
- 
-     if (((s->vga.gr[0x0b] & 0x01) == 0) && (bank_index != 0)) {
--	if (limit > 0x8000) {
--	    offset += 0x8000;
--	    limit -= 0x8000;
--	} else {
--	    limit = 0;
--	}
-+    if (limit > 0x8000) {
-+        offset += 0x8000;
-+        limit -= 0x8000;
-+    } else {
-+        limit = 0;
-+    }
-     }
- 
-     if (limit > 0) {
--	s->cirrus_bank_base[bank_index] = offset;
--	s->cirrus_bank_limit[bank_index] = limit;
-+    s->cirrus_bank_base[bank_index] = offset;
-+    s->cirrus_bank_limit[bank_index] = limit;
-     } else {
--	s->cirrus_bank_base[bank_index] = 0;
--	s->cirrus_bank_limit[bank_index] = 0;
-+    s->cirrus_bank_base[bank_index] = 0;
-+    s->cirrus_bank_limit[bank_index] = 0;
-     }
- }
- 
-@@ -1254,148 +1254,148 @@ static void cirrus_update_bank_ptr(CirrusVGAState * s, unsigned bank_index)
- static int cirrus_vga_read_sr(CirrusVGAState * s)
- {
-     switch (s->vga.sr_index) {
--    case 0x00:			// Standard VGA
--    case 0x01:			// Standard VGA
--    case 0x02:			// Standard VGA
--    case 0x03:			// Standard VGA
--    case 0x04:			// Standard VGA
--	return s->vga.sr[s->vga.sr_index];
--    case 0x06:			// Unlock Cirrus extensions
--	return s->vga.sr[s->vga.sr_index];
-+    case 0x00:            // Standard VGA
-+    case 0x01:            // Standard VGA
-+    case 0x02:            // Standard VGA
-+    case 0x03:            // Standard VGA
-+    case 0x04:            // Standard VGA
-+    return s->vga.sr[s->vga.sr_index];
-+    case 0x06:            // Unlock Cirrus extensions
-+    return s->vga.sr[s->vga.sr_index];
-     case 0x10:
-     case 0x30:
-     case 0x50:
--    case 0x70:			// Graphics Cursor X
-+    case 0x70:            // Graphics Cursor X
-     case 0x90:
-     case 0xb0:
-     case 0xd0:
--    case 0xf0:			// Graphics Cursor X
--	return s->vga.sr[0x10];
-+    case 0xf0:            // Graphics Cursor X
-+    return s->vga.sr[0x10];
-     case 0x11:
-     case 0x31:
-     case 0x51:
--    case 0x71:			// Graphics Cursor Y
-+    case 0x71:            // Graphics Cursor Y
-     case 0x91:
-     case 0xb1:
-     case 0xd1:
--    case 0xf1:			// Graphics Cursor Y
--	return s->vga.sr[0x11];
--    case 0x05:			// ???
--    case 0x07:			// Extended Sequencer Mode
--    case 0x08:			// EEPROM Control
--    case 0x09:			// Scratch Register 0
--    case 0x0a:			// Scratch Register 1
--    case 0x0b:			// VCLK 0
--    case 0x0c:			// VCLK 1
--    case 0x0d:			// VCLK 2
--    case 0x0e:			// VCLK 3
--    case 0x0f:			// DRAM Control
--    case 0x12:			// Graphics Cursor Attribute
--    case 0x13:			// Graphics Cursor Pattern Address
--    case 0x14:			// Scratch Register 2
--    case 0x15:			// Scratch Register 3
--    case 0x16:			// Performance Tuning Register
--    case 0x17:			// Configuration Readback and Extended Control
--    case 0x18:			// Signature Generator Control
--    case 0x19:			// Signal Generator Result
--    case 0x1a:			// Signal Generator Result
--    case 0x1b:			// VCLK 0 Denominator & Post
--    case 0x1c:			// VCLK 1 Denominator & Post
--    case 0x1d:			// VCLK 2 Denominator & Post
--    case 0x1e:			// VCLK 3 Denominator & Post
--    case 0x1f:			// BIOS Write Enable and MCLK select
-+    case 0xf1:            // Graphics Cursor Y
-+    return s->vga.sr[0x11];
-+    case 0x05:            // ???
-+    case 0x07:            // Extended Sequencer Mode
-+    case 0x08:            // EEPROM Control
-+    case 0x09:            // Scratch Register 0
-+    case 0x0a:            // Scratch Register 1
-+    case 0x0b:            // VCLK 0
-+    case 0x0c:            // VCLK 1
-+    case 0x0d:            // VCLK 2
-+    case 0x0e:            // VCLK 3
-+    case 0x0f:            // DRAM Control
-+    case 0x12:            // Graphics Cursor Attribute
-+    case 0x13:            // Graphics Cursor Pattern Address
-+    case 0x14:            // Scratch Register 2
-+    case 0x15:            // Scratch Register 3
-+    case 0x16:            // Performance Tuning Register
-+    case 0x17:            // Configuration Readback and Extended Control
-+    case 0x18:            // Signature Generator Control
-+    case 0x19:            // Signal Generator Result
-+    case 0x1a:            // Signal Generator Result
-+    case 0x1b:            // VCLK 0 Denominator & Post
-+    case 0x1c:            // VCLK 1 Denominator & Post
-+    case 0x1d:            // VCLK 2 Denominator & Post
-+    case 0x1e:            // VCLK 3 Denominator & Post
-+    case 0x1f:            // BIOS Write Enable and MCLK select
- #ifdef DEBUG_CIRRUS
--	printf("cirrus: handled inport sr_index %02x\n", s->vga.sr_index);
-+    printf("cirrus: handled inport sr_index %02x\n", s->vga.sr_index);
- #endif
--	return s->vga.sr[s->vga.sr_index];
-+    return s->vga.sr[s->vga.sr_index];
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "cirrus: inport sr_index 0x%02x\n", s->vga.sr_index);
--	return 0xff;
-+    return 0xff;
-     }
- }
- 
- static void cirrus_vga_write_sr(CirrusVGAState * s, uint32_t val)
- {
-     switch (s->vga.sr_index) {
--    case 0x00:			// Standard VGA
--    case 0x01:			// Standard VGA
--    case 0x02:			// Standard VGA
--    case 0x03:			// Standard VGA
--    case 0x04:			// Standard VGA
--	s->vga.sr[s->vga.sr_index] = val & sr_mask[s->vga.sr_index];
--	if (s->vga.sr_index == 1)
-+    case 0x00:            // Standard VGA
-+    case 0x01:            // Standard VGA
-+    case 0x02:            // Standard VGA
-+    case 0x03:            // Standard VGA
-+    case 0x04:            // Standard VGA
-+    s->vga.sr[s->vga.sr_index] = val & sr_mask[s->vga.sr_index];
-+    if (s->vga.sr_index == 1)
-             s->vga.update_retrace_info(&s->vga);
-         break;
--    case 0x06:			// Unlock Cirrus extensions
--	val &= 0x17;
--	if (val == 0x12) {
--	    s->vga.sr[s->vga.sr_index] = 0x12;
--	} else {
--	    s->vga.sr[s->vga.sr_index] = 0x0f;
--	}
--	break;
-+    case 0x06:            // Unlock Cirrus extensions
-+    val &= 0x17;
-+    if (val == 0x12) {
-+        s->vga.sr[s->vga.sr_index] = 0x12;
-+    } else {
-+        s->vga.sr[s->vga.sr_index] = 0x0f;
-+    }
-+    break;
-     case 0x10:
-     case 0x30:
-     case 0x50:
--    case 0x70:			// Graphics Cursor X
-+    case 0x70:            // Graphics Cursor X
-     case 0x90:
-     case 0xb0:
-     case 0xd0:
--    case 0xf0:			// Graphics Cursor X
--	s->vga.sr[0x10] = val;
-+    case 0xf0:            // Graphics Cursor X
-+    s->vga.sr[0x10] = val;
-         s->vga.hw_cursor_x = (val << 3) | (s->vga.sr_index >> 5);
--	break;
-+    break;
-     case 0x11:
-     case 0x31:
-     case 0x51:
--    case 0x71:			// Graphics Cursor Y
-+    case 0x71:            // Graphics Cursor Y
-     case 0x91:
-     case 0xb1:
-     case 0xd1:
--    case 0xf1:			// Graphics Cursor Y
--	s->vga.sr[0x11] = val;
-+    case 0xf1:            // Graphics Cursor Y
-+    s->vga.sr[0x11] = val;
-         s->vga.hw_cursor_y = (val << 3) | (s->vga.sr_index >> 5);
--	break;
--    case 0x07:			// Extended Sequencer Mode
-+    break;
-+    case 0x07:            // Extended Sequencer Mode
-         cirrus_update_memory_access(s);
-         /* fall through */
--    case 0x08:			// EEPROM Control
--    case 0x09:			// Scratch Register 0
--    case 0x0a:			// Scratch Register 1
--    case 0x0b:			// VCLK 0
--    case 0x0c:			// VCLK 1
--    case 0x0d:			// VCLK 2
--    case 0x0e:			// VCLK 3
--    case 0x0f:			// DRAM Control
--    case 0x13:			// Graphics Cursor Pattern Address
--    case 0x14:			// Scratch Register 2
--    case 0x15:			// Scratch Register 3
--    case 0x16:			// Performance Tuning Register
--    case 0x18:			// Signature Generator Control
--    case 0x19:			// Signature Generator Result
--    case 0x1a:			// Signature Generator Result
--    case 0x1b:			// VCLK 0 Denominator & Post
--    case 0x1c:			// VCLK 1 Denominator & Post
--    case 0x1d:			// VCLK 2 Denominator & Post
--    case 0x1e:			// VCLK 3 Denominator & Post
--    case 0x1f:			// BIOS Write Enable and MCLK select
--	s->vga.sr[s->vga.sr_index] = val;
-+    case 0x08:            // EEPROM Control
-+    case 0x09:            // Scratch Register 0
-+    case 0x0a:            // Scratch Register 1
-+    case 0x0b:            // VCLK 0
-+    case 0x0c:            // VCLK 1
-+    case 0x0d:            // VCLK 2
-+    case 0x0e:            // VCLK 3
-+    case 0x0f:            // DRAM Control
-+    case 0x13:            // Graphics Cursor Pattern Address
-+    case 0x14:            // Scratch Register 2
-+    case 0x15:            // Scratch Register 3
-+    case 0x16:            // Performance Tuning Register
-+    case 0x18:            // Signature Generator Control
-+    case 0x19:            // Signature Generator Result
-+    case 0x1a:            // Signature Generator Result
-+    case 0x1b:            // VCLK 0 Denominator & Post
-+    case 0x1c:            // VCLK 1 Denominator & Post
-+    case 0x1d:            // VCLK 2 Denominator & Post
-+    case 0x1e:            // VCLK 3 Denominator & Post
-+    case 0x1f:            // BIOS Write Enable and MCLK select
-+    s->vga.sr[s->vga.sr_index] = val;
- #ifdef DEBUG_CIRRUS
--	printf("cirrus: handled outport sr_index %02x, sr_value %02x\n",
--	       s->vga.sr_index, val);
-+    printf("cirrus: handled outport sr_index %02x, sr_value %02x\n",
-+           s->vga.sr_index, val);
- #endif
--	break;
--    case 0x12:			// Graphics Cursor Attribute
--	s->vga.sr[0x12] = val;
-+    break;
-+    case 0x12:            // Graphics Cursor Attribute
-+    s->vga.sr[0x12] = val;
-         s->vga.force_shadow = !!(val & CIRRUS_CURSOR_SHOW);
- #ifdef DEBUG_CIRRUS
-         printf("cirrus: cursor ctl SR12=%02x (force shadow: %d)\n",
-                val, s->vga.force_shadow);
- #endif
-         break;
--    case 0x17:			// Configuration Readback and Extended Control
--	s->vga.sr[s->vga.sr_index] = (s->vga.sr[s->vga.sr_index] & 0x38)
-+    case 0x17:            // Configuration Readback and Extended Control
-+    s->vga.sr[s->vga.sr_index] = (s->vga.sr[s->vga.sr_index] & 0x38)
-                                    | (val & 0xc7);
-         cirrus_update_memory_access(s);
-         break;
-@@ -1403,7 +1403,7 @@ static void cirrus_vga_write_sr(CirrusVGAState * s, uint32_t val)
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "cirrus: outport sr_index 0x%02x, sr_value 0x%02x\n",
-                       s->vga.sr_index, val);
--	break;
-+    break;
-     }
- }
- 
-@@ -1425,9 +1425,9 @@ static int cirrus_read_hidden_dac(CirrusVGAState * s)
- static void cirrus_write_hidden_dac(CirrusVGAState * s, int reg_value)
- {
-     if (s->cirrus_hidden_dac_lockindex == 4) {
--	s->cirrus_hidden_dac_data = reg_value;
-+    s->cirrus_hidden_dac_data = reg_value;
- #if defined(DEBUG_CIRRUS)
--	printf("cirrus: outport hidden DAC, value %02x\n", reg_value);
-+    printf("cirrus: outport hidden DAC, value %02x\n", reg_value);
- #endif
-     }
-     s->cirrus_hidden_dac_lockindex = 0;
-@@ -1450,8 +1450,8 @@ static int cirrus_vga_read_palette(CirrusVGAState * s)
-         val = s->vga.palette[s->vga.dac_read_index * 3 + s->vga.dac_sub_index];
-     }
-     if (++s->vga.dac_sub_index == 3) {
--	s->vga.dac_sub_index = 0;
--	s->vga.dac_read_index++;
-+    s->vga.dac_sub_index = 0;
-+    s->vga.dac_read_index++;
-     }
-     return val;
- }
-@@ -1467,8 +1467,8 @@ static void cirrus_vga_write_palette(CirrusVGAState * s, int reg_value)
-             memcpy(&s->vga.palette[s->vga.dac_write_index * 3], s->vga.dac_cache, 3);
+@@ -1323,7 +1323,7 @@ static void musb_writeb(void *opaque, hwaddr addr, uint32_t value)
+             /* Negotiate high-speed operation if MGC_M_POWER_HSENAB is set.  */
+             if ((value & MGC_M_POWER_HSENAB) &&
+                             s->port.dev->speed == USB_SPEED_HIGH)
+-                s->power |= MGC_M_POWER_HSMODE;	/* Success */
++                s->power |= MGC_M_POWER_HSMODE;    /* Success */
+             /* Restart frame counting.  */
          }
-         /* XXX update cursor */
--	s->vga.dac_sub_index = 0;
--	s->vga.dac_write_index++;
-+    s->vga.dac_sub_index = 0;
-+    s->vga.dac_write_index++;
-     }
- }
- 
-@@ -1485,24 +1485,24 @@ static int cirrus_vga_read_gr(CirrusVGAState * s, unsigned reg_index)
-         return s->cirrus_shadow_gr0;
-     case 0x01: // Standard VGA, FGCOLOR 0x000000ff
-         return s->cirrus_shadow_gr1;
--    case 0x02:			// Standard VGA
--    case 0x03:			// Standard VGA
--    case 0x04:			// Standard VGA
--    case 0x06:			// Standard VGA
--    case 0x07:			// Standard VGA
--    case 0x08:			// Standard VGA
-+    case 0x02:            // Standard VGA
-+    case 0x03:            // Standard VGA
-+    case 0x04:            // Standard VGA
-+    case 0x06:            // Standard VGA
-+    case 0x07:            // Standard VGA
-+    case 0x08:            // Standard VGA
-         return s->vga.gr[s->vga.gr_index];
--    case 0x05:			// Standard VGA, Cirrus extended mode
-+    case 0x05:            // Standard VGA, Cirrus extended mode
-     default:
--	break;
-+    break;
-     }
- 
-     if (reg_index < 0x3a) {
--	return s->vga.gr[reg_index];
-+    return s->vga.gr[reg_index];
-     } else {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "cirrus: inport gr_index 0x%02x\n", reg_index);
--	return 0xff;
-+    return 0xff;
-     }
- }
- 
-@@ -1511,87 +1511,87 @@ cirrus_vga_write_gr(CirrusVGAState * s, unsigned reg_index, int reg_value)
- {
-     trace_vga_cirrus_write_gr(reg_index, reg_value);
-     switch (reg_index) {
--    case 0x00:			// Standard VGA, BGCOLOR 0x000000ff
--	s->vga.gr[reg_index] = reg_value & gr_mask[reg_index];
--	s->cirrus_shadow_gr0 = reg_value;
--	break;
--    case 0x01:			// Standard VGA, FGCOLOR 0x000000ff
--	s->vga.gr[reg_index] = reg_value & gr_mask[reg_index];
--	s->cirrus_shadow_gr1 = reg_value;
--	break;
--    case 0x02:			// Standard VGA
--    case 0x03:			// Standard VGA
--    case 0x04:			// Standard VGA
--    case 0x06:			// Standard VGA
--    case 0x07:			// Standard VGA
--    case 0x08:			// Standard VGA
--	s->vga.gr[reg_index] = reg_value & gr_mask[reg_index];
-+    case 0x00:            // Standard VGA, BGCOLOR 0x000000ff
-+    s->vga.gr[reg_index] = reg_value & gr_mask[reg_index];
-+    s->cirrus_shadow_gr0 = reg_value;
-+    break;
-+    case 0x01:            // Standard VGA, FGCOLOR 0x000000ff
-+    s->vga.gr[reg_index] = reg_value & gr_mask[reg_index];
-+    s->cirrus_shadow_gr1 = reg_value;
-+    break;
-+    case 0x02:            // Standard VGA
-+    case 0x03:            // Standard VGA
-+    case 0x04:            // Standard VGA
-+    case 0x06:            // Standard VGA
-+    case 0x07:            // Standard VGA
-+    case 0x08:            // Standard VGA
-+    s->vga.gr[reg_index] = reg_value & gr_mask[reg_index];
-         break;
--    case 0x05:			// Standard VGA, Cirrus extended mode
--	s->vga.gr[reg_index] = reg_value & 0x7f;
-+    case 0x05:            // Standard VGA, Cirrus extended mode
-+    s->vga.gr[reg_index] = reg_value & 0x7f;
-         cirrus_update_memory_access(s);
--	break;
--    case 0x09:			// bank offset #0
--    case 0x0A:			// bank offset #1
--	s->vga.gr[reg_index] = reg_value;
--	cirrus_update_bank_ptr(s, 0);
--	cirrus_update_bank_ptr(s, 1);
-+    break;
-+    case 0x09:            // bank offset #0
-+    case 0x0A:            // bank offset #1
-+    s->vga.gr[reg_index] = reg_value;
-+    cirrus_update_bank_ptr(s, 0);
-+    cirrus_update_bank_ptr(s, 1);
-         cirrus_update_memory_access(s);
-         break;
-     case 0x0B:
--	s->vga.gr[reg_index] = reg_value;
--	cirrus_update_bank_ptr(s, 0);
--	cirrus_update_bank_ptr(s, 1);
-+    s->vga.gr[reg_index] = reg_value;
-+    cirrus_update_bank_ptr(s, 0);
-+    cirrus_update_bank_ptr(s, 1);
-         cirrus_update_memory_access(s);
--	break;
--    case 0x10:			// BGCOLOR 0x0000ff00
--    case 0x11:			// FGCOLOR 0x0000ff00
--    case 0x12:			// BGCOLOR 0x00ff0000
--    case 0x13:			// FGCOLOR 0x00ff0000
--    case 0x14:			// BGCOLOR 0xff000000
--    case 0x15:			// FGCOLOR 0xff000000
--    case 0x20:			// BLT WIDTH 0x0000ff
--    case 0x22:			// BLT HEIGHT 0x0000ff
--    case 0x24:			// BLT DEST PITCH 0x0000ff
--    case 0x26:			// BLT SRC PITCH 0x0000ff
--    case 0x28:			// BLT DEST ADDR 0x0000ff
--    case 0x29:			// BLT DEST ADDR 0x00ff00
--    case 0x2c:			// BLT SRC ADDR 0x0000ff
--    case 0x2d:			// BLT SRC ADDR 0x00ff00
-+    break;
-+    case 0x10:            // BGCOLOR 0x0000ff00
-+    case 0x11:            // FGCOLOR 0x0000ff00
-+    case 0x12:            // BGCOLOR 0x00ff0000
-+    case 0x13:            // FGCOLOR 0x00ff0000
-+    case 0x14:            // BGCOLOR 0xff000000
-+    case 0x15:            // FGCOLOR 0xff000000
-+    case 0x20:            // BLT WIDTH 0x0000ff
-+    case 0x22:            // BLT HEIGHT 0x0000ff
-+    case 0x24:            // BLT DEST PITCH 0x0000ff
-+    case 0x26:            // BLT SRC PITCH 0x0000ff
-+    case 0x28:            // BLT DEST ADDR 0x0000ff
-+    case 0x29:            // BLT DEST ADDR 0x00ff00
-+    case 0x2c:            // BLT SRC ADDR 0x0000ff
-+    case 0x2d:            // BLT SRC ADDR 0x00ff00
-     case 0x2f:                  // BLT WRITEMASK
--    case 0x30:			// BLT MODE
--    case 0x32:			// RASTER OP
--    case 0x33:			// BLT MODEEXT
--    case 0x34:			// BLT TRANSPARENT COLOR 0x00ff
--    case 0x35:			// BLT TRANSPARENT COLOR 0xff00
--    case 0x38:			// BLT TRANSPARENT COLOR MASK 0x00ff
--    case 0x39:			// BLT TRANSPARENT COLOR MASK 0xff00
--	s->vga.gr[reg_index] = reg_value;
--	break;
--    case 0x21:			// BLT WIDTH 0x001f00
--    case 0x23:			// BLT HEIGHT 0x001f00
--    case 0x25:			// BLT DEST PITCH 0x001f00
--    case 0x27:			// BLT SRC PITCH 0x001f00
--	s->vga.gr[reg_index] = reg_value & 0x1f;
--	break;
--    case 0x2a:			// BLT DEST ADDR 0x3f0000
--	s->vga.gr[reg_index] = reg_value & 0x3f;
-+    case 0x30:            // BLT MODE
-+    case 0x32:            // RASTER OP
-+    case 0x33:            // BLT MODEEXT
-+    case 0x34:            // BLT TRANSPARENT COLOR 0x00ff
-+    case 0x35:            // BLT TRANSPARENT COLOR 0xff00
-+    case 0x38:            // BLT TRANSPARENT COLOR MASK 0x00ff
-+    case 0x39:            // BLT TRANSPARENT COLOR MASK 0xff00
-+    s->vga.gr[reg_index] = reg_value;
-+    break;
-+    case 0x21:            // BLT WIDTH 0x001f00
-+    case 0x23:            // BLT HEIGHT 0x001f00
-+    case 0x25:            // BLT DEST PITCH 0x001f00
-+    case 0x27:            // BLT SRC PITCH 0x001f00
-+    s->vga.gr[reg_index] = reg_value & 0x1f;
-+    break;
-+    case 0x2a:            // BLT DEST ADDR 0x3f0000
-+    s->vga.gr[reg_index] = reg_value & 0x3f;
-         /* if auto start mode, starts bit blt now */
-         if (s->vga.gr[0x31] & CIRRUS_BLT_AUTOSTART) {
-             cirrus_bitblt_start(s);
-         }
--	break;
--    case 0x2e:			// BLT SRC ADDR 0x3f0000
--	s->vga.gr[reg_index] = reg_value & 0x3f;
--	break;
--    case 0x31:			// BLT STATUS/START
--	cirrus_write_bitblt(s, reg_value);
--	break;
-+    break;
-+    case 0x2e:            // BLT SRC ADDR 0x3f0000
-+    s->vga.gr[reg_index] = reg_value & 0x3f;
-+    break;
-+    case 0x31:            // BLT STATUS/START
-+    cirrus_write_bitblt(s, reg_value);
-+    break;
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "cirrus: outport gr_index 0x%02x, gr_value 0x%02x\n",
-                       reg_index, reg_value);
--	break;
-+    break;
-     }
- }
- 
-@@ -1604,122 +1604,122 @@ cirrus_vga_write_gr(CirrusVGAState * s, unsigned reg_index, int reg_value)
- static int cirrus_vga_read_cr(CirrusVGAState * s, unsigned reg_index)
- {
-     switch (reg_index) {
--    case 0x00:			// Standard VGA
--    case 0x01:			// Standard VGA
--    case 0x02:			// Standard VGA
--    case 0x03:			// Standard VGA
--    case 0x04:			// Standard VGA
--    case 0x05:			// Standard VGA
--    case 0x06:			// Standard VGA
--    case 0x07:			// Standard VGA
--    case 0x08:			// Standard VGA
--    case 0x09:			// Standard VGA
--    case 0x0a:			// Standard VGA
--    case 0x0b:			// Standard VGA
--    case 0x0c:			// Standard VGA
--    case 0x0d:			// Standard VGA
--    case 0x0e:			// Standard VGA
--    case 0x0f:			// Standard VGA
--    case 0x10:			// Standard VGA
--    case 0x11:			// Standard VGA
--    case 0x12:			// Standard VGA
--    case 0x13:			// Standard VGA
--    case 0x14:			// Standard VGA
--    case 0x15:			// Standard VGA
--    case 0x16:			// Standard VGA
--    case 0x17:			// Standard VGA
--    case 0x18:			// Standard VGA
--	return s->vga.cr[s->vga.cr_index];
--    case 0x24:			// Attribute Controller Toggle Readback (R)
-+    case 0x00:            // Standard VGA
-+    case 0x01:            // Standard VGA
-+    case 0x02:            // Standard VGA
-+    case 0x03:            // Standard VGA
-+    case 0x04:            // Standard VGA
-+    case 0x05:            // Standard VGA
-+    case 0x06:            // Standard VGA
-+    case 0x07:            // Standard VGA
-+    case 0x08:            // Standard VGA
-+    case 0x09:            // Standard VGA
-+    case 0x0a:            // Standard VGA
-+    case 0x0b:            // Standard VGA
-+    case 0x0c:            // Standard VGA
-+    case 0x0d:            // Standard VGA
-+    case 0x0e:            // Standard VGA
-+    case 0x0f:            // Standard VGA
-+    case 0x10:            // Standard VGA
-+    case 0x11:            // Standard VGA
-+    case 0x12:            // Standard VGA
-+    case 0x13:            // Standard VGA
-+    case 0x14:            // Standard VGA
-+    case 0x15:            // Standard VGA
-+    case 0x16:            // Standard VGA
-+    case 0x17:            // Standard VGA
-+    case 0x18:            // Standard VGA
-+    return s->vga.cr[s->vga.cr_index];
-+    case 0x24:            // Attribute Controller Toggle Readback (R)
-         return (s->vga.ar_flip_flop << 7);
--    case 0x19:			// Interlace End
--    case 0x1a:			// Miscellaneous Control
--    case 0x1b:			// Extended Display Control
--    case 0x1c:			// Sync Adjust and Genlock
--    case 0x1d:			// Overlay Extended Control
--    case 0x22:			// Graphics Data Latches Readback (R)
--    case 0x25:			// Part Status
--    case 0x27:			// Part ID (R)
--	return s->vga.cr[s->vga.cr_index];
--    case 0x26:			// Attribute Controller Index Readback (R)
--	return s->vga.ar_index & 0x3f;
-+    case 0x19:            // Interlace End
-+    case 0x1a:            // Miscellaneous Control
-+    case 0x1b:            // Extended Display Control
-+    case 0x1c:            // Sync Adjust and Genlock
-+    case 0x1d:            // Overlay Extended Control
-+    case 0x22:            // Graphics Data Latches Readback (R)
-+    case 0x25:            // Part Status
-+    case 0x27:            // Part ID (R)
-+    return s->vga.cr[s->vga.cr_index];
-+    case 0x26:            // Attribute Controller Index Readback (R)
-+    return s->vga.ar_index & 0x3f;
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "cirrus: inport cr_index 0x%02x\n", reg_index);
--	return 0xff;
-+    return 0xff;
-     }
- }
- 
- static void cirrus_vga_write_cr(CirrusVGAState * s, int reg_value)
- {
-     switch (s->vga.cr_index) {
--    case 0x00:			// Standard VGA
--    case 0x01:			// Standard VGA
--    case 0x02:			// Standard VGA
--    case 0x03:			// Standard VGA
--    case 0x04:			// Standard VGA
--    case 0x05:			// Standard VGA
--    case 0x06:			// Standard VGA
--    case 0x07:			// Standard VGA
--    case 0x08:			// Standard VGA
--    case 0x09:			// Standard VGA
--    case 0x0a:			// Standard VGA
--    case 0x0b:			// Standard VGA
--    case 0x0c:			// Standard VGA
--    case 0x0d:			// Standard VGA
--    case 0x0e:			// Standard VGA
--    case 0x0f:			// Standard VGA
--    case 0x10:			// Standard VGA
--    case 0x11:			// Standard VGA
--    case 0x12:			// Standard VGA
--    case 0x13:			// Standard VGA
--    case 0x14:			// Standard VGA
--    case 0x15:			// Standard VGA
--    case 0x16:			// Standard VGA
--    case 0x17:			// Standard VGA
--    case 0x18:			// Standard VGA
--	/* handle CR0-7 protection */
--	if ((s->vga.cr[0x11] & 0x80) && s->vga.cr_index <= 7) {
--	    /* can always write bit 4 of CR7 */
--	    if (s->vga.cr_index == 7)
--		s->vga.cr[7] = (s->vga.cr[7] & ~0x10) | (reg_value & 0x10);
--	    return;
--	}
--	s->vga.cr[s->vga.cr_index] = reg_value;
--	switch(s->vga.cr_index) {
--	case 0x00:
--	case 0x04:
--	case 0x05:
--	case 0x06:
--	case 0x07:
--	case 0x11:
--	case 0x17:
--	    s->vga.update_retrace_info(&s->vga);
--	    break;
--	}
-+    case 0x00:            // Standard VGA
-+    case 0x01:            // Standard VGA
-+    case 0x02:            // Standard VGA
-+    case 0x03:            // Standard VGA
-+    case 0x04:            // Standard VGA
-+    case 0x05:            // Standard VGA
-+    case 0x06:            // Standard VGA
-+    case 0x07:            // Standard VGA
-+    case 0x08:            // Standard VGA
-+    case 0x09:            // Standard VGA
-+    case 0x0a:            // Standard VGA
-+    case 0x0b:            // Standard VGA
-+    case 0x0c:            // Standard VGA
-+    case 0x0d:            // Standard VGA
-+    case 0x0e:            // Standard VGA
-+    case 0x0f:            // Standard VGA
-+    case 0x10:            // Standard VGA
-+    case 0x11:            // Standard VGA
-+    case 0x12:            // Standard VGA
-+    case 0x13:            // Standard VGA
-+    case 0x14:            // Standard VGA
-+    case 0x15:            // Standard VGA
-+    case 0x16:            // Standard VGA
-+    case 0x17:            // Standard VGA
-+    case 0x18:            // Standard VGA
-+    /* handle CR0-7 protection */
-+    if ((s->vga.cr[0x11] & 0x80) && s->vga.cr_index <= 7) {
-+        /* can always write bit 4 of CR7 */
-+        if (s->vga.cr_index == 7)
-+        s->vga.cr[7] = (s->vga.cr[7] & ~0x10) | (reg_value & 0x10);
-+        return;
-+    }
-+    s->vga.cr[s->vga.cr_index] = reg_value;
-+    switch(s->vga.cr_index) {
-+    case 0x00:
-+    case 0x04:
-+    case 0x05:
-+    case 0x06:
-+    case 0x07:
-+    case 0x11:
-+    case 0x17:
-+        s->vga.update_retrace_info(&s->vga);
-         break;
--    case 0x19:			// Interlace End
--    case 0x1a:			// Miscellaneous Control
--    case 0x1b:			// Extended Display Control
--    case 0x1c:			// Sync Adjust and Genlock
--    case 0x1d:			// Overlay Extended Control
--	s->vga.cr[s->vga.cr_index] = reg_value;
-+    }
-+        break;
-+    case 0x19:            // Interlace End
-+    case 0x1a:            // Miscellaneous Control
-+    case 0x1b:            // Extended Display Control
-+    case 0x1c:            // Sync Adjust and Genlock
-+    case 0x1d:            // Overlay Extended Control
-+    s->vga.cr[s->vga.cr_index] = reg_value;
- #ifdef DEBUG_CIRRUS
--	printf("cirrus: handled outport cr_index %02x, cr_value %02x\n",
--	       s->vga.cr_index, reg_value);
-+    printf("cirrus: handled outport cr_index %02x, cr_value %02x\n",
-+           s->vga.cr_index, reg_value);
- #endif
--	break;
--    case 0x22:			// Graphics Data Latches Readback (R)
--    case 0x24:			// Attribute Controller Toggle Readback (R)
--    case 0x26:			// Attribute Controller Index Readback (R)
--    case 0x27:			// Part ID (R)
--	break;
--    case 0x25:			// Part Status
-+    break;
-+    case 0x22:            // Graphics Data Latches Readback (R)
-+    case 0x24:            // Attribute Controller Toggle Readback (R)
-+    case 0x26:            // Attribute Controller Index Readback (R)
-+    case 0x27:            // Part ID (R)
-+    break;
-+    case 0x25:            // Part Status
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "cirrus: outport cr_index 0x%02x, cr_value 0x%02x\n",
-                       s->vga.cr_index, reg_value);
--	break;
-+    break;
-     }
- }
- 
-@@ -1735,102 +1735,102 @@ static uint8_t cirrus_mmio_blt_read(CirrusVGAState * s, unsigned address)
- 
-     switch (address) {
-     case (CIRRUS_MMIO_BLTBGCOLOR + 0):
--	value = cirrus_vga_read_gr(s, 0x00);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x00);
-+    break;
-     case (CIRRUS_MMIO_BLTBGCOLOR + 1):
--	value = cirrus_vga_read_gr(s, 0x10);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x10);
-+    break;
-     case (CIRRUS_MMIO_BLTBGCOLOR + 2):
--	value = cirrus_vga_read_gr(s, 0x12);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x12);
-+    break;
-     case (CIRRUS_MMIO_BLTBGCOLOR + 3):
--	value = cirrus_vga_read_gr(s, 0x14);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x14);
-+    break;
-     case (CIRRUS_MMIO_BLTFGCOLOR + 0):
--	value = cirrus_vga_read_gr(s, 0x01);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x01);
-+    break;
-     case (CIRRUS_MMIO_BLTFGCOLOR + 1):
--	value = cirrus_vga_read_gr(s, 0x11);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x11);
-+    break;
-     case (CIRRUS_MMIO_BLTFGCOLOR + 2):
--	value = cirrus_vga_read_gr(s, 0x13);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x13);
-+    break;
-     case (CIRRUS_MMIO_BLTFGCOLOR + 3):
--	value = cirrus_vga_read_gr(s, 0x15);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x15);
-+    break;
-     case (CIRRUS_MMIO_BLTWIDTH + 0):
--	value = cirrus_vga_read_gr(s, 0x20);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x20);
-+    break;
-     case (CIRRUS_MMIO_BLTWIDTH + 1):
--	value = cirrus_vga_read_gr(s, 0x21);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x21);
-+    break;
-     case (CIRRUS_MMIO_BLTHEIGHT + 0):
--	value = cirrus_vga_read_gr(s, 0x22);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x22);
-+    break;
-     case (CIRRUS_MMIO_BLTHEIGHT + 1):
--	value = cirrus_vga_read_gr(s, 0x23);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x23);
-+    break;
-     case (CIRRUS_MMIO_BLTDESTPITCH + 0):
--	value = cirrus_vga_read_gr(s, 0x24);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x24);
-+    break;
-     case (CIRRUS_MMIO_BLTDESTPITCH + 1):
--	value = cirrus_vga_read_gr(s, 0x25);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x25);
-+    break;
-     case (CIRRUS_MMIO_BLTSRCPITCH + 0):
--	value = cirrus_vga_read_gr(s, 0x26);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x26);
-+    break;
-     case (CIRRUS_MMIO_BLTSRCPITCH + 1):
--	value = cirrus_vga_read_gr(s, 0x27);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x27);
-+    break;
-     case (CIRRUS_MMIO_BLTDESTADDR + 0):
--	value = cirrus_vga_read_gr(s, 0x28);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x28);
-+    break;
-     case (CIRRUS_MMIO_BLTDESTADDR + 1):
--	value = cirrus_vga_read_gr(s, 0x29);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x29);
-+    break;
-     case (CIRRUS_MMIO_BLTDESTADDR + 2):
--	value = cirrus_vga_read_gr(s, 0x2a);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x2a);
-+    break;
-     case (CIRRUS_MMIO_BLTSRCADDR + 0):
--	value = cirrus_vga_read_gr(s, 0x2c);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x2c);
-+    break;
-     case (CIRRUS_MMIO_BLTSRCADDR + 1):
--	value = cirrus_vga_read_gr(s, 0x2d);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x2d);
-+    break;
-     case (CIRRUS_MMIO_BLTSRCADDR + 2):
--	value = cirrus_vga_read_gr(s, 0x2e);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x2e);
-+    break;
-     case CIRRUS_MMIO_BLTWRITEMASK:
--	value = cirrus_vga_read_gr(s, 0x2f);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x2f);
-+    break;
-     case CIRRUS_MMIO_BLTMODE:
--	value = cirrus_vga_read_gr(s, 0x30);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x30);
-+    break;
-     case CIRRUS_MMIO_BLTROP:
--	value = cirrus_vga_read_gr(s, 0x32);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x32);
-+    break;
-     case CIRRUS_MMIO_BLTMODEEXT:
--	value = cirrus_vga_read_gr(s, 0x33);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x33);
-+    break;
-     case (CIRRUS_MMIO_BLTTRANSPARENTCOLOR + 0):
--	value = cirrus_vga_read_gr(s, 0x34);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x34);
-+    break;
-     case (CIRRUS_MMIO_BLTTRANSPARENTCOLOR + 1):
--	value = cirrus_vga_read_gr(s, 0x35);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x35);
-+    break;
-     case (CIRRUS_MMIO_BLTTRANSPARENTCOLORMASK + 0):
--	value = cirrus_vga_read_gr(s, 0x38);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x38);
-+    break;
-     case (CIRRUS_MMIO_BLTTRANSPARENTCOLORMASK + 1):
--	value = cirrus_vga_read_gr(s, 0x39);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x39);
-+    break;
-     case CIRRUS_MMIO_BLTSTATUS:
--	value = cirrus_vga_read_gr(s, 0x31);
--	break;
-+    value = cirrus_vga_read_gr(s, 0x31);
-+    break;
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "cirrus: mmio read - address 0x%04x\n", address);
--	break;
-+    break;
-     }
- 
-     trace_vga_cirrus_write_blt(address, value);
-@@ -1838,111 +1838,111 @@ static uint8_t cirrus_mmio_blt_read(CirrusVGAState * s, unsigned address)
- }
- 
- static void cirrus_mmio_blt_write(CirrusVGAState * s, unsigned address,
--				  uint8_t value)
-+                  uint8_t value)
- {
-     trace_vga_cirrus_write_blt(address, value);
-     switch (address) {
-     case (CIRRUS_MMIO_BLTBGCOLOR + 0):
--	cirrus_vga_write_gr(s, 0x00, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x00, value);
-+    break;
-     case (CIRRUS_MMIO_BLTBGCOLOR + 1):
--	cirrus_vga_write_gr(s, 0x10, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x10, value);
-+    break;
-     case (CIRRUS_MMIO_BLTBGCOLOR + 2):
--	cirrus_vga_write_gr(s, 0x12, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x12, value);
-+    break;
-     case (CIRRUS_MMIO_BLTBGCOLOR + 3):
--	cirrus_vga_write_gr(s, 0x14, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x14, value);
-+    break;
-     case (CIRRUS_MMIO_BLTFGCOLOR + 0):
--	cirrus_vga_write_gr(s, 0x01, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x01, value);
-+    break;
-     case (CIRRUS_MMIO_BLTFGCOLOR + 1):
--	cirrus_vga_write_gr(s, 0x11, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x11, value);
-+    break;
-     case (CIRRUS_MMIO_BLTFGCOLOR + 2):
--	cirrus_vga_write_gr(s, 0x13, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x13, value);
-+    break;
-     case (CIRRUS_MMIO_BLTFGCOLOR + 3):
--	cirrus_vga_write_gr(s, 0x15, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x15, value);
-+    break;
-     case (CIRRUS_MMIO_BLTWIDTH + 0):
--	cirrus_vga_write_gr(s, 0x20, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x20, value);
-+    break;
-     case (CIRRUS_MMIO_BLTWIDTH + 1):
--	cirrus_vga_write_gr(s, 0x21, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x21, value);
-+    break;
-     case (CIRRUS_MMIO_BLTHEIGHT + 0):
--	cirrus_vga_write_gr(s, 0x22, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x22, value);
-+    break;
-     case (CIRRUS_MMIO_BLTHEIGHT + 1):
--	cirrus_vga_write_gr(s, 0x23, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x23, value);
-+    break;
-     case (CIRRUS_MMIO_BLTDESTPITCH + 0):
--	cirrus_vga_write_gr(s, 0x24, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x24, value);
-+    break;
-     case (CIRRUS_MMIO_BLTDESTPITCH + 1):
--	cirrus_vga_write_gr(s, 0x25, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x25, value);
-+    break;
-     case (CIRRUS_MMIO_BLTSRCPITCH + 0):
--	cirrus_vga_write_gr(s, 0x26, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x26, value);
-+    break;
-     case (CIRRUS_MMIO_BLTSRCPITCH + 1):
--	cirrus_vga_write_gr(s, 0x27, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x27, value);
-+    break;
-     case (CIRRUS_MMIO_BLTDESTADDR + 0):
--	cirrus_vga_write_gr(s, 0x28, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x28, value);
-+    break;
-     case (CIRRUS_MMIO_BLTDESTADDR + 1):
--	cirrus_vga_write_gr(s, 0x29, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x29, value);
-+    break;
-     case (CIRRUS_MMIO_BLTDESTADDR + 2):
--	cirrus_vga_write_gr(s, 0x2a, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x2a, value);
-+    break;
-     case (CIRRUS_MMIO_BLTDESTADDR + 3):
--	/* ignored */
--	break;
-+    /* ignored */
-+    break;
-     case (CIRRUS_MMIO_BLTSRCADDR + 0):
--	cirrus_vga_write_gr(s, 0x2c, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x2c, value);
-+    break;
-     case (CIRRUS_MMIO_BLTSRCADDR + 1):
--	cirrus_vga_write_gr(s, 0x2d, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x2d, value);
-+    break;
-     case (CIRRUS_MMIO_BLTSRCADDR + 2):
--	cirrus_vga_write_gr(s, 0x2e, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x2e, value);
-+    break;
-     case CIRRUS_MMIO_BLTWRITEMASK:
--	cirrus_vga_write_gr(s, 0x2f, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x2f, value);
-+    break;
-     case CIRRUS_MMIO_BLTMODE:
--	cirrus_vga_write_gr(s, 0x30, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x30, value);
-+    break;
-     case CIRRUS_MMIO_BLTROP:
--	cirrus_vga_write_gr(s, 0x32, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x32, value);
-+    break;
-     case CIRRUS_MMIO_BLTMODEEXT:
--	cirrus_vga_write_gr(s, 0x33, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x33, value);
-+    break;
-     case (CIRRUS_MMIO_BLTTRANSPARENTCOLOR + 0):
--	cirrus_vga_write_gr(s, 0x34, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x34, value);
-+    break;
-     case (CIRRUS_MMIO_BLTTRANSPARENTCOLOR + 1):
--	cirrus_vga_write_gr(s, 0x35, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x35, value);
-+    break;
-     case (CIRRUS_MMIO_BLTTRANSPARENTCOLORMASK + 0):
--	cirrus_vga_write_gr(s, 0x38, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x38, value);
-+    break;
-     case (CIRRUS_MMIO_BLTTRANSPARENTCOLORMASK + 1):
--	cirrus_vga_write_gr(s, 0x39, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x39, value);
-+    break;
-     case CIRRUS_MMIO_BLTSTATUS:
--	cirrus_vga_write_gr(s, 0x31, value);
--	break;
-+    cirrus_vga_write_gr(s, 0x31, value);
-+    break;
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "cirrus: mmio write - addr 0x%04x val 0x%02x (ignored)\n",
-                       address, value);
--	break;
-+    break;
-     }
- }
- 
-@@ -1953,9 +1953,9 @@ static void cirrus_mmio_blt_write(CirrusVGAState * s, unsigned address,
-  ***************************************/
- 
- static void cirrus_mem_writeb_mode4and5_8bpp(CirrusVGAState * s,
--					     unsigned mode,
--					     unsigned offset,
--					     uint32_t mem_value)
-+                         unsigned mode,
-+                         unsigned offset,
-+                         uint32_t mem_value)
- {
-     int x;
-     unsigned val = mem_value;
-@@ -1963,20 +1963,20 @@ static void cirrus_mem_writeb_mode4and5_8bpp(CirrusVGAState * s,
- 
-     for (x = 0; x < 8; x++) {
-         dst = s->vga.vram_ptr + ((offset + x) & s->cirrus_addr_mask);
--	if (val & 0x80) {
--	    *dst = s->cirrus_shadow_gr1;
--	} else if (mode == 5) {
--	    *dst = s->cirrus_shadow_gr0;
--	}
--	val <<= 1;
-+    if (val & 0x80) {
-+        *dst = s->cirrus_shadow_gr1;
-+    } else if (mode == 5) {
-+        *dst = s->cirrus_shadow_gr0;
-+    }
-+    val <<= 1;
-     }
-     memory_region_set_dirty(&s->vga.vram, offset, 8);
- }
- 
- static void cirrus_mem_writeb_mode4and5_16bpp(CirrusVGAState * s,
--					      unsigned mode,
--					      unsigned offset,
--					      uint32_t mem_value)
-+                          unsigned mode,
-+                          unsigned offset,
-+                          uint32_t mem_value)
- {
-     int x;
-     unsigned val = mem_value;
-@@ -1984,14 +1984,14 @@ static void cirrus_mem_writeb_mode4and5_16bpp(CirrusVGAState * s,
- 
-     for (x = 0; x < 8; x++) {
-         dst = s->vga.vram_ptr + ((offset + 2 * x) & s->cirrus_addr_mask & ~1);
--	if (val & 0x80) {
--	    *dst = s->cirrus_shadow_gr1;
--	    *(dst + 1) = s->vga.gr[0x11];
--	} else if (mode == 5) {
--	    *dst = s->cirrus_shadow_gr0;
--	    *(dst + 1) = s->vga.gr[0x10];
--	}
--	val <<= 1;
-+    if (val & 0x80) {
-+        *dst = s->cirrus_shadow_gr1;
-+        *(dst + 1) = s->vga.gr[0x11];
-+    } else if (mode == 5) {
-+        *dst = s->cirrus_shadow_gr0;
-+        *(dst + 1) = s->vga.gr[0x10];
-+    }
-+    val <<= 1;
-     }
-     memory_region_set_dirty(&s->vga.vram, offset, 16);
- }
-@@ -2016,29 +2016,29 @@ static uint64_t cirrus_vga_mem_read(void *opaque,
-     }
- 
-     if (addr < 0x10000) {
--	/* XXX handle bitblt */
--	/* video memory */
--	bank_index = addr >> 15;
--	bank_offset = addr & 0x7fff;
--	if (bank_offset < s->cirrus_bank_limit[bank_index]) {
--	    bank_offset += s->cirrus_bank_base[bank_index];
--	    if ((s->vga.gr[0x0B] & 0x14) == 0x14) {
--		bank_offset <<= 4;
--	    } else if (s->vga.gr[0x0B] & 0x02) {
--		bank_offset <<= 3;
--	    }
--	    bank_offset &= s->cirrus_addr_mask;
--	    val = *(s->vga.vram_ptr + bank_offset);
--	} else
--	    val = 0xff;
-+    /* XXX handle bitblt */
-+    /* video memory */
-+    bank_index = addr >> 15;
-+    bank_offset = addr & 0x7fff;
-+    if (bank_offset < s->cirrus_bank_limit[bank_index]) {
-+        bank_offset += s->cirrus_bank_base[bank_index];
-+        if ((s->vga.gr[0x0B] & 0x14) == 0x14) {
-+        bank_offset <<= 4;
-+        } else if (s->vga.gr[0x0B] & 0x02) {
-+        bank_offset <<= 3;
-+        }
-+        bank_offset &= s->cirrus_addr_mask;
-+        val = *(s->vga.vram_ptr + bank_offset);
-+    } else
-+        val = 0xff;
-     } else if (addr >= 0x18000 && addr < 0x18100) {
--	/* memory-mapped I/O */
--	val = 0xff;
--	if ((s->vga.sr[0x17] & 0x44) == 0x04) {
--	    val = cirrus_mmio_blt_read(s, addr & 0xff);
--	}
-+    /* memory-mapped I/O */
-+    val = 0xff;
-+    if ((s->vga.sr[0x17] & 0x44) == 0x04) {
-+        val = cirrus_mmio_blt_read(s, addr & 0xff);
-+    }
-     } else {
--	val = 0xff;
-+    val = 0xff;
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "cirrus: mem_readb 0x" TARGET_FMT_plx "\n", addr);
-     }
-@@ -2061,47 +2061,47 @@ static void cirrus_vga_mem_write(void *opaque,
-     }
- 
-     if (addr < 0x10000) {
--	if (s->cirrus_srcptr != s->cirrus_srcptr_end) {
--	    /* bitblt */
--	    *s->cirrus_srcptr++ = (uint8_t) mem_value;
--	    if (s->cirrus_srcptr >= s->cirrus_srcptr_end) {
--		cirrus_bitblt_cputovideo_next(s);
--	    }
--	} else {
--	    /* video memory */
--	    bank_index = addr >> 15;
--	    bank_offset = addr & 0x7fff;
--	    if (bank_offset < s->cirrus_bank_limit[bank_index]) {
--		bank_offset += s->cirrus_bank_base[bank_index];
--		if ((s->vga.gr[0x0B] & 0x14) == 0x14) {
--		    bank_offset <<= 4;
--		} else if (s->vga.gr[0x0B] & 0x02) {
--		    bank_offset <<= 3;
--		}
--		bank_offset &= s->cirrus_addr_mask;
--		mode = s->vga.gr[0x05] & 0x7;
--		if (mode < 4 || mode > 5 || ((s->vga.gr[0x0B] & 0x4) == 0)) {
--		    *(s->vga.vram_ptr + bank_offset) = mem_value;
-+    if (s->cirrus_srcptr != s->cirrus_srcptr_end) {
-+        /* bitblt */
-+        *s->cirrus_srcptr++ = (uint8_t) mem_value;
-+        if (s->cirrus_srcptr >= s->cirrus_srcptr_end) {
-+        cirrus_bitblt_cputovideo_next(s);
-+        }
-+    } else {
-+        /* video memory */
-+        bank_index = addr >> 15;
-+        bank_offset = addr & 0x7fff;
-+        if (bank_offset < s->cirrus_bank_limit[bank_index]) {
-+        bank_offset += s->cirrus_bank_base[bank_index];
-+        if ((s->vga.gr[0x0B] & 0x14) == 0x14) {
-+            bank_offset <<= 4;
-+        } else if (s->vga.gr[0x0B] & 0x02) {
-+            bank_offset <<= 3;
-+        }
-+        bank_offset &= s->cirrus_addr_mask;
-+        mode = s->vga.gr[0x05] & 0x7;
-+        if (mode < 4 || mode > 5 || ((s->vga.gr[0x0B] & 0x4) == 0)) {
-+            *(s->vga.vram_ptr + bank_offset) = mem_value;
-                     memory_region_set_dirty(&s->vga.vram, bank_offset,
-                                             sizeof(mem_value));
--		} else {
--		    if ((s->vga.gr[0x0B] & 0x14) != 0x14) {
--			cirrus_mem_writeb_mode4and5_8bpp(s, mode,
--							 bank_offset,
--							 mem_value);
--		    } else {
--			cirrus_mem_writeb_mode4and5_16bpp(s, mode,
--							  bank_offset,
--							  mem_value);
--		    }
--		}
--	    }
--	}
-+        } else {
-+            if ((s->vga.gr[0x0B] & 0x14) != 0x14) {
-+            cirrus_mem_writeb_mode4and5_8bpp(s, mode,
-+                             bank_offset,
-+                             mem_value);
-+            } else {
-+            cirrus_mem_writeb_mode4and5_16bpp(s, mode,
-+                              bank_offset,
-+                              mem_value);
-+            }
-+        }
-+        }
-+    }
-     } else if (addr >= 0x18000 && addr < 0x18100) {
--	/* memory-mapped I/O */
--	if ((s->vga.sr[0x17] & 0x44) == 0x04) {
--	    cirrus_mmio_blt_write(s, addr & 0xff, mem_value);
--	}
-+    /* memory-mapped I/O */
-+    if ((s->vga.sr[0x17] & 0x44) == 0x04) {
-+        cirrus_mmio_blt_write(s, addr & 0xff, mem_value);
-+    }
-     } else {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "cirrus: mem_writeb 0x" TARGET_FMT_plx " "
-@@ -2326,20 +2326,20 @@ static uint64_t cirrus_linear_read(void *opaque, hwaddr addr,
- 
-     if (((s->vga.sr[0x17] & 0x44) == 0x44) &&
-         ((addr & s->linear_mmio_mask) == s->linear_mmio_mask)) {
--	/* memory-mapped I/O */
--	ret = cirrus_mmio_blt_read(s, addr & 0xff);
-+    /* memory-mapped I/O */
-+    ret = cirrus_mmio_blt_read(s, addr & 0xff);
-     } else if (0) {
--	/* XXX handle bitblt */
--	ret = 0xff;
-+    /* XXX handle bitblt */
-+    ret = 0xff;
-     } else {
--	/* video memory */
--	if ((s->vga.gr[0x0B] & 0x14) == 0x14) {
--	    addr <<= 4;
--	} else if (s->vga.gr[0x0B] & 0x02) {
--	    addr <<= 3;
--	}
--	addr &= s->cirrus_addr_mask;
--	ret = *(s->vga.vram_ptr + addr);
-+    /* video memory */
-+    if ((s->vga.gr[0x0B] & 0x14) == 0x14) {
-+        addr <<= 4;
-+    } else if (s->vga.gr[0x0B] & 0x02) {
-+        addr <<= 3;
-+    }
-+    addr &= s->cirrus_addr_mask;
-+    ret = *(s->vga.vram_ptr + addr);
-     }
- 
-     return ret;
-@@ -2355,34 +2355,34 @@ static void cirrus_linear_write(void *opaque, hwaddr addr,
- 
-     if (((s->vga.sr[0x17] & 0x44) == 0x44) &&
-         ((addr & s->linear_mmio_mask) ==  s->linear_mmio_mask)) {
--	/* memory-mapped I/O */
--	cirrus_mmio_blt_write(s, addr & 0xff, val);
-+    /* memory-mapped I/O */
-+    cirrus_mmio_blt_write(s, addr & 0xff, val);
-     } else if (s->cirrus_srcptr != s->cirrus_srcptr_end) {
--	/* bitblt */
--	*s->cirrus_srcptr++ = (uint8_t) val;
--	if (s->cirrus_srcptr >= s->cirrus_srcptr_end) {
--	    cirrus_bitblt_cputovideo_next(s);
--	}
-+    /* bitblt */
-+    *s->cirrus_srcptr++ = (uint8_t) val;
-+    if (s->cirrus_srcptr >= s->cirrus_srcptr_end) {
-+        cirrus_bitblt_cputovideo_next(s);
-+    }
-     } else {
--	/* video memory */
--	if ((s->vga.gr[0x0B] & 0x14) == 0x14) {
--	    addr <<= 4;
--	} else if (s->vga.gr[0x0B] & 0x02) {
--	    addr <<= 3;
--	}
--	addr &= s->cirrus_addr_mask;
--
--	mode = s->vga.gr[0x05] & 0x7;
--	if (mode < 4 || mode > 5 || ((s->vga.gr[0x0B] & 0x4) == 0)) {
--	    *(s->vga.vram_ptr + addr) = (uint8_t) val;
-+    /* video memory */
-+    if ((s->vga.gr[0x0B] & 0x14) == 0x14) {
-+        addr <<= 4;
-+    } else if (s->vga.gr[0x0B] & 0x02) {
-+        addr <<= 3;
-+    }
-+    addr &= s->cirrus_addr_mask;
-+
-+    mode = s->vga.gr[0x05] & 0x7;
-+    if (mode < 4 || mode > 5 || ((s->vga.gr[0x0B] & 0x4) == 0)) {
-+        *(s->vga.vram_ptr + addr) = (uint8_t) val;
-             memory_region_set_dirty(&s->vga.vram, addr, 1);
--	} else {
--	    if ((s->vga.gr[0x0B] & 0x14) != 0x14) {
--		cirrus_mem_writeb_mode4and5_8bpp(s, mode, addr, val);
--	    } else {
--		cirrus_mem_writeb_mode4and5_16bpp(s, mode, addr, val);
--	    }
--	}
-+    } else {
-+        if ((s->vga.gr[0x0B] & 0x14) != 0x14) {
-+        cirrus_mem_writeb_mode4and5_8bpp(s, mode, addr, val);
-+        } else {
-+        cirrus_mem_writeb_mode4and5_16bpp(s, mode, addr, val);
-+        }
-+    }
-     }
- }
- 
-@@ -2415,11 +2415,11 @@ static void cirrus_linear_bitblt_write(void *opaque,
-     CirrusVGAState *s = opaque;
- 
-     if (s->cirrus_srcptr != s->cirrus_srcptr_end) {
--	/* bitblt */
--	*s->cirrus_srcptr++ = (uint8_t) val;
--	if (s->cirrus_srcptr >= s->cirrus_srcptr_end) {
--	    cirrus_bitblt_cputovideo_next(s);
--	}
-+    /* bitblt */
-+    *s->cirrus_srcptr++ = (uint8_t) val;
-+    if (s->cirrus_srcptr >= s->cirrus_srcptr_end) {
-+        cirrus_bitblt_cputovideo_next(s);
-+    }
-     }
- }
- 
-@@ -2476,14 +2476,14 @@ static void cirrus_update_memory_access(CirrusVGAState *s)
-     } else if (s->cirrus_srcptr != s->cirrus_srcptr_end) {
-         goto generic_io;
-     } else {
--	if ((s->vga.gr[0x0B] & 0x14) == 0x14) {
-+    if ((s->vga.gr[0x0B] & 0x14) == 0x14) {
-             goto generic_io;
--	} else if (s->vga.gr[0x0B] & 0x02) {
-+    } else if (s->vga.gr[0x0B] & 0x02) {
-             goto generic_io;
-         }
- 
--	mode = s->vga.gr[0x05] & 0x7;
--	if (mode < 4 || mode > 5 || ((s->vga.gr[0x0B] & 0x4) == 0)) {
-+    mode = s->vga.gr[0x05] & 0x7;
-+    if (mode < 4 || mode > 5 || ((s->vga.gr[0x0B] & 0x4) == 0)) {
-             map_linear_vram(s);
-         } else {
-         generic_io:
-@@ -2506,76 +2506,76 @@ static uint64_t cirrus_vga_ioport_read(void *opaque, hwaddr addr,
-     addr += 0x3b0;
- 
-     if (vga_ioport_invalid(s, addr)) {
--	val = 0xff;
-+    val = 0xff;
-     } else {
--	switch (addr) {
--	case 0x3c0:
--	    if (s->ar_flip_flop == 0) {
--		val = s->ar_index;
--	    } else {
--		val = 0;
--	    }
--	    break;
--	case 0x3c1:
--	    index = s->ar_index & 0x1f;
--	    if (index < 21)
--		val = s->ar[index];
--	    else
--		val = 0;
--	    break;
--	case 0x3c2:
--	    val = s->st00;
--	    break;
--	case 0x3c4:
--	    val = s->sr_index;
--	    break;
--	case 0x3c5:
--	    val = cirrus_vga_read_sr(c);
-+    switch (addr) {
-+    case 0x3c0:
-+        if (s->ar_flip_flop == 0) {
-+        val = s->ar_index;
-+        } else {
-+        val = 0;
-+        }
-+        break;
-+    case 0x3c1:
-+        index = s->ar_index & 0x1f;
-+        if (index < 21)
-+        val = s->ar[index];
-+        else
-+        val = 0;
-+        break;
-+    case 0x3c2:
-+        val = s->st00;
-+        break;
-+    case 0x3c4:
-+        val = s->sr_index;
-+        break;
-+    case 0x3c5:
-+        val = cirrus_vga_read_sr(c);
-             break;
--	    break;
--	case 0x3c6:
--	    val = cirrus_read_hidden_dac(c);
--	    break;
--	case 0x3c7:
--	    val = s->dac_state;
--	    break;
--	case 0x3c8:
--	    val = s->dac_write_index;
--	    c->cirrus_hidden_dac_lockindex = 0;
--	    break;
-+        break;
-+    case 0x3c6:
-+        val = cirrus_read_hidden_dac(c);
-+        break;
-+    case 0x3c7:
-+        val = s->dac_state;
-+        break;
-+    case 0x3c8:
-+        val = s->dac_write_index;
-+        c->cirrus_hidden_dac_lockindex = 0;
-+        break;
-         case 0x3c9:
-             val = cirrus_vga_read_palette(c);
-             break;
--	case 0x3ca:
--	    val = s->fcr;
--	    break;
--	case 0x3cc:
--	    val = s->msr;
--	    break;
--	case 0x3ce:
--	    val = s->gr_index;
--	    break;
--	case 0x3cf:
--	    val = cirrus_vga_read_gr(c, s->gr_index);
--	    break;
--	case 0x3b4:
--	case 0x3d4:
--	    val = s->cr_index;
--	    break;
--	case 0x3b5:
--	case 0x3d5:
-+    case 0x3ca:
-+        val = s->fcr;
-+        break;
-+    case 0x3cc:
-+        val = s->msr;
-+        break;
-+    case 0x3ce:
-+        val = s->gr_index;
-+        break;
-+    case 0x3cf:
-+        val = cirrus_vga_read_gr(c, s->gr_index);
-+        break;
-+    case 0x3b4:
-+    case 0x3d4:
-+        val = s->cr_index;
-+        break;
-+    case 0x3b5:
-+    case 0x3d5:
-             val = cirrus_vga_read_cr(c, s->cr_index);
--	    break;
--	case 0x3ba:
--	case 0x3da:
--	    /* just toggle to fool polling */
--	    val = s->st01 = s->retrace(s);
--	    s->ar_flip_flop = 0;
--	    break;
--	default:
--	    val = 0x00;
--	    break;
--	}
-+        break;
-+    case 0x3ba:
-+    case 0x3da:
-+        /* just toggle to fool polling */
-+        val = s->st01 = s->retrace(s);
-+        s->ar_flip_flop = 0;
-+        break;
-+    default:
-+        val = 0x00;
-+        break;
-+    }
-     }
-     trace_vga_cirrus_read_io(addr, val);
-     return val;
-@@ -2592,86 +2592,86 @@ static void cirrus_vga_ioport_write(void *opaque, hwaddr addr, uint64_t val,
- 
-     /* check port range access depending on color/monochrome mode */
-     if (vga_ioport_invalid(s, addr)) {
--	return;
-+    return;
-     }
-     trace_vga_cirrus_write_io(addr, val);
- 
-     switch (addr) {
-     case 0x3c0:
--	if (s->ar_flip_flop == 0) {
--	    val &= 0x3f;
--	    s->ar_index = val;
--	} else {
--	    index = s->ar_index & 0x1f;
--	    switch (index) {
--	    case 0x00 ... 0x0f:
--		s->ar[index] = val & 0x3f;
--		break;
--	    case 0x10:
--		s->ar[index] = val & ~0x10;
--		break;
--	    case 0x11:
--		s->ar[index] = val;
--		break;
--	    case 0x12:
--		s->ar[index] = val & ~0xc0;
--		break;
--	    case 0x13:
--		s->ar[index] = val & ~0xf0;
--		break;
--	    case 0x14:
--		s->ar[index] = val & ~0xf0;
--		break;
--	    default:
--		break;
--	    }
--	}
--	s->ar_flip_flop ^= 1;
--	break;
-+    if (s->ar_flip_flop == 0) {
-+        val &= 0x3f;
-+        s->ar_index = val;
-+    } else {
-+        index = s->ar_index & 0x1f;
-+        switch (index) {
-+        case 0x00 ... 0x0f:
-+        s->ar[index] = val & 0x3f;
-+        break;
-+        case 0x10:
-+        s->ar[index] = val & ~0x10;
-+        break;
-+        case 0x11:
-+        s->ar[index] = val;
-+        break;
-+        case 0x12:
-+        s->ar[index] = val & ~0xc0;
-+        break;
-+        case 0x13:
-+        s->ar[index] = val & ~0xf0;
-+        break;
-+        case 0x14:
-+        s->ar[index] = val & ~0xf0;
-+        break;
-+        default:
-+        break;
-+        }
-+    }
-+    s->ar_flip_flop ^= 1;
-+    break;
-     case 0x3c2:
--	s->msr = val & ~0x10;
--	s->update_retrace_info(s);
--	break;
-+    s->msr = val & ~0x10;
-+    s->update_retrace_info(s);
-+    break;
-     case 0x3c4:
--	s->sr_index = val;
--	break;
-+    s->sr_index = val;
-+    break;
-     case 0x3c5:
--	cirrus_vga_write_sr(c, val);
-+    cirrus_vga_write_sr(c, val);
-         break;
-     case 0x3c6:
--	cirrus_write_hidden_dac(c, val);
--	break;
-+    cirrus_write_hidden_dac(c, val);
-+    break;
-     case 0x3c7:
--	s->dac_read_index = val;
--	s->dac_sub_index = 0;
--	s->dac_state = 3;
--	break;
-+    s->dac_read_index = val;
-+    s->dac_sub_index = 0;
-+    s->dac_state = 3;
-+    break;
-     case 0x3c8:
--	s->dac_write_index = val;
--	s->dac_sub_index = 0;
--	s->dac_state = 0;
--	break;
-+    s->dac_write_index = val;
-+    s->dac_sub_index = 0;
-+    s->dac_state = 0;
-+    break;
-     case 0x3c9:
-         cirrus_vga_write_palette(c, val);
-         break;
-     case 0x3ce:
--	s->gr_index = val;
--	break;
-+    s->gr_index = val;
-+    break;
-     case 0x3cf:
--	cirrus_vga_write_gr(c, s->gr_index, val);
--	break;
-+    cirrus_vga_write_gr(c, s->gr_index, val);
-+    break;
-     case 0x3b4:
-     case 0x3d4:
--	s->cr_index = val;
--	break;
-+    s->cr_index = val;
-+    break;
-     case 0x3b5:
-     case 0x3d5:
--	cirrus_vga_write_cr(c, val);
--	break;
-+    cirrus_vga_write_cr(c, val);
-+    break;
-     case 0x3ba:
-     case 0x3da:
--	s->fcr = val & 0x10;
--	break;
-+    s->fcr = val & 0x10;
-+    break;
-     }
- }
- 
-@@ -2699,7 +2699,7 @@ static void cirrus_mmio_write(void *opaque, hwaddr addr,
-     CirrusVGAState *s = opaque;
- 
-     if (addr >= 0x100) {
--	cirrus_mmio_blt_write(s, addr - 0x100, val);
-+    cirrus_mmio_blt_write(s, addr - 0x100, val);
-     } else {
-         cirrus_vga_ioport_write(s, addr + 0x10, val, size);
-     }
-@@ -2799,13 +2799,13 @@ static void cirrus_reset(void *opaque)
-     s->vga.sr[0x06] = 0x0f;
-     if (s->device_id == CIRRUS_ID_CLGD5446) {
-         /* 4MB 64 bit memory config, always PCI */
--        s->vga.sr[0x1F] = 0x2d;		// MemClock
-+        s->vga.sr[0x1F] = 0x2d;        // MemClock
-         s->vga.gr[0x18] = 0x0f;             // fastest memory configuration
-         s->vga.sr[0x0f] = 0x98;
-         s->vga.sr[0x17] = 0x20;
-         s->vga.sr[0x15] = 0x04; /* memory size, 3=2MB, 4=4MB */
-     } else {
--        s->vga.sr[0x1F] = 0x22;		// MemClock
-+        s->vga.sr[0x1F] = 0x22;        // MemClock
-         s->vga.sr[0x0F] = CIRRUS_MEMSIZE_2M;
-         s->vga.sr[0x17] = s->bustype;
-         s->vga.sr[0x15] = 0x03; /* memory size, 3=2MB, 4=4MB */
-diff --git a/hw/display/omap_dss.c b/hw/display/omap_dss.c
-index 8c0e9ee700..a3eb52f8f0 100644
---- a/hw/display/omap_dss.c
-+++ b/hw/display/omap_dss.c
-@@ -182,25 +182,25 @@ static uint64_t omap_diss_read(void *opaque, hwaddr addr,
-     }
- 
-     switch (addr) {
--    case 0x00:	/* DSS_REVISIONNUMBER */
-+    case 0x00:    /* DSS_REVISIONNUMBER */
-         return 0x20;
- 
--    case 0x10:	/* DSS_SYSCONFIG */
-+    case 0x10:    /* DSS_SYSCONFIG */
-         return s->autoidle;
- 
--    case 0x14:	/* DSS_SYSSTATUS */
--        return 1;						/* RESETDONE */
-+    case 0x14:    /* DSS_SYSSTATUS */
-+        return 1;                        /* RESETDONE */
- 
--    case 0x40:	/* DSS_CONTROL */
-+    case 0x40:    /* DSS_CONTROL */
-         return s->control;
- 
--    case 0x50:	/* DSS_PSA_LCD_REG_1 */
--    case 0x54:	/* DSS_PSA_LCD_REG_2 */
--    case 0x58:	/* DSS_PSA_VIDEO_REG */
-+    case 0x50:    /* DSS_PSA_LCD_REG_1 */
-+    case 0x54:    /* DSS_PSA_LCD_REG_2 */
-+    case 0x58:    /* DSS_PSA_VIDEO_REG */
-         /* TODO: fake some values when appropriate s->control bits are set */
-         return 0;
- 
--    case 0x5c:	/* DSS_STATUS */
-+    case 0x5c:    /* DSS_STATUS */
-         return 1 + (s->control & 1);
- 
-     default:
-@@ -221,22 +221,22 @@ static void omap_diss_write(void *opaque, hwaddr addr,
-     }
- 
-     switch (addr) {
--    case 0x00:	/* DSS_REVISIONNUMBER */
--    case 0x14:	/* DSS_SYSSTATUS */
--    case 0x50:	/* DSS_PSA_LCD_REG_1 */
--    case 0x54:	/* DSS_PSA_LCD_REG_2 */
--    case 0x58:	/* DSS_PSA_VIDEO_REG */
--    case 0x5c:	/* DSS_STATUS */
-+    case 0x00:    /* DSS_REVISIONNUMBER */
-+    case 0x14:    /* DSS_SYSSTATUS */
-+    case 0x50:    /* DSS_PSA_LCD_REG_1 */
-+    case 0x54:    /* DSS_PSA_LCD_REG_2 */
-+    case 0x58:    /* DSS_PSA_VIDEO_REG */
-+    case 0x5c:    /* DSS_STATUS */
-         OMAP_RO_REG(addr);
-         break;
- 
--    case 0x10:	/* DSS_SYSCONFIG */
--        if (value & 2)						/* SOFTRESET */
-+    case 0x10:    /* DSS_SYSCONFIG */
-+        if (value & 2)                        /* SOFTRESET */
-             omap_dss_reset(s);
-         s->autoidle = value & 1;
-         break;
- 
--    case 0x40:	/* DSS_CONTROL */
-+    case 0x40:    /* DSS_CONTROL */
-         s->control = value & 0x3dd;
-         break;
- 
-@@ -261,112 +261,112 @@ static uint64_t omap_disc_read(void *opaque, hwaddr addr,
-     }
- 
-     switch (addr) {
--    case 0x000:	/* DISPC_REVISION */
-+    case 0x000:    /* DISPC_REVISION */
-         return 0x20;
- 
--    case 0x010:	/* DISPC_SYSCONFIG */
-+    case 0x010:    /* DISPC_SYSCONFIG */
-         return s->dispc.idlemode;
- 
--    case 0x014:	/* DISPC_SYSSTATUS */
--        return 1;						/* RESETDONE */
-+    case 0x014:    /* DISPC_SYSSTATUS */
-+        return 1;                        /* RESETDONE */
- 
--    case 0x018:	/* DISPC_IRQSTATUS */
-+    case 0x018:    /* DISPC_IRQSTATUS */
-         return s->dispc.irqst;
- 
--    case 0x01c:	/* DISPC_IRQENABLE */
-+    case 0x01c:    /* DISPC_IRQENABLE */
-         return s->dispc.irqen;
- 
--    case 0x040:	/* DISPC_CONTROL */
-+    case 0x040:    /* DISPC_CONTROL */
-         return s->dispc.control;
- 
--    case 0x044:	/* DISPC_CONFIG */
-+    case 0x044:    /* DISPC_CONFIG */
-         return s->dispc.config;
- 
--    case 0x048:	/* DISPC_CAPABLE */
-+    case 0x048:    /* DISPC_CAPABLE */
-         return s->dispc.capable;
- 
--    case 0x04c:	/* DISPC_DEFAULT_COLOR0 */
-+    case 0x04c:    /* DISPC_DEFAULT_COLOR0 */
-         return s->dispc.bg[0];
--    case 0x050:	/* DISPC_DEFAULT_COLOR1 */
-+    case 0x050:    /* DISPC_DEFAULT_COLOR1 */
-         return s->dispc.bg[1];
--    case 0x054:	/* DISPC_TRANS_COLOR0 */
-+    case 0x054:    /* DISPC_TRANS_COLOR0 */
-         return s->dispc.trans[0];
--    case 0x058:	/* DISPC_TRANS_COLOR1 */
-+    case 0x058:    /* DISPC_TRANS_COLOR1 */
-         return s->dispc.trans[1];
- 
--    case 0x05c:	/* DISPC_LINE_STATUS */
-+    case 0x05c:    /* DISPC_LINE_STATUS */
-         return 0x7ff;
--    case 0x060:	/* DISPC_LINE_NUMBER */
-+    case 0x060:    /* DISPC_LINE_NUMBER */
-         return s->dispc.line;
- 
--    case 0x064:	/* DISPC_TIMING_H */
-+    case 0x064:    /* DISPC_TIMING_H */
-         return s->dispc.timing[0];
--    case 0x068:	/* DISPC_TIMING_V */
-+    case 0x068:    /* DISPC_TIMING_V */
-         return s->dispc.timing[1];
--    case 0x06c:	/* DISPC_POL_FREQ */
-+    case 0x06c:    /* DISPC_POL_FREQ */
-         return s->dispc.timing[2];
--    case 0x070:	/* DISPC_DIVISOR */
-+    case 0x070:    /* DISPC_DIVISOR */
-         return s->dispc.timing[3];
- 
--    case 0x078:	/* DISPC_SIZE_DIG */
-+    case 0x078:    /* DISPC_SIZE_DIG */
-         return ((s->dig.ny - 1) << 16) | (s->dig.nx - 1);
--    case 0x07c:	/* DISPC_SIZE_LCD */
-+    case 0x07c:    /* DISPC_SIZE_LCD */
-         return ((s->lcd.ny - 1) << 16) | (s->lcd.nx - 1);
- 
--    case 0x080:	/* DISPC_GFX_BA0 */
-+    case 0x080:    /* DISPC_GFX_BA0 */
-         return s->dispc.l[0].addr[0];
--    case 0x084:	/* DISPC_GFX_BA1 */
-+    case 0x084:    /* DISPC_GFX_BA1 */
-         return s->dispc.l[0].addr[1];
--    case 0x088:	/* DISPC_GFX_POSITION */
-+    case 0x088:    /* DISPC_GFX_POSITION */
-         return (s->dispc.l[0].posy << 16) | s->dispc.l[0].posx;
--    case 0x08c:	/* DISPC_GFX_SIZE */
-+    case 0x08c:    /* DISPC_GFX_SIZE */
-         return ((s->dispc.l[0].ny - 1) << 16) | (s->dispc.l[0].nx - 1);
--    case 0x0a0:	/* DISPC_GFX_ATTRIBUTES */
-+    case 0x0a0:    /* DISPC_GFX_ATTRIBUTES */
-         return s->dispc.l[0].attr;
--    case 0x0a4:	/* DISPC_GFX_FIFO_TRESHOLD */
-+    case 0x0a4:    /* DISPC_GFX_FIFO_TRESHOLD */
-         return s->dispc.l[0].tresh;
--    case 0x0a8:	/* DISPC_GFX_FIFO_SIZE_STATUS */
-+    case 0x0a8:    /* DISPC_GFX_FIFO_SIZE_STATUS */
-         return 256;
--    case 0x0ac:	/* DISPC_GFX_ROW_INC */
-+    case 0x0ac:    /* DISPC_GFX_ROW_INC */
-         return s->dispc.l[0].rowinc;
--    case 0x0b0:	/* DISPC_GFX_PIXEL_INC */
-+    case 0x0b0:    /* DISPC_GFX_PIXEL_INC */
-         return s->dispc.l[0].colinc;
--    case 0x0b4:	/* DISPC_GFX_WINDOW_SKIP */
-+    case 0x0b4:    /* DISPC_GFX_WINDOW_SKIP */
-         return s->dispc.l[0].wininc;
--    case 0x0b8:	/* DISPC_GFX_TABLE_BA */
-+    case 0x0b8:    /* DISPC_GFX_TABLE_BA */
-         return s->dispc.l[0].addr[2];
- 
--    case 0x0bc:	/* DISPC_VID1_BA0 */
--    case 0x0c0:	/* DISPC_VID1_BA1 */
--    case 0x0c4:	/* DISPC_VID1_POSITION */
--    case 0x0c8:	/* DISPC_VID1_SIZE */
--    case 0x0cc:	/* DISPC_VID1_ATTRIBUTES */
--    case 0x0d0:	/* DISPC_VID1_FIFO_TRESHOLD */
--    case 0x0d4:	/* DISPC_VID1_FIFO_SIZE_STATUS */
--    case 0x0d8:	/* DISPC_VID1_ROW_INC */
--    case 0x0dc:	/* DISPC_VID1_PIXEL_INC */
--    case 0x0e0:	/* DISPC_VID1_FIR */
--    case 0x0e4:	/* DISPC_VID1_PICTURE_SIZE */
--    case 0x0e8:	/* DISPC_VID1_ACCU0 */
--    case 0x0ec:	/* DISPC_VID1_ACCU1 */
--    case 0x0f0 ... 0x140:	/* DISPC_VID1_FIR_COEF, DISPC_VID1_CONV_COEF */
--    case 0x14c:	/* DISPC_VID2_BA0 */
--    case 0x150:	/* DISPC_VID2_BA1 */
--    case 0x154:	/* DISPC_VID2_POSITION */
--    case 0x158:	/* DISPC_VID2_SIZE */
--    case 0x15c:	/* DISPC_VID2_ATTRIBUTES */
--    case 0x160:	/* DISPC_VID2_FIFO_TRESHOLD */
--    case 0x164:	/* DISPC_VID2_FIFO_SIZE_STATUS */
--    case 0x168:	/* DISPC_VID2_ROW_INC */
--    case 0x16c:	/* DISPC_VID2_PIXEL_INC */
--    case 0x170:	/* DISPC_VID2_FIR */
--    case 0x174:	/* DISPC_VID2_PICTURE_SIZE */
--    case 0x178:	/* DISPC_VID2_ACCU0 */
--    case 0x17c:	/* DISPC_VID2_ACCU1 */
--    case 0x180 ... 0x1d0:	/* DISPC_VID2_FIR_COEF, DISPC_VID2_CONV_COEF */
--    case 0x1d4:	/* DISPC_DATA_CYCLE1 */
--    case 0x1d8:	/* DISPC_DATA_CYCLE2 */
--    case 0x1dc:	/* DISPC_DATA_CYCLE3 */
-+    case 0x0bc:    /* DISPC_VID1_BA0 */
-+    case 0x0c0:    /* DISPC_VID1_BA1 */
-+    case 0x0c4:    /* DISPC_VID1_POSITION */
-+    case 0x0c8:    /* DISPC_VID1_SIZE */
-+    case 0x0cc:    /* DISPC_VID1_ATTRIBUTES */
-+    case 0x0d0:    /* DISPC_VID1_FIFO_TRESHOLD */
-+    case 0x0d4:    /* DISPC_VID1_FIFO_SIZE_STATUS */
-+    case 0x0d8:    /* DISPC_VID1_ROW_INC */
-+    case 0x0dc:    /* DISPC_VID1_PIXEL_INC */
-+    case 0x0e0:    /* DISPC_VID1_FIR */
-+    case 0x0e4:    /* DISPC_VID1_PICTURE_SIZE */
-+    case 0x0e8:    /* DISPC_VID1_ACCU0 */
-+    case 0x0ec:    /* DISPC_VID1_ACCU1 */
-+    case 0x0f0 ... 0x140:    /* DISPC_VID1_FIR_COEF, DISPC_VID1_CONV_COEF */
-+    case 0x14c:    /* DISPC_VID2_BA0 */
-+    case 0x150:    /* DISPC_VID2_BA1 */
-+    case 0x154:    /* DISPC_VID2_POSITION */
-+    case 0x158:    /* DISPC_VID2_SIZE */
-+    case 0x15c:    /* DISPC_VID2_ATTRIBUTES */
-+    case 0x160:    /* DISPC_VID2_FIFO_TRESHOLD */
-+    case 0x164:    /* DISPC_VID2_FIFO_SIZE_STATUS */
-+    case 0x168:    /* DISPC_VID2_ROW_INC */
-+    case 0x16c:    /* DISPC_VID2_PIXEL_INC */
-+    case 0x170:    /* DISPC_VID2_FIR */
-+    case 0x174:    /* DISPC_VID2_PICTURE_SIZE */
-+    case 0x178:    /* DISPC_VID2_ACCU0 */
-+    case 0x17c:    /* DISPC_VID2_ACCU1 */
-+    case 0x180 ... 0x1d0:    /* DISPC_VID2_FIR_COEF, DISPC_VID2_CONV_COEF */
-+    case 0x1d4:    /* DISPC_DATA_CYCLE1 */
-+    case 0x1d8:    /* DISPC_DATA_CYCLE2 */
-+    case 0x1dc:    /* DISPC_DATA_CYCLE3 */
-         return 0;
- 
-     default:
-@@ -387,33 +387,33 @@ static void omap_disc_write(void *opaque, hwaddr addr,
-     }
- 
-     switch (addr) {
--    case 0x010:	/* DISPC_SYSCONFIG */
--        if (value & 2)						/* SOFTRESET */
-+    case 0x010:    /* DISPC_SYSCONFIG */
-+        if (value & 2)                        /* SOFTRESET */
-             omap_dss_reset(s);
-         s->dispc.idlemode = value & 0x301b;
-         break;
- 
--    case 0x018:	/* DISPC_IRQSTATUS */
-+    case 0x018:    /* DISPC_IRQSTATUS */
-         s->dispc.irqst &= ~value;
-         omap_dispc_interrupt_update(s);
-         break;
- 
--    case 0x01c:	/* DISPC_IRQENABLE */
-+    case 0x01c:    /* DISPC_IRQENABLE */
-         s->dispc.irqen = value & 0xffff;
-         omap_dispc_interrupt_update(s);
-         break;
- 
--    case 0x040:	/* DISPC_CONTROL */
-+    case 0x040:    /* DISPC_CONTROL */
-         s->dispc.control = value & 0x07ff9fff;
-         s->dig.enable = (value >> 1) & 1;
-         s->lcd.enable = (value >> 0) & 1;
--        if (value & (1 << 12))			/* OVERLAY_OPTIMIZATION */
-+        if (value & (1 << 12))            /* OVERLAY_OPTIMIZATION */
-             if (!((s->dispc.l[1].attr | s->dispc.l[2].attr) & 1)) {
-                 fprintf(stderr, "%s: Overlay Optimization when no overlay "
-                         "region effectively exists leads to "
-                         "unpredictable behaviour!\n", __func__);
-             }
--        if (value & (1 << 6)) {				/* GODIGITAL */
-+        if (value & (1 << 6)) {                /* GODIGITAL */
-             /* XXX: Shadowed fields are:
-              * s->dispc.config
-              * s->dispc.capable
-@@ -444,13 +444,13 @@ static void omap_disc_write(void *opaque, hwaddr addr,
-              * All they need to be loaded here from their shadow registers.
-              */
-         }
--        if (value & (1 << 5)) {				/* GOLCD */
-+        if (value & (1 << 5)) {                /* GOLCD */
-              /* XXX: Likewise for LCD here.  */
-         }
-         s->dispc.invalidate = 1;
-         break;
- 
--    case 0x044:	/* DISPC_CONFIG */
-+    case 0x044:    /* DISPC_CONFIG */
-         s->dispc.config = value & 0x3fff;
-         /* XXX:
-          * bits 2:1 (LOADMODE) reset to 0 after set to 1 and palette loaded
-@@ -459,73 +459,73 @@ static void omap_disc_write(void *opaque, hwaddr addr,
-         s->dispc.invalidate = 1;
-         break;
- 
--    case 0x048:	/* DISPC_CAPABLE */
-+    case 0x048:    /* DISPC_CAPABLE */
-         s->dispc.capable = value & 0x3ff;
-         break;
- 
--    case 0x04c:	/* DISPC_DEFAULT_COLOR0 */
-+    case 0x04c:    /* DISPC_DEFAULT_COLOR0 */
-         s->dispc.bg[0] = value & 0xffffff;
-         s->dispc.invalidate = 1;
-         break;
--    case 0x050:	/* DISPC_DEFAULT_COLOR1 */
-+    case 0x050:    /* DISPC_DEFAULT_COLOR1 */
-         s->dispc.bg[1] = value & 0xffffff;
-         s->dispc.invalidate = 1;
-         break;
--    case 0x054:	/* DISPC_TRANS_COLOR0 */
-+    case 0x054:    /* DISPC_TRANS_COLOR0 */
-         s->dispc.trans[0] = value & 0xffffff;
-         s->dispc.invalidate = 1;
-         break;
--    case 0x058:	/* DISPC_TRANS_COLOR1 */
-+    case 0x058:    /* DISPC_TRANS_COLOR1 */
-         s->dispc.trans[1] = value & 0xffffff;
-         s->dispc.invalidate = 1;
-         break;
- 
--    case 0x060:	/* DISPC_LINE_NUMBER */
-+    case 0x060:    /* DISPC_LINE_NUMBER */
-         s->dispc.line = value & 0x7ff;
-         break;
- 
--    case 0x064:	/* DISPC_TIMING_H */
-+    case 0x064:    /* DISPC_TIMING_H */
-         s->dispc.timing[0] = value & 0x0ff0ff3f;
-         break;
--    case 0x068:	/* DISPC_TIMING_V */
-+    case 0x068:    /* DISPC_TIMING_V */
-         s->dispc.timing[1] = value & 0x0ff0ff3f;
-         break;
--    case 0x06c:	/* DISPC_POL_FREQ */
-+    case 0x06c:    /* DISPC_POL_FREQ */
-         s->dispc.timing[2] = value & 0x0003ffff;
-         break;
--    case 0x070:	/* DISPC_DIVISOR */
-+    case 0x070:    /* DISPC_DIVISOR */
-         s->dispc.timing[3] = value & 0x00ff00ff;
-         break;
- 
--    case 0x078:	/* DISPC_SIZE_DIG */
--        s->dig.nx = ((value >>  0) & 0x7ff) + 1;		/* PPL */
--        s->dig.ny = ((value >> 16) & 0x7ff) + 1;		/* LPP */
-+    case 0x078:    /* DISPC_SIZE_DIG */
-+        s->dig.nx = ((value >>  0) & 0x7ff) + 1;        /* PPL */
-+        s->dig.ny = ((value >> 16) & 0x7ff) + 1;        /* LPP */
-         s->dispc.invalidate = 1;
-         break;
--    case 0x07c:	/* DISPC_SIZE_LCD */
--        s->lcd.nx = ((value >>  0) & 0x7ff) + 1;		/* PPL */
--        s->lcd.ny = ((value >> 16) & 0x7ff) + 1;		/* LPP */
-+    case 0x07c:    /* DISPC_SIZE_LCD */
-+        s->lcd.nx = ((value >>  0) & 0x7ff) + 1;        /* PPL */
-+        s->lcd.ny = ((value >> 16) & 0x7ff) + 1;        /* LPP */
-         s->dispc.invalidate = 1;
-         break;
--    case 0x080:	/* DISPC_GFX_BA0 */
-+    case 0x080:    /* DISPC_GFX_BA0 */
-         s->dispc.l[0].addr[0] = (hwaddr) value;
-         s->dispc.invalidate = 1;
-         break;
--    case 0x084:	/* DISPC_GFX_BA1 */
-+    case 0x084:    /* DISPC_GFX_BA1 */
-         s->dispc.l[0].addr[1] = (hwaddr) value;
-         s->dispc.invalidate = 1;
-         break;
--    case 0x088:	/* DISPC_GFX_POSITION */
--        s->dispc.l[0].posx = ((value >>  0) & 0x7ff);		/* GFXPOSX */
--        s->dispc.l[0].posy = ((value >> 16) & 0x7ff);		/* GFXPOSY */
-+    case 0x088:    /* DISPC_GFX_POSITION */
-+        s->dispc.l[0].posx = ((value >>  0) & 0x7ff);        /* GFXPOSX */
-+        s->dispc.l[0].posy = ((value >> 16) & 0x7ff);        /* GFXPOSY */
-         s->dispc.invalidate = 1;
-         break;
--    case 0x08c:	/* DISPC_GFX_SIZE */
--        s->dispc.l[0].nx = ((value >>  0) & 0x7ff) + 1;		/* GFXSIZEX */
--        s->dispc.l[0].ny = ((value >> 16) & 0x7ff) + 1;		/* GFXSIZEY */
-+    case 0x08c:    /* DISPC_GFX_SIZE */
-+        s->dispc.l[0].nx = ((value >>  0) & 0x7ff) + 1;        /* GFXSIZEX */
-+        s->dispc.l[0].ny = ((value >> 16) & 0x7ff) + 1;        /* GFXSIZEY */
-         s->dispc.invalidate = 1;
-         break;
--    case 0x0a0:	/* DISPC_GFX_ATTRIBUTES */
-+    case 0x0a0:    /* DISPC_GFX_ATTRIBUTES */
-         s->dispc.l[0].attr = value & 0x7ff;
-         if (value & (3 << 9))
-             fprintf(stderr, "%s: Big-endian pixel format not supported\n",
-@@ -534,54 +534,54 @@ static void omap_disc_write(void *opaque, hwaddr addr,
-         s->dispc.l[0].bpp = (value >> 1) & 0xf;
-         s->dispc.invalidate = 1;
-         break;
--    case 0x0a4:	/* DISPC_GFX_FIFO_TRESHOLD */
-+    case 0x0a4:    /* DISPC_GFX_FIFO_TRESHOLD */
-         s->dispc.l[0].tresh = value & 0x01ff01ff;
-         break;
--    case 0x0ac:	/* DISPC_GFX_ROW_INC */
-+    case 0x0ac:    /* DISPC_GFX_ROW_INC */
-         s->dispc.l[0].rowinc = value;
-         s->dispc.invalidate = 1;
-         break;
--    case 0x0b0:	/* DISPC_GFX_PIXEL_INC */
-+    case 0x0b0:    /* DISPC_GFX_PIXEL_INC */
-         s->dispc.l[0].colinc = value;
-         s->dispc.invalidate = 1;
-         break;
--    case 0x0b4:	/* DISPC_GFX_WINDOW_SKIP */
-+    case 0x0b4:    /* DISPC_GFX_WINDOW_SKIP */
-         s->dispc.l[0].wininc = value;
-         break;
--    case 0x0b8:	/* DISPC_GFX_TABLE_BA */
-+    case 0x0b8:    /* DISPC_GFX_TABLE_BA */
-         s->dispc.l[0].addr[2] = (hwaddr) value;
-         s->dispc.invalidate = 1;
-         break;
- 
--    case 0x0bc:	/* DISPC_VID1_BA0 */
--    case 0x0c0:	/* DISPC_VID1_BA1 */
--    case 0x0c4:	/* DISPC_VID1_POSITION */
--    case 0x0c8:	/* DISPC_VID1_SIZE */
--    case 0x0cc:	/* DISPC_VID1_ATTRIBUTES */
--    case 0x0d0:	/* DISPC_VID1_FIFO_TRESHOLD */
--    case 0x0d8:	/* DISPC_VID1_ROW_INC */
--    case 0x0dc:	/* DISPC_VID1_PIXEL_INC */
--    case 0x0e0:	/* DISPC_VID1_FIR */
--    case 0x0e4:	/* DISPC_VID1_PICTURE_SIZE */
--    case 0x0e8:	/* DISPC_VID1_ACCU0 */
--    case 0x0ec:	/* DISPC_VID1_ACCU1 */
--    case 0x0f0 ... 0x140:	/* DISPC_VID1_FIR_COEF, DISPC_VID1_CONV_COEF */
--    case 0x14c:	/* DISPC_VID2_BA0 */
--    case 0x150:	/* DISPC_VID2_BA1 */
--    case 0x154:	/* DISPC_VID2_POSITION */
--    case 0x158:	/* DISPC_VID2_SIZE */
--    case 0x15c:	/* DISPC_VID2_ATTRIBUTES */
--    case 0x160:	/* DISPC_VID2_FIFO_TRESHOLD */
--    case 0x168:	/* DISPC_VID2_ROW_INC */
--    case 0x16c:	/* DISPC_VID2_PIXEL_INC */
--    case 0x170:	/* DISPC_VID2_FIR */
--    case 0x174:	/* DISPC_VID2_PICTURE_SIZE */
--    case 0x178:	/* DISPC_VID2_ACCU0 */
--    case 0x17c:	/* DISPC_VID2_ACCU1 */
--    case 0x180 ... 0x1d0:	/* DISPC_VID2_FIR_COEF, DISPC_VID2_CONV_COEF */
--    case 0x1d4:	/* DISPC_DATA_CYCLE1 */
--    case 0x1d8:	/* DISPC_DATA_CYCLE2 */
--    case 0x1dc:	/* DISPC_DATA_CYCLE3 */
-+    case 0x0bc:    /* DISPC_VID1_BA0 */
-+    case 0x0c0:    /* DISPC_VID1_BA1 */
-+    case 0x0c4:    /* DISPC_VID1_POSITION */
-+    case 0x0c8:    /* DISPC_VID1_SIZE */
-+    case 0x0cc:    /* DISPC_VID1_ATTRIBUTES */
-+    case 0x0d0:    /* DISPC_VID1_FIFO_TRESHOLD */
-+    case 0x0d8:    /* DISPC_VID1_ROW_INC */
-+    case 0x0dc:    /* DISPC_VID1_PIXEL_INC */
-+    case 0x0e0:    /* DISPC_VID1_FIR */
-+    case 0x0e4:    /* DISPC_VID1_PICTURE_SIZE */
-+    case 0x0e8:    /* DISPC_VID1_ACCU0 */
-+    case 0x0ec:    /* DISPC_VID1_ACCU1 */
-+    case 0x0f0 ... 0x140:    /* DISPC_VID1_FIR_COEF, DISPC_VID1_CONV_COEF */
-+    case 0x14c:    /* DISPC_VID2_BA0 */
-+    case 0x150:    /* DISPC_VID2_BA1 */
-+    case 0x154:    /* DISPC_VID2_POSITION */
-+    case 0x158:    /* DISPC_VID2_SIZE */
-+    case 0x15c:    /* DISPC_VID2_ATTRIBUTES */
-+    case 0x160:    /* DISPC_VID2_FIFO_TRESHOLD */
-+    case 0x168:    /* DISPC_VID2_ROW_INC */
-+    case 0x16c:    /* DISPC_VID2_PIXEL_INC */
-+    case 0x170:    /* DISPC_VID2_FIR */
-+    case 0x174:    /* DISPC_VID2_PICTURE_SIZE */
-+    case 0x178:    /* DISPC_VID2_ACCU0 */
-+    case 0x17c:    /* DISPC_VID2_ACCU1 */
-+    case 0x180 ... 0x1d0:    /* DISPC_VID2_FIR_COEF, DISPC_VID2_CONV_COEF */
-+    case 0x1d4:    /* DISPC_DATA_CYCLE1 */
-+    case 0x1d8:    /* DISPC_DATA_CYCLE2 */
-+    case 0x1dc:    /* DISPC_DATA_CYCLE3 */
-         break;
- 
-     default:
-@@ -617,14 +617,14 @@ static void omap_rfbi_transfer_start(struct omap_dss_s *s)
-     if (!s->rfbi.enable || s->rfbi.busy)
-         return;
- 
--    if (s->rfbi.control & (1 << 1)) {				/* BYPASS */
-+    if (s->rfbi.control & (1 << 1)) {                /* BYPASS */
-         /* TODO: in non-Bypass mode we probably need to just assert the
-          * DRQ and wait for DMA to write the pixels.  */
-         qemu_log_mask(LOG_UNIMP, "%s: Bypass mode unimplemented\n", __func__);
-         return;
-     }
- 
--    if (!(s->dispc.control & (1 << 11)))			/* RFBIMODE */
-+    if (!(s->dispc.control & (1 << 11)))            /* RFBIMODE */
-         return;
-     /* TODO: check that LCD output is enabled in DISPC.  */
- 
-@@ -665,7 +665,7 @@ static void omap_rfbi_transfer_start(struct omap_dss_s *s)
-     omap_rfbi_transfer_stop(s);
- 
-     /* TODO */
--    s->dispc.irqst |= 1;					/* FRAMEDONE */
-+    s->dispc.irqst |= 1;                    /* FRAMEDONE */
-     omap_dispc_interrupt_update(s);
- }
- 
-@@ -679,57 +679,57 @@ static uint64_t omap_rfbi_read(void *opaque, hwaddr addr,
-     }
- 
-     switch (addr) {
--    case 0x00:	/* RFBI_REVISION */
-+    case 0x00:    /* RFBI_REVISION */
-         return 0x10;
- 
--    case 0x10:	/* RFBI_SYSCONFIG */
-+    case 0x10:    /* RFBI_SYSCONFIG */
-         return s->rfbi.idlemode;
- 
--    case 0x14:	/* RFBI_SYSSTATUS */
--        return 1 | (s->rfbi.busy << 8);				/* RESETDONE */
-+    case 0x14:    /* RFBI_SYSSTATUS */
-+        return 1 | (s->rfbi.busy << 8);                /* RESETDONE */
- 
--    case 0x40:	/* RFBI_CONTROL */
-+    case 0x40:    /* RFBI_CONTROL */
-         return s->rfbi.control;
- 
--    case 0x44:	/* RFBI_PIXELCNT */
-+    case 0x44:    /* RFBI_PIXELCNT */
-         return s->rfbi.pixels;
- 
--    case 0x48:	/* RFBI_LINE_NUMBER */
-+    case 0x48:    /* RFBI_LINE_NUMBER */
-         return s->rfbi.skiplines;
- 
--    case 0x58:	/* RFBI_READ */
--    case 0x5c:	/* RFBI_STATUS */
-+    case 0x58:    /* RFBI_READ */
-+    case 0x5c:    /* RFBI_STATUS */
-         return s->rfbi.rxbuf;
- 
--    case 0x60:	/* RFBI_CONFIG0 */
-+    case 0x60:    /* RFBI_CONFIG0 */
-         return s->rfbi.config[0];
--    case 0x64:	/* RFBI_ONOFF_TIME0 */
-+    case 0x64:    /* RFBI_ONOFF_TIME0 */
-         return s->rfbi.time[0];
--    case 0x68:	/* RFBI_CYCLE_TIME0 */
-+    case 0x68:    /* RFBI_CYCLE_TIME0 */
-         return s->rfbi.time[1];
--    case 0x6c:	/* RFBI_DATA_CYCLE1_0 */
-+    case 0x6c:    /* RFBI_DATA_CYCLE1_0 */
-         return s->rfbi.data[0];
--    case 0x70:	/* RFBI_DATA_CYCLE2_0 */
-+    case 0x70:    /* RFBI_DATA_CYCLE2_0 */
-         return s->rfbi.data[1];
--    case 0x74:	/* RFBI_DATA_CYCLE3_0 */
-+    case 0x74:    /* RFBI_DATA_CYCLE3_0 */
-         return s->rfbi.data[2];
- 
--    case 0x78:	/* RFBI_CONFIG1 */
-+    case 0x78:    /* RFBI_CONFIG1 */
-         return s->rfbi.config[1];
--    case 0x7c:	/* RFBI_ONOFF_TIME1 */
-+    case 0x7c:    /* RFBI_ONOFF_TIME1 */
-         return s->rfbi.time[2];
--    case 0x80:	/* RFBI_CYCLE_TIME1 */
-+    case 0x80:    /* RFBI_CYCLE_TIME1 */
-         return s->rfbi.time[3];
--    case 0x84:	/* RFBI_DATA_CYCLE1_1 */
-+    case 0x84:    /* RFBI_DATA_CYCLE1_1 */
-         return s->rfbi.data[3];
--    case 0x88:	/* RFBI_DATA_CYCLE2_1 */
-+    case 0x88:    /* RFBI_DATA_CYCLE2_1 */
-         return s->rfbi.data[4];
--    case 0x8c:	/* RFBI_DATA_CYCLE3_1 */
-+    case 0x8c:    /* RFBI_DATA_CYCLE3_1 */
-         return s->rfbi.data[5];
- 
--    case 0x90:	/* RFBI_VSYNC_WIDTH */
-+    case 0x90:    /* RFBI_VSYNC_WIDTH */
-         return s->rfbi.vsync;
--    case 0x94:	/* RFBI_HSYNC_WIDTH */
-+    case 0x94:    /* RFBI_HSYNC_WIDTH */
-         return s->rfbi.hsync;
-     }
-     OMAP_BAD_REG(addr);
-@@ -747,41 +747,41 @@ static void omap_rfbi_write(void *opaque, hwaddr addr,
-     }
- 
-     switch (addr) {
--    case 0x10:	/* RFBI_SYSCONFIG */
--        if (value & 2)						/* SOFTRESET */
-+    case 0x10:    /* RFBI_SYSCONFIG */
-+        if (value & 2)                        /* SOFTRESET */
-             omap_rfbi_reset(s);
-         s->rfbi.idlemode = value & 0x19;
-         break;
- 
--    case 0x40:	/* RFBI_CONTROL */
-+    case 0x40:    /* RFBI_CONTROL */
-         s->rfbi.control = value & 0xf;
-         s->rfbi.enable = value & 1;
--        if (value & (1 << 4) &&					/* ITE */
-+        if (value & (1 << 4) &&                    /* ITE */
-                         !(s->rfbi.config[0] & s->rfbi.config[1] & 0xc))
-             omap_rfbi_transfer_start(s);
-         break;
- 
--    case 0x44:	/* RFBI_PIXELCNT */
-+    case 0x44:    /* RFBI_PIXELCNT */
-         s->rfbi.pixels = value;
-         break;
- 
--    case 0x48:	/* RFBI_LINE_NUMBER */
-+    case 0x48:    /* RFBI_LINE_NUMBER */
-         s->rfbi.skiplines = value & 0x7ff;
-         break;
- 
--    case 0x4c:	/* RFBI_CMD */
-+    case 0x4c:    /* RFBI_CMD */
-         if ((s->rfbi.control & (1 << 2)) && s->rfbi.chip[0])
-             s->rfbi.chip[0]->write(s->rfbi.chip[0]->opaque, 0, value & 0xffff);
-         if ((s->rfbi.control & (1 << 3)) && s->rfbi.chip[1])
-             s->rfbi.chip[1]->write(s->rfbi.chip[1]->opaque, 0, value & 0xffff);
-         break;
--    case 0x50:	/* RFBI_PARAM */
-+    case 0x50:    /* RFBI_PARAM */
-         if ((s->rfbi.control & (1 << 2)) && s->rfbi.chip[0])
-             s->rfbi.chip[0]->write(s->rfbi.chip[0]->opaque, 1, value & 0xffff);
-         if ((s->rfbi.control & (1 << 3)) && s->rfbi.chip[1])
-             s->rfbi.chip[1]->write(s->rfbi.chip[1]->opaque, 1, value & 0xffff);
-         break;
--    case 0x54:	/* RFBI_DATA */
-+    case 0x54:    /* RFBI_DATA */
-         /* TODO: take into account the format set up in s->rfbi.config[?] and
-          * s->rfbi.data[?], but special-case the most usual scenario so that
-          * speed doesn't suffer.  */
-@@ -796,7 +796,7 @@ static void omap_rfbi_write(void *opaque, hwaddr addr,
-         if (!-- s->rfbi.pixels)
-             omap_rfbi_transfer_stop(s);
-         break;
--    case 0x58:	/* RFBI_READ */
-+    case 0x58:    /* RFBI_READ */
-         if ((s->rfbi.control & (1 << 2)) && s->rfbi.chip[0])
-             s->rfbi.rxbuf = s->rfbi.chip[0]->read(s->rfbi.chip[0]->opaque, 1);
-         else if ((s->rfbi.control & (1 << 3)) && s->rfbi.chip[1])
-@@ -805,7 +805,7 @@ static void omap_rfbi_write(void *opaque, hwaddr addr,
-             omap_rfbi_transfer_stop(s);
-         break;
- 
--    case 0x5c:	/* RFBI_STATUS */
-+    case 0x5c:    /* RFBI_STATUS */
-         if ((s->rfbi.control & (1 << 2)) && s->rfbi.chip[0])
-             s->rfbi.rxbuf = s->rfbi.chip[0]->read(s->rfbi.chip[0]->opaque, 0);
-         else if ((s->rfbi.control & (1 << 3)) && s->rfbi.chip[1])
-@@ -814,49 +814,49 @@ static void omap_rfbi_write(void *opaque, hwaddr addr,
-             omap_rfbi_transfer_stop(s);
-         break;
- 
--    case 0x60:	/* RFBI_CONFIG0 */
-+    case 0x60:    /* RFBI_CONFIG0 */
-         s->rfbi.config[0] = value & 0x003f1fff;
-         break;
- 
--    case 0x64:	/* RFBI_ONOFF_TIME0 */
-+    case 0x64:    /* RFBI_ONOFF_TIME0 */
-         s->rfbi.time[0] = value & 0x3fffffff;
-         break;
--    case 0x68:	/* RFBI_CYCLE_TIME0 */
-+    case 0x68:    /* RFBI_CYCLE_TIME0 */
-         s->rfbi.time[1] = value & 0x0fffffff;
-         break;
--    case 0x6c:	/* RFBI_DATA_CYCLE1_0 */
-+    case 0x6c:    /* RFBI_DATA_CYCLE1_0 */
-         s->rfbi.data[0] = value & 0x0f1f0f1f;
-         break;
--    case 0x70:	/* RFBI_DATA_CYCLE2_0 */
-+    case 0x70:    /* RFBI_DATA_CYCLE2_0 */
-         s->rfbi.data[1] = value & 0x0f1f0f1f;
-         break;
--    case 0x74:	/* RFBI_DATA_CYCLE3_0 */
-+    case 0x74:    /* RFBI_DATA_CYCLE3_0 */
-         s->rfbi.data[2] = value & 0x0f1f0f1f;
-         break;
--    case 0x78:	/* RFBI_CONFIG1 */
-+    case 0x78:    /* RFBI_CONFIG1 */
-         s->rfbi.config[1] = value & 0x003f1fff;
-         break;
- 
--    case 0x7c:	/* RFBI_ONOFF_TIME1 */
-+    case 0x7c:    /* RFBI_ONOFF_TIME1 */
-         s->rfbi.time[2] = value & 0x3fffffff;
-         break;
--    case 0x80:	/* RFBI_CYCLE_TIME1 */
-+    case 0x80:    /* RFBI_CYCLE_TIME1 */
-         s->rfbi.time[3] = value & 0x0fffffff;
-         break;
--    case 0x84:	/* RFBI_DATA_CYCLE1_1 */
-+    case 0x84:    /* RFBI_DATA_CYCLE1_1 */
-         s->rfbi.data[3] = value & 0x0f1f0f1f;
-         break;
--    case 0x88:	/* RFBI_DATA_CYCLE2_1 */
-+    case 0x88:    /* RFBI_DATA_CYCLE2_1 */
-         s->rfbi.data[4] = value & 0x0f1f0f1f;
-         break;
--    case 0x8c:	/* RFBI_DATA_CYCLE3_1 */
-+    case 0x8c:    /* RFBI_DATA_CYCLE3_1 */
-         s->rfbi.data[5] = value & 0x0f1f0f1f;
-         break;
- 
--    case 0x90:	/* RFBI_VSYNC_WIDTH */
-+    case 0x90:    /* RFBI_VSYNC_WIDTH */
-         s->rfbi.vsync = value & 0xffff;
-         break;
--    case 0x94:	/* RFBI_HSYNC_WIDTH */
-+    case 0x94:    /* RFBI_HSYNC_WIDTH */
-         s->rfbi.hsync = value & 0xffff;
-         break;
- 
-@@ -879,49 +879,49 @@ static uint64_t omap_venc_read(void *opaque, hwaddr addr,
-     }
- 
-     switch (addr) {
--    case 0x00:	/* REV_ID */
--    case 0x04:	/* STATUS */
--    case 0x08:	/* F_CONTROL */
--    case 0x10:	/* VIDOUT_CTRL */
--    case 0x14:	/* SYNC_CTRL */
--    case 0x1c:	/* LLEN */
--    case 0x20:	/* FLENS */
--    case 0x24:	/* HFLTR_CTRL */
--    case 0x28:	/* CC_CARR_WSS_CARR */
--    case 0x2c:	/* C_PHASE */
--    case 0x30:	/* GAIN_U */
--    case 0x34:	/* GAIN_V */
--    case 0x38:	/* GAIN_Y */
--    case 0x3c:	/* BLACK_LEVEL */
--    case 0x40:	/* BLANK_LEVEL */
--    case 0x44:	/* X_COLOR */
--    case 0x48:	/* M_CONTROL */
--    case 0x4c:	/* BSTAMP_WSS_DATA */
--    case 0x50:	/* S_CARR */
--    case 0x54:	/* LINE21 */
--    case 0x58:	/* LN_SEL */
--    case 0x5c:	/* L21__WC_CTL */
--    case 0x60:	/* HTRIGGER_VTRIGGER */
--    case 0x64:	/* SAVID__EAVID */
--    case 0x68:	/* FLEN__FAL */
--    case 0x6c:	/* LAL__PHASE_RESET */
--    case 0x70:	/* HS_INT_START_STOP_X */
--    case 0x74:	/* HS_EXT_START_STOP_X */
--    case 0x78:	/* VS_INT_START_X */
--    case 0x7c:	/* VS_INT_STOP_X__VS_INT_START_Y */
--    case 0x80:	/* VS_INT_STOP_Y__VS_INT_START_X */
--    case 0x84:	/* VS_EXT_STOP_X__VS_EXT_START_Y */
--    case 0x88:	/* VS_EXT_STOP_Y */
--    case 0x90:	/* AVID_START_STOP_X */
--    case 0x94:	/* AVID_START_STOP_Y */
--    case 0xa0:	/* FID_INT_START_X__FID_INT_START_Y */
--    case 0xa4:	/* FID_INT_OFFSET_Y__FID_EXT_START_X */
--    case 0xa8:	/* FID_EXT_START_Y__FID_EXT_OFFSET_Y */
--    case 0xb0:	/* TVDETGP_INT_START_STOP_X */
--    case 0xb4:	/* TVDETGP_INT_START_STOP_Y */
--    case 0xb8:	/* GEN_CTRL */
--    case 0xc4:	/* DAC_TST__DAC_A */
--    case 0xc8:	/* DAC_B__DAC_C */
-+    case 0x00:    /* REV_ID */
-+    case 0x04:    /* STATUS */
-+    case 0x08:    /* F_CONTROL */
-+    case 0x10:    /* VIDOUT_CTRL */
-+    case 0x14:    /* SYNC_CTRL */
-+    case 0x1c:    /* LLEN */
-+    case 0x20:    /* FLENS */
-+    case 0x24:    /* HFLTR_CTRL */
-+    case 0x28:    /* CC_CARR_WSS_CARR */
-+    case 0x2c:    /* C_PHASE */
-+    case 0x30:    /* GAIN_U */
-+    case 0x34:    /* GAIN_V */
-+    case 0x38:    /* GAIN_Y */
-+    case 0x3c:    /* BLACK_LEVEL */
-+    case 0x40:    /* BLANK_LEVEL */
-+    case 0x44:    /* X_COLOR */
-+    case 0x48:    /* M_CONTROL */
-+    case 0x4c:    /* BSTAMP_WSS_DATA */
-+    case 0x50:    /* S_CARR */
-+    case 0x54:    /* LINE21 */
-+    case 0x58:    /* LN_SEL */
-+    case 0x5c:    /* L21__WC_CTL */
-+    case 0x60:    /* HTRIGGER_VTRIGGER */
-+    case 0x64:    /* SAVID__EAVID */
-+    case 0x68:    /* FLEN__FAL */
-+    case 0x6c:    /* LAL__PHASE_RESET */
-+    case 0x70:    /* HS_INT_START_STOP_X */
-+    case 0x74:    /* HS_EXT_START_STOP_X */
-+    case 0x78:    /* VS_INT_START_X */
-+    case 0x7c:    /* VS_INT_STOP_X__VS_INT_START_Y */
-+    case 0x80:    /* VS_INT_STOP_Y__VS_INT_START_X */
-+    case 0x84:    /* VS_EXT_STOP_X__VS_EXT_START_Y */
-+    case 0x88:    /* VS_EXT_STOP_Y */
-+    case 0x90:    /* AVID_START_STOP_X */
-+    case 0x94:    /* AVID_START_STOP_Y */
-+    case 0xa0:    /* FID_INT_START_X__FID_INT_START_Y */
-+    case 0xa4:    /* FID_INT_OFFSET_Y__FID_EXT_START_X */
-+    case 0xa8:    /* FID_EXT_START_Y__FID_EXT_OFFSET_Y */
-+    case 0xb0:    /* TVDETGP_INT_START_STOP_X */
-+    case 0xb4:    /* TVDETGP_INT_START_STOP_Y */
-+    case 0xb8:    /* GEN_CTRL */
-+    case 0xc4:    /* DAC_TST__DAC_A */
-+    case 0xc8:    /* DAC_B__DAC_C */
-         return 0;
- 
-     default:
-@@ -940,47 +940,47 @@ static void omap_venc_write(void *opaque, hwaddr addr,
-     }
- 
-     switch (addr) {
--    case 0x08:	/* F_CONTROL */
--    case 0x10:	/* VIDOUT_CTRL */
--    case 0x14:	/* SYNC_CTRL */
--    case 0x1c:	/* LLEN */
--    case 0x20:	/* FLENS */
--    case 0x24:	/* HFLTR_CTRL */
--    case 0x28:	/* CC_CARR_WSS_CARR */
--    case 0x2c:	/* C_PHASE */
--    case 0x30:	/* GAIN_U */
--    case 0x34:	/* GAIN_V */
--    case 0x38:	/* GAIN_Y */
--    case 0x3c:	/* BLACK_LEVEL */
--    case 0x40:	/* BLANK_LEVEL */
--    case 0x44:	/* X_COLOR */
--    case 0x48:	/* M_CONTROL */
--    case 0x4c:	/* BSTAMP_WSS_DATA */
--    case 0x50:	/* S_CARR */
--    case 0x54:	/* LINE21 */
--    case 0x58:	/* LN_SEL */
--    case 0x5c:	/* L21__WC_CTL */
--    case 0x60:	/* HTRIGGER_VTRIGGER */
--    case 0x64:	/* SAVID__EAVID */
--    case 0x68:	/* FLEN__FAL */
--    case 0x6c:	/* LAL__PHASE_RESET */
--    case 0x70:	/* HS_INT_START_STOP_X */
--    case 0x74:	/* HS_EXT_START_STOP_X */
--    case 0x78:	/* VS_INT_START_X */
--    case 0x7c:	/* VS_INT_STOP_X__VS_INT_START_Y */
--    case 0x80:	/* VS_INT_STOP_Y__VS_INT_START_X */
--    case 0x84:	/* VS_EXT_STOP_X__VS_EXT_START_Y */
--    case 0x88:	/* VS_EXT_STOP_Y */
--    case 0x90:	/* AVID_START_STOP_X */
--    case 0x94:	/* AVID_START_STOP_Y */
--    case 0xa0:	/* FID_INT_START_X__FID_INT_START_Y */
--    case 0xa4:	/* FID_INT_OFFSET_Y__FID_EXT_START_X */
--    case 0xa8:	/* FID_EXT_START_Y__FID_EXT_OFFSET_Y */
--    case 0xb0:	/* TVDETGP_INT_START_STOP_X */
--    case 0xb4:	/* TVDETGP_INT_START_STOP_Y */
--    case 0xb8:	/* GEN_CTRL */
--    case 0xc4:	/* DAC_TST__DAC_A */
--    case 0xc8:	/* DAC_B__DAC_C */
-+    case 0x08:    /* F_CONTROL */
-+    case 0x10:    /* VIDOUT_CTRL */
-+    case 0x14:    /* SYNC_CTRL */
-+    case 0x1c:    /* LLEN */
-+    case 0x20:    /* FLENS */
-+    case 0x24:    /* HFLTR_CTRL */
-+    case 0x28:    /* CC_CARR_WSS_CARR */
-+    case 0x2c:    /* C_PHASE */
-+    case 0x30:    /* GAIN_U */
-+    case 0x34:    /* GAIN_V */
-+    case 0x38:    /* GAIN_Y */
-+    case 0x3c:    /* BLACK_LEVEL */
-+    case 0x40:    /* BLANK_LEVEL */
-+    case 0x44:    /* X_COLOR */
-+    case 0x48:    /* M_CONTROL */
-+    case 0x4c:    /* BSTAMP_WSS_DATA */
-+    case 0x50:    /* S_CARR */
-+    case 0x54:    /* LINE21 */
-+    case 0x58:    /* LN_SEL */
-+    case 0x5c:    /* L21__WC_CTL */
-+    case 0x60:    /* HTRIGGER_VTRIGGER */
-+    case 0x64:    /* SAVID__EAVID */
-+    case 0x68:    /* FLEN__FAL */
-+    case 0x6c:    /* LAL__PHASE_RESET */
-+    case 0x70:    /* HS_INT_START_STOP_X */
-+    case 0x74:    /* HS_EXT_START_STOP_X */
-+    case 0x78:    /* VS_INT_START_X */
-+    case 0x7c:    /* VS_INT_STOP_X__VS_INT_START_Y */
-+    case 0x80:    /* VS_INT_STOP_Y__VS_INT_START_X */
-+    case 0x84:    /* VS_EXT_STOP_X__VS_EXT_START_Y */
-+    case 0x88:    /* VS_EXT_STOP_Y */
-+    case 0x90:    /* AVID_START_STOP_X */
-+    case 0x94:    /* AVID_START_STOP_Y */
-+    case 0xa0:    /* FID_INT_START_X__FID_INT_START_Y */
-+    case 0xa4:    /* FID_INT_OFFSET_Y__FID_EXT_START_X */
-+    case 0xa8:    /* FID_EXT_START_Y__FID_EXT_OFFSET_Y */
-+    case 0xb0:    /* TVDETGP_INT_START_STOP_X */
-+    case 0xb4:    /* TVDETGP_INT_START_STOP_Y */
-+    case 0xb8:    /* GEN_CTRL */
-+    case 0xc4:    /* DAC_TST__DAC_A */
-+    case 0xc8:    /* DAC_B__DAC_C */
-         break;
- 
-     default:
-@@ -1002,15 +1002,15 @@ static uint64_t omap_im3_read(void *opaque, hwaddr addr,
-     }
- 
-     switch (addr) {
--    case 0x0a8:	/* SBIMERRLOGA */
--    case 0x0b0:	/* SBIMERRLOG */
--    case 0x190:	/* SBIMSTATE */
--    case 0x198:	/* SBTMSTATE_L */
--    case 0x19c:	/* SBTMSTATE_H */
--    case 0x1a8:	/* SBIMCONFIG_L */
--    case 0x1ac:	/* SBIMCONFIG_H */
--    case 0x1f8:	/* SBID_L */
--    case 0x1fc:	/* SBID_H */
-+    case 0x0a8:    /* SBIMERRLOGA */
-+    case 0x0b0:    /* SBIMERRLOG */
-+    case 0x190:    /* SBIMSTATE */
-+    case 0x198:    /* SBTMSTATE_L */
-+    case 0x19c:    /* SBTMSTATE_H */
-+    case 0x1a8:    /* SBIMCONFIG_L */
-+    case 0x1ac:    /* SBIMCONFIG_H */
-+    case 0x1f8:    /* SBID_L */
-+    case 0x1fc:    /* SBID_H */
-         return 0;
- 
-     default:
-@@ -1029,12 +1029,12 @@ static void omap_im3_write(void *opaque, hwaddr addr,
-     }
- 
-     switch (addr) {
--    case 0x0b0:	/* SBIMERRLOG */
--    case 0x190:	/* SBIMSTATE */
--    case 0x198:	/* SBTMSTATE_L */
--    case 0x19c:	/* SBTMSTATE_H */
--    case 0x1a8:	/* SBIMCONFIG_L */
--    case 0x1ac:	/* SBIMCONFIG_H */
-+    case 0x0b0:    /* SBIMERRLOG */
-+    case 0x190:    /* SBIMSTATE */
-+    case 0x198:    /* SBTMSTATE_L */
-+    case 0x19c:    /* SBTMSTATE_H */
-+    case 0x1a8:    /* SBIMCONFIG_L */
-+    case 0x1ac:    /* SBIMCONFIG_H */
-         break;
- 
-     default:
-diff --git a/hw/display/omap_lcdc.c b/hw/display/omap_lcdc.c
-index 0ba42ef637..79a8f2ef6b 100644
---- a/hw/display/omap_lcdc.c
-+++ b/hw/display/omap_lcdc.c
-@@ -382,24 +382,24 @@ static uint64_t omap_lcdc_read(void *opaque, hwaddr addr,
-     struct omap_lcd_panel_s *s = (struct omap_lcd_panel_s *) opaque;
- 
-     switch (addr) {
--    case 0x00:	/* LCD_CONTROL */
-+    case 0x00:    /* LCD_CONTROL */
-         return (s->tft << 23) | (s->plm << 20) |
-                 (s->tft << 7) | (s->interrupts << 3) |
-                 (s->mono << 1) | s->enable | s->ctrl | 0xfe000c34;
- 
--    case 0x04:	/* LCD_TIMING0 */
-+    case 0x04:    /* LCD_TIMING0 */
-         return (s->timing[0] << 10) | (s->width - 1) | 0x0000000f;
- 
--    case 0x08:	/* LCD_TIMING1 */
-+    case 0x08:    /* LCD_TIMING1 */
-         return (s->timing[1] << 10) | (s->height - 1);
- 
--    case 0x0c:	/* LCD_TIMING2 */
-+    case 0x0c:    /* LCD_TIMING2 */
-         return s->timing[2] | 0xfc000000;
- 
--    case 0x10:	/* LCD_STATUS */
-+    case 0x10:    /* LCD_STATUS */
-         return (s->palette_done << 6) | (s->sync_error << 2) | s->frame_done;
- 
--    case 0x14:	/* LCD_SUBPANEL */
-+    case 0x14:    /* LCD_SUBPANEL */
-         return s->subpanel;
- 
-     default:
-@@ -415,7 +415,7 @@ static void omap_lcdc_write(void *opaque, hwaddr addr,
-     struct omap_lcd_panel_s *s = (struct omap_lcd_panel_s *) opaque;
- 
-     switch (addr) {
--    case 0x00:	/* LCD_CONTROL */
-+    case 0x00:    /* LCD_CONTROL */
-         s->plm = (value >> 20) & 3;
-         s->tft = (value >> 7) & 1;
-         s->interrupts = (value >> 3) & 3;
-@@ -427,24 +427,24 @@ static void omap_lcdc_write(void *opaque, hwaddr addr,
-         }
-         break;
- 
--    case 0x04:	/* LCD_TIMING0 */
-+    case 0x04:    /* LCD_TIMING0 */
-         s->timing[0] = value >> 10;
-         s->width = (value & 0x3ff) + 1;
-         break;
- 
--    case 0x08:	/* LCD_TIMING1 */
-+    case 0x08:    /* LCD_TIMING1 */
-         s->timing[1] = value >> 10;
-         s->height = (value & 0x3ff) + 1;
-         break;
- 
--    case 0x0c:	/* LCD_TIMING2 */
-+    case 0x0c:    /* LCD_TIMING2 */
-         s->timing[2] = value;
-         break;
- 
--    case 0x10:	/* LCD_STATUS */
-+    case 0x10:    /* LCD_STATUS */
-         break;
- 
--    case 0x14:	/* LCD_SUBPANEL */
-+    case 0x14:    /* LCD_SUBPANEL */
-         s->subpanel = value & 0xa1ffffff;
-         break;
- 
-diff --git a/hw/display/pxa2xx_lcd.c b/hw/display/pxa2xx_lcd.c
-index 7859c5d1cd..4904265c49 100644
---- a/hw/display/pxa2xx_lcd.c
-+++ b/hw/display/pxa2xx_lcd.c
-@@ -86,106 +86,106 @@ typedef struct QEMU_PACKED {
-     uint32_t ldcmd;
- } PXAFrameDescriptor;
- 
--#define LCCR0	0x000	/* LCD Controller Control register 0 */
--#define LCCR1	0x004	/* LCD Controller Control register 1 */
--#define LCCR2	0x008	/* LCD Controller Control register 2 */
--#define LCCR3	0x00c	/* LCD Controller Control register 3 */
--#define LCCR4	0x010	/* LCD Controller Control register 4 */
--#define LCCR5	0x014	/* LCD Controller Control register 5 */
--
--#define FBR0	0x020	/* DMA Channel 0 Frame Branch register */
--#define FBR1	0x024	/* DMA Channel 1 Frame Branch register */
--#define FBR2	0x028	/* DMA Channel 2 Frame Branch register */
--#define FBR3	0x02c	/* DMA Channel 3 Frame Branch register */
--#define FBR4	0x030	/* DMA Channel 4 Frame Branch register */
--#define FBR5	0x110	/* DMA Channel 5 Frame Branch register */
--#define FBR6	0x114	/* DMA Channel 6 Frame Branch register */
--
--#define LCSR1	0x034	/* LCD Controller Status register 1 */
--#define LCSR0	0x038	/* LCD Controller Status register 0 */
--#define LIIDR	0x03c	/* LCD Controller Interrupt ID register */
--
--#define TRGBR	0x040	/* TMED RGB Seed register */
--#define TCR	0x044	/* TMED Control register */
--
--#define OVL1C1	0x050	/* Overlay 1 Control register 1 */
--#define OVL1C2	0x060	/* Overlay 1 Control register 2 */
--#define OVL2C1	0x070	/* Overlay 2 Control register 1 */
--#define OVL2C2	0x080	/* Overlay 2 Control register 2 */
--#define CCR	0x090	/* Cursor Control register */
--
--#define CMDCR	0x100	/* Command Control register */
--#define PRSR	0x104	/* Panel Read Status register */
--
--#define PXA_LCDDMA_CHANS	7
--#define DMA_FDADR		0x00	/* Frame Descriptor Address register */
--#define DMA_FSADR		0x04	/* Frame Source Address register */
--#define DMA_FIDR		0x08	/* Frame ID register */
--#define DMA_LDCMD		0x0c	/* Command register */
-+#define LCCR0    0x000    /* LCD Controller Control register 0 */
-+#define LCCR1    0x004    /* LCD Controller Control register 1 */
-+#define LCCR2    0x008    /* LCD Controller Control register 2 */
-+#define LCCR3    0x00c    /* LCD Controller Control register 3 */
-+#define LCCR4    0x010    /* LCD Controller Control register 4 */
-+#define LCCR5    0x014    /* LCD Controller Control register 5 */
-+
-+#define FBR0    0x020    /* DMA Channel 0 Frame Branch register */
-+#define FBR1    0x024    /* DMA Channel 1 Frame Branch register */
-+#define FBR2    0x028    /* DMA Channel 2 Frame Branch register */
-+#define FBR3    0x02c    /* DMA Channel 3 Frame Branch register */
-+#define FBR4    0x030    /* DMA Channel 4 Frame Branch register */
-+#define FBR5    0x110    /* DMA Channel 5 Frame Branch register */
-+#define FBR6    0x114    /* DMA Channel 6 Frame Branch register */
-+
-+#define LCSR1    0x034    /* LCD Controller Status register 1 */
-+#define LCSR0    0x038    /* LCD Controller Status register 0 */
-+#define LIIDR    0x03c    /* LCD Controller Interrupt ID register */
-+
-+#define TRGBR    0x040    /* TMED RGB Seed register */
-+#define TCR      0x044    /* TMED Control register */
-+
-+#define OVL1C1    0x050    /* Overlay 1 Control register 1 */
-+#define OVL1C2    0x060    /* Overlay 1 Control register 2 */
-+#define OVL2C1    0x070    /* Overlay 2 Control register 1 */
-+#define OVL2C2    0x080    /* Overlay 2 Control register 2 */
-+#define CCR       0x090    /* Cursor Control register */
-+
-+#define CMDCR    0x100    /* Command Control register */
-+#define PRSR     0x104    /* Panel Read Status register */
-+
-+#define PXA_LCDDMA_CHANS    7
-+#define DMA_FDADR        0x00    /* Frame Descriptor Address register */
-+#define DMA_FSADR        0x04    /* Frame Source Address register */
-+#define DMA_FIDR         0x08    /* Frame ID register */
-+#define DMA_LDCMD        0x0c    /* Command register */
- 
- /* LCD Buffer Strength Control register */
--#define BSCNTR	0x04000054
-+#define BSCNTR    0x04000054
- 
- /* Bitfield masks */
--#define LCCR0_ENB	(1 << 0)
--#define LCCR0_CMS	(1 << 1)
--#define LCCR0_SDS	(1 << 2)
--#define LCCR0_LDM	(1 << 3)
--#define LCCR0_SOFM0	(1 << 4)
--#define LCCR0_IUM	(1 << 5)
--#define LCCR0_EOFM0	(1 << 6)
--#define LCCR0_PAS	(1 << 7)
--#define LCCR0_DPD	(1 << 9)
--#define LCCR0_DIS	(1 << 10)
--#define LCCR0_QDM	(1 << 11)
--#define LCCR0_PDD	(0xff << 12)
--#define LCCR0_BSM0	(1 << 20)
--#define LCCR0_OUM	(1 << 21)
--#define LCCR0_LCDT	(1 << 22)
--#define LCCR0_RDSTM	(1 << 23)
--#define LCCR0_CMDIM	(1 << 24)
--#define LCCR0_OUC	(1 << 25)
--#define LCCR0_LDDALT	(1 << 26)
--#define LCCR1_PPL(x)	((x) & 0x3ff)
--#define LCCR2_LPP(x)	((x) & 0x3ff)
--#define LCCR3_API	(15 << 16)
--#define LCCR3_BPP(x)	((((x) >> 24) & 7) | (((x) >> 26) & 8))
--#define LCCR3_PDFOR(x)	(((x) >> 30) & 3)
--#define LCCR4_K1(x)	(((x) >> 0) & 7)
--#define LCCR4_K2(x)	(((x) >> 3) & 7)
--#define LCCR4_K3(x)	(((x) >> 6) & 7)
--#define LCCR4_PALFOR(x)	(((x) >> 15) & 3)
--#define LCCR5_SOFM(ch)	(1 << (ch - 1))
--#define LCCR5_EOFM(ch)	(1 << (ch + 7))
--#define LCCR5_BSM(ch)	(1 << (ch + 15))
--#define LCCR5_IUM(ch)	(1 << (ch + 23))
--#define OVLC1_EN	(1 << 31)
--#define CCR_CEN		(1 << 31)
--#define FBR_BRA		(1 << 0)
--#define FBR_BINT	(1 << 1)
--#define FBR_SRCADDR	(0xfffffff << 4)
--#define LCSR0_LDD	(1 << 0)
--#define LCSR0_SOF0	(1 << 1)
--#define LCSR0_BER	(1 << 2)
--#define LCSR0_ABC	(1 << 3)
--#define LCSR0_IU0	(1 << 4)
--#define LCSR0_IU1	(1 << 5)
--#define LCSR0_OU	(1 << 6)
--#define LCSR0_QD	(1 << 7)
--#define LCSR0_EOF0	(1 << 8)
--#define LCSR0_BS0	(1 << 9)
--#define LCSR0_SINT	(1 << 10)
--#define LCSR0_RDST	(1 << 11)
--#define LCSR0_CMDINT	(1 << 12)
--#define LCSR0_BERCH(x)	(((x) & 7) << 28)
--#define LCSR1_SOF(ch)	(1 << (ch - 1))
--#define LCSR1_EOF(ch)	(1 << (ch + 7))
--#define LCSR1_BS(ch)	(1 << (ch + 15))
--#define LCSR1_IU(ch)	(1 << (ch + 23))
--#define LDCMD_LENGTH(x)	((x) & 0x001ffffc)
--#define LDCMD_EOFINT	(1 << 21)
--#define LDCMD_SOFINT	(1 << 22)
--#define LDCMD_PAL	(1 << 26)
-+#define LCCR0_ENB         (1 << 0)
-+#define LCCR0_CMS         (1 << 1)
-+#define LCCR0_SDS         (1 << 2)
-+#define LCCR0_LDM         (1 << 3)
-+#define LCCR0_SOFM0       (1 << 4)
-+#define LCCR0_IUM         (1 << 5)
-+#define LCCR0_EOFM0       (1 << 6)
-+#define LCCR0_PAS         (1 << 7)
-+#define LCCR0_DPD         (1 << 9)
-+#define LCCR0_DIS         (1 << 10)
-+#define LCCR0_QDM         (1 << 11)
-+#define LCCR0_PDD         (0xff << 12)
-+#define LCCR0_BSM0        (1 << 20)
-+#define LCCR0_OUM         (1 << 21)
-+#define LCCR0_LCDT        (1 << 22)
-+#define LCCR0_RDSTM       (1 << 23)
-+#define LCCR0_CMDIM       (1 << 24)
-+#define LCCR0_OUC         (1 << 25)
-+#define LCCR0_LDDALT      (1 << 26)
-+#define LCCR1_PPL(x)      ((x) & 0x3ff)
-+#define LCCR2_LPP(x)      ((x) & 0x3ff)
-+#define LCCR3_API         (15 << 16)
-+#define LCCR3_BPP(x)      ((((x) >> 24) & 7) | (((x) >> 26) & 8))
-+#define LCCR3_PDFOR(x)    (((x) >> 30) & 3)
-+#define LCCR4_K1(x)       (((x) >> 0) & 7)
-+#define LCCR4_K2(x)       (((x) >> 3) & 7)
-+#define LCCR4_K3(x)       (((x) >> 6) & 7)
-+#define LCCR4_PALFOR(x)   (((x) >> 15) & 3)
-+#define LCCR5_SOFM(ch)    (1 << (ch - 1))
-+#define LCCR5_EOFM(ch)    (1 << (ch + 7))
-+#define LCCR5_BSM(ch)     (1 << (ch + 15))
-+#define LCCR5_IUM(ch)     (1 << (ch + 23))
-+#define OVLC1_EN          (1 << 31)
-+#define CCR_CEN           (1 << 31)
-+#define FBR_BRA           (1 << 0)
-+#define FBR_BINT          (1 << 1)
-+#define FBR_SRCADDR       (0xfffffff << 4)
-+#define LCSR0_LDD         (1 << 0)
-+#define LCSR0_SOF0        (1 << 1)
-+#define LCSR0_BER         (1 << 2)
-+#define LCSR0_ABC         (1 << 3)
-+#define LCSR0_IU0         (1 << 4)
-+#define LCSR0_IU1         (1 << 5)
-+#define LCSR0_OU          (1 << 6)
-+#define LCSR0_QD          (1 << 7)
-+#define LCSR0_EOF0        (1 << 8)
-+#define LCSR0_BS0         (1 << 9)
-+#define LCSR0_SINT        (1 << 10)
-+#define LCSR0_RDST        (1 << 11)
-+#define LCSR0_CMDINT      (1 << 12)
-+#define LCSR0_BERCH(x)    (((x) & 7) << 28)
-+#define LCSR1_SOF(ch)     (1 << (ch - 1))
-+#define LCSR1_EOF(ch)     (1 << (ch + 7))
-+#define LCSR1_BS(ch)      (1 << (ch + 15))
-+#define LCSR1_IU(ch)      (1 << (ch + 23))
-+#define LDCMD_LENGTH(x)   ((x) & 0x001ffffc)
-+#define LDCMD_EOFINT      (1 << 21)
-+#define LDCMD_SOFINT      (1 << 22)
-+#define LDCMD_PAL         (1 << 26)
- 
- /* Size of a pixel in the QEMU UI output surface, in bytes */
- #define DEST_PIXEL_WIDTH 4
-@@ -788,7 +788,7 @@ static uint64_t pxa2xx_lcdc_read(void *opaque, hwaddr offset,
-     case TCR:
-         return s->tcr;
- 
--    case 0x200 ... 0x1000:	/* DMA per-channel registers */
-+    case 0x200 ... 0x1000:    /* DMA per-channel registers */
-         ch = (offset - 0x200) >> 4;
-         if (!(ch >= 0 && ch < PXA_LCDDMA_CHANS))
-             goto fail;
-@@ -938,7 +938,7 @@ static void pxa2xx_lcdc_write(void *opaque, hwaddr offset,
-         s->tcr = value & 0x7fff;
-         break;
- 
--    case 0x200 ... 0x1000:	/* DMA per-channel registers */
-+    case 0x200 ... 0x1000:    /* DMA per-channel registers */
-         ch = (offset - 0x200) >> 4;
-         if (!(ch >= 0 && ch < PXA_LCDDMA_CHANS))
-             goto fail;
-diff --git a/hw/display/tc6393xb.c b/hw/display/tc6393xb.c
-index c7beba453b..478bc35c60 100644
---- a/hw/display/tc6393xb.c
-+++ b/hw/display/tc6393xb.c
-@@ -22,42 +22,42 @@
- #include "ui/pixel_ops.h"
- #include "sysemu/blockdev.h"
- 
--#define IRQ_TC6393_NAND		0
--#define IRQ_TC6393_MMC		1
--#define IRQ_TC6393_OHCI		2
--#define IRQ_TC6393_SERIAL	3
--#define IRQ_TC6393_FB		4
--
--#define	TC6393XB_NR_IRQS	8
--
--#define TC6393XB_GPIOS  16
--
--#define SCR_REVID	0x08		/* b Revision ID	*/
--#define SCR_ISR		0x50		/* b Interrupt Status	*/
--#define SCR_IMR		0x52		/* b Interrupt Mask	*/
--#define SCR_IRR		0x54		/* b Interrupt Routing	*/
--#define SCR_GPER	0x60		/* w GP Enable		*/
--#define SCR_GPI_SR(i)	(0x64 + (i))	/* b3 GPI Status	*/
--#define SCR_GPI_IMR(i)	(0x68 + (i))	/* b3 GPI INT Mask	*/
--#define SCR_GPI_EDER(i)	(0x6c + (i))	/* b3 GPI Edge Detect Enable */
--#define SCR_GPI_LIR(i)	(0x70 + (i))	/* b3 GPI Level Invert	*/
--#define SCR_GPO_DSR(i)	(0x78 + (i))	/* b3 GPO Data Set	*/
--#define SCR_GPO_DOECR(i) (0x7c + (i))	/* b3 GPO Data OE Control */
--#define SCR_GP_IARCR(i)	(0x80 + (i))	/* b3 GP Internal Active Register Control */
--#define SCR_GP_IARLCR(i) (0x84 + (i))	/* b3 GP INTERNAL Active Register Level Control */
--#define SCR_GPI_BCR(i)	(0x88 + (i))	/* b3 GPI Buffer Control */
--#define SCR_GPA_IARCR	0x8c		/* w GPa Internal Active Register Control */
--#define SCR_GPA_IARLCR	0x90		/* w GPa Internal Active Register Level Control */
--#define SCR_GPA_BCR	0x94		/* w GPa Buffer Control */
--#define SCR_CCR		0x98		/* w Clock Control	*/
--#define SCR_PLL2CR	0x9a		/* w PLL2 Control	*/
--#define SCR_PLL1CR	0x9c		/* l PLL1 Control	*/
--#define SCR_DIARCR	0xa0		/* b Device Internal Active Register Control */
--#define SCR_DBOCR	0xa1		/* b Device Buffer Off Control */
--#define SCR_FER		0xe0		/* b Function Enable	*/
--#define SCR_MCR		0xe4		/* w Mode Control	*/
--#define SCR_CONFIG	0xfc		/* b Configuration Control */
--#define SCR_DEBUG	0xff		/* b Debug		*/
-+#define IRQ_TC6393_NAND     0
-+#define IRQ_TC6393_MMC      1
-+#define IRQ_TC6393_OHCI     2
-+#define IRQ_TC6393_SERIAL   3
-+#define IRQ_TC6393_FB       4
-+
-+#define TC6393XB_NR_IRQS    8
-+
-+#define TC6393XB_GPIOS      16
-+
-+#define SCR_REVID         0x08        /* b Revision ID    */
-+#define SCR_ISR           0x50        /* b Interrupt Status    */
-+#define SCR_IMR           0x52        /* b Interrupt Mask    */
-+#define SCR_IRR           0x54        /* b Interrupt Routing    */
-+#define SCR_GPER          0x60        /* w GP Enable        */
-+#define SCR_GPI_SR(i)     (0x64 + (i))    /* b3 GPI Status    */
-+#define SCR_GPI_IMR(i)    (0x68 + (i))    /* b3 GPI INT Mask    */
-+#define SCR_GPI_EDER(i)   (0x6c + (i))    /* b3 GPI Edge Detect Enable */
-+#define SCR_GPI_LIR(i)    (0x70 + (i))    /* b3 GPI Level Invert    */
-+#define SCR_GPO_DSR(i)    (0x78 + (i))    /* b3 GPO Data Set    */
-+#define SCR_GPO_DOECR(i)  (0x7c + (i))    /* b3 GPO Data OE Control */
-+#define SCR_GP_IARCR(i)   (0x80 + (i))    /* b3 GP Internal Active Register Control */
-+#define SCR_GP_IARLCR(i)  (0x84 + (i))    /* b3 GP INTERNAL Active Register Level Control */
-+#define SCR_GPI_BCR(i)    (0x88 + (i))    /* b3 GPI Buffer Control */
-+#define SCR_GPA_IARCR     0x8c        /* w GPa Internal Active Register Control */
-+#define SCR_GPA_IARLCR    0x90        /* w GPa Internal Active Register Level Control */
-+#define SCR_GPA_BCR       0x94        /* w GPa Buffer Control */
-+#define SCR_CCR           0x98        /* w Clock Control    */
-+#define SCR_PLL2CR        0x9a        /* w PLL2 Control    */
-+#define SCR_PLL1CR        0x9c        /* l PLL1 Control    */
-+#define SCR_DIARCR        0xa0        /* b Device Internal Active Register Control */
-+#define SCR_DBOCR         0xa1        /* b Device Buffer Off Control */
-+#define SCR_FER           0xe0        /* b Function Enable    */
-+#define SCR_MCR           0xe4        /* w Mode Control    */
-+#define SCR_CONFIG        0xfc        /* b Configuration Control */
-+#define SCR_DEBUG         0xff        /* b Debug        */
- 
- #define NAND_CFG_COMMAND    0x04    /* w Command        */
- #define NAND_CFG_BASE       0x10    /* l Control Base Address */
-@@ -368,7 +368,7 @@ static uint32_t tc6393xb_nand_readb(TC6393xbState *s, hwaddr addr) {
- }
- static void tc6393xb_nand_writeb(TC6393xbState *s, hwaddr addr, uint32_t value) {
- //    fprintf(stderr, "tc6393xb_nand: write at %08x: %02x\n",
--//					(uint32_t) addr, value & 0xff);
-+//                    (uint32_t) addr, value & 0xff);
-     switch (addr) {
-         case NAND_DATA + 0:
-         case NAND_DATA + 1:
-diff --git a/hw/display/vga.c b/hw/display/vga.c
-index 50ecb1ad02..c5b6cfb1c6 100644
---- a/hw/display/vga.c
-+++ b/hw/display/vga.c
-@@ -1871,9 +1871,9 @@ static void vga_reset(void *opaque)
-     vga_common_reset(s);
- }
- 
--#define TEXTMODE_X(x)	((x) % width)
--#define TEXTMODE_Y(x)	((x) / width)
--#define VMEM2CHTYPE(v)	((v & 0xff0007ff) | \
-+#define TEXTMODE_X(x)    ((x) % width)
-+#define TEXTMODE_Y(x)    ((x) / width)
-+#define VMEM2CHTYPE(v)    ((v & 0xff0007ff) | \
-         ((v & 0x00000800) << 10) | ((v & 0x00007000) >> 1))
- /* relay text rendering to the display driver
-  * instead of doing a full vga_update_display() */
-diff --git a/hw/display/vga_regs.h b/hw/display/vga_regs.h
-index 30a98b8736..5b4b1fb535 100644
---- a/hw/display/vga_regs.h
-+++ b/hw/display/vga_regs.h
-@@ -4,9 +4,9 @@
-  * Copyright 1999 Jeff Garzik <jgarzik@pobox.com>
+         if (value & MGC_M_POWER_SUSPENDM) {
+diff --git a/hw/usb/quirks-pl2303-ids.h b/hw/usb/quirks-pl2303-ids.h
+index 8dbdb46ffe..0aa0258f6b 100644
+--- a/hw/usb/quirks-pl2303-ids.h
++++ b/hw/usb/quirks-pl2303-ids.h
+@@ -1,150 +1,150 @@
+ /*
+  * Prolific PL2303 USB to serial adaptor driver header file
   *
-  * Copyright history from vga16fb.c:
-- *	Copyright 1999 Ben Pfaff and Petr Vandrovec
-- *	Based on VGA info at http://www.osdever.net/FreeVGA/home.htm
-- *	Based on VESA framebuffer (c) 1998 Gerd Knorr
-+ *    Copyright 1999 Ben Pfaff and Petr Vandrovec
-+ *    Based on VGA info at http://www.osdever.net/FreeVGA/home.htm
-+ *    Based on VESA framebuffer (c) 1998 Gerd Knorr
+- *	This program is free software; you can redistribute it and/or modify
+- *	it under the terms of the GNU General Public License as published by
+- *	the Free Software Foundation; either version 2 of the License, or
+- *	(at your option) any later version.
++ *    This program is free software; you can redistribute it and/or modify
++ *    it under the terms of the GNU General Public License as published by
++ *    the Free Software Foundation; either version 2 of the License, or
++ *    (at your option) any later version.
   *
-  * This file is subject to the terms and conditions of the GNU General
-  * Public License.  See the file COPYING in the main directory of this
-diff --git a/hw/display/xenfb.c b/hw/display/xenfb.c
-index 50857cd97a..5918855e44 100644
---- a/hw/display/xenfb.c
-+++ b/hw/display/xenfb.c
-@@ -76,7 +76,7 @@ struct XenFB {
-     int               do_resize;
+  */
  
-     struct {
--	int x,y,w,h;
-+    int x,y,w,h;
-     } up_rects[UP_QUEUE];
-     int               up_count;
-     int               up_fullscreen;
-@@ -116,32 +116,32 @@ static void common_unbind(struct common *c)
-     xen_pv_unbind_evtchn(&c->xendev);
-     if (c->page) {
-         xenforeignmemory_unmap(xen_fmem, c->page, 1);
--	c->page = NULL;
-+    c->page = NULL;
-     }
- }
+-#define BENQ_VENDOR_ID			0x04a5
+-#define BENQ_PRODUCT_ID_S81		0x4027
++#define BENQ_VENDOR_ID            0x04a5
++#define BENQ_PRODUCT_ID_S81       0x4027
  
- /* -------------------------------------------------------------------- */
- /* Send an event to the keyboard frontend driver */
- static int xenfb_kbd_event(struct XenInput *xenfb,
--			   union xenkbd_in_event *event)
-+               union xenkbd_in_event *event)
- {
-     struct xenkbd_page *page = xenfb->c.page;
-     uint32_t prod;
+-#define PL2303_VENDOR_ID	0x067b
+-#define PL2303_PRODUCT_ID	0x2303
+-#define PL2303_PRODUCT_ID_RSAQ2		0x04bb
+-#define PL2303_PRODUCT_ID_DCU11		0x1234
+-#define PL2303_PRODUCT_ID_PHAROS	0xaaa0
+-#define PL2303_PRODUCT_ID_RSAQ3		0xaaa2
+-#define PL2303_PRODUCT_ID_ALDIGA	0x0611
+-#define PL2303_PRODUCT_ID_MMX		0x0612
+-#define PL2303_PRODUCT_ID_GPRS		0x0609
+-#define PL2303_PRODUCT_ID_HCR331	0x331a
+-#define PL2303_PRODUCT_ID_MOTOROLA	0x0307
++#define PL2303_VENDOR_ID              0x067b
++#define PL2303_PRODUCT_ID             0x2303
++#define PL2303_PRODUCT_ID_RSAQ2       0x04bb
++#define PL2303_PRODUCT_ID_DCU11       0x1234
++#define PL2303_PRODUCT_ID_PHAROS      0xaaa0
++#define PL2303_PRODUCT_ID_RSAQ3       0xaaa2
++#define PL2303_PRODUCT_ID_ALDIGA      0x0611
++#define PL2303_PRODUCT_ID_MMX         0x0612
++#define PL2303_PRODUCT_ID_GPRS        0x0609
++#define PL2303_PRODUCT_ID_HCR331      0x331a
++#define PL2303_PRODUCT_ID_MOTOROLA    0x0307
  
-     if (xenfb->c.xendev.be_state != XenbusStateConnected)
--	return 0;
-+    return 0;
-     if (!page)
-         return 0;
+-#define ATEN_VENDOR_ID		0x0557
+-#define ATEN_VENDOR_ID2		0x0547
+-#define ATEN_PRODUCT_ID		0x2008
++#define ATEN_VENDOR_ID            0x0557
++#define ATEN_VENDOR_ID2           0x0547
++#define ATEN_PRODUCT_ID           0x2008
  
-     prod = page->in_prod;
-     if (prod - page->in_cons == XENKBD_IN_RING_LEN) {
--	errno = EAGAIN;
--	return -1;
-+    errno = EAGAIN;
-+    return -1;
-     }
+-#define IODATA_VENDOR_ID	0x04bb
+-#define IODATA_PRODUCT_ID	0x0a03
+-#define IODATA_PRODUCT_ID_RSAQ5	0x0a0e
++#define IODATA_VENDOR_ID          0x04bb
++#define IODATA_PRODUCT_ID         0x0a03
++#define IODATA_PRODUCT_ID_RSAQ5   0x0a0e
  
--    xen_mb();		/* ensure ring space available */
-+    xen_mb();        /* ensure ring space available */
-     XENKBD_IN_RING_REF(page, prod) = *event;
--    xen_wmb();		/* ensure ring contents visible */
-+    xen_wmb();        /* ensure ring contents visible */
-     page->in_prod = prod + 1;
-     return xen_pv_send_notify(&xenfb->c.xendev);
- }
-@@ -161,7 +161,7 @@ static int xenfb_send_key(struct XenInput *xenfb, bool down, int keycode)
+-#define ELCOM_VENDOR_ID		0x056e
+-#define ELCOM_PRODUCT_ID	0x5003
+-#define ELCOM_PRODUCT_ID_UCSGT	0x5004
++#define ELCOM_VENDOR_ID           0x056e
++#define ELCOM_PRODUCT_ID          0x5003
++#define ELCOM_PRODUCT_ID_UCSGT    0x5004
  
- /* Send a relative mouse movement event */
- static int xenfb_send_motion(struct XenInput *xenfb,
--			     int rel_x, int rel_y, int rel_z)
-+                 int rel_x, int rel_y, int rel_z)
- {
-     union xenkbd_in_event event;
+-#define ITEGNO_VENDOR_ID	0x0eba
+-#define ITEGNO_PRODUCT_ID	0x1080
+-#define ITEGNO_PRODUCT_ID_2080	0x2080
++#define ITEGNO_VENDOR_ID          0x0eba
++#define ITEGNO_PRODUCT_ID         0x1080
++#define ITEGNO_PRODUCT_ID_2080    0x2080
  
-@@ -176,7 +176,7 @@ static int xenfb_send_motion(struct XenInput *xenfb,
+-#define MA620_VENDOR_ID		0x0df7
+-#define MA620_PRODUCT_ID	0x0620
++#define MA620_VENDOR_ID           0x0df7
++#define MA620_PRODUCT_ID          0x0620
  
- /* Send an absolute mouse movement event */
- static int xenfb_send_position(struct XenInput *xenfb,
--			       int abs_x, int abs_y, int z)
-+                   int abs_x, int abs_y, int z)
- {
-     union xenkbd_in_event event;
+-#define RATOC_VENDOR_ID		0x0584
+-#define RATOC_PRODUCT_ID	0xb000
++#define RATOC_VENDOR_ID           0x0584
++#define RATOC_PRODUCT_ID          0xb000
  
-@@ -354,7 +354,7 @@ static int input_initialise(struct XenLegacyDevice *xendev)
+-#define TRIPP_VENDOR_ID		0x2478
+-#define TRIPP_PRODUCT_ID	0x2008
++#define TRIPP_VENDOR_ID           0x2478
++#define TRIPP_PRODUCT_ID          0x2008
  
-     rc = common_bind(&in->c);
-     if (rc != 0)
--	return rc;
-+    return rc;
+-#define RADIOSHACK_VENDOR_ID	0x1453
+-#define RADIOSHACK_PRODUCT_ID	0x4026
++#define RADIOSHACK_VENDOR_ID      0x1453
++#define RADIOSHACK_PRODUCT_ID     0x4026
  
-     return 0;
- }
-@@ -415,7 +415,7 @@ static void input_event(struct XenLegacyDevice *xendev)
+-#define DCU10_VENDOR_ID		0x0731
+-#define DCU10_PRODUCT_ID	0x0528
++#define DCU10_VENDOR_ID           0x0731
++#define DCU10_PRODUCT_ID          0x0528
  
-     /* We don't understand any keyboard events, so just ignore them. */
-     if (page->out_prod == page->out_cons)
--	return;
-+    return;
-     page->out_cons = page->out_prod;
-     xen_pv_send_notify(&xenfb->c.xendev);
- }
-@@ -429,7 +429,7 @@ static void xenfb_copy_mfns(int mode, int count, xen_pfn_t *dst, void *src)
-     int i;
+-#define SITECOM_VENDOR_ID	0x6189
+-#define SITECOM_PRODUCT_ID	0x2068
++#define SITECOM_VENDOR_ID         0x6189
++#define SITECOM_PRODUCT_ID        0x2068
  
-     for (i = 0; i < count; i++)
--	dst[i] = (mode == 32) ? src32[i] : src64[i];
-+    dst[i] = (mode == 32) ? src32[i] : src64[i];
- }
+ /* Alcatel OT535/735 USB cable */
+-#define ALCATEL_VENDOR_ID	0x11f7
+-#define ALCATEL_PRODUCT_ID	0x02df
++#define ALCATEL_VENDOR_ID         0x11f7
++#define ALCATEL_PRODUCT_ID        0x02df
  
- static int xenfb_map_fb(struct XenFB *xenfb)
-@@ -447,43 +447,43 @@ static int xenfb_map_fb(struct XenFB *xenfb)
-     mode = sizeof(unsigned long) * 8;
+ /* Samsung I330 phone cradle */
+-#define SAMSUNG_VENDOR_ID	0x04e8
+-#define SAMSUNG_PRODUCT_ID	0x8001
++#define SAMSUNG_VENDOR_ID         0x04e8
++#define SAMSUNG_PRODUCT_ID        0x8001
  
-     if (!protocol) {
--	/*
--	 * Undefined protocol, some guesswork needed.
--	 *
--	 * Old frontends which don't set the protocol use
--	 * one page directory only, thus pd[1] must be zero.
--	 * pd[1] of the 32bit struct layout and the lower
--	 * 32 bits of pd[0] of the 64bit struct layout have
--	 * the same location, so we can check that ...
--	 */
--	uint32_t *ptr32 = NULL;
--	uint32_t *ptr64 = NULL;
-+    /*
-+     * Undefined protocol, some guesswork needed.
-+     *
-+     * Old frontends which don't set the protocol use
-+     * one page directory only, thus pd[1] must be zero.
-+     * pd[1] of the 32bit struct layout and the lower
-+     * 32 bits of pd[0] of the 64bit struct layout have
-+     * the same location, so we can check that ...
-+     */
-+    uint32_t *ptr32 = NULL;
-+    uint32_t *ptr64 = NULL;
- #if defined(__i386__)
--	ptr32 = (void*)page->pd;
--	ptr64 = ((void*)page->pd) + 4;
-+    ptr32 = (void*)page->pd;
-+    ptr64 = ((void*)page->pd) + 4;
- #elif defined(__x86_64__)
--	ptr32 = ((void*)page->pd) - 4;
--	ptr64 = (void*)page->pd;
-+    ptr32 = ((void*)page->pd) - 4;
-+    ptr64 = (void*)page->pd;
- #endif
--	if (ptr32) {
--	    if (ptr32[1] == 0) {
--		mode = 32;
--		pd   = ptr32;
--	    } else {
--		mode = 64;
--		pd   = ptr64;
--	    }
--	}
-+    if (ptr32) {
-+        if (ptr32[1] == 0) {
-+        mode = 32;
-+        pd   = ptr32;
-+        } else {
-+        mode = 64;
-+        pd   = ptr64;
-+        }
-+    }
- #if defined(__x86_64__)
-     } else if (strcmp(protocol, XEN_IO_PROTO_ABI_X86_32) == 0) {
--	/* 64bit dom0, 32bit domU */
--	mode = 32;
--	pd   = ((void*)page->pd) - 4;
-+    /* 64bit dom0, 32bit domU */
-+    mode = 32;
-+    pd   = ((void*)page->pd) - 4;
- #elif defined(__i386__)
-     } else if (strcmp(protocol, XEN_IO_PROTO_ABI_X86_64) == 0) {
--	/* 32bit dom0, 64bit domU */
--	mode = 64;
--	pd   = ((void*)page->pd) + 4;
-+    /* 32bit dom0, 64bit domU */
-+    mode = 64;
-+    pd   = ((void*)page->pd) + 4;
- #endif
-     }
+-#define SIEMENS_VENDOR_ID	0x11f5
+-#define SIEMENS_PRODUCT_ID_SX1	0x0001
+-#define SIEMENS_PRODUCT_ID_X65	0x0003
+-#define SIEMENS_PRODUCT_ID_X75	0x0004
+-#define SIEMENS_PRODUCT_ID_EF81	0x0005
++#define SIEMENS_VENDOR_ID         0x11f5
++#define SIEMENS_PRODUCT_ID_SX1    0x0001
++#define SIEMENS_PRODUCT_ID_X65    0x0003
++#define SIEMENS_PRODUCT_ID_X75    0x0004
++#define SIEMENS_PRODUCT_ID_EF81   0x0005
  
-@@ -503,14 +503,14 @@ static int xenfb_map_fb(struct XenFB *xenfb)
-     map = xenforeignmemory_map(xen_fmem, xenfb->c.xendev.dom,
-                                PROT_READ, n_fbdirs, pgmfns, NULL);
-     if (map == NULL)
--	goto out;
-+    goto out;
-     xenfb_copy_mfns(mode, xenfb->fbpages, fbmfns, map);
-     xenforeignmemory_unmap(xen_fmem, map, n_fbdirs);
+-#define SYNTECH_VENDOR_ID	0x0745
+-#define SYNTECH_PRODUCT_ID	0x0001
++#define SYNTECH_VENDOR_ID         0x0745
++#define SYNTECH_PRODUCT_ID        0x0001
  
-     xenfb->pixels = xenforeignmemory_map(xen_fmem, xenfb->c.xendev.dom,
-             PROT_READ, xenfb->fbpages, fbmfns, NULL);
-     if (xenfb->pixels == NULL)
--	goto out;
-+    goto out;
+ /* Nokia CA-42 Cable */
+-#define NOKIA_CA42_VENDOR_ID	0x078b
+-#define NOKIA_CA42_PRODUCT_ID	0x1234
++#define NOKIA_CA42_VENDOR_ID      0x078b
++#define NOKIA_CA42_PRODUCT_ID     0x1234
  
-     ret = 0; /* all is fine */
+ /* CA-42 CLONE Cable www.ca-42.com chipset: Prolific Technology Inc */
+-#define CA_42_CA42_VENDOR_ID	0x10b5
+-#define CA_42_CA42_PRODUCT_ID	0xac70
++#define CA_42_CA42_VENDOR_ID      0x10b5
++#define CA_42_CA42_PRODUCT_ID     0xac70
  
-@@ -589,35 +589,35 @@ static int xenfb_configure_fb(struct XenFB *xenfb, size_t fb_len_lim,
+-#define SAGEM_VENDOR_ID		0x079b
+-#define SAGEM_PRODUCT_ID	0x0027
++#define SAGEM_VENDOR_ID           0x079b
++#define SAGEM_PRODUCT_ID          0x0027
  
- /* A convenient function for munging pixels between different depths */
- #define BLT(SRC_T,DST_T,RSB,GSB,BSB,RDB,GDB,BDB)                        \
--    for (line = y ; line < (y+h) ; line++) {				\
--	SRC_T *src = (SRC_T *)(xenfb->pixels				\
--			       + xenfb->offset				\
--			       + (line * xenfb->row_stride)		\
--			       + (x * xenfb->depth / 8));		\
--	DST_T *dst = (DST_T *)(data					\
--			       + (line * linesize)			\
--			       + (x * bpp / 8));			\
--	int col;							\
--	const int RSS = 32 - (RSB + GSB + BSB);				\
--	const int GSS = 32 - (GSB + BSB);				\
--	const int BSS = 32 - (BSB);					\
--	const uint32_t RSM = (~0U) << (32 - RSB);			\
--	const uint32_t GSM = (~0U) << (32 - GSB);			\
--	const uint32_t BSM = (~0U) << (32 - BSB);			\
--	const int RDS = 32 - (RDB + GDB + BDB);				\
--	const int GDS = 32 - (GDB + BDB);				\
--	const int BDS = 32 - (BDB);					\
--	const uint32_t RDM = (~0U) << (32 - RDB);			\
--	const uint32_t GDM = (~0U) << (32 - GDB);			\
--	const uint32_t BDM = (~0U) << (32 - BDB);			\
--	for (col = x ; col < (x+w) ; col++) {				\
--	    uint32_t spix = *src;					\
--	    *dst = (((spix << RSS) & RSM & RDM) >> RDS) |		\
--		(((spix << GSS) & GSM & GDM) >> GDS) |			\
--		(((spix << BSS) & BSM & BDM) >> BDS);			\
--	    src = (SRC_T *) ((unsigned long) src + xenfb->depth / 8);	\
--	    dst = (DST_T *) ((unsigned long) dst + bpp / 8);		\
--	}								\
-+    for (line = y ; line < (y+h) ; line++) {                \
-+    SRC_T *src = (SRC_T *)(xenfb->pixels                \
-+                   + xenfb->offset                \
-+                   + (line * xenfb->row_stride)        \
-+                   + (x * xenfb->depth / 8));        \
-+    DST_T *dst = (DST_T *)(data                    \
-+                   + (line * linesize)            \
-+                   + (x * bpp / 8));            \
-+    int col;                            \
-+    const int RSS = 32 - (RSB + GSB + BSB);                \
-+    const int GSS = 32 - (GSB + BSB);                \
-+    const int BSS = 32 - (BSB);                    \
-+    const uint32_t RSM = (~0U) << (32 - RSB);            \
-+    const uint32_t GSM = (~0U) << (32 - GSB);            \
-+    const uint32_t BSM = (~0U) << (32 - BSB);            \
-+    const int RDS = 32 - (RDB + GDB + BDB);                \
-+    const int GDS = 32 - (GDB + BDB);                \
-+    const int BDS = 32 - (BDB);                    \
-+    const uint32_t RDM = (~0U) << (32 - RDB);            \
-+    const uint32_t GDM = (~0U) << (32 - GDB);            \
-+    const uint32_t BDM = (~0U) << (32 - BDB);            \
-+    for (col = x ; col < (x+w) ; col++) {                \
-+        uint32_t spix = *src;                    \
-+        *dst = (((spix << RSS) & RSM & RDM) >> RDS) |        \
-+        (((spix << GSS) & GSM & GDM) >> GDS) |            \
-+        (((spix << BSS) & BSM & BDM) >> BDS);            \
-+        src = (SRC_T *) ((unsigned long) src + xenfb->depth / 8);    \
-+        dst = (DST_T *) ((unsigned long) dst + bpp / 8);        \
-+    }                                \
-     }
+ /* Leadtek GPS 9531 (ID 0413:2101) */
+-#define LEADTEK_VENDOR_ID	0x0413
+-#define LEADTEK_9531_PRODUCT_ID	0x2101
++#define LEADTEK_VENDOR_ID         0x0413
++#define LEADTEK_9531_PRODUCT_ID   0x2101
  
+ /* USB GSM cable from Speed Dragon Multimedia, Ltd */
+-#define SPEEDDRAGON_VENDOR_ID	0x0e55
+-#define SPEEDDRAGON_PRODUCT_ID	0x110b
++#define SPEEDDRAGON_VENDOR_ID     0x0e55
++#define SPEEDDRAGON_PRODUCT_ID    0x110b
  
-@@ -657,7 +657,7 @@ static void xenfb_guest_copy(struct XenFB *xenfb, int x, int y, int w, int h)
-             break;
-         default:
-             oops = 1;
--	}
-+    }
-     }
-     if (oops) /* should not happen */
-         xen_pv_printf(&xenfb->c.xendev, 0, "%s: oops: convert %d -> %d bpp?\n",
-@@ -816,60 +816,60 @@ static void xenfb_handle_events(struct XenFB *xenfb)
-     if (prod - out_cons > XENFB_OUT_RING_LEN) {
-         return;
-     }
--    xen_rmb();		/* ensure we see ring contents up to prod */
-+    xen_rmb();        /* ensure we see ring contents up to prod */
-     for (cons = out_cons; cons != prod; cons++) {
--	union xenfb_out_event *event = &XENFB_OUT_RING_REF(page, cons);
-+    union xenfb_out_event *event = &XENFB_OUT_RING_REF(page, cons);
-         uint8_t type = event->type;
--	int x, y, w, h;
+ /* DATAPILOT Universal-2 Phone Cable */
+-#define DATAPILOT_U2_VENDOR_ID	0x0731
+-#define DATAPILOT_U2_PRODUCT_ID	0x2003
++#define DATAPILOT_U2_VENDOR_ID    0x0731
++#define DATAPILOT_U2_PRODUCT_ID   0x2003
+ 
+ /* Belkin "F5U257" Serial Adapter */
+-#define BELKIN_VENDOR_ID	0x050d
+-#define BELKIN_PRODUCT_ID	0x0257
++#define BELKIN_VENDOR_ID          0x050d
++#define BELKIN_PRODUCT_ID         0x0257
+ 
+ /* Alcor Micro Corp. USB 2.0 TO RS-232 */
+-#define ALCOR_VENDOR_ID		0x058F
+-#define ALCOR_PRODUCT_ID	0x9720
++#define ALCOR_VENDOR_ID           0x058F
++#define ALCOR_PRODUCT_ID          0x9720
+ 
+ /* Willcom WS002IN Data Driver (by NetIndex Inc.) */
+-#define WS002IN_VENDOR_ID	0x11f6
+-#define WS002IN_PRODUCT_ID	0x2001
++#define WS002IN_VENDOR_ID         0x11f6
++#define WS002IN_PRODUCT_ID        0x2001
+ 
+ /* Corega CG-USBRS232R Serial Adapter */
+-#define COREGA_VENDOR_ID	0x07aa
+-#define COREGA_PRODUCT_ID	0x002a
++#define COREGA_VENDOR_ID          0x07aa
++#define COREGA_PRODUCT_ID         0x002a
+ 
+ /* Y.C. Cable U.S.A., Inc - USB to RS-232 */
+-#define YCCABLE_VENDOR_ID	0x05ad
+-#define YCCABLE_PRODUCT_ID	0x0fba
++#define YCCABLE_VENDOR_ID         0x05ad
++#define YCCABLE_PRODUCT_ID        0x0fba
+ 
+ /* "Superial" USB - Serial */
+-#define SUPERIAL_VENDOR_ID	0x5372
+-#define SUPERIAL_PRODUCT_ID	0x2303
++#define SUPERIAL_VENDOR_ID        0x5372
++#define SUPERIAL_PRODUCT_ID       0x2303
+ 
+ /* Hewlett-Packard LD220-HP POS Pole Display */
+-#define HP_VENDOR_ID		0x03f0
+-#define HP_LD220_PRODUCT_ID	0x3524
++#define HP_VENDOR_ID              0x03f0
++#define HP_LD220_PRODUCT_ID       0x3524
+ 
+ /* Cressi Edy (diving computer) PC interface */
+-#define CRESSI_VENDOR_ID	0x04b8
+-#define CRESSI_EDY_PRODUCT_ID	0x0521
++#define CRESSI_VENDOR_ID          0x04b8
++#define CRESSI_EDY_PRODUCT_ID     0x0521
+ 
+ /* Zeagle dive computer interface */
+-#define ZEAGLE_VENDOR_ID	0x04b8
+-#define ZEAGLE_N2ITION3_PRODUCT_ID	0x0522
++#define ZEAGLE_VENDOR_ID              0x04b8
++#define ZEAGLE_N2ITION3_PRODUCT_ID    0x0522
+ 
+ /* Sony, USB data cable for CMD-Jxx mobile phones */
+-#define SONY_VENDOR_ID		0x054c
+-#define SONY_QN3USB_PRODUCT_ID	0x0437
++#define SONY_VENDOR_ID            0x054c
++#define SONY_QN3USB_PRODUCT_ID    0x0437
+ 
+ /* Sanwa KB-USB2 multimeter cable (ID: 11ad:0001) */
+-#define SANWA_VENDOR_ID		0x11ad
+-#define SANWA_PRODUCT_ID	0x0001
++#define SANWA_VENDOR_ID           0x11ad
++#define SANWA_PRODUCT_ID          0x0001
+ 
+ /* ADLINK ND-6530 RS232,RS485 and RS422 adapter */
+-#define ADLINK_VENDOR_ID		0x0b63
+-#define ADLINK_ND6530_PRODUCT_ID	0x6530
++#define ADLINK_VENDOR_ID          0x0b63
++#define ADLINK_ND6530_PRODUCT_ID  0x6530
+ 
+ /* SMART USB Serial Adapter */
+-#define SMART_VENDOR_ID	0x0b8c
+-#define SMART_PRODUCT_ID	0x2303
++#define SMART_VENDOR_ID     0x0b8c
++#define SMART_PRODUCT_ID    0x2303
+diff --git a/include/hw/usb.h b/include/hw/usb.h
+index 33668dd0a9..50bbae183e 100644
+--- a/include/hw/usb.h
++++ b/include/hw/usb.h
+@@ -32,7 +32,7 @@
+ #include "qom/object.h"
+ 
+ /* Constants related to the USB / PCI interaction */
+-#define USB_SBRN    0x60 /* Serial Bus Release Number Register */
++#define USB_SBRN       0x60 /* Serial Bus Release Number Register */
+ #define USB_RELEASE_1  0x10 /* USB 1.0 */
+ #define USB_RELEASE_2  0x20 /* USB 2.0 */
+ #define USB_RELEASE_3  0x30 /* USB 3.0 */
+@@ -66,42 +66,42 @@
+ //#define USB_STATE_POWERED     2
+ #define USB_STATE_DEFAULT     3
+ //#define USB_STATE_ADDRESS     4
+-//#define	USB_STATE_CONFIGURED  5
++//#define    USB_STATE_CONFIGURED  5
+ #define USB_STATE_SUSPENDED   6
+ 
+-#define USB_CLASS_AUDIO			1
+-#define USB_CLASS_COMM			2
+-#define USB_CLASS_HID			3
+-#define USB_CLASS_PHYSICAL		5
+-#define USB_CLASS_STILL_IMAGE		6
+-#define USB_CLASS_PRINTER		7
+-#define USB_CLASS_MASS_STORAGE		8
+-#define USB_CLASS_HUB			9
+-#define USB_CLASS_CDC_DATA		0x0a
+-#define USB_CLASS_CSCID			0x0b
+-#define USB_CLASS_CONTENT_SEC		0x0d
+-#define USB_CLASS_APP_SPEC		0xfe
+-#define USB_CLASS_VENDOR_SPEC		0xff
 -
--	switch (type) {
--	case XENFB_TYPE_UPDATE:
--	    if (xenfb->up_count == UP_QUEUE)
--		xenfb->up_fullscreen = 1;
--	    if (xenfb->up_fullscreen)
--		break;
--	    x = MAX(event->update.x, 0);
--	    y = MAX(event->update.y, 0);
--	    w = MIN(event->update.width, xenfb->width - x);
--	    h = MIN(event->update.height, xenfb->height - y);
--	    if (w < 0 || h < 0) {
-+    int x, y, w, h;
+-#define USB_SUBCLASS_UNDEFINED          0
+-#define USB_SUBCLASS_AUDIO_CONTROL      1
+-#define USB_SUBCLASS_AUDIO_STREAMING    2
++#define USB_CLASS_AUDIO           1
++#define USB_CLASS_COMM            2
++#define USB_CLASS_HID             3
++#define USB_CLASS_PHYSICAL        5
++#define USB_CLASS_STILL_IMAGE     6
++#define USB_CLASS_PRINTER         7
++#define USB_CLASS_MASS_STORAGE    8
++#define USB_CLASS_HUB             9
++#define USB_CLASS_CDC_DATA        0x0a
++#define USB_CLASS_CSCID           0x0b
++#define USB_CLASS_CONTENT_SEC     0x0d
++#define USB_CLASS_APP_SPEC        0xfe
++#define USB_CLASS_VENDOR_SPEC     0xff
 +
-+    switch (type) {
-+    case XENFB_TYPE_UPDATE:
-+        if (xenfb->up_count == UP_QUEUE)
-+        xenfb->up_fullscreen = 1;
-+        if (xenfb->up_fullscreen)
-+        break;
-+        x = MAX(event->update.x, 0);
-+        y = MAX(event->update.y, 0);
-+        w = MIN(event->update.width, xenfb->width - x);
-+        h = MIN(event->update.height, xenfb->height - y);
-+        if (w < 0 || h < 0) {
-                 xen_pv_printf(&xenfb->c.xendev, 1, "bogus update ignored\n");
--		break;
--	    }
--	    if (x != event->update.x ||
-+        break;
-+        }
-+        if (x != event->update.x ||
-                 y != event->update.y ||
--		w != event->update.width ||
--		h != event->update.height) {
-+        w != event->update.width ||
-+        h != event->update.height) {
-                 xen_pv_printf(&xenfb->c.xendev, 1, "bogus update clipped\n");
--	    }
--	    if (w == xenfb->width && h > xenfb->height / 2) {
--		/* scroll detector: updated more than 50% of the lines,
--		 * don't bother keeping track of the rectangles then */
--		xenfb->up_fullscreen = 1;
--	    } else {
--		xenfb->up_rects[xenfb->up_count].x = x;
--		xenfb->up_rects[xenfb->up_count].y = y;
--		xenfb->up_rects[xenfb->up_count].w = w;
--		xenfb->up_rects[xenfb->up_count].h = h;
--		xenfb->up_count++;
--	    }
--	    break;
-+        }
-+        if (w == xenfb->width && h > xenfb->height / 2) {
-+        /* scroll detector: updated more than 50% of the lines,
-+         * don't bother keeping track of the rectangles then */
-+        xenfb->up_fullscreen = 1;
-+        } else {
-+        xenfb->up_rects[xenfb->up_count].x = x;
-+        xenfb->up_rects[xenfb->up_count].y = y;
-+        xenfb->up_rects[xenfb->up_count].w = w;
-+        xenfb->up_rects[xenfb->up_count].h = h;
-+        xenfb->up_count++;
-+        }
-+        break;
- #ifdef XENFB_TYPE_RESIZE
--	case XENFB_TYPE_RESIZE:
--	    if (xenfb_configure_fb(xenfb, xenfb->fb_len,
--				   event->resize.width,
--				   event->resize.height,
--				   event->resize.depth,
--				   xenfb->fb_len,
--				   event->resize.offset,
--				   event->resize.stride) < 0)
--		break;
--	    xenfb_invalidate(xenfb);
--	    break;
-+    case XENFB_TYPE_RESIZE:
-+        if (xenfb_configure_fb(xenfb, xenfb->fb_len,
-+                   event->resize.width,
-+                   event->resize.height,
-+                   event->resize.depth,
-+                   xenfb->fb_len,
-+                   event->resize.offset,
-+                   event->resize.stride) < 0)
-+        break;
-+        xenfb_invalidate(xenfb);
-+        break;
- #endif
--	}
-     }
--    xen_mb();		/* ensure we're done with ring contents */
-+    }
-+    xen_mb();        /* ensure we're done with ring contents */
-     page->out_cons = cons;
- }
++#define USB_SUBCLASS_UNDEFINED           0
++#define USB_SUBCLASS_AUDIO_CONTROL       1
++#define USB_SUBCLASS_AUDIO_STREAMING     2
+ #define USB_SUBCLASS_AUDIO_MIDISTREAMING 3
  
-@@ -889,32 +889,32 @@ static int fb_initialise(struct XenLegacyDevice *xendev)
-     int rc;
+-#define USB_DIR_OUT			0
+-#define USB_DIR_IN			0x80
++#define USB_DIR_OUT            0
++#define USB_DIR_IN             0x80
  
-     if (xenstore_read_fe_int(xendev, "videoram", &videoram) == -1)
--	videoram = 0;
-+    videoram = 0;
+-#define USB_TYPE_MASK			(0x03 << 5)
+-#define USB_TYPE_STANDARD		(0x00 << 5)
+-#define USB_TYPE_CLASS			(0x01 << 5)
+-#define USB_TYPE_VENDOR			(0x02 << 5)
+-#define USB_TYPE_RESERVED		(0x03 << 5)
++#define USB_TYPE_MASK            (0x03 << 5)
++#define USB_TYPE_STANDARD        (0x00 << 5)
++#define USB_TYPE_CLASS           (0x01 << 5)
++#define USB_TYPE_VENDOR          (0x02 << 5)
++#define USB_TYPE_RESERVED        (0x03 << 5)
  
-     rc = common_bind(&fb->c);
-     if (rc != 0)
--	return rc;
-+    return rc;
+-#define USB_RECIP_MASK			0x1f
+-#define USB_RECIP_DEVICE		0x00
+-#define USB_RECIP_INTERFACE		0x01
+-#define USB_RECIP_ENDPOINT		0x02
+-#define USB_RECIP_OTHER			0x03
++#define USB_RECIP_MASK            0x1f
++#define USB_RECIP_DEVICE          0x00
++#define USB_RECIP_INTERFACE       0x01
++#define USB_RECIP_ENDPOINT        0x02
++#define USB_RECIP_OTHER           0x03
  
-     fb_page = fb->c.page;
-     rc = xenfb_configure_fb(fb, videoram * MiB,
--			    fb_page->width, fb_page->height, fb_page->depth,
--			    fb_page->mem_length, 0, fb_page->line_length);
-+                fb_page->width, fb_page->height, fb_page->depth,
-+                fb_page->mem_length, 0, fb_page->line_length);
-     if (rc != 0)
--	return rc;
-+    return rc;
+ #define DeviceRequest ((USB_DIR_IN|USB_TYPE_STANDARD|USB_RECIP_DEVICE)<<8)
+ #define DeviceOutRequest ((USB_DIR_OUT|USB_TYPE_STANDARD|USB_RECIP_DEVICE)<<8)
+@@ -126,28 +126,28 @@
+ #define EndpointOutRequest \
+         ((USB_DIR_OUT|USB_TYPE_STANDARD|USB_RECIP_ENDPOINT)<<8)
  
-     rc = xenfb_map_fb(fb);
-     if (rc != 0)
--	return rc;
-+    return rc;
+-#define USB_REQ_GET_STATUS		0x00
+-#define USB_REQ_CLEAR_FEATURE		0x01
+-#define USB_REQ_SET_FEATURE		0x03
+-#define USB_REQ_SET_ADDRESS		0x05
+-#define USB_REQ_GET_DESCRIPTOR		0x06
+-#define USB_REQ_SET_DESCRIPTOR		0x07
+-#define USB_REQ_GET_CONFIGURATION	0x08
+-#define USB_REQ_SET_CONFIGURATION	0x09
+-#define USB_REQ_GET_INTERFACE		0x0A
+-#define USB_REQ_SET_INTERFACE		0x0B
+-#define USB_REQ_SYNCH_FRAME		0x0C
+-#define USB_REQ_SET_SEL                 0x30
+-#define USB_REQ_SET_ISOCH_DELAY         0x31
+-
+-#define USB_DEVICE_SELF_POWERED		0
+-#define USB_DEVICE_REMOTE_WAKEUP	1
+-
+-#define USB_DT_DEVICE			0x01
+-#define USB_DT_CONFIG			0x02
+-#define USB_DT_STRING			0x03
+-#define USB_DT_INTERFACE		0x04
+-#define USB_DT_ENDPOINT			0x05
++#define USB_REQ_GET_STATUS           0x00
++#define USB_REQ_CLEAR_FEATURE        0x01
++#define USB_REQ_SET_FEATURE          0x03
++#define USB_REQ_SET_ADDRESS          0x05
++#define USB_REQ_GET_DESCRIPTOR       0x06
++#define USB_REQ_SET_DESCRIPTOR       0x07
++#define USB_REQ_GET_CONFIGURATION    0x08
++#define USB_REQ_SET_CONFIGURATION    0x09
++#define USB_REQ_GET_INTERFACE        0x0A
++#define USB_REQ_SET_INTERFACE        0x0B
++#define USB_REQ_SYNCH_FRAME          0x0C
++#define USB_REQ_SET_SEL              0x30
++#define USB_REQ_SET_ISOCH_DELAY      0x31
++
++#define USB_DEVICE_SELF_POWERED      0
++#define USB_DEVICE_REMOTE_WAKEUP     1
++
++#define USB_DT_DEVICE                   0x01
++#define USB_DT_CONFIG                   0x02
++#define USB_DT_STRING                   0x03
++#define USB_DT_INTERFACE                0x04
++#define USB_DT_ENDPOINT                 0x05
+ #define USB_DT_DEVICE_QUALIFIER         0x06
+ #define USB_DT_OTHER_SPEED_CONFIG       0x07
+ #define USB_DT_DEBUG                    0x0A
+@@ -167,10 +167,10 @@
+ #define USB_CFG_ATT_WAKEUP           (1 << 5)
+ #define USB_CFG_ATT_BATTERY          (1 << 4)
  
-     fb->con = graphic_console_init(NULL, 0, &xenfb_ops, fb);
+-#define USB_ENDPOINT_XFER_CONTROL	0
+-#define USB_ENDPOINT_XFER_ISOC		1
+-#define USB_ENDPOINT_XFER_BULK		2
+-#define USB_ENDPOINT_XFER_INT		3
++#define USB_ENDPOINT_XFER_CONTROL     0
++#define USB_ENDPOINT_XFER_ISOC        1
++#define USB_ENDPOINT_XFER_BULK        2
++#define USB_ENDPOINT_XFER_INT         3
+ #define USB_ENDPOINT_XFER_INVALID     255
  
-     if (xenstore_read_fe_int(xendev, "feature-update", &fb->feature_update) == -1)
--	fb->feature_update = 0;
-+    fb->feature_update = 0;
-     if (fb->feature_update)
--	xenstore_write_be_int(xendev, "request-update", 1);
-+    xenstore_write_be_int(xendev, "request-update", 1);
+ #define USB_INTERFACE_INVALID         255
+@@ -569,9 +569,9 @@ static inline bool usb_device_is_scsi_storage(USBDevice *dev)
+ /* quirks.c */
  
-     xen_pv_printf(xendev, 1, "feature-update=%d, videoram=%d\n",
--		  fb->feature_update, videoram);
-+          fb->feature_update, videoram);
-     return 0;
- }
+ /* In bulk endpoints are streaming data sources (iow behave like isoc eps) */
+-#define USB_QUIRK_BUFFER_BULK_IN	0x01
++#define USB_QUIRK_BUFFER_BULK_IN    0x01
+ /* Bulk pkts in FTDI format, need special handling when combining packets */
+-#define USB_QUIRK_IS_FTDI		0x02
++#define USB_QUIRK_IS_FTDI        0x02
  
+ int usb_get_quirks(uint16_t vendor_id, uint16_t product_id,
+                    uint8_t interface_class, uint8_t interface_subclass,
+diff --git a/include/hw/usb/dwc2-regs.h b/include/hw/usb/dwc2-regs.h
+index 4015c1d691..dfb937ff4a 100644
+--- a/include/hw/usb/dwc2-regs.h
++++ b/include/hw/usb/dwc2-regs.h
+@@ -42,788 +42,788 @@
+ #ifndef DWC2_REGS_H
+ #define DWC2_REGS_H
+ 
+-#define HSOTG_REG(x)	(x)
+-
+-#define GOTGCTL				HSOTG_REG(0x000)
+-#define GOTGCTL_CHIRPEN			BIT(27)
+-#define GOTGCTL_MULT_VALID_BC_MASK	(0x1f << 22)
+-#define GOTGCTL_MULT_VALID_BC_SHIFT	22
+-#define GOTGCTL_OTGVER			BIT(20)
+-#define GOTGCTL_BSESVLD			BIT(19)
+-#define GOTGCTL_ASESVLD			BIT(18)
+-#define GOTGCTL_DBNC_SHORT		BIT(17)
+-#define GOTGCTL_CONID_B			BIT(16)
+-#define GOTGCTL_DBNCE_FLTR_BYPASS	BIT(15)
+-#define GOTGCTL_DEVHNPEN		BIT(11)
+-#define GOTGCTL_HSTSETHNPEN		BIT(10)
+-#define GOTGCTL_HNPREQ			BIT(9)
+-#define GOTGCTL_HSTNEGSCS		BIT(8)
+-#define GOTGCTL_SESREQ			BIT(1)
+-#define GOTGCTL_SESREQSCS		BIT(0)
+-
+-#define GOTGINT				HSOTG_REG(0x004)
+-#define GOTGINT_DBNCE_DONE		BIT(19)
+-#define GOTGINT_A_DEV_TOUT_CHG		BIT(18)
+-#define GOTGINT_HST_NEG_DET		BIT(17)
+-#define GOTGINT_HST_NEG_SUC_STS_CHNG	BIT(9)
+-#define GOTGINT_SES_REQ_SUC_STS_CHNG	BIT(8)
+-#define GOTGINT_SES_END_DET		BIT(2)
+-
+-#define GAHBCFG				HSOTG_REG(0x008)
+-#define GAHBCFG_AHB_SINGLE		BIT(23)
+-#define GAHBCFG_NOTI_ALL_DMA_WRIT	BIT(22)
+-#define GAHBCFG_REM_MEM_SUPP		BIT(21)
+-#define GAHBCFG_P_TXF_EMP_LVL		BIT(8)
+-#define GAHBCFG_NP_TXF_EMP_LVL		BIT(7)
+-#define GAHBCFG_DMA_EN			BIT(5)
+-#define GAHBCFG_HBSTLEN_MASK		(0xf << 1)
+-#define GAHBCFG_HBSTLEN_SHIFT		1
+-#define GAHBCFG_HBSTLEN_SINGLE		0
+-#define GAHBCFG_HBSTLEN_INCR		1
+-#define GAHBCFG_HBSTLEN_INCR4		3
+-#define GAHBCFG_HBSTLEN_INCR8		5
+-#define GAHBCFG_HBSTLEN_INCR16		7
+-#define GAHBCFG_GLBL_INTR_EN		BIT(0)
+-#define GAHBCFG_CTRL_MASK		(GAHBCFG_P_TXF_EMP_LVL | \
+-					 GAHBCFG_NP_TXF_EMP_LVL | \
+-					 GAHBCFG_DMA_EN | \
+-					 GAHBCFG_GLBL_INTR_EN)
+-
+-#define GUSBCFG				HSOTG_REG(0x00C)
+-#define GUSBCFG_FORCEDEVMODE		BIT(30)
+-#define GUSBCFG_FORCEHOSTMODE		BIT(29)
+-#define GUSBCFG_TXENDDELAY		BIT(28)
+-#define GUSBCFG_ICTRAFFICPULLREMOVE	BIT(27)
+-#define GUSBCFG_ICUSBCAP		BIT(26)
+-#define GUSBCFG_ULPI_INT_PROT_DIS	BIT(25)
+-#define GUSBCFG_INDICATORPASSTHROUGH	BIT(24)
+-#define GUSBCFG_INDICATORCOMPLEMENT	BIT(23)
+-#define GUSBCFG_TERMSELDLPULSE		BIT(22)
+-#define GUSBCFG_ULPI_INT_VBUS_IND	BIT(21)
+-#define GUSBCFG_ULPI_EXT_VBUS_DRV	BIT(20)
+-#define GUSBCFG_ULPI_CLK_SUSP_M		BIT(19)
+-#define GUSBCFG_ULPI_AUTO_RES		BIT(18)
+-#define GUSBCFG_ULPI_FS_LS		BIT(17)
+-#define GUSBCFG_OTG_UTMI_FS_SEL		BIT(16)
+-#define GUSBCFG_PHY_LP_CLK_SEL		BIT(15)
+-#define GUSBCFG_USBTRDTIM_MASK		(0xf << 10)
+-#define GUSBCFG_USBTRDTIM_SHIFT		10
+-#define GUSBCFG_HNPCAP			BIT(9)
+-#define GUSBCFG_SRPCAP			BIT(8)
+-#define GUSBCFG_DDRSEL			BIT(7)
+-#define GUSBCFG_PHYSEL			BIT(6)
+-#define GUSBCFG_FSINTF			BIT(5)
+-#define GUSBCFG_ULPI_UTMI_SEL		BIT(4)
+-#define GUSBCFG_PHYIF16			BIT(3)
+-#define GUSBCFG_PHYIF8			(0 << 3)
+-#define GUSBCFG_TOUTCAL_MASK		(0x7 << 0)
+-#define GUSBCFG_TOUTCAL_SHIFT		0
+-#define GUSBCFG_TOUTCAL_LIMIT		0x7
+-#define GUSBCFG_TOUTCAL(_x)		((_x) << 0)
+-
+-#define GRSTCTL				HSOTG_REG(0x010)
+-#define GRSTCTL_AHBIDLE			BIT(31)
+-#define GRSTCTL_DMAREQ			BIT(30)
+-#define GRSTCTL_TXFNUM_MASK		(0x1f << 6)
+-#define GRSTCTL_TXFNUM_SHIFT		6
+-#define GRSTCTL_TXFNUM_LIMIT		0x1f
+-#define GRSTCTL_TXFNUM(_x)		((_x) << 6)
+-#define GRSTCTL_TXFFLSH			BIT(5)
+-#define GRSTCTL_RXFFLSH			BIT(4)
+-#define GRSTCTL_IN_TKNQ_FLSH		BIT(3)
+-#define GRSTCTL_FRMCNTRRST		BIT(2)
+-#define GRSTCTL_HSFTRST			BIT(1)
+-#define GRSTCTL_CSFTRST			BIT(0)
+-
+-#define GINTSTS				HSOTG_REG(0x014)
+-#define GINTMSK				HSOTG_REG(0x018)
+-#define GINTSTS_WKUPINT			BIT(31)
+-#define GINTSTS_SESSREQINT		BIT(30)
+-#define GINTSTS_DISCONNINT		BIT(29)
+-#define GINTSTS_CONIDSTSCHNG		BIT(28)
+-#define GINTSTS_LPMTRANRCVD		BIT(27)
+-#define GINTSTS_PTXFEMP			BIT(26)
+-#define GINTSTS_HCHINT			BIT(25)
+-#define GINTSTS_PRTINT			BIT(24)
+-#define GINTSTS_RESETDET		BIT(23)
+-#define GINTSTS_FET_SUSP		BIT(22)
+-#define GINTSTS_INCOMPL_IP		BIT(21)
+-#define GINTSTS_INCOMPL_SOOUT		BIT(21)
+-#define GINTSTS_INCOMPL_SOIN		BIT(20)
+-#define GINTSTS_OEPINT			BIT(19)
+-#define GINTSTS_IEPINT			BIT(18)
+-#define GINTSTS_EPMIS			BIT(17)
+-#define GINTSTS_RESTOREDONE		BIT(16)
+-#define GINTSTS_EOPF			BIT(15)
+-#define GINTSTS_ISOUTDROP		BIT(14)
+-#define GINTSTS_ENUMDONE		BIT(13)
+-#define GINTSTS_USBRST			BIT(12)
+-#define GINTSTS_USBSUSP			BIT(11)
+-#define GINTSTS_ERLYSUSP		BIT(10)
+-#define GINTSTS_I2CINT			BIT(9)
+-#define GINTSTS_ULPI_CK_INT		BIT(8)
+-#define GINTSTS_GOUTNAKEFF		BIT(7)
+-#define GINTSTS_GINNAKEFF		BIT(6)
+-#define GINTSTS_NPTXFEMP		BIT(5)
+-#define GINTSTS_RXFLVL			BIT(4)
+-#define GINTSTS_SOF			BIT(3)
+-#define GINTSTS_OTGINT			BIT(2)
+-#define GINTSTS_MODEMIS			BIT(1)
+-#define GINTSTS_CURMODE_HOST		BIT(0)
+-
+-#define GRXSTSR				HSOTG_REG(0x01C)
+-#define GRXSTSP				HSOTG_REG(0x020)
+-#define GRXSTS_FN_MASK			(0x7f << 25)
+-#define GRXSTS_FN_SHIFT			25
+-#define GRXSTS_PKTSTS_MASK		(0xf << 17)
+-#define GRXSTS_PKTSTS_SHIFT		17
+-#define GRXSTS_PKTSTS_GLOBALOUTNAK	1
+-#define GRXSTS_PKTSTS_OUTRX		2
+-#define GRXSTS_PKTSTS_HCHIN		2
+-#define GRXSTS_PKTSTS_OUTDONE		3
+-#define GRXSTS_PKTSTS_HCHIN_XFER_COMP	3
+-#define GRXSTS_PKTSTS_SETUPDONE		4
+-#define GRXSTS_PKTSTS_DATATOGGLEERR	5
+-#define GRXSTS_PKTSTS_SETUPRX		6
+-#define GRXSTS_PKTSTS_HCHHALTED		7
+-#define GRXSTS_HCHNUM_MASK		(0xf << 0)
+-#define GRXSTS_HCHNUM_SHIFT		0
+-#define GRXSTS_DPID_MASK		(0x3 << 15)
+-#define GRXSTS_DPID_SHIFT		15
+-#define GRXSTS_BYTECNT_MASK		(0x7ff << 4)
+-#define GRXSTS_BYTECNT_SHIFT		4
+-#define GRXSTS_EPNUM_MASK		(0xf << 0)
+-#define GRXSTS_EPNUM_SHIFT		0
+-
+-#define GRXFSIZ				HSOTG_REG(0x024)
+-#define GRXFSIZ_DEPTH_MASK		(0xffff << 0)
+-#define GRXFSIZ_DEPTH_SHIFT		0
+-
+-#define GNPTXFSIZ			HSOTG_REG(0x028)
++#define HSOTG_REG(x)    (x)
++
++#define GOTGCTL                       HSOTG_REG(0x000)
++#define GOTGCTL_CHIRPEN               BIT(27)
++#define GOTGCTL_MULT_VALID_BC_MASK    (0x1f << 22)
++#define GOTGCTL_MULT_VALID_BC_SHIFT   22
++#define GOTGCTL_OTGVER                BIT(20)
++#define GOTGCTL_BSESVLD               BIT(19)
++#define GOTGCTL_ASESVLD               BIT(18)
++#define GOTGCTL_DBNC_SHORT            BIT(17)
++#define GOTGCTL_CONID_B               BIT(16)
++#define GOTGCTL_DBNCE_FLTR_BYPASS     BIT(15)
++#define GOTGCTL_DEVHNPEN              BIT(11)
++#define GOTGCTL_HSTSETHNPEN           BIT(10)
++#define GOTGCTL_HNPREQ                BIT(9)
++#define GOTGCTL_HSTNEGSCS             BIT(8)
++#define GOTGCTL_SESREQ                BIT(1)
++#define GOTGCTL_SESREQSCS             BIT(0)
++
++#define GOTGINT                       HSOTG_REG(0x004)
++#define GOTGINT_DBNCE_DONE            BIT(19)
++#define GOTGINT_A_DEV_TOUT_CHG        BIT(18)
++#define GOTGINT_HST_NEG_DET           BIT(17)
++#define GOTGINT_HST_NEG_SUC_STS_CHNG    BIT(9)
++#define GOTGINT_SES_REQ_SUC_STS_CHNG    BIT(8)
++#define GOTGINT_SES_END_DET           BIT(2)
++
++#define GAHBCFG                       HSOTG_REG(0x008)
++#define GAHBCFG_AHB_SINGLE            BIT(23)
++#define GAHBCFG_NOTI_ALL_DMA_WRIT     BIT(22)
++#define GAHBCFG_REM_MEM_SUPP          BIT(21)
++#define GAHBCFG_P_TXF_EMP_LVL         BIT(8)
++#define GAHBCFG_NP_TXF_EMP_LVL        BIT(7)
++#define GAHBCFG_DMA_EN                BIT(5)
++#define GAHBCFG_HBSTLEN_MASK          (0xf << 1)
++#define GAHBCFG_HBSTLEN_SHIFT         1
++#define GAHBCFG_HBSTLEN_SINGLE        0
++#define GAHBCFG_HBSTLEN_INCR          1
++#define GAHBCFG_HBSTLEN_INCR4         3
++#define GAHBCFG_HBSTLEN_INCR8         5
++#define GAHBCFG_HBSTLEN_INCR16        7
++#define GAHBCFG_GLBL_INTR_EN          BIT(0)
++#define GAHBCFG_CTRL_MASK        (GAHBCFG_P_TXF_EMP_LVL | \
++                                  GAHBCFG_NP_TXF_EMP_LVL | \
++                                  GAHBCFG_DMA_EN | \
++                                  GAHBCFG_GLBL_INTR_EN)
++
++#define GUSBCFG                         HSOTG_REG(0x00C)
++#define GUSBCFG_FORCEDEVMODE            BIT(30)
++#define GUSBCFG_FORCEHOSTMODE           BIT(29)
++#define GUSBCFG_TXENDDELAY              BIT(28)
++#define GUSBCFG_ICTRAFFICPULLREMOVE     BIT(27)
++#define GUSBCFG_ICUSBCAP                BIT(26)
++#define GUSBCFG_ULPI_INT_PROT_DIS       BIT(25)
++#define GUSBCFG_INDICATORPASSTHROUGH    BIT(24)
++#define GUSBCFG_INDICATORCOMPLEMENT     BIT(23)
++#define GUSBCFG_TERMSELDLPULSE          BIT(22)
++#define GUSBCFG_ULPI_INT_VBUS_IND       BIT(21)
++#define GUSBCFG_ULPI_EXT_VBUS_DRV       BIT(20)
++#define GUSBCFG_ULPI_CLK_SUSP_M         BIT(19)
++#define GUSBCFG_ULPI_AUTO_RES           BIT(18)
++#define GUSBCFG_ULPI_FS_LS              BIT(17)
++#define GUSBCFG_OTG_UTMI_FS_SEL         BIT(16)
++#define GUSBCFG_PHY_LP_CLK_SEL          BIT(15)
++#define GUSBCFG_USBTRDTIM_MASK          (0xf << 10)
++#define GUSBCFG_USBTRDTIM_SHIFT         10
++#define GUSBCFG_HNPCAP            BIT(9)
++#define GUSBCFG_SRPCAP            BIT(8)
++#define GUSBCFG_DDRSEL            BIT(7)
++#define GUSBCFG_PHYSEL            BIT(6)
++#define GUSBCFG_FSINTF            BIT(5)
++#define GUSBCFG_ULPI_UTMI_SEL     BIT(4)
++#define GUSBCFG_PHYIF16           BIT(3)
++#define GUSBCFG_PHYIF8            (0 << 3)
++#define GUSBCFG_TOUTCAL_MASK      (0x7 << 0)
++#define GUSBCFG_TOUTCAL_SHIFT     0
++#define GUSBCFG_TOUTCAL_LIMIT     0x7
++#define GUSBCFG_TOUTCAL(_x)       ((_x) << 0)
++
++#define GRSTCTL                    HSOTG_REG(0x010)
++#define GRSTCTL_AHBIDLE            BIT(31)
++#define GRSTCTL_DMAREQ             BIT(30)
++#define GRSTCTL_TXFNUM_MASK        (0x1f << 6)
++#define GRSTCTL_TXFNUM_SHIFT       6
++#define GRSTCTL_TXFNUM_LIMIT       0x1f
++#define GRSTCTL_TXFNUM(_x)         ((_x) << 6)
++#define GRSTCTL_TXFFLSH            BIT(5)
++#define GRSTCTL_RXFFLSH            BIT(4)
++#define GRSTCTL_IN_TKNQ_FLSH       BIT(3)
++#define GRSTCTL_FRMCNTRRST         BIT(2)
++#define GRSTCTL_HSFTRST            BIT(1)
++#define GRSTCTL_CSFTRST            BIT(0)
++
++#define GINTSTS                HSOTG_REG(0x014)
++#define GINTMSK                HSOTG_REG(0x018)
++#define GINTSTS_WKUPINT            BIT(31)
++#define GINTSTS_SESSREQINT         BIT(30)
++#define GINTSTS_DISCONNINT         BIT(29)
++#define GINTSTS_CONIDSTSCHNG       BIT(28)
++#define GINTSTS_LPMTRANRCVD        BIT(27)
++#define GINTSTS_PTXFEMP            BIT(26)
++#define GINTSTS_HCHINT             BIT(25)
++#define GINTSTS_PRTINT             BIT(24)
++#define GINTSTS_RESETDET           BIT(23)
++#define GINTSTS_FET_SUSP           BIT(22)
++#define GINTSTS_INCOMPL_IP         BIT(21)
++#define GINTSTS_INCOMPL_SOOUT      BIT(21)
++#define GINTSTS_INCOMPL_SOIN       BIT(20)
++#define GINTSTS_OEPINT             BIT(19)
++#define GINTSTS_IEPINT             BIT(18)
++#define GINTSTS_EPMIS              BIT(17)
++#define GINTSTS_RESTOREDONE        BIT(16)
++#define GINTSTS_EOPF               BIT(15)
++#define GINTSTS_ISOUTDROP          BIT(14)
++#define GINTSTS_ENUMDONE           BIT(13)
++#define GINTSTS_USBRST             BIT(12)
++#define GINTSTS_USBSUSP            BIT(11)
++#define GINTSTS_ERLYSUSP           BIT(10)
++#define GINTSTS_I2CINT             BIT(9)
++#define GINTSTS_ULPI_CK_INT        BIT(8)
++#define GINTSTS_GOUTNAKEFF         BIT(7)
++#define GINTSTS_GINNAKEFF          BIT(6)
++#define GINTSTS_NPTXFEMP           BIT(5)
++#define GINTSTS_RXFLVL             BIT(4)
++#define GINTSTS_SOF                BIT(3)
++#define GINTSTS_OTGINT             BIT(2)
++#define GINTSTS_MODEMIS            BIT(1)
++#define GINTSTS_CURMODE_HOST       BIT(0)
++
++#define GRXSTSR                HSOTG_REG(0x01C)
++#define GRXSTSP                HSOTG_REG(0x020)
++#define GRXSTS_FN_MASK             (0x7f << 25)
++#define GRXSTS_FN_SHIFT            25
++#define GRXSTS_PKTSTS_MASK         (0xf << 17)
++#define GRXSTS_PKTSTS_SHIFT        17
++#define GRXSTS_PKTSTS_GLOBALOUTNAK       1
++#define GRXSTS_PKTSTS_OUTRX              2
++#define GRXSTS_PKTSTS_HCHIN              2
++#define GRXSTS_PKTSTS_OUTDONE            3
++#define GRXSTS_PKTSTS_HCHIN_XFER_COMP    3
++#define GRXSTS_PKTSTS_SETUPDONE          4
++#define GRXSTS_PKTSTS_DATATOGGLEERR      5
++#define GRXSTS_PKTSTS_SETUPRX            6
++#define GRXSTS_PKTSTS_HCHHALTED          7
++#define GRXSTS_HCHNUM_MASK         (0xf << 0)
++#define GRXSTS_HCHNUM_SHIFT        0
++#define GRXSTS_DPID_MASK           (0x3 << 15)
++#define GRXSTS_DPID_SHIFT          15
++#define GRXSTS_BYTECNT_MASK        (0x7ff << 4)
++#define GRXSTS_BYTECNT_SHIFT       4
++#define GRXSTS_EPNUM_MASK          (0xf << 0)
++#define GRXSTS_EPNUM_SHIFT         0
++
++#define GRXFSIZ                    HSOTG_REG(0x024)
++#define GRXFSIZ_DEPTH_MASK         (0xffff << 0)
++#define GRXFSIZ_DEPTH_SHIFT        0
++
++#define GNPTXFSIZ            HSOTG_REG(0x028)
+ /* Use FIFOSIZE_* constants to access this register */
+ 
+-#define GNPTXSTS			HSOTG_REG(0x02C)
+-#define GNPTXSTS_NP_TXQ_TOP_MASK		(0x7f << 24)
+-#define GNPTXSTS_NP_TXQ_TOP_SHIFT		24
+-#define GNPTXSTS_NP_TXQ_SPC_AVAIL_MASK		(0xff << 16)
+-#define GNPTXSTS_NP_TXQ_SPC_AVAIL_SHIFT		16
+-#define GNPTXSTS_NP_TXQ_SPC_AVAIL_GET(_v)	(((_v) >> 16) & 0xff)
+-#define GNPTXSTS_NP_TXF_SPC_AVAIL_MASK		(0xffff << 0)
+-#define GNPTXSTS_NP_TXF_SPC_AVAIL_SHIFT		0
+-#define GNPTXSTS_NP_TXF_SPC_AVAIL_GET(_v)	(((_v) >> 0) & 0xffff)
+-
+-#define GI2CCTL				HSOTG_REG(0x0030)
+-#define GI2CCTL_BSYDNE			BIT(31)
+-#define GI2CCTL_RW			BIT(30)
+-#define GI2CCTL_I2CDATSE0		BIT(28)
+-#define GI2CCTL_I2CDEVADDR_MASK		(0x3 << 26)
+-#define GI2CCTL_I2CDEVADDR_SHIFT	26
+-#define GI2CCTL_I2CSUSPCTL		BIT(25)
+-#define GI2CCTL_ACK			BIT(24)
+-#define GI2CCTL_I2CEN			BIT(23)
+-#define GI2CCTL_ADDR_MASK		(0x7f << 16)
+-#define GI2CCTL_ADDR_SHIFT		16
+-#define GI2CCTL_REGADDR_MASK		(0xff << 8)
+-#define GI2CCTL_REGADDR_SHIFT		8
+-#define GI2CCTL_RWDATA_MASK		(0xff << 0)
+-#define GI2CCTL_RWDATA_SHIFT		0
+-
+-#define GPVNDCTL			HSOTG_REG(0x0034)
+-#define GGPIO				HSOTG_REG(0x0038)
+-#define GGPIO_STM32_OTG_GCCFG_PWRDWN	BIT(16)
+-
+-#define GUID				HSOTG_REG(0x003c)
+-#define GSNPSID				HSOTG_REG(0x0040)
+-#define GHWCFG1				HSOTG_REG(0x0044)
+-#define GSNPSID_ID_MASK			GENMASK(31, 16)
+-
+-#define GHWCFG2				HSOTG_REG(0x0048)
+-#define GHWCFG2_OTG_ENABLE_IC_USB		BIT(31)
+-#define GHWCFG2_DEV_TOKEN_Q_DEPTH_MASK		(0x1f << 26)
+-#define GHWCFG2_DEV_TOKEN_Q_DEPTH_SHIFT		26
+-#define GHWCFG2_HOST_PERIO_TX_Q_DEPTH_MASK	(0x3 << 24)
+-#define GHWCFG2_HOST_PERIO_TX_Q_DEPTH_SHIFT	24
+-#define GHWCFG2_NONPERIO_TX_Q_DEPTH_MASK	(0x3 << 22)
+-#define GHWCFG2_NONPERIO_TX_Q_DEPTH_SHIFT	22
+-#define GHWCFG2_MULTI_PROC_INT			BIT(20)
+-#define GHWCFG2_DYNAMIC_FIFO			BIT(19)
+-#define GHWCFG2_PERIO_EP_SUPPORTED		BIT(18)
+-#define GHWCFG2_NUM_HOST_CHAN_MASK		(0xf << 14)
+-#define GHWCFG2_NUM_HOST_CHAN_SHIFT		14
+-#define GHWCFG2_NUM_DEV_EP_MASK			(0xf << 10)
+-#define GHWCFG2_NUM_DEV_EP_SHIFT		10
+-#define GHWCFG2_FS_PHY_TYPE_MASK		(0x3 << 8)
+-#define GHWCFG2_FS_PHY_TYPE_SHIFT		8
+-#define GHWCFG2_FS_PHY_TYPE_NOT_SUPPORTED	0
+-#define GHWCFG2_FS_PHY_TYPE_DEDICATED		1
+-#define GHWCFG2_FS_PHY_TYPE_SHARED_UTMI		2
+-#define GHWCFG2_FS_PHY_TYPE_SHARED_ULPI		3
+-#define GHWCFG2_HS_PHY_TYPE_MASK		(0x3 << 6)
+-#define GHWCFG2_HS_PHY_TYPE_SHIFT		6
+-#define GHWCFG2_HS_PHY_TYPE_NOT_SUPPORTED	0
+-#define GHWCFG2_HS_PHY_TYPE_UTMI		1
+-#define GHWCFG2_HS_PHY_TYPE_ULPI		2
+-#define GHWCFG2_HS_PHY_TYPE_UTMI_ULPI		3
+-#define GHWCFG2_POINT2POINT			BIT(5)
+-#define GHWCFG2_ARCHITECTURE_MASK		(0x3 << 3)
+-#define GHWCFG2_ARCHITECTURE_SHIFT		3
+-#define GHWCFG2_SLAVE_ONLY_ARCH			0
+-#define GHWCFG2_EXT_DMA_ARCH			1
+-#define GHWCFG2_INT_DMA_ARCH			2
+-#define GHWCFG2_OP_MODE_MASK			(0x7 << 0)
+-#define GHWCFG2_OP_MODE_SHIFT			0
+-#define GHWCFG2_OP_MODE_HNP_SRP_CAPABLE		0
+-#define GHWCFG2_OP_MODE_SRP_ONLY_CAPABLE	1
+-#define GHWCFG2_OP_MODE_NO_HNP_SRP_CAPABLE	2
+-#define GHWCFG2_OP_MODE_SRP_CAPABLE_DEVICE	3
+-#define GHWCFG2_OP_MODE_NO_SRP_CAPABLE_DEVICE	4
+-#define GHWCFG2_OP_MODE_SRP_CAPABLE_HOST	5
+-#define GHWCFG2_OP_MODE_NO_SRP_CAPABLE_HOST	6
+-#define GHWCFG2_OP_MODE_UNDEFINED		7
+-
+-#define GHWCFG3				HSOTG_REG(0x004c)
+-#define GHWCFG3_DFIFO_DEPTH_MASK		(0xffff << 16)
+-#define GHWCFG3_DFIFO_DEPTH_SHIFT		16
+-#define GHWCFG3_OTG_LPM_EN			BIT(15)
+-#define GHWCFG3_BC_SUPPORT			BIT(14)
+-#define GHWCFG3_OTG_ENABLE_HSIC			BIT(13)
+-#define GHWCFG3_ADP_SUPP			BIT(12)
+-#define GHWCFG3_SYNCH_RESET_TYPE		BIT(11)
+-#define GHWCFG3_OPTIONAL_FEATURES		BIT(10)
+-#define GHWCFG3_VENDOR_CTRL_IF			BIT(9)
+-#define GHWCFG3_I2C				BIT(8)
+-#define GHWCFG3_OTG_FUNC			BIT(7)
+-#define GHWCFG3_PACKET_SIZE_CNTR_WIDTH_MASK	(0x7 << 4)
+-#define GHWCFG3_PACKET_SIZE_CNTR_WIDTH_SHIFT	4
+-#define GHWCFG3_XFER_SIZE_CNTR_WIDTH_MASK	(0xf << 0)
+-#define GHWCFG3_XFER_SIZE_CNTR_WIDTH_SHIFT	0
+-
+-#define GHWCFG4				HSOTG_REG(0x0050)
+-#define GHWCFG4_DESC_DMA_DYN			BIT(31)
+-#define GHWCFG4_DESC_DMA			BIT(30)
+-#define GHWCFG4_NUM_IN_EPS_MASK			(0xf << 26)
+-#define GHWCFG4_NUM_IN_EPS_SHIFT		26
+-#define GHWCFG4_DED_FIFO_EN			BIT(25)
+-#define GHWCFG4_DED_FIFO_SHIFT		25
+-#define GHWCFG4_SESSION_END_FILT_EN		BIT(24)
+-#define GHWCFG4_B_VALID_FILT_EN			BIT(23)
+-#define GHWCFG4_A_VALID_FILT_EN			BIT(22)
+-#define GHWCFG4_VBUS_VALID_FILT_EN		BIT(21)
+-#define GHWCFG4_IDDIG_FILT_EN			BIT(20)
+-#define GHWCFG4_NUM_DEV_MODE_CTRL_EP_MASK	(0xf << 16)
+-#define GHWCFG4_NUM_DEV_MODE_CTRL_EP_SHIFT	16
+-#define GHWCFG4_UTMI_PHY_DATA_WIDTH_MASK	(0x3 << 14)
+-#define GHWCFG4_UTMI_PHY_DATA_WIDTH_SHIFT	14
+-#define GHWCFG4_UTMI_PHY_DATA_WIDTH_8		0
+-#define GHWCFG4_UTMI_PHY_DATA_WIDTH_16		1
+-#define GHWCFG4_UTMI_PHY_DATA_WIDTH_8_OR_16	2
+-#define GHWCFG4_ACG_SUPPORTED			BIT(12)
+-#define GHWCFG4_IPG_ISOC_SUPPORTED		BIT(11)
+-#define GHWCFG4_SERVICE_INTERVAL_SUPPORTED      BIT(10)
+-#define GHWCFG4_XHIBER				BIT(7)
+-#define GHWCFG4_HIBER				BIT(6)
+-#define GHWCFG4_MIN_AHB_FREQ			BIT(5)
+-#define GHWCFG4_POWER_OPTIMIZ			BIT(4)
+-#define GHWCFG4_NUM_DEV_PERIO_IN_EP_MASK	(0xf << 0)
+-#define GHWCFG4_NUM_DEV_PERIO_IN_EP_SHIFT	0
+-
+-#define GLPMCFG				HSOTG_REG(0x0054)
+-#define GLPMCFG_INVSELHSIC		BIT(31)
+-#define GLPMCFG_HSICCON			BIT(30)
+-#define GLPMCFG_RSTRSLPSTS		BIT(29)
+-#define GLPMCFG_ENBESL			BIT(28)
+-#define GLPMCFG_LPM_RETRYCNT_STS_MASK	(0x7 << 25)
+-#define GLPMCFG_LPM_RETRYCNT_STS_SHIFT	25
+-#define GLPMCFG_SNDLPM			BIT(24)
+-#define GLPMCFG_RETRY_CNT_MASK		(0x7 << 21)
+-#define GLPMCFG_RETRY_CNT_SHIFT		21
+-#define GLPMCFG_LPM_REJECT_CTRL_CONTROL	BIT(21)
+-#define GLPMCFG_LPM_ACCEPT_CTRL_ISOC	BIT(22)
+-#define GLPMCFG_LPM_CHNL_INDX_MASK	(0xf << 17)
+-#define GLPMCFG_LPM_CHNL_INDX_SHIFT	17
+-#define GLPMCFG_L1RESUMEOK		BIT(16)
+-#define GLPMCFG_SLPSTS			BIT(15)
+-#define GLPMCFG_COREL1RES_MASK		(0x3 << 13)
+-#define GLPMCFG_COREL1RES_SHIFT		13
+-#define GLPMCFG_HIRD_THRES_MASK		(0x1f << 8)
+-#define GLPMCFG_HIRD_THRES_SHIFT	8
+-#define GLPMCFG_HIRD_THRES_EN		(0x10 << 8)
+-#define GLPMCFG_ENBLSLPM		BIT(7)
+-#define GLPMCFG_BREMOTEWAKE		BIT(6)
+-#define GLPMCFG_HIRD_MASK		(0xf << 2)
+-#define GLPMCFG_HIRD_SHIFT		2
+-#define GLPMCFG_APPL1RES		BIT(1)
+-#define GLPMCFG_LPMCAP			BIT(0)
+-
+-#define GPWRDN				HSOTG_REG(0x0058)
+-#define GPWRDN_MULT_VAL_ID_BC_MASK	(0x1f << 24)
+-#define GPWRDN_MULT_VAL_ID_BC_SHIFT	24
+-#define GPWRDN_ADP_INT			BIT(23)
+-#define GPWRDN_BSESSVLD			BIT(22)
+-#define GPWRDN_IDSTS			BIT(21)
+-#define GPWRDN_LINESTATE_MASK		(0x3 << 19)
+-#define GPWRDN_LINESTATE_SHIFT		19
+-#define GPWRDN_STS_CHGINT_MSK		BIT(18)
+-#define GPWRDN_STS_CHGINT		BIT(17)
+-#define GPWRDN_SRP_DET_MSK		BIT(16)
+-#define GPWRDN_SRP_DET			BIT(15)
+-#define GPWRDN_CONNECT_DET_MSK		BIT(14)
+-#define GPWRDN_CONNECT_DET		BIT(13)
+-#define GPWRDN_DISCONN_DET_MSK		BIT(12)
+-#define GPWRDN_DISCONN_DET		BIT(11)
+-#define GPWRDN_RST_DET_MSK		BIT(10)
+-#define GPWRDN_RST_DET			BIT(9)
+-#define GPWRDN_LNSTSCHG_MSK		BIT(8)
+-#define GPWRDN_LNSTSCHG			BIT(7)
+-#define GPWRDN_DIS_VBUS			BIT(6)
+-#define GPWRDN_PWRDNSWTCH		BIT(5)
+-#define GPWRDN_PWRDNRSTN		BIT(4)
+-#define GPWRDN_PWRDNCLMP		BIT(3)
+-#define GPWRDN_RESTORE			BIT(2)
+-#define GPWRDN_PMUACTV			BIT(1)
+-#define GPWRDN_PMUINTSEL		BIT(0)
+-
+-#define GDFIFOCFG			HSOTG_REG(0x005c)
+-#define GDFIFOCFG_EPINFOBASE_MASK	(0xffff << 16)
+-#define GDFIFOCFG_EPINFOBASE_SHIFT	16
+-#define GDFIFOCFG_GDFIFOCFG_MASK	(0xffff << 0)
+-#define GDFIFOCFG_GDFIFOCFG_SHIFT	0
+-
+-#define ADPCTL				HSOTG_REG(0x0060)
+-#define ADPCTL_AR_MASK			(0x3 << 27)
+-#define ADPCTL_AR_SHIFT			27
+-#define ADPCTL_ADP_TMOUT_INT_MSK	BIT(26)
+-#define ADPCTL_ADP_SNS_INT_MSK		BIT(25)
+-#define ADPCTL_ADP_PRB_INT_MSK		BIT(24)
+-#define ADPCTL_ADP_TMOUT_INT		BIT(23)
+-#define ADPCTL_ADP_SNS_INT		BIT(22)
+-#define ADPCTL_ADP_PRB_INT		BIT(21)
+-#define ADPCTL_ADPENA			BIT(20)
+-#define ADPCTL_ADPRES			BIT(19)
+-#define ADPCTL_ENASNS			BIT(18)
+-#define ADPCTL_ENAPRB			BIT(17)
+-#define ADPCTL_RTIM_MASK		(0x7ff << 6)
+-#define ADPCTL_RTIM_SHIFT		6
+-#define ADPCTL_PRB_PER_MASK		(0x3 << 4)
+-#define ADPCTL_PRB_PER_SHIFT		4
+-#define ADPCTL_PRB_DELTA_MASK		(0x3 << 2)
+-#define ADPCTL_PRB_DELTA_SHIFT		2
+-#define ADPCTL_PRB_DSCHRG_MASK		(0x3 << 0)
+-#define ADPCTL_PRB_DSCHRG_SHIFT		0
+-
+-#define GREFCLK				    HSOTG_REG(0x0064)
+-#define GREFCLK_REFCLKPER_MASK		    (0x1ffff << 15)
+-#define GREFCLK_REFCLKPER_SHIFT		    15
+-#define GREFCLK_REF_CLK_MODE		    BIT(14)
+-#define GREFCLK_SOF_CNT_WKUP_ALERT_MASK	    (0x3ff)
+-#define GREFCLK_SOF_CNT_WKUP_ALERT_SHIFT    0
+-
+-#define GINTMSK2			HSOTG_REG(0x0068)
+-#define GINTMSK2_WKUP_ALERT_INT_MSK	BIT(0)
+-
+-#define GINTSTS2			HSOTG_REG(0x006c)
+-#define GINTSTS2_WKUP_ALERT_INT		BIT(0)
+-
+-#define HPTXFSIZ			HSOTG_REG(0x100)
++#define GNPTXSTS             HSOTG_REG(0x02C)
++#define GNPTXSTS_NP_TXQ_TOP_MASK             (0x7f << 24)
++#define GNPTXSTS_NP_TXQ_TOP_SHIFT            24
++#define GNPTXSTS_NP_TXQ_SPC_AVAIL_MASK       (0xff << 16)
++#define GNPTXSTS_NP_TXQ_SPC_AVAIL_SHIFT      16
++#define GNPTXSTS_NP_TXQ_SPC_AVAIL_GET(_v)    (((_v) >> 16) & 0xff)
++#define GNPTXSTS_NP_TXF_SPC_AVAIL_MASK       (0xffff << 0)
++#define GNPTXSTS_NP_TXF_SPC_AVAIL_SHIFT      0
++#define GNPTXSTS_NP_TXF_SPC_AVAIL_GET(_v)    (((_v) >> 0) & 0xffff)
++
++#define GI2CCTL                     HSOTG_REG(0x0030)
++#define GI2CCTL_BSYDNE              BIT(31)
++#define GI2CCTL_RW                  BIT(30)
++#define GI2CCTL_I2CDATSE0           BIT(28)
++#define GI2CCTL_I2CDEVADDR_MASK     (0x3 << 26)
++#define GI2CCTL_I2CDEVADDR_SHIFT    26
++#define GI2CCTL_I2CSUSPCTL          BIT(25)
++#define GI2CCTL_ACK                 BIT(24)
++#define GI2CCTL_I2CEN               BIT(23)
++#define GI2CCTL_ADDR_MASK           (0x7f << 16)
++#define GI2CCTL_ADDR_SHIFT          16
++#define GI2CCTL_REGADDR_MASK        (0xff << 8)
++#define GI2CCTL_REGADDR_SHIFT       8
++#define GI2CCTL_RWDATA_MASK         (0xff << 0)
++#define GI2CCTL_RWDATA_SHIFT        0
++
++#define GPVNDCTL               HSOTG_REG(0x0034)
++#define GGPIO                  HSOTG_REG(0x0038)
++#define GGPIO_STM32_OTG_GCCFG_PWRDWN    BIT(16)
++
++#define GUID                   HSOTG_REG(0x003c)
++#define GSNPSID                HSOTG_REG(0x0040)
++#define GHWCFG1                HSOTG_REG(0x0044)
++#define GSNPSID_ID_MASK        GENMASK(31, 16)
++
++#define GHWCFG2                HSOTG_REG(0x0048)
++#define GHWCFG2_OTG_ENABLE_IC_USB             BIT(31)
++#define GHWCFG2_DEV_TOKEN_Q_DEPTH_MASK        (0x1f << 26)
++#define GHWCFG2_DEV_TOKEN_Q_DEPTH_SHIFT       26
++#define GHWCFG2_HOST_PERIO_TX_Q_DEPTH_MASK    (0x3 << 24)
++#define GHWCFG2_HOST_PERIO_TX_Q_DEPTH_SHIFT   24
++#define GHWCFG2_NONPERIO_TX_Q_DEPTH_MASK      (0x3 << 22)
++#define GHWCFG2_NONPERIO_TX_Q_DEPTH_SHIFT     22
++#define GHWCFG2_MULTI_PROC_INT                BIT(20)
++#define GHWCFG2_DYNAMIC_FIFO                  BIT(19)
++#define GHWCFG2_PERIO_EP_SUPPORTED            BIT(18)
++#define GHWCFG2_NUM_HOST_CHAN_MASK            (0xf << 14)
++#define GHWCFG2_NUM_HOST_CHAN_SHIFT           14
++#define GHWCFG2_NUM_DEV_EP_MASK               (0xf << 10)
++#define GHWCFG2_NUM_DEV_EP_SHIFT              10
++#define GHWCFG2_FS_PHY_TYPE_MASK              (0x3 << 8)
++#define GHWCFG2_FS_PHY_TYPE_SHIFT             8
++#define GHWCFG2_FS_PHY_TYPE_NOT_SUPPORTED     0
++#define GHWCFG2_FS_PHY_TYPE_DEDICATED         1
++#define GHWCFG2_FS_PHY_TYPE_SHARED_UTMI       2
++#define GHWCFG2_FS_PHY_TYPE_SHARED_ULPI       3
++#define GHWCFG2_HS_PHY_TYPE_MASK              (0x3 << 6)
++#define GHWCFG2_HS_PHY_TYPE_SHIFT             6
++#define GHWCFG2_HS_PHY_TYPE_NOT_SUPPORTED     0
++#define GHWCFG2_HS_PHY_TYPE_UTMI              1
++#define GHWCFG2_HS_PHY_TYPE_ULPI              2
++#define GHWCFG2_HS_PHY_TYPE_UTMI_ULPI         3
++#define GHWCFG2_POINT2POINT                      BIT(5)
++#define GHWCFG2_ARCHITECTURE_MASK                (0x3 << 3)
++#define GHWCFG2_ARCHITECTURE_SHIFT               3
++#define GHWCFG2_SLAVE_ONLY_ARCH                  0
++#define GHWCFG2_EXT_DMA_ARCH                     1
++#define GHWCFG2_INT_DMA_ARCH                     2
++#define GHWCFG2_OP_MODE_MASK                     (0x7 << 0)
++#define GHWCFG2_OP_MODE_SHIFT                    0
++#define GHWCFG2_OP_MODE_HNP_SRP_CAPABLE          0
++#define GHWCFG2_OP_MODE_SRP_ONLY_CAPABLE         1
++#define GHWCFG2_OP_MODE_NO_HNP_SRP_CAPABLE       2
++#define GHWCFG2_OP_MODE_SRP_CAPABLE_DEVICE       3
++#define GHWCFG2_OP_MODE_NO_SRP_CAPABLE_DEVICE    4
++#define GHWCFG2_OP_MODE_SRP_CAPABLE_HOST         5
++#define GHWCFG2_OP_MODE_NO_SRP_CAPABLE_HOST      6
++#define GHWCFG2_OP_MODE_UNDEFINED                7
++
++#define GHWCFG3                           HSOTG_REG(0x004c)
++#define GHWCFG3_DFIFO_DEPTH_MASK          (0xffff << 16)
++#define GHWCFG3_DFIFO_DEPTH_SHIFT         16
++#define GHWCFG3_OTG_LPM_EN                BIT(15)
++#define GHWCFG3_BC_SUPPORT                BIT(14)
++#define GHWCFG3_OTG_ENABLE_HSIC           BIT(13)
++#define GHWCFG3_ADP_SUPP                  BIT(12)
++#define GHWCFG3_SYNCH_RESET_TYPE          BIT(11)
++#define GHWCFG3_OPTIONAL_FEATURES         BIT(10)
++#define GHWCFG3_VENDOR_CTRL_IF            BIT(9)
++#define GHWCFG3_I2C                       BIT(8)
++#define GHWCFG3_OTG_FUNC                  BIT(7)
++#define GHWCFG3_PACKET_SIZE_CNTR_WIDTH_MASK    (0x7 << 4)
++#define GHWCFG3_PACKET_SIZE_CNTR_WIDTH_SHIFT   4
++#define GHWCFG3_XFER_SIZE_CNTR_WIDTH_MASK      (0xf << 0)
++#define GHWCFG3_XFER_SIZE_CNTR_WIDTH_SHIFT     0
++
++#define GHWCFG4                              HSOTG_REG(0x0050)
++#define GHWCFG4_DESC_DMA_DYN                 BIT(31)
++#define GHWCFG4_DESC_DMA                     BIT(30)
++#define GHWCFG4_NUM_IN_EPS_MASK              (0xf << 26)
++#define GHWCFG4_NUM_IN_EPS_SHIFT             26
++#define GHWCFG4_DED_FIFO_EN                  BIT(25)
++#define GHWCFG4_DED_FIFO_SHIFT               25
++#define GHWCFG4_SESSION_END_FILT_EN          BIT(24)
++#define GHWCFG4_B_VALID_FILT_EN              BIT(23)
++#define GHWCFG4_A_VALID_FILT_EN              BIT(22)
++#define GHWCFG4_VBUS_VALID_FILT_EN           BIT(21)
++#define GHWCFG4_IDDIG_FILT_EN                BIT(20)
++#define GHWCFG4_NUM_DEV_MODE_CTRL_EP_MASK    (0xf << 16)
++#define GHWCFG4_NUM_DEV_MODE_CTRL_EP_SHIFT   16
++#define GHWCFG4_UTMI_PHY_DATA_WIDTH_MASK     (0x3 << 14)
++#define GHWCFG4_UTMI_PHY_DATA_WIDTH_SHIFT    14
++#define GHWCFG4_UTMI_PHY_DATA_WIDTH_8        0
++#define GHWCFG4_UTMI_PHY_DATA_WIDTH_16       1
++#define GHWCFG4_UTMI_PHY_DATA_WIDTH_8_OR_16  2
++#define GHWCFG4_ACG_SUPPORTED                BIT(12)
++#define GHWCFG4_IPG_ISOC_SUPPORTED           BIT(11)
++#define GHWCFG4_SERVICE_INTERVAL_SUPPORTED   BIT(10)
++#define GHWCFG4_XHIBER                       BIT(7)
++#define GHWCFG4_HIBER                        BIT(6)
++#define GHWCFG4_MIN_AHB_FREQ                 BIT(5)
++#define GHWCFG4_POWER_OPTIMIZ                BIT(4)
++#define GHWCFG4_NUM_DEV_PERIO_IN_EP_MASK     (0xf << 0)
++#define GHWCFG4_NUM_DEV_PERIO_IN_EP_SHIFT    0
++
++#define GLPMCFG                           HSOTG_REG(0x0054)
++#define GLPMCFG_INVSELHSIC                BIT(31)
++#define GLPMCFG_HSICCON                   BIT(30)
++#define GLPMCFG_RSTRSLPSTS                BIT(29)
++#define GLPMCFG_ENBESL                    BIT(28)
++#define GLPMCFG_LPM_RETRYCNT_STS_MASK     (0x7 << 25)
++#define GLPMCFG_LPM_RETRYCNT_STS_SHIFT    25
++#define GLPMCFG_SNDLPM                    BIT(24)
++#define GLPMCFG_RETRY_CNT_MASK            (0x7 << 21)
++#define GLPMCFG_RETRY_CNT_SHIFT           21
++#define GLPMCFG_LPM_REJECT_CTRL_CONTROL   BIT(21)
++#define GLPMCFG_LPM_ACCEPT_CTRL_ISOC   BIT(22)
++#define GLPMCFG_LPM_CHNL_INDX_MASK     (0xf << 17)
++#define GLPMCFG_LPM_CHNL_INDX_SHIFT    17
++#define GLPMCFG_L1RESUMEOK             BIT(16)
++#define GLPMCFG_SLPSTS                 BIT(15)
++#define GLPMCFG_COREL1RES_MASK         (0x3 << 13)
++#define GLPMCFG_COREL1RES_SHIFT        13
++#define GLPMCFG_HIRD_THRES_MASK        (0x1f << 8)
++#define GLPMCFG_HIRD_THRES_SHIFT       8
++#define GLPMCFG_HIRD_THRES_EN          (0x10 << 8)
++#define GLPMCFG_ENBLSLPM               BIT(7)
++#define GLPMCFG_BREMOTEWAKE            BIT(6)
++#define GLPMCFG_HIRD_MASK              (0xf << 2)
++#define GLPMCFG_HIRD_SHIFT             2
++#define GLPMCFG_APPL1RES               BIT(1)
++#define GLPMCFG_LPMCAP                 BIT(0)
++
++#define GPWRDN                      HSOTG_REG(0x0058)
++#define GPWRDN_MULT_VAL_ID_BC_MASK    (0x1f << 24)
++#define GPWRDN_MULT_VAL_ID_BC_SHIFT   24
++#define GPWRDN_ADP_INT              BIT(23)
++#define GPWRDN_BSESSVLD             BIT(22)
++#define GPWRDN_IDSTS                BIT(21)
++#define GPWRDN_LINESTATE_MASK       (0x3 << 19)
++#define GPWRDN_LINESTATE_SHIFT      19
++#define GPWRDN_STS_CHGINT_MSK       BIT(18)
++#define GPWRDN_STS_CHGINT           BIT(17)
++#define GPWRDN_SRP_DET_MSK          BIT(16)
++#define GPWRDN_SRP_DET              BIT(15)
++#define GPWRDN_CONNECT_DET_MSK      BIT(14)
++#define GPWRDN_CONNECT_DET          BIT(13)
++#define GPWRDN_DISCONN_DET_MSK      BIT(12)
++#define GPWRDN_DISCONN_DET          BIT(11)
++#define GPWRDN_RST_DET_MSK          BIT(10)
++#define GPWRDN_RST_DET              BIT(9)
++#define GPWRDN_LNSTSCHG_MSK         BIT(8)
++#define GPWRDN_LNSTSCHG             BIT(7)
++#define GPWRDN_DIS_VBUS             BIT(6)
++#define GPWRDN_PWRDNSWTCH           BIT(5)
++#define GPWRDN_PWRDNRSTN            BIT(4)
++#define GPWRDN_PWRDNCLMP            BIT(3)
++#define GPWRDN_RESTORE              BIT(2)
++#define GPWRDN_PMUACTV              BIT(1)
++#define GPWRDN_PMUINTSEL            BIT(0)
++
++#define GDFIFOCFG                   HSOTG_REG(0x005c)
++#define GDFIFOCFG_EPINFOBASE_MASK   (0xffff << 16)
++#define GDFIFOCFG_EPINFOBASE_SHIFT  16
++#define GDFIFOCFG_GDFIFOCFG_MASK    (0xffff << 0)
++#define GDFIFOCFG_GDFIFOCFG_SHIFT   0
++
++#define ADPCTL                      HSOTG_REG(0x0060)
++#define ADPCTL_AR_MASK              (0x3 << 27)
++#define ADPCTL_AR_SHIFT             27
++#define ADPCTL_ADP_TMOUT_INT_MSK    BIT(26)
++#define ADPCTL_ADP_SNS_INT_MSK      BIT(25)
++#define ADPCTL_ADP_PRB_INT_MSK      BIT(24)
++#define ADPCTL_ADP_TMOUT_INT        BIT(23)
++#define ADPCTL_ADP_SNS_INT          BIT(22)
++#define ADPCTL_ADP_PRB_INT          BIT(21)
++#define ADPCTL_ADPENA               BIT(20)
++#define ADPCTL_ADPRES               BIT(19)
++#define ADPCTL_ENASNS               BIT(18)
++#define ADPCTL_ENAPRB               BIT(17)
++#define ADPCTL_RTIM_MASK            (0x7ff << 6)
++#define ADPCTL_RTIM_SHIFT           6
++#define ADPCTL_PRB_PER_MASK         (0x3 << 4)
++#define ADPCTL_PRB_PER_SHIFT        4
++#define ADPCTL_PRB_DELTA_MASK       (0x3 << 2)
++#define ADPCTL_PRB_DELTA_SHIFT      2
++#define ADPCTL_PRB_DSCHRG_MASK      (0x3 << 0)
++#define ADPCTL_PRB_DSCHRG_SHIFT     0
++
++#define GREFCLK                            HSOTG_REG(0x0064)
++#define GREFCLK_REFCLKPER_MASK             (0x1ffff << 15)
++#define GREFCLK_REFCLKPER_SHIFT            15
++#define GREFCLK_REF_CLK_MODE               BIT(14)
++#define GREFCLK_SOF_CNT_WKUP_ALERT_MASK    (0x3ff)
++#define GREFCLK_SOF_CNT_WKUP_ALERT_SHIFT   0
++
++#define GINTMSK2            HSOTG_REG(0x0068)
++#define GINTMSK2_WKUP_ALERT_INT_MSK    BIT(0)
++
++#define GINTSTS2            HSOTG_REG(0x006c)
++#define GINTSTS2_WKUP_ALERT_INT        BIT(0)
++
++#define HPTXFSIZ            HSOTG_REG(0x100)
+ /* Use FIFOSIZE_* constants to access this register */
+ 
+-#define DPTXFSIZN(_a)			HSOTG_REG(0x104 + (((_a) - 1) * 4))
++#define DPTXFSIZN(_a)            HSOTG_REG(0x104 + (((_a) - 1) * 4))
+ /* Use FIFOSIZE_* constants to access this register */
+ 
+ /* These apply to the GNPTXFSIZ, HPTXFSIZ and DPTXFSIZN registers */
+-#define FIFOSIZE_DEPTH_MASK		(0xffff << 16)
+-#define FIFOSIZE_DEPTH_SHIFT		16
+-#define FIFOSIZE_STARTADDR_MASK		(0xffff << 0)
+-#define FIFOSIZE_STARTADDR_SHIFT	0
+-#define FIFOSIZE_DEPTH_GET(_x)		(((_x) >> 16) & 0xffff)
++#define FIFOSIZE_DEPTH_MASK         (0xffff << 16)
++#define FIFOSIZE_DEPTH_SHIFT        16
++#define FIFOSIZE_STARTADDR_MASK     (0xffff << 0)
++#define FIFOSIZE_STARTADDR_SHIFT    0
++#define FIFOSIZE_DEPTH_GET(_x)      (((_x) >> 16) & 0xffff)
+ 
+ /* Device mode registers */
+ 
+-#define DCFG				HSOTG_REG(0x800)
+-#define DCFG_DESCDMA_EN			BIT(23)
+-#define DCFG_EPMISCNT_MASK		(0x1f << 18)
+-#define DCFG_EPMISCNT_SHIFT		18
+-#define DCFG_EPMISCNT_LIMIT		0x1f
+-#define DCFG_EPMISCNT(_x)		((_x) << 18)
+-#define DCFG_IPG_ISOC_SUPPORDED		BIT(17)
+-#define DCFG_PERFRINT_MASK		(0x3 << 11)
+-#define DCFG_PERFRINT_SHIFT		11
+-#define DCFG_PERFRINT_LIMIT		0x3
+-#define DCFG_PERFRINT(_x)		((_x) << 11)
+-#define DCFG_DEVADDR_MASK		(0x7f << 4)
+-#define DCFG_DEVADDR_SHIFT		4
+-#define DCFG_DEVADDR_LIMIT		0x7f
+-#define DCFG_DEVADDR(_x)		((_x) << 4)
+-#define DCFG_NZ_STS_OUT_HSHK		BIT(2)
+-#define DCFG_DEVSPD_MASK		(0x3 << 0)
+-#define DCFG_DEVSPD_SHIFT		0
+-#define DCFG_DEVSPD_HS			0
+-#define DCFG_DEVSPD_FS			1
+-#define DCFG_DEVSPD_LS			2
+-#define DCFG_DEVSPD_FS48		3
+-
+-#define DCTL				HSOTG_REG(0x804)
++#define DCFG                     HSOTG_REG(0x800)
++#define DCFG_DESCDMA_EN          BIT(23)
++#define DCFG_EPMISCNT_MASK       (0x1f << 18)
++#define DCFG_EPMISCNT_SHIFT      18
++#define DCFG_EPMISCNT_LIMIT      0x1f
++#define DCFG_EPMISCNT(_x)        ((_x) << 18)
++#define DCFG_IPG_ISOC_SUPPORDED  BIT(17)
++#define DCFG_PERFRINT_MASK       (0x3 << 11)
++#define DCFG_PERFRINT_SHIFT      11
++#define DCFG_PERFRINT_LIMIT      0x3
++#define DCFG_PERFRINT(_x)        ((_x) << 11)
++#define DCFG_DEVADDR_MASK        (0x7f << 4)
++#define DCFG_DEVADDR_SHIFT       4
++#define DCFG_DEVADDR_LIMIT       0x7f
++#define DCFG_DEVADDR(_x)         ((_x) << 4)
++#define DCFG_NZ_STS_OUT_HSHK     BIT(2)
++#define DCFG_DEVSPD_MASK         (0x3 << 0)
++#define DCFG_DEVSPD_SHIFT        0
++#define DCFG_DEVSPD_HS           0
++#define DCFG_DEVSPD_FS           1
++#define DCFG_DEVSPD_LS           2
++#define DCFG_DEVSPD_FS48         3
++
++#define DCTL                     HSOTG_REG(0x804)
+ #define DCTL_SERVICE_INTERVAL_SUPPORTED BIT(19)
+-#define DCTL_PWRONPRGDONE		BIT(11)
+-#define DCTL_CGOUTNAK			BIT(10)
+-#define DCTL_SGOUTNAK			BIT(9)
+-#define DCTL_CGNPINNAK			BIT(8)
+-#define DCTL_SGNPINNAK			BIT(7)
+-#define DCTL_TSTCTL_MASK		(0x7 << 4)
+-#define DCTL_TSTCTL_SHIFT		4
+-#define DCTL_GOUTNAKSTS			BIT(3)
+-#define DCTL_GNPINNAKSTS		BIT(2)
+-#define DCTL_SFTDISCON			BIT(1)
+-#define DCTL_RMTWKUPSIG			BIT(0)
+-
+-#define DSTS				HSOTG_REG(0x808)
+-#define DSTS_SOFFN_MASK			(0x3fff << 8)
+-#define DSTS_SOFFN_SHIFT		8
+-#define DSTS_SOFFN_LIMIT		0x3fff
+-#define DSTS_SOFFN(_x)			((_x) << 8)
+-#define DSTS_ERRATICERR			BIT(3)
+-#define DSTS_ENUMSPD_MASK		(0x3 << 1)
+-#define DSTS_ENUMSPD_SHIFT		1
+-#define DSTS_ENUMSPD_HS			0
+-#define DSTS_ENUMSPD_FS			1
+-#define DSTS_ENUMSPD_LS			2
+-#define DSTS_ENUMSPD_FS48		3
+-#define DSTS_SUSPSTS			BIT(0)
+-
+-#define DIEPMSK				HSOTG_REG(0x810)
+-#define DIEPMSK_NAKMSK			BIT(13)
+-#define DIEPMSK_BNAININTRMSK		BIT(9)
+-#define DIEPMSK_TXFIFOUNDRNMSK		BIT(8)
+-#define DIEPMSK_TXFIFOEMPTY		BIT(7)
+-#define DIEPMSK_INEPNAKEFFMSK		BIT(6)
+-#define DIEPMSK_INTKNEPMISMSK		BIT(5)
+-#define DIEPMSK_INTKNTXFEMPMSK		BIT(4)
+-#define DIEPMSK_TIMEOUTMSK		BIT(3)
+-#define DIEPMSK_AHBERRMSK		BIT(2)
+-#define DIEPMSK_EPDISBLDMSK		BIT(1)
+-#define DIEPMSK_XFERCOMPLMSK		BIT(0)
+-
+-#define DOEPMSK				HSOTG_REG(0x814)
+-#define DOEPMSK_BNAMSK			BIT(9)
+-#define DOEPMSK_BACK2BACKSETUP		BIT(6)
+-#define DOEPMSK_STSPHSERCVDMSK		BIT(5)
+-#define DOEPMSK_OUTTKNEPDISMSK		BIT(4)
+-#define DOEPMSK_SETUPMSK		BIT(3)
+-#define DOEPMSK_AHBERRMSK		BIT(2)
+-#define DOEPMSK_EPDISBLDMSK		BIT(1)
+-#define DOEPMSK_XFERCOMPLMSK		BIT(0)
+-
+-#define DAINT				HSOTG_REG(0x818)
+-#define DAINTMSK			HSOTG_REG(0x81C)
+-#define DAINT_OUTEP_SHIFT		16
+-#define DAINT_OUTEP(_x)			(1 << ((_x) + 16))
+-#define DAINT_INEP(_x)			(1 << (_x))
+-
+-#define DTKNQR1				HSOTG_REG(0x820)
+-#define DTKNQR2				HSOTG_REG(0x824)
+-#define DTKNQR3				HSOTG_REG(0x830)
+-#define DTKNQR4				HSOTG_REG(0x834)
+-#define DIEPEMPMSK			HSOTG_REG(0x834)
+-
+-#define DVBUSDIS			HSOTG_REG(0x828)
+-#define DVBUSPULSE			HSOTG_REG(0x82C)
+-
+-#define DIEPCTL0			HSOTG_REG(0x900)
+-#define DIEPCTL(_a)			HSOTG_REG(0x900 + ((_a) * 0x20))
+-
+-#define DOEPCTL0			HSOTG_REG(0xB00)
+-#define DOEPCTL(_a)			HSOTG_REG(0xB00 + ((_a) * 0x20))
++#define DCTL_PWRONPRGDONE        BIT(11)
++#define DCTL_CGOUTNAK            BIT(10)
++#define DCTL_SGOUTNAK            BIT(9)
++#define DCTL_CGNPINNAK           BIT(8)
++#define DCTL_SGNPINNAK           BIT(7)
++#define DCTL_TSTCTL_MASK         (0x7 << 4)
++#define DCTL_TSTCTL_SHIFT        4
++#define DCTL_GOUTNAKSTS          BIT(3)
++#define DCTL_GNPINNAKSTS         BIT(2)
++#define DCTL_SFTDISCON           BIT(1)
++#define DCTL_RMTWKUPSIG          BIT(0)
++
++#define DSTS                     HSOTG_REG(0x808)
++#define DSTS_SOFFN_MASK          (0x3fff << 8)
++#define DSTS_SOFFN_SHIFT         8
++#define DSTS_SOFFN_LIMIT         0x3fff
++#define DSTS_SOFFN(_x)           ((_x) << 8)
++#define DSTS_ERRATICERR          BIT(3)
++#define DSTS_ENUMSPD_MASK        (0x3 << 1)
++#define DSTS_ENUMSPD_SHIFT       1
++#define DSTS_ENUMSPD_HS          0
++#define DSTS_ENUMSPD_FS          1
++#define DSTS_ENUMSPD_LS          2
++#define DSTS_ENUMSPD_FS48        3
++#define DSTS_SUSPSTS             BIT(0)
++
++#define DIEPMSK                       HSOTG_REG(0x810)
++#define DIEPMSK_NAKMSK                BIT(13)
++#define DIEPMSK_BNAININTRMSK          BIT(9)
++#define DIEPMSK_TXFIFOUNDRNMSK        BIT(8)
++#define DIEPMSK_TXFIFOEMPTY           BIT(7)
++#define DIEPMSK_INEPNAKEFFMSK         BIT(6)
++#define DIEPMSK_INTKNEPMISMSK         BIT(5)
++#define DIEPMSK_INTKNTXFEMPMSK        BIT(4)
++#define DIEPMSK_TIMEOUTMSK            BIT(3)
++#define DIEPMSK_AHBERRMSK             BIT(2)
++#define DIEPMSK_EPDISBLDMSK           BIT(1)
++#define DIEPMSK_XFERCOMPLMSK          BIT(0)
++
++#define DOEPMSK                       HSOTG_REG(0x814)
++#define DOEPMSK_BNAMSK                BIT(9)
++#define DOEPMSK_BACK2BACKSETUP        BIT(6)
++#define DOEPMSK_STSPHSERCVDMSK        BIT(5)
++#define DOEPMSK_OUTTKNEPDISMSK        BIT(4)
++#define DOEPMSK_SETUPMSK              BIT(3)
++#define DOEPMSK_AHBERRMSK             BIT(2)
++#define DOEPMSK_EPDISBLDMSK           BIT(1)
++#define DOEPMSK_XFERCOMPLMSK          BIT(0)
++
++#define DAINT                  HSOTG_REG(0x818)
++#define DAINTMSK               HSOTG_REG(0x81C)
++#define DAINT_OUTEP_SHIFT      16
++#define DAINT_OUTEP(_x)        (1 << ((_x) + 16))
++#define DAINT_INEP(_x)         (1 << (_x))
++
++#define DTKNQR1                HSOTG_REG(0x820)
++#define DTKNQR2                HSOTG_REG(0x824)
++#define DTKNQR3                HSOTG_REG(0x830)
++#define DTKNQR4                HSOTG_REG(0x834)
++#define DIEPEMPMSK             HSOTG_REG(0x834)
++
++#define DVBUSDIS               HSOTG_REG(0x828)
++#define DVBUSPULSE             HSOTG_REG(0x82C)
++
++#define DIEPCTL0               HSOTG_REG(0x900)
++#define DIEPCTL(_a)            HSOTG_REG(0x900 + ((_a) * 0x20))
++
++#define DOEPCTL0               HSOTG_REG(0xB00)
++#define DOEPCTL(_a)            HSOTG_REG(0xB00 + ((_a) * 0x20))
+ 
+ /* EP0 specialness:
+  * bits[29..28] - reserved (no SetD0PID, SetD1PID)
+  * bits[25..22] - should always be zero, this isn't a periodic endpoint
+  * bits[10..0]  - MPS setting different for EP0
+  */
+-#define D0EPCTL_MPS_MASK		(0x3 << 0)
+-#define D0EPCTL_MPS_SHIFT		0
+-#define D0EPCTL_MPS_64			0
+-#define D0EPCTL_MPS_32			1
+-#define D0EPCTL_MPS_16			2
+-#define D0EPCTL_MPS_8			3
+-
+-#define DXEPCTL_EPENA			BIT(31)
+-#define DXEPCTL_EPDIS			BIT(30)
+-#define DXEPCTL_SETD1PID		BIT(29)
+-#define DXEPCTL_SETODDFR		BIT(29)
+-#define DXEPCTL_SETD0PID		BIT(28)
+-#define DXEPCTL_SETEVENFR		BIT(28)
+-#define DXEPCTL_SNAK			BIT(27)
+-#define DXEPCTL_CNAK			BIT(26)
+-#define DXEPCTL_TXFNUM_MASK		(0xf << 22)
+-#define DXEPCTL_TXFNUM_SHIFT		22
+-#define DXEPCTL_TXFNUM_LIMIT		0xf
+-#define DXEPCTL_TXFNUM(_x)		((_x) << 22)
+-#define DXEPCTL_STALL			BIT(21)
+-#define DXEPCTL_SNP			BIT(20)
+-#define DXEPCTL_EPTYPE_MASK		(0x3 << 18)
+-#define DXEPCTL_EPTYPE_CONTROL		(0x0 << 18)
+-#define DXEPCTL_EPTYPE_ISO		(0x1 << 18)
+-#define DXEPCTL_EPTYPE_BULK		(0x2 << 18)
+-#define DXEPCTL_EPTYPE_INTERRUPT	(0x3 << 18)
+-
+-#define DXEPCTL_NAKSTS			BIT(17)
+-#define DXEPCTL_DPID			BIT(16)
+-#define DXEPCTL_EOFRNUM			BIT(16)
+-#define DXEPCTL_USBACTEP		BIT(15)
+-#define DXEPCTL_NEXTEP_MASK		(0xf << 11)
+-#define DXEPCTL_NEXTEP_SHIFT		11
+-#define DXEPCTL_NEXTEP_LIMIT		0xf
+-#define DXEPCTL_NEXTEP(_x)		((_x) << 11)
+-#define DXEPCTL_MPS_MASK		(0x7ff << 0)
+-#define DXEPCTL_MPS_SHIFT		0
+-#define DXEPCTL_MPS_LIMIT		0x7ff
+-#define DXEPCTL_MPS(_x)			((_x) << 0)
+-
+-#define DIEPINT(_a)			HSOTG_REG(0x908 + ((_a) * 0x20))
+-#define DOEPINT(_a)			HSOTG_REG(0xB08 + ((_a) * 0x20))
+-#define DXEPINT_SETUP_RCVD		BIT(15)
+-#define DXEPINT_NYETINTRPT		BIT(14)
+-#define DXEPINT_NAKINTRPT		BIT(13)
+-#define DXEPINT_BBLEERRINTRPT		BIT(12)
+-#define DXEPINT_PKTDRPSTS		BIT(11)
+-#define DXEPINT_BNAINTR			BIT(9)
+-#define DXEPINT_TXFIFOUNDRN		BIT(8)
+-#define DXEPINT_OUTPKTERR		BIT(8)
+-#define DXEPINT_TXFEMP			BIT(7)
+-#define DXEPINT_INEPNAKEFF		BIT(6)
+-#define DXEPINT_BACK2BACKSETUP		BIT(6)
+-#define DXEPINT_INTKNEPMIS		BIT(5)
+-#define DXEPINT_STSPHSERCVD		BIT(5)
+-#define DXEPINT_INTKNTXFEMP		BIT(4)
+-#define DXEPINT_OUTTKNEPDIS		BIT(4)
+-#define DXEPINT_TIMEOUT			BIT(3)
+-#define DXEPINT_SETUP			BIT(3)
+-#define DXEPINT_AHBERR			BIT(2)
+-#define DXEPINT_EPDISBLD		BIT(1)
+-#define DXEPINT_XFERCOMPL		BIT(0)
+-
+-#define DIEPTSIZ0			HSOTG_REG(0x910)
+-#define DIEPTSIZ0_PKTCNT_MASK		(0x3 << 19)
+-#define DIEPTSIZ0_PKTCNT_SHIFT		19
+-#define DIEPTSIZ0_PKTCNT_LIMIT		0x3
+-#define DIEPTSIZ0_PKTCNT(_x)		((_x) << 19)
+-#define DIEPTSIZ0_XFERSIZE_MASK		(0x7f << 0)
+-#define DIEPTSIZ0_XFERSIZE_SHIFT	0
+-#define DIEPTSIZ0_XFERSIZE_LIMIT	0x7f
+-#define DIEPTSIZ0_XFERSIZE(_x)		((_x) << 0)
+-
+-#define DOEPTSIZ0			HSOTG_REG(0xB10)
+-#define DOEPTSIZ0_SUPCNT_MASK		(0x3 << 29)
+-#define DOEPTSIZ0_SUPCNT_SHIFT		29
+-#define DOEPTSIZ0_SUPCNT_LIMIT		0x3
+-#define DOEPTSIZ0_SUPCNT(_x)		((_x) << 29)
+-#define DOEPTSIZ0_PKTCNT		BIT(19)
+-#define DOEPTSIZ0_XFERSIZE_MASK		(0x7f << 0)
+-#define DOEPTSIZ0_XFERSIZE_SHIFT	0
+-
+-#define DIEPTSIZ(_a)			HSOTG_REG(0x910 + ((_a) * 0x20))
+-#define DOEPTSIZ(_a)			HSOTG_REG(0xB10 + ((_a) * 0x20))
+-#define DXEPTSIZ_MC_MASK		(0x3 << 29)
+-#define DXEPTSIZ_MC_SHIFT		29
+-#define DXEPTSIZ_MC_LIMIT		0x3
+-#define DXEPTSIZ_MC(_x)			((_x) << 29)
+-#define DXEPTSIZ_PKTCNT_MASK		(0x3ff << 19)
+-#define DXEPTSIZ_PKTCNT_SHIFT		19
+-#define DXEPTSIZ_PKTCNT_LIMIT		0x3ff
+-#define DXEPTSIZ_PKTCNT_GET(_v)		(((_v) >> 19) & 0x3ff)
+-#define DXEPTSIZ_PKTCNT(_x)		((_x) << 19)
+-#define DXEPTSIZ_XFERSIZE_MASK		(0x7ffff << 0)
+-#define DXEPTSIZ_XFERSIZE_SHIFT		0
+-#define DXEPTSIZ_XFERSIZE_LIMIT		0x7ffff
+-#define DXEPTSIZ_XFERSIZE_GET(_v)	(((_v) >> 0) & 0x7ffff)
+-#define DXEPTSIZ_XFERSIZE(_x)		((_x) << 0)
+-
+-#define DIEPDMA(_a)			HSOTG_REG(0x914 + ((_a) * 0x20))
+-#define DOEPDMA(_a)			HSOTG_REG(0xB14 + ((_a) * 0x20))
+-
+-#define DTXFSTS(_a)			HSOTG_REG(0x918 + ((_a) * 0x20))
+-
+-#define PCGCTL				HSOTG_REG(0x0e00)
+-#define PCGCTL_IF_DEV_MODE		BIT(31)
+-#define PCGCTL_P2HD_PRT_SPD_MASK	(0x3 << 29)
+-#define PCGCTL_P2HD_PRT_SPD_SHIFT	29
+-#define PCGCTL_P2HD_DEV_ENUM_SPD_MASK	(0x3 << 27)
+-#define PCGCTL_P2HD_DEV_ENUM_SPD_SHIFT	27
+-#define PCGCTL_MAC_DEV_ADDR_MASK	(0x7f << 20)
+-#define PCGCTL_MAC_DEV_ADDR_SHIFT	20
+-#define PCGCTL_MAX_TERMSEL		BIT(19)
+-#define PCGCTL_MAX_XCVRSELECT_MASK	(0x3 << 17)
+-#define PCGCTL_MAX_XCVRSELECT_SHIFT	17
+-#define PCGCTL_PORT_POWER		BIT(16)
+-#define PCGCTL_PRT_CLK_SEL_MASK		(0x3 << 14)
+-#define PCGCTL_PRT_CLK_SEL_SHIFT	14
+-#define PCGCTL_ESS_REG_RESTORED		BIT(13)
+-#define PCGCTL_EXTND_HIBER_SWITCH	BIT(12)
+-#define PCGCTL_EXTND_HIBER_PWRCLMP	BIT(11)
+-#define PCGCTL_ENBL_EXTND_HIBER		BIT(10)
+-#define PCGCTL_RESTOREMODE		BIT(9)
+-#define PCGCTL_RESETAFTSUSP		BIT(8)
+-#define PCGCTL_DEEP_SLEEP		BIT(7)
+-#define PCGCTL_PHY_IN_SLEEP		BIT(6)
+-#define PCGCTL_ENBL_SLEEP_GATING	BIT(5)
+-#define PCGCTL_RSTPDWNMODULE		BIT(3)
+-#define PCGCTL_PWRCLMP			BIT(2)
+-#define PCGCTL_GATEHCLK			BIT(1)
+-#define PCGCTL_STOPPCLK			BIT(0)
+-
+-#define PCGCCTL1                        HSOTG_REG(0xe04)
+-#define PCGCCTL1_TIMER                  (0x3 << 1)
+-#define PCGCCTL1_GATEEN                 BIT(0)
+-
+-#define EPFIFO(_a)			HSOTG_REG(0x1000 + ((_a) * 0x1000))
++#define D0EPCTL_MPS_MASK          (0x3 << 0)
++#define D0EPCTL_MPS_SHIFT         0
++#define D0EPCTL_MPS_64            0
++#define D0EPCTL_MPS_32            1
++#define D0EPCTL_MPS_16            2
++#define D0EPCTL_MPS_8             3
++
++#define DXEPCTL_EPENA             BIT(31)
++#define DXEPCTL_EPDIS             BIT(30)
++#define DXEPCTL_SETD1PID          BIT(29)
++#define DXEPCTL_SETODDFR          BIT(29)
++#define DXEPCTL_SETD0PID          BIT(28)
++#define DXEPCTL_SETEVENFR         BIT(28)
++#define DXEPCTL_SNAK              BIT(27)
++#define DXEPCTL_CNAK              BIT(26)
++#define DXEPCTL_TXFNUM_MASK       (0xf << 22)
++#define DXEPCTL_TXFNUM_SHIFT      22
++#define DXEPCTL_TXFNUM_LIMIT      0xf
++#define DXEPCTL_TXFNUM(_x)        ((_x) << 22)
++#define DXEPCTL_STALL             BIT(21)
++#define DXEPCTL_SNP               BIT(20)
++#define DXEPCTL_EPTYPE_MASK       (0x3 << 18)
++#define DXEPCTL_EPTYPE_CONTROL    (0x0 << 18)
++#define DXEPCTL_EPTYPE_ISO        (0x1 << 18)
++#define DXEPCTL_EPTYPE_BULK       (0x2 << 18)
++#define DXEPCTL_EPTYPE_INTERRUPT  (0x3 << 18)
++
++#define DXEPCTL_NAKSTS            BIT(17)
++#define DXEPCTL_DPID              BIT(16)
++#define DXEPCTL_EOFRNUM           BIT(16)
++#define DXEPCTL_USBACTEP          BIT(15)
++#define DXEPCTL_NEXTEP_MASK       (0xf << 11)
++#define DXEPCTL_NEXTEP_SHIFT      11
++#define DXEPCTL_NEXTEP_LIMIT      0xf
++#define DXEPCTL_NEXTEP(_x)        ((_x) << 11)
++#define DXEPCTL_MPS_MASK          (0x7ff << 0)
++#define DXEPCTL_MPS_SHIFT         0
++#define DXEPCTL_MPS_LIMIT         0x7ff
++#define DXEPCTL_MPS(_x)           ((_x) << 0)
++
++#define DIEPINT(_a)               HSOTG_REG(0x908 + ((_a) * 0x20))
++#define DOEPINT(_a)               HSOTG_REG(0xB08 + ((_a) * 0x20))
++#define DXEPINT_SETUP_RCVD        BIT(15)
++#define DXEPINT_NYETINTRPT        BIT(14)
++#define DXEPINT_NAKINTRPT         BIT(13)
++#define DXEPINT_BBLEERRINTRPT     BIT(12)
++#define DXEPINT_PKTDRPSTS         BIT(11)
++#define DXEPINT_BNAINTR           BIT(9)
++#define DXEPINT_TXFIFOUNDRN       BIT(8)
++#define DXEPINT_OUTPKTERR         BIT(8)
++#define DXEPINT_TXFEMP            BIT(7)
++#define DXEPINT_INEPNAKEFF        BIT(6)
++#define DXEPINT_BACK2BACKSETUP    BIT(6)
++#define DXEPINT_INTKNEPMIS        BIT(5)
++#define DXEPINT_STSPHSERCVD       BIT(5)
++#define DXEPINT_INTKNTXFEMP       BIT(4)
++#define DXEPINT_OUTTKNEPDIS       BIT(4)
++#define DXEPINT_TIMEOUT           BIT(3)
++#define DXEPINT_SETUP             BIT(3)
++#define DXEPINT_AHBERR            BIT(2)
++#define DXEPINT_EPDISBLD          BIT(1)
++#define DXEPINT_XFERCOMPL         BIT(0)
++
++#define DIEPTSIZ0                    HSOTG_REG(0x910)
++#define DIEPTSIZ0_PKTCNT_MASK        (0x3 << 19)
++#define DIEPTSIZ0_PKTCNT_SHIFT       19
++#define DIEPTSIZ0_PKTCNT_LIMIT       0x3
++#define DIEPTSIZ0_PKTCNT(_x)         ((_x) << 19)
++#define DIEPTSIZ0_XFERSIZE_MASK      (0x7f << 0)
++#define DIEPTSIZ0_XFERSIZE_SHIFT     0
++#define DIEPTSIZ0_XFERSIZE_LIMIT     0x7f
++#define DIEPTSIZ0_XFERSIZE(_x)       ((_x) << 0)
++
++#define DOEPTSIZ0                    HSOTG_REG(0xB10)
++#define DOEPTSIZ0_SUPCNT_MASK        (0x3 << 29)
++#define DOEPTSIZ0_SUPCNT_SHIFT       29
++#define DOEPTSIZ0_SUPCNT_LIMIT       0x3
++#define DOEPTSIZ0_SUPCNT(_x)         ((_x) << 29)
++#define DOEPTSIZ0_PKTCNT             BIT(19)
++#define DOEPTSIZ0_XFERSIZE_MASK      (0x7f << 0)
++#define DOEPTSIZ0_XFERSIZE_SHIFT     0
++
++#define DIEPTSIZ(_a)                 HSOTG_REG(0x910 + ((_a) * 0x20))
++#define DOEPTSIZ(_a)                 HSOTG_REG(0xB10 + ((_a) * 0x20))
++#define DXEPTSIZ_MC_MASK             (0x3 << 29)
++#define DXEPTSIZ_MC_SHIFT            29
++#define DXEPTSIZ_MC_LIMIT            0x3
++#define DXEPTSIZ_MC(_x)              ((_x) << 29)
++#define DXEPTSIZ_PKTCNT_MASK         (0x3ff << 19)
++#define DXEPTSIZ_PKTCNT_SHIFT        19
++#define DXEPTSIZ_PKTCNT_LIMIT        0x3ff
++#define DXEPTSIZ_PKTCNT_GET(_v)      (((_v) >> 19) & 0x3ff)
++#define DXEPTSIZ_PKTCNT(_x)          ((_x) << 19)
++#define DXEPTSIZ_XFERSIZE_MASK       (0x7ffff << 0)
++#define DXEPTSIZ_XFERSIZE_SHIFT      0
++#define DXEPTSIZ_XFERSIZE_LIMIT      0x7ffff
++#define DXEPTSIZ_XFERSIZE_GET(_v)    (((_v) >> 0) & 0x7ffff)
++#define DXEPTSIZ_XFERSIZE(_x)        ((_x) << 0)
++
++#define DIEPDMA(_a)            HSOTG_REG(0x914 + ((_a) * 0x20))
++#define DOEPDMA(_a)            HSOTG_REG(0xB14 + ((_a) * 0x20))
++
++#define DTXFSTS(_a)            HSOTG_REG(0x918 + ((_a) * 0x20))
++
++#define PCGCTL                 HSOTG_REG(0x0e00)
++#define PCGCTL_IF_DEV_MODE             BIT(31)
++#define PCGCTL_P2HD_PRT_SPD_MASK       (0x3 << 29)
++#define PCGCTL_P2HD_PRT_SPD_SHIFT      29
++#define PCGCTL_P2HD_DEV_ENUM_SPD_MASK    (0x3 << 27)
++#define PCGCTL_P2HD_DEV_ENUM_SPD_SHIFT    27
++#define PCGCTL_MAC_DEV_ADDR_MASK       (0x7f << 20)
++#define PCGCTL_MAC_DEV_ADDR_SHIFT      20
++#define PCGCTL_MAX_TERMSEL             BIT(19)
++#define PCGCTL_MAX_XCVRSELECT_MASK     (0x3 << 17)
++#define PCGCTL_MAX_XCVRSELECT_SHIFT    17
++#define PCGCTL_PORT_POWER              BIT(16)
++#define PCGCTL_PRT_CLK_SEL_MASK        (0x3 << 14)
++#define PCGCTL_PRT_CLK_SEL_SHIFT       14
++#define PCGCTL_ESS_REG_RESTORED        BIT(13)
++#define PCGCTL_EXTND_HIBER_SWITCH      BIT(12)
++#define PCGCTL_EXTND_HIBER_PWRCLMP     BIT(11)
++#define PCGCTL_ENBL_EXTND_HIBER        BIT(10)
++#define PCGCTL_RESTOREMODE             BIT(9)
++#define PCGCTL_RESETAFTSUSP            BIT(8)
++#define PCGCTL_DEEP_SLEEP              BIT(7)
++#define PCGCTL_PHY_IN_SLEEP            BIT(6)
++#define PCGCTL_ENBL_SLEEP_GATING       BIT(5)
++#define PCGCTL_RSTPDWNMODULE           BIT(3)
++#define PCGCTL_PWRCLMP                 BIT(2)
++#define PCGCTL_GATEHCLK                BIT(1)
++#define PCGCTL_STOPPCLK                BIT(0)
++
++#define PCGCCTL1                       HSOTG_REG(0xe04)
++#define PCGCCTL1_TIMER                 (0x3 << 1)
++#define PCGCCTL1_GATEEN                BIT(0)
++
++#define EPFIFO(_a)            HSOTG_REG(0x1000 + ((_a) * 0x1000))
+ 
+ /* Host Mode Registers */
+ 
+-#define HCFG				HSOTG_REG(0x0400)
+-#define HCFG_MODECHTIMEN		BIT(31)
+-#define HCFG_PERSCHEDENA		BIT(26)
+-#define HCFG_FRLISTEN_MASK		(0x3 << 24)
+-#define HCFG_FRLISTEN_SHIFT		24
+-#define HCFG_FRLISTEN_8				(0 << 24)
+-#define FRLISTEN_8_SIZE				8
+-#define HCFG_FRLISTEN_16			BIT(24)
+-#define FRLISTEN_16_SIZE			16
+-#define HCFG_FRLISTEN_32			(2 << 24)
+-#define FRLISTEN_32_SIZE			32
+-#define HCFG_FRLISTEN_64			(3 << 24)
+-#define FRLISTEN_64_SIZE			64
+-#define HCFG_DESCDMA			BIT(23)
+-#define HCFG_RESVALID_MASK		(0xff << 8)
+-#define HCFG_RESVALID_SHIFT		8
+-#define HCFG_ENA32KHZ			BIT(7)
+-#define HCFG_FSLSSUPP			BIT(2)
+-#define HCFG_FSLSPCLKSEL_MASK		(0x3 << 0)
+-#define HCFG_FSLSPCLKSEL_SHIFT		0
+-#define HCFG_FSLSPCLKSEL_30_60_MHZ	0
+-#define HCFG_FSLSPCLKSEL_48_MHZ		1
+-#define HCFG_FSLSPCLKSEL_6_MHZ		2
+-
+-#define HFIR				HSOTG_REG(0x0404)
+-#define HFIR_FRINT_MASK			(0xffff << 0)
+-#define HFIR_FRINT_SHIFT		0
+-#define HFIR_RLDCTRL			BIT(16)
+-
+-#define HFNUM				HSOTG_REG(0x0408)
+-#define HFNUM_FRREM_MASK		(0xffff << 16)
+-#define HFNUM_FRREM_SHIFT		16
+-#define HFNUM_FRNUM_MASK		(0xffff << 0)
+-#define HFNUM_FRNUM_SHIFT		0
+-#define HFNUM_MAX_FRNUM			0x3fff
+-
+-#define HPTXSTS				HSOTG_REG(0x0410)
+-#define TXSTS_QTOP_ODD			BIT(31)
+-#define TXSTS_QTOP_CHNEP_MASK		(0xf << 27)
+-#define TXSTS_QTOP_CHNEP_SHIFT		27
+-#define TXSTS_QTOP_TOKEN_MASK		(0x3 << 25)
+-#define TXSTS_QTOP_TOKEN_SHIFT		25
+-#define TXSTS_QTOP_TERMINATE		BIT(24)
+-#define TXSTS_QSPCAVAIL_MASK		(0xff << 16)
+-#define TXSTS_QSPCAVAIL_SHIFT		16
+-#define TXSTS_FSPCAVAIL_MASK		(0xffff << 0)
+-#define TXSTS_FSPCAVAIL_SHIFT		0
+-
+-#define HAINT				HSOTG_REG(0x0414)
+-#define HAINTMSK			HSOTG_REG(0x0418)
+-#define HFLBADDR			HSOTG_REG(0x041c)
+-
+-#define HPRT0				HSOTG_REG(0x0440)
+-#define HPRT0_SPD_MASK			(0x3 << 17)
+-#define HPRT0_SPD_SHIFT			17
+-#define HPRT0_SPD_HIGH_SPEED		0
+-#define HPRT0_SPD_FULL_SPEED		1
+-#define HPRT0_SPD_LOW_SPEED		2
+-#define HPRT0_TSTCTL_MASK		(0xf << 13)
+-#define HPRT0_TSTCTL_SHIFT		13
+-#define HPRT0_PWR			BIT(12)
+-#define HPRT0_LNSTS_MASK		(0x3 << 10)
+-#define HPRT0_LNSTS_SHIFT		10
+-#define HPRT0_RST			BIT(8)
+-#define HPRT0_SUSP			BIT(7)
+-#define HPRT0_RES			BIT(6)
+-#define HPRT0_OVRCURRCHG		BIT(5)
+-#define HPRT0_OVRCURRACT		BIT(4)
+-#define HPRT0_ENACHG			BIT(3)
+-#define HPRT0_ENA			BIT(2)
+-#define HPRT0_CONNDET			BIT(1)
+-#define HPRT0_CONNSTS			BIT(0)
+-
+-#define HCCHAR(_ch)			HSOTG_REG(0x0500 + 0x20 * (_ch))
+-#define HCCHAR_CHENA			BIT(31)
+-#define HCCHAR_CHDIS			BIT(30)
+-#define HCCHAR_ODDFRM			BIT(29)
+-#define HCCHAR_DEVADDR_MASK		(0x7f << 22)
+-#define HCCHAR_DEVADDR_SHIFT		22
+-#define HCCHAR_MULTICNT_MASK		(0x3 << 20)
+-#define HCCHAR_MULTICNT_SHIFT		20
+-#define HCCHAR_EPTYPE_MASK		(0x3 << 18)
+-#define HCCHAR_EPTYPE_SHIFT		18
+-#define HCCHAR_LSPDDEV			BIT(17)
+-#define HCCHAR_EPDIR			BIT(15)
+-#define HCCHAR_EPNUM_MASK		(0xf << 11)
+-#define HCCHAR_EPNUM_SHIFT		11
+-#define HCCHAR_MPS_MASK			(0x7ff << 0)
+-#define HCCHAR_MPS_SHIFT		0
+-
+-#define HCSPLT(_ch)			HSOTG_REG(0x0504 + 0x20 * (_ch))
+-#define HCSPLT_SPLTENA			BIT(31)
+-#define HCSPLT_COMPSPLT			BIT(16)
+-#define HCSPLT_XACTPOS_MASK		(0x3 << 14)
+-#define HCSPLT_XACTPOS_SHIFT		14
+-#define HCSPLT_XACTPOS_MID		0
+-#define HCSPLT_XACTPOS_END		1
+-#define HCSPLT_XACTPOS_BEGIN		2
+-#define HCSPLT_XACTPOS_ALL		3
+-#define HCSPLT_HUBADDR_MASK		(0x7f << 7)
+-#define HCSPLT_HUBADDR_SHIFT		7
+-#define HCSPLT_PRTADDR_MASK		(0x7f << 0)
+-#define HCSPLT_PRTADDR_SHIFT		0
+-
+-#define HCINT(_ch)			HSOTG_REG(0x0508 + 0x20 * (_ch))
+-#define HCINTMSK(_ch)			HSOTG_REG(0x050c + 0x20 * (_ch))
+-#define HCINTMSK_RESERVED14_31		(0x3ffff << 14)
+-#define HCINTMSK_FRM_LIST_ROLL		BIT(13)
+-#define HCINTMSK_XCS_XACT		BIT(12)
+-#define HCINTMSK_BNA			BIT(11)
+-#define HCINTMSK_DATATGLERR		BIT(10)
+-#define HCINTMSK_FRMOVRUN		BIT(9)
+-#define HCINTMSK_BBLERR			BIT(8)
+-#define HCINTMSK_XACTERR		BIT(7)
+-#define HCINTMSK_NYET			BIT(6)
+-#define HCINTMSK_ACK			BIT(5)
+-#define HCINTMSK_NAK			BIT(4)
+-#define HCINTMSK_STALL			BIT(3)
+-#define HCINTMSK_AHBERR			BIT(2)
+-#define HCINTMSK_CHHLTD			BIT(1)
+-#define HCINTMSK_XFERCOMPL		BIT(0)
+-
+-#define HCTSIZ(_ch)			HSOTG_REG(0x0510 + 0x20 * (_ch))
+-#define TSIZ_DOPNG			BIT(31)
+-#define TSIZ_SC_MC_PID_MASK		(0x3 << 29)
+-#define TSIZ_SC_MC_PID_SHIFT		29
+-#define TSIZ_SC_MC_PID_DATA0		0
+-#define TSIZ_SC_MC_PID_DATA2		1
+-#define TSIZ_SC_MC_PID_DATA1		2
+-#define TSIZ_SC_MC_PID_MDATA		3
+-#define TSIZ_SC_MC_PID_SETUP		3
+-#define TSIZ_PKTCNT_MASK		(0x3ff << 19)
+-#define TSIZ_PKTCNT_SHIFT		19
+-#define TSIZ_NTD_MASK			(0xff << 8)
+-#define TSIZ_NTD_SHIFT			8
+-#define TSIZ_SCHINFO_MASK		(0xff << 0)
+-#define TSIZ_SCHINFO_SHIFT		0
+-#define TSIZ_XFERSIZE_MASK		(0x7ffff << 0)
+-#define TSIZ_XFERSIZE_SHIFT		0
+-
+-#define HCDMA(_ch)			HSOTG_REG(0x0514 + 0x20 * (_ch))
+-
+-#define HCDMAB(_ch)			HSOTG_REG(0x051c + 0x20 * (_ch))
+-
+-#define HCFIFO(_ch)			HSOTG_REG(0x1000 + 0x1000 * (_ch))
++#define HCFG                          HSOTG_REG(0x0400)
++#define HCFG_MODECHTIMEN              BIT(31)
++#define HCFG_PERSCHEDENA              BIT(26)
++#define HCFG_FRLISTEN_MASK            (0x3 << 24)
++#define HCFG_FRLISTEN_SHIFT           24
++#define HCFG_FRLISTEN_8               (0 << 24)
++#define FRLISTEN_8_SIZE               8
++#define HCFG_FRLISTEN_16              BIT(24)
++#define FRLISTEN_16_SIZE              16
++#define HCFG_FRLISTEN_32              (2 << 24)
++#define FRLISTEN_32_SIZE              32
++#define HCFG_FRLISTEN_64              (3 << 24)
++#define FRLISTEN_64_SIZE              64
++#define HCFG_DESCDMA                  BIT(23)
++#define HCFG_RESVALID_MASK            (0xff << 8)
++#define HCFG_RESVALID_SHIFT           8
++#define HCFG_ENA32KHZ                 BIT(7)
++#define HCFG_FSLSSUPP                 BIT(2)
++#define HCFG_FSLSPCLKSEL_MASK         (0x3 << 0)
++#define HCFG_FSLSPCLKSEL_SHIFT        0
++#define HCFG_FSLSPCLKSEL_30_60_MHZ    0
++#define HCFG_FSLSPCLKSEL_48_MHZ       1
++#define HCFG_FSLSPCLKSEL_6_MHZ        2
++
++#define HFIR                    HSOTG_REG(0x0404)
++#define HFIR_FRINT_MASK         (0xffff << 0)
++#define HFIR_FRINT_SHIFT        0
++#define HFIR_RLDCTRL            BIT(16)
++
++#define HFNUM                   HSOTG_REG(0x0408)
++#define HFNUM_FRREM_MASK        (0xffff << 16)
++#define HFNUM_FRREM_SHIFT       16
++#define HFNUM_FRNUM_MASK        (0xffff << 0)
++#define HFNUM_FRNUM_SHIFT       0
++#define HFNUM_MAX_FRNUM         0x3fff
++
++#define HPTXSTS                      HSOTG_REG(0x0410)
++#define TXSTS_QTOP_ODD               BIT(31)
++#define TXSTS_QTOP_CHNEP_MASK        (0xf << 27)
++#define TXSTS_QTOP_CHNEP_SHIFT       27
++#define TXSTS_QTOP_TOKEN_MASK        (0x3 << 25)
++#define TXSTS_QTOP_TOKEN_SHIFT       25
++#define TXSTS_QTOP_TERMINATE         BIT(24)
++#define TXSTS_QSPCAVAIL_MASK         (0xff << 16)
++#define TXSTS_QSPCAVAIL_SHIFT        16
++#define TXSTS_FSPCAVAIL_MASK         (0xffff << 0)
++#define TXSTS_FSPCAVAIL_SHIFT        0
++
++#define HAINT                HSOTG_REG(0x0414)
++#define HAINTMSK             HSOTG_REG(0x0418)
++#define HFLBADDR             HSOTG_REG(0x041c)
++
++#define HPRT0                HSOTG_REG(0x0440)
++#define HPRT0_SPD_MASK          (0x3 << 17)
++#define HPRT0_SPD_SHIFT         17
++#define HPRT0_SPD_HIGH_SPEED    0
++#define HPRT0_SPD_FULL_SPEED    1
++#define HPRT0_SPD_LOW_SPEED     2
++#define HPRT0_TSTCTL_MASK       (0xf << 13)
++#define HPRT0_TSTCTL_SHIFT      13
++#define HPRT0_PWR               BIT(12)
++#define HPRT0_LNSTS_MASK        (0x3 << 10)
++#define HPRT0_LNSTS_SHIFT       10
++#define HPRT0_RST               BIT(8)
++#define HPRT0_SUSP              BIT(7)
++#define HPRT0_RES               BIT(6)
++#define HPRT0_OVRCURRCHG        BIT(5)
++#define HPRT0_OVRCURRACT        BIT(4)
++#define HPRT0_ENACHG            BIT(3)
++#define HPRT0_ENA               BIT(2)
++#define HPRT0_CONNDET           BIT(1)
++#define HPRT0_CONNSTS           BIT(0)
++
++#define HCCHAR(_ch)                 HSOTG_REG(0x0500 + 0x20 * (_ch))
++#define HCCHAR_CHENA                BIT(31)
++#define HCCHAR_CHDIS                BIT(30)
++#define HCCHAR_ODDFRM               BIT(29)
++#define HCCHAR_DEVADDR_MASK         (0x7f << 22)
++#define HCCHAR_DEVADDR_SHIFT        22
++#define HCCHAR_MULTICNT_MASK        (0x3 << 20)
++#define HCCHAR_MULTICNT_SHIFT       20
++#define HCCHAR_EPTYPE_MASK          (0x3 << 18)
++#define HCCHAR_EPTYPE_SHIFT         18
++#define HCCHAR_LSPDDEV              BIT(17)
++#define HCCHAR_EPDIR                BIT(15)
++#define HCCHAR_EPNUM_MASK           (0xf << 11)
++#define HCCHAR_EPNUM_SHIFT          11
++#define HCCHAR_MPS_MASK             (0x7ff << 0)
++#define HCCHAR_MPS_SHIFT            0
++
++#define HCSPLT(_ch)                 HSOTG_REG(0x0504 + 0x20 * (_ch))
++#define HCSPLT_SPLTENA              BIT(31)
++#define HCSPLT_COMPSPLT             BIT(16)
++#define HCSPLT_XACTPOS_MASK         (0x3 << 14)
++#define HCSPLT_XACTPOS_SHIFT        14
++#define HCSPLT_XACTPOS_MID          0
++#define HCSPLT_XACTPOS_END          1
++#define HCSPLT_XACTPOS_BEGIN        2
++#define HCSPLT_XACTPOS_ALL          3
++#define HCSPLT_HUBADDR_MASK         (0x7f << 7)
++#define HCSPLT_HUBADDR_SHIFT        7
++#define HCSPLT_PRTADDR_MASK         (0x7f << 0)
++#define HCSPLT_PRTADDR_SHIFT        0
++
++#define HCINT(_ch)                  HSOTG_REG(0x0508 + 0x20 * (_ch))
++#define HCINTMSK(_ch)               HSOTG_REG(0x050c + 0x20 * (_ch))
++#define HCINTMSK_RESERVED14_31      (0x3ffff << 14)
++#define HCINTMSK_FRM_LIST_ROLL      BIT(13)
++#define HCINTMSK_XCS_XACT           BIT(12)
++#define HCINTMSK_BNA                BIT(11)
++#define HCINTMSK_DATATGLERR         BIT(10)
++#define HCINTMSK_FRMOVRUN           BIT(9)
++#define HCINTMSK_BBLERR             BIT(8)
++#define HCINTMSK_XACTERR            BIT(7)
++#define HCINTMSK_NYET               BIT(6)
++#define HCINTMSK_ACK                BIT(5)
++#define HCINTMSK_NAK                BIT(4)
++#define HCINTMSK_STALL              BIT(3)
++#define HCINTMSK_AHBERR             BIT(2)
++#define HCINTMSK_CHHLTD             BIT(1)
++#define HCINTMSK_XFERCOMPL          BIT(0)
++
++#define HCTSIZ(_ch)                 HSOTG_REG(0x0510 + 0x20 * (_ch))
++#define TSIZ_DOPNG                  BIT(31)
++#define TSIZ_SC_MC_PID_MASK         (0x3 << 29)
++#define TSIZ_SC_MC_PID_SHIFT        29
++#define TSIZ_SC_MC_PID_DATA0        0
++#define TSIZ_SC_MC_PID_DATA2        1
++#define TSIZ_SC_MC_PID_DATA1        2
++#define TSIZ_SC_MC_PID_MDATA        3
++#define TSIZ_SC_MC_PID_SETUP        3
++#define TSIZ_PKTCNT_MASK            (0x3ff << 19)
++#define TSIZ_PKTCNT_SHIFT           19
++#define TSIZ_NTD_MASK               (0xff << 8)
++#define TSIZ_NTD_SHIFT              8
++#define TSIZ_SCHINFO_MASK           (0xff << 0)
++#define TSIZ_SCHINFO_SHIFT          0
++#define TSIZ_XFERSIZE_MASK          (0x7ffff << 0)
++#define TSIZ_XFERSIZE_SHIFT         0
++
++#define HCDMA(_ch)             HSOTG_REG(0x0514 + 0x20 * (_ch))
++
++#define HCDMAB(_ch)            HSOTG_REG(0x051c + 0x20 * (_ch))
++
++#define HCFIFO(_ch)            HSOTG_REG(0x1000 + 0x1000 * (_ch))
+ 
+ /**
+  * struct dwc2_dma_desc - DMA descriptor structure,
+@@ -836,64 +836,64 @@
+  * Status quadlet and Data buffer pointer.
+  */
+ struct dwc2_dma_desc {
+-	uint32_t status;
+-	uint32_t buf;
++    uint32_t status;
++    uint32_t buf;
+ } __packed;
+ 
+ /* Host Mode DMA descriptor status quadlet */
+ 
+-#define HOST_DMA_A			BIT(31)
+-#define HOST_DMA_STS_MASK		(0x3 << 28)
+-#define HOST_DMA_STS_SHIFT		28
+-#define HOST_DMA_STS_PKTERR		BIT(28)
+-#define HOST_DMA_EOL			BIT(26)
+-#define HOST_DMA_IOC			BIT(25)
+-#define HOST_DMA_SUP			BIT(24)
+-#define HOST_DMA_ALT_QTD		BIT(23)
+-#define HOST_DMA_QTD_OFFSET_MASK	(0x3f << 17)
+-#define HOST_DMA_QTD_OFFSET_SHIFT	17
+-#define HOST_DMA_ISOC_NBYTES_MASK	(0xfff << 0)
+-#define HOST_DMA_ISOC_NBYTES_SHIFT	0
+-#define HOST_DMA_NBYTES_MASK		(0x1ffff << 0)
+-#define HOST_DMA_NBYTES_SHIFT		0
+-#define HOST_DMA_NBYTES_LIMIT		131071
++#define HOST_DMA_A                   BIT(31)
++#define HOST_DMA_STS_MASK            (0x3 << 28)
++#define HOST_DMA_STS_SHIFT           28
++#define HOST_DMA_STS_PKTERR          BIT(28)
++#define HOST_DMA_EOL                 BIT(26)
++#define HOST_DMA_IOC                 BIT(25)
++#define HOST_DMA_SUP                 BIT(24)
++#define HOST_DMA_ALT_QTD             BIT(23)
++#define HOST_DMA_QTD_OFFSET_MASK     (0x3f << 17)
++#define HOST_DMA_QTD_OFFSET_SHIFT    17
++#define HOST_DMA_ISOC_NBYTES_MASK    (0xfff << 0)
++#define HOST_DMA_ISOC_NBYTES_SHIFT   0
++#define HOST_DMA_NBYTES_MASK         (0x1ffff << 0)
++#define HOST_DMA_NBYTES_SHIFT        0
++#define HOST_DMA_NBYTES_LIMIT        131071
+ 
+ /* Device Mode DMA descriptor status quadlet */
+ 
+-#define DEV_DMA_BUFF_STS_MASK		(0x3 << 30)
+-#define DEV_DMA_BUFF_STS_SHIFT		30
+-#define DEV_DMA_BUFF_STS_HREADY		0
+-#define DEV_DMA_BUFF_STS_DMABUSY	1
+-#define DEV_DMA_BUFF_STS_DMADONE	2
+-#define DEV_DMA_BUFF_STS_HBUSY		3
+-#define DEV_DMA_STS_MASK		(0x3 << 28)
+-#define DEV_DMA_STS_SHIFT		28
+-#define DEV_DMA_STS_SUCC		0
+-#define DEV_DMA_STS_BUFF_FLUSH		1
+-#define DEV_DMA_STS_BUFF_ERR		3
+-#define DEV_DMA_L			BIT(27)
+-#define DEV_DMA_SHORT			BIT(26)
+-#define DEV_DMA_IOC			BIT(25)
+-#define DEV_DMA_SR			BIT(24)
+-#define DEV_DMA_MTRF			BIT(23)
+-#define DEV_DMA_ISOC_PID_MASK		(0x3 << 23)
+-#define DEV_DMA_ISOC_PID_SHIFT		23
+-#define DEV_DMA_ISOC_PID_DATA0		0
+-#define DEV_DMA_ISOC_PID_DATA2		1
+-#define DEV_DMA_ISOC_PID_DATA1		2
+-#define DEV_DMA_ISOC_PID_MDATA		3
+-#define DEV_DMA_ISOC_FRNUM_MASK		(0x7ff << 12)
+-#define DEV_DMA_ISOC_FRNUM_SHIFT	12
+-#define DEV_DMA_ISOC_TX_NBYTES_MASK	(0xfff << 0)
+-#define DEV_DMA_ISOC_TX_NBYTES_LIMIT	0xfff
+-#define DEV_DMA_ISOC_RX_NBYTES_MASK	(0x7ff << 0)
+-#define DEV_DMA_ISOC_RX_NBYTES_LIMIT	0x7ff
+-#define DEV_DMA_ISOC_NBYTES_SHIFT	0
+-#define DEV_DMA_NBYTES_MASK		(0xffff << 0)
+-#define DEV_DMA_NBYTES_SHIFT		0
+-#define DEV_DMA_NBYTES_LIMIT		0xffff
+-
+-#define MAX_DMA_DESC_NUM_GENERIC	64
+-#define MAX_DMA_DESC_NUM_HS_ISOC	256
++#define DEV_DMA_BUFF_STS_MASK        (0x3 << 30)
++#define DEV_DMA_BUFF_STS_SHIFT       30
++#define DEV_DMA_BUFF_STS_HREADY      0
++#define DEV_DMA_BUFF_STS_DMABUSY     1
++#define DEV_DMA_BUFF_STS_DMADONE     2
++#define DEV_DMA_BUFF_STS_HBUSY       3
++#define DEV_DMA_STS_MASK             (0x3 << 28)
++#define DEV_DMA_STS_SHIFT            28
++#define DEV_DMA_STS_SUCC             0
++#define DEV_DMA_STS_BUFF_FLUSH       1
++#define DEV_DMA_STS_BUFF_ERR         3
++#define DEV_DMA_L                    BIT(27)
++#define DEV_DMA_SHORT                BIT(26)
++#define DEV_DMA_IOC                  BIT(25)
++#define DEV_DMA_SR                   BIT(24)
++#define DEV_DMA_MTRF                 BIT(23)
++#define DEV_DMA_ISOC_PID_MASK        (0x3 << 23)
++#define DEV_DMA_ISOC_PID_SHIFT       23
++#define DEV_DMA_ISOC_PID_DATA0       0
++#define DEV_DMA_ISOC_PID_DATA2       1
++#define DEV_DMA_ISOC_PID_DATA1       2
++#define DEV_DMA_ISOC_PID_MDATA       3
++#define DEV_DMA_ISOC_FRNUM_MASK        (0x7ff << 12)
++#define DEV_DMA_ISOC_FRNUM_SHIFT       12
++#define DEV_DMA_ISOC_TX_NBYTES_MASK    (0xfff << 0)
++#define DEV_DMA_ISOC_TX_NBYTES_LIMIT   0xfff
++#define DEV_DMA_ISOC_RX_NBYTES_MASK    (0x7ff << 0)
++#define DEV_DMA_ISOC_RX_NBYTES_LIMIT   0x7ff
++#define DEV_DMA_ISOC_NBYTES_SHIFT      0
++#define DEV_DMA_NBYTES_MASK            (0xffff << 0)
++#define DEV_DMA_NBYTES_SHIFT           0
++#define DEV_DMA_NBYTES_LIMIT           0xffff
++
++#define MAX_DMA_DESC_NUM_GENERIC    64
++#define MAX_DMA_DESC_NUM_HS_ISOC    256
+ 
+ #endif /* DWC2_REGS_H */
 -- 
 2.25.1
 
