@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B720601800
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 21:48:11 +0200 (CEST)
-Received: from localhost ([::1]:46226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24DBA6017CD
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 21:38:18 +0200 (CEST)
+Received: from localhost ([::1]:41680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okW5q-00046d-EJ
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 15:48:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36550)
+	id 1okVwG-0007r7-SN
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 15:38:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1okVff-0002Ts-Gg; Mon, 17 Oct 2022 15:21:09 -0400
-Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:35661)
+ id 1okVfh-0002Vo-BV; Mon, 17 Oct 2022 15:21:12 -0400
+Received: from mail-oa1-x2e.google.com ([2001:4860:4864:20::2e]:34752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1okVfd-0002wd-DC; Mon, 17 Oct 2022 15:21:06 -0400
-Received: by mail-oi1-x234.google.com with SMTP id u15so13240781oie.2;
- Mon, 17 Oct 2022 12:21:04 -0700 (PDT)
+ id 1okVff-0002wJ-R5; Mon, 17 Oct 2022 15:21:09 -0400
+Received: by mail-oa1-x2e.google.com with SMTP id
+ 586e51a60fabf-1321a1e94b3so14411716fac.1; 
+ Mon, 17 Oct 2022 12:21:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qdwF3Drv7lJ5ZhIvA04ip74IIHwhrVpQPOB7Yjm4bKk=;
- b=dxci8Oaf8twU1JSdTQNlHAaOd7F8xHWR4COhdnODnSSqgLpzJUS/7QWaLEwcUiL6FI
- TYvoM7TroCW46fBxJdpRuhyZwKm4zxXkm8YeoN1UfvYtj5vWh9pi8xaM+b9uS2QFHaoD
- USbHBxeiRWpcix9DTXUi/Wk/p2ETJ64ZqR3PkGfHYO2GcIJKB/WZkOwVn66GDPkoNxtu
- 6AsQAwJUtRG0JYLWE3VGNhhMUsw5GJSDUbzrQW+NEz4dluDl6Ky6jNybCoSld+NJBMFv
- iBJf5LZwF3VY9/KLoAlKdGgs01NMGZicAFTPRNI9JdmeXxyVh2vCIwAG/cG5FaIB/egX
- jp5A==
+ bh=nDFT5ekw8vplTcauVsxQPPI+TJA6hK3fyosAuha13Mk=;
+ b=Nxuhc93qCjEB3IJ6CHqoxcgF8xG5WCLnVUBISZ+Ch2onq4vZ3Oems1kzOIAkCrQO1N
+ OFCy7fYu9rn3T6WoaBlZjTprPTCKns4/4GsgEP2pmnooF88BxJoh6HrXaDkV1sZsRALY
+ XC/jhgC5PHwoF6R4at2/tHM1Goorgf4q8uBgv7bXLsXUqlkSH7qZVAdZbVuTsaHSvRPi
+ qexsA7fqnEJy/+1ux5DLu6dLxhfjO0EbC86uhOzJQ9Qyi0btBT5aR6GDqRT3v5cSAVIE
+ WwByGLowLVc1GEZU3CC/kPUGTgo8yA/mxyKQdjtujkulAaoX4OL25vLcF7IvgUnRaOvx
+ wzuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qdwF3Drv7lJ5ZhIvA04ip74IIHwhrVpQPOB7Yjm4bKk=;
- b=VBlQejMFQctiNukihfAnQh2rLQFW6KJCAra/TC6xrf1LGtCZotbFP8jUlr44HcAY+G
- 8kAVaognfmlvNXy0UmpH32YiXH/Q1Zo8lk3x3EtE9Cq/ik3ZBuXGN/7UY593POFcswer
- xcnKNDMsuVxRS+e2S5vC/MlK151e2XFCMUFQfy3hvq0asI0gQOvLMVtGkTsyO7Ad0qLu
- TX7EZj3qC01eV/mTvZ+c0OdZl/ibNVpZCK7CL0HYYAywY6ktrzTn4ZFnVuBbYPzno4vj
- okhN/07ytrybEKXKeFAG4MEIFyt9Y+0fameFx8DnhXcamXub1qaOQ0oLKYNYhWaQq0+O
- Mg5g==
-X-Gm-Message-State: ACrzQf1jPbYvyRVZZATWcMD5d5PPlQ0KYROG0z1kYs/lmlkuB02bDczO
- uJ98DA3iLnqPUTznukeKqQy7/nxGCBU=
-X-Google-Smtp-Source: AMsMyM6unnmWOKFmbkhWEEhoivKb36v7PpTAXDPISg172y9iKwuOlmesHeUJ/ieNy2v5zbbwU6KU7A==
-X-Received: by 2002:a05:6808:2123:b0:355:15ed:480a with SMTP id
- r35-20020a056808212300b0035515ed480amr9171902oiw.38.1666034463766; 
- Mon, 17 Oct 2022 12:21:03 -0700 (PDT)
+ bh=nDFT5ekw8vplTcauVsxQPPI+TJA6hK3fyosAuha13Mk=;
+ b=FuYmYppDwoymiY+dmT+hZdDTXmvDaVFHcS/lVDz4PAb6YCvlPWVSGT4oagbGHdMx1/
+ MMTjvq3YimNERYrTvQxlSWtWCZBKX4shxDjLB9vN3Mg+HFXb6hpxgeyF7k+7Z/LkI7JE
+ E2oCZ2+ny+r1UMAOKMqoUildN9Evh557vlAyJSUfIzAFIm5zvsuJkWgBKFBu4xNBo3R4
+ bVwgWDoHrz6hK0PES1SmyB9N947ds9xIjVPU7cKNEd4gOu/3qGNryW7PbcDEvwc8mZrf
+ ov+1RTRDo1kFN+BqlEidnDP8GdVkrHOmBb5yO0LELAZvHgHzfpXigBazMH2Pro9uAMOE
+ 9SIw==
+X-Gm-Message-State: ACrzQf0sdpu9E811aLiUvT92NuqW5ioijbsvJyRGon9d45wMGf5KSJDX
+ rBDbjiGvRxKjVnRDc7+ichku4YiEe+Q=
+X-Google-Smtp-Source: AMsMyM4kYisqlUK7FhiswLsnYC0lXFGPPCOdBM15e0HBJ1VQVj6Fn8wMWgvlMPeSPx6UwMkFLQf7kA==
+X-Received: by 2002:a05:6870:5494:b0:133:14f:73e4 with SMTP id
+ f20-20020a056870549400b00133014f73e4mr6428247oan.184.1666034466665; 
+ Mon, 17 Oct 2022 12:21:06 -0700 (PDT)
 Received: from balboa.COMFAST ([179.111.38.2])
  by smtp.gmail.com with ESMTPSA id
- n132-20020aca408a000000b00342eade43d4sm4648005oia.13.2022.10.17.12.21.01
+ n132-20020aca408a000000b00342eade43d4sm4648005oia.13.2022.10.17.12.21.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Oct 2022 12:21:03 -0700 (PDT)
+ Mon, 17 Oct 2022 12:21:06 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
  BALATON Zoltan <balaton@eik.bme.hu>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 18/38] ppc440_uc.c: Move some macros to ppc4xx.h
-Date: Mon, 17 Oct 2022 16:19:49 -0300
-Message-Id: <20221017192009.92404-19-danielhb413@gmail.com>
+Subject: [PULL 19/38] ppc440_uc.c: Remove unneeded parenthesis
+Date: Mon, 17 Oct 2022 16:19:50 -0300
+Message-Id: <20221017192009.92404-20-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221017192009.92404-1-danielhb413@gmail.com>
 References: <20221017192009.92404-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x234.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2e;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2e.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -95,49 +96,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-These are used by both the SDRAM controller model and system DCRs. In
-preparation to move SDRAM controller in its own file move these macros
-to the ppc4xx.h header.
+Remove unneeded parenthesis around case labels.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <74d9bf4891e2ccceb52bb6ca6b54fd3f37a9fb04.1664021647.git.balaton@eik.bme.hu>
+Message-Id: <19db326bea989c03e08f2853f789315bbe806fe9.1664021647.git.balaton@eik.bme.hu>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/ppc440_uc.c      | 4 ----
- include/hw/ppc/ppc4xx.h | 4 ++++
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ hw/ppc/ppc440_uc.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
-index 55082f2b88..57274b56dd 100644
+index 57274b56dd..5fbf44009e 100644
 --- a/hw/ppc/ppc440_uc.c
 +++ b/hw/ppc/ppc440_uc.c
-@@ -380,10 +380,6 @@ enum {
-     PESDR1_RSTSTA = 0x365,
- };
+@@ -499,34 +499,34 @@ static uint32_t sdram_ddr2_bcr(hwaddr ram_base, hwaddr ram_size)
+     uint32_t bcr;
  
--#define SDR0_DDR0_DDRM_ENCODE(n)  ((((unsigned long)(n)) & 0x03) << 29)
--#define SDR0_DDR0_DDRM_DDR1       0x20000000
--#define SDR0_DDR0_DDRM_DDR2       0x40000000
--
- static uint32_t dcr_read_sdr(void *opaque, int dcrn)
- {
-     ppc4xx_sdr_t *sdr = opaque;
-diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
-index ff88385ac0..10c6dd535f 100644
---- a/include/hw/ppc/ppc4xx.h
-+++ b/include/hw/ppc/ppc4xx.h
-@@ -111,6 +111,10 @@ struct Ppc4xxEbcState {
- };
- 
- /* SDRAM DDR controller */
-+#define SDR0_DDR0_DDRM_ENCODE(n)  ((((unsigned long)(n)) & 0x03) << 29)
-+#define SDR0_DDR0_DDRM_DDR1       0x20000000
-+#define SDR0_DDR0_DDRM_DDR2       0x40000000
-+
- #define TYPE_PPC4xx_SDRAM_DDR "ppc4xx-sdram-ddr"
- OBJECT_DECLARE_SIMPLE_TYPE(Ppc4xxSdramDdrState, PPC4xx_SDRAM_DDR);
- struct Ppc4xxSdramDdrState {
+     switch (ram_size) {
+-    case (8 * MiB):
++    case 8 * MiB:
+         bcr = 0xffc0;
+         break;
+-    case (16 * MiB):
++    case 16 * MiB:
+         bcr = 0xff80;
+         break;
+-    case (32 * MiB):
++    case 32 * MiB:
+         bcr = 0xff00;
+         break;
+-    case (64 * MiB):
++    case 64 * MiB:
+         bcr = 0xfe00;
+         break;
+-    case (128 * MiB):
++    case 128 * MiB:
+         bcr = 0xfc00;
+         break;
+-    case (256 * MiB):
++    case 256 * MiB:
+         bcr = 0xf800;
+         break;
+-    case (512 * MiB):
++    case 512 * MiB:
+         bcr = 0xf000;
+         break;
+-    case (1 * GiB):
++    case 1 * GiB:
+         bcr = 0xe000;
+         break;
+-    case (2 * GiB):
++    case 2 * GiB:
+         bcr = 0xc000;
+         break;
+-    case (4 * GiB):
++    case 4 * GiB:
+         bcr = 0x8000;
+         break;
+     default:
 -- 
 2.37.3
 
