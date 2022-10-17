@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB3066017D0
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 21:38:33 +0200 (CEST)
-Received: from localhost ([::1]:41708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 600156017FF
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 21:48:09 +0200 (CEST)
+Received: from localhost ([::1]:46224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okVwU-00089C-Ks
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 15:38:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48972)
+	id 1okW5o-0003zi-Al
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 15:48:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1okVfR-0002Cg-46; Mon, 17 Oct 2022 15:20:54 -0400
-Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:46039)
+ id 1okVfS-0002Dm-BT; Mon, 17 Oct 2022 15:20:54 -0400
+Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:39603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1okVfP-0002iN-9m; Mon, 17 Oct 2022 15:20:52 -0400
-Received: by mail-oi1-x22a.google.com with SMTP id o64so13202325oib.12;
- Mon, 17 Oct 2022 12:20:48 -0700 (PDT)
+ id 1okVfP-0002us-Sv; Mon, 17 Oct 2022 15:20:54 -0400
+Received: by mail-oi1-x229.google.com with SMTP id n130so13219316oia.6;
+ Mon, 17 Oct 2022 12:20:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=djS64W7ktw078xyD9yVn4E14AIWIPIhF33Lz7EV0UXY=;
- b=NhR2A+7Rx8A1M/VGXn93WEXaELXSEEJo0eLob5wj9+IyAVfN8swi0iHjdbo2EwzHgR
- ndpuNDA3B12UUGfdRYZ6XdwtNgTCpeK4C/Za8fM8HqXiAvVXAJJ8AaJRrugHVthfB6Rr
- VYeACEOhehpnkxWRH7VhhY+SI5XJJmK0UC3FTIR5UPpWRAx5OBXzBzyqGsIAuAujylRn
- qykCwVNMONfmbnttgavc9yu0zUT+QX//65NWybbtIwDT4qGu714XFV/s0N9Et8B8oWLl
- 7ibKIp33PjazqF/+2i+kKqmvu1R0e7/t9YPDahg6gFTYnEyipCxuCkjd4p/xl3T4eDpc
- GBdA==
+ bh=QY9Kj18IJ5rqPzyXYufSGrMcuTD+LdPJg5fj27oyf14=;
+ b=NeF9RKVM8ltyj4WNeAnEmlwYZh7L4NxwBu84jEkiy2u+vQVeKctr0UxAi4jP1aZYli
+ KjO64jD5tAm0rbAWzCv8jDUGqr0r7rDhojV3Zc1xAYUJK8I/NZBLi/tBYLLhXAoTnesm
+ RDIyRfZhUn1g2qLnVnpynGabZwaxxpUVn7HwtM1kk9Nk/VhEsHpu45ILNOD14x7i6Xu3
+ pCZl6lcwNl6dvDFbFYy6imFVIc2RmxzPwxpZWagsFo8p0APU0xFsceSPk+jkZ76a9k52
+ F3jJfUDnRjL4coqQJ/0knhMIlvnGuYCDVHGHsvtelurSzvyaUjCBq/kIlWi4DpyqnUsc
+ vRgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=djS64W7ktw078xyD9yVn4E14AIWIPIhF33Lz7EV0UXY=;
- b=Vcmlvam3rYDf8om+/E8+gkJ7wbQ0xFtbUbwfR+Ux7BG+PSl9bv2XEKYGpxZU7kun5S
- FkG71QZsrm49jFezOoHj9sh5bmo9ePQ0E06FdyHrZkH+YM8IYs/TgdkJSvhmP79EApMJ
- nY88Q7tb994lu/6hGDT43XHQJQILfRCBduVzgxUC4ASqnOUOpnF/gIt3A2JC4DArUZaq
- xhI22xLI9pLxPPvSByGKalmCFdNjiuUGge31ETKHnX7Gz7QLxTUrDnKILRbm+da9Y+A3
- E63OXiAi6FUCrVwWK86s9JyHYzq3IaXFdVI8jKhR7j+euxWC5QyoBCywjnJD5Nob1SDw
- uDsQ==
-X-Gm-Message-State: ACrzQf3P2hR5wqT00zwrAZb/SkottotSUvzPIqGmSim6ygKE+PELOkNV
- FqoPTGFBOR72gPMV2Yewf0jF0oRu/oc=
-X-Google-Smtp-Source: AMsMyM7/1prrQvbjDuKqFMf2bfrgAmf0e7X0PwMedEN/FMc9zKl5BQWACde6FFvv/gV5eXsBmC4wTQ==
-X-Received: by 2002:a05:6808:1a10:b0:354:4906:edd5 with SMTP id
- bk16-20020a0568081a1000b003544906edd5mr5631263oib.184.1666034447931; 
- Mon, 17 Oct 2022 12:20:47 -0700 (PDT)
+ bh=QY9Kj18IJ5rqPzyXYufSGrMcuTD+LdPJg5fj27oyf14=;
+ b=v6wtQpM6XNzCTjd8v4IKv06jvKjyOIKlZZWF2gQRDE+eh+y4iovOzir6BsF24PeiEz
+ JDJikLQtoxUBSd6hzpetHeP5yBGy+tx981j2SMcAMaDzFBFYzb1GMl06unQ5E6d2dcPn
+ 1KQfhAQNiJtNdb3hzVzMoCLfX68qSeKYOtRACVx8XJiUXL+EdefxeYS7RgaY0eUpVxE9
+ u4schRyUxvptqz5YXGyXvcSMXrwCSDaCTJdyN4UwF//BFZ2W0j4MhtymvDF3TBPLML6z
+ ZEmYymqkgot9YwPP4N0jM9338HpOEFZR0zgjWlwGM+Hu4IXAS5dlkh0SORtn4HiL85Op
+ KstA==
+X-Gm-Message-State: ACrzQf011DJiDgMTOP+2kzxxM5S9Sq+qZXrI1ZisAYVAlMu8P38fyOYT
+ 6tO0/kifnYN3C/Qz9WwLgq9Psg2mv1k=
+X-Google-Smtp-Source: AMsMyM6YX6ArNJ4bxYiH8g4b0/eu9CctdPybON5yp5CsAjBOebDLrs0ykM0z7LghupZ31TeRnYmXVw==
+X-Received: by 2002:aca:3608:0:b0:34f:bb9b:cdc9 with SMTP id
+ d8-20020aca3608000000b0034fbb9bcdc9mr5709446oia.261.1666034450367; 
+ Mon, 17 Oct 2022 12:20:50 -0700 (PDT)
 Received: from balboa.COMFAST ([179.111.38.2])
  by smtp.gmail.com with ESMTPSA id
- n132-20020aca408a000000b00342eade43d4sm4648005oia.13.2022.10.17.12.20.45
+ n132-20020aca408a000000b00342eade43d4sm4648005oia.13.2022.10.17.12.20.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Oct 2022 12:20:47 -0700 (PDT)
+ Mon, 17 Oct 2022 12:20:50 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
  BALATON Zoltan <balaton@eik.bme.hu>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 12/38] ppc440_sdram: Implement enable bit in the DDR2 SDRAM
- controller
-Date: Mon, 17 Oct 2022 16:19:43 -0300
-Message-Id: <20221017192009.92404-13-danielhb413@gmail.com>
+Subject: [PULL 13/38] ppc440_sdram: Get rid of the init RAM hack
+Date: Mon, 17 Oct 2022 16:19:44 -0300
+Message-Id: <20221017192009.92404-14-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221017192009.92404-1-danielhb413@gmail.com>
 References: <20221017192009.92404-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x229.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -94,105 +93,114 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-To allow removing the do_init hack we need to improve the DDR2 SDRAM
-controller model to handle the enable/disable bit that it ignored so
-far.
+Remove the do_init parameter of ppc440_sdram_init and enable SDRAM
+controller from the board. Firmware does this so it may only be needed
+when booting with -kernel without firmware but we enable SDRAM
+unconditionally to preserve previous behaviour.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <f8900aadb1a4426a6444741e6876c898b3b77f7b.1664021647.git.balaton@eik.bme.hu>
+Message-Id: <c2eda8f83c82f655aa7821a5a8c9310484bd6a1d.1664021647.git.balaton@eik.bme.hu>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/ppc440_uc.c | 34 ++++++++++++++++++++++++++++++++--
- 1 file changed, 32 insertions(+), 2 deletions(-)
+ hw/ppc/ppc440.h         |  3 +--
+ hw/ppc/ppc440_uc.c      | 15 +++++++++------
+ hw/ppc/sam460ex.c       |  4 +++-
+ include/hw/ppc/ppc4xx.h |  2 ++
+ 4 files changed, 15 insertions(+), 9 deletions(-)
 
+diff --git a/hw/ppc/ppc440.h b/hw/ppc/ppc440.h
+index e6c905b7d6..01d76b8000 100644
+--- a/hw/ppc/ppc440.h
++++ b/hw/ppc/ppc440.h
+@@ -17,8 +17,7 @@ void ppc4xx_l2sram_init(CPUPPCState *env);
+ void ppc4xx_cpr_init(CPUPPCState *env);
+ void ppc4xx_sdr_init(CPUPPCState *env);
+ void ppc440_sdram_init(CPUPPCState *env, int nbanks,
+-                       Ppc4xxSdramBank *ram_banks,
+-                       int do_init);
++                       Ppc4xxSdramBank *ram_banks);
+ void ppc4xx_ahb_init(CPUPPCState *env);
+ void ppc4xx_dma_init(CPUPPCState *env, int dcr_base);
+ void ppc460ex_pcie_init(CPUPPCState *env);
 diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
-index 900b7ab998..3fbfe4ad13 100644
+index 3fbfe4ad13..e8bc088c8f 100644
 --- a/hw/ppc/ppc440_uc.c
 +++ b/hw/ppc/ppc440_uc.c
-@@ -485,6 +485,7 @@ void ppc4xx_sdr_init(CPUPPCState *env)
- /* SDRAM controller */
- typedef struct ppc440_sdram_t {
-     uint32_t addr;
-+    uint32_t mcopt2;
-     int nbanks;
-     Ppc4xxSdramBank bank[4];
- } ppc440_sdram_t;
-@@ -600,7 +601,7 @@ static void sdram_map_bcr(ppc440_sdram_t *sdram)
-     int i;
- 
-     for (i = 0; i < sdram->nbanks; i++) {
--        if (sdram->bank[i].size != 0) {
-+        if (sdram->bank[i].size) {
-             sdram_set_bcr(sdram, i, sdram_bcr(sdram->bank[i].base,
-                                               sdram->bank[i].size), 1);
-         } else {
-@@ -609,6 +610,17 @@ static void sdram_map_bcr(ppc440_sdram_t *sdram)
-     }
- }
- 
-+static void sdram_unmap_bcr(ppc440_sdram_t *sdram)
-+{
-+    int i;
-+
-+    for (i = 0; i < sdram->nbanks; i++) {
-+        if (sdram->bank[i].size) {
-+            sdram_set_bcr(sdram, i, sdram->bank[i].bcr & ~1, 0);
-+        }
-+    }
-+}
-+
- static uint32_t dcr_read_sdram(void *opaque, int dcrn)
- {
-     ppc440_sdram_t *sdram = opaque;
-@@ -640,7 +652,7 @@ static uint32_t dcr_read_sdram(void *opaque, int dcrn)
-             ret = 0x80000000;
-             break;
-         case 0x21: /* SDRAM_MCOPT2 */
--            ret = 0x08000000;
-+            ret = sdram->mcopt2;
-             break;
-         case 0x40: /* SDRAM_MB0CF */
-             ret = 0x00008001;
-@@ -662,6 +674,8 @@ static uint32_t dcr_read_sdram(void *opaque, int dcrn)
-     return ret;
- }
- 
-+#define SDRAM_DDR2_MCOPT2_DCEN BIT(27)
-+
- static void dcr_write_sdram(void *opaque, int dcrn, uint32_t val)
- {
-     ppc440_sdram_t *sdram = opaque;
-@@ -684,6 +698,21 @@ static void dcr_write_sdram(void *opaque, int dcrn, uint32_t val)
-         switch (sdram->addr) {
-         case 0x00: /* B0CR */
-             break;
-+        case 0x21: /* SDRAM_MCOPT2 */
-+            if (!(sdram->mcopt2 & SDRAM_DDR2_MCOPT2_DCEN) &&
-+                (val & SDRAM_DDR2_MCOPT2_DCEN)) {
-+                trace_ppc4xx_sdram_enable("enable");
-+                /* validate all RAM mappings */
-+                sdram_map_bcr(sdram);
-+                sdram->mcopt2 |= SDRAM_DDR2_MCOPT2_DCEN;
-+            } else if ((sdram->mcopt2 & SDRAM_DDR2_MCOPT2_DCEN) &&
-+                       !(val & SDRAM_DDR2_MCOPT2_DCEN)) {
-+                trace_ppc4xx_sdram_enable("disable");
-+                /* invalidate all RAM mappings */
-+                sdram_unmap_bcr(sdram);
-+                sdram->mcopt2 &= ~SDRAM_DDR2_MCOPT2_DCEN;
-+            }
-+            break;
-         default:
-             break;
-         }
-@@ -698,6 +727,7 @@ static void sdram_reset(void *opaque)
+@@ -16,6 +16,7 @@
+ #include "qemu/module.h"
+ #include "hw/irq.h"
+ #include "exec/memory.h"
++#include "cpu.h"
+ #include "hw/ppc/ppc4xx.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/pci/pci.h"
+@@ -727,12 +728,11 @@ static void sdram_reset(void *opaque)
      ppc440_sdram_t *sdram = opaque;
  
      sdram->addr = 0;
-+    sdram->mcopt2 = SDRAM_DDR2_MCOPT2_DCEN;
+-    sdram->mcopt2 = SDRAM_DDR2_MCOPT2_DCEN;
++    sdram->mcopt2 = 0;
  }
  
  void ppc440_sdram_init(CPUPPCState *env, int nbanks,
+-                       Ppc4xxSdramBank *ram_banks,
+-                       int do_init)
++                       Ppc4xxSdramBank *ram_banks)
+ {
+     ppc440_sdram_t *sdram;
+     int i;
+@@ -749,9 +749,6 @@ void ppc440_sdram_init(CPUPPCState *env, int nbanks,
+                      sdram, &dcr_read_sdram, &dcr_write_sdram);
+     ppc_dcr_register(env, SDRAM0_CFGDATA,
+                      sdram, &dcr_read_sdram, &dcr_write_sdram);
+-    if (do_init) {
+-        sdram_map_bcr(sdram);
+-    }
+ 
+     ppc_dcr_register(env, SDRAM_R0BAS,
+                      sdram, &dcr_read_sdram, &dcr_write_sdram);
+@@ -773,6 +770,12 @@ void ppc440_sdram_init(CPUPPCState *env, int nbanks,
+                      sdram, &dcr_read_sdram, &dcr_write_sdram);
+ }
+ 
++void ppc440_sdram_enable(CPUPPCState *env)
++{
++    ppc_dcr_write(env->dcr_env, SDRAM0_CFGADDR, 0x21);
++    ppc_dcr_write(env->dcr_env, SDRAM0_CFGDATA, 0x08000000);
++}
++
+ /*****************************************************************************/
+ /* PLB to AHB bridge */
+ enum {
+diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+index f4c2a693fb..9c01211b20 100644
+--- a/hw/ppc/sam460ex.c
++++ b/hw/ppc/sam460ex.c
+@@ -345,7 +345,9 @@ static void sam460ex_init(MachineState *machine)
+     ppc4xx_sdram_banks(machine->ram, 1, ram_banks, ppc460ex_sdram_bank_sizes);
+ 
+     /* FIXME: does 460EX have ECC interrupts? */
+-    ppc440_sdram_init(env, 1, ram_banks, 1);
++    ppc440_sdram_init(env, 1, ram_banks);
++    /* Enable SDRAM memory regions as we may boot without firmware */
++    ppc440_sdram_enable(env);
+ 
+     /* IIC controllers and devices */
+     dev = sysbus_create_simple(TYPE_PPC4xx_I2C, 0x4ef600700,
+diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
+index 558500fb97..78a845399e 100644
+--- a/include/hw/ppc/ppc4xx.h
++++ b/include/hw/ppc/ppc4xx.h
+@@ -37,6 +37,8 @@ typedef struct {
+     uint32_t bcr;
+ } Ppc4xxSdramBank;
+ 
++void ppc440_sdram_enable(CPUPPCState *env);
++
+ void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
+                         Ppc4xxSdramBank ram_banks[],
+                         const ram_addr_t sdram_bank_sizes[]);
 -- 
 2.37.3
 
