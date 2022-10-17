@@ -2,99 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E1D6012AC
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 17:23:52 +0200 (CEST)
-Received: from localhost ([::1]:58346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBE216012C3
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 17:30:25 +0200 (CEST)
+Received: from localhost ([::1]:34926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okRy3-0008Sw-2d
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 11:23:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51682)
+	id 1okS4O-0002rA-DT
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 11:30:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1okRvc-0006hU-AR
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 11:21:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54232)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1okS27-0000aV-VX; Mon, 17 Oct 2022 11:28:03 -0400
+Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56]:57004)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1okRvZ-0005Ey-Bu
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 11:21:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666020071;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=for7iQB1PGtbIUW0+HjjHWIA4Z9lpYnPXli5JtxSp0o=;
- b=OSZcIhH+nZ4AsyX4nLvxZMlTOpPUncA+NWtJPYeN8Z+TLskrniO/3fiphlpaLUX/HjxR5X
- QJ+S1aUSah1OxtkzRzm6Wg7UNcoxAnXPleOHSul7OQqHJVL5x2b+XH/MDL3jFrlDxLLa4O
- h0TQd4kvb2/eKvH5OoOXWqRHBgy13O0=
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-86-8vDCLXI2MSegI1_S_l7swA-1; Mon, 17 Oct 2022 11:21:10 -0400
-X-MC-Unique: 8vDCLXI2MSegI1_S_l7swA-1
-Received: by mail-il1-f197.google.com with SMTP id
- f15-20020a056e020b4f00b002fa34db70f0so9170330ilu.2
- for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 08:21:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=for7iQB1PGtbIUW0+HjjHWIA4Z9lpYnPXli5JtxSp0o=;
- b=i57ZnwXBMdCXRRSyhOQs6JBsAz9EkKcIwPNaKO3qx1rgx1KqDCQQdX1O5TCyT2NTZE
- TDDAZ6H13PLz/4uk7PW8sYIhgUzG98hqGJV80vqXGOiC1MbtW378befUtjHLFJBLKncC
- nz06OqASuuhuhVN8tPeisFKHkQZNDpO6AjA6N47QRYziPmZr/qwpOhI3nZmyI6NFQ348
- uF/aJ9aKry/N0NVYNugQzZVxdyGgqbM2U+I+iN9EIZ1vYkZrtyaKfi3wI8y8fvoRj5SP
- dyq7tmiBAYuEQHKXlpOwyAIYh4ZEplVojefLuUd/0oxwpyaBZ0BPeQ0onOZO4Tak4xcg
- 4IQg==
-X-Gm-Message-State: ACrzQf2xnkgMHI44M4/x6AS3YpMe7aDO84FH9ITbhrhPhL61nxZXwsMZ
- 2YlB+kIQNKCl4KvlwjSP1PsWqhB/78XjdZ2ALkKb3Mpyt0uRhXTDCYaJXOInJLAGn/T5CJyx84a
- oeqNMpgkb3YhfMaA=
-X-Received: by 2002:a92:c265:0:b0:2f9:ec63:2e3e with SMTP id
- h5-20020a92c265000000b002f9ec632e3emr4963386ild.275.1666020069605; 
- Mon, 17 Oct 2022 08:21:09 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7HNsoVlk+hWpcTzVPOZyr9nt1H7xM14yq7UobSMU+VJwkUnPhpoRDNSWZHosFeTAfCr98kfQ==
-X-Received: by 2002:a92:c265:0:b0:2f9:ec63:2e3e with SMTP id
- h5-20020a92c265000000b002f9ec632e3emr4963367ild.275.1666020069333; 
- Mon, 17 Oct 2022 08:21:09 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- g12-20020a056602072c00b006a514f67f38sm22081iox.28.2022.10.17.08.21.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Oct 2022 08:21:08 -0700 (PDT)
-Date: Mon, 17 Oct 2022 09:21:05 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Andrey Ryabinin <arbn@yandex-team.com>
-Cc: qemu-devel@nongnu.org, Steve Sistare <steven.sistare@oracle.com>,
- yc-core@yandex-team.ru, Tony Krowiak <akrowiak@linux.ibm.com>, Halil Pasic
- <pasic@linux.ibm.com>, Jason Herne <jjherne@linux.ibm.com>, Cornelia Huck
- <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>, Eric Farman
- <farman@linux.ibm.com>, Matthew Rosato <mjrosato@linux.ibm.com>, Paolo
- Bonzini <pbonzini@redhat.com>, "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?="
- <berrange@redhat.com>, Eduardo Habkost <eduardo@habkost.net>, Eric Blake
- <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>, Cleber Rosa
- <crosa@redhat.com>, Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?=
- <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: Re: [PATCH 0/4] Allow to pass pre-created VFIO container/group to QEMU
-Message-ID: <20221017092105.0476385c.alex.williamson@redhat.com>
-In-Reply-To: <20221017105407.3858-1-arbn@yandex-team.com>
-References: <20221017105407.3858-1-arbn@yandex-team.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1okS25-0006XZ-Br; Mon, 17 Oct 2022 11:28:03 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R111e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046051;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=5; SR=0;
+ TI=SMTPD_---0VSQZLMK_1666020469; 
+Received: from 192.168.3.95(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0VSQZLMK_1666020469) by smtp.aliyun-inc.com;
+ Mon, 17 Oct 2022 23:27:49 +0800
+Message-ID: <4841b154-bd05-c677-cfb4-46a350ddd0aa@linux.alibaba.com>
+Date: Mon, 17 Oct 2022 23:27:45 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: Question about TCG backend correctness
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org
+References: <4672400c-0084-3bf3-a596-7a42115301f0@linux.alibaba.com>
+ <87lepeeno0.fsf@linaro.org>
+Content-Language: en-US
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <87lepeeno0.fsf@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=115.124.30.56;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-56.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,85 +66,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 17 Oct 2022 13:54:03 +0300
-Andrey Ryabinin <arbn@yandex-team.com> wrote:
 
-> These patches add possibility to pass VFIO device to QEMU using file
-> descriptors of VFIO container/group, instead of creating those by QEMU.
-> This allows to take away permissions to open /dev/vfio/* from QEMU and
-> delegate that to managment layer like libvirt.
-> 
-> The VFIO API doen't allow to pass just fd of device, since we also need to have
-> VFIO container and group. So these patches allow to pass created VFIO container/group
-> to QEMU via command line/QMP, e.g. like this:
->             -object vfio-container,id=ct,fd=5 \
->             -object vfio-group,id=grp,fd=6,container=ct \
->             -device vfio-pci,host=05:00.0,group=grp
+On 2022/10/17 18:30, Alex Bennée wrote:
+> LIU Zhiwei <zhiwei_liu@linux.alibaba.com> writes:
+>
+>> Hi folks,
+>>
+>>      For TCG front end, we can test it with tools, such as RISU. But I
+>> don't know if  there are some tools that can help
+>> to verify the correctness of a TCG backend.
+>>
+>>      Can someone share the tools or the experience to debug RISC-V
+>> backend?  Thanks very much.
+> It's mostly down to inspection or debugging failures.
+Agree.
+>   Sometimes you can
+> attempt to shake out bugs by running a stacked QEMU. e.g.
+>
+>     qemu-system-aarch64 on x86 host
+>     qemu-system-aarch64 on qemu-system-riscv64 on x86 host
+>
+> and see if the two aarch64 guests run the same.
+We currently depend on the guest behaviors to test the correctness of 
+TCG backend. And if the guest doesn't
+behave correctly, it is hard to find the exact bug in backend.
 
-This suggests that management tools need to become intimately familiar
-with container and group association restrictions for implicit
-dependencies, such as device AddressSpace.  We had considered this
-before and intentionally chosen to allow QEMU to manage that
-relationship.  Things like PCI bus type and presence of a vIOMMU factor
-into these relationships.
+Maybe I can run RISU on qemu-aarch64(x86) and qemu-aarch64(risc-v) to 
+check the RISC-V backend.
 
-In the above example, what happens in a mixed environment, for example
-if we then add '-device vfio-pci,host=06:00.0' to the command line?
-Isn't QEMU still going to try to re-use the container if it exists in
-the same address space?  Potentially this device could also be a member
-of the same group.  How would the management tool know when to expect
-the provided fds be released?
+>   This of course gets very
+> tricky running full OS kernels because as soon as time and async
+> interrupts get involved you will get divergence anyway. This would work
+> best with simple straight line test cases (e.g. check-tcg test cases).
+>
+> I've long wanted to have the ability to have TCG unit tests where a
+> virtual processor could be defined for the purpose of directly
+> exercising TCG.
 
-We also have an outstanding RFC for iommufd that already proposes an fd
-passing interface, where iommufd removes many of the issues of the vfio
-container by supporting multiple address spaces within a single fd
-context, avoiding the duplicate locked page accounting issues between
-containers, and proposing a direct device fd interface for vfio.  Why at
-this point in time would we choose to expand the QEMU vfio interface in
-this way?  Thanks,
+We already have many ISAs as the front end of TCG. Will the virtual 
+processor here be some
+different?
 
-Alex
+> This would be mainly to check tcg_optimize() works
+> correctly but no doubt could be extended to verify the eventual backend
+> output. The problem with implementing such an approach has been the
+> amount of boilerplate needed to define a simple frontend.
+Sorry, I don't get it.
+>   Maybe this
+> will get simpler as we slowly move to a single binary build but there is
+> still quite of lot of things TCG needs to know about the guest it is
+> emulating.
+>
+> If you would like to attempt improve the testing situation for TCG and its
+> backend I'm fully supportive.
 
-> A bit more detailed example can be found in the test:
-> tests/avocado/vfio.py
-> 
->  *Possible future steps*
-> 
-> Also these patches could be a step for making local migration (within one host)
-> of the QEMU with VFIO devices.
-> I've built some prototype on top of these patches to try such idea.
-> In short the scheme of such migration is following:
->  - migrate source VM to file.
->  - retrieve fd numbers of VFIO container/group/device via new property and qom-get command
->  - get the actual file descriptor via SCM_RIGHTS using new qmp command 'returnfd' which
->    sends fd from QEMU by the number: { 'command': 'returnfd', 'data': {'fd': 'int'}}
->  - shutdown source VM
->  - launch destination VM, plug VFIO devices using obtained file descriptors.
->  - PCI device reset duriing plugging the device avoided with the help of new parameter
->     on vfio-pci device.
-> This is alternative to 'cpr-exec' migration scheme proposed here:
->    https://lore.kernel.org/qemu-devel/1658851843-236870-1-git-send-email-steven.sistare@oracle.com/
-> Unlike cpr-exec it doesn't require new kernel flags VFIO_DMA_UNMAP_FLAG_VADDR/VFIO_DMA_MAP_FLAG_VADDR
-> And doesn't require new migration mode, just some additional steps from management layer.
-> 
-> 
-> Andrey Ryabinin (4):
->   vfio: add vfio-container user createable object
->   vfio: add vfio-group user createable object
->   vfio: Add 'group' property to 'vfio-pci' device
->   tests/avocado/vfio: add test for vfio devices
-> 
->  hw/vfio/ap.c                  |   2 +-
->  hw/vfio/ccw.c                 |   2 +-
->  hw/vfio/common.c              | 471 +++++++++++++++++++++++-----------
->  hw/vfio/pci.c                 |  10 +-
->  hw/vfio/platform.c            |   2 +-
->  hw/vfio/trace-events          |   4 +-
->  include/hw/vfio/vfio-common.h |  10 +-
->  qapi/qom.json                 |  29 +++
->  tests/avocado/vfio.py         | 156 +++++++++++
->  9 files changed, 525 insertions(+), 161 deletions(-)
->  create mode 100644 tests/avocado/vfio.py
-> 
+If I can find a  good way, I really like to do some further work.
 
+Thanks，
+Zhiwei
+
+>
 
