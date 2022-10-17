@@ -2,91 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAC20600FF7
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 15:10:52 +0200 (CEST)
-Received: from localhost ([::1]:32774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22F7360101F
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 15:23:56 +0200 (CEST)
+Received: from localhost ([::1]:54894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okPtL-0000be-R5
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 09:10:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38704)
+	id 1okQ5y-0002dM-7X
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 09:23:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1okPmF-0004iI-9r
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 09:03:31 -0400
-Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c]:33534)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1okPmC-0006oo-6B
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 09:03:29 -0400
-Received: by mail-qk1-x72c.google.com with SMTP id a18so6555458qko.0
- for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 06:03:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6oBlGA5Pz5LuGRpSjcpBDX3q4QJZ7B7vanm7cs+u54M=;
- b=FQwhEI+pqhGWYW/x/Z7DQxHLHPIy/zuKw0/sBpiNYOl5STncjR/Bw0J9819qWKpmPn
- MWFaqao1azUfGiy81D8Rtl1UAHVN1cbmAP6bDOQQm4dwE27x8tw/dew4M599t5W6RHT9
- PhOkZ13Vvmq44jRu+8fLpPc2ey2B6pCDYyeY2SGWApEn8sA8deFTTZpL0a2MpFEBiyRM
- ENFHYtyHV4x3fmImWefQFMOxPTj3hwnlZqg076giJn6XImUPjpQjDIJzMBOfo5H7ojOc
- 2uAZBU6mdDMHO4SeyA9ir/esC3898XvHIBlkyaxvGnbjxhafrpibS5YGDG/5ithAu2Og
- sGKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6oBlGA5Pz5LuGRpSjcpBDX3q4QJZ7B7vanm7cs+u54M=;
- b=TagZjoJYakOdP5MDZ1wt0ozXRu7noeo1MM6r09LpgQHq4gRQPNzSbS1Sbafm2ocLP3
- Lo5AeI/JzMweyq0e5ShbSRWpJ5aOmP4YvXYh5eqbvHZ9+shVgli4cYGF7Wv+h+zpHSSx
- ee1U3lvuNAvUkePyIvdUwpobMpebeRFj+QnkVM8vZ8OEzNpCUSioA5/L70HvfRj10gEt
- HeakD2qXlddRG3B3MY30bWNUndsQ5C69E8J3oGok915wZNgzReFATf6SF6ctpDSF1nsV
- EpzSFwfHheLCIb7QFGJM/HZRyAROSd+cZOE8fovgHLAKVOpu7ZEHZH6aSJo52oAZB4fl
- iB1Q==
-X-Gm-Message-State: ACrzQf1TylAnhnw09PMhlveC25CBSyO1ScBIiLP/WqVk9QymCGe9KAF5
- 4cagM2O08PfoWcKsr8tfj03yVhw8g1foPIVOQF8=
-X-Google-Smtp-Source: AMsMyM4yQt918fB4ACZ0q9JcT48MRAjQ3OIIgy7K11M3mNoUQ5tpt0QlC3hRvj9DNIDro/J8VQTWl7h4Duz9N3+05qc=
-X-Received: by 2002:a05:620a:19a6:b0:6ee:d3d6:6b03 with SMTP id
- bm38-20020a05620a19a600b006eed3d66b03mr7447085qkb.376.1666011805906; Mon, 17
- Oct 2022 06:03:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1okPzr-0004g3-Hk
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 09:17:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47889)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1okPzq-0000hv-1w
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 09:17:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666012653;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=K3Z5z6UTtIEHTPJFqUwyOpIjWsyYay3MJKRhggMStCI=;
+ b=OtXxely8IWj7p1HMu66Jvhpo7ShpZrIfWlHw7gxG2ZHfeiwj68T4vUWxAZSa5+pqp01yTV
+ seqSxMc0N0XKD4adXSzU8NdnqZ5d9kSmNXjn3m4kWL22VpmGExhQSWQjblyUiJP3yZJQ+P
+ dTiIvfG7NJ8OVaoITBG3kx2iyE/wnV8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-664-HpNHLWnmNwKShTKTz4_PFg-1; Mon, 17 Oct 2022 09:17:29 -0400
+X-MC-Unique: HpNHLWnmNwKShTKTz4_PFg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E49381C0E127;
+ Mon, 17 Oct 2022 13:17:28 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 79350200B419;
+ Mon, 17 Oct 2022 13:17:28 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7030021E691D; Mon, 17 Oct 2022 15:17:27 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Cc: qemu-devel@nongnu.org,  Stefano Stabellini <sstabellini@kernel.org>,
+ Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  "Dr. David
+ Alan Gilbert"
+ <dgilbert@redhat.com>,  Jason Wang <jasowang@redhat.com>,  "Michael S.
+ Tsirkin" <mst@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Anthony
+ Perard <anthony.perard@citrix.com>,  Greg Kurz <groug@kaod.org>,  Eric
+ Blake <eblake@redhat.com>,  Stefan Weil <sw@weilnetz.de>,  Thomas Huth
+ <thuth@redhat.com>,  Samuel Thibault <samuel.thibault@ens-lyon.org>,  Paul
+ Durrant <paul@xen.org>,  David Gibson <david@gibson.dropbear.id.au>,
+ xen-devel@lists.xenproject.org,  Stefano Brivio <sbrivio@redhat.com>
+Subject: Re: [PATCH v11 09/17] net: stream: add unix socket
+References: <20221011200539.1486809-1-lvivier@redhat.com>
+ <20221011200539.1486809-10-lvivier@redhat.com>
+Date: Mon, 17 Oct 2022 15:17:27 +0200
+In-Reply-To: <20221011200539.1486809-10-lvivier@redhat.com> (Laurent Vivier's
+ message of "Tue, 11 Oct 2022 22:05:31 +0200")
+Message-ID: <87v8oi4mjc.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <CAJ307EhBSg4ENykkbqsT=5oBjc34JR+d3bJAVSTaxRM-uG4LGg@mail.gmail.com>
- <CAEUhbmUAF0W_SCtYOuAZ+xc7Y4So3J4QB29Us0AV44eVF8KtLg@mail.gmail.com>
- <CAJ307EjyXxbGLK-PhBjf18p3AApYM-jGqA2L9q3xLS9wX16h_w@mail.gmail.com>
- <CAEUhbmWStgz4oUEgrtAVU_YFdKSPFJrK-4kd+DP4jqLS51+X+A@mail.gmail.com>
- <CAEUhbmVYPo46nx8LLXcS21myzxcwT0HAzKt+cTRprmn06+g0PQ@mail.gmail.com>
- <CAEUhbmUSLgiZM4w-rnrOeW+tER8SBdj5=1DvC85jp1e4GvKFoA@mail.gmail.com>
- <CAEUhbmUXUiW_Gr4wpeJR-32djq=-E_UJRYc8KN86Ko16w_ysNw@mail.gmail.com>
- <CAEUhbmVs3QXP7iDH1O5M9utLeyVmkMwf7hW8gty49SDcSBFj+w@mail.gmail.com>
- <CAEUhbmWkS1rx9O=mhPaoYm-Bk7AC6USrVb1iw-Vf0q6SB4Jn2w@mail.gmail.com>
- <CAEUhbmWV+7HxRE=oo9Eb9ys7tYE8uGp+PbaDVrD+wPULYSFfNw@mail.gmail.com>
- <Y01K+XFZBtm/YaCw@redhat.com>
-In-Reply-To: <Y01K+XFZBtm/YaCw@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 17 Oct 2022 21:03:15 +0800
-Message-ID: <CAEUhbmVdGu-Afk5hfX724eXjPxi-vGg7q-Sik3O2GC35y=D3AA@mail.gmail.com>
-Subject: Re: [PATCH 49/51] io/channel-watch: Fix socket watch on Windows
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Richard Henderson <richard.henderson@linaro.org>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, 
- =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x72c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,76 +89,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 17, 2022 at 8:30 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
->
-> On Mon, Oct 17, 2022 at 08:21:37PM +0800, Bin Meng wrote:
-> > +more people
-> >
-> > On Tue, Oct 11, 2022 at 6:42 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > >
-> > > Hi Paolo,
-> > >
-> > > On Thu, Oct 6, 2022 at 11:03 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > > >
-> > > > Hi Paolo,
-> > > >
-> > > > On Wed, Sep 28, 2022 at 2:10 PM Bin Meng <bmeng.cn@gmail.com> wrote=
-:
-> > > > >
-> > > > > Hi Paolo,
-> > > > >
-> > > > > On Wed, Sep 21, 2022 at 9:02 AM Bin Meng <bmeng.cn@gmail.com> wro=
-te:
-> > > > > >
-> > > > > > On Wed, Sep 14, 2022 at 4:08 PM Bin Meng <bmeng.cn@gmail.com> w=
-rote:
-> > > > > > >
-> > > > > > > On Wed, Sep 7, 2022 at 1:07 PM Bin Meng <bmeng.cn@gmail.com> =
-wrote:
-> > > > > > > > It seems to me that resetting the event twice (one time wit=
-h the
-> > > > > > > > master Gsource, and the other time with the child GSource) =
-causes some
-> > > > > > > > bizarre behavior. But MSDN [1] says
-> > > > > > > >
-> > > > > > > >     "Resetting an event that is already reset has no effect=
-."
-> > > > > > > >
-> > > > > > > > [1] https://docs.microsoft.com/en-us/windows/win32/api/sync=
-hapi/nf-synchapi-resetevent
-> > > > > > > >
-> > > > > > >
-> > > > > > > Paolo, any comments about this issue?
-> > > > > >
-> > > > > > v2 series has been sent out, and this patch remains unchanged.
-> > > > > >
-> > > > > > Paolo, still would appreciate your comments.
-> > > > >
-> > > > > Ping?
-> > > >
-> > > > Ping? Can you please comment??
-> > >
-> > > Ping?
-> >
-> > Paolo remains silent. Please let me know who else could approve this
-> > change. Thanks.
->
-> Given there has been plenty of time for objecting, I'll queue this
-> patch on the basis that you've tested it on a real Windows host
-> and found it better than what we have today.
->
+Laurent Vivier <lvivier@redhat.com> writes:
 
-Thank you Daniel!
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
+> Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
-Please queue the following patches from v5 instead.
+QAPI schema
+Acked-by: Markus Armbruster <armbru@redhat.com>
 
-Message-ids:
-
-20221006151927.2079583-15-bmeng.cn@gmail.com
-20221006151927.2079583-16-bmeng.cn@gmail.com
-20221006151927.2079583-17-bmeng.cn@gmail.com
-
-Regards,
-Bin
 
