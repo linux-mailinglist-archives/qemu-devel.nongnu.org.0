@@ -2,88 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8789F60105E
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 15:40:34 +0200 (CEST)
-Received: from localhost ([::1]:39330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4B6960107F
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 15:50:38 +0200 (CEST)
+Received: from localhost ([::1]:37542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okQM4-0000Rf-LN
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 09:40:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54288)
+	id 1okQVp-0001cC-A1
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 09:50:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1okQBv-0000Am-7C
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 09:30:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40938)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1okQQG-0005Y1-Vk
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 09:44:53 -0400
+Received: from esa1.hc2706-39.iphmx.com ([68.232.153.39]:10136)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1okQBo-0003DS-Sl
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 09:29:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666013395;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Hs9LfDPxnBueCfs4/tufiTMoW8kkgGWP4yk+hTT0JlU=;
- b=f70qTAaKm2/1q4MHI0iaob1QD/6DC0ImZgdW+kxGFulFhaPyYoGpW3X79x6z3zjdOzCJwf
- NHSHp4Y9fjUntidyiDvS6WSWBjt23/qsiYriScapRMfeSBtNSZL0IKkCYtGTGT4aYKEZvz
- TYZe8Wy0k8HdWQBPc6O1HmmXh9RDFFE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-187-vVZ-zu9ZOqeqK0XNZjHSrg-1; Mon, 17 Oct 2022 09:29:52 -0400
-X-MC-Unique: vVZ-zu9ZOqeqK0XNZjHSrg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 502DF101A56C;
- Mon, 17 Oct 2022 13:29:52 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.113])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DAD3D14613D2;
- Mon, 17 Oct 2022 13:29:49 +0000 (UTC)
-Date: Mon, 17 Oct 2022 14:29:45 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- =?utf-8?Q?Cl=C3=A9ment?= Chigot <chigot@adacore.com>
-Subject: Re: [PATCH 49/51] io/channel-watch: Fix socket watch on Windows
-Message-ID: <Y01YyY0DM6HBRFDy@redhat.com>
-References: <CAJ307EjyXxbGLK-PhBjf18p3AApYM-jGqA2L9q3xLS9wX16h_w@mail.gmail.com>
- <CAEUhbmWStgz4oUEgrtAVU_YFdKSPFJrK-4kd+DP4jqLS51+X+A@mail.gmail.com>
- <CAEUhbmVYPo46nx8LLXcS21myzxcwT0HAzKt+cTRprmn06+g0PQ@mail.gmail.com>
- <CAEUhbmUSLgiZM4w-rnrOeW+tER8SBdj5=1DvC85jp1e4GvKFoA@mail.gmail.com>
- <CAEUhbmUXUiW_Gr4wpeJR-32djq=-E_UJRYc8KN86Ko16w_ysNw@mail.gmail.com>
- <CAEUhbmVs3QXP7iDH1O5M9utLeyVmkMwf7hW8gty49SDcSBFj+w@mail.gmail.com>
- <CAEUhbmWkS1rx9O=mhPaoYm-Bk7AC6USrVb1iw-Vf0q6SB4Jn2w@mail.gmail.com>
- <CAEUhbmWV+7HxRE=oo9Eb9ys7tYE8uGp+PbaDVrD+wPULYSFfNw@mail.gmail.com>
- <Y01K+XFZBtm/YaCw@redhat.com>
- <CAEUhbmVdGu-Afk5hfX724eXjPxi-vGg7q-Sik3O2GC35y=D3AA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1okQQE-00061t-P7
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 09:44:52 -0400
+X-IronPort-RemoteIP: 209.85.219.71
+X-IronPort-MID: 233147338
+X-IronPort-Reputation: None
+X-IronPort-Listener: OutgoingMail
+X-IronPort-SenderGroup: RELAY_GSUITE
+X-IronPort-MailFlowPolicy: $RELAYED
+IronPort-Data: A9a23:BBCRO62kojk++M8K3fbD5WJzkn2cJEfYwER7XKvMYLTBsI5bpzwGn
+ WVOWm2OPv3bYWXwLdtwOoq28E4G7ZDWzocyT1Y6qSg9HnlHl5H5CIXCJC8cHc8zwu4v7q5Dx
+ 59DAjUVBJlsFhcwnj/0bv676yEUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii8tjjMPR7zml4
+ LsemOWCfg74s9JIGjhMsfja8Eow5K2aVA4w5TTSW9ga5DcyqFFIVPrzFYnpR1PkT49dGPKNR
+ uqr5NlVKUuAon/Bovv8+lrKWhRiroz6ZGBiuVIPM0SWuSWukwRpukoN2FvwXm8M49mBt4gZJ
+ NygLvVcQy9wVkHHsL11vxW1j0iSlECJkVPKCSHXjCCd86HJW2v93dFxBVEMBI4/37xaH0Zxz
+ P40EglYO3hvh8ruqF66Yuxlh8BmNdeyeY1A4zdvyjbWCftgSpfGK0nIzYUAjXFg24YURKeYO
+ JNxhTlHNXwsZzVGPkcRBIgWlvrui3XiG9FdgAjO/vNrvDOInGSd1pDPOuj7deSmSf5NoRnIu
+ V7N1Eb/XCgVYYn3JT2ttyjEavX0tTr2XZ9XGLCm+/pChlqVyWoOThoMWjOGTeKRj0e/X5dGN
+ RVR9HV366c180OvQ5/2WBjQTGO4gyPwkuF4S4USgDxhAIKOi+pFLgDolgJ8VeE=
+IronPort-HdrOrdr: A9a23:odZE/aE6vGbnn4WtpLqFfpHXdLJyesId70hD6qkvc3Fom52j/f
+ xGws5x6fatskd3ZJhSo6HnBEDgewKqyXcb2/h1AV7PZmfbUQiTXfdfBOnZslnd8kTFn4Ywup
+ uIGJIfNDSENykZsS+M2njaLz9P+ri62ZHtod2b42ZmTAlsZa0lxRx+EBynHkp/QxQDLYYlFb
+ KHj/A37waISDAyVICWF3MFV+/Mq5ngj5T9eyMLABYh9U2nkS6o0rjnCBKVty1uGA+ngI1Su1
+ QtoTaJqplLgMvLhSM0EFWjoai+reGRh+erwvb8y/T9ZA+cyjpAL74RIoFq9ApF2N1Hrmxa2e
+ Uk6i1QRPhb+jffeHq4rgDq3BSl2DEy62X6wVvdmnf7p9flLQhKefapqLgpAicx0XBQz+1Uwe
+ ZOxSaUppBXBRTPkGD04MXJTQhjkg6xrWA5meAegnRDWc9GAYUh2bA37QdQCtMNDSj64IcoHK
+ 1nC9zd/u9fdRefY2rCtmdizdSwVjA4HwuAQEIFpsuJugIm6UxR3g8d3ogSj30A/JUyR91N4P
+ nFKL1hkPVUQsoffctGdZY8qAuMexLwqD73QR6vyA7cZds60lr22uPKyaRw4v22c5oVy5Z3kI
+ jdUTpjxBEPR34=
+Received: from mail-qv1-f71.google.com ([209.85.219.71])
+ by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 17 Oct 2022 09:44:44 -0400
+Received: by mail-qv1-f71.google.com with SMTP id
+ q6-20020a0cf5c6000000b004b1999f94bcso6816135qvm.15
+ for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 06:44:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=F7+1KpaV2oLuCakdJxoHvb4ftmVsXBc8KNJ3r6ep3Og=;
+ b=Vy3UtazbcsqWar8aFvWUTR7QmdbCx32q+qcTXMK4bwpp5VubDWAghgxv4oWbf488jL
+ kuPUraveuxmRd9RdnYMJTmkUXn7zurPkxxWRjI+CZFOpbzS0e+2EK3vb1u7CvvSBKvnu
+ LpwxmoKCEqqJtGeWptyvuSelbF4YpRitrrJXobqEvnQ7M9NzJS1dgf6mvQYWgswwTMSv
+ PITNBktPfEnDJw9/ndPXnRVqkoSgV/NMmPCUm0aGo+EC7vbDE/cdBoAVpebuFxplclrs
+ D8/KC7omhpRV2ckuk7K0yo4wOnjok6AJ/PcvUSeH8684hIj3lGAEyJQuIPefu8Tt0jV6
+ u60Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=F7+1KpaV2oLuCakdJxoHvb4ftmVsXBc8KNJ3r6ep3Og=;
+ b=o/0pJtfTA7nelOMPpDrRmAWYIQGvFAQQPXTmGSezn3FNj+ZkWNJ0TruRPpkOf8IaFe
+ WgLKxcLnYa0CRb5p9yRW6FxOxULibCKCjxCFFLhW9IniNyj+ARsdqXIM9y+kfq7zy7/8
+ gm5HM7xnl2mVoyVGkY86RQbilP5CN73h1j8dAwLhZ3jQAjJfd/6y0ntYwI9wQhI7BJzx
+ Ceuv4rzK785WqcOv4ZxxTsxGl6anjBpowbnFVvyp+8Gk/7xP1Akhh7C88atgSwfLRI0n
+ pPhaiJSJtIfvVQDwbv9YYK97UP88OG7FN+bLmJG6v+5KdnkZyzykUvhSi/42iCBKaMbr
+ 6ygA==
+X-Gm-Message-State: ACrzQf0BpPKAUX9F7xFo6dpNb4RpWPLs3k/I9ZU2fjybIwGB/5enN9i4
+ k+DEjageSZJO7y/Oyih1eV7sX+kgnGLiQhLlYHKM9AFYfeOKU9PERmeX1rH5GHHmg31TpiELqW3
+ TzSbZmGoflwp8wEBRg8T6IUC+Q4q3NA==
+X-Received: by 2002:ac8:5844:0:b0:39c:ea8a:82d4 with SMTP id
+ h4-20020ac85844000000b0039cea8a82d4mr4269075qth.399.1666014283533; 
+ Mon, 17 Oct 2022 06:44:43 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4Yx5XP1C/CicpZz6PN1HN7BQUoyG8yr0YDZsOMByuKIQyQfDqUnrubEiK6JvEDxIvTv8Tq9Q==
+X-Received: by 2002:ac8:5844:0:b0:39c:ea8a:82d4 with SMTP id
+ h4-20020ac85844000000b0039cea8a82d4mr4269045qth.399.1666014283227; 
+ Mon, 17 Oct 2022 06:44:43 -0700 (PDT)
+Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
+ by smtp.gmail.com with ESMTPSA id
+ t6-20020a05620a450600b006b8e8c657ccsm9561475qkp.117.2022.10.17.06.44.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Oct 2022 06:44:42 -0700 (PDT)
+Date: Mon, 17 Oct 2022 09:44:25 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Chris Friedt <chrisfriedt@gmail.com>
+Cc: qemu-devel@nongnu.org, cfriedt@meta.com, jslaby@suse.cz
+Subject: Re: [v2] hw: misc: edu: fix 2 off-by-one errors
+Message-ID: <20221017134425.jbqvtccg5w4yej5g@mozz.bu.edu>
+References: <20221015211025.16781-1-chrisfriedt@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEUhbmVdGu-Afk5hfX724eXjPxi-vGg7q-Sik3O2GC35y=D3AA@mail.gmail.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20221015211025.16781-1-chrisfriedt@gmail.com>
+X-CES-GSUITE_AUTH: bf3aNvsZpxl8
+Received-SPF: pass client-ip=68.232.153.39; envelope-from=alxndr@bu.edu;
+ helo=esa1.hc2706-39.iphmx.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.898, HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,79 +119,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 17, 2022 at 09:03:15PM +0800, Bin Meng wrote:
-> On Mon, Oct 17, 2022 at 8:30 PM Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >
-> > On Mon, Oct 17, 2022 at 08:21:37PM +0800, Bin Meng wrote:
-> > > +more people
-> > >
-> > > On Tue, Oct 11, 2022 at 6:42 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > > >
-> > > > Hi Paolo,
-> > > >
-> > > > On Thu, Oct 6, 2022 at 11:03 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > > > >
-> > > > > Hi Paolo,
-> > > > >
-> > > > > On Wed, Sep 28, 2022 at 2:10 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > > > > >
-> > > > > > Hi Paolo,
-> > > > > >
-> > > > > > On Wed, Sep 21, 2022 at 9:02 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > > > > > >
-> > > > > > > On Wed, Sep 14, 2022 at 4:08 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > > > > > > >
-> > > > > > > > On Wed, Sep 7, 2022 at 1:07 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > > > > > > > > It seems to me that resetting the event twice (one time with the
-> > > > > > > > > master Gsource, and the other time with the child GSource) causes some
-> > > > > > > > > bizarre behavior. But MSDN [1] says
-> > > > > > > > >
-> > > > > > > > >     "Resetting an event that is already reset has no effect."
-> > > > > > > > >
-> > > > > > > > > [1] https://docs.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-resetevent
-> > > > > > > > >
-> > > > > > > >
-> > > > > > > > Paolo, any comments about this issue?
-> > > > > > >
-> > > > > > > v2 series has been sent out, and this patch remains unchanged.
-> > > > > > >
-> > > > > > > Paolo, still would appreciate your comments.
-> > > > > >
-> > > > > > Ping?
-> > > > >
-> > > > > Ping? Can you please comment??
-> > > >
-> > > > Ping?
-> > >
-> > > Paolo remains silent. Please let me know who else could approve this
-> > > change. Thanks.
-> >
-> > Given there has been plenty of time for objecting, I'll queue this
-> > patch on the basis that you've tested it on a real Windows host
-> > and found it better than what we have today.
-> >
+On 221015 1710, Chris Friedt wrote:
+> From: Christopher Friedt <cfriedt@meta.com>
 > 
-> Thank you Daniel!
+> In the case that size1 was zero, because of the explicit
+> 'end1 > addr' check, the range check would fail and the error
+> message would read as shown below. The correct comparison
+> is 'end1 >= addr' (or 'addr <= end1').
 > 
-> Please queue the following patches from v5 instead.
+> EDU: DMA range 0x40000-0x3ffff out of bounds (0x40000-0x40fff)!
 > 
-> Message-ids:
+> At the opposite end, in the case that size1 was 4096, within()
+> would fail because of the non-inclusive check 'end1 < end2',
+> which should have been 'end1 <= end2'. The error message would
+> previously say
 > 
-> 20221006151927.2079583-15-bmeng.cn@gmail.com
-> 20221006151927.2079583-16-bmeng.cn@gmail.com
-> 20221006151927.2079583-17-bmeng.cn@gmail.com
+> EDU: DMA range 0x40000-0x40fff out of bounds (0x40000-0x40fff)!
+> 
+> This change
+> 1. renames local variables to be more less ambiguous
+> 2. fixes the two off-by-one errors described above.
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1254
+> 
+> Signed-off-by: Christopher Friedt <cfriedt@meta.com>
 
-Ok, have done so.
+Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+As a side-note, seems strange that edu_check_range will abort the entire
+VM if the check fails, rather than handling the error more elegantly.
+Maybe that's useful for students developing kernel drivers against the
+device.
 
+> ---
+>  hw/misc/edu.c | 25 ++++++++++++-------------
+>  1 file changed, 12 insertions(+), 13 deletions(-)
+> 
+> diff --git a/hw/misc/edu.c b/hw/misc/edu.c
+> index e935c418d4..52afbd792a 100644
+> --- a/hw/misc/edu.c
+> +++ b/hw/misc/edu.c
+> @@ -103,25 +103,24 @@ static void edu_lower_irq(EduState *edu, uint32_t val)
+>      }
+>  }
+>  
+> -static bool within(uint64_t addr, uint64_t start, uint64_t end)
+> +static void edu_check_range(uint64_t xfer_start, uint64_t xfer_size,
+> +                uint64_t dma_start, uint64_t dma_size)
+>  {
+> -    return start <= addr && addr < end;
+> -}
+> -
+> -static void edu_check_range(uint64_t addr, uint64_t size1, uint64_t start,
+> -                uint64_t size2)
+> -{
+> -    uint64_t end1 = addr + size1;
+> -    uint64_t end2 = start + size2;
+> -
+> -    if (within(addr, start, end2) &&
+> -            end1 > addr && within(end1, start, end2)) {
+> +    uint64_t xfer_end = xfer_start + xfer_size;
+> +    uint64_t dma_end = dma_start + dma_size;
+> +
+> +    /*
+> +     * 1. ensure we aren't overflowing
+> +     * 2. ensure that xfer is within dma address range
+> +     */
+> +    if (dma_end >= dma_start && xfer_end >= xfer_start &&
+> +        xfer_start >= dma_start && xfer_end <= dma_end) {
+>          return;
+>      }
+>  
+>      hw_error("EDU: DMA range 0x%016"PRIx64"-0x%016"PRIx64
+>               " out of bounds (0x%016"PRIx64"-0x%016"PRIx64")!",
+> -            addr, end1 - 1, start, end2 - 1);
+> +            xfer_start, xfer_end - 1, dma_start, dma_end - 1);
+>  }
+>  
+>  static dma_addr_t edu_clamp_addr(const EduState *edu, dma_addr_t addr)
+> -- 
+> 2.36.1
+> 
+> 
 
