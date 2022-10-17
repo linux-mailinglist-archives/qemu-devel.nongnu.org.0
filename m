@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 621CC600D80
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 13:14:33 +0200 (CEST)
-Received: from localhost ([::1]:58024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0123B600D9C
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 13:20:17 +0200 (CEST)
+Received: from localhost ([::1]:42640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okO4m-0005QG-CW
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 07:14:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33292)
+	id 1okOAJ-0001Sk-UU
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 07:20:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <arbn@yandex-team.com>)
- id 1okNvy-0001Ry-8i
+ id 1okNvy-0001Rx-U4
  for qemu-devel@nongnu.org; Mon, 17 Oct 2022 07:05:27 -0400
-Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136]:54280)
+Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136]:54284)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <arbn@yandex-team.com>)
- id 1okNvq-0001IJ-LW
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 07:05:22 -0400
+ id 1okNvq-0001IN-Lk
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 07:05:20 -0400
 Received: from sas1-7470331623bb.qloud-c.yandex.net
  (sas1-7470331623bb.qloud-c.yandex.net
  [IPv6:2a02:6b8:c08:bd1e:0:640:7470:3316])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 65AD160E94;
- Mon, 17 Oct 2022 13:54:24 +0300 (MSK)
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 0238160EB0;
+ Mon, 17 Oct 2022 13:54:27 +0300 (MSK)
 Received: from dellarbn.yandex.net (unknown
  [2a02:6b8:0:107:3e85:844d:5b1d:60a])
  by sas1-7470331623bb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- PrI3KDUSQF-sM7KnEEA; Mon, 17 Oct 2022 13:54:23 +0300
+ PrI3KDUSQF-sO7K69hh; Mon, 17 Oct 2022 13:54:25 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 Precedence: bulk
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.com;
  s=default; 
- t=1666004063; bh=kMM+N5Dh3Fi28eWzt4V2B1pW2mzLtqj1Y0XpSfOP7mY=;
+ t=1666004065; bh=zo7zMEbss00aqj6jZXqzSYwpPO2/VtpkStNC3EWwfRw=;
  h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=WlvErUzyA6X7SkoW/j5092EcTPJ5b2+cqD6rjdLR8+8EnpJ8LfpQbxpnHlsv7b75N
- hClnNVq6ArnZimO6ihku9LFAAnyEhMgN4+H8bLXHEP+JYDzVnJwgoJEIpWB7crqzvk
- dgQMRDi/7PaH460MBGJEF4Ah5l8rdyXTpAE2V18s=
+ b=m1QiDMN2F0PkPGFnW0/2tYkmLVQqBjSC0XXUxSIXIlRmISQRmlPfyZIIi4aaxBBX0
+ nusufLJ6dLbhWYPrMZxMsMCT+qhCQ5kKB2I4oW6Vz19APz3tMAmTeioDb3+Ma4ctyd
+ I3SBgnw0YPqk5ink6wwqlW3L5/bO5+tN0NIDuTME=
 Authentication-Results: sas1-7470331623bb.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.com
 From: Andrey Ryabinin <arbn@yandex-team.com>
@@ -49,17 +49,16 @@ Cc: Steve Sistare <steven.sistare@oracle.com>, yc-core@yandex-team.ru,
  Alex Williamson <alex.williamson@redhat.com>,
  Tony Krowiak <akrowiak@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
  Jason Herne <jjherne@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH 1/4] vfio: add vfio-container user createable object
-Date: Mon, 17 Oct 2022 13:54:04 +0300
-Message-Id: <20221017105407.3858-2-arbn@yandex-team.com>
+Subject: [PATCH 2/4] vfio: add vfio-group user createable object
+Date: Mon, 17 Oct 2022 13:54:05 +0300
+Message-Id: <20221017105407.3858-3-arbn@yandex-team.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221017105407.3858-1-arbn@yandex-team.com>
 References: <20221017105407.3858-1-arbn@yandex-team.com>
@@ -87,356 +86,446 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add vfio-container type and allow user to create vfio-container
-object via '-object' command line argument or 'object-add' qmp command.
-Add 'fd' parameter to this type to allow user provide file descriptor of
-a vfio-container.
-
-E.g.
- -object vfio-container,id=ct,fd=5
+Add vfio-group type and allow user to create such object via
+'-object' command line argument or 'object-add' qmp command.
+Parameters are:
+ - @fd - file descriptor
+ - @container - id of vfio-container object which will be used for
+        this VFIO group
+ - @groupid - number representing IOMMU group (no needed if @fd
+                                           and @container were provided)
+E.g.:
+     -object vfio-container,id=ct,fd=5 \
+     -object vfio-group,id=group,fd=6,container=ct
 
 Signed-off-by: Andrey Ryabinin <arbn@yandex-team.com>
 ---
- hw/vfio/common.c              | 183 ++++++++++++++++++++++------------
+ hw/vfio/common.c              | 267 +++++++++++++++++++++++-----------
  hw/vfio/trace-events          |   2 +-
  include/hw/vfio/vfio-common.h |   4 +
- qapi/qom.json                 |  14 +++
- 4 files changed, 137 insertions(+), 66 deletions(-)
+ qapi/qom.json                 |  15 ++
+ 4 files changed, 205 insertions(+), 83 deletions(-)
 
 diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 6b5d8c0bf69..392057d3025 100644
+index 392057d3025..95722ecf96a 100644
 --- a/hw/vfio/common.c
 +++ b/hw/vfio/common.c
-@@ -31,9 +31,11 @@
- #include "exec/memory.h"
- #include "exec/ram_addr.h"
- #include "hw/hw.h"
-+#include "monitor/monitor.h"
- #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
- #include "qemu/range.h"
-+#include "qom/object_interfaces.h"
- #include "sysemu/kvm.h"
- #include "sysemu/reset.h"
- #include "sysemu/runstate.h"
-@@ -2013,7 +2015,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
-                                   Error **errp)
+@@ -1911,31 +1911,40 @@ static int vfio_init_container(VFIOContainer *container, int group_fd,
+                                Error **errp)
  {
-     VFIOContainer *container;
--    int ret, fd;
-+    int ret;
-     VFIOAddressSpace *space;
+     int iommu_type, ret;
++    struct vfio_group_status status = { .argsz = sizeof(status) };
  
-     space = vfio_get_address_space(as);
-@@ -2069,31 +2071,15 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
-         }
+     iommu_type = vfio_get_iommu_type(container, errp);
+     if (iommu_type < 0) {
+         return iommu_type;
      }
  
--    fd = qemu_open_old("/dev/vfio/vfio", O_RDWR);
--    if (fd < 0) {
--        error_setg_errno(errp, errno, "failed to open /dev/vfio/vfio");
--        ret = -errno;
--        goto put_space_exit;
--    }
-+    container = VFIO_CONTAINER(object_new(TYPE_VFIO_CONTAINER));
-+    container->space = space;
- 
--    ret = ioctl(fd, VFIO_GET_API_VERSION);
--    if (ret != VFIO_API_VERSION) {
--        error_setg(errp, "supported vfio version: %d, "
--                   "reported version: %d", VFIO_API_VERSION, ret);
--        ret = -EINVAL;
--        goto close_fd_exit;
-+    user_creatable_complete(USER_CREATABLE(container), errp);
-+    if (*errp) {
-+        ret = -1;
-+        goto free_container_exit;
-     }
- 
--    container = g_malloc0(sizeof(*container));
--    container->space = space;
--    container->fd = fd;
--    container->error = NULL;
--    container->dirty_pages_supported = false;
--    container->dma_max_mappings = 0;
--    QLIST_INIT(&container->giommu_list);
--    QLIST_INIT(&container->hostwin_list);
--    QLIST_INIT(&container->vrdl_list);
--
-     ret = vfio_init_container(container, group->fd, errp);
+-    ret = ioctl(group_fd, VFIO_GROUP_SET_CONTAINER, &container->fd);
++
++    ret = ioctl(group_fd, VFIO_GROUP_GET_STATUS, &status);
      if (ret) {
-         goto free_container_exit;
-@@ -2150,7 +2136,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
-          * in this file.
-          */
-         if (!v2) {
--            ret = ioctl(fd, VFIO_IOMMU_ENABLE);
-+            ret = ioctl(container->fd, VFIO_IOMMU_ENABLE);
-             if (ret) {
-                 error_setg_errno(errp, errno, "failed to enable container");
-                 ret = -errno;
-@@ -2171,7 +2157,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
-         }
- 
-         info.argsz = sizeof(info);
--        ret = ioctl(fd, VFIO_IOMMU_SPAPR_TCE_GET_INFO, &info);
-+        ret = ioctl(container->fd, VFIO_IOMMU_SPAPR_TCE_GET_INFO, &info);
-         if (ret) {
-             error_setg_errno(errp, errno,
-                              "VFIO_IOMMU_SPAPR_TCE_GET_INFO failed");
-@@ -2209,7 +2195,6 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
- 
-     vfio_kvm_device_add_group(group);
- 
--    QLIST_INIT(&container->group_list);
-     QLIST_INSERT_HEAD(&space->containers, container, next);
- 
-     group->container = container;
-@@ -2223,29 +2208,18 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
-         ret = -1;
-         error_propagate_prepend(errp, container->error,
-             "memory listener initialization failed: ");
--        goto listener_release_exit;
-+        goto free_container_exit;
+-        error_setg_errno(errp, errno, "Failed to set group container");
++        error_setg_errno(errp, errno, "Failed to get group status");
+         return -errno;
      }
- 
-     container->initialized = true;
- 
-     return 0;
--listener_release_exit:
--    QLIST_REMOVE(group, container_next);
--    QLIST_REMOVE(container, next);
--    vfio_kvm_device_del_group(group);
--    vfio_listener_release(container);
- 
- enable_discards_exit:
-     vfio_ram_block_discard_disable(container, false);
- 
- free_container_exit:
--    g_free(container);
 -
--close_fd_exit:
--    close(fd);
--
--put_space_exit:
--    vfio_put_address_space(space);
-+    object_unref(OBJECT(container));
- 
-     return ret;
- }
-@@ -2271,32 +2245,7 @@ static void vfio_disconnect_container(VFIOGroup *group)
-                      group->groupid);
-     }
- 
--    if (QLIST_EMPTY(&container->group_list)) {
--        VFIOAddressSpace *space = container->space;
--        VFIOGuestIOMMU *giommu, *tmp;
--        VFIOHostDMAWindow *hostwin, *next;
--
--        QLIST_REMOVE(container, next);
--
--        QLIST_FOREACH_SAFE(giommu, &container->giommu_list, giommu_next, tmp) {
--            memory_region_unregister_iommu_notifier(
--                    MEMORY_REGION(giommu->iommu_mr), &giommu->n);
--            QLIST_REMOVE(giommu, giommu_next);
--            g_free(giommu);
--        }
--
--        QLIST_FOREACH_SAFE(hostwin, &container->hostwin_list, hostwin_next,
--                           next) {
--            QLIST_REMOVE(hostwin, hostwin_next);
--            g_free(hostwin);
--        }
--
--        trace_vfio_disconnect_container(container->fd);
--        close(container->fd);
--        g_free(container);
--
--        vfio_put_address_space(space);
--    }
-+    object_unref(OBJECT(container));
- }
- 
- VFIOGroup *vfio_get_group(int groupid, AddressSpace *as, Error **errp)
-@@ -2628,3 +2577,107 @@ int vfio_eeh_as_op(AddressSpace *as, uint32_t op)
-     }
-     return vfio_eeh_container_op(container, op);
- }
-+
-+static void vfio_container_set_fd(Object *obj, const char *value,
-+                                  Error **errp)
-+{
-+    VFIOContainer *ct = VFIO_CONTAINER(obj);
-+
-+    ct->fd = monitor_fd_param(monitor_cur(), value, errp);
-+}
-+
-+static void vfio_container_complete(UserCreatable *uc, Error **errp)
-+{
-+    VFIOContainer *container = VFIO_CONTAINER(uc);
-+    int ret;
-+
-+    if (container->fd < 0) {
-+        int fd;
-+
-+        fd = qemu_open_old("/dev/vfio/vfio", O_RDWR);
-+        if (fd < 0) {
-+            error_setg_errno(errp, errno, "failed to open /dev/vfio/vfio");
-+            return;
+-    while (ioctl(container->fd, VFIO_SET_IOMMU, iommu_type)) {
+-        if (iommu_type == VFIO_SPAPR_TCE_v2_IOMMU) {
+-            /*
+-             * On sPAPR, despite the IOMMU subdriver always advertises v1 and
+-             * v2, the running platform may not support v2 and there is no
+-             * way to guess it until an IOMMU group gets added to the container.
+-             * So in case it fails with v2, try v1 as a fallback.
+-             */
+-            iommu_type = VFIO_SPAPR_TCE_IOMMU;
+-            continue;
++    if (!(status.flags & VFIO_GROUP_FLAGS_CONTAINER_SET)) {
++        ret = ioctl(group_fd, VFIO_GROUP_SET_CONTAINER, &container->fd);
++        if (ret) {
++            error_setg_errno(errp, errno, "Failed to set group container");
++            return -errno;
 +        }
-+        container->fd = fd;
++
++        while (ioctl(container->fd, VFIO_SET_IOMMU, iommu_type)) {
++            if (iommu_type == VFIO_SPAPR_TCE_v2_IOMMU) {
++                /*
++                 * On sPAPR, despite the IOMMU subdriver always advertises v1 and
++                 * v2, the running platform may not support v2 and there is no
++                 * way to guess it until an IOMMU group gets added to the container.
++                 * So in case it fails with v2, try v1 as a fallback.
++                 */
++                iommu_type = VFIO_SPAPR_TCE_IOMMU;
++                continue;
++            }
++            error_setg_errno(errp, errno, "Failed to set iommu for container");
++            return -errno;
+         }
+-        error_setg_errno(errp, errno, "Failed to set iommu for container");
+-        return -errno;
+     }
+ 
+     container->iommu_type = iommu_type;
+@@ -2050,34 +2059,44 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+      * with some IOMMU types. vfio_ram_block_discard_disable() handles the
+      * details once we know which type of IOMMU we are using.
+      */
+-
+-    QLIST_FOREACH(container, &space->containers, next) {
+-        if (!ioctl(group->fd, VFIO_GROUP_SET_CONTAINER, &container->fd)) {
+-            ret = vfio_ram_block_discard_disable(container, true);
+-            if (ret) {
+-                error_setg_errno(errp, -ret,
+-                                 "Cannot set discarding of RAM broken");
+-                if (ioctl(group->fd, VFIO_GROUP_UNSET_CONTAINER,
+-                          &container->fd)) {
+-                    error_report("vfio: error disconnecting group %d from"
+-                                 " container", group->groupid);
++    if (!group->container) {
++        QLIST_FOREACH(container, &space->containers, next) {
++            if (!ioctl(group->fd, VFIO_GROUP_SET_CONTAINER, &container->fd)) {
++                ret = vfio_ram_block_discard_disable(container, true);
++                if (ret) {
++                    error_setg_errno(errp, -ret,
++                                     "Cannot set discarding of RAM broken");
++                    if (ioctl(group->fd, VFIO_GROUP_UNSET_CONTAINER,
++                              &container->fd)) {
++                        error_report("vfio: error disconnecting group %d from"
++                                     " container", group->groupid);
++                    }
++                    return ret;
+                 }
+-                return ret;
++                group->container = container;
++                QLIST_INSERT_HEAD(&container->group_list, group, container_next);
++                vfio_kvm_device_add_group(group);
++                return 0;
+             }
+-            group->container = container;
+-            QLIST_INSERT_HEAD(&container->group_list, group, container_next);
+-            vfio_kvm_device_add_group(group);
+-            return 0;
+         }
+-    }
++        container = VFIO_CONTAINER(object_new(TYPE_VFIO_CONTAINER));
++        container->space = space;
+ 
+-    container = VFIO_CONTAINER(object_new(TYPE_VFIO_CONTAINER));
+-    container->space = space;
+-
+-    user_creatable_complete(USER_CREATABLE(container), errp);
+-    if (*errp) {
+-        ret = -1;
+-        goto free_container_exit;
++        user_creatable_complete(USER_CREATABLE(container), errp);
++        if (*errp) {
++            ret = -1;
++            goto free_container_exit;
++        }
++        group->container = container;
++    } else if (group->container->initialized) {
++        object_ref(OBJECT(group->container));
++        QLIST_INSERT_HEAD(&group->container->group_list, group, container_next);
++        vfio_kvm_device_add_group(group);
++        return 0;
++    } else {
++        container = group->container;
++        container->space = space;
++        object_ref(OBJECT(container));
+     }
+ 
+     ret = vfio_init_container(container, group->fd, errp);
+@@ -2228,6 +2247,10 @@ static void vfio_disconnect_container(VFIOGroup *group)
+ {
+     VFIOContainer *container = group->container;
+ 
++    if (!group->container) {
++            return;
 +    }
 +
-+    ret = ioctl(container->fd, VFIO_GET_API_VERSION);
-+    if (ret != VFIO_API_VERSION) {
-+        error_setg(errp, "supported vfio version: %d, "
-+                   "reported version: %d", VFIO_API_VERSION, ret);
+     QLIST_REMOVE(group, container_next);
+     group->container = NULL;
+ 
+@@ -2251,7 +2274,6 @@ static void vfio_disconnect_container(VFIOGroup *group)
+ VFIOGroup *vfio_get_group(int groupid, AddressSpace *as, Error **errp)
+ {
+     VFIOGroup *group;
+-    char path[32];
+     struct vfio_group_status status = { .argsz = sizeof(status) };
+ 
+     QLIST_FOREACH(group, &vfio_group_list, next) {
+@@ -2267,31 +2289,14 @@ VFIOGroup *vfio_get_group(int groupid, AddressSpace *as, Error **errp)
+         }
+     }
+ 
+-    group = g_malloc0(sizeof(*group));
+-
+-    snprintf(path, sizeof(path), "/dev/vfio/%d", groupid);
+-    group->fd = qemu_open_old(path, O_RDWR);
+-    if (group->fd < 0) {
+-        error_setg_errno(errp, errno, "failed to open %s", path);
+-        goto free_group_exit;
+-    }
+-
+-    if (ioctl(group->fd, VFIO_GROUP_GET_STATUS, &status)) {
+-        error_setg_errno(errp, errno, "failed to get group %d status", groupid);
+-        goto close_fd_exit;
+-    }
+-
+-    if (!(status.flags & VFIO_GROUP_FLAGS_VIABLE)) {
+-        error_setg(errp, "group %d is not viable", groupid);
+-        error_append_hint(errp,
+-                          "Please ensure all devices within the iommu_group "
+-                          "are bound to their vfio bus driver.\n");
+-        goto close_fd_exit;
++    group = VFIO_GROUP(object_new(TYPE_VFIO_GROUP));
++    object_property_set_int(OBJECT(group), "groupid", groupid, errp);
++    user_creatable_complete(USER_CREATABLE(group), errp);
++    if (*errp) {
++        object_unref(OBJECT(group));
++        return NULL;
+     }
+ 
+-    group->groupid = groupid;
+-    QLIST_INIT(&group->device_list);
+-
+     if (vfio_connect_container(group, as, errp)) {
+         error_prepend(errp, "failed to setup container for group %d: ",
+                       groupid);
+@@ -2302,15 +2307,10 @@ VFIOGroup *vfio_get_group(int groupid, AddressSpace *as, Error **errp)
+         qemu_register_reset(vfio_reset_handler, NULL);
+     }
+ 
+-    QLIST_INSERT_HEAD(&vfio_group_list, group, next);
+-
+     return group;
+ 
+ close_fd_exit:
+-    close(group->fd);
+-
+-free_group_exit:
+-    g_free(group);
++    object_unref(OBJECT(group));
+ 
+     return NULL;
+ }
+@@ -2321,19 +2321,7 @@ void vfio_put_group(VFIOGroup *group)
+         return;
+     }
+ 
+-    if (!group->ram_block_discard_allowed) {
+-        vfio_ram_block_discard_disable(group->container, false);
+-    }
+-    vfio_kvm_device_del_group(group);
+-    vfio_disconnect_container(group);
+-    QLIST_REMOVE(group, next);
+-    trace_vfio_put_group(group->fd);
+-    close(group->fd);
+-    g_free(group);
+-
+-    if (QLIST_EMPTY(&vfio_group_list)) {
+-        qemu_unregister_reset(vfio_reset_handler, NULL);
+-    }
++    object_unref(OBJECT(group));
+ }
+ 
+ int vfio_get_device(VFIOGroup *group, const char *name,
+@@ -2676,8 +2664,123 @@ static const TypeInfo vfio_container_info = {
+     },
+ };
+ 
++static void vfio_group_set_fd(Object *obj, const char *value,
++                              Error **errp)
++{
++    VFIOGroup *group = VFIO_GROUP(obj);
++
++    group->fd = monitor_fd_param(monitor_cur(), value, errp);
++}
++
++static void vfio_group_set_groupid(Object *obj, Visitor *v,
++                                   const char *name, void *opaque,
++                                   Error **errp)
++{
++    VFIOGroup *group = VFIO_GROUP(obj);
++    Error *error = NULL;
++    uint32_t groupid;
++
++    visit_type_uint32(v, name, &groupid, &error);
++    if (error) {
++        error_propagate(errp, error);
 +        return;
 +    }
++
++    group->groupid = groupid;
 +}
 +
-+static void vfio_container_class_init(ObjectClass *class, void *data)
++static void vfio_group_complete(UserCreatable *uc, Error **errp)
++{
++    VFIOGroup *group = VFIO_GROUP(uc);
++    struct vfio_group_status status = { .argsz = sizeof(status) };
++
++    if (group->fd < 0 && group->groupid >= 0) {
++        char path[32];
++
++        snprintf(path, sizeof(path), "/dev/vfio/%d", group->groupid);
++
++        group->fd = qemu_open_old(path, O_RDWR);
++        if (group->fd < 0) {
++            error_setg_errno(errp, errno, "failed to open %s", path);
++            return;
++        }
++    }
++
++    if (ioctl(group->fd, VFIO_GROUP_GET_STATUS, &status)) {
++        error_setg_errno(errp, errno, "failed to get group %d status", group->groupid);
++        return;
++    }
++
++    if (!(status.flags & VFIO_GROUP_FLAGS_VIABLE)) {
++        error_setg(errp, "group %d is not viable", group->groupid);
++        error_append_hint(errp,
++                          "Please ensure all devices within the iommu_group "
++                          "are bound to their vfio bus driver.\n");
++    }
++}
++
++static void vfio_group_class_init(ObjectClass *class, void *data)
 +{
 +    UserCreatableClass *ucc = USER_CREATABLE_CLASS(class);
-+    ucc->complete = vfio_container_complete;
++    ucc->complete = vfio_group_complete;
 +
-+    object_class_property_add_str(class, "fd", NULL, vfio_container_set_fd);
++    object_class_property_add_link(class, "container", TYPE_VFIO_CONTAINER,
++                                   offsetof(VFIOGroup, container),
++                                   object_property_allow_set_link, 0);
++    object_class_property_add_str(class, "fd", NULL, vfio_group_set_fd);
++    object_class_property_add(class, "groupid", "int", NULL,
++                              vfio_group_set_groupid,
++                              NULL, NULL);
 +}
 +
-+static void vfio_container_instance_init(Object *obj)
++static void vfio_group_instance_init(Object *obj)
 +{
-+    VFIOContainer *ct = VFIO_CONTAINER(obj);
++    VFIOGroup *group = VFIO_GROUP(obj);
 +
-+    ct->dirty_pages_supported = false;
-+    ct->dma_max_mappings = 0;
-+    ct->fd = -1;
-+    QLIST_INIT(&ct->giommu_list);
-+    QLIST_INIT(&ct->hostwin_list);
-+    QLIST_INIT(&ct->group_list);
-+    QLIST_INIT(&ct->vrdl_list);
++    QLIST_INIT(&group->device_list);
++    group->fd = -1;
++    group->groupid = -1;
++    QLIST_INSERT_HEAD(&vfio_group_list, group, next);
 +}
 +
 +static void
-+vfio_container_instance_finalize(Object *obj)
++vfio_group_instance_finalize(Object *obj)
 +{
-+    VFIOContainer *container = VFIO_CONTAINER(obj);
-+    VFIOAddressSpace *space = container->space;
-+    VFIOGuestIOMMU *giommu, *tmp;
-+    VFIOHostDMAWindow *hostwin, *next;
++    VFIOGroup *group = VFIO_GROUP(obj);
 +
-+    QLIST_REMOVE(container, next);
-+
-+    QLIST_FOREACH_SAFE(giommu, &container->giommu_list, giommu_next, tmp) {
-+        memory_region_unregister_iommu_notifier(
-+            MEMORY_REGION(giommu->iommu_mr), &giommu->n);
-+        QLIST_REMOVE(giommu, giommu_next);
-+        g_free(giommu);
-+    }
-+    QLIST_FOREACH_SAFE(hostwin, &container->hostwin_list, hostwin_next,
-+                       next) {
-+        QLIST_REMOVE(hostwin, hostwin_next);
-+        g_free(hostwin);
++    if (!group->ram_block_discard_allowed) {
++        vfio_ram_block_discard_disable(group->container, false);
 +    }
 +
-+
-+    trace_vfio_container_instance_finalize(container->fd);
-+    if (container->fd > 0) {
-+        close(container->fd);
++    vfio_kvm_device_del_group(group);
++    vfio_disconnect_container(group);
++    QLIST_REMOVE(group, next);
++    trace_vfio_group_instance_finalize(group->fd);
++    if (group->fd >= 0) {
++        close(group->fd);
 +    }
-+    if (space) {
-+        vfio_put_address_space(space);
++
++    if (QLIST_EMPTY(&vfio_group_list)) {
++        qemu_unregister_reset(vfio_reset_handler, NULL);
 +    }
 +}
 +
-+static const TypeInfo vfio_container_info = {
-+    .name = TYPE_VFIO_CONTAINER,
++static const TypeInfo vfio_group_info = {
++    .name = TYPE_VFIO_GROUP,
 +    .parent = TYPE_OBJECT,
-+    .class_init = vfio_container_class_init,
-+    .instance_size = sizeof(VFIOContainer),
-+    .instance_init = vfio_container_instance_init,
-+    .instance_finalize = vfio_container_instance_finalize,
++    .class_init = vfio_group_class_init,
++    .instance_size = sizeof(VFIOGroup),
++    .instance_init = vfio_group_instance_init,
++    .instance_finalize = vfio_group_instance_finalize,
 +    .interfaces = (InterfaceInfo[]) {
 +        {TYPE_USER_CREATABLE},
 +        {}
 +    },
 +};
 +
-+static void register_vfio_types(void)
-+{
-+    type_register_static(&vfio_container_info);
-+}
-+type_init(register_vfio_types)
+ static void register_vfio_types(void)
+ {
+     type_register_static(&vfio_container_info);
++    type_register_static(&vfio_group_info);
+ }
+ type_init(register_vfio_types)
 diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-index 73dffe9e00d..8b79cf33a33 100644
+index 8b79cf33a33..6ae0ed09acd 100644
 --- a/hw/vfio/trace-events
 +++ b/hw/vfio/trace-events
-@@ -104,7 +104,7 @@ vfio_known_safe_misalignment(const char *name, uint64_t iova, uint64_t offset_wi
- vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uint64_t size, uint64_t page_size) "Region \"%s\" 0x%"PRIx64" size=0x%"PRIx64" is not aligned to 0x%"PRIx64" and cannot be mapped for DMA"
+@@ -105,7 +105,7 @@ vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uint64_t si
  vfio_listener_region_del_skip(uint64_t start, uint64_t end) "SKIPPING region_del 0x%"PRIx64" - 0x%"PRIx64
  vfio_listener_region_del(uint64_t start, uint64_t end) "region_del 0x%"PRIx64" - 0x%"PRIx64
--vfio_disconnect_container(int fd) "close container->fd=%d"
-+vfio_container_instance_finalize(int fd) "close container->fd=%d"
- vfio_put_group(int fd) "close group->fd=%d"
+ vfio_container_instance_finalize(int fd) "close container->fd=%d"
+-vfio_put_group(int fd) "close group->fd=%d"
++vfio_group_instance_finalize(int fd) "close group->fd=%d"
  vfio_get_device(const char * name, unsigned int flags, unsigned int num_regions, unsigned int num_irqs) "Device %s flags: %u, regions: %u, irqs: %u"
  vfio_put_base_device(int fd) "close vdev->fd=%d"
+ vfio_region_setup(const char *dev, int index, const char *name, unsigned long flags, unsigned long offset, unsigned long size) "Device %s, region %d \"%s\", flags: 0x%lx, offset: 0x%lx, size: 0x%lx"
 diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index e573f5a9f19..0ab99060e44 100644
+index 0ab99060e44..f2d67093f44 100644
 --- a/include/hw/vfio/vfio-common.h
 +++ b/include/hw/vfio/vfio-common.h
-@@ -77,6 +77,7 @@ typedef struct VFIOAddressSpace {
- struct VFIOGroup;
+@@ -156,6 +156,7 @@ struct VFIODeviceOps {
+ };
  
- typedef struct VFIOContainer {
+ typedef struct VFIOGroup {
 +    Object parent;
-     VFIOAddressSpace *space;
-     int fd; /* /dev/vfio/vfio, empowered by the attached groups */
-     MemoryListener listener;
-@@ -190,6 +191,9 @@ typedef struct VFIODisplay {
-     } dmabuf;
- } VFIODisplay;
+     int fd;
+     int groupid;
+     VFIOContainer *container;
+@@ -194,6 +195,9 @@ typedef struct VFIODisplay {
+ #define TYPE_VFIO_CONTAINER "vfio-container"
+ OBJECT_DECLARE_SIMPLE_TYPE(VFIOContainer, VFIO_CONTAINER)
  
-+#define TYPE_VFIO_CONTAINER "vfio-container"
-+OBJECT_DECLARE_SIMPLE_TYPE(VFIOContainer, VFIO_CONTAINER)
++#define TYPE_VFIO_GROUP "vfio-group"
++OBJECT_DECLARE_SIMPLE_TYPE(VFIOGroup, VFIO_GROUP)
 +
  void vfio_put_base_device(VFIODevice *vbasedev);
  void vfio_disable_irqindex(VFIODevice *vbasedev, int index);
  void vfio_unmask_single_irqindex(VFIODevice *vbasedev, int index);
 diff --git a/qapi/qom.json b/qapi/qom.json
-index 80dd419b392..d1a88e10b52 100644
+index d1a88e10b52..f46dd6b8034 100644
 --- a/qapi/qom.json
 +++ b/qapi/qom.json
-@@ -734,6 +734,18 @@
- { 'struct': 'RemoteObjectProperties',
-   'data': { 'fd': 'str', 'devid': 'str' } }
+@@ -746,6 +746,19 @@
+ { 'struct': 'VFIOContainerProperties',
+   'data': { 'fd': 'str' } }
  
 +##
-+# @VFIOContainerProperties:
++# @VFIOGroupProperties:
 +#
-+# Properties for vfio-container objects.
++# Properties for vfio-group objects.
 +#
-+# @fd: file descriptor of vfio container
++# @fd: file descriptor of vfio group
++# @container: container
 +#
 +# Since: 7.2
 +##
-+{ 'struct': 'VFIOContainerProperties',
-+  'data': { 'fd': 'str' } }
++{ 'struct': 'VFIOGroupProperties',
++  'data': { 'fd': 'str', 'container': 'str'} }
 +
  ##
  # @VfioUserServerProperties:
  #
-@@ -888,6 +900,7 @@
-     'tls-creds-psk',
+@@ -901,6 +914,7 @@
      'tls-creds-x509',
      'tls-cipher-suites',
-+    'vfio-container',
+     'vfio-container',
++    'vfio-group',
      { 'name': 'x-remote-object', 'features': [ 'unstable' ] },
      { 'name': 'x-vfio-user-server', 'features': [ 'unstable' ] }
    ] }
-@@ -953,6 +966,7 @@
-       'tls-creds-psk':              'TlsCredsPskProperties',
+@@ -967,6 +981,7 @@
        'tls-creds-x509':             'TlsCredsX509Properties',
        'tls-cipher-suites':          'TlsCredsProperties',
-+      'vfio-container':             'VFIOContainerProperties',
+       'vfio-container':             'VFIOContainerProperties',
++      'vfio-group':                 'VFIOGroupProperties',
        'x-remote-object':            'RemoteObjectProperties',
        'x-vfio-user-server':         'VfioUserServerProperties'
    } }
