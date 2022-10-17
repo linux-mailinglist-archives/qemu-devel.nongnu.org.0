@@ -2,157 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAA4E60052E
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 04:19:33 +0200 (CEST)
-Received: from localhost ([::1]:32876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 486166005DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 05:58:26 +0200 (CEST)
+Received: from localhost ([::1]:36730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okFj2-0004Qk-G3
-	for lists+qemu-devel@lfdr.de; Sun, 16 Oct 2022 22:19:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57016)
+	id 1okHGi-0001ul-TQ
+	for lists+qemu-devel@lfdr.de; Sun, 16 Oct 2022 23:58:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1okFh7-0001Ug-70
- for qemu-devel@nongnu.org; Sun, 16 Oct 2022 22:17:33 -0400
-Received: from mga09.intel.com ([134.134.136.24]:5710)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=kNOZ=2S=zx2c4.com=Jason@kernel.org>)
+ id 1okHFN-0000TJ-Em
+ for qemu-devel@nongnu.org; Sun, 16 Oct 2022 23:57:01 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:60520)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1okFh3-00076z-SO
- for qemu-devel@nongnu.org; Sun, 16 Oct 2022 22:17:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665973049; x=1697509049;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=/NdmAgCeXU0OkpgJYXyWMCFdjmKqCgxPQMGpn30qsZo=;
- b=jA8jZGaMlS5yaAgnRYDTuDUpGqcwwvMzMs3cLmTK7NpGn1HIQbxKBGbt
- +5wx67yqVW3rHswLJH9FVk43s4dW1Y0YHsKVqkc98FBYdr3HyJqt7QzRf
- yVaonjLB5b8DwEVjD0ouIngWjtpadxjH8YBMTpDUdfxoKkOXw5YG4rJF8
- Vqc0/A9CnSk/xRrG2QtpYkd7INgWnmzm2vhhiIKu0lYLtBL9B4/QhosZ2
- HwFgPkmLluitmJefITgrX+1smp81IkyfMdI70OU7OY/NCkh1YvJyW8vHA
- T37PWp4esN8h8JzpzUTUlax1amzr4UsxgN0CZpWir7LAxSqS97jvnRiz4 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10502"; a="306766770"
-X-IronPort-AV: E=Sophos;i="5.95,190,1661842800"; d="scan'208";a="306766770"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Oct 2022 19:17:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10502"; a="691177470"
-X-IronPort-AV: E=Sophos;i="5.95,190,1661842800"; d="scan'208";a="691177470"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by fmsmga008.fm.intel.com with ESMTP; 16 Oct 2022 19:17:26 -0700
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Sun, 16 Oct 2022 19:17:26 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Sun, 16 Oct 2022 19:17:26 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.177)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Sun, 16 Oct 2022 19:17:25 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fzAdAzE2zffjs2hAhsdxYfkDbvJ2Z2zlBX68YG5QpZo3vWXylCSB0n2f72xy4gc+xi77jI8fbWg/47mTGmVZeCgReurltZLxY/A/0Vz52+yrPYq5zlcWaDGmMsjn0w4tzd3uwgNkZfBsRVpynWCeFzuCOrhsFg54/F5T5nn90vgndYkvorgHyOp8aSUbWJVf6mHFSkiAefhA29dbvg7Xe+JZ47wxk1ieiJX6UJwPtg1xBQzak/+c9nrf9eHRUECEd8lacIrqmynxbHgUXWgu6OPGNDtagccH39Y0D8U8yHyiUmnl3HXtWeEXUpRN+z+pyw00FWxoNB79gPbP2tj1dw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+eAqHRw+bB/FXNUHvcXTzOEpZ7ii1Mwhhp/g57jlr00=;
- b=UyZRXFKSveYU1ACmclxTQt13tLYTzGgvTm6VELUqRaBMJVQDf4SJM4iRrEz16ufATco+k16pguO4VkwvA2ztvKG7W7kC3YUOO8gSfM0PSZGdCYs6vjIfDEfobS4J0GQza7RCEVQD1BbB0MlcvBaX0Lui3S89SOh5V9aG7fC72g58EcRDiF3fqFIHg02MJWAYMYxAWhCUgNQaCGZtEbT3YBRMavDpuvzXIYVV9SInC4u4clHxt9kKj6F+u6C0gwRDjYfPPJcoBL6IBvPj5G5mFEkg0gyB4WYSv/xMV7e6o4NIWxnnRZHRGwLaBM6AfK2lSA6JkoUuchY+AJIE0cOpWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MWHPR1101MB2110.namprd11.prod.outlook.com
- (2603:10b6:301:4f::15) by DS7PR11MB6014.namprd11.prod.outlook.com
- (2603:10b6:8:73::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.36; Mon, 17 Oct
- 2022 02:17:19 +0000
-Received: from MWHPR1101MB2110.namprd11.prod.outlook.com
- ([fe80::b173:e9a1:a680:4740]) by MWHPR1101MB2110.namprd11.prod.outlook.com
- ([fe80::b173:e9a1:a680:4740%12]) with mapi id 15.20.5723.033; Mon, 17 Oct
- 2022 02:17:19 +0000
-From: "Duan, Zhenzhong" <zhenzhong.duan@intel.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "quintela@redhat.com"
- <quintela@redhat.com>
-Subject: RE: [PATCH] migration: Fix a potential guest memory corruption
-Thread-Topic: [PATCH] migration: Fix a potential guest memory corruption
-Thread-Index: AQHY3WFxbNAjs/ghWEOj/oidm+U6iq4R15Aw
-Date: Mon, 17 Oct 2022 02:17:19 +0000
-Message-ID: <MWHPR1101MB21106FA9CFC027E30A3B515092299@MWHPR1101MB2110.namprd11.prod.outlook.com>
-References: <20220919093237.2219892-1-zhenzhong.duan@intel.com>
- <Y0VOBwuMrdMwSUo+@work-vm>
-In-Reply-To: <Y0VOBwuMrdMwSUo+@work-vm>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.6.500.17
-dlp-reaction: no-action
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MWHPR1101MB2110:EE_|DS7PR11MB6014:EE_
-x-ms-office365-filtering-correlation-id: 3ef33a05-cdd4-4d33-0d14-08daafe5b7d9
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: KRvQ+ISX7+Fm1hguGlkUsLJdMYtBKf845q//ZkD4wiIL1qrsh8ArgeBwOcthl6HLQ+HDljqHapnbHnunGY3QtvicTloFO99ar4kEsRDTIWtrcMkurz1Khp61njijovKveGXjBxE/8k5/ZDwqvdq5nhWpaq4B+5RyOYox9C9Oxa7h/U7pqP+mv925VfnB2tg7fcOwrSrsICTqzoMPcdBAtLKejN3Y/Xc2DzXpAJQmhwMbAmyxu1wajmevVqcakIySltvqQakKDDHoqU0YKq9MdvdCGJiFDw5jSD4WUobGMGPZSIzD+PaTQ6IS71N1lnS6RFPzOXV4gFOcDRthwmkoF7kafUCJxM1KgmO38sDwg+XMYBTt17QseL7lR+7zQeGyXHu5d8B3gRdSsehQpiXowIfhYsN662T31vefvyaVkG2TI6iFTcvegqCPj+tOQDT6y5wTWSVOQdWqaoQqCsyP6mq0+D6VHhd/KFmIJyQ5nK+RB3SmBGAeTParylEaJl9DaEp8L20Kiv0Xiq0Jf45FTd/Wa0w4IfeEhqfSOGjvlcJhKWdLqopZqKCjgQ0JkSk54SpihsyI/9wOZGR1mv/rNpVH+nId7hFrokL7oqq6QF/oPjZm0OIp7iREHQeixeuIP1pUNiU+s/TPqQgnqJggYW7GAb9SKniuurO9UH3cjS2ai4aiNd+Q+ko/Mwx2dOKWPfxd8oqM7gcVRUcOEzVXp2R8dSRpkyILhv3MXBkhNNsIugf8sckUMXOc1UTkz11qBje2eizfrYpB8m/yzS4QnQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR1101MB2110.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(396003)(346002)(39860400002)(136003)(376002)(366004)(451199015)(38100700002)(8936002)(5660300002)(52536014)(122000001)(82960400001)(4326008)(9686003)(7696005)(6506007)(26005)(55016003)(33656002)(64756008)(76116006)(8676002)(66946007)(66476007)(66556008)(66446008)(83380400001)(316002)(6916009)(54906003)(41300700001)(478600001)(71200400001)(86362001)(2906002)(186003)(38070700005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?G2ouqDjzHKhpkMcz1hylEZLjIGnXfB225ImNqxMIqf9cSVHYeAJ7ySsXrMtO?=
- =?us-ascii?Q?ujCs/n6Qrk+Me355jUXWkvXmG6BVplBclSfZll08J5AN+IQf5BdEX1NeNP4T?=
- =?us-ascii?Q?xSB/bKyUgPgci+hQ5Y0k+8ceD248J3LC2b0vFPD+9aruMo/if6EcoE+0zWez?=
- =?us-ascii?Q?++h8E9GxUHVLn86fXOqgGVXJnylFtsuATioKSFbBm1pzjEM6kO1/oeP6a6Pi?=
- =?us-ascii?Q?c2cw1hf9gI2FBTQdKRqlfbHj+kxCgv+9xypK4lDPcBXgcIbEXGeJMJUDHsMD?=
- =?us-ascii?Q?hRsLvMHcUbVMdH2lHIDYo7wQN1cWTkxRk5KY7mkH+ZfjEjnqMLlImxyLN3sa?=
- =?us-ascii?Q?0NkQW7e74t9I3BYuow3O6jE7SKq15r+HxiLB4ZoK/AQHcE2xVVR6XIXarqsX?=
- =?us-ascii?Q?BDubnSfinoQxkKBKZ5Qcfh5oAsgX6p/6DveiZNmPN7zGtHMf5syH1IdJLxGJ?=
- =?us-ascii?Q?Y89eebwIE56lXyqIJ6hMcI8EK+1w1H138m+GNmASdBfbRYE6n1kMfVmpO5B6?=
- =?us-ascii?Q?tYW9Y4jEl3nEejiONqgE6KmiB6XsXvHyHhMPFHcrcL3JgSwW7pYh4MegxZfw?=
- =?us-ascii?Q?xlf1R00VeXCKucnloz3w/DEKspBGwy7Scs2yt7Uzks2PSNXUbWwewDvQXVu9?=
- =?us-ascii?Q?1gUFX4jPqCEkKunUfj6tY5jHKOMjSO7YNgdIAWGtJAULvDUyQBjYg0dLRlx+?=
- =?us-ascii?Q?ZeSdZIFiL131RvPn+DyVrgLVVrAX7UzmcfUAXt5B9llhLgWzFbXgTWfNmEhX?=
- =?us-ascii?Q?lU3+ERyl7LGOCEHmo+HHDNvcDavSd68eeBl4HjIpLMKsqvCjj7tV2Ra9W53s?=
- =?us-ascii?Q?/yvmQslMoxelZk8NnSTqQDI6qmja2BNLyL6OPBSB7+APYoi3a0CilbVI6z8R?=
- =?us-ascii?Q?qdsrOOabDtok3MRBNAOFxjtnbeVSnONc1EDMbcuWd9PH041n0fc4EkUau9e9?=
- =?us-ascii?Q?FSWADft9KkcQvhkyzmz51EncuTO8yQyeHr7gEAhEFJba5Vi9basyfTRvAjFF?=
- =?us-ascii?Q?UdL3oI7J+1neTUWx8TE77YZAWKZc7kLKfGkEtPxcVNO4o7kPOFbJXuSoIZS4?=
- =?us-ascii?Q?iIdqOFlrTOEEB9v4uJLBd3sprX+S30qqSJzSVlMG65qqMlS4gVytW2wzYge7?=
- =?us-ascii?Q?0R7niD9ajNu8Qle5RCt9LZm0jC7X6qf+rx6o9E6vaC8ZR6OAjZjyrJ3dbUz8?=
- =?us-ascii?Q?qZ1w1YRIwLcDtOYqGDcS62WAJRgay8fBj2ELOMMlqR1JGtLraT1HH9VknZT5?=
- =?us-ascii?Q?4WkQiBwUDMKncGRuB5sQdkbH8bTuHxKfPo8pUD3pf0wDHqxBPkxthIHDtJUO?=
- =?us-ascii?Q?OYY8oKU4AYs2u9WPVU67BQSXIw8ioPa336zsVhQGme+UKOvuWQLD9zTHeeES?=
- =?us-ascii?Q?g6PKY/ZewGUKzX9O93/a6QzooZ2aLgh9GFdSa5NxDUqVb+4534mcp3Ozq60l?=
- =?us-ascii?Q?KnB4g8peiCqlKDtpxGBJc0swkSMa8YOECt5SGcIzeagkhrA/+4DKQNM7z2pX?=
- =?us-ascii?Q?AlfNKBVzkUsFPqpBH+KeJ/XvgiGydkY5ivlA9+J5TtRdiVR2Mjf08I9i9P08?=
- =?us-ascii?Q?lkCPIB6p4SJ2QmrqGD8JUCfF9kTsbyP0taWTSOaN?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1)
+ (envelope-from <SRS0=kNOZ=2S=zx2c4.com=Jason@kernel.org>)
+ id 1okHFK-0003Yp-VA
+ for qemu-devel@nongnu.org; Sun, 16 Oct 2022 23:57:01 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 545E6B80E9F;
+ Mon, 17 Oct 2022 03:56:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A9D8C433D7;
+ Mon, 17 Oct 2022 03:56:44 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=fail reason="signature verification failed" (1024-bit key)
+ header.d=zx2c4.com header.i=@zx2c4.com header.b="cecplFSn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1665979002;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=JwALQTSCRBG9CM02FlmFUPwtLn0xaw8ce9OpLk6QDJY=;
+ b=cecplFSnwCcMS1U0D0+w9taJPOarcEVWVSd+5z7b7GF+ZU7UFcFnQ1vdERTZyMOljynsyd
+ 4wknvHvopeWOh6HmtCrOHUl+rN2d7TwIhc67YjB2YeRIxAx16Lzq/8M/2RSy+FVFEKdQT6
+ RJE7n+YWQqzgQIkFre/K0XedmgOHE2g=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 05d50589
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Mon, 17 Oct 2022 03:56:41 +0000 (UTC)
+Date: Sun, 16 Oct 2022 21:56:35 -0600
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Subject: Re: [PULL 0/2] M68k for 7.2 patches
+Message-ID: <Y0zScz9aaUulC78c@zx2c4.com>
+References: <20221014072356.2075517-1-laurent@vivier.eu>
+ <CAJSP0QWcxLFQnrsqJxVw4k1-bsnq1XVGFQj12FLpAi5ar397VQ@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1101MB2110.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3ef33a05-cdd4-4d33-0d14-08daafe5b7d9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Oct 2022 02:17:19.2704 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: sv7Hm4TJRw1jnAvnOFMUeSIYrgJ5ph6c2owYFriRG5Ru3frthfbfXvIIgUQ8zf6I3Fyu8W/u9YZuUGlBX+C1ppfswg2wL+cxQKOTYI3fyCc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB6014
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=134.134.136.24;
- envelope-from=zhenzhong.duan@intel.com; helo=mga09.intel.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAJSP0QWcxLFQnrsqJxVw4k1-bsnq1XVGFQj12FLpAi5ar397VQ@mail.gmail.com>
+Received-SPF: pass client-ip=145.40.68.75;
+ envelope-from=SRS0=kNOZ=2S=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -64
+X-Spam_score: -6.5
+X-Spam_bar: ------
+X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -168,128 +77,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "Jason A. Donenfeld" <Jason@zx2c4.com>
+From:  "Jason A. Donenfeld" via <qemu-devel@nongnu.org>
 
+On Sun, Oct 16, 2022 at 03:50:54PM -0400, Stefan Hajnoczi wrote:
+> On Fri, 14 Oct 2022 at 03:26, Laurent Vivier <laurent@vivier.eu> wrote:
+> >
+> > The following changes since commit f1d33f55c47dfdaf8daacd618588ad3ae4c452d1:
+> >
+> >   Merge tag 'pull-testing-gdbstub-plugins-gitdm-061022-3' of https://github.com/stsquad/qemu into staging (2022-10-06 07:11:56 -0400)
+> >
+> > are available in the Git repository at:
+> >
+> >   https://github.com/vivier/qemu-m68k.git tags/m68k-for-7.2-pull-request
+> >
+> > for you to fetch changes up to fa327be58280f76d2565ff0bdb9b0010ac97c3b0:
+> >
+> >   m68k: write bootinfo as rom section and re-randomize on reboot (2022-10-11 23:02:46 +0200)
+> >
+> > ----------------------------------------------------------------
+> > Pull request m68k branch 20221014
+> >
+> > Update rng seed boot parameter
+> >
+> > ----------------------------------------------------------------
+> >
+> > Jason A. Donenfeld (2):
+> >   m68k: rework BI_VIRT_RNG_SEED as BI_RNG_SEED
+> >   m68k: write bootinfo as rom section and re-randomize on reboot
+> 
+> This commit breaks mingw64 due to the Windows LLP64 data model where
+> pointers don't fit into unsigned long
+> (https://en.wikipedia.org/wiki/LP64#64-bit_data_models). Please use
+> uintptr_t instead of unsigned long:
 
+Holy smokes; I didn't realize that qemu was ever compiled this way.
 
->-----Original Message-----
->From: Dr. David Alan Gilbert <dgilbert@redhat.com>
->Sent: Tuesday, October 11, 2022 7:06 PM
->To: Duan, Zhenzhong <zhenzhong.duan@intel.com>
->Cc: qemu-devel@nongnu.org; quintela@redhat.com
->Subject: Re: [PATCH] migration: Fix a potential guest memory corruption
->
->* Zhenzhong Duan (zhenzhong.duan@intel.com) wrote:
->
->Hi,
-Hi,
-Sorry for late response. Just back from vacation.
+Laurent - do you want me to send you a follow-up commit fixing that, a
+new commit fixing that, or do you want to adjust the current commit
+yourself? Any choice is fine with me.
 
->
->> Imagine a rare case, after a dirty page is sent to compression
->> threads's ring, dirty bitmap sync trigger right away and mark the same
->> page dirty again and sent. Then the new page may be overwriten by
->> stale page in compression threads's ring in the destination.
->
->Yes, I think we had a similar problem in multifd.
-Multifd flush operation multifd_send_sync_main() is called in each memory i=
-teration
-which is more aggressive than in compression. I think not an issue in multi=
-fd?
+Jason
 
->
->> So we need to ensure there is only one copy of the same dirty page
->> either by flushing the ring after every bitmap sync or avoiding
->> processing same dirty page continuously.
->>
->> I choose the 2nd which avoids the time consuming flush operation.
->
->I'm not sure this guarantees it; it makes it much less likely but if only =
-a few
->pages are dirtied and you have lots of threads, I think the same thing cou=
-ld
->still happy.
-I didn't get it, imagine there are dirty page "A B C D E F G" in current RA=
-MBLOCK.
-1. Page "A B C D" are sent to compression thread.
-2. dirty page sync triggers, update dirty map to "A B D E F G"
-3. Page D is checked and sent to compression thread again, so there may be =
-two copy of page D in compression thread, corruption!
-4. Page "E F G" are sent to compression thread.
-5. flush operation triggered at end of current RAMBLOCK.
-6. In next iteration, page "A B" are sent.
-
-After patch:
-1. Page "A B C D" are sent to compression thread.
-2. dirty page sync triggers, update dirty map to " A B D E F G"
-3. Page after page D are checked and sent to compression thread which are P=
-age "E F G".
-5. flush operation triggered at end of current RAMBLOCK, ensures page D flu=
-shed.
-6. In next iteration, page "A B D" are sent.
-
-Thanks
-Zhenzhong
->
->I think you're going to need to flush the ring after each sync.
->
->Dave
->
->> Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
->> ---
->>  migration/ram.c | 8 ++++----
->>  1 file changed, 4 insertions(+), 4 deletions(-)
->>
->> diff --git a/migration/ram.c b/migration/ram.c index
->> dc1de9ddbc68..67b2035586bd 100644
->> --- a/migration/ram.c
->> +++ b/migration/ram.c
->> @@ -1551,7 +1551,7 @@ static bool find_dirty_block(RAMState *rs,
->PageSearchStatus *pss, bool *again)
->>      pss->postcopy_requested =3D false;
->>      pss->postcopy_target_channel =3D RAM_CHANNEL_PRECOPY;
->>
->> -    pss->page =3D migration_bitmap_find_dirty(rs, pss->block, pss->page=
-);
->> +    pss->page =3D migration_bitmap_find_dirty(rs, pss->block, pss->page
->> + + 1);
->>      if (pss->complete_round && pss->block =3D=3D rs->last_seen_block &&
->>          pss->page >=3D rs->last_page) {
->>          /*
->> @@ -1564,7 +1564,7 @@ static bool find_dirty_block(RAMState *rs,
->PageSearchStatus *pss, bool *again)
->>      if (!offset_in_ramblock(pss->block,
->>                              ((ram_addr_t)pss->page) << TARGET_PAGE_BITS=
-)) {
->>          /* Didn't find anything in this RAM Block */
->> -        pss->page =3D 0;
->> +        pss->page =3D -1;
->>          pss->block =3D QLIST_NEXT_RCU(pss->block, next);
->>          if (!pss->block) {
->>              /*
->> @@ -2694,7 +2694,7 @@ static void ram_state_reset(RAMState *rs)  {
->>      rs->last_seen_block =3D NULL;
->>      rs->last_sent_block =3D NULL;
->> -    rs->last_page =3D 0;
->> +    rs->last_page =3D -1;
->>      rs->last_version =3D ram_list.version;
->>      rs->xbzrle_enabled =3D false;
->>      postcopy_preempt_reset(rs);
->> @@ -2889,7 +2889,7 @@ void
->ram_postcopy_send_discard_bitmap(MigrationState *ms)
->>      /* Easiest way to make sure we don't resume in the middle of a host=
--page
->*/
->>      rs->last_seen_block =3D NULL;
->>      rs->last_sent_block =3D NULL;
->> -    rs->last_page =3D 0;
->> +    rs->last_page =3D -1;
->>
->>      postcopy_each_ram_send_discard(ms);
->>
->> --
->> 2.25.1
->>
->--
->Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+> 
+> x86_64-w64-mingw32-gcc -m64 -mcx16 -Ilibqemu-m68k-softmmu.fa.p -I.
+> -I.. -Itarget/m68k -I../target/m68k -Iqapi -Itrace -Iui -Iui/shader
+> -I/usr/x86_64-w64-mingw32/sys-root/mingw/include/pixman-1
+> -I/usr/x86_64-w64-mingw32/sys-root/mingw/include/glib-2.0
+> -I/usr/x86_64-w64-mingw32/sys-root/mingw/lib/glib-2.0/include
+> -fdiagnostics-color=auto -Wall -Winvalid-pch -Werror -std=gnu11 -O2 -g
+> -iquote . -iquote /builds/qemu-project/qemu -iquote
+> /builds/qemu-project/qemu/include -iquote
+> /builds/qemu-project/qemu/tcg/i386 -mms-bitfields -U_FORTIFY_SOURCE
+> -D_FORTIFY_SOURCE=2 -fno-pie -no-pie -D_GNU_SOURCE
+> -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Wstrict-prototypes
+> -Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototypes
+> -fno-strict-aliasing -fno-common -fwrapv -Wold-style-declaration
+> -Wold-style-definition -Wtype-limits -Wformat-security -Wformat-y2k
+> -Winit-self -Wignored-qualifiers -Wempty-body -Wnested-externs
+> -Wendif-labels -Wexpansion-to-defined -Wimplicit-fallthrough=2
+> -Wno-missing-include-dirs -Wno-shift-negative-value -Wno-psabi
+> -fstack-protector-strong -DNEED_CPU_H
+> '-DCONFIG_TARGET="m68k-softmmu-config-target.h"'
+> '-DCONFIG_DEVICES="m68k-softmmu-config-devices.h"' -MD -MQ
+> libqemu-m68k-softmmu.fa.p/hw_m68k_virt.c.obj -MF
+> libqemu-m68k-softmmu.fa.p/hw_m68k_virt.c.obj.d -o
+> libqemu-m68k-softmmu.fa.p/hw_m68k_virt.c.obj -c ../hw/m68k/virt.c
+> In file included from ../hw/m68k/virt.c:23:
+> ../hw/m68k/virt.c: In function 'virt_init':
+> ../hw/m68k/bootinfo.h:58:26: error: cast from pointer to integer of
+> different size [-Werror=pointer-to-int-cast]
+> 58 | base = (void *)(((unsigned long)base + 3) & ~3); \
+> | ^
+> ../hw/m68k/virt.c:261:13: note: in expansion of macro 'BOOTINFOSTR'
+> 261 | BOOTINFOSTR(param_ptr, BI_COMMAND_LINE,
+> | ^~~~~~~~~~~
+> ../hw/m68k/bootinfo.h:58:16: error: cast to pointer from integer of
+> different size [-Werror=int-to-pointer-cast]
+> 58 | base = (void *)(((unsigned long)base + 3) & ~3); \
+> | ^
+> ../hw/m68k/virt.c:261:13: note: in expansion of macro 'BOOTINFOSTR'
+> 261 | BOOTINFOSTR(param_ptr, BI_COMMAND_LINE,
+> | ^~~~~~~~~~~
+> ../hw/m68k/bootinfo.h:75:26: error: cast from pointer to integer of
+> different size [-Werror=pointer-to-int-cast]
+> 75 | base = (void *)(((unsigned long)base + 3) & ~3); \
+> | ^
+> ../hw/m68k/virt.c:268:9: note: in expansion of macro 'BOOTINFODATA'
+> 268 | BOOTINFODATA(param_ptr, BI_RNG_SEED,
+> | ^~~~~~~~~~~~
+> ../hw/m68k/bootinfo.h:75:16: error: cast to pointer from integer of
+> different size [-Werror=int-to-pointer-cast]
+> 75 | base = (void *)(((unsigned long)base + 3) & ~3); \
+> | ^
+> ../hw/m68k/virt.c:268:9: note: in expansion of macro 'BOOTINFODATA'
+> 268 | BOOTINFODATA(param_ptr, BI_RNG_SEED,
+> | ^~~~~~~~~~~~
+> cc1: all warnings being treated as errors
+> 
+> https://gitlab.com/qemu-project/qemu/-/jobs/3179717070
+> 
+> >
+> >  hw/m68k/bootinfo.h                            | 48 ++++++------
+> >  .../standard-headers/asm-m68k/bootinfo-virt.h |  4 +-
+> >  include/standard-headers/asm-m68k/bootinfo.h  |  8 +-
+> >  hw/m68k/q800.c                                | 76 ++++++++++++++-----
+> >  hw/m68k/virt.c                                | 57 +++++++++-----
+> >  5 files changed, 130 insertions(+), 63 deletions(-)
+> >
+> > --
+> > 2.37.3
+> >
+> >
+> 
 
