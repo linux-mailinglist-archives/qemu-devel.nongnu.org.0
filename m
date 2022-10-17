@@ -2,97 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60C82601C15
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 00:09:32 +0200 (CEST)
-Received: from localhost ([::1]:60452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2245F601C41
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 00:23:12 +0200 (CEST)
+Received: from localhost ([::1]:53512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okYId-00006m-Gl
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 18:09:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36604)
+	id 1okYVq-0003q4-EA
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 18:23:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1okYFl-0003gw-JU
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 18:06:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59456)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1okYFj-0002vK-Ij
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 18:06:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666044390;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WtWXsm6fXNg5LwuW9K1FB30lJgf2PnaO99M3ucglYrI=;
- b=PIeKrRmzLZmhRB/9jW10dNDgssGaVC7Lu4oGKs/JVVGg5I8adA9GvtSasp0tp5YDz34NRW
- uCbmhAG7lhCNWU3Km+Lvg6Wn2dxqxXI1CvmThwvu4snVCUX/4lLwUHRFfT3jjNdhn+EwP6
- eG9ifkraHIPqFDGGGmTdYvvHqjWNJ0c=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-142-ufrT-xk_M-GPCQrrwwko2A-1; Mon, 17 Oct 2022 18:06:28 -0400
-X-MC-Unique: ufrT-xk_M-GPCQrrwwko2A-1
-Received: by mail-ed1-f72.google.com with SMTP id
- v13-20020a056402348d00b0045d36615696so6996466edc.14
- for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 15:06:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1okYQk-0001tu-Ux
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 18:17:54 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:46760)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1okYQi-0004Tr-2k
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 18:17:53 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id l1so12029839pld.13
+ for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 15:17:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=TrR1U1OdGGBTNU+L/j5+q/HQQR5gcpgDZtfvTOOBt0M=;
+ b=Pa9UF6Hi2q1b744+/zFgnMjVA7j2pgI5ymLqfYIjscYUAYCF5ZXYRaOr8OH7B7Xd9F
+ /HznXiV0rMC5mH6t0PX9UTIUMnvfTMra5P8j8/Err3N0tWueZMfcGzGtxNdF72RRSt7o
+ NHpkNbOoj5ABhkcBEje6If6JGJVChr/yUqpTjUi6oHUQYtvQcn2Qq0A0mMJRwm7jwCpU
+ txbpSRtq6Deb3lMYIB2V2HXjwUD/dBV3FD8oYF4YSQczKnAO+mdCYqOZu/+92E+l+c3z
+ qnP5v2XAfcbbMH4rprLDtpkgxOqarwr2vDP6sOEKWp3p6bnA4ZtbMgRsXFz+JSka9OPZ
+ iKaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WtWXsm6fXNg5LwuW9K1FB30lJgf2PnaO99M3ucglYrI=;
- b=EPuG9N6+/ZUvi3Ax8/Sgscq9h3vKp0XYuVME4hcIgE+95+qIvexGCvK0wap5HT8e7E
- 820Mm6LZlpDA7q0yWuEEogXqiWL+6XmIS9yhpkBLHkOmoV0lqhW2qkEouzM66UKaEQUW
- VZOkMW8iSIhvBPaAU7PjhXtzOnAh4PrSQQdR9Vjf21g5Jbg67rDpfa20H1CT8dcggxEt
- OTMnchLX3gYVs1sAd81AJe11PIduKISGeY0CRN/BGno4bA3O1oANhNg9GKJjFpUm78ga
- NH+Kzb/OCl/xcN+FeMEvJ9JI+Q+qLuFMhUy+/EA3vHNFOAa1jHpnRbtUHqMKFSSc9ZRR
- oOUg==
-X-Gm-Message-State: ACrzQf0b9fjtZFl1hNwdRdoPq70cZWVT7yiF0fhCwVP8k0HPRHhHG+8F
- Tj7vaiwAeK/oTlzWkGKQ7LSPdw8vudGfc3K5YMwTqh9mgOtL7z8ONufn6iv6ENBah034RjtI8R8
- MJ6ocFTq+iBvRTYo=
-X-Received: by 2002:a17:907:d02:b0:78d:b3cd:a277 with SMTP id
- gn2-20020a1709070d0200b0078db3cda277mr10456507ejc.622.1666044387850; 
- Mon, 17 Oct 2022 15:06:27 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM61RR1jk+nGXWK6rG2PBDwF1RjxmwL3xmjrhWRsmbUE7IqvIjHj70JrTZDyB2E35ByY+CIPKg==
-X-Received: by 2002:a17:907:d02:b0:78d:b3cd:a277 with SMTP id
- gn2-20020a1709070d0200b0078db3cda277mr10456476ejc.622.1666044387582; 
- Mon, 17 Oct 2022 15:06:27 -0700 (PDT)
-Received: from redhat.com ([2.54.172.104]) by smtp.gmail.com with ESMTPSA id
- a16-20020aa7d910000000b00459ad800bbcsm7923108edr.33.2022.10.17.15.06.25
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=TrR1U1OdGGBTNU+L/j5+q/HQQR5gcpgDZtfvTOOBt0M=;
+ b=Jix3XnJUQEB/o4cF5oQ5IvImNkC/aBzU4QFQU17N4rNKX6HmPx0U0SpRTYpY0yYcoA
+ /8Gd68tG4iyKwnJDP3YXzNmasu9/AnHJCpdS1pN4LcNV1Wq4kGhLJ2ltL1Jx8vVZJ+O5
+ 6XAtjpu4FksO21buPiy1dv8zHPmJPEBsMezhRD/PDjfNF1aXhs9UJDOjA3SbgrDaZnD6
+ wA8Ui7Ego6X3UAJabJQHRscPG2pTyNkPqZas71TnQtMyz5RPnBA8Ug40/j5K6t96xdMA
+ bNv2iQUnGBBaVviGP8xM1FPEB86pWo+8rdEVJWlkQdvirkoph9cdvzXLHKrqZMy7A+0q
+ jLww==
+X-Gm-Message-State: ACrzQf1DaJNMYuFRnJeThqUkKdxCbwegAtSc2pZg16Q2z3aP4U3kq+ff
+ VlMJcYeuzhAnDabubkrsQH1F7w==
+X-Google-Smtp-Source: AMsMyM5sOws5M1E82UjbITIFno8w/HG4mdjtUwGqdWDsxnzcg+d5uvozuCFcCUl9QhNTIh10tM+Etg==
+X-Received: by 2002:a17:903:1c2:b0:185:47ce:f4d2 with SMTP id
+ e2-20020a17090301c200b0018547cef4d2mr14097565plh.101.1666045069741; 
+ Mon, 17 Oct 2022 15:17:49 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com.
+ [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
+ p13-20020a17090a74cd00b0020ad46d277bsm9992889pjl.42.2022.10.17.15.17.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Oct 2022 15:06:26 -0700 (PDT)
-Date: Mon, 17 Oct 2022 18:06:23 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Cc: Ani Sinha <ani@anisinha.ca>, Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Maydell Peter <peter.maydell@linaro.org>,
- John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 01/10] acpi/tests/avocado/bits: initial commit of test
- scripts that are run by biosbits
-Message-ID: <20221017180405-mutt-send-email-mst@kernel.org>
-References: <20221014173508.222823-1-ani@anisinha.ca>
- <20221014173508.222823-2-ani@anisinha.ca>
- <5df81a97-8fd7-8ee6-f631-7c979a2e58a0@linaro.org>
+ Mon, 17 Oct 2022 15:17:49 -0700 (PDT)
+Date: Mon, 17 Oct 2022 22:17:45 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Fuad Tabba <tabba@google.com>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 5/8] KVM: Register/unregister the guest private memory
+ regions
+Message-ID: <Y03UiYYioV+FQIpx@google.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-6-chao.p.peng@linux.intel.com>
+ <CA+EHjTxukqBfaN6D+rPOiX83zkGknHEQ16J0k6GQSdL_-e9C6g@mail.gmail.com>
+ <20221012023516.GA3218049@chaop.bj.intel.com>
+ <CA+EHjTyGyGL+ox81=jdtoHERtHPV=P7wJub=3j7chdijyq-AgA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5df81a97-8fd7-8ee6-f631-7c979a2e58a0@linaro.org>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
+In-Reply-To: <CA+EHjTyGyGL+ox81=jdtoHERtHPV=P7wJub=3j7chdijyq-AgA@mail.gmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=seanjc@google.com; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,54 +117,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 17, 2022 at 11:13:55PM +0200, Philippe Mathieu-Daudé wrote:
-> On 14/10/22 19:34, Ani Sinha wrote:
-> > This is initial commit of cpuid, acpi and smbios python test scripts for
-> > biosbits to execute. No change has been made to them from the original code
-> > written by the biosbits author Josh Triplett. They are required to be installed
-> > into the bits iso file and then run from within the virtual machine booted off
-> > with biosbits iso.
-> > 
-> > The test scripts have a ".py2" extension in order to prevent avocado from
-> > loading them. They are written in python 2.7 and are run from within bios bits.
-> > There is no need for avocado to try to load them and call out errors on python3
-> > specific syntaxes.
-> > 
-> > The original location of these tests are here:
-> > https://github.com/biosbits/bits/blob/master/python/testacpi.py
-> > https://github.com/biosbits/bits/blob/master/python/smbios.py
-> > https://github.com/biosbits/bits/blob/master/python/testcpuid.py
-> > 
-> > For QEMU, we maintain a fork of the above repo here with numerious fixes:
-> > https://gitlab.com/qemu-project/biosbits-bits
-> > 
-> > The acpi test for example is maintained here in the fork:
-> > https://gitlab.com/qemu-project/biosbits-bits/-/raw/master/python/testacpi.py
+On Mon, Oct 17, 2022, Fuad Tabba wrote:
+> Hi,
 > 
-> I missed the previous iterations of this series, and wonder why copy
-> these files in QEMU repository if they already are in a forked
-> repository. Why not add the fork as a submodule?
+> > > > +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
+> > > > +#define KVM_MEM_ATTR_SHARED    0x0001
+> > > > +static int kvm_vm_ioctl_set_mem_attr(struct kvm *kvm, gpa_t gpa, gpa_t size,
+> > > > +                                    bool is_private)
+> > > > +{
+> > >
+> > > I wonder if this ioctl should be implemented as an arch-specific
+> > > ioctl. In this patch it performs some actions that pKVM might not need
+> > > or might want to do differently.
+> >
+> > I think it's doable. We can provide the mem_attr_array kind thing in
+> > common code and let arch code decide to use it or not. Currently
+> > mem_attr_array is defined in the struct kvm, if those bytes are
+> > unnecessary for pKVM it can even be moved to arch definition, but that
+> > also loses the potential code sharing for confidential usages in other
+> > non-architectures, e.g. if ARM also supports such usage. Or it can be
+> > provided through a different CONFIG_ instead of
+> > CONFIG_HAVE_KVM_PRIVATE_MEM.
+> 
+> This sounds good. Thank you.
 
-People don't want to use submodules because their default
-configuration in git is broken and git devs don't seem to
-be willing to change this. Look for "submodules" in qemu archives.
+I like the idea of a separate Kconfig, e.g. CONFIG_KVM_GENERIC_PRIVATE_MEM or
+something.  I highly doubt there will be any non-x86 users for multiple years,
+if ever, but it would allow testing the private memory stuff on ARM (and any other
+non-x86 arch) without needing full pKVM support and with only minor KVM
+modifications, e.g. the x86 support[*] to test UPM without TDX is shaping up to be
+trivial.
 
-> > Cc: Daniel P. Berrangé <berrange@redhat.com>
-> > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > Cc: Maydell Peter <peter.maydell@linaro.org>
-> > Cc: John Snow <jsnow@redhat.com>
-> > Cc: Thomas Huth <thuth@redhat.com>
-> > Cc: Alex Bennée <alex.bennee@linaro.org>
-> > Cc: Igor Mammedov <imammedo@redhat.com>
-> > Cc: Michael Tsirkin <mst@redhat.com>
-> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> > ---
-> >   tests/avocado/acpi-bits/bits-tests/smbios.py2 | 2430 +++++++++++++++++
-> >   .../avocado/acpi-bits/bits-tests/testacpi.py2 |  283 ++
-> >   .../acpi-bits/bits-tests/testcpuid.py2        |   83 +
-> >   3 files changed, 2796 insertions(+)
-> >   create mode 100644 tests/avocado/acpi-bits/bits-tests/smbios.py2
-> >   create mode 100644 tests/avocado/acpi-bits/bits-tests/testacpi.py2
-> >   create mode 100644 tests/avocado/acpi-bits/bits-tests/testcpuid.py2
-
+[*] https://lore.kernel.org/all/Y0mu1FKugNQG5T8K@google.com
 
