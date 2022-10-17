@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70D23600D7B
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 13:12:45 +0200 (CEST)
-Received: from localhost ([::1]:57142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C9AC600D91
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 13:17:23 +0200 (CEST)
+Received: from localhost ([::1]:52090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okO31-0001OM-PU
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 07:12:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36420)
+	id 1okO7W-0007mQ-E6
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 07:17:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1okNs2-00008N-Mj
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 07:01:22 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:53145)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1okNta-0000t8-42
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 07:02:58 -0400
+Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:39846)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1okNs1-0000eu-13
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 07:01:22 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id pq16so10659094pjb.2
- for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 04:01:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1okNtO-0000qw-JN
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 07:02:53 -0400
+Received: by mail-io1-xd2e.google.com with SMTP id p16so8705595iod.6
+ for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 04:02:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ftTPedma5Zescrvcv9LmQxOPuaIh7IaZ7R0zDO2ts9Y=;
- b=ZIuxmmhgsdakdRb1UqX/jzHrwNTL0SAO1YMt0AGMT/DPeWELK4JdactIPkg3L9wzY8
- EXPb6tZfLsfA0ezHlcNPmQlaFDzyNUaTbWxywdnQqaq3xSKlAQ0x6i8+04k5zZfCSkcm
- AmhSQHgrL1aBYxsWMXXO4xyl5V2uUP06rFwaP37+e2o9dyuV9imeKIX3XWe6aNbMV+VR
- o9C0JlXq4a72u2JIfTQtO2LWkooVv79h7EBjvfyC2qlMY9UjOXiYI55XqDRomkOrqMPe
- I0bKzTmCphj3UDxw1//zpepFVl5o/I3CktpZjK/0dK+rB1CrwcWKbPh5it/0/BtIN+ui
- Agbg==
+ bh=j8nh4oBxb7QW46qRlcezruYh83JGb9t1BRO10Gy5fmI=;
+ b=WaFvItswtIfIiroN+3w72Ql8VaF/0ZGCnAO18QmbxKA3WMQkLhpv07Z+XCsTqGcZ39
+ 7D0gBo1iIsohnPws3EPyG6jnLu1xQJvdfCIlhQH5jVtwMFkW4zEIJdW33NtKHyDRY23q
+ LnlkbAVja6Ug63C2tYiom4LALJ58/toFJihNrehhMns5aqu5At3NUPiVGVqPVlGtum7c
+ dQE8L0HzZU9OHp2+1zK0ry1C++g3GFvalgzp/xWnqQU4LKsQ+01KsLJou6e+NIk+6t10
+ DFbbQEWRNJtYlLV0gEFoTu8FIsPPcqvbhGvZqNfv4d5YONifFcHvSciuJcKX1m6IEvzG
+ Yupg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=ftTPedma5Zescrvcv9LmQxOPuaIh7IaZ7R0zDO2ts9Y=;
- b=Dn/gOxqgBG00/gDhIxBMCV01NKL9NTlGFeJEuktocr2jPeYkzAFZNzFAxz0mz90MtM
- j1mwtMUidvxWzSbkJmieZSxI3VIhBd+Hct2Aho7OUgtgfceriUobKyw4sm6RCD6S8cmR
- 4tSdM2fQ3G2U0P1yUpAV8kJqxlLqBh2oR9HNKRYwpkfPdgrSkul7xVkbefNZBNZI+OGk
- AU2fW1jhWAYXVksoiYw4FyUCBcP5LUnVHnQ2EmQ6eXDHrU6G2RbQmbNKhJ4UfB6pbtwM
- HSoCA6KQvcxQQVetVngqgVOKAe3Y7PR0mkMdN4TPizs0I88eiJbxMc+zG/Go8t+VRs+5
- qaOA==
-X-Gm-Message-State: ACrzQf2YYx9oDtY1TQ/w1Sau5IPh8yTK+eFzksIVXfOXknWjX2t3DglJ
- IvS66eUIm6ciuAzB/UYo2ydnR0L179xpSyUJ0QBxsw==
-X-Google-Smtp-Source: AMsMyM4CSjt7UJMs/PRzDA1Jxi2pn0Q9p2hlF2Vy7XdEgElTgeniYjt9YT+BNubUVdagEycjZqFrteGID51dlykKHHI=
-X-Received: by 2002:a17:903:4d7:b0:178:8564:f754 with SMTP id
- jm23-20020a17090304d700b001788564f754mr11456399plb.60.1666004479243; Mon, 17
- Oct 2022 04:01:19 -0700 (PDT)
+ bh=j8nh4oBxb7QW46qRlcezruYh83JGb9t1BRO10Gy5fmI=;
+ b=uO2Yl+gG6XPFpyusXXjWrM7I0aGPiErwXCLWNHfHZ6tX2L8YuvF6yGjKD9IAKNI9eN
+ L3T+wzBeLfornKtXT/7j2NC9fXeknKO35SE630gBDOqiB/77r9dIQjJt1gLt7o0aem9L
+ eyJWaEGybI7E2jyhPBwpNdjyfeOK8G11pdFx6d03UFig9/R2Ldybq7jRAMBDrPEGD5qC
+ gLwHmnk+c4jvwH81sKfxOUtGpIPrwJkntcxUXLb/wbmj1PlQuRAgKVbdkG2DJQbUK0no
+ CmJkFw31LvDj6zY8SxsQl6/PBb2UNhDqJxyPplnwgHvRI7HVH1xxUI73q8N3ubZjzKzF
+ jgTw==
+X-Gm-Message-State: ACrzQf0M3ilL1KTLUPJFIuRr44vNkmP1xbs6jmuX7O3nXW+YXrzoMfwG
+ VVXfEkwnsm8UhbmuF+DqFOMRcjwePukoq8mjd2ApcQ==
+X-Google-Smtp-Source: AMsMyM7HJEvjiga0TNCRVHfb+rxYWC2OCBOcWPNY49HvFUWIdsIZVVXh9TczxdD3dAjw3yFlco8KFccKR3Qx9Rea9pY=
+X-Received: by 2002:a02:cc55:0:b0:364:ef:c546 with SMTP id
+ i21-20020a02cc55000000b0036400efc546mr4985548jaq.265.1666004562177; 
+ Mon, 17 Oct 2022 04:02:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221011031911.2408754-1-richard.henderson@linaro.org>
- <20221011031911.2408754-24-richard.henderson@linaro.org>
-In-Reply-To: <20221011031911.2408754-24-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 17 Oct 2022 12:01:07 +0100
-Message-ID: <CAFEAcA8y=6okZaLFGu3BqXOZwV8ch9YFOf72y7fhMywXpobFQA@mail.gmail.com>
-Subject: Re: [PATCH v4 23/24] target/arm: Implement FEAT_HAFDBS,
- dirty bit portion
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20221017102146.2254096-1-imammedo@redhat.com>
+ <20221017102146.2254096-2-imammedo@redhat.com>
+In-Reply-To: <20221017102146.2254096-2-imammedo@redhat.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Mon, 17 Oct 2022 16:32:29 +0530
+Message-ID: <CAARzgwwjnDu-fX2AZbukB-5rzhTkG8kYtSiS4dO-bW8m3YXu7Q@mail.gmail.com>
+Subject: Re: [PATCH 01/11] acpi: pc: vga: use AcpiDevAmlIf interface to build
+ VGA device descriptors
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org, mst@redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2e;
+ envelope-from=ani@anisinha.ca; helo=mail-io1-xd2e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,74 +83,231 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 11 Oct 2022 at 04:41, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Mon, Oct 17, 2022 at 3:52 PM Igor Mammedov <imammedo@redhat.com> wrote:
 >
-> Perform the atomic update for hardware management of the dirty bit.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+I would add a comment that we do not expect any functional change in
+any ACPI tables with this change. It's only a refactoring.
+
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+
+Other than the comment above,
+Reviewed-by: Ani Sinha <ani@anisinha.ca>
+
 > ---
->  target/arm/cpu64.c |  2 +-
->  target/arm/ptw.c   | 20 ++++++++++++++++++++
->  2 files changed, 21 insertions(+), 1 deletion(-)
+>  hw/display/vga_int.h       |  2 ++
+>  hw/display/acpi-vga-stub.c |  7 +++++++
+>  hw/display/acpi-vga.c      | 26 ++++++++++++++++++++++++++
+>  hw/display/meson.build     | 17 +++++++++++++++++
+>  hw/display/vga-pci.c       |  4 ++++
+>  hw/i386/acpi-build.c       | 26 +-------------------------
+>  6 files changed, 57 insertions(+), 25 deletions(-)
+>  create mode 100644 hw/display/acpi-vga-stub.c
+>  create mode 100644 hw/display/acpi-vga.c
 >
-> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-> index fe1369fe96..0732796559 100644
-> --- a/target/arm/cpu64.c
-> +++ b/target/arm/cpu64.c
-> @@ -1165,7 +1165,7 @@ static void aarch64_max_initfn(Object *obj)
->      cpu->isar.id_aa64mmfr0 = t;
+> diff --git a/hw/display/vga_int.h b/hw/display/vga_int.h
+> index 305e700014..330406ad9c 100644
+> --- a/hw/display/vga_int.h
+> +++ b/hw/display/vga_int.h
+> @@ -30,6 +30,7 @@
+>  #include "ui/console.h"
 >
->      t = cpu->isar.id_aa64mmfr1;
-> -    t = FIELD_DP64(t, ID_AA64MMFR1, HAFDBS, 1);   /* FEAT_HAFDBS, AF only */
-> +    t = FIELD_DP64(t, ID_AA64MMFR1, HAFDBS, 2);   /* FEAT_HAFDBS */
->      t = FIELD_DP64(t, ID_AA64MMFR1, VMIDBITS, 2); /* FEAT_VMID16 */
->      t = FIELD_DP64(t, ID_AA64MMFR1, VH, 1);       /* FEAT_VHE */
->      t = FIELD_DP64(t, ID_AA64MMFR1, HPDS, 1);     /* FEAT_HPDS */
-> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-> index 82b6ab029e..0dbbb7d4d4 100644
-> --- a/target/arm/ptw.c
-> +++ b/target/arm/ptw.c
-> @@ -1484,10 +1484,30 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
->      ap = extract32(attrs, 6, 2);
+>  #include "hw/display/bochs-vbe.h"
+> +#include "hw/acpi/acpi_aml_interface.h"
 >
->      if (mmu_idx == ARMMMUIdx_Stage2 || mmu_idx == ARMMMUIdx_Stage2_S) {
-> +        if (param.hd
-> +            && extract64(attrs, 51, 1)  /* DBM */
-> +            && access_type == MMU_DATA_STORE) {
-> +            /*
-> +             * Pre-emptively set S2AP[1], so that we compute EXEC properly.
-> +             * C.f. AArch64.S2ApplyOutputPerms, which does the same thing.
-> +             */
-> +            ap |= 2;
-> +            new_descriptor |= 1ull << 7;
-> +        }
->          ns = mmu_idx == ARMMMUIdx_Stage2;
->          xn = extract64(attrs, 54, 2);
->          result->f.prot = get_S2prot(env, ap, xn, s1_is_el0);
->      } else {
-> +        if (param.hd
-> +            && extract64(attrs, 51, 1)  /* DBM */
-> +            && access_type == MMU_DATA_STORE) {
-> +            /*
-> +             * Pre-emptively clear AP[2], so that we compute EXEC properly.
-> +             * C.f. AArch64.S1ApplyOutputPerms, which does the same thing.
-> +             */
-> +            ap &= ~2;
-> +            new_descriptor &= ~(1ull << 7);
-> +        }
-
-At this point in the code we've already merged the table
-attributes into attrs. If the APTable[] bits forbid write permission
-then HAFDBS isn't allowed to grant write permission. I think we
-need to do this a bit further up, before we have merged the table
-attributes in (so that the table attributes merge can force our
-attribute bit back to 1 if the table attrs forbid writes).
-
-(In the pseudocode the Permissions struct keeps track of the ap_table
-and ap permissions settings separately and doesn't combine them until
-AArch64.S1HasPermissionsFault().)
-
-thanks
--- PMM
+>  #define ST01_V_RETRACE      0x08
+>  #define ST01_DISP_ENABLE    0x01
+> @@ -195,4 +196,5 @@ void pci_std_vga_mmio_region_init(VGACommonState *s,
+>                                    MemoryRegion *subs,
+>                                    bool qext, bool edid);
+>
+> +void build_vga_aml(AcpiDevAmlIf *adev, Aml *scope);
+>  #endif
+> diff --git a/hw/display/acpi-vga-stub.c b/hw/display/acpi-vga-stub.c
+> new file mode 100644
+> index 0000000000..a9b0ecf76d
+> --- /dev/null
+> +++ b/hw/display/acpi-vga-stub.c
+> @@ -0,0 +1,7 @@
+> +#include "qemu/osdep.h"
+> +#include "hw/acpi/acpi_aml_interface.h"
+> +#include "vga_int.h"
+> +
+> +void build_vga_aml(AcpiDevAmlIf *adev, Aml *scope)
+> +{
+> +}
+> diff --git a/hw/display/acpi-vga.c b/hw/display/acpi-vga.c
+> new file mode 100644
+> index 0000000000..f0e9ef1fcf
+> --- /dev/null
+> +++ b/hw/display/acpi-vga.c
+> @@ -0,0 +1,26 @@
+> +#include "qemu/osdep.h"
+> +#include "hw/acpi/acpi_aml_interface.h"
+> +#include "hw/pci/pci.h"
+> +#include "vga_int.h"
+> +
+> +void build_vga_aml(AcpiDevAmlIf *adev, Aml *scope)
+> +{
+> +    int s3d = 0;
+> +    Aml *method;
+> +
+> +    if (object_dynamic_cast(OBJECT(adev), "qxl-vga")) {
+> +        s3d = 3;
+> +    }
+> +
+> +    method = aml_method("_S1D", 0, AML_NOTSERIALIZED);
+> +    aml_append(method, aml_return(aml_int(0)));
+> +    aml_append(scope, method);
+> +
+> +    method = aml_method("_S2D", 0, AML_NOTSERIALIZED);
+> +    aml_append(method, aml_return(aml_int(0)));
+> +    aml_append(scope, method);
+> +
+> +    method = aml_method("_S3D", 0, AML_NOTSERIALIZED);
+> +    aml_append(method, aml_return(aml_int(s3d)));
+> +    aml_append(scope, method);
+> +}
+> diff --git a/hw/display/meson.build b/hw/display/meson.build
+> index adc53dd8b6..7a725ed80e 100644
+> --- a/hw/display/meson.build
+> +++ b/hw/display/meson.build
+> @@ -38,10 +38,21 @@ softmmu_ss.add(when: 'CONFIG_NEXTCUBE', if_true: files('next-fb.c'))
+>
+>  specific_ss.add(when: 'CONFIG_VGA', if_true: files('vga.c'))
+>
+> +if (config_all_devices.has_key('CONFIG_VGA_CIRRUS') or
+> +    config_all_devices.has_key('CONFIG_VGA_PCI') or
+> +    config_all_devices.has_key('CONFIG_VMWARE_VGA') or
+> +    config_all_devices.has_key('CONFIG_ATI_VGA')
+> +   )
+> +  softmmu_ss.add(when: 'CONFIG_ACPI', if_true: files('acpi-vga.c'),
+> +                                      if_false: files('acpi-vga-stub.c'))
+> +endif
+> +
+>  if config_all_devices.has_key('CONFIG_QXL')
+>    qxl_ss = ss.source_set()
+>    qxl_ss.add(when: 'CONFIG_QXL', if_true: [files('qxl.c', 'qxl-logger.c', 'qxl-render.c'),
+>                                             pixman, spice])
+> +  qxl_ss.add(when: 'CONFIG_ACPI', if_true: files('acpi-vga.c'),
+> +                                  if_false: files('acpi-vga-stub.c'))
+>    hw_display_modules += {'qxl': qxl_ss}
+>  endif
+>
+> @@ -52,6 +63,7 @@ softmmu_ss.add(when: 'CONFIG_ARTIST', if_true: files('artist.c'))
+>
+>  softmmu_ss.add(when: [pixman, 'CONFIG_ATI_VGA'], if_true: files('ati.c', 'ati_2d.c', 'ati_dbg.c'))
+>
+> +
+>  if config_all_devices.has_key('CONFIG_VIRTIO_GPU')
+>    virtio_gpu_ss = ss.source_set()
+>    virtio_gpu_ss.add(when: 'CONFIG_VIRTIO_GPU',
+> @@ -87,14 +99,19 @@ if config_all_devices.has_key('CONFIG_VIRTIO_VGA')
+>                      if_true: [files('virtio-vga.c'), pixman])
+>    virtio_vga_ss.add(when: 'CONFIG_VHOST_USER_VGA',
+>                      if_true: files('vhost-user-vga.c'))
+> +  virtio_vga_ss.add(when: 'CONFIG_ACPI', if_true: files('acpi-vga.c'),
+> +                                         if_false: files('acpi-vga-stub.c'))
+>    hw_display_modules += {'virtio-vga': virtio_vga_ss}
+>
+>    virtio_vga_gl_ss = ss.source_set()
+>    virtio_vga_gl_ss.add(when: ['CONFIG_VIRTIO_VGA', virgl, opengl],
+>                         if_true: [files('virtio-vga-gl.c'), pixman])
+> +  virtio_vga_gl_ss.add(when: 'CONFIG_ACPI', if_true: files('acpi-vga.c'),
+> +                                            if_false: files('acpi-vga-stub.c'))
+>    hw_display_modules += {'virtio-vga-gl': virtio_vga_gl_ss}
+>  endif
+>
+>  specific_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_lcdc.c'))
+>
+> +softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('acpi-vga-stub.c'))
+>  modules += { 'hw-display': hw_display_modules }
+> diff --git a/hw/display/vga-pci.c b/hw/display/vga-pci.c
+> index 3e5bc259f7..9a91de7ed1 100644
+> --- a/hw/display/vga-pci.c
+> +++ b/hw/display/vga-pci.c
+> @@ -35,6 +35,7 @@
+>  #include "hw/loader.h"
+>  #include "hw/display/edid.h"
+>  #include "qom/object.h"
+> +#include "hw/acpi/acpi_aml_interface.h"
+>
+>  enum vga_pci_flags {
+>      PCI_VGA_FLAG_ENABLE_MMIO = 1,
+> @@ -354,11 +355,13 @@ static void vga_pci_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+>      PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+> +    AcpiDevAmlIfClass *adevc = ACPI_DEV_AML_IF_CLASS(klass);
+>
+>      k->vendor_id = PCI_VENDOR_ID_QEMU;
+>      k->device_id = PCI_DEVICE_ID_QEMU_VGA;
+>      dc->vmsd = &vmstate_vga_pci;
+>      set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
+> +    adevc->build_dev_aml = build_vga_aml;
+>  }
+>
+>  static const TypeInfo vga_pci_type_info = {
+> @@ -369,6 +372,7 @@ static const TypeInfo vga_pci_type_info = {
+>      .class_init = vga_pci_class_init,
+>      .interfaces = (InterfaceInfo[]) {
+>          { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+> +        { TYPE_ACPI_DEV_AML_IF },
+>          { },
+>      },
+>  };
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 4f54b61904..26932b4e2c 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -430,7 +430,6 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+>          bool hotpluggbale_slot = false;
+>          bool bridge_in_acpi = false;
+>          bool cold_plugged_bridge = false;
+> -        bool is_vga = false;
+>
+>          if (pdev) {
+>              pc = PCI_DEVICE_GET_CLASS(pdev);
+> @@ -440,8 +439,6 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+>                  continue;
+>              }
+>
+> -            is_vga = pc->class_id == PCI_CLASS_DISPLAY_VGA;
+> -
+>              /*
+>               * Cold plugged bridges aren't themselves hot-pluggable.
+>               * Hotplugged bridges *are* hot-pluggable.
+> @@ -489,28 +486,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+>              aml_append(dev, aml_pci_device_dsm());
+>          }
+>
+> -        if (is_vga) {
+> -            /* add VGA specific AML methods */
+> -            int s3d;
+> -
+> -            if (object_dynamic_cast(OBJECT(pdev), "qxl-vga")) {
+> -                s3d = 3;
+> -            } else {
+> -                s3d = 0;
+> -            }
+> -
+> -            method = aml_method("_S1D", 0, AML_NOTSERIALIZED);
+> -            aml_append(method, aml_return(aml_int(0)));
+> -            aml_append(dev, method);
+> -
+> -            method = aml_method("_S2D", 0, AML_NOTSERIALIZED);
+> -            aml_append(method, aml_return(aml_int(0)));
+> -            aml_append(dev, method);
+> -
+> -            method = aml_method("_S3D", 0, AML_NOTSERIALIZED);
+> -            aml_append(method, aml_return(aml_int(s3d)));
+> -            aml_append(dev, method);
+> -        }
+> +        call_dev_aml_func(DEVICE(pdev), dev);
+>
+>          bridge_in_acpi =  cold_plugged_bridge && pcihp_bridge_en;
+>          if (bridge_in_acpi) {
+> --
+> 2.31.1
+>
 
