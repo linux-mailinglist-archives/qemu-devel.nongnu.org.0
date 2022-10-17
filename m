@@ -2,111 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4B6960107F
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 15:50:38 +0200 (CEST)
-Received: from localhost ([::1]:37542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E973260108D
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 15:53:40 +0200 (CEST)
+Received: from localhost ([::1]:60062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okQVp-0001cC-A1
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 09:50:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51174)
+	id 1okQYm-0004wB-2B
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 09:53:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1okQQG-0005Y1-Vk
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 09:44:53 -0400
-Received: from esa1.hc2706-39.iphmx.com ([68.232.153.39]:10136)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1okQQE-00061t-P7
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 09:44:52 -0400
-X-IronPort-RemoteIP: 209.85.219.71
-X-IronPort-MID: 233147338
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:BBCRO62kojk++M8K3fbD5WJzkn2cJEfYwER7XKvMYLTBsI5bpzwGn
- WVOWm2OPv3bYWXwLdtwOoq28E4G7ZDWzocyT1Y6qSg9HnlHl5H5CIXCJC8cHc8zwu4v7q5Dx
- 59DAjUVBJlsFhcwnj/0bv676yEUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii8tjjMPR7zml4
- LsemOWCfg74s9JIGjhMsfja8Eow5K2aVA4w5TTSW9ga5DcyqFFIVPrzFYnpR1PkT49dGPKNR
- uqr5NlVKUuAon/Bovv8+lrKWhRiroz6ZGBiuVIPM0SWuSWukwRpukoN2FvwXm8M49mBt4gZJ
- NygLvVcQy9wVkHHsL11vxW1j0iSlECJkVPKCSHXjCCd86HJW2v93dFxBVEMBI4/37xaH0Zxz
- P40EglYO3hvh8ruqF66Yuxlh8BmNdeyeY1A4zdvyjbWCftgSpfGK0nIzYUAjXFg24YURKeYO
- JNxhTlHNXwsZzVGPkcRBIgWlvrui3XiG9FdgAjO/vNrvDOInGSd1pDPOuj7deSmSf5NoRnIu
- V7N1Eb/XCgVYYn3JT2ttyjEavX0tTr2XZ9XGLCm+/pChlqVyWoOThoMWjOGTeKRj0e/X5dGN
- RVR9HV366c180OvQ5/2WBjQTGO4gyPwkuF4S4USgDxhAIKOi+pFLgDolgJ8VeE=
-IronPort-HdrOrdr: A9a23:odZE/aE6vGbnn4WtpLqFfpHXdLJyesId70hD6qkvc3Fom52j/f
- xGws5x6fatskd3ZJhSo6HnBEDgewKqyXcb2/h1AV7PZmfbUQiTXfdfBOnZslnd8kTFn4Ywup
- uIGJIfNDSENykZsS+M2njaLz9P+ri62ZHtod2b42ZmTAlsZa0lxRx+EBynHkp/QxQDLYYlFb
- KHj/A37waISDAyVICWF3MFV+/Mq5ngj5T9eyMLABYh9U2nkS6o0rjnCBKVty1uGA+ngI1Su1
- QtoTaJqplLgMvLhSM0EFWjoai+reGRh+erwvb8y/T9ZA+cyjpAL74RIoFq9ApF2N1Hrmxa2e
- Uk6i1QRPhb+jffeHq4rgDq3BSl2DEy62X6wVvdmnf7p9flLQhKefapqLgpAicx0XBQz+1Uwe
- ZOxSaUppBXBRTPkGD04MXJTQhjkg6xrWA5meAegnRDWc9GAYUh2bA37QdQCtMNDSj64IcoHK
- 1nC9zd/u9fdRefY2rCtmdizdSwVjA4HwuAQEIFpsuJugIm6UxR3g8d3ogSj30A/JUyR91N4P
- nFKL1hkPVUQsoffctGdZY8qAuMexLwqD73QR6vyA7cZds60lr22uPKyaRw4v22c5oVy5Z3kI
- jdUTpjxBEPR34=
-Received: from mail-qv1-f71.google.com ([209.85.219.71])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 17 Oct 2022 09:44:44 -0400
-Received: by mail-qv1-f71.google.com with SMTP id
- q6-20020a0cf5c6000000b004b1999f94bcso6816135qvm.15
- for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 06:44:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=F7+1KpaV2oLuCakdJxoHvb4ftmVsXBc8KNJ3r6ep3Og=;
- b=Vy3UtazbcsqWar8aFvWUTR7QmdbCx32q+qcTXMK4bwpp5VubDWAghgxv4oWbf488jL
- kuPUraveuxmRd9RdnYMJTmkUXn7zurPkxxWRjI+CZFOpbzS0e+2EK3vb1u7CvvSBKvnu
- LpwxmoKCEqqJtGeWptyvuSelbF4YpRitrrJXobqEvnQ7M9NzJS1dgf6mvQYWgswwTMSv
- PITNBktPfEnDJw9/ndPXnRVqkoSgV/NMmPCUm0aGo+EC7vbDE/cdBoAVpebuFxplclrs
- D8/KC7omhpRV2ckuk7K0yo4wOnjok6AJ/PcvUSeH8684hIj3lGAEyJQuIPefu8Tt0jV6
- u60Q==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1okQUI-0008SJ-96
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 09:49:02 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:39610)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1okQUD-0006mi-2P
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 09:49:02 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ o17-20020a17090aac1100b0020d98b0c0f4so12908167pjq.4
+ for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 06:48:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=8/BGGq/QH0s2OVfDeopbmaZFz3D1KIp/wJ9aLF5GcOA=;
+ b=b1MdygQ2evI4u4zmQ7zTPSF5MP//0koofFHlVYqGf1rYc9/a2wAkYordoEs8EwpxTy
+ 5jo95JHgr6WX1x0yCPpjIy2UeCsxQSAC7nWdn5OkD6gjyfoIRkPCbQ08wyz02RhZOy+p
+ rvfNuHPsq6d8hUNAT32Y0pvXXXGp8AGFRq7+kdcQOPN2EHC8JTp6Ki0mGOjWYpZWv6z+
+ rtBg/pFqjifCDXjxIkzK5eouhNBhRwMlJa713uCk684o/InH8nTeRXxYk1cJ7BJvUF7v
+ bTalezpPvVQwyWT3ArYpPQOBOGUs8i8Nghu7S2Duy1EKbhaGXFgOW9ZLEC7FMp7D6Vpu
+ QHbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=F7+1KpaV2oLuCakdJxoHvb4ftmVsXBc8KNJ3r6ep3Og=;
- b=o/0pJtfTA7nelOMPpDrRmAWYIQGvFAQQPXTmGSezn3FNj+ZkWNJ0TruRPpkOf8IaFe
- WgLKxcLnYa0CRb5p9yRW6FxOxULibCKCjxCFFLhW9IniNyj+ARsdqXIM9y+kfq7zy7/8
- gm5HM7xnl2mVoyVGkY86RQbilP5CN73h1j8dAwLhZ3jQAjJfd/6y0ntYwI9wQhI7BJzx
- Ceuv4rzK785WqcOv4ZxxTsxGl6anjBpowbnFVvyp+8Gk/7xP1Akhh7C88atgSwfLRI0n
- pPhaiJSJtIfvVQDwbv9YYK97UP88OG7FN+bLmJG6v+5KdnkZyzykUvhSi/42iCBKaMbr
- 6ygA==
-X-Gm-Message-State: ACrzQf0BpPKAUX9F7xFo6dpNb4RpWPLs3k/I9ZU2fjybIwGB/5enN9i4
- k+DEjageSZJO7y/Oyih1eV7sX+kgnGLiQhLlYHKM9AFYfeOKU9PERmeX1rH5GHHmg31TpiELqW3
- TzSbZmGoflwp8wEBRg8T6IUC+Q4q3NA==
-X-Received: by 2002:ac8:5844:0:b0:39c:ea8a:82d4 with SMTP id
- h4-20020ac85844000000b0039cea8a82d4mr4269075qth.399.1666014283533; 
- Mon, 17 Oct 2022 06:44:43 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4Yx5XP1C/CicpZz6PN1HN7BQUoyG8yr0YDZsOMByuKIQyQfDqUnrubEiK6JvEDxIvTv8Tq9Q==
-X-Received: by 2002:ac8:5844:0:b0:39c:ea8a:82d4 with SMTP id
- h4-20020ac85844000000b0039cea8a82d4mr4269045qth.399.1666014283227; 
- Mon, 17 Oct 2022 06:44:43 -0700 (PDT)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
- by smtp.gmail.com with ESMTPSA id
- t6-20020a05620a450600b006b8e8c657ccsm9561475qkp.117.2022.10.17.06.44.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Oct 2022 06:44:42 -0700 (PDT)
-Date: Mon, 17 Oct 2022 09:44:25 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Chris Friedt <chrisfriedt@gmail.com>
-Cc: qemu-devel@nongnu.org, cfriedt@meta.com, jslaby@suse.cz
-Subject: Re: [v2] hw: misc: edu: fix 2 off-by-one errors
-Message-ID: <20221017134425.jbqvtccg5w4yej5g@mozz.bu.edu>
-References: <20221015211025.16781-1-chrisfriedt@gmail.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=8/BGGq/QH0s2OVfDeopbmaZFz3D1KIp/wJ9aLF5GcOA=;
+ b=xQExtMKEZsXpyLf/HE19QSEbvZ9r/njReX+AYPkryV7BOrlmWYTDtXr/iD/OsUHZOa
+ IWm6O5l/8AMEfNmqtTY2v6+d5+97QG+zPx9EEVWPzPxZPAJ0DoFRHlcLXCgQn7byGgup
+ FVpm7iCpdkS0kNWPaixbkeb+IAv/G2/cwL19YJS1a8fnMH01ztV9LWh1W/r8Pi0UOSlF
+ 1Y4aJ1DHFMACI8epFCbb6ppdDBtcbOi/OYWrNHGM4mt1o5AqYWJ5RQ90lOkaCWoFINXu
+ UXriCjjxfeYEz5MkMFbC2+Spq+oAk/u0S6sg0rOumyXHnZN3zwuPaxGD3jtKebFECjwj
+ kLrw==
+X-Gm-Message-State: ACrzQf3v2JI6su+fvU80M2xm+2VmxiH3eACrJxeOIYyOGBXrXAcM32il
+ gGaY7vKD9Xh6VFSBgjxDFcC1RXuJv7c7c6T3Pv/CVQ==
+X-Google-Smtp-Source: AMsMyM731Upo0wqv8ADaXU1E+0UVwVBK2hYCFrXgbPxxey98V1k9h4gMJAP9mqhuD6sEo5J+3/Vll6300xzzP6Rlamc=
+X-Received: by 2002:a17:902:7c97:b0:17f:5abf:9450 with SMTP id
+ y23-20020a1709027c9700b0017f5abf9450mr11783402pll.19.1666014535602; Mon, 17
+ Oct 2022 06:48:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221015211025.16781-1-chrisfriedt@gmail.com>
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=68.232.153.39; envelope-from=alxndr@bu.edu;
- helo=esa1.hc2706-39.iphmx.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20221016220932.274260-1-richard.henderson@linaro.org>
+ <20221016220932.274260-10-richard.henderson@linaro.org>
+In-Reply-To: <20221016220932.274260-10-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 17 Oct 2022 14:48:43 +0100
+Message-ID: <CAFEAcA9i6gXEcQ2F6=Yq70iCx_XiRdHRu0V8pTEurXYDotmA_w@mail.gmail.com>
+Subject: Re: [PATCH v7 9/9] target/arm: Enable TARGET_TB_PCREL
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.898, HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -122,86 +85,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 221015 1710, Chris Friedt wrote:
-> From: Christopher Friedt <cfriedt@meta.com>
-> 
-> In the case that size1 was zero, because of the explicit
-> 'end1 > addr' check, the range check would fail and the error
-> message would read as shown below. The correct comparison
-> is 'end1 >= addr' (or 'addr <= end1').
-> 
-> EDU: DMA range 0x40000-0x3ffff out of bounds (0x40000-0x40fff)!
-> 
-> At the opposite end, in the case that size1 was 4096, within()
-> would fail because of the non-inclusive check 'end1 < end2',
-> which should have been 'end1 <= end2'. The error message would
-> previously say
-> 
-> EDU: DMA range 0x40000-0x40fff out of bounds (0x40000-0x40fff)!
-> 
-> This change
-> 1. renames local variables to be more less ambiguous
-> 2. fixes the two off-by-one errors described above.
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1254
-> 
-> Signed-off-by: Christopher Friedt <cfriedt@meta.com>
+On Sun, 16 Oct 2022 at 23:23, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
 
-As a side-note, seems strange that edu_check_range will abort the entire
-VM if the check fails, rather than handling the error more elegantly.
-Maybe that's useful for students developing kernel drivers against the
-device.
-
-> ---
->  hw/misc/edu.c | 25 ++++++++++++-------------
->  1 file changed, 12 insertions(+), 13 deletions(-)
-> 
-> diff --git a/hw/misc/edu.c b/hw/misc/edu.c
-> index e935c418d4..52afbd792a 100644
-> --- a/hw/misc/edu.c
-> +++ b/hw/misc/edu.c
-> @@ -103,25 +103,24 @@ static void edu_lower_irq(EduState *edu, uint32_t val)
->      }
->  }
->  
-> -static bool within(uint64_t addr, uint64_t start, uint64_t end)
-> +static void edu_check_range(uint64_t xfer_start, uint64_t xfer_size,
-> +                uint64_t dma_start, uint64_t dma_size)
+>  static void gen_goto_tb(DisasContext *s, int n, int64_t diff)
 >  {
-> -    return start <= addr && addr < end;
-> -}
+> -    uint64_t dest = s->pc_curr + diff;
 > -
-> -static void edu_check_range(uint64_t addr, uint64_t size1, uint64_t start,
-> -                uint64_t size2)
-> -{
-> -    uint64_t end1 = addr + size1;
-> -    uint64_t end2 = start + size2;
-> -
-> -    if (within(addr, start, end2) &&
-> -            end1 > addr && within(end1, start, end2)) {
-> +    uint64_t xfer_end = xfer_start + xfer_size;
-> +    uint64_t dma_end = dma_start + dma_size;
-> +
-> +    /*
-> +     * 1. ensure we aren't overflowing
-> +     * 2. ensure that xfer is within dma address range
-> +     */
-> +    if (dma_end >= dma_start && xfer_end >= xfer_start &&
-> +        xfer_start >= dma_start && xfer_end <= dma_end) {
->          return;
->      }
->  
->      hw_error("EDU: DMA range 0x%016"PRIx64"-0x%016"PRIx64
->               " out of bounds (0x%016"PRIx64"-0x%016"PRIx64")!",
-> -            addr, end1 - 1, start, end2 - 1);
-> +            xfer_start, xfer_end - 1, dma_start, dma_end - 1);
->  }
->  
->  static dma_addr_t edu_clamp_addr(const EduState *edu, dma_addr_t addr)
-> -- 
-> 2.36.1
-> 
-> 
+> -    if (use_goto_tb(s, dest)) {
+> -        tcg_gen_goto_tb(n);
+> -        gen_a64_update_pc(s, diff);
+> +    if (use_goto_tb(s, s->pc_curr + diff)) {
+> +        if (TARGET_TB_PCREL) {
+> +            gen_a64_update_pc(s, diff);
+> +            tcg_gen_goto_tb(n);
+> +        } else {
+> +            tcg_gen_goto_tb(n);
+> +            gen_a64_update_pc(s, diff);
+> +        }
+
+Why do we need to do these things in the opposite order
+depending on TARGET_TB_PCREL ? If there's an obscure dependency
+then it would be worth commenting it, but it would be nicer
+if the semantics of the functions were such that they didn't
+need to be called the opposite way round for the two cases...
+
+>          tcg_gen_exit_tb(s->base.tb, n);
+>          s->base.is_jmp = DISAS_NORETURN;
+>      } else {
+
+thanks
+-- PMM
 
