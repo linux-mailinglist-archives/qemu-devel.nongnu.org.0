@@ -2,99 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 817DF600C37
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 12:22:00 +0200 (CEST)
-Received: from localhost ([::1]:57836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 203FA600C7E
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 12:33:10 +0200 (CEST)
+Received: from localhost ([::1]:44448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okNFv-0005Mb-4w
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 06:21:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39420)
+	id 1okNQi-0006Sk-4j
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 06:33:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1okNA1-0001bG-M9
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 06:15:53 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:34661)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1okN9z-0001mY-K7
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 06:15:53 -0400
-Received: by mail-wr1-x429.google.com with SMTP id b4so17749011wrs.1
- for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 03:15:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=FcjnuXRaDiwRJahvKb8RBCSyzSGwOC5LjhLUGe1uDng=;
- b=hyvfh2EkmGJkje0pk/QxmrMK3wu58HezXpCWZTir75qkSbdgybYs5f9BdEJQ8VRxZo
- y6aRpYY6PJTNs0keePmRwtJhkNJD/XdF8OsFUhWZ+UwwjrnzDoAYIKRkdVUgvJixyXjW
- nD/o6Eqw8u2mx1XAbOWJsbL1mUmxxl7uY7YrsW4c+w0aEXLsr3iTAgFzKFCcXNq9JWeD
- DtktHswPI1Ib69o/b5Xw5PWUIeu21lJtPIx06bfk/qBH1eUXTV/osa+5ULa0LTre2WLP
- s1m1famLesITF3XC4ZTWNGzXqcgELAkbqC6CXhHknsOgV91Knx2CcUJjk+K6FMwFZKrp
- i0nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=FcjnuXRaDiwRJahvKb8RBCSyzSGwOC5LjhLUGe1uDng=;
- b=cH6QLJHoTZMCUY28KdA0xQyWPG2EMsvJF/G8mJxdziHH8CaYChYsSas/VNuoVmu/hA
- 2jYOgRklMVx5JweIRARjDyiEhnWgR4oB/K6k9U54OCS1vtXIoZMB9hZV6TMbtzabI3fZ
- vwh2SeIGkd8ae+BWsdcX6iqY4MwYUn3q5rgu3JOAbqzDgsQ8trL8WwfaKkGbT1YkDaXr
- vWkw6um+0LrLZ5MxWglFPPFjdhseb54e73t67wxN6/rPOliL7YjkuJ5P7Q3WM+aXZl7N
- rvHYwR0y43789YH8ATfpd1UIYY0qcsHQvyBPmkKflohF6nR7BDLBxCbk1tNiPoXNL/v6
- +tMg==
-X-Gm-Message-State: ACrzQf10gZ0gTFYeMGd0f+8vpTJkB5OAlIJW9B9ArbwAfZJiiwySCthT
- Fbit0LTfCvbLhvqqweCDTYnR4qD84tzTsQm12hKlJ5GWtWK8Yw==
-X-Google-Smtp-Source: AMsMyM5H+U3jrxyNNUs6l1VKxbOPrLqVbM8TSFTJ1Nj0WQRe3+Q8Gepb86AIPBI4Du2SI+pEA/5+OnPmPbAp2YR5khI=
-X-Received: by 2002:a2e:bd12:0:b0:264:7373:3668 with SMTP id
- n18-20020a2ebd12000000b0026473733668mr3490403ljq.18.1666001738408; Mon, 17
- Oct 2022 03:15:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1okNG0-0005Vd-3X
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 06:22:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27722)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1okNFu-0002jD-AH
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 06:22:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666002117;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ieVBC+b1qbCY+n+ROdp3hhHF1FD2iIsd9fjM2tuSNdE=;
+ b=UMegbpdbalCcKGRkM3bm66ASoD8tJd9oPRnG0ceZ+tw9hUNFgV5wH6tNPDjeZIoXRKElUV
+ aoL23ZJNWMb9vG8v3zKyQt+JV1H+TMHlgveas4dzDLdozf7RbkBZRsDYhje+5Mp5vd2SKC
+ OwNy/ljZkayAcA/pqiY8Gn/WFopUs6I=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-86-Mi7mCirsN9C_wkrua3ZcGQ-1; Mon, 17 Oct 2022 06:21:50 -0400
+X-MC-Unique: Mi7mCirsN9C_wkrua3ZcGQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DC9EA85A5A6;
+ Mon, 17 Oct 2022 10:21:49 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq2.redhat.com
+ (dell-r430-03.lab.eng.brq2.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B55F5492B04;
+ Mon, 17 Oct 2022 10:21:48 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: mst@redhat.com,
+	ani@anisinha.ca
+Subject: [PATCH 00/11] x86: clean up ACPI PCI code part 2
+Date: Mon, 17 Oct 2022 12:21:35 +0200
+Message-Id: <20221017102146.2254096-1-imammedo@redhat.com>
 MIME-Version: 1.0
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-6-chao.p.peng@linux.intel.com>
- <CA+EHjTxukqBfaN6D+rPOiX83zkGknHEQ16J0k6GQSdL_-e9C6g@mail.gmail.com>
- <20221012023516.GA3218049@chaop.bj.intel.com>
-In-Reply-To: <20221012023516.GA3218049@chaop.bj.intel.com>
-From: Fuad Tabba <tabba@google.com>
-Date: Mon, 17 Oct 2022 11:15:02 +0100
-Message-ID: <CA+EHjTyGyGL+ox81=jdtoHERtHPV=P7wJub=3j7chdijyq-AgA@mail.gmail.com>
-Subject: Re: [PATCH v8 5/8] KVM: Register/unregister the guest private memory
- regions
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, 
- Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, 
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>, 
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, 
- Vishal Annapurve <vannapurve@google.com>, Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, 
- dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
- aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
- Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
- mhocko@suse.com, 
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=tabba@google.com; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,156 +78,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Series continues refactoring started at recently merged [1].
+It replaces special cases/quirks for ISA/SMB bridges and PCI
+attached VGA devices with generic AcpiDevAmlIf interface,
+which allows device to provide its own AML description
+without need for adhoc plumbing in generic DSDT or PCI
+enumeration code.
 
-> > > +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
-> > > +#define KVM_MEM_ATTR_SHARED    0x0001
-> > > +static int kvm_vm_ioctl_set_mem_attr(struct kvm *kvm, gpa_t gpa, gpa_t size,
-> > > +                                    bool is_private)
-> > > +{
-> >
-> > I wonder if this ioctl should be implemented as an arch-specific
-> > ioctl. In this patch it performs some actions that pKVM might not need
-> > or might want to do differently.
->
-> I think it's doable. We can provide the mem_attr_array kind thing in
-> common code and let arch code decide to use it or not. Currently
-> mem_attr_array is defined in the struct kvm, if those bytes are
-> unnecessary for pKVM it can even be moved to arch definition, but that
-> also loses the potential code sharing for confidential usages in other
-> non-architectures, e.g. if ARM also supports such usage. Or it can be
-> provided through a different CONFIG_ instead of
-> CONFIG_HAVE_KVM_PRIVATE_MEM.
+PS:
+at the end, \_GPE clean up patches which are not part of
+AcpiDevAmlIf refactoring but iti's still related to PCI,
+so I've included them there as well.
 
-This sounds good. Thank you.
+ 1)
+  https://patchwork.ozlabs.org/project/qemu-devel/list/?series=303856
 
+Igor Mammedov (11):
+  acpi: pc: vga: use AcpiDevAmlIf interface to build VGA device
+    descriptors
+  tests: acpi: whitelist DSDT before generating PCI-ISA bridge AML
+    automatically
+  acpi: pc/q35: drop ad-hoc PCI-ISA bridge AML routines and let bus
+    ennumeration generate AML
+  tests: acpi: update expected DSDT after ISA bridge is moved directly
+    under PCI host bridge
+  tests: acpi: whitelist DSDT before generating ICH9_SMB AML
+    automatically
+  acpi: add get_dev_aml_func() helper
+  acpi: enumerate SMB bridge automatically along with other PCI devices
+  tests: acpi: update expected blobs
+  tests: acpi: pc/q35 whitelist DSDT before \_GPE cleanup
+  acpi: pc/35: sanitize _GPE declaration order
+  tests: acpi: update expected blobs
 
-/fuad
+ hw/display/vga_int.h                  |   2 +
+ include/hw/acpi/acpi_aml_interface.h  |  13 +-
+ hw/display/acpi-vga-stub.c            |   7 ++
+ hw/display/acpi-vga.c                 |  26 ++++
+ hw/display/meson.build                |  17 +++
+ hw/display/vga-pci.c                  |   4 +
+ hw/i386/acpi-build.c                  | 175 +++++---------------------
+ hw/isa/lpc_ich9.c                     |  23 ++++
+ hw/isa/piix3.c                        |  17 ++-
+ tests/data/acpi/pc/DSDT               | Bin 6422 -> 6501 bytes
+ tests/data/acpi/pc/DSDT.acpierst      | Bin 6382 -> 6461 bytes
+ tests/data/acpi/pc/DSDT.acpihmat      | Bin 7747 -> 7826 bytes
+ tests/data/acpi/pc/DSDT.bridge        | Bin 9496 -> 9575 bytes
+ tests/data/acpi/pc/DSDT.cphp          | Bin 6886 -> 6965 bytes
+ tests/data/acpi/pc/DSDT.dimmpxm       | Bin 8076 -> 8155 bytes
+ tests/data/acpi/pc/DSDT.hpbridge      | Bin 6382 -> 6461 bytes
+ tests/data/acpi/pc/DSDT.hpbrroot      | Bin 3069 -> 3107 bytes
+ tests/data/acpi/pc/DSDT.ipmikcs       | Bin 6494 -> 6573 bytes
+ tests/data/acpi/pc/DSDT.memhp         | Bin 7781 -> 7860 bytes
+ tests/data/acpi/pc/DSDT.nohpet        | Bin 6280 -> 6359 bytes
+ tests/data/acpi/pc/DSDT.numamem       | Bin 6428 -> 6507 bytes
+ tests/data/acpi/pc/DSDT.roothp        | Bin 6656 -> 6699 bytes
+ tests/data/acpi/q35/DSDT              | Bin 8320 -> 8412 bytes
+ tests/data/acpi/q35/DSDT.acpierst     | Bin 8337 -> 8429 bytes
+ tests/data/acpi/q35/DSDT.acpihmat     | Bin 9645 -> 9737 bytes
+ tests/data/acpi/q35/DSDT.applesmc     | Bin 8366 -> 8458 bytes
+ tests/data/acpi/q35/DSDT.bridge       | Bin 11449 -> 11541 bytes
+ tests/data/acpi/q35/DSDT.cphp         | Bin 8784 -> 8876 bytes
+ tests/data/acpi/q35/DSDT.cxl          | Bin 9646 -> 9738 bytes
+ tests/data/acpi/q35/DSDT.dimmpxm      | Bin 9974 -> 10066 bytes
+ tests/data/acpi/q35/DSDT.ipmibt       | Bin 8395 -> 8487 bytes
+ tests/data/acpi/q35/DSDT.ipmismbus    | Bin 8409 -> 8500 bytes
+ tests/data/acpi/q35/DSDT.ivrs         | Bin 8337 -> 8429 bytes
+ tests/data/acpi/q35/DSDT.memhp        | Bin 9679 -> 9771 bytes
+ tests/data/acpi/q35/DSDT.mmio64       | Bin 9450 -> 9542 bytes
+ tests/data/acpi/q35/DSDT.multi-bridge | Bin 8640 -> 8732 bytes
+ tests/data/acpi/q35/DSDT.nohpet       | Bin 8178 -> 8270 bytes
+ tests/data/acpi/q35/DSDT.numamem      | Bin 8326 -> 8418 bytes
+ tests/data/acpi/q35/DSDT.pvpanic-isa  | Bin 8421 -> 8513 bytes
+ tests/data/acpi/q35/DSDT.tis.tpm12    | Bin 8926 -> 9018 bytes
+ tests/data/acpi/q35/DSDT.tis.tpm2     | Bin 8952 -> 9044 bytes
+ tests/data/acpi/q35/DSDT.viot         | Bin 9429 -> 9521 bytes
+ tests/data/acpi/q35/DSDT.xapic        | Bin 35683 -> 35775 bytes
+ 43 files changed, 135 insertions(+), 149 deletions(-)
+ create mode 100644 hw/display/acpi-vga-stub.c
+ create mode 100644 hw/display/acpi-vga.c
 
-> Thanks,
-> Chao
-> >
-> > pKVM tracks the sharing status in the stage-2 page table's software
-> > bits, so it can avoid the overhead of using mem_attr_array.
-> >
-> > Also, this ioctl calls kvm_zap_gfn_range(), as does the invalidation
-> > notifier (introduced in patch 8). For pKVM, the kind of zapping (or
-> > the information conveyed to the hypervisor) might need to be different
-> > depending on the cause; whether it's invalidation or change of sharing
-> > status.
->
-> >
-> > Thanks,
-> > /fuad
-> >
-> >
-> > > +       gfn_t start, end;
-> > > +       unsigned long index;
-> > > +       void *entry;
-> > > +       int r;
-> > > +
-> > > +       if (size == 0 || gpa + size < gpa)
-> > > +               return -EINVAL;
-> > > +       if (gpa & (PAGE_SIZE - 1) || size & (PAGE_SIZE - 1))
-> > > +               return -EINVAL;
-> > > +
-> > > +       start = gpa >> PAGE_SHIFT;
-> > > +       end = (gpa + size - 1 + PAGE_SIZE) >> PAGE_SHIFT;
-> > > +
-> > > +       /*
-> > > +        * Guest memory defaults to private, kvm->mem_attr_array only stores
-> > > +        * shared memory.
-> > > +        */
-> > > +       entry = is_private ? NULL : xa_mk_value(KVM_MEM_ATTR_SHARED);
-> > > +
-> > > +       for (index = start; index < end; index++) {
-> > > +               r = xa_err(xa_store(&kvm->mem_attr_array, index, entry,
-> > > +                                   GFP_KERNEL_ACCOUNT));
-> > > +               if (r)
-> > > +                       goto err;
-> > > +       }
-> > > +
-> > > +       kvm_zap_gfn_range(kvm, start, end);
-> > > +
-> > > +       return r;
-> > > +err:
-> > > +       for (; index > start; index--)
-> > > +               xa_erase(&kvm->mem_attr_array, index);
-> > > +       return r;
-> > > +}
-> > > +#endif /* CONFIG_HAVE_KVM_PRIVATE_MEM */
-> > > +
-> > >  #ifdef CONFIG_HAVE_KVM_PM_NOTIFIER
-> > >  static int kvm_pm_notifier_call(struct notifier_block *bl,
-> > >                                 unsigned long state,
-> > > @@ -1165,6 +1206,9 @@ static struct kvm *kvm_create_vm(unsigned long type, const char *fdname)
-> > >         spin_lock_init(&kvm->mn_invalidate_lock);
-> > >         rcuwait_init(&kvm->mn_memslots_update_rcuwait);
-> > >         xa_init(&kvm->vcpu_array);
-> > > +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
-> > > +       xa_init(&kvm->mem_attr_array);
-> > > +#endif
-> > >
-> > >         INIT_LIST_HEAD(&kvm->gpc_list);
-> > >         spin_lock_init(&kvm->gpc_lock);
-> > > @@ -1338,6 +1382,9 @@ static void kvm_destroy_vm(struct kvm *kvm)
-> > >                 kvm_free_memslots(kvm, &kvm->__memslots[i][0]);
-> > >                 kvm_free_memslots(kvm, &kvm->__memslots[i][1]);
-> > >         }
-> > > +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
-> > > +       xa_destroy(&kvm->mem_attr_array);
-> > > +#endif
-> > >         cleanup_srcu_struct(&kvm->irq_srcu);
-> > >         cleanup_srcu_struct(&kvm->srcu);
-> > >         kvm_arch_free_vm(kvm);
-> > > @@ -1541,6 +1588,11 @@ static void kvm_replace_memslot(struct kvm *kvm,
-> > >         }
-> > >  }
-> > >
-> > > +bool __weak kvm_arch_has_private_mem(struct kvm *kvm)
-> > > +{
-> > > +       return false;
-> > > +}
-> > > +
-> > >  static int check_memory_region_flags(const struct kvm_user_mem_region *mem)
-> > >  {
-> > >         u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
-> > > @@ -4703,6 +4755,24 @@ static long kvm_vm_ioctl(struct file *filp,
-> > >                 r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
-> > >                 break;
-> > >         }
-> > > +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
-> > > +       case KVM_MEMORY_ENCRYPT_REG_REGION:
-> > > +       case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
-> > > +               struct kvm_enc_region region;
-> > > +               bool set = ioctl == KVM_MEMORY_ENCRYPT_REG_REGION;
-> > > +
-> > > +               if (!kvm_arch_has_private_mem(kvm))
-> > > +                       goto arch_vm_ioctl;
-> > > +
-> > > +               r = -EFAULT;
-> > > +               if (copy_from_user(&region, argp, sizeof(region)))
-> > > +                       goto out;
-> > > +
-> > > +               r = kvm_vm_ioctl_set_mem_attr(kvm, region.addr,
-> > > +                                             region.size, set);
-> > > +               break;
-> > > +       }
-> > > +#endif
-> > >         case KVM_GET_DIRTY_LOG: {
-> > >                 struct kvm_dirty_log log;
-> > >
-> > > @@ -4856,6 +4926,9 @@ static long kvm_vm_ioctl(struct file *filp,
-> > >                 r = kvm_vm_ioctl_get_stats_fd(kvm);
-> > >                 break;
-> > >         default:
-> > > +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
-> > > +arch_vm_ioctl:
-> > > +#endif
-> > >                 r = kvm_arch_vm_ioctl(filp, ioctl, arg);
-> > >         }
-> > >  out:
-> > > --
-> > > 2.25.1
-> > >
+-- 
+2.31.1
+
 
