@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF2A6601806
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 21:48:37 +0200 (CEST)
-Received: from localhost ([::1]:46342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE3076017E5
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 21:41:44 +0200 (CEST)
+Received: from localhost ([::1]:56466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okW6F-0006FW-Ia
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 15:48:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36556)
+	id 1okVzb-0006q5-IC
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 15:41:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1okVfn-0002bc-AZ; Mon, 17 Oct 2022 15:21:17 -0400
-Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c]:45859)
+ id 1okVfs-0002hg-D0; Mon, 17 Oct 2022 15:21:22 -0400
+Received: from mail-oa1-x30.google.com ([2001:4860:4864:20::30]:40952)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1okVfl-0002u7-NM; Mon, 17 Oct 2022 15:21:15 -0400
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-132fb4fd495so14363392fac.12; 
- Mon, 17 Oct 2022 12:21:12 -0700 (PDT)
+ id 1okVfp-0002xo-TU; Mon, 17 Oct 2022 15:21:19 -0400
+Received: by mail-oa1-x30.google.com with SMTP id
+ 586e51a60fabf-1364357a691so14385728fac.7; 
+ Mon, 17 Oct 2022 12:21:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VTqaPV4ZyrwDDKTrBGHMOV/nBzVWSJQdis08EWydlqk=;
- b=mylvi1YH1IUYnxBeyTlVfwcHc/x1UU4N0VWJFhP7Oult6t8Ay7WXmWdi9VJzbhMGnk
- S0cOgXPyicznqQfwymwmtoBTUwp/4afFn8s3UUwwakwhun/K/8/JRP72qMdu+nDUevxi
- EMu0o8l0WfTYz5s57gTCJpBy41GTAaQG/0W4OA8baS18ZVaqgdJmlWUt//uR4ZDaz5BY
- FVUwe/HGGh0HmBztmv2rGq8nJwo/MpKP6r5yacHj3mVJCJM0E3NGoe8hwJoyga1ipnGh
- qm2PCINXYwkNc3/9ML1PQ8hPsOgEkN2Fjsq96DCO5gmb8EocCxgTLh8VAVjwVd/7/5lm
- my+Q==
+ bh=AAG5aIZYO+c6tFUtYdaxQU9IDPUVOE446epr6tRiRRI=;
+ b=D+ZKsscI2ayAksfIsK4/w7edLM/y7ttP812k84wD/qRYem+RBBet6D+rPMxhcjcKKv
+ raGHP5/ZKFPawvfJc6dKXOzb2sJWqdHWpkO5zcOHhWcnAJpZzBBVeYWYNFywPOm38Yv9
+ d9qYc2DpGKQFvOrh6MJbXHT/8Vq846ASWqHxBkQAUxpO7/XONMH/SljvlHrkKqa487TM
+ 6E9FR0j7ZsLMlATjue4dV5n9OMv7/FUmbl36vEkluGqNWl3dTwj9IL5P9YwhfK114p/t
+ Gustnyezz34TuyMY6oQKMcnjAyXLDtGNVEozaHyA1UAKP37BVmPxBlkup4q9CDquL8or
+ TohQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VTqaPV4ZyrwDDKTrBGHMOV/nBzVWSJQdis08EWydlqk=;
- b=Y0Rl6BGr6r+3OVpmWbDSqyrBFX0em/ljuWKQk0LFxK1RCKhRZcYpPs7gX18TpvVKvV
- O6aOpWBm5Vghc0bgymo2ZvD6biLlQHaiwps2CxqPO/XKDo0KQAFI+gKBXY6xvbrqWz7p
- IvEjK9EeBs8mEqMMSJ/1xWsAI8zWWyjVfumZ04rdvg6o7hc3DZLZ5nN+UaZ0s1V5qFvT
- KsEC6UUsgIU5vdU3skdID0q4SoGJAUxwHIYGTO4F/QamRWm9uwPeRDI6ZrvhnIu4u2u/
- spIRPy6QIVtJFxT+W+zl4Xbm9XaZW+PVRECBWqMLTBCbQMUnoYt6gnNle9wIW6TI5XGE
- 1kCw==
-X-Gm-Message-State: ACrzQf2sTRzxeYZGD3mTjy1lbV6cyBq7xM38KwixblblnvoULQB1FcEu
- +idXJ3y53Qbkv9l9BXUmS2sAYv7zClg=
-X-Google-Smtp-Source: AMsMyM7HXlX2Q8g2LD8z+xhT8mxjkOHQfOdI/yJGpJAE1jNKkY64L1lryo7TYEV7WKnWoM5uLresfw==
-X-Received: by 2002:a05:6870:c182:b0:12a:e54e:c6e8 with SMTP id
- h2-20020a056870c18200b0012ae54ec6e8mr16027315oad.207.1666034472500; 
- Mon, 17 Oct 2022 12:21:12 -0700 (PDT)
+ bh=AAG5aIZYO+c6tFUtYdaxQU9IDPUVOE446epr6tRiRRI=;
+ b=tO/yFDgcZHDKOXmeIsv97n1fXVyeOQArzuiELtwvxJjd+gLxT6gz/wVHiGDb1J9NBG
+ XIQkw6PFF7/3fCR6Sf1LIm7jqu53v6Ci2zvyj9cFclcXAtE2Ru/IYJLH1jNPAJisqMLy
+ z1raq9od9yeU/T7sGJX95Gu/ppRri3c0OoDKRbmRT1LxRb84ZzNaeMin0vWv1Bwi0H+W
+ styuzgGujRf0eH8tM+ZX4YEC4gmB99SayirxyX9P+U5AULQOmeYGywYz8Vm7SoseGWtH
+ rthvugjnRGTNzDh++vuBwVxWg4rYpTZLbaODi/K2ybdJpEmxYaxb+yESngZU+e4KtuXJ
+ O7Pg==
+X-Gm-Message-State: ACrzQf14xZDBPJSWNpIy0W9lRLKjxUsjZat+v/NCeyA1UFUqTIqeLLHQ
+ mdMgCcXdDwt5e8kPw4oBTVMws6wbPig=
+X-Google-Smtp-Source: AMsMyM7c5AeAXkHrRLkWkC8+H+mu0oFBKrU4oNy3a56u1bdCoefxEVHD3QdLsv56zxHGnyGtWtgCTA==
+X-Received: by 2002:a05:6870:3388:b0:136:4f44:78a6 with SMTP id
+ w8-20020a056870338800b001364f4478a6mr16768584oae.125.1666034475459; 
+ Mon, 17 Oct 2022 12:21:15 -0700 (PDT)
 Received: from balboa.COMFAST ([179.111.38.2])
  by smtp.gmail.com with ESMTPSA id
- n132-20020aca408a000000b00342eade43d4sm4648005oia.13.2022.10.17.12.21.09
+ n132-20020aca408a000000b00342eade43d4sm4648005oia.13.2022.10.17.12.21.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Oct 2022 12:21:12 -0700 (PDT)
+ Mon, 17 Oct 2022 12:21:15 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
  Bernhard Beschow <shentey@gmail.com>, Bin Meng <bmeng.cn@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 21/38] hw/gpio/meson: Introduce dedicated config switch for
- hw/gpio/mpc8xxx
-Date: Mon, 17 Oct 2022 16:19:52 -0300
-Message-Id: <20221017192009.92404-22-danielhb413@gmail.com>
+Subject: [PULL 22/38] docs/system/ppc/ppce500: Add heading for networking
+ chapter
+Date: Mon, 17 Oct 2022 16:19:53 -0300
+Message-Id: <20221017192009.92404-23-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221017192009.92404-1-danielhb413@gmail.com>
 References: <20221017192009.92404-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2c;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2c.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::30;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x30.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -97,56 +97,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bernhard Beschow <shentey@gmail.com>
 
-Having a dedicated config switch makes dependency handling cleaner.
+The sudden change of topics is slightly confusing and makes the
+networking information less visible. So separate the networking chapter
+to improve comprehensibility.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20221003203142.24355-3-shentey@gmail.com>
+Message-Id: <20221003203142.24355-4-shentey@gmail.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/gpio/Kconfig     | 3 +++
- hw/gpio/meson.build | 2 +-
- hw/ppc/Kconfig      | 1 +
- 3 files changed, 5 insertions(+), 1 deletion(-)
+ docs/system/ppc/ppce500.rst | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/gpio/Kconfig b/hw/gpio/Kconfig
-index f0e7405f6e..d2cf3accc8 100644
---- a/hw/gpio/Kconfig
-+++ b/hw/gpio/Kconfig
-@@ -8,6 +8,9 @@ config PL061
- config GPIO_KEY
-     bool
+diff --git a/docs/system/ppc/ppce500.rst b/docs/system/ppc/ppce500.rst
+index 9beef39171..ba6bcb7314 100644
+--- a/docs/system/ppc/ppce500.rst
++++ b/docs/system/ppc/ppce500.rst
+@@ -146,6 +146,9 @@ You can specify a real world SoC device that QEMU has built-in support but all
+ these SoCs are e500v2 based MPC85xx series, hence you cannot test anything
+ built for P4080 (e500mc), P5020 (e5500) and T2080 (e6500).
  
-+config GPIO_MPC8XXX
-+    bool
++Networking
++----------
 +
- config GPIO_PWR
-     bool
+ By default a VirtIO standard PCI networking device is connected as an ethernet
+ interface at PCI address 0.1.0, but we can switch that to an e1000 NIC by:
  
-diff --git a/hw/gpio/meson.build b/hw/gpio/meson.build
-index 7bd6a57264..b726e6d27a 100644
---- a/hw/gpio/meson.build
-+++ b/hw/gpio/meson.build
-@@ -1,5 +1,5 @@
--softmmu_ss.add(when: 'CONFIG_E500', if_true: files('mpc8xxx.c'))
- softmmu_ss.add(when: 'CONFIG_GPIO_KEY', if_true: files('gpio_key.c'))
-+softmmu_ss.add(when: 'CONFIG_GPIO_MPC8XXX', if_true: files('mpc8xxx.c'))
- softmmu_ss.add(when: 'CONFIG_GPIO_PWR', if_true: files('gpio_pwr.c'))
- softmmu_ss.add(when: 'CONFIG_MAX7310', if_true: files('max7310.c'))
- softmmu_ss.add(when: 'CONFIG_PL061', if_true: files('pl061.c'))
-diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index 22a64745d4..791fe78a50 100644
---- a/hw/ppc/Kconfig
-+++ b/hw/ppc/Kconfig
-@@ -124,6 +124,7 @@ config E500
-     imply AT24C
-     imply VIRTIO_PCI
-     select ETSEC
-+    select GPIO_MPC8XXX
-     select OPENPIC
-     select PLATFORM_BUS
-     select PPCE500_PCI
 -- 
 2.37.3
 
