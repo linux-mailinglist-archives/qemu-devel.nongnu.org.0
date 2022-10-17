@@ -2,71 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 925076013CF
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 18:45:17 +0200 (CEST)
-Received: from localhost ([::1]:60996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DF5D601406
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 18:53:59 +0200 (CEST)
+Received: from localhost ([::1]:46714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okTEp-0002mu-3V
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 12:45:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37920)
+	id 1okTNF-0002kX-Nu
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 12:53:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1okTB4-0007w0-5L; Mon, 17 Oct 2022 12:41:22 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:57341)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1okTIK-0005el-PE
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 12:48:53 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1okTB2-0001fh-8E; Mon, 17 Oct 2022 12:41:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=0W/i2TOJnvB/5OmeubmmeI5dN5r2Hn987wix/7X5hUk=; b=k95fPCLHGQZAJnHtfDtWlTbdGV
- JAki5HhdXYpbZoT2T+9CRA4tLGaCTUEAotShdAWkkmI/tF2i2e738C33WkqtUI/F1S+ZtEPdYgZUT
- 8jBj2PE78appdxDCDSRqAlG2krDNXGjIIcFFn1/WEAVbq82SYPjBy2xOd6BL4Eavc3LoxrlN5UDjF
- 4XmyXzkXIaEn+oo78jwQM7UvWcr80nmxlBxjNJPmPwGgg75UDWwVCDajuh4sZOyaJMuSs/77Dc5XR
- yzkvThDk4OrRbzygJFAgyZIcO05cBe320GKWUtD/kum5cblOyH51YA6vkOqpnsGLd8bRPy4JbOLHM
- m8+Y2G3ZNcrJhMFP3ozVwE123iLnjSpAdmPzIsQuOpe49qBX5hnDBhRJn1v4xMClGvyongYl/0jZ+
- JnXhCUlSLRsqI6jjLiAjsYh2Xo3jKyD8rGJlLNEXQ0oCmBnJ6Sq5tQfIYLYqRVGp4Rd+Zk7lTsnAD
- Jb4OWs+pWLHanzNIxXQuTfubaQYgAhS6yhumVM819opXZm+XgFN7SPOsy0QqluK0xqSvyxkaUhZzM
- o/0HYqnpPr7c0RVUVfq2eYz+L1yXGF3kq8ZGZfWONb5bD+IERYG6993vlT3DOVfnSlrBDCAt55voI
- dlk+7fCPRWCs3yOaJ27+w8H9REvbw0jS0VX4ructo=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org,
- =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Bin Meng <bmeng.cn@gmail.com>
-Cc: Beraldo Leal <bleal@redhat.com>,
- Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Gerd Hoffmann <kraxel@redhat.com>,
- Greg Kurz <groug@kaod.org>, Hanna Reitz <hreitz@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Yanan Wang <wangyanan55@huawei.com>, qemu-block@nongnu.org
-Subject: Re: [PATCH v5 00/18] tests/qtest: Enable running qtest on Windows
-Date: Mon, 17 Oct 2022 18:40:57 +0200
-Message-ID: <1980190.m7hnA7CXWq@silver>
-In-Reply-To: <CAEUhbmXc+7s6udZTNE7AeY+YkNr42fQ2HNHpDufZKDhB5qfL6g@mail.gmail.com>
-References: <20221006151927.2079583-1-bmeng.cn@gmail.com>
- <CAEUhbmUfm+V-pN5j17VxRvYd1RGJYa3KF=op9Z-nB5Xq4RhUmA@mail.gmail.com>
- <CAEUhbmXc+7s6udZTNE7AeY+YkNr42fQ2HNHpDufZKDhB5qfL6g@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1okTHv-0002n3-Uz
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 12:48:32 -0400
+Received: from fraeml738-chm.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Mrjb00SC0z682wj;
+ Tue, 18 Oct 2022 00:47:24 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
+ fraeml738-chm.china.huawei.com (10.206.15.219) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 17 Oct 2022 18:48:23 +0200
+Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
+ lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 17 Oct 2022 17:48:22 +0100
+To: <qemu-devel@nongnu.org>
+CC: <linux-cxl@vger.kernel.org>, Michael Tsirkin <mst@redhat.com>, "Ben
+ Widawsky" <bwidawsk@kernel.org>, Alison Schofield
+ <alison.schofield@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ <linuxarm@huawei.com>
+Subject: [RFC PATCH v2] hw/cxl: Initial emulated CXL poison injection support
+Date: Mon, 17 Oct 2022 17:48:25 +0100
+Message-ID: <20221017164825.9596-1-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml500001.china.huawei.com (7.191.163.213) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,44 +68,346 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Monday, October 17, 2022 5:00:56 PM CEST Bin Meng wrote:
-> Hi Alex,
->=20
-> On Fri, Oct 7, 2022 at 1:31 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > On Fri, Oct 7, 2022 at 4:35 AM Alex Benn=E9e <alex.bennee@linaro.org> w=
-rote:
-> > > Bin Meng <bmeng.cn@gmail.com> writes:
-> > > > In preparation to adding virtio-9p support on Windows, this series
-> > > > enables running qtest on Windows, so that we can run the virtio-9p
-> > > > tests on Windows to make sure it does not break accidently.
-> > >=20
-> > > I'm happy to take this whole series through my testing/next however I
-> > > don't have working CI for the month so need to wait for my minutes to
-> > > reset. Have you done a full CI run* with this?
-> >=20
-> > Yes, gitlab CI passed.
-> >=20
-> > > (*make sure any CI run is only on a repo forked from
-> > > https://gitlab.com/qemu-project as you won't get the discount cost
-> > > factor otherwise)
->=20
-> Patch 4 and 10 are already applied in the mainline by Thomas.
->=20
-> Daniel will queue patch 14, 15, 16.
->=20
-> Could you please help queue patch 1, 2, 3, 5, 6, 7, 9, 13 from this serie=
-s?
+Inject poison using qmp command cxl-inject-poison to
+add an entry to the poison list.
 
-I already had patch 6 queued on my end:
+For now, the poison is not returned CXL.mem reads, but only via
+the mailbox command Get Poison List.
 
-https://github.com/cschoenebeck/qemu/commits/9p.next
+See CXL rev 3.0, sec 8.2.9.8.4.1 Get Poison list (Opcode 4300h)
 
-Next 9p PR end of this week. But if somebody else is faster then I'll just
-drop it later on.
+Kernel patches to use this interface here:
+https://lore.kernel.org/linux-cxl/cover.1665606782.git.alison.schofield@intel.com/
 
-Best regards,
-Christian Schoenebeck
+RFC for now as likely the implementation will change as
+support for mailbox based poison injection and media scanning are added.
 
+To inject poison using qmp (telnet to the qmp port)
+{ "execute": "qmp_capabilities" }
+
+{ "execute": "cxl-inject-poison",
+    "arguments": {
+         "path": "/machine/peripheral/cxl-pmem0",
+         "start": 2048,
+         "length": 256
+    }
+}
+
+Adjusted to select a device on your machine.
+
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+---
+v2:
+Moved to QMP to allow for single command.
+Update reference in coverletter
+
+Part of purpose for sending this out at this point is to illustrate how
+simple it would be to added per event injection support to Ira's patch
+set on CXL event injection.
+
+Slightly odd base for now as the tree is a state of flux.
+
+Replace the existing poison injection patch on tree
+at gitlab.com/jic23/qemu/ cxl-2022-10-14
+
+I'll post a new version of that tree shortly with today's date.
+
+---
+ hw/cxl/cxl-mailbox-utils.c  | 85 +++++++++++++++++++++++++++++++++++++
+ hw/mem/cxl_type3.c          | 34 +++++++++++++++
+ hw/mem/cxl_type3_stubs.c    |  6 +++
+ hw/mem/meson.build          |  2 +
+ include/hw/cxl/cxl_device.h | 13 ++++++
+ qapi/cxl.json               | 17 ++++++++
+ qapi/meson.build            |  1 +
+ qapi/qapi-schema.json       |  1 +
+ 8 files changed, 159 insertions(+)
+
+diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+index bc1bb18844..c7e1a88b44 100644
+--- a/hw/cxl/cxl-mailbox-utils.c
++++ b/hw/cxl/cxl-mailbox-utils.c
+@@ -59,6 +59,8 @@ enum {
+         #define GET_PARTITION_INFO     0x0
+         #define GET_LSA       0x2
+         #define SET_LSA       0x3
++    MEDIA_AND_POISON = 0x43,
++        #define GET_POISON_LIST        0x0
+ };
+ 
+ /* 8.2.8.4.5.1 Command Return Codes */
+@@ -296,6 +298,7 @@ static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
+     id->total_capacity = size / (256 << 20);
+     id->persistent_capacity = size / (256 << 20);
+     id->lsa_size = cvc->get_lsa_size(ct3d);
++    id->poison_list_max_mer[1] = 0x1; /* 256 poison records */
+ 
+     *len = sizeof(*id);
+     return CXL_MBOX_SUCCESS;
+@@ -382,6 +385,86 @@ static ret_code cmd_ccls_set_lsa(struct cxl_cmd *cmd,
+     return CXL_MBOX_SUCCESS;
+ }
+ 
++/*
++ * This is very inefficient, but good enough for now!
++ * Also thed payload will always fit, so no need to handle the MORE flag and
++ * make this stateful.
++ */
++static ret_code cmd_media_get_poison_list(struct cxl_cmd *cmd,
++                                          CXLDeviceState *cxl_dstate,
++                                          uint16_t *len)
++{
++    struct get_poison_list_pl {
++        uint64_t pa;
++        uint64_t length;
++    } QEMU_PACKED;
++
++    struct get_poison_list_out_pl {
++        uint8_t flags;
++        uint8_t rsvd1;
++        uint64_t overflow_timestamp;
++        uint16_t count;
++        uint8_t rsvd2[0x14];
++        struct {
++            uint64_t addr;
++            uint32_t length;
++            uint32_t resv;
++        } QEMU_PACKED records[];
++    } QEMU_PACKED;
++
++    struct get_poison_list_pl *in = (void *)cmd->payload;
++    struct get_poison_list_out_pl *out = (void *)cmd->payload;
++    CXLType3Dev *ct3d = container_of(cxl_dstate, CXLType3Dev, cxl_dstate);
++    CXLType3Class *cvc = CXL_TYPE3_GET_CLASS(ct3d);
++    uint16_t record_count = 0, i = 0;
++    uint64_t query_start = in->pa;
++    uint64_t query_length = in->length;
++    CXLPoisonList *poison_list;
++    CXLPoison *ent;
++    uint16_t out_pl_len;
++
++    poison_list = cvc->get_poison_list(ct3d);
++
++    QLIST_FOREACH(ent, poison_list, node) {
++        /* Check for no overlap */
++        if (ent->start >= query_start + query_length ||
++            ent->start + ent->length <= query_start) {
++            continue;
++        }
++        if (record_count == 256) {
++            /* For now just return 256 max */
++            break;
++        }
++        record_count++;
++    }
++    out_pl_len = sizeof(*out) + record_count * sizeof(out->records[0]);
++    assert(out_pl_len <= CXL_MAILBOX_MAX_PAYLOAD_SIZE);
++
++    memset(out, 0, out_pl_len);
++    QLIST_FOREACH(ent, poison_list, node) {
++        uint64_t start, stop;
++
++        /* Check for no overlap */
++        if (ent->start >= query_start + query_length ||
++            ent->start + ent->length <= query_start) {
++            continue;
++        }
++        if (i == 256) {
++            break;
++        }
++        /* Deal with overlap */
++        start = MAX(ent->start & 0xffffffffffffffc0, query_start);
++        stop = MIN((ent->start & 0xffffffffffffffc0) + ent->length,
++                   query_start + query_length);
++        out->records[i].addr = start | 0x2; /* internal error */
++        out->records[i].length = (stop - start) / 64;
++        i++;
++    }
++    out->count = record_count;
++    *len = out_pl_len;
++    return CXL_MBOX_SUCCESS;
++}
++
+ #define IMMEDIATE_CONFIG_CHANGE (1 << 1)
+ #define IMMEDIATE_DATA_CHANGE (1 << 2)
+ #define IMMEDIATE_POLICY_CHANGE (1 << 3)
+@@ -409,6 +492,8 @@ static struct cxl_cmd cxl_cmd_set[256][256] = {
+     [CCLS][GET_LSA] = { "CCLS_GET_LSA", cmd_ccls_get_lsa, 8, 0 },
+     [CCLS][SET_LSA] = { "CCLS_SET_LSA", cmd_ccls_set_lsa,
+         ~0, IMMEDIATE_CONFIG_CHANGE | IMMEDIATE_DATA_CHANGE },
++    [MEDIA_AND_POISON][GET_POISON_LIST] = { "MEDIA_AND_POISON_GET_POISON_LIST",
++        cmd_media_get_poison_list, 16, 0 },
+ };
+ 
+ void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
+diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+index 37a54b0257..c13a1eab73 100644
+--- a/hw/mem/cxl_type3.c
++++ b/hw/mem/cxl_type3.c
+@@ -1,6 +1,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+ #include "qemu/error-report.h"
++#include "qapi/qapi-commands-cxl.h"
+ #include "hw/mem/memory-device.h"
+ #include "hw/mem/pc-dimm.h"
+ #include "hw/pci/pci.h"
+@@ -730,6 +731,37 @@ static void set_lsa(CXLType3Dev *ct3d, const void *buf, uint64_t size,
+      */
+ }
+ 
++static CXLPoisonList *get_poison_list(CXLType3Dev *ct3d)
++{
++    /* This will get more complex  - for now it's a bit pointless */
++    return &ct3d->poison_list;
++}
++
++void qmp_cxl_inject_poison(const char *path, uint64_t start, uint64_t length,
++                           Error **errp)
++{
++    Object *obj = object_resolve_path(path, NULL);
++    CXLType3Dev *ct3d;
++    CXLPoison *p;
++
++    if (!obj) {
++        error_setg(errp, "Unable to resolve path");
++        return;
++    }
++    if (!object_dynamic_cast(obj, TYPE_CXL_TYPE3)) {
++        error_setg(errp, "Path does not point to a CXL type 3 device");
++    }
++    ct3d = CXL_TYPE3(obj);
++    p = g_new0(CXLPoison, 1);
++    if (!p) {
++        return;
++    }
++    p->length = length;
++    p->start = start;
++
++    QLIST_INSERT_HEAD(&ct3d->poison_list, p, node);
++}
++
+ static void ct3_class_init(ObjectClass *oc, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(oc);
+@@ -754,6 +786,8 @@ static void ct3_class_init(ObjectClass *oc, void *data)
+     cvc->get_lsa_size = get_lsa_size;
+     cvc->get_lsa = get_lsa;
+     cvc->set_lsa = set_lsa;
++    cvc->get_poison_list = get_poison_list;
++
+ }
+ 
+ static const TypeInfo ct3d_info = {
+diff --git a/hw/mem/cxl_type3_stubs.c b/hw/mem/cxl_type3_stubs.c
+new file mode 100644
+index 0000000000..68ed972527
+--- /dev/null
++++ b/hw/mem/cxl_type3_stubs.c
+@@ -0,0 +1,6 @@
++
++#include "qemu/osdep.h"
++#include "qapi/qapi-commands-cxl.h"
++
++void qmp_cxl_inject_poison(const char * path, uint64_t start, uint64_t length,
++                           Error **errp) {}
+diff --git a/hw/mem/meson.build b/hw/mem/meson.build
+index 609b2b36fc..1bb70d9e46 100644
+--- a/hw/mem/meson.build
++++ b/hw/mem/meson.build
+@@ -8,3 +8,5 @@ mem_ss.add(when: 'CONFIG_CXL_MEM_DEVICE', if_true: files('cxl_type3.c'))
+ softmmu_ss.add_all(when: 'CONFIG_MEM_DEVICE', if_true: mem_ss)
+ 
+ softmmu_ss.add(when: 'CONFIG_SPARSE_MEM', if_true: files('sparse-mem.c'))
++softmmu_ss.add(when: 'CONFIG_CXL_MEM_DEVICE', if_false: files('cxl_type3_stubs.c'))
++softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('cxl_type3_stubs.c'))	
+diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+index cdf1fd4696..c3d62710b1 100644
+--- a/include/hw/cxl/cxl_device.h
++++ b/include/hw/cxl/cxl_device.h
+@@ -230,6 +230,14 @@ REG64(CXL_MEM_DEV_STS, 0)
+     FIELD(CXL_MEM_DEV_STS, MBOX_READY, 4, 1)
+     FIELD(CXL_MEM_DEV_STS, RESET_NEEDED, 5, 3)
+ 
++typedef struct CXLPoison {
++    uint64_t start, length;
++    uint8_t type;
++    QLIST_ENTRY(CXLPoison) node;
++} CXLPoison;
++
++typedef QLIST_HEAD(, CXLPoison) CXLPoisonList;
++
+ struct CXLType3Dev {
+     /* Private */
+     PCIDevice parent_obj;
+@@ -249,6 +257,9 @@ struct CXLType3Dev {
+     DOECap doe_comp;
+     uint16_t spdm_port;
+     DOECap doe_spdm;
++
++    /* Poison Injection - cache */
++    CXLPoisonList poison_list;
+ };
+ 
+ #define TYPE_CXL_TYPE3 "cxl-type3"
+@@ -265,6 +276,8 @@ struct CXLType3Class {
+                         uint64_t offset);
+     void (*set_lsa)(CXLType3Dev *ct3d, const void *buf, uint64_t size,
+                     uint64_t offset);
++
++    CXLPoisonList* (*get_poison_list)(CXLType3Dev *ct3d);
+ };
+ 
+ MemTxResult cxl_type3_read(PCIDevice *d, hwaddr host_addr, uint64_t *data,
+diff --git a/qapi/cxl.json b/qapi/cxl.json
+new file mode 100644
+index 0000000000..ff38f3f2ba
+--- /dev/null
++++ b/qapi/cxl.json
+@@ -0,0 +1,17 @@
++# -*- Mode: Python -*-
++# vim: filetype=python
++
++##
++# = CXL devices
++##
++
++##
++# @cxl-inject-poison:
++#
++# @path: CXL type 3 device canonical QOM path
++#
++# @start: Start address
++# @length: Length of poison to inject
++##
++{ 'command': 'cxl-inject-poison',
++  'data': { 'path': 'str', 'start': 'uint64', 'length': 'uint64' }}
+diff --git a/qapi/meson.build b/qapi/meson.build
+index 9a36c15c04..f073bbdc5e 100644
+--- a/qapi/meson.build
++++ b/qapi/meson.build
+@@ -31,6 +31,7 @@ qapi_all_modules = [
+   'compat',
+   'control',
+   'crypto',
++  'cxl',
+   'dump',
+   'error',
+   'introspect',
+diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+index f000b90744..079f2a402a 100644
+--- a/qapi/qapi-schema.json
++++ b/qapi/qapi-schema.json
+@@ -95,3 +95,4 @@
+ { 'include': 'pci.json' }
+ { 'include': 'stats.json' }
+ { 'include': 'virtio.json' }
++{ 'include': 'cxl.json' }
+-- 
+2.37.2
 
 
