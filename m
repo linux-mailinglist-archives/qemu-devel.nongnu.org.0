@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE3076017E5
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 21:41:44 +0200 (CEST)
-Received: from localhost ([::1]:56466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 678146017DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 21:40:30 +0200 (CEST)
+Received: from localhost ([::1]:58206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okVzb-0006q5-IC
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 15:41:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57416)
+	id 1okVyO-0004UV-Gk
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 15:40:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1okVfs-0002hg-D0; Mon, 17 Oct 2022 15:21:22 -0400
-Received: from mail-oa1-x30.google.com ([2001:4860:4864:20::30]:40952)
+ id 1okVfu-0002jS-Sq; Mon, 17 Oct 2022 15:21:26 -0400
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:42599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1okVfp-0002xo-TU; Mon, 17 Oct 2022 15:21:19 -0400
-Received: by mail-oa1-x30.google.com with SMTP id
- 586e51a60fabf-1364357a691so14385728fac.7; 
- Mon, 17 Oct 2022 12:21:16 -0700 (PDT)
+ id 1okVfs-0002yB-8k; Mon, 17 Oct 2022 15:21:21 -0400
+Received: by mail-oi1-x22f.google.com with SMTP id p127so12571873oih.9;
+ Mon, 17 Oct 2022 12:21:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=AAG5aIZYO+c6tFUtYdaxQU9IDPUVOE446epr6tRiRRI=;
- b=D+ZKsscI2ayAksfIsK4/w7edLM/y7ttP812k84wD/qRYem+RBBet6D+rPMxhcjcKKv
- raGHP5/ZKFPawvfJc6dKXOzb2sJWqdHWpkO5zcOHhWcnAJpZzBBVeYWYNFywPOm38Yv9
- d9qYc2DpGKQFvOrh6MJbXHT/8Vq846ASWqHxBkQAUxpO7/XONMH/SljvlHrkKqa487TM
- 6E9FR0j7ZsLMlATjue4dV5n9OMv7/FUmbl36vEkluGqNWl3dTwj9IL5P9YwhfK114p/t
- Gustnyezz34TuyMY6oQKMcnjAyXLDtGNVEozaHyA1UAKP37BVmPxBlkup4q9CDquL8or
- TohQ==
+ bh=oxx+t+Q670EmUPuBO6yT51edHFCy2D4FS62HYiFc8Dw=;
+ b=HtRTy4SDeJPH+7FOgqR3HmVg2emvtwvzEPShtk/n+Ci+jtpaXUSUlC7+fR/kVmf/uz
+ hcf2wW2bs3WSk+SsUR1AxUJZ4alvGAqyA5Omglp10f3CTaMsRpvZZk9whzFIsHy+KGxR
+ HLRkFGg3guI4d/l5Ys0E0CbFsAid8Yn8QsP7cH5G6snHtBZqV+U34m4oSawqC1gfsKL2
+ hHbFSMswlj6LiW88CPAR7wJOJiSfNi0k1mgTk5+kRh/mNfUe+XFdO3YSV+k/5nAXVHIy
+ 53j7gPWFOCpQVo3KoGnEpY7SPgWTglPrydNnk+22TrAEIe5oZcQfKAQXjvP6y8lgorE4
+ sDKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=AAG5aIZYO+c6tFUtYdaxQU9IDPUVOE446epr6tRiRRI=;
- b=tO/yFDgcZHDKOXmeIsv97n1fXVyeOQArzuiELtwvxJjd+gLxT6gz/wVHiGDb1J9NBG
- XIQkw6PFF7/3fCR6Sf1LIm7jqu53v6Ci2zvyj9cFclcXAtE2Ru/IYJLH1jNPAJisqMLy
- z1raq9od9yeU/T7sGJX95Gu/ppRri3c0OoDKRbmRT1LxRb84ZzNaeMin0vWv1Bwi0H+W
- styuzgGujRf0eH8tM+ZX4YEC4gmB99SayirxyX9P+U5AULQOmeYGywYz8Vm7SoseGWtH
- rthvugjnRGTNzDh++vuBwVxWg4rYpTZLbaODi/K2ybdJpEmxYaxb+yESngZU+e4KtuXJ
- O7Pg==
-X-Gm-Message-State: ACrzQf14xZDBPJSWNpIy0W9lRLKjxUsjZat+v/NCeyA1UFUqTIqeLLHQ
- mdMgCcXdDwt5e8kPw4oBTVMws6wbPig=
-X-Google-Smtp-Source: AMsMyM7c5AeAXkHrRLkWkC8+H+mu0oFBKrU4oNy3a56u1bdCoefxEVHD3QdLsv56zxHGnyGtWtgCTA==
-X-Received: by 2002:a05:6870:3388:b0:136:4f44:78a6 with SMTP id
- w8-20020a056870338800b001364f4478a6mr16768584oae.125.1666034475459; 
- Mon, 17 Oct 2022 12:21:15 -0700 (PDT)
+ bh=oxx+t+Q670EmUPuBO6yT51edHFCy2D4FS62HYiFc8Dw=;
+ b=CJYGvu0CSAypnta1fL2nrAtrBxFDb1RuLmzPdOchHuRqN9sThJgoMg+4hDcLK6CQr+
+ TRga/DqhxD3/dSuAK6/gwfKthpxpBw9p1A6XVnCq0yRG/PDfPfIatRr/Al4eWE3vprxv
+ Hk3nF48fIm+2GYrpsylrDheXzMHHS1AIPiQHB5SrsqwfF9ZiTB62s5weNTVopbExWEtK
+ sV2varOMg82K2AIJSmQ82HlIzE3TVYaXTCsZsBypvk3PrvwpEzPRysHsH2N76yyQY2Ia
+ gdRMisu8ZddbtYpBqiBvmQLke3sguoDkDKNVNSKjCBt0PT9zteVav+1PmaCMtVOut4W3
+ LpAA==
+X-Gm-Message-State: ACrzQf0+Z8W7rVyav2IrK1i44UBpNjsV6zEc5pmoCqHkuJeNSE8I3lKy
+ l69SKeZPTCQJWQotOH+B73ucFyQAnpw=
+X-Google-Smtp-Source: AMsMyM5edoHW9Wwg3FekKbknrlNuL4ysT+gcs299HXfvlt+cKrgtgnXW6vl9tV3Ri/pEGGBzuiUkiA==
+X-Received: by 2002:a05:6808:1717:b0:333:513e:650e with SMTP id
+ bc23-20020a056808171700b00333513e650emr5640982oib.23.1666034478427; 
+ Mon, 17 Oct 2022 12:21:18 -0700 (PDT)
 Received: from balboa.COMFAST ([179.111.38.2])
  by smtp.gmail.com with ESMTPSA id
- n132-20020aca408a000000b00342eade43d4sm4648005oia.13.2022.10.17.12.21.12
+ n132-20020aca408a000000b00342eade43d4sm4648005oia.13.2022.10.17.12.21.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Oct 2022 12:21:15 -0700 (PDT)
+ Mon, 17 Oct 2022 12:21:18 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
- Bernhard Beschow <shentey@gmail.com>, Bin Meng <bmeng.cn@gmail.com>,
+ Bernhard Beschow <shentey@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Bin Meng <bmeng.cn@gmail.com>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 22/38] docs/system/ppc/ppce500: Add heading for networking
- chapter
-Date: Mon, 17 Oct 2022 16:19:53 -0300
-Message-Id: <20221017192009.92404-23-danielhb413@gmail.com>
+Subject: [PULL 23/38] hw/ppc/e500: Reduce usage of sysbus API
+Date: Mon, 17 Oct 2022 16:19:54 -0300
+Message-Id: <20221017192009.92404-24-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221017192009.92404-1-danielhb413@gmail.com>
 References: <20221017192009.92404-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::30;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22f.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -97,33 +96,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bernhard Beschow <shentey@gmail.com>
 
-The sudden change of topics is slightly confusing and makes the
-networking information less visible. So separate the networking chapter
-to improve comprehensibility.
+PlatformBusDevice has an mmio attribute which gets aliased to
+SysBusDevice::mmio[0]. So PlatformbusDevice::mmio can be used directly,
+avoiding the sysbus API.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20221003203142.24355-4-shentey@gmail.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Message-Id: <20221003203142.24355-5-shentey@gmail.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- docs/system/ppc/ppce500.rst | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/ppc/e500.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/docs/system/ppc/ppce500.rst b/docs/system/ppc/ppce500.rst
-index 9beef39171..ba6bcb7314 100644
---- a/docs/system/ppc/ppce500.rst
-+++ b/docs/system/ppc/ppce500.rst
-@@ -146,6 +146,9 @@ You can specify a real world SoC device that QEMU has built-in support but all
- these SoCs are e500v2 based MPC85xx series, hence you cannot test anything
- built for P4080 (e500mc), P5020 (e5500) and T2080 (e6500).
+diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+index 32495d0123..496c61b612 100644
+--- a/hw/ppc/e500.c
++++ b/hw/ppc/e500.c
+@@ -1023,7 +1023,7 @@ void ppce500_init(MachineState *machine)
  
-+Networking
-+----------
-+
- By default a VirtIO standard PCI networking device is connected as an ethernet
- interface at PCI address 0.1.0, but we can switch that to an e1000 NIC by:
+         memory_region_add_subregion(address_space_mem,
+                                     pmc->platform_bus_base,
+-                                    sysbus_mmio_get_region(s, 0));
++                                    &pms->pbus_dev->mmio);
+     }
  
+     /*
 -- 
 2.37.3
 
