@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23ACE600C80
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 12:33:10 +0200 (CEST)
-Received: from localhost ([::1]:44484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A7CE600C7A
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 12:32:33 +0200 (CEST)
+Received: from localhost ([::1]:52070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okNQi-0006ao-4n
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 06:33:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46624)
+	id 1okNQ8-0005iS-D1
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 06:32:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1okNG2-0005bj-VD
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 06:22:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24117)
+ id 1okNG3-0005c5-4H
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 06:22:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60971)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1okNFy-0002kE-NB
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 06:22:05 -0400
+ id 1okNG1-0002ks-Jt
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 06:22:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666002122;
+ s=mimecast20190719; t=1666002124;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KgrKDRWXMmYjbZgU0jd7WXT8e+ulTsPdEGRzK4nKc3M=;
- b=TAygF1NdYd+x4qPu5q5fk47WPWLBCl6j50eYAx91xiPkps95Wu8FsjvIk8TebJIfEoGKJu
- JZXGX5fnvtz/0HjGPi/Uxyz6qhy+pV4zbOAIvPkprqCUZeyUfy7y3qJmP6pdmcGLD7LJQI
- W8xRSE2Vc+qE8kb16pnVfRou5uUYUM8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4VNBT3uULaHIsMMouJP1APykVaS1lWIj1144jVPtFS8=;
+ b=VaXBktMOJ/mgrvXPHdREn8495rvTnaCDXGlgQ/DWsbZdCxeV1un3SSIJg+9p6ggvgzmKih
+ VpjJAU+ssqY69benSSIDGUiNOoR+J/CcGBemEVV/Zh407Nqy4uU1dqCAEiR1pioytnsT+s
+ mA1gGrFydqPhDPozBuEj4XxL9DrPwZY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-496-BsWNpl0WMCahRy7THcjb6Q-1; Mon, 17 Oct 2022 06:22:00 -0400
-X-MC-Unique: BsWNpl0WMCahRy7THcjb6Q-1
+ us-mta-333-IRsaXQr0OnOkt9qWL9YvBA-1; Mon, 17 Oct 2022 06:22:01 -0400
+X-MC-Unique: IRsaXQr0OnOkt9qWL9YvBA-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4D98F185A7AC;
- Mon, 17 Oct 2022 10:22:00 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0E57A38173D8;
+ Mon, 17 Oct 2022 10:22:01 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq2.redhat.com
  (dell-r430-03.lab.eng.brq2.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC233492B04;
- Mon, 17 Oct 2022 10:21:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7DFDA492B06;
+ Mon, 17 Oct 2022 10:22:00 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com,
 	ani@anisinha.ca
-Subject: [PATCH 06/11] acpi: add get_dev_aml_func() helper
-Date: Mon, 17 Oct 2022 12:21:41 +0200
-Message-Id: <20221017102146.2254096-7-imammedo@redhat.com>
+Subject: [PATCH 07/11] acpi: enumerate SMB bridge automatically along with
+ other PCI devices
+Date: Mon, 17 Oct 2022 12:21:42 +0200
+Message-Id: <20221017102146.2254096-8-imammedo@redhat.com>
 In-Reply-To: <20221017102146.2254096-1-imammedo@redhat.com>
 References: <20221017102146.2254096-1-imammedo@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,41 +82,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It will be used in followup commits to figure out if
-device has it's own, device specific AML block.
+to make that happen (bridge sits at _ADR: 0x001F0003),
+relax PCI enumeration logic to include devices with *function* > 0
+if device has something to say about itself (i.e. has build_dev_aml
+callback set).
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- include/hw/acpi/acpi_aml_interface.h | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ hw/i386/acpi-build.c | 27 +++------------------------
+ 1 file changed, 3 insertions(+), 24 deletions(-)
 
-diff --git a/include/hw/acpi/acpi_aml_interface.h b/include/hw/acpi/acpi_aml_interface.h
-index ab76f0e55d..436da069d6 100644
---- a/include/hw/acpi/acpi_aml_interface.h
-+++ b/include/hw/acpi/acpi_aml_interface.h
-@@ -29,11 +29,20 @@ struct AcpiDevAmlIfClass {
-     dev_aml_fn build_dev_aml;
- };
- 
--static inline void call_dev_aml_func(DeviceState *dev, Aml *scope)
-+static inline dev_aml_fn get_dev_aml_func(DeviceState *dev)
- {
-     if (object_dynamic_cast(OBJECT(dev), TYPE_ACPI_DEV_AML_IF)) {
-         AcpiDevAmlIfClass *klass = ACPI_DEV_AML_IF_GET_CLASS(dev);
--        klass->build_dev_aml(ACPI_DEV_AML_IF(dev), scope);
-+        return klass->build_dev_aml;
-+    }
-+    return NULL;
-+}
-+
-+static inline void call_dev_aml_func(DeviceState *dev, Aml *scope)
-+{
-+    dev_aml_fn fn = get_dev_aml_func(dev);
-+    if (fn) {
-+        fn(ACPI_DEV_AML_IF(dev), scope);
-     }
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index e1483bb11a..916343d8d6 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -448,9 +448,10 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+             /*
+              * allow describing coldplugged bridges in ACPI even if they are not
+              * on function 0, as they are not unpluggable, for all other devices
+-             * generate description only for function 0 per slot
++             * generate description only for function 0 per slot, and for other
++             * functions if device on function provides its own AML
+              */
+-            if (func && !bridge_in_acpi) {
++            if (func && !bridge_in_acpi && !get_dev_aml_func(DEVICE(pdev))) {
+                 continue;
+             }
+         } else {
+@@ -1319,25 +1320,6 @@ static Aml *build_q35_osc_method(bool enable_native_pcie_hotplug)
+     return method;
  }
  
+-static void build_smb0(Aml *table, int devnr, int func)
+-{
+-    Aml *scope = aml_scope("_SB.PCI0");
+-    Aml *dev = aml_device("SMB0");
+-    bool ambiguous;
+-    Object *obj;
+-    /*
+-     * temporarily fish out device hosting SMBUS, build_smb0 will be gone once
+-     * PCI enumeration will be switched to call_dev_aml_func()
+-     */
+-    obj = object_resolve_path_type("", TYPE_ICH9_SMB_DEVICE, &ambiguous);
+-    assert(obj && !ambiguous);
+-
+-    aml_append(dev, aml_name_decl("_ADR", aml_int(devnr << 16 | func)));
+-    call_dev_aml_func(DEVICE(obj), dev);
+-    aml_append(scope, dev);
+-    aml_append(table, scope);
+-}
+-
+ static void build_acpi0017(Aml *table)
+ {
+     Aml *dev, *scope, *method;
+@@ -1440,9 +1422,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+             build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
+         }
+         build_q35_pci0_int(dsdt);
+-        if (pcms->smbus) {
+-            build_smb0(dsdt, ICH9_SMB_DEV, ICH9_SMB_FUNC);
+-        }
+     }
+ 
+     if (misc->has_hpet) {
 -- 
 2.31.1
 
