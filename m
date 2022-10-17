@@ -2,53 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5604260086C
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 10:13:14 +0200 (CEST)
-Received: from localhost ([::1]:36680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F953600878
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 10:13:47 +0200 (CEST)
+Received: from localhost ([::1]:44290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okLFI-0003j7-H4
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 04:13:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59568)
+	id 1okLFq-0003ux-8r
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 04:13:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1okL5X-0005i8-UT
+ id 1okL5X-0005i9-Qo
  for qemu-devel@nongnu.org; Mon, 17 Oct 2022 04:03:12 -0400
-Received: from mga18.intel.com ([134.134.136.126]:53112)
+Received: from mga18.intel.com ([134.134.136.126]:53117)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1okL5V-0006oP-7C
+ id 1okL5V-0006oT-2o
  for qemu-devel@nongnu.org; Mon, 17 Oct 2022 04:03:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1665993785; x=1697529785;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=xWuSz8LTY/yjv1X4x92W+9nR52Bm/2pE7+q25k4FlwY=;
- b=nQvR4EGwM9ctkZjonD2vXyjgIM5sopPLD9FzdOWpaqIBOqCHh8hWjhWP
- C/91sKItMnmE0GXyXvQy1o2FtpV07RdmnrDt8g4NtS3x5GKBTIvdleoh/
- QqsR47WFFjx+XdKdmLtoE3qK91cwRvcZRn2mIoLEnkx+6gXwE2wHTsMtd
- yUZmsyrKUjBSZEPfy0xwul0JTvYemEuD4aPeohXiu4OVXF1fJq01UwVOU
- JdhwG4UL5OE6WX9uLsd/p20tj7JvaEyYkIS2Q0UUFPkjggQ2wq5W7PJ33
- ZkR/2sAnrPyJ8vWvI/AGYJydpnJWafx7w/y5kotPN0bOv71VIbzP/J+Er Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10502"; a="289024583"
-X-IronPort-AV: E=Sophos;i="5.95,190,1661842800"; d="scan'208";a="289024583"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=OkPyWkfU9eQjTDrvU7iF3wCSQxL9KvvKhWzAtV3NB4w=;
+ b=mKM1vTu4NnuBS2EEcGuQms1wLHSvXwvIu1uoitLbRpe+fZTaRJbrOO0S
+ x0Jf95K3HF6OolnDN0v4sqj+9jqc/mZbNFP8ylKIVJzYK3WowQp8Kaw0+
+ Uxpth0hyxa9cl41BwbwbOkTN5VKSj/SlXFB1C1iTj7PIu5EoaBOJhJudF
+ mx9t93Zl7A/63KC5DU30dzgDJ3puc1EGuPUgJBOpPeTx3pJLJza7YbEYx
+ cc3oKlw73sODo+mWZahgi1XW4QdpaX5aSwyzjaLLVcyZIL0IS7I2dA3r0
+ GL4NSXIU7H5hOHJRPuSbs2YLSr+6Lzzb1LbD01c1pO5j/7jrpYc9GUEts Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10502"; a="289024593"
+X-IronPort-AV: E=Sophos;i="5.95,190,1661842800"; d="scan'208";a="289024593"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Oct 2022 01:03:01 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10502"; a="630595679"
-X-IronPort-AV: E=Sophos;i="5.95,190,1661842800"; d="scan'208";a="630595679"
+ 17 Oct 2022 01:03:02 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10502"; a="630595702"
+X-IronPort-AV: E=Sophos;i="5.95,190,1661842800"; d="scan'208";a="630595702"
 Received: from duan-server-s2600bt.bj.intel.com ([10.240.192.143])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Oct 2022 01:02:59 -0700
+ 17 Oct 2022 01:03:01 -0700
 From: Zhenzhong Duan <zhenzhong.duan@intel.com>
 To: qemu-devel@nongnu.org
 Cc: quintela@redhat.com,
 	dgilbert@redhat.com
-Subject: [PATCH 1/2] multifd: Fix a race on reading MultiFDPages_t.block
-Date: Mon, 17 Oct 2022 15:53:50 +0800
-Message-Id: <20221017075351.2974642-1-zhenzhong.duan@intel.com>
+Subject: [PATCH 2/2] multifd: Fix flush of zero copy page send request
+Date: Mon, 17 Oct 2022 15:53:51 +0800
+Message-Id: <20221017075351.2974642-2-zhenzhong.duan@intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221017075351.2974642-1-zhenzhong.duan@intel.com>
+References: <20221017075351.2974642-1-zhenzhong.duan@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=134.134.136.126;
@@ -74,47 +76,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In multifd_queue_page() MultiFDPages_t.block is checked twice.
-Between the two checks, MultiFDPages_t.block may be reset to NULL
-by multifd thread. This lead to the 2nd check always true then a
-redundant page submitted to multifd thread again.
+Make IO channel flush call after the inflight request has been drained
+in multifd thread, or else we may missed to flush the inflight request.
 
 Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
 ---
- migration/multifd.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ migration/multifd.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/migration/multifd.c b/migration/multifd.c
-index 586ddc9d657a..36e2139995cf 100644
+index 36e2139995cf..1e01873128f6 100644
 --- a/migration/multifd.c
 +++ b/migration/multifd.c
-@@ -447,6 +447,7 @@ static int multifd_send_pages(QEMUFile *f)
- int multifd_queue_page(QEMUFile *f, RAMBlock *block, ram_addr_t offset)
- {
-     MultiFDPages_t *pages = multifd_send_state->pages;
-+    bool changed = false;
+@@ -618,6 +618,12 @@ int multifd_send_sync_main(QEMUFile *f)
+         ram_counters.transferred += p->packet_len;
+         qemu_mutex_unlock(&p->mutex);
+         qemu_sem_post(&p->sem);
++    }
++    for (i = 0; i < migrate_multifd_channels(); i++) {
++        MultiFDSendParams *p = &multifd_send_state->params[i];
++
++        trace_multifd_send_sync_main_wait(p->id);
++        qemu_sem_wait(&p->sem_sync);
  
-     if (!pages->block) {
-         pages->block = block;
-@@ -459,14 +460,16 @@ int multifd_queue_page(QEMUFile *f, RAMBlock *block, ram_addr_t offset)
-         if (pages->num < pages->allocated) {
-             return 1;
+         if (flush_zero_copy && p->c) {
+             int ret;
+@@ -632,12 +638,6 @@ int multifd_send_sync_main(QEMUFile *f)
+             }
          }
-+    } else {
-+        changed = true;
      }
+-    for (i = 0; i < migrate_multifd_channels(); i++) {
+-        MultiFDSendParams *p = &multifd_send_state->params[i];
+-
+-        trace_multifd_send_sync_main_wait(p->id);
+-        qemu_sem_wait(&p->sem_sync);
+-    }
+     trace_multifd_send_sync_main(multifd_send_state->packet_num);
  
-     if (multifd_send_pages(f) < 0) {
-         return -1;
-     }
- 
--    if (pages->block != block) {
--        return  multifd_queue_page(f, block, offset);
-+    if (changed) {
-+        return multifd_queue_page(f, block, offset);
-     }
- 
-     return 1;
+     return 0;
 -- 
 2.25.1
 
