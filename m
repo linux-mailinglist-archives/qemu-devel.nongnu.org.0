@@ -2,84 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B144460089F
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 10:24:47 +0200 (CEST)
-Received: from localhost ([::1]:37238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE37C600974
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 10:56:09 +0200 (CEST)
+Received: from localhost ([::1]:45772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okLQT-0002te-Bi
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 04:24:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54850)
+	id 1okLuq-0004ef-OV
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 04:56:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1okLMx-0007lq-C0
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 04:21:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33972)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1okLeu-0007sj-7K; Mon, 17 Oct 2022 04:39:40 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:18282)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1okLMr-0000zd-Kp
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 04:21:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665994860;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Aa0XYyZUyNTchAB4/zY6yGvmDZvSZGzwEs6M+KGsT0I=;
- b=a+RP2d0kN2SOsBRt5Fxc2ZI6xJGbGbd7YIUvdXGDbASU8N687L+e2FPzhy8cCJCliQ9jeg
- oui9/3knCj00Z3t8k0qW5F+Kwns1vVBCCJZfPyqCHgyCpK8RbXfRLStePoYyyYwDusqa4G
- YraOMJAYTLGrqtp16z0OiS1w7wv9meg=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-636-17E9zm55NNWJ_eZ17q8pYA-1; Mon, 17 Oct 2022 04:19:34 -0400
-X-MC-Unique: 17E9zm55NNWJ_eZ17q8pYA-1
-Received: by mail-pf1-f199.google.com with SMTP id
- g3-20020a056a000b8300b00563772d1021so5737689pfj.18
- for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 01:19:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:in-reply-to:mime-version:references
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Aa0XYyZUyNTchAB4/zY6yGvmDZvSZGzwEs6M+KGsT0I=;
- b=k6c6WyeQgreEuNaKG8xGi0S95qJuyeJXIYWDZvP8fWl6tZFZ5T/wqTNW/nhuk85JPj
- Jk1PTh2Q3B0tBKd0P4yi0s9+9tzq0EQClYPsM5Tq8iN+nSweK3WuHIZ4wXJpXzVuWezx
- DA6aczZ3cqcqzD/KUItPtJ3OlrF8h1J1rhGaFEURgFXnLypcdRgf935b0Xun18hq8Hl0
- OpydQrFsiJiN5sPWhk0KWcCpC91DtlYQgQm1JOo2LUgjBOlEZRCpdvL10GNmbBYhGK9T
- KEIk67kAAf3xaV58CXlY8hW2AcSOGw9N8XIBIRBe++M0MeA/q870ziKjxJ5tMDmU7liU
- yiFg==
-X-Gm-Message-State: ACrzQf1lY6xeWyMoZg4EmAQBfc5I98Axk/EGj7qkydw8F8F00o0VKDka
- rO05G3EiqLrF5q+PbWRpmyVL8Ql0yJoWx+zIZ5jMh9EO1aFCDWrTlnUJW74OtqMAT5ZPqs2xIXb
- +EieCVwjcX+VOe7HaILS4ZX8VPh4NnWU=
-X-Received: by 2002:a17:902:a606:b0:178:57e4:a0c1 with SMTP id
- u6-20020a170902a60600b0017857e4a0c1mr10694050plq.83.1665994773345; 
- Mon, 17 Oct 2022 01:19:33 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4frGk5p30e8zfPB+lnZfI8YUvIsl1Z6RB17Pb6B0YlXU5Z7cPM++TT8ZSWDGFXYBHSS5SPNb0ISRHNrU5OxFY=
-X-Received: by 2002:a17:902:a606:b0:178:57e4:a0c1 with SMTP id
- u6-20020a170902a60600b0017857e4a0c1mr10694026plq.83.1665994772993; Mon, 17
- Oct 2022 01:19:32 -0700 (PDT)
-Received: from 744723338238 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 17 Oct 2022 01:19:32 -0700
-From: Andrea Bolognani <abologna@redhat.com>
-References: <20221012163448.121368-1-eric.auger@redhat.com>
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1okLes-0003dr-0P; Mon, 17 Oct 2022 04:39:39 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29H80Wia025190;
+ Mon, 17 Oct 2022 08:39:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=6NhzWStU2Ob/Q8H7/gKFGZ/JIzMDigwQKyxJGLN4g3s=;
+ b=bzmHeBFkot9C2k2R0qZ3gbkLheJgZsYlASgXrE2lJ2UdvDEAuh/MW2aM1USvDOEt+rw3
+ Bu0RSC43biCuvORAdLVB3XpTSejd4zXOoYfoF9FVN+npeA187Ptk1T654M5GaOx+KFjX
+ ULXWJ+qU9ru1JYfgQDQbBczco69genaRLvlmGRI60xZv5qMnV9nVzANiov2aLfYhxLmb
+ lw5vpHCXD937rTvZWbxpsW4eJsULcCztjRo7GLkt96Vw08jRO7ouVyPQ4GrpeNnqRnDm
+ UM+bh6dkAhRmhrZeQjwii43lIJmLpf7HPFUm3TRK4Cf7CgmkDplTyqq0bjNhggxS9vUX sQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k86hk98h8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 17 Oct 2022 08:39:31 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29H8ZteJ025048;
+ Mon, 17 Oct 2022 08:39:30 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k86hk98gf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 17 Oct 2022 08:39:30 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29H8bOFN026454;
+ Mon, 17 Oct 2022 08:39:29 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 3k7mg92n4n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 17 Oct 2022 08:39:28 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 29H8dP9j43581812
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 17 Oct 2022 08:39:25 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 98A6BA405E;
+ Mon, 17 Oct 2022 08:39:25 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7F375A404D;
+ Mon, 17 Oct 2022 08:39:24 +0000 (GMT)
+Received: from linux6.. (unknown [9.114.12.104])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 17 Oct 2022 08:39:24 +0000 (GMT)
+From: Janosch Frank <frankja@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
+ borntraeger@linux.ibm.com, imbrenda@linux.ibm.com, pasic@linux.ibm.com,
+ cohuck@redhat.com, thuth@redhat.com, qemu-s390x@nongnu.org,
+ seiden@linux.ibm.com, scgl@linux.ibm.com
+Subject: [PATCH v6 00/10] dump: Add arch section and s390x PV dump
+Date: Mon, 17 Oct 2022 08:38:12 +0000
+Message-Id: <20221017083822.43118-1-frankja@linux.ibm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-In-Reply-To: <20221012163448.121368-1-eric.auger@redhat.com>
-Date: Mon, 17 Oct 2022 01:19:32 -0700
-Message-ID: <CABJz62OCLNQqrYnenhZsH9KVk_OpExp5otDcS-RZ7dMDz5a_og@mail.gmail.com>
-Subject: Re: [PATCH] hw/virtio/virtio-iommu-pci: Enforce the device is plugged
- on the root bus
-To: Eric Auger <eric.auger@redhat.com>
-Cc: eric.auger.pro@gmail.com, mst@redhat.com, qemu-arm@nongnu.org, 
- qemu-devel@nongnu.org, jean-philippe@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=abologna@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: UMV2AcT67rFa4eT0ESU7fBVmqjkKpmt-
+X-Proofpoint-ORIG-GUID: RIRaRKsEu7bmeAGHED3uoR5bg1XM_7ot
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-17_06,2022-10-17_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0
+ mlxlogscore=788 impostorscore=0 bulkscore=0 malwarescore=0
+ lowpriorityscore=0 priorityscore=1501 adultscore=0 spamscore=0
+ clxscore=1015 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210170046
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,31 +113,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 12, 2022 at 12:34:48PM -0400, Eric Auger wrote:
-> In theory the virtio-iommu-pci could be plugged anywhere in the PCIe
-> topology and as long as the dt/acpi info are properly built this should
-> work. However at the moment we fail to do that because the
-> virtio-iommu-pci BDF is not computed at plug time and in that case
-> vms->virtio_iommu_bdf gets an incorrect value.
->
-> For instance if the virtio-iommu-pci is plugged onto a pcie root port
-> and the virtio-iommu protects a virtio-block-pci device the guest does
-> not boot.
->
-> So let's do not pretend we do support this case and fail the initialize()
-> if we detect the virtio-iommu-pci is plugged anywhere else than on the
-> root bus. Anyway this ability is not needed.
->
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> ---
->  hw/virtio/virtio-iommu-pci.c | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
+Previously this series was two separate series:
+ * Arch section support
+   Adds the possibility for arch code to add custom section data.
 
-FYI libvirt will already reject any attempts to place the device
-anywhere but directly on pcie.0, so from our point of view merging
-this patch is perfectly fine.
+ * s390 PV dump support
+   Adds PV dump data to the custom arch sections.
+
+I've chosen to merge them so it's easier to understand why the arch
+section support has been implement the way it is.
+
+Additionally I've added cleanup patches beforehand which clean up the
+GuestPhysBlock usage.
+
+v6:
+	* Rebase after parts of the series have been pulled
+	* Put the section header move into its own patch
+	* Added freeing of s->elf_section_hdrs
+	* Added missing false fields in the note arrays in arch_dump.c
+
+v5:
+	* Added a patch that moves the DumpState typedef and replaces
+          the opaque pointers with properly typed ones
+	* Removed the ELF header allocation since the codes has
+          changed in a way that it's not needed anymore
+	* Changed naming of dump_get_memblock_*() to dump_filter_memblock_*()
+	* Removed various inline functions
+	* Added a re-work of the filter variables
+
+
+Janosch Frank (10):
+  dump: Use a buffer for ELF section data and headers
+  dump: Write ELF section headers right after ELF header
+  dump: Reorder struct DumpState
+  dump: Reintroduce memory_offset and section_offset
+  dump: Add architecture section and section string table support
+  s390x: Add protected dump cap
+  s390x: Introduce PV query interface
+  RFC: elf.h changes
+  s390x: Add KVM PV dump interface
+  s390x: pv: Add dump support
+
+ dump/dump.c                  | 290 +++++++++++++++++++++++++++--------
+ hw/s390x/pv.c                | 112 ++++++++++++++
+ hw/s390x/s390-virtio-ccw.c   |   6 +
+ include/elf.h                |   2 +
+ include/hw/s390x/pv.h        |  19 +++
+ include/sysemu/dump-arch.h   |   3 +
+ include/sysemu/dump.h        |  26 +++-
+ target/s390x/arch_dump.c     | 262 +++++++++++++++++++++++++++----
+ target/s390x/kvm/kvm.c       |   7 +
+ target/s390x/kvm/kvm_s390x.h |   1 +
+ 10 files changed, 629 insertions(+), 99 deletions(-)
 
 -- 
-Andrea Bolognani / Red Hat / Virtualization
+2.34.1
 
 
