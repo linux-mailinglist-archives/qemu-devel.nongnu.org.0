@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 162B2601941
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 22:19:33 +0200 (CEST)
-Received: from localhost ([::1]:57504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD2AF601A55
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 22:33:59 +0200 (CEST)
+Received: from localhost ([::1]:33074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okWaB-00039c-FT
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 16:19:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54798)
+	id 1okWoA-0006N1-8j
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 16:33:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1okUil-0002vy-Pa
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 14:20:15 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:36590)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1okUij-0001hd-82
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 14:20:15 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- c3-20020a1c3503000000b003bd21e3dd7aso13298835wma.1
- for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 11:20:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=WwriwgPckdQGGmRjODyD61bHWQpF6gIlrO0l6YC5nWA=;
- b=qNkD2vKjZp57IpPAVQeBaI+oaUQ/HImSqmUzVc27cU2sjb/UVmqkmb8tBwLA2xN2sJ
- K84lc1YbqNO2LV8kT9Gi3shqiDhkussgmiVUun8AVKruBlH6/RwH2HOfjZGKRrFi/r+3
- ySX2ZBgVos8yB6/hh8h6zsbcsYU9Yhz3Y1ocn3Si/g1Fur6nsZ6PftwMuOwQLFv82ved
- +zLGTKCXkXI+iu7HIs7hjAUlFCqbZeNG9reWLlUdaquQdl9OkcMUFj8Lik0HwhOP5R5F
- Cj2ttP8YoPZWYHdFPPut0QXr73f9MguqjP3AskFSeYo0uiVRJdx9WN+kCwmu5fWnUBUL
- qaEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=WwriwgPckdQGGmRjODyD61bHWQpF6gIlrO0l6YC5nWA=;
- b=hYo/69DRrNyrWbf1BPctW3F6fAMLV6ZV0lvg3ZUGPBSprt24M7dfK0MvHJYf7uihZm
- dRN5igiTQaSNPCSevLAKbVNZTORm4SclSWYnHYSRKvH8Qunh3D5wGNSWHnBGbb4C9Wf6
- 28yHOU+cBgdua9ydRAxskysYiPM4SbXlPScdy46wJeGoVBTgDqzeapOunlwHpeeJLFrz
- SZ/X5uq5My9GfzZapBwttg8i9BgZjaSEfKqNwOCdDk6VvuSgKmfuJxy0kwNluIca/pm7
- vqUhgBx7ntWm2g8dHb/t0+IK/QGrQzgah5z2HPAGNow3kKHHHd6dDuH4+Y2XN29H6Kkc
- 3Q7Q==
-X-Gm-Message-State: ACrzQf2sNhYRCtoZlsE/1aDoU8d8rxB5fUSBXtssODiTYADF/SgYsrdT
- YskrRrhNlCfh41DTSyLBl49rp6fXuaM9fVtr
-X-Google-Smtp-Source: AMsMyM5YR1CzhLYbfy1zH/2+3TzrLM2+YL6cFvnTrEvVmQ1zGdprXk1iMBJCRVwVLPjt/QUaVq/4tA==
-X-Received: by 2002:a05:600c:a04:b0:3b4:f20e:63f4 with SMTP id
- z4-20020a05600c0a0400b003b4f20e63f4mr8348841wmp.201.1666030808854; 
- Mon, 17 Oct 2022 11:20:08 -0700 (PDT)
-Received: from localhost.localdomain ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- c15-20020a5d414f000000b002285f73f11dsm10971165wrq.81.2022.10.17.11.20.06
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 17 Oct 2022 11:20:07 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <huth@tuxfamily.org>, Akihiko Odaki <akihiko.odaki@gmail.com>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH] MAINTAINERS: Replace my amsat.org email address
-Date: Mon, 17 Oct 2022 20:20:05 +0200
-Message-Id: <20221017182005.43015-1-philmd@linaro.org>
-X-Mailer: git-send-email 2.37.3
+ (Exim 4.90_1)
+ (envelope-from <SRS0=kNOZ=2S=zx2c4.com=Jason@kernel.org>)
+ id 1okWkN-0004gL-Te
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 16:30:04 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217]:48444)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=kNOZ=2S=zx2c4.com=Jason@kernel.org>)
+ id 1okWkK-0004Ut-JA
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 16:30:03 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 115376125E;
+ Mon, 17 Oct 2022 20:29:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01631C433D7;
+ Mon, 17 Oct 2022 20:29:57 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="PCEH4mRG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1666038595;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IlvWmeYOGI3myCSfqAfKAdYcUq1qzko+44/Rk5CEa9g=;
+ b=PCEH4mRG52Kv8+NaYE6Ia0Xih5qjVPVOT4P1Fu41GYCG0TNCFO7yIVOwX7TibJnRtLJSps
+ XxXwT5tiv0elsTsHiFNvvMAGiQJgjQ30hOhBUInt+X7tsYSweBZIZguJce5bTWPcCVnKLT
+ m7TaWgbpDm73coz2dkyt2lCR7kzv/UY=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 13290bf7
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Mon, 17 Oct 2022 20:29:55 +0000 (UTC)
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: laurent@vivier.eu,
+	qemu-devel@nongnu.org
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: [PATCH v4] m68k: write bootinfo as rom section and re-randomize on
+ reboot
+Date: Mon, 17 Oct 2022 14:29:52 -0600
+Message-Id: <20221017202952.60762-1-Jason@zx2c4.com>
+In-Reply-To: <fe30a5ce-f318-55f2-165f-b555e19f3160@vivier.eu>
+References: <fe30a5ce-f318-55f2-165f-b555e19f3160@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=139.178.84.217;
+ envelope-from=SRS0=kNOZ=2S=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 17 Oct 2022 16:15:06 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,309 +82,372 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The amsat.org domain is having issues with DMARC / SPF / DKIM:
-https://lore.kernel.org/qemu-devel/CAMVc7JUy5NeEN0q=4zfZvn_rppgqn9wicV1z=TsLuHKS3RY3Sw@mail.gmail.com/
+Rather than poking directly into RAM, add the bootinfo block as a proper
+ROM, so that it's restored when rebooting the system. This way, if the
+guest corrupts any of the bootinfo items, but then tries to reboot,
+it'll still be restored back to normal as expected.
 
-Consolidate all of my MAINTAINERS entries on my work address.
+Then, since the RNG seed needs to be fresh on each boot, regenerate the
+RNG seed in the ROM when reseting the CPU.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Laurent Vivier <laurent@vivier.eu>
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 ---
- .mailmap    |  4 +++-
- MAINTAINERS | 62 ++++++++++++++++++++++++++---------------------------
- 2 files changed, 34 insertions(+), 32 deletions(-)
+ hw/m68k/bootinfo.h | 48 +++++++++++++++----------------
+ hw/m68k/q800.c     | 71 +++++++++++++++++++++++++++++++++-------------
+ hw/m68k/virt.c     | 51 +++++++++++++++++++++++----------
+ 3 files changed, 111 insertions(+), 59 deletions(-)
 
-diff --git a/.mailmap b/.mailmap
-index 1f7319b70b..35dddbe27b 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -70,7 +70,9 @@ Paul Burton <paulburton@kernel.org> <paul.burton@mips.com>
- Paul Burton <paulburton@kernel.org> <paul.burton@imgtec.com>
- Paul Burton <paulburton@kernel.org> <paul@archlinuxmips.org>
- Paul Burton <paulburton@kernel.org> <pburton@wavecomp.com>
--Philippe Mathieu-Daudé <f4bug@amsat.org> <philmd@redhat.com>
-+Philippe Mathieu-Daudé <philmd@linaro.org> <f4bug@amsat.org>
-+Philippe Mathieu-Daudé <philmd@linaro.org> <philmd@redhat.com>
-+Philippe Mathieu-Daudé <philmd@linaro.org> <philmd@fungible.com>
- Stefan Brankovic <stefan.brankovic@syrmia.com> <stefan.brankovic@rt-rk.com.com>
- Yongbok Kim <yongbok.kim@mips.com> <yongbok.kim@imgtec.com>
+diff --git a/hw/m68k/bootinfo.h b/hw/m68k/bootinfo.h
+index 897162b818..67e6b66b7d 100644
+--- a/hw/m68k/bootinfo.h
++++ b/hw/m68k/bootinfo.h
+@@ -12,66 +12,66 @@
+ #ifndef HW_M68K_BOOTINFO_H
+ #define HW_M68K_BOOTINFO_H
  
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8ae2e43c83..f169fec6fc 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -110,7 +110,7 @@ T: git https://gitlab.com/cohuck/qemu.git s390-next
- L: qemu-s390x@nongnu.org
+-#define BOOTINFO0(as, base, id) \
++#define BOOTINFO0(base, id) \
+     do { \
+-        stw_phys(as, base, id); \
++        stw_p(base, id); \
+         base += 2; \
+-        stw_phys(as, base, sizeof(struct bi_record)); \
++        stw_p(base, sizeof(struct bi_record)); \
+         base += 2; \
+     } while (0)
  
- MIPS general architecture support
--M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+M: Philippe Mathieu-Daudé <philmd@linaro.org>
- R: Jiaxun Yang <jiaxun.yang@flygoat.com>
- S: Odd Fixes
- K: ^Subject:.*(?i)mips
-@@ -233,7 +233,7 @@ F: tests/docker/dockerfiles/debian-microblaze-cross.d/build-toolchain.sh
- F: tests/tcg/nios2/Makefile.target
+-#define BOOTINFO1(as, base, id, value) \
++#define BOOTINFO1(base, id, value) \
+     do { \
+-        stw_phys(as, base, id); \
++        stw_p(base, id); \
+         base += 2; \
+-        stw_phys(as, base, sizeof(struct bi_record) + 4); \
++        stw_p(base, sizeof(struct bi_record) + 4); \
+         base += 2; \
+-        stl_phys(as, base, value); \
++        stl_p(base, value); \
+         base += 4; \
+     } while (0)
  
- MIPS TCG CPUs
--M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+M: Philippe Mathieu-Daudé <philmd@linaro.org>
- R: Aurelien Jarno <aurelien@aurel32.net>
- R: Jiaxun Yang <jiaxun.yang@flygoat.com>
- R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-@@ -550,7 +550,7 @@ X: qga/*win32*
- F: qemu.nsi
+-#define BOOTINFO2(as, base, id, value1, value2) \
++#define BOOTINFO2(base, id, value1, value2) \
+     do { \
+-        stw_phys(as, base, id); \
++        stw_p(base, id); \
+         base += 2; \
+-        stw_phys(as, base, sizeof(struct bi_record) + 8); \
++        stw_p(base, sizeof(struct bi_record) + 8); \
+         base += 2; \
+-        stl_phys(as, base, value1); \
++        stl_p(base, value1); \
+         base += 4; \
+-        stl_phys(as, base, value2); \
++        stl_p(base, value2); \
+         base += 4; \
+     } while (0)
  
- Darwin (macOS, iOS)
--M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+M: Philippe Mathieu-Daudé <philmd@linaro.org>
- S: Odd Fixes
- F: .gitlab-ci.d/cirrus/macos-*
- F: */*.m
-@@ -681,7 +681,7 @@ F: include/hw/rtc/goldfish_rtc.h
+-#define BOOTINFOSTR(as, base, id, string) \
++#define BOOTINFOSTR(base, id, string) \
+     do { \
+         int i; \
+-        stw_phys(as, base, id); \
++        stw_p(base, id); \
+         base += 2; \
+-        stw_phys(as, base, \
++        stw_p(base, \
+                  (sizeof(struct bi_record) + strlen(string) + \
+                   1 /* null termination */ + 3 /* padding */) & ~3); \
+         base += 2; \
+         for (i = 0; string[i]; i++) { \
+-            stb_phys(as, base++, string[i]); \
++            stb_p(base++, string[i]); \
+         } \
+-        stb_phys(as, base++, 0); \
+-        base = (base + 3) & ~3; \
++        stb_p(base++, 0); \
++        base = (void *)(((uintptr_t)base + 3) & ~3); \
+     } while (0)
  
- Gumstix
- M: Peter Maydell <peter.maydell@linaro.org>
--R: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+R: Philippe Mathieu-Daudé <philmd@linaro.org>
- L: qemu-arm@nongnu.org
- S: Odd Fixes
- F: hw/arm/gumstix.c
-@@ -832,7 +832,7 @@ F: docs/system/arm/palm.rst
+-#define BOOTINFODATA(as, base, id, data, len) \
++#define BOOTINFODATA(base, id, data, len) \
+     do { \
+         int i; \
+-        stw_phys(as, base, id); \
++        stw_p(base, id); \
+         base += 2; \
+-        stw_phys(as, base, \
++        stw_p(base, \
+                  (sizeof(struct bi_record) + len + \
+                   2 /* length field */ + 3 /* padding */) & ~3); \
+         base += 2; \
+-        stw_phys(as, base, len); \
++        stw_p(base, len); \
+         base += 2; \
+         for (i = 0; i < len; ++i) { \
+-            stb_phys(as, base++, data[i]); \
++            stb_p(base++, data[i]); \
+         } \
+-        base = (base + 3) & ~3; \
++        base = (void *)(((uintptr_t)base + 3) & ~3); \
+     } while (0)
+ #endif
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index a4590c2cb0..e09e244ddc 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -321,11 +321,22 @@ static const TypeInfo glue_info = {
+     },
+ };
  
- Raspberry Pi
- M: Peter Maydell <peter.maydell@linaro.org>
--R: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+R: Philippe Mathieu-Daudé <philmd@linaro.org>
- L: qemu-arm@nongnu.org
- S: Odd Fixes
- F: hw/arm/raspi.c
-@@ -1095,7 +1095,7 @@ F: include/hw/misc/avr_power.h
- F: hw/misc/avr_power.c
++typedef struct {
++    M68kCPU *cpu;
++    struct bi_record *rng_seed;
++} ResetInfo;
++
+ static void main_cpu_reset(void *opaque)
+ {
+-    M68kCPU *cpu = opaque;
++    ResetInfo *reset_info = opaque;
++    M68kCPU *cpu = reset_info->cpu;
+     CPUState *cs = CPU(cpu);
  
- Arduino
--M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+M: Philippe Mathieu-Daudé <philmd@linaro.org>
- S: Maintained
- F: hw/avr/arduino.c
++    if (reset_info->rng_seed) {
++        qemu_guest_getrandom_nofail((void *)reset_info->rng_seed->data + 2,
++            be16_to_cpu(*(uint16_t *)reset_info->rng_seed->data));
++    }
++
+     cpu_reset(cs);
+     cpu->env.aregs[7] = ldl_phys(cs->as, 0);
+     cpu->env.pc = ldl_phys(cs->as, 4);
+@@ -386,6 +397,7 @@ static void q800_init(MachineState *machine)
+     NubusBus *nubus;
+     DeviceState *glue;
+     DriveInfo *dinfo;
++    ResetInfo *reset_info;
+     uint8_t rng_seed[32];
  
-@@ -1210,7 +1210,7 @@ F: hw/microblaze/petalogix_ml605_mmu.c
- MIPS Machines
- -------------
- Overall MIPS Machines
--M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+M: Philippe Mathieu-Daudé <philmd@linaro.org>
- S: Odd Fixes
- F: configs/devices/mips*/*
- F: hw/mips/
-@@ -1225,7 +1225,7 @@ F: hw/display/jazz_led.c
- F: hw/dma/rc4030.c
+     linux_boot = (kernel_filename != NULL);
+@@ -396,9 +408,12 @@ static void q800_init(MachineState *machine)
+         exit(1);
+     }
  
- Malta
--M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+M: Philippe Mathieu-Daudé <philmd@linaro.org>
- R: Aurelien Jarno <aurelien@aurel32.net>
- S: Odd Fixes
- F: hw/isa/piix4.c
-@@ -1244,7 +1244,7 @@ F: hw/net/mipsnet.c
++    reset_info = g_new0(ResetInfo, 1);
++
+     /* init CPUs */
+     cpu = M68K_CPU(cpu_create(machine->cpu_type));
+-    qemu_register_reset(main_cpu_reset, cpu);
++    reset_info->cpu = cpu;
++    qemu_register_reset(main_cpu_reset, reset_info);
  
- Fuloong 2E
- M: Huacai Chen <chenhuacai@kernel.org>
--M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+M: Philippe Mathieu-Daudé <philmd@linaro.org>
- R: Jiaxun Yang <jiaxun.yang@flygoat.com>
- S: Odd Fixes
- F: hw/mips/fuloong2e.c
-@@ -1700,7 +1700,7 @@ F: pc-bios/bios-microvm.bin
- Machine core
- M: Eduardo Habkost <eduardo@habkost.net>
- M: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
--R: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+R: Philippe Mathieu-Daudé <philmd@linaro.org>
- R: Yanan Wang <wangyanan55@huawei.com>
- S: Supported
- F: cpu.c
-@@ -1893,7 +1893,7 @@ F: docs/virtio-net-failover.rst
- T: git https://github.com/jasowang/qemu.git net
+     /* RAM */
+     memory_region_add_subregion(get_system_memory(), 0, machine->ram);
+@@ -598,6 +613,14 @@ static void q800_init(MachineState *machine)
+     cs = CPU(cpu);
+     if (linux_boot) {
+         uint64_t high;
++        void *param_blob, *param_ptr, *param_rng_seed;
++
++        if (kernel_cmdline) {
++            param_blob = g_malloc(strlen(kernel_cmdline) + 1024);
++        } else {
++            param_blob = g_malloc(1024);
++        }
++
+         kernel_size = load_elf(kernel_filename, NULL, NULL, NULL,
+                                &elf_entry, NULL, &high, NULL, 1,
+                                EM_68K, 0, 0);
+@@ -607,23 +630,24 @@ static void q800_init(MachineState *machine)
+         }
+         stl_phys(cs->as, 4, elf_entry); /* reset initial PC */
+         parameters_base = (high + 1) & ~1;
+-
+-        BOOTINFO1(cs->as, parameters_base, BI_MACHTYPE, MACH_MAC);
+-        BOOTINFO1(cs->as, parameters_base, BI_FPUTYPE, FPU_68040);
+-        BOOTINFO1(cs->as, parameters_base, BI_MMUTYPE, MMU_68040);
+-        BOOTINFO1(cs->as, parameters_base, BI_CPUTYPE, CPU_68040);
+-        BOOTINFO1(cs->as, parameters_base, BI_MAC_CPUID, CPUB_68040);
+-        BOOTINFO1(cs->as, parameters_base, BI_MAC_MODEL, MAC_MODEL_Q800);
+-        BOOTINFO1(cs->as, parameters_base,
++        param_ptr = param_blob;
++
++        BOOTINFO1(param_ptr, BI_MACHTYPE, MACH_MAC);
++        BOOTINFO1(param_ptr, BI_FPUTYPE, FPU_68040);
++        BOOTINFO1(param_ptr, BI_MMUTYPE, MMU_68040);
++        BOOTINFO1(param_ptr, BI_CPUTYPE, CPU_68040);
++        BOOTINFO1(param_ptr, BI_MAC_CPUID, CPUB_68040);
++        BOOTINFO1(param_ptr, BI_MAC_MODEL, MAC_MODEL_Q800);
++        BOOTINFO1(param_ptr,
+                   BI_MAC_MEMSIZE, ram_size >> 20); /* in MB */
+-        BOOTINFO2(cs->as, parameters_base, BI_MEMCHUNK, 0, ram_size);
+-        BOOTINFO1(cs->as, parameters_base, BI_MAC_VADDR,
++        BOOTINFO2(param_ptr, BI_MEMCHUNK, 0, ram_size);
++        BOOTINFO1(param_ptr, BI_MAC_VADDR,
+                   VIDEO_BASE + macfb_mode->offset);
+-        BOOTINFO1(cs->as, parameters_base, BI_MAC_VDEPTH, graphic_depth);
+-        BOOTINFO1(cs->as, parameters_base, BI_MAC_VDIM,
++        BOOTINFO1(param_ptr, BI_MAC_VDEPTH, graphic_depth);
++        BOOTINFO1(param_ptr, BI_MAC_VDIM,
+                   (graphic_height << 16) | graphic_width);
+-        BOOTINFO1(cs->as, parameters_base, BI_MAC_VROW, macfb_mode->stride);
+-        BOOTINFO1(cs->as, parameters_base, BI_MAC_SCCBASE, SCC_BASE);
++        BOOTINFO1(param_ptr, BI_MAC_VROW, macfb_mode->stride);
++        BOOTINFO1(param_ptr, BI_MAC_SCCBASE, SCC_BASE);
  
- Parallel NOR Flash devices
--M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+M: Philippe Mathieu-Daudé <philmd@linaro.org>
- T: git https://gitlab.com/philmd/qemu.git pflash-next
- S: Maintained
- F: hw/block/pflash_cfi*.c
-@@ -1926,7 +1926,7 @@ S: Maintained
- F: hw/ssi/xilinx_*
+         rom = g_malloc(sizeof(*rom));
+         memory_region_init_ram_ptr(rom, NULL, "m68k_fake_mac.rom",
+@@ -632,13 +656,14 @@ static void q800_init(MachineState *machine)
+         memory_region_add_subregion(get_system_memory(), MACROM_ADDR, rom);
  
- SD (Secure Card)
--M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+M: Philippe Mathieu-Daudé <philmd@linaro.org>
- M: Bin Meng <bin.meng@windriver.com>
- L: qemu-block@nongnu.org
- S: Odd Fixes
-@@ -2233,14 +2233,14 @@ F: tests/qtest/vmgenid-test.c
- F: stubs/vmgenid.c
+         if (kernel_cmdline) {
+-            BOOTINFOSTR(cs->as, parameters_base, BI_COMMAND_LINE,
++            BOOTINFOSTR(param_ptr, BI_COMMAND_LINE,
+                         kernel_cmdline);
+         }
  
- LED
--M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+M: Philippe Mathieu-Daudé <philmd@linaro.org>
- S: Maintained
- F: include/hw/misc/led.h
- F: hw/misc/led.c
+         /* Pass seed to RNG. */
++        param_rng_seed = param_ptr;
+         qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
+-        BOOTINFODATA(cs->as, parameters_base, BI_RNG_SEED,
++        BOOTINFODATA(param_ptr, BI_RNG_SEED,
+                      rng_seed, sizeof(rng_seed));
  
- Unimplemented device
- M: Peter Maydell <peter.maydell@linaro.org>
--R: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+R: Philippe Mathieu-Daudé <philmd@linaro.org>
- R: Ani Sinha <ani@anisinha.ca>
- S: Maintained
- F: include/hw/misc/unimp.h
-@@ -2248,7 +2248,7 @@ F: hw/misc/unimp.c
+         /* load initrd */
+@@ -653,13 +678,19 @@ static void q800_init(MachineState *machine)
+             initrd_base = (ram_size - initrd_size) & TARGET_PAGE_MASK;
+             load_image_targphys(initrd_filename, initrd_base,
+                                 ram_size - initrd_base);
+-            BOOTINFO2(cs->as, parameters_base, BI_RAMDISK, initrd_base,
++            BOOTINFO2(param_ptr, BI_RAMDISK, initrd_base,
+                       initrd_size);
+         } else {
+             initrd_base = 0;
+             initrd_size = 0;
+         }
+-        BOOTINFO0(cs->as, parameters_base, BI_LAST);
++        BOOTINFO0(param_ptr, BI_LAST);
++        rom_add_blob_fixed_as("bootinfo", param_blob, param_ptr - param_blob,
++                              parameters_base, cs->as);
++        reset_info->rng_seed = rom_ptr_for_as(cs->as, parameters_base,
++                                              param_ptr - param_blob) +
++                               (param_rng_seed - param_blob);
++        g_free(param_blob);
+     } else {
+         uint8_t *ptr;
+         /* allocate and load BIOS */
+diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
+index f7b903ea1b..89c4108eb5 100644
+--- a/hw/m68k/virt.c
++++ b/hw/m68k/virt.c
+@@ -89,6 +89,7 @@ typedef struct {
+     M68kCPU *cpu;
+     hwaddr initial_pc;
+     hwaddr initial_stack;
++    struct bi_record *rng_seed;
+ } ResetInfo;
  
- Empty slot
- M: Artyom Tarasenko <atar4qemu@gmail.com>
--R: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+R: Philippe Mathieu-Daudé <philmd@linaro.org>
- R: Ani Sinha <ani@anisinha.ca>
- S: Maintained
- F: include/hw/misc/empty_slot.h
-@@ -2312,13 +2312,13 @@ F: qemu-edid.c
+ static void main_cpu_reset(void *opaque)
+@@ -97,6 +98,11 @@ static void main_cpu_reset(void *opaque)
+     M68kCPU *cpu = reset_info->cpu;
+     CPUState *cs = CPU(cpu);
  
- PIIX4 South Bridge (i82371AB)
- M: Hervé Poussineau <hpoussin@reactos.org>
--M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+M: Philippe Mathieu-Daudé <philmd@linaro.org>
- S: Maintained
- F: hw/isa/piix4.c
- F: include/hw/southbridge/piix.h
++    if (reset_info->rng_seed) {
++        qemu_guest_getrandom_nofail((void *)reset_info->rng_seed->data + 2,
++            be16_to_cpu(*(uint16_t *)reset_info->rng_seed->data));
++    }
++
+     cpu_reset(cs);
+     cpu->env.aregs[7] = reset_info->initial_stack;
+     cpu->env.pc = reset_info->initial_pc;
+@@ -212,6 +218,13 @@ static void virt_init(MachineState *machine)
+     if (kernel_filename) {
+         CPUState *cs = CPU(cpu);
+         uint64_t high;
++        void *param_blob, *param_ptr, *param_rng_seed;
++
++        if (kernel_cmdline) {
++            param_blob = g_malloc(strlen(kernel_cmdline) + 1024);
++        } else {
++            param_blob = g_malloc(1024);
++        }
  
- Firmware configuration (fw_cfg)
--M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+M: Philippe Mathieu-Daudé <philmd@linaro.org>
- R: Gerd Hoffmann <kraxel@redhat.com>
- S: Supported
- F: docs/specs/fw_cfg.txt
-@@ -2374,13 +2374,13 @@ F: hw/intc/openpic.c
- F: include/hw/ppc/openpic.h
+         kernel_size = load_elf(kernel_filename, NULL, NULL, NULL,
+                                &elf_entry, NULL, &high, NULL, 1,
+@@ -222,35 +235,37 @@ static void virt_init(MachineState *machine)
+         }
+         reset_info->initial_pc = elf_entry;
+         parameters_base = (high + 1) & ~1;
++        param_ptr = param_blob;
  
- MIPS CPS
--M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+M: Philippe Mathieu-Daudé <philmd@linaro.org>
- S: Odd Fixes
- F: hw/misc/mips_*
- F: include/hw/misc/mips_*
+-        BOOTINFO1(cs->as, parameters_base, BI_MACHTYPE, MACH_VIRT);
+-        BOOTINFO1(cs->as, parameters_base, BI_FPUTYPE, FPU_68040);
+-        BOOTINFO1(cs->as, parameters_base, BI_MMUTYPE, MMU_68040);
+-        BOOTINFO1(cs->as, parameters_base, BI_CPUTYPE, CPU_68040);
+-        BOOTINFO2(cs->as, parameters_base, BI_MEMCHUNK, 0, ram_size);
++        BOOTINFO1(param_ptr, BI_MACHTYPE, MACH_VIRT);
++        BOOTINFO1(param_ptr, BI_FPUTYPE, FPU_68040);
++        BOOTINFO1(param_ptr, BI_MMUTYPE, MMU_68040);
++        BOOTINFO1(param_ptr, BI_CPUTYPE, CPU_68040);
++        BOOTINFO2(param_ptr, BI_MEMCHUNK, 0, ram_size);
  
- MIPS GIC
--M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+M: Philippe Mathieu-Daudé <philmd@linaro.org>
- S: Odd Fixes
- F: hw/intc/mips_gic.c
- F: hw/timer/mips_gictimer.c
-@@ -2462,7 +2462,7 @@ F: audio/alsaaudio.c
+-        BOOTINFO1(cs->as, parameters_base, BI_VIRT_QEMU_VERSION,
++        BOOTINFO1(param_ptr, BI_VIRT_QEMU_VERSION,
+                   ((QEMU_VERSION_MAJOR << 24) | (QEMU_VERSION_MINOR << 16) |
+                    (QEMU_VERSION_MICRO << 8)));
+-        BOOTINFO2(cs->as, parameters_base, BI_VIRT_GF_PIC_BASE,
++        BOOTINFO2(param_ptr, BI_VIRT_GF_PIC_BASE,
+                   VIRT_GF_PIC_MMIO_BASE, VIRT_GF_PIC_IRQ_BASE);
+-        BOOTINFO2(cs->as, parameters_base, BI_VIRT_GF_RTC_BASE,
++        BOOTINFO2(param_ptr, BI_VIRT_GF_RTC_BASE,
+                   VIRT_GF_RTC_MMIO_BASE, VIRT_GF_RTC_IRQ_BASE);
+-        BOOTINFO2(cs->as, parameters_base, BI_VIRT_GF_TTY_BASE,
++        BOOTINFO2(param_ptr, BI_VIRT_GF_TTY_BASE,
+                   VIRT_GF_TTY_MMIO_BASE, VIRT_GF_TTY_IRQ_BASE);
+-        BOOTINFO2(cs->as, parameters_base, BI_VIRT_CTRL_BASE,
++        BOOTINFO2(param_ptr, BI_VIRT_CTRL_BASE,
+                   VIRT_CTRL_MMIO_BASE, VIRT_CTRL_IRQ_BASE);
+-        BOOTINFO2(cs->as, parameters_base, BI_VIRT_VIRTIO_BASE,
++        BOOTINFO2(param_ptr, BI_VIRT_VIRTIO_BASE,
+                   VIRT_VIRTIO_MMIO_BASE, VIRT_VIRTIO_IRQ_BASE);
  
- Core Audio framework backend
- M: Gerd Hoffmann <kraxel@redhat.com>
--M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+M: Philippe Mathieu-Daudé <philmd@linaro.org>
- R: Christian Schoenebeck <qemu_oss@crudebyte.com>
- R: Akihiko Odaki <akihiko.odaki@gmail.com>
- S: Odd Fixes
-@@ -2687,7 +2687,7 @@ F: scripts/coccinelle/errp-guard.cocci
+         if (kernel_cmdline) {
+-            BOOTINFOSTR(cs->as, parameters_base, BI_COMMAND_LINE,
++            BOOTINFOSTR(param_ptr, BI_COMMAND_LINE,
+                         kernel_cmdline);
+         }
  
- GDB stub
- M: Alex Bennée <alex.bennee@linaro.org>
--R: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+R: Philippe Mathieu-Daudé <philmd@linaro.org>
- S: Maintained
- F: gdbstub/*
- F: include/exec/gdbstub.h
-@@ -2698,7 +2698,7 @@ Memory API
- M: Paolo Bonzini <pbonzini@redhat.com>
- M: Peter Xu <peterx@redhat.com>
- M: David Hildenbrand <david@redhat.com>
--R: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+R: Philippe Mathieu-Daudé <philmd@linaro.org>
- S: Supported
- F: include/exec/ioport.h
- F: include/exec/memop.h
-@@ -2748,7 +2748,7 @@ F: util/drm.c
+         /* Pass seed to RNG. */
++        param_rng_seed = param_ptr;
+         qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
+-        BOOTINFODATA(cs->as, parameters_base, BI_RNG_SEED,
++        BOOTINFODATA(param_ptr, BI_RNG_SEED,
+                      rng_seed, sizeof(rng_seed));
  
- Cocoa graphics
- M: Peter Maydell <peter.maydell@linaro.org>
--M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+M: Philippe Mathieu-Daudé <philmd@linaro.org>
- R: Akihiko Odaki <akihiko.odaki@gmail.com>
- S: Odd Fixes
- F: ui/cocoa.m
-@@ -3231,14 +3231,14 @@ F: tests/qtest/max34451-test.c
- F: tests/qtest/isl_pmbus_vr-test.c
+         /* load initrd */
+@@ -265,13 +280,19 @@ static void virt_init(MachineState *machine)
+             initrd_base = (ram_size - initrd_size) & TARGET_PAGE_MASK;
+             load_image_targphys(initrd_filename, initrd_base,
+                                 ram_size - initrd_base);
+-            BOOTINFO2(cs->as, parameters_base, BI_RAMDISK, initrd_base,
++            BOOTINFO2(param_ptr, BI_RAMDISK, initrd_base,
+                       initrd_size);
+         } else {
+             initrd_base = 0;
+             initrd_size = 0;
+         }
+-        BOOTINFO0(cs->as, parameters_base, BI_LAST);
++        BOOTINFO0(param_ptr, BI_LAST);
++        rom_add_blob_fixed_as("bootinfo", param_blob, param_ptr - param_blob,
++                              parameters_base, cs->as);
++        reset_info->rng_seed = rom_ptr_for_as(cs->as, parameters_base,
++                                              param_ptr - param_blob) +
++                               (param_rng_seed - param_blob);
++        g_free(param_blob);
+     }
+ }
  
- Firmware schema specifications
--M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+M: Philippe Mathieu-Daudé <philmd@linaro.org>
- R: Daniel P. Berrange <berrange@redhat.com>
- R: Kashyap Chamarthy <kchamart@redhat.com>
- S: Maintained
- F: docs/interop/firmware.json
- 
- EDK2 Firmware
--M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+M: Philippe Mathieu-Daudé <philmd@linaro.org>
- M: Gerd Hoffmann <kraxel@redhat.com>
- S: Supported
- F: hw/i386/*ovmf*
-@@ -3349,7 +3349,7 @@ S: Maintained
- F: tcg/loongarch64/
- 
- MIPS TCG target
--M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+M: Philippe Mathieu-Daudé <philmd@linaro.org>
- R: Aurelien Jarno <aurelien@aurel32.net>
- R: Huacai Chen <chenhuacai@kernel.org>
- R: Jiaxun Yang <jiaxun.yang@flygoat.com>
-@@ -3472,7 +3472,7 @@ F: block/null.c
- NVMe Block Driver
- M: Stefan Hajnoczi <stefanha@redhat.com>
- R: Fam Zheng <fam@euphon.net>
--R: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+R: Philippe Mathieu-Daudé <philmd@linaro.org>
- L: qemu-block@nongnu.org
- S: Supported
- F: block/nvme*
-@@ -3691,7 +3691,7 @@ Build and test automation
- -------------------------
- Build and test automation, general continuous integration
- M: Alex Bennée <alex.bennee@linaro.org>
--M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+M: Philippe Mathieu-Daudé <philmd@linaro.org>
- M: Thomas Huth <thuth@redhat.com>
- R: Wainer dos Santos Moschetta <wainersm@redhat.com>
- R: Beraldo Leal <bleal@redhat.com>
-@@ -3724,7 +3724,7 @@ W: https://cirrus-ci.com/github/qemu/qemu
- 
- Guest Test Compilation Support
- M: Alex Bennée <alex.bennee@linaro.org>
--R: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+R: Philippe Mathieu-Daudé <philmd@linaro.org>
- S: Maintained
- F: tests/tcg/Makefile
- F: tests/tcg/Makefile.include
-@@ -3732,7 +3732,7 @@ F: tests/tcg/Makefile.include
- Integration Testing with the Avocado framework
- W: https://trello.com/b/6Qi1pxVn/avocado-qemu
- R: Cleber Rosa <crosa@redhat.com>
--R: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+R: Philippe Mathieu-Daudé <philmd@linaro.org>
- R: Wainer dos Santos Moschetta <wainersm@redhat.com>
- R: Beraldo Leal <bleal@redhat.com>
- S: Odd Fixes
-@@ -3740,7 +3740,7 @@ F: tests/avocado/
- 
- GitLab custom runner (Works On Arm Sponsored)
- M: Alex Bennée <alex.bennee@linaro.org>
--M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+M: Philippe Mathieu-Daudé <philmd@linaro.org>
- S: Maintained
- F: .gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
- F: .gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml
 -- 
 2.37.3
 
