@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5A98601B04
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 23:09:34 +0200 (CEST)
-Received: from localhost ([::1]:37976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA9DF601B05
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 23:09:35 +0200 (CEST)
+Received: from localhost ([::1]:56852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okXMb-00016w-Vg
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 17:09:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59050)
+	id 1okXMc-00019J-Ox
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 17:09:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1okXIX-0003T8-LP
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 17:05:24 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42870)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1okXJ1-0003Wg-V1
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 17:05:55 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1okXIW-0001SQ-43
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 17:05:21 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id bp11so20390391wrb.9
- for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 14:05:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1okXIy-0001aB-P5
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 17:05:50 -0400
+Received: by mail-wr1-x435.google.com with SMTP id bv10so20419874wrb.4
+ for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 14:05:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Mm9ZNA55oBmFJKRLFyg+CqkOyFyYte7z4MaQiLXG9Y4=;
- b=utCfxaUBLovNrk3YXE8Oj4jcN63nMzeNRdJ5D5HgTbI1bkhDMw3FC0P9v6t47+DhTP
- ia2+ARKNklw6EVHZIM1u4zZTNl9XBtkANf4lLeihoZdgKjQGxGF1F1eNThJmJloEzs7i
- d1bBZviHOH16rzCmGFh3KECaB3K4CBnxlIp5wW0oaQlZKaaJB1bYbmGDwXu1BVghNiXd
- gAYoD23OoHm4TkR3azd68aOyy8J6c3O3/JwxXkvalpUdg8qhEAhsgFt2JEoIyn09igZC
- cc7fZRieJ64VsS5H/ycuiFDDdV1eOjki86KCF3X3FXogZoColFD4xH0NOe0AQYnkPQFM
- EQDw==
+ bh=NF2CjD1sTffiqG8cR0LNgoNBcMtRKuvDEuphPp5k3VA=;
+ b=OIIZKfjJWA189xMYmGnoy04bSgkQDLvjeUffVYEm1TOR47vpfgJrq01NemyVfHFsVD
+ h7NitmbIj/tBgf9F3J29QgAlIAYCAUYwquq+tO0WqSbIiBIzYweN2vpYXiqUXgz5blmm
+ iHn6EzF7ztqclCuAHafGMgyYVnk/iHSRnxw+7TLHFSYQ3SuZBiDi2CAFujZt0Gj92dUf
+ m5RxEmISIl1hRSG/fAf6gLERkwcg2KwnPSLPI0sFkfRT0h5Z8LM8/pP5PyLSHJE9RuZH
+ jJ7l4jYkU46KF6Ruob67Es3gndgXOrSTNoGX6BPtW/H0Bf6byUue7ddjcBng2FCYD35M
+ 6WGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Mm9ZNA55oBmFJKRLFyg+CqkOyFyYte7z4MaQiLXG9Y4=;
- b=VUuh73giwWT9zI+iiP1P7GL9ntvYrOAYNwXIzrtC2nlaJUlefn2WOXkbwOv6raJGBZ
- +nt5yX9N4H6WbaJsrL9k255cZ6magCXKxIFKDldCNCOsY9eNJlbN2wL2iRKSpy6kxkl4
- i2B3/kQszRP6/m7PlwggCgNGu5mtcqi+sCoTQP3W498Cxr9JTBpLuFhlPpVxNkYAmcF+
- N6LPvAt63ZVKK8e3Ol0qfcgEqDPAj1cg+uH5Z2uYOzCG/oKoJGF4vGwk9b0rDbej40UM
- J68rPgZw/MMzTDVHvsikb0yCP+zSguBh0JkjZ2OFFuJXwhizMCmbzru0/TxpsH+EaNZ4
- sUcg==
-X-Gm-Message-State: ACrzQf1wc12Kgrm4DmGCSuPMSs2iCAyHg6Q6t2iu+cI6UH2I4QU0l29t
- 13Ly/bNHS+04U/4IrmaWl0ihBA==
-X-Google-Smtp-Source: AMsMyM7sL1AGbB9AjfDz+XetD90veYH5sxQD9GnP+oZiNpETm/TIHQxdtMAdwxcJKijQVp0t6+BwPQ==
-X-Received: by 2002:a05:6000:1a87:b0:22e:580d:9cee with SMTP id
- f7-20020a0560001a8700b0022e580d9ceemr7009031wry.608.1666040718143; 
- Mon, 17 Oct 2022 14:05:18 -0700 (PDT)
+ bh=NF2CjD1sTffiqG8cR0LNgoNBcMtRKuvDEuphPp5k3VA=;
+ b=Ugh9ruY9eLo7L3u8nd51Lh9WFDTpfIwaVK7nh9+OwdsiyL8dRfrEr9swc4yA1HFDU/
+ mKu9gT88lIHfJSBKHYn8Yd69fqu/ESL2Gn1T4IG0sIUFo7vkn1JxF+BksQIOa46XiuHm
+ 0nmu0R5O0ineBIAVpsgN0z/sfSvroi6+7aTkeyH/74RhU/5dP6ucBUDMFqCpnhE/AuQ4
+ 3gpvDEmG/5Pze1z8lAVZ6HC8Tap0MwuOMq8MPemYVs5Ea0AIguStvl9dgo/PnMJ0KizZ
+ qdcAOod8oBHPV86XrY0exiSXRJjCxBZiZYn5A+tU5wlFTubqnG9xjxk52P2lAupDjcnP
+ OY5A==
+X-Gm-Message-State: ACrzQf2DB4pk4+Ve2SDAThn9wCddjHQouPO5NGtLl39MZG7WciKb0sc/
+ IxoK+cfHOZixC8sPUxHpZnO5NQ==
+X-Google-Smtp-Source: AMsMyM7kODA848wxTgIr6FV6MC9Y7odnn12V4ZEGcuRN3HlGp+OhK4yK8Jty19PYp1kvluhDvYSnnw==
+X-Received: by 2002:a5d:6c6c:0:b0:22e:409c:90b3 with SMTP id
+ r12-20020a5d6c6c000000b0022e409c90b3mr6973223wrz.146.1666040747279; 
+ Mon, 17 Oct 2022 14:05:47 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- t8-20020a5d5348000000b0022ac119fcc5sm9236021wrv.60.2022.10.17.14.05.17
+ f16-20020a05600c155000b003a3442f1229sm3440102wmg.29.2022.10.17.14.05.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Oct 2022 14:05:17 -0700 (PDT)
-Message-ID: <b093ee20-7f66-cc51-ae3c-ff785eb955ca@linaro.org>
-Date: Mon, 17 Oct 2022 23:05:16 +0200
+ Mon, 17 Oct 2022 14:05:46 -0700 (PDT)
+Message-ID: <6b81eb39-836b-914c-934f-4b28cd8dc0f9@linaro.org>
+Date: Mon, 17 Oct 2022 23:05:45 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.1
-Subject: Re: [PATCH 1/2] hw/audio/intel-hda: don't reset codecs twice
+Subject: Re: [PATCH 2/2] hw/audio/intel-hda: Drop unnecessary prototype
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 References: <20221014142632.2092404-1-peter.maydell@linaro.org>
- <20221014142632.2092404-2-peter.maydell@linaro.org>
+ <20221014142632.2092404-3-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221014142632.2092404-2-peter.maydell@linaro.org>
+In-Reply-To: <20221014142632.2092404-3-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,29 +93,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 14/10/22 16:26, Peter Maydell wrote:
-> Currently the intel-hda device has a reset method which manually
-> resets all the codecs by calling device_legacy_reset() on them.  This
-> means they get reset twice, once because child devices on a qbus get
-> reset before the parent device's reset method is called, and then
-> again because we're manually resetting them.
-> 
-> Drop the manual reset call, and ensure that codecs are still reset
-> when the guest does a reset via ICH6_GCTL_RESET by using
-> device_cold_reset() (which resets all the devices on the qbus as well
-> as the device itself) instead of a direct call to the reset function.
-> 
-> This is a slight ordering change because the (only) codec reset now
-> happens before the controller registers etc are reset, rather than
-> once before and then once after, but the codec reset function
-> hda_audio_reset() doesn't care.
-> 
-> This lets us drop a use of device_legacy_reset(), which is
-> deprecated.
+> The only use of intel_hda_reset() is after its definition, so we
+> don't need to separately declare its prototype at the top of the
+> file; drop the unnecessary line.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   hw/audio/intel-hda.c | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
+>   hw/audio/intel-hda.c | 2 --
+>   1 file changed, 2 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
