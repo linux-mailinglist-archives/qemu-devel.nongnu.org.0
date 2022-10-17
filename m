@@ -2,104 +2,135 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4484600973
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 10:56:09 +0200 (CEST)
-Received: from localhost ([::1]:41252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02B516009CE
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 11:02:25 +0200 (CEST)
+Received: from localhost ([::1]:46576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okLuq-0004Nb-NP
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 04:56:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39134)
+	id 1okM0u-0003QK-1M
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 05:02:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1okLf8-0008Gf-50; Mon, 17 Oct 2022 04:39:58 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:63822
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <JBeulich@suse.com>) id 1okLnf-0001oE-38
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 04:48:45 -0400
+Received: from mail-db3eur04on0614.outbound.protection.outlook.com
+ ([2a01:111:f400:fe0c::614]:27012
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1okLf0-0003gT-H4; Mon, 17 Oct 2022 04:39:53 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29H7BUDJ032162;
- Mon, 17 Oct 2022 08:39:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=SWbZ7HJ/5O/laHrYC9DJdoVQc8ZuhfD8aMa6RHnEcG0=;
- b=O5CLTPu9a9ApZ1zMmYnVWHIobcRtOsjnJ4xl21WQEG9JKLmBE4MX1iOiZZL+x6qWDXxT
- GxIEQGW7ZpIpZ6xopqPuLZOQnDhfftALssRTOTzKvbRAaq8dvNly/DV8bXxH8EsHwGGT
- mM6u1ADV4wwxSeXWFHBdX4tiJOg6B1UV0tmh6soRbf8CUf+frOATp13IeE4Eq0sXtuoM
- Aeis4NOgq0JE9JIoc45lGSMeY/6+i5kIUWbE7YjzB8PShWBzuec8PohHKf1jI1GBJ9we
- A0+TtASZWoLFdwdBt3UWdpELB4s1ATDY7w6jr0MoLUf5JcY5luoTx7jO0O+Ka70o/JnC EQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3k86x8953h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Oct 2022 08:39:44 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29H8aWGv009468;
- Mon, 17 Oct 2022 08:39:43 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3k86x8952g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Oct 2022 08:39:43 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29H8bALO007748;
- Mon, 17 Oct 2022 08:39:42 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma04fra.de.ibm.com with ESMTP id 3k7mg920jd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 17 Oct 2022 08:39:41 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 29H8dcDt41353514
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Oct 2022 08:39:38 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BFA46A4040;
- Mon, 17 Oct 2022 08:39:38 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 94263A404D;
- Mon, 17 Oct 2022 08:39:37 +0000 (GMT)
-Received: from linux6.. (unknown [9.114.12.104])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 17 Oct 2022 08:39:37 +0000 (GMT)
-From: Janosch Frank <frankja@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
- borntraeger@linux.ibm.com, imbrenda@linux.ibm.com, pasic@linux.ibm.com,
- cohuck@redhat.com, thuth@redhat.com, qemu-s390x@nongnu.org,
- seiden@linux.ibm.com, scgl@linux.ibm.com
-Subject: [PATCH v6 10/10] s390x: pv: Add dump support
-Date: Mon, 17 Oct 2022 08:38:22 +0000
-Message-Id: <20221017083822.43118-11-frankja@linux.ibm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221017083822.43118-1-frankja@linux.ibm.com>
-References: <20221017083822.43118-1-frankja@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <JBeulich@suse.com>) id 1okLnc-00054S-EJ
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 04:48:42 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=H8avUDc30eKOL4QlEhe2aqH74Bbxm/pCUSUBgfcYoYjv9V3zx8XCsmnMtmONVPfPftzcTiLbQHK+4h95OP4AZsh8kEyXfchx2wahiyC2hmdSwYxfVW3kvDzJyL8QZCD2i+Voy19zoxWNcOgtdYu4+OKRWmnd8RhknyPvZ4QIVgdo5T+4pn0r1Fs6qc1vCTu55+83TsyzsvSCJwKQE+gq80/FChXvMubi89tYRxDe9qMoscyP4Kzxz7MHpRMuEcuDz2xG+RwHuOM4kDcBfvf2RnimAhCRn88iREJQtF8Ov5eJ85LF4nPKWS/yqFmus9sx+5zCCPRaVOrHv0tdl3klOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=my6NE2jctkUT5juoBWQqP9FyXBIIo4bZ4t/oX3Q0Jxk=;
+ b=DluDQJBP7AbnutYGmZCCwfUY3oZzI2PGDhVghB4Yez9O9eVkSH2OFXUa3MTfgFHLntQHXIrXvU1jdCG++zYlIrK+SWNFZgPTFhviverRu4QnBXeo/zMIekcgtjBldDNYnfER/GZMn2oBlBDmPA1RRqs+bUeGT+kA5+dnSE8tgedCXw7RJCS1mXUjrzkp+i0XfOA9ht4GTdDV8I+12O9K0KSWqyuwFiEvbXf+iZ052R3vWtYFOgVnO5oipkysOSddtD2K54Tn4jNWu0ZHG11zdg9+URL2rK/CXQ7I253cQIl0CvuNUKToSHEcXTCqk0IjogoJMRYbY9EBpcWuXNYwKQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=my6NE2jctkUT5juoBWQqP9FyXBIIo4bZ4t/oX3Q0Jxk=;
+ b=q4593l3bk27UeEu+9vqOtpaFAudM2PtfDzR3jTJLHXIgnoRbwCbpGjauz19rqTdNAS9efWU7nQ9G4r93MiTeE//8q3wHo4AgbmLZBe47TU1ZHhX1OIOy4tHwoOW5jvo4df1S3iHzaDF4GQ6+8xzJXA+aqKkum4SdQy9h/XSPjZv3YN7u6TaG27G6J2zsFIWLnf0ZG4NrsYrZoqGgsMYXhHgheMEZzQa0Hj+ENH2o3niSceTx4eDWSFaFon/dX1NxAMgIuyArmm9xSOThqvGUB8JkUFJ+EaE51XL3F/XcXujlVGBexu1Fo5Q4IHXLFturhgHvxVSB6VdW2s+oQvmPSw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=suse.com;
+Received: from VE1PR04MB6560.eurprd04.prod.outlook.com (2603:10a6:803:122::25)
+ by VI1PR04MB6830.eurprd04.prod.outlook.com (2603:10a6:803:132::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.26; Mon, 17 Oct
+ 2022 08:43:35 +0000
+Received: from VE1PR04MB6560.eurprd04.prod.outlook.com
+ ([fe80::2459:15ae:e6cb:218a]) by VE1PR04MB6560.eurprd04.prod.outlook.com
+ ([fe80::2459:15ae:e6cb:218a%7]) with mapi id 15.20.5723.033; Mon, 17 Oct 2022
+ 08:43:34 +0000
+Message-ID: <1b3d21a2-9029-6f3a-0579-e08682814222@suse.com>
+Date: Mon, 17 Oct 2022 10:43:35 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [BUG] Xen build error - undefined reference to
+ bpf_program__set_socket_filter
+Content-Language: en-US
+To: Arthur Borsboom <arthurborsboom@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <CALUcmU=x3Vok0oaR-ic3djkgnVG9rxWa3KjWC1xq1KwMXpBBGw@mail.gmail.com>
+Cc: xen-devel <xen-devel@lists.xen.org>
+From: Jan Beulich <jbeulich@suse.com>
+In-Reply-To: <CALUcmU=x3Vok0oaR-ic3djkgnVG9rxWa3KjWC1xq1KwMXpBBGw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0129.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:97::15) To VE1PR04MB6560.eurprd04.prod.outlook.com
+ (2603:10a6:803:122::25)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: dDGjDOSQGr6YSswiremxwDj7JhABu0sc
-X-Proofpoint-GUID: A758_vVGN9AAR7eWXamEqBEVCjg9otr9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-17_06,2022-10-17_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxlogscore=999
- spamscore=0 adultscore=0 priorityscore=1501 suspectscore=0
- lowpriorityscore=0 clxscore=1015 malwarescore=0 bulkscore=0
- impostorscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210170049
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VE1PR04MB6560:EE_|VI1PR04MB6830:EE_
+X-MS-Office365-Filtering-Correlation-Id: a2cff02f-076d-4810-69ad-08dab01bad7c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Hz7VQKp7kQd0K3jXNA9nHVGrzGKZOLUlDvqDIpfxe+qi71ahnwGyvuzGBIOnDTS2ZhZ6MHrZxBULycmBPsBWZ86+CNKMJo546VgurpTPxvQ1iohsL1MuO4RpblGDdhQyJdkmsVDGJX1nmmAJTGXiA8hJnIqp6BzJhUzZ+nB0CgoooYH+gAk4Y8xFkboKOWe4Rek2Hu3+tilkX6Tzc9BFyVMycnrJbcpXoMTgQhZmYbXRiiNmzkx3+G8/HBZmLweYcNYTzRbiSg743ArCXAQUMQPV/gYzBh3IUl7L48qo4gasIbKXFMBSbsJprjhIh4JNlSTSWGWylj85Etd4bQd1JNTDMY0X+Bn4l2wt/W/YsLoXmOk3l6K0HYS6NoJXbhR3yXG2IzfppXtVmRh63NihNRg1Ltgm07UI8M+fsM025RSt7LZ6VZtNodPCEu6+2ipMRqUfRKOG3zl9NGhxlhiglC+od2l84/O1rj8tWr9NPlysCVf2y10fQTgpShceb4meocjHjj05agaR8SmpShHbMokdYyX0bdJq3FLiP3X/jJQ6bD3qjzAYvv5okzl/E+yDsxHyL73OSinsWzlg/SX8TyRNQqh/2/Pbsh2D6VaIKBJ9+LqDtS8MsJXkGcNG+qgh/soJY2z0Hi7s2KF7IqPPFtFzXH4K7sF0x5KFML+3X7vNHz03nCUT+cvIoSiMgydg7BL16qXRRk1FHwmyMWxvqlgcOcTXA5b2BVobdFVYlFg7uZDva7aQqg24CGsbrcRbn7GIIrUJrWMAYVHc/2lPXg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VE1PR04MB6560.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(396003)(366004)(346002)(376002)(136003)(39850400004)(451199015)(53546011)(83380400001)(41300700001)(36756003)(8936002)(6506007)(5660300002)(2616005)(38100700002)(186003)(6512007)(2906002)(26005)(31696002)(31686004)(966005)(6486002)(478600001)(66556008)(66476007)(316002)(66946007)(4326008)(8676002)(86362001)(110136005)(101420200003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MXVlbzlTR3JpT0dtSHNIM1VaR2NVMkJMWFlOWko0U2IwTWdRRitIV3pPamhP?=
+ =?utf-8?B?THlwVFF3eVNYUUQxM1FxeFozMXZSRFBXU09QTkZaR0NpeVhiYzlSQ3Q5a01U?=
+ =?utf-8?B?ZCtvVEJXMS9lMVlLRFV1TlpUMk5ReXhHSTVZOGFwQm5JQlN6RUpqK2FiMXh5?=
+ =?utf-8?B?UDBndXE1bVZxTkR5aWtuTTlIZ0lDMUFSdlRocjZYMUwySktwMVFDQjYvNWxl?=
+ =?utf-8?B?UE5ZbE5peE5zYlVqUGxLa2QzeEZkTkd1UUpwSWpxMGFoTjEya1lNL1Z3WkRC?=
+ =?utf-8?B?L3NUT3VFZXN5U1Vzblg5akJHL21UNkorUXZtblZTOFNQN0xKK0xPVnlZN3Vt?=
+ =?utf-8?B?MDNXbEcxcHFtRVN0bURiL2huNVVtY1FsRTUveWdrTWZra0p5aDVoSkVmRXNQ?=
+ =?utf-8?B?azI1WVlCRnNtZjBsa3RNd2NmZFRjQUhUcjB3WW1iZUZ0eFBZUEFabjZremlu?=
+ =?utf-8?B?ZGlaa2xhYmI1cFU5MHU0UW1YU2wwK0RWMTdjdkMrNnAvWG1Zd1V0dWUwTDBu?=
+ =?utf-8?B?VDFSbEs0WmgvRUJXRjVxdklDOG1rMFhVV1FVSnFyWnF4MGp6OXQ0Rkp4RVR1?=
+ =?utf-8?B?OHNaM1VlTzFPNzhMblViRlpKYk1yWkpkTnJ6OHBxNDZla0VrRnFkSzN5KytC?=
+ =?utf-8?B?NTRxa0c2c2dRdnNjSHdtV09RVDlzYW5veXgyRW16TUsrTWRGaHZyWE5yYkha?=
+ =?utf-8?B?dStWU0tCQkRkQ3NXdTFlMW1KY0pBYkdpUEx6NUtUK1VCblFWOTJpaWM5TGdN?=
+ =?utf-8?B?QUordWJqMm1wcklURmVqbUtEeGwwRnNyam1maS9jeUl3azY1YlFlbHMzRGI1?=
+ =?utf-8?B?OUk1dlZuTGZka3hzR203NWx0cmZuMW5iTjNucEV4cVRwMVp0UlRGTHh3OGZ3?=
+ =?utf-8?B?UDRKUnA1elQwZzZrQmNNS1VOellveU01ZVpNTStpSjlSQVZGaXlCMjZubUUy?=
+ =?utf-8?B?TkIzMVV5TVhlZGpzdUtodVhXK1JpQkRCVWIzRW9BckpGM0paZHhucGdXTkJy?=
+ =?utf-8?B?cjlFK3JsTHdPU2RjeWdzQnVaVlBxSS9hWVZTYnBabTNkUTZEcnhNenhnYmR4?=
+ =?utf-8?B?UFhSbnBYQ2NDUVQ1dUlRc1NhSWkzN0k0NFJWbkt2bkRWbTBzV2tDTG1Cd0RT?=
+ =?utf-8?B?NnFXV2JrUzhFaXdyaXdWQ3FUcTgyYklWaU13clZQUkhjbjhhbmJJdTZrNVZW?=
+ =?utf-8?B?RXgvR2R6SHpVbmpSaGw2N0tSSHVDakN5NTg3a3dFaDZ6UjZKZmd3Wm8xTHhy?=
+ =?utf-8?B?ZEFMU3lyL2Z3d1FOQXFOTG0zeU5xNUwyaUY1YXMxTG54dHBXdjI2RWdhNzNp?=
+ =?utf-8?B?OUZxc1prMWJUSml3YnBXUzNwMmRMem9nRFd0TFQ3NlkxKzU4VTk3K091T0p3?=
+ =?utf-8?B?MnVRL0FWVklYcHRRdEw0M3pmZXg1OUwxMSsya2FBUm1RamhiVmxsRmxwajlE?=
+ =?utf-8?B?R0p5ek45bGpybjQ2TUNpSmtqV1VIMG93Y0draHgyY3pjcmN4SEd6eHBVUy82?=
+ =?utf-8?B?bFk5NkpBejJqamZzekxWMmErVGJSRU1JQ0FQL1Y4dm9OUFdhcnlLN3FqYndj?=
+ =?utf-8?B?NjNzbmxiU1dWWFlsaWs2YWQzUWdMWWJEdlI0R0swdUZ3WGFRK0tkMkZaaGhQ?=
+ =?utf-8?B?aGV4T2xsb1R6UnB0dlZBWWlHUk84SEJEaU1PSW83N0MxdUxuRmRKZUllV2gv?=
+ =?utf-8?B?amd5K09LV0V4WVUydHhQSmJ1TFRRQXc4U3Y5WG5lQm90YkZvOEhJVXh1RTFt?=
+ =?utf-8?B?alNVWlQ5c3o4OXFIQWs1allQYUs5Wlgzc0R0YWxJT3hGbnRVcitFK0NnOVhx?=
+ =?utf-8?B?SGVzcjkrcTY1WG9CV1haeTJra1JBazNkT1NFUVNtT3hDUnNtbVFwcFQ2dDZn?=
+ =?utf-8?B?TjEzeUNQcG9wdVhZQTZsSzhpcnEvMk1QcHE3M3hQamFrVkl6QXVmOVFLUHNT?=
+ =?utf-8?B?OEpHZjE4cmVwZzg3blgzM0lpWWtPTXY4alRweHJYWFdEMG9TY2FEbWc3OUZj?=
+ =?utf-8?B?R3MzYlZ2WVNBWjI4QUJwMnhkMnJML0h6ZDc3NU0vNWxoYjZjeE9YUElRbkt4?=
+ =?utf-8?B?V0o0L1ZpVW8rMkFpcjJ0TzN6NUxJeFA5eDdaMnRXc0pUQ2YzNXVHMlZhVEpY?=
+ =?utf-8?Q?J/t6tCzTKWeKjefCB12kFfkCh?=
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a2cff02f-076d-4810-69ad-08dab01bad7c
+X-MS-Exchange-CrossTenant-AuthSource: VE1PR04MB6560.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2022 08:43:34.8657 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bu9sZN2OIkvKGs58IguQlBxySAszoUQakjjWCo47nvCBV5qQl7idnZl8R89X97tPZqfYvAUDC3DDBC7oWXF4kg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6830
+Received-SPF: pass client-ip=2a01:111:f400:fe0c::614;
+ envelope-from=JBeulich@suse.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,429 +146,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sometimes dumping a guest from the outside is the only way to get the
-data that is needed. This can be the case if a dumping mechanism like
-KDUMP hasn't been configured or data needs to be fetched at a specific
-point. Dumping a protected guest from the outside without help from
-fw/hw doesn't yield sufficient data to be useful. Hence we now
-introduce PV dump support.
+On 17.10.2022 10:12, Arthur Borsboom wrote:
+> Xen 4.16.1, 4.16.2 and 4.17.0-rc1 don't build anymore in Arch Linux.
 
-The PV dump support works by integrating the firmware into the dump
-process. New Ultravisor calls are used to initiate the dump process,
-dump cpu data, dump memory state and lastly complete the dump process.
-The UV calls are exposed by KVM via the new KVM_PV_DUMP command and
-its subcommands. The guest's data is fully encrypted and can only be
-decrypted by the entity that owns the customer communication key for
-the dumped guest. Also dumping needs to be allowed via a flag in the
-SE header.
+That is, qemu doesn't build. That's something to be taken care of there,
+not in Xen, I think.
 
-On the QEMU side of things we store the PV dump data in the newly
-introduced architecture ELF sections (storage state and completion
-data) and the cpu notes (for cpu dump data).
+Jan
 
-Users can use the zgetdump tool to convert the encrypted QEMU dump to an
-unencrypted one.
-
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
----
- dump/dump.c              |  12 +-
- include/sysemu/dump.h    |   5 +
- target/s390x/arch_dump.c | 262 +++++++++++++++++++++++++++++++++++----
- 3 files changed, 246 insertions(+), 33 deletions(-)
-
-diff --git a/dump/dump.c b/dump/dump.c
-index b5bc4f7119..9feaf0e238 100644
---- a/dump/dump.c
-+++ b/dump/dump.c
-@@ -708,9 +708,9 @@ static void dump_begin(DumpState *s, Error **errp)
-     write_elf_notes(s, errp);
- }
- 
--static int64_t dump_filtered_memblock_size(GuestPhysBlock *block,
--                                           int64_t filter_area_start,
--                                           int64_t filter_area_length)
-+int64_t dump_filtered_memblock_size(GuestPhysBlock *block,
-+                                    int64_t filter_area_start,
-+                                    int64_t filter_area_length)
- {
-     int64_t size, left, right;
- 
-@@ -728,9 +728,9 @@ static int64_t dump_filtered_memblock_size(GuestPhysBlock *block,
-     return size;
- }
- 
--static int64_t dump_filtered_memblock_start(GuestPhysBlock *block,
--                                            int64_t filter_area_start,
--                                            int64_t filter_area_length)
-+int64_t dump_filtered_memblock_start(GuestPhysBlock *block,
-+                                     int64_t filter_area_start,
-+                                     int64_t filter_area_length)
- {
-     if (filter_area_length) {
-         /* return -1 if the block is not within filter area */
-diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
-index 38ccac7190..4ffed0b659 100644
---- a/include/sysemu/dump.h
-+++ b/include/sysemu/dump.h
-@@ -215,4 +215,9 @@ typedef struct DumpState {
- uint16_t cpu_to_dump16(DumpState *s, uint16_t val);
- uint32_t cpu_to_dump32(DumpState *s, uint32_t val);
- uint64_t cpu_to_dump64(DumpState *s, uint64_t val);
-+
-+int64_t dump_filtered_memblock_size(GuestPhysBlock *block, int64_t filter_area_start,
-+                                    int64_t filter_area_length);
-+int64_t dump_filtered_memblock_start(GuestPhysBlock *block, int64_t filter_area_start,
-+                                     int64_t filter_area_length);
- #endif
-diff --git a/target/s390x/arch_dump.c b/target/s390x/arch_dump.c
-index f60a14920d..a2329141e8 100644
---- a/target/s390x/arch_dump.c
-+++ b/target/s390x/arch_dump.c
-@@ -12,11 +12,13 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/units.h"
- #include "cpu.h"
- #include "s390x-internal.h"
- #include "elf.h"
- #include "sysemu/dump.h"
--
-+#include "hw/s390x/pv.h"
-+#include "kvm/kvm_s390x.h"
- 
- struct S390xUserRegsStruct {
-     uint64_t psw[2];
-@@ -76,9 +78,16 @@ typedef struct noteStruct {
-         uint64_t todcmp;
-         uint32_t todpreg;
-         uint64_t ctrs[16];
-+        uint8_t dynamic[1];  /*
-+                              * Would be a flexible array member, if
-+                              * that was legal inside a union. Real
-+                              * size comes from PV info interface.
-+                              */
-     } contents;
- } QEMU_PACKED Note;
- 
-+static bool pv_dump_initialized;
-+
- static void s390x_write_elf64_prstatus(Note *note, S390CPU *cpu, int id)
- {
-     int i;
-@@ -177,28 +186,39 @@ static void s390x_write_elf64_prefix(Note *note, S390CPU *cpu, int id)
-     note->contents.prefix = cpu_to_be32((uint32_t)(cpu->env.psa));
- }
- 
-+static void s390x_write_elf64_pv(Note *note, S390CPU *cpu, int id)
-+{
-+    note->hdr.n_type = cpu_to_be32(NT_S390_PV_CPU_DATA);
-+    if (!pv_dump_initialized) {
-+        return;
-+    }
-+    kvm_s390_dump_cpu(cpu, &note->contents.dynamic);
-+}
- 
- typedef struct NoteFuncDescStruct {
-     int contents_size;
-+    uint64_t (*note_size_func)(void); /* NULL for non-dynamic sized contents */
-     void (*note_contents_func)(Note *note, S390CPU *cpu, int id);
-+    bool pvonly;
- } NoteFuncDesc;
- 
- static const NoteFuncDesc note_core[] = {
--    {sizeof_field(Note, contents.prstatus), s390x_write_elf64_prstatus},
--    {sizeof_field(Note, contents.fpregset), s390x_write_elf64_fpregset},
--    { 0, NULL}
-+    {sizeof_field(Note, contents.prstatus), NULL, s390x_write_elf64_prstatus, false},
-+    {sizeof_field(Note, contents.fpregset), NULL, s390x_write_elf64_fpregset, false},
-+    { 0, NULL, NULL, false}
- };
- 
- static const NoteFuncDesc note_linux[] = {
--    {sizeof_field(Note, contents.prefix),   s390x_write_elf64_prefix},
--    {sizeof_field(Note, contents.ctrs),     s390x_write_elf64_ctrs},
--    {sizeof_field(Note, contents.timer),    s390x_write_elf64_timer},
--    {sizeof_field(Note, contents.todcmp),   s390x_write_elf64_todcmp},
--    {sizeof_field(Note, contents.todpreg),  s390x_write_elf64_todpreg},
--    {sizeof_field(Note, contents.vregslo),  s390x_write_elf64_vregslo},
--    {sizeof_field(Note, contents.vregshi),  s390x_write_elf64_vregshi},
--    {sizeof_field(Note, contents.gscb),     s390x_write_elf64_gscb},
--    { 0, NULL}
-+    {sizeof_field(Note, contents.prefix),   NULL, s390x_write_elf64_prefix,  false},
-+    {sizeof_field(Note, contents.ctrs),     NULL, s390x_write_elf64_ctrs,    false},
-+    {sizeof_field(Note, contents.timer),    NULL, s390x_write_elf64_timer,   false},
-+    {sizeof_field(Note, contents.todcmp),   NULL, s390x_write_elf64_todcmp,  false},
-+    {sizeof_field(Note, contents.todpreg),  NULL, s390x_write_elf64_todpreg, false},
-+    {sizeof_field(Note, contents.vregslo),  NULL, s390x_write_elf64_vregslo, false},
-+    {sizeof_field(Note, contents.vregshi),  NULL, s390x_write_elf64_vregshi, false},
-+    {sizeof_field(Note, contents.gscb),     NULL, s390x_write_elf64_gscb,    false},
-+    {0, kvm_s390_pv_dmp_get_size_cpu,       s390x_write_elf64_pv, true},
-+    { 0, NULL, NULL, false}
- };
- 
- static int s390x_write_elf64_notes(const char *note_name,
-@@ -207,22 +227,41 @@ static int s390x_write_elf64_notes(const char *note_name,
-                                        DumpState *s,
-                                        const NoteFuncDesc *funcs)
- {
--    Note note;
-+    Note note, *notep;
-     const NoteFuncDesc *nf;
--    int note_size;
-+    int note_size, content_size;
-     int ret = -1;
- 
-     assert(strlen(note_name) < sizeof(note.name));
- 
-     for (nf = funcs; nf->note_contents_func; nf++) {
--        memset(&note, 0, sizeof(note));
--        note.hdr.n_namesz = cpu_to_be32(strlen(note_name) + 1);
--        note.hdr.n_descsz = cpu_to_be32(nf->contents_size);
--        g_strlcpy(note.name, note_name, sizeof(note.name));
--        (*nf->note_contents_func)(&note, cpu, id);
-+        notep = &note;
-+        if (nf->pvonly && !s390_is_pv()) {
-+            continue;
-+        }
- 
--        note_size = sizeof(note) - sizeof(note.contents) + nf->contents_size;
--        ret = f(&note, note_size, s);
-+        content_size = nf->note_size_func ? nf->note_size_func() : nf->contents_size;
-+        note_size = sizeof(note) - sizeof(notep->contents) + content_size;
-+
-+        /* Notes with dynamic sizes need to allocate a note */
-+        if (nf->note_size_func) {
-+            notep = g_malloc(note_size);
-+        }
-+
-+        memset(notep, 0, sizeof(note));
-+
-+        /* Setup note header data */
-+        notep->hdr.n_descsz = cpu_to_be32(content_size);
-+        notep->hdr.n_namesz = cpu_to_be32(strlen(note_name) + 1);
-+        g_strlcpy(notep->name, note_name, sizeof(notep->name));
-+
-+        /* Get contents and write them out */
-+        (*nf->note_contents_func)(notep, cpu, id);
-+        ret = f(notep, note_size, s);
-+
-+        if (nf->note_size_func) {
-+            g_free(notep);
-+        }
- 
-         if (ret < 0) {
-             return -1;
-@@ -247,13 +286,179 @@ int s390_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
-     return s390x_write_elf64_notes("LINUX", f, cpu, cpuid, s, note_linux);
- }
- 
-+/* PV dump section size functions */
-+static uint64_t get_mem_state_size_from_len(uint64_t len)
-+{
-+    return (len / (MiB)) * kvm_s390_pv_dmp_get_size_mem_state();
-+}
-+
-+static uint64_t get_size_mem_state(DumpState *s)
-+{
-+    return get_mem_state_size_from_len(s->total_size);
-+}
-+
-+static uint64_t get_size_completion_data(DumpState *s)
-+{
-+    return kvm_s390_pv_dmp_get_size_completion_data();
-+}
-+
-+/* PV dump section data functions*/
-+static int get_data_completion(DumpState *s, uint8_t *buff)
-+{
-+    int rc;
-+
-+    if (!pv_dump_initialized) {
-+        return 0;
-+    }
-+    rc = kvm_s390_dump_completion_data(buff);
-+    if (!rc) {
-+            pv_dump_initialized = false;
-+    }
-+    return rc;
-+}
-+
-+static int get_mem_state(DumpState *s, uint8_t *buff)
-+{
-+    int64_t memblock_size, memblock_start;
-+    GuestPhysBlock *block;
-+    uint64_t off;
-+    int rc;
-+
-+    QTAILQ_FOREACH(block, &s->guest_phys_blocks.head, next) {
-+        memblock_start = dump_filtered_memblock_start(block, s->filter_area_begin,
-+                                                      s->filter_area_length);
-+        if (memblock_start == -1) {
-+            continue;
-+        }
-+
-+        memblock_size = dump_filtered_memblock_size(block, s->filter_area_begin,
-+                                                    s->filter_area_length);
-+
-+        off = get_mem_state_size_from_len(block->target_start);
-+
-+        rc = kvm_s390_dump_mem_state(block->target_start,
-+                                     get_mem_state_size_from_len(memblock_size),
-+                                     buff + off);
-+        if (rc) {
-+            return rc;
-+        }
-+    }
-+
-+    return 0;
-+}
-+
-+static struct sections {
-+    uint64_t (*sections_size_func)(DumpState *s);
-+    int (*sections_contents_func)(DumpState *s, uint8_t *buff);
-+    char sctn_str[12];
-+} sections[] = {
-+    { get_size_mem_state, get_mem_state, "pv_mem_meta"},
-+    { get_size_completion_data, get_data_completion, "pv_compl"},
-+    {NULL , NULL, ""}
-+};
-+
-+static uint64_t arch_sections_write_hdr(DumpState *s, uint8_t *buff)
-+{
-+    Elf64_Shdr *shdr = (void *)buff;
-+    struct sections *sctn = sections;
-+    uint64_t off = s->section_offset;
-+
-+    if (!pv_dump_initialized) {
-+        return 0;
-+    }
-+
-+    for (; sctn->sections_size_func; off += shdr->sh_size, sctn++, shdr++) {
-+        memset(shdr, 0, sizeof(*shdr));
-+        shdr->sh_type = SHT_PROGBITS;
-+        shdr->sh_offset = off;
-+        shdr->sh_size = sctn->sections_size_func(s);
-+        shdr->sh_name = s->string_table_buf->len;
-+        g_array_append_vals(s->string_table_buf, sctn->sctn_str, sizeof(sctn->sctn_str));
-+    }
-+
-+    return (uintptr_t)shdr - (uintptr_t)buff;
-+}
-+
-+
-+/* Add arch specific number of sections and their respective sizes */
-+static void arch_sections_add(DumpState *s)
-+{
-+    struct sections *sctn = sections;
-+
-+    /*
-+     * We only do a PV dump if we are running a PV guest, KVM supports
-+     * the dump API and we got valid dump length information.
-+     */
-+    if (!s390_is_pv() || !kvm_s390_get_protected_dump() ||
-+        !kvm_s390_pv_info_basic_valid()) {
-+        return;
-+    }
-+
-+    /*
-+     * Start the UV dump process by doing the initialize dump call via
-+     * KVM as the proxy.
-+     */
-+    if (!kvm_s390_dump_init()) {
-+        pv_dump_initialized = true;
-+    } else {
-+        /*
-+         * Dump init failed, maybe the guest owner disabled dumping.
-+         * We'll continue the non-PV dump process since this is no
-+         * reason to crash qemu.
-+         */
-+        return;
-+    }
-+
-+    for (; sctn->sections_size_func; sctn++) {
-+        s->shdr_num += 1;
-+        s->elf_section_data_size += sctn->sections_size_func(s);
-+    }
-+}
-+
-+/*
-+ * After the PV dump has been initialized, the CPU data has been
-+ * fetched and memory has been dumped, we need to grab the tweak data
-+ * and the completion data.
-+ */
-+static int arch_sections_write(DumpState *s, uint8_t *buff)
-+{
-+    struct sections *sctn = sections;
-+    int rc;
-+
-+    if (!pv_dump_initialized) {
-+        return -EINVAL;
-+    }
-+
-+    for (; sctn->sections_size_func; sctn++) {
-+        rc = sctn->sections_contents_func(s, buff);
-+        buff += sctn->sections_size_func(s);
-+        if (rc) {
-+            return rc;
-+        }
-+    }
-+    return 0;
-+}
-+
- int cpu_get_dump_info(ArchDumpInfo *info,
-                       const struct GuestPhysBlockList *guest_phys_blocks)
- {
-     info->d_machine = EM_S390;
-     info->d_endian = ELFDATA2MSB;
-     info->d_class = ELFCLASS64;
--
-+    /*
-+     * This is evaluated for each dump so we can freely switch
-+     * between PV and non-PV.
-+     */
-+    if (s390_is_pv() && kvm_s390_get_protected_dump() &&
-+        kvm_s390_pv_info_basic_valid()) {
-+        info->arch_sections_add_fn = *arch_sections_add;
-+        info->arch_sections_write_hdr_fn = *arch_sections_write_hdr;
-+        info->arch_sections_write_fn = *arch_sections_write;
-+    } else {
-+        info->arch_sections_add_fn = NULL;
-+        info->arch_sections_write_hdr_fn = NULL;
-+        info->arch_sections_write_fn = NULL;
-+    }
-     return 0;
- }
- 
-@@ -261,7 +466,7 @@ ssize_t cpu_get_note_size(int class, int machine, int nr_cpus)
- {
-     int name_size = 8; /* "LINUX" or "CORE" + pad */
-     size_t elf_note_size = 0;
--    int note_head_size;
-+    int note_head_size, content_size;
-     const NoteFuncDesc *nf;
- 
-     assert(class == ELFCLASS64);
-@@ -270,12 +475,15 @@ ssize_t cpu_get_note_size(int class, int machine, int nr_cpus)
-     note_head_size = sizeof(Elf64_Nhdr);
- 
-     for (nf = note_core; nf->note_contents_func; nf++) {
--        elf_note_size = elf_note_size + note_head_size + name_size +
--                        nf->contents_size;
-+        elf_note_size = elf_note_size + note_head_size + name_size + nf->contents_size;
-     }
-     for (nf = note_linux; nf->note_contents_func; nf++) {
-+        if (nf->pvonly && !s390_is_pv()) {
-+            continue;
-+        }
-+        content_size = nf->contents_size ? nf->contents_size : nf->note_size_func();
-         elf_note_size = elf_note_size + note_head_size + name_size +
--                        nf->contents_size;
-+                        content_size;
-     }
- 
-     return (elf_note_size) * nr_cpus;
--- 
-2.34.1
+> I believe it is caused by the missing function
+> bpf_program__set_socket_filter provided by libbpf.
+> This function has been deprecated in v0.8 and has been removed in v1.0.
+> 
+> Arch Linux uses libbpf v1.0.1 since October 2022.
+> A downgrade to libbpf v0.8.1 fixes the Xen build problem.
+> 
+> Source about the deprecation:
+> https://libbpf-test.readthedocs.io/en/latest/api.html
+> 
+> Build error:
+> 
+> /bin/ld: libcommon.fa.p/ebpf_ebpf_rss.c.o: in function `ebpf_rss_load':
+> /home/arthur/.cache/yay/xen/src/xen-4.16.1/tools/qemu-xen-build/../qemu-xen/ebpf/ebpf_rss.c:52:
+> undefined reference to `bpf_program__set_socket_filter'
+> collect2: error: ld returned 1 exit status
+> ...
+> ...
+> ninja: build stopped: subcommand failed.
+> make: *** [Makefile:156: run-ninja] Error 1
+> make: Leaving directory
+> '/home/arthur/.cache/yay/xen/src/xen-4.16.1/tools/qemu-xen-build'
+> make[3]: *** [Makefile:212: subdir-all-qemu-xen-dir] Error 2
+> make[3]: Leaving directory
+> '/home/arthur/.cache/yay/xen/src/xen-4.16.1/tools'
+> make[2]: ***
+> [/home/arthur/.cache/yay/xen/src/xen-4.16.1/tools/../tools/Rules.mk:161:
+> subdirs-install] Error 2
+> make[2]: Leaving directory
+> '/home/arthur/.cache/yay/xen/src/xen-4.16.1/tools'
+> make[1]: *** [Makefile:66: install] Error 2
+> make[1]: Leaving directory
+> '/home/arthur/.cache/yay/xen/src/xen-4.16.1/tools'
+> make: *** [Makefile:140: install-tools] Error 2
+> ==> ERROR: A failure occurred in build().
+> Aborting...
+> -> error making: xen
+> 
 
 
