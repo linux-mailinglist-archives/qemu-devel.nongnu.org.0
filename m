@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8AD6017FD
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 21:48:05 +0200 (CEST)
-Received: from localhost ([::1]:37788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D6F6017DB
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 21:40:20 +0200 (CEST)
+Received: from localhost ([::1]:52260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okW5k-0003oK-Fs
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 15:48:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57420)
+	id 1okVyE-0003Yi-Lg
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 15:40:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1okVfx-0002jp-0D; Mon, 17 Oct 2022 15:21:26 -0400
-Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:37636)
+ id 1okVfz-0002m2-4Q; Mon, 17 Oct 2022 15:21:28 -0400
+Received: from mail-ot1-x32a.google.com ([2607:f8b0:4864:20::32a]:38625)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1okVfv-0002yO-0a; Mon, 17 Oct 2022 15:21:24 -0400
-Received: by mail-oi1-x236.google.com with SMTP id j188so13231355oih.4;
- Mon, 17 Oct 2022 12:21:21 -0700 (PDT)
+ id 1okVfx-0002yh-L6; Mon, 17 Oct 2022 15:21:26 -0400
+Received: by mail-ot1-x32a.google.com with SMTP id
+ z11-20020a05683020cb00b00661a95cf920so6359646otq.5; 
+ Mon, 17 Oct 2022 12:21:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=skOEsAeg6KP2CmeD6Dnh5EmKq4YUbFtPTmqJLa/W+oA=;
- b=JPpPFhEyQx2TgcotGwcol1YvRFYXc96HuEFQSsDxTdSQKQ0v+YOP77v+2q9s/kaRY1
- nOZQVzUTIcxU43cy3bx+Tzm4VKQorZfoFkJJ3JhLnyWHggmvxbhaFbpd+qaTeOXPmm2y
- sqgSQc9p90wVoBzgcpzS4bNYhYZvLMyaO0AOiQv5k3CuYxrnQlE7YI/CiR9FvWgVb0wP
- JXe57lauzdTpI7EkYav9KmzrS48q44X1+k2824jHU0lnsUmwLKH/wWuIfPIn6WcpPkSd
- AorA0rHOJRWni8Us+2MOTG8/iJjoA8P9Oq3bhukruWSeB5mcU4mrFVng2hwA6budnpNW
- fGHA==
+ bh=ucBINp7qsRISBMjTXg66YJ+tRcZMxd0gKORoFwq6RbY=;
+ b=pI8r1fSJMImV/d8nxGN18rPBxE2ZjgkpQ0hLYEA7uzrAxYjyVdOk3xq5kjhrjXB5Ap
+ SQmygPKwpZ0ctIqTqRXvnBsP5e94mscouDaN/wbPcLLpq7a6t0jFawLtg7km+xSQEJfn
+ nUypsMiphFzwevcXjq2CqkeoKVi60FeqZ21G89eGQKbKN5QFVCIYqOXjf4dPSp66YT0D
+ Pk4RolsI1+zkmOr9GQGN2Uqf7Fy/2A+VU8VmoE58ilhmz+PxUBY7nCBg6rCL9tP7EmL0
+ 2mXMFkAaor6UkJaGYB3rHFyeO0bm2PPSkVz83SCUAPvl7+DU/bjt9tLw6oqdfbew8p+B
+ J4vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=skOEsAeg6KP2CmeD6Dnh5EmKq4YUbFtPTmqJLa/W+oA=;
- b=O8VcM1kth2h6Bfi1UVf+AzUrCc+SgvbDU2sj/30Azz4UaISqKhNPIuUzS+9INX/25N
- ZgcCN7jdp8pDr3CTYQLzsU1Fog+Ob6ARfjpILf4UWUHylQmTpyAzBfq1dgqbwuvYwKhP
- mFa8tyFZqSYyqHhQjZWVRlS48vmIFiyXSPEONqysr4WtLJm2rCAgqwwvi1gVUFiw9vyD
- yPw4IYqJx6be0KEH/sBQK8wfsGP5BS7FkIUBX+UsPYUTojJpOb2PlFLPe6h5ykXBeKfr
- BYely3WIVk+9MdC4LgF2UDKKPwEXGVAkFP5Mbc3r1SvxIDJXoHR7FXbFdaEj2fKGWbRT
- 3yEg==
-X-Gm-Message-State: ACrzQf21sXlGpWnCq1/75oJDIxJYtsX1rX0vcBYzo1T2ty/f66o6//y5
- uY5CBy3D85+NHWHaA5ENFkFdPWtMGUA=
-X-Google-Smtp-Source: AMsMyM6wmNFayiT8Q9xHVTClJU/5nHhxHmepjahYoSkxnz68450FfvQFPzHcRyg+abBDI2BKhJxtwQ==
-X-Received: by 2002:a05:6808:b18:b0:354:48e9:ef25 with SMTP id
- s24-20020a0568080b1800b0035448e9ef25mr14278243oij.86.1666034481015; 
- Mon, 17 Oct 2022 12:21:21 -0700 (PDT)
+ bh=ucBINp7qsRISBMjTXg66YJ+tRcZMxd0gKORoFwq6RbY=;
+ b=RPb4RqE/FmBqxnS46kPWVJTt++ogvr5Qlk5zXP7FpFWT5QQqrM3l7ZMce4n+ZTMzAN
+ DUZXi9VhgcEJR4G7ED+dl9mVCDl8Gryxjb6SFedekbz64u8iOUpCtOv14TUZCqZSvrd2
+ mSrhFebHMqFklHuaNcMb2h/VFGS4HhkoAOl1M1dU7/7lC6OTkwCDFxqmkAgTzPfWgrC5
+ I2QDBppH95HTlVeBYWJ33YwmZTmeuY69mjWxp0a4g/aO7vPn32x++alXUE2X4AEBaehQ
+ rf/2+5CnMtY3B/nm/R1YO/PW4cKRKZS1/YEsoYx2Trmd9QM50DFgBGOchujhduD2ZdAD
+ CFGw==
+X-Gm-Message-State: ACrzQf0NW8rGL2Gbw8F3ZsJnYzdLiBNF4Gphv+jfR1+ReSQqGgesT+8G
+ EZ7yKO977RWBTFUBb2TaYKiTWoJ3jNI=
+X-Google-Smtp-Source: AMsMyM4gVtCv5jSpeZ2g8ORSztypgT0ZZRVA6J+lX0GBMZXFA9zwXWmqADpo2GCSlxIn6fIO4PQ/Wg==
+X-Received: by 2002:a05:6830:b8d:b0:65f:22fb:be09 with SMTP id
+ a13-20020a0568300b8d00b0065f22fbbe09mr5629942otv.38.1666034483636; 
+ Mon, 17 Oct 2022 12:21:23 -0700 (PDT)
 Received: from balboa.COMFAST ([179.111.38.2])
  by smtp.gmail.com with ESMTPSA id
- n132-20020aca408a000000b00342eade43d4sm4648005oia.13.2022.10.17.12.21.18
+ n132-20020aca408a000000b00342eade43d4sm4648005oia.13.2022.10.17.12.21.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Oct 2022 12:21:20 -0700 (PDT)
+ Mon, 17 Oct 2022 12:21:23 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
- Bernhard Beschow <shentey@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Bernhard Beschow <shentey@gmail.com>, Bin Meng <bmeng.cn@gmail.com>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 24/38] hw/ppc/mpc8544ds: Rename wrongly named method
-Date: Mon, 17 Oct 2022 16:19:55 -0300
-Message-Id: <20221017192009.92404-25-danielhb413@gmail.com>
+Subject: [PULL 25/38] hw/ppc/mpc8544ds: Add platform bus
+Date: Mon, 17 Oct 2022 16:19:56 -0300
+Message-Id: <20221017192009.92404-26-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221017192009.92404-1-danielhb413@gmail.com>
 References: <20221017192009.92404-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x236.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32a;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32a.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -95,36 +94,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bernhard Beschow <shentey@gmail.com>
 
+Models the real device more closely.
+
+Address and size values are taken from mpc8544.dts from the linux-5.17.7
+tree. The IRQ range is taken from e500plat.c.
+
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20221003203142.24355-6-shentey@gmail.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Message-Id: <20221003203142.24355-7-shentey@gmail.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/mpc8544ds.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/ppc/mpc8544ds.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/hw/ppc/mpc8544ds.c b/hw/ppc/mpc8544ds.c
-index 81177505f0..8e674ad195 100644
+index 8e674ad195..9c81477698 100644
 --- a/hw/ppc/mpc8544ds.c
 +++ b/hw/ppc/mpc8544ds.c
-@@ -36,7 +36,7 @@ static void mpc8544ds_init(MachineState *machine)
-     ppce500_init(machine);
- }
+@@ -14,6 +14,7 @@
+ #include "sysemu/device_tree.h"
+ #include "hw/ppc/openpic.h"
+ #include "qemu/error-report.h"
++#include "qemu/units.h"
+ #include "cpu.h"
  
--static void e500plat_machine_class_init(ObjectClass *oc, void *data)
-+static void mpc8544ds_machine_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-     PPCE500MachineClass *pmc = PPCE500_MACHINE_CLASS(oc);
-@@ -63,7 +63,7 @@ static void e500plat_machine_class_init(ObjectClass *oc, void *data)
- static const TypeInfo mpc8544ds_info = {
-     .name          = TYPE_MPC8544DS_MACHINE,
-     .parent        = TYPE_PPCE500_MACHINE,
--    .class_init    = e500plat_machine_class_init,
-+    .class_init    = mpc8544ds_machine_class_init,
- };
- 
- static void mpc8544ds_register_types(void)
+ static void mpc8544ds_fixup_devtree(void *fdt)
+@@ -45,6 +46,11 @@ static void mpc8544ds_machine_class_init(ObjectClass *oc, void *data)
+     pmc->pci_nr_slots = 2;
+     pmc->fixup_devtree = mpc8544ds_fixup_devtree;
+     pmc->mpic_version = OPENPIC_MODEL_FSL_MPIC_20;
++    pmc->has_platform_bus = true;
++    pmc->platform_bus_base = 0xFF800000ULL;
++    pmc->platform_bus_size = 8 * MiB;
++    pmc->platform_bus_first_irq = 5;
++    pmc->platform_bus_num_irqs = 10;
+     pmc->ccsrbar_base = 0xE0000000ULL;
+     pmc->pci_mmio_base = 0xC0000000ULL;
+     pmc->pci_mmio_bus_base = 0xC0000000ULL;
 -- 
 2.37.3
 
