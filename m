@@ -2,58 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E9976010D4
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 16:12:53 +0200 (CEST)
-Received: from localhost ([::1]:55422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00A886010C7
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 16:09:18 +0200 (CEST)
+Received: from localhost ([::1]:37986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okQrL-0006bj-Qe
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 10:12:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55946)
+	id 1okQns-00006D-Bn
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 10:09:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
- id 1okQI6-0003iv-2x
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 09:36:27 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:6094)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
- id 1okQI2-0004ok-HY
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 09:36:25 -0400
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MrdL74xgYzHtwF;
- Mon, 17 Oct 2022 21:35:59 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 17 Oct 2022 21:36:05 +0800
-Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
- (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 17 Oct
- 2022 21:36:04 +0800
-To: <qemu-devel@nongnu.org>
-CC: <somlo@cmu.edu>, <mst@redhat.com>, <gregkh@linuxfoundation.org>,
- <yangyingliang@huawei.com>
-Subject: [PATCH] firmware: qemu_fw_cfg: fix possible memory leak in
- fw_cfg_build_symlink()
-Date: Mon, 17 Oct 2022 21:35:26 +0800
-Message-ID: <20221017133526.108812-1-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1okQcO-0007Mj-8t
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 09:57:24 -0400
+Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:45713)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1okQcM-00086F-Jk
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 09:57:24 -0400
+Received: by mail-qt1-x833.google.com with SMTP id s3so7693686qtn.12
+ for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 06:57:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=WZtdNp9sTFBrKnF/uWxkKMnkF9nwgnY+3CnPWetCtiU=;
+ b=dOyynzQyJ8cIVdzJ9qtSM92dic4uNDudjEire6o7Q4EDb3wpTix2Y6lIgbWAd9y+Qa
+ L5lREZ59GmQ43txk06775nUBbJrXRZHsYu5onQgRryQvmpij4kxMztmgLhk0rwIQgQEy
+ xA70tUD1vDVuK6PZMHT/+rB+ITs3QJTpe9hAzslVRbO5Ho9gC31b1e5yvw4uLRUED10J
+ cYp62YX4b94uza66biEYGiisDxlRvmultIbBTxbzaCPQr5u7YpZFaKOl6H9IlK3s7Oq0
+ LwNEt6ve4ZuGL6G3YfCPGuNY7/m/C76qXNof8WEqrBeBqRyKc03cjt9dutnIJmPU2SV1
+ ReiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=WZtdNp9sTFBrKnF/uWxkKMnkF9nwgnY+3CnPWetCtiU=;
+ b=o6NhBAcVOGWI9RUFfe/dnX2AhE0Iz6vozdL2vIRdGfDzBuoFvTstfyzEScK+CqsiSv
+ t3sXpSijsVDT1ysV4Nonuvg9bcW3zjiTiVXaYSOX6k/PNICJQPAP/81PVSyCpQagxqsr
+ yrKRvojSb5+HwH7bh+yXjrN4KS7x0EP5FNSQLgaSQFB1B1b3J3VD8i8pV5O1fApcG/wK
+ coJIf4jqYHHD2GcwG8sczA6kzD7e6bpdYgI2xFiB0iYCAaYF9sqUIA99atukfy1JwWsg
+ pEx9SYOzeISA1wm2761toedPZ59Y6oZ1h/wftam+KTt5uUewIOPLJ/ru3ZmyF4fLppd7
+ ammQ==
+X-Gm-Message-State: ACrzQf1M3zeincRHvuGZI+aZJHb2JjX8I7//xR/1iJZ9PYGNy9HlLfwM
+ ZyvP+beuuQqVDAnSsL/4DPSuUWwaXA17EQgsGEw=
+X-Google-Smtp-Source: AMsMyM7TLHGhI7dcHPoQJ1PsgFzxladzl+EPvrGwDdDmxhjN2dEt36RMpX3Zet3yEbqwPRRlEs3aHzFX+lJuYp7pkJQ=
+X-Received: by 2002:a05:622a:449:b0:39c:d73a:e7d5 with SMTP id
+ o9-20020a05622a044900b0039cd73ae7d5mr8819245qtx.276.1666015038285; Mon, 17
+ Oct 2022 06:57:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=yangyingliang@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221017114647.2226535-1-bmeng.cn@gmail.com>
+ <20221017114647.2226535-2-bmeng.cn@gmail.com>
+ <87v8oi635r.fsf@pond.sub.org>
+In-Reply-To: <87v8oi635r.fsf@pond.sub.org>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 17 Oct 2022 21:57:07 +0800
+Message-ID: <CAEUhbmXF2i05gyrY0eeZkmUNm6+zyOC0EtC6XaxT64SdDRTN2Q@mail.gmail.com>
+Subject: Re: [PATCH 2/2] tests/qtest: vhost-user-test: Fix
+ [-Werror=format-overflow=] build warning
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>, 
+ Shengjiang Wu <shengjiang.wu@windriver.com>,
+ Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x833.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 17 Oct 2022 10:00:18 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,48 +88,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Yang Yingliang <yangyingliang@huawei.com>
-From:  Yang Yingliang via <qemu-devel@nongnu.org>
 
-Inject fault while probing module, kset_register() may fail, if
-it fails, but the refcount of kobject is not decreased to 0, the
-name allocated in kobject_set_name() is leaked. To fix this by
-calling kset_put(), so that name can be freed in callback function
-kobject_cleanup() and 'subdir' is freed in kset_release().
+On Mon, Oct 17, 2022 at 8:33 PM Markus Armbruster <armbru@redhat.com> wrote:
+>
+> Bin Meng <bmeng.cn@gmail.com> writes:
+>
+> > From: Bin Meng <bin.meng@windriver.com>
+> >
+> > When tmpfs is NULL, a build warning is seen with GCC 9.3.0.
+> > It's strange that GCC 11.2.0 on Ubuntu 22.04 does not catch this,
+> > neither did the QEMU CI.
+> >
+> > Reported-by: Shengjiang Wu <shengjiang.wu@windriver.com>
+> > Fixes: e6efe236c1d1 ("tests/qtest: vhost-user-test: Avoid using hardcoded /tmp")
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > ---
+> >
+> >  tests/qtest/vhost-user-test.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
+> > index e8d2da7228..819b87df3c 100644
+> > --- a/tests/qtest/vhost-user-test.c
+> > +++ b/tests/qtest/vhost-user-test.c
+> > @@ -571,7 +571,7 @@ static TestServer *test_server_new(const gchar *name,
+> >
+> >      tmpfs = g_dir_make_tmp("vhost-test-XXXXXX", &err);
+> >      if (!tmpfs) {
+> > -        g_test_message("g_dir_make_tmp on path (%s): %s", tmpfs,
+> > +        g_test_message("g_dir_make_tmp on path (%s): %s", g_get_tmp_dir(),
+> >                         err->message);
+> >          g_error_free(err);
+> >      }
+>
+> Suggest to improve the error message while there: "can't create
+> temporary file in %s: %s"
 
-unreferenced object 0xffff88810ad69050 (size 8):
-  comm "swapper/0", pid 1, jiffies 4294677178 (age 38.812s)
-  hex dump (first 8 bytes):
-    65 74 63 00 81 88 ff ff                          etc.....
-  backtrace:
-    [<00000000a80c7bf1>] __kmalloc_node_track_caller+0x44/0x1b0
-    [<000000003f0167c7>] kstrdup+0x3a/0x70
-    [<0000000049336709>] kstrdup_const+0x41/0x60
-    [<00000000175616e4>] kvasprintf_const+0xf5/0x180
-    [<000000004bcc30f7>] kobject_set_name_vargs+0x56/0x150
-    [<000000004b0251bd>] kobject_set_name+0xab/0xe0
-    [<00000000700151fb>] fw_cfg_sysfs_probe+0xa5b/0x1320
+Thanks for the review. I've sent v2 with the suggested improvement on
+the error message.
 
-Fixes: 246c46ebaeae ("firmware: create directory hierarchy for sysfs fw_cfg entries")
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
----
- drivers/firmware/qemu_fw_cfg.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+>
 
-diff --git a/drivers/firmware/qemu_fw_cfg.c b/drivers/firmware/qemu_fw_cfg.c
-index a69399a6b7c0..d036e69cabbb 100644
---- a/drivers/firmware/qemu_fw_cfg.c
-+++ b/drivers/firmware/qemu_fw_cfg.c
-@@ -544,7 +544,7 @@ static int fw_cfg_build_symlink(struct kset *dir,
- 			}
- 			ret = kset_register(subdir);
- 			if (ret) {
--				kfree(subdir);
-+				kset_put(subdir);
- 				break;
- 			}
- 
--- 
-2.25.1
-
+Regards,
+Bin
 
