@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37532600D7C
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 13:14:28 +0200 (CEST)
-Received: from localhost ([::1]:48848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E3EB600D90
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 13:17:15 +0200 (CEST)
+Received: from localhost ([::1]:40122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okO4h-00051B-1F
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 07:14:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56108)
+	id 1okO7M-0007em-AR
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 07:17:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1okNwQ-0001jn-60
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 07:05:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30220)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1okNwM-0001NF-9X
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 07:05:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666004744;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=52cZZDekhvrKjA8ZHFNj1ougYaujCQwFC9GRdVBampw=;
- b=K+R/6RqaPA68PXnu6JISJPK1psZgVUIOZJuuqPYKf3oRNrskUlbuAthfKKU8upMuB38RKO
- zwUyoLcW6v8B4kw1+kJqJjRDJnUSOUN2jBVqWKd2vcMn2kzbxCNa8jD9qk1ZULBBkQxiVf
- l91mn8TebfsC/1IVPEpG2qD0rG/HC3g=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-425-DV5vVIJlNjy7NgDfDgWXaQ-1; Mon, 17 Oct 2022 07:05:41 -0400
-X-MC-Unique: DV5vVIJlNjy7NgDfDgWXaQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2E985101E9B9;
- Mon, 17 Oct 2022 11:05:40 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.113])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CF3ED207B344;
- Mon, 17 Oct 2022 11:05:20 +0000 (UTC)
-Date: Mon, 17 Oct 2022 12:05:17 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Andrey Ryabinin <arbn@yandex-team.com>
-Cc: qemu-devel@nongnu.org, Steve Sistare <steven.sistare@oracle.com>,
- yc-core@yandex-team.ru, Tony Krowiak <akrowiak@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>, Jason Herne <jjherne@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Eric Farman <farman@linux.ibm.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: Re: [PATCH 0/4] Allow to pass pre-created VFIO container/group to QEMU
-Message-ID: <Y0027XOMm/lfftGK@redhat.com>
-References: <20221017105407.3858-1-arbn@yandex-team.com>
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1okO30-0001eC-AR
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 07:12:42 -0400
+Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a]:37721)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1okO2t-00038a-Ed
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 07:12:40 -0400
+Received: by mail-io1-xd2a.google.com with SMTP id o65so8731706iof.4
+ for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 04:12:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=LHM2tpQuT2VsCzBSJYkyrfoEW228jNo06juwRvL4EaA=;
+ b=JIOCyvD6ZOFveM9UAD2gP0ERieEcq0wYTYA5Wk0ORWv5liPw6LfIs5tScmJle0i32b
+ uCYNixoz1VLrzASL1bi4TibbwqiHDaOBK0tkRNwJmlSbrYqDqdKCSAAx2FK+VYOLjh2m
+ +6X8hESUBrJOxu1J8/LYmt18sXRCO/mOQRDtMJfchSIACpdGRs2KGArGbjg/Mj7sL2s7
+ CxlqKBhlCDSND+YyW95cwgiF0qbYEQdOQaEGPFuAtHF+rlPI15zvLdTVli4UzqDq3sGi
+ PV6EPvuYwoIAM5GhemmbhehiU7olkj+HrYAp8ZrUqDysom/G0d5BRdFTNqzxfQY4oFpn
+ bzhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=LHM2tpQuT2VsCzBSJYkyrfoEW228jNo06juwRvL4EaA=;
+ b=Ilj8GHQvS2ya116Gm2kL/ThznnwWqATKDyXWXVs8vKYXotJhQEU74dE4/9S7NsQinj
+ j2D/HyTNeJJXqqt/USDY5eqh4IPIZ8xcjeXb9loTIr+9yLL8i/SNnQ144fNOy21Hrs9W
+ 63j/A/T7ZoZlvfg9ksZm2a9KrqPVK0Xe3zs6E+ZN37d54swL5b3gvOG6ZHJhbK8vQjYv
+ yYMlpJH6TsyduJSvS1rRabhds9CNbAzOO9cIZSzL0DwN9+SFxZQowFSSYhpjIZAVhzx/
+ 5llMVdzcsIVm4zxFOSyhlWmYyECAne9nnr/zrAAnoYMXET/bSmkjZeIb1yvpT9/m5L/4
+ APKQ==
+X-Gm-Message-State: ACrzQf02TXNWYWNNE2kWM9Ms+lf8Ct1AmemaRyGaHV3j01tEDel7sEDX
+ VeBmwi/Esne1iViJZc25q/vYWaNpfUwvcMr/4zGsSA==
+X-Google-Smtp-Source: AMsMyM5l+EyAS1A7g/ha7w8CRxVIKoH3Vh7S2hVGTzWn0erLFJDGnwvbifTfCLFhQawB8yknEdd4oiWYgE9UnyOVBK0=
+X-Received: by 2002:a5d:9f4e:0:b0:6bb:6d59:8b72 with SMTP id
+ u14-20020a5d9f4e000000b006bb6d598b72mr4258667iot.28.1666005153983; Mon, 17
+ Oct 2022 04:12:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221017105407.3858-1-arbn@yandex-team.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221017102146.2254096-1-imammedo@redhat.com>
+ <20221017102146.2254096-7-imammedo@redhat.com>
+In-Reply-To: <20221017102146.2254096-7-imammedo@redhat.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Mon, 17 Oct 2022 16:42:22 +0530
+Message-ID: <CAARzgwyah+-mQ+unu=oShX++XTfqjTwSnK7ZtJFzTe=vwMUciw@mail.gmail.com>
+Subject: Re: [PATCH 06/11] acpi: add get_dev_aml_func() helper
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org, mst@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2a;
+ envelope-from=ani@anisinha.ca; helo=mail-io1-xd2a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,77 +79,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 17, 2022 at 01:54:03PM +0300, Andrey Ryabinin wrote:
-> These patches add possibility to pass VFIO device to QEMU using file
-> descriptors of VFIO container/group, instead of creating those by QEMU.
-> This allows to take away permissions to open /dev/vfio/* from QEMU and
-> delegate that to managment layer like libvirt.
-> 
-> The VFIO API doen't allow to pass just fd of device, since we also need to have
-> VFIO container and group. So these patches allow to pass created VFIO container/group
-> to QEMU via command line/QMP, e.g. like this:
->             -object vfio-container,id=ct,fd=5 \
->             -object vfio-group,id=grp,fd=6,container=ct \
->             -device vfio-pci,host=05:00.0,group=grp
-> 
-> A bit more detailed example can be found in the test:
-> tests/avocado/vfio.py
-> 
->  *Possible future steps*
-> 
-> Also these patches could be a step for making local migration (within one host)
-> of the QEMU with VFIO devices.
-> I've built some prototype on top of these patches to try such idea.
-> In short the scheme of such migration is following:
->  - migrate source VM to file.
->  - retrieve fd numbers of VFIO container/group/device via new property and qom-get command
->  - get the actual file descriptor via SCM_RIGHTS using new qmp command 'returnfd' which
->    sends fd from QEMU by the number: { 'command': 'returnfd', 'data': {'fd': 'int'}}
->  - shutdown source VM
->  - launch destination VM, plug VFIO devices using obtained file descriptors.
->  - PCI device reset duriing plugging the device avoided with the help of new parameter
->     on vfio-pci device.
+On Mon, Oct 17, 2022 at 3:52 PM Igor Mammedov <imammedo@redhat.com> wrote:
+>
+> It will be used in followup commits to figure out if
+> device has it's own, device specific AML block.
+>
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 
-Is there a restriction by VFIO on how many processes can have the FD
-open concurrently ? I guess it must be, as with SCM_RIGHTS, both src
-QEMU and libvirt will have the FD open concurrently for at least a
-short period, as you can't atomically close the FD at the exact same
-time as SCM_RIGHTS sends it.
+Reviewed-by: Ani Sinha <ani@anisinha.ca>
 
-With migration it is *highly* desirable to never stop the source VM's
-QEMU until the new QEMU has completed migration and got its vCPUs
-running, in order to have best chance of successful rollback upon
-failure
-
-So assuming both QEMU's can have the FD open, provided they don't
-both concurrently operate on it, could src QEMU just pass the FDs
-to the target QEMU as part of the migration stream. eg use a UNIX
-socket between the 2 QEMUs, and SCM_RIGHTS to pass the FDs across,
-avoiding libvirt needing to be in the middle of the FD passing
-dance. Since target QEMU gets the FDs as part of the migration
-stream, it would inherantly know that it shold skip device reset
-in that flow, without requiring any new param.
-
-
-> This is alternative to 'cpr-exec' migration scheme proposed here:
->    https://lore.kernel.org/qemu-devel/1658851843-236870-1-git-send-email-steven.sistare@oracle.com/
-> Unlike cpr-exec it doesn't require new kernel flags VFIO_DMA_UNMAP_FLAG_VADDR/VFIO_DMA_MAP_FLAG_VADDR
-> And doesn't require new migration mode, just some additional steps from management layer.
-
-Avoiding creating a whole new set of mgmt commands in QMP does
-make this appealing as an option instead of cpr-exec. If we can
-layer FD passing into the migration stream too, that'd be even
-more compelling IMHO.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+> ---
+>  include/hw/acpi/acpi_aml_interface.h | 13 +++++++++++--
+>  1 file changed, 11 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/hw/acpi/acpi_aml_interface.h b/include/hw/acpi/acpi_aml_interface.h
+> index ab76f0e55d..436da069d6 100644
+> --- a/include/hw/acpi/acpi_aml_interface.h
+> +++ b/include/hw/acpi/acpi_aml_interface.h
+> @@ -29,11 +29,20 @@ struct AcpiDevAmlIfClass {
+>      dev_aml_fn build_dev_aml;
+>  };
+>
+> -static inline void call_dev_aml_func(DeviceState *dev, Aml *scope)
+> +static inline dev_aml_fn get_dev_aml_func(DeviceState *dev)
+>  {
+>      if (object_dynamic_cast(OBJECT(dev), TYPE_ACPI_DEV_AML_IF)) {
+>          AcpiDevAmlIfClass *klass = ACPI_DEV_AML_IF_GET_CLASS(dev);
+> -        klass->build_dev_aml(ACPI_DEV_AML_IF(dev), scope);
+> +        return klass->build_dev_aml;
+> +    }
+> +    return NULL;
+> +}
+> +
+> +static inline void call_dev_aml_func(DeviceState *dev, Aml *scope)
+> +{
+> +    dev_aml_fn fn = get_dev_aml_func(dev);
+> +    if (fn) {
+> +        fn(ACPI_DEV_AML_IF(dev), scope);
+>      }
+>  }
+>
+> --
+> 2.31.1
+>
 
