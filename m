@@ -2,61 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C50B601318
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 17:59:43 +0200 (CEST)
-Received: from localhost ([::1]:36810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BF86601354
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 18:23:22 +0200 (CEST)
+Received: from localhost ([::1]:45362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okSWk-0005BO-72
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 11:59:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46034)
+	id 1okStb-0001RW-R6
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 12:23:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1okSV7-0003dT-QW
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 11:58:01 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2754)
+ (Exim 4.90_1) (envelope-from <kirill.shutemov@linux.intel.com>)
+ id 1okSqn-0007mO-Ky
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 12:20:26 -0400
+Received: from mga06b.intel.com ([134.134.136.31]:28200 helo=mga06.intel.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1okSV3-0002oz-Tb
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 11:58:01 -0400
-Received: from fraeml707-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4MrhQB0rrRz67LDB;
- Mon, 17 Oct 2022 23:54:42 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml707-chm.china.huawei.com (10.206.15.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 17 Oct 2022 17:57:48 +0200
-Received: from localhost (10.202.226.42) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 17 Oct
- 2022 16:57:47 +0100
-Date: Mon, 17 Oct 2022 16:57:46 +0100
-To: Ira Weiny <ira.weiny@intel.com>
-CC: Michael Tsirkin <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
- <qemu-devel@nongnu.org>, <linux-cxl@vger.kernel.org>
-Subject: Re: [RFC PATCH 3/6] hw/cxl/cxl-events: Add CXL mock events
-Message-ID: <20221017165746.0000408d@huawei.com>
-In-Reply-To: <Y0irpF3hT947zkol@iweiny-desk3>
-References: <20221010222944.3923556-1-ira.weiny@intel.com>
- <20221010222944.3923556-4-ira.weiny@intel.com>
- <20221011110759.00002226@huawei.com>
- <Y0irpF3hT947zkol@iweiny-desk3>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <kirill.shutemov@linux.intel.com>)
+ id 1okSql-0006KX-6p
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 12:20:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666023623; x=1697559623;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=K4vrfLL2l6+gAD4B8xJLdJX5MnNTNVmUNPLnkielra0=;
+ b=Qf8wZS6+q37t39uck03M/mma9nI30xth7XXQ1skEyfaPcsFzAyYG3hnU
+ Iqkidb9aT7WdjTRNOZSfK6AVDA0QA7vs5t4/rP+yaHiF8A/4ga6wYG93/
+ F+aUZgOTgJUvA8yJ1iWhXg3iuHNaA35JN/PI4g76iboQ+6dU8hVFp7N0U
+ +qJa5aeaspBU2AAcoYFeuEPa9+tWj5e2ZEXGPjkzMMhLVeybFdMGLMFUv
+ D/4hD1OPnSfC0zPa8VLUIinZYfr/mSaKj6NwQLqEmO/OTCjGEzy36mJWq
+ fcEXyHfTRmzH+oIDO06fGdyFpbh5NFuCzdxyNCNVj+v0Cs9VocN0YzxGR Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="367871845"
+X-IronPort-AV: E=Sophos;i="5.95,192,1661842800"; d="scan'208";a="367871845"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Oct 2022 09:20:10 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="606182872"
+X-IronPort-AV: E=Sophos;i="5.95,192,1661842800"; d="scan'208";a="606182872"
+Received: from dludovic-mobl1.ger.corp.intel.com (HELO box.shutemov.name)
+ ([10.252.44.179])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Oct 2022 09:19:58 -0700
+Received: by box.shutemov.name (Postfix, from userid 1000)
+ id EC9CB1045CA; Mon, 17 Oct 2022 19:19:55 +0300 (+03)
+Date: Mon, 17 Oct 2022 19:19:55 +0300
+From: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+Message-ID: <20221017161955.t4gditaztbwijgcn@box.shutemov.name>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+ <de680280-f6b1-9337-2ae4-4b2faf2b823b@suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.42]
-X-ClientProxiedBy: lhrpeml100003.china.huawei.com (7.191.160.210) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <de680280-f6b1-9337-2ae4-4b2faf2b823b@suse.cz>
+Received-SPF: none client-ip=134.134.136.31;
+ envelope-from=kirill.shutemov@linux.intel.com; helo=mga06.intel.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,683 +102,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Thu, 13 Oct 2022 17:21:56 -0700
-Ira Weiny <ira.weiny@intel.com> wrote:
-
-> On Tue, Oct 11, 2022 at 11:07:59AM +0100, Jonathan Cameron wrote:
-> > On Mon, 10 Oct 2022 15:29:41 -0700
-> > ira.weiny@intel.com wrote:
-> >   
-> > > From: Ira Weiny <ira.weiny@intel.com>
-> > > 
-> > > To facilitate testing of guest software add mock events and code to
-> > > support iterating through the event logs.
-> > > 
-> > > Signed-off-by: Ira Weiny <ira.weiny@intel.com>  
+On Mon, Oct 17, 2022 at 03:00:21PM +0200, Vlastimil Babka wrote:
+> On 9/15/22 16:29, Chao Peng wrote:
+> > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 > > 
-> > Various comments inline, but biggest one is I'd like to see
-> > a much more flexible injection interface.  Happy to help code one
-> > up if that is useful.  
+> > KVM can use memfd-provided memory for guest memory. For normal userspace
+> > accessible memory, KVM userspace (e.g. QEMU) mmaps the memfd into its
+> > virtual address space and then tells KVM to use the virtual address to
+> > setup the mapping in the secondary page table (e.g. EPT).
+> > 
+> > With confidential computing technologies like Intel TDX, the
+> > memfd-provided memory may be encrypted with special key for special
+> > software domain (e.g. KVM guest) and is not expected to be directly
+> > accessed by userspace. Precisely, userspace access to such encrypted
+> > memory may lead to host crash so it should be prevented.
+> > 
+> > This patch introduces userspace inaccessible memfd (created with
+> > MFD_INACCESSIBLE). Its memory is inaccessible from userspace through
+> > ordinary MMU access (e.g. read/write/mmap) but can be accessed via
+> > in-kernel interface so KVM can directly interact with core-mm without
+> > the need to map the memory into KVM userspace.
+> > 
+> > It provides semantics required for KVM guest private(encrypted) memory
+> > support that a file descriptor with this flag set is going to be used as
+> > the source of guest memory in confidential computing environments such
+> > as Intel TDX/AMD SEV.
+> > 
+> > KVM userspace is still in charge of the lifecycle of the memfd. It
+> > should pass the opened fd to KVM. KVM uses the kernel APIs newly added
+> > in this patch to obtain the physical memory address and then populate
+> > the secondary page table entries.
+> > 
+> > The userspace inaccessible memfd can be fallocate-ed and hole-punched
+> > from userspace. When hole-punching happens, KVM can get notified through
+> > inaccessible_notifier it then gets chance to remove any mapped entries
+> > of the range in the secondary page tables.
+> > 
+> > The userspace inaccessible memfd itself is implemented as a shim layer
+> > on top of real memory file systems like tmpfs/hugetlbfs but this patch
+> > only implemented tmpfs. The allocated memory is currently marked as
+> > unmovable and unevictable, this is required for current confidential
+> > usage. But in future this might be changed.
+> > 
+> > Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > ---
 > 
-> Quick response to this.
+> ...
 > 
-> I thought about holding off and doing something like that but this got the irq
-> testing in the kernel off the ground.
+> > +static long inaccessible_fallocate(struct file *file, int mode,
+> > +				   loff_t offset, loff_t len)
+> > +{
+> > +	struct inaccessible_data *data = file->f_mapping->private_data;
+> > +	struct file *memfd = data->memfd;
+> > +	int ret;
+> > +
+> > +	if (mode & FALLOC_FL_PUNCH_HOLE) {
+> > +		if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
+> > +			return -EINVAL;
+> > +	}
+> > +
+> > +	ret = memfd->f_op->fallocate(memfd, mode, offset, len);
+> > +	inaccessible_notifier_invalidate(data, offset, offset + len);
 > 
-> I think it would be cool to use QMP to submit events as json.  That would be
-> much more flexible.  But would have taken a lot more time.
+> Wonder if invalidate should precede the actual hole punch, otherwise we open
+> a window where the page tables point to memory no longer valid?
 
-The qapi code gen infrastructure makes this fairly simple (subject to fighting
-with meson - with hindsight the same fight I had with it for other stubs...)
+Yes, you are right. Thanks for catching this.
 
-I've moved the poison injection patches over to this and will hopefully send
-a RFC v2 of those out tomorrow.
+> > +	return ret;
+> > +}
+> > +
+> 
+> ...
+> 
+> > +
+> > +static struct file_system_type inaccessible_fs = {
+> > +	.owner		= THIS_MODULE,
+> > +	.name		= "[inaccessible]",
+> 
+> Dunno where exactly is this name visible, but shouldn't it better be
+> "[memfd:inaccessible]"?
 
-For reference injection of poison now looks like
-
-{ "execute": "cxl-inject-poison",
-    "arguments": {
-        "path": "/machine/peripheral/cxl-pmem0",
-	"start": 2048,
-	"length": 256
-   }
-}
-
-defined via a new cxl.json that other than comments just contains
-{ 'command': 'cxl-inject-poison',
-  'data' : { 'path': 'str, 'start': 'uint64', 'length': uint64 }}
-
-from that all the json parsing infrastructure is generated and you just
-need to provide an implementation of
-
-void qmp_cxl_inject_poison(const char *path, uint64_t start, uint64_t length,
-			  Error *errp)
-
-Something similar for these events will be very straight forward.
-
-Jonathan
+Maybe. And skip brackets.
 
 > 
-> What I did below duplicated the test code cxl-test has.  It was pretty quick to
-> do that.
-> 
-> The biggest issue with is parsing the various events from the json to binary blobs.
-> 
-> I'll clean up this patch and see what I can do.  But I think having a set of
-> statically defined blobs which can be injected would make testing a bit easier.
-> Less framework to format json input to QMP.
-> 
-> More to come...
-> 
-> Ira
-> 
-> > 
-> > Jonathan
-> > 
-> >   
-> > > ---
-> > >  hw/cxl/cxl-events.c         | 248 ++++++++++++++++++++++++++++++++++++
-> > >  hw/cxl/meson.build          |   1 +
-> > >  include/hw/cxl/cxl_device.h |  19 +++
-> > >  include/hw/cxl/cxl_events.h | 173 +++++++++++++++++++++++++
-> > >  4 files changed, 441 insertions(+)
-> > >  create mode 100644 hw/cxl/cxl-events.c
-> > >  create mode 100644 include/hw/cxl/cxl_events.h
-> > > 
-> > > diff --git a/hw/cxl/cxl-events.c b/hw/cxl/cxl-events.c
-> > > new file mode 100644
-> > > index 000000000000..c275280bcb64
-> > > --- /dev/null
-> > > +++ b/hw/cxl/cxl-events.c
-> > > @@ -0,0 +1,248 @@
-> > > +/*
-> > > + * CXL Event processing
-> > > + *
-> > > + * Copyright(C) 2022 Intel Corporation.
-> > > + *
-> > > + * This work is licensed under the terms of the GNU GPL, version 2. See the
-> > > + * COPYING file in the top-level directory.
-> > > + */
-> > > +
-> > > +#include <stdint.h>
-> > > +
-> > > +#include "qemu/osdep.h"
-> > > +#include "qemu/bswap.h"
-> > > +#include "qemu/typedefs.h"
-> > > +#include "hw/cxl/cxl.h"
-> > > +#include "hw/cxl/cxl_events.h"
-> > > +
-> > > +struct cxl_event_log *find_event_log(CXLDeviceState *cxlds, int log_type)
-> > > +{
-> > > +    if (log_type >= CXL_EVENT_TYPE_MAX) {
-> > > +        return NULL;
-> > > +    }
-> > > +    return &cxlds->event_logs[log_type];
-> > > +}
-> > > +
-> > > +struct cxl_event_record_raw *get_cur_event(struct cxl_event_log *log)
-> > > +{
-> > > +    return log->events[log->cur_event];
-> > > +}
-> > > +
-> > > +uint16_t get_cur_event_handle(struct cxl_event_log *log)
-> > > +{
-> > > +    return cpu_to_le16(log->cur_event);
-> > > +}
-> > > +
-> > > +bool log_empty(struct cxl_event_log *log)
-> > > +{
-> > > +    return log->cur_event == log->nr_events;
-> > > +}
-> > > +
-> > > +int log_rec_left(struct cxl_event_log *log)
-> > > +{
-> > > +    return log->nr_events - log->cur_event;
-> > > +}
-> > > +
-> > > +static void event_store_add_event(CXLDeviceState *cxlds,
-> > > +                                  enum cxl_event_log_type log_type,
-> > > +                                  struct cxl_event_record_raw *event)
-> > > +{
-> > > +    struct cxl_event_log *log;
-> > > +
-> > > +    assert(log_type < CXL_EVENT_TYPE_MAX);
-> > > +
-> > > +    log = &cxlds->event_logs[log_type];
-> > > +    assert(log->nr_events < CXL_TEST_EVENT_CNT_MAX);
-> > > +
-> > > +    log->events[log->nr_events] = event;
-> > > +    log->nr_events++;
-> > > +}
-> > > +
-> > > +uint16_t log_overflow(struct cxl_event_log *log)
-> > > +{
-> > > +    int cnt = log_rec_left(log) - 5;  
-> > 
-> > Why -5?  Can't we make it actually overflow and drop records
-> > if that happens?
-> >   
-> > > +
-> > > +    if (cnt < 0) {
-> > > +        return 0;
-> > > +    }
-> > > +    return cnt;
-> > > +}
-> > > +
-> > > +#define CXL_EVENT_RECORD_FLAG_PERMANENT         BIT(2)
-> > > +#define CXL_EVENT_RECORD_FLAG_MAINT_NEEDED      BIT(3)
-> > > +#define CXL_EVENT_RECORD_FLAG_PERF_DEGRADED     BIT(4)
-> > > +#define CXL_EVENT_RECORD_FLAG_HW_REPLACE        BIT(5)
-> > > +
-> > > +struct cxl_event_record_raw maint_needed = {
-> > > +    .hdr = {
-> > > +        .id.data = UUID(0xDEADBEEF, 0xCAFE, 0xBABE,
-> > > +                        0xa5, 0x5a, 0xa5, 0x5a, 0xa5, 0xa5, 0x5a, 0xa5),
-> > > +        .length = sizeof(struct cxl_event_record_raw),
-> > > +        .flags[0] = CXL_EVENT_RECORD_FLAG_MAINT_NEEDED,
-> > > +        /* .handle = Set dynamically */
-> > > +        .related_handle = const_le16(0xa5b6),
-> > > +    },
-> > > +    .data = { 0xDE, 0xAD, 0xBE, 0xEF },
-> > > +};
-> > > +
-> > > +struct cxl_event_record_raw hardware_replace = {
-> > > +    .hdr = {
-> > > +        .id.data = UUID(0xBABECAFE, 0xBEEF, 0xDEAD,
-> > > +                        0xa5, 0x5a, 0xa5, 0x5a, 0xa5, 0xa5, 0x5a, 0xa5),
-> > > +        .length = sizeof(struct cxl_event_record_raw),
-> > > +        .flags[0] = CXL_EVENT_RECORD_FLAG_HW_REPLACE,
-> > > +        /* .handle = Set dynamically */
-> > > +        .related_handle = const_le16(0xb6a5),
-> > > +    },
-> > > +    .data = { 0xDE, 0xAD, 0xBE, 0xEF },
-> > > +};
-> > > +
-> > > +#define CXL_GMER_EVT_DESC_UNCORECTABLE_EVENT            BIT(0)
-> > > +#define CXL_GMER_EVT_DESC_THRESHOLD_EVENT               BIT(1)
-> > > +#define CXL_GMER_EVT_DESC_POISON_LIST_OVERFLOW          BIT(2)
-> > > +
-> > > +#define CXL_GMER_MEM_EVT_TYPE_ECC_ERROR                 0x00
-> > > +#define CXL_GMER_MEM_EVT_TYPE_INV_ADDR                  0x01
-> > > +#define CXL_GMER_MEM_EVT_TYPE_DATA_PATH_ERROR           0x02
-> > > +
-> > > +#define CXL_GMER_TRANS_UNKNOWN                          0x00
-> > > +#define CXL_GMER_TRANS_HOST_READ                        0x01
-> > > +#define CXL_GMER_TRANS_HOST_WRITE                       0x02
-> > > +#define CXL_GMER_TRANS_HOST_SCAN_MEDIA                  0x03
-> > > +#define CXL_GMER_TRANS_HOST_INJECT_POISON               0x04
-> > > +#define CXL_GMER_TRANS_INTERNAL_MEDIA_SCRUB             0x05
-> > > +#define CXL_GMER_TRANS_INTERNAL_MEDIA_MANAGEMENT        0x06
-> > > +
-> > > +#define CXL_GMER_VALID_CHANNEL                          BIT(0)
-> > > +#define CXL_GMER_VALID_RANK                             BIT(1)
-> > > +#define CXL_GMER_VALID_DEVICE                           BIT(2)
-> > > +#define CXL_GMER_VALID_COMPONENT                        BIT(3)
-> > > +
-> > > +struct cxl_event_gen_media gen_media = {
-> > > +    .hdr = {
-> > > +        .id.data = UUID(0xfbcd0a77, 0xc260, 0x417f,
-> > > +                        0x85, 0xa9, 0x08, 0x8b, 0x16, 0x21, 0xeb, 0xa6),
-> > > +        .length = sizeof(struct cxl_event_gen_media),
-> > > +        .flags[0] = CXL_EVENT_RECORD_FLAG_PERMANENT,
-> > > +        /* .handle = Set dynamically */
-> > > +        .related_handle = const_le16(0),
-> > > +    },
-> > > +    .phys_addr = const_le64(0x2000),
-> > > +    .descriptor = CXL_GMER_EVT_DESC_UNCORECTABLE_EVENT,
-> > > +    .type = CXL_GMER_MEM_EVT_TYPE_DATA_PATH_ERROR,
-> > > +    .transaction_type = CXL_GMER_TRANS_HOST_WRITE,
-> > > +    .validity_flags = { CXL_GMER_VALID_CHANNEL |
-> > > +                        CXL_GMER_VALID_RANK, 0 },
-> > > +    .channel = 1,
-> > > +    .rank = 30
-> > > +};
-> > > +
-> > > +#define CXL_DER_VALID_CHANNEL                           BIT(0)
-> > > +#define CXL_DER_VALID_RANK                              BIT(1)
-> > > +#define CXL_DER_VALID_NIBBLE                            BIT(2)
-> > > +#define CXL_DER_VALID_BANK_GROUP                        BIT(3)
-> > > +#define CXL_DER_VALID_BANK                              BIT(4)
-> > > +#define CXL_DER_VALID_ROW                               BIT(5)
-> > > +#define CXL_DER_VALID_COLUMN                            BIT(6)
-> > > +#define CXL_DER_VALID_CORRECTION_MASK                   BIT(7)
-> > > +
-> > > +struct cxl_event_dram dram = {
-> > > +    .hdr = {
-> > > +        .id.data = UUID(0x601dcbb3, 0x9c06, 0x4eab,
-> > > +                        0xb8, 0xaf, 0x4e, 0x9b, 0xfb, 0x5c, 0x96, 0x24),
-> > > +        .length = sizeof(struct cxl_event_dram),
-> > > +        .flags[0] = CXL_EVENT_RECORD_FLAG_PERF_DEGRADED,
-> > > +        /* .handle = Set dynamically */
-> > > +        .related_handle = const_le16(0),
-> > > +    },
-> > > +    .phys_addr = const_le64(0x8000),
-> > > +    .descriptor = CXL_GMER_EVT_DESC_THRESHOLD_EVENT,
-> > > +    .type = CXL_GMER_MEM_EVT_TYPE_INV_ADDR,
-> > > +    .transaction_type = CXL_GMER_TRANS_INTERNAL_MEDIA_SCRUB,
-> > > +    .validity_flags = { CXL_DER_VALID_CHANNEL |
-> > > +                        CXL_DER_VALID_BANK_GROUP |
-> > > +                        CXL_DER_VALID_BANK |
-> > > +                        CXL_DER_VALID_COLUMN, 0 },
-> > > +    .channel = 1,
-> > > +    .bank_group = 5,
-> > > +    .bank = 2,
-> > > +    .column = { 0xDE, 0xAD},
-> > > +};
-> > > +
-> > > +#define CXL_MMER_HEALTH_STATUS_CHANGE           0x00
-> > > +#define CXL_MMER_MEDIA_STATUS_CHANGE            0x01
-> > > +#define CXL_MMER_LIFE_USED_CHANGE               0x02
-> > > +#define CXL_MMER_TEMP_CHANGE                    0x03
-> > > +#define CXL_MMER_DATA_PATH_ERROR                0x04
-> > > +#define CXL_MMER_LAS_ERROR                      0x05  
-> > 
-> > Ah this explains why I didn't find these alongside the structures.
-> > I'd keep them together.  If we need to put the structures in a header
-> > then put the defines there as well.  Puts all the spec related
-> > stuff in one place.
-> >   
-> > > +
-> > > +#define CXL_DHI_HS_MAINTENANCE_NEEDED           BIT(0)
-> > > +#define CXL_DHI_HS_PERFORMANCE_DEGRADED         BIT(1)
-> > > +#define CXL_DHI_HS_HW_REPLACEMENT_NEEDED        BIT(2)
-> > > +
-> > > +#define CXL_DHI_MS_NORMAL                                    0x00
-> > > +#define CXL_DHI_MS_NOT_READY                                 0x01
-> > > +#define CXL_DHI_MS_WRITE_PERSISTENCY_LOST                    0x02
-> > > +#define CXL_DHI_MS_ALL_DATA_LOST                             0x03
-> > > +#define CXL_DHI_MS_WRITE_PERSISTENCY_LOSS_EVENT_POWER_LOSS   0x04
-> > > +#define CXL_DHI_MS_WRITE_PERSISTENCY_LOSS_EVENT_SHUTDOWN     0x05
-> > > +#define CXL_DHI_MS_WRITE_PERSISTENCY_LOSS_IMMINENT           0x06
-> > > +#define CXL_DHI_MS_WRITE_ALL_DATA_LOSS_EVENT_POWER_LOSS      0x07
-> > > +#define CXL_DHI_MS_WRITE_ALL_DATA_LOSS_EVENT_SHUTDOWN        0x08
-> > > +#define CXL_DHI_MS_WRITE_ALL_DATA_LOSS_IMMINENT              0x09
-> > > +
-> > > +#define CXL_DHI_AS_NORMAL               0x0
-> > > +#define CXL_DHI_AS_WARNING              0x1
-> > > +#define CXL_DHI_AS_CRITICAL             0x2
-> > > +
-> > > +#define CXL_DHI_AS_LIFE_USED(as)        (as & 0x3)
-> > > +#define CXL_DHI_AS_DEV_TEMP(as)         ((as & 0xC) >> 2)
-> > > +#define CXL_DHI_AS_COR_VOL_ERR_CNT(as)  ((as & 0x10) >> 4)
-> > > +#define CXL_DHI_AS_COR_PER_ERR_CNT(as)  ((as & 0x20) >> 5)
-> > > +
-> > > +struct cxl_event_mem_module mem_module = {
-> > > +    .hdr = {
-> > > +        .id.data = UUID(0xfe927475, 0xdd59, 0x4339,
-> > > +                        0xa5, 0x86, 0x79, 0xba, 0xb1, 0x13, 0xb7, 0x74),  
-> > 
-> > As mentioned, below a UUID define for each type in the header
-> > probably makes more sense than having this huge thing inline.
-> >   
-> > > +        .length = sizeof(struct cxl_event_mem_module),
-> > > +        /* .handle = Set dynamically */
-> > > +        .related_handle = const_le16(0),
-> > > +    },
-> > > +    .event_type = CXL_MMER_TEMP_CHANGE,
-> > > +    .info = {
-> > > +        .health_status = CXL_DHI_HS_PERFORMANCE_DEGRADED,
-> > > +        .media_status = CXL_DHI_MS_ALL_DATA_LOST,
-> > > +        .add_status = (CXL_DHI_AS_CRITICAL << 2) |
-> > > +                       (CXL_DHI_AS_WARNING << 4) |
-> > > +                       (CXL_DHI_AS_WARNING << 5),
-> > > +        .device_temp = { 0xDE, 0xAD},  
-> > 
-> > odd spacing
-> >   
-> > > +        .dirty_shutdown_cnt = { 0xde, 0xad, 0xbe, 0xef },
-> > > +        .cor_vol_err_cnt = { 0xde, 0xad, 0xbe, 0xef },  
-> > 
-> > Could make a reasonable number up rather than deadbeef ;)
-> >   
-> > > +        .cor_per_err_cnt = { 0xde, 0xad, 0xbe, 0xef },
-> > > +    }
-> > > +};
-> > > +
-> > > +void cxl_mock_add_event_logs(CXLDeviceState *cxlds)
-> > > +{  
-> > 
-> > This is fine for initial testing, but I Think we want to be more
-> > sophisticated with the injection interface and allow injecting
-> > individual events so we can move the requirement for 'coverage'
-> > testing from having a representative list here to an external script
-> > that hits all the corners.
-> > 
-> > I can build something on top of this that lets us doing that if you like.
-> > I have ancient code doing the equivalent for CCIX devices that I never
-> > upstreamed. Would probably do it a bit differently today but principle
-> > is the same. Using QMP  directly rather than qmp-shell lets you do it
-> > as json which ends up more readable than complex command lines for this
-> > sort of structure command.
-> > 
-> > 
-> >   
-> > > +    event_store_add_event(cxlds, CXL_EVENT_TYPE_INFO, &maint_needed);
-> > > +    event_store_add_event(cxlds, CXL_EVENT_TYPE_INFO,
-> > > +                          (struct cxl_event_record_raw *)&gen_media);
-> > > +    event_store_add_event(cxlds, CXL_EVENT_TYPE_INFO,
-> > > +                          (struct cxl_event_record_raw *)&mem_module);
-> > > +
-> > > +    event_store_add_event(cxlds, CXL_EVENT_TYPE_FAIL, &maint_needed);
-> > > +    event_store_add_event(cxlds, CXL_EVENT_TYPE_FAIL, &hardware_replace);
-> > > +    event_store_add_event(cxlds, CXL_EVENT_TYPE_FAIL,
-> > > +                          (struct cxl_event_record_raw *)&dram);
-> > > +    event_store_add_event(cxlds, CXL_EVENT_TYPE_FAIL,
-> > > +                          (struct cxl_event_record_raw *)&gen_media);
-> > > +    event_store_add_event(cxlds, CXL_EVENT_TYPE_FAIL,
-> > > +                          (struct cxl_event_record_raw *)&mem_module);
-> > > +    event_store_add_event(cxlds, CXL_EVENT_TYPE_FAIL, &hardware_replace);
-> > > +    event_store_add_event(cxlds, CXL_EVENT_TYPE_FAIL,
-> > > +                          (struct cxl_event_record_raw *)&dram);
-> > > +
-> > > +    event_store_add_event(cxlds, CXL_EVENT_TYPE_FATAL, &hardware_replace);
-> > > +    event_store_add_event(cxlds, CXL_EVENT_TYPE_FATAL,
-> > > +                          (struct cxl_event_record_raw *)&dram);
-> > > +}  
-> > 
-> >   
-> > > diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-> > > index 7b4cff569347..46c50c1c13a6 100644
-> > > --- a/include/hw/cxl/cxl_device.h
-> > > +++ b/include/hw/cxl/cxl_device.h
-> > > @@ -11,6 +11,7 @@
-> > >  #define CXL_DEVICE_H
-> > >  
-> > >  #include "hw/register.h"
-> > > +#include "hw/cxl/cxl_events.h"
-> > >  
-> > >  /*
-> > >   * The following is how a CXL device's Memory Device registers are laid out.
-> > > @@ -80,6 +81,14 @@
-> > >      (CXL_DEVICE_CAP_REG_SIZE + CXL_DEVICE_STATUS_REGISTERS_LENGTH +     \
-> > >       CXL_MAILBOX_REGISTERS_LENGTH + CXL_MEMORY_DEVICE_REGISTERS_LENGTH)
-> > >  
-> > > +#define CXL_TEST_EVENT_CNT_MAX 15  
-> > 
-> > Where did 15 come from?
-> >   
-> > > +
-> > > +struct cxl_event_log {
-> > > +    int cur_event;
-> > > +    int nr_events;
-> > > +    struct cxl_event_record_raw *events[CXL_TEST_EVENT_CNT_MAX];
-> > > +};
-> > > +
-> > >  typedef struct cxl_device_state {
-> > >      MemoryRegion device_registers;
-> > >  
-> > > @@ -119,6 +128,8 @@ typedef struct cxl_device_state {
-> > >  
-> > >      /* memory region for persistent memory, HDM */
-> > >      uint64_t pmem_size;
-> > > +
-> > > +    struct cxl_event_log event_logs[CXL_EVENT_TYPE_MAX];
-> > >  } CXLDeviceState;
-> > >  
-> > >  /* Initialize the register block for a device */
-> > > @@ -272,4 +283,12 @@ MemTxResult cxl_type3_read(PCIDevice *d, hwaddr host_addr, uint64_t *data,
-> > >  MemTxResult cxl_type3_write(PCIDevice *d, hwaddr host_addr, uint64_t data,
-> > >                              unsigned size, MemTxAttrs attrs);
-> > >  
-> > > +void cxl_mock_add_event_logs(CXLDeviceState *cxlds);
-> > > +struct cxl_event_log *find_event_log(CXLDeviceState *cxlds, int log_type);
-> > > +struct cxl_event_record_raw *get_cur_event(struct cxl_event_log *log);
-> > > +uint16_t get_cur_event_handle(struct cxl_event_log *log);
-> > > +bool log_empty(struct cxl_event_log *log);
-> > > +int log_rec_left(struct cxl_event_log *log);
-> > > +uint16_t log_overflow(struct cxl_event_log *log);
-> > > +
-> > >  #endif
-> > > diff --git a/include/hw/cxl/cxl_events.h b/include/hw/cxl/cxl_events.h
-> > > new file mode 100644
-> > > index 000000000000..255111f3dcfb
-> > > --- /dev/null
-> > > +++ b/include/hw/cxl/cxl_events.h
-> > > @@ -0,0 +1,173 @@
-> > > +/*
-> > > + * QEMU CXL Events
-> > > + *
-> > > + * Copyright (c) 2022 Intel
-> > > + *
-> > > + * This work is licensed under the terms of the GNU GPL, version 2. See the
-> > > + * COPYING file in the top-level directory.
-> > > + */
-> > > +
-> > > +#ifndef CXL_EVENTS_H
-> > > +#define CXL_EVENTS_H
-> > > +
-> > > +#include "qemu/uuid.h"
-> > > +#include "hw/cxl/cxl.h"
-> > > +
-> > > +/*
-> > > + * Common Event Record Format
-> > > + * CXL rev 3.0 section 8.2.9.2.1; Table 8-42
-> > > + */
-> > > +#define CXL_EVENT_REC_HDR_RES_LEN 0xf  
-> > 
-> > I don't see an advantage in this define vs just
-> > putting the value in directly below.
-> > Same with similar cases - the define must makes them
-> > a tiny bit harder to compare with the specification when
-> > reviewing.
-> >   
-> > > +struct cxl_event_record_hdr {
-> > > +    QemuUUID id;
-> > > +    uint8_t length;
-> > > +    uint8_t flags[3];
-> > > +    uint16_t handle;
-> > > +    uint16_t related_handle;
-> > > +    uint64_t timestamp;
-> > > +    uint8_t maint_op_class;
-> > > +    uint8_t reserved[CXL_EVENT_REC_HDR_RES_LEN];
-> > > +} QEMU_PACKED;
-> > > +
-> > > +#define CXL_EVENT_RECORD_DATA_LENGTH 0x50
-> > > +struct cxl_event_record_raw {
-> > > +    struct cxl_event_record_hdr hdr;
-> > > +    uint8_t data[CXL_EVENT_RECORD_DATA_LENGTH];
-> > > +} QEMU_PACKED;  
-> > 
-> > Hmm. I wonder if we should instead define this as a union of
-> > the known event types?  I haven't checked if it would work
-> > everywhere yet though.
-> >   
-> > > +
-> > > +/*
-> > > + * Get Event Records output payload
-> > > + * CXL rev 3.0 section 8.2.9.2.2; Table 8-50
-> > > + *
-> > > + * Space given for 1 record
-> > > + */
-> > > +#define CXL_GET_EVENT_FLAG_OVERFLOW     BIT(0)
-> > > +#define CXL_GET_EVENT_FLAG_MORE_RECORDS BIT(1)
-> > > +struct cxl_get_event_payload {
-> > > +    uint8_t flags;
-> > > +    uint8_t reserved1;
-> > > +    uint16_t overflow_err_count;
-> > > +    uint64_t first_overflow_timestamp;
-> > > +    uint64_t last_overflow_timestamp;
-> > > +    uint16_t record_count;
-> > > +    uint8_t reserved2[0xa];
-> > > +    struct cxl_event_record_raw record;  
-> > 
-> > This last element should be a [] array and then move
-> > the handling of different record counts to the places it
-> > is used.
-> > 
-> > Spec unfortunately says that we should return as many
-> > as we can fit, so we can't rely on the users of this interface
-> > only sending a request for one record (as I think your Linux
-> > kernel code currently does). See below for more on this...
-> > 
-> >   
-> > > +} QEMU_PACKED;
-> > > +
-> > > +/*
-> > > + * CXL rev 3.0 section 8.2.9.2.2; Table 8-49
-> > > + */
-> > > +enum cxl_event_log_type {
-> > > +    CXL_EVENT_TYPE_INFO = 0x00,
-> > > +    CXL_EVENT_TYPE_WARN,
-> > > +    CXL_EVENT_TYPE_FAIL,
-> > > +    CXL_EVENT_TYPE_FATAL,
-> > > +    CXL_EVENT_TYPE_DYNAMIC_CAP,
-> > > +    CXL_EVENT_TYPE_MAX
-> > > +};
-> > > +
-> > > +static inline const char *cxl_event_log_type_str(enum cxl_event_log_type type)
-> > > +{
-> > > +    switch (type) {
-> > > +    case CXL_EVENT_TYPE_INFO:
-> > > +        return "Informational";
-> > > +    case CXL_EVENT_TYPE_WARN:
-> > > +        return "Warning";
-> > > +    case CXL_EVENT_TYPE_FAIL:
-> > > +        return "Failure";
-> > > +    case CXL_EVENT_TYPE_FATAL:
-> > > +        return "Fatal";
-> > > +    case CXL_EVENT_TYPE_DYNAMIC_CAP:
-> > > +        return "Dynamic Capacity";
-> > > +    default:
-> > > +        break;
-> > > +    }
-> > > +    return "<unknown>";
-> > > +}
-> > > +
-> > > +/*
-> > > + * Clear Event Records input payload
-> > > + * CXL rev 3.0 section 8.2.9.2.3; Table 8-51
-> > > + *
-> > > + * Space given for 1 record  
-> > 
-> > I'd rather this was defined to have a trailing variable length
-> > array of handles and allocations and then wherever it was used
-> > we deal with the length.
-> > 
-> > I'm also nervous about limiting the qemu emulation to handling only
-> > one record.. Spec wise I don't think you are allowed to say
-> > no to larger clears.  I understand the fact we can't test this today
-> > with the kernel code but maybe we can hack together enough to
-> > verify the emulation of larger gets and clears...
-> > 
-> >   
-> > > + */
-> > > +struct cxl_mbox_clear_event_payload {
-> > > +    uint8_t event_log;      /* enum cxl_event_log_type */
-> > > +    uint8_t clear_flags;
-> > > +    uint8_t nr_recs;        /* 1 for this struct */
-> > > +    uint8_t reserved[3];
-> > > +    uint16_t handle;
-> > > +};
-> > > +
-> > > +/*
-> > > + * General Media Event Record
-> > > + * CXL rev 3.0 Section 8.2.9.2.1.1; Table 8-43
-> > > + */  
-> > 
-> > In interests of keeping everything that needs checking against
-> > a chunk of the spec together, perhaps it's worth adding appropriate
-> > defines for the UUIDs?
-> >   
-> > > +#define CXL_EVENT_GEN_MED_COMP_ID_SIZE  0x10
-> > > +#define CXL_EVENT_GEN_MED_RES_SIZE      0x2e  
-> > 
-> > As above, I'd rather see these inline.
-> >   
-> > > +struct cxl_event_gen_media {
-> > > +    struct cxl_event_record_hdr hdr;
-> > > +    uint64_t phys_addr;  
-> > Defines for the mask + that we have a few things hiding in
-> > the bottom bits?
-> >   
-> > > +    uint8_t descriptor;  
-> > Defines for the various fields in here?
-> >   
-> > > +    uint8_t type;  
-> > Same for the others that follow.
-> >   
-> > > +    uint8_t transaction_type;  
-> >   
-> > > +    uint8_t validity_flags[2];  
-> > 
-> > uint16_t probably makes sense as we can do that for this one (unlike the helpful le24 flags fields
-> > in other structures).
-> >   
-> > > +    uint8_t channel;
-> > > +    uint8_t rank;
-> > > +    uint8_t device[3];
-> > > +    uint8_t component_id[CXL_EVENT_GEN_MED_COMP_ID_SIZE];
-> > > +    uint8_t reserved[CXL_EVENT_GEN_MED_RES_SIZE];
-> > > +} QEMU_PACKED;  
-> > Would be nice to add a build time check that these structures have the correct
-> > overall size. Ben did a bunch of these in the other CXL emulation and they are
-> > a handy way to reassure reviewers that it adds up right!
-> >   
-> > > +
-> > > +/*
-> > > + * DRAM Event Record - DER
-> > > + * CXL rev 3.0 section 8.2.9.2.1.2; Table 3-44
-> > > + */
-> > > +#define CXL_EVENT_DER_CORRECTION_MASK_SIZE   0x20
-> > > +#define CXL_EVENT_DER_RES_SIZE               0x17  
-> > Same as above.
-> >   
-> > > +struct cxl_event_dram {
-> > > +    struct cxl_event_record_hdr hdr;
-> > > +    uint64_t phys_addr;  
-> > As before I'd like defines for the sub fields and masks.
-> >   
-> > > +    uint8_t descriptor;
-> > > +    uint8_t type;
-> > > +    uint8_t transaction_type;
-> > > +    uint8_t validity_flags[2];  
-> > uint16_t and same in similar cases.
-> >   
-> > > +    uint8_t channel;
-> > > +    uint8_t rank;
-> > > +    uint8_t nibble_mask[3];
-> > > +    uint8_t bank_group;
-> > > +    uint8_t bank;
-> > > +    uint8_t row[3];
-> > > +    uint8_t column[2];
-> > > +    uint8_t correction_mask[CXL_EVENT_DER_CORRECTION_MASK_SIZE];
-> > > +    uint8_t reserved[CXL_EVENT_DER_RES_SIZE];
-> > > +} QEMU_PACKED;
-> > > +
-> > > +/*
-> > > + * Get Health Info Record
-> > > + * CXL rev 3.0 section 8.2.9.8.3.1; Table 8-100
-> > > + */
-> > > +struct cxl_get_health_info {  
-> > Same stuff as for earlier structures.
-> >   
-> > > +    uint8_t health_status;
-> > > +    uint8_t media_status;
-> > > +    uint8_t add_status;
-> > > +    uint8_t life_used;
-> > > +    uint8_t device_temp[2];
-> > > +    uint8_t dirty_shutdown_cnt[4];
-> > > +    uint8_t cor_vol_err_cnt[4];
-> > > +    uint8_t cor_per_err_cnt[4];
-> > > +} QEMU_PACKED;
-> > > +
-> > > +/*
-> > > + * Memory Module Event Record
-> > > + * CXL rev 3.0 section 8.2.9.2.1.3; Table 8-45
-> > > + */
-> > > +#define CXL_EVENT_MEM_MOD_RES_SIZE  0x3d
-> > > +struct cxl_event_mem_module {
-> > > +    struct cxl_event_record_hdr hdr;
-> > > +    uint8_t event_type;
-> > > +    struct cxl_get_health_info info;
-> > > +    uint8_t reserved[CXL_EVENT_MEM_MOD_RES_SIZE];
-> > > +} QEMU_PACKED;
-> > > +
-> > > +#endif /* CXL_EVENTS_H */  
-> >   
+> > +	.init_fs_context = inaccessible_init_fs_context,
+> > +	.kill_sb	= kill_anon_super,
+> > +};
+> > +
 > 
 
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
 
