@@ -2,81 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77FB960072D
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 08:59:47 +0200 (CEST)
-Received: from localhost ([::1]:34850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF4260072C
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 08:59:45 +0200 (CEST)
+Received: from localhost ([::1]:34822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okK6E-0001vl-Fb
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 02:59:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43012)
+	id 1okK6C-0001nx-5X
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 02:59:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1okJe7-0001Ru-VF
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 02:30:55 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:39655)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1okJe5-0001be-6v
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 02:30:43 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id f23so9899164plr.6
- for <qemu-devel@nongnu.org>; Sun, 16 Oct 2022 23:30:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=M8oBwRhMctV8rKAHKo/hIeOoHjcazlQZahCq5+vw/os=;
- b=j3ut9FczCcSYERcXu/NBgsYscCy/BaT/mer4SMi88JRfin4GZJ2yW4DEmnXpKdG9DN
- 5TUbYEepSzvC3scXFM9FVC7zAXnbBUS+80qgcZP/wxJ9roDhSAJZqWbVW5tvuMuWX/hg
- AQnzeDCsKHM74nAJRHKns+5ORkh91LEwT/Tj2DiRRxzrDBhcJHt/yEPy+nXv/Qp5pc/x
- G8GU2B4ONTUhKN9kln72uQrgOX7zfYDjXDIAZyUwj3Fxouj2LTNTBAPQloNVNzm3sHA5
- iPujr1JLEz7zj2ZqIS5D8jIc/gTVyDsGx3De3ZW8wxznjoCz9IpYBhlv736Nqo5zogMW
- gUng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=M8oBwRhMctV8rKAHKo/hIeOoHjcazlQZahCq5+vw/os=;
- b=kVbtoZXjnQIN/JwBDSiY96AW36XA3LkNyCs3D5TZ+CdsG87N0vM5Rk2+yMFrLDJHch
- 1mrjqgjvehyGVO8BWmxvu6VQd5b4QHD+HoYS8GV2bo5/rgLpnkJ02CbIQMNr6H+m0mye
- JeuFIcOTsnVNe0ZK/aa2iDrVx8DOMUCHQA2bbi/AqaofT1VnAFkl39TQGFyvNaU0KnP0
- PrkKobWYzGoTuHvqDKsBAH5IzouX1u2TGXFgnjbi1wTZKjZbbZaUlv8G+nKoYcbXqCA3
- TOXWE3g0M2VwKKj+77vuqMQyQcehMq+Mq28fTrxb0qytnQ9wlN8xE2s6n3fKZr1P6bk4
- kLLg==
-X-Gm-Message-State: ACrzQf1R9150oGSodOelYM4ZEQjTp7R/iUmcieQROB2C1vm8D5ZMELif
- h+FRsaPxl7yRIyTsldaPNvrmRg==
-X-Google-Smtp-Source: AMsMyM7jOZ1CAR/WEc623lr0BS++vMRggeRhKl67z60/dtrBy2vixbNVGVmzYstWE8FALqXXZu6YGw==
-X-Received: by 2002:a17:902:b708:b0:184:3921:df30 with SMTP id
- d8-20020a170902b70800b001843921df30mr10545193pls.43.1665988239431; 
- Sun, 16 Oct 2022 23:30:39 -0700 (PDT)
-Received: from [192.168.1.107] ([149.135.10.35])
- by smtp.gmail.com with ESMTPSA id
- f15-20020a170902684f00b00176b0dec886sm5764171pln.58.2022.10.16.23.30.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 16 Oct 2022 23:30:38 -0700 (PDT)
-Message-ID: <3bf06161-c99a-8b9a-d6c0-ed8af7cf78f1@linaro.org>
-Date: Mon, 17 Oct 2022 16:30:12 +1000
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1okJnG-0005hJ-0L
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 02:40:10 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:57804 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1okJmz-0002SY-KK
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 02:40:09 -0400
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by localhost.localdomain (Coremail) with SMTP id AQAAf8CxhOSw+Exj8gMAAA--.86S2;
+ Mon, 17 Oct 2022 14:39:45 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org,
+	stefanha@gmail.com
+Subject: [PULL 0/5] loongarch-to-apply queue
+Date: Mon, 17 Oct 2022 14:39:39 +0800
+Message-Id: <20221017063944.1443723-1-gaosong@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] tcg/aarch64: Remove unused code in tcg_out_op
-Content-Language: en-US
-To: Qi Hu <huqi@loongson.cn>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, WANG Xuerui <git@xen0n.name>
-References: <20221017020826.990729-1-huqi@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221017020826.990729-1-huqi@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8CxhOSw+Exj8gMAAA--.86S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7uw4DCr4kJryUCw1xXry8Grg_yoW8Jw17pr
+ WSkFy3Gr4rJrZrJrn7tw13JF15JFn7Gr4IqF17K348CF4kZr18Xr18t34IgFyUJ347Gryj
+ qr18Aw15WF4UZwUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,18 +60,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/17/22 12:08, Qi Hu wrote:
-> AArch64 defines the TCG_TARGET_HAS_direct_jump. So the "else" block is
-> useless in the case of "INDEX_op_goto_tb" in function "tcg_out_op". Add
-> an assertion and delete these codes for clarity.
-> 
-> Suggested-by: WANG Xuerui<git@xen0n.name>
-> Signed-off-by: Qi Hu<huqi@loongson.cn>
-> ---
->   tcg/aarch64/tcg-target.c.inc | 31 ++++++++++++++-----------------
->   1 file changed, 14 insertions(+), 17 deletions(-)
+The following changes since commit 5c2439a92ce4a1c5a53070bd803d6f7647e702ca:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+  Merge tag 'pull-riscv-to-apply-20221014' of https://github.com/alistair23/qemu into staging (2022-10-16 15:53:13 -0400)
 
-r~
+are available in the Git repository at:
+
+  https://gitlab.com/gaosong/qemu.git tags/pull-loongarch-20221017
+
+for you to fetch changes up to 5ef4a4af8b41fb175374726f379a2aea79929023:
+
+  hw/intc: Fix LoongArch ipi device emulation (2022-10-17 10:28:35 +0800)
+
+----------------------------------------------------------------
+pull-loongarch-20221017
+
+----------------------------------------------------------------
+Song Gao (3):
+      target/loongarch: bstrins.w src register need EXT_NONE
+      target/loongarch: Fix fnm{sub/add}_{s/d} set wrong flags
+      softfloat: logB(0) should raise divideByZero exception
+
+WANG Xuerui (1):
+      linux-user: Fix struct statfs ABI on loongarch64
+
+Xiaojuan Yang (1):
+      hw/intc: Fix LoongArch ipi device emulation
+
+ fpu/softfloat-parts.c.inc                      |  1 +
+ hw/intc/loongarch_ipi.c                        |  1 -
+ linux-user/syscall_defs.h                      |  3 ++-
+ target/loongarch/insn_trans/trans_bit.c.inc    | 36 ++++++++++++++++----------
+ target/loongarch/insn_trans/trans_farith.c.inc | 12 ++++-----
+ 5 files changed, 31 insertions(+), 22 deletions(-)
+
 
