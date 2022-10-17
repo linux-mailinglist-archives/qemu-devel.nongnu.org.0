@@ -2,90 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33E0A6015C3
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 19:51:16 +0200 (CEST)
-Received: from localhost ([::1]:57686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04DAD6015EC
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Oct 2022 20:05:17 +0200 (CEST)
+Received: from localhost ([::1]:57292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okUGh-00009m-05
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 13:51:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59618)
+	id 1okUUF-0007bG-Q3
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 14:05:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1okU5u-0001QM-1g
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 13:40:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26131)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1okU5q-0003lI-RA
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 13:40:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666028397;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yaEGRsBv1gMsu/tTftUYlK9RDG+Xd9A6A6rEbkDhEW8=;
- b=WT+n0aDUcCfbKh2JCbJ78p+eHD+VmIP/425sjfmKVTf0oP9NeRWbuyvT4cyvqhaAuQZ9Cl
- 8v3QAi5aYT0ZHO9Z9IjCNbkupc9bj+V6d5MDKGzFvecHL+/w874zKOUR9ZqZYS4/bqYs6d
- cdK5H+HiPk4XtOA4HyCGSQlvgvUBDdI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-389-yWeluVaSOF2kqKAZlBRbRQ-1; Mon, 17 Oct 2022 13:39:55 -0400
-X-MC-Unique: yWeluVaSOF2kqKAZlBRbRQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- c5-20020a1c3505000000b003c56da8e894so9816305wma.0
- for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 10:39:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <chrisfriedt@gmail.com>)
+ id 1okUOC-00023l-31
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 13:59:00 -0400
+Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b]:36661)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <chrisfriedt@gmail.com>)
+ id 1okUO5-000721-Vg
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 13:58:56 -0400
+Received: by mail-qt1-x82b.google.com with SMTP id f22so8205029qto.3
+ for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 10:58:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=PQ0qIGsYiDvPnusVvYgIkHS9kmDVoBcNqbvx4Ls/EFo=;
+ b=I4MkwjjCASMjcUO23W7DUIbGWZ7/+dsIgfxbBAm8QwWTK01LSr76wfqWb5S7OebtJ2
+ u3S2ULWkNdBibmyF4P1xWXdxykdRZFs5r17NQWbx/lLIT4Xyn1a8Grc7yUnWiaPwCiLC
+ EDVIs47avyyMEolmYzvLR7fJLFjpVvRPMXwPV9kJX3hIeCnQ4YPJhAIU5CLL+ccmfvti
+ fuDvqN5S17lsyAyM0YWf0Rp0gdFK/EQBvgvEo87StDTnGb3gw1cYALx3S03UdR+uqCi2
+ ZjYbEoTc4NOxmtdfeNMmGuOJgxArBWKtRxr7h80m4oOkzb8/PKD/TGGKW/KdUWhGAdk7
+ pn3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yaEGRsBv1gMsu/tTftUYlK9RDG+Xd9A6A6rEbkDhEW8=;
- b=LiGWv0HQz+LEnXsZy+9iIPB1WqFrjgHGUqq/7/tuB4GK64R5l45VwAGm6brPd9EhQ+
- VZaJJYpfLeTkypWLBSCGYplku7K5CSb3iPWahVQiZM/m/ZQu/RIHKMoGCoXHD1p11Onz
- jErTHdzGNKANnO0dxnPfBeRFgCKJc/M2Yyc1AIi+M239esI8XGzP2oqHVsTWa7g/vAKf
- 35YLbPvZcAVjodiAY1xA928masZ7vBHxU1Oc45Vzv753dFvDCoqpLJQ3Ury57FPOF2Rz
- Nxce7uyFMBgSNM9KSkU0UbxZRpDbiLfNb39F9vYPt9sYFVy3KPxNKbB6OZwsKOfyTwIo
- iv+w==
-X-Gm-Message-State: ACrzQf2w3Cd5+itTk+JXLDDtju4xyxQOX6LbTELgxJRnqP3BTnge3lUN
- 2GbveygRkP6Uri3ztPxGVvSPDJGC23DJDGsamaHZGTAzA1EcyHt6z55qcu1CQEkq/c/YTLQ20xP
- cNMVhAbpr7erbEq4=
-X-Received: by 2002:a05:600c:4e06:b0:3c6:ce02:ece4 with SMTP id
- b6-20020a05600c4e0600b003c6ce02ece4mr7819678wmq.58.1666028394471; 
- Mon, 17 Oct 2022 10:39:54 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5Jx1EqyVJH4GSHUvtkMpew8kFZX9iv3fx/5DU6ebwwhKMc07Qgf8AshZXmYNlqr9+Xkuo0Mg==
-X-Received: by 2002:a05:600c:4e06:b0:3c6:ce02:ece4 with SMTP id
- b6-20020a05600c4e0600b003c6ce02ece4mr7819669wmq.58.1666028394253; 
- Mon, 17 Oct 2022 10:39:54 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- m19-20020a05600c4f5300b003c6f3f6675bsm6044325wmq.26.2022.10.17.10.39.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Oct 2022 10:39:53 -0700 (PDT)
-Date: Mon, 17 Oct 2022 18:39:51 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Cc: qemu-devel@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>
-Subject: Re: [PATCH] nbd/server: Use smarter assert
-Message-ID: <Y02TZ5YyN2nN8RYR@work-vm>
-References: <20221017173727.1246179-1-eblake@redhat.com>
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=PQ0qIGsYiDvPnusVvYgIkHS9kmDVoBcNqbvx4Ls/EFo=;
+ b=A1WNPEp8OOqWyqXaOkjF2+9vmEeAPPLmBQMqOrfr2fmmRLRosBBNx1TQEUEfP9yf1t
+ jI/DHsX68qCvqM3dNkOjncXutnfWbPG7NJm/cJph1je80y0PtRliWYrSOSpQ/ayJHjwZ
+ Q+UMpX/kdtgMSrTkHjWq//sCkkCRQGAfTQdk+koQXcjy8ZAOuvMXdji8xupPxWBH9rmZ
+ YMREbtpCXlKOB5RHCepJyo30Uvtc9N3jL2pH7hpWHJmRGwg0ptOkDHtRLGE1zcHKTIvt
+ Fkk/JARMt4kji0gcp9CR5MA/t+KiStLkU5UKJdi/rq88hKdCHqz6SubRc44Fk9iPQmLo
+ FcUw==
+X-Gm-Message-State: ACrzQf3ZruBKkmjSrJir+OqBd+qfXw797ZYt8CLMSwnX8ICFacQakIvW
+ /8tbMKkpAK48xv6ZY9b3ILRGswL7y0YiJg==
+X-Google-Smtp-Source: AMsMyM7FDq9u9WmXpL3N62Np0EgQd/jHSltOBndKgFRmf2HTVQOXMK4tfn1x43LWCMzp+WZEYtqi/w==
+X-Received: by 2002:a05:622a:14cd:b0:39b:f0b5:4157 with SMTP id
+ u13-20020a05622a14cd00b0039bf0b54157mr9544487qtx.533.1666029531151; 
+ Mon, 17 Oct 2022 10:58:51 -0700 (PDT)
+Received: from ChristophersAir.hitronhub.home ([2001:1970:50d6:9900::765d])
+ by smtp.gmail.com with ESMTPSA id
+ r2-20020ae9d602000000b006ceb933a9fesm291685qkk.81.2022.10.17.10.58.45
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 17 Oct 2022 10:58:46 -0700 (PDT)
+From: Chris Friedt <chrisfriedt@gmail.com>
+X-Google-Original-From: Chris Friedt <cfriedt@meta.com>
+To: qemu-devel@nongnu.org
+Cc: cfriedt@meta.com,
+	jslaby@suse.cz
+Subject: [PATCH v3 1/2] hw: misc: edu: fix 2 off-by-one errors
+Date: Mon, 17 Oct 2022 13:58:28 -0400
+Message-Id: <20221017175829.92074-1-cfriedt@meta.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221017173727.1246179-1-eblake@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
+ envelope-from=chrisfriedt@gmail.com; helo=mail-qt1-x82b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,45 +89,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Eric Blake (eblake@redhat.com) wrote:
-> Assigning strlen() to a uint32_t and then asserting that it isn't too
-> large doesn't catch the case of an input string 4G in length.
-> Thankfully, the incoming string can never be that large: if the export
-> name is reflecting what the client asked about, we already guarantee
-> that we drop the NBD connection if the client tries to send more than
-> 32M in a single NBD_OPT_* request; and if the export name is coming
-> from qemu, nbd_receive_negotiate() asserted that strlen(info->name) <=
-> NBD_MAX_STRING_SIZE.  Still, it doesn't hurt to be more explicit in
-> how we write our assertion that we are aware that no wraparound is
-> possible.
-> 
-> Fixes: 93676c88 ("nbd: Don't send oversize strings", v4.2.0)
-> Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Eric Blake <eblake@redhat.com>
+In the case that size1 was zero, because of the explicit
+'end1 > addr' check, the range check would fail and the error
+message would read as shown below. The correct comparison
+is 'end1 >= addr'.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+EDU: DMA range 0x40000-0x3ffff out of bounds (0x40000-0x40fff)!
 
-> ---
->  nbd/client.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/nbd/client.c b/nbd/client.c
-> index 60c9f4941a..b601ee97e5 100644
-> --- a/nbd/client.c
-> +++ b/nbd/client.c
-> @@ -658,7 +658,7 @@ static int nbd_send_meta_query(QIOChannel *ioc, uint32_t opt,
->      char *p;
-> 
->      data_len = sizeof(export_len) + export_len + sizeof(queries);
-> -    assert(export_len <= NBD_MAX_STRING_SIZE);
-> +    assert(strlen(export) <= NBD_MAX_STRING_SIZE);
->      if (query) {
->          query_len = strlen(query);
->          data_len += sizeof(query_len) + query_len;
-> -- 
-> 2.37.3
-> 
+At the opposite end, in the case that size1 was 4096, within()
+would fail because of the non-inclusive check 'end1 < end2',
+which should have been 'end1 <= end2'. The error message would
+previously say
+
+EDU: DMA range 0x40000-0x40fff out of bounds (0x40000-0x40fff)!
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1254
+
+Signed-off-by: Chris Friedt <cfriedt@meta.com>
+---
+ hw/misc/edu.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
+
+diff --git a/hw/misc/edu.c b/hw/misc/edu.c
+index e935c418d4..b3de8d206a 100644
+--- a/hw/misc/edu.c
++++ b/hw/misc/edu.c
+@@ -103,19 +103,18 @@ static void edu_lower_irq(EduState *edu, uint32_t val)
+     }
+ }
+ 
+-static bool within(uint64_t addr, uint64_t start, uint64_t end)
+-{
+-    return start <= addr && addr < end;
+-}
+-
+-static void edu_check_range(uint64_t addr, uint64_t size1, uint64_t start,
+-                uint64_t size2)
++static void edu_check_range(uint64_t addr, uint64_t size1,
++                uint64_t start, uint64_t size2)
+ {
+     uint64_t end1 = addr + size1;
+     uint64_t end2 = start + size2;
+ 
+-    if (within(addr, start, end2) &&
+-            end1 > addr && within(end1, start, end2)) {
++    /*
++     * 1. ensure we aren't overflowing
++     * 2. ensure that [addr, end1) is within [start, size2)
++     */
++    if (end2 >= start && end1 >= addr &&
++        addr >= start && end1 <= end2) {
+         return;
+     }
+ 
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.36.1
 
 
