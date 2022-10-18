@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD1BA6028BC
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 11:50:38 +0200 (CEST)
-Received: from localhost ([::1]:47204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE11B6028E3
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 11:58:58 +0200 (CEST)
+Received: from localhost ([::1]:44736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okjF5-0000gy-Nb
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 05:50:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51260)
+	id 1okjNA-00056H-GN
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 05:58:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1okits-00038q-Ld
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 05:28:40 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:36527)
+ id 1okivn-0005Yd-9l
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 05:30:43 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:35726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1okitg-0003Lg-A4
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 05:28:39 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- d7-20020a17090a2a4700b0020d268b1f02so16793128pjg.1
- for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 02:28:27 -0700 (PDT)
+ id 1okivh-0003s8-57
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 05:30:39 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ a6-20020a17090abe0600b0020d7c0c6650so16829564pjs.0
+ for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 02:30:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=dvj2LZOPuRCIGIZhk+v5GeI+35KsaJkv9TYSPnl6wnU=;
- b=jkJKbAZ/p3RMuvIs6i5EZtloEo8tGv36EsjCV0yjHWma6UUUJz7WBvRISoAY+dEu/P
- bH0f3zaqJ8L70vcSgIFP9ns1CfIyiu8lAcYehe43YjnY0jSC525vQ/Xztmn6TeQr1YfH
- P3Hj7F0rdtA0+xFuFpY2o+Xras5ohli1twxiAaew5r6wlFPOuz9/H76+YyaumhGQ/5fk
- kfmzy2juEktVPdYopnPVkyqZUC2LJIsYrLDS2b/EFrc+uiWYxhkn/HGpu1HL5awF5d+a
- aSMbeM6FV/1fmvIYo9vrINXVjJ182iqKkntZ2+UL3CUP/ye/3bE2HslRyQs+OoUeBCvq
- sO3w==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RjZ8qpzcsNOY2uGQvEZckZZxK9PtlazrNzf17mHe2lw=;
+ b=yCv+MTONgSbKC9JDOuQZltCdl8dUOdAAyRPT5IAsjOr/gi4FFRxGwv4yUS4AE+u6Ui
+ 7Q0AVOAcPLAQCGE4fKWp9CPSuchA9EvHs4OxMnyKXXFrhbJVeIBjVP9NBELQrRnunhZA
+ EFcox0mYtHIbKAkZ7xXXFAooFb/pGNoDfUWhJB6EBjX3nq9G06O20g7o4h0oAsz7gs3Q
+ awB3Nd93s0DiOt3g6lEXeyLSiGEmk1cpzA5q7ptcGyZp9TshY7tdE3bA1SMM0EG8AxN/
+ 1UCq+7Ak2uPg2ySo6m9r4BU9ljttflhOpIT7zWCw+Tjw64k1s0JmR3zWvmvOZzzjCxq4
+ DcVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dvj2LZOPuRCIGIZhk+v5GeI+35KsaJkv9TYSPnl6wnU=;
- b=CdpHOxIDhJ+Ysa1Wflv1scfxsuuaX9qCwXA5Y6x9DyoljvJHW+VBs251dOHgxcTkGR
- TOMnVCQAuuns7KoCx+UYRCk3O+QBFAchX4rgsRuIax0lzgP9UmjtM8KShyScfe8nLL80
- 5wzCt5JR0PZ0W/wyEVxh0BdpnLX70hRNttPlR1yykyPs3cDHqOxAKh3KB9JGK8/Dg12O
- sbkHwEJs4AErLKkbq1mv/pEJAK+kDojlQiBfARUgvHcnfkK6MQ/v33Jg8M9pIwK4j+3J
- pZnGb3ecblACmK0uMqcLdx2xo/LHbum6xX0wH8/gkcFFOqyBylvhq97xTJS/JW66Kk+d
- F2HA==
-X-Gm-Message-State: ACrzQf2+NDZHFj7xtiz3tQbFaj7zWCETLtAAwiRe/pf4w+s6roa9p9fi
- UnXdFZ1X9jEFYV2quyojR0eJ9PoH0dXPS7j6E6QhgA==
-X-Google-Smtp-Source: AMsMyM53i44s3G40KNR5cpU4WKP21xZsiu9Y+vd8RcQslSonMw38u/78Kdsf5VlAzBAUdoZgZp0oNHeM1o2NxJte97A=
-X-Received: by 2002:a17:90a:fe92:b0:20a:daaf:75ea with SMTP id
- co18-20020a17090afe9200b0020adaaf75eamr37276928pjb.221.1666085305892; Tue, 18
- Oct 2022 02:28:25 -0700 (PDT)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=RjZ8qpzcsNOY2uGQvEZckZZxK9PtlazrNzf17mHe2lw=;
+ b=MOo2MP/WP11lY5gDEzibJbPuZt8MF+fGyhg9WB8CF8GpO52tRMZeSJq/ijvqLkyS/n
+ ySOufP5CL8kccp41QXrYY05/85PgrXx0of7RLqdHgUZC5LM3JfgUwoY1Z2/E7inxX0md
+ aPkKOpMSHfJSkLNX8/vqxqB2evjWzbnpFw7+i2CJOUGV7Sa5rtjXTYkxL13C8jVdEwSy
+ Lb7Sd0Ayk92JFRFv/MYR9pmFjgj5zMPPz0ARjcPH32RK3eflPj8gNzBRSsm+6tT2QsnA
+ vj38YPojTsgXueh+QsxCLY6WUWSMIgWBMFRbTDyO8f7qkAqbSApSoSdL5i+ZGL8yasKr
+ slhA==
+X-Gm-Message-State: ACrzQf3URNrWsjYFFLsp89To41TdSvJH9bPynGGWO9fhYvLaJzSB4FOR
+ +uGotqnTZH9rcvilyT1UjISrNYb9jUFOmQkugsW7Bg==
+X-Google-Smtp-Source: AMsMyM4UkjxKeE5ouJdMZDLyAMtaaRI/LZMNd00Y2GKLteaJgCPIULZZascP9KndxGprZVNdvo+Kw+kxRY1jvbwvVgY=
+X-Received: by 2002:a17:903:4d7:b0:178:8564:f754 with SMTP id
+ jm23-20020a17090304d700b001788564f754mr2099819plb.60.1666085430198; Tue, 18
+ Oct 2022 02:30:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221016122737.93755-1-shentey@gmail.com>
- <20221016122737.93755-8-shentey@gmail.com>
-In-Reply-To: <20221016122737.93755-8-shentey@gmail.com>
+References: <20221015211025.16781-1-chrisfriedt@gmail.com>
+ <20221017134425.jbqvtccg5w4yej5g@mozz.bu.edu>
+ <CAFEAcA8Cc+XtwcQz3bJom2=MgYZgLHw8SO6uqQQdVN4aqpq4Hg@mail.gmail.com>
+ <380c1527-e664-f7c5-6d18-bf53d99aed33@kernel.org> <87zgdtcwrv.fsf@linaro.org>
+In-Reply-To: <87zgdtcwrv.fsf@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 18 Oct 2022 10:28:14 +0100
-Message-ID: <CAFEAcA_19oiX1FDOTVTfyhLMaEQhcgx+2xoYB+CsZVq5uGb-GA@mail.gmail.com>
-Subject: Re: [PATCH v3 7/9] hw/ppc/e500: Implement pflash handling
-To: Bernhard Beschow <shentey@gmail.com>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- qemu-arm@nongnu.org, Alistair Francis <alistair@alistair23.me>, 
- Jan Kiszka <jan.kiszka@web.de>, Magnus Damm <magnus.damm@gmail.com>, 
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, 
- Bin Meng <bin.meng@windriver.com>, Aurelien Jarno <aurelien@aurel32.net>,
- qemu-ppc@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, 
- Antony Pavlov <antonynpavlov@gmail.com>, Hanna Reitz <hreitz@redhat.com>
+Date: Tue, 18 Oct 2022 10:30:18 +0100
+Message-ID: <CAFEAcA9ONenFfxz=78pMf8vXkHB+JwEORoMwhwEmbUTv_9Q7XA@mail.gmail.com>
+Subject: Re: [v2] hw: misc: edu: fix 2 off-by-one errors
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Jiri Slaby <jirislaby@kernel.org>, Alexander Bulekov <alxndr@bu.edu>, 
+ Chris Friedt <chrisfriedt@gmail.com>, cfriedt@meta.com, qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102b.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,28 +89,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 16 Oct 2022 at 13:28, Bernhard Beschow <shentey@gmail.com> wrote:
+On Tue, 18 Oct 2022 at 10:21, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
 >
-> Allows e500 boards to have their root file system reside on flash using
-> only builtin devices located in the eLBC memory region.
 >
-> Note that the flash memory area is only created when a -pflash argument is
-> given, and that the size is determined by the given file. The idea is to
-> put users into control.
+> Jiri Slaby <jirislaby@kernel.org> writes:
 >
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> > On 17. 10. 22, 16:13, Peter Maydell wrote:
+> >>   * for situations where the guest has misprogrammed the device,
+> >>     log that with qemu_log_mask(LOG_GUEST_ERROR, ...)
+> >>     and continue with whatever the real hardware would do, or
+> >>     some reasonable choice if the h/w spec is vague
+> >
+> > As I wrote in the previous mail, can we stop the machine after the
+> > print somehow, for example? So that the students have to "cont" in the
+> > qemu console as an acknowledgment when this happens.
+>
+> You can bring the system to a halt with vm_stop(RUN_STATE_PAUSED) or
+> possible RUN_STATE_DEBUG?
 
-> +        pfl = pflash_cfi01_register("e500.flash", size, blk, 64 * KiB, 2,
-> +                                    0x89, 0x18, 0x0000, 0x0, 1);
-> +        memory_region_add_subregion(&pms->pbus_dev->mmio, 0,
-> +                                    pflash_cfi01_get_memory(pfl));
-
-pflash_cfi01_register() puts the memory region into the
-system address space. It's just a legacy convenience wrapper
-function, so if you need to put the resulting memory region somewhere
-else, just directly create, configure and map the device in
-this board code.
-
+No, please don't do anything like that. This should not be special.
+Just log a message if the guest does something bad. There are
+an absolute ton of things that the guest can do wrong, and
+in general QEMU does not attempt to be an "identify all the
+ways the guest does something wrong in a friendly way" system.
 
 thanks
 -- PMM
