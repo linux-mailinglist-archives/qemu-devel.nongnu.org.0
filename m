@@ -2,70 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F47602933
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 12:17:26 +0200 (CEST)
-Received: from localhost ([::1]:45842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CDD2602934
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 12:19:06 +0200 (CEST)
+Received: from localhost ([::1]:34452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okjf2-0004Xn-Bw
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 06:17:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49380)
+	id 1okjge-00064M-2i
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 06:19:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1okjUz-0002ue-Ic
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 06:07:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58633)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1okjUo-0001dU-V2
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 06:07:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666087609;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=pk7Tu8tC+qtuxSIj2mpcDRESoA5ZC96B4yd5HXSBEAc=;
- b=bmHAKnRnvGRA70/1Kp6UvdcEV44krEYu9sgImqAAsvyfJzZiqtLZDMCr1FKl9rK2wSSnSy
- zYp6IUb4NBTGfU9C8uYQ/0eBwJWYkU9HLa6h3RdV+6PWO++Zk4Lb2h/A3oLM0tHmTYKMGN
- UMqGgyi5HzrTtPK7omWvtFSIKHGR7tM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-118--vEdZmlaM2eD3i_UB0_zZQ-1; Tue, 18 Oct 2022 06:06:48 -0400
-X-MC-Unique: -vEdZmlaM2eD3i_UB0_zZQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 653B83C3C962;
- Tue, 18 Oct 2022 10:06:48 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.86])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D8A762024CBB;
- Tue, 18 Oct 2022 10:06:46 +0000 (UTC)
-Date: Tue, 18 Oct 2022 11:06:44 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Nikolay Borisov <nborisov@suse.com>
-Cc: dgilbert@redhat.com, qemu-devel@nongnu.org, jfehlig@suse.com,
- Claudio.Fontana@suse.com, dfaggioli@suse.com
-Subject: Re: [PATCH v2 03/11] migration: Make migration json writer part of
- MigrationState struct
-Message-ID: <Y056tM+EUKMMC8PI@redhat.com>
-References: <20221010133408.3214433-1-nborisov@suse.com>
- <20221010133408.3214433-4-nborisov@suse.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1okjXD-0004fL-5n
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 06:09:20 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:45689)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1okjXA-0001oD-Bh
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 06:09:18 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id a10so22603044wrm.12
+ for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 03:09:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=YBkzqpk5s8WDUWf/D6YYnNVs/CWMjoP89BQJk9WUBmI=;
+ b=FQTaNHpZmQI4fPWHmWAzEoIyGhMgQnd1HSwSG+e9CCNW/dnchRfoXp0ODsWD95TfBR
+ 1jFYdb5RGCOdDB0u1eqzg9hIYvkmhLJPBgTBl/wikKYGTdvHgBLUlttBCa3SO1PhulLU
+ N1gHS43M5Z9sriFnWEVIXDaPdiwNvM1pazttmodIxDNUf5G8UiFG87kpeFTpXz/rHq0X
+ RxuSGgiz2eQFeoDdrYtiG+L815Qq0pFr7tQ6wCKTz6dfCTVNdMw5TfCYSMoor7PhyMNb
+ hiRTY5LsUC7zGj8vAGTF1F1r6ikRxZGeDkGB2XVELPUxqvPRYAkDu7rl8NubSa/FxZBF
+ cKhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YBkzqpk5s8WDUWf/D6YYnNVs/CWMjoP89BQJk9WUBmI=;
+ b=YdiONHDRB9+BlCtEU0jjfkXoB56xQNQjMYsKJj+7sJTJqpWtVvviP6gjbVath9jkiN
+ jfTNwgGIpbCumZbBQWdbNVmRnvUiiGcHzolpJ7Qt5VFHRfUV8GL6Z3KOVIPL8VP1OcyD
+ J9aP/QgI8BJdbSKfL2x6JgOvcEQlUclqQ10d/XUiF/o/KwI7ZhbXHc91GG6C0Q0yMBxS
+ 0LRUb6TPvl2i4HrXMFRS21iwALUl/h6ZZTxia2zCX/3pcPDX6GicbNbLnzZWZobIIeV6
+ 5iDH4DWG+p2Kf7J7OfZeRI0IB+9piQLfjtJR4gwjumvZ7bnCYeYkQ+8eGYg2OSZDkRrO
+ neqA==
+X-Gm-Message-State: ACrzQf0JqmEsPpOxRggzRdwnCQMHew3ecJkvdyEED3gefJuKIGfp7XDF
+ o2sgLu6GTjfIJ2MC/PKwjI0Cew==
+X-Google-Smtp-Source: AMsMyM7M92vtZWQlM3u0rnR8XFCk79tbB7fjoIAWau7LajtS69lhONCYd8npswQpzziPcci7XeaF2w==
+X-Received: by 2002:a5d:4950:0:b0:230:cc5a:f6b0 with SMTP id
+ r16-20020a5d4950000000b00230cc5af6b0mr1358210wrs.656.1666087752777; 
+ Tue, 18 Oct 2022 03:09:12 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ x17-20020adff0d1000000b00231ed902a4esm10753683wro.5.2022.10.18.03.09.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Oct 2022 03:09:12 -0700 (PDT)
+Message-ID: <2abbdbb7-710c-149c-7c3e-75060b28ee5c@linaro.org>
+Date: Tue, 18 Oct 2022 12:09:10 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221010133408.3214433-4-nborisov@suse.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.1
+Subject: Re: [PATCH v2 2/7] tests/docker: update test-mingw to run single build
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, aurelien@aurel32.net,
+ pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20221013154705.1846261-1-alex.bennee@linaro.org>
+ <20221013154705.1846261-3-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221013154705.1846261-3-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,192 +94,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 10, 2022 at 04:34:00PM +0300, Nikolay Borisov wrote:
-> This is required so that migration stream configuration is written
-> to the migration stream. This would allow analyze-migration to
-> parse enabled capabilities for the migration and adjust its behavior
-> accordingly. This is in preparation for analyze-migration.py to support
-> 'fixed-ram' capability format changes.
+On 13/10/22 17:47, Alex Bennée wrote:
+> While the test-build test happily run for mingw the test-mingw case
+> runs more of the packaging inline with what our CI does. It however
+> fails if we don't find both compilers and expects to be run on a
+> docker image with both.
 > 
-> Signed-off-by: Nikolay Borisov <nborisov@suse.com>
+> Remove that distinction and make it work more like the other build
+> test scripts.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->  migration/migration.c |  5 +++++
->  migration/migration.h |  3 +++
->  migration/savevm.c    | 38 ++++++++++++++++++++++----------------
->  3 files changed, 30 insertions(+), 16 deletions(-)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 140b0f1a54bd..d0779bbaf862 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -1896,6 +1896,8 @@ static void migrate_fd_cleanup(MigrationState *s)
->      g_free(s->hostname);
->      s->hostname = NULL;
->  
-> +    json_writer_free(s->vmdesc);
-> +
->      qemu_savevm_state_cleanup();
->  
->      if (s->to_dst_file) {
-> @@ -2154,6 +2156,7 @@ void migrate_init(MigrationState *s)
->      error_free(s->error);
->      s->error = NULL;
->      s->hostname = NULL;
-> +    s->vmdesc = NULL;
->  
->      migrate_set_state(&s->state, MIGRATION_STATUS_NONE, MIGRATION_STATUS_SETUP);
->  
-> @@ -4269,6 +4272,8 @@ void migrate_fd_connect(MigrationState *s, Error *error_in)
->          return;
->      }
->  
-> +    s->vmdesc = json_writer_new(false);
-> +
->      if (multifd_save_setup(&local_err) != 0) {
->          error_report_err(local_err);
->          migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
-> diff --git a/migration/migration.h b/migration/migration.h
-> index cdad8aceaaab..96f27aba2210 100644
-> --- a/migration/migration.h
-> +++ b/migration/migration.h
-> @@ -17,6 +17,7 @@
->  #include "exec/cpu-common.h"
->  #include "hw/qdev-core.h"
->  #include "qapi/qapi-types-migration.h"
-> +#include "qapi/qmp/json-writer.h"
->  #include "qemu/thread.h"
->  #include "qemu/coroutine_int.h"
->  #include "io/channel.h"
-> @@ -261,6 +262,8 @@ struct MigrationState {
->  
->      int state;
->  
-> +    JSONWriter *vmdesc;
-> +
->      /* State related to return path */
->      struct {
->          /* Protected by qemu_file_lock */
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index 48e85c052c2c..174cdbefc29d 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -1137,13 +1137,18 @@ void qemu_savevm_non_migratable_list(strList **reasons)
->  
->  void qemu_savevm_state_header(QEMUFile *f)
->  {
-> +    MigrationState *s = migrate_get_current();
->      trace_savevm_state_header();
->      qemu_put_be32(f, QEMU_VM_FILE_MAGIC);
->      qemu_put_be32(f, QEMU_VM_FILE_VERSION);
->  
-> -    if (migrate_get_current()->send_configuration) {
-> +    if (s->send_configuration) {
->          qemu_put_byte(f, QEMU_VM_CONFIGURATION);
-> -        vmstate_save_state(f, &vmstate_configuration, &savevm_state, 0);
-> +	json_writer_start_object(s->vmdesc, NULL);
-> +	json_writer_start_object(s->vmdesc, "configuration");
-> +        vmstate_save_state(f, &vmstate_configuration, &savevm_state, s->vmdesc);
-> +	json_writer_end_object(s->vmdesc);
-> +
+>   tests/docker/test-mingw | 16 ++++++----------
+>   1 file changed, 6 insertions(+), 10 deletions(-)
 
-IIUC, this is changing the info that is written in the VM
-configuration section, by adding an extra level of nesting
-to the object.
-
-Isn't this going to cause backwards compatibility problems ?
-
-Nothing in the patch seems to take account of the exctra
-'configuiration' object that has been started
-
-Also, there's two  json_writer_start_object calls, but only
-one json_writer_end_object.
-
-BTW, some <tab> crept into this patch.
-
-
->      }
->  }
->  
-> @@ -1364,15 +1369,16 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
->                                                      bool in_postcopy,
->                                                      bool inactivate_disks)
->  {
-> -    g_autoptr(JSONWriter) vmdesc = NULL;
-> +    MigrationState *s = migrate_get_current();
->      int vmdesc_len;
->      SaveStateEntry *se;
->      int ret;
->  
-> -    vmdesc = json_writer_new(false);
-> -    json_writer_start_object(vmdesc, NULL);
-> -    json_writer_int64(vmdesc, "page_size", qemu_target_page_size());
-> -    json_writer_start_array(vmdesc, "devices");
-> +    if (!s->send_configuration) {
-> +	    json_writer_start_object(s->vmdesc, NULL);
-> +    }
-> +    json_writer_int64(s->vmdesc, "page_size", qemu_target_page_size());
-> +    json_writer_start_array(s->vmdesc, "devices");
->      QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
->  
->          if ((!se->ops || !se->ops->save_state) && !se->vmsd) {
-> @@ -1385,12 +1391,12 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
->  
->          trace_savevm_section_start(se->idstr, se->section_id);
->  
-> -        json_writer_start_object(vmdesc, NULL);
-> -        json_writer_str(vmdesc, "name", se->idstr);
-> -        json_writer_int64(vmdesc, "instance_id", se->instance_id);
-> +        json_writer_start_object(s->vmdesc, NULL);
-> +        json_writer_str(s->vmdesc, "name", se->idstr);
-> +        json_writer_int64(s->vmdesc, "instance_id", se->instance_id);
->  
->          save_section_header(f, se, QEMU_VM_SECTION_FULL);
-> -        ret = vmstate_save(f, se, vmdesc);
-> +        ret = vmstate_save(f, se, s->vmdesc);
->          if (ret) {
->              qemu_file_set_error(f, ret);
->              return ret;
-> @@ -1398,7 +1404,7 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
->          trace_savevm_section_end(se->idstr, se->section_id, 0);
->          save_section_footer(f, se);
->  
-> -        json_writer_end_object(vmdesc);
-> +        json_writer_end_object(s->vmdesc);
->      }
->  
->      if (inactivate_disks) {
-> @@ -1417,14 +1423,14 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
->          qemu_put_byte(f, QEMU_VM_EOF);
->      }
->  
-> -    json_writer_end_array(vmdesc);
-> -    json_writer_end_object(vmdesc);
-> -    vmdesc_len = strlen(json_writer_get(vmdesc));
-> +    json_writer_end_array(s->vmdesc);
-> +    json_writer_end_object(s->vmdesc);
-> +    vmdesc_len = strlen(json_writer_get(s->vmdesc));
->  
->      if (should_send_vmdesc()) {
->          qemu_put_byte(f, QEMU_VM_VMDESCRIPTION);
->          qemu_put_be32(f, vmdesc_len);
-> -        qemu_put_buffer(f, (uint8_t *)json_writer_get(vmdesc), vmdesc_len);
-> +        qemu_put_buffer(f, (uint8_t *)json_writer_get(s->vmdesc), vmdesc_len);
->      }
->  
->      return 0;
-> -- 
-> 2.34.1
-> 
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
