@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DA3B602E11
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 16:13:50 +0200 (CEST)
-Received: from localhost ([::1]:56410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28C8C602E0F
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 16:13:45 +0200 (CEST)
+Received: from localhost ([::1]:44256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oknLn-0000OQ-SX
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 10:13:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46352)
+	id 1oknLj-00087b-0m
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 10:13:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1okmgZ-0002AJ-RZ
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 09:31:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46992)
+ id 1okmh0-0002Re-M2
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 09:31:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51872)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1okmgX-0004zZ-LN
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 09:31:11 -0400
+ id 1okmgw-00052C-Pk
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 09:31:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666099869;
+ s=mimecast20190719; t=1666099894;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xh2WQfMOThQmIiiSvAkUXXDHDmndCBlFXuAzD7GAhXI=;
- b=eyxW5QPSTTdQXGsVO4HOkvwTFm9jgaL2qT4/MVFKpx/qckvGqLJV16vRk052+zm+s0qs6t
- mJ7bY9ax4yTU9EboEhcfVP1dydscvwULr1CV47HcHRsfMEGOUb4MOVFfBUNxjKD/OsbsiV
- mdfdY76Z6h3rqo/Yf9dlTURIj40JHuM=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=v5dp7+qCUGzBtcpQe2Asqx5dhgaedWRqcldb8Y4LGrY=;
+ b=W07nqTcAJ75RfIansXUVP5Zq8ceiqNzTz8og1C0SGs3j2YaiLzzPAPv1z3MX47Zb9+e9aM
+ FWiqbYNdujF6HzN+X/T9tOD/sVLU4BBMe9+T12+03ao1BGREfUQYk/t/KVqnRgESwMZhgr
+ EJShVKsxWZu0bXxYR0Ac/dXuN95+e+o=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-62-3T-nuJ_cMW-A7k-Zz61L2A-1; Tue, 18 Oct 2022 09:31:07 -0400
-X-MC-Unique: 3T-nuJ_cMW-A7k-Zz61L2A-1
-Received: by mail-ed1-f72.google.com with SMTP id
- b8-20020a056402278800b0045d410dec69so7565150ede.2
- for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 06:31:07 -0700 (PDT)
+ us-mta-504-Gh_sDQOzPZ6G9Q5VDz3Ebg-1; Tue, 18 Oct 2022 09:31:31 -0400
+X-MC-Unique: Gh_sDQOzPZ6G9Q5VDz3Ebg-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ xc12-20020a170907074c00b007416699ea14so6383939ejb.19
+ for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 06:31:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xh2WQfMOThQmIiiSvAkUXXDHDmndCBlFXuAzD7GAhXI=;
- b=m0Dq/FCvcwLlCd3tG4xJEMbIbWIpz4OeUGib3PEADcEJga0GjDcQB2B/LHyHaobGNc
- b5R8YuZriGcj4KBZWvZmFb+FQj0J23SKKUERloIDWluFAPLzBCpw3vMSdjyvAJzV7G4A
- wLjOSZxFHa3M9JFaRFI5RutHiNg6tetunL5mpGaME2M5XWiPbFK0HGD+7aWo1a9KiHl1
- ekGH8HcbdpkLpgvaUDEUnps+n0FJHTOY9qGHBmBdiO2XwHlM2R/FG1rsmQjIHM1ScKih
- CeYg/t34EgNkwcXd/6ruMhQ3hsVNQKDc9yKNjnAglQo8MdzTHaaOr2lG0VT2sMXl9BrO
- 8gXA==
-X-Gm-Message-State: ACrzQf1LnvRyy7kOk+T08EjREV+r0Ci0RPfyjlb0iBXXI6W4Hk/YII7g
- tjBrxe2tkFKwf3UJGH+M9K76/hZpcGPc0IBpV1FNawHQwGYT+10ptgtZCWNIIr/qujkFBZtelvV
- MpcpLbwJhFCtLb/VsjmVqiXuuQJAi4ty8UZQ2U/5+FFN8FSvvtDtq5zRwewid5HBbdf8=
-X-Received: by 2002:a05:6402:538f:b0:444:c17b:1665 with SMTP id
- ew15-20020a056402538f00b00444c17b1665mr2706592edb.98.1666099865872; 
- Tue, 18 Oct 2022 06:31:05 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6n/9B3Z9fhEw4mTZS+dZWucs3A/Mj4ZFbUcPy32ttYhJSvsTyryMgwQA/remfesvl/Ynz+6w==
-X-Received: by 2002:a05:6402:538f:b0:444:c17b:1665 with SMTP id
- ew15-20020a056402538f00b00444c17b1665mr2706566edb.98.1666099865514; 
- Tue, 18 Oct 2022 06:31:05 -0700 (PDT)
+ bh=v5dp7+qCUGzBtcpQe2Asqx5dhgaedWRqcldb8Y4LGrY=;
+ b=oTCUPqSOySAR5VIfm3o1zBwnRgpyrxKvwTG9ieF/SzWYPzD6mr1OBBqyojAWd5LnNM
+ f06Y/askZ/2706GUsjfnzZK//MUIUou/Hug2IhpTbGp4k09pRaVWX8eHZVBB12UzVbSl
+ rbp4NMDxerkb70rwxgp4iN2/d++AdfGH3idiYe+eyz2uwI/F8pjDkK4CBmOW6y9hBJJA
+ sN1vK/VBzNumaFEe4FVO/Xp/g5ssAGk+RZ1cuCkk7OZ27u33nqFfCwC0O5B21zpsAO5m
+ HPdoWkp0H4/NL6WUCBOJuDrRut3KlbWLlo4vQ1i4HYGzVG2n4S4RX92swpk6IsDU20Wi
+ yh+w==
+X-Gm-Message-State: ACrzQf1l3QsLS9jkfaHg9hL/kLNiHh/kDLGZ24ui2QKMqk5b8RrDKTe9
+ CS1vtm8IiCqiD/h4LKIEKYQdem9rBXk99bcZcfoy5f1C+MGhIAR45ET6rX27Ge8ltQfIt4SazKB
+ jhg6jK6+Ck/BStQwLqGmu/ni1bhymTyhrzj2g3nZoUNWU05vfcrsabI6J2e/vn0izCiY=
+X-Received: by 2002:a05:6402:10c2:b0:45c:3c87:721f with SMTP id
+ p2-20020a05640210c200b0045c3c87721fmr2731214edu.251.1666099889904; 
+ Tue, 18 Oct 2022 06:31:29 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5TjWJcm3uWtbRBWditEv5b52BCXnQrkjhlL+ulbAr//CC3tSlC6ButZhVTduT2aL7i8SVtFA==
+X-Received: by 2002:a05:6402:10c2:b0:45c:3c87:721f with SMTP id
+ p2-20020a05640210c200b0045c3c87721fmr2731183edu.251.1666099889557; 
+ Tue, 18 Oct 2022 06:31:29 -0700 (PDT)
 Received: from avogadro.local ([2001:b07:6468:f312:2f4b:62da:3159:e077])
  by smtp.gmail.com with ESMTPSA id
- kv2-20020a17090778c200b0077e6be40e4asm7662549ejc.175.2022.10.18.06.31.03
+ md9-20020a170906ae8900b0078defb88b0dsm7454622ejb.73.2022.10.18.06.31.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Oct 2022 06:31:03 -0700 (PDT)
+ Tue, 18 Oct 2022 06:31:28 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>
-Subject: [PULL 05/53] hyperv: fix SynIC SINT assertion failure on guest reset
-Date: Tue, 18 Oct 2022 15:29:54 +0200
-Message-Id: <20221018133042.856368-6-pbonzini@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 13/53] target/i386: Add MMU_PHYS_IDX and MMU_NESTED_IDX
+Date: Tue, 18 Oct 2022 15:30:02 +0200
+Message-Id: <20221018133042.856368-14-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221018133042.856368-1-pbonzini@redhat.com>
 References: <20221018133042.856368-1-pbonzini@redhat.com>
@@ -100,189 +100,168 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Resetting a guest that has Hyper-V VMBus support enabled triggers a QEMU
-assertion failure:
-hw/hyperv/hyperv.c:131: synic_reset: Assertion `QLIST_EMPTY(&synic->sint_routes)' failed.
+These new mmu indexes will be helpful for improving
+paging and code throughout the target.
 
-This happens both on normal guest reboot or when using "system_reset" HMP
-command.
-
-The failing assertion was introduced by commit 64ddecc88bcf ("hyperv: SControl is optional to enable SynIc")
-to catch dangling SINT routes on SynIC reset.
-
-The root cause of this problem is that the SynIC itself is reset before
-devices using SINT routes have chance to clean up these routes.
-
-Since there seems to be no existing mechanism to force reset callbacks (or
-methods) to be executed in specific order let's use a similar method that
-is already used to reset another interrupt controller (APIC) after devices
-have been reset - by invoking the SynIC reset from the machine reset
-handler via a new x86_cpu_after_reset() function co-located with
-the existing x86_cpu_reset() in target/i386/cpu.c.
-Opportunistically move the APIC reset handler there, too.
-
-Fixes: 64ddecc88bcf ("hyperv: SControl is optional to enable SynIc") # exposed the bug
-Signed-off-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
-Message-Id: <cb57cee2e29b20d06f81dce054cbcea8b5d497e8.1664552976.git.maciej.szmigiero@oracle.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20221002172956.265735-6-richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/microvm.c          |  4 +---
- hw/i386/pc.c               |  5 ++---
- target/i386/cpu.c          | 13 +++++++++++++
- target/i386/cpu.h          |  2 ++
- target/i386/kvm/hyperv.c   |  4 ++++
- target/i386/kvm/kvm.c      | 26 ++++++++++++++++++--------
- target/i386/kvm/kvm_i386.h |  1 +
- 7 files changed, 41 insertions(+), 14 deletions(-)
+ target/i386/cpu-param.h              |  2 +-
+ target/i386/cpu.h                    |  3 +
+ target/i386/tcg/sysemu/excp_helper.c | 82 ++++++++++++++++++----------
+ target/i386/tcg/sysemu/svm_helper.c  |  3 +
+ 4 files changed, 60 insertions(+), 30 deletions(-)
 
-diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-index 7fe8cce03e..52f9aa9d8c 100644
---- a/hw/i386/microvm.c
-+++ b/hw/i386/microvm.c
-@@ -485,9 +485,7 @@ static void microvm_machine_reset(MachineState *machine)
-     CPU_FOREACH(cs) {
-         cpu = X86_CPU(cs);
- 
--        if (cpu->apic_state) {
--            device_legacy_reset(cpu->apic_state);
--        }
-+        x86_cpu_after_reset(cpu);
-     }
- }
- 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 566accf7e6..768982ae9a 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -92,6 +92,7 @@
- #include "hw/virtio/virtio-mem-pci.h"
- #include "hw/mem/memory-device.h"
- #include "sysemu/replay.h"
-+#include "target/i386/cpu.h"
- #include "qapi/qmp/qerror.h"
- #include "e820_memory_layout.h"
- #include "fw_cfg.h"
-@@ -1859,9 +1860,7 @@ static void pc_machine_reset(MachineState *machine)
-     CPU_FOREACH(cs) {
-         cpu = X86_CPU(cs);
- 
--        if (cpu->apic_state) {
--            device_legacy_reset(cpu->apic_state);
--        }
-+        x86_cpu_after_reset(cpu);
-     }
- }
- 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 8a11470507..90aec2f462 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6035,6 +6035,19 @@ static void x86_cpu_reset(DeviceState *dev)
+diff --git a/target/i386/cpu-param.h b/target/i386/cpu-param.h
+index 1e79389761..f579b16bd2 100644
+--- a/target/i386/cpu-param.h
++++ b/target/i386/cpu-param.h
+@@ -23,7 +23,7 @@
+ # define TARGET_VIRT_ADDR_SPACE_BITS  32
  #endif
- }
+ #define TARGET_PAGE_BITS 12
+-#define NB_MMU_MODES 3
++#define NB_MMU_MODES 5
  
-+void x86_cpu_after_reset(X86CPU *cpu)
-+{
-+#ifndef CONFIG_USER_ONLY
-+    if (kvm_enabled()) {
-+        kvm_arch_after_reset_vcpu(cpu);
-+    }
-+
-+    if (cpu->apic_state) {
-+        device_legacy_reset(cpu->apic_state);
-+    }
-+#endif
-+}
-+
- static void mce_init(X86CPU *cpu)
- {
-     CPUX86State *cenv = &cpu->env;
+ #ifndef CONFIG_USER_ONLY
+ # define TARGET_TB_PCREL 1
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 7edf5dfac3..4d21c5759d 100644
+index 4d21c5759d..3573107356 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -2082,6 +2082,8 @@ typedef struct PropValue {
- } PropValue;
- void x86_cpu_apply_props(X86CPU *cpu, PropValue *props);
- 
-+void x86_cpu_after_reset(X86CPU *cpu);
+@@ -2149,6 +2149,9 @@ uint64_t cpu_get_tsc(CPUX86State *env);
+ #define MMU_KSMAP_IDX   0
+ #define MMU_USER_IDX    1
+ #define MMU_KNOSMAP_IDX 2
++#define MMU_NESTED_IDX  3
++#define MMU_PHYS_IDX    4
 +
- uint32_t cpu_x86_virtual_addr_width(CPUX86State *env);
+ static inline int cpu_mmu_index(CPUX86State *env, bool ifetch)
+ {
+     return (env->hflags & HF_CPL_MASK) == 3 ? MMU_USER_IDX :
+diff --git a/target/i386/tcg/sysemu/excp_helper.c b/target/i386/tcg/sysemu/excp_helper.c
+index 816b307547..494dc6d00c 100644
+--- a/target/i386/tcg/sysemu/excp_helper.c
++++ b/target/i386/tcg/sysemu/excp_helper.c
+@@ -448,41 +448,65 @@ static bool get_physical_address(CPUX86State *env, vaddr addr,
+                                  MMUAccessType access_type, int mmu_idx,
+                                  TranslateResult *out, TranslateFault *err)
+ {
+-    if (!(env->cr[0] & CR0_PG_MASK)) {
+-        out->paddr = addr & x86_get_a20_mask(env);
++    TranslateParams in;
++    bool use_stage2 = env->hflags2 & HF2_NPT_MASK;
  
- /* cpu.c other functions (cpuid) */
-diff --git a/target/i386/kvm/hyperv.c b/target/i386/kvm/hyperv.c
-index 9026ef3a81..e3ac978648 100644
---- a/target/i386/kvm/hyperv.c
-+++ b/target/i386/kvm/hyperv.c
-@@ -23,6 +23,10 @@ int hyperv_x86_synic_add(X86CPU *cpu)
-     return 0;
+-#ifdef TARGET_X86_64
+-        if (!(env->hflags & HF_LMA_MASK)) {
+-            /* Without long mode we can only address 32bits in real mode */
+-            out->paddr = (uint32_t)out->paddr;
+-        }
+-#endif
+-        out->prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+-        out->page_size = TARGET_PAGE_SIZE;
+-        return true;
+-    } else {
+-        TranslateParams in = {
+-            .addr = addr,
+-            .cr3 = env->cr[3],
+-            .pg_mode = get_pg_mode(env),
+-            .mmu_idx = mmu_idx,
+-            .access_type = access_type,
+-            .use_stage2 = env->hflags2 & HF2_NPT_MASK,
+-        };
++    in.addr = addr;
++    in.access_type = access_type;
+ 
+-        if (in.pg_mode & PG_MODE_LMA) {
+-            /* test virtual address sign extension */
+-            int shift = in.pg_mode & PG_MODE_LA57 ? 56 : 47;
+-            int64_t sext = (int64_t)addr >> shift;
+-            if (sext != 0 && sext != -1) {
+-                err->exception_index = EXCP0D_GPF;
+-                err->error_code = 0;
+-                err->cr2 = addr;
++    switch (mmu_idx) {
++    case MMU_PHYS_IDX:
++        break;
++
++    case MMU_NESTED_IDX:
++        if (likely(use_stage2)) {
++            in.cr3 = env->nested_cr3;
++            in.pg_mode = env->nested_pg_mode;
++            in.mmu_idx = MMU_USER_IDX;
++            in.use_stage2 = false;
++
++            if (!mmu_translate(env, &in, out, err)) {
++                err->stage2 = S2_GPA;
+                 return false;
+             }
++            return true;
+         }
+-        return mmu_translate(env, &in, out, err);
++        break;
++
++    default:
++        in.cr3 = env->cr[3];
++        in.mmu_idx = mmu_idx;
++        in.use_stage2 = use_stage2;
++        in.pg_mode = get_pg_mode(env);
++
++        if (likely(in.pg_mode)) {
++            if (in.pg_mode & PG_MODE_LMA) {
++                /* test virtual address sign extension */
++                int shift = in.pg_mode & PG_MODE_LA57 ? 56 : 47;
++                int64_t sext = (int64_t)addr >> shift;
++                if (sext != 0 && sext != -1) {
++                    err->exception_index = EXCP0D_GPF;
++                    err->error_code = 0;
++                    err->cr2 = addr;
++                    return false;
++                }
++            }
++            return mmu_translate(env, &in, out, err);
++        }
++        break;
+     }
++
++    /* Translation disabled. */
++    out->paddr = addr & x86_get_a20_mask(env);
++#ifdef TARGET_X86_64
++    if (!(env->hflags & HF_LMA_MASK)) {
++        /* Without long mode we can only address 32bits in real mode */
++        out->paddr = (uint32_t)out->paddr;
++    }
++#endif
++    out->prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
++    out->page_size = TARGET_PAGE_SIZE;
++    return true;
  }
  
-+/*
-+ * All devices possibly using SynIC have to be reset before calling this to let
-+ * them remove their SINT routes first.
-+ */
- void hyperv_x86_synic_reset(X86CPU *cpu)
- {
-     hyperv_synic_reset(CPU(cpu));
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index bed6c00f2c..dac100c67c 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -2203,14 +2203,6 @@ void kvm_arch_reset_vcpu(X86CPU *cpu)
-         env->mp_state = KVM_MP_STATE_RUNNABLE;
+ bool x86_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
+diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
+index 2b6f450af9..85b7741d94 100644
+--- a/target/i386/tcg/sysemu/svm_helper.c
++++ b/target/i386/tcg/sysemu/svm_helper.c
+@@ -271,6 +271,8 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
+         env->hflags2 |= HF2_NPT_MASK;
+ 
+         env->nested_pg_mode = get_pg_mode(env) & PG_MODE_SVM_MASK;
++
++        tlb_flush_by_mmuidx(cs, 1 << MMU_NESTED_IDX);
      }
  
--    if (hyperv_feat_enabled(cpu, HYPERV_FEAT_SYNIC)) {
--        int i;
--        for (i = 0; i < ARRAY_SIZE(env->msr_hv_synic_sint); i++) {
--            env->msr_hv_synic_sint[i] = HV_SINT_MASKED;
--        }
--
--        hyperv_x86_synic_reset(cpu);
--    }
-     /* enabled by default */
-     env->poll_control_msr = 1;
+     /* enable intercepts */
+@@ -720,6 +722,7 @@ void do_vmexit(CPUX86State *env)
+                  env->vm_vmcb + offsetof(struct vmcb, control.int_state), 0);
+     }
+     env->hflags2 &= ~HF2_NPT_MASK;
++    tlb_flush_by_mmuidx(cs, 1 << MMU_NESTED_IDX);
  
-@@ -2219,6 +2211,24 @@ void kvm_arch_reset_vcpu(X86CPU *cpu)
-     sev_es_set_reset_vector(CPU(cpu));
- }
- 
-+void kvm_arch_after_reset_vcpu(X86CPU *cpu)
-+{
-+    CPUX86State *env = &cpu->env;
-+    int i;
-+
-+    /*
-+     * Reset SynIC after all other devices have been reset to let them remove
-+     * their SINT routes first.
-+     */
-+    if (hyperv_feat_enabled(cpu, HYPERV_FEAT_SYNIC)) {
-+        for (i = 0; i < ARRAY_SIZE(env->msr_hv_synic_sint); i++) {
-+            env->msr_hv_synic_sint[i] = HV_SINT_MASKED;
-+        }
-+
-+        hyperv_x86_synic_reset(cpu);
-+    }
-+}
-+
- void kvm_arch_do_init_vcpu(X86CPU *cpu)
- {
-     CPUX86State *env = &cpu->env;
-diff --git a/target/i386/kvm/kvm_i386.h b/target/i386/kvm/kvm_i386.h
-index 2ed586c11b..b7c38ba2c4 100644
---- a/target/i386/kvm/kvm_i386.h
-+++ b/target/i386/kvm/kvm_i386.h
-@@ -38,6 +38,7 @@ bool kvm_has_adjust_clock_stable(void);
- bool kvm_has_exception_payload(void);
- void kvm_synchronize_all_tsc(void);
- void kvm_arch_reset_vcpu(X86CPU *cs);
-+void kvm_arch_after_reset_vcpu(X86CPU *cpu);
- void kvm_arch_do_init_vcpu(X86CPU *cs);
- 
- void kvm_put_apicbase(X86CPU *cpu, uint64_t value);
+     /* Save the VM state in the vmcb */
+     svm_save_seg(env, env->vm_vmcb + offsetof(struct vmcb, save.es),
 -- 
 2.37.3
 
