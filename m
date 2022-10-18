@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55039602F84
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 17:20:39 +0200 (CEST)
-Received: from localhost ([::1]:42222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 478D4602E90
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 16:33:49 +0200 (CEST)
+Received: from localhost ([::1]:57124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okoOT-0005az-L3
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 11:20:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45470)
+	id 1oknfA-0006tr-06
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 10:33:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oknfV-00084C-Sk
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 10:34:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37499)
+ (Exim 4.90_1) (envelope-from <qemu@bonslack.org>) id 1okmIA-0007HC-4a
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 09:05:58 -0400
+Received: from bonnix.bonnix.it
+ ([2a00:dcc0:dead:b9ff:fede:feed:2935:e3c8]:46500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oknfT-0007TW-U5
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 10:34:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666103642;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CULvQxwCVJgjccdrmf8SbUFwISUc/I8mnJw9lIQy3pk=;
- b=PImzKV4QUtiL/Dp5Lmg7SEI4C3tMLdzjT1z8MQru/ULPM1vM+MV6zS5AdEJzEdUPcNEbgN
- u618AbU/81AON8CGvjLhCxs1Z7gCxPIuCQRgDVO5wBjQB+SZk+3Bpy/aQXFJm2N0MI7cRy
- FyjiGS+dXwFMKH1wS3QY8rhED0dk/rY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-43-pIbfhIu4Mm-qpRb6-SJaqw-1; Tue, 18 Oct 2022 10:34:00 -0400
-X-MC-Unique: pIbfhIu4Mm-qpRb6-SJaqw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3EE8B101AA6A;
- Tue, 18 Oct 2022 14:33:49 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.201])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0F9E6111DD0D;
- Tue, 18 Oct 2022 14:33:44 +0000 (UTC)
-Date: Mon, 17 Oct 2022 17:22:26 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Song Gao <gaosong@loongson.cn>
-Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org, stefanha@gmail.com
-Subject: Re: [PULL 0/5] loongarch-to-apply queue
-Message-ID: <Y03HkidaptgFHbAP@fedora>
-References: <20221017063944.1443723-1-gaosong@loongson.cn>
+ (Exim 4.90_1) (envelope-from <qemu@bonslack.org>) id 1okmI4-0000jU-0Q
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 09:05:57 -0400
+Received: from [10.0.0.70] (93-46-176-134.ip108.fastwebnet.it [93.46.176.134])
+ (authenticated bits=0)
+ by bonnix.bonnix.it (8.14.4/8.14.4) with ESMTP id 29ID5Nbh017658
+ (version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NO);
+ Tue, 18 Oct 2022 15:05:24 +0200
+DKIM-Filter: OpenDKIM Filter v2.11.0 bonnix.bonnix.it 29ID5Nbh017658
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bonslack.org;
+ s=20220805; t=1666098325;
+ bh=W0Lq7589b7TvXWH3CdBp/PvkdwK6i0CEBwbMiJ81rXs=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=IprevDZF+TWfdGwWbAqBS6qy2WIfW+HLwUgM+22orjVq7uzDUaG401/NHLlNnHOHL
+ 6CwAOEQ+fANyQ2hU37yFw7GNrdFqkhTqjCDzXcPYz4x1cyBi34eFMP11OLa+Ue7HzJ
+ tGiqvOuYLp28rA3/jpbClWyGWYLtQSCjmJqdcmx8=
+Message-ID: <99174e4e-cf9e-b685-0911-d0f60a4e13be@bonslack.org>
+Date: Tue, 18 Oct 2022 15:05:23 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="noUJV1H2azqjKby8"
-Content-Disposition: inline
-In-Reply-To: <20221017063944.1443723-1-gaosong@loongson.cn>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] linux-user: Implement faccessat2
+Content-Language: en-GB
+To: Michael Tokarev <mjt@tls.msk.ru>, Helge Deller <deller@gmx.de>,
+ WANG Xuerui <xen0n@gentoo.org>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Andreas_K_=2e_H=c3=bcttel?= <dilfridge@gentoo.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20221009060813.2289077-1-xen0n@gentoo.org>
+ <f47945b7-afce-f0e3-2ca9-6c6cd119cae7@gmx.de>
+ <a69ae272-b0a3-cea3-b9a7-a678af274c2a@msgid.tls.msk.ru>
+From: Luca Bonissi <qemu@bonslack.org>
+In-Reply-To: <a69ae272-b0a3-cea3-b9a7-a678af274c2a@msgid.tls.msk.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:dcc0:dead:b9ff:fede:feed:2935:e3c8;
+ envelope-from=qemu@bonslack.org; helo=bonnix.bonnix.it
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
- DKIMWL_WL_HIGH=-0.256, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 18 Oct 2022 10:13:48 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,30 +75,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 18/10/22 11:58, Michael Tokarev wrote:
+> 10.10.2022 11:53, Helge Deller wrote:
+>> On 10/9/22 08:08, WANG Xuerui wrote:
+>>> User space has been preferring this syscall for a while, due to its
+>>> closer match with C semantics, and newer platforms such as LoongArch
+>>> apparently have libc implementations that don't fallback to faccessat
+>>> so normal access checks are failing without the emulation in place.
+>>
+>> https://lore.kernel.org/qemu-devel/YzLdcnL6x646T61W@p100/
 
---noUJV1H2azqjKby8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+I think this one is the more complete and simplest solution.
+Only change:
 
-Applied, thanks.
++#if defined(TARGET_NR_faccessat2) && defined(__NR_faccessat2)
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
+with
 
---noUJV1H2azqjKby8
-Content-Type: application/pgp-signature; name="signature.asc"
++#if defined(TARGET_NR_faccessat2)
 
------BEGIN PGP SIGNATURE-----
+(not necessary to have host __NR_faccessat2)
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNNx5IACgkQnKSrs4Gr
-c8hxDwf/ee1u80I1FYF8iqApXzAQLSUY4cHIk1CitHnbinjCiMJGKL7LJBi6XB44
-PH51zh5mQwPMW5cNrBC/uVnVg+0CckCcCsPeXNSyuR9pG6dIvZY6IzjTzphxbiZO
-AqJugRzBkUFaqnkH1gZb9tzILXlJooeEb0RBp9h/0LX9lgRiUAJUVnlYdZUf50h6
-gwCz3JEhvkHFza7m5MEdDPaAr34G8bpuBFGOpQ9c5cRckuQHwqLnOfHEAiGWsKBV
-JKOKgByXqpmamKmPPLNdu6N6q9DMpEQIk4azxHBNbzmjAYppH1Q0ZYWIbSfHXJcv
-zlGvkSCILnfCDJsFiDQongX2HkB1iQ==
-=5PWs
------END PGP SIGNATURE-----
+and replace "faccessat2(...)" with "faccessat(...)", so it uses glibc 
+implementation, that uses __NR_faccessat2 if host has this syscall, 
+otherwise it falls back to faccessat with the addition of fstatat if 
+flags!=0 (obviously, the definition of syscall4(... faccessat2 ...) 
+should be removed).
 
---noUJV1H2azqjKby8--
+> For loongarch64 users this has become essential, because this is a
+> new enough arch so that userspace does not bother using older syscalls,
+> in this case it uses faccessat2() for everything, and simplest programs
+> fail under qemu due to no fallback whatsoever.
 
+I agree that it has become essential. Development with qemu-user is much 
+faster than using qemu-system, with all the benefits to use chroot on a 
+shared file system.
+
+I tested (and currently testing) the above patch with Slackware-current 
+build scripts on x86_64 host: all works fine!
+
+Thanks!
+   Luca
 
