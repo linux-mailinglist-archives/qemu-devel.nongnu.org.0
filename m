@@ -2,96 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A61696031BC
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 19:42:42 +0200 (CEST)
-Received: from localhost ([::1]:51970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D5F16031D1
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 19:53:03 +0200 (CEST)
+Received: from localhost ([::1]:39250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okqbr-0001HU-6o
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 13:42:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38084)
+	id 1okqlx-0006a5-BZ
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 13:53:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1okqKn-0007xv-KG
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 13:24:59 -0400
-Received: from mx0b-0031df01.pphosted.com ([205.220.180.131]:14672)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1okqUk-0006g2-Un
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 13:35:15 -0400
+Received: from 1.mo548.mail-out.ovh.net ([178.32.121.110]:57447)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1okqKl-0002Bu-EP
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 13:24:57 -0400
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29IFU9kt023356;
- Tue, 18 Oct 2022 17:24:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-type :
- content-transfer-encoding; s=qcppdkim1;
- bh=waYmqSjdyxfUQpQlp2ywcDx1KHg+mhuKzQkbBz38HdY=;
- b=VM4kRUMAYBaN9RO7E92kH5Wbaw8cRhFCxM2ytNi92hNmtd9QdGkqSKdKlTVl0UE0WmEu
- ulH0yH3+73oeQB+rV9L33woDf9DWfr/ndmltMCsfd5t5wnCfihgQkYUs9zTYihIBfQ+i
- CaacE0MwoW0eHCj9ls/0Kab5RINXMDe/25VwcOCfbO21NZO3GEZUhweKeUkisJsMeRgZ
- EGFlJlTDLrCM/AnKURI9lJTyqQ+J66xLLeg/Ntz3S0+qns7Zds8O8q/or8NNTsaUXyTO
- m7aqDWOC1EUNi80iK+wsaLF+y6GIEXcNPGao1vE+tZA5OLDZ54ZbeN4lge3J3t8c+LRa /A== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3k9jf21xrf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Oct 2022 17:24:49 +0000
-Received: from pps.filterd (NALASPPMTA04.qualcomm.com [127.0.0.1])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 29IHOmCa008558; 
- Tue, 18 Oct 2022 17:24:48 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by NALASPPMTA04.qualcomm.com (PPS) with ESMTPS id 3k7nxkpxuk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Tue, 18 Oct 2022 17:24:48 +0000
-Received: from NALASPPMTA04.qualcomm.com (NALASPPMTA04.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29IHOl2i008553;
- Tue, 18 Oct 2022 17:24:47 GMT
-Received: from hu-devc-lv-u18-c.qualcomm.com (hu-tsimpson-lv.qualcomm.com
- [10.47.235.220])
- by NALASPPMTA04.qualcomm.com (PPS) with ESMTP id 29IHOlTT008552;
- Tue, 18 Oct 2022 17:24:47 +0000
-Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 47164)
- id 5CCB15000A7; Tue, 18 Oct 2022 10:24:47 -0700 (PDT)
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: qemu-devel@nongnu.org
-Cc: tsimpson@quicinc.com, richard.henderson@linaro.org, f4bug@amsat.org,
- ale@rev.ng, anjo@rev.ng, bcain@quicinc.com, quic_mathbern@quicinc.com
-Subject: [PATCH v2] Hexagon (target/hexagon) Fix predicated assignment to .tmp
- and .cur
-Date: Tue, 18 Oct 2022 10:24:46 -0700
-Message-Id: <20221018172446.25766-1-tsimpson@quicinc.com>
-X-Mailer: git-send-email 2.17.1
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1okqUV-0003fM-CD
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 13:35:14 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.141])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 3A0962272B;
+ Tue, 18 Oct 2022 17:34:54 +0000 (UTC)
+Received: from kaod.org (37.59.142.104) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Tue, 18 Oct
+ 2022 19:34:54 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-104R0059f61b7cb-bda1-4116-8703-25f36a2f64d9,
+ E583C31B167A4CECD7AFA5F42DA6B4ED7D5BF57A) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <08bbd6f8-6ae3-4a28-66ed-d5a290c1a30d@kaod.org>
+Date: Tue, 18 Oct 2022 19:34:53 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: CIXKjEqNngimqVWf-tcTTlgrwoHzbnMT
-X-Proofpoint-ORIG-GUID: CIXKjEqNngimqVWf-tcTTlgrwoHzbnMT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-18_06,2022-10-18_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0
- impostorscore=0 clxscore=1011 lowpriorityscore=0 suspectscore=0
- priorityscore=1501 mlxscore=0 mlxlogscore=861 adultscore=0 malwarescore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210180098
-Received-SPF: pass client-ip=205.220.180.131;
- envelope-from=tsimpson@qualcomm.com; helo=mx0b-0031df01.pphosted.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v10 6/9] s390x/cpu topology: add topology-disable machine
+ property
+Content-Language: en-US
+To: Pierre Morel <pmorel@linux.ibm.com>, <qemu-s390x@nongnu.org>
+CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
+ <richard.henderson@linaro.org>, <david@redhat.com>, <thuth@redhat.com>,
+ <cohuck@redhat.com>, <mst@redhat.com>, <pbonzini@redhat.com>,
+ <kvm@vger.kernel.org>, <ehabkost@redhat.com>, <marcel.apfelbaum@gmail.com>,
+ <eblake@redhat.com>, <armbru@redhat.com>, <seiden@linux.ibm.com>,
+ <nrb@linux.ibm.com>, <frankja@linux.ibm.com>, <berrange@redhat.com>
+References: <20221012162107.91734-1-pmorel@linux.ibm.com>
+ <20221012162107.91734-7-pmorel@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20221012162107.91734-7-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.104]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 2d99707d-972a-4c4d-a87c-4330bdcbad69
+X-Ovh-Tracer-Id: 16410554092817713936
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeelvddgkeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhmohhrvghlsehlihhnuhigrdhisghmrdgtohhmpdhnrhgssehlihhnuhigrdhisghmrdgtohhmpdhsvghiuggvnheslhhinhhugidrihgsmhdrtghomhdprghrmhgsrhhusehrvgguhhgrthdrtghomhdpvggslhgrkhgvsehrvgguhhgrthdrtghomhdpmhgrrhgtvghlrdgrphhfvghlsggruhhmsehgmhgrihhlrdgtohhmpdgvhhgrsghkohhsthesrhgvughhrghtrdgtohhmpdhkvhhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhpsghonhiiihhnihesrhgvughhrghtrdgtoh
+ hmpdhmshhtsehrvgguhhgrthdrtghomhdptghohhhutghksehrvgguhhgrthdrtghomhdpthhhuhhthhesrhgvughhrghtrdgtohhmpdgurghvihgusehrvgguhhgrthdrtghomhdprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdgsohhrnhhtrhgrvghgvghrseguvgdrihgsmhdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrghdpfhhrrghnkhhjrgeslhhinhhugidrihgsmhdrtghomhdpsggvrhhrrghnghgvsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhoheegkedpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=178.32.121.110; envelope-from=clg@kaod.org;
+ helo=1.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,120 +80,276 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KioqIENoYW5nZXMgaW4gdjIgKioqClVwZGF0ZSB0ZXN0IGNhc2UgdG8gdXNlIGJvdGggdHJ1ZSBh
-bmQgZmFsc2UgcHJlZGljYXRlcwpBZGQgZml4IGZvciAuY3VyCgpIZXJlIGFyZSBleGFtcGxlIGlu
-c3RydWN0aW9ucyB3aXRoIGEgcHJlZGljYXRlZCAudG1wLy5jdXIgYXNzaWdubWVudAogICAgaWYg
-KHAxKSB2MTIudG1wID0gdm1lbShyNyArICMwKQogICAgaWYgKHAwKSB2MTIuY3VyID0gdm1lbShy
-OSArICMwKQpUaGUgLnRtcC8uY3VyIGluZGljYXRlcyB0aGF0IHJlZmVyZW5jZXMgdG8gdjEyIGlu
-IHRoZSBzYW1lIHBhY2tldAp0YWtlIHRoZSByZXN1bHQgb2YgdGhlIGxvYWQuICBIb3dldmVyLCB3
-aGVuIHRoZSBwcmVkaWNhdGUgaXMgZmFsc2UsCnRoZSB2YWx1ZSBhdCB0aGUgc3RhcnQgb2YgdGhl
-IHBhY2tldCBzaG91bGQgYmUgdXNlZC4gIEFmdGVyIHRoZSBwYWNrZXQKY29tbWl0cywgdGhlIC50
-bXAgdmFsdWUgaXMgZHJvcHBlZCwgYnV0IHRoZSAuY3VyIHZhbHVlIGlzIG1haW50YWluZWQuCgpU
-byBmaXggdGhpcyBidWcsIHdlIHByZWxvYWQgdGhlIG9yaWdpbmFsIHZhbHVlIGZyb20gdGhlIEhW
-WCByZWdpc3RlcgppbnRvIHRoZSB0ZW1wb3JhcnkgdXNlZCBmb3IgdGhlIHJlc3VsdC4KClRlc3Qg
-Y2FzZXMgYWRkZWQgdG8gdGVzdHMvdGNnL2hleGFnb24vaHZ4X21pc2MuYwoKQ28tYXV0aG9yZWQt
-Ynk6IE1hdGhldXMgVGF2YXJlcyBCZXJuYXJkaW5vIDxxdWljX21hdGhiZXJuQHF1aWNpbmMuY29t
-PgpTaWduZWQtb2ZmLWJ5OiBNYXRoZXVzIFRhdmFyZXMgQmVybmFyZGlubyA8cXVpY19tYXRoYmVy
-bkBxdWljaW5jLmNvbT4KU2lnbmVkLW9mZi1ieTogVGF5bG9yIFNpbXBzb24gPHRzaW1wc29uQHF1
-aWNpbmMuY29tPgotLS0KIHRhcmdldC9oZXhhZ29uL3RyYW5zbGF0ZS5oICAgICAgfCAxMiArKysr
-Ky0KIHRlc3RzL3RjZy9oZXhhZ29uL2h2eF9taXNjLmMgICAgfCA3MiArKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysKIHRhcmdldC9oZXhhZ29uL2dlbl90Y2dfZnVuY3MucHkgfCAxNiAr
-KysrKysrKwogMyBmaWxlcyBjaGFuZ2VkLCA5OSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0p
-CgpkaWZmIC0tZ2l0IGEvdGFyZ2V0L2hleGFnb24vdHJhbnNsYXRlLmggYi90YXJnZXQvaGV4YWdv
-bi90cmFuc2xhdGUuaAppbmRleCBhMjQ1MTcyODI3Li4yZDU2M2NlYTE0IDEwMDY0NAotLS0gYS90
-YXJnZXQvaGV4YWdvbi90cmFuc2xhdGUuaAorKysgYi90YXJnZXQvaGV4YWdvbi90cmFuc2xhdGUu
-aApAQCAtMSw1ICsxLDUgQEAKIC8qCi0gKiAgQ29weXJpZ2h0KGMpIDIwMTktMjAyMSBRdWFsY29t
-bSBJbm5vdmF0aW9uIENlbnRlciwgSW5jLiBBbGwgUmlnaHRzIFJlc2VydmVkLgorICogIENvcHly
-aWdodChjKSAyMDE5LTIwMjIgUXVhbGNvbW0gSW5ub3ZhdGlvbiBDZW50ZXIsIEluYy4gQWxsIFJp
-Z2h0cyBSZXNlcnZlZC4KICAqCiAgKiAgVGhpcyBwcm9ncmFtIGlzIGZyZWUgc29mdHdhcmU7IHlv
-dSBjYW4gcmVkaXN0cmlidXRlIGl0IGFuZC9vciBtb2RpZnkKICAqICBpdCB1bmRlciB0aGUgdGVy
-bXMgb2YgdGhlIEdOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIGFzIHB1Ymxpc2hlZCBieQpAQCAt
-ODMsNiArODMsMTYgQEAgc3RhdGljIGlubGluZSBib29sIGlzX3ByZWxvYWRlZChEaXNhc0NvbnRl
-eHQgKmN0eCwgaW50IG51bSkKICAgICByZXR1cm4gdGVzdF9iaXQobnVtLCBjdHgtPnJlZ3Nfd3Jp
-dHRlbik7CiB9CiAKK3N0YXRpYyBpbmxpbmUgYm9vbCBpc190bXBfdnJlZ19wcmVsb2FkZWQoRGlz
-YXNDb250ZXh0ICpjdHgsIGludCBudW0pCit7CisgICAgcmV0dXJuIHRlc3RfYml0KG51bSwgY3R4
-LT52cmVnc191cGRhdGVkX3RtcCk7Cit9CisKK3N0YXRpYyBpbmxpbmUgYm9vbCBpc19mdXR1cmVf
-dnJlZ19wcmVsb2FkZWQoRGlzYXNDb250ZXh0ICpjdHgsIGludCBudW0pCit7CisgICAgcmV0dXJu
-IHRlc3RfYml0KG51bSwgY3R4LT52cmVnc19zZWxlY3QpOworfQorCiBpbnRwdHJfdCBjdHhfZnV0
-dXJlX3ZyZWdfb2ZmKERpc2FzQ29udGV4dCAqY3R4LCBpbnQgcmVnbnVtLAogICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICBpbnQgbnVtLCBib29sIGFsbG9jX29rKTsKIGludHB0cl90IGN0eF90
-bXBfdnJlZ19vZmYoRGlzYXNDb250ZXh0ICpjdHgsIGludCByZWdudW0sCmRpZmYgLS1naXQgYS90
-ZXN0cy90Y2cvaGV4YWdvbi9odnhfbWlzYy5jIGIvdGVzdHMvdGNnL2hleGFnb24vaHZ4X21pc2Mu
-YwppbmRleCA2ZTJjOWFiM2NkLi41M2Q1YzliNDRmIDEwMDY0NAotLS0gYS90ZXN0cy90Y2cvaGV4
-YWdvbi9odnhfbWlzYy5jCisrKyBiL3Rlc3RzL3RjZy9oZXhhZ29uL2h2eF9taXNjLmMKQEAgLTU0
-MSw2ICs1NDEsNzUgQEAgc3RhdGljIHZvaWQgdGVzdF92c2h1ZmYodm9pZCkKICAgICBjaGVja19v
-dXRwdXRfYihfX0xJTkVfXywgMSk7CiB9CiAKK3N0YXRpYyB2b2lkIHRlc3RfbG9hZF90bXBfcHJl
-ZGljYXRlZCh2b2lkKQoreworICAgIHZvaWQgKnAwID0gYnVmZmVyMDsKKyAgICB2b2lkICpwMSA9
-IGJ1ZmZlcjE7CisgICAgdm9pZCAqcG91dCA9IG91dHB1dDsKKyAgICBib29sIHByZWQgPSB0cnVl
-OworCisgICAgZm9yIChpbnQgaSA9IDA7IGkgPCBCVUZTSVpFOyBpKyspIHsKKyAgICAgICAgLyoK
-KyAgICAgICAgICogTG9hZCBpbnRvIHYxMiBhcyAudG1wIHdpdGggYSBwcmVkaWNhdGUKKyAgICAg
-ICAgICogV2hlbiB0aGUgcHJlZGljYXRlIGlzIHRydWUsIHdlIGdldCB0aGUgdmVjdG9yIGZyb20g
-YnVmZmVyMVtpXQorICAgICAgICAgKiBXaGVuIHRoZSBwcmVkaWNhdGUgaXMgZmFsc2UsIHdlIGdl
-dCBhIHZlY3RvciBvZiBhbGwgMSdzCisgICAgICAgICAqIFJlZ2FyZGxlc3Mgb2YgdGhlIHByZWRp
-Y2F0ZSwgdGhlIG5leHQgcGFja2V0IHNob3VsZCBoYXZlCisgICAgICAgICAqIGEgdmVjdG9yIG9m
-IGFsbCAxJ3MKKyAgICAgICAgICovCisgICAgICAgIGFzbSgidjMgPSB2bWVtKCUwICsgIzApXG5c
-dCIKKyAgICAgICAgICAgICJyMSA9ICMxXG5cdCIKKyAgICAgICAgICAgICJ2MTIgPSB2c3BsYXQo
-cjEpXG5cdCIKKyAgICAgICAgICAgICJwMSA9ICFjbXAuZXEoJTMsICMwKVxuXHQiCisgICAgICAg
-ICAgICAie1xuXHQiCisgICAgICAgICAgICAiICAgIGlmIChwMSkgdjEyLnRtcCA9IHZtZW0oJTEg
-KyAjMClcblx0IgorICAgICAgICAgICAgIiAgICB2NC53ID0gdmFkZCh2MTIudywgdjMudylcblx0
-IgorICAgICAgICAgICAgIn1cblx0IgorICAgICAgICAgICAgInY0LncgPSB2YWRkKHY0LncsIHYx
-Mi53KVxuXHQiCisgICAgICAgICAgICAidm1lbSglMiArICMwKSA9IHY0XG5cdCIKKyAgICAgICAg
-ICAgIDogOiAiciIocDApLCAiciIocDEpLCAiciIocG91dCksICJyIihwcmVkKQorICAgICAgICAg
-ICAgOiAicjEiLCAicDEiLCAidjEyIiwgInYzIiwgInY0IiwgInY2IiwgIm1lbW9yeSIpOworICAg
-ICAgICBwMCArPSBzaXplb2YoTU1WZWN0b3IpOworICAgICAgICBwMSArPSBzaXplb2YoTU1WZWN0
-b3IpOworICAgICAgICBwb3V0ICs9IHNpemVvZihNTVZlY3Rvcik7CisKKyAgICAgICAgZm9yIChp
-bnQgaiA9IDA7IGogPCBNQVhfVkVDX1NJWkVfQllURVMgLyA0OyBqKyspIHsKKyAgICAgICAgICAg
-IGV4cGVjdFtpXS53W2pdID0KKyAgICAgICAgICAgICAgICBwcmVkID8gYnVmZmVyMFtpXS53W2pd
-ICsgYnVmZmVyMVtpXS53W2pdICsgMQorICAgICAgICAgICAgICAgICAgICAgOiBidWZmZXIwW2ld
-Lndbal0gKyAyOworICAgICAgICB9CisgICAgICAgIHByZWQgPSAhcHJlZDsKKyAgICB9CisKKyAg
-ICBjaGVja19vdXRwdXRfdyhfX0xJTkVfXywgQlVGU0laRSk7Cit9CisKK3N0YXRpYyB2b2lkIHRl
-c3RfbG9hZF9jdXJfcHJlZGljYXRlZCh2b2lkKQoreworICAgIGJvb2wgcHJlZCA9IHRydWU7Cisg
-ICAgZm9yIChpbnQgaSA9IDA7IGkgPCBCVUZTSVpFOyBpKyspIHsKKyAgICAgICAgYXNtIHZvbGF0
-aWxlKCJwMCA9ICFjbXAuZXEoJTMsICMwKVxuXHQiCisgICAgICAgICAgICAgICAgICAgICAidjMg
-PSB2bWVtKCUwKyMwKVxuXHQiCisgICAgICAgICAgICAgICAgICAgICAvKgorICAgICAgICAgICAg
-ICAgICAgICAgICogUHJlbG9hZCB2NCB0byBtYWtlIHN1cmUgdGhhdCB0aGUgYXNzaWdubWVudCBm
-cm9tIHRoZQorICAgICAgICAgICAgICAgICAgICAgICogcGFja2V0IGJlbG93IGlzIG5vdCBiZWlu
-ZyBpZ25vcmVkIHdoZW4gcHJlZCBpcyBmYWxzZS4KKyAgICAgICAgICAgICAgICAgICAgICAqLwor
-ICAgICAgICAgICAgICAgICAgICAgInIwID0gIzB4MDEyMzc2NTRcblx0IgorICAgICAgICAgICAg
-ICAgICAgICAgInY0ID0gdnNwbGF0KHIwKVxuXHQiCisgICAgICAgICAgICAgICAgICAgICAie1xu
-XHQiCisgICAgICAgICAgICAgICAgICAgICAiICAgIGlmIChwMCkgdjMuY3VyID0gdm1lbSglMSsj
-MClcblx0IgorICAgICAgICAgICAgICAgICAgICAgIiAgICB2NCA9IHYzXG5cdCIKKyAgICAgICAg
-ICAgICAgICAgICAgICJ9XG5cdCIKKyAgICAgICAgICAgICAgICAgICAgICJ2bWVtKCUyKyMwKSA9
-IHY0XG5cdCIKKyAgICAgICAgICAgICAgICAgICAgIDoKKyAgICAgICAgICAgICAgICAgICAgIDog
-InIiKCZidWZmZXIwW2ldKSwgInIiKCZidWZmZXIxW2ldKSwKKyAgICAgICAgICAgICAgICAgICAg
-ICAgInIiKCZvdXRwdXRbaV0pLCAiciIocHJlZCkKKyAgICAgICAgICAgICAgICAgICAgIDogInIw
-IiwgInAwIiwgInYzIiwgInY0IiwgIm1lbW9yeSIpOworICAgICAgICBleHBlY3RbaV0gPSBwcmVk
-ID8gYnVmZmVyMVtpXSA6IGJ1ZmZlcjBbaV07CisgICAgICAgIHByZWQgPSAhcHJlZDsKKyAgICB9
-CisgICAgY2hlY2tfb3V0cHV0X3coX19MSU5FX18sIEJVRlNJWkUpOworfQorCiBpbnQgbWFpbigp
-CiB7CiAgICAgaW5pdF9idWZmZXJzKCk7CkBAIC01NzgsNiArNjQ3LDkgQEAgaW50IG1haW4oKQog
-CiAgICAgdGVzdF92c2h1ZmYoKTsKIAorICAgIHRlc3RfbG9hZF90bXBfcHJlZGljYXRlZCgpOwor
-ICAgIHRlc3RfbG9hZF9jdXJfcHJlZGljYXRlZCgpOworCiAgICAgcHV0cyhlcnIgPyAiRkFJTCIg
-OiAiUEFTUyIpOwogICAgIHJldHVybiBlcnIgPyAxIDogMDsKIH0KZGlmZiAtLWdpdCBhL3Rhcmdl
-dC9oZXhhZ29uL2dlbl90Y2dfZnVuY3MucHkgYi90YXJnZXQvaGV4YWdvbi9nZW5fdGNnX2Z1bmNz
-LnB5CmluZGV4IDZkZWEwMmIwYjkuLmRlMGUwNmFiNzEgMTAwNzU1Ci0tLSBhL3RhcmdldC9oZXhh
-Z29uL2dlbl90Y2dfZnVuY3MucHkKKysrIGIvdGFyZ2V0L2hleGFnb24vZ2VuX3RjZ19mdW5jcy5w
-eQpAQCAtMTczLDYgKzE3MywyMiBAQCBkZWYgZ2VucHRyX2RlY2woZiwgdGFnLCByZWd0eXBlLCBy
-ZWdpZCwgcmVnbm8pOgogICAgICAgICAgICAgICAgIGYud3JpdGUoIiAgICAgICAgY3R4X2Z1dHVy
-ZV92cmVnX29mZihjdHgsICVzJXNOLCIgJSBcCiAgICAgICAgICAgICAgICAgICAgIChyZWd0eXBl
-LCByZWdpZCkpCiAgICAgICAgICAgICAgICAgZi53cml0ZSgiIDEsIHRydWUpO1xuIik7CisgICAg
-ICAgICAgICBpZiByZWdpZCAhPSAieSIgYW5kICdBX0NPTkRFWEVDJyBpbiBoZXhfY29tbW9uLmF0
-dHJpYmRpY3RbdGFnXToKKyAgICAgICAgICAgICAgICBpZiBoZXhfY29tbW9uLmlzX3RtcF9yZXN1
-bHQodGFnKToKKyAgICAgICAgICAgICAgICAgICAgcHJlbG9hZF90ZXN0X2ZuID0gImlzX3RtcF92
-cmVnX3ByZWxvYWRlZCIKKyAgICAgICAgICAgICAgICBlbHNlOgorICAgICAgICAgICAgICAgICAg
-ICBwcmVsb2FkX3Rlc3RfZm4gPSAiaXNfZnV0dXJlX3ZyZWdfcHJlbG9hZGVkIgorICAgICAgICAg
-ICAgICAgIGYud3JpdGUoIiAgICBpZiAoISVzKGN0eCwgJXMpKSB7XG4iICUgKHByZWxvYWRfdGVz
-dF9mbiwgcmVnTikpCisgICAgICAgICAgICAgICAgZi53cml0ZSgiICAgICAgICBpbnRwdHJfdCBz
-cmNfb2ZmID0iKQorICAgICAgICAgICAgICAgIGYud3JpdGUoIiBvZmZzZXRvZihDUFVIZXhhZ29u
-U3RhdGUsIFZSZWdzWyVzJXNOXSk7XG4iJSBcCisgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgKHJlZ3R5cGUsIHJlZ2lkKSkKKyAgICAgICAgICAgICAgICBmLndyaXRlKCIgICAg
-ICAgIHRjZ19nZW5fZ3ZlY19tb3YoTU9fNjQsICVzJXNWX29mZixcbiIgJSBcCisgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgKHJlZ3R5cGUsIHJlZ2lkKSkKKyAgICAgICAgICAg
-ICAgICBmLndyaXRlKCIgICAgICAgICAgICAgICAgICAgICAgICAgc3JjX29mZixcbiIpCisgICAg
-ICAgICAgICAgICAgZi53cml0ZSgiICAgICAgICAgICAgICAgICAgICAgICAgIHNpemVvZihNTVZl
-Y3RvciksXG4iKQorICAgICAgICAgICAgICAgIGYud3JpdGUoIiAgICAgICAgICAgICAgICAgICAg
-ICAgICBzaXplb2YoTU1WZWN0b3IpKTtcbiIpCisgICAgICAgICAgICAgICAgZi53cml0ZSgiICAg
-IH1cbiIpCisKICAgICAgICAgICAgIGlmIChub3QgaGV4X2NvbW1vbi5za2lwX3FlbXVfaGVscGVy
-KHRhZykpOgogICAgICAgICAgICAgICAgIGYud3JpdGUoIiAgICBUQ0d2X3B0ciAlcyVzViA9IHRj
-Z190ZW1wX25ld19wdHIoKTtcbiIgJSBcCiAgICAgICAgICAgICAgICAgICAgIChyZWd0eXBlLCBy
-ZWdpZCkpCi0tIAoyLjE3LjEKCg==
+On 10/12/22 18:21, Pierre Morel wrote:
+> S390 CPU topology is only allowed for s390-virtio-ccw-7.3 and
+> newer S390 machines.
+> We keep the possibility to disable the topology on these newer
+> machines with the property topology-disable.
+> 
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+>   include/hw/boards.h                |  3 ++
+>   include/hw/s390x/cpu-topology.h    | 18 +++++++++-
+>   include/hw/s390x/s390-virtio-ccw.h |  2 ++
+>   hw/core/machine.c                  |  5 +++
+>   hw/s390x/s390-virtio-ccw.c         | 53 +++++++++++++++++++++++++++++-
+>   util/qemu-config.c                 |  4 +++
+>   qemu-options.hx                    |  6 +++-
+>   7 files changed, 88 insertions(+), 3 deletions(-)
+> 
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index 311ed17e18..67147c47bf 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -379,6 +379,9 @@ struct MachineState {
+>       } \
+>       type_init(machine_initfn##_register_types)
+>   
+> +extern GlobalProperty hw_compat_7_2[];
+> +extern const size_t hw_compat_7_2_len;
+
+QEMU 7.2 is not out yet.
+
+> +
+>   extern GlobalProperty hw_compat_7_1[];
+>   extern const size_t hw_compat_7_1_len;
+>   
+> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
+> index 35a8a981ec..747c9ab4c6 100644
+> --- a/include/hw/s390x/cpu-topology.h
+> +++ b/include/hw/s390x/cpu-topology.h
+> @@ -12,6 +12,8 @@
+>   
+>   #include "hw/qdev-core.h"
+>   #include "qom/object.h"
+> +#include "cpu.h"
+> +#include "hw/s390x/s390-virtio-ccw.h"
+>   
+>   #define S390_TOPOLOGY_POLARITY_H  0x00
+>   
+> @@ -43,7 +45,21 @@ void s390_topology_new_cpu(int core_id);
+>   
+>   static inline bool s390_has_topology(void)
+>   {
+> -    return false;
+> +    static S390CcwMachineState *ccw;
+
+hmm, s390_has_topology is a static inline. It would be preferable to
+change its definition to extern.
+
+> +    Object *obj;
+> +
+> +    if (ccw) {
+> +        return !ccw->topology_disable;
+> +    }
+> +
+> +    /* we have to bail out for the "none" machine */
+> +    obj = object_dynamic_cast(qdev_get_machine(),
+> +                              TYPE_S390_CCW_MACHINE);
+> +    if (!obj) {
+> +        return false;
+> +    }
+> +    ccw = S390_CCW_MACHINE(obj);
+> +    return !ccw->topology_disable;
+>   }
+>   
+>   #endif
+> diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
+> index 9e7a0d75bc..6c4b4645fc 100644
+> --- a/include/hw/s390x/s390-virtio-ccw.h
+> +++ b/include/hw/s390x/s390-virtio-ccw.h
+> @@ -28,6 +28,7 @@ struct S390CcwMachineState {
+>       bool dea_key_wrap;
+>       bool pv;
+>       bool zpcii_disable;
+> +    bool topology_disable;
+>       uint8_t loadparm[8];
+>   };
+>   
+> @@ -46,6 +47,7 @@ struct S390CcwMachineClass {
+>       bool cpu_model_allowed;
+>       bool css_migration_enabled;
+>       bool hpage_1m_allowed;
+> +    bool topology_allowed;
+
+'topology_disable' in the state and 'topology_allowed' in the class.
+This is confusing :/
+
+you should add 'topology_allowed' in its own patch and maybe call
+it 'topology_capable' ? it is a QEMU capability AIUI
+
+>   };
+>   
+>   /* runtime-instrumentation allowed by the machine */
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index aa520e74a8..93c497655e 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -40,6 +40,11 @@
+>   #include "hw/virtio/virtio-pci.h"
+>   #include "qom/object_interfaces.h"
+>   
+> +GlobalProperty hw_compat_7_2[] = {
+> +    { "s390-topology", "topology-disable", "true" },
+
+May be use TYPE_S390_CPU_TOPOLOGY instead.
+
+But again, this should only apply to 7.1 machines and below. 7.2 is
+not out yet.
+
+
+> +};
+> +const size_t hw_compat_7_2_len = G_N_ELEMENTS(hw_compat_7_2);
+> +
+>   GlobalProperty hw_compat_7_1[] = {};
+>   const size_t hw_compat_7_1_len = G_N_ELEMENTS(hw_compat_7_1);
+>   
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index 362378454a..3a13fad4df 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -616,6 +616,7 @@ static void ccw_machine_class_init(ObjectClass *oc, void *data)
+>       s390mc->cpu_model_allowed = true;
+>       s390mc->css_migration_enabled = true;
+>       s390mc->hpage_1m_allowed = true;
+> +    s390mc->topology_allowed = true;
+>       mc->init = ccw_init;
+>       mc->reset = s390_machine_reset;
+>       mc->block_default_type = IF_VIRTIO;
+> @@ -726,6 +727,27 @@ bool hpage_1m_allowed(void)
+>       return get_machine_class()->hpage_1m_allowed;
+>   }
+>   
+> +static inline bool machine_get_topology_disable(Object *obj, Error **errp)
+> +{
+> +    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
+> +
+> +    return ms->topology_disable;
+> +}
+> +
+> +static inline void machine_set_topology_disable(Object *obj, bool value,
+> +                                                Error **errp)
+> +{
+> +    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
+> +
+> +    if (!get_machine_class()->topology_allowed) {
+> +        error_setg(errp, "Property topology-disable not available on machine %s",
+> +                   get_machine_class()->parent_class.name);
+
+OK. I get it now. May be we should consider adding the capability concept
+David introduced in the pseries machine. Please take a look. That's not
+for this patchset though. It would be too much work.
+
+> +        return;
+> +    }
+> +
+> +    ms->topology_disable = value;
+> +}
+> +
+>   static char *machine_get_loadparm(Object *obj, Error **errp)
+>   {
+>       S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
+> @@ -784,6 +806,13 @@ static inline void s390_machine_initfn(Object *obj)
+>       object_property_set_description(obj, "zpcii-disable",
+>               "disable zPCI interpretation facilties");
+>       object_property_set_bool(obj, "zpcii-disable", false, NULL);
+> +
+> +    object_property_add_bool(obj, "topology-disable",
+> +                             machine_get_topology_disable,
+> +                             machine_set_topology_disable);
+> +    object_property_set_description(obj, "topology-disable",
+> +            "disable CPU topology");
+> +    object_property_set_bool(obj, "topology-disable", false, NULL);
+
+All the properties should be added in the machine class_init routine.
+There is a preliminary cleanup patch required to move them all :/
+   
+>   }
+>   
+>   static const TypeInfo ccw_machine_info = {
+> @@ -836,14 +865,36 @@ bool css_migration_enabled(void)
+>       }                                                                         \
+>       type_init(ccw_machine_register_##suffix)
+>   
+> +static void ccw_machine_7_3_instance_options(MachineState *machine)
+> +{
+> +}
+> +
+> +static void ccw_machine_7_3_class_options(MachineClass *mc)
+> +{
+> +}
+> +DEFINE_CCW_MACHINE(7_3, "7.3", true);
+
+That's too early.
+
+> +
+>   static void ccw_machine_7_2_instance_options(MachineState *machine)
+>   {
+> +    S390CcwMachineState *ms = S390_CCW_MACHINE(machine);
+> +
+> +    ccw_machine_7_3_instance_options(machine);
+> +    ms->topology_disable = true;
+>   }
+>   
+>   static void ccw_machine_7_2_class_options(MachineClass *mc)
+>   {
+> +    S390CcwMachineClass *s390mc = S390_CCW_MACHINE_CLASS(mc);
+> +    static GlobalProperty compat[] = {
+> +        { TYPE_S390_CPU_TOPOLOGY, "topology-allowed", "off", },
+
+hmm, "topology-allowed" is not a TYPE_S390_CPU_TOPOLOGY property.
+
+
+> +    };
+> +
+> +    ccw_machine_7_3_class_options(mc);
+> +    compat_props_add(mc->compat_props, hw_compat_7_2, hw_compat_7_2_len);
+> +    compat_props_add(mc->compat_props, compat, G_N_ELEMENTS(compat));
+> +    s390mc->topology_allowed = false;
+>   }
+> -DEFINE_CCW_MACHINE(7_2, "7.2", true);
+> +DEFINE_CCW_MACHINE(7_2, "7.2", false);
+>   
+>   static void ccw_machine_7_1_instance_options(MachineState *machine)
+>   {
+> diff --git a/util/qemu-config.c b/util/qemu-config.c
+> index 5325f6bf80..c19e8bc8f3 100644
+> --- a/util/qemu-config.c
+> +++ b/util/qemu-config.c
+> @@ -240,6 +240,10 @@ static QemuOptsList machine_opts = {
+>               .name = "zpcii-disable",
+>               .type = QEMU_OPT_BOOL,
+>               .help = "disable zPCI interpretation facilities",
+> +        },{
+> +            .name = "topology-disable",
+> +            .type = QEMU_OPT_BOOL,
+> +            .help = "disable CPU topology",
+>           },
+>           { /* End of list */ }
+>       }
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 95b998a13b..c804b0f899 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -38,7 +38,8 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
+>       "                hmat=on|off controls ACPI HMAT support (default=off)\n"
+>       "                memory-backend='backend-id' specifies explicitly provided backend for main RAM (default=none)\n"
+>       "                cxl-fmw.0.targets.0=firsttarget,cxl-fmw.0.targets.1=secondtarget,cxl-fmw.0.size=size[,cxl-fmw.0.interleave-granularity=granularity]\n"
+> -    "                zpcii-disable=on|off disables zPCI interpretation facilities (default=off)\n",
+> +    "                zpcii-disable=on|off disables zPCI interpretation facilities (default=off)\n"
+> +    "                topology-disable=on|off disables CPU topology (default=off)\n",
+>       QEMU_ARCH_ALL)
+>   SRST
+>   ``-machine [type=]name[,prop=value[,...]]``
+> @@ -163,6 +164,9 @@ SRST
+>           Disables zPCI interpretation facilties on s390-ccw hosts.
+>           This feature can be used to disable hardware virtual assists
+>           related to zPCI devices. The default is off.
+> +
+> +    ``topology-disable=on|off``
+> +        Disables CPU topology on for S390 machines starting with s390-ccw-virtio-7.3.
+>   ERST
+>   
+>   DEF("M", HAS_ARG, QEMU_OPTION_M,
+
 
