@@ -2,92 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 267D26034B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 23:15:52 +0200 (CEST)
-Received: from localhost ([::1]:39168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C22746034DD
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 23:25:34 +0200 (CEST)
+Received: from localhost ([::1]:48934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oktwE-0007zv-Ew
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 17:15:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35266)
+	id 1oku5c-0005Ka-Sz
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 17:25:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1okthm-00088u-Uk
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 17:00:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47625)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1okthi-0003cx-8d
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 17:00:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666126847;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=m8gVzTEDrFdg9CcJA/+y7Vxy2FCjE7rW81kGSJ6GzjI=;
- b=WRi8egdYqmzbB77ouurUryIGb6LrnttUceUz+CoIS03uWjI6xquyOIWwfZ+mAhDIPD3fa2
- PWecBc0K4Ss0QoLkpWiQ5rqzlrdjw8jw+0jzTWJHNnD8jtIkcwk1k0rCnO5Az6bbfNMNNo
- HgHWN1YhuSqyDrxBH1DUxXEGghp/NdI=
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-100-rb7tObo0MraTVA-Q5Cmy_g-1; Tue, 18 Oct 2022 17:00:44 -0400
-X-MC-Unique: rb7tObo0MraTVA-Q5Cmy_g-1
-Received: by mail-il1-f197.google.com with SMTP id
- j8-20020a056e02154800b002fc89e9ebeeso13545573ilu.16
- for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 14:00:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1oktjW-00022D-HX; Tue, 18 Oct 2022 17:02:51 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:39667)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1oktjS-0003un-GN; Tue, 18 Oct 2022 17:02:41 -0400
+Received: by mail-ej1-x636.google.com with SMTP id b2so35396219eja.6;
+ Tue, 18 Oct 2022 14:02:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=iOmB+xoTEaRaOIdbCKCBrtSMoKomoXO9ygIphsjM/7g=;
+ b=GBHjcUehhWInfIZLMHzCyP1MYWZN2aMfTnwWuY/7IoO1KFpcPqfCAXV9PBuqzVZ4iM
+ BMIv0XMe7otEQOBnCnCaV9KVd5SUlF0vaZAeTV5fBJXmOqOxKFJfHzILTPgc+Jhl20OL
+ Tmd++d1j4YKDF6HuCBScqXes3Pt43mrJyP4YrlL4pT/nvW0hlB2EeiCK0Apu3C7MM4rF
+ qDNxfVjDCuYCxBLHbdYRATYA8FHpeAW8T/ko4pxjaBlxadcNJdYnX/PorA/YHRDMZUyB
+ K2XFa405sbiq1q21tpIcf5YZPpBxp19ZzhbfHIJEFs8yFWLQjeRVphnP4VY/8AKo4rva
+ /kPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=m8gVzTEDrFdg9CcJA/+y7Vxy2FCjE7rW81kGSJ6GzjI=;
- b=tkbYu36FmUn1exq8jij/kjijunUaX7ztzm5d3zVqL3VsUcWZLrLJ9UcEhXgHcNbd/L
- zboTi2c1fsYLtOC5lQuuQpJi9g7Z7WbQUSN0Vy6ZJO8nLB52n7wF22ROwlrgIQcRILjx
- fHS7L7D7UGK1bPCzthxWjF2G41CRipAxkNILqQX9nFWAyd6jKcEllqubfqBKTC79zEsq
- WyY2vp5uk9YRMKeZBXW2c4s+wa7GaC15FpLwj5cD+EIXC9INrDkgi/xjHmKu29vQ/1Vk
- zNFgrtdyxH+iUeQyOk3HGCQld+UEcGtbCtEJkBBFnGcVajitnsuuQ3Sa0FEaXUVMEfC4
- dxgg==
-X-Gm-Message-State: ACrzQf0g6yys0rLT1tejxVOg9/ZV6pr2tZ403koU4LrX70+lmVoEI1JG
- Move+tdYNXKwrJ4iKUIkkfoCiC+glVFzHuGbmG0A3D+luKwkXeJevrnVCCEn3WAC510A5Zw2ysp
- YrUpy73RlkKrx8Ds=
-X-Received: by 2002:a05:6e02:1c46:b0:2f8:e9cc:7ed3 with SMTP id
- d6-20020a056e021c4600b002f8e9cc7ed3mr3048102ilg.69.1666126843504; 
- Tue, 18 Oct 2022 14:00:43 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5Z4TkDqED98DLEI+gwbavtItyF6NIa8AT4sjPkAl87t5YyxnD6PSnLoFb0rtc/ELAKeOBuyw==
-X-Received: by 2002:a05:6e02:1c46:b0:2f8:e9cc:7ed3 with SMTP id
- d6-20020a056e021c4600b002f8e9cc7ed3mr3048082ilg.69.1666126843181; 
- Tue, 18 Oct 2022 14:00:43 -0700 (PDT)
-Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
- [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
- p22-20020a056638217600b003628c926876sm1453749jak.45.2022.10.18.14.00.41
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=iOmB+xoTEaRaOIdbCKCBrtSMoKomoXO9ygIphsjM/7g=;
+ b=QUlR8jYXVzb9QyL5MCcSIb53MwG9laBYPBkYROZ2GKqOtuwGdsMNAXoPuvvxAj2zKg
+ abk2oMzWdCNghW2L/RuKmkjttcsoifIrUJaITS8JkIFXjXWGJ3NxYJ2sP0d6ZIVWJdoM
+ NJ6ZMthpQJz1dRTDB4UVt7EAsaDm0wr8MDjfINIaNS7vJ+oqAYuVSQjWm236APDTi9tU
+ lpuNVzQAu/6vUTUxcrDx8U1IRKoKX5IAgmRq4eNBmM5L0QavcImA6M9Lin5N6mM/lHdk
+ zN+JMc5CHjsqgZF5g1E2rNFCHiC/JJ5ZAvrD9FV204h8/PJsMDnpy3S3Oe02znGNXBwo
+ Az1w==
+X-Gm-Message-State: ACrzQf2AYe/hfY3HYMWoNOtgX8R7ssB9cwReOs5mSXv2hbyRzHQa6BAI
+ ufVVNQCuaKZwhC9bz9n49O5LM21xZP0=
+X-Google-Smtp-Source: AMsMyM5oe6RNRGryZioLiMwic86r81Ydk2MPyHz/ArWbw6Loj4xwaerOADBpqRKPOZBsFdFwM4QYog==
+X-Received: by 2002:a17:907:3ea9:b0:78d:fdf0:88fe with SMTP id
+ hs41-20020a1709073ea900b0078dfdf088femr4116844ejc.667.1666126954317; 
+ Tue, 18 Oct 2022 14:02:34 -0700 (PDT)
+Received: from localhost.localdomain
+ (dynamic-078-054-012-048.78.54.pool.telefonica.de. [78.54.12.48])
+ by smtp.gmail.com with ESMTPSA id
+ fe7-20020a056402390700b004587c2b5048sm9407951edb.52.2022.10.18.14.02.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Oct 2022 14:00:42 -0700 (PDT)
-Date: Tue, 18 Oct 2022 17:00:40 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Manish Mishra <manish.mishra@nutanix.com>,
- qemu-devel <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: MultiFD and default channel out of order mapping on receive side.
-Message-ID: <Y08T+DZQXh/89O/g@x1n>
-References: <9f02255a-ceb9-9ca6-2606-b91c5e9e6459@nutanix.com>
- <Y0fJFcj9+wcnKYqd@redhat.com>
- <a4f67b8d-21ec-4261-6ffb-3162c854ce8f@nutanix.com>
- <Y00+tsrBs2m2CH6R@redhat.com> <Y03F97gmi7N4cyMM@x1n>
- <Y05hVC7AXdc0Ak4z@redhat.com> <Y069YMtwwOrmI6lM@x1n>
+ Tue, 18 Oct 2022 14:02:33 -0700 (PDT)
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ qemu-ppc@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Antony Pavlov <antonynpavlov@gmail.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>,
+ Alistair Francis <alistair@alistair23.me>,
+ Bin Meng <bin.meng@windriver.com>, Kevin Wolf <kwolf@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Jan Kiszka <jan.kiszka@web.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-arm@nongnu.org,
+ Magnus Damm <magnus.damm@gmail.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org,
+ Bernhard Beschow <shentey@gmail.com>
+Subject: [PATCH v4 0/7] ppc/e500: Add support for two types of flash, cleanup
+Date: Tue, 18 Oct 2022 23:01:39 +0200
+Message-Id: <20221018210146.193159-1-shentey@gmail.com>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y069YMtwwOrmI6lM@x1n>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,128 +99,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 18, 2022 at 10:51:12AM -0400, Peter Xu wrote:
-> On Tue, Oct 18, 2022 at 09:18:28AM +0100, Daniel P. Berrangé wrote:
-> > On Mon, Oct 17, 2022 at 05:15:35PM -0400, Peter Xu wrote:
-> > > On Mon, Oct 17, 2022 at 12:38:30PM +0100, Daniel P. Berrangé wrote:
-> > > > On Mon, Oct 17, 2022 at 01:06:00PM +0530, manish.mishra wrote:
-> > > > > Hi Daniel,
-> > > > > 
-> > > > > I was thinking for some solutions for this so wanted to discuss that before going ahead. Also added Juan and Peter in loop.
-> > > > > 
-> > > > > 1. Earlier i was thinking, on destination side as of now for default
-> > > > > and multi-FD channel first data to be sent is MAGIC_NUMBER and VERSION
-> > > > > so may be we can decide mapping based on that. But then that does not
-> > > > > work for newly added post copy preempt channel as it does not send
-> > > > > any MAGIC number. Also even for multiFD just MAGIC number does not
-> > > > > tell which multifd channel number is it, even though as per my thinking
-> > > > > it does not matter. So MAGIC number should be good for indentifying
-> > > > > default vs multiFD channel?
-> > > > 
-> > > > Yep, you don't need to know more than the MAGIC value.
-> > > > 
-> > > > In migration_io_process_incoming, we need to use MSG_PEEK to look at
-> > > > the first 4 bytes pendingon the wire. If those bytes are 'QEVM' that's
-> > > > the primary channel, if those bytes are big endian 0x11223344, that's
-> > > > a multifd channel.  Using MSG_PEEK aviods need to modify thue later
-> > > > code that actually reads this data.
-> > > > 
-> > > > The challenge is how long to wait with the MSG_PEEK. If we do it
-> > > > in a blocking mode, its fine for main channel and multifd, but
-> > > > IIUC for the post-copy pre-empt channel we'd be waiting for
-> > > > something that will never arrive.
-> > > > 
-> > > > Having suggested MSG_PEEK though, this may well not work if the
-> > > > channel has TLS present. In fact it almost definitely won't work.
-> > > > 
-> > > > To cope with TLS migration_io_process_incoming would need to
-> > > > actually read the data off the wire, and later methods be
-> > > > taught to skip reading the magic.
-> > > > 
-> > > > > 2. For post-copy preempt may be we can initiate this channel only
-> > > > > after we have received a request from remote e.g. remote page fault.
-> > > > > This to me looks safest considering post-copy recorvery case too.
-> > > > > I can not think of any depedency on post copy preempt channel which
-> > > > > requires it to be initialised very early. May be Peter can confirm
-> > > > > this.
-> > > > 
-> > > > I guess that could work
-> > > 
-> > > Currently all preempt code still assumes when postcopy activated it's in
-> > > preempt mode.  IIUC such a change will bring an extra phase of postcopy
-> > > with no-preempt before preempt enabled.  We may need to teach qemu to
-> > > understand that if it's needed.
-> > > 
-> > > Meanwhile the initial page requests will not be able to benefit from the
-> > > new preempt channel too.
-> > > 
-> > > > 
-> > > > > 3. Another thing we can do is to have 2-way handshake on every
-> > > > > channel creation with some additional metadata, this to me looks
-> > > > > like cleanest approach and durable, i understand that can break
-> > > > > migration to/from old qemu, but then that can come as migration
-> > > > > capability?
-> > > > 
-> > > > The benefit of (1) is that the fix can be deployed for all existing
-> > > > QEMU releases by backporting it.  (3) will meanwhile need mgmt app
-> > > > updates to make it work, which is much more work to deploy.
-> > > > 
-> > > > We really shoulud have had a more formal handshake, and I've described
-> > > > ways to achieve this in the past, but it is quite alot of work.
-> > > 
-> > > I don't know whether (1) is a valid option if there are use cases that it
-> > > cannot cover (on either tls or preempt).  The handshake is definitely the
-> > > clean approach.
-> > > 
-> > > What's the outcome of such wrongly ordered connections?  Will migration
-> > > fail immediately and safely?
-> > > 
-> > > For multifd, I think it should fail immediately after the connection
-> > > established.
-> > > 
-> > > For preempt, I'd also expect the same thing because the only wrong order to
-> > > happen right now is having the preempt channel to be the migration channel,
-> > > then it should also fail immediately on the first qemu_get_byte().
-> > > 
-> > > Hopefully that's still not too bad - I mean, if we can fail constantly and
-> > > safely (never fail during postcopy), we can always retry and as long as
-> > > connections created successfully we can start the migration safely.  But
-> > > please correct me if it's not the case.
-> > 
-> > It should typically fail as the magic bytes are different, which will not
-> > pass validation. The exception being the postcopy pre-empt  channel which
-> > may well cause migration to stall as nothing will be sent initially by
-> > the src.
-> 
-> Hmm right..
-> 
-> Actually if preempt channel is special we can fix it alone.  As both of you
-> discussed, we can postpone the preempt channel setup, maybe not as late as
-> when we receive the 1st page request, but:
-> 
->   (1) For newly established migration, we can postpone preempt channel
->       setup (postcopy_preempt_setup, resume=false) to the entrance of
->       postcopy_start().
-> 
->   (2) For a postcopy recovery process, we can postpone preempt channel
->       setup (postcopy_preempt_setup, resume=true) to postcopy_do_resume(),
->       maybe between qemu_savevm_state_resume_prepare() and the final
->       handshake of postcopy_resume_handshake().
-> 
-> I need to try and test a bit for above idea.  But the same trick may not
-> play well on multifd even if it works.
-
-The sender side is relatively easy because migration thread can move on
-without the preempt channel, then the main thread will keep taking care of
-it, when connected it can notify the migration thread.
-
-It seems trickier with dest node where the migration loading thread is only
-a coroutine of the main thread, so during loading the vm I don't really see
-how further socket connections can be established.  Now it's okay with
-thread being shared because we only do migration_incoming_process() and
-enter the coroutine if all channels are ready.
-
--- 
-Peter Xu
-
+Cover letter:=0D
+~~~~~~~~~~~~~=0D
+=0D
+This series adds support for -pflash and direct SD card access to the=0D
+PPC e500 boards. The idea is to increase compatibility with "real" firmware=
+=0D
+images where only the bare minimum of drivers is compiled in.=0D
+=0D
+The series is structured as follows:=0D
+=0D
+Patches 1-4 perform some general cleanup which paves the way for the rest o=
+f=0D
+the series.=0D
+=0D
+Patch 5 adds -pflash handling where memory-mapped flash can be added on=0D
+user's behalf. That is, the flash memory region in the eLBC is only added i=
+f=0D
+the -pflash argument is supplied. Note that the cfi01 device model becomes=
+=0D
+stricter in checking the size of the emulated flash space.=0D
+=0D
+Patches 6 and 7 add a new device model - the Freescale eSDHC - to the e500=
+=0D
+boards which was missing so far.=0D
+=0D
+User documentation is also added as the new features become available.=0D
+=0D
+Tesing done:=0D
+* `qemu-system-ppc -M ppce500 -cpu e500mc -m 256 -kernel uImage -append=0D
+"console=3DttyS0 rootwait root=3D/dev/mtdblock0 nokaslr" -drive=0D
+if=3Dpflash,file=3Drootfs.ext2,format=3Draw`=0D
+* `qemu-system-ppc -M ppce500 -cpu e500mc -m 256 -kernel uImage -append=0D
+"console=3DttyS0 rootwait root=3D/dev/mmcblk0" -device sd-card,drive=3Dmydr=
+ive -drive=0D
+id=3Dmydrive,if=3Dnone,file=3Drootfs.ext2,format=3Draw`=0D
+=0D
+The load was created using latest Buildroot with `make=0D
+qemu_ppc_e500mc_defconfig` where the rootfs was configured to be of ext2 ty=
+pe.=0D
+In both cases it was possible to log in and explore the root file system.=0D
+=0D
+v4:=0D
+~~~=0D
+Zoltan:=0D
+- Don't suggest presence of qemu-system-ppc32 in documentation=0D
+=0D
+Bin:=0D
+- New patch: docs/system/ppc/ppce500: Use qemu-system-ppc64 across the boar=
+d(s)=0D
+=0D
+Peter:=0D
+- Inline pflash_cfi01_register() rather than modify it (similar to v2)=0D
+=0D
+v3:=0D
+~~~=0D
+Phil:=0D
+- Also add power-of-2 fix to pflash_cfi02=0D
+- Resolve cfi01-specific assertion in e500 code=0D
+- Resolve unused define in eSDHC device model=0D
+- Resolve redundant alignment checks in eSDHC device model=0D
+=0D
+Bin:=0D
+- Add dedicated flash chapter to documentation=0D
+=0D
+Bernhard:=0D
+- Use is_power_of_2() instead of ctpop64() for better readability=0D
+- Only instantiate eSDHC device model in ppce500 (not used in MPC8544DS)=0D
+- Rebase onto gitlab.com/danielhb/qemu/tree/ppc-next=0D
+=0D
+v2:=0D
+~~~=0D
+Bin:=0D
+- Add source for MPC8544DS platform bus' memory map in commit message.=0D
+- Keep "ESDHC" in comment referring to Linux driver.=0D
+- Use "qemu-system-ppc{64|32} in documentation.=0D
+- Use g_autofree in device tree code.=0D
+- Remove unneeded device tree properties.=0D
+- Error out if pflash size doesn't fit into eLBC memory window.=0D
+- Remove unused ESDHC defines.=0D
+- Define macro ESDHC_WML for register offset with magic constant.=0D
+- Fix some whitespace issues when adding eSDHC device to e500.=0D
+=0D
+Phil:=0D
+- Fix tense in commit message.=0D
+=0D
+Bernhard Beschow (7):=0D
+  docs/system/ppc/ppce500: Use qemu-system-ppc64 across the board(s)=0D
+  hw/block/pflash_cfi0{1,2}: Error out if device length isn't a power of=0D
+    two=0D
+  hw/sd/sdhci-internal: Unexport ESDHC defines=0D
+  hw/sd/sdhci: Rename ESDHC_* defines to USDHC_*=0D
+  hw/ppc/e500: Implement pflash handling=0D
+  hw/sd/sdhci: Implement Freescale eSDHC device model=0D
+  hw/ppc/e500: Add Freescale eSDHC to e500plat=0D
+=0D
+ docs/system/ppc/ppce500.rst |  38 +++++++-=0D
+ hw/block/pflash_cfi01.c     |   8 +-=0D
+ hw/block/pflash_cfi02.c     |   5 +=0D
+ hw/ppc/Kconfig              |   2 +=0D
+ hw/ppc/e500.c               | 114 +++++++++++++++++++++-=0D
+ hw/ppc/e500.h               |   1 +=0D
+ hw/ppc/e500plat.c           |   1 +=0D
+ hw/sd/sdhci-internal.h      |  20 ----=0D
+ hw/sd/sdhci.c               | 183 +++++++++++++++++++++++++++++++-----=0D
+ include/hw/sd/sdhci.h       |   3 +=0D
+ 10 files changed, 324 insertions(+), 51 deletions(-)=0D
+=0D
+-- =0D
+2.38.0=0D
+=0D
 
