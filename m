@@ -2,83 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B69B5602672
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 10:07:38 +0200 (CEST)
-Received: from localhost ([::1]:56920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C40D260273B
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 10:40:21 +0200 (CEST)
+Received: from localhost ([::1]:39716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okhdQ-0003oA-Gy
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 04:07:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36376)
+	id 1oki94-00033v-Dn
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 04:40:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1okhL0-0000pN-37; Tue, 18 Oct 2022 03:48:35 -0400
-Received: from mail-qv1-xf34.google.com ([2607:f8b0:4864:20::f34]:43791)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1okhKy-0004aX-73; Tue, 18 Oct 2022 03:48:33 -0400
-Received: by mail-qv1-xf34.google.com with SMTP id mg6so8822388qvb.10;
- Tue, 18 Oct 2022 00:48:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Ma/MLkhbX9hpTmFa1X4y5wOO4+vbQDsXX/ZpvW31WZ8=;
- b=Lkr0f/EeSE+3rnmf07cBKfnFJ2Oiy9RCr5/vmb0l2A56uY4D39uISeLaOdout0A0Ct
- wYm1YMLurWK4SdKqDbEcaUP9e8TaXCKxLoQTt2uGI+Bt+eYnssExBj5z3i/sdGmSD65h
- 2x1sWmJBMBatp6+XhN1ybrAEv/9vwFbq2VVf5OhtZaAcJFuBfri3bGoMdsIZCMyuV0TH
- KnoYWK7kttDq+1DqbYKV88P8YMdWlVS+zCDAANIGC9FAUcbPg8oToXFHmca4/gIB9j2D
- 18qz5lmsTFEL60pt/4IdqvYHA5VFM3ebHlet9okk3EybKgLbxuXYoQFJbYEEE4wbo45V
- cpNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Ma/MLkhbX9hpTmFa1X4y5wOO4+vbQDsXX/ZpvW31WZ8=;
- b=wS5Kw5I5jjYQqhGxUTHE/GftWHDchwnEWgJF9jRojQwZTg2iIphrYbYvTZbNcOFWCj
- 5J8pXWNZC6vUHfmEr3DivxBO/LYD+znP39aaA9P8VpK+Ha0IXWoYr+z1JeaYJuLHkg4F
- mtkpPf398tTJOebMF1W4fveuh/Ulx1gL9rTpZJV4akjpU7P5uZbsq/n6LpmWXBRNOGD1
- xpFomJcVDLRMvjp8ZoyFvo1kkAY7cT3ct/TIL6pywXXbe7CsT0OSZGTyCT1WAAcS1HQ/
- cpB3onRytW1Km9idwSbGKhUrZORl+puAo+wqeswW3eu5S3J+pTaFOGX0QDbHuYvXrf69
- 0D5g==
-X-Gm-Message-State: ACrzQf0e12sV9E9P9tTGgalq3dcfFvJ0FEjGmRFi+iRSTidL+zXt8//x
- MNfBQJrrIVTBrS9EyOFYmtpZiyuEus6r68RLsZY=
-X-Google-Smtp-Source: AMsMyM6gvhNVcx9v5XmrFZfGT576Lfk1bLAHWwr+51d0TZSiQ2aS9ZqU7vYKfWQVCo4qVM9WxulRr8zjqIP7kXQF3bE=
-X-Received: by 2002:a0c:810f:0:b0:47b:299a:56d7 with SMTP id
- 15-20020a0c810f000000b0047b299a56d7mr1325230qvc.12.1666079309796; Tue, 18 Oct
- 2022 00:48:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wagi@monom.org>)
+ id 1okhtJ-00037j-Mm; Tue, 18 Oct 2022 04:24:03 -0400
+Received: from mail.nearlyone.de ([46.163.114.145]:53418)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wagi@monom.org>)
+ id 1okht6-0001Xm-CY; Tue, 18 Oct 2022 04:24:00 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id A68075E3B5; Tue, 18 Oct 2022 10:15:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=monom.org; s=dkim;
+ t=1666080949; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ in-reply-to:references; bh=ZVlc5AW1glEV0mEIiNCglLHhGkJLapm7JFLEXMjJf/Y=;
+ b=FkaXXccaUshyh2MinLqZKJhzwcyFvbCh2JOIJRFu7Q5pHv2xcQSdqGeGxIvwisWTyGgv+F
+ 9XqmFIPQjZk1p017OTac8SUrUYRawut5hz0Gg3pfYPBa3v4zSLS7n2y9wd2PvozgOv7X5f
+ cUPbCAYQKjpLq+nRXYijUo+cXfShe5FZ8m1OWtsZc2cbfiMVqMswgrHNaHJz9DDZR7Whu5
+ BcUYAMaXtAHlKFFZddPjrUfHLfbU1D5fsWDE/pYRHtW0HDsYhfZWgJOeD79KwicNL6r5B2
+ MZq9d3tISVF1NXYBR0ffLjy1LvcUUo3tcyjbLOMFMJRuX1Ge9IwuF/p7ckk8fg==
+Date: Tue, 18 Oct 2022 10:15:46 +0200
+From: Daniel Wagner <wagi@monom.org>
+To: Klaus Jensen <its@irrelevant.dk>
+Cc: Hannes Reinecke <hare@suse.de>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Keith Busch <keith.busch@wdc.com>
+Subject: Re: [PATCH] hw/block/nvme: re-enable NVMe PCI hotplug
+Message-ID: <20221018081546.mzziix5ymjmpus56@carbon.lan>
+References: <20210511073511.32511-1-hare@suse.de>
+ <YJp2/AeqfgQ46ZyV@apples.localdomain>
+ <5fe71d92-842b-2b86-1d5e-c7a106753d2a@suse.de>
+ <YJqImppDvOKSbgh2@apples.localdomain>
+ <27cc0341-3a32-4a75-f5fd-9987b1b37799@suse.de>
+ <YJqq6rTRTL3mxMK6@apples.localdomain>
+ <7f4c0a64-582b-edc7-7362-2da45c137702@suse.de>
+ <20221010170100.o326gwco547y3qrz@carbon.lan>
+ <Y0RTHArVOWN2Tg2K@cormorant.local>
 MIME-Version: 1.0
-References: <20221016122737.93755-1-shentey@gmail.com>
- <20221016122737.93755-8-shentey@gmail.com>
- <2d634687-bdf7-a59b-76e1-60de81142a4a@eik.bme.hu>
- <2C1D5CD8-9EBA-47A4-8AE9-6464BAB6CC68@gmail.com>
-In-Reply-To: <2C1D5CD8-9EBA-47A4-8AE9-6464BAB6CC68@gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 18 Oct 2022 15:48:18 +0800
-Message-ID: <CAEUhbmWb_H_hTToGzb1ioZtZJxNgwPsjTaiUfBBnNF+1g+5PBg@mail.gmail.com>
-Subject: Re: [PATCH v3 7/9] hw/ppc/e500: Implement pflash handling
-To: Bernhard Beschow <shentey@gmail.com>
-Cc: BALATON Zoltan <balaton@eik.bme.hu>, Bin Meng <bin.meng@windriver.com>,
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- qemu-arm@nongnu.org, Alistair Francis <alistair@alistair23.me>, 
- Jan Kiszka <jan.kiszka@web.de>, Magnus Damm <magnus.damm@gmail.com>, 
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, 
- Aurelien Jarno <aurelien@aurel32.net>, qemu-ppc@nongnu.org, 
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Antony Pavlov <antonynpavlov@gmail.com>, Hanna Reitz <hreitz@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f34;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf34.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y0RTHArVOWN2Tg2K@cormorant.local>
+X-Last-TLS-Session-Version: TLSv1.3
+Received-SPF: pass client-ip=46.163.114.145; envelope-from=wagi@monom.org;
+ helo=mail.nearlyone.de
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,66 +72,12 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 18, 2022 at 3:46 PM Bernhard Beschow <shentey@gmail.com> wrote:
->
-> Am 16. Oktober 2022 14:15:09 UTC schrieb BALATON Zoltan <balaton@eik.bme.=
-hu>:
-> >On Sun, 16 Oct 2022, Bernhard Beschow wrote:
-> >> Allows e500 boards to have their root file system reside on flash usin=
-g
-> >> only builtin devices located in the eLBC memory region.
-> >>
-> >> Note that the flash memory area is only created when a -pflash argumen=
-t is
-> >> given, and that the size is determined by the given file. The idea is =
-to
-> >> put users into control.
-> >>
-> >> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> >> ---
-> >> docs/system/ppc/ppce500.rst | 16 ++++++++++
-> >> hw/ppc/Kconfig              |  1 +
-> >> hw/ppc/e500.c               | 62 +++++++++++++++++++++++++++++++++++++
-> >> 3 files changed, 79 insertions(+)
-> >>
-> >> diff --git a/docs/system/ppc/ppce500.rst b/docs/system/ppc/ppce500.rst
-> >> index ba6bcb7314..99d2c680d6 100644
-> >> --- a/docs/system/ppc/ppce500.rst
-> >> +++ b/docs/system/ppc/ppce500.rst
-> >> @@ -165,3 +165,19 @@ if =E2=80=9C-device eTSEC=E2=80=9D is given to QE=
-MU:
-> >> .. code-block:: bash
-> >>
-> >>   -netdev tap,ifname=3Dtap0,script=3Dno,downscript=3Dno,id=3Dnet0 -dev=
-ice eTSEC,netdev=3Dnet0
-> >> +
-> >> +Root file system on flash drive
-> >> +-------------------------------
-> >> +
-> >> +Rather than using a root file system on ram disk, it is possible to h=
-ave it on
-> >> +CFI flash. Given an ext2 image whose size must be a power of two, it =
-can be used
-> >> +as follows:
-> >> +
-> >> +.. code-block:: bash
-> >> +
-> >> +  $ qemu-system-ppc{64|32} -M ppce500 -cpu e500mc -smp 4 -m 2G \
-> >
-> >We have qemu-system-ppc and qemu-system-ppc64 not qemu-system-ppc32 so m=
-aybe qemu-system-ppc[64] even though that looks odd so maybe just qemu-syst=
-em-ppc and then people should know that ppc64 includes ppc config as well.
->
-> True. This naming is used elsewhere in this document, so we kept it consi=
-stent. I think that users will get it either way.
->
-> @Bin: Any thoughts?
->
+On Mon, Oct 10, 2022 at 07:15:08PM +0200, Klaus Jensen wrote:
+> This is all upstream. Namespaces with 'shared=on' *should* all be
+> automatically attached to any hotplugged controller devices.
+> 
+> With what setup is this not working for you?
 
-How about a separate patch to remove the {64 | 32} suffix, and just
-use qemu-system-ppc64 consistently since the *ppc64 executable can run
-32-bit ppc codes too?
+Ah okay, I missed the 'shared=on' bit. Let me try again.
 
-Regards,
-Bin
 
