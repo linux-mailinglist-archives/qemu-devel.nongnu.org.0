@@ -2,87 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C11060289D
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 11:45:43 +0200 (CEST)
-Received: from localhost ([::1]:42310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD1BA6028BC
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 11:50:38 +0200 (CEST)
+Received: from localhost ([::1]:47204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okjAI-0006Mz-0E
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 05:45:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45052)
+	id 1okjF5-0000gy-Nb
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 05:50:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1okiqj-0000qG-IP
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 05:25:25 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:46041)
+ id 1okits-00038q-Ld
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 05:28:40 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:36527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1okiqg-0002kC-I5
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 05:25:25 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- o9-20020a17090a0a0900b0020ad4e758b3so13443786pjo.4
- for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 02:25:21 -0700 (PDT)
+ id 1okitg-0003Lg-A4
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 05:28:39 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ d7-20020a17090a2a4700b0020d268b1f02so16793128pjg.1
+ for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 02:28:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2NFoVjBkBNFATwFusrJIHo7uJF0tkrYaqBguja2px5U=;
- b=q6VB2OzKu3Ra75eNQAH7Pn/fatX/pHP4qifkibHgHT7W4zN5PTqKcqji7jV9159n1J
- 08UATV9XgG5GFoVUVGOM86jzBs/KO7fngjRDQSPrcF+i25hTCrGDzoOdpmWYgAFVb9EG
- eUd9VE7n03FoqY7VAqIb+oPOu5QKqSjN1NGsTmpuSXVObZhTu95bM5AZX0N0rvXPP/WF
- JtHr5vN3W2YRx7mdcrmIF2JyFnAl7O38nO76/haIJ9kvy3t6Cj/v9XhdR3Ch3uCKkY94
- Em0QyYveS6uJf6kZi9Be+5a7Ni+xi4o5yeHg0eomStt/vlTuIpNJBuvb6Y/rY7bvJBHG
- KhrQ==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=dvj2LZOPuRCIGIZhk+v5GeI+35KsaJkv9TYSPnl6wnU=;
+ b=jkJKbAZ/p3RMuvIs6i5EZtloEo8tGv36EsjCV0yjHWma6UUUJz7WBvRISoAY+dEu/P
+ bH0f3zaqJ8L70vcSgIFP9ns1CfIyiu8lAcYehe43YjnY0jSC525vQ/Xztmn6TeQr1YfH
+ P3Hj7F0rdtA0+xFuFpY2o+Xras5ohli1twxiAaew5r6wlFPOuz9/H76+YyaumhGQ/5fk
+ kfmzy2juEktVPdYopnPVkyqZUC2LJIsYrLDS2b/EFrc+uiWYxhkn/HGpu1HL5awF5d+a
+ aSMbeM6FV/1fmvIYo9vrINXVjJ182iqKkntZ2+UL3CUP/ye/3bE2HslRyQs+OoUeBCvq
+ sO3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2NFoVjBkBNFATwFusrJIHo7uJF0tkrYaqBguja2px5U=;
- b=ASkyslIjifixQdtBtIju8z47dOeZGuRriDpfxuhKviqIUYyLyzxglqdGSwaVvA/67x
- twRrUSccL24f6lGfA0cPcqR+094Lt7DFzek9NuN3eSXIv1pwikYFbCjrVhqUCWk+HOqx
- h/g3BoIne8ef5K/Wgmj7SR//JgB4GwOcdslhKTGR/9fdzC2gCZFnSZGQMaVl47VcHc9g
- JKLwFFpHObpXWjWvOQh4gzCXXBGo9bXaxwGs89rPWeRgcrLrhWJCUWIeXDufObDoG653
- AEcUjKzLkNwhHu0Nekl3LijR85e1ZjWA4+Rp3Bx/vbxKvOeWTEy6saTyuS7eJICRuWow
- Ri3A==
-X-Gm-Message-State: ACrzQf06IjjEkJRLEqO0i/CnQKNjtDtmhwuzuKpzpWov0ZGOVkMKD+ya
- +XIitI6n1sZfgojJG4WsMDAZ45LvBobl5LY8qrLZHg==
-X-Google-Smtp-Source: AMsMyM7GYZQZgb9xW/FLauFejRRgbAa4qmvAFkZRmw5h+gzy5UNQq7xaS5LIqD4L4a+GlrcRZeqa3yCjPNxzdYfjQrY=
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dvj2LZOPuRCIGIZhk+v5GeI+35KsaJkv9TYSPnl6wnU=;
+ b=CdpHOxIDhJ+Ysa1Wflv1scfxsuuaX9qCwXA5Y6x9DyoljvJHW+VBs251dOHgxcTkGR
+ TOMnVCQAuuns7KoCx+UYRCk3O+QBFAchX4rgsRuIax0lzgP9UmjtM8KShyScfe8nLL80
+ 5wzCt5JR0PZ0W/wyEVxh0BdpnLX70hRNttPlR1yykyPs3cDHqOxAKh3KB9JGK8/Dg12O
+ sbkHwEJs4AErLKkbq1mv/pEJAK+kDojlQiBfARUgvHcnfkK6MQ/v33Jg8M9pIwK4j+3J
+ pZnGb3ecblACmK0uMqcLdx2xo/LHbum6xX0wH8/gkcFFOqyBylvhq97xTJS/JW66Kk+d
+ F2HA==
+X-Gm-Message-State: ACrzQf2+NDZHFj7xtiz3tQbFaj7zWCETLtAAwiRe/pf4w+s6roa9p9fi
+ UnXdFZ1X9jEFYV2quyojR0eJ9PoH0dXPS7j6E6QhgA==
+X-Google-Smtp-Source: AMsMyM53i44s3G40KNR5cpU4WKP21xZsiu9Y+vd8RcQslSonMw38u/78Kdsf5VlAzBAUdoZgZp0oNHeM1o2NxJte97A=
 X-Received: by 2002:a17:90a:fe92:b0:20a:daaf:75ea with SMTP id
- co18-20020a17090afe9200b0020adaaf75eamr37265542pjb.221.1666085120876; Tue, 18
- Oct 2022 02:25:20 -0700 (PDT)
+ co18-20020a17090afe9200b0020adaaf75eamr37276928pjb.221.1666085305892; Tue, 18
+ Oct 2022 02:28:25 -0700 (PDT)
 MIME-Version: 1.0
 References: <20221016122737.93755-1-shentey@gmail.com>
- <20221016122737.93755-3-shentey@gmail.com>
- <ac4a6fd0-9e60-df0f-533e-a9e102350deb@linaro.org>
-In-Reply-To: <ac4a6fd0-9e60-df0f-533e-a9e102350deb@linaro.org>
+ <20221016122737.93755-8-shentey@gmail.com>
+In-Reply-To: <20221016122737.93755-8-shentey@gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 18 Oct 2022 10:25:09 +0100
-Message-ID: <CAFEAcA_H_kcK6=RNuXs_ByZud8AUdypiqV_LUU7cp+EeRr_Smg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/9] hw/{arm,ppc}: Resolve unreachable code
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, 
- Alistair Francis <alistair@alistair23.me>, Jan Kiszka <jan.kiszka@web.de>, 
- Magnus Damm <magnus.damm@gmail.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, 
- Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Bin Meng <bin.meng@windriver.com>, 
- Aurelien Jarno <aurelien@aurel32.net>, qemu-ppc@nongnu.org, 
- BALATON Zoltan <balaton@eik.bme.hu>,
+Date: Tue, 18 Oct 2022 10:28:14 +0100
+Message-ID: <CAFEAcA_19oiX1FDOTVTfyhLMaEQhcgx+2xoYB+CsZVq5uGb-GA@mail.gmail.com>
+Subject: Re: [PATCH v3 7/9] hw/ppc/e500: Implement pflash handling
+To: Bernhard Beschow <shentey@gmail.com>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ qemu-arm@nongnu.org, Alistair Francis <alistair@alistair23.me>, 
+ Jan Kiszka <jan.kiszka@web.de>, Magnus Damm <magnus.damm@gmail.com>, 
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, 
+ Bin Meng <bin.meng@windriver.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ qemu-ppc@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>,
  Yoshinori Sato <ysato@users.sourceforge.jp>, 
  Antony Pavlov <antonynpavlov@gmail.com>, Hanna Reitz <hreitz@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,24 +93,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 17 Oct 2022 at 21:57, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
-g> wrote:
+On Sun, 16 Oct 2022 at 13:28, Bernhard Beschow <shentey@gmail.com> wrote:
 >
-> On 16/10/22 14:27, Bernhard Beschow wrote:
-> > pflash_cfi01_register() always returns with a non-NULL pointer (otherwi=
-se
-> > it would crash internally). Therefore, the bodies of the if-statements
-> > are unreachable.
+> Allows e500 boards to have their root file system reside on flash using
+> only builtin devices located in the eLBC memory region.
 >
-> This is true, pflash_cfi0X_register() use an hardcoded &error_fatal.
+> Note that the flash memory area is only created when a -pflash argument is
+> given, and that the size is determined by the given file. The idea is to
+> put users into control.
 >
-> Shouldn't it be better to pass an Error* argument?
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 
-The whole function is a legacy convenience-wrapper that's just
-doing "create, configure, realize and wire up a device". New
-code, and any callers that actually care about errors, should
-just be directly creating and configuring the device anyway.
-Almost all the callers are in old legacy board model code.
+> +        pfl = pflash_cfi01_register("e500.flash", size, blk, 64 * KiB, 2,
+> +                                    0x89, 0x18, 0x0000, 0x0, 1);
+> +        memory_region_add_subregion(&pms->pbus_dev->mmio, 0,
+> +                                    pflash_cfi01_get_memory(pfl));
 
+pflash_cfi01_register() puts the memory region into the
+system address space. It's just a legacy convenience wrapper
+function, so if you need to put the resulting memory region somewhere
+else, just directly create, configure and map the device in
+this board code.
+
+
+thanks
 -- PMM
 
