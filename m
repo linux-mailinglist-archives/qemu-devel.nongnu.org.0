@@ -2,130 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 992EA602F2D
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 17:10:00 +0200 (CEST)
-Received: from localhost ([::1]:44988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FDA8602F18
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 17:02:39 +0200 (CEST)
+Received: from localhost ([::1]:54742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okoE9-0006s4-2Y
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 11:09:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38656)
+	id 1oko74-0002Yt-6q
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 11:02:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1oknzg-0004K8-B0
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 10:55:00 -0400
-Received: from mail-dm6nam11on2062f.outbound.protection.outlook.com
- ([2a01:111:f400:7eaa::62f]:50369
- helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oknwA-0007Mf-Uz
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 10:51:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58406)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1oknzc-0002J5-OX
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 10:55:00 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mMILxw5hDoWLbQDpXYZWwDpalkyJEzTwt4uwSAP0NyvJCKI8n8ZU9n3WuukeBRJ4pCRvFUYNLIUq1BV+XNfQdLJoLb7FPH/X5jfC02rXprcv34KOeh/yPcxEHAwv8mf+l7xwgfrw/r09D8g4IeqFaS6M/6TheBKz9Krf98WnhbdpKMekranxgElG69AVO369qiO4iYrKbQW3m9fgOfZbaBcNKDEZd98XOV2N1BpjZhBDz0eUkxnbDsLy8pVFXXjzhCgx8TRCVhWDG6ziGPbMsiBOx0wKkhpKH3iGsGEMYKrkby1NvQmvrgyI9IUF/nJwiwoWPLO8WUew5T7RHYdgFA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GwMV/zYS+XVujK8JZ851nugkSAiFkBpXhyQD+YdUTO0=;
- b=SpJosrfPm6KTliJ/NgSbcr9JWkeofBo6IekMNhsbJAp4HBsbkGv+Uu8S04QuRISEdbiIuyPQRMXNTezct7zvEk2LikRkQ8zKtH+rkwkoMydMq07LWvGrI8rhlbdBk2pk1jMresC7jsr8ZbN5NsDkkmt7VuOWWHIMy9ThDNiTxx6/CoP+rIGgLReDXMoNJ1sxkJhwmpg1Ddy8dZCIJ7GCpk92Fj87J+6iVcIc7nDetP68hIivPli4Waywkh7MOKOa9pdQjKI75KW01R640OIjjYwOZ2pNofaBmHU4xDBZcHyyyvP4g9jrmbdOF0AGvXrdNeMkfio2vRfjtc0z50n4MA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GwMV/zYS+XVujK8JZ851nugkSAiFkBpXhyQD+YdUTO0=;
- b=unozcbiq2dUqKIglVOFQtRI6Xe6GPbLwwt/Tu2bV9Pzd29PKHm6y0C6vzAcV4RtZWv+D1MWQSkBV7F0AhwL4Lx8OlkKCGfVd0Dnj/Kuf9O22rgJENuWrSZb/K5FjxwI+9AEnL0/Me2cdpGY/CYeJtjxK99aS1VzP9ExEHYxDJDk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
- by BLAPR17MB4116.namprd17.prod.outlook.com (2603:10b6:208:279::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.26; Tue, 18 Oct
- 2022 14:49:48 +0000
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::655f:bfa9:e33a:5af4]) by BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::655f:bfa9:e33a:5af4%5]) with mapi id 15.20.5723.034; Tue, 18 Oct 2022
- 14:49:48 +0000
-Date: Tue, 18 Oct 2022 10:49:46 -0400
-From: Gregory Price <gregory.price@memverge.com>
-To: "Gupta, Pankaj" <pankaj.gupta@amd.com>
-Cc: Gregory Price <gourry.memverge@gmail.com>, qemu-devel@nongnu.org,
- mst@redhat.com, marcel.apfelbaum@gmail.com, imammedo@redhat.com,
- ani@anisinha.ca, jonathan.cameron@huawei.com,
- linux-cxl@vger.kernel.org, alison.schofield@intel.com,
- dave@stgolabs.net, a.manzanares@samsung.com, bwidawsk@kernel.org,
- hchkuo@avery-design.com.tw, cbrowy@avery-design.com, ira.weiny@intel.com
-Subject: Re: [BUG] hw/i386/pc.c: CXL Fixed Memory Window should not reserve
- e820 in bios
-Message-ID: <Y069Ch2YvU0iotZG@memverge.com>
-References: <20221017234001.53297-1-gregory.price@memverge.com>
- <a8d79f08-9891-395f-54fd-d5f00b67a521@amd.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a8d79f08-9891-395f-54fd-d5f00b67a521@amd.com>
-X-ClientProxiedBy: BLAPR03CA0139.namprd03.prod.outlook.com
- (2603:10b6:208:32e::24) To BN6PR17MB3121.namprd17.prod.outlook.com
- (2603:10b6:405:7c::19)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oknw8-0001vC-Sh
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 10:51:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666104679;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jPVVsv9NVYiepSiooggXl3LKvnHxzuhL9EZZrQjOLPQ=;
+ b=a4OoWlEDjL4CcaVuNBa5twyQJ9tlKx37AlOCbJYMtUC60GRxbOoVdBjWRaNOeed+/thYQP
+ f4CT7eHtiVM72RPUPnX5JYOvZ9uRTjgT7kJR7UbITRxsEu33cwSAcxaujxLL4IJOiNSaGP
+ 0UewPSJReb8VzYuVjq9zBsbTSxYscY0=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-595-WYMBJf0AN1Cue8s3IAuW-g-1; Tue, 18 Oct 2022 10:51:18 -0400
+X-MC-Unique: WYMBJf0AN1Cue8s3IAuW-g-1
+Received: by mail-il1-f198.google.com with SMTP id
+ u2-20020a056e021a4200b002f9ecfa353cso12462750ilv.20
+ for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 07:51:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jPVVsv9NVYiepSiooggXl3LKvnHxzuhL9EZZrQjOLPQ=;
+ b=YibXUDzGE6H94XKFNOEXcPiJ7+uG6GxMXrBuAEWQKzpT3zsnVmQqNGxwlvU4dLwYjU
+ x5MRsksyXNI/Mi/hRYkP7f8D4bowRL2DKYz2d19RzTKlXCxro/WVjDJOhgC/0hldanpx
+ imu12oi0x0xR+nRUb4PhypQO88OGZsRWlZB/QB1gtJMUx3d5CqQxTHjaMKpP7slIqxak
+ KArS5dd1l8iBsEYsWYzzNXEPCW9QHljfOlZRFW97zcEmoCyHvXAtPhoQKit7I3ZoPLUD
+ ej2yovatT/zpQHQH5hVLxuxwrgjfS6L6dl5xyYosz9NWk3ywxALt7wAz/eztLp2tLBFm
+ Q/PA==
+X-Gm-Message-State: ACrzQf2TtCWiFYQN2cmfRV1BoE2HEo5H/ee97zDgHnpqixbYz8xmkAag
+ isQ/I5Y+nhZZNqAm1RIrVEv7AhvAc7Yjh8XBHq+n5qZgqEzMQHRUg1iCxZZ92Hw1Omw77DSZqUX
+ uX/JyBlCRJnf3Gik=
+X-Received: by 2002:a05:6e02:2181:b0:2f9:aa34:3b6c with SMTP id
+ j1-20020a056e02218100b002f9aa343b6cmr1870357ila.77.1666104677586; 
+ Tue, 18 Oct 2022 07:51:17 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5SUvziMNRO1LZKaWjpPXfgu3me71mEFuLkI0lvKRY7i+tGwMqkdreHD7quFAnxyrO63Bu+3g==
+X-Received: by 2002:a05:6e02:2181:b0:2f9:aa34:3b6c with SMTP id
+ j1-20020a056e02218100b002f9aa343b6cmr1870343ila.77.1666104677221; 
+ Tue, 18 Oct 2022 07:51:17 -0700 (PDT)
+Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
+ [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
+ x25-20020a0566380cb900b00356726330a4sm1095429jad.154.2022.10.18.07.51.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Oct 2022 07:51:16 -0700 (PDT)
+Date: Tue, 18 Oct 2022 10:51:12 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Manish Mishra <manish.mishra@nutanix.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: MultiFD and default channel out of order mapping on receive side.
+Message-ID: <Y069YMtwwOrmI6lM@x1n>
+References: <9f02255a-ceb9-9ca6-2606-b91c5e9e6459@nutanix.com>
+ <Y0fJFcj9+wcnKYqd@redhat.com>
+ <a4f67b8d-21ec-4261-6ffb-3162c854ce8f@nutanix.com>
+ <Y00+tsrBs2m2CH6R@redhat.com> <Y03F97gmi7N4cyMM@x1n>
+ <Y05hVC7AXdc0Ak4z@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|BLAPR17MB4116:EE_
-X-MS-Office365-Filtering-Correlation-Id: a039883e-b085-4de4-1723-08dab1180144
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Zo7PieV81RxDbninIUJmdi+I/t33J1Uc17FpxcYkvIATMekt97RVoQjyIm3uNfSMiUo/DjpChseoihOP5ysxnd1oZ69DsjEaDjoy4v5WB7Ejinqbpod/CtfmADJw1YdaF3JWiNa4Vx0ksc/TLZac13dvVlgqKtNiPEC5z1AY/BIzWq5KbDRGimOKlTqL/Zq+6mXwkQLjZ+fEh5nmbCK/evVSqNWTsc26dRiNIK4m5qHqeSHdlqJYz5Mg+OM088DPwByJXrx9WpIocpOZs7VWXLnPTt8/VZKAQQ6k13K5WdVxTB6zPMXXEjARKVzGr+X7pc+HWTxYx8okqwPFTA+jchN1BOcwNmLMI1aupGXCIG32Geq5IXsXfG1RYwOTDGVA861IMMck4KATPGJIsW03+SBKCJrjrzvPhL5ttNtXf2iSB7HtZOsrSC+d4QqcbRr3o6CSMq9gWEAXiKB2YZLDZenG27l/iKpoSLiB1KvadeiWNAsZDc0EyMKhNcFZD9TYwyrVaeCblE7ZohD7XUNLW8nTV0RulbN3DdmnI4Fd53CCsaMFDdN6HXvFwcEuLI01UDnJWSVhQFIZgmGLnMfoIKb910Hi9juW1miZ8hiweIonNZE6Yhfe2wleLIypSWVgkUltf6NcJkJ9sJjRXtG9IpDSCA5N9Y5FnM+h57gx1L00vdXMTww4/vkPesAFqb1O
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN6PR17MB3121.namprd17.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(396003)(39840400004)(346002)(376002)(366004)(136003)(451199015)(478600001)(36756003)(38100700002)(8936002)(5660300002)(4744005)(44832011)(86362001)(26005)(6916009)(2616005)(186003)(6512007)(6486002)(316002)(7416002)(66946007)(41300700001)(4326008)(8676002)(66556008)(6506007)(66476007)(2906002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Pf1fp12YgBmqo7YOUD+9S8Nt6mf/F3qKcS7uWKe+T6EyMseS5s3U2NilVclt?=
- =?us-ascii?Q?iprNkAWsCZcH8jbYLgTWZ8hhu8+5tx9bJ4novjCAqwIBMuVb85hYeniFtYQ3?=
- =?us-ascii?Q?TvAFZoT94ow/E2g5lgaG6JuPdnNMJV1io+G2q3GvqLBF+jgPL4UwDUUwE/dF?=
- =?us-ascii?Q?amHGNRLQ5h9OKyf1O+smTiwFYgLHrS7P00HnUL90Pl0h0dtE/OjWdK+lF75Y?=
- =?us-ascii?Q?DteOpsntpIW9t99mmWRVdYdL0vGXoiBeNTGxaRqIFxZH6HyO2GIaGIOYzZxi?=
- =?us-ascii?Q?cwQTMCnAJ9airPMTOBa26Hc38GUhJv5BV8zTkdw5yyKqbfzvXW3ZpVvut8EO?=
- =?us-ascii?Q?6dMPfP2V1EUlTrwK+IfzILOLkLDqeoiLCzbC1vsfoWlYhEK4Rn3ux2lvEYPX?=
- =?us-ascii?Q?DDqgDe4CdoaaXV6gQ41/czivbiL6byId6qCvTn7gw6V8hyOwQC4jPi3h8zID?=
- =?us-ascii?Q?65oD5PFo2EP+l2llDBxQ6IxPk2YWJ+dQGYPe6EIqy7VyR/gk96mcYkCnRH9p?=
- =?us-ascii?Q?UrG8C3WNAmkkP0ZBvY0uhe2O7QV0W3RCxXhyNeAhGvB0PhiaS3p/vf/0SZeT?=
- =?us-ascii?Q?uzLYK1B7XptTLEFNrWb7PDjLr5BPjPi+LZbkL43PuNZDr9qmstqq/SFSvfW/?=
- =?us-ascii?Q?7Mq5oTr/clBJMQgpAE7Q4H+l5mIUfdQRGrS2vVtGPCmGiFKjQKFDjsj2lArc?=
- =?us-ascii?Q?Tv5cp5xAI9zHR0x/6+7VYQ8X+QIfB25w/srMoYgQRTHVKz8KiwMwUPzgoaQx?=
- =?us-ascii?Q?gXrciKp7FDrRVXjHZ0trQNM1opp1L5vEnlqoImZ1Zyl2JyPVFx5ZqBX5eafx?=
- =?us-ascii?Q?qErWQHLketpfm67rWuy2ypZ03u67/LDa5DfCmp99Gr524vBQbJsAUeBrgKKE?=
- =?us-ascii?Q?rKesRJ4rJTLQ2rTFgkSSMIQlgXbJgfAz3Y+okv+hBQeVVD8XCMq9qN02LEil?=
- =?us-ascii?Q?6b44ZDMgEFprKkGs1eu8P0n9zQrK3sktrqbzDsIuy4gkReK3Vmt7tJR4kuZM?=
- =?us-ascii?Q?nDBGSkyR5uWxD3fBKapyJ0LZii4YD796vD0YpqXHUO8gp6Kto9+xn2fwzGjI?=
- =?us-ascii?Q?9wSWrp7thy+xcKG/j64ekwaDI1SVQHuaRfjIxu/Jz53FUwDxZbGtQNpOKEJr?=
- =?us-ascii?Q?bidfP+W+tn/Lyx2f7XLwDSdBRQ1K+wfpMySIeQdIlsUBiBH8hH60bO2jKF/Y?=
- =?us-ascii?Q?skz4WqH8kZnqWApzcGXWs1V0eCwuEncIUvmFDyIyg/YF0h1ra6MoYvEsr6WD?=
- =?us-ascii?Q?8n+2v377DddH/A7iQaG7kYaV6qcve1JR1bWZvwrlrEK7jjS2NlkOIvKrL55P?=
- =?us-ascii?Q?3idmRMupLLb7lp4PISHCHOTtLZlVN8GWjvRHAdWV7SekgbfzNzgoJV9dcu6f?=
- =?us-ascii?Q?jgqEfarS28IgrmtONSwj38W63zIJMA0OyqnZ5FNb4crxT9jTq3UKh6a9eyqb?=
- =?us-ascii?Q?kTh3FxqWgPg7kH7oC+GwzcuIvuvVdWXX9B2Q8QWo22UP8VjxfMglAEGNYfxF?=
- =?us-ascii?Q?MpT33phfCYArS7LO2gttmHXLA6e1Nu8B/gwq5m2XLP/ogQi4PnBUon+SsL3y?=
- =?us-ascii?Q?s0aTzjCPrmI2mLjgoMvOo4UmoZb1BVi0Os0AILaFFnvVYCvCsOJ58141QqEe?=
- =?us-ascii?Q?qw=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a039883e-b085-4de4-1723-08dab1180144
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Oct 2022 14:49:48.6636 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XMbhoLKl04xVPiq/3bUEyABRK6SZEaNN6pmCvjLmX8OiWHI2tkie5dft0x7LHjQx73vahe4yfX59vNavpD+hZ8cs+NN6VWoT8A5DDYhO9dM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR17MB4116
-Received-SPF: pass client-ip=2a01:111:f400:7eaa::62f;
- envelope-from=gregory.price@memverge.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y05hVC7AXdc0Ak4z@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -142,26 +104,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> > -        e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
-> >           memory_region_init(mr, OBJECT(machine), "cxl_host_reg", cxl_size);
-> >           memory_region_add_subregion(system_memory, cxl_base, mr);
-> >           cxl_resv_end = cxl_base + cxl_size;
-> > @@ -1077,7 +1076,6 @@ void pc_memory_init(PCMachineState *pcms,
-> >                   memory_region_init_io(&fw->mr, OBJECT(machine), &cfmws_ops, fw,
-> >                                         "cxl-fixed-memory-region", fw->size);
-> >                   memory_region_add_subregion(system_memory, fw->base, &fw->mr);
+On Tue, Oct 18, 2022 at 09:18:28AM +0100, Daniel P. Berrangé wrote:
+> On Mon, Oct 17, 2022 at 05:15:35PM -0400, Peter Xu wrote:
+> > On Mon, Oct 17, 2022 at 12:38:30PM +0100, Daniel P. Berrangé wrote:
+> > > On Mon, Oct 17, 2022 at 01:06:00PM +0530, manish.mishra wrote:
+> > > > Hi Daniel,
+> > > > 
+> > > > I was thinking for some solutions for this so wanted to discuss that before going ahead. Also added Juan and Peter in loop.
+> > > > 
+> > > > 1. Earlier i was thinking, on destination side as of now for default
+> > > > and multi-FD channel first data to be sent is MAGIC_NUMBER and VERSION
+> > > > so may be we can decide mapping based on that. But then that does not
+> > > > work for newly added post copy preempt channel as it does not send
+> > > > any MAGIC number. Also even for multiFD just MAGIC number does not
+> > > > tell which multifd channel number is it, even though as per my thinking
+> > > > it does not matter. So MAGIC number should be good for indentifying
+> > > > default vs multiFD channel?
+> > > 
+> > > Yep, you don't need to know more than the MAGIC value.
+> > > 
+> > > In migration_io_process_incoming, we need to use MSG_PEEK to look at
+> > > the first 4 bytes pendingon the wire. If those bytes are 'QEVM' that's
+> > > the primary channel, if those bytes are big endian 0x11223344, that's
+> > > a multifd channel.  Using MSG_PEEK aviods need to modify thue later
+> > > code that actually reads this data.
+> > > 
+> > > The challenge is how long to wait with the MSG_PEEK. If we do it
+> > > in a blocking mode, its fine for main channel and multifd, but
+> > > IIUC for the post-copy pre-empt channel we'd be waiting for
+> > > something that will never arrive.
+> > > 
+> > > Having suggested MSG_PEEK though, this may well not work if the
+> > > channel has TLS present. In fact it almost definitely won't work.
+> > > 
+> > > To cope with TLS migration_io_process_incoming would need to
+> > > actually read the data off the wire, and later methods be
+> > > taught to skip reading the magic.
+> > > 
+> > > > 2. For post-copy preempt may be we can initiate this channel only
+> > > > after we have received a request from remote e.g. remote page fault.
+> > > > This to me looks safest considering post-copy recorvery case too.
+> > > > I can not think of any depedency on post copy preempt channel which
+> > > > requires it to be initialised very early. May be Peter can confirm
+> > > > this.
+> > > 
+> > > I guess that could work
+> > 
+> > Currently all preempt code still assumes when postcopy activated it's in
+> > preempt mode.  IIUC such a change will bring an extra phase of postcopy
+> > with no-preempt before preempt enabled.  We may need to teach qemu to
+> > understand that if it's needed.
+> > 
+> > Meanwhile the initial page requests will not be able to benefit from the
+> > new preempt channel too.
+> > 
+> > > 
+> > > > 3. Another thing we can do is to have 2-way handshake on every
+> > > > channel creation with some additional metadata, this to me looks
+> > > > like cleanest approach and durable, i understand that can break
+> > > > migration to/from old qemu, but then that can come as migration
+> > > > capability?
+> > > 
+> > > The benefit of (1) is that the fix can be deployed for all existing
+> > > QEMU releases by backporting it.  (3) will meanwhile need mgmt app
+> > > updates to make it work, which is much more work to deploy.
+> > > 
+> > > We really shoulud have had a more formal handshake, and I've described
+> > > ways to achieve this in the past, but it is quite alot of work.
+> > 
+> > I don't know whether (1) is a valid option if there are use cases that it
+> > cannot cover (on either tls or preempt).  The handshake is definitely the
+> > clean approach.
+> > 
+> > What's the outcome of such wrongly ordered connections?  Will migration
+> > fail immediately and safely?
+> > 
+> > For multifd, I think it should fail immediately after the connection
+> > established.
+> > 
+> > For preempt, I'd also expect the same thing because the only wrong order to
+> > happen right now is having the preempt channel to be the migration channel,
+> > then it should also fail immediately on the first qemu_get_byte().
+> > 
+> > Hopefully that's still not too bad - I mean, if we can fail constantly and
+> > safely (never fail during postcopy), we can always retry and as long as
+> > connections created successfully we can start the migration safely.  But
+> > please correct me if it's not the case.
 > 
-> Or will this be subregion of cxl_base?
-> 
-> Thanks,
-> Pankaj
+> It should typically fail as the magic bytes are different, which will not
+> pass validation. The exception being the postcopy pre-empt  channel which
+> may well cause migration to stall as nothing will be sent initially by
+> the src.
 
-The memory region backing this memory area still has to be initialized
-and added in the QEMU system, but it will now be initialized for use by
-linux after PCI/ACPI setup occurs and the CXL driver discovers it via
-CDAT.
+Hmm right..
 
-It's also still possible to assign this area a static memory region at
-bool by setting up the SRATs in the ACPI tables, but that patch is not
-upstream yet.
+Actually if preempt channel is special we can fix it alone.  As both of you
+discussed, we can postpone the preempt channel setup, maybe not as late as
+when we receive the 1st page request, but:
+
+  (1) For newly established migration, we can postpone preempt channel
+      setup (postcopy_preempt_setup, resume=false) to the entrance of
+      postcopy_start().
+
+  (2) For a postcopy recovery process, we can postpone preempt channel
+      setup (postcopy_preempt_setup, resume=true) to postcopy_do_resume(),
+      maybe between qemu_savevm_state_resume_prepare() and the final
+      handshake of postcopy_resume_handshake().
+
+I need to try and test a bit for above idea.  But the same trick may not
+play well on multifd even if it works.
+
+-- 
+Peter Xu
+
 
