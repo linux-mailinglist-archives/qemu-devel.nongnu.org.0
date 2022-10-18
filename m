@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E7866028FA
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 12:04:16 +0200 (CEST)
-Received: from localhost ([::1]:53002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E758602921
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 12:11:07 +0200 (CEST)
+Received: from localhost ([::1]:47206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okjSJ-0000Ns-2S
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 06:04:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53976)
+	id 1okjYu-0005bZ-25
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 06:11:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1okj39-0001Qr-Ec
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 05:38:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22513)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1okj30-0005Cp-Q6
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 05:38:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666085885;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1okjE8-0000pr-Ln
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 05:49:39 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:54336)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1okjE0-0006oC-3s
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 05:49:35 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 84C3A205B4;
+ Tue, 18 Oct 2022 09:49:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1666086560; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nevK8VBB1xi/gO7QeCesjf8TUsT2qcMf10dPrHg860k=;
- b=Wvf7B9UZ6Fpgo8cypkOhYnruYwtUIuIMTfUUwwijOiShVkZ9u3f0MADo4njLZhzDRD/zGs
- t4L3G4bgHftjbP3CauqttAvjUY1aa02iHmIYPPqNzE0J4rRoqwb3fMIpGFVAO0sVCDRSCf
- vfF0uGTVxavx4KjuImP0R5r53Gjq24E=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-660-sFWDVUhkMw6HSyQXpMxjUA-1; Tue, 18 Oct 2022 05:38:04 -0400
-X-MC-Unique: sFWDVUhkMw6HSyQXpMxjUA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ bh=e/RmfIMOTjks2lxUK+cI7DTQs+4S170SOq+uJGXBEes=;
+ b=E1dq5jo8reReDIW08f/r5m2vGDaPkR3A0ZaKIjQIq31bjUjJLQ35oasJUPLAdSz+iBziHJ
+ qveoVQF3T1i3ggnW9hq7+F6YPwoDal4idY0bG77gFwy9CeiCNSYVUOj6DaVhW23OGoNEIJ
+ xFOXz3YlO7tnZ8Okat76RgsnZFlbE/Y=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E88D6833A19;
- Tue, 18 Oct 2022 09:38:03 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.86])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2FE3245359A;
- Tue, 18 Oct 2022 09:38:02 +0000 (UTC)
-Date: Tue, 18 Oct 2022 10:38:00 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: amarjargal <amarjargal16@gmail.com>
-Cc: qemu-devel@nongnu.org, sgarzare@redhat.com
-Subject: Re: [PATCH 1/4] ui: fix tab indentation
-Message-ID: <Y05z+HGk8zyRmIGf@redhat.com>
-References: <cover.1666029821.git.amarjargal16@gmail.com>
- <91d870b3c88c5c31bb8cfcabbf7ca28b34899aa4.1666029821.git.amarjargal16@gmail.com>
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 206E613480;
+ Tue, 18 Oct 2022 09:49:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id kRslBaB2TmOLFwAAMHmgww
+ (envelope-from <nborisov@suse.com>); Tue, 18 Oct 2022 09:49:20 +0000
+Message-ID: <fcf1ca42-e680-f17c-7c25-f5adcdc2ffcb@suse.com>
+Date: Tue, 18 Oct 2022 12:49:19 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2 01/11] migration: support file: uri for source migration
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: dgilbert@redhat.com, qemu-devel@nongnu.org, jfehlig@suse.com,
+ Claudio.Fontana@suse.com, dfaggioli@suse.com
+References: <20221010133408.3214433-1-nborisov@suse.com>
+ <20221010133408.3214433-2-nborisov@suse.com> <Y05tkGrthAe0Wy65@redhat.com>
+Content-Language: en-US
+From: Nikolay Borisov <nborisov@suse.com>
+In-Reply-To: <Y05tkGrthAe0Wy65@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <91d870b3c88c5c31bb8cfcabbf7ca28b34899aa4.1666029821.git.amarjargal16@gmail.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=nborisov@suse.com;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,52 +78,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 18, 2022 at 02:23:56AM +0800, amarjargal wrote:
-> The TABs should be replaced with spaces, to make sure that we have a
-> consistent coding style with an indentation of 4 spaces everywhere.
+
+
+On 18.10.22 г. 12:10 ч., Daniel P. Berrangé wrote:
+> On Mon, Oct 10, 2022 at 04:33:58PM +0300, Nikolay Borisov wrote:
+>> Implement support for a "file:" uri so that a migration can be initiated
+>> directly to a file from QEMU.
 > 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/370
-> Signed-off-by: amarjargal <amarjargal16@gmail.com>
-> ---
->  ui/vgafont.h                 | 9214 +++++++++++++++++-----------------
->  ui/vnc-enc-zywrle-template.c |   20 +-
->  ui/vnc-enc-zywrle.h          |   16 +-
->  ui/vnc_keysym.h              |    2 +-
->  4 files changed, 4626 insertions(+), 4626 deletions(-)
+> Can we add a reminder here
 > 
+>    Unlike other migration protocol backends, the 'file' protocol cannot
+>    honour non-blocking mode. POSIX file/block storage will always report
+>    ready to read/write, regardless of how slow the underlying storage
+>    will be at servicing the request.
+> 
+>    For outgoing migration this limitation is not a serious problem as
+>    the migration data transfer always happens in a dedicated thread.
+>    It may, however, result in delays in honouring a request to cancel
+>    the migration operation.
 
-> diff --git a/ui/vnc_keysym.h b/ui/vnc_keysym.h
-> index e8a2ec73c5..19d5ce7cf7 100644
-> --- a/ui/vnc_keysym.h
-> +++ b/ui/vnc_keysym.h
-> @@ -102,7 +102,7 @@ static const name2keysym_t name2keysym[]={
->  /* latin 1 extensions */
->  { "nobreakspace",         0x0a0},
->  { "exclamdown",           0x0a1},
-> -{ "cent",         	  0x0a2},
-> +{ "cent",               0x0a2},
+Sure, I assume the same text should be added to the incoming migration 
+patch as well and emphasize that it could be more problematic there?
 
-The rest of the entries are vertically  aligned. Can you fix this
-to match.
+In any case I'd wait to gather more feedback before sending v3
 
->  { "sterling",             0x0a3},
->  { "currency",             0x0a4},
->  { "yen",                  0x0a5},
-
-With that addressed, the whole patch would be
-
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+> 
+>>
+>> Signed-off-by: Nikolay Borisov <nborisov@suse.com>
+>> ---
+>>   migration/file.c      | 23 +++++++++++++++++++++++
+>>   migration/file.h      |  9 +++++++++
+>>   migration/meson.build |  1 +
+>>   migration/migration.c |  3 +++
+>>   4 files changed, 36 insertions(+)
+>>   create mode 100644 migration/file.c
+>>   create mode 100644 migration/file.h
+>>
+>> diff --git a/migration/file.c b/migration/file.c
+>> new file mode 100644
+>> index 000000000000..02896a7cab99
+>> --- /dev/null
+>> +++ b/migration/file.c
+>> @@ -0,0 +1,23 @@
+>> +#include "qemu/osdep.h"
+>> +#include "channel.h"
+>> +#include "io/channel-file.h"
+>> +#include "file.h"
+>> +#include "qemu/error-report.h"
+>> +
+>> +
+>> +void file_start_outgoing_migration(MigrationState *s, const char *fname, Error **errp)
+>> +{
+>> +	QIOChannelFile *ioc;
+>> +
+>> +	ioc = qio_channel_file_new_path(fname, O_CREAT|O_TRUNC|O_WRONLY, 0660, errp);
+>> +	if (!ioc) {
+>> +		error_report("Error creating a channel");
+>> +		return;
+>> +	}
+>> +
+>> +	qio_channel_set_name(QIO_CHANNEL(ioc), "migration-file-outgoing");
+>> +	migration_channel_connect(s, QIO_CHANNEL(ioc), NULL, NULL);
+>> +	object_unref(OBJECT(ioc));
+>> +}
+>> +
+>> +
+>> diff --git a/migration/file.h b/migration/file.h
+>> new file mode 100644
+>> index 000000000000..d476eb1157f9
+>> --- /dev/null
+>> +++ b/migration/file.h
+>> @@ -0,0 +1,9 @@
+>> +#ifndef QEMU_MIGRATION_FILE_H
+>> +#define QEMU_MIGRATION_FILE_H
+>> +
+>> +void file_start_outgoing_migration(MigrationState *s,
+>> +                                   const char *filename,
+>> +                                   Error **errp);
+>> +
+>> +#endif
+>> +
+>> diff --git a/migration/meson.build b/migration/meson.build
+>> index 690487cf1a81..30a8392701c3 100644
+>> --- a/migration/meson.build
+>> +++ b/migration/meson.build
+>> @@ -17,6 +17,7 @@ softmmu_ss.add(files(
+>>     'colo.c',
+>>     'exec.c',
+>>     'fd.c',
+>> +  'file.c',
+>>     'global_state.c',
+>>     'migration.c',
+>>     'multifd.c',
+>> diff --git a/migration/migration.c b/migration/migration.c
+>> index bb8bbddfe467..8813b78b9a6b 100644
+>> --- a/migration/migration.c
+>> +++ b/migration/migration.c
+>> @@ -20,6 +20,7 @@
+>>   #include "migration/blocker.h"
+>>   #include "exec.h"
+>>   #include "fd.h"
+>> +#include "file.h"
+>>   #include "socket.h"
+>>   #include "sysemu/runstate.h"
+>>   #include "sysemu/sysemu.h"
+>> @@ -2414,6 +2415,8 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
+>>           exec_start_outgoing_migration(s, p, &local_err);
+>>       } else if (strstart(uri, "fd:", &p)) {
+>>           fd_start_outgoing_migration(s, p, &local_err);
+>> +    } else if (strstart(uri, "file:", &p)) {
+>> +	file_start_outgoing_migration(s, p, &local_err);
+>>       } else {
+>>           if (!(has_resume && resume)) {
+>>               yank_unregister_instance(MIGRATION_YANK_INSTANCE);
+>> -- 
+>> 2.34.1
+>>
+> 
+> With regards,
+> Daniel
 
