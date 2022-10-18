@@ -2,88 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A87E060315B
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 19:09:16 +0200 (CEST)
-Received: from localhost ([::1]:46926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3607603197
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 19:30:24 +0200 (CEST)
+Received: from localhost ([::1]:56438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okq5b-0005ED-Hw
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 13:09:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54204)
+	id 1okqQ3-000380-F0
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 13:30:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1okpmF-0006D5-Hy
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 12:49:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25523)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1okpmD-0004Ih-Hx
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 12:49:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666111752;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mWjgWFW/CCpqYCIU56lpUJkiaWuDRRoWqmLVMrn9BVY=;
- b=jGZ0QlD1lCJkQ9c/omjQm0r3EcNasve1Z6GmAXwxKIEI2W+Y3ccKAbbTpCZ/lTqoMUssNr
- gZhkYGynTDpWiGAeWLy3lTPQG/Csr04DmuWrMs4TH+OqMMSqix/mwr+T7QBsVDjH42qfgp
- /YCebv0NjhCn51lAurh3D67mFpuY5bI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-632-zC6Ay9EvM1CVtsDfnZRnDA-1; Tue, 18 Oct 2022 12:49:11 -0400
-X-MC-Unique: zC6Ay9EvM1CVtsDfnZRnDA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- az11-20020a05600c600b00b003c6e3d4d5b1so8332525wmb.7
- for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 09:49:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1okq64-0006F6-AD
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 13:09:45 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:46683)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1okq61-0007cy-Lz
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 13:09:43 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ t12-20020a17090a3b4c00b0020b04251529so14572518pjf.5
+ for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 10:09:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tOUSIuIlTYZfmkFJKxiwVoLnSxrWmdGw8FLwgcCykhc=;
+ b=H2uSIoqhWykAF4xOigAFW9u38GE4pUViG8sk+bxKnO9M12rGhpi0RGLoMp1PpONnHA
+ YDgX8ru+OB8AF5IkyLTQR7BYRiYfgr4PkQfywVeka1BCGOifcVpULNv9HZ9uwNHXtQ4M
+ MkeiWiys4odAPNGHxgUszCGSBedFGuKt7UZroeduMAt+MaZTWIImkMVG6pTXUbU1cxRH
+ PrAIm/TP1N56ZWCgwvxGlpH0ZY5aZyqTTWva7/5BKlScaynrNGLZ3adxy6loBHxs5CnZ
+ Z0+fgr/EHTohT56fVkWpVZZESfai/5KB8km6S3QJyUPW/Yc1E97hU1HeCR2fjNINou86
+ Hsfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mWjgWFW/CCpqYCIU56lpUJkiaWuDRRoWqmLVMrn9BVY=;
- b=1SzHf0jQHjayy2rE8M5D94XN4kAVYzByS6YOe1S92RCd6WvJ2ybbkdyGP2D/R7gjhP
- KYyE6oxqIgk2pO0FRYLC6ZvLdeumkNpxn4gkAkn6hnqT3Bn8qZp+6SL0inET1gxFPhrk
- 55QV4UQlnU3juiIpUroS8yFnn4lWKixjsfynJZYT07DkUP0QF2jYC0K4ouE8RF4H61cZ
- KKNS1bmRzoFJPISo8EMpCQL1FwXJUc4NtE52Ci8KzIa9dwMzbtpXYqDzSddEVlN9FiZR
- b+ImquvImvC6IhNZVjRBqdUGJGYB4qxc+LH2l1hnlQAP7+Zx2uGL7icyKwV409S6TonO
- 8dXg==
-X-Gm-Message-State: ACrzQf34dPo/dC9Oi5CbhugBaCgkT2AZ/9RXVgKID1CBcxGHykEkXnyk
- BD+FNm5GXUbUvQDabAYv+/WmrGIbkqmMfg667HRzgRFNJEvWSZOMLQDetq2BK9avGJg1C8CoeW5
- I2RROLkkQW5KkzyQ=
-X-Received: by 2002:a5d:4050:0:b0:22c:dfcc:675b with SMTP id
- w16-20020a5d4050000000b0022cdfcc675bmr2361534wrp.105.1666111749944; 
- Tue, 18 Oct 2022 09:49:09 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7WycjtwUuLzucI70RiwrBIWwf50EYzgWoJGSKipICzfsXwpTETmgPEQ+b5QlKSeGCqcQqNuw==
-X-Received: by 2002:a5d:4050:0:b0:22c:dfcc:675b with SMTP id
- w16-20020a5d4050000000b0022cdfcc675bmr2361527wrp.105.1666111749729; 
- Tue, 18 Oct 2022 09:49:09 -0700 (PDT)
-Received: from redhat.com ([2.54.172.104]) by smtp.gmail.com with ESMTPSA id
- b22-20020a05600c4e1600b003c6c5a5a651sm13951253wmq.28.2022.10.18.09.49.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Oct 2022 09:49:09 -0700 (PDT)
-Date: Tue, 18 Oct 2022 12:49:05 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Cc: Julia Suvorova <jusual@redhat.com>, qemu-devel@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, David Hildenbrand <david@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [RESEND PATCH] hw/mem/nvdimm: fix error message for 'unarmed' flag
-Message-ID: <20221018124847-mutt-send-email-mst@kernel.org>
-References: <20221018152524.137598-1-jusual@redhat.com>
- <4c2ee3bc-18e0-bdd1-79e0-ee9a2c818d10@linaro.org>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tOUSIuIlTYZfmkFJKxiwVoLnSxrWmdGw8FLwgcCykhc=;
+ b=n7ePAPby1Ctq6bnE0TdEUnZELJVOwWOdY2qrvhM1fsLeB1R2Kj3ZO49MdTImAbRKzK
+ 6WDfFmU5jCzRVJ2uLoWEO/8bS7nNiz4dkMkSgAj02I8R677d1asmSHvvmyrmgDenp5gN
+ tEx15Oa1ikS38CZvA9H/ywfLAFWbwaiyHKFrkrDGhwmaU4PxdQ/s5xwyOG3CZ3hhisK+
+ ftQM5LNHF7shg7ZeyD+vmlZa4C0xbHFbHaMqhTXrXuEOyILSvj9ri2ASlHd+jQJuQ4b2
+ XpbRdSKNjCsySh3fqCBlchP9a6d5YqQehwmm++nRz/TGXgRb6ZywYqHJDnK+kH2n7Oi5
+ 6jxw==
+X-Gm-Message-State: ACrzQf3AxgFFfej5MjFKNgCqZB+LN0dK+MbF+irtq5KMtfMf7t/zAOKZ
+ B9yPIbSslUP9wTaOVZcrgyE7jLgEWmYtClSeAeIwIA==
+X-Google-Smtp-Source: AMsMyM5Pr4RIID/SfS8LrKgco8F8Owi+k4JyDNkDZGkmrbpNsVE61DoUuVFm2fkMG11CnBriR5GNnOoCbLSzZswB4BQ=
+X-Received: by 2002:a17:90b:4b8e:b0:20a:f240:9b23 with SMTP id
+ lr14-20020a17090b4b8e00b0020af2409b23mr4701355pjb.19.1666112980040; Tue, 18
+ Oct 2022 10:09:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4c2ee3bc-18e0-bdd1-79e0-ee9a2c818d10@linaro.org>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+References: <20221006151927.2079583-1-bmeng.cn@gmail.com>
+ <20221006151927.2079583-10-bmeng.cn@gmail.com>
+In-Reply-To: <20221006151927.2079583-10-bmeng.cn@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 18 Oct 2022 18:09:28 +0100
+Message-ID: <CAFEAcA9nyy47p=Mextm8qTFu1LDTMYBv1BubtywyzGPuDiD0XQ@mail.gmail.com>
+Subject: Re: [PATCH v5 09/18] tests/qtest: Use send/recv for socket
+ communication
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng <bin.meng@windriver.com>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,46 +93,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 18, 2022 at 06:17:55PM +0200, Philippe Mathieu-Daudé wrote:
-> On 18/10/22 17:25, Julia Suvorova wrote:
-> > In the ACPI specification [1], the 'unarmed' bit is set when a device
-> > cannot accept a persistent write. This means that when a memdev is
-> > read-only, the 'unarmed' flag must be turned on. The logic is correct,
-> > just changing the error message.
-> > 
-> > [1] ACPI NFIT NVDIMM Region Mapping Structure "NVDIMM State Flags" Bit 3
-> > 
-> 
-> Fixes: dbd730e859 ("nvdimm: check -object memory-backend-file, readonly=on
-> option")
-> 
-> The documentation in 'docs/nvdimm.txt' is correct :)
-> 
-> > Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> >   hw/mem/nvdimm.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
-> > index 7c7d777781..bfb76818c1 100644
-> > --- a/hw/mem/nvdimm.c
-> > +++ b/hw/mem/nvdimm.c
-> > @@ -149,7 +149,7 @@ static void nvdimm_prepare_memory_region(NVDIMMDevice *nvdimm, Error **errp)
-> >       if (!nvdimm->unarmed && memory_region_is_rom(mr)) {
-> >           HostMemoryBackend *hostmem = dimm->hostmem;
-> > -        error_setg(errp, "'unarmed' property must be off since memdev %s "
-> > +        error_setg(errp, "'unarmed' property must be on since memdev %s "
-> 
-> If you ever respin please quote 'on' for readability.
+On Thu, 6 Oct 2022 at 17:20, Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+>
+> Socket communication in the libqtest and libqmp codes uses read()
+> and write() which work on any file descriptor on *nix, and sockets
+> in *nix are an example of a file descriptor.
+>
+> However sockets on Windows do not use *nix-style file descriptors,
+> so read() and write() cannot be used on sockets on Windows.
+> Switch over to use send() and recv() instead which work on both
+> Windows and *nix.
+>
+> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>
+> (no changes since v2)
+>
+> Changes in v2:
+> - Introduce qemu_send_full() and use it
+>
+>  include/qemu/sockets.h |  2 ++
+>  tests/qtest/libqmp.c   |  5 +++--
+>  tests/qtest/libqtest.c |  4 ++--
+>  util/osdep.c           | 33 +++++++++++++++++++++++++++++++++
+>  4 files changed, 40 insertions(+), 4 deletions(-)
+>
+> diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
+> index 036745e586..adf2b21bd9 100644
+> --- a/include/qemu/sockets.h
+> +++ b/include/qemu/sockets.h
+> @@ -33,6 +33,8 @@ int qemu_socketpair(int domain, int type, int protocol,=
+ int sv[2]);
+>  #endif
+>
+>  int qemu_accept(int s, struct sockaddr *addr, socklen_t *addrlen);
+> +ssize_t qemu_send_full(int s, const void *buf, size_t count)
+> +    G_GNUC_WARN_UNUSED_RESULT;
 
+New global function prototypes in headers need documentation
+comments, please.
 
-Yes make sense. Julia could you change this pls?
-
-> >                      "is read-only",
-> >                      object_get_canonical_path_component(OBJECT(hostmem)));
-> >           return;
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
+thanks
+-- PMM
 
