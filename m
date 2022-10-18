@@ -2,84 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99584602513
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 09:10:21 +0200 (CEST)
-Received: from localhost ([::1]:58472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D24C60262E
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 09:51:29 +0200 (CEST)
+Received: from localhost ([::1]:50264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okgjz-0003In-Rg
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 03:10:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53486)
+	id 1okhNm-0002QY-Oz
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 03:51:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1okgGX-0001dL-2Y
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 02:39:56 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:36530)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1okgJH-0003Gr-NG
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 02:42:46 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:52161)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1okgGV-0002VI-DO
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 02:39:52 -0400
-Received: by mail-wr1-x431.google.com with SMTP id j7so21873497wrr.3
- for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 23:39:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1okgJB-00031O-EG
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 02:42:41 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id v11so54040wmd.1
+ for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 23:42:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=DV3o+hBLuXZIaibkL7H7Pg88bO0GdazaWANMT3SB/Eo=;
- b=a6M6voaIlTf8itWns5ElITSg3Z4ll5nXDNqVgnx7YKcXUIovk4oBU2KYK/2DfNOv29
- iyoXEnVJDKnNhHnVZRHQzFbZCsI1giKYVFB7QKxAVIljV1aZEn62raG5Xjc7VimE63Zt
- vPjJmIx6UIe7zVCjoRc/WmQpEwpqdhbF62AD7nhNWG87hGBbIgvFj/m8xJE/AxzKR4T/
- Of7aHOJ/KXg+4IZKyoTLpOvS84FUzs8mqzHXQDqgOWLbdibiNgeJn1iDT3QuFB/uAs2C
- naMz+9dZzn3q1bvRcawr1yEBP3Kry6cwdeJbdu7Tr+j+qhiX67PPgRq3rzaz2uM0T+w3
- iPMw==
+ bh=yboswpoehrFkJ1PJM2fzYjo8b4mS8z7J4Wz6f0FjOzA=;
+ b=rERSoFqWlGbsyeSPcYErvE5UnE88XanPqmkZpQCaEiQYYv4YHDp7ESo29ssAXLqzcp
+ VT/qh62hflZc3D+Ci+yV0QHDQbkYxLzCm8lnCVnzZUT/hi5OCUtLZ7UlwT/7iOGpOcyw
+ 1CXU3GQb1ZaWvM0AWkMIR6e6nxL42+ZwBJ6vE/fTnQmlsVjrPXJ4wnCepjPh0qW5xL2H
+ 69AVfxSMy3InPwdqLBmhxfKxGYCZexD4bfsoO/x1pOz+ydIFkQDHYQlQZCzuqyvzpBmY
+ TCcNN6t6V5KQWA6SI4Hx6WexevxsSpS4CSvHBC2aBhgzSuks4VjvcDrn5UNFWxDM4JBt
+ s9yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DV3o+hBLuXZIaibkL7H7Pg88bO0GdazaWANMT3SB/Eo=;
- b=eX7gZXDhRswP+pPYFPjnOhHr0uf9aZj60TxD6+03u3POTfTp/O09j6udVscCywwcpM
- emA3GVy7+76glnDa9YE8wXip/EoHjf9GqAXIJf+5O9fLeFrMJDynZohJuHE+vcgesYk1
- 3ZFLdyH5EXOQdCfzVzh3VKeNZuVymFRDw/2gGsBbRcTZQ4twAnApSfyB/6us6reIdc0c
- 0/HoFPBvd0eZB62T8XvyCBZ+SQLrPrkLB/ZKyvR4wlfEq2/r9nszRw2k90YEZ20m1jri
- eseDKnJOqA+4sFlS7gZe3yDj5J5I0CZ6fe3GBjobKGRMz/g9BW/ApbLNsjQ2a86hl6HZ
- qJCw==
-X-Gm-Message-State: ACrzQf2x/Yq6+bHROkQWeMnIprVq1vueqvRoFtu65+/pSY9K3kdwM7Tw
- FDZ0JxQwOEANRqaNAwKTqgUIPg==
-X-Google-Smtp-Source: AMsMyM4R1DofU3Vf0+hTv/6OrD8M0qtastvuAiD5EAIyBvfWRrvENjE19bi/2m+ZF505LGa3Xs77pA==
-X-Received: by 2002:a5d:5050:0:b0:22c:dbba:9ab1 with SMTP id
- h16-20020a5d5050000000b0022cdbba9ab1mr796434wrt.341.1666075189832; 
- Mon, 17 Oct 2022 23:39:49 -0700 (PDT)
+ bh=yboswpoehrFkJ1PJM2fzYjo8b4mS8z7J4Wz6f0FjOzA=;
+ b=DO8Js7A7ULiSXyM12JFFod1mxzw5BL2xa+ikvOi8Fr+DX1NpjRfUrCV3jjDeY52dGc
+ B+uWyFqXuU8+JAkGD8Cll+lz/4aF8vLdoQBo0R+X2EbJUxTNyUSSiOgYn313kn1ghVf9
+ 6bOA4GCdUKOvNBtr6TAAN1XXyepZ3m4PTpAnWiFY52r/DgCai8mjaayjRxXOf6yVpzyD
+ 493VGrcwFEWAm/VnNbpFvdPohVwTXdGFuqmAlPvH0Z6TP+5f2BzTx+/jUCNERHfGheNM
+ NtSGnxw3O+LZS9LfTDa1OpujBeyoNGw8jU535MscPcEfkaIJV07rn7Ph2g7Y9USN0Fjp
+ skqw==
+X-Gm-Message-State: ACrzQf0msArMzRHvusD2HPfn7QDLNb4a9RYpn1hwuKU5XVza7bMbYZwU
+ xmtQ/8CAHVbftn3KnUdXwLYArw==
+X-Google-Smtp-Source: AMsMyM6Gbmmh6NQ/4DpO96UVNh/6fmbBvogPD43XpIGdG7FZosTb3tK3JKD/sCVzC+WPmYc4eQizpQ==
+X-Received: by 2002:a05:600c:a47:b0:3a6:5848:4bde with SMTP id
+ c7-20020a05600c0a4700b003a658484bdemr21287293wmq.189.1666075355683; 
+ Mon, 17 Oct 2022 23:42:35 -0700 (PDT)
 Received: from [192.168.130.175] (151.red-88-29-167.dynamicip.rima-tde.net.
  [88.29.167.151]) by smtp.gmail.com with ESMTPSA id
- u10-20020a5d468a000000b0021badf3cb26sm12208749wrq.63.2022.10.17.23.39.48
+ i3-20020adfaac3000000b0022e62529888sm10630451wrc.67.2022.10.17.23.42.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Oct 2022 23:39:49 -0700 (PDT)
-Message-ID: <42c7abae-7177-8267-7428-3ba0ef7c4b1b@linaro.org>
-Date: Tue, 18 Oct 2022 08:39:46 +0200
+ Mon, 17 Oct 2022 23:42:35 -0700 (PDT)
+Message-ID: <fee57363-5cae-6e08-77c6-b226b5cfde14@linaro.org>
+Date: Tue, 18 Oct 2022 08:42:33 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.1
-Subject: Re: [PATCH v5 7/9] tests/x86: replace snprint() by g_strdup_printf()
- in drive_del-test
+Subject: Re: [PATCH] elf2dmp: free memory in failure
 Content-Language: en-US
-To: Michael Labiuk <michael.labiuk@virtuozzo.com>, qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, den@virtuozzo.com
-References: <20220929223547.1429580-1-michael.labiuk@virtuozzo.com>
- <20220929223547.1429580-8-michael.labiuk@virtuozzo.com>
+To: luzhipeng <luzhipeng@cestc.cn>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
+ QEMU Trivial <qemu-trivial@nongnu.org>
+References: <20220929120459.2018-1-luzhipeng@cestc.cn>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20220929223547.1429580-8-michael.labiuk@virtuozzo.com>
+In-Reply-To: <20220929120459.2018-1-luzhipeng@cestc.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,14 +92,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/9/22 00:35, Michael Labiuk via wrote:
-> Using g_autofree char* and  g_strdup_printf(...) instead of ugly
-> snprintf on stack array.
+On 29/9/22 14:04, luzhipeng wrote:
+> From: lu zhipeng <luzhipeng@cestc.cn>
 > 
-> Signed-off-by: Michael Labiuk <michael.labiuk@virtuozzo.com>
+> Signed-off-by: lu zhipeng <luzhipeng@cestc.cn>
 > ---
->   tests/qtest/drive_del-test.c | 10 ++++------
->   1 file changed, 4 insertions(+), 6 deletions(-)
+>   contrib/elf2dmp/main.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/contrib/elf2dmp/main.c b/contrib/elf2dmp/main.c
+> index b9fc6d230c..d77b8f98f7 100644
+> --- a/contrib/elf2dmp/main.c
+> +++ b/contrib/elf2dmp/main.c
+> @@ -125,6 +125,7 @@ static KDDEBUGGER_DATA64 *get_kdbg(uint64_t KernBase, struct pdb_reader *pdb,
+>   
+>       if (va_space_rw(vs, KdDebuggerDataBlock, kdbg, kdbg_hdr.Size, 0)) {
+>           eprintf("Failed to extract entire KDBG\n");
+> +        free(kdbg);
+>           return NULL;
+>       }
+>   
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
