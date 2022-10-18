@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 078266034D3
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 23:20:50 +0200 (CEST)
-Received: from localhost ([::1]:35458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46D8F6034F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 23:29:26 +0200 (CEST)
+Received: from localhost ([::1]:39400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oku11-0001yA-KF
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 17:20:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56390)
+	id 1oku9M-0001Ua-MC
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 17:29:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oktjg-00023M-GE; Tue, 18 Oct 2022 17:02:53 -0400
-Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a]:42964)
+ id 1oktjX-00022I-SJ; Tue, 18 Oct 2022 17:02:51 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:40839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1oktje-0003xi-F8; Tue, 18 Oct 2022 17:02:52 -0400
-Received: by mail-lf1-x12a.google.com with SMTP id o12so16306048lfq.9;
- Tue, 18 Oct 2022 14:02:49 -0700 (PDT)
+ id 1oktjV-0003vK-UQ; Tue, 18 Oct 2022 17:02:43 -0400
+Received: by mail-ej1-x631.google.com with SMTP id r17so35332185eja.7;
+ Tue, 18 Oct 2022 14:02:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7YchITTcnUYZ4WJgcEjOn1WReqvfHLeSxHYKWWHpblk=;
- b=mIu78TgwdsUFSOJMzz5E19m6py/vXIuYPpmg4uJeX926ilIWOFVKKl590pM0l9vOeI
- 3Yj9sBSjgEsYiriNqqHMdaW35pI9Shsjn9+Fh/uXBl2kFdwWZHCf8Y7qfROkwgyym66l
- HreV64FM2dmUGL7SUQXz7Sh+ZfWj2CwFiEijn72LC3TacCvD8EXZameHcwww2eSn707N
- 4hjn5gwL7MnRKW+Tr1NP+RPCU77jD6s16uAScKXrZ13/BtC6RgPwTJ0A8/QTvfyuwgr2
- e7lvnxMWWjSHz6Aaxt5QpNs+6tmhnePDZl7RI2bGs0WCKEiIsh1Ql2uDsTYtYlupNZAC
- JI0A==
+ bh=WtEIJKc0Za2w7LkNpc+XYB5b7FTyMz3UDgQ3c6Pamy8=;
+ b=NhYy8mp2tT3eW2ZRlAWLGCq+XlIrp7c3KKe+HlPmW0aomOaBlQQ4CRliUvhpCuuyq+
+ x/Q9tJZ1a+1zdPBUYUSUo5sVm0eN0LEmASqSORB4AeOWIN2EUAKhhPwWsjoaqOGPAqu1
+ 4x/vW52K953lnKP9zCI4bn1DrPkNijK0um31XON9t+rFqlcqfnxsKRNFy4xeochRK+Op
+ zUwWxeeacaoWsXqbx03b5WzTyQw/HfcTL1RpROMJLHiS05EgbmWHTsDrgXb8u4L4bDaZ
+ w8EMns2ppMYS7GXQBpFDW30la+M/ro6TG66pe3d6woBGY5Q62Z8Btn7ParVIA2r9BA2R
+ 3zlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7YchITTcnUYZ4WJgcEjOn1WReqvfHLeSxHYKWWHpblk=;
- b=ZQEGFG9QDy66pkc/WgMGuCz/xWVgXAcG9oFXyE4Mt1RE+IbqWT3uOgaYuW0eRAVnCE
- PsUzhx/6ylel4siZ+MHaTnJu9h5EDL27IuwUrZQaho/a509xZqzOqdR+DmsSddv48x2h
- o/eJIOxUsL91J01R6RVq8YO2cir1B536aUHE7/Sl5NpUkI0aDLhcekROdarREcUEx+o3
- CVOI0tVBgUTZKTlfcf5JGg1wgd8siTAkZN5SBxTAkbwW6UHsePrDDk0GovM7orAaVvs+
- h+/8rhRmRcbhbZj+w9efQIUVtBCLusPiYtMg//W+mZUT9ckzlu/Scgeptdr3NwMtV5em
- Vv0A==
-X-Gm-Message-State: ACrzQf0plq4FO5kGHciMyX8Eudiynk7HTa3XMLZmeWxXWwqk6ERrjR2H
- 1vDbJfjGFZHmfwEFZ+yAXVCzbuWjYQo=
-X-Google-Smtp-Source: AMsMyM6k6JBoSELlxdupOJatE2uD3jhDMBvVith35MD5CpsREWZxYWMK2BaZWcVQYC+l25hLd6ecRw==
-X-Received: by 2002:a17:907:7f1c:b0:78d:ddc7:dfb1 with SMTP id
- qf28-20020a1709077f1c00b0078dddc7dfb1mr4092561ejc.189.1666126956939; 
- Tue, 18 Oct 2022 14:02:36 -0700 (PDT)
+ bh=WtEIJKc0Za2w7LkNpc+XYB5b7FTyMz3UDgQ3c6Pamy8=;
+ b=nZT9VRRdDDtbtk7jpWUWTL7JsmcGuNpjhSpJr6i9fi7sgM8oNshOCfF61tGyja9+eF
+ FHNKO39NiUerwcDQb1kX+cs0iUEkLmBhga+p1l5IhpRg0hvMPvalpFGrHkc4n37AcX4P
+ 490XVEpuL7GacikCHQTZrpZl9oEp81cL1tNcm7TDwZxUpg0/Gtbig/ZZPSDd4aRHriR9
+ Zk1Btpp2bAjwctes+VcbEgXuBDAhsQkxJZA5luwPUgOrSbP0CT/+GB0F3WLbyUGBZLKH
+ ttIg3d3i8W088cJ/UsTQIPvGgNhu5QCSfkSseSJoVAX2IN73N9z8qT2QMJPJmIgCkpFl
+ c9ww==
+X-Gm-Message-State: ACrzQf125DFv2CDzYr7O3rFUuLftZgG4VwYAaky+pIOqqws+esUiSOCe
+ awAoQ81a0+DStOXGtoquS1QSjl2RvKc=
+X-Google-Smtp-Source: AMsMyM7Dr5ZpAPvCRFdm0eeExxM9WaKbLOJKGuPDE03yb9IWTu2DgwOmzZqO8eS+Xm+U4/LKhE1PlA==
+X-Received: by 2002:a17:907:270f:b0:78d:728b:ff4 with SMTP id
+ w15-20020a170907270f00b0078d728b0ff4mr4060683ejk.501.1666126958159; 
+ Tue, 18 Oct 2022 14:02:38 -0700 (PDT)
 Received: from localhost.localdomain
  (dynamic-078-054-012-048.78.54.pool.telefonica.de. [78.54.12.48])
  by smtp.gmail.com with ESMTPSA id
- fe7-20020a056402390700b004587c2b5048sm9407951edb.52.2022.10.18.14.02.35
+ fe7-20020a056402390700b004587c2b5048sm9407951edb.52.2022.10.18.14.02.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Oct 2022 14:02:36 -0700 (PDT)
+ Tue, 18 Oct 2022 14:02:37 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -69,18 +69,17 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Magnus Damm <magnus.damm@gmail.com>,
  "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org,
  Bernhard Beschow <shentey@gmail.com>, Bin Meng <bmeng.cn@gmail.com>
-Subject: [PATCH v4 2/7] hw/block/pflash_cfi0{1,
- 2}: Error out if device length isn't a power of two
-Date: Tue, 18 Oct 2022 23:01:41 +0200
-Message-Id: <20221018210146.193159-3-shentey@gmail.com>
+Subject: [PATCH v4 3/7] hw/sd/sdhci-internal: Unexport ESDHC defines
+Date: Tue, 18 Oct 2022 23:01:42 +0200
+Message-Id: <20221018210146.193159-4-shentey@gmail.com>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20221018210146.193159-1-shentey@gmail.com>
 References: <20221018210146.193159-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
- envelope-from=shentey@gmail.com; helo=mail-lf1-x12a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -103,66 +102,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to the JEDEC standard the device length is communicated to an
-OS as an exponent (power of two).
+These defines aren't used outside of sdhci.c, so can be defined there.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/block/pflash_cfi01.c | 8 ++++++--
- hw/block/pflash_cfi02.c | 5 +++++
- 2 files changed, 11 insertions(+), 2 deletions(-)
+ hw/sd/sdhci-internal.h | 20 --------------------
+ hw/sd/sdhci.c          | 19 +++++++++++++++++++
+ 2 files changed, 19 insertions(+), 20 deletions(-)
 
-diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-index 0cbc2fb4cb..9c235bf66e 100644
---- a/hw/block/pflash_cfi01.c
-+++ b/hw/block/pflash_cfi01.c
-@@ -690,7 +690,7 @@ static const MemoryRegionOps pflash_cfi01_ops = {
-     .endianness = DEVICE_NATIVE_ENDIAN,
- };
+diff --git a/hw/sd/sdhci-internal.h b/hw/sd/sdhci-internal.h
+index e8c753d6d1..964570f8e8 100644
+--- a/hw/sd/sdhci-internal.h
++++ b/hw/sd/sdhci-internal.h
+@@ -288,26 +288,6 @@ enum {
  
--static void pflash_cfi01_fill_cfi_table(PFlashCFI01 *pfl)
-+static void pflash_cfi01_fill_cfi_table(PFlashCFI01 *pfl, Error **errp)
- {
-     uint64_t blocks_per_device, sector_len_per_device, device_len;
-     int num_devices;
-@@ -708,6 +708,10 @@ static void pflash_cfi01_fill_cfi_table(PFlashCFI01 *pfl)
-         sector_len_per_device = pfl->sector_len / num_devices;
-     }
-     device_len = sector_len_per_device * blocks_per_device;
-+    if (!is_power_of_2(device_len)) {
-+        error_setg(errp, "Device size must be a power of two.");
-+        return;
-+    }
+ extern const VMStateDescription sdhci_vmstate;
  
-     /* Hardcoded CFI table */
-     /* Standard "QRY" string */
-@@ -865,7 +869,7 @@ static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
-      */
-     pfl->cmd = 0x00;
-     pfl->status = 0x80; /* WSM ready */
--    pflash_cfi01_fill_cfi_table(pfl);
-+    pflash_cfi01_fill_cfi_table(pfl, errp);
- }
+-
+-#define ESDHC_MIX_CTRL                  0x48
+-
+-#define ESDHC_VENDOR_SPEC               0xc0
+-#define ESDHC_IMX_FRC_SDCLK_ON          (1 << 8)
+-
+-#define ESDHC_DLL_CTRL                  0x60
+-
+-#define ESDHC_TUNING_CTRL               0xcc
+-#define ESDHC_TUNE_CTRL_STATUS          0x68
+-#define ESDHC_WTMK_LVL                  0x44
+-
+-/* Undocumented register used by guests working around erratum ERR004536 */
+-#define ESDHC_UNDOCUMENTED_REG27        0x6c
+-
+-#define ESDHC_CTRL_4BITBUS              (0x1 << 1)
+-#define ESDHC_CTRL_8BITBUS              (0x2 << 1)
+-
+-#define ESDHC_PRNSTS_SDSTB              (1 << 3)
+-
+ /*
+  * Default SD/MMC host controller features information, which will be
+  * presented in CAPABILITIES register of generic SD host controller at reset.
+diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
+index 0e5e988927..6da5e2c781 100644
+--- a/hw/sd/sdhci.c
++++ b/hw/sd/sdhci.c
+@@ -1577,6 +1577,25 @@ static const TypeInfo sdhci_bus_info = {
  
- static void pflash_cfi01_system_reset(DeviceState *dev)
-diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-index 2a99b286b0..ff2fe154c1 100644
---- a/hw/block/pflash_cfi02.c
-+++ b/hw/block/pflash_cfi02.c
-@@ -880,6 +880,11 @@ static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
-         return;
-     }
+ /* --- qdev i.MX eSDHC --- */
  
-+    if (!is_power_of_2(pfl->chip_len)) {
-+        error_setg(errp, "Device size must be a power of two.");
-+        return;
-+    }
++#define ESDHC_MIX_CTRL                  0x48
 +
-     memory_region_init_rom_device(&pfl->orig_mem, OBJECT(pfl),
-                                   &pflash_cfi02_ops, pfl, pfl->name,
-                                   pfl->chip_len, errp);
++#define ESDHC_VENDOR_SPEC               0xc0
++#define ESDHC_IMX_FRC_SDCLK_ON          (1 << 8)
++
++#define ESDHC_DLL_CTRL                  0x60
++
++#define ESDHC_TUNING_CTRL               0xcc
++#define ESDHC_TUNE_CTRL_STATUS          0x68
++#define ESDHC_WTMK_LVL                  0x44
++
++/* Undocumented register used by guests working around erratum ERR004536 */
++#define ESDHC_UNDOCUMENTED_REG27        0x6c
++
++#define ESDHC_CTRL_4BITBUS              (0x1 << 1)
++#define ESDHC_CTRL_8BITBUS              (0x2 << 1)
++
++#define ESDHC_PRNSTS_SDSTB              (1 << 3)
++
+ static uint64_t usdhc_read(void *opaque, hwaddr offset, unsigned size)
+ {
+     SDHCIState *s = SYSBUS_SDHCI(opaque);
 -- 
 2.38.0
 
