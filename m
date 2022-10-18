@@ -2,89 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 601FC6027C5
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 11:01:17 +0200 (CEST)
-Received: from localhost ([::1]:58764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C0CF6027C1
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 11:00:34 +0200 (CEST)
+Received: from localhost ([::1]:52868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okiTM-0007i7-2F
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 05:01:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54042)
+	id 1okiSe-00078o-Oh
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 05:00:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1okiAM-00047O-F5
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 04:41:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39544)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1okiAK-0004Cc-Kp
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 04:41:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666082494;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8sB9Ol+BcDz+kvcaYd1xpXeM3+KnWqUnO8tObPZrXYo=;
- b=WwzrAtYHzqd8VWULLA9tIjVFGWttdxM1oFejhHPYdnQ8I+6hdI3wnn2GxqThXbDGfHmLIc
- Gbsli9qtt5M0f8oRe/D8p8IkcfgAYXC4L1WQtia3pmvSTUGOByQP6LAvvhxj/2r64HOaB8
- bnoUBojWYScKhnm9NLllMaFkNqQ2L5w=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-339-eh8iLvXxOM63Zt3vMtzUJg-1; Tue, 18 Oct 2022 04:41:33 -0400
-X-MC-Unique: eh8iLvXxOM63Zt3vMtzUJg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- h17-20020adfaa91000000b0022e9f2245c8so4343371wrc.19
- for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 01:41:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1oki9z-0003ia-Jl; Tue, 18 Oct 2022 04:41:15 -0400
+Received: from mail-vk1-xa2c.google.com ([2607:f8b0:4864:20::a2c]:39474)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1oki9x-0004AM-Ir; Tue, 18 Oct 2022 04:41:15 -0400
+Received: by mail-vk1-xa2c.google.com with SMTP id h25so6168121vkc.6;
+ Tue, 18 Oct 2022 01:41:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2UiNphEzLyuCVAv/Rl0pRQL4IcJGg46KkU6eeENN59o=;
+ b=idBu9PhKHzRkFa9yBiN5rVH3p7uZ+o+WNl7UBHmjaS3oHDdNB0rSNV18dfqM8ssKWM
+ XG6fGmLHdeIVTE2QlQzMmRRX52r5emdl0JP8+Q43Don4CgeeL1RAhTtZ/cbViqWUNL8m
+ mrXK7q76VDN8wcTQiKeBrM+XZfhX+gvW+TijZJssfkXk4CYM67nlJBeISJu5mFyESFFq
+ 4rTJgjLIhh89mx4xRAJki1l45PnHmFoJbsWpzeLkEktDaJqNn+La/NKjBT4qY1k3J+2A
+ h2lxGIc8xRXmS5504K4bWGHKd/jrj85+e+5XYuoIpMEM/DV94uAx8mvbQRMFJrXiW8gY
+ bDUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8sB9Ol+BcDz+kvcaYd1xpXeM3+KnWqUnO8tObPZrXYo=;
- b=IUIy8jqL72hOhfsEp3QxFkgGVPrlZoN4NPyJfXcaWCcuRnkOts2dWGrxGARtgfKhxo
- jUDFBFFIYWWJ5tqZ6yyXY+ZE68arpKmo8MQu71ACZGEwHBzvRSA54QtDU/CFMf06GyEv
- W++yGi7aZm2+mm6Ky6frmAS50/9ANxAsy/9Grs3nbUc7M1MnV+RxH1xPIpmSItSoKbEU
- P9sOOMUGWz21Rs/jcbSksOTkRlgy/6qKpWA5kmO7GOL3cXuXov3Vv7PSJsdZQMI/vwnO
- /trjAVgTE3lvo2L0dIuscdNixw3mpFTe8f1DJa8b64jTaDfmjw8SycRhyBWoSqJi4xH5
- bz9Q==
-X-Gm-Message-State: ACrzQf07uiDfwe4we1APbrrcfHmXs80m1I8P8+wyAvOEZWGyQ5wZRmax
- zj1pIQgi4kh4oXHIfwqjgfoAw0Md196iHL6M4dxF8BMheH0yrN292nyjr5Tz4yaECBL8bf0j3UU
- xua04iHaBB/BeMbk=
-X-Received: by 2002:a05:600c:4e06:b0:3c6:ce02:ece4 with SMTP id
- b6-20020a05600c4e0600b003c6ce02ece4mr1091088wmq.58.1666082492180; 
- Tue, 18 Oct 2022 01:41:32 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7exqulEdovouNbQ3zyQvsX7awBZ32TjGn8+gMe1ZOFdYHrSQ0ue69qec5mfrhOfKWed+pjEQ==
-X-Received: by 2002:a05:600c:4e06:b0:3c6:ce02:ece4 with SMTP id
- b6-20020a05600c4e0600b003c6ce02ece4mr1091070wmq.58.1666082491940; 
- Tue, 18 Oct 2022 01:41:31 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- e9-20020adffc49000000b002206203ed3dsm10429416wrs.29.2022.10.18.01.41.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Oct 2022 01:41:31 -0700 (PDT)
-Date: Tue, 18 Oct 2022 09:41:29 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Cc: qemu-devel@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>
-Subject: Re: [PATCH v2] nbd/client: Use smarter assert
-Message-ID: <Y05muTwPNKfZSDkB@work-vm>
-References: <20221017191207.1255807-1-eblake@redhat.com>
+ bh=2UiNphEzLyuCVAv/Rl0pRQL4IcJGg46KkU6eeENN59o=;
+ b=7bE0vjYRkOw7qXud8VHXxcVj5DyLKL2AtT8ZsnN0I2IRlh4USVCMj2dCzudWJS+k+T
+ NruwS8SdgXHMdFxUE/1GYVeiPuNr7htOVybFwnGgv3c+H0AJ2u5ku/7sdt7po/Nymf42
+ Xdoi0qVBWo6Q0DDeNs+oZKzZ0XCDIMv2iGq2isj6OIMOpWtcP0i40cXX0MIngLlW/Bol
+ SsEpD6PdAgu1sJ7WNgx5YMH6CzHGm+SFZU5wz1kYFgKr6D4HpVk0xZWDXumGRj8l02Uw
+ Lhw37NBTdvi/Kxscce+XQVHLOQ0ot7K4HanIfPvsHm9ZqEqCXKjC8VLiQDUJpY+RmVEH
+ tk2g==
+X-Gm-Message-State: ACrzQf3QUL8sJ1P472Xyn9REhQ6D3u3ZM3Z+kiEah1RixCzbcFn9nJkU
+ aPbBfgnkVyTJ09HC/gITQinQpm7YfC5nehuLn0A=
+X-Google-Smtp-Source: AMsMyM6R6w0AEu1zHxBdPyg1yl2lydavCeTAK8tU2hqQuHlWcAXEdqoafpwaf67CokZVnfhVwC2RRRHOe1p4TCrTkuY=
+X-Received: by 2002:a1f:9cc5:0:b0:3a2:bd20:8fc6 with SMTP id
+ f188-20020a1f9cc5000000b003a2bd208fc6mr828686vke.22.1666082471581; Tue, 18
+ Oct 2022 01:41:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221017191207.1255807-1-eblake@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+References: <20221016145110.171262-1-faithilikerun@gmail.com>
+ <20221016145110.171262-7-faithilikerun@gmail.com>
+ <0e24771f0db95ffbd2ff413f24a4dfdc4674b89e.camel@wdc.com>
+In-Reply-To: <0e24771f0db95ffbd2ff413f24a4dfdc4674b89e.camel@wdc.com>
+From: Sam Li <faithilikerun@gmail.com>
+Date: Tue, 18 Oct 2022 16:41:30 +0800
+Message-ID: <CAAAx-8Kdz--HDTZ0c8iu2KD0Ntn2Tp_ohUWu6vCzaALD2Wi+zw@mail.gmail.com>
+Subject: Re: [PATCH v12 6/7] qemu-iotests: test new zone operations
+To: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "hreitz@redhat.com" <hreitz@redhat.com>, 
+ "hare@suse.de" <hare@suse.de>, "armbru@redhat.com" <armbru@redhat.com>, 
+ "stefanha@redhat.com" <stefanha@redhat.com>, "fam@euphon.net" <fam@euphon.net>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "eblake@redhat.com" <eblake@redhat.com>, 
+ "kwolf@redhat.com" <kwolf@redhat.com>, 
+ "damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a2c;
+ envelope-from=faithilikerun@gmail.com; helo=mail-vk1-xa2c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,57 +92,212 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Eric Blake (eblake@redhat.com) wrote:
-> Assigning strlen() to a uint32_t and then asserting that it isn't too
-> large doesn't catch the case of an input string 4G in length.
-> Thankfully, the incoming strings can never be that large: if the
-> export name or query is reflecting a string the client got from the
-> server, we already guarantee that we dropped the NBD connection if the
-> server sent more than 32M in a single reply to our NBD_OPT_* request;
-> if the export name is coming from qemu, nbd_receive_negotiate()
-> asserted that strlen(info->name) <= NBD_MAX_STRING_SIZE; and
-> similarly, a query string via x->dirty_bitmap coming from the user was
-> bounds-checked in either qemu-nbd or by the limitations of QMP.
-> Still, it doesn't hurt to be more explicit in how we write our
-> assertions to not have to analyze whether inadvertent wraparound is
-> possible.
-> 
-> Fixes: 93676c88 ("nbd: Don't send oversize strings", v4.2.0)
-> Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Eric Blake <eblake@redhat.com>
+Dmitry Fomichev <Dmitry.Fomichev@wdc.com> =E4=BA=8E2022=E5=B9=B410=E6=9C=88=
+17=E6=97=A5=E5=91=A8=E4=B8=80 08:57=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Sun, 2022-10-16 at 22:51 +0800, Sam Li wrote:
+> > We have added new block layer APIs of zoned block devices.
+> > Test it with:
+> > Create a null_blk device, run each zone operation on it and see
+> > whether reporting right zone information.
+>
+> change this to "whether the logs show the correct zone information"?
+>
+> >
+>
+> Could you please describe how to run this specific set of tests
+> in more detail?
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+I just run this script on the terminal directly and redirect the
+result to the output file.
 
-> ---
-> 
-> v2: update subject line and commit message to reflect file being
-> touched; adjust a second nearby assertion with the same issue
-> 
->  nbd/client.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/nbd/client.c b/nbd/client.c
-> index 30d5383cb1..90a6b7b38b 100644
-> --- a/nbd/client.c
-> +++ b/nbd/client.c
-> @@ -658,11 +658,11 @@ static int nbd_send_meta_query(QIOChannel *ioc, uint32_t opt,
->      char *p;
-> 
->      data_len = sizeof(export_len) + export_len + sizeof(queries);
-> -    assert(export_len <= NBD_MAX_STRING_SIZE);
-> +    assert(strlen(export) <= NBD_MAX_STRING_SIZE);
->      if (query) {
->          query_len = strlen(query);
->          data_len += sizeof(query_len) + query_len;
-> -        assert(query_len <= NBD_MAX_STRING_SIZE);
-> +        assert(strlen(query) <= NBD_MAX_STRING_SIZE);
->      } else {
->          assert(opt == NBD_OPT_LIST_META_CONTEXT);
->      }
-> -- 
-> 2.37.3
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Maybe?
++ Run each zone operation on a newly created null_blk device and see
++ whether the logs show the correct zone information.
 
+>
+> >
+> > Signed-off-by: Sam Li <faithilikerun@gmail.com>
+> > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> >  tests/qemu-iotests/tests/zoned.out | 53 ++++++++++++++++++
+> >  tests/qemu-iotests/tests/zoned.sh  | 86 ++++++++++++++++++++++++++++++
+> >  2 files changed, 139 insertions(+)
+> >  create mode 100644 tests/qemu-iotests/tests/zoned.out
+> >  create mode 100755 tests/qemu-iotests/tests/zoned.sh
+> >
+> > diff --git a/tests/qemu-iotests/tests/zoned.out b/tests/qemu-
+> > iotests/tests/zoned.out
+> > new file mode 100644
+> > index 0000000000..0c8f96deb9
+> > --- /dev/null
+> > +++ b/tests/qemu-iotests/tests/zoned.out
+> > @@ -0,0 +1,53 @@
+> > +QA output created by zoned.sh
+> > +Testing a null_blk device:
+> > +Simple cases: if the operations work
+> > +(1) report the first zone:
+> > +start: 0x0, len 0x80000, cap 0x80000, wptr 0x0, zcond:1, [type: 2]
+> > +
+> > +report the first 10 zones
+> > +start: 0x0, len 0x80000, cap 0x80000, wptr 0x0, zcond:1, [type: 2]
+> > +start: 0x80000, len 0x80000, cap 0x80000, wptr 0x80000, zcond:1, [type=
+: 2]
+> > +start: 0x100000, len 0x80000, cap 0x80000, wptr 0x100000, zcond:1, [ty=
+pe: 2]
+> > +start: 0x180000, len 0x80000, cap 0x80000, wptr 0x180000, zcond:1, [ty=
+pe: 2]
+> > +start: 0x200000, len 0x80000, cap 0x80000, wptr 0x200000, zcond:1, [ty=
+pe: 2]
+> > +start: 0x280000, len 0x80000, cap 0x80000, wptr 0x280000, zcond:1, [ty=
+pe: 2]
+> > +start: 0x300000, len 0x80000, cap 0x80000, wptr 0x300000, zcond:1, [ty=
+pe: 2]
+> > +start: 0x380000, len 0x80000, cap 0x80000, wptr 0x380000, zcond:1, [ty=
+pe: 2]
+> > +start: 0x400000, len 0x80000, cap 0x80000, wptr 0x400000, zcond:1, [ty=
+pe: 2]
+> > +start: 0x480000, len 0x80000, cap 0x80000, wptr 0x480000, zcond:1, [ty=
+pe: 2]
+> > +
+> > +report the last zone:
+> > +start: 0x1f380000, len 0x80000, cap 0x80000, wptr 0x1f380000, zcond:1,=
+ [type:
+> > 2]
+> > +
+> > +
+> > +(2) opening the first zone
+> > +report after:
+> > +start: 0x0, len 0x80000, cap 0x80000, wptr 0x0, zcond:3, [type: 2]
+> > +
+> > +opening the second zone
+> > +report after:
+> > +start: 0x80000, len 0x80000, cap 0x80000, wptr 0x80000, zcond:3, [type=
+: 2]
+> > +
+> > +opening the last zone
+> > +report after:
+> > +start: 0x1f380000, len 0x80000, cap 0x80000, wptr 0x1f380000, zcond:3,=
+ [type:
+> > 2]
+> > +
+> > +
+> > +(3) closing the first zone
+> > +report after:
+> > +start: 0x0, len 0x80000, cap 0x80000, wptr 0x0, zcond:1, [type: 2]
+> > +
+> > +closing the last zone
+> > +report after:
+> > +start: 0x1f380000, len 0x80000, cap 0x80000, wptr 0x1f380000, zcond:1,=
+ [type:
+> > 2]
+> > +
+> > +
+> > +(4) finishing the second zone
+> > +After finishing a zone:
+> > +start: 0x80000, len 0x80000, cap 0x80000, wptr 0x100000, zcond:14, [ty=
+pe: 2]
+> > +
+> > +
+> > +(5) resetting the second zone
+> > +After resetting a zone:
+> > +start: 0x80000, len 0x80000, cap 0x80000, wptr 0x80000, zcond:1, [type=
+: 2]
+> > +*** done
+> > diff --git a/tests/qemu-iotests/tests/zoned.sh b/tests/qemu-
+> > iotests/tests/zoned.sh
+> > new file mode 100755
+> > index 0000000000..fced0194c5
+> > --- /dev/null
+> > +++ b/tests/qemu-iotests/tests/zoned.sh
+> > @@ -0,0 +1,86 @@
+> > +#!/usr/bin/env bash
+> > +#
+> > +# Test zone management operations.
+> > +#
+> > +
+> > +seq=3D"$(basename $0)"
+> > +echo "QA output created by $seq"
+> > +status=3D1 # failure is the default!
+> > +
+> > +_cleanup()
+> > +{
+> > +  _cleanup_test_img
+> > +  sudo rmmod null_blk
+> > +}
+> > +trap "_cleanup; exit \$status" 0 1 2 3 15
+> > +
+> > +# get standard environment, filters and checks
+> > +. ./common.rc
+> > +. ./common.filter
+> > +. ./common.qemu
+> > +
+> > +# This test only runs on Linux hosts with raw image files.
+> > +_supported_fmt raw
+> > +_supported_proto file
+> > +_supported_os Linux
+> > +
+> > +QEMU_IO=3D"build/qemu-io"
+> > +IMG=3D"--image-opts -n driver=3Dzoned_host_device,filename=3D/dev/null=
+b0"
+> > +QEMU_IO_OPTIONS=3D$QEMU_IO_OPTIONS_NO_FMT
+> > +
+> > +echo "Testing a null_blk device:"
+> > +echo "case 1: if the operations work"
+> > +sudo modprobe null_blk nr_devices=3D1 zoned=3D1
+> > +
+> > +echo "(1) report the first zone:"
+> > +sudo $QEMU_IO $IMG -c "zrp 0 1"
+> > +echo
+> > +echo "report the first 10 zones"
+> > +sudo $QEMU_IO $IMG -c "zrp 0 10"
+> > +echo
+> > +echo "report the last zone:"
+> > +sudo $QEMU_IO $IMG -c "zrp 0x3e70000000 2" # 0x3e70000000 / 512 =3D 0x=
+1f380000
+> > +echo
+> > +echo
+> > +echo "(2) opening the first zone"
+> > +sudo $QEMU_IO $IMG -c "zo 0 268435456"  # 268435456 / 512 =3D 524288
+> > +echo "report after:"
+> > +sudo $QEMU_IO $IMG -c "zrp 0 1"
+> > +echo
+> > +echo "opening the second zone"
+> > +sudo $QEMU_IO $IMG -c "zo 268435456 268435456" #
+> > +echo "report after:"
+> > +sudo $QEMU_IO $IMG -c "zrp 268435456 1"
+> > +echo
+> > +echo "opening the last zone"
+> > +sudo $QEMU_IO $IMG -c "zo 0x3e70000000 268435456"
+> > +echo "report after:"
+> > +sudo $QEMU_IO $IMG -c "zrp 0x3e70000000 2"
+> > +echo
+> > +echo
+> > +echo "(3) closing the first zone"
+> > +sudo $QEMU_IO $IMG -c "zc 0 268435456"
+> > +echo "report after:"
+> > +sudo $QEMU_IO $IMG -c "zrp 0 1"
+> > +echo
+> > +echo "closing the last zone"
+> > +sudo $QEMU_IO $IMG -c "zc 0x3e70000000 268435456"
+> > +echo "report after:"
+> > +sudo $QEMU_IO $IMG -c "zrp 0x3e70000000 2"
+> > +echo
+> > +echo
+> > +echo "(4) finishing the second zone"
+> > +sudo $QEMU_IO $IMG -c "zf 268435456 268435456"
+> > +echo "After finishing a zone:"
+> > +sudo $QEMU_IO $IMG -c "zrp 268435456 1"
+> > +echo
+> > +echo
+> > +echo "(5) resetting the second zone"
+> > +sudo $QEMU_IO $IMG -c "zrs 268435456 268435456"
+> > +echo "After resetting a zone:"
+> > +sudo $QEMU_IO $IMG -c "zrp 268435456 1"
+> > +
+> > +# success, all done
+> > +echo "*** done"
+> > +rm -f $seq.full
+> > +status=3D0
+>
 
