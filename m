@@ -2,70 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFFF86031D2
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 19:53:37 +0200 (CEST)
-Received: from localhost ([::1]:38886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50DD16031DA
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 19:59:13 +0200 (CEST)
+Received: from localhost ([::1]:52808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okqmW-0006rq-RX
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 13:53:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58304)
+	id 1okqrw-0002Cx-52
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 13:59:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1okqVl-0006yF-Az
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 13:36:17 -0400
-Received: from 7.mo552.mail-out.ovh.net ([188.165.59.253]:52241)
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1okqif-0005XQ-V9
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 13:49:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30854)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1okqVi-00041h-P6
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 13:36:16 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.141])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 07EB42893A;
- Tue, 18 Oct 2022 17:36:09 +0000 (UTC)
-Received: from kaod.org (37.59.142.102) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Tue, 18 Oct
- 2022 19:36:07 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R004c8849d8d-e30b-4c6f-973b-8e88cc022c18,
- E583C31B167A4CECD7AFA5F42DA6B4ED7D5BF57A) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <b52ea256-c6c1-51ef-6e15-78a303143701@kaod.org>
-Date: Tue, 18 Oct 2022 19:36:07 +0200
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1okqiY-0005yS-7k
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 13:49:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666115365;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xWnVFIgbeEugTo1A8TgQsdBXRJ+oLpA8nC4OC5+UCos=;
+ b=SEXtF2I40oRS90ZDXQXanSJpxjoeygO2oPZ1UMu+wQAtAoODoBxCjtp4HxKhyLnvuJOggo
+ BZWpi/D8m76+qAEjdgM+yWOLH/D4pLk4V0FgEKzTmmYyw+h79rDEZRHE1OeCq2rUSmv83w
+ RJOEW7k6mx+CQYjbsQIhX4TIiR6/GxE=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-362-igcQS94QN-etrMzMHNuArA-1; Tue, 18 Oct 2022 13:49:24 -0400
+X-MC-Unique: igcQS94QN-etrMzMHNuArA-1
+Received: by mail-lj1-f199.google.com with SMTP id
+ h21-20020a2ea495000000b0026dffd0733aso6343458lji.7
+ for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 10:49:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xWnVFIgbeEugTo1A8TgQsdBXRJ+oLpA8nC4OC5+UCos=;
+ b=pSKqT3aj4n89kx+nTJJNF3OPdZprDFAlTOacFQJ8fetVlviU0i5mzaJyU6ihRLB7D8
+ XFObOFBj/EME2txspAw+WwVwI53c3XyORd+NOE7rBmCwWYN8Ov10GTYIny62cb/jrKYs
+ 3lDoqcjqkup5IlkEs8RjQ/AcrzfklhOARd3ZRVEfLHqQ6zqHo2nQVeevfso1YDBP36QM
+ h38CGkgHqikn7ddwev7sasBLJlp2dVkPEhw432pptKZer/1pfsfDeGcuCLqTzlzYUOaN
+ fV0lmEBYsb2iTyuq99wwbNl3dQdy10sU21CwGIq4CJrJ0Cd4bxyoKTgGKM0fQ2mK93Vd
+ P5xg==
+X-Gm-Message-State: ACrzQf1ho0DIDe7pE7MZt/kBTElHTbW4o/1vNufTcr7Cs0ucq3JtrFLG
+ 8/UBqnqWSujuH4eDIVsLnTwgrRXK1rd2TG9Mq1u2BBYktP6BT2EOpZWkAcCC1b3NDVx6hF0KgWD
+ dgbbrONpXLJ7kIiHHCDagJklrWfs+J0g=
+X-Received: by 2002:a05:651c:1617:b0:26d:fbc6:edf with SMTP id
+ f23-20020a05651c161700b0026dfbc60edfmr1596577ljq.453.1666115362247; 
+ Tue, 18 Oct 2022 10:49:22 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7L8nuHpN0un9TV/MqxAxTcB/bc6RxWWHmsJWExAE40Z0vY6AOmB03MDrDdqzHOPAKVeaM1J16XgJB4FvUuZl4=
+X-Received: by 2002:a05:651c:1617:b0:26d:fbc6:edf with SMTP id
+ f23-20020a05651c161700b0026dfbc60edfmr1596562ljq.453.1666115361879; Tue, 18
+ Oct 2022 10:49:21 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v10 7/9] s390x/cpu topology: add max_threads machine class
- attribute
-Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, <qemu-s390x@nongnu.org>
-CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
- <richard.henderson@linaro.org>, <david@redhat.com>, <thuth@redhat.com>,
- <cohuck@redhat.com>, <mst@redhat.com>, <pbonzini@redhat.com>,
- <kvm@vger.kernel.org>, <ehabkost@redhat.com>, <marcel.apfelbaum@gmail.com>,
- <eblake@redhat.com>, <armbru@redhat.com>, <seiden@linux.ibm.com>,
- <nrb@linux.ibm.com>, <frankja@linux.ibm.com>, <berrange@redhat.com>
-References: <20221012162107.91734-1-pmorel@linux.ibm.com>
- <20221012162107.91734-8-pmorel@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20221012162107.91734-8-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: ada754a4-b87b-46dc-9a99-3ce9c415ed97
-X-Ovh-Tracer-Id: 16431383240643545872
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeelvddgkeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhmohhrvghlsehlihhnuhigrdhisghmrdgtohhmpdhnrhgssehlihhnuhigrdhisghmrdgtohhmpdhsvghiuggvnheslhhinhhugidrihgsmhdrtghomhdprghrmhgsrhhusehrvgguhhgrthdrtghomhdpvggslhgrkhgvsehrvgguhhgrthdrtghomhdpmhgrrhgtvghlrdgrphhfvghlsggruhhmsehgmhgrihhlrdgtohhmpdgvhhgrsghkohhsthesrhgvughhrghtrdgtohhmpdhkvhhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhpsghonhiiihhnihesrhgvughhrghtrdgtoh
- hmpdhmshhtsehrvgguhhgrthdrtghomhdptghohhhutghksehrvgguhhgrthdrtghomhdpthhhuhhthhesrhgvughhrghtrdgtohhmpdgurghvihgusehrvgguhhgrthdrtghomhdprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdgsohhrnhhtrhgrvghgvghrseguvgdrihgsmhdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrghdpfhhrrghnkhhjrgeslhhinhhugidrihgsmhdrtghomhdpsggvrhhrrghnghgvsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=188.165.59.253; envelope-from=clg@kaod.org;
- helo=7.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220901143223.201295-1-nsoffer@redhat.com>
+ <CAMRbyytLUsHYxB6AHscz-e7T6vV76g=Oau-wGEaGa8kwekAshw@mail.gmail.com>
+In-Reply-To: <CAMRbyytLUsHYxB6AHscz-e7T6vV76g=Oau-wGEaGa8kwekAshw@mail.gmail.com>
+From: Nir Soffer <nsoffer@redhat.com>
+Date: Tue, 18 Oct 2022 20:49:05 +0300
+Message-ID: <CAMRbyyugGBWcQgpwTgARcf9YPgrKAXj=6K+h4ZkpZeA1CTwBpQ@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Add qemu-img checksum command using blkhash
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>, 
+ Hanna Reitz <hreitz@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000004cd65405eb52b657"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=nsoffer@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,81 +94,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/12/22 18:21, Pierre Morel wrote:
-> The S390 CPU topology accepts the smp.threads argument while
-> in reality it does not effectively allow multthreading.
-> 
-> Let's keep this behavior for machines older than 7.3 and
-> refuse to use threads in newer machines until multithreading
-> is really proposed to the guest by the machine.
-> 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->   include/hw/s390x/s390-virtio-ccw.h |  1 +
->   hw/s390x/s390-virtio-ccw.c         | 10 ++++++++++
->   2 files changed, 11 insertions(+)
-> 
-> diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
-> index 6c4b4645fc..319dfac1bb 100644
-> --- a/include/hw/s390x/s390-virtio-ccw.h
-> +++ b/include/hw/s390x/s390-virtio-ccw.h
-> @@ -48,6 +48,7 @@ struct S390CcwMachineClass {
->       bool css_migration_enabled;
->       bool hpage_1m_allowed;
->       bool topology_allowed;
-> +    int max_threads;
->   };
->   
->   /* runtime-instrumentation allowed by the machine */
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index 3a13fad4df..d6ce31d168 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -85,8 +85,15 @@ out:
->   static void s390_init_cpus(MachineState *machine)
->   {
->       MachineClass *mc = MACHINE_GET_CLASS(machine);
-> +    S390CcwMachineClass *s390mc = S390_CCW_MACHINE_CLASS(mc);
->       int i;
->   
-> +    if (machine->smp.threads > s390mc->max_threads) {
-> +        error_report("S390 does not support more than %d threads.",
-> +                     s390mc->max_threads);
-> +        exit(1);
-> +    }
-> +
->       /* initialize possible_cpus */
->       mc->possible_cpu_arch_ids(machine);
->   
-> @@ -617,6 +624,7 @@ static void ccw_machine_class_init(ObjectClass *oc, void *data)
->       s390mc->css_migration_enabled = true;
->       s390mc->hpage_1m_allowed = true;
->       s390mc->topology_allowed = true;
-> +    s390mc->max_threads = 1;
->       mc->init = ccw_init;
->       mc->reset = s390_machine_reset;
->       mc->block_default_type = IF_VIRTIO;
-> @@ -887,12 +895,14 @@ static void ccw_machine_7_2_class_options(MachineClass *mc)
->       S390CcwMachineClass *s390mc = S390_CCW_MACHINE_CLASS(mc);
->       static GlobalProperty compat[] = {
->           { TYPE_S390_CPU_TOPOLOGY, "topology-allowed", "off", },
-> +        { TYPE_S390_CPU_TOPOLOGY, "max_threads", "off", },
+--0000000000004cd65405eb52b657
+Content-Type: text/plain; charset="UTF-8"
 
-I don't understand this change.
+On Sun, Sep 18, 2022 at 12:35 PM Nir Soffer <nsoffer@redhat.com> wrote:
+
+> ping
+>
+> Kevin, Hanna, I hope you have time to take a look.
+>
+> https://lists.nongnu.org/archive/html/qemu-block/2022-09/msg00021.html
 
 
-C.
+Ping again, hopefully someone has time to look at this :-)
 
 
->       };
->   
->       ccw_machine_7_3_class_options(mc);
->       compat_props_add(mc->compat_props, hw_compat_7_2, hw_compat_7_2_len);
->       compat_props_add(mc->compat_props, compat, G_N_ELEMENTS(compat));
->       s390mc->topology_allowed = false;
-> +    s390mc->max_threads = S390_MAX_CPUS;
->   }
->   DEFINE_CCW_MACHINE(7_2, "7.2", false);
->   
+>
+>
+>
+> On Thu, Sep 1, 2022 at 5:32 PM Nir Soffer <nsoffer@redhat.com> wrote:
+> >
+> > Since blkhash is available only via copr now, the new command is added as
+> > optional feature, built only if blkhash-devel package is installed.
+> >
+> > Nir Soffer (3):
+> >   qemu-img: Add checksum command
+> >   iotests: Test qemu-img checksum
+> >   qemu-img: Speed up checksum
+> >
+> >  docs/tools/qemu-img.rst                       |  22 +
+> >  meson.build                                   |  10 +-
+> >  meson_options.txt                             |   2 +
+> >  qemu-img-cmds.hx                              |   8 +
+> >  qemu-img.c                                    | 388 ++++++++++++++++++
+> >  tests/qemu-iotests/tests/qemu-img-checksum    | 149 +++++++
+> >  .../qemu-iotests/tests/qemu-img-checksum.out  |  74 ++++
+> >  7 files changed, 652 insertions(+), 1 deletion(-)
+> >  create mode 100755 tests/qemu-iotests/tests/qemu-img-checksum
+> >  create mode 100644 tests/qemu-iotests/tests/qemu-img-checksum.out
+> >
+> > --
+> > 2.37.2
+> >
+>
+
+--0000000000004cd65405eb52b657
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Sun, Sep 18, 2022 at 12:35 PM Nir Soff=
+er &lt;<a href=3D"mailto:nsoffer@redhat.com">nsoffer@redhat.com</a>&gt; wro=
+te:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">ping<br>
+<br>
+Kevin, Hanna, I hope you have time to take a look.<br>
+<br>
+<a href=3D"https://lists.nongnu.org/archive/html/qemu-block/2022-09/msg0002=
+1.html" rel=3D"noreferrer" target=3D"_blank">https://lists.nongnu.org/archi=
+ve/html/qemu-block/2022-09/msg00021.html</a></blockquote><div><br></div><di=
+v>Ping again, hopefully someone=C2=A0has time to look at this :-)</div><div=
+>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+<br>
+<br>
+On Thu, Sep 1, 2022 at 5:32 PM Nir Soffer &lt;<a href=3D"mailto:nsoffer@red=
+hat.com" target=3D"_blank">nsoffer@redhat.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Since blkhash is available only via copr now, the new command is added=
+ as<br>
+&gt; optional feature, built only if blkhash-devel package is installed.<br=
+>
+&gt;<br>
+&gt; Nir Soffer (3):<br>
+&gt;=C2=A0 =C2=A0qemu-img: Add checksum command<br>
+&gt;=C2=A0 =C2=A0iotests: Test qemu-img checksum<br>
+&gt;=C2=A0 =C2=A0qemu-img: Speed up checksum<br>
+&gt;<br>
+&gt;=C2=A0 docs/tools/qemu-img.rst=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 22 +<br>
+&gt;=C2=A0 meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 10 +-<br>
+&gt;=C2=A0 meson_options.txt=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 =
++<br>
+&gt;=C2=A0 qemu-img-cmds.hx=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A08 +<=
+br>
+&gt;=C2=A0 qemu-img.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+ 388 ++++++++++++++++++<br>
+&gt;=C2=A0 tests/qemu-iotests/tests/qemu-img-checksum=C2=A0 =C2=A0 | 149 ++=
++++++<br>
+&gt;=C2=A0 .../qemu-iotests/tests/qemu-img-checksum.out=C2=A0 |=C2=A0 74 ++=
+++<br>
+&gt;=C2=A0 7 files changed, 652 insertions(+), 1 deletion(-)<br>
+&gt;=C2=A0 create mode 100755 tests/qemu-iotests/tests/qemu-img-checksum<br=
+>
+&gt;=C2=A0 create mode 100644 tests/qemu-iotests/tests/qemu-img-checksum.ou=
+t<br>
+&gt;<br>
+&gt; --<br>
+&gt; 2.37.2<br>
+&gt;<br>
+</blockquote></div></div>
+
+--0000000000004cd65405eb52b657--
 
 
