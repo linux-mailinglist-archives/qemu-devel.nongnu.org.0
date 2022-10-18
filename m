@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3607603197
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 19:30:24 +0200 (CEST)
-Received: from localhost ([::1]:56438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CB506031BF
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 19:45:21 +0200 (CEST)
+Received: from localhost ([::1]:60836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okqQ3-000380-F0
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 13:30:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47062)
+	id 1okqeW-0003Do-Cr
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 13:45:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1okq64-0006F6-AD
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 13:09:45 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:46683)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1okq61-0007cy-Lz
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 13:09:43 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id
- t12-20020a17090a3b4c00b0020b04251529so14572518pjf.5
- for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 10:09:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tOUSIuIlTYZfmkFJKxiwVoLnSxrWmdGw8FLwgcCykhc=;
- b=H2uSIoqhWykAF4xOigAFW9u38GE4pUViG8sk+bxKnO9M12rGhpi0RGLoMp1PpONnHA
- YDgX8ru+OB8AF5IkyLTQR7BYRiYfgr4PkQfywVeka1BCGOifcVpULNv9HZ9uwNHXtQ4M
- MkeiWiys4odAPNGHxgUszCGSBedFGuKt7UZroeduMAt+MaZTWIImkMVG6pTXUbU1cxRH
- PrAIm/TP1N56ZWCgwvxGlpH0ZY5aZyqTTWva7/5BKlScaynrNGLZ3adxy6loBHxs5CnZ
- Z0+fgr/EHTohT56fVkWpVZZESfai/5KB8km6S3QJyUPW/Yc1E97hU1HeCR2fjNINou86
- Hsfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=tOUSIuIlTYZfmkFJKxiwVoLnSxrWmdGw8FLwgcCykhc=;
- b=n7ePAPby1Ctq6bnE0TdEUnZELJVOwWOdY2qrvhM1fsLeB1R2Kj3ZO49MdTImAbRKzK
- 6WDfFmU5jCzRVJ2uLoWEO/8bS7nNiz4dkMkSgAj02I8R677d1asmSHvvmyrmgDenp5gN
- tEx15Oa1ikS38CZvA9H/ywfLAFWbwaiyHKFrkrDGhwmaU4PxdQ/s5xwyOG3CZ3hhisK+
- ftQM5LNHF7shg7ZeyD+vmlZa4C0xbHFbHaMqhTXrXuEOyILSvj9ri2ASlHd+jQJuQ4b2
- XpbRdSKNjCsySh3fqCBlchP9a6d5YqQehwmm++nRz/TGXgRb6ZywYqHJDnK+kH2n7Oi5
- 6jxw==
-X-Gm-Message-State: ACrzQf3AxgFFfej5MjFKNgCqZB+LN0dK+MbF+irtq5KMtfMf7t/zAOKZ
- B9yPIbSslUP9wTaOVZcrgyE7jLgEWmYtClSeAeIwIA==
-X-Google-Smtp-Source: AMsMyM5Pr4RIID/SfS8LrKgco8F8Owi+k4JyDNkDZGkmrbpNsVE61DoUuVFm2fkMG11CnBriR5GNnOoCbLSzZswB4BQ=
-X-Received: by 2002:a17:90b:4b8e:b0:20a:f240:9b23 with SMTP id
- lr14-20020a17090b4b8e00b0020af2409b23mr4701355pjb.19.1666112980040; Tue, 18
- Oct 2022 10:09:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1okq77-0007Im-8b
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 13:10:50 -0400
+Received: from 8.mo552.mail-out.ovh.net ([46.105.37.156]:44061)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1okq73-0007wz-UW
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 13:10:49 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.25])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id F2F2B28C0C;
+ Tue, 18 Oct 2022 17:10:40 +0000 (UTC)
+Received: from kaod.org (37.59.142.101) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Tue, 18 Oct
+ 2022 19:10:39 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G004f30ae13c-3bf7-4124-87f4-6cc321acd836,
+ E583C31B167A4CECD7AFA5F42DA6B4ED7D5BF57A) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <597cc0d2-c8dd-b5f7-bd7f-22061f9f8569@kaod.org>
+Date: Tue, 18 Oct 2022 19:10:39 +0200
 MIME-Version: 1.0
-References: <20221006151927.2079583-1-bmeng.cn@gmail.com>
- <20221006151927.2079583-10-bmeng.cn@gmail.com>
-In-Reply-To: <20221006151927.2079583-10-bmeng.cn@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 18 Oct 2022 18:09:28 +0100
-Message-ID: <CAFEAcA9nyy47p=Mextm8qTFu1LDTMYBv1BubtywyzGPuDiD0XQ@mail.gmail.com>
-Subject: Re: [PATCH v5 09/18] tests/qtest: Use send/recv for socket
- communication
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng <bin.meng@windriver.com>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v10 2/9] s390x/cpu topology: reporting the CPU topology to
+ the guest
+Content-Language: en-US
+To: Pierre Morel <pmorel@linux.ibm.com>, <qemu-s390x@nongnu.org>
+CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
+ <richard.henderson@linaro.org>, <david@redhat.com>, <thuth@redhat.com>,
+ <cohuck@redhat.com>, <mst@redhat.com>, <pbonzini@redhat.com>,
+ <kvm@vger.kernel.org>, <ehabkost@redhat.com>, <marcel.apfelbaum@gmail.com>,
+ <eblake@redhat.com>, <armbru@redhat.com>, <seiden@linux.ibm.com>,
+ <nrb@linux.ibm.com>, <frankja@linux.ibm.com>, <berrange@redhat.com>
+References: <20221012162107.91734-1-pmorel@linux.ibm.com>
+ <20221012162107.91734-3-pmorel@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20221012162107.91734-3-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 41895306-ddee-4305-b3f8-1f2ff9954afc
+X-Ovh-Tracer-Id: 16001289478594726672
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeelvddgjeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhmohhrvghlsehlihhnuhigrdhisghmrdgtohhmpdhnrhgssehlihhnuhigrdhisghmrdgtohhmpdhsvghiuggvnheslhhinhhugidrihgsmhdrtghomhdprghrmhgsrhhusehrvgguhhgrthdrtghomhdpvggslhgrkhgvsehrvgguhhgrthdrtghomhdpmhgrrhgtvghlrdgrphhfvghlsggruhhmsehgmhgrihhlrdgtohhmpdgvhhgrsghkohhsthesrhgvughhrghtrdgtohhmpdhkvhhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhpsghonhiiihhnihesrhgvughhrghtrdgtoh
+ hmpdhmshhtsehrvgguhhgrthdrtghomhdptghohhhutghksehrvgguhhgrthdrtghomhdpthhhuhhthhesrhgvughhrghtrdgtohhmpdgurghvihgusehrvgguhhgrthdrtghomhdprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdgsohhrnhhtrhgrvghgvghrseguvgdrihgsmhdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrghdpfhhrrghnkhhjrgeslhhinhhugidrihgsmhdrtghomhdpsggvrhhrrghnghgvsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=46.105.37.156; envelope-from=clg@kaod.org;
+ helo=8.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,50 +81,341 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 6 Oct 2022 at 17:20, Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
->
-> Socket communication in the libqtest and libqmp codes uses read()
-> and write() which work on any file descriptor on *nix, and sockets
-> in *nix are an example of a file descriptor.
->
-> However sockets on Windows do not use *nix-style file descriptors,
-> so read() and write() cannot be used on sockets on Windows.
-> Switch over to use send() and recv() instead which work on both
-> Windows and *nix.
->
-> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+On 10/12/22 18:21, Pierre Morel wrote:
+> The guest can use the STSI instruction to get a buffer filled
+> with the CPU topology description.
+> 
+> Let us implement the STSI instruction for the basis CPU topology
+> level, level 2.
+> 
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 > ---
->
-> (no changes since v2)
->
-> Changes in v2:
-> - Introduce qemu_send_full() and use it
->
->  include/qemu/sockets.h |  2 ++
->  tests/qtest/libqmp.c   |  5 +++--
->  tests/qtest/libqtest.c |  4 ++--
->  util/osdep.c           | 33 +++++++++++++++++++++++++++++++++
->  4 files changed, 40 insertions(+), 4 deletions(-)
->
-> diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
-> index 036745e586..adf2b21bd9 100644
-> --- a/include/qemu/sockets.h
-> +++ b/include/qemu/sockets.h
-> @@ -33,6 +33,8 @@ int qemu_socketpair(int domain, int type, int protocol,=
- int sv[2]);
->  #endif
->
->  int qemu_accept(int s, struct sockaddr *addr, socklen_t *addrlen);
-> +ssize_t qemu_send_full(int s, const void *buf, size_t count)
-> +    G_GNUC_WARN_UNUSED_RESULT;
+>   include/hw/s390x/cpu-topology.h |   3 +
+>   target/s390x/cpu.h              |  48 ++++++++++++++
+>   hw/s390x/cpu-topology.c         |   8 ++-
+>   target/s390x/cpu_topology.c     | 109 ++++++++++++++++++++++++++++++++
+>   target/s390x/kvm/kvm.c          |   6 +-
+>   target/s390x/meson.build        |   1 +
+>   6 files changed, 172 insertions(+), 3 deletions(-)
+>   create mode 100644 target/s390x/cpu_topology.c
+> 
+> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
+> index 66c171d0bc..61c11db017 100644
+> --- a/include/hw/s390x/cpu-topology.h
+> +++ b/include/hw/s390x/cpu-topology.h
+> @@ -13,6 +13,8 @@
+>   #include "hw/qdev-core.h"
+>   #include "qom/object.h"
+>   
+> +#define S390_TOPOLOGY_POLARITY_H  0x00
 
-New global function prototypes in headers need documentation
-comments, please.
+The defing looks like a header file guard. I would use
 
-thanks
--- PMM
+   S390_TOPOLOGY_HORIZONTAL_POLARITY
+
+May be add the 3 vertical ones also, for completeness.
+
+> +
+>   typedef struct S390TopoContainer {
+>       int active_count;
+>   } S390TopoContainer;
+> @@ -29,6 +31,7 @@ struct S390Topology {
+>       S390TopoContainer *socket;
+>       S390TopoTLE *tle;
+>       MachineState *ms;
+> +    QemuMutex topo_mutex;
+>   };
+>   
+>   #define TYPE_S390_CPU_TOPOLOGY "s390-topology"
+> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+> index 7d6d01325b..d604aa9c78 100644
+> --- a/target/s390x/cpu.h
+> +++ b/target/s390x/cpu.h
+> @@ -565,6 +565,52 @@ typedef union SysIB {
+>   } SysIB;
+>   QEMU_BUILD_BUG_ON(sizeof(SysIB) != 4096);
+>   
+> +/* CPU type Topology List Entry */
+> +typedef struct SysIBTl_cpu {
+> +        uint8_t nl;
+> +        uint8_t reserved0[3];
+> +        uint8_t reserved1:5;
+> +        uint8_t dedicated:1;
+> +        uint8_t polarity:2;
+> +        uint8_t type;
+> +        uint16_t origin;
+> +        uint64_t mask;
+> +} QEMU_PACKED QEMU_ALIGNED(8) SysIBTl_cpu;
+> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_cpu) != 16);
+> +
+> +/* Container type Topology List Entry */
+> +typedef struct SysIBTl_container {
+> +        uint8_t nl;
+> +        uint8_t reserved[6];
+> +        uint8_t id;
+> +} QEMU_PACKED QEMU_ALIGNED(8) SysIBTl_container;
+> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_container) != 8);
+> +
+> +#define TOPOLOGY_NR_MAG  6
+> +#define TOPOLOGY_NR_MAG6 0
+> +#define TOPOLOGY_NR_MAG5 1
+> +#define TOPOLOGY_NR_MAG4 2
+> +#define TOPOLOGY_NR_MAG3 3
+> +#define TOPOLOGY_NR_MAG2 4
+> +#define TOPOLOGY_NR_MAG1 5
+
+May be add a S390_ prefix. I don't think _NR is important for the
+magnitude fields. And these are byte offsets.
+
+
+> +/* Configuration topology */
+> +typedef struct SysIB_151x {
+> +    uint8_t  reserved0[2];
+> +    uint16_t length;
+> +    uint8_t  mag[TOPOLOGY_NR_MAG];
+> +    uint8_t  reserved1;
+> +    uint8_t  mnest;
+> +    uint32_t reserved2;
+> +    char tle[0];
+> +} QEMU_PACKED QEMU_ALIGNED(8) SysIB_151x;
+> +QEMU_BUILD_BUG_ON(sizeof(SysIB_151x) != 16);
+> +
+> +/* Maxi size of a SYSIB structure is when all CPU are alone in a container */
+> +#define S390_TOPOLOGY_SYSIB_SIZE (sizeof(SysIB_151x) +                         \
+> +                                  S390_MAX_CPUS * (sizeof(SysIBTl_container) + \
+> +                                                   sizeof(SysIBTl_cpu)))
+> +
+> +
+>   /* MMU defines */
+>   #define ASCE_ORIGIN           (~0xfffULL) /* segment table origin             */
+>   #define ASCE_SUBSPACE         0x200       /* subspace group control           */
+> @@ -843,4 +889,6 @@ S390CPU *s390_cpu_addr2state(uint16_t cpu_addr);
+>   
+>   #include "exec/cpu-all.h"
+>   
+> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar);
+> +
+>   #endif
+> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+> index 42b22a1831..c73cebfe6f 100644
+> --- a/hw/s390x/cpu-topology.c
+> +++ b/hw/s390x/cpu-topology.c
+> @@ -54,8 +54,6 @@ void s390_topology_new_cpu(int core_id)
+>           return;
+>       }
+>   
+> -    socket_id = core_id / topo->cpus;
+> -
+>       /*
+>        * At the core level, each CPU is represented by a bit in a 64bit
+>        * unsigned long which represent the presence of a CPU.
+> @@ -76,8 +74,13 @@ void s390_topology_new_cpu(int core_id)
+>       bit %= 64;
+>       bit = 63 - bit;
+>   
+> +    qemu_mutex_lock(&topo->topo_mutex);
+> +
+> +    socket_id = core_id / topo->cpus;
+>       topo->socket[socket_id].active_count++;
+>       set_bit(bit, &topo->tle[socket_id].mask[origin]);
+> +
+> +    qemu_mutex_unlock(&topo->topo_mutex);
+>   }
+>   
+>   /**
+> @@ -101,6 +104,7 @@ static void s390_topology_realize(DeviceState *dev, Error **errp)
+>       topo->tle = g_new0(S390TopoTLE, ms->smp.max_cpus);
+>   
+>       topo->ms = ms;
+> +    qemu_mutex_init(&topo->topo_mutex);
+>   }
+>   
+>   /**
+> diff --git a/target/s390x/cpu_topology.c b/target/s390x/cpu_topology.c
+> new file mode 100644
+> index 0000000000..df86a98f23
+> --- /dev/null
+> +++ b/target/s390x/cpu_topology.c
+> @@ -0,0 +1,109 @@
+> +/*
+> + * QEMU S390x CPU Topology
+> + *
+> + * Copyright IBM Corp. 2022
+
+Copyright tag
+
+> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
+> + * your option) any later version. See the COPYING file in the top-level
+> + * directory.
+> + */
+> +#include "qemu/osdep.h"
+> +#include "cpu.h"
+> +#include "hw/s390x/pv.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/s390x/cpu-topology.h"
+> +#include "hw/s390x/sclp.h"
+> +
+> +#define S390_TOPOLOGY_MAX_STSI_SIZE (S390_MAX_CPUS *              \
+> +                                     (sizeof(SysIB_151x) +        \
+> +                                      sizeof(SysIBTl_container) + \
+> +                                      sizeof(SysIBTl_cpu)))
+
+This is unused ?
+
+> +
+> +static char *fill_container(char *p, int level, int id)
+> +{
+> +    SysIBTl_container *tle = (SysIBTl_container *)p;
+> +
+> +    tle->nl = level;
+> +    tle->id = id;
+> +    return p + sizeof(*tle);
+> +}
+> +
+> +static char *fill_tle_cpu(char *p, uint64_t mask, int origin)
+> +{
+> +    SysIBTl_cpu *tle = (SysIBTl_cpu *)p;
+> +
+> +    tle->nl = 0;
+> +    tle->dedicated = 1;
+> +    tle->polarity = S390_TOPOLOGY_POLARITY_H;
+> +    tle->type = S390_TOPOLOGY_CPU_IFL;
+> +    tle->origin = cpu_to_be64(origin * 64);
+> +    tle->mask = cpu_to_be64(mask);
+> +    return p + sizeof(*tle);
+> +}
+
+It would be nive to have some diagram on the field layout of a CPU tle
+and container tle. It can be done as a follow up.
+
+> +static char *s390_top_set_level2(S390Topology *topo, char *p)
+> +{
+> +    MachineState *ms = topo->ms;
+> +    int i, origin;
+> +
+> +    for (i = 0; i < ms->smp.sockets; i++) {
+
+a topo "nr-sockets" property would be better.
+  
+> +        if (!topo->socket[i].active_count) {
+
+is 'active_count' only used to filter emtpy tles ? If so, I think this can
+be done differently, without a state I mean.
+
+> +            continue;
+> +        }
+> +        p = fill_container(p, 1, i);
+> +        for (origin = 0; origin < S390_TOPOLOGY_MAX_ORIGIN; origin++) {
+
+(I need to understand what 'origin' means. this is not obvious)
+
+> +            uint64_t mask = 0L;
+> +
+> +            mask = topo->tle[i].mask[origin];
+> +            if (mask) {
+> +                p = fill_tle_cpu(p, mask, origin);
+> +            }
+> +        }
+> +    }
+> +    return p;
+> +}
+> +
+> +static int setup_stsi(SysIB_151x *sysib, int level)
+> +{
+> +    S390Topology *topo = s390_get_topology();
+> +    MachineState *ms = topo->ms;
+> +    char *p = sysib->tle;
+> +
+> +    qemu_mutex_lock(&topo->topo_mutex);
+> +
+> +    sysib->mnest = level;
+> +    switch (level) {
+> +    case 2:
+> +        sysib->mag[TOPOLOGY_NR_MAG2] = ms->smp.sockets;
+
+a topo "nr-sockets" property would be better.
+
+> +        sysib->mag[TOPOLOGY_NR_MAG1] = topo->cpus;
+
+a topo "nr-cpus" property would be better.
+
+> +        p = s390_top_set_level2(topo, p);
+> +        break;
+> +    }
+> +
+> +    qemu_mutex_unlock(&topo->topo_mutex);
+> +
+> +    return p - (char *) sysib;
+> +}
+> +
+> +#define S390_TOPOLOGY_MAX_MNEST 2
+> +
+> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar)
+> +{
+> +    uint64_t page[S390_TOPOLOGY_SYSIB_SIZE / sizeof(uint64_t)] = {};
+> +    SysIB_151x *sysib = (SysIB_151x *) page;
+> +    int len;
+> +
+> +    if (s390_is_pv() || !s390_has_topology() ||
+> +        sel2 < 2 || sel2 > S390_TOPOLOGY_MAX_MNEST) {
+> +        setcc(cpu, 3);
+> +        return;
+> +    }
+> +
+> +    len = setup_stsi(sysib, sel2);
+> +
+> +    sysib->length = cpu_to_be16(len);
+> +    s390_cpu_virt_mem_write(cpu, addr, ar, sysib, len);
+> +    setcc(cpu, 0);
+> +}
+> +
+> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+> index 6a8dbadf7e..f96630440b 100644
+> --- a/target/s390x/kvm/kvm.c
+> +++ b/target/s390x/kvm/kvm.c
+> @@ -51,6 +51,7 @@
+>   #include "hw/s390x/s390-virtio-ccw.h"
+>   #include "hw/s390x/s390-virtio-hcall.h"
+>   #include "hw/s390x/pv.h"
+> +#include "hw/s390x/cpu-topology.h"
+>   
+>   #ifndef DEBUG_KVM
+>   #define DEBUG_KVM  0
+> @@ -1917,9 +1918,12 @@ static int handle_stsi(S390CPU *cpu)
+>           if (run->s390_stsi.sel1 != 2 || run->s390_stsi.sel2 != 2) {
+>               return 0;
+>           }
+> -        /* Only sysib 3.2.2 needs post-handling for now. */
+>           insert_stsi_3_2_2(cpu, run->s390_stsi.addr, run->s390_stsi.ar);
+>           return 0;
+> +    case 15:
+> +        insert_stsi_15_1_x(cpu, run->s390_stsi.sel2, run->s390_stsi.addr,
+> +                           run->s390_stsi.ar);
+> +        return 0;
+>       default:
+>           return 0;
+>       }
+> diff --git a/target/s390x/meson.build b/target/s390x/meson.build
+> index 84c1402a6a..890ccfa789 100644
+> --- a/target/s390x/meson.build
+> +++ b/target/s390x/meson.build
+> @@ -29,6 +29,7 @@ s390x_softmmu_ss.add(files(
+>     'sigp.c',
+>     'cpu-sysemu.c',
+>     'cpu_models_sysemu.c',
+> +  'cpu_topology.c',
+
+Do we really need a new file for the CPU topology ? I am asking because
+insert_stsi_3_2_2() is in kvm.c and may be, instead, we should gather
+all the stsi routines.
+
+C.
+
+
+>   ))
+>   
+>   s390x_user_ss = ss.source_set()
+
 
