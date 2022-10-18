@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20CF56025B2
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 09:29:30 +0200 (CEST)
-Received: from localhost ([::1]:33910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA266602639
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 09:54:40 +0200 (CEST)
+Received: from localhost ([::1]:33052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okh2W-00044J-Qa
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 03:29:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51448)
+	id 1okhQq-0005ER-7D
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 03:54:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1okg6C-0005gW-VA
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 02:29:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33245)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1okg6U-0005qs-CA
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 02:29:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23022)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1okg65-0001Ey-Hw
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 02:29:09 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1okg6C-0001GI-SH
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 02:29:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666074534;
+ s=mimecast20190719; t=1666074540;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YwLsM2ycbPhHaP+a5V0lZrusyFX/Mpb43ZYseUM0fnI=;
- b=N1n/wldeIsb+9p30UDA7n+b2+EvNEGzeOtsyT8Eoimihphk22qtiTc9lClE6NuYRyEMfYd
- cPwQesVX5DJDZMfSz3F+7CndL3szPFvPDiCj7RlqJMKv7mZjQODvslHYD6wvd64qqGZNOL
- 9HFhMfK6I+zvy+lJ2sq1g6xIBR9wdGY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ak4yiySyoZfYCxQ6Qxaug3LOxxiZUQqqDuTIajGg7aE=;
+ b=AVKjcaMPfliHbD4IzGFgE4BRgowpXBW2VGxUpqpPgtAzRcmbSBVOVYnp4M2a4/oFfcCp8U
+ +pdXr/XmNZ8uW5j0gkxLGi0jztqOAYaO6VgJZFAtTMVanvBqtlDcBp9085hWKh3UtX3cDR
+ NAguao6of2iu3FpFbqUSnNM+O07ALjY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-503-cggg7yaoMJWUnlLPwNaPmQ-1; Tue, 18 Oct 2022 02:28:53 -0400
-X-MC-Unique: cggg7yaoMJWUnlLPwNaPmQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-294-8Jr4R4J9PHSr8VOa57jRkQ-1; Tue, 18 Oct 2022 02:28:53 -0400
+X-MC-Unique: 8Jr4R4J9PHSr8VOa57jRkQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E410985A5B6;
- Tue, 18 Oct 2022 06:28:52 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0546F3C0D18E;
+ Tue, 18 Oct 2022 06:28:53 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.193.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B6A7D2024CCA;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B91FA40C206B;
  Tue, 18 Oct 2022 06:28:52 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 50F3F21E6617; Tue, 18 Oct 2022 08:28:49 +0200 (CEST)
+ id 5326F21E661A; Tue, 18 Oct 2022 08:28:49 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: michael.roth@amd.com, jsnow@redhat.com, eblake@redhat.com,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PATCH v2 17/28] qapi pci: Elide redundant has_FOO in generated C
-Date: Tue, 18 Oct 2022 08:28:38 +0200
-Message-Id: <20221018062849.3420573-18-armbru@redhat.com>
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: [PATCH v2 18/28] qapi qdev qom: Elide redundant has_FOO in generated C
+Date: Tue, 18 Oct 2022 08:28:39 +0200
+Message-Id: <20221018062849.3420573-19-armbru@redhat.com>
 In-Reply-To: <20221018062849.3420573-1-armbru@redhat.com>
 References: <20221018062849.3420573-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,83 +85,146 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 The has_FOO for pointer-valued FOO are redundant, except for arrays.
 They are also a nuisance to work with.  Recent commit "qapi: Start to
 elide redundant has_FOO in generated C" provided the means to elide
-them step by step.  This is the step for qapi/pci.json.
+them step by step.  This is the step for qapi/qdev.json and
+qapi/qom.json.
 
 Said commit explains the transformation in more detail.  The invariant
 violations mentioned there do not occur here.
 
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Daniel P. Berrangé <berrange@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/pci/pci.c           | 2 --
- monitor/hmp-cmds.c     | 6 +++---
- scripts/qapi/schema.py | 1 -
- 3 files changed, 3 insertions(+), 6 deletions(-)
+ hw/acpi/memory_hotplug.c    | 2 +-
+ hw/core/qdev.c              | 2 +-
+ hw/ppc/spapr.c              | 2 +-
+ hw/ppc/spapr_drc.c          | 3 +--
+ qom/qom-qmp-cmds.c          | 7 +------
+ tests/qtest/fuzz/qos_fuzz.c | 3 +--
+ scripts/qapi/schema.py      | 2 --
+ 7 files changed, 6 insertions(+), 15 deletions(-)
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 2f450f6a72..e6292d8060 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -1879,7 +1879,6 @@ static PciDeviceInfo *qmp_query_pci_device(PCIDevice *dev, PCIBus *bus,
-     info->class_info->q_class = class;
-     desc = get_class_desc(class);
-     if (desc->desc) {
--        info->class_info->has_desc = true;
-         info->class_info->desc = g_strdup(desc->desc);
+diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
+index a7476330a8..d926f4f77d 100644
+--- a/hw/acpi/memory_hotplug.c
++++ b/hw/acpi/memory_hotplug.c
+@@ -185,7 +185,7 @@ static void acpi_memory_hotplug_write(void *opaque, hwaddr addr, uint64_t data,
+                  */
+                 qapi_event_send_mem_unplug_error(dev->id ? : "",
+                                                  error_get_pretty(local_err));
+-                qapi_event_send_device_unplug_guest_error(!!dev->id, dev->id,
++                qapi_event_send_device_unplug_guest_error(dev->id,
+                                                           dev->canonical_path);
+                 error_free(local_err);
+                 break;
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 0806d8fcaa..459266aceb 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -744,7 +744,7 @@ static void device_finalize(Object *obj)
+     if (dev->pending_deleted_event) {
+         g_assert(dev->canonical_path);
+ 
+-        qapi_event_send_device_deleted(!!dev->id, dev->id, dev->canonical_path);
++        qapi_event_send_device_deleted(dev->id, dev->canonical_path);
+         g_free(dev->canonical_path);
+         dev->canonical_path = NULL;
+     }
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 8bbaf4f8a4..4ecf378e55 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -3725,7 +3725,7 @@ void spapr_memory_unplug_rollback(SpaprMachineState *spapr, DeviceState *dev)
+ 
+     qapi_event_send_mem_unplug_error(dev->id ? : "", qapi_error);
+ 
+-    qapi_event_send_device_unplug_guest_error(!!dev->id, dev->id,
++    qapi_event_send_device_unplug_guest_error(dev->id,
+                                               dev->canonical_path);
+ }
+ 
+diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+index 76bc5d42a0..4923435a8b 100644
+--- a/hw/ppc/spapr_drc.c
++++ b/hw/ppc/spapr_drc.c
+@@ -175,8 +175,7 @@ static uint32_t drc_unisolate_logical(SpaprDrc *drc)
+                              "for device %s", drc->dev->id);
+             }
+ 
+-            qapi_event_send_device_unplug_guest_error(!!drc->dev->id,
+-                                                      drc->dev->id,
++            qapi_event_send_device_unplug_guest_error(drc->dev->id,
+                                                       drc->dev->canonical_path);
+         }
+ 
+diff --git a/qom/qom-qmp-cmds.c b/qom/qom-qmp-cmds.c
+index 2e63a4c184..7c087299de 100644
+--- a/qom/qom-qmp-cmds.c
++++ b/qom/qom-qmp-cmds.c
+@@ -99,15 +99,13 @@ static void qom_list_types_tramp(ObjectClass *klass, void *data)
+     info->name = g_strdup(object_class_get_name(klass));
+     info->has_abstract = info->abstract = object_class_is_abstract(klass);
+     if (parent) {
+-        info->has_parent = true;
+         info->parent = g_strdup(object_class_get_name(parent));
      }
  
-@@ -1897,7 +1896,6 @@ static PciDeviceInfo *qmp_query_pci_device(PCIDevice *dev, PCIBus *bus,
+     QAPI_LIST_PREPEND(*pret, info);
+ }
  
-     type = dev->config[PCI_HEADER_TYPE] & ~PCI_HEADER_TYPE_MULTI_FUNCTION;
-     if (type == PCI_HEADER_TYPE_BRIDGE) {
--        info->has_pci_bridge = true;
-         info->pci_bridge = qmp_query_pci_bridge(dev, bus, bus_num);
-     } else if (type == PCI_HEADER_TYPE_NORMAL) {
-         info->id->has_subsystem = info->id->has_subsystem_vendor = true;
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index fc9a0617fe..b180c6fc6b 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -730,7 +730,7 @@ static void hmp_info_pci_device(Monitor *mon, const PciDeviceInfo *dev)
-                    dev->slot, dev->function);
-     monitor_printf(mon, "    ");
+-ObjectTypeInfoList *qmp_qom_list_types(bool has_implements,
+-                                       const char *implements,
++ObjectTypeInfoList *qmp_qom_list_types(const char *implements,
+                                        bool has_abstract,
+                                        bool abstract,
+                                        Error **errp)
+@@ -168,10 +166,8 @@ ObjectPropertyInfoList *qmp_device_list_properties(const char *typename,
+         info = g_new0(ObjectPropertyInfo, 1);
+         info->name = g_strdup(prop->name);
+         info->type = g_strdup(prop->type);
+-        info->has_description = !!prop->description;
+         info->description = g_strdup(prop->description);
+         info->default_value = qobject_ref(prop->defval);
+-        info->has_default_value = !!info->default_value;
  
--    if (dev->class_info->has_desc) {
-+    if (dev->class_info->desc) {
-         monitor_puts(mon, dev->class_info->desc);
-     } else {
-         monitor_printf(mon, "Class %04" PRId64, dev->class_info->q_class);
-@@ -748,7 +748,7 @@ static void hmp_info_pci_device(Monitor *mon, const PciDeviceInfo *dev)
-                        dev->irq, (char)('A' + dev->irq_pin - 1));
+         QAPI_LIST_PREPEND(prop_list, info);
      }
+@@ -215,7 +211,6 @@ ObjectPropertyInfoList *qmp_qom_list_properties(const char *typename,
+         info = g_malloc0(sizeof(*info));
+         info->name = g_strdup(prop->name);
+         info->type = g_strdup(prop->type);
+-        info->has_description = !!prop->description;
+         info->description = g_strdup(prop->description);
  
--    if (dev->has_pci_bridge) {
-+    if (dev->pci_bridge) {
-         monitor_printf(mon, "      BUS %" PRId64 ".\n",
-                        dev->pci_bridge->bus->number);
-         monitor_printf(mon, "      secondary bus %" PRId64 ".\n",
-@@ -794,7 +794,7 @@ static void hmp_info_pci_device(Monitor *mon, const PciDeviceInfo *dev)
+         QAPI_LIST_PREPEND(prop_list, info);
+diff --git a/tests/qtest/fuzz/qos_fuzz.c b/tests/qtest/fuzz/qos_fuzz.c
+index 3a3d9c16dd..e403d373a0 100644
+--- a/tests/qtest/fuzz/qos_fuzz.c
++++ b/tests/qtest/fuzz/qos_fuzz.c
+@@ -50,8 +50,7 @@ static void qos_set_machines_devices_available(void)
+     machines_apply_to_node(mach_info);
+     qapi_free_MachineInfoList(mach_info);
  
-     monitor_printf(mon, "      id \"%s\"\n", dev->qdev_id);
- 
--    if (dev->has_pci_bridge) {
-+    if (dev->pci_bridge) {
-         if (dev->pci_bridge->has_devices) {
-             PciDeviceInfoList *cdev;
-             for (cdev = dev->pci_bridge->devices; cdev; cdev = cdev->next) {
+-    type_info = qmp_qom_list_types(true, "device", true, true,
+-                                   &error_abort);
++    type_info = qmp_qom_list_types("device", true, true, &error_abort);
+     types_apply_to_node(type_info);
+     qapi_free_ObjectTypeInfoList(type_info);
+ }
 diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 930dffd780..388b90812b 100644
+index 388b90812b..c74c26bda3 100644
 --- a/scripts/qapi/schema.py
 +++ b/scripts/qapi/schema.py
-@@ -759,7 +759,6 @@ def need_has(self):
+@@ -759,8 +759,6 @@ def need_has(self):
          assert self.type
          # Temporary hack to support dropping the has_FOO in reviewable chunks
          opt_out = [
--            'qapi/pci.json',
-             'qapi/qdev.json',
-             'qapi/qom.json',
+-            'qapi/qdev.json',
+-            'qapi/qom.json',
              'qapi/replay.json',
+             'qapi/rocker.json',
+             'qapi/run-state.json',
 -- 
 2.37.2
 
