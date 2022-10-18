@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BCA2602BD3
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 14:33:53 +0200 (CEST)
-Received: from localhost ([::1]:39882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8673602BD2
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 14:33:42 +0200 (CEST)
+Received: from localhost ([::1]:41400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okln5-0002k7-Tz
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 08:33:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38090)
+	id 1oklmv-0002IJ-83
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 08:33:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oklIi-0002ZJ-9R
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 08:02:28 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:34708)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oklKJ-0003Ew-Ma
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 08:04:10 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:46066)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oklIS-0004hr-RT
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 08:02:27 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- l14-20020a05600c1d0e00b003c6ecc94285so851954wms.1
- for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 05:02:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oklKA-0004yF-9Y
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 08:04:07 -0400
+Received: by mail-wr1-x431.google.com with SMTP id a10so23048848wrm.12
+ for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 05:03:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=3Gv4uBXi8eSgtTJQ4OjHCilJZ2V8kI9LtSUcizaQybc=;
- b=ci6Qm9lTdh8QKdGyp8OfH0UvrzqCeGbW4b5wHzuRCjsVnc7uNPXMVm37l4B1McZ215
- aTx0oCZGyi3Oi2vfsQZoeHUR77j1U9zBJByxpdA9QCpujPh3u0wwBgIk3aZWmbl++Ds7
- Zri4VCIwbRNz9Ux5jTMYtQxKkRezGyo4G3xJUIvnThomNy4KR8Vlr+f6rsaeaY4mLcmw
- Kf3KpI6pm2QIGrxG0PAK4QHnemmD1iGQSwEIhWZeKHFP2ILRXAuRo89RAQe41l75Gaxz
- 0QH46uxYp/GTwlnpEks3euoakItoumcL3z3sF0O+QUzJlnXHWak2XySoG7a6E83VhDte
- uYcQ==
+ bh=2pB7MLaMwtZiAw+lB130H/ds48QDnGznHStmV8XzoDE=;
+ b=TyAwoL7rNbwHBMAQls47Bz2kTRUNoLa0n5P27D1rvKq92aoXAKf1kBeMCUkxDhN01S
+ mGmp3AlWfH/t5gYH5AWpmVa0Uoz28xcdYkNWoRPeGLr7PhCuS/tcjy4yfBpVCI+tLS64
+ qcM0RiNXIHzAnPCab0bB3UDLrWJriwcO1dVMjgYlce8sYlMUM3jkEc4zgcIAH6e/NTsh
+ NeA2xmgXJrRlVhhx+3bi7HOSpGG27yN7J8lU8qJ4p4OaTVZhqVjK1osTzJoaKNqINwXr
+ ZlWZBT4OKCq7E/1KLjfM5hLLZCxmG7qQ/L6CK38Fq46kBHneBrEz9RUU+Khj+1K8utc5
+ Fbdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3Gv4uBXi8eSgtTJQ4OjHCilJZ2V8kI9LtSUcizaQybc=;
- b=L39XYFzonPtuP36iWdWz9L2vag5OiRGH2/1I+aB2Q5bbVuI6BRTR0Qq93MNGOhFhQ+
- HMIJpplas+o1iRAykSEuzPJS8gP/4JEdZ4VRrBxjsHTvLZncI1+1FA8o1Nj0SHCaPA/y
- jf+AOHbggTvhhDNNjgpTxtnYjN/Fa6/kDGRAxcXBf5ae980A6/d4RMoA+xmLo9zbseMt
- wGTC2sJmOx0OkGhvQCMDv/7TU8uPpw0qBp5yaYMphFHeHTwEaIpKyd7H+LU9KFU3oxLW
- CFlenqBGKE65VboBAeoblRJnjRHmdqfiRfxJ+bPb5IXee/F/Wd7iIJVT6mIbtvaolQuP
- eJyA==
-X-Gm-Message-State: ACrzQf0SVsDiAnxt0sXP9ifekCexE/cggSnE/8pY3SlfY4fAawCTp9YX
- b5qzxW5NnW3Thq4DTNq+e3al9w==
-X-Google-Smtp-Source: AMsMyM5wOwsz/saAD8bLFcLrG7cPPCgFwOlVe5H21o+CQUYvd48Z7FF4Uyta+D2GvxmM6ouQttTlXw==
-X-Received: by 2002:a1c:ac81:0:b0:3c6:e566:cc21 with SMTP id
- v123-20020a1cac81000000b003c6e566cc21mr1797583wme.0.1666094529365; 
- Tue, 18 Oct 2022 05:02:09 -0700 (PDT)
+ bh=2pB7MLaMwtZiAw+lB130H/ds48QDnGznHStmV8XzoDE=;
+ b=tGQeKwO3Z3RHSI3plqj5Fp2WBJQ2tCDO4zWqjmaCUAjEx0b3wTHJ4DvrFiOFDg8SUO
+ sKsdJFKXVx5VVXTYfxzIMsTxbZWb2tWOTxPJfYRyfdPp0HxSSM5VuK3ikqprOKsH8z60
+ jjCiL0hx2emu/yc6eHxCdFW5FQp/JO1yUZO0uXKwdPkaslhSFaSvK5Ws//yNuZqQh6eh
+ o9tbmG7wup0NSNfLL8kdKt+J2CXBBI/kyyZc2hLkLvp8WlTnDFYSEX+oqYf89TVOP4pI
+ Ax5GZKjA8+7lzBf6IXQVBHoFQ++pSpC3qSvwp/w+VDQ+BmbX6mp2e5dl93DgqrdclYBg
+ /TpA==
+X-Gm-Message-State: ACrzQf20UCacaXOycXbwy840xQ6L34khQv/dle/5wTvsyJfgfV9PWIXi
+ nbzibx1YyAktGlRKEUZzeOjYjg==
+X-Google-Smtp-Source: AMsMyM7iqTQ1hlgfRduSGbP24nFnuMaVSS9+hz1NxSGTs/3J0HfBnAVLPmILTZlbmzVIpvUlwEM0pw==
+X-Received: by 2002:a5d:4cc2:0:b0:22f:593f:ba9a with SMTP id
+ c2-20020a5d4cc2000000b0022f593fba9amr1701967wrt.31.1666094635170; 
+ Tue, 18 Oct 2022 05:03:55 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- t15-20020a5d49cf000000b00230c9d427f9sm11053103wrs.53.2022.10.18.05.02.07
+ q13-20020a05600c46cd00b003c6f426467fsm8384447wmo.40.2022.10.18.05.03.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Oct 2022 05:02:08 -0700 (PDT)
-Message-ID: <b15e33e6-eec4-37e7-b768-66b14a70035e@linaro.org>
-Date: Tue, 18 Oct 2022 14:02:06 +0200
+ Tue, 18 Oct 2022 05:03:54 -0700 (PDT)
+Message-ID: <23492891-ad8d-bdd8-2e09-e5b7a010a4f5@linaro.org>
+Date: Tue, 18 Oct 2022 14:03:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.1
-Subject: Re: [PATCH v2 22/28] qapi stats: Elide redundant has_FOO in generated
- C
+Subject: Re: [PATCH v2 28/28] qapi: Drop temporary logic to support conversion
+ step by step
 Content-Language: en-US
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Cc: michael.roth@amd.com, jsnow@redhat.com, eblake@redhat.com,
- Mark Kanda <mark.kanda@oracle.com>, Paolo Bonzini <pbonzini@redhat.com>
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
 References: <20221018062849.3420573-1-armbru@redhat.com>
- <20221018062849.3420573-23-armbru@redhat.com>
+ <20221018062849.3420573-29-armbru@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221018062849.3420573-23-armbru@redhat.com>
+In-Reply-To: <20221018062849.3420573-29-armbru@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,22 +95,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 18/10/22 08:28, Markus Armbruster wrote:
-> The has_FOO for pointer-valued FOO are redundant, except for arrays.
-> They are also a nuisance to work with.  Recent commit "qapi: Start to
-> elide redundant has_FOO in generated C" provided the means to elide
-> them step by step.  This is the step for qapi/stats.json.
-> 
-> Said commit explains the transformation in more detail.  The invariant
-> violations mentioned there do not occur here.
-> 
-> Cc: Mark Kanda <mark.kanda@oracle.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: Mark Kanda <mark.kanda@oracle.com>
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->   monitor/qmp-cmds.c     | 5 +----
->   scripts/qapi/schema.py | 1 -
->   2 files changed, 1 insertion(+), 5 deletions(-)
+>   scripts/qapi/schema.py | 6 ------
+>   1 file changed, 6 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
