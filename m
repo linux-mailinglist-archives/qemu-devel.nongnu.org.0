@@ -2,83 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E25F6027F8
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 11:09:13 +0200 (CEST)
-Received: from localhost ([::1]:60550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A9A6027F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 11:09:18 +0200 (CEST)
+Received: from localhost ([::1]:42326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okib1-0003KZ-65
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 05:09:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36334)
+	id 1okib6-0003eE-K3
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 05:09:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nivanov@cloudlinux.com>)
- id 1okiDN-0005tJ-Ok
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 04:44:46 -0400
-Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a]:42945)
+ id 1okiDZ-0005xl-C5
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 04:44:58 -0400
+Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130]:36853)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <nivanov@cloudlinux.com>)
- id 1okiDG-0004l1-AZ
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 04:44:45 -0400
-Received: by mail-lf1-x12a.google.com with SMTP id o12so12929177lfq.9
- for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 01:44:35 -0700 (PDT)
+ id 1okiDM-0004la-KO
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 04:44:57 -0400
+Received: by mail-lf1-x130.google.com with SMTP id bu25so21451240lfb.3
+ for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 01:44:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=cloudlinux.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xX1CLWpqmC9MSqh2I5CVq8kkylxVI2wOqn3BrZB8Aew=;
- b=jfaMHF4YAXyW2Io5s9mXLvR5AUYB9jAcgZIWgmkUcWxbuf5rgcS0yDOVQ5IZajRQMD
- Mhrc5fFCABFyRmpZKymAUNSHvyRBJBpFGhUya9XvSgCEUxQbTSxmHifXZSJM25fTQV6Q
- wcKTLWd1hPt3xZKJCSHXImi9pBbcGDaQdsVNiKY/TTLD7onreQzTHtHmHzxcA/iokIP9
- kb1anaEs1QN2U0A5Ht8G0xqSzFPbfJrBg6sqcXPEJDAlwtHSDrJ2PAoTU4gxxjdJErnr
- MiR+h9mXFN/RBoZbPFknbON1QP1Gi7VzQO0qlW01pbeU17lPxge3WVMkp5w5WJvnD1NO
- MmAg==
+ bh=xKd2hc21G0FHoZaTHAW68u0taUzAr0Wqblrk+XyXJeM=;
+ b=E1XPmVAY58vPaDxyQrF4WI7EzbPjElk3L1swRsDjiOnd37cv1dsLtNgXNBptn3M78E
+ hoHzyBjg2BpX84T7PAcGYYSmFJaBcV3r+Mjdet27SyYQzdUIOHWAw9q2Kbj7Ip79p+hn
+ +2lAO/NVi5mivrdBYVp3jY9xIgyR3nUVMfJBIA6X5oTUyAuHqvMqvtTe+PYiNev6rxZw
+ o3wzfizRfnPDEvwGOHz0zWfYUyZCbchq+DrDnp7ogO6PrxCalEy3zoeRN4bE7G9yiSru
+ sqRehtvfIItD6tQblYl5VwCs0dwnlIi6yap7z4odoI+PyTqPZhC0dH4BzwG1Dru2xfJ5
+ fdqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xX1CLWpqmC9MSqh2I5CVq8kkylxVI2wOqn3BrZB8Aew=;
- b=EJNtE/DWCzr0faK7hhw7moUW5ziYc730lRyWSl2plHBjhyEpQ3w2IWVtAN7yyvDqBT
- AuJsduoN22m0TvSaKRZcM7ZbDamJ9r2kYD3PXAdA+Oc8g9LarXRENcYRTzgD9VYKFNA6
- 0STTp5PJlPeI1sqr/L6KGASiP3EGzklGfxcHADUxoOA5WsFilIonnO4WvRap2/S7bwC3
- LgC5LiBL9xBfg9pVi31EpuJb4c5xs2/ggOsy26SXmO/OAGyO46WBKQr2Jd407KbKxvKQ
- xQ9PGFDcGPeOxi1FnLdZfQc8QOG3ZOlgbKu8HhNgyNCAWssadV7u8mCmo9I1UNiusO6L
- ta/g==
-X-Gm-Message-State: ACrzQf1CEL8CMj51pxiHSSUW5jtaeZc4kZee4eWz2w/i+ydpwfeUd7P5
- CF99xj++47hsz8eHSepbFAI4P5P4rmF2s8su
-X-Google-Smtp-Source: AMsMyM45nAASVv2D2dPqeWF+Y7G7dL30kkr0QbjEfzAgBQUJUnaLFLJZf2ynQY1vQAmskbVPY5tDoA==
-X-Received: by 2002:a05:6512:33d1:b0:4a2:119e:1887 with SMTP id
- d17-20020a05651233d100b004a2119e1887mr594206lfg.85.1666082673207; 
- Tue, 18 Oct 2022 01:44:33 -0700 (PDT)
+ bh=xKd2hc21G0FHoZaTHAW68u0taUzAr0Wqblrk+XyXJeM=;
+ b=1q6pANLpFWzX8qZ2YP61fCturKGRKx+z3X93uLgGMUYefyOtRAquKJJpn5zmS7eL6X
+ mTkRrHbj0mWvAKmlNIxfwVheQnSrhsUiuv7u4hBgQtsRNrAn/vnA/Jz8Rsoc4/zWWWYF
+ OATMlo6QW1O3y3BFNaA5Qnu6cPfAij78dcnT9t3wp2qY69+pnGQuWC9MUoWDvyEjJSci
+ 7l+kJoTZGfKcyimPF/rJRTbxHSqcBIHeZAxDpVpy16wsD3PkxpJQBBzKjscMPKsj7fNH
+ DJEesoHCSUlvWJHbGSlrOI/J/3ksqShUNxa1rUSVqI24FAeVj/UNeieCsKC+V8whhqPF
+ 7fWQ==
+X-Gm-Message-State: ACrzQf22kDA0xR8Z4gvTh32IF7MnO0liATB9i8ReU8qohyawMsR4cti3
+ pn1hkjejZiKLHldt9bOnb9jv+RbTKEBHpaIm
+X-Google-Smtp-Source: AMsMyM7XKHWtpmtheO6vjL3d8NI9FZYbstwalES179Ery+RM1+0GafQyN0bZZD1NWsh0cWPo38CvdA==
+X-Received: by 2002:a05:6512:3b13:b0:4a2:564e:6cea with SMTP id
+ f19-20020a0565123b1300b004a2564e6ceamr617448lfv.242.1666082682331; 
+ Tue, 18 Oct 2022 01:44:42 -0700 (PDT)
 Received: from fedora.. (vist.dozen.mephi.ru. [85.143.113.73])
  by smtp.gmail.com with ESMTPSA id
- f7-20020a05651c03c700b0026e04cc88cfsm1874523ljp.124.2022.10.18.01.44.32
+ f7-20020a05651c03c700b0026e04cc88cfsm1874523ljp.124.2022.10.18.01.44.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Oct 2022 01:44:32 -0700 (PDT)
+ Tue, 18 Oct 2022 01:44:42 -0700 (PDT)
 From: Nikita Ivanov <nivanov@cloudlinux.com>
 To: qemu-devel@nongnu.org
-Cc: Nikita Ivanov <nivanov@cloudlinux.com>,
+Cc: Nikita Ivanov <nivanov@cloudlinux.com>, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-Subject: [PATCH v3 1/2] Refactoring: refactor TFR() macro to RETRY_ON_EINTR()
-Date: Tue, 18 Oct 2022 11:43:40 +0300
-Message-Id: <20221018084341.16270-2-nivanov@cloudlinux.com>
+ Paolo Bonzini <pbonzini@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Jason Wang <jasowang@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Konstantin Kostiuk <kkostiuk@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ qemu-block@nongnu.org (open list:raw)
+Subject: [PATCH v3 2/2] error handling: Use RETRY_ON_EINTR() macro where
+ applicable
+Date: Tue, 18 Oct 2022 11:43:41 +0300
+Message-Id: <20221018084341.16270-3-nivanov@cloudlinux.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221018084341.16270-1-nivanov@cloudlinux.com>
 References: <20221018084341.16270-1-nivanov@cloudlinux.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
- envelope-from=nivanov@cloudlinux.com; helo=mail-lf1-x12a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::130;
+ envelope-from=nivanov@cloudlinux.com; helo=mail-lf1-x130.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,201 +101,367 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename macro name to more transparent one and refactor
-it to expression.
+There is a defined RETRY_ON_EINTR() macro in qemu/osdep.h
+which handles the same while loop.
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/415
 
 Signed-off-by: Nikita Ivanov <nivanov@cloudlinux.com>
 ---
- chardev/char-fd.c      | 2 +-
- chardev/char-pipe.c    | 8 +++++---
- include/qemu/osdep.h   | 8 +++++++-
- net/tap-bsd.c          | 6 +++---
- net/tap-linux.c        | 2 +-
- net/tap-solaris.c      | 8 ++++----
- net/tap.c              | 2 +-
- os-posix.c             | 2 +-
- tests/qtest/libqtest.c | 2 +-
- 9 files changed, 24 insertions(+), 16 deletions(-)
+ block/file-posix.c        | 37 ++++++++++++++++---------------------
+ chardev/char-pty.c        |  4 +---
+ hw/9pfs/9p-local.c        |  8 ++------
+ net/l2tpv3.c              | 17 +++++------------
+ net/socket.c              | 16 +++++++---------
+ net/tap.c                 |  8 ++------
+ qga/commands-posix.c      |  4 +---
+ semihosting/syscalls.c    |  4 +---
+ tests/qtest/libqtest.c    | 12 +++++-------
+ tests/vhost-user-bridge.c |  4 +---
+ util/main-loop.c          |  4 +---
+ util/osdep.c              |  4 +---
+ util/vfio-helpers.c       | 12 ++++++------
+ 13 files changed, 49 insertions(+), 85 deletions(-)
 
-diff --git a/chardev/char-fd.c b/chardev/char-fd.c
-index cf78454841..d2c4923359 100644
---- a/chardev/char-fd.c
-+++ b/chardev/char-fd.c
-@@ -198,7 +198,7 @@ int qmp_chardev_open_file_source(char *src, int flags, Error **errp)
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 23acffb9a4..8f7a22e3e4 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -1229,9 +1229,7 @@ static int hdev_get_max_segments(int fd, struct stat *st)
+         ret = -errno;
+         goto out;
+     }
+-    do {
+-        ret = read(sysfd, buf, sizeof(buf) - 1);
+-    } while (ret == -1 && errno == EINTR);
++    ret = RETRY_ON_EINTR(read(sysfd, buf, sizeof(buf) - 1));
+     if (ret < 0) {
+         ret = -errno;
+         goto out;
+@@ -1379,9 +1377,9 @@ static int handle_aiocb_ioctl(void *opaque)
+     RawPosixAIOData *aiocb = opaque;
+     int ret;
+ 
+-    do {
+-        ret = ioctl(aiocb->aio_fildes, aiocb->ioctl.cmd, aiocb->ioctl.buf);
+-    } while (ret == -1 && errno == EINTR);
++    ret = RETRY_ON_EINTR(
++        ioctl(aiocb->aio_fildes, aiocb->ioctl.cmd, aiocb->ioctl.buf)
++    );
+     if (ret == -1) {
+         return -errno;
+     }
+@@ -1463,18 +1461,17 @@ static ssize_t handle_aiocb_rw_vector(RawPosixAIOData *aiocb)
  {
-     int fd = -1;
+     ssize_t len;
  
--    TFR(fd = qemu_open_old(src, flags, 0666));
-+    fd = RETRY_ON_EINTR(qemu_open_old(src, flags, 0666));
-     if (fd == -1) {
-         error_setg_file_open(errp, errno, src);
-     }
-diff --git a/chardev/char-pipe.c b/chardev/char-pipe.c
-index 66d3b85091..5ad30bcc59 100644
---- a/chardev/char-pipe.c
-+++ b/chardev/char-pipe.c
-@@ -131,8 +131,8 @@ static void qemu_chr_open_pipe(Chardev *chr,
+-    do {
+-        if (aiocb->aio_type & QEMU_AIO_WRITE)
+-            len = qemu_pwritev(aiocb->aio_fildes,
+-                               aiocb->io.iov,
+-                               aiocb->io.niov,
+-                               aiocb->aio_offset);
+-         else
+-            len = qemu_preadv(aiocb->aio_fildes,
+-                              aiocb->io.iov,
+-                              aiocb->io.niov,
+-                              aiocb->aio_offset);
+-    } while (len == -1 && errno == EINTR);
++    len = RETRY_ON_EINTR(
++        (aiocb->aio_type & QEMU_AIO_WRITE) ?
++            qemu_pwritev(aiocb->aio_fildes,
++                           aiocb->io.iov,
++                           aiocb->io.niov,
++                           aiocb->aio_offset) :
++            qemu_preadv(aiocb->aio_fildes,
++                          aiocb->io.iov,
++                          aiocb->io.niov,
++                          aiocb->aio_offset)
++    );
  
-     filename_in = g_strdup_printf("%s.in", filename);
-     filename_out = g_strdup_printf("%s.out", filename);
--    TFR(fd_in = qemu_open_old(filename_in, O_RDWR | O_BINARY));
--    TFR(fd_out = qemu_open_old(filename_out, O_RDWR | O_BINARY));
-+    fd_in = RETRY_ON_EINTR(qemu_open_old(filename_in, O_RDWR | O_BINARY));
-+    fd_out = RETRY_ON_EINTR(qemu_open_old(filename_out, O_RDWR | O_BINARY));
-     g_free(filename_in);
-     g_free(filename_out);
-     if (fd_in < 0 || fd_out < 0) {
-@@ -142,7 +142,9 @@ static void qemu_chr_open_pipe(Chardev *chr,
-         if (fd_out >= 0) {
-             close(fd_out);
-         }
--        TFR(fd_in = fd_out = qemu_open_old(filename, O_RDWR | O_BINARY));
-+        fd_in = fd_out = RETRY_ON_EINTR(
-+            qemu_open_old(filename, O_RDWR | O_BINARY)
-+        );
-         if (fd_in < 0) {
-             error_setg_file_open(errp, errno, filename);
-             return;
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index b1c161c035..45fcf5f2dc 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -243,7 +243,13 @@ void QEMU_ERROR("code path is reachable")
- #define ESHUTDOWN 4099
- #endif
+     if (len == -1) {
+         return -errno;
+@@ -1899,9 +1896,7 @@ static int allocate_first_block(int fd, size_t max_size)
+     buf = qemu_memalign(max_align, write_size);
+     memset(buf, 0, write_size);
  
--#define TFR(expr) do { if ((expr) != -1) break; } while (errno == EINTR)
-+#define RETRY_ON_EINTR(expr) \
-+    (__extension__                                          \
-+        ({ typeof(expr) __result;                               \
-+           do {                                             \
-+                __result = (typeof(expr)) (expr);         \
-+           } while (__result == -1 && errno == EINTR);     \
-+           __result; }))
+-    do {
+-        n = pwrite(fd, buf, write_size, 0);
+-    } while (n == -1 && errno == EINTR);
++    n = RETRY_ON_EINTR(pwrite(fd, buf, write_size, 0));
  
- /* time_t may be either 32 or 64 bits depending on the host OS, and
-  * can be either signed or unsigned, so we can't just hardcode a
-diff --git a/net/tap-bsd.c b/net/tap-bsd.c
-index 005ce05c6e..4c98fdd337 100644
---- a/net/tap-bsd.c
-+++ b/net/tap-bsd.c
-@@ -56,7 +56,7 @@ int tap_open(char *ifname, int ifname_size, int *vnet_hdr,
-         } else {
-             snprintf(dname, sizeof dname, "/dev/tap%d", i);
-         }
--        TFR(fd = open(dname, O_RDWR));
-+        fd = RETRY_ON_EINTR(open(dname, O_RDWR));
-         if (fd >= 0) {
-             break;
-         }
-@@ -111,7 +111,7 @@ static int tap_open_clone(char *ifname, int ifname_size, Error **errp)
-     int fd, s, ret;
-     struct ifreq ifr;
+     ret = (n == -1) ? -errno : 0;
  
--    TFR(fd = open(PATH_NET_TAP, O_RDWR));
-+    fd = RETRY_ON_EINTR(open(PATH_NET_TAP, O_RDWR));
-     if (fd < 0) {
-         error_setg_errno(errp, errno, "could not open %s", PATH_NET_TAP);
-         return -1;
-@@ -159,7 +159,7 @@ int tap_open(char *ifname, int ifname_size, int *vnet_hdr,
-     if (ifname[0] != '\0') {
-         char dname[100];
-         snprintf(dname, sizeof dname, "/dev/%s", ifname);
--        TFR(fd = open(dname, O_RDWR));
-+        fd = RETRY_ON_EINTR(open(dname, O_RDWR));
-         if (fd < 0 && errno != ENOENT) {
-             error_setg_errno(errp, errno, "could not open %s", dname);
+diff --git a/chardev/char-pty.c b/chardev/char-pty.c
+index 53f25c6bbd..92fd33c854 100644
+--- a/chardev/char-pty.c
++++ b/chardev/char-pty.c
+@@ -93,9 +93,7 @@ static void pty_chr_update_read_handler(Chardev *chr)
+     pfd.fd = fioc->fd;
+     pfd.events = G_IO_OUT;
+     pfd.revents = 0;
+-    do {
+-        rc = g_poll(&pfd, 1, 0);
+-    } while (rc == -1 && errno == EINTR);
++    rc = RETRY_ON_EINTR(g_poll(&pfd, 1, 0));
+     assert(rc >= 0);
+ 
+     if (pfd.revents & G_IO_HUP) {
+diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+index d42ce6d8b8..bb3187244f 100644
+--- a/hw/9pfs/9p-local.c
++++ b/hw/9pfs/9p-local.c
+@@ -470,9 +470,7 @@ static ssize_t local_readlink(FsContext *fs_ctx, V9fsPath *fs_path,
+         if (fd == -1) {
              return -1;
-diff --git a/net/tap-linux.c b/net/tap-linux.c
-index 304ff45071..f54f308d35 100644
---- a/net/tap-linux.c
-+++ b/net/tap-linux.c
-@@ -45,7 +45,7 @@ int tap_open(char *ifname, int ifname_size, int *vnet_hdr,
-     int len = sizeof(struct virtio_net_hdr);
-     unsigned int features;
+         }
+-        do {
+-            tsize = read(fd, (void *)buf, bufsz);
+-        } while (tsize == -1 && errno == EINTR);
++        tsize = RETRY_ON_EINTR(read(fd, (void *)buf, bufsz));
+         close_preserve_errno(fd);
+     } else if ((fs_ctx->export_flags & V9FS_SM_PASSTHROUGH) ||
+                (fs_ctx->export_flags & V9FS_SM_NONE)) {
+@@ -908,9 +906,7 @@ static int local_symlink(FsContext *fs_ctx, const char *oldpath,
+         }
+         /* Write the oldpath (target) to the file. */
+         oldpath_size = strlen(oldpath);
+-        do {
+-            write_size = write(fd, (void *)oldpath, oldpath_size);
+-        } while (write_size == -1 && errno == EINTR);
++        write_size = RETRY_ON_EINTR(write(fd, (void *)oldpath, oldpath_size));
+         close_preserve_errno(fd);
  
--    TFR(fd = open(PATH_NET_TUN, O_RDWR));
-+    fd = RETRY_ON_EINTR(open(PATH_NET_TUN, O_RDWR));
-     if (fd < 0) {
-         error_setg_errno(errp, errno, "could not open %s", PATH_NET_TUN);
-         return -1;
-diff --git a/net/tap-solaris.c b/net/tap-solaris.c
-index a44f8805c2..38e15028bf 100644
---- a/net/tap-solaris.c
-+++ b/net/tap-solaris.c
-@@ -84,13 +84,13 @@ static int tap_alloc(char *dev, size_t dev_size, Error **errp)
-     if( ip_fd )
-        close(ip_fd);
+         if (write_size != oldpath_size) {
+diff --git a/net/l2tpv3.c b/net/l2tpv3.c
+index af373e5c30..e0726f5f89 100644
+--- a/net/l2tpv3.c
++++ b/net/l2tpv3.c
+@@ -240,9 +240,7 @@ static ssize_t net_l2tpv3_receive_dgram_iov(NetClientState *nc,
+     message.msg_control = NULL;
+     message.msg_controllen = 0;
+     message.msg_flags = 0;
+-    do {
+-        ret = sendmsg(s->fd, &message, 0);
+-    } while ((ret == -1) && (errno == EINTR));
++    ret = RETRY_ON_EINTR(sendmsg(s->fd, &message, 0));
+     if (ret > 0) {
+         ret -= s->offset;
+     } else if (ret == 0) {
+@@ -285,9 +283,7 @@ static ssize_t net_l2tpv3_receive_dgram(NetClientState *nc,
+     message.msg_control = NULL;
+     message.msg_controllen = 0;
+     message.msg_flags = 0;
+-    do {
+-        ret = sendmsg(s->fd, &message, 0);
+-    } while ((ret == -1) && (errno == EINTR));
++    ret = RETRY_ON_EINTR(sendmsg(s->fd, &message, 0));
+     if (ret > 0) {
+         ret -= s->offset;
+     } else if (ret == 0) {
+@@ -434,12 +430,9 @@ static void net_l2tpv3_send(void *opaque)
  
--    TFR(ip_fd = open("/dev/udp", O_RDWR, 0));
-+    ip_fd = RETRY_ON_EINTR(open("/dev/udp", O_RDWR, 0));
-     if (ip_fd < 0) {
-         error_setg(errp, "Can't open /dev/ip (actually /dev/udp)");
-         return -1;
-     }
+     msgvec = s->msgvec + s->queue_head;
+     if (target_count > 0) {
+-        do {
+-            count = recvmmsg(
+-                s->fd,
+-                msgvec,
+-                target_count, MSG_DONTWAIT, NULL);
+-        } while ((count == -1) && (errno == EINTR));
++        count = RETRY_ON_EINTR(
++                recvmmsg(s->fd, msgvec, target_count, MSG_DONTWAIT, NULL)
++        );
+         if (count < 0) {
+             /* Recv error - we still need to flush packets here,
+              * (re)set queue head to current position
+diff --git a/net/socket.c b/net/socket.c
+index bfd8596250..00f8a88531 100644
+--- a/net/socket.c
++++ b/net/socket.c
+@@ -117,15 +117,13 @@ static ssize_t net_socket_receive_dgram(NetClientState *nc, const uint8_t *buf,
+     NetSocketState *s = DO_UPCAST(NetSocketState, nc, nc);
+     ssize_t ret;
  
--    TFR(tap_fd = open("/dev/tap", O_RDWR, 0));
-+    tap_fd = RETRY_ON_EINTR(open("/dev/tap", O_RDWR, 0));
-     if (tap_fd < 0) {
-         error_setg(errp, "Can't open /dev/tap");
-         return -1;
-@@ -104,7 +104,7 @@ static int tap_alloc(char *dev, size_t dev_size, Error **errp)
-     if ((ppa = ioctl (tap_fd, I_STR, &strioc_ppa)) < 0)
-         error_report("Can't assign new interface");
+-    do {
+-        if (s->dgram_dst.sin_family != AF_UNIX) {
+-            ret = sendto(s->fd, buf, size, 0,
+-                         (struct sockaddr *)&s->dgram_dst,
+-                         sizeof(s->dgram_dst));
+-        } else {
+-            ret = send(s->fd, buf, size, 0);
+-        }
+-    } while (ret == -1 && errno == EINTR);
++    ret = RETRY_ON_EINTR(
++        s->dgram_dst.sin_family != AF_UNIX ?
++            sendto(s->fd, buf, size, 0,
++                     (struct sockaddr *)&s->dgram_dst,
++                     sizeof(s->dgram_dst)) :
++            send(s->fd, buf, size, 0)
++    );
  
--    TFR(if_fd = open("/dev/tap", O_RDWR, 0));
-+    if_fd = RETRY_ON_EINTR(open("/dev/tap", O_RDWR, 0));
-     if (if_fd < 0) {
-         error_setg(errp, "Can't open /dev/tap (2)");
-         return -1;
-@@ -137,7 +137,7 @@ static int tap_alloc(char *dev, size_t dev_size, Error **errp)
-     if (ioctl (ip_fd, I_PUSH, "arp") < 0)
-         error_report("Can't push ARP module (3)");
-     /* Open arp_fd */
--    TFR(arp_fd = open ("/dev/tap", O_RDWR, 0));
-+    arp_fd = RETRY_ON_EINTR(open("/dev/tap", O_RDWR, 0));
-     if (arp_fd < 0)
-         error_report("Can't open %s", "/dev/tap");
- 
+     if (ret == -1 && errno == EAGAIN) {
+         net_socket_write_poll(s, true);
 diff --git a/net/tap.c b/net/tap.c
-index e203d07a12..e090d14203 100644
+index e090d14203..4c90f70b7e 100644
 --- a/net/tap.c
 +++ b/net/tap.c
-@@ -651,7 +651,7 @@ static int net_tap_init(const NetdevTapOptions *tap, int *vnet_hdr,
-         vnet_hdr_required = 0;
-     }
+@@ -102,9 +102,7 @@ static ssize_t tap_write_packet(TAPState *s, const struct iovec *iov, int iovcnt
+ {
+     ssize_t len;
  
--    TFR(fd = tap_open(ifname, ifname_sz, vnet_hdr, vnet_hdr_required,
-+    fd = RETRY_ON_EINTR(tap_open(ifname, ifname_sz, vnet_hdr, vnet_hdr_required,
-                       mq_required, errp));
-     if (fd < 0) {
-         return -1;
-diff --git a/os-posix.c b/os-posix.c
-index 321fc4bd13..bb27f67bac 100644
---- a/os-posix.c
-+++ b/os-posix.c
-@@ -266,7 +266,7 @@ void os_setup_post(void)
-             error_report("not able to chdir to /: %s", strerror(errno));
-             exit(1);
-         }
--        TFR(fd = qemu_open_old("/dev/null", O_RDWR));
-+        fd = RETRY_ON_EINTR(qemu_open_old("/dev/null", O_RDWR));
-         if (fd == -1) {
-             exit(1);
-         }
+-    do {
+-        len = writev(s->fd, iov, iovcnt);
+-    } while (len == -1 && errno == EINTR);
++    len = RETRY_ON_EINTR(writev(s->fd, iov, iovcnt));
+ 
+     if (len == -1 && errno == EAGAIN) {
+         tap_write_poll(s, true);
+@@ -577,9 +575,7 @@ static int net_bridge_run_helper(const char *helper, const char *bridge,
+ 
+         close(sv[1]);
+ 
+-        do {
+-            fd = recv_fd(sv[0]);
+-        } while (fd == -1 && errno == EINTR);
++        fd = RETRY_ON_EINTR(recv_fd(sv[0]));
+         saved_errno = errno;
+ 
+         close(sv[0]);
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index eea819cff0..95753f7c96 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -68,9 +68,7 @@ static void ga_wait_child(pid_t pid, int *status, Error **errp)
+ 
+     *status = 0;
+ 
+-    do {
+-        rpid = waitpid(pid, status, 0);
+-    } while (rpid == -1 && errno == EINTR);
++    rpid = RETRY_ON_EINTR(waitpid(pid, status, 0));
+ 
+     if (rpid == -1) {
+         error_setg_errno(errp, errno, "failed to wait for child (pid: %d)",
+diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
+index 508a0ad88c..5893c760c5 100644
+--- a/semihosting/syscalls.c
++++ b/semihosting/syscalls.c
+@@ -317,9 +317,7 @@ static void host_read(CPUState *cs, gdb_syscall_complete_cb complete,
+         complete(cs, -1, EFAULT);
+         return;
+     }
+-    do {
+-        ret = read(gf->hostfd, ptr, len);
+-    } while (ret == -1 && errno == EINTR);
++    ret = RETRY_ON_EINTR(read(gf->hostfd, ptr, len));
+     if (ret == -1) {
+         complete(cs, -1, errno);
+         unlock_user(ptr, buf, 0);
 diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index b23eb3edc3..90648eb8d1 100644
+index 90648eb8d1..86f1091e78 100644
 --- a/tests/qtest/libqtest.c
 +++ b/tests/qtest/libqtest.c
-@@ -140,7 +140,7 @@ void qtest_kill_qemu(QTestState *s)
-     /* Skip wait if qtest_probe_child already reaped.  */
-     if (pid != -1) {
-         kill(pid, SIGTERM);
--        TFR(pid = waitpid(s->qemu_pid, &s->wstatus, 0));
-+        pid = RETRY_ON_EINTR(waitpid(s->qemu_pid, &s->wstatus, 0));
-         assert(pid == s->qemu_pid);
-         s->qemu_pid = -1;
+@@ -101,10 +101,10 @@ static int socket_accept(int sock)
+         return -1;
      }
+ 
+-    do {
+-        addrlen = sizeof(addr);
+-        ret = accept(sock, (struct sockaddr *)&addr, &addrlen);
+-    } while (ret == -1 && errno == EINTR);
++    addrlen = sizeof(addr);
++    ret = RETRY_ON_EINTR(
++        accept(sock, (struct sockaddr *)&addr, &addrlen)
++    );
+     if (ret == -1) {
+         fprintf(stderr, "%s failed: %s\n", __func__, strerror(errno));
+     }
+@@ -574,9 +574,7 @@ int qtest_socket_server(const char *socket_path)
+     addr.sun_family = AF_UNIX;
+     snprintf(addr.sun_path, sizeof(addr.sun_path), "%s", socket_path);
+ 
+-    do {
+-        ret = bind(sock, (struct sockaddr *)&addr, sizeof(addr));
+-    } while (ret == -1 && errno == EINTR);
++    ret = RETRY_ON_EINTR(bind(sock, (struct sockaddr *)&addr, sizeof(addr)));
+     g_assert_cmpint(ret, !=, -1);
+     ret = listen(sock, 1);
+     g_assert_cmpint(ret, !=, -1);
+diff --git a/tests/vhost-user-bridge.c b/tests/vhost-user-bridge.c
+index fecdf915e7..a5c711b1de 100644
+--- a/tests/vhost-user-bridge.c
++++ b/tests/vhost-user-bridge.c
+@@ -331,9 +331,7 @@ vubr_backend_recv_cb(int sock, void *ctx)
+             .msg_iovlen = num,
+             .msg_flags = MSG_DONTWAIT,
+         };
+-        do {
+-            ret = recvmsg(vubr->backend_udp_sock, &msg, 0);
+-        } while (ret == -1 && (errno == EINTR));
++        ret = RETRY_ON_EINTR(recvmsg(vubr->backend_udp_sock, &msg, 0));
+ 
+         if (i == 0) {
+             iov_restore_front(elem->in_sg, sg, hdrlen);
+diff --git a/util/main-loop.c b/util/main-loop.c
+index f00a25451b..63bd5d123d 100644
+--- a/util/main-loop.c
++++ b/util/main-loop.c
+@@ -64,9 +64,7 @@ static void sigfd_handler(void *opaque)
+     ssize_t len;
+ 
+     while (1) {
+-        do {
+-            len = read(fd, &info, sizeof(info));
+-        } while (len == -1 && errno == EINTR);
++        len = RETRY_ON_EINTR(read(fd, &info, sizeof(info)));
+ 
+         if (len == -1 && errno == EAGAIN) {
+             break;
+diff --git a/util/osdep.c b/util/osdep.c
+index 746d5f7d71..aa358bd65e 100644
+--- a/util/osdep.c
++++ b/util/osdep.c
+@@ -244,9 +244,7 @@ static int qemu_lock_fcntl(int fd, int64_t start, int64_t len, int fl_type)
+         .l_type   = fl_type,
+     };
+     qemu_probe_lock_ops();
+-    do {
+-        ret = fcntl(fd, fcntl_op_setlk, &fl);
+-    } while (ret == -1 && errno == EINTR);
++    ret = RETRY_ON_EINTR(fcntl(fd, fcntl_op_setlk, &fl));
+     return ret == -1 ? -errno : 0;
+ }
+ 
+diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
+index 5ba01177bf..1a9b338cf9 100644
+--- a/util/vfio-helpers.c
++++ b/util/vfio-helpers.c
+@@ -240,9 +240,9 @@ static int qemu_vfio_pci_read_config(QEMUVFIOState *s, void *buf,
+                                     s->config_region_info.offset,
+                                     s->config_region_info.size);
+     assert(QEMU_IS_ALIGNED(s->config_region_info.offset + ofs, size));
+-    do {
+-        ret = pread(s->device, buf, size, s->config_region_info.offset + ofs);
+-    } while (ret == -1 && errno == EINTR);
++    ret = RETRY_ON_EINTR(
++        pread(s->device, buf, size, s->config_region_info.offset + ofs)
++    );
+     return ret == size ? 0 : -errno;
+ }
+ 
+@@ -254,9 +254,9 @@ static int qemu_vfio_pci_write_config(QEMUVFIOState *s, void *buf, int size, int
+                                      s->config_region_info.offset,
+                                      s->config_region_info.size);
+     assert(QEMU_IS_ALIGNED(s->config_region_info.offset + ofs, size));
+-    do {
+-        ret = pwrite(s->device, buf, size, s->config_region_info.offset + ofs);
+-    } while (ret == -1 && errno == EINTR);
++    ret = RETRY_ON_EINTR(
++        pwrite(s->device, buf, size, s->config_region_info.offset + ofs)
++    );
+     return ret == size ? 0 : -errno;
+ }
+ 
 -- 
 2.37.3
 
