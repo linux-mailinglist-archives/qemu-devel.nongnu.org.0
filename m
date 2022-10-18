@@ -2,160 +2,138 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A7C7602143
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 04:40:55 +0200 (CEST)
-Received: from localhost ([::1]:39310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67E9D60218D
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 05:00:19 +0200 (CEST)
+Received: from localhost ([::1]:50414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okcXF-00048j-99
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 22:40:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35572)
+	id 1okcq1-0000oU-VT
+	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 23:00:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1okcUN-0000oj-T8
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 22:37:57 -0400
-Received: from mga12.intel.com ([192.55.52.136]:17109)
+ (Exim 4.90_1) (envelope-from <Pankaj.Gupta@amd.com>)
+ id 1okcoH-0007oq-QN
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 22:58:29 -0400
+Received: from mail-dm6nam10on2088.outbound.protection.outlook.com
+ ([40.107.93.88]:42565 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1okcUK-000181-N5
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 22:37:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666060672; x=1697596672;
- h=from:to:subject:date:message-id:references:in-reply-to:
- content-transfer-encoding:mime-version;
- bh=qEshvQNLMSmaMyA9F2m7wGwbeDgS6/NqfGzI/INboSE=;
- b=Oa4f2YQsFKXQtg7hWDW67+1rPlPoz4TdRosTM4Y+gNjKWsE75kIhJXc3
- eQTJ6aw9fUCWxk5Qqh9+krlhSg+AdGrMkBOT4lx2xhkOZMHEJnPi6N1eE
- G8J0pNPXvhbzEroLdgdfvi6Ku+ysU00aQrsV7cRG05AYMpH+QOscvMx0S
- 3cRSYajamg9cD8dCZ5swCBU7Pvs3+nfo9yVvVI0R3l8udu7MmdRAYwqbL
- 5qnogzJCbb9REkE3v2J2vfMXDOzOwFhZTSYM7lBYNn+ebyKW+TPWKHOht
- m4XPILlxqLu6ijHeAxciqrx2l6lb/dq6qqdStsWQZbeaqykMvCO/D6MCg Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="285699696"
-X-IronPort-AV: E=Sophos;i="5.95,193,1661842800"; d="scan'208";a="285699696"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Oct 2022 19:37:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10503"; a="957579170"
-X-IronPort-AV: E=Sophos;i="5.95,193,1661842800"; d="scan'208";a="957579170"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmsmga005.fm.intel.com with ESMTP; 17 Oct 2022 19:37:25 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 17 Oct 2022 19:37:25 -0700
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 17 Oct 2022 19:37:25 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Mon, 17 Oct 2022 19:37:25 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.101)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Mon, 17 Oct 2022 19:37:24 -0700
+ (Exim 4.90_1) (envelope-from <Pankaj.Gupta@amd.com>)
+ id 1okcoF-0004DY-AW
+ for qemu-devel@nongnu.org; Mon, 17 Oct 2022 22:58:29 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YhcehOgB8neVQiwyYm1YzuN0mSln4xk+Ack3liIR9vypu0Ztq6NILC3RtsVDE/SH1cYhGfM30dPug9uuc5+V6/IW+0WM5ZmlpPuE76RH8caehvv2l9QlYc7x+iieIwknkFA32fh3FVscGUL59FrdslFzbpz5p5A8u7qhbPXTmqHBjn0p/0woeXFV2KsFGBDzOwl+n39BZ2E70/wQ62QgB3Td56Bw4PFcH0dwDnueyiIzd8AyLKGq10C849HsvmTTYbRhIbcCRrFHuYawArl2CQeX21BBjPkCBfi3oK4+kIJWMlriTDIDpg+LoZFKpEL4B2Zfd2eJz8YX+GJtNf/2ig==
+ b=CiMQxq80SWVM0a7l2Wpqa6BNbLYEkJaZEJwAsBWn0IacBQKBg45zROafye1F0IJl7SPiNkvzCR0Egvo4CbImHLud6ox9LXpayWDiPiyDMr1HYk8bar1SSPqDFNQ/9OYbgf2q/5b2OzxjjITjrAhfbE7GaU+DoEi9a/NN9yGLy70ovXiINwxf59rXsmzNO9WeJenRq7dE5QViqWBNfIP+PqHmzlbvURf2Qdu6HpU/kwvZDxZsDtW3Z3pDpfWyn7bnQyAmj3sYINukHtF/3q1kY5oFOby7OEWGp9U3wolecBtyPLIFEj0OSZ2WnewfWwCEW9MxwQjlzcydlKZls3C/hw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CMUZGtHD0bvqZyFairI8cG9bk3O7vxzr1ua6g53MveY=;
- b=Rd0tQeFdAPSPpuQnY0i0SdS6shwlbX6xfmydsmS3MXjbcylhz40ehvgmsMi2ALC0Rnm5qetcvvyijWpTUD7BIVdtDzobVWCXkBW6TOyufoZQeIkpzzgHPT/Q5vRQBhZ+BTL4UX87ck1IhbdXeRzwmXzWvrj5px8mrPUMbdRJ2r51budAxo0e7FyKcSdNAAqNIAwvK9/MWli9GnAsBq1/JfxOfYkBwxx7AMBKdp+55WFd04/7TRq8b4Dxyw1jYFb83190ghvgHZOYPGBQm2QxuytYZIkPHCy38UiRnBlPPCmhAliFof8Y0i2IWMUOljVbiYBWkqX5oq915HjdI7J70w==
+ bh=3ARZYS7UHtaY9d6WUIWk3zCs54SOWei8NhWofP0u5xU=;
+ b=d7TooudvIefsXLtiMzL1FsHcWPTllwY6g9W7+prI7qoTdUby/vM1NZkqrcgGkmGAtASw0JUjxM1OwmimWwfQ9i1fAcRZ/+TOJdRT2p7SLb0eJQjC28KrPeC9cRMXztyoZ++8D/c/BVReY1hZx6kAs8e84xkFTAkFaeTza7Dlh500rWwzKnxi3bwy8F0HlCPZL5VIBvImDqleNHsGuuKwldMNWZacdSucaTJ2HFIp/6gVHlT2YODx76ad0GXR/iWfqIeHsDFpckvncXN7e5koPd6qYL+R7A5ujDcWH+4UT4nS8WyqfQNGvmwkLLAJm6eqjbbxgnMVFAbFcd9Gx79vZg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MWHPR11MB0031.namprd11.prod.outlook.com (2603:10b6:301:69::37)
- by MN0PR11MB6232.namprd11.prod.outlook.com (2603:10b6:208:3c3::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5709.15; Tue, 18 Oct
- 2022 02:37:22 +0000
-Received: from MWHPR11MB0031.namprd11.prod.outlook.com
- ([fe80::500a:9fb6:7396:f43c]) by MWHPR11MB0031.namprd11.prod.outlook.com
- ([fe80::500a:9fb6:7396:f43c%7]) with mapi id 15.20.5723.033; Tue, 18 Oct 2022
- 02:37:22 +0000
-From: "Zhang, Chen" <chen.zhang@intel.com>
-To: Avihai Horon <avihaih@nvidia.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, Alex Williamson <alex.williamson@redhat.com>,
- "Kunkun Jiang" <jiangkunkun@huawei.com>
-Subject: RE: [PATCH] vfio/migration: Fix wrong enum usage
-Thread-Topic: [PATCH] vfio/migration: Fix wrong enum usage
-Thread-Index: AQHY4T6qbDLNYCMovk61+O4Fo5BDJa4Tbbjg
-Date: Tue, 18 Oct 2022 02:37:22 +0000
-Message-ID: <MWHPR11MB003134E104A73113165B23FC9B289@MWHPR11MB0031.namprd11.prod.outlook.com>
-References: <20221016085752.32740-1-avihaih@nvidia.com>
-In-Reply-To: <20221016085752.32740-1-avihaih@nvidia.com>
-Accept-Language: en-US
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3ARZYS7UHtaY9d6WUIWk3zCs54SOWei8NhWofP0u5xU=;
+ b=sOgVJH6B4N7kP2af16c18QsnjNRIxBpEDFmKkzsetXYoDpoQzdx5Ft1gQl2f6X0jlWk4ZqBt0qNmYM3fgbyhQhDKYb8NIBxg43x9mLhhGia2eVK8ZRDrwZ583D1rQ9KW3FiQ0VrsBY9g3WeihSkvWMaYwpmkKVVfyhuGp8XJFW0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
+ (2603:10b6:910:1f::11) by CH0PR12MB5156.namprd12.prod.outlook.com
+ (2603:10b6:610:bb::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.32; Tue, 18 Oct
+ 2022 02:58:23 +0000
+Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
+ ([fe80::dd6a:ad02:bcf4:6758]) by CY4PR1201MB0181.namprd12.prod.outlook.com
+ ([fe80::dd6a:ad02:bcf4:6758%11]) with mapi id 15.20.5723.033; Tue, 18 Oct
+ 2022 02:58:23 +0000
+Message-ID: <a8d79f08-9891-395f-54fd-d5f00b67a521@amd.com>
+Date: Tue, 18 Oct 2022 04:58:13 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [BUG] hw/i386/pc.c: CXL Fixed Memory Window should not reserve
+ e820 in bios
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.6.500.17
-dlp-reaction: no-action
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MWHPR11MB0031:EE_|MN0PR11MB6232:EE_
-x-ms-office365-filtering-correlation-id: 97df934e-ab59-433b-4106-08dab0b1af7c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: DH4ewk46pYuqQRXZptt1uyOU/hUdTsd55dcnm6pw3UmfgSfsCXstKYH/ik8/8CaZkVEJ3074np6NVGKUPty4YudDqhErnXN5tqQtmfh3OjwyZj9SB5cXaD22IwVBw3491TZ/3qYG810dxM+RxziMw5aIGSaoSS/r+5iQNzRqXKaXWDRiCL/JCq3G0IuUmg8Iex+NpuW0TXJpQV+RUQN5YOGTq0knFZ54bCPirQPEVvTcxD/x2vQ5Y+VGoh3cYHfpDQ6h7F/op+K9HfOV7lDC4JLYt9hH4FxcuR9lWIYQ1MZINYcMTWC61Z9eX3Z1yo9L5b/R5nP4iN/Pi74hg9xcyRqoQTy6A7+aXW+frydwR07H6w3Cy6Uz7HGHSX4djXhRqnjY7U8W+bqWuFSPk+oE5LW8GN9rvlqIhqKr2J6xRrS1zoF4oBm510VhpmKbTrcdP6iYoPKErER1WKPrfd6zKyrqD+ceiHwoIN+gqy0oB1tDDd6yWXhcvTXtjdiiIiaHhmGTkg9fPAfOBH1fggw3hCpG0g//0HBhITWKt6nGWblIwoB6WYT9bJHiT0AZbub6AgnMGHhyEMg7RkJzOYUGGy0d/qMVHRjGFNomsUJPvYodcVkxtCfR9Nfl9W0OrDwGzCv8lezc5rlabOQFH14mhbmTKeEyAHNHkDpD7kJv96hp9Mi5DQpv4eR6hAz8Wy7KaSBTDPeZjf5JUnDbUcjdltR4LAz45wj59rlPOgV0uAyToEJNWcZjyxYbveKCLvx1lJpPq2hARj7KcBwbDdDqVg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR11MB0031.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(136003)(366004)(346002)(396003)(376002)(39860400002)(451199015)(66476007)(66946007)(8676002)(86362001)(38070700005)(41300700001)(66556008)(64756008)(33656002)(38100700002)(76116006)(71200400001)(82960400001)(66446008)(316002)(55016003)(83380400001)(122000001)(8936002)(5660300002)(52536014)(110136005)(9686003)(478600001)(2906002)(186003)(26005)(53546011)(7696005)(6506007);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?cKlee/a8683J2yu409dqP+UrMSfUqy3MO8U5/ABE1bGpmeR4CV4bbzgXa87I?=
- =?us-ascii?Q?OXo5mjfsp+USEFudSwomvII+gUpeIUH4FcylkDYcnD4+QfAY7yk7fH1aVh+S?=
- =?us-ascii?Q?+yQihYH/SFKCly+TZFdvhh5iiy/yUmLjQjljRq/vpaDpiT57n6boYjtKlS2y?=
- =?us-ascii?Q?VqxuveKU6Ac+Oc31C5w3ujywD1B5lzMEFRJJZONgK80xDklUhccYvrtLrC4x?=
- =?us-ascii?Q?/+MB5hz8CC9XtbrQK77xKlvA0oe4jTpu2nfTtrgz73iVKiO8JoI7ee7A+2VH?=
- =?us-ascii?Q?v++kAjvvHYaS8UsBnHXOJuQG7T8m2jWUTOf54SIfTOVPuPYi86bZjloDbSCR?=
- =?us-ascii?Q?COiuMl375Urd4rGg4xMrRxiZCi2LsMCC4n2Lgfk5gzGdKTmAObSyU9kH/nP2?=
- =?us-ascii?Q?XgzDMKV7ASHkBo0hB+L2e9ADCDlYZJ4YV/sjF2k4tbcPWaQLUDOpYwabJ+gD?=
- =?us-ascii?Q?QxKTdJukJtANc9UipTBP/mu1hDyeF6WTsc3BQJ4MjsxUWTanipudg74wgh4M?=
- =?us-ascii?Q?VDqwkJ6TuhjRhaKKTH86MHSy4CzPfOEjAnoeCTxw9sGyyOi1YHhGt0Bah40W?=
- =?us-ascii?Q?yNxpzIeqv9gYUG4lr8PnFGwmqJOe76CoAloUtlnSaEsc1VD2DTJhZyDdiFLI?=
- =?us-ascii?Q?iT72zIwrtC3K19b1dizEpU4BEjPyKVxsFas89viOGo/c+YzZZpVhzyPFKx5v?=
- =?us-ascii?Q?yeCUaFl1eDi4Le0DpCfpoRkiaXQTbuEyFlgGzoHFFKcXjnWr4faDffizt2uh?=
- =?us-ascii?Q?HjDpp/luLG48axb4Fwf5kAlHWWvG7g9iBvqSLXWh2Y0Tnb7Z2jCZkDmy2nMu?=
- =?us-ascii?Q?DiTD7nNXG1QIjDk/9qD6jAyU4r3X1SFzOevBPK7uNznQYpVE1gzw9BsfaN64?=
- =?us-ascii?Q?W2ORZrUTY8GwJRdRhcnyij896h7IQ0q7oV6KoVrigW4loAmJCug6+bg4kcQg?=
- =?us-ascii?Q?/7SbwkobFSWBKfYcJz5a+0/k1Qeq+CVZM0bITM7qVvBPLYWJR1g3unBS2R2A?=
- =?us-ascii?Q?Xm+y17mNgGrgHFEw83dYDdAC/mrM1kZwK9SNhoiPs71fgbUv49w07krE6M+5?=
- =?us-ascii?Q?l5jQyhXBUxlB5KtYEuXJaZO4K7AnF19MczVbNDLryTl068FpdLLAap2/IzEA?=
- =?us-ascii?Q?hpQcvvI5340VlYw5nrdCJvw4tksTDdcOvul2Y5ffhGVCFH2uQpjNE9qTJUgS?=
- =?us-ascii?Q?vA3AXu6lHhVk/Rn2Y0hwhz8C44JVKTQeQ4UOs9yMAMfYoI7jwnEqDJBA4afg?=
- =?us-ascii?Q?fl+xkREPf6irDXgK1WLE4Ep715YEo5Ux9XEtwf2XcGV5rsQ+InXYaonfFKPt?=
- =?us-ascii?Q?MfyXC/1i8jUvxX5Es6slk9PH+BokFsTi+cfJR5U3EvEIaUktfHlBuN2VofwE?=
- =?us-ascii?Q?LOoPXgTRfHSZBk/8dEcA2Ht/+lTBwHx3hWqUC1q1dmuKS1wSHD9pqQzIxIfE?=
- =?us-ascii?Q?cf3epKeS1qHpp3TE6oeIDXiU85xuK3BhT+InaLX+nY0U2LODE7fdDrAq89T6?=
- =?us-ascii?Q?TTs46pPUT2Ziw/5FOd33MX9mWFEkCwIVCyu25QfSvac5WgmFB8uDUMfpZj3L?=
- =?us-ascii?Q?hpesb4cTig9mTFh0zqIvKNHQjz6cAzkOF3lBe6Li?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+To: Gregory Price <gourry.memverge@gmail.com>, qemu-devel@nongnu.org
+Cc: mst@redhat.com, marcel.apfelbaum@gmail.com, imammedo@redhat.com,
+ ani@anisinha.ca, jonathan.cameron@huawei.com, linux-cxl@vger.kernel.org,
+ alison.schofield@intel.com, dave@stgolabs.net, a.manzanares@samsung.com,
+ bwidawsk@kernel.org, gregory.price@memverge.com, hchkuo@avery-design.com.tw,
+ cbrowy@avery-design.com, ira.weiny@intel.com
+References: <20221017234001.53297-1-gregory.price@memverge.com>
+From: "Gupta, Pankaj" <pankaj.gupta@amd.com>
+In-Reply-To: <20221017234001.53297-1-gregory.price@memverge.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM6PR02CA0032.eurprd02.prod.outlook.com
+ (2603:10a6:20b:6e::45) To CY4PR1201MB0181.namprd12.prod.outlook.com
+ (2603:10b6:910:1f::11)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PR1201MB0181:EE_|CH0PR12MB5156:EE_
+X-MS-Office365-Filtering-Correlation-Id: af9d72a1-5ee1-47f5-7cd3-08dab0b49e67
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8bOyPeU+DkWBDC3E1bKIWcWUa+1Ss9ATtRiNwJNeD/dC0rZAILMWlAxrjzit+N2IWgNtF6YuufCH31/hdlszw3jNMYDfIoiacDptSfHjJ4jeK53SwV35kHdK3Tk4/3PKImYOFSq/RqQPKrzMteqEPZqmtMdH4TYOLhsNc4fBbQkFA3iCstafqnru8GCfU0C9Cc2oKC/sKMEmDShbdFnjpwoz4Aa8aCMSTwYlsVMBZ6vFLgrftHDMc4eWqk7xGWk2RMY9ndc0gl68ccH8T7lgZDQhR0JmxYlmGheGaL4VQT2O2FYKhL7YfPQmdlDk918h/QtlZOQlaBiwOASnrZwT0Leiqs25O+JxZsFSIWRZ/e/oIk3vMlk5hTCN3MKuIlszJHSYgMEyCN9s7C1o8OuaNj83H/ISrQ2meKwaGRBg4VW18DOxM7VY0mxtGpIRGrh+UEiiqnnOYrtDG4Bw74MddKbBrTO6kzoU6qK3mCpHet8AdMTdjOBceo+vellwTHEthaeEr5fWbU3FEp78228+KnCoMfn8Jyupr8ZnL96zsTCRzE6TdDs57oA+jcWm/f7iGX14g3+/j7qOqnUyasBrgM2GV3ho6tVeS96eysK2GX+h9WhLvpznZ4DvO/FWQVe/MRMtzPsWVfeiUSK2fgJDJqtREyfmhOyjF7ZoB6gGfftyBxZdgfyLtyoOtgjEVRcS66XvLsQYoXAr19+x8T/NU6LLVyEpU9lUGJwlU2B8bnkFZMbU81bPCpWfe/MUkuaSRH6rE8oaXFT86EEBSosX44s0+5+CCjRNF9YK0y7rS1Y=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY4PR1201MB0181.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(136003)(376002)(396003)(39860400002)(366004)(346002)(451199015)(31696002)(7416002)(5660300002)(8936002)(66476007)(41300700001)(4326008)(38100700002)(66946007)(66556008)(8676002)(86362001)(36756003)(186003)(2906002)(2616005)(6666004)(6506007)(478600001)(6512007)(26005)(6486002)(83380400001)(316002)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T3cveHZmRWJabTRTVmVmckdRclFBNWtrREk1UEJRZzFXOTVmMzdWVHhqa2ZD?=
+ =?utf-8?B?czM2QjloQ0UxTytOQlR3VlRKREZ5a2lBc1BOUmpsNW1VS1YrT1Y0TTEydmNU?=
+ =?utf-8?B?UE1sTVlNQmJma3RqU2hIcjN6a2JYb2Z4YVV6NTVLV3p4R3NPK0lpWHJvdDMy?=
+ =?utf-8?B?eUZGckNra0VFMk5sZm14WTRmUTYyWHRWQTltTThZblZ0YmxHQ0dqSEtIeEg4?=
+ =?utf-8?B?QkFXNjQxbkFST3lMUGxUVWtLQ0RFWDVnZ0hmeWsvek9jT09YMHJ3dDVxRml0?=
+ =?utf-8?B?WEovK1hZSGpvK2VPdEk3NzU4RWtKMGN4cTBUcnUwb1podjF5cFgvampvMHVJ?=
+ =?utf-8?B?Y09ackhyM2phcy90QjZGM2FRb1JIZ0tqSE8zQStJdGNIRUs2SE10TVYzSGYy?=
+ =?utf-8?B?WTgzWi9XcmJTZW1nQytONWJPR0FRamNyV0xVT3pMd01ibjg5aWI5QmxpUVJE?=
+ =?utf-8?B?cDhmQ0tpTVRlVEd2OHJsbkwxWmJRcXBPdElzUVY1bXpBMmtLVElUbEdzaXhU?=
+ =?utf-8?B?K25MejkrTU5VRExLd0h5d2V5bGhOQ2h0NVNRcXk0VU93NExFZ0Nsa2h4bkFZ?=
+ =?utf-8?B?eEI4OXhMZmYrdnVNYjFOdXZkcEg0aXZuaER5UEpGbmM3T1A1bVpSeXYyZXQv?=
+ =?utf-8?B?ZjBETlZudjhiWGlRN21qVTdNQVdnRFlKWGo4TUhiRlpxRUZnd2c5b2J2S0FC?=
+ =?utf-8?B?c05XMkh0SFdSNFV5WU52SmNwMHhSd3J5Z0RTTXFGWlVuZU9wVTlUVk4rSHM0?=
+ =?utf-8?B?UkpyQW5RQkQ1bzI2Y085U01CaTRYcE1kMzFEYm9uTzJNanhLVlBqbHNRQk04?=
+ =?utf-8?B?Y3ZtQnVmVTYwYlZIdHhaY1VEckFjQkxqZE1NdTZjUk8rb251eHRPRHlZbTI1?=
+ =?utf-8?B?dENMc0JEUVdOT3JPZ1NVYkZyQXVGYUVrMkcxckNZQUJyZmFGeUJvRVFiUmNu?=
+ =?utf-8?B?ZTNnUG1wckRwQmhTeXJLQjB4dDl3K2hYcDFkS2tJclRMQzB2M3lsemNKTmJw?=
+ =?utf-8?B?VVBLek51Y1RWcldYdXJOKy9mWENEOWpraHRKR3RhSFdjaEQzaVRwdVBqOUtk?=
+ =?utf-8?B?S3VTUjhrdGhpWGtKT085Z0k2Tm11ZUdiS3FOSFJSbllMT3F6NVl6eUlhdEZU?=
+ =?utf-8?B?bFYwcVJibmQzSHU4OUZUTE9TV3c1dFA0T09CcVdLanhoWHdvWDI0aDlJRVh2?=
+ =?utf-8?B?WVZDdGNNN1ZTeEJnamFFL3EzSDdIQ2d2YUYyTkpWZHB4TmgwQjI3QzZRekNw?=
+ =?utf-8?B?Vlo2VUdsaTJMS01UVjNVUFFaNG9nLy9ScytTZGtMbFZyQXNrOWROQTBvZXMr?=
+ =?utf-8?B?QzlzbTlXQUgyUUg1R0owMG4yZnlUUkQ2YjdCMHJvTmlxclpyMUtLaERZMkFD?=
+ =?utf-8?B?anZwUG9zRXV3UlV2NUxlNWVPa01KV3N4SUJvQld5SkhFV0Y1dk0vbHFzbEpN?=
+ =?utf-8?B?K3VhdnZoRWNnT1lJNFhhWklOR0ZGNVQ1YWt6bnBZak1jQlZhb0pJWDZmL1dW?=
+ =?utf-8?B?NkxoN0FSd2ZiYkVvV05KNFhFUnk3dGdrZllocElOaS9VeHBhY1BkaFBqanlN?=
+ =?utf-8?B?RUR2a010dmh5QVE1Mk5TNEgwK3dieDJxZWtaQndmQm5lQVZ3ckxvSVFLd1Nm?=
+ =?utf-8?B?dTlTQnpEZURlM1FDTUcvNmNHazAvUDFRZlhiN0RqcDc5ckFnOWpmajJ0Qits?=
+ =?utf-8?B?TUhIQ3lpdllrVFdCbVpjbC9LRVVWWHJEczdPZFVUTmwrU0t3eHdQL2N1R3RT?=
+ =?utf-8?B?UW9PMVl4TkJLN0dkZXd2T0NOZGtvYmI1SkhISS9peEtHVzlkRWlvL25EYWVp?=
+ =?utf-8?B?SzUxSDN0ZGJQcjRTUjlVMjR0RnRMU1FOekdiOU1nWnVueG5EL1FqYWpDRGdB?=
+ =?utf-8?B?Qlo5cUtUVjlGVUUwemdGNFJIZFU4M0h0MTY1TUlEZVcwQjhZUDNJb0p1cmVq?=
+ =?utf-8?B?OTFzZUExbUg5cnFRY3dXMmhqYzc0VjlMZTRuMUlnZnhkaFBnb2R6d1VaLzNw?=
+ =?utf-8?B?aUMwb294TWRYWllwc04vTG91TXlIQkhzY2RIMUlJeXpCOGxJd1BIYUkxZFBJ?=
+ =?utf-8?B?LzhxeEVNYk0xVko0OFJBVDhKN2UwWWV4dTlnVUNnMzd2bVBtYi9nRHM3dWZi?=
+ =?utf-8?Q?t/3mi3oxgs61JsCuuhR1OsFQb?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: af9d72a1-5ee1-47f5-7cd3-08dab0b49e67
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR1201MB0181.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB0031.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 97df934e-ab59-433b-4106-08dab0b1af7c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Oct 2022 02:37:22.6046 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: L1qC6yFYUx760CsmTXJXklJ0SM+FVTI//ZT1HDyyTvKuZzPnB33Bg2Y/O4q7tmKAiCXhob9Qf5gbF1rYsDqzKg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6232
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.136; envelope-from=chen.zhang@intel.com;
- helo=mga12.intel.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Oct 2022 02:58:22.9373 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LtV7U8VK+vXK99w/yZdzEZDVApkcGM1ZItSQlkrKsAIOOow0y1cqgRkoR3Cg7IWbCcY+KHcW1hpNVhystbXZVg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5156
+Received-SPF: softfail client-ip=40.107.93.88;
+ envelope-from=Pankaj.Gupta@amd.com;
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -173,58 +151,87 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-
-> -----Original Message-----
-> From: Qemu-devel <qemu-devel-bounces+chen.zhang=3Dintel.com@nongnu.org>
-> On Behalf Of Avihai Horon
-> Sent: Sunday, October 16, 2022 4:58 PM
-> To: qemu-devel@nongnu.org; Alex Williamson
-> <alex.williamson@redhat.com>; Kunkun Jiang <jiangkunkun@huawei.com>
-> Cc: Avihai Horon <avihaih@nvidia.com>
-> Subject: [PATCH] vfio/migration: Fix wrong enum usage
->=20
-> vfio_migration_init() initializes VFIOMigration->device_state using enum =
-of
-> VFIO migration protocol v2. Current implemented protocol is v1 so v1 enum
-> should be used. Fix it.
->=20
-> Fixes: 429c72800654 ("vfio/migration: Fix incorrect initialization value =
-for
-> parameters in VFIOMigration")
-> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-
-Looks good to me.
-Reviewed-by: Zhang Chen <chen.zhang@intel.com>
-
-But I found nowhere using the enum of VFIO migration protocol v2 (vfio_devi=
-ce_mig_state).
-I don't know more about the background, should we remove the  redundancy de=
-finition or add full support for
-the VFIO migration protocol v2 ?
-
-Thanks
-Chen
-
+> Early-boot e820 records will be inserted by the bios/efi/early boot
+> software and be reported to the kernel via insert_resource.  Later, when
+> CXL drivers iterate through the regions again, they will insert another
+> resource and make the RESERVED memory area a child.
+> 
+> This RESERVED memory area causes the memory region to become unusable,
+> and as a result attempting to create memory regions with
+> 
+>      `cxl create-region ...`
+> 
+> Will fail due to the RESERVED area intersecting with the CXL window.
+> 
+> 
+> During boot the following traceback is observed:
+> 
+> 0xffffffff81101650 in insert_resource_expand_to_fit ()
+> 0xffffffff83d964c5 in e820__reserve_resources_late ()
+> 0xffffffff83e03210 in pcibios_resource_survey ()
+> 0xffffffff83e04f4a in pcibios_init ()
+> 
+> Which produces a call to reserve the CFMWS area:
+> 
+> (gdb) p *new
+> $54 = {start = 0x290000000, end = 0x2cfffffff, name = "Reserved",
+>         flags = 0x200, desc = 0x7, parent = 0x0, sibling = 0x0,
+>         child = 0x0}
+> 
+> Later the Kernel parses ACPI tables and reserves the exact same area as
+> the CXL Fixed Memory Window.  The use of `insert_resource_conflict`
+> retains the RESERVED region and makes it a child of the new region.
+> 
+> 0xffffffff811016a4 in insert_resource_conflict ()
+>                        insert_resource ()
+> 0xffffffff81a81389 in cxl_parse_cfmws ()
+> 0xffffffff818c4a81 in call_handler ()
+>                        acpi_parse_entries_array ()
+> 
+> (gdb) p/x *new
+> $59 = {start = 0x290000000, end = 0x2cfffffff, name = "CXL Window 0",
+>         flags = 0x200, desc = 0x0, parent = 0x0, sibling = 0x0,
+>         child = 0x0}
+> 
+> This produces the following output in /proc/iomem:
+> 
+> 590000000-68fffffff : CXL Window 0
+>    590000000-68fffffff : Reserved
+> 
+> This reserved area causes `get_free_mem_region()` to fail due to a check
+> against `__region_intersects()`.  Due to this reserved area, the
+> intersect check will only ever return REGION_INTERSECTS, which causes
+> `cxl create-region` to always fail.
+> 
+> Signed-off-by: Gregory Price <gregory.price@memverge.com>
 > ---
->  hw/vfio/migration.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c index
-> d9598ce070..8dbbfa2c56 100644
-> --- a/hw/vfio/migration.c
-> +++ b/hw/vfio/migration.c
-> @@ -803,7 +803,7 @@ static int vfio_migration_init(VFIODevice *vbasedev,
->      }
->=20
->      vbasedev->migration =3D g_new0(VFIOMigration, 1);
-> -    vbasedev->migration->device_state =3D VFIO_DEVICE_STATE_RUNNING;
-> +    vbasedev->migration->device_state =3D VFIO_DEVICE_STATE_V1_RUNNING;
->      vbasedev->migration->vm_running =3D runstate_is_running();
->=20
->      ret =3D vfio_region_setup(obj, vbasedev, &vbasedev->migration->regio=
-n,
-> --
-> 2.21.3
->=20
+>   hw/i386/pc.c | 2 --
+>   1 file changed, 2 deletions(-)
+> 
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 566accf7e6..5bf5465a21 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -1061,7 +1061,6 @@ void pc_memory_init(PCMachineState *pcms,
+>           hwaddr cxl_size = MiB;
+>   
+>           cxl_base = pc_get_cxl_range_start(pcms);
+> -        e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
+>           memory_region_init(mr, OBJECT(machine), "cxl_host_reg", cxl_size);
+>           memory_region_add_subregion(system_memory, cxl_base, mr);
+>           cxl_resv_end = cxl_base + cxl_size;
+> @@ -1077,7 +1076,6 @@ void pc_memory_init(PCMachineState *pcms,
+>                   memory_region_init_io(&fw->mr, OBJECT(machine), &cfmws_ops, fw,
+>                                         "cxl-fixed-memory-region", fw->size);
+>                   memory_region_add_subregion(system_memory, fw->base, &fw->mr);
+
+Or will this be subregion of cxl_base?
+
+Thanks,
+Pankaj
+> -                e820_add_entry(fw->base, fw->size, E820_RESERVED);
+>                   cxl_fmw_base += fw->size;
+>                   cxl_resv_end = cxl_fmw_base;
+>               }
 
 
