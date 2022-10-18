@@ -2,64 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78365602745
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 10:41:43 +0200 (CEST)
-Received: from localhost ([::1]:53500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 601FC6027C5
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 11:01:17 +0200 (CEST)
+Received: from localhost ([::1]:58764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okiAQ-0003zX-BX
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 04:41:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36190)
+	id 1okiTM-0007i7-2F
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 05:01:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <julien@xen.org>)
- id 1okhuJ-0004Es-1n; Tue, 18 Oct 2022 04:25:03 -0400
-Received: from mail.xenproject.org ([104.130.215.37]:47912)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1okiAM-00047O-F5
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 04:41:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39544)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <julien@xen.org>)
- id 1okhuH-0001ch-82; Tue, 18 Oct 2022 04:25:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=xen.org;
- s=20200302mail; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:Subject:
- From:References:Cc:To:MIME-Version:Date:Message-ID;
- bh=RZV2EaUyuf7LDviRdlZ1zghsWBgRjq3ZsAcy/wHuSkU=; b=3Km7LjD/BOVMIq0yts/6nebgii
- slQfESAWAaNb0YGu5FfAHfeY++Wbav9WaOtjsB/8e8aog/HiWUbLZIbBkDYAAazGc8h9TI032O3fK
- 2SKxbgaEPUgOlmKfCdeWfTU5NplIGHeRUiWa8oXIOliI2OBXvvW/LW48mUWuBQQkTwR0=;
-Received: from xenbits.xenproject.org ([104.239.192.120])
- by mail.xenproject.org with esmtp (Exim 4.92)
- (envelope-from <julien@xen.org>)
- id 1okhu7-0004Wl-Aa; Tue, 18 Oct 2022 08:24:51 +0000
-Received: from home.octic.net ([81.187.162.82] helo=[10.0.1.102])
- by xenbits.xenproject.org with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <julien@xen.org>)
- id 1okhu6-0006Sw-SW; Tue, 18 Oct 2022 08:24:51 +0000
-Message-ID: <460a480e-4e91-8d78-60da-59b9cc98beee@xen.org>
-Date: Tue, 18 Oct 2022 09:24:48 +0100
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1okiAK-0004Cc-Kp
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 04:41:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666082494;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8sB9Ol+BcDz+kvcaYd1xpXeM3+KnWqUnO8tObPZrXYo=;
+ b=WwzrAtYHzqd8VWULLA9tIjVFGWttdxM1oFejhHPYdnQ8I+6hdI3wnn2GxqThXbDGfHmLIc
+ Gbsli9qtt5M0f8oRe/D8p8IkcfgAYXC4L1WQtia3pmvSTUGOByQP6LAvvhxj/2r64HOaB8
+ bnoUBojWYScKhnm9NLllMaFkNqQ2L5w=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-339-eh8iLvXxOM63Zt3vMtzUJg-1; Tue, 18 Oct 2022 04:41:33 -0400
+X-MC-Unique: eh8iLvXxOM63Zt3vMtzUJg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ h17-20020adfaa91000000b0022e9f2245c8so4343371wrc.19
+ for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 01:41:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8sB9Ol+BcDz+kvcaYd1xpXeM3+KnWqUnO8tObPZrXYo=;
+ b=IUIy8jqL72hOhfsEp3QxFkgGVPrlZoN4NPyJfXcaWCcuRnkOts2dWGrxGARtgfKhxo
+ jUDFBFFIYWWJ5tqZ6yyXY+ZE68arpKmo8MQu71ACZGEwHBzvRSA54QtDU/CFMf06GyEv
+ W++yGi7aZm2+mm6Ky6frmAS50/9ANxAsy/9Grs3nbUc7M1MnV+RxH1xPIpmSItSoKbEU
+ P9sOOMUGWz21Rs/jcbSksOTkRlgy/6qKpWA5kmO7GOL3cXuXov3Vv7PSJsdZQMI/vwnO
+ /trjAVgTE3lvo2L0dIuscdNixw3mpFTe8f1DJa8b64jTaDfmjw8SycRhyBWoSqJi4xH5
+ bz9Q==
+X-Gm-Message-State: ACrzQf07uiDfwe4we1APbrrcfHmXs80m1I8P8+wyAvOEZWGyQ5wZRmax
+ zj1pIQgi4kh4oXHIfwqjgfoAw0Md196iHL6M4dxF8BMheH0yrN292nyjr5Tz4yaECBL8bf0j3UU
+ xua04iHaBB/BeMbk=
+X-Received: by 2002:a05:600c:4e06:b0:3c6:ce02:ece4 with SMTP id
+ b6-20020a05600c4e0600b003c6ce02ece4mr1091088wmq.58.1666082492180; 
+ Tue, 18 Oct 2022 01:41:32 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7exqulEdovouNbQ3zyQvsX7awBZ32TjGn8+gMe1ZOFdYHrSQ0ue69qec5mfrhOfKWed+pjEQ==
+X-Received: by 2002:a05:600c:4e06:b0:3c6:ce02:ece4 with SMTP id
+ b6-20020a05600c4e0600b003c6ce02ece4mr1091070wmq.58.1666082491940; 
+ Tue, 18 Oct 2022 01:41:31 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ e9-20020adffc49000000b002206203ed3dsm10429416wrs.29.2022.10.18.01.41.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Oct 2022 01:41:31 -0700 (PDT)
+Date: Tue, 18 Oct 2022 09:41:29 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>
+Subject: Re: [PATCH v2] nbd/client: Use smarter assert
+Message-ID: <Y05muTwPNKfZSDkB@work-vm>
+References: <20221017191207.1255807-1-eblake@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.3.3
-To: Stefano Stabellini <sstabellini@kernel.org>
-Cc: Vikram Garhwal <vikram.garhwal@amd.com>, qemu-devel@nongnu.org,
- stefano.stabellini@amd.com, Peter Maydell <peter.maydell@linaro.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>
-References: <20221015050750.4185-1-vikram.garhwal@amd.com>
- <20221015050750.4185-11-vikram.garhwal@amd.com>
- <3e504b1b-197d-b77b-16e1-86530eb3d64c@xen.org>
- <alpine.DEB.2.22.394.2210171345450.2351079@ubuntu-linux-20-04-desktop>
-From: Julien Grall <julien@xen.org>
-Subject: Re: [PATCH v1 10/12] hw/arm: introduce xenpv machine
-In-Reply-To: <alpine.DEB.2.22.394.2210171345450.2351079@ubuntu-linux-20-04-desktop>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=104.130.215.37; envelope-from=julien@xen.org;
- helo=mail.xenproject.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221017191207.1255807-1-eblake@redhat.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,54 +101,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Stefano,
-
-On 18/10/2022 02:26, Stefano Stabellini wrote:
-> On Sun, 16 Oct 2022, Julien Grall wrote:
->> Hi,
->>
->> There seem to be some missing patches on xen-devel (including the cover
->> letter). Is that expected?
->>
->> On 15/10/2022 06:07, Vikram Garhwal wrote:
->>> Add a new machine xenpv which creates a IOREQ server to register/connect
->>> with
->>> Xen Hypervisor.
->>
->> I don't like the name 'xenpv' because it doesn't convey the fact that some of
->> the HW may be emulated rather than para-virtualized. In fact one may only want
->> to use for emulating devices.
->>
->> Potential name would be 'xen-arm' or re-using 'virt' but with 'accel=xen' to
->> select a Xen layout.
+* Eric Blake (eblake@redhat.com) wrote:
+> Assigning strlen() to a uint32_t and then asserting that it isn't too
+> large doesn't catch the case of an input string 4G in length.
+> Thankfully, the incoming strings can never be that large: if the
+> export name or query is reflecting a string the client got from the
+> server, we already guarantee that we dropped the NBD connection if the
+> server sent more than 32M in a single reply to our NBD_OPT_* request;
+> if the export name is coming from qemu, nbd_receive_negotiate()
+> asserted that strlen(info->name) <= NBD_MAX_STRING_SIZE; and
+> similarly, a query string via x->dirty_bitmap coming from the user was
+> bounds-checked in either qemu-nbd or by the limitations of QMP.
+> Still, it doesn't hurt to be more explicit in how we write our
+> assertions to not have to analyze whether inadvertent wraparound is
+> possible.
 > 
-> The benefit of 'xenpv' is that it doesn't require any changes to libxl.
+> Fixes: 93676c88 ("nbd: Don't send oversize strings", v4.2.0)
+> Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Eric Blake <eblake@redhat.com>
 
-I am quite surprised. Looking at the code, it seems to work more by 
-chance than it is intentional as the code is gated by 
-libxl__need_xenpv_qemu(). So it would not start if there were no 
-emulated devices.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-> It is even backward compatible so it could be used with an older version
-> of Xen/libxl.
-We don't really gain much here. IOREQ is a tech preview and anyone that 
-wants to try it should really use the latest Xen.
-
-> Backward compatibility aside, if we come up with a
-> different name then we'll need changes to libxl and to manage those
-> changes. For instance, if we use 'xen-arm' that would mean we would need
-> to handle per-arch QEMU machine names.
-
-Right, so the main argument here is for simplicity in libxl
-Looking at how 'xenpv' is built, this is really expected to deal with PV 
-backend rather than emulated device. I do expect some changes as we go 
-along to be able to add emulated device.
-
-Furthermore, libxl is not the only toolstack out. So I am not convinced 
-this is a good argument to keep the name the same.
-
-Cheers,
-
+> ---
+> 
+> v2: update subject line and commit message to reflect file being
+> touched; adjust a second nearby assertion with the same issue
+> 
+>  nbd/client.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/nbd/client.c b/nbd/client.c
+> index 30d5383cb1..90a6b7b38b 100644
+> --- a/nbd/client.c
+> +++ b/nbd/client.c
+> @@ -658,11 +658,11 @@ static int nbd_send_meta_query(QIOChannel *ioc, uint32_t opt,
+>      char *p;
+> 
+>      data_len = sizeof(export_len) + export_len + sizeof(queries);
+> -    assert(export_len <= NBD_MAX_STRING_SIZE);
+> +    assert(strlen(export) <= NBD_MAX_STRING_SIZE);
+>      if (query) {
+>          query_len = strlen(query);
+>          data_len += sizeof(query_len) + query_len;
+> -        assert(query_len <= NBD_MAX_STRING_SIZE);
+> +        assert(strlen(query) <= NBD_MAX_STRING_SIZE);
+>      } else {
+>          assert(opt == NBD_OPT_LIST_META_CONTEXT);
+>      }
+> -- 
+> 2.37.3
+> 
 -- 
-Julien Grall
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
