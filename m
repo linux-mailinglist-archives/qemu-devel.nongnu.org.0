@@ -2,89 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2048D602E1D
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 16:15:42 +0200 (CEST)
-Received: from localhost ([::1]:33968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC315602ECB
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 16:50:51 +0200 (CEST)
+Received: from localhost ([::1]:38906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oknNd-0003Zx-1q
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 10:15:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55392)
+	id 1oknve-0006Jh-Pg
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 10:50:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1okmjE-0005Kx-La
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 09:34:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49248)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1okmj9-0005Tw-Nw
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 09:33:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666100030;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8XKBrZnEXl7y7qau6rYYfoKI0WeRGGmOfcj2rNTCRGw=;
- b=MLlxtDDlN/aOeXqgtINJV0s3Yj6KanK0RjPDW5Sv84scJRHfnukUwpA86f25TyTpv+NtEa
- 1RItWau4z8KdlctuuCvSLZAk4hgyq++Zhu3x992OhEu9rccx1e20EHu0OPc/M06VFdf+XY
- J1pvA/zrdjjzunU/dDe5QmRY7LQBZ7o=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-528-F5mwxT26NpWL-pnXFDJcQA-1; Tue, 18 Oct 2022 09:33:49 -0400
-X-MC-Unique: F5mwxT26NpWL-pnXFDJcQA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- y14-20020a056402440e00b0044301c7ccd9so11694691eda.19
- for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 06:33:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
+ id 1okmrl-00059j-RP
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 09:42:45 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:37710)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
+ id 1okmrT-0007FV-Qx
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 09:42:44 -0400
+Received: by mail-pf1-x429.google.com with SMTP id 3so14111073pfw.4
+ for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 06:42:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=TQSORsKSMngPJb5f/eC6Hu6kpkY5kYXJ98QHFM8UvxY=;
+ b=ZHxxlG3UTEot3sPjKtvw1X3aBdRbEmIooxBSsM63jzfeOELeKLeWEK8Ka0UBZMDOP+
+ akvRFs76C2wKq91BFhqgTb5HB703LMV7esd/A+wWslFPM0+sKw9GkKbhOLqB+y2xkhr8
+ xAw55/tP2EjBapVx7JcnOuoy3rb21J87PUbxaFqakG14s9yKfbb31M3qi5ybSq2mRACM
+ jSitk4irsc/WL0t07xPDMeWHTF1Fx+OZSUwfySvO4jPCavdKRxOz8qiV/i/KYM1y4DB8
+ jWL9urfkjvvcFCgxaCtIJ6pE7MoPjXcItlLTszbdaWP+IhZBfYH0+bbwgZYx0bdSzYu+
+ tT2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8XKBrZnEXl7y7qau6rYYfoKI0WeRGGmOfcj2rNTCRGw=;
- b=xyjTGaSnhc+HdSae8t2gNrScssAlm5swzVyG13cvcbm9i10yPGaNOCH674na1t7u6E
- 4bcFfRqdxEHrNd1yvom5ZYFicfMVYLn9Fq0+J7T2FrynM/iJK6hRymO63aMUquwxu8l8
- 332LLtNZ7vpROVttSiW0iuqTUDeJDLUk3A5VUZO+24tkC2nJx287BzKXNlC3OdWZ747O
- g6UlbNlMROYQPnAz8of6Ox8YslxM4a2093x8bZ/fTlI3kXW7RYGVShl+yTQuFcngNZx3
- LxFLqYfTwcn2QzLsak95cRfozwnttKZejVuazOqQ848EHBzg+LOOS96B1WpIUuTqUtF5
- Ow9w==
-X-Gm-Message-State: ACrzQf1N5hR0zSCjQuep3o36x4iCjU6tCjWE6xzhl04dxhTNGmmzkw8l
- lihv7AF17kf974lG39tI0utY/e+p3TbtSJVjFmP6vg6f0i49IK9znnGzkml7FCPx89tTN35hsCc
- FCgz6RbR5rrllkMFFyVfOoTA5ZSqBQVx6+5MDkn/9N6bDyq2roSxWVfWJr6qlHoQcf2I=
-X-Received: by 2002:a17:906:da85:b0:741:40a7:d08d with SMTP id
- xh5-20020a170906da8500b0074140a7d08dmr2582733ejb.263.1666100025939; 
- Tue, 18 Oct 2022 06:33:45 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4xFq5kvtL0r31NZVVSU1k8HcmtmpEmdwQKW0OkWqSxGU3zec8uXfwrJwDm3aLVf/MYk1E0EQ==
-X-Received: by 2002:a17:906:da85:b0:741:40a7:d08d with SMTP id
- xh5-20020a170906da8500b0074140a7d08dmr2582014ejb.263.1666100014772; 
- Tue, 18 Oct 2022 06:33:34 -0700 (PDT)
-Received: from avogadro.local ([2001:b07:6468:f312:2f4b:62da:3159:e077])
- by smtp.gmail.com with ESMTPSA id
- v1-20020a1709060b4100b0078d3a075525sm7540406ejg.56.2022.10.18.06.33.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Oct 2022 06:33:32 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 52/53] target/i386: move 3DNow to the new decoder
-Date: Tue, 18 Oct 2022 15:30:41 +0200
-Message-Id: <20221018133042.856368-53-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221018133042.856368-1-pbonzini@redhat.com>
-References: <20221018133042.856368-1-pbonzini@redhat.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=TQSORsKSMngPJb5f/eC6Hu6kpkY5kYXJ98QHFM8UvxY=;
+ b=E5cLbFcHlzn0GCmNmuj+jxW5YF+xuNNafTFg8cfKBTzbHhJGpzBZB70fJSZvWKrzff
+ rn8WU1NpPuD2MJGVhrenqC5sv+4tNlEHanys9drHlyuAUtFpKLHzByuKKYT5EFGYnvrc
+ e0IwlrAHRDkHhK/muVW4LVltce/iJahR8ITYJwrd3y1LsHvcZK5g+yalks/yKZCWNFYN
+ uE8ASqsji+MC9Tf1JYt0jjhnun9gHYQ0+qnzgd1PC9T3WCl7waTbvWS7dqtaPksrLcC0
+ uCJKoXzSoY+RVDN39JIeqJTQYEkhR+kW9hS8ff2wUEm8uRfQ83bftXA9NbybYHuRr7qq
+ ZurQ==
+X-Gm-Message-State: ACrzQf248FdtF4HpdfASWPXW4L9SBvPAv0szZ/qeEwUAM0UqBRe+SCvF
+ gnh2Ptj3PIv6mY6a3xLYRZrUEIpGy7JC/dZesh31Bg==
+X-Google-Smtp-Source: AMsMyM457hPoLFIJ8lUjGLgHK/+h3GgdmiyyuIPyEtfxcbOdN4bX0W7oNp+dFIXy83RpDOunf04FJy/8XBLnfxpoQmE=
+X-Received: by 2002:a63:88c7:0:b0:462:79de:dc75 with SMTP id
+ l190-20020a6388c7000000b0046279dedc75mr2721715pgd.458.1666100542751; Tue, 18
+ Oct 2022 06:42:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+ <de680280-f6b1-9337-2ae4-4b2faf2b823b@suse.cz>
+ <20221017161955.t4gditaztbwijgcn@box.shutemov.name>
+ <c63ad0cd-d517-0f1e-59e9-927d8ae15a1a@amd.com>
+ <20221017215640.hobzcz47es7dq2bi@box.shutemov.name>
+In-Reply-To: <20221017215640.hobzcz47es7dq2bi@box.shutemov.name>
+From: Vishal Annapurve <vannapurve@google.com>
+Date: Tue, 18 Oct 2022 19:12:10 +0530
+Message-ID: <CAGtprH8xEdgATjQdhi2b_KqUuSOZHUM-Lh+O-ZtcFKbHf2_75g@mail.gmail.com>
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+To: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: "Gupta, Pankaj" <pankaj.gupta@amd.com>, Vlastimil Babka <vbabka@suse.cz>, 
+ Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, 
+ Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, 
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>, 
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org, 
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com, 
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com, 
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>, 
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com, 
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=vannapurve@google.com; helo=mail-pf1-x429.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01,
+ USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,317 +112,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds another kind of weirdness when you thought you had seen it all:
-an opcode byte that comes _after_ the address, not before.  It's not
-worth adding a new X86_SPECIAL_* constant for it, but it's actually
-not unlike VCMP; so, forgive me for exploiting the similarity and just
-deciding to dispatch to the right gen_helper_* call in a single code
-generation function.
+On Tue, Oct 18, 2022 at 3:27 AM Kirill A . Shutemov
+<kirill.shutemov@linux.intel.com> wrote:
+>
+> On Mon, Oct 17, 2022 at 06:39:06PM +0200, Gupta, Pankaj wrote:
+> > On 10/17/2022 6:19 PM, Kirill A . Shutemov wrote:
+> > > On Mon, Oct 17, 2022 at 03:00:21PM +0200, Vlastimil Babka wrote:
+> > > > On 9/15/22 16:29, Chao Peng wrote:
+> > > > > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> > > > >
+> > > > > KVM can use memfd-provided memory for guest memory. For normal userspace
+> > > > > accessible memory, KVM userspace (e.g. QEMU) mmaps the memfd into its
+> > > > > virtual address space and then tells KVM to use the virtual address to
+> > > > > setup the mapping in the secondary page table (e.g. EPT).
+> > > > >
+> > > > > With confidential computing technologies like Intel TDX, the
+> > > > > memfd-provided memory may be encrypted with special key for special
+> > > > > software domain (e.g. KVM guest) and is not expected to be directly
+> > > > > accessed by userspace. Precisely, userspace access to such encrypted
+> > > > > memory may lead to host crash so it should be prevented.
+> > > > >
+> > > > > This patch introduces userspace inaccessible memfd (created with
+> > > > > MFD_INACCESSIBLE). Its memory is inaccessible from userspace through
+> > > > > ordinary MMU access (e.g. read/write/mmap) but can be accessed via
+> > > > > in-kernel interface so KVM can directly interact with core-mm without
+> > > > > the need to map the memory into KVM userspace.
+> > > > >
+> > > > > It provides semantics required for KVM guest private(encrypted) memory
+> > > > > support that a file descriptor with this flag set is going to be used as
+> > > > > the source of guest memory in confidential computing environments such
+> > > > > as Intel TDX/AMD SEV.
+> > > > >
+> > > > > KVM userspace is still in charge of the lifecycle of the memfd. It
+> > > > > should pass the opened fd to KVM. KVM uses the kernel APIs newly added
+> > > > > in this patch to obtain the physical memory address and then populate
+> > > > > the secondary page table entries.
+> > > > >
+> > > > > The userspace inaccessible memfd can be fallocate-ed and hole-punched
+> > > > > from userspace. When hole-punching happens, KVM can get notified through
+> > > > > inaccessible_notifier it then gets chance to remove any mapped entries
+> > > > > of the range in the secondary page tables.
+> > > > >
+> > > > > The userspace inaccessible memfd itself is implemented as a shim layer
+> > > > > on top of real memory file systems like tmpfs/hugetlbfs but this patch
+> > > > > only implemented tmpfs. The allocated memory is currently marked as
+> > > > > unmovable and unevictable, this is required for current confidential
+> > > > > usage. But in future this might be changed.
+> > > > >
+> > > > > Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> > > > > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > > > > ---
+> > > >
+> > > > ...
+> > > >
+> > > > > +static long inaccessible_fallocate(struct file *file, int mode,
+> > > > > +                                  loff_t offset, loff_t len)
+> > > > > +{
+> > > > > +       struct inaccessible_data *data = file->f_mapping->private_data;
+> > > > > +       struct file *memfd = data->memfd;
+> > > > > +       int ret;
+> > > > > +
+> > > > > +       if (mode & FALLOC_FL_PUNCH_HOLE) {
+> > > > > +               if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
+> > > > > +                       return -EINVAL;
+> > > > > +       }
+> > > > > +
+> > > > > +       ret = memfd->f_op->fallocate(memfd, mode, offset, len);
+> > > > > +       inaccessible_notifier_invalidate(data, offset, offset + len);
+> > > >
+> > > > Wonder if invalidate should precede the actual hole punch, otherwise we open
+> > > > a window where the page tables point to memory no longer valid?
+> > >
+> > > Yes, you are right. Thanks for catching this.
+> >
+> > I also noticed this. But then thought the memory would be anyways zeroed
+> > (hole punched) before this call?
+>
+> Hole punching can free pages, given that offset/len covers full page.
+>
+> --
+>   Kiryl Shutsemau / Kirill A. Shutemov
 
-In fact, the old decoder had a bug where s->rip_offset should have
-been set to 1 for 3DNow! instructions, and it's fixed now.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/helper.h             |  1 -
- target/i386/tcg/decode-new.c.inc | 10 +++++
- target/i386/tcg/decode-new.h     |  1 +
- target/i386/tcg/emit.c.inc       | 61 +++++++++++++++++++++++++++
- target/i386/tcg/fpu_helper.c     |  6 ---
- target/i386/tcg/translate.c      | 71 +-------------------------------
- 6 files changed, 74 insertions(+), 76 deletions(-)
-
-diff --git a/target/i386/helper.h b/target/i386/helper.h
-index a2c2c085a3..88143b2a24 100644
---- a/target/i386/helper.h
-+++ b/target/i386/helper.h
-@@ -212,7 +212,6 @@ DEF_HELPER_2(ldmxcsr, void, env, i32)
- DEF_HELPER_1(update_mxcsr, void, env)
- DEF_HELPER_1(enter_mmx, void, env)
- DEF_HELPER_1(emms, void, env)
--DEF_HELPER_3(movq, void, env, ptr, ptr)
- 
- #define SHIFT 0
- #include "ops_sse_header.h"
-diff --git a/target/i386/tcg/decode-new.c.inc b/target/i386/tcg/decode-new.c.inc
-index 5f4268bdfb..9e43de6827 100644
---- a/target/i386/tcg/decode-new.c.inc
-+++ b/target/i386/tcg/decode-new.c.inc
-@@ -779,6 +779,14 @@ static void decode_0FE6(DisasContext *s, CPUX86State *env, X86OpEntry *entry, ui
- }
- 
- static const X86OpEntry opcodes_0F[256] = {
-+    [0x0E] = X86_OP_ENTRY0(EMMS,                              cpuid(3DNOW)), /* femms */
-+    /*
-+     * 3DNow!'s opcode byte comes *after* modrm and displacements, making it
-+     * more like an Ib operand.  Dispatch to the right helper in a single gen_*
-+     * function.
-+     */
-+    [0x0F] = X86_OP_ENTRY3(3dnow,       P,q, Q,q, I,b,        cpuid(3DNOW)),
-+
-     [0x10] = X86_OP_GROUP0(0F10),
-     [0x11] = X86_OP_GROUP0(0F11),
-     [0x12] = X86_OP_GROUP0(0F12),
-@@ -1364,6 +1372,8 @@ static bool has_cpuid_feature(DisasContext *s, X86CPUIDFeature cpuid)
-     case X86_FEAT_AVX:
-         return (s->cpuid_ext_features & CPUID_EXT_AVX);
- 
-+    case X86_FEAT_3DNOW:
-+        return (s->cpuid_ext2_features & CPUID_EXT2_3DNOW);
-     case X86_FEAT_SSE4A:
-         return (s->cpuid_ext3_features & CPUID_EXT3_SSE4A);
- 
-diff --git a/target/i386/tcg/decode-new.h b/target/i386/tcg/decode-new.h
-index 2f0b0e4cfd..f159c26850 100644
---- a/target/i386/tcg/decode-new.h
-+++ b/target/i386/tcg/decode-new.h
-@@ -96,6 +96,7 @@ typedef enum X86OpSize {
- 
- typedef enum X86CPUIDFeature {
-     X86_FEAT_None,
-+    X86_FEAT_3DNOW,
-     X86_FEAT_ADX,
-     X86_FEAT_AES,
-     X86_FEAT_AVX,
-diff --git a/target/i386/tcg/emit.c.inc b/target/i386/tcg/emit.c.inc
-index d7c2290db1..63af60ba65 100644
---- a/target/i386/tcg/emit.c.inc
-+++ b/target/i386/tcg/emit.c.inc
-@@ -19,6 +19,7 @@
-  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-  */
- 
-+typedef void (*SSEFunc_0_epp)(TCGv_ptr env, TCGv_ptr reg_a, TCGv_ptr reg_b);
- typedef void (*SSEFunc_0_epppti)(TCGv_ptr env, TCGv_ptr reg_a, TCGv_ptr reg_b,
-                                  TCGv_ptr reg_c, TCGv a0, TCGv_i32 scale);
- 
-@@ -326,6 +327,66 @@ static void gen_store_sse(DisasContext *s, X86DecodedInsn *decode, int src_ofs)
-     }
- }
- 
-+static void gen_helper_pavgusb(TCGv_ptr env, TCGv_ptr reg_a, TCGv_ptr reg_b)
-+{
-+    gen_helper_pavgb_mmx(env, reg_a, reg_a, reg_b);
-+}
-+
-+#define FN_3DNOW_MOVE ((SSEFunc_0_epp) (uintptr_t) 1)
-+static const SSEFunc_0_epp fns_3dnow[] = {
-+    [0x0c] = gen_helper_pi2fw,
-+    [0x0d] = gen_helper_pi2fd,
-+    [0x1c] = gen_helper_pf2iw,
-+    [0x1d] = gen_helper_pf2id,
-+    [0x8a] = gen_helper_pfnacc,
-+    [0x8e] = gen_helper_pfpnacc,
-+    [0x90] = gen_helper_pfcmpge,
-+    [0x94] = gen_helper_pfmin,
-+    [0x96] = gen_helper_pfrcp,
-+    [0x97] = gen_helper_pfrsqrt,
-+    [0x9a] = gen_helper_pfsub,
-+    [0x9e] = gen_helper_pfadd,
-+    [0xa0] = gen_helper_pfcmpgt,
-+    [0xa4] = gen_helper_pfmax,
-+    [0xa6] = FN_3DNOW_MOVE, /* PFRCPIT1; no need to actually increase precision */
-+    [0xa7] = FN_3DNOW_MOVE, /* PFRSQIT1 */
-+    [0xb6] = FN_3DNOW_MOVE, /* PFRCPIT2 */
-+    [0xaa] = gen_helper_pfsubr,
-+    [0xae] = gen_helper_pfacc,
-+    [0xb0] = gen_helper_pfcmpeq,
-+    [0xb4] = gen_helper_pfmul,
-+    [0xb7] = gen_helper_pmulhrw_mmx,
-+    [0xbb] = gen_helper_pswapd,
-+    [0xbf] = gen_helper_pavgusb,
-+};
-+
-+static void gen_3dnow(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-+{
-+    uint8_t b = decode->immediate;
-+    SSEFunc_0_epp fn = b < ARRAY_SIZE(fns_3dnow) ? fns_3dnow[b] : NULL;
-+
-+    if (!fn) {
-+        gen_illegal_opcode(s);
-+        return;
-+    }
-+    if (s->flags & HF_TS_MASK) {
-+        gen_NM_exception(s);
-+        return;
-+    }
-+    if (s->flags & HF_EM_MASK) {
-+        gen_illegal_opcode(s);
-+        return;
-+    }
-+
-+    gen_helper_enter_mmx(cpu_env);
-+    if (fn == FN_3DNOW_MOVE) {
-+       tcg_gen_ld_i64(s->tmp1_i64, cpu_env, decode->op[1].offset);
-+       tcg_gen_st_i64(s->tmp1_i64, cpu_env, decode->op[0].offset);
-+    } else {
-+       fn(cpu_env, OP_PTR0, OP_PTR1);
-+    }
-+}
-+
- /*
-  * 00 = v*ps Vps, Hps, Wpd
-  * 66 = v*pd Vpd, Hpd, Wps
-diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
-index 7670739abe..a6a90a1817 100644
---- a/target/i386/tcg/fpu_helper.c
-+++ b/target/i386/tcg/fpu_helper.c
-@@ -3126,12 +3126,6 @@ void helper_emms(CPUX86State *env)
-     *(uint32_t *)(env->fptags + 4) = 0x01010101;
- }
- 
--/* XXX: suppress */
--void helper_movq(CPUX86State *env, void *d, void *s)
--{
--    *(uint64_t *)d = *(uint64_t *)s;
--}
--
- #define SHIFT 0
- #include "ops_sse.h"
- 
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index cf895e4132..e9af467d6f 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -3011,7 +3011,6 @@ static bool first = true; static unsigned long limit;
- #define SSE_OPF_CMP       (1 << 1) /* does not write for first operand */
- #define SSE_OPF_BLENDV    (1 << 2) /* blendv* instruction */
- #define SSE_OPF_SPECIAL   (1 << 3) /* magic */
--#define SSE_OPF_3DNOW     (1 << 4) /* 3DNow! instruction */
- #define SSE_OPF_MMX       (1 << 5) /* MMX/integer/AVX2 instruction */
- #define SSE_OPF_SCALAR    (1 << 6) /* Has SSE scalar variants */
- #define SSE_OPF_SHUF      (1 << 9) /* pshufx/shufpx */
-@@ -3045,13 +3044,9 @@ struct SSEOpHelper_table1 {
-     SSEFuncs fn[4];
- };
- 
--#define SSE_3DNOW { SSE_OPF_3DNOW }
- #define SSE_SPECIAL { SSE_OPF_SPECIAL }
- 
- static const struct SSEOpHelper_table1 sse_op_table1[256] = {
--    /* 3DNow! extensions */
--    [0x0e] = SSE_SPECIAL, /* femms */
--    [0x0f] = SSE_3DNOW, /* pf... (sse_op_table5) */
-     /* pure SSE operations */
-     [0x10] = SSE_SPECIAL, /* movups, movupd, movss, movsd */
-     [0x11] = SSE_SPECIAL, /* movups, movupd, movss, movsd */
-@@ -3260,38 +3255,6 @@ static const SSEFunc_0_eppp sse_op_table4[8][4] = {
- };
- #undef SSE_CMP
- 
--static void gen_helper_pavgusb(TCGv_ptr env, TCGv_ptr reg_a, TCGv_ptr reg_b)
--{
--    gen_helper_pavgb_mmx(env, reg_a, reg_a, reg_b);
--}
--
--static const SSEFunc_0_epp sse_op_table5[256] = {
--    [0x0c] = gen_helper_pi2fw,
--    [0x0d] = gen_helper_pi2fd,
--    [0x1c] = gen_helper_pf2iw,
--    [0x1d] = gen_helper_pf2id,
--    [0x8a] = gen_helper_pfnacc,
--    [0x8e] = gen_helper_pfpnacc,
--    [0x90] = gen_helper_pfcmpge,
--    [0x94] = gen_helper_pfmin,
--    [0x96] = gen_helper_pfrcp,
--    [0x97] = gen_helper_pfrsqrt,
--    [0x9a] = gen_helper_pfsub,
--    [0x9e] = gen_helper_pfadd,
--    [0xa0] = gen_helper_pfcmpgt,
--    [0xa4] = gen_helper_pfmax,
--    [0xa6] = gen_helper_movq, /* pfrcpit1; no need to actually increase precision */
--    [0xa7] = gen_helper_movq, /* pfrsqit1 */
--    [0xaa] = gen_helper_pfsubr,
--    [0xae] = gen_helper_pfacc,
--    [0xb0] = gen_helper_pfcmpeq,
--    [0xb4] = gen_helper_pfmul,
--    [0xb6] = gen_helper_movq, /* pfrcpit2 */
--    [0xb7] = gen_helper_pmulhrw_mmx,
--    [0xbb] = gen_helper_pswapd,
--    [0xbf] = gen_helper_pavgusb,
--};
--
- struct SSEOpHelper_table6 {
-     SSEFuncs fn[2];
-     uint32_t ext_mask;
-@@ -3443,7 +3406,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
-         b1 = 0;
-     sse_op_flags = sse_op_table1[b].flags;
-     sse_op_fn = sse_op_table1[b].fn[b1];
--    if ((sse_op_flags & (SSE_OPF_SPECIAL | SSE_OPF_3DNOW)) == 0
-+    if ((sse_op_flags & SSE_OPF_SPECIAL) == 0
-             && !sse_op_fn.op1) {
-         goto unknown_op;
-     }
-@@ -3457,11 +3420,6 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
-             is_xmm = 1;
-         }
-     }
--    if (sse_op_flags & SSE_OPF_3DNOW) {
--        if (!(s->cpuid_ext2_features & CPUID_EXT2_3DNOW)) {
--            goto illegal_op;
--        }
--    }
-     /* simple MMX/SSE operation */
-     if (s->flags & HF_TS_MASK) {
-         gen_exception(s, EXCP07_PREX);
-@@ -3477,15 +3435,6 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
-         && (b != 0x38 && b != 0x3a)) {
-         goto unknown_op;
-     }
--    if (b == 0x0e) {
--        if (!(s->cpuid_ext2_features & CPUID_EXT2_3DNOW)) {
--            /* If we were fully decoding this we might use illegal_op.  */
--            goto unknown_op;
--        }
--        /* femms */
--        gen_helper_emms(cpu_env);
--        return;
--    }
-     if (b == 0x77) {
-         /* emms */
-         gen_helper_emms(cpu_env);
-@@ -4643,18 +4592,6 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b)
-                 rm = (modrm & 7);
-                 op2_offset = offsetof(CPUX86State,fpregs[rm].mmx);
-             }
--            if (sse_op_flags & SSE_OPF_3DNOW) {
--                /* 3DNow! data insns */
--                val = x86_ldub_code(env, s);
--                SSEFunc_0_epp op_3dnow = sse_op_table5[val];
--                if (!op_3dnow) {
--                    goto unknown_op;
--                }
--                tcg_gen_addi_ptr(s->ptr0, cpu_env, op1_offset);
--                tcg_gen_addi_ptr(s->ptr1, cpu_env, op2_offset);
--                op_3dnow(cpu_env, s->ptr0, s->ptr1);
--                return;
--            }
-         }
- 
- 
-@@ -4783,7 +4720,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
- #endif
-         if (use_new &&
-             (b == 0x138 || b == 0x13a ||
--             (b >= 0x110 && b <= 0x117) ||
-+             (b >= 0x10e && b <= 0x117) ||
-              (b >= 0x128 && b <= 0x12f) ||
-              (b >= 0x150 && b <= 0x17f) ||
-              b == 0x1c2 || (b >= 0x1c4 && b <= 0x1c6) ||
-@@ -8512,10 +8449,6 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
- 
-         set_cc_op(s, CC_OP_POPCNT);
-         break;
--    case 0x10e ... 0x10f:
--        /* 3DNow! instructions, ignore prefixes */
--        s->prefix &= ~(PREFIX_REPZ | PREFIX_REPNZ | PREFIX_DATA);
--        /* fall through */
-     case 0x110 ... 0x117:
-     case 0x128 ... 0x12f:
-     case 0x138 ... 0x13a:
--- 
-2.37.3
-
+I think moving this notifier_invalidate before fallocate may not solve
+the problem completely. Is it possible that between invalidate and
+fallocate, KVM tries to handle the page fault for the guest VM from
+another vcpu and uses the pages to be freed to back gpa ranges? Should
+hole punching here also update mem_attr first to say that KVM should
+consider the corresponding gpa ranges to be no more backed by
+inaccessible memfd?
 
