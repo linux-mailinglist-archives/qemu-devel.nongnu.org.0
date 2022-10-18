@@ -2,86 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A87D46023BA
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 07:25:36 +0200 (CEST)
-Received: from localhost ([::1]:41584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 682EC6024A4
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 08:41:36 +0200 (CEST)
+Received: from localhost ([::1]:60426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okf6d-0006vc-9V
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 01:25:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53014)
+	id 1okgI9-00011Q-LJ
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 02:41:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1okf3y-0004uG-64
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 01:22:51 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:55836)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1okfjj-0007dW-OU
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 02:06:11 -0400
+Received: from mail-il1-x133.google.com ([2607:f8b0:4864:20::133]:37713)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1okf3u-00007a-Ha
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 01:22:49 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id gf8so12937307pjb.5
- for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 22:22:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=CmfNFyK2GEYB504DNt4vCfQejiDdqFldsKIUHhJyDj8=;
- b=sIx8WMXbBTcxNakqbBATQKWCr/hNdsizejshAQMx2eQbGkM8G6KZwN349MVBbPX7em
- LMMw0qmJ5HGrzPDZ+TOjsyGr7xJhCWB3kfPPPDSV4owH9k4QQSlg5UtLtt4hfXTR3yfl
- iFIbnEbxAN/pFwOgY/PIWEz+kpVxtA4c2bq1wkF4+a0vu7tKyIyBgjc2tmKQq0YullZc
- vBzjwKuySkJD2Osv/bMUZIX6VL435emAzSnU1F5M56xCAsZ8GIq+p7Hh4AZx7hNKY6d6
- eU1nxwWEAPvtx/9dMhFEWqing80MvaRGOQ4heCXq3FAOhc95PBf76dtreXRSirrYlUY7
- zenA==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1okfjX-0006Gk-5W
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 02:05:56 -0400
+Received: by mail-il1-x133.google.com with SMTP id 8so6976816ilj.4
+ for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 23:05:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=gcQvgbhx0qt7pa6W5Oz0mXkhhAvpCTYW9MZ4Lpc/vsU=;
+ b=cZzP0iWYfBdpoelbxjjHwg8kfgGLFfDRbZYRJ+tuq342+yXYxm4C32nTb6lNJ+RQ04
+ 8ZjSfOu6ySx0lPZlpSA908hKPbwIav7JuRoBLaaU7f9AaM5GKA8R9IEWddP5EhAwn7pV
+ 0xdwJB4Qf5AVq9E/6g2O0Os3AygLyvSVec6PM4rCRkYlJ9+zfitODTw5wVV0zng9ffQK
+ Pvt1oYDKNJYtSqgvVLEzJgSiBi/oOV8k+zWJf1xb7dAAZ8ATPKVZGpOPuN0Dc5tBt2Ax
+ o0jfSGkyyEafayeMzorncOZKTJjopM77D6/oetI4G3mAsUqur9g5Ic1Z5y5fJW9icXs1
+ Q1cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CmfNFyK2GEYB504DNt4vCfQejiDdqFldsKIUHhJyDj8=;
- b=0qmoH/3zXazYpskyCM4m3ZL7AxnlBqwp6AMNa6R1++nkU0Vsf+wgEEI0RITZHN6E1Y
- WIBLcRFecT75PV6MIdb0R6IoyePiCpZDYHL8dt/p02Q0rnWMsUUL5qRqwzrkB8LCdqlz
- jzQI0ovsV86SfV9Jvh98BfgeyL627QZMxMaOUzCTESNGOPXY96h6YQ4sdgUofGuwHR6+
- aJ8/KW/HF4L7+trah598gPeRnsKgQyq+XEg5vgZIupk0NJAPJV46rFWb8ucFatt/4XKZ
- qZBsBSG0SwKXczW/iR43pIae6i/WssLT/sOGSFvnRu9PVl3DZCDN2ydyxgtUG9HdRYtm
- zSsA==
-X-Gm-Message-State: ACrzQf0EPuCpcNZfs2DWw+yMxMcxMuuzgBiTAFLi/IADF3LI14u8Ooy2
- SCFvIf5wwYqQoNMccode+0sjHQ==
-X-Google-Smtp-Source: AMsMyM5K2weTkudIDghUwe49vxDaiRQHh5ZtGmN7Fmo0tzDH8QQHXPY0WY4TQ1bEm+2/AmqFoTyfqA==
-X-Received: by 2002:a17:903:22d2:b0:17f:7dea:985f with SMTP id
- y18-20020a17090322d200b0017f7dea985fmr1316420plg.68.1666070560457; 
- Mon, 17 Oct 2022 22:22:40 -0700 (PDT)
-Received: from [192.168.1.107] ([149.135.10.35])
- by smtp.gmail.com with ESMTPSA id
- w9-20020a628209000000b0056276519e8fsm1445761pfd.73.2022.10.17.22.22.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Oct 2022 22:22:39 -0700 (PDT)
-Message-ID: <b97a7b1a-f8cd-b0d5-bbde-1a06049281dd@linaro.org>
-Date: Tue, 18 Oct 2022 15:22:22 +1000
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=gcQvgbhx0qt7pa6W5Oz0mXkhhAvpCTYW9MZ4Lpc/vsU=;
+ b=WYqsTcXCn1ZnpvjUGIHTOWW5kVKKP9dkAQJvgaV0GvltIE9Z7UPK0o+4MfU4ftTVk5
+ mHKxIj9IyRq43wclMpy5Roz4O5S+EOeLKgbVcIspKAxMgeVgDMuVMhSJHqSJD+3NLono
+ 6jqQuVJo3jOukGzc7C27kAKXeDU9igslU6y6QHP3PEwpeZ2kdOiCpDvWyUlVEqTcpdm+
+ vW6aRWHjR6ztwTeWjoTBg9kpEg1GbADXuCXdd/acNePlQcRBza9D2UZl+11DRbSdNF+R
+ D/0KIpInnaHlxG86tEWYpllfHoOQeXX+wWzPD9ePkJxbDhKbutJvNPv5B7SnC5K5Aqys
+ 5P6w==
+X-Gm-Message-State: ACrzQf355hVC9cEmvIhwUsek72PuKBKAaT475OTIBt9UzlieR7PXGijM
+ pEIqMf24ip3O/5Oo6gFRhrrEAdWyDqAPJOpYHaXhdg==
+X-Google-Smtp-Source: AMsMyM6j9cglm4P7WBYc5NvSAakP+sVHnPVcmO0RGCnfiOWvLWa9Ak9zFcpwAgV7iK0miI7oUJnVIQFO8VtCQj1Hi2M=
+X-Received: by 2002:a92:2601:0:b0:2fc:48be:e77a with SMTP id
+ n1-20020a922601000000b002fc48bee77amr972287ile.202.1666073143236; Mon, 17 Oct
+ 2022 23:05:43 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: Question about TCG backend correctness
-Content-Language: en-US
-To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org
-References: <4672400c-0084-3bf3-a596-7a42115301f0@linux.alibaba.com>
- <87lepeeno0.fsf@linaro.org>
- <4841b154-bd05-c677-cfb4-46a350ddd0aa@linux.alibaba.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <4841b154-bd05-c677-cfb4-46a350ddd0aa@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20221017234001.53297-1-gregory.price@memverge.com>
+In-Reply-To: <20221017234001.53297-1-gregory.price@memverge.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Tue, 18 Oct 2022 11:35:31 +0530
+Message-ID: <CAARzgwxEO5rr=b_QjiG7RoEdV=9yOgj9gxUxNvuaUnNtUEnhtw@mail.gmail.com>
+Subject: Re: [BUG] hw/i386/pc.c: CXL Fixed Memory Window should not reserve
+ e820 in bios
+To: Gregory Price <gourry.memverge@gmail.com>
+Cc: qemu-devel@nongnu.org, mst@redhat.com, marcel.apfelbaum@gmail.com, 
+ imammedo@redhat.com, jonathan.cameron@huawei.com, linux-cxl@vger.kernel.org, 
+ alison.schofield@intel.com, dave@stgolabs.net, a.manzanares@samsung.com, 
+ bwidawsk@kernel.org, gregory.price@memverge.com, hchkuo@avery-design.com.tw, 
+ cbrowy@avery-design.com, ira.weiny@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2607:f8b0:4864:20::133;
+ envelope-from=ani@anisinha.ca; helo=mail-il1-x133.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,27 +86,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/18/22 01:27, LIU Zhiwei wrote:
-> Maybe I can run RISU on qemu-aarch64(x86) and qemu-aarch64(risc-v) to check the RISC-V 
-> backend.
+On Tue, Oct 18, 2022 at 5:14 AM Gregory Price <gourry.memverge@gmail.com> wrote:
+>
+> Early-boot e820 records will be inserted by the bios/efi/early boot
+> software and be reported to the kernel via insert_resource.  Later, when
+> CXL drivers iterate through the regions again, they will insert another
+> resource and make the RESERVED memory area a child.
 
-This is a good start for debugging a tcg backend. It's not comprehensive, because RISU 
-executes one instruction at a time then raises an exception to check the results.  This 
-means that the tcg optimizer doesn't have much to work with, which means that the tcg 
-backend is not as stressed as it could be.
+I have already sent a patch
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg882012.html .
+When the patch is applied, there would not be any reserved entries
+even with passing E820_RESERVED .
+So this patch needs to be evaluated in the light of the above patch I
+sent. Once you apply my patch, does the issue still exist?
 
->> I've long wanted to have the ability to have TCG unit tests where a
->> virtual processor could be defined for the purpose of directly
->> exercising TCG.
-> 
-> We already have many ISAs as the front end of TCG. Will the virtual processor here be some
-> different?
-
-It wouldn't.  This is my argument against creating a new virtual processor.
-
-I do think we should be better about creating regression tests for bugs fixed, in the form 
-of small focused assembly test cases which get run via check-tcg.
-
-
-r~
+>
+> This RESERVED memory area causes the memory region to become unusable,
+> and as a result attempting to create memory regions with
+>
+>     `cxl create-region ...`
+>
+> Will fail due to the RESERVED area intersecting with the CXL window.
+>
+>
+> During boot the following traceback is observed:
+>
+> 0xffffffff81101650 in insert_resource_expand_to_fit ()
+> 0xffffffff83d964c5 in e820__reserve_resources_late ()
+> 0xffffffff83e03210 in pcibios_resource_survey ()
+> 0xffffffff83e04f4a in pcibios_init ()
+>
+> Which produces a call to reserve the CFMWS area:
+>
+> (gdb) p *new
+> $54 = {start = 0x290000000, end = 0x2cfffffff, name = "Reserved",
+>        flags = 0x200, desc = 0x7, parent = 0x0, sibling = 0x0,
+>        child = 0x0}
+>
+> Later the Kernel parses ACPI tables and reserves the exact same area as
+> the CXL Fixed Memory Window.  The use of `insert_resource_conflict`
+> retains the RESERVED region and makes it a child of the new region.
+>
+> 0xffffffff811016a4 in insert_resource_conflict ()
+>                       insert_resource ()
+> 0xffffffff81a81389 in cxl_parse_cfmws ()
+> 0xffffffff818c4a81 in call_handler ()
+>                       acpi_parse_entries_array ()
+>
+> (gdb) p/x *new
+> $59 = {start = 0x290000000, end = 0x2cfffffff, name = "CXL Window 0",
+>        flags = 0x200, desc = 0x0, parent = 0x0, sibling = 0x0,
+>        child = 0x0}
+>
+> This produces the following output in /proc/iomem:
+>
+> 590000000-68fffffff : CXL Window 0
+>   590000000-68fffffff : Reserved
+>
+> This reserved area causes `get_free_mem_region()` to fail due to a check
+> against `__region_intersects()`.  Due to this reserved area, the
+> intersect check will only ever return REGION_INTERSECTS, which causes
+> `cxl create-region` to always fail.
+>
+> Signed-off-by: Gregory Price <gregory.price@memverge.com>
+> ---
+>  hw/i386/pc.c | 2 --
+>  1 file changed, 2 deletions(-)
+>
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 566accf7e6..5bf5465a21 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -1061,7 +1061,6 @@ void pc_memory_init(PCMachineState *pcms,
+>          hwaddr cxl_size = MiB;
+>
+>          cxl_base = pc_get_cxl_range_start(pcms);
+> -        e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
+>          memory_region_init(mr, OBJECT(machine), "cxl_host_reg", cxl_size);
+>          memory_region_add_subregion(system_memory, cxl_base, mr);
+>          cxl_resv_end = cxl_base + cxl_size;
+> @@ -1077,7 +1076,6 @@ void pc_memory_init(PCMachineState *pcms,
+>                  memory_region_init_io(&fw->mr, OBJECT(machine), &cfmws_ops, fw,
+>                                        "cxl-fixed-memory-region", fw->size);
+>                  memory_region_add_subregion(system_memory, fw->base, &fw->mr);
+> -                e820_add_entry(fw->base, fw->size, E820_RESERVED);
+>                  cxl_fmw_base += fw->size;
+>                  cxl_resv_end = cxl_fmw_base;
+>              }
+> --
+> 2.37.3
+>
 
