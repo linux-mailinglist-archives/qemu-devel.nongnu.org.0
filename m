@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C6C6602C24
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 14:51:49 +0200 (CEST)
-Received: from localhost ([::1]:46828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 722E5602C16
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 14:49:08 +0200 (CEST)
+Received: from localhost ([::1]:38780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okm4S-00076V-4V
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 08:51:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54290)
+	id 1okm1r-0003MJ-1s
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 08:49:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu-daude@linaro.org>)
- id 1okldb-00017h-6z
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 08:24:11 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:44987)
+ (Exim 4.90_1) (envelope-from <chrisfriedt@gmail.com>)
+ id 1oklgk-0003FT-Qy
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 08:27:18 -0400
+Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b]:34516)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu-daude@linaro.org>)
- id 1okldR-0000CN-Nw
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 08:23:56 -0400
-Received: by mail-ej1-x629.google.com with SMTP id w18so31711496ejq.11
- for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 05:23:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4a80rrA4m79gFkPnjEk8AuHwLVgG2dijj6hS8YSip3Q=;
- b=d4Qd/3qI0fUUv5YVsNtIt34R+RoviIfl00MkCqiWAb1Bc0bY2JiS9iGjyyICQL25fG
- bwP5aMltk0nh6JTyY8lxDKXgpYnzcqCEoHMUbMGugphc26nA/hYsBoYG6uoy/WUukBbp
- LYgkhYZZNGUNSXcWfa/29YnVXyz3vbBJ1xKw9lqlWnZAYeRrrITP/9j9aFEpDlNoY3ZT
- TuIeBImaWenh/7VUcUtS2z25LVSm2blVcFLuIJS/iI/idLmaoB0n+T2RK/Z67PMoeMSI
- P4nQgDd9bt+5itnxAEi11I8ltazXexIwwRcEdyNfAxNHB9/5DIdT/17FOHldE5nenV4Y
- Ulag==
+ (Exim 4.90_1) (envelope-from <chrisfriedt@gmail.com>)
+ id 1oklgj-0000y5-1N
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 08:27:18 -0400
+Received: by mail-qt1-x82b.google.com with SMTP id g11so9494520qts.1
+ for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 05:27:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ae8hPehpjUNhf7+xT0HR9r3tNqUK3me++rgVmdi5DaU=;
+ b=D3CqOq9Ec8wvHvNN7Dwlf9G0PKJPJMkJ+580zF8bL2UgTYZbJQ84JwiRVbQSKP9BbZ
+ 0wbdhu6riZh8eSplPwUUPrj9bdcPD2g77ykSfKcmNrJZ6LcUxdJmHgTAZJsUwXr+g7d+
+ BdL1SNmhUVXASCIxdd6aUpqWDTrJBfH77NZQlSBiPvseQ0/Ed0j6TzHMreStLDc2Zw7p
+ j0kSaEZK5qS4xXUzbg+ZEIAWAavswlVmkbb3J6UL8nFPKEle6DeaH+qQ531Xj54oFmm+
+ MT4N2DmBywDTprn5n8EhtcSR+3l4uHCKLs4Wtfw4FnxKCoi1CWeiw6zfBfT355/SQ7Jx
+ JO2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4a80rrA4m79gFkPnjEk8AuHwLVgG2dijj6hS8YSip3Q=;
- b=5e9sD+tsEYF1upd0+NgxcN+HNJBVU3nOJT5Bh9t4+xQ7quM+D5GERpNFAxDQlv4BSE
- 9JLt8hjJ/IBIcbDccA7sQWQ2oPLbIAjHYqZTizi/sjySuwjsC6VthLuKp1OoURYxgS3N
- NTGW5KfjxC++6xG7pL85fVvFkW7cV6fJfoet/+VvGJG90zEmqAvc1t9LIPO8wdB7925Y
- fzqDfKlg+6Ke3iiUvwZEbxFgOmIkxoQka+gSl1zIkwkGcbpAH4O66hM4R69XctQ4hQwT
- v10w8giJPLZTUbw36apzP9cOFVKJMJCzYPoL+4zPy4AITfxT3YcR85JQKYYo+1VsbdMk
- Qq3w==
-X-Gm-Message-State: ACrzQf13kCYRYpu0rTJKnpl3S+x87lA5HbgSXA3JFrVxmZ+IoWoEkC9S
- 5nVdpYw9u7lId1+OtIo52eSzVY7Fyy3typVOMDkRJw==
-X-Google-Smtp-Source: AMsMyM7PaCG6ssJksz70KFzuK7tZUO9W21Cm47PIZ7yW9orf2nAhNv7ahBJ/YSUBM4glxp7Pw5Zhib8Q9Ut8KUjRJAk=
-X-Received: by 2002:a17:907:75f2:b0:78d:49a6:5052 with SMTP id
- jz18-20020a17090775f200b0078d49a65052mr2099099ejc.680.1666095829314; Tue, 18
- Oct 2022 05:23:49 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Ae8hPehpjUNhf7+xT0HR9r3tNqUK3me++rgVmdi5DaU=;
+ b=qVjtjlLpjXv5+qZhomA/KUfDe/c1vBR9zEiajiPwvzv1zYXF7KWEvk/mudLwEwaHyP
+ k+BYd33qOsAr3OywyIcR/HmB1ljFg2Ao8BzAw8RDrFQo5UNp/f1I0xCR0AEK4bwtcyKr
+ oayaYXvua/YyLQhv4HvGJA41NK95W+locFnMDEjeO96ReJd+YBJFTqwUvjLK+Rf3X5Iu
+ PnMzlQNsIXNIECdh1TBPfedySMm7dUiBo4IwvpkT88/QFw7QtPMuA8WMw0YOb+m7mhXa
+ JoYQ1BuSNNYowrDz06vLeS0o7olGiWSez8Gep07zE+5xpEWeM1A7jAGlHUt0vycDsU2d
+ 12Fg==
+X-Gm-Message-State: ACrzQf19QnRbXQbWa5IXeVka0K/szUKKQbUDbxv9x+X3I7XpV5EcgJpa
+ mq5bhiHescwx9KG+BocZlSf+pLz3+1F0zA==
+X-Google-Smtp-Source: AMsMyM7q7FVs9NtxZnUPV+xqQ29YNmW9PMiXe8I6jSeKDF2dNdIh4vJ0ki2sd0qTWsU0RNOD8+mUpg==
+X-Received: by 2002:a05:622a:3c6:b0:35d:4335:f060 with SMTP id
+ k6-20020a05622a03c600b0035d4335f060mr1820442qtx.326.1666096034668; 
+ Tue, 18 Oct 2022 05:27:14 -0700 (PDT)
+Received: from localhost.localdomain ([2001:1970:50d6:9900::a196])
+ by smtp.gmail.com with ESMTPSA id
+ h7-20020a05620a284700b006ecb9dfdd15sm2276248qkp.92.2022.10.18.05.27.12
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Tue, 18 Oct 2022 05:27:13 -0700 (PDT)
+From: Chris Friedt <chrisfriedt@gmail.com>
+X-Google-Original-From: Chris Friedt <cfriedt@meta.com>
+To: qemu-devel@nongnu.org
+Cc: cfriedt@meta.com,
+	jslaby@suse.cz
+Subject: [PATCH v4 1/3] hw: misc: edu: fix 2 off-by-one errors
+Date: Tue, 18 Oct 2022 08:25:49 -0400
+Message-Id: <20221018122551.94567-1-cfriedt@meta.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-References: <20221018062849.3420573-1-armbru@redhat.com>
- <20221018062849.3420573-24-armbru@redhat.com>
- <752bcf6d-d37d-5605-d3bb-8e46c2e4b47c@linaro.org>
- <bdee0038-a29f-e517-0e12-be7a141f37b8@linux.ibm.com>
-In-Reply-To: <bdee0038-a29f-e517-0e12-be7a141f37b8@linux.ibm.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Date: Tue, 18 Oct 2022 14:23:38 +0200
-Message-ID: <CAPMQPEJvED3uYnJHcan7F8G-SdHEo+HTRb0sOx4CVJ-29m5gqw@mail.gmail.com>
-Subject: Re: [PATCH v2 23/28] qapi tpm: Elide redundant has_FOO in generated C
-To: Stefan Berger <stefanb@linux.ibm.com>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- michael.roth@amd.com, jsnow@redhat.com, eblake@redhat.com, 
- Stefan Berger <stefanb@linux.vnet.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=philippe.mathieu-daude@linaro.org; helo=mail-ej1-x629.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
+ envelope-from=chrisfriedt@gmail.com; helo=mail-qt1-x82b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,61 +89,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 18 Oct 2022 at 14:12, Stefan Berger <stefanb@linux.ibm.com> wrote:
-> On 10/18/22 08:01, Philippe Mathieu-Daud=C3=A9 wrote:
-> > On 18/10/22 08:28, Markus Armbruster wrote:
-> >> The has_FOO for pointer-valued FOO are redundant, except for arrays.
-> >> They are also a nuisance to work with.  Recent commit "qapi: Start to
-> >> elide redundant has_FOO in generated C" provided the means to elide
-> >> them step by step.  This is the step for qapi/tpm.json.
-> >>
-> >> Said commit explains the transformation in more detail.  The invariant
-> >> violations mentioned there do not occur here.
-> >>
-> >> Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>
-> >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> >> Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-> >> ---
-> >>   backends/tpm/tpm_passthrough.c | 2 --
-> >>   monitor/hmp-cmds.c             | 8 ++++----
-> >>   scripts/qapi/schema.py         | 1 -
-> >>   3 files changed, 4 insertions(+), 7 deletions(-)
-> >
-> >> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> >> index 8f8bd93df1..378f5b083d 100644
-> >> --- a/monitor/hmp-cmds.c
-> >> +++ b/monitor/hmp-cmds.c
-> >> @@ -885,10 +885,10 @@ void hmp_info_tpm(Monitor *mon, const QDict *qdi=
-ct)
-> >>           case TPM_TYPE_PASSTHROUGH:
-> >>               tpo =3D ti->options->u.passthrough.data;
-> >>               monitor_printf(mon, "%s%s%s%s",
-> >> -                           tpo->has_path ? ",path=3D" : "",
-> >> -                           tpo->has_path ? tpo->path : "",
-> >> -                           tpo->has_cancel_path ? ",cancel-path=3D" :=
- "",
-> >> -                           tpo->has_cancel_path ? tpo->cancel_path : =
-"");
-> >> +                           tpo->path ? ",path=3D" : "",
-> >> +                           tpo->path ?: "",
-> >> +                           tpo->cancel_path ? ",cancel-path=3D" : "",
-> >> +                           tpo->cancel_path ?: "");
-> >
-> > Or simply:
-> >
-> >              monitor_printf(mon, "%s%s",
-> >                             tpo->path ? ",path=3D" : "",
-> >                             tpo->cancel_path ? ",cancel-path=3D" : "");
-> >
->
-> this would never print any path...
+In the case that size1 was zero, because of the explicit
+'end1 > addr' check, the range check would fail and the error
+message would read as shown below. The correct comparison
+is 'end1 >= addr'.
 
-I need more coffee... =3D) Trying to KISS:
+EDU: DMA range 0x40000-0x3ffff out of bounds (0x40000-0x40fff)!
 
-    if (tpo->path) {
-        monitor_printf(mon, ",path=3D%s", tpo->path);
-    }
-    if (tpo->cancel_path) {
-        monitor_printf(mon, ",cancel-path=3D%s", tpo->cancel_path);
-    }
+At the opposite end, in the case that size1 was 4096, within()
+would fail because of the non-inclusive check 'end1 < end2',
+which should have been 'end1 <= end2'. The error message would
+previously say
+
+EDU: DMA range 0x40000-0x40fff out of bounds (0x40000-0x40fff)!
+
+Signed-off-by: Chris Friedt <cfriedt@meta.com>
+---
+ hw/misc/edu.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
+
+diff --git a/hw/misc/edu.c b/hw/misc/edu.c
+index e935c418d4..b3de8d206a 100644
+--- a/hw/misc/edu.c
++++ b/hw/misc/edu.c
+@@ -103,19 +103,18 @@ static void edu_lower_irq(EduState *edu, uint32_t val)
+     }
+ }
+ 
+-static bool within(uint64_t addr, uint64_t start, uint64_t end)
+-{
+-    return start <= addr && addr < end;
+-}
+-
+-static void edu_check_range(uint64_t addr, uint64_t size1, uint64_t start,
+-                uint64_t size2)
++static void edu_check_range(uint64_t addr, uint64_t size1,
++                uint64_t start, uint64_t size2)
+ {
+     uint64_t end1 = addr + size1;
+     uint64_t end2 = start + size2;
+ 
+-    if (within(addr, start, end2) &&
+-            end1 > addr && within(end1, start, end2)) {
++    /*
++     * 1. ensure we aren't overflowing
++     * 2. ensure that [addr, end1) is within [start, size2)
++     */
++    if (end2 >= start && end1 >= addr &&
++        addr >= start && end1 <= end2) {
+         return;
+     }
+ 
+-- 
+2.36.1
+
 
