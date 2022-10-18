@@ -2,48 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37D35602A7D
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 13:45:26 +0200 (CEST)
-Received: from localhost ([::1]:40020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FB2C602B68
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 14:13:10 +0200 (CEST)
+Received: from localhost ([::1]:47010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okl2C-0005wV-B0
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 07:45:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37258)
+	id 1oklT2-0000R1-3a
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 08:13:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1okkuB-0002vK-Md; Tue, 18 Oct 2022 07:37:07 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:29124)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oklBw-00084V-Sr
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 07:55:29 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:38015)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1okku9-0000Oa-HK; Tue, 18 Oct 2022 07:37:07 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D5500746335;
- Tue, 18 Oct 2022 13:37:01 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 9ED9574632C; Tue, 18 Oct 2022 13:37:01 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 9DBFF74632B;
- Tue, 18 Oct 2022 13:37:01 +0200 (CEST)
-Date: Tue, 18 Oct 2022 13:37:01 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH v3 00/13] Misc ppc/mac machines clean up
-In-Reply-To: <923f59f6-5824-26b6-30e0-783060aad888@eik.bme.hu>
-Message-ID: <a229e9f8-35b-a4b1-8166-1c2c28867355@eik.bme.hu>
-References: <cover.1664827008.git.balaton@eik.bme.hu>
- <923f59f6-5824-26b6-30e0-783060aad888@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oklBi-0002yf-Aa
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 07:55:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=51pI383kLIOgNqBf4bVO/jweqafukty0hmgNo4caaYc=; b=w52Eyvwle1RQDCgUncLwosAJ6b
+ 8EkIVFqprL6isnOjvel+8oBXbBdUqH8ZHjrncbkr+6969aoV6fTA/VBl+7I9OJ8kKw0Y/+amNBZQh
+ S9d5reqoRxL1UVkLBlHeU82MnMXbdRCbTXxo9C6+M+LVlupRiK0EXLv4Tnt+7rqFMP8/27eR0Um4+
+ eGkNkIya2WN65JqFHZ+sWHk/uWbCX6yq3TPb5nROTqp+fwIrdV+UxZrNQlJqIY9b6wm9FVSlEAHb8
+ RrZQY6r97AoXLxdkIsY2DaOspS3EAUReL30P/rVAzUBQq6HxamGNpv/F2Tmz8FKqgVWHVo9kqKwfh
+ FzB7J5oawJX4Woxw2pT2l+2virhlEA2zFJ0vYyaP++o//47vlPIKGOgV5dJWOwHcg8IF8sz29NbDq
+ wyqM7G4ZfcxItt1NVWYEvE1K6WIk6/uX83msPwPU2eamuBNdICzH/3UKhfOqdjTkzrkDmYKX5bI+Y
+ 9nZLmO45l7PgVU2okNKO1Dn4LEYFio431K4uhIbKOnGgzBGb8gHQZX2FlnpFr1ppG9VkxnrNHRp/H
+ LlU9lHeBGJwLlWyPaEwmNjW7x6dSOIrd/NdtQyAREAnzb3AFHekrbPreyJRpSr1Fj6vOU1eHODgAm
+ vUz2IINvgOJmz46yF0W0gi3QSRF0KgY10azofl1fQ=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 00/20] tests/9p: introduce declarative function calls
+Date: Tue, 18 Oct 2022 13:54:58 +0200
+Message-ID: <1813122.qVG7zHTq9q@silver>
+In-Reply-To: <cover.1664917004.git.qemu_oss@crudebyte.com>
+References: <cover.1664917004.git.qemu_oss@crudebyte.com>
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset=US-ASCII
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -59,71 +68,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 11 Oct 2022, BALATON Zoltan wrote:
-> On Mon, 3 Oct 2022, BALATON Zoltan wrote:
->> This series includes some clean ups to mac_newworld and mac_oldworld
->> to make them a bit simpler and more readable, It also removes the
->> shared mac.h file that turns out was more of a random collection of
->> unrelated things. Getting rid of this mac.h improves the locality of
->> device models and reduces unnecessary interdependency.
->
-> Ping?
+On Tuesday, October 4, 2022 10:56:44 PM CEST Christian Schoenebeck wrote:
+> This series converts relevant 9p (test) client functions to use named
+> function arguments. For instance
+> 
+>     do_walk_expect_error(v9p, "non-existent", ENOENT);
+> 
+> becomes
+> 
+>     twalk({
+>         .client = v9p, .path = "non-existent", .expectErr = ENOENT
+>     });
+> 
+> The intention is to make the actual 9p test code more readable, and easier
+> to maintain on the long-term.
+> 
+> Not only makes it clear what a literal passed to a function is supposed to
+> do, it also makes the order and selection of arguments very liberal, and
+> allows to merge multiple, similar functions into one single function.
+> 
+> This is basically just refactoring, it does not change behaviour.
 
-Ping^2 Only patch 4-5 still need a review. This series is a quite simple 
-clean up with no functional change and it's on the list for a month now 
-with this v3 is waiting for the last two weeks. I hoped to do some more 
-changes after this was merged but with this rate of maintainer activity 
-I'm not sure even this simple clean up can make it until the freeze and 
-there seems to be no hope to get in more changes this year, We need to do 
-something about this situation as it hinders development. It should not be 
-so difficult to make even simple changes.
+Queued on 9p.next:
+https://github.com/cschoenebeck/qemu/commits/9p.next
 
-Regards,
-BALATON Zoltan
+Thanks!
 
->> v3: Some more patch spliting and changes I've noticed and address more
->> review comments
->> v2: Split some patches and add a few more I've noticed now and address
->> review comments
->> 
->> BALATON Zoltan (13):
->>  mac_newworld: Drop some variables
->>  mac_oldworld: Drop some more variables
->>  mac_{old|new}world: Set tbfreq at declaration
->>  mac_{old|new}world: Avoid else branch by setting default value
->>  mac_{old|new}world: Simplify cmdline_base calculation
->>  mac_newworld: Clean up creation of Uninorth devices
->>  mac_{old|new}world: Reduce number of QOM casts
->>  hw/ppc/mac.h: Move newworld specific parts out from shared header
->>  hw/ppc/mac.h: Move macio specific parts out from shared header
->>  hw/ppc/mac.h: Move grackle-pcihost type declaration out to a header
->>  hw/ppc/mac.h: Move PROM and KERNEL defines to board code
->>  hw/ppc/mac.h: Rename to include/hw/nvram/mac_nvram.h
->>  mac_nvram: Use NVRAM_SIZE constant
->> 
->> MAINTAINERS                   |   2 +
->> hw/ide/macio.c                |   1 -
->> hw/intc/heathrow_pic.c        |   1 -
->> hw/intc/openpic.c             |   1 -
->> hw/misc/macio/cuda.c          |   1 -
->> hw/misc/macio/gpio.c          |   1 -
->> hw/misc/macio/macio.c         |   8 +-
->> hw/misc/macio/pmu.c           |   1 -
->> hw/nvram/mac_nvram.c          |   2 +-
->> hw/pci-host/grackle.c         |  15 +--
->> hw/pci-host/uninorth.c        |   1 -
->> hw/ppc/mac.h                  | 105 ----------------
->> hw/ppc/mac_newworld.c         | 225 ++++++++++++++++------------------
->> hw/ppc/mac_oldworld.c         | 111 +++++++----------
->> include/hw/misc/macio/macio.h |  23 +++-
->> include/hw/nvram/mac_nvram.h  |  51 ++++++++
->> include/hw/pci-host/grackle.h |  44 +++++++
->> 17 files changed, 280 insertions(+), 313 deletions(-)
->> delete mode 100644 hw/ppc/mac.h
->> create mode 100644 include/hw/nvram/mac_nvram.h
->> create mode 100644 include/hw/pci-host/grackle.h
->> 
->> 
->
->
+Next 9p PR end of this week.
+
+Best regards,
+Christian Schoenebeck
+
+
+
 
