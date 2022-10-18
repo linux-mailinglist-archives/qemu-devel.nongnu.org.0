@@ -2,81 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 268BB602BF3
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 14:43:08 +0200 (CEST)
-Received: from localhost ([::1]:57944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E74F602C02
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 14:45:16 +0200 (CEST)
+Received: from localhost ([::1]:48440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oklw2-0001Yg-5k
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 08:43:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52888)
+	id 1okly7-00065f-AS
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 08:45:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oklRP-0007dh-Jj
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 08:11:31 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:42938)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oklUo-0002xQ-0R
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 08:14:58 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:34485)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oklRM-0006gE-Rf
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 08:11:26 -0400
-Received: by mail-wr1-x431.google.com with SMTP id bp11so23117718wrb.9
- for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 05:11:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oklUk-00078g-TP
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 08:14:57 -0400
+Received: by mail-wr1-x436.google.com with SMTP id b4so23175292wrs.1
+ for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 05:14:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2/nk4aOolpJzSQa6IIzTJjD18sRNab+T5lJNM0jkBvg=;
- b=k7WRtDC0eczfj4bIexNmk93dd0R4PaCmxiM3IXsUAPr/ag5EuCH2CkKv4SvfhwHpcw
- 7rZNtoevpHVrmLnYnCHAh/knK/RlSGWSXE/EfMP2tjg77e3BaPnUyZD31r2cUxlcD1+9
- KHtseJMkSEedKfJmdgiiGuPSy0K8AWjZrRyiIuD4FT0XaITHbpBrbaAg0uGFppu16/6A
- FjJWzzvZo62XA+IOlzb7sUfV05SPRs4zCEGYpC+1Sr/ITcPv1VpL6hzSqqpxUJSqzrQO
- BAxyRtTLNQrnB5l2KGg/6fY+fO4H18b8zyTytZPeq7VyM/dcAaZ5jkldjMC5BLHexh8Q
- 43rA==
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6v84I28y/QOmAsfIBlfdz3G3gOS+ZnDEc8BznmB3iEs=;
+ b=R+zh/O6P5dRxje6JNj6hOcxsBMycwTVjDJjWQV0jg6I3HhRL+bZLSDsgzK2qOIN7Av
+ o6HMCBLjmjtCwnPVCpbEZsAUk/8C/6s8HjZ2wG48TuOvBG9zI8a0uRc9DWdFbKP0g1HN
+ vdoJm+GeVajNNGi90q+mJRsA7s9D2jIs7gOv7jGU+jw5reL3uCf51v6OJ5yMUqi5cIEH
+ RTDBHWX1Kx47EH6CQKfYC+ZGYEXN7TSNHxI5wRZuA8tgkOxy+IXXH4Pi0Td5+yq/s/5T
+ lmltDjKewQcjnyFvwfl29Yhxa+84qr3mvMVhC/Rz9ZIKuUxtezYBQqCBf5EEC332Zqu0
+ X6qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2/nk4aOolpJzSQa6IIzTJjD18sRNab+T5lJNM0jkBvg=;
- b=QXZc0vjz6Z84StBDeI8pzfC+Gb6SzZFEZ4L5DFeNlUgh0Rt+xdS9w1GhA/60E2s5l0
- sUgeIgmKBfldetzHe8JicuJBtwhobwEkJgGij2nQ3R9eEs+Idq8ry48j7LzZBOHus5Hq
- yUbooqwm85F0ZF5rqDrrnp95w3slRZPVnE02s079FzCpfN+CLbi3ASvMhqt1WoOcU+D/
- Gk7JqD1kAT0hHDuA8uOlizxwHhB10YiPDtZhu3CtWfuZqx91HbXTiyTuv0NpZ5o76gxg
- sR+4o0JqJ3TfC5X3qrImWuEWlp1GgxMupSSv2K0o/ng5Zw0v6h+IQBPlHNmkHf/dvSBD
- GbhA==
-X-Gm-Message-State: ACrzQf1eBljw6TBWg7rhYhv8SwW1t6oiqV5bQB4XiaIR9yfld0Zq1elL
- Zhyn1r3VFJ64ef9ySWAyUIo/sg==
-X-Google-Smtp-Source: AMsMyM7Pu4O8R1CFFvLQhqIkAXWDoJrJzuk8laySFviJkE3AF6S/kvwVJnnZRcNeENWnAymxZVJMAw==
-X-Received: by 2002:adf:dbc5:0:b0:22c:c605:3b81 with SMTP id
- e5-20020adfdbc5000000b0022cc6053b81mr1691655wrj.218.1666095082309; 
- Tue, 18 Oct 2022 05:11:22 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=6v84I28y/QOmAsfIBlfdz3G3gOS+ZnDEc8BznmB3iEs=;
+ b=H+QpBEXa/sqdCafml1qrEhWG/+LtnuNPgFwaMIB5nXPuoGo+JVTP5yUPGRPu5WsZDN
+ W/J5E1PxJqM8TIBRalVaeorE586TmiHDuZr9GuAr35b6MDxdT1f/3Dd/r7JtUgBGVe3N
+ DVOPW73WQV7SX4SiaXtSZeBARbyAJtnbJ48izHI1RzjIyu6SY6HgFrmCu7gSHxIsKE/Q
+ 2DXdfL4PXi+xmDuEILDPrjbVH12/r6+g1BfZJqol3F4hYrZeWnhlQiptb/NzsNS7IsBx
+ DFXFBo0J+WwEI2/0C6DsrM791Jvn9fg4bzs37GMfLWxby0g8GMgonmAlpuM1iNwWy8ge
+ zqYQ==
+X-Gm-Message-State: ACrzQf2q2XcBTE+UmxU5IbPHkd6roQPwZ30478OgzSEvZC8A2/Fr4aGB
+ +/ntssRQOrbfikJfC9Z0UfgjvT5xH0TdYg==
+X-Google-Smtp-Source: AMsMyM7ufFWgZWxXEMOGEL9cD1qatrf7RdFhp2XSbsoHjhVk0Y4Y3T9bAudCa2bCV9G3JZ9unvsuMw==
+X-Received: by 2002:a5d:598a:0:b0:22e:5503:9c42 with SMTP id
+ n10-20020a5d598a000000b0022e55039c42mr1684332wri.551.1666095292278; 
+ Tue, 18 Oct 2022 05:14:52 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- o10-20020a1c750a000000b003b4e009deb2sm15377792wmc.41.2022.10.18.05.11.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Oct 2022 05:11:21 -0700 (PDT)
-Message-ID: <8266adb1-ea48-4ef7-eadc-9aa1e1dde842@linaro.org>
-Date: Tue, 18 Oct 2022 14:11:20 +0200
+ q19-20020a05600c2ed300b003b3365b38f9sm12780573wmn.10.2022.10.18.05.14.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Oct 2022 05:14:51 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 21B9F1FFB7;
+ Tue, 18 Oct 2022 13:14:51 +0100 (BST)
+References: <20221015211025.16781-1-chrisfriedt@gmail.com>
+ <20221017134425.jbqvtccg5w4yej5g@mozz.bu.edu>
+ <CAFEAcA8Cc+XtwcQz3bJom2=MgYZgLHw8SO6uqQQdVN4aqpq4Hg@mail.gmail.com>
+ <380c1527-e664-f7c5-6d18-bf53d99aed33@kernel.org>
+ <87zgdtcwrv.fsf@linaro.org>
+ <CAFEAcA9ONenFfxz=78pMf8vXkHB+JwEORoMwhwEmbUTv_9Q7XA@mail.gmail.com>
+User-agent: mu4e 1.9.1; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Jiri Slaby <jirislaby@kernel.org>, Alexander Bulekov <alxndr@bu.edu>,
+ Chris Friedt <chrisfriedt@gmail.com>, cfriedt@meta.com,
+ qemu-devel@nongnu.org
+Subject: Re: [v2] hw: misc: edu: fix 2 off-by-one errors
+Date: Tue, 18 Oct 2022 13:11:20 +0100
+In-reply-to: <CAFEAcA9ONenFfxz=78pMf8vXkHB+JwEORoMwhwEmbUTv_9Q7XA@mail.gmail.com>
+Message-ID: <87a65tcoqs.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.1
-Subject: Re: [PATCH v2 21/28] qapi run-state: Elide redundant has_FOO in
- generated C
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: michael.roth@amd.com, jsnow@redhat.com, eblake@redhat.com,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20221018062849.3420573-1-armbru@redhat.com>
- <20221018062849.3420573-22-armbru@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221018062849.3420573-22-armbru@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,46 +101,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/10/22 08:28, Markus Armbruster wrote:
-> The has_FOO for pointer-valued FOO are redundant, except for arrays.
-> They are also a nuisance to work with.  Recent commit "qapi: Start to
-> elide redundant has_FOO in generated C" provided the means to elide
-> them step by step.  This is the step for qapi/run-state.json.
-> 
-> Said commit explains the transformation in more detail.  The invariant
-> violations mentioned there do not occur here.
 
-The rationale here is qapi free() has always be able to deal with a NULL
-argument (commit fb3182ce6e "qapi: add qapi-types.py code generator"
-from Tue Jul 19 14:50:40 2011).
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->   softmmu/runstate.c     | 18 +++++-------------
->   scripts/qapi/schema.py |  1 -
->   2 files changed, 5 insertions(+), 14 deletions(-)
-> 
-> diff --git a/softmmu/runstate.c b/softmmu/runstate.c
-> index 1e68680b9d..682a810d3c 100644
-> --- a/softmmu/runstate.c
-> +++ b/softmmu/runstate.c
+> On Tue, 18 Oct 2022 at 10:21, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>>
+>>
+>> Jiri Slaby <jirislaby@kernel.org> writes:
+>>
+>> > On 17. 10. 22, 16:13, Peter Maydell wrote:
+>> >>   * for situations where the guest has misprogrammed the device,
+>> >>     log that with qemu_log_mask(LOG_GUEST_ERROR, ...)
+>> >>     and continue with whatever the real hardware would do, or
+>> >>     some reasonable choice if the h/w spec is vague
+>> >
+>> > As I wrote in the previous mail, can we stop the machine after the
+>> > print somehow, for example? So that the students have to "cont" in the
+>> > qemu console as an acknowledgment when this happens.
+>>
+>> You can bring the system to a halt with vm_stop(RUN_STATE_PAUSED) or
+>> possible RUN_STATE_DEBUG?
+>
+> No, please don't do anything like that. This should not be special.
+> Just log a message if the guest does something bad. There are
+> an absolute ton of things that the guest can do wrong, and
+> in general QEMU does not attempt to be an "identify all the
+> ways the guest does something wrong in a friendly way" system.
 
-> @@ -517,13 +514,8 @@ void qemu_system_guest_panicked(GuestPanicInformation *info)
->   void qemu_system_guest_crashloaded(GuestPanicInformation *info)
->   {
->       qemu_log_mask(LOG_GUEST_ERROR, "Guest crash loaded");
-> -
-> -    qapi_event_send_guest_crashloaded(GUEST_PANIC_ACTION_RUN,
-> -                                   !!info, info);
-> -
-> -    if (info) {
-> -        qapi_free_GuestPanicInformation(info);
-> -    }
-> +    qapi_event_send_guest_crashloaded(GUEST_PANIC_ACTION_RUN, info);
-> +    qapi_free_GuestPanicInformation(info);
->   }
+We should clean-up the other uses of vm_stop in hw/ then:
 
-Preferably updating the commit description:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+  ./hw/ppc/prep_systemio.c:78:        vm_stop(RUN_STATE_PAUSED);
+  ./hw/ppc/vof.c:921:        vm_stop(RUN_STATE_PAUSED);
+  ./hw/vfio/pci.c:2725:    vm_stop(RUN_STATE_INTERNAL_ERROR);
+
+
+>
+> thanks
+> -- PMM
+
+
+--=20
+Alex Benn=C3=A9e
 
