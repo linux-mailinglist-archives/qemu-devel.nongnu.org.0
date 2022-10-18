@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 182B46025AA
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 09:27:26 +0200 (CEST)
-Received: from localhost ([::1]:36374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD37C6024DC
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 09:00:30 +0200 (CEST)
+Received: from localhost ([::1]:43460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okh0Q-0000mT-R1
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 03:27:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57298)
+	id 1okgaL-0001H7-J1
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 03:00:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1okg6L-0005k1-Gd
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 02:29:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38225)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1okg6T-0005qr-G6
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 02:29:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25427)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1okg66-0001Ff-Sh
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 02:29:20 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1okg6C-0001FJ-KI
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 02:29:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1666074535;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J+82hJTCLfws/zGbH69DKhzOwlJu+Xk+1XNDmfUBw7A=;
- b=h1SfCHQTyqlnP3QwB5YJDXyy8HtOs82IQ3DVCTcsQv2EiD3SgapESsqlXpxbbpdchn+KAm
- 4qz4rPctWHCR/rAcD/+ru+t0WUOnav5tE4zYn1Pd7w490Kf3jjoVdE31USXMyrt+uqcnx9
- AcCd2th0xa+dgxAaMuLU0KVNX/89ww8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=dnXPTYUm1WdWKlE9RWub2esdxtykbmTn01u8Ryf1mNQ=;
+ b=PX+JkyFw6Y858H/h3MsvQ8/Sxk6LMOsUqQkIFZv0pnfY3V0gZTmx/8F/MZF89iD7J8f7/T
+ n6jtBWeJVv9AcGAl7sW3y0wXoWv8k1wDIwtZmeOcHI2nfgF4TUIH3G385AHR2fs6Uo9Vrg
+ SpSMLjMnCjNDZvtzmcfLp7XM9zJ3lzE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-650-Tr4fXflkM_erW6IXjy1LrA-1; Tue, 18 Oct 2022 02:28:52 -0400
-X-MC-Unique: Tr4fXflkM_erW6IXjy1LrA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-26-N4GBHzQbMIWTiPK_bslG4w-1; Tue, 18 Oct 2022 02:28:52 -0400
+X-MC-Unique: N4GBHzQbMIWTiPK_bslG4w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E359D3C0D18B;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D23D5858282;
  Tue, 18 Oct 2022 06:28:51 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.193.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 81D754030C9;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 837122027061;
  Tue, 18 Oct 2022 06:28:51 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 371E821E66FE; Tue, 18 Oct 2022 08:28:49 +0200 (CEST)
+ id 397C221E675C; Tue, 18 Oct 2022 08:28:49 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: michael.roth@amd.com, jsnow@redhat.com, eblake@redhat.com,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH v2 06/28] qapi acpi: Elide redundant has_FOO in generated C
-Date: Tue, 18 Oct 2022 08:28:27 +0200
-Message-Id: <20221018062849.3420573-7-armbru@redhat.com>
+Subject: [PATCH v2 07/28] qapi audio: Elide redundant has_FOO in generated C
+Date: Tue, 18 Oct 2022 08:28:28 +0200
+Message-Id: <20221018062849.3420573-8-armbru@redhat.com>
 In-Reply-To: <20221018062849.3420573-1-armbru@redhat.com>
 References: <20221018062849.3420573-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
@@ -85,120 +84,225 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 The has_FOO for pointer-valued FOO are redundant, except for arrays.
 They are also a nuisance to work with.  Recent commit "qapi: Start to
 elide redundant has_FOO in generated C" provided the means to elide
-them step by step.  This is the step for qapi/acpi.py.
+them step by step.  This is the step for qapi/audio.json.
 
 Said commit explains the transformation in more detail.  The invariant
 violations mentioned there do not occur here.
 
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Cc: Ani Sinha <ani@anisinha.ca>
+Additionally, helper get_str() loses its @has_dst parameter.
+
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- hw/acpi/core.c           | 14 +++++++-------
- hw/acpi/cpu.c            |  1 -
- hw/acpi/memory_hotplug.c |  1 -
- scripts/qapi/schema.py   |  1 -
- 4 files changed, 7 insertions(+), 10 deletions(-)
+ audio/alsaaudio.c      |  2 +-
+ audio/audio.c          |  6 ++----
+ audio/audio_legacy.c   | 17 +++++++----------
+ audio/ossaudio.c       |  8 +++-----
+ audio/paaudio.c        | 12 ++++++------
+ audio/wavaudio.c       |  2 +-
+ scripts/qapi/schema.py |  1 -
+ 7 files changed, 20 insertions(+), 28 deletions(-)
 
-diff --git a/hw/acpi/core.c b/hw/acpi/core.c
-index 3e811bf03c..6da275c599 100644
---- a/hw/acpi/core.c
-+++ b/hw/acpi/core.c
-@@ -185,7 +185,7 @@ static void acpi_table_install(const char unsigned *blob, size_t bloblen,
-     changed_fields = 0;
-     ext_hdr->_length = cpu_to_le16(acpi_payload_size);
+diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
+index 7a2a94cd42..714bfb6453 100644
+--- a/audio/alsaaudio.c
++++ b/audio/alsaaudio.c
+@@ -449,7 +449,7 @@ static int alsa_open(bool in, struct alsa_params_req *req,
+     snd_pcm_hw_params_t *hw_params;
+     int err;
+     unsigned int freq, nchannels;
+-    const char *pcm_name = apdo->has_dev ? apdo->dev : "default";
++    const char *pcm_name = apdo->dev ?: "default";
+     snd_pcm_uframes_t obt_buffer_size;
+     const char *typ = in ? "ADC" : "DAC";
+     snd_pcm_format_t obtfmt;
+diff --git a/audio/audio.c b/audio/audio.c
+index cc664271eb..52326c74af 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -2031,15 +2031,13 @@ void audio_create_pdos(Audiodev *dev)
+     switch (dev->driver) {
+ #define CASE(DRIVER, driver, pdo_name)                              \
+     case AUDIODEV_DRIVER_##DRIVER:                                  \
+-        if (!dev->u.driver.has_in) {                                \
++        if (!dev->u.driver.in) {                                    \
+             dev->u.driver.in = g_malloc0(                           \
+                 sizeof(Audiodev##pdo_name##PerDirectionOptions));   \
+-            dev->u.driver.has_in = true;                            \
+         }                                                           \
+-        if (!dev->u.driver.has_out) {                               \
++        if (!dev->u.driver.out) {                                   \
+             dev->u.driver.out = g_malloc0(                          \
+                 sizeof(Audiodev##pdo_name##PerDirectionOptions));   \
+-            dev->u.driver.has_out = true;                           \
+         }                                                           \
+         break
  
--    if (hdrs->has_sig) {
-+    if (hdrs->sig) {
-         strncpy(ext_hdr->sig, hdrs->sig, sizeof ext_hdr->sig);
-         ++changed_fields;
+diff --git a/audio/audio_legacy.c b/audio/audio_legacy.c
+index 595949f52c..18a89ffffb 100644
+--- a/audio/audio_legacy.c
++++ b/audio/audio_legacy.c
+@@ -62,15 +62,12 @@ static void get_int(const char *env, uint32_t *dst, bool *has_dst)
      }
-@@ -204,11 +204,11 @@ static void acpi_table_install(const char unsigned *blob, size_t bloblen,
+ }
  
-     ext_hdr->checksum = 0;
+-static void get_str(const char *env, char **dst, bool *has_dst)
++static void get_str(const char *env, char **dst)
+ {
+     const char *val = getenv(env);
+     if (val) {
+-        if (*has_dst) {
+-            g_free(*dst);
+-        }
++        g_free(*dst);
+         *dst = g_strdup(val);
+-        *has_dst = true;
+     }
+ }
  
--    if (hdrs->has_oem_id) {
-+    if (hdrs->oem_id) {
-         strncpy(ext_hdr->oem_id, hdrs->oem_id, sizeof ext_hdr->oem_id);
-         ++changed_fields;
+@@ -169,7 +166,7 @@ static void handle_alsa_per_direction(
+     get_bool(buf, &apdo->try_poll, &apdo->has_try_poll);
+ 
+     strcpy(buf + len, "DEV");
+-    get_str(buf, &apdo->dev, &apdo->has_dev);
++    get_str(buf, &apdo->dev);
+ 
+     strcpy(buf + len, "SIZE_IN_USEC");
+     get_bool(buf, &size_in_usecs, &dummy);
+@@ -235,7 +232,7 @@ static void handle_oss_per_direction(
+     const char *dev_env)
+ {
+     get_bool(try_poll_env, &opdo->try_poll, &opdo->has_try_poll);
+-    get_str(dev_env, &opdo->dev, &opdo->has_dev);
++    get_str(dev_env, &opdo->dev);
+ 
+     get_bytes_to_usecs("QEMU_OSS_FRAGSIZE",
+                        &opdo->buffer_length, &opdo->has_buffer_length,
+@@ -261,7 +258,7 @@ static void handle_oss(Audiodev *dev)
+ static void handle_pa_per_direction(
+     AudiodevPaPerDirectionOptions *ppdo, const char *env)
+ {
+-    get_str(env, &ppdo->name, &ppdo->has_name);
++    get_str(env, &ppdo->name);
+ }
+ 
+ static void handle_pa(Audiodev *dev)
+@@ -278,7 +275,7 @@ static void handle_pa(Audiodev *dev)
+         &dev->u.pa.out->has_buffer_length,
+         qapi_AudiodevPaPerDirectionOptions_base(dev->u.pa.out));
+ 
+-    get_str("QEMU_PA_SERVER", &dev->u.pa.server, &dev->u.pa.has_server);
++    get_str("QEMU_PA_SERVER", &dev->u.pa.server);
+ }
+ 
+ /* SDL */
+@@ -299,7 +296,7 @@ static void handle_wav(Audiodev *dev)
+             &dev->u.wav.out->has_format);
+     get_int("QEMU_WAV_DAC_FIXED_CHANNELS",
+             &dev->u.wav.out->channels, &dev->u.wav.out->has_channels);
+-    get_str("QEMU_WAV_PATH", &dev->u.wav.path, &dev->u.wav.has_path);
++    get_str("QEMU_WAV_PATH", &dev->u.wav.path);
+ }
+ 
+ /* general */
+diff --git a/audio/ossaudio.c b/audio/ossaudio.c
+index 8e075edb70..e8d732b612 100644
+--- a/audio/ossaudio.c
++++ b/audio/ossaudio.c
+@@ -252,7 +252,7 @@ static int oss_open(int in, struct oss_params *req, audsettings *as,
+     audio_buf_info abinfo;
+     int fmt, freq, nchannels;
+     int setfragment = 1;
+-    const char *dspname = opdo->has_dev ? opdo->dev : "/dev/dsp";
++    const char *dspname = opdo->dev ?: "/dev/dsp";
+     const char *typ = in ? "ADC" : "DAC";
+ #ifdef USE_DSP_POLICY
+     int policy = oopts->has_dsp_policy ? oopts->dsp_policy : 5;
+@@ -745,10 +745,8 @@ static void *oss_audio_init(Audiodev *dev)
+     oss_init_per_direction(oopts->in);
+     oss_init_per_direction(oopts->out);
+ 
+-    if (access(oopts->in->has_dev ? oopts->in->dev : "/dev/dsp",
+-               R_OK | W_OK) < 0 ||
+-        access(oopts->out->has_dev ? oopts->out->dev : "/dev/dsp",
+-               R_OK | W_OK) < 0) {
++    if (access(oopts->in->dev ?: "/dev/dsp", R_OK | W_OK) < 0 ||
++        access(oopts->out->dev ?: "/dev/dsp", R_OK | W_OK) < 0) {
+         return NULL;
      }
--    if (hdrs->has_oem_table_id) {
-+    if (hdrs->oem_table_id) {
-         strncpy(ext_hdr->oem_table_id, hdrs->oem_table_id,
-                 sizeof ext_hdr->oem_table_id);
-         ++changed_fields;
-@@ -217,7 +217,7 @@ static void acpi_table_install(const char unsigned *blob, size_t bloblen,
-         ext_hdr->oem_revision = cpu_to_le32(hdrs->oem_rev);
-         ++changed_fields;
-     }
--    if (hdrs->has_asl_compiler_id) {
-+    if (hdrs->asl_compiler_id) {
-         strncpy(ext_hdr->asl_compiler_id, hdrs->asl_compiler_id,
-                 sizeof ext_hdr->asl_compiler_id);
-         ++changed_fields;
-@@ -255,12 +255,12 @@ void acpi_table_add(const QemuOpts *opts, Error **errp)
-     if (!hdrs) {
-         goto out;
-     }
--    if (hdrs->has_file == hdrs->has_data) {
-+    if (!hdrs->file == !hdrs->data) {
-         error_setg(errp, "'-acpitable' requires one of 'data' or 'file'");
-         goto out;
+     return dev;
+diff --git a/audio/paaudio.c b/audio/paaudio.c
+index e91116f239..529b39daac 100644
+--- a/audio/paaudio.c
++++ b/audio/paaudio.c
+@@ -536,9 +536,9 @@ static int qpa_init_out(HWVoiceOut *hw, struct audsettings *as,
+ 
+     pa->stream = qpa_simple_new (
+         c,
+-        ppdo->has_stream_name ? ppdo->stream_name : g->dev->id,
++        ppdo->stream_name ?: g->dev->id,
+         PA_STREAM_PLAYBACK,
+-        ppdo->has_name ? ppdo->name : NULL,
++        ppdo->name,
+         &ss,
+         &ba,                    /* buffering attributes */
+         &error
+@@ -585,9 +585,9 @@ static int qpa_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
+ 
+     pa->stream = qpa_simple_new (
+         c,
+-        ppdo->has_stream_name ? ppdo->stream_name : g->dev->id,
++        ppdo->stream_name ?: g->dev->id,
+         PA_STREAM_RECORD,
+-        ppdo->has_name ? ppdo->name : NULL,
++        ppdo->name,
+         &ss,
+         &ba,                    /* buffering attributes */
+         &error
+@@ -827,7 +827,7 @@ static void *qpa_audio_init(Audiodev *dev)
+ 
+     assert(dev->driver == AUDIODEV_DRIVER_PA);
+ 
+-    if (!popts->has_server) {
++    if (!popts->server) {
+         char pidfile[64];
+         char *runtime;
+         struct stat st;
+@@ -850,7 +850,7 @@ static void *qpa_audio_init(Audiodev *dev)
      }
  
--    pathnames = g_strsplit(hdrs->has_file ? hdrs->file : hdrs->data, ":", 0);
-+    pathnames = g_strsplit(hdrs->file ?: hdrs->data, ":", 0);
-     if (pathnames == NULL || pathnames[0] == NULL) {
-         error_setg(errp, "'-acpitable' requires at least one pathname");
-         goto out;
-@@ -297,7 +297,7 @@ void acpi_table_add(const QemuOpts *opts, Error **errp)
-         close(fd);
-     }
+     g = g_new0(paaudio, 1);
+-    server = popts->has_server ? popts->server : NULL;
++    server = popts->server;
  
--    acpi_table_install(blob, bloblen, hdrs->has_file, hdrs, errp);
-+    acpi_table_install(blob, bloblen, !!hdrs->file, hdrs, errp);
+     g->dev = dev;
  
- out:
-     g_free(blob);
-diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
-index 3646dbfe68..4e580959a2 100644
---- a/hw/acpi/cpu.c
-+++ b/hw/acpi/cpu.c
-@@ -35,7 +35,6 @@ static ACPIOSTInfo *acpi_cpu_device_status(int idx, AcpiCpuStatus *cdev)
-         DeviceState *dev = DEVICE(cdev->cpu);
-         if (dev->id) {
-             info->device = g_strdup(dev->id);
--            info->has_device = true;
-         }
-     }
-     return info;
-diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
-index 0a7e89a13e..a7476330a8 100644
---- a/hw/acpi/memory_hotplug.c
-+++ b/hw/acpi/memory_hotplug.c
-@@ -44,7 +44,6 @@ static ACPIOSTInfo *acpi_memory_device_status(int slot, MemStatus *mdev)
-         DeviceState *dev = DEVICE(mdev->dimm);
-         if (dev->id) {
-             info->device = g_strdup(dev->id);
--            info->has_device = true;
-         }
-     }
-     return info;
+diff --git a/audio/wavaudio.c b/audio/wavaudio.c
+index 3e1d84db83..6445a2cb90 100644
+--- a/audio/wavaudio.c
++++ b/audio/wavaudio.c
+@@ -78,7 +78,7 @@ static int wav_init_out(HWVoiceOut *hw, struct audsettings *as,
+     Audiodev *dev = drv_opaque;
+     AudiodevWavOptions *wopts = &dev->u.wav;
+     struct audsettings wav_as = audiodev_to_audsettings(dev->u.wav.out);
+-    const char *wav_path = wopts->has_path ? wopts->path : "qemu.wav";
++    const char *wav_path = wopts->path ?: "qemu.wav";
+ 
+     stereo = wav_as.nchannels == 2;
+     switch (wav_as.fmt) {
 diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index ae09c38103..ad7634de58 100644
+index ad7634de58..8db1c2caef 100644
 --- a/scripts/qapi/schema.py
 +++ b/scripts/qapi/schema.py
 @@ -759,7 +759,6 @@ def need_has(self):
          assert self.type
          # Temporary hack to support dropping the has_FOO in reviewable chunks
          opt_out = [
--            'qapi/acpi.json',
-             'qapi/audio.json',
+-            'qapi/audio.json',
              'qapi/block-core.json',
              'qapi/block-export.json',
+             'qapi/block.json',
 -- 
 2.37.2
 
