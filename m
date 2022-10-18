@@ -2,138 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 575196024B9
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 08:47:11 +0200 (CEST)
-Received: from localhost ([::1]:52594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BD4E6024B8
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 08:46:59 +0200 (CEST)
+Received: from localhost ([::1]:35630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okgNa-0002uB-2z
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 02:47:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47238)
+	id 1okgNN-0002Iq-6Z
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 02:46:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1okfqM-0000uY-79
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 02:12:55 -0400
-Received: from mail-sn1anam02on20622.outbound.protection.outlook.com
- ([2a01:111:f400:7ea9::622]:29027
- helo=NAM02-SN1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1okfqJ-0007Bo-Uh
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 02:12:49 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nPdkW4DFTAYEF1EJyo0H7DtsvMmNH1KDyxGzL8toQHAbuIXK7iIJLHRIW9sj+t7rvBs2m8Dsaw1nuI2Dxff/d5e0siZk9OEidTP2WPDmf1b5F19hHGKGGpjpRlk+4H2coP1EX5fmzwKzaIrNfh4e/QbMxZaApj438O2a4rg+w1FCVfTaWjc5E31uKisE+C3Z7a0kau0dSNmyetN3V0x0OVrY4J183yj3rbAS1q3wmZ5/qpzDYAAM9yySRn1IITnIdIcg7pf2p5vFs1/9fQz8kWAdUDq/jK0lk8D5C11macDtcEpMEfJwez2Xu+MKI588UIzTBpRosOmlRIHNlIpgGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YBSwoHx/tDDApZcYoQ+4iY1pWHgkg6HPYMU28Hb9ut8=;
- b=cpQsy8X2pf9du+nMAmEkXulAw2lekmrVOB+h17X5By/JUKpzftUgYlujH5xN35hxtywI+BcrmZjtXm2m0Ce+U8H1DESr3+UXUJO4FHwTO6gq+kW9WMFTFwPAezrOGX/fWeGWd+pqpW/eOl73Lvq96SUL5uUhI4vtTy+68V3yL0gqdLxBk5qj21gXZ9kFRlkz2oZi/2mOwL+mMPMyQWLQILJSwBc6XFRpQGzXW7de72NDzKIlBazYool0SKohN9+awTMXJKwmAoHCGbeKYCxWVx6scgIYVtnTKhb8T+H61SemW0LHPEbYxomX1Sr1jGFvXdsj5D02+G6D2dVlw5wiDA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YBSwoHx/tDDApZcYoQ+4iY1pWHgkg6HPYMU28Hb9ut8=;
- b=qKN/pU7Cry0maACEhOOiGoXa/YE1o2nRV4ox5p/okvH6hq4QiJ1XhzZK3m8gl+RFdYjXQXbTo4lyjnQpgKaijKIC1hf17AfQAuALsNTutBeNESJnGKco4E6ezdy9MBkTAzCjErEiruzGhbZt67BsB1STpqFYTGacTQj4Cpv62RVUYkAb+lZVeIOjXTZp8uTsjx6Lajz2x5/G5+dm/+diED8HaiD02tvtQ0F7ISjKMwMRQc5hNoyAG4KPA1mC9ZBSYS8KDVzFs7WgYthR0ymAT75C0x0A20yfpgU4E4KbpkSk36s4z46orK8+1mYrjFMnpILaW+gbpECFRbt9wfxU3Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB5549.namprd12.prod.outlook.com (2603:10b6:5:209::13)
- by SJ0PR12MB6928.namprd12.prod.outlook.com (2603:10b6:a03:483::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.30; Tue, 18 Oct
- 2022 06:07:39 +0000
-Received: from DM6PR12MB5549.namprd12.prod.outlook.com
- ([fe80::cb51:f0db:dc58:4d74]) by DM6PR12MB5549.namprd12.prod.outlook.com
- ([fe80::cb51:f0db:dc58:4d74%7]) with mapi id 15.20.5723.034; Tue, 18 Oct 2022
- 06:07:39 +0000
-Message-ID: <fdd1d6ac-0181-41b5-44a1-27eefaaa88b3@nvidia.com>
-Date: Tue, 18 Oct 2022 09:07:31 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH] vfio/migration: Fix wrong enum usage
-To: "Zhang, Chen" <chen.zhang@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Kunkun Jiang <jiangkunkun@huawei.com>
-References: <20221016085752.32740-1-avihaih@nvidia.com>
- <MWHPR11MB003134E104A73113165B23FC9B289@MWHPR11MB0031.namprd11.prod.outlook.com>
-Content-Language: en-US
-From: Avihai Horon <avihaih@nvidia.com>
-In-Reply-To: <MWHPR11MB003134E104A73113165B23FC9B289@MWHPR11MB0031.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LNXP265CA0027.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:5c::15) To DM6PR12MB5549.namprd12.prod.outlook.com
- (2603:10b6:5:209::13)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1okfql-00014k-3J
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 02:13:15 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:45055)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1okfqd-0007De-7I
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 02:13:14 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ bg9-20020a05600c3c8900b003bf249616b0so11497695wmb.3
+ for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 23:13:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=j+bPS0pT70tgEWnxITuyUQC9lQvPcgSkfOZuv2DumMQ=;
+ b=GEv+AhCSBPgqQXAvm2zPwkYsZF760ZEWas5kyxZTVQKElaw3y+2Fg4W9Dg/B/S6ylJ
+ u1yb2lyTtYnK4cHtBgjUtYZwblSZUMvCLXTHBCDCttY+2dduEA8DkdoHzypAZfcYNnrY
+ DGRkgy72HvXMMiWlvkF5qW4/5qSWVBAYAs9EHhtySb1Q1X26dai9021Z6j8DamHHMaXT
+ ENJcoc11vlyUAUihqQ5kGspekzRS3vlv7uqeGRAH2u1A3dxpGKsyJeG1V45ANnpITGUE
+ BHd0K/zANr6aN4ccU0+snesjZ12+jnRJQHUJrHT+fe5t7qsaSuevE9q6/HmblgtsxtnR
+ 67kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=j+bPS0pT70tgEWnxITuyUQC9lQvPcgSkfOZuv2DumMQ=;
+ b=3PlpkiSfx3RT7aWMWboYNW6/L4kuKY/nPmPdfLBZ9/ep4VDEgkrlFWhmdshdXG2u88
+ 74qPy4O2J1FoN/9+HQ6Lbc9dMdujXA5Xu2XaAvZ/aL2IkNaQSYPN0BXTh9+Wu4j8li6P
+ VteRFe85SH4ZGr6lRl7qiwNvA5XEXU0aT++e6N0EZEHyg/TmK0ZgnP1Fbn9kYCZDLvuM
+ WyOetMjwxOjinWRZxgd6br6HkvRjxNO3Lg4/BWltsLVdap0RqKhXdrqIe6uCKOn1auko
+ nxXg7s9lzcAtDv9J96mV3kq4Vmke/20Zz1W/hymZYOPHeTMyl6W3SdSlJFJCTU10Whna
+ 7LpQ==
+X-Gm-Message-State: ACrzQf3KyGvgnGWUTLHp6JLFbFf8QKqTGN5vKEFp0U15cDGIiFhmA1Q4
+ CWlMTjRXfl9vfvg+2aDlXZ8tag==
+X-Google-Smtp-Source: AMsMyM5AnNy6VLyXke6SxAk4aKpDsHoiKS6fn4emMkk9FB9qe2hgG9boy4H5kPCxbcspw5yrt8mD2Q==
+X-Received: by 2002:a05:600c:1d95:b0:3c6:fc59:5ed0 with SMTP id
+ p21-20020a05600c1d9500b003c6fc595ed0mr692822wms.21.1666073584048; 
+ Mon, 17 Oct 2022 23:13:04 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ k2-20020a5d6e82000000b0022ccae2fa62sm10041923wrz.22.2022.10.17.23.13.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Oct 2022 23:13:03 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id BD6331FFB7;
+ Tue, 18 Oct 2022 07:13:02 +0100 (BST)
+References: <20221015211025.16781-1-chrisfriedt@gmail.com>
+ <20221017134425.jbqvtccg5w4yej5g@mozz.bu.edu>
+ <CAFEAcA8Cc+XtwcQz3bJom2=MgYZgLHw8SO6uqQQdVN4aqpq4Hg@mail.gmail.com>
+ <87czaqe55s.fsf@linaro.org>
+ <84F27875-816B-4E87-8D8B-E57852185512@meta.com>
+User-agent: mu4e 1.9.1; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Chris Friedt <cfriedt@meta.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Alexander Bulekov
+ <alxndr@bu.edu>, Chris Friedt <chrisfriedt@gmail.com>, "jslaby@suse.cz"
+ <jslaby@suse.cz>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: Re: [v2] hw: misc: edu: fix 2 off-by-one errors
+Date: Tue, 18 Oct 2022 07:11:28 +0100
+In-reply-to: <84F27875-816B-4E87-8D8B-E57852185512@meta.com>
+Message-ID: <874jw1ek29.fsf@linaro.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB5549:EE_|SJ0PR12MB6928:EE_
-X-MS-Office365-Filtering-Correlation-Id: 666a6112-bc63-4e04-f865-08dab0cf0dac
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WjsuRu9O5JzObz9IpZBQISOlW9fBGKvuNwAEBfCBorUqMq8G+YXODmk6ifKsgxqrDlkhCQCD1q1Cr6XHPQz9Uo324TWDueq/5q5DczZsg+hApIEtKtZ+NqRo37iE2mvOQMYz6+WvZTf0afaUGr5q5rPzKP5xjvfX+7Q7GMkdVpfU2lrX7wZOGLgWx1bGTlFS6EQqh2mNni4QFn5900o69mPB/hS3jw2fgLpXJCCQNE/piTtFNpely8RE8XM7ghGiplQzWnSjDaQ70gDBnaKPnK/Wc6dZunCNFUanRaPoFa5/WKwjvWRJZoYWCtfzsozSXRbfOeyZaH5xcEMNqpoMoWeTxI3gys5R6XxggNtcLjwyUnOKft8XZOdYXbNI2qQzXNeHFuJM98KNaHA8IH/ax686RhWf+wF2ByFe6Gp3ZtIe9+w/Mm4K+WkKw8lzMIkNaCfsZ6J95S8fNbesp/+TxFLtmDgApR4Wcu766kIqYLGnLRQt5A+lir87tq2TEUK+gK337/S4Ql0yaAcIJLVof4PoRiBsjleOecp/zqIgezrKQGVq3Bud9PqDxvbCFCqM9fe13W20EIXbRNUIapezWb45pFgs9jxFzC9wzZuM3GHP2uVjOtCU7P9Vo/Hdo8IKvrl8RPF7aaJgjvLa4P28cjgJZHE79ienlLw+mVxp3ax57nEKXlYq6fMBHIuB+uxYxRUaf/LUhSGJsE/vE4VNRIHpLtsgc0+qGiFhGUhBZ5FbZN3n8mkhVqw99Al5TOnfKslz6S+sUr7jF265boox3BTw/fl90oDgEO25v4wRf7A=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB5549.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(39860400002)(396003)(346002)(366004)(376002)(136003)(451199015)(316002)(110136005)(36756003)(53546011)(2906002)(186003)(2616005)(41300700001)(6506007)(8936002)(31696002)(6512007)(26005)(5660300002)(83380400001)(6666004)(8676002)(66476007)(86362001)(66556008)(66946007)(31686004)(38100700002)(6486002)(478600001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b2hKQjdqeHpZV0ZxdFJQdVpMbzhhNXVQc3FkbnFkK1VLQUlkZlUyQUI3VHhZ?=
- =?utf-8?B?SFNjcXdmcHlEa294MlR3akI2aTlvRFVzR2VDZUJ6NlZjTWJFcjV3ZldLcXFE?=
- =?utf-8?B?U3JnUGtqWWFUejhJeTh0cklGSnl5K2h5OS9yR2dLaDZ1b2pkVU1NMkl1K1g1?=
- =?utf-8?B?bVN1Z2x0b2I4VDZJZ215Zit3TDBMTFlVUFQya0R3Vjdpd094QTAyYlFLVnZs?=
- =?utf-8?B?WjdqbE5JVTdkbEIweG5lTkhNVldVOEVIT2ZmTUc1VkFoSEFSaUtSaEJzalU2?=
- =?utf-8?B?YjZVdE5GenJwL1ozaWVab3lZclltdm8ybkJoUHpvc1IzTVJDR0VhWk0zKzAr?=
- =?utf-8?B?dDFqQWtocVFJSGgrTzNGRldCNXRHSklMcHc4SUYvMUY2U0FCMHByeEMxRUlB?=
- =?utf-8?B?VkJpOHBoRnhNUmpkZVRmV1BkZnNUbW1JS2pidHE4Y1JmbUVVd2VkcjQrdHQ2?=
- =?utf-8?B?eDg5RUhZcGljc25kOGxQZVJQdG9hRzdWSUwvNWpXd0lRN0FIakhqMnc3Qnpy?=
- =?utf-8?B?eGFneDFwS05GN3hHNnN3U0Q3YXRKc0JjdkVhQXdsajliS0FXWVhLWnM4eUxp?=
- =?utf-8?B?ejNabnNPRVU2TjlFeTYybUJ4dGZRWVlyRjN5WWEzWWFIUS9pc01TanZ1K29I?=
- =?utf-8?B?Nmx3OUJNYXZORXVoTGVsVGZzZkRCYjNlbmNkWjVXdk5RanErcmNzdWFHSVpW?=
- =?utf-8?B?NjZFaVJaZXp4K2RxN3RDVDlSYnVteGlFUDdXL2M2RWl4VG1uTGZ3V0V4Ujha?=
- =?utf-8?B?ZmF6Rno3UjY5QkIvMEpBS1hubDVGc3FhT0tnMGFDV0k4eEQ4VXZmVWxYRTFm?=
- =?utf-8?B?dHVOb0l5Rk9LNWpVUyt1U04zS0ZLVm9CUVU1MnQ0b1JZcWQvYVVKUzZJb2Vq?=
- =?utf-8?B?MENJQTQweDB0L2picklldm9ldkxTcFdTRWh6dnJhUE9JbHQ1bVpDWFZoY01I?=
- =?utf-8?B?RmxFTXZOUVJKbVhwV0M0UjdJa1dkeE1lNDU0MzZOcGtqSmdRUDEvZkNncXlz?=
- =?utf-8?B?TVQyWTkrUU16cDM5RHJ5L1NWdHdZYklvS3g0NnJ0S3lna3Z6TFJCVTFhNmJq?=
- =?utf-8?B?TlJ1bVJPMThaREdIT1k0NndjZ0ZVUnNFbVdpbERvWnB0cnRDUXBEZlViZzJT?=
- =?utf-8?B?SGdkeVdaTkFQd1NOODE1V2RpSE1zSkxndGh1bUVhRzUyRmhUQ3VKRkVHK3Fn?=
- =?utf-8?B?akxYYWhZa0luS2tIT3NGSWFHV2dpVTZpL2xDNWtnN1hoczFiN3cwc1c2UTkx?=
- =?utf-8?B?bWFDZHBoMFRzTWxsS3hHWTZVUi9DVHdoakp5K3pZOHh4a1VCNUtGQXZkODFV?=
- =?utf-8?B?WEdUNTdJWS94YTBCTEJWbkRlUzdBQlordjYwbEh6UU14L205RjFPTm9VWXlu?=
- =?utf-8?B?RnFyU3lVd1dzRTE3Z3ROd3R3RzNjemk2aldFZzZ1NUdmN1hqTGQ1dHdTb3NT?=
- =?utf-8?B?SFJKVkx5K0hla0tQbFFwUkR3REl2c2xvWkVkTlhEaDVjMUVadGhQc1B5OFdn?=
- =?utf-8?B?eDJxc2JVazFPcVoyRVg4NG9EazFuMmJYbmxxTVpiQVprNHMybFdDR3FIMlFK?=
- =?utf-8?B?WVFHQ1RseklMVEV4M0crMkR4dnVMTkF6aUhNbjBidVltUmc4VlZJU1VRaEV2?=
- =?utf-8?B?ZUpISFlsRXF0NHc1REdpTHVETmxTMUxTUWJOZVI1RVNkMDJQWllrWXZnYmdj?=
- =?utf-8?B?MWZBOGVESXZLa0tVOW9yUUJrRHh1eGVwZGJVeVJMeDFveEJMUlpKdTd6Mktp?=
- =?utf-8?B?Y3NHUlVJc01jK0U0OGozRzFaVGRmbEhJNGp0M0o0UzR1czFYT0M1MncyY25O?=
- =?utf-8?B?d0hDbitFTm9qT1hxc0VrZFVjT0NGemhvWXVKNnEwT3N4a0RHUTFLUVFGd1Bw?=
- =?utf-8?B?UUlDY3FYZ1VoeWtpR25hWW9ac3l6NVYzZUMvQVJMc3BWd0pXYTJlcFF4T2ZP?=
- =?utf-8?B?enVzL2JSTFplTFhPZHo0UE5sQmE1NEw2ZTlWM3NJT3A4Z3llRC9SaVdyejNP?=
- =?utf-8?B?clZhUkxwNXZGVmRFbm5qQWZDOEcydCtnODZSQUg1OXlVNUtkNlVWS3dFRDh4?=
- =?utf-8?B?WjJMdEFkZmtQcGNiMnJ1eUt2NEkvQUFtZklQbldKOHBuaWUvem1KMXNKcEN6?=
- =?utf-8?Q?+cW1darWhWjwwzbzlbM7JMqDL?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 666a6112-bc63-4e04-f865-08dab0cf0dac
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB5549.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Oct 2022 06:07:39.6273 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wyG6i8IQHX+1b4JEdHXwT9FdunPUXmUYuk+a2U3acUH99xoOR8k0yNn+mqLxvLTwYHsyONJC59uT02yMm6U2wQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6928
-Received-SPF: softfail client-ip=2a01:111:f400:7ea9::622;
- envelope-from=avihaih@nvidia.com;
- helo=NAM02-SN1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -151,60 +102,60 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 18/10/2022 5:37, Zhang, Chen wrote:
-> External email: Use caution opening links or attachments
->
->
->> -----Original Message-----
->> From: Qemu-devel <qemu-devel-bounces+chen.zhang=intel.com@nongnu.org>
->> On Behalf Of Avihai Horon
->> Sent: Sunday, October 16, 2022 4:58 PM
->> To: qemu-devel@nongnu.org; Alex Williamson
->> <alex.williamson@redhat.com>; Kunkun Jiang <jiangkunkun@huawei.com>
->> Cc: Avihai Horon <avihaih@nvidia.com>
->> Subject: [PATCH] vfio/migration: Fix wrong enum usage
->>
->> vfio_migration_init() initializes VFIOMigration->device_state using enum of
->> VFIO migration protocol v2. Current implemented protocol is v1 so v1 enum
->> should be used. Fix it.
->>
->> Fixes: 429c72800654 ("vfio/migration: Fix incorrect initialization value for
->> parameters in VFIOMigration")
->> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-> Looks good to me.
-> Reviewed-by: Zhang Chen <chen.zhang@intel.com>
->
-> But I found nowhere using the enum of VFIO migration protocol v2 (vfio_device_mig_state).
-> I don't know more about the background, should we remove the  redundancy definition or add full support for
-> the VFIO migration protocol v2 ?
-We are currently in the process of adding support for v2 protocol that 
-will replace v1.
-Once v2 is added, v1 will be removed.
+Chris Friedt <cfriedt@meta.com> writes:
 
-Thanks.
+>> On Oct 17, 2022, at 1:22 PM, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>>=20
+>> =EF=BB=BF>=20
+>>=20
+>> Peter Maydell <peter.maydell@linaro.org> writes:
+>>=20
+>>>> On Mon, 17 Oct 2022 at 14:50, Alexander Bulekov <alxndr@bu.edu> wrote:
+>>>>=20
+>>>> On 221015 1710, Chris Friedt wrote:
+>>>>> From: Christopher Friedt <cfriedt@meta.com>
+>>>>>=20
+>>>> Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
+>>>>=20
+>>>> As a side-note, seems strange that edu_check_range will abort the enti=
+re
+>>>> VM if the check fails, rather than handling the error more elegantly.
+>>>=20
+>>> Yes, this is bad for a device model, though we have a lot of
+>>> older device models that still do it. The preferred pattern is:
+>>> * for situations which are "if this happens there is a
+>>>   bug in QEMU itself", use assert. hw_error() is a kind of
+>>>   assert that prints a bunch of guest register state: sometimes
+>>>   you want that, but more often you just want normal assert()
+>>> * for situations where the guest has misprogrammed the device,
+>>>   log that with qemu_log_mask(LOG_GUEST_ERROR, ...)
+>>>   and continue with whatever the real hardware would do, or
+>>>   some reasonable choice if the h/w spec is vague
+>>> * for situations where the guest is correct but is trying to
+>>>   get the device to do something our model doesn't implement
+>>>   yet, same as above but with LOG_UNIMP.
+>>>=20
+>>> Probably most hw_error() uses in the codebase should be
+>>> replaced with one of the above options.
+>>=20
+>> We should probably document this best practice somewhere in docs/devel
+>> but I guess we really need a "guide to writing device emulation"
+>> section.
+>
+> Should I make a separate PR for that or attach it to the existing
+> series (at v3 now)?
+
+I don't think improving our developer documentation needs to be part of
+this fix. However if you want to take a run at improving it in a new
+series be my guest ;-)
 
 >
-> Thanks
-> Chen
+> Thanks,
 >
->> ---
->>   hw/vfio/migration.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c index
->> d9598ce070..8dbbfa2c56 100644
->> --- a/hw/vfio/migration.c
->> +++ b/hw/vfio/migration.c
->> @@ -803,7 +803,7 @@ static int vfio_migration_init(VFIODevice *vbasedev,
->>       }
->>
->>       vbasedev->migration = g_new0(VFIOMigration, 1);
->> -    vbasedev->migration->device_state = VFIO_DEVICE_STATE_RUNNING;
->> +    vbasedev->migration->device_state = VFIO_DEVICE_STATE_V1_RUNNING;
->>       vbasedev->migration->vm_running = runstate_is_running();
->>
->>       ret = vfio_region_setup(obj, vbasedev, &vbasedev->migration->region,
->> --
->> 2.21.3
->>
+> C
+
+
+--=20
+Alex Benn=C3=A9e
 
