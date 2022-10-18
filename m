@@ -2,90 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12A9A6027F9
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 11:09:18 +0200 (CEST)
-Received: from localhost ([::1]:42326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42F91602807
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 11:12:26 +0200 (CEST)
+Received: from localhost ([::1]:49728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okib6-0003eE-K3
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 05:09:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35690)
+	id 1okie8-00073z-6k
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 05:12:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nivanov@cloudlinux.com>)
- id 1okiDZ-0005xl-C5
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 04:44:58 -0400
-Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130]:36853)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1okiGo-0007oG-Pe; Tue, 18 Oct 2022 04:48:25 -0400
+Received: from mail-ua1-x929.google.com ([2607:f8b0:4864:20::929]:38479)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nivanov@cloudlinux.com>)
- id 1okiDM-0004la-KO
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 04:44:57 -0400
-Received: by mail-lf1-x130.google.com with SMTP id bu25so21451240lfb.3
- for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 01:44:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cloudlinux.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1okiGd-0005Jk-4b; Tue, 18 Oct 2022 04:48:14 -0400
+Received: by mail-ua1-x929.google.com with SMTP id e22so5280961uar.5;
+ Tue, 18 Oct 2022 01:48:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xKd2hc21G0FHoZaTHAW68u0taUzAr0Wqblrk+XyXJeM=;
- b=E1XPmVAY58vPaDxyQrF4WI7EzbPjElk3L1swRsDjiOnd37cv1dsLtNgXNBptn3M78E
- hoHzyBjg2BpX84T7PAcGYYSmFJaBcV3r+Mjdet27SyYQzdUIOHWAw9q2Kbj7Ip79p+hn
- +2lAO/NVi5mivrdBYVp3jY9xIgyR3nUVMfJBIA6X5oTUyAuHqvMqvtTe+PYiNev6rxZw
- o3wzfizRfnPDEvwGOHz0zWfYUyZCbchq+DrDnp7ogO6PrxCalEy3zoeRN4bE7G9yiSru
- sqRehtvfIItD6tQblYl5VwCs0dwnlIi6yap7z4odoI+PyTqPZhC0dH4BzwG1Dru2xfJ5
- fdqQ==
+ bh=F2m7GU2nAMXt+Bw97L9DsZjze9kaM9DLt4Oswcnlzmk=;
+ b=mvwbhcHfv3dBhEDf274rg5/yvUvIvkL/ecGdNwna6E78WgSi113fZfJf5FIAA/AQzo
+ ZTdqEVuPvPT6nKRnUAV2fNmyRR8fNbZrNDRyURWfKkPGEPiWH7qJgBxRz9l1hKIe6nZT
+ 4+6DXXOqVMQ7hZyAEyp4rt7ulVth74fiR3TsAtPvBY2FkhaYnd8tk7h8fk/nMO29r0X+
+ 3rrjsUE9kH8yOlvIJkIOJIo5WpYmyYCye1+8mfu5B/hVS5xyUuzZihfK03eve3jcUeAv
+ RJblInM9C1/Su6TDmJlxeCXBjcIVccJJwN+VlaBxeIx9wRkrqLPvmIJ9ONbewoQOkEhN
+ I8xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xKd2hc21G0FHoZaTHAW68u0taUzAr0Wqblrk+XyXJeM=;
- b=1q6pANLpFWzX8qZ2YP61fCturKGRKx+z3X93uLgGMUYefyOtRAquKJJpn5zmS7eL6X
- mTkRrHbj0mWvAKmlNIxfwVheQnSrhsUiuv7u4hBgQtsRNrAn/vnA/Jz8Rsoc4/zWWWYF
- OATMlo6QW1O3y3BFNaA5Qnu6cPfAij78dcnT9t3wp2qY69+pnGQuWC9MUoWDvyEjJSci
- 7l+kJoTZGfKcyimPF/rJRTbxHSqcBIHeZAxDpVpy16wsD3PkxpJQBBzKjscMPKsj7fNH
- DJEesoHCSUlvWJHbGSlrOI/J/3ksqShUNxa1rUSVqI24FAeVj/UNeieCsKC+V8whhqPF
- 7fWQ==
-X-Gm-Message-State: ACrzQf22kDA0xR8Z4gvTh32IF7MnO0liATB9i8ReU8qohyawMsR4cti3
- pn1hkjejZiKLHldt9bOnb9jv+RbTKEBHpaIm
-X-Google-Smtp-Source: AMsMyM7XKHWtpmtheO6vjL3d8NI9FZYbstwalES179Ery+RM1+0GafQyN0bZZD1NWsh0cWPo38CvdA==
-X-Received: by 2002:a05:6512:3b13:b0:4a2:564e:6cea with SMTP id
- f19-20020a0565123b1300b004a2564e6ceamr617448lfv.242.1666082682331; 
- Tue, 18 Oct 2022 01:44:42 -0700 (PDT)
-Received: from fedora.. (vist.dozen.mephi.ru. [85.143.113.73])
- by smtp.gmail.com with ESMTPSA id
- f7-20020a05651c03c700b0026e04cc88cfsm1874523ljp.124.2022.10.18.01.44.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Oct 2022 01:44:42 -0700 (PDT)
-From: Nikita Ivanov <nivanov@cloudlinux.com>
-To: qemu-devel@nongnu.org
-Cc: Nikita Ivanov <nivanov@cloudlinux.com>, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Greg Kurz <groug@kaod.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Jason Wang <jasowang@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Konstantin Kostiuk <kkostiuk@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- qemu-block@nongnu.org (open list:raw)
-Subject: [PATCH v3 2/2] error handling: Use RETRY_ON_EINTR() macro where
- applicable
-Date: Tue, 18 Oct 2022 11:43:41 +0300
-Message-Id: <20221018084341.16270-3-nivanov@cloudlinux.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221018084341.16270-1-nivanov@cloudlinux.com>
-References: <20221018084341.16270-1-nivanov@cloudlinux.com>
+ bh=F2m7GU2nAMXt+Bw97L9DsZjze9kaM9DLt4Oswcnlzmk=;
+ b=hj0jdbpKKPru73j5TaX4naSm4lzv+1NKQbPr3j/T+OREtohRXHWXlyzSiBj4Z/Du2g
+ 6kETYhtEuB/uPdjS2J90H1OodIELqEDHmFAOjDdfgN80gCLEhPM0DsaacjsQ4IE56grC
+ w9w2W4d4p3M+adfmPDvJoclLIqnnVcK8QnSEt5ROjnwbEp8sP+aqqz90w5s1KP47DvXf
+ S0GxP9tzRvF9ewrKU2srS6lRRWuLJcaMlytdWGPFxCsAgVufs0aEFhtPLIZAjZJrRwtP
+ Gz2ilou8alg4EbfxAah5mL7O+lv0utMA46JxAk4wamk8Iu1EtPGpffMfV2gH6PDRI+3S
+ hVfA==
+X-Gm-Message-State: ACrzQf0zyifNFQmF7D2t2va30HQ7Sf4YYWg3gvlE9BpSGp41Os++rYWk
+ xyCOwK9CQYxqybhgruHVjNzLrTyGpv0unW0+hSE=
+X-Google-Smtp-Source: AMsMyM60BRXMTJOEetyX58xQRIJckVIHDej3ptpU1ajdgMkPm9S+EE1nuHQMb7yvBGmVGZ6rfZehGc4ncdHE/5KUDM8=
+X-Received: by 2002:a05:6130:c92:b0:3d0:5b8d:f50e with SMTP id
+ ch18-20020a0561300c9200b003d05b8df50emr918508uab.0.1666082885024; Tue, 18 Oct
+ 2022 01:48:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::130;
- envelope-from=nivanov@cloudlinux.com; helo=mail-lf1-x130.google.com
+References: <20221016145626.171838-1-faithilikerun@gmail.com>
+ <20221016145626.171838-3-faithilikerun@gmail.com>
+ <e4856293-e387-fd65-d81e-1d590b03e0a8@opensource.wdc.com>
+In-Reply-To: <e4856293-e387-fd65-d81e-1d590b03e0a8@opensource.wdc.com>
+From: Sam Li <faithilikerun@gmail.com>
+Date: Tue, 18 Oct 2022 16:48:23 +0800
+Message-ID: <CAAAx-8LEY6Ni+pa+-ccYyLF7Ar_jfqegc9w+=k7Se+MNxogcLg@mail.gmail.com>
+Subject: Re: [PATCH v4 2/3] block: introduce zone append write for zoned
+ devices
+To: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com, dmitry.fomichev@wdc.com, 
+ Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Fam Zheng <fam@euphon.net>, hare@suse.de, qemu-block@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::929;
+ envelope-from=faithilikerun@gmail.com; helo=mail-ua1-x929.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,368 +87,510 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is a defined RETRY_ON_EINTR() macro in qemu/osdep.h
-which handles the same while loop.
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/415
+Damien Le Moal <damien.lemoal@opensource.wdc.com> =E4=BA=8E2022=E5=B9=B410=
+=E6=9C=8817=E6=97=A5=E5=91=A8=E4=B8=80 13:22=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On 10/16/22 23:56, Sam Li wrote:
+> > A zone append command is a write operation that specifies the first
+> > logical block of a zone as the write position. When writing to a zoned
+> > block device using zone append, the byte offset of writes is pointing
+> > to the write pointer of that zone. Upon completion the device will
+> > respond with the position the data has been written in the zone.
+> >
+> > Signed-off-by: Sam Li <faithilikerun@gmail.com>
+> > ---
+> >  block/block-backend.c             | 65 ++++++++++++++++++++++
+> >  block/file-posix.c                | 89 +++++++++++++++++++++++++++++--
+> >  block/io.c                        | 21 ++++++++
+> >  block/raw-format.c                |  8 +++
+> >  include/block/block-io.h          |  3 ++
+> >  include/block/block_int-common.h  |  5 ++
+> >  include/block/raw-aio.h           |  4 +-
+> >  include/sysemu/block-backend-io.h |  9 ++++
+> >  8 files changed, 198 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/block/block-backend.c b/block/block-backend.c
+> > index 1c618e9c68..06931ddd24 100644
+> > --- a/block/block-backend.c
+> > +++ b/block/block-backend.c
+> > @@ -1439,6 +1439,9 @@ typedef struct BlkRwCo {
+> >          struct {
+> >              unsigned long op;
+> >          } zone_mgmt;
+> > +        struct {
+> > +            int64_t *append_sector;
+>
+> As mentioned previosuly, call this sector. "append" is already in the
+> zone_append struct member name....
 
-Signed-off-by: Nikita Ivanov <nivanov@cloudlinux.com>
----
- block/file-posix.c        | 37 ++++++++++++++++---------------------
- chardev/char-pty.c        |  4 +---
- hw/9pfs/9p-local.c        |  8 ++------
- net/l2tpv3.c              | 17 +++++------------
- net/socket.c              | 16 +++++++---------
- net/tap.c                 |  8 ++------
- qga/commands-posix.c      |  4 +---
- semihosting/syscalls.c    |  4 +---
- tests/qtest/libqtest.c    | 12 +++++-------
- tests/vhost-user-bridge.c |  4 +---
- util/main-loop.c          |  4 +---
- util/osdep.c              |  4 +---
- util/vfio-helpers.c       | 12 ++++++------
- 13 files changed, 49 insertions(+), 85 deletions(-)
+Right, missed it here. I'll use "offset" then since it's in block layer.
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 23acffb9a4..8f7a22e3e4 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -1229,9 +1229,7 @@ static int hdev_get_max_segments(int fd, struct stat *st)
-         ret = -errno;
-         goto out;
-     }
--    do {
--        ret = read(sysfd, buf, sizeof(buf) - 1);
--    } while (ret == -1 && errno == EINTR);
-+    ret = RETRY_ON_EINTR(read(sysfd, buf, sizeof(buf) - 1));
-     if (ret < 0) {
-         ret = -errno;
-         goto out;
-@@ -1379,9 +1377,9 @@ static int handle_aiocb_ioctl(void *opaque)
-     RawPosixAIOData *aiocb = opaque;
-     int ret;
- 
--    do {
--        ret = ioctl(aiocb->aio_fildes, aiocb->ioctl.cmd, aiocb->ioctl.buf);
--    } while (ret == -1 && errno == EINTR);
-+    ret = RETRY_ON_EINTR(
-+        ioctl(aiocb->aio_fildes, aiocb->ioctl.cmd, aiocb->ioctl.buf)
-+    );
-     if (ret == -1) {
-         return -errno;
-     }
-@@ -1463,18 +1461,17 @@ static ssize_t handle_aiocb_rw_vector(RawPosixAIOData *aiocb)
+>
+> > +        } zone_append;
+> >      };
+> >  } BlkRwCo;
+> >
+> > @@ -1871,6 +1874,47 @@ BlockAIOCB *blk_aio_zone_mgmt(BlockBackend *blk,=
+ BlockZoneOp op,
+> >      return &acb->common;
+> >  }
+> >
+> > +static void coroutine_fn blk_aio_zone_append_entry(void *opaque)
+> > +{
+> > +    BlkAioEmAIOCB *acb =3D opaque;
+> > +    BlkRwCo *rwco =3D &acb->rwco;
+> > +
+> > +    rwco->ret =3D blk_co_zone_append(rwco->blk, rwco->zone_append.appe=
+nd_sector,
+>
+> ...so you avoid awkward repetitions of "append" like here. You'll have:
+> rwco->zone_append.sector, which is shorter and more natural.
+>
+> > +                                   rwco->iobuf, rwco->flags);
+> > +    blk_aio_complete(acb);
+> > +}
+> > +
+> > +BlockAIOCB *blk_aio_zone_append(BlockBackend *blk, int64_t *offset,
+> > +                                QEMUIOVector *qiov, BdrvRequestFlags f=
+lags,
+> > +                                BlockCompletionFunc *cb, void *opaque)=
  {
-     ssize_t len;
- 
--    do {
--        if (aiocb->aio_type & QEMU_AIO_WRITE)
--            len = qemu_pwritev(aiocb->aio_fildes,
--                               aiocb->io.iov,
--                               aiocb->io.niov,
--                               aiocb->aio_offset);
--         else
--            len = qemu_preadv(aiocb->aio_fildes,
--                              aiocb->io.iov,
--                              aiocb->io.niov,
--                              aiocb->aio_offset);
--    } while (len == -1 && errno == EINTR);
-+    len = RETRY_ON_EINTR(
-+        (aiocb->aio_type & QEMU_AIO_WRITE) ?
-+            qemu_pwritev(aiocb->aio_fildes,
-+                           aiocb->io.iov,
-+                           aiocb->io.niov,
-+                           aiocb->aio_offset) :
-+            qemu_preadv(aiocb->aio_fildes,
-+                          aiocb->io.iov,
-+                          aiocb->io.niov,
-+                          aiocb->aio_offset)
-+    );
- 
-     if (len == -1) {
-         return -errno;
-@@ -1899,9 +1896,7 @@ static int allocate_first_block(int fd, size_t max_size)
-     buf = qemu_memalign(max_align, write_size);
-     memset(buf, 0, write_size);
- 
--    do {
--        n = pwrite(fd, buf, write_size, 0);
--    } while (n == -1 && errno == EINTR);
-+    n = RETRY_ON_EINTR(pwrite(fd, buf, write_size, 0));
- 
-     ret = (n == -1) ? -errno : 0;
- 
-diff --git a/chardev/char-pty.c b/chardev/char-pty.c
-index 53f25c6bbd..92fd33c854 100644
---- a/chardev/char-pty.c
-+++ b/chardev/char-pty.c
-@@ -93,9 +93,7 @@ static void pty_chr_update_read_handler(Chardev *chr)
-     pfd.fd = fioc->fd;
-     pfd.events = G_IO_OUT;
-     pfd.revents = 0;
--    do {
--        rc = g_poll(&pfd, 1, 0);
--    } while (rc == -1 && errno == EINTR);
-+    rc = RETRY_ON_EINTR(g_poll(&pfd, 1, 0));
-     assert(rc >= 0);
- 
-     if (pfd.revents & G_IO_HUP) {
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index d42ce6d8b8..bb3187244f 100644
---- a/hw/9pfs/9p-local.c
-+++ b/hw/9pfs/9p-local.c
-@@ -470,9 +470,7 @@ static ssize_t local_readlink(FsContext *fs_ctx, V9fsPath *fs_path,
-         if (fd == -1) {
-             return -1;
-         }
--        do {
--            tsize = read(fd, (void *)buf, bufsz);
--        } while (tsize == -1 && errno == EINTR);
-+        tsize = RETRY_ON_EINTR(read(fd, (void *)buf, bufsz));
-         close_preserve_errno(fd);
-     } else if ((fs_ctx->export_flags & V9FS_SM_PASSTHROUGH) ||
-                (fs_ctx->export_flags & V9FS_SM_NONE)) {
-@@ -908,9 +906,7 @@ static int local_symlink(FsContext *fs_ctx, const char *oldpath,
-         }
-         /* Write the oldpath (target) to the file. */
-         oldpath_size = strlen(oldpath);
--        do {
--            write_size = write(fd, (void *)oldpath, oldpath_size);
--        } while (write_size == -1 && errno == EINTR);
-+        write_size = RETRY_ON_EINTR(write(fd, (void *)oldpath, oldpath_size));
-         close_preserve_errno(fd);
- 
-         if (write_size != oldpath_size) {
-diff --git a/net/l2tpv3.c b/net/l2tpv3.c
-index af373e5c30..e0726f5f89 100644
---- a/net/l2tpv3.c
-+++ b/net/l2tpv3.c
-@@ -240,9 +240,7 @@ static ssize_t net_l2tpv3_receive_dgram_iov(NetClientState *nc,
-     message.msg_control = NULL;
-     message.msg_controllen = 0;
-     message.msg_flags = 0;
--    do {
--        ret = sendmsg(s->fd, &message, 0);
--    } while ((ret == -1) && (errno == EINTR));
-+    ret = RETRY_ON_EINTR(sendmsg(s->fd, &message, 0));
-     if (ret > 0) {
-         ret -= s->offset;
-     } else if (ret == 0) {
-@@ -285,9 +283,7 @@ static ssize_t net_l2tpv3_receive_dgram(NetClientState *nc,
-     message.msg_control = NULL;
-     message.msg_controllen = 0;
-     message.msg_flags = 0;
--    do {
--        ret = sendmsg(s->fd, &message, 0);
--    } while ((ret == -1) && (errno == EINTR));
-+    ret = RETRY_ON_EINTR(sendmsg(s->fd, &message, 0));
-     if (ret > 0) {
-         ret -= s->offset;
-     } else if (ret == 0) {
-@@ -434,12 +430,9 @@ static void net_l2tpv3_send(void *opaque)
- 
-     msgvec = s->msgvec + s->queue_head;
-     if (target_count > 0) {
--        do {
--            count = recvmmsg(
--                s->fd,
--                msgvec,
--                target_count, MSG_DONTWAIT, NULL);
--        } while ((count == -1) && (errno == EINTR));
-+        count = RETRY_ON_EINTR(
-+                recvmmsg(s->fd, msgvec, target_count, MSG_DONTWAIT, NULL)
-+        );
-         if (count < 0) {
-             /* Recv error - we still need to flush packets here,
-              * (re)set queue head to current position
-diff --git a/net/socket.c b/net/socket.c
-index bfd8596250..00f8a88531 100644
---- a/net/socket.c
-+++ b/net/socket.c
-@@ -117,15 +117,13 @@ static ssize_t net_socket_receive_dgram(NetClientState *nc, const uint8_t *buf,
-     NetSocketState *s = DO_UPCAST(NetSocketState, nc, nc);
-     ssize_t ret;
- 
--    do {
--        if (s->dgram_dst.sin_family != AF_UNIX) {
--            ret = sendto(s->fd, buf, size, 0,
--                         (struct sockaddr *)&s->dgram_dst,
--                         sizeof(s->dgram_dst));
--        } else {
--            ret = send(s->fd, buf, size, 0);
--        }
--    } while (ret == -1 && errno == EINTR);
-+    ret = RETRY_ON_EINTR(
-+        s->dgram_dst.sin_family != AF_UNIX ?
-+            sendto(s->fd, buf, size, 0,
-+                     (struct sockaddr *)&s->dgram_dst,
-+                     sizeof(s->dgram_dst)) :
-+            send(s->fd, buf, size, 0)
-+    );
- 
-     if (ret == -1 && errno == EAGAIN) {
-         net_socket_write_poll(s, true);
-diff --git a/net/tap.c b/net/tap.c
-index e090d14203..4c90f70b7e 100644
---- a/net/tap.c
-+++ b/net/tap.c
-@@ -102,9 +102,7 @@ static ssize_t tap_write_packet(TAPState *s, const struct iovec *iov, int iovcnt
+> > +    BlkAioEmAIOCB *acb;
+> > +    Coroutine *co;
+> > +    IO_CODE();
+> > +
+> > +    blk_inc_in_flight(blk);
+> > +    acb =3D blk_aio_get(&blk_aio_em_aiocb_info, blk, cb, opaque);
+> > +    acb->rwco =3D (BlkRwCo) {
+> > +            .blk    =3D blk,
+> > +            .ret    =3D NOT_DONE,
+> > +            .flags  =3D flags,
+> > +            .iobuf  =3D qiov,
+> > +            .zone_append =3D {
+> > +                    .append_sector =3D offset,
+> > +            },
+> > +    };
+> > +    acb->has_returned =3D false;
+> > +
+> > +    co =3D qemu_coroutine_create(blk_aio_zone_append_entry, acb);
+> > +    bdrv_coroutine_enter(blk_bs(blk), co);
+> > +    acb->has_returned =3D true;
+> > +    if (acb->rwco.ret !=3D NOT_DONE) {
+> > +        replay_bh_schedule_oneshot_event(blk_get_aio_context(blk),
+> > +                                         blk_aio_complete_bh, acb);
+> > +    }
+> > +
+> > +    return &acb->common;
+> > +}
+> > +
+> >  /*
+> >   * Send a zone_report command.
+> >   * offset is a byte offset from the start of the device. No alignment
+> > @@ -1923,6 +1967,27 @@ int coroutine_fn blk_co_zone_mgmt(BlockBackend *=
+blk, BlockZoneOp op,
+> >      return ret;
+> >  }
+> >
+> > +/*
+> > + * Send a zone_append command.
+> > + */
+> > +int coroutine_fn blk_co_zone_append(BlockBackend *blk, int64_t *offset=
+,
+> > +        QEMUIOVector *qiov, BdrvRequestFlags flags)
+> > +{
+> > +    int ret;
+> > +    IO_CODE();
+> > +
+> > +    blk_inc_in_flight(blk);
+> > +    blk_wait_while_drained(blk);
+> > +    if (!blk_is_available(blk)) {
+> > +        blk_dec_in_flight(blk);
+> > +        return -ENOMEDIUM;
+> > +    }
+> > +
+> > +    ret =3D bdrv_co_zone_append(blk_bs(blk), offset, qiov, flags);
+> > +    blk_dec_in_flight(blk);
+> > +    return ret;
+> > +}
+> > +
+> >  void blk_drain(BlockBackend *blk)
+> >  {
+> >      BlockDriverState *bs =3D blk_bs(blk);
+> > diff --git a/block/file-posix.c b/block/file-posix.c
+> > index 5ff5500301..3d0cc33d02 100644
+> > --- a/block/file-posix.c
+> > +++ b/block/file-posix.c
+> > @@ -205,6 +205,7 @@ typedef struct RawPosixAIOData {
+> >          struct {
+> >              struct iovec *iov;
+> >              int niov;
+> > +            int64_t *offset;
+> >          } io;
+> >          struct {
+> >              uint64_t cmd;
+> > @@ -1475,6 +1476,11 @@ static void raw_refresh_limits(BlockDriverState =
+*bs, Error **errp)
+> >              bs->bl.max_active_zones =3D ret;
+> >          }
+> >
+> > +        ret =3D get_sysfs_long_val(&st, "physical_block_size");
+> > +        if (ret >=3D 0) {
+> > +            bs->bl.write_granularity =3D ret;
+> > +        }
+> > +
+> >          bs->bl.wps =3D g_malloc(sizeof(BlockZoneWps) + sizeof(int64_t)=
+ * ret);
+> >          if (get_zones_wp(s->fd, bs->bl.wps, 0, ret) < 0) {
+> >              error_report("report wps failed");
+> > @@ -1647,9 +1653,18 @@ qemu_pwritev(int fd, const struct iovec *iov, in=
+t nr_iov, off_t offset)
+> >  static ssize_t handle_aiocb_rw_vector(RawPosixAIOData *aiocb)
+> >  {
+> >      ssize_t len;
+> > +    BlockZoneWps *wps =3D aiocb->bs->bl.wps;
+> > +    int index =3D aiocb->aio_offset / aiocb->bs->bl.zone_size;
+> > +
+> > +    if (wps) {
+> > +        qemu_mutex_lock(&wps->lock);
+> > +        if (aiocb->aio_type & QEMU_AIO_ZONE_APPEND) {
+> > +            aiocb->aio_offset =3D wps->wp[index];
+> > +        }
+> > +    }
+> >
+> >      do {
+> > -        if (aiocb->aio_type & QEMU_AIO_WRITE)
+> > +        if (aiocb->aio_type & (QEMU_AIO_WRITE | QEMU_AIO_ZONE_APPEND))
+> >              len =3D qemu_pwritev(aiocb->aio_fildes,
+> >                                 aiocb->io.iov,
+> >                                 aiocb->io.niov,
+> > @@ -1660,6 +1675,9 @@ static ssize_t handle_aiocb_rw_vector(RawPosixAIO=
+Data *aiocb)
+> >                                aiocb->io.niov,
+> >                                aiocb->aio_offset);
+> >      } while (len =3D=3D -1 && errno =3D=3D EINTR);
+> > +    if (wps) {
+> > +        qemu_mutex_unlock(&wps->lock);
+>
+> As commented in the previous patch, you cannot release the lock until you
+> update the wp array entry. So this means that you should be taking the wp
+> lock at the beginning of handle_aiocb_rw() and release it only after the
+> wp array is updated. That will also simplify the code and avoid spreading
+> lock/unlock of that array to many places.
+>
+> > +    }
+> >
+> >      if (len =3D=3D -1) {
+> >          return -errno;
+> > @@ -1677,9 +1695,17 @@ static ssize_t handle_aiocb_rw_linear(RawPosixAI=
+OData *aiocb, char *buf)
+> >  {
+> >      ssize_t offset =3D 0;
+> >      ssize_t len;
+> > +    BlockZoneWps *wps =3D aiocb->bs->bl.wps;
+> > +    int index =3D aiocb->aio_offset / aiocb->bs->bl.zone_size;
+> >
+> > +    if (wps) {
+> > +        qemu_mutex_lock(&wps->lock);
+> > +        if (aiocb->aio_type & QEMU_AIO_ZONE_APPEND) {
+> > +            aiocb->aio_offset =3D wps->wp[index];
+> > +        }
+> > +    }
+> >      while (offset < aiocb->aio_nbytes) {
+> > -        if (aiocb->aio_type & QEMU_AIO_WRITE) {
+> > +        if (aiocb->aio_type & (QEMU_AIO_WRITE | QEMU_AIO_ZONE_APPEND))=
  {
-     ssize_t len;
- 
--    do {
--        len = writev(s->fd, iov, iovcnt);
--    } while (len == -1 && errno == EINTR);
-+    len = RETRY_ON_EINTR(writev(s->fd, iov, iovcnt));
- 
-     if (len == -1 && errno == EAGAIN) {
-         tap_write_poll(s, true);
-@@ -577,9 +575,7 @@ static int net_bridge_run_helper(const char *helper, const char *bridge,
- 
-         close(sv[1]);
- 
--        do {
--            fd = recv_fd(sv[0]);
--        } while (fd == -1 && errno == EINTR);
-+        fd = RETRY_ON_EINTR(recv_fd(sv[0]));
-         saved_errno = errno;
- 
-         close(sv[0]);
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index eea819cff0..95753f7c96 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -68,9 +68,7 @@ static void ga_wait_child(pid_t pid, int *status, Error **errp)
- 
-     *status = 0;
- 
--    do {
--        rpid = waitpid(pid, status, 0);
--    } while (rpid == -1 && errno == EINTR);
-+    rpid = RETRY_ON_EINTR(waitpid(pid, status, 0));
- 
-     if (rpid == -1) {
-         error_setg_errno(errp, errno, "failed to wait for child (pid: %d)",
-diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
-index 508a0ad88c..5893c760c5 100644
---- a/semihosting/syscalls.c
-+++ b/semihosting/syscalls.c
-@@ -317,9 +317,7 @@ static void host_read(CPUState *cs, gdb_syscall_complete_cb complete,
-         complete(cs, -1, EFAULT);
-         return;
-     }
--    do {
--        ret = read(gf->hostfd, ptr, len);
--    } while (ret == -1 && errno == EINTR);
-+    ret = RETRY_ON_EINTR(read(gf->hostfd, ptr, len));
-     if (ret == -1) {
-         complete(cs, -1, errno);
-         unlock_user(ptr, buf, 0);
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index 90648eb8d1..86f1091e78 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -101,10 +101,10 @@ static int socket_accept(int sock)
-         return -1;
-     }
- 
--    do {
--        addrlen = sizeof(addr);
--        ret = accept(sock, (struct sockaddr *)&addr, &addrlen);
--    } while (ret == -1 && errno == EINTR);
-+    addrlen = sizeof(addr);
-+    ret = RETRY_ON_EINTR(
-+        accept(sock, (struct sockaddr *)&addr, &addrlen)
-+    );
-     if (ret == -1) {
-         fprintf(stderr, "%s failed: %s\n", __func__, strerror(errno));
-     }
-@@ -574,9 +574,7 @@ int qtest_socket_server(const char *socket_path)
-     addr.sun_family = AF_UNIX;
-     snprintf(addr.sun_path, sizeof(addr.sun_path), "%s", socket_path);
- 
--    do {
--        ret = bind(sock, (struct sockaddr *)&addr, sizeof(addr));
--    } while (ret == -1 && errno == EINTR);
-+    ret = RETRY_ON_EINTR(bind(sock, (struct sockaddr *)&addr, sizeof(addr)));
-     g_assert_cmpint(ret, !=, -1);
-     ret = listen(sock, 1);
-     g_assert_cmpint(ret, !=, -1);
-diff --git a/tests/vhost-user-bridge.c b/tests/vhost-user-bridge.c
-index fecdf915e7..a5c711b1de 100644
---- a/tests/vhost-user-bridge.c
-+++ b/tests/vhost-user-bridge.c
-@@ -331,9 +331,7 @@ vubr_backend_recv_cb(int sock, void *ctx)
-             .msg_iovlen = num,
-             .msg_flags = MSG_DONTWAIT,
-         };
--        do {
--            ret = recvmsg(vubr->backend_udp_sock, &msg, 0);
--        } while (ret == -1 && (errno == EINTR));
-+        ret = RETRY_ON_EINTR(recvmsg(vubr->backend_udp_sock, &msg, 0));
- 
-         if (i == 0) {
-             iov_restore_front(elem->in_sg, sg, hdrlen);
-diff --git a/util/main-loop.c b/util/main-loop.c
-index f00a25451b..63bd5d123d 100644
---- a/util/main-loop.c
-+++ b/util/main-loop.c
-@@ -64,9 +64,7 @@ static void sigfd_handler(void *opaque)
-     ssize_t len;
- 
-     while (1) {
--        do {
--            len = read(fd, &info, sizeof(info));
--        } while (len == -1 && errno == EINTR);
-+        len = RETRY_ON_EINTR(read(fd, &info, sizeof(info)));
- 
-         if (len == -1 && errno == EAGAIN) {
-             break;
-diff --git a/util/osdep.c b/util/osdep.c
-index 746d5f7d71..aa358bd65e 100644
---- a/util/osdep.c
-+++ b/util/osdep.c
-@@ -244,9 +244,7 @@ static int qemu_lock_fcntl(int fd, int64_t start, int64_t len, int fl_type)
-         .l_type   = fl_type,
-     };
-     qemu_probe_lock_ops();
--    do {
--        ret = fcntl(fd, fcntl_op_setlk, &fl);
--    } while (ret == -1 && errno == EINTR);
-+    ret = RETRY_ON_EINTR(fcntl(fd, fcntl_op_setlk, &fl));
-     return ret == -1 ? -errno : 0;
- }
- 
-diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
-index 5ba01177bf..1a9b338cf9 100644
---- a/util/vfio-helpers.c
-+++ b/util/vfio-helpers.c
-@@ -240,9 +240,9 @@ static int qemu_vfio_pci_read_config(QEMUVFIOState *s, void *buf,
-                                     s->config_region_info.offset,
-                                     s->config_region_info.size);
-     assert(QEMU_IS_ALIGNED(s->config_region_info.offset + ofs, size));
--    do {
--        ret = pread(s->device, buf, size, s->config_region_info.offset + ofs);
--    } while (ret == -1 && errno == EINTR);
-+    ret = RETRY_ON_EINTR(
-+        pread(s->device, buf, size, s->config_region_info.offset + ofs)
-+    );
-     return ret == size ? 0 : -errno;
- }
- 
-@@ -254,9 +254,9 @@ static int qemu_vfio_pci_write_config(QEMUVFIOState *s, void *buf, int size, int
-                                      s->config_region_info.offset,
-                                      s->config_region_info.size);
-     assert(QEMU_IS_ALIGNED(s->config_region_info.offset + ofs, size));
--    do {
--        ret = pwrite(s->device, buf, size, s->config_region_info.offset + ofs);
--    } while (ret == -1 && errno == EINTR);
-+    ret = RETRY_ON_EINTR(
-+        pwrite(s->device, buf, size, s->config_region_info.offset + ofs)
-+    );
-     return ret == size ? 0 : -errno;
- }
- 
--- 
-2.37.3
-
+> >              len =3D pwrite(aiocb->aio_fildes,
+> >                           (const char *)buf + offset,
+> >                           aiocb->aio_nbytes - offset,
+> > @@ -1709,6 +1735,9 @@ static ssize_t handle_aiocb_rw_linear(RawPosixAIO=
+Data *aiocb, char *buf)
+> >          }
+> >          offset +=3D len;
+> >      }
+> > +    if (wps) {
+> > +        qemu_mutex_unlock(&wps->lock);
+>
+> Same comment as above.
+>
+> > +    }
+> >
+> >      return offset;
+> >  }
+> > @@ -1772,7 +1801,7 @@ static int handle_aiocb_rw(void *opaque)
+> >      }
+> >
+> >      nbytes =3D handle_aiocb_rw_linear(aiocb, buf);
+> > -    if (!(aiocb->aio_type & QEMU_AIO_WRITE)) {
+> > +    if (!(aiocb->aio_type & (QEMU_AIO_WRITE | QEMU_AIO_ZONE_APPEND))) =
+{
+> >          char *p =3D buf;
+> >          size_t count =3D aiocb->aio_nbytes, copy;
+> >          int i;
+> > @@ -1794,7 +1823,7 @@ static int handle_aiocb_rw(void *opaque)
+> >  out:
+> >      if (nbytes =3D=3D aiocb->aio_nbytes) {
+> >  #if defined(CONFIG_BLKZONED)
+> > -        if (aiocb->aio_type & QEMU_AIO_WRITE) {
+> > +        if (aiocb->aio_type & (QEMU_AIO_WRITE | QEMU_AIO_ZONE_APPEND))=
+ {
+> >              BlockZoneWps *wps =3D aiocb->bs->bl.wps;
+> >              int index =3D aiocb->aio_offset / aiocb->bs->bl.zone_size;
+> >              if (wps) {
+> > @@ -1802,6 +1831,9 @@ out:
+> >                  if (!BDRV_ZT_IS_CONV(wps->wp[index])) {
+> >                      uint64_t wend_offset =3D
+> >                              aiocb->aio_offset + aiocb->aio_nbytes;
+> > +                    if (aiocb->aio_type & QEMU_AIO_ZONE_APPEND) {
+> > +                        *aiocb->io.offset =3D wps->wp[index];
+> > +                    }
+>
+> The comment above will address the problem here, which is that you are
+> accessing the array without it being locked. You cannot do that.
+>
+> >
+> >                      /* Advance the wp if needed */
+> >                      if (wend_offset > wps->wp[index]) {
+> > @@ -1824,7 +1856,7 @@ out:
+> >      } else {
+> >          assert(nbytes < 0);
+> >  #if defined(CONFIG_BLKZONED)
+> > -        if (aiocb->aio_type & QEMU_AIO_WRITE) {
+> > +        if (aiocb->aio_type & (QEMU_AIO_WRITE | QEMU_AIO_ZONE_APPEND))=
+ {
+> >              update_zones_wp(aiocb->aio_fildes, aiocb->bs->bl.wps, 0, 1=
+);
+> >          }
+> >  #endif
+> > @@ -3478,6 +3510,52 @@ static int coroutine_fn raw_co_zone_mgmt(BlockDr=
+iverState *bs, BlockZoneOp op,
+> >  }
+> >  #endif
+> >
+> > +#if defined(CONFIG_BLKZONED)
+> > +static int coroutine_fn raw_co_zone_append(BlockDriverState *bs,
+> > +                                           int64_t *offset,
+> > +                                           QEMUIOVector *qiov,
+> > +                                           BdrvRequestFlags flags) {
+> > +    BDRVRawState *s =3D bs->opaque;
+> > +    int64_t zone_size_mask =3D bs->bl.zone_size - 1;
+> > +    int64_t iov_len =3D 0;
+> > +    int64_t len =3D 0;
+> > +    RawPosixAIOData acb;
+> > +
+> > +    if (*offset & zone_size_mask) {
+> > +        error_report("sector offset %" PRId64 " is not aligned to zone=
+ size "
+> > +                     "%" PRId32 "", *offset / 512, bs->bl.zone_size / =
+512);
+> > +        return -EINVAL;
+> > +    }
+> > +
+> > +    int64_t wg =3D bs->bl.write_granularity;
+> > +    int64_t wg_mask =3D wg - 1;
+> > +    for (int i =3D 0; i < qiov->niov; i++) {
+> > +        iov_len =3D qiov->iov[i].iov_len;
+> > +        if (iov_len & wg_mask) {
+> > +            error_report("len of IOVector[%d] %" PRId64 " is not align=
+ed to "
+> > +                         "block size %" PRId64 "", i, iov_len, wg);
+> > +            return -EINVAL;
+> > +        }
+> > +        len +=3D iov_len;
+> > +    }
+> > +
+> > +    acb =3D (RawPosixAIOData) {
+> > +        .bs =3D bs,
+> > +        .aio_fildes =3D s->fd,
+> > +        .aio_type =3D QEMU_AIO_ZONE_APPEND,
+> > +        .aio_offset =3D *offset,
+> > +        .aio_nbytes =3D len,
+> > +        .io =3D {
+> > +                .iov =3D qiov->iov,
+> > +                .niov =3D qiov->niov,
+> > +                .offset =3D offset,
+> > +        },
+> > +    };
+> > +
+> > +    return raw_thread_pool_submit(bs, handle_aiocb_rw, &acb);
+> > +}
+> > +#endif
+> > +
+> >  static coroutine_fn int
+> >  raw_do_pdiscard(BlockDriverState *bs, int64_t offset, int64_t bytes,
+> >                  bool blkdev)
+> > @@ -4253,6 +4331,7 @@ static BlockDriver bdrv_zoned_host_device =3D {
+> >      /* zone management operations */
+> >      .bdrv_co_zone_report =3D raw_co_zone_report,
+> >      .bdrv_co_zone_mgmt =3D raw_co_zone_mgmt,
+> > +    .bdrv_co_zone_append =3D raw_co_zone_append,
+> >  };
+> >  #endif
+> >
+> > diff --git a/block/io.c b/block/io.c
+> > index 88f707ea4d..03e1109056 100644
+> > --- a/block/io.c
+> > +++ b/block/io.c
+> > @@ -3230,6 +3230,27 @@ out:
+> >      return co.ret;
+> >  }
+> >
+> > +int coroutine_fn bdrv_co_zone_append(BlockDriverState *bs, int64_t *of=
+fset,
+> > +                        QEMUIOVector *qiov,
+> > +                        BdrvRequestFlags flags)
+> > +{
+> > +    BlockDriver *drv =3D bs->drv;
+> > +    CoroutineIOCompletion co =3D {
+> > +            .coroutine =3D qemu_coroutine_self(),
+> > +    };
+> > +    IO_CODE();
+> > +
+> > +    bdrv_inc_in_flight(bs);
+> > +    if (!drv || !drv->bdrv_co_zone_append) {
+> > +        co.ret =3D -ENOTSUP;
+> > +        goto out;
+> > +    }
+> > +    co.ret =3D drv->bdrv_co_zone_append(bs, offset, qiov, flags);
+> > +out:
+> > +    bdrv_dec_in_flight(bs);
+> > +    return co.ret;
+> > +}
+> > +
+> >  void *qemu_blockalign(BlockDriverState *bs, size_t size)
+> >  {
+> >      IO_CODE();
+> > diff --git a/block/raw-format.c b/block/raw-format.c
+> > index 18dc52a150..33bff8516e 100644
+> > --- a/block/raw-format.c
+> > +++ b/block/raw-format.c
+> > @@ -325,6 +325,13 @@ static int coroutine_fn raw_co_zone_mgmt(BlockDriv=
+erState *bs, BlockZoneOp op,
+> >      return bdrv_co_zone_mgmt(bs->file->bs, op, offset, len);
+> >  }
+> >
+> > +static int coroutine_fn raw_co_zone_append(BlockDriverState *bs,
+> > +                                           int64_t *offset,
+> > +                                           QEMUIOVector *qiov,
+> > +                                           BdrvRequestFlags flags) {
+> > +    return bdrv_co_zone_append(bs->file->bs, offset, qiov, flags);
+> > +}
+> > +
+> >  static int64_t raw_getlength(BlockDriverState *bs)
+> >  {
+> >      int64_t len;
+> > @@ -629,6 +636,7 @@ BlockDriver bdrv_raw =3D {
+> >      .bdrv_co_pdiscard     =3D &raw_co_pdiscard,
+> >      .bdrv_co_zone_report  =3D &raw_co_zone_report,
+> >      .bdrv_co_zone_mgmt  =3D &raw_co_zone_mgmt,
+> > +    .bdrv_co_zone_append =3D &raw_co_zone_append,
+> >      .bdrv_co_block_status =3D &raw_co_block_status,
+> >      .bdrv_co_copy_range_from =3D &raw_co_copy_range_from,
+> >      .bdrv_co_copy_range_to  =3D &raw_co_copy_range_to,
+> > diff --git a/include/block/block-io.h b/include/block/block-io.h
+> > index f0cdf67d33..6a54453578 100644
+> > --- a/include/block/block-io.h
+> > +++ b/include/block/block-io.h
+> > @@ -94,6 +94,9 @@ int coroutine_fn bdrv_co_zone_report(BlockDriverState=
+ *bs, int64_t offset,
+> >                                       BlockZoneDescriptor *zones);
+> >  int coroutine_fn bdrv_co_zone_mgmt(BlockDriverState *bs, BlockZoneOp o=
+p,
+> >                                     int64_t offset, int64_t len);
+> > +int coroutine_fn bdrv_co_zone_append(BlockDriverState *bs, int64_t *of=
+fset,
+> > +                                     QEMUIOVector *qiov,
+> > +                                     BdrvRequestFlags flags);
+> >
+> >  int bdrv_co_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes);
+> >  bool bdrv_can_write_zeroes_with_unmap(BlockDriverState *bs);
+> > diff --git a/include/block/block_int-common.h b/include/block/block_int=
+-common.h
+> > index e3136146aa..a7e7db5646 100644
+> > --- a/include/block/block_int-common.h
+> > +++ b/include/block/block_int-common.h
+> > @@ -701,6 +701,9 @@ struct BlockDriver {
+> >              BlockZoneDescriptor *zones);
+> >      int coroutine_fn (*bdrv_co_zone_mgmt)(BlockDriverState *bs, BlockZ=
+oneOp op,
+> >              int64_t offset, int64_t len);
+> > +    int coroutine_fn (*bdrv_co_zone_append)(BlockDriverState *bs,
+> > +            int64_t *offset, QEMUIOVector *qiov,
+> > +            BdrvRequestFlags flags);
+> >
+> >      /* removable device specific */
+> >      bool (*bdrv_is_inserted)(BlockDriverState *bs);
+> > @@ -860,6 +863,8 @@ typedef struct BlockLimits {
+> >
+> >      /* array of write pointers' location of each zone in the zoned dev=
+ice. */
+> >      BlockZoneWps *wps;
+> > +
+> > +    int64_t write_granularity;
+> >  } BlockLimits;
+> >
+> >  typedef struct BdrvOpBlocker BdrvOpBlocker;
+> > diff --git a/include/block/raw-aio.h b/include/block/raw-aio.h
+> > index 877b2240b3..53033a5ca7 100644
+> > --- a/include/block/raw-aio.h
+> > +++ b/include/block/raw-aio.h
+> > @@ -31,6 +31,7 @@
+> >  #define QEMU_AIO_TRUNCATE     0x0080
+> >  #define QEMU_AIO_ZONE_REPORT  0x0100
+> >  #define QEMU_AIO_ZONE_MGMT    0x0200
+> > +#define QEMU_AIO_ZONE_APPEND  0x0400
+> >  #define QEMU_AIO_TYPE_MASK \
+> >          (QEMU_AIO_READ | \
+> >           QEMU_AIO_WRITE | \
+> > @@ -41,7 +42,8 @@
+> >           QEMU_AIO_COPY_RANGE | \
+> >           QEMU_AIO_TRUNCATE | \
+> >           QEMU_AIO_ZONE_REPORT | \
+> > -         QEMU_AIO_ZONE_MGMT)
+> > +         QEMU_AIO_ZONE_MGMT | \
+> > +         QEMU_AIO_ZONE_APPEND)
+> >
+> >  /* AIO flags */
+> >  #define QEMU_AIO_MISALIGNED   0x1000
+> > diff --git a/include/sysemu/block-backend-io.h b/include/sysemu/block-b=
+ackend-io.h
+> > index 1b5fc7db6b..ff9f777f52 100644
+> > --- a/include/sysemu/block-backend-io.h
+> > +++ b/include/sysemu/block-backend-io.h
+> > @@ -52,6 +52,9 @@ BlockAIOCB *blk_aio_zone_report(BlockBackend *blk, in=
+t64_t offset,
+> >  BlockAIOCB *blk_aio_zone_mgmt(BlockBackend *blk, BlockZoneOp op,
+> >                                int64_t offset, int64_t len,
+> >                                BlockCompletionFunc *cb, void *opaque);
+> > +BlockAIOCB *blk_aio_zone_append(BlockBackend *blk, int64_t *offset,
+> > +                                QEMUIOVector *qiov, BdrvRequestFlags f=
+lags,
+> > +                                BlockCompletionFunc *cb, void *opaque)=
+;
+> >  BlockAIOCB *blk_aio_pdiscard(BlockBackend *blk, int64_t offset, int64_=
+t bytes,
+> >                               BlockCompletionFunc *cb, void *opaque);
+> >  void blk_aio_cancel_async(BlockAIOCB *acb);
+> > @@ -173,6 +176,12 @@ int coroutine_fn blk_co_zone_mgmt(BlockBackend *bl=
+k, BlockZoneOp op,
+> >                                    int64_t offset, int64_t len);
+> >  int generated_co_wrapper blk_zone_mgmt(BlockBackend *blk, BlockZoneOp =
+op,
+> >                                         int64_t offset, int64_t len);
+> > +int coroutine_fn blk_co_zone_append(BlockBackend *blk, int64_t *offset=
+,
+> > +                                    QEMUIOVector *qiov,
+> > +                                    BdrvRequestFlags flags);
+> > +int generated_co_wrapper blk_zone_append(BlockBackend *blk, int64_t *o=
+ffset,
+> > +                                         QEMUIOVector *qiov,
+> > +                                         BdrvRequestFlags flags);
+> >
+> >  int generated_co_wrapper blk_pdiscard(BlockBackend *blk, int64_t offse=
+t,
+> >                                        int64_t bytes);
+>
+> --
+> Damien Le Moal
+> Western Digital Research
+>
 
