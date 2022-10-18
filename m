@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D5F16031D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 19:53:03 +0200 (CEST)
-Received: from localhost ([::1]:39250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFFF86031D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 19:53:37 +0200 (CEST)
+Received: from localhost ([::1]:38886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okqlx-0006a5-BZ
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 13:53:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60900)
+	id 1okqmW-0006rq-RX
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 13:53:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1okqUk-0006g2-Un
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 13:35:15 -0400
-Received: from 1.mo548.mail-out.ovh.net ([178.32.121.110]:57447)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1okqVl-0006yF-Az
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 13:36:17 -0400
+Received: from 7.mo552.mail-out.ovh.net ([188.165.59.253]:52241)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1okqUV-0003fM-CD
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 13:35:14 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.141])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 3A0962272B;
- Tue, 18 Oct 2022 17:34:54 +0000 (UTC)
-Received: from kaod.org (37.59.142.104) by DAG4EX2.mxp5.local (172.16.2.32)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1okqVi-00041h-P6
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 13:36:16 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.141])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 07EB42893A;
+ Tue, 18 Oct 2022 17:36:09 +0000 (UTC)
+Received: from kaod.org (37.59.142.102) by DAG4EX2.mxp5.local (172.16.2.32)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Tue, 18 Oct
- 2022 19:34:54 +0200
+ 2022 19:36:07 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-104R0059f61b7cb-bda1-4116-8703-25f36a2f64d9,
+ (GARM-102R004c8849d8d-e30b-4c6f-973b-8e88cc022c18,
  E583C31B167A4CECD7AFA5F42DA6B4ED7D5BF57A) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <08bbd6f8-6ae3-4a28-66ed-d5a290c1a30d@kaod.org>
-Date: Tue, 18 Oct 2022 19:34:53 +0200
+Message-ID: <b52ea256-c6c1-51ef-6e15-78a303143701@kaod.org>
+Date: Tue, 18 Oct 2022 19:36:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH v10 6/9] s390x/cpu topology: add topology-disable machine
- property
+Subject: Re: [PATCH v10 7/9] s390x/cpu topology: add max_threads machine class
+ attribute
 Content-Language: en-US
 To: Pierre Morel <pmorel@linux.ibm.com>, <qemu-s390x@nongnu.org>
 CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
@@ -44,27 +44,28 @@ CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>,
  <eblake@redhat.com>, <armbru@redhat.com>, <seiden@linux.ibm.com>,
  <nrb@linux.ibm.com>, <frankja@linux.ibm.com>, <berrange@redhat.com>
 References: <20221012162107.91734-1-pmorel@linux.ibm.com>
- <20221012162107.91734-7-pmorel@linux.ibm.com>
+ <20221012162107.91734-8-pmorel@linux.ibm.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20221012162107.91734-7-pmorel@linux.ibm.com>
+In-Reply-To: <20221012162107.91734-8-pmorel@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX2.mxp5.local
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX2.mxp5.local
  (172.16.2.32)
-X-Ovh-Tracer-GUID: 2d99707d-972a-4c4d-a87c-4330bdcbad69
-X-Ovh-Tracer-Id: 16410554092817713936
+X-Ovh-Tracer-GUID: ada754a4-b87b-46dc-9a99-3ce9c415ed97
+X-Ovh-Tracer-Id: 16431383240643545872
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeelvddgkeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhmohhrvghlsehlihhnuhigrdhisghmrdgtohhmpdhnrhgssehlihhnuhigrdhisghmrdgtohhmpdhsvghiuggvnheslhhinhhugidrihgsmhdrtghomhdprghrmhgsrhhusehrvgguhhgrthdrtghomhdpvggslhgrkhgvsehrvgguhhgrthdrtghomhdpmhgrrhgtvghlrdgrphhfvghlsggruhhmsehgmhgrihhlrdgtohhmpdgvhhgrsghkohhsthesrhgvughhrghtrdgtohhmpdhkvhhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhpsghonhiiihhnihesrhgvughhrghtrdgtoh
- hmpdhmshhtsehrvgguhhgrthdrtghomhdptghohhhutghksehrvgguhhgrthdrtghomhdpthhhuhhthhesrhgvughhrghtrdgtohhmpdgurghvihgusehrvgguhhgrthdrtghomhdprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdgsohhrnhhtrhgrvghgvghrseguvgdrihgsmhdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrghdpfhhrrghnkhhjrgeslhhinhhugidrihgsmhdrtghomhdpsggvrhhrrghnghgvsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhoheegkedpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=178.32.121.110; envelope-from=clg@kaod.org;
- helo=1.mo548.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeelvddgkeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhmohhrvghlsehlihhnuhigrdhisghmrdgtohhmpdhnrhgssehlihhnuhigrdhisghmrdgtohhmpdhsvghiuggvnheslhhinhhugidrihgsmhdrtghomhdprghrmhgsrhhusehrvgguhhgrthdrtghomhdpvggslhgrkhgvsehrvgguhhgrthdrtghomhdpmhgrrhgtvghlrdgrphhfvghlsggruhhmsehgmhgrihhlrdgtohhmpdgvhhgrsghkohhsthesrhgvughhrghtrdgtohhmpdhkvhhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhpsghonhiiihhnihesrhgvughhrghtrdgtoh
+ hmpdhmshhtsehrvgguhhgrthdrtghomhdptghohhhutghksehrvgguhhgrthdrtghomhdpthhhuhhthhesrhgvughhrghtrdgtohhmpdgurghvihgusehrvgguhhgrthdrtghomhdprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdgsohhrnhhtrhgrvghgvghrseguvgdrihgsmhdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrghdpfhhrrghnkhhjrgeslhhinhhugidrihgsmhdrtghomhdpsggvrhhrrghnghgvsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=188.165.59.253; envelope-from=clg@kaod.org;
+ helo=7.mo552.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,275 +82,80 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/12/22 18:21, Pierre Morel wrote:
-> S390 CPU topology is only allowed for s390-virtio-ccw-7.3 and
-> newer S390 machines.
-> We keep the possibility to disable the topology on these newer
-> machines with the property topology-disable.
+> The S390 CPU topology accepts the smp.threads argument while
+> in reality it does not effectively allow multthreading.
+> 
+> Let's keep this behavior for machines older than 7.3 and
+> refuse to use threads in newer machines until multithreading
+> is really proposed to the guest by the machine.
 > 
 > Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 > ---
->   include/hw/boards.h                |  3 ++
->   include/hw/s390x/cpu-topology.h    | 18 +++++++++-
->   include/hw/s390x/s390-virtio-ccw.h |  2 ++
->   hw/core/machine.c                  |  5 +++
->   hw/s390x/s390-virtio-ccw.c         | 53 +++++++++++++++++++++++++++++-
->   util/qemu-config.c                 |  4 +++
->   qemu-options.hx                    |  6 +++-
->   7 files changed, 88 insertions(+), 3 deletions(-)
+>   include/hw/s390x/s390-virtio-ccw.h |  1 +
+>   hw/s390x/s390-virtio-ccw.c         | 10 ++++++++++
+>   2 files changed, 11 insertions(+)
 > 
-> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> index 311ed17e18..67147c47bf 100644
-> --- a/include/hw/boards.h
-> +++ b/include/hw/boards.h
-> @@ -379,6 +379,9 @@ struct MachineState {
->       } \
->       type_init(machine_initfn##_register_types)
->   
-> +extern GlobalProperty hw_compat_7_2[];
-> +extern const size_t hw_compat_7_2_len;
-
-QEMU 7.2 is not out yet.
-
-> +
->   extern GlobalProperty hw_compat_7_1[];
->   extern const size_t hw_compat_7_1_len;
->   
-> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
-> index 35a8a981ec..747c9ab4c6 100644
-> --- a/include/hw/s390x/cpu-topology.h
-> +++ b/include/hw/s390x/cpu-topology.h
-> @@ -12,6 +12,8 @@
->   
->   #include "hw/qdev-core.h"
->   #include "qom/object.h"
-> +#include "cpu.h"
-> +#include "hw/s390x/s390-virtio-ccw.h"
->   
->   #define S390_TOPOLOGY_POLARITY_H  0x00
->   
-> @@ -43,7 +45,21 @@ void s390_topology_new_cpu(int core_id);
->   
->   static inline bool s390_has_topology(void)
->   {
-> -    return false;
-> +    static S390CcwMachineState *ccw;
-
-hmm, s390_has_topology is a static inline. It would be preferable to
-change its definition to extern.
-
-> +    Object *obj;
-> +
-> +    if (ccw) {
-> +        return !ccw->topology_disable;
-> +    }
-> +
-> +    /* we have to bail out for the "none" machine */
-> +    obj = object_dynamic_cast(qdev_get_machine(),
-> +                              TYPE_S390_CCW_MACHINE);
-> +    if (!obj) {
-> +        return false;
-> +    }
-> +    ccw = S390_CCW_MACHINE(obj);
-> +    return !ccw->topology_disable;
->   }
->   
->   #endif
 > diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
-> index 9e7a0d75bc..6c4b4645fc 100644
+> index 6c4b4645fc..319dfac1bb 100644
 > --- a/include/hw/s390x/s390-virtio-ccw.h
 > +++ b/include/hw/s390x/s390-virtio-ccw.h
-> @@ -28,6 +28,7 @@ struct S390CcwMachineState {
->       bool dea_key_wrap;
->       bool pv;
->       bool zpcii_disable;
-> +    bool topology_disable;
->       uint8_t loadparm[8];
->   };
->   
-> @@ -46,6 +47,7 @@ struct S390CcwMachineClass {
->       bool cpu_model_allowed;
+> @@ -48,6 +48,7 @@ struct S390CcwMachineClass {
 >       bool css_migration_enabled;
 >       bool hpage_1m_allowed;
-> +    bool topology_allowed;
-
-'topology_disable' in the state and 'topology_allowed' in the class.
-This is confusing :/
-
-you should add 'topology_allowed' in its own patch and maybe call
-it 'topology_capable' ? it is a QEMU capability AIUI
-
+>       bool topology_allowed;
+> +    int max_threads;
 >   };
 >   
 >   /* runtime-instrumentation allowed by the machine */
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index aa520e74a8..93c497655e 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -40,6 +40,11 @@
->   #include "hw/virtio/virtio-pci.h"
->   #include "qom/object_interfaces.h"
->   
-> +GlobalProperty hw_compat_7_2[] = {
-> +    { "s390-topology", "topology-disable", "true" },
-
-May be use TYPE_S390_CPU_TOPOLOGY instead.
-
-But again, this should only apply to 7.1 machines and below. 7.2 is
-not out yet.
-
-
-> +};
-> +const size_t hw_compat_7_2_len = G_N_ELEMENTS(hw_compat_7_2);
-> +
->   GlobalProperty hw_compat_7_1[] = {};
->   const size_t hw_compat_7_1_len = G_N_ELEMENTS(hw_compat_7_1);
->   
 > diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index 362378454a..3a13fad4df 100644
+> index 3a13fad4df..d6ce31d168 100644
 > --- a/hw/s390x/s390-virtio-ccw.c
 > +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -616,6 +616,7 @@ static void ccw_machine_class_init(ObjectClass *oc, void *data)
->       s390mc->cpu_model_allowed = true;
+> @@ -85,8 +85,15 @@ out:
+>   static void s390_init_cpus(MachineState *machine)
+>   {
+>       MachineClass *mc = MACHINE_GET_CLASS(machine);
+> +    S390CcwMachineClass *s390mc = S390_CCW_MACHINE_CLASS(mc);
+>       int i;
+>   
+> +    if (machine->smp.threads > s390mc->max_threads) {
+> +        error_report("S390 does not support more than %d threads.",
+> +                     s390mc->max_threads);
+> +        exit(1);
+> +    }
+> +
+>       /* initialize possible_cpus */
+>       mc->possible_cpu_arch_ids(machine);
+>   
+> @@ -617,6 +624,7 @@ static void ccw_machine_class_init(ObjectClass *oc, void *data)
 >       s390mc->css_migration_enabled = true;
 >       s390mc->hpage_1m_allowed = true;
-> +    s390mc->topology_allowed = true;
+>       s390mc->topology_allowed = true;
+> +    s390mc->max_threads = 1;
 >       mc->init = ccw_init;
 >       mc->reset = s390_machine_reset;
 >       mc->block_default_type = IF_VIRTIO;
-> @@ -726,6 +727,27 @@ bool hpage_1m_allowed(void)
->       return get_machine_class()->hpage_1m_allowed;
+> @@ -887,12 +895,14 @@ static void ccw_machine_7_2_class_options(MachineClass *mc)
+>       S390CcwMachineClass *s390mc = S390_CCW_MACHINE_CLASS(mc);
+>       static GlobalProperty compat[] = {
+>           { TYPE_S390_CPU_TOPOLOGY, "topology-allowed", "off", },
+> +        { TYPE_S390_CPU_TOPOLOGY, "max_threads", "off", },
+
+I don't understand this change.
+
+
+C.
+
+
+>       };
+>   
+>       ccw_machine_7_3_class_options(mc);
+>       compat_props_add(mc->compat_props, hw_compat_7_2, hw_compat_7_2_len);
+>       compat_props_add(mc->compat_props, compat, G_N_ELEMENTS(compat));
+>       s390mc->topology_allowed = false;
+> +    s390mc->max_threads = S390_MAX_CPUS;
 >   }
+>   DEFINE_CCW_MACHINE(7_2, "7.2", false);
 >   
-> +static inline bool machine_get_topology_disable(Object *obj, Error **errp)
-> +{
-> +    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
-> +
-> +    return ms->topology_disable;
-> +}
-> +
-> +static inline void machine_set_topology_disable(Object *obj, bool value,
-> +                                                Error **errp)
-> +{
-> +    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
-> +
-> +    if (!get_machine_class()->topology_allowed) {
-> +        error_setg(errp, "Property topology-disable not available on machine %s",
-> +                   get_machine_class()->parent_class.name);
-
-OK. I get it now. May be we should consider adding the capability concept
-David introduced in the pseries machine. Please take a look. That's not
-for this patchset though. It would be too much work.
-
-> +        return;
-> +    }
-> +
-> +    ms->topology_disable = value;
-> +}
-> +
->   static char *machine_get_loadparm(Object *obj, Error **errp)
->   {
->       S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
-> @@ -784,6 +806,13 @@ static inline void s390_machine_initfn(Object *obj)
->       object_property_set_description(obj, "zpcii-disable",
->               "disable zPCI interpretation facilties");
->       object_property_set_bool(obj, "zpcii-disable", false, NULL);
-> +
-> +    object_property_add_bool(obj, "topology-disable",
-> +                             machine_get_topology_disable,
-> +                             machine_set_topology_disable);
-> +    object_property_set_description(obj, "topology-disable",
-> +            "disable CPU topology");
-> +    object_property_set_bool(obj, "topology-disable", false, NULL);
-
-All the properties should be added in the machine class_init routine.
-There is a preliminary cleanup patch required to move them all :/
-   
->   }
->   
->   static const TypeInfo ccw_machine_info = {
-> @@ -836,14 +865,36 @@ bool css_migration_enabled(void)
->       }                                                                         \
->       type_init(ccw_machine_register_##suffix)
->   
-> +static void ccw_machine_7_3_instance_options(MachineState *machine)
-> +{
-> +}
-> +
-> +static void ccw_machine_7_3_class_options(MachineClass *mc)
-> +{
-> +}
-> +DEFINE_CCW_MACHINE(7_3, "7.3", true);
-
-That's too early.
-
-> +
->   static void ccw_machine_7_2_instance_options(MachineState *machine)
->   {
-> +    S390CcwMachineState *ms = S390_CCW_MACHINE(machine);
-> +
-> +    ccw_machine_7_3_instance_options(machine);
-> +    ms->topology_disable = true;
->   }
->   
->   static void ccw_machine_7_2_class_options(MachineClass *mc)
->   {
-> +    S390CcwMachineClass *s390mc = S390_CCW_MACHINE_CLASS(mc);
-> +    static GlobalProperty compat[] = {
-> +        { TYPE_S390_CPU_TOPOLOGY, "topology-allowed", "off", },
-
-hmm, "topology-allowed" is not a TYPE_S390_CPU_TOPOLOGY property.
-
-
-> +    };
-> +
-> +    ccw_machine_7_3_class_options(mc);
-> +    compat_props_add(mc->compat_props, hw_compat_7_2, hw_compat_7_2_len);
-> +    compat_props_add(mc->compat_props, compat, G_N_ELEMENTS(compat));
-> +    s390mc->topology_allowed = false;
->   }
-> -DEFINE_CCW_MACHINE(7_2, "7.2", true);
-> +DEFINE_CCW_MACHINE(7_2, "7.2", false);
->   
->   static void ccw_machine_7_1_instance_options(MachineState *machine)
->   {
-> diff --git a/util/qemu-config.c b/util/qemu-config.c
-> index 5325f6bf80..c19e8bc8f3 100644
-> --- a/util/qemu-config.c
-> +++ b/util/qemu-config.c
-> @@ -240,6 +240,10 @@ static QemuOptsList machine_opts = {
->               .name = "zpcii-disable",
->               .type = QEMU_OPT_BOOL,
->               .help = "disable zPCI interpretation facilities",
-> +        },{
-> +            .name = "topology-disable",
-> +            .type = QEMU_OPT_BOOL,
-> +            .help = "disable CPU topology",
->           },
->           { /* End of list */ }
->       }
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 95b998a13b..c804b0f899 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -38,7 +38,8 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
->       "                hmat=on|off controls ACPI HMAT support (default=off)\n"
->       "                memory-backend='backend-id' specifies explicitly provided backend for main RAM (default=none)\n"
->       "                cxl-fmw.0.targets.0=firsttarget,cxl-fmw.0.targets.1=secondtarget,cxl-fmw.0.size=size[,cxl-fmw.0.interleave-granularity=granularity]\n"
-> -    "                zpcii-disable=on|off disables zPCI interpretation facilities (default=off)\n",
-> +    "                zpcii-disable=on|off disables zPCI interpretation facilities (default=off)\n"
-> +    "                topology-disable=on|off disables CPU topology (default=off)\n",
->       QEMU_ARCH_ALL)
->   SRST
->   ``-machine [type=]name[,prop=value[,...]]``
-> @@ -163,6 +164,9 @@ SRST
->           Disables zPCI interpretation facilties on s390-ccw hosts.
->           This feature can be used to disable hardware virtual assists
->           related to zPCI devices. The default is off.
-> +
-> +    ``topology-disable=on|off``
-> +        Disables CPU topology on for S390 machines starting with s390-ccw-virtio-7.3.
->   ERST
->   
->   DEF("M", HAS_ARG, QEMU_OPTION_M,
 
 
