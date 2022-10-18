@@ -2,82 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F3AC60263E
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 09:56:04 +0200 (CEST)
-Received: from localhost ([::1]:60824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77716602659
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 10:02:59 +0200 (CEST)
+Received: from localhost ([::1]:53070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okhSB-00060I-GM
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 03:56:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44530)
+	id 1okhYv-0002C7-JM
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 04:02:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1okh4Y-0006BS-4a; Tue, 18 Oct 2022 03:31:35 -0400
-Received: from mail-vk1-xa36.google.com ([2607:f8b0:4864:20::a36]:41851)
+ id 1okhEc-0004sS-Vu; Tue, 18 Oct 2022 03:41:59 -0400
+Received: from mail-ua1-x932.google.com ([2607:f8b0:4864:20::932]:46663)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1okh4S-0002Ao-KK; Tue, 18 Oct 2022 03:31:33 -0400
-Received: by mail-vk1-xa36.google.com with SMTP id y129so6471578vkg.8;
- Tue, 18 Oct 2022 00:31:27 -0700 (PDT)
+ id 1okhEU-0003iU-Nw; Tue, 18 Oct 2022 03:41:57 -0400
+Received: by mail-ua1-x932.google.com with SMTP id h25so5225951uao.13;
+ Tue, 18 Oct 2022 00:41:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NSopfnDxiKKp5UlKt/62nsKeXuqcJVsiWrCaczjQxXA=;
- b=I2RkdSwMcTNn8D35efgqcEpfpMYV3G+CbyKRud6jlxGUtyRdagMt09yImXDsCYllS0
- RAu7RkbtF2/CU+MKXIyHnuBDKK7R7FHbLby5UGfsvFyO7IB6YJU3RLLGmlG70VnqZ75y
- 7iV5U9JdiP+ZpcsZOIVuyRX20Io/ocZNpXGxoApgazVLjuxJ/M02EUWKBWuI25nJukgQ
- Y3X41lhCrUQY+eG9JhrYtlq7n0JgAeBUr7MxUVC/oWB3FJrVskn+IdHda8oXenqCHzE/
- lWXrVoCyjgkAqc95yZDCY5t/eVJU1odItiiOawc/Cdw629u2yFI6iftdIb8W7SC9KZmT
- EAQQ==
+ bh=hyL8DV0zw+hSwhVOB5YlUu2iXhsFOJ5OtKuxfW4TjSI=;
+ b=W+kJzkbioXV/wPBY+quZMP7ZnFDbmuXmmz9DM9jVz+DDkNW9RSNVgnzZepF1wMUGS1
+ aXIc/R/nakT7o9gMd1i092kl2AdRC9ENWt3jEykGpoMLPSgstgVwApJ7a7Pa5z1W7tmb
+ 9sQupMLTeeqSVSB38bp1PYIfo7Mls6MkwoKKHDnjZ9IKwd7wRsXac1WcBI85a9ZMs6lr
+ Y6DHVBgeZlDTB9qV6XGdXqeS0d319YMIxO2YkqVNXKTisrVWSb4U3TlZjQO9oNKYmSjG
+ OI1GSrKFFrUrKNnwkneixSoAeUy7VNtKEq6XUhQpwhPNQ9/bwZ8W3oUi1p7pX31BKj4C
+ u3xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NSopfnDxiKKp5UlKt/62nsKeXuqcJVsiWrCaczjQxXA=;
- b=HR87Rmh+6QlFswTx7ikYLKvov1xCbN/S+z9n0PgITXZullHL/BeaXVA+PLUbwiughN
- 817Ne3Dp20PLSpiZ2URgNlr/1xbieSW/TvUPXA90o1WbqqEuN/5SAC+8JQUe15nznKyW
- OCZFPhQglOxOhWxLLTFY1jgf8ovenKWTz1kQaf6rFI0Mzsel0axt2LKcY1mYnYfxoGTL
- VLOc3iKBeYATbsXgPc1ZiwLYqW2LaA1ck1nV2d0YTNHahw54kY3kwP5/5xRGuseoFo8/
- Qn4VmJaU2JtSvls2Wx9wrrDnLbpwo4wa8x40x/k9Vk/k6xiT8K62nUrWDFKtMqsj5hGe
- M4+w==
-X-Gm-Message-State: ACrzQf1anKWWlD5vJLtigI/HTzT2w+zvGu16xNKvptI6TFbltLwQHhtB
- 0BmVis5zRBWw3imhnpKr3VM0phf5FWf+kptjagyHLOYYanJue9q4
-X-Google-Smtp-Source: AMsMyM4TPKi78ofk+IPIfyijyD6U8NuEmyHd7TwWmI6bcKZg/9hj+ziGTbXtEKnA/QpGSqFZ2XZURtjgGS3lciUNx0g=
-X-Received: by 2002:a05:6122:1819:b0:3ab:965c:aa8b with SMTP id
- ay25-20020a056122181900b003ab965caa8bmr623147vkb.31.1666078286009; Tue, 18
- Oct 2022 00:31:26 -0700 (PDT)
+ bh=hyL8DV0zw+hSwhVOB5YlUu2iXhsFOJ5OtKuxfW4TjSI=;
+ b=DxlxMZadX3sIk+SBP3zwcgliDzY/Vua4V55iFNT439ibLY64BNB8Kbdxw2l0aR3qfK
+ f9co4fYYKh4WH9nQw3iw3RlrCtcwCTl9Fdngp1ED0V7a88utu26pZI+kCaV6LVGg2m4V
+ HqA9dk46XyIbSaZHSXkWOdGHB5P0NeWD3wKzwYIopIr+drbKID057bC/GJ5innTdhb0E
+ JcPlhzL4y1Z+HzcrVg+fEARQMPMHSXSluwpMuYNX1FSd1ap8grJmKnE9h9+4Hd/8ccoX
+ 9htlOJSQ19hv5QFP4dbulSQfY3PSQtvUEAapBE9azxbh1YH/8STRwDLgDzjKD6vl6vKf
+ UGrQ==
+X-Gm-Message-State: ACrzQf2a6rfCbZfQzXgBtHqaCX8fAX2y/C9trUYndUbmLiioFcS7aNr0
+ GMUciHgyPGrqfMmH/2lh6vESOx7/35zu5fkZ+uA=
+X-Google-Smtp-Source: AMsMyM71p4KStXZJmBDeWXWmF9CWSKJt6wc152K8NeMj4W2CHye4bmWj1RkjGylM5BEO5eEeIC0WEc2ACGSsrnDUB2I=
+X-Received: by 2002:a9f:35a9:0:b0:3df:a108:f5fd with SMTP id
+ t38-20020a9f35a9000000b003dfa108f5fdmr836441uad.4.1666078906272; Tue, 18 Oct
+ 2022 00:41:46 -0700 (PDT)
 MIME-Version: 1.0
 References: <20221016145110.171262-1-faithilikerun@gmail.com>
  <20221016145110.171262-4-faithilikerun@gmail.com>
- <bfca87f89c420c70bb2d3f6493fc353fd692190d.camel@wdc.com>
-In-Reply-To: <bfca87f89c420c70bb2d3f6493fc353fd692190d.camel@wdc.com>
+ <fb2ec4eb-e447-164e-8994-602c1908f48e@opensource.wdc.com>
+In-Reply-To: <fb2ec4eb-e447-164e-8994-602c1908f48e@opensource.wdc.com>
 From: Sam Li <faithilikerun@gmail.com>
-Date: Tue, 18 Oct 2022 15:31:44 +0800
-Message-ID: <CAAAx-8+3899qHNRcrJrCdqbd+gaTBrtROMSr+tjabWmxSLxchg@mail.gmail.com>
+Date: Tue, 18 Oct 2022 15:42:04 +0800
+Message-ID: <CAAAx-8KQPOoT9R8dPSDKfYSLz2hL2QYQ2wtH164o_SQaJnH5Fw@mail.gmail.com>
 Subject: Re: [PATCH v12 3/7] block: add block layer APIs resembling Linux
  ZonedBlockDevice ioctls
-To: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "hreitz@redhat.com" <hreitz@redhat.com>, 
- "hare@suse.de" <hare@suse.de>, "armbru@redhat.com" <armbru@redhat.com>, 
- "stefanha@redhat.com" <stefanha@redhat.com>, "fam@euphon.net" <fam@euphon.net>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "eblake@redhat.com" <eblake@redhat.com>, 
- "kwolf@redhat.com" <kwolf@redhat.com>, 
- "damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>
+To: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, 
+ Fam Zheng <fam@euphon.net>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, 
+ qemu-block@nongnu.org, hare@suse.de, Eric Blake <eblake@redhat.com>, 
+ dmitry.fomichev@wdc.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a36;
- envelope-from=faithilikerun@gmail.com; helo=mail-vk1-xa36.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::932;
+ envelope-from=faithilikerun@gmail.com; helo=mail-ua1-x932.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,10 +91,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Dmitry Fomichev <Dmitry.Fomichev@wdc.com> =E4=BA=8E2022=E5=B9=B410=E6=9C=88=
-17=E6=97=A5=E5=91=A8=E4=B8=80 08:57=E5=86=99=E9=81=93=EF=BC=9A
+Damien Le Moal <damien.lemoal@opensource.wdc.com> =E4=BA=8E2022=E5=B9=B410=
+=E6=9C=8817=E6=97=A5=E5=91=A8=E4=B8=80 12:57=E5=86=99=E9=81=93=EF=BC=9A
 >
-> On Sun, 2022-10-16 at 22:51 +0800, Sam Li wrote:
+> On 10/16/22 23:51, Sam Li wrote:
 > > Add a new zoned_host_device BlockDriver. The zoned_host_device option
 > > accepts only zoned host block devices. By adding zone management
 > > operations in this new BlockDriver, users can use the new block
@@ -109,8 +107,8 @@ ce:
 > > zone_finish(zf).
 > >
 > > For example, to test zone_report, use following command:
-> > $ ./build/qemu-io --image-opts -n driver=3Dzoned_host_device,
-> > filename=3D/dev/nullb0
+> > $ ./build/qemu-io --image-opts -n driver=3Dzoned_host_device, filename=
+=3D/dev/nullb0
 > > -c "zrp offset nr_zones"
 > >
 > > Signed-off-by: Sam Li <faithilikerun@gmail.com>
@@ -279,6 +277,9 @@ t
 > > +    IO_CODE();
 > > +
 > > +
+>
+> Nit: extra blank line here.
+>
 > > +    blk_inc_in_flight(blk);
 > > +    blk_wait_while_drained(blk);
 > > +
@@ -321,13 +322,15 @@ t
 > > +        struct {
 > > +            unsigned long zone_op;
 > > +            const char *zone_op_name;
+>
+> Nit: This could be simplified to "op" and "op_name". No big deal though.
+>
 > > +        } zone_mgmt;
 > >      };
 > >  } RawPosixAIOData;
 > >
 > > @@ -1350,6 +1361,48 @@ static void raw_refresh_limits(BlockDriverState =
-*bs,
-> > Error **errp)
+*bs, Error **errp)
 > >          zoned =3D BLK_Z_NONE;
 > >      }
 > >      bs->bl.zoned =3D zoned;
@@ -380,8 +383,7 @@ tes ",
 > >
 > >  static int check_for_dasd(int fd)
 > > @@ -1844,6 +1897,144 @@ static off_t copy_file_range(int in_fd, off_t *=
-in_off,
-> > int out_fd,
+in_off, int out_fd,
 > >  }
 > >  #endif
 > >
@@ -413,6 +415,19 @@ in_off,
 > > +        break;
 > > +    default:
 > > +        error_report("Invalid zone type: 0x%x", blkz->type);
+>
+> The error message here should be: "Unsupported zone type...", as the valu=
+e
+> may be perfectly valid for Linux but QEMU not know about it because e.g.
+> an old version is being used.
+>
+> Also, I would rather have an error return here so that the caller is noti=
+fied.
+
+Ok. Will change the return type to int and return an unsupported error
+so that handle_aio_zone_report gets notified.
+
+>
 > > +    }
 > > +
 > > +    switch (blkz->cond) {
@@ -442,6 +457,12 @@ in_off,
 > > +        break;
 > > +    default:
 > > +        error_report("Invalid zone state: 0x%x", blkz->cond);
+>
+> Same comment here. And we need an error return.
+
+Same as above.
+
+>
 > > +    }
 > > +}
 > > +#endif
@@ -455,21 +476,9 @@ in_off,
 > > +    BlockZoneDescriptor *zones =3D aiocb->zone_report.zones;
 > > +    /* zoned block devices use 512-byte sectors */
 > > +    int64_t sector =3D aiocb->aio_offset / 512;
->
-> Shouldn't this be uint64_t ?
-
-Yes, I'll change the type of offset and len to uint64_t.
-
->
 > > +
 > > +    struct blk_zone *blkz;
 > > +    int64_t rep_size;
->
-> size_t type is more appropriate for the variable above
-
-Ok, size_t is semantically correct.
-
->
 > > +    unsigned int nrz;
 > > +    int ret, n =3D 0, i =3D 0;
 > > +
@@ -501,6 +510,16 @@ d %d",
 > > +
 > > +        for (i =3D 0; i < rep->nr_zones; i++, n++) {
 > > +            parse_zone(&zones[n], &blkz[i]);
+>
+> Need to check for errors here, and if there is an error reported, fail
+> this aio so that unhandled/unsupported values are no propagated to the gu=
+est.
+
+Ok. When an error is reported, it breaks the loop and fails the aio at
+that error value.
+
+
+>
 > > +            /* The next report should start after the last zone report=
 ed */
 > > +            sector =3D blkz[i].start + blkz[i].len;
@@ -518,9 +537,6 @@ ed */
 > > +    RawPosixAIOData *aiocb =3D opaque;
 > > +    int fd =3D aiocb->aio_fildes;
 > > +    int64_t sector =3D aiocb->aio_offset / 512;
->
-> uint64_t?
->
 > > +    int64_t nr_sectors =3D aiocb->aio_nbytes / 512;
 > > +    struct blk_zone_range range;
 > > +    int ret;
@@ -545,8 +561,8 @@ me,
 > >  static int handle_aiocb_copy_range(void *opaque)
 > >  {
 > >      RawPosixAIOData *aiocb =3D opaque;
-> > @@ -3038,6 +3229,99 @@ static void raw_account_discard(BDRVRawState *s,
-> > uint64_t nbytes, int ret)
+> > @@ -3038,6 +3229,99 @@ static void raw_account_discard(BDRVRawState *s,=
+ uint64_t nbytes, int ret)
 > >      }
 > >  }
 > >
@@ -561,8 +577,7 @@ eply;
 > > + */
 > > +#if defined(CONFIG_BLKZONED)
 > > +static int coroutine_fn raw_co_zone_report(BlockDriverState *bs, int64=
-_t
-> > offset,
+_t offset,
 > > +                                           unsigned int *nr_zones,
 > > +                                           BlockZoneDescriptor *zones)=
  {
@@ -609,8 +624,7 @@ neOp op,
 > > +    if (((offset + len) < bs->bl.capacity && len & zone_size_mask) ||
 > > +        offset + len > bs->bl.capacity) {
 > > +        error_report("number of sectors %" PRId64 " is not aligned to =
-zone
-> > size"
+zone size"
 > > +                      " %" PRId64 "", len / 512, zone_size / 512);
 > > +        return -EINVAL;
 > > +    }
@@ -698,43 +712,6 @@ zone
 > > +    .bdrv_set_perm   =3D raw_set_perm,
 > > +    .bdrv_abort_perm_update =3D raw_abort_perm_update,
 > > +    .bdrv_probe_blocksizes =3D hdev_probe_blocksizes,
->
-> hdev_probe_blocksizes() only seems to probe blocksizes if the
-> hardware device is DASD. Not sure why is like that, but is very
-> important for ZBDs to be virtualized with the correct physical and
-> logical block sizes. To make sure this is the case, you can change
-> the line above to
->
-> +    .bdrv_probe_blocksizes =3D hdev_zoned_probe_blocksizes,
->
-> and define the following function elsewhere in this file _
->
-> +/**
-> + * Try to get @bs's logical and physical block size of a zoned device.
-> + * On success, store them in @bsz and return zero.
-> + * On failure, return negative errno.
-> + */
-> +static int hdev_zoned_probe_blocksizes(BlockDriverState *bs, BlockSizes =
-*bsz)
-> +{
-> +    BDRVRawState *s =3D bs->opaque;
-> +    int ret;+    return ret;
-> +
-> +    ret =3D probe_logical_blocksize(s->fd, &bsz->log);
-> +    if (ret < 0) {
-> +        return ret;
-> +    }
-> +    return probe_physical_blocksize(s->fd, &bsz->phys);
-> +}
-> +
->
-> I tested this change with hardware ZBDs and it works fine, no guesswork
-> about what LBA/PBA size to specify in the command line is required.
-
-Thanks! We talked about getting the correct block size before and came
-up with setting it in the command line. Pleased to drop that setting.
-
->
 > > +    .bdrv_probe_geometry =3D hdev_probe_geometry,
 > > +    .bdrv_co_ioctl =3D hdev_co_ioctl,
 > > +
@@ -834,8 +811,7 @@ p,
 > >  bool bdrv_can_write_zeroes_with_unmap(BlockDriverState *bs);
 > >  int bdrv_block_status(BlockDriverState *bs, int64_t offset,
 > > diff --git a/include/block/block_int-common.h b/include/block/block_int=
--
-> > common.h
+-common.h
 > > index 7f7863cc9e..cdc06e77a6 100644
 > > --- a/include/block/block_int-common.h
 > > +++ b/include/block/block_int-common.h
@@ -847,8 +823,7 @@ p,
 > > +            int64_t offset, unsigned int *nr_zones,
 > > +            BlockZoneDescriptor *zones);
 > > +    int coroutine_fn (*bdrv_co_zone_mgmt)(BlockDriverState *bs, BlockZ=
-oneOp
-> > op,
+oneOp op,
 > > +            int64_t offset, int64_t len);
 > > +
 > >      /* removable device specific */
@@ -864,12 +839,6 @@ oneOp
 > > +
 > > +    /* total number of zones */
 > > +    unsigned int nr_zones;
->
-> Use the _t notation since it is used elsewhere in the definition
-> of this struct -
->
-> +    uint32_t nr_zones;
->
 > > +
 > > +    /* maximum sectors of a zone append write operation */
 > > +    int64_t max_append_sectors;
@@ -882,14 +851,6 @@ oneOp
 > > +
 > > +    /* device capacity expressed in bytes */
 > > +    int64_t capacity;
->
-> Can capacity become negative? If not, define as uint64_t?
-
-No, will change it to uint64_t. Now that talking about uint/int, all
-those fields related to zones should not be negative, right? If true,
-then I should change all of those to uint.
-
->
 > >  } BlockLimits;
 > >
 > >  typedef struct BdrvOpBlocker BdrvOpBlocker;
@@ -918,14 +879,12 @@ then I should change all of those to uint.
 > >  /* AIO flags */
 > >  #define QEMU_AIO_MISALIGNED   0x1000
 > > diff --git a/include/sysemu/block-backend-io.h b/include/sysemu/block-b=
-ackend-
-> > io.h
+ackend-io.h
 > > index 50f5aa2e07..1b5fc7db6b 100644
 > > --- a/include/sysemu/block-backend-io.h
 > > +++ b/include/sysemu/block-backend-io.h
 > > @@ -45,6 +45,13 @@ BlockAIOCB *blk_aio_pwritev(BlockBackend *blk, int64=
-_t
-> > offset,
+_t offset,
 > >                              BlockCompletionFunc *cb, void *opaque);
 > >  BlockAIOCB *blk_aio_flush(BlockBackend *blk,
 > >                            BlockCompletionFunc *cb, void *opaque);
@@ -942,8 +901,7 @@ t bytes,
 > >                               BlockCompletionFunc *cb, void *opaque);
 > >  void blk_aio_cancel_async(BlockAIOCB *acb);
 > > @@ -156,6 +163,17 @@ int generated_co_wrapper blk_pwrite_zeroes(BlockBa=
-ckend
-> > *blk, int64_t offset,
+ckend *blk, int64_t offset,
 > >  int coroutine_fn blk_co_pwrite_zeroes(BlockBackend *blk, int64_t offse=
 t,
 > >                                        int64_t bytes, BdrvRequestFlags =
@@ -970,16 +928,16 @@ t,
 > > index 44c1f92697..0aa99b64a0 100644
 > > --- a/meson.build
 > > +++ b/meson.build
-> > @@ -1928,6 +1928,7 @@ config_host_data.set('CONFIG_REPLICATION',
-> > get_option('replication').allowed())
+> > @@ -1928,6 +1928,7 @@ config_host_data.set('CONFIG_REPLICATION', get_op=
+tion('replication').allowed())
 > >  # has_header
 > >  config_host_data.set('CONFIG_EPOLL', cc.has_header('sys/epoll.h'))
 > >  config_host_data.set('CONFIG_LINUX_MAGIC_H', cc.has_header('linux/magi=
 c.h'))
 > > +config_host_data.set('CONFIG_BLKZONED', cc.has_header('linux/blkzoned.=
 h'))
-> >  config_host_data.set('CONFIG_VALGRIND_H',
-> > cc.has_header('valgrind/valgrind.h'))
+> >  config_host_data.set('CONFIG_VALGRIND_H', cc.has_header('valgrind/valg=
+rind.h'))
 > >  config_host_data.set('HAVE_BTRFS_H', cc.has_header('linux/btrfs.h'))
 > >  config_host_data.set('HAVE_DRM_H', cc.has_header('libdrm/drm.h'))
 > > @@ -2021,6 +2022,9 @@ config_host_data.set('HAVE_SIGEV_NOTIFY_THREAD_ID=
@@ -1188,8 +1146,8 @@ bd',
 > >  static int truncate_f(BlockBackend *blk, int argc, char **argv);
 > >  static const cmdinfo_t truncate_cmd =3D {
 > >      .name       =3D "truncate",
-> > @@ -2504,6 +2648,11 @@ static void __attribute((constructor))
-> > init_qemuio_commands(void)
+> > @@ -2504,6 +2648,11 @@ static void __attribute((constructor)) init_qemu=
+io_commands(void)
 > >      qemuio_add_command(&aio_write_cmd);
 > >      qemuio_add_command(&aio_flush_cmd);
 > >      qemuio_add_command(&flush_cmd);
@@ -1201,5 +1159,9 @@ bd',
 > >      qemuio_add_command(&truncate_cmd);
 > >      qemuio_add_command(&length_cmd);
 > >      qemuio_add_command(&info_cmd);
+>
+> --
+> Damien Le Moal
+> Western Digital Research
 >
 
