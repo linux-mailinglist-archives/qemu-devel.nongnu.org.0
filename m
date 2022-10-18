@@ -2,82 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31829602BAC
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 14:27:10 +0200 (CEST)
-Received: from localhost ([::1]:38992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B57F602BF9
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 14:44:41 +0200 (CEST)
+Received: from localhost ([::1]:52300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oklgZ-0001Fo-T6
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 08:27:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33670)
+	id 1oklxX-0004pL-Rk
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 08:44:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oklEN-0000Ee-MI
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 07:57:59 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44831)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oklHs-0002E5-CA
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 08:01:53 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:40806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oklE9-0003jh-RQ
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 07:57:59 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id r13so23048080wrj.11
- for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 04:57:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oklHm-0004ct-Sn
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 08:01:36 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ v130-20020a1cac88000000b003bcde03bd44so14807712wme.5
+ for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 05:01:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=J1ViY6aQvVjxWszuDvi/cXx0c7rGrYWia+ha8nPhRCg=;
- b=EScDB3HSNpZOjqnu3XOj6+4lrY+3D9yYn+wkKVICocR+MlCftf9Iecy2oD4QGaZ2+a
- iA4q4KmWWyqG6/B216H/kyvUYdWK5NY15J+xgKjIXKEbGg0cO0nVdPknozgvHUJm6dWk
- ikRyQNV4fgZoJYmWRKdGNKcT6ic7FduySYg2EWdTHpdDThhjjTpSbhQEi2Sn6KyCZZVZ
- /Q9Sif8AcVCWhP9U1psE5zHRfegcFHA62XczbRXypJXmG3s4waJJbdtldaMLcv4BwHRy
- h90pB+D3qHyQSfwk42hTV/25cPGQfWlm3Cj4ayzBho4pXS341CJQC9GkrUVtsxt5Dq7i
- ngMw==
+ bh=EBX1sWqWuScabdGTb+kBm3UOgU3J+Djju7/nqFMR+38=;
+ b=HS41jJezNAL9rA7b72omPq1q2C662nV1UOPfjNRbQayhm3Uhdp+Qk6ww75bveCsX1I
+ pmSt3P5nSg5CzkgyjSrzwu8ipz5Y1gja53qigENGQfHYFjy3ipdRCn2kNw7wekG7x21d
+ BRXBunCOhIfrxSNZXnJ0IPNYgLs1IPAFW4ORjqPNAIld9F/QU6LRPmCYIGAN78sstxLy
+ GbIr017pwqL8+pZm1c4aish8pTExJSGaRqOp/XOa8NQikYFUXqoZwEHugmhZngYZbqfP
+ nx4sIMYyBsuexuja1NqplPa3T04eOpgPAR3hBE7sFdfzI+BPyj/7VDYfsWEdSyb5LPaT
+ Bx9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=J1ViY6aQvVjxWszuDvi/cXx0c7rGrYWia+ha8nPhRCg=;
- b=pfXUL4R+6Xsd7c0HlNiY1apEwtXBi9lakKc3AzvucFFeRGWyd4VvALB9yu6vqojzcR
- MOs+ZnEzdls9HCA1Vt/y9E6s3Do0rhuIgGs6HHxH5KEP+ZntvHEWzpQzQp1riLsoiHi+
- XpCAP6jYoCwr/hU3PCTfx3MQoI078JKim1yrM5n0znsRljQcAcq2xpy/l3Wo/8/0s3M9
- KPJwY6tg47Eh/vh6Ok4WhM6Hggxnzz+QcXAAp1oWDKprBdXkRrH7ipd5Ls+NXJDAw/VR
- kRVGENRya/TPW1AOyV99dzINCqNOpkJL+6xAwRyyUieWDhrSq2c4Tay+kmgBlXGlaTL4
- c7qA==
-X-Gm-Message-State: ACrzQf1jDitcQE5OvOQmsCrf/+/DfBKINS3o5rfnkeD9O/fOQMmkNRcq
- tBdzxU1YjTVs81UusXhF4+BXLg==
-X-Google-Smtp-Source: AMsMyM6/VsgrBplAEcVYVwdeGiuS82KRnoFl7CUFWvrYGLrX8E+L2SKwyA+qDs6vPfcZHS2fYANB3g==
-X-Received: by 2002:a5d:6e82:0:b0:22f:a27c:c964 with SMTP id
- k2-20020a5d6e82000000b0022fa27cc964mr1677757wrz.699.1666094263994; 
- Tue, 18 Oct 2022 04:57:43 -0700 (PDT)
+ bh=EBX1sWqWuScabdGTb+kBm3UOgU3J+Djju7/nqFMR+38=;
+ b=S+7dz7LJVfmI2BBOYQxxp5oULzzO/cMLYPxdtxDN3ZWQQFxrd/S/9Lbsy11vCfqseg
+ oX2PahlO70n5J4f/MwatjefFvLdI8ecwcUxQLbkfaW7uMcxF/wIAULdWKz61BsT9g4kK
+ qHnKm66ioGkwy5v/j3OlY8Ezh1nOZW/OGZNI57PQhmxEHPeIIZxuG7Yi+QsMP3u33NzZ
+ rLtb2/N/kW0nlAvvYwxa6tK1+3ZxVZUhw4mwM2f4wE58vjNA7714YQqzWDpGWOGyDUHP
+ StvnZkyO7IPw+fOd81b+uCW7YVe9pmnzEJ8JCuulO4k/n207X9pN8HF2x5zFHYVeBZZS
+ qKdw==
+X-Gm-Message-State: ACrzQf2IgERs1LRR7m/XjjJxPKeTmkODXkzlL08a8031OaxPhu7EYr5T
+ 4dallmkMHF23NZWw10PMFIV3cw==
+X-Google-Smtp-Source: AMsMyM4/hg0m6FGNv2nw7SQDi8vFU9eMkDI0lB9Smk5jOExjHXU7QibRpXMNhUY3zklObYd/Zk+LUg==
+X-Received: by 2002:a05:600c:3b12:b0:3b4:a6ea:1399 with SMTP id
+ m18-20020a05600c3b1200b003b4a6ea1399mr22257989wms.49.1666094487069; 
+ Tue, 18 Oct 2022 05:01:27 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- g24-20020a7bc4d8000000b003b4935f04a4sm15579610wmk.5.2022.10.18.04.57.42
+ o18-20020adfcf12000000b0022a297950cesm10839168wrj.23.2022.10.18.05.01.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Oct 2022 04:57:43 -0700 (PDT)
-Message-ID: <ee08eef7-8f65-4a99-a204-a424ba820496@linaro.org>
-Date: Tue, 18 Oct 2022 13:57:41 +0200
+ Tue, 18 Oct 2022 05:01:25 -0700 (PDT)
+Message-ID: <752bcf6d-d37d-5605-d3bb-8e46c2e4b47c@linaro.org>
+Date: Tue, 18 Oct 2022 14:01:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.1
-Subject: Re: [PATCH v2 10/28] qapi crypto: Elide redundant has_FOO in
- generated C
+Subject: Re: [PATCH v2 23/28] qapi tpm: Elide redundant has_FOO in generated C
 Content-Language: en-US
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Cc: michael.roth@amd.com, jsnow@redhat.com, eblake@redhat.com,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+ Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 References: <20221018062849.3420573-1-armbru@redhat.com>
- <20221018062849.3420573-11-armbru@redhat.com>
+ <20221018062849.3420573-24-armbru@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221018062849.3420573-11-armbru@redhat.com>
+In-Reply-To: <20221018062849.3420573-24-armbru@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,19 +99,41 @@ On 18/10/22 08:28, Markus Armbruster wrote:
 > The has_FOO for pointer-valued FOO are redundant, except for arrays.
 > They are also a nuisance to work with.  Recent commit "qapi: Start to
 > elide redundant has_FOO in generated C" provided the means to elide
-> them step by step.  This is the step for qapi/crypto.json.
+> them step by step.  This is the step for qapi/tpm.json.
 > 
 > Said commit explains the transformation in more detail.  The invariant
 > violations mentioned there do not occur here.
 > 
-> Cc: Daniel P. Berrangé" <berrange@redhat.com>
+> Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
 > ---
->   crypto/block-luks.c            | 16 ++++++++--------
->   tests/unit/test-crypto-block.c |  6 ------
->   scripts/qapi/schema.py         |  1 -
->   3 files changed, 8 insertions(+), 15 deletions(-)
+>   backends/tpm/tpm_passthrough.c | 2 --
+>   monitor/hmp-cmds.c             | 8 ++++----
+>   scripts/qapi/schema.py         | 1 -
+>   3 files changed, 4 insertions(+), 7 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index 8f8bd93df1..378f5b083d 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -885,10 +885,10 @@ void hmp_info_tpm(Monitor *mon, const QDict *qdict)
+>           case TPM_TYPE_PASSTHROUGH:
+>               tpo = ti->options->u.passthrough.data;
+>               monitor_printf(mon, "%s%s%s%s",
+> -                           tpo->has_path ? ",path=" : "",
+> -                           tpo->has_path ? tpo->path : "",
+> -                           tpo->has_cancel_path ? ",cancel-path=" : "",
+> -                           tpo->has_cancel_path ? tpo->cancel_path : "");
+> +                           tpo->path ? ",path=" : "",
+> +                           tpo->path ?: "",
+> +                           tpo->cancel_path ? ",cancel-path=" : "",
+> +                           tpo->cancel_path ?: "");
+
+Or simply:
+
+             monitor_printf(mon, "%s%s",
+                            tpo->path ? ",path=" : "",
+                            tpo->cancel_path ? ",cancel-path=" : "");
+
 
