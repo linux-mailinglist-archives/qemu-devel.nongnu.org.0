@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 412B5602DA5
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 15:58:16 +0200 (CEST)
-Received: from localhost ([::1]:37682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CEA6602D8C
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 15:57:38 +0200 (CEST)
+Received: from localhost ([::1]:41112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okn6i-0006T9-T6
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 09:58:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58664)
+	id 1okn68-00032d-NT
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 09:57:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1okmgs-0002Lu-M7
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 09:31:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46845)
+ id 1okmgw-0002MR-OW
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 09:31:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48793)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1okmgm-00051Q-Vx
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 09:31:26 -0400
+ id 1okmgn-00051c-6M
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 09:31:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666099883;
+ s=mimecast20190719; t=1666099884;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mUai5IOd+nk/9EXVKOs8Nw1OnO26tcrFnLS0BvRxlDw=;
- b=XymxH6wVwjvqVhnhnJYrIC14H8IjxjwY2+Erm8cVz3b2kHV/czLuvRTRFW4aQ9OgVmj8vv
- 1qMuUrpRn9zbmKofPiiME9rKeVkvGPR8ceSWwfcdMKpMSUbwMcLAS6gJAvnImkGpySzCSe
- 3db7DkOYoFVIYmecPg3Sy70BOPllJBc=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=osh32bXliqc9+xMnWun8jK/3xeIfkSUICao8CeLnwxs=;
+ b=FHp1e/FWgd3FcguqxAOS4svEpoAdMWgEGXkJ6P0Vvr1ZRk1u2O3dH1aWUYsvefQ4VgGQOj
+ wP/LxUL3FkL/HUUcnEtLEvv737Lm2isvSfgQDcwIp+x60Vrh/7q/2NwY5rHWuF2JivbXSe
+ Y762jlbF7ZBBooS3PCPUdDbQyrBKPig=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-130-Sayw47-HNx2OXqAB7rBH5A-1; Tue, 18 Oct 2022 09:31:19 -0400
-X-MC-Unique: Sayw47-HNx2OXqAB7rBH5A-1
-Received: by mail-ej1-f70.google.com with SMTP id
- sb13-20020a1709076d8d00b0078d8e1f6f7aso6393185ejc.8
- for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 06:31:19 -0700 (PDT)
+ us-mta-490-SgFASPUdNuyk9hXbI676CQ-1; Tue, 18 Oct 2022 09:31:22 -0400
+X-MC-Unique: SgFASPUdNuyk9hXbI676CQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ z7-20020a05640235c700b0045d3841ccf2so8252724edc.9
+ for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 06:31:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=mUai5IOd+nk/9EXVKOs8Nw1OnO26tcrFnLS0BvRxlDw=;
- b=Hu7Ak/fdiXul6JNWodBzxFqaiMxOiqV8vJqPp/nSZBf2bqUaSmaViUXr3EoJNuXZhu
- BBmHlwUh5cA6y+Fm+a6EjB7wIrm7AwT7XZYa0iur7KxrJujknEPk+//rEGaAT+Uv+EV2
- iceuj9YRkqU7Vd7/iv33q9kIchiss9GmpkXQ4AomsxTn3LOr7ACB4Q3ODxeoOZzC5AAj
- o/bTpWZEI6gkGAOjepzC8V/rR8sYx4Z0CZaHD02Z4MGqJI8obXO9UQyZTQYFmdKniYtj
- 2oammwNYRJ+857wKwlyEhdnHgVrzgB0eyNb2S1t84Oqm5hF79jHV8xBhD9zvT7UXZyq8
- nRmQ==
-X-Gm-Message-State: ACrzQf3lv8UPrlAEH40VmBWaq6BGHxKqMdkmwDprTqvEWAit7URiTboA
- 56ucofgspJVeYfgyeeHYmNTFsJkUC6EeXsIycev2Q3wtNXzcmFepuyDjKKPU8Eb7jAOikBSE92W
- irQb4kOo26TPkOq2wnpOcFrF5yruYOVRoCVAh7C7ujIhWAQUG6GJov32KUBH2ZpQvy1s=
-X-Received: by 2002:aa7:d7c5:0:b0:459:fad8:fd2 with SMTP id
- e5-20020aa7d7c5000000b00459fad80fd2mr2670396eds.336.1666099877872; 
- Tue, 18 Oct 2022 06:31:17 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM67O7pGcZPkfNEWhZEjsQkGAosDsBgv16mUC4VxHL6z4BWi65ps231EKejKFAvtcbiht8Ld3Q==
-X-Received: by 2002:aa7:d7c5:0:b0:459:fad8:fd2 with SMTP id
- e5-20020aa7d7c5000000b00459fad80fd2mr2670376eds.336.1666099877527; 
- Tue, 18 Oct 2022 06:31:17 -0700 (PDT)
+ bh=osh32bXliqc9+xMnWun8jK/3xeIfkSUICao8CeLnwxs=;
+ b=lA3snfSlbxstdhIjTXxedif4T+aDNgCtG1j8/FBBGm7jN2id3gxCul5XxsPu/1uVsK
+ GXhqbkZ55+fdDSN2wqHooaU0Zvu4KnOKTqI8SiJtxfqAXX6Ayy8HaeQWNco6j52wxjQW
+ 6Ja1d0eLLrBj8YfcCEfsM07xt5ub5c/Ydo+e2nALzLYJfGDDzhB3at8q4cFX+7c+8brL
+ DHugEeaWEJSUiasyNEvCVdkHRrHSe9b/fZAvizI254Trv6W+G2PyJT2FNouktUFWdPxt
+ yh5WIQGTcGubwBl5neuKghKJnlmw1n8y4DeOcdZSaS0Y4sX47TtbzVt/X/kPDC3OnO8G
+ wwww==
+X-Gm-Message-State: ACrzQf3Z6gH6fE8lgrjTuQkYe2YKy8IJI8B/yvKMgNQeihv9jps/3Gat
+ IuGRJj2ar0It6lpunBHVmVJNbUCneRj8YeNZKTGJsX93Bz/cCko2Te5jTkgf2xCHYc7a/uvfc6N
+ dMcGI1qNGggTx1m7qy3PldOXlqBM6nLxcucMHMffT4YY8oAKSZaG3DnmYftY5AWXZW9Y=
+X-Received: by 2002:a05:6402:3592:b0:45c:fb8a:c57d with SMTP id
+ y18-20020a056402359200b0045cfb8ac57dmr2661382edc.290.1666099880987; 
+ Tue, 18 Oct 2022 06:31:20 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5qaaETNP6oyLL98sLrwU/MrlHSY2Mj00/dGUAi3M34yAMAor5OfvVNK0zXxsLYwydg0V1bNA==
+X-Received: by 2002:a05:6402:3592:b0:45c:fb8a:c57d with SMTP id
+ y18-20020a056402359200b0045cfb8ac57dmr2661355edc.290.1666099880662; 
+ Tue, 18 Oct 2022 06:31:20 -0700 (PDT)
 Received: from avogadro.local ([2001:b07:6468:f312:2f4b:62da:3159:e077])
  by smtp.gmail.com with ESMTPSA id
- l3-20020aa7cac3000000b0045723aa48ccsm8755833edt.93.2022.10.18.06.31.16
+ c7-20020aa7d607000000b0045d74aa401fsm4920636edr.60.2022.10.18.06.31.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Oct 2022 06:31:16 -0700 (PDT)
+ Tue, 18 Oct 2022 06:31:20 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 09/53] target/i386: Use MMUAccessType across excp_helper.c
-Date: Tue, 18 Oct 2022 15:29:58 +0200
-Message-Id: <20221018133042.856368-10-pbonzini@redhat.com>
+Subject: [PULL 10/53] target/i386: Direct call get_hphys from mmu_translate
+Date: Tue, 18 Oct 2022 15:29:59 +0200
+Message-Id: <20221018133042.856368-11-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221018133042.856368-1-pbonzini@redhat.com>
 References: <20221018133042.856368-1-pbonzini@redhat.com>
@@ -102,121 +102,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Replace int is_write1 and magic numbers with the proper
-MMUAccessType access_type and enumerators.
+Use a boolean to control the call to get_hphys instead
+of passing a null function pointer.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20221002172956.265735-2-richard.henderson@linaro.org>
+Message-Id: <20221002172956.265735-3-richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/tcg/sysemu/excp_helper.c | 28 +++++++++++++++-------------
- 1 file changed, 15 insertions(+), 13 deletions(-)
+ target/i386/tcg/sysemu/excp_helper.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
 diff --git a/target/i386/tcg/sysemu/excp_helper.c b/target/i386/tcg/sysemu/excp_helper.c
-index 796dc2a1f3..eee59aa977 100644
+index eee59aa977..c9f6afba29 100644
 --- a/target/i386/tcg/sysemu/excp_helper.c
 +++ b/target/i386/tcg/sysemu/excp_helper.c
-@@ -30,8 +30,10 @@ typedef hwaddr (*MMUTranslateFunc)(CPUState *cs, hwaddr gphys, MMUAccessType acc
+@@ -24,14 +24,10 @@
+ 
+ #define PG_ERROR_OK (-1)
+ 
+-typedef hwaddr (*MMUTranslateFunc)(CPUState *cs, hwaddr gphys, MMUAccessType access_type,
+-				int *prot);
+-
  #define GET_HPHYS(cs, gpa, access_type, prot)  \
- 	(get_hphys_func ? get_hphys_func(cs, gpa, access_type, prot) : gpa)
+-	(get_hphys_func ? get_hphys_func(cs, gpa, access_type, prot) : gpa)
++	(use_stage2 ? get_hphys(cs, gpa, access_type, prot) : gpa)
  
--static int mmu_translate(CPUState *cs, hwaddr addr, MMUTranslateFunc get_hphys_func,
--                         uint64_t cr3, int is_write1, int mmu_idx, int pg_mode,
-+static int mmu_translate(CPUState *cs, hwaddr addr,
-+                         MMUTranslateFunc get_hphys_func,
-+                         uint64_t cr3, MMUAccessType access_type,
-+                         int mmu_idx, int pg_mode,
+-static int mmu_translate(CPUState *cs, hwaddr addr,
+-                         MMUTranslateFunc get_hphys_func,
++static int mmu_translate(CPUState *cs, hwaddr addr, bool use_stage2,
+                          uint64_t cr3, MMUAccessType access_type,
+                          int mmu_idx, int pg_mode,
                           hwaddr *xlat, int *page_size, int *prot)
- {
-     X86CPU *cpu = X86_CPU(cs);
-@@ -40,13 +42,13 @@ static int mmu_translate(CPUState *cs, hwaddr addr, MMUTranslateFunc get_hphys_f
-     int32_t a20_mask;
-     target_ulong pde_addr, pte_addr;
-     int error_code = 0;
--    int is_dirty, is_write, is_user;
-+    bool is_dirty, is_write, is_user;
-     uint64_t rsvd_mask = PG_ADDRESS_MASK & ~MAKE_64BIT_MASK(0, cpu->phys_bits);
-     uint32_t page_offset;
-     uint32_t pkr;
- 
-     is_user = (mmu_idx == MMU_USER_IDX);
--    is_write = is_write1 & 1;
-+    is_write = (access_type == MMU_DATA_STORE);
-     a20_mask = x86_get_a20_mask(env);
- 
-     if (!(pg_mode & PG_MODE_NXE)) {
-@@ -264,14 +266,14 @@ do_check_protect_pse36:
-         }
- 
-         *prot &= pkr_prot;
--        if ((pkr_prot & (1 << is_write1)) == 0) {
--            assert(is_write1 != 2);
-+        if ((pkr_prot & (1 << access_type)) == 0) {
-+            assert(access_type != MMU_INST_FETCH);
-             error_code |= PG_ERROR_PK_MASK;
-             goto do_fault_protect;
-         }
+@@ -329,7 +325,7 @@ hwaddr get_hphys(CPUState *cs, hwaddr gphys, MMUAccessType access_type,
+         return gphys;
      }
  
--    if ((*prot & (1 << is_write1)) == 0) {
-+    if ((*prot & (1 << access_type)) == 0) {
-         goto do_fault_protect;
-     }
- 
-@@ -297,7 +299,7 @@ do_check_protect_pse36:
-     /* align to page_size */
-     pte &= PG_ADDRESS_MASK & ~(*page_size - 1);
-     page_offset = addr & (*page_size - 1);
--    *xlat = GET_HPHYS(cs, pte + page_offset, is_write1, prot);
-+    *xlat = GET_HPHYS(cs, pte + page_offset, access_type, prot);
-     return PG_ERROR_OK;
- 
-  do_fault_rsvd:
-@@ -308,7 +310,7 @@ do_check_protect_pse36:
-     error_code |= (is_write << PG_ERROR_W_BIT);
-     if (is_user)
-         error_code |= PG_ERROR_U_MASK;
--    if (is_write1 == 2 &&
-+    if (access_type == MMU_INST_FETCH &&
-         ((pg_mode & PG_MODE_NXE) || (pg_mode & PG_MODE_SMEP)))
-         error_code |= PG_ERROR_I_D_MASK;
-     return error_code;
-@@ -353,7 +355,7 @@ hwaddr get_hphys(CPUState *cs, hwaddr gphys, MMUAccessType access_type,
-  * 1  = generate PF fault
-  */
- static int handle_mmu_fault(CPUState *cs, vaddr addr, int size,
--                            int is_write1, int mmu_idx)
-+                            MMUAccessType access_type, int mmu_idx)
- {
-     X86CPU *cpu = X86_CPU(cs);
-     CPUX86State *env = &cpu->env;
-@@ -365,7 +367,7 @@ static int handle_mmu_fault(CPUState *cs, vaddr addr, int size,
- 
- #if defined(DEBUG_MMU)
-     printf("MMU fault: addr=%" VADDR_PRIx " w=%d mmu=%d eip=" TARGET_FMT_lx "\n",
--           addr, is_write1, mmu_idx, env->eip);
-+           addr, access_type, mmu_idx, env->eip);
- #endif
- 
-     if (!(env->cr[0] & CR0_PG_MASK)) {
-@@ -393,7 +395,7 @@ static int handle_mmu_fault(CPUState *cs, vaddr addr, int size,
+-    exit_info_1 = mmu_translate(cs, gphys, NULL, env->nested_cr3,
++    exit_info_1 = mmu_translate(cs, gphys, false, env->nested_cr3,
+                                access_type, MMU_USER_IDX, env->nested_pg_mode,
+                                &hphys, &page_size, &next_prot);
+     if (exit_info_1 == PG_ERROR_OK) {
+@@ -395,7 +391,7 @@ static int handle_mmu_fault(CPUState *cs, vaddr addr, int size,
              }
          }
  
--        error_code = mmu_translate(cs, addr, get_hphys, env->cr[3], is_write1,
-+        error_code = mmu_translate(cs, addr, get_hphys, env->cr[3], access_type,
+-        error_code = mmu_translate(cs, addr, get_hphys, env->cr[3], access_type,
++        error_code = mmu_translate(cs, addr, true, env->cr[3], access_type,
                                     mmu_idx, pg_mode,
                                     &paddr, &page_size, &prot);
      }
-@@ -404,7 +406,7 @@ static int handle_mmu_fault(CPUState *cs, vaddr addr, int size,
-         vaddr = addr & TARGET_PAGE_MASK;
-         paddr &= TARGET_PAGE_MASK;
- 
--        assert(prot & (1 << is_write1));
-+        assert(prot & (1 << access_type));
-         tlb_set_page_with_attrs(cs, vaddr, paddr, cpu_get_mem_attrs(env),
-                                 prot, mmu_idx, page_size);
-         return 0;
 -- 
 2.37.3
 
