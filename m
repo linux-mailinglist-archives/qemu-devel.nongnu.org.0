@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33E3B6030B3
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 18:23:19 +0200 (CEST)
-Received: from localhost ([::1]:58832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E73F6030F7
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 18:46:15 +0200 (CEST)
+Received: from localhost ([::1]:57174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okpMg-0007xL-UZ
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 12:23:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56438)
+	id 1okpjH-0003JF-BM
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 12:46:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1okoul-0003ji-Fd
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 11:54:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44083)
+ id 1okoux-0003vk-Q4
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 11:54:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42907)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1okouj-0003zq-3J
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 11:53:59 -0400
+ id 1okouw-000427-5Q
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 11:54:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666108432;
+ s=mimecast20190719; t=1666108449;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mqZNLycroWZRRghflpj8b3f5PiIH+DRSFRJ6onyN3Hg=;
- b=URggfz9hPV8tMYqEwnenn073VtEYPC6nOgL7K3mxbBKySyFPJSQjbZi9otpP22hm8mn5e+
- rIdJRPeiAsQH6UaIBiApS4DtXAqY7zNol1vrZGW/4J+TxXBc14OS+/Hejt30MdjNDsU1vu
- rA2rnr52C3wWYPmyyUDIsLwHW023Vao=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mXis859p0BoNeJtVQIZYLXshTjNfDzbrjIopHJFAjnE=;
+ b=Pf3GzIXdWSx+kMW0QP5RrRJKo+LTtQlT2NPfDp5rYkDCuV7xcxq15Q2wmPECb9F8wCZL1L
+ /F6NnlQTAHN+WtnStvyKQG2jLOMVhWaeBR2PfBAubLSb1AIdA9y1QVjUSZy/gmtJSvjqEc
+ vx5AmwynrmbbRGMWltwVQ8itAj1lGIY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-255-HumjDZSGM1KddkluOcWBTg-1; Tue, 18 Oct 2022 11:53:47 -0400
-X-MC-Unique: HumjDZSGM1KddkluOcWBTg-1
+ us-mta-517-kfpI5DdIMhG6HNcOMR8JSw-1; Tue, 18 Oct 2022 11:54:03 -0400
+X-MC-Unique: kfpI5DdIMhG6HNcOMR8JSw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BCA98185A7AF;
- Tue, 18 Oct 2022 15:53:39 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 21F9A2999B49;
+ Tue, 18 Oct 2022 15:53:58 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.178])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D082B215CDD6;
- Tue, 18 Oct 2022 15:53:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A2C1D215CDDB;
+ Tue, 18 Oct 2022 15:53:38 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Si-Wei Liu <si-wei.liu@oracle.com>, Laurent Vivier <lvivier@redhat.com>,
@@ -53,9 +53,9 @@ Cc: Si-Wei Liu <si-wei.liu@oracle.com>, Laurent Vivier <lvivier@redhat.com>,
  Liuxiangdong <liuxiangdong5@huawei.com>, Cindy Lu <lulu@redhat.com>,
  Parav Pandit <parav@mellanox.com>,
  Stefano Garzarella <sgarzare@redhat.com>, Jason Wang <jasowang@redhat.com>
-Subject: [RFC PATCH 1/5] vdpa: Save emulated features list in vhost_vdpa
-Date: Tue, 18 Oct 2022 17:53:17 +0200
-Message-Id: <20221018155321.145135-2-eperezma@redhat.com>
+Subject: [RFC PATCH 2/5] vdpa: Remove shadow CVQ command check
+Date: Tue, 18 Oct 2022 17:53:18 +0200
+Message-Id: <20221018155321.145135-3-eperezma@redhat.com>
 In-Reply-To: <20221018155321.145135-1-eperezma@redhat.com>
 References: <20221018155321.145135-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -86,73 +86,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At this moment only _F_LOG is added there.
+The guest will see undefined behavior if it issue not negotiate
+commands, bit it is expected somehow.
 
-However future patches add features that depend on the kind of device.
-In particular, only net devices can add VIRTIO_F_GUEST_ANNOUNCE. So
-let's allow vhost_vdpa creator to set custom emulated device features.
+Simplify code deleting this check.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- include/hw/virtio/vhost-vdpa.h | 2 ++
- hw/virtio/vhost-vdpa.c         | 8 ++++----
- net/vhost-vdpa.c               | 4 ++++
- 3 files changed, 10 insertions(+), 4 deletions(-)
+ net/vhost-vdpa.c | 48 ------------------------------------------------
+ 1 file changed, 48 deletions(-)
 
-diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
-index 1111d85643..50083e1e3b 100644
---- a/include/hw/virtio/vhost-vdpa.h
-+++ b/include/hw/virtio/vhost-vdpa.h
-@@ -31,6 +31,8 @@ typedef struct vhost_vdpa {
-     bool iotlb_batch_begin_sent;
-     MemoryListener listener;
-     struct vhost_vdpa_iova_range iova_range;
-+    /* VirtIO device features that can be emulated by qemu */
-+    uint64_t added_features;
-     uint64_t acked_features;
-     bool shadow_vqs_enabled;
-     /* IOVA mapping used by the Shadow Virtqueue */
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 7468e44b87..ddb5e29288 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -660,8 +660,8 @@ static int vhost_vdpa_set_features(struct vhost_dev *dev,
- 
-         v->acked_features = features;
- 
--        /* We must not ack _F_LOG if SVQ is enabled */
--        features &= ~BIT_ULL(VHOST_F_LOG_ALL);
-+        /* Do not ack features emulated by qemu */
-+        features &= ~v->added_features;
-     }
- 
-     trace_vhost_vdpa_set_features(dev, features);
-@@ -1244,8 +1244,8 @@ static int vhost_vdpa_get_features(struct vhost_dev *dev,
-     int ret = vhost_vdpa_get_dev_features(dev, features);
- 
-     if (ret == 0 && v->shadow_vqs_enabled) {
--        /* Add SVQ logging capabilities */
--        *features |= BIT_ULL(VHOST_F_LOG_ALL);
-+        /* Add emulated capabilities */
-+        *features |= v->added_features;
-     }
- 
-     return ret;
 diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 4bc3fd01a8..787e34ed99 100644
+index 787e34ed99..19d4dbe94a 100644
 --- a/net/vhost-vdpa.c
 +++ b/net/vhost-vdpa.c
-@@ -600,6 +600,10 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-     s->vhost_vdpa.index = queue_pair_index;
-     s->vhost_vdpa.shadow_vqs_enabled = svq;
-     s->vhost_vdpa.iova_tree = iova_tree;
-+    if (svq) {
-+        /* Add SVQ logging capabilities */
-+        s->vhost_vdpa.added_features |= BIT_ULL(VHOST_F_LOG_ALL);
-+    }
-     if (!is_datapath) {
-         s->cvq_cmd_out_buffer = qemu_memalign(qemu_real_host_page_size(),
-                                             vhost_vdpa_net_cvq_cmd_page_len());
+@@ -462,48 +462,6 @@ static NetClientInfo net_vhost_vdpa_cvq_info = {
+     .check_peer_type = vhost_vdpa_check_peer_type,
+ };
+ 
+-/**
+- * Do not forward commands not supported by SVQ. Otherwise, the device could
+- * accept it and qemu would not know how to update the device model.
+- */
+-static bool vhost_vdpa_net_cvq_validate_cmd(const void *out_buf, size_t len)
+-{
+-    struct virtio_net_ctrl_hdr ctrl;
+-
+-    if (unlikely(len < sizeof(ctrl))) {
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: invalid legnth of out buffer %zu\n", __func__, len);
+-        return false;
+-    }
+-
+-    memcpy(&ctrl, out_buf, sizeof(ctrl));
+-    switch (ctrl.class) {
+-    case VIRTIO_NET_CTRL_MAC:
+-        switch (ctrl.cmd) {
+-        case VIRTIO_NET_CTRL_MAC_ADDR_SET:
+-            return true;
+-        default:
+-            qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid mac cmd %u\n",
+-                          __func__, ctrl.cmd);
+-        };
+-        break;
+-    case VIRTIO_NET_CTRL_MQ:
+-        switch (ctrl.cmd) {
+-        case VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET:
+-            return true;
+-        default:
+-            qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid mq cmd %u\n",
+-                          __func__, ctrl.cmd);
+-        };
+-        break;
+-    default:
+-        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid control class %u\n",
+-                      __func__, ctrl.class);
+-    };
+-
+-    return false;
+-}
+-
+ /**
+  * Validate and copy control virtqueue commands.
+  *
+@@ -527,16 +485,10 @@ static int vhost_vdpa_net_handle_ctrl_avail(VhostShadowVirtqueue *svq,
+         .iov_len = sizeof(status),
+     };
+     ssize_t dev_written = -EINVAL;
+-    bool ok;
+ 
+     out.iov_len = iov_to_buf(elem->out_sg, elem->out_num, 0,
+                              s->cvq_cmd_out_buffer,
+                              vhost_vdpa_net_cvq_cmd_len());
+-    ok = vhost_vdpa_net_cvq_validate_cmd(s->cvq_cmd_out_buffer, out.iov_len);
+-    if (unlikely(!ok)) {
+-        goto out;
+-    }
+-
+     dev_written = vhost_vdpa_net_cvq_add(s, out.iov_len, sizeof(status));
+     if (unlikely(dev_written < 0)) {
+         goto out;
 -- 
 2.31.1
 
