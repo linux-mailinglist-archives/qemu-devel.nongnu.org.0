@@ -2,89 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C093A602E13
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 16:13:56 +0200 (CEST)
-Received: from localhost ([::1]:56422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE9BD602EC0
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 16:48:20 +0200 (CEST)
+Received: from localhost ([::1]:56354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oknLs-0000PT-UD
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 10:13:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53008)
+	id 1okntD-00048g-1p
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 10:48:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1okmhH-0003LI-1O
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 09:31:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23425)
+ id 1okmiS-0004RJ-UM
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 09:33:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52287)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1okmhE-00055Z-2v
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 09:31:53 -0400
+ id 1okmhc-0005Cl-BA
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 09:32:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666099909;
+ s=mimecast20190719; t=1666099928;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pFvE2IPwyAj8J17/+xngYCMPf0scv6DEdgFJ5PKv0jo=;
- b=Kyc+fhR5H9EChB+jt8F/Qr8bTOGHZO7VeIVCXFePliJ2L1xIFRYNIMHLfKM5s5j49Yo0RX
- Bm5iqk+GXO4l/xWcl7KI4g1xAdp8ZpMQwYDLnOx+rmirZ0VkefEqiTdACPMHj/XfL4KSPj
- WHDin0cywzf1JZsIH82X0vlz7n1SJPk=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Uab1pag/hyzpxfLXfHWB39awvPjdv3h0bR5JqzUXU6M=;
+ b=dvvVu1o2maKrldPqj5BSfa41wN08iwlAkxBJaT9gGSMe1it5zqXVADPWbfQi6/bQHDntv1
+ /+MivpAHDDZokUIPxXf9tCoW4LDKonWGBNBBX7XMvg9C9T/aQakEmV7U/KzdV6CI3Om+Q6
+ 59UdYGTxHqtsUPaL+qCc267uZL1SrBE=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-341-oFuhPaBvNz-bs7BfxXcseQ-1; Tue, 18 Oct 2022 09:31:48 -0400
-X-MC-Unique: oFuhPaBvNz-bs7BfxXcseQ-1
-Received: by mail-ej1-f70.google.com with SMTP id
- sa6-20020a1709076d0600b0078d84ed54b9so6375010ejc.18
- for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 06:31:48 -0700 (PDT)
+ us-mta-12-42zI-BKbMPCaQiGHeFkX_w-1; Tue, 18 Oct 2022 09:32:07 -0400
+X-MC-Unique: 42zI-BKbMPCaQiGHeFkX_w-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ v13-20020a056402348d00b0045d36615696so8375414edc.14
+ for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 06:32:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=pFvE2IPwyAj8J17/+xngYCMPf0scv6DEdgFJ5PKv0jo=;
- b=1MirQoY7OMxc/8DRRCS4my8V0G7vjOwnHOg2zzHJRuT1ZkIzuRZ/wSH5uB31x60v1P
- OFBcUJ7Vyk6AG27gKeMnDpXcPkZpCeJWJu5HNX5YUlA/NNd9O9+9yOBeh7GW1sBM6whT
- z2kwRlW7Ywe5XUYFXZ4TglwZdpqmZiYyldhwQNz8cpLGwbhB4xPyIalJRyzFHKEJYchj
- S2dOi3xio2edeSpHOCKtCLKofOoiPgEk5huX/vkoQu3sd7ocvGUKsZd0cTMqg/oI/3Os
- Dp8FianYcjFoyhAvzmy8M531UXGa/ZiTwn33UTyiSkOxfZkgQk8PFNlneC8suVIwA9B2
- PFdA==
-X-Gm-Message-State: ACrzQf2ENuaqN3FHJziW7uJlcDrP/C7bj6RV8lEPEKIHIeSiD1ls6L4I
- Ku/CP97RoFRg4jBEcFejoSU1Bh67sEdVUlzZjLh3zC1FjfsGQUBciudJlrYtdL2QPQC0ZxHcQup
- l66DSmHF+1Nm20mmn9ATIuG/XgfELaNc9/vsg22xgjkUEHhW8Sd8NTbWgPV/yo6MMHmA=
-X-Received: by 2002:a17:907:80b:b0:77a:86a1:db52 with SMTP id
- wv11-20020a170907080b00b0077a86a1db52mr2559448ejb.294.1666099906758; 
- Tue, 18 Oct 2022 06:31:46 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6uTbK9KCy0mJFYE+5ZFWlMbgfK+R+AM6f7pd73/MzlaHrCjfaSNCTyczbz6NlVxlmPHihrwA==
-X-Received: by 2002:a17:907:80b:b0:77a:86a1:db52 with SMTP id
- wv11-20020a170907080b00b0077a86a1db52mr2559422ejb.294.1666099906432; 
- Tue, 18 Oct 2022 06:31:46 -0700 (PDT)
+ bh=Uab1pag/hyzpxfLXfHWB39awvPjdv3h0bR5JqzUXU6M=;
+ b=sQwdJKej+7np6MSjOx6jhRf6US+1vOi1ulV88L+Q6Tm5tywrfDd1lijfBawyXdwVkz
+ iuvjVnON2fBRmR+uDrefazuq2g43KqEsZRUDnMecYlymX3OodE/IKmBwtk7xGy9n7aly
+ VUA+g079dJMBpSQkPaOsEBTmdEoV2g8BLFDxKxVBtnGG5d2mFRTd4+tQ9w7C9Iyo+R0x
+ BF140yhxksmrNjebI12Hi6hhrIWOXg7+UEQ6SQjBkj4M/FnxWCei747oRq066ZI0o1bq
+ vlU19y2BTSCUaJ2Lra52SMES/1xZQHBwTft0QvBSJNIxYElJKSrsW0JuY3lKe1i4kYfP
+ Ni/A==
+X-Gm-Message-State: ACrzQf0/smF3yDOqpjpiSnTBJdWasMNw6JxhNk5AP/hr1QZPrB34kdq9
+ ktHzNaOmZ1n3/hyZBbrbIdsGkcehOqWRU8QWmWmh9GfhKRDc4g/Duar/TEkZP6hflX/xlXS5rk0
+ Dv8vT0xD0tv4iL41RYJwz9+gnAtXAVS3NbWcoFBBGtanDpDl4xb0TTCmovDcN+D1w8PA=
+X-Received: by 2002:a17:907:9710:b0:791:8aa6:18bb with SMTP id
+ jg16-20020a170907971000b007918aa618bbmr2343184ejc.279.1666099921692; 
+ Tue, 18 Oct 2022 06:32:01 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5fXkaCoGAfRNeOk7cXLFIRaun+4zvFbhlYa5dBE4T2/2a8k0i8LIpJyQw4R3QGvDk5vsESkA==
+X-Received: by 2002:a17:907:9710:b0:791:8aa6:18bb with SMTP id
+ jg16-20020a170907971000b007918aa618bbmr2342671ejc.279.1666099912496; 
+ Tue, 18 Oct 2022 06:31:52 -0700 (PDT)
 Received: from avogadro.local ([2001:b07:6468:f312:2f4b:62da:3159:e077])
  by smtp.gmail.com with ESMTPSA id
- nb36-20020a1709071ca400b00780f24b797dsm7594559ejc.108.2022.10.18.06.31.45
+ y16-20020a056402359000b004589da5e5cesm9119881edc.41.2022.10.18.06.31.51
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Oct 2022 06:31:45 -0700 (PDT)
+ Tue, 18 Oct 2022 06:31:52 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 18/53] target/i386: Define XMMReg and access macros,
- align ZMM registers
-Date: Tue, 18 Oct 2022 15:30:07 +0200
-Message-Id: <20221018133042.856368-19-pbonzini@redhat.com>
+Subject: [PULL 20/53] target/i386: make rex_w available even in 32-bit mode
+Date: Tue, 18 Oct 2022 15:30:09 +0200
+Message-Id: <20221018133042.856368-21-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221018133042.856368-1-pbonzini@redhat.com>
 References: <20221018133042.856368-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
 X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,106 +100,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+REX.W can be used even in 32-bit mode by AVX instructions, where it is retroactively
+renamed to VEX.W.  Make the field available even in 32-bit mode but keep the REX_W()
+macro as it was; this way, that the handling of dflag does not use it by mistake and
+the AVX code more clearly points at the special VEX behavior of the bit.
 
-This will be used for emission and endian adjustments of gvec operations.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220822223722.1697758-2-richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.h | 56 ++++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 43 insertions(+), 13 deletions(-)
+ target/i386/tcg/translate.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 6bb6653e76..5be90e72a9 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1233,18 +1233,34 @@ typedef struct SegmentCache {
-     uint32_t flags;
- } SegmentCache;
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index 1b96201685..279e34e0d0 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -99,8 +99,8 @@ typedef struct DisasContext {
+     uint8_t rex_r;
+     uint8_t rex_x;
+     uint8_t rex_b;
+-    bool rex_w;
+ #endif
++    bool vex_w; /* used by AVX even on 32-bit processors */
+     bool jmp_opt; /* use direct block chaining for direct jumps */
+     bool repz_opt; /* optimize jumps within repz instructions */
+     bool cc_op_dirty;
+@@ -177,7 +177,7 @@ typedef struct DisasContext {
  
--#define MMREG_UNION(n, bits)        \
--    union n {                       \
--        uint8_t  _b_##n[(bits)/8];  \
--        uint16_t _w_##n[(bits)/16]; \
--        uint32_t _l_##n[(bits)/32]; \
--        uint64_t _q_##n[(bits)/64]; \
--        float32  _s_##n[(bits)/32]; \
--        float64  _d_##n[(bits)/64]; \
--    }
-+typedef union MMXReg {
-+    uint8_t  _b_MMXReg[64 / 8];
-+    uint16_t _w_MMXReg[64 / 16];
-+    uint32_t _l_MMXReg[64 / 32];
-+    uint64_t _q_MMXReg[64 / 64];
-+    float32  _s_MMXReg[64 / 32];
-+    float64  _d_MMXReg[64 / 64];
-+} MMXReg;
- 
--typedef MMREG_UNION(ZMMReg, 512) ZMMReg;
--typedef MMREG_UNION(MMXReg, 64)  MMXReg;
-+typedef union XMMReg {
-+    uint64_t _q_XMMReg[128 / 64];
-+} XMMReg;
-+
-+typedef union YMMReg {
-+    uint64_t _q_YMMReg[256 / 64];
-+    XMMReg   _x_YMMReg[256 / 128];
-+} YMMReg;
-+
-+typedef union ZMMReg {
-+    uint8_t  _b_ZMMReg[512 / 8];
-+    uint16_t _w_ZMMReg[512 / 16];
-+    uint32_t _l_ZMMReg[512 / 32];
-+    uint64_t _q_ZMMReg[512 / 64];
-+    float32  _s_ZMMReg[512 / 32];
-+    float64  _d_ZMMReg[512 / 64];
-+    XMMReg   _x_ZMMReg[512 / 128];
-+    YMMReg   _y_ZMMReg[512 / 256];
-+} ZMMReg;
- 
- typedef struct BNDReg {
-     uint64_t lb;
-@@ -1267,6 +1283,13 @@ typedef struct BNDCSReg {
- #define ZMM_S(n) _s_ZMMReg[15 - (n)]
- #define ZMM_Q(n) _q_ZMMReg[7 - (n)]
- #define ZMM_D(n) _d_ZMMReg[7 - (n)]
-+#define ZMM_X(n) _x_ZMMReg[3 - (n)]
-+#define ZMM_Y(n) _y_ZMMReg[1 - (n)]
-+
-+#define XMM_Q(n) _q_XMMReg[1 - (n)]
-+
-+#define YMM_Q(n) _q_YMMReg[3 - (n)]
-+#define YMM_X(n) _x_YMMReg[1 - (n)]
- 
- #define MMX_B(n) _b_MMXReg[7 - (n)]
- #define MMX_W(n) _w_MMXReg[3 - (n)]
-@@ -1279,6 +1302,13 @@ typedef struct BNDCSReg {
- #define ZMM_S(n) _s_ZMMReg[n]
- #define ZMM_Q(n) _q_ZMMReg[n]
- #define ZMM_D(n) _d_ZMMReg[n]
-+#define ZMM_X(n) _x_ZMMReg[n]
-+#define ZMM_Y(n) _y_ZMMReg[n]
-+
-+#define XMM_Q(n) _q_XMMReg[n]
-+
-+#define YMM_Q(n) _q_YMMReg[n]
-+#define YMM_X(n) _x_YMMReg[n]
- 
- #define MMX_B(n) _b_MMXReg[n]
- #define MMX_W(n) _w_MMXReg[n]
-@@ -1556,8 +1586,8 @@ typedef struct CPUArchState {
-     float_status mmx_status; /* for 3DNow! float ops */
-     float_status sse_status;
-     uint32_t mxcsr;
--    ZMMReg xmm_regs[CPU_NB_REGS == 8 ? 8 : 32];
--    ZMMReg xmm_t0;
-+    ZMMReg xmm_regs[CPU_NB_REGS == 8 ? 8 : 32] QEMU_ALIGNED(16);
-+    ZMMReg xmm_t0 QEMU_ALIGNED(16);
-     MMXReg mmx_t0;
- 
-     uint64_t opmask_regs[NB_OPMASK_REGS];
+ #ifdef TARGET_X86_64
+ #define REX_PREFIX(S)  (((S)->prefix & PREFIX_REX) != 0)
+-#define REX_W(S)       ((S)->rex_w)
++#define REX_W(S)       ((S)->vex_w)
+ #define REX_R(S)       ((S)->rex_r + 0)
+ #define REX_X(S)       ((S)->rex_x + 0)
+ #define REX_B(S)       ((S)->rex_b + 0)
+@@ -4823,7 +4823,6 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+     s->pc = s->base.pc_next;
+     s->override = -1;
+ #ifdef TARGET_X86_64
+-    s->rex_w = false;
+     s->rex_r = 0;
+     s->rex_x = 0;
+     s->rex_b = 0;
+@@ -4831,6 +4830,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+     s->rip_offset = 0; /* for relative ip address */
+     s->vex_l = 0;
+     s->vex_v = 0;
++    s->vex_w = false;
+     switch (sigsetjmp(s->jmpbuf, 0)) {
+     case 0:
+         break;
+@@ -4903,7 +4903,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+         if (CODE64(s)) {
+             /* REX prefix */
+             prefixes |= PREFIX_REX;
+-            s->rex_w = (b >> 3) & 1;
++            s->vex_w = (b >> 3) & 1;
+             s->rex_r = (b & 0x4) << 1;
+             s->rex_x = (b & 0x2) << 2;
+             s->rex_b = (b & 0x1) << 3;
+@@ -4946,8 +4946,8 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+ #ifdef TARGET_X86_64
+                 s->rex_x = (~vex2 >> 3) & 8;
+                 s->rex_b = (~vex2 >> 2) & 8;
+-                s->rex_w = (vex3 >> 7) & 1;
+ #endif
++                s->vex_w = (vex3 >> 7) & 1;
+                 switch (vex2 & 0x1f) {
+                 case 0x01: /* Implied 0f leading opcode bytes.  */
+                     b = x86_ldub_code(env, s) | 0x100;
 -- 
 2.37.3
 
