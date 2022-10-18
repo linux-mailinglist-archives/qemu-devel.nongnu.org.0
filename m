@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E97602C04
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 14:45:22 +0200 (CEST)
-Received: from localhost ([::1]:35530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B404E602C03
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 14:45:20 +0200 (CEST)
+Received: from localhost ([::1]:35514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oklyB-0006K8-S0
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 08:45:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55696)
+	id 1oklyB-0006E6-M0
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 08:45:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oklUC-0002Vb-Us
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 08:14:25 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:43764)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oklVo-0004NP-NB
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 08:16:06 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oklUA-00075p-S3
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 08:14:20 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- bh7-20020a05600c3d0700b003c6fb3b2052so2890643wmb.2
- for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 05:14:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oklVm-0007UO-M7
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 08:16:00 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id bk15so23105949wrb.13
+ for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 05:15:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=kIGb1pPXqOhoNzBfEQ1N3EwpBoLrG1Eu7FcKm2kk7QE=;
- b=LEMZNzhZvCxRZ1YFc+BCB4doSO8Q1zJT5OkcVWEKUEo8pnzA9Sqgvyj1AJZriIYw8z
- fyU9IlaWjiEdCywBcZyBbHTDsqq/L1yIrDMA59beYVBW05mjrEPKfryNgWBDu8PRO2JI
- z4SOaKge13hH8L49NjfpPeHzk4sYbQOuZLFcSap7TuX/2rDHb/QYb7a60Xug5UIoE+S1
- MKFIM07bgY3H8l8ItRWaelnP0TZgIigNqBBBZ/cVXwPsu0UfRMbPskfeNej99lTScF6B
- SPl88Q3UN8LZI5Nxd24NNHpnU33XvQ+piWFZEEi5lAyQylyLFicXPgkfzYOo2OtUELV1
- /45w==
+ bh=KqO3et4KTD7WJ43qHbwiBbZOyVPFdEVMWRR6o/sFvAU=;
+ b=iypjuzQoMRvzjsxzj+25QSUdk8Sswmqf8Sxlf6WlQafnRmnPQEkyKJj1afyNELn+6L
+ EmNAnEf9YcOsFlgMxkR4v8dtqZljnV/W0P+cpAveD+IG9yZe8pN407Ofo0hlSP5CIPHE
+ By6nJxOxAklaCGwS1h5lGLXFqW5JpKyzbC40D4nRmfZdsLEZGW8FfrqPtWESPMUSz5jp
+ N9CNzGdIMhb/gYkNOGz/ZKgStW0r8hvLtBAeWW2w1gZud9bmgtHltpDupNIGd22eFOri
+ NQ+Sfp16XfCj1hisTqfNYXhCQQdRfOr/XDNqwja/H1RUTS0b3RHd1k3f//Ay4TE8It62
+ yQpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kIGb1pPXqOhoNzBfEQ1N3EwpBoLrG1Eu7FcKm2kk7QE=;
- b=JsOV4g64BCtMlEJkxpqEKfwGmTV5WJMqil6XYAu1NiBql56St0MARk3gLZb0P1hMXi
- tP6Zm/Z/SglJ2ojrip1tgNSCb1posETtOY1mmDdbcZWEGnh9ugWETahsXedzDc7DQvq3
- lMjvZxtyKU4Y/0Tcm8TOfw8oWvOU1Rdq1Lt9sfvLMIv6+hDrDw5iOfNdE4KuxOPXve8L
- 3RfDisz4iBqQ9HhmxVvTwtJ486YfwpQcqxYLzWNkeJsR1vSwckPuNRAuxgr0yjxGgsdI
- mrkd0+sOs5CVD6SwgtMTA53xJ3dE1xFHHDNhAAWPTJd7uhCPwrlLBPPkdd5nPiAlpU1r
- LEzw==
-X-Gm-Message-State: ACrzQf2EQRzOvl+xQws2kw6cA33u8MSqRRiKzq9+67YvuG5u3vUfng3t
- I+Kh1Q+6TEINXBcv8OzcXz2HsA==
-X-Google-Smtp-Source: AMsMyM7W40pNYqJi8u3/dBC3KyiZYPZiiBSjo1/LGMty5xSCHqWD9o6mftWelSIZM7DR+YK9L7mWWA==
-X-Received: by 2002:a05:600c:310c:b0:3c6:f7c6:c7b6 with SMTP id
- g12-20020a05600c310c00b003c6f7c6c7b6mr1756966wmo.81.1666095248873; 
- Tue, 18 Oct 2022 05:14:08 -0700 (PDT)
+ bh=KqO3et4KTD7WJ43qHbwiBbZOyVPFdEVMWRR6o/sFvAU=;
+ b=eUw10KNleVF9D/2oYl/uIfaDAmODSfZtIAGLZTcRMBrH1YSCcUveXQMm5LTOf3r1IH
+ QdRZdCCIBoGrGfKx51vBRs3SrJOg5UAylxo31PPqJb7tB5g5IqAOpPwAuo/qEKKggqwL
+ 2/WYliwVC6F2d9ZqhOwPZ4p8AVTWDg2+4vmp9Eke0Kp90+yT0yf8AWw2tiaZcB+6kicr
+ JseDf8jvMuIEl5z+DPGdor2JclRWFbWGIUAGtBnl4+bdDGST5jWBQEWvxuqPPSR9q29m
+ w41vdI6e/nekx0x1eOkObqMyAcOFaDobPpgfUeZfQ8T61GLVLkoEtdPNwIoO3UlClb3r
+ hiJg==
+X-Gm-Message-State: ACrzQf1O8ba5LK2fRLif93E4NzNmbKbUZyWwt1rEJaJXQdP6kgmNolRP
+ iH/8/Acslysg8BExWawZrD5LgQ==
+X-Google-Smtp-Source: AMsMyM4OVLJmW20O9F1TIg+r0mxGwyHpNLQA1+PQipK8xrQxp9RB1ESmIliXDeT1AhcsBeHgJZaMmw==
+X-Received: by 2002:a5d:408e:0:b0:22e:650a:ec4b with SMTP id
+ o14-20020a5d408e000000b0022e650aec4bmr1779827wrp.212.1666095356049; 
+ Tue, 18 Oct 2022 05:15:56 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- g8-20020a7bc4c8000000b003c0d504a92csm17685278wmk.22.2022.10.18.05.14.07
+ g24-20020a7bc4d8000000b003b4935f04a4sm15628505wmk.5.2022.10.18.05.15.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Oct 2022 05:14:08 -0700 (PDT)
-Message-ID: <11955623-1be2-d19d-8720-9032be63b423@linaro.org>
-Date: Tue, 18 Oct 2022 14:14:06 +0200
+ Tue, 18 Oct 2022 05:15:55 -0700 (PDT)
+Message-ID: <fcd4be5f-4ef5-7ec6-bbf7-1682ce7b8359@linaro.org>
+Date: Tue, 18 Oct 2022 14:15:54 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.1
-Subject: Re: [PATCH v2 09/28] qapi char: Elide redundant has_FOO in generated C
+Subject: Re: [PATCH v2 07/28] qapi audio: Elide redundant has_FOO in generated
+ C
 Content-Language: en-US
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Cc: michael.roth@amd.com, jsnow@redhat.com, eblake@redhat.com,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+ Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
 References: <20221018062849.3420573-1-armbru@redhat.com>
- <20221018062849.3420573-10-armbru@redhat.com>
+ <20221018062849.3420573-8-armbru@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221018062849.3420573-10-armbru@redhat.com>
+In-Reply-To: <20221018062849.3420573-8-armbru@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,25 +99,25 @@ On 18/10/22 08:28, Markus Armbruster wrote:
 > The has_FOO for pointer-valued FOO are redundant, except for arrays.
 > They are also a nuisance to work with.  Recent commit "qapi: Start to
 > elide redundant has_FOO in generated C" provided the means to elide
-> them step by step.  This is the step for qapi/char.json.
+> them step by step.  This is the step for qapi/audio.json.
 > 
 > Said commit explains the transformation in more detail.  The invariant
 > violations mentioned there do not occur here.
 > 
-> Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Additionally, helper get_str() loses its @has_dst parameter.
+> 
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->   chardev/char-file.c    |  4 ++--
->   chardev/char-socket.c  | 10 ++++------
->   chardev/char-udp.c     |  1 -
->   chardev/char.c         |  6 +-----
->   tests/unit/test-char.c |  1 -
+>   audio/alsaaudio.c      |  2 +-
+>   audio/audio.c          |  6 ++----
+>   audio/audio_legacy.c   | 17 +++++++----------
+>   audio/ossaudio.c       |  8 +++-----
+>   audio/paaudio.c        | 12 ++++++------
+>   audio/wavaudio.c       |  2 +-
 >   scripts/qapi/schema.py |  1 -
->   6 files changed, 7 insertions(+), 16 deletions(-)
-
-Eventually s/char/chardev/ in subject.
+>   7 files changed, 20 insertions(+), 28 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
