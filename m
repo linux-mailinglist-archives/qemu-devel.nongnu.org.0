@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49C8460227F
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 05:21:56 +0200 (CEST)
-Received: from localhost ([::1]:33172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADDA2602377
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 06:50:30 +0200 (CEST)
+Received: from localhost ([::1]:50562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okdAw-0004jk-QG
-	for lists+qemu-devel@lfdr.de; Mon, 17 Oct 2022 23:21:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50020)
+	id 1okeYf-0003AV-5N
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 00:50:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1okd85-00034s-7W
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 23:18:58 -0400
-Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:45020)
+ (Exim 4.90_1) (envelope-from <linmq006@gmail.com>)
+ id 1okeVE-0008L4-JR
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 00:46:56 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:42770)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1okd82-00071v-Oo
- for qemu-devel@nongnu.org; Mon, 17 Oct 2022 23:18:56 -0400
-Received: by mail-io1-xd34.google.com with SMTP id r142so10752090iod.11
- for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 20:18:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=E1ofLRgctu9BRPwEj0fLsQqZAEc3CfN77GzyREukJAo=;
- b=TBgN5h+hkEyZLsyWVV9EsDJocWpBF/Gkr9mrZMJaLuaEBCp445CPB8OCC432yqa43N
- XsBdZZOhHe5T4KEYOieUAOi2lGidHlbJdQ62XTn30foSZJEAxSEwmzETOdWcEBMvDPAC
- LWQmJKAW2nY7tjGR1rgahZ4fXkDgoTrUsJXY12VwkL+wnj7JLKCZaeLtcw9ELR06kzXK
- cDO5VDflxP0uv4tT/cx/65uC1lZn54yMHL/h+R08zT1QA/NZ/rZI4A2a45+erLxJMs8y
- 1OsU5NN3ZFYG0pzYSUSnVd4U+tca+bieocZj2WrQUAglagE5yHBMdji7yT/tV8W+zP20
- n+rQ==
+ (Exim 4.90_1) (envelope-from <linmq006@gmail.com>)
+ id 1okeVD-00038H-1i
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 00:46:56 -0400
+Received: by mail-pf1-x431.google.com with SMTP id i3so13006835pfk.9
+ for <qemu-devel@nongnu.org>; Mon, 17 Oct 2022 21:46:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=W9IWHuJyr8ph9J1Q0xRajmENbspcIQ6rSawapbHVXww=;
+ b=fE18LNLu4sL/9ZC9S4a58y0hLR+02zlfYB45+EzrIUYPExfUKg/UF6H3pXM9LLy9Om
+ F67nDWQYsSb84yYkSIQcbw4OVDt30BSenK67MQWgM/amwwioi2lcaU92dL7tuJe4V2a9
+ S0nTqLNF35GcJgNnkq7AMLJv5WGXF9d/iL67OHepq4QNI7cTRV8+0Aq/1u+muQ3P04c/
+ 5Lf1axnLHDd4yIkrZmsvSHynlviu31fLNWZRsJN1xXme8gPG5YGuO03uZ7RL5qNkDv+y
+ TXxbA/0Oup1TkwOg55jwM/uNXipfcH7LfzSquJTe2n003mqK5fJfsbIVgWd3OiW+fEXg
+ FO7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=E1ofLRgctu9BRPwEj0fLsQqZAEc3CfN77GzyREukJAo=;
- b=ho0LN3ERXWNF5Rn05RGtNPVzayeuYfBqE6tB5ncHhNIK75/QkOIWlL3cEyKP8rDtoE
- pRnUT/lqYO3X/FybsQoDefBwFujXVnXnBtvrYGUW8nSjx4ExDURcBdW2SAzh7nWtJ2R/
- EsldaljNJwpZ/o0rGaNK842ohghw/nKmKC/rSGnRmlYpZTyuwrQlXKEshbhhAiTZiM1e
- 1y+pt+fKdr+/ufkSa/ipZu0n0QFusfwjHcsaJF7jxipQ5Fr3/AjUaxDjA3nDTQr1TAhk
- YQDXV2CZAhF9TS5iEK+rZSFQYH1zcagttwuaM0HDosYiTJg187ME8lkeXACrqy9bQAKO
- JyPw==
-X-Gm-Message-State: ACrzQf14e1tuT551ocJeq9cR69IH/1ILbONVJqe7QxeP430xmM3MWcfg
- CXFC6dTQXcTCEYdEuGbbEgpqvG2k8RWRXHAgPZdutg==
-X-Google-Smtp-Source: AMsMyM6Nk/THgwwnKcUcXtR2hcIf3FE3COCrpa1WA/msiMralV0TEuk/197SwHu6BI3CUbCXYgiE58lbzmugxGoBubI=
-X-Received: by 2002:a05:6638:12d1:b0:363:e250:9ed with SMTP id
- v17-20020a05663812d100b00363e25009edmr889637jas.309.1666063132294; Mon, 17
- Oct 2022 20:18:52 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=W9IWHuJyr8ph9J1Q0xRajmENbspcIQ6rSawapbHVXww=;
+ b=u6izDEcmsmDxm/ppORfBS1wM85/lGn0McQ+AL7d6YXCl8ABJLIbbVZi+6lJ9CXvlv8
+ h3CalYWFrXrn70J91sxRv6mMit79ZsYjT/Clmwc/2df6Vih779+n6IJIgfV4GQHJOfpH
+ X0fPg9h9Szz54FQgYU5Pnp/L0jJwAfm6tRPDAzIpPkOu8if/uJrWIvv+QCj4jD6kHJxZ
+ k0XRVTQD7VhV5JrBVtEQqVurzECg+bj76SOwjCQDA0CB9A5VpvVZYxskaOvV+VVRAnez
+ 2iQSTMPbGz0FkznDVUqRYzb8+CMhpxlo8EKcp46zVMVGHdKCUdp6vWnPCQ/8oQjMubo0
+ kjEQ==
+X-Gm-Message-State: ACrzQf2qhbl2UkmC2E63A+ZvE9MB5kOl/P+rGo/YHVCOnJT5gwxpegEt
+ tXIoyCguLyob6gmVuuG3NZc=
+X-Google-Smtp-Source: AMsMyM4PskPIRa3WHBmbFi9LrlZ0fviXTD3KsY/SOY7ppNhHqI2i8t46kzg3vE8TNcyueyLUgSvaiQ==
+X-Received: by 2002:a63:cf48:0:b0:439:7d1c:fedc with SMTP id
+ b8-20020a63cf48000000b004397d1cfedcmr1124182pgj.281.1666068413106; 
+ Mon, 17 Oct 2022 21:46:53 -0700 (PDT)
+Received: from localhost.localdomain ([202.120.234.246])
+ by smtp.googlemail.com with ESMTPSA id
+ 21-20020a631855000000b00462ae17a1c4sm7035806pgy.33.2022.10.17.21.46.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Oct 2022 21:46:52 -0700 (PDT)
+From: Miaoqian Lin <linmq006@gmail.com>
+To: Michael Roth <michael.roth@amd.com>,
+ Konstantin Kostiuk <kkostiuk@redhat.com>, qemu-devel@nongnu.org
+Cc: linmq006@gmail.com
+Subject: [PATCH] qga: Fix memory leak in split_list
+Date: Tue, 18 Oct 2022 08:46:45 +0400
+Message-Id: <20221018044645.863859-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20221014173508.222823-1-ani@anisinha.ca>
- <20221014173508.222823-2-ani@anisinha.ca>
- <5df81a97-8fd7-8ee6-f631-7c979a2e58a0@linaro.org>
-In-Reply-To: <5df81a97-8fd7-8ee6-f631-7c979a2e58a0@linaro.org>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Tue, 18 Oct 2022 08:48:38 +0530
-Message-ID: <CAARzgww4dZH0E9q4EGNnjrLdvb8ZMkewOVT6kYvShU1XZXSDaQ@mail.gmail.com>
-Subject: Re: [PATCH v4 01/10] acpi/tests/avocado/bits: initial commit of test
- scripts that are run by biosbits
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, 
- Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Maydell Peter <peter.maydell@linaro.org>, 
- John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Igor Mammedov <imammedo@redhat.com>, Michael Tsirkin <mst@redhat.com>,
- qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2607:f8b0:4864:20::d34;
- envelope-from=ani@anisinha.ca; helo=mail-io1-xd34.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=linmq006@gmail.com; helo=mail-pf1-x431.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,45 +89,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 18, 2022 at 2:43 AM Philippe Mathieu-Daud=C3=A9
-<philmd@linaro.org> wrote:
->
-> On 14/10/22 19:34, Ani Sinha wrote:
-> > This is initial commit of cpuid, acpi and smbios python test scripts fo=
-r
-> > biosbits to execute. No change has been made to them from the original =
-code
-> > written by the biosbits author Josh Triplett. They are required to be i=
-nstalled
-> > into the bits iso file and then run from within the virtual machine boo=
-ted off
-> > with biosbits iso.
-> >
-> > The test scripts have a ".py2" extension in order to prevent avocado fr=
-om
-> > loading them. They are written in python 2.7 and are run from within bi=
-os bits.
-> > There is no need for avocado to try to load them and call out errors on=
- python3
-> > specific syntaxes.
-> >
-> > The original location of these tests are here:
-> > https://github.com/biosbits/bits/blob/master/python/testacpi.py
-> > https://github.com/biosbits/bits/blob/master/python/smbios.py
-> > https://github.com/biosbits/bits/blob/master/python/testcpuid.py
-> >
-> > For QEMU, we maintain a fork of the above repo here with numerious fixe=
-s:
-> > https://gitlab.com/qemu-project/biosbits-bits
-> >
-> > The acpi test for example is maintained here in the fork:
-> > https://gitlab.com/qemu-project/biosbits-bits/-/raw/master/python/testa=
-cpi.py
->
-> I missed the previous iterations of this series, and wonder why copy
-> these files in QEMU repository if they already are in a forked
-> repository. Why not add the fork as a submodule?
+We should use g_strfreev to free the memory allocated by g_strsplit().
+Use g_free() will cause a memory leak.
 
-Check the thread "Why we should avoid new submodules if possible" in
-the mailing list.
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+ qga/main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/qga/main.c b/qga/main.c
+index 5a9d8252e075..04902076b25d 100644
+--- a/qga/main.c
++++ b/qga/main.c
+@@ -934,7 +934,7 @@ static GList *split_list(const gchar *str, const gchar *delim)
+     for (i = 0; strv[i]; i++) {
+         list = g_list_prepend(list, strv[i]);
+     }
+-    g_free(strv);
++    g_strfreev(strv);
+ 
+     return list;
+ }
+-- 
+2.25.1
+
 
