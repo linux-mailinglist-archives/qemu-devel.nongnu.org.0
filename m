@@ -2,89 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54F6A602981
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 12:42:20 +0200 (CEST)
-Received: from localhost ([::1]:47908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 279E86029B3
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 12:54:03 +0200 (CEST)
+Received: from localhost ([::1]:45426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okk36-000376-4l
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 06:42:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38576)
+	id 1okkET-00014Y-L6
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 06:54:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1okjtq-00077J-BX
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 06:32:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25936)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1okjto-000694-7a
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 06:32:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666089158;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0AIMDKVyXHbqUnhcgOGdNhaH86fedN8l1V4SuFmVERg=;
- b=SV/Vn1V4LK/AHTTUPqCSfcX3A3sT3cV1jYzGShkus0QHFxbWKLS3ovKxmgywzIVBxg24J/
- G1cDLc9GDosYufh+A51cIOnKHolwlQHlhjLOMZLDNqZcy4iSpL6SqM7IXF0gnYnCXlzz14
- NJDtZ9ktNEpmii3lMPRUABLONTeyNk8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-300-fLTOs9esMqeN5NGBVD-_EA-1; Tue, 18 Oct 2022 06:32:37 -0400
-X-MC-Unique: fLTOs9esMqeN5NGBVD-_EA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- p42-20020a05600c1daa00b003c6ee394f0dso5932896wms.5
- for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 03:32:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1okk6Z-00059G-R1
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 06:45:54 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:44995)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1okk6W-0008BA-5J
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 06:45:51 -0400
+Received: by mail-wr1-x436.google.com with SMTP id r13so22772071wrj.11
+ for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 03:45:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0DAdLdJuVRrqz8N/5zMivP3WITnVBBgpB9v/jpgXQOo=;
+ b=A+B6loEXSsLP0916qU8ObbDIzH6X8n0SI2FBSn6pCGOK3nPJuAKu7+gBRCWkPCxw+o
+ l84RQlA+C2/wJp2o0C1M9ge5SgtYKuhxW2QQXWLombV9j71HCPH9FCAROMFpgPxf7WFG
+ EDNZcf0dDyP4lcGff3UsIYWcr31jM2o5+oXEbIPUVUKj7bxUCNZtBgECfvXVrG71/9Am
+ jFP2zf9w4ymADm24ho7Szp58E6RYC8m4fuEHsL9DhzKyVN9yphbP2UsPw+zY5s8LwX6E
+ aa+Qc3BcrOuMC62aFez4eoNgWlTm6HCclV0jEQsVnaQT5uFx4yhX+XB6/s2r/AaVmwj8
+ l6vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=0AIMDKVyXHbqUnhcgOGdNhaH86fedN8l1V4SuFmVERg=;
- b=ugBCGnAR7Ir9Ulere3MJnsGyZ8xNuIiRFLs6fco4PuZ9KFSQzVyN5fAveoMWTFex+q
- CeuYVqOqeedbmgoHgt15/TWdm4P0FPyghcC1c1YO0324Y4AMFI0IH7oNMQiiH6MOqdOR
- y4WQ/QvaYibtBj8YHS1WYiHAD6y4ja5OkDh2Fp+jnzORmpP9gJ6gUgBq/ib4I+A94g7w
- wMoE+9HYGqWCPPeh5yw+VmWODjRjQh8vr34DgHXEkzuQmjz+QY98cnf5VdWNjhKJp3nT
- 6+/zW6dqcbGYsCCcBaxVZjoSQcCwdPRnXqUXr9iiUQAI5W2Kd1bS+c1uPX0m0CH5q/WC
- 7tRA==
-X-Gm-Message-State: ACrzQf1Ctz9DsXChCUleza3RO3DxD//A8HqJLSISgZ4TXZyCgoAI34Ox
- kE/bcERnKhgrcuenD/hJ2zN7HCePL77G2QexfRxLNEW1I1T+6PGBWTPlKM2I12DE8rF9hWqsSow
- GaJNE5T8pJlZSifY=
-X-Received: by 2002:a05:6000:184e:b0:22e:4612:496d with SMTP id
- c14-20020a056000184e00b0022e4612496dmr1448812wri.91.1666089155345; 
- Tue, 18 Oct 2022 03:32:35 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6QtnFDLRjCNlBaiRFbZVq5jQ0tmIUw6pTAi7R6aEgxRSz9VbbhO642Oq9fN4N1OQe7QW5iQQ==
-X-Received: by 2002:a05:6000:184e:b0:22e:4612:496d with SMTP id
- c14-20020a056000184e00b0022e4612496dmr1448794wri.91.1666089155056; 
- Tue, 18 Oct 2022 03:32:35 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- g17-20020a05600c001100b003c6bbe910fdsm21131777wmc.9.2022.10.18.03.32.34
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=0DAdLdJuVRrqz8N/5zMivP3WITnVBBgpB9v/jpgXQOo=;
+ b=bkRM2HCb3zUgTKjVLS46Envr3uhNE2NrQMhNYmJEc92vFZRSkKD8sDaahtoxPBd0ZA
+ 9Gv9Kr3DCr8GfvdkRbAjBhOerkffXJ9rFfc6W9917FqhEh4v0fcY1fa1aIHgwE77cwL/
+ 36rb277gJfnjKtsl4yqubJJG4MG5eHoCj/F4gXMZtT6VhXbZCVM/zbdt1islAGKjbTaS
+ 0/BcLPIuCUfqrX20S+3LBDIrItUS7V8ZxYipHpXJVKH/MP/Pw93EjT5qT7ByTiadLDMD
+ ED0MRlVo4ZU+kR0u2LhffgtN2DEG/ANse4nYTaYFqBv0JZx6D76EE5Sw2z05lNtKDye4
+ Q2DA==
+X-Gm-Message-State: ACrzQf0/ck+PJQ6VLtqx1FB434ib/4pfJfmGbV85tZGwv27r0mxJUdmZ
+ J26M6oMszOhNC6TWHQO8GDkQ09ULxFLZ3A==
+X-Google-Smtp-Source: AMsMyM74IfiE4z1v7T9VJXW6JofphW2u5IysNnYHZBuhHbecqfjHkuAkwGz6VL+Z09KFbM8G7/KzdQ==
+X-Received: by 2002:adf:ebcf:0:b0:22c:9eb4:d6f6 with SMTP id
+ v15-20020adfebcf000000b0022c9eb4d6f6mr1458324wrn.251.1666089946258; 
+ Tue, 18 Oct 2022 03:45:46 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ g2-20020a05600c000200b003c5571c27a1sm15614469wmc.32.2022.10.18.03.45.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Oct 2022 03:32:34 -0700 (PDT)
-Date: Tue, 18 Oct 2022 11:32:32 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, michael.roth@amd.com, jsnow@redhat.com,
- eblake@redhat.com
-Subject: Re: [PATCH v2 15/28] qapi misc: Elide redundant has_FOO in generated C
-Message-ID: <Y06AwNtiM1+bEKNo@work-vm>
-References: <20221018062849.3420573-1-armbru@redhat.com>
- <20221018062849.3420573-16-armbru@redhat.com>
+ Tue, 18 Oct 2022 03:45:45 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0F09F1FFB7;
+ Tue, 18 Oct 2022 11:45:45 +0100 (BST)
+References: <20221018023651.1359420-1-yajunw@nvidia.com>
+User-agent: mu4e 1.9.1; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Yajun Wu <yajunw@nvidia.com>
+Cc: qemu-devel@nongnu.org, mst@redhat.com, Parav Pandit <parav@nvidia.com>
+Subject: Re: [PATCH] vhost-user: Fix out of order vring host notification
+ handling
+Date: Tue, 18 Oct 2022 11:34:34 +0100
+In-reply-to: <20221018023651.1359420-1-yajunw@nvidia.com>
+Message-ID: <87ilkhcsva.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221018062849.3420573-16-armbru@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,217 +95,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Markus Armbruster (armbru@redhat.com) wrote:
-> The has_FOO for pointer-valued FOO are redundant, except for arrays.
-> They are also a nuisance to work with.  Recent commit "qapi: Start to
-> elide redundant has_FOO in generated C" provided the means to elide
-> them step by step.  This is the step for qapi/misc.json.
-> 
-> Said commit explains the transformation in more detail.  The invariant
-> violations mentioned there do not occur here.
-> 
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+
+Yajun Wu <yajunw@nvidia.com> writes:
+
+> vhost backend sends host notification for every VQ. If backend creates
+> VQs in parallel, the VHOST_USER_SLAVE_VRING_HOST_NOTIFIER_MSG may
+> arrive to QEMU in different order than incremental queue index order.
+>
+> For example VQ 1's message arrive earlier than VQ 0's:
+> After alloc VhostUserHostNotifier for VQ 1. GPtrArray becomes
+>
+>     [ nil, VQ1 pointer ]
+>
+> After alloc VhostUserHostNotifier for VQ 0. GPtrArray becomes
+>
+>     [ VQ0 pointer, nil, VQ1 pointer ]
+>
+> This is wrong. fetch_notifier will return NULL for VQ 1 in
+> vhost_user_get_vring_base, causes host notifier miss removal(leak).
+>
+> The fix is to remove current element from GPtrArray, make the right
+> position for element to insert.
+>
+> Fixes: 503e355465 ("virtio/vhost-user: dynamically assign VhostUserHostNo=
+tifiers")
+> Signed-off-by: Yajun Wu <yajunw@nvidia.com>
+> Acked-by: Parav Pandit <parav@nvidia.com>
+>
 > ---
->  include/monitor/monitor.h |  3 +--
->  monitor/hmp-cmds.c        |  2 +-
->  monitor/misc.c            | 19 +++++--------------
->  monitor/qmp-cmds.c        |  1 -
->  softmmu/vl.c              |  2 +-
->  util/qemu-config.c        | 17 +++++------------
->  scripts/qapi/schema.py    |  1 -
->  7 files changed, 13 insertions(+), 32 deletions(-)
-> 
-> diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
-> index 737e750670..1e6f4c9bd7 100644
-> --- a/include/monitor/monitor.h
-> +++ b/include/monitor/monitor.h
-> @@ -46,8 +46,7 @@ int monitor_read_password(MonitorHMP *mon, ReadLineFunc *readline_func,
->                            void *opaque);
->  
->  AddfdInfo *monitor_fdset_add_fd(int fd, bool has_fdset_id, int64_t fdset_id,
-> -                                bool has_opaque, const char *opaque,
-> -                                Error **errp);
-> +                                const char *opaque, Error **errp);
->  int monitor_fdset_dup_fd_add(int64_t fdset_id, int flags);
->  void monitor_fdset_dup_fd_remove(int dup_fd);
->  int64_t monitor_fdset_dup_fd_find(int dup_fd);
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index 8077ed82c9..63baf3f8c6 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -104,7 +104,7 @@ void hmp_info_name(Monitor *mon, const QDict *qdict)
->      NameInfo *info;
->  
->      info = qmp_query_name(NULL);
-> -    if (info->has_name) {
-> +    if (info->name) {
->          monitor_printf(mon, "%s\n", info->name);
->      }
->      qapi_free_NameInfo(info);
-> diff --git a/monitor/misc.c b/monitor/misc.c
-> index a51f0996cb..2663007dbc 100644
-> --- a/monitor/misc.c
-> +++ b/monitor/misc.c
-> @@ -1131,7 +1131,7 @@ void monitor_fdsets_cleanup(void)
->      }
->  }
->  
-> -AddfdInfo *qmp_add_fd(bool has_fdset_id, int64_t fdset_id, bool has_opaque,
-> +AddfdInfo *qmp_add_fd(bool has_fdset_id, int64_t fdset_id,
->                        const char *opaque, Error **errp)
->  {
->      int fd;
-> @@ -1144,8 +1144,7 @@ AddfdInfo *qmp_add_fd(bool has_fdset_id, int64_t fdset_id, bool has_opaque,
->          goto error;
->      }
->  
-> -    fdinfo = monitor_fdset_add_fd(fd, has_fdset_id, fdset_id,
-> -                                  has_opaque, opaque, errp);
-> +    fdinfo = monitor_fdset_add_fd(fd, has_fdset_id, fdset_id, opaque, errp);
->      if (fdinfo) {
->          return fdinfo;
->      }
-> @@ -1213,12 +1212,7 @@ FdsetInfoList *qmp_query_fdsets(Error **errp)
->  
->              fdsetfd_info = g_malloc0(sizeof(*fdsetfd_info));
->              fdsetfd_info->fd = mon_fdset_fd->fd;
-> -            if (mon_fdset_fd->opaque) {
-> -                fdsetfd_info->has_opaque = true;
-> -                fdsetfd_info->opaque = g_strdup(mon_fdset_fd->opaque);
-> -            } else {
-> -                fdsetfd_info->has_opaque = false;
-> -            }
-> +            fdsetfd_info->opaque = g_strdup(mon_fdset_fd->opaque);
->  
->              QAPI_LIST_PREPEND(fdset_info->fds, fdsetfd_info);
->          }
-> @@ -1230,8 +1224,7 @@ FdsetInfoList *qmp_query_fdsets(Error **errp)
->  }
->  
->  AddfdInfo *monitor_fdset_add_fd(int fd, bool has_fdset_id, int64_t fdset_id,
-> -                                bool has_opaque, const char *opaque,
-> -                                Error **errp)
-> +                                const char *opaque, Error **errp)
->  {
->      MonFdset *mon_fdset = NULL;
->      MonFdsetFd *mon_fdset_fd;
-> @@ -1299,9 +1292,7 @@ AddfdInfo *monitor_fdset_add_fd(int fd, bool has_fdset_id, int64_t fdset_id,
->      mon_fdset_fd = g_malloc0(sizeof(*mon_fdset_fd));
->      mon_fdset_fd->fd = fd;
->      mon_fdset_fd->removed = false;
-> -    if (has_opaque) {
-> -        mon_fdset_fd->opaque = g_strdup(opaque);
-> -    }
-> +    mon_fdset_fd->opaque = g_strdup(opaque);
->      QLIST_INSERT_HEAD(&mon_fdset->fds, mon_fdset_fd, next);
->  
->      fdinfo = g_malloc0(sizeof(*fdinfo));
-> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> index 81c8fdadf8..2a0c919472 100644
-> --- a/monitor/qmp-cmds.c
-> +++ b/monitor/qmp-cmds.c
-> @@ -51,7 +51,6 @@ NameInfo *qmp_query_name(Error **errp)
->      NameInfo *info = g_malloc0(sizeof(*info));
->  
->      if (qemu_name) {
-> -        info->has_name = true;
->          info->name = g_strdup(qemu_name);
->      }
+>  hw/virtio/vhost-user.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+> index 03415b6c95..d256ce589b 100644
+> --- a/hw/virtio/vhost-user.c
+> +++ b/hw/virtio/vhost-user.c
+> @@ -1543,6 +1543,11 @@ static VhostUserHostNotifier *fetch_or_create_noti=
+fier(VhostUserState *u,
+>=20=20
+>      n =3D g_ptr_array_index(u->notifiers, idx);
+>      if (!n) {
+> +        /*
+> +         * In case notification arrive out-of-order,
+> +         * make room for current index.
+> +         */
+> +        g_ptr_array_remove_index(u->notifiers, idx);
+>          n =3D g_new0(VhostUserHostNotifier, 1);
+>          n->idx =3D idx;
+>          g_ptr_array_insert(u->notifiers, idx, n);
 
-I think you can lose the if there and just always do the strdup.
+Ahh reading the description of g_ptr_array_insert() it doesn't
+explicitly say it shuffles the data currently at index up but I can see
+from the code it does. I guess you can imply it from the other function
+descriptions.
 
->  
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index b464da25bc..e044979dfc 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -611,7 +611,7 @@ static int parse_add_fd(void *opaque, QemuOpts *opts, Error **errp)
->      }
->  
->      /* add the duplicate fd, and optionally the opaque string, to the fd set */
-> -    fdinfo = monitor_fdset_add_fd(dupfd, true, fdset_id, !!fd_opaque, fd_opaque,
-> +    fdinfo = monitor_fdset_add_fd(dupfd, true, fdset_id, fd_opaque,
->                                    &error_abort);
->      g_free(fdinfo);
->  
-> diff --git a/util/qemu-config.c b/util/qemu-config.c
-> index 5325f6bf80..95f61fc883 100644
-> --- a/util/qemu-config.c
-> +++ b/util/qemu-config.c
-> @@ -80,14 +80,8 @@ static CommandLineParameterInfoList *query_option_descs(const QemuOptDesc *desc)
->              break;
->          }
->  
-> -        if (desc[i].help) {
-> -            info->has_help = true;
-> -            info->help = g_strdup(desc[i].help);
-> -        }
-> -        if (desc[i].def_value_str) {
-> -            info->has_q_default = true;
-> -            info->q_default = g_strdup(desc[i].def_value_str);
-> -        }
-> +        info->help = g_strdup(desc[i].help);
-> +        info->q_default = g_strdup(desc[i].def_value_str);
->  
->          QAPI_LIST_PREPEND(param_list, info);
->      }
-> @@ -245,8 +239,7 @@ static QemuOptsList machine_opts = {
->      }
->  };
->  
-> -CommandLineOptionInfoList *qmp_query_command_line_options(bool has_option,
-> -                                                          const char *option,
-> +CommandLineOptionInfoList *qmp_query_command_line_options(const char *option,
->                                                            Error **errp)
->  {
->      CommandLineOptionInfoList *conf_list = NULL;
-> @@ -254,7 +247,7 @@ CommandLineOptionInfoList *qmp_query_command_line_options(bool has_option,
->      int i;
->  
->      for (i = 0; vm_config_groups[i] != NULL; i++) {
-> -        if (!has_option || !strcmp(option, vm_config_groups[i]->name)) {
-> +        if (!option || !strcmp(option, vm_config_groups[i]->name)) {
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-I think that can be g_strcmp0 if you can convince yourself ->name is
-non-null
-
->              info = g_malloc0(sizeof(*info));
->              info->option = g_strdup(vm_config_groups[i]->name);
->              if (!strcmp("drive", vm_config_groups[i]->name)) {
-> @@ -267,7 +260,7 @@ CommandLineOptionInfoList *qmp_query_command_line_options(bool has_option,
->          }
->      }
->  
-> -    if (!has_option || !strcmp(option, "machine")) {
-> +    if (!option || !strcmp(option, "machine")) {
-
-g_strcmp0(option, "machine")
-
->          info = g_malloc0(sizeof(*info));
->          info->option = g_strdup("machine");
->          info->parameters = query_option_descs(machine_opts.desc);
-> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-> index ad5b665212..a34e25fdd7 100644
-> --- a/scripts/qapi/schema.py
-> +++ b/scripts/qapi/schema.py
-> @@ -759,7 +759,6 @@ def need_has(self):
->          assert self.type
->          # Temporary hack to support dropping the has_FOO in reviewable chunks
->          opt_out = [
-> -            'qapi/misc.json',
->              'qapi/net.json',
->              'qapi/pci.json',
->              'qapi/qdev.json',
-> -- 
-> 2.37.2
-
-Still,
-
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+--=20
+Alex Benn=C3=A9e
 
