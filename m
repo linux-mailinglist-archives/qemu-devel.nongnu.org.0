@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9190960294A
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 12:25:31 +0200 (CEST)
-Received: from localhost ([::1]:59592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC6B660295A
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Oct 2022 12:32:58 +0200 (CEST)
+Received: from localhost ([::1]:36842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okjmr-0000hv-Tf
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 06:25:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48034)
+	id 1okju6-0007C3-1b
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 06:32:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1okjbx-0001lv-N1
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 06:14:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32829)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1okjbu-0002eo-Ov
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 06:14:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666088050;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=+W0s4NnmrqfkemJbJqMXfV6dXNQcaGGJArS8cNPBupg=;
- b=Jmu3X5E5eoPPHnrPvogu+Xmv/osxK69jHAuCAahllTFEtPsCs/jNDshokjm+gGhLRXwpkc
- 8tNCV/BmDAQ/zfgFLrMvKtAqR4IeUrbj6RehmWj2lCAHcIWdyqaggmy2XbNvuKJmq6HdwL
- wPbzPcCp9F0cwWYav0HA9YC60OQ6YTU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-484-VtmRrEZgNpKJqG6S7d5Shg-1; Tue, 18 Oct 2022 06:14:08 -0400
-X-MC-Unique: VtmRrEZgNpKJqG6S7d5Shg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 62E9F185A792;
- Tue, 18 Oct 2022 10:14:08 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.86])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D4A9A40C2065;
- Tue, 18 Oct 2022 10:14:06 +0000 (UTC)
-Date: Tue, 18 Oct 2022 11:14:03 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Nikolay Borisov <nborisov@suse.com>
-Cc: dgilbert@redhat.com, qemu-devel@nongnu.org, jfehlig@suse.com,
- Claudio.Fontana@suse.com, dfaggioli@suse.com
-Subject: Re: [PATCH v2 05/11] io: Add support for seekable channels
-Message-ID: <Y058a4c549dx50d+@redhat.com>
-References: <20221010133408.3214433-1-nborisov@suse.com>
- <20221010133408.3214433-6-nborisov@suse.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1okjkm-00089v-8Z
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 06:23:21 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:41737)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1okjkg-00045Z-Ld
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 06:23:20 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ q10-20020a17090a304a00b0020b1d5f6975so13626661pjl.0
+ for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 03:23:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=stqzzNREmZSLsCC9x3PnQnTpozjqxPTqxHAn/xXg378=;
+ b=k9vvkEQGQqjLejifmPZOxaUF9Ms7pfkLIpSoIM2tudlmmINDmh/6Zvkv8mCINUMt44
+ 5ozUYLUg00dGkoE1rJI8pFeN1lmnAsO6s1hSSZ5+am0c5wHueLLC1qQL04bSM7N3jnA8
+ 5y2WT8fT3vdRvYt7VB61XAfToJX54z3gm8Vosx8JhhkdxWEdewpz/cHqNzxIivceca92
+ o72wz8CqPnDawdu0vMU9sDeln3jfkHLL9hSL9q2wTM+og6aTo9dpdkdUPRaNp0z9Vudz
+ UqC3xiy38pbSxUWiISWG1IAR3UtsGlcMWNLNJgKJJOIHt8oV0gNeqxYl+/m7xf9gSb+B
+ 8WVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=stqzzNREmZSLsCC9x3PnQnTpozjqxPTqxHAn/xXg378=;
+ b=EwYr75lqJn15WN2utXYt33bCf/oCEHQpe+aVjVyAIg18SchmV4K9QhcLkvCdZrfeSR
+ g1nQ3U/JplrGmYzmIljTIVz0JJ1Wd4coWdRo4TK1l3xP9mOh7Jr35ry0/gam0rrIfHTA
+ i7lMaav4rIXjSChG4AR2o0wS5YeD8ImqTpZrQs00E6axp3DK8TBlU2C1dKt5BxCY+E4l
+ MX5lyid/SDTGiX1greXRo+sUe/D4N2L8u7bQDh0OshXTHRMpaLgu3lScP9DT6+cUdGHH
+ p1FPY4YXcjl35KnWMHniGHacJg+M44H0j1Lf9oXbJaSCTiVA03yIFuMrj42lj06JVGa1
+ yFxQ==
+X-Gm-Message-State: ACrzQf3kWx76eFsX1mkiI99N9MT8JhlrwFfHr4buDHz5/qF+KYooWqGf
+ KKlqcvjCQnWqT3zO/k9D1a3WVtJ0JO9RvzjJYVQlOqfjjQEMsw==
+X-Google-Smtp-Source: AMsMyM7rebAOW3KlddVW2tahx2Uz6Z2593Rva+6PYuYgxP8Yg/ap70nEs/ypn6A7FJ/vQTGNtZkbXPSrkwnxGA2uPbw=
+X-Received: by 2002:a17:90b:4b8e:b0:20a:f240:9b23 with SMTP id
+ lr14-20020a17090b4b8e00b0020af2409b23mr2779070pjb.19.1666088592643; Tue, 18
+ Oct 2022 03:23:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221010133408.3214433-6-nborisov@suse.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 18 Oct 2022 11:23:01 +0100
+Message-ID: <CAFEAcA_hi1VHNVetOKkpUXuYtJ4akdVZxwBqSXf76Zvx=YB6Xg@mail.gmail.com>
+Subject: has anybody looked at the long-standing intermittent raspi2 avocado
+ test failure?
+To: QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, John Snow <jsnow@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,91 +82,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 10, 2022 at 04:34:02PM +0300, Nikolay Borisov wrote:
->  Add a bunch of auxiliarry methods and a feature flag to work with
->  SEEKABLE channels. Currently the only channel considered seekable is
->  QIOChannelFile. Also add a bunch of helper functions to QEMUFile that
->  can make use of this channel feature. All of this is in prepration for
->  supporting 'fixed-ram' migration stream feature.
+If you run this single avocado test:
 
-QIOChannelBuffer/Null are also seekable.
+while ./build/x86/tests/venv/bin/avocado run
+build/x86/tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_raspi2_initrd
+; do true; done
 
-> 
-> Signed-off-by: Nikolay Borisov <nborisov@suse.com>
-> ---
->  include/io/channel.h                |  1 +
->  include/migration/qemu-file-types.h |  2 +
->  io/channel-file.c                   |  5 +++
->  migration/qemu-file.c               | 59 +++++++++++++++++++++++++++++
->  migration/qemu-file.h               |  3 ++
->  5 files changed, 70 insertions(+)
+then on my machine it will fail within 4 or 5 iterations. Has anybody
+looked into this? Looking at a log from a failed test
+https://people.linaro.org/~peter.maydell/raspi-avocado-fail.log
+what seems to happen is that the test sends the "halt" command to
+the guest. The DEBUG log reports a transition from RUNNING to
+DISCONNECTING and the QMP connection disconnects, so presumably
+the guest really did exit -- or is that something the test framework
+is doing from its end? Anyway, the next thing that happens is
+that after a 30s timeout something (the avocado framework?) sends
+the QEMU process a SIGTERM, and there's a bunch of timeout related
+python backtraces in the log.
 
-Can you separate the migration/ tree bits into a second patch
-that follows the io/ bits.
+In comparison, with a pass
+https://people.linaro.org/~peter.maydell/raspi-avocado-pass.log
+the transition from DISCONNECTING to IDLE is followed within about
+5 seconds by a test pass.
 
-> 
-> diff --git a/include/io/channel.h b/include/io/channel.h
-> index c680ee748021..4fc37c78e68c 100644
-> --- a/include/io/channel.h
-> +++ b/include/io/channel.h
-> @@ -41,6 +41,7 @@ enum QIOChannelFeature {
->      QIO_CHANNEL_FEATURE_SHUTDOWN,
->      QIO_CHANNEL_FEATURE_LISTEN,
->      QIO_CHANNEL_FEATURE_WRITE_ZERO_COPY,
-> +    QIO_CHANNEL_FEATURE_SEEKABLE,
->  };
->  
->  
-> diff --git a/include/migration/qemu-file-types.h b/include/migration/qemu-file-types.h
-> index 2867e3da84ab..eb0325ee8687 100644
-> --- a/include/migration/qemu-file-types.h
-> +++ b/include/migration/qemu-file-types.h
-> @@ -50,6 +50,8 @@ unsigned int qemu_get_be16(QEMUFile *f);
->  unsigned int qemu_get_be32(QEMUFile *f);
->  uint64_t qemu_get_be64(QEMUFile *f);
->  
-> +bool qemu_file_is_seekable(QEMUFile *f);
-> +
->  static inline void qemu_put_be64s(QEMUFile *f, const uint64_t *pv)
->  {
->      qemu_put_be64(f, *pv);
-> diff --git a/io/channel-file.c b/io/channel-file.c
-> index da17d0a11ba7..d84a6737f2f7 100644
-> --- a/io/channel-file.c
-> +++ b/io/channel-file.c
-> @@ -35,6 +35,7 @@ qio_channel_file_new_fd(int fd)
->  
->      ioc->fd = fd;
->  
-> +    qio_channel_set_feature(QIO_CHANNEL(ioc), QIO_CHANNEL_FEATURE_SEEKABLE);
->      trace_qio_channel_file_new_fd(ioc, fd);
->  
->      return ioc;
-> @@ -59,6 +60,10 @@ qio_channel_file_new_path(const char *path,
->          return NULL;
->      }
->  
-> +    if (lseek(ioc->fd, 0, SEEK_CUR) != (off_t)-1) {
-> +        qio_channel_set_feature(QIO_CHANNEL(ioc), QIO_CHANNEL_FEATURE_SEEKABLE);
-> +    }
-> +
->      trace_qio_channel_file_new_path(ioc, path, flags, mode, ioc->fd);
+So:
 
-Wondering why you do the lseek() sanitytest for only one of the
-two constructors ? Shouldn't we do it for both ?
+(1) has anybody looked at what's happening in this test in
+particular?
+(2) is it possible for avocado to log all of the communication
+on the serial console? Currently the logging of what the guest
+prints cuts out early (in both success and failure cases),
+and what the test case sends to the guest is not logged at all
+(3) what's the best way to debug this to figure out what's
+actually happening?
 
+I tried passing timeout=None to the self.vm.wait() call in
+test_arm_raspi2_initrd(), which the comments in machine.py
+is supposed to mean "wait forever", but that didn't actually
+seem to change the timeout. (I had the idea of looking at
+the status of the QEMU process etc at that point.)
 
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+thanks
+-- PMM
 
