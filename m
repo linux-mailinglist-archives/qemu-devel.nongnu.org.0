@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2039F60424B
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 12:58:05 +0200 (CEST)
-Received: from localhost ([::1]:50714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 808076042C0
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 13:09:55 +0200 (CEST)
+Received: from localhost ([::1]:46062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ol6lv-0003Hv-NC
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 06:58:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42368)
+	id 1ol6xO-0002IJ-1F
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 07:09:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ol6hd-00005W-6s
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 06:53:37 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:36547)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ol6o6-0004ZP-KR
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 07:00:19 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:41654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ol6hb-0006X8-HJ
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 06:53:36 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id j7so28481699wrr.3
- for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 03:53:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ol6o3-0007i3-Ke
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 07:00:18 -0400
+Received: by mail-wr1-x432.google.com with SMTP id bu30so28498606wrb.8
+ for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 04:00:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=qtER+pnoU+/7ikP3NPM81Ooz5nTRUPZQTbvTnPDFZPw=;
- b=QXWL5wvTyP3hG88xdRQ6Wyo91av8GmdemxaD/Hjr1dxF5RAgTtgF4vGEMtsiFohP2R
- aRQaQ6DqwO5+vKAf9PFg5Rd65bZP1J9D0FrFjq9Zag6B8SwzcyoD6Mzw00vjL/SnxT6N
- cOaVpGzj6mKC5C3drkwUcQRkbGQUO4FZlUn0ggBWz3ACef32Y8z1V+Y1lxuwLaAOX27G
- /+XYiU4/tURALKOZgT7scugKx3OTC+9aBSqB7EG2SCi8JV7Rt9h9QXLRGXfBL3joQxC6
- 7jhJxbvep3IEblyysDAxpywS4U9tEUo/6EPSu1eUfRu99e7IwzjvGDpRr05mWJmKTmY3
- 8qYw==
+ bh=RpIeW2HKR5LfuXE3Xh2tREtEa9w5p9iLOY5e6k6MCqc=;
+ b=BzRM86P15OwLZ5L9ZxHxOl9uKsY53xl0/8kvulih1Cm0CViSSdupyckFJyCYEPXQ5v
+ OmZnnhOnAW9ynYxH6ZScO17mS+4hptANALnHM1mWuajDkVtMzgpn3g/CLahrr9+9j/mL
+ DilGED4zDQQ/Rb3AyQZMpIkxy0UiKvkkYY8OGjHjxrDNepN4rhvhhubCIt/t7QLW5uk9
+ 2IyyNET1HG+ckNBO6i7SE1TN5sysu/g8TXLwb/PUDpDVQHtB8+uw0kxo1Hqtp0qGA5Sr
+ d0/ERtkagdX+SK3qsk8XcBcWg8VSTvenoo35jzvoD3mUJ+6hT2avWJKb66xacvStX9O0
+ 2koQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qtER+pnoU+/7ikP3NPM81Ooz5nTRUPZQTbvTnPDFZPw=;
- b=o87bVBk3nZmQ0cCdTQAjg62+LeiyawIcLIzjf2CnUp+2bZAv9Is6w24cD5jmTfvAKw
- OJyvBJLzKmJGmArmogT4d0MfErOBf6mef91W6i3FHU9eYzoXLOaXmdXARlDOiw/TFC3v
- FSN27YIW/jGY5ihaC9eGkl3t1mJhUG4Ir9kkisA4MAU/IveMIs/POXr7tMxuziDlJzXf
- CTrI5ILNd2SbJfl4yYWwYQ8qjJ/8zc3C3HvE2W99VIhE+TFRn13Pu5SPt4Z5rmATnfqg
- /sJMH+XfD5oayGl0DbI06ZSNsVp1X+k81tnWQAz+VxPxXFzACsMRGbikZG6X8gsskP4n
- 7lzg==
-X-Gm-Message-State: ACrzQf2hNJwu8T1zgjEcsxHlcW5Zjgqmfgyg3/+Yhwy5GVkLcaZHar2m
- aGA0D9RvTj17fkHHw6H1DA2ztQ==
-X-Google-Smtp-Source: AMsMyM7nW9AuFTrgsViYtc3kz/pbS3FgqQ0/o3Ypjmb+rLWeBTdIExy76JlOpM8/JodCAG+NGZBmDA==
-X-Received: by 2002:a5d:43ce:0:b0:22e:4acd:2153 with SMTP id
- v14-20020a5d43ce000000b0022e4acd2153mr4392713wrr.189.1666176813753; 
- Wed, 19 Oct 2022 03:53:33 -0700 (PDT)
+ bh=RpIeW2HKR5LfuXE3Xh2tREtEa9w5p9iLOY5e6k6MCqc=;
+ b=NSpsZw6+cxSugQP3vhpG567scLYFxc3jpkxOjaPHIDMh45u+SSDVlC0xRjPxmll1HV
+ +15rvIJG5DD5iSoeiPaEDpdqN+SZqisOEn3eoPer+rTvBxrNZ3rQD+WAGvBLRgVTmkiF
+ veUL7B8ThESqD7E1rmb3GGNda0pFZjXWySFTxNgfDpPCJW5Wtl2hZPWZ3XtayMRBm8e8
+ C1fveoLNIKOocHnv6PWmiOEqfxSKf2bsG5bfMiYZaXwWT0LYlO+eeVjOxb4WyV/SKvBl
+ gUaw6LjnFeZK3XsUWwiN+W49kG6r+70BRI+sP0LjrVjJLREAmg/TkF0CIGz+Z091yNwC
+ oz6g==
+X-Gm-Message-State: ACrzQf0FErgx48g9VVrLzn38dVZBJKL8I9cFET/EK1NvW5Ej0u1DkkbC
+ 6nP/VDXL9BgL93w4XKu6kNvI7g==
+X-Google-Smtp-Source: AMsMyM6J4oG8hB8SOB1JuDehFH4plBnXwKUDpQUuCTpF2I96U+ClKqoAmOVMXq+atjiGYiVdzMWY6Q==
+X-Received: by 2002:a5d:4ec5:0:b0:22c:dca3:e84d with SMTP id
+ s5-20020a5d4ec5000000b0022cdca3e84dmr4575423wrv.14.1666177213828; 
+ Wed, 19 Oct 2022 04:00:13 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- c25-20020a7bc019000000b003c6b874a0dfsm19715175wmb.14.2022.10.19.03.53.32
+ t8-20020a5d5348000000b0022ac119fcc5sm13490816wrv.60.2022.10.19.04.00.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Oct 2022 03:53:33 -0700 (PDT)
-Message-ID: <2b2eb94f-c534-464d-0f60-bc8a88e41af7@linaro.org>
-Date: Wed, 19 Oct 2022 12:53:31 +0200
+ Wed, 19 Oct 2022 04:00:13 -0700 (PDT)
+Message-ID: <f7c4f7ca-cbf9-87d6-4d8c-5957c36ae23c@linaro.org>
+Date: Wed, 19 Oct 2022 13:00:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.3.2
-Subject: Re: [PATCH v3 15/15] accel/kvm: move kvm_update_guest_debug to inline
- stub
+Subject: Re: [PATCH v6 1/1] hw/intc: Fix LoongArch extioi coreisr accessing
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- "open list:Overall KVM CPUs" <kvm@vger.kernel.org>
-References: <20220927141504.3886314-1-alex.bennee@linaro.org>
- <20220927141504.3886314-16-alex.bennee@linaro.org>
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, gaosong@loongson.cn, f4bug@amsat.org
+References: <20221019091546.2148418-1-yangxiaojuan@loongson.cn>
+ <20221019091546.2148418-2-yangxiaojuan@loongson.cn>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20220927141504.3886314-16-alex.bennee@linaro.org>
+In-Reply-To: <20221019091546.2148418-2-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,77 +92,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/9/22 16:15, Alex Bennée wrote:
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   include/sysemu/kvm.h   | 16 ++++++++++++++++
->   accel/kvm/kvm-all.c    |  6 ------
->   accel/stubs/kvm-stub.c |  5 -----
->   3 files changed, 16 insertions(+), 11 deletions(-)
+On 19/10/22 11:15, Xiaojuan Yang wrote:
+> When cpu read or write extioi COREISR reg, it should access
+
+"When the CPU reads or writes ..."
+
+> the reg belonged to itself, so the cpu index of 's->coreisr'
+> is current cpu number. Using MemTxAttrs' requester_id to get
+> the cpu index.
 > 
-> diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-> index 6e1bd01725..790d35ef78 100644
-> --- a/include/sysemu/kvm.h
-> +++ b/include/sysemu/kvm.h
-> @@ -247,7 +247,23 @@ int kvm_on_sigbus(int code, void *addr);
->   
->   void kvm_flush_coalesced_mmio_buffer(void);
->   
-> +/**
-> + * kvm_update_guest_debug(): ensure KVM debug structures updated
-> + * @cs: the CPUState for this cpu
-> + * @reinject_trap: KVM trap injection control
-> + *
-> + * There are usually per-arch specifics which will be handled by
-> + * calling down to kvm_arch_update_guest_debug after the generic
-> + * fields have been set.
-> + */
-> +#ifdef KVM_CAP_SET_GUEST_DEBUG
->   int kvm_update_guest_debug(CPUState *cpu, unsigned long reinject_trap);
-> +#else
-> +static inline int kvm_update_guest_debug(CPUState *cpu, unsigned long reinject_trap)
-> +{
-> +    return -EINVAL;
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> ---
+>   hw/intc/loongarch_extioi.c      | 42 ++++++++++++++++++---------------
+>   hw/intc/trace-events            |  3 +--
+>   target/loongarch/iocsr_helper.c | 18 +++++++-------
+>   3 files changed, 34 insertions(+), 29 deletions(-)
 
-Wouldn't -ENOSYS make more sense in this case?
-
-> +}
-> +#endif
->   
->   /* internal API */
->   
-> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> index 6ebff6e5a6..423fb1936f 100644
-> --- a/accel/kvm/kvm-all.c
-> +++ b/accel/kvm/kvm-all.c
-> @@ -3395,12 +3395,6 @@ void kvm_remove_all_breakpoints(CPUState *cpu)
->       }
->   }
->   
-> -#else /* !KVM_CAP_SET_GUEST_DEBUG */
-> -
-> -static int kvm_update_guest_debug(CPUState *cpu, unsigned long reinject_trap)
-> -{
-> -    return -EINVAL;
-> -}
->   #endif /* !KVM_CAP_SET_GUEST_DEBUG */
->   
->   static int kvm_set_signal_mask(CPUState *cpu, const sigset_t *sigset)
-> diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
-> index 2d79333143..5d2dd8f351 100644
-> --- a/accel/stubs/kvm-stub.c
-> +++ b/accel/stubs/kvm-stub.c
-> @@ -46,11 +46,6 @@ int kvm_has_many_ioeventfds(void)
->       return 0;
->   }
->   
-> -int kvm_update_guest_debug(CPUState *cpu, unsigned long reinject_trap)
-> -{
-> -    return -ENOSYS;
-> -}
-> -
->   int kvm_on_sigbus_vcpu(CPUState *cpu, int code, void *addr)
+> -static uint64_t extioi_readw(void *opaque, hwaddr addr, unsigned size)
+> +static MemTxResult extioi_readw(void *opaque, hwaddr addr, uint64_t *data,
+> +                                unsigned size, MemTxAttrs attrs)
 >   {
->       return 1;
+
+This patch would be easier to review if you split it in 2, first 
+converting the MemoryRegionOps read/write handlers to _with_attrs
+ones, then another patch fetching the CPU id from attrs.requester_id.
+
+>       LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
+>       unsigned long offset = addr & 0xffff;
+> -    uint32_t index, cpu, ret = 0;
+> +    uint32_t index, cpu;
+>   
+>       switch (offset) {
+>       case EXTIOI_NODETYPE_START ... EXTIOI_NODETYPE_END - 1:
+>           index = (offset - EXTIOI_NODETYPE_START) >> 2;
+> -        ret = s->nodetype[index];
+> +        *data = s->nodetype[index];
+>           break;
+>       case EXTIOI_IPMAP_START ... EXTIOI_IPMAP_END - 1:
+>           index = (offset - EXTIOI_IPMAP_START) >> 2;
+> -        ret = s->ipmap[index];
+> +        *data = s->ipmap[index];
+>           break;
+>       case EXTIOI_ENABLE_START ... EXTIOI_ENABLE_END - 1:
+>           index = (offset - EXTIOI_ENABLE_START) >> 2;
+> -        ret = s->enable[index];
+> +        *data = s->enable[index];
+>           break;
+>       case EXTIOI_BOUNCE_START ... EXTIOI_BOUNCE_END - 1:
+>           index = (offset - EXTIOI_BOUNCE_START) >> 2;
+> -        ret = s->bounce[index];
+> +        *data = s->bounce[index];
+>           break;
+>       case EXTIOI_COREISR_START ... EXTIOI_COREISR_END - 1:
+> -        index = ((offset - EXTIOI_COREISR_START) & 0x1f) >> 2;
+> -        cpu = ((offset - EXTIOI_COREISR_START) >> 8) & 0x3;
+> -        ret = s->coreisr[cpu][index];
+> +        index = (offset - EXTIOI_COREISR_START) >> 2;
+> +        /* using attrs to get current cpu index */
+> +        cpu = attrs.requester_id;
+
+            assert(attrs.requester_type == MTRT_CPU);
+
+> +        *data = s->coreisr[cpu][index];
+>           break;
+>       case EXTIOI_COREMAP_START ... EXTIOI_COREMAP_END - 1:
+>           index = (offset - EXTIOI_COREMAP_START) >> 2;
+> -        ret = s->coremap[index];
+> +        *data = s->coremap[index];
+>           break;
+>       default:
+>           break;
+>       }
+>   
+> -    trace_loongarch_extioi_readw(addr, ret);
+> -    return ret;
+> +    trace_loongarch_extioi_readw(addr, *data);
+> +    return MEMTX_OK;
+>   }
+
+> -static void extioi_writew(void *opaque, hwaddr addr,
+> -                          uint64_t val, unsigned size)
+> +static MemTxResult extioi_writew(void *opaque, hwaddr addr,
+> +                          uint64_t val, unsigned size,
+> +                          MemTxAttrs attrs)
+>   {
+>       LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
+>       int i, cpu, index, old_data, irq;
+> @@ -183,8 +185,9 @@ static void extioi_writew(void *opaque, hwaddr addr,
+>           s->bounce[index] = val;
+>           break;
+>       case EXTIOI_COREISR_START ... EXTIOI_COREISR_END - 1:
+> -        index = ((offset - EXTIOI_COREISR_START) & 0x1f) >> 2;
+> -        cpu = ((offset - EXTIOI_COREISR_START) >> 8) & 0x3;
+> +        index = (offset - EXTIOI_COREISR_START) >> 2;
+> +        /* using attrs to get current cpu index */
+
+            assert(attrs.requester_type == MTRT_CPU);
+
+> +        cpu = attrs.requester_id;
+>           old_data = s->coreisr[cpu][index];
+>           s->coreisr[cpu][index] = old_data & ~val;
+>           /* write 1 to clear interrrupt */
+> @@ -231,11 +234,12 @@ static void extioi_writew(void *opaque, hwaddr addr,
+>       default:
+>           break;
+>       }
+> +    return MEMTX_OK;
+>   }
 
 
