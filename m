@@ -2,137 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 302986053DB
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 01:22:24 +0200 (CEST)
-Received: from localhost ([::1]:60140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECB97605446
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 02:01:50 +0200 (CEST)
+Received: from localhost ([::1]:54022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olIOE-0000jS-Qr
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 19:22:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42862)
+	id 1olJ0M-0004XB-0t
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 20:01:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vikram.garhwal@amd.com>)
- id 1olIJn-0007Pp-7C
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 19:17:47 -0400
-Received: from mail-bn8nam11on20601.outbound.protection.outlook.com
- ([2a01:111:f400:7eae::601]:56896
- helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1olIwg-0001DT-Eq
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 19:57:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59842)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vikram.garhwal@amd.com>)
- id 1olIJc-0003Yb-Vp
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 19:17:41 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LBxDirxmDG4gKiq0WWvE3/4tM7PDw7emonIHCjGHPwXy7uIvq4nTd2bmMhKHxAndiBwO6QXGLrRcmEPDYyFj13AWT/A5kLOoMglmx+iyF0pwwljbN4B4nJ2YpqgJrn9pKh6F85+G9XECZgDkxB+K+fA36t7RGsi1MKzDS4Hspw10krQUNNTE1pY0PC5P0k+talFI+TzuD68KTEPtC3xIWVMaleduM2QChEVHAE4o45xMES76tR21EEHhyXa7ouzaitxEPQq4wV+MCzLVesbccUSX4BSHpn02OCdko9a1uJZDZL3j1KulIPjwmlZjJWLNS1WlbfDMeQAGX5ErVm/Tng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cge5Yb2CzSD5Bu0WVHIFKjdDadxJS6eZRxLuDht1xKU=;
- b=iJqACC5pZUEgL3+sngHYNKvoUL5B0OZqbQdMiggKbWyq045yKZJ7kYYO1GUvjVFFhbY+58z1HzyzMD5q/M2wBkhVJZaMEud8m0SXXxf5dKBbAgVc/ZnMS4uv4AQvBQPBpF72zwrxgjnmy4D4j25AfyJyvIFF/54NsiI+WbVi7HocJe7pKDpv35pLZs1/ApLitpuVQ3q3u0XFTIHrATziyAmRkGTq29ktHMbSumXA29uIy+xARiAVOXnMrRNwQuPsWQbuVY6P3ETzxlYHsrUoGjKDIKDScg59dJhb0xAdb3Q5VDEdoz+0xZyg6A1OK6fQeR30cBLrkFjKXNLohGetmQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cge5Yb2CzSD5Bu0WVHIFKjdDadxJS6eZRxLuDht1xKU=;
- b=DvDJfnkSMpqFxIzM9EZnjkQxW7H615G5tIIvoBY/cekTC53YWSYtHsEX9hawxadJSu4+GRuQ1HSGhsfJeJG8Pyv3zeMCRShd5k0mP9ooK39XmUMads/1x5IiVwWGboMmHEO9lsVGGunf2DcJTniA61rbwhcOZDHSIKBcki7OF9E=
-Received: from MW3PR12MB4409.namprd12.prod.outlook.com (2603:10b6:303:2d::23)
- by BY5PR12MB4226.namprd12.prod.outlook.com (2603:10b6:a03:203::24)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.32; Wed, 19 Oct
- 2022 23:12:30 +0000
-Received: from MW3PR12MB4409.namprd12.prod.outlook.com
- ([fe80::45b:5f00:6991:c7e]) by MW3PR12MB4409.namprd12.prod.outlook.com
- ([fe80::45b:5f00:6991:c7e%3]) with mapi id 15.20.5723.034; Wed, 19 Oct 2022
- 23:12:30 +0000
-From: "Garhwal, Vikram" <vikram.garhwal@amd.com>
-To: Paul Durrant <xadimgnik@gmail.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-CC: "Stabellini, Stefano" <stefano.stabellini@amd.com>, Stefano Stabellini
- <sstabellini@kernel.org>, Anthony Perard <anthony.perard@citrix.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>, Richard
- Henderson <richard.henderson@linaro.org>, Eduardo Habkost
- <eduardo@habkost.net>, "open list:X86 Xen CPUs"
- <xen-devel@lists.xenproject.org>
-Subject: Re: [PATCH v1 06/12] xen-hvm: move common functions to
- hw/xen/xen-hvm-common.c
-Thread-Topic: [PATCH v1 06/12] xen-hvm: move common functions to
- hw/xen/xen-hvm-common.c
-Thread-Index: AQHY4FQ0tVypMawM1ke4uV2W+2m2Q64V66+AgAB0FBU=
-Date: Wed, 19 Oct 2022 23:12:30 +0000
-Message-ID: <MW3PR12MB4409CDD81742B163D0DD11769F2B9@MW3PR12MB4409.namprd12.prod.outlook.com>
-References: <20221015050750.4185-1-vikram.garhwal@amd.com>
- <20221015050750.4185-7-vikram.garhwal@amd.com>
- <7b8e645c-90c7-a4ff-4405-51df6df2e508@xen.org>
-In-Reply-To: <7b8e645c-90c7-a4ff-4405-51df6df2e508@xen.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW3PR12MB4409:EE_|BY5PR12MB4226:EE_
-x-ms-office365-filtering-correlation-id: 23df9e2d-1ba9-4906-e536-08dab2276581
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: pN5e24PcLSQ1cCvv38jyTr9A+zOgTE06H8eTvo7xUPz6Eb2U6TPH7glts8dQihw6dh411TJdErO9WwN62n38liv6zcLgHVBNVownh9opqEstGywg939mNYIxYMSQEK5YQN6dpTJySZJzYvWfyunS2R9M5rzPX6sz6lUzB9dPqJWjJ5BXVSO7uSxH0gF2shfLFFAV1S20OY4OdAo7ivlD4vUxYJYZp2SQHfy1sOfKgX/a/06GsaBQWeEmvKkXzat9liZiR+vNx/8EVoJeC86Ba63XPuaW4kTEU9RyqXyeg7cnppg02MdT+7w6OWbD2qdTZSC5Ddr2OKWznYf3WXAHEWopNN60FTykkEzToKAuPTfaI2iuE9zEWKlXSfjcjadGivck7tmC3GejRCS0pAIdI1ohWKIfA7wMMV14+WCLy5DocBPTuk9o9ZIm/euRmQj+3yp2ofaK81CELyjuPcDFtk/j0UvdXbXckQTlHcjMlAT9xGlvErJH8i27l0pAxkyrJ7krKdTbKcL5pPWuhPN34sGlXXjXrz2/T+Vqa/Sx/sDasJel4DvTqy7ySeEHzNSLgbO3pE3QtXjlYtoDxMzHnQM4ekh4W+K63Kj3WBa0hbhTIC37kCth9Nj5RRyBTmigQCj2xSOFEQy9pRqIoplAtALWP9x5wsI0w/pQEpUOPFPH8AMISRUNuY1HnNIzjWLb3rT6dnKT/MiITEel7VdFcrbbYAgRYTDkZFVBZXT/01XB84EXiO6J9x2++g+lUkTHCb0JTU4hrNV+1vKpGbGfwA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW3PR12MB4409.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(136003)(366004)(376002)(39860400002)(396003)(346002)(451199015)(41300700001)(186003)(26005)(478600001)(64756008)(38070700005)(86362001)(2906002)(6506007)(53546011)(8936002)(33656002)(52536014)(9686003)(5660300002)(4326008)(7416002)(54906003)(38100700002)(7696005)(91956017)(110136005)(122000001)(316002)(76116006)(55016003)(71200400001)(8676002)(66446008)(66556008)(66476007)(83380400001)(66946007);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?7+NCEbcC+tFqf3LmBoXY8ba0iAf7md7PnaQ5vbJxfvT/UWwCICC+mEEGnC29?=
- =?us-ascii?Q?yV7HyH0oB5VOuXxApqOyC30wAuEMz2xnNWrPk8aAYjBJ/9wH7pohDwtyZ9Eq?=
- =?us-ascii?Q?n1c5IqQYPCBGQOFqxgAtJldGQR2MfYd+cgIbD5J2VYBxYVC+jYDwDJMiowhB?=
- =?us-ascii?Q?gaxMz7RLvawNbNikc1Q6F3h5aFR73g4xavl4cnLCnoATeQjQHTOvFg0O/Ug/?=
- =?us-ascii?Q?Wr+/3Y6s7RIj9Rcvd3oAK8vIEu9YTIxDxtZfpnoAT/jbySYO7OZtUVasZo4N?=
- =?us-ascii?Q?GNbM83UAeY0u2wyfl0UDpHY7pBTxXxxa3RxbkEX/lsKzQYMicVqoIK5ikccB?=
- =?us-ascii?Q?w8Lpe0/zeEoiHiE/3X478njUBP1b6q/DZeaqr6PztQ00rTDUQCRLTn+WSOkW?=
- =?us-ascii?Q?32wxTchWCDCI09KfdUEIvC+1Psm8qgm34l/I2OGKqqgHIKjH9aGJ+/l90QUA?=
- =?us-ascii?Q?1JNJpZZLqbi17fyZ3u9kTt4xAPajXTiMSsxFhQTkrk8spvtztTO5WEPp9oqU?=
- =?us-ascii?Q?dfY0X/vobj8QuKHqnU8JUg32wh9Qgy+WPXWJYBwlh+DmyeTvUHwmjn73EDUA?=
- =?us-ascii?Q?g6vlvK2tI/fFzUAuufC/dC/5gLnREThm1YMXSQu8H8PkQP9Q2ndhEiQfw5ZC?=
- =?us-ascii?Q?uRiODjlFPHwUWTFFNm/oNTH752qin2y8Agb1mUCPB8SWHwiCDWEfB3Qsr/Sg?=
- =?us-ascii?Q?gzne0gO90kmjKzGVzOX4SbCg/yDu+cYdNHxAX7RdcI/CwWRqWhIEBNzIU6J7?=
- =?us-ascii?Q?fVLrBW6EDPznfkR0JFbrN5h0yHBrafRB1z8ORAClvmGFicMlQJ6EyPaxkXDh?=
- =?us-ascii?Q?UUmtoTWbCdyYNEUBIGjQxUvAx8L9jPzuCgCAlGfHq71UdOrNWM0S2HtTOoyt?=
- =?us-ascii?Q?U9F3kS/yAVTXECHI5pwOiL0spq2+/Pfsql77z7lIGVVAJNiEgwGq8WXGr+bC?=
- =?us-ascii?Q?U7zocUBqRO2bpuy1j4y7GoDMMlQ517Px0C7DAu1RkCMPlIwE+8JFn7Tm/JKV?=
- =?us-ascii?Q?5m4NzDcHy8EaadsevzXJle4kUUZuBAIO38tyvYYLEMaOco6HYuqijA7m0N4E?=
- =?us-ascii?Q?qgCGQpkVKbFThjxq8EfJxFouIWbAfStjgN/lJiY66g1sc0nj6H9SwPpw9GGA?=
- =?us-ascii?Q?QLij892ronN+R5pQ0Jne+BlPJUAp/bOZywqNw3wLk0QXmlLIKQH/ZEe8AZu2?=
- =?us-ascii?Q?HqlrhH4IQUv9npY8FZZAnr/wXxEwY4ZQESwCsZL2D9Z0vcN64+Lxy7No3DnR?=
- =?us-ascii?Q?upXIP9g+6Sso7hkPvBdrNP27cwePAWicQxzRCnoxTG838tQiNuZPVXTDUDoi?=
- =?us-ascii?Q?UPDLKtaZICAMZa9BQ8xJXg9LndeYI+nrHQQcOZiJEd+9CoeCIGGRYebEdPah?=
- =?us-ascii?Q?q9jgvX4X3NVWe2UDHStilfSUjG4WUtHhZLXVGYCUMU6ihHvqT5NUhVqWDsav?=
- =?us-ascii?Q?SCb4fxHpLt7ovoEYE2EdKk8A9Hc3MMhP8Elsx6WOszMCbwDzRvpdTLAkWJiq?=
- =?us-ascii?Q?ov3mYNXTurlGl3mpf6foibGS4nxbJfKbYVFLIgnwSDoSv1liTH7az27vFFTc?=
- =?us-ascii?Q?PNCne5Z0UKT7ZS5Zkp4K051BqTAd2J7hVr/xWtoZustkqBIwR2I6ADUoa7hp?=
- =?us-ascii?Q?Ng=3D=3D?=
-Content-Type: multipart/alternative;
- boundary="_000_MW3PR12MB4409CDD81742B163D0DD11769F2B9MW3PR12MB4409namp_"
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1olIwR-0005cG-AY
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 19:57:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666223861;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wwbY4UnbG3y0d34dJVtIY6VJpD+aYmqj+HXZ41/X3To=;
+ b=Nw/yiTf9MaHxHhzeAQojGj84Q7xaUNKbusWuvbvII6CK/r3QPVR0sfXDzahlrkN//LNGGU
+ a7mrUWERbHj6FVrNXmDuCgdCYcF80tjmM/8GBzO1pKMmPZxfoirTfgmIwmi+4ESqMNSV7R
+ 7GMBf5NEvWnbIszLdxzXfmq2KgZ1RYw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-672-rxyWZ5xPNL6XdgfzWBquNQ-1; Wed, 19 Oct 2022 19:57:38 -0400
+X-MC-Unique: rxyWZ5xPNL6XdgfzWBquNQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 52CA2811E67;
+ Wed, 19 Oct 2022 23:57:38 +0000 (UTC)
+Received: from [10.64.54.70] (vpn2-54-70.bne.redhat.com [10.64.54.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E627C40C6EC2;
+ Wed, 19 Oct 2022 23:57:34 +0000 (UTC)
+Subject: Re: [PATCH v5 6/6] hw/arm/virt: Add 'compact-highmem' property
+To: eric.auger@redhat.com, qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, maz@kernel.org, cohuck@redhat.com,
+ zhenyzha@redhat.com, richard.henderson@linaro.org, peter.maydell@linaro.org,
+ shan.gavin@gmail.com
+References: <20221011231832.149839-1-gshan@redhat.com>
+ <20221011231832.149839-7-gshan@redhat.com>
+ <9a43b31a-63d7-d312-870d-168df1b41921@redhat.com>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <6566e453-9b05-7092-f112-ea9e523be8b4@redhat.com>
+Date: Thu, 20 Oct 2022 07:57:32 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4409.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 23df9e2d-1ba9-4906-e536-08dab2276581
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Oct 2022 23:12:30.2354 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 8wLlyxRIG/7emrOSKcnd6OOAgQ79Ob1EdVKjAQVkEie357t2PX0klx7q76kfoWpfXvihaukOvP6E4vcSWVm1Hg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4226
-Received-SPF: softfail client-ip=2a01:111:f400:7eae::601;
- envelope-from=vikram.garhwal@amd.com;
- helo=NAM11-BN8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <9a43b31a-63d7-d312-870d-168df1b41921@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -145,160 +82,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Gavin Shan <gshan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_MW3PR12MB4409CDD81742B163D0DD11769F2B9MW3PR12MB4409namp_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Hi Eric,
 
-Thanks Paul & Julien for reviewing. I will update this in v2.
+On 10/20/22 4:18 AM, Eric Auger wrote:
+> On 10/12/22 01:18, Gavin Shan wrote:
+>> After the improvement to high memory region address assignment is
+>> applied, the memory layout can be changed, introducing possible
+>> migration breakage. For example, VIRT_HIGH_PCIE_MMIO memory region
+>> is disabled or enabled when the optimization is applied or not, with
+>> the following configuration.
+>>
+>>    pa_bits              = 40;
+>>    vms->highmem_redists = false;
+>>    vms->highmem_ecam    = false;
+>>    vms->highmem_mmio    = true;
+>>
+>>    # qemu-system-aarch64 -accel kvm -cpu host    \
+>>      -machine virt-7.2,compact-highmem={on, off} \
+>>      -m 4G,maxmem=511G -monitor stdio
+>>
+>>    Region            compact-highmem=off         compact-highmem=on
+>>    ----------------------------------------------------------------
+>>    RAM               [1GB         512GB]        [1GB         512GB]
+>>    HIGH_GIC_REDISTS  [512GB       512GB+64MB]   [disabled]
+>>    HIGH_PCIE_ECAM    [512GB+256MB 512GB+512MB]  [disabled]
+>>    HIGH_PCIE_MMIO    [disabled]                 [512GB       1TB]
+>>
+>> In order to keep backwords compatibility, we need to disable the
+>> optimization on machines, which is virt-7.1 or ealier than it. It
+>> means the optimization is enabled by default from virt-7.2. Besides,
+>> 'compact-highmem' property is added so that the optimization can be
+>> explicitly enabled or disabled on all machine types by users.
+>>
+>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>> Tested-by: Zhenyu Zhang <zhenyzha@redhat.com>
+>> ---
+>>   docs/system/arm/virt.rst |  4 ++++
+>>   hw/arm/virt.c            | 47 ++++++++++++++++++++++++++++++++++++++++
+>>   include/hw/arm/virt.h    |  1 +
+>>   3 files changed, 52 insertions(+)
+>>
+>> diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
+>> index 20442ea2c1..75bf5a4994 100644
+>> --- a/docs/system/arm/virt.rst
+>> +++ b/docs/system/arm/virt.rst
+>> @@ -94,6 +94,10 @@ highmem
+>>     address space above 32 bits. The default is ``on`` for machine types
+>>     later than ``virt-2.12``.
+>>   
+>> +compact-highmem
+>> +  Set ``on``/``off`` to enable/disable compact space for high memory regions.
+>> +  The default is ``on`` for machine types later than ``virt-7.2``
+>> +
+>>   gic-version
+>>     Specify the version of the Generic Interrupt Controller (GIC) to provide.
+>>     Valid values are:
+>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+>> index c05cfb5314..8f1dba0ece 100644
+>> --- a/hw/arm/virt.c
+>> +++ b/hw/arm/virt.c
+>> @@ -174,6 +174,27 @@ static const MemMapEntry base_memmap[] = {
+>>    * Note the extended_memmap is sized so that it eventually also includes the
+>>    * base_memmap entries (VIRT_HIGH_GIC_REDIST2 index is greater than the last
+>>    * index of base_memmap).
+>> + *
+>> + * The addresses assigned to these regions are affected by 'compact-highmem'
+>> + * property, which is to enable or disable the compact space in the Highmem
+>> + * IO regions. For example, VIRT_HIGH_PCIE_MMIO can be disabled or enabled
+>> + * depending on the property in the following scenario.
+> To me you shall rather explain here what is the so-called "compact"
+> space vs the legacy highmem layout.
+> 
+> If I understand correctly the example rather legitimates the use of a
+> compat option showing how the layout can be affected by the option. I
+> would put that in the commit msg instead. Also in your example I see
+> VIRT_HIGH_GIC_REDISTS is disabled but the code does not disable the
+> region excpet if it does not fit within the PA. This does not match your
+> example. Also the region is named VIRT_HIGH_GIC_REDIST2.
+> 
+> In v4, Marc also suggested to have individual options for each highmem
+> region.
+> https://lore.kernel.org/qemu-devel/0f8e6a58-0dde-fb80-6966-7bb32c4df552@redhat.com/
+> 
+> Have you considered that option?
+> 
 
-Regards,
-Vikram
+I think your comments make sense to me. So lets put the following comments
+to the code and move the example to commit log.
 
-From: Paul Durrant <xadimgnik@gmail.com>
-Date: Wednesday, October 19, 2022 at 9:16 AM
-To: Garhwal, Vikram <vikram.garhwal@amd.com>, qemu-devel@nongnu.org <qemu-d=
-evel@nongnu.org>
-Cc: Stabellini, Stefano <stefano.stabellini@amd.com>, Stefano Stabellini <s=
-stabellini@kernel.org>, Anthony Perard <anthony.perard@citrix.com>, Michael=
- S. Tsirkin <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>=
-, Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <richard.henderson=
-@linaro.org>, Eduardo Habkost <eduardo@habkost.net>, open list:X86 Xen CPUs=
- <xen-devel@lists.xenproject.org>
-Subject: Re: [PATCH v1 06/12] xen-hvm: move common functions to hw/xen/xen-=
-hvm-common.c
-On 15/10/2022 06:07, Vikram Garhwal wrote:
-[snip]
-> +    qemu_add_vm_change_state_handler(xen_hvm_change_state_handler, state=
-);
-> +
-> +    state->memory_listener =3D xen_memory_listener;
-> +    memory_listener_register(&state->memory_listener, &address_space_mem=
-ory);
-> +
-> +    state->io_listener =3D xen_io_listener;
-> +    memory_listener_register(&state->io_listener, &address_space_io);
-> +
-> +    state->device_listener =3D xen_device_listener;
-> +    QLIST_INIT(&state->dev_list);
-> +    device_listener_register(&state->device_listener);
-> +
+   /*
+    * The memory map for these Highmem IO Regions can be in legacy or compact
+    * layout, depending on 'compact-highmem' property. In legacy layout, the
+    * PA space for one specific region is always reserved, even the region has
+    * been disabled or doesn't fit into the PA space. However, the PA space for
+    * the region won't be reserved in these circumstances.
+    */
 
-As Julien said, these do not belong here. These are the (current and
-legacy) PV backend setup functions; they most certainly have nothing to
-do with device emulation.
+You're correct about the example. VIRT_HIGH_GIC_REDIST2 should be used. Besides,
+the configuration is only achievable by modifying source code at present, until
+Marc's suggestion rolls in to allow users disable one particular high memory
+regions by more properties. I will amend the commit log to have something like
+below.
 
-   Paul
+     For example, VIRT_HIGH_PCIE_MMIO memory region is disabled or enabled when
+     the optimization is applied or not, with the following configuration. The
+     configuration is only achievable by modifying source code, until more properties
+     are added to allow user selectively disable those high memory regions.
 
---_000_MW3PR12MB4409CDD81742B163D0DD11769F2B9MW3PR12MB4409namp_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+For Marc's suggestion to add properties so that these high memory regions can
+be disabled by users. I can add one patch after this one to introduce the following
+3 properties. Could you please confirm the property names are good enough? It's
+nice if Marc can help to confirm before I'm going to work on next revision.
 
-<html xmlns:o=3D"urn:schemas-microsoft-com:office:office" xmlns:w=3D"urn:sc=
-hemas-microsoft-com:office:word" xmlns:m=3D"http://schemas.microsoft.com/of=
-fice/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:10.0pt;
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle19
-	{mso-style-type:personal-reply;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style>
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
-break-word">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Thanks Paul &amp; J=
-ulien for reviewing. I will update this in v2.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
-span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Regards,<o:p></o:p>=
-</span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt">Vikram<o:p></o:p></=
-span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt"><o:p>&nbsp;</o:p></=
-span></p>
-<div style=3D"border:none;border-top:solid #B5C4DF 1.0pt;padding:3.0pt 0in =
-0in 0in">
-<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0in;margin-right:0in;mar=
-gin-bottom:12.0pt;margin-left:.5in">
-<b><span style=3D"font-size:12.0pt;color:black">From: </span></b><span styl=
-e=3D"font-size:12.0pt;color:black">Paul Durrant &lt;xadimgnik@gmail.com&gt;=
-<br>
-<b>Date: </b>Wednesday, October 19, 2022 at 9:16 AM<br>
-<b>To: </b>Garhwal, Vikram &lt;vikram.garhwal@amd.com&gt;, qemu-devel@nongn=
-u.org &lt;qemu-devel@nongnu.org&gt;<br>
-<b>Cc: </b>Stabellini, Stefano &lt;stefano.stabellini@amd.com&gt;, Stefano =
-Stabellini &lt;sstabellini@kernel.org&gt;, Anthony Perard &lt;anthony.perar=
-d@citrix.com&gt;, Michael S. Tsirkin &lt;mst@redhat.com&gt;, Marcel Apfelba=
-um &lt;marcel.apfelbaum@gmail.com&gt;, Paolo Bonzini &lt;pbonzini@redhat.co=
-m&gt;,
- Richard Henderson &lt;richard.henderson@linaro.org&gt;, Eduardo Habkost &l=
-t;eduardo@habkost.net&gt;, open list:X86 Xen CPUs &lt;xen-devel@lists.xenpr=
-oject.org&gt;<br>
-<b>Subject: </b>Re: [PATCH v1 06/12] xen-hvm: move common functions to hw/x=
-en/xen-hvm-common.c<o:p></o:p></span></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:0in;margin-right:0in;mar=
-gin-bottom:12.0pt;margin-left:.5in">
-<span style=3D"font-size:11.0pt">On 15/10/2022 06:07, Vikram Garhwal wrote:=
-<br>
-[snip]<br>
-&gt; +&nbsp;&nbsp;&nbsp; qemu_add_vm_change_state_handler(xen_hvm_change_st=
-ate_handler, state);<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp; state-&gt;memory_listener =3D xen_memory_listener;=
-<br>
-&gt; +&nbsp;&nbsp;&nbsp; memory_listener_register(&amp;state-&gt;memory_lis=
-tener, &amp;address_space_memory);<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp; state-&gt;io_listener =3D xen_io_listener;<br>
-&gt; +&nbsp;&nbsp;&nbsp; memory_listener_register(&amp;state-&gt;io_listene=
-r, &amp;address_space_io);<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp; state-&gt;device_listener =3D xen_device_listener;=
-<br>
-&gt; +&nbsp;&nbsp;&nbsp; QLIST_INIT(&amp;state-&gt;dev_list);<br>
-&gt; +&nbsp;&nbsp;&nbsp; device_listener_register(&amp;state-&gt;device_lis=
-tener);<br>
-&gt; +<br>
-<br>
-As Julien said, these do not belong here. These are the (current and <br>
-legacy) PV backend setup functions; they most certainly have nothing to <br=
->
-do with device emulation.<br>
-<br>
-&nbsp;&nbsp; Paul<o:p></o:p></span></p>
-</div>
-</div>
-</body>
-</html>
+     "highmem-ecam":    "on"/"off" on vms->highmem_ecam
+     "highmem-mmio":    "on"/"off" on vms->highmem_mmio
+     "highmem-redists": "on"/"off" on vms->highmem_redists
 
---_000_MW3PR12MB4409CDD81742B163D0DD11769F2B9MW3PR12MB4409namp_--
+>> + *
+>> + * pa_bits              = 40;
+>> + * vms->highmem_redists = false;
+>> + * vms->highmem_ecam    = false;
+>> + * vms->highmem_mmio    = true;
+>> + *
+>> + * # qemu-system-aarch64 -accel kvm -cpu host    \
+>> + *   -machine virt-7.2,compact-highmem={on, off} \
+>> + *   -m 4G,maxmem=511G -monitor stdio
+>> + *
+>> + * Region            compact-highmem=off        compact-highmem=on
+>> + * ----------------------------------------------------------------
+>> + * RAM               [1GB         512GB]        [1GB         512GB]
+>> + * HIGH_GIC_REDISTS  [512GB       512GB+64MB]   [disabled]
+>> + * HIGH_PCIE_ECAM    [512GB+256GB 512GB+512MB]  [disabled]
+>> + * HIGH_PCIE_MMIO    [disabled]                 [512GB       1TB]
+>>    */
+>>   static MemMapEntry extended_memmap[] = {
+>>       /* Additional 64 MB redist region (can contain up to 512 redistributors) */
+>> @@ -2353,6 +2374,20 @@ static void virt_set_highmem(Object *obj, bool value, Error **errp)
+>>       vms->highmem = value;
+>>   }
+>>   
+>> +static bool virt_get_compact_highmem(Object *obj, Error **errp)
+>> +{
+>> +    VirtMachineState *vms = VIRT_MACHINE(obj);
+>> +
+>> +    return vms->highmem_compact;
+>> +}
+>> +
+>> +static void virt_set_compact_highmem(Object *obj, bool value, Error **errp)
+>> +{
+>> +    VirtMachineState *vms = VIRT_MACHINE(obj);
+>> +
+>> +    vms->highmem_compact = value;
+>> +}
+>> +
+>>   static bool virt_get_its(Object *obj, Error **errp)
+>>   {
+>>       VirtMachineState *vms = VIRT_MACHINE(obj);
+>> @@ -2971,6 +3006,13 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+>>                                             "Set on/off to enable/disable using "
+>>                                             "physical address space above 32 bits");
+>>   
+>> +    object_class_property_add_bool(oc, "compact-highmem",
+>> +                                   virt_get_compact_highmem,
+>> +                                   virt_set_compact_highmem);
+>> +    object_class_property_set_description(oc, "compact-highmem",
+>> +                                          "Set on/off to enable/disable compact "
+>> +                                          "space for high memory regions");
+>> +
+>>       object_class_property_add_str(oc, "gic-version", virt_get_gic_version,
+>>                                     virt_set_gic_version);
+>>       object_class_property_set_description(oc, "gic-version",
+>> @@ -3055,6 +3097,7 @@ static void virt_instance_init(Object *obj)
+>>   
+>>       /* High memory is enabled by default */
+>>       vms->highmem = true;
+>> +    vms->highmem_compact = !vmc->no_highmem_compact;
+>>       vms->gic_version = VIRT_GIC_VERSION_NOSEL;
+>>   
+>>       vms->highmem_ecam = !vmc->no_highmem_ecam;
+>> @@ -3124,8 +3167,12 @@ DEFINE_VIRT_MACHINE_AS_LATEST(7, 2)
+>>   
+>>   static void virt_machine_7_1_options(MachineClass *mc)
+>>   {
+>> +    VirtMachineClass *vmc = VIRT_MACHINE_CLASS(OBJECT_CLASS(mc));
+>> +
+>>       virt_machine_7_2_options(mc);
+>>       compat_props_add(mc->compat_props, hw_compat_7_1, hw_compat_7_1_len);
+>> +    /* Compact space for high memory regions was introduced with 7.2 */
+>> +    vmc->no_highmem_compact = true;
+>>   }
+>>   DEFINE_VIRT_MACHINE(7, 1)
+>>   
+>> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+>> index 709f623741..c7dd59d7f1 100644
+>> --- a/include/hw/arm/virt.h
+>> +++ b/include/hw/arm/virt.h
+>> @@ -125,6 +125,7 @@ struct VirtMachineClass {
+>>       bool no_pmu;
+>>       bool claim_edge_triggered_timers;
+>>       bool smbios_old_sys_ver;
+>> +    bool no_highmem_compact;
+>>       bool no_highmem_ecam;
+>>       bool no_ged;   /* Machines < 4.2 have no support for ACPI GED device */
+>>       bool kvm_no_adjvtime;
+> 
+
+Thanks,
+Gavin
+
 
