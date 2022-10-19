@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C99C160516A
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 22:40:12 +0200 (CEST)
-Received: from localhost ([::1]:58572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 867076051BC
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 23:07:09 +0200 (CEST)
+Received: from localhost ([::1]:39030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olFrH-0004gg-Bn
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 16:40:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45730)
+	id 1olGHL-00081V-Ed
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 17:07:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1olFpg-0003EA-N9
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 16:38:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23485)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1olFpW-0004cf-4a
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 16:38:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666211898;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TFsVRQtq+iQjAuTvk4h69Y7hlhP8P9KX2KrULimNJyI=;
- b=CGdvtnrvIVOfAhYBNoG+NDRW2NBuMuFqFvwKUh9GHktNVkqsqZQgVDNWok4Jp9LzLYZWeN
- dkS2HvAZBHvjK9h9PZ034oL5rkgSs5Knj81aA0pME+OLH5UpS0F2BfaNu89mcqJDEJ+UkI
- b0RqdxZX4H9rulCpoyk5KTNCdaW/pI8=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-549-c002nqbCPLqcsgdichmThg-1; Wed, 19 Oct 2022 16:38:16 -0400
-X-MC-Unique: c002nqbCPLqcsgdichmThg-1
-Received: by mail-lj1-f198.google.com with SMTP id
- h21-20020a2ea495000000b0026dffd0733aso7623798lji.7
- for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 13:38:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1olG9t-0001Fx-DM; Wed, 19 Oct 2022 16:59:25 -0400
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:43771)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1olG9r-0007wh-A0; Wed, 19 Oct 2022 16:59:25 -0400
+Received: by mail-ot1-x332.google.com with SMTP id
+ t4-20020a9d7f84000000b00661c3d864f9so10238593otp.10; 
+ Wed, 19 Oct 2022 13:59:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=oxz/EXYIa343g6WkxVuv32LMs7do4AK9bzVWtvcqddA=;
+ b=A9qQADovtZbPT8QcjPiWpcXbPWFtRm6z4as5uXPgr9nG8DzAkD7Yd0QM0JyctsgxHo
+ QdpAswZUuWnFWlDYNCCWE1tlUiTLXepr3fItS04HQV54C4Pe8dP76eJmrs5s31W54vRO
+ eRVKEzopc9X5eBv7lFU81vXSJPdevubyBnISsgpk4VqpzI+siUpLdQfDz0SkPj66+uEE
+ 1k52OfwAPe2XKeUw6CPVvL7EO7nMNZH0KO0bPcGPfaSDDzZW5gkyqkBB9bSu6Puto6NC
+ Cj277idHupTk+g/Gw3CWjSU7VeiijyAaW1YeHGO4JQRI8EH+kfbKUwuIp4QXpCn+pY0s
+ FudA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=TFsVRQtq+iQjAuTvk4h69Y7hlhP8P9KX2KrULimNJyI=;
- b=tCn4XFylhrQkkEH3GkOURO1CND0Agq0Sg1lYstuf2kXNrlmN8q+8YbXNz4oClWsvz9
- f3iIu8cWqE5tGM4FvWm2vV9dd6vC19U9SfwATXQ6lEqhUeT47gWds1OWSKC4LMjbgZmG
- Qoq2tj8u3mKYHM+ZzIxEnVxZcbeoGCygO7hJ6up06Ie3zwyZYJFGejsIi8jPT83rwWAq
- UYsQABLGYahuVb2S9Wyy6Ewto6W4JE+vs5qmNrk80RqIwNambqrtpttWaolSF2Cd8ty3
- 95FGwvigCZYqecEOtd5uqN6hghjc0Bn6fnxnrNDkFvpDsCxBM08pDFPnu09IkViUhldY
- Ng4w==
-X-Gm-Message-State: ACrzQf0uEtwajoZp2EDarmicszyysWgVrqg23pxzRyuI63cvU+zGlXTE
- 1vLsgaNvHulqFFsFgXuDDS6/gO/MVTlKYsfDe9t1fDlG3qV2m8evUCRrjuE22j3H4J61pVcEIaO
- 4g6TsgLuAkhZL7Om4/mpGd9Gg1tyC7Mg=
-X-Received: by 2002:ac2:4e88:0:b0:4a2:2fa8:9bd8 with SMTP id
- o8-20020ac24e88000000b004a22fa89bd8mr3318843lfr.621.1666211895299; 
- Wed, 19 Oct 2022 13:38:15 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4GI4zSw0z8TloCyfzpjX/A/IRUHuGS49AyohtPdQqVjK66EzZvaUI4LwziVW+/iw133CLsCN1/03wl5BgiX1Y=
-X-Received: by 2002:ac2:4e88:0:b0:4a2:2fa8:9bd8 with SMTP id
- o8-20020ac24e88000000b004a22fa89bd8mr3318832lfr.621.1666211894995; Wed, 19
- Oct 2022 13:38:14 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oxz/EXYIa343g6WkxVuv32LMs7do4AK9bzVWtvcqddA=;
+ b=sGbaZMOduqILcNxvlkVHCIZXyyvjxeNwWNVbjBPqlwy4qc1SZKZepPejo3Ja2og4Gc
+ AWrnnGZk51o4gfAT/6+hdhFfWloQ53xpEmjgICzf42rVSqHDil7mk5wNOk45y47iAUqe
+ V41jOoj3J9DDICgmIxjEXrcQMYed+Oz/PxyDFtqlpSHhSh78jRRWx5eqmaNRasX343KQ
+ TMjVpXk35OMa8OmXhepuwki02KIC98svO7l82PLiLIHD4mzVlkCQsIYeohhlVee/Qtbt
+ jdrXnu/ypy6kdz3LgyaDjsA5rrCv7Sf0p/dUbNneHZbaiwDDHjYGdHHRLHJ4VCOF1PZv
+ 2lUw==
+X-Gm-Message-State: ACrzQf1zRMEk9ilsm8OGO2BD8nIyNs/nm5y5y4rK5B3HO1aVbEh1UxIW
+ nBUym+Nao8NFVWc7BtBGl/qqLeo63Us=
+X-Google-Smtp-Source: AMsMyM5tjDCCoF7XJiU7LR6hgcTtPt1CTg4vHqD8rxg/QetiSvTh/2WY891cHRkOd9EOPYYoFUlIKg==
+X-Received: by 2002:a9d:80e:0:b0:662:8e8:f713 with SMTP id
+ 14-20020a9d080e000000b0066208e8f713mr1693929oty.326.1666213160359; 
+ Wed, 19 Oct 2022 13:59:20 -0700 (PDT)
+Received: from [192.168.10.102] ([179.111.38.2])
+ by smtp.gmail.com with ESMTPSA id
+ cj7-20020a056830640700b006619533d1ddsm7389145otb.76.2022.10.19.13.59.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Oct 2022 13:59:19 -0700 (PDT)
+Message-ID: <00665dae-fd51-0962-4068-0760a1c70467@gmail.com>
+Date: Wed, 19 Oct 2022 17:59:14 -0300
 MIME-Version: 1.0
-References: <CAFEAcA_hi1VHNVetOKkpUXuYtJ4akdVZxwBqSXf76Zvx=YB6Xg@mail.gmail.com>
-In-Reply-To: <CAFEAcA_hi1VHNVetOKkpUXuYtJ4akdVZxwBqSXf76Zvx=YB6Xg@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Date: Wed, 19 Oct 2022 16:38:03 -0400
-Message-ID: <CAFn=p-aoe1QQMXkgdu_yKxb4jCTahsM1K-Fo+vtXOwG=8=_=Lw@mail.gmail.com>
-Subject: Re: has anybody looked at the long-standing intermittent raspi2
- avocado test failure?
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH 5/6] target/ppc: move msgclrp/msgsndp to decodetree
+To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
+ farosas@linux.ibm.com
+References: <20221006200654.725390-1-matheus.ferst@eldorado.org.br>
+ <20221006200654.725390-6-matheus.ferst@eldorado.org.br>
+Content-Language: en-US
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20221006200654.725390-6-matheus.ferst@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x332.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,148 +96,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 18, 2022 at 6:23 AM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> If you run this single avocado test:
->
-> while ./build/x86/tests/venv/bin/avocado run
-> build/x86/tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_raspi2_initrd
-> ; do true; done
->
-> then on my machine it will fail within 4 or 5 iterations. Has anybody
-> looked into this? Looking at a log from a failed test
-> https://people.linaro.org/~peter.maydell/raspi-avocado-fail.log
-> what seems to happen is that the test sends the "halt" command to
-> the guest. The DEBUG log reports a transition from RUNNING to
-> DISCONNECTING and the QMP connection disconnects, so presumably
-> the guest really did exit -- or is that something the test framework
-> is doing from its end?
-
-The avocado test calls self.vm.wait(), which goes down this call
-chain, all in QEMUMachine (machine.py):
-
-wait()
-.shutdown()
-.._do_shutdown()
-..._soft_shutdown()
-...._early_cleanup()
-...._close_qmp_connection()
-
-QEMUMachine._early_cleanup, as you've noticed, closes the console
-socket right away. It has this to say on the matter:
-
-# If we keep the console socket open, we may deadlock waiting
-# for QEMU to exit, while QEMU is waiting for the socket to
-# become writable.
-
-If we leave it open, QEMU is not guaranteed to close, and the
-synchronous code in machine.py isn't good enough to poll both. This
-was one motivation for switching the QMP library to asyncio, but those
-changes haven't hit machine.py yet. I am hoping to have it done soon,
-but some other tasks of finalizing splitting out the QMP library
-itself took priority in my time budget before returning to converting
-more utilities to asyncio.
-
-Next, the QMP connection itself is closed, which is that transition
-from RUNNING to DISCONNECTING you see from the "protocol" module in
-Avocado's log.
-(Avocado is truncating the full module names here; the real source
-module names are "qemu.qmp.protocol", "qemu.qmp.qmp_client", and
-"qemu.machine.machine".)
-
->                        Anyway, the next thing that happens is
-> that after a 30s timeout something (the avocado framework?) sends
-> the QEMU process a SIGTERM, and there's a bunch of timeout related
-> python backtraces in the log.
-
-It looks like the subprocess wait in _soft_shutdown never returns. We
-assume that because wait() was called that the caller is expecting the
-VM to exit and has presumably already issued a "quit" or "halt" or
-equivalent, so the Machine code does not issue any further commands to
-ensure this happens.
-
-At this point, my guess is that -- based on your later issue filings
--- the "halt" command isn't actually getting processed because of the
-rapid console disconnect, so the machine.py code deadlocks waiting for
-QEMU to exit when it never will.
-
->
-> In comparison, with a pass
-> https://people.linaro.org/~peter.maydell/raspi-avocado-pass.log
-> the transition from DISCONNECTING to IDLE is followed within about
-> 5 seconds by a test pass.
->
-> So:
->
-> (1) has anybody looked at what's happening in this test in
-> particular?
-> (2) is it possible for avocado to log all of the communication
-> on the serial console? Currently the logging of what the guest
-> prints cuts out early (in both success and failure cases),
-> and what the test case sends to the guest is not logged at all
-
-The output logging being truncated is due to other problems as you've
-noticed in later issue filings.
-
-I think that Input logging could be added by overriding
-ConsoleSocket.send() in console_socket.py; see
-https://docs.python.org/3/library/socket.html#socket.socket.send for
-signature and use _drain_socket and/or recv() as a reference basis.
-You might want to not write to the same logfile to avoid an
-unreadable, interleaved mess. The data buffers here are, I think, not
-line-based and may not produce coherent interleaved output.
-
-Naive and untested:
-```
-    def send(self, data: bytes, flags: int = 0) -> bytes:
-        self._some_other_logfile.write(data)
-        self._some_other_logfile.flush()
-        return super().send(data, flags)
-```
-
-I am working on replacing machine.py with an async version which
-should solve some of the socket problems; but if you want a band-aid
-in the meantime I'm happy to take any patches to improve what we have
-in the short-term. I will probably focus my own efforts on just
-getting the rewrite in.
-
-> (3) what's the best way to debug this to figure out what's
-> actually happening?
->
-> I tried passing timeout=None to the self.vm.wait() call in
-> test_arm_raspi2_initrd(), which the comments in machine.py
-> is supposed to mean "wait forever", but that didn't actually
-> seem to change the timeout. (I had the idea of looking at
-> the status of the QEMU process etc at that point.)
-
-Hm ... The stack trace for the TimeoutExpired exception sure makes it
-look like the Machine appliance is hitting its own timeout (Should be
-at about 30 seconds -- matches what you observed), but if that's the
-case, passing timeout=None should have alleviated that -- up until you
-hit the Avocado timeout, at least.
-
-I'd expect the traceback output and failure mode to look a little
-different depending on which component decides to time out.
-
->
-> thanks
-> -- PMM
->
-
-"Thanks for the analysis, but, like, what are you going to do to fix
-any of this?"
-
-Long term, an asyncio version of machine.py will help alleviate these
-kinds of race conditions when dealing with multiple sockets from
-Python as our testing requirements become more complex.
-
-Short term, I'm not sure... I think removing the early socket close
-code will just cause new race condition deadlocks elsewhere. I
-recommend adding some kind of wait or flush to the socket code after
-sending a "halt" to ensure that the command goes through. You could
-also decide not to send "halt" and just use vm.shutdown() directly,
-which will use QMP to issue 'quit', which always waits to get a
-command success acknowledgment from QEMU which should avoid the
-problem too.
-
+TWF0aGV1cywNCg0KVGhpcyBwYXRjaCBmYWlscyBwcGMtc29mdG1tdSBlbXVsYXRpb246DQoN
+Cg0KRkFJTEVEOiBsaWJxZW11LXBwYy1zb2Z0bW11LmZhLnAvdGFyZ2V0X3BwY190cmFuc2xh
+dGUuYy5vDQpjYyAtbTY0IC1tY3gxNiAtSWxpYnFlbXUtcHBjLXNvZnRtbXUuZmEucCAtSS4g
+LUkuLiAtSXRhcmdldC9wcGMgLUkuLi90YXJnZXQvcHBjIC1JLi4vZHRjL2xpYmZkdCAtSXFh
+cGkgLUl0cmFjZSAtSXVpIC1JdWkvc2hhZGVyIC1JL3Vzci9pbmNsdWRlL3BpeG1hbi0xIC1J
+L3Vzci9pbmNsdWRlL2dsaWItMi4wIC1JL3Vzci9saWI2NC9nbGliLTIuMC9pbmNsdWRlIC1J
+L3Vzci9pbmNsdWRlL3N5c3Byb2YtNCAtZmRpYWdub3N0aWNzLWNvbG9yPWF1dG8gLVdhbGwg
+LVdpbnZhbGlkLXBjaCAtV2Vycm9yIC1zdGQ9Z251MTEgLU8yIC1nIC1pc3lzdGVtIC9ob21l
+L2RhbmllbGhiL3FlbXUvbGludXgtaGVhZGVycyAtaXN5c3RlbSBsaW51eC1oZWFkZXJzIC1p
+cXVvdGUgLiAtaXF1b3RlIC9ob21lL2RhbmllbGhiL3FlbXUgLWlxdW90ZSAvaG9tZS9kYW5p
+ZWxoYi9xZW11L2luY2x1ZGUgLWlxdW90ZSAvaG9tZS9kYW5pZWxoYi9xZW11L3RjZy9pMzg2
+IC1wdGhyZWFkIC1VX0ZPUlRJRllfU09VUkNFIC1EX0ZPUlRJRllfU09VUkNFPTIgLURfR05V
+X1NPVVJDRSAtRF9GSUxFX09GRlNFVF9CSVRTPTY0IC1EX0xBUkdFRklMRV9TT1VSQ0UgLVdz
+dHJpY3QtcHJvdG90eXBlcyAtV3JlZHVuZGFudC1kZWNscyAtV3VuZGVmIC1Xd3JpdGUtc3Ry
+aW5ncyAtV21pc3NpbmctcHJvdG90eXBlcyAtZm5vLXN0cmljdC1hbGlhc2luZyAtZm5vLWNv
+bW1vbiAtZndyYXB2IC1Xb2xkLXN0eWxlLWRlY2xhcmF0aW9uIC1Xb2xkLXN0eWxlLWRlZmlu
+aXRpb24gLVd0eXBlLWxpbWl0cyAtV2Zvcm1hdC1zZWN1cml0eSAtV2Zvcm1hdC15MmsgLVdp
+bml0LXNlbGYgLVdpZ25vcmVkLXF1YWxpZmllcnMgLVdlbXB0eS1ib2R5IC1XbmVzdGVkLWV4
+dGVybnMgLVdlbmRpZi1sYWJlbHMgLVdleHBhbnNpb24tdG8tZGVmaW5lZCAtV2ltcGxpY2l0
+LWZhbGx0aHJvdWdoPTIgLVduby1taXNzaW5nLWluY2x1ZGUtZGlycyAtV25vLXNoaWZ0LW5l
+Z2F0aXZlLXZhbHVlIC1Xbm8tcHNhYmkgLWZzdGFjay1wcm90ZWN0b3Itc3Ryb25nIC1mUElF
+IC1pc3lzdGVtLi4vbGludXgtaGVhZGVycyAtaXN5c3RlbWxpbnV4LWhlYWRlcnMgLURORUVE
+X0NQVV9IICctRENPTkZJR19UQVJHRVQ9InBwYy1zb2Z0bW11LWNvbmZpZy10YXJnZXQuaCIn
+ICctRENPTkZJR19ERVZJQ0VTPSJwcGMtc29mdG1tdS1jb25maWctZGV2aWNlcy5oIicgLU1E
+IC1NUSBsaWJxZW11LXBwYy1zb2Z0bW11LmZhLnAvdGFyZ2V0X3BwY190cmFuc2xhdGUuYy5v
+IC1NRiBsaWJxZW11LXBwYy1zb2Z0bW11LmZhLnAvdGFyZ2V0X3BwY190cmFuc2xhdGUuYy5v
+LmQgLW8gbGlicWVtdS1wcGMtc29mdG1tdS5mYS5wL3RhcmdldF9wcGNfdHJhbnNsYXRlLmMu
+byAtYyAuLi90YXJnZXQvcHBjL3RyYW5zbGF0ZS5jDQpJbiBmaWxlIGluY2x1ZGVkIGZyb20g
+Li4vdGFyZ2V0L3BwYy90cmFuc2xhdGUuYzoyMToNCkluIGZ1bmN0aW9uIOKAmHRyYW5zX01T
+R0NMUlDigJksDQogICAgIGlubGluZWQgZnJvbSDigJhkZWNvZGVfaW5zbjMy4oCZIGF0IGxp
+YnFlbXUtcHBjLXNvZnRtbXUuZmEucC9kZWNvZGUtaW5zbjMyLmMuaW5jOjMyNTA6MjEsDQog
+ICAgIGlubGluZWQgZnJvbSDigJhwcGNfdHJfdHJhbnNsYXRlX2luc27igJkgYXQgLi4vdGFy
+Z2V0L3BwYy90cmFuc2xhdGUuYzo3NTUyOjE1Og0KL2hvbWUvZGFuaWVsaGIvcWVtdS9pbmNs
+dWRlL3FlbXUvb3NkZXAuaDoxODQ6MzU6IGVycm9yOiBjYWxsIHRvIOKAmHFlbXVfYnVpbGRf
+bm90X3JlYWNoZWRfYWx3YXlz4oCZIGRlY2xhcmVkIHdpdGggYXR0cmlidXRlIGVycm9yOiBj
+b2RlIHBhdGggaXMgcmVhY2hhYmxlDQogICAxODQgfCAjZGVmaW5lIHFlbXVfYnVpbGRfbm90
+X3JlYWNoZWQoKSAgcWVtdV9idWlsZF9ub3RfcmVhY2hlZF9hbHdheXMoKQ0KICAgICAgIHwg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn4NCi4uL3RhcmdldC9wcGMvdHJhbnNsYXRlL3Byb2Nlc3Nvci1jdHJsLWlt
+cGwuYy5pbmM6Nzk6NTogbm90ZTogaW4gZXhwYW5zaW9uIG9mIG1hY3JvIOKAmHFlbXVfYnVp
+bGRfbm90X3JlYWNoZWTigJkNCiAgICA3OSB8ICAgICBxZW11X2J1aWxkX25vdF9yZWFjaGVk
+KCk7DQogICAgICAgfCAgICAgXn5+fn5+fn5+fn5+fn5+fn5+fn5+fg0KDQpUaGUgZXJyb3Ig
+aXMgZG93biB0aGVyZToNCg0KDQoNCg0KT24gMTAvNi8yMiAxNzowNiwgTWF0aGV1cyBGZXJz
+dCB3cm90ZToNCj4gU2lnbmVkLW9mZi1ieTogTWF0aGV1cyBGZXJzdCA8bWF0aGV1cy5mZXJz
+dEBlbGRvcmFkby5vcmcuYnI+DQo+IC0tLQ0KPiAgIHRhcmdldC9wcGMvaW5zbjMyLmRlY29k
+ZSAgICAgICAgICAgICAgICAgICAgICB8ICAyICsrDQo+ICAgdGFyZ2V0L3BwYy90cmFuc2xh
+dGUuYyAgICAgICAgICAgICAgICAgICAgICAgIHwgMjYgLS0tLS0tLS0tLS0tLS0tLS0tLQ0K
+PiAgIC4uLi9wcGMvdHJhbnNsYXRlL3Byb2Nlc3Nvci1jdHJsLWltcGwuYy5pbmMgICB8IDI0
+ICsrKysrKysrKysrKysrKysrDQo+ICAgMyBmaWxlcyBjaGFuZ2VkLCAyNiBpbnNlcnRpb25z
+KCspLCAyNiBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS90YXJnZXQvcHBjL2lu
+c24zMi5kZWNvZGUgYi90YXJnZXQvcHBjL2luc24zMi5kZWNvZGUNCj4gaW5kZXggYmJhNDlk
+ZWQxYi4uNWJhNGE2ODA3ZCAxMDA2NDQNCj4gLS0tIGEvdGFyZ2V0L3BwYy9pbnNuMzIuZGVj
+b2RlDQo+ICsrKyBiL3RhcmdldC9wcGMvaW5zbjMyLmRlY29kZQ0KPiBAQCAtOTEzLDMgKzkx
+Myw1IEBAIFRMQklFTCAgICAgICAgICAwMTExMTEgLi4uLi4gLSAuLiAuIC4gLi4uLi4gMDEw
+MDAxMDAxMCAtICAgICAgICAgICAgQFhfdGxiaWUNCj4gICANCj4gICBNU0dDTFIgICAgICAg
+ICAgMDExMTExIC0tLS0tIC0tLS0tIC4uLi4uIDAwMTExMDExMTAgLSAgIEBYX3JiDQo+ICAg
+TVNHU05EICAgICAgICAgIDAxMTExMSAtLS0tLSAtLS0tLSAuLi4uLiAwMDExMDAxMTEwIC0g
+ICBAWF9yYg0KPiArTVNHQ0xSUCAgICAgICAgIDAxMTExMSAtLS0tLSAtLS0tLSAuLi4uLiAw
+MDEwMTAxMTEwIC0gICBAWF9yYg0KPiArTVNHU05EUCAgICAgICAgIDAxMTExMSAtLS0tLSAt
+LS0tLSAuLi4uLiAwMDEwMDAxMTEwIC0gICBAWF9yYg0KPiBkaWZmIC0tZ2l0IGEvdGFyZ2V0
+L3BwYy90cmFuc2xhdGUuYyBiL3RhcmdldC9wcGMvdHJhbnNsYXRlLmMNCj4gaW5kZXggODg5
+Y2NhNjMyNS4uMDg3YWI4ZTY5ZCAxMDA2NDQNCj4gLS0tIGEvdGFyZ2V0L3BwYy90cmFuc2xh
+dGUuYw0KPiArKysgYi90YXJnZXQvcHBjL3RyYW5zbGF0ZS5jDQo+IEBAIC02MjQxLDI4ICs2
+MjQxLDYgQEAgc3RhdGljIHZvaWQgZ2VuX2ljYnRfNDQwKERpc2FzQ29udGV4dCAqY3R4KQ0K
+PiAgIA0KPiAgIC8qIEVtYmVkZGVkLlByb2Nlc3NvciBDb250cm9sICovDQo+ICAgDQo+IC0j
+aWYgZGVmaW5lZChUQVJHRVRfUFBDNjQpDQo+IC1zdGF0aWMgdm9pZCBnZW5fbXNnY2xycChE
+aXNhc0NvbnRleHQgKmN0eCkNCj4gLXsNCj4gLSNpZiBkZWZpbmVkKENPTkZJR19VU0VSX09O
+TFkpDQo+IC0gICAgR0VOX1BSSVYoY3R4KTsNCj4gLSNlbHNlDQo+IC0gICAgQ0hLX1NWKGN0
+eCk7DQo+IC0gICAgZ2VuX2hlbHBlcl9ib29rM3NfbXNnY2xycChjcHVfZW52LCBjcHVfZ3By
+W3JCKGN0eC0+b3Bjb2RlKV0pOw0KPiAtI2VuZGlmIC8qIGRlZmluZWQoQ09ORklHX1VTRVJf
+T05MWSkgKi8NCj4gLX0NCj4gLQ0KPiAtc3RhdGljIHZvaWQgZ2VuX21zZ3NuZHAoRGlzYXND
+b250ZXh0ICpjdHgpDQo+IC17DQo+IC0jaWYgZGVmaW5lZChDT05GSUdfVVNFUl9PTkxZKQ0K
+PiAtICAgIEdFTl9QUklWKGN0eCk7DQo+IC0jZWxzZQ0KPiAtICAgIENIS19TVihjdHgpOw0K
+PiAtICAgIGdlbl9oZWxwZXJfYm9vazNzX21zZ3NuZHAoY3B1X2VudiwgY3B1X2dwcltyQihj
+dHgtPm9wY29kZSldKTsNCj4gLSNlbmRpZiAvKiBkZWZpbmVkKENPTkZJR19VU0VSX09OTFkp
+ICovDQo+IC19DQo+IC0jZW5kaWYNCj4gLQ0KPiAgIHN0YXRpYyB2b2lkIGdlbl9tc2dzeW5j
+KERpc2FzQ29udGV4dCAqY3R4KQ0KPiAgIHsNCj4gICAjaWYgZGVmaW5lZChDT05GSUdfVVNF
+Ul9PTkxZKQ0KPiBAQCAtNjg5NiwxMCArNjg3NCw2IEBAIEdFTl9IQU5ETEVSKHZtbGFkZHVo
+bSwgMHgwNCwgMHgxMSwgMHhGRiwgMHgwMDAwMDAwMCwgUFBDX0FMVElWRUMpLA0KPiAgIEdF
+Tl9IQU5ETEVSX0UobWFkZGhkX21hZGRoZHUsIDB4MDQsIDB4MTgsIDB4RkYsIDB4MDAwMDAw
+MDAsIFBQQ19OT05FLA0KPiAgICAgICAgICAgICAgICAgUFBDMl9JU0EzMDApLA0KPiAgIEdF
+Tl9IQU5ETEVSX0UobWFkZGxkLCAweDA0LCAweDE5LCAweEZGLCAweDAwMDAwMDAwLCBQUENf
+Tk9ORSwgUFBDMl9JU0EzMDApLA0KPiAtR0VOX0hBTkRMRVIyX0UobXNnc25kcCwgIm1zZ3Nu
+ZHAiLCAweDFGLCAweDBFLCAweDA0LCAweDAzZmYwMDAxLA0KPiAtICAgICAgICAgICAgICAg
+UFBDX05PTkUsIFBQQzJfSVNBMjA3UyksDQo+IC1HRU5fSEFORExFUjJfRShtc2djbHJwLCAi
+bXNnY2xycCIsIDB4MUYsIDB4MEUsIDB4MDUsIDB4MDNmZjAwMDEsDQo+IC0gICAgICAgICAg
+ICAgICBQUENfTk9ORSwgUFBDMl9JU0EyMDdTKSwNCj4gICAjZW5kaWYNCj4gICANCj4gICAj
+dW5kZWYgR0VOX0lOVF9BUklUSF9BREQNCj4gZGlmZiAtLWdpdCBhL3RhcmdldC9wcGMvdHJh
+bnNsYXRlL3Byb2Nlc3Nvci1jdHJsLWltcGwuYy5pbmMgYi90YXJnZXQvcHBjL3RyYW5zbGF0
+ZS9wcm9jZXNzb3ItY3RybC1pbXBsLmMuaW5jDQo+IGluZGV4IDAxOTJiNDVjOGYuLjM3MDMw
+MDFmMzEgMTAwNjQ0DQo+IC0tLSBhL3RhcmdldC9wcGMvdHJhbnNsYXRlL3Byb2Nlc3Nvci1j
+dHJsLWltcGwuYy5pbmMNCj4gKysrIGIvdGFyZ2V0L3BwYy90cmFuc2xhdGUvcHJvY2Vzc29y
+LWN0cmwtaW1wbC5jLmluYw0KPiBAQCAtNjgsMyArNjgsMjcgQEAgc3RhdGljIGJvb2wgdHJh
+bnNfTVNHU05EKERpc2FzQ29udGV4dCAqY3R4LCBhcmdfWF9yYiAqYSkNCj4gICAjZW5kaWYN
+Cj4gICAgICAgcmV0dXJuIHRydWU7DQo+ICAgfQ0KPiArDQo+ICtzdGF0aWMgYm9vbCB0cmFu
+c19NU0dDTFJQKERpc2FzQ29udGV4dCAqY3R4LCBhcmdfWF9yYiAqYSkNCj4gK3sNCj4gKyAg
+ICBSRVFVSVJFX0lOU05TX0ZMQUdTMihjdHgsIElTQTIwN1MpOw0KPiArICAgIFJFUVVJUkVf
+U1YoY3R4KTsNCj4gKyNpZiAhZGVmaW5lZChDT05GSUdfVVNFUl9PTkxZKSAmJiBkZWZpbmVk
+KFRBUkdFVF9QUEM2NCkNCj4gKyAgICBnZW5faGVscGVyX2Jvb2szc19tc2djbHJwKGNwdV9l
+bnYsIGNwdV9ncHJbYS0+cmJdKTsNCj4gKyNlbHNlDQo+ICsgICAgcWVtdV9idWlsZF9ub3Rf
+cmVhY2hlZCgpOw0KDQoNCl4gaGVyZS4gQW5kIGFsc28NCg0KDQoNCj4gKyNlbmRpZg0KPiAr
+ICAgIHJldHVybiB0cnVlOw0KPiArfQ0KPiArDQo+ICtzdGF0aWMgYm9vbCB0cmFuc19NU0dT
+TkRQKERpc2FzQ29udGV4dCAqY3R4LCBhcmdfWF9yYiAqYSkNCj4gK3sNCj4gKyAgICBSRVFV
+SVJFX0lOU05TX0ZMQUdTMihjdHgsIElTQTIwN1MpOw0KPiArICAgIFJFUVVJUkVfU1YoY3R4
+KTsNCj4gKyNpZiAhZGVmaW5lZChDT05GSUdfVVNFUl9PTkxZKSAmJiBkZWZpbmVkKFRBUkdF
+VF9QUEM2NCkNCj4gKyAgICBnZW5faGVscGVyX2Jvb2szc19tc2dzbmRwKGNwdV9lbnYsIGNw
+dV9ncHJbYS0+cmJdKTsNCj4gKyNlbHNlDQo+ICsgICAgcWVtdV9idWlsZF9ub3RfcmVhY2hl
+ZCgpOw0KDQoNCl4gaGVyZS4gSXQgc2VlbXMgbGlrZSB5b3UncmUgZmlsdGVyaW5nIGZvciBU
+QVJHRVRfUFBDNjQgYnV0IHlvdSdyZSBub3QNCmd1YXJkaW5nIGZvciBpdCwgYW5kIHRoZSBx
+ZW11X2J1aWxkX25vdF9yZWFjaGVkKCkgaXMgYmVpbmcgaGl0Lg0KDQoNCkkgZml4ZWQgYnkg
+c3F1YXNoaW5nIHRoaXMgaW46DQoNCmRpZmYgLS1naXQgYS90YXJnZXQvcHBjL3RyYW5zbGF0
+ZS9wcm9jZXNzb3ItY3RybC1pbXBsLmMuaW5jIGIvdGFyZ2V0L3BwYy90cmFuc2xhdGUvcHJv
+Y2Vzc29yLWN0cmwtaW1wbC5jLmluYw0KaW5kZXggZjI1MzIyNmE3NS4uZmYyMzFkYjFhZiAx
+MDA2NDQNCi0tLSBhL3RhcmdldC9wcGMvdHJhbnNsYXRlL3Byb2Nlc3Nvci1jdHJsLWltcGwu
+Yy5pbmMNCisrKyBiL3RhcmdldC9wcGMvdHJhbnNsYXRlL3Byb2Nlc3Nvci1jdHJsLWltcGwu
+Yy5pbmMNCkBAIC03Myw2ICs3Myw3IEBAIHN0YXRpYyBib29sIHRyYW5zX01TR0NMUlAoRGlz
+YXNDb250ZXh0ICpjdHgsIGFyZ19YX3JiICphKQ0KICB7DQogICAgICBSRVFVSVJFX0lOU05T
+X0ZMQUdTMihjdHgsIElTQTIwN1MpOw0KICAgICAgUkVRVUlSRV9TVihjdHgpOw0KKyAgICBS
+RVFVSVJFXzY0QklUKGN0eCk7DQogICNpZiAhZGVmaW5lZChDT05GSUdfVVNFUl9PTkxZKSAm
+JiBkZWZpbmVkKFRBUkdFVF9QUEM2NCkNCiAgICAgIGdlbl9oZWxwZXJfYm9vazNzX21zZ2Ns
+cnAoY3B1X2VudiwgY3B1X2dwclthLT5yYl0pOw0KICAjZWxzZQ0KQEAgLTg1LDYgKzg2LDcg
+QEAgc3RhdGljIGJvb2wgdHJhbnNfTVNHU05EUChEaXNhc0NvbnRleHQgKmN0eCwgYXJnX1hf
+cmIgKmEpDQogIHsNCiAgICAgIFJFUVVJUkVfSU5TTlNfRkxBR1MyKGN0eCwgSVNBMjA3Uyk7
+DQogICAgICBSRVFVSVJFX1NWKGN0eCk7DQorICAgIFJFUVVJUkVfNjRCSVQoY3R4KTsNCiAg
+I2lmICFkZWZpbmVkKENPTkZJR19VU0VSX09OTFkpICYmIGRlZmluZWQoVEFSR0VUX1BQQzY0
+KQ0KICAgICAgZ2VuX2hlbHBlcl9ib29rM3NfbXNnc25kcChjcHVfZW52LCBjcHVfZ3ByW2Et
+PnJiXSk7DQogICNlbHNlDQoNCg0KSWYgeW91IHRoaW5rIHRoaXMgZml4IGlzIGFjY2VwdGFi
+bGUgeW91IGNhbiBjb25zaWRlciB0aGlzIHBhdGNoIGFja2VkIGFzIHdlbGwuDQoNCg0KVGhh
+bmtzLA0KDQoNCkRhbmllbA0KDQo+ICsjZW5kaWYNCj4gKyAgICByZXR1cm4gdHJ1ZTsNCj4g
+K30NCg==
 
