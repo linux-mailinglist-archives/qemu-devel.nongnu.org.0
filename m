@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CADB60465E
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 15:08:49 +0200 (CEST)
-Received: from localhost ([::1]:47368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00852604665
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 15:09:27 +0200 (CEST)
+Received: from localhost ([::1]:52998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ol8oS-0005uN-4p
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 09:08:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36424)
+	id 1ol8p4-0007cq-U4
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 09:09:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ol8Yg-0005tw-6w
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 08:52:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33105)
+ id 1ol8Yj-00069W-UH
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 08:52:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ol8Yd-0002Gc-17
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 08:52:29 -0400
+ id 1ol8Yh-0002H9-4j
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 08:52:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666183945;
+ s=mimecast20190719; t=1666183950;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=yu6+ZMnyRMzz8DCissTykVrm3bd+EJbtvyNtvffS1zE=;
- b=AbIFMwVeOnMCHQ1c5OPuihxX+M4993JdIrd9pGcthLyKFAVemG6JLh2TuSXNtFIyDJbeTH
- zNVBromN4mM+zeUMVK3kwPuLlqemRHbKk0TDNuBqlwavmihym6YzIyPeCrG29GQhpM069D
- HEyTVJS87CD7buxmO9IBEQwSvqFROXo=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HQqvvXt2mnDRPwk4MtdkOd7P1aVjVbus7fcouF/Xkqk=;
+ b=PUfhklVD88cJrWUFiKhKVUJbG+os4b63jnzv6bwZ6Y10o38/puBi3WtVOpVjVqP0Glqpyi
+ ZEIKYT/OzQlKSxGZYrYS85lXxM1iUfPXJ4BwleMB4GLt8OWXUMAO/5gqEvJdmHlu90Fx1+
+ Pbn95bZx40pFUFk2XN4gfs9MFvrIDqo=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-219-MemkbNqIPke_eZwCzC7uFA-1; Wed, 19 Oct 2022 08:52:18 -0400
-X-MC-Unique: MemkbNqIPke_eZwCzC7uFA-1
+ us-mta-343-lK_47yIgOyeIbFsMlW1N5A-1; Wed, 19 Oct 2022 08:52:21 -0400
+X-MC-Unique: lK_47yIgOyeIbFsMlW1N5A-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D5137185A792;
- Wed, 19 Oct 2022 12:52:17 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 81C9385A59D;
+ Wed, 19 Oct 2022 12:52:20 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7224E4081B60;
- Wed, 19 Oct 2022 12:52:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2936D4081B60;
+ Wed, 19 Oct 2022 12:52:18 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Zhu Lingshan <lingshan.zhu@intel.com>,
@@ -52,13 +53,14 @@ Cc: Zhu Lingshan <lingshan.zhu@intel.com>,
  Laurent Vivier <lvivier@redhat.com>, Eli Cohen <eli@mellanox.com>,
  Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>,
  Gautam Dawar <gdawar@xilinx.com>
-Subject: [RFC PATCH v2 0/8] Guest announce feature emulation using Shadow
- VirtQueue
-Date: Wed, 19 Oct 2022 14:52:02 +0200
-Message-Id: <20221019125210.226291-1-eperezma@redhat.com>
+Subject: [RFC PATCH v2 1/8] vdpa: Delete duplicated vdpa_feature_bits entry
+Date: Wed, 19 Oct 2022 14:52:03 +0200
+Message-Id: <20221019125210.226291-2-eperezma@redhat.com>
+In-Reply-To: <20221019125210.226291-1-eperezma@redhat.com>
+References: <20221019125210.226291-1-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -84,48 +86,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A gratuitous ARP is recommended after a live migration to reduce the amount=
- of=0D
-time needed by the network links to be aware of the new location. A hypervi=
-sor=0D
-may not have the knowledge of the guest network configuration, and this is=
-=0D
-especially true on passthrough devices, so its simpler to ask the guest to=
-=0D
-do it.=0D
-=0D
-However, the device control part of this feature can be totally emulated by=
-=0D
-qemu and shadow virtqueue, not needing any special feature from the actual=
-=0D
-vdpa device.=0D
-=0D
-VIRTIO_NET_F_STATUS is also needed for the guest to access the status of=0D
-virtio net config where announcement status bit is set. Emulating it as=0D
-always active in case backend does not support it.=0D
-=0D
-v2:=0D
-* Add VIRTIO_NET_F_STATUS emulation.=0D
-=0D
-Eugenio P=C3=A9rez (8):=0D
-  vdpa: Delete duplicated vdpa_feature_bits entry=0D
-  vdpa: Save emulated features list in vhost_vdpa=0D
-  vhost_net: Emulate link state up if backend doesn't expose it=0D
-  vdpa: Expose VIRTIO_NET_F_STATUS unconditionally=0D
-  vdpa: Remove shadow CVQ command check=0D
-  vdpa: handle VIRTIO_NET_CTRL_ANNOUNCE in=0D
-    vhost_vdpa_net_handle_ctrl_avail=0D
-  vhost_net: return VIRTIO_NET_S_ANNOUNCE is device model has it set=0D
-  vdpa: Offer VIRTIO_NET_F_GUEST_ANNOUNCE feature if SVQ is enabled=0D
-=0D
- include/hw/virtio/vhost-vdpa.h |  2 +=0D
- hw/net/vhost_net.c             | 35 +++++++++++++++-=0D
- hw/virtio/vhost-vdpa.c         |  8 ++--=0D
- net/vhost-vdpa.c               | 74 ++++++++++------------------------=0D
- 4 files changed, 62 insertions(+), 57 deletions(-)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+This entry was duplicated on referenced commit. Removing it.
+
+Fixes: 402378407dbd ("vhost-vdpa: multiqueue support")
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
+ net/vhost-vdpa.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 4bc3fd01a8..eebf29f5c1 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -63,7 +63,6 @@ const int vdpa_feature_bits[] = {
+     VIRTIO_NET_F_CTRL_RX,
+     VIRTIO_NET_F_CTRL_RX_EXTRA,
+     VIRTIO_NET_F_CTRL_VLAN,
+-    VIRTIO_NET_F_GUEST_ANNOUNCE,
+     VIRTIO_NET_F_CTRL_MAC_ADDR,
+     VIRTIO_NET_F_RSS,
+     VIRTIO_NET_F_MQ,
+-- 
+2.31.1
 
 
