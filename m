@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF49B604ADE
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 17:12:55 +0200 (CEST)
-Received: from localhost ([::1]:53002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFF77604ADB
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 17:12:48 +0200 (CEST)
+Received: from localhost ([::1]:39466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olAkY-000297-Vq
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 11:12:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56948)
+	id 1olAkR-0001ix-U1
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 11:12:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1olAeN-0000br-Ib
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 11:06:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34465)
+ id 1olAeb-0000hl-6P
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 11:06:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37257)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1olAeK-0000Mu-V6
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 11:06:31 -0400
+ id 1olAeY-0000Nv-0H
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 11:06:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666191986;
+ s=mimecast20190719; t=1666191998;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TJutn04GsnDUciIRck6NVbmsZUgHVUtXA9ajB4916jI=;
- b=fJxR8oaOGLp6xKkrcv3lldU5dC1jKpIi276v0dD8iUEs/cbVsBga9CBrXfK1HQpmTGwzOw
- b3VIOBXhRXpS/eBfTdy2TjAq3s36bCTr9rwyeumZ6MHxd+i+YBsgkzIcqwVFhJO2NtEsUM
- CVWbHDHwRyQjq5U19Vhlr2kcqqtIJk8=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=QdW25JEazp4fkGyWBCIWKu/1zxBFt5ExPhAl8EyBl94=;
+ b=F36QWTETQFEAD4wq7tbAJriwbyEHV4YdOmPQpwIFqfvhlRr+G3Szeptsj2P5Vmrus+mzne
+ s/HinGntovwkcchF9ybJ73wyOt4ht6JuDPkVzcTWQCWJtWXAgtPrZa8cUhsF7dQIPugr0p
+ cxp84u2nrmU4YSbrkr7hHPo4z8GAv0Y=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-542-g2h2Qh5EMcecwU2S2g_Psw-1; Wed, 19 Oct 2022 11:06:25 -0400
-X-MC-Unique: g2h2Qh5EMcecwU2S2g_Psw-1
-Received: by mail-qt1-f199.google.com with SMTP id
- d1-20020ac80601000000b00388b0fc84beso12957058qth.3
- for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 08:06:25 -0700 (PDT)
+ us-mta-596-vH32FeZfMcCP742V9xLt-Q-1; Wed, 19 Oct 2022 11:06:29 -0400
+X-MC-Unique: vH32FeZfMcCP742V9xLt-Q-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ i7-20020a0cab47000000b004b4376895bfso10960734qvb.20
+ for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 08:06:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=TJutn04GsnDUciIRck6NVbmsZUgHVUtXA9ajB4916jI=;
- b=Zv+lAjtiK0v4mzykWSMrMC7RqDefY6Ruh3omM/SH/WeGplLe8/g6Sz1m8N/ysu79QO
- hnSRkXexF48ZY5R8t+9TI0nV1Zy2LhbMxUlzw0k6U81GbUZEz9U3up85fCTsdiJ7fvQa
- vUiKbMnSt840V0zsHq7rYQtprRM8z716m9tN6bLRnXWwA8FC00cePxpA9x5TSt9OTkUH
- muZCoJs24hK4PxjV96NQFlKQvyHeMruaKDl6WHligY7Uw6f6PzSOMMrvfOVkMZqTKDG8
- hsppn2U1EuFe6g7wuajRiKoC2X/sFGV/XORnqaDRbo5bNF4u9fBZd/4SIEhiz49NAlCh
- SoRQ==
-X-Gm-Message-State: ACrzQf2pIr/nPoV4quFT5BmQcEj/yS/FwzpUOq3PI+TVRvkWX+xjeHYI
- X5b4dybZ9rJ16rmQZ3Kak0ukXfAPO4YaYntob2Tvp7Z6D/GSXIKdA6Phzn47RXhRcD+iXknWP8F
- BFlQFyfzjuV9lekGB9GMFklhFXnSTHNq+iLTyQluLsimC0E95L49MVhRHyxRx3e8vyeY=
-X-Received: by 2002:ad4:5bc5:0:b0:4af:b21d:2ad7 with SMTP id
- t5-20020ad45bc5000000b004afb21d2ad7mr6833860qvt.112.1666191984677; 
- Wed, 19 Oct 2022 08:06:24 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6Q092MEWdETJsg7abMCghIcg5wzJAFm0s6nRNgFnHoz+LqF9FANgI8F9vo5aG3ocVkLN3oEA==
-X-Received: by 2002:ad4:5bc5:0:b0:4af:b21d:2ad7 with SMTP id
- t5-20020ad45bc5000000b004afb21d2ad7mr6833803qvt.112.1666191984211; 
- Wed, 19 Oct 2022 08:06:24 -0700 (PDT)
+ bh=QdW25JEazp4fkGyWBCIWKu/1zxBFt5ExPhAl8EyBl94=;
+ b=5CvKXmMx3UE5Z0lZQ5SVKZt3oPo/J1Fj9alZfr1IAfio73Gyv/CjlUQ9IfhurfZHEu
+ qlK57Sy3+bvdHHtrunoLvIEf2aYb4VS0IO8xA8ttOTWyVJIAFX491gmUAeostjfXfzbx
+ 65yNaZNoM6c5hYuQ6elxKP0Yiu6pO4+apion/zy6cRFjr6B07dtp6PzQx4xpwqs94Ime
+ jW/P9XG4sjZAWQ28B7D6TKmPQV8+ekucFeD/XU0AMH9m4qwg3ieCJ60z4cNn5PSaLHX8
+ 7M+dRDiUBmzfaP9w4iHnW0mPfUehHDngHTdd10XpZLU7RMw9zGqRCwdpgLeINJg3pWkj
+ m9hw==
+X-Gm-Message-State: ACrzQf1mlHWo9KZrECaJGVkqoO6WcQAPIvyiSQyI+WwJ/15F7JH+RGg2
+ KyNlZgcweA6zwYFUhAzVI6rbzTkXsCbrgwYMIfqOOLF45PqGl5eocPTfq868J15tucEQdx3S0pD
+ aXsiNmxfjIgDpPPbMOFwZJF+ZBB+vZ3mKEydzPgaIpLhAuNqV5V9VLuQVTKtp1OY4IRU=
+X-Received: by 2002:a05:622a:10b:b0:39c:e3ae:b790 with SMTP id
+ u11-20020a05622a010b00b0039ce3aeb790mr6955460qtw.306.1666191988405; 
+ Wed, 19 Oct 2022 08:06:28 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7iiZJ5e714jiH5CNzDSb5+4GpoTKdyMjo5gRquhItBsR18JmF0fj2Gb2r3/jnrgf7kA3iDrw==
+X-Received: by 2002:a05:622a:10b:b0:39c:e3ae:b790 with SMTP id
+ u11-20020a05622a010b00b0039ce3aeb790mr6955398qtw.306.1666191987820; 
+ Wed, 19 Oct 2022 08:06:27 -0700 (PDT)
 Received: from avogadro.local (nat-pool-mxp-u.redhat.com. [149.6.153.187])
  by smtp.gmail.com with ESMTPSA id
- u10-20020a05620a0c4a00b006bb2cd2f6d1sm4946811qki.127.2022.10.19.08.06.23
+ n14-20020ac85a0e000000b0039ad65104fasm4451423qta.12.2022.10.19.08.06.26
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Oct 2022 08:06:23 -0700 (PDT)
+ Wed, 19 Oct 2022 08:06:27 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] target/i386: introduce function to set rounding mode from
- FPCW or MXCSR bits
-Date: Wed, 19 Oct 2022 17:06:14 +0200
-Message-Id: <20221019150616.929463-3-pbonzini@redhat.com>
+Subject: [PATCH 3/4] target/i386: implement F16C instructions
+Date: Wed, 19 Oct 2022 17:06:15 +0200
+Message-Id: <20221019150616.929463-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221019150616.929463-1-pbonzini@redhat.com>
 References: <20221019150616.929463-1-pbonzini@redhat.com>
@@ -101,206 +100,322 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VROUND, FSTCW and STMXCSR all have to perform the same conversion from
-x86 rounding modes to softfloat constants.  Since the ISA is consistent
-on the meaning of the two-bit rounding modes, extract the common code
-into a wrapper for set_float_rounding_mode.
+F16C only consists of two instructions, which are a bit peculiar
+nevertheless.
+
+First, they access only the low half of an YMM or XMM register for the
+packed-half operand; the exact size still depends on the VEX.L flag.
+This is similar to the existing avx_movx flag, but not exactly because
+avx_movx is hardcoded to affect operand 2.  To this end I added a "ph"
+format name; it's possible to reuse this approach for the VPMOVSX and
+VPMOVZX instructions, though that would also require adding two more
+formats for the low-quarter and low-eighth of an operand.
+
+Second, VCVTPS2PH is somewhat weird because it *stores* the result of
+the instruction into memory rather than loading it.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/ops_sse.h        | 60 +++---------------------------------
- target/i386/tcg/fpu_helper.c | 60 +++++++++++++-----------------------
- 2 files changed, 25 insertions(+), 95 deletions(-)
+ target/i386/cpu.c                |  5 ++---
+ target/i386/cpu.h                |  3 +++
+ target/i386/ops_sse.h            | 29 +++++++++++++++++++++++++++++
+ target/i386/ops_sse_header.h     |  6 ++++++
+ target/i386/tcg/decode-new.c.inc |  8 ++++++++
+ target/i386/tcg/decode-new.h     |  2 ++
+ target/i386/tcg/emit.c.inc       | 17 ++++++++++++++++-
+ tests/tcg/i386/test-avx.c        | 17 +++++++++++++++++
+ tests/tcg/i386/test-avx.py       |  8 ++++++--
+ 9 files changed, 89 insertions(+), 6 deletions(-)
 
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 0ebd610faa..6292b7e12f 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -625,13 +625,12 @@ void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
+           CPUID_EXT_SSE41 | CPUID_EXT_SSE42 | CPUID_EXT_POPCNT | \
+           CPUID_EXT_XSAVE | /* CPUID_EXT_OSXSAVE is dynamic */   \
+           CPUID_EXT_MOVBE | CPUID_EXT_AES | CPUID_EXT_HYPERVISOR | \
+-          CPUID_EXT_RDRAND | CPUID_EXT_AVX)
++          CPUID_EXT_RDRAND | CPUID_EXT_AVX | CPUID_EXT_F16C)
+           /* missing:
+           CPUID_EXT_DTES64, CPUID_EXT_DSCPL, CPUID_EXT_VMX, CPUID_EXT_SMX,
+           CPUID_EXT_EST, CPUID_EXT_TM2, CPUID_EXT_CID, CPUID_EXT_FMA,
+           CPUID_EXT_XTPR, CPUID_EXT_PDCM, CPUID_EXT_PCID, CPUID_EXT_DCA,
+-          CPUID_EXT_X2APIC, CPUID_EXT_TSC_DEADLINE_TIMER,
+-          CPUID_EXT_F16C */
++          CPUID_EXT_X2APIC, CPUID_EXT_TSC_DEADLINE_TIMER */
+ 
+ #ifdef TARGET_X86_64
+ #define TCG_EXT2_X86_64_FEATURES (CPUID_EXT2_SYSCALL | CPUID_EXT2_LM)
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index dad2b2db8d..d4bc19577a 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1258,6 +1258,7 @@ typedef union ZMMReg {
+     uint16_t _w_ZMMReg[512 / 16];
+     uint32_t _l_ZMMReg[512 / 32];
+     uint64_t _q_ZMMReg[512 / 64];
++    float16  _h_ZMMReg[512 / 16];
+     float32  _s_ZMMReg[512 / 32];
+     float64  _d_ZMMReg[512 / 64];
+     XMMReg   _x_ZMMReg[512 / 128];
+@@ -1282,6 +1283,7 @@ typedef struct BNDCSReg {
+ #define ZMM_B(n) _b_ZMMReg[63 - (n)]
+ #define ZMM_W(n) _w_ZMMReg[31 - (n)]
+ #define ZMM_L(n) _l_ZMMReg[15 - (n)]
++#define ZMM_H(n) _h_ZMMReg[31 - (n)]
+ #define ZMM_S(n) _s_ZMMReg[15 - (n)]
+ #define ZMM_Q(n) _q_ZMMReg[7 - (n)]
+ #define ZMM_D(n) _d_ZMMReg[7 - (n)]
+@@ -1301,6 +1303,7 @@ typedef struct BNDCSReg {
+ #define ZMM_B(n) _b_ZMMReg[n]
+ #define ZMM_W(n) _w_ZMMReg[n]
+ #define ZMM_L(n) _l_ZMMReg[n]
++#define ZMM_H(n) _h_ZMMReg[n]
+ #define ZMM_S(n) _s_ZMMReg[n]
+ #define ZMM_Q(n) _q_ZMMReg[n]
+ #define ZMM_D(n) _d_ZMMReg[n]
 diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
-index d35fc15c65..0799712f6e 100644
+index 0799712f6e..33c61896ee 100644
 --- a/target/i386/ops_sse.h
 +++ b/target/i386/ops_sse.h
-@@ -1684,20 +1684,7 @@ void glue(helper_roundps, SUFFIX)(CPUX86State *env, Reg *d, Reg *s,
- 
-     prev_rounding_mode = env->sse_status.float_rounding_mode;
-     if (!(mode & (1 << 2))) {
--        switch (mode & 3) {
--        case 0:
--            set_float_rounding_mode(float_round_nearest_even, &env->sse_status);
--            break;
--        case 1:
--            set_float_rounding_mode(float_round_down, &env->sse_status);
--            break;
--        case 2:
--            set_float_rounding_mode(float_round_up, &env->sse_status);
--            break;
--        case 3:
--            set_float_rounding_mode(float_round_to_zero, &env->sse_status);
--            break;
--        }
-+        set_x86_rounding_mode(mode & 3, &env->sse_status);
+@@ -586,6 +586,35 @@ void glue(helper_cvtpd2ps, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
      }
- 
-     for (i = 0; i < 2 << SHIFT; i++) {
-@@ -1721,20 +1708,7 @@ void glue(helper_roundpd, SUFFIX)(CPUX86State *env, Reg *d, Reg *s,
- 
-     prev_rounding_mode = env->sse_status.float_rounding_mode;
-     if (!(mode & (1 << 2))) {
--        switch (mode & 3) {
--        case 0:
--            set_float_rounding_mode(float_round_nearest_even, &env->sse_status);
--            break;
--        case 1:
--            set_float_rounding_mode(float_round_down, &env->sse_status);
--            break;
--        case 2:
--            set_float_rounding_mode(float_round_up, &env->sse_status);
--            break;
--        case 3:
--            set_float_rounding_mode(float_round_to_zero, &env->sse_status);
--            break;
--        }
-+        set_x86_rounding_mode(mode & 3, &env->sse_status);
-     }
- 
-     for (i = 0; i < 1 << SHIFT; i++) {
-@@ -1759,20 +1733,7 @@ void glue(helper_roundss, SUFFIX)(CPUX86State *env, Reg *d, Reg *v, Reg *s,
- 
-     prev_rounding_mode = env->sse_status.float_rounding_mode;
-     if (!(mode & (1 << 2))) {
--        switch (mode & 3) {
--        case 0:
--            set_float_rounding_mode(float_round_nearest_even, &env->sse_status);
--            break;
--        case 1:
--            set_float_rounding_mode(float_round_down, &env->sse_status);
--            break;
--        case 2:
--            set_float_rounding_mode(float_round_up, &env->sse_status);
--            break;
--        case 3:
--            set_float_rounding_mode(float_round_to_zero, &env->sse_status);
--            break;
--        }
-+        set_x86_rounding_mode(mode & 3, &env->sse_status);
-     }
- 
-     d->ZMM_S(0) = float32_round_to_int(s->ZMM_S(0), &env->sse_status);
-@@ -1797,20 +1758,7 @@ void glue(helper_roundsd, SUFFIX)(CPUX86State *env, Reg *d, Reg *v, Reg *s,
- 
-     prev_rounding_mode = env->sse_status.float_rounding_mode;
-     if (!(mode & (1 << 2))) {
--        switch (mode & 3) {
--        case 0:
--            set_float_rounding_mode(float_round_nearest_even, &env->sse_status);
--            break;
--        case 1:
--            set_float_rounding_mode(float_round_down, &env->sse_status);
--            break;
--        case 2:
--            set_float_rounding_mode(float_round_up, &env->sse_status);
--            break;
--        case 3:
--            set_float_rounding_mode(float_round_to_zero, &env->sse_status);
--            break;
--        }
-+        set_x86_rounding_mode(mode & 3, &env->sse_status);
-     }
- 
-     d->ZMM_D(0) = float64_round_to_int(s->ZMM_D(0), &env->sse_status);
-diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
-index a6a90a1817..6f3741b635 100644
---- a/target/i386/tcg/fpu_helper.c
-+++ b/target/i386/tcg/fpu_helper.c
-@@ -32,7 +32,8 @@
- #define ST(n)  (env->fpregs[(env->fpstt + (n)) & 7].d)
- #define ST1    ST(1)
- 
--#define FPU_RC_MASK         0xc00
-+#define FPU_RC_SHIFT        10
-+#define FPU_RC_MASK         (3 << FPU_RC_SHIFT)
- #define FPU_RC_NEAR         0x000
- #define FPU_RC_DOWN         0x400
- #define FPU_RC_UP           0x800
-@@ -685,28 +686,26 @@ uint32_t helper_fnstcw(CPUX86State *env)
-     return env->fpuc;
  }
  
-+static void set_x86_rounding_mode(unsigned mode, float_status *status)
++#if SHIFT >= 1
++void glue(helper_cvtph2ps, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
 +{
-+    static FloatRoundMode x86_round_mode[4] = {
-+        float_round_nearest_even,
-+        float_round_down,
-+        float_round_up,
-+        float_round_to_zero
-+    };
-+    assert(mode < ARRAY_SIZE(x86_round_mode));
-+    set_float_rounding_mode(x86_round_mode[mode], status);
++    int i;
++
++    for (i = 2 << SHIFT; --i >= 0; ) {
++         d->ZMM_S(i) = float16_to_float32(s->ZMM_H(i), true, &env->sse_status);
++    }
 +}
 +
- void update_fp_status(CPUX86State *env)
++void glue(helper_cvtps2ph, SUFFIX)(CPUX86State *env, Reg *d, Reg *s, int mode)
++{
++    int i;
++    FloatRoundMode prev_rounding_mode = env->sse_status.float_rounding_mode;
++    if (!(mode & (1 << 2))) {
++        set_x86_rounding_mode(mode & 3, &env->sse_status);
++    }
++
++    for (i = 0; i < 2 << SHIFT; i++) {
++        d->ZMM_H(i) = float32_to_float16(s->ZMM_S(i), true, &env->sse_status);
++    }
++    for (i >>= 2; i < 1 << SHIFT; i++) {
++        d->Q(i) = 0;
++    }
++
++    env->sse_status.float_rounding_mode = prev_rounding_mode;
++}
++#endif
++
+ #if SHIFT == 1
+ void helper_cvtss2sd(CPUX86State *env, Reg *d, Reg *v, Reg *s)
  {
--    FloatRoundMode rnd_mode;
-+    int rnd_mode;
-     FloatX80RoundPrec rnd_prec;
+diff --git a/target/i386/ops_sse_header.h b/target/i386/ops_sse_header.h
+index 2f1f811f9f..c4c41976c0 100644
+--- a/target/i386/ops_sse_header.h
++++ b/target/i386/ops_sse_header.h
+@@ -353,6 +353,12 @@ DEF_HELPER_4(glue(aeskeygenassist, SUFFIX), void, env, Reg, Reg, i32)
+ DEF_HELPER_5(glue(pclmulqdq, SUFFIX), void, env, Reg, Reg, Reg, i32)
+ #endif
  
-     /* set rounding mode */
--    switch (env->fpuc & FPU_RC_MASK) {
--    default:
--    case FPU_RC_NEAR:
--        rnd_mode = float_round_nearest_even;
--        break;
--    case FPU_RC_DOWN:
--        rnd_mode = float_round_down;
--        break;
--    case FPU_RC_UP:
--        rnd_mode = float_round_up;
--        break;
--    case FPU_RC_CHOP:
--        rnd_mode = float_round_to_zero;
--        break;
--    }
--    set_float_rounding_mode(rnd_mode, &env->fp_status);
-+    rnd_mode = (env->fpuc & FPU_RC_MASK) >> FPU_RC_SHIFT;
-+    set_x86_rounding_mode(rnd_mode, &env->fp_status);
++/* F16C helpers */
++#if SHIFT >= 1
++DEF_HELPER_3(glue(cvtph2ps, SUFFIX), void, env, Reg, Reg)
++DEF_HELPER_4(glue(cvtps2ph, SUFFIX), void, env, Reg, Reg, int)
++#endif
++
+ /* AVX helpers */
+ #if SHIFT >= 1
+ DEF_HELPER_4(glue(vpermilpd, SUFFIX), void, env, Reg, Reg, Reg)
+diff --git a/target/i386/tcg/decode-new.c.inc b/target/i386/tcg/decode-new.c.inc
+index 8e1eb9db42..8baee9018a 100644
+--- a/target/i386/tcg/decode-new.c.inc
++++ b/target/i386/tcg/decode-new.c.inc
+@@ -336,6 +336,7 @@ static const X86OpEntry opcodes_0F38_00toEF[240] = {
+     [0x07] = X86_OP_ENTRY3(PHSUBSW,   V,x,  H,x,   W,x,  vex4 cpuid(SSSE3) mmx avx2_256 p_00_66),
  
-     switch ((env->fpuc >> 8) & 3) {
-     case 0:
-@@ -3038,11 +3037,8 @@ void helper_xsetbv(CPUX86State *env, uint32_t ecx, uint64_t mask)
- /* XXX: optimize by storing fptt and fptags in the static cpu state */
+     [0x10] = X86_OP_ENTRY2(PBLENDVB,  V,x,         W,x,  vex4 cpuid(SSE41) avx2_256 p_66),
++    [0x13] = X86_OP_ENTRY2(VCVTPH2PS, V,x,         W,ph, vex11 cpuid(F16C) p_66),
+     [0x14] = X86_OP_ENTRY2(BLENDVPS,  V,x,         W,x,  vex4 cpuid(SSE41) p_66),
+     [0x15] = X86_OP_ENTRY2(BLENDVPD,  V,x,         W,x,  vex4 cpuid(SSE41) p_66),
+     /* Listed incorrectly as type 4 */
+@@ -525,6 +526,7 @@ static const X86OpEntry opcodes_0F3A[256] = {
+     [0x15] = X86_OP_ENTRY3(PEXTRW,     E,w,  V,dq, I,b,  vex5 cpuid(SSE41) zext0 p_66),
+     [0x16] = X86_OP_ENTRY3(PEXTR,      E,y,  V,dq, I,b,  vex5 cpuid(SSE41) p_66),
+     [0x17] = X86_OP_ENTRY3(VEXTRACTPS, E,d,  V,dq, I,b,  vex5 cpuid(SSE41) p_66),
++    [0x1d] = X86_OP_ENTRY3(VCVTPS2PH,  W,ph, V,x,  I,b,  vex11 cpuid(F16C) p_66),
  
- #define SSE_DAZ             0x0040
--#define SSE_RC_MASK         0x6000
--#define SSE_RC_NEAR         0x0000
--#define SSE_RC_DOWN         0x2000
--#define SSE_RC_UP           0x4000
--#define SSE_RC_CHOP         0x6000
-+#define SSE_RC_SHIFT        13
-+#define SSE_RC_MASK         (3 << SSE_RC_SHIFT)
- #define SSE_FZ              0x8000
+     [0x20] = X86_OP_ENTRY4(PINSRB,     V,dq, H,dq, E,b,  vex5 cpuid(SSE41) zext2 p_66),
+     [0x21] = X86_OP_GROUP0(VINSERTPS),
+@@ -1051,6 +1053,10 @@ static bool decode_op_size(DisasContext *s, X86OpEntry *e, X86OpSize size, MemOp
+         *ot = s->vex_l ? MO_256 : MO_128;
+         return true;
  
- void update_mxcsr_status(CPUX86State *env)
-@@ -3051,22 +3047,8 @@ void update_mxcsr_status(CPUX86State *env)
-     int rnd_type;
++    case X86_SIZE_ph: /* SSE/AVX packed half precision */
++        *ot = s->vex_l ? MO_128 : MO_64;
++        return true;
++
+     case X86_SIZE_d64:  /* Default to 64-bit in 64-bit mode */
+         *ot = CODE64(s) && s->dflag == MO_32 ? MO_64 : s->dflag;
+         return true;
+@@ -1342,6 +1348,8 @@ static bool has_cpuid_feature(DisasContext *s, X86CPUIDFeature cpuid)
+     switch (cpuid) {
+     case X86_FEAT_None:
+         return true;
++    case X86_FEAT_F16C:
++        return (s->cpuid_ext_features & CPUID_EXT_F16C);
+     case X86_FEAT_MOVBE:
+         return (s->cpuid_ext_features & CPUID_EXT_MOVBE);
+     case X86_FEAT_PCLMULQDQ:
+diff --git a/target/i386/tcg/decode-new.h b/target/i386/tcg/decode-new.h
+index f159c26850..0ef54628ee 100644
+--- a/target/i386/tcg/decode-new.h
++++ b/target/i386/tcg/decode-new.h
+@@ -92,6 +92,7 @@ typedef enum X86OpSize {
+     /* Custom */
+     X86_SIZE_d64,
+     X86_SIZE_f64,
++    X86_SIZE_ph, /* SSE/AVX packed half precision */
+ } X86OpSize;
  
-     /* set rounding mode */
--    switch (mxcsr & SSE_RC_MASK) {
--    default:
--    case SSE_RC_NEAR:
--        rnd_type = float_round_nearest_even;
--        break;
--    case SSE_RC_DOWN:
--        rnd_type = float_round_down;
--        break;
--    case SSE_RC_UP:
--        rnd_type = float_round_up;
--        break;
--    case SSE_RC_CHOP:
--        rnd_type = float_round_to_zero;
--        break;
--    }
--    set_float_rounding_mode(rnd_type, &env->sse_status);
-+    rnd_type = (mxcsr & SSE_RC_MASK) >> SSE_RC_SHIFT;
-+    set_x86_rounding_mode(rnd_type, &env->sse_status);
+ typedef enum X86CPUIDFeature {
+@@ -103,6 +104,7 @@ typedef enum X86CPUIDFeature {
+     X86_FEAT_AVX2,
+     X86_FEAT_BMI1,
+     X86_FEAT_BMI2,
++    X86_FEAT_F16C,
+     X86_FEAT_MOVBE,
+     X86_FEAT_PCLMULQDQ,
+     X86_FEAT_SSE,
+diff --git a/target/i386/tcg/emit.c.inc b/target/i386/tcg/emit.c.inc
+index ebf299451d..9334f0939d 100644
+--- a/target/i386/tcg/emit.c.inc
++++ b/target/i386/tcg/emit.c.inc
+@@ -296,7 +296,7 @@ static void gen_writeback(DisasContext *s, X86DecodedInsn *decode, int opn, TCGv
+     case X86_OP_MMX:
+         break;
+     case X86_OP_SSE:
+-        if (!op->has_ea && (s->prefix & PREFIX_VEX) && op->ot == MO_128) {
++        if (!op->has_ea && (s->prefix & PREFIX_VEX) && op->ot <= MO_128) {
+             tcg_gen_gvec_dup_imm(MO_64,
+                                  offsetof(CPUX86State, xmm_regs[op->n].ZMM_X(1)),
+                                  16, 16, 0);
+@@ -852,6 +852,7 @@ UNARY_INT_SSE(VCVTTPD2DQ, cvttpd2dq)
+ UNARY_INT_SSE(VCVTDQ2PS, cvtdq2ps)
+ UNARY_INT_SSE(VCVTPS2DQ, cvtps2dq)
+ UNARY_INT_SSE(VCVTTPS2DQ, cvttps2dq)
++UNARY_INT_SSE(VCVTPH2PS, cvtph2ps)
  
-     /* Set exception flags.  */
-     set_float_exception_flags((mxcsr & FPUS_IE ? float_flag_invalid : 0) |
+ 
+ static inline void gen_unary_imm_sse(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode,
+@@ -1868,6 +1869,20 @@ static void gen_VCVTfp2fp(DisasContext *s, CPUX86State *env, X86DecodedInsn *dec
+                      gen_helper_cvtsd2ss, gen_helper_cvtss2sd);
+ }
+ 
++static void gen_VCVTPS2PH(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
++{
++    gen_unary_imm_fp_sse(s, env, decode,
++                      gen_helper_cvtps2ph_xmm,
++                      gen_helper_cvtps2ph_ymm);
++    /*
++     * VCVTPS2PH is the only instruction that performs an operation on a
++     * register source and then *stores* into memory.
++     */
++    if (decode->op[0].has_ea) {
++        gen_store_sse(s, decode, decode->op[0].offset);
++    }
++}
++
+ static void gen_VCVTSI2Sx(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+ {
+     int vec_len = vector_len(s, decode);
+diff --git a/tests/tcg/i386/test-avx.c b/tests/tcg/i386/test-avx.c
+index 953e2906fe..c39c0e5bce 100644
+--- a/tests/tcg/i386/test-avx.c
++++ b/tests/tcg/i386/test-avx.c
+@@ -28,6 +28,7 @@ typedef struct {
+ } TestDef;
+ 
+ reg_state initI;
++reg_state initF16;
+ reg_state initF32;
+ reg_state initF64;
+ 
+@@ -221,6 +222,7 @@ static void run_all(void)
+ 
+ #define ARRAY_LEN(x) (sizeof(x) / sizeof(x[0]))
+ 
++uint16_t val_f16[] = { 0x4000, 0xbc00, 0x44cd, 0x3a66, 0x4200, 0x7a1a, 0x4780, 0x4826 };
+ float val_f32[] = {2.0, -1.0, 4.8, 0.8, 3, -42.0, 5e6, 7.5, 8.3};
+ double val_f64[] = {2.0, -1.0, 4.8, 0.8, 3, -42.0, 5e6, 7.5};
+ v4di val_i64[] = {
+@@ -241,6 +243,12 @@ v4di indexd = {0x00000002000000efull, 0xfffffff500000010ull,
+ 
+ v4di gather_mem[0x20];
+ 
++void init_f16reg(v4di *r)
++{
++    memset(r, 0, sizeof(*r));
++    memcpy(r, val_f16, sizeof(val_f16));
++}
++
+ void init_f32reg(v4di *r)
+ {
+     static int n;
+@@ -315,6 +323,15 @@ int main(int argc, char *argv[])
+     printf("Int:\n");
+     dump_regs(&initI);
+ 
++    init_all(&initF16);
++    init_f16reg(&initF16.ymm[10]);
++    init_f16reg(&initF16.ymm[11]);
++    init_f16reg(&initF16.ymm[12]);
++    init_f16reg(&initF16.mem0[1]);
++    initF16.ff = 16;
++    printf("F16:\n");
++    dump_regs(&initF16);
++
+     init_all(&initF32);
+     init_f32reg(&initF32.ymm[10]);
+     init_f32reg(&initF32.ymm[11]);
+diff --git a/tests/tcg/i386/test-avx.py b/tests/tcg/i386/test-avx.py
+index 02982329f1..ebb1d99c5e 100755
+--- a/tests/tcg/i386/test-avx.py
++++ b/tests/tcg/i386/test-avx.py
+@@ -9,6 +9,7 @@
+ archs = [
+     "SSE", "SSE2", "SSE3", "SSSE3", "SSE4_1", "SSE4_2",
+     "AES", "AVX", "AVX2", "AES+AVX", "VAES+AVX",
++    "F16C",
+ ]
+ 
+ ignore = set(["FISTTP",
+@@ -19,6 +20,7 @@
+     'vBLENDPS': 0x0f,
+     'CMP[PS][SD]': 0x07,
+     'VCMP[PS][SD]': 0x1f,
++    'vCVTPS2PH': 0x7,
+     'vDPPD': 0x33,
+     'vDPPS': 0xff,
+     'vEXTRACTPS': 0x03,
+@@ -221,8 +223,10 @@ def ArgGenerator(arg, op):
+ class InsnGenerator:
+     def __init__(self, op, args):
+         self.op = op
+-        if op[-2:] in ["PS", "PD", "SS", "SD"]:
+-            if op[-1] == 'S':
++        if op[-2:] in ["PH", "PS", "PD", "SS", "SD"]:
++            if op[-1] == 'H':
++                self.optype = 'F16'
++            elif op[-1] == 'S':
+                 self.optype = 'F32'
+             else:
+                 self.optype = 'F64'
 -- 
 2.37.3
 
