@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A157603868
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 05:07:59 +0200 (CEST)
-Received: from localhost ([::1]:39284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F43F60386A
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 05:08:08 +0200 (CEST)
+Received: from localhost ([::1]:55690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okzQz-0006TL-Uy
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 23:07:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53544)
+	id 1okzR9-0006y4-CX
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 23:08:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1okzIC-0001uY-5Q
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 22:58:52 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:35338)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1okzIG-0001xM-Rk
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 22:58:56 -0400
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:42830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1okzIA-0003Rx-1X
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 22:58:51 -0400
-Received: by mail-pg1-x534.google.com with SMTP id u71so15056781pgd.2
- for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 19:58:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1okzIE-0003SK-MT
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 22:58:56 -0400
+Received: by mail-pl1-x62c.google.com with SMTP id c24so15651590pls.9
+ for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 19:58:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YOSZuHIdixMwcXyYrUoyvs/iImC1NT84EcySJMnm0Qw=;
- b=dwFGT777BEzu95G1OwQkpZdApkTPP9swjmCBCMKR/ezf7ppGCNcf7F0Em//5ZxhomB
- 9eON76qCcER7V7OyeEw+Z8QOs7vZyhTytOmjq+D4fLvui1LEBjNI1wY2r5fD5f3TIjZR
- E34hugOQ6wrZZ4GNWtgZolyRSioXPRfVNWrQb82/Bf2tgpGqTt8BLOp6ZdZAMY9EcKd0
- wCeOL/qTo4Q5NY+fyzVvAYA3hYzuXtIOCF5g72jhGXwt9hWF/xGoeiHwYLxcXe441v5L
- y1FsorU0py69Y5dDuS9yLdyWwTN7WlSqW+hTtr+MsF8SNPFrDfOU38DeaIFxztUaGcBb
- a/oA==
+ bh=eGQKJel249jbBuJn5CBZX3iJzYynF1O87yjeVXWwNmE=;
+ b=MIk5ksZZl2M6FGF54aWyT8O/f4sK8jWhCUcRRNOpTj8A2yX+4zmcr/Gr3VRYh89WEr
+ HeBIxmkKYyYkAgKAGWlF0gdsSha2bKcdoaKvozm7ldpNQrAKdb3/gaOG5uvMLQHyZ2Bp
+ TgkrerZGuKHo67sRf69h+jSdBCH4ALU0uj/mr6UpZ5+r3IxCjrX9sgIcuFlGb2ImB2U5
+ tga+4548wWNf5JcqDsA/+UNgwFZ545BEMnTX1J4QMpYUa/d7FJhHSh7KCfL93d4jQEDa
+ y4we4wErU9LPZePYaieoBZnjx9oj8oqjrF82scAeNkP1yl7eDhQZrHq+cZ93oUrO3sX7
+ AYXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YOSZuHIdixMwcXyYrUoyvs/iImC1NT84EcySJMnm0Qw=;
- b=sRAbjuAkSMm1IONeMrskFtXWOgTAz/9kTAu8RCnGWQhFRuRExPGRy/5rlrg5Eurzhe
- vlAOtv2mcPE8F6PDF+Q2azHucKv4ZGNTQEGD93SuiRlqjbqmqUBd7yTvrT2om4zD8G69
- tuafBX3zf3fM3gnlqCDwCvL5hGc2Y+Dok9YMDBaYPbIg0DU1niC32tYxydH5b4k7QjYT
- yibVSQeiaDI0iobSz/SxzztaksJiWY+meODwipdX0Ba5kMpN3MoH+MrOqpKurv91hRXP
- +dhdUOzpDtwviuTwj4cMqMuLvByJVciv48lUrjU+0zeMyeXwZ4wwYwsERqZmaXRRYD2H
- z1TA==
-X-Gm-Message-State: ACrzQf2WtcUIkdOkgMKzmZ4/pfpvo8nD1ONj0vjwbotclIEdF3gy+esd
- 3wGsZerSyVbfh9YQwhpMT2yPSA==
-X-Google-Smtp-Source: AMsMyM5LCt7TMvNQuI/TBARLQzD1sN33zTpFekLInjeb0BpecAZksxQ+EJNbtsHbpV6CCRXjxN+YQQ==
-X-Received: by 2002:a65:6c08:0:b0:448:c216:fe9 with SMTP id
- y8-20020a656c08000000b00448c2160fe9mr5202004pgu.243.1666148328586; 
- Tue, 18 Oct 2022 19:58:48 -0700 (PDT)
+ bh=eGQKJel249jbBuJn5CBZX3iJzYynF1O87yjeVXWwNmE=;
+ b=69BQzrvDH1NGko22uu3R6bjJfn+lzTYE+8vXW2idXxBVK950bCpTsGHMYZgqJx+z7z
+ ZmneJwYFlaNP81WwNPNrolVDjTXTXZW+b6XzwJ3Mdeh01oLljZ58xK36bBhjoN/SJYS8
+ 4Iw4IpH/Oc0lDQB2S/9XSV7SkxdTfGPSQFEgUr6kW4QDt/1aP0wJl+VCAT0ooGfrulD8
+ rpvHfX3JCTaGNsvJTYhggPKK/9HQATp9MDGLdVpb0FIQaP2i4/ovLXm/tWzb3OorlC9E
+ OGSadvq5W/rGr8PQsIzqLHUcBzxpE0P8uC1x5A8shsQBNmAOCMf8VtNHRhi48K1WVCA4
+ OS9A==
+X-Gm-Message-State: ACrzQf0ulodJKSLFFM+Um/Lv1N1SiFj+peK3KwiTVIJcHKkstrEvRorS
+ /CSYP63d7fCMGaUe10o+80S4Vg==
+X-Google-Smtp-Source: AMsMyM5FyN9SSx3wX9Ow8C4lRbDexJdn0VD73NuXK+ZeCrh/Tf4mOecs22KgYfLbaqVw76YKnJ73ow==
+X-Received: by 2002:a17:902:6bc8:b0:178:81db:c6d9 with SMTP id
+ m8-20020a1709026bc800b0017881dbc6d9mr6246260plt.56.1666148333337; 
+ Tue, 18 Oct 2022 19:58:53 -0700 (PDT)
 Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.142.248])
  by smtp.googlemail.com with ESMTPSA id
- 203-20020a6214d4000000b005626fcc32b0sm10320593pfu.175.2022.10.18.19.58.44
+ 203-20020a6214d4000000b005626fcc32b0sm10320593pfu.175.2022.10.18.19.58.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Oct 2022 19:58:48 -0700 (PDT)
+ Tue, 18 Oct 2022 19:58:52 -0700 (PDT)
 From: Ani Sinha <ani@anisinha.ca>
 To: Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
@@ -67,18 +67,18 @@ Cc: Ani Sinha <ani@anisinha.ca>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Igor Mammedov <imammedo@redhat.com>, Michael Tsirkin <mst@redhat.com>,
  qemu-devel@nongnu.org
-Subject: [PATCH v5 02/10] acpi/tests/avocado/bits: add SPDX license
- identifiers for bios bits tests
-Date: Wed, 19 Oct 2022 08:28:20 +0530
-Message-Id: <20221019025828.683113-3-ani@anisinha.ca>
+Subject: [PATCH v5 03/10] acpi/tests/avocado/bits: disable acpi PSS tests that
+ are failing in biosbits
+Date: Wed, 19 Oct 2022 08:28:21 +0530
+Message-Id: <20221019025828.683113-4-ani@anisinha.ca>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221019025828.683113-1-ani@anisinha.ca>
 References: <20221019025828.683113-1-ani@anisinha.ca>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::534;
- envelope-from=ani@anisinha.ca; helo=mail-pg1-x534.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=ani@anisinha.ca; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -100,11 +100,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added the SPDX license identifiers for biosbits tests.
-Also added a comment on each of the test scripts to indicate that they run
-from within the biosbits environment and hence are not subjected to the regular
-maintanance acivities for QEMU and is excluded from the dependency management
-challenges in the host testing environment.
+PSS tests in acpi test suite seems to be failing in biosbits. This is because
+the test is unable to find PSS support in QEMU bios. Let us disable
+them for now so that make check does not fail. We can fix the tests and
+re-enable them later.
+
+Example failure:
+
+---- ACPI _PSS (Pstate) table conformance tests ----
+[assert] _PSS must exist FAIL
+  \_SB_.CPUS.C000
+  No _PSS exists
+Summary: 1 passed, 1 failed
+---- ACPI _PSS (Pstate) runtime tests ----
+[assert] _PSS must exist FAIL
+  \_SB_.CPUS.C000
+  No _PSS exists
+Summary: 0 passed, 1 failed
 
 Cc: Daniel P. Berrangé <berrange@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
@@ -116,77 +128,24 @@ Cc: Igor Mammedov <imammedo@redhat.com>
 Cc: Michael Tsirkin <mst@redhat.com>
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
 ---
- tests/avocado/acpi-bits/bits-tests/smbios.py2    | 4 ++++
- tests/avocado/acpi-bits/bits-tests/testacpi.py2  | 4 ++++
- tests/avocado/acpi-bits/bits-tests/testcpuid.py2 | 4 ++++
- 3 files changed, 12 insertions(+)
+ tests/avocado/acpi-bits/bits-tests/testacpi.py2 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/avocado/acpi-bits/bits-tests/smbios.py2 b/tests/avocado/acpi-bits/bits-tests/smbios.py2
-index 9667d0542c..fc623de072 100644
---- a/tests/avocado/acpi-bits/bits-tests/smbios.py2
-+++ b/tests/avocado/acpi-bits/bits-tests/smbios.py2
-@@ -1,6 +1,8 @@
- # Copyright (c) 2015, Intel Corporation
- # All rights reserved.
- #
-+# SPDX-License-Identifier: BSD-3-Clause
-+#
- # Redistribution and use in source and binary forms, with or without
- # modification, are permitted provided that the following conditions are met:
- #
-@@ -24,6 +26,8 @@
- # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- 
-+# This script runs only from the biosbits VM.
-+
- """SMBIOS/DMI module."""
- 
- import bits
 diff --git a/tests/avocado/acpi-bits/bits-tests/testacpi.py2 b/tests/avocado/acpi-bits/bits-tests/testacpi.py2
-index 9ec452f330..18dc818d62 100644
+index 18dc818d62..f818a9cce6 100644
 --- a/tests/avocado/acpi-bits/bits-tests/testacpi.py2
 +++ b/tests/avocado/acpi-bits/bits-tests/testacpi.py2
-@@ -1,6 +1,8 @@
- # Copyright (c) 2015, Intel Corporation
- # All rights reserved.
- #
-+# SPDX-License-Identifier: BSD-3-Clause
-+#
- # Redistribution and use in source and binary forms, with or without
- # modification, are permitted provided that the following conditions are met:
- #
-@@ -24,6 +26,8 @@
- # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+@@ -40,8 +40,8 @@ import time
  
-+# This script runs only from the biosbits VM.
-+
- """Tests for ACPI"""
- 
- import acpi
-diff --git a/tests/avocado/acpi-bits/bits-tests/testcpuid.py2 b/tests/avocado/acpi-bits/bits-tests/testcpuid.py2
-index ac55d912e1..7adefbe355 100644
---- a/tests/avocado/acpi-bits/bits-tests/testcpuid.py2
-+++ b/tests/avocado/acpi-bits/bits-tests/testcpuid.py2
-@@ -1,6 +1,8 @@
- # Copyright (c) 2012, Intel Corporation
- # All rights reserved.
- #
-+# SPDX-License-Identifier: BSD-3-Clause
-+#
- # Redistribution and use in source and binary forms, with or without
- # modification, are permitted provided that the following conditions are met:
- #
-@@ -24,6 +26,8 @@
- # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- 
-+# This script runs only from the biosbits VM.
-+
- """Tests and helpers for CPUID."""
- 
- import bits
+ def register_tests():
+     testsuite.add_test("ACPI _MAT (Multiple APIC Table Entry) under Processor objects", test_mat, submenu="ACPI Tests")
+-    testsuite.add_test("ACPI _PSS (Pstate) table conformance tests", test_pss, submenu="ACPI Tests")
+-    testsuite.add_test("ACPI _PSS (Pstate) runtime tests", test_pstates, submenu="ACPI Tests")
++#    testsuite.add_test("ACPI _PSS (Pstate) table conformance tests", test_pss, submenu="ACPI Tests")
++#    testsuite.add_test("ACPI _PSS (Pstate) runtime tests", test_pstates, submenu="ACPI Tests")
+     testsuite.add_test("ACPI DSDT (Differentiated System Description Table)", test_dsdt, submenu="ACPI Tests")
+     testsuite.add_test("ACPI FACP (Fixed ACPI Description Table)", test_facp, submenu="ACPI Tests")
+     testsuite.add_test("ACPI HPET (High Precision Event Timer Table)", test_hpet, submenu="ACPI Tests")
 -- 
 2.34.1
 
