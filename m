@@ -2,92 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E9E7604A66
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 17:04:35 +0200 (CEST)
-Received: from localhost ([::1]:37958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22EDF604AA7
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 17:09:29 +0200 (CEST)
+Received: from localhost ([::1]:45644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olAcT-0007yD-Vn
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 11:04:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58584)
+	id 1olAhE-0006Is-5I
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 11:09:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1olAXr-0005b8-6Z
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 10:59:47 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:42644)
+ (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1olAbG-0007cj-Fa
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 11:03:20 -0400
+Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130]:42768)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1olAXo-0007WT-UJ
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 10:59:46 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- o20-20020a05600c4fd400b003b4a516c479so205397wmq.1
- for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 07:59:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=XoEeh4KZ31p8n/r4n57cbRW8eoKncmT5vVUmUJK3abU=;
- b=L2sw2TPWXnqend4GkIKrF70tZItmzrLiaR/2OxEAg0eEOWbsDkU+J71PF1nwWAXkKy
- TMYU66e/b8bVfDOFP/mQffjSfG647G2OvnnQp8MZFK1wHmTaknqYRn627H0qmxQINxQz
- /eeeh+pR+6u7+lgO5SVaGrGvg5tJ71Yt2SoNn2wgl6DNnzIxxW6hUzHXBVd589K6lvOT
- QgkoSDDcIsHBvaUo2FaSKsVYBjyk9p3Dav+pmplR12Luct8YHut+kXxR3TEa/pa5E1dA
- XAKxgoGxUwwEaFzyxoeQLyu4HVrLSelYPf603CRwYtM3V+HTtfGDorFabAjdWd0jP3Cb
- lFdA==
+ (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1olAb3-0008BS-6o
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 11:03:06 -0400
+Received: by mail-lf1-x130.google.com with SMTP id o12so20130183lfq.9
+ for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 08:03:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=8uws4B5WgtxEQQPonRBN7dDm57mj+TMYZwg9NWMF6uE=;
+ b=GNoRQIq9JKVsi3NBMOHtxRxaA+HyiSRxEbQwKROCIdQN7YeQVvkeCL/tBfTJ0rFShS
+ wLv+OMed6GKtlzQERAvDIH0fS9RwWNLH1iDzg8iIFUBsQUCTCUR56HEIdBHp5w6KeZ+i
+ ed0p1SeRI6LjurmDyBxbuv8clbnocReb3YyBgtI/ebogw01dMtsK7A/KD1lbcyPsqtH5
+ TaWyyc8eNama/1dRhNwUMQO8P85tBb+QCcPLfYt81cuF60S21NuSTt9ENjFqtPiqHbYW
+ QbAZcIWW265YqQ7fQmjB0etPPuYGAVxyYuBBwAInvDjayuW/S/xhDX/aqG8lWy7/HjYu
+ bNlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XoEeh4KZ31p8n/r4n57cbRW8eoKncmT5vVUmUJK3abU=;
- b=biJTLgfP9tX2HC78HSS2fG89ZcMPtzKqPAuL4+6mC9w/chs2Rp9YqJfITn6x9wSLGq
- A+/IIMDJ89QUYR0+qdhNLTqPc1kO25tsV8p85tujXTjqV59Qf52OPjEUaewwDc+J2Mpv
- V7NmNC5KjtqdXzG0NdAcvfzzkeP9kF/jbJEVjmQnBuk78OzIRSmlHyaTtmP/m//dk0Di
- F9Si0n2ZOXU/VUD4de1mW2Pjg6cGpJM/wgEZIlZ4nL3+30h6z2y0VMk/mB19i1kNj1eO
- G7lzQpxDxFs7j0Y09Zm6WQ43OpMXnCdQBJnFLFji8PUJW0rvY1/CxApxXYytqpBvCt8U
- Nz1Q==
-X-Gm-Message-State: ACrzQf0u1uJEvVIAswS3ch5AMWnm0C95KgBXrexFTkuKjCEHcIbbwnU6
- qCujVcq4QvVIxwqElXhoSxU=
-X-Google-Smtp-Source: AMsMyM5akBAxdTLdyO602pWu43D5XtULy0iuDq8UgMPWYLOzH8BUZI8IchS6XWDc7Z4GwjkwpFHKeg==
-X-Received: by 2002:a05:600c:3d08:b0:3c6:fb56:ac9f with SMTP id
- bh8-20020a05600c3d0800b003c6fb56ac9fmr8946745wmb.193.1666191581617; 
- Wed, 19 Oct 2022 07:59:41 -0700 (PDT)
-Received: from [192.168.16.131] (54-240-197-232.amazon.com. [54.240.197.232])
- by smtp.gmail.com with ESMTPSA id
- r11-20020a1c440b000000b003c6f8d30e40sm129706wma.31.2022.10.19.07.59.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Oct 2022 07:59:41 -0700 (PDT)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <50fc4560-1658-f6c7-6617-9ae37b0cffab@xen.org>
-Date: Wed, 19 Oct 2022 15:59:39 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=8uws4B5WgtxEQQPonRBN7dDm57mj+TMYZwg9NWMF6uE=;
+ b=FoodzPXLatWJ6o7oh0JujMXKHpd1lFE+0sSDsUV3Ho0X5FmqMEbmKgGNvChY/uWfrs
+ pKbzQ22/QdXDa2oDvl2nJkg7kG02eEFSTm9Flhw6rvb0M0JPP1cmJVMUiYa4QCuO+6AJ
+ PK3h3a3UI/PE9KTR98xRu84NOIovhnu4zlGi50E9LDUQnsg1hSbmNSk/MrJPKmrzx2GZ
+ oLw336LyTiEuukeu88i+jNJBDasyqDFGIp0Qx38MYtF22nbFSSpunuwUEFCRxlNZ+beS
+ uNWN7uo795ebVoOx7ToWV7mCu+Np7rAw2AshyvNgkZtl8VTRwm4axrpYElf17sKrDDMr
+ c0rg==
+X-Gm-Message-State: ACrzQf3yBtswJe9i7qb8Y/4a50WX5c/WkM8MogZI9PK6ygNfj0D/Yq2E
+ GbKJHVnKyZgnDNaZP6OQbakVpZ2xtD8a+L5YXH4PdA==
+X-Google-Smtp-Source: AMsMyM73/Iz2UA6hD6VnKREmVWKox8T+CDDwCUSlKn0rjft7dc92r9M4EXDXMPFumhxI7Ld+a4+gjwQViVOGvFn4W+A=
+X-Received: by 2002:a05:6512:4cb:b0:4a2:25b6:9e73 with SMTP id
+ w11-20020a05651204cb00b004a225b69e73mr3205357lfq.30.1666191778897; Wed, 19
+ Oct 2022 08:02:58 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v1 03/12] hw/i386/xen: rearrange xen_hvm_init_pc
-Content-Language: en-US
-To: Vikram Garhwal <vikram.garhwal@amd.com>, qemu-devel@nongnu.org
-Cc: stefano.stabellini@amd.com, Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin"
- <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>
-References: <20221015050750.4185-1-vikram.garhwal@amd.com>
- <20221015050750.4185-4-vikram.garhwal@amd.com>
-Organization: Xen Project
-In-Reply-To: <20221015050750.4185-4-vikram.garhwal@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-6-chao.p.peng@linux.intel.com>
+ <CA+EHjTxukqBfaN6D+rPOiX83zkGknHEQ16J0k6GQSdL_-e9C6g@mail.gmail.com>
+ <20221012023516.GA3218049@chaop.bj.intel.com>
+ <CA+EHjTyGyGL+ox81=jdtoHERtHPV=P7wJub=3j7chdijyq-AgA@mail.gmail.com>
+ <Y03UiYYioV+FQIpx@google.com> <20221019132308.GA3496045@chaop.bj.intel.com>
+In-Reply-To: <20221019132308.GA3496045@chaop.bj.intel.com>
+From: Fuad Tabba <tabba@google.com>
+Date: Wed, 19 Oct 2022 16:02:22 +0100
+Message-ID: <CA+EHjTytCEup0m-nhnVHsuQ1xjaCxXNHO_Oxe+QbpwqaewpfKQ@mail.gmail.com>
+Subject: Re: [PATCH v8 5/8] KVM: Register/unregister the guest private memory
+ regions
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, 
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org, 
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>, 
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>, 
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, 
+ Vishal Annapurve <vannapurve@google.com>, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, 
+ dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
+ aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
+ Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
+ mhocko@suse.com, 
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::130;
+ envelope-from=tabba@google.com; helo=mail-lf1-x130.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,23 +112,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/10/2022 06:07, Vikram Garhwal wrote:
-> In preparation to moving most of xen-hvm code to an arch-neutral location,
-> move non IOREQ references to:
-> - xen_get_vmport_regs_pfn
-> - xen_suspend_notifier
-> - xen_wakeup_notifier
-> - xen_ram_init
-> 
-> towards the end of the xen_hvm_init_pc() function.
-> 
-> This is done to keep the common ioreq functions in one place which will be
-> moved to new function in next patch in order to make it common to both x86 and
-> aarch64 machines.
-> 
-> Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
-> Signed-off-by: Stefano Stabellini <stefano.stabellini@amd.com>
+> > > This sounds good. Thank you.
+> >
+> > I like the idea of a separate Kconfig, e.g. CONFIG_KVM_GENERIC_PRIVATE_MEM or
+> > something.  I highly doubt there will be any non-x86 users for multiple years,
+> > if ever, but it would allow testing the private memory stuff on ARM (and any other
+> > non-x86 arch) without needing full pKVM support and with only minor KVM
+> > modifications, e.g. the x86 support[*] to test UPM without TDX is shaping up to be
+> > trivial.
+>
+> CONFIG_KVM_GENERIC_PRIVATE_MEM looks good to me.
 
-Reviewed-by: Paul Durrant <paul@xen.org>
+That sounds good to me, and just keeping the xarray isn't really an
+issue for pKVM. We could end up using it instead of some of the other
+structures we use for tracking.
 
+Cheers,
+/fuad
+
+> Thanks,
+> Chao
+> >
+> > [*] https://lore.kernel.org/all/Y0mu1FKugNQG5T8K@google.com
 
