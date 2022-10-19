@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 873CE603A92
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 09:24:12 +0200 (CEST)
-Received: from localhost ([::1]:51658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A42F603C71
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 10:46:57 +0200 (CEST)
+Received: from localhost ([::1]:50076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ol3Qv-0007kG-GQ
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 03:24:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54054)
+	id 1ol4iy-0008TM-DC
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 04:46:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ol3DR-0006kv-Cg
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 03:10:15 -0400
-Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:40460)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ol4U8-0007ol-LU
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 04:31:32 -0400
+Received: from mail-il1-x134.google.com ([2607:f8b0:4864:20::134]:36549)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ol3DJ-0006Kq-6l
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 03:10:12 -0400
-Received: by mail-qt1-x833.google.com with SMTP id h24so10804287qta.7
- for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 00:10:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ol4U4-00022t-Mm
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 04:31:32 -0400
+Received: by mail-il1-x134.google.com with SMTP id h18so8797327ilh.3
+ for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 01:31:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=hqgbM9dbgI5AC/pSwHhoIOV5t0faU8eBkQXrc8ltZT4=;
- b=nWLU+37oBhBHEBrUDB/+aoTpC13dacR+QCQc2YeiP1j29B2XTnewN9q9PkyxhEfC71
- ET8sqBlRtsKahCsWVKeBXsFfFmGz4kQYgq6vMzwcLW1fexNm1TEQ8REwUGOUiOMY4q5q
- 0NHMdenGDkbyTWP4a+OLzOHIgsMc2gMN38A/fiAIJWjc0wc6qE3zUfSoAM5e6OAmHOId
- 2NX6kf2PihYrONvLu23ad1Nohr1AWPjZ0nuWV1Q7q/xY/ko2OSfuVId6aLoHLrzPAPHF
- IY+BOxtupHYMl01+ND/2bM4bR63Yvi18UsevIvQ/fO4rE3OSmpmNIfC9K6PtDGWNATtX
- 5Mtw==
+ bh=NvwxlqcfLdlr7SbwFxHloA1nOJhK33iBR58H7YVNuKo=;
+ b=FlNGxuz9Lc1tlBu04anPAsgBgmDVpcfCghR7BcTrcTwyq/4AKJpDdzJ6gqoYR7i57o
+ 8wjeR4lEv7oqs4lhgmLsEsZIrROmgNvaC2no6X9GFfpx+YZ3Y/gBCfdgwoSwXYvbE4dq
+ nxiaaqb6jI49a1ctdnHEviPODHgDTiJCFCvxwGDdeZMjAT6vffRuPdlmPllcofp6S+Oi
+ qBNapQ0fzBeFXx6opXjeaxyY8tV7g/ZcshhgNDn435e2YJlpAWwaJtXKd/KQuep3jzZP
+ y6O/twt05FbE5nUbhWC7Zxwv31CXhuLESXXQMDoeowBBsH9lot+A+E3D0OYVuCO1ey23
+ OrGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hqgbM9dbgI5AC/pSwHhoIOV5t0faU8eBkQXrc8ltZT4=;
- b=aNIr5lXwil/keeUwVeoKk6SLIJSw6Vfjd0ZHYa6wToPOZ6Jmxk2NmZnZ7VXTxf/f0c
- X0t53Z9zn6WQ47SQ61PR8xHZzDPpL3jkIHxNdtN8IwSF5lHR4hCG2Xo/hixiWya7seuS
- Rjswxvb9ghYghzRZgwOsY9gTklLWupHOwl2TWC+TPYalHOZLBq9dQSqe31y8DgleXOjV
- vAzGZaaFUYBTFFYbJk7w3PZxiceZHPtq8hFHrneOGNpvV+oXT3IYJ13KTuxEVO6OMLE1
- Oda3XNU2ucz/9zsSnBS6hCglr5WuMezsAZWcVMtXKFJTixe5l6vWL5chPjtZEC4sLjOP
- Ci0A==
-X-Gm-Message-State: ACrzQf2Y5Cipq4Q0NhBVrBzp6IzODkpm/ZsiSz/wcwBgfgSda5cb2nab
- iHREKFYTw6Png5tO5GsQmuRVTXwppTskhSD8edA=
-X-Google-Smtp-Source: AMsMyM4Usnkpgjrx5RdaPmjuY/IxsPplV4b+A/HEFFqbA0Fqn4G9FEjB/iU8tRJk8gJRpiR+O4LRaiRz8HS6hfs7E1w=
-X-Received: by 2002:a05:622a:8b:b0:39c:f732:f282 with SMTP id
- o11-20020a05622a008b00b0039cf732f282mr4732974qtw.391.1666163404079; Wed, 19
- Oct 2022 00:10:04 -0700 (PDT)
+ bh=NvwxlqcfLdlr7SbwFxHloA1nOJhK33iBR58H7YVNuKo=;
+ b=3TdUcjdm0LL6dIu3RWQuKyKISkRSTT5UtNs6YveYKeF2RvZaEYt8dP2Y117oGi4RL2
+ fS/+QI4MjzmUfQvAlEEZHGf9iw7DaDkFH/SkNQ6Bx4JpBX2C1MsualVzjS7tr17jH5pK
+ g/T/iODdb2KjvFmqufhcVUqSj8vOLz0xDspqCyKhVZh8PCoprPwc6MjtHT/BxI/oAyYj
+ Ed+g5DscqLmtJ8PJ/XrF3n5TwgYjgLI/CfKEPmCXQ+qRi+N9EIZyyFMTEaXDq5++XoZb
+ SkQ7xfv/wOGg6ALU2jNrSJGfLMaH0SAcoTlrQDkhyKZyDoAceJQ0oEVhrbaW1R+4LUtA
+ V+nw==
+X-Gm-Message-State: ACrzQf0YQUR8ZbLv7GjsrC46UeRoL0ZpbUDkhFT3rVVeAnFQN1oksukc
+ poTmCsRsx8U3MOhZsp3BIYFUN8WbxhQ6LYGGQRxGCA==
+X-Google-Smtp-Source: AMsMyM7Gnbs/IgGVfOvPCTLijJv9pGr7gH/36ONavwUCrCAdCzPEU5YCxJu4ooovbYcEM0d2D4E4lkYkMHkNLRXXH84=
+X-Received: by 2002:a92:c548:0:b0:2f9:fe3f:f4c2 with SMTP id
+ a8-20020a92c548000000b002f9fe3ff4c2mr4858463ilj.180.1666168287368; Wed, 19
+ Oct 2022 01:31:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221006151927.2079583-1-bmeng.cn@gmail.com>
- <20221006151927.2079583-10-bmeng.cn@gmail.com>
- <87o7u9axjr.fsf@linaro.org>
-In-Reply-To: <87o7u9axjr.fsf@linaro.org>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 19 Oct 2022 15:09:54 +0800
-Message-ID: <CAEUhbmVEXtQNQgC9Cuz05ChiwrK0a0FuWCDfKEkL_E9wpapvbA@mail.gmail.com>
-Subject: Re: [PATCH v5 09/18] tests/qtest: Use send/recv for socket
- communication
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng <bin.meng@windriver.com>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20221019025828.683113-1-ani@anisinha.ca>
+ <20221019025828.683113-9-ani@anisinha.ca>
+ <CAARzgwz6DwgfOcyq9fFitu7SKUfx6xz_WUiYj8pkP0wmeT=UZQ@mail.gmail.com>
+In-Reply-To: <CAARzgwz6DwgfOcyq9fFitu7SKUfx6xz_WUiYj8pkP0wmeT=UZQ@mail.gmail.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Wed, 19 Oct 2022 14:01:16 +0530
+Message-ID: <CAARzgwyRwh-fYuUTNjOgoRzjf4UZbAVCxJvSGzf4b-2jmqq=cQ@mail.gmail.com>
+Subject: Re: [PATCH v5 08/10] acpi/tests/avocado/bits: add acpi and smbios
+ avocado tests that uses biosbits
+To: Ani Sinha <ani@anisinha.ca>, Cleber Rosa <crosa@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Maydell Peter <peter.maydell@linaro.org>, 
+ John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Igor Mammedov <imammedo@redhat.com>, Michael Tsirkin <mst@redhat.com>,
+ qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x833.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2607:f8b0:4864:20::134;
+ envelope-from=ani@anisinha.ca; helo=mail-il1-x134.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,189 +94,229 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 19, 2022 at 12:47 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
+On Wed, Oct 19, 2022 at 11:59 AM Ani Sinha <ani@anisinha.ca> wrote:
 >
->
-> Bin Meng <bmeng.cn@gmail.com> writes:
->
-> > From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> On Wed, Oct 19, 2022 at 8:29 AM Ani Sinha <ani@anisinha.ca> wrote:
 > >
-> > Socket communication in the libqtest and libqmp codes uses read()
-> > and write() which work on any file descriptor on *nix, and sockets
-> > in *nix are an example of a file descriptor.
+> > This introduces QEMU acpi/smbios biosbits avocado test which is run
+> > from within the python virtual environment. When the bits tests are run=
+, bits
+> > binaries are downloaded from an external repo/location, bios bits iso i=
+s
+> > regenerated containing the acpi/smbios bits tests that are maintained a=
+s a part
+> > of the QEMU source under tests/avocado/acpi-bits/bits-test . When the V=
+M is
+> > spawned with the iso, it runs the tests in batch mode and the results a=
+re pushed
+> > out from the VM to the test machine where they are analyzed by this scr=
+ipt and
+> > pass/fail results are reported.
 > >
-> > However sockets on Windows do not use *nix-style file descriptors,
-> > so read() and write() cannot be used on sockets on Windows.
-> > Switch over to use send() and recv() instead which work on both
-> > Windows and *nix.
-> >
-> > Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> > Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > Cc: Maydell Peter <peter.maydell@linaro.org>
+> > Cc: John Snow <jsnow@redhat.com>
+> > Cc: Thomas Huth <thuth@redhat.com>
+> > Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> > Cc: Igor Mammedov <imammedo@redhat.com>
+> > Cc: Michael Tsirkin <mst@redhat.com>
+> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
 > > ---
+> >  tests/avocado/acpi-bits.py | 363 +++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 363 insertions(+)
+> >  create mode 100644 tests/avocado/acpi-bits.py
 > >
-> > (no changes since v2)
-> >
-> > Changes in v2:
-> > - Introduce qemu_send_full() and use it
-> >
-> >  include/qemu/sockets.h |  2 ++
-> >  tests/qtest/libqmp.c   |  5 +++--
-> >  tests/qtest/libqtest.c |  4 ++--
-> >  util/osdep.c           | 33 +++++++++++++++++++++++++++++++++
-> >  4 files changed, 40 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
-> > index 036745e586..adf2b21bd9 100644
-> > --- a/include/qemu/sockets.h
-> > +++ b/include/qemu/sockets.h
-> > @@ -33,6 +33,8 @@ int qemu_socketpair(int domain, int type, int protoco=
-l, int sv[2]);
-> >  #endif
-> >
-> >  int qemu_accept(int s, struct sockaddr *addr, socklen_t *addrlen);
-> > +ssize_t qemu_send_full(int s, const void *buf, size_t count)
-> > +    G_GNUC_WARN_UNUSED_RESULT;
-> >  int socket_set_cork(int fd, int v);
-> >  int socket_set_nodelay(int fd);
-> >  void qemu_socket_set_block(int fd);
-> > diff --git a/tests/qtest/libqmp.c b/tests/qtest/libqmp.c
-> > index ade26c15f0..2b08382e5d 100644
-> > --- a/tests/qtest/libqmp.c
-> > +++ b/tests/qtest/libqmp.c
-> > @@ -23,6 +23,7 @@
-> >  #endif
-> >
-> >  #include "qemu/cutils.h"
-> > +#include "qemu/sockets.h"
-> >  #include "qapi/error.h"
-> >  #include "qapi/qmp/json-parser.h"
-> >  #include "qapi/qmp/qjson.h"
-> > @@ -36,7 +37,7 @@ typedef struct {
-> >
-> >  static void socket_send(int fd, const char *buf, size_t size)
-> >  {
-> > -    size_t res =3D qemu_write_full(fd, buf, size);
-> > +    ssize_t res =3D qemu_send_full(fd, buf, size);
-> >
-> >      assert(res =3D=3D size);
-> >  }
-> > @@ -69,7 +70,7 @@ QDict *qmp_fd_receive(int fd)
-> >          ssize_t len;
-> >          char c;
-> >
-> > -        len =3D read(fd, &c, 1);
-> > +        len =3D recv(fd, &c, 1, 0);
-> >          if (len =3D=3D -1 && errno =3D=3D EINTR) {
-> >              continue;
-> >          }
-> > diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-> > index 4f4b2d6477..8228262938 100644
-> > --- a/tests/qtest/libqtest.c
-> > +++ b/tests/qtest/libqtest.c
-> > @@ -436,7 +436,7 @@ void qtest_quit(QTestState *s)
-> >
-> >  static void socket_send(int fd, const char *buf, size_t size)
-> >  {
-> > -    size_t res =3D qemu_write_full(fd, buf, size);
-> > +    ssize_t res =3D qemu_send_full(fd, buf, size);
-> >
-> >      assert(res =3D=3D size);
-> >  }
-> > @@ -468,7 +468,7 @@ static GString *qtest_client_socket_recv_line(QTest=
-State *s)
-> >          ssize_t len;
-> >          char buffer[1024];
-> >
-> > -        len =3D read(s->fd, buffer, sizeof(buffer));
-> > +        len =3D recv(s->fd, buffer, sizeof(buffer), 0);
-> >          if (len =3D=3D -1 && errno =3D=3D EINTR) {
-> >              continue;
-> >          }
-> > diff --git a/util/osdep.c b/util/osdep.c
-> > index 60fcbbaebe..0342e754e1 100644
-> > --- a/util/osdep.c
-> > +++ b/util/osdep.c
-> > @@ -502,6 +502,39 @@ int qemu_accept(int s, struct sockaddr *addr, sock=
-len_t *addrlen)
-> >      return ret;
-> >  }
-> >
-> > +/*
-> > + * A variant of send(2) which handles partial send.
-> > + *
-> > + * Return the number of bytes transferred over the socket.
-> > + * Set errno if fewer than `count' bytes are sent.
-> > + *
-> > + * This function don't work with non-blocking socket's.
-> > + * Any of the possibilities with non-blocking socket's is bad:
-> > + *   - return a short write (then name is wrong)
-> > + *   - busy wait adding (errno =3D=3D EAGAIN) to the loop
-> > + */
-> > +ssize_t qemu_send_full(int s, const void *buf, size_t count)
-> > +{
-> > +    ssize_t ret =3D 0;
-> > +    ssize_t total =3D 0;
+> > diff --git a/tests/avocado/acpi-bits.py b/tests/avocado/acpi-bits.py
+> > new file mode 100644
+> > index 0000000000..4365537fa8
+> > --- /dev/null
+> > +++ b/tests/avocado/acpi-bits.py
+> > @@ -0,0 +1,363 @@
+> > +#!/usr/bin/env python3
+> > +# group: rw quick
+> > +# Exercize QEMU generated ACPI/SMBIOS tables using biosbits,
+> > +# https://biosbits.org/
+> > +#
+> > +# This program is free software; you can redistribute it and/or modify
+> > +# it under the terms of the GNU General Public License as published by
+> > +# the Free Software Foundation; either version 2 of the License, or
+> > +# (at your option) any later version.
+> > +#
+> > +# This program is distributed in the hope that it will be useful,
+> > +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> > +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> > +# GNU General Public License for more details.
+> > +#
+> > +# You should have received a copy of the GNU General Public License
+> > +# along with this program.  If not, see <http://www.gnu.org/licenses/>=
+.
+> > +#
+> > +#
+> > +# Author:
+> > +#  Ani Sinha <ani@anisinha.ca>
 > > +
-> > +    while (count) {
-> > +        ret =3D send(s, buf, count, 0);
-> > +        if (ret < 0) {
-> > +            if (errno =3D=3D EINTR) {
-> > +                continue;
-> > +            }
-> > +            break;
-> > +        }
+> > +# pylint: disable=3Dinvalid-name
+> > +# pylint: disable=3Dconsider-using-f-string
 > > +
-> > +        count -=3D ret;
-> > +        buf +=3D ret;
-> > +        total +=3D ret;
-> > +    }
+> > +"""
+> > +This is QEMU ACPI/SMBIOS avocado tests using biosbits.
+> > +Biosbits is available originally at https://biosbits.org/.
+> > +This test uses a fork of the upstream bits and has numerous fixes
+> > +including an upgraded acpica. The fork is located here:
+> > +https://gitlab.com/qemu-project/biosbits-bits .
+> > +"""
 > > +
-> > +    return total;
-> > +}
+> > +import logging
+> > +import os
+> > +import re
+> > +import shutil
+> > +import subprocess
+> > +import tarfile
+> > +import tempfile
+> > +import time
+> > +import zipfile
+> > +from typing import (
+> > +    List,
+> > +    Optional,
+> > +    Sequence,
+> > +)
+> > +from qemu.machine import QEMUMachine
+> > +from avocado import skipIf
+> > +from avocado_qemu import QemuBaseTest
 > > +
-> >  void qemu_set_hw_version(const char *version)
-> >  {
-> >      hw_version =3D version;
+> > +def _print_log(log):
+> > +    print('\nlogs from biosbits follows:')
+> > +    print('=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D\n')
+> > +    print(log)
+> > +    print('=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D\n')
+> > +
+> > +class QEMUBitsMachine(QEMUMachine): # pylint: disable=3Dtoo-few-public=
+-methods
+> > +    """
+> > +    A QEMU VM, with isa-debugcon enabled and bits iso passed
+> > +    using -cdrom to QEMU commandline.
+> > +
+> > +    """
+> > +    def __init__(self,
+> > +                 binary: str,
+> > +                 args: Sequence[str] =3D (),
+> > +                 wrapper: Sequence[str] =3D (),
+> > +                 name: Optional[str] =3D None,
+> > +                 base_temp_dir: str =3D "/var/tmp",
+> > +                 debugcon_log: str =3D "debugcon-log.txt",
+> > +                 debugcon_addr: str =3D "0x403",
+> > +                 sock_dir: Optional[str] =3D None,
+> > +                 qmp_timer: Optional[float] =3D None):
+> > +        # pylint: disable=3Dtoo-many-arguments
+> > +
+> > +        if name is None:
+> > +            name =3D "qemu-bits-%d" % os.getpid()
+> > +        if sock_dir is None:
+> > +            sock_dir =3D base_temp_dir
+> > +        super().__init__(binary, args, wrapper=3Dwrapper, name=3Dname,
+> > +                         base_temp_dir=3Dbase_temp_dir,
+> > +                         sock_dir=3Dsock_dir, qmp_timer=3Dqmp_timer)
+> > +        self.debugcon_log =3D debugcon_log
+> > +        self.debugcon_addr =3D debugcon_addr
+> > +        self.base_temp_dir =3D base_temp_dir
+> > +
+> > +    @property
+> > +    def _base_args(self) -> List[str]:
+> > +        args =3D super()._base_args
+> > +        args.extend([
+> > +            '-chardev',
+> > +            'file,path=3D%s,id=3Ddebugcon' %os.path.join(self.base_tem=
+p_dir,
+> > +                                                     self.debugcon_log=
+),
+> > +            '-device',
+> > +            'isa-debugcon,iobase=3D%s,chardev=3Ddebugcon' %self.debugc=
+on_addr,
+> > +        ])
+> > +        return args
+> > +
+> > +    def base_args(self):
+> > +        """return the base argument to QEMU binary"""
+> > +        return self._base_args
+> > +
+> > +@skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+> > +class AcpiBitsTest(QemuBaseTest): #pylint: disable=3Dtoo-many-instance=
+-attributes
+> > +    """
+> > +    ACPI and SMBIOS tests using biosbits.
+
+ <snip>
+
+> > +
+> > +    def setUp(self): # pylint: disable=3Darguments-differ
+> > +        super().setUp('qemu-system-')
+> > +
+> > +        if shutil.which('xorriso') is None:
+> > +            logging.error('xorriso is required to run this test.')
+> > +            self.skipTest("xorriso is not installed. Please install it=
+.")
 >
-> Hmm something goes wrong here:
+> This would result in output like this when xorriso is not found:
 >
-> FAILED: tests/qtest/libqos/libqos.fa.p/.._libqtest.c.o
-> cc -m64 -mcx16 -Itests/qtest/libqos/libqos.fa.p -Itests/qtest/libqos -I..=
-/../tests/qtest/libqos -I. -Iqapi -Itrace -Iui -Iui/shader -I/usr/include/g=
-lib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -fdiagnostics-color=3D=
-auto -Wall -Winvalid-pch -Werror -std=3Dgnu11 -O2 -g -isystem /home/alex/ls=
-rc/qemu.git/linux-headers -isystem linux-headers -iquote . -iquote /home/al=
-ex/lsrc/qemu.git -iquote /home/alex/lsrc/qemu.git/include -iquote /home/ale=
-x/lsrc/qemu.git/tcg/i386 -pthread -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -=
-D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -Wstrict-prototyp=
-es -Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototypes -fno-stri=
-ct-aliasing -fno-common -fwrapv -Wold-style-declaration -Wold-style-definit=
-ion -Wtype-limits -Wformat-security -Wformat-y2k -Winit-self -Wignored-qual=
-ifiers -Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined =
--Wimplicit-fallthrough=3D2 -Wno-missing-include-dirs -Wno-shift-negative-va=
-lue -Wno-psabi -fstack-protector-strong -fPIE -MD -MQ tests/qtest/libqos/li=
-bqos.fa.p/.._libqtest.c.o -MF tests/qtest/libqos/libqos.fa.p/.._libqtest.c.=
-o.d -o tests/qtest/libqos/libqos.fa.p/.._libqtest.c.o -c ../../tests/qtest/=
-libqtest.c
-> ../../tests/qtest/libqtest.c: In function =E2=80=98socket_send=E2=80=99:
-> ../../tests/qtest/libqtest.c:431:19: error: implicit declaration of funct=
-ion =E2=80=98qemu_send_full=E2=80=99; did you mean =E2=80=98qemu_write_full=
-=E2=80=99? [-Werror=3Dimplicit-function-declaration]
->   431 |     ssize_t res =3D qemu_send_full(fd, buf, size);
->       |                   ^~~~~~~~~~~~~~
->       |                   qemu_write_full
-> ../../tests/qtest/libqtest.c:431:19: error: nested extern declaration of =
-=E2=80=98qemu_send_full=E2=80=99 [-Werror=3Dnested-externs]
-> cc1: all warnings being treated as errors
+> $ which xorriso
+> /usr/bin/which: no xorriso in
+> (/home/anisinha/.local/bin:/home/anisinha/bin:/usr/share/Modules/bin:/usr=
+/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin)
+> [anisinha@centos8 build]$ ./tests/venv/bin/avocado run -t acpi tests/avoc=
+ado
+> Fetching asset from
+> tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits
+> JOB ID     : 95aba043201755ed888ef7d1598402c555118df4
+> JOB LOG    : /home/anisinha/avocado/job-results/job-2022-10-19T02.27-95ab=
+a04/job.log
+>  (1/1) tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits:
+> ERROR: xorriso is not installed. Please install it. (0.00 s)
+> RESULTS    : PASS 0 | ERROR 1 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0
+> | CANCEL 0
+> JOB TIME   : 0.61 s
 >
->
-> dropping this patch.
 >
 
-This is weird. It does not reproduce on my side, neither did the QEMU CI.
+skipIf() was not working for me, hence I had to resort to this. I got
+skipIf() working now so in v6 I will remove the above hunk and add the
+conditional as @skipIf decorator.
 
-Regards,
-Bin
+For the records,
+> @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+does not work for me.
+> @skipIf(os.getenv('GITLAB_CI') is not None, 'Running on GitLab')
+works.
+A quick grep indicates that the former is used all over the place!
+
+$ grep GITLAB_CI *
+grep: acpi-bits: Is a directory
+acpi-bits.py:@skipIf(os.getenv('GITLAB_CI') is not None, 'Running on GitLab=
+')
+grep: avocado_qemu: Is a directory
+boot_linux.py:    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+intel_iommu.py:@skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+linux_initrd.py:    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+machine_aspeed.py:    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+machine_aspeed.py:    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+machine_mips_malta.py:    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLa=
+b')
+machine_mips_malta.py:    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLa=
+b')
+machine_rx_gdbsim.py:    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab=
+')
+machine_rx_gdbsim.py:    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab=
+')
+machine_s390_ccw_virtio.py:    @skipIf(os.getenv('GITLAB_CI'),
+'Running on GitLab')
+grep: __pycache__: Is a directory
+replay_kernel.py:    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+replay_kernel.py:    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+reverse_debugging.py:    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab=
+')
+reverse_debugging.py:    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab=
+')
+smmu.py:@skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
 
