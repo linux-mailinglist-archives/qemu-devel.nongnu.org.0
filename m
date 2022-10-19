@@ -2,86 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4421B604D67
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 18:28:52 +0200 (CEST)
-Received: from localhost ([::1]:45304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2332604D6F
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 18:30:33 +0200 (CEST)
+Received: from localhost ([::1]:46504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olBw3-0005tx-C6
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 12:28:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57764)
+	id 1olBxg-0007lv-Ne
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 12:30:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1olBkm-0000pf-3G
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 12:17:20 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:40577)
+ id 1olBo6-0005pb-HC
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 12:20:44 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:55932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1olBkN-0003e8-G3
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 12:16:48 -0400
-Received: by mail-wr1-x431.google.com with SMTP id w18so29954366wro.7
- for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 09:16:47 -0700 (PDT)
+ id 1olBo1-00049D-DZ
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 12:20:34 -0400
+Received: by mail-wm1-x329.google.com with SMTP id t4so13232116wmj.5
+ for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 09:20:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:from:to:cc:subject:date:message-id:reply-to;
- bh=WIgq7KUkYAZufLZT/vJOKCqP4ihn+JSpnSvPKstMd2Y=;
- b=AOOTzFFJZ+yUIMjgdeHf1D7JPZg8t95Tpk6QQ128iQoHJYFSXGZ4qacujs2ESTOisC
- A5QXDcD+360J+dV93ampTlklhgXeKHieLNMAz1Dg0irNgJENEsyPoVaSKP9J3xICpF94
- 1uWhLHMUt9oHnaJpDkFVEZefu7sGXaKLNDAyUZFO1rAx9u+jP34xnsalh59QQ9nxyltk
- R69AbDDKwfaqwbKuEzlgY2QLdERmGfwQg4DtZZr1oeAR06ierQY1VXpit3aIvY1Mbj+R
- B6b8Es/lh5tRjquy6f1+5vLnfQGlYD2dU2UNCcb1343tS+O8RXj6ZvVpumfnrbL7eeXE
- tM2Q==
+ bh=Iwmw9PMnCNDtKtpfuQSnL7/aFDgNl4A9sE5A7TitH6M=;
+ b=cfwe++AiGE7jqAH8ujUv1LRlfnr91OEW85b2hJqJxKubegALAtGBYQHoXwYNqkvG5U
+ dr9osH3qXP/K19r41hRnNwYkMI5UOHBaQlZ6VClAq5+rG0EMPSz5tHaw/4ixEBDpsbvR
+ sg7W9/cMx462lV746LZUum7LAMZXp/6cbF0h3bRILiwzF5+nub9BVR9GwftOVG1V/9MW
+ 0xroRkr1gc7+V/BCHyIxFJUm7If8jmkjI4DhaT5DexWIG1HpMQpfimG40ejemxXJtbIP
+ Dnz2btsel0Ip3P//ZJCMfyJZZ6QtCgyZnmLf/Lpmby5ePOBF+Vb9GJ/bMgFe45HSCQt9
+ Z8kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WIgq7KUkYAZufLZT/vJOKCqP4ihn+JSpnSvPKstMd2Y=;
- b=bCz4YDwRhTnPyW2xCXSmVzHSuX0i/OBqb1w9srke7rS+9dHn8qZh7Mk9Up3IbfFd7E
- Y4ZapJZpZC1aSCart4C+Pn1doXwFwpnC+Fmqe/SbMgyqWg8S6G7aS8rQArpcFZ0zrPfY
- knpjeQeNAK01G5i+o9xrfyLRHaqO3XL2Nbbm1a+VPXUDLTIrQk6bgGo+e7KveF9dTCSP
- 4LtlXy7vIVrf9foDmoJK0F4DEpUMV8lrkl43ibNL95UuobycAKtFNICNZ2wlacA8XYFW
- FHeMLouLhjTgcBewn8HQYH0bUBcV7ZrJxTgbQAixh+Kd+MGstVYsmlWQAEm7e36Xu2e3
- A/dw==
-X-Gm-Message-State: ACrzQf0RHV44c9B81y1JCu2txafENJreWH4M26OyzLjZ8Os6z9/yq7g5
- doLG7gv/rJG6J40Ez6p008k=
-X-Google-Smtp-Source: AMsMyM70BAGn+ITDttNygqHII8IscaYNZml+iS8aG88q+Uj1/vKaPUkqZHfITZl9ve2GqS+zJReXkg==
-X-Received: by 2002:a05:6000:78a:b0:22e:4c41:9e36 with SMTP id
- bu10-20020a056000078a00b0022e4c419e36mr5641977wrb.160.1666196204511; 
- Wed, 19 Oct 2022 09:16:44 -0700 (PDT)
+ bh=Iwmw9PMnCNDtKtpfuQSnL7/aFDgNl4A9sE5A7TitH6M=;
+ b=zX5YWdpD7tESyVGw/JS94D46iqVA9kpkYD4OsGzmcMwmuVnb69X3p67Zn59Us59fdO
+ 3AT1oC4vWOz4g3gh+QsTP1fnGQJBOtdRjK3hIDURYghUgCWvIBZ80Ef8wyA9J3SBRNl4
+ sMh9eykUQJh7pLMSpEZYZ6zTaE3hmO2nVU9FgD97k0QFflvSA2RAah/llxxBgrBNmEy2
+ jd2UkAaxPxhDPqAYAbeFZEjoDxVK0BmmoiUh/4GtK2TCCC3Vj6h3vblZUEzs+0s6JAi3
+ 5ED5T7HjeR6s6lI/V8HuobP5PmBPSOgl0TWiWh6YRPkAvTJNTn+tkCxyZ3SyJFufzyMW
+ b2ew==
+X-Gm-Message-State: ACrzQf14wbC7UtuqNhVhHKFvB9GDhRbrd7pIYFcY0UAMYl8Rwv0kYXE0
+ k1DIl+syLNrC2L7wSgyYmeg=
+X-Google-Smtp-Source: AMsMyM56y348l/ISeOIYUF1NaaK8V1VIBgfBhdJf3+3om/ZwuaQWqDea3kef/AjLmL6gQvD8BjrdDw==
+X-Received: by 2002:a05:600c:3c84:b0:3b4:eff4:ab69 with SMTP id
+ bg4-20020a05600c3c8400b003b4eff4ab69mr27107411wmb.104.1666196430326; 
+ Wed, 19 Oct 2022 09:20:30 -0700 (PDT)
 Received: from [192.168.16.131] (54-240-197-232.amazon.com. [54.240.197.232])
  by smtp.gmail.com with ESMTPSA id
- h17-20020a05600c315100b003b4a68645e9sm323180wmo.34.2022.10.19.09.16.42
+ d9-20020adfe889000000b00223b8168b15sm14188174wrm.66.2022.10.19.09.20.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Oct 2022 09:16:43 -0700 (PDT)
+ Wed, 19 Oct 2022 09:20:29 -0700 (PDT)
 From: Paul Durrant <xadimgnik@gmail.com>
 X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <7b8e645c-90c7-a4ff-4405-51df6df2e508@xen.org>
-Date: Wed, 19 Oct 2022 17:16:41 +0100
+Message-ID: <03aa5254-18f3-d8f0-edc9-7e8cfadaf434@xen.org>
+Date: Wed, 19 Oct 2022 17:20:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.3
-Subject: Re: [PATCH v1 06/12] xen-hvm: move common functions to
- hw/xen/xen-hvm-common.c
+Subject: Re: [PATCH v1 09/12] accel/xen/xen-all: export
+ xenstore_record_dm_state
 Content-Language: en-US
 To: Vikram Garhwal <vikram.garhwal@amd.com>, qemu-devel@nongnu.org
 Cc: stefano.stabellini@amd.com, Stefano Stabellini <sstabellini@kernel.org>,
  Anthony Perard <anthony.perard@citrix.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
  "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>
 References: <20221015050750.4185-1-vikram.garhwal@amd.com>
- <20221015050750.4185-7-vikram.garhwal@amd.com>
+ <20221015050750.4185-10-vikram.garhwal@amd.com>
 Organization: Xen Project
-In-Reply-To: <20221015050750.4185-7-vikram.garhwal@amd.com>
+In-Reply-To: <20221015050750.4185-10-vikram.garhwal@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -105,24 +100,11 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 15/10/2022 06:07, Vikram Garhwal wrote:
-[snip]
-> +    qemu_add_vm_change_state_handler(xen_hvm_change_state_handler, state);
-> +
-> +    state->memory_listener = xen_memory_listener;
-> +    memory_listener_register(&state->memory_listener, &address_space_memory);
-> +
-> +    state->io_listener = xen_io_listener;
-> +    memory_listener_register(&state->io_listener, &address_space_io);
-> +
-> +    state->device_listener = xen_device_listener;
-> +    QLIST_INIT(&state->dev_list);
-> +    device_listener_register(&state->device_listener);
-> +
+> xenstore_record_dm_state() will also be used in aarch64 xenpv machine.
+> 
+> Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
+> Signed-off-by: Stefano Stabellini <stefano.stabellini@amd.com>
 
-As Julien said, these do not belong here. These are the (current and 
-legacy) PV backend setup functions; they most certainly have nothing to 
-do with device emulation.
-
-   Paul
+Reviewed-by: Paul Durrant <paul@xen.org>
 
 
