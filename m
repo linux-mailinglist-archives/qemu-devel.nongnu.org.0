@@ -2,84 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94899605264
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 23:58:44 +0200 (CEST)
-Received: from localhost ([::1]:55974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B90E605447
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 02:01:53 +0200 (CEST)
+Received: from localhost ([::1]:35052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olH5F-0003c8-QR
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 17:58:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46940)
+	id 1olJ0S-0004m9-MW
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 20:01:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1olH1y-0001f2-ER; Wed, 19 Oct 2022 17:55:18 -0400
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:43992)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1olIwq-0001MI-DY
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 19:58:08 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:38534)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1olH1w-0001jj-LX; Wed, 19 Oct 2022 17:55:18 -0400
-Received: by mail-ot1-x332.google.com with SMTP id
- t4-20020a9d7f84000000b00661c3d864f9so10315211otp.10; 
- Wed, 19 Oct 2022 14:55:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1olIwo-0005io-ND
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 19:58:08 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ x1-20020a17090ab00100b001fda21bbc90so1685629pjq.3
+ for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 16:58:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=clHcCLrcR0dWoBefEahKee2VosJq1pGC+15hS6U/5cE=;
- b=jMUjGuiw3n+2yfxLMvNqjjlQh/HI331lXmd98hQLIU7/hjBEZ9sqZMpsaQdKQ1X3sg
- mot4oTRyMFxzBhyypgzE7MS/DgoNFxXNxeHSo8tS4tYZe6McHmYpdGJg5EQ3K+IBbZXI
- s5FUF+TTz9YfiovaPG/s7xM/ZznJrAJkuK0pRhdY54UE2GsvCxtvLugBbLGC0juQxM+w
- TkLQyHfwIzTwOgEFdZGmVmc2AGzz2n953MTu4eaUvudytvSNjZiuDh4/cMaaCHPlC4yE
- fpZMt6HhkrpgkTAaUVBEaVkj+3YVqvY7oQRHGcOoL8x4j2OSHOZ5B4TgTxeI11fnpJ4a
- IIOA==
+ bh=dWe1ZxZ8pTz6kD/cetljOEaJW28Xh9U+009TvvDzqvc=;
+ b=wMBlJ+XUt2GMD5OWnR1xWnJ8CbVrZcF9tijU3GO59OB5eB1YZjMd4bLMtMiIsf1oaw
+ AvVOLDsYc31v8+cZY7v/blvpo1OnkOXK18ehF4UjX+22wNRoM71gGgsa7b5Be59ttzdR
+ i5cALI/201ESXFsOuuqvB3NOk++mvM0vJCsDJHlc4x889f7XlQYn1xndEa6UYld/dEcf
+ VdWj9elEk5p2R3XitKAGKHt9xdO/u4iPXS/+HWR9fYiaOkPXF4gQmhLOm14eNuFrsRwF
+ fglACJgl36rv7ggREOR+gFEdQHlg2E/h9SSjwjxCAS+4BFJbm8j2f3dS/hlEkrEKRREf
+ WabQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=clHcCLrcR0dWoBefEahKee2VosJq1pGC+15hS6U/5cE=;
- b=Lwri4pKmR9j82BDMZ4WbQQqBPkGwRy0py5nWS58W4TXYU1eM8UleZxZT026R24YFJj
- lYg2FkHAjWTKMV5aBN2xyiqrr3v+mwwuFsC+fy6hGzz5H1tQ49XvU4jm6/fCLEERI2U1
- dReCGalL4zm4C3a4MXFjRkHLALYcKO8U+korClZQRBeXdABMFvBSo6MHLAm22Wi+JVh6
- 9q6KGf45PxaA2UuCoLXUJPYOVwM1QNul3IFiPNIKhXWTjV1SEk/uUUgckM1Bsrp7i5kI
- I0JAM5liZj6jCQudXH9zH+ZKiezse0f6/6YABcP3cndeVzN/wPPNw7petJcjFac/8abL
- PWdg==
-X-Gm-Message-State: ACrzQf3o0cWxO+6HbSJYHGHrQH75LTA0aKFgkcxSvcpHKrLiuFme/bpi
- GdAFEIb8enVrgCpMf8SykS4=
-X-Google-Smtp-Source: AMsMyM7XtOCHqsKovVKgoxdFo4R9bIuVTu2003QBn3WwD7wjPbjZMCn42OXH/RoiJxxf70hJUgCTXg==
-X-Received: by 2002:a05:6830:3c1:b0:661:b7ea:cc70 with SMTP id
- p1-20020a05683003c100b00661b7eacc70mr5243218otc.53.1666216513727; 
- Wed, 19 Oct 2022 14:55:13 -0700 (PDT)
-Received: from [192.168.10.102] ([179.111.38.2])
+ bh=dWe1ZxZ8pTz6kD/cetljOEaJW28Xh9U+009TvvDzqvc=;
+ b=NVGN8+/XCT6smIsHis9whosu9Bwe3+E7CTZ+xvIl/CBkbMLDXsnIjbPCoYhep6/KXJ
+ 2hg0WMr8MaLue6EEh63h4DbD2tdNjX87cSbk3WYVktF1ayJyK/nUe5epN+aMrL+6a+f9
+ LdyaciUoA1aoZwMXmfJ+0HcwReaEpltT0JVhuCnPU5dVs+g6iMCyjv/DEwEz/fgZ8hEZ
+ 0stI3hY6pcrNoHxtbs+BEl9pkupPKVU8MJPG6v7tau4klWsdfSXd9U7WZh+IcPKZYHzC
+ l0V004PnD4TrRA1DWscuaLae2Ie9qWDyWhOgehUkrs2T53Xxi0b1ctfMpL0jhUAZ27YH
+ RMxQ==
+X-Gm-Message-State: ACrzQf1/sjLWeCsbwSYlc4qTUYizSfBKGw2RugvZBDLC6wcIzTQznAaP
+ ZqtqG9ZuIN6GYb36FVaCDeCNGg==
+X-Google-Smtp-Source: AMsMyM7Xgl7HRobp518DuiMGcKJP727eRdqwZdq/ox4c6KS4Z71P9Wv0nEI3LLcSLaX78SQF8a+GXw==
+X-Received: by 2002:a17:90a:fee:b0:20a:fbef:3e76 with SMTP id
+ 101-20020a17090a0fee00b0020afbef3e76mr12792886pjz.11.1666223884749; 
+ Wed, 19 Oct 2022 16:58:04 -0700 (PDT)
+Received: from [192.168.1.107] ([149.135.10.35])
  by smtp.gmail.com with ESMTPSA id
- p34-20020a056870832200b00130e66a7644sm8085758oae.25.2022.10.19.14.55.10
+ q6-20020a170902f78600b001769cfa5cd4sm11333350pln.49.2022.10.19.16.58.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Oct 2022 14:55:13 -0700 (PDT)
-Message-ID: <56d9bc9d-65ac-05a5-d35b-4d64766687a4@gmail.com>
-Date: Wed, 19 Oct 2022 18:55:08 -0300
+ Wed, 19 Oct 2022 16:58:04 -0700 (PDT)
+Message-ID: <d11fbd88-5607-be2a-b5ee-2f34b9eece71@linaro.org>
+Date: Thu, 20 Oct 2022 01:55:47 +1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v3 00/29] PowerPC interrupt rework
+ Thunderbird/102.2.2
+Subject: Re: [RFC PATCH] target/s390x: fake instruction loading when handling
+ 'ex'
 Content-Language: en-US
-To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
- fbarrat@linux.ibm.com, alex.bennee@linaro.org, farosas@linux.ibm.com
-References: <20221011204829.1641124-1-matheus.ferst@eldorado.org.br>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20221011204829.1641124-1-matheus.ferst@eldorado.org.br>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>
+References: <20221019113552.1051940-1-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221019113552.1051940-1-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x332.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_06_12=1.543,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,111 +98,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Matheus,
+On 10/19/22 21:35, Alex Bennée wrote:
+> The s390x EXecute instruction is a bit weird as we synthesis the
+> executed instruction from what we have stored in memory. When plugins
+> are enabled this breaks because we detect the ld_code2() loading from
+> a non zero offset without the rest of the instruction being there.
 
-This series fails 'make check-avocado' in an e500 test. This is the error output:
+Hmm.  The fact that you see an ld_code2 at all is incorrect.
 
+(1) translator_lduw, which ld_code2 is using, is supposed to
+     be only for instructions that we're executing, per plugins.
+     But the usage you are seeing is a probe for the next insn,
+     which should not be included.
 
-& make -j && \
-	make check-avocado AVOCADO_TESTS=tests/avocado/replay_kernel.py:ReplayKernelNormal.test_ppc64_e500
+(2) We always exit the tb after EX, so the probe for the next
+     insn is also wrong.  We've got the tests in the wrong order:
 
-(...)
+         if (!is_same_page(dcbase, dc->base.pc_next) ||
+             !is_same_page(dcbase, get_next_pc(env, dc, dc->base.pc_next)) ||
+             dc->ex_value) {
 
-Fetching asset from tests/avocado/replay_kernel.py:ReplayKernelNormal.test_ppc64_e500
-JOB ID     : 506b6b07bf40cf1bffcf3911a0f9b8948de6553c
-JOB LOG    : /home/danielhb/qemu/build/tests/results/job-2022-10-19T17.37-506b6b0/job.log
-  (1/1) tests/avocado/replay_kernel.py:ReplayKernelNormal.test_ppc64_e500: INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred: Timeout reached\nOriginal status: ERROR\n{'name': '1-tests/avocado/replay_kernel.py:ReplayKernelNormal.test_ppc64_e500', 'logdir': '/home/danielhb/qemu/build/tests/results/job-2022-10-19T17.37-506b6b0/test-... (120.31 s)
-RESULTS    : PASS 0 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 1 | CANCEL 0
-JOB TIME   : 121.00 s
-
-
-
-'git bisect' pointed the following commit as the culprit:
-
-d9bdb6192edc5c74cda754a6cd32237b1b9272f0 is the first bad commit
-commit d9bdb6192edc5c74cda754a6cd32237b1b9272f0
-Author: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Date:   Tue Oct 11 17:48:27 2022 -0300
-
-     target/ppc: introduce ppc_maybe_interrupt
-     
-
-This would be patch 27.
+None of that takes away from the fact that we *should* have a way to report the EX 
+instruction to the plugin.
 
 
-As a benchmark, this test when successful takes around 11 seconds in my test
-env:
+> +/**
+> + * translator_fake_ldw - fake instruction load
+> + * @insn16: 2 byte instruction
+> + * @pc: program counter of instruction
+> + *
+> + * This is a special case helper used where the instruction we are
+> + * about to translate comes from somewhere else (e.g. being
+> + * re-synthesised for s390x "ex"). It ensures we update other areas of
+> + * the translator with details of the executed instruction.
+> + */
+> +
+> +static inline void translator_fake_ldw(uint16_t insn16, abi_ptr pc)
+> +{
+> +    plugin_insn_append(pc, &insn16, sizeof(insn16));
+> +}
 
-  (33/42) tests/avocado/replay_kernel.py:ReplayKernelNormal.test_ppc64_e500: PASS (11.02 s)
+You're not handing the endianness of the two bytes.
+I think you should just decompose all the way to fake_ldb.
 
+I don't know much sense you're going to get out of the PC.  The EX instruction is at a 
+particular address A, having loaded data from B.  The EX instruction is 4 bytes, but the 
+insn at B may be 6 bytes.  The next insn executed may well be PC = A+4, apparently 
+overlapping with the 6 byte insn you gave to the plugin just a minute ago.
 
-Cedric's qemu-ppc-boot test suit works fine with this series, so I'd say that
-this avocado test is doing something else that is causing the problem.
-
-
-I'll test patches 1-26 later and see if all tests pass. In that case I'll push
-1-26 to ppc-next and then you can work on 27-29.
-
-
-Thanks,
-
-
-Daniel
+But I don't know what else to report except [PC, PC+5], as you're doing.
 
 
 
-On 10/11/22 17:48, Matheus Ferst wrote:
-> Link to v2: https://lists.gnu.org/archive/html/qemu-ppc/2022-09/msg00556.html
-> This series is also available as a git branch: https://github.com/PPC64/qemu/tree/ferst-interrupt-fix-v3
-> Patches without review: 3-27
-> 
-> This new version rebases the patch series on the current master and
-> fixes some problems pointed out by Fabiano on v2.
-> 
-> Matheus Ferst (29):
->    target/ppc: define PPC_INTERRUPT_* values directly
->    target/ppc: always use ppc_set_irq to set env->pending_interrupts
->    target/ppc: split interrupt masking and delivery from ppc_hw_interrupt
->    target/ppc: prepare to split interrupt masking and delivery by excp_model
->    target/ppc: create an interrupt masking method for POWER9/POWER10
->    target/ppc: remove unused interrupts from p9_next_unmasked_interrupt
->    target/ppc: create an interrupt deliver method for POWER9/POWER10
->    target/ppc: remove unused interrupts from p9_deliver_interrupt
->    target/ppc: remove generic architecture checks from p9_deliver_interrupt
->    target/ppc: move power-saving interrupt masking out of cpu_has_work_POWER9
->    target/ppc: add power-saving interrupt masking logic to p9_next_unmasked_interrupt
->    target/ppc: create an interrupt masking method for POWER8
->    target/ppc: remove unused interrupts from p8_next_unmasked_interrupt
->    target/ppc: create an interrupt deliver method for POWER8
->    target/ppc: remove unused interrupts from p8_deliver_interrupt
->    target/ppc: remove generic architecture checks from p8_deliver_interrupt
->    target/ppc: move power-saving interrupt masking out of cpu_has_work_POWER8
->    target/ppc: add power-saving interrupt masking logic to p8_next_unmasked_interrupt
->    target/ppc: create an interrupt masking method for POWER7
->    target/ppc: remove unused interrupts from p7_next_unmasked_interrupt
->    target/ppc: create an interrupt deliver method for POWER7
->    target/ppc: remove unused interrupts from p7_deliver_interrupt
->    target/ppc: remove generic architecture checks from p7_deliver_interrupt
->    target/ppc: move power-saving interrupt masking out of cpu_has_work_POWER7
->    target/ppc: add power-saving interrupt masking logic to p7_next_unmasked_interrupt
->    target/ppc: remove ppc_store_lpcr from CONFIG_USER_ONLY builds
->    target/ppc: introduce ppc_maybe_interrupt
->    target/ppc: unify cpu->has_work based on cs->interrupt_request
->    target/ppc: move the p*_interrupt_powersave methods to excp_helper.c
-> 
->   hw/ppc/pnv_core.c        |   1 +
->   hw/ppc/ppc.c             |  17 +-
->   hw/ppc/spapr_hcall.c     |   6 +
->   hw/ppc/spapr_rtas.c      |   2 +-
->   hw/ppc/trace-events      |   2 +-
->   target/ppc/cpu.c         |   4 +
->   target/ppc/cpu.h         |  43 +-
->   target/ppc/cpu_init.c    | 212 +---------
->   target/ppc/excp_helper.c | 887 ++++++++++++++++++++++++++++++++++-----
->   target/ppc/helper.h      |   1 +
->   target/ppc/helper_regs.c |   2 +
->   target/ppc/misc_helper.c |  11 +-
->   target/ppc/translate.c   |   2 +
->   13 files changed, 833 insertions(+), 357 deletions(-)
-> 
+r~
 
