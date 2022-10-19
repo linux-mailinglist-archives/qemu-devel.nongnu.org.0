@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71CBD604ADA
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 17:12:45 +0200 (CEST)
-Received: from localhost ([::1]:33822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 681F2604ADD
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 17:12:54 +0200 (CEST)
+Received: from localhost ([::1]:39498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olAkO-0001b3-EN
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 11:12:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56946)
+	id 1olAkW-0001wr-Bs
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 11:12:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1olAeJ-0000b4-9M
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 11:06:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55207)
+ id 1olAeR-0000cb-5S
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 11:06:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59011)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1olAeF-0000Mk-G6
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 11:06:25 -0400
+ id 1olAeG-0000Mo-TP
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 11:06:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666191981;
+ s=mimecast20190719; t=1666191983;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=kY8lF1H854K+H1cLslvbScV0C+6aiYEC/vxTLjIwwQ8=;
- b=U/F3gPudEh6NbhKbTbX6FvFb5hpmxQ9s0oLa+g3WILLMq/cDJUrNN3AgeEJUlLJgYxZW6K
- SrI7ml5MynTvPNVdVeaEFe95OLeKOtuH1XjsmmK4dDftIBxpCtKQN0VfxRQxZq739xKbVE
- tWYaVHZm3TdRrZ7pxi/1lk/PMRrRGZ4=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wuBYYCTu711F3O4Pd3gFFZg+LifHJmKsK8N/H7Zo/9M=;
+ b=KJAiiImDgB7ByYnNIWSgov2neRV9YThqDsFAPghpbFdz1stwOveZ3RnfGYGLr1VYmnV8tS
+ jMkgkVaKq9602jC9lQP7r9mYVTugfkR9WdmiQMiTbZbfAa78PknQq27noCKH5TQ4ALobMf
+ YjNZQ6wgkepueN5Wx2B9/cKqaEkWvqE=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-661-OcSPvYSCNoSHohzQb5rflg-1; Wed, 19 Oct 2022 11:06:19 -0400
-X-MC-Unique: OcSPvYSCNoSHohzQb5rflg-1
-Received: by mail-qk1-f200.google.com with SMTP id
- u6-20020a05620a430600b006e47fa02576so15188211qko.22
- for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 08:06:19 -0700 (PDT)
+ us-mta-231-cQlpJ28cNBGcse-K0jlWbg-1; Wed, 19 Oct 2022 11:06:22 -0400
+X-MC-Unique: cQlpJ28cNBGcse-K0jlWbg-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ u6-20020a05620a430600b006e47fa02576so15188323qko.22
+ for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 08:06:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kY8lF1H854K+H1cLslvbScV0C+6aiYEC/vxTLjIwwQ8=;
- b=NtuxqcBt8DNeyqFPx1T9Goib97TnxRP2qUJ1GQ64GJwrwsNMhHC/YflT/VqDnbYb9T
- sGMYlJecPvUD3Sk+o2s0e7E0oqNdk4YMq79nGk0PKWpOQZXUjARCuxbFnil+xs3+jq7x
- kWPpQJAHy2V/RvwFRDxS7EI555XKZuGGPvlM2ya794k0q2QoTkho9v+rAIychZV8t0qD
- H4vqWOFGFmFTJSQyUCN4qtguWl6RswuWAvcC7QxAVvP+r7jc5OI2Wlp8m1+zh6KHfx3T
- C/jbr0ZPqRhuShNiE0yzPLTmXx+mF4dsV04kAsvUVyLfAeBgwesATS4naXxq34LpNDb9
- 8nQA==
-X-Gm-Message-State: ACrzQf00KMpKYzDhPJfxxrRM/rxLJ1eK7LuDHUEsW8QnJQWZEy5fj9YF
- HyRuq9SOM+CY3mdgXSycnWkcbStQFAEcrYt1lvHRfTuaw3PjVE6Wg+v8BvBAIqpqGxLMVvaisQA
- aC+3D+J+LeRHUXwylSlUVQpyk3IwBUtdy2FsIBYTnq3SP+t4Xo8OT3hTAOVDaNrzy204=
-X-Received: by 2002:a05:620a:1365:b0:6ee:d9ef:36b with SMTP id
- d5-20020a05620a136500b006eed9ef036bmr5731374qkl.364.1666191978740; 
- Wed, 19 Oct 2022 08:06:18 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7WosBsgbng/pfmP13qvr2fBcNDxSS1YbpwI+/XO1hd+mLuxT1HAA7itCz3131x3JUGA4UR6w==
-X-Received: by 2002:a05:620a:1365:b0:6ee:d9ef:36b with SMTP id
- d5-20020a05620a136500b006eed9ef036bmr5731344qkl.364.1666191978377; 
- Wed, 19 Oct 2022 08:06:18 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wuBYYCTu711F3O4Pd3gFFZg+LifHJmKsK8N/H7Zo/9M=;
+ b=yMbjLyt0WaXA9lhco/5m+hc58tcEGq3eFX1sApKDn213LHsj6PzMpSskNJonJ+zoh8
+ lEzyC1QiTpRmts5qVTM3rSkjw6I1AYLvDo7an+ILhLWqCBl2/3Eix3X80rtTgEqTGBG5
+ TTacePc1Sj6tNEFk1Rtp7naKgzdCVLXFzp6n/CBMC4NEOsZ30WbptIPAOMWGjKj/hW07
+ Tc+6oMuJZQphfhZAjIOW2cwsg/D2kGIXmekuNkJT2M64yYFnk2zu/kGBXu0K8Q6fU9J5
+ GoVwdEGEzMEajJJuspou0BtEI0mjA6a5bGhq9+InJohu8bDO+ggqQJS7OHJOpXaWKukJ
+ BwMA==
+X-Gm-Message-State: ACrzQf134Mi/B+iF94IarBrUL5h8S0m6VM+wVpD/VwNlf4isBR4zZuSU
+ LPmj4Wt4nJcaJfqQItFYliDG6E+JN8T3vfQKEn1EDJew12B7jLblsSM6HfUT3ZtaameDBxHtfnn
+ tAamtd2ne6U9zfPNiHgyPskwiG3PTblwLhinU1tfknL049dFjKATXcBD/HyLN3u/z2JU=
+X-Received: by 2002:a05:6214:1d09:b0:4b1:cd48:c95d with SMTP id
+ e9-20020a0562141d0900b004b1cd48c95dmr7148887qvd.73.1666191981464; 
+ Wed, 19 Oct 2022 08:06:21 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5rvspYFSC6cK0BRnp1ju0/GC9rKvj+6lzegjJY3Sak6k+HxrAtPe4G37a9oG7nNYzNpvoVWw==
+X-Received: by 2002:a05:6214:1d09:b0:4b1:cd48:c95d with SMTP id
+ e9-20020a0562141d0900b004b1cd48c95dmr7148837qvd.73.1666191981030; 
+ Wed, 19 Oct 2022 08:06:21 -0700 (PDT)
 Received: from avogadro.local (nat-pool-mxp-u.redhat.com. [149.6.153.187])
  by smtp.gmail.com with ESMTPSA id
- m21-20020ac866d5000000b0039cbd3e4ed1sm4188301qtp.6.2022.10.19.08.06.17
+ c1-20020ac87d81000000b0039a8b075248sm4338563qtd.14.2022.10.19.08.06.20
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Oct 2022 08:06:17 -0700 (PDT)
+ Wed, 19 Oct 2022 08:06:20 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] target/i386: support x86_64-v3 for user mode applications
-Date: Wed, 19 Oct 2022 17:06:12 +0200
-Message-Id: <20221019150616.929463-1-pbonzini@redhat.com>
+Subject: [PATCH 1/4] target/i386: decode-new: avoid out-of-bounds access to
+ xmm_regs[-1]
+Date: Wed, 19 Oct 2022 17:06:13 +0200
+Message-Id: <20221019150616.929463-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20221019150616.929463-1-pbonzini@redhat.com>
+References: <20221019150616.929463-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
@@ -96,40 +101,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The v3 ISA for x86_64 includes F16C and FMA instructions in addition to
-AVX2 that was just committed for QEMU 7.2.  This small series implements
-these two features and terminates my excursion into x86 TCG. :)
+If the destination is a memory register, op->n is -1.  Going through
+tcg_gen_gvec_dup_imm path is both useless (the value has been stored
+by the gen_* function already) and wrong because of the out-of-bounds
+access.
 
-Patch 1 is a bugfix for the new decoder (sob).
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ target/i386/tcg/emit.c.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Patch 2 introduces a common function to convert an x86 2-bit rounding
-mode (as specified in FSTCW, STMXCSR and VROUND instructions).  Since
-the same operand is used by the F16C instruction VCVTPS2PH, it is time
-to reduce the code duplication instead of adding more.
-
-Patches 3 and 4 is the actual implementation, which includes all of
-helpers, decoding, TCG op emission and tests.  Output from QEMU
-matches that from native x86.
-
-Paolo Bonzini (4):
-  target/i386: decode-new: avoid out-of-bounds access to xmm_regs[-1]
-  target/i386: introduce function to set rounding mode from FPCW or
-    MXCSR bits
-  target/i386: implement F16C instructions
-  target/i386: implement FMA instructions
-
- target/i386/cpu.c                |   8 +-
- target/i386/cpu.h                |   3 +
- target/i386/ops_sse.h            | 152 +++++++++++++++++++------------
- target/i386/ops_sse_header.h     |  34 +++++++
- target/i386/tcg/decode-new.c.inc |  46 ++++++++++
- target/i386/tcg/decode-new.h     |   3 +
- target/i386/tcg/emit.c.inc       |  60 +++++++++++-
- target/i386/tcg/fpu_helper.c     |  60 +++++-------
- tests/tcg/i386/test-avx.c        |  17 ++++
- tests/tcg/i386/test-avx.py       |   8 +-
- 10 files changed, 289 insertions(+), 102 deletions(-)
-
+diff --git a/target/i386/tcg/emit.c.inc b/target/i386/tcg/emit.c.inc
+index 27eca591a9..ebf299451d 100644
+--- a/target/i386/tcg/emit.c.inc
++++ b/target/i386/tcg/emit.c.inc
+@@ -296,7 +296,7 @@ static void gen_writeback(DisasContext *s, X86DecodedInsn *decode, int opn, TCGv
+     case X86_OP_MMX:
+         break;
+     case X86_OP_SSE:
+-        if ((s->prefix & PREFIX_VEX) && op->ot == MO_128) {
++        if (!op->has_ea && (s->prefix & PREFIX_VEX) && op->ot == MO_128) {
+             tcg_gen_gvec_dup_imm(MO_64,
+                                  offsetof(CPUX86State, xmm_regs[op->n].ZMM_X(1)),
+                                  16, 16, 0);
 -- 
 2.37.3
 
