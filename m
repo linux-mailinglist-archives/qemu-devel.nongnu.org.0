@@ -2,70 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2863B603C5A
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 10:46:10 +0200 (CEST)
-Received: from localhost ([::1]:54666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0CF6603C8F
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 10:50:12 +0200 (CEST)
+Received: from localhost ([::1]:58794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ol4iG-0007qe-AN
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 04:46:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50910)
+	id 1ol4mB-0001fY-G7
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 04:50:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ol4Vh-0008Cz-Pw
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 04:33:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53175)
+ id 1ol4ZS-0001VV-5l
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 04:37:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47567)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ol4VR-0002F9-B1
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 04:33:08 -0400
+ id 1ol4ZP-0002nC-Fx
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 04:37:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666168371;
+ s=mimecast20190719; t=1666168617;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=qpOKuP+e8Eb5jBjMbSZySJHpVCQtUQK5cy2j1mzQtKU=;
- b=HXHDxnFMaGCAk/y2Q1ysksqUWPbJFwboSw11GoXg23gyUMWGRdyWGMKzBaffDFNybaSjGg
- RvbW49QKMkejRpBJC4ksb4JVr1D4rRwzf9j1MhaYqb1TCgkIfUUFeXEEpZuwMGCSn3WZkO
- FJAptB38qQy1H3Y4xrfa7PnBDHChZL8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FKK2DF5ogYhvDGgcDkjaqGenhLWkH/RXXLW5oajLjTc=;
+ b=ILsjcDSqIC4T4pkqyzHGOa0FKhP25EsCAFJAHLjeWA4lpukJchl/KWo8rtrb4SViUiiFBY
+ BNslh32nwLXhTw+/ctzke618yjm5o66CSVYex8myxBuK5bZ5N5BBrc6sDSv6S8bpdyDh+3
+ +xyaiwhPStWHqHyXNbyj8Rwj6DW44Wo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-ByZSd2SaOOOWRmXzNItksQ-1; Wed, 19 Oct 2022 04:32:48 -0400
-X-MC-Unique: ByZSd2SaOOOWRmXzNItksQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-558-xilpxe_JMRmYv3sSsfWzRA-1; Wed, 19 Oct 2022 04:36:54 -0400
+X-MC-Unique: xilpxe_JMRmYv3sSsfWzRA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F309F811E84;
- Wed, 19 Oct 2022 08:32:47 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BFFE229DD9BC;
+ Wed, 19 Oct 2022 08:36:42 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C7C6111E3FF;
- Wed, 19 Oct 2022 08:32:46 +0000 (UTC)
-Date: Wed, 19 Oct 2022 09:32:44 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6755340B40C9;
+ Wed, 19 Oct 2022 08:36:32 +0000 (UTC)
+Date: Wed, 19 Oct 2022 09:36:30 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Bin Meng <bmeng.cn@gmail.com>
 Cc: qemu-devel@nongnu.org,
  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v3 2/3] util/main-loop: Avoid adding the same HANDLE twice
-Message-ID: <Y0+2LOluAkuIN0BF@redhat.com>
+ Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-block@nongnu.org
+Subject: Re: [PATCH v3 3/3] util/aio-win32: Correct the event array size in
+ aio_poll()
+Message-ID: <Y0+3DnYl1cEeweZU@redhat.com>
 References: <20220824085231.1630804-1-bmeng.cn@gmail.com>
- <20220824085231.1630804-2-bmeng.cn@gmail.com>
+ <20220824085231.1630804-3-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220824085231.1630804-2-bmeng.cn@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220824085231.1630804-3-bmeng.cn@gmail.com>
 User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,72 +90,57 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 24, 2022 at 04:52:30PM +0800, Bin Meng wrote:
+On Wed, Aug 24, 2022 at 04:52:31PM +0800, Bin Meng wrote:
 > From: Bin Meng <bin.meng@windriver.com>
 > 
-> Fix the logic in qemu_add_wait_object() to avoid adding the same
-> HANDLE twice, as the behavior is undefined when passing an array
-> that contains same HANDLEs to WaitForMultipleObjects() API.
-
-Have you encountered this problem in the real world, or is this
-just a flaw you spotted through code inspection ?
-
-Essentially I'm wondering if there's any known caller that is
-making this mistake of adding it twice ?
-
+> WaitForMultipleObjects() can only wait for MAXIMUM_WAIT_OBJECTS
+> object handles. Correct the event array size in aio_poll() and
+> add a assert() to ensure it does not cause out of bound access.
 > 
 > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> Reviewed-by: Stefan Weil <sw@weilnetz.de>
+> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
 > 
-> Changes in v3:
-> - new patch: avoid adding the same HANDLE twice
+> (no changes since v2)
 > 
->  include/qemu/main-loop.h |  2 ++
->  util/main-loop.c         | 10 ++++++++++
->  2 files changed, 12 insertions(+)
+> Changes in v2:
+> - change 'count' to unsigned
 > 
-> diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
-> index c50d1b7e3a..db8d380550 100644
-> --- a/include/qemu/main-loop.h
-> +++ b/include/qemu/main-loop.h
-> @@ -157,6 +157,8 @@ typedef void WaitObjectFunc(void *opaque);
->   * in the main loop's calls to WaitForMultipleObjects.  When the handle
->   * is in a signaled state, QEMU will call @func.
->   *
-> + * If the same HANDLE is added twice, this function returns -1.
-> + *
->   * @handle: The Windows handle to be observed.
->   * @func: A function to be called when @handle is in a signaled state.
->   * @opaque: A pointer-size value that is passed to @func.
-> diff --git a/util/main-loop.c b/util/main-loop.c
-> index cb018dc33c..dae33a8daf 100644
-> --- a/util/main-loop.c
-> +++ b/util/main-loop.c
-> @@ -373,10 +373,20 @@ static WaitObjects wait_objects = {0};
->  
->  int qemu_add_wait_object(HANDLE handle, WaitObjectFunc *func, void *opaque)
+>  util/aio-win32.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/util/aio-win32.c b/util/aio-win32.c
+> index 44003d645e..80cfe012ad 100644
+> --- a/util/aio-win32.c
+> +++ b/util/aio-win32.c
+> @@ -326,9 +326,9 @@ void aio_dispatch(AioContext *ctx)
+>  bool aio_poll(AioContext *ctx, bool blocking)
 >  {
-> +    int i;
->      WaitObjects *w = &wait_objects;
-> +
->      if (w->num >= MAXIMUM_WAIT_OBJECTS) {
->          return -1;
+>      AioHandler *node;
+> -    HANDLE events[MAXIMUM_WAIT_OBJECTS + 1];
+> +    HANDLE events[MAXIMUM_WAIT_OBJECTS];
+
+Interestingly, the orignial + 1 was entirely pointless, since
+the aio_poll impl has no bounds checking at all, until your
+new assert.
+
+>      bool progress, have_select_revents, first;
+> -    int count;
+> +    unsigned count;
+>      int timeout;
+>  
+>      /*
+> @@ -369,6 +369,7 @@ bool aio_poll(AioContext *ctx, bool blocking)
+>      QLIST_FOREACH_RCU(node, &ctx->aio_handlers, node) {
+>          if (!node->deleted && node->io_notify
+>              && aio_node_check(ctx, node->is_external)) {
+> +            assert(count < MAXIMUM_WAIT_OBJECTS);
+>              events[count++] = event_notifier_get_handle(node->e);
+>          }
 >      }
-> +
-> +    for (i = 0; i < w->num; i++) {
-> +        /* check if the same handle is added twice */
-> +        if (w->events[i] == handle) {
-> +            return -1;
-> +        }
-> +    }
-> +
->      w->events[w->num] = handle;
->      w->func[w->num] = func;
->      w->opaque[w->num] = opaque;
-> -- 
-> 2.34.1
-> 
-> 
+
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
 With regards,
 Daniel
