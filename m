@@ -2,70 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEC1A604C4B
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 17:54:19 +0200 (CEST)
-Received: from localhost ([::1]:38238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1237E604C76
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 17:57:00 +0200 (CEST)
+Received: from localhost ([::1]:39972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olBOb-0003xH-M8
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 11:54:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32858)
+	id 1olBRC-0006y1-4Q
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 11:56:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1olBEY-0000We-Mx
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 11:43:54 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:57820)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1olBEV-0006Zu-8P
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 11:43:54 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 8734120574;
- Wed, 19 Oct 2022 15:43:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1666194227; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GX501D/OQ+92sFlhrEK/fh4cX7AUuu6p5hCNVo6YU5k=;
- b=cGkh7HhhaZMbFPK9Lk6X+u+Dzdje0tnRmnEnOfPRWheiBG0ozvzNyznbQ5T8/yOHFxD4t4
- KnY2xDa8DHxnT4ax2b1g+1a7y7bWg/aQcY9JkymPvcGEfSRBqoViPXWGYHdCoI5fu8sBU0
- cbncqDOfs/9booSs59GJdx/5khv9wes=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3605113345;
- Wed, 19 Oct 2022 15:43:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id seiwCjMbUGMBWAAAMHmgww
- (envelope-from <nborisov@suse.com>); Wed, 19 Oct 2022 15:43:47 +0000
-Message-ID: <a6aaff1d-5b07-5e7a-61e7-bfe97582c98b@suse.com>
-Date: Wed, 19 Oct 2022 18:43:46 +0300
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1olBJ3-0005Z6-No; Wed, 19 Oct 2022 11:48:35 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54318)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1olBJ2-0007XN-4B; Wed, 19 Oct 2022 11:48:33 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29JFbdAB002475;
+ Wed, 19 Oct 2022 15:48:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=y23RtZhyLQR/2hVyh4Ixo9I32DmeyqDhpA/NhTLbs7s=;
+ b=mnFqWEsdQv8O6rVnfEhgtokzO4E46g0qM2JfCXBgTOhQtbZWxhnKSYxbnsqgKaFz3DXr
+ 5NcBBf2j9MQxtCfeGLqHid5iD/wYzS1p1TNT4PR1Bhcwh5i19fBJsr3sV9e31Sf59hvN
+ Nti6n8kP6lhYXOqnueaGAVp88zapwN74j9jB1HtVBvn9Dp20RjINvp6vZksod6y0bjy2
+ jnV2e23vVkge+cBNqy1Bj+2zBKt7OvVn3/s3M0MV9TJ3do8RMat0twbOkKg4CoQ3cWyW
+ FgGsAz0dxYJCASIkPlmgw70Ok9f0Kl+K18bmUnWjaRPTt4op1spJ4YXr8WZ48CzXovgZ jA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kakvmrsuu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Oct 2022 15:48:27 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29JFbqGY008319;
+ Wed, 19 Oct 2022 15:48:26 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kakvmrsu0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Oct 2022 15:48:26 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29JFZNPW001042;
+ Wed, 19 Oct 2022 15:48:24 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma04ams.nl.ibm.com with ESMTP id 3k7mg97brr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Oct 2022 15:48:23 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 29JFmsx849152292
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 19 Oct 2022 15:48:54 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DC4FA42047;
+ Wed, 19 Oct 2022 15:48:20 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5086A42041;
+ Wed, 19 Oct 2022 15:48:20 +0000 (GMT)
+Received: from [9.152.222.245] (unknown [9.152.222.245])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 19 Oct 2022 15:48:20 +0000 (GMT)
+Message-ID: <637596be-cbde-e690-0461-6953f6420b38@linux.ibm.com>
+Date: Wed, 19 Oct 2022 17:48:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 03/11] migration: Make migration json writer part of
- MigrationState struct
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v10 6/9] s390x/cpu topology: add topology-disable machine
+ property
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: dgilbert@redhat.com, qemu-devel@nongnu.org, jfehlig@suse.com,
- Claudio.Fontana@suse.com, dfaggioli@suse.com
-References: <20221010133408.3214433-1-nborisov@suse.com>
- <20221010133408.3214433-4-nborisov@suse.com> <Y056tM+EUKMMC8PI@redhat.com>
-From: Nikolay Borisov <nborisov@suse.com>
-In-Reply-To: <Y056tM+EUKMMC8PI@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ frankja@linux.ibm.com, berrange@redhat.com
+References: <20221012162107.91734-1-pmorel@linux.ibm.com>
+ <20221012162107.91734-7-pmorel@linux.ibm.com>
+ <08bbd6f8-6ae3-4a28-66ed-d5a290c1a30d@kaod.org> <87y1tcjibw.fsf@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <87y1tcjibw.fsf@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=nborisov@suse.com;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: JCpyfSQQBjsJnXlbB64M3YUB-du5PhtZ
+X-Proofpoint-ORIG-GUID: fh8JpW5cnvXPtDLIMTn8oDyKd2CFEQKa
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-19_09,2022-10-19_04,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015
+ adultscore=0 mlxlogscore=999 spamscore=0 phishscore=0 malwarescore=0
+ impostorscore=0 priorityscore=1501 mlxscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210190085
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,245 +125,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 18.10.22 г. 13:06 ч., Daniel P. Berrangé wrote:
-> On Mon, Oct 10, 2022 at 04:34:00PM +0300, Nikolay Borisov wrote:
->> This is required so that migration stream configuration is written
->> to the migration stream. This would allow analyze-migration to
->> parse enabled capabilities for the migration and adjust its behavior
->> accordingly. This is in preparation for analyze-migration.py to support
->> 'fixed-ram' capability format changes.
+On 10/19/22 11:03, Cornelia Huck wrote:
+> On Tue, Oct 18 2022, Cédric Le Goater <clg@kaod.org> wrote:
+> 
+>> On 10/12/22 18:21, Pierre Morel wrote:
+>>> S390 CPU topology is only allowed for s390-virtio-ccw-7.3 and
+>>> newer S390 machines.
+>>> We keep the possibility to disable the topology on these newer
+>>> machines with the property topology-disable.
+>>>
+>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>>> ---
+>>>    include/hw/boards.h                |  3 ++
+>>>    include/hw/s390x/cpu-topology.h    | 18 +++++++++-
+>>>    include/hw/s390x/s390-virtio-ccw.h |  2 ++
+>>>    hw/core/machine.c                  |  5 +++
+>>>    hw/s390x/s390-virtio-ccw.c         | 53 +++++++++++++++++++++++++++++-
+>>>    util/qemu-config.c                 |  4 +++
+>>>    qemu-options.hx                    |  6 +++-
+>>>    7 files changed, 88 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/include/hw/boards.h b/include/hw/boards.h
+>>> index 311ed17e18..67147c47bf 100644
+>>> --- a/include/hw/boards.h
+>>> +++ b/include/hw/boards.h
+>>> @@ -379,6 +379,9 @@ struct MachineState {
+>>>        } \
+>>>        type_init(machine_initfn##_register_types)
+>>>    
+>>> +extern GlobalProperty hw_compat_7_2[];
+>>> +extern const size_t hw_compat_7_2_len;
 >>
->> Signed-off-by: Nikolay Borisov <nborisov@suse.com>
->> ---
->>   migration/migration.c |  5 +++++
->>   migration/migration.h |  3 +++
->>   migration/savevm.c    | 38 ++++++++++++++++++++++----------------
->>   3 files changed, 30 insertions(+), 16 deletions(-)
->>
->> diff --git a/migration/migration.c b/migration/migration.c
->> index 140b0f1a54bd..d0779bbaf862 100644
->> --- a/migration/migration.c
->> +++ b/migration/migration.c
->> @@ -1896,6 +1896,8 @@ static void migrate_fd_cleanup(MigrationState *s)
->>       g_free(s->hostname);
->>       s->hostname = NULL;
->>   
->> +    json_writer_free(s->vmdesc);
->> +
->>       qemu_savevm_state_cleanup();
->>   
->>       if (s->to_dst_file) {
->> @@ -2154,6 +2156,7 @@ void migrate_init(MigrationState *s)
->>       error_free(s->error);
->>       s->error = NULL;
->>       s->hostname = NULL;
->> +    s->vmdesc = NULL;
->>   
->>       migrate_set_state(&s->state, MIGRATION_STATUS_NONE, MIGRATION_STATUS_SETUP);
->>   
->> @@ -4269,6 +4272,8 @@ void migrate_fd_connect(MigrationState *s, Error *error_in)
->>           return;
->>       }
->>   
->> +    s->vmdesc = json_writer_new(false);
->> +
->>       if (multifd_save_setup(&local_err) != 0) {
->>           error_report_err(local_err);
->>           migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
->> diff --git a/migration/migration.h b/migration/migration.h
->> index cdad8aceaaab..96f27aba2210 100644
->> --- a/migration/migration.h
->> +++ b/migration/migration.h
->> @@ -17,6 +17,7 @@
->>   #include "exec/cpu-common.h"
->>   #include "hw/qdev-core.h"
->>   #include "qapi/qapi-types-migration.h"
->> +#include "qapi/qmp/json-writer.h"
->>   #include "qemu/thread.h"
->>   #include "qemu/coroutine_int.h"
->>   #include "io/channel.h"
->> @@ -261,6 +262,8 @@ struct MigrationState {
->>   
->>       int state;
->>   
->> +    JSONWriter *vmdesc;
->> +
->>       /* State related to return path */
->>       struct {
->>           /* Protected by qemu_file_lock */
->> diff --git a/migration/savevm.c b/migration/savevm.c
->> index 48e85c052c2c..174cdbefc29d 100644
->> --- a/migration/savevm.c
->> +++ b/migration/savevm.c
->> @@ -1137,13 +1137,18 @@ void qemu_savevm_non_migratable_list(strList **reasons)
->>   
->>   void qemu_savevm_state_header(QEMUFile *f)
->>   {
->> +    MigrationState *s = migrate_get_current();
->>       trace_savevm_state_header();
->>       qemu_put_be32(f, QEMU_VM_FILE_MAGIC);
->>       qemu_put_be32(f, QEMU_VM_FILE_VERSION);
->>   
->> -    if (migrate_get_current()->send_configuration) {
->> +    if (s->send_configuration) {
->>           qemu_put_byte(f, QEMU_VM_CONFIGURATION);
->> -        vmstate_save_state(f, &vmstate_configuration, &savevm_state, 0);
->> +	json_writer_start_object(s->vmdesc, NULL);
->> +	json_writer_start_object(s->vmdesc, "configuration");
->> +        vmstate_save_state(f, &vmstate_configuration, &savevm_state, s->vmdesc);
->> +	json_writer_end_object(s->vmdesc);
->> +
+>> QEMU 7.2 is not out yet.
 > 
-> IIUC, this is changing the info that is written in the VM
-> configuration section, by adding an extra level of nesting
-> to the object.
-> 
-> Isn't this going to cause backwards compatibility problems ?
-> 
-> Nothing in the patch seems to take account of the exctra
-> 'configuiration' object that has been started
+> Yes, and the introduction of the new compat machines needs to go into a
+> separate patch. I'm usually preparing that patch while QEMU is in
+> freeze, but feel free to cook up a patch earlier if you need it.
 
-The resulting json looks like:
+OK, Thanks, I understand I put it in a separate file so it can be 
+adapted at the moment the series will need to be merged.
 
-{
-     "configuration": {
-         "vmsd_name": "configuration",
-         "version": 1,
-         "fields": [
-             {
-                 "name": "len",
-                 "type": "uint32",
-                 "size": 4
-             },
-             {
-                 "name": "name",
-                 "type": "buffer",
-                 "size": 13
-             }
-         ],
-         "subsections": [
-             {
-                 "vmsd_name": "configuration/capabilities",
-                 "version": 1,
-                 "fields": [
-                     {
-                         "name": "caps_count",
-                         "type": "uint32",
-                         "size": 4
-                     },
-                     {
-                         "name": "capabilities",
-                         "type": "capability",
-                         "size": 10
-                     }
-                 ]
-             }
-         ]
-     },
-     "page_size": 4096,
-     "devices": [
-         {
-             "name": "timer",
-             "instance_id": 0,
-//ommitted
+Regards,
+Pierre
 
-So the "configuration" object is indeed added, but older versions of 
-qemu can ignore it without any problem.
-
-
-> 
-> Also, there's two  json_writer_start_object calls, but only
-> one json_writer_end_object.
-
-That's intentional, the first one begins the top-level object and it is 
-actually paired with the final call to 
-json_writer_end_object(s->vmdesc); in 
-qemu_savevm_state_complete_precopy_non_iterable .
-
-> 
-> BTW, some <tab> crept into this patch.
-
-Will fix this.
-
-PS. I usually work on the linux kernel so vim used my linuxsty.vim 
-settings. However, I eventually instsalled .editorconfig support so I 
-guess those are leftovers.
-> 
-> 
->>       }
->>   }
->>   
->> @@ -1364,15 +1369,16 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
->>                                                       bool in_postcopy,
->>                                                       bool inactivate_disks)
->>   {
->> -    g_autoptr(JSONWriter) vmdesc = NULL;
->> +    MigrationState *s = migrate_get_current();
->>       int vmdesc_len;
->>       SaveStateEntry *se;
->>       int ret;
->>   
->> -    vmdesc = json_writer_new(false);
->> -    json_writer_start_object(vmdesc, NULL);
->> -    json_writer_int64(vmdesc, "page_size", qemu_target_page_size());
->> -    json_writer_start_array(vmdesc, "devices");
->> +    if (!s->send_configuration) {
->> +	    json_writer_start_object(s->vmdesc, NULL);
->> +    }
->> +    json_writer_int64(s->vmdesc, "page_size", qemu_target_page_size());
->> +    json_writer_start_array(s->vmdesc, "devices");
->>       QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
->>   
->>           if ((!se->ops || !se->ops->save_state) && !se->vmsd) {
->> @@ -1385,12 +1391,12 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
->>   
->>           trace_savevm_section_start(se->idstr, se->section_id);
->>   
->> -        json_writer_start_object(vmdesc, NULL);
->> -        json_writer_str(vmdesc, "name", se->idstr);
->> -        json_writer_int64(vmdesc, "instance_id", se->instance_id);
->> +        json_writer_start_object(s->vmdesc, NULL);
->> +        json_writer_str(s->vmdesc, "name", se->idstr);
->> +        json_writer_int64(s->vmdesc, "instance_id", se->instance_id);
->>   
->>           save_section_header(f, se, QEMU_VM_SECTION_FULL);
->> -        ret = vmstate_save(f, se, vmdesc);
->> +        ret = vmstate_save(f, se, s->vmdesc);
->>           if (ret) {
->>               qemu_file_set_error(f, ret);
->>               return ret;
->> @@ -1398,7 +1404,7 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
->>           trace_savevm_section_end(se->idstr, se->section_id, 0);
->>           save_section_footer(f, se);
->>   
->> -        json_writer_end_object(vmdesc);
->> +        json_writer_end_object(s->vmdesc);
->>       }
->>   
->>       if (inactivate_disks) {
->> @@ -1417,14 +1423,14 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
->>           qemu_put_byte(f, QEMU_VM_EOF);
->>       }
->>   
->> -    json_writer_end_array(vmdesc);
->> -    json_writer_end_object(vmdesc);
->> -    vmdesc_len = strlen(json_writer_get(vmdesc));
->> +    json_writer_end_array(s->vmdesc);
->> +    json_writer_end_object(s->vmdesc);
->> +    vmdesc_len = strlen(json_writer_get(s->vmdesc));
->>   
->>       if (should_send_vmdesc()) {
->>           qemu_put_byte(f, QEMU_VM_VMDESCRIPTION);
->>           qemu_put_be32(f, vmdesc_len);
->> -        qemu_put_buffer(f, (uint8_t *)json_writer_get(vmdesc), vmdesc_len);
->> +        qemu_put_buffer(f, (uint8_t *)json_writer_get(s->vmdesc), vmdesc_len);
->>       }
->>   
->>       return 0;
->> -- 
->> 2.34.1
->>
-> 
-> With regards,
-> Daniel
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
