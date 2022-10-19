@@ -2,84 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B566050FD
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 22:06:41 +0200 (CEST)
-Received: from localhost ([::1]:37660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96CAD60510B
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 22:09:54 +0200 (CEST)
+Received: from localhost ([::1]:36838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olFKq-0007d8-3F
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 16:06:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52424)
+	id 1olFNx-0001GM-Nu
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 16:09:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olFHS-00062R-2U
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 16:03:10 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:43809)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olFHQ-0007iT-7P
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 16:03:09 -0400
-Received: by mail-wr1-x433.google.com with SMTP id n12so30712721wrp.10
- for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 13:03:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=V5oPI5RL36DvE2OhBgy2XDPuuayy8zp1Y6yU6zoVOXA=;
- b=RuotgBvTOM8DtGQ2KNmA0t/Af6PbH1tvpYj4VioWp37zqUxTNwH18IJ2tIBdOTcWzU
- Sn7QQ8h88pcM5poszMXttRSKayHTIlvnXDTONsEgdAOGE3jlL9xfuy7oeFcss83Ve3FX
- mYBnwbr5GhH0K3XW2cuIes+ALTPbQyuc+645IatooQwWu0wt3n9AhyCXQ0Llg15jy4ja
- LQM3TDix1IrOjgK9ToNAbWT7vw8LDBgnOUUMVvFNYx61eAO5bhd2Qc7E54O1BB9GGUcV
- nuBhuYebKjBkLLjCCHDqKcEvCs5ZA20foTYQ5TspmPR/wD53OrYQ4hmeUI+d+hXwDU/i
- El9g==
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1olFLl-00084J-IW
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 16:07:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30729)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1olFLW-0008QK-OB
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 16:07:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666210039;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9zuhJbAgevZhYQIgB4M0gLNgTtbVMni6J+ZHX+ty1PI=;
+ b=CKMKVfiMr6KV4yEHtNwDrcYSmGjWjt15CgwYp/HsqhXK5pzvb3yQhc1mxsobHpJAAExK50
+ jZ5v3FOaqTPoblPHrABI+rgY7iNHP1aEpQol2/V6HSXIsb+h9HtE1TAgFL81/FjRMnwcNr
+ MX6H6FB7lmgpnZtJraytf5+OyYLG5Ao=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-553-eEomAsIPNTWh4zRTs9tgWA-1; Wed, 19 Oct 2022 16:07:08 -0400
+X-MC-Unique: eEomAsIPNTWh4zRTs9tgWA-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ lu3-20020a0562145a0300b004b1d6f4130eso11259510qvb.1
+ for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 13:07:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=V5oPI5RL36DvE2OhBgy2XDPuuayy8zp1Y6yU6zoVOXA=;
- b=Ace12MGyg5FbcmwY9ctRS/k44PjvsnQDAfoDRQw7I6ZneYG/PbPXjJheXp+/HpJ4Q+
- u3pByLpqyEerjTrRNJm9uNvtVmMftyXkOBdC3MZgz2jc4NaZV4i0QUebpOK9mzwj2JX+
- Q5z4eIItSm/rcoF761Jyj4AM60wntHNQKlaJxj1F0Qd0QoNKtAsRlWK9RvntFeeRjxRH
- ssbIRJZQRIYvHmbyQio0Y7OrTq27moDwLaszgBOa9cT44unFRRqxiPVbmCbom/l7iV25
- tdb5s8VraP6GUeRQ7LsfU07suO7dwPzg2UBHJgoa/EoBCFKzVnQBv6K7nx+JMq/Mh4aY
- WUqg==
-X-Gm-Message-State: ACrzQf1LuW+T+rKa6rfgeQOjo/HESOKCP60kBOhbEZp3Tr/BBb8tOWKM
- /KnyUgEdoWcAqsfrACCcQKQN/g==
-X-Google-Smtp-Source: AMsMyM79sZ0X2OFZogr3xr2HCZlGx6PQtB0kV4nVrYVwIgG8an4EtHDeHAAAvP3FvHcrcvvvCchY1g==
-X-Received: by 2002:a5d:490c:0:b0:22e:6545:996e with SMTP id
- x12-20020a5d490c000000b0022e6545996emr5957669wrq.523.1666209786290; 
- Wed, 19 Oct 2022 13:03:06 -0700 (PDT)
-Received: from [192.168.7.115] (m194-158-70-1.andorpac.ad. [194.158.70.1])
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9zuhJbAgevZhYQIgB4M0gLNgTtbVMni6J+ZHX+ty1PI=;
+ b=KSpZMHwaR+4T+jBOo5kCyS/W4b5PgctQvfn86mj7aO5wT3zFY6jd5TWdQ4WJ8SCSxT
+ QNui8Fb+IHmWgvbAWwKrSyFItSfQo2jWZawKgbnjRtAAI6g5Nl7Pb/LkdVGZh80bEu9t
+ FLtPCMaw85fggUfTvNsmoMO6LRLYVKy5rTFnMVR5IhyukMWUoB3s01lnc7Mr/QDjaWd1
+ mXB2NYdFXiD4F5PU0tU3VXvSV6l/9GGmJTl6pOKRtH3v2cM76bdt4xiJWfIMWgk5pyKk
+ McH++HsqHMXrhqonmmp2YcYSdyh3h4QRHQQLN1N2Hdd34dTTpN98Raa4tl/LcVXmNtD0
+ y1pw==
+X-Gm-Message-State: ACrzQf1r3Gl9/CU+QDWQootQDq9gCHzH0cRP4gC+0KC+plgq34KRdOVo
+ kiPR8qufgvLOWy+kPt1fL6uQJgkHyywoMmMStVFJ311hcNZeqy/4qG8TBSqC+xJ4D4EX0dRsC2r
+ HF4qK5tK0UvVDkPo=
+X-Received: by 2002:a05:6214:3017:b0:4b1:bfdc:d4c1 with SMTP id
+ ke23-20020a056214301700b004b1bfdcd4c1mr8297321qvb.42.1666210027482; 
+ Wed, 19 Oct 2022 13:07:07 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4icgwv5M9ApP4fwlV2bK7Nmi5y49cime+FJBeEhlnAqFm6G0ZtEvbW+TZA0GlsAxj3l3GHhw==
+X-Received: by 2002:a05:6214:3017:b0:4b1:bfdc:d4c1 with SMTP id
+ ke23-20020a056214301700b004b1bfdcd4c1mr8297299qvb.42.1666210027190; 
+ Wed, 19 Oct 2022 13:07:07 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
  by smtp.gmail.com with ESMTPSA id
- l15-20020a05600c4f0f00b003c706e177c1sm964730wmq.14.2022.10.19.13.03.04
+ r8-20020a05620a298800b006be8713f742sm5851738qkp.38.2022.10.19.13.07.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Oct 2022 13:03:05 -0700 (PDT)
-Message-ID: <6b62a753-974d-968e-9e8f-a79e23a29719@linaro.org>
-Date: Wed, 19 Oct 2022 22:03:03 +0200
+ Wed, 19 Oct 2022 13:07:06 -0700 (PDT)
+Message-ID: <73b398c9-52d7-88fa-7e84-f9ed082799b0@redhat.com>
+Date: Wed, 19 Oct 2022 22:07:02 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.3.2
-Subject: Re: [RFC PATCH] target/s390x: fake instruction loading when handling
- 'ex'
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v5 5/6] hw/arm/virt: Improve high memory region address
+ assignment
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>
-References: <20221019113552.1051940-1-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221019113552.1051940-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Gavin Shan <gshan@redhat.com>, qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, maz@kernel.org, cohuck@redhat.com,
+ zhenyzha@redhat.com, richard.henderson@linaro.org, peter.maydell@linaro.org,
+ shan.gavin@gmail.com
+References: <20221011231832.149839-1-gshan@redhat.com>
+ <20221011231832.149839-6-gshan@redhat.com>
+From: Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <20221011231832.149839-6-gshan@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,76 +106,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/10/22 13:35, Alex Bennée wrote:
-> The s390x EXecute instruction is a bit weird as we synthesis the
-> executed instruction from what we have stored in memory. When plugins
-> are enabled this breaks because we detect the ld_code2() loading from
-> a non zero offset without the rest of the instruction being there.
-> 
-> Work around this with a special helper to inform the rest of the
-> translator about the instruction so things stay consistent.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Richard Henderson <richard.henderson@linaro.org>
+Hi Gavin
+
+On 10/12/22 01:18, Gavin Shan wrote:
+> There are three high memory regions, which are VIRT_HIGH_REDIST2,
+> VIRT_HIGH_PCIE_ECAM and VIRT_HIGH_PCIE_MMIO. Their base addresses
+> are floating on highest RAM address. However, they can be disabled
+> in several cases.
+>
+> (1) One specific high memory region is disabled by developer by
+>     toggling vms->highmem_{redists, ecam, mmio}.
+I would replace the above sentence by
+
+One specific high memory region is likely to be disabled by the code by toggling vms->highmem_{redists, ecam, mmio}:
+
+>
+> (2) VIRT_HIGH_PCIE_ECAM region is disabled on machine, which is
+>     'virt-2.12' or ealier than it.
+>
+> (3) VIRT_HIGH_PCIE_ECAM region is disabled when firmware is loaded
+>     on 32-bits system.
+>
+> (4) One specific high memory region is disabled when it breaks the
+>     PA space limit.
+>
+> The current implementation of virt_set_memmap() isn't comprehensive
+> because the space for one specific high memory region is always
+> reserved from the PA space for case (1), (2) and (3).
+I would suggest:
+isn't optimized because the high memory region PA range is always
+
+reserved whatever the actual state of the corresponding vms->highmem_
+* flag.
+
+>  In the code,
+> 'base' and 'vms->highest_gpa' are always increased for those three
+> cases. It's unnecessary since the assigned space of the disabled
+> high memory region won't be used afterwards.
+>
+> This improves the address assignment for those three high memory
+s/This improves/Improve
+> region by skipping the address assignment for one specific high
+> memory region if it has been disabled in case (1), (2) and (3).
+> 'vms->high_compact' is false for now, meaning that we don't have
+s/hight_compat/highmem_compact
+
+You also may justify the introduction of this new field.
+> any behavior changes until it becomes configurable through property
+> 'compact-highmem' in next patch.
+>
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> Tested-by: Zhenyu Zhang <zhenyzha@redhat.com>
 > ---
->   include/exec/translator.h    | 17 +++++++++++++++++
->   target/s390x/tcg/translate.c |  4 ++++
->   2 files changed, 21 insertions(+)
-> 
-> diff --git a/include/exec/translator.h b/include/exec/translator.h
-> index 3b77f5f4aa..156f568701 100644
-> --- a/include/exec/translator.h
-> +++ b/include/exec/translator.h
-> @@ -211,6 +211,23 @@ translator_ldq_swap(CPUArchState *env, DisasContextBase *db,
->       return ret;
->   }
->   
-> +/**
-> + * translator_fake_ldw - fake instruction load
-> + * @insn16: 2 byte instruction
-> + * @pc: program counter of instruction
-> + *
-> + * This is a special case helper used where the instruction we are
-> + * about to translate comes from somewhere else (e.g. being
-> + * re-synthesised for s390x "ex"). It ensures we update other areas of
-> + * the translator with details of the executed instruction.
-> + */
-> +
-> +static inline void translator_fake_ldw(uint16_t insn16, abi_ptr pc)
-> +{
-> +    plugin_insn_append(pc, &insn16, sizeof(insn16));
-> +}
-> +
-> +
->   /*
->    * Return whether addr is on the same page as where disassembly started.
->    * Translators can use this to enforce the rule that only single-insn
-> diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-> index 1d2dddab1c..a07b8b2d23 100644
-> --- a/target/s390x/tcg/translate.c
-> +++ b/target/s390x/tcg/translate.c
-> @@ -6317,12 +6317,16 @@ static const DisasInsn *extract_insn(CPUS390XState *env, DisasContext *s)
->       if (unlikely(s->ex_value)) {
->           /* Drop the EX data now, so that it's clear on exception paths.  */
->           TCGv_i64 zero = tcg_const_i64(0);
-> +        int i;
->           tcg_gen_st_i64(zero, cpu_env, offsetof(CPUS390XState, ex_value));
->           tcg_temp_free_i64(zero);
->   
->           /* Extract the values saved by EXECUTE.  */
->           insn = s->ex_value & 0xffffffffffff0000ull;
->           ilen = s->ex_value & 0xf;
-> +        for (i = 0; i < ilen; i += 2) {
+>  hw/arm/virt.c         | 23 +++++++++++++++--------
+>  include/hw/arm/virt.h |  1 +
+>  2 files changed, 16 insertions(+), 8 deletions(-)
+>
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index ee98a8a3b6..c05cfb5314 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -1717,22 +1717,29 @@ static void virt_set_high_memmap(VirtMachineState *vms,
+>          region_base = ROUND_UP(base, extended_memmap[i].size);
+>          region_size = extended_memmap[i].size;
+>  
+> -        vms->memmap[i].base = region_base;
+> -        vms->memmap[i].size = region_size;
+> -
+>          /*
+>           * Check each device to see if they fit in the PA space,
+while we are at it, you can change s/they fit/it fits
+> -         * moving highest_gpa as we go.
+> +         * moving highest_gpa as we go. For compatibility, move
+> +         * highest_gpa for disabled fitting devices as well, if
+> +         * the compact layout has been disabled.
+>           *
+>           * For each device that doesn't fit, disable it.
+>           */
+>          fits = (region_base + region_size) <= BIT_ULL(pa_bits);
+> -        if (fits) {
+> +        if (*region_enabled && fits) {
+> +            vms->memmap[i].base = region_base;
+> +            vms->memmap[i].size = region_size;
+>              vms->highest_gpa = region_base + region_size - 1;
+> +            base = region_base + region_size;
+> +        } else {
+> +            *region_enabled = false;
+> +            if (!vms->highmem_compact) {
+> +                base = region_base + region_size;
+> +                if (fits) {
+> +                    vms->highest_gpa = region_base + region_size - 1;
+> +                }
+> +            }
+>          }
+> -
+> -        *region_enabled &= fits;
+> -        base = region_base + region_size;
+>      }
+>  }
+This looks quite complicated to me. It is not obvious for instance we
+have the same code as before when highmem_compact is not set. Typically
 
-Is it worth guarding with #ifdef CONFIG_PLUGIN?
+vms->memmap[i].base/size are not always set as they were to be and impact on the rest of the code must be double checked.
 
-> +            translator_fake_ldw(extract64(insn, 48 - (i * 8), 16), pc + i);
-> +        }
->           op = insn >> 56;
->       } else {
->           insn = ld_code2(env, s, pc);
+Could this be rewritten in that way (pseudocode totally untested).
+
+
+static void fit_highmem_slot(vms, *base, i, pa_bits)
+{
+    region_enabled = virt_get_high_memmap_enabled(vms, i);
+    region_base = ROUND_UP(*base, extended_memmap[i].size);
+    region_size = extended_memmap[i].size;
+    fits = (region_base + region_size) <= BIT_ULL(pa_bits);
+    *region_enabled &= fits;
+    vms->memmap[i].base = region_base;
+    vms->memmap[i].size = region_size;
+
+    /* compact layout only allocates space for the region if this latter
+is enabled & fits*/
+    if (vms->highmem_compact && !region_enabled) {
+        return;
+    }
+
+    /* account for the region and update the base address/highest_gpa if
+needed*/ 
+    *base = region_base + region_size;
+    if (fits) { 
+        vms->highest_gpa = *base - 1;
+    }
+}
+
+static void virt_set_high_memmap(VirtMachineState *vms,
+                                 hwaddr base, int pa_bits)
+{
+    hwaddr region_base, region_size;
+    bool *region_enabled, fits;
+    int i;
+
+    for (i = VIRT_LOWMEMMAP_LAST; i < ARRAY_SIZE(extended_memmap); i++) {
+        /* we do not break in case the region does not fit since
+fit_highmem_slot also updates the enabled status of the region */
+        fit_highmem_slot(vms, &base, i, pa_bits);
+    }
+}
+
+>  
+> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+> index 6ec479ca2b..709f623741 100644
+> --- a/include/hw/arm/virt.h
+> +++ b/include/hw/arm/virt.h
+> @@ -144,6 +144,7 @@ struct VirtMachineState {
+>      PFlashCFI01 *flash[2];
+>      bool secure;
+>      bool highmem;
+> +    bool highmem_compact;
+>      bool highmem_ecam;
+>      bool highmem_mmio;
+>      bool highmem_redists;
+Thanks
+
+Eric
 
 
