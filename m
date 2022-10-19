@@ -2,87 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE4DA603669
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 01:07:50 +0200 (CEST)
-Received: from localhost ([::1]:47630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB8FF60370B
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 02:18:12 +0200 (CEST)
+Received: from localhost ([::1]:33932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okvgb-0001Cp-GI
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 19:07:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43534)
+	id 1okwmh-00071V-Ja
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 20:18:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1okvcn-0007Yg-On
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 19:03:53 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:37397)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1okvcl-0003rq-SK
- for qemu-devel@nongnu.org; Tue, 18 Oct 2022 19:03:53 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- p3-20020a17090a284300b0020a85fa3ffcso18839290pjf.2
- for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 16:03:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=4l+Wu65I5JWP2zR087cUq9KLDVYyOAtNJz+60HIKh2M=;
- b=G5qd4RUpviMqb++hbnmuOrDGjmVgkfcKWv1zYLr5fSwqXj2XT+mHC47ET8S/BgyyfG
- NpbenvUsAFOLfTY11tpivzUxNT37Da+8SJuXOz6IFXGsA8ZfCWYZhxfAdjDxhEMtdHNw
- ywanAl/NFJEXS5k55WfByCOE0cyviSEdv5ihk3+pidyx88g8Q/68G7lAlRbzkV4Xxpv3
- eMrYIyb0BjpLTSI9Cj0yZ/+5/FJnXgiU1l2OhSk4DmnZ7kZJwZTMhblku1Ui4BRzKgS3
- AfYTdGI3je5GVZaKY4KUf3fGiBnNTXfoY45GxxAKPt0Otp+s1WP8TaP+4EpoX1uZanbR
- UMYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4l+Wu65I5JWP2zR087cUq9KLDVYyOAtNJz+60HIKh2M=;
- b=qsJT4Ozm4AAcIQM72TCkdWUaL+8IOB2HwvjvB5iG53YdHCsNOTLSy7C6fpYsdnmTPY
- X9rv+Kk+MOlCSrEWayU+b2G2CeCs50KGRphPdRxWwjpjZd1gY6PwwFAfEXM7tYNYIeRT
- BHePc4TcNUa78DnlCm7c9R8KWzkJqtRQ6SiPjJrlVfez8bd5dLQEWkviliTjWc/w57hF
- ZlcOWzdzXJZlghW9HB2AHMcUFG2Q1Y5zfK9x9RZf67DHR0yJkDDXHba8cANRDtWXePzA
- h9krTIk9/grgm5ftmH4mJ6Yt1z9xO83c2VEM/q9q8t5flA8mEgdyLsTR6u+mYuDyNY2m
- KoFQ==
-X-Gm-Message-State: ACrzQf39cf/R9ku/qDRlmlcXLT2tU9fqF+wpWD1l7g303AWl0yw+T1MS
- DF9P6u3cxiDs2Z9l/EujeKDLJg==
-X-Google-Smtp-Source: AMsMyM4djnCqF0XqZOSfDyAKYRdAKHlt6oj2S8AkD4EtPS/2g0wwjyhZPnehPlooIZdM35g+EAbf1g==
-X-Received: by 2002:a17:902:d2c3:b0:185:3bda:46f8 with SMTP id
- n3-20020a170902d2c300b001853bda46f8mr5228136plc.58.1666134228867; 
- Tue, 18 Oct 2022 16:03:48 -0700 (PDT)
-Received: from [192.168.1.107] ([149.135.10.35])
- by smtp.gmail.com with ESMTPSA id
- k5-20020aa79985000000b0054223a0185asm9746302pfh.161.2022.10.18.16.03.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Oct 2022 16:03:47 -0700 (PDT)
-Message-ID: <ca09e907-e0d2-f64c-e72e-7cbf343a8e4d@linaro.org>
-Date: Wed, 19 Oct 2022 09:03:09 +1000
+ (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
+ id 1okwk7-0005I8-LO; Tue, 18 Oct 2022 20:15:31 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:41518)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
+ id 1okwk5-0005lJ-HS; Tue, 18 Oct 2022 20:15:31 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 84277B821A9;
+ Wed, 19 Oct 2022 00:15:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE917C433B5;
+ Wed, 19 Oct 2022 00:15:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1666138524;
+ bh=6i7KAYuzLBv0qf0M4B6AwUOT+eo1+bQqCOc9SAEYLRs=;
+ h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+ b=Io+QfxDfonOBKqwTUft1nb9xK9O8l5Hdqk61KgxQgIg41zaRWM0IPAiMV2gwUg994
+ HqKLJET0l6EZ5K6PsLUw+Atms/XdlnnUX/WC9ipkvfSn25jsGJ7yXdBJwUYWxSozIA
+ 4v30wsJgiOuYdpPrmKXwDsmwEIRozJxXd6s5Fol8IP4i1HQLuZy5aQ6tZnd3++1BiW
+ 9NLgdq5lagA7sJ3Za2jx8usP+KnuuiBYxMmLlOR33LOxHW+RmSu3FSOQ4q4Vl4SVDe
+ ndTZlJj6fx1tg4CjrLCgJq0+03RQ+T0lQENf+qNMWGOaw0vcA+o0LUj21bW+ShLuVN
+ IkRnjXPNk/5og==
+Date: Tue, 18 Oct 2022 17:15:21 -0700 (PDT)
+From: Stefano Stabellini <sstabellini@kernel.org>
+X-X-Sender: sstabellini@ubuntu-linux-20-04-desktop
+To: Julien Grall <julien@xen.org>
+cc: Stefano Stabellini <sstabellini@kernel.org>, 
+ Vikram Garhwal <vikram.garhwal@amd.com>, qemu-devel@nongnu.org, 
+ stefano.stabellini@amd.com, Peter Maydell <peter.maydell@linaro.org>, 
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>, 
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, 
+ "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>
+Subject: Re: [PATCH v1 10/12] hw/arm: introduce xenpv machine
+In-Reply-To: <460a480e-4e91-8d78-60da-59b9cc98beee@xen.org>
+Message-ID: <alpine.DEB.2.22.394.2210181241320.4587@ubuntu-linux-20-04-desktop>
+References: <20221015050750.4185-1-vikram.garhwal@amd.com>
+ <20221015050750.4185-11-vikram.garhwal@amd.com>
+ <3e504b1b-197d-b77b-16e1-86530eb3d64c@xen.org>
+ <alpine.DEB.2.22.394.2210171345450.2351079@ubuntu-linux-20-04-desktop>
+ <460a480e-4e91-8d78-60da-59b9cc98beee@xen.org>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: Question about TCG backend correctness
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org
-References: <4672400c-0084-3bf3-a596-7a42115301f0@linux.alibaba.com>
- <87lepeeno0.fsf@linaro.org>
- <4841b154-bd05-c677-cfb4-46a350ddd0aa@linux.alibaba.com>
- <b97a7b1a-f8cd-b0d5-bbde-1a06049281dd@linaro.org> <87v8ohcwm0.fsf@linaro.org>
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <87v8ohcwm0.fsf@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=sstabellini@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -73
+X-Spam_score: -7.4
+X-Spam_bar: -------
+X-Spam_report: (-7.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,41 +79,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/18/22 19:22, Alex Bennée wrote:
-> I'm not wedded to the idea - but it could be a super simple processor
-> with a lot less extra baggage than a full ISA - purely for throwing TCG
-> ops at rather than decoding any machine code.
+On Tue, 18 Oct 2022, Julien Grall wrote:
+> On 18/10/2022 02:26, Stefano Stabellini wrote:
+> > On Sun, 16 Oct 2022, Julien Grall wrote:
+> > > Hi,
+> > > 
+> > > There seem to be some missing patches on xen-devel (including the cover
+> > > letter). Is that expected?
+> > > 
+> > > On 15/10/2022 06:07, Vikram Garhwal wrote:
+> > > > Add a new machine xenpv which creates a IOREQ server to register/connect
+> > > > with
+> > > > Xen Hypervisor.
+> > > 
+> > > I don't like the name 'xenpv' because it doesn't convey the fact that some
+> > > of
+> > > the HW may be emulated rather than para-virtualized. In fact one may only
+> > > want
+> > > to use for emulating devices.
+> > > 
+> > > Potential name would be 'xen-arm' or re-using 'virt' but with 'accel=xen'
+> > > to
+> > > select a Xen layout.
+> > 
+> > The benefit of 'xenpv' is that it doesn't require any changes to libxl.
+> 
+> I am quite surprised. Looking at the code, it seems to work more by chance
+> than it is intentional as the code is gated by libxl__need_xenpv_qemu(). So it
+> would not start if there were no emulated devices.
+> 
+> > It is even backward compatible so it could be used with an older version
+> > of Xen/libxl.
+> We don't really gain much here. IOREQ is a tech preview and anyone that wants
+> to try it should really use the latest Xen.
 
-I'd be surprised if you don't wind up with a similar amount of code as for a full ISA, and 
-a lot more baggage on the side besides.  But feel free to prove me wrong...
-
-OTOH, if we really did split out a libtcg, disconnected from any target and parameterized, 
-that would make the sort of non-ISA unit testing you're thinking about vastly easier, 
-because you'd be able to write a driver program that isn't "qemu", without all of the 
-target baggage that would currently make this infeasible.
-
-And, very most likely, such a parameterized libtcg will be required for full heterogeneous 
-emulation...
-
-> Can we detect optimisation failures with guest tests?
-
-No, and that's where some sort of specific harness might be helpful.
-
-> Is it worth doing anything to lower the barrier of entry for these small
-> micro tests or is the current check-tcg framework enough?
-
-I think the current check-tcg framework probably sufficient.
-Generally I think
-
-int main()
-{
-    asm("test");
-    assert(result);
-    return 0;
-}
-
-is what these micro tests should be aiming for.
+I think that's fair.
 
 
-r~
+> > Backward compatibility aside, if we come up with a
+> > different name then we'll need changes to libxl and to manage those
+> > changes. For instance, if we use 'xen-arm' that would mean we would need
+> > to handle per-arch QEMU machine names.
+> 
+> Right, so the main argument here is for simplicity in libxl
+
+Yeah
+
+
+> Looking at how 'xenpv' is built, this is really expected to deal with PV
+> backend rather than emulated device. I do expect some changes as we go along
+> to be able to add emulated device.
+> 
+> Furthermore, libxl is not the only toolstack out. So I am not convinced this
+> is a good argument to keep the name the same.
+
+Let's think some more about the naming strategy. From a QEMU point of
+view we could choose any name we like (Vikram please confirm), the issue
+is really on the libxl side.
+
+Today libxl understands two QEMU "machines": xenpv and xenfv
+(pc,accel=xen is the same as xenfv, I'll use xenfv in this email for
+simplicity).
+
+xenpv is for PV guests and only provides PV backends, no emulation. It
+is used on both ARM and x86.
+
+xenfv is only used on x86, and it is for HVM guests, with a full set of
+emulated hardware (PIIX3, etc.).
+
+The purpose of this series is to introduce a QEMU machine that:
+- works on ARM (but could maybe work on other archs as a stretch goal)
+- provides PV backends
+- no emulated devices by default
+- also can emulate selected devices on request
+
+Certainly it is not xenfv or pc,accel=xen because they would with more
+emulation by default. This is more like "xenpvh": an extension to PV
+with also the capability of emulating one device as requested. It is not
+intended to emulate a full PC and doesn't do that by default like xenfv.
+
+If/When x86 PVH gains the ability to use QEMU as IOREQ server, I would
+imagine it would run a QEMU machine similar to this one.
+
+This is also how I would imagine it would get integrated in libxl: as a
+xenpv + individual emulated devices. Not as HVM for ARM. The other QEMU
+command line arguments are inline with the xenpv command line arguments
+rather than xenfv command line arguments. This is why the libxl changes
+are small to zero to make it work today.
+
+So, I think the following options work:
+
+a) call it "xenpv" because it is an extension of the old xenpv machine
+b) call it "xenpvh" because it is PV + few individual emulated devices
+
+If we call it xenpv there are fewer changes in libxl. If we call it
+xenpvh there are more changes in libxl but we can distinguish xenpv from
+xenpvh (I don't see why we need it right now, but I could imagine it
+could turn out useful in the future.)
+
+I would stay away from arch-specific machine names because it will make
+it harder on the libxl side without immediate benefits.
 
