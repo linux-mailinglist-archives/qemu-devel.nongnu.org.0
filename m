@@ -2,98 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 481216046E8
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 15:23:31 +0200 (CEST)
-Received: from localhost ([::1]:47358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B46BC604785
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 15:41:24 +0200 (CEST)
+Received: from localhost ([::1]:52940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ol92g-00073w-BF
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 09:23:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43696)
+	id 1ol9Jx-00070C-DS
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 09:41:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1ol8cu-0006qN-CV; Wed, 19 Oct 2022 08:56:52 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:34034)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ol8dg-0008Ta-RZ
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 08:57:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54271)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1ol8cs-00038g-30; Wed, 19 Oct 2022 08:56:51 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29JClhUQ014357;
- Wed, 19 Oct 2022 12:56:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=uRfgaItB/Ld6AkBJDOxObrkPHpeV5rcwWyN2ZeYAir0=;
- b=PGYJxjeBh+RbHQTLFHAt5PU4WSYF/wTiP84cEiDiTbHoF1iWUJq6tnvd+vPK2kOwSH5z
- yy6mkhrhrCgxlJdi9w5sTfr1jDCQNR4CgMAAokjlWExQHNLQ0fySp3PXMnzPoyTIwekh
- cNLbfFUB7zCSH5kVjDjSZRHqXuyySuVBaDAc4BwImUK+zaVQlNAB5TwnayNGjHNIdoyy
- Fr1lG8MeusAylQXzspW8poS1ra+dMiKNuPuAa9D9+Ot1jyhgvzBom1t93NXRhWc0JsQ7
- LL7UcBEO83asto+k7JpWUVkB/Pt+8H2n6DtIo7JCY2ykw4yk8dwuaLGFQU6zGbFnQr7S Gw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kahj48a5q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Oct 2022 12:56:45 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29JCmFu9018724;
- Wed, 19 Oct 2022 12:56:45 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kahj48a4t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Oct 2022 12:56:45 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29JCpQVR011172;
- Wed, 19 Oct 2022 12:56:43 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma04ams.nl.ibm.com with ESMTP id 3k7mg972y4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Oct 2022 12:56:43 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 29JCufnQ64356780
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 19 Oct 2022 12:56:41 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1983C52050;
- Wed, 19 Oct 2022 12:56:41 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id 075D95204F;
- Wed, 19 Oct 2022 12:56:41 +0000 (GMT)
-Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 25651)
- id C79E7E023C; Wed, 19 Oct 2022 14:56:40 +0200 (CEST)
-From: Christian Borntraeger <borntraeger@linux.ibm.com>
-To: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ol8dc-0003Fb-KB
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 08:57:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666184255;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VYZE/jI3tWND2DSVVKiNqz/oFvPDvCCQd78vRQoYbWQ=;
+ b=BeRsKvFVZOzgYR3JJyForQY+KjngqKzSCE469IBl3mbb81nkov4NBtzGiJjzmRbpdW99gt
+ wWuIK8Kgb5NV6Q1Wn/emh6w48PIssXAd07+7zsC8mqABO01+0z6Ck+p74NzamzKw1Ve+og
+ 6xICAGGYtBj/GCZsbG6zkPM8bLQsY0w=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-197-vHzFqVPUOnG9fAOoIClAaw-1; Wed, 19 Oct 2022 08:57:34 -0400
+X-MC-Unique: vHzFqVPUOnG9fAOoIClAaw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ ay12-20020a05600c1e0c00b003c6e18d9aa8so10742048wmb.8
+ for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 05:57:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VYZE/jI3tWND2DSVVKiNqz/oFvPDvCCQd78vRQoYbWQ=;
+ b=UJQ+w/C+yoFCFLq5jjFcwtBkyMJRmpBuRR/by4VXkLa6IliE21E3oyT2jwqvnYhbDC
+ SQKT8PFgvJeaXpXNEpAwsshLMwuiJz0Nk7HG8N/ymeUZvIUIgQGQKUinxQ1j6a14gSIZ
+ BhsMfVf9xU/BJ8Cq6/pjtDcLdlEbrJIKDTUwht3wFErGk6/IJBnoFFDPq84gIrvN2ss5
+ H9I0hrNrclWrW6A7rba6V+pcYE3uWrg5zhDzMpvFdl5R7SYD9CKSZRN0nZuhiXVwryow
+ 74DB+HlzrpKbzNDLta6bXJMcYiPDA2B0vi43RJ/IfF9b9KPlKNqOg1OVBgZ28oYVQNJA
+ +/lA==
+X-Gm-Message-State: ACrzQf0SVtMEHpWpp1JZ0RGMA0Clz5KyNc+sMI1yg4rbL9iGiz8JEaSt
+ ztM3p5MjHLoz1DQgE6evWZdfgkRngvbW4329qxMmIhJZNoa/BdYuYO6Q5S+km6gS+souvAuXfWq
+ JHo20Y5K+JAYBZTo=
+X-Received: by 2002:adf:fad0:0:b0:22e:4998:fd5d with SMTP id
+ a16-20020adffad0000000b0022e4998fd5dmr5028772wrs.267.1666184252878; 
+ Wed, 19 Oct 2022 05:57:32 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6EfsedQ4qtw0wwhbX/p2LJUWYu1x3PGnwSmFCa7oQxkFTz0ANFs1VsKMoETDIVZNXvXKX7gA==
+X-Received: by 2002:adf:fad0:0:b0:22e:4998:fd5d with SMTP id
+ a16-20020adffad0000000b0022e4998fd5dmr5028752wrs.267.1666184252547; 
+ Wed, 19 Oct 2022 05:57:32 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c707:2c00:d4ac:d2c:4aee:dac1?
+ (p200300cbc7072c00d4ac0d2c4aeedac1.dip0.t-ipconnect.de.
+ [2003:cb:c707:2c00:d4ac:d2c:4aee:dac1])
+ by smtp.gmail.com with ESMTPSA id
+ r18-20020a05600c35d200b003b3307fb98fsm14151512wmq.24.2022.10.19.05.57.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Oct 2022 05:57:32 -0700 (PDT)
+Message-ID: <e27ddef2-66ab-3dbd-ff9d-5d7b1ad1a384@redhat.com>
+Date: Wed, 19 Oct 2022 14:57:31 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH] MAINTAINERS: target/s390x/: add Ilya as reviewer
+Content-Language: en-US
+To: Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-s390x <qemu-s390x@nongnu.org>,
  Cornelia Huck <cohuck@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH] MAINTAINERS: target/s390x/: add Ilya as reviewer
-Date: Wed, 19 Oct 2022 14:56:40 +0200
-Message-Id: <20221019125640.3014143-1-borntraeger@linux.ibm.com>
-X-Mailer: git-send-email 2.37.3
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 5O6EgdZtRclWDodO2lf7_40D4Gz2S_vj
-X-Proofpoint-GUID: ilvqSmT5P3hXaO3oDAAVh4MdgSAJ1UsE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-19_07,2022-10-19_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 impostorscore=0
- phishscore=0 priorityscore=1501 bulkscore=0 clxscore=1011 mlxlogscore=999
- spamscore=0 malwarescore=0 lowpriorityscore=0 mlxscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
- definitions=main-2210190070
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20221019125640.3014143-1-borntraeger@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20221019125640.3014143-1-borntraeger@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,26 +107,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ilya has volunteered to review TCG patches for s390x.
+On 19.10.22 14:56, Christian Borntraeger wrote:
+> Ilya has volunteered to review TCG patches for s390x.
+> 
+> Signed-off-by: Christian Borntraeger <borntraeger@linux.ibm.com>
+> ---
+>   MAINTAINERS | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index e3d5b7e09c46..ae5e8c8ecbb6 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -305,6 +305,7 @@ F: target/rx/
+>   S390 TCG CPUs
+>   M: Richard Henderson <richard.henderson@linaro.org>
+>   M: David Hildenbrand <david@redhat.com>
+> +R: Ilya Leoshkevich <iii@linux.ibm.com>
+>   S: Maintained
+>   F: target/s390x/
+>   F: target/s390x/tcg
 
-Signed-off-by: Christian Borntraeger <borntraeger@linux.ibm.com>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+Acked-by: David Hildenbrand <david@redhat.com>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e3d5b7e09c46..ae5e8c8ecbb6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -305,6 +305,7 @@ F: target/rx/
- S390 TCG CPUs
- M: Richard Henderson <richard.henderson@linaro.org>
- M: David Hildenbrand <david@redhat.com>
-+R: Ilya Leoshkevich <iii@linux.ibm.com>
- S: Maintained
- F: target/s390x/
- F: target/s390x/tcg
 -- 
-2.37.3
+Thanks,
+
+David / dhildenb
 
 
