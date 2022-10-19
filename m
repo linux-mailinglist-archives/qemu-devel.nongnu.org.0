@@ -2,54 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A7660520A
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 23:35:13 +0200 (CEST)
-Received: from localhost ([::1]:58606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94899605264
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 23:58:44 +0200 (CEST)
+Received: from localhost ([::1]:55974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olGiU-0006ED-M9
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 17:35:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37904)
+	id 1olH5F-0003c8-QR
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 17:58:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leon@is.currently.online>)
- id 1olGcp-0004CH-Hx; Wed, 19 Oct 2022 17:29:19 -0400
-Received: from netc0.host.rs.currently.online ([2a03:4000:58:d86::1]:51282)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leon@is.currently.online>)
- id 1olGcm-0005Lm-PK; Wed, 19 Oct 2022 17:29:19 -0400
-Received: from carbon.srv.schuermann.io (unknown [IPv6:fdcb:20e8:f36d:3::1])
- by netc0.host.rs.currently.online (Postfix) with ESMTPS id 4FE921EA93;
- Wed, 19 Oct 2022 21:29:08 +0000 (UTC)
-From: Leon Schuermann <leon@is.currently.online>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=is.currently.online;
- s=carbon; t=1666214947;
- bh=z1J7TtMUAHdxTPhbsgXblay8Xi7fOhew65CSGvYpssc=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date;
- b=5CRwhV98MszwQmq7HlhEZvMet8ov1Dcmgpd2H5cNOpOMuYgTPE/3T+bPQP0lStSJM
- umNlPeZX5bMiERTwodZCWXqHmEbP555Fi8nElzUfvi3f5NMz1DqskCD9vS2KVHReoO
- CeB/HGVAArEiXIzF6WO78nwIME0Q19Nc8KqFseQk=
-To: Alistair Francis <alistair23@gmail.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, Alistair Francis
- <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>, "open
- list:RISC-V" <qemu-riscv@nongnu.org>, "qemu-devel@nongnu.org Developers"
- <qemu-devel@nongnu.org>
-Subject: Re: [PATCH] target/riscv/pmp: fix non-translated page size address
- checks w/ MPU
-In-Reply-To: <CAKmqyKMfZXarM1g8PdhAqcgZzDyq6RY3R94cYhOo80WXiCv5aA@mail.gmail.com>
-References: <20220909152258.2568942-1-leon@is.currently.online>
- <CAKmqyKMfZXarM1g8PdhAqcgZzDyq6RY3R94cYhOo80WXiCv5aA@mail.gmail.com>
-Date: Wed, 19 Oct 2022 17:29:04 -0400
-Message-ID: <8735bjqz8f.fsf@silicon.host.schuermann.io>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1olH1y-0001f2-ER; Wed, 19 Oct 2022 17:55:18 -0400
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:43992)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1olH1w-0001jj-LX; Wed, 19 Oct 2022 17:55:18 -0400
+Received: by mail-ot1-x332.google.com with SMTP id
+ t4-20020a9d7f84000000b00661c3d864f9so10315211otp.10; 
+ Wed, 19 Oct 2022 14:55:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=clHcCLrcR0dWoBefEahKee2VosJq1pGC+15hS6U/5cE=;
+ b=jMUjGuiw3n+2yfxLMvNqjjlQh/HI331lXmd98hQLIU7/hjBEZ9sqZMpsaQdKQ1X3sg
+ mot4oTRyMFxzBhyypgzE7MS/DgoNFxXNxeHSo8tS4tYZe6McHmYpdGJg5EQ3K+IBbZXI
+ s5FUF+TTz9YfiovaPG/s7xM/ZznJrAJkuK0pRhdY54UE2GsvCxtvLugBbLGC0juQxM+w
+ TkLQyHfwIzTwOgEFdZGmVmc2AGzz2n953MTu4eaUvudytvSNjZiuDh4/cMaaCHPlC4yE
+ fpZMt6HhkrpgkTAaUVBEaVkj+3YVqvY7oQRHGcOoL8x4j2OSHOZ5B4TgTxeI11fnpJ4a
+ IIOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=clHcCLrcR0dWoBefEahKee2VosJq1pGC+15hS6U/5cE=;
+ b=Lwri4pKmR9j82BDMZ4WbQQqBPkGwRy0py5nWS58W4TXYU1eM8UleZxZT026R24YFJj
+ lYg2FkHAjWTKMV5aBN2xyiqrr3v+mwwuFsC+fy6hGzz5H1tQ49XvU4jm6/fCLEERI2U1
+ dReCGalL4zm4C3a4MXFjRkHLALYcKO8U+korClZQRBeXdABMFvBSo6MHLAm22Wi+JVh6
+ 9q6KGf45PxaA2UuCoLXUJPYOVwM1QNul3IFiPNIKhXWTjV1SEk/uUUgckM1Bsrp7i5kI
+ I0JAM5liZj6jCQudXH9zH+ZKiezse0f6/6YABcP3cndeVzN/wPPNw7petJcjFac/8abL
+ PWdg==
+X-Gm-Message-State: ACrzQf3o0cWxO+6HbSJYHGHrQH75LTA0aKFgkcxSvcpHKrLiuFme/bpi
+ GdAFEIb8enVrgCpMf8SykS4=
+X-Google-Smtp-Source: AMsMyM7XtOCHqsKovVKgoxdFo4R9bIuVTu2003QBn3WwD7wjPbjZMCn42OXH/RoiJxxf70hJUgCTXg==
+X-Received: by 2002:a05:6830:3c1:b0:661:b7ea:cc70 with SMTP id
+ p1-20020a05683003c100b00661b7eacc70mr5243218otc.53.1666216513727; 
+ Wed, 19 Oct 2022 14:55:13 -0700 (PDT)
+Received: from [192.168.10.102] ([179.111.38.2])
+ by smtp.gmail.com with ESMTPSA id
+ p34-20020a056870832200b00130e66a7644sm8085758oae.25.2022.10.19.14.55.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Oct 2022 14:55:13 -0700 (PDT)
+Message-ID: <56d9bc9d-65ac-05a5-d35b-4d64766687a4@gmail.com>
+Date: Wed, 19 Oct 2022 18:55:08 -0300
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=2a03:4000:58:d86::1;
- envelope-from=leon@is.currently.online; helo=netc0.host.rs.currently.online
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, FROM_SUSPICIOUS_NTLD=0.001, PDS_OTHER_BAD_TLD=2,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v3 00/29] PowerPC interrupt rework
+Content-Language: en-US
+To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
+ fbarrat@linux.ibm.com, alex.bennee@linaro.org, farosas@linux.ibm.com
+References: <20221011204829.1641124-1-matheus.ferst@eldorado.org.br>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20221011204829.1641124-1-matheus.ferst@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x332.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,97 +95,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alistair Francis <alistair23@gmail.com> writes:
->> @@ -310,10 +311,17 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
->>      }
->>
->>      if (size == 0) {
->> -        if (riscv_feature(env, RISCV_FEATURE_MMU)) {
->> +        if (riscv_cpu_mxl(env) == MXL_RV32) {
->> +            satp_mode = SATP32_MODE;
->> +        } else {
->> +            satp_mode = SATP64_MODE;
->> +        }
->> +
->> +        if (riscv_feature(env, RISCV_FEATURE_MMU)
->> +            && get_field(env->satp, satp_mode)) {
->>              /*
->> -             * If size is unknown (0), assume that all bytes
->> -             * from addr to the end of the page will be accessed.
->> +             * If size is unknown (0) and virtual memory is enabled, assume that
->> +             * all bytes from addr to the end of the page will be accessed.
->>               */
->>              pmp_size = -(addr | TARGET_PAGE_MASK);
->
-> I'm not sure if we need this at all.
->
-> This function is only called from get_physical_address_pmp() which
-> then calculates the maximum size using pmp_is_range_in_tlb().
+Matheus,
 
-I'm by no means an expert on QEMU and the TCG, so I've spun up GDB to
-trace down why exactly this function is called with a `size = 0`
-argument. It seems that there are, generally, two code paths to this
-function for instruction fetching:
-
-1. From `get_page_addr_code`: this will invoke `tlb_fill` with
-   `size = 0` to check whether an entire page is accessible and can be
-   translated given the current MMU / PMP configuration. In my
-   particular example, it may rightfully fail then. `get_page_addr_code`
-   can handle this and will subsequently cause an MMU protection check
-   to be run for each instruction translated.
-
-2. From `riscv_tr_translate_insn` through `cpu_lduw_code`, which will
-   execute `tlb_fill` with `size = 2` (to try and decode a compressed
-   instruction), assuming that the above check failed.
-
-So far, so good. In this context, it actually makes sense for
-`pmp_hart_has_privs` to interpret `size = 0` to mean whether the entire
-page is allowed to be accessed.
-
-> I suspect that we could just use sizeof(target_ulong) as the fallback
-> for every time size == 0. Then pmp_is_range_in_tlb() will set the
-> tlb_size to the maximum possible size of the PMP region.
-
-Given the above, I don't think that this is correct either. The PMP
-check would pass even for non-page sized regions, but the entire page
-would be accessible through the TCG's TLB, as a consequence of
-`get_page_addr_code`.
+This series fails 'make check-avocado' in an e500 test. This is the error output:
 
 
-In the current implementation, `get_page_addr_code_hostp` calls
-`tlb_fill`, which in turn invokes the RISC-V TCG op `tlb_fill` with the
-parameter `probe = false`. This in turn raises a PMP exception in the
-CPU, whereas `get_page_addr_code` would seem to expect this a failing
-`tlb_fill` to be side-effect free, such that the MMU protection checks
-can be re-run per instruction in the TCG code generation phase.
+& make -j && \
+	make check-avocado AVOCADO_TESTS=tests/avocado/replay_kernel.py:ReplayKernelNormal.test_ppc64_e500
 
-I think that this is sufficient evidence to conclude that my initial
-patch is actually incorrect, however I am unsure as to how this issue
-can be solved proper. One approach which seems to work is to change
-`get_page_addr_code_hostp` to use a non-faulting page-table read
-instead:
+(...)
 
-@@ -1510,11 +1510,15 @@ tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, target_ulong addr,
-     uintptr_t mmu_idx = cpu_mmu_index(env, true);
-     uintptr_t index = tlb_index(env, mmu_idx, addr);
-     CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
-+    CPUState *cs = env_cpu(env);
-+    CPUClass *cc = CPU_GET_CLASS(cs);
-     void *p;
- 
-     if (unlikely(!tlb_hit(entry->addr_code, addr))) {
-         if (!VICTIM_TLB_HIT(addr_code, addr)) {
--            tlb_fill(env_cpu(env), addr, 0, MMU_INST_FETCH, mmu_idx, 0);
-+            // Nonfaulting page-table read:
-+            cc->tcg_ops->tlb_fill(cs, addr, 0, MMU_INST_FETCH, mmu_idx, true,
-+                                  0);
-             index = tlb_index(env, mmu_idx, addr);
-             entry = tlb_entry(env, mmu_idx, addr);
- 
+Fetching asset from tests/avocado/replay_kernel.py:ReplayKernelNormal.test_ppc64_e500
+JOB ID     : 506b6b07bf40cf1bffcf3911a0f9b8948de6553c
+JOB LOG    : /home/danielhb/qemu/build/tests/results/job-2022-10-19T17.37-506b6b0/job.log
+  (1/1) tests/avocado/replay_kernel.py:ReplayKernelNormal.test_ppc64_e500: INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred: Timeout reached\nOriginal status: ERROR\n{'name': '1-tests/avocado/replay_kernel.py:ReplayKernelNormal.test_ppc64_e500', 'logdir': '/home/danielhb/qemu/build/tests/results/job-2022-10-19T17.37-506b6b0/test-... (120.31 s)
+RESULTS    : PASS 0 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 1 | CANCEL 0
+JOB TIME   : 121.00 s
 
-However, given this touches the generic TCG implementation, I cannot
-judge whether this is correct or has any unintended side effects for
-other targets. If this is correct, I'd be happy to send a proper patch.
 
--Leon
+
+'git bisect' pointed the following commit as the culprit:
+
+d9bdb6192edc5c74cda754a6cd32237b1b9272f0 is the first bad commit
+commit d9bdb6192edc5c74cda754a6cd32237b1b9272f0
+Author: Matheus Ferst <matheus.ferst@eldorado.org.br>
+Date:   Tue Oct 11 17:48:27 2022 -0300
+
+     target/ppc: introduce ppc_maybe_interrupt
+     
+
+This would be patch 27.
+
+
+As a benchmark, this test when successful takes around 11 seconds in my test
+env:
+
+  (33/42) tests/avocado/replay_kernel.py:ReplayKernelNormal.test_ppc64_e500: PASS (11.02 s)
+
+
+Cedric's qemu-ppc-boot test suit works fine with this series, so I'd say that
+this avocado test is doing something else that is causing the problem.
+
+
+I'll test patches 1-26 later and see if all tests pass. In that case I'll push
+1-26 to ppc-next and then you can work on 27-29.
+
+
+Thanks,
+
+
+Daniel
+
+
+
+On 10/11/22 17:48, Matheus Ferst wrote:
+> Link to v2: https://lists.gnu.org/archive/html/qemu-ppc/2022-09/msg00556.html
+> This series is also available as a git branch: https://github.com/PPC64/qemu/tree/ferst-interrupt-fix-v3
+> Patches without review: 3-27
+> 
+> This new version rebases the patch series on the current master and
+> fixes some problems pointed out by Fabiano on v2.
+> 
+> Matheus Ferst (29):
+>    target/ppc: define PPC_INTERRUPT_* values directly
+>    target/ppc: always use ppc_set_irq to set env->pending_interrupts
+>    target/ppc: split interrupt masking and delivery from ppc_hw_interrupt
+>    target/ppc: prepare to split interrupt masking and delivery by excp_model
+>    target/ppc: create an interrupt masking method for POWER9/POWER10
+>    target/ppc: remove unused interrupts from p9_next_unmasked_interrupt
+>    target/ppc: create an interrupt deliver method for POWER9/POWER10
+>    target/ppc: remove unused interrupts from p9_deliver_interrupt
+>    target/ppc: remove generic architecture checks from p9_deliver_interrupt
+>    target/ppc: move power-saving interrupt masking out of cpu_has_work_POWER9
+>    target/ppc: add power-saving interrupt masking logic to p9_next_unmasked_interrupt
+>    target/ppc: create an interrupt masking method for POWER8
+>    target/ppc: remove unused interrupts from p8_next_unmasked_interrupt
+>    target/ppc: create an interrupt deliver method for POWER8
+>    target/ppc: remove unused interrupts from p8_deliver_interrupt
+>    target/ppc: remove generic architecture checks from p8_deliver_interrupt
+>    target/ppc: move power-saving interrupt masking out of cpu_has_work_POWER8
+>    target/ppc: add power-saving interrupt masking logic to p8_next_unmasked_interrupt
+>    target/ppc: create an interrupt masking method for POWER7
+>    target/ppc: remove unused interrupts from p7_next_unmasked_interrupt
+>    target/ppc: create an interrupt deliver method for POWER7
+>    target/ppc: remove unused interrupts from p7_deliver_interrupt
+>    target/ppc: remove generic architecture checks from p7_deliver_interrupt
+>    target/ppc: move power-saving interrupt masking out of cpu_has_work_POWER7
+>    target/ppc: add power-saving interrupt masking logic to p7_next_unmasked_interrupt
+>    target/ppc: remove ppc_store_lpcr from CONFIG_USER_ONLY builds
+>    target/ppc: introduce ppc_maybe_interrupt
+>    target/ppc: unify cpu->has_work based on cs->interrupt_request
+>    target/ppc: move the p*_interrupt_powersave methods to excp_helper.c
+> 
+>   hw/ppc/pnv_core.c        |   1 +
+>   hw/ppc/ppc.c             |  17 +-
+>   hw/ppc/spapr_hcall.c     |   6 +
+>   hw/ppc/spapr_rtas.c      |   2 +-
+>   hw/ppc/trace-events      |   2 +-
+>   target/ppc/cpu.c         |   4 +
+>   target/ppc/cpu.h         |  43 +-
+>   target/ppc/cpu_init.c    | 212 +---------
+>   target/ppc/excp_helper.c | 887 ++++++++++++++++++++++++++++++++++-----
+>   target/ppc/helper.h      |   1 +
+>   target/ppc/helper_regs.c |   2 +
+>   target/ppc/misc_helper.c |  11 +-
+>   target/ppc/translate.c   |   2 +
+>   13 files changed, 833 insertions(+), 357 deletions(-)
+> 
 
