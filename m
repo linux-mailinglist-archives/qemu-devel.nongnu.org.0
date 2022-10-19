@@ -2,97 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B39EC605354
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 00:46:26 +0200 (CEST)
-Received: from localhost ([::1]:44718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 934F06053A7
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 01:03:48 +0200 (CEST)
+Received: from localhost ([::1]:37598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olHpR-0005XB-MQ
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 18:46:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48522)
+	id 1olI6D-0003Ji-7B
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 19:03:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1olHhQ-0002Lc-07
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 18:38:08 -0400
-Received: from mx0a-0031df01.pphosted.com ([205.220.168.131]:45830)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1olI1P-0000l1-M6
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 18:58:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55730)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1olHh7-00029l-VI
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 18:38:07 -0400
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29JL4gFs018336;
- Wed, 19 Oct 2022 22:37:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=2tAe4aunpofBEInt+B67LqN3+dVmUagUZZA3HNspg+A=;
- b=GgBxS3SuiFU0LbxJ7/5nfA3pHkqwvWebsNpR09K8Xs4rE8/8+u2E5XUocgCT/lxPBqZo
- l3SSlFqE+SKSn6F2H4YfSkm05Xl2PijUUaKZkFcxKVPj1kdh4t0vbjaPDxfHODiyM5Qv
- n2r3YOoAE+wgT0a2i7Dk3A4OZTmA9Fp5WE1Z8dUhTZNB3MPHf1U5DjN32mCLmBeVe++b
- T7KRCAvr6qGelb4rqGEcsjSobij9ygC3um1icDe3HFjPZKaEohbbiWVlL72/4wOZIiT8
- lCrn5SGmMA/MbcNZt/M0rwVRbcyvbqNlIDIslk9oHPoe5xcL8k4JNLjV8UMQCK94TOv7 vw== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kaed8u11r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Oct 2022 22:37:43 +0000
-Received: from pps.filterd (NALASPPMTA05.qualcomm.com [127.0.0.1])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 29JMbhJm004645; 
- Wed, 19 Oct 2022 22:37:43 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by NALASPPMTA05.qualcomm.com (PPS) with ESMTPS id 3k7nxkwacj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Wed, 19 Oct 2022 22:37:43 +0000
-Received: from NALASPPMTA05.qualcomm.com (NALASPPMTA05.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29JMbgD9004629;
- Wed, 19 Oct 2022 22:37:42 GMT
-Received: from hu-devc-lv-u18-c.qualcomm.com (hu-tsimpson-lv.qualcomm.com
- [10.47.235.220])
- by NALASPPMTA05.qualcomm.com (PPS) with ESMTP id 29JMbglg004618;
- Wed, 19 Oct 2022 22:37:42 +0000
-Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 47164)
- id C663B500105; Wed, 19 Oct 2022 15:37:41 -0700 (PDT)
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: qemu-devel@nongnu.org
-Cc: tsimpson@quicinc.com, richard.henderson@linaro.org, philmd@linaro.org,
- ale@rev.ng, anjo@rev.ng, bcain@quicinc.com, quic_mathbern@quicinc.com
-Subject: [PATCH 8/8] Hexagon (target/hexagon) Use direct block chaining for
- tight loops
-Date: Wed, 19 Oct 2022 15:37:39 -0700
-Message-Id: <20221019223739.3868-9-tsimpson@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20221019223739.3868-1-tsimpson@quicinc.com>
-References: <20221019223739.3868-1-tsimpson@quicinc.com>
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1olI1L-000856-NZ
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 18:58:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666220321;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gDsYHxpn4vI6uXvzOx8x1hrM82leFIjji4u/R8LZ/uU=;
+ b=Cnqb/LwRnpB/Z4CHTgLCLrvMSAS41mc4xr7/CcVODloMccXmMBEjmPydpakEwM29Lck555
+ pd/x22DDgMruqmZ1hxa2TuhhWVpm+/Pv/sMOfK7Gm0nK1P0pAizAsbMCgyxKt4iQhsT9oC
+ rSphrRpFLYTjI2Zf7CG295fK8xcLkP4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-422-0QHn9OGIP_6QGU8CQehA3w-1; Wed, 19 Oct 2022 18:58:37 -0400
+X-MC-Unique: 0QHn9OGIP_6QGU8CQehA3w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 367DD185A78B;
+ Wed, 19 Oct 2022 22:58:37 +0000 (UTC)
+Received: from [10.64.54.70] (vpn2-54-70.bne.redhat.com [10.64.54.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 83A5E40C6EC2;
+ Wed, 19 Oct 2022 22:58:33 +0000 (UTC)
+Subject: Re: [PATCH v5 5/6] hw/arm/virt: Improve high memory region address
+ assignment
+To: eric.auger@redhat.com, qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, maz@kernel.org, cohuck@redhat.com,
+ zhenyzha@redhat.com, richard.henderson@linaro.org, peter.maydell@linaro.org,
+ shan.gavin@gmail.com
+References: <20221011231832.149839-1-gshan@redhat.com>
+ <20221011231832.149839-6-gshan@redhat.com>
+ <73b398c9-52d7-88fa-7e84-f9ed082799b0@redhat.com>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <972791b6-a9ff-9014-28db-ed6554586027@redhat.com>
+Date: Thu, 20 Oct 2022 06:58:30 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: fkUGBzMgWf-5GC-a3CkqIiQgYVaJ2n4i
-X-Proofpoint-GUID: fkUGBzMgWf-5GC-a3CkqIiQgYVaJ2n4i
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-19_12,2022-10-19_04,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- adultscore=0 lowpriorityscore=0 malwarescore=0 mlxscore=0 phishscore=0
- mlxlogscore=414 spamscore=0 impostorscore=0 bulkscore=0 suspectscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210190125
-Received-SPF: pass client-ip=205.220.168.131;
- envelope-from=tsimpson@qualcomm.com; helo=mx0a-0031df01.pphosted.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <73b398c9-52d7-88fa-7e84-f9ed082799b0@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,161 +83,240 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Gavin Shan <gshan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RGlyZWN0IGJsb2NrIGNoYWluaW5nIGlzIGRvY3VtZW50ZWQgaGVyZQpodHRwczovL3FlbXUucmVh
-ZHRoZWRvY3MuaW8vZW4vbGF0ZXN0L2RldmVsL3RjZy5odG1sI2RpcmVjdC1ibG9jay1jaGFpbmlu
-ZwoKSGV4YWdvbiBpbm5lciBsb29wcyBlbmQgd2l0aCB0aGUgZW5kbG9vcDAgaW5zdHJ1Y3Rpb24K
-VG8gZ28gYmFjayB0byB0aGUgYmVnaW5uaW5nIG9mIHRoZSBsb29wLCB0aGlzIGluc3RydWN0aW9u
-cyB3cml0ZXMgdG8gUEMKZnJvbSByZWdpc3RlciBTQTAgKHN0YXJ0IGFkZHJlc3MgMCkuICBUbyB1
-c2UgZGlyZWN0IGJsb2NrIGNoYWluaW5nLCB3ZQpoYXZlIHRvIGFzc2lnbiBQQyB3aXRoIGEgY29u
-c3RhbnQgdmFsdWUuICBTbywgd2Ugc3BlY2lhbGl6ZSB0aGUgY29kZQpnZW5lcmF0aW9uIHdoZW4g
-dGhlIHN0YXJ0IG9mIHRoZSB0cmFuc2xhdGlvbiBibG9jayBpcyBlcXVhbCB0byBTQTAuCgpXaGVu
-IHRoaXMgaXMgdGhlIGNhc2UsIHdlIGRlZmVyIHRoZSBjb21wYXJlL2JyYW5jaCBmcm9tIGVuZGxv
-b3AwIHRvCmdlbl9lbmRfdGIuICBXaGVuIHRoaXMgaXMgZG9uZSwgd2UgY2FuIGFzc2lnbiB0aGUg
-c3RhcnQgYWRkcmVzcyBvZiB0aGUgVEIKdG8gUEMuCgpTaWduZWQtb2ZmLWJ5OiBUYXlsb3IgU2lt
-cHNvbiA8dHNpbXBzb25AcXVpY2luYy5jb20+Ci0tLQogdGFyZ2V0L2hleGFnb24vY3B1LmggICAg
-ICAgfCAxNyArKysrKystLS0KIHRhcmdldC9oZXhhZ29uL2dlbl90Y2cuaCAgIHwgIDMgKysKIHRh
-cmdldC9oZXhhZ29uL3RyYW5zbGF0ZS5oIHwgIDEgKwogdGFyZ2V0L2hleGFnb24vZ2VucHRyLmMg
-ICAgfCA3MSArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKwogdGFyZ2V0L2hl
-eGFnb24vdHJhbnNsYXRlLmMgfCA0MSArKysrKysrKysrKysrKysrKysrLS0tCiA1IGZpbGVzIGNo
-YW5nZWQsIDEyNCBpbnNlcnRpb25zKCspLCA5IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL3Rh
-cmdldC9oZXhhZ29uL2NwdS5oIGIvdGFyZ2V0L2hleGFnb24vY3B1LmgKaW5kZXggZmY4YzI2Mjcy
-ZC4uNTI2MGUwZjEyNyAxMDA2NDQKLS0tIGEvdGFyZ2V0L2hleGFnb24vY3B1LmgKKysrIGIvdGFy
-Z2V0L2hleGFnb24vY3B1LmgKQEAgLTE1MiwxNiArMTUyLDIzIEBAIHN0cnVjdCBBcmNoQ1BVIHsK
-IAogI2luY2x1ZGUgImNwdV9iaXRzLmgiCiAKK3R5cGVkZWYgdW5pb24geworICAgIHVpbnQzMl90
-IGk7CisgICAgc3RydWN0IHsKKyAgICAgICAgYm9vbCBpc190aWdodF9sb29wOjE7CisgICAgfTsK
-K30gSGV4U3RhdGVGbGFnczsKKwogc3RhdGljIGlubGluZSB2b2lkIGNwdV9nZXRfdGJfY3B1X3N0
-YXRlKENQVUhleGFnb25TdGF0ZSAqZW52LCB0YXJnZXRfdWxvbmcgKnBjLAogICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRhcmdldF91bG9uZyAqY3NfYmFzZSwgdWludDMy
-X3QgKmZsYWdzKQogeworICAgIEhleFN0YXRlRmxhZ3MgaGV4X2ZsYWdzID0geyAwIH07CiAgICAg
-KnBjID0gZW52LT5ncHJbSEVYX1JFR19QQ107CiAgICAgKmNzX2Jhc2UgPSAwOwotI2lmZGVmIENP
-TkZJR19VU0VSX09OTFkKLSAgICAqZmxhZ3MgPSAwOwotI2Vsc2UKLSNlcnJvciBTeXN0ZW0gbW9k
-ZSBub3Qgc3VwcG9ydGVkIG9uIEhleGFnb24geWV0Ci0jZW5kaWYKKyAgICBpZiAoKnBjID09IGVu
-di0+Z3ByW0hFWF9SRUdfU0EwXSkgeworICAgICAgICBoZXhfZmxhZ3MuaXNfdGlnaHRfbG9vcCA9
-IHRydWU7CisgICAgfQorICAgICpmbGFncyA9IGhleF9mbGFncy5pOwogfQogCiBzdGF0aWMgaW5s
-aW5lIGludCBjcHVfbW11X2luZGV4KENQVUhleGFnb25TdGF0ZSAqZW52LCBib29sIGlmZXRjaCkK
-ZGlmZiAtLWdpdCBhL3RhcmdldC9oZXhhZ29uL2dlbl90Y2cuaCBiL3RhcmdldC9oZXhhZ29uL2dl
-bl90Y2cuaAppbmRleCBkYmFmY2FlMmRlLi5kOWMzNDU4MDFiIDEwMDY0NAotLS0gYS90YXJnZXQv
-aGV4YWdvbi9nZW5fdGNnLmgKKysrIGIvdGFyZ2V0L2hleGFnb24vZ2VuX3RjZy5oCkBAIC02MjAs
-NiArNjIwLDkgQEAKICNkZWZpbmUgZkdFTl9UQ0dfSjJfY2FsbGYoU0hPUlRDT0RFKSBcCiAgICAg
-Z2VuX2NvbmRfY2FsbChjdHgsIHBrdCwgUHVWLCBmYWxzZSwgcmlWKQogCisjZGVmaW5lIGZHRU5f
-VENHX0oyX2VuZGxvb3AwKFNIT1JUQ09ERSkgXAorICAgIGdlbl9lbmRsb29wMChjdHgsIHBrdCkK
-KwogLyoKICAqIENvbXBvdW5kIGNvbXBhcmUgYW5kIGp1bXAgaW5zdHJ1Y3Rpb25zCiAgKiBIZXJl
-IGlzIGEgcHJpbWVyIHRvIHVuZGVyc3RhbmQgdGhlIHRhZyBuYW1lcwpkaWZmIC0tZ2l0IGEvdGFy
-Z2V0L2hleGFnb24vdHJhbnNsYXRlLmggYi90YXJnZXQvaGV4YWdvbi90cmFuc2xhdGUuaAppbmRl
-eCBlNjBkYmYwZTdhLi4zNGFiZTg2YjVjIDEwMDY0NAotLS0gYS90YXJnZXQvaGV4YWdvbi90cmFu
-c2xhdGUuaAorKysgYi90YXJnZXQvaGV4YWdvbi90cmFuc2xhdGUuaApAQCAtNTcsNiArNTcsNyBA
-QCB0eXBlZGVmIHN0cnVjdCBEaXNhc0NvbnRleHQgewogICAgIGJvb2wgaGFzX3NpbmdsZV9kaXJl
-Y3RfYnJhbmNoOwogICAgIFRDR3YgYnJhbmNoX2NvbmQ7CiAgICAgdGFyZ2V0X3Vsb25nIGJyYW5j
-aF9kZXN0OworICAgIGJvb2wgaXNfdGlnaHRfbG9vcDsKIH0gRGlzYXNDb250ZXh0OwogCiBzdGF0
-aWMgaW5saW5lIHZvaWQgY3R4X2xvZ19yZWdfd3JpdGUoRGlzYXNDb250ZXh0ICpjdHgsIGludCBy
-bnVtKQpkaWZmIC0tZ2l0IGEvdGFyZ2V0L2hleGFnb24vZ2VucHRyLmMgYi90YXJnZXQvaGV4YWdv
-bi9nZW5wdHIuYwppbmRleCAwN2I0MzI2ZTU2Li4yNTJlZDUyZDFiIDEwMDY0NAotLS0gYS90YXJn
-ZXQvaGV4YWdvbi9nZW5wdHIuYworKysgYi90YXJnZXQvaGV4YWdvbi9nZW5wdHIuYwpAQCAtNTE2
-LDYgKzUxNiwyMCBAQCBzdGF0aWMgdm9pZCBnZW5fd3JpdGVfbmV3X3BjX3BjcmVsKERpc2FzQ29u
-dGV4dCAqY3R4LCBQYWNrZXQgKnBrdCwKICAgICB9CiB9CiAKK3N0YXRpYyB2b2lkIGdlbl9zZXRf
-dXNyX2ZpZWxkKGludCBmaWVsZCwgVENHdiB2YWwpCit7CisgICAgdGNnX2dlbl9kZXBvc2l0X3Rs
-KGhleF9uZXdfdmFsdWVbSEVYX1JFR19VU1JdLCBoZXhfbmV3X3ZhbHVlW0hFWF9SRUdfVVNSXSwK
-KyAgICAgICAgICAgICAgICAgICAgICAgdmFsLAorICAgICAgICAgICAgICAgICAgICAgICByZWdf
-ZmllbGRfaW5mb1tmaWVsZF0ub2Zmc2V0LAorICAgICAgICAgICAgICAgICAgICAgICByZWdfZmll
-bGRfaW5mb1tmaWVsZF0ud2lkdGgpOworfQorCitzdGF0aWMgdm9pZCBnZW5fc2V0X3Vzcl9maWVs
-ZGkoaW50IGZpZWxkLCBpbnQgeCkKK3sKKyAgICBUQ0d2IHZhbCA9IHRjZ19jb25zdGFudF90bCh4
-KTsKKyAgICBnZW5fc2V0X3Vzcl9maWVsZChmaWVsZCwgdmFsKTsKK30KKwogc3RhdGljIHZvaWQg
-Z2VuX2NvbXBhcmUoVENHQ29uZCBjb25kLCBUQ0d2IHJlcywgVENHdiBhcmcxLCBUQ0d2IGFyZzIp
-CiB7CiAgICAgVENHdiBvbmUgPSB0Y2dfY29uc3RhbnRfdGwoMHhmZik7CkBAIC02NDUsNiArNjU5
-LDYzIEBAIHN0YXRpYyB2b2lkIGdlbl9jb25kX2NhbGwoRGlzYXNDb250ZXh0ICpjdHgsIFBhY2tl
-dCAqcGt0LAogICAgIGdlbl9zZXRfbGFiZWwoc2tpcCk7CiB9CiAKK3N0YXRpYyB2b2lkIGdlbl9l
-bmRsb29wMChEaXNhc0NvbnRleHQgKmN0eCwgUGFja2V0ICpwa3QpCit7CisgICAgVENHdiBscGNm
-ZyA9IHRjZ190ZW1wX2xvY2FsX25ldygpOworCisgICAgR0VUX1VTUl9GSUVMRChVU1JfTFBDRkcs
-IGxwY2ZnKTsKKworICAgIC8qCisgICAgICogICAgaWYgKGxwY2ZnID09IDEpIHsKKyAgICAgKiAg
-ICAgICAgaGV4X25ld19wcmVkX3ZhbHVlWzNdID0gMHhmZjsKKyAgICAgKiAgICAgICAgaGV4X3By
-ZWRfd3JpdHRlbiB8PSAxIDw8IDM7CisgICAgICogICAgfQorICAgICAqLworICAgIFRDR0xhYmVs
-ICpsYWJlbDEgPSBnZW5fbmV3X2xhYmVsKCk7CisgICAgdGNnX2dlbl9icmNvbmRpX3RsKFRDR19D
-T05EX05FLCBscGNmZywgMSwgbGFiZWwxKTsKKyAgICB7CisgICAgICAgIHRjZ19nZW5fbW92aV90
-bChoZXhfbmV3X3ByZWRfdmFsdWVbM10sIDB4ZmYpOworICAgICAgICB0Y2dfZ2VuX29yaV90bCho
-ZXhfcHJlZF93cml0dGVuLCBoZXhfcHJlZF93cml0dGVuLCAxIDw8IDMpOworICAgIH0KKyAgICBn
-ZW5fc2V0X2xhYmVsKGxhYmVsMSk7CisKKyAgICAvKgorICAgICAqICAgIGlmIChscGNmZykgewor
-ICAgICAqICAgICAgICBTRVRfVVNSX0ZJRUxEKFVTUl9MUENGRywgbHBjZmcgLSAxKTsKKyAgICAg
-KiAgICB9CisgICAgICovCisgICAgVENHTGFiZWwgKmxhYmVsMiA9IGdlbl9uZXdfbGFiZWwoKTsK
-KyAgICB0Y2dfZ2VuX2JyY29uZGlfdGwoVENHX0NPTkRfRVEsIGxwY2ZnLCAwLCBsYWJlbDIpOwor
-ICAgIHsKKyAgICAgICAgdGNnX2dlbl9zdWJpX3RsKGxwY2ZnLCBscGNmZywgMSk7CisgICAgICAg
-IFNFVF9VU1JfRklFTEQoVVNSX0xQQ0ZHLCBscGNmZyk7CisgICAgfQorICAgIGdlbl9zZXRfbGFi
-ZWwobGFiZWwyKTsKKworICAgIC8qCisgICAgICogSWYgd2UncmUgaW4gYSB0aWdodCBsb29wLCB3
-ZSdsbCBkbyB0aGlzIGF0IHRoZSBlbmQgb2YgdGhlIFRCIHRvIHRha2UKKyAgICAgKiBhZHZhbnRh
-Z2Ugb2YgZGlyZWN0IGJsb2NrIGNoYWluaW5nLgorICAgICAqLworICAgIGlmICghY3R4LT5pc190
-aWdodF9sb29wKSB7CisgICAgICAgIC8qCisgICAgICAgICAqICAgIGlmIChoZXhfZ3ByW0hFWF9S
-RUdfTEMwXSA+IDEpIHsKKyAgICAgICAgICogICAgICAgIFBDID0gaGV4X2dwcltIRVhfUkVHX1NB
-MF07CisgICAgICAgICAqICAgICAgICBoZXhfbmV3X3ZhbHVlW0hFWF9SRUdfTEMwXSA9IGhleF9n
-cHJbSEVYX1JFR19MQzBdIC0gMTsKKyAgICAgICAgICogICAgfQorICAgICAgICAgKi8KKyAgICAg
-ICAgVENHTGFiZWwgKmxhYmVsMyA9IGdlbl9uZXdfbGFiZWwoKTsKKyAgICAgICAgdGNnX2dlbl9i
-cmNvbmRpX3RsKFRDR19DT05EX0xFVSwgaGV4X2dwcltIRVhfUkVHX0xDMF0sIDEsIGxhYmVsMyk7
-CisgICAgICAgIHsKKyAgICAgICAgICAgIGdlbl9qdW1wcihjdHgsIHBrdCwgaGV4X2dwcltIRVhf
-UkVHX1NBMF0pOworICAgICAgICAgICAgdGNnX2dlbl9zdWJpX3RsKGhleF9uZXdfdmFsdWVbSEVY
-X1JFR19MQzBdLAorICAgICAgICAgICAgICAgICAgICAgICAgICAgIGhleF9ncHJbSEVYX1JFR19M
-QzBdLCAxKTsKKyAgICAgICAgfQorICAgICAgICBnZW5fc2V0X2xhYmVsKGxhYmVsMyk7CisgICAg
-fQorCisgICAgdGNnX3RlbXBfZnJlZShscGNmZyk7Cit9CisKIHN0YXRpYyB2b2lkIGdlbl9jbXBf
-anVtcG52KERpc2FzQ29udGV4dCAqY3R4LCBQYWNrZXQgKnBrdCwKICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIFRDR0NvbmQgY29uZCwgVENHdiB2YWwsIFRDR3Ygc3JjLCBpbnQgcGNfb2ZmKQog
-ewpkaWZmIC0tZ2l0IGEvdGFyZ2V0L2hleGFnb24vdHJhbnNsYXRlLmMgYi90YXJnZXQvaGV4YWdv
-bi90cmFuc2xhdGUuYwppbmRleCAyOWUyY2FhZjBmLi4xOGViMjdjNjUxIDEwMDY0NAotLS0gYS90
-YXJnZXQvaGV4YWdvbi90cmFuc2xhdGUuYworKysgYi90YXJnZXQvaGV4YWdvbi90cmFuc2xhdGUu
-YwpAQCAtMTMzLDcgKzEzMyw3IEBAIHN0YXRpYyB2b2lkIGdlbl9nb3RvX3RiKERpc2FzQ29udGV4
-dCAqY3R4LCBpbnQgaWR4LCB0YXJnZXRfdWxvbmcgZGVzdCkKICAgICB9CiB9CiAKLXN0YXRpYyB2
-b2lkIGdlbl9lbmRfdGIoRGlzYXNDb250ZXh0ICpjdHgpCitzdGF0aWMgdm9pZCBnZW5fZW5kX3Ri
-KERpc2FzQ29udGV4dCAqY3R4LCBQYWNrZXQgKnBrdCkKIHsKICAgICBnZW5fZXhlY19jb3VudGVy
-cyhjdHgpOwogCkBAIC0xNDksNiArMTQ5LDE4IEBAIHN0YXRpYyB2b2lkIGdlbl9lbmRfdGIoRGlz
-YXNDb250ZXh0ICpjdHgpCiAgICAgICAgIH0gZWxzZSB7CiAgICAgICAgICAgICBnZW5fZ290b190
-YihjdHgsIDAsIGN0eC0+YnJhbmNoX2Rlc3QpOwogICAgICAgICB9CisgICAgfSBlbHNlIGlmIChj
-dHgtPmlzX3RpZ2h0X2xvb3AgJiYKKyAgICAgICAgcGt0LT5pbnNuW3BrdC0+bnVtX2luc25zIC0g
-MV0ub3Bjb2RlID09IEoyX2VuZGxvb3AwKSB7CisgICAgICAgIC8qCisgICAgICAgICAqIFdoZW4g
-d2UncmUgaW4gYSB0aWdodCBsb29wLCB3ZSBkZWZlciB0aGUgZW5kbG9vcDAgcHJvY2Vzc2luZwor
-ICAgICAgICAgKiB0byB0YWtlIGFkdmFudGFnZSBvZiBkaXJlY3QgYmxvY2sgY2hhaW5pbmcKKyAg
-ICAgICAgICovCisgICAgICAgIFRDR0xhYmVsICpza2lwID0gZ2VuX25ld19sYWJlbCgpOworICAg
-ICAgICB0Y2dfZ2VuX2JyY29uZGlfdGwoVENHX0NPTkRfTEVVLCBoZXhfZ3ByW0hFWF9SRUdfTEMw
-XSwgMSwgc2tpcCk7CisgICAgICAgIHRjZ19nZW5fc3ViaV90bChoZXhfZ3ByW0hFWF9SRUdfTEMw
-XSwgaGV4X2dwcltIRVhfUkVHX0xDMF0sIDEpOworICAgICAgICBnZW5fZ290b190YihjdHgsIDAs
-IGN0eC0+YmFzZS50Yi0+cGMpOworICAgICAgICBnZW5fc2V0X2xhYmVsKHNraXApOworICAgICAg
-ICBnZW5fZ290b190YihjdHgsIDEsIGN0eC0+bmV4dF9QQyk7CiAgICAgfSBlbHNlIHsKICAgICAg
-ICAgdGNnX2dlbl9sb29rdXBfYW5kX2dvdG9fcHRyKCk7CiAgICAgfQpAQCAtMzI4LDEzICszNDAs
-MjMgQEAgYm9vbCBpc19nYXRoZXJfc3RvcmVfaW5zbihJbnNuICppbnNuLCBQYWNrZXQgKnBrdCkK
-IHN0YXRpYyB2b2lkIG1hcmtfaW1wbGljaXRfcmVnX3dyaXRlKERpc2FzQ29udGV4dCAqY3R4LCBJ
-bnNuICppbnNuLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaW50IGF0dHJp
-YiwgaW50IHJudW0pCiB7Ci0gICAgaWYgKEdFVF9BVFRSSUIoaW5zbi0+b3Bjb2RlLCBhdHRyaWIp
-KSB7CisgICAgdWludDE2X3Qgb3Bjb2RlID0gaW5zbi0+b3Bjb2RlOworICAgIGlmIChHRVRfQVRU
-UklCKG9wY29kZSwgYXR0cmliKSkgewogICAgICAgICAvKgogICAgICAgICAgKiBVU1IgaXMgdXNl
-ZCB0byBzZXQgb3ZlcmZsb3cgYW5kIEZQIGV4Y2VwdGlvbnMsCiAgICAgICAgICAqIHNvIHRyZWF0
-IGl0IGFzIGNvbmRpdGlvbmFsCiAgICAgICAgICAqLwotICAgICAgICBib29sIGlzX3ByZWRpY2F0
-ZWQgPSBHRVRfQVRUUklCKGluc24tPm9wY29kZSwgQV9DT05ERVhFQykgfHwKKyAgICAgICAgYm9v
-bCBpc19wcmVkaWNhdGVkID0gR0VUX0FUVFJJQihvcGNvZGUsIEFfQ09OREVYRUMpIHx8CiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIHJudW0gPT0gSEVYX1JFR19VU1I7CisKKyAgICAgICAg
-LyogTEMwL0xDMSBpcyBjb25kaXRpb25hbGx5IHdyaXR0ZW4gYnkgZW5kbG9vcCBpbnN0cnVjdGlv
-bnMgKi8KKyAgICAgICAgaWYgKChybnVtID09IEhFWF9SRUdfTEMwIHx8IHJudW0gPT0gSEVYX1JF
-R19MQzEpICYmCisgICAgICAgICAgICAob3Bjb2RlID09IEoyX2VuZGxvb3AwIHx8CisgICAgICAg
-ICAgICAgb3Bjb2RlID09IEoyX2VuZGxvb3AxIHx8CisgICAgICAgICAgICAgb3Bjb2RlID09IEoy
-X2VuZGxvb3AwMSkpIHsKKyAgICAgICAgICAgIGlzX3ByZWRpY2F0ZWQgPSB0cnVlOworICAgICAg
-ICB9CisKICAgICAgICAgaWYgKGlzX3ByZWRpY2F0ZWQgJiYgIWlzX3ByZWxvYWRlZChjdHgsIHJu
-dW0pKSB7CiAgICAgICAgICAgICB0Y2dfZ2VuX21vdl90bChoZXhfbmV3X3ZhbHVlW3JudW1dLCBo
-ZXhfZ3ByW3JudW1dKTsKICAgICAgICAgfQpAQCAtNDIwLDYgKzQ0MiwxNCBAQCBzdGF0aWMgdm9p
-ZCBnZW5fcmVnX3dyaXRlcyhEaXNhc0NvbnRleHQgKmN0eCkKICAgICAgICAgaW50IHJlZ19udW0g
-PSBjdHgtPnJlZ19sb2dbaV07CiAKICAgICAgICAgdGNnX2dlbl9tb3ZfdGwoaGV4X2dwcltyZWdf
-bnVtXSwgaGV4X25ld192YWx1ZVtyZWdfbnVtXSk7CisKKyAgICAgICAgLyoKKyAgICAgICAgICog
-Y3R4LT5pc190aWdodF9sb29wIGlzIHNldCB3aGVuIFNBMCBwb2ludHMgdG8gdGhlIGJlZ2lubmlu
-ZyBvZiB0aGUgVEIuCisgICAgICAgICAqIElmIHdlIHdyaXRlIHRvIFNBMCwgd2UgaGF2ZSB0byB0
-dXJuIG9mZiB0aWdodCBsb29wIGhhbmRsaW5nLgorICAgICAgICAgKi8KKyAgICAgICAgaWYgKHJl
-Z19udW0gPT0gSEVYX1JFR19TQTApIHsKKyAgICAgICAgICAgIGN0eC0+aXNfdGlnaHRfbG9vcCA9
-IGZhbHNlOworICAgICAgICB9CiAgICAgfQogfQogCkBAIC03OTMsNyArODIzLDcgQEAgc3RhdGlj
-IHZvaWQgZ2VuX2NvbW1pdF9wYWNrZXQoQ1BVSGV4YWdvblN0YXRlICplbnYsIERpc2FzQ29udGV4
-dCAqY3R4LAogICAgIH0KIAogICAgIGlmIChwa3QtPnBrdF9oYXNfY29mKSB7Ci0gICAgICAgIGdl
-bl9lbmRfdGIoY3R4KTsKKyAgICAgICAgZ2VuX2VuZF90YihjdHgsIHBrdCk7CiAgICAgfQogfQog
-CkBAIC04MzgsOCArODY4LDExIEBAIHN0YXRpYyB2b2lkIGhleGFnb25fdHJfaW5pdF9kaXNhc19j
-b250ZXh0KERpc2FzQ29udGV4dEJhc2UgKmRjYmFzZSwKIHN0YXRpYyB2b2lkIGhleGFnb25fdHJf
-dGJfc3RhcnQoRGlzYXNDb250ZXh0QmFzZSAqZGIsIENQVVN0YXRlICpjcHUpCiB7CiAgICAgRGlz
-YXNDb250ZXh0ICpjdHggPSBjb250YWluZXJfb2YoZGIsIERpc2FzQ29udGV4dCwgYmFzZSk7Cisg
-ICAgSGV4U3RhdGVGbGFncyBoZXhfZmxhZ3MgPSB7IGRiLT50Yi0+ZmxhZ3MgfTsKKwogICAgIGN0
-eC0+aGFzX3NpbmdsZV9kaXJlY3RfYnJhbmNoID0gZmFsc2U7CiAgICAgY3R4LT5icmFuY2hfY29u
-ZCA9IE5VTEw7CisgICAgY3R4LT5pc190aWdodF9sb29wID0gaGV4X2ZsYWdzLmlzX3RpZ2h0X2xv
-b3A7CiB9CiAKIHN0YXRpYyB2b2lkIGhleGFnb25fdHJfaW5zbl9zdGFydChEaXNhc0NvbnRleHRC
-YXNlICpkY2Jhc2UsIENQVVN0YXRlICpjcHUpCi0tIAoyLjE3LjEKCg==
+Hi Eric,
+
+On 10/20/22 4:07 AM, Eric Auger wrote:
+> On 10/12/22 01:18, Gavin Shan wrote:
+>> There are three high memory regions, which are VIRT_HIGH_REDIST2,
+>> VIRT_HIGH_PCIE_ECAM and VIRT_HIGH_PCIE_MMIO. Their base addresses
+>> are floating on highest RAM address. However, they can be disabled
+>> in several cases.
+>>
+>> (1) One specific high memory region is disabled by developer by
+>>      toggling vms->highmem_{redists, ecam, mmio}.
+> I would replace the above sentence by
+> 
+> One specific high memory region is likely to be disabled by the code by toggling vms->highmem_{redists, ecam, mmio}:
+> 
+
+Ok.
+
+>>
+>> (2) VIRT_HIGH_PCIE_ECAM region is disabled on machine, which is
+>>      'virt-2.12' or ealier than it.
+>>
+>> (3) VIRT_HIGH_PCIE_ECAM region is disabled when firmware is loaded
+>>      on 32-bits system.
+>>
+>> (4) One specific high memory region is disabled when it breaks the
+>>      PA space limit.
+>>
+>> The current implementation of virt_set_memmap() isn't comprehensive
+>> because the space for one specific high memory region is always
+>> reserved from the PA space for case (1), (2) and (3).
+> I would suggest:
+> isn't optimized because the high memory region PA range is always
+> 
+> reserved whatever the actual state of the corresponding vms->highmem_
+> * flag.
+> 
+
+Ok. I will have something like below in next revision.
+
+   The current implementation of virt_set_{memmap, high_memmap}() isn't
+   optimized because the high memory region's PA space is always reserved,
+   regardless of whatever the actual state in the corresponding
+   vms->highmem_{redists, ecam, mmio} flag. In the code, ....
+
+>>   In the code,
+>> 'base' and 'vms->highest_gpa' are always increased for those three
+>> cases. It's unnecessary since the assigned space of the disabled
+>> high memory region won't be used afterwards.
+>>
+>> This improves the address assignment for those three high memory
+> s/This improves/Improve
+
+Ok.
+
+>> region by skipping the address assignment for one specific high
+>> memory region if it has been disabled in case (1), (2) and (3).
+>> 'vms->high_compact' is false for now, meaning that we don't have
+> s/hight_compat/highmem_compact
+> 
+> You also may justify the introduction of this new field.
+
+Thanks. It should be 'highmem_compact'. Yes, it makes sense to
+justify the addition of 'vms->highmem_compact'. I will have something
+like below in next revision.
+
+   The memory layout may be changed after the improvement is applied, which
+   leads to potential migration breakage. So 'vms->highmem_compact' is added
+   to control if the improvement should be applied. For now, 'vms->highmem_compact'
+   is set to false, meaning that we don't have memory layout change until it
+   becomes configurable through property 'compact-highmem' in next patch.
+
+>> any behavior changes until it becomes configurable through property
+>> 'compact-highmem' in next patch.
+>>>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>> Tested-by: Zhenyu Zhang <zhenyzha@redhat.com>
+>> ---
+>>   hw/arm/virt.c         | 23 +++++++++++++++--------
+>>   include/hw/arm/virt.h |  1 +
+>>   2 files changed, 16 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+>> index ee98a8a3b6..c05cfb5314 100644
+>> --- a/hw/arm/virt.c
+>> +++ b/hw/arm/virt.c
+>> @@ -1717,22 +1717,29 @@ static void virt_set_high_memmap(VirtMachineState *vms,
+>>           region_base = ROUND_UP(base, extended_memmap[i].size);
+>>           region_size = extended_memmap[i].size;
+>>   
+>> -        vms->memmap[i].base = region_base;
+>> -        vms->memmap[i].size = region_size;
+>> -
+>>           /*
+>>            * Check each device to see if they fit in the PA space,
+> while we are at it, you can change s/they fit/it fits
+
+Agreed.
+
+>> -         * moving highest_gpa as we go.
+>> +         * moving highest_gpa as we go. For compatibility, move
+>> +         * highest_gpa for disabled fitting devices as well, if
+>> +         * the compact layout has been disabled.
+>>            *
+>>            * For each device that doesn't fit, disable it.
+>>            */
+>>           fits = (region_base + region_size) <= BIT_ULL(pa_bits);
+>> -        if (fits) {
+>> +        if (*region_enabled && fits) {
+>> +            vms->memmap[i].base = region_base;
+>> +            vms->memmap[i].size = region_size;
+>>               vms->highest_gpa = region_base + region_size - 1;
+>> +            base = region_base + region_size;
+>> +        } else {
+>> +            *region_enabled = false;
+>> +            if (!vms->highmem_compact) {
+>> +                base = region_base + region_size;
+>> +                if (fits) {
+>> +                    vms->highest_gpa = region_base + region_size - 1;
+>> +                }
+>> +            }
+>>           }
+>> -
+>> -        *region_enabled &= fits;
+>> -        base = region_base + region_size;
+>>       }
+>>   }
+> This looks quite complicated to me. It is not obvious for instance we
+> have the same code as before when highmem_compact is not set. Typically
+> 
+> vms->memmap[i].base/size are not always set as they were to be and impact on the rest of the code must be double checked.
+> 
+> Could this be rewritten in that way (pseudocode totally untested).
+> 
+> 
+> static void fit_highmem_slot(vms, *base, i, pa_bits)
+> {
+>      region_enabled = virt_get_high_memmap_enabled(vms, i);
+>      region_base = ROUND_UP(*base, extended_memmap[i].size);
+>      region_size = extended_memmap[i].size;
+>      fits = (region_base + region_size) <= BIT_ULL(pa_bits);
+>      *region_enabled &= fits;
+>      vms->memmap[i].base = region_base;
+>      vms->memmap[i].size = region_size;
+> 
+>      /* compact layout only allocates space for the region if this latter
+> is enabled & fits*/
+>      if (vms->highmem_compact && !region_enabled) {
+>          return;
+>      }
+> 
+>      /* account for the region and update the base address/highest_gpa if
+> needed*/
+>      *base = region_base + region_size;
+>      if (fits) {
+>          vms->highest_gpa = *base - 1;
+>      }
+> }
+> 
+> static void virt_set_high_memmap(VirtMachineState *vms,
+>                                   hwaddr base, int pa_bits)
+> {
+>      hwaddr region_base, region_size;
+>      bool *region_enabled, fits;
+>      int i;
+> 
+>      for (i = VIRT_LOWMEMMAP_LAST; i < ARRAY_SIZE(extended_memmap); i++) {
+>          /* we do not break in case the region does not fit since
+> fit_highmem_slot also updates the enabled status of the region */
+>          fit_highmem_slot(vms, &base, i, pa_bits);
+>      }
+> }
+> 
+>>   
+>> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+>> index 6ec479ca2b..709f623741 100644
+>> --- a/include/hw/arm/virt.h
+>> +++ b/include/hw/arm/virt.h
+>> @@ -144,6 +144,7 @@ struct VirtMachineState {
+>>       PFlashCFI01 *flash[2];
+>>       bool secure;
+>>       bool highmem;
+>> +    bool highmem_compact;
+>>       bool highmem_ecam;
+>>       bool highmem_mmio;
+>>       bool highmem_redists;
+
+I checked it again. When the corresponding high memory region is disabled, skipping to
+setting vms->memmap[i].base/size won't affect the left code.
+
+I would avoid introducing another helper here, meaning I want to squeeze everything
+into existing virt_set_high_memmap(). With additional helper, there are too many
+function calls in the stack to accomplish this sort of simple task (address assignment
+for high memory regions). Without the additional helper, the changes can be simply as
+below.
+
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index ee98a8a3b6..da9e23a8ad 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1721,18 +1721,23 @@ static void virt_set_high_memmap(VirtMachineState *vms,
+          vms->memmap[i].size = region_size;
+  
+          /*
+-         * Check each device to see if they fit in the PA space,
+-         * moving highest_gpa as we go.
++         * Check each device to see if it fits in the PA space,
++         * moving highest_gpa as we go. For compatibility, move
++         * highest_gpa for disabled fitting devices as well, if
++         * the compact layout has been disabled.
+           *
+           * For each device that doesn't fit, disable it.
+           */
+          fits = (region_base + region_size) <= BIT_ULL(pa_bits);
+-        if (fits) {
+-            vms->highest_gpa = region_base + region_size - 1;
++        *region_enabled &= fits;
++        if (vms->highmem_compact && !*region_enabled) {
++            continue;
+          }
+  
+-        *region_enabled &= fits;
+          base = region_base + region_size;
++       if (fits) {
++               vms->highest_gpa = region_base + region_size - 1;
++       }
+      }
+  }
+
+Thanks,
+Gavin
+
+
 
