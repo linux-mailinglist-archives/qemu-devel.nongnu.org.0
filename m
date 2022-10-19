@@ -2,90 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52825604850
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 15:54:05 +0200 (CEST)
-Received: from localhost ([::1]:35928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95619604846
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 15:53:34 +0200 (CEST)
+Received: from localhost ([::1]:58088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ol9WG-0007oV-DM
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 09:54:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60832)
+	id 1ol9Vk-0007Pf-AF
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 09:53:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ol9Pr-0002ha-TH
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 09:47:29 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:33554)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ol9P1-00025R-JM
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 09:46:38 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:40909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ol9Pp-0004Pm-3M
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 09:47:27 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- n16-20020a05600c4f9000b003c17bf8ddecso949897wmq.0
- for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 06:47:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vT1aa1nJnb6Y7ZhrEOKACvwj0Tqr6RrrrajbwjORn5g=;
- b=hFQoc1hZz4124rXqaqDBmYZszbTkYzXYeMKcm7Zr6cRD7H/StP+oD5d5CUZk/XcGH3
- uDFY0sLa9CmoJdHq5GovI2Mb8eCUnEHoiENM6j6uHMteyDrM5YEOcvUC7SQev7KzL64x
- yR3HszKlhU5OElbHKdKKbTB8+/gX585PWxweM7dwVP18hpHK3LaXyxlE5A27IYE+StPb
- 2E17hCZlnqMICgxSFNgU7bdMPlKBEi2NVouwVCR6F/P/RQ9FjGJH8a20PQk3WJQuqcOG
- kBubaCKybb3TmcYODKKJgI/Mp7mMEGKZsl/+Le6fW5W7v7Ouatss1s2CWmz7fKxrYFCg
- mucg==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ol9Ox-0004LP-3g
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 09:46:35 -0400
+Received: by mail-pl1-x633.google.com with SMTP id b2so17300850plc.7
+ for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 06:46:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:message-id:in-reply-to:subject:cc:to:date
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=FrUCmj2KY50tOH3mHL0EFGw4z3oNrTxu2acBiLZCYZo=;
+ b=MsvzFsU5d0VqYUi28qovNkwEmdS2YhsFig2xAph1xkUebSlQ6otdxExrcvQUQX0+gK
+ JfQL/DnC+NV5qMLGVOjUZ6qWhtnwEqUiELZNz79hIfu+aG3rArA16iRF0xbB8+fmItLY
+ ZdWl4imPyatIGno1bpNwbcjxmPAdhU0x69e8UuTdAnxFxKpqdhYhzP2tmmtEIn2lY8TF
+ b0AYuAl0vv0Bg7k6/qk1vuQJM78HsBx2LvNcn++pUSDaCbBR0363Bl1UsyFJeBaTupJ3
+ 3pT48NaizaZYPwXu2NLdi0tcZy7q96QhgJxIJxhZnIBzqn7aZPD7wMKPoeruChtICpzD
+ HkuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=vT1aa1nJnb6Y7ZhrEOKACvwj0Tqr6RrrrajbwjORn5g=;
- b=Od89uJtE6ry9KfXEUfyyvoWnjjIltKmb3xkBDr4k1Fgx4T0l3S88Cqn7kf223vqU+e
- P1fzVeMkdvfAFe3Cu0lQfWC5YV5jA44sFw2dT6P3GBsAWYgw/k08cuVp6cwM3p7B7HdS
- Kw3HHa2Gx8pFbd4/GjpCb4CeTfQ8AySF+xU2yELn9pxMUfNO1gcRBpyBGMrHCi2CW814
- jRpxkFqTdvxjTdIhY7bsm3ZA73yC2MoX+ZK79sygvewFfuhdJ95LcPvqJ5OTUq3qo7hH
- rHMSRET3kG0RMwiqrZyTsQcKDf0eDENzK2/SH9ASCtd+C3EYEf7u0U9ZlrySNudXm+qQ
- NWPw==
-X-Gm-Message-State: ACrzQf0fNLoo3bmdLqKRZSD3wRbl3Cvzw92/oyxAI8buunXtY0fyaKLa
- +v9ccB22vHT0/a9JZxkfZM7dlw==
-X-Google-Smtp-Source: AMsMyM5JNxFRzHjZgjfV/folQETM/o48LjZElK4Y9OkwoMJpzIBvWbaI72gpDUBTzJOHsphpodQHpQ==
-X-Received: by 2002:a05:600c:1e87:b0:3b5:1e2:3c3c with SMTP id
- be7-20020a05600c1e8700b003b501e23c3cmr5723409wmb.130.1666187232387; 
- Wed, 19 Oct 2022 06:47:12 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- i9-20020a5d6309000000b0022afcc11f65sm13737526wru.47.2022.10.19.06.47.11
+ h=mime-version:references:message-id:in-reply-to:subject:cc:to:date
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FrUCmj2KY50tOH3mHL0EFGw4z3oNrTxu2acBiLZCYZo=;
+ b=RryatSBo9VhPEDSZ96UR2d4gGG0ghiNf0lyRpMS3XOxuE1N6C+IldPjcdxdMHJycfb
+ rcHJHrvoy35BHtioSXX/rE/bFuEttoc6YsyKfryDNf84/sItfkuAIfjs0e4UoMxFykBy
+ UXPsVvnKWXQSVaAPQWEqzQcrYsjJjJMv5CNJqoOLgzE0owmY2ffEwsIqHmmlndVaYFV2
+ 1CScBZ66pqd/+Hel41t/2KiyUWfMrMe+hPEUQ0gJRE1fFcAq8i+LZDAk+i1MdWz0HfVW
+ rMhLwaP0DQJF3MjCxM62ZrwmeQryqg8FjsNamKMr0QJnC6Kd7749/IfMiAQL9Hot3e0w
+ dpcQ==
+X-Gm-Message-State: ACrzQf2unN6SQ7zvbTPnQ3fpa4nWBLUT8tuWWtU2WuTHe5kf1qFzJFVK
+ yWSQJxNOsHV4IYHQSU11bNL5/w==
+X-Google-Smtp-Source: AMsMyM6FcExU6LtFnTCTTpHHyMMSEihG6fl/iWdpWud8yn9Vkyu/yf0o4Olzp7g+pOnzpqKgZkjyeQ==
+X-Received: by 2002:a17:902:ce09:b0:178:bb78:49a5 with SMTP id
+ k9-20020a170902ce0900b00178bb7849a5mr8601650plg.100.1666187188892; 
+ Wed, 19 Oct 2022 06:46:28 -0700 (PDT)
+Received: from anisinha-lenovo ([115.96.142.248])
+ by smtp.googlemail.com with ESMTPSA id
+ k5-20020aa79985000000b0054223a0185asm11292310pfh.161.2022.10.19.06.46.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Oct 2022 06:47:11 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 23F7A1FFB7;
- Wed, 19 Oct 2022 14:47:11 +0100 (BST)
-References: <4672400c-0084-3bf3-a596-7a42115301f0@linux.alibaba.com>
- <87lepeeno0.fsf@linaro.org>
- <4841b154-bd05-c677-cfb4-46a350ddd0aa@linux.alibaba.com>
- <b97a7b1a-f8cd-b0d5-bbde-1a06049281dd@linaro.org>
- <020dc51f-793b-bf20-41e8-5b1447711864@linux.alibaba.com>
-User-agent: mu4e 1.9.1; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>, "open list:RISC-V"
- <qemu-riscv@nongnu.org>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Wed, 19 Oct 2022 06:46:28 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Wed, 19 Oct 2022 19:16:20 +0530 (IST)
+To: Ani Sinha <ani@anisinha.ca>
+cc: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
+ Cleber Rosa <crosa@redhat.com>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, 
+ Beraldo Leal <bleal@redhat.com>, 
+ =?ISO-8859-15?Q?Daniel_P_=2E_Berrang=E9?= <berrange@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ Maydell Peter <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>, 
+ Thomas Huth <thuth@redhat.com>, 
+ =?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>, 
+ Igor Mammedov <imammedo@redhat.com>, Michael Tsirkin <mst@redhat.com>, 
  qemu-devel@nongnu.org
-Subject: Re: Question about TCG backend correctness
-Date: Wed, 19 Oct 2022 14:46:01 +0100
-In-reply-to: <020dc51f-793b-bf20-41e8-5b1447711864@linux.alibaba.com>
-Message-ID: <87k04wapsw.fsf@linaro.org>
+Subject: Re: [PATCH v5 08/10] acpi/tests/avocado/bits: add acpi and smbios
+ avocado tests that uses biosbits
+In-Reply-To: <CAARzgwxqVYmv7fNWVxjN8F=jXgDYSK4GSePTtrXSmR6Q55PPNA@mail.gmail.com>
+Message-ID: <352e1482-6ae8-8052-bd17-d43191be2d0@anisinha.ca>
+References: <20221019025828.683113-1-ani@anisinha.ca>
+ <20221019025828.683113-9-ani@anisinha.ca>
+ <CAARzgwz6DwgfOcyq9fFitu7SKUfx6xz_WUiYj8pkP0wmeT=UZQ@mail.gmail.com>
+ <CAARzgwyRwh-fYuUTNjOgoRzjf4UZbAVCxJvSGzf4b-2jmqq=cQ@mail.gmail.com>
+ <297ffc66-9d0a-37c7-f700-cea17ecd5707@linaro.org>
+ <CAARzgwxqVYmv7fNWVxjN8F=jXgDYSK4GSePTtrXSmR6Q55PPNA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="2088271309-859636309-1666187187=:741552"
+Received-SPF: none client-ip=2607:f8b0:4864:20::633;
+ envelope-from=ani@anisinha.ca; helo=mail-pl1-x633.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,93 +103,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-LIU Zhiwei <zhiwei_liu@linux.alibaba.com> writes:
-
-> On 2022/10/18 13:22, Richard Henderson wrote:
->
->  On 10/18/22 01:27, LIU Zhiwei wrote:=20
->
->  Maybe I can run RISU on qemu-aarch64(x86) and qemu-aarch64(risc-v) to ch=
-eck the RISC-V backend.=20
->
->  This is a good start for debugging a tcg backend.=20
->
-> After fixing some bugs, RISU can run  some instructions now. Thanks.
->
-> IMHO,  the next 2 requests should be satisfied for TCG test.
->
-> 1. Add a unit test case for any lower level and small function is easy.=20
->
->  For example, the function in risc-v backend,=20
->
->  static bool tcg_out_mov(TCGContext *s, TCGType type, TCGReg ret, TCGReg =
-arg)
->   {
->       if (ret =3D=3D arg) {
->           return true;
->       }
->       switch (type) {
->       case TCG_TYPE_I32:
->       case TCG_TYPE_I64:
->           tcg_out_opc_imm(s, OPC_ADDI, ret, arg, 0);
->           break;
->       default:
->           g_assert_not_reached();
->       }
->       return true;
->   }
->
->  Write a unit test case for it is not easy currently.  I don't know how t=
-o fill the TCGContext struct and other
->  parameters.
->  And there is no test framework where I can reuse.
->
->  The others may say that we can run a lot of benchmark to ensure we have =
-a good coverage and don't
->  need such a low level test case. Some reasonable. But it will lead to a =
-very high test burden and it is very hard to
->  get
->  a good coverage only through high level test.
-
-You can at the very least use the gcov build to identify which bits of
-the backend are not exercised by "check-tcg" and maybe write a few more
-tests to fill it in. It's not a direct exercising of the code but it at
-least ensures it has run and worked at least once.
-
->
-> 2. Add a unit test case for any high level function is easy, such as tcg_=
-gen_code.=20
->
->  The check-tcg test belongs to the high level testing.=20
->
-> Best Regards=EF=BC=8C
-> Zhiwei
->
->  It's not comprehensive, because RISU executes one instruction at a time =
-then raises an exception to check the
->  results.  This means that the tcg optimizer doesn't have much to work wi=
-th, which means that the tcg backend is not
->  as stressed as it could be.=20
->
->  I've long wanted to have the ability to have TCG unit tests where a=20
->  virtual processor could be defined for the purpose of directly=20
->  exercising TCG.=20
->
->  We already have many ISAs as the front end of TCG. Will the virtual proc=
-essor here be some=20
->  different?=20
->
->  It wouldn't.  This is my argument against creating a new virtual process=
-or.=20
->
->  I do think we should be better about creating regression tests for bugs =
-fixed, in the form of small focused assembly
->  test cases which get run via check-tcg.=20
->
->  r~=20
+--2088271309-859636309-1666187187=:741552
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
 
---=20
-Alex Benn=C3=A9e
+
+On Wed, 19 Oct 2022, Ani Sinha wrote:
+
+> On Wed, Oct 19, 2022 at 3:05 PM Philippe Mathieu-Daudé
+> <philmd@linaro.org> wrote:
+> >
+> > >>> +    List,
+> > >>> +    Optional,
+> > >>> +    Sequence,
+> > >>> +)
+> > >>> +from qemu.machine import QEMUMachine
+> > >>> +from avocado import skipIf
+> > >>> +from avocado_qemu import QemuBaseTest
+> >
+> > >>> +@skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+> > >>> +class AcpiBitsTest(QemuBaseTest): #pylint: disable=too-many-instance-attributes
+> > >>> +    """
+> > >>> +    ACPI and SMBIOS tests using biosbits.
+> > >
+> > >   <snip>
+> > >
+> > >>> +
+> > >>> +    def setUp(self): # pylint: disable=arguments-differ
+> > >>> +        super().setUp('qemu-system-')
+> > >>> +
+> > >>> +        if shutil.which('xorriso') is None:
+> > >>> +            logging.error('xorriso is required to run this test.')
+> > >>> +            self.skipTest("xorriso is not installed. Please install it.")
+> > >>
+> > >> This would result in output like this when xorriso is not found:
+> > >>
+> > >> $ which xorriso
+> > >> /usr/bin/which: no xorriso in
+> > >> (/home/anisinha/.local/bin:/home/anisinha/bin:/usr/share/Modules/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin)
+> > >> [anisinha@centos8 build]$ ./tests/venv/bin/avocado run -t acpi tests/avocado
+> > >> Fetching asset from
+> > >> tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits
+> > >> JOB ID     : 95aba043201755ed888ef7d1598402c555118df4
+> > >> JOB LOG    : /home/anisinha/avocado/job-results/job-2022-10-19T02.27-95aba04/job.log
+> > >>   (1/1) tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits:
+> > >> ERROR: xorriso is not installed. Please install it. (0.00 s)
+> >
+> > If an optional tool is missing, the test should be SKIPped, this is not
+> > an ERROR.
+>
+> Yes will fix in v6.
+>
+
+These are the changes I have made in v6 in this test that are worth taking
+into account when reviewing v5. I want to make v6 as close to the final
+version as possible.
+
+--- tests/avocado/acpi-bits.py	2022-10-19 19:11:21.506830448 +0530
++++ /home/anisinha/temp/acpi-bits.py.v6	2022-10-19 19:11:12.530782674 +0530
+@@ -33,6 +33,7 @@
+
+ import logging
+ import os
++import platform
+ import re
+ import shutil
+ import subprocess
+@@ -49,12 +50,39 @@
+ from avocado import skipIf
+ from avocado_qemu import QemuBaseTest
+
++deps = ["xorriso"] # dependent tools needed in the test setup/box.
++supported_platforms = ['x86_64'] # supported test platforms.
++
+ def _print_log(log):
+     print('\nlogs from biosbits follows:')
+     print('==========================================\n')
+     print(log)
+     print('==========================================\n')
+
++def which(tool):
++    """ looks up the full path for @tool, returns None if not found
++        or if @tool does not have executable permissions.
++    """
++    paths=os.getenv('PATH')
++    for p in paths.split(os.path.pathsep):
++        p = os.path.join(p, tool)
++        if os.path.exists(p) and os.access(p, os.X_OK):
++            return p
++    return None
++
++def missing_deps():
++    """ returns True if any of the test dependent tools are absent.
++    """
++    for dep in deps:
++        if which(dep) is None:
++            return True
++    return False
++
++def supported_platform():
++    """ checks if the test is running on a supported platform.
++    """
++    return platform.machine() in supported_platforms
++
+ class QEMUBitsMachine(QEMUMachine): # pylint: disable=too-few-public-methods
+     """
+     A QEMU VM, with isa-debugcon enabled and bits iso passed
+@@ -100,7 +128,9 @@
+         """return the base argument to QEMU binary"""
+         return self._base_args
+
+-@skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
++@skipIf(not supported_platform() or missing_deps() or os.getenv('GITLAB_CI'),
++        'incorrect platform or dependencies (%s) not installed ' \
++        'or running on GitLab' % ','.join(deps))
+ class AcpiBitsTest(QemuBaseTest): #pylint: disable=too-many-instance-attributes
+     """
+     ACPI and SMBIOS tests using biosbits.
+@@ -247,10 +277,6 @@
+     def setUp(self): # pylint: disable=arguments-differ
+         super().setUp('qemu-system-')
+
+-        if shutil.which('xorriso') is None:
+-            logging.error('xorriso is required to run this test.')
+-            self.skipTest("xorriso is not installed. Please install it.")
+-
+         self._baseDir = os.getenv('AVOCADO_TEST_BASEDIR')
+
+         # workdir could also be avocado's own workdir in self.workdir.
+--2088271309-859636309-1666187187=:741552--
 
