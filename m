@@ -2,104 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BE9A6046ED
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 15:24:36 +0200 (CEST)
-Received: from localhost ([::1]:47500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B571460473B
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 15:35:16 +0200 (CEST)
+Received: from localhost ([::1]:42442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ol93j-0001A8-96
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 09:24:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42950)
+	id 1ol9E3-00037I-Kh
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 09:35:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1ol8rn-0004E9-JH; Wed, 19 Oct 2022 09:12:15 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40972)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1ol972-0004sr-GL
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 09:28:01 -0400
+Received: from mga03.intel.com ([134.134.136.65]:16791)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1ol8rh-0005fb-Q3; Wed, 19 Oct 2022 09:12:15 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29JCL5hm008175;
- Wed, 19 Oct 2022 13:11:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=ko52jyA49blSKQjyhaaHX8everpJOddop/lFfyDbEcc=;
- b=bRbaix/5seYhtI7eMjby9/vXrqfy4odAL9zxfInoAUY64vx5dq+IgxO3kN1iXxRJ3K2h
- 4XDpXL5BM+MIL3rp363m7xyrlsgZnPRxSzQPAcFdP8qGNbN/OSOUvYqxBMXnzU2t9MBm
- 22dMWfjAm6U4pIOZGMbKw25975RZqf9BgzOarAzlVKmso87okPNSqyE2tnDM13mB63ee
- xaEPdygxWseLZ45nA46aSvryLExloX9hvKhNPcBV9LkrvirWShERtMUETtw6skN95xgK
- JnELpL2X5JSbHSCY0AEINHLjLy7CtSPZEd2yNdLACkiQDKB7A87897AXoXNSakz8Z1FF jw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kah5u20s4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Oct 2022 13:11:03 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29JCL2iC008056;
- Wed, 19 Oct 2022 13:10:57 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kah5u20m4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Oct 2022 13:10:57 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29JD8Owl017827;
- Wed, 19 Oct 2022 13:10:50 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma06fra.de.ibm.com with ESMTP id 3k7m4jde85-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Oct 2022 13:10:50 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 29JDAlsS20644134
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 19 Oct 2022 13:10:48 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D72C311C04C;
- Wed, 19 Oct 2022 13:10:47 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7940311C04A;
- Wed, 19 Oct 2022 13:10:47 +0000 (GMT)
-Received: from [9.171.39.72] (unknown [9.171.39.72])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 19 Oct 2022 13:10:47 +0000 (GMT)
-Message-ID: <3883d140400e582c0673053baae97c17ccbfb7a9.camel@linux.ibm.com>
-Subject: Re: [PATCH] MAINTAINERS: target/s390x/: add Ilya as reviewer
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Christian Borntraeger <borntraeger@linux.ibm.com>, Thomas Huth
- <thuth@redhat.com>, David Hildenbrand <david@redhat.com>, Richard Henderson
- <richard.henderson@linaro.org>
-Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-s390x <qemu-s390x@nongnu.org>,
- Cornelia Huck <cohuck@redhat.com>
-Date: Wed, 19 Oct 2022 15:10:47 +0200
-In-Reply-To: <20221019125640.3014143-1-borntraeger@linux.ibm.com>
-References: <20221019125640.3014143-1-borntraeger@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1ol96w-0000SZ-A0
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 09:27:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666186074; x=1697722074;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=maPvHabENdJbu0SifYloWSh+XeE9JeazxOD/pHHB/rU=;
+ b=DqQyfFkYeErBEE8vUHOyIAY602ooxHhGxv0iIVKnSznX7koOQRELN9vl
+ 2gANSFkm8xMrXrnZYwIEpXEVLxRfxK9lM5Cr6j1Rq9G3IjShaBFI0oQzS
+ Q0kbkG4SeYPHHCsbuHVo9S+eTpd1L4H7MCqhp8+STb1K5b3/gjnSSn3gW
+ 0E6xdCN2yrNvrX2qGEPDDWfEKi3aaULWuK2H7nx4/PkIPNwwCKW0vzolu
+ jOBFLkHdMPgVTOvZ5KuctPIVzby1uOnqnIyxoY0VeEa9pixQWFvB66/HZ
+ 1cs8IiSijBvWncG/zzRLAUPdwo0U5E8Sf14Vjder70ytEev75ToGuxStG A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="308094844"
+X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; d="scan'208";a="308094844"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Oct 2022 06:27:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10505"; a="624134706"
+X-IronPort-AV: E=Sophos;i="5.95,196,1661842800"; d="scan'208";a="624134706"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+ by orsmga007.jf.intel.com with ESMTP; 19 Oct 2022 06:27:39 -0700
+Date: Wed, 19 Oct 2022 21:23:08 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Fuad Tabba <tabba@google.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 5/8] KVM: Register/unregister the guest private memory
+ regions
+Message-ID: <20221019132308.GA3496045@chaop.bj.intel.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-6-chao.p.peng@linux.intel.com>
+ <CA+EHjTxukqBfaN6D+rPOiX83zkGknHEQ16J0k6GQSdL_-e9C6g@mail.gmail.com>
+ <20221012023516.GA3218049@chaop.bj.intel.com>
+ <CA+EHjTyGyGL+ox81=jdtoHERtHPV=P7wJub=3j7chdijyq-AgA@mail.gmail.com>
+ <Y03UiYYioV+FQIpx@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: ZznromHtcsQE3UPtassNAGwBSE7Bu90f
-X-Proofpoint-ORIG-GUID: F-yOCRJoYM69nSItZUmkT1R7TpLJEClw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-19_08,2022-10-19_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 mlxscore=0 suspectscore=0 bulkscore=0 adultscore=0
- lowpriorityscore=0 impostorscore=0 spamscore=0 clxscore=1011 phishscore=0
- mlxlogscore=979 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210190070
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y03UiYYioV+FQIpx@google.com>
+Received-SPF: none client-ip=134.134.136.65;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga03.intel.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,31 +102,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2022-10-19 at 14:56 +0200, Christian Borntraeger wrote:
-> Ilya has volunteered to review TCG patches for s390x.
+On Mon, Oct 17, 2022 at 10:17:45PM +0000, Sean Christopherson wrote:
+> On Mon, Oct 17, 2022, Fuad Tabba wrote:
+> > Hi,
+> > 
+> > > > > +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
+> > > > > +#define KVM_MEM_ATTR_SHARED    0x0001
+> > > > > +static int kvm_vm_ioctl_set_mem_attr(struct kvm *kvm, gpa_t gpa, gpa_t size,
+> > > > > +                                    bool is_private)
+> > > > > +{
+> > > >
+> > > > I wonder if this ioctl should be implemented as an arch-specific
+> > > > ioctl. In this patch it performs some actions that pKVM might not need
+> > > > or might want to do differently.
+> > >
+> > > I think it's doable. We can provide the mem_attr_array kind thing in
+> > > common code and let arch code decide to use it or not. Currently
+> > > mem_attr_array is defined in the struct kvm, if those bytes are
+> > > unnecessary for pKVM it can even be moved to arch definition, but that
+> > > also loses the potential code sharing for confidential usages in other
+> > > non-architectures, e.g. if ARM also supports such usage. Or it can be
+> > > provided through a different CONFIG_ instead of
+> > > CONFIG_HAVE_KVM_PRIVATE_MEM.
+> > 
+> > This sounds good. Thank you.
 > 
-> Signed-off-by: Christian Borntraeger <borntraeger@linux.ibm.com>
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
+> I like the idea of a separate Kconfig, e.g. CONFIG_KVM_GENERIC_PRIVATE_MEM or
+> something.  I highly doubt there will be any non-x86 users for multiple years,
+> if ever, but it would allow testing the private memory stuff on ARM (and any other
+> non-x86 arch) without needing full pKVM support and with only minor KVM
+> modifications, e.g. the x86 support[*] to test UPM without TDX is shaping up to be
+> trivial.
+
+CONFIG_KVM_GENERIC_PRIVATE_MEM looks good to me.
+
+Thanks,
+Chao
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index e3d5b7e09c46..ae5e8c8ecbb6 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -305,6 +305,7 @@ F: target/rx/
->  S390 TCG CPUs
->  M: Richard Henderson <richard.henderson@linaro.org>
->  M: David Hildenbrand <david@redhat.com>
-> +R: Ilya Leoshkevich <iii@linux.ibm.com>
->  S: Maintained
->  F: target/s390x/
->  F: target/s390x/tcg
-
-Acked-by: Ilya Leoshkevich <iii@linux.ibm.com>
-
-Thanks!
+> [*] https://lore.kernel.org/all/Y0mu1FKugNQG5T8K@google.com
 
