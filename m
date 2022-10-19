@@ -2,111 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97F97604F44
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 20:01:49 +0200 (CEST)
-Received: from localhost ([::1]:40016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E99B6604FB6
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 20:34:39 +0200 (CEST)
+Received: from localhost ([::1]:57208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olDNu-0003dB-2M
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 14:01:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60452)
+	id 1olDtm-0004He-Gf
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 14:34:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1olDJR-0000u5-UM; Wed, 19 Oct 2022 13:57:05 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33184)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1olDJQ-0003UF-35; Wed, 19 Oct 2022 13:57:05 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29JGC7NS014876;
- Wed, 19 Oct 2022 17:56:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=/xMreriU+31uXvWJjV2YSNJJwQFg+4U2/9ARamyXzUM=;
- b=FcmSdTL8pe0Yz4OTtjGwjWaSiJIFZ4ude3bmvfyxue4nmH7ou1SSUIactEHifbzBJCT6
- x9weXJWpAvLwM9eFWLGyvGxgK9s7b4Y5y7yCTylvyy4YcMMGqVjsUymtkoyXP7c+Lok6
- TIjPezesUmKn5oDD5t1rN1iEEoMcDW28koT3V3+hVr5cGmnW3Y8u+Vwi+kAcBqtNTF8h
- bKotgsmvA+VqAGrVhi+Emv31TkZHcPDAey2UI9X31jNALRjLwU2uQu4fiZaZJd2tL3L/
- tN0NGTSM81SIfxWORDY0cqYaqea6GiDfeQ6qtObItO4ibWhUovRYYQvTbCA3DfYg7niF Mg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kamhx36f2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Oct 2022 17:56:46 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29JH2XDu016750;
- Wed, 19 Oct 2022 17:56:46 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kamhx36ds-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Oct 2022 17:56:46 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29JHuheB001044;
- Wed, 19 Oct 2022 17:56:43 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma02fra.de.ibm.com with ESMTP id 3k7mg95p2s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 19 Oct 2022 17:56:43 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 29JHvDE852363674
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 19 Oct 2022 17:57:13 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 78BA142041;
- Wed, 19 Oct 2022 17:56:40 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A376B4203F;
- Wed, 19 Oct 2022 17:56:39 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.16.14]) by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 19 Oct 2022 17:56:39 +0000 (GMT)
-Message-ID: <f3b7dc0cbbbcb53f9763a0ed00f96e8157002517.camel@linux.ibm.com>
-Subject: Re: [PATCH v10 1/9] s390x/cpu topology: core_id sets s390x CPU
- topology
-From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, =?ISO-8859-1?Q?C=E9dric?= Le Goater
- <clg@kaod.org>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com
-Date: Wed, 19 Oct 2022 19:56:39 +0200
-In-Reply-To: <b584418d-8a6d-d618-fd21-3b71d27f1e3e@linux.ibm.com>
-References: <20221012162107.91734-1-pmorel@linux.ibm.com>
- <20221012162107.91734-2-pmorel@linux.ibm.com>
- <5d5ff3cb-43a0-3d15-ff17-50b46c57a525@kaod.org>
- <b584418d-8a6d-d618-fd21-3b71d27f1e3e@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+ (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1olDsE-0002qi-0N
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 14:33:02 -0400
+Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136]:43655)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1olDsC-000059-7B
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 14:33:01 -0400
+Received: by mail-lf1-x136.google.com with SMTP id d6so29573770lfs.10
+ for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 11:32:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=VPr6UAOpmN1/gMX0ewomaOCJg5YtZQmOBncflHxMDjk=;
+ b=LwRPgs44Xx9fZBCWVguQMsygec+a76lxS9ASG3VWi6VBR4o+JOMKkdn5tTnapNhNbx
+ FCagxAT3CfEM6YSuiTVMbPHaJojgG9FhVAFnQbxsBultlVUY0pF/BJ7Pb1rCsoLbQEMZ
+ Tsz/eakulZFZMoaUwgMl+Q1Q2Mo6Ja/eO1XGRRJI1TLh6z4IE3uaaC2a1iSmaS0U4Sg7
+ StbFJsC36uGNihltZfZ/naEuTHBMd0aKRn0MseX2AD4OY2VEwCn3xL3Np44L+mr8bSRa
+ xewHLuoL2hqyU3VemdfwUsM41M+NZMYII6+iUpJITWhnfKF5ZBr0cRMrYzrFp5Hl4kbC
+ lg5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VPr6UAOpmN1/gMX0ewomaOCJg5YtZQmOBncflHxMDjk=;
+ b=Tr891EaVfddTKxPWt3F6dfHMt1gAw4sdbI9qfYs5q7uRbACs14/3TUD+qWiqQKLA9X
+ gTeTQZRJynFjSa8yZCpFDUcd5TKcyrWQtfHa5qLN6IfBiVfwIdPIReLjCtUdhuLhJkzw
+ 98+qMLCzlndeC/CCWUs6v5bwYxPUl4IXHH4W21txTG3xEMzr0DfcPxiNQAB/dCRa1SZF
+ cEO3EysIZJl3tPCjC3WJODtiLCZYnrS4MyO548GuP8QPe72JoF2UPTEH4X/P7dCsayE1
+ jS19glWTM0P1OedpKdrIaPlBQD4oDydgbLlGc9m2vKqUnBSkOfls+bqr9NTkOEvGaurv
+ SjjA==
+X-Gm-Message-State: ACrzQf3etN0zBL+xNPis+9gXNk7IpvadCwfOdk0eb3IuRaWAR8nnAH3X
+ GcqMmXt6LVy995OySEfXaFOvo9cK73+RfJdI7KXmAg==
+X-Google-Smtp-Source: AMsMyM4EBV5NPiqUSsGoH76d60Oj4XtTNKzmBM3XB8zcFOXHmexalPNeyd2MnHJenC/4Cf4QA3Wt+/yC+VCqwQatWHo=
+X-Received: by 2002:a05:6512:3119:b0:4a2:d749:ff82 with SMTP id
+ n25-20020a056512311900b004a2d749ff82mr3531001lfb.637.1666204378020; Wed, 19
+ Oct 2022 11:32:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: ZmEJoVBUOCGmKItUSyQXBfyBloswc0PL
-X-Proofpoint-GUID: 9aLup1NQoCP_iTB_xpZUWWH3rXCFYKa7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-19_11,2022-10-19_04,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0
- impostorscore=0 mlxscore=0 clxscore=1011 adultscore=0 malwarescore=0
- bulkscore=0 mlxlogscore=763 priorityscore=1501 phishscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210190099
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=scgl@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-6-chao.p.peng@linux.intel.com>
+ <CA+EHjTxukqBfaN6D+rPOiX83zkGknHEQ16J0k6GQSdL_-e9C6g@mail.gmail.com>
+ <20221012023516.GA3218049@chaop.bj.intel.com>
+ <CA+EHjTyGyGL+ox81=jdtoHERtHPV=P7wJub=3j7chdijyq-AgA@mail.gmail.com>
+ <Y03UiYYioV+FQIpx@google.com> <20221019132308.GA3496045@chaop.bj.intel.com>
+ <CA+EHjTytCEup0m-nhnVHsuQ1xjaCxXNHO_Oxe+QbpwqaewpfKQ@mail.gmail.com>
+ <Y1AhP0dlRSgTCObX@google.com>
+In-Reply-To: <Y1AhP0dlRSgTCObX@google.com>
+From: Fuad Tabba <tabba@google.com>
+Date: Wed, 19 Oct 2022 19:32:21 +0100
+Message-ID: <CA+EHjTzR6DwU950gud1opEGCNqCfiEvA4-JFtyJ0NBgTD-uHNg@mail.gmail.com>
+Subject: Re: [PATCH v8 5/8] KVM: Register/unregister the guest private memory
+ regions
+To: Sean Christopherson <seanjc@google.com>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, 
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org, 
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>, 
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>, 
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, 
+ Vishal Annapurve <vannapurve@google.com>, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, 
+ dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
+ aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
+ Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
+ mhocko@suse.com, 
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::136;
+ envelope-from=tabba@google.com; helo=mail-lf1-x136.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -122,29 +114,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2022-10-19 at 17:39 +0200, Pierre Morel wrote:
-> 
-> On 10/18/22 18:43, Cédric Le Goater wrote:
-[...]
-> > 
-> > > diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
-> > > new file mode 100644
-> > > index 0000000000..42b22a1831
-> > > --- /dev/null
-> > > +++ b/hw/s390x/cpu-topology.c
-> > > @@ -0,0 +1,132 @@
-> > > +/*
-> > > + * CPU Topology
-> > > + *
-> > > + * Copyright IBM Corp. 2022
-> > 
-> > The Copyright tag is different in the .h file.
-> 
-> OK, I change this to be like in the header file it seems to be the most 
-> used format.
-> 
-No, this form, with the date at the end, is the correct one.
-> 
+On Wed, Oct 19, 2022 at 5:09 PM Sean Christopherson <seanjc@google.com> wrote:
+>
+> On Wed, Oct 19, 2022, Fuad Tabba wrote:
+> > > > > This sounds good. Thank you.
+> > > >
+> > > > I like the idea of a separate Kconfig, e.g. CONFIG_KVM_GENERIC_PRIVATE_MEM or
+> > > > something.  I highly doubt there will be any non-x86 users for multiple years,
+> > > > if ever, but it would allow testing the private memory stuff on ARM (and any other
+> > > > non-x86 arch) without needing full pKVM support and with only minor KVM
+> > > > modifications, e.g. the x86 support[*] to test UPM without TDX is shaping up to be
+> > > > trivial.
+> > >
+> > > CONFIG_KVM_GENERIC_PRIVATE_MEM looks good to me.
+> >
+> > That sounds good to me, and just keeping the xarray isn't really an
+> > issue for pKVM.
+>
+> The xarray won't exist for pKVM if the #ifdefs in this patch are changed from
+> CONFIG_HAVE_KVM_PRIVATE_MEM => CONFIG_KVM_GENERIC_PRIVATE_MEM.
+>
+> > We could end up using it instead of some of the other
+> > structures we use for tracking.
+>
+> I don't think pKVM should hijack the xarray for other purposes.  At best, it will
+> be confusing, at worst we'll end up with a mess if ARM ever supports the "generic"
+> implementation.
 
-[...]
+Definitely wasn't referring to hijacking it for other purposes, which
+is the main reason I wanted to clarify the documentation and the
+naming of private_fd. Anyway, I'm glad to see that we're in agreement.
+Once I've tightened the screws, I'll share the pKVM port as an RFC as
+well.
+
+Cheers,
+/fuad
 
