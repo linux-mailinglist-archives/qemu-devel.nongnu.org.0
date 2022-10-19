@@ -2,76 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB495604D82
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 18:37:15 +0200 (CEST)
-Received: from localhost ([::1]:44836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97F97604F44
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 20:01:49 +0200 (CEST)
+Received: from localhost ([::1]:40016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olC4A-0002xn-Gw
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 12:37:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35010)
+	id 1olDNu-0003dB-2M
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 14:01:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1olBwU-0006mY-2x
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 12:29:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60935)
+ (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
+ id 1olDJR-0000u5-UM; Wed, 19 Oct 2022 13:57:05 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33184)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1olBwO-0005Qe-FL
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 12:29:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666196949;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=43rzjgqhq0MlDCfzAYjuPodWSYQ8RHdKtPxS3PHodz4=;
- b=GIBQAXlEmSMKV/thfX4bQDU8HCEWJVLjtB88F2o/MvWWPE2eCDwKbjLjTDw73Bqak1XIa3
- 6RacCGv6VOokztRsmhP0ezqYSEZqc2pytkQnBwkbRGpQA7rzlhlmXv2QsC1JuZtocWunMD
- wLl3w9EZyifccg+MJo8Fm5AVp9cgdJs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-263-sj6oKBVDN3iffpS2x5U4sA-1; Wed, 19 Oct 2022 12:29:08 -0400
-X-MC-Unique: sj6oKBVDN3iffpS2x5U4sA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2337D2999B54;
- Wed, 19 Oct 2022 16:29:08 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F4572166B41;
- Wed, 19 Oct 2022 16:29:07 +0000 (UTC)
-Date: Wed, 19 Oct 2022 17:29:05 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: Re: socket chardevs: data loss when other end closes connection?
-Message-ID: <Y1Al0bfisa0ySez2@redhat.com>
-References: <CAFEAcA9t7ujfVVOdg4m0PBt1DkYY+UpDr2tA_doEb71+r-gfXA@mail.gmail.com>
- <Y078zCODLU5XsJYs@redhat.com>
- <CAFEAcA9_fkO2ftjicxp5Ufe3KZE1Br6H=o5GHgLeJ5zchi6Lxw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
+ id 1olDJQ-0003UF-35; Wed, 19 Oct 2022 13:57:05 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29JGC7NS014876;
+ Wed, 19 Oct 2022 17:56:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=/xMreriU+31uXvWJjV2YSNJJwQFg+4U2/9ARamyXzUM=;
+ b=FcmSdTL8pe0Yz4OTtjGwjWaSiJIFZ4ude3bmvfyxue4nmH7ou1SSUIactEHifbzBJCT6
+ x9weXJWpAvLwM9eFWLGyvGxgK9s7b4Y5y7yCTylvyy4YcMMGqVjsUymtkoyXP7c+Lok6
+ TIjPezesUmKn5oDD5t1rN1iEEoMcDW28koT3V3+hVr5cGmnW3Y8u+Vwi+kAcBqtNTF8h
+ bKotgsmvA+VqAGrVhi+Emv31TkZHcPDAey2UI9X31jNALRjLwU2uQu4fiZaZJd2tL3L/
+ tN0NGTSM81SIfxWORDY0cqYaqea6GiDfeQ6qtObItO4ibWhUovRYYQvTbCA3DfYg7niF Mg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kamhx36f2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Oct 2022 17:56:46 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29JH2XDu016750;
+ Wed, 19 Oct 2022 17:56:46 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kamhx36ds-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Oct 2022 17:56:46 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29JHuheB001044;
+ Wed, 19 Oct 2022 17:56:43 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma02fra.de.ibm.com with ESMTP id 3k7mg95p2s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 Oct 2022 17:56:43 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 29JHvDE852363674
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 19 Oct 2022 17:57:13 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 78BA142041;
+ Wed, 19 Oct 2022 17:56:40 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A376B4203F;
+ Wed, 19 Oct 2022 17:56:39 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.16.14]) by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 19 Oct 2022 17:56:39 +0000 (GMT)
+Message-ID: <f3b7dc0cbbbcb53f9763a0ed00f96e8157002517.camel@linux.ibm.com>
+Subject: Re: [PATCH v10 1/9] s390x/cpu topology: core_id sets s390x CPU
+ topology
+From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, =?ISO-8859-1?Q?C=E9dric?= Le Goater
+ <clg@kaod.org>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com
+Date: Wed, 19 Oct 2022 19:56:39 +0200
+In-Reply-To: <b584418d-8a6d-d618-fd21-3b71d27f1e3e@linux.ibm.com>
+References: <20221012162107.91734-1-pmorel@linux.ibm.com>
+ <20221012162107.91734-2-pmorel@linux.ibm.com>
+ <5d5ff3cb-43a0-3d15-ff17-50b46c57a525@kaod.org>
+ <b584418d-8a6d-d618-fd21-3b71d27f1e3e@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFEAcA9_fkO2ftjicxp5Ufe3KZE1Br6H=o5GHgLeJ5zchi6Lxw@mail.gmail.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: ZmEJoVBUOCGmKItUSyQXBfyBloswc0PL
+X-Proofpoint-GUID: 9aLup1NQoCP_iTB_xpZUWWH3rXCFYKa7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-19_11,2022-10-19_04,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 spamscore=0
+ impostorscore=0 mlxscore=0 clxscore=1011 adultscore=0 malwarescore=0
+ bulkscore=0 mlxlogscore=763 priorityscore=1501 phishscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210190099
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=scgl@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,57 +119,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 19, 2022 at 05:26:28PM +0100, Peter Maydell wrote:
-> On Tue, 18 Oct 2022 at 20:21, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >
-> > On Tue, Oct 18, 2022 at 06:55:08PM +0100, Peter Maydell wrote:
-> > > How is this intended to work? I guess the socket ought to go
-> > > into some kind of "disconnecting" state, but not actually do
-> > > a tcp_chr_disconnect() until all the data has been read via
-> > > tcp_chr_read() and it's finally got an EOF indication back from
-> > > tcp_chr_recv() ?
-> >
-> > Right, this is basically broken by (lack of) design right now.
-> >
-> > The main problem here is that we're watching the socket twice.
-> > One set of callbacks added with io_add_watch_poll, and then
-> > a second callback added with qio_chanel_create_watch just for
-> > G_IO_HUP.
-> >
-> > We need there to be only 1 callback, and when that callback
-> > gets  G_IO_IN, it should *ignore* G_IO_HUP until tcp_chr_recv
-> > returns 0 to indicate EOF. This would cause tcp_chr_read to
-> > be invoked repeatedly with G_IO_IN | G_IO_HUP, as we read
-> > "halt\r" one byte at a time.
+On Wed, 2022-10-19 at 17:39 +0200, Pierre Morel wrote:
 > 
-> Makes sense.
+> On 10/18/22 18:43, Cédric Le Goater wrote:
+[...]
+> > 
+> > > diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+> > > new file mode 100644
+> > > index 0000000000..42b22a1831
+> > > --- /dev/null
+> > > +++ b/hw/s390x/cpu-topology.c
+> > > @@ -0,0 +1,132 @@
+> > > +/*
+> > > + * CPU Topology
+> > > + *
+> > > + * Copyright IBM Corp. 2022
+> > 
+> > The Copyright tag is different in the .h file.
 > 
-> I've filed https://gitlab.com/qemu-project/qemu/-/issues/1264 to
-> track this socket chardev bug.
+> OK, I change this to be like in the header file it seems to be the most 
+> used format.
 > 
-> It did occur to me that there's a potential complication with
-> the 'server' mode of this chardev: does it need to cope with
-> a new connection coming into the server socket while the old
-> fd is still hanging around in this "waiting for the guest to
-> read it" state? Currently tcp_chr_disconnect_locked() is where
-> we restart listening for new connections, so QEMU wouldn't
-> accept any new connection until the guest had got round to
-> completely draining the data from the old one.
+No, this form, with the date at the end, is the correct one.
+> 
 
-That's fine IMHO. We never actually stop listening at a socket
-level, we just stop trying to accept(). So any new client will
-get queued until we've drained data, then accept()d and its
-new data handled
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+[...]
 
