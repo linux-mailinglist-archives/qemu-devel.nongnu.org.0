@@ -2,81 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9187B6049C7
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 16:52:05 +0200 (CEST)
-Received: from localhost ([::1]:36756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E6EA604A26
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 16:58:28 +0200 (CEST)
+Received: from localhost ([::1]:38402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olAQN-00009T-SM
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 10:52:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45208)
+	id 1olAWY-0004O6-KM
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 10:58:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1olALT-0005vz-Ev
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 10:46:59 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:38474)
+ id 1olAST-0000gN-E4
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 10:54:13 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:45930)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1olALQ-0005Xb-PG
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 10:46:58 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- r8-20020a1c4408000000b003c47d5fd475so159991wma.3
- for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 07:46:55 -0700 (PDT)
+ id 1olASR-0006OZ-7F
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 10:54:13 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id a10so29483688wrm.12
+ for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 07:54:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:from:to:cc:subject:date:message-id:reply-to;
- bh=e3CNJR4QS88HvnwtBSl41wTR/zmG/zG9xm1dKy2hdG0=;
- b=RLaFX/Dp3vnHi7EJHhSX5b0GIwsMg1yBfJYKUnwXS1cwlDmgjvqMKlg74E60lsiytg
- asoB9dkZbge9csMKtXHnImgeTbKEblrhN6dCjW09KPDjEiWEjZyxsul2DnJiaQxcrEsD
- r381NrzshWlQHwKsJyCQL+X6C+jXyBUrUrcbX4LPeA+tobEE0L6b3mMcNePasU/qGhW8
- xC8DrRSYHSQM43Shmy4Uvz6NL/jr6kw+svjQJWt68FwiAlZyY94cU1JENTq+muMASOzY
- azh2EL/KQ3Nrn5j7jkLmpR0LN5OBD6Le1aDNNr5MQMKl4qVk2L05rS2WedHAdxBx1zBE
- FRJg==
+ bh=0yRTTVBNbj3XA+3EDNVvotZrJvbU0BGaEmHb8InPfG0=;
+ b=E2vxbpUHwX77sZFJL6PBKUbeVbBH7WAAubW+1wsp/BXJgK5iWz2YRxogovWe2aDr0S
+ IJFe1A5MdZ1vn1D3jQHVTfyVXPiY1Mx+pxFrno/Q6e27CWXL/O1oCxAnzcnpxfB0hEKX
+ GlTQrM4S6Y0MT03oQ8ap3MU/oCZD6jsempzvHA69yS81Y2xaF1+nMdjeOACtnmIQyUR2
+ I0ZrXwKrukpYCXzV93rFZkILor8/hDHDBv17SAMW66LXf+tGx0broRsoSqEISdsMuFTU
+ Kpg9P+3yFGGQx0o8JxIyoGA/TFIUeoEkp38e/BA5VhKz0zN+txCDQJj4CjBJwsbsqN1e
+ G8Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=e3CNJR4QS88HvnwtBSl41wTR/zmG/zG9xm1dKy2hdG0=;
- b=qaQ4d6/AGhJmGepI5CcHw0ADYlptj9yT7xCFA85oUb8y9BfmM/V9g9J0Y7wIfxqggo
- eN37P3uzwuDmyPBAfMY45q7giAiZsIl6WvoX4+kKdxsGrIBOGHMq+CAeb8403w+x6UfR
- HUSxkyY851q1w8ZHaK2J0rq06fCz646HAcIlroichAfqOuVKnokdHKGQlS9xvwwPfCsZ
- PoMmVbuJQiTpnW86jZXldbRHIJmoybFdxP9jD4b17qTrltdxvffvmgH8sgRJ2PHghsjE
- PYjp4LlEyCnQfltiJZ4XGe3/rXKWj4a4g4yHbVVeepKIXjgvOcL981QdVAcovL1DhpNN
- 1i7Q==
-X-Gm-Message-State: ACrzQf3W49KYN8sVxD8ksZZIoT0piB96lD9o3KzvFFX4y3FYG2qfETk+
- ye5V3qXBaaCHruiAopAQq94=
-X-Google-Smtp-Source: AMsMyM60hDMlihxQXeLTz6qUTDrTpSHzW00hsuj5yzeuBTXayoatL+q6lxxLGEJhzi1YDWR2UimQIw==
-X-Received: by 2002:a05:600c:230d:b0:3c4:2975:321a with SMTP id
- 13-20020a05600c230d00b003c42975321amr26929174wmo.155.1666190814830; 
- Wed, 19 Oct 2022 07:46:54 -0700 (PDT)
-Received: from [192.168.16.131] (54-240-197-224.amazon.com. [54.240.197.224])
+ bh=0yRTTVBNbj3XA+3EDNVvotZrJvbU0BGaEmHb8InPfG0=;
+ b=k6u83nkAr8PZ0uBdR85+oIjMaQZOCAyM5WqSztiEuORIW7XAkvgYHnPw8FhY3knZP/
+ u7lxUcmJl5F25wTLrQNVJV1u/ev/eyCj4MRpUKI0tGFJIucxjUomcNhbQbJkv7JhE6jB
+ bQ2TxjhYfP/yoqN85RtEjo80Zyw/xTLQBmGwKZ+xgTUbL99Y6nJ0DM8/oyaUIBr9wa4M
+ TNWx/4PP+tcWwyF95FHS4KHI9cCwe07xFNJAL6fnZeWgp2AcdOdxgr/LaeXGqIJZxVli
+ r//YGKkFXKZ+oxqaBuwZ6T3XDkRSx75hV/lQMxyOPHK9Lgl3ugNYIElh+p0XKMOUDcJf
+ KAhw==
+X-Gm-Message-State: ACrzQf0PFIYOAkx3rajOqo+hntu/xy5dYvJm4vnzai7vDxFrxClyrVTn
+ Kt3aJHwRco0MQ1zmzPYWNCY=
+X-Google-Smtp-Source: AMsMyM6cYbnQ89uH4UoJ1T55BKD6zyEHstSbXhd0DL+SznmT6uERxps5bwjTk3dmvYSuT212RMynQw==
+X-Received: by 2002:a5d:5850:0:b0:234:27c9:8fd8 with SMTP id
+ i16-20020a5d5850000000b0023427c98fd8mr2107984wrf.548.1666191240976; 
+ Wed, 19 Oct 2022 07:54:00 -0700 (PDT)
+Received: from [192.168.16.131] (54-240-197-232.amazon.com. [54.240.197.232])
  by smtp.gmail.com with ESMTPSA id
- a15-20020adfeecf000000b00228692033dcsm13430511wrp.91.2022.10.19.07.46.53
+ x19-20020a1c7c13000000b003b4868eb6bbsm174007wmc.23.2022.10.19.07.53.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Oct 2022 07:46:54 -0700 (PDT)
+ Wed, 19 Oct 2022 07:54:00 -0700 (PDT)
 From: Paul Durrant <xadimgnik@gmail.com>
 X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <66161258-9b2b-400b-4ed5-e980394f905e@xen.org>
-Date: Wed, 19 Oct 2022 15:46:52 +0100
+Message-ID: <f12d712c-dc47-7778-8cf5-cfd621fdb9ad@xen.org>
+Date: Wed, 19 Oct 2022 15:53:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.3
-Subject: Re: [PATCH v1 01/12] hw/xen: Correct build config for xen_pt_stub
+Subject: Re: [PATCH v1 02/12] hw/i386/xen/: move xen-mapcache.c to hw/xen/
+Content-Language: en-US
 To: Vikram Garhwal <vikram.garhwal@amd.com>, qemu-devel@nongnu.org
-Cc: stefano.stabellini@amd.com, Stefano Stabellini <sstabellini@kernel.org>,
+Cc: stefano.stabellini@amd.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Stefano Stabellini <sstabellini@kernel.org>,
  Anthony Perard <anthony.perard@citrix.com>,
  "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>
 References: <20221015050750.4185-1-vikram.garhwal@amd.com>
- <20221015050750.4185-2-vikram.garhwal@amd.com>
-Content-Language: en-US
+ <20221015050750.4185-3-vikram.garhwal@amd.com>
 Organization: Xen Project
-In-Reply-To: <20221015050750.4185-2-vikram.garhwal@amd.com>
+In-Reply-To: <20221015050750.4185-3-vikram.garhwal@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,12 +104,90 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 15/10/2022 06:07, Vikram Garhwal wrote:
-> Build fails when have_xen_pci_passthrough is disabled. This is because of
-> incorrect build configuration for xen_pt_stub.c.
+> xen-mapcache.c contains common functions which can be used for enabling Xen on
+> aarch64 with IOREQ handling. Moving it out from hw/i386/xen to hw/xen to make it
+> accessible for both aarch64 and x86.
 > 
-> Signed-off-by: Stefano Stabellini <stefano.stabellini@amd.com>
 > Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
+> Signed-off-by: Stefano Stabellini <stefano.stabellini@amd.com>
+> ---
+>   hw/i386/meson.build              | 1 +
+>   hw/i386/xen/meson.build          | 1 -
+>   hw/i386/xen/trace-events         | 5 -----
+>   hw/xen/meson.build               | 4 ++++
+>   hw/xen/trace-events              | 5 +++++
+>   hw/{i386 => }/xen/xen-mapcache.c | 0
+>   6 files changed, 10 insertions(+), 6 deletions(-)
+>   rename hw/{i386 => }/xen/xen-mapcache.c (100%)
+> 
+> diff --git a/hw/i386/meson.build b/hw/i386/meson.build
+> index 213e2e82b3..cfdbfdcbcb 100644
+> --- a/hw/i386/meson.build
+> +++ b/hw/i386/meson.build
+> @@ -33,5 +33,6 @@ subdir('kvm')
+>   subdir('xen')
+>   
+>   i386_ss.add_all(xenpv_ss)
+> +i386_ss.add_all(xen_ss)
+>   
+>   hw_arch += {'i386': i386_ss}
+> diff --git a/hw/i386/xen/meson.build b/hw/i386/xen/meson.build
+> index be84130300..2fcc46e6ca 100644
+> --- a/hw/i386/xen/meson.build
+> +++ b/hw/i386/xen/meson.build
+> @@ -1,6 +1,5 @@
+>   i386_ss.add(when: 'CONFIG_XEN', if_true: files(
+>     'xen-hvm.c',
+> -  'xen-mapcache.c',
+>     'xen_apic.c',
+>     'xen_platform.c',
+>     'xen_pvdevice.c',
+> diff --git a/hw/i386/xen/trace-events b/hw/i386/xen/trace-events
+> index 5d6be61090..a0c89d91c4 100644
+> --- a/hw/i386/xen/trace-events
+> +++ b/hw/i386/xen/trace-events
+> @@ -21,8 +21,3 @@ xen_map_resource_ioreq(uint32_t id, void *addr) "id: %u addr: %p"
+>   cpu_ioreq_config_read(void *req, uint32_t sbdf, uint32_t reg, uint32_t size, uint32_t data) "I/O=%p sbdf=0x%x reg=%u size=%u data=0x%x"
+>   cpu_ioreq_config_write(void *req, uint32_t sbdf, uint32_t reg, uint32_t size, uint32_t data) "I/O=%p sbdf=0x%x reg=%u size=%u data=0x%x"
+>   
+> -# xen-mapcache.c
+> -xen_map_cache(uint64_t phys_addr) "want 0x%"PRIx64
+> -xen_remap_bucket(uint64_t index) "index 0x%"PRIx64
+> -xen_map_cache_return(void* ptr) "%p"
+> -
+> diff --git a/hw/xen/meson.build b/hw/xen/meson.build
+> index ae0ace3046..19d0637c46 100644
+> --- a/hw/xen/meson.build
+> +++ b/hw/xen/meson.build
+> @@ -22,3 +22,7 @@ else
+>   endif
+>   
+>   specific_ss.add_all(when: ['CONFIG_XEN', xen], if_true: xen_specific_ss)
+> +
+> +xen_ss = ss.source_set()
+> +
+> +xen_ss.add(when: 'CONFIG_XEN', if_true: files('xen-mapcache.c'))
 
-Reviewed-by: Paul Durrant <paul@xen.org>
+Curious as to why you couldn't just add this to the softmmu_ss list above?
+
+   Paul
+
+> diff --git a/hw/xen/trace-events b/hw/xen/trace-events
+> index 3da3fd8348..2c8f238f42 100644
+> --- a/hw/xen/trace-events
+> +++ b/hw/xen/trace-events
+> @@ -41,3 +41,8 @@ xs_node_vprintf(char *path, char *value) "%s %s"
+>   xs_node_vscanf(char *path, char *value) "%s %s"
+>   xs_node_watch(char *path) "%s"
+>   xs_node_unwatch(char *path) "%s"
+> +
+> +# xen-mapcache.c
+> +xen_map_cache(uint64_t phys_addr) "want 0x%"PRIx64
+> +xen_remap_bucket(uint64_t index) "index 0x%"PRIx64
+> +xen_map_cache_return(void* ptr) "%p"
+> diff --git a/hw/i386/xen/xen-mapcache.c b/hw/xen/xen-mapcache.c
+> similarity index 100%
+> rename from hw/i386/xen/xen-mapcache.c
+> rename to hw/xen/xen-mapcache.c
 
 
