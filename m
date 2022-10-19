@@ -2,70 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0CF6603C8F
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 10:50:12 +0200 (CEST)
-Received: from localhost ([::1]:58794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1871603CCD
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 10:52:43 +0200 (CEST)
+Received: from localhost ([::1]:35744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ol4mB-0001fY-G7
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 04:50:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35672)
+	id 1ol4oc-0004Ml-5h
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 04:52:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ol4ZS-0001VV-5l
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 04:37:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47567)
+ id 1ol4eI-0005Hm-MH
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 04:42:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31539)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ol4ZP-0002nC-Fx
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 04:37:00 -0400
+ id 1ol4eH-0003TP-0I
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 04:42:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666168617;
+ s=mimecast20190719; t=1666168918;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FKK2DF5ogYhvDGgcDkjaqGenhLWkH/RXXLW5oajLjTc=;
- b=ILsjcDSqIC4T4pkqyzHGOa0FKhP25EsCAFJAHLjeWA4lpukJchl/KWo8rtrb4SViUiiFBY
- BNslh32nwLXhTw+/ctzke618yjm5o66CSVYex8myxBuK5bZ5N5BBrc6sDSv6S8bpdyDh+3
- +xyaiwhPStWHqHyXNbyj8Rwj6DW44Wo=
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=oKpu6qjghaKt/rFc7hi2mG/mZDYst8Vd3qySVdYyvOE=;
+ b=idZVAXFpgiysl9+HyCyDnRo+Dl2tMNH13kOjyJ9VphjeR3H5QTPtlzoGRYLEF/4HxsrajG
+ U3m81dOhAtQmMvTF+hxpIvGcCq8wwpOxBTGLNaweYmBiDaBhjo7TD6rsPv90fGrHqq2mFj
+ jLwXoONpyHli5LVXtTc4qyMg7xrpPxY=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-558-xilpxe_JMRmYv3sSsfWzRA-1; Wed, 19 Oct 2022 04:36:54 -0400
-X-MC-Unique: xilpxe_JMRmYv3sSsfWzRA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-385-XZbGrYmMPwWeSMY22tyzfw-1; Wed, 19 Oct 2022 04:41:55 -0400
+X-MC-Unique: XZbGrYmMPwWeSMY22tyzfw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BFFE229DD9BC;
- Wed, 19 Oct 2022 08:36:42 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 08DE2380608E;
+ Wed, 19 Oct 2022 08:41:55 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6755340B40C9;
- Wed, 19 Oct 2022 08:36:32 +0000 (UTC)
-Date: Wed, 19 Oct 2022 09:36:30 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 43E22112131B;
+ Wed, 19 Oct 2022 08:41:52 +0000 (UTC)
+Date: Wed, 19 Oct 2022 09:41:49 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Bin Meng <bmeng.cn@gmail.com>
 Cc: qemu-devel@nongnu.org,
  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Fam Zheng <fam@euphon.net>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-block@nongnu.org
-Subject: Re: [PATCH v3 3/3] util/aio-win32: Correct the event array size in
- aio_poll()
-Message-ID: <Y0+3DnYl1cEeweZU@redhat.com>
+ Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v3 1/3] util/main-loop: Fix maximum number of wait
+ objects for win32
+Message-ID: <Y0+4TW35JBbRiorv@redhat.com>
 References: <20220824085231.1630804-1-bmeng.cn@gmail.com>
- <20220824085231.1630804-3-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220824085231.1630804-3-bmeng.cn@gmail.com>
+In-Reply-To: <20220824085231.1630804-1-bmeng.cn@gmail.com>
 User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -90,57 +83,63 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 24, 2022 at 04:52:31PM +0800, Bin Meng wrote:
+On Wed, Aug 24, 2022 at 04:52:29PM +0800, Bin Meng wrote:
 > From: Bin Meng <bin.meng@windriver.com>
 > 
-> WaitForMultipleObjects() can only wait for MAXIMUM_WAIT_OBJECTS
-> object handles. Correct the event array size in aio_poll() and
-> add a assert() to ensure it does not cause out of bound access.
+> The maximum number of wait objects for win32 should be
+> MAXIMUM_WAIT_OBJECTS, not MAXIMUM_WAIT_OBJECTS + 1.
 > 
 > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> Reviewed-by: Stefan Weil <sw@weilnetz.de>
-> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
 > 
-> (no changes since v2)
+> Changes in v3:
+> - move the check of adding the same HANDLE twice to a separete patch
 > 
 > Changes in v2:
-> - change 'count' to unsigned
+> - fix the logic in qemu_add_wait_object() to avoid adding
+>   the same HANDLE twice
 > 
->  util/aio-win32.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  util/main-loop.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
 > 
-> diff --git a/util/aio-win32.c b/util/aio-win32.c
-> index 44003d645e..80cfe012ad 100644
-> --- a/util/aio-win32.c
-> +++ b/util/aio-win32.c
-> @@ -326,9 +326,9 @@ void aio_dispatch(AioContext *ctx)
->  bool aio_poll(AioContext *ctx, bool blocking)
->  {
->      AioHandler *node;
+> diff --git a/util/main-loop.c b/util/main-loop.c
+> index f00a25451b..cb018dc33c 100644
+> --- a/util/main-loop.c
+> +++ b/util/main-loop.c
+> @@ -363,10 +363,10 @@ void qemu_del_polling_cb(PollingFunc *func, void *opaque)
+>  /* Wait objects support */
+>  typedef struct WaitObjects {
+>      int num;
+> -    int revents[MAXIMUM_WAIT_OBJECTS + 1];
 > -    HANDLE events[MAXIMUM_WAIT_OBJECTS + 1];
+> -    WaitObjectFunc *func[MAXIMUM_WAIT_OBJECTS + 1];
+> -    void *opaque[MAXIMUM_WAIT_OBJECTS + 1];
+> +    int revents[MAXIMUM_WAIT_OBJECTS];
 > +    HANDLE events[MAXIMUM_WAIT_OBJECTS];
-
-Interestingly, the orignial + 1 was entirely pointless, since
-the aio_poll impl has no bounds checking at all, until your
-new assert.
-
->      bool progress, have_select_revents, first;
-> -    int count;
-> +    unsigned count;
->      int timeout;
+> +    WaitObjectFunc *func[MAXIMUM_WAIT_OBJECTS];
+> +    void *opaque[MAXIMUM_WAIT_OBJECTS];
+>  } WaitObjects;
 >  
->      /*
-> @@ -369,6 +369,7 @@ bool aio_poll(AioContext *ctx, bool blocking)
->      QLIST_FOREACH_RCU(node, &ctx->aio_handlers, node) {
->          if (!node->deleted && node->io_notify
->              && aio_node_check(ctx, node->is_external)) {
-> +            assert(count < MAXIMUM_WAIT_OBJECTS);
->              events[count++] = event_notifier_get_handle(node->e);
+>  static WaitObjects wait_objects = {0};
+> @@ -395,6 +395,9 @@ void qemu_del_wait_object(HANDLE handle, WaitObjectFunc *func, void *opaque)
+>          if (w->events[i] == handle) {
+>              found = 1;
 >          }
->      }
+> +        if (i == MAXIMUM_WAIT_OBJECTS - 1) {
+> +            break;
+> +        }
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Took me a while to realize this was protecting the body
+of the next if from out of bounds access. Can we redo
+this to make it explicit:
+
+>          if (found) {
+
+   if (found &&
+       i < (MAXIMUM_WAIT_OBJECTS - 1)) {
+
+>              w->events[i] = w->events[i + 1];
+>              w->func[i] = w->func[i + 1];
 
 With regards,
 Daniel
