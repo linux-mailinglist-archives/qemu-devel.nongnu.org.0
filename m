@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95B466040E9
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 12:28:42 +0200 (CEST)
-Received: from localhost ([::1]:51118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8CCC6041F4
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 12:50:57 +0200 (CEST)
+Received: from localhost ([::1]:47756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ol6JS-00050y-JW
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 06:28:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54318)
+	id 1ol6f0-0005Wy-PF
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 06:50:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ol6Bh-0005EV-L3; Wed, 19 Oct 2022 06:20:37 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:45850)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ol6Yf-00015N-Sy
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 06:44:21 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:38759)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ol6Bd-0001jk-O3; Wed, 19 Oct 2022 06:20:37 -0400
-Received: by mail-pf1-x436.google.com with SMTP id 67so16770376pfz.12;
- Wed, 19 Oct 2022 03:20:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tSFcI5M+TIgAqd7Z7uglAUolB/9gROW5YVIR0p9viyw=;
- b=NwSKciWocVnLOyVxWlmRi1Wwl02SVapb9K8UGk34K+KOrJ9VSNuLFImS+r2TJqdMV6
- OodisCB9NfOAY1Kg9BRXgu/6ulOV1cI9OFJUn3BpEwH4qfKoHNwhKFSSofexvF5/V1Fv
- SX08eauXKzryXaSDNxc8nCBZ3i+SbfLMEmdKeWlXqyezBT501D8JZUkjfZXne/+dN6uO
- N6or860I29l3df/TRckDElSAS12uBxi/Ok1aOJIaKUioF5YuhV019422yEOn4B7iN5qq
- rNT0vsRz9aiAs5zPBATJoKKuUxBF1s2dQVBfP/17EAfUTAoWuRM5LMCe4eIDVmkD6p3k
- SBOQ==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ol6Ye-0005Dl-05
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 06:44:21 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id j16so28455880wrh.5
+ for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 03:44:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=qdeaJX55sH31dG5hyU1Da1POz39+LgsgnxASJcUuNZc=;
+ b=Yi4ARY+mHRWrHOYRqIUS8DQySqkvWtqiwtwhh7E9WKQCkDoii/ldkCt1pxBSQ90iet
+ AGrzztLNZUM+l4PmxNx08+uGgRiRBIGE2JSvGX758UDAETXPNck9U35m4grY91KUN9UP
+ k45QoTE2XNWSU4gLLAX87sZBzlpuoRGxwBRnofm9ODUGsB640BThktfeC+gwCn+CtxpP
+ suAODdD7XMXVecaUnl61dfrSdqdsk8UxPSNtoxUzqpf0N15ZFSVqDYd+C41R0RYJR4yF
+ NwZWQUx/Z84J62y5qXu3poZkNvFBoD1bsqMqkE/BRqDDEqjN7KRwKFoAVhjwizCTeWny
+ yfcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=tSFcI5M+TIgAqd7Z7uglAUolB/9gROW5YVIR0p9viyw=;
- b=vutcbZ+yBDeaekokXBk9xP3/DOhgiI/MG8m98L4aH8PwIhU8C3gn6xRWJxRLlm/CFn
- Ne0zjizLC2SXzyTCXFRTcNZQMZkvACZexBNpvgmK9QMEjdUoLb1Jl3lW1lTuGw5adjcA
- JVHaCuBxre85HsTi+bdO1Ukn9S7Jg3+L2bBWK85KmeAvFVAn/17prNbLAziPw9ugWL0f
- ARVES2b6KCjpylmrQNod3dyvV9lJWNuxDMlWuPMgi5NOg3lotuc4vmRMwvXZHxqEBo9s
- 2f+6keba6azkDbq8J7bCtPtxEzpSGW1HYIbRdH3t/Q0Z3PF8XrTaAWIl1WmjKt7c0KYt
- hNPA==
-X-Gm-Message-State: ACrzQf2WXHcez7nWN1RjuutY65W2229fOdtojXO6qw0yUq91jYC0OrHO
- dcZNN9toN3FHij+2mKD4vOGcFGB4KVh/aw==
-X-Google-Smtp-Source: AMsMyM6L6meIzxEXpf42LdYGSfaxLZ+Oqvwi/89VGX42oqnV50GJbS8aDphjaOMIqkCV1VCdRXVnFA==
-X-Received: by 2002:a63:5946:0:b0:461:e1b9:c5a5 with SMTP id
- j6-20020a635946000000b00461e1b9c5a5mr6673171pgm.56.1666174831235; 
- Wed, 19 Oct 2022 03:20:31 -0700 (PDT)
-Received: from ubuntu.. ([65.20.73.185]) by smtp.gmail.com with ESMTPSA id
- u18-20020a170902e5d200b0017f9db0236asm10543879plf.82.2022.10.19.03.20.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Oct 2022 03:20:30 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: qemu-devel@nongnu.org,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>
-Cc: Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Fam Zheng <fam@euphon.net>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-block@nongnu.org
-Subject: [PATCH v4 3/3] util/aio-win32: Correct the event array size in
- aio_poll()
-Date: Wed, 19 Oct 2022 18:20:15 +0800
-Message-Id: <20221019102015.2441622-3-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221019102015.2441622-1-bmeng.cn@gmail.com>
-References: <20221019102015.2441622-1-bmeng.cn@gmail.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qdeaJX55sH31dG5hyU1Da1POz39+LgsgnxASJcUuNZc=;
+ b=tuTQiyFQSSPABVCUhJ6mG5FMqKZvNEziob2/+HHB61hXLo9wZw4RGIDzRzOMetbw0f
+ LRQBVcTxcUE/uI0i/FNZWG3lOsl5/h6k/FbLo5a2ahK/6QwS9PnQV0/dH5IjjzSogVqk
+ TfnLgDhRY3On3WV+k/adS2iKjMrrbLYd9zcOZ+VIQH8WJomVbjQvNmIh8dzrY2pFlPkO
+ H/8ZDkUa1w8QCQ64hoiSaG7qyXRgQowSj2ZlbSg/zEdQb4MLwkYiH9+2CH26TipL6EiB
+ iYk1CLinfLp2HxLqhntaCKkhEsgIyPBYA+/1Pjic91WA4vAJzArdn1Pt8ttemBzlM/Sj
+ Vbow==
+X-Gm-Message-State: ACrzQf3+oN0Z3ARf8yjLCDUx/+RgxGx+i3mn2lxJ/Rnv96QweWGPxSQB
+ g4RVnZzeZC/N10q9ExQeMjkt5A==
+X-Google-Smtp-Source: AMsMyM59jhX1vFGcRAtMphxABbSR7dOtpbpeVT53Gy1hZCktN70biH0Ho/oV4Ep+O6Q9RkpLJ44gSg==
+X-Received: by 2002:a5d:414c:0:b0:22c:de8a:d233 with SMTP id
+ c12-20020a5d414c000000b0022cde8ad233mr4806983wrq.194.1666176258215; 
+ Wed, 19 Oct 2022 03:44:18 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ c16-20020a5d4cd0000000b002302dc43d77sm13708102wrt.115.2022.10.19.03.44.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Oct 2022 03:44:17 -0700 (PDT)
+Message-ID: <dbcf971a-54c9-7778-06af-16837e8cb1fc@linaro.org>
+Date: Wed, 19 Oct 2022 12:44:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.2
+Subject: Re: [PATCH v3 04/15] target/arm: ensure KVM traps set appropriate
+ MemTxAttrs
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "open list:Overall KVM CPUs" <kvm@vger.kernel.org>
+References: <20220927141504.3886314-1-alex.bennee@linaro.org>
+ <20220927141504.3886314-5-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20220927141504.3886314-5-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,51 +96,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+On 27/9/22 16:14, Alex Bennée wrote:
+> Although most KVM users will use the in-kernel GIC emulation it is
+> perfectly possible not to. In this case we need to ensure the
+> MemTxAttrs are correctly populated so the GIC can divine the source
+> CPU of the operation.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> 
+> ---
+> v3
+>    - new for v3
+> ---
+>   target/arm/kvm.c | 12 ++++++++----
+>   1 file changed, 8 insertions(+), 4 deletions(-)
 
-WaitForMultipleObjects() can only wait for MAXIMUM_WAIT_OBJECTS
-object handles. Correct the event array size in aio_poll() and
-add a assert() to ensure it does not cause out of bound access.
+>   void kvm_arm_vm_state_change(void *opaque, bool running, RunState state)
+> @@ -1003,6 +1004,10 @@ int kvm_arch_fixup_msi_route(struct kvm_irq_routing_entry *route,
+>       hwaddr xlat, len, doorbell_gpa;
+>       MemoryRegionSection mrs;
+>       MemoryRegion *mr;
+> +    MemTxAttrs attrs = {
+> +        .requester_type = MTRT_PCI,
+> +        .requester_id = pci_requester_id(dev)
+> +    };
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Stefan Weil <sw@weilnetz.de>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
----
+Can we add a MEMTXATTRS_PCI() macro similar to MEMTXATTRS_CPU()?
 
-(no changes since v2)
+   #define MEMTXATTRS_PCI(pci_dev) ((MemTxAttrs) \
+                             {.requester_type = MTRT_PCI, \
+                              .requester_id = pci_requester_id(pci_dev)})
 
-Changes in v2:
-- change 'count' to unsigned
+So here we can use:
 
- util/aio-win32.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+   MemTxAttrs attrs = MEMTXATTRS_PCI(dev);
 
-diff --git a/util/aio-win32.c b/util/aio-win32.c
-index 44003d645e..80cfe012ad 100644
---- a/util/aio-win32.c
-+++ b/util/aio-win32.c
-@@ -326,9 +326,9 @@ void aio_dispatch(AioContext *ctx)
- bool aio_poll(AioContext *ctx, bool blocking)
- {
-     AioHandler *node;
--    HANDLE events[MAXIMUM_WAIT_OBJECTS + 1];
-+    HANDLE events[MAXIMUM_WAIT_OBJECTS];
-     bool progress, have_select_revents, first;
--    int count;
-+    unsigned count;
-     int timeout;
- 
-     /*
-@@ -369,6 +369,7 @@ bool aio_poll(AioContext *ctx, bool blocking)
-     QLIST_FOREACH_RCU(node, &ctx->aio_handlers, node) {
-         if (!node->deleted && node->io_notify
-             && aio_node_check(ctx, node->is_external)) {
-+            assert(count < MAXIMUM_WAIT_OBJECTS);
-             events[count++] = event_notifier_get_handle(node->e);
-         }
-     }
--- 
-2.34.1
+> @@ -1012,8 +1017,7 @@ int kvm_arch_fixup_msi_route(struct kvm_irq_routing_entry *route,
+>   
+>       RCU_READ_LOCK_GUARD();
+>   
+> -    mr = address_space_translate(as, address, &xlat, &len, true,
+> -                                 MEMTXATTRS_UNSPECIFIED);
+> +    mr = address_space_translate(as, address, &xlat, &len, true, attrs);
+>   
+>       if (!mr) {
+>           return 1;
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
