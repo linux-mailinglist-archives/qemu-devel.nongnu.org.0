@@ -2,68 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB8FF60370B
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 02:18:12 +0200 (CEST)
-Received: from localhost ([::1]:33932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DACB603867
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 05:07:48 +0200 (CEST)
+Received: from localhost ([::1]:60798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1okwmh-00071V-Ja
-	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 20:18:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33242)
+	id 1okzQn-0005pz-QR
+	for lists+qemu-devel@lfdr.de; Tue, 18 Oct 2022 23:07:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1okwk7-0005I8-LO; Tue, 18 Oct 2022 20:15:31 -0400
-Received: from ams.source.kernel.org ([145.40.68.75]:41518)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1okwk5-0005lJ-HS; Tue, 18 Oct 2022 20:15:31 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 84277B821A9;
- Wed, 19 Oct 2022 00:15:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE917C433B5;
- Wed, 19 Oct 2022 00:15:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1666138524;
- bh=6i7KAYuzLBv0qf0M4B6AwUOT+eo1+bQqCOc9SAEYLRs=;
- h=Date:From:To:cc:Subject:In-Reply-To:References:From;
- b=Io+QfxDfonOBKqwTUft1nb9xK9O8l5Hdqk61KgxQgIg41zaRWM0IPAiMV2gwUg994
- HqKLJET0l6EZ5K6PsLUw+Atms/XdlnnUX/WC9ipkvfSn25jsGJ7yXdBJwUYWxSozIA
- 4v30wsJgiOuYdpPrmKXwDsmwEIRozJxXd6s5Fol8IP4i1HQLuZy5aQ6tZnd3++1BiW
- 9NLgdq5lagA7sJ3Za2jx8usP+KnuuiBYxMmLlOR33LOxHW+RmSu3FSOQ4q4Vl4SVDe
- ndTZlJj6fx1tg4CjrLCgJq0+03RQ+T0lQENf+qNMWGOaw0vcA+o0LUj21bW+ShLuVN
- IkRnjXPNk/5og==
-Date: Tue, 18 Oct 2022 17:15:21 -0700 (PDT)
-From: Stefano Stabellini <sstabellini@kernel.org>
-X-X-Sender: sstabellini@ubuntu-linux-20-04-desktop
-To: Julien Grall <julien@xen.org>
-cc: Stefano Stabellini <sstabellini@kernel.org>, 
- Vikram Garhwal <vikram.garhwal@amd.com>, qemu-devel@nongnu.org, 
- stefano.stabellini@amd.com, Peter Maydell <peter.maydell@linaro.org>, 
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>, 
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, 
- "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>
-Subject: Re: [PATCH v1 10/12] hw/arm: introduce xenpv machine
-In-Reply-To: <460a480e-4e91-8d78-60da-59b9cc98beee@xen.org>
-Message-ID: <alpine.DEB.2.22.394.2210181241320.4587@ubuntu-linux-20-04-desktop>
-References: <20221015050750.4185-1-vikram.garhwal@amd.com>
- <20221015050750.4185-11-vikram.garhwal@amd.com>
- <3e504b1b-197d-b77b-16e1-86530eb3d64c@xen.org>
- <alpine.DEB.2.22.394.2210171345450.2351079@ubuntu-linux-20-04-desktop>
- <460a480e-4e91-8d78-60da-59b9cc98beee@xen.org>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1okzI2-0001mo-EM
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 22:58:42 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:46079)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1okzI0-0003RX-06
+ for qemu-devel@nongnu.org; Tue, 18 Oct 2022 22:58:41 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id i6so15630397pli.12
+ for <qemu-devel@nongnu.org>; Tue, 18 Oct 2022 19:58:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=PhxwtSP3EsWTF7oR9k2ew5PWkIP7Rm88K5wF9Ct85GQ=;
+ b=K9NdzDHe5MGlMMa2zemoyjUziugVbCjTBRPWIGR5XB24VGzP65DYuynQ0FV/M5nkbn
+ hScCyEfClCVJdbv2RlP4pwloNsZZD3nWsz6aQfXtJ47uqaQNfh7mOW4E50aa5KkznOzM
+ xzT93egk5EH9VKYtgUczVZwWjgUsoLuuPdnH8KU/tloCZk4wMDKzdBcU6HsPkK1IA+q1
+ OSCzYybbs1XIyCHJgyiucZFRj7wWMGsxJ/rcEcHUX24WWFimBji2tLjhgYUPMpCZU3wv
+ GIiX98BkCFd4uLPVrbNkGx9vmFAm6FVeqYoKwjdv8rK1CzlcNL/YS/BW44Jy8IPCyLcn
+ HLrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=PhxwtSP3EsWTF7oR9k2ew5PWkIP7Rm88K5wF9Ct85GQ=;
+ b=vriV8x78c8DLVBzLJpzRLPQ/T0mouhrY0i9+N+fTRQkV7L9XKzFP7XtQUE4VXVjL55
+ DGhVhOqjcBEwwIupgBG+qQ94mR1BG180lZBP13q40CTDLobpNG6Bn5XD0XBCDdusyKOc
+ TPCn1siukW4fhsWjzBmMiSYO7OQ9mf2WhJBgqxAjVxb/ZKPTtNrlWeb5utYN0MMiUbii
+ hHNerIHw0mkeypABv3w2bsMu7EfksKH63DGuXm5yTyXz54up5nuCKL8qo1roRGOZ4XcC
+ w+0HMl9HEimKTIAyBfeT1mD8/iqzM9EwvxyN5x43MvZ4hMdelr6QSm5b8S2Of6e/k1/l
+ HSmw==
+X-Gm-Message-State: ACrzQf0vwpUxxWNf71Juog/ZcgHXuXhqoKW0vssoLaW15Rim5ZABkZXJ
+ 4yEhyDaVReNPhW6yh+ESFxGZyw==
+X-Google-Smtp-Source: AMsMyM5DEisM1fOBKuNIJ/U0OmEyHKcBM7752sCtt3UZecNZ60r1mu93kWi8v02A4JUzOi2ZD8y+MA==
+X-Received: by 2002:a17:903:1053:b0:185:37cb:da04 with SMTP id
+ f19-20020a170903105300b0018537cbda04mr6266267plc.108.1666148317872; 
+ Tue, 18 Oct 2022 19:58:37 -0700 (PDT)
+Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.142.248])
+ by smtp.googlemail.com with ESMTPSA id
+ 203-20020a6214d4000000b005626fcc32b0sm10320593pfu.175.2022.10.18.19.58.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Oct 2022 19:58:37 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+To: Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>, Qemu Devel <qemu-devel@nongnu.org>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Maydell Peter <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>, Michael Tsirkin <mst@redhat.com>
+Subject: [PATCH v5 00/10] Introduce new acpi/smbios avocado tests using
+ biosbits
+Date: Wed, 19 Oct 2022 08:28:18 +0530
+Message-Id: <20221019025828.683113-1-ani@anisinha.ca>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=145.40.68.75; envelope-from=sstabellini@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -73
-X-Spam_score: -7.4
-X-Spam_bar: -------
-X-Spam_report: (-7.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=ani@anisinha.ca; helo=mail-pl1-x62e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,104 +96,154 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 18 Oct 2022, Julien Grall wrote:
-> On 18/10/2022 02:26, Stefano Stabellini wrote:
-> > On Sun, 16 Oct 2022, Julien Grall wrote:
-> > > Hi,
-> > > 
-> > > There seem to be some missing patches on xen-devel (including the cover
-> > > letter). Is that expected?
-> > > 
-> > > On 15/10/2022 06:07, Vikram Garhwal wrote:
-> > > > Add a new machine xenpv which creates a IOREQ server to register/connect
-> > > > with
-> > > > Xen Hypervisor.
-> > > 
-> > > I don't like the name 'xenpv' because it doesn't convey the fact that some
-> > > of
-> > > the HW may be emulated rather than para-virtualized. In fact one may only
-> > > want
-> > > to use for emulating devices.
-> > > 
-> > > Potential name would be 'xen-arm' or re-using 'virt' but with 'accel=xen'
-> > > to
-> > > select a Xen layout.
-> > 
-> > The benefit of 'xenpv' is that it doesn't require any changes to libxl.
-> 
-> I am quite surprised. Looking at the code, it seems to work more by chance
-> than it is intentional as the code is gated by libxl__need_xenpv_qemu(). So it
-> would not start if there were no emulated devices.
-> 
-> > It is even backward compatible so it could be used with an older version
-> > of Xen/libxl.
-> We don't really gain much here. IOREQ is a tech preview and anyone that wants
-> to try it should really use the latest Xen.
+Please see the README file in patch 9 for more details.
+Sample runs are as follows:
 
-I think that's fair.
+Passed tests:
+
+$ ./tests/venv/bin/avocado run -t acpi tests/avocado
+Fetching asset from tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits
+JOB ID     : e95c7413e996bfb59389839e5ca5105464ef098f
+JOB LOG    : /home/anisinha/avocado/job-results/job-2022-10-14T19.15-e95c741/job.log
+ (1/1) tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits: PASS (33.08 s)
+RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+JOB TIME   : 39.18 s
 
 
-> > Backward compatibility aside, if we come up with a
-> > different name then we'll need changes to libxl and to manage those
-> > changes. For instance, if we use 'xen-arm' that would mean we would need
-> > to handle per-arch QEMU machine names.
-> 
-> Right, so the main argument here is for simplicity in libxl
+$ ./tests/venv/bin/avocado run ./tests/avocado/acpi-bits.py 
+Fetching asset from ./tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits
+JOB ID     : c6e588594bceb2c5fdbdf45095559c58e4030f9c
+JOB LOG    : /home/anisinha/avocado/job-results/job-2022-10-14T19.13-c6e5885/job.log
+ (1/1) ./tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits: PASS (32.29 s)
+RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+JOB TIME   : 39.27 s
 
-Yeah
+When PSS tests are enabled:
+
+$ git diff
+diff --git a/tests/avocado/acpi-bits/bits-tests/testacpi.py2 b/tests/avocado/acpi-bits/bits-tests/testacpi.py2
+index f818a9cce6..18dc818d62 100644
+--- a/tests/avocado/acpi-bits/bits-tests/testacpi.py2
++++ b/tests/avocado/acpi-bits/bits-tests/testacpi.py2
+@@ -40,8 +40,8 @@ import time
+ 
+ def register_tests():
+     testsuite.add_test("ACPI _MAT (Multiple APIC Table Entry) under Processor objects", test_mat, submenu="ACPI Tests")
+-#    testsuite.add_test("ACPI _PSS (Pstate) table conformance tests", test_pss, submenu="ACPI Tests")
+-#    testsuite.add_test("ACPI _PSS (Pstate) runtime tests", test_pstates, submenu="ACPI Tests")
++    testsuite.add_test("ACPI _PSS (Pstate) table conformance tests", test_pss, submenu="ACPI Tests")
++    testsuite.add_test("ACPI _PSS (Pstate) runtime tests", test_pstates, submenu="ACPI Tests")
+     testsuite.add_test("ACPI DSDT (Differentiated System Description Table)", test_dsdt, submenu="ACPI Tests")
+     testsuite.add_test("ACPI FACP (Fixed ACPI Description Table)", test_facp, submenu="ACPI Tests")
+     testsuite.add_test("ACPI HPET (High Precision Event Timer Table)", test_hpet, submenu="ACPI Tests")
+
+$ ./tests/venv/bin/avocado run -t acpi tests/avocado
+Fetching asset from tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits
+JOB ID     : 16a8b8c7f8dc87c4b84f8a2f95135bb63464a71e
+JOB LOG    : /home/anisinha/avocado/job-results/job-2022-10-14T22.43-16a8b8c/job.log
+ (1/1) tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits: FAIL: '1' != '0'\n- 1\n+ 0\n : Some bits tests seems to have failed. Please check the test logs for more info. (33.01 s)
+RESULTS    : PASS 0 | ERROR 0 | FAIL 1 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+JOB TIME   : 39.17 s
 
 
-> Looking at how 'xenpv' is built, this is really expected to deal with PV
-> backend rather than emulated device. I do expect some changes as we go along
-> to be able to add emulated device.
-> 
-> Furthermore, libxl is not the only toolstack out. So I am not convinced this
-> is a good argument to keep the name the same.
+Changelog:
+v5:
+  - fixed bits so that grub-mkrescue is built as a static binary.
+  - updated the test so that it points to the new bits artifact.
+  - V=1 now spits out more meaningful information on failure.
+  - added a check to see if xorriso is installed. If not, the test skips with
+    a meaningful message instructing the user to install it.
+  - fixed README by removing references to stale instructions and adding
+    updated instructions.
+  - tags updated.
+v4:
+  - renamed the bits test files as .py2.
+  - fixed a bug with missing log file parsing. dump bits logs automatically
+    for test failures (no need to re-run with V=1).
+  - fixed issues with README file and enhanced it.
+  - cosmetic comment updates.
+v3:
+  - converted the existing test to avocado tests as per the popular
+    recommendation. Added appropriate tags.
+  - artifact download URL modified based on gitlab-CI URL.
 
-Let's think some more about the naming strategy. From a QEMU point of
-view we could choose any name we like (Vikram please confirm), the issue
-is really on the libxl side.
+  For biosbits repo:
+  - moved to a gitlab repo with me being the maintainer.
+  - added .gitlab-ci.yml file to generate the artifacts.
+v2:
+ - a new class of python based tests introduced that is separate from avocado
+   tests or qtests. Can be run by using "make check-pytest".
+ - acpi biosbits tests are the first tests to use pytest environment.
+ - bios bits tests now download the bits binary archives from a remote
+   repository if they are not found locally. The test skips if download
+   fails.
+ - A new environment variable is introduced that can be passed by the tester
+   to specify the location of the bits archives locally. test skips if the
+   bits binaries are not found in that location.
+ - if pip install of python module fails for whatever reaoson, the test skips.
+ - misc code fixes including spell check of the README doc. README has been
+   updated as well.
+ - addition of SPDX license headers to bits test files.
+ - update MAINTAINERS to reflect the new pytest test class.
 
-Today libxl understands two QEMU "machines": xenpv and xenfv
-(pc,accel=xen is the same as xenfv, I'll use xenfv in this email for
-simplicity).
+For biosbits repo:
+ - added Dockerfile and build script. Made bios bits build on gcc 11.
+   https://github.com/ani-sinha/bits/blob/bits-qemu-logging/Dockerfile
+   https://github.com/ani-sinha/bits/blob/bits-qemu-logging/build-artifacts.sh
+   The build script generates the zip archive and tarball used by the test.
 
-xenpv is for PV guests and only provides PV backends, no emulation. It
-is used on both ARM and x86.
+v1: initial patchset. uses qtest to implement the bios bits tests.
 
-xenfv is only used on x86, and it is for HVM guests, with a full set of
-emulated hardware (PIIX3, etc.).
+Cc: Qemu Devel <qemu-devel@nongnu.org>
+Cc: Daniel P. Berrangé <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Maydell Peter <peter.maydell@linaro.org>
+Cc: John Snow <jsnow@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>
+Cc: Alex Bennée <alex.bennee@linaro.org>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Michael Tsirkin <mst@redhat.com>
 
-The purpose of this series is to introduce a QEMU machine that:
-- works on ARM (but could maybe work on other archs as a stretch goal)
-- provides PV backends
-- no emulated devices by default
-- also can emulate selected devices on request
 
-Certainly it is not xenfv or pc,accel=xen because they would with more
-emulation by default. This is more like "xenpvh": an extension to PV
-with also the capability of emulating one device as requested. It is not
-intended to emulate a full PC and doesn't do that by default like xenfv.
+Ani Sinha (10):
+  acpi/tests/avocado/bits: initial commit of test scripts that are run
+    by biosbits
+  acpi/tests/avocado/bits: add SPDX license identifiers for bios bits
+    tests
+  acpi/tests/avocado/bits: disable acpi PSS tests that are failing in
+    biosbits
+  acpi/tests/avocado/bits: add smilatency test suite from bits in order
+    to disable it
+  acpi/tests/avocado/bits: add SPDX license identifiers for bios bits
+    smilatency tests
+  acpi/tests/avocado/bits: disable smilatency test since it does not
+    pass everytime
+  acpi/tests/avocado/bits: add biosbits config file for running bios
+    tests
+  acpi/tests/avocado/bits: add acpi and smbios avocado tests that uses
+    biosbits
+  acpi/tests/avocado/bits: add a README file to describe the test
+  MAINTAINERS: add myself as the maintainer for acpi biosbits avocado
+    tests
 
-If/When x86 PVH gains the ability to use QEMU as IOREQ server, I would
-imagine it would run a QEMU machine similar to this one.
+ MAINTAINERS                                   |    6 +
+ tests/avocado/acpi-bits.py                    |  363 +++
+ tests/avocado/acpi-bits/README                |  133 +
+ .../acpi-bits/bits-config/bits-cfg.txt        |   18 +
+ tests/avocado/acpi-bits/bits-tests/smbios.py2 | 2434 +++++++++++++++++
+ .../acpi-bits/bits-tests/smilatency.py2       |  107 +
+ .../avocado/acpi-bits/bits-tests/testacpi.py2 |  287 ++
+ .../acpi-bits/bits-tests/testcpuid.py2        |   87 +
+ 8 files changed, 3435 insertions(+)
+ create mode 100644 tests/avocado/acpi-bits.py
+ create mode 100644 tests/avocado/acpi-bits/README
+ create mode 100644 tests/avocado/acpi-bits/bits-config/bits-cfg.txt
+ create mode 100644 tests/avocado/acpi-bits/bits-tests/smbios.py2
+ create mode 100644 tests/avocado/acpi-bits/bits-tests/smilatency.py2
+ create mode 100644 tests/avocado/acpi-bits/bits-tests/testacpi.py2
+ create mode 100644 tests/avocado/acpi-bits/bits-tests/testcpuid.py2
 
-This is also how I would imagine it would get integrated in libxl: as a
-xenpv + individual emulated devices. Not as HVM for ARM. The other QEMU
-command line arguments are inline with the xenpv command line arguments
-rather than xenfv command line arguments. This is why the libxl changes
-are small to zero to make it work today.
+-- 
+2.34.1
 
-So, I think the following options work:
-
-a) call it "xenpv" because it is an extension of the old xenpv machine
-b) call it "xenpvh" because it is PV + few individual emulated devices
-
-If we call it xenpv there are fewer changes in libxl. If we call it
-xenpvh there are more changes in libxl but we can distinguish xenpv from
-xenpvh (I don't see why we need it right now, but I could imagine it
-could turn out useful in the future.)
-
-I would stay away from arch-specific machine names because it will make
-it harder on the libxl side without immediate benefits.
 
