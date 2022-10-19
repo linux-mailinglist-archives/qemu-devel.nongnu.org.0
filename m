@@ -2,27 +2,27 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30D61604671
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 15:10:13 +0200 (CEST)
-Received: from localhost ([::1]:51262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CAF760467E
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 15:11:46 +0200 (CEST)
+Received: from localhost ([::1]:44670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ol8pm-0000Y9-U3
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 09:10:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57278)
+	id 1ol8rH-0002HT-Ta
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 09:11:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1ol8Yr-0006MF-2A; Wed, 19 Oct 2022 08:52:42 -0400
+ id 1ol8Yu-0006Qs-Q3; Wed, 19 Oct 2022 08:52:46 -0400
 Received: from [200.168.210.66] (port=3639 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1ol8Yp-00025u-3S; Wed, 19 Oct 2022 08:52:40 -0400
+ id 1ol8Ys-00025u-47; Wed, 19 Oct 2022 08:52:44 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Wed, 19 Oct 2022 09:50:44 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id EC61A800150;
- Wed, 19 Oct 2022 09:50:43 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 29B35800278;
+ Wed, 19 Oct 2022 09:50:44 -0300 (-03)
 From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
@@ -31,17 +31,17 @@ Cc: richard.henderson@linaro.org,
  "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-Subject: [PATCH v3 07/12] target/ppc: Move VABSDU[BHW] to decodetree and use
- gvec
-Date: Wed, 19 Oct 2022 09:50:35 -0300
-Message-Id: <20221019125040.48028-8-lucas.araujo@eldorado.org.br>
+Subject: [PATCH v3 08/12] target/ppc: Use gvec to decode
+ XV[N]ABS[DS]P/XVNEG[DS]P
+Date: Wed, 19 Oct 2022 09:50:36 -0300
+Message-Id: <20221019125040.48028-9-lucas.araujo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221019125040.48028-1-lucas.araujo@eldorado.org.br>
 References: <20221019125040.48028-1-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 19 Oct 2022 12:50:44.0250 (UTC)
- FILETIME=[66EA0FA0:01D8E3B9]
+X-OriginalArrivalTime: 19 Oct 2022 12:50:44.0531 (UTC)
+ FILETIME=[6714F030:01D8E3B9]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -67,195 +67,201 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
-Moved VABSDUB, VABSDUH and VABSDUW to decodetree and use gvec to
-translate them.
+Moved XVABSSP, XVABSDP, XVNABSSP,XVNABSDP, XVNEGSP and XVNEGDP to
+decodetree and used gvec to translate them.
 
-vabsdub:
+xvabssp:
 rept    loop    master             patch
-8       12500   0,03601600         0,00688500 (-80.9%)
-25      4000    0,03651000         0,00532100 (-85.4%)
-100     1000    0,03666900         0,00595300 (-83.8%)
-500     200     0,04305800         0,01244600 (-71.1%)
-2500    40      0,06893300         0,04273700 (-38.0%)
-8000    12      0,14633200         0,12660300 (-13.5%)
+8       12500   0,00477900         0,00476000 (-0.4%)
+25      4000    0,00442800         0,00353300 (-20.2%)
+100     1000    0,00478700         0,00366100 (-23.5%)
+500     200     0,00973200         0,00649400 (-33.3%)
+2500    40      0,03165200         0,02226700 (-29.7%)
+8000    12      0,09315900         0,06674900 (-28.3%)
 
-vabsduh:
+xvabsdp:
 rept    loop    master             patch
-8       12500   0,02172400         0,00687500 (-68.4%)
-25      4000    0,02154100         0,00531500 (-75.3%)
-100     1000    0,02235400         0,00596300 (-73.3%)
-500     200     0,02827500         0,01245100 (-56.0%)
-2500    40      0,05638400         0,04285500 (-24.0%)
-8000    12      0,13166000         0,12641400 (-4.0%)
+8       12500   0,00475000         0,00474400 (-0.1%)
+25      4000    0,00355600         0,00367500 (+3.3%)
+100     1000    0,00444200         0,00366000 (-17.6%)
+500     200     0,00942700         0,00732400 (-22.3%)
+2500    40      0,02990000         0,02308500 (-22.8%)
+8000    12      0,08770300         0,06683800 (-23.8%)
 
-vabsduw:
+xvnabssp:
 rept    loop    master             patch
-8       12500   0,01646400         0,00688300 (-58.2%)
-25      4000    0,01454500         0,00475500 (-67.3%)
-100     1000    0,01545800         0,00511800 (-66.9%)
-500     200     0,02168200         0,01114300 (-48.6%)
-2500    40      0,04571300         0,04138800 (-9.5%)
-8000    12      0,12209500         0,12178500 (-0.3%)
+8       12500   0,00494500         0,00492900 (-0.3%)
+25      4000    0,00397700         0,00338600 (-14.9%)
+100     1000    0,00421400         0,00353500 (-16.1%)
+500     200     0,01048000         0,00707100 (-32.5%)
+2500    40      0,03251500         0,02238300 (-31.2%)
+8000    12      0,08889100         0,06469800 (-27.2%)
 
-Same as VADDCUW and VSUBCUW, overall performance gain but it uses more
-TCGop (4 before the patch, 6 after).
+xvnabsdp:
+rept    loop    master             patch
+8       12500   0,00511000         0,00492700 (-3.6%)
+25      4000    0,00398800         0,00381500 (-4.3%)
+100     1000    0,00390500         0,00365900 (-6.3%)
+500     200     0,00924800         0,00784600 (-15.2%)
+2500    40      0,03138900         0,02391600 (-23.8%)
+8000    12      0,09654200         0,05684600 (-41.1%)
+
+xvnegsp:
+rept    loop    master             patch
+8       12500   0,00493900         0,00452800 (-8.3%)
+25      4000    0,00369100         0,00366800 (-0.6%)
+100     1000    0,00371100         0,00380000 (+2.4%)
+500     200     0,00991100         0,00652300 (-34.2%)
+2500    40      0,03025800         0,02422300 (-19.9%)
+8000    12      0,09251100         0,06457600 (-30.2%)
+
+xvnegdp:
+rept    loop    master             patch
+8       12500   0,00474900         0,00454400 (-4.3%)
+25      4000    0,00353100         0,00325600 (-7.8%)
+100     1000    0,00398600         0,00366800 (-8.0%)
+500     200     0,01032300         0,00702400 (-32.0%)
+2500    40      0,03125000         0,02422400 (-22.5%)
+8000    12      0,09475100         0,06173000 (-34.9%)
+
+This one to me seemed the opposite of the previous instructions, as it
+looks like there was an improvement in the translation time (itself not
+a surprise as operations were done twice before so there was the need to
+translate twice as many TCGop)
 
 Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/helper.h                 |  6 ++--
- target/ppc/insn32.decode            |  6 ++++
- target/ppc/int_helper.c             | 13 +++-----
- target/ppc/translate/vmx-impl.c.inc | 49 +++++++++++++++++++++++++++--
- target/ppc/translate/vmx-ops.c.inc  |  3 --
- 5 files changed, 60 insertions(+), 17 deletions(-)
+ target/ppc/insn32.decode            |  9 ++++
+ target/ppc/translate/vsx-impl.c.inc | 73 ++++++++++++++++++++++++++---
+ target/ppc/translate/vsx-ops.c.inc  |  6 ---
+ 3 files changed, 76 insertions(+), 12 deletions(-)
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 71c22efc2e..fd8280dfa7 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -146,9 +146,9 @@ DEF_HELPER_FLAGS_1(ftsqrt, TCG_CALL_NO_RWG_SE, i32, i64)
- DEF_HELPER_FLAGS_4(VAVGUB, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
- DEF_HELPER_FLAGS_4(VAVGUH, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
- DEF_HELPER_FLAGS_4(VAVGUW, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
--DEF_HELPER_FLAGS_3(vabsdub, TCG_CALL_NO_RWG, void, avr, avr, avr)
--DEF_HELPER_FLAGS_3(vabsduh, TCG_CALL_NO_RWG, void, avr, avr, avr)
--DEF_HELPER_FLAGS_3(vabsduw, TCG_CALL_NO_RWG, void, avr, avr, avr)
-+DEF_HELPER_FLAGS_4(VABSDUB, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
-+DEF_HELPER_FLAGS_4(VABSDUH, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
-+DEF_HELPER_FLAGS_4(VABSDUW, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
- DEF_HELPER_FLAGS_4(VAVGSB, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
- DEF_HELPER_FLAGS_4(VAVGSH, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
- DEF_HELPER_FLAGS_4(VAVGSW, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 38458c01de..ae151c4b62 100644
+index ae151c4b62..5b687078be 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -528,6 +528,12 @@ VAVGUB          000100 ..... ..... ..... 10000000010    @VX
- VAVGUH          000100 ..... ..... ..... 10001000010    @VX
- VAVGUW          000100 ..... ..... ..... 10010000010    @VX
+@@ -754,6 +754,15 @@ STXVRHX         011111 ..... ..... ..... 0010101101 .   @X_TSX
+ STXVRWX         011111 ..... ..... ..... 0011001101 .   @X_TSX
+ STXVRDX         011111 ..... ..... ..... 0011101101 .   @X_TSX
  
-+## Vector Integer Absolute Difference Instructions
++## VSX Vector Binary Floating-Point Sign Manipulation Instructions
 +
-+VABSDUB         000100 ..... ..... ..... 10000000011    @VX
-+VABSDUH         000100 ..... ..... ..... 10001000011    @VX
-+VABSDUW         000100 ..... ..... ..... 10010000011    @VX
++XVABSDP         111100 ..... 00000 ..... 111011001 ..   @XX2
++XVABSSP         111100 ..... 00000 ..... 110011001 ..   @XX2
++XVNABSDP        111100 ..... 00000 ..... 111101001 ..   @XX2
++XVNABSSP        111100 ..... 00000 ..... 110101001 ..   @XX2
++XVNEGDP         111100 ..... 00000 ..... 111111001 ..   @XX2
++XVNEGSP         111100 ..... 00000 ..... 110111001 ..   @XX2
 +
- ## Vector Bit Manipulation Instruction
+ ## VSX Scalar Multiply-Add Instructions
  
- VGNB            000100 ..... -- ... ..... 10011001100   @VX_n
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index bda76e54d4..d97a7f1f28 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -589,8 +589,8 @@ VAVG(VAVGSW, s32, int64_t)
- VAVG(VAVGUW, u32, uint64_t)
- #undef VAVG
+ XSMADDADP       111100 ..... ..... ..... 00100001 . . . @XX3
+diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
+index e6e5c45ffd..8717e20d08 100644
+--- a/target/ppc/translate/vsx-impl.c.inc
++++ b/target/ppc/translate/vsx-impl.c.inc
+@@ -782,15 +782,76 @@ static void glue(gen_, name)(DisasContext *ctx)                  \
+         tcg_temp_free_i64(sgm);                                  \
+     }
  
--#define VABSDU_DO(name, element)                                        \
--void helper_v##name(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)           \
-+#define VABSDU(name, element)                                           \
-+void helper_##name(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, uint32_t v)\
- {                                                                       \
-     int i;                                                              \
-                                                                         \
-@@ -606,12 +606,9 @@ void helper_v##name(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)           \
-  *   name    - instruction mnemonic suffix (b: byte, h: halfword, w: word)
-  *   element - element type to access from vector
-  */
--#define VABSDU(type, element)                   \
--    VABSDU_DO(absdu##type, element)
--VABSDU(b, u8)
--VABSDU(h, u16)
--VABSDU(w, u32)
--#undef VABSDU_DO
-+VABSDU(VABSDUB, u8)
-+VABSDU(VABSDUH, u16)
-+VABSDU(VABSDUW, u32)
- #undef VABSDU
+-VSX_VECTOR_MOVE(xvabsdp, OP_ABS, SGN_MASK_DP)
+-VSX_VECTOR_MOVE(xvnabsdp, OP_NABS, SGN_MASK_DP)
+-VSX_VECTOR_MOVE(xvnegdp, OP_NEG, SGN_MASK_DP)
+ VSX_VECTOR_MOVE(xvcpsgndp, OP_CPSGN, SGN_MASK_DP)
+-VSX_VECTOR_MOVE(xvabssp, OP_ABS, SGN_MASK_SP)
+-VSX_VECTOR_MOVE(xvnabssp, OP_NABS, SGN_MASK_SP)
+-VSX_VECTOR_MOVE(xvnegsp, OP_NEG, SGN_MASK_SP)
+ VSX_VECTOR_MOVE(xvcpsgnsp, OP_CPSGN, SGN_MASK_SP)
  
- #define VCF(suffix, cvt, element)                                       \
-diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index 195c601f7a..7741f2eb49 100644
---- a/target/ppc/translate/vmx-impl.c.inc
-+++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -431,9 +431,6 @@ GEN_VXFORM_V(vminsb, MO_8, tcg_gen_gvec_smin, 1, 12);
- GEN_VXFORM_V(vminsh, MO_16, tcg_gen_gvec_smin, 1, 13);
- GEN_VXFORM_V(vminsw, MO_32, tcg_gen_gvec_smin, 1, 14);
- GEN_VXFORM_V(vminsd, MO_64, tcg_gen_gvec_smin, 1, 15);
--GEN_VXFORM(vabsdub, 1, 16);
--GEN_VXFORM(vabsduh, 1, 17);
--GEN_VXFORM(vabsduw, 1, 18);
- GEN_VXFORM(vmrghb, 6, 0);
- GEN_VXFORM(vmrghh, 6, 1);
- GEN_VXFORM(vmrghw, 6, 2);
-@@ -3455,6 +3452,52 @@ TRANS_FLAGS(ALTIVEC, VAVGUB, do_vx_vavg, 0, MO_8)
- TRANS_FLAGS(ALTIVEC, VAVGUH, do_vx_vavg, 0, MO_16)
- TRANS_FLAGS(ALTIVEC, VAVGUW, do_vx_vavg, 0, MO_32)
- 
-+static void gen_vabsdu(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b)
++#define TCG_OP_IMM_i64(FUNC, OP, IMM)                           \
++    static void FUNC(TCGv_i64 t, TCGv_i64 b)                    \
++    {                                                           \
++        OP(t, b, IMM);                                          \
++    }
++
++TCG_OP_IMM_i64(do_xvabssp_i64, tcg_gen_andi_i64, ~SGN_MASK_SP)
++TCG_OP_IMM_i64(do_xvnabssp_i64, tcg_gen_ori_i64, SGN_MASK_SP)
++TCG_OP_IMM_i64(do_xvnegsp_i64, tcg_gen_xori_i64, SGN_MASK_SP)
++TCG_OP_IMM_i64(do_xvabsdp_i64, tcg_gen_andi_i64, ~SGN_MASK_DP)
++TCG_OP_IMM_i64(do_xvnabsdp_i64, tcg_gen_ori_i64, SGN_MASK_DP)
++TCG_OP_IMM_i64(do_xvnegdp_i64, tcg_gen_xori_i64, SGN_MASK_DP)
++#undef TCG_OP_IMM_i64
++
++static void xv_msb_op1(unsigned vece, TCGv_vec t, TCGv_vec b,
++                 void (*tcg_gen_op_vec)(unsigned, TCGv_vec, TCGv_vec, TCGv_vec))
 +{
-+    tcg_gen_umax_vec(vece, t, a, b);
-+    tcg_gen_umin_vec(vece, a, a, b);
-+    tcg_gen_sub_vec(vece, t, t, a);
++    uint64_t msb = (vece == MO_32) ? SGN_MASK_SP : SGN_MASK_DP;
++    tcg_gen_op_vec(vece, t, b, tcg_constant_vec_matching(t, vece, msb));
 +}
 +
-+static bool do_vabsdu(DisasContext *ctx, arg_VX *a, const int vece)
++static void do_xvabs_vec(unsigned vece, TCGv_vec t, TCGv_vec b)
++{
++    xv_msb_op1(vece, t, b, tcg_gen_andc_vec);
++}
++
++static void do_xvnabs_vec(unsigned vece, TCGv_vec t, TCGv_vec b)
++{
++    xv_msb_op1(vece, t, b, tcg_gen_or_vec);
++}
++
++static void do_xvneg_vec(unsigned vece, TCGv_vec t, TCGv_vec b)
++{
++    xv_msb_op1(vece, t, b, tcg_gen_xor_vec);
++}
++
++static bool do_vsx_msb_op(DisasContext *ctx, arg_XX2 *a, unsigned vece,
++                          void (*vec)(unsigned, TCGv_vec, TCGv_vec),
++                          void (*i64)(TCGv_i64, TCGv_i64))
 +{
 +    static const TCGOpcode vecop_list[] = {
-+        INDEX_op_umax_vec, INDEX_op_umin_vec, INDEX_op_sub_vec, 0
++        0
 +    };
 +
-+    static const GVecGen3 op[] = {
-+        {
-+            .fniv = gen_vabsdu,
-+            .fno = gen_helper_VABSDUB,
-+            .opt_opc = vecop_list,
-+            .vece = MO_8
-+        },
-+        {
-+            .fniv = gen_vabsdu,
-+            .fno = gen_helper_VABSDUH,
-+            .opt_opc = vecop_list,
-+            .vece = MO_16
-+        },
-+        {
-+            .fniv = gen_vabsdu,
-+            .fno = gen_helper_VABSDUW,
-+            .opt_opc = vecop_list,
-+            .vece = MO_32
-+        },
++    const GVecGen2 op = {
++       .fni8 = i64,
++       .fniv = vec,
++       .opt_opc = vecop_list,
++       .vece = vece
 +    };
 +
-+    REQUIRE_VECTOR(ctx);
++    REQUIRE_INSNS_FLAGS2(ctx, VSX);
++    REQUIRE_VSX(ctx);
 +
-+    tcg_gen_gvec_3(avr_full_offset(a->vrt), avr_full_offset(a->vra),
-+                   avr_full_offset(a->vrb), 16, 16, &op[vece]);
++    tcg_gen_gvec_2(vsr_full_offset(a->xt), vsr_full_offset(a->xb),
++                   16, 16, &op);
 +
 +    return true;
 +}
 +
-+TRANS_FLAGS2(ISA300, VABSDUB, do_vabsdu, MO_8)
-+TRANS_FLAGS2(ISA300, VABSDUH, do_vabsdu, MO_16)
-+TRANS_FLAGS2(ISA300, VABSDUW, do_vabsdu, MO_32)
++TRANS(XVABSDP, do_vsx_msb_op, MO_64, do_xvabs_vec, do_xvabsdp_i64)
++TRANS(XVNABSDP, do_vsx_msb_op, MO_64, do_xvnabs_vec, do_xvnabsdp_i64)
++TRANS(XVNEGDP, do_vsx_msb_op, MO_64, do_xvneg_vec, do_xvnegdp_i64)
++TRANS(XVABSSP, do_vsx_msb_op, MO_32, do_xvabs_vec, do_xvabssp_i64)
++TRANS(XVNABSSP, do_vsx_msb_op, MO_32, do_xvnabs_vec, do_xvnabssp_i64)
++TRANS(XVNEGSP, do_vsx_msb_op, MO_32, do_xvneg_vec, do_xvnegsp_i64)
 +
- static bool do_vdiv_vmod(DisasContext *ctx, arg_VX *a, const int vece,
-                          void (*func_32)(TCGv_i32 t, TCGv_i32 a, TCGv_i32 b),
-                          void (*func_64)(TCGv_i64 t, TCGv_i64 a, TCGv_i64 b))
-diff --git a/target/ppc/translate/vmx-ops.c.inc b/target/ppc/translate/vmx-ops.c.inc
-index 02db51def0..33fec8aca4 100644
---- a/target/ppc/translate/vmx-ops.c.inc
-+++ b/target/ppc/translate/vmx-ops.c.inc
-@@ -83,9 +83,6 @@ GEN_VXFORM(vminsb, 1, 12),
- GEN_VXFORM(vminsh, 1, 13),
- GEN_VXFORM(vminsw, 1, 14),
- GEN_VXFORM_207(vminsd, 1, 15),
--GEN_VXFORM(vabsdub, 1, 16),
--GEN_VXFORM(vabsduh, 1, 17),
--GEN_VXFORM(vabsduw, 1, 18),
- GEN_VXFORM(vmrghb, 6, 0),
- GEN_VXFORM(vmrghh, 6, 1),
- GEN_VXFORM(vmrghw, 6, 2),
+ #define VSX_CMP(name, op1, op2, inval, type)                                  \
+ static void gen_##name(DisasContext *ctx)                                     \
+ {                                                                             \
+diff --git a/target/ppc/translate/vsx-ops.c.inc b/target/ppc/translate/vsx-ops.c.inc
+index bff14bbece..b77324e0a8 100644
+--- a/target/ppc/translate/vsx-ops.c.inc
++++ b/target/ppc/translate/vsx-ops.c.inc
+@@ -165,13 +165,7 @@ GEN_XX3FORM(name, opc2, opc3 | 1, fl2)
+ GEN_XX2FORM_DCMX(xvtstdcdp, 0x14, 0x1E, PPC2_ISA300),
+ GEN_XX2FORM_DCMX(xvtstdcsp, 0x14, 0x1A, PPC2_ISA300),
+ 
+-GEN_XX2FORM(xvabsdp, 0x12, 0x1D, PPC2_VSX),
+-GEN_XX2FORM(xvnabsdp, 0x12, 0x1E, PPC2_VSX),
+-GEN_XX2FORM(xvnegdp, 0x12, 0x1F, PPC2_VSX),
+ GEN_XX3FORM(xvcpsgndp, 0x00, 0x1E, PPC2_VSX),
+-GEN_XX2FORM(xvabssp, 0x12, 0x19, PPC2_VSX),
+-GEN_XX2FORM(xvnabssp, 0x12, 0x1A, PPC2_VSX),
+-GEN_XX2FORM(xvnegsp, 0x12, 0x1B, PPC2_VSX),
+ GEN_XX3FORM(xvcpsgnsp, 0x00, 0x1A, PPC2_VSX),
+ 
+ GEN_XX3FORM(xsadddp, 0x00, 0x04, PPC2_VSX),
 -- 
 2.37.3
 
