@@ -2,84 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C2B360436E
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 13:39:52 +0200 (CEST)
-Received: from localhost ([::1]:55194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D22260446B
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 14:04:42 +0200 (CEST)
+Received: from localhost ([::1]:59204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ol7QL-0001RR-At
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 07:39:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35470)
+	id 1ol7oP-000817-7X
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 08:04:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ol7Mq-00081Z-Uk
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 07:36:14 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:44764)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ol7Mn-0005nf-58
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 07:36:12 -0400
-Received: by mail-wr1-x434.google.com with SMTP id r13so28432498wrj.11
- for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 04:36:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=tsapSoF+2oynfHGbiw474XF1GzJq1kAu8j4fOMy/y8E=;
- b=B42XMwSl3GHlmnrFF5CIUiTl51B0kEFQs1szdrRgSkOm6HJQNXgZeBFhT5DY4GCwGY
- Up07XwHPOMcq+YEmcojtX96acNjoXQRR0FQrBvwcwOKoOzZtns5Vmf1Ac2NBHuo4iKcZ
- /jDvUn5lsmE7zGhlL56AMdeGAkljXHUwEjnj78qJglkSHm43ka8ysj9+1ZRlcEdbQOzM
- xWYsqqz0xYlYC/f0G5CpSu8QnmOqkWFMXQwzHCAfdslFvcSQimqjn2DFSl4Lu1AyltPD
- ryjJQq94pldUSnarH4iF/tmxxLVhH+p3bDrop6N069fi3lYqtCy1kDkHFArH5tUZBG3W
- AvOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=tsapSoF+2oynfHGbiw474XF1GzJq1kAu8j4fOMy/y8E=;
- b=Wbv3W/HOoGjBD0tz9UnUxPUm/Dbpo66SZ1q/Mgp5sYQNN5RV8PH9Ogo2+1fSSoeZ90
- 3kEhk7Ye4zgZZasTTLxr/aEajMLQxW/r5Ei5kjPgJZBMWzoFPZ3S954p0RAfT5sEVpiD
- 01CKVbjz1NHqVoXMm05PMlYlt9ObZZ/V3iKYvBYRd6iC1CyqJJBTenm5vGjZku09rVEF
- paSTB6ytqUIthy4eHJMJsDg88YVGIhrzk0KXhuWUR9ExGiGAtw03N3U5+n8TMd20j1LU
- i6Zc61GLfEyBAUXtRRw8/COdCbMCzdxRATyGUt+7vbcXlDK+X08Or6jidhd7u1BCmmI5
- f74w==
-X-Gm-Message-State: ACrzQf14k6hlZ95yDyMtUZWJwJ11PSHm8OOU0nCKo1kpkkeFnu6w3vaR
- sEh+AZg7roKlizbxLwzjSS86BQ==
-X-Google-Smtp-Source: AMsMyM5OXkaMyG5OoKEVUPeFEpEzQL16FeD2xiOqektX3Kw6NMM8ChkRBy41QAQSsrZidHHw2SrxKw==
-X-Received: by 2002:a5d:5306:0:b0:22c:d927:fc8a with SMTP id
- e6-20020a5d5306000000b0022cd927fc8amr4752528wrv.700.1666179358985; 
- Wed, 19 Oct 2022 04:35:58 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- az25-20020a05600c601900b003b497138093sm16935439wmb.47.2022.10.19.04.35.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Oct 2022 04:35:58 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DC1381FFB7;
- Wed, 19 Oct 2022 12:35:57 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- qemu-s390x@nongnu.org (open list:S390 TCG CPUs)
-Subject: [RFC PATCH] target/s390x: fake instruction loading when handling 'ex'
-Date: Wed, 19 Oct 2022 12:35:52 +0100
-Message-Id: <20221019113552.1051940-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1ol7jO-0004wQ-Cx; Wed, 19 Oct 2022 07:59:30 -0400
+Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:54843)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1ol7jI-0000o3-Ad; Wed, 19 Oct 2022 07:59:30 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R151e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045168;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=5; SR=0;
+ TI=SMTPD_---0VSajwNM_1666180750; 
+Received: from 30.13.184.69(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0VSajwNM_1666180750) by smtp.aliyun-inc.com;
+ Wed, 19 Oct 2022 19:59:11 +0800
+Content-Type: multipart/alternative;
+ boundary="------------ZLsBu9kZuheHF6WVzEkhce90"
+Message-ID: <020dc51f-793b-bf20-41e8-5b1447711864@linux.alibaba.com>
+Date: Wed, 19 Oct 2022 19:59:10 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: Question about TCG backend correctness
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org
+References: <4672400c-0084-3bf3-a596-7a42115301f0@linux.alibaba.com>
+ <87lepeeno0.fsf@linaro.org>
+ <4841b154-bd05-c677-cfb4-46a350ddd0aa@linux.alibaba.com>
+ <b97a7b1a-f8cd-b0d5-bbde-1a06049281dd@linaro.org>
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <b97a7b1a-f8cd-b0d5-bbde-1a06049281dd@linaro.org>
+Received-SPF: pass client-ip=115.124.30.45;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-45.freemail.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,71 +68,200 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The s390x EXecute instruction is a bit weird as we synthesis the
-executed instruction from what we have stored in memory. When plugins
-are enabled this breaks because we detect the ld_code2() loading from
-a non zero offset without the rest of the instruction being there.
+This is a multi-part message in MIME format.
+--------------ZLsBu9kZuheHF6WVzEkhce90
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Work around this with a special helper to inform the rest of the
-translator about the instruction so things stay consistent.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>
----
- include/exec/translator.h    | 17 +++++++++++++++++
- target/s390x/tcg/translate.c |  4 ++++
- 2 files changed, 21 insertions(+)
+On 2022/10/18 13:22, Richard Henderson wrote:
+> On 10/18/22 01:27, LIU Zhiwei wrote:
+>> Maybe I can run RISU on qemu-aarch64(x86) and qemu-aarch64(risc-v) to 
+>> check the RISC-V backend.
+>
+> This is a good start for debugging a tcg backend. 
 
-diff --git a/include/exec/translator.h b/include/exec/translator.h
-index 3b77f5f4aa..156f568701 100644
---- a/include/exec/translator.h
-+++ b/include/exec/translator.h
-@@ -211,6 +211,23 @@ translator_ldq_swap(CPUArchState *env, DisasContextBase *db,
-     return ret;
- }
- 
-+/**
-+ * translator_fake_ldw - fake instruction load
-+ * @insn16: 2 byte instruction
-+ * @pc: program counter of instruction
-+ *
-+ * This is a special case helper used where the instruction we are
-+ * about to translate comes from somewhere else (e.g. being
-+ * re-synthesised for s390x "ex"). It ensures we update other areas of
-+ * the translator with details of the executed instruction.
-+ */
-+
-+static inline void translator_fake_ldw(uint16_t insn16, abi_ptr pc)
-+{
-+    plugin_insn_append(pc, &insn16, sizeof(insn16));
-+}
-+
-+
- /*
-  * Return whether addr is on the same page as where disassembly started.
-  * Translators can use this to enforce the rule that only single-insn
-diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index 1d2dddab1c..a07b8b2d23 100644
---- a/target/s390x/tcg/translate.c
-+++ b/target/s390x/tcg/translate.c
-@@ -6317,12 +6317,16 @@ static const DisasInsn *extract_insn(CPUS390XState *env, DisasContext *s)
-     if (unlikely(s->ex_value)) {
-         /* Drop the EX data now, so that it's clear on exception paths.  */
-         TCGv_i64 zero = tcg_const_i64(0);
-+        int i;
-         tcg_gen_st_i64(zero, cpu_env, offsetof(CPUS390XState, ex_value));
-         tcg_temp_free_i64(zero);
- 
-         /* Extract the values saved by EXECUTE.  */
-         insn = s->ex_value & 0xffffffffffff0000ull;
-         ilen = s->ex_value & 0xf;
-+        for (i = 0; i < ilen; i += 2) {
-+            translator_fake_ldw(extract64(insn, 48 - (i * 8), 16), pc + i);
-+        }
-         op = insn >> 56;
-     } else {
-         insn = ld_code2(env, s, pc);
--- 
-2.34.1
+After fixing some bugs, RISU can run  some instructions now. Thanks.
 
+
+IMHO,  the next 2 requests should be satisfied for TCG test.
+
+1. Add a unit test case for any lower level and small function is easy.
+
+    For example, the function in risc-v backend,
+
+    static bool tcg_out_mov(TCGContext *s, TCGType type, TCGReg ret,
+    TCGReg arg)
+      {
+          if (ret == arg) {
+              return true;
+          }
+          switch (type) {
+          case TCG_TYPE_I32:
+          case TCG_TYPE_I64:
+              tcg_out_opc_imm(s, OPC_ADDI, ret, arg, 0);
+              break;
+          default:
+              g_assert_not_reached();
+          }
+          return true;
+      }
+
+    Write a unit test case for it is not easy currently.  I don't know
+    how to fill the TCGContext struct and other parameters.
+    And there is no test framework where I can reuse.
+
+    The others may say that we can run a lot of benchmark to ensure we
+    have a good coverage and don't
+    need such a low level test case. Some reasonable. But it will lead
+    to a very high test burden and it is very hard to get
+    a good coverage only through high level test.
+
+
+2. Add a unit test case for any high level function is easy, such as 
+tcg_gen_code.
+
+    The check-tcg test belongs to the high level testing.
+
+Best Regards，
+Zhiwei
+
+> It's not comprehensive, because RISU executes one instruction at a 
+> time then raises an exception to check the results.  This means that 
+> the tcg optimizer doesn't have much to work with, which means that the 
+> tcg backend is not as stressed as it could be.
+>
+>>> I've long wanted to have the ability to have TCG unit tests where a
+>>> virtual processor could be defined for the purpose of directly
+>>> exercising TCG.
+>>
+>> We already have many ISAs as the front end of TCG. Will the virtual 
+>> processor here be some
+>> different?
+>
+> It wouldn't.  This is my argument against creating a new virtual 
+> processor.
+>
+> I do think we should be better about creating regression tests for 
+> bugs fixed, in the form of small focused assembly test cases which get 
+> run via check-tcg.
+>
+>
+> r~
+--------------ZLsBu9kZuheHF6WVzEkhce90
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2022/10/18 13:22, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:b97a7b1a-f8cd-b0d5-bbde-1a06049281dd@linaro.org">On
+      10/18/22 01:27, LIU Zhiwei wrote:
+      <br>
+      <blockquote type="cite">Maybe I can run RISU on qemu-aarch64(x86)
+        and qemu-aarch64(risc-v) to check the RISC-V backend.
+        <br>
+      </blockquote>
+      <br>
+      This is a good start for debugging a tcg backend. </blockquote>
+    <p>After fixing some bugs, RISU can run  some instructions now.
+      Thanks.</p>
+    <p><br>
+    </p>
+    <p>IMHO,  the next 2 requests should be satisfied for TCG test.<br>
+    </p>
+    <p>1. Add a unit test case for any lower level and small function is
+      easy. <br>
+    </p>
+    <blockquote>
+      <p>For example, the function in risc-v backend, <br>
+      </p>
+      <p><font face="monospace">static bool tcg_out_mov(TCGContext *s,
+          TCGType type, TCGReg ret, TCGReg arg)<br>
+           {<br>
+               if (ret == arg) {<br>
+                   return true;<br>
+               }<br>
+               switch (type) {<br>
+               case TCG_TYPE_I32:<br>
+               case TCG_TYPE_I64:<br>
+                   tcg_out_opc_imm(s, OPC_ADDI, ret, arg, 0);<br>
+                   break;<br>
+               default:<br>
+                   g_assert_not_reached();<br>
+               }<br>
+               return true;<br>
+           }</font><br>
+      </p>
+      <p>Write a unit test case for it is not easy currently.  I don't
+        know how to fill the TCGContext struct and other parameters.<br>
+        And there is no test framework where I can reuse.</p>
+      <p>The others may say that we can run a lot of benchmark to ensure
+        we have a good coverage and don't<br>
+        need such a low level test case. Some reasonable. But it will
+        lead to a very high test burden and it is very hard to get<br>
+        a good coverage only through high level test.</p>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>2. Add a unit test case for any high level function is easy, such
+      as tcg_gen_code. <br>
+    </p>
+    <blockquote>
+      <p>The check-tcg test belongs to the high level testing. <br>
+      </p>
+    </blockquote>
+    <p>Best Regards，<br>
+      Zhiwei<br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:b97a7b1a-f8cd-b0d5-bbde-1a06049281dd@linaro.org">It's
+      not comprehensive, because RISU executes one instruction at a time
+      then raises an exception to check the results.  This means that
+      the tcg optimizer doesn't have much to work with, which means that
+      the tcg backend is not as stressed as it could be.
+      <br>
+      <br>
+      <blockquote type="cite">
+        <blockquote type="cite">I've long wanted to have the ability to
+          have TCG unit tests where a
+          <br>
+          virtual processor could be defined for the purpose of directly
+          <br>
+          exercising TCG.
+          <br>
+        </blockquote>
+        <br>
+        We already have many ISAs as the front end of TCG. Will the
+        virtual processor here be some
+        <br>
+        different?
+        <br>
+      </blockquote>
+      <br>
+      It wouldn't.  This is my argument against creating a new virtual
+      processor.
+      <br>
+      <br>
+      I do think we should be better about creating regression tests for
+      bugs fixed, in the form of small focused assembly test cases which
+      get run via check-tcg.
+      <br>
+      <br>
+      <br>
+      r~
+      <br>
+    </blockquote>
+  </body>
+</html>
+
+--------------ZLsBu9kZuheHF6WVzEkhce90--
 
