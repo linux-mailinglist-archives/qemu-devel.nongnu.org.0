@@ -2,98 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0199A60453F
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 14:28:00 +0200 (CEST)
-Received: from localhost ([::1]:38528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DA7D604564
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 14:34:54 +0200 (CEST)
+Received: from localhost ([::1]:54532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ol8Av-0007U0-RF
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 08:27:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39220)
+	id 1ol8Hb-00039n-7c
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 08:34:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
- id 1ol87C-0005Jb-Pk
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 08:24:06 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:39685)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
- id 1ol878-00052i-Pl
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 08:24:06 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- o17-20020a17090aac1100b0020d98b0c0f4so18865101pjq.4
- for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 05:24:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=r1nN5HoJA+QWaw57MkfSZ7AXcUY2x7OwZdneDnG7JGw=;
- b=qCP25JB79dtuinCJjovrQ+TKlVOz9T5wtdGNWfI8zDBfRq7HVnhgmgos6nTOpv4v8x
- f8MuG6GJ/8AVlkzsMqmUvpvqtuSS7u7JkNO088lw2rx/kuXIYH5W6QPokXEBt2+m3rqY
- yMCE88rwDtHAxisr/tGgAOjX2/bidAA4mK+mPHENELzyG6eh0gg403vb2JPUyHmiKOzq
- 0xL5PNWkYk5uUj/K4ZrE7RYTaT+r0sfpvJLneMaCeM88/lW6gyEE5n6GiZhnO1wCGhu5
- O90SDtVLGZUaFWz4MPu+fGVE85x+Rzyw8iUJDVipBVnQvxoPbtoXRNES1PfL7AicsUq2
- mXYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=r1nN5HoJA+QWaw57MkfSZ7AXcUY2x7OwZdneDnG7JGw=;
- b=qdcZE6cG9i0yYiZswAmQWmgZCmCyNLEGr/x3mkb/iKLF9pQfzbqUL33RGRBX04sid0
- TjWXTtGtAC/B0EFUFAUaQuWiQ+NcialmZwadn4S6+3bifC+zWcsD8IZ+ojqH88Qc25xc
- 5kq2KlWFgLV4HFKpy47I1cWc0ugib5Pnls3RB55wVGoqjaQ+Yrs5fPnkgF6Tz3YqYajT
- CZFVIvtT8gvtRMiBG3dC0QSAfnpP7RfCWo8v94EKS1Xe6xj+8E8anRQOquqshipj4zOW
- TleKTuCYtUcJ23BZnAG8RV0nVenIqdxaMxJFFljlxlNjG8dG0TLDagNuBaR1mmtlk89s
- jkzw==
-X-Gm-Message-State: ACrzQf1QArI6V/oYHZPwqbSRmz0IvwbZufmT97GAhoYhHAeg8bf2PDgn
- EH8+TMVk2wuyXV6PlxGwbbVqxXwe6uc23pLbu0lqiQ==
-X-Google-Smtp-Source: AMsMyM7OgqmWmR35JKSjTx1GS4Q97xb3oG8vx7AjlXbCobpvGFxtx2x+alqPYK1uk6NS6I1m/9K97poofI3i2/ANW0A=
-X-Received: by 2002:a17:902:eb83:b0:185:46b7:7de3 with SMTP id
- q3-20020a170902eb8300b0018546b77de3mr8121909plg.19.1666182240739; Wed, 19 Oct
- 2022 05:24:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1ol8AZ-0007Ub-BO
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 08:27:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21002)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1ol8AW-000616-1h
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 08:27:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666182450;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=DV2w6TnVfPzAx/kr1Gl4FFi5DWT8V2yYNYePvN8IcNo=;
+ b=SH1h3MRvXhGbe2svCiH2ZKfxtcTfd3lIkf+M484YIFG7J5Sx/MQroXU7yuTWZ5EtaN4TQc
+ XMp3DHHNzEsSi65oAcsSrSd5Hl2Wksdce0/0xrDODUP/7Ti4zBvNn32FA0XWatZ5f1tmyu
+ zPssAXWz9rymk2KYZwgtIO66D/jlrZE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-507-jngly-xQOyKkBB-x9_qsqw-1; Wed, 19 Oct 2022 08:27:27 -0400
+X-MC-Unique: jngly-xQOyKkBB-x9_qsqw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7C70485A59D;
+ Wed, 19 Oct 2022 12:27:27 +0000 (UTC)
+Received: from laptop.redhat.com (unknown [10.39.192.84])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4CD13477F55;
+ Wed, 19 Oct 2022 12:27:25 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, mst@redhat.com,
+ peterx@redhat.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ eperezma@redhat.com, jasowang@redhat.com, jean-philippe@linaro.org
+Subject: [PATCH v2] vhost: Warn if DEVIOTLB_UNMAP is not supported and ats is
+ set
+Date: Wed, 19 Oct 2022 14:27:17 +0200
+Message-Id: <20221019122717.1259803-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
-In-Reply-To: <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
-From: Vishal Annapurve <vannapurve@google.com>
-Date: Wed, 19 Oct 2022 17:53:48 +0530
-Message-ID: <CAGtprH_MiCxT2xSxD2UrM4M+ghL0V=XEZzEX4Fo5wQKV4fAL4w@mail.gmail.com>
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, 
- Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, 
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>, 
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Yu Zhang <yu.c.zhang@linux.intel.com>, 
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, 
- dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
- aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
- Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
- mhocko@suse.com, 
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=vannapurve@google.com; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,423 +77,166 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 15, 2022 at 8:04 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
->
-> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
->
-> KVM can use memfd-provided memory for guest memory. For normal userspace
-> accessible memory, KVM userspace (e.g. QEMU) mmaps the memfd into its
-> virtual address space and then tells KVM to use the virtual address to
-> setup the mapping in the secondary page table (e.g. EPT).
->
-> With confidential computing technologies like Intel TDX, the
-> memfd-provided memory may be encrypted with special key for special
-> software domain (e.g. KVM guest) and is not expected to be directly
-> accessed by userspace. Precisely, userspace access to such encrypted
-> memory may lead to host crash so it should be prevented.
->
-> This patch introduces userspace inaccessible memfd (created with
-> MFD_INACCESSIBLE). Its memory is inaccessible from userspace through
-> ordinary MMU access (e.g. read/write/mmap) but can be accessed via
-> in-kernel interface so KVM can directly interact with core-mm without
-> the need to map the memory into KVM userspace.
->
-> It provides semantics required for KVM guest private(encrypted) memory
-> support that a file descriptor with this flag set is going to be used as
-> the source of guest memory in confidential computing environments such
-> as Intel TDX/AMD SEV.
->
-> KVM userspace is still in charge of the lifecycle of the memfd. It
-> should pass the opened fd to KVM. KVM uses the kernel APIs newly added
-> in this patch to obtain the physical memory address and then populate
-> the secondary page table entries.
->
-> The userspace inaccessible memfd can be fallocate-ed and hole-punched
-> from userspace. When hole-punching happens, KVM can get notified through
-> inaccessible_notifier it then gets chance to remove any mapped entries
-> of the range in the secondary page tables.
->
-> The userspace inaccessible memfd itself is implemented as a shim layer
-> on top of real memory file systems like tmpfs/hugetlbfs but this patch
-> only implemented tmpfs. The allocated memory is currently marked as
-> unmovable and unevictable, this is required for current confidential
-> usage. But in future this might be changed.
->
-> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> ---
->  include/linux/memfd.h      |  24 ++++
->  include/uapi/linux/magic.h |   1 +
->  include/uapi/linux/memfd.h |   1 +
->  mm/Makefile                |   2 +-
->  mm/memfd.c                 |  25 ++++-
->  mm/memfd_inaccessible.c    | 219 +++++++++++++++++++++++++++++++++++++
->  6 files changed, 270 insertions(+), 2 deletions(-)
->  create mode 100644 mm/memfd_inaccessible.c
->
-> diff --git a/include/linux/memfd.h b/include/linux/memfd.h
-> index 4f1600413f91..334ddff08377 100644
-> --- a/include/linux/memfd.h
-> +++ b/include/linux/memfd.h
-> @@ -3,6 +3,7 @@
->  #define __LINUX_MEMFD_H
->
->  #include <linux/file.h>
-> +#include <linux/pfn_t.h>
->
->  #ifdef CONFIG_MEMFD_CREATE
->  extern long memfd_fcntl(struct file *file, unsigned int cmd, unsigned long arg);
-> @@ -13,4 +14,27 @@ static inline long memfd_fcntl(struct file *f, unsigned int c, unsigned long a)
->  }
->  #endif
->
-> +struct inaccessible_notifier;
-> +
-> +struct inaccessible_notifier_ops {
-> +       void (*invalidate)(struct inaccessible_notifier *notifier,
-> +                          pgoff_t start, pgoff_t end);
-> +};
-> +
-> +struct inaccessible_notifier {
-> +       struct list_head list;
-> +       const struct inaccessible_notifier_ops *ops;
-> +};
-> +
-> +void inaccessible_register_notifier(struct file *file,
-> +                                   struct inaccessible_notifier *notifier);
-> +void inaccessible_unregister_notifier(struct file *file,
-> +                                     struct inaccessible_notifier *notifier);
-> +
-> +int inaccessible_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
-> +                        int *order);
-> +void inaccessible_put_pfn(struct file *file, pfn_t pfn);
-> +
-> +struct file *memfd_mkinaccessible(struct file *memfd);
-> +
->  #endif /* __LINUX_MEMFD_H */
-> diff --git a/include/uapi/linux/magic.h b/include/uapi/linux/magic.h
-> index 6325d1d0e90f..9d066be3d7e8 100644
-> --- a/include/uapi/linux/magic.h
-> +++ b/include/uapi/linux/magic.h
-> @@ -101,5 +101,6 @@
->  #define DMA_BUF_MAGIC          0x444d4142      /* "DMAB" */
->  #define DEVMEM_MAGIC           0x454d444d      /* "DMEM" */
->  #define SECRETMEM_MAGIC                0x5345434d      /* "SECM" */
-> +#define INACCESSIBLE_MAGIC     0x494e4143      /* "INAC" */
->
->  #endif /* __LINUX_MAGIC_H__ */
-> diff --git a/include/uapi/linux/memfd.h b/include/uapi/linux/memfd.h
-> index 7a8a26751c23..48750474b904 100644
-> --- a/include/uapi/linux/memfd.h
-> +++ b/include/uapi/linux/memfd.h
-> @@ -8,6 +8,7 @@
->  #define MFD_CLOEXEC            0x0001U
->  #define MFD_ALLOW_SEALING      0x0002U
->  #define MFD_HUGETLB            0x0004U
-> +#define MFD_INACCESSIBLE       0x0008U
->
->  /*
->   * Huge page size encoding when MFD_HUGETLB is specified, and a huge page
-> diff --git a/mm/Makefile b/mm/Makefile
-> index 9a564f836403..f82e5d4b4388 100644
-> --- a/mm/Makefile
-> +++ b/mm/Makefile
-> @@ -126,7 +126,7 @@ obj-$(CONFIG_HARDENED_USERCOPY) += usercopy.o
->  obj-$(CONFIG_PERCPU_STATS) += percpu-stats.o
->  obj-$(CONFIG_ZONE_DEVICE) += memremap.o
->  obj-$(CONFIG_HMM_MIRROR) += hmm.o
-> -obj-$(CONFIG_MEMFD_CREATE) += memfd.o
-> +obj-$(CONFIG_MEMFD_CREATE) += memfd.o memfd_inaccessible.o
->  obj-$(CONFIG_MAPPING_DIRTY_HELPERS) += mapping_dirty_helpers.o
->  obj-$(CONFIG_PTDUMP_CORE) += ptdump.o
->  obj-$(CONFIG_PAGE_REPORTING) += page_reporting.o
-> diff --git a/mm/memfd.c b/mm/memfd.c
-> index 08f5f8304746..1853a90f49ff 100644
-> --- a/mm/memfd.c
-> +++ b/mm/memfd.c
-> @@ -261,7 +261,8 @@ long memfd_fcntl(struct file *file, unsigned int cmd, unsigned long arg)
->  #define MFD_NAME_PREFIX_LEN (sizeof(MFD_NAME_PREFIX) - 1)
->  #define MFD_NAME_MAX_LEN (NAME_MAX - MFD_NAME_PREFIX_LEN)
->
-> -#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB)
-> +#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB | \
-> +                      MFD_INACCESSIBLE)
->
->  SYSCALL_DEFINE2(memfd_create,
->                 const char __user *, uname,
-> @@ -283,6 +284,14 @@ SYSCALL_DEFINE2(memfd_create,
->                         return -EINVAL;
->         }
->
-> +       /* Disallow sealing when MFD_INACCESSIBLE is set. */
-> +       if ((flags & MFD_INACCESSIBLE) && (flags & MFD_ALLOW_SEALING))
-> +               return -EINVAL;
-> +
-> +       /* TODO: add hugetlb support */
-> +       if ((flags & MFD_INACCESSIBLE) && (flags & MFD_HUGETLB))
-> +               return -EINVAL;
-> +
->         /* length includes terminating zero */
->         len = strnlen_user(uname, MFD_NAME_MAX_LEN + 1);
->         if (len <= 0)
-> @@ -331,10 +340,24 @@ SYSCALL_DEFINE2(memfd_create,
->                 *file_seals &= ~F_SEAL_SEAL;
->         }
->
-> +       if (flags & MFD_INACCESSIBLE) {
-> +               struct file *inaccessible_file;
-> +
-> +               inaccessible_file = memfd_mkinaccessible(file);
-> +               if (IS_ERR(inaccessible_file)) {
-> +                       error = PTR_ERR(inaccessible_file);
-> +                       goto err_file;
-> +               }
-> +
-> +               file = inaccessible_file;
-> +       }
-> +
->         fd_install(fd, file);
->         kfree(name);
->         return fd;
->
-> +err_file:
-> +       fput(file);
->  err_fd:
->         put_unused_fd(fd);
->  err_name:
-> diff --git a/mm/memfd_inaccessible.c b/mm/memfd_inaccessible.c
-> new file mode 100644
-> index 000000000000..2d33cbdd9282
-> --- /dev/null
-> +++ b/mm/memfd_inaccessible.c
-> @@ -0,0 +1,219 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +#include "linux/sbitmap.h"
-> +#include <linux/memfd.h>
-> +#include <linux/pagemap.h>
-> +#include <linux/pseudo_fs.h>
-> +#include <linux/shmem_fs.h>
-> +#include <uapi/linux/falloc.h>
-> +#include <uapi/linux/magic.h>
-> +
-> +struct inaccessible_data {
-> +       struct mutex lock;
-> +       struct file *memfd;
-> +       struct list_head notifiers;
-> +};
-> +
-> +static void inaccessible_notifier_invalidate(struct inaccessible_data *data,
-> +                                pgoff_t start, pgoff_t end)
-> +{
-> +       struct inaccessible_notifier *notifier;
-> +
-> +       mutex_lock(&data->lock);
-> +       list_for_each_entry(notifier, &data->notifiers, list) {
-> +               notifier->ops->invalidate(notifier, start, end);
-> +       }
-> +       mutex_unlock(&data->lock);
-> +}
-> +
-> +static int inaccessible_release(struct inode *inode, struct file *file)
-> +{
-> +       struct inaccessible_data *data = inode->i_mapping->private_data;
-> +
-> +       fput(data->memfd);
-> +       kfree(data);
-> +       return 0;
-> +}
-> +
-> +static long inaccessible_fallocate(struct file *file, int mode,
-> +                                  loff_t offset, loff_t len)
-> +{
-> +       struct inaccessible_data *data = file->f_mapping->private_data;
-> +       struct file *memfd = data->memfd;
-> +       int ret;
-> +
-> +       if (mode & FALLOC_FL_PUNCH_HOLE) {
-> +               if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
-> +                       return -EINVAL;
-> +       }
-> +
-> +       ret = memfd->f_op->fallocate(memfd, mode, offset, len);
-> +       inaccessible_notifier_invalidate(data, offset, offset + len);
-> +       return ret;
-> +}
-> +
-> +static const struct file_operations inaccessible_fops = {
-> +       .release = inaccessible_release,
-> +       .fallocate = inaccessible_fallocate,
-> +};
-> +
-> +static int inaccessible_getattr(struct user_namespace *mnt_userns,
-> +                               const struct path *path, struct kstat *stat,
-> +                               u32 request_mask, unsigned int query_flags)
-> +{
-> +       struct inode *inode = d_inode(path->dentry);
-> +       struct inaccessible_data *data = inode->i_mapping->private_data;
-> +       struct file *memfd = data->memfd;
-> +
-> +       return memfd->f_inode->i_op->getattr(mnt_userns, path, stat,
-> +                                            request_mask, query_flags);
-> +}
-> +
-> +static int inaccessible_setattr(struct user_namespace *mnt_userns,
-> +                               struct dentry *dentry, struct iattr *attr)
-> +{
-> +       struct inode *inode = d_inode(dentry);
-> +       struct inaccessible_data *data = inode->i_mapping->private_data;
-> +       struct file *memfd = data->memfd;
-> +       int ret;
-> +
-> +       if (attr->ia_valid & ATTR_SIZE) {
-> +               if (memfd->f_inode->i_size)
-> +                       return -EPERM;
-> +
-> +               if (!PAGE_ALIGNED(attr->ia_size))
-> +                       return -EINVAL;
-> +       }
-> +
-> +       ret = memfd->f_inode->i_op->setattr(mnt_userns,
-> +                                           file_dentry(memfd), attr);
-> +       return ret;
-> +}
-> +
-> +static const struct inode_operations inaccessible_iops = {
-> +       .getattr = inaccessible_getattr,
-> +       .setattr = inaccessible_setattr,
-> +};
-> +
-> +static int inaccessible_init_fs_context(struct fs_context *fc)
-> +{
-> +       if (!init_pseudo(fc, INACCESSIBLE_MAGIC))
-> +               return -ENOMEM;
-> +
-> +       fc->s_iflags |= SB_I_NOEXEC;
-> +       return 0;
-> +}
-> +
-> +static struct file_system_type inaccessible_fs = {
-> +       .owner          = THIS_MODULE,
-> +       .name           = "[inaccessible]",
-> +       .init_fs_context = inaccessible_init_fs_context,
-> +       .kill_sb        = kill_anon_super,
-> +};
-> +
-> +static struct vfsmount *inaccessible_mnt;
-> +
-> +static __init int inaccessible_init(void)
-> +{
-> +       inaccessible_mnt = kern_mount(&inaccessible_fs);
-> +       if (IS_ERR(inaccessible_mnt))
-> +               return PTR_ERR(inaccessible_mnt);
-> +       return 0;
-> +}
-> +fs_initcall(inaccessible_init);
-> +
-> +struct file *memfd_mkinaccessible(struct file *memfd)
-> +{
-> +       struct inaccessible_data *data;
-> +       struct address_space *mapping;
-> +       struct inode *inode;
-> +       struct file *file;
-> +
-> +       data = kzalloc(sizeof(*data), GFP_KERNEL);
-> +       if (!data)
-> +               return ERR_PTR(-ENOMEM);
-> +
-> +       data->memfd = memfd;
-> +       mutex_init(&data->lock);
-> +       INIT_LIST_HEAD(&data->notifiers);
-> +
-> +       inode = alloc_anon_inode(inaccessible_mnt->mnt_sb);
-> +       if (IS_ERR(inode)) {
-> +               kfree(data);
-> +               return ERR_CAST(inode);
-> +       }
-> +
-> +       inode->i_mode |= S_IFREG;
-> +       inode->i_op = &inaccessible_iops;
-> +       inode->i_mapping->private_data = data;
-> +
-> +       file = alloc_file_pseudo(inode, inaccessible_mnt,
-> +                                "[memfd:inaccessible]", O_RDWR,
-> +                                &inaccessible_fops);
-> +       if (IS_ERR(file)) {
-> +               iput(inode);
-> +               kfree(data);
-> +       }
-> +
-> +       file->f_flags |= O_LARGEFILE;
-> +
-> +       mapping = memfd->f_mapping;
-> +       mapping_set_unevictable(mapping);
-> +       mapping_set_gfp_mask(mapping,
-> +                            mapping_gfp_mask(mapping) & ~__GFP_MOVABLE);
-> +
-> +       return file;
-> +}
-> +
-> +void inaccessible_register_notifier(struct file *file,
-> +                                   struct inaccessible_notifier *notifier)
-> +{
-> +       struct inaccessible_data *data = file->f_mapping->private_data;
-> +
-> +       mutex_lock(&data->lock);
-> +       list_add(&notifier->list, &data->notifiers);
-> +       mutex_unlock(&data->lock);
-> +}
-> +EXPORT_SYMBOL_GPL(inaccessible_register_notifier);
-> +
-> +void inaccessible_unregister_notifier(struct file *file,
-> +                                     struct inaccessible_notifier *notifier)
-> +{
-> +       struct inaccessible_data *data = file->f_mapping->private_data;
-> +
-> +       mutex_lock(&data->lock);
-> +       list_del(&notifier->list);
-> +       mutex_unlock(&data->lock);
-> +}
-> +EXPORT_SYMBOL_GPL(inaccessible_unregister_notifier);
-> +
-> +int inaccessible_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
-> +                        int *order)
-> +{
-> +       struct inaccessible_data *data = file->f_mapping->private_data;
-> +       struct file *memfd = data->memfd;
-> +       struct page *page;
-> +       int ret;
-> +
-> +       ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
-> +       if (ret)
-> +               return ret;
-> +
-> +       *pfn = page_to_pfn_t(page);
-> +       *order = thp_order(compound_head(page));
-> +       SetPageUptodate(page);
-> +       unlock_page(page);
-> +
-> +       return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(inaccessible_get_pfn);
-> +
-> +void inaccessible_put_pfn(struct file *file, pfn_t pfn)
-> +{
-> +       struct page *page = pfn_t_to_page(pfn);
-> +
-> +       if (WARN_ON_ONCE(!page))
-> +               return;
-> +
-> +       put_page(page);
-> +}
-> +EXPORT_SYMBOL_GPL(inaccessible_put_pfn);
-> --
-> 2.25.1
->
+Since b68ba1ca5767 ("memory: Add IOMMU_NOTIFIER_DEVIOTLB_UNMAP
+IOMMUTLBNotificationType"), vhost attempts to register DEVIOTLB_UNMAP
+notifier. This latter is supported by the intel-iommu which supports
+device-iotlb if the corresponding option is set. Then 958ec334bca3
+("vhost: Unbreak SMMU and virtio-iommu on dev-iotlb support") allowed
+silent fallback to the legacy UNMAP notifier if the viommu does not
+support device iotlb.
 
-In the context of userspace inaccessible memfd, what would be a
-suggested way to enforce NUMA memory policy for physical memory
-allocation? mbind[1] won't work here in absence of virtual address
-range.
+Initially vhost/viommu integration was introduced with intel iommu
+assuming ats=on was set on virtio-pci device and device-iotlb was set
+on the intel iommu. vhost acts as an ATS capable device since it
+implements an IOTLB on kernel side. However translated transactions
+that hit the device IOTLB do not transit through the vIOMMU. So this
+requires a limited ATS support on viommu side. Anyway this assumed
+ATS was eventually enabled .
 
-[1] https://github.com/chao-p/qemu/blob/privmem-v8/backends/hostmem.c#L382
+But neither SMMUv3 nor virtio-iommu do support ATS and the integration
+with vhost just relies on the fact those vIOMMU send UNMAP notifications
+whenever the guest trigger them. This works without ATS being enabled.
+
+This patch makes sure we get a warning if ATS is set on a device
+protected by virtio-iommu or vsmmuv3, reminding that we don't have
+full support of ATS on those vIOMMUs and setting ats=on on the
+virtio-pci end-point is not a requirement.
+
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+
+---
+
+v1 -> v2:
+- s/enabled/capable
+- tweak the error message on vhost side
+---
+ include/hw/virtio/virtio-bus.h |  3 +++
+ hw/virtio/vhost.c              | 21 ++++++++++++++++++++-
+ hw/virtio/virtio-bus.c         | 14 ++++++++++++++
+ hw/virtio/virtio-pci.c         | 11 +++++++++++
+ 4 files changed, 48 insertions(+), 1 deletion(-)
+
+diff --git a/include/hw/virtio/virtio-bus.h b/include/hw/virtio/virtio-bus.h
+index 7ab8c9dab0..23360a1daa 100644
+--- a/include/hw/virtio/virtio-bus.h
++++ b/include/hw/virtio/virtio-bus.h
+@@ -94,6 +94,7 @@ struct VirtioBusClass {
+     bool has_variable_vring_alignment;
+     AddressSpace *(*get_dma_as)(DeviceState *d);
+     bool (*iommu_enabled)(DeviceState *d);
++    bool (*ats_capable)(DeviceState *d);
+ };
+ 
+ struct VirtioBusState {
+@@ -157,4 +158,6 @@ int virtio_bus_set_host_notifier(VirtioBusState *bus, int n, bool assign);
+ void virtio_bus_cleanup_host_notifier(VirtioBusState *bus, int n);
+ /* Whether the IOMMU is enabled for this device */
+ bool virtio_bus_device_iommu_enabled(VirtIODevice *vdev);
++/* Whether ATS is enabled for this device */
++bool virtio_bus_device_ats_capable(VirtIODevice *vdev);
+ #endif /* VIRTIO_BUS_H */
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index 5185c15295..3cf9efce5e 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -324,6 +324,16 @@ static bool vhost_dev_has_iommu(struct vhost_dev *dev)
+     }
+ }
+ 
++static bool vhost_dev_ats_capable(struct vhost_dev *dev)
++{
++    VirtIODevice *vdev = dev->vdev;
++
++    if (vdev && virtio_bus_device_ats_capable(vdev)) {
++        return true;
++    }
++    return false;
++}
++
+ static void *vhost_memory_map(struct vhost_dev *dev, hwaddr addr,
+                               hwaddr *plen, bool is_write)
+ {
+@@ -737,6 +747,7 @@ static void vhost_iommu_region_add(MemoryListener *listener,
+     Int128 end;
+     int iommu_idx;
+     IOMMUMemoryRegion *iommu_mr;
++    Error *err = NULL;
+     int ret;
+ 
+     if (!memory_region_is_iommu(section->mr)) {
+@@ -760,8 +771,16 @@ static void vhost_iommu_region_add(MemoryListener *listener,
+     iommu->iommu_offset = section->offset_within_address_space -
+                           section->offset_within_region;
+     iommu->hdev = dev;
+-    ret = memory_region_register_iommu_notifier(section->mr, &iommu->n, NULL);
++    ret = memory_region_register_iommu_notifier(section->mr, &iommu->n, &err);
+     if (ret) {
++        if (vhost_dev_ats_capable(dev)) {
++            error_reportf_err(err,
++                              "%s: Although the device exposes ATS capability, "
++                              "fallback to legacy IOMMU UNMAP notifier: ",
++                              iommu_mr->parent_obj.name);
++        } else {
++            error_free(err);
++        }
+         /*
+          * Some vIOMMUs do not support dev-iotlb yet.  If so, try to use the
+          * UNMAP legacy message
+diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
+index 896feb37a1..d46c3f8ec4 100644
+--- a/hw/virtio/virtio-bus.c
++++ b/hw/virtio/virtio-bus.c
+@@ -348,6 +348,20 @@ bool virtio_bus_device_iommu_enabled(VirtIODevice *vdev)
+     return klass->iommu_enabled(qbus->parent);
+ }
+ 
++bool virtio_bus_device_ats_capable(VirtIODevice *vdev)
++{
++    DeviceState *qdev = DEVICE(vdev);
++    BusState *qbus = BUS(qdev_get_parent_bus(qdev));
++    VirtioBusState *bus = VIRTIO_BUS(qbus);
++    VirtioBusClass *klass = VIRTIO_BUS_GET_CLASS(bus);
++
++    if (!klass->ats_capable) {
++        return false;
++    }
++
++    return klass->ats_capable(qbus->parent);
++}
++
+ static void virtio_bus_class_init(ObjectClass *klass, void *data)
+ {
+     BusClass *bus_class = BUS_CLASS(klass);
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index e7d80242b7..c2ceba98a6 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1141,6 +1141,16 @@ static bool virtio_pci_iommu_enabled(DeviceState *d)
+     return true;
+ }
+ 
++static bool virtio_pci_ats_capable(DeviceState *d)
++{
++    VirtIOPCIProxy *proxy = VIRTIO_PCI(d);
++
++    if (proxy->flags & VIRTIO_PCI_FLAG_ATS) {
++        return true;
++    }
++    return false;
++}
++
+ static bool virtio_pci_queue_enabled(DeviceState *d, int n)
+ {
+     VirtIOPCIProxy *proxy = VIRTIO_PCI(d);
+@@ -2229,6 +2239,7 @@ static void virtio_pci_bus_class_init(ObjectClass *klass, void *data)
+     k->ioeventfd_assign = virtio_pci_ioeventfd_assign;
+     k->get_dma_as = virtio_pci_get_dma_as;
+     k->iommu_enabled = virtio_pci_iommu_enabled;
++    k->ats_capable = virtio_pci_ats_capable;
+     k->queue_enabled = virtio_pci_queue_enabled;
+ }
+ 
+-- 
+2.35.3
+
 
