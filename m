@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFF77604ADB
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 17:12:48 +0200 (CEST)
-Received: from localhost ([::1]:39466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B45CC604ADC
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 17:12:51 +0200 (CEST)
+Received: from localhost ([::1]:39492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olAkR-0001ix-U1
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 11:12:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57106)
+	id 1olAkU-0001tp-Qt
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 11:12:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1olAeb-0000hl-6P
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 11:06:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37257)
+ id 1olAeZ-0000gj-6j
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 11:06:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34477)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1olAeY-0000Nv-0H
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 11:06:44 -0400
+ id 1olAeS-0000Na-NS
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 11:06:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666191998;
+ s=mimecast20190719; t=1666191994;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QdW25JEazp4fkGyWBCIWKu/1zxBFt5ExPhAl8EyBl94=;
- b=F36QWTETQFEAD4wq7tbAJriwbyEHV4YdOmPQpwIFqfvhlRr+G3Szeptsj2P5Vmrus+mzne
- s/HinGntovwkcchF9ybJ73wyOt4ht6JuDPkVzcTWQCWJtWXAgtPrZa8cUhsF7dQIPugr0p
- cxp84u2nrmU4YSbrkr7hHPo4z8GAv0Y=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7qYroOAHfX8vpoCpk5hbMxu8s/WoUL5S0lSUEVC2zLs=;
+ b=fluKGfq9j+O6B0pG+eevOW10FpgEqVh+gbAoxT1GYr+PFt7IDlcGu0u2Bi6iswX159VEUG
+ OME/h5EMZL8XI8K/a8aNSI1UO6WegRDYd6jeo9+Mpc6/EcC2z9F77VWNZql6spBdSe/B05
+ DGCk/we4pS5m5rSAAzoHGG4XpKLbsZw=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-596-vH32FeZfMcCP742V9xLt-Q-1; Wed, 19 Oct 2022 11:06:29 -0400
-X-MC-Unique: vH32FeZfMcCP742V9xLt-Q-1
-Received: by mail-qv1-f69.google.com with SMTP id
- i7-20020a0cab47000000b004b4376895bfso10960734qvb.20
- for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 08:06:29 -0700 (PDT)
+ us-mta-592-0BR3vsSjP1CCCvDAniBdag-1; Wed, 19 Oct 2022 11:06:33 -0400
+X-MC-Unique: 0BR3vsSjP1CCCvDAniBdag-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ u7-20020a05620a0c4700b006ee526183fcso14918132qki.8
+ for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 08:06:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QdW25JEazp4fkGyWBCIWKu/1zxBFt5ExPhAl8EyBl94=;
- b=5CvKXmMx3UE5Z0lZQ5SVKZt3oPo/J1Fj9alZfr1IAfio73Gyv/CjlUQ9IfhurfZHEu
- qlK57Sy3+bvdHHtrunoLvIEf2aYb4VS0IO8xA8ttOTWyVJIAFX491gmUAeostjfXfzbx
- 65yNaZNoM6c5hYuQ6elxKP0Yiu6pO4+apion/zy6cRFjr6B07dtp6PzQx4xpwqs94Ime
- jW/P9XG4sjZAWQ28B7D6TKmPQV8+ekucFeD/XU0AMH9m4qwg3ieCJ60z4cNn5PSaLHX8
- 7M+dRDiUBmzfaP9w4iHnW0mPfUehHDngHTdd10XpZLU7RMw9zGqRCwdpgLeINJg3pWkj
- m9hw==
-X-Gm-Message-State: ACrzQf1mlHWo9KZrECaJGVkqoO6WcQAPIvyiSQyI+WwJ/15F7JH+RGg2
- KyNlZgcweA6zwYFUhAzVI6rbzTkXsCbrgwYMIfqOOLF45PqGl5eocPTfq868J15tucEQdx3S0pD
- aXsiNmxfjIgDpPPbMOFwZJF+ZBB+vZ3mKEydzPgaIpLhAuNqV5V9VLuQVTKtp1OY4IRU=
-X-Received: by 2002:a05:622a:10b:b0:39c:e3ae:b790 with SMTP id
- u11-20020a05622a010b00b0039ce3aeb790mr6955460qtw.306.1666191988405; 
- Wed, 19 Oct 2022 08:06:28 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7iiZJ5e714jiH5CNzDSb5+4GpoTKdyMjo5gRquhItBsR18JmF0fj2Gb2r3/jnrgf7kA3iDrw==
-X-Received: by 2002:a05:622a:10b:b0:39c:e3ae:b790 with SMTP id
- u11-20020a05622a010b00b0039ce3aeb790mr6955398qtw.306.1666191987820; 
- Wed, 19 Oct 2022 08:06:27 -0700 (PDT)
+ bh=7qYroOAHfX8vpoCpk5hbMxu8s/WoUL5S0lSUEVC2zLs=;
+ b=XetPaQi31yXC+9lyaZFxNJMz8vcWVK9FWV51ilrfyPzdsCJMgy8BfYCIP0cbh5NLUN
+ flaq6V3tO+BJJsPEUyuBB2xHwhjFovf/5FIWWpBVHoFz+BPRi1eazd6jMGj+AlyOWxDv
+ 0E2HUd53famJ+pudQWnj48/uT52A4nLq6dyfAknZfqOTLmr9Z5N3qw6L3mQR59YPjko6
+ hQeW5zNnVM2Fw+NJbXLcXOzUTOiYqxNmg705qOIEb9RfEuxy5sGjEdtgkwXMGClT+XFX
+ w82XRZlEmkR9Zdi9YECRy7DXZtCIJIPB8U/SNOgfiNoQBfMHo0Uv1zqeME4flRB5JpPP
+ S+pw==
+X-Gm-Message-State: ACrzQf2OjKNgBuZY7uF3JQRmVR5t1HKHb0rSeliOzl2+kDbn3EYMhS5J
+ 2PJJjx+UXO5q+/C/410TvDf7rjQS3DqOJDArQfY1QUhehKh8WxoEI3Unt49JDzscFkr/IUfoOlH
+ Vlj6bxePGxTJEWs+YhlXlt1TTlA3dF4OXrYykb5kHnZPgzWPaLWIiVeoABaDRSHip0PM=
+X-Received: by 2002:ac8:5f09:0:b0:39a:4df9:9fc8 with SMTP id
+ x9-20020ac85f09000000b0039a4df99fc8mr6884024qta.402.1666191992126; 
+ Wed, 19 Oct 2022 08:06:32 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4LNGoejTeTeOfSHIn502YPuQ+YQ1TO3R9TRNjoR/IMVQydm3KN1vW6dMHZi9weTXheH1aAjA==
+X-Received: by 2002:ac8:5f09:0:b0:39a:4df9:9fc8 with SMTP id
+ x9-20020ac85f09000000b0039a4df99fc8mr6883953qta.402.1666191991443; 
+ Wed, 19 Oct 2022 08:06:31 -0700 (PDT)
 Received: from avogadro.local (nat-pool-mxp-u.redhat.com. [149.6.153.187])
  by smtp.gmail.com with ESMTPSA id
- n14-20020ac85a0e000000b0039ad65104fasm4451423qta.12.2022.10.19.08.06.26
+ y5-20020a05620a44c500b006b5e296452csm5364654qkp.54.2022.10.19.08.06.30
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Oct 2022 08:06:27 -0700 (PDT)
+ Wed, 19 Oct 2022 08:06:31 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] target/i386: implement F16C instructions
-Date: Wed, 19 Oct 2022 17:06:15 +0200
-Message-Id: <20221019150616.929463-4-pbonzini@redhat.com>
+Subject: [PATCH 4/4] target/i386: implement FMA instructions
+Date: Wed, 19 Oct 2022 17:06:16 +0200
+Message-Id: <20221019150616.929463-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221019150616.929463-1-pbonzini@redhat.com>
 References: <20221019150616.929463-1-pbonzini@redhat.com>
@@ -100,322 +100,302 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-F16C only consists of two instructions, which are a bit peculiar
-nevertheless.
+The only issue with FMA instructions is that there are _a lot_ of them
+(30 opcodes, each of which comes in up to 4 versions depending on VEX.W
+and VEX.L).
 
-First, they access only the low half of an YMM or XMM register for the
-packed-half operand; the exact size still depends on the VEX.L flag.
-This is similar to the existing avx_movx flag, but not exactly because
-avx_movx is hardcoded to affect operand 2.  To this end I added a "ph"
-format name; it's possible to reuse this approach for the VPMOVSX and
-VPMOVZX instructions, though that would also require adding two more
-formats for the low-quarter and low-eighth of an operand.
+We can reduce the number of helpers to one third by passing four operands
+(one output and three inputs); the reordering of which operands go to
+the multiply and which go to the add is done in emit.c.
 
-Second, VCVTPS2PH is somewhat weird because it *stores* the result of
-the instruction into memory rather than loading it.
+Scalar versions do not do any merging; they only affect the bottom 32
+or 64 bits of the output operand.  Therefore, there is no separate XMM
+and YMM of the scalar helpers.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c                |  5 ++---
- target/i386/cpu.h                |  3 +++
- target/i386/ops_sse.h            | 29 +++++++++++++++++++++++++++++
- target/i386/ops_sse_header.h     |  6 ++++++
- target/i386/tcg/decode-new.c.inc |  8 ++++++++
- target/i386/tcg/decode-new.h     |  2 ++
- target/i386/tcg/emit.c.inc       | 17 ++++++++++++++++-
- tests/tcg/i386/test-avx.c        | 17 +++++++++++++++++
- tests/tcg/i386/test-avx.py       |  8 ++++++--
- 9 files changed, 89 insertions(+), 6 deletions(-)
+ target/i386/cpu.c                |  5 ++-
+ target/i386/ops_sse.h            | 63 ++++++++++++++++++++++++++++++++
+ target/i386/ops_sse_header.h     | 28 ++++++++++++++
+ target/i386/tcg/decode-new.c.inc | 38 +++++++++++++++++++
+ target/i386/tcg/decode-new.h     |  1 +
+ target/i386/tcg/emit.c.inc       | 43 ++++++++++++++++++++++
+ tests/tcg/i386/test-avx.py       |  2 +-
+ 7 files changed, 177 insertions(+), 3 deletions(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 0ebd610faa..6292b7e12f 100644
+index 6292b7e12f..22b681ca37 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -625,13 +625,12 @@ void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
+@@ -625,10 +625,11 @@ void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
            CPUID_EXT_SSE41 | CPUID_EXT_SSE42 | CPUID_EXT_POPCNT | \
            CPUID_EXT_XSAVE | /* CPUID_EXT_OSXSAVE is dynamic */   \
            CPUID_EXT_MOVBE | CPUID_EXT_AES | CPUID_EXT_HYPERVISOR | \
--          CPUID_EXT_RDRAND | CPUID_EXT_AVX)
-+          CPUID_EXT_RDRAND | CPUID_EXT_AVX | CPUID_EXT_F16C)
+-          CPUID_EXT_RDRAND | CPUID_EXT_AVX | CPUID_EXT_F16C)
++          CPUID_EXT_RDRAND | CPUID_EXT_AVX | CPUID_EXT_F16C | \
++          CPUID_EXT_FMA)
            /* missing:
            CPUID_EXT_DTES64, CPUID_EXT_DSCPL, CPUID_EXT_VMX, CPUID_EXT_SMX,
-           CPUID_EXT_EST, CPUID_EXT_TM2, CPUID_EXT_CID, CPUID_EXT_FMA,
+-          CPUID_EXT_EST, CPUID_EXT_TM2, CPUID_EXT_CID, CPUID_EXT_FMA,
++          CPUID_EXT_EST, CPUID_EXT_TM2, CPUID_EXT_CID,
            CPUID_EXT_XTPR, CPUID_EXT_PDCM, CPUID_EXT_PCID, CPUID_EXT_DCA,
--          CPUID_EXT_X2APIC, CPUID_EXT_TSC_DEADLINE_TIMER,
--          CPUID_EXT_F16C */
-+          CPUID_EXT_X2APIC, CPUID_EXT_TSC_DEADLINE_TIMER */
+           CPUID_EXT_X2APIC, CPUID_EXT_TSC_DEADLINE_TIMER */
  
- #ifdef TARGET_X86_64
- #define TCG_EXT2_X86_64_FEATURES (CPUID_EXT2_SYSCALL | CPUID_EXT2_LM)
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index dad2b2db8d..d4bc19577a 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1258,6 +1258,7 @@ typedef union ZMMReg {
-     uint16_t _w_ZMMReg[512 / 16];
-     uint32_t _l_ZMMReg[512 / 32];
-     uint64_t _q_ZMMReg[512 / 64];
-+    float16  _h_ZMMReg[512 / 16];
-     float32  _s_ZMMReg[512 / 32];
-     float64  _d_ZMMReg[512 / 64];
-     XMMReg   _x_ZMMReg[512 / 128];
-@@ -1282,6 +1283,7 @@ typedef struct BNDCSReg {
- #define ZMM_B(n) _b_ZMMReg[63 - (n)]
- #define ZMM_W(n) _w_ZMMReg[31 - (n)]
- #define ZMM_L(n) _l_ZMMReg[15 - (n)]
-+#define ZMM_H(n) _h_ZMMReg[31 - (n)]
- #define ZMM_S(n) _s_ZMMReg[15 - (n)]
- #define ZMM_Q(n) _q_ZMMReg[7 - (n)]
- #define ZMM_D(n) _d_ZMMReg[7 - (n)]
-@@ -1301,6 +1303,7 @@ typedef struct BNDCSReg {
- #define ZMM_B(n) _b_ZMMReg[n]
- #define ZMM_W(n) _w_ZMMReg[n]
- #define ZMM_L(n) _l_ZMMReg[n]
-+#define ZMM_H(n) _h_ZMMReg[n]
- #define ZMM_S(n) _s_ZMMReg[n]
- #define ZMM_Q(n) _q_ZMMReg[n]
- #define ZMM_D(n) _d_ZMMReg[n]
 diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
-index 0799712f6e..33c61896ee 100644
+index 33c61896ee..041a048a70 100644
 --- a/target/i386/ops_sse.h
 +++ b/target/i386/ops_sse.h
-@@ -586,6 +586,35 @@ void glue(helper_cvtpd2ps, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
-     }
+@@ -2522,6 +2522,69 @@ void helper_vpermd_ymm(Reg *d, Reg *v, Reg *s)
  }
- 
-+#if SHIFT >= 1
-+void glue(helper_cvtph2ps, SUFFIX)(CPUX86State *env, Reg *d, Reg *s)
-+{
-+    int i;
-+
-+    for (i = 2 << SHIFT; --i >= 0; ) {
-+         d->ZMM_S(i) = float16_to_float32(s->ZMM_H(i), true, &env->sse_status);
-+    }
-+}
-+
-+void glue(helper_cvtps2ph, SUFFIX)(CPUX86State *env, Reg *d, Reg *s, int mode)
-+{
-+    int i;
-+    FloatRoundMode prev_rounding_mode = env->sse_status.float_rounding_mode;
-+    if (!(mode & (1 << 2))) {
-+        set_x86_rounding_mode(mode & 3, &env->sse_status);
-+    }
-+
-+    for (i = 0; i < 2 << SHIFT; i++) {
-+        d->ZMM_H(i) = float32_to_float16(s->ZMM_S(i), true, &env->sse_status);
-+    }
-+    for (i >>= 2; i < 1 << SHIFT; i++) {
-+        d->Q(i) = 0;
-+    }
-+
-+    env->sse_status.float_rounding_mode = prev_rounding_mode;
-+}
-+#endif
-+
- #if SHIFT == 1
- void helper_cvtss2sd(CPUX86State *env, Reg *d, Reg *v, Reg *s)
- {
-diff --git a/target/i386/ops_sse_header.h b/target/i386/ops_sse_header.h
-index 2f1f811f9f..c4c41976c0 100644
---- a/target/i386/ops_sse_header.h
-+++ b/target/i386/ops_sse_header.h
-@@ -353,6 +353,12 @@ DEF_HELPER_4(glue(aeskeygenassist, SUFFIX), void, env, Reg, Reg, i32)
- DEF_HELPER_5(glue(pclmulqdq, SUFFIX), void, env, Reg, Reg, Reg, i32)
  #endif
  
-+/* F16C helpers */
++/* FMA3 op helpers */
++#if SHIFT == 1
++#define SSE_HELPER_FMAS(name, elem, F)                                         \
++    void name(CPUX86State *env, Reg *d, Reg *a, Reg *b, Reg *c)                \
++    {                                                                          \
++        d->elem(0) = F(a->elem(0), b->elem(0), c->elem(0));                    \
++    }
++#define SSE_HELPER_FMAP(name, elem, num, F)                                    \
++    void glue(name, SUFFIX)(CPUX86State *env, Reg *d, Reg *a, Reg *b, Reg *c)  \
++    {                                                                          \
++        int i;                                                                 \
++        for (i = 0; i < num; i++) {                                            \
++            d->elem(i) = F(a->elem(i), b->elem(i), c->elem(i));                \
++        }                                                                      \
++    }
++
++#define FMADD32(a, b, c) float32_muladd(a, b, c, 0, &env->sse_status)
++#define FMADD64(a, b, c) float64_muladd(a, b, c, 0, &env->sse_status)
++
++#define FMNADD32(a, b, c) float32_muladd(a, b, c, float_muladd_negate_product, &env->sse_status)
++#define FMNADD64(a, b, c) float64_muladd(a, b, c, float_muladd_negate_product, &env->sse_status)
++
++#define FMSUB32(a, b, c) float32_muladd(a, b, c, float_muladd_negate_c, &env->sse_status)
++#define FMSUB64(a, b, c) float64_muladd(a, b, c, float_muladd_negate_c, &env->sse_status)
++
++#define FMNSUB32(a, b, c) float32_muladd(a, b, c, float_muladd_negate_c|float_muladd_negate_product, &env->sse_status)
++#define FMNSUB64(a, b, c) float64_muladd(a, b, c, float_muladd_negate_c|float_muladd_negate_product, &env->sse_status)
++
++#define FMADDSUB32(a, b, c) float32_muladd(a, b, c, (i & 1) ? 0 : float_muladd_negate_c, &env->sse_status)
++#define FMADDSUB64(a, b, c) float64_muladd(a, b, c, (i & 1) ? 0 : float_muladd_negate_c, &env->sse_status)
++
++#define FMSUBADD32(a, b, c) float32_muladd(a, b, c, (i & 1) ? float_muladd_negate_c : 0, &env->sse_status)
++#define FMSUBADD64(a, b, c) float64_muladd(a, b, c, (i & 1) ? float_muladd_negate_c : 0, &env->sse_status)
++
++SSE_HELPER_FMAS(helper_fmaddss,  ZMM_S,             FMADD32)
++SSE_HELPER_FMAS(helper_fmaddsd,  ZMM_D,             FMADD64)
++SSE_HELPER_FMAS(helper_fmnaddss, ZMM_S,             FMNADD32)
++SSE_HELPER_FMAS(helper_fmnaddsd, ZMM_D,             FMNADD64)
++SSE_HELPER_FMAS(helper_fmsubss,  ZMM_S,             FMSUB32)
++SSE_HELPER_FMAS(helper_fmsubsd,  ZMM_D,             FMSUB64)
++SSE_HELPER_FMAS(helper_fmnsubss, ZMM_S,             FMNSUB32)
++SSE_HELPER_FMAS(helper_fmnsubsd, ZMM_D,             FMNSUB64)
++#endif
++
 +#if SHIFT >= 1
-+DEF_HELPER_3(glue(cvtph2ps, SUFFIX), void, env, Reg, Reg)
-+DEF_HELPER_4(glue(cvtps2ph, SUFFIX), void, env, Reg, Reg, int)
++SSE_HELPER_FMAP(helper_fmaddps,  ZMM_S, 2 << SHIFT, FMADD32)
++SSE_HELPER_FMAP(helper_fmaddpd,  ZMM_D, 1 << SHIFT, FMADD64)
++
++SSE_HELPER_FMAP(helper_fmnaddps, ZMM_S, 2 << SHIFT, FMNADD32)
++SSE_HELPER_FMAP(helper_fmnaddpd, ZMM_D, 1 << SHIFT, FMNADD64)
++
++SSE_HELPER_FMAP(helper_fmsubps,  ZMM_S, 2 << SHIFT, FMSUB32)
++SSE_HELPER_FMAP(helper_fmsubpd,  ZMM_D, 1 << SHIFT, FMSUB64)
++
++SSE_HELPER_FMAP(helper_fmnsubps, ZMM_S, 2 << SHIFT, FMNSUB32)
++SSE_HELPER_FMAP(helper_fmnsubpd, ZMM_D, 1 << SHIFT, FMNSUB64)
++
++SSE_HELPER_FMAP(helper_fmaddsubps,  ZMM_S, 2 << SHIFT, FMADDSUB32)
++SSE_HELPER_FMAP(helper_fmaddsubpd,  ZMM_D, 1 << SHIFT, FMADDSUB64)
++SSE_HELPER_FMAP(helper_fmsubaddps,  ZMM_S, 2 << SHIFT, FMSUBADD32)
++SSE_HELPER_FMAP(helper_fmsubaddpd,  ZMM_D, 1 << SHIFT, FMSUBADD64)
++#endif
++
+ #undef SSE_HELPER_S
+ 
+ #undef LANE_WIDTH
+diff --git a/target/i386/ops_sse_header.h b/target/i386/ops_sse_header.h
+index c4c41976c0..1f9a5c9e94 100644
+--- a/target/i386/ops_sse_header.h
++++ b/target/i386/ops_sse_header.h
+@@ -359,6 +359,34 @@ DEF_HELPER_3(glue(cvtph2ps, SUFFIX), void, env, Reg, Reg)
+ DEF_HELPER_4(glue(cvtps2ph, SUFFIX), void, env, Reg, Reg, int)
+ #endif
+ 
++/* FMA3 helpers */
++#if SHIFT == 1
++DEF_HELPER_5(fmaddss, void, env, Reg, Reg, Reg, Reg)
++DEF_HELPER_5(fmaddsd, void, env, Reg, Reg, Reg, Reg)
++DEF_HELPER_5(fmnaddss, void, env, Reg, Reg, Reg, Reg)
++DEF_HELPER_5(fmnaddsd, void, env, Reg, Reg, Reg, Reg)
++DEF_HELPER_5(fmsubss, void, env, Reg, Reg, Reg, Reg)
++DEF_HELPER_5(fmsubsd, void, env, Reg, Reg, Reg, Reg)
++DEF_HELPER_5(fmnsubss, void, env, Reg, Reg, Reg, Reg)
++DEF_HELPER_5(fmnsubsd, void, env, Reg, Reg, Reg, Reg)
++#endif
++
++#if SHIFT >= 1
++DEF_HELPER_5(glue(fmaddps, SUFFIX), void, env, Reg, Reg, Reg, Reg)
++DEF_HELPER_5(glue(fmaddpd, SUFFIX), void, env, Reg, Reg, Reg, Reg)
++DEF_HELPER_5(glue(fmnaddps,SUFFIX), void, env, Reg, Reg, Reg, Reg)
++DEF_HELPER_5(glue(fmnaddpd,SUFFIX), void, env, Reg, Reg, Reg, Reg)
++DEF_HELPER_5(glue(fmsubps, SUFFIX), void, env, Reg, Reg, Reg, Reg)
++DEF_HELPER_5(glue(fmsubpd, SUFFIX), void, env, Reg, Reg, Reg, Reg)
++DEF_HELPER_5(glue(fmnsubps, SUFFIX), void, env, Reg, Reg, Reg, Reg)
++DEF_HELPER_5(glue(fmnsubpd, SUFFIX), void, env, Reg, Reg, Reg, Reg)
++
++DEF_HELPER_5(glue(fmaddsubps, SUFFIX), void, env, Reg, Reg, Reg, Reg)
++DEF_HELPER_5(glue(fmaddsubpd, SUFFIX), void, env, Reg, Reg, Reg, Reg)
++DEF_HELPER_5(glue(fmsubaddps, SUFFIX), void, env, Reg, Reg, Reg, Reg)
++DEF_HELPER_5(glue(fmsubaddpd, SUFFIX), void, env, Reg, Reg, Reg, Reg)
 +#endif
 +
  /* AVX helpers */
  #if SHIFT >= 1
  DEF_HELPER_4(glue(vpermilpd, SUFFIX), void, env, Reg, Reg, Reg)
 diff --git a/target/i386/tcg/decode-new.c.inc b/target/i386/tcg/decode-new.c.inc
-index 8e1eb9db42..8baee9018a 100644
+index 8baee9018a..8a6b0ae37c 100644
 --- a/target/i386/tcg/decode-new.c.inc
 +++ b/target/i386/tcg/decode-new.c.inc
-@@ -336,6 +336,7 @@ static const X86OpEntry opcodes_0F38_00toEF[240] = {
-     [0x07] = X86_OP_ENTRY3(PHSUBSW,   V,x,  H,x,   W,x,  vex4 cpuid(SSSE3) mmx avx2_256 p_00_66),
+@@ -376,6 +376,15 @@ static const X86OpEntry opcodes_0F38_00toEF[240] = {
+     [0x92] = X86_OP_ENTRY3(VPGATHERD, V,x,  H,x,  M,d,  vex12 cpuid(AVX2) p_66), /* vgatherdps/d */
+     [0x93] = X86_OP_ENTRY3(VPGATHERQ, V,x,  H,x,  M,q,  vex12 cpuid(AVX2) p_66), /* vgatherqps/d */
  
-     [0x10] = X86_OP_ENTRY2(PBLENDVB,  V,x,         W,x,  vex4 cpuid(SSE41) avx2_256 p_66),
-+    [0x13] = X86_OP_ENTRY2(VCVTPH2PS, V,x,         W,ph, vex11 cpuid(F16C) p_66),
-     [0x14] = X86_OP_ENTRY2(BLENDVPS,  V,x,         W,x,  vex4 cpuid(SSE41) p_66),
-     [0x15] = X86_OP_ENTRY2(BLENDVPD,  V,x,         W,x,  vex4 cpuid(SSE41) p_66),
-     /* Listed incorrectly as type 4 */
-@@ -525,6 +526,7 @@ static const X86OpEntry opcodes_0F3A[256] = {
-     [0x15] = X86_OP_ENTRY3(PEXTRW,     E,w,  V,dq, I,b,  vex5 cpuid(SSE41) zext0 p_66),
-     [0x16] = X86_OP_ENTRY3(PEXTR,      E,y,  V,dq, I,b,  vex5 cpuid(SSE41) p_66),
-     [0x17] = X86_OP_ENTRY3(VEXTRACTPS, E,d,  V,dq, I,b,  vex5 cpuid(SSE41) p_66),
-+    [0x1d] = X86_OP_ENTRY3(VCVTPS2PH,  W,ph, V,x,  I,b,  vex11 cpuid(F16C) p_66),
- 
-     [0x20] = X86_OP_ENTRY4(PINSRB,     V,dq, H,dq, E,b,  vex5 cpuid(SSE41) zext2 p_66),
-     [0x21] = X86_OP_GROUP0(VINSERTPS),
-@@ -1051,6 +1053,10 @@ static bool decode_op_size(DisasContext *s, X86OpEntry *e, X86OpSize size, MemOp
-         *ot = s->vex_l ? MO_256 : MO_128;
-         return true;
- 
-+    case X86_SIZE_ph: /* SSE/AVX packed half precision */
-+        *ot = s->vex_l ? MO_128 : MO_64;
-+        return true;
++    [0x96] = X86_OP_ENTRY3(VFMADDSUB132Px, V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++    [0x97] = X86_OP_ENTRY3(VFMSUBADD132Px, V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
 +
-     case X86_SIZE_d64:  /* Default to 64-bit in 64-bit mode */
-         *ot = CODE64(s) && s->dflag == MO_32 ? MO_64 : s->dflag;
++    [0xa6] = X86_OP_ENTRY3(VFMADDSUB213Px, V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++    [0xa7] = X86_OP_ENTRY3(VFMSUBADD213Px, V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++
++    [0xb6] = X86_OP_ENTRY3(VFMADDSUB231Px, V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++    [0xb7] = X86_OP_ENTRY3(VFMSUBADD231Px, V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++
+     [0x08] = X86_OP_ENTRY3(PSIGNB,    V,x,        H,x,  W,x,  vex4 cpuid(SSSE3) mmx avx2_256 p_00_66),
+     [0x09] = X86_OP_ENTRY3(PSIGNW,    V,x,        H,x,  W,x,  vex4 cpuid(SSSE3) mmx avx2_256 p_00_66),
+     [0x0a] = X86_OP_ENTRY3(PSIGND,    V,x,        H,x,  W,x,  vex4 cpuid(SSSE3) mmx avx2_256 p_00_66),
+@@ -421,6 +430,33 @@ static const X86OpEntry opcodes_0F38_00toEF[240] = {
+     [0x8c] = X86_OP_ENTRY3(VPMASKMOV,    V,x,  H,x, WM,x, vex6 cpuid(AVX2) p_66),
+     [0x8e] = X86_OP_ENTRY3(VPMASKMOV_st, M,x,  V,x, H,x,  vex6 cpuid(AVX2) p_66),
+ 
++    [0x98] = X86_OP_ENTRY3(VFMADD132Px,  V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++    [0x99] = X86_OP_ENTRY3(VFMADD132Sx,  V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++    [0x9a] = X86_OP_ENTRY3(VFMSUB132Px,  V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++    [0x9b] = X86_OP_ENTRY3(VFMSUB132Sx,  V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++    [0x9c] = X86_OP_ENTRY3(VFNMADD132Px, V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++    [0x9d] = X86_OP_ENTRY3(VFNMADD132Sx, V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++    [0x9e] = X86_OP_ENTRY3(VFNMSUB132Px, V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++    [0x9f] = X86_OP_ENTRY3(VFNMSUB132Sx, V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++
++    [0xa8] = X86_OP_ENTRY3(VFMADD213Px,  V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++    [0xa9] = X86_OP_ENTRY3(VFMADD213Sx,  V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++    [0xaa] = X86_OP_ENTRY3(VFMSUB213Px,  V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++    [0xab] = X86_OP_ENTRY3(VFMSUB213Sx,  V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++    [0xac] = X86_OP_ENTRY3(VFNMADD213Px, V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++    [0xad] = X86_OP_ENTRY3(VFNMADD213Sx, V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++    [0xae] = X86_OP_ENTRY3(VFNMSUB213Px, V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++    [0xaf] = X86_OP_ENTRY3(VFNMSUB213Sx, V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++
++    [0xb8] = X86_OP_ENTRY3(VFMADD231Px,  V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++    [0xb9] = X86_OP_ENTRY3(VFMADD231Sx,  V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++    [0xba] = X86_OP_ENTRY3(VFMSUB231Px,  V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++    [0xbb] = X86_OP_ENTRY3(VFMSUB231Sx,  V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++    [0xbc] = X86_OP_ENTRY3(VFNMADD231Px, V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++    [0xbd] = X86_OP_ENTRY3(VFNMADD231Sx, V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++    [0xbe] = X86_OP_ENTRY3(VFNMSUB231Px, V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++    [0xbf] = X86_OP_ENTRY3(VFNMSUB231Sx, V,x,  H,x, W,x,  vex6 cpuid(FMA) p_66),
++
+     [0xdb] = X86_OP_ENTRY3(VAESIMC,     V,dq, None,None, W,dq, vex4 cpuid(AES) p_66),
+     [0xdc] = X86_OP_ENTRY3(VAESENC,     V,x,  H,x,       W,x,  vex4 cpuid(AES) p_66),
+     [0xdd] = X86_OP_ENTRY3(VAESENCLAST, V,x,  H,x,       W,x,  vex4 cpuid(AES) p_66),
+@@ -1350,6 +1386,8 @@ static bool has_cpuid_feature(DisasContext *s, X86CPUIDFeature cpuid)
          return true;
-@@ -1342,6 +1348,8 @@ static bool has_cpuid_feature(DisasContext *s, X86CPUIDFeature cpuid)
-     switch (cpuid) {
-     case X86_FEAT_None:
-         return true;
-+    case X86_FEAT_F16C:
-+        return (s->cpuid_ext_features & CPUID_EXT_F16C);
+     case X86_FEAT_F16C:
+         return (s->cpuid_ext_features & CPUID_EXT_F16C);
++    case X86_FEAT_FMA:
++        return (s->cpuid_ext_features & CPUID_EXT_FMA);
      case X86_FEAT_MOVBE:
          return (s->cpuid_ext_features & CPUID_EXT_MOVBE);
      case X86_FEAT_PCLMULQDQ:
 diff --git a/target/i386/tcg/decode-new.h b/target/i386/tcg/decode-new.h
-index f159c26850..0ef54628ee 100644
+index 0ef54628ee..cb6b8bcf67 100644
 --- a/target/i386/tcg/decode-new.h
 +++ b/target/i386/tcg/decode-new.h
-@@ -92,6 +92,7 @@ typedef enum X86OpSize {
-     /* Custom */
-     X86_SIZE_d64,
-     X86_SIZE_f64,
-+    X86_SIZE_ph, /* SSE/AVX packed half precision */
- } X86OpSize;
- 
- typedef enum X86CPUIDFeature {
-@@ -103,6 +104,7 @@ typedef enum X86CPUIDFeature {
-     X86_FEAT_AVX2,
+@@ -105,6 +105,7 @@ typedef enum X86CPUIDFeature {
      X86_FEAT_BMI1,
      X86_FEAT_BMI2,
-+    X86_FEAT_F16C,
+     X86_FEAT_F16C,
++    X86_FEAT_FMA,
      X86_FEAT_MOVBE,
      X86_FEAT_PCLMULQDQ,
      X86_FEAT_SSE,
 diff --git a/target/i386/tcg/emit.c.inc b/target/i386/tcg/emit.c.inc
-index ebf299451d..9334f0939d 100644
+index 9334f0939d..9e234f71f7 100644
 --- a/target/i386/tcg/emit.c.inc
 +++ b/target/i386/tcg/emit.c.inc
-@@ -296,7 +296,7 @@ static void gen_writeback(DisasContext *s, X86DecodedInsn *decode, int opn, TCGv
-     case X86_OP_MMX:
-         break;
-     case X86_OP_SSE:
--        if (!op->has_ea && (s->prefix & PREFIX_VEX) && op->ot == MO_128) {
-+        if (!op->has_ea && (s->prefix & PREFIX_VEX) && op->ot <= MO_128) {
-             tcg_gen_gvec_dup_imm(MO_64,
-                                  offsetof(CPUX86State, xmm_regs[op->n].ZMM_X(1)),
-                                  16, 16, 0);
-@@ -852,6 +852,7 @@ UNARY_INT_SSE(VCVTTPD2DQ, cvttpd2dq)
- UNARY_INT_SSE(VCVTDQ2PS, cvtdq2ps)
- UNARY_INT_SSE(VCVTPS2DQ, cvtps2dq)
- UNARY_INT_SSE(VCVTTPS2DQ, cvttps2dq)
-+UNARY_INT_SSE(VCVTPH2PS, cvtph2ps)
+@@ -491,6 +491,49 @@ FP_SSE(VMIN, min)
+ FP_SSE(VDIV, div)
+ FP_SSE(VMAX, max)
  
- 
- static inline void gen_unary_imm_sse(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode,
-@@ -1868,6 +1869,20 @@ static void gen_VCVTfp2fp(DisasContext *s, CPUX86State *env, X86DecodedInsn *dec
-                      gen_helper_cvtsd2ss, gen_helper_cvtss2sd);
- }
- 
-+static void gen_VCVTPS2PH(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
-+{
-+    gen_unary_imm_fp_sse(s, env, decode,
-+                      gen_helper_cvtps2ph_xmm,
-+                      gen_helper_cvtps2ph_ymm);
-+    /*
-+     * VCVTPS2PH is the only instruction that performs an operation on a
-+     * register source and then *stores* into memory.
-+     */
-+    if (decode->op[0].has_ea) {
-+        gen_store_sse(s, decode, decode->op[0].offset);
-+    }
++#define FMA_SSE_PACKED(uname, lname, ptr0, ptr1, ptr2)                             \
++static void gen_##uname##Px(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode) \
++{                                                                                  \
++    SSEFunc_0_epppp xmm = s->vex_w ? gen_helper_##lname##pd_xmm : gen_helper_##lname##ps_xmm; \
++    SSEFunc_0_epppp ymm = s->vex_w ? gen_helper_##lname##pd_ymm : gen_helper_##lname##ps_ymm; \
++    SSEFunc_0_epppp fn = s->vex_l ? ymm : xmm;                                     \
++                                                                                   \
++    fn(cpu_env, OP_PTR0, ptr0, ptr1, ptr2);                                        \
 +}
 +
- static void gen_VCVTSI2Sx(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
- {
-     int vec_len = vector_len(s, decode);
-diff --git a/tests/tcg/i386/test-avx.c b/tests/tcg/i386/test-avx.c
-index 953e2906fe..c39c0e5bce 100644
---- a/tests/tcg/i386/test-avx.c
-+++ b/tests/tcg/i386/test-avx.c
-@@ -28,6 +28,7 @@ typedef struct {
- } TestDef;
- 
- reg_state initI;
-+reg_state initF16;
- reg_state initF32;
- reg_state initF64;
- 
-@@ -221,6 +222,7 @@ static void run_all(void)
- 
- #define ARRAY_LEN(x) (sizeof(x) / sizeof(x[0]))
- 
-+uint16_t val_f16[] = { 0x4000, 0xbc00, 0x44cd, 0x3a66, 0x4200, 0x7a1a, 0x4780, 0x4826 };
- float val_f32[] = {2.0, -1.0, 4.8, 0.8, 3, -42.0, 5e6, 7.5, 8.3};
- double val_f64[] = {2.0, -1.0, 4.8, 0.8, 3, -42.0, 5e6, 7.5};
- v4di val_i64[] = {
-@@ -241,6 +243,12 @@ v4di indexd = {0x00000002000000efull, 0xfffffff500000010ull,
- 
- v4di gather_mem[0x20];
- 
-+void init_f16reg(v4di *r)
-+{
-+    memset(r, 0, sizeof(*r));
-+    memcpy(r, val_f16, sizeof(val_f16));
-+}
++#define FMA_SSE(uname, lname, ptr0, ptr1, ptr2)                                    \
++FMA_SSE_PACKED(uname, lname, ptr0, ptr1, ptr2)                                     \
++static void gen_##uname##Sx(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode) \
++{                                                                                  \
++    SSEFunc_0_epppp fn = s->vex_w ? gen_helper_##lname##sd : gen_helper_##lname##ss; \
++                                                                                   \
++    fn(cpu_env, OP_PTR0, ptr0, ptr1, ptr2);                                        \
++}                                                                                  \
 +
- void init_f32reg(v4di *r)
- {
-     static int n;
-@@ -315,6 +323,15 @@ int main(int argc, char *argv[])
-     printf("Int:\n");
-     dump_regs(&initI);
- 
-+    init_all(&initF16);
-+    init_f16reg(&initF16.ymm[10]);
-+    init_f16reg(&initF16.ymm[11]);
-+    init_f16reg(&initF16.ymm[12]);
-+    init_f16reg(&initF16.mem0[1]);
-+    initF16.ff = 16;
-+    printf("F16:\n");
-+    dump_regs(&initF16);
++FMA_SSE(VFMADD231,    fmadd,    OP_PTR1, OP_PTR2, OP_PTR0)
++FMA_SSE(VFMADD213,    fmadd,    OP_PTR1, OP_PTR0, OP_PTR2)
++FMA_SSE(VFMADD132,    fmadd,    OP_PTR0, OP_PTR2, OP_PTR1)
 +
-     init_all(&initF32);
-     init_f32reg(&initF32.ymm[10]);
-     init_f32reg(&initF32.ymm[11]);
++FMA_SSE(VFNMADD231,   fmnadd,   OP_PTR1, OP_PTR2, OP_PTR0)
++FMA_SSE(VFNMADD213,   fmnadd,   OP_PTR1, OP_PTR0, OP_PTR2)
++FMA_SSE(VFNMADD132,   fmnadd,   OP_PTR0, OP_PTR2, OP_PTR1)
++
++FMA_SSE(VFMSUB231,    fmsub,    OP_PTR1, OP_PTR2, OP_PTR0)
++FMA_SSE(VFMSUB213,    fmsub,    OP_PTR1, OP_PTR0, OP_PTR2)
++FMA_SSE(VFMSUB132,    fmsub,    OP_PTR0, OP_PTR2, OP_PTR1)
++
++FMA_SSE(VFNMSUB231,   fmnsub,   OP_PTR1, OP_PTR2, OP_PTR0)
++FMA_SSE(VFNMSUB213,   fmnsub,   OP_PTR1, OP_PTR0, OP_PTR2)
++FMA_SSE(VFNMSUB132,   fmnsub,   OP_PTR0, OP_PTR2, OP_PTR1)
++
++FMA_SSE_PACKED(VFMADDSUB231, fmaddsub, OP_PTR1, OP_PTR2, OP_PTR0)
++FMA_SSE_PACKED(VFMADDSUB213, fmaddsub, OP_PTR1, OP_PTR0, OP_PTR2)
++FMA_SSE_PACKED(VFMADDSUB132, fmaddsub, OP_PTR0, OP_PTR2, OP_PTR1)
++
++FMA_SSE_PACKED(VFMSUBADD231, fmsubadd, OP_PTR1, OP_PTR2, OP_PTR0)
++FMA_SSE_PACKED(VFMSUBADD213, fmsubadd, OP_PTR1, OP_PTR0, OP_PTR2)
++FMA_SSE_PACKED(VFMSUBADD132, fmsubadd, OP_PTR0, OP_PTR2, OP_PTR1)
++
+ #define FP_UNPACK_SSE(uname, lname)                                                \
+ static void gen_##uname(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode) \
+ {                                                                                  \
 diff --git a/tests/tcg/i386/test-avx.py b/tests/tcg/i386/test-avx.py
-index 02982329f1..ebb1d99c5e 100755
+index ebb1d99c5e..d9ca00a49e 100755
 --- a/tests/tcg/i386/test-avx.py
 +++ b/tests/tcg/i386/test-avx.py
-@@ -9,6 +9,7 @@
+@@ -9,7 +9,7 @@
  archs = [
      "SSE", "SSE2", "SSE3", "SSSE3", "SSE4_1", "SSE4_2",
      "AES", "AVX", "AVX2", "AES+AVX", "VAES+AVX",
-+    "F16C",
+-    "F16C",
++    "F16C", "FMA",
  ]
  
  ignore = set(["FISTTP",
-@@ -19,6 +20,7 @@
-     'vBLENDPS': 0x0f,
-     'CMP[PS][SD]': 0x07,
-     'VCMP[PS][SD]': 0x1f,
-+    'vCVTPS2PH': 0x7,
-     'vDPPD': 0x33,
-     'vDPPS': 0xff,
-     'vEXTRACTPS': 0x03,
-@@ -221,8 +223,10 @@ def ArgGenerator(arg, op):
- class InsnGenerator:
-     def __init__(self, op, args):
-         self.op = op
--        if op[-2:] in ["PS", "PD", "SS", "SD"]:
--            if op[-1] == 'S':
-+        if op[-2:] in ["PH", "PS", "PD", "SS", "SD"]:
-+            if op[-1] == 'H':
-+                self.optype = 'F16'
-+            elif op[-1] == 'S':
-                 self.optype = 'F32'
-             else:
-                 self.optype = 'F64'
 -- 
 2.37.3
 
