@@ -2,63 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1871603CCD
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 10:52:43 +0200 (CEST)
-Received: from localhost ([::1]:35744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A69FB603E28
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 11:11:04 +0200 (CEST)
+Received: from localhost ([::1]:49654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ol4oc-0004Ml-5h
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 04:52:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57496)
+	id 1ol56N-0004W5-9G
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 05:11:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ol4eI-0005Hm-MH
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 04:42:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31539)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1ol4zw-00084l-4u
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 05:04:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30872)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ol4eH-0003TP-0I
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 04:42:02 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1ol4zu-0006pI-JI
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 05:04:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666168918;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=oKpu6qjghaKt/rFc7hi2mG/mZDYst8Vd3qySVdYyvOE=;
- b=idZVAXFpgiysl9+HyCyDnRo+Dl2tMNH13kOjyJ9VphjeR3H5QTPtlzoGRYLEF/4HxsrajG
- U3m81dOhAtQmMvTF+hxpIvGcCq8wwpOxBTGLNaweYmBiDaBhjo7TD6rsPv90fGrHqq2mFj
- jLwXoONpyHli5LVXtTc4qyMg7xrpPxY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1666170260;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=G5vLQNMn7hVRRf1id7QHDGitVEbk5oVSMTQ+LDM09N4=;
+ b=fNnBZk49urjiSPVmQpLxrYOZq9APZOmXUc+PSMtZYYbLuiK2FcABCx1PQVuvPiDdDUz1+9
+ 0Y7POWLnRyeyYGMavRvIkCNB+QoKMMr/GmdUCO9Sbt9mH8jcXZyvrixIXHvDeUNHoKBEtU
+ wqTzK7C3MTq08tH93aSuFpnuz7EjB74=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-385-XZbGrYmMPwWeSMY22tyzfw-1; Wed, 19 Oct 2022 04:41:55 -0400
-X-MC-Unique: XZbGrYmMPwWeSMY22tyzfw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-27-dFhsFNxkOPClW0zmlqRW8A-1; Wed, 19 Oct 2022 05:04:16 -0400
+X-MC-Unique: dFhsFNxkOPClW0zmlqRW8A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 08DE2380608E;
- Wed, 19 Oct 2022 08:41:55 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 43E22112131B;
- Wed, 19 Oct 2022 08:41:52 +0000 (UTC)
-Date: Wed, 19 Oct 2022 09:41:49 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: qemu-devel@nongnu.org,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v3 1/3] util/main-loop: Fix maximum number of wait
- objects for win32
-Message-ID: <Y0+4TW35JBbRiorv@redhat.com>
-References: <20220824085231.1630804-1-bmeng.cn@gmail.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9AB31185A794;
+ Wed, 19 Oct 2022 09:04:00 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.35])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 14FBE2166B41;
+ Wed, 19 Oct 2022 09:03:50 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, Pierre Morel
+ <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ frankja@linux.ibm.com, berrange@redhat.com
+Subject: Re: [PATCH v10 6/9] s390x/cpu topology: add topology-disable
+ machine property
+In-Reply-To: <08bbd6f8-6ae3-4a28-66ed-d5a290c1a30d@kaod.org>
+Organization: Red Hat GmbH
+References: <20221012162107.91734-1-pmorel@linux.ibm.com>
+ <20221012162107.91734-7-pmorel@linux.ibm.com>
+ <08bbd6f8-6ae3-4a28-66ed-d5a290c1a30d@kaod.org>
+User-Agent: Notmuch/0.37 (https://notmuchmail.org)
+Date: Wed, 19 Oct 2022 11:03:47 +0200
+Message-ID: <87y1tcjibw.fsf@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220824085231.1630804-1-bmeng.cn@gmail.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -79,73 +85,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 24, 2022 at 04:52:29PM +0800, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
-> 
-> The maximum number of wait objects for win32 should be
-> MAXIMUM_WAIT_OBJECTS, not MAXIMUM_WAIT_OBJECTS + 1.
-> 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> ---
-> 
-> Changes in v3:
-> - move the check of adding the same HANDLE twice to a separete patch
-> 
-> Changes in v2:
-> - fix the logic in qemu_add_wait_object() to avoid adding
->   the same HANDLE twice
-> 
->  util/main-loop.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
-> 
-> diff --git a/util/main-loop.c b/util/main-loop.c
-> index f00a25451b..cb018dc33c 100644
-> --- a/util/main-loop.c
-> +++ b/util/main-loop.c
-> @@ -363,10 +363,10 @@ void qemu_del_polling_cb(PollingFunc *func, void *opaque)
->  /* Wait objects support */
->  typedef struct WaitObjects {
->      int num;
-> -    int revents[MAXIMUM_WAIT_OBJECTS + 1];
-> -    HANDLE events[MAXIMUM_WAIT_OBJECTS + 1];
-> -    WaitObjectFunc *func[MAXIMUM_WAIT_OBJECTS + 1];
-> -    void *opaque[MAXIMUM_WAIT_OBJECTS + 1];
-> +    int revents[MAXIMUM_WAIT_OBJECTS];
-> +    HANDLE events[MAXIMUM_WAIT_OBJECTS];
-> +    WaitObjectFunc *func[MAXIMUM_WAIT_OBJECTS];
-> +    void *opaque[MAXIMUM_WAIT_OBJECTS];
->  } WaitObjects;
->  
->  static WaitObjects wait_objects = {0};
-> @@ -395,6 +395,9 @@ void qemu_del_wait_object(HANDLE handle, WaitObjectFunc *func, void *opaque)
->          if (w->events[i] == handle) {
->              found = 1;
->          }
-> +        if (i == MAXIMUM_WAIT_OBJECTS - 1) {
-> +            break;
-> +        }
+On Tue, Oct 18 2022, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
-Took me a while to realize this was protecting the body
-of the next if from out of bounds access. Can we redo
-this to make it explicit:
+> On 10/12/22 18:21, Pierre Morel wrote:
+>> S390 CPU topology is only allowed for s390-virtio-ccw-7.3 and
+>> newer S390 machines.
+>> We keep the possibility to disable the topology on these newer
+>> machines with the property topology-disable.
+>>=20
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+>>   include/hw/boards.h                |  3 ++
+>>   include/hw/s390x/cpu-topology.h    | 18 +++++++++-
+>>   include/hw/s390x/s390-virtio-ccw.h |  2 ++
+>>   hw/core/machine.c                  |  5 +++
+>>   hw/s390x/s390-virtio-ccw.c         | 53 +++++++++++++++++++++++++++++-
+>>   util/qemu-config.c                 |  4 +++
+>>   qemu-options.hx                    |  6 +++-
+>>   7 files changed, 88 insertions(+), 3 deletions(-)
+>>=20
+>> diff --git a/include/hw/boards.h b/include/hw/boards.h
+>> index 311ed17e18..67147c47bf 100644
+>> --- a/include/hw/boards.h
+>> +++ b/include/hw/boards.h
+>> @@ -379,6 +379,9 @@ struct MachineState {
+>>       } \
+>>       type_init(machine_initfn##_register_types)
+>>=20=20=20
+>> +extern GlobalProperty hw_compat_7_2[];
+>> +extern const size_t hw_compat_7_2_len;
+>
+> QEMU 7.2 is not out yet.
 
->          if (found) {
+Yes, and the introduction of the new compat machines needs to go into a
+separate patch. I'm usually preparing that patch while QEMU is in
+freeze, but feel free to cook up a patch earlier if you need it.
 
-   if (found &&
-       i < (MAXIMUM_WAIT_OBJECTS - 1)) {
+(...)
 
->              w->events[i] = w->events[i + 1];
->              w->func[i] = w->func[i + 1];
+>> +static void ccw_machine_7_3_instance_options(MachineState *machine)
+>> +{
+>> +}
+>> +
+>> +static void ccw_machine_7_3_class_options(MachineClass *mc)
+>> +{
+>> +}
+>> +DEFINE_CCW_MACHINE(7_3, "7.3", true);
+>
+> That's too early.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Also, the next QEMU version will be 8.0, not 7.3 :)
 
 
