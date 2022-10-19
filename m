@@ -2,80 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 808076042C0
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 13:09:55 +0200 (CEST)
-Received: from localhost ([::1]:46062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C84C960432A
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Oct 2022 13:29:09 +0200 (CEST)
+Received: from localhost ([::1]:51832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ol6xO-0002IJ-1F
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 07:09:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38098)
+	id 1ol7G0-0005xQ-Af
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 07:29:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ol6o6-0004ZP-KR
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 07:00:19 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:41654)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ol6o3-0007i3-Ke
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 07:00:18 -0400
-Received: by mail-wr1-x432.google.com with SMTP id bu30so28498606wrb.8
- for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 04:00:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=RpIeW2HKR5LfuXE3Xh2tREtEa9w5p9iLOY5e6k6MCqc=;
- b=BzRM86P15OwLZ5L9ZxHxOl9uKsY53xl0/8kvulih1Cm0CViSSdupyckFJyCYEPXQ5v
- OmZnnhOnAW9ynYxH6ZScO17mS+4hptANALnHM1mWuajDkVtMzgpn3g/CLahrr9+9j/mL
- DilGED4zDQQ/Rb3AyQZMpIkxy0UiKvkkYY8OGjHjxrDNepN4rhvhhubCIt/t7QLW5uk9
- 2IyyNET1HG+ckNBO6i7SE1TN5sysu/g8TXLwb/PUDpDVQHtB8+uw0kxo1Hqtp0qGA5Sr
- d0/ERtkagdX+SK3qsk8XcBcWg8VSTvenoo35jzvoD3mUJ+6hT2avWJKb66xacvStX9O0
- 2koQ==
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1ol7Bc-0001zh-Fk
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 07:24:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42541)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1ol7BP-0003mZ-Eb
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 07:24:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666178660;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=z3R4Mgf/XcoN7txDeA7+iuUegJ1KgeAAPBmMvX7O+xk=;
+ b=fPp4U3i5wyK5Ahv3Rif/nOOIaaX8KEw4SvG1SjycCen/Cpvw8LX0iJJqulIzbKmfNEGDFV
+ Fa+PJeSuVZY6ku6vcOvCIuqSSk5rm8PxwBRm/WWTahGabzpVBuhWFE8FH52cAmu2cSK5/w
+ w9yOU1LznyDjDGGnXlArHgLA32CNcOg=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-62-1JqARNxjOeGcAAbyWweVwA-1; Wed, 19 Oct 2022 07:24:19 -0400
+X-MC-Unique: 1JqARNxjOeGcAAbyWweVwA-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ u6-20020a05620a430600b006e47fa02576so14708868qko.22
+ for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 04:24:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RpIeW2HKR5LfuXE3Xh2tREtEa9w5p9iLOY5e6k6MCqc=;
- b=NSpsZw6+cxSugQP3vhpG567scLYFxc3jpkxOjaPHIDMh45u+SSDVlC0xRjPxmll1HV
- +15rvIJG5DD5iSoeiPaEDpdqN+SZqisOEn3eoPer+rTvBxrNZ3rQD+WAGvBLRgVTmkiF
- veUL7B8ThESqD7E1rmb3GGNda0pFZjXWySFTxNgfDpPCJW5Wtl2hZPWZ3XtayMRBm8e8
- C1fveoLNIKOocHnv6PWmiOEqfxSKf2bsG5bfMiYZaXwWT0LYlO+eeVjOxb4WyV/SKvBl
- gUaw6LjnFeZK3XsUWwiN+W49kG6r+70BRI+sP0LjrVjJLREAmg/TkF0CIGz+Z091yNwC
- oz6g==
-X-Gm-Message-State: ACrzQf0FErgx48g9VVrLzn38dVZBJKL8I9cFET/EK1NvW5Ej0u1DkkbC
- 6nP/VDXL9BgL93w4XKu6kNvI7g==
-X-Google-Smtp-Source: AMsMyM6J4oG8hB8SOB1JuDehFH4plBnXwKUDpQUuCTpF2I96U+ClKqoAmOVMXq+atjiGYiVdzMWY6Q==
-X-Received: by 2002:a5d:4ec5:0:b0:22c:dca3:e84d with SMTP id
- s5-20020a5d4ec5000000b0022cdca3e84dmr4575423wrv.14.1666177213828; 
- Wed, 19 Oct 2022 04:00:13 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=z3R4Mgf/XcoN7txDeA7+iuUegJ1KgeAAPBmMvX7O+xk=;
+ b=pb48DZQN8goT/5jWCI5Q5fcS/ClC3Ko3Jfzkj+vJhY7k1K+OmWfhcSXmUZo8V9Im8Q
+ VUu/in3Z0ZoWI8rV7jda77R/ni09G3dPzv7vkhYb/Wh9UWwjtetZzi0AnX7EH3g1kgZk
+ sh8lbLOFsCL8N8GFGbLD4zu8DnuFcMa4p/aA9yXQB4rTauhn/LanLew7MZkbDEAg4zb8
+ 43PwUk1+ZYfxIJYCFPnY3RUxsY6RE3vOt817/EW4Du1luvAm/7PrAqJ36kUdGwFwKv3r
+ LwFGmCvNRfyEQbrwAzLGiXW5Wjr1w1TdF9VLKel9LHZ4YhSkTmz7iQDfm8WQ9DrZGK11
+ 3hgQ==
+X-Gm-Message-State: ACrzQf3z3q7PtfiUhxl2FTk5IHRGV4vTQ0YC6eetmvlmoQp9iwSXIzoN
+ AO+TYTN2oQNj967lp2e6fWoYKPgG+9XY+KiBqbQCtd3kiJITZljpEG72w6Zhf564/9e/iXXukKV
+ JP9BTGg5JPBU0H2Y=
+X-Received: by 2002:a05:620a:2a16:b0:6ee:d149:9fbb with SMTP id
+ o22-20020a05620a2a1600b006eed1499fbbmr5048770qkp.195.1666178658655; 
+ Wed, 19 Oct 2022 04:24:18 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4J0mt8QYtRKbjLn5HUfeanwTZIcvdekOnncE5GVO/ecHXPQqbc/rw2s+ZvCMKFFogpJK4TAA==
+X-Received: by 2002:a05:620a:2a16:b0:6ee:d149:9fbb with SMTP id
+ o22-20020a05620a2a1600b006eed1499fbbmr5048760qkp.195.1666178658400; 
+ Wed, 19 Oct 2022 04:24:18 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
  by smtp.gmail.com with ESMTPSA id
- t8-20020a5d5348000000b0022ac119fcc5sm13490816wrv.60.2022.10.19.04.00.12
+ ay40-20020a05620a17a800b006bb78d095c5sm4519956qkb.79.2022.10.19.04.24.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 Oct 2022 04:00:13 -0700 (PDT)
-Message-ID: <f7c4f7ca-cbf9-87d6-4d8c-5957c36ae23c@linaro.org>
-Date: Wed, 19 Oct 2022 13:00:11 +0200
+ Wed, 19 Oct 2022 04:24:17 -0700 (PDT)
+Message-ID: <98df60ec-be6d-84aa-d2bd-3bb2ebf0d1a5@redhat.com>
+Date: Wed, 19 Oct 2022 13:24:15 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.3.2
-Subject: Re: [PATCH v6 1/1] hw/intc: Fix LoongArch extioi coreisr accessing
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] x86-iommu: Fail flag registration of DEVIOTLB if DT not
+ supported
 Content-Language: en-US
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, gaosong@loongson.cn, f4bug@amsat.org
-References: <20221019091546.2148418-1-yangxiaojuan@loongson.cn>
- <20221019091546.2148418-2-yangxiaojuan@loongson.cn>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221019091546.2148418-2-yangxiaojuan@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
+Cc: Jason Wang <jasowang@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, 
+ =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>
+References: <20221018215407.363986-1-peterx@redhat.com>
+From: Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <20221018215407.363986-1-peterx@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,115 +104,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/10/22 11:15, Xiaojuan Yang wrote:
-> When cpu read or write extioi COREISR reg, it should access
+Hi Peter,
 
-"When the CPU reads or writes ..."
-
-> the reg belonged to itself, so the cpu index of 's->coreisr'
-> is current cpu number. Using MemTxAttrs' requester_id to get
-> the cpu index.
-> 
-> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+On 10/18/22 23:54, Peter Xu wrote:
+> All x86 IOMMUs need to fail DEVIOTLB notification registrations if DT is
+> not supported.  Otherwise any device (e.g. vhost) can register with
+> DEVIOTLB but it'll never receive the notifications, causing device not
+> operational.
+>
+> Fixes: b68ba1ca57 ("memory: Add IOMMU_NOTIFIER_DEVIOTLB_UNMAP IOMMUTLBNotificationType")
+> Reported-by: Eric Auger <eric.auger@redhat.com>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 > ---
->   hw/intc/loongarch_extioi.c      | 42 ++++++++++++++++++---------------
->   hw/intc/trace-events            |  3 +--
->   target/loongarch/iocsr_helper.c | 18 +++++++-------
->   3 files changed, 34 insertions(+), 29 deletions(-)
+>  hw/i386/amd_iommu.c   | 8 ++++++++
+>  hw/i386/intel_iommu.c | 7 +++++++
+>  2 files changed, 15 insertions(+)
+>
+> diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
+> index 725f69095b..42486e790f 100644
+> --- a/hw/i386/amd_iommu.c
+> +++ b/hw/i386/amd_iommu.c
+> @@ -1476,6 +1476,7 @@ static int amdvi_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
+>                                             Error **errp)
+>  {
+>      AMDVIAddressSpace *as = container_of(iommu, AMDVIAddressSpace, iommu);
+> +    X86IOMMUState *x86_iommu = X86_IOMMU_DEVICE(as->iommu_state);
+>  
+>      if (new & IOMMU_NOTIFIER_MAP) {
+>          error_setg(errp,
+> @@ -1484,6 +1485,13 @@ static int amdvi_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
+>                     PCI_FUNC(as->devfn));
+>          return -EINVAL;
+>      }
+> +
+> +    if ((new & IOMMU_NOTIFIER_DEVIOTLB_UNMAP) && !x86_iommu->dt_supported) {
+> +        error_setg_errno(errp, ENOTSUP,
+> +                         "Device-iotlb not declared support for vIOMMU");
+with current vhost code, vhost will then silently fallbac to UNMAP
+notifier registration and this will succeed. It would be nice to clarify
+whether the vIOMMU works with vhost in this downgraded mode (at least
+ats=off and device-ioltb=off)?
 
-> -static uint64_t extioi_readw(void *opaque, hwaddr addr, unsigned size)
-> +static MemTxResult extioi_readw(void *opaque, hwaddr addr, uint64_t *data,
-> +                                unsigned size, MemTxAttrs attrs)
->   {
+Thanks
 
-This patch would be easier to review if you split it in 2, first 
-converting the MemoryRegionOps read/write handlers to _with_attrs
-ones, then another patch fetching the CPU id from attrs.requester_id.
-
->       LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
->       unsigned long offset = addr & 0xffff;
-> -    uint32_t index, cpu, ret = 0;
-> +    uint32_t index, cpu;
->   
->       switch (offset) {
->       case EXTIOI_NODETYPE_START ... EXTIOI_NODETYPE_END - 1:
->           index = (offset - EXTIOI_NODETYPE_START) >> 2;
-> -        ret = s->nodetype[index];
-> +        *data = s->nodetype[index];
->           break;
->       case EXTIOI_IPMAP_START ... EXTIOI_IPMAP_END - 1:
->           index = (offset - EXTIOI_IPMAP_START) >> 2;
-> -        ret = s->ipmap[index];
-> +        *data = s->ipmap[index];
->           break;
->       case EXTIOI_ENABLE_START ... EXTIOI_ENABLE_END - 1:
->           index = (offset - EXTIOI_ENABLE_START) >> 2;
-> -        ret = s->enable[index];
-> +        *data = s->enable[index];
->           break;
->       case EXTIOI_BOUNCE_START ... EXTIOI_BOUNCE_END - 1:
->           index = (offset - EXTIOI_BOUNCE_START) >> 2;
-> -        ret = s->bounce[index];
-> +        *data = s->bounce[index];
->           break;
->       case EXTIOI_COREISR_START ... EXTIOI_COREISR_END - 1:
-> -        index = ((offset - EXTIOI_COREISR_START) & 0x1f) >> 2;
-> -        cpu = ((offset - EXTIOI_COREISR_START) >> 8) & 0x3;
-> -        ret = s->coreisr[cpu][index];
-> +        index = (offset - EXTIOI_COREISR_START) >> 2;
-> +        /* using attrs to get current cpu index */
-> +        cpu = attrs.requester_id;
-
-            assert(attrs.requester_type == MTRT_CPU);
-
-> +        *data = s->coreisr[cpu][index];
->           break;
->       case EXTIOI_COREMAP_START ... EXTIOI_COREMAP_END - 1:
->           index = (offset - EXTIOI_COREMAP_START) >> 2;
-> -        ret = s->coremap[index];
-> +        *data = s->coremap[index];
->           break;
->       default:
->           break;
->       }
->   
-> -    trace_loongarch_extioi_readw(addr, ret);
-> -    return ret;
-> +    trace_loongarch_extioi_readw(addr, *data);
-> +    return MEMTX_OK;
->   }
-
-> -static void extioi_writew(void *opaque, hwaddr addr,
-> -                          uint64_t val, unsigned size)
-> +static MemTxResult extioi_writew(void *opaque, hwaddr addr,
-> +                          uint64_t val, unsigned size,
-> +                          MemTxAttrs attrs)
->   {
->       LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
->       int i, cpu, index, old_data, irq;
-> @@ -183,8 +185,9 @@ static void extioi_writew(void *opaque, hwaddr addr,
->           s->bounce[index] = val;
->           break;
->       case EXTIOI_COREISR_START ... EXTIOI_COREISR_END - 1:
-> -        index = ((offset - EXTIOI_COREISR_START) & 0x1f) >> 2;
-> -        cpu = ((offset - EXTIOI_COREISR_START) >> 8) & 0x3;
-> +        index = (offset - EXTIOI_COREISR_START) >> 2;
-> +        /* using attrs to get current cpu index */
-
-            assert(attrs.requester_type == MTRT_CPU);
-
-> +        cpu = attrs.requester_id;
->           old_data = s->coreisr[cpu][index];
->           s->coreisr[cpu][index] = old_data & ~val;
->           /* write 1 to clear interrrupt */
-> @@ -231,11 +234,12 @@ static void extioi_writew(void *opaque, hwaddr addr,
->       default:
->           break;
->       }
-> +    return MEMTX_OK;
->   }
+Eric
+> +        return -ENOTSUP;
+> +    }
+> +
+>      return 0;
+>  }
+>  
+> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> index 6524c2ee32..a07d9631b0 100644
+> --- a/hw/i386/intel_iommu.c
+> +++ b/hw/i386/intel_iommu.c
+> @@ -3057,6 +3057,7 @@ static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
+>  {
+>      VTDAddressSpace *vtd_as = container_of(iommu, VTDAddressSpace, iommu);
+>      IntelIOMMUState *s = vtd_as->iommu_state;
+> +    X86IOMMUState *x86_iommu = X86_IOMMU_DEVICE(s);
+>  
+>      /* TODO: add support for VFIO and vhost users */
+>      if (s->snoop_control) {
+> @@ -3065,6 +3066,12 @@ static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
+>          return -ENOTSUP;
+>      }
+>  
+> +    if ((new & IOMMU_NOTIFIER_DEVIOTLB_UNMAP) && !x86_iommu->dt_supported) {
+> +        error_setg_errno(errp, ENOTSUP,
+> +                         "Device-iotlb not declared support for vIOMMU");
+> +        return -ENOTSUP;
+> +    }
+> +
+>      /* Update per-address-space notifier flags */
+>      vtd_as->notifier_flags = new;
+>  
 
 
