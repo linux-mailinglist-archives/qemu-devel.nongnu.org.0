@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2FB5606909
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 21:42:49 +0200 (CEST)
-Received: from localhost ([::1]:52852 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32DF16068FF
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 21:35:40 +0200 (CEST)
+Received: from localhost ([::1]:55804 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olZLM-00054v-DB
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:28:32 -0400
+	id 1olZGK-0006E3-Md
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:23:20 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olYn3-0002SG-ME
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:53:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34536)
+	id 1olYst-0003We-0K
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:59:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olY0T-0005QX-9j
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:02:59 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:37663)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olYAm-0004D8-CD
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:13:37 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:46593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olY0N-0000uD-8n
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:02:51 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- c7-20020a05600c0ac700b003c6cad86f38so2725573wmr.2
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 09:02:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olYAk-00034f-Kw
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:13:31 -0400
+Received: by mail-wr1-x429.google.com with SMTP id bk15so35360529wrb.13
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 09:13:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=xyXEoVKfj6vSFwCfukzr7lHRc4Hs+aaGW/cPbvPp2TA=;
- b=SlQQBOzMYvKvnNPKVBahOqFt7zMFPbqV+aSgpwXF0qz5siHN5EimP+iiJGwpjs9f9+
- dJwVe8vVaZO0NgMPKFXb6aYIL2eoBiq0H4fgrbk8UYD7Zmu5qgxNLeXcIfBqa5swmIsR
- GySKL/jsfQxat6TnhaqQG723PjqAEMF1hJBEVbLvmLk8kIA7CPshyBigUxlYbf0vysGC
- SvUi6+J39Q54KlvXHMLBq7NWQv0qYh98Kv4ksAF16i7gMnyV6INqsmdi79x6cKzxaHSI
- DDzglunM6UdFuSYQdkbp3G+J9W5/Cris5WwXfeJ1px3Q+3uc5xr/7ZbZLgVevtBi8V5H
- Vk8A==
+ bh=MZ6ZSAFuC6jxEdSJUH84ly20OtOmHcZggx9nN3/50ZI=;
+ b=hFlZjaAUu0DhGZH6g6OwnW8B2NZOJycf6pQFyrdUGNSiPjEFuzOQgfvYa5w4HsW4FY
+ sMUwsJ1kBTx5uVycMlEc0bE51aHCFcfo9Qe6tdISwGeZpAwE+z7qqOCdsHURAVLYh2Zl
+ jDORWFYNemWflIMneI8XYYXKafzFJRqIjgSV0B20vwQDvhLEVdGAw7Txkj1zJpk8K92K
+ 2omaP1a12em5aZjrahYucVti77n5iKQ4/QBvaqerKpjqXM1ztssthJGhpnVPakqQu9xs
+ F5P0bPmAyTQ6HyPgtX1XkBpwdJ4uWT4gsCe0zzSlbfu4ILUyuPWCc4UhyvkEiZ6UEW2d
+ xU5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xyXEoVKfj6vSFwCfukzr7lHRc4Hs+aaGW/cPbvPp2TA=;
- b=T61bEaRlhxFDQCikLuWagSFJQESTgfHAfb83FnWJSkja09S6OfxHNhMO0tLTM8vTQt
- Ix8q/CfqplDvZ0L9KrAfaMR5nTzxpfgK342FpeP7ZAEeYE+rcv8TQs2Qh1UYNe822upH
- r0kJwCsfi/zKiium0yMEMA51z2OnxiSFRLm5aa/RiC5E67q36BB+aEsGUwicPPa+dUiY
- /zrNGF8q+0uhgeSbeNTMhAZo/QiNwHMN7i7uk06hocgn8HDlUEsXeSlfSCRXrLqVQHy2
- j6nIdgG43bIrKTHK/nNtqJfSJEK9tI/yqBncjA3nudbcFcXU96K6PhBiCsuFHDAztP7A
- oDdw==
-X-Gm-Message-State: ACrzQf0jaQMDKvu7h+Vpt8eLsCXV4iy32WDHX4EmVrQqIGBv3Fd5yJat
- Mg4Nv//LGo//98DcQYRcYSwqBA==
-X-Google-Smtp-Source: AMsMyM6FeyIFP4HoXBYgSi0OOfG/t4UDUS5WIOb0d4jJwk/beG2zEq8E71cE8YIfBxYYKLxhGu4bng==
-X-Received: by 2002:a05:600c:3585:b0:3c7:9f:5f87 with SMTP id
- p5-20020a05600c358500b003c7009f5f87mr9253363wmq.76.1666281762364; 
- Thu, 20 Oct 2022 09:02:42 -0700 (PDT)
+ bh=MZ6ZSAFuC6jxEdSJUH84ly20OtOmHcZggx9nN3/50ZI=;
+ b=2/fuJIHlQ3WFERT5SdlkKsmLvOrxES4+ILsTGVM3FYmIbJIbFYBjR46Kr1T4L5ntXd
+ 7kDTukeBP2ck1Qq6fAE9Ak323+DiEDaAErVaFdWuhsM/eBAhenlKvv+y1bjHTa3GPZPC
+ iItjOZtdz992HlJ/mGZnZMsyH+6WXhn3ReNwkq3p34b5Th+B6hOqIpuiHRy2ebmg+C4y
+ BNjgTVlxMcW1Txhvu4s/HXnbB7JrNzClbUWw22cI/lzHvKvdYOA4Zp07geEyjFZsrvTi
+ OaXuseZnwTVnxhzBSRAeQ6BaWVUBW2KUPLmg4xUijMJ/EZwOalnU5XeDejjuYB3+9PIu
+ 92XA==
+X-Gm-Message-State: ACrzQf3+7BOJuw/j8/bdSeTLocP4huKW7dIE+wwyycY2EFCdJjQwwnM5
+ /C9PowNjYOUa5EC4qI8+ZnT9Lw==
+X-Google-Smtp-Source: AMsMyM6KrBoQfRUn1EE/vBBqBhYDyVIHHblOBwEo8IFdUC6bxlaCcS2pfJtjL9hsHLN+nA63oKa8hw==
+X-Received: by 2002:adf:e54a:0:b0:232:caad:38f3 with SMTP id
+ z10-20020adfe54a000000b00232caad38f3mr8928314wrm.108.1666282408783; 
+ Thu, 20 Oct 2022 09:13:28 -0700 (PDT)
 Received: from [10.50.0.10]
  (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
  by smtp.gmail.com with ESMTPSA id
- x23-20020a1c7c17000000b003b49ab8ff53sm37080wmc.8.2022.10.20.09.02.40
+ l3-20020adfe583000000b002205a5de337sm16618446wrm.102.2022.10.20.09.13.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Oct 2022 09:02:41 -0700 (PDT)
-Message-ID: <5ce4e2b7-13a5-d330-f2ab-1c541b3115e8@linaro.org>
-Date: Thu, 20 Oct 2022 18:02:39 +0200
+ Thu, 20 Oct 2022 09:13:28 -0700 (PDT)
+Message-ID: <bafdddfd-f299-4c3c-ea39-89570c6212cd@linaro.org>
+Date: Thu, 20 Oct 2022 18:03:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.3.2
-Subject: Re: [PATCH v3 17/26] MAINTAINERS: fix-up for check-tcg Makefile
- changes
+Subject: Re: [PATCH v3 18/26] tests/avocado: set -machine none for userfwd and
+ vnc tests
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
  aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
- crosa@redhat.com
+ crosa@redhat.com, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
 References: <20221020115209.1761864-1-alex.bennee@linaro.org>
- <20221020115209.1761864-18-alex.bennee@linaro.org>
+ <20221020115209.1761864-19-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221020115209.1761864-18-alex.bennee@linaro.org>
+In-Reply-To: <20221020115209.1761864-19-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -104,24 +104,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 20/10/22 13:52, Alex Bennée wrote:
+> These are exercising core QEMU features and don't actually run code.
+> Not specifying a machine will fail when avocado chooses the native
+> arch binary to run. Be explicit.
+> 
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->   MAINTAINERS | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 0f4c50e8eb..1b41daba88 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -3727,8 +3727,7 @@ Guest Test Compilation Support
->   M: Alex Bennée <alex.bennee@linaro.org>
->   R: Philippe Mathieu-Daudé <philmd@linaro.org>
->   S: Maintained
-> -F: tests/tcg/Makefile
-> -F: tests/tcg/Makefile.include
-> +F: tests/tcg/Makefile.target
-
-Fixes: fc76c56d3f ("tests/tcg: cleanup Makefile inclusions")
+>   tests/avocado/info_usernet.py | 3 +++
+>   tests/avocado/vnc.py          | 1 +
+>   2 files changed, 4 insertions(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
