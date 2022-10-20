@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E222606386
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 16:48:41 +0200 (CEST)
-Received: from localhost ([::1]:59698 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4C55606335
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 16:35:21 +0200 (CEST)
+Received: from localhost ([::1]:54150 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olWpx-0000lx-4G
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:48:02 -0400
+	id 1olWdM-0007yI-T3
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:35:13 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olWjz-0005sC-Gl
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:41:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58178)
+	id 1olWWF-0002wp-GO
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:27:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1olUZJ-0001ar-PF
+ id 1olUZJ-0001au-Pi
  for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:23:00 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:38593)
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:36402)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1olUYx-00013N-81
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:22:32 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- r8-20020a1c4408000000b003c47d5fd475so2181944wma.3
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 05:22:08 -0700 (PDT)
+ id 1olUYy-00013i-8z
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:22:31 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id j7so34137331wrr.3
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 05:22:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=zL6NvFFoXw34CaShyzMhMR6FMiAsPqnYAfn/5Y9V3K0=;
- b=zVVguPXGH2hg7GzDr8KAeCZ2x53nBhfGa5/W00XwRtop259DK96NCEc6Ra3j7EJDtn
- kfrDRCBEJm0YISiStu2cMTSOtPiRljDB3/2pwgviBYb5CG2QqbmnzHYH/07PQ2P4MSFI
- 3pNilHXVL03kB+og9lFMvAGz5is9+b40S+2NXBA1Sv1QOWt1ecI94vJx1+ggre8SsIuV
- dghZhnGlC8jj76S95PtZaWa0LuA7W6p5jzQdxGvNHDbt4g5sZHMqzMWJ5fH1Zqw7kSiD
- Lzt1sgb9rWmIp4zkwjDeDvRrfIfcmj0dvrDm4PMT+JOXphWCyDO96Z2iWM7CRW/1AXPE
- m4bA==
+ :reply-to; bh=/Mtkmedf+4E4gXxJIPDJOU9Xjw/x7DGKKan8I+smfhM=;
+ b=RC6QCfCgkRpz97j9SGrN4vfjPqztdLjApCGAA88EzqrLxrNuoVywBRhQ7vBuTzO8Hp
+ dIacHIsqY1w+fmrJnZojKQvseLoIeoBPiadRO7sJmGPweVBZwkmo180ocklRL2SwBImE
+ MgCnlAQrw1p/e08KTtsqYGxQrEQoqqPnpkzU1pGBKSmF62lBQQiwEDnanw6tIWBRlPwa
+ 1JDXwigGuRI9+Ng7jfhZ0QJQXmpdrHDjxckLiMuRn17vWL5MJPue+LgOr4cxyFss6tA0
+ rkSc3hBKdyN2oz5VUtBGP39D2BOAOfVkeQsNUXv/k3s6IOzJBoQ3pEEacPOEYPATs/gR
+ /nHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=zL6NvFFoXw34CaShyzMhMR6FMiAsPqnYAfn/5Y9V3K0=;
- b=BskDuLI0JW3pYe9fPCtJljeViLY2ln7hwbJgqDcsP28eU3RGOo8VTG4QAtQdEK457s
- tUubSoViG+lVnnh6RlH1HCQ8N49zkE6FtjOh53BHwiCZ7oWlfMLu+04AJYaiBVo8JlBJ
- z/sJztyMRrumAuW+fDVC63j3NmjXQPaoEfFcPqWxhj6ydGi+8POAfN+p7Qe/tnsvlz2E
- sZBakK4eLm9LsYdNaOfuAtTwsz8sNDmODfHwInKoJdlGHH0ULQsA+lerifOkCZbBZ+hC
- wzOv48wM7is1o5Fs8OkVtmdzWR6jIMniC6gYpCX+dtfA22Rpbh8LXu9W5IXwxBMRtxYw
- n9JA==
-X-Gm-Message-State: ACrzQf28+BkDa5GO9Y/Mh6L0yTNaTMvFRCfxwyQHtcDwHMnI5ZsTrpzH
- Gl39SwUJfDl3jY8VDVOEXZyq+KEa5Ctvgw==
-X-Google-Smtp-Source: AMsMyM4Hx/wjYusb300IvegsWk/bUCt6Szf4eRpyj4rXoCvbrsa1m3zJvL5XuZ+O+0q8iYSpNwyRMA==
-X-Received: by 2002:a1c:ac81:0:b0:3c6:e566:cc21 with SMTP id
- v123-20020a1cac81000000b003c6e566cc21mr9340121wme.0.1666268527422; 
- Thu, 20 Oct 2022 05:22:07 -0700 (PDT)
+ bh=/Mtkmedf+4E4gXxJIPDJOU9Xjw/x7DGKKan8I+smfhM=;
+ b=I18wLTsxkEjMIs8hay3LJe0Srrc8A7uF69xoMOGAmTQT2FvSOtVjRzIbvZTsVzSLvh
+ y4tb1cw3n+wxxu5azUBWzU9EMfoeQzsW5BEEvzoCf6EFJM+FI1B2a/9RImNAZ/ktqrNB
+ K0h39MGcojxEB15g7i3M+sOglIb+mc7X/8j6kgC58u/agKvGq3pxJkidbSgCBCbBGFeD
+ C79WJn/uFTf7TN5dBtmtXpbo/8DgT089dTm80CXr3+e7xFD58rhBNqoi8U+dCo1vBGCg
+ aDCRQ1JuJ7yTCIozfwSJyaY23/gc+U7SAeIi7PuLDckT1Rsj1GLtQl60jgJ24fmiRPua
+ PGIg==
+X-Gm-Message-State: ACrzQf1Rx5NHrhrEv/WgSnJi2/SwcfEV1VAWZLt9iIjNecmq10X+W4oP
+ yqaPZH/E+qDNiLug+F2Ga+zSBfbIVCKJEA==
+X-Google-Smtp-Source: AMsMyM6pYBcWeA+pfeM/Ul/ZtLdq9cH/0B6ig0PflcfB/kXDjNX571bkshOdqIstvFEAMnKv/sfIug==
+X-Received: by 2002:a5d:64e4:0:b0:22e:3d49:91e0 with SMTP id
+ g4-20020a5d64e4000000b0022e3d4991e0mr8035848wri.87.1666268528521; 
+ Thu, 20 Oct 2022 05:22:08 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- t15-20020a5d49cf000000b00230c9d427f9sm16520192wrs.53.2022.10.20.05.22.05
+ t15-20020a5d49cf000000b00230c9d427f9sm16520192wrs.53.2022.10.20.05.22.07
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Oct 2022 05:22:06 -0700 (PDT)
+ Thu, 20 Oct 2022 05:22:07 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/24] target/arm: Use bool consistently for get_phys_addr
- subroutines
-Date: Thu, 20 Oct 2022 13:21:36 +0100
-Message-Id: <20221020122146.3177980-15-peter.maydell@linaro.org>
+Subject: [PULL 15/24] target/arm: Introduce curr_insn_len
+Date: Thu, 20 Oct 2022 13:21:37 +0100
+Message-Id: <20221020122146.3177980-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221020122146.3177980-1-peter.maydell@linaro.org>
 References: <20221020122146.3177980-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,50 +97,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-The return type of the functions is already bool, but in a few
-instances we used an integer type with the return statement.
+A simple helper to retrieve the length of the current insn.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20221011031911.2408754-13-richard.henderson@linaro.org
+Message-id: 20221020030641.2066807-2-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/ptw.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ target/arm/translate.h     | 5 +++++
+ target/arm/translate-vfp.c | 2 +-
+ target/arm/translate.c     | 5 ++---
+ 3 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index dd6556560af..6c5ed56a101 100644
---- a/target/arm/ptw.c
-+++ b/target/arm/ptw.c
-@@ -2432,7 +2432,7 @@ static bool get_phys_addr_disabled(CPUARMState *env, target_ulong address,
-     result->f.lg_page_size = TARGET_PAGE_BITS;
-     result->cacheattrs.shareability = shareability;
-     result->cacheattrs.attrs = memattr;
--    return 0;
-+    return false;
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index af5d4a7086f..90bf7c57fc6 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -226,6 +226,11 @@ static inline void disas_set_insn_syndrome(DisasContext *s, uint32_t syn)
+     s->insn_start = NULL;
  }
  
- static bool get_phys_addr_twostage(CPUARMState *env, S1Translate *ptw,
-@@ -2443,9 +2443,8 @@ static bool get_phys_addr_twostage(CPUARMState *env, S1Translate *ptw,
- {
-     hwaddr ipa;
-     int s1_prot;
--    int ret;
-     bool is_secure = ptw->in_secure;
--    bool ipa_secure, s2walk_secure;
-+    bool ret, ipa_secure, s2walk_secure;
-     ARMCacheAttrs cacheattrs1;
-     bool is_el0;
-     uint64_t hcr;
-@@ -2520,7 +2519,7 @@ static bool get_phys_addr_twostage(CPUARMState *env, S1Translate *ptw,
-          && (ipa_secure
-              || !(env->cp15.vtcr_el2 & (VTCR_NSA | VTCR_NSW))));
++static inline int curr_insn_len(DisasContext *s)
++{
++    return s->base.pc_next - s->pc_curr;
++}
++
+ /* is_jmp field values */
+ #define DISAS_JUMP      DISAS_TARGET_0 /* only pc was modified dynamically */
+ /* CPU state was modified dynamically; exit to main loop for interrupts. */
+diff --git a/target/arm/translate-vfp.c b/target/arm/translate-vfp.c
+index bd5ae27d090..94cc1e4b775 100644
+--- a/target/arm/translate-vfp.c
++++ b/target/arm/translate-vfp.c
+@@ -242,7 +242,7 @@ static bool vfp_access_check_a(DisasContext *s, bool ignore_vfp_enabled)
+     if (s->sme_trap_nonstreaming) {
+         gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
+                            syn_smetrap(SME_ET_Streaming,
+-                                       s->base.pc_next - s->pc_curr == 2));
++                                       curr_insn_len(s) == 2));
+         return false;
+     }
  
--    return 0;
-+    return false;
- }
- 
- static bool get_phys_addr_with_struct(CPUARMState *env, S1Translate *ptw,
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 2f72afe019a..5752b7af5cb 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -6650,7 +6650,7 @@ static ISSInfo make_issinfo(DisasContext *s, int rd, bool p, bool w)
+     /* ISS not valid if writeback */
+     if (p && !w) {
+         ret = rd;
+-        if (s->base.pc_next - s->pc_curr == 2) {
++        if (curr_insn_len(s) == 2) {
+             ret |= ISSIs16Bit;
+         }
+     } else {
+@@ -9812,8 +9812,7 @@ static void arm_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+             /* nothing more to generate */
+             break;
+         case DISAS_WFI:
+-            gen_helper_wfi(cpu_env,
+-                           tcg_constant_i32(dc->base.pc_next - dc->pc_curr));
++            gen_helper_wfi(cpu_env, tcg_constant_i32(curr_insn_len(dc)));
+             /*
+              * The helper doesn't necessarily throw an exception, but we
+              * must go back to the main loop to check for interrupts anyway.
 -- 
 2.25.1
 
