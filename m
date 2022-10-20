@@ -2,84 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1DB66066B1
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 19:06:58 +0200 (CEST)
-Received: from localhost ([::1]:55916 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AA6B6066A4
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 19:03:35 +0200 (CEST)
+Received: from localhost ([::1]:37858 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olZ0M-0006xG-Aj
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:06:50 -0400
+	id 1olYx8-0005XB-98
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:03:30 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olYpV-0002sP-IE
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:55:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47458)
+	id 1olYsM-0007Fn-5c
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:58:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olXrv-00010m-7z
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 11:54:03 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:39914)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olXsu-00050c-0L
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 11:55:04 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:43552)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olXrt-0006Bh-JK
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 11:54:02 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id f11so35284070wrm.6
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 08:54:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olXsp-0006Ib-Hu
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 11:55:02 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ bh7-20020a05600c3d0700b003c6fb3b2052so2529837wmb.2
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 08:54:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=KDdSDbbNRT2zw6tSBO6RxGyaDb/VLKpCflhQeLmEePI=;
- b=tbqB2DCm32Z5o0w3nMKVRZB21/YwRht8xNliNkWQR3JYr7+tIMxO6A8ysGnSxbafM2
- LSLI8IftPHskzKF6h/CvQXVGztOV8lWrm8m2jT31gywXnmVQqFo+o1btp1jVMgAYOqS0
- 8HPSJ5WjsxPZVU7rAHyKwNHZQ/VKnkTiVROWAAc57zrR5Ouv/zI5/mvzWb0hWva4sz44
- AJQR3N9zLhlqD9EYnA361YAaHRQYY81eD9KH0z0Xpkr3SLcumWQbdsC0h508hgVUnzHK
- qKarg9hGKSkHNqUa2z3VMnLrOYbxnilS0KAxxokIT9GFGnuBBDwWYGHrl8ca4qgOZuqb
- cmDw==
+ bh=FwF+cOcHQ9de6GGnLMBk2yyMERfbdDRyqw/kISHUWVw=;
+ b=ppHqpdO0Locj+OjgeIMYijfjLGi/6g6s4GUovIAdjbCk54y9FfQdnY4M9XFaRTbTPf
+ mkK/9q4Tq+4nM10klKywhpXx1JL5BtQ9BfDIeSu31gh7EMlMIBDJdwsvZAlALi8866nJ
+ S5zOcylXyk3OdY33/QWadnxgR+tNN8s+gxrkvDESjZj75fnKSyBI7CT0dbz3My8QeOEN
+ TL08A7wveggjbY8gdXvd7iEw7X6JBbkkvrhuOG1n7HiAqH8/gT/b4OcBufCVINaJotdi
+ vFaEHIl+i40r1W02f/Tc0Up+HXZbxzCfqmdxRhZ3vqhmj8l2Udv/s/zNWdrUVCw1MD3G
+ Mhiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KDdSDbbNRT2zw6tSBO6RxGyaDb/VLKpCflhQeLmEePI=;
- b=Q7l8ogyGsRAZCcvXBAF39Cz9wFltYGAEpYA8hSswMNRjKAf6fok26vMbOk43umiAJs
- GZBe3EmHNmvQkC38heohwacrg4SMrLWm6bLHtkTXtIQUCC7N2IuW9G3P6LcvR+/jNFi8
- AQ7iVLbF5kIY+SGcJhCeNloNhx/PLq4yPrdSg3qxIpET7FxUQaRX5ok1gubrJugcHnQS
- 5+qRSm5vxabdsXiCoHDXmbs8922ek2TjjYdZT4lu+MPt46wWRDYcZvDGowV6yORk651D
- jR+BzCq3TqKu/9yYywweqUiMYhIH4mPfGHlz3QWgFiYyF6O1nh7mHgH3I5F44a9vXQnU
- 6B6w==
-X-Gm-Message-State: ACrzQf3CBH8NC3gR9PXdp4S2CV6OxOrWiuGZEjH2dv007DNT2klq5J13
- qH+MBP1XOcln1Fq8wjUF9F+Ejg==
-X-Google-Smtp-Source: AMsMyM63qo4ywS3WNgePv8ZdtR7CWnJeRYMe/2ps57ioHeFu3Pr7ISij7+imJcCNf+Kyw1lZpPwirg==
-X-Received: by 2002:adf:e610:0:b0:235:597e:bba0 with SMTP id
- p16-20020adfe610000000b00235597ebba0mr3447694wrm.650.1666281239995; 
- Thu, 20 Oct 2022 08:53:59 -0700 (PDT)
+ bh=FwF+cOcHQ9de6GGnLMBk2yyMERfbdDRyqw/kISHUWVw=;
+ b=vrD8TeTc6DvCGOyOOV8U4a85P6DNxTjoTF3OEZDNK43VFFNUjHD5RPZUbdYqhRsA1O
+ a6GXOFOPP9wyxxBZYHKJ3reZ2Kc7eZw1I3YjQhWskG/29c5QJUdYX4rjf/Lx5dhobQq9
+ B/cDgU/Nvtfnp9V9inlENWr4yYDJyXeAOA7Ro0Y7MMHsjKX4T620Te6stF3gOKleo3eu
+ dMTIAtEcujqpZuWMD/B3+r1yySMpYpGtV8dPWbeMjNkB7jAL3Yum1V7JVsePXKhCGL+y
+ laMS2UN5MjgpfkF/hWghyqTCSb1NM4waHaV2WiQxK34SnEU4ppXmfbSb7JBajMw5kgvG
+ vMkQ==
+X-Gm-Message-State: ACrzQf1E16wjqB/6MwRuVCkLjXYUXw+p5u73pTvYvtFsmStoPKGo6hAj
+ GaHTrdhfezXY1Z0l+Dw1xpkBWA==
+X-Google-Smtp-Source: AMsMyM5N/fBnWAgLpyxK5StZcY+fCh5r/pGkKL2CFSKWEZalibb7K3twZeHsaKhoJhkOFCA2WSRTHA==
+X-Received: by 2002:a7b:c4d9:0:b0:3c4:e77f:b991 with SMTP id
+ g25-20020a7bc4d9000000b003c4e77fb991mr10239828wmk.104.1666281298290; 
+ Thu, 20 Oct 2022 08:54:58 -0700 (PDT)
 Received: from [10.50.0.10]
  (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
  by smtp.gmail.com with ESMTPSA id
- f26-20020a7bcd1a000000b003c6b70a4d69sm116737wmj.42.2022.10.20.08.53.57
+ t15-20020a5d49cf000000b0022e32f4c06asm16893280wrs.11.2022.10.20.08.54.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Oct 2022 08:53:58 -0700 (PDT)
-Message-ID: <8aac5ee6-8e45-7bc1-eedc-27db14c964c2@linaro.org>
-Date: Thu, 20 Oct 2022 17:53:57 +0200
+ Thu, 20 Oct 2022 08:54:57 -0700 (PDT)
+Message-ID: <5ceb572b-f478-bb48-94a3-59f1b3c9f50a@linaro.org>
+Date: Thu, 20 Oct 2022 17:54:55 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.3.2
-Subject: Re: [PATCH v3 09/26] semihosting/arm-compat-semi: Avoid using
- hardcoded /tmp
+Subject: Re: [PATCH v3 10/26] tcg: Avoid using hardcoded /tmp
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
  aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
- crosa@redhat.com, Bin Meng <bin.meng@windriver.com>
+ crosa@redhat.com, Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 References: <20221020115209.1761864-1-alex.bennee@linaro.org>
- <20221020115209.1761864-10-alex.bennee@linaro.org>
+ <20221020115209.1761864-11-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221020115209.1761864-10-alex.bennee@linaro.org>
+In-Reply-To: <20221020115209.1761864-11-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -108,11 +110,12 @@ On 20/10/22 13:51, Alex Bennée wrote:
 > Use g_get_tmp_dir() to get the directory to use for temporary files.
 > 
 > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Message-Id: <20221006151927.2079583-2-bmeng.cn@gmail.com>
+> Message-Id: <20221006151927.2079583-3-bmeng.cn@gmail.com>
 > ---
->   semihosting/arm-compat-semi.c | 3 ++-
+>   tcg/tcg.c | 3 ++-
 >   1 file changed, 2 insertions(+), 1 deletion(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
