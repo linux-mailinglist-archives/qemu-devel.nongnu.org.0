@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80493605E23
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 12:46:54 +0200 (CEST)
-Received: from localhost ([::1]:49532 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FD9B605C62
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 12:33:11 +0200 (CEST)
+Received: from localhost ([::1]:59692 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olT4N-0006Lw-73
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 06:46:36 -0400
+	id 1olSrN-00018W-Nv
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 06:33:10 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olSf0-0003PJ-72
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 06:20:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55920)
+	id 1olSfQ-0003zB-DB
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 06:20:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1olSJz-0001HV-I4
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 05:58:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21812)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1olSKI-00022r-55
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 05:58:58 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:39559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1olSJw-00007v-Aa
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 05:58:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666259914;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=NzM7x8N8l9jp2JOHpkkbE7N3xaLpP2WG2R8in3+F7BY=;
- b=CawGrFzw6NhqMnMzumzDgdWKJRLocF5+ompCRAtqe7Oj9J9vVNz7fxiKxw3vfHQeNixMtd
- VviHlV45c9PmDJfJFdHrehM2glzXSA/SIsYEbz/hANpvmZjv8xeXD9ov401lBDJNC5sEtD
- 7m7JaQvo7pGRw5Zvi6w6eYOoPjK0z2g=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-635-BrSj-5WNMRuYL_pEbLu7PQ-1; Thu, 20 Oct 2022 05:58:30 -0400
-X-MC-Unique: BrSj-5WNMRuYL_pEbLu7PQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 53CA686477C;
- Thu, 20 Oct 2022 09:58:30 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DA7672166BA0;
- Thu, 20 Oct 2022 09:58:26 +0000 (UTC)
-Date: Thu, 20 Oct 2022 10:58:23 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 2/2] util/log: Always send errors to logfile when
- daemonized
-Message-ID: <Y1Ebv28whPgwdaMW@redhat.com>
-References: <20221019151651.334334-1-groug@kaod.org>
- <20221019151651.334334-3-groug@kaod.org>
- <47ea1c0e-9e32-ce9a-7bef-bd2ac70bdbb9@linaro.org>
- <20221020114937.3558737e@bahia>
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1olSKF-00009A-T3
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 05:58:57 -0400
+Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1M1Yl9-1onv1u35XH-0035DO; Thu, 20 Oct 2022 11:58:49 +0200
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Jason Wang <jasowang@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Stefano Brivio <sbrivio@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+Subject: [PATCH v3 0/2] virtio-net: re-arm/re-schedule when tx_burst stops
+ virtio_net_flush_tx()
+Date: Thu, 20 Oct 2022 11:58:44 +0200
+Message-Id: <20221020095846.63831-1-lvivier@redhat.com>
+X-Mailer: git-send-email 2.37.3
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221020114937.3558737e@bahia>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:IWsFi8/XWbanRd86jdPn6HmHByT20i3ZCBppd+EdR4uiukyTGiO
+ DJJuUIUkA9ZSpEwXeX7DiOZjSDcKkOrNAtvQlUkvqjs4grg3uSWoSSll/K+D+T3bSoEyauL
+ 0tg1XxMX7U0wPTyz7LcHLg0rIDSWnblh1b2uYqIq6J/EFWfS5avn8GuNg2DoUZOfgDps/Es
+ FMgku1W4aAKR34++jsDMg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Ax7Aokp2jEE=:8PEQdFh8dt6fMaL+vctRAI
+ ViDJT5TePzIiO0SKKB+OFj29EXXkRQP62hVGnC0pk1ODjotwdGAYsQQaMEdMCpeUzM8bWaIwo
+ FVXt1c0rSaz2gDS3VRCP/eyovl44c8fxc73Hcfm0nXFTHv5cXil3tiQBKPV3mICWVv78dPNx8
+ w6tGcjKMJOcI1s1k1xC0TjwA3ndWkyLRO8tJT0vX69WpUwNpcXKwyaPTs5cZYhBzOHY2rUlAR
+ 5EPcuDC/idYkX1hMNxG1jvXFElZwsLUF/SL8SOoyExRDgbHMYBtWx2Cvt8+VkIiLreh3JfA4e
+ Kgh+jmOLrmLCoUH1zRzjzPKE1lxsUK6cY/tMZAqu46QyT9nrdKwEsWen4EdS4J1nibwI1xqDZ
+ HgTU18LEOER3uQIdPIIRurOOz+JmqyQItPQuddAym+dC9fZzYkYZ9WMMCPdDNr2VoQW5waI/A
+ kmwPXCDAQ+IDuzNFhr3E+Bs42nAh+xh7uOMrewHg3N1wTloTlWx7vQZE+h1GdeCo9/iV2vhbt
+ fHEQ8PBEnNrxm9r3Y623EAFFGYtn11MyYZiHhxguWVOMnmOnwFQfm8koWeSS3EuV7DecaBUZ2
+ ePaVm3tUGDr9cz0e6se72fnufXRj6kkYpBrl6ulCdFmExrwqOlG/RlodGe96UDzrg4lBdkq6O
+ 1PjoPJDlOjnZL39te5iMjeXsvTwAp+teCFjQCsOmGTfICFDvVX1ufVWZZnVeVNaW3SCuRKfq/
+ Dj2/Qs1Pv9iieVMeoWgqya087jqGlDdTCYGFWr2iJxvriOH3jl2ss4MTC191TCUt4IH+FEIqv
+ Pxgj6ZZ
+Received-SPF: permerror client-ip=212.227.126.133;
+ envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_FAIL=0.001,
+ SPF_HELO_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,89 +78,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 20, 2022 at 11:49:37AM +0200, Greg Kurz wrote:
-> On Thu, 20 Oct 2022 12:21:27 +1000
-> Richard Henderson <richard.henderson@linaro.org> wrote:
-> 
-> > On 10/20/22 01:16, Greg Kurz wrote:
-> > 
-> > I don't understand why daemonize changes -d tid at all.
-> > If there's a bug there, please separate it out.
-> > 
-> > I don't understand the is_main_log_thread checks.
-> > Why is the main thread special?
-> > 
-> 
-> The current code base either opens a per-thread file in
-> qemu_log_trylock() when -d tid is enabled, or only a
-> single global file in qemu_log_set_internal() in the
-> opposite case.
-> 
-> The goal of this patch is to go through the `In case we
-> are a daemon redirect stderr to logfile` logic, so that
-> other users of stderr, aka. error_report(), can benefit
-> from it as well. Since this is only done for the global
-> file, the logic was changed to : _main_ thread to always
-> use the global file and other threads to use the per-thread
-> file.
-> 
-> I now realize how terrible a choice this is. It violates
-> the current logic too much and brings new problems like
-> "how to identify the main thread"...
-
-snip
-
-> > I would have thought that this was the only change required -- ignoring qemu_loglevel when 
-> > daemonized.
-> > 
-> 
-> I was thinking the same at first, but this ended up in the
-> global file being open with a filename containing a '%d'...
-> I chose the direction of doing the g_strdup_printf() trick
-> for the global file as well but then I had to make sure
-> that qemu_log_trylock() wouldn't try later to open the same
-> file, hence the _main_ thread check...
-> 
-> The question is actually : where stderr should point to in
-> the '-daemonize -D foo%d.log -d tid` case ?
-
-I'm tending towards thinking the question is wrong, because
-it is imposing semantics on -D that it was never designed to
-address.
-
-The '-d' option enables logging in QEMU, primary for things
-related to TCG. By default that logging goes to stderr, but
-it can be sent to 1 or mnay files, using -D. IOW, -D is NOT
-about controlling where stderr/out is connected. It is
-about where TCG logging goes.
-
-
-Separately, IIUC, you found that when using -daemonize any
-error_report() messages end up in the void, because stderr
-is connected to /dev/null.
-
-This patch is thus attempting to repurpose -D as a way to
-say where error_report() messages end up with daemonized,
-and this creates the complexity  because -D was never
-intended to be a mechanism to control stderr or error_report
-output.
-
-If we want to connect stdout/err to something when daemonized
-then lets either have a dedicated option for that, or simply
-tell apps not to use -daemonize and to take care of daemonzing
-themselves, thus having full control over stdout/err. The latter
-is what libvirt uses, because we actually want stderr/out on a
-pipe, not a file, in order to enforce rollover.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+When virtio_net_flush_tx() reaches the tx_burst value all the queue is=0D
+not flushed and nothing restart the timer or the bottom half function.=0D
+=0D
+For BH, this is only missing in the virtio_net_tx_complete() function.=0D
+For the timer, the same fix is needed in virtio_net_tx_complete() but=0D
+it must be also managed in the TX timer function.=0D
+=0D
+v3:=0D
+- keep "}=C2=A0else {"=0D
+=0D
+v2:=0D
+- fix also tx timer=0D
+=0D
+Laurent Vivier (2):=0D
+  virtio-net: fix bottom-half packet TX on asynchronous completion=0D
+  virtio-net: fix TX timer with tx_burst=0D
+=0D
+ hw/net/virtio-net.c | 59 +++++++++++++++++++++++++++++++++++++++------=0D
+ 1 file changed, 51 insertions(+), 8 deletions(-)=0D
+=0D
+-- =0D
+2.37.3=0D
+=0D
 
