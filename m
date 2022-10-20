@@ -2,98 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 088596057B8
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 08:56:18 +0200 (CEST)
-Received: from localhost ([::1]:46662 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2612B6057C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 08:57:47 +0200 (CEST)
+Received: from localhost ([::1]:43842 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olPTD-0007V5-Ga
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 02:56:12 -0400
-Received: from [::1] (port=48462 helo=lists1p.gnu.org)
+	id 1olPUv-0000L8-Sv
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 02:57:45 -0400
+Received: from [::1] (port=48472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olPSf-0006wU-Nz
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 02:55:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44488)
+	id 1olPT5-00070O-4X
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 02:55:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1olPA3-0003Rf-Ia
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 02:36:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20635)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1olPAR-0003Tw-Rf
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 02:36:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1olP9v-0005eu-Vy
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 02:36:10 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1olPAQ-0005i1-C2
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 02:36:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666247762;
+ s=mimecast20190719; t=1666247792;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/zf+o6/K3fbMORDx/HrhbLq0wLj3t4PGPCXuWR06Cnw=;
- b=JY/2zBYCQZbAwbym5YCsgKdDZV5+oDOqmcEdi62Z49FQ9adGzmEdbHgJ7wArziI8pqhc6W
- qtJf9ASaqzopaQ+VCq0+ABJ5GLeXRFKG+fK04fN6QmLWGVjO9mErkmysSmAovBystG7B1N
- ADL8IRQ2C/ACJjSWtyKaVEmnzTm1qBg=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=2kRBbbX5B002JvDjBdtsKCnptQ4/G16BokJ88dvvDa0=;
+ b=ivYhF0bucOT+8VCBjpc5Hmqyfk2/oC3afEjznSrWxgKMOgNuCKULef5TarZ9q+KGT1PvjM
+ UP2AOVkmTm+kUGtVgZuzgnNFbjTrkeuPgKh+VgGGAiW6Arr9T0jy/dqP4fn20Vk9rTk3PZ
+ okDHGewwdT1dbOXuGKzrCUWVBPBPGLk=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-444-H2ec6aGoOQGWDKE-hTfN5w-1; Thu, 20 Oct 2022 02:36:01 -0400
-X-MC-Unique: H2ec6aGoOQGWDKE-hTfN5w-1
-Received: by mail-pf1-f197.google.com with SMTP id
- cu10-20020a056a00448a00b00562f2ff1058so10753829pfb.23
- for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 23:36:01 -0700 (PDT)
+ us-mta-456-wDh69GMSNOiA2nzWLUbJ3g-1; Thu, 20 Oct 2022 02:36:31 -0400
+X-MC-Unique: wDh69GMSNOiA2nzWLUbJ3g-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ o13-20020a05620a2a0d00b006cf9085682dso16442552qkp.7
+ for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 23:36:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/zf+o6/K3fbMORDx/HrhbLq0wLj3t4PGPCXuWR06Cnw=;
- b=Aw+csItefYu8fJoL4Xx0wg2PF0N9k7L7WUc0QUO28iG6GQdwbS2I3nxsuEui7WCHIr
- Oejv7vfq5G+VFv+vg9s9btguicosTJE/odoJ65KOH9URaPdxanV2JHC0RhbEAPhWxxaZ
- B3BkGQ2J6aH5xX4EQA02/8VGJg+OEEqfa5HJ0T01wBZ1O2lumtum9zyGMcdryeGjq5ab
- H6qmomqmhDNu2iJBQrYAott9Tx4bEqPcdvSkud12NGYAkuefO/OgUJQkKD226J7x3Rub
- SIvOP+VyShufH8Tc/YcdCwQw61yWDDuco3KlG3Rb9iLsuNWrKOgoEBmWcqSF6OR9QOim
- iC3g==
-X-Gm-Message-State: ACrzQf3lbELmYUzUeEfQ5f37DQxFRcCQ4Qs3t+lx4262zi4Fw3sxDdL/
- ScQj7y+pRGqj2oTIEm45/46ZDbyyumYKB+p+z7qmtX6VhZ8MXRvAfqCyk1yTlS3YV/cTvrmDhBV
- N9nhRm5CvnzEPRpubTtNofeZ6Rf0G/FM=
-X-Received: by 2002:a17:90b:190c:b0:211:ab56:35e6 with SMTP id
- mp12-20020a17090b190c00b00211ab5635e6mr2659774pjb.159.1666247760251; 
- Wed, 19 Oct 2022 23:36:00 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5fURNG8W/QvpklVOFHdW+bMI+l6XBXCFT9JHpoKxyIfnjbhwYf0N6hFJiRBzc9yqs6sGACSzkKjovNgXdpnsg=
-X-Received: by 2002:a17:90b:190c:b0:211:ab56:35e6 with SMTP id
- mp12-20020a17090b190c00b00211ab5635e6mr2659740pjb.159.1666247759992; Wed, 19
- Oct 2022 23:35:59 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2kRBbbX5B002JvDjBdtsKCnptQ4/G16BokJ88dvvDa0=;
+ b=ABxNppXcXgN2EECF3PObJvqwlUis8Mmm6Yv0A89UANATYZfkh0uS18evEHY39+WrHU
+ Qnkcq1DOzLidHkHKJa4Y7yoGia74vGMq1u9AiiPcxTjtWnGhPxxlqvv9ARWtkfhc1m2E
+ d7XE9zwethuH3bPfCkgmciHpgeL/Oao8spG8CAKT0fTzM26zpnGQlBhSGNOdF96h4wLF
+ O8DSFz/oxmuic+tFESiQ8Xrl7pr3ivFfyD8j/F5XhFLVAIUmwtX3DJpZBf4LnZ/BNWU+
+ 9qbkOPGEWMY2ZK62YfR6eN4aMPd4fzP2xXJQrMQ0gnfK1B1IZX5VijUYcl5YunCI381s
+ nekw==
+X-Gm-Message-State: ACrzQf35/L72MxfIpPzXp4hsNwxk+9r6GHg3+SuvqfQrqVu/LhL+EHIQ
+ edL+djoIOX8wqng/vXXqoWNosPZXOYyRUvTiBcDnJ66FM9rPkBYFqMvewsUkVDIKZsHDwBagMpU
+ uyO0bEaRvNHJ9D0E=
+X-Received: by 2002:a05:6214:d4b:b0:4b1:80eb:64e2 with SMTP id
+ 11-20020a0562140d4b00b004b180eb64e2mr9932927qvr.123.1666247791241; 
+ Wed, 19 Oct 2022 23:36:31 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5HotGjXbGADOVL39axLzTwboWGapVXuVoD9Oxv1XGr1aCgURvjAWkgyj8QK6AbrkLZLotusg==
+X-Received: by 2002:a05:6214:d4b:b0:4b1:80eb:64e2 with SMTP id
+ 11-20020a0562140d4b00b004b180eb64e2mr9932920qvr.123.1666247791080; 
+ Wed, 19 Oct 2022 23:36:31 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-177-247.web.vodafone.de.
+ [109.43.177.247]) by smtp.gmail.com with ESMTPSA id
+ ay40-20020a05620a17a800b006bb78d095c5sm6427970qkb.79.2022.10.19.23.36.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Oct 2022 23:36:30 -0700 (PDT)
+Message-ID: <a2ec5f5e-925c-59da-d685-b04d8e57d6b3@redhat.com>
+Date: Thu, 20 Oct 2022 08:36:26 +0200
 MIME-Version: 1.0
-References: <20221019125210.226291-1-eperezma@redhat.com>
- <20221019125210.226291-4-eperezma@redhat.com>
- <CACGkMEtTG1YnqtTWs_1feAfdL=m9tiJxGX118fDCTUd2onPnPg@mail.gmail.com>
-In-Reply-To: <CACGkMEtTG1YnqtTWs_1feAfdL=m9tiJxGX118fDCTUd2onPnPg@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 20 Oct 2022 08:35:23 +0200
-Message-ID: <CAJaqyWfOADNwUXCLcqr0MpJSdndXheni60vMH3PVc1C9qQt8Ug@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 3/8] vhost_net: Emulate link state up if backend
- doesn't expose it
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel@nongnu.org, Zhu Lingshan <lingshan.zhu@intel.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>,
- Stefano Garzarella <sgarzare@redhat.com>, 
- Si-Wei Liu <si-wei.liu@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Cindy Lu <lulu@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Eli Cohen <eli@mellanox.com>, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>, 
- Gautam Dawar <gdawar@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] MAINTAINERS: target/s390x/: add Ilya as reviewer
+Content-Language: en-US
+To: Christian Borntraeger <borntraeger@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-s390x <qemu-s390x@nongnu.org>,
+ Cornelia Huck <cohuck@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>
+References: <20221019125640.3014143-1-borntraeger@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20221019125640.3014143-1-borntraeger@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
 X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,96 +108,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 20, 2022 at 6:30 AM Jason Wang <jasowang@redhat.com> wrote:
->
-> On Wed, Oct 19, 2022 at 8:52 PM Eugenio P=C3=A9rez <eperezma@redhat.com> =
-wrote:
-> >
-> > At this moment this code path is not reached, but vdpa devices can offe=
-r
-> > VIRTIO_NET_F_STATUS unconditionally.
->
-> So I guess what you mean is that, for the parent that doesn't support
-> VIRTIO_NET_F_STATUS, emulate one for making sure the ANNOUCNE to work.
-> This is safe since the spec said the driver will assume the link is
-> always up if without this feature.
->
+On 19/10/2022 14.56, Christian Borntraeger wrote:
+> Ilya has volunteered to review TCG patches for s390x.
+> 
+> Signed-off-by: Christian Borntraeger <borntraeger@linux.ibm.com>
+> ---
+>   MAINTAINERS | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index e3d5b7e09c46..ae5e8c8ecbb6 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -305,6 +305,7 @@ F: target/rx/
+>   S390 TCG CPUs
+>   M: Richard Henderson <richard.henderson@linaro.org>
+>   M: David Hildenbrand <david@redhat.com>
+> +R: Ilya Leoshkevich <iii@linux.ibm.com>
+>   S: Maintained
+>   F: target/s390x/
+>   F: target/s390x/tcg
 
-Right.
+Thanks, queued to my s390x-next branch:
 
-> > While the guest must assume that
-> > link is always up by the standard, qemu will set the status bit to 1
-> > always in this case.
-> >
-> > This makes little use by itself, but VIRTIO_NET_F_STATUS is needed for
-> > the guest to read status bit VIRTIO_NET_F_GUEST_ANNOUNCE, used by featu=
-re
-> > VIRTIO_NET_F_GUEST_ANNOUNCE. So qemu must emulate status feature in cas=
-e
-> > it needs to emulate the guest announce feature.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >  hw/net/vhost_net.c | 27 ++++++++++++++++++++++++++-
-> >  1 file changed, 26 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> > index d28f8b974b..5660606c1d 100644
-> > --- a/hw/net/vhost_net.c
-> > +++ b/hw/net/vhost_net.c
-> > @@ -117,7 +117,32 @@ uint64_t vhost_net_get_features(struct vhost_net *=
-net, uint64_t features)
-> >  int vhost_net_get_config(struct vhost_net *net,  uint8_t *config,
-> >                           uint32_t config_len)
-> >  {
-> > -    return vhost_dev_get_config(&net->dev, config, config_len, NULL);
-> > +    VirtIODevice *vdev;
-> > +    int r =3D vhost_dev_get_config(&net->dev, config, config_len, NULL=
-);
-> > +
-> > +    if (unlikely(r !=3D 0)) {
-> > +        return r;
-> > +    }
-> > +
-> > +    if (config_len < endof(struct virtio_net_config, status)) {
-> > +        return 0;
-> > +    }
-> > +
-> > +    /*
-> > +     * TODO: Perform this only if vhost_vdpa.
-> > +     */
->
-> Cindy adds some mediation codes for vhost-vDPA in
-> virtio_net_get_config(), so I believe it can be done there?
->
+  https://gitlab.com/thuth/qemu/-/commits/s390x-next/
 
-Sure, let me take a look.
-
-Thanks!
-
-
-> Thanks
->
-> > +    vdev =3D net->dev.vdev;
-> > +    if (!vdev) {
-> > +        /* Device is starting */
-> > +        return 0;
-> > +    }
-> > +
-> > +    if ((net->dev.acked_features & BIT_ULL(VIRTIO_NET_F_STATUS)) &&
-> > +        !(net->dev.features & BIT_ULL(VIRTIO_NET_F_STATUS))) {
-> > +        ((struct virtio_net_config *)config)->status |=3D VIRTIO_NET_S=
-_LINK_UP;
-> > +    }
-> > +
-> > +    return 0;
-> >  }
-> >  int vhost_net_set_config(struct vhost_net *net, const uint8_t *data,
-> >                           uint32_t offset, uint32_t size, uint32_t flag=
-s)
-> > --
-> > 2.31.1
-> >
->
+  Thomas
 
 
