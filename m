@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19C0F6060A5
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 14:54:18 +0200 (CEST)
-Received: from localhost ([::1]:60284 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21A9160619B
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 15:26:51 +0200 (CEST)
+Received: from localhost ([::1]:38896 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olV3w-0007H1-0t
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 08:54:16 -0400
+	id 1olVZ5-000488-3K
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 09:26:31 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olUeg-0008CM-Ur
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 08:28:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40860)
+	id 1olVA4-0007Qt-Hs
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 09:00:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1olTSR-0001Il-6W
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:11:40 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:55932)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1olTSO-0006MQ-OD
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:11:26 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id pb15so2554199pjb.5
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 04:11:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=VCZWsqsu6fjEvhahnftVcpOUSipC948bVV6H7O0gHoc=;
- b=D2fYt5Vlrk1nKlyl0sBsGKpQk+49JxIwk9xF6BX+j83yPqdg6LdAY3RWtqpzKdX8Sf
- Q5Np+oNuH1flN1iaJoRbK4mKo44yW6L37TfTPYeiVPJFCnGnW6jY/wZPWBQ5u8QGw1lv
- o944yHkS0enidUovgcJOn4lWaD/3FUP/lW0fQPHtp4PVfbvulh4HsdnjYnrLUzOvT00G
- C1US0ByE89xhT9pyA/+8i7Ul2BUYxUBTLMMlEhi01e/BPiOFk5Bow8YEBtO/e9ApOZcp
- OZJojKm9pZRcnHVeSaOELKYdJhAE9NkU6XE3i2OCdYB5+BUImkdtjmovy0qvnBdqCMx9
- KWcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=VCZWsqsu6fjEvhahnftVcpOUSipC948bVV6H7O0gHoc=;
- b=nZFKdPOCLouMk2r9UVA91xwwK9Nb7s+wf6t1Shh2oYGuIGBIcdQUFvB46d0/eUJ9D1
- 4oFSix6IRsZm1tmEdwSGCRpw+E4NQ/Hzite+wFApPM/UrC25LBKGjLfbvk8QLwXVyDbh
- fcTKZR/kc06p4ac2FtKgryobRRRSe3KVZPvhCGQxXRoj7OvSd2GimeI9kBXXnk95ef9m
- hoEAxNBbnTXZG7vDAj6LwvjZJvlGwk6vc0rBgKSPIpaFTjp8xgqstV77wS6St/1f/iq0
- eSZrKIA1L+EEGMeRyRfP38TpRXRXunfi9aEecOs8pM+FE1Aln2IO2U9vyxkdubio3GBt
- 6ZvQ==
-X-Gm-Message-State: ACrzQf3WO3W5VPI0Uh9bAjzlGonEp6va+/Zyn1Kmagg1nohTfBggJ9wz
- QQy5MlPOAtVVQWG8khAypj7JLr8QWZ1I4hdEntSsbw==
-X-Google-Smtp-Source: AMsMyM5aWEIcGu5fzD9EfXSjSbMtdio4Kcz+XAJYs+RTZL31gNts781g+sH1rLlClRIZArLXs0gO603/BWoqGByNCOM=
-X-Received: by 2002:a17:90a:fe92:b0:20a:daaf:75ea with SMTP id
- co18-20020a17090afe9200b0020adaaf75eamr49910015pjb.221.1666264283189; Thu, 20
- Oct 2022 04:11:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1olTUl-0003bB-Qy
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:13:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27462)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1olTUh-0006qU-P2
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:13:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666264420;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Icpr9TIKW3pdbwf7eBbyJZbn19syVkSVZM9f8vHXz7E=;
+ b=I14MvK6OuDcsSjway2CaxzNr2iWDt/hKxELlwsBCiOVUAljtddoR9BClC63irMJAq456b4
+ v7Q6asvtKos4YKeDW/smCv1gUFGWXctIeAzVxM2sTkXDIHQJ9cBUaao7g5pRqvUywl/CuW
+ c0mhRHsTcEeHHXCN0AkSpm/jYeADseA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-130-mmHrmiQsOJu_ndMsSvUcIg-1; Thu, 20 Oct 2022 07:13:35 -0400
+X-MC-Unique: mmHrmiQsOJu_ndMsSvUcIg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 05DF01017E6D;
+ Thu, 20 Oct 2022 11:13:29 +0000 (UTC)
+Received: from [10.64.54.70] (vpn2-54-70.bne.redhat.com [10.64.54.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 585F049BB60;
+ Thu, 20 Oct 2022 11:13:20 +0000 (UTC)
+Subject: Re: [PATCH v5 6/6] hw/arm/virt: Add 'compact-highmem' property
+To: Marc Zyngier <maz@kernel.org>
+Cc: eric.auger@redhat.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ cohuck@redhat.com, zhenyzha@redhat.com, richard.henderson@linaro.org,
+ peter.maydell@linaro.org, shan.gavin@gmail.com
+References: <20221011231832.149839-1-gshan@redhat.com>
+ <20221011231832.149839-7-gshan@redhat.com>
+ <9a43b31a-63d7-d312-870d-168df1b41921@redhat.com>
+ <6566e453-9b05-7092-f112-ea9e523be8b4@redhat.com>
+ <865ygeg77q.wl-maz@kernel.org>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <e21444e9-f7b4-1006-7a2d-ca36afcdfde2@redhat.com>
+Date: Thu, 20 Oct 2022 19:13:17 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-References: <20221013082854.878546-1-gaosong@loongson.cn>
-In-Reply-To: <20221013082854.878546-1-gaosong@loongson.cn>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 20 Oct 2022 12:11:11 +0100
-Message-ID: <CAFEAcA892O19UEBgx528G4WyGdHY2G-u4=RYKha-vGHmfdrFVQ@mail.gmail.com>
-Subject: Re: [RISU PATCH v2 0/5] Add LoongArch architectures support
-To: Song Gao <gaosong@loongson.cn>
-Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org, 
- alex.bennee@linaro.org, maobibo@loongson.cn
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <865ygeg77q.wl-maz@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,35 +89,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Gavin Shan <gshan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 13 Oct 2022 at 09:28, Song Gao <gaosong@loongson.cn> wrote:
->
-> hi,
->
-> This series adds LoongArch architectures support, we had tested two
-> mode:
-> 1. LoongArch host server +  LoongArch host client;
-> 2. LoongArch host server  + qemu client.
->
-> You can find all LoongArch instructions at [1].
-> This series not contains all LoongArch instructions,
-> such as pcadd, syscalls, rdtime and jumps.
->
-> [1]:
-> https://github.com/loongson/LoongArch-Documentation/releases/download/2022.08.12/LoongArch-Vol1-v1.02-EN.pdf
->
-> V2:
->
-> - rewrite write_mov_ri();
-> - get_risuop return a RisuOp;
-> - test again with 1 million instructions.
+Hi Marc,
 
-Thanks; I've applied this to risu git. It looks like you didn't
-fix the get_risuop return type, so I made that trivial change
-when I applied the patches.
+On 10/20/22 5:44 PM, Marc Zyngier wrote:
+> On Thu, 20 Oct 2022 00:57:32 +0100,
+> Gavin Shan <gshan@redhat.com> wrote:
+>>
+>> For Marc's suggestion to add properties so that these high memory
+>> regions can be disabled by users. I can add one patch after this one
+>> to introduce the following 3 properties. Could you please confirm
+>> the property names are good enough? It's nice if Marc can help to
+>> confirm before I'm going to work on next revision.
+>>
+>>      "highmem-ecam":    "on"/"off" on vms->highmem_ecam
+>>      "highmem-mmio":    "on"/"off" on vms->highmem_mmio
+>>      "highmem-redists": "on"/"off" on vms->highmem_redists
+> 
+> I think that'd be reasonable, and would give the user some actual
+> control over what gets exposed in the highmem region.
+> 
+> I guess that the annoying thing with these options is that they allow
+> the user to request conflicting settings (256 CPUs and
+> highmem-redists=off, for example). You'll need to make this fail more
+> or less gracefully.
+> 
 
-thanks
--- PMM
+Thanks for the quick confirm. The check is already existing in machvirt_init().
+I think what we need is simply to calculate 'virt_max_cpus' with consideration
+to 'highmem-redists' property there.
+
+     if (max_cpus > virt_max_cpus) {
+         error_report("Number of SMP CPUs requested (%d) exceeds max CPUs "
+                      "supported by machine 'mach-virt' (%d)",
+                      max_cpus, virt_max_cpus);
+         exit(1);
+     }
+
+Thanks,
+Gavin
+
 
