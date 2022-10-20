@@ -2,103 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2183560651E
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 17:54:55 +0200 (CEST)
-Received: from localhost ([::1]:41708 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 159026065F2
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 18:38:38 +0200 (CEST)
+Received: from localhost ([::1]:45060 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olXsj-0004Bb-MS
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 11:54:53 -0400
+	id 1olYZ2-000158-QN
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:38:37 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olXsE-00072A-FL
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 11:54:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34484)
+	id 1olYG1-0002Rw-NB
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:18:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mathbern@qualcomm.com>)
- id 1olXPB-0006lu-CQ
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 11:24:21 -0400
-Received: from mx0a-0031df01.pphosted.com ([205.220.168.131]:57690)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mathbern@qualcomm.com>)
- id 1olXOy-0007wV-BP
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 11:24:20 -0400
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29KBFNfB007547;
- Thu, 20 Oct 2022 15:24:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=qcppdkim1;
- bh=AFBW3OHn8a+TSS8ZY8+IYAWjiVEQdFMLRvJOOsZY3Ms=;
- b=gap9DxcX9L49nnLt6tjvzcZD8o06lEye+bROcFBHywhTUxwSKzqvoYpeWJMHll/m50Hd
- K1+mb/nXfWD281Tz9N9ivvMaGxz9TlvmcFq4iy6ZOMvNNCvJkpetFOIaRVWBXGOSWmgy
- omDs6Gu0p8NmlKeAQsV+zPZ3fA34Xpao4L4AMDY8kA7XqhAzFNi1NFbJs2+Lz9iUzTrk
- crPGwzPHBky+k0hh0Hoy9yXYi+1mte1sRVpEi0XdK4tPe8DlMBPwX7YN3H1rzi6GBff3
- /3u90cSpfzMAzZVC4Ou4mOHSLnNThsI9Jp5i67lGu4xZyA4ztghrcTwddoANbxNBHR1f zA== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kavfm1tc9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Oct 2022 15:24:01 +0000
-Received: from pps.filterd (NALASPPMTA02.qualcomm.com [127.0.0.1])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 29KFO0YC009447; 
- Thu, 20 Oct 2022 15:24:00 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by NALASPPMTA02.qualcomm.com (PPS) with ESMTPS id 3kam2fn558-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Oct 2022 15:24:00 +0000
-Received: from NALASPPMTA02.qualcomm.com (NALASPPMTA02.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29KFO0EM009438;
- Thu, 20 Oct 2022 15:24:00 GMT
-Received: from hu-devc-sd-u20-a-1.qualcomm.com (hu-mathbern-lv.qualcomm.com
- [10.47.235.147])
- by NALASPPMTA02.qualcomm.com (PPS) with ESMTPS id 29KFO00j009415
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Oct 2022 15:24:00 +0000
-Received: by hu-devc-sd-u20-a-1.qualcomm.com (Postfix, from userid 4229910)
- id 3A8B85195; Thu, 20 Oct 2022 12:24:00 -0300 (-03)
-From: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-To: tsimpson@quicinc.com
-Cc: ale@rev.ng, anjo@rev.ng, bcain@quicinc.com, philmd@linaro.org,
- qemu-devel@nongnu.org, quic_mathbern@quicinc.com,
- richard.henderson@linaro.org
-Subject: Re: [PATCH 6/8] Hexagon (target/hexagon) Add overrides for various
- forms of jump
-Date: Thu, 20 Oct 2022 12:23:57 -0300
-Message-Id: <3957bd3b267ea26ae687510d73736f6a80c30d99.1666270633.git.quic_mathbern@quicinc.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20221019223739.3868-7-tsimpson@quicinc.com>
-References: <20221019223739.3868-7-tsimpson@quicinc.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1olUDQ-0000bj-7f
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:00:19 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:46846)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1olUDN-000503-RO
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:59:59 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id bk15so33980440wrb.13
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 04:59:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=SzAr/vuWvX+J4SSUaSRUOc+zGR29CAkOND/bkbQMiUQ=;
+ b=mvwiiFMvQJxQobAJYz7KTLbaYctl3coppazsCf/2J29RTKJQxwSg4zeKFo9rkXqLEY
+ V4EOyS+JQjMT+aJFRkYElbhRVRPXXv9N6niaT9av77uP05r6D1dBMCpSab6Vyzzqh2qo
+ eRcE/rD5uU8aUY/hIleDERWfKpx0a0vfGQmRv9i5gwObxfCZYAqoOnOtlJSMD0xx1Y4I
+ znNjL0g/4h1JO+MmLru3gk9sFpkPI900QNhm2V28tKRqAwNKKjl3OojIDeA2oJ3hepTW
+ zUq9y1lNs6K6FAU373sJCXbfjXAXN58WESA8GJ9n0uXern54axI9aaHRpZtsO2XdV9PV
+ yf7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=SzAr/vuWvX+J4SSUaSRUOc+zGR29CAkOND/bkbQMiUQ=;
+ b=lvL/fX7X8DFC5BaO+K2ehhk7yCEUkIuHCx7GeUwViX2U3fWlvSQFLmJ8NDGyqWOeSS
+ ev6OcIt7CqGFC1dK0J7+wUCuuQnCkoMADQRZqVH3J0kUGHj8VLKpTwUea+PGUXwqjwKN
+ tQGj1xK27cnwAxGfuv4JgyM10hC12BF2warkNYf61q/e9WlpoIpUWNzUoCA/giVpdF66
+ AmTYcOpLtepRKs1n4GI22Dfijh8AzuEVC5SErjhAzzFpeVZu4+DuCwrbtmpTIqPfeoP2
+ 7PRxRrRPaCXlgy8JnSgLCLXURt7IA9qYSF6NKtdVedMPDvmeWfCysrps6vMZxTKbDnpa
+ 0zxw==
+X-Gm-Message-State: ACrzQf10ObH/YaIm3vmmeJEDmxmWTqIdoBXYXiEbAbw8D3Ct8zPd2Dtj
+ NPegncPn0zCdQJfLQs4OKRzSAg==
+X-Google-Smtp-Source: AMsMyM7J2ZghDCEakN+dqCHR1VbDBFdv52163Bh6CIiFFLW5iU6HCl58DrR4zSuzWnL/cX+Zzb+vgA==
+X-Received: by 2002:adf:d4c3:0:b0:22e:326f:e8ef with SMTP id
+ w3-20020adfd4c3000000b0022e326fe8efmr7817002wrk.242.1666267197006; 
+ Thu, 20 Oct 2022 04:59:57 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ e9-20020a5d5009000000b0022e3d7c9887sm16091124wrt.101.2022.10.20.04.59.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Oct 2022 04:59:54 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 881651FFC7;
+ Thu, 20 Oct 2022 12:52:11 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
+ pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH  v3 16/26] MAINTAINERS: add features_to_c.sh to gdbstub files
+Date: Thu, 20 Oct 2022 12:51:59 +0100
+Message-Id: <20221020115209.1761864-17-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221020115209.1761864-1-alex.bennee@linaro.org>
+References: <20221020115209.1761864-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: Db5kTclqd-4YcgP7lNImV3CQGGjv82rC
-X-Proofpoint-ORIG-GUID: Db5kTclqd-4YcgP7lNImV3CQGGjv82rC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-20_06,2022-10-20_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 malwarescore=0
- spamscore=0 lowpriorityscore=0 priorityscore=1501 mlxlogscore=637
- impostorscore=0 bulkscore=0 clxscore=1011 mlxscore=0 adultscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210200091
-Received-SPF: pass client-ip=205.220.168.131;
- envelope-from=mathbern@qualcomm.com; helo=mx0a-0031df01.pphosted.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,93 +101,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Taylor Simpson <tsimpson@quicinc.com> wrote:
-> diff --git a/target/hexagon/gen_tcg.h b/target/hexagon/gen_tcg.h
-> index b56b216110..dbafcae2de 100644
-> --- a/target/hexagon/gen_tcg.h
-> +++ b/target/hexagon/gen_tcg.h
->
-> +#define fGEN_TCG_J4_cmplt_f_jumpnv_t(SHORTCODE) \
-> +    gen_cmp_jumpnv(ctx, pkt, TCG_COND_GE, NsN, RtV, riV)
-> +#define fGEN_TCG_J4_cmplt_f_jumpnv_nt(SHORTCODE) \
-> +    gen_cmp_jumpnv(ctx, pkt, TCG_COND_GE, NsN, RtV, riV)
-> +
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-Nitpick: any reason not to place these two !COND variants...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6a6f4d62bd..0f4c50e8eb 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2693,6 +2693,7 @@ F: gdbstub/*
+ F: include/exec/gdbstub.h
+ F: gdb-xml/
+ F: tests/tcg/multiarch/gdbstub/
++F: scripts/feature_to_c.sh
+ 
+ Memory API
+ M: Paolo Bonzini <pbonzini@redhat.com>
+-- 
+2.34.1
 
-> +
-> +#define fGEN_TCG_J4_cmplt_t_jumpnv_t(SHORTCODE) \
-> +    gen_cmp_jumpnv(ctx, pkt, TCG_COND_LT, NsN, RtV, riV)
-> +#define fGEN_TCG_J4_cmplt_t_jumpnv_nt(SHORTCODE) \
-> +    gen_cmp_jumpnv(ctx, pkt, TCG_COND_LT, NsN, RtV, riV)
-> +
-
-...below these COND variants, like you did in the other insns?
-
-> diff --git a/target/hexagon/genptr.c b/target/hexagon/genptr.c
-> index 6e494c0bd8..fba76d3b38 100644
-> --- a/target/hexagon/genptr.c
-> +++ b/target/hexagon/genptr.c
-> @@ -456,6 +456,35 @@ static TCGv gen_8bitsof(TCGv result, TCGv value)
->      return result;
->  }
->  
-> +static void gen_write_new_pc_addr(DisasContext *ctx, Packet *pkt,
-> +                                  TCGv addr, TCGv pred)
-> +{
-> +    TCGLabel *pred_false = NULL;
-> +    if (pkt->pkt_has_multi_cof) {
-> +        if (pred != NULL) {
-> +            pred_false = gen_new_label();
-> +            tcg_gen_brcondi_tl(TCG_COND_EQ, pred, 0, pred_false);
-> +        }
-> +        /* If there are multiple branches in a packet, ignore the second one */
-> +        tcg_gen_movcond_tl(TCG_COND_NE, hex_gpr[HEX_REG_PC],
-> +                           hex_branch_taken, tcg_constant_tl(0),
-> +                           hex_gpr[HEX_REG_PC], addr);
-> +        tcg_gen_movi_tl(hex_branch_taken, 1);
-> +        if (pred != NULL) {
-> +            gen_set_label(pred_false);
-> +        }
-> +    } else {
-> +        if (pred != NULL) {
-> +            pred_false = gen_new_label();
-> +            tcg_gen_brcondi_tl(TCG_COND_EQ, pred, 0, pred_false);
-> +        }
-> +        tcg_gen_mov_tl(hex_gpr[HEX_REG_PC], addr);
-> +        if (pred != NULL) {
-> +            gen_set_label(pred_false);
-> +        }
-> +    }
-
-Another nitpick: we could possibly extract the common code out of the
-if-else branches for clarity (but note my other comment about this
-function at patch 7):
-
-static void gen_write_new_pc_addr(DisasContext *ctx, Packet *pkt,
-                                  TCGv addr, TCGv pred)
-{
-    TCGLabel *pred_false = NULL;
-    if (pred != NULL) {
-        pred_false = gen_new_label();
-        tcg_gen_brcondi_tl(TCG_COND_EQ, pred, 0, pred_false);
-    }
-    if (pkt->pkt_has_multi_cof) {
-        /* If there are multiple branches in a packet, ignore the second one */
-        tcg_gen_movcond_tl(TCG_COND_NE, hex_gpr[HEX_REG_PC],
-                           hex_branch_taken, tcg_constant_tl(0),
-                           hex_gpr[HEX_REG_PC], addr);
-        tcg_gen_movi_tl(hex_branch_taken, 1);
-    } else {
-        tcg_gen_mov_tl(hex_gpr[HEX_REG_PC], addr);
-    }
-    if (pred != NULL) {
-        gen_set_label(pred_false);
-    }
-}
-
-> -- 
->2.17.1
-
-The rest of the patch LGTM.
 
