@@ -2,85 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C0D46065D7
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 18:32:21 +0200 (CEST)
-Received: from localhost ([::1]:42490 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 972EB6066A1
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 19:03:03 +0200 (CEST)
+Received: from localhost ([::1]:55590 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olYSx-0000EN-4m
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:32:19 -0400
+	id 1olYwY-0006sw-Mm
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:02:56 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olYOr-000601-Nj
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:28:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39000)
+	id 1olYt1-0004oy-KB
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:59:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1olUYx-0001Sp-NE
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:22:23 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:45870)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1olUme-0008Mc-A1
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:36:27 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:39487)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1olUYm-00011E-AN
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:22:05 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- l16-20020a05600c4f1000b003c6c0d2a445so2031891wmq.4
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 05:22:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1olUmc-00078c-M2
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:36:24 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id d10so20136011pfh.6
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 05:36:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=M8RG143PJXPQVf539pt3PLUS07qWkCCSapBYXnZhIwQ=;
- b=Xa8Wnmn6eBqUQhWBKMQYmu5vIV9UI8KV6IexR8lc8AMwzzJDMyLzEl6oWc0inMobIc
- YvdfwEo86/GjXFAoLdnEmz3Ba3ybKMhHvWS2TOKELvL5zPSTOC1Csiye0+764ykc08+i
- 2QfCKHKQTZvKI3+yJrx7MWTImxC9iOy+7+rgPZ8yvjfwJELi852wzVJMjHzXx/v6Z4cn
- iWjDQumvKv2+RHFnHv4XAdysT7mdzLmrSZjaQBMnFk2bI8Ltreme98g0lOND5WlrSqiX
- ky6XIePVv3SMAdEM4+yHYQfUWeWJCdoXriAOUijNCAgvsczMWRA8Ov2ZlMhTIAoVtFDd
- G4Gg==
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=BudlTvOWerERuhN9firEtF5P6oWWwNEC+Zk0jHYYDxg=;
+ b=3lCHgNxQqAOmQaurGxILu1sBAAJRl26NdKA1teEnlmEot00VB0dnh8j3CwQ/MnrJgo
+ HjqnGlB0gtpMWPpMptLop7RwPnRzkYDw2HybyJo+vRq7Z0+Es1LRTQdsMYvwDY7EybHP
+ cm3ttykUqj8un3/Xcw8X+Z46WA4iAYt8tS0aCTnd613jNVnjZbSML0M8NYi3zT56W0RM
+ rBWW0I6PkJt5oZm9l35CbeyJfEDF7mAStm2vXzHpGvQRa5oyylNoiQdvfD5pGtr0lst5
+ 92nV/fdc+q/kIMCCJ5rP/nx78nxfvm6j27sWiABp6NZCc/eZkPpvbntI0ye8BQsy9JPr
+ U/RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=M8RG143PJXPQVf539pt3PLUS07qWkCCSapBYXnZhIwQ=;
- b=WBG/R1ENiqcFHEeBkEWVxNV4UhSvji2G4GHnqY7qTGhX8EmUUbceQDo3yyDbLLPCIE
- WyPqa2jqxD3UnVESJRQ69FLAbtfnhWcYDwblyVYwhNDw6sDZw4cWOPzpS3VG/L4T0BjF
- g1pPzCn+a8rxcB8pWLyS42ke3UKMH9FURb+fUdl2rNUq18nr6GKeVq3KGObTodJto35i
- Vg6Sj/QL++ePvpURV/wtsox1WGy2LAkQbTJP/1RhXrFmj7DjdS7rjSUfh5dh05wnQsme
- u/J7II9Izge9GVDMsGSSS44qHfW0U02vdC6CZzSjZZFtoqeLDVmMsU0DmGULgMemQ1c6
- X0lA==
-X-Gm-Message-State: ACrzQf0zB5jsE91Ge1OI/wK7pWwnjAzcrIxsau7Ja1lTO7N12MebR0yP
- QI+y5t9pGsSgraHlflxo9nQIy2wmSmKjHg==
-X-Google-Smtp-Source: AMsMyM5HXM+IpHbvK//lP6i2rgXUPmuop+rWHFwLRrWVfCeeqEM4D7JPW6fUtssMAYds3cAxuy6oHw==
-X-Received: by 2002:a05:600c:214d:b0:3c7:1182:4874 with SMTP id
- v13-20020a05600c214d00b003c711824874mr1217256wml.4.1666268522933; 
- Thu, 20 Oct 2022 05:22:02 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- t15-20020a5d49cf000000b00230c9d427f9sm16520192wrs.53.2022.10.20.05.22.01
- for <qemu-devel@nongnu.org>
+ bh=BudlTvOWerERuhN9firEtF5P6oWWwNEC+Zk0jHYYDxg=;
+ b=xBR62IwlURFk29vgyxsDMrnDjnNklEzl2SsOZUVN5u0MixOn8G5dh2WoWHQt4hQaJQ
+ G/d6RkluBAzVO51+p3nk5Z5wNEVqPyGwh764BOQwDiL4QLfaYR9+7BFGCZEBPqBAPjPn
+ F7ThIhHQHEm733ss1sHGfkiTEo6RQ1El4h0FFl5X/TkrM7ynR8QrQOPmK9XBTL8HnbZe
+ hMmnK82ucR51jCuMoKKGjCuoYYgDc6aoFEV4nHy2ac2jewYKbM26xkWCuRkuTVMnQtzh
+ reZ/ejczXNO520ZmwUa1UCJ12pkNdSVuRB+T0htO/hmL71jHExQfkNlKo1SFoByQj6Hc
+ yTNw==
+X-Gm-Message-State: ACrzQf1ykOeXnP7A4lOOS3gPmT4zdOe9Zvz1Kv4UbjNGA1I0t8kEcIYe
+ 930vCG1g8lf2E358o5Y2+ggYFA==
+X-Google-Smtp-Source: AMsMyM6YVuv7bwSfkgjAN4IdxnVjemXaIuZ5YLFv5YJANr+JMQbEgyRt6+qWNCmfVGMr2WS6peBfRg==
+X-Received: by 2002:a63:200e:0:b0:45b:d6ed:6c5 with SMTP id
+ g14-20020a63200e000000b0045bd6ed06c5mr11433443pgg.121.1666269381049; 
+ Thu, 20 Oct 2022 05:36:21 -0700 (PDT)
+Received: from anisinha-lenovo.ba.nuagenetworks.net ([203.212.246.137])
+ by smtp.googlemail.com with ESMTPSA id
+ l11-20020a170903244b00b00176b3c9693esm12794174pls.299.2022.10.20.05.36.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Oct 2022 05:22:02 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 11/24] target/arm: Move be test for regime into
- S1TranslateResult
-Date: Thu, 20 Oct 2022 13:21:33 +0100
-Message-Id: <20221020122146.3177980-12-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221020122146.3177980-1-peter.maydell@linaro.org>
-References: <20221020122146.3177980-1-peter.maydell@linaro.org>
+ Thu, 20 Oct 2022 05:36:20 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+To: 
+Cc: Ani Sinha <ani@anisinha.ca>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Maydell Peter <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>, Michael Tsirkin <mst@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: [PATCH v6 10/10] MAINTAINERS: add myself as the maintainer for acpi
+ biosbits avocado tests
+Date: Thu, 20 Oct 2022 18:05:06 +0530
+Message-Id: <20221020123506.26363-11-ani@anisinha.ca>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221020123506.26363-1-ani@anisinha.ca>
+References: <20221020123506.26363-1-ani@anisinha.ca>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=ani@anisinha.ca; helo=mail-pf1-x42d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,57 +102,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+I wrote the biosbits avocado tests for testing QEMU's ACPI/SMBIOS implementation
+and all the related changes including fixes in biosbits software itself. Making
+myself as the maintainer for QEMU's biosbits related files and test scripts.
 
-Hoist this test out of arm_ld[lq]_ptw into S1_ptw_translate.
-
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20221011031911.2408754-10-richard.henderson@linaro.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Cc: Daniel P. Berrangé <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Maydell Peter <peter.maydell@linaro.org>
+Cc: John Snow <jsnow@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>
+Cc: Alex Bennée <alex.bennee@linaro.org>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Michael Tsirkin <mst@redhat.com>
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- target/arm/ptw.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ MAINTAINERS | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 8fa0088d98d..c58788ac693 100644
---- a/target/arm/ptw.c
-+++ b/target/arm/ptw.c
-@@ -19,6 +19,7 @@ typedef struct S1Translate {
-     bool in_secure;
-     bool in_debug;
-     bool out_secure;
-+    bool out_be;
-     hwaddr out_phys;
- } S1Translate;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8ae2e43c83..30c7cd96ef 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1859,6 +1859,12 @@ S: Supported
+ F: hw/acpi/viot.c
+ F: hw/acpi/viot.h
  
-@@ -277,6 +278,7 @@ static bool S1_ptw_translate(CPUARMState *env, S1Translate *ptw,
- 
-     ptw->out_secure = is_secure;
-     ptw->out_phys = addr;
-+    ptw->out_be = regime_translation_big_endian(env, ptw->in_mmu_idx);
-     return true;
- }
- 
-@@ -296,7 +298,7 @@ static uint32_t arm_ldl_ptw(CPUARMState *env, S1Translate *ptw, hwaddr addr,
-     addr = ptw->out_phys;
-     attrs.secure = ptw->out_secure;
-     as = arm_addressspace(cs, attrs);
--    if (regime_translation_big_endian(env, ptw->in_mmu_idx)) {
-+    if (ptw->out_be) {
-         data = address_space_ldl_be(as, addr, attrs, &result);
-     } else {
-         data = address_space_ldl_le(as, addr, attrs, &result);
-@@ -324,7 +326,7 @@ static uint64_t arm_ldq_ptw(CPUARMState *env, S1Translate *ptw, hwaddr addr,
-     addr = ptw->out_phys;
-     attrs.secure = ptw->out_secure;
-     as = arm_addressspace(cs, attrs);
--    if (regime_translation_big_endian(env, ptw->in_mmu_idx)) {
-+    if (ptw->out_be) {
-         data = address_space_ldq_be(as, addr, attrs, &result);
-     } else {
-         data = address_space_ldq_le(as, addr, attrs, &result);
++ACPI/AVOCADO/BIOSBITS
++M: Ani Sinha <ani@anisinha.ca>
++S: Supported
++F: tests/avocado/acpi-bits/*
++F: tests/avocado/acpi-bits.py
++
+ ACPI/HEST/GHES
+ R: Dongjiu Geng <gengdongjiu1@gmail.com>
+ L: qemu-arm@nongnu.org
 -- 
-2.25.1
+2.34.1
 
 
