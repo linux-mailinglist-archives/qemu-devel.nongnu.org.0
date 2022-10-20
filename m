@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30385605669
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 06:39:51 +0200 (CEST)
-Received: from localhost ([::1]:57280 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2901860566A
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 06:40:36 +0200 (CEST)
+Received: from localhost ([::1]:56390 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olNLS-00006p-6y
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 00:39:50 -0400
-Received: from [::1] (port=50716 helo=lists1p.gnu.org)
+	id 1olNMB-0001ML-4o
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 00:40:35 -0400
+Received: from [::1] (port=51228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olNLR-0008N4-VD
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 00:39:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53438)
+	id 1olNMA-0000w7-Rk
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 00:40:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1olNHB-0003QJ-NQ
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 00:35:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40387)
+ id 1olNHx-0004fP-PM
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 00:36:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1olNHA-00051M-1R
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 00:35:25 -0400
+ id 1olNHw-0005oi-9k
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 00:36:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666240523;
+ s=mimecast20190719; t=1666240571;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RAet8iZ+oZJ7bwrdMkR1wyVXhoL06p272n6Cn8VhncA=;
- b=BdW+moO6gCboH3TiaH+xG8NKBNmYGofg3cZwA7GtRYJTRDTii0ILOuffCelFHgpwykQ4Uo
- 12cZ6S7jWzT2IzgdjH2eDt6OppsfoSBOyUw3kyFoKarkYiVUcoj4VLO/bxNR314XNJPKod
- 44GzjMkXC1Aq0Tgasi6D1+WllpgyDNU=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=9HlaJPy7Xgsi5R5+8p9zv1kMHnGw9TspT2VZzjZe8lU=;
+ b=AJx6OsekhmhRWGH3u4mMOR7rWAoAsSzsIkj6FiI7GYZhU0OYZjLrMPomzvAVYUG6GYuLxj
+ MBTM7Lb9GeSeYnl+SmFtohnPeYwVtUBZPjwwTpJIxJxJVvNcV1o7wZ5y0uVVc5bl72QovW
+ KJBDkHSQC5hi0XS//A7hsdct0q+Nruc=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-635-aKafRokwMLSv-kbVrQ9PjQ-1; Thu, 20 Oct 2022 00:35:16 -0400
-X-MC-Unique: aKafRokwMLSv-kbVrQ9PjQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- m7-20020a056402430700b0045daff6ee5dso7239645edc.10
- for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 21:35:16 -0700 (PDT)
+ us-mta-516-RDCrSpujPy2pCU4RaunAjQ-1; Thu, 20 Oct 2022 00:36:10 -0400
+X-MC-Unique: RDCrSpujPy2pCU4RaunAjQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ w1-20020a056402268100b0045d06ea5575so13917689edd.6
+ for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 21:36:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RAet8iZ+oZJ7bwrdMkR1wyVXhoL06p272n6Cn8VhncA=;
- b=BkTmLXmhazzLC+r4A97At06Ltd2duEMcY3WcA8Y3hyuiw9pSFd6tP/PWXwXw0BXGHv
- Bmf5NQn763K2b5Uq3Rlo5cWUoomyXQyo0bR+rR4YdDaqTynVwQrBFyAXM9Flx+eJoKaX
- La4QrnZ9jzmYAnlEBZ81a7eRp6lm8TbEYcnF36X5u6rBvpgTNrPDV+Fn4lMjaAVXGCL8
- E40u6mQXZy1En8e8SXusSxB0dsvWDGRFV7O7SWQ411Oq78pwukGPzRgT/izM4kx1omBg
- XgcZb4earYJxduwM39N5+U3BJkx7t9YVBBRvBkHuGsI11GS0uHZQprvjq2C0h69ilOQN
- Bosw==
-X-Gm-Message-State: ACrzQf0/rKOKPZTl4OvhWdLtKuGlwlaYuSZbhSMTZK5YpIitNAs5P4lh
- HLWaRqEDtCLT2+VPN09DJ+XDNlN6HEjtaODJIU9xLRdqoKqRKHYWqlPzob+mzjXKgUPNyYN/XIw
- ed+5n+VjxEmIem4zviH3yGW6F7cs2q00=
-X-Received: by 2002:aa7:c144:0:b0:459:f897:793e with SMTP id
- r4-20020aa7c144000000b00459f897793emr10407469edp.8.1666240515248; 
- Wed, 19 Oct 2022 21:35:15 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7uQplaOucJ4w6csHJsBFEh3bCCuecwvlRwfUMnxrN5bpl02RWkoqemwIGqBrs7t9HP6aYRvR8zbNfdiVKD9RA=
-X-Received: by 2002:aa7:c144:0:b0:459:f897:793e with SMTP id
- r4-20020aa7c144000000b00459f897793emr10407451edp.8.1666240515044; Wed, 19 Oct
- 2022 21:35:15 -0700 (PDT)
+ bh=9HlaJPy7Xgsi5R5+8p9zv1kMHnGw9TspT2VZzjZe8lU=;
+ b=ZWgJEUFLSwv70edcV9kHH5N8TFBOvMmBWMfPIkQi0PiP8dqxvNUwAKH6BSHIDimbSX
+ 2syfTkF6b16PKUMxWKxRRYXI/UmCd6zlO6gJ5j42oDHKU2Zl3Iamed0XJhaa+B6PE/Ps
+ 1vhHIdgnsZ184R6cnBUxkpGwxneviaBd0Cobqjln0JkYdvfsC57FcoNEsxg/zKZ9Fulx
+ ppxZ61eCsKc4jUIWZJE/Z2AuHtN3hMxtV4Knq61JwhIScnmSi0RlxLdQAmi9Zh80JELj
+ dVbh7c7l5wcAhU+hgGf0xD9a6U6AaJmTyBmCmNYiOL8hhVEtJ8evWaCJe6PTRWndZ2zC
+ OijA==
+X-Gm-Message-State: ACrzQf189YA4AejNRfGzL8yAeIkAXVkGtIlWBdCmOAX/IXkU5O4oQvZU
+ u26nVwNYGfu77+WHrhtxtFRRheKwn9SZ3y03HJrrYRPrcCvbgHaqTkbPDFXhL1eDgav+SQhkneo
+ gazfF/eNehnfqXOyqdnmX2TcFitb5aVs=
+X-Received: by 2002:a05:6402:4302:b0:45d:c9b4:c007 with SMTP id
+ m2-20020a056402430200b0045dc9b4c007mr10416738edc.328.1666240569428; 
+ Wed, 19 Oct 2022 21:36:09 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7ikNkjcCPUXmT2G+iIO257u7doWRX3gPJebdYuoK+BIH3D8sX1xE9+O5PNK6annuLw3T3x2ifyC9IBbTbfgyw=
+X-Received: by 2002:a05:6402:4302:b0:45d:c9b4:c007 with SMTP id
+ m2-20020a056402430200b0045dc9b4c007mr10416724edc.328.1666240569276; Wed, 19
+ Oct 2022 21:36:09 -0700 (PDT)
 MIME-Version: 1.0
 References: <20221019125210.226291-1-eperezma@redhat.com>
- <20221019125210.226291-7-eperezma@redhat.com>
-In-Reply-To: <20221019125210.226291-7-eperezma@redhat.com>
+ <20221019125210.226291-8-eperezma@redhat.com>
+In-Reply-To: <20221019125210.226291-8-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 20 Oct 2022 12:35:01 +0800
-Message-ID: <CACGkMEuKCXP2DMQWtPFmLnCKYuyDA8LEFbETU==AM_aRvdVM8g@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 6/8] vdpa: handle VIRTIO_NET_CTRL_ANNOUNCE in
- vhost_vdpa_net_handle_ctrl_avail
+Date: Thu, 20 Oct 2022 12:35:54 +0800
+Message-ID: <CACGkMEvQ0ZocZE61_-bWRQrd0zkOF2bLyBcTpgcOu1L7X+uzXw@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 7/8] vhost_net: return VIRTIO_NET_S_ANNOUNCE is
+ device model has it set
 To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
 Cc: qemu-devel@nongnu.org, Zhu Lingshan <lingshan.zhu@intel.com>, 
  Harpreet Singh Anand <hanand@xilinx.com>,
@@ -84,7 +84,7 @@ Cc: qemu-devel@nongnu.org, Zhu Lingshan <lingshan.zhu@intel.com>,
  Gautam Dawar <gdawar@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -111,57 +111,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Wed, Oct 19, 2022 at 8:52 PM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
 ote:
 >
-> Since this capability is emulated by qemu shadowed CVQ cannot forward it
-> to the device.
-
-I wonder what happens for a device that has GUEST_ANNOUNCE support on its o=
-wn?
-
-> Process all that command within qemu.
+> Temporal, as this affects other vhost backends and we must check status
+> feature first.
 >
 > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 > ---
->  net/vhost-vdpa.c | 15 ++++++++++++---
->  1 file changed, 12 insertions(+), 3 deletions(-)
+>  hw/net/vhost_net.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 >
-> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> index 3374c21b4d..5fda405a66 100644
-> --- a/net/vhost-vdpa.c
-> +++ b/net/vhost-vdpa.c
-> @@ -488,9 +488,18 @@ static int vhost_vdpa_net_handle_ctrl_avail(VhostSha=
-dowVirtqueue *svq,
->      out.iov_len =3D iov_to_buf(elem->out_sg, elem->out_num, 0,
->                               s->cvq_cmd_out_buffer,
->                               vhost_vdpa_net_cvq_cmd_len());
-> -    dev_written =3D vhost_vdpa_net_cvq_add(s, out.iov_len, sizeof(status=
-));
-> -    if (unlikely(dev_written < 0)) {
-> -        goto out;
-> +    if (*(uint8_t *)s->cvq_cmd_out_buffer =3D=3D VIRTIO_NET_CTRL_ANNOUNC=
-E) {
+> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> index 5660606c1d..300f370e2a 100644
+> --- a/hw/net/vhost_net.c
+> +++ b/hw/net/vhost_net.c
+> @@ -118,6 +118,7 @@ int vhost_net_get_config(struct vhost_net *net,  uint=
+8_t *config,
+>                           uint32_t config_len)
+>  {
+>      VirtIODevice *vdev;
+> +    VirtIONet *n;
+>      int r =3D vhost_dev_get_config(&net->dev, config, config_len, NULL);
+>
+>      if (unlikely(r !=3D 0)) {
+> @@ -142,6 +143,13 @@ int vhost_net_get_config(struct vhost_net *net,  uin=
+t8_t *config,
+>          ((struct virtio_net_config *)config)->status |=3D VIRTIO_NET_S_L=
+INK_UP;
+>      }
+>
+> +    if (!(net->dev.acked_features & BIT_ULL(VIRTIO_NET_F_GUEST_ANNOUNCE)=
+)) {
+> +        return 0;
+> +    }
+> +
+> +    n =3D VIRTIO_NET(vdev);
+> +    ((struct virtio_net_config *)config)->status |=3D
+> +                                           (n->status & VIRTIO_NET_S_ANN=
+OUNCE);
 
-Interesting, I thought we can do better by forbidding the code that
-goes into vhost-vDPA specific code, everything should be set at
-virtio-net.c level.
+Similar to the previous patch, it would be better to move this to virtio-ne=
+t.c.
 
 Thanks
 
-> +        /*
-> +         * Guest announce capability is emulated by qemu, so dont forwar=
-d to
-> +         * the device.
-> +         */
-> +        dev_written =3D sizeof(status);
-> +        *s->status =3D VIRTIO_NET_OK;
-> +    } else {
-> +        dev_written =3D vhost_vdpa_net_cvq_add(s, out.iov_len, sizeof(st=
-atus));
-> +        if (unlikely(dev_written < 0)) {
-> +            goto out;
-> +        }
->      }
->
->      if (unlikely(dev_written < sizeof(status))) {
+>      return 0;
+>  }
+>  int vhost_net_set_config(struct vhost_net *net, const uint8_t *data,
 > --
 > 2.31.1
 >
