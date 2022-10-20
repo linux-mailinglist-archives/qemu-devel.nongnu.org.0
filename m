@@ -2,78 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF54C6066CB
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 19:11:29 +0200 (CEST)
-Received: from localhost ([::1]:48546 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10FD0606657
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 18:56:03 +0200 (CEST)
+Received: from localhost ([::1]:53116 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olZ4T-0003VU-PO
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:11:10 -0400
+	id 1olYpr-00053w-S0
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:56:00 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olYng-0002Vk-25
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:53:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36726)
+	id 1olYpf-0004g4-8y
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:55:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1olYNZ-0004vx-U1
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:26:50 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:49735)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1olYSt-0000BG-6Z
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:32:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42142)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1olYNY-00076l-1X
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:26:45 -0400
-Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
- mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MZjQl-1oZbU20G99-00WrGW; Thu, 20 Oct 2022 18:26:29 +0200
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Paul Durrant <paul@xen.org>, Markus Armbruster <armbru@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- David Gibson <david@gibson.dropbear.id.au>, Eric Blake <eblake@redhat.com>,
- xen-devel@lists.xenproject.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Anthony Perard <anthony.perard@citrix.com>
-Subject: [PATCH v13 17/17] net: stream: add QAPI events to report connection
- state
-Date: Thu, 20 Oct 2022 18:25:58 +0200
-Message-Id: <20221020162558.123284-18-lvivier@redhat.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221020162558.123284-1-lvivier@redhat.com>
-References: <20221020162558.123284-1-lvivier@redhat.com>
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1olYSr-0008V7-Od
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:32:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666283531;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hZs+j15yU9471w93OAmuQdRLiwbhW3O5F+nclFlBQPg=;
+ b=DYOzwrv6tffs49ChwxeNRB8q7UBDYd4F9MDlB+lW/+feRzkt4uZmEgfHcy8dd+lptzW1F2
+ d6Ox/vC56lZbj2VPn8r4M3gt9Zs5q1cN3qDovdkVX3WnnTNzBepyCVAOAYB3jLMAbxIvwX
+ ZDjEhyUWhjhxN2YcQ8sX9oe0nzAA3dM=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-63-EHFpE8TPMX--nXlMsMrKHQ-1; Thu, 20 Oct 2022 12:32:09 -0400
+X-MC-Unique: EHFpE8TPMX--nXlMsMrKHQ-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ gd8-20020a05622a5c0800b0039cb77202eeso15434737qtb.0
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 09:32:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hZs+j15yU9471w93OAmuQdRLiwbhW3O5F+nclFlBQPg=;
+ b=6QkGZauKPka2b3azzg8HKFBORLS5dGEs0DLVXuS3WDXcYsGEkkPVpa6D/81HPvM3Si
+ sGf3C99g1YHt/V7Qslaa1R9FWoABycKAP/0Dq9Wti8rqLfGTmhSn6rAu6XiQTKFmQZcJ
+ eSAXKwFm4Btyl3lhCM+9LJnJCS98lsUAmUJB37HRi3KHEzxU3Nk78cjXcRBLzeJgTr8i
+ LWIHIwbtUMsrK5Eet3OxdRvWoP25KBTH6QSrIkjTmwflcCsDTiMgFJXPTPhei+FYrHBG
+ crONkWobR8uCMJDmVqFWVaCl1Yib+3HAilVFvMh5QVQqafLepMz3n0YGwkSQcKOVWjGs
+ tFHw==
+X-Gm-Message-State: ACrzQf2beYEDXYBNQdmk21NTAcGeZi+unKWpPZyafkdrCZ/F7sIVPPAV
+ eJssU2YMFxpqxfScMMGcn8TwFVgI+zEa16nq4+t1kGOOtQznI5w6eZAXCDculFd2qcoOSEXlsdx
+ 6q4yrl451RpCna8M=
+X-Received: by 2002:a05:622a:607:b0:39c:e9b9:c043 with SMTP id
+ z7-20020a05622a060700b0039ce9b9c043mr12096367qta.300.1666283529311; 
+ Thu, 20 Oct 2022 09:32:09 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4bOYaKCd08URsMmpWFIHv/i6Q6VAAppyaUxqUQvGAgtAhCsn+TkdufVzzX42evbnwQM0O7zw==
+X-Received: by 2002:a05:622a:607:b0:39c:e9b9:c043 with SMTP id
+ z7-20020a05622a060700b0039ce9b9c043mr12096337qta.300.1666283529049; 
+ Thu, 20 Oct 2022 09:32:09 -0700 (PDT)
+Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
+ [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
+ x12-20020a05620a448c00b006ec5238eb97sm7652814qkp.83.2022.10.20.09.32.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Oct 2022 09:32:08 -0700 (PDT)
+Date: Thu, 20 Oct 2022 12:32:06 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "manish.mishra" <manish.mishra@nutanix.com>
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Prerna Saxena <prerna.saxena@nutanix.com>
+Subject: Re: MultiFD and default channel out of order mapping on receive side.
+Message-ID: <Y1F4BgFskXizW2za@x1n>
+References: <9f02255a-ceb9-9ca6-2606-b91c5e9e6459@nutanix.com>
+ <Y0fJFcj9+wcnKYqd@redhat.com>
+ <a4f67b8d-21ec-4261-6ffb-3162c854ce8f@nutanix.com>
+ <Y00+tsrBs2m2CH6R@redhat.com> <Y03F97gmi7N4cyMM@x1n>
+ <Y05hVC7AXdc0Ak4z@redhat.com> <Y069YMtwwOrmI6lM@x1n>
+ <Y08T+DZQXh/89O/g@x1n>
+ <4c1e4137-a686-427c-df3e-22f299a39478@nutanix.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:/ClPY+RmgtMJu78OIyrUAFsndfiBsAICuefcqDMPSEUykumV0oa
- pkrYmgXaQFb5pQIxSkTSbWXazvyzPdwvk/fjh939ixbylrzgqZ/7RoPwrc1xEwcy/vgZkcN
- qGlrYM6PIrRSop4JFwQOc9JRH9CnL9g6Y9k8lWtVRGWDt1s0iAYyqD4rk8JnoNQVwyinU9V
- Ks0dXXubYDsT6m7LFNcpQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wft59S4V5ag=:5S5861xC8QSUT3tMI6YJY1
- TlKIXQ427MOcEguuHzrJxelhJZFyH6FHOudFJoiU4IIhl4IQVyE6FtlwcSRka3QDS5FxIL5s3
- RzXxYqoXpTanRztWq0kvCyf2gYuc0E3SReGwioIXfnawtdZicLv8zpajqcqz1qRIIX+NwsLBE
- FeuIhrHyZwBX1Cn7BBILjJBTALpJ7WTygDJlcxt4DHvz+Rm+rmQG2zGJagrhmefvRTi7IVlpv
- +ds07+O9meFjmO4yhzJ/3AmFNxJftcINwK2AK6I8o8/i7ZnxhqsDiYStI/KflJbo9tLvpktK8
- ghswShpPclP0xf2y6DOCa65huqAvKnbp/aIuNTPvIWgZnuBgmZ3I9G6gj2QvJ9/IKdywRqGrs
- /iFf/DSk9RMDzBTadb9mcyPoX52k1xqcXIsihmATfywXvVXjdwQ5vkWRw+ahxUwLIdrKnXNo/
- YrZPDCGOCXO+qt/y5wAeiUTpZsHRiU8JK6FbcHDyC9swANj+pwOFcge6AeQAXkpZoF+9n/Dnk
- uNVy/MLTJqysqkgFUe4wFBv9WEnDOF2fzdHCbzts5mHL3eI5wCxoazhnG+EUksQEtVrfWJlla
- reGY84PqqsplbFUcWh4IPZAc9rtkMbt9t/HZnFyROlanMTl9U36MIxcYFh2Q1w/APmh0U4b2b
- Vl1jmS0jVQrm986YyIqtoyksrGOEVS2OkMFuXsoBmlSdk0USe8dIloMKOQOXWbg0BRR1iQzbp
- fJCPr80rMIK8z+JqVKuvpHBobLIGxy+usrrIhrZL8CTNp2KTT3ou3mQpucOC0Zc1lyhqokfUE
- IiR7q+q
-Received-SPF: permerror client-ip=212.227.126.133;
- envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_FAIL=0.001,
- SPF_HELO_NONE=0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <4c1e4137-a686-427c-df3e-22f299a39478@nutanix.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,126 +110,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The netdev reports NETDEV_STREAM_CONNECTED event when the backend
-is connected, and NETDEV_STREAM_DISCONNECTED when it is disconnected.
+On Thu, Oct 20, 2022 at 08:14:19PM +0530, manish.mishra wrote:
+> I had one concern, during recover we do not send any magic. As of now we
+  do not support multifd with postcopy so it should be fine, we can do
+  explict checking for non-recovery case. But i remember from some
+  discussion in future there may be support for multiFD with postcopy or
+  have multiple postcopy preempt channels too, then proper handshake will
+  be required? So at some point we want to take that path? For now i agree
+  approach 1 will be good as suggested by Daniel it can be backported
+  easily to older qemu's too.
 
-The NETDEV_STREAM_CONNECTED event includes the URI of the destination
-address.
+Yes for the long run I think we should provide a generic solution for all
+the channels to be established for migration purpose.
 
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
----
- net/stream.c  |  9 +++++++--
- qapi/net.json | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 56 insertions(+), 2 deletions(-)
+Not to mention that as I replied previously to my original email, the trick
+won't easily work with dest QEMU where we need further change to allow qemu
+to accept new channels during loading of the VM.
 
-diff --git a/net/stream.c b/net/stream.c
-index 95d6b910407d..cac01d4d792a 100644
---- a/net/stream.c
-+++ b/net/stream.c
-@@ -38,6 +38,7 @@
- #include "io/channel.h"
- #include "io/channel-socket.h"
- #include "io/net-listener.h"
-+#include "qapi/qapi-events-net.h"
- 
- typedef struct NetStreamState {
-     NetClientState nc;
-@@ -168,6 +169,8 @@ static gboolean net_stream_send(QIOChannel *ioc,
-         s->nc.link_down = true;
-         qemu_set_info_str(&s->nc, "");
- 
-+        qapi_event_send_netdev_stream_disconnected(s->nc.name);
-+
-         return G_SOURCE_REMOVE;
-     }
-     buf = buf1;
-@@ -244,8 +247,8 @@ static void net_stream_listen(QIONetListener *listener,
-     uri = socket_uri(addr);
-     qemu_set_info_str(&s->nc, uri);
-     g_free(uri);
-+    qapi_event_send_netdev_stream_connected(s->nc.name, addr);
-     qapi_free_SocketAddress(addr);
--
- }
- 
- static void net_stream_server_listening(QIOTask *task, gpointer opaque)
-@@ -327,7 +330,6 @@ static void net_stream_client_connected(QIOTask *task, gpointer opaque)
-         goto error;
-     }
-     g_assert(ret == 0);
--    qapi_free_SocketAddress(addr);
- 
-     net_socket_rs_init(&s->rs, net_stream_rs_finalize, false);
- 
-@@ -338,6 +340,9 @@ static void net_stream_client_connected(QIOTask *task, gpointer opaque)
-                                             s, NULL);
-     s->nc.link_down = false;
- 
-+    qapi_event_send_netdev_stream_connected(s->nc.name, addr);
-+    qapi_free_SocketAddress(addr);
-+
-     return;
- error:
-     object_unref(OBJECT(s->ioc));
-diff --git a/qapi/net.json b/qapi/net.json
-index 39388b1b6c41..c37b24717382 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -895,3 +895,52 @@
- ##
- { 'event': 'FAILOVER_NEGOTIATED',
-   'data': {'device-id': 'str'} }
-+
-+##
-+# @NETDEV_STREAM_CONNECTED:
-+#
-+# Emitted when the netdev stream backend is connected
-+#
-+# @netdev-id: QEMU netdev id that is connected
-+# @addr: The destination address
-+#
-+# Since: 7.2
-+#
-+# Example:
-+#
-+# <- { "event": "NETDEV_STREAM_CONNECTED",
-+#      "data": { "netdev-id": "netdev0",
-+#                "addr": { "port": "47666", "ipv6": true,
-+#                          "host": "::1", "type": "inet" } },
-+#      "timestamp": { "seconds": 1666269863, "microseconds": 311222 } }
-+#
-+# or
-+#
-+# <- { "event": "NETDEV_STREAM_CONNECTED",
-+#      "data": { "netdev-id": "netdev0",
-+#                "addr": { "path": "/tmp/qemu0", "type": "unix" } },
-+#      "timestamp": { "seconds": 1666269706, "microseconds": 413651 } }
-+#
-+##
-+{ 'event': 'NETDEV_STREAM_CONNECTED',
-+  'data': { 'netdev-id': 'str',
-+            'addr': 'SocketAddress' } }
-+
-+##
-+# @NETDEV_STREAM_DISCONNECTED:
-+#
-+# Emitted when the netdev stream backend is disconnected
-+#
-+# @netdev-id: QEMU netdev id that is disconnected
-+#
-+# Since: 7.2
-+#
-+# Example:
-+#
-+# <- { 'event': 'NETDEV_STREAM_DISCONNECTED',
-+#      'data': {'netdev-id': 'netdev0'},
-+#      'timestamp': {'seconds': 1663330937, 'microseconds': 526695} }
-+#
-+##
-+{ 'event': 'NETDEV_STREAM_DISCONNECTED',
-+  'data': { 'netdev-id': 'str' } }
+Considering the complexity that it'll take just to resolve the prempt
+channel ordering, I think maybe it's cleaner we just look for the long term
+goal.
+
 -- 
-2.37.3
+Peter Xu
 
 
