@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5E4606314
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 16:32:12 +0200 (CEST)
-Received: from localhost ([::1]:55772 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42F3B606283
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 16:10:46 +0200 (CEST)
+Received: from localhost ([::1]:36794 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olWae-0008Cp-Ts
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:32:09 -0400
+	id 1olWFu-0001tg-9U
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:10:42 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olWYh-0001dU-Iv
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:30:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60170)
+	id 1olVza-0002Ng-Q7
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 09:53:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olU8I-0005ZO-EX
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:54:56 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:42555)
+ id 1olU8N-0005au-Tp
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:54:59 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:52890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olU8D-00013M-L5
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:54:41 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id
- p6-20020a17090a748600b002103d1ef63aso2826800pjk.1
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 04:54:35 -0700 (PDT)
+ id 1olU8K-0001A2-FI
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:54:46 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id pq16so19563874pjb.2
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 04:54:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=otax3boOrkJbpvJnQWAvehNepZr14GD0jCowiyMr4Ww=;
- b=dUAlh0zH/sALh3ZSKEbMiA/K6zl0GsrG2c/Caf2F8TLc53NqueTiNdjsOVtDV2gThm
- FpM1F9OakAqURjO3ZygHKxR6TfwEeuXbOTfC2IaKweJU3Rto+iBjObDerAY9uAWd+Clg
- REoDBe0+Y70j8AMJB/ftu0t7QNim89MQIQ+zm0pw8T1HD06GvKaiZoKPkEbU5fP2TZY/
- dxfrLP3pA2qj5TdXp5As3np1WQyC3N0KSpoyvlOkUiX0/qpJQvm/x8JmoE6gOBuM6QLR
- ReSfqx24H2LENu6yAcPmKobzmi6S4T0HUAHd2oAwVUcbfGrfhZOBqB83J3Wwt4P5UMR0
- txxg==
+ :reply-to; bh=Pjg0KuM9fefFLZ6sJecPtemh73sMVb546+yZvj4IyU4=;
+ b=RZvIDufBmbrhEWCdhK0Ts5lbIWhKSazBtG8QCVSX8qjvakGtyf5VS2eYz/PjmEI7qo
+ Zj7R904WTSgFTcA13SHgWZ8kok+jGuVhsNAZDUSYtjf9NngipCkXi4ZMra4l4FBj+WaI
+ XBjL5uRIv1F4anw8sq04pI5bFvywkD1JueNi2q7DqJ/Sq3q0oJPSrB2KBQCR4arcs+9B
+ FF5HgrRCOUutsOx0zy2K35boMTWzpJWGgm4Si9ll9fiLC4Q43115uQ0rsw4TImY5U7vZ
+ bDKWrJ3JcoszJnIJdTEQcwpyFzXNrXsDU39J05zTLrCF4j7xh7yaIl0K8ssdRLrc5Dz/
+ sJeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=otax3boOrkJbpvJnQWAvehNepZr14GD0jCowiyMr4Ww=;
- b=Fyhav2iUU7rVO3VX1ZIl/GjvDisDy6agQX6JAY5YPtxuRs9Al5C7KpbZ40HTtwXeUJ
- WdIBd8ghg8Fh66nYwvycEg9K49P1OecAjHSD0A3vPwGB1PS2+7ccp7gKhAwCqYos+WBC
- LFB16nd/mkfXkHhgGr49FgTzmkY6uS6UhicMtfbkp2o8QN2L4xRds0B8KYKBOpNGeGcN
- RwG9iDY1xcqE2zETNC1Kxcv2gMz4ghpetOCTC3JEXnpm2nK2iZop6Wjm7m0Ji2nvx71/
- jGk/nah0FojK3rbK6v8KiEfwlTepGObJfOrubx/6R8dP2J4N27fY94Eu4S4dhYYh8V0m
- c+0g==
-X-Gm-Message-State: ACrzQf0vmPiWJAwEbjeHGBk3BWkJ91gPRtC3m60wPIoFkaVpQT2l8QN2
- olGztqr4+VrjX/0kQMCMuhZ+klRz/t8by3rK
-X-Google-Smtp-Source: AMsMyM4t9Us6oBGIq77eJqXkQ1H/x1z78EEp/1xviqQwRO4q1U/afOxuSePay4FJHktOKY32DoG6yg==
-X-Received: by 2002:a17:90b:4b0c:b0:20d:233f:5dea with SMTP id
- lx12-20020a17090b4b0c00b0020d233f5deamr15459826pjb.241.1666266875114; 
- Thu, 20 Oct 2022 04:54:35 -0700 (PDT)
+ bh=Pjg0KuM9fefFLZ6sJecPtemh73sMVb546+yZvj4IyU4=;
+ b=yBTapAb/E0btFXqOjF8Xp0DEd5a0uShmlp0bwsjo6k0KzOGW/2fP0bOgQ8SHgS8J/2
+ WUEBbkpxkypGfzkUZgcN7IAjV6/nKsQZ0ER2FWNHE1NR62olVwA4QHjekZLBegqPiqi8
+ 6JtODj/crnyzOxcnh2lJSQLA2BOZOeFZQL+vRqDzCAUpjIIHeR1NJRbvIU6GiPxGqma9
+ G36xi67tNNAkIu8bikM3M51u7uFEPx2sWZQ1hPM4Q577awRKPlRc+0VeL+8gzbBUB/Cf
+ znZFXn51aTlXJDB9anUx09iN+WYm77xUf8pwZipn35oiNU2ciEpsd/dvPa8dC0noeAtb
+ SY3Q==
+X-Gm-Message-State: ACrzQf1oRhPKx1QHHzLyTg2Hk8rY0HyG4wFySEMkF86UO9hANDx7VRUv
+ 8xkSO6n7Pg4W9oWDwPu02AMOkY0+WIe8NB3P
+X-Google-Smtp-Source: AMsMyM7L6R62RLFZzbfzJtCIhGjXlt4DoW6tfYd4BvV8RXKuFNnF9RoLC0ptYgGl48JiXfu3Y6Mvow==
+X-Received: by 2002:a17:903:40cf:b0:17f:7d7e:95b0 with SMTP id
+ t15-20020a17090340cf00b0017f7d7e95b0mr13458925pld.78.1666266883177; 
+ Thu, 20 Oct 2022 04:54:43 -0700 (PDT)
 Received: from localhost.localdomain ([149.135.10.35])
  by smtp.gmail.com with ESMTPSA id
- w206-20020a627bd7000000b0056109e15638sm13065464pfc.54.2022.10.20.04.54.32
+ w206-20020a627bd7000000b0056109e15638sm13065464pfc.54.2022.10.20.04.54.40
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Oct 2022 04:54:34 -0700 (PDT)
+ Thu, 20 Oct 2022 04:54:42 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 28/31] include/qemu/int128: Use Int128 structure for TCI
-Date: Thu, 20 Oct 2022 21:52:39 +1000
-Message-Id: <20221020115242.2301066-29-richard.henderson@linaro.org>
+Subject: [PATCH 31/31] tcg: Add tcg_gen_extr_i128_i64, tcg_gen_concat_i64_i128
+Date: Thu, 20 Oct 2022 21:52:42 +1000
+Message-Id: <20221020115242.2301066-32-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221020115242.2301066-1-richard.henderson@linaro.org>
 References: <20221020115242.2301066-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,202 +94,222 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are about to allow passing Int128 to/from tcg helper functions,
-but libffi doesn't support __int128_t, so use the structure.
-
-In order for atomic128.h to continue working, we must provide
-a mechanism to frob between real __int128_t and the structure.
-Provide a new union, Int128Alias, for this.  We cannot modify
-Int128 itself, as any changed alignment would also break libffi.
+Add code generation functions for data movement between
+TCGv_i128 and TCGv_i64.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/atomic128.h | 34 ++++++++++++++++++++++++--------
- include/qemu/int128.h    | 18 ++++++++++++++---
- util/int128.c            | 42 ++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 83 insertions(+), 11 deletions(-)
+ include/tcg/tcg-op.h  |  3 ++
+ include/tcg/tcg-opc.h |  4 ++
+ tcg/tcg-internal.h    | 12 ++++++
+ tcg/tcg-op.c          | 35 ++++++++++++++++++
+ tcg/tcg.c             | 85 +++++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 139 insertions(+)
 
-diff --git a/include/qemu/atomic128.h b/include/qemu/atomic128.h
-index d179c05ede..5ba53f2f10 100644
---- a/include/qemu/atomic128.h
-+++ b/include/qemu/atomic128.h
-@@ -44,13 +44,23 @@
- #if defined(CONFIG_ATOMIC128)
- static inline Int128 atomic16_cmpxchg(Int128 *ptr, Int128 cmp, Int128 new)
- {
--    return qatomic_cmpxchg__nocheck(ptr, cmp, new);
-+    Int128Alias r, c, n;
+diff --git a/include/tcg/tcg-op.h b/include/tcg/tcg-op.h
+index 209e168305..2ce2ff28c9 100644
+--- a/include/tcg/tcg-op.h
++++ b/include/tcg/tcg-op.h
+@@ -735,6 +735,9 @@ void tcg_gen_extrh_i64_i32(TCGv_i32 ret, TCGv_i64 arg);
+ void tcg_gen_extr_i64_i32(TCGv_i32 lo, TCGv_i32 hi, TCGv_i64 arg);
+ void tcg_gen_extr32_i64(TCGv_i64 lo, TCGv_i64 hi, TCGv_i64 arg);
+ 
++void tcg_gen_extr_i128_i64(TCGv_i64 lo, TCGv_i64 hi, TCGv_i128 arg);
++void tcg_gen_concat_i64_i128(TCGv_i128 ret, TCGv_i64 lo, TCGv_i64 hi);
 +
-+    c.s = cmp;
-+    n.s = new;
-+    r.i = qatomic_cmpxchg__nocheck((__int128_t *)ptr, c.i, n.i);
-+    return r.s;
- }
- # define HAVE_CMPXCHG128 1
- #elif defined(CONFIG_CMPXCHG128)
- static inline Int128 atomic16_cmpxchg(Int128 *ptr, Int128 cmp, Int128 new)
+ static inline void tcg_gen_concat32_i64(TCGv_i64 ret, TCGv_i64 lo, TCGv_i64 hi)
  {
--    return __sync_val_compare_and_swap_16(ptr, cmp, new);
-+    Int128Alias r, c, n;
+     tcg_gen_deposit_i64(ret, lo, hi, 32, 32);
+diff --git a/include/tcg/tcg-opc.h b/include/tcg/tcg-opc.h
+index dd444734d9..6211fb3242 100644
+--- a/include/tcg/tcg-opc.h
++++ b/include/tcg/tcg-opc.h
+@@ -158,6 +158,10 @@ DEF(extrh_i64_i32, 1, 1, 0,
+     IMPL(TCG_TARGET_HAS_extrh_i64_i32)
+     | (TCG_TARGET_REG_BITS == 32 ? TCG_OPF_NOT_PRESENT : 0))
+ 
++/* For 32-bit host only, implemented generically using ld/st/mov. */
++DEF(extr_i128_i32, 1, 1, 1, TCG_OPF_NOT_PRESENT)
++DEF(concat4_i32_i128, 1, 4, 0, TCG_OPF_NOT_PRESENT)
 +
-+    c.s = cmp;
-+    n.s = new;
-+    r.i = __sync_val_compare_and_swap_16((__int128_t *)ptr, c.i, n.i);
-+    return r.s;
- }
- # define HAVE_CMPXCHG128 1
- #elif defined(__aarch64__)
-@@ -89,12 +99,18 @@ Int128 QEMU_ERROR("unsupported atomic")
- #if defined(CONFIG_ATOMIC128)
- static inline Int128 atomic16_read(Int128 *ptr)
+ DEF(brcond_i64, 0, 2, 2, TCG_OPF_BB_END | TCG_OPF_COND_BRANCH | IMPL64)
+ DEF(ext8s_i64, 1, 1, 0, IMPL64 | IMPL(TCG_TARGET_HAS_ext8s_i64))
+ DEF(ext16s_i64, 1, 1, 0, IMPL64 | IMPL(TCG_TARGET_HAS_ext16s_i64))
+diff --git a/tcg/tcg-internal.h b/tcg/tcg-internal.h
+index 44ef51ca30..8112a0a491 100644
+--- a/tcg/tcg-internal.h
++++ b/tcg/tcg-internal.h
+@@ -110,9 +110,21 @@ static inline TCGv_i32 TCGV_HIGH(TCGv_i64 t)
  {
--    return qatomic_read__nocheck(ptr);
-+    Int128Alias r;
-+
-+    r.i = qatomic_read__nocheck((__int128_t *)ptr);
-+    return r.s;
+     return temp_tcgv_i32(tcgv_i64_temp(t) + !HOST_BIG_ENDIAN);
  }
- 
- static inline void atomic16_set(Int128 *ptr, Int128 val)
- {
--    qatomic_set__nocheck(ptr, val);
-+    Int128Alias v;
-+
-+    v.s = val;
-+    qatomic_set__nocheck((__int128_t *)ptr, v.i);
- }
- 
- # define HAVE_ATOMIC128 1
-@@ -153,7 +169,8 @@ static inline Int128 atomic16_read(Int128 *ptr)
-     if (have_atomic128) {
-         asm("vmovdqa %1, %0" : "=x" (ret) : "m" (*ptr));
-     } else {
--        ret = atomic16_cmpxchg(ptr, 0, 0);
-+        Int128 z = int128_make64(0);
-+        ret = atomic16_cmpxchg(ptr, z, z);
-     }
-     return ret;
- }
-@@ -167,7 +184,7 @@ static inline void atomic16_set(Int128 *ptr, Int128 val)
-         do {
-             cmp = old;
-             old = atomic16_cmpxchg(ptr, cmp, val);
--        } while (old != cmp);
-+        } while (int128_ne(old, cmp));
-     }
- }
- 
-@@ -176,7 +193,8 @@ static inline void atomic16_set(Int128 *ptr, Int128 val)
- static inline Int128 atomic16_read(Int128 *ptr)
- {
-     /* Maybe replace 0 with 0, returning the old value.  */
--    return atomic16_cmpxchg(ptr, 0, 0);
-+    Int128 z = int128_make64(0);
-+    return atomic16_cmpxchg(ptr, z, z);
- }
- 
- static inline void atomic16_set(Int128 *ptr, Int128 val)
-@@ -185,7 +203,7 @@ static inline void atomic16_set(Int128 *ptr, Int128 val)
-     do {
-         cmp = old;
-         old = atomic16_cmpxchg(ptr, cmp, val);
--    } while (old != cmp);
-+    } while (int128_ne(old, cmp));
- }
- 
- # define HAVE_ATOMIC128 1
-diff --git a/include/qemu/int128.h b/include/qemu/int128.h
-index d2b76ca6ac..a062284025 100644
---- a/include/qemu/int128.h
-+++ b/include/qemu/int128.h
-@@ -3,7 +3,12 @@
- 
- #include "qemu/bswap.h"
- 
--#ifdef CONFIG_INT128
-+/*
-+ * With TCI, we need to use libffi for interfacing with TCG helpers.
-+ * But libffi does not support __int128_t, and therefore cannot pass
-+ * or return values of this type, force use of the Int128 struct.
-+ */
-+#if defined(CONFIG_INT128) && !defined(CONFIG_TCG_INTERPRETER)
- typedef __int128_t Int128;
- 
- static inline Int128 int128_make64(uint64_t a)
-@@ -460,8 +465,7 @@ Int128 int128_divu(Int128, Int128);
- Int128 int128_remu(Int128, Int128);
- Int128 int128_divs(Int128, Int128);
- Int128 int128_rems(Int128, Int128);
--
--#endif /* CONFIG_INT128 */
-+#endif /* CONFIG_INT128 && !CONFIG_TCG_INTERPRETER */
- 
- static inline void bswap128s(Int128 *s)
- {
-@@ -472,4 +476,12 @@ static inline void bswap128s(Int128 *s)
- #define INT128_MAX int128_make128(UINT64_MAX, INT64_MAX)
- #define INT128_MIN int128_make128(0, INT64_MIN)
- 
-+#ifdef CONFIG_INT128
-+typedef union {
-+    Int128 s;
-+    __int128_t i;
-+    __uint128_t u;
-+} Int128Alias;
-+#endif /* CONFIG_INT128 */
-+
- #endif /* INT128_H */
-diff --git a/util/int128.c b/util/int128.c
-index ed8f25fef1..df6c6331bd 100644
---- a/util/int128.c
-+++ b/util/int128.c
-@@ -144,4 +144,46 @@ Int128 int128_rems(Int128 a, Int128 b)
-     return r;
- }
- 
-+#elif defined(CONFIG_TCG_INTERPRETER)
-+
-+Int128 int128_divu(Int128 a_s, Int128 b_s)
++extern TCGv_i64 TCGV128_LOW(TCGv_i128)
++    QEMU_ERROR("64-bit code path is reachable");
++extern TCGv_i64 TCGV128_HIGH(TCGv_i128)
++    QEMU_ERROR("64-bit code path is reachable");
+ #else
+ extern TCGv_i32 TCGV_LOW(TCGv_i64) QEMU_ERROR("32-bit code path is reachable");
+ extern TCGv_i32 TCGV_HIGH(TCGv_i64) QEMU_ERROR("32-bit code path is reachable");
++static inline TCGv_i64 TCGV128_LOW(TCGv_i128 t)
 +{
-+    Int128Alias r, a, b;
-+
-+    a.s = a_s;
-+    b.s = b_s;
-+    r.u = a.u / b.u;
-+    return r.s;
++    return temp_tcgv_i64(tcgv_i128_temp(t) + HOST_BIG_ENDIAN);
 +}
-+
-+Int128 int128_remu(Int128 a_s, Int128 b_s)
++static inline TCGv_i64 TCGV128_HIGH(TCGv_i128 t)
 +{
-+    Int128Alias r, a, b;
-+
-+    a.s = a_s;
-+    b.s = b_s;
-+    r.u = a.u % b.u;
-+    return r.s;
++    return temp_tcgv_i64(tcgv_i128_temp(t) + !HOST_BIG_ENDIAN);
 +}
-+
-+Int128 int128_divs(Int128 a_s, Int128 b_s)
-+{
-+    Int128Alias r, a, b;
-+
-+    a.s = a_s;
-+    b.s = b_s;
-+    r.i = a.i / b.i;
-+    return r.s;
-+}
-+
-+Int128 int128_rems(Int128 a_s, Int128 b_s)
-+{
-+    Int128Alias r, a, b;
-+
-+    a.s = a_s;
-+    b.s = b_s;
-+    r.i = a.i % b.i;
-+    return r.s;
-+}
-+
  #endif
+ 
+ #endif /* TCG_INTERNAL_H */
+diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
+index 3ed98ffa01..6031fa89c2 100644
+--- a/tcg/tcg-op.c
++++ b/tcg/tcg-op.c
+@@ -2718,6 +2718,41 @@ void tcg_gen_extr32_i64(TCGv_i64 lo, TCGv_i64 hi, TCGv_i64 arg)
+     tcg_gen_shri_i64(hi, arg, 32);
+ }
+ 
++void tcg_gen_extr_i128_i64(TCGv_i64 lo, TCGv_i64 hi, TCGv_i128 arg)
++{
++    if (TCG_TARGET_REG_BITS == 32) {
++        TCGArg a_arg = tcgv_i128_arg(arg);
++        int be = HOST_BIG_ENDIAN ? 0xc : 0;
++
++        tcg_gen_op3(INDEX_op_extr_i128_i32, tcgv_i32_arg(TCGV_LOW(lo)),
++                    a_arg, 0x0 ^ be);
++        tcg_gen_op3(INDEX_op_extr_i128_i32, tcgv_i32_arg(TCGV_HIGH(lo)),
++                    a_arg, 0x4 ^ be);
++        tcg_gen_op3(INDEX_op_extr_i128_i32, tcgv_i32_arg(TCGV_LOW(hi)),
++                    a_arg, 0x8 ^ be);
++        tcg_gen_op3(INDEX_op_extr_i128_i32, tcgv_i32_arg(TCGV_HIGH(hi)),
++                    a_arg, 0xc ^ be);
++    } else {
++        tcg_gen_mov_i64(lo, TCGV128_LOW(arg));
++        tcg_gen_mov_i64(hi, TCGV128_HIGH(arg));
++    }
++}
++
++void tcg_gen_concat_i64_i128(TCGv_i128 ret, TCGv_i64 lo, TCGv_i64 hi)
++{
++    if (TCG_TARGET_REG_BITS == 32) {
++        tcg_gen_op5(INDEX_op_concat4_i32_i128,
++                    tcgv_i128_arg(ret),
++                    tcgv_i32_arg(TCGV_LOW(lo)),
++                    tcgv_i32_arg(TCGV_HIGH(lo)),
++                    tcgv_i32_arg(TCGV_LOW(hi)),
++                    tcgv_i32_arg(TCGV_HIGH(hi)));
++    } else {
++        tcg_gen_mov_i64(TCGV128_LOW(ret), lo);
++        tcg_gen_mov_i64(TCGV128_HIGH(ret), hi);
++    }
++}
++
+ /* QEMU specific operations.  */
+ 
+ void tcg_gen_exit_tb(const TranslationBlock *tb, unsigned idx)
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index c6e856a2cc..04e52c42d8 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -3949,6 +3949,85 @@ static void tcg_reg_alloc_mov(TCGContext *s, const TCGOp *op)
+     }
+ }
+ 
++/*
++ * Specialized code generation for TCG_TYPE_I128 on 32-bit host.
++ * Here, 128-bit values are *always* in memory, never regs or constants.
++ * Move 32-bit pieces into and out of the 128-bit memory slot.
++ */
++static void tcg_reg_alloc_exrl_i128_i32(TCGContext *s, const TCGOp *op)
++{
++    const TCGLifeData arg_life = op->life;
++    TCGTemp *ots = arg_temp(op->args[0]);
++    TCGTemp *its = arg_temp(op->args[1]);
++    TCGArg ofs = op->args[2];
++    TCGReg reg;
++
++    assert(TCG_TARGET_REG_BITS == 32);
++    tcg_debug_assert(ots->type == TCG_TYPE_I32);
++    tcg_debug_assert(!temp_readonly(ots));
++    tcg_debug_assert(its->type == TCG_TYPE_I128);
++    tcg_debug_assert(its->val_type == TEMP_VAL_MEM);
++    tcg_debug_assert(ofs < 16);
++    tcg_debug_assert((ofs & 3) == 0);
++
++    if (ots->val_type == TEMP_VAL_REG) {
++        reg = ots->reg;
++    } else {
++        reg = tcg_reg_alloc(s, tcg_target_available_regs[TCG_TYPE_I32],
++                            s->reserved_regs, op->output_pref[0],
++                            ots->indirect_base);
++        ots->val_type = TEMP_VAL_REG;
++        ots->reg = reg;
++        s->reg_to_temp[reg] = ots;
++    }
++
++    tcg_out_ld(s, TCG_TYPE_I32, reg,
++               its->mem_base->reg, its->mem_offset + ofs);
++    ots->mem_coherent = 0;
++
++    if (IS_DEAD_ARG(1)) {
++        temp_dead(s, its);
++    }
++}
++
++static void tcg_reg_alloc_concat4_i32_i128(TCGContext *s, const TCGOp *op)
++{
++    const TCGLifeData arg_life = op->life;
++    TCGTemp *ots = arg_temp(op->args[0]);
++    int be = HOST_BIG_ENDIAN ? 0xc : 0;
++
++    assert(TCG_TARGET_REG_BITS == 32);
++    tcg_debug_assert(ots->type == TCG_TYPE_I128);
++    tcg_debug_assert(!temp_readonly(ots));
++    tcg_debug_assert(NEED_SYNC_ARG(0));
++
++    if (!ots->mem_allocated) {
++        temp_allocate_frame(s, ots);
++    }
++
++    for (int i = 0; i < 4; ++i) {
++        TCGTemp *its = arg_temp(op->args[i + 1]);
++        int ofs = ots->mem_offset + ((i * 4) ^ be);
++
++        if (its->val_type == TEMP_VAL_CONST &&
++            IS_DEAD_ARG(i + 1) &&
++            tcg_out_sti(s, TCG_TYPE_I32, its->val, ots->mem_base->reg, ofs)) {
++            continue;
++        }
++
++        temp_load(s, its, tcg_target_available_regs[TCG_TYPE_I32],
++                  s->reserved_regs, 0);
++        tcg_out_st(s, TCG_TYPE_I32, its->reg, ots->mem_base->reg, ofs);
++
++        if (IS_DEAD_ARG(i + 1)) {
++            temp_dead(s, its);
++        }
++    }
++
++    ots->val_type = TEMP_VAL_MEM;
++    ots->mem_coherent = 1;
++}
++
+ /*
+  * Specialized code generation for INDEX_op_dup_vec.
+  */
+@@ -5007,6 +5086,12 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb, target_ulong pc_start)
+         case INDEX_op_mov_vec:
+             tcg_reg_alloc_mov(s, op);
+             break;
++        case INDEX_op_extr_i128_i32:
++            tcg_reg_alloc_exrl_i128_i32(s, op);
++            break;
++        case INDEX_op_concat4_i32_i128:
++            tcg_reg_alloc_concat4_i32_i128(s, op);
++            break;
+         case INDEX_op_dup_vec:
+             tcg_reg_alloc_dup(s, op);
+             break;
 -- 
 2.34.1
 
