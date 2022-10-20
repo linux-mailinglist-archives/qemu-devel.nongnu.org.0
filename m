@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B79DC605BA5
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 11:58:54 +0200 (CEST)
-Received: from localhost ([::1]:57272 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DD3B605B24
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 11:30:40 +0200 (CEST)
+Received: from localhost ([::1]:39470 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olSK6-0001sw-3E
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 05:58:52 -0400
+	id 1olRsr-0007lt-4U
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 05:30:38 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olRqp-000424-9t
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 05:28:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50476)
+	id 1olRsq-0007Ar-0N
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 05:30:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1olRfV-0002Rm-E9
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 05:16:49 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:56539)
+ id 1olRfY-0002ZC-6S
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 05:16:52 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:54509)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1olRfS-0005Ho-OX
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 05:16:49 -0400
+ id 1olRfT-0005Hs-K1
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 05:16:50 -0400
 Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N2m7Q-1pFObn05SG-0137ju; Thu, 20 Oct 2022 11:16:35 +0200
+ id 1N63NQ-1p9sIG1hkm-016OzW; Thu, 20 Oct 2022 11:16:36 +0200
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
@@ -41,32 +41,32 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Paul Durrant <paul@xen.org>, Stefan Weil <sw@weilnetz.de>,
  Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v12 02/17] net: remove the @errp argument of net_client_inits()
-Date: Thu, 20 Oct 2022 11:16:09 +0200
-Message-Id: <20221020091624.48368-3-lvivier@redhat.com>
+Subject: [PATCH v12 03/17] net: simplify net_client_parse() error management
+Date: Thu, 20 Oct 2022 11:16:10 +0200
+Message-Id: <20221020091624.48368-4-lvivier@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221020091624.48368-1-lvivier@redhat.com>
 References: <20221020091624.48368-1-lvivier@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:GcI+SCNvkXqQLfBRQLhwGtXM3muJ7p0E+3r6yO9gVQ4zkONOeJ5
- r1rQyZXlUOg8IvOZqlTK2WrBGx9rl2Q5ngt3dEtTLfspvpad4W8KLrX6Gb/CXXAv3T3OYgw
- 0rmwD7ybGZSopSkeHbwY1jVRN+erL7U14XNuby8q7WWa3MFUYGfyYpz7yLOMEFRXi+lm5hV
- KEeOsNHiJafL1Tuxh+jbg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HAC/78TLA1A=:1olf2L/xfqbx0inlXtevxY
- e0xuehDV1mOPVSJAzg0nb7C2svioJ/o1T8xEQ7LTD3wZGn9KdUavzr1BLg4i488hjdSG2l/kA
- SITd2V8g7SbW4QZkHLedsmSP2HwP7ewcO5bpw+nEQEVFJEcnO64qo43+d9SeXh/7lF6USnGuY
- Ctsh+Pgcpp5kLJ6LeY227sd1obkkoX6TQa4p+lzgiTmVQ+EmEsFW/fuRzlZeb+sTja7lMNxAD
- q55ZqYWgLuYHI8HSWwAc0A+8KladR13D2nwn5QfQ53TqqZ5MUtefuaXHPPIGP8GqnFqNX2SNG
- ZtKYKGIu3OWMdxP/wr3jVGwLxmBadDXmvyxFSRxSZg+UwWLV6aRB5+LYV4r3rAeSr4jDkp9lm
- GIyrZPVbsQc9QWdrPCn+RPM3BFYhCFqwhj+xcS+trKEdUBZLTYVgIwqpN2cw5+8pjpQrDlIeC
- 5+ag9hkUY2/JHHAngwxHDTjKUFGI/xZWIJc6uMmehEmPVIu8R/YZGZ7pgGeOojJLxU+ICxMQ1
- RRTQ+ivJQM77YDE/Gz48uMXkCPt3fsWjqnHpi7jmGx9DJzHH+iXyg1a5nr41k8F6iy6KXINdn
- EWnzHS1SOscKLN2l0iCc++/+W8rXF4fG7NkxkXDc7oayMTw1BsA0/5L9L5MzGl6HR7PVx13zS
- 5/E+BjYVjC1VVGZDA5z4w7BUXqrNRmBnmU9n0d+GN3/wq6G36bqefHACV1gjIqwsuklGcHbvj
- QFJ7AUvZTOxSNGmyg2LjGZKMXdSBUJ5mpqR0dDb8Pny0IOvWk7wUcUETbC4n8RzdK4LdqVExV
- I5EwEj0
-Received-SPF: permerror client-ip=212.227.126.187;
+X-Provags-ID: V03:K1:4+NFKSFp2Hij0apaps/Q2/rgGc65iwBfvVhBoGdLBuqqtEwusC+
+ q0jNyFjcVAi6iQic8jBMtjYjKLmz/ULbh4oSvJeTiOjSOPkOvQs0quJnczPXxei7Wdqez3v
+ vhd/NixhpoJaSNFv80dHO+BZ9caakqorWtZoUeW8+Pu3rOHyy9fvr0XtdAbu9koYTcxPavE
+ hcqc0pXAUecXdcxTKPVQA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:iiuq1lxlvJU=:nysntMu7Wj00UYdxw8Xhpt
+ MaPLgD3i/jHiAlOnBA9XhZTAg7pcQHrPaQZuUcEafIdg4x8FkefKXLSelNP843i0tWC//x5nb
+ R6IBUVMany+OkZfHAJXHQXyB4YuYen+1Ejg674gPuCyZF8zIKv26OUpWBdEU2/cSfNsKNE0tr
+ Q4LV8XQ/Im1zQ0v9DcCVtTAoJRL8LHt8Ebx8NZPSUpNZNdAYOPQ3efdaxGiPuxcDqRTA0EhJO
+ XAJ9g8NCsaMqB3Skj1LM7Z+ig7TNnhaFWJo+fs6DrTLOJM7VpGH+T9AE/ErMV8XO1SEjj0iIF
+ CiXCcyeor1rzKlPpwg3QHhHUbWXGCyY/1COahsWzuhU+c36pz0QDmvzjsPxGI3p0t5dzyJB1z
+ ejjKQgIaM1BgCwqQxs09VMuSRwmw4vHcYrM9L1/DHGCyQZYNZ3JmkM9/ZrH2v2rNcdqLDwBEf
+ hCYDHhCzuCOAu+D2cOq9/Ryb3rnEEoh+C2vS9nIvSfcSR1nhu6FdJTsU3XHYBAMxXlh61b6be
+ 2KO+6e6fis5TFDZxZnn1C6R5iCdKqzbg4LjQGfmQdfp3T/zOheyeQ0nMWwtl1K0rYipFjmaT2
+ 3IutMyfT+EYO/Kma3dgdawzSx6Jss9d/DsNM5W3CuK9HBlhAKp/j+Geoew4AJfWfTKqKDfqhn
+ sSzFY4dduGQ3FS90VXfs6sMhJ6eJOXDG4TK8Gz7Vs8mbCZSf9zfgWKgwcrpbHGBQxGrG6bZqx
+ Ypl4DUX3FUTAxRaBJFOTQI1UWnfmjaayIXJ/I+QWvZOQN6rFRYE97R/iZvMGYul8jS6yd4B4L
+ +OPbakG
+Received-SPF: permerror client-ip=212.227.126.133;
  envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -89,9 +89,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The only caller passes &error_fatal, so use this directly in the function.
+All net_client_parse() callers exit in case of error.
 
-It's what we do for -blockdev, -device, and -object.
+Move exit(1) to net_client_parse() and remove error checking from
+the callers.
 
 Suggested-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
@@ -100,75 +101,72 @@ Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
 ---
  include/net/net.h |  2 +-
- net/net.c         | 20 +++++++-------------
- softmmu/vl.c      |  2 +-
- 3 files changed, 9 insertions(+), 15 deletions(-)
+ net/net.c         |  6 ++----
+ softmmu/vl.c      | 12 +++---------
+ 3 files changed, 6 insertions(+), 14 deletions(-)
 
 diff --git a/include/net/net.h b/include/net/net.h
-index 81d0b21defce..c1c34a58f849 100644
+index c1c34a58f849..55023e7e9fa9 100644
 --- a/include/net/net.h
 +++ b/include/net/net.h
-@@ -222,7 +222,7 @@ extern const char *host_net_devices[];
+@@ -220,7 +220,7 @@ extern NICInfo nd_table[MAX_NICS];
+ extern const char *host_net_devices[];
+ 
  /* from net.c */
- int net_client_parse(QemuOptsList *opts_list, const char *str);
+-int net_client_parse(QemuOptsList *opts_list, const char *str);
++void net_client_parse(QemuOptsList *opts_list, const char *str);
  void show_netdevs(void);
--int net_init_clients(Error **errp);
-+void net_init_clients(void);
+ void net_init_clients(void);
  void net_check_clients(void);
- void net_cleanup(void);
- void hmp_host_net_add(Monitor *mon, const QDict *qdict);
 diff --git a/net/net.c b/net/net.c
-index d2288bd3a929..15958f881776 100644
+index 15958f881776..f056e8aebfb2 100644
 --- a/net/net.c
 +++ b/net/net.c
-@@ -1562,27 +1562,21 @@ out:
-     return ret;
+@@ -1579,13 +1579,11 @@ void net_init_clients(void)
+                       &error_fatal);
  }
  
--int net_init_clients(Error **errp)
-+void net_init_clients(void)
+-int net_client_parse(QemuOptsList *opts_list, const char *optarg)
++void net_client_parse(QemuOptsList *opts_list, const char *optarg)
  {
-     net_change_state_entry =
-         qemu_add_vm_change_state_handler(net_vm_change_state_handler, NULL);
- 
-     QTAILQ_INIT(&net_clients);
- 
--    if (qemu_opts_foreach(qemu_find_opts("netdev"),
--                          net_init_netdev, NULL, errp)) {
+     if (!qemu_opts_parse_noisily(opts_list, optarg, true)) {
 -        return -1;
--    }
++        exit(1);
+     }
 -
--    if (qemu_opts_foreach(qemu_find_opts("nic"), net_param_nic, NULL, errp)) {
--        return -1;
--    }
-+    qemu_opts_foreach(qemu_find_opts("netdev"), net_init_netdev, NULL,
-+                      &error_fatal);
- 
--    if (qemu_opts_foreach(qemu_find_opts("net"), net_init_client, NULL, errp)) {
--        return -1;
--    }
-+    qemu_opts_foreach(qemu_find_opts("nic"), net_param_nic, NULL,
-+                      &error_fatal);
- 
 -    return 0;
-+    qemu_opts_foreach(qemu_find_opts("net"), net_init_client, NULL,
-+                      &error_fatal);
  }
  
- int net_client_parse(QemuOptsList *opts_list, const char *optarg)
+ /* From FreeBSD */
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index b464da25bcde..a4ae131e4d61 100644
+index a4ae131e4d61..e69aa43de469 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -1904,7 +1904,7 @@ static void qemu_create_late_backends(void)
-         qtest_server_init(qtest_chrdev, qtest_log, &error_fatal);
-     }
- 
--    net_init_clients(&error_fatal);
-+    net_init_clients();
- 
-     object_option_foreach_add(object_create_late);
- 
+@@ -2801,21 +2801,15 @@ void qemu_init(int argc, char **argv)
+                 break;
+             case QEMU_OPTION_netdev:
+                 default_net = 0;
+-                if (net_client_parse(qemu_find_opts("netdev"), optarg) == -1) {
+-                    exit(1);
+-                }
++                net_client_parse(qemu_find_opts("netdev"), optarg);
+                 break;
+             case QEMU_OPTION_nic:
+                 default_net = 0;
+-                if (net_client_parse(qemu_find_opts("nic"), optarg) == -1) {
+-                    exit(1);
+-                }
++                net_client_parse(qemu_find_opts("nic"), optarg);
+                 break;
+             case QEMU_OPTION_net:
+                 default_net = 0;
+-                if (net_client_parse(qemu_find_opts("net"), optarg) == -1) {
+-                    exit(1);
+-                }
++                net_client_parse(qemu_find_opts("net"), optarg);
+                 break;
+ #ifdef CONFIG_LIBISCSI
+             case QEMU_OPTION_iscsi:
 -- 
 2.37.3
 
