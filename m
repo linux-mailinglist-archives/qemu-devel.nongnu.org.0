@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B1C606649
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 18:52:42 +0200 (CEST)
-Received: from localhost ([::1]:43632 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 312936066A5
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 19:03:49 +0200 (CEST)
+Received: from localhost ([::1]:52572 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olYmd-0007E1-VP
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:52:40 -0400
+	id 1olYxH-0007k5-LU
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:03:40 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olYm0-0008OG-J1
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:52:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60624)
+	id 1olYry-0003KU-8S
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:58:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1olYNF-0004kR-LO
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:26:26 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:44673)
+ id 1olYNY-0004vi-C6
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:26:49 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:49405)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1olYND-0006yl-Lc
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:26:25 -0400
+ id 1olYNG-0006zN-4S
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:26:39 -0400
 Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MDeAZ-1ovghz1zkN-00Am0K; Thu, 20 Oct 2022 18:26:08 +0200
+ id 1N7QM9-1pAbCW41Cn-017peA; Thu, 20 Oct 2022 18:26:10 +0200
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Paul Durrant <paul@xen.org>, Markus Armbruster <armbru@redhat.com>,
@@ -39,40 +39,40 @@ Cc: Paul Durrant <paul@xen.org>, Markus Armbruster <armbru@redhat.com>,
  Stefan Weil <sw@weilnetz.de>, Paolo Bonzini <pbonzini@redhat.com>,
  Jason Wang <jasowang@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Anthony Perard <anthony.perard@citrix.com>
-Subject: [PATCH v13 04/17] qapi: net: introduce a way to bypass
- qemu_opts_parse_noisily()
-Date: Thu, 20 Oct 2022 18:25:45 +0200
-Message-Id: <20221020162558.123284-5-lvivier@redhat.com>
+ Anthony Perard <anthony.perard@citrix.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v13 05/17] net: introduce qemu_set_info_str() function
+Date: Thu, 20 Oct 2022 18:25:46 +0200
+Message-Id: <20221020162558.123284-6-lvivier@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221020162558.123284-1-lvivier@redhat.com>
 References: <20221020162558.123284-1-lvivier@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:cIS3YCwDSQvgN0xzzUGDagI0rsu6xUoGBxoFeAhbGyx0pODHnhH
- Ei006VHLV0fpsSSFrRo/TVbXgndmhq+vKvM/zLZOCSUsWF29lZ4Pce4D+p12W30tvObK91V
- xD5ZSG1RCtX+GwJdXHNJfyfd8bJ+qDnY/2HkJgu2i5XyQraMfeZSNTXncWH4CUPMt3EuwYo
- gmhqV7shWzDa76vWtGepg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:385AixmgNVA=:pqD0ectJjKcYTckfR+n6lw
- h/3cJrHEroYvUZtrecTB+n5YVUlmoJQkXdTox5UoFiXoWw2VSabqzjc20UFZd7FXpvSPhWNiO
- 89WDd2OXDon+imPRfM5KjmlC3yg3buH8DykgZmMa7kQ2mK8yirbo2wJmOAQsAhebnlmkXVxz3
- BpmuIakKPxMiPeLt7FFKeoVv4pj7KSWA99vY2xf96FN7dP/qbNuq1qZysW8qmdSG6QjKvUkq9
- Pj9xRYZ7TkfEGk6NVmBEcnhmXHdmD0XwbYjh2IwDH7Non0/KsdC98y+fqqKVhmygvkpy/HyK9
- guaEDuD/IvDY+tQWNUl7vWQ3GxFbs3KLBhJ0H2m9eElqsisaYGxRzM9zARtTaMUTAZnR/+uWQ
- sydjBGXKy2BpvVYAtlpSFeQYAT2sz0DzTYPPJBqW9bL/vxSVX7JQkZZ79AQTXvUrN0ArMV5n3
- KnTeuwD6lRW80oGRauA8DieCgDA82SVOsAyl4/uHdCVbtCrCcYa0fGFQGp1/0pQzS9GtRQEbk
- 7oKjzZztJ9/9twgs3H+1bNxp6VVZAuu5hDqaFsr5OMDOJVl953KsDPhN7T96QZNzUGNQqqj7u
- HQm+1TLY0iwnM/sTg9nmxmdxfEm9NuH9QFiImFb69BAR6L4HdsJELql+E/528I8w3QLJOmZ4y
- rt2RWQy+w1B2mHqbLycLOWR1/MR6Qk4+/BrMvEEeX+j9ZMY3C5yrpigpl7s889w2B+mg6pPKA
- PpE//yRQmvh4YaT6uxeKxXlq7ebBaNblkOtLyMlL8mF3n5YNlWiP950WHYzbzvgMwDUaTbd9K
- bx0WQhc
-Received-SPF: permerror client-ip=212.227.126.133;
+X-Provags-ID: V03:K1:J9EQXLqtWLORmJOCxSzN+R8yrwnijhrnrCOlKNRnxq4VuYdYXgA
+ rZuBKDqFmWp56pQS62xC0CgiuQOd7hC28/FpKqoVz2YCHjxKmFdnD3Rqm/xh2obHchwLxr7
+ 5UGEKQ+EvlqceoEMpMbApgRgyOk0F5BGbFE1b8dBqJcRsd4q8dyk4y4qXphuEmnbIu0VUR+
+ +RttfA1moZHsbc61HyupA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qVJQ3vATfcQ=:/pFG3MK9dc0fpZOPJqamA8
+ em9k0miUexkkDhrjbkySBIsTpWAxvOhVF5aTXobVWSx7sP2CPA2CI9QV+OxydH8X/dTt95eyj
+ qanl9YK8Y6yIoPuVWvl9hc/3Gr1/lAdz2EOqpboRI9Y8HzblzFNSj23eFvHTxjExCoJ0HFUsE
+ rPgs1coMBzRg5sqm8ilH2VYViQp9wrAP1OnvHLdc/ZLq6l4eUfgFsBS+g4VATEEkREapDOtBz
+ R85icdvHZCya6+owHNLYWVp71b2rK0GPMVUBtsQm8paiMgMjDIU+6167AHo5E9IejVEmFsuqJ
+ QShsofPOMxwnSniw3T7j4kkSJfL2o0K1Fl3uDMqwYQ9p3K6snb0FfwvyxZC0Vz7Ioatk8m9y8
+ XXvJZkoRKx02xZybbolFfzKbpIqMcTUEq2cWo6BRRmDvwZ3WRUJYW/viXZ83lKuh1UGdMft+B
+ uH0Px0gCBpfp+hk4t30bBmyBbbo+vs3PIht9Rq+sIt6hcQ+8Da1vff8PdwvujOQozS/PDXS2G
+ pZEgirXh6QCuPsRaFuRdLLTORcQE1XII+arJrVNvL+yZ0NBpHltP6KkJB7rI9McF5Bl0JV7b2
+ aB044fXJ1A+4Mju5IT3TefEHkaX4NIZEJzHH6k1n+QUkG54L/wr5nB56w261Ma0c7w6TqThKl
+ YfPXcUsiy1XUks1r71BIEIiPo0xmiAcG1xE97LDmPPjmE4Ja7EJcwpirGOfCSaNfvjfNHXlEG
+ 1r7Vn5VoFoRDtZRmptRGP4O0+cq+2AseU5QYxNuqxinPOnJETGX+/MFgDCdGLTziqFlu8V5o/
+ Q1wz+15
+Received-SPF: permerror client-ip=212.227.126.134;
  envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_FAIL=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_FAIL=0.001,
  SPF_HELO_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,181 +89,293 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As qemu_opts_parse_noisily() flattens the QAPI structures ("type" field
-of Netdev structure can collides with "type" field of SocketAddress),
-we introduce a way to bypass qemu_opts_parse_noisily() and use directly
-visit_type_Netdev() to parse the backend parameters.
-
-More details from Markus:
-
-qemu_init() passes the argument of -netdev, -nic, and -net to
-net_client_parse().
-
-net_client_parse() parses with qemu_opts_parse_noisily(), passing
-QemuOptsList qemu_netdev_opts for -netdev, qemu_nic_opts for -nic, and
-qemu_net_opts for -net.  Their desc[] are all empty, which means any
-keys are accepted.  The result of the parse (a QemuOpts) is stored in
-the QemuOptsList.
-
-Note that QemuOpts is flat by design.  In some places, we layer non-flat
-on top using dotted keys convention, but not here.
-
-net_init_clients() iterates over the stored QemuOpts, and passes them to
-net_init_netdev(), net_param_nic(), or net_init_client(), respectively.
-
-These functions pass the QemuOpts to net_client_init().  They also do
-other things with the QemuOpts, which we can ignore here.
-
-net_client_init() uses the opts visitor to convert the (flat) QemOpts to
-a (non-flat) QAPI object Netdev.  Netdev is also the argument of QMP
-command netdev_add.
-
-The opts visitor was an early attempt to support QAPI in
-(QemuOpts-based) CLI.  It restricts QAPI types to a certain shape; see
-commit eb7ee2cbeb "qapi: introduce OptsVisitor".
-
-A more modern way to support QAPI is qobject_input_visitor_new_str().
-It uses keyval_parse() instead of QemuOpts for KEY=VALUE,... syntax, and
-it also supports JSON syntax.  The former isn't quite as expressive as
-JSON, but it's a lot closer than QemuOpts + opts visitor.
-
-This commit paves the way to use of the modern way instead.
+Embed the setting of info_str in a function.
 
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- include/net/net.h |  2 ++
- net/net.c         | 57 +++++++++++++++++++++++++++++++++++++++++++++++
- softmmu/vl.c      |  6 ++++-
- 3 files changed, 64 insertions(+), 1 deletion(-)
+ hw/net/xen_nic.c  |  5 ++---
+ include/net/net.h |  1 +
+ net/l2tpv3.c      |  3 +--
+ net/net.c         | 17 ++++++++++++-----
+ net/slirp.c       |  5 ++---
+ net/socket.c      | 33 ++++++++++++++-------------------
+ net/tap-win32.c   |  3 +--
+ net/tap.c         | 13 +++++--------
+ net/vde.c         |  3 +--
+ net/vhost-user.c  |  3 +--
+ net/vhost-vdpa.c  |  2 +-
+ 11 files changed, 41 insertions(+), 47 deletions(-)
 
+diff --git a/hw/net/xen_nic.c b/hw/net/xen_nic.c
+index 5c815b4f0c52..7d92c2d022b0 100644
+--- a/hw/net/xen_nic.c
++++ b/hw/net/xen_nic.c
+@@ -296,9 +296,8 @@ static int net_init(struct XenLegacyDevice *xendev)
+     netdev->nic = qemu_new_nic(&net_xen_info, &netdev->conf,
+                                "xen", NULL, netdev);
+ 
+-    snprintf(qemu_get_queue(netdev->nic)->info_str,
+-             sizeof(qemu_get_queue(netdev->nic)->info_str),
+-             "nic: xenbus vif macaddr=%s", netdev->mac);
++    qemu_set_info_str(qemu_get_queue(netdev->nic),
++                      "nic: xenbus vif macaddr=%s", netdev->mac);
+ 
+     /* fill info */
+     xenstore_write_be_int(&netdev->xendev, "feature-rx-copy", 1);
 diff --git a/include/net/net.h b/include/net/net.h
-index 55023e7e9fa9..025dbf1e143b 100644
+index 025dbf1e143b..3db75ff841ff 100644
 --- a/include/net/net.h
 +++ b/include/net/net.h
-@@ -220,6 +220,8 @@ extern NICInfo nd_table[MAX_NICS];
- extern const char *host_net_devices[];
+@@ -177,6 +177,7 @@ ssize_t qemu_send_packet_async(NetClientState *nc, const uint8_t *buf,
+ void qemu_purge_queued_packets(NetClientState *nc);
+ void qemu_flush_queued_packets(NetClientState *nc);
+ void qemu_flush_or_purge_queued_packets(NetClientState *nc, bool purge);
++void qemu_set_info_str(NetClientState *nc, const char *fmt, ...);
+ void qemu_format_nic_info_str(NetClientState *nc, uint8_t macaddr[6]);
+ bool qemu_has_ufo(NetClientState *nc);
+ bool qemu_has_vnet_hdr(NetClientState *nc);
+diff --git a/net/l2tpv3.c b/net/l2tpv3.c
+index af373e5c300c..350041a0d6c0 100644
+--- a/net/l2tpv3.c
++++ b/net/l2tpv3.c
+@@ -723,8 +723,7 @@ int net_init_l2tpv3(const Netdev *netdev,
  
- /* from net.c */
-+bool netdev_is_modern(const char *optarg);
-+void netdev_parse_modern(const char *optarg);
- void net_client_parse(QemuOptsList *opts_list, const char *str);
- void show_netdevs(void);
- void net_init_clients(void);
+     l2tpv3_read_poll(s, true);
+ 
+-    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
+-             "l2tpv3: connected");
++    qemu_set_info_str(&s->nc, "l2tpv3: connected");
+     return 0;
+ outerr:
+     qemu_del_net_client(nc);
 diff --git a/net/net.c b/net/net.c
-index f056e8aebfb2..ffe3e5a2cf1d 100644
+index ffe3e5a2cf1d..41e05137d431 100644
 --- a/net/net.c
 +++ b/net/net.c
-@@ -54,6 +54,7 @@
- #include "net/colo-compare.h"
- #include "net/filter.h"
- #include "qapi/string-output-visitor.h"
-+#include "qapi/qobject-input-visitor.h"
- 
- /* Net bridge is currently not supported for W32. */
- #if !defined(_WIN32)
-@@ -63,6 +64,16 @@
- static VMChangeStateEntry *net_change_state_entry;
- static QTAILQ_HEAD(, NetClientState) net_clients;
- 
-+typedef struct NetdevQueueEntry {
-+    Netdev *nd;
-+    Location loc;
-+    QSIMPLEQ_ENTRY(NetdevQueueEntry) entry;
-+} NetdevQueueEntry;
-+
-+typedef QSIMPLEQ_HEAD(, NetdevQueueEntry) NetdevQueue;
-+
-+static NetdevQueue nd_queue = QSIMPLEQ_HEAD_INITIALIZER(nd_queue);
-+
- /***********************************************************/
- /* network device redirectors */
- 
-@@ -1562,6 +1573,20 @@ out:
-     return ret;
+@@ -141,13 +141,20 @@ char *qemu_mac_strdup_printf(const uint8_t *macaddr)
+                            macaddr[3], macaddr[4], macaddr[5]);
  }
  
-+static void netdev_init_modern(void)
++void qemu_set_info_str(NetClientState *nc, const char *fmt, ...)
 +{
-+    while (!QSIMPLEQ_EMPTY(&nd_queue)) {
-+        NetdevQueueEntry *nd = QSIMPLEQ_FIRST(&nd_queue);
++    va_list ap;
 +
-+        QSIMPLEQ_REMOVE_HEAD(&nd_queue, entry);
-+        loc_push_restore(&nd->loc);
-+        net_client_init1(nd->nd, true, &error_fatal);
-+        loc_pop(&nd->loc);
-+        qapi_free_Netdev(nd->nd);
-+        g_free(nd);
-+    }
++    va_start(ap, fmt);
++    vsnprintf(nc->info_str, sizeof(nc->info_str), fmt, ap);
++    va_end(ap);
 +}
 +
- void net_init_clients(void)
+ void qemu_format_nic_info_str(NetClientState *nc, uint8_t macaddr[6])
  {
-     net_change_state_entry =
-@@ -1569,6 +1594,8 @@ void net_init_clients(void)
- 
-     QTAILQ_INIT(&net_clients);
- 
-+    netdev_init_modern();
-+
-     qemu_opts_foreach(qemu_find_opts("netdev"), net_init_netdev, NULL,
-                       &error_fatal);
- 
-@@ -1579,6 +1606,36 @@ void net_init_clients(void)
-                       &error_fatal);
+-    snprintf(nc->info_str, sizeof(nc->info_str),
+-             "model=%s,macaddr=%02x:%02x:%02x:%02x:%02x:%02x",
+-             nc->model,
+-             macaddr[0], macaddr[1], macaddr[2],
+-             macaddr[3], macaddr[4], macaddr[5]);
++    qemu_set_info_str(nc, "model=%s,macaddr=%02x:%02x:%02x:%02x:%02x:%02x",
++                      nc->model, macaddr[0], macaddr[1], macaddr[2],
++                      macaddr[3], macaddr[4], macaddr[5]);
  }
  
-+/*
-+ * Does this -netdev argument use modern rather than traditional syntax?
-+ * Modern syntax is to be parsed with netdev_parse_modern().
-+ * Traditional syntax is to be parsed with net_client_parse().
-+ */
-+bool netdev_is_modern(const char *optarg)
-+{
-+    return false;
-+}
-+
-+/*
-+ * netdev_parse_modern() uses modern, more expressive syntax than
-+ * net_client_parse(), but supports only the -netdev option.
-+ * netdev_parse_modern() appends to @nd_queue, whereas net_client_parse()
-+ * appends to @qemu_netdev_opts.
-+ */
-+void netdev_parse_modern(const char *optarg)
-+{
-+    Visitor *v;
-+    NetdevQueueEntry *nd;
-+
-+    v = qobject_input_visitor_new_str(optarg, "type", &error_fatal);
-+    nd = g_new(NetdevQueueEntry, 1);
-+    visit_type_Netdev(v, NULL, &nd->nd, &error_fatal);
-+    visit_free(v);
-+    loc_save(&nd->loc);
-+
-+    QSIMPLEQ_INSERT_TAIL(&nd_queue, nd, entry);
-+}
-+
- void net_client_parse(QemuOptsList *opts_list, const char *optarg)
- {
-     if (!qemu_opts_parse_noisily(opts_list, optarg, true)) {
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index e69aa43de469..99fb49c7b0ee 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2801,7 +2801,11 @@ void qemu_init(int argc, char **argv)
-                 break;
-             case QEMU_OPTION_netdev:
-                 default_net = 0;
--                net_client_parse(qemu_find_opts("netdev"), optarg);
-+                if (netdev_is_modern(optarg)) {
-+                    netdev_parse_modern(optarg);
-+                } else {
-+                    net_client_parse(qemu_find_opts("netdev"), optarg);
-+                }
-                 break;
-             case QEMU_OPTION_nic:
-                 default_net = 0;
+ static int mac_table[256] = {0};
+diff --git a/net/slirp.c b/net/slirp.c
+index 8679be644420..14a8d592774c 100644
+--- a/net/slirp.c
++++ b/net/slirp.c
+@@ -611,9 +611,8 @@ static int net_slirp_init(NetClientState *peer, const char *model,
+ 
+     nc = qemu_new_net_client(&net_slirp_info, peer, model, name);
+ 
+-    snprintf(nc->info_str, sizeof(nc->info_str),
+-             "net=%s,restrict=%s", inet_ntoa(net),
+-             restricted ? "on" : "off");
++    qemu_set_info_str(nc, "net=%s,restrict=%s", inet_ntoa(net),
++                      restricted ? "on" : "off");
+ 
+     s = DO_UPCAST(SlirpState, nc, nc);
+ 
+diff --git a/net/socket.c b/net/socket.c
+index bfd8596250c4..ade1ecf38b87 100644
+--- a/net/socket.c
++++ b/net/socket.c
+@@ -179,7 +179,7 @@ static void net_socket_send(void *opaque)
+         s->fd = -1;
+         net_socket_rs_init(&s->rs, net_socket_rs_finalize, false);
+         s->nc.link_down = true;
+-        memset(s->nc.info_str, 0, sizeof(s->nc.info_str));
++        qemu_set_info_str(&s->nc, "");
+ 
+         return;
+     }
+@@ -387,16 +387,15 @@ static NetSocketState *net_socket_fd_init_dgram(NetClientState *peer,
+     /* mcast: save bound address as dst */
+     if (is_connected && mcast != NULL) {
+         s->dgram_dst = saddr;
+-        snprintf(nc->info_str, sizeof(nc->info_str),
+-                 "socket: fd=%d (cloned mcast=%s:%d)",
+-                 fd, inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
++        qemu_set_info_str(nc, "socket: fd=%d (cloned mcast=%s:%d)", fd,
++                          inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
+     } else {
+         if (sa_type == SOCKET_ADDRESS_TYPE_UNIX) {
+             s->dgram_dst.sin_family = AF_UNIX;
+         }
+ 
+-        snprintf(nc->info_str, sizeof(nc->info_str),
+-                 "socket: fd=%d %s", fd, SocketAddressType_str(sa_type));
++        qemu_set_info_str(nc, "socket: fd=%d %s", fd,
++                          SocketAddressType_str(sa_type));
+     }
+ 
+     return s;
+@@ -430,7 +429,7 @@ static NetSocketState *net_socket_fd_init_stream(NetClientState *peer,
+ 
+     nc = qemu_new_net_client(&net_socket_info, peer, model, name);
+ 
+-    snprintf(nc->info_str, sizeof(nc->info_str), "socket: fd=%d", fd);
++    qemu_set_info_str(nc, "socket: fd=%d", fd);
+ 
+     s = DO_UPCAST(NetSocketState, nc, nc);
+ 
+@@ -497,9 +496,8 @@ static void net_socket_accept(void *opaque)
+     s->fd = fd;
+     s->nc.link_down = false;
+     net_socket_connect(s);
+-    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
+-             "socket: connection from %s:%d",
+-             inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
++    qemu_set_info_str(&s->nc, "socket: connection from %s:%d",
++                      inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
+ }
+ 
+ static int net_socket_listen_init(NetClientState *peer,
+@@ -597,9 +595,8 @@ static int net_socket_connect_init(NetClientState *peer,
+         return -1;
+     }
+ 
+-    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
+-             "socket: connect to %s:%d",
+-             inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
++    qemu_set_info_str(&s->nc, "socket: connect to %s:%d",
++                      inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
+     return 0;
+ }
+ 
+@@ -642,9 +639,8 @@ static int net_socket_mcast_init(NetClientState *peer,
+ 
+     s->dgram_dst = saddr;
+ 
+-    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
+-             "socket: mcast=%s:%d",
+-             inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
++    qemu_set_info_str(&s->nc, "socket: mcast=%s:%d",
++                      inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
+     return 0;
+ 
+ }
+@@ -697,9 +693,8 @@ static int net_socket_udp_init(NetClientState *peer,
+ 
+     s->dgram_dst = raddr;
+ 
+-    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
+-             "socket: udp=%s:%d",
+-             inet_ntoa(raddr.sin_addr), ntohs(raddr.sin_port));
++    qemu_set_info_str(&s->nc, "socket: udp=%s:%d", inet_ntoa(raddr.sin_addr),
++                      ntohs(raddr.sin_port));
+     return 0;
+ }
+ 
+diff --git a/net/tap-win32.c b/net/tap-win32.c
+index 7466f22e77a4..a49c28ba5dc5 100644
+--- a/net/tap-win32.c
++++ b/net/tap-win32.c
+@@ -789,8 +789,7 @@ static int tap_win32_init(NetClientState *peer, const char *model,
+ 
+     s = DO_UPCAST(TAPState, nc, nc);
+ 
+-    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
+-             "tap: ifname=%s", ifname);
++    qemu_set_info_str(&s->nc, "tap: ifname=%s", ifname);
+ 
+     s->handle = handle;
+ 
+diff --git a/net/tap.c b/net/tap.c
+index e203d07a1216..1210a0436de8 100644
+--- a/net/tap.c
++++ b/net/tap.c
+@@ -630,8 +630,7 @@ int net_init_bridge(const Netdev *netdev, const char *name,
+     }
+     s = net_tap_fd_init(peer, "bridge", name, fd, vnet_hdr);
+ 
+-    snprintf(s->nc.info_str, sizeof(s->nc.info_str), "helper=%s,br=%s", helper,
+-             br);
++    qemu_set_info_str(&s->nc, "helper=%s,br=%s", helper, br);
+ 
+     return 0;
+ }
+@@ -690,14 +689,12 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
+     }
+ 
+     if (tap->has_fd || tap->has_fds) {
+-        snprintf(s->nc.info_str, sizeof(s->nc.info_str), "fd=%d", fd);
++        qemu_set_info_str(&s->nc, "fd=%d", fd);
+     } else if (tap->has_helper) {
+-        snprintf(s->nc.info_str, sizeof(s->nc.info_str), "helper=%s",
+-                 tap->helper);
++        qemu_set_info_str(&s->nc, "helper=%s", tap->helper);
+     } else {
+-        snprintf(s->nc.info_str, sizeof(s->nc.info_str),
+-                 "ifname=%s,script=%s,downscript=%s", ifname, script,
+-                 downscript);
++        qemu_set_info_str(&s->nc, "ifname=%s,script=%s,downscript=%s", ifname,
++                          script, downscript);
+ 
+         if (strcmp(downscript, "no") != 0) {
+             snprintf(s->down_script, sizeof(s->down_script), "%s", downscript);
+diff --git a/net/vde.c b/net/vde.c
+index 1083916bcf52..c0a08662cc30 100644
+--- a/net/vde.c
++++ b/net/vde.c
+@@ -98,8 +98,7 @@ static int net_vde_init(NetClientState *peer, const char *model,
+ 
+     nc = qemu_new_net_client(&net_vde_info, peer, model, name);
+ 
+-    snprintf(nc->info_str, sizeof(nc->info_str), "sock=%s,fd=%d",
+-             sock, vde_datafd(vde));
++    qemu_set_info_str(nc, "sock=%s,fd=%d", sock, vde_datafd(vde));
+ 
+     s = DO_UPCAST(VDEState, nc, nc);
+ 
+diff --git a/net/vhost-user.c b/net/vhost-user.c
+index b1a0247b5981..3a6b90da8661 100644
+--- a/net/vhost-user.c
++++ b/net/vhost-user.c
+@@ -341,8 +341,7 @@ static int net_vhost_user_init(NetClientState *peer, const char *device,
+     user = g_new0(struct VhostUserState, 1);
+     for (i = 0; i < queues; i++) {
+         nc = qemu_new_net_client(&net_vhost_user_info, peer, device, name);
+-        snprintf(nc->info_str, sizeof(nc->info_str), "vhost-user%d to %s",
+-                 i, chr->label);
++        qemu_set_info_str(nc, "vhost-user%d to %s", i, chr->label);
+         nc->queue_index = i;
+         if (!nc0) {
+             nc0 = nc;
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 4bc3fd01a878..e1865bea6aa3 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -593,7 +593,7 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+         nc = qemu_new_net_control_client(&net_vhost_vdpa_cvq_info, peer,
+                                          device, name);
+     }
+-    snprintf(nc->info_str, sizeof(nc->info_str), TYPE_VHOST_VDPA);
++    qemu_set_info_str(nc, TYPE_VHOST_VDPA);
+     s = DO_UPCAST(VhostVDPAState, nc, nc);
+ 
+     s->vhost_vdpa.device_fd = vdpa_device_fd;
 -- 
 2.37.3
 
