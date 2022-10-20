@@ -2,96 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C26196062F0
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 16:26:05 +0200 (CEST)
-Received: from localhost ([::1]:48308 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A630960633B
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 16:36:32 +0200 (CEST)
+Received: from localhost ([::1]:33556 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olWUm-0008Bl-30
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:26:04 -0400
+	id 1olWes-0002UZ-Ip
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:36:30 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olWQt-0007Cc-1N
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:22:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51978)
+	id 1olWWU-0005l6-0f
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:27:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1olTzB-0003dq-J9
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:45:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34021)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1olTz8-0004y7-V1
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:45:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666266313;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lw3Ir9VfWrfjPV4hrdmmAKBgtOMIyc0LxQgAEr4gqCA=;
- b=YU8QUB10QTMRx3KaW0FVsNApVHOp7oD8YIjES5RoOXDijEM0GjwKipQkFjFZKMNLa5KfPq
- u/+CugwsZ8yNhOuNl1m/UpIhVjs2seAUg+DEsQO5mwuKEIeMhdY0+Tndn4ICbv8ggEodst
- UYW33+KazuvgRWauugTu3l4bu9+KIfE=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-422-kJUQsXr7NmWJt0vdijju6w-1; Thu, 20 Oct 2022 07:45:10 -0400
-X-MC-Unique: kJUQsXr7NmWJt0vdijju6w-1
-Received: by mail-ej1-f69.google.com with SMTP id
- hq13-20020a1709073f0d00b0078dce6a32fcso9407299ejc.13
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 04:45:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1olU5v-0002cz-Pc
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:52:30 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:45052)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1olU5t-0000nF-Ru
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:52:15 -0400
+Received: by mail-wr1-x432.google.com with SMTP id v1so4718495wrt.11
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 04:52:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=+B4GzlWXWiP9Upd6Rg4oVg9IEzG6zFAZsiOi8BQcrIM=;
+ b=dHtKvqEdDqwEsEPBT3YobfGF8dDlGDzjWopjSveaQ+8EVJHeFfRCXAN/4hYNRSECTK
+ 2QtQEb2+I1AXGPzkLLLccLdmJyH6AK3Uzlf3bvcFqKGqtlnUqrCrtrEf+/EkJ8zuegLg
+ wzTYSq97fJHXEijff1WlbTbvYD4i942iwzBrDLNr4nx6BTe5rHDWxWPY4c6U4CKIxtwd
+ 6Rlb6QWJFeXh/JaKZBaaL4WN8OlgBBuf+pvyG7eaExEt1nWMywTQ5Koe7pczDA296/NL
+ h7/mIsA/UlHBU+rjIC+JG2N1smSN9/eNUt0koho/yAEdqc5UqSaqwOsHMdlZCHBfAKPb
+ 17PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=lw3Ir9VfWrfjPV4hrdmmAKBgtOMIyc0LxQgAEr4gqCA=;
- b=xaIec/yQ/5vJBKIVjufW916HSlvZNtZgK95it2KRe9vbsF3IAkJ7jhdbWPvBHOSq5G
- rhMnga13C9WvStsAhQYwxmWu8Wpb8UtnVqxO69oKnrqkbQIoOiq/bn/4mcZ+Y+Yz1ozF
- 6HbmNAzEiPFOu6zJ9hwMFJxjyWNnZk5PPooJBLgRQcrC+h0BaW4mLJJaOqixBmyTZIEd
- F4lXtq5Q1qnFW8XleKrM2gxB7VTUmHVeEELTULmK43suDzAKCwlPZrgVvpaHE49wHKe+
- qVsyKtVqoLtOG+wliM+MdVD3EdLCk4+PQh5DQN+CZmrx6ZeGSw6T7YLNHLtZuoO8804c
- 62sQ==
-X-Gm-Message-State: ACrzQf0/mXyeuuOmYsSQHWQHAQisD+CUSLlM1q6VEf0zwJvn5PrMijqM
- qrExSy7jPiCgkGgokt19y9+XvkOPIhET+eB8SgHiyNphOlh4eQCp5Xo9EseUg12rL7hgKKzkTy9
- umaur/IJUGjIkOSY=
-X-Received: by 2002:a05:6402:42c6:b0:45c:fc58:bd0f with SMTP id
- i6-20020a05640242c600b0045cfc58bd0fmr11975019edc.19.1666266308978; 
- Thu, 20 Oct 2022 04:45:08 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5w08J481Rpi6U5iLJJYZSPLBZcC+cWzobrDDSkQ99JA9jKzekemGIYCTwlne59SbcOUXnHRA==
-X-Received: by 2002:a05:6402:42c6:b0:45c:fc58:bd0f with SMTP id
- i6-20020a05640242c600b0045cfc58bd0fmr11974999edc.19.1666266308742; 
- Thu, 20 Oct 2022 04:45:08 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+B4GzlWXWiP9Upd6Rg4oVg9IEzG6zFAZsiOi8BQcrIM=;
+ b=hMA2drt4YqEPMeHgHyKzJnlxO9olnZIbpEIrkBr2Kxet9+1ETCvP3gsNnFLDMPkTmH
+ Zo3uc9f1RP3I5W9moVIDVd4j/H7tqaF0DkEQbBw7Ox+ofkG85v6mHSurVVMG/KGvh/Z9
+ +myXEfF3aL1I5zOhQPVE7g0qEEK3+WiCbL38UDHxa50PT0jdM1vDuyLT5obM3vejZyro
+ DE4Ub6huGnudm1jKrnGqK42xD6+Qi0fzkDXX5CU8FCEzBXdiuCGEHx+tiuN+e+YDj3Oz
+ g9WC5Re+qc4IZ9+RMK1CrZU5OAH+2z4CUZI2anQy/IggfiXb9Krd6vrgvXpWbUOLmOLp
+ 4rVQ==
+X-Gm-Message-State: ACrzQf0Fr3xneGHeqUZ4pSalGnGGSelRo0ixc3TB+k6JBAZLSnCx+y2m
+ CMHEVVAaLwc5wL2zfnrq6Mr+SA==
+X-Google-Smtp-Source: AMsMyM4FPBtCiKZEaTvC9v9Eq4apzu+zEl77syvSls3b/mdlxZo7tmYx8CFQUgjmDKbUfjHseICJ8w==
+X-Received: by 2002:a5d:59ae:0:b0:230:24a1:f295 with SMTP id
+ p14-20020a5d59ae000000b0023024a1f295mr8488486wrr.457.1666266730762; 
+ Thu, 20 Oct 2022 04:52:10 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- hx15-20020a170906846f00b0074134543f82sm10307124ejc.90.2022.10.20.04.45.07
+ n33-20020a05600c3ba100b003c6b7f55673sm2696931wms.2.2022.10.20.04.52.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Oct 2022 04:45:08 -0700 (PDT)
-Date: Thu, 20 Oct 2022 13:45:06 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Robert Hoo <robert.hu@linux.intel.com>
-Cc: mst@redhat.com, xiaoguangrong.eric@gmail.com, ani@anisinha.ca,
- jingqi.liu@intel.com, qemu-devel@nongnu.org, robert.hu@intel.com
-Subject: Re: [PATCH v4 4/5] acpi/nvdimm: Implement ACPI NVDIMM Label Methods
-Message-ID: <20221020134506.64647015@redhat.com>
-In-Reply-To: <20220922122155.1326543-5-robert.hu@linux.intel.com>
-References: <20220922122155.1326543-1-robert.hu@linux.intel.com>
- <20220922122155.1326543-5-robert.hu@linux.intel.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ Thu, 20 Oct 2022 04:52:10 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A44671FFB7;
+ Thu, 20 Oct 2022 12:52:09 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
+ pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-s390x@nongnu.org (open list:S390 general arch...)
+Subject: [PATCH  v3 00/26] testing/next (docker, avocado, s390x, MAINTAINERS)
+Date: Thu, 20 Oct 2022 12:51:43 +0100
+Message-Id: <20221020115209.1761864-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,144 +100,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 22 Sep 2022 20:21:54 +0800
-Robert Hoo <robert.hu@linux.intel.com> wrote:
+Hi,
 
-> Recent ACPI spec [1] has defined NVDIMM Label Methods _LS{I,R,W}, which
-> deprecates corresponding _DSM Functions defined by PMEM _DSM Interface spec
-> [2].
-> 
-> Since the semantics of the new Label Methods are almost same as old _DSM
-> methods, the implementations here simply wrapper old ones.
-> 
-> ASL form diff can be found in next patch of updating golden master
-> binaries.
-> 
-> [1] ACPI Spec v6.4, 6.5.10 NVDIMM Label Methods
-> https://uefi.org/sites/default/files/resources/ACPI_Spec_6_4_Jan22.pdf
-> [2] Intel PMEM _DSM Interface Spec v2.0, 3.10 Deprecated Functions
-> https://pmem.io/documents/IntelOptanePMem_DSM_Interface-V2.0.pdf
-> 
-> Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
+The testing/next changes have accumulated a few more fixes since the
+last posting. Including:
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+  - a bunch of Bin Meng's test cleanups for windows
+  - some avocado test fixes and tweaks
+  - disabling an sh4 avocado test (possibly a missed recent intermittent regression)
+  - enabling some sh4 check-tcg tests (now bugs are fixed)
+  - a minor excursion into the s390 translator    
 
-> ---
->  hw/acpi/nvdimm.c | 95 ++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 95 insertions(+)
-> 
-> diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-> index afff911c1e..a3b25a92f3 100644
-> --- a/hw/acpi/nvdimm.c
-> +++ b/hw/acpi/nvdimm.c
-> @@ -1243,6 +1243,7 @@ static void nvdimm_build_fit(Aml *dev)
->  static void nvdimm_build_nvdimm_devices(Aml *root_dev, uint32_t ram_slots)
->  {
->      uint32_t slot;
-> +    Aml *method, *pkg, *field, *com_call;
->  
->      for (slot = 0; slot < ram_slots; slot++) {
->          uint32_t handle = nvdimm_slot_to_handle(slot);
-> @@ -1260,6 +1261,100 @@ static void nvdimm_build_nvdimm_devices(Aml *root_dev, uint32_t ram_slots)
->           */
->          aml_append(nvdimm_dev, aml_name_decl("_ADR", aml_int(handle)));
->  
-> +        /*
-> +         * ACPI v6.4: Section 6.5.10 NVDIMM Label Methods
-> +         */
-> +        /* _LSI */
-> +        method = aml_method("_LSI", 0, AML_SERIALIZED);
-> +        com_call = aml_call5(NVDIMM_COMMON_DSM,
-> +                            aml_touuid(NVDIMM_DEVICE_DSM_UUID),
-> +                            aml_int(1), aml_int(4), aml_int(0),
-> +                            aml_int(handle));
-> +        aml_append(method, aml_store(com_call, aml_local(0)));
-> +
-> +        aml_append(method, aml_create_dword_field(aml_local(0),
-> +                                                  aml_int(0), "STTS"));
-> +        aml_append(method, aml_create_dword_field(aml_local(0), aml_int(4),
-> +                                                  "SLSA"));
-> +        aml_append(method, aml_create_dword_field(aml_local(0), aml_int(8),
-> +                                                  "MAXT"));
-> +
-> +        pkg = aml_package(3);
-> +        aml_append(pkg, aml_name("STTS"));
-> +        aml_append(pkg, aml_name("SLSA"));
-> +        aml_append(pkg, aml_name("MAXT"));
-> +        aml_append(method, aml_store(pkg, aml_local(1)));
-> +        aml_append(method, aml_return(aml_local(1)));
-> +
-> +        aml_append(nvdimm_dev, method);
-> +
-> +        /* _LSR */
-> +        method = aml_method("_LSR", 2, AML_SERIALIZED);
-> +        aml_append(method, aml_name_decl("INPT", aml_buffer(8, NULL)));
-> +
-> +        aml_append(method, aml_create_dword_field(aml_name("INPT"),
-> +                                                  aml_int(0), "OFST"));
-> +        aml_append(method, aml_create_dword_field(aml_name("INPT"),
-> +                                                  aml_int(4), "LEN"));
-> +        aml_append(method, aml_store(aml_arg(0), aml_name("OFST")));
-> +        aml_append(method, aml_store(aml_arg(1), aml_name("LEN")));
-> +
-> +        pkg = aml_package(1);
-> +        aml_append(pkg, aml_name("INPT"));
-> +        aml_append(method, aml_store(pkg, aml_local(0)));
-> +
-> +        com_call = aml_call5(NVDIMM_COMMON_DSM,
-> +                            aml_touuid(NVDIMM_DEVICE_DSM_UUID),
-> +                            aml_int(1), aml_int(5), aml_local(0),
-> +                            aml_int(handle));
-> +        aml_append(method, aml_store(com_call, aml_local(3)));
-> +        field = aml_create_dword_field(aml_local(3), aml_int(0), "STTS");
-> +        aml_append(method, field);
-> +        field = aml_create_field(aml_local(3), aml_int(32),
-> +                                 aml_shiftleft(aml_name("LEN"), aml_int(3)),
-> +                                 "LDAT");
-> +        aml_append(method, field);
-> +        aml_append(method, aml_name_decl("LSA", aml_buffer(0, NULL)));
-> +        aml_append(method, aml_to_buffer(aml_name("LDAT"), aml_name("LSA")));
-> +
-> +        pkg = aml_package(2);
-> +        aml_append(pkg, aml_name("STTS"));
-> +        aml_append(pkg, aml_name("LSA"));
-> +
-> +        aml_append(method, aml_store(pkg, aml_local(1)));
-> +        aml_append(method, aml_return(aml_local(1)));
-> +
-> +        aml_append(nvdimm_dev, method);
-> +
-> +        /* _LSW */
-> +        method = aml_method("_LSW", 3, AML_SERIALIZED);
-> +        aml_append(method, aml_store(aml_arg(2), aml_local(2)));
-> +        aml_append(method, aml_name_decl("INPT", aml_buffer(8, NULL)));
-> +        field = aml_create_dword_field(aml_name("INPT"),
-> +                                                  aml_int(0), "OFST");
-> +        aml_append(method, field);
-> +        field = aml_create_dword_field(aml_name("INPT"),
-> +                                                  aml_int(4), "TLEN");
-> +        aml_append(method, field);
-> +        aml_append(method, aml_store(aml_arg(0), aml_name("OFST")));
-> +        aml_append(method, aml_store(aml_arg(1), aml_name("TLEN")));
-> +
-> +        aml_append(method, aml_concatenate(aml_name("INPT"), aml_local(2),
-> +                                            aml_name("INPT")));
-> +        pkg = aml_package(1);
-> +        aml_append(pkg, aml_name("INPT"));
-> +        aml_append(method, aml_store(pkg, aml_local(0)));
-> +        com_call = aml_call5(NVDIMM_COMMON_DSM,
-> +                            aml_touuid(NVDIMM_DEVICE_DSM_UUID),
-> +                            aml_int(1), aml_int(6), aml_local(0),
-> +                            aml_int(handle));
-> +        aml_append(method, aml_store(com_call, aml_local(3)));
-> +        field = aml_create_dword_field(aml_local(3), aml_int(0), "STTS");
-> +        aml_append(method, field);
-> +        aml_append(method, aml_return(aml_name("STTS")));
-> +
-> +        aml_append(nvdimm_dev, method);
-> +
->          nvdimm_build_device_dsm(nvdimm_dev, handle);
->          aml_append(root_dev, nvdimm_dev);
->      }
+The following still need review:
+
+  - target/s390x: fake instruction loading when handling 'ex'
+  - target/s390x: don't probe next pc for EXecuted insns
+  - target/s390x: don't use ld_code2 to probe next pc
+  - tests/tcg: re-enable threadcount for sh4
+  - tests/tcg: re-enable linux-test for sh4
+  - tests/avocado: disable sh4 rd2 tests on Gitlab
+  - tests/avocado: set -machine none for userfwd and vnc tests
+  - MAINTAINERS: fix-up for check-tcg Makefile changes
+  - MAINTAINERS: add features_to_c.sh to gdbstub files
+  - MAINTAINERS: add entries for the key build bits
+  - tests/tcg: use regular semihosting for nios2-softmmu
+  - tests/avocado: extend the timeout for x86_64 tcg tests
+  - configure: fix the --enable-static --disable-pie case
+  - configure: don't enable cross compilers unless in target_list
+  - tests/docker: update fedora-win[32|64]-cross with lcitool
+
+Alex Bennée (16):
+  tests/docker: update fedora-win[32|64]-cross with lcitool
+  tests/docker: update test-mingw to run single build
+  configure: don't enable cross compilers unless in target_list
+  configure: fix the --enable-static --disable-pie case
+  tests/avocado: extend the timeout for x86_64 tcg tests
+  tests/tcg: use regular semihosting for nios2-softmmu
+  MAINTAINERS: add entries for the key build bits
+  MAINTAINERS: add features_to_c.sh to gdbstub files
+  MAINTAINERS: fix-up for check-tcg Makefile changes
+  tests/avocado: set -machine none for userfwd and vnc tests
+  tests/avocado: disable sh4 rd2 tests on Gitlab
+  tests/tcg: re-enable linux-test for sh4
+  tests/tcg: re-enable threadcount for sh4
+  target/s390x: don't use ld_code2 to probe next pc
+  target/s390x: don't probe next pc for EXecuted insns
+  target/s390x: fake instruction loading when handling 'ex'
+
+Anton Johansson (2):
+  tests/docker: Add flex/bison to `debian-all-test`
+  tests/docker: Add flex/bison to `debian-hexagon-cross`
+
+Bin Meng (6):
+  semihosting/arm-compat-semi: Avoid using hardcoded /tmp
+  tcg: Avoid using hardcoded /tmp
+  util/qemu-sockets: Use g_get_tmp_dir() to get the directory for
+    temporary files
+  block/vvfat: Unify the mkdir() call
+  fsdev/virtfs-proxy-helper: Use g_mkdir()
+  hw/usb: dev-mtp: Use g_mkdir()
+
+Paolo Bonzini (1):
+  tests/tcg: include CONFIG_PLUGIN in config-host.mak
+
+Peter Maydell (1):
+  tests/avocado: raspi2_initrd: Wait for guest shutdown message before
+    stopping
+
+ configure                                     |  17 +-
+ include/exec/translator.h                     |  17 ++
+ block/vvfat.c                                 |   9 +-
+ fsdev/virtfs-proxy-helper.c                   |   3 +-
+ hw/usb/dev-mtp.c                              |   4 +-
+ semihosting/arm-compat-semi.c                 |   3 +-
+ target/s390x/tcg/translate.c                  |  14 +-
+ tcg/tcg.c                                     |   3 +-
+ util/qemu-sockets.c                           |   5 +-
+ MAINTAINERS                                   |  28 ++-
+ tests/avocado/boot_linux.py                   |   1 +
+ tests/avocado/boot_linux_console.py           |   6 +-
+ tests/avocado/info_usernet.py                 |   3 +
+ tests/avocado/vnc.py                          |   1 +
+ tests/docker/dockerfiles/alpine.docker        |   2 +-
+ tests/docker/dockerfiles/centos8.docker       |   2 +-
+ .../dockerfiles/debian-all-test-cross.docker  |   2 +
+ .../dockerfiles/debian-amd64-cross.docker     | 234 ++++++++---------
+ tests/docker/dockerfiles/debian-amd64.docker  | 236 +++++++++---------
+ .../dockerfiles/debian-arm64-cross.docker     | 232 ++++++++---------
+ .../dockerfiles/debian-armel-cross.docker     | 230 ++++++++---------
+ .../dockerfiles/debian-armhf-cross.docker     | 232 ++++++++---------
+ .../dockerfiles/debian-hexagon-cross.docker   |   2 +-
+ .../dockerfiles/debian-mips64el-cross.docker  | 226 ++++++++---------
+ .../dockerfiles/debian-mipsel-cross.docker    | 226 ++++++++---------
+ .../dockerfiles/debian-ppc64el-cross.docker   | 230 ++++++++---------
+ .../dockerfiles/debian-s390x-cross.docker     | 228 ++++++++---------
+ .../dockerfiles/fedora-win32-cross.docker     | 139 ++++++++---
+ .../dockerfiles/fedora-win64-cross.docker     | 138 +++++++---
+ tests/docker/dockerfiles/fedora.docker        | 230 ++++++++---------
+ tests/docker/dockerfiles/opensuse-leap.docker |   2 +-
+ tests/docker/dockerfiles/ubuntu2004.docker    | 234 ++++++++---------
+ tests/docker/test-mingw                       |  16 +-
+ tests/lcitool/libvirt-ci                      |   2 +-
+ tests/lcitool/refresh                         |  48 ++--
+ tests/tcg/nios2/Makefile.softmmu-target       |   3 +-
+ tests/tcg/sh4/Makefile.target                 |  12 -
+ 37 files changed, 1600 insertions(+), 1420 deletions(-)
+
+-- 
+2.34.1
 
 
