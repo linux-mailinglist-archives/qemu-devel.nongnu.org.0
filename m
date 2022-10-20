@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 885B060597B
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 10:17:03 +0200 (CEST)
-Received: from localhost ([::1]:50410 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99E92605982
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 10:18:58 +0200 (CEST)
+Received: from localhost ([::1]:54924 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olQjd-0005Gt-TX
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 04:17:01 -0400
+	id 1olQlV-0005yc-0H
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 04:18:57 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olQjc-00054h-Kb
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 04:17:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52044)
+	id 1olQlU-0005VD-QP
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 04:18:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1olQUG-0003o7-EH
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 04:01:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28525)
+ id 1olQVl-0004ZG-HH
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 04:02:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55412)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1olQUE-0006Lz-PZ
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 04:01:08 -0400
+ id 1olQVi-0006gg-V7
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 04:02:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666252864;
+ s=mimecast20190719; t=1666252958;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=TRFx0hyWiZOQ683oELjOdZqK6M2eDKeo+dzEoCEfN8s=;
- b=fGDSWSlt4ItZVwXm83wN/Kw5NF/J6R6XGyzr0NiVpOlA5XDD8cHFD/taeMV1bhrp5KZ62H
- xWHqIyvQeHghmcleI64uaoGIVnGtV7TLkBBtmJvIHExDqY5mlCFT/fqhWB9q0l6K50rnGD
- lF2nR1TgC9vdRz+M+hjwBA5Q/7JiXHQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=DpSY5w1WUu2XB8+3NEAf1Jd7cO6jowWb7+PGrUCDW+M=;
+ b=LZYUa4BCilk7AFeILaG0lpYA1I4BwAN+sTCrffytrSVzhd9pux8kKlTvJRfjUiWUBncSOV
+ bG3jPUo5GRVpKYAjWX8c0Zh2/O3X9bSqaH4n2jfF7uoXVW6kT9cLkl1Mol1b1RoREvPQ/t
+ 0vMnyspjfdeO/FGTIGV43efyYHA29Hg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-107-LvmbZWVeMhOaAUa6KRT-Ew-1; Thu, 20 Oct 2022 04:01:03 -0400
-X-MC-Unique: LvmbZWVeMhOaAUa6KRT-Ew-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-589-SC9gdXxDN6WSYkgJXveLtw-1; Thu, 20 Oct 2022 04:02:33 -0400
+X-MC-Unique: SC9gdXxDN6WSYkgJXveLtw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9B2003C0F7E1
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 08:01:02 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9A81F864764
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 08:02:33 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.230])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CC46D40C6EC2;
- Thu, 20 Oct 2022 08:01:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D09E32027063;
+ Thu, 20 Oct 2022 08:02:32 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com,
 	Jason Wang <jasowang@redhat.com>
-Subject: [PATCH] vdpa: Delete duplicated vdpa_feature_bits entry
-Date: Thu, 20 Oct 2022 10:00:58 +0200
-Message-Id: <20221020080058.318454-1-eperezma@redhat.com>
+Subject: [PATCH] vdpa: Remove shadow CVQ command check
+Date: Thu, 20 Oct 2022 10:02:30 +0200
+Message-Id: <20221020080230.319130-1-eperezma@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
@@ -82,27 +82,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This entry was duplicated on referenced commit. Removing it.
+The guest will see undefined behavior if it issue not negotiate
+commands, bit it is expected somehow.
 
-Fixes: 402378407dbd ("vhost-vdpa: multiqueue support")
+Simplify code deleting this check.
+
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 Acked-by: Jason Wang <jasowang@redhat.com>
 ---
- net/vhost-vdpa.c | 1 -
- 1 file changed, 1 deletion(-)
+ net/vhost-vdpa.c | 48 ------------------------------------------------
+ 1 file changed, 48 deletions(-)
 
 diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 4bc3fd01a8..eebf29f5c1 100644
+index eebf29f5c1..6d64000202 100644
 --- a/net/vhost-vdpa.c
 +++ b/net/vhost-vdpa.c
-@@ -63,7 +63,6 @@ const int vdpa_feature_bits[] = {
-     VIRTIO_NET_F_CTRL_RX,
-     VIRTIO_NET_F_CTRL_RX_EXTRA,
-     VIRTIO_NET_F_CTRL_VLAN,
--    VIRTIO_NET_F_GUEST_ANNOUNCE,
-     VIRTIO_NET_F_CTRL_MAC_ADDR,
-     VIRTIO_NET_F_RSS,
-     VIRTIO_NET_F_MQ,
+@@ -461,48 +461,6 @@ static NetClientInfo net_vhost_vdpa_cvq_info = {
+     .check_peer_type = vhost_vdpa_check_peer_type,
+ };
+ 
+-/**
+- * Do not forward commands not supported by SVQ. Otherwise, the device could
+- * accept it and qemu would not know how to update the device model.
+- */
+-static bool vhost_vdpa_net_cvq_validate_cmd(const void *out_buf, size_t len)
+-{
+-    struct virtio_net_ctrl_hdr ctrl;
+-
+-    if (unlikely(len < sizeof(ctrl))) {
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: invalid legnth of out buffer %zu\n", __func__, len);
+-        return false;
+-    }
+-
+-    memcpy(&ctrl, out_buf, sizeof(ctrl));
+-    switch (ctrl.class) {
+-    case VIRTIO_NET_CTRL_MAC:
+-        switch (ctrl.cmd) {
+-        case VIRTIO_NET_CTRL_MAC_ADDR_SET:
+-            return true;
+-        default:
+-            qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid mac cmd %u\n",
+-                          __func__, ctrl.cmd);
+-        };
+-        break;
+-    case VIRTIO_NET_CTRL_MQ:
+-        switch (ctrl.cmd) {
+-        case VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET:
+-            return true;
+-        default:
+-            qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid mq cmd %u\n",
+-                          __func__, ctrl.cmd);
+-        };
+-        break;
+-    default:
+-        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid control class %u\n",
+-                      __func__, ctrl.class);
+-    };
+-
+-    return false;
+-}
+-
+ /**
+  * Validate and copy control virtqueue commands.
+  *
+@@ -526,16 +484,10 @@ static int vhost_vdpa_net_handle_ctrl_avail(VhostShadowVirtqueue *svq,
+         .iov_len = sizeof(status),
+     };
+     ssize_t dev_written = -EINVAL;
+-    bool ok;
+ 
+     out.iov_len = iov_to_buf(elem->out_sg, elem->out_num, 0,
+                              s->cvq_cmd_out_buffer,
+                              vhost_vdpa_net_cvq_cmd_len());
+-    ok = vhost_vdpa_net_cvq_validate_cmd(s->cvq_cmd_out_buffer, out.iov_len);
+-    if (unlikely(!ok)) {
+-        goto out;
+-    }
+-
+     dev_written = vhost_vdpa_net_cvq_add(s, out.iov_len, sizeof(status));
+     if (unlikely(dev_written < 0)) {
+         goto out;
 -- 
 2.31.1
 
