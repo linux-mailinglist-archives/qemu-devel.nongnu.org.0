@@ -2,93 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD3036064DA
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 17:43:35 +0200 (CEST)
-Received: from localhost ([::1]:57908 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08F4660643F
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 17:22:46 +0200 (CEST)
+Received: from localhost ([::1]:49282 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olXhm-0000c0-6l
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 11:43:34 -0400
+	id 1olXNa-00014H-LE
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 11:22:43 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olXhi-0004fm-Vv
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 11:43:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44582)
+	id 1olXFJ-0004Qo-QU
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 11:14:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1olUoy-000619-NF
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:38:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40441)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1olUq2-0006ME-Ue
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:39:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59597)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1olUot-0000ZY-LB
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:38:45 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1olUq0-0001kx-Fs
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:39:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666269522;
+ s=mimecast20190719; t=1666269591;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ycEBbpz6T8Uh57Kk/BtTpz5gzwwTOHYamhHNB83CuLI=;
- b=A2aeAEaiWrVlwCtA9zZInHGI97IAJyTbgxBM8kKN+BNdkahH7tK8zCiSBQ8G5WLOvQGb9e
- HEgmZl/b2rDiAH4YEx9yBxOFSsnwljMSoQ4YgZEr4dhjkwuP4SOZ5jBOC7vvHXH5JwNbr0
- kVi5kosmvnp2cuVpF79IdvFP4MSeE6o=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Jz/RUnw3zQhnlprg5yaz9ZD+7mtCT/m3NDIwpsBlPUU=;
+ b=DbHZnt0KzJ+MdbbCoegLaxjM1BO640eJz3xNzzMQUrDueq0gtU9qG/qdZiMHUMOl0o11QX
+ ULlSKN1YVuFAsLNrAcJ2tgmq2aTfx5yeVw18C+VDO5SEvYX/bhBk+ej0Zj9Jf3wSJ7yVXK
+ g9ZUVcHrhyQbQHOZUm4p0ZBKyEWjNX4=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-648-Ka6PFEQWP42fvLDRuyxCbQ-1; Thu, 20 Oct 2022 08:38:41 -0400
-X-MC-Unique: Ka6PFEQWP42fvLDRuyxCbQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- k34-20020a05600c1ca200b003c706e17799so2155317wms.9
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 05:38:41 -0700 (PDT)
+ us-mta-15-PzcrwVICM2S_DO0BbP0Ljg-1; Thu, 20 Oct 2022 08:39:50 -0400
+X-MC-Unique: PzcrwVICM2S_DO0BbP0Ljg-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ t5-20020a056402524500b0045cf8249863so15446542edd.4
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 05:39:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ycEBbpz6T8Uh57Kk/BtTpz5gzwwTOHYamhHNB83CuLI=;
- b=oKLVqgNLeSeWuIanjj953/B6C4Mr4J+YbGsv2SRlUT51tJ5ICr9fmLUdFi5QAJ2xzk
- 88BhohTA3jsSoqS58J8ElkLQRFnxE0ENjAQg0aTkssLd5BmBGRqPZq0I6iWGg5jE6Cn4
- ecqpjlCC/lqvvF8trIh2CWtb0VpL3rq4eInwn00JZxiJUl7mtI1CxnYVBfPBdhKJ3fzI
- 19itMv6ylfv1GSpLYC/nq/PKkKhXZX/jahB8LOkLhfTkxQGX8RkymtnvmG0EFV2s4aOp
- B1ya5J7YgxmAiIbNLXP8Y0+3pMeAfJRKy3T9a5kvgLdcsxu9r2+0bK18mxUc69USvS+Q
- n2cQ==
-X-Gm-Message-State: ACrzQf0ZQiAEfYXMk8ipTWmbgK/n0Bmiy4mb6+2s3RLSsy4Nxq85E97Y
- wPu2HeWOiJdIcZf/WNyp3kEgHmDnUzONGovR0zM99j3Yei+HCCJXdwfqGu2gxH655W2Mk6bBwKv
- WHHVwcKeWRptYDnI=
-X-Received: by 2002:adf:e192:0:b0:232:3648:776d with SMTP id
- az18-20020adfe192000000b002323648776dmr8691576wrb.698.1666269520679; 
- Thu, 20 Oct 2022 05:38:40 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7EJWw6TmhS+AwG6ZO3lN5c1ui3lSb+h41/pEmj7L2ewEV0501TFPWBvPxoC86w7EfEVzltHg==
-X-Received: by 2002:adf:e192:0:b0:232:3648:776d with SMTP id
- az18-20020adfe192000000b002323648776dmr8691555wrb.698.1666269520374; 
- Thu, 20 Oct 2022 05:38:40 -0700 (PDT)
-Received: from redhat.com ([2.54.191.184]) by smtp.gmail.com with ESMTPSA id
- j28-20020a5d6e5c000000b0022cd27bc8c1sm19918342wrz.9.2022.10.20.05.38.38
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Jz/RUnw3zQhnlprg5yaz9ZD+7mtCT/m3NDIwpsBlPUU=;
+ b=o/OuOvXssyoUJk++NLbPPz6C+qmdm1xyfXTMgazGUf+WxvZRFxZyZOFuZZvRLYhjZ0
+ ygn2FjpyPB6dOOaSJput3vARxGbdL71+6kQTW0egDvRve/OnXi+yefAQ2fdMKHsEwBUP
+ XdkHA89tuF97zYIEJaLp36evOuf2QGqzGO8Nju/jhFThgq5WkLd6NyqeWMe7G2sKYf9n
+ OQB2VuGf5SoDY8XTi61CpKBXnnQsrqCeYbf4CkDYPbhG6K/07SE53SlOujJ64JyOrsV+
+ 2BQriGrxOoGsKnzXOBTUQ2G5RGke0xRPMy+Je2/SUMNzLTCUZg9ncZm/4i2jIgUDCZoX
+ zQCQ==
+X-Gm-Message-State: ACrzQf395xLj9xiTTSVWpb091bQoTxLifNm3KvOlw0LUUdMyNwuDTmQI
+ 5tEHuDiWLBH6b2s/P3Zlm6fciwEetv5l1DMmAWm2DmuUu3jIoNW+UHcMjYS6clh78DcjcZzKJuU
+ i/Ag9VSZALAXKyk4=
+X-Received: by 2002:a17:907:8a1c:b0:78d:ef44:7759 with SMTP id
+ sc28-20020a1709078a1c00b0078def447759mr11102415ejc.441.1666269588112; 
+ Thu, 20 Oct 2022 05:39:48 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5pCX92yA0TJyZR+HoPcVGDWmzBltug9r3lFQnDWg4PikxugfM/e2OMEI3Ki27u6QPTB6mQPQ==
+X-Received: by 2002:a17:907:8a1c:b0:78d:ef44:7759 with SMTP id
+ sc28-20020a1709078a1c00b0078def447759mr11102399ejc.441.1666269587773; 
+ Thu, 20 Oct 2022 05:39:47 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ qw10-20020a170906fcaa00b0076f99055520sm10241725ejb.137.2022.10.20.05.39.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Oct 2022 05:38:39 -0700 (PDT)
-Date: Thu, 20 Oct 2022 08:38:36 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
+ Thu, 20 Oct 2022 05:39:47 -0700 (PDT)
+Date: Thu, 20 Oct 2022 14:39:45 +0200
+From: Igor Mammedov <imammedo@redhat.com>
 To: Ani Sinha <ani@anisinha.ca>
-Cc: Cleber Rosa <crosa@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Qemu Devel <qemu-devel@nongnu.org>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Maydell Peter <peter.maydell@linaro.org>,
- John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v6 00/10] Introduce new acpi/smbios avocado tests using
- biosbits
-Message-ID: <20221020083810-mutt-send-email-mst@kernel.org>
-References: <20221020123506.26363-1-ani@anisinha.ca>
+Cc: qemu-devel@nongnu.org, mst@redhat.com
+Subject: Re: [PATCH 08/11] tests: acpi: update expected blobs
+Message-ID: <20221020143945.69cf2e39@redhat.com>
+In-Reply-To: <CAARzgwzn3X54FvLUsQ3P5GEP9mhOW_mJh+rZZwDDgSHxss_Vwg@mail.gmail.com>
+References: <20221017102146.2254096-1-imammedo@redhat.com>
+ <20221017102146.2254096-9-imammedo@redhat.com>
+ <CAARzgwzn3X54FvLUsQ3P5GEP9mhOW_mJh+rZZwDDgSHxss_Vwg@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221020123506.26363-1-ani@anisinha.ca>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -112,163 +107,342 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 20, 2022 at 06:04:56PM +0530, Ani Sinha wrote:
-> Please see the rst doc file in patch 9 for more details.
-> Sample runs are as follows:
-> 
-> Passed tests:
-> 
-> $ ./tests/venv/bin/avocado run -t acpi tests/avocado
-> Fetching asset from tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits
-> JOB ID     : e95c7413e996bfb59389839e5ca5105464ef098f
-> JOB LOG    : /home/anisinha/avocado/job-results/job-2022-10-14T19.15-e95c741/job.log
->  (1/1) tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits: PASS (33.08 s)
-> RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-> JOB TIME   : 39.18 s
-> 
-> 
-> $ ./tests/venv/bin/avocado run ./tests/avocado/acpi-bits.py 
-> Fetching asset from ./tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits
-> JOB ID     : c6e588594bceb2c5fdbdf45095559c58e4030f9c
-> JOB LOG    : /home/anisinha/avocado/job-results/job-2022-10-14T19.13-c6e5885/job.log
->  (1/1) ./tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits: PASS (32.29 s)
-> RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-> JOB TIME   : 39.27 s
-> 
-> When PSS tests are enabled:
-> 
-> $ git diff
-> diff --git a/tests/avocado/acpi-bits/bits-tests/testacpi.py2 b/tests/avocado/acpi-bits/bits-tests/testacpi.py2
-> index f818a9cce6..18dc818d62 100644
-> --- a/tests/avocado/acpi-bits/bits-tests/testacpi.py2
-> +++ b/tests/avocado/acpi-bits/bits-tests/testacpi.py2
-> @@ -40,8 +40,8 @@ import time
->  
->  def register_tests():
->      testsuite.add_test("ACPI _MAT (Multiple APIC Table Entry) under Processor objects", test_mat, submenu="ACPI Tests")
-> -#    testsuite.add_test("ACPI _PSS (Pstate) table conformance tests", test_pss, submenu="ACPI Tests")
-> -#    testsuite.add_test("ACPI _PSS (Pstate) runtime tests", test_pstates, submenu="ACPI Tests")
-> +    testsuite.add_test("ACPI _PSS (Pstate) table conformance tests", test_pss, submenu="ACPI Tests")
-> +    testsuite.add_test("ACPI _PSS (Pstate) runtime tests", test_pstates, submenu="ACPI Tests")
->      testsuite.add_test("ACPI DSDT (Differentiated System Description Table)", test_dsdt, submenu="ACPI Tests")
->      testsuite.add_test("ACPI FACP (Fixed ACPI Description Table)", test_facp, submenu="ACPI Tests")
->      testsuite.add_test("ACPI HPET (High Precision Event Timer Table)", test_hpet, submenu="ACPI Tests")
-> 
-> $ ./tests/venv/bin/avocado run -t acpi tests/avocado
-> Fetching asset from tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits
-> JOB ID     : 16a8b8c7f8dc87c4b84f8a2f95135bb63464a71e
-> JOB LOG    : /home/anisinha/avocado/job-results/job-2022-10-14T22.43-16a8b8c/job.log
->  (1/1) tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits: FAIL: '1' != '0'\n- 1\n+ 0\n : Some bits tests seems to have failed. Please check the test logs for more info. (33.01 s)
-> RESULTS    : PASS 0 | ERROR 0 | FAIL 1 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-> JOB TIME   : 39.17 s
-> 
-> 
-> Changelog:
-> v6:
->   - skip test when dependencies (xorriso for example) are not installed.
->   - skip test when run on a platform other than x86_64.
+On Mon, 17 Oct 2022 18:13:14 +0530
+Ani Sinha <ani@anisinha.ca> wrote:
 
-Hmm why is that btw?
+> On Mon, Oct 17, 2022 at 3:52 PM Igor Mammedov <imammedo@redhat.com> wrote:
+> >
+> > Expected change in q35 tests:
+> >         @@ -2797,14 +2797,6 @@ DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
+> >                  }
+> >              }
+> >
+> >         -    Scope (_SB.PCI0)
+> >         -    {
+> >         -        Device (SMB0)
+> >         -        {
+> >         -            Name (_ADR, 0x001F0003)  // _ADR: Address
+> >         -        }
+> >         -    }
+> >         -
+> >              Scope (_SB)
+> >              {
+> >                  Device (HPET)
+> >         @@ -3282,6 +3274,11 @@ DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
+> >                          }
+> >                      }
+> >
+> >         +            Device (SFB)
+> >         +            {
+> >         +                Name (_ADR, 0x001F0003)  // _ADR: Address
+> >         +            }
+> >         +  
+> 
+> Which code generates this hunk? Shouldn't this be "SMB0" for Device?
+There is no point in trying to keep SMB0 name
 
->   - move README as an rst file under docs/devel.
->   - updated tags.
-> v5:
->   - fixed bits so that grub-mkrescue is built as a static binary.
->   - updated the test so that it points to the new bits artifact.
->   - V=1 now spits out more meaningful information on failure.
->   - added a check to see if xorriso is installed. If not, the test skips with
->     a meaningful message instructing the user to install it.
->   - fixed README by removing references to stale instructions and adding
->     updated instructions.
->   - tags updated.
-> v4:
->   - renamed the bits test files as .py2.
->   - fixed a bug with missing log file parsing. dump bits logs automatically
->     for test failures (no need to re-run with V=1).
->   - fixed issues with README file and enhanced it.
->   - cosmetic comment updates.
-> v3:
->   - converted the existing test to avocado tests as per the popular
->     recommendation. Added appropriate tags.
->   - artifact download URL modified based on gitlab-CI URL.
+it's done by build_append_pci_bus_devices() like for any other PCI device.
+  
+        /* start to compose PCI device descriptor */                             
+        dev = aml_device("S%.02X", devfn);                                       
+        aml_append(dev, aml_name_decl("_ADR", aml_int(adr)));   
+
+
+
 > 
->   For biosbits repo:
->   - moved to a gitlab repo with me being the maintainer.
->   - added .gitlab-ci.yml file to generate the artifacts.
-> v2:
->  - a new class of python based tests introduced that is separate from avocado
->    tests or qtests. Can be run by using "make check-pytest".
->  - acpi biosbits tests are the first tests to use pytest environment.
->  - bios bits tests now download the bits binary archives from a remote
->    repository if they are not found locally. The test skips if download
->    fails.
->  - A new environment variable is introduced that can be passed by the tester
->    to specify the location of the bits archives locally. test skips if the
->    bits binaries are not found in that location.
->  - if pip install of python module fails for whatever reaoson, the test skips.
->  - misc code fixes including spell check of the README doc. README has been
->    updated as well.
->  - addition of SPDX license headers to bits test files.
->  - update MAINTAINERS to reflect the new pytest test class.
+> >                      Method (PCNT, 0, NotSerialized)
+> >                      {
+> >                      }
+> >
+> > Also for ipmismbus test, child 'Device (MI1)' of SMB0 will be moved along with it
+> >
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > ---
+> >  tests/qtest/bios-tables-test-allowed-diff.h |  21 --------------------
+> >  tests/data/acpi/q35/DSDT                    | Bin 8418 -> 8407 bytes
+> >  tests/data/acpi/q35/DSDT.acpierst           | Bin 8435 -> 8424 bytes
+> >  tests/data/acpi/q35/DSDT.acpihmat           | Bin 9743 -> 9732 bytes
+> >  tests/data/acpi/q35/DSDT.applesmc           | Bin 8464 -> 8453 bytes
+> >  tests/data/acpi/q35/DSDT.bridge             | Bin 11547 -> 11536 bytes
+> >  tests/data/acpi/q35/DSDT.cphp               | Bin 8882 -> 8871 bytes
+> >  tests/data/acpi/q35/DSDT.cxl                | Bin 9744 -> 9733 bytes
+> >  tests/data/acpi/q35/DSDT.dimmpxm            | Bin 10072 -> 10061 bytes
+> >  tests/data/acpi/q35/DSDT.ipmibt             | Bin 8493 -> 8482 bytes
+> >  tests/data/acpi/q35/DSDT.ipmismbus          | Bin 8507 -> 8495 bytes
+> >  tests/data/acpi/q35/DSDT.ivrs               | Bin 8435 -> 8424 bytes
+> >  tests/data/acpi/q35/DSDT.memhp              | Bin 9777 -> 9766 bytes
+> >  tests/data/acpi/q35/DSDT.mmio64             | Bin 9548 -> 9537 bytes
+> >  tests/data/acpi/q35/DSDT.multi-bridge       | Bin 8738 -> 8727 bytes
+> >  tests/data/acpi/q35/DSDT.nohpet             | Bin 8276 -> 8265 bytes
+> >  tests/data/acpi/q35/DSDT.numamem            | Bin 8424 -> 8413 bytes
+> >  tests/data/acpi/q35/DSDT.pvpanic-isa        | Bin 8519 -> 8508 bytes
+> >  tests/data/acpi/q35/DSDT.tis.tpm12          | Bin 9024 -> 9013 bytes
+> >  tests/data/acpi/q35/DSDT.tis.tpm2           | Bin 9050 -> 9039 bytes
+> >  tests/data/acpi/q35/DSDT.viot               | Bin 9527 -> 9516 bytes
+> >  tests/data/acpi/q35/DSDT.xapic              | Bin 35781 -> 35770 bytes
+> >  22 files changed, 21 deletions(-)
+> >
+> > diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+> > index fd5852776c..dfb8523c8b 100644
+> > --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> > +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> > @@ -1,22 +1 @@
+> >  /* List of comma-separated changed AML files to ignore */
+> > -"tests/data/acpi/q35/DSDT",
+> > -"tests/data/acpi/q35/DSDT.acpierst",
+> > -"tests/data/acpi/q35/DSDT.acpihmat",
+> > -"tests/data/acpi/q35/DSDT.applesmc",
+> > -"tests/data/acpi/q35/DSDT.bridge",
+> > -"tests/data/acpi/q35/DSDT.cphp",
+> > -"tests/data/acpi/q35/DSDT.cxl",
+> > -"tests/data/acpi/q35/DSDT.dimmpxm",
+> > -"tests/data/acpi/q35/DSDT.ipmibt",
+> > -"tests/data/acpi/q35/DSDT.ipmismbus",
+> > -"tests/data/acpi/q35/DSDT.ivrs",
+> > -"tests/data/acpi/q35/DSDT.memhp",
+> > -"tests/data/acpi/q35/DSDT.mmio64",
+> > -"tests/data/acpi/q35/DSDT.multi-bridge",
+> > -"tests/data/acpi/q35/DSDT.nohpet",
+> > -"tests/data/acpi/q35/DSDT.numamem",
+> > -"tests/data/acpi/q35/DSDT.pvpanic-isa",
+> > -"tests/data/acpi/q35/DSDT.tis.tpm12",
+> > -"tests/data/acpi/q35/DSDT.tis.tpm2",
+> > -"tests/data/acpi/q35/DSDT.viot",
+> > -"tests/data/acpi/q35/DSDT.xapic",
+> > diff --git a/tests/data/acpi/q35/DSDT b/tests/data/acpi/q35/DSDT
+> > index ea35dc5eba8433a8dcb54815f19ed6239f2534e7..c8a2b5df26608f10c75ab8f2f9e404fda987891b 100644
+> > GIT binary patch
+> > delta 65
+> > zcmaFlc-@i9CD<k8x&i|Oqx(iKK8ejH66@Hw92H~YgPr09JQX&-k$cZ55#7We?B*2D
+> > V5%1^{#KX)W&mh7U;OrN|004sf5rO~!
+> >
+> > delta 76
+> > zcmcca_{fpVCD<k8kpcq)<A#k~d=k>qdhx+d@d3`B2GLFY!M;ug9Py4WK|IV1@(i2B
+> > eCDyZXIVi+{R0w#;Z@wV+o{?RIEx_3?gaH6HQWQi0
+> >
+> > diff --git a/tests/data/acpi/q35/DSDT.acpierst b/tests/data/acpi/q35/DSDT.acpierst
+> > index 146269c68c68238a8be3aa67e049a85c0b8edc66..eb63e439b92424e4c50b7e5f1df92da54ecfc6ea 100644
+> > GIT binary patch
+> > delta 64
+> > zcmezD_`;FPCD<k8g#rTu<MWMNd=i^YB-XKUIVr`&2Rp?JcquM^BgZ5W-NYa4<`mBn  
+> > U@8}Z5!^|MhAi@^l>=(iS0Ek8rTL1t6  
+> >
+> > delta 75
+> > zcmaFi_}P)mCD<k8vjPJHW57l(J_%`Qz4&0K_yA{5gXkvyU|%N#j(A6xARcB0d4|p6
+> > d66@Kx92H|gDg-<g7GIEKVi#cxaP|vf000r=6CD5m
+> >
+> > diff --git a/tests/data/acpi/q35/DSDT.acpihmat b/tests/data/acpi/q35/DSDT.acpihmat
+> > index 4dd420b62fbcfdd21485fec2bafdea54f3fdb5a8..f9199a0dd614b30c9e73eb7de7e051ce84c1d73f 100644
+> > GIT binary patch
+> > delta 65
+> > zcmeD8Y4PE533dr#QDb0WWZuZdC$ZT?;x;#zqhd^auv5H%r^04QmG_Ji(M|lpZcgzW
+> > U@s2J*Jj@L83?gg+&VC^b02Q4NMgRZ+
+> >
+> > delta 76  
+> > zcmZqi>G$Ds33dtLS7Tsc%-P7rCm}7Z7a!~tAK>h15Z%Nd?CWH}5%1^{#KX)W&#+ls  
+> > d;tn^LgF*~Qg@A|r=D*7C8QDeH0-XIq7y!*W69)hQ
+> >
+> > diff --git a/tests/data/acpi/q35/DSDT.applesmc b/tests/data/acpi/q35/DSDT.applesmc
+> > index ff25d82ba24b5e792b9d87958aa1b162bc9e0de2..286a4ecec273ca0e2fe2d65f80e8566a68a2f794 100644
+> > GIT binary patch
+> > delta 65  
+> > zcmbQ>)au0L66_Mfs>r~=D6x@?Phzu)#5y)Ef906?V5fKicje7*<Ybv7qMP`G-JIe%  
+> > U;vHRrc$gXF8AR9uoc%%=01xsHAOHXW
+> >
+> > delta 76
+> > zcmZp5n&8Cc66_Kppvb_$*tn64PeNK+FFx2QKET=2Ai9Y^*w@K`Bi_*^h=-X$o?)}N
+> > d#CkR^KcyIu3IR8z%@^cknb<|x0-XIq7y!Nm5#j&<
+> >
+> > diff --git a/tests/data/acpi/q35/DSDT.bridge b/tests/data/acpi/q35/DSDT.bridge
+> > index bde84efd1c5fcafee789781f4030d573002a886a..9a733a54e428d3506aaf73f8d4c1f28324a71a42 100644
+> > GIT binary patch
+> > delta 75
+> > zcmbOoH6e=2CD<iIK$n4m@!Li&K8ejH66@Hwyq?6w2Rp?JI6c|?Mox}TDY}V2*v%=P
+> > dBi_*^h=-X$o<T$)z}YW^Ax<yY&>$Yf1OQ7T6vzMo
+> >
+> > delta 86
+> > zcmbObH9LySCD<iIT9<)=F@7T#pM<ouUVN}qe1Nm3L39&;u&<K=N4%p;5DznhJi}&j
+> > niS=w;o{wWdDg+!KZ@wTW$0sNv5a8?=!VsqyY-j+~=NAG1zta|q
+> >
+> > diff --git a/tests/data/acpi/q35/DSDT.cphp b/tests/data/acpi/q35/DSDT.cphp
+> > index 537be7ca37c021e6a7f098e88c40ba178f3ec3e2..8579626c7f1f035c8d400544c2af6ce6372a5625 100644
+> > GIT binary patch
+> > delta 65
+> > zcmdnwy4;n^CD<ioxe@~d<LZrEd=i^YB<eW092H~YgPr09JQX(YQFzZN5#7We?B*2D
+> > V5%1^{#KX)W&mh7U;OrN|003#(5d;7L
+> >
+> > delta 76
+> > zcmZ4Py2+KxCD<iolM(|1qsT@sJ_%`Qz4&0K_yA{5gXkvyU|%N#j(A6xARcB0d4|p6
+> > e67?Kh4hk_K6#^den-?g&XJi*)3vl)eVE_Q*#}dW>
+> >
+> > diff --git a/tests/data/acpi/q35/DSDT.cxl b/tests/data/acpi/q35/DSDT.cxl
+> > index aeea64d1cecad0ad011870ed5e04bfea1ae62510..96594c00b3b0e0a4933d6d851d927487ad4d18eb 100644
+> > GIT binary patch
+> > delta 65  
+> > zcmbQ>)9S<J66_Mfs>Z;;Xupw*Phzu)#4c_wXXTjqV5fKiZ>7yYlm(e2qMP`G-JIe%  
+> > U;vHRrc$gXF8AR9uoc%%=03WdrZ2$lO
+> >
+> > delta 76
+> > zcmZqmnc&0a66_KppvJ(!xMCw0pM<ouUVN}qe1Nm3L39&;u&<K=N4%p;5DznhJi}&j  
+> > eiQU{>PD(K#6#`z0o9`$KGO>%W1vvYKFaQA0rV=jz  
+> >
+> > diff --git a/tests/data/acpi/q35/DSDT.dimmpxm b/tests/data/acpi/q35/DSDT.dimmpxm
+> > index ed11aefa4a56a8408bd4e0de83bf2373e6025449..e2a3ecf7d90c8c411550505c3b70bf8d19ba4bc9 100644
+> > GIT binary patch
+> > delta 65
+> > zcmccNch--~CD<jzSDk@@amq$6K8ejH5-Pl0j*2ny!A|i4o(h|jRNpg7L^tsVyE(;k
+> > V#5=kK@h~&UGl;MSIQxY#002@W5KI67
+> >
+> > delta 76  
+> > zcmX@>cf*g%CD<h-LY;wu@$W`1J_%`Qz4&0K_yA{5gXkvyU|%N#j(A6xARcB0d4|p6
+> > e5~{ph4hk_K6#^deo8463GqQ`Y1vvYKFaQ7)&=U>-  
+> >
+> > diff --git a/tests/data/acpi/q35/DSDT.ipmibt b/tests/data/acpi/q35/DSDT.ipmibt
+> > index d9d1e75c987acd42be4576688621be07b21f0e7b..427272b95692099edc47f569e41fbb3ba69f6b60 100644
+> > GIT binary patch
+> > delta 65
+> > zcmZ4Mw8)9eCD<iINs)npF=itdpTuSpiFIsTKB_VC!A|i4E~=Z~$XPK-L^tsVyE(;k
+> > V#5=kK@h~&UGl;MSIQxY#001=^57qzx
+> >
+> > delta 76
+> > zcmZ4FwAP8sCD<iISCN5%@#sb_J_%`Qz4&0K_yA{5gXkvyU|%N#j(A6xARcB0d4|p6  
+> > e66@Kxyj5aADg>NWHeZmlVqzCz3vl)eVE_Q=2@;q9  
+> >
+> > diff --git a/tests/data/acpi/q35/DSDT.ipmismbus b/tests/data/acpi/q35/DSDT.ipmismbus
+> > index f6e124137721312722c820b5c084a143492945c9..794779e75aaf33902de834caaa6b0763c4513615 100644
+> > GIT binary patch
+> > delta 61
+> > zcmdn(wBCu!CD<iIUy*@<@%2V7K8ek}66@HwJk?_2gPr099Mv|v%D-pih;DLc3wCpg
+> > RpR6sB$S%Sb;OrN|001n-5byv1
+> >
+> > delta 72
+> > zcmZ4QwA+cxCD<jzT9JW)QEwv`pM<aryIy>-Q+$B4r$Ka+J6o`?lfmTU3W=M=CDyZX
+> > aIVi+{Bn3R=H(!u@&&V#q7U1j`!T<onCKIFp
+> >
+> > diff --git a/tests/data/acpi/q35/DSDT.ivrs b/tests/data/acpi/q35/DSDT.ivrs
+> > index 146269c68c68238a8be3aa67e049a85c0b8edc66..eb63e439b92424e4c50b7e5f1df92da54ecfc6ea 100644
+> > GIT binary patch
+> > delta 64
+> > zcmezD_`;FPCD<k8g#rTu<MWMNd=i^YB-XKUIVr`&2Rp?JcquM^BgZ5W-NYa4<`mBn  
+> > U@8}Z5!^|MhAi@^l>=(iS0Ek8rTL1t6  
+> >
+> > delta 75
+> > zcmaFi_}P)mCD<k8vjPJHW57l(J_%`Qz4&0K_yA{5gXkvyU|%N#j(A6xARcB0d4|p6
+> > d66@Kx92H|gDg-<g7GIEKVi#cxaP|vf000r=6CD5m
+> >
+> > diff --git a/tests/data/acpi/q35/DSDT.memhp b/tests/data/acpi/q35/DSDT.memhp
+> > index 3e79ba7ac0b9a466fddd2213f32d20c522b8613b..923e213ab6a3c82faa6f659c29de9c8afb6878dd 100644
+> > GIT binary patch
+> > delta 65
+> > zcmdn!v&@IfCD<iIO^tzp(PASPpTuSpiND-jj*2ny!A|i4o(h|-Ro*j7L^tsVyE(;k
+> > V#5=kK@h~&UGl;MSIQxY#002TP5G4Qr
+> >
+> > delta 76
+> > zcmZ4Hv(bmkCD<jzP>q3sap6WTJ_%`Qz4&0K_yA{5gXkvyU|%N#j(A6xARcB0d4|p6
+> > e692fl928<eDg->_H_NNMXJi*)3vl)eVE_Q{`4Z;<
+> >
+> > diff --git a/tests/data/acpi/q35/DSDT.mmio64 b/tests/data/acpi/q35/DSDT.mmio64
+> > index afc260ebf4d91a2a9f7be5ff21968e99b1f9c5d1..a77aa37ca0bb407abbef134e8dce4461070856a2 100644
+> > GIT binary patch
+> > delta 64
+> > zcmX@(b<m5;CD<jzQI&y#@ykXoK8ejH671YuPD(NH!A|i4UW$udm6;@>oA`s>oZ>m+  
+> > T9bJNWm>J|5MA!nH{X!T3EYS}}  
+> >
+> > delta 75
+> > zcmX@;b;gU!CD<jzN0otrF?J&tpM<ouUVN}qe1Nm3L39&;u&<K=N4%p;5DznhJi}&j  
+> > c2@Y;9N5vSB3IR`r#hS`Y>>_Ld&VC^b0K(`I2mk;8  
+> >
+> > diff --git a/tests/data/acpi/q35/DSDT.multi-bridge b/tests/data/acpi/q35/DSDT.multi-bridge
+> > index 7c14ce3a986fa06e88f3adc088faae54bdd2d8e4..43469e6c89813025b902534ed61d39ad940ff7bb 100644
+> > GIT binary patch
+> > delta 85
+> > zcmZ4FGTnvCCD<iIT#12!apOiVK8ejH66@Hw98F{5gPr09JWV#gk&|ZDiEiQ#c5{m7
+> > hh<9`e;$dcxXAqGJaP|vfh|>!;w2TKaK`a9>3jo0872^N^
+> >
+> > delta 72
+> > zcmbR4vdD$YCD<iINr{1hQEDR>pM<ouUVN}qe1Nm3L39&;u&<K=N4%p;5DznhJi}&j
+> > aiS=w;4kj@m6#^c{n=i;oGf)1bC=CF0xDr7C
+> >
+> > diff --git a/tests/data/acpi/q35/DSDT.nohpet b/tests/data/acpi/q35/DSDT.nohpet
+> > index 60595f55fc72397e3ed9b1999dddd39cd98f89a8..e17b252b03b290ba39601afffbee66159a57bfb1 100644
+> > GIT binary patch
+> > delta 65
+> > zcmccOaMFRxCD<jzQ-OhjQD7q%pTuSp2?aJTN5z=<V5fKiPle5Ka_<=>qMP`G-JIe%  
+> > U;vHRrc$gXF8AR9uoc%%=04azMg8%>k  
+> >
+> > delta 76
+> > zcmX@<aK(YkCD<h-M1g^Uv2r69pM<ouUVN}qe1Nm3L39&;u&<K=N4%p;5DznhJi}&j
+> > d2}L$82Zb1r3IPxK%}#Rf8QDeH0-XIq7y#w#5=8(2
+> >
+> > diff --git a/tests/data/acpi/q35/DSDT.numamem b/tests/data/acpi/q35/DSDT.numamem
+> > index 68e67eb91097c58365e3734c9b35d32796639d54..ade716519de8bd626b3cddee686f55757bb4eb35 100644
+> > GIT binary patch
+> > delta 65
+> > zcmaFic-N83CD<k8t^xxC<HwC$d=i^YB(|_|IV#4)2Rp?Jcq(lEB=??CBD#q`*v%=P
+> > VBi_*^h=-X$o<W2yz}YW^0RXDm5=sC7
+> >
+> > delta 76
+> > zcmccX_`;FPCD<k8g#rTuW7I}2J_%`Qz4&0K_yA{5gXkvyU|%N#j(A6xARcB0d4|p6
+> > e5?k50928<eDg->_H(!%`&&V#q7U1j`!T<m#coYl(
+> >
+> > diff --git a/tests/data/acpi/q35/DSDT.pvpanic-isa b/tests/data/acpi/q35/DSDT.pvpanic-isa
+> > index 811cd27c7e7366e61683c7c5ef67f0996f395c25..b6740b1ec2f4e01bdbdc34bc8bf0a2c36f134671 100644
+> > GIT binary patch
+> > delta 65
+> > zcmX@^w8x3dCD<jzMv;Mm@zq8yK8ejH66@Hw+|*;@gPr09{M0tTkqcpxh;HH!c5{m7
+> > Vh<9`e;$dcxXAofvaP|vf003u>5Yqqv
+> >
+> > delta 76
+> > zcmdnvbli!{CD<jzU6Fx-F?b^vpM<ouUVN}qe1Nm3L39&;u&<K=N4%p;5DznhJi}&j
+> > eiS=w;u4*wL6#~Ahn=i<PFtLlU1vvYKFaQAK!4j1K
+> >
+> > diff --git a/tests/data/acpi/q35/DSDT.tis.tpm12 b/tests/data/acpi/q35/DSDT.tis.tpm12
+> > index 7a213e3db230064cedf3a30b83b11128286eaeba..5bc095351fd009fb2171daaa4f824c5cc9f36819 100644
+> > GIT binary patch
+> > delta 65
+> > zcmX@$w$+WxCD<jzRGEQ+v3w&JpTuSpiCt`5&TcXB!A|i4-maT}$T_k|L^tsVyE(;k
+> > V#5=kK@h~&UGl;MSIQxY#0037w5R?D_
+> >
+> > delta 76
+> > zcmdn$cEF9xCD<jzL79Pp@xeweJ_%`Qz4&0K_yA{5gXkvyU|%N#j(A6xARcB0d4|p6
+> > e61&;BoLpl-Dg?Y-Hs6tRWMLO!3vl)eVE_OJ;S*K>
+> >
+> > diff --git a/tests/data/acpi/q35/DSDT.tis.tpm2 b/tests/data/acpi/q35/DSDT.tis.tpm2
+> > index b55e828c6397f80c14de82f371fa34553008a875..47417f47f7e25576f31207cb0b752b8c086a4480 100644
+> > GIT binary patch
+> > delta 65
+> > zcmccRcHWK4CD<jzUzve{QFtR4pTuSpiCt`5zV0#c!A|i4uI`(E$VIbAL^tsVyE(;k
+> > V#5=kK@h~&UGl;MSIQxY#003F<5T5`5
+> >
+> > delta 76  
+> > zcmX@_cFT>+CD<h-N|}Lyv1TI|pM<ouUVN}qe1Nm3L39&;u&<K=N4%p;5DznhJi}&j
+> > eiQQ~mK5j7}6#_19oA1a)v#^V>1vvYKFaQ7tbrWF#  
+> >
+> > diff --git a/tests/data/acpi/q35/DSDT.viot b/tests/data/acpi/q35/DSDT.viot
+> > index a8a93fe70d8e98ec0e66278b45d36393b75740ec..574b8a0094c556cd8555b7a4e1b92b2d5f64750a 100644
+> > GIT binary patch
+> > delta 65
+> > zcmdn)wZ@CfCD<iIN0otr@ySLmK8ejH68pKhTvcP@gPr09d{s98RWfFhh;HH!c5{m7
+> > Vh<9`e;$dcxXAofvaP|vf003b*5VQaQ
+> >
+> > delta 76
+> > zcmZ4EwcU%$CD<jzT$O==(RU*kpM<ouUVN}qe1Nm3L39&;u&<K=N4%p;5DznhJi}&j
+> > ei340*E-En~6#_oWn;$9}GqH=X1vvYKFaQAC!xDA?
+> >
+> > diff --git a/tests/data/acpi/q35/DSDT.xapic b/tests/data/acpi/q35/DSDT.xapic
+> > index 8211f5af8f9433b66b64768acb1de61a5716152a..74381116ad7f01a860fee9201df38d1ea24a0be6 100644
+> > GIT binary patch
+> > delta 67  
+> > zcmX>)ooUx}CN7s?myliE3=E8aH*)bwY&MaYSjgq57!x1t6ffYZu=#xFdq#=qCjMYI  
+> > Xr+AKdN0%TTW(Ii%5w-wlzYqoh?b#EU
+> >
+> > delta 78
+> > zcmdlro$2UwCN7s?myn~~3=E8E8@c!-q^0%ZgPr07oIMSqoA`r$oeVhQ9bJNWm>J|5
+> > gHj7J4D&%rdhyke(@Q~lUx$`|Ey9ir=vtI}U0BHvmS^xk5
+> >
+> > --
+> > 2.31.1
+> >  
 > 
-> For biosbits repo:
->  - added Dockerfile and build script. Made bios bits build on gcc 11.
->    https://github.com/ani-sinha/bits/blob/bits-qemu-logging/Dockerfile
->    https://github.com/ani-sinha/bits/blob/bits-qemu-logging/build-artifacts.sh
->    The build script generates the zip archive and tarball used by the test.
-> 
-> v1: initial patchset. uses qtest to implement the bios bits tests.
-> 
-> Cc: Qemu Devel <qemu-devel@nongnu.org>
-> Cc: Daniel P. Berrangé <berrange@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Maydell Peter <peter.maydell@linaro.org>
-> Cc: John Snow <jsnow@redhat.com>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Cc: Michael Tsirkin <mst@redhat.com>
-> 
-> Ani Sinha (10):
->   acpi/tests/avocado/bits: initial commit of test scripts that are run
->     by biosbits
->   acpi/tests/avocado/bits: add SPDX license identifiers for bios bits
->     tests
->   acpi/tests/avocado/bits: disable acpi PSS tests that are failing in
->     biosbits
->   acpi/tests/avocado/bits: add smilatency test suite from bits in order
->     to disable it
->   acpi/tests/avocado/bits: add SPDX license identifiers for bios bits
->     smilatency tests
->   acpi/tests/avocado/bits: disable smilatency test since it does not
->     pass everytime
->   acpi/tests/avocado/bits: add biosbits config file for running bios
->     tests
->   acpi/tests/avocado/bits: add acpi and smbios avocado tests that uses
->     biosbits
->   acpi/tests/avocado/bits/doc: add a doc file to describe the acpi bits
->     test
->   MAINTAINERS: add myself as the maintainer for acpi biosbits avocado
->     tests
-> 
->  MAINTAINERS                                   |    6 +
->  docs/devel/acpi-bits.rst                      |  148 +
->  tests/avocado/acpi-bits.py                    |  389 +++
->  .../acpi-bits/bits-config/bits-cfg.txt        |   18 +
->  tests/avocado/acpi-bits/bits-tests/smbios.py2 | 2434 +++++++++++++++++
->  .../acpi-bits/bits-tests/smilatency.py2       |  107 +
->  .../avocado/acpi-bits/bits-tests/testacpi.py2 |  287 ++
->  .../acpi-bits/bits-tests/testcpuid.py2        |   87 +
->  8 files changed, 3476 insertions(+)
->  create mode 100644 docs/devel/acpi-bits.rst
->  create mode 100644 tests/avocado/acpi-bits.py
->  create mode 100644 tests/avocado/acpi-bits/bits-config/bits-cfg.txt
->  create mode 100644 tests/avocado/acpi-bits/bits-tests/smbios.py2
->  create mode 100644 tests/avocado/acpi-bits/bits-tests/smilatency.py2
->  create mode 100644 tests/avocado/acpi-bits/bits-tests/testacpi.py2
->  create mode 100644 tests/avocado/acpi-bits/bits-tests/testcpuid.py2
-> 
-> -- 
-> 2.34.1
 
 
