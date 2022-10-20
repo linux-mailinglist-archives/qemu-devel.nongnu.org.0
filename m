@@ -2,116 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA312606655
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 18:55:45 +0200 (CEST)
-Received: from localhost ([::1]:45066 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE7FD6065EF
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 18:37:37 +0200 (CEST)
+Received: from localhost ([::1]:49894 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olYpa-0001X8-3O
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:55:42 -0400
+	id 1olYY4-0006CP-5B
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:37:36 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olYpS-0002YL-SQ
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:55:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34662)
+	id 1olYLM-0006PU-Ub
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:24:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1olWbE-0002qB-Jx; Thu, 20 Oct 2022 10:32:50 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34054)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1olWbC-0002m9-JD; Thu, 20 Oct 2022 10:32:44 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29KEMA2G005212;
- Thu, 20 Oct 2022 14:32:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=pkaKCD6eUecp+1SxFlu+uWxIaeD0jm3xzPJMF1CqNTE=;
- b=en9hXo5oFVwxOFG9ld7cVhgKAd/IpithZice1iK1pOYsMT9fTnyOBXPKSp2PoJ2zinYi
- Nk7P8tKz+CMma+cNkiA7PY3ar1DOUjtqN8yJWV5w1AReqBaud/bZ/YR7rLm4wqlrNykS
- z80TPDm0VlBxtxkHxNYyYCg2nDKE3HBtPeZfzVOviwuEyJIWYz60JIaArICag5kxpUFI
- eGojRK4gTaqBf6jBMPljCiUYhuNzhX99G4RHAgTlBmM1RV5vK+ovLITwJt2S5Q/en1el
- 7Wbtvj8Cb9qim60nfVxjvbVKoN2Ljdzzpv75iZMPzv39/PEvFo8Jk1POYhmXNrZrnU05 Aw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kb81e0afh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Oct 2022 14:32:36 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29KEOE7f012225;
- Thu, 20 Oct 2022 14:32:36 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kb81e0adx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Oct 2022 14:32:36 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29KEKHkG026369;
- Thu, 20 Oct 2022 14:32:33 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma03fra.de.ibm.com with ESMTP id 3k7mg9et23-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Oct 2022 14:32:33 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 29KEWU3T66453792
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 20 Oct 2022 14:32:30 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5E4E84C046;
- Thu, 20 Oct 2022 14:32:30 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5194D4C044;
- Thu, 20 Oct 2022 14:32:29 +0000 (GMT)
-Received: from [9.171.54.135] (unknown [9.171.54.135])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 20 Oct 2022 14:32:29 +0000 (GMT)
-Message-ID: <3db6c742-4d48-788a-7a84-710a4b4e2e0f@linux.ibm.com>
-Date: Thu, 20 Oct 2022 16:32:29 +0200
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olWuq-0004VZ-Ct
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 10:53:09 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:51021)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olWuo-0007FL-VL
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 10:53:00 -0400
+Received: by mail-wm1-x332.google.com with SMTP id y10so62930wma.0
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 07:52:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=BVuri5dUPyyfvXksScc1dGkVrPPXzR9ZCoPxR1LDGXQ=;
+ b=Bpb+Ft63QftjrTuceIRyXruCOZuC5+f/YMgf4RCko/RSqET+YeieBFsrGitsuE0pYn
+ QALTaw2NZ++KbgVsj+jZsbxxLBZpGFp6e5jtu6W00eq/6+f1cZgHYiiBEP7q/P2IOuAg
+ 9iO943Iy8B4NtY026a4IpraVn5cGnEEJwmPD0bXUu3aVZa/9uw306ZCYINxp5iChWHG8
+ T+V5QA2z0FZr3ZCDwrbAIKNk1t27OQhG2sbX6YP5vrzPzLTOoym7PuQNQbti1ePH67gU
+ NmJrWXgPccDMTNdATgMYwyvHorj8CEvK3cl63W6QMNJ9hlcqJMNPVxIHVVf/76eyRUSH
+ se2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BVuri5dUPyyfvXksScc1dGkVrPPXzR9ZCoPxR1LDGXQ=;
+ b=0necSc+793Ffh3Yh0HxvXJwhY4wi9AV9Ukrs+KMDffMx807wM+42kdbhGCm6llnwhz
+ SWZncI3wiPAyrxvG2Yy1MrmW/G1VAzGeMy4ZKki1QCFvbAbfcq37sDuqXX0ofPPgiR4g
+ euHqhFL+/2qQV+DDqArzwzTIewJ5TXjP6ZX7jHpTjy4O+TvcQ+ssrOnBCa+P23L6PX2C
+ 008QXY3kDgVHvv2tqhzi6f18xAMrtUFf3Hw3DPKK4TybYLQybcRDXfyfYKorcvPHMgF1
+ dO05FySwzqrKeA/TIJKu1dVVCHAPiCqQbVwwdTPC3GhxfUnjvrMWV1gKHxe1BAPfvRnt
+ agQQ==
+X-Gm-Message-State: ACrzQf2ghzMplqScZXhojYvUPvp7OmV9nZhsHwGoxngRtioGezfAxxh0
+ LN3GB7r6Bulpb0qh/vMr2beUTA==
+X-Google-Smtp-Source: AMsMyM6cGidoGLk9WVA19uXb4Y3U7HszUafng6ujLujlYUkwvqbWdgTlHSjC6gAbyFhvbaDpRWd63w==
+X-Received: by 2002:a05:600c:1e88:b0:3c3:ecf:ce3e with SMTP id
+ be8-20020a05600c1e8800b003c30ecfce3emr30399311wmb.15.1666277577093; 
+ Thu, 20 Oct 2022 07:52:57 -0700 (PDT)
+Received: from [10.50.0.10]
+ (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
+ by smtp.gmail.com with ESMTPSA id
+ 123-20020a1c1981000000b003a6125562e1sm2941615wmz.46.2022.10.20.07.52.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Oct 2022 07:52:56 -0700 (PDT)
+Message-ID: <40f90271-989c-f72d-7e8e-5dbdb5d9b816@linaro.org>
+Date: Thu, 20 Oct 2022 16:52:54 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v10 6/9] s390x/cpu topology: add topology-disable machine
- property
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.2
+Subject: Re: [PATCH 09/31] tcg: Move TCG_{LOW,HIGH} to tcg-internal.h
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com
-References: <20221012162107.91734-1-pmorel@linux.ibm.com>
- <20221012162107.91734-7-pmorel@linux.ibm.com>
- <f4e07f9f-dd31-d300-cb3b-9714b88880e5@kaod.org>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <f4e07f9f-dd31-d300-cb3b-9714b88880e5@kaod.org>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221020115242.2301066-1-richard.henderson@linaro.org>
+ <20221020115242.2301066-10-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221020115242.2301066-10-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: XEqZOm4IQPSzef1luWhewb8aW4-KnArF
-X-Proofpoint-ORIG-GUID: OLqqVs5j2ZcRHeiT1iPqmeFrCJzlWIrY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-20_05,2022-10-20_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 lowpriorityscore=0 mlxlogscore=727 adultscore=0
- suspectscore=0 mlxscore=0 impostorscore=0 spamscore=0 clxscore=1015
- phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210200086
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -128,27 +97,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 10/18/22 19:51, Cédric Le Goater wrote:
-> On 10/12/22 18:21, Pierre Morel wrote:
->> S390 CPU topology is only allowed for s390-virtio-ccw-7.3 and
->> newer S390 machines.
->> We keep the possibility to disable the topology on these newer
->> machines with the property topology-disable.
+On 20/10/22 13:52, Richard Henderson wrote:
+> Move the error-generating fallback from tcg-op.c, and
+> replace "_link_error" with modern QEMU_ERROR markup.
 > 
-> Isn't 'topology' enough for the property ? I don't think the
-> '-disable' prefix adds much to the meaning.
-> 
-> C.
-> 
-> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   include/tcg/tcg.h  | 12 ------------
+>   tcg/tcg-internal.h | 14 ++++++++++++++
+>   tcg/tcg-op.c       | 10 +---------
+>   3 files changed, 15 insertions(+), 21 deletions(-)
 
-Agreed.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Pierre
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
 
