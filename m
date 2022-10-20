@@ -2,97 +2,159 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B5FC6066C7
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 19:10:29 +0200 (CEST)
-Received: from localhost ([::1]:52462 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15952606661
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 18:58:30 +0200 (CEST)
+Received: from localhost ([::1]:42554 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olZ3d-0007j1-6w
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:10:16 -0400
+	id 1olYsG-0006mW-FU
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:58:28 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olYnr-00056s-BG
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:53:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47306)
+	id 1olYsF-0006U4-SY
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:58:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1olYg3-0007jf-BO
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:45:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55398)
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1olYqv-0003hU-QR
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:57:07 -0400
+Received: from mx0a-0031df01.pphosted.com ([205.220.168.131]:55728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1olYfp-0003U7-DD
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:45:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666284336;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=L9ccITVISTrC2osuaH7WvoQuKg8tvJwOXlGrZQiGGG4=;
- b=bZB6U2qgJB6P8zcNAbOcK4pF29kU6RsrYc/m8XUAM6pWRlon8BvYKjxbXvZfNujvC0bnOV
- pDAgztKQUo/M61Ctef+7NEEx8qtpAOfTCsOquXKQ8ZTnbcYzzvsZuIAfVe/d1Y3y5xPKn2
- WmERWgNGSjEl8PN651HtcvEQdFQv3OA=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-76-dt7oxwD6OEyZXVrYgjCYsA-1; Thu, 20 Oct 2022 12:45:34 -0400
-X-MC-Unique: dt7oxwD6OEyZXVrYgjCYsA-1
-Received: by mail-qv1-f70.google.com with SMTP id
- y2-20020a0ce802000000b004b1ce1c4a70so32913qvn.9
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 09:45:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=L9ccITVISTrC2osuaH7WvoQuKg8tvJwOXlGrZQiGGG4=;
- b=xDvWE8V1y1PwTVcg9++yzlAju3b6RU9fsA9k54s0OZgYILSQ+SPxdBkfFMSy5ywGAt
- rO2gdcAuzTT3DStdT++My3eIP6w/PTPOUACOZ69eqSMxn+M0yoHbLDlqIxcGbcDf6YRT
- JhHHYcatTfKd/H4PgFbtoRfZ9NS3dfvrNFX0CbsaJQdAinNGgkPcj7RpJzd72lslPr7T
- lJFjqyGffi0LHI5NF//tZdfTjF6G4+UG0BAxNuj+/w8A1xOKBdCUgooIEzgqSZuW07/u
- jIrlOL0Y0W8s+KneyEaN+dsLEshz4Oiq+eIQK9lJFctDYTZmxqt/IneypwLlDKsZ4/AB
- 6BTw==
-X-Gm-Message-State: ACrzQf2/nE7jr9DSyFRgLetaew/Gl6ckxN9b5v6RaAUzUSZeO0+z+724
- 4BnBhKLaCry586arTri4Tpw6LY1NhuWUnEg3GvyALOaLKMvCoyKg4xataskZqoPoThgJOAFU78t
- vJfnX7VevSnrhN60=
-X-Received: by 2002:a05:620a:1a04:b0:6ee:93fc:b44f with SMTP id
- bk4-20020a05620a1a0400b006ee93fcb44fmr10061060qkb.756.1666284333061; 
- Thu, 20 Oct 2022 09:45:33 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6WZVJWnEWNTwpX7ltQyBBqMhV1An9mrG9VMlcsMl77FUBOM2MKuS7YMr5LpdVmO9QrUcRbWg==
-X-Received: by 2002:a05:620a:1a04:b0:6ee:93fc:b44f with SMTP id
- bk4-20020a05620a1a0400b006ee93fcb44fmr10061027qkb.756.1666284332675; 
- Thu, 20 Oct 2022 09:45:32 -0700 (PDT)
-Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
- [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
- m13-20020a05620a24cd00b006ce76811a07sm7677167qkn.75.2022.10.20.09.45.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Oct 2022 09:45:31 -0700 (PDT)
-Date: Thu, 20 Oct 2022 12:45:29 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Cc: Eric Auger <eric.auger@redhat.com>, qemu-devel@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>
-Subject: Re: [PATCH] x86-iommu: Fail flag registration of DEVIOTLB if DT not
- supported
-Message-ID: <Y1F7Iujybjr3kVCF@x1n>
-References: <20221018215407.363986-1-peterx@redhat.com>
- <98df60ec-be6d-84aa-d2bd-3bb2ebf0d1a5@redhat.com>
- <Y1ADOivPsgWzOjF6@x1n>
- <1196d8bb-1a4f-06b7-f5e3-43ace827bfb0@redhat.com>
- <Y1APkKgg340u6qym@x1n>
- <CACGkMEuVOyW6e-U_79UruLotx2AygbjKxeAE16JZaE1uAdSwuw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1olYqs-0003lK-53
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:57:03 -0400
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29KDGtvP005179;
+ Thu, 20 Oct 2022 16:56:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=qcppdkim1;
+ bh=qytRSqR3ZpokvdMollP7Ld7DAZECrapmnmWmgZnk5rI=;
+ b=ptdJ7Fe638MhH1jo/5EujetIBfhBw9mCiAvBJ5TochQDNKyeQ8DzZB1ksmczyBL2t1sV
+ WTf62/XLuCVZeXxl5f5o5jMbx/jQjIe4A2CYEw65K7chpQNQGKvvlKyfxduNKuauZ1FV
+ fVcweMsj5TSB6FfxQsJDV1RasM9p48XZG4z0rRjwjoljL0zFKUiMZsJaTbgpalshHeyk
+ Q4l0g2mqeIlpqvd21BFxbtArTFhvDgAoK51ng5M1UJHz+8RengnGBz4q6F+s5IKbC4vl
+ aH8AiNRd/Zk9J0BsD8XoDA2N089zT5ku4Zm2e364Z4RwBVgN74v6IEOgPiUxrcAc+VUn Aw== 
+Received: from nam12-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2043.outbound.protection.outlook.com [104.47.66.43])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kb1efsk9m-2
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 20 Oct 2022 16:56:55 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VTz0ELO0k8vYuBF5hZIl0MPTdxlzdPfGQryLCWQdL1XOc9lCTcx2lKc/YmLP0CXAsQUQRdk/HvJOf9x1fMYoucI5dyLEXcQfaWSOxzYlJ+5wUZ5iGuTTysY1Iv+rp9RmkKeBta1q4k/iaTE8/mg0BUISh58egPAWcjp8MZE3vy0FeUyV5C4XRwx9ztgd34j7sy9uPa/M5WcHMQNSAPtMHyT+e71ssc5LCGyZ92R4lRxat98oDRsyNtPYvZaDps93Rq9y/H7oxwJxx1WcLqGSnPRENMHWQB5pdSnuto7rHEBRNeZ/Ygn9ChZFu4TK1wfvmP0ciqsdnb2rRC9K9bZERQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qytRSqR3ZpokvdMollP7Ld7DAZECrapmnmWmgZnk5rI=;
+ b=lffV4hurPzf4g2BgzvuNEZMNttNj7yQSkcTnDfw+tXmyfSNW0pFsTqY/ZryWirubMmYV3/H0vsysYIsDdB83OW6NTW7LtsJ/73qyG+YMSm+sIlzEkXvIL92jNAIY8dZsdlkBwvy8pNmIK/H6ZdmtKvHftoqS0v4xPFS//E5Y3mYTincAF59iCh+5Ow3KoZkHJcOjGKEjkTr6iwOromdw4VRAJdQI/x9lwSg9ZgobS/npo08XnsxFsEvpv1jfz5jwrX2lD3Lj7UIgQ+7hPUMTO4xclkLwbtnnyAtiDmgu9R7FloaIICJeoSmJOSWa1qlWNBSmyXYR+e3zFLy6R3uBbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
+ (2603:10b6:806:203::12) by CH2PR02MB6949.namprd02.prod.outlook.com
+ (2603:10b6:610:8f::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.35; Thu, 20 Oct
+ 2022 16:56:51 +0000
+Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
+ ([fe80::48c8:3e4b:46c1:ca87]) by SN4PR0201MB8808.namprd02.prod.outlook.com
+ ([fe80::48c8:3e4b:46c1:ca87%5]) with mapi id 15.20.5723.033; Thu, 20 Oct 2022
+ 16:56:51 +0000
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: "Matheus Bernardino (QUIC)" <quic_mathbern@quicinc.com>
+CC: "ale@rev.ng" <ale@rev.ng>, "anjo@rev.ng" <anjo@rev.ng>, Brian Cain
+ <bcain@quicinc.com>, "philmd@linaro.org" <philmd@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Matheus Bernardino (QUIC)" <quic_mathbern@quicinc.com>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>
+Subject: RE: [PATCH 7/8] Hexagon (target/hexagon) Use direct block chaining
+ for direct jump/branch
+Thread-Topic: [PATCH 7/8] Hexagon (target/hexagon) Use direct block chaining
+ for direct jump/branch
+Thread-Index: AQHY5Atp1nj2A578L0OK+yg7f6muYq4XaB+AgAAVorA=
+Date: Thu, 20 Oct 2022 16:56:51 +0000
+Message-ID: <SN4PR0201MB8808C0C1C12DD903AD8C3FE1DE2A9@SN4PR0201MB8808.namprd02.prod.outlook.com>
+References: <20221019223739.3868-8-tsimpson@quicinc.com>
+ <282c13438aac1a4a12b061634d8efb3c84ac29cd.1666278665.git.quic_mathbern@quicinc.com>
+In-Reply-To: <282c13438aac1a4a12b061634d8efb3c84ac29cd.1666278665.git.quic_mathbern@quicinc.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN4PR0201MB8808:EE_|CH2PR02MB6949:EE_
+x-ms-office365-filtering-correlation-id: 5e4a6fe1-c4d2-401e-5c70-08dab2bc15bd
+x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: FgR90G+ALbl3A79TsdRivXokCp+I6oaucfvEz3s3QDaDoCvlyy1jK4KjA+9PoP898lZ1VNpErKWHw24TE0MT4jIVSa21RpbpltrdZ4+NngKcjfeCOUQyr0+WGXMw6Ta5g3M8QWBShVAwTcipRrlC7KYyIBg6N/VHGhE35733aZpcdurmz8Rw9oN3Z7b7mhmmEZ5G8qcKaUhsEDf0FiYwO5lKTO022anyf+FcaphVvAHOklcbOnHBnNQORNMHX7HgBTjm28/1Fy3w1PxSOZGGhj+lACYXAnkTkwm6uubmKapHNE214nhIGUPuJoMpAE9hpEjYKYVJVifLCR/oDMy0kxaDQNYKHIB/s+cL4HueDeufkaOxMZ8NBFadsiYQyDT//IhrcXo8RyY1qOMlziT/Z8KSVQ7oJQHjBUK6F24s86mAas8NpMAnYiRtd/XjgZ0UXKJp2Vz0wjTZn0P9+rYPvTar2ZH6XoJzErny/Y6cW+ETeOWD3CFJVpyzMS1Up+JTlh/X6aqlqVTBdjnrjrmTyQ4oG8QMUaVe0srek0avzMkHXbkOlQncNUsOmuIXLSsAx1WyfMY/bE5q4zCJvSYbGtjS3+PuO3IOtl/x7QdlikxnEzq//4k1vyOQ1KIg6M2jVVzIa39+saGBdGSAZq6LWv0etSmjJEPu8XBUe9NOaTXbfQwLKE1JdF7D16g1QX3V+td6lZBkwST7hDR0Bkx+mdCofzFkOIxosAjt7BnZ91bCPPyKXKlbapcBEl/MBd9YWjUcvvw2i6IXDNj4qsytHQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(366004)(376002)(346002)(136003)(396003)(451199015)(83380400001)(38070700005)(86362001)(55016003)(33656002)(38100700002)(122000001)(6636002)(54906003)(316002)(5660300002)(52536014)(6862004)(8936002)(7696005)(71200400001)(186003)(2906002)(64756008)(6506007)(53546011)(76116006)(66946007)(66476007)(66446008)(66556008)(8676002)(4326008)(478600001)(26005)(9686003)(41300700001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?WRPOPww2qdVp/eCfVDWECDnZJEnk6diYQawe7qdjMMcyD6u2hdcc+xOOjgCV?=
+ =?us-ascii?Q?aZFRV4sT2ap4PXCRVDAXZm7dhh/cGtZ4nZLdeP1Q3z/MPZP2foGIgBvOezEO?=
+ =?us-ascii?Q?m2+P5ATSReQCuUg+oYPKeEzYszYHB1/6qoo1w+RccIeXclWTfcIPEoPgA95q?=
+ =?us-ascii?Q?UPf4jmu4/UaiBQZh5iwT19aKU+dlTjICMZUA7+tg12f7rdiYSwcVvRmeOcao?=
+ =?us-ascii?Q?9RAwEREXmz1OELC5aB2IRfqTjwf4X10zCWTHlmVnfzAeQ3tjYvlWrkMd2SK9?=
+ =?us-ascii?Q?euXFigfKG0kHJuKIZ80M5nbCoNIkuFc1EY5WGUSVTV5eMacFhb3gAF84xRtx?=
+ =?us-ascii?Q?UULsOJeAuYYigOljj7ApDYdqkLUUo6r369hfJ81L2ESQz9J6ru+sG4VvAJLt?=
+ =?us-ascii?Q?Owh/mI8sYMfAUeozsyUnYUl6RMu4AiF92wzlmBtwDo2s4gmUZ2XkdXm7orpt?=
+ =?us-ascii?Q?DHL8eQFEcECA2KSJB8o8LNjashyUIA4Cj19BxjnM2PaqU3obGTcpdRPFRXk5?=
+ =?us-ascii?Q?aSDS8h/kt6lGucQwrHOgkRHcoYCnEyVyc/hYMv/HyRilrZJHAXO95csB8zso?=
+ =?us-ascii?Q?v6/TooD4HfYToTNh/lMllR0odV97tLwMfVDgbYz3rZRnnd7C2iTMhMK6fZ6R?=
+ =?us-ascii?Q?S/V6PPO+njrtqCFuAUsNCMiJe390UJ/DtvYoqNApLLqk1RmwblwyTHGnwOkK?=
+ =?us-ascii?Q?g43CeRakp5RD+rYeAl+SXD0QKckWiaukCClGQbEh/ZEtwWfx43QPZTJ33mU/?=
+ =?us-ascii?Q?ZUrHo18Il8Iv6E5P2TfpRSI5z0UMTEOVg63fbB4oe2at+Qcttu7x9eaV1fOd?=
+ =?us-ascii?Q?tJLCRxgpD2txY1TQui76RayqNY+qvgfz0+gl3p1QZKaIa2jn/jvcBZzDm2LI?=
+ =?us-ascii?Q?nqHGzQ+1PzA8CviX7nOCOCQJJqEaDs0M0ZhUQT/MO6HuEze3LWBDDuoCWbSv?=
+ =?us-ascii?Q?sX9rQ5Z3B8lazsuZLxekGIj1uwOAqtfp3fzztYWoT3MHgxmLRHDEOoeKgt0j?=
+ =?us-ascii?Q?V936HVuYjSNDbH/i9eFol3Wt1IEXUM7ZZ3rdY215CVAnAhnSh/TLysokAD+U?=
+ =?us-ascii?Q?FFpvJ7UKZ3b3+klbFJZuDfgcXP5/LjtqXgtthww2je3aPJD9MbHlhs0BN0er?=
+ =?us-ascii?Q?C+yhhIEdt2BReV6q0tBwtQ/nrr+y0LNyxgxJybmhx1wl3boPV7LcbjYOgP+K?=
+ =?us-ascii?Q?nEImjzafzGw+xNuKeAm1N7fzMz484lnNL/cITZFO8DFxYXGVxmQ84KAOJ/o6?=
+ =?us-ascii?Q?Tz8WHd+6LwTKOstWlVdxig2T3g7ygQM5Jsau1eNgypVrc67TSOOn/Ze/oN8Q?=
+ =?us-ascii?Q?3DQO7YU9QvDPyQT7+cttScuQUHhitK1oatpGL6Nav99qooO38RlY1SFprnYn?=
+ =?us-ascii?Q?+jX4PrmeJYynZZzHJGbFXwPKV1nb8J+XOpgAJRPTnBe4Lhbyxt8QT+g+9tYX?=
+ =?us-ascii?Q?knb7a5JI/hEsdP3GiW+3TollbuGc13BDwLwqo1W6HrdGlWVwAuRcxVOIVOdS?=
+ =?us-ascii?Q?P9CqdBMhYKJ9Kr8HXT2ocmBbjb3IJzBBSZ2tyc1adYoggYqeLkDmYIVQZV63?=
+ =?us-ascii?Q?3ti73TVYYdmiEHHqJzBCMArF4bZl5VNtQr94eJfh?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CACGkMEuVOyW6e-U_79UruLotx2AygbjKxeAE16JZaE1uAdSwuw@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+X-OriginatorOrg: quicinc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e4a6fe1-c4d2-401e-5c70-08dab2bc15bd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Oct 2022 16:56:51.4048 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4kD5mzN4zhndnx9n5g57GLx3uCK/CrEo0eOJ45i7k023ta8OKJVZrEJ7H3zwTjZA8/onBGjOqh81P2iuvyHdEw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB6949
+X-Proofpoint-GUID: GhxVPR74wami3hALnM4AIgEwbs4UmUqA
+X-Proofpoint-ORIG-GUID: GhxVPR74wami3hALnM4AIgEwbs4UmUqA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-20_08,2022-10-20_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0
+ spamscore=0 mlxlogscore=530 bulkscore=0 lowpriorityscore=0 mlxscore=0
+ impostorscore=0 priorityscore=1501 malwarescore=0 suspectscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210200100
+Received-SPF: pass client-ip=205.220.168.131;
+ envelope-from=tsimpson@quicinc.com; helo=mx0a-0031df01.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,42 +170,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 20, 2022 at 11:58:34AM +0800, Jason Wang wrote:
-> Haven't tried but I guess there would be some issue other than the
-> suggested configuration "ats=on, device-iotlb=on"
-> 
-> So we have:
-> 
-> 1) ats=on, device-iotlb=on, this is the configuration that libvirt is
-> using and it should work
-> 2) ats=off, device-iotlb=on, in this case, the DEVICEIOTLB_UNMAP
-> notifier will succeed but there won't be a device iotlb invalidation
-> sent from guest, so we will meet errors since there's no way to flush
-> device IOTLB. According to the PCIe spec, the device should still work
-> (using untranslated transactions). In this case we probably need a way
-> to detect if device page fault (ats) is enabled and fallback to UNMAP
-> if it doesn't.
 
-Yeah, agreed that we should not register to dev-iotlb notifier if ats is
-off in the first place.  Maybe worth another patch.
 
-> 3) ats=on, device-iotlb=off, in this case, without your patch, it
-> won't work since the DEVICEIOTLB_UNMAP will succeed but guest won't
-> enable ATS so there will be no IOTLB invalidation. With your patch, we
-> fallback to UNMAP and I think it should then work
-> 4) ats=off, device-iotlb=off, similar to 3), it won't work without
-> your patch, but with your patch we fallback to UNMAP so it should
-> work.
+> -----Original Message-----
+> From: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
+> Sent: Thursday, October 20, 2022 10:25 AM
+> To: Taylor Simpson <tsimpson@quicinc.com>
+> Cc: ale@rev.ng; anjo@rev.ng; Brian Cain <bcain@quicinc.com>;
+> philmd@linaro.org; qemu-devel@nongnu.org; Matheus Bernardino (QUIC)
+> <quic_mathbern@quicinc.com>; richard.henderson@linaro.org
+> Subject: Re: [PATCH 7/8] Hexagon (target/hexagon) Use direct block chaini=
+ng
+> for direct jump/branch
+>=20
+>=20
+> Do we want to perform this logic at gen_write_new_pc_addr() as well?
+>=20
+> Although, in that case, we would need a separate ctx->branch_dest to hold=
+ a
+> TCGv instead of target_ulong...
+>=20
+> Or have a single variable (TCGv) but add an extra tcg_gen_addi(ctx-
+> >branch_dest, tcg_gen_constant_tl(pkt->pc), pc_off) call to
+> gen_write_new_pc_pcrel(). (In which case, we could also unify the two
+> gen_write_new_pc_* functions and have one as a thin wrapper around the
+> other.) IDK about the extra overhead from tcg_gen_addi(), though.
 
-I think the current patch should still be correct, but maybe something else
-is missing.  I'll add this one into the todo list but I'd be more than glad
-if anyone can look into this too before that..  Or as Eric suggested to
-detect such a mismatch before it's fixed, but then if we know they're not
-working we should fail hard rather than a warning anymore.
+We get the best performance from direct block chaining when the destination=
+ is a constant at translation time (i.e., a direct branch) because we can u=
+se goto_tb + exit_tb.
+
+Take a look at gen_end_tb in translate.c to see how this is ultimately done=
+.  For a single direct branch and a tight loop, we get the best performance=
+.  Otherwise, we use tcg_gen_lookup_and_goto_ptr which is still better than=
+ what we were doing before.
 
 Thanks,
-
--- 
-Peter Xu
-
+Taylor
 
