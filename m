@@ -2,79 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF28C605C16
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 12:20:27 +0200 (CEST)
-Received: from localhost ([::1]:54864 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9EF5605C64
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 12:33:44 +0200 (CEST)
+Received: from localhost ([::1]:49500 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olSf2-0004q0-Ee
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 06:20:24 -0400
+	id 1olSru-00034J-Pw
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 06:33:42 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olRr6-0004al-9M
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 05:28:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37172)
+	id 1olSSy-0008Hb-6A
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 06:07:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1olRfo-00030n-Dc
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 05:17:08 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:40383)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>)
+ id 1olS6U-0003gE-Hp; Thu, 20 Oct 2022 05:44:43 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:57600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1olRfj-0005KR-3u
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 05:17:08 -0400
-Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
- mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MmU9R-1pTLD20nab-00iR1r; Thu, 20 Oct 2022 11:16:53 +0200
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- xen-devel@lists.xenproject.org, Eric Blake <eblake@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Greg Kurz <groug@kaod.org>,
- Jason Wang <jasowang@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, Thomas Huth <thuth@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paul Durrant <paul@xen.org>, Stefan Weil <sw@weilnetz.de>,
- Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v12 14/17] qemu-sockets: update socket_uri() and
- socket_parse() to be consistent
-Date: Thu, 20 Oct 2022 11:16:21 +0200
-Message-Id: <20221020091624.48368-15-lvivier@redhat.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221020091624.48368-1-lvivier@redhat.com>
-References: <20221020091624.48368-1-lvivier@redhat.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:rgQCLcousDQDsUdXn8fcuqm3KbUI1+2RE9s9PEwzwWrmGpqhygC
- 3TlT+Sgui69Z5zdVGUmlkHebz655PARcfVLCQ/KvJEF81vLg7ztPLeAyc+WiE9vFXS0Ke0U
- PWSKrmFtb1sQriugP6Y0KoWgRM4S5ww0x2CgGWgTupbKNBlwUgwN03mZMn4TadLr3binuh1
- Neq97H3AsJvziSz/O8A6g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:f+KlwZEvwhI=:YFlSb1mVepcSfLdVtXLjJd
- xYOMfbFe0SPN90rPR57+qWoX7L+dJbuElF5/3uZmcdMz1dLTXHA4thKT5jdBQUHV+7/kNVTbj
- CECDYJOJrNbzlr5jsub/ckAPfQj+Lp33Qn7KXEmgTBuCONfO1cr22Px7TAIP1WSqCx16c7lU7
- /+1+peF7EcpmMtowx2ryWupqKPVHTdxqk3rjq6WVSld59oDyX8ubdA7zr24hVLDYMPi065gcl
- d2z7wpSrFYQp1lq8S/r7cWRGgOaG7+vrSh4987vK9SGF5OvRfcnu2RbYvhTRBM3U9guKhrfdA
- 5FgZ7qKoBDid6yGStQdODyCqGsr8iY4w7v0J/n13QXFw1HqRUuh61cjzqv+LCEFja7N0gB57q
- +mOlD7Dfvm+i3ilBm0pteTMRiGnJ64nYHWxlRpnEi3cTE9xNdq+w9+Q+q+NQqA37nk9cBFgDG
- rHbpvAovyOrLMuSJWCTRQdA2z5U5PAg9dM6mKlbs1URIykDggJEAsE9Ogk1WDRcMldr84t2qz
- sBAHckLdtk/qSTIyP5mECRUfIQunkRRI7pBqnoJO7ABf8gg51k8NWKAM+LYDkNk6B6Ya/0kY0
- Vm7B7elbXlLTOxBoL4aXPT82VsT7YNe4jj3zomv1Si4XODkq5AI8KFyd3lB72aB4SUTiAZcQA
- +6qOIQKU1VFcqyRqKGXTVZVyXRkXD5ul/Rhx6KhTUZ552yndYKLZt8GDpSOdAJqy2VX3SlAaP
- UKNEJKwHALAD4ylJDXXyH2A6UyYYKldPMz0Cv9mAjDf6MXJdKZ4T3HOR5wNbuBpEZg6YS0Bie
- IvmwhDa
-Received-SPF: permerror client-ip=212.227.126.134;
- envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>)
+ id 1olS6S-0005sh-T5; Thu, 20 Oct 2022 05:44:42 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 62EEDB8269E;
+ Thu, 20 Oct 2022 09:44:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 214A1C433C1;
+ Thu, 20 Oct 2022 09:44:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1666259068;
+ bh=syP/42BpcfKg6GmOnczk9Khh66b+HJtdfVjHn7ffgao=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=BWmMxcTiVuHeh/Ef1JFs1lsGPgzG1tXERrJolxF07yVfXl3gQcY+UfwK4doFafuND
+ 9UTv7ZYmNiTPk0X0eQNRQ79Btu3CuU13e+J9PVxV+U/48h8HOAb1jz/QlS3WgZD2/1
+ L1/+26moK/CzYEjaTTtiWaxqW1Rj4o+bD7Lahos+NnJVpAsObpRVgx6UdnYd8c3gME
+ vzWYf7+sz/bYYrGxIndFgkjeiCCNocBCz18VCqW+tXOucucNBb1aEYGLwsc+ljCLPe
+ rdigOIB1tJk+EFrO0oHDFJ9YiOeukTc2qrzqMdb4ePskU6jF+oYQEyFIp78I1Bzwio
+ 1aDCxAk03IMbg==
+Received: from sofa.misterjones.org ([185.219.108.64]
+ helo=goblin-girl.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
+ (envelope-from <maz@kernel.org>) id 1olS6D-000Cl7-Tv;
+ Thu, 20 Oct 2022 10:44:26 +0100
+Date: Thu, 20 Oct 2022 10:44:25 +0100
+Message-ID: <865ygeg77q.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Gavin Shan <gshan@redhat.com>
+Cc: eric.auger@redhat.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ cohuck@redhat.com, zhenyzha@redhat.com, richard.henderson@linaro.org,
+ peter.maydell@linaro.org, shan.gavin@gmail.com
+Subject: Re: [PATCH v5 6/6] hw/arm/virt: Add 'compact-highmem' property
+In-Reply-To: <6566e453-9b05-7092-f112-ea9e523be8b4@redhat.com>
+References: <20221011231832.149839-1-gshan@redhat.com>
+ <20221011231832.149839-7-gshan@redhat.com>
+ <9a43b31a-63d7-d312-870d-168df1b41921@redhat.com>
+ <6566e453-9b05-7092-f112-ea9e523be8b4@redhat.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: gshan@redhat.com, eric.auger@redhat.com, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, cohuck@redhat.com, zhenyzha@redhat.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org, shan.gavin@gmail.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=maz@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -73
+X-Spam_score: -7.4
+X-Spam_bar: -------
+X-Spam_report: (-7.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,50 +94,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To be consistent with socket_uri(), add 'tcp:' prefix for inet type in
-socket_parse(), by default socket_parse() use tcp when no prefix is
-provided (format is host:port).
+On Thu, 20 Oct 2022 00:57:32 +0100,
+Gavin Shan <gshan@redhat.com> wrote:
+> 
+> For Marc's suggestion to add properties so that these high memory
+> regions can be disabled by users. I can add one patch after this one
+> to introduce the following 3 properties. Could you please confirm
+> the property names are good enough? It's nice if Marc can help to
+> confirm before I'm going to work on next revision.
+> 
+>     "highmem-ecam":    "on"/"off" on vms->highmem_ecam
+>     "highmem-mmio":    "on"/"off" on vms->highmem_mmio
+>     "highmem-redists": "on"/"off" on vms->highmem_redists
 
-In socket_uri(), use 'vsock:' prefix for vsock type rather than 'tcp:'
-because it makes a vsock address look like an inet address with CID
-misinterpreted as host.
-Goes back to commit 9aca82ba31 "migration: Create socket-address parameter"
+I think that'd be reasonable, and would give the user some actual
+control over what gets exposed in the highmem region.
 
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
----
- util/qemu-sockets.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+I guess that the annoying thing with these options is that they allow
+the user to request conflicting settings (256 CPUs and
+highmem-redists=off, for example). You'll need to make this fail more
+or less gracefully.
 
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-index 9f6f655fd526..a9926af714c4 100644
---- a/util/qemu-sockets.c
-+++ b/util/qemu-sockets.c
-@@ -1090,7 +1090,7 @@ char *socket_uri(SocketAddress *addr)
-     case SOCKET_ADDRESS_TYPE_FD:
-         return g_strdup_printf("fd:%s", addr->u.fd.str);
-     case SOCKET_ADDRESS_TYPE_VSOCK:
--        return g_strdup_printf("tcp:%s:%s",
-+        return g_strdup_printf("vsock:%s:%s",
-                                addr->u.vsock.cid,
-                                addr->u.vsock.port);
-     default:
-@@ -1124,6 +1124,11 @@ SocketAddress *socket_parse(const char *str, Error **errp)
-         if (vsock_parse(&addr->u.vsock, str + strlen("vsock:"), errp)) {
-             goto fail;
-         }
-+    } else if (strstart(str, "tcp:", NULL)) {
-+        addr->type = SOCKET_ADDRESS_TYPE_INET;
-+        if (inet_parse(&addr->u.inet, str + strlen("tcp:"), errp)) {
-+            goto fail;
-+        }
-     } else {
-         addr->type = SOCKET_ADDRESS_TYPE_INET;
-         if (inet_parse(&addr->u.inet, str, errp)) {
+Thanks,
+
+	M.
+
 -- 
-2.37.3
-
+Without deviation from the norm, progress is not possible.
 
