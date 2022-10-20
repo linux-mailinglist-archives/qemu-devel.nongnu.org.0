@@ -2,103 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88FA46066D3
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 19:14:57 +0200 (CEST)
-Received: from localhost ([::1]:47220 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E4966066A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 19:03:56 +0200 (CEST)
+Received: from localhost ([::1]:55840 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olZ8C-0005iz-JL
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:14:56 -0400
+	id 1olYxP-0006wz-Hs
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:03:47 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olYrs-0002cu-RN
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:58:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40154)
+	id 1olYrX-0007Wn-RM
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:57:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1olYJU-0004oa-7O
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:22:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37183)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1olYN9-0004eA-Uw
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:26:24 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:59757)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1olYJO-0005bs-MB
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:22:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666282944;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RNARqd3TTnpsS2K+Ui74O71+3y02cV+ALRG8OMpzh8g=;
- b=cqvp443kdmfuBJJfLsq6JPRLlvEyO4HOD2jEZLSuyg+33CXyXM6VTCDcjtF1UcZ+3Gs1z2
- q1MW/wKbe5N9FQjQVyf5R+sHHpiVUJrzkFUuxkj8hTn/7uT45fgPlnldJfzLaWfGkYr1sF
- ny39quGMVfSL/lj57UMuWOXMOOTQrCY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-140-R4WSece6N0yz0fyD7m1jRg-1; Thu, 20 Oct 2022 12:22:22 -0400
-X-MC-Unique: R4WSece6N0yz0fyD7m1jRg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- t12-20020adfa2cc000000b0022adcbb248bso6878413wra.1
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 09:22:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RNARqd3TTnpsS2K+Ui74O71+3y02cV+ALRG8OMpzh8g=;
- b=Fcfia4NG8d6BDtJA7X/dG4j0Cx9uEBf/yj3O03kJ0xH+vpH9oFMvPK3MmoDGjA/+FV
- p5MbdPBPA0E+8MZLW1TTefW6TmV9oer/L5fpPTI5LcUg5hdCXCWfzZt+zqeNw3lRayZ3
- XBzIc4G4+ButZZXnGCtL9H6GW3Q7wUwd0fNZCmTXOaIZ0+65Up/DbkMf3ENyzynnis7+
- guwqcdfSGfYdLg0zXMfkkgqey9YfUov/WKPjkLZRurXB7y9E0m85WvCZjGKexk+j13An
- ofXri2+hYPiVOD32q5D3IqXGgiCy0f7sb7EVh622OdAtoU4HcNZbJSoi1zsJlJqfvSOj
- v4YQ==
-X-Gm-Message-State: ACrzQf28d6+ke2yutaU7Yc4X/HT/nM5reH+ip3mmaHbytdSOtAd7fg8p
- niMyauOqLvxInd6KGANcwJB/JYWyGvyZPZVNAVy9PFild+igZZuOt1ugdAnfA1gR9wBYlcr0XzF
- wqjpzqJsv3Tp2LhQ=
-X-Received: by 2002:a5d:4bcd:0:b0:22c:dfba:6b61 with SMTP id
- l13-20020a5d4bcd000000b0022cdfba6b61mr8907696wrt.424.1666282940446; 
- Thu, 20 Oct 2022 09:22:20 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4Dvp7CwzQHHEtn6eNBvendRByORq7IAPX/vtSg+91ZfVr06KDBRXeBuo9FQk4YJQV1jrum4w==
-X-Received: by 2002:a5d:4bcd:0:b0:22c:dfba:6b61 with SMTP id
- l13-20020a5d4bcd000000b0022cdfba6b61mr8907677wrt.424.1666282940159; 
- Thu, 20 Oct 2022 09:22:20 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- f16-20020a056000129000b0022dc6e76bbdsm16779360wrx.46.2022.10.20.09.22.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Oct 2022 09:22:19 -0700 (PDT)
-Date: Thu, 20 Oct 2022 17:22:17 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, quintela@redhat.com
-Subject: Re: [PATCH 2/2] thread-pool: use ThreadPool from the running thread
-Message-ID: <Y1F1uU5bAQw80mG0@work-vm>
-References: <20220609134452.1146309-1-eesposit@redhat.com>
- <20220609134452.1146309-3-eesposit@redhat.com>
- <YzW6FkfT9LT7aE7d@redhat.com>
- <29c33add-81ca-5a16-a02a-d2a0c5bfaf88@redhat.com>
- <YzcPBFcf3idA4MLH@redhat.com>
- <dc4bf265-4cd9-ef29-2e3f-d15e779bd8db@redhat.com>
- <Y1Frq6R4DFOPWyIY@fedora>
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1olYN7-0006y3-Kl
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:26:19 -0400
+Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
+ mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MFb38-1otkm42rZ0-00H6jd; Thu, 20 Oct 2022 18:26:02 +0200
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Paul Durrant <paul@xen.org>, Markus Armbruster <armbru@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Eric Blake <eblake@redhat.com>,
+ xen-devel@lists.xenproject.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Ralph Schmieder <ralph.schmieder@gmail.com>,
+ Stefano Brivio <sbrivio@redhat.com>
+Subject: [PATCH v13 00/17] qapi: net: add unix socket type support to netdev
+ backend
+Date: Thu, 20 Oct 2022 18:25:41 +0200
+Message-Id: <20221020162558.123284-1-lvivier@redhat.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y1Frq6R4DFOPWyIY@fedora>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:7nzhOdzuyB5iD/UnDUsWPTxczTFRQLvXg5Z1eJG9MDI/w/a5Cbt
+ gQJrntjaGcWwtmI1z4KtaQ9KE61FQ5pSRkP8ACKsr9d764clouGBKw5WvFzUflq0RVHwF2O
+ FsP5FnufXTzWTvCrIXC5c0oNq1+7p8a+97BAxdz8+fn4gPeeKhG1glTgHoqN2Iz1eDumFbf
+ YjmrvNCirnambUJTWd3nQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:6LPzXzTjvE8=:TNTtaHzNtMFT0SCY+fSB0b
+ ws5XfoVQLHGNBUsNzZUR7gz3n+OWAzDScHTqND1KZ2o8ZZLaQzTZNC1dmguu3DMFo+505Nzwt
+ vmci9Ptco/qD43YRQ232j6HwU7qvf5XFcRcBw0KtFu88LmFhGQ7p/gj8zcHkz1G1q7EENZ20A
+ RFnBdyk919bFhMDWE8XtIuyor8JCh1Y0IQuamiE2COK2xQHuxqTNz67guOJ/Co3KEpj/zOJDp
+ b//7pG/fa73iL1RkSuEHl0LsAoNWueT8jmQywA38aDfAizU2BVk3bKDGbdRbmhrybBkNVIWI8
+ x7iTO6coUTgGlY2G0SVhZWwAVifTh37YCevQy4uTE1O9dJ0MqkXsOR45xn+cFHmlZSADhdivV
+ UIefom7rWBOtyf3jaSNrcL11QFvYbaQEXdFHsGaKXpQeZ36EXnVX8DwVswH3mzvGtqsYPLWEE
+ GAJpsJrL/RjuCgyTDolVdEZ+QxEKyR/SLrMFg5zs0OMM5vCqShdoEFwKeYppwC7LYE4lmU0qY
+ 3fd7gPaLyfgvBSPqjisN6il88ehxoXiZ9XkKwH1qD9+O4GsZj1OGMt2TQtNGykHF79cdK3O9y
+ htepv+oKKdBtobF1It73eN2aITbLm72ebAFifAfuYFTcaTiHvPWBcPHzMe6YiI+MijEmnS8Yu
+ VWdSvbMbVnoB+iM/cSyWPlLiystYlc1mZAWMCdRSJCqoxCQAc7whKDNKYDKmFm3NfxQskSBju
+ 9QEJKW84eSU30pQVbYTfVmCVXIYTqHkJjvXbXIGpcJ4vZxBff7g9HcPfR0Ud5WAB8Zs6uSWlz
+ m5dYoai
+Received-SPF: permerror client-ip=212.227.126.130;
+ envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_FAIL=0.001,
+ SPF_HELO_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,158 +90,207 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Stefan Hajnoczi (stefanha@redhat.com) wrote:
-> On Mon, Oct 03, 2022 at 10:52:33AM +0200, Emanuele Giuseppe Esposito wrote:
-> > 
-> > 
-> > Am 30/09/2022 um 17:45 schrieb Kevin Wolf:
-> > > Am 30.09.2022 um 14:17 hat Emanuele Giuseppe Esposito geschrieben:
-> > >> Am 29/09/2022 um 17:30 schrieb Kevin Wolf:
-> > >>> Am 09.06.2022 um 15:44 hat Emanuele Giuseppe Esposito geschrieben:
-> > >>>> Remove usage of aio_context_acquire by always submitting work items
-> > >>>> to the current thread's ThreadPool.
-> > >>>>
-> > >>>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> > >>>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> > >>>
-> > >>> The thread pool is used by things outside of the file-* block drivers,
-> > >>> too. Even outside the block layer. Not all of these seem to submit work
-> > >>> in the same thread.
-> > >>>
-> > >>>
-> > >>> For example:
-> > >>>
-> > >>> postcopy_ram_listen_thread() -> qemu_loadvm_state_main() ->
-> > >>> qemu_loadvm_section_start_full() -> vmstate_load() ->
-> > >>> vmstate_load_state() -> spapr_nvdimm_flush_post_load(), which has:
-> > >>>
-> > >>> ThreadPool *pool = aio_get_thread_pool(qemu_get_aio_context());
->                          ^^^^^^^^^^^^^^^^^^^
-> 
-> aio_get_thread_pool() isn't thread safe either:
-> 
->   ThreadPool *aio_get_thread_pool(AioContext *ctx)
->   {
->       if (!ctx->thread_pool) {
->           ctx->thread_pool = thread_pool_new(ctx);
-> 	  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> 
-> Two threads could race in aio_get_thread_pool().
-> 
-> I think post-copy is broken here: it's calling code that was only
-> designed to be called from the main loop thread.
-> 
-> I have CCed Juan and David.
-
-In theory the path that you describe there shouldn't happen - although
-there is perhaps not enough protection on the load side to stop it
-happening if presented with a bad stream.
-This is documented in docs/devel/migration.rst under 'Destination
-behaviour'; but to recap, during postcopy load we have a problem that we
-need to be able to load incoming iterative (ie. RAM) pages during the
-loading of normal devices, because the loading of a device may access
-RAM that's not yet been transferred.
-
-To do that, the device state of all the non-iterative devices (which I
-think includes your spapr_nvdimm) is serialised into a separate
-migration stream and sent as a 'package'.
-
-We read the package off the stream on the main thread, but don't process
-it until we fire off the 'listen' thread - which you spotted the
-creation of above; the listen thread now takes over reading the
-migration stream to process RAM pages, and since it's in the same
-format, it calls qemu_loadvm_state_main() - but it doesn't expect
-any devices in that other than the RAM devices; it's just expecting RAM.
-
-In parallel with that, the main thread carries on loading the contents
-of the 'package' - and that contains your spapr_nvdimm device (and any
-other 'normal' devices); but that's OK because that's the main thread.
-
-Now if something was very broken and sent a header for the spapr-nvdimm
-down the main thread rather than into the package then, yes, we'd
-trigger your case, but that shouldn't happen.
-
-Dave
-
-> > >>> ...
-> > >>> thread_pool_submit_aio(pool, flush_worker_cb, state,
-> > >>>                        spapr_nvdimm_flush_completion_cb, state);
-> > >>>
-> > >>> So it seems to me that we may be submitting work for the main thread
-> > >>> from a postcopy migration thread.
-> > >>>
-> > >>> I believe the other direct callers of thread_pool_submit_aio() all
-> > >>> submit work for the main thread and also run in the main thread.
-> > >>>
-> > >>>
-> > >>> For thread_pool_submit_co(), pr_manager_execute() calls it with the pool
-> > >>> it gets passed as a parameter. This is still bdrv_get_aio_context(bs) in
-> > >>> hdev_co_ioctl() and should probably be changed the same way as for the
-> > >>> AIO call in file-posix, i.e. use qemu_get_current_aio_context().
-> > >>>
-> > >>>
-> > >>> We could consider either asserting in thread_pool_submit_aio() that we
-> > >>> are really in the expected thread, or like I suggested for LinuxAio drop
-> > >>> the pool parameter and always get it from the current thread (obviously
-> > >>> this is only possible if migration could in fact schedule the work on
-> > >>> its current thread - if it schedules it on the main thread and then
-> > >>> exits the migration thread (which destroys the thread pool), that
-> > >>> wouldn't be good).
-> > >>
-> > >> Dumb question: why not extend the already-existing poll->lock to cover
-> > >> also the necessary fields like pool->head that are accessed by other
-> > >> threads (only case I could find with thread_pool_submit_aio is the one
-> > >> you pointed above)?
-> > > 
-> > > Other people are more familiar with this code, but I believe this could
-> > > have performance implications. I seem to remember that this code is
-> > > careful to avoid locking to synchronise between worker threads and the
-> > > main thread.
-> > > 
-> > > But looking at the patch again, I have actually a dumb question, too:
-> > > The locking you're removing is in thread_pool_completion_bh(). As this
-> > > is a BH, it's running the the ThreadPool's context either way, no matter
-> > > which thread called thread_pool_submit_aio().
-> > > 
-> > > I'm not sure what this aio_context_acquire/release pair is actually
-> > > supposed to protect. Paolo's commit 1919631e6b5 introduced it. Was it
-> > > just more careful than it needs to be?
-> > > 
-> > 
-> > I think the goal is still to protect pool->head, but if so the
-> > aiocontext lock is put in the wrong place, because as you said the bh is
-> > always run in the thread pool context. Otherwise it seems to make no sense.
-> > 
-> > On the other side, thread_pool_submit_aio could be called by other
-> > threads on behalf of the main loop, which means pool->head could be
-> > modified (iothread calls thread_pool_submit_aio) while being read by the
-> > main loop (another worker thread schedules thread_pool_completion_bh).
-> > 
-> > What are the performance implications? I mean, if the aiocontext lock in
-> > the bh is actually useful and the bh really has to wait to take it,
-> > being taken in much more places throughout the block layer won't be
-> > better than extending the poll->lock I guess.
-> 
-> thread_pool_submit_aio() is missing documentation on how it is supposed
-> to be called.
-> 
-> Taking pool->lock is conservative and fine in the short-term.
-> 
-> In the longer term we need to clarify how thread_pool_submit_aio() is
-> supposed to be used and remove locking to protect pool->head if
-> possible.
-> 
-> A bunch of the event loop APIs are thread-safe (aio_set_fd_handler(),
-> qemu_schedule_bh(), etc) so it's somewhat natural to make
-> thread_pool_submit_aio() thread-safe too. However, it would be nice to
-> avoid synchronization and existing callers mostly call it from the same
-> event loop thread that runs the BH and we can avoid locking in that
-> case.
-> 
-> Stefan
-
-
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+"-netdev socket" only supports inet sockets.=0D
+=0D
+It's not a complex task to add support for unix sockets, but=0D
+the socket netdev parameters are not defined to manage well unix=0D
+socket parameters.=0D
+=0D
+As discussed in:=0D
+=0D
+  "socket.c added support for unix domain socket datagram transport"=0D
+  https://lore.kernel.org/qemu-devel/1C0E1BC5-904F-46B0-8044-68E43E67BE60@g=
+mail.com/=0D
+=0D
+This series adds support of unix socket type using SocketAddress QAPI struc=
+ture.=0D
+=0D
+Two new netdev backends, "stream" and "dgram" are added, that are barely a =
+copy of "socket"=0D
+backend but they use the SocketAddress QAPI to provide socket parameters.=0D
+And then they also implement unix sockets (TCP and UDP).=0D
+=0D
+Some examples of CLI syntax:=0D
+=0D
+  for TCP:=0D
+=0D
+  -netdev stream,id=3Dsocket0,addr.type=3Dinet,addr.host=3Dlocalhost,addr.p=
+ort=3D1234=0D
+  -netdev stream,id=3Dsocket0,server=3Doff,addr.type=3Dinet,addr.host=3Dloc=
+alhost,addr.port=3D1234=0D
+=0D
+  -netdev dgram,id=3Dsocket0,\=0D
+          local.type=3Dinet,local.host=3Dlocalhost,local.port=3D1234,\=0D
+          remote.type=3Dinet,remote.host=3Dlocalhost,remote.port=3D1235=0D
+=0D
+  for UNIX:=0D
+=0D
+  -netdev stream,id=3Dsocket0,addr.type=3Dunix,addr.path=3D/tmp/qemu0=0D
+  -netdev stream,id=3Dsocket0,server=3Doff,addr.type=3Dunix,addr.path=3D/tm=
+p/qemu0=0D
+=0D
+  -netdev dgram,id=3Dsocket0,\=0D
+          local.type=3Dunix,local.path=3D/tmp/qemu0,\=0D
+          remote.type=3Dunix,remote.path=3D/tmp/qemu1=0D
+=0D
+  for FD:=0D
+=0D
+  -netdev stream,id=3Dsocket0,addr.type=3Dfd,addr.str=3D4=0D
+  -netdev stream,id=3Dsocket0,server=3Doff,addr.type=3Dfd,addr.str=3D5=0D
+=0D
+  -netdev dgram,id=3Dsocket0,local.type=3Dfd,addr.str=3D4=0D
+=0D
+v13:=0D
+  - fix server default in qtest=0D
+  - use SocketAddress in event=0D
+  - remove unwanted meson update=0D
+  - update error message in net_init_dgram()=0D
+=0D
+v12:=0D
+  - replace NETDEV_STREAM_EOC by NETDEV_STREAM_DISCONNECTED=0D
+  - set server=3Doff by default=0D
+=0D
+v11:=0D
+  - use qemu_set_info_str() in hw/net/xen_nic.c=0D
+  - fix link_down state in stream client mode=0D
+  - cleanup error case in net_stream_receive()=0D
+  - update qapi version to 7.2=0D
+=0D
+v10:=0D
+  - add Red Hat copyright=0D
+  - initialize dgram_dst to NULL in SOCKET_ADDRESS_TYPE_FD=0D
+  - remove redundente _stream / _dgram in functions name=0D
+  - move net_dgram_init() into net_init_dgram()=0D
+  - address Thomas' comments on qtest=0D
+  - add a function qemu_set_info_str() to set info string=0D
+  - tested stream netdev with fd type using qrap/passt and=0D
+    "-netdev stream,addr.type=3Dfd,server=3Doff,addr.str=3D5,id=3Dnetdev0"=
+=0D
+=0D
+v9:=0D
+  - add events to report stream connection/disconnection=0D
+  - remove from net/dgram.c send_fn, listen_fd, net_dgram_accept()=0D
+    net_dgram_connect() and net_dgram_send() that are only=0D
+    needed by net/stream.c=0D
+  - remove from net/stream.c send_fn=0D
+  - add Red Hat copyright=0D
+  - add original net/socket.c Stefano's patch (EINVAL)=0D
+=0D
+v8:=0D
+  - test ipv4 and ipv6 parameters (stream inet)=0D
+  - test abstract parameter (stream unix)=0D
+  - add SocketAddressInet supported parameters in qemu-options.hx=0D
+    (only stream, supported by the move to QIO)=0D
+  - with qio_channel_writev() replace (ret =3D=3D -1 && errno =3D=3D EAGAIN=
+)=0D
+    by (ret =3D=3D QIO_CHANNEL_ERR_BLOCK)=0D
+=0D
+v7:=0D
+  - add qtests=0D
+  - update parameters table in net.json=0D
+  - update socket_uri() and socket_parse()=0D
+=0D
+v6:=0D
+  - s/netdev option/-netdev option/ PATCH 4=0D
+  - s/=C2=A0/ /=0D
+  - update @NetdevStreamOptions and @NetdevDgramOptions comments=0D
+  - update PATCH 4 description message=0D
+  - add missing return in error case for unix stream socket=0D
+  - split socket_uri() patch: move and rename, then change content=0D
+=0D
+v5:=0D
+  - remove RFC prefix=0D
+  - put the change of net_client_parse() into its own patch (exit() in the=
+=0D
+    function)=0D
+  - update comments regarding netdev_is_modern() and netdev_parse_modern()=
+=0D
+  - update error case in net_stream_server_init()=0D
+  - update qemu-options.hx with unix type=0D
+  - fix HMP "info network" with unix protocol/server side.=0D
+=0D
+v4:=0D
+  - net_client_parse() fails with exit() rather than with return.=0D
+  - keep "{ 'name': 'vmnet-host', 'if': 'CONFIG_VMNET' }" on its=0D
+    own line in qapi/net.json=0D
+  - add a comment in qapi/net.json about parameters usage=0D
+  - move netdev_is_modern() check to qemu_init()=0D
+  - in netdev_is_modern(), check for JSON and use qemu_opts_do_parse()=0D
+    to parse parameters and detect type value.=0D
+  - add a blank line after copyright comment=0D
+=0D
+v3:=0D
+  - remove support of "-net" for dgram and stream. They are only=0D
+    supported with "-netdev" option.=0D
+  - use &error_fatal directly in net_client_inits()=0D
+  - update qemu-options.hx=0D
+  - move to QIO for stream socket=0D
+=0D
+v2:=0D
+  - use "stream" and "dgram" rather than "socket-ng,mode=3Dstream"=0D
+    and ""socket-ng,mode=3Ddgram"=0D
+  - extract code to bypass qemu_opts_parse_noisily() to=0D
+    a new patch=0D
+  - do not ignore EINVAL (Stefano)=0D
+  - fix "-net" option=0D
+=0D
+CC: Ralph Schmieder <ralph.schmieder@gmail.com>=0D
+CC: Stefano Brivio <sbrivio@redhat.com>=0D
+CC: Daniel P. Berrang=C3=A9 <berrange@redhat.com>=0D
+CC: Markus Armbruster <armbru@redhat.com>=0D
+=0D
+Laurent Vivier (15):=0D
+  net: introduce convert_host_port()=0D
+  net: remove the @errp argument of net_client_inits()=0D
+  net: simplify net_client_parse() error management=0D
+  qapi: net: introduce a way to bypass qemu_opts_parse_noisily()=0D
+  net: introduce qemu_set_info_str() function=0D
+  qapi: net: add stream and dgram netdevs=0D
+  net: stream: add unix socket=0D
+  net: dgram: make dgram_dst generic=0D
+  net: dgram: move mcast specific code from net_socket_fd_init_dgram()=0D
+  net: dgram: add unix socket=0D
+  qemu-sockets: move and rename SocketAddress_to_str()=0D
+  qemu-sockets: update socket_uri() and socket_parse()  to be consistent=0D
+  net: stream: move to QIO to enable additional parameters=0D
+  tests/qtest: netdev: test stream and dgram backends=0D
+  net: stream: add QAPI events to report connection state=0D
+=0D
+Stefano Brivio (2):=0D
+  net: socket: Don't ignore EINVAL on netdev socket connection=0D
+  net: stream: Don't ignore EINVAL on netdev socket connection=0D
+=0D
+ hmp-commands.hx             |   2 +-=0D
+ hw/net/xen_nic.c            |   5 +-=0D
+ include/net/net.h           |   7 +-=0D
+ include/qemu/sockets.h      |   4 +-=0D
+ monitor/hmp-cmds.c          |  23 +-=0D
+ net/clients.h               |   6 +=0D
+ net/dgram.c                 | 623 ++++++++++++++++++++++++++++++++++++=0D
+ net/hub.c                   |   2 +=0D
+ net/l2tpv3.c                |   3 +-=0D
+ net/meson.build             |   2 +=0D
+ net/net.c                   | 186 ++++++++---=0D
+ net/slirp.c                 |   5 +-=0D
+ net/socket.c                |  36 +--=0D
+ net/stream.c                | 387 ++++++++++++++++++++++=0D
+ net/tap-win32.c             |   3 +-=0D
+ net/tap.c                   |  13 +-=0D
+ net/vde.c                   |   3 +-=0D
+ net/vhost-user.c            |   3 +-=0D
+ net/vhost-vdpa.c            |   2 +-=0D
+ qapi/net.json               | 115 ++++++-=0D
+ qemu-options.hx             |  14 +=0D
+ softmmu/vl.c                |  16 +-=0D
+ tests/qtest/meson.build     |   1 +=0D
+ tests/qtest/netdev-socket.c | 420 ++++++++++++++++++++++++=0D
+ util/qemu-sockets.c         |  25 ++=0D
+ 25 files changed, 1775 insertions(+), 131 deletions(-)=0D
+ create mode 100644 net/dgram.c=0D
+ create mode 100644 net/stream.c=0D
+ create mode 100644 tests/qtest/netdev-socket.c=0D
+=0D
+-- =0D
+2.37.3=0D
+=0D
 
