@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 240E0605A1F
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 10:44:01 +0200 (CEST)
-Received: from localhost ([::1]:35406 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46CFB605AF8
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 11:18:57 +0200 (CEST)
+Received: from localhost ([::1]:60000 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olR9j-0008Ai-RU
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 04:43:59 -0400
+	id 1olRhX-00056l-Mt
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 05:18:55 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olR9j-00082A-Nj
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 04:43:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34482)
+	id 1olRhW-0004Wj-8O
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 05:18:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1olR6D-0003Vi-DU
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 04:40:25 -0400
-Received: from 5.mo552.mail-out.ovh.net ([188.165.45.220]:55119)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1olR6A-0002Dk-Vr
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 04:40:21 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.129])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id B42742A7B8;
- Thu, 20 Oct 2022 08:40:13 +0000 (UTC)
-Received: from kaod.org (37.59.142.105) by DAG8EX2.mxp5.local (172.16.2.72)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Thu, 20 Oct
- 2022 10:40:12 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G006245e16ae-9484-43d9-ab42-311a1753d40f,
- 1F689060A0B44BE6777CA4BD0FC13A24F8265309) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Thu, 20 Oct 2022 10:40:06 +0200
-From: Greg Kurz <groug@kaod.org>
-To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
-CC: <qemu-devel@nongnu.org>, Alex =?UTF-8?B?QmVubsOpZQ==?=
- <alex.bennee@linaro.org>, Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 1/2] util/log: Derive thread id from getpid() on
- hosts w/o gettid() syscall
-Message-ID: <20221020104006.5060cd02@bahia>
-In-Reply-To: <Y1AeglCfb6SHaf4N@redhat.com>
-References: <20221019151651.334334-1-groug@kaod.org>
- <20221019151651.334334-2-groug@kaod.org>
- <Y1AeglCfb6SHaf4N@redhat.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1olRU9-0002rY-Vy
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 05:05:06 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:48400 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1olRU6-000090-Ak
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 05:05:05 -0400
+Received: from loongson.cn (unknown [10.2.5.185])
+ by gateway (Coremail) with SMTP id _____8Bxfdo4D1FjIP8AAA--.5233S3;
+ Thu, 20 Oct 2022 17:04:56 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Cxb+I4D1FjP9UBAA--.7687S2; 
+ Thu, 20 Oct 2022 17:04:56 +0800 (CST)
+From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
+ f4bug@amsat.org, philmd@linaro.org
+Subject: [PATCH v7 0/2] Fix LoongArch extioi coreisr accessing
+Date: Thu, 20 Oct 2022 17:04:53 +0800
+Message-Id: <20221020090455.2371099-1-yangxiaojuan@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG8EX2.mxp5.local
- (172.16.2.72)
-X-Ovh-Tracer-GUID: 4e29bc46-9537-4a1b-8600-fb2e1600c4d2
-X-Ovh-Tracer-Id: 679199120902298019
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeliedgtdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepueeuieejtdelleeutdfhteejffeiteffueevffeffeetvdeifeeujefgudegteeunecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeoghhrohhugheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegsvghrrhgrnhhgvgesrhgvughhrghtrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdgrlhgvgidrsggvnhhnvggvsehlihhnrghrohdrohhrghdprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhpsghonhiiihhnihesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehhedvpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=188.165.45.220; envelope-from=groug@kaod.org;
- helo=5.mo552.mail-out.ovh.net
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Cxb+I4D1FjP9UBAA--.7687S2
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7try5uFWkCr45KFyDuFWDXFb_yoW8KF1Upr
+ Wa9a9Igr4UJrZxt3ZIk345GF15Z3yfJa9rX347t3sY9F4Dur1jgFyIqr4ru347G34fJw12
+ qF4qyr98u3Z8A37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ b0AFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
+ AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF
+ 7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7
+ CjxVAFwI0_Cr1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E
+ 6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWrMcvjeVCFs4IE7x
+ kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv
+ 6cx26rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+ 8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE
+ 2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42
+ xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF
+ 7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0zRVWlkUUUUU=
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,88 +79,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 19 Oct 2022 16:57:54 +0100
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+When cpu read or write extioi COREISR reg, it should access
+the reg belonged to itself, so the cpu index of 's->coreisr'
+is current cpu number. Using MemTxAttrs' requester_id to get 
+the cpu index.
 
-> On Wed, Oct 19, 2022 at 05:16:50PM +0200, Greg Kurz wrote:
-> > A subsequent patch needs to be able to differentiate the main QEMU
-> > thread from other threads. An obvious way to do so is to compare
-> > log_thread_id() and getpid(), based on the fact that they are equal
-> > for the main thread on systems that have the gettid() syscall (e.g.
-> > linux).
-> >=20
-> > Adapt the fallback code for systems without gettid() to provide the
-> > same assumption.
-> >=20
-> > Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > ---
-> >  util/log.c | 7 ++++++-
-> >  1 file changed, 6 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/util/log.c b/util/log.c
-> > index d6eb0378c3a3..e1c2535cfcd2 100644
-> > --- a/util/log.c
-> > +++ b/util/log.c
-> > @@ -72,8 +72,13 @@ static int log_thread_id(void)
-> >  #elif defined(SYS_gettid)
-> >      return syscall(SYS_gettid);
-> >  #else
-> > +    static __thread int my_id =3D -1;
-> >      static int counter;
-> > -    return qatomic_fetch_inc(&counter);
-> > +
-> > +    if (my_id =3D=3D -1) {
-> > +        my_id =3D getpid() + qatomic_fetch_inc(&counter);
-> > +    }
-> > +    return my_id;
->=20
-> This doesn't look safe for linux-user when we fork, but don't exec.
->=20
+Changes for v7:
+Split v6 patch to two patches:
+1. Converting the MemoryRegionOps read/write handlers
+   to _with_attrs in LoongArch extioi emulation.
+2. Fetching the CPU id from attrs.requester_id.
 
-... which is a "dangerous" situation if the parent is already
-multi-threaded at fork() time. The child thread must only call
-async-signal-safe functions and...
+Changes for v6: 
+Only using MemTxAttrs' requester_id to get the cpu index
+in LoongArch extioi access function. we do not based on  
+the 'MemTxAttrs requester_type patch' so far, and when that
+patch merged we will apply it quickly.
 
+Changes for v5: 
+These changes are following Philippe Mathieu-Daude's advice.
+1. Add trace_bad_read/write function when MemTxAttrs type is
+   not MTRT_CPU in extioi_read/write().
+2. Separate 'remove unused extioi system memory region' to a
+   single patch.
 
-> The getpid() will change after the fork, but counter won't be
-> reset, so a thread in the parent could clash with a thread
-> in the forked child.
->=20
+Changes for v4: 
+Add 'reviewed-by' tag in fixing ipi patch, and other changes
+are the same as v3. 
+1. Remove the memmap table patch in this series, it
+   will apply until we have more than one machinestate.
+2. Using MemTxAttrs' requester_type and requester_id
+   to get current cpu index in loongarch extioi regs
+   emulation.
+   This patch based on: 
+   20220927141504.3886314-1-alex.bennee@linaro.org
+3. Rewrite the commit message of fixing ipi patch, and 
+   add reviewed by tag in the patch.
 
-... pthread_create() isn't one AFAIK. This case has undefined
-behavior.
+Changes for v3: 
+1. Remove the memmap table patch in this series, it
+   will apply until we have more than one machinestate.
+2. Using MemTxAttrs' requester_type and requester_id
+   to get current cpu index in loongarch extioi regs
+   emulation.
+   This patch based on: 
+   20220927141504.3886314-1-alex.bennee@linaro.org
+3. Rewrite the commit message of fixing ipi patch, and 
+   this patch has been reviewed.
 
-Anyway, no matter what we do, even with a regular fork+exec pattern,
-log_thread_id() no longer guarantees unique values for all threads
-that could be running concurrently (unlike gettid() or counter++),
-e.g.=20
-- parent process with pid A and one extra thread
-  =3D> parent uses thread ids A and A+1
-- fork child process with pid B =3D=3D A+1
-- child execs
-  =3D> child uses thread id A+1
+Changes for v2: 
+1. Adjust the position of 'PLATFORM' element in memmap table
 
-> I feel like if we want to check for the main thread, we should
-> be using pthread_self(), and compare result against the value
-> cached from main. Or cache in a __constructor__ function in
-> log.c to keep it isolated from main().
->=20
+Changes for v1: 
+1. Add memmap table for LoongArch virt machine
+2. Fix LoongArch extioi function
+3. Fix LoongArch ipi device emulation
 
-Hmm... pthread_self() is only guaranteed to be unique within
-a process. It doesn't look safe either to compare results
-of pthread_self() from different process contexts.
+Xiaojuan Yang (2):
+  hw/intc: Convert the memops to with_attrs in LoongArch extioi
+  hw/intc: Fix LoongArch extioi coreisr accessing
 
->=20
-> With regards,
-> Daniel
+ hw/intc/loongarch_extioi.c      | 42 ++++++++++++++++++---------------
+ hw/intc/trace-events            |  3 +--
+ target/loongarch/iocsr_helper.c | 18 +++++++-------
+ 3 files changed, 34 insertions(+), 29 deletions(-)
 
-Thanks for bringing this corner case up ! It highlights that
-I should definitely go for another approach that doesn't
-require to check for the main thread at all.
+-- 
+2.31.1
 
-Cheers,
-
---
-Greg
 
