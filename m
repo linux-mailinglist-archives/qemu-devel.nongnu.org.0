@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15C26606859
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 20:41:47 +0200 (CEST)
-Received: from localhost ([::1]:41218 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BF006068C8
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 21:22:01 +0200 (CEST)
+Received: from localhost ([::1]:54146 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olZAg-0003ZS-Sw
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:17:30 -0400
+	id 1olZGh-00085X-OD
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:23:43 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olYlu-0007o6-DE
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:51:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57774)
+	id 1olYtH-0006i1-Bp
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:59:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1olYN9-0004e9-NB
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:26:24 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:39135)
+ id 1olYNH-0004o5-1p
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:26:28 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:41887)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1olYN7-0006y1-IL
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:26:19 -0400
+ id 1olYNF-0006z7-4s
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:26:26 -0400
 Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Mi4un-1pGCHl181x-00e2E6; Thu, 20 Oct 2022 18:26:04 +0200
+ id 1MgARS-1pKK672cfe-00hbnZ; Thu, 20 Oct 2022 18:26:13 +0200
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Paul Durrant <paul@xen.org>, Markus Armbruster <armbru@redhat.com>,
@@ -41,32 +41,33 @@ Cc: Paul Durrant <paul@xen.org>, Markus Armbruster <armbru@redhat.com>,
  Samuel Thibault <samuel.thibault@ens-lyon.org>,
  Anthony Perard <anthony.perard@citrix.com>,
  Stefano Brivio <sbrivio@redhat.com>
-Subject: [PATCH v13 01/17] net: introduce convert_host_port()
-Date: Thu, 20 Oct 2022 18:25:42 +0200
-Message-Id: <20221020162558.123284-2-lvivier@redhat.com>
+Subject: [PATCH v13 07/17] net: socket: Don't ignore EINVAL on netdev socket
+ connection
+Date: Thu, 20 Oct 2022 18:25:48 +0200
+Message-Id: <20221020162558.123284-8-lvivier@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221020162558.123284-1-lvivier@redhat.com>
 References: <20221020162558.123284-1-lvivier@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:0VddrL/IWoNfb5+7GLUYLds5spMoo3C/CYSp1I7B6hUXsdE1UKm
- C4Yf4JExv4GzGZ4V6jMmjvL7+TK/3mfzNb4byr4gxM6zy28Oe2sSC1P3j9p+QwIzs+bm40o
- yI8J/cbdKuPeRcWXXY+OEzgxW2B+80v64HT/+/Sq5htczOGSraD4d7jMbv2zt1XHoW0Mkub
- CMwscsdx7XTebCVMW8qIw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:SDpL1OGymeE=:08lJmWzlX6IK91eDTLcngi
- byBT1YxnKjxj/tcQB9GduEhVYBIzSsSrD7IXAryGu2nt5qmxoQNp4c9dhuqiLQ1y26W4IXCPv
- i+HPJLEUkDUJEKWA/eVxjqs/YpXKDt8MuksAiF2t3Rm0zfz5LmvssoCOW3Fh3VbgePducfdO3
- xEImC5SIud+rQ+GGs8v+sKvYKmT6pcxME7W5muguHS8zSIfmiqfWVoSkUbDAKV011IvkTKCb2
- zUg4IWJYlU0/mHg3tpRjztmBbeVpNsL2AAYytyPoj+6FxkZBX2w+dSeuGKFncy4C59CnohXfX
- 6++tNPRD2SucsdNXgaz8xIQp7vjLvqGXOHQwqYdyRB/OeZiO9scX9Wkc63EYlr/VZdotZgykB
- XKG6quQ/A5+CsRS26ppDUS1DL8IWhp+mc7eotC6ftUzh8bT55GoFhgikEgG/QXit7VlKNZuEn
- y7eSWqbTVppqWn6umKEVctbtxm3YfN37xmUSXT3DqCdvQXriSfeE0LWkbTwJL7MnYZJNPeRRA
- /Uh0yFffT383Cm64KciWrgy0ynoEoR95GgO5xrV+ENMUIYoK4KWDjEeEtpstiBHe1PCq801zh
- bdsVRzOdS1aG7wLLOoyhk6/8PpIM7Q9NaYroGDQ33U9EBY1AOcAOTgoTvO9Zg28n6ISyq3HhX
- ZXjeXHgbfe0d0WICuz1mu5+2yj9bkewcahT4fmJEgsHXNZyrkBOpsnXxQJxCvGpAwKlYzLhyN
- oeyHzWbrT7JnUk/SP6L4/S9OaBI3IyFnhHq613rYa+hG5/C3ShL9+VWiDygztGTGBAllg30Zy
- zpwYJnz
-Received-SPF: permerror client-ip=212.227.126.187;
+X-Provags-ID: V03:K1:jVbH98dBD8KCQu3CflYYf2WHK6IxNZTn8SOKftQzM6rYbMt841f
+ umYZfb7DOiy9WszJBh5jO14Kod8PpmW/LMWjAEhTG9s8N6WLoQOySO0cu8lrpfGZnjoMBNZ
+ lRicfqi3QkfVzU8bONwOtd3cm8/J59uUX5+ddhDbODqQUvcOCI4/mZ1ldMR3H3UUvvzvisa
+ jlIz6tChZQAVypz1IeUiA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:YM+4D1cBfxQ=:vycxjoJM7Ia1VeW2HyVOwH
+ W6QgqHlOPjLlQWc8GajF3WmkpK3wnG3PkcSsmO1pCdWI7MIBwRFpM+hDgfJ7QbmU1cNVu3fqz
+ 5WAVsO3WNCiyTjpqXHvwAz9WqZ9GB5oNhyrOBa/p1JgVeH5DLksoWrawAtAS/d1iZpPPm4yTF
+ Yd4wxkIT0Y5xdeSJ1qwjBzLF3TiVRndY40YJJimxZB+HxWoW3Egoddz7wJQNilm1aWbC6R12C
+ GhqRbJMOBcFj251iMF8WaEkaWKtCMMoPQqlJ5GIbpJq9SX4FDlorLY5aGtue5AAWUwCU9F1II
+ POwt2p/JgYq1EuJNaFow7n8gORROcXJspu0b9LYb9e/vajQmijkn5uXEaY5+f8v56ydt2u8XL
+ iVXJnRY6vb1Sl5SCgnB4pQIhT0mAeQ+eQ8VDpcmKqGhjuw3LaDLwSX2Qvz5pVyDFju8YNhwDQ
+ yLEwFBtcOSTcQlVf4T2GjQzjI5DvDxbzL/qUrM8N2VTAarbgGJD6glMvfQlxFmLNz4TdbUZWX
+ yZ9OxdjH9R9ghYt3h52qycfhePeEf5xMYnqirW+JnJD3bpeolBWFuNGslSXGmdu9wwuFlnnI+
+ S4C9U5knh7kT4zVbY+Y4AzouZLUgBIOeFeSaYTWtwNPQaX0ZtTTh+NpqCJCEG0MZlwnIjaZ8N
+ T6FHzCK2zK+GA7aDJacjGwmgUpFxAWiSiHI/SGUqoenK/NjeQGxakyAiJIq+6joel7NGAHKPP
+ 3E4zR0vkp2VIKsr6zVUL30GaLRYmUrYcYnxcAgwC6Fy3eNa9815fvBpOnz4wgJUwHXQdTQoNk
+ +BKz8NR
+Received-SPF: permerror client-ip=212.227.126.135;
  envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -89,120 +90,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Stefano Brivio <sbrivio@redhat.com>
+
+Other errors are treated as failure by net_socket_connect_init(),
+but if connect() returns EINVAL, we'll fail silently. Remove the
+related exception.
+
+Signed-off-by: Stefano Brivio <sbrivio@redhat.com>
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/qemu/sockets.h |  2 ++
- net/net.c              | 62 ++++++++++++++++++++++--------------------
- 2 files changed, 34 insertions(+), 30 deletions(-)
+ net/socket.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
-index 036745e58653..db4bedb6fa20 100644
---- a/include/qemu/sockets.h
-+++ b/include/qemu/sockets.h
-@@ -65,6 +65,8 @@ void socket_listen_cleanup(int fd, Error **errp);
- int socket_dgram(SocketAddress *remote, SocketAddress *local, Error **errp);
- 
- /* Old, ipv4 only bits.  Don't use for new code. */
-+int convert_host_port(struct sockaddr_in *saddr, const char *host,
-+                      const char *port, Error **errp);
- int parse_host_port(struct sockaddr_in *saddr, const char *str,
-                     Error **errp);
- int socket_init(void);
-diff --git a/net/net.c b/net/net.c
-index 2db160e0634d..d2288bd3a929 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -66,55 +66,57 @@ static QTAILQ_HEAD(, NetClientState) net_clients;
- /***********************************************************/
- /* network device redirectors */
- 
--int parse_host_port(struct sockaddr_in *saddr, const char *str,
--                    Error **errp)
-+int convert_host_port(struct sockaddr_in *saddr, const char *host,
-+                      const char *port, Error **errp)
- {
--    gchar **substrings;
-     struct hostent *he;
--    const char *addr, *p, *r;
--    int port, ret = 0;
-+    const char *r;
-+    long p;
- 
-     memset(saddr, 0, sizeof(*saddr));
- 
--    substrings = g_strsplit(str, ":", 2);
--    if (!substrings || !substrings[0] || !substrings[1]) {
--        error_setg(errp, "host address '%s' doesn't contain ':' "
--                   "separating host from port", str);
--        ret = -1;
--        goto out;
--    }
--
--    addr = substrings[0];
--    p = substrings[1];
--
-     saddr->sin_family = AF_INET;
--    if (addr[0] == '\0') {
-+    if (host[0] == '\0') {
-         saddr->sin_addr.s_addr = 0;
-     } else {
--        if (qemu_isdigit(addr[0])) {
--            if (!inet_aton(addr, &saddr->sin_addr)) {
-+        if (qemu_isdigit(host[0])) {
-+            if (!inet_aton(host, &saddr->sin_addr)) {
-                 error_setg(errp, "host address '%s' is not a valid "
--                           "IPv4 address", addr);
--                ret = -1;
--                goto out;
-+                           "IPv4 address", host);
-+                return -1;
-             }
-         } else {
--            he = gethostbyname(addr);
-+            he = gethostbyname(host);
-             if (he == NULL) {
--                error_setg(errp, "can't resolve host address '%s'", addr);
--                ret = -1;
--                goto out;
-+                error_setg(errp, "can't resolve host address '%s'", host);
-+                return -1;
-             }
-             saddr->sin_addr = *(struct in_addr *)he->h_addr;
-         }
-     }
--    port = strtol(p, (char **)&r, 0);
--    if (r == p) {
--        error_setg(errp, "port number '%s' is invalid", p);
-+    if (qemu_strtol(port, &r, 0, &p) != 0) {
-+        error_setg(errp, "port number '%s' is invalid", port);
-+        return -1;
-+    }
-+    saddr->sin_port = htons(p);
-+    return 0;
-+}
-+
-+int parse_host_port(struct sockaddr_in *saddr, const char *str,
-+                    Error **errp)
-+{
-+    gchar **substrings;
-+    int ret;
-+
-+    substrings = g_strsplit(str, ":", 2);
-+    if (!substrings || !substrings[0] || !substrings[1]) {
-+        error_setg(errp, "host address '%s' doesn't contain ':' "
-+                   "separating host from port", str);
-         ret = -1;
-         goto out;
-     }
--    saddr->sin_port = htons(port);
-+
-+    ret = convert_host_port(saddr, substrings[0], substrings[1], errp);
- 
- out:
-     g_strfreev(substrings);
+diff --git a/net/socket.c b/net/socket.c
+index ade1ecf38b87..4944bb70d580 100644
+--- a/net/socket.c
++++ b/net/socket.c
+@@ -577,8 +577,7 @@ static int net_socket_connect_init(NetClientState *peer,
+             if (errno == EINTR || errno == EWOULDBLOCK) {
+                 /* continue */
+             } else if (errno == EINPROGRESS ||
+-                       errno == EALREADY ||
+-                       errno == EINVAL) {
++                       errno == EALREADY) {
+                 break;
+             } else {
+                 error_setg_errno(errp, errno, "can't connect socket");
 -- 
 2.37.3
 
