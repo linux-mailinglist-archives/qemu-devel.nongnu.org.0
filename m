@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C967605E8E
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 13:14:43 +0200 (CEST)
-Received: from localhost ([::1]:41216 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73CBA605EA0
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 13:18:39 +0200 (CEST)
+Received: from localhost ([::1]:42396 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olTVY-0005f3-2C
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 07:14:41 -0400
+	id 1olTZN-00063Z-TH
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 07:18:38 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olTGn-0001HY-7q
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 06:59:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38720)
+	id 1olTGp-0001Tj-P9
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 06:59:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1olSt8-0004Im-7f
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 06:34:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26811)
+ id 1olStA-0004Sz-3h
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 06:35:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57528)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1olSt6-0001KC-Ne
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 06:34:57 -0400
+ id 1olSt8-0001L3-JD
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 06:34:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666262093;
+ s=mimecast20190719; t=1666262098;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Lq9PmOW1bmOoh8YADhBhNQUcNg2ahS9g2LKpGj28U4E=;
- b=HSqaA0M8ZXDd/trC3Arjmn6cYXyIrb0up/VEyo/h17uWmUSYhfeDjts6OAPWTC4yV/t2Bv
- VMEgHcPVSupmZHO0aNYFAxLSKeuBQZhmu+XF4JMm4yB4mGLHVpuXQXW+43RwCVRPv/RbT4
- yShc7reFdI46WQDqAWPQCPKW4QCNAlU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=F5A6Wz4vTjMQXnGigxrbVFmdXH778LWcKk1IV3D0UUo=;
+ b=JhBFPXxjvIBQzlEMYvscn0K7euorl1gLqDxS+h8LBccF5gHbijXyDGLHSD+R7NVPid9iUS
+ 1Q1rl5TpP9KrFIFImcML10Z16OTvz2so5vXq37fyJGMX0yZbFyHcshuSR+oQpSddVYNgEE
+ upRQnBkHy7pEIiizIa3cyRyAHVmEZWg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-13-nR4Xh9KdOnyV8Rf25gvwjA-1; Thu, 20 Oct 2022 06:34:50 -0400
-X-MC-Unique: nR4Xh9KdOnyV8Rf25gvwjA-1
+ us-mta-120-txaBdR4kN--lilMfUGh2Ww-1; Thu, 20 Oct 2022 06:34:52 -0400
+X-MC-Unique: txaBdR4kN--lilMfUGh2Ww-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B53CE101A52A;
- Thu, 20 Oct 2022 10:34:49 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5291C3C6EAA9;
+ Thu, 20 Oct 2022 10:34:52 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.230])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4DBB3C15BA5;
- Thu, 20 Oct 2022 10:34:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 09288C15BA5;
+ Thu, 20 Oct 2022 10:34:49 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Zhu Lingshan <lingshan.zhu@intel.com>,
@@ -57,17 +57,17 @@ Cc: Zhu Lingshan <lingshan.zhu@intel.com>,
  Harpreet Singh Anand <hanand@xilinx.com>, Jason Wang <jasowang@redhat.com>,
  Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>,
  Laurent Vivier <lvivier@redhat.com>
-Subject: [PATCH 6/7] virtio_net: copy VIRTIO_NET_S_ANNOUNCE if device model
- has it
-Date: Thu, 20 Oct 2022 12:34:28 +0200
-Message-Id: <20221020103429.347525-7-eperezma@redhat.com>
+Subject: [PATCH 7/7] vdpa: Offer VIRTIO_NET_F_GUEST_ANNOUNCE feature if SVQ is
+ enabled
+Date: Thu, 20 Oct 2022 12:34:29 +0200
+Message-Id: <20221020103429.347525-8-eperezma@redhat.com>
 In-Reply-To: <20221020103429.347525-1-eperezma@redhat.com>
 References: <20221020103429.347525-1-eperezma@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -91,26 +91,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Status part of the emulated feature. It will follow device model, so we
-must copy it as long as NIC device model has it set.
+So qemu emulates it in case the device does not support it.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/net/virtio-net.c | 1 +
- 1 file changed, 1 insertion(+)
+ net/vhost-vdpa.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 51fe6d5c1a..49674dcf32 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -180,6 +180,7 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
-             netcfg.status |= VIRTIO_NET_S_LINK_UP;
-         }
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 5fda405a66..64442e8455 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -566,6 +566,9 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
  
-+        netcfg.status |= (n->status & VIRTIO_NET_S_ANNOUNCE);
-         memcpy(config, &netcfg, n->config_size);
+         /* VIRTIO_NET_F_STATUS is mandatory for _F_GUEST_ANNOUNCE. */
+         s->vhost_vdpa.added_features |= BIT_ULL(VIRTIO_NET_F_STATUS);
++
++        /* We can emulate guest announce shadowing CVQ */
++        s->vhost_vdpa.added_features |= BIT_ULL(VIRTIO_NET_F_GUEST_ANNOUNCE);
      }
- }
+     if (!is_datapath) {
+         s->cvq_cmd_out_buffer = qemu_memalign(qemu_real_host_page_size(),
 -- 
 2.31.1
 
