@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B32F605E9C
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 13:17:20 +0200 (CEST)
-Received: from localhost ([::1]:54868 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96F37605E7F
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 13:12:29 +0200 (CEST)
+Received: from localhost ([::1]:52946 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olTY6-0001qO-Lb
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 07:17:18 -0400
+	id 1olTTO-00021P-Ni
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 07:12:26 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olTGk-0001F7-KT
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 06:59:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38384)
+	id 1olTGn-0001HX-6C
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 06:59:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1olSsx-00049x-PN
+ id 1olSsx-00049y-Ox
  for qemu-devel@nongnu.org; Thu, 20 Oct 2022 06:34:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34973)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32988)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1olSsw-0001Io-5r
+ id 1olSsw-0001Iu-9Q
  for qemu-devel@nongnu.org; Thu, 20 Oct 2022 06:34:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666262083;
+ s=mimecast20190719; t=1666262085;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xLtreQwHsO0YrDlU6q0qDajqfSzKbrfe72ZcC5xn614=;
- b=Cs6M103mGwlFIQthhmMl5MkAjiXigBTANShK/KQyPjiYhTKVTkFb5CyhZ5CN3OVFzP7hcc
- 9Hd1IT9OYpzNFiX+UmfdCVcDm0u4BL5T4FqztlEU7dx6JqMi5jHDZcFyV3JyyUhcYZLVFT
- 7HOMLHIGnSPTNEdh1/Y3ub2WLozATBI=
+ bh=dM50qZSz5YOn5XfKOojvSPIRNzO1U+fgcdQDCEx+Zu4=;
+ b=E3v7ev38/fBuW+PuJa8J0dVOxIPoJMRslQCPqr/6MYyVbcg9SilfCV9v6g2h/L26gNQsEP
+ zWlOu4IT5SZXddy0HDDcQhiuFNjWzmQszYbQurjT9ibswOhdspcvtk6f711HDA5FLGmdCw
+ kKacXagf4L3yV7QtpPDpW8xno/z62oM=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-191-33SrZLKFOnCgMS2FhKaLyg-1; Thu, 20 Oct 2022 06:34:39 -0400
-X-MC-Unique: 33SrZLKFOnCgMS2FhKaLyg-1
+ us-mta-621-00jURQmHNBSU5UVyrRPyXg-1; Thu, 20 Oct 2022 06:34:42 -0400
+X-MC-Unique: 00jURQmHNBSU5UVyrRPyXg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5B0031010366;
- Thu, 20 Oct 2022 10:34:39 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD166811E84;
+ Thu, 20 Oct 2022 10:34:41 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.230])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1886EC15BA5;
- Thu, 20 Oct 2022 10:34:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A1EA6C15BA5;
+ Thu, 20 Oct 2022 10:34:39 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Zhu Lingshan <lingshan.zhu@intel.com>,
@@ -57,9 +57,10 @@ Cc: Zhu Lingshan <lingshan.zhu@intel.com>,
  Harpreet Singh Anand <hanand@xilinx.com>, Jason Wang <jasowang@redhat.com>,
  Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>,
  Laurent Vivier <lvivier@redhat.com>
-Subject: [PATCH 2/7] virtio_net: Modify virtio_net_get_config to early return
-Date: Thu, 20 Oct 2022 12:34:24 +0200
-Message-Id: <20221020103429.347525-3-eperezma@redhat.com>
+Subject: [PATCH 3/7] virtio_net: Handle _F_STATUS emulation in
+ virtio_net_get_config
+Date: Thu, 20 Oct 2022 12:34:25 +0200
+Message-Id: <20221020103429.347525-4-eperezma@redhat.com>
 In-Reply-To: <20221020103429.347525-1-eperezma@redhat.com>
 References: <20221020103429.347525-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -90,54 +91,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Next patches introduce more code on vhost-vdpa branch, with already have
-too much indentation.
+At this moment this code path is not reached, but vdpa devices can offer
+VIRTIO_NET_F_STATUS unconditionally. While the guest must assume that
+link is always up by the standard, qemu will set the status bit to 1
+always in this case.
+
+This makes little use by itself, but VIRTIO_NET_F_STATUS is needed for
+the guest to read status bit VIRTIO_NET_F_GUEST_ANNOUNCE, used by feature
+VIRTIO_NET_F_GUEST_ANNOUNCE. So qemu must emulate status feature in case
+it needs to emulate the guest announce feature.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/net/virtio-net.c | 28 +++++++++++++++-------------
- 1 file changed, 15 insertions(+), 13 deletions(-)
+ hw/net/virtio-net.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index e9f696b4cf..56ff219196 100644
+index 56ff219196..51fe6d5c1a 100644
 --- a/hw/net/virtio-net.c
 +++ b/hw/net/virtio-net.c
-@@ -158,20 +158,22 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
+@@ -156,8 +156,9 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
+      * disconnect/reconnect a VDPA peer.
+      */
      if (nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
-         ret = vhost_net_get_config(get_vhost_net(nc->peer), (uint8_t *)&netcfg,
-                                    n->config_size);
--        if (ret != -1) {
--            /*
--             * Some NIC/kernel combinations present 0 as the mac address.  As
--             * that is not a legal address, try to proceed with the
--             * address from the QEMU command line in the hope that the
--             * address has been configured correctly elsewhere - just not
--             * reported by the device.
--             */
--            if (memcmp(&netcfg.mac, &zero, sizeof(zero)) == 0) {
--                info_report("Zero hardware mac address detected. Ignoring.");
--                memcpy(netcfg.mac, n->mac, ETH_ALEN);
--            }
--            memcpy(config, &netcfg, n->config_size);
-+        if (ret == -1) {
-+            return;
-         }
+-        ret = vhost_net_get_config(get_vhost_net(nc->peer), (uint8_t *)&netcfg,
+-                                   n->config_size);
++        struct vhost_net *net = get_vhost_net(nc->peer);
 +
-+        /*
-+         * Some NIC/kernel combinations present 0 as the mac address.  As that
-+         * is not a legal address, try to proceed with the address from the
-+         * QEMU command line in the hope that the address has been configured
-+         * correctly elsewhere - just not reported by the device.
-+         */
-+        if (memcmp(&netcfg.mac, &zero, sizeof(zero)) == 0) {
-+            info_report("Zero hardware mac address detected. Ignoring.");
-+            memcpy(netcfg.mac, n->mac, ETH_ALEN);
++        ret = vhost_net_get_config(net, (uint8_t *)&netcfg, n->config_size);
+         if (ret == -1) {
+             return;
+         }
+@@ -173,6 +174,12 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
+             memcpy(netcfg.mac, n->mac, ETH_ALEN);
+         }
+ 
++        if (vdev->guest_features & BIT_ULL(VIRTIO_NET_F_STATUS) &&
++            !(net->dev.features & BIT_ULL(VIRTIO_NET_F_STATUS))) {
++            /* Emulating link up in qemu */
++            netcfg.status |= VIRTIO_NET_S_LINK_UP;
 +        }
 +
-+        memcpy(config, &netcfg, n->config_size);
+         memcpy(config, &netcfg, n->config_size);
      }
  }
- 
 -- 
 2.31.1
 
