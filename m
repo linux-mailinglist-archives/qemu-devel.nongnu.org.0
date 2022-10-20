@@ -2,86 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A60AF605E39
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 12:53:54 +0200 (CEST)
-Received: from localhost ([::1]:51568 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5F07605C63
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 12:33:39 +0200 (CEST)
+Received: from localhost ([::1]:49718 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olTBR-0007vG-5I
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 06:53:53 -0400
+	id 1olSrq-0002cg-It
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 06:33:38 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olT68-0000Ms-MC
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 06:48:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35674)
+	id 1olSrO-0008Dc-Qg
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 06:33:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olSNM-0004yb-J9
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 06:02:17 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:39476)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1olSbS-0005Sw-9D
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 06:16:49 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:44979)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olSNK-0000le-W8
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 06:02:08 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- 186-20020a1c02c3000000b003c6c154d528so1906639wmc.4
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 03:02:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1olSbQ-00039l-KE
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 06:16:42 -0400
+Received: by mail-pg1-x529.google.com with SMTP id q1so18767088pgl.11
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 03:16:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=sQyNETfTNB3h78Gt5uMdRXMfACFruPoCjru66jOvVCw=;
- b=NfRxlAXmOdmv7sivtcvHH4NA4wQ4d+ZtNlEn/2MBHenEu99PUrgN2PEjbBnWQ0m9eH
- YMB12lHYUvGiDii6UszUvU56PLZ10fg2dLAGSzx+3iDG6dBllP4Aq0HZOd6W5+3yrb+x
- 3CTLvrmXuMmm9kXoIhGJH21rh21iJXTG/eRf9lcb0eIH+TK8UOPqsUSX1dgELBtue75P
- vlCtAzv1Xjkvg+dS58QiDlVo9BMRXdt7qZu76D0pVEqLTB0GvoyC8z7hU8MnoEU725Lh
- mLlA9ENLqQsHIfZTXUjuJCHMhFBhk40e+YHc9uA4ZLM5Gza1uoN8v/mAtN+he2NvjGeR
- Yv/w==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=iVH5nW8fRw+vaBlwzi9y7uPT2OYwkzy3OO415VaC8tw=;
+ b=b2QVKQ5dx4Up52GIkZc+ShI+iGF95BJuIGem/+sRqXrtm/yFyvNBZ1a1manabqAgZk
+ Odl0KtHR2o5Gg+uocsg5X6lmUShEnIks4ufq5HsUaKCSWRVG2unCDkWJzJpDtMsNuJxh
+ vhDxkjYi6a0tta1Fuwt0h7s/iMPpKT7UQ1kDHfatMGu+wXr+vI8dw1tn5bNuf/pBziwi
+ VpnslqC8jMvLXm2fAcUXDEC1K+dO45l/48G0yxoXTlFRvCFlv4heQ4bzapv7eAtGDtG6
+ sTZNxFof6TuBKOI885LX3UKIrg8VL1nsZsg/exPwMa7OhjvbKao5kfSUiV1Klde/K2st
+ ij3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sQyNETfTNB3h78Gt5uMdRXMfACFruPoCjru66jOvVCw=;
- b=55KzHaSdpoX/3nuiTOJ+1XHn680AYGQQBlbmFTFcL/ANJW1yhy+X99BaNYIxHdIYTa
- EfbZgXnvrQ5BOK5VFUD3VZhX0P26CzPnrymRhFhYaXDfMNYwg6M9bIVTQTl+iZXQ0nrK
- rDTKRVHhk1ufdLpN2YB++i8XidFTHVIxJLbsUF1qQfRN9OUtkTtCPrrF9YZK2ffecK+D
- FcFwb5T/OLTUwew2dbsHJ4+NvupVD3nREyq5SB/zyzzfWVO/wVvy1rDLSEUvHGc1kJkx
- 0qOsFZMp5aiN3XQZsdNoIa3H0h/lRo/o87NarUOLd8VxTdNCE7oMPIohtcyNskzPY46/
- AbMA==
-X-Gm-Message-State: ACrzQf043/UJ2E8mQkNA0uwCyFrR2g3DKB7ijdnhUyyCi0TYB6vud5DX
- xh/aiqhmjQwPjGbPAgPPaAGREg==
-X-Google-Smtp-Source: AMsMyM67B1FxcwJrfLr0ZqYiggYcBCVfRXjldI0hLolifFqjihfA5oZSKa9WG4BgJsucLdgJk3GRGg==
-X-Received: by 2002:a1c:2507:0:b0:3b3:3681:f774 with SMTP id
- l7-20020a1c2507000000b003b33681f774mr30213251wml.134.1666260125284; 
- Thu, 20 Oct 2022 03:02:05 -0700 (PDT)
-Received: from [10.50.0.10]
- (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
- by smtp.gmail.com with ESMTPSA id
- o16-20020a056000011000b0022e38c93195sm15625663wrx.34.2022.10.20.03.02.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Oct 2022 03:02:04 -0700 (PDT)
-Message-ID: <5d6bb70f-ce60-f8d4-2dba-1a8e488b1653@linaro.org>
-Date: Thu, 20 Oct 2022 12:02:02 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=iVH5nW8fRw+vaBlwzi9y7uPT2OYwkzy3OO415VaC8tw=;
+ b=rdKtFo9Z/gtPulOmrvmHxN0MrjSrEw3J+W0rJAUvzVkp3ULpuM3cpi7XFo5F2Jy5I0
+ XjIMyUA3tYU8ArTU5Gw70soX0lmQZu7CQCcqOg4UUdN3lbrQEzZOhGzC2SX54rXXdqS5
+ baURHbfTco7ukny1iuICkwn6oWHm3zY5pohNqcvexElq2BmFh2b4kWWXdg7K93csbwCo
+ Mh2i/XHcZHLiR1zCI0DjyJASjjOdDQ7BUG4zAE1WyVPDkgKeMTXBzhKtg3qjKObLFUa2
+ /B15EyzGWgzS0KyJ2GYzbBd7aF7lGIl7dqZOEMui+v0MKGeVbZILc8Om/VaC3QTIyili
+ AYIA==
+X-Gm-Message-State: ACrzQf3vVFGGuzkbOrGAociwkU3fbJ91qrm6lOF10BMTgYp1HRR+CkQk
+ m6ZyP/QZ9qxG7w7myawJjqQWmE2aE+PC+hS9/mcf5g==
+X-Google-Smtp-Source: AMsMyM7yhQLvExIk6/huMVGDjko9Sgj1rOl1qTPvcRSOaVQHmOexMGZkUhXEgZw5k+oc9MdyvUizhtGASmSFt+o9TGk=
+X-Received: by 2002:a05:6a00:1595:b0:563:8fb6:ae53 with SMTP id
+ u21-20020a056a00159500b005638fb6ae53mr13250784pfk.51.1666260999113; Thu, 20
+ Oct 2022 03:16:39 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.3.2
-Subject: Re: [PATCH] .gitignore: add multiple items to .gitignore
-Content-Language: en-US
-To: "Wang, Lei" <lei4.wang@intel.com>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, alex.bennee@linaro.org, f4bug@amsat.org,
- laurent@vivier.eu
-References: <20221020171921.1078533-1-lei4.wang@intel.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221020171921.1078533-1-lei4.wang@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+References: <CAFEAcA_hi1VHNVetOKkpUXuYtJ4akdVZxwBqSXf76Zvx=YB6Xg@mail.gmail.com>
+ <CAFn=p-aoe1QQMXkgdu_yKxb4jCTahsM1K-Fo+vtXOwG=8=_=Lw@mail.gmail.com>
+ <12579dec-e80e-3489-79da-9bc93b68472a@redhat.com>
+In-Reply-To: <12579dec-e80e-3489-79da-9bc93b68472a@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 20 Oct 2022 11:16:26 +0100
+Message-ID: <CAFEAcA8XpoMp2mcnZe0QqE7V=YrCJE0dAZ9vXnQUtFdx0xxdLg@mail.gmail.com>
+Subject: Re: has anybody looked at the long-standing intermittent raspi2
+ avocado test failure?
+To: Thomas Huth <thuth@redhat.com>
+Cc: John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -99,22 +96,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/10/22 19:19, Wang, Lei wrote:
-> Add /.vscode/, .clang-format and .gdb_history to .gitignore because:
-> 
->   - For VSCode, workspace settings as well as debugging and task
->   configurations are stored at the root in a .vscode folder;
->   - For ClangFormat, the .clang-format file is searched relative to
->   the current working directory when reading stdin;
->   - For GDB, GDB command history file defaults to the value of the
->   environment variable GDBHISTFILE, or to ./.gdb_history if this
->   variable is not set.
-> 
-> Signed-off-by: Wang, Lei <lei4.wang@intel.com>
-> ---
->   .gitignore | 3 +++
->   1 file changed, 3 insertions(+)
+On Thu, 20 Oct 2022 at 08:52, Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 19/10/2022 22.38, John Snow wrote:
+> > On Tue, Oct 18, 2022 at 6:23 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+> >>
+> >> If you run this single avocado test:
+> >>
+> >> while ./build/x86/tests/venv/bin/avocado run
+> >> build/x86/tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_raspi2_initrd
+> >> ; do true; done
+> >>
+> >> then on my machine it will fail within 4 or 5 iterations. Has anybody
+> >> looked into this? Looking at a log from a failed test
+> >> https://people.linaro.org/~peter.maydell/raspi-avocado-fail.log
+> >> what seems to happen is that the test sends the "halt" command to
+> >> the guest. The DEBUG log reports a transition from RUNNING to
+> >> DISCONNECTING and the QMP connection disconnects, so presumably
+> >> the guest really did exit -- or is that something the test framework
+> >> is doing from its end?
+> [...]
+> > "Thanks for the analysis, but, like, what are you going to do to fix
+> > any of this?"
+> >
+> > Long term, an asyncio version of machine.py will help alleviate these
+> > kinds of race conditions when dealing with multiple sockets from
+> > Python as our testing requirements become more complex.
+> >
+> > Short term, I'm not sure...
+>
+> As a short term fix, what about simply changing the test
+> like this:
+>
+> diff a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
+> --- a/tests/avocado/boot_linux_console.py
+> +++ b/tests/avocado/boot_linux_console.py
+> @@ -489,7 +489,7 @@ def test_arm_raspi2_initrd(self):
+>                                                   'BCM2835')
+>           exec_command_and_wait_for_pattern(self, 'cat /proc/iomem',
+>                                                   '/soc/cprman@7e101000')
+> -        exec_command(self, 'halt')
+> +        exec_command_and_wait_for_pattern(self, 'halt', 'System halted')
+>           # Wait for VM to shut down gracefully
+>           self.vm.wait()
+>
+> By waiting for another console pattern that the guest sends
+> out after "halt", you can make sure that the connection is
+> not closed too early.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+That is pretty much the patch I'm testing currently :-)
 
+-- PMM
 
