@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7DA4605B54
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 11:38:54 +0200 (CEST)
-Received: from localhost ([::1]:55132 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83C00605B84
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 11:50:43 +0200 (CEST)
+Received: from localhost ([::1]:35082 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olS0r-0001yh-IP
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 05:38:53 -0400
+	id 1olSCH-0001eV-T9
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 05:50:42 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olRrC-0004jh-4e
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 05:28:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37178)
+	id 1olS0q-0001AV-NU
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 05:38:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1olRfp-00032A-6O
+ id 1olRfo-00031Z-Oj
  for qemu-devel@nongnu.org; Thu, 20 Oct 2022 05:17:11 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:39307)
+Received: from mout.kundenserver.de ([212.227.126.130]:40327)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1olRfm-0005Kg-GD
+ id 1olRfm-0005LE-Gl
  for qemu-devel@nongnu.org; Thu, 20 Oct 2022 05:17:08 -0400
 Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MYvTs-1oYKgA2Xb6-00UsNq; Thu, 20 Oct 2022 11:16:55 +0200
+ id 1MKbc4-1oXECi1OSi-00L1Xu; Thu, 20 Oct 2022 11:16:56 +0200
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
@@ -41,33 +41,32 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Paul Durrant <paul@xen.org>, Stefan Weil <sw@weilnetz.de>,
  Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v12 15/17] net: stream: move to QIO to enable additional
- parameters
-Date: Thu, 20 Oct 2022 11:16:22 +0200
-Message-Id: <20221020091624.48368-16-lvivier@redhat.com>
+Subject: [PATCH v12 16/17] tests/qtest: netdev: test stream and dgram backends
+Date: Thu, 20 Oct 2022 11:16:23 +0200
+Message-Id: <20221020091624.48368-17-lvivier@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221020091624.48368-1-lvivier@redhat.com>
 References: <20221020091624.48368-1-lvivier@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:wHGzFJjkgnX0SF0hvEV8uXRRuo4IEfk5FT/cjWlUL2jbOtzjJi6
- RB0dXw1X1IO1i7djsccgBEh7Oaob0IkQkuePGwgK1NDwdyR2Yml1LwuVZu6itF1/l9bgVdN
- +SGIdXvG2zLmXf0CgGlCE+DauaMrdJfSEMVsyVrKqrK4iveBE1b49Af94qHrYW4kdkfFGzp
- /K+XCvAEYVltrYQA4iJ3A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:LmwHPnhmhqw=:6CavKPWzcyDq7WGcj4CXUJ
- BpbG5hm6u7dr2t26GJ2CokxPkWhOwY/CpYFenL9uYcAEFdAFzg536E0v9mSL4/bLds/Cut7o5
- NUrNRomHFcbrB1Vn6t7cPZlUXNs6BMzlWf1Ve0jGaxWbn8py66NijdHxmgjKW2ceLUPrJOb45
- 0t9MZEjL92ecUafoxmxnUTyIAIDZUfD3o8s6VSFfai0+Wz0x2WwiolyTXu2GYoGfdvpLU/faC
- UG43cSgwHJlMnbdlKPNWByFnKAJv6UJrNBUy/hiIRs3EAo+RzdQpmXRHTHn9+E/4+Q6rIRG8C
- 1WJ/q46lzdiE1oeyybAlZea4pXrv9Hf2Ho/HEwfEigVEtFrW0u0tBlAparXc21HZqYAtsDmsf
- 3esmZ2QXdE3J5IqqD9SfgXczVobBnqHlR35kyOc7kABfhh8k0dQYtR4JpnPNds9oEqxeTI1/f
- sLdMfmw5F6F7BtSAiad8qh2zlwCY9QhIeyU/62+x0YGZ4/BSXaUhurwqmIBoa7e8UW3yCNHF+
- Cj4cQSfJBNulMlPxqRv+CPdt+H+BYh8Fy+acQCazoNXhUZwOncJnLNo2QPIkGk9v8Dpns6jSK
- aUGGnw0klPD2ohcHre5F87YvMH3Ss1Hhm4uusB0fbGKzZzLzvPnvXMl2GIdB5inslSOfQ6GWu
- huO7fMy3jdWX6+9eiX1XYJutwmhYlbe2AmrwoCfzcC8SGzTUEMdgPsAKhlaRRaPfB0Jbwbteq
- b6l1zW0LJVig+jvwffb+7/MGaje5PujnWQAhZYjTwJ7OvGV9FDStINxNl7FV+wL5qNx2ayTQr
- xnQODcT
-Received-SPF: permerror client-ip=212.227.126.187;
+X-Provags-ID: V03:K1:mKoEm2c6uKGESGeDD4UCP30II+ylL1uAkXsybSTYn3tzwJ+EeqM
+ 69XnKDEFZ8/x1n5We8WW52bSBLkbqqUXnPj3KJIOcZHz7/E/BmGvtzPUVOcvshLNs1O6enm
+ kh5FVhzKoMxdWARxnt1yjF/OEs+0HsBxeLfMgonS2qcywaGLclb76r4S8tFxb9wXnEXAdVk
+ JY9HaPPqM6One65M8Kx9g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Sb9T4mUE2tY=:LU0MynDLEvbm9vYbsAnCNu
+ Tob6JiR1+LKr7/XSYh/bLyizza80RE+HaaxtnRzyyoZCNyUq+K1EHcm9MNpm8jJfwh73ecY8i
+ mcmfIqDc6LCl4YVpFkQEy1AZ2ZxvqUaLTnfwFqatUpj1jqDhlYT62b7xbNx67WuBFGosl6m7k
+ 9L1yHQEXjCOwWRWPne6ba8NlCop30wRrp3oOcNsoG4FufTFXqHD8l/1z0c95e2+qKZEXlPG2r
+ ENyZ86Wx8h0FqKtVVe49eI118+HOiIOv9WgL4SerNeKsZfjXlK0DNgZPVg2Veidx6+wEg3DPt
+ XmtknmAUYulXVnhBg9ZoG2fRIFLPQwj+NwNhs3qRHgVMPZj4tT/7yc4kMfA38g1I0fcmGlw5c
+ KxK99uF3Ceq8pZZRhSdopED9STm+BQNGfCNR0T/VsyPb3Uce23Mn1fR7Tkf/QJDzzM/9gSwQR
+ l1utqUZkBhvUprBLU6an26PzhDHBVEPWOKQSYNqIuMxcbEdIhfGXpoRf6GgKLef3IXyfjI91i
+ HIMn278f0tdnkF7I8ot09BpQzogR6wAPbU7nwRgibVPzCu7qHxCdpdbRz2+ORyMmFTsKscR/w
+ 1bjeC+tpfvBRGZ4g/uRjXTJdbt7dt9IeKVR5rmDZ9JOaLPWTFswuA4+0QbKOIq60sy9y5fgp/
+ /zBN5UQ/Tz2zpYUEHxW1ExQX5l9OaIJn85AD7wNK+uBavkfp9bUe6nkk77e1757dJ/HNiFh7u
+ Lx+eEjsUY9y4sifV36ywO6o+uvFhVpMeACrGdpFV9PjTDyVQFbb0ggEQHpcKrl/PPA+flNRfe
+ xXnW411
+Received-SPF: permerror client-ip=212.227.126.130;
  envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -90,678 +89,449 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use QIOChannel, QIOChannelSocket and QIONetListener.
-This allows net/stream to use all the available parameters provided by
-SocketAddress.
-
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- meson           |   2 +-
- net/stream.c    | 493 +++++++++++++++++-------------------------------
- qemu-options.hx |   4 +-
- 3 files changed, 180 insertions(+), 319 deletions(-)
+ tests/qtest/meson.build     |   1 +
+ tests/qtest/netdev-socket.c | 417 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 418 insertions(+)
+ create mode 100644 tests/qtest/netdev-socket.c
 
-diff --git a/meson b/meson
-index 3a9b285a55b9..12f9f04ba0de 160000
---- a/meson
-+++ b/meson
-@@ -1 +1 @@
--Subproject commit 3a9b285a55b91b53b2acda987192274352ecb5be
-+Subproject commit 12f9f04ba0decfda425dbbf9a501084c153a2d18
-diff --git a/net/stream.c b/net/stream.c
-index 884f473018da..95d6b910407d 100644
---- a/net/stream.c
-+++ b/net/stream.c
-@@ -35,48 +35,36 @@
- #include "qemu/iov.h"
- #include "qemu/main-loop.h"
- #include "qemu/cutils.h"
-+#include "io/channel.h"
-+#include "io/channel-socket.h"
-+#include "io/net-listener.h"
- 
- typedef struct NetStreamState {
-     NetClientState nc;
--    int listen_fd;
--    int fd;
-+    QIOChannel *listen_ioc;
-+    QIONetListener *listener;
-+    QIOChannel *ioc;
-+    guint ioc_read_tag;
-+    guint ioc_write_tag;
-     SocketReadState rs;
-     unsigned int send_index;      /* number of bytes sent*/
--    bool read_poll;               /* waiting to receive data? */
--    bool write_poll;              /* waiting to transmit data? */
- } NetStreamState;
- 
--static void net_stream_send(void *opaque);
--static void net_stream_accept(void *opaque);
--static void net_stream_writable(void *opaque);
-+static void net_stream_listen(QIONetListener *listener,
-+                              QIOChannelSocket *cioc,
-+                              void *opaque);
- 
--static void net_stream_update_fd_handler(NetStreamState *s)
-+static gboolean net_stream_writable(QIOChannel *ioc,
-+                                    GIOCondition condition,
-+                                    gpointer data)
- {
--    qemu_set_fd_handler(s->fd,
--                        s->read_poll ? net_stream_send : NULL,
--                        s->write_poll ? net_stream_writable : NULL,
--                        s);
--}
--
--static void net_stream_read_poll(NetStreamState *s, bool enable)
--{
--    s->read_poll = enable;
--    net_stream_update_fd_handler(s);
--}
--
--static void net_stream_write_poll(NetStreamState *s, bool enable)
--{
--    s->write_poll = enable;
--    net_stream_update_fd_handler(s);
--}
--
--static void net_stream_writable(void *opaque)
--{
--    NetStreamState *s = opaque;
-+    NetStreamState *s = data;
- 
--    net_stream_write_poll(s, false);
-+    s->ioc_write_tag = 0;
- 
-     qemu_flush_queued_packets(&s->nc);
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index c07a5b1a5f43..6953797e4e3e 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -27,6 +27,7 @@ qtests_generic = [
+   'test-hmp',
+   'qos-test',
+   'readconfig-test',
++  'netdev-socket',
+ ]
+ if config_host.has_key('CONFIG_MODULES')
+   qtests_generic += [ 'modules-test' ]
+diff --git a/tests/qtest/netdev-socket.c b/tests/qtest/netdev-socket.c
+new file mode 100644
+index 000000000000..4ea66b4c6988
+--- /dev/null
++++ b/tests/qtest/netdev-socket.c
+@@ -0,0 +1,417 @@
++/*
++ * QTest testcase for netdev stream and dgram
++ *
++ * Copyright (c) 2022 Red Hat, Inc.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
 +
-+    return G_SOURCE_REMOVE;
- }
- 
- static ssize_t net_stream_receive(NetClientState *nc, const uint8_t *buf,
-@@ -93,13 +81,15 @@ static ssize_t net_stream_receive(NetClientState *nc, const uint8_t *buf,
-             .iov_len  = size,
-         },
-     };
-+    struct iovec local_iov[2];
-+    unsigned int nlocal_iov;
-     size_t remaining;
-     ssize_t ret;
- 
-     remaining = iov_size(iov, 2) - s->send_index;
--    ret = iov_send(s->fd, iov, 2, s->send_index, remaining);
--
--    if (ret == -1 && errno == EAGAIN) {
-+    nlocal_iov = iov_copy(local_iov, 2, iov, 2, s->send_index, remaining);
-+    ret = qio_channel_writev(s->ioc, local_iov, nlocal_iov, NULL);
-+    if (ret == QIO_CHANNEL_ERR_BLOCK) {
-         ret = 0; /* handled further down */
-     }
-     if (ret == -1) {
-@@ -108,19 +98,25 @@ static ssize_t net_stream_receive(NetClientState *nc, const uint8_t *buf,
-     }
-     if (ret < (ssize_t)remaining) {
-         s->send_index += ret;
--        net_stream_write_poll(s, true);
-+        s->ioc_write_tag = qio_channel_add_watch(s->ioc, G_IO_OUT,
-+                                                 net_stream_writable, s, NULL);
-         return 0;
-     }
-     s->send_index = 0;
-     return size;
- }
- 
-+static gboolean net_stream_send(QIOChannel *ioc,
-+                                GIOCondition condition,
-+                                gpointer data);
++#include "qemu/osdep.h"
++#include "libqtest.h"
 +
- static void net_stream_send_completed(NetClientState *nc, ssize_t len)
- {
-     NetStreamState *s = DO_UPCAST(NetStreamState, nc, nc);
- 
--    if (!s->read_poll) {
--        net_stream_read_poll(s, true);
-+    if (!s->ioc_read_tag) {
-+        s->ioc_read_tag = qio_channel_add_watch(s->ioc, G_IO_IN,
-+                                                net_stream_send, s, NULL);
-     }
- }
- 
-@@ -131,19 +127,24 @@ static void net_stream_rs_finalize(SocketReadState *rs)
-     if (qemu_send_packet_async(&s->nc, rs->buf,
-                                rs->packet_len,
-                                net_stream_send_completed) == 0) {
--        net_stream_read_poll(s, false);
-+        if (s->ioc_read_tag) {
-+            g_source_remove(s->ioc_read_tag);
-+            s->ioc_read_tag = 0;
-+        }
-     }
- }
- 
--static void net_stream_send(void *opaque)
-+static gboolean net_stream_send(QIOChannel *ioc,
-+                                GIOCondition condition,
-+                                gpointer data)
- {
--    NetStreamState *s = opaque;
-+    NetStreamState *s = data;
-     int size;
-     int ret;
--    uint8_t buf1[NET_BUFSIZE];
--    const uint8_t *buf;
-+    char buf1[NET_BUFSIZE];
-+    const char *buf;
- 
--    size = recv(s->fd, buf1, sizeof(buf1), 0);
-+    size = qio_channel_read(s->ioc, buf1, sizeof(buf1), NULL);
-     if (size < 0) {
-         if (errno != EWOULDBLOCK) {
-             goto eoc;
-@@ -151,51 +152,63 @@ static void net_stream_send(void *opaque)
-     } else if (size == 0) {
-         /* end of connection */
-     eoc:
--        net_stream_read_poll(s, false);
--        net_stream_write_poll(s, false);
--        if (s->listen_fd != -1) {
--            qemu_set_fd_handler(s->listen_fd, net_stream_accept, NULL, s);
-+        s->ioc_read_tag = 0;
-+        if (s->ioc_write_tag) {
-+            g_source_remove(s->ioc_write_tag);
-+            s->ioc_write_tag = 0;
-         }
--        closesocket(s->fd);
-+        if (s->listener) {
-+            qio_net_listener_set_client_func(s->listener, net_stream_listen,
-+                                             s, NULL);
-+        }
-+        object_unref(OBJECT(s->ioc));
-+        s->ioc = NULL;
- 
--        s->fd = -1;
-         net_socket_rs_init(&s->rs, net_stream_rs_finalize, false);
-         s->nc.link_down = true;
-         qemu_set_info_str(&s->nc, "");
- 
--        return;
-+        return G_SOURCE_REMOVE;
-     }
-     buf = buf1;
- 
--    ret = net_fill_rstate(&s->rs, buf, size);
-+    ret = net_fill_rstate(&s->rs, (const uint8_t *)buf, size);
- 
-     if (ret == -1) {
-         goto eoc;
-     }
++#define CONNECTION_TIMEOUT    5
 +
-+    return G_SOURCE_CONTINUE;
- }
- 
- static void net_stream_cleanup(NetClientState *nc)
- {
-     NetStreamState *s = DO_UPCAST(NetStreamState, nc, nc);
--    if (s->fd != -1) {
--        net_stream_read_poll(s, false);
--        net_stream_write_poll(s, false);
--        close(s->fd);
--        s->fd = -1;
-+    if (s->ioc) {
-+        if (QIO_CHANNEL_SOCKET(s->ioc)->fd != -1) {
-+            if (s->ioc_read_tag) {
-+                g_source_remove(s->ioc_read_tag);
-+                s->ioc_read_tag = 0;
-+            }
-+            if (s->ioc_write_tag) {
-+                g_source_remove(s->ioc_write_tag);
-+                s->ioc_write_tag = 0;
-+            }
-+        }
-+        object_unref(OBJECT(s->ioc));
-+        s->ioc = NULL;
-     }
--    if (s->listen_fd != -1) {
--        qemu_set_fd_handler(s->listen_fd, NULL, NULL, NULL);
--        closesocket(s->listen_fd);
--        s->listen_fd = -1;
-+    if (s->listen_ioc) {
-+        if (s->listener) {
-+            qio_net_listener_disconnect(s->listener);
-+            object_unref(OBJECT(s->listener));
-+            s->listener = NULL;
-+        }
-+        object_unref(OBJECT(s->listen_ioc));
-+        s->listen_ioc = NULL;
-     }
- }
- 
--static void net_stream_connect(void *opaque)
--{
--    NetStreamState *s = opaque;
--    net_stream_read_poll(s, true);
--}
--
- static NetClientInfo net_stream_info = {
-     .type = NET_CLIENT_DRIVER_STREAM,
-     .size = sizeof(NetStreamState),
-@@ -203,76 +216,67 @@ static NetClientInfo net_stream_info = {
-     .cleanup = net_stream_cleanup,
- };
- 
--static NetStreamState *net_stream_fd_init(NetClientState *peer,
--                                          const char *model,
--                                          const char *name,
--                                          int fd, int is_connected)
-+static void net_stream_listen(QIONetListener *listener,
-+                              QIOChannelSocket *cioc,
-+                              void *opaque)
- {
--    NetClientState *nc;
--    NetStreamState *s;
--
--    nc = qemu_new_net_client(&net_stream_info, peer, model, name);
-+    NetStreamState *s = opaque;
-+    SocketAddress *addr;
-+    char *uri;
- 
--    qemu_set_info_str(nc, "fd=%d", fd);
-+    object_ref(OBJECT(cioc));
- 
--    s = DO_UPCAST(NetStreamState, nc, nc);
-+    qio_net_listener_set_client_func(s->listener, NULL, s, NULL);
- 
--    s->fd = fd;
--    s->listen_fd = -1;
--    net_socket_rs_init(&s->rs, net_stream_rs_finalize, false);
-+    s->ioc = QIO_CHANNEL(cioc);
-+    qio_channel_set_name(s->ioc, "stream-server");
-+    s->nc.link_down = false;
- 
--    /* Disable Nagle algorithm on TCP sockets to reduce latency */
--    socket_set_nodelay(fd);
-+    s->ioc_read_tag = qio_channel_add_watch(s->ioc, G_IO_IN, net_stream_send,
-+                                            s, NULL);
- 
--    if (is_connected) {
--        net_stream_connect(s);
-+    if (cioc->localAddr.ss_family == AF_UNIX) {
-+        addr = qio_channel_socket_get_local_address(cioc, NULL);
-     } else {
--        qemu_set_fd_handler(s->fd, NULL, net_stream_connect, s);
-+        addr = qio_channel_socket_get_remote_address(cioc, NULL);
-     }
--    return s;
-+    g_assert(addr != NULL);
-+    uri = socket_uri(addr);
-+    qemu_set_info_str(&s->nc, uri);
-+    g_free(uri);
-+    qapi_free_SocketAddress(addr);
++#define EXPECT_STATE(q, e, t)                             \
++do {                                                      \
++    char *resp = qtest_hmp(q, "info network");            \
++    if (t) {                                              \
++        strrchr(resp, t)[0] = 0;                          \
++    }                                                     \
++    g_test_timer_start();                                 \
++    while (g_test_timer_elapsed() < CONNECTION_TIMEOUT) { \
++        if (strcmp(resp, e) == 0) {                       \
++            break;                                        \
++        }                                                 \
++        g_free(resp);                                     \
++        resp = qtest_hmp(q, "info network");              \
++        if (t) {                                          \
++            strrchr(resp, t)[0] = 0;                      \
++        }                                                 \
++    }                                                     \
++    g_assert_cmpstr(resp, ==, e);                         \
++    g_free(resp);                                         \
++} while (0)
 +
- }
- 
--static void net_stream_accept(void *opaque)
-+static void net_stream_server_listening(QIOTask *task, gpointer opaque)
- {
-     NetStreamState *s = opaque;
--    struct sockaddr_storage saddr;
--    socklen_t len;
--    int fd;
--
--    for (;;) {
--        len = sizeof(saddr);
--        fd = qemu_accept(s->listen_fd, (struct sockaddr *)&saddr, &len);
--        if (fd < 0 && errno != EINTR) {
--            return;
--        } else if (fd >= 0) {
--            qemu_set_fd_handler(s->listen_fd, NULL, NULL, NULL);
--            break;
--        }
--    }
-+    QIOChannelSocket *listen_sioc = QIO_CHANNEL_SOCKET(s->listen_ioc);
-+    SocketAddress *addr;
-+    int ret;
- 
--    s->fd = fd;
--    s->nc.link_down = false;
--    net_stream_connect(s);
--    switch (saddr.ss_family) {
--    case AF_INET: {
--        struct sockaddr_in *saddr_in = (struct sockaddr_in *)&saddr;
--
--        qemu_set_info_str(&s->nc, "connection from %s:%d",
--                          inet_ntoa(saddr_in->sin_addr),
--                          ntohs(saddr_in->sin_port));
--        break;
-+    if (listen_sioc->fd < 0) {
-+        qemu_set_info_str(&s->nc, "connection error");
-+        return;
-     }
--    case AF_UNIX: {
--        struct sockaddr_un saddr_un;
- 
--        len = sizeof(saddr_un);
--        getsockname(s->listen_fd, (struct sockaddr *)&saddr_un, &len);
--        qemu_set_info_str(&s->nc, "connect from %s", saddr_un.sun_path);
--        break;
--    }
--    default:
--        g_assert_not_reached();
-+    addr = qio_channel_socket_get_local_address(listen_sioc, NULL);
-+    g_assert(addr != NULL);
-+    ret = qemu_socket_try_set_nonblock(listen_sioc->fd);
-+    if (addr->type == SOCKET_ADDRESS_TYPE_FD && ret < 0) {
-+        qemu_set_info_str(&s->nc, "can't use file descriptor %s (errno %d)",
-+                          addr->u.fd.str, -ret);
-+        return;
-     }
-+    g_assert(ret == 0);
-+    qapi_free_SocketAddress(addr);
-+
-+    s->nc.link_down = true;
-+    s->listener = qio_net_listener_new();
-+
-+    net_socket_rs_init(&s->rs, net_stream_rs_finalize, false);
-+    qio_net_listener_set_client_func(s->listener, net_stream_listen, s, NULL);
-+    qio_net_listener_add(s->listener, listen_sioc);
- }
- 
- static int net_stream_server_init(NetClientState *peer,
-@@ -283,105 +287,61 @@ static int net_stream_server_init(NetClientState *peer,
- {
-     NetClientState *nc;
-     NetStreamState *s;
--    int fd, ret;
--
--    switch (addr->type) {
--    case SOCKET_ADDRESS_TYPE_INET: {
--        struct sockaddr_in saddr_in;
--
--        if (convert_host_port(&saddr_in, addr->u.inet.host, addr->u.inet.port,
--                              errp) < 0) {
--            return -1;
--        }
-+    QIOChannelSocket *listen_sioc = qio_channel_socket_new();
- 
--        fd = qemu_socket(PF_INET, SOCK_STREAM, 0);
--        if (fd < 0) {
--            error_setg_errno(errp, errno, "can't create stream socket");
--            return -1;
--        }
--        qemu_socket_set_nonblock(fd);
-+    nc = qemu_new_net_client(&net_stream_info, peer, model, name);
-+    s = DO_UPCAST(NetStreamState, nc, nc);
- 
--        socket_set_fast_reuse(fd);
-+    s->listen_ioc = QIO_CHANNEL(listen_sioc);
-+    qio_channel_socket_listen_async(listen_sioc, addr, 0,
-+                                    net_stream_server_listening, s,
-+                                    NULL, NULL);
- 
--        ret = bind(fd, (struct sockaddr *)&saddr_in, sizeof(saddr_in));
--        if (ret < 0) {
--            error_setg_errno(errp, errno, "can't bind ip=%s to socket",
--                             inet_ntoa(saddr_in.sin_addr));
--            closesocket(fd);
--            return -1;
--        }
--        break;
--    }
--    case SOCKET_ADDRESS_TYPE_UNIX: {
--        struct sockaddr_un saddr_un;
--
--        ret = unlink(addr->u.q_unix.path);
--        if (ret < 0 && errno != ENOENT) {
--            error_setg_errno(errp, errno, "failed to unlink socket %s",
--                             addr->u.q_unix.path);
--            return -1;
--        }
-+    return 0;
-+}
- 
--        saddr_un.sun_family = PF_UNIX;
--        ret = snprintf(saddr_un.sun_path, sizeof(saddr_un.sun_path), "%s",
--                       addr->u.q_unix.path);
--        if (ret < 0 || ret >= sizeof(saddr_un.sun_path)) {
--            error_setg(errp, "UNIX socket path '%s' is too long",
--                       addr->u.q_unix.path);
--            error_append_hint(errp, "Path must be less than %zu bytes\n",
--                              sizeof(saddr_un.sun_path));
--            return -1;
--        }
-+static void net_stream_client_connected(QIOTask *task, gpointer opaque)
++static int inet_get_free_port_socket(int sock)
 +{
-+    NetStreamState *s = opaque;
-+    QIOChannelSocket *sioc = QIO_CHANNEL_SOCKET(s->ioc);
-+    SocketAddress *addr;
-+    gchar *uri;
++    struct sockaddr_in addr;
++    socklen_t len;
++
++    memset(&addr, 0, sizeof(addr));
++    addr.sin_family = AF_INET;
++    addr.sin_addr.s_addr = INADDR_ANY;
++    addr.sin_port = 0;
++    if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
++        return -1;
++    }
++
++    len = sizeof(addr);
++    if (getsockname(sock,  (struct sockaddr *)&addr, &len) < 0) {
++        return -1;
++    }
++
++    return ntohs(addr.sin_port);
++}
++
++static int inet_get_free_port_multiple(int nb, int *port)
++{
++    int sock[nb];
++    int i;
++
++    for (i = 0; i < nb; i++) {
++        sock[i] = socket(AF_INET, SOCK_STREAM, 0);
++        if (sock[i] < 0) {
++            break;
++        }
++        port[i] = inet_get_free_port_socket(sock[i]);
++    }
++
++    nb = i;
++    for (i = 0; i < nb; i++) {
++        closesocket(sock[i]);
++    }
++
++    return nb;
++}
++
++static int inet_get_free_port(void)
++{
++    int nb, port;
++
++    nb = inet_get_free_port_multiple(1, &port);
++    g_assert_cmpint(nb, ==, 1);
++
++    return port;
++}
++
++static void test_stream_inet_ipv4(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    int port;
++
++    port = inet_get_free_port();
++    qts0 = qtest_initf("-nodefaults "
++                       "-netdev stream,id=st0,addr.type=inet,"
++                       "addr.ipv4=on,addr.ipv6=off,"
++                       "addr.host=localhost,addr.port=%d", port);
++
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
++
++    qts1 = qtest_initf("-nodefaults "
++                       "-netdev stream,server=false,id=st0,addr.type=inet,"
++                       "addr.ipv4=on,addr.ipv6=off,"
++                       "addr.host=localhost,addr.port=%d", port);
++
++    expect = g_strdup_printf("st0: index=0,type=stream,tcp:127.0.0.1:%d\r\n",
++                             port);
++    EXPECT_STATE(qts1, expect, 0);
++    g_free(expect);
++
++    /* the port is unknown, check only the address */
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,tcp:127.0.0.1", ':');
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++}
++
++static void test_stream_inet_ipv6(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    int port;
++
++    port = inet_get_free_port();
++    qts0 = qtest_initf("-nodefaults "
++                       "-netdev stream,id=st0,addr.type=inet,"
++                       "addr.ipv4=off,addr.ipv6=on,"
++                       "addr.host=localhost,addr.port=%d", port);
++
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
++
++    qts1 = qtest_initf("-nodefaults "
++                       "-netdev stream,server=false,id=st0,addr.type=inet,"
++                       "addr.ipv4=off,addr.ipv6=on,"
++                       "addr.host=localhost,addr.port=%d", port);
++
++    expect = g_strdup_printf("st0: index=0,type=stream,tcp:::1:%d\r\n",
++                             port);
++    EXPECT_STATE(qts1, expect, 0);
++    g_free(expect);
++
++    /* the port is unknown, check only the address */
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,tcp:::1", ':');
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++}
++
++static void test_stream_unix(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    gchar *path;
 +    int ret;
- 
--        fd = qemu_socket(PF_UNIX, SOCK_STREAM, 0);
--        if (fd < 0) {
--            error_setg_errno(errp, errno, "can't create stream socket");
--            return -1;
--        }
--        qemu_socket_set_nonblock(fd);
--
--        ret = bind(fd, (struct sockaddr *)&saddr_un, sizeof(saddr_un));
--        if (ret < 0) {
--            error_setg_errno(errp, errno, "can't create socket with path: %s",
--                             saddr_un.sun_path);
--            closesocket(fd);
--            return -1;
--        }
--        break;
--    }
--    case SOCKET_ADDRESS_TYPE_FD:
--        fd = monitor_fd_param(monitor_cur(), addr->u.fd.str, errp);
--        if (fd == -1) {
--            return -1;
--        }
--        ret = qemu_socket_try_set_nonblock(fd);
--        if (ret < 0) {
--            error_setg_errno(errp, -ret, "%s: Can't use file descriptor %d",
--                             name, fd);
--            return -1;
--        }
--        break;
--    default:
--        error_setg(errp, "only support inet or fd type");
--        return -1;
-+    if (sioc->fd < 0) {
-+        qemu_set_info_str(&s->nc, "connection error");
-+        goto error;
-     }
- 
--    ret = listen(fd, 0);
--    if (ret < 0) {
--        error_setg_errno(errp, errno, "can't listen on socket");
--        closesocket(fd);
--        return -1;
-+    addr = qio_channel_socket_get_remote_address(sioc, NULL);
-+    g_assert(addr != NULL);
-+    uri = socket_uri(addr);
-+    qemu_set_info_str(&s->nc, uri);
-+    g_free(uri);
 +
-+    ret = qemu_socket_try_set_nonblock(sioc->fd);
-+    if (addr->type == SOCKET_ADDRESS_TYPE_FD && ret < 0) {
-+        qemu_set_info_str(&s->nc, "can't use file descriptor %s (errno %d)",
-+                          addr->u.fd.str, -ret);
-+        qapi_free_SocketAddress(addr);
-+        goto error;
-     }
-+    g_assert(ret == 0);
-+    qapi_free_SocketAddress(addr);
- 
--    nc = qemu_new_net_client(&net_stream_info, peer, model, name);
--    s = DO_UPCAST(NetStreamState, nc, nc);
--    s->fd = -1;
--    s->listen_fd = fd;
--    s->nc.link_down = true;
-     net_socket_rs_init(&s->rs, net_stream_rs_finalize, false);
- 
--    qemu_set_fd_handler(s->listen_fd, net_stream_accept, NULL, s);
--    return 0;
-+    /* Disable Nagle algorithm on TCP sockets to reduce latency */
-+    qio_channel_set_delay(s->ioc, false);
++    ret = g_file_open_tmp("netdev-XXXXXX", &path, NULL);
++    g_assert_true(ret >= 0);
++    close(ret);
 +
-+    s->ioc_read_tag = qio_channel_add_watch(s->ioc, G_IO_IN, net_stream_send,
-+                                            s, NULL);
-+    s->nc.link_down = false;
++    qts0 = qtest_initf("-nodefaults "
++                       "-netdev stream,id=st0,addr.type=unix,addr.path=%s,",
++                       path);
 +
-+    return;
-+error:
-+    object_unref(OBJECT(s->ioc));
-+    s->ioc = NULL;
- }
- 
- static int net_stream_client_init(NetClientState *peer,
-@@ -391,118 +351,19 @@ static int net_stream_client_init(NetClientState *peer,
-                                   Error **errp)
- {
-     NetStreamState *s;
--    struct sockaddr_in saddr_in;
--    struct sockaddr_un saddr_un;
--    int fd, connected, ret;
--
--    switch (addr->type) {
--    case SOCKET_ADDRESS_TYPE_INET:
--        if (convert_host_port(&saddr_in, addr->u.inet.host, addr->u.inet.port,
--                              errp) < 0) {
--            return -1;
--        }
-+    NetClientState *nc;
-+    QIOChannelSocket *sioc = qio_channel_socket_new();
- 
--        fd = qemu_socket(PF_INET, SOCK_STREAM, 0);
--        if (fd < 0) {
--            error_setg_errno(errp, errno, "can't create stream socket");
--            return -1;
--        }
--        qemu_socket_set_nonblock(fd);
--
--        connected = 0;
--        for (;;) {
--            ret = connect(fd, (struct sockaddr *)&saddr_in, sizeof(saddr_in));
--            if (ret < 0) {
--                if (errno == EINTR || errno == EWOULDBLOCK) {
--                    /* continue */
--                } else if (errno == EINPROGRESS ||
--                           errno == EALREADY) {
--                    break;
--                } else {
--                    error_setg_errno(errp, errno, "can't connect socket");
--                    closesocket(fd);
--                    return -1;
--                }
--            } else {
--                connected = 1;
--                break;
--            }
--        }
--        break;
--    case SOCKET_ADDRESS_TYPE_UNIX:
--        saddr_un.sun_family = PF_UNIX;
--        ret = snprintf(saddr_un.sun_path, sizeof(saddr_un.sun_path), "%s",
--                       addr->u.q_unix.path);
--        if (ret < 0 || ret >= sizeof(saddr_un.sun_path)) {
--            error_setg(errp, "UNIX socket path '%s' is too long",
--                       addr->u.q_unix.path);
--            error_append_hint(errp, "Path must be less than %zu bytes\n",
--                              sizeof(saddr_un.sun_path));
--            return -1;
--        }
-+    nc = qemu_new_net_client(&net_stream_info, peer, model, name);
-+    s = DO_UPCAST(NetStreamState, nc, nc);
- 
--        fd = qemu_socket(PF_UNIX, SOCK_STREAM, 0);
--        if (fd < 0) {
--            error_setg_errno(errp, errno, "can't create stream socket");
--            return -1;
--        }
--        qemu_socket_set_nonblock(fd);
--
--        connected = 0;
--        for (;;) {
--            ret = connect(fd, (struct sockaddr *)&saddr_un, sizeof(saddr_un));
--            if (ret < 0) {
--                if (errno == EINTR || errno == EWOULDBLOCK) {
--                    /* continue */
--                } else if (errno == EAGAIN ||
--                           errno == EALREADY) {
--                    break;
--                } else {
--                    error_setg_errno(errp, errno, "can't connect socket");
--                    closesocket(fd);
--                    return -1;
--                }
--            } else {
--                connected = 1;
--                break;
--            }
--        }
--        break;
--    case SOCKET_ADDRESS_TYPE_FD:
--        fd = monitor_fd_param(monitor_cur(), addr->u.fd.str, errp);
--        if (fd == -1) {
--            return -1;
--        }
--        ret = qemu_socket_try_set_nonblock(fd);
--        if (ret < 0) {
--            error_setg_errno(errp, -ret, "%s: Can't use file descriptor %d",
--                             name, fd);
--            return -1;
--        }
--        connected = 1;
--        break;
--    default:
--        error_setg(errp, "only support inet, unix or fd type");
--        return -1;
--    }
-+    s->ioc = QIO_CHANNEL(sioc);
-+    s->nc.link_down = true;
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
 +
-+    qio_channel_socket_connect_async(sioc, addr,
-+                                     net_stream_client_connected, s,
-+                                     NULL, NULL);
- 
--    s = net_stream_fd_init(peer, model, name, fd, connected);
--
--    switch (addr->type) {
--    case SOCKET_ADDRESS_TYPE_INET:
--        qemu_set_info_str(&s->nc, "connect to %s:%d",
--                          inet_ntoa(saddr_in.sin_addr),
--                          ntohs(saddr_in.sin_port));
--        break;
--    case SOCKET_ADDRESS_TYPE_UNIX:
--        qemu_set_info_str(&s->nc, " connect to %s", saddr_un.sun_path);
--        break;
--    case SOCKET_ADDRESS_TYPE_FD:
--        qemu_set_info_str(&s->nc, "connect to fd %d", fd);
--        break;
--    default:
--        g_assert_not_reached();
--    }
-     return 0;
- }
- 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index fafb214cb89f..a91f96a264cc 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -2772,8 +2772,8 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
-     "-netdev socket,id=str[,fd=h][,udp=host:port][,localaddr=host:port]\n"
-     "                configure a network backend to connect to another network\n"
-     "                using an UDP tunnel\n"
--    "-netdev stream,id=str[,server=on|off],addr.type=inet,addr.host=host,addr.port=port\n"
--    "-netdev stream,id=str[,server=on|off],addr.type=unix,addr.path=path\n"
-+    "-netdev stream,id=str[,server=on|off],addr.type=inet,addr.host=host,addr.port=port[,to=maxport][,numeric=on|off][,keep-alive=on|off][,mptcp=on|off][,addr.ipv4=on|off][,addr.ipv6=on|off]\n"
-+    "-netdev stream,id=str[,server=on|off],addr.type=unix,addr.path=path[,abstract=on|off][,tight=on|off]\n"
-     "-netdev stream,id=str[,server=on|off],addr.type=fd,addr.str=file-descriptor\n"
-     "                configure a network backend to connect to another network\n"
-     "                using a socket connection in stream mode.\n"
++    qts1 = qtest_initf("-nodefaults "
++                       "-netdev stream,id=st0,server=false,"
++                       "addr.type=unix,addr.path=%s",
++                       path);
++
++    expect = g_strdup_printf("st0: index=0,type=stream,unix:%s\r\n", path);
++    EXPECT_STATE(qts1, expect, 0);
++    EXPECT_STATE(qts0, expect, 0);
++    g_free(expect);
++    unlink(path);
++    g_free(path);
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++}
++
++static void test_stream_unix_abstract(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    gchar *path;
++    int ret;
++
++    ret = g_file_open_tmp("netdev-XXXXXX", &path, NULL);
++    g_assert_true(ret >= 0);
++    close(ret);
++
++    qts0 = qtest_initf("-nodefaults "
++                       "-netdev stream,id=st0,addr.type=unix,addr.path=%s,"
++                       "addr.abstract=on",
++                       path);
++
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
++
++    qts1 = qtest_initf("-nodefaults "
++                       "-netdev stream,id=st0,server=false,"
++                       "addr.type=unix,addr.path=%s,addr.abstract=on",
++                       path);
++
++    expect = g_strdup_printf("st0: index=0,type=stream,unix:%s\r\n", path);
++    EXPECT_STATE(qts1, expect, 0);
++    EXPECT_STATE(qts0, expect, 0);
++    g_free(expect);
++    unlink(path);
++    g_free(path);
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++}
++
++static void test_stream_fd(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    int ret, sock0, sock1;
++    struct sockaddr_un addr;
++    gchar *path;
++
++    ret = g_file_open_tmp("netdev-XXXXXX", &path, NULL);
++    g_assert_true(ret >= 0);
++    close(ret);
++    addr.sun_family = AF_UNIX;
++    strcpy(addr.sun_path, path);
++
++    unlink(addr.sun_path);
++    sock0 = socket(AF_LOCAL, SOCK_STREAM, 0);
++    g_assert_cmpint(sock0, !=, -1);
++
++    ret = bind(sock0, (struct sockaddr *)&addr, sizeof(addr));
++    g_assert_cmpint(ret, !=, -1);
++
++    qts0 = qtest_initf("-nodefaults "
++                       "-netdev stream,id=st0,addr.type=fd,addr.str=%d",
++                       sock0);
++
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
++
++    sock1 = socket(AF_LOCAL, SOCK_STREAM, 0);
++    g_assert_cmpint(sock1, !=, -1);
++
++    ret = connect(sock1, (struct sockaddr *)&addr, sizeof(addr));
++    g_assert_cmpint(ret, !=, -1);
++
++    qts1 = qtest_initf("-nodefaults "
++                       "-netdev stream,id=st0,server=off,addr.type=fd,addr.str=%d",
++                       sock1);
++
++
++    expect = g_strdup_printf("st0: index=0,type=stream,unix:%s\r\n", path);
++    EXPECT_STATE(qts1, expect, 0);
++    EXPECT_STATE(qts0, expect, 0);
++    g_free(expect);
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++
++    closesocket(sock0);
++    closesocket(sock1);
++
++    g_free(path);
++}
++
++static void test_dgram_inet(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    int port[2];
++    int nb;
++
++    nb = inet_get_free_port_multiple(2, port);
++    g_assert_cmpint(nb, ==, 2);
++
++    qts0 = qtest_initf("-nodefaults "
++                       "-netdev dgram,id=st0,"
++                       "local.type=inet,local.host=localhost,local.port=%d,"
++                       "remote.type=inet,remote.host=localhost,remote.port=%d",
++                        port[0], port[1]);
++
++    expect = g_strdup_printf("st0: index=0,type=dgram,"
++                             "udp=127.0.0.1:%d/127.0.0.1:%d\r\n",
++                             port[0], port[1]);
++    EXPECT_STATE(qts0, expect, 0);
++    g_free(expect);
++
++    qts1 = qtest_initf("-nodefaults "
++                       "-netdev dgram,id=st0,"
++                       "local.type=inet,local.host=localhost,local.port=%d,"
++                       "remote.type=inet,remote.host=localhost,remote.port=%d",
++                        port[1], port[0]);
++
++    expect = g_strdup_printf("st0: index=0,type=dgram,"
++                             "udp=127.0.0.1:%d/127.0.0.1:%d\r\n",
++                             port[1], port[0]);
++    EXPECT_STATE(qts1, expect, 0);
++    g_free(expect);
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++}
++
++static void test_dgram_mcast(void)
++{
++    QTestState *qts;
++
++    qts = qtest_initf("-nodefaults "
++                       "-netdev dgram,id=st0,"
++                       "remote.type=inet,remote.host=230.0.0.1,remote.port=1234");
++
++    EXPECT_STATE(qts, "st0: index=0,type=dgram,mcast=230.0.0.1:1234\r\n", 0);
++
++    qtest_quit(qts);
++}
++
++static void test_dgram_unix(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    gchar *path0, *path1;
++    int ret;
++
++    ret = g_file_open_tmp("netdev-XXXXXX", &path0, NULL);
++    g_assert_true(ret >= 0);
++    close(ret);
++
++    ret = g_file_open_tmp("netdev-XXXXXX", &path1, NULL);
++    g_assert_true(ret >= 0);
++    close(ret);
++
++    qts0 = qtest_initf("-nodefaults "
++                       "-netdev dgram,id=st0,local.type=unix,local.path=%s,"
++                       "remote.type=unix,remote.path=%s",
++                       path0, path1);
++
++    expect = g_strdup_printf("st0: index=0,type=dgram,udp=%s:%s\r\n",
++                             path0, path1);
++    EXPECT_STATE(qts0, expect, 0);
++    g_free(expect);
++
++    qts1 = qtest_initf("-nodefaults "
++                       "-netdev dgram,id=st0,local.type=unix,local.path=%s,"
++                       "remote.type=unix,remote.path=%s",
++                       path1, path0);
++
++
++    expect = g_strdup_printf("st0: index=0,type=dgram,udp=%s:%s\r\n",
++                             path1, path0);
++    EXPECT_STATE(qts1, expect, 0);
++    g_free(expect);
++
++    unlink(path0);
++    g_free(path0);
++    unlink(path1);
++    g_free(path1);
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++}
++
++static void test_dgram_fd(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    int ret;
++    int sv[2];
++
++    ret = socketpair(PF_UNIX, SOCK_DGRAM, 0, sv);
++    g_assert_cmpint(ret, !=, -1);
++
++    qts0 = qtest_initf("-nodefaults "
++                       "-netdev dgram,id=st0,local.type=fd,local.str=%d",
++                       sv[0]);
++
++    expect = g_strdup_printf("st0: index=0,type=dgram,fd=%d unix\r\n", sv[0]);
++    EXPECT_STATE(qts0, expect, 0);
++    g_free(expect);
++
++    qts1 = qtest_initf("-nodefaults "
++                       "-netdev dgram,id=st0,local.type=fd,local.str=%d",
++                       sv[1]);
++
++
++    expect = g_strdup_printf("st0: index=0,type=dgram,fd=%d unix\r\n", sv[1]);
++    EXPECT_STATE(qts1, expect, 0);
++    g_free(expect);
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++
++    closesocket(sv[0]);
++    closesocket(sv[1]);
++}
++
++int main(int argc, char **argv)
++{
++    int ret;
++
++    g_test_init(&argc, &argv, NULL);
++
++    qtest_add_func("/netdev/stream/inet/ipv4", test_stream_inet_ipv4);
++    qtest_add_func("/netdev/stream/inet/ipv6", test_stream_inet_ipv6);
++    qtest_add_func("/netdev/stream/unix", test_stream_unix);
++    qtest_add_func("/netdev/stream/unix/abstract", test_stream_unix_abstract);
++    qtest_add_func("/netdev/stream/fd", test_stream_fd);
++    qtest_add_func("/netdev/dgram/inet", test_dgram_inet);
++    qtest_add_func("/netdev/dgram/mcast", test_dgram_mcast);
++    qtest_add_func("/netdev/dgram/unix", test_dgram_unix);
++    qtest_add_func("/netdev/dgram/fd", test_dgram_fd);
++
++    ret = g_test_run();
++
++    return ret;
++}
 -- 
 2.37.3
 
