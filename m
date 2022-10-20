@@ -2,96 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0368B605A1C
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 10:42:57 +0200 (CEST)
-Received: from localhost ([::1]:60160 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 240E0605A1F
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 10:44:01 +0200 (CEST)
+Received: from localhost ([::1]:35406 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olR8h-00070J-J5
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 04:42:55 -0400
+	id 1olR9j-0008Ai-RU
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 04:43:59 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olR8h-0006jF-DH
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 04:42:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55654)
+	id 1olR9j-00082A-Nj
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 04:43:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1olR4s-0002Fl-7O
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 04:38:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24971)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1olR6D-0003Vi-DU
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 04:40:25 -0400
+Received: from 5.mo552.mail-out.ovh.net ([188.165.45.220]:55119)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1olR4q-0001uh-4A
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 04:38:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666255135;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3Equ7KnN+Q9BW7ql98ZjkbkEldT6d5HpoDvOVfpP0N0=;
- b=Idg3LHKmr7uvOVMhoeBoGb2XWs+mGdqVQ7WiKZuNC95XJxHLwEDpRwo2tqUP84qWKoOh/Z
- mCzqQPSXduWwuE5lfnDkR1Kxz5bQ3jtXexADSVZPjyBLZ0ix3ugRS4nLy6bqnDrxlrrjHi
- sTZAbs/0QRpfX1uIWKAsYlDT1t3TqaU=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-267-GCT77tCAP9KjUO1k5yJJqA-1; Thu, 20 Oct 2022 04:38:53 -0400
-X-MC-Unique: GCT77tCAP9KjUO1k5yJJqA-1
-Received: by mail-pl1-f199.google.com with SMTP id
- w11-20020a170902e88b00b001855276704aso7445649plg.4
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 01:38:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=3Equ7KnN+Q9BW7ql98ZjkbkEldT6d5HpoDvOVfpP0N0=;
- b=HkUAjONIpe6iF4fYZGdy4/N1feT+eQB7oVmIiaqiVi/I/kR1Z0Z/jHFEdDniV3OqDy
- rXd+PAJW9foWtRDBkEIF1RMU+JJk3y5YwwKZndc3Wd3QAwMAYhe9Mnmo9s6JNghY2i1B
- kKqnwIlgpCiPTa9q8kFB+JzNoaFny3OPFHr1i68E4lZTETsCiQ3Ub0qYUOx/VMRHEwkd
- b5ceCcMaXprywdpVz/v1H4OKvwmTGvV2FgzwUzC3g7+zoL1uAJTO7qLrXGqiowrfKhQc
- vpPyag/topgpCoThcAJzbO5ohT4+2jSckgeUIgJp21/tP/G40x6ZsVscBVqk5uIDBIvI
- ETUA==
-X-Gm-Message-State: ACrzQf0ebDwmW4RDLFa+XBsjLjbi0r4gQ2j+zqLPqZfDkQvkb8STNpLy
- OU/Npwg97/lDa3kwANgV6uLdY/2PpELUszHovglRR0lf7QKgLmUPHWZT8b7Am8JfiHyJVLUJV2V
- 28K7uBpiF2PYYLXkxtPy6W/kyigarbYs=
-X-Received: by 2002:a65:5242:0:b0:46e:9bac:178 with SMTP id
- q2-20020a655242000000b0046e9bac0178mr1843973pgp.300.1666255132540; 
- Thu, 20 Oct 2022 01:38:52 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM58QUuWN9o5HXn2Y+26rUwtqaLHZZaYlIEZZ96QIHk5gMtnBj8Gcmm75FC1PD4zXKlYmZH7BorLFBym4Px4SoA=
-X-Received: by 2002:a65:5242:0:b0:46e:9bac:178 with SMTP id
- q2-20020a655242000000b0046e9bac0178mr1843948pgp.300.1666255132293; Thu, 20
- Oct 2022 01:38:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1olR6A-0002Dk-Vr
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 04:40:21 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.129])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id B42742A7B8;
+ Thu, 20 Oct 2022 08:40:13 +0000 (UTC)
+Received: from kaod.org (37.59.142.105) by DAG8EX2.mxp5.local (172.16.2.72)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Thu, 20 Oct
+ 2022 10:40:12 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G006245e16ae-9484-43d9-ab42-311a1753d40f,
+ 1F689060A0B44BE6777CA4BD0FC13A24F8265309) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Thu, 20 Oct 2022 10:40:06 +0200
+From: Greg Kurz <groug@kaod.org>
+To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
+CC: <qemu-devel@nongnu.org>, Alex =?UTF-8?B?QmVubsOpZQ==?=
+ <alex.bennee@linaro.org>, Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 1/2] util/log: Derive thread id from getpid() on
+ hosts w/o gettid() syscall
+Message-ID: <20221020104006.5060cd02@bahia>
+In-Reply-To: <Y1AeglCfb6SHaf4N@redhat.com>
+References: <20221019151651.334334-1-groug@kaod.org>
+ <20221019151651.334334-2-groug@kaod.org>
+ <Y1AeglCfb6SHaf4N@redhat.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20221019125210.226291-1-eperezma@redhat.com>
- <CACGkMEv9EODLU5DdATMW4BEZ5TNTgaDt4Tw+DzXiQAKhFWXsgA@mail.gmail.com>
-In-Reply-To: <CACGkMEv9EODLU5DdATMW4BEZ5TNTgaDt4Tw+DzXiQAKhFWXsgA@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 20 Oct 2022 10:38:15 +0200
-Message-ID: <CAJaqyWf9BZqdfOKjDXeA3AtJQ2vZFaBPaf0UWi7RcHh-uwx7Tw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 0/8] Guest announce feature emulation using Shadow
- VirtQueue
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel@nongnu.org, Zhu Lingshan <lingshan.zhu@intel.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>,
- Stefano Garzarella <sgarzare@redhat.com>, 
- Si-Wei Liu <si-wei.liu@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Cindy Lu <lulu@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Eli Cohen <eli@mellanox.com>, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>, 
- Gautam Dawar <gdawar@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG8EX2.mxp5.local
+ (172.16.2.72)
+X-Ovh-Tracer-GUID: 4e29bc46-9537-4a1b-8600-fb2e1600c4d2
+X-Ovh-Tracer-Id: 679199120902298019
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeliedgtdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepueeuieejtdelleeutdfhteejffeiteffueevffeffeetvdeifeeujefgudegteeunecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeoghhrohhugheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegsvghrrhgrnhhgvgesrhgvughhrghtrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdgrlhgvgidrsggvnhhnvggvsehlihhnrghrohdrohhrghdprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhpsghonhiiihhnihesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehhedvpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=188.165.45.220; envelope-from=groug@kaod.org;
+ helo=5.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,86 +81,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 20, 2022 at 6:24 AM Jason Wang <jasowang@redhat.com> wrote:
->
-> On Wed, Oct 19, 2022 at 8:52 PM Eugenio P=C3=A9rez <eperezma@redhat.com> =
-wrote:
-> >
-> > A gratuitous ARP is recommended after a live migration to reduce the am=
-ount of
-> > time needed by the network links to be aware of the new location.
->
-> A question: I think we need to deal with the case when GUSET_ANNOUNCE
-> is not negotiated? E.d sending the gARP by ourselves via vhost-vDPA?
->
+On Wed, 19 Oct 2022 16:57:54 +0100
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
 
-That is possible and I totally agree to implement it on top of this
-series, but it complicates the code in two ways:
+> On Wed, Oct 19, 2022 at 05:16:50PM +0200, Greg Kurz wrote:
+> > A subsequent patch needs to be able to differentiate the main QEMU
+> > thread from other threads. An obvious way to do so is to compare
+> > log_thread_id() and getpid(), based on the fact that they are equal
+> > for the main thread on systems that have the gettid() syscall (e.g.
+> > linux).
+> >=20
+> > Adapt the fallback code for systems without gettid() to provide the
+> > same assumption.
+> >=20
+> > Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > ---
+> >  util/log.c | 7 ++++++-
+> >  1 file changed, 6 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/util/log.c b/util/log.c
+> > index d6eb0378c3a3..e1c2535cfcd2 100644
+> > --- a/util/log.c
+> > +++ b/util/log.c
+> > @@ -72,8 +72,13 @@ static int log_thread_id(void)
+> >  #elif defined(SYS_gettid)
+> >      return syscall(SYS_gettid);
+> >  #else
+> > +    static __thread int my_id =3D -1;
+> >      static int counter;
+> > -    return qatomic_fetch_inc(&counter);
+> > +
+> > +    if (my_id =3D=3D -1) {
+> > +        my_id =3D getpid() + qatomic_fetch_inc(&counter);
+> > +    }
+> > +    return my_id;
+>=20
+> This doesn't look safe for linux-user when we fork, but don't exec.
+>=20
 
-1. The startup will be slower and more complicated.
-We can only send the gARP from qemu using SVQ. At this point SVQ in
-dataplane is always enabled as long as cmdline x-svq is on, but in the
-final form it will not be the case, and dataplane will be passthrough.
+... which is a "dangerous" situation if the parent is already
+multi-threaded at fork() time. The child thread must only call
+async-signal-safe functions and...
 
-If we want to send gARP from qemu, this will imply to start the device
-all in SVQ, and then reset it to its final configuration.
 
-2. Qemu may not know the actual guest state
-For example, regarding the mac filtering qemu will simply allow all
-unicast if too many macs are configured in the device, not saving them
-individually.
+> The getpid() will change after the fork, but counter won't be
+> reset, so a thread in the parent could clash with a thread
+> in the forked child.
+>=20
 
-However, I think it is better than nothing for the guest that does not
-support GUEST_ANNOUNCE so, as said, I'm ok to implement it on top of
-this series for sure. But I think other features should have more
-priority, isn't it?
+... pthread_create() isn't one AFAIK. This case has undefined
+behavior.
 
-Thanks!
+Anyway, no matter what we do, even with a regular fork+exec pattern,
+log_thread_id() no longer guarantees unique values for all threads
+that could be running concurrently (unlike gettid() or counter++),
+e.g.=20
+- parent process with pid A and one extra thread
+  =3D> parent uses thread ids A and A+1
+- fork child process with pid B =3D=3D A+1
+- child execs
+  =3D> child uses thread id A+1
 
-> Thanks
->
-> > A hypervisor
-> > may not have the knowledge of the guest network configuration, and this=
- is
-> > especially true on passthrough devices, so its simpler to ask the guest=
- to
-> > do it.
-> >
-> > However, the device control part of this feature can be totally emulate=
-d by
-> > qemu and shadow virtqueue, not needing any special feature from the act=
-ual
-> > vdpa device.
-> >
-> > VIRTIO_NET_F_STATUS is also needed for the guest to access the status o=
-f
-> > virtio net config where announcement status bit is set. Emulating it as
-> > always active in case backend does not support it.
-> >
-> > v2:
-> > * Add VIRTIO_NET_F_STATUS emulation.
-> >
-> > Eugenio P=C3=A9rez (8):
-> >   vdpa: Delete duplicated vdpa_feature_bits entry
-> >   vdpa: Save emulated features list in vhost_vdpa
-> >   vhost_net: Emulate link state up if backend doesn't expose it
-> >   vdpa: Expose VIRTIO_NET_F_STATUS unconditionally
-> >   vdpa: Remove shadow CVQ command check
-> >   vdpa: handle VIRTIO_NET_CTRL_ANNOUNCE in
-> >     vhost_vdpa_net_handle_ctrl_avail
-> >   vhost_net: return VIRTIO_NET_S_ANNOUNCE is device model has it set
-> >   vdpa: Offer VIRTIO_NET_F_GUEST_ANNOUNCE feature if SVQ is enabled
-> >
-> >  include/hw/virtio/vhost-vdpa.h |  2 +
-> >  hw/net/vhost_net.c             | 35 +++++++++++++++-
-> >  hw/virtio/vhost-vdpa.c         |  8 ++--
-> >  net/vhost-vdpa.c               | 74 ++++++++++------------------------
-> >  4 files changed, 62 insertions(+), 57 deletions(-)
-> >
-> > --
-> > 2.31.1
-> >
-> >
->
+> I feel like if we want to check for the main thread, we should
+> be using pthread_self(), and compare result against the value
+> cached from main. Or cache in a __constructor__ function in
+> log.c to keep it isolated from main().
+>=20
 
+Hmm... pthread_self() is only guaranteed to be unique within
+a process. It doesn't look safe either to compare results
+of pthread_self() from different process contexts.
+
+>=20
+> With regards,
+> Daniel
+
+Thanks for bringing this corner case up ! It highlights that
+I should definitely go for another approach that doesn't
+require to check for the main thread at all.
+
+Cheers,
+
+--
+Greg
 
