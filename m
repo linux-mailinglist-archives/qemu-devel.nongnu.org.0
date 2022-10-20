@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0D0E6055E5
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 05:21:51 +0200 (CEST)
-Received: from localhost ([::1]:48920 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC8546055E4
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 05:21:49 +0200 (CEST)
+Received: from localhost ([::1]:35984 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olM7y-0001J8-Nt
-	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 23:21:50 -0400
-Received: from [::1] (port=60186 helo=lists1p.gnu.org)
+	id 1olM7w-00015d-Fz
+	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 23:21:48 -0400
+Received: from [::1] (port=60164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olM0g-00028D-Tw
+	id 1olM0g-00026p-H0
 	for lists+qemu-devel@lfdr.de; Wed, 19 Oct 2022 23:14:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56404)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olLu6-0003MO-Ns
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 23:07:30 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:33719)
+ id 1olLu8-0003O1-6x
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 23:07:33 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:33728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olLu3-0001p8-9X
- for qemu-devel@nongnu.org; Wed, 19 Oct 2022 23:07:29 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id 10so19126758pli.0
- for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 20:07:26 -0700 (PDT)
+ id 1olLu6-0001na-Fv
+ for qemu-devel@nongnu.org; Wed, 19 Oct 2022 23:07:31 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ z5-20020a17090a8b8500b00210a3a2364fso1488983pjn.0
+ for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 20:07:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6bcy/cgrj5zD+rnRzRv+8Z9hvfKTyl1svf3Chx5N2Jw=;
- b=dWyDFVZPD6CjsRJFiEMto8mE2eW/vqKPQPlkqe8MXzMXcyDCI4RWnXM+1ytBjlfnjM
- Awn4Pbw/Na1uMfy8dXoVYb+vSo3cLWTey5T0bj8w9rRgGs8ukvCsNXXB7AEQX68dCsGZ
- OlD2xlr2AZwo9mfcdtGM64WifYKWuUQsC+lZBYahxko0bkXYDCSdw1s1AsWIiwvICoHD
- XXizs9ZESiO1F46tb16IS/z9KWIai6Fz5/SVAgYt7qLxTp44/fH2wBcO8g/n+pT5kHUO
- 3OWJJQUGgQxxbaKaoilk9joT15OlJF/ahLfyUfm8yBSNvSZ0udb/h4h8wWwiLSSUemyk
- K38Q==
+ bh=GijJJFcAlzJoiRg26un1mdsUkYxL5cYNKs3g8HCD2p0=;
+ b=ApXmen02pgxxzrjsNc/Lg4IypxMB5MrWGx0O9qRTsTFs7F93L0sEg5j4bDJ1NCNwa5
+ BanR2wv0WsGxL5rNF4DhU3KYsFLr/k+M8SezE1f0gt0gylZPUS4jrp+ELlMtuUfimXW/
+ M7ehY5EHPA6IlH44cPAYhHPHLQQcmFR3Apijd0CxwgAQC+OgLNIttYDg2jfyELr+FzK3
+ IJFUK6Wuniu4ZHkMkNuZb/adikZYuKcF/yFY7VA2C8TmljufSK2PKPBirQzqHKgd6B0h
+ FVfJdg5hd/vbSorBeNwwO42wM+bPmUmoa9yBelZwyKiN0fchfdACQFHxftCoxRv+FTnk
+ lO+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=6bcy/cgrj5zD+rnRzRv+8Z9hvfKTyl1svf3Chx5N2Jw=;
- b=VmBcZBkiaXP9pt0xXFYaZLW0YoeShrAFrSmyDPn/3Sp+pvQ93SpqG0cy01OrkLUCeN
- jVAdqCZhTHAaFFV70dhrZZtSA1AF5D1jP0m3IuO7k965K3rTXg6+wqA1+6zCRL+T3JVA
- m+OElLcgYfpayw0Yb2mCAqkZ3OAw7VkK0XZ7VpuxnosLt6x8Yyje95SW2orBMH2b3HAr
- IuVoYHP6RQ/jdCMSxYEtGl0UVzh5DLPVU7yHFbC53sa6ZIYpdzameOi7hsGWNiFogHET
- CH2X2978Q0OI1sbN1d1ju/ECH7s0kuCUXWk06Ce6kuo7y5gnRwZjJaiK6XZ+gIcCx2PQ
- K/bw==
-X-Gm-Message-State: ACrzQf1kkFEDB9XMO+Y6sDACnc8q5czNcgM5J8FmUTqJvBQ2PreKpvT+
- QLJF8xeHilB3pLAkZv+NydYL+0JzMlvZ91td
-X-Google-Smtp-Source: AMsMyM5MvJBoSz0twnoHLdHR3RwFYYpQrVsUdVz8h3MnnPYjujVyC2ZUSu/k3CQJ/jHBNkCXXl8VGA==
-X-Received: by 2002:a17:902:ec8a:b0:185:5462:261a with SMTP id
- x10-20020a170902ec8a00b001855462261amr11759982plg.160.1666235245864; 
- Wed, 19 Oct 2022 20:07:25 -0700 (PDT)
+ bh=GijJJFcAlzJoiRg26un1mdsUkYxL5cYNKs3g8HCD2p0=;
+ b=HQyjcp5Iesj3K5GRlrahn8p9r0Uw8IX53XOOIKRlIxdmTJXEfBc005aivOlvLq27iK
+ F6XX+/1N/LLnkAFvLalWEeG/f4CYgH9JawYpnrwcjt+7CboOEllu8o5P/gFbTTjCQLHE
+ nFKP/xtZ7slVTejoZvJxpBH01pawRtSARxhnv7adITFZY51N85486TJIBjEOEIXY20wj
+ 28b12+zF8silK1jAdTO2YOtwmyzkdaOIVm02ME7AHO7y91JqbRYKbrCz69gxWjTJttpY
+ wR2NrVBYAttUzlEtSzW5gOvcm6Y/7am/C9vatjfO0mpBOmm/GLNudXYG2atQl4oKK84C
+ rqOg==
+X-Gm-Message-State: ACrzQf2j7CojtxW0wGRHFZfIRSG3h0Sm2Wb8BZMRzCNY1PVk+GkedGDs
+ 7hFHqHEt7qQmSZeoJ6FPBBQ6zzS+L1ShiBZR
+X-Google-Smtp-Source: AMsMyM4ZMpyXTC84ukOAoU1DKoTzytZWlFkeUHkltR0wYpF3fc67xI9ETljn9H/ReyePr2P9uAFROg==
+X-Received: by 2002:a17:902:d2cf:b0:185:4bbd:1970 with SMTP id
+ n15-20020a170902d2cf00b001854bbd1970mr11904300plc.88.1666235249573; 
+ Wed, 19 Oct 2022 20:07:29 -0700 (PDT)
 Received: from localhost.localdomain ([149.135.10.35])
  by smtp.gmail.com with ESMTPSA id
- m9-20020a63ed49000000b0043c7996f7f0sm10657647pgk.58.2022.10.19.20.07.22
+ m9-20020a63ed49000000b0043c7996f7f0sm10657647pgk.58.2022.10.19.20.07.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Oct 2022 20:07:25 -0700 (PDT)
+ Wed, 19 Oct 2022 20:07:28 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v8 5/9] target/arm: Remove gen_exception_internal_insn pc
- argument
-Date: Thu, 20 Oct 2022 13:06:37 +1000
-Message-Id: <20221020030641.2066807-6-richard.henderson@linaro.org>
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v8 6/9] target/arm: Change gen_jmp* to work on displacements
+Date: Thu, 20 Oct 2022 13:06:38 +1000
+Message-Id: <20221020030641.2066807-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221020030641.2066807-1-richard.henderson@linaro.org>
 References: <20221020030641.2066807-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,84 +98,148 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 In preparation for TARGET_TB_PCREL, reduce reliance on absolute values.
-Since we always pass dc->pc_curr, fold the arithmetic to zero displacement.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-a64.c |  6 +++---
- target/arm/translate.c     | 10 +++++-----
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ target/arm/translate.c | 37 +++++++++++++++++++++----------------
+ 1 file changed, 21 insertions(+), 16 deletions(-)
 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 49380e1cfe..623f7e2e96 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -332,9 +332,9 @@ static void gen_exception_internal(int excp)
-     gen_helper_exception_internal(cpu_env, tcg_constant_i32(excp));
- }
- 
--static void gen_exception_internal_insn(DisasContext *s, uint64_t pc, int excp)
-+static void gen_exception_internal_insn(DisasContext *s, int excp)
- {
--    gen_a64_update_pc(s, pc - s->pc_curr);
-+    gen_a64_update_pc(s, 0);
-     gen_exception_internal(excp);
-     s->base.is_jmp = DISAS_NORETURN;
- }
-@@ -2211,7 +2211,7 @@ static void disas_exc(DisasContext *s, uint32_t insn)
-          * Secondly, "HLT 0xf000" is the A64 semihosting syscall instruction.
-          */
-         if (semihosting_enabled(s->current_el == 0) && imm16 == 0xf000) {
--            gen_exception_internal_insn(s, s->pc_curr, EXCP_SEMIHOST);
-+            gen_exception_internal_insn(s, EXCP_SEMIHOST);
-         } else {
-             unallocated_encoding(s);
-         }
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 350f991649..9104ab8232 100644
+index 9104ab8232..ca128edab7 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -1074,10 +1074,10 @@ static inline void gen_smc(DisasContext *s)
-     s->base.is_jmp = DISAS_SMC;
+@@ -266,6 +266,12 @@ static uint32_t read_pc(DisasContext *s)
+     return s->pc_curr + (s->thumb ? 4 : 8);
  }
  
--static void gen_exception_internal_insn(DisasContext *s, uint32_t pc, int excp)
-+static void gen_exception_internal_insn(DisasContext *s, int excp)
++/* The pc_curr difference for an architectural jump. */
++static target_long jmp_diff(DisasContext *s, target_long diff)
++{
++    return diff + (s->thumb ? 4 : 8);
++}
++
+ /* Set a variable to the value of a CPU register.  */
+ void load_reg_var(DisasContext *s, TCGv_i32 var, int reg)
  {
-     gen_set_condexec(s);
--    gen_update_pc(s, pc - s->pc_curr);
-+    gen_update_pc(s, 0);
-     gen_exception_internal(excp);
-     s->base.is_jmp = DISAS_NORETURN;
+@@ -2592,7 +2598,7 @@ static void gen_goto_ptr(void)
+  * cpu_loop_exec. Any live exit_requests will be processed as we
+  * enter the next TB.
+  */
+-static void gen_goto_tb(DisasContext *s, int n, int diff)
++static void gen_goto_tb(DisasContext *s, int n, target_long diff)
+ {
+     target_ulong dest = s->pc_curr + diff;
+ 
+@@ -2608,10 +2614,8 @@ static void gen_goto_tb(DisasContext *s, int n, int diff)
  }
-@@ -1169,7 +1169,7 @@ static inline void gen_hlt(DisasContext *s, int imm)
-      */
-     if (semihosting_enabled(s->current_el != 0) &&
-         (imm == (s->thumb ? 0x3c : 0xf000))) {
--        gen_exception_internal_insn(s, s->pc_curr, EXCP_SEMIHOST);
-+        gen_exception_internal_insn(s, EXCP_SEMIHOST);
-         return;
+ 
+ /* Jump, specifying which TB number to use if we gen_goto_tb() */
+-static inline void gen_jmp_tb(DisasContext *s, uint32_t dest, int tbno)
++static void gen_jmp_tb(DisasContext *s, target_long diff, int tbno)
+ {
+-    int diff = dest - s->pc_curr;
+-
+     if (unlikely(s->ss_active)) {
+         /* An indirect jump so that we still trigger the debug exception.  */
+         gen_update_pc(s, diff);
+@@ -2653,9 +2657,9 @@ static inline void gen_jmp_tb(DisasContext *s, uint32_t dest, int tbno)
+     }
+ }
+ 
+-static inline void gen_jmp(DisasContext *s, uint32_t dest)
++static inline void gen_jmp(DisasContext *s, target_long diff)
+ {
+-    gen_jmp_tb(s, dest, 0);
++    gen_jmp_tb(s, diff, 0);
+ }
+ 
+ static inline void gen_mulxy(TCGv_i32 t0, TCGv_i32 t1, int x, int y)
+@@ -8322,7 +8326,7 @@ static bool trans_CLRM(DisasContext *s, arg_CLRM *a)
+ 
+ static bool trans_B(DisasContext *s, arg_i *a)
+ {
+-    gen_jmp(s, read_pc(s) + a->imm);
++    gen_jmp(s, jmp_diff(s, a->imm));
+     return true;
+ }
+ 
+@@ -8337,14 +8341,14 @@ static bool trans_B_cond_thumb(DisasContext *s, arg_ci *a)
+         return true;
+     }
+     arm_skip_unless(s, a->cond);
+-    gen_jmp(s, read_pc(s) + a->imm);
++    gen_jmp(s, jmp_diff(s, a->imm));
+     return true;
+ }
+ 
+ static bool trans_BL(DisasContext *s, arg_i *a)
+ {
+     tcg_gen_movi_i32(cpu_R[14], s->base.pc_next | s->thumb);
+-    gen_jmp(s, read_pc(s) + a->imm);
++    gen_jmp(s, jmp_diff(s, a->imm));
+     return true;
+ }
+ 
+@@ -8364,7 +8368,8 @@ static bool trans_BLX_i(DisasContext *s, arg_BLX_i *a)
+     }
+     tcg_gen_movi_i32(cpu_R[14], s->base.pc_next | s->thumb);
+     store_cpu_field_constant(!s->thumb, thumb);
+-    gen_jmp(s, (read_pc(s) & ~3) + a->imm);
++    /* This jump is computed from an aligned PC: subtract off the low bits. */
++    gen_jmp(s, jmp_diff(s, a->imm - (s->pc_curr & 3)));
+     return true;
+ }
+ 
+@@ -8525,10 +8530,10 @@ static bool trans_WLS(DisasContext *s, arg_WLS *a)
+          * when we take this upcoming exit from this TB, so gen_jmp_tb() is OK.
+          */
+     }
+-    gen_jmp_tb(s, s->base.pc_next, 1);
++    gen_jmp_tb(s, curr_insn_len(s), 1);
+ 
+     gen_set_label(nextlabel);
+-    gen_jmp(s, read_pc(s) + a->imm);
++    gen_jmp(s, jmp_diff(s, a->imm));
+     return true;
+ }
+ 
+@@ -8608,7 +8613,7 @@ static bool trans_LE(DisasContext *s, arg_LE *a)
+ 
+     if (a->f) {
+         /* Loop-forever: just jump back to the loop start */
+-        gen_jmp(s, read_pc(s) - a->imm);
++        gen_jmp(s, jmp_diff(s, -a->imm));
+         return true;
      }
  
-@@ -6556,7 +6556,7 @@ static bool trans_BKPT(DisasContext *s, arg_BKPT *a)
-     if (arm_dc_feature(s, ARM_FEATURE_M) &&
-         semihosting_enabled(s->current_el == 0) &&
-         (a->imm == 0xab)) {
--        gen_exception_internal_insn(s, s->pc_curr, EXCP_SEMIHOST);
-+        gen_exception_internal_insn(s, EXCP_SEMIHOST);
-     } else {
-         gen_exception_bkpt_insn(s, syn_aa32_bkpt(a->imm, false));
+@@ -8639,7 +8644,7 @@ static bool trans_LE(DisasContext *s, arg_LE *a)
+         tcg_temp_free_i32(decr);
      }
-@@ -8762,7 +8762,7 @@ static bool trans_SVC(DisasContext *s, arg_SVC *a)
-     if (!arm_dc_feature(s, ARM_FEATURE_M) &&
-         semihosting_enabled(s->current_el == 0) &&
-         (a->imm == semihost_imm)) {
--        gen_exception_internal_insn(s, s->pc_curr, EXCP_SEMIHOST);
-+        gen_exception_internal_insn(s, EXCP_SEMIHOST);
-     } else {
-         gen_update_pc(s, curr_insn_len(s));
-         s->svc_imm = a->imm;
+     /* Jump back to the loop start */
+-    gen_jmp(s, read_pc(s) - a->imm);
++    gen_jmp(s, jmp_diff(s, -a->imm));
+ 
+     gen_set_label(loopend);
+     if (a->tp) {
+@@ -8647,7 +8652,7 @@ static bool trans_LE(DisasContext *s, arg_LE *a)
+         store_cpu_field(tcg_constant_i32(4), v7m.ltpsize);
+     }
+     /* End TB, continuing to following insn */
+-    gen_jmp_tb(s, s->base.pc_next, 1);
++    gen_jmp_tb(s, curr_insn_len(s), 1);
+     return true;
+ }
+ 
+@@ -8746,7 +8751,7 @@ static bool trans_CBZ(DisasContext *s, arg_CBZ *a)
+     tcg_gen_brcondi_i32(a->nz ? TCG_COND_EQ : TCG_COND_NE,
+                         tmp, 0, s->condlabel);
+     tcg_temp_free_i32(tmp);
+-    gen_jmp(s, read_pc(s) + a->imm);
++    gen_jmp(s, jmp_diff(s, a->imm));
+     return true;
+ }
+ 
 -- 
 2.34.1
 
