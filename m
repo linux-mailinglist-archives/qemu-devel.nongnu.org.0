@@ -2,89 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BE5D60660F
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 18:43:54 +0200 (CEST)
-Received: from localhost ([::1]:51788 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BDDA6065EE
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 18:37:21 +0200 (CEST)
+Received: from localhost ([::1]:46584 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olYe1-0004G0-3z
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:43:46 -0400
+	id 1olYXi-0005VP-GN
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:37:16 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olYZ0-0007Bt-7M
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:38:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39122)
+	id 1olYAh-0001uT-UW
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:13:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olXoF-0002Mv-H9
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 11:50:19 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:43675)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olXoB-0002dn-Vn
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 11:50:15 -0400
-Received: by mail-wr1-x433.google.com with SMTP id n12so35055043wrp.10
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 08:50:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=hSb89y8AIrW7txLZ6E3QwVxP6XmQaJdjAGjboU2uRoI=;
- b=drr/RGgEd6vtb17sD6706GeiU8EaJF3OEcmzHx9f+mdp0L8sGirYpz+cqRbzZa4Xj8
- X3FlxNfBwqvQNt+JnukD8HHBvX4Yw0ymYjy91z6zOrvkW/PiZojVBwQp0zvAdxa43kyR
- kWp144F6lM3Ti56xFOoiVkdXGIDYmGa3o3wau3i6StiQj/xZ1PT2PXNncqTTY/cbzjti
- 9hrhAbjIo6zh90/55D+UBLNZfqdP2SEAs5it1s3NwO+1GrfpUF/hHWFFnVXsNMfbe5Kw
- P0kK8KzMrk/37MDpuJje7dYXbPCpoUAoBnAijcIVOTjCASdIB+KLo6ccA6JdLVpdUDvj
- lIdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hSb89y8AIrW7txLZ6E3QwVxP6XmQaJdjAGjboU2uRoI=;
- b=5oJM9mWb3hs6sEe6PnEabdkdGC9i4NnEOXSz847CVXj5Gnc4x1nBluRz4fkgEwX+G1
- 4v3Kn3O/6zOMw2HbutX+dpsO944T/WIVeJVdJjhKLT2iEJnLBshn9MwdAUB3GSLaWJTO
- 3JofM92EszMgMJPRetQS0BB2qMnNrCJDEQjwM5rkszg1sNyYEM4Dp/bUbufUxrz9N+O3
- KLh3UUZuGmnoREBSrTNWcyZNHefssQy54KGoBBYZLHBtM7CEEFSbLJjH3WG3QqssrHla
- 5djg71VYR5/lon6x7Jx79VrO8MqPji3ykk7cQq3I4pdS52ps2xBsVQYj5iCTIJX/mZc4
- Ah8w==
-X-Gm-Message-State: ACrzQf3j6VeZvOngFFQ2eMcVTYEbLJNvwXDtPpI8oezgakNa95Bl5VHs
- F02HkqC2chyJY5htaeZ1UBzeWiDghdQbglpD0mg=
-X-Google-Smtp-Source: AMsMyM7LEV/EdqdNFXl7Ow6LoXLWK3Y7C5OBzOwUt6M/rLuGL4Y9BmlS3dU5XHpouiFO9YUv3HAzFA==
-X-Received: by 2002:a05:6000:168f:b0:232:bd06:d5c4 with SMTP id
- y15-20020a056000168f00b00232bd06d5c4mr8934548wrd.122.1666281010294; 
- Thu, 20 Oct 2022 08:50:10 -0700 (PDT)
-Received: from [10.50.0.10]
- (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
- by smtp.gmail.com with ESMTPSA id
- l25-20020a1ced19000000b003c6cdbface4sm12318wmh.11.2022.10.20.08.50.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Oct 2022 08:50:09 -0700 (PDT)
-Message-ID: <4c8367a4-019a-e3c6-36ba-47ff69c3288f@linaro.org>
-Date: Thu, 20 Oct 2022 17:50:07 +0200
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1olXrS-0006Q0-Iw
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 11:53:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49719)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1olXrC-00065J-Bl
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 11:53:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666281194;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=xePMAbB6TuUMKDZBvP5YKkyZHr0BKWOTXCcOOq0zH+g=;
+ b=FhbUuVYq7MYhuFhGUshTjnitwcjZWIYKY6QhaDu1pKagZ6oofcXVdkrLn/gVFK5jz52Le7
+ mfwpVQkk7V03O2YhQm4Jx6lVuxCrhkdP3BH/WlfY9iR+klk+ExpJRqAQhKItxp3lOqRYxF
+ QEOhh/2VBY65B6g+vjfguR4s38pDCLU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-214--m6FXL6eNMe8geXhiZ4hHQ-1; Thu, 20 Oct 2022 11:53:11 -0400
+X-MC-Unique: -m6FXL6eNMe8geXhiZ4hHQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DB36A1C08976;
+ Thu, 20 Oct 2022 15:53:10 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.192.230])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9DBA240CA41E;
+ Thu, 20 Oct 2022 15:52:57 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Eli Cohen <eli@mellanox.com>, Stefano Garzarella <sgarzare@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Si-Wei Liu <si-wei.liu@oracle.com>
+Subject: [PATCH 0/4] Shadow VirtQueue event index support
+Date: Thu, 20 Oct 2022 17:52:47 +0200
+Message-Id: <20221020155251.398735-1-eperezma@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.3.2
-Subject: Re: [PATCH v3 21/26] tests/tcg: re-enable linux-test for sh4
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
- aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
- crosa@redhat.com, Yoshinori Sato <ysato@users.sourceforge.jp>
-References: <20221020115209.1761864-1-alex.bennee@linaro.org>
- <20221020115209.1761864-22-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221020115209.1761864-22-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,17 +87,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/10/22 13:52, Alex Bennée wrote:
-> This test was marked as broken due to bug #704 which was fixed by
-> aee14c77f4 (linux-user: Rewrite do_getdents, do_getdents64). Local
-> testing shows this is solid now so lets re-enable the test.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-> ---
->   tests/tcg/sh4/Makefile.target | 6 ------
->   1 file changed, 6 deletions(-)
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Event idx helps to reduce the number of notifications between the device=0D
+and the driver. It allows them to specify an index on the circular=0D
+descriptors rings where to issue the notification, instead of a single=0D
+binary indicator.=0D
+=0D
+Adding support for SVQ.=0D
+=0D
+These patches are sent on top of [1] series, so trivial conflicts could ari=
+se=0D
+if it is applied directly on master. Future versions can be not based on=0D
+it is more convenient.=0D
+=0D
+[1] https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg03280.html=
+=0D
+=0D
+Eugenio P=C3=A9rez (4):=0D
+  vhost: allocate event_idx fields on vring=0D
+  vhost: toggle device callbacks using used event idx=0D
+  vhost: use avail event idx on vhost_svq_kick=0D
+  vhost: Accept event idx flag=0D
+=0D
+ hw/virtio/vhost-shadow-virtqueue.c | 39 ++++++++++++++++++++++++------=0D
+ 1 file changed, 31 insertions(+), 8 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
 
