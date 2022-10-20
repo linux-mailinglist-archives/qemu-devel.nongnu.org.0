@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 590CD6068D9
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 21:27:48 +0200 (CEST)
-Received: from localhost ([::1]:51668 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E0860684A
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 20:38:34 +0200 (CEST)
+Received: from localhost ([::1]:60530 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olZKe-0006Xq-O4
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:27:48 -0400
+	id 1olZLD-00011C-PI
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:28:23 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olZKe-0006L9-Go
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:27:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51266)
+	id 1olZL2-0001qn-6Z
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:28:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1olZKK-0003vb-Qh
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 13:27:31 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:36658)
+ id 1olZKp-0007y9-D8
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 13:27:59 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:42509)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1olZKJ-0002Ty-2B
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 13:27:28 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id j7so106618wrr.3
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 10:27:26 -0700 (PDT)
+ id 1olZKk-0002Xf-M8
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 13:27:59 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ o20-20020a05600c4fd400b003b4a516c479so173716wmq.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 10:27:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QvY7y4QIKa2j83Y+WtaAkWoGgtaH6BVVloarBT0N0vY=;
- b=zV9GzrQXrZDl8a9CdvGxyTNbKkJdPR/Z25oJNLmhtxzq5LaQXOqGrM3XV/opGqKxOA
- ubKDTe3OYYa5D0YQmU/jHOQx9redbEiEJDDiZ0vjvnd8civiXQ/3ofIx5obxfEZIo7OC
- aOsfSnP/kG2UM42PxIc5HDgDyLklYISK5v3cFvpGoKqDE9h9CP0Xb26EAUV9wqKaA0+O
- M2JzmABPPA7TJT+BqyqhsgZmpPy6Ab7OwUYuyAfNH4m6JcJ46kRLGV3vyVYNt/x4e82k
- oN47SIg3+rVCtkhJxx2I8jbSgQVWEnNBG7sxOwwCQfT8EkaOsPOpGOWGaOvHY/GFJqbc
- 3WGA==
+ bh=VDStZdp/vKgP6jgi+LdTNId2988k4X5Xq0rhhgxHNI8=;
+ b=Rj5szBOLS58V+wgpuNsx8XmR/JQnPu8uyaJ20nwI0bYphzZrsnSDJwYVFqFF4ey26V
+ GyCxJvg1NxwGZFV+J1fM3kwH5I1zqjDGs6+HelF5PQ+BdzyJK9TPRZfI4uZUZGFhvHtR
+ 6Q0ePh+nDccYU7NLeqOnCx875MxqXOuEscYRfZ2VoQ1tnablJgmID+o8tpI8Bc/DFm7B
+ GRISJPI8KO/Kfx7rnN69eTeglwEMQsatQ3KRInOzPnd45PMLAghVEct0IWn0YkQc6+Y5
+ wxEvJ+6jXyQOtlFO2LFsxeN1pDBo3Bn1sOflUa18WaQrM2xNWUn4MVtt6IPal8xR9MnS
+ T/aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=QvY7y4QIKa2j83Y+WtaAkWoGgtaH6BVVloarBT0N0vY=;
- b=DzDeomGFE4W4VcbpMojQIA3+6ZXVXfV/spWS9V/uuUD+fyVcmmNqn+QK2+Xzd3C147
- 3fIM9DiEt0xi07ogcWPs5F8eRb0S0IfTTmElB9hng2x+R+QzxH+1wJIljiL4NdsGWOmt
- bqHGHma7Gj3+aup6DiOOQ5lFgRurgsG/przhTfvyV2/8HlSodEZ0/YmTyB/CPbUHjkzd
- uJcCepZrc0O98HkjCS4+F0zncX0NisCzsaejlyh1cUSKk4rUcWluxlML420bQ72KMAsu
- QIRI+iktjsTC+SI4t8NVP8Jm2nLLztZasdMVpuRHk/SV71cxz96gfoef4CSgfXF1M+iw
- gGIg==
-X-Gm-Message-State: ACrzQf088A0K0fJePZuHCGlK8vmCV8ozND0OPNgK+KIk8DGwV4vhPIe5
- UMyNT3UtK2ZjSKCi2beeDkwwuw==
-X-Google-Smtp-Source: AMsMyM5xO+ziIX0my/SPmypmrpvZdsArbK5HT2FENPNn+oz1ZzJyHymuvO3RY027xlcG21w3j5AIsg==
-X-Received: by 2002:a5d:5983:0:b0:22e:bb12:7041 with SMTP id
- n3-20020a5d5983000000b0022ebb127041mr9520903wri.645.1666286844945; 
- Thu, 20 Oct 2022 10:27:24 -0700 (PDT)
+ bh=VDStZdp/vKgP6jgi+LdTNId2988k4X5Xq0rhhgxHNI8=;
+ b=UOJzF/WNcnMRJgfmvHT6JwnzFR4irciAlqQQeQwnNNwIwClSb7izXq1a+AYTjzchDy
+ LvbHgZzlM1XQ/Mqt9ivvGZJAOnpl6HUUCvKcdWzBiHL2oqovUkfgDgKG8wfxs53SKJbF
+ 9PlXc7WXDx2W6OTaEkbloR1Ff7uoF+/EsDwmXHXGahrGY55B3Ay+lNSHzK5MRpw7WNjR
+ 20Z2ITDQ8wgHubYQ4mv2uLugAk5KQzmyY9pzmr/a8IL45KQpDqLKCHOkzT3y8MafY2LF
+ 6Pdg5kkdUqkPr10jGkbEnJBPWvB4QyvvgW3zPJAgTnSFnDdLDCGLygoXcBkElxcdAfUX
+ X2Yg==
+X-Gm-Message-State: ACrzQf11KiMLrYjgGOSpQTaqbgbANEVlvjcMLYquX/+Ezx018JyQZrK8
+ yWsenpyNvlaFM3z0i5RYk4mEWQ==
+X-Google-Smtp-Source: AMsMyM4rThkK5+3kBuGvjc+CXGCYHHJFGTzH2s0BLcerDYslZWZ8y1lpEjRk+NIkGpblL3/NuwfXLA==
+X-Received: by 2002:a1c:4485:0:b0:3c6:75b3:f444 with SMTP id
+ r127-20020a1c4485000000b003c675b3f444mr10355420wma.74.1666286873277; 
+ Thu, 20 Oct 2022 10:27:53 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- c7-20020adfef47000000b0022cd539ce5esm12197527wrp.50.2022.10.20.10.27.24
+ u17-20020a5d4351000000b00231910fa71asm17007266wrr.57.2022.10.20.10.27.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Oct 2022 10:27:24 -0700 (PDT)
+ Thu, 20 Oct 2022 10:27:52 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F1B3F1FFB7;
- Thu, 20 Oct 2022 18:27:23 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 79B4F1FFB7;
+ Thu, 20 Oct 2022 18:27:52 +0100 (BST)
 References: <20221020123506.26363-1-ani@anisinha.ca>
- <20221020123506.26363-2-ani@anisinha.ca>
+ <20221020123506.26363-4-ani@anisinha.ca>
 User-agent: mu4e 1.9.1; emacs 28.2.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Ani Sinha <ani@anisinha.ca>
@@ -75,23 +76,23 @@ Cc: Cleber Rosa <crosa@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
  <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>, Thomas Huth
  <thuth@redhat.com>, Igor Mammedov <imammedo@redhat.com>, Michael Tsirkin
  <mst@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v6 01/10] acpi/tests/avocado/bits: initial commit of
- test scripts that are run by biosbits
-Date: Thu, 20 Oct 2022 18:27:18 +0100
-In-reply-to: <20221020123506.26363-2-ani@anisinha.ca>
-Message-ID: <87edv28kxw.fsf@linaro.org>
+Subject: Re: [PATCH v6 03/10] acpi/tests/avocado/bits: disable acpi PSS
+ tests that are failing in biosbits
+Date: Thu, 20 Oct 2022 18:27:41 +0100
+In-reply-to: <20221020123506.26363-4-ani@anisinha.ca>
+Message-ID: <87a65q8kx3.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,33 +111,24 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Ani Sinha <ani@anisinha.ca> writes:
 
-> This is initial commit of cpuid, acpi and smbios python test scripts for
-> biosbits to execute. No change has been made to them from the original co=
-de
-> written by the biosbits author Josh Triplett. They are required to be ins=
-talled
-> into the bits iso file and then run from within the virtual machine boote=
-d off
-> with biosbits iso.
+> PSS tests in acpi test suite seems to be failing in biosbits. This is bec=
+ause
+> the test is unable to find PSS support in QEMU bios. Let us disable
+> them for now so that make check does not fail. We can fix the tests and
+> re-enable them later.
 >
-> The test scripts have a ".py2" extension in order to prevent avocado from
-> loading them. They are written in python 2.7 and are run from within bios=
- bits.
-> There is no need for avocado to try to load them and call out errors on p=
-ython3
-> specific syntaxes.
+> Example failure:
 >
-> The original location of these tests are here:
-> https://github.com/biosbits/bits/blob/master/python/testacpi.py
-> https://github.com/biosbits/bits/blob/master/python/smbios.py
-> https://github.com/biosbits/bits/blob/master/python/testcpuid.py
->
-> For QEMU, we maintain a fork of the above repo here with numerious fixes:
-> https://gitlab.com/qemu-project/biosbits-bits
->
-> The acpi test for example is maintained here in the fork:
-> https://gitlab.com/qemu-project/biosbits-bits/-/raw/master/python/testacp=
-i.py
+> ---- ACPI _PSS (Pstate) table conformance tests ----
+> [assert] _PSS must exist FAIL
+>   \_SB_.CPUS.C000
+>   No _PSS exists
+> Summary: 1 passed, 1 failed
+> ---- ACPI _PSS (Pstate) runtime tests ----
+> [assert] _PSS must exist FAIL
+>   \_SB_.CPUS.C000
+>   No _PSS exists
+> Summary: 0 passed, 1 failed
 >
 > Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 > Cc: Paolo Bonzini <pbonzini@redhat.com>
