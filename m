@@ -2,95 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF02F6068C4
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 21:19:24 +0200 (CEST)
-Received: from localhost ([::1] helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 691F5606985
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 22:28:28 +0200 (CEST)
+Received: from localhost ([::1]:57216 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olb4d-0001MV-DF
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 15:19:23 -0400
+	id 1olZHd-0002xw-Ga
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:24:41 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olayp-0007P3-Ja
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 15:13:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10])
+	id 1olYtp-0001wi-2l
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:00:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1olayh-0007Ng-BO
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 15:13:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1olXrS-0006Pz-Mk
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 11:53:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20811)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1olaye-0006Ba-F9
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 15:13:14 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1olXrD-00065Q-7q
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 11:53:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666293191;
+ s=mimecast20190719; t=1666281197;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=roFI3iULXOGumI4q7r4eT4Mr0CDAsSrGZD3siRdEgH8=;
- b=btVmklVL1bTh0X7eaz2ExZlvWkZImSRgllglyGvimz55+TQMeHUDfnhLh20rLWm0SwajQG
- ghvNgy9Dzrhhmmsmew9dYhcNG/uFQSVMjPAvR2FwJyQ3hHMJ0/X/F1E60mSl1t9bCqGNz0
- STpfUTLotI2R77I3ZH9lyBxnIM6gnts=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-132-Utqz2uKvPYe6QTvEvUVmHg-1; Thu, 20 Oct 2022 15:13:07 -0400
-X-MC-Unique: Utqz2uKvPYe6QTvEvUVmHg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- g4-20020adfbc84000000b0022fc417f87cso99405wrh.12
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 12:13:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=roFI3iULXOGumI4q7r4eT4Mr0CDAsSrGZD3siRdEgH8=;
- b=ydqlJo2mKpQd8HqKYgPanoY0MKYQvwEWthtckQM0sEBZhTnvPgs9a/BHHLg9sCjgX9
- WS16cDKkK3Q8dokJd1/EftB2AQYd1hO7imVd1AFZJIZDyfWs+j3rAGI1hPnwsJnOoROS
- 6TjCEffqYuKcbI8hh/4+7MwzoiMUXOeMYuzi+SSucHpF5fARGc7sEpGl20YMdS12Qg6M
- jMQhjetLyM6P4HpF3ElYYgE2Hae6ODrRC478agnLmLWnBt1lB6Zu7Tr9amYVkwMdHtKg
- 2jUbmYHQJP8rknNeDpiYcf6FAPVic2+LIQiwW8RGqGzrso+B2ivPRLdl7Tio2Vx6DYaa
- Mm6w==
-X-Gm-Message-State: ACrzQf2zmlSCVkghL0Lp6YnX4K/yo2XzKOa8AOj+cgDz75kADKvqDzwx
- Ytrem7QMSCdUCydR3rPwtPtJHacWrZyc+xgUlpqTLVPmeKSiWI2qQMb7LfjkZtFNKoDZ7k6FX5w
- uGosqQhKE5JKAAeE=
-X-Received: by 2002:adf:d23a:0:b0:236:467e:a3bc with SMTP id
- k26-20020adfd23a000000b00236467ea3bcmr2632493wrh.542.1666293186441; 
- Thu, 20 Oct 2022 12:13:06 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM776T+LFVwcKF9C3v9ZUND8hyLnzNTsCDbsXzwRSlnMXFtmmw+ib8FE5lMuHI21Tjk8w4W95g==
-X-Received: by 2002:adf:d23a:0:b0:236:467e:a3bc with SMTP id
- k26-20020adfd23a000000b00236467ea3bcmr2632473wrh.542.1666293186120; 
- Thu, 20 Oct 2022 12:13:06 -0700 (PDT)
-Received: from redhat.com ([2.54.191.184]) by smtp.gmail.com with ESMTPSA id
- h10-20020a5d504a000000b0022a9246c853sm17116066wrt.41.2022.10.20.12.13.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Oct 2022 12:13:05 -0700 (PDT)
-Date: Thu, 20 Oct 2022 15:13:01 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Cc: Cleber Rosa <crosa@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Qemu Devel <qemu-devel@nongnu.org>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Maydell Peter <peter.maydell@linaro.org>,
- John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v6 00/10] Introduce new acpi/smbios avocado tests using
- biosbits
-Message-ID: <20221020150857-mutt-send-email-mst@kernel.org>
-References: <20221020123506.26363-1-ani@anisinha.ca>
- <20221020083810-mutt-send-email-mst@kernel.org>
- <CAARzgwwd_How_h+9sHWPOrWWZ7CbX+DN-uy-KiGf1VVyVmrLnA@mail.gmail.com>
- <20221020084311-mutt-send-email-mst@kernel.org>
- <CAARzgwxfKbrxAqb15GXp4j1enDPUhGBsL5jUzFtDvJkGM-7azw@mail.gmail.com>
+ bh=5wxZEbQecvH0VDpYnnCfOiDlaLCxR12ly1QlIET+pvw=;
+ b=KvDGFmsWpDf5R772+queO7igBTwrQGfz+KjOptu6fDxY5hR/WigLX7K3CsxJMp9seGF8t/
+ hjM7AlK79foP3b+4wgh6i+kENToBvaDJiHASCi3D6Lcox8JJh/wyC8td2NWNXBLm833NV0
+ Q/1uRXvh1dvqHZkB5ThciF4gp+ToZRg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-463-bTDuVD0bMF2gN0OHYXojmQ-1; Thu, 20 Oct 2022 11:53:15 -0400
+X-MC-Unique: bTDuVD0bMF2gN0OHYXojmQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BAE0E10115F5;
+ Thu, 20 Oct 2022 15:53:13 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.192.230])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7FBE940CA41E;
+ Thu, 20 Oct 2022 15:53:11 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Eli Cohen <eli@mellanox.com>, Stefano Garzarella <sgarzare@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Si-Wei Liu <si-wei.liu@oracle.com>
+Subject: [PATCH 2/4] vhost: toggle device callbacks using used event idx
+Date: Thu, 20 Oct 2022 17:52:49 +0200
+Message-Id: <20221020155251.398735-3-eperezma@redhat.com>
+In-Reply-To: <20221020155251.398735-1-eperezma@redhat.com>
+References: <20221020155251.398735-1-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAARzgwxfKbrxAqb15GXp4j1enDPUhGBsL5jUzFtDvJkGM-7azw@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -114,43 +90,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 20, 2022 at 06:20:20PM +0530, Ani Sinha wrote:
-> On Thu, Oct 20, 2022 at 6:15 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Thu, Oct 20, 2022 at 06:12:10PM +0530, Ani Sinha wrote:
-> > > On Thu, Oct 20, 2022 at 6:08 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > >
-> > > > On Thu, Oct 20, 2022 at 06:04:56PM +0530, Ani Sinha wrote:
-> > > > >
-> > > > >
-> > > > > Changelog:
-> > > > > v6:
-> > > > >   - skip test when dependencies (xorriso for example) are not installed.
-> > > > >   - skip test when run on a platform other than x86_64.
-> > > >
-> > > > Hmm why is that btw?
-> > >
-> > > The bits binaries that generate the iso (grub-mkrescue etc) are built
-> > > for and are known to work only on x86_64 platform. They might also
-> > > work on amd64 but I do not have one at my disposal at the moment to
-> > > check.
-> > > On other platforms, for example 32 bit x86 and non-x86, those binaries
-> > > will likely not work. The test will fail.
-> >
-> > confused. I thought we are distributing the iso?
-> 
-> No, the test builds the iso after adding the modified test scripts and
-> then spawns the vm with it. It is all part of the test itself.
-> We need to do that so that the iso contains the newly added tests etc.
+Actually use the new field of the used ring and tell the device if SVQ
+wants to be notified.
 
-It's good to have for people developing tests, but for most qemu
-developers please just have a ready iso and have avocado fetch it.
-It's important to make tests run on all platforms.
+The code is not reachable at the moment.
 
-We can think about moving iso generation into a VM too
-but as a first step I guess we can live with a container.
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
+ hw/virtio/vhost-shadow-virtqueue.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
+diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+index a518f84772..f5c0fad3fc 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.c
++++ b/hw/virtio/vhost-shadow-virtqueue.c
+@@ -369,15 +369,27 @@ static bool vhost_svq_more_used(VhostShadowVirtqueue *svq)
+  */
+ static bool vhost_svq_enable_notification(VhostShadowVirtqueue *svq)
+ {
+-    svq->vring.avail->flags &= ~cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
+-    /* Make sure the flag is written before the read of used_idx */
++    if (virtio_vdev_has_feature(svq->vdev, VIRTIO_RING_F_EVENT_IDX)) {
++        uint16_t *used_event = (uint16_t *)&svq->vring.avail->ring[svq->vring.num];
++        *used_event = svq->shadow_used_idx;
++    } else {
++        svq->vring.avail->flags &= ~cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
++    }
++
++    /* Make sure the event is enabled before the read of used_idx */
+     smp_mb();
+     return !vhost_svq_more_used(svq);
+ }
+ 
+ static void vhost_svq_disable_notification(VhostShadowVirtqueue *svq)
+ {
+-    svq->vring.avail->flags |= cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
++    /*
++     * No need to disable notification in the event idx case, since used event
++     * index is already an index too far away.
++     */
++    if (!virtio_vdev_has_feature(svq->vdev, VIRTIO_RING_F_EVENT_IDX)) {
++        svq->vring.avail->flags |= cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
++    }
+ }
+ 
+ static uint16_t vhost_svq_last_desc_of_chain(const VhostShadowVirtqueue *svq,
 -- 
-MST
+2.31.1
 
 
