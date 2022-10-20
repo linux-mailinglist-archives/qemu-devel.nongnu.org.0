@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F22936062D1
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 16:19:19 +0200 (CEST)
-Received: from localhost ([::1]:54430 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B5836063B4
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 16:59:59 +0200 (CEST)
+Received: from localhost ([::1]:48170 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olWOD-0003Kl-Bz
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:19:17 -0400
+	id 1olX1Y-0008GK-T7
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:59:57 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olWCv-0004m2-Ef
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:07:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43368)
+	id 1olWw4-0003SU-LX
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:54:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olU80-0005SH-E8
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:54:27 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:38712)
+ id 1olU81-0005TW-Mz
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:54:33 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:42628)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olU7v-00015X-7n
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:54:24 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- x1-20020a17090ab00100b001fda21bbc90so3203188pjq.3
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 04:54:17 -0700 (PDT)
+ id 1olU7z-00016L-MM
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:54:25 -0400
+Received: by mail-pf1-x431.google.com with SMTP id i3so20024689pfk.9
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 04:54:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=YGsCYh6gVTl3bqvlZ0jCo6VaST2bfwHMB4a99eqK23U=;
- b=SO8LhE8BDEXbKqCyG1hGNhAsgM3A9dGAjIPNxNeCGsvZsSE6wLfPwZBmTPMdIB29XP
- uWvlOjOUs0nn3vbLyk0mLjkEQsbUSenP9qshC5B0QmVu7HzlzSG/sPjguF8gzzCQMBDS
- uyMG9mxMNULIEbxbCUX4DJDoBYX90MN0ZN1aLcqA8FvpDxH/+T5cVcTdqidvoPt0CUQt
- Wj17fvyhjW3Dg9oPEBdYc4/XG2xJBWuGGbaCgyhtLhz7M4ZIz+RVRm5V8W0c0PogeB8i
- Vulq73l2XZjubSdgheFJwj/hjBQyZHgoZwfsYWqNXzz45ekMgXggKnWXo9SqHLgax2ye
- G1zA==
+ :reply-to; bh=/GWofEQojLLXXLRwojNJiYI+Du4LjIcNNqXdtRzxkFU=;
+ b=XopguzG/bXd7huBvfqVcTd+Qnz9q6N1c2asOd3fVT7kNjvdtgAtg68Aq/HveliH3+b
+ j20Ts/I2LcoFLNm+m/tCmPqrOeDoWdwPo3yu7ZvXDvZwPHvo3lgIM/boEt+h5Dl6Wadd
+ 7D2B2ZafxvOOm6ScqhLumX8WOpj78sXLb3Qi4QEnZlip5Uw6DHZVI/oOTO3YIIzn+uSb
+ +cTTJ2xtBVkSPcF7j8PDsJ7JrqtgqlC1/KUICSC+t3GSxZNY+0pz9VNzzJrxXXM5uD9G
+ yN0Bo5kqBhty3Ids5kKZoFDK343TL7Tf12L99r3e/+mL3+2/s/thy1CED8hBXvV+fPCi
+ b2Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YGsCYh6gVTl3bqvlZ0jCo6VaST2bfwHMB4a99eqK23U=;
- b=gszxm56xz4R2V7ZW2Tjx07x3TD/5YVPZ2UDc9qqe1aKlquUCLRn/sFqI9eebK02nJA
- qxF5vy9NaJsWMj9HaOI4xbO1D//1UUef4xwf2kaxsgHCyi52ZK7hRgpgAs5TDgeWNPSc
- inZb0M0Y6d1xZ8UryG8br7FGLzqImjhBiyuGcMbIdLooxywYB0DAypCsxosh4p6ZaHO5
- nStJuUm+QI97SnnDz8IDRn321eCtXn//Lu6gL5ZIvAcBtoqWLspGQOD6DCyZ/RHuWxef
- r7Yn3uqghUBg4OjbF3SiuDhoXC1Jlspa5RubeX8YqeNv35+X6b2XmH4Yg6FHAI3kwRYm
- 2/9w==
-X-Gm-Message-State: ACrzQf3kXXTl6FfA7hRRK3DIInNRD1XUPlH1/z4Alse/5+yJZY3T+c22
- Ia1GK2OMDU0RP21OrNfGLi+0xNgIxMAYOMEg
-X-Google-Smtp-Source: AMsMyM7/t0fXaPZ2M1l/lg01d53ro3uLHWEC1xJsNTT+lsGtV+s0LT3SEODEcuaAXF40xVqpkiOqdA==
-X-Received: by 2002:a17:902:a412:b0:185:43a2:3d16 with SMTP id
- p18-20020a170902a41200b0018543a23d16mr13833877plq.146.1666266857053; 
- Thu, 20 Oct 2022 04:54:17 -0700 (PDT)
+ bh=/GWofEQojLLXXLRwojNJiYI+Du4LjIcNNqXdtRzxkFU=;
+ b=u2NHNyWLNjfR5CV4kCxv5wRYr0c96g7aDL+wxX5+Mzj1w0i2i0eCJStcgc0pZUw/ZW
+ +pIKKBhdTgqwxtmIoqoJoapegmG5Ns2I82tChKedbn+pWb9eXP/BHJ7qcEi187uFD6ln
+ 4y6KZmT6potoF187eyC7pfn0i3mt4AV/IP9fSY/jsazek6wT4ACScErNudR4ZnXoNoR1
+ J2rJyqeEM2UM68wDfIEMD1RrAPVj2Sed0AbE4Xul0nHE5QMuHEbwg6JN4n0PWrEQafCM
+ r/MA4AFpPLzTCvzNystGHgsad3Sul31d9jfbApav6eOZPeCwGP8LJ571YQ2b/FS3PTQe
+ nFnQ==
+X-Gm-Message-State: ACrzQf1/tpq5H9k8CED82qFJMFw71UlOiM93PwdrWySK27sAirpadVV4
+ bJLfQnudRGkRnvEzCJZZGSgPriByaWaRlh1+
+X-Google-Smtp-Source: AMsMyM6E+u6+vT1VwbIanCTrSqHLLGzM2BlSAxpxOAT+Yg8kHzIPu33G3XdWyio+UBhEerZTxs+4AA==
+X-Received: by 2002:a05:6a00:843:b0:563:fd4:d73 with SMTP id
+ q3-20020a056a00084300b005630fd40d73mr13619242pfk.47.1666266862175; 
+ Thu, 20 Oct 2022 04:54:22 -0700 (PDT)
 Received: from localhost.localdomain ([149.135.10.35])
  by smtp.gmail.com with ESMTPSA id
- w206-20020a627bd7000000b0056109e15638sm13065464pfc.54.2022.10.20.04.54.14
+ w206-20020a627bd7000000b0056109e15638sm13065464pfc.54.2022.10.20.04.54.19
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Oct 2022 04:54:16 -0700 (PDT)
+ Thu, 20 Oct 2022 04:54:21 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 21/31] tcg: Define TCG_TYPE_I128 and related helper macros
-Date: Thu, 20 Oct 2022 21:52:32 +1000
-Message-Id: <20221020115242.2301066-22-richard.henderson@linaro.org>
+Subject: [PATCH 23/31] tcg: Allocate objects contiguously in
+ temp_allocate_frame
+Date: Thu, 20 Oct 2022 21:52:34 +1000
+Message-Id: <20221020115242.2301066-24-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221020115242.2301066-1-richard.henderson@linaro.org>
 References: <20221020115242.2301066-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,144 +95,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Begin staging in support for TCGv_i128 with Int128.
-Define the type enumerator, the typedef, and the
-helper-head.h macros.
-
-This cannot yet be used, because you can't allocate
-temporaries of this new type.
+When allocating a temp to the stack frame, consider the
+base type and allocate all parts at once.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/helper-head.h |  7 +++++++
- include/tcg/tcg.h          | 28 ++++++++++++++--------------
- 2 files changed, 21 insertions(+), 14 deletions(-)
+ tcg/tcg.c | 30 ++++++++++++++++++++++--------
+ 1 file changed, 22 insertions(+), 8 deletions(-)
 
-diff --git a/include/exec/helper-head.h b/include/exec/helper-head.h
-index e242fed46e..9753df8e80 100644
---- a/include/exec/helper-head.h
-+++ b/include/exec/helper-head.h
-@@ -26,6 +26,7 @@
- #define dh_alias_int i32
- #define dh_alias_i64 i64
- #define dh_alias_s64 i64
-+#define dh_alias_i128 i128
- #define dh_alias_f16 i32
- #define dh_alias_f32 i32
- #define dh_alias_f64 i64
-@@ -40,6 +41,7 @@
- #define dh_ctype_int int
- #define dh_ctype_i64 uint64_t
- #define dh_ctype_s64 int64_t
-+#define dh_ctype_i128 Int128
- #define dh_ctype_f16 uint32_t
- #define dh_ctype_f32 float32
- #define dh_ctype_f64 float64
-@@ -71,6 +73,7 @@
- #define dh_retvar_decl0_noreturn void
- #define dh_retvar_decl0_i32 TCGv_i32 retval
- #define dh_retvar_decl0_i64 TCGv_i64 retval
-+#define dh_retval_decl0_i128 TCGv_i128 retval
- #define dh_retvar_decl0_ptr TCGv_ptr retval
- #define dh_retvar_decl0(t) glue(dh_retvar_decl0_, dh_alias(t))
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 5b17892058..3a0cbe8ac6 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -3318,11 +3318,12 @@ static void check_regs(TCGContext *s)
  
-@@ -78,6 +81,7 @@
- #define dh_retvar_decl_noreturn
- #define dh_retvar_decl_i32 TCGv_i32 retval,
- #define dh_retvar_decl_i64 TCGv_i64 retval,
-+#define dh_retvar_decl_i128 TCGv_i128 retval,
- #define dh_retvar_decl_ptr TCGv_ptr retval,
- #define dh_retvar_decl(t) glue(dh_retvar_decl_, dh_alias(t))
+ static void temp_allocate_frame(TCGContext *s, TCGTemp *ts)
+ {
+-    int size = tcg_type_size(ts->type);
+-    int align;
+     intptr_t off;
++    int size, align;
  
-@@ -85,6 +89,7 @@
- #define dh_retvar_noreturn NULL
- #define dh_retvar_i32 tcgv_i32_temp(retval)
- #define dh_retvar_i64 tcgv_i64_temp(retval)
-+#define dh_retvar_i128 tcgv_i128_temp(retval)
- #define dh_retvar_ptr tcgv_ptr_temp(retval)
- #define dh_retvar(t) glue(dh_retvar_, dh_alias(t))
+-    switch (ts->type) {
++    /* When allocating an object, look at the full type. */
++    size = tcg_type_size(ts->base_type);
++    switch (ts->base_type) {
+     case TCG_TYPE_I32:
+         align = 4;
+         break;
+@@ -3353,13 +3354,26 @@ static void temp_allocate_frame(TCGContext *s, TCGTemp *ts)
+         tcg_raise_tb_overflow(s);
+     }
+     s->current_frame_offset = off + size;
+-
+-    ts->mem_offset = off;
+ #if defined(__sparc__)
+-    ts->mem_offset += TCG_TARGET_STACK_BIAS;
++    off += TCG_TARGET_STACK_BIAS;
+ #endif
+-    ts->mem_base = s->frame_temp;
+-    ts->mem_allocated = 1;
++
++    /* If the object was subdivided, assign memory to all the parts. */
++    if (ts->base_type != ts->type) {
++        int part_size = tcg_type_size(ts->type);
++        int part_count = size / part_size;
++
++        ts -= ts->temp_subindex;
++        for (int i = 0; i < part_count; ++i) {
++            ts[i].mem_offset = off + i * part_size;
++            ts[i].mem_base = s->frame_temp;
++            ts[i].mem_allocated = 1;
++        }
++    } else {
++        ts->mem_offset = off;
++        ts->mem_base = s->frame_temp;
++        ts->mem_allocated = 1;
++    }
+ }
  
-@@ -95,6 +100,7 @@
- #define dh_typecode_i64 4
- #define dh_typecode_s64 5
- #define dh_typecode_ptr 6
-+#define dh_typecode_i128 7
- #define dh_typecode_int dh_typecode_s32
- #define dh_typecode_f16 dh_typecode_i32
- #define dh_typecode_f32 dh_typecode_i32
-@@ -104,6 +110,7 @@
- 
- #define dh_callflag_i32  0
- #define dh_callflag_i64  0
-+#define dh_callflag_i128 0
- #define dh_callflag_ptr  0
- #define dh_callflag_void 0
- #define dh_callflag_noreturn TCG_CALL_NO_RETURN
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index c342396260..e80c78b2e8 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -38,18 +38,15 @@
- /* XXX: make safe guess about sizes */
- #define MAX_OP_PER_INSTR 266
- 
--#if HOST_LONG_BITS == 32
- #define MAX_OPC_PARAM_PER_ARG 2
--#else
--#define MAX_OPC_PARAM_PER_ARG 1
--#endif
- #define MAX_OPC_PARAM_IARGS 7
- #define MAX_OPC_PARAM_OARGS 1
- #define MAX_OPC_PARAM_ARGS (MAX_OPC_PARAM_IARGS + MAX_OPC_PARAM_OARGS)
- 
--/* A Call op needs up to 4 + 2N parameters on 32-bit archs,
-- * and up to 4 + N parameters on 64-bit archs
-- * (N = number of input arguments + output arguments).  */
-+/*
-+ * A Call op needs up to 4 + 2N parameters.
-+ * (N = number of input arguments + output arguments).
-+ */
- #define MAX_OPC_PARAM (4 + (MAX_OPC_PARAM_PER_ARG * MAX_OPC_PARAM_ARGS))
- 
- #define CPU_TEMP_BUF_NLONGS 128
-@@ -289,6 +286,7 @@ typedef struct TCGPool {
- typedef enum TCGType {
-     TCG_TYPE_I32,
-     TCG_TYPE_I64,
-+    TCG_TYPE_I128,
- 
-     TCG_TYPE_V64,
-     TCG_TYPE_V128,
-@@ -364,13 +362,14 @@ typedef tcg_target_ulong TCGArg;
-    in tcg/README. Target CPU front-end code uses these types to deal
-    with TCG variables as it emits TCG code via the tcg_gen_* functions.
-    They come in several flavours:
--    * TCGv_i32 : 32 bit integer type
--    * TCGv_i64 : 64 bit integer type
--    * TCGv_ptr : a host pointer type
--    * TCGv_vec : a host vector type; the exact size is not exposed
--                 to the CPU front-end code.
--    * TCGv : an integer type the same size as target_ulong
--             (an alias for either TCGv_i32 or TCGv_i64)
-+    * TCGv_i32  : 32 bit integer type
-+    * TCGv_i64  : 64 bit integer type
-+    * TCGv_i128 : 128 bit integer type
-+    * TCGv_ptr  : a host pointer type
-+    * TCGv_vec  : a host vector type; the exact size is not exposed
-+                  to the CPU front-end code.
-+    * TCGv      : an integer type the same size as target_ulong
-+                  (an alias for either TCGv_i32 or TCGv_i64)
-    The compiler's type checking will complain if you mix them
-    up and pass the wrong sized TCGv to a function.
- 
-@@ -390,6 +389,7 @@ typedef tcg_target_ulong TCGArg;
- 
- typedef struct TCGv_i32_d *TCGv_i32;
- typedef struct TCGv_i64_d *TCGv_i64;
-+typedef struct TCGv_i128_d *TCGv_i128;
- typedef struct TCGv_ptr_d *TCGv_ptr;
- typedef struct TCGv_vec_d *TCGv_vec;
- typedef TCGv_ptr TCGv_env;
+ static void temp_load(TCGContext *, TCGTemp *, TCGRegSet, TCGRegSet, TCGRegSet);
 -- 
 2.34.1
 
