@@ -2,87 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C3EB606BAF
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 00:54:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 403D2606B95
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 00:49:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oleQZ-0005vB-J4
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 18:54:15 -0400
+	id 1oleM2-0000Co-BN
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 18:49:34 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oleA3-0007xV-Bj
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 18:37:11 -0400
+	id 1oleA9-0008MQ-9Y
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 18:37:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ole9v-0007Nw-7V
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 18:37:03 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ id 1oleA0-0007pQ-ES
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 18:37:08 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ole9s-0000yZ-Cn
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 18:37:01 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- t10-20020a17090a4e4a00b0020af4bcae10so1041355pjl.3
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 15:36:59 -0700 (PDT)
+ id 1ole9v-00015w-RS
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 18:37:08 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id l6so860814pgu.7
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 15:37:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=b2QyK6qaxKPHmlYeK5hx+cv5ntpv8x7vPZcfjTuC15M=;
- b=tN+e33oIK1n/AvyMDJ8cmjcD45Uj2pPDxosrmE5k9j0nKNmVbi/UMqPyNzVZkWyuK7
- 5wtXdvB1kLJwJa6Omkpi220UAueuEZuC0ZxpH9otwFI8ySuYL+1rgBzO+KjB+51emh9+
- /gZeFuLm84MpBVOE/N13TXIGP9l32Uw/qGXrwhmgFrraKN5rPPX5CDTtSGcKxlsJpivY
- aflcoxnURS9PB+iS/CN+qdEOzCKgyysF86lthb9CwIIx6YumqdpLRbpI1Weswe9UTsek
- BGXqO8hesZ5H7wUppw2RcvQf/U+nQIq7IfJLLfnK6MAkXSACCZtsJPsfNPoGPAe5SAD1
- u3xQ==
+ bh=GurYN5eM5ASmrAS3IhHR+unhisIkdfoZKXFyT1rxT6E=;
+ b=oBObJo/SuGrzvYu8v74JYIYpSShHPLlCRFALgt+AAAHK/VxmrPn+Gcm9uIfq3JnrP7
+ 9H7bir4UQGYsNwmKaeSjqJ5VSIYXKiw1+p1uM1iEs+qGXjeO+1n3Sn+bz431Y0o7p+hB
+ 1+3HsZiZj3lchECBJTx7WuLSIyz5I+Fmcss3H5mvpXEhDb8xHLAZKNsq14YRMz7db+vD
+ izNATLNZ8Sj1E5MAAWwngxFJSeyEm5qFzWTRbx0mPkzCGk5+CZMT/5w/IV/0XSX7ixXm
+ hq1/CQg5/5AX8dWbyU5xnkO+apixXrzrBIstuht3OR62KfWKru8pfVqb+Z1YtpA37LeY
+ 7nnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=b2QyK6qaxKPHmlYeK5hx+cv5ntpv8x7vPZcfjTuC15M=;
- b=DfC2G29W4VWeEG1wIjfVJs5H6iDJuwLEkP5bOFmL4Nu5uthHnYQ+uRGs+2TCQLS0xw
- TAOyXhHfTqp4nMj/HfPx0uMM5WONTBYMYMvlXs5DShcZUJanbgRl1mfbnWExS43U/LhL
- sHYkqFptvZ4tSbO6FlMBjMS2GsxiXd+snViCxGFI8wYn5MnMAE0usfwZ3q0RJecjAIRh
- HHoDLwSwpDm5GX2v7Ri0FT3XONGC2NvPz+6tSqs+mVgKt+AvBscu6+b9xiDZBkGy4yl0
- IBGAeG5+TyBaINF3AYGto4WgEkDoh2jACy3+MP+hI62iraHywmHN4wvm1C4bgTpMgw/R
- pP+g==
-X-Gm-Message-State: ACrzQf3sqt4PEhYiHjP+F+FLd2Uu8ZR5Rcq0Yo7lQattmV4nA4I9yFSg
- l7hxIFRWA6GzTVOr6GxAUKaQ7Thi6NapUWiU
-X-Google-Smtp-Source: AMsMyM7sNRf0pn+RAiCGza7lO5vxQVEYFl5ZOmsdHZhcEbvBGPLnxuqtDt2NKKojSOPa4cxKoYCSvg==
-X-Received: by 2002:a17:90b:4b02:b0:20d:3937:7ad with SMTP id
- lx2-20020a17090b4b0200b0020d393707admr53800341pjb.145.1666305419465; 
- Thu, 20 Oct 2022 15:36:59 -0700 (PDT)
+ bh=GurYN5eM5ASmrAS3IhHR+unhisIkdfoZKXFyT1rxT6E=;
+ b=XPYpS76buFEvPtYpMFwSr5pMjEpen8La5G9qRPZ0GfUxLkTLOL8rjtVFiaoMj4UCKy
+ opLtAtnj6qNx/Mk7CgafvVrSbea0szp904hYi/7XqxNpGNorHIf4EsY64x0DHj36t/mT
+ E1VdK20F2v0xIPL6w0ewNw/UGm/WxUfFggwuTnsOokWkyiefkFhpn2qmZe+8L8vcG3+N
+ Ll/DOHcW5BpE68XGnnHh5z0s5pEYanqP8b8/AHhS8f5/hLdAdaKneaRcwqhOnEQV2k4J
+ Hre0Kfwicz2HvZwLfRD0Lfzw7K6vU5uKcxEn1VxYb5N8PREwh6e/lh5OLRqNV75e08Jz
+ jNWQ==
+X-Gm-Message-State: ACrzQf1aSXcOVsalB07bqX+NjOBF2j2OVxvhgdfI3TdwBdCNpALCy3I8
+ M3d8AA6P9FOrmjqArSLktnxGQrJBn6gjjP5M
+X-Google-Smtp-Source: AMsMyM6a5ZC+OtssXbWe1+smJb2HNh+muntX8y6ZCQRc9en+CnlZGyvQNkw8G5q++g71ZXttFYCe6A==
+X-Received: by 2002:a05:6a00:a8f:b0:563:3a3f:9d5c with SMTP id
+ b15-20020a056a000a8f00b005633a3f9d5cmr16186633pfl.50.1666305422377; 
+ Thu, 20 Oct 2022 15:37:02 -0700 (PDT)
 Received: from localhost.localdomain ([149.135.10.35])
  by smtp.gmail.com with ESMTPSA id
- r10-20020aa7988a000000b0054cd16c9f6bsm13753841pfl.200.2022.10.20.15.36.56
+ r10-20020aa7988a000000b0054cd16c9f6bsm13753841pfl.200.2022.10.20.15.36.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Oct 2022 15:36:59 -0700 (PDT)
+ Thu, 20 Oct 2022 15:37:01 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v5 10/14] target/arm: Consider GP an attribute in
- get_phys_addr_lpae
-Date: Fri, 21 Oct 2022 08:35:44 +1000
-Message-Id: <20221020223548.2310496-11-richard.henderson@linaro.org>
+Cc: qemu-arm@nongnu.org
+Subject: [PATCH v5 11/14] target/arm: Tidy merging of attributes from
+ descriptor and table
+Date: Fri, 21 Oct 2022 08:35:45 +1000
+Message-Id: <20221020223548.2310496-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221020223548.2310496-1-richard.henderson@linaro.org>
 References: <20221020223548.2310496-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,54 +96,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both GP and DBM are in the upper attribute block.
-Extend the computation of attrs to include them,
-then simplify the setting of guarded.
+Replace some gotos with some nested if statements.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/ptw.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ target/arm/ptw.c | 34 ++++++++++++++++------------------
+ 1 file changed, 16 insertions(+), 18 deletions(-)
 
 diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 6820c2f4bc..cb2e9072ec 100644
+index cb2e9072ec..165e70d044 100644
 --- a/target/arm/ptw.c
 +++ b/target/arm/ptw.c
-@@ -1077,7 +1077,6 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
-     uint32_t el = regime_el(env, mmu_idx);
-     uint64_t descaddrmask;
-     bool aarch64 = arm_el_is_aa64(env, el);
--    bool guarded = false;
-     uint64_t descriptor;
-     bool nstable;
- 
-@@ -1343,7 +1342,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
+@@ -1341,27 +1341,25 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
+     page_size = (1ULL << ((stride * (4 - level)) + 3));
      descaddr &= ~(hwaddr)(page_size - 1);
      descaddr |= (address & (page_size - 1));
-     /* Extract attributes from the descriptor */
--    attrs = descriptor & (MAKE_64BIT_MASK(2, 10) | MAKE_64BIT_MASK(52, 12));
+-    /* Extract attributes from the descriptor */
+-    attrs = descriptor & (MAKE_64BIT_MASK(2, 10) | MAKE_64BIT_MASK(50, 14));
+ 
+-    if (regime_is_stage2(mmu_idx)) {
+-        /* Stage 2 table descriptors do not include any attribute fields */
+-        goto skip_attrs;
+-    }
+-    /* Merge in attributes from table descriptors */
+-    attrs |= nstable << 5; /* NS */
+-    if (param.hpd) {
+-        /* HPD disables all the table attributes except NSTable.  */
+-        goto skip_attrs;
+-    }
+-    attrs |= extract64(tableattrs, 0, 2) << 53;     /* XN, PXN */
+     /*
+-     * The sense of AP[1] vs APTable[0] is reversed, as APTable[0] == 1
+-     * means "force PL1 access only", which means forcing AP[1] to 0.
++     * Extract attributes from the descriptor, and apply table descriptors.
++     * Stage 2 table descriptors do not include any attribute fields.
++     * HPD disables all the table attributes except NSTable.
+      */
+-    attrs &= ~(extract64(tableattrs, 2, 1) << 6);   /* !APT[0] => AP[1] */
+-    attrs |= extract32(tableattrs, 3, 1) << 7;      /* APT[1] => AP[2] */
+- skip_attrs:
 +    attrs = descriptor & (MAKE_64BIT_MASK(2, 10) | MAKE_64BIT_MASK(50, 14));
++    if (!regime_is_stage2(mmu_idx)) {
++        attrs |= nstable << 5; /* NS */
++        if (!param.hpd) {
++            attrs |= extract64(tableattrs, 0, 2) << 53;     /* XN, PXN */
++            /*
++             * The sense of AP[1] vs APTable[0] is reversed, as APTable[0] == 1
++             * means "force PL1 access only", which means forcing AP[1] to 0.
++             */
++            attrs &= ~(extract64(tableattrs, 2, 1) << 6); /* !APT[0] => AP[1] */
++            attrs |= extract32(tableattrs, 3, 1) << 7;    /* APT[1] => AP[2] */
++        }
++    }
  
-     if (regime_is_stage2(mmu_idx)) {
-         /* Stage 2 table descriptors do not include any attribute fields */
-@@ -1351,7 +1350,6 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
-     }
-     /* Merge in attributes from table descriptors */
-     attrs |= nstable << 5; /* NS */
--    guarded = extract64(descriptor, 50, 1);  /* GP */
-     if (param.hpd) {
-         /* HPD disables all the table attributes except NSTable.  */
-         goto skip_attrs;
-@@ -1404,7 +1402,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
- 
-     /* When in aarch64 mode, and BTI is enabled, remember GP in the TLB.  */
-     if (aarch64 && cpu_isar_feature(aa64_bti, cpu)) {
--        result->f.guarded = guarded;
-+        result->f.guarded = extract64(attrs, 50, 1); /* GP */
-     }
- 
-     if (regime_is_stage2(mmu_idx)) {
+     /*
+      * Here descaddr is the final physical address, and attributes
 -- 
 2.34.1
 
