@@ -2,91 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 244E9606A6E
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 23:42:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FBB9606B46
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 00:31:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oldIi-0004m7-OD
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 17:42:04 -0400
+	id 1ole4N-0007dX-I8
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 18:31:19 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oldGc-0002Fw-8B
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 17:39:54 -0400
+	id 1ole3i-0006D4-8A
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 18:30:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oldGV-00021E-2F
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 17:39:47 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ (Exim 4.90_1) (envelope-from <bjorn.forsman@gmail.com>)
+ id 1olde8-0003fK-S8
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 18:04:13 -0400
+Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oldGS-0000kJ-0i
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 17:39:45 -0400
-Received: by mail-pl1-x632.google.com with SMTP id k9so501174pll.11
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 14:39:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=EC/AZpmpnmqxlKTGg/qWbNAJi+PcpwOYIXVpptYSig0=;
- b=FX/ztBlOHSthweYu2n//JwEoVIG4g/hIufoj9sUvK/HRuWJstMP52gcUu4RFih0SLf
- hxVMFP90ebWdp0PRp5LgCVG3wD9M0ZKEjjgwp09RPIbwlsvHT5lq1dhjhMjdSoR7sJUX
- BjjC522XcNaH4u72jpiNVAl8/uJ7+Ix8i1FWjYThIlQK/VAiOnv1VRErfKvMfkg931JL
- fsysCAiE0JefVbNLhn4QS38Y1zjJLtWj0Z99ukMm96hXWh7CbqUMAd9BB0tOA12ccgJp
- dOvfBk5kwO6d9rVZsQbr59eJbRnoJ4MUlnNQSWmdUBee9WTe/88abVbmho4zR1WCCDE/
- +74w==
+ (Exim 4.90_1) (envelope-from <bjorn.forsman@gmail.com>)
+ id 1olde7-0001Q4-A0
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 18:04:12 -0400
+Received: by mail-lf1-x12a.google.com with SMTP id g7so1905852lfv.5
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 15:04:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=R6h3SmhhkjD+FnGPH/Witg97rL5L8SOPX9K7/DLPO6w=;
+ b=UZ0NtMsULRSJeWaQAEtJMJ9yr2XZxjlDeU68OWeo+DyopTI4IGCp76coNdLmOZxAp2
+ QuhcTJiPWGPp4orOAWFOjHBj9LzJAiwhekBR8RtcgP6QHvsZrxapqH2uPnCfZtan78kf
+ /2j19FryzFP+Zu/tAYv8daoMxBi2DE2i2kM2kQfPXSNISsbrP/gKEU3+RHwQAW4qN85d
+ WsZU3cDRJ6Bf+8iMUBhLkjK72POarHhYx52E6asTYw1nmWad2OabaWbmQ/LM+aEXeqkJ
+ R1gCs6KLo50ff4v4mUT5GhWWYtBU8gNGGhynlbezda14JMKViS+HhU1PGZPELJCp/uST
+ 6qzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EC/AZpmpnmqxlKTGg/qWbNAJi+PcpwOYIXVpptYSig0=;
- b=7UzrplEW4DW3624TyTUtTQu5pyEH9kA6XEUvuu6e/03hNG7dYKQKb2kPYdReqSaIQ5
- VqvkWFOk6YAVrfc+afE6QZSMUHApwfvoIWG0AXp9Lce7k6tj3sSzuX7lB30QUv7WiAbv
- lyhLv25uqPDWwstR5D4Jn0vsrxkPWX/R5D5CGNeqCC7iY1yu28y57zVET7BvaIxxKc1N
- HlmID1Ojzs9ybgStiQTds+gf709o3jA5v/CYKT0461M4z0jrXVNOeM42f2r/DDiqHR3x
- isDo/gTq53lyyCWeojq8NZLhVXQfPjJ3DI1sjWcu698hngk6IYnwC+t9+5k3kiPCJDP4
- LM2Q==
-X-Gm-Message-State: ACrzQf2PwIs+85EXVbbS0bBa85pSuN5eiFXGBUheAMnggHvcRw3kiTLr
- 0myl1UlLxO7a8UnkffIB1uDMlQ==
-X-Google-Smtp-Source: AMsMyM5isLOv0JRu04qHmfk8w9USGJMzmRLlnwkckqG9n6DSYBOjt5N3heN2k8xXUcHYS3gKPcau9w==
-X-Received: by 2002:a17:90b:33cc:b0:20a:7f32:9632 with SMTP id
- lk12-20020a17090b33cc00b0020a7f329632mr18729952pjb.149.1666301982543; 
- Thu, 20 Oct 2022 14:39:42 -0700 (PDT)
-Received: from [192.168.1.107] ([149.135.10.35])
- by smtp.gmail.com with ESMTPSA id
- l11-20020a170903120b00b0017f74cab9eesm13377354plh.128.2022.10.20.14.39.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Oct 2022 14:39:41 -0700 (PDT)
-Message-ID: <ca687bbe-e5f4-4465-d8ac-676340649eae@linaro.org>
-Date: Fri, 21 Oct 2022 07:39:36 +1000
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=R6h3SmhhkjD+FnGPH/Witg97rL5L8SOPX9K7/DLPO6w=;
+ b=hJg5FxlH+LFJPUZ3BQYBJ8ULoyBJmzN/J8ifw34sF6XzfNwezEBc2NuPUlhFJTOTQU
+ JD10cRMHrMzFbPRox8f3CPDzNDPEkmo7kMSJqb7PYsAoBx8AwYhmuHNcEzC4ApghgkMZ
+ hWQQzLQjOUKrQU+3xqycHf8id+lCz/1UZhUHIufgMof6amGQxxPlznd2AYhneu4S7hhS
+ cVN5P+QiSiI6AVn1GoybVHcSHOVIdnTZqYkxMjY2RI7wR6bsTAJYj/Jqk0VMP3V95WDn
+ XQdiA+pWIkUY/PQoVQ4Y51mDSZuRhWy+IWbkIIjEpGETL89V03n9IDM4RaoEE4vzr7nQ
+ dKYQ==
+X-Gm-Message-State: ACrzQf2oOCLFn136WB8JWO8BC7wr6EW7qrTPOJ15eI5kTVUuWTiGRueZ
+ /sh0ET6GaH66/GY00I2GhuDMgd2/DjRa
+X-Google-Smtp-Source: AMsMyM5OGMrGnoZBS1RuvD4m6VhdPJHSkkcyUreuBHLoJMvVoOKEBfILqv1Xc9+XMzombKimXkrfXg==
+X-Received: by 2002:a05:6512:3e10:b0:4a2:48c1:8794 with SMTP id
+ i16-20020a0565123e1000b004a248c18794mr5272345lfv.17.1666303448851; 
+ Thu, 20 Oct 2022 15:04:08 -0700 (PDT)
+Received: from localhost ([84.213.123.201]) by smtp.gmail.com with ESMTPSA id
+ a5-20020a05651c010500b0026c032ee48esm2965141ljb.105.2022.10.20.15.04.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Oct 2022 15:04:07 -0700 (PDT)
+From: =?UTF-8?q?Bj=C3=B8rn=20Forsman?= <bjorn.forsman@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: michael.roth@amd.com, kkostiuk@redhat.com,
+ =?UTF-8?q?Bj=C3=B8rn=20Forsman?= <bjorn.forsman@gmail.com>
+Subject: [PATCH] qga: add channel path to error messages
+Date: Fri, 21 Oct 2022 00:03:46 +0200
+Message-Id: <20221020220346.124381-1-bjorn.forsman@gmail.com>
+X-Mailer: git-send-email 2.36.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH 15/31] tcg: Replace TCG_TARGET_CALL_ALIGN_ARGS with
- TCG_TARGET_CALL_ARG_I64
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-References: <20221020115242.2301066-1-richard.henderson@linaro.org>
- <20221020115242.2301066-16-richard.henderson@linaro.org>
- <1c9f842b-5f19-b85c-5ec4-30c8baba52a3@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <1c9f842b-5f19-b85c-5ec4-30c8baba52a3@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
+ envelope-from=bjorn.forsman@gmail.com; helo=mail-lf1-x12a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 20 Oct 2022 18:30:14 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,29 +94,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/21/22 01:12, Philippe Mathieu-Daudé wrote:
-> On 20/10/22 13:52, Richard Henderson wrote:
->> +++ b/tcg/riscv/tcg-target.h
->> @@ -81,8 +81,8 @@ typedef enum {
->>   /* used for function call generation */
->>   #define TCG_REG_CALL_STACK              TCG_REG_SP
->>   #define TCG_TARGET_STACK_ALIGN          16
->> -#define TCG_TARGET_CALL_ALIGN_ARGS      1
->>   #define TCG_TARGET_CALL_STACK_OFFSET    0
->> +#define TCG_TARGET_CALL_ARG_I64         TCG_CALL_ARG_NORMAL
-> 
-> Don't we want to use the even arg on RV32 hosts?
-> 
->    #if TCG_TARGET_REG_BITS == 32
->    # define TCG_TARGET_CALL_ARG_I64        TCG_CALL_ARG_EVEN
->    #else
->    # define TCG_TARGET_CALL_ARG_I64        TCG_CALL_ARG_NORMAL
->    #endif
+It's useful to know which device was used if/when it fails.
 
-Good catch.
-I had remembered that we only supported rv64, incorrectly it would seem from the myriad 
-other tests for T_T_R_B.
+channel-win32.c had this since 2015, with
+c69403fcd4a0cb89f838a212ab71e4a1a3464c95 ("qemu-ga: debug printouts to
+help troubleshoot installation"), this brings channel-posix.c up to
+speed.
 
+Signed-off-by: Bjørn Forsman <bjorn.forsman@gmail.com>
+---
+ qga/channel-posix.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-r~
+diff --git a/qga/channel-posix.c b/qga/channel-posix.c
+index 6796a02cff..e6dce985ae 100644
+--- a/qga/channel-posix.c
++++ b/qga/channel-posix.c
+@@ -138,7 +138,7 @@ static gboolean ga_channel_open(GAChannel *c, const gchar *path,
+             0
+         );
+         if (fd == -1) {
+-            error_setg_errno(errp, errno, "error opening channel");
++            error_setg_errno(errp, errno, "error opening channel '%s'", path);
+             return false;
+         }
+ #ifdef CONFIG_SOLARIS
+@@ -163,7 +163,7 @@ static gboolean ga_channel_open(GAChannel *c, const gchar *path,
+         assert(fd < 0);
+         fd = qga_open_cloexec(path, O_RDWR | O_NOCTTY | O_NONBLOCK, 0);
+         if (fd == -1) {
+-            error_setg_errno(errp, errno, "error opening channel");
++            error_setg_errno(errp, errno, "error opening channel '%s'", path);
+             return false;
+         }
+         tcgetattr(fd, &tio);
+-- 
+2.36.2
+
 
