@@ -2,74 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55CC460577B
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 08:40:51 +0200 (CEST)
-Received: from localhost ([::1]:47562 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72CA56057D4
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 09:03:25 +0200 (CEST)
+Received: from localhost ([::1]:38006 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olPEW-0005Xa-EJ
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 02:40:48 -0400
-Received: from [::1] (port=53258 helo=lists1p.gnu.org)
+	id 1olPaN-0005RB-LE
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 03:03:23 -0400
+Received: from [::1] (port=38430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olP1u-0006vj-UA
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 02:27:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46634)
+	id 1olPRz-0005vq-Hn
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 02:54:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1olOpI-0002G1-2L
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 02:14:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25161)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1olP8m-0002ml-Iv
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 02:34:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1olOpE-0000vB-VV
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 02:14:43 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1olP8k-0005Iy-NX
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 02:34:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666246479;
+ s=mimecast20190719; t=1666247687;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a5hu0QML86HkGsrPUnPc//IHgR/2siBH1P80JwNiPuc=;
- b=FguAATtUL0sOvEtN5wAv52Ym9K585Ld/j5v7sbL5DLGpiKxX0EDyme1M/UsLrHFjVFvJ9c
- u0Xo6hjP2TLnYpWmeDTn0Irth64B4tCVfYbFUM75HotyDweLtBdzlZ22D9Jrss/WQzHDGZ
- bAXx1ZIbgn2Fi4PvWEfRnFXU2SnY0Ss=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-400-V93UGp8rPyeFDO4mg14Puw-1; Thu, 20 Oct 2022 02:14:35 -0400
-X-MC-Unique: V93UGp8rPyeFDO4mg14Puw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 54C94381796F;
- Thu, 20 Oct 2022 06:14:35 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E149140CA413;
- Thu, 20 Oct 2022 06:14:33 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D059C21E675B; Thu, 20 Oct 2022 08:14:32 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: "Christian A. Ehrhardt" <lk@c--e.de>
-Cc: qemu-devel@nongnu.org,  Eric DeVolder <eric.devolder@oracle.com>,
- qemu-stable@nongnu.org,  "Michael S. Tsirkin" <mst@redhat.com>,  Igor
- Mammedov <imammedo@redhat.com>,  Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH] hw/acpi/erst.c: Fix memset argument order
-References: <20221019191522.1004804-1-lk@c--e.de>
-Date: Thu, 20 Oct 2022 08:14:32 +0200
-In-Reply-To: <20221019191522.1004804-1-lk@c--e.de> (Christian A. Ehrhardt's
- message of "Wed, 19 Oct 2022 21:15:22 +0200")
-Message-ID: <87r0z3dnsn.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=Mc2mYiXXYGu5uzK23Pd21Zl2xcgArM5mTXgn0rUNhAI=;
+ b=MHwKFbbKk/pO36t0Vn1zhTzVSRnoY+UaOAluC+iAC9F9jIQRDT1eiQ8cdSOTjT1NbKSOjv
+ 2CIahXBBnoUDB43q30pNIMf8lFG9fmbvSV4SIsUIldolFCSCkDPlhjspYM97JcapRn2FVM
+ sO5+o7nRF5RCSJBbfjgSlzvIpiqgKNQ=
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-53-FYqNVNSfNz-I-l4KNNEBBA-1; Thu, 20 Oct 2022 02:34:46 -0400
+X-MC-Unique: FYqNVNSfNz-I-l4KNNEBBA-1
+Received: by mail-pl1-f200.google.com with SMTP id
+ y1-20020a17090322c100b001853a004c1bso12777148plg.19
+ for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 23:34:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Mc2mYiXXYGu5uzK23Pd21Zl2xcgArM5mTXgn0rUNhAI=;
+ b=EsJGoJAo5y+MCqiSXTdsFAyJFqmJ0zbFFJqrZLmfJABZga1ii9zUuc5OJTWK0uLc+i
+ 0TfaY8FflHPccpY62eu6kt0N9Zz9B/JVjubd2sh98pJPHyQCstyHA9zVRiNPv71x9npF
+ UMZEs+Q/hVZEdCQIKsxu6Qm5SinKuZdbhg6X7YoKQRhF83cbP/mXhm3h6KrOshj2dxYe
+ 8quilfEEyvEBTkHTRch/CNynGr2yoLF2v/O6O7ZolARH2lbHtaHDjPdPuShxdH97yHxN
+ TyTpc+PVWdTalKeOTmUHQoFNZ6Qa75kTxmfFhf41Y3gKbJ3zR9Pi/V1YBp9udGBQm4U8
+ SScg==
+X-Gm-Message-State: ACrzQf0EjsYzaxwYcAB3DdB3uQyWUUS6WxT751VSeUdIULIFyjZWaDgU
+ 2BOCiXo3gtSqiVZojcpUHqXrkc2Chm68YayFbH4f1zxUMHsKth7qJMAQu78873l1mA5ikaXR9r0
+ eHfQBZ++Zb5hne6jTFJyh72DbtWJFt1A=
+X-Received: by 2002:a17:90a:6845:b0:210:7ef5:ab99 with SMTP id
+ e5-20020a17090a684500b002107ef5ab99mr5504539pjm.80.1666247683161; 
+ Wed, 19 Oct 2022 23:34:43 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM53SXSexWh3/JYW81xfgSZ5p2j6CYAj5lRtzntilBXCbkVinjM8JqrR4aAPVwneTy2nVNXzcLthAyqnElTWW0Y=
+X-Received: by 2002:a17:90a:6845:b0:210:7ef5:ab99 with SMTP id
+ e5-20020a17090a684500b002107ef5ab99mr5504512pjm.80.1666247682906; Wed, 19 Oct
+ 2022 23:34:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+References: <20221019125210.226291-1-eperezma@redhat.com>
+ <20221019125210.226291-3-eperezma@redhat.com>
+ <CACGkMEvQOksFuE37SCCW+4x=Ku5CfHpcbgCDq6tic_H5fW7hYw@mail.gmail.com>
+In-Reply-To: <CACGkMEvQOksFuE37SCCW+4x=Ku5CfHpcbgCDq6tic_H5fW7hYw@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Thu, 20 Oct 2022 08:34:06 +0200
+Message-ID: <CAJaqyWd6bFH7ZL=rKr8kXrQEi2sOFkq=x=PHUmgz8N9K6Ct70w@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 2/8] vdpa: Save emulated features list in vhost_vdpa
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org, Zhu Lingshan <lingshan.zhu@intel.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, 
+ Si-Wei Liu <si-wei.liu@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Eli Cohen <eli@mellanox.com>, 
+ Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>, 
+ Gautam Dawar <gdawar@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,82 +108,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Christian A. Ehrhardt" <lk@c--e.de> writes:
-
-> Fix memset argument order: The second argument is
-> the value, the length goes last.
-
-Impact of the bug?
-
-> Cc: Eric DeVolder <eric.devolder@oracle.com>
-> Cc: qemu-stable@nongnu.org
-> Fixes: f7e26ffa590 ("ACPI ERST: support for ACPI ERST feature")
-> Signed-off-by: Christian A. Ehrhardt <lk@c--e.de>
-> ---
->  hw/acpi/erst.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, Oct 20, 2022 at 6:23 AM Jason Wang <jasowang@redhat.com> wrote:
 >
-> diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
-> index df856b2669..26391f93ca 100644
-> --- a/hw/acpi/erst.c
-> +++ b/hw/acpi/erst.c
-> @@ -716,7 +716,7 @@ static unsigned write_erst_record(ERSTDeviceState *s)
-       exchange_length = memory_region_size(&s->exchange_mr);
+> On Wed, Oct 19, 2022 at 8:52 PM Eugenio P=C3=A9rez <eperezma@redhat.com> =
+wrote:
+> >
+> > At this moment only _F_LOG is added there.
+> >
+> > However future patches add features that depend on the kind of device.
+> > In particular, only net devices can add VIRTIO_F_GUEST_ANNOUNCE. So
+> > let's allow vhost_vdpa creator to set custom emulated device features.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >  include/hw/virtio/vhost-vdpa.h | 2 ++
+> >  hw/virtio/vhost-vdpa.c         | 8 ++++----
+> >  net/vhost-vdpa.c               | 4 ++++
+> >  3 files changed, 10 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-v=
+dpa.h
+> > index 1111d85643..50083e1e3b 100644
+> > --- a/include/hw/virtio/vhost-vdpa.h
+> > +++ b/include/hw/virtio/vhost-vdpa.h
+> > @@ -31,6 +31,8 @@ typedef struct vhost_vdpa {
+> >      bool iotlb_batch_begin_sent;
+> >      MemoryListener listener;
+> >      struct vhost_vdpa_iova_range iova_range;
+> > +    /* VirtIO device features that can be emulated by qemu */
+> > +    uint64_t added_features;
+>
+> Any reason we need a per vhost_vdpa storage for this? Or is there a
+> chance that this field could be different among the devices?
+>
 
-This is the size of the exchange buffer.
+Yes, one device could support SVQ and the other one could not support
+it because of different feature sets for example.
 
-Aside: it's unsigned int, but memory_region_size() returns uint64_t.
-Unclean if it fits, bug if it doesn't.
+Thanks!
 
-       /* Validate record_offset */
-       if (s->record_offset > (exchange_length - UEFI_CPER_RECORD_MIN_SIZE)) {
-           return STATUS_FAILED;
-       }
-
-       /* Obtain pointer to record in the exchange buffer */
-       exchange = memory_region_get_ram_ptr(&s->exchange_mr);
-       exchange += s->record_offset;
-
-       /* Validate CPER record_length */
-       memcpy((uint8_t *)&record_length, &exchange[UEFI_CPER_RECORD_LENGTH_OFFSET],
-           sizeof(uint32_t));
-
-Aside: record_length = *(uint32_t *)exchange[UEFI_CPER_RECORD_LENGTH_OFFSET]
-would do, since UEFI_CPER_RECORD_LENGTH_OFFSET is a multiple of 4.
-
-       record_length = le32_to_cpu(record_length);
-       if (record_length < UEFI_CPER_RECORD_MIN_SIZE) {
-           return STATUS_FAILED;
-       }
-       if ((s->record_offset + record_length) > exchange_length) {
-           return STATUS_FAILED;
-       }
-
-This ensures there are at least @record_length bytes of space left in
-the exchange buffer.  Good.
-
-       [...]
->      if (nvram) {
->          /* Write the record into the slot */
->          memcpy(nvram, exchange, record_length);
-
-This first copies @record_length bytes into the exchange buffer.
-
-> -        memset(nvram + record_length, exchange_length - record_length, 0xFF);
-> +        memset(nvram + record_length, 0xFF, exchange_length - record_length);
-
-The new code pads it to the full exchange buffer size.
-
-The old code writes 0xFF bytes.
-
-If 0xFF < exchange_length - record_length, the padding doesn't extend to
-the end of the buffer.  Impact?
-
-If 0xFF > exchange_length - record_length, we write beyond the end of
-the buffer.  Impact?
-
->          /* If a new record, increment the record_count */
->          if (!record_found) {
->              uint32_t record_count;
+> Thanks
+>
+> >      uint64_t acked_features;
+> >      bool shadow_vqs_enabled;
+> >      /* IOVA mapping used by the Shadow Virtqueue */
+> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > index 7468e44b87..ddb5e29288 100644
+> > --- a/hw/virtio/vhost-vdpa.c
+> > +++ b/hw/virtio/vhost-vdpa.c
+> > @@ -660,8 +660,8 @@ static int vhost_vdpa_set_features(struct vhost_dev=
+ *dev,
+> >
+> >          v->acked_features =3D features;
+> >
+> > -        /* We must not ack _F_LOG if SVQ is enabled */
+> > -        features &=3D ~BIT_ULL(VHOST_F_LOG_ALL);
+> > +        /* Do not ack features emulated by qemu */
+> > +        features &=3D ~v->added_features;
+> >      }
+> >
+> >      trace_vhost_vdpa_set_features(dev, features);
+> > @@ -1244,8 +1244,8 @@ static int vhost_vdpa_get_features(struct vhost_d=
+ev *dev,
+> >      int ret =3D vhost_vdpa_get_dev_features(dev, features);
+> >
+> >      if (ret =3D=3D 0 && v->shadow_vqs_enabled) {
+> > -        /* Add SVQ logging capabilities */
+> > -        *features |=3D BIT_ULL(VHOST_F_LOG_ALL);
+> > +        /* Add emulated capabilities */
+> > +        *features |=3D v->added_features;
+> >      }
+> >
+> >      return ret;
+> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > index eebf29f5c1..3803452800 100644
+> > --- a/net/vhost-vdpa.c
+> > +++ b/net/vhost-vdpa.c
+> > @@ -599,6 +599,10 @@ static NetClientState *net_vhost_vdpa_init(NetClie=
+ntState *peer,
+> >      s->vhost_vdpa.index =3D queue_pair_index;
+> >      s->vhost_vdpa.shadow_vqs_enabled =3D svq;
+> >      s->vhost_vdpa.iova_tree =3D iova_tree;
+> > +    if (svq) {
+> > +        /* Add SVQ logging capabilities */
+> > +        s->vhost_vdpa.added_features |=3D BIT_ULL(VHOST_F_LOG_ALL);
+> > +    }
+> >      if (!is_datapath) {
+> >          s->cvq_cmd_out_buffer =3D qemu_memalign(qemu_real_host_page_si=
+ze(),
+> >                                              vhost_vdpa_net_cvq_cmd_pag=
+e_len());
+> > --
+> > 2.31.1
+> >
+>
 
 
