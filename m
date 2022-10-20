@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13C816061AE
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 15:32:36 +0200 (CEST)
-Received: from localhost ([::1]:42990 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF1CE606208
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 15:43:39 +0200 (CEST)
+Received: from localhost ([::1]:58842 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olVev-000485-S9
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 09:32:32 -0400
+	id 1olVph-0007Vx-Ds
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 09:43:37 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olVRS-0002rk-Ng
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 09:18:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40486)
+	id 1olV9P-0005uk-Fv
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 08:59:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1olU5w-0002d2-SS
+ id 1olU61-0002dT-8w
  for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:52:30 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:43568)
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40887)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1olU5t-0000nQ-SY
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:52:16 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id n12so33796611wrp.10
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 04:52:13 -0700 (PDT)
+ id 1olU5v-0000nd-4b
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:52:18 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id w18so33982804wro.7
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 04:52:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=P6ZlX/GdPaZ36NnknHeGOl5vJSXm8qxKKINm9d0mPmI=;
- b=VP4FYyrG+MCN21PT4kGODgeszD7Rj+N7uZ+WrS9XBG3+cJdb93wiwXAXrj9gp9t6SZ
- AUL53zpD65sGWqbaYUhnMAJ8Ptri0zYGC9PGb115KhHDSmgXlat7dJ/qybIj5xcypl5R
- MyFQRX6zpRmuF/hxfyC/6FTNP12RIKxpS3Na7W8/2UQd//t1KuzuP5A2Q4EbWvF9jS8O
- bdXYpGlAWOzEOsc6H/xugVlsGpVgFNB/f95LZKVkePDetBSrDVm+01Ojm+9cnXhveRL+
- wFv5wTTYBz88w5r7ZMMEwoOzYSy4SAJXqhKO7/TSkQN8TzmxDq44vZ2BBRZyVxr8rZyy
- 6sBQ==
+ bh=eTmZioBHomlpJDRXUv3StRRoYOLWVw0UemeKw+NtcTA=;
+ b=os4l0wMssUM528MPVwaRW2CHGjVhaylClzMz52gWKwAM8AfeYQk+1mBLvs4TFBQQDK
+ vkzCeBGxRrnuDUQG9f0Wrd+Xpxay14Z6dki6OLN5ajxKvtrB8s5sUz/OClSAENeIfVAE
+ k5vd/fCXE0eQmhaDmqDQ6E391uhkyFZ0WzuQ41RQXvV4QEM1VZ3dKeQY7PAIY70PuaxJ
+ xmefraRa/7X6dSRlwdTE9/NVy4y9PGr4cL3y7+fBOoTTbD4ZrVnDJdKYhYIQNXXl+4eh
+ 2DKzAL08MP9kNT5jIAU2ueCIomTgr85eXWmMNJZ1bOzPAHh9fJXxA+2tn9+XweJt3uQa
+ QsEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=P6ZlX/GdPaZ36NnknHeGOl5vJSXm8qxKKINm9d0mPmI=;
- b=M0KFHgiJ8l88XowMDADBs8Wg7s52J2cTpsVKqCY0zbLCg3Ou7OHzLxUkoJXPUFcwfm
- qYOvirEukT7fMFQgPmaBwLk2PVWzlom4iGYoa/nVcWWVf3h8QzPfz+BPLAQsM4zKEbZx
- vHvsZq2JW4GqOg9CmODL2rQNWg3K7+WRvZdFQla9vUWttkyaVZse+AkH7rl9uOM+DXDC
- DwIafKq9PnMpBYboYAPXYrZmRZoqvRcUl7Z4vf8B3tEzbB2UQhqaT2Xo76o67sHDXzAE
- g7R3Yf59IDHLsRZOAEnrdhITTMVzemVwkEaXcIYaPWAyqHZ/ZiHzGEH+mkjqo13llsb0
- yvKg==
-X-Gm-Message-State: ACrzQf2vCfiyIm92KO6f/VwKtIiwQpgKlRJ2c76/QK2iuFtQTIjeJcAt
- N/UmAr++k+mbXGGiuchbEJvw8w==
-X-Google-Smtp-Source: AMsMyM5RSJlxMAvIAHet6I8qYSDzCFUl3mDqT/fgXk9bJhEDhk2k26IMlQXz+mNpOE+yMC27DBCCRA==
-X-Received: by 2002:a05:6000:1c03:b0:232:1b9a:eb47 with SMTP id
- ba3-20020a0560001c0300b002321b9aeb47mr8239086wrb.661.1666266731749; 
- Thu, 20 Oct 2022 04:52:11 -0700 (PDT)
+ bh=eTmZioBHomlpJDRXUv3StRRoYOLWVw0UemeKw+NtcTA=;
+ b=Vt+HXvzBdAr0jRRIO8NkBsm4+RHs38Q83lZSMh6PKoOzRNGhF2lMfA1wMgKCKUVOjN
+ fPfauYOak5I4TE2UiE1bEBnp8rpZhBYOdKxeWj6XY3Qcghpyix66a9uYoCzYF0swOijh
+ BlRUHyEQkewiJ+wdZN0GIV6gMusYbjtDFVoguCUYLL9ILRIietktdIeuKm8tWEgUInME
+ zz+2b6g0DeqlUdHbJga6Onzm10KThm6RRDOB6yT35JcHcovl2NPh4fkHPXQ9u4UhtVoF
+ 2XEU1wW89U4TC1QbyZfoqoFEZxCqToufhmP1LjyeDCLISErpgXMyAIVAx+LWQujTMdRM
+ UfTg==
+X-Gm-Message-State: ACrzQf0R5ptHUMrMh/ZqUSeOpYh73lMZfNEz4jCKSAUjmmznuWqeX3gx
+ xGHO/RdZZl0gmeCY6qipxk0+Tg==
+X-Google-Smtp-Source: AMsMyM7/eIkIUA91v1QrzL+njTRNHqi9jWrIkidHFkyCa5e/Q5n6kOt5rp4WMg/shp6+Y3QVskPKDg==
+X-Received: by 2002:a5d:6683:0:b0:22c:dcc5:abb2 with SMTP id
+ l3-20020a5d6683000000b0022cdcc5abb2mr8157504wru.85.1666266733888; 
+ Thu, 20 Oct 2022 04:52:13 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- m13-20020a05600c4f4d00b003c6c76b43a1sm1864459wmq.13.2022.10.20.04.52.10
+ m8-20020adfe0c8000000b0022efc4322a9sm16207372wri.10.2022.10.20.04.52.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 20 Oct 2022 04:52:10 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 571071FFBB;
+ by zen.linaroharston (Postfix) with ESMTP id 6D95A1FFBC;
  Thu, 20 Oct 2022 12:52:10 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- Anton Johansson <anjo@rev.ng>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH  v3 03/26] tests/docker: Add flex/bison to `debian-all-test`
-Date: Thu, 20 Oct 2022 12:51:46 +0100
-Message-Id: <20221020115209.1761864-4-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH v3 04/26] configure: don't enable cross compilers unless in
+ target_list
+Date: Thu, 20 Oct 2022 12:51:47 +0100
+Message-Id: <20221020115209.1761864-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221020115209.1761864-1-alex.bennee@linaro.org>
 References: <20221020115209.1761864-1-alex.bennee@linaro.org>
@@ -106,34 +102,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Anton Johansson <anjo@rev.ng>
+This avoids the unfortunate effect of always builds the pc-bios blobs
+for targets the user isn't interested in.
 
-Adds flex/bison to the debian-all-test-cross container which was missed
-in the previous CI patch. These dependencies are required by the
-idef-parser patchset for target/hexagon.
-
-Signed-off-by: Anton Johansson <anjo@rev.ng>
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20221011173229.57909-1-anjo@rev.ng>
 ---
- tests/docker/dockerfiles/debian-all-test-cross.docker | 2 ++
- 1 file changed, 2 insertions(+)
+ configure | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/tests/docker/dockerfiles/debian-all-test-cross.docker b/tests/docker/dockerfiles/debian-all-test-cross.docker
-index 2beb077fb4..8dc5e1b5de 100644
---- a/tests/docker/dockerfiles/debian-all-test-cross.docker
-+++ b/tests/docker/dockerfiles/debian-all-test-cross.docker
-@@ -20,8 +20,10 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
- # Add extra build tools and as many cross compilers as we can for testing
- RUN DEBIAN_FRONTEND=noninteractive eatmydata \
-         apt install -y --no-install-recommends \
-+        bison \
-         ccache \
-         clang  \
-+        flex \
-         git \
-         ninja-build \
-         gcc-aarch64-linux-gnu \
+diff --git a/configure b/configure
+index 81561be7c1..dd6f58dcde 100755
+--- a/configure
++++ b/configure
+@@ -1877,6 +1877,15 @@ probe_target_compiler() {
+   container_cross_ranlib=
+   container_cross_strip=
+ 
++  # We shall skip configuring the target compiler if the user didn't
++  # bother enabling an appropriate guest. This avoids building
++  # extraneous firmware images and tests.
++  if test "${target_list#*$1}" != "$1"; then
++      break;
++  else
++      return 1
++  fi
++
+   target_arch=${1%%-*}
+   case $target_arch in
+     aarch64) container_hosts="x86_64 aarch64" ;;
 -- 
 2.34.1
 
