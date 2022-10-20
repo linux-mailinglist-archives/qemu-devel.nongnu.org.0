@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 321C7605654
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 06:33:49 +0200 (CEST)
-Received: from localhost ([::1]:44940 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC85060565A
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 06:36:01 +0200 (CEST)
+Received: from localhost ([::1]:35832 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olNFc-0000c7-7L
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 00:33:48 -0400
-Received: from [::1] (port=52286 helo=lists1p.gnu.org)
+	id 1olNHk-0004E6-M8
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 00:36:00 -0400
+Received: from [::1] (port=35502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olNFc-0000T7-0h
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 00:33:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41604)
+	id 1olNHk-0003ws-HL
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 00:36:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1olNCI-0005Nz-62
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 00:30:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34085)
+ id 1olNDL-0006F3-59
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 00:31:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50626)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1olNCB-0004Fz-UT
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 00:30:21 -0400
+ id 1olNDG-0004Qd-KN
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 00:31:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666240212;
+ s=mimecast20190719; t=1666240281;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gny6REvU7PRAQ7dAT7Qo5a9iSc+K3s7v9EwJW1fArB4=;
- b=TB6slQqMuKOVNkQIZ4xkQZBUxBdOboYC7Xf19bz6Jif6BHVqtOIFNZ+F6v8xzirmO5XRM8
- M7B2KNzaqm2PReB7X7RVdcYYrt9JUNl7aM7ZaxmIzmnyntRvLos0RYwRxpoCXH+AulN5vJ
- Re7XbEYIs0+14LGBbwXPKg+8X2u9rKo=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=RBO66vbBDSsEQFOqNcGJ9M22k5JEi0iwgvFmhNSNtAI=;
+ b=UuBZX5/1crW9HwLHt3/LE71Fkif9hHY8KcentHV/WVwXpiswHzlpUgz1r0NTV2N2083SlX
+ TUSTsvYQk4yVDgG/RMpDTa+1B8dIX/gJsKYqGhS/wRF880UzSQYZV4SCw9iRpRFXBtF7oD
+ RiMN3TZIOHl1A/EKmPRzQbwZ8v+10pA=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-663-EOUepKxeOWqiH7GZToRPgg-1; Thu, 20 Oct 2022 00:30:10 -0400
-X-MC-Unique: EOUepKxeOWqiH7GZToRPgg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- l18-20020a056402255200b0045d2674d1a0so12790748edb.0
- for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 21:30:10 -0700 (PDT)
+ us-mta-460-epAJFY8YMrqCIFz3xcOk1A-1; Thu, 20 Oct 2022 00:31:20 -0400
+X-MC-Unique: epAJFY8YMrqCIFz3xcOk1A-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ jg38-20020a170907972600b007919b3ad75aso3814142ejc.10
+ for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 21:31:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=gny6REvU7PRAQ7dAT7Qo5a9iSc+K3s7v9EwJW1fArB4=;
- b=lhXFor/m9/M+RvpRMOy9nf26owph7ruyhuIxcnrOyXfMMgIQ14YwzJ89sWiq4vmm1h
- +eeymVkiZ1i4d4wIIOMqwCcOjeTqZdiXQ1ndzvpjBje/zDGweKBJrVnZS9CAY6bl0P37
- aD8EKUzFtMJ5RgUtn4vnbcI+4pEg6uadnLaD4wNicmnbd+1TvtbiPOBhjiS+rXrO6rmF
- u91AGwjgmiPuhzUh4QzgYAsH1cUpDIEvfHxyzZ7YvdiaMIaFvA1CjRcb6c6I1hZnxb4D
- kpJQwlcmsy9r2HMqHDhfTYFpDZCjb7kZfrarkTgdSYOnVeZQRlYwhVu/Y7s5TNaWxTg3
- u9mA==
-X-Gm-Message-State: ACrzQf0ebUZaXCzw03Hh48yzxNpMO0wrDtyMCTg96FYXKgb3EjK1Xjgf
- VXBYCKYwYxDtNi7SDipreP/G1RLYxXR2+wwz/ESYdahMpY/ndtcOZXaJZNClzWxIttQ4SDdyQlW
- 9nKuw9weVViaYbzBR/m1TdprGAGAa7LA=
-X-Received: by 2002:a17:907:2c5b:b0:78d:3f8a:19d0 with SMTP id
- hf27-20020a1709072c5b00b0078d3f8a19d0mr9205107ejc.369.1666240209769; 
- Wed, 19 Oct 2022 21:30:09 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4NVpp7rSifHXJFPkfGpWV/sr9hgsfat+Tabe6BJ6GjReqOHvwRX5IfglnETpyDg9G9fLkdsZO+Fj7DrxD976A=
-X-Received: by 2002:a17:907:2c5b:b0:78d:3f8a:19d0 with SMTP id
- hf27-20020a1709072c5b00b0078d3f8a19d0mr9205086ejc.369.1666240209547; Wed, 19
- Oct 2022 21:30:09 -0700 (PDT)
+ bh=RBO66vbBDSsEQFOqNcGJ9M22k5JEi0iwgvFmhNSNtAI=;
+ b=oU7N4Mar9rPMpio1u0kj+/xKS2N+sUtqiGPd9PoLdAUViC6tV7EWNKIxxSH1zfQXnE
+ xT6CzfmpWSE5M3Mzz2m3N6chHfIv17JSplxkeKMb3tNcsqELfCurGZ/vJEDNxueGd5k6
+ K7SwJzKRj7i2kupZTkmPUaIkTQ2JXNryHBgwasdsHgchVmh48jn7MCtwg5eQsMDmyT5H
+ oyTw8vCtMOim8ZFDSW/vwImn6bebpD2whWV+bV8Qs4DLqN7ZXcY9WmhshNndNQ1EVMIo
+ ubvQ1tTGMOdPp59nXi7ayWtEXotHgwSlYH5+jnBBhs+4Qx0oAqOhZhvOYMXoZtKKK9ed
+ AF5w==
+X-Gm-Message-State: ACrzQf3n3RGPjOgXWV5wH2cuNDr3qFXZZ0U6NeO7dYWLv/ywajQrpn34
+ 946p4lLMFCqaSC10KpuS6tA+0bx07zfc1CnkESEkR2hA92Q4JWhgbG5lyOxEpnE4GVT4cgc9y3q
+ TAB1n2YpSu7MjxJ+dKbuLuQvUkZYtYY4=
+X-Received: by 2002:a17:906:db0e:b0:77b:82cf:54a6 with SMTP id
+ xj14-20020a170906db0e00b0077b82cf54a6mr9259438ejb.691.1666240277855; 
+ Wed, 19 Oct 2022 21:31:17 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7xsNW7eno1O89GPIHHH1TAi7KVDt1nYnmNHQVA5JsqAAUIaLgf7kIY6XzZK7h4gYjm+oEZbUw9h2EI4PZA2IQ=
+X-Received: by 2002:a17:906:db0e:b0:77b:82cf:54a6 with SMTP id
+ xj14-20020a170906db0e00b0077b82cf54a6mr9259428ejb.691.1666240277674; Wed, 19
+ Oct 2022 21:31:17 -0700 (PDT)
 MIME-Version: 1.0
 References: <20221019125210.226291-1-eperezma@redhat.com>
- <20221019125210.226291-4-eperezma@redhat.com>
-In-Reply-To: <20221019125210.226291-4-eperezma@redhat.com>
+ <20221019125210.226291-6-eperezma@redhat.com>
+In-Reply-To: <20221019125210.226291-6-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 20 Oct 2022 12:29:57 +0800
-Message-ID: <CACGkMEtTG1YnqtTWs_1feAfdL=m9tiJxGX118fDCTUd2onPnPg@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 3/8] vhost_net: Emulate link state up if backend
- doesn't expose it
+Date: Thu, 20 Oct 2022 12:31:05 +0800
+Message-ID: <CACGkMEtwhRj-+XdkATvxeXBEr+BHL-bmVmy+7x3ZPU_YOh1-3Q@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 5/8] vdpa: Remove shadow CVQ command check
 To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
 Cc: qemu-devel@nongnu.org, Zhu Lingshan <lingshan.zhu@intel.com>, 
  Harpreet Singh Anand <hanand@xilinx.com>,
@@ -84,7 +83,7 @@ Cc: qemu-devel@nongnu.org, Zhu Lingshan <lingshan.zhu@intel.com>,
  Gautam Dawar <gdawar@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -111,74 +110,95 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Wed, Oct 19, 2022 at 8:52 PM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
 ote:
 >
-> At this moment this code path is not reached, but vdpa devices can offer
-> VIRTIO_NET_F_STATUS unconditionally.
-
-So I guess what you mean is that, for the parent that doesn't support
-VIRTIO_NET_F_STATUS, emulate one for making sure the ANNOUCNE to work.
-This is safe since the spec said the driver will assume the link is
-always up if without this feature.
-
-> While the guest must assume that
-> link is always up by the standard, qemu will set the status bit to 1
-> always in this case.
+> The guest will see undefined behavior if it issue not negotiate
+> commands, bit it is expected somehow.
 >
-> This makes little use by itself, but VIRTIO_NET_F_STATUS is needed for
-> the guest to read status bit VIRTIO_NET_F_GUEST_ANNOUNCE, used by feature
-> VIRTIO_NET_F_GUEST_ANNOUNCE. So qemu must emulate status feature in case
-> it needs to emulate the guest announce feature.
+> Simplify code deleting this check.
 >
 > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+
+Acked-by: Jason Wang <jasowang@redhat.com>
+
 > ---
->  hw/net/vhost_net.c | 27 ++++++++++++++++++++++++++-
->  1 file changed, 26 insertions(+), 1 deletion(-)
+>  net/vhost-vdpa.c | 48 ------------------------------------------------
+>  1 file changed, 48 deletions(-)
 >
-> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> index d28f8b974b..5660606c1d 100644
-> --- a/hw/net/vhost_net.c
-> +++ b/hw/net/vhost_net.c
-> @@ -117,7 +117,32 @@ uint64_t vhost_net_get_features(struct vhost_net *ne=
-t, uint64_t features)
->  int vhost_net_get_config(struct vhost_net *net,  uint8_t *config,
->                           uint32_t config_len)
->  {
-> -    return vhost_dev_get_config(&net->dev, config, config_len, NULL);
-> +    VirtIODevice *vdev;
-> +    int r =3D vhost_dev_get_config(&net->dev, config, config_len, NULL);
-> +
-> +    if (unlikely(r !=3D 0)) {
-> +        return r;
-> +    }
-> +
-> +    if (config_len < endof(struct virtio_net_config, status)) {
-> +        return 0;
-> +    }
-> +
-> +    /*
-> +     * TODO: Perform this only if vhost_vdpa.
-> +     */
-
-Cindy adds some mediation codes for vhost-vDPA in
-virtio_net_get_config(), so I believe it can be done there?
-
-Thanks
-
-> +    vdev =3D net->dev.vdev;
-> +    if (!vdev) {
-> +        /* Device is starting */
-> +        return 0;
-> +    }
-> +
-> +    if ((net->dev.acked_features & BIT_ULL(VIRTIO_NET_F_STATUS)) &&
-> +        !(net->dev.features & BIT_ULL(VIRTIO_NET_F_STATUS))) {
-> +        ((struct virtio_net_config *)config)->status |=3D VIRTIO_NET_S_L=
-INK_UP;
-> +    }
-> +
-> +    return 0;
->  }
->  int vhost_net_set_config(struct vhost_net *net, const uint8_t *data,
->                           uint32_t offset, uint32_t size, uint32_t flags)
+> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> index fca21d5b79..3374c21b4d 100644
+> --- a/net/vhost-vdpa.c
+> +++ b/net/vhost-vdpa.c
+> @@ -461,48 +461,6 @@ static NetClientInfo net_vhost_vdpa_cvq_info =3D {
+>      .check_peer_type =3D vhost_vdpa_check_peer_type,
+>  };
+>
+> -/**
+> - * Do not forward commands not supported by SVQ. Otherwise, the device c=
+ould
+> - * accept it and qemu would not know how to update the device model.
+> - */
+> -static bool vhost_vdpa_net_cvq_validate_cmd(const void *out_buf, size_t =
+len)
+> -{
+> -    struct virtio_net_ctrl_hdr ctrl;
+> -
+> -    if (unlikely(len < sizeof(ctrl))) {
+> -        qemu_log_mask(LOG_GUEST_ERROR,
+> -                      "%s: invalid legnth of out buffer %zu\n", __func__=
+, len);
+> -        return false;
+> -    }
+> -
+> -    memcpy(&ctrl, out_buf, sizeof(ctrl));
+> -    switch (ctrl.class) {
+> -    case VIRTIO_NET_CTRL_MAC:
+> -        switch (ctrl.cmd) {
+> -        case VIRTIO_NET_CTRL_MAC_ADDR_SET:
+> -            return true;
+> -        default:
+> -            qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid mac cmd %u\n",
+> -                          __func__, ctrl.cmd);
+> -        };
+> -        break;
+> -    case VIRTIO_NET_CTRL_MQ:
+> -        switch (ctrl.cmd) {
+> -        case VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET:
+> -            return true;
+> -        default:
+> -            qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid mq cmd %u\n",
+> -                          __func__, ctrl.cmd);
+> -        };
+> -        break;
+> -    default:
+> -        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid control class %u\n",
+> -                      __func__, ctrl.class);
+> -    };
+> -
+> -    return false;
+> -}
+> -
+>  /**
+>   * Validate and copy control virtqueue commands.
+>   *
+> @@ -526,16 +484,10 @@ static int vhost_vdpa_net_handle_ctrl_avail(VhostSh=
+adowVirtqueue *svq,
+>          .iov_len =3D sizeof(status),
+>      };
+>      ssize_t dev_written =3D -EINVAL;
+> -    bool ok;
+>
+>      out.iov_len =3D iov_to_buf(elem->out_sg, elem->out_num, 0,
+>                               s->cvq_cmd_out_buffer,
+>                               vhost_vdpa_net_cvq_cmd_len());
+> -    ok =3D vhost_vdpa_net_cvq_validate_cmd(s->cvq_cmd_out_buffer, out.io=
+v_len);
+> -    if (unlikely(!ok)) {
+> -        goto out;
+> -    }
+> -
+>      dev_written =3D vhost_vdpa_net_cvq_add(s, out.iov_len, sizeof(status=
+));
+>      if (unlikely(dev_written < 0)) {
+>          goto out;
 > --
 > 2.31.1
 >
