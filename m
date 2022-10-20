@@ -2,83 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 777B3606157
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 15:18:26 +0200 (CEST)
-Received: from localhost ([::1]:35988 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4D70606153
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 15:17:21 +0200 (CEST)
+Received: from localhost ([::1]:41318 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olVRI-00066U-2S
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 09:18:24 -0400
+	id 1olVPy-0003m4-79
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 09:17:02 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olVIF-0005G0-1e
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 09:09:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40492)
+	id 1olV4W-0004ij-Sd
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 08:54:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1olU61-0002dU-9G
+ id 1olU64-0002dr-P9
  for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:52:30 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:34418)
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:37532)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1olU5w-0000nr-SI
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:52:18 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id b4so33935162wrs.1
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 04:52:16 -0700 (PDT)
+ id 1olU5z-0000o7-Jn
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:52:22 -0400
+Received: by mail-wr1-x434.google.com with SMTP id bv10so33914526wrb.4
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 04:52:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=y2r86cIkMVyRHBjasU8BLM80fUl/rbZ8N5I6eEXnTy0=;
- b=ANRU/KeoHIaJWxrGXqWgW9XdXpCwu49JRqXdEZjgqrlK3KYAvFDY8CIV+3OtnyPQQX
- BBGNb2tzvXCPA9L74+wNH5qf+0sKLhpe7aUsvr6j1N+BJdsdsX5VQnkmMju6FrAMs9us
- YdxKyqWTMLJLk40pAzC/XawUvSQz1EF9ekOWEtvr0Cpn+DttGVvaXUO2JYT2Ne7RBAAB
- dwIp6bL7FW28MY2iKr7seIp7ndGbX0pZtcqEZXp8JD38b32+oJqXB68Ot8KvJxxoUvGt
- a2OshkqSUSR4mpJYierwmKh6z45VFhKcnxZzs7LDc1nDKYmkwndxDCCWxMAo/21MDpJi
- 4YwA==
+ bh=mFOnT1sMtXBnCTZImDBtlQzxhw9rMaTtI2H9oXB4Uf0=;
+ b=FblwjFzi8QQuoCkr39VUSN3IIwX2HVQMj9vxCNWWCBW/E7KfsKZqoS1e3YYl+BZ74b
+ gVM6dNpXWw+MQZzQn8/B4M+qvSdfE9dwQ88C+k+Sm9t1KeYDqnE0tvih4xX014o9iUtV
+ /pbEUvR2j+2Hsz7VYZXzEOB5+BnqjmiUBxDSxXjON8WALyY0rCj6gCXc1M01FRE5ASR+
+ YbT5ItMgDtnBXCIPxza1MtWR9oeRxWpNmOPxfnBp9c5e/8NhmN8kcXBLtyQj5FVzrkQM
+ k9UBtft/73tMV8zjsnxKA33A9fJR44ekAlfNSbV2iShRuEsT1/EHeSb2j5XHocnrG24Q
+ KiBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=y2r86cIkMVyRHBjasU8BLM80fUl/rbZ8N5I6eEXnTy0=;
- b=VMLN9ITIuMf7RdSmxIh53c+u8yS4AO2hxS5xv7UvE/cim3WXtimVm7PfTNQAukDw7Y
- u7nDWGtaf+kUNdQyBxSlAFNHrp8JnDN7O16lovZlndShHDYezvdX2fPe/mE1kOviiaaH
- ylQXYi89egwV0QP+TUTgtqepE+CqwetPBt/B2qdHXDIc6IGQoj62ReDAAsZLKAA9fVkP
- 5JbzkZ5Rn3OHGsWAKxaCfZ98C2b1ozezRbYJ87H6IJE0EXf1oS59GAFIgoZ3spB37Ow4
- Qf3chKYS0FK7dgQC/j/aA/ewDxd7TybMGRz4TZjgFomtv1QgHG48pPqCT6k6SE+PQA80
- zIWQ==
-X-Gm-Message-State: ACrzQf1RRIqCBLS9T0mCB2knL7ANoSgLnXVX5Stv4K0up70QU/TFIARd
- 8bwqalXBO+m387fgsC1kj3gjCCK6A1+o/w==
-X-Google-Smtp-Source: AMsMyM6t7/duI9kmBGoaBj09nBfqxwrBEEC2EWIggoIwJFuXgGRrqLB85B4nJnr9UakiGnV2dU706Q==
-X-Received: by 2002:adf:db42:0:b0:22e:386e:f6af with SMTP id
- f2-20020adfdb42000000b0022e386ef6afmr8154492wrj.400.1666266735232; 
- Thu, 20 Oct 2022 04:52:15 -0700 (PDT)
+ bh=mFOnT1sMtXBnCTZImDBtlQzxhw9rMaTtI2H9oXB4Uf0=;
+ b=WuA4OpPWZBWZqmg2OPeOLi88xe10Ko0DhLA31PV+rds0XZdNvHB4CE872CPkI4uiam
+ yBWm8Cg8yThHaQV7TP1LxcJBUiFXXgBb0ZuEO85n+79KEfAcbomexz8aYDMsdrqn8+r5
+ 4CplOh6FZ5czCMFaZqhaLzuZFrtqFi6x4+7nTD0Sng0YFdwRm6kBwNkXHigP7B3z8E+Z
+ mfEiFi0AnbgqPSsDf9lT2BojZAPTkFWZxlMmG0ReVC82G24AMBQ7ztswF/QBvjle6lUE
+ z98YtY5R2Sq3t/mLrrn9+H7ADKISv/3IaoNkR3m3pzkztxEYzjZOLUfz4Q9mYn65jk3K
+ /xfw==
+X-Gm-Message-State: ACrzQf3p5+xYitDe547iWNawn5BspDnAzWFfaPTAq7sbP5Vlk5a1mcna
+ 37cTgXYvICLr+D1WA1ST4E4o7w==
+X-Google-Smtp-Source: AMsMyM64JVSblADUU2A6GLGvUtP4cRGT7TO8hXPHVbopRM9ifKZgkgkkHpjSEhEeGuikJfdw3f/fxg==
+X-Received: by 2002:a5d:4248:0:b0:234:3216:7659 with SMTP id
+ s8-20020a5d4248000000b0023432167659mr4047406wrr.488.1666266736165; 
+ Thu, 20 Oct 2022 04:52:16 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- m6-20020a05600c3b0600b003c6c2ff7f25sm3045368wms.15.2022.10.20.04.52.11
+ q16-20020adff950000000b0022b315b4649sm16317229wrr.26.2022.10.20.04.52.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 20 Oct 2022 04:52:13 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 832B41FFBD;
+ by zen.linaroharston (Postfix) with ESMTP id 9954C1FFBE;
  Thu, 20 Oct 2022 12:52:10 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v3 05/26] configure: fix the --enable-static --disable-pie case
-Date: Thu, 20 Oct 2022 12:51:48 +0100
-Message-Id: <20221020115209.1761864-6-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PATCH v3 06/26] tests/avocado: extend the timeout for x86_64 tcg
+ tests
+Date: Thu, 20 Oct 2022 12:51:49 +0100
+Message-Id: <20221020115209.1761864-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221020115209.1761864-1-alex.bennee@linaro.org>
 References: <20221020115209.1761864-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,42 +105,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The previous tweak was incomplete as it missed a leg.
+These are timeing out on gitlab.
 
-Fixes: abafb64b6d (configure: explicitly set cflags for --disable-pie)
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- configure | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ tests/avocado/boot_linux.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/configure b/configure
-index dd6f58dcde..8c2c4c1a04 100755
---- a/configure
-+++ b/configure
-@@ -1327,6 +1327,8 @@ static THREAD int tls_var;
- int main(void) { return tls_var; }
- EOF
+diff --git a/tests/avocado/boot_linux.py b/tests/avocado/boot_linux.py
+index b7522ad3a1..571d33882a 100644
+--- a/tests/avocado/boot_linux.py
++++ b/tests/avocado/boot_linux.py
+@@ -19,6 +19,7 @@ class BootLinuxX8664(LinuxTest):
+     """
+     :avocado: tags=arch:x86_64
+     """
++    timeout = 480
  
-+# Meson currently only handles pie as a boolean for now so if we have
-+# explicitly disabled PIE we need to extend our cflags because it wont.
- if test "$static" = "yes"; then
-   if test "$pie" != "no" && compile_prog "-Werror -fPIE -DPIE" "-static-pie"; then
-     CONFIGURE_CFLAGS="-fPIE -DPIE $CONFIGURE_CFLAGS"
-@@ -1335,13 +1337,12 @@ if test "$static" = "yes"; then
-     error_exit "-static-pie not available due to missing toolchain support"
-   else
-     pie="no"
-+    QEMU_CFLAGS="-fno-pie -no-pie $QEMU_CFLAGS"
-   fi
- elif test "$pie" = "no"; then
-   if compile_prog "-Werror -fno-pie" "-no-pie"; then
-     CONFIGURE_CFLAGS="-fno-pie $CONFIGURE_CFLAGS"
-     CONFIGURE_LDFLAGS="-no-pie $CONFIGURE_LDFLAGS"
--    # Meson currently only handles pie as a boolean for now so if we have
--    # explicitly disabled PIE we need to extend our cflags because it wont.
-     QEMU_CFLAGS="-fno-pie -no-pie $QEMU_CFLAGS"
-   fi
- elif compile_prog "-Werror -fPIE -DPIE" "-pie"; then
+     def test_pc_i440fx_tcg(self):
+         """
 -- 
 2.34.1
 
