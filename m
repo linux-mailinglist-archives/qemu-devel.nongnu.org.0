@@ -2,87 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C55A606B1B
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 00:16:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D265606B30
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 00:22:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oldq0-0006ih-My
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 18:16:28 -0400
+	id 1oldvJ-00073J-4H
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 18:21:59 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oldlF-0000ST-Mj
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 18:11:33 -0400
+	id 1oldmd-00024z-BR
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 18:12:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oldl8-0000K1-0A
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 18:11:27 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
+ id 1oldmT-00021r-RJ
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 18:12:49 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oldl6-0003LI-IM
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 18:11:25 -0400
-Received: by mail-pf1-x429.google.com with SMTP id d10so814477pfh.6
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 15:11:24 -0700 (PDT)
+ id 1oldmR-0003V4-Sf
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 18:12:49 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id c24so594840plo.3
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 15:12:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=P71Aixtzuc7xTG3C9iv7rqkrJj3azJm24+WVMu1Jknw=;
- b=Wa2AWZ/YGMvQEQM5C5q+9G0bmpXZ/tslJe0ROQf5eI6hinVaakQsRFu+dUZgttg6Va
- 93K7dzlLgYdxS0X+mnZJ2ibpb79Zz927BM/7QG+CR4pgw+3RNUreoIJK9vZQkqT1ILIG
- 8vTpkuKLvQx8uv2uTTZdBpQRomVB2Rmn4ZVSqG0amoe7ZmDmVsDY5O0jB7PSiQqRLlRs
- VnWerUXM9pEB1UXQZS0mvAoMsqmkA9pxuQgHj8cnI232sTT7vH9TEz7PxoHOV8qDLvgE
- sM+2S9YPG0fUv09QLTiLZ2cKk6YC6J5ar6zf/2SsoqumVoXHAF1nVt1K78tr2YHnq2sd
- mISg==
+ bh=9Hi400Q9hsuotVkeAs6qqzVmuLdSesifj8//dcBaycQ=;
+ b=BgxRM8a8e98b+bF00eONUgPKeH0qcw1tyTElWsBZ+368HzEuUfQynHbLDewSsGvlHi
+ CebWItZRAhwzxTPs1p7Jt7PinCd/87axysSVkYfnov4o2VLfGyvQNG1+BjTkMwXNI1he
+ A1DuFb1fahworxuCHjXHBPEGSQJAtNlMT2pdN9E9Kt+qvBRVt9sdtKCL4lNqSKh+ypkH
+ oGDJ8dZ2gktodkD2QIpkazdfSIcbkhGZLRglGigp93NjO7BZ3S2mEdJsAlUD+hznGudU
+ 15MdRm8zQNRU0F4eEXeZfMchnxUiiMFZcBHXgRR8gNYBJDhuu3zpwF3ZNVZxq7VFfR3C
+ 0qcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=P71Aixtzuc7xTG3C9iv7rqkrJj3azJm24+WVMu1Jknw=;
- b=Zsw19tjq//hqyS1cPdqgGq9LdRQ0KD5d+PKKoDUBet0gT0xSTIlYaMIK1+G49jOL7D
- J8qagvtFUCBNkSpEMKj8S9ljzBQ5LmdQspoqe98W/ZlQppEVpcF8mZVgYV6DlGmh4tbG
- bXHj8GiSmjmtNiAZcLOHsD6BYkFDOfywTicByTVzfx7Qd2BCuYrXOymhtxWhctNnJEY0
- Yd2ZbF45MROzpn+Q2Km4ry+w+xRcI60v1Q+p09glPxesScndBphY2SHC3PbVJkI2kfhI
- 7fk+wulz6KdHPuhLlw3PXtoeA9FF4iyAjPgaGyFenlpr5o3AEVQMfNWrVSfzeTBYs3ol
- 5X+w==
-X-Gm-Message-State: ACrzQf1WogFlb1dnbGdfNmr+rL/30vAhDQoUARuWIfcFABL35AQdFRJE
- xcB2v7h7FyJOVZLlDczOIijA9g==
-X-Google-Smtp-Source: AMsMyM5DppwSEknWymL25M2qLEBBvD6G8SuPqGLabH8B+88LDeANdF2YiABzMqWmfiirhnDYzYlZNQ==
-X-Received: by 2002:a05:6a00:10c8:b0:563:1bd1:2ce4 with SMTP id
- d8-20020a056a0010c800b005631bd12ce4mr15965590pfu.6.1666303883018; 
- Thu, 20 Oct 2022 15:11:23 -0700 (PDT)
+ bh=9Hi400Q9hsuotVkeAs6qqzVmuLdSesifj8//dcBaycQ=;
+ b=PHRXQWJFa0pPxxTm9SZ6yIz4jPmkJwcH90el2vizdgs9T0BLuV6MEOnjn4EmkdZ46w
+ clzDwtCJirm0sJ/m977uuIonQPNB3LCDdxSWesjgozQfoF1D7jzvx2qFfzmR8oIEarMm
+ B+awYFbhDKxwulRvbQsH4A3Boikq7e31YJRmiV6qxZclG9e8zzUGAcdi8C8mIdLEi8Je
+ f24ksE2tD6ar5ugbBuLyTQqIo4n2tmBV/h9mkc+XxFCPWbtiXoiqozCqppYDu1T5rMKz
+ aGwhnwMssaVBSrEtrRzfj6f6aogoxErgN00RelLK8ab+xa00gogC2NCI+TEp6HfueAZU
+ ZkZw==
+X-Gm-Message-State: ACrzQf2nW+VFlDMTZQMt34Cw6O9OdeqXWsWKHtUq4G0FZCHiEaMj8hIR
+ PMhl8n0vWw9nM3KjeUBJkNXpVw==
+X-Google-Smtp-Source: AMsMyM4LPiiPyJTnPbGfcXpEeNNHnZfjJ9tSarcIc5f2xAlii+09N+/YXe6uwuSbA0S/PNAAN2q75A==
+X-Received: by 2002:a17:90a:e548:b0:211:2c0c:cb74 with SMTP id
+ ei8-20020a17090ae54800b002112c0ccb74mr8130948pjb.69.1666303966232; 
+ Thu, 20 Oct 2022 15:12:46 -0700 (PDT)
 Received: from [192.168.1.107] ([149.135.10.35])
  by smtp.gmail.com with ESMTPSA id
- p14-20020a170902780e00b0017d7e5a9fa7sm9019963pll.92.2022.10.20.15.11.16
+ g13-20020aa79dcd000000b005668b26ade0sm13459297pfq.136.2022.10.20.15.12.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Oct 2022 15:11:22 -0700 (PDT)
-Message-ID: <1908886a-0715-b183-a95d-c226ab83a646@linaro.org>
-Date: Fri, 21 Oct 2022 08:11:13 +1000
+ Thu, 20 Oct 2022 15:12:45 -0700 (PDT)
+Message-ID: <277cd3f5-2dd8-1eaa-c1a5-0982fdfe0da6@linaro.org>
+Date: Fri, 21 Oct 2022 08:12:37 +1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH v3 06/26] tests/avocado: extend the timeout for x86_64 tcg
- tests
+Subject: Re: [PATCH v3 08/26] tests/tcg: use regular semihosting for
+ nios2-softmmu
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
  aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
- crosa@redhat.com, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
+ crosa@redhat.com
 References: <20221020115209.1761864-1-alex.bennee@linaro.org>
- <20221020115209.1761864-7-alex.bennee@linaro.org>
+ <20221020115209.1761864-9-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221020115209.1761864-7-alex.bennee@linaro.org>
+In-Reply-To: <20221020115209.1761864-9-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -106,30 +104,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/20/22 21:51, Alex Bennée wrote:
-> These are timeing out on gitlab.
-
-timing.
-
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
-
-
+> The nios2 code now plugs into the common semihosting code so we can
+> use the same redirect invocation as the other boards. There is however
+> a bug raised for the fact the tests don't seem to be completing
+> properly and silently passing anyway:
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>    https://gitlab.com/qemu-project/qemu/-/issues/1258
+> 
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
 > ---
->   tests/avocado/boot_linux.py | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/tests/avocado/boot_linux.py b/tests/avocado/boot_linux.py
-> index b7522ad3a1..571d33882a 100644
-> --- a/tests/avocado/boot_linux.py
-> +++ b/tests/avocado/boot_linux.py
-> @@ -19,6 +19,7 @@ class BootLinuxX8664(LinuxTest):
->       """
->       :avocado: tags=arch:x86_64
->       """
-> +    timeout = 480
->   
->       def test_pc_i440fx_tcg(self):
->           """
+>   tests/tcg/nios2/Makefile.softmmu-target | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
