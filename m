@@ -2,87 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 276BB6063BB
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 17:02:06 +0200 (CEST)
-Received: from localhost ([::1]:46564 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1972C606375
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 16:46:46 +0200 (CEST)
+Received: from localhost ([::1]:57938 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olX3c-000527-1I
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 11:02:04 -0400
+	id 1olWoS-0003ns-6X
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:46:42 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olWy6-0005qF-G3
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:56:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56712)
+	id 1olWiG-0000Xq-Rt
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:40:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1olU6A-0002ey-VF
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:52:44 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:34670)
+ id 1olUDQ-0000bi-2F
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:00:19 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:44906)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1olU64-0000pD-Ix
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:52:30 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- l14-20020a05600c1d0e00b003c6ecc94285so2244275wms.1
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 04:52:23 -0700 (PDT)
+ id 1olUDN-00050s-8n
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:59:59 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ bg9-20020a05600c3c8900b003bf249616b0so1996589wmb.3
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 04:59:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fQc1SBrI4p6uNk+295hOmy/KNXRMgePPxtVxT3Ps1H0=;
- b=hnccSpQeQ6wZkdD1D9Vc7uFt+DFjp1EUps8qmFy+3OceDeRgOMiKaW4ZVxu7254QKx
- DXDCkzQizkLz5K2yHx9sZnolp9FIHJPKF8vxxA8OsLKkkLEGOQYyv3CUSSy5Fwsvwbmv
- y3xZ4rvM1snLZerSzoGXygrDkrFmXdNw5YYhPQmYH6k18DW023foqIWx8p1hXlajUf2p
- 7DUOmjicoReopb2R3dXK+L/hAsq2RUz8RqMgQTLEp+2YzHUWUdSGZYRgS5EmGRnODgyA
- 98tyKOJkDQ8RLznH9I29CVSKuH0fC+4ufCDKxirnSKQPSobp6eiH1TvZfJOU8v3jrJbv
- Ni1w==
+ bh=BsnTukbpFLVmrOVd5Rj83jH6OSi+bbFHS2pZXyWEQH8=;
+ b=RbqQscMssqhba+R/TVBk22Q1pJ6Ci/xm3vr9cmHSWXuRWeHYDEQ8YyHzt1rXaNuKEV
+ 4ihFX94ivc/gf7dp9G4Ro+onXpUpI+AXgLxBM4tYwtFqibSBbWf3Zm1Ge4CenRUH8s5B
+ grmYLSi8DRefDXXbyLx87KcXxQqRkwd/Zp3FowmiakUCGUseQzoUfI8RD0NC928x8yQ4
+ m1W8gAv+UYF/9ZfQ1OkeBtYsF1seVOyZr1d1T6hZP+p+ETG/o3lvcNo+NTLh8kbiAyDY
+ sbMB4Z2AdiVpTsQ+A4mcmzvMPCWYUBPCWipT/tMIHC93oU0A7wicaxFoAF6sOJZvW81p
+ DM1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fQc1SBrI4p6uNk+295hOmy/KNXRMgePPxtVxT3Ps1H0=;
- b=dPAsLjYMR05EaKwMFhfHumcPrn5X5tKk8kcdc9JdGTcLCjwWR7+dMNuVK7vjVBBac9
- S9fVigWWwvBP2bcIw4DAQsz3ucewlcRM4hoppW8r9u8E9wWVvW9qdxsyjE7U7XeRv7Z7
- lvksIs97LlCh0PbjdiAOXeX+rJfHrwWXPbhzAYeJVdmZ91FcowTubywF5fgvKQRlrIoY
- KBnZ1YqJSUPkk7vPmEN6xd839re6EG7TOcQSnV/NXuSOTiKQz09oYgnjcB/zVEBlWDq3
- W/5XAmqKwoC+TSHo0+NdYoE7yZPQuqkI2aB+B7C4whSmQuRmAg+sw7B7sIJ7CoP6aiIS
- UxLg==
-X-Gm-Message-State: ACrzQf29D1EzzNupw9+xEfk++0sS7EBkXMUorFHfEzjuVlYKpIjnSCd6
- v8h+L6g0eE1pCwcLtTt49tTBwQ==
-X-Google-Smtp-Source: AMsMyM6IT/sE4UQJ9CHR13LPeByy4qwXvE1xhJd1zmlmO5rchLVd58AY0ua83gODpdiAeZLKmkqcRg==
-X-Received: by 2002:a05:600c:4448:b0:3c6:fb65:2497 with SMTP id
- v8-20020a05600c444800b003c6fb652497mr11422428wmn.124.1666266741915; 
- Thu, 20 Oct 2022 04:52:21 -0700 (PDT)
+ bh=BsnTukbpFLVmrOVd5Rj83jH6OSi+bbFHS2pZXyWEQH8=;
+ b=WBg4ocqS56ozYP3hnjUBy1BsiDuZyqb1xjzVohraFTfXM4xaelkBlh4Efz0PZOoAsc
+ If5WpMer7/SmGHXgY3bGHZi8zr3PYozhuoExlY6JHIuDhv03bIaDzfdEnE5orm6ti2Gy
+ 1buaZnlB1dt2YHWRZCCJrEnx6PBNJbPxkU1R/rgQG7kXkAsTZWPPvHpEYkHQ8iud6Vwg
+ UkF4b5a4QIQv/OVaEe0wuBZNYOJdVbAb1Ap6auZOPt7+WlwdHe5eevsUdGtm0cZAGC69
+ +7MCm/qVTUrW5LRdX3wMAUVKR8tMbZrAzwwyiNFf7lKlUS4XYnaAf538gWl1UJzVUyn2
+ N3gw==
+X-Gm-Message-State: ACrzQf2HhuIBCrpIs8F4TohatJ5z6SYidNLlnhomDqQwJJhpCnkRBPlT
+ mTgNxE4R7VH20NQOD04SbWiFSQ==
+X-Google-Smtp-Source: AMsMyM4asUoVc7jo07eANIzMvf0+Qk/pwMHL5zgoZMS2CvFZatNndX6wyavNnI/Ed0/QUgceyR3xxg==
+X-Received: by 2002:a05:600c:1c07:b0:3c6:cb22:8a93 with SMTP id
+ j7-20020a05600c1c0700b003c6cb228a93mr30343202wms.45.1666267195915; 
+ Thu, 20 Oct 2022 04:59:55 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- v14-20020a05600c444e00b003c6f27d275dsm2919745wmn.33.2022.10.20.04.52.14
+ t15-20020a5d49cf000000b00230c9d427f9sm16467886wrs.53.2022.10.20.04.59.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Oct 2022 04:52:17 -0700 (PDT)
+ Thu, 20 Oct 2022 04:59:54 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 461461FFC4;
+ by zen.linaroharston (Postfix) with ESMTP id 71B231FFC6;
  Thu, 20 Oct 2022 12:52:11 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- Bin Meng <bin.meng@windriver.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Greg Kurz <groug@kaod.org>
-Subject: [PATCH  v3 13/26] fsdev/virtfs-proxy-helper: Use g_mkdir()
-Date: Thu, 20 Oct 2022 12:51:56 +0100
-Message-Id: <20221020115209.1761864-14-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH  v3 15/26] MAINTAINERS: add entries for the key build bits
+Date: Thu, 20 Oct 2022 12:51:58 +0100
+Message-Id: <20221020115209.1761864-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221020115209.1761864-1-alex.bennee@linaro.org>
 References: <20221020115209.1761864-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -105,39 +102,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+Changes to the build files are a bit special in that they usually go
+through other maintainer trees. However considering the build system
+is the root of everything a developer is likely to do we should at
+least set it out in MAINTAINERS.
 
-Use g_mkdir() to create a directory on all platforms.
+I'm going to nominate Paolo for meson stuff given the conversion was
+his passion project. I'm happy to cast an eye over configure stuff
+considering a lot of the cross compile logic is in there anyway.
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20221006151927.2079583-7-bmeng.cn@gmail.com>
----
- fsdev/virtfs-proxy-helper.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 
-diff --git a/fsdev/virtfs-proxy-helper.c b/fsdev/virtfs-proxy-helper.c
-index 2dde27922f..5cafcd7703 100644
---- a/fsdev/virtfs-proxy-helper.c
-+++ b/fsdev/virtfs-proxy-helper.c
-@@ -10,6 +10,7 @@
-  */
+---
+v2
+  - s/Odd Fixes/Maintained/
+  - nominate more reviewers
+---
+ MAINTAINERS | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e3d5b7e09c..6a6f4d62bd 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3764,6 +3764,30 @@ F: docs/about/deprecated.rst
  
- #include "qemu/osdep.h"
-+#include <glib/gstdio.h>
- #include <sys/resource.h>
- #include <getopt.h>
- #include <syslog.h>
-@@ -639,7 +640,7 @@ static int do_create_others(int type, struct iovec *iovec)
-         if (retval < 0) {
-             goto err_out;
-         }
--        retval = mkdir(path.data, mode);
-+        retval = g_mkdir(path.data, mode);
-         break;
-     case T_SYMLINK:
-         retval = proxy_unmarshal(iovec, offset, "ss", &oldpath, &path);
+ Build System
+ ------------
++Meson
++M: Paolo Bonzini <pbonzini@redhat.com>
++R: Marc-André Lureau <marcandre.lureau@redhat.com>
++R: Daniel P. Berrange <berrange@redhat.com>
++R: Thomas Huth <thuth@redhat.com>
++R: Philippe Mathieu-Daudé <philmd@linaro.org>
++S: Maintained
++F: meson.build
++F: meson_options.txt
++F: scripts/meson-buildoptions.*
++F: scripts/check_sparse.py
++F: scripts/entitlement.sh
++F: scripts/symlink-install-tree.py
++F: scripts/nsis.py
++
++TL Makefile and configure
++M: Paolo Bonzini <pbonzini@redhat.com>
++R: Alex Bennée <alex.bennee@linaro.org>
++S: Maintained
++F: Makefile
++F: configure
++F: scripts/mtest2make.py
++F: tests/Makefile.include
++
+ GIT submodules
+ M: Daniel P. Berrange <berrange@redhat.com>
+ S: Odd Fixes
 -- 
 2.34.1
 
