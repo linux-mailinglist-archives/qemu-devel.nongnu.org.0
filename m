@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E58605B56
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 11:40:19 +0200 (CEST)
-Received: from localhost ([::1]:53386 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B79DC605BA5
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 11:58:54 +0200 (CEST)
+Received: from localhost ([::1]:57272 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olS2E-0005Ta-2A
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 05:40:18 -0400
+	id 1olSK6-0001sw-3E
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 05:58:52 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olRqs-0004CL-19
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 05:28:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50480)
+	id 1olRqp-000424-9t
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 05:28:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1olRfX-0002Wp-7v
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 05:16:51 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:48161)
+ id 1olRfV-0002Rm-E9
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 05:16:49 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:56539)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1olRfV-0005Hh-6P
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 05:16:50 -0400
+ id 1olRfS-0005Ho-OX
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 05:16:49 -0400
 Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MOiLv-1oT5Qu2ev1-00QETJ; Thu, 20 Oct 2022 11:16:31 +0200
+ id 1N2m7Q-1pFObn05SG-0137ju; Thu, 20 Oct 2022 11:16:35 +0200
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
@@ -40,32 +40,32 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Samuel Thibault <samuel.thibault@ens-lyon.org>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Paul Durrant <paul@xen.org>, Stefan Weil <sw@weilnetz.de>,
- Markus Armbruster <armbru@redhat.com>, Stefano Brivio <sbrivio@redhat.com>
-Subject: [PATCH v12 01/17] net: introduce convert_host_port()
-Date: Thu, 20 Oct 2022 11:16:08 +0200
-Message-Id: <20221020091624.48368-2-lvivier@redhat.com>
+ Markus Armbruster <armbru@redhat.com>
+Subject: [PATCH v12 02/17] net: remove the @errp argument of net_client_inits()
+Date: Thu, 20 Oct 2022 11:16:09 +0200
+Message-Id: <20221020091624.48368-3-lvivier@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221020091624.48368-1-lvivier@redhat.com>
 References: <20221020091624.48368-1-lvivier@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:w7b7ew+XCKzAiNz98MdvY/X+FRrIVaZcwXchn++di0t+4lHR55J
- QMUTAMRUkKzYEwok+QgfhDJNqEEZFDulUNjrXxYNWfK6dhMZaXtVXn8IrjBYdv1ujSbM52j
- 8y2Ai8TzcqOd0yhC7jtN8I9Wwnxisu7t1ChvZ2ICyw1NFZfyYUnsx4vUaLfvRB5CR+5oB/+
- LvXVkNO2l1KSYUHApLoZQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hI15SSxCSiM=:I8hQqXJjf5XOelF9j214RG
- fXWFmJFM1zApl2umJyJou/JcG+4y+DKl6/dhnTgstHZfa0u598fi/tmGz/HzM6IANRALMc/eD
- 6DwrM/xYp6UE/V2s38VeBrwb4dRW02QtlI3SbDIsMDo3U16SKdb7hmf0Z4F8e/xB/8STU7oAJ
- I/lz69i0JqHCjVt/wn3VwRDi/jxrz8yUumJj2iLZuKHfuLnIIAJwwF7NXSlntEhDmEm67yQ9P
- fRd8XrQ6cXjtouTXYZMBd8Coq7NCE8+bDJrtQSDEhdvHFeUQIlFYjSf3NrI0b7Z/UNOhtT7tZ
- hSNtv+4B66mcay5UGp9m3FbAAKK1Iw9+Xe0DMSRq9frr7zwBKCzLydXSy/IPc5z3ZDIO0pBZe
- s56fPDgeV/6PScq2ckvDlThV0F2K6y/GaQu7b8lJbiz9CDT9tVGIOOD/5g2UidNsbjxS4aYDP
- 1IkzhGnpNXVPXNz1xjbqDfITTW1Fm83c9uLBYehEx8yM32D+JIMuk71/mtDORpK2mbcuFtZg/
- 5lkHhN/vNJ68fzjUQxQHB6rVnCNXANvZ4yHdhXDj1rPfje+/pl/xLNUfppwhOIprymMZ4SEFB
- Ny0kwx+JA8tAnvNSlrQk7WkKYWM5Hrzklq6tHrqhS3DIKgzhub5NZwBW54ktbXeln71Rlfoxe
- HRe3hTvFluCAZ1eJG4SS679Z4PDWGiIaimjt1u1p2f7WvQCFoJY9iTk74T/yQLVBB8eTPiYqd
- G1v/jNDzJkllo8H7QdZmna98mHX6pps0xqoXvNt2LDhvviGJDhK7jDi24h6Lppoot0GrRYZAa
- Wsa5tWw
+X-Provags-ID: V03:K1:GcI+SCNvkXqQLfBRQLhwGtXM3muJ7p0E+3r6yO9gVQ4zkONOeJ5
+ r1rQyZXlUOg8IvOZqlTK2WrBGx9rl2Q5ngt3dEtTLfspvpad4W8KLrX6Gb/CXXAv3T3OYgw
+ 0rmwD7ybGZSopSkeHbwY1jVRN+erL7U14XNuby8q7WWa3MFUYGfyYpz7yLOMEFRXi+lm5hV
+ KEeOsNHiJafL1Tuxh+jbg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:HAC/78TLA1A=:1olf2L/xfqbx0inlXtevxY
+ e0xuehDV1mOPVSJAzg0nb7C2svioJ/o1T8xEQ7LTD3wZGn9KdUavzr1BLg4i488hjdSG2l/kA
+ SITd2V8g7SbW4QZkHLedsmSP2HwP7ewcO5bpw+nEQEVFJEcnO64qo43+d9SeXh/7lF6USnGuY
+ Ctsh+Pgcpp5kLJ6LeY227sd1obkkoX6TQa4p+lzgiTmVQ+EmEsFW/fuRzlZeb+sTja7lMNxAD
+ q55ZqYWgLuYHI8HSWwAc0A+8KladR13D2nwn5QfQ53TqqZ5MUtefuaXHPPIGP8GqnFqNX2SNG
+ ZtKYKGIu3OWMdxP/wr3jVGwLxmBadDXmvyxFSRxSZg+UwWLV6aRB5+LYV4r3rAeSr4jDkp9lm
+ GIyrZPVbsQc9QWdrPCn+RPM3BFYhCFqwhj+xcS+trKEdUBZLTYVgIwqpN2cw5+8pjpQrDlIeC
+ 5+ag9hkUY2/JHHAngwxHDTjKUFGI/xZWIJc6uMmehEmPVIu8R/YZGZ7pgGeOojJLxU+ICxMQ1
+ RRTQ+ivJQM77YDE/Gz48uMXkCPt3fsWjqnHpi7jmGx9DJzHH+iXyg1a5nr41k8F6iy6KXINdn
+ EWnzHS1SOscKLN2l0iCc++/+W8rXF4fG7NkxkXDc7oayMTw1BsA0/5L9L5MzGl6HR7PVx13zS
+ 5/E+BjYVjC1VVGZDA5z4w7BUXqrNRmBnmU9n0d+GN3/wq6G36bqefHACV1gjIqwsuklGcHbvj
+ QFJ7AUvZTOxSNGmyg2LjGZKMXdSBUJ5mpqR0dDb8Pny0IOvWk7wUcUETbC4n8RzdK4LdqVExV
+ I5EwEj0
 Received-SPF: permerror client-ip=212.227.126.187;
  envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -89,120 +89,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The only caller passes &error_fatal, so use this directly in the function.
+
+It's what we do for -blockdev, -device, and -object.
+
+Suggested-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/qemu/sockets.h |  2 ++
- net/net.c              | 62 ++++++++++++++++++++++--------------------
- 2 files changed, 34 insertions(+), 30 deletions(-)
+ include/net/net.h |  2 +-
+ net/net.c         | 20 +++++++-------------
+ softmmu/vl.c      |  2 +-
+ 3 files changed, 9 insertions(+), 15 deletions(-)
 
-diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
-index 036745e58653..db4bedb6fa20 100644
---- a/include/qemu/sockets.h
-+++ b/include/qemu/sockets.h
-@@ -65,6 +65,8 @@ void socket_listen_cleanup(int fd, Error **errp);
- int socket_dgram(SocketAddress *remote, SocketAddress *local, Error **errp);
- 
- /* Old, ipv4 only bits.  Don't use for new code. */
-+int convert_host_port(struct sockaddr_in *saddr, const char *host,
-+                      const char *port, Error **errp);
- int parse_host_port(struct sockaddr_in *saddr, const char *str,
-                     Error **errp);
- int socket_init(void);
+diff --git a/include/net/net.h b/include/net/net.h
+index 81d0b21defce..c1c34a58f849 100644
+--- a/include/net/net.h
++++ b/include/net/net.h
+@@ -222,7 +222,7 @@ extern const char *host_net_devices[];
+ /* from net.c */
+ int net_client_parse(QemuOptsList *opts_list, const char *str);
+ void show_netdevs(void);
+-int net_init_clients(Error **errp);
++void net_init_clients(void);
+ void net_check_clients(void);
+ void net_cleanup(void);
+ void hmp_host_net_add(Monitor *mon, const QDict *qdict);
 diff --git a/net/net.c b/net/net.c
-index 2db160e0634d..d2288bd3a929 100644
+index d2288bd3a929..15958f881776 100644
 --- a/net/net.c
 +++ b/net/net.c
-@@ -66,55 +66,57 @@ static QTAILQ_HEAD(, NetClientState) net_clients;
- /***********************************************************/
- /* network device redirectors */
+@@ -1562,27 +1562,21 @@ out:
+     return ret;
+ }
  
--int parse_host_port(struct sockaddr_in *saddr, const char *str,
--                    Error **errp)
-+int convert_host_port(struct sockaddr_in *saddr, const char *host,
-+                      const char *port, Error **errp)
+-int net_init_clients(Error **errp)
++void net_init_clients(void)
  {
--    gchar **substrings;
-     struct hostent *he;
--    const char *addr, *p, *r;
--    int port, ret = 0;
-+    const char *r;
-+    long p;
+     net_change_state_entry =
+         qemu_add_vm_change_state_handler(net_vm_change_state_handler, NULL);
  
-     memset(saddr, 0, sizeof(*saddr));
+     QTAILQ_INIT(&net_clients);
  
--    substrings = g_strsplit(str, ":", 2);
--    if (!substrings || !substrings[0] || !substrings[1]) {
--        error_setg(errp, "host address '%s' doesn't contain ':' "
--                   "separating host from port", str);
--        ret = -1;
--        goto out;
+-    if (qemu_opts_foreach(qemu_find_opts("netdev"),
+-                          net_init_netdev, NULL, errp)) {
+-        return -1;
 -    }
 -
--    addr = substrings[0];
--    p = substrings[1];
--
-     saddr->sin_family = AF_INET;
--    if (addr[0] == '\0') {
-+    if (host[0] == '\0') {
-         saddr->sin_addr.s_addr = 0;
-     } else {
--        if (qemu_isdigit(addr[0])) {
--            if (!inet_aton(addr, &saddr->sin_addr)) {
-+        if (qemu_isdigit(host[0])) {
-+            if (!inet_aton(host, &saddr->sin_addr)) {
-                 error_setg(errp, "host address '%s' is not a valid "
--                           "IPv4 address", addr);
--                ret = -1;
--                goto out;
-+                           "IPv4 address", host);
-+                return -1;
-             }
-         } else {
--            he = gethostbyname(addr);
-+            he = gethostbyname(host);
-             if (he == NULL) {
--                error_setg(errp, "can't resolve host address '%s'", addr);
--                ret = -1;
--                goto out;
-+                error_setg(errp, "can't resolve host address '%s'", host);
-+                return -1;
-             }
-             saddr->sin_addr = *(struct in_addr *)he->h_addr;
-         }
-     }
--    port = strtol(p, (char **)&r, 0);
--    if (r == p) {
--        error_setg(errp, "port number '%s' is invalid", p);
-+    if (qemu_strtol(port, &r, 0, &p) != 0) {
-+        error_setg(errp, "port number '%s' is invalid", port);
-+        return -1;
-+    }
-+    saddr->sin_port = htons(p);
-+    return 0;
-+}
-+
-+int parse_host_port(struct sockaddr_in *saddr, const char *str,
-+                    Error **errp)
-+{
-+    gchar **substrings;
-+    int ret;
-+
-+    substrings = g_strsplit(str, ":", 2);
-+    if (!substrings || !substrings[0] || !substrings[1]) {
-+        error_setg(errp, "host address '%s' doesn't contain ':' "
-+                   "separating host from port", str);
-         ret = -1;
-         goto out;
-     }
--    saddr->sin_port = htons(port);
-+
-+    ret = convert_host_port(saddr, substrings[0], substrings[1], errp);
+-    if (qemu_opts_foreach(qemu_find_opts("nic"), net_param_nic, NULL, errp)) {
+-        return -1;
+-    }
++    qemu_opts_foreach(qemu_find_opts("netdev"), net_init_netdev, NULL,
++                      &error_fatal);
  
- out:
-     g_strfreev(substrings);
+-    if (qemu_opts_foreach(qemu_find_opts("net"), net_init_client, NULL, errp)) {
+-        return -1;
+-    }
++    qemu_opts_foreach(qemu_find_opts("nic"), net_param_nic, NULL,
++                      &error_fatal);
+ 
+-    return 0;
++    qemu_opts_foreach(qemu_find_opts("net"), net_init_client, NULL,
++                      &error_fatal);
+ }
+ 
+ int net_client_parse(QemuOptsList *opts_list, const char *optarg)
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index b464da25bcde..a4ae131e4d61 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -1904,7 +1904,7 @@ static void qemu_create_late_backends(void)
+         qtest_server_init(qtest_chrdev, qtest_log, &error_fatal);
+     }
+ 
+-    net_init_clients(&error_fatal);
++    net_init_clients();
+ 
+     object_option_foreach_add(object_create_late);
+ 
 -- 
 2.37.3
 
