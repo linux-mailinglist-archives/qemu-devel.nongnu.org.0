@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0596E606166
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 15:20:55 +0200 (CEST)
-Received: from localhost ([::1]:49366 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFB02606249
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 15:56:01 +0200 (CEST)
+Received: from localhost ([::1]:57452 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olVSp-0001w0-91
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 09:20:26 -0400
+	id 1olW1f-0001vy-JQ
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 09:55:59 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olVRO-0002Ht-PU
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 09:18:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58194)
+	id 1olVkC-0007I1-3n
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 09:37:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1olUZL-0001b1-Mw
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:23:00 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36678)
+ id 1olUZK-0001av-Uy
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:22:57 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:34805)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1olUZ1-00016t-IZ
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:22:33 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- c3-20020a1c3503000000b003bd21e3dd7aso2194974wma.1
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 05:22:15 -0700 (PDT)
+ id 1olUZ3-00017T-HH
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:22:34 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ l14-20020a05600c1d0e00b003c6ecc94285so2286079wms.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 05:22:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=XasLtqTE55A94kwKBu7X33zGDYkxtNkEgIEIZTHoGJ4=;
- b=K92ynhp8cQ0q13qxRwQbaehChxPas+vZB2c8NgUzrwQd8+Q6YAnHkPSPY4+DylYYWu
- gJGe+HuS7YpWkLi6ly8Ed65gPCPHRh1jmALvzXV7Mm/Zd7JSdLJtUBLXqnYgXnEEd+uf
- jSo0e3Mk+H6QAjIXFIDKBUZ01iXus5em++gcoPTjADb9w6FmCZuupp4rTOd7JxOG/4JH
- MCUVUQqJLmSvNK+ziSIx6Y0vIX34ejAe64hhzaJR8lpUP2L3xqogLKme/BHw0KsStUbI
- brebor0A9lXdrwet/C6O0qJ+HIau0ekGbImOsuCw3QdPJja4B/2/6xehU5d2OGXjK/Cf
- 2i9A==
+ :reply-to; bh=uyb2S8n7eO9/MF2z1HfUN8RrOfF7l5TiXrW0whPNRBY=;
+ b=eWk/8EAvJaOUoOLjvN1nAVZDR0I0AR/VEeZpRdgcnSCzJcjvQYTV+576vb/MIkypIB
+ foCfCKWRgF7yLvAuRBEqQ6bQZfGAvtB3IzwXPVPdf8d87EkvS0r7i9VnFTQ7wztDpYo4
+ 68XqE3qrJpX0FEwj9CeGekRvqEGq7fYh66Uq9WNTb5AO0A6+iTv+yCCU51AIbAOlJXO5
+ qDizEL+kkBNSp6mQZW59FyHebggNfxVJXJ0aQ/HSeEdsYJxh3dQw/Zyu1FMhq6ZwFkiQ
+ LL6SQaWExk/geTCmZbiSTBUDBGARsmHGV2VlNDENAQcDTbcBuKEALYFEq0mq0tSVVofc
+ uiEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XasLtqTE55A94kwKBu7X33zGDYkxtNkEgIEIZTHoGJ4=;
- b=wpMVS2PC2neC0gKxfyRe2Tgwxgczh+D+nspmSg5hLrIcR1CKu8Ah8ril41G5w1LFMs
- gM2w1N6elNjti91lCrVdyrIBiit0gbGUGnPZladwb1gfCLkl/loPe330Lr0QNX6biPPz
- qdDPKz/8sSh2ZH9O6XirDpYjqaYGBemPzsOpzd5eEBK2eo98Vlln6ZburvzSsi3arlz1
- z2It3mIQ4h6PcrPOrJ78bJ8Xb4jHpL0AV/w3F63sNHfR0OlwMY9MRo//Au9QkNEYZVwt
- IFug4njRWS3DqXqIzla0GlKKKKOPh9X7j/hsKktExYUaPKipC8RD6dhTlLHZTsb2/dEG
- LsUg==
-X-Gm-Message-State: ACrzQf0TkZ+eJx6YkhljyXsjDRVbomcBWsOXfhX+1fhL5Taz7ccFra8t
- OIc68nNp2lUA4C5pTv1UtRLQbkcRvbD11w==
-X-Google-Smtp-Source: AMsMyM56huRo0uUdqKjYVJ2/FkRoxH0eC6+lHr0wlTCtXNt4jvf0xaKp5eSu3esEurvDM6umMF2yKQ==
-X-Received: by 2002:a1c:f20f:0:b0:3be:eff3:bda2 with SMTP id
- s15-20020a1cf20f000000b003beeff3bda2mr29568700wmc.125.1666268534688; 
- Thu, 20 Oct 2022 05:22:14 -0700 (PDT)
+ bh=uyb2S8n7eO9/MF2z1HfUN8RrOfF7l5TiXrW0whPNRBY=;
+ b=lVEXy7+pCxMjVnA+any3jsIC1eMs5Qo+Vzp2RWYleJlEeJ/y8aE+tPBNpicVEiRjMc
+ zRscN/UR4bDQMlDHUPZOpfV2+67/mq+E//TUQkAmAU5WqMNN1jw2zACDxkP6WvtibKq5
+ 0k4yrrNyPOcNyFfsld1uRSX0GZBUxA0H2kvdhY1NAqkkcbJiWigitrF6vNFHgKO20bnA
+ Y4xrH7sCag/4cZlZddVTRyci5SoZakdiHX3LoZGHBKsYc6nolSjUB98U9UqWL+Eb4Hd1
+ 8t5DfXAEowH2mWsmf4xcCiRXPF3AyThdwxbdRyFz6OJNqIKgm8bbGgtpJoMX21CNh1eP
+ XLcA==
+X-Gm-Message-State: ACrzQf0lRj3eBBWqEHSR2ZRI3GF6PyZkg16298ySWfqoAwqrgbaHOmh4
+ gK1cOHigtm09RIVUzH0BFUwO/A79uGeWZw==
+X-Google-Smtp-Source: AMsMyM60XDkk/iujmmuflBXlQAl+FacANm2FZ9X339MOGYCEXXN7bS/k2DrNzxbIUaTcm2EVFNrnWw==
+X-Received: by 2002:a05:600c:1586:b0:3c6:bfcf:90a7 with SMTP id
+ r6-20020a05600c158600b003c6bfcf90a7mr30319298wmf.163.1666268539422; 
+ Thu, 20 Oct 2022 05:22:19 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- t15-20020a5d49cf000000b00230c9d427f9sm16520192wrs.53.2022.10.20.05.22.13
+ t15-20020a5d49cf000000b00230c9d427f9sm16520192wrs.53.2022.10.20.05.22.18
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Oct 2022 05:22:14 -0700 (PDT)
+ Thu, 20 Oct 2022 05:22:18 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/24] target/arm: Change gen_jmp* to work on displacements
-Date: Thu, 20 Oct 2022 13:21:42 +0100
-Message-Id: <20221020122146.3177980-21-peter.maydell@linaro.org>
+Subject: [PULL 24/24] hw/ide/microdrive: Use device_cold_reset() for
+ self-resets
+Date: Thu, 20 Oct 2022 13:21:46 +0100
+Message-Id: <20221020122146.3177980-25-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221020122146.3177980-1-peter.maydell@linaro.org>
 References: <20221020122146.3177980-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,151 +97,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+Currently the microdrive code uses device_legacy_reset() to reset
+itself, and has its reset method call reset on the IDE bus as the
+last thing it does.  Switch to using device_cold_reset().
 
-In preparation for TARGET_TB_PCREL, reduce reliance on absolute values.
+The only concrete microdrive device is the TYPE_DSCM1XXXX; it is not
+command-line pluggable, so it is used only by the old pxa2xx Arm
+boards 'akita', 'borzoi', 'spitz', 'terrier' and 'tosa'.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20221020030641.2066807-7-richard.henderson@linaro.org
+You might think that this would result in the IDE bus being
+reset automatically, but it does not, because the IDEBus type
+does not set the BusClass::reset method. Instead the controller
+must explicitly call ide_bus_reset(). We therefore leave that
+call in md_reset().
+
+Note also that because the PCMCIA card device is a direct subclass of
+TYPE_DEVICE and we don't model the PCMCIA controller-to-card
+interface as a qbus, PCMCIA cards are not on any qbus and so they
+don't get reset when the system is reset.  The reset only happens via
+the dscm1xxxx_attach() and dscm1xxxx_detach() functions during
+machine creation.
+
+Because our aim here is merely to try to get rid of calls to the
+device_legacy_reset() function, we leave these other dubious
+reset-related issues alone.  (They all stem from this code being
+absolutely ancient.)
+
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-id: 20221013174042.1602926-1-peter.maydell@linaro.org
 ---
- target/arm/translate.c | 37 +++++++++++++++++++++----------------
- 1 file changed, 21 insertions(+), 16 deletions(-)
+ hw/ide/microdrive.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 9104ab82325..ca128edab7e 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -266,6 +266,12 @@ static uint32_t read_pc(DisasContext *s)
-     return s->pc_curr + (s->thumb ? 4 : 8);
- }
+diff --git a/hw/ide/microdrive.c b/hw/ide/microdrive.c
+index 6df9b4cbbe1..56c5be36551 100644
+--- a/hw/ide/microdrive.c
++++ b/hw/ide/microdrive.c
+@@ -175,7 +175,7 @@ static void md_attr_write(PCMCIACardState *card, uint32_t at, uint8_t value)
+     case 0x00:	/* Configuration Option Register */
+         s->opt = value & 0xcf;
+         if (value & OPT_SRESET) {
+-            device_legacy_reset(DEVICE(s));
++            device_cold_reset(DEVICE(s));
+         }
+         md_interrupt_update(s);
+         break;
+@@ -318,7 +318,7 @@ static void md_common_write(PCMCIACardState *card, uint32_t at, uint16_t value)
+     case 0xe:	/* Device Control */
+         s->ctrl = value;
+         if (value & CTRL_SRST) {
+-            device_legacy_reset(DEVICE(s));
++            device_cold_reset(DEVICE(s));
+         }
+         md_interrupt_update(s);
+         break;
+@@ -543,7 +543,7 @@ static int dscm1xxxx_attach(PCMCIACardState *card)
+     md->attr_base = pcc->cis[0x74] | (pcc->cis[0x76] << 8);
+     md->io_base = 0x0;
  
-+/* The pc_curr difference for an architectural jump. */
-+static target_long jmp_diff(DisasContext *s, target_long diff)
-+{
-+    return diff + (s->thumb ? 4 : 8);
-+}
-+
- /* Set a variable to the value of a CPU register.  */
- void load_reg_var(DisasContext *s, TCGv_i32 var, int reg)
+-    device_legacy_reset(DEVICE(md));
++    device_cold_reset(DEVICE(md));
+     md_interrupt_update(md);
+ 
+     return 0;
+@@ -553,7 +553,7 @@ static int dscm1xxxx_detach(PCMCIACardState *card)
  {
-@@ -2592,7 +2598,7 @@ static void gen_goto_ptr(void)
-  * cpu_loop_exec. Any live exit_requests will be processed as we
-  * enter the next TB.
-  */
--static void gen_goto_tb(DisasContext *s, int n, int diff)
-+static void gen_goto_tb(DisasContext *s, int n, target_long diff)
- {
-     target_ulong dest = s->pc_curr + diff;
+     MicroDriveState *md = MICRODRIVE(card);
  
-@@ -2608,10 +2614,8 @@ static void gen_goto_tb(DisasContext *s, int n, int diff)
- }
- 
- /* Jump, specifying which TB number to use if we gen_goto_tb() */
--static inline void gen_jmp_tb(DisasContext *s, uint32_t dest, int tbno)
-+static void gen_jmp_tb(DisasContext *s, target_long diff, int tbno)
- {
--    int diff = dest - s->pc_curr;
--
-     if (unlikely(s->ss_active)) {
-         /* An indirect jump so that we still trigger the debug exception.  */
-         gen_update_pc(s, diff);
-@@ -2653,9 +2657,9 @@ static inline void gen_jmp_tb(DisasContext *s, uint32_t dest, int tbno)
-     }
- }
- 
--static inline void gen_jmp(DisasContext *s, uint32_t dest)
-+static inline void gen_jmp(DisasContext *s, target_long diff)
- {
--    gen_jmp_tb(s, dest, 0);
-+    gen_jmp_tb(s, diff, 0);
- }
- 
- static inline void gen_mulxy(TCGv_i32 t0, TCGv_i32 t1, int x, int y)
-@@ -8322,7 +8326,7 @@ static bool trans_CLRM(DisasContext *s, arg_CLRM *a)
- 
- static bool trans_B(DisasContext *s, arg_i *a)
- {
--    gen_jmp(s, read_pc(s) + a->imm);
-+    gen_jmp(s, jmp_diff(s, a->imm));
-     return true;
- }
- 
-@@ -8337,14 +8341,14 @@ static bool trans_B_cond_thumb(DisasContext *s, arg_ci *a)
-         return true;
-     }
-     arm_skip_unless(s, a->cond);
--    gen_jmp(s, read_pc(s) + a->imm);
-+    gen_jmp(s, jmp_diff(s, a->imm));
-     return true;
- }
- 
- static bool trans_BL(DisasContext *s, arg_i *a)
- {
-     tcg_gen_movi_i32(cpu_R[14], s->base.pc_next | s->thumb);
--    gen_jmp(s, read_pc(s) + a->imm);
-+    gen_jmp(s, jmp_diff(s, a->imm));
-     return true;
- }
- 
-@@ -8364,7 +8368,8 @@ static bool trans_BLX_i(DisasContext *s, arg_BLX_i *a)
-     }
-     tcg_gen_movi_i32(cpu_R[14], s->base.pc_next | s->thumb);
-     store_cpu_field_constant(!s->thumb, thumb);
--    gen_jmp(s, (read_pc(s) & ~3) + a->imm);
-+    /* This jump is computed from an aligned PC: subtract off the low bits. */
-+    gen_jmp(s, jmp_diff(s, a->imm - (s->pc_curr & 3)));
-     return true;
- }
- 
-@@ -8525,10 +8530,10 @@ static bool trans_WLS(DisasContext *s, arg_WLS *a)
-          * when we take this upcoming exit from this TB, so gen_jmp_tb() is OK.
-          */
-     }
--    gen_jmp_tb(s, s->base.pc_next, 1);
-+    gen_jmp_tb(s, curr_insn_len(s), 1);
- 
-     gen_set_label(nextlabel);
--    gen_jmp(s, read_pc(s) + a->imm);
-+    gen_jmp(s, jmp_diff(s, a->imm));
-     return true;
- }
- 
-@@ -8608,7 +8613,7 @@ static bool trans_LE(DisasContext *s, arg_LE *a)
- 
-     if (a->f) {
-         /* Loop-forever: just jump back to the loop start */
--        gen_jmp(s, read_pc(s) - a->imm);
-+        gen_jmp(s, jmp_diff(s, -a->imm));
-         return true;
-     }
- 
-@@ -8639,7 +8644,7 @@ static bool trans_LE(DisasContext *s, arg_LE *a)
-         tcg_temp_free_i32(decr);
-     }
-     /* Jump back to the loop start */
--    gen_jmp(s, read_pc(s) - a->imm);
-+    gen_jmp(s, jmp_diff(s, -a->imm));
- 
-     gen_set_label(loopend);
-     if (a->tp) {
-@@ -8647,7 +8652,7 @@ static bool trans_LE(DisasContext *s, arg_LE *a)
-         store_cpu_field(tcg_constant_i32(4), v7m.ltpsize);
-     }
-     /* End TB, continuing to following insn */
--    gen_jmp_tb(s, s->base.pc_next, 1);
-+    gen_jmp_tb(s, curr_insn_len(s), 1);
-     return true;
- }
- 
-@@ -8746,7 +8751,7 @@ static bool trans_CBZ(DisasContext *s, arg_CBZ *a)
-     tcg_gen_brcondi_i32(a->nz ? TCG_COND_EQ : TCG_COND_NE,
-                         tmp, 0, s->condlabel);
-     tcg_temp_free_i32(tmp);
--    gen_jmp(s, read_pc(s) + a->imm);
-+    gen_jmp(s, jmp_diff(s, a->imm));
-     return true;
+-    device_legacy_reset(DEVICE(md));
++    device_cold_reset(DEVICE(md));
+     return 0;
  }
  
 -- 
