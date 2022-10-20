@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC736062A8
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 16:16:09 +0200 (CEST)
-Received: from localhost ([::1]:32902 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA5E4606314
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 16:32:12 +0200 (CEST)
+Received: from localhost ([::1]:55772 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olWKo-0002ll-UP
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:15:49 -0400
+	id 1olWae-0008Cp-Ts
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:32:09 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olWDt-0007ar-RK
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:08:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60168)
+	id 1olWYh-0001dU-Iv
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:30:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olU8D-0005YR-QY
+ id 1olU8I-0005ZO-EX
  for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:54:56 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:38781)
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:42555)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olU89-000196-Md
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:54:35 -0400
-Received: by mail-pg1-x529.google.com with SMTP id 20so1884712pgc.5
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 04:54:33 -0700 (PDT)
+ id 1olU8D-00013M-L5
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:54:41 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ p6-20020a17090a748600b002103d1ef63aso2826800pjk.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 04:54:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=LMGG6u36Dw67iE/Juteia6nMKD7kG1VCYlvUM0ALFns=;
- b=eBRICGFW4YMVDZJXURArMwyIzk3MnMksaC8nmrqB5PXALRRN33GD+ZtUyZDJ8vFeVG
- Ej+/mD3nCO200/UycVi3fN4A0oFVVIP9ZCbtNO6WYyIazyB29HbG6NBGoBo2Fk/mLV7N
- fkHT+I629vFtFa1zWNlgw2gVu/gw1jZeww7quutu/PY74S1bIQ0wMu+UxxcWo489AOA8
- wStdfWyRwe4Xk0mzs/cktsbandvMZxP7bhJ1Ga2odN8sOVLCjlX+WDpa7utZmk5I9VJ8
- 7GrSMDa8K9NiBX7REwWmJQLDKoiR7hG4JMSEwAl5jnO0PoCauWC/oMfFIdcA/K/BDZIh
- 7QNQ==
+ :reply-to; bh=otax3boOrkJbpvJnQWAvehNepZr14GD0jCowiyMr4Ww=;
+ b=dUAlh0zH/sALh3ZSKEbMiA/K6zl0GsrG2c/Caf2F8TLc53NqueTiNdjsOVtDV2gThm
+ FpM1F9OakAqURjO3ZygHKxR6TfwEeuXbOTfC2IaKweJU3Rto+iBjObDerAY9uAWd+Clg
+ REoDBe0+Y70j8AMJB/ftu0t7QNim89MQIQ+zm0pw8T1HD06GvKaiZoKPkEbU5fP2TZY/
+ dxfrLP3pA2qj5TdXp5As3np1WQyC3N0KSpoyvlOkUiX0/qpJQvm/x8JmoE6gOBuM6QLR
+ ReSfqx24H2LENu6yAcPmKobzmi6S4T0HUAHd2oAwVUcbfGrfhZOBqB83J3Wwt4P5UMR0
+ txxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LMGG6u36Dw67iE/Juteia6nMKD7kG1VCYlvUM0ALFns=;
- b=VlhsPrWlO9Iimil7RMau9SnBzx2eGqw3lv9Ztu0viWEjjsOr/A1+RwCUKEPS5VUAcH
- oTLDHisVG1eI02gmTXO4qK5Iwi5Y64QmiOMy9V/7uPpoEXRDQBFXzjBfEyIMhoaj1wlL
- YCrxZv0q/Erd+J5spTGujyLexC02+cll1aYh89dd2BGadP3Un6TYrOfvni5WNFewisMc
- AmbhkcKnX3X9EWpuUvRtXw448g0L4HgMhfL8DtPrQJF4gp1J5iaW/jhBguPA3GRNK/A6
- qU/NSAObfTiHmuLXMAWs+thWCqphA6NFATl/sWbZ31UIrLlwf7fpEPy8o89KWm2XcvPM
- d7Yw==
-X-Gm-Message-State: ACrzQf2f74oKfN6y86zJ2hNdBVwRpV6boKhz8toyluddy1mzhkLhAXjV
- GhRzCXZZUuxehU/ANqbDpI+hdCnZBF/xU1OH
-X-Google-Smtp-Source: AMsMyM6nUN7oHzRDgGjFaHhu7dUwDZIwBBxVQLWH/PHAVUkCHULWwnFnVsvddsOVhFRNwkSp8VCwhg==
-X-Received: by 2002:a63:e113:0:b0:439:e032:c879 with SMTP id
- z19-20020a63e113000000b00439e032c879mr11423272pgh.287.1666266872487; 
- Thu, 20 Oct 2022 04:54:32 -0700 (PDT)
+ bh=otax3boOrkJbpvJnQWAvehNepZr14GD0jCowiyMr4Ww=;
+ b=Fyhav2iUU7rVO3VX1ZIl/GjvDisDy6agQX6JAY5YPtxuRs9Al5C7KpbZ40HTtwXeUJ
+ WdIBd8ghg8Fh66nYwvycEg9K49P1OecAjHSD0A3vPwGB1PS2+7ccp7gKhAwCqYos+WBC
+ LFB16nd/mkfXkHhgGr49FgTzmkY6uS6UhicMtfbkp2o8QN2L4xRds0B8KYKBOpNGeGcN
+ RwG9iDY1xcqE2zETNC1Kxcv2gMz4ghpetOCTC3JEXnpm2nK2iZop6Wjm7m0Ji2nvx71/
+ jGk/nah0FojK3rbK6v8KiEfwlTepGObJfOrubx/6R8dP2J4N27fY94Eu4S4dhYYh8V0m
+ c+0g==
+X-Gm-Message-State: ACrzQf0vmPiWJAwEbjeHGBk3BWkJ91gPRtC3m60wPIoFkaVpQT2l8QN2
+ olGztqr4+VrjX/0kQMCMuhZ+klRz/t8by3rK
+X-Google-Smtp-Source: AMsMyM4t9Us6oBGIq77eJqXkQ1H/x1z78EEp/1xviqQwRO4q1U/afOxuSePay4FJHktOKY32DoG6yg==
+X-Received: by 2002:a17:90b:4b0c:b0:20d:233f:5dea with SMTP id
+ lx12-20020a17090b4b0c00b0020d233f5deamr15459826pjb.241.1666266875114; 
+ Thu, 20 Oct 2022 04:54:35 -0700 (PDT)
 Received: from localhost.localdomain ([149.135.10.35])
  by smtp.gmail.com with ESMTPSA id
- w206-20020a627bd7000000b0056109e15638sm13065464pfc.54.2022.10.20.04.54.30
+ w206-20020a627bd7000000b0056109e15638sm13065464pfc.54.2022.10.20.04.54.32
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Oct 2022 04:54:31 -0700 (PDT)
+ Thu, 20 Oct 2022 04:54:34 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 27/31] tcg: Add TCG_CALL_RET_BY_VEC
-Date: Thu, 20 Oct 2022 21:52:38 +1000
-Message-Id: <20221020115242.2301066-28-richard.henderson@linaro.org>
+Subject: [PATCH 28/31] include/qemu/int128: Use Int128 structure for TCI
+Date: Thu, 20 Oct 2022 21:52:39 +1000
+Message-Id: <20221020115242.2301066-29-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221020115242.2301066-1-richard.henderson@linaro.org>
 References: <20221020115242.2301066-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,100 +95,202 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will be used by _WIN64 to return i128.  Not yet used,
-because allocation is not yet enabled.  Since this is for
-exactly one backend, go ahead and make the few changes needed.
+We are about to allow passing Int128 to/from tcg helper functions,
+but libffi doesn't support __int128_t, so use the structure.
+
+In order for atomic128.h to continue working, we must provide
+a mechanism to frob between real __int128_t and the structure.
+Provide a new union, Int128Alias, for this.  We cannot modify
+Int128 itself, as any changed alignment would also break libffi.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg-internal.h        |  1 +
- tcg/tcg.c                 | 17 +++++++++++++++++
- tcg/i386/tcg-target.c.inc | 16 +++++++++++++++-
- 3 files changed, 33 insertions(+), 1 deletion(-)
+ include/qemu/atomic128.h | 34 ++++++++++++++++++++++++--------
+ include/qemu/int128.h    | 18 ++++++++++++++---
+ util/int128.c            | 42 ++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 83 insertions(+), 11 deletions(-)
 
-diff --git a/tcg/tcg-internal.h b/tcg/tcg-internal.h
-index 1fe7bd7d5d..44ef51ca30 100644
---- a/tcg/tcg-internal.h
-+++ b/tcg/tcg-internal.h
-@@ -38,6 +38,7 @@ typedef enum {
-     TCG_CALL_RET_NORMAL,         /* by registers */
-     TCG_CALL_RET_NORMAL_4,       /* for i128, by 4 registers */
-     TCG_CALL_RET_BY_REF,         /* for i128, by reference as first arg */
-+    TCG_CALL_RET_BY_VEC,         /* for i128, by vector register */
- } TCGCallReturnKind;
- 
- typedef enum {
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 47f1f906fd..2c7eece27f 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -768,6 +768,8 @@ static void init_call_layout(TCGHelperInfo *info)
-                 cum.reg_slot = 1;
-             }
-             break;
-+        case TCG_CALL_RET_BY_VEC:
-+            break;
-         default:
-             g_assert_not_reached();
-         }
-@@ -4683,6 +4685,21 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
-         }
-         break;
- 
-+    case TCG_CALL_RET_BY_VEC:
-+        {
-+            TCGTemp *ts = arg_temp(op->args[0]);
+diff --git a/include/qemu/atomic128.h b/include/qemu/atomic128.h
+index d179c05ede..5ba53f2f10 100644
+--- a/include/qemu/atomic128.h
++++ b/include/qemu/atomic128.h
+@@ -44,13 +44,23 @@
+ #if defined(CONFIG_ATOMIC128)
+ static inline Int128 atomic16_cmpxchg(Int128 *ptr, Int128 cmp, Int128 new)
+ {
+-    return qatomic_cmpxchg__nocheck(ptr, cmp, new);
++    Int128Alias r, c, n;
 +
-+            tcg_debug_assert(ts->type == TCG_TYPE_I128);
-+            if (!ts->mem_allocated) {
-+                temp_allocate_frame(s, ts);
-+            }
-+            tcg_out_st(s, TCG_TYPE_V128,
-+                       tcg_target_call_oarg_reg(TCG_CALL_RET_BY_VEC, 0),
-+                       ts->mem_base->reg, ts->mem_offset + i * 4);
-+            ts->val_type = TEMP_VAL_MEM;
-+        }
-+        break;
++    c.s = cmp;
++    n.s = new;
++    r.i = qatomic_cmpxchg__nocheck((__int128_t *)ptr, c.i, n.i);
++    return r.s;
+ }
+ # define HAVE_CMPXCHG128 1
+ #elif defined(CONFIG_CMPXCHG128)
+ static inline Int128 atomic16_cmpxchg(Int128 *ptr, Int128 cmp, Int128 new)
+ {
+-    return __sync_val_compare_and_swap_16(ptr, cmp, new);
++    Int128Alias r, c, n;
 +
-     default:
-         g_assert_not_reached();
++    c.s = cmp;
++    n.s = new;
++    r.i = __sync_val_compare_and_swap_16((__int128_t *)ptr, c.i, n.i);
++    return r.s;
+ }
+ # define HAVE_CMPXCHG128 1
+ #elif defined(__aarch64__)
+@@ -89,12 +99,18 @@ Int128 QEMU_ERROR("unsupported atomic")
+ #if defined(CONFIG_ATOMIC128)
+ static inline Int128 atomic16_read(Int128 *ptr)
+ {
+-    return qatomic_read__nocheck(ptr);
++    Int128Alias r;
++
++    r.i = qatomic_read__nocheck((__int128_t *)ptr);
++    return r.s;
+ }
+ 
+ static inline void atomic16_set(Int128 *ptr, Int128 val)
+ {
+-    qatomic_set__nocheck(ptr, val);
++    Int128Alias v;
++
++    v.s = val;
++    qatomic_set__nocheck((__int128_t *)ptr, v.i);
+ }
+ 
+ # define HAVE_ATOMIC128 1
+@@ -153,7 +169,8 @@ static inline Int128 atomic16_read(Int128 *ptr)
+     if (have_atomic128) {
+         asm("vmovdqa %1, %0" : "=x" (ret) : "m" (*ptr));
+     } else {
+-        ret = atomic16_cmpxchg(ptr, 0, 0);
++        Int128 z = int128_make64(0);
++        ret = atomic16_cmpxchg(ptr, z, z);
      }
-diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index 82c8491152..3b4b66c224 100644
---- a/tcg/i386/tcg-target.c.inc
-+++ b/tcg/i386/tcg-target.c.inc
-@@ -120,6 +120,13 @@ static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
-             return TCG_REG_EDX;
-         }
-         break;
-+#ifdef _WIN64
-+    case TCG_CALL_RET_BY_VEC:
-+        if (slot == 0) {
-+            return TCG_REG_XMM0;
-+        }
-+        break;
-+#endif
-     default:
-         break;
+     return ret;
+ }
+@@ -167,7 +184,7 @@ static inline void atomic16_set(Int128 *ptr, Int128 val)
+         do {
+             cmp = old;
+             old = atomic16_cmpxchg(ptr, cmp, val);
+-        } while (old != cmp);
++        } while (int128_ne(old, cmp));
      }
-@@ -1194,9 +1201,16 @@ static void tcg_out_st(TCGContext *s, TCGType type, TCGReg arg,
-          * The gvec infrastructure is asserts that v128 vector loads
-          * and stores use a 16-byte aligned offset.  Validate that the
-          * final pointer is aligned by using an insn that will SIGSEGV.
-+         *
-+         * This specific instance is also used by TCG_CALL_RET_BY_VEC,
-+         * for _WIN64, which must have SSE2 but may not have AVX.
-          */
-         tcg_debug_assert(arg >= 16);
--        tcg_out_vex_modrm_offset(s, OPC_MOVDQA_WxVx, arg, 0, arg1, arg2);
-+        if (have_avx1) {
-+            tcg_out_vex_modrm_offset(s, OPC_MOVDQA_WxVx, arg, 0, arg1, arg2);
-+        } else {
-+            tcg_out_modrm_offset(s, OPC_MOVDQA_WxVx, arg, arg1, arg2);
-+        }
-         break;
-     case TCG_TYPE_V256:
-         /*
+ }
+ 
+@@ -176,7 +193,8 @@ static inline void atomic16_set(Int128 *ptr, Int128 val)
+ static inline Int128 atomic16_read(Int128 *ptr)
+ {
+     /* Maybe replace 0 with 0, returning the old value.  */
+-    return atomic16_cmpxchg(ptr, 0, 0);
++    Int128 z = int128_make64(0);
++    return atomic16_cmpxchg(ptr, z, z);
+ }
+ 
+ static inline void atomic16_set(Int128 *ptr, Int128 val)
+@@ -185,7 +203,7 @@ static inline void atomic16_set(Int128 *ptr, Int128 val)
+     do {
+         cmp = old;
+         old = atomic16_cmpxchg(ptr, cmp, val);
+-    } while (old != cmp);
++    } while (int128_ne(old, cmp));
+ }
+ 
+ # define HAVE_ATOMIC128 1
+diff --git a/include/qemu/int128.h b/include/qemu/int128.h
+index d2b76ca6ac..a062284025 100644
+--- a/include/qemu/int128.h
++++ b/include/qemu/int128.h
+@@ -3,7 +3,12 @@
+ 
+ #include "qemu/bswap.h"
+ 
+-#ifdef CONFIG_INT128
++/*
++ * With TCI, we need to use libffi for interfacing with TCG helpers.
++ * But libffi does not support __int128_t, and therefore cannot pass
++ * or return values of this type, force use of the Int128 struct.
++ */
++#if defined(CONFIG_INT128) && !defined(CONFIG_TCG_INTERPRETER)
+ typedef __int128_t Int128;
+ 
+ static inline Int128 int128_make64(uint64_t a)
+@@ -460,8 +465,7 @@ Int128 int128_divu(Int128, Int128);
+ Int128 int128_remu(Int128, Int128);
+ Int128 int128_divs(Int128, Int128);
+ Int128 int128_rems(Int128, Int128);
+-
+-#endif /* CONFIG_INT128 */
++#endif /* CONFIG_INT128 && !CONFIG_TCG_INTERPRETER */
+ 
+ static inline void bswap128s(Int128 *s)
+ {
+@@ -472,4 +476,12 @@ static inline void bswap128s(Int128 *s)
+ #define INT128_MAX int128_make128(UINT64_MAX, INT64_MAX)
+ #define INT128_MIN int128_make128(0, INT64_MIN)
+ 
++#ifdef CONFIG_INT128
++typedef union {
++    Int128 s;
++    __int128_t i;
++    __uint128_t u;
++} Int128Alias;
++#endif /* CONFIG_INT128 */
++
+ #endif /* INT128_H */
+diff --git a/util/int128.c b/util/int128.c
+index ed8f25fef1..df6c6331bd 100644
+--- a/util/int128.c
++++ b/util/int128.c
+@@ -144,4 +144,46 @@ Int128 int128_rems(Int128 a, Int128 b)
+     return r;
+ }
+ 
++#elif defined(CONFIG_TCG_INTERPRETER)
++
++Int128 int128_divu(Int128 a_s, Int128 b_s)
++{
++    Int128Alias r, a, b;
++
++    a.s = a_s;
++    b.s = b_s;
++    r.u = a.u / b.u;
++    return r.s;
++}
++
++Int128 int128_remu(Int128 a_s, Int128 b_s)
++{
++    Int128Alias r, a, b;
++
++    a.s = a_s;
++    b.s = b_s;
++    r.u = a.u % b.u;
++    return r.s;
++}
++
++Int128 int128_divs(Int128 a_s, Int128 b_s)
++{
++    Int128Alias r, a, b;
++
++    a.s = a_s;
++    b.s = b_s;
++    r.i = a.i / b.i;
++    return r.s;
++}
++
++Int128 int128_rems(Int128 a_s, Int128 b_s)
++{
++    Int128Alias r, a, b;
++
++    a.s = a_s;
++    b.s = b_s;
++    r.i = a.i % b.i;
++    return r.s;
++}
++
+ #endif
 -- 
 2.34.1
 
