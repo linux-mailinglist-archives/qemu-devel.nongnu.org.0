@@ -2,158 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A99296066A0
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 19:01:38 +0200 (CEST)
-Received: from localhost ([::1]:56578 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01907606726
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 19:38:02 +0200 (CEST)
+Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olYvE-0003NK-Ia
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:01:32 -0400
+	id 1olZUO-0000DR-Eg
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:37:54 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olYvB-0000LT-QT
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:01:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50614)
+	id 1olZUO-000054-BS
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:37:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1olYur-0006dd-Fw
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 13:01:09 -0400
-Received: from mx0a-0031df01.pphosted.com ([205.220.168.131]:41578)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1olYuo-0005AL-Vk
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 13:01:09 -0400
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29KBG3fU007080;
- Thu, 20 Oct 2022 17:01:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=qcppdkim1;
- bh=zXDM72X/pZG6E4Ka0yAizdEig8U0cFZcs14pXPUy6w0=;
- b=UqNDGRGe4Ad9Ezg32lNwPIT16l1GXsPDu2y3Z3xHfkg9KKGJ6gjqO+rBFl6Zn4yb//Z3
- ataUWW1fT8BxuH15sZKKvr+YQ7uV4tvjxwokI5DA1aHaGbuCSR24mul4a3P5SWF0LBhR
- 1fKiJMk+JEzu0RDiQoSHiEwdF4kSI3GaBjCFLPQ449B5laCZNT8IoWl3dtrD7q6LtRiE
- 3fp484Ch96c5vPCP4ioGCS11o6bXtw7Wvb36BgNa/4VB/rJdKQCHBY5pjQ13cdntbUFH
- PYfKeHDLcAy51rOsY0k3Yd8ITZMiXr8H6ECPX6mISnIfkXXsbdAjr3reFhlXOcDwvKu5 fw== 
-Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10lp2101.outbound.protection.outlook.com [104.47.70.101])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kaknjkube-2
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Oct 2022 17:01:04 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=h6/NSgFDKNrUgjzyg6K72S3XGwJFu5P4lbuL0xwxm/AswpCNsJe2uPR/K1cG0pE1OAq3QhJUspGs5kK0RlCso8+WhfPV+eWIDTTIyLVXJBLycOTOynIN7T8vVRgDygJpGftHpA7j7JuheUtfcHsbN7DoJiHo1hz4S9+dQEHvfURzsbrUhUVY/OqpsulzAW/Y3XXo2m5HzvvK9AqZN7Fkxf/yNP79yghESCMAz4s161MgA7zbFA5gKwkWmQSEC4kUKz8TB8xJEd2huS9W9E6eniuWpAiHox3fUuXn8ie7l+baS7batp3dR/ZhuqzGU7PyzIX41QuLfSdYlqcg6XM/vA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zXDM72X/pZG6E4Ka0yAizdEig8U0cFZcs14pXPUy6w0=;
- b=Bxo+hd644sYi8C9/HLapOjwIthbgOWrXd6GHYn3zVOTxTXiylqfqf4gcz/7IlV8cU6Fi+ZcJq+TKmmf+6eVHq8OWp2RD9zA+57mmWE4Ma3u8D44iKUngiPyLtMmyMhGa2vi0xWeTbjpn3V1TNs2tWRN7WSpulKL4u9d3befHiVIBcW5xpQt5d7VGhO1SAxnuctrINLqhk3cSjpZQIV/IwPnRDOF8QsOQ5A/j78osCNZYG/XzEZEh46rboq5EB/aBSL56jQ/r3dqK81ZunXLteUsIpWEK059xUQ531jcssuwOu0n+dhWs/ct6P1IkKgR8ZpHG34/oYRimnlse6Hdliw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- (2603:10b6:806:203::12) by PH0PR02MB7512.namprd02.prod.outlook.com
- (2603:10b6:510:4f::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.35; Thu, 20 Oct
- 2022 17:00:58 +0000
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::48c8:3e4b:46c1:ca87]) by SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::48c8:3e4b:46c1:ca87%5]) with mapi id 15.20.5723.033; Thu, 20 Oct 2022
- 17:00:58 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: "Matheus Bernardino (QUIC)" <quic_mathbern@quicinc.com>
-CC: "ale@rev.ng" <ale@rev.ng>, "anjo@rev.ng" <anjo@rev.ng>, Brian Cain
- <bcain@quicinc.com>, "philmd@linaro.org" <philmd@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "Matheus Bernardino (QUIC)" <quic_mathbern@quicinc.com>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>
-Subject: RE: [PATCH 6/8] Hexagon (target/hexagon) Add overrides for various
- forms of jump
-Thread-Topic: [PATCH 6/8] Hexagon (target/hexagon) Add overrides for various
- forms of jump
-Thread-Index: AQHY5AtpFukpLA87TUaK1t7Z5yIzYK4XZ9qAgAAaA2A=
-Date: Thu, 20 Oct 2022 17:00:58 +0000
-Message-ID: <SN4PR0201MB880822E195FC730A2E10503FDE2A9@SN4PR0201MB8808.namprd02.prod.outlook.com>
-References: <20221019223739.3868-7-tsimpson@quicinc.com>
- <3957bd3b267ea26ae687510d73736f6a80c30d99.1666270633.git.quic_mathbern@quicinc.com>
-In-Reply-To: <3957bd3b267ea26ae687510d73736f6a80c30d99.1666270633.git.quic_mathbern@quicinc.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN4PR0201MB8808:EE_|PH0PR02MB7512:EE_
-x-ms-office365-filtering-correlation-id: 6b9ab6ef-dd60-4d36-40e5-08dab2bca8f3
-x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 35V4b8bZXXiP+xSjzM7BIABeoLey6MAI6Eh5nu0hbM9VojCiozPSd6OrFHhdBo4HTjfR3ZAsqtzDUWrc2jYbWdJ+g6Y9lLND4XeFKeRvbS3LL33Xh2629VwoOgUoAGAS6peyj92veVOQqjUBTLHNFn5D3y0ErakaYifM/wM9+JxvHMEnEUzryTalBZe7Coyl9Bc1Ma/pWumdTuNwF/zuPLD9mjeU38+HFDdZodfbsSPv4X6ZN+HFg+bugp/pi6YnfVm/0pvWc/405Tv5x+BDOl3DInZDWYyjr5BHdPgxmpCA2EzUdL00hlTlpnK0f0r5haNclnXNX+ff/5MTZ+8J/qO9rnLOucba/osxoEeiyMxggTDQjdHA08LvFGvVILq9PksQYm7DnbP6yzizmq7z+hORB8hIMpqtT7i+QatMcSjgrVEw7Hgyt5hzsjCnmEUoUI+G34enH7B6YuemO5uTIwPpKR80K2PPP3752nRe9eWi9KFZDABauTKXd1k6+pnIi/st8HCAmL+SJE3rIuyRnQC2FfIGKbHW1NwoJYcO5nRiFl9gg/Wozb0yAkUJp2DH8Ay+QR2e/ymzgs5asHAn2pGZJYn75viUh53T5L9+mqD0rFPF2AerxBaHLJOmq+1ta7ydSkm0E74+pmQ5YksGwobKmnm7S5HbWHX1WpsUF2q+COIewb3TlCQv+T+ZT/M/FIwTjbMMq9xMd4AyEXhRl81EZ4T3AxdnoRHqdA9KRoIiQ5JulIBxLPMiqPnyY2W6DAksRQ5o+zc9P9hM6I99tw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(376002)(366004)(396003)(39860400002)(136003)(346002)(451199015)(122000001)(2906002)(7696005)(6636002)(55016003)(53546011)(54906003)(6506007)(71200400001)(41300700001)(478600001)(66446008)(66476007)(66556008)(66946007)(76116006)(316002)(8676002)(186003)(64756008)(4326008)(9686003)(26005)(38100700002)(86362001)(6862004)(5660300002)(33656002)(52536014)(38070700005)(83380400001)(8936002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?3O28N9ngzVz0gEJl8Kfq01aCNmAyN6rI+EbI62ZBxEnp9QIKfbW9vgWgKD8c?=
- =?us-ascii?Q?dIUz0+MPBH7SN1vw1/RChKy1Oooy1kKuLgnbdS5dR9K5+qemRyLGAIuIxG7X?=
- =?us-ascii?Q?sm+jQd7wclIGktCU+0gXy/uXRKZcdRQ+0g/knZeHfdV5S0jx/R1SeMTxglfy?=
- =?us-ascii?Q?8bsHPMQdhU3tIcrz7DxP9/QYFPqlBco0jDYsSP2LN+7Ple6gCUiEvzTgkLsV?=
- =?us-ascii?Q?36cN7AMBDChzxqtynkpcWAW0ExhHLYcd8eAbV20wD/JdqtM0Y2gAwrMoLuHl?=
- =?us-ascii?Q?ENal4VDt9AtzNDnS9Mq8gMpflJ9E0yQ7GJd9rvNHmqg9OOzUpM0U4cwaHEAi?=
- =?us-ascii?Q?9KTLPhHe/RpriItUDb9zscsqMp4PBwYi+IajmRd/7lV65C/y1AEjyEvD6Ck7?=
- =?us-ascii?Q?Jn1vRVT1eH5ZexloP4prlS5VvHlffzkfRK3NeFJcFynGYwFmDwaFK4JOI6Mx?=
- =?us-ascii?Q?zO0Knu+4u2tVqMqyPA/MhCTHSsaSWyxFe7kPf35otViMIoMJvB7gg8OTatB5?=
- =?us-ascii?Q?HBlO1I65G5PHsD2bL6X/FGn9nlMOYPO2M2Z9s/ZSAv+voxIj4XJ+MJiXYKiu?=
- =?us-ascii?Q?Tk0H5jKbTKSLLDOgnLNW0/lJWbYIYu21nFKT9fEbFuimU5yrD1NypToQn1dJ?=
- =?us-ascii?Q?LkSIo1mjuKwhD6oQOJ+ZuW9mZyEbNZZWE/mIOvxmBeJflZGH3lv3fGXpjAsZ?=
- =?us-ascii?Q?mcd3pmVOWociPf5SwkBhJbdCFgVFbvIQ9W8stjL4PyrjFplngMvGnw8sq6dJ?=
- =?us-ascii?Q?Gp+8X5Lzvgu5eR9NPVcgZHOiTMu4jlhbg/EJPt+/f5rGuQHgNPPTHNvpD0t1?=
- =?us-ascii?Q?SMchyTdm95sLqitChH9RclN7lreJGovcKpWwLmm/Bi7JA/34OwWkOiBg1xrr?=
- =?us-ascii?Q?W/KevcG9tASElDXg42uNlV4VJzXrxAS+Z9uWdEG3rCXNcSLSgN3pSfxemPOR?=
- =?us-ascii?Q?bFiQc1wK1mEKBMu0iM90yy+Tjy2yj5uR2df3vJmUXQkSn+PcjnYYaxNYlvY1?=
- =?us-ascii?Q?yzPFl+PYs5SEM5AnPTV5ehsxDOCOPR7ZSI1+XM6gz4sltkzx0FESiUZHX7Yb?=
- =?us-ascii?Q?MqjO0DHQ/q1q4TrEvg36FkS1iDr4oBNrgSHD8JjGuwBFx8DdQhICeSIefCZd?=
- =?us-ascii?Q?nDIg2tNDs1CnimFo38bAr66oSm2vPCgRxJfEWsc+pwVLlDrYt2Jelzbj2sPw?=
- =?us-ascii?Q?iEfYjh5aB/Umzwn32UEEZuNu7zx/7asKvXXqJ8QD9/aGqIMfFN8A5eiAFKYn?=
- =?us-ascii?Q?bm+ZKIbCHwcYV5ceplTnJZgfOT2v1zqkSV4QLC8/1zXDx+xt7T2UgS7pePz7?=
- =?us-ascii?Q?faqcLSkr0FurCB8WvyA86SvF/zkmcK7l88D7X3KWu/UgviWCXtDr5cB1cvha?=
- =?us-ascii?Q?qItQgN3kvGKeODYTXCg7QY7H1l/EL4ZCOzFes7kQ3pnXB5hjSsUKHJPNJH+H?=
- =?us-ascii?Q?nuBe6O9HtMBkgEq/7oDWG4Xgd4OY04V2djRoRM1R00aVeDiJCXl46I2BXUss?=
- =?us-ascii?Q?NGEn2j1mKnxX6sjbpuRb4yWa+hxTLO7FHLjU7NppFExMT+cBPQrkKYiCYJen?=
- =?us-ascii?Q?WPysKG9uC6haCAL18fSN+N4guBzJE5leiovX2dY1?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1olZU7-0006HJ-TY
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 13:37:35 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46972)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1olZU5-0007fw-2p
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 13:37:35 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id bk15so53757wrb.13
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 10:37:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FUgwkpMMb3PBsXYqB3yLzJb78m92EXT1K6Glc5ZVviQ=;
+ b=xGthTBLbgnASAdLdLC2dtR6hezpDLqZ4v8kSed64coRAhyuUaqLwwRyb4abvmKghcr
+ fQb3WbwthQLRah6AB81oszEvs+M2nSiBUJ1iMwRGhyEyQNqWfmZcQ4Gz8wsbKXHP87zv
+ h1Ly7mDeZhiSOIm3h7lRRggOHryUj6bDIR6TLnqtzHGFpSb7q/qFMSQBS5/OyBnXqT/t
+ 3vUr8Xt/+5wvxtDxbpm88sysLY9GbcCXu1C0x/t1RWag12JCRn3C1PEb/pCIsNYLF+4W
+ b93sQ6LTZhHjBgccx99TCHiQWYhw5rwy71p5LGcxkUgMLTv1WLNOkV1MAEY4vzIjry+0
+ 8cZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=FUgwkpMMb3PBsXYqB3yLzJb78m92EXT1K6Glc5ZVviQ=;
+ b=oiMDOYGI2bSeSZT5QJePLBFS3bdhdg/b2hV9sEjInCMlg6bFWJv8msIzR8/9w2kc3u
+ IFKJKkdrfnf5tKo4nsq36Aghl01z0FWCaUij12TaThGdesiyEq2IP2+ycwBakZIWoAoM
+ khyNdyDe/XUIS9PYpIsvwCamQZ/lS3WhHcJri9uqua6E18Ex83Ak6aVHRFFIvRvJCGZv
+ /8l6zrsYVdW5EjfvfdDdchQsdR5nR5B4ib1JzjzhBQTsfYRTS8lkCuYY/9KLiqhcdNFZ
+ JvSrovHMxMh4cxlrtRa6/Nx5B/mhflf2vPKnNEzJU5ZratbisqrzJ0oNK569y2axtVt+
+ Fgjg==
+X-Gm-Message-State: ACrzQf3yPOPXWpNOhZbRqXt5RlvTCJb3CMsRQxM/2nFhPVwUFxf2uCmd
+ Q3q8LJqGmlhn70M2cByJSg16wA==
+X-Google-Smtp-Source: AMsMyM7H1Uknr8n2SeIUBFQZmKVFVgdEBrlPrgwXFwHa0v1HKlOOJhuX7tbE/T2rAouYLJSN+tlbuw==
+X-Received: by 2002:a5d:5109:0:b0:22f:ed4:65da with SMTP id
+ s9-20020a5d5109000000b0022f0ed465damr9080685wrt.688.1666287451376; 
+ Thu, 20 Oct 2022 10:37:31 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ p63-20020a1c2942000000b003c6c5a5a651sm186638wmp.28.2022.10.20.10.37.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Oct 2022 10:37:30 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 61E531FFB7;
+ Thu, 20 Oct 2022 18:37:30 +0100 (BST)
+References: <20221020123506.26363-1-ani@anisinha.ca>
+ <20221020123506.26363-10-ani@anisinha.ca>
+User-agent: mu4e 1.9.1; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Ani Sinha <ani@anisinha.ca>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Maydell Peter
+ <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>, Thomas Huth
+ <thuth@redhat.com>, Igor Mammedov <imammedo@redhat.com>, Michael Tsirkin
+ <mst@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v6 09/10] acpi/tests/avocado/bits/doc: add a doc file to
+ describe the acpi bits test
+Date: Thu, 20 Oct 2022 18:08:33 +0100
+In-reply-to: <20221020123506.26363-10-ani@anisinha.ca>
+Message-ID: <875yge8kh1.fsf@linaro.org>
 MIME-Version: 1.0
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b9ab6ef-dd60-4d36-40e5-08dab2bca8f3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Oct 2022 17:00:58.3987 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: GTmHhZdgdGZBgT5oDlImvXrfJzQbihBnmGoTR7BEAOVZuN9dEDaAgMjcOCljJGCNfVF/lzHx9Mkp2ybCkzhlPw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR02MB7512
-X-Proofpoint-GUID: FUWFkfrcmiS2TQ9ThzI6TXZnaNA8o1TH
-X-Proofpoint-ORIG-GUID: FUWFkfrcmiS2TQ9ThzI6TXZnaNA8o1TH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-20_08,2022-10-20_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0
- mlxscore=0 adultscore=0 malwarescore=0 suspectscore=0 mlxlogscore=826
- impostorscore=0 priorityscore=1501 clxscore=1015 phishscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210200101
-Received-SPF: pass client-ip=205.220.168.131;
- envelope-from=tsimpson@quicinc.com; helo=mx0a-0031df01.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -171,111 +105,275 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+Ani Sinha <ani@anisinha.ca> writes:
 
-> -----Original Message-----
-> From: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-> Sent: Thursday, October 20, 2022 10:24 AM
-> To: Taylor Simpson <tsimpson@quicinc.com>
-> Cc: ale@rev.ng; anjo@rev.ng; Brian Cain <bcain@quicinc.com>;
-> philmd@linaro.org; qemu-devel@nongnu.org; Matheus Bernardino (QUIC)
-> <quic_mathbern@quicinc.com>; richard.henderson@linaro.org
-> Subject: Re: [PATCH 6/8] Hexagon (target/hexagon) Add overrides for
-> various forms of jump
->=20
-> Taylor Simpson <tsimpson@quicinc.com> wrote:
-> > diff --git a/target/hexagon/gen_tcg.h b/target/hexagon/gen_tcg.h index
-> > b56b216110..dbafcae2de 100644
-> > --- a/target/hexagon/gen_tcg.h
-> > +++ b/target/hexagon/gen_tcg.h
-> >
-> > +#define fGEN_TCG_J4_cmplt_f_jumpnv_t(SHORTCODE) \
-> > +    gen_cmp_jumpnv(ctx, pkt, TCG_COND_GE, NsN, RtV, riV) #define
-> > +fGEN_TCG_J4_cmplt_f_jumpnv_nt(SHORTCODE) \
-> > +    gen_cmp_jumpnv(ctx, pkt, TCG_COND_GE, NsN, RtV, riV)
-> > +
->=20
-> Nitpick: any reason not to place these two !COND variants...
->=20
-> > +
-> > +#define fGEN_TCG_J4_cmplt_t_jumpnv_t(SHORTCODE) \
-> > +    gen_cmp_jumpnv(ctx, pkt, TCG_COND_LT, NsN, RtV, riV) #define
-> > +fGEN_TCG_J4_cmplt_t_jumpnv_nt(SHORTCODE) \
-> > +    gen_cmp_jumpnv(ctx, pkt, TCG_COND_LT, NsN, RtV, riV)
-> > +
->=20
-> ...below these COND variants, like you did in the other insns?
->=20
+> A doc file is added under docs/devel that describes the purpose of the va=
+rious
+> test files and gives guidance to developers on where and how to make chan=
+ges.
+>
+> Cc: Daniel P. Berrange" <berrange@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Maydell Peter <peter.maydell@linaro.org>
+> Cc: John Snow <jsnow@redhat.com>
+> Cc: Thomas Huth <thuth@redhat.com>
+> Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: Michael Tsirkin <mst@redhat.com>
+> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> ---
+>  docs/devel/acpi-bits.rst | 148 +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 148 insertions(+)
+>  create mode 100644 docs/devel/acpi-bits.rst
 
-Good catch, I will change this.
+You will also need to add it to the index-build.rst:
 
-> > diff --git a/target/hexagon/genptr.c b/target/hexagon/genptr.c index
-> > 6e494c0bd8..fba76d3b38 100644
-> > --- a/target/hexagon/genptr.c
-> > +++ b/target/hexagon/genptr.c
-> > @@ -456,6 +456,35 @@ static TCGv gen_8bitsof(TCGv result, TCGv value)
-> >      return result;
-> >  }
-> >
-> > +static void gen_write_new_pc_addr(DisasContext *ctx, Packet *pkt,
-> > +                                  TCGv addr, TCGv pred) {
-> > +    TCGLabel *pred_false =3D NULL;
-> > +    if (pkt->pkt_has_multi_cof) {
-> > +        if (pred !=3D NULL) {
-> > +            pred_false =3D gen_new_label();
-> > +            tcg_gen_brcondi_tl(TCG_COND_EQ, pred, 0, pred_false);
-> > +        }
-> > +        /* If there are multiple branches in a packet, ignore the seco=
-nd one */
-> > +        tcg_gen_movcond_tl(TCG_COND_NE, hex_gpr[HEX_REG_PC],
-> > +                           hex_branch_taken, tcg_constant_tl(0),
-> > +                           hex_gpr[HEX_REG_PC], addr);
-> > +        tcg_gen_movi_tl(hex_branch_taken, 1);
-> > +        if (pred !=3D NULL) {
-> > +            gen_set_label(pred_false);
-> > +        }
-> > +    } else {
-> > +        if (pred !=3D NULL) {
-> > +            pred_false =3D gen_new_label();
-> > +            tcg_gen_brcondi_tl(TCG_COND_EQ, pred, 0, pred_false);
-> > +        }
-> > +        tcg_gen_mov_tl(hex_gpr[HEX_REG_PC], addr);
-> > +        if (pred !=3D NULL) {
-> > +            gen_set_label(pred_false);
-> > +        }
-> > +    }
->=20
-> Another nitpick: we could possibly extract the common code out of the if-
-> else branches for clarity (but note my other comment about this function =
-at
-> patch 7):
->=20
-> static void gen_write_new_pc_addr(DisasContext *ctx, Packet *pkt,
->                                   TCGv addr, TCGv pred) {
->     TCGLabel *pred_false =3D NULL;
->     if (pred !=3D NULL) {
->         pred_false =3D gen_new_label();
->         tcg_gen_brcondi_tl(TCG_COND_EQ, pred, 0, pred_false);
->     }
->     if (pkt->pkt_has_multi_cof) {
->         /* If there are multiple branches in a packet, ignore the second =
-one */
->         tcg_gen_movcond_tl(TCG_COND_NE, hex_gpr[HEX_REG_PC],
->                            hex_branch_taken, tcg_constant_tl(0),
->                            hex_gpr[HEX_REG_PC], addr);
->         tcg_gen_movi_tl(hex_branch_taken, 1);
->     } else {
->         tcg_gen_mov_tl(hex_gpr[HEX_REG_PC], addr);
->     }
->     if (pred !=3D NULL) {
->         gen_set_label(pred_false);
->     }
-> }
+    testing
++   acpi-bits
+    qtest
 
-Yes, this will be easier to read.  I'll change it.
+Other wise the build will complains.
 
-> The rest of the patch LGTM.
+>
+> diff --git a/docs/devel/acpi-bits.rst b/docs/devel/acpi-bits.rst
+> new file mode 100644
+> index 0000000000..06d50b76d9
+> --- /dev/null
+> +++ b/docs/devel/acpi-bits.rst
+> @@ -0,0 +1,148 @@
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> +ACPI/SMBIOS AVOCADO TESTS USING BIOSBITS
 
-Thanks,
-Taylor
+No need to use all caps here.
 
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> +
+> +Biosbits is a software written by Josh Triplett that can be downloaded
+> +from https://biosbits.org/. The github codebase can be found here:
+> +https://github.com/biosbits/bits/tree/master.
+
+`here <https://github.com/biosbits/bits/tree/master>`__.
+
+
+> It is a software that executes
+> +the bios components such as acpi and smbios tables directly through acpi=
+ca
+> +bios interpreter (a freely available C based library written by Intel,
+> +downloadable from https://acpica.org/ and is included with biosbits) wit=
+hout an
+> +operating system getting involved in between.
+> +There are several advantages to directly testing the bios in a real phys=
+ical
+> +machine or VM as opposed to indirectly discovering bios issues through t=
+he
+> +operating system. For one thing, the OSes tend to hide bios problems fro=
+m the
+> +end user. The other is that we have more control of what we wanted to te=
+st
+> +and how by directly using acpica interpreter on top of the bios on a run=
+ning
+> +system. More details on the inspiration for developing biosbits and its =
+real
+> +life uses can be found in (a) and (b).
+
+[#a]_ and [#b]_ for proper footnotes
+
+> +This directory contains tests written in python using avocado framework =
+that
+> +exercizes the QEMU bios components using biosbits and reports test
+> failures.
+
+exercises
+
+> +For QEMU, we maintain a fork of bios bits in gitlab along with all the
+> +dependent submodules:
+> +https://gitlab.com/qemu-project/biosbits-bits
+> +This fork contains numerous fixes, a newer acpica and changes specific to
+> +running this avocado QEMU tests using bits. The author of this document
+> +is the sole maintainer of the QEMU fork of bios bits repo.
+> +
+> +Under the directory ``tests/avocado/``, ``acpi-bits.py`` is a QEMU avoca=
+do
+> +test that drives all this.
+> +
+> +A brief description of the various test files follows.
+> +
+> +Under ``tests/avocado/`` as the root we have:
+> +
+> +::
+> +
+> +   =E2=94=9C=E2=94=80=E2=94=80 acpi-bits
+> +   =E2=94=82 =E2=94=9C=E2=94=80=E2=94=80 bits-config
+> +   =E2=94=82 =E2=94=82 =E2=94=94=E2=94=80=E2=94=80 bits-cfg.txt
+> +   =E2=94=82 =E2=94=9C=E2=94=80=E2=94=80 bits-tests
+> +   =E2=94=82 =E2=94=82 =E2=94=9C=E2=94=80=E2=94=80 smbios.py2
+> +   =E2=94=82 =E2=94=82 =E2=94=9C=E2=94=80=E2=94=80 smilatency.py2
+> +   =E2=94=82 =E2=94=82 =E2=94=9C=E2=94=80=E2=94=80 testacpi.py2
+> +   =E2=94=82 =E2=94=82 =E2=94=94=E2=94=80=E2=94=80 testcpuid.py2
+> +   =E2=94=82 =E2=94=94=E2=94=80=E2=94=80 README
+> +   =E2=94=9C=E2=94=80=E2=94=80 acpi-bits.py
+> +
+> +* ``tests/avocado``:
+> +
+> +   ``acpi-bits.py``:
+> +   This is the main python avocado test script that generates a
+> +   biosbits iso. It then spawns a QEMU VM with it, collects the log and =
+reports
+> +   test failures. This is the script one would be interested in if they =
+wanted
+> +   to add or change some component of the log parsing, add a new command=
+ line
+> +   to alter how QEMU is spawned etc. Test writers typically would not ne=
+ed to
+> +   modify this script unless they wanted to enhance or change the log pa=
+rsing
+> +   for their tests. Following environment variables are used in this tes=
+t:
+> +
+> +   **V=3D1** : This enables verbose mode for the test. It dumps the enti=
+re log
+> +   from bios bits and also more details in case failure happens. It is
+> +   useful for debugging the test failures or tests themselves.
+
+As there is only one environment variable you could just describe it
+inline, e.g.:
+
+   Test writers typically would not need to modify this script unless
+   they wanted to enhance or change the log parsing for their tests. To
+   enable debugging you can set the ``V=3D1`` environment variable. This
+   will cause the test to dump the entire log from bios bits and also
+   more details in case failure happens.
+
+> +
+> +   In order to run this test, please perform the following steps from th=
+e QEMU
+> +   build directory:
+> +   ::
+> +
+> +     $ make check-venv (needed only the first time to create the venv)
+> +     $ ./tests/venv/bin/avocado run -t acpi tests/avocado
+> +
+> +   The above will run all acpi avocado tests including this one.
+> +   In order to run the individual tests, perform the following:
+> +   ::
+> +
+> +     $ ./tests/venv/bin/avocado run tests/avocado/acpi-bits.py --tap -
+> +
+> +   The above will produce output in tap format. You can omit "--tap -" i=
+n the
+> +   end and it will produce output like the following:
+> +   ::
+> +
+> +      $ ./tests/venv/bin/avocado run tests/avocado/acpi-bits.py
+> +      Fetching asset from tests/avocado/acpi-bits.py:AcpiBitsTest.test_a=
+cpi_smbios_bits
+> +      JOB ID     : eab225724da7b64c012c65705dc2fa14ab1defef
+> +      JOB LOG    : /home/anisinha/avocado/job-results/job-2022-10-10T17.=
+58-eab2257/job.log
+> +      (1/1) tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bit=
+s: PASS (33.09 s)
+> +      RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRU=
+PT 0 | CANCEL 0
+> +      JOB TIME   : 39.22 s
+> +
+> +   You can inspect the log file for more information about the run or in=
+ order
+> +   to diagnoze issues. If you pass V=3D1 in the environment, more diagno=
+stic logs
+> +   would be found in the test log.
+> +
+> +* ``tests/avocado/acpi-bits/bits-config``:
+> +
+> +   This location contains biosbits configuration files that determine ho=
+w the
+> +   software runs the tests.
+> +
+> +   ``bits-config.txt``:
+> +   This is the biosbits config file that determines what tests
+> +   or actions are performed by bits. The description of the config optio=
+ns are
+> +   provided in the file itself.
+> +
+> +* ``tests/avocado/acpi-bits/bits-tests``:
+> +
+> +   This directory contains biosbits python based tests that are run from=
+ within
+> +   the biosbits environment in the spawned VM. New additions of test cas=
+es can
+> +   be made in the appropriate test file. For example, new acpi tests can=
+ go
+> +   into testacpi.py2 and one would call testsuite.add_test() to register=
+ the new
+> +   test so that it gets executed as a part of the ACPI tests.
+> +   It might be occasionally necessary to disable some subtests or add a =
+new
+> +   test that belongs to a test suite not already present in this directo=
+ry. To
+> +   do this, please clone the bits source from
+> +   https://gitlab.com/qemu-project/biosbits-bits/-/tree/qemu-bits.
+> +   Note that this is the "qemu-bits" branch and not the "bits" branch of=
+ the
+> +   repository. "qemu-bits" is the branch where we have made all the QEMU
+> +   specific enhancements and we must use the source from this branch onl=
+y.
+> +   Copy the test suite/script that needs modification (addition of new t=
+ests
+> +   or disabling them) from python directory into this directory. For
+> +   example, in order to change cpuid related tests, copy the following
+> +   file into this directory and rename it with .py2 extension:
+> +   https://gitlab.com/qemu-project/biosbits-bits/-/blob/qemu-bits/python=
+/testcpuid.py
+> +   Then make your additions and changes here. Therefore, the steps are:
+> +
+> +       (a) Copy unmodified test script to this directory from bits sourc=
+e.
+> +       (b) Add a SPDX license header.
+> +       (c) Perform modifications to the test.
+
+Maybe unordered lists would be better here
+
+> +
+> +   Commits (a), (b) and (c) should go under separate commits so that the=
+ original
+> +   test script and the changes we have made are separated and clear.
+> +
+> +   The test framework will then use your modified test script to run the=
+ test.
+> +   No further changes would be needed. Please check the logs to make sur=
+e that
+> +   appropriate changes have taken effect.
+> +
+> +   The tests have an extension .py2 in order to indicate that:
+> +
+> +   (a) They are python2.7 based scripts and not python 3 scripts.
+> +   (b) They are run from within the bios bits VM and is not subjected to=
+ QEMU
+> +       build/test python script maintainance and dependency resolutions.
+> +   (c) They need not be loaded by avocado framework when running tests.
+> +
+> +
+> +Author: Ani Sinha <ani@anisinha.ca>
+> +
+> +References:
+> +-----------
+> +(a) https://blog.linuxplumbersconf.org/2011/ocw/system/presentations/867=
+/original/bits.pdf
+> +(b) https://www.youtube.com/watch?v=3D36QIepyUuhg
+> +
+
+and then:
+
+.. [#a] https://blog.linuxplumbersconf.org/2011/ocw/system/presentations/86=
+7/original/bits.pdf
+.. [#b] https://www.youtube.com/watch?v=3D36QIepyUuhg
+
+
+--=20
+Alex Benn=C3=A9e
 
