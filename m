@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 634C2606435
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 17:21:53 +0200 (CEST)
-Received: from localhost ([::1]:39962 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 505D3606472
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 17:27:35 +0200 (CEST)
+Received: from localhost ([::1]:56414 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olXMj-0002JR-NQ
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 11:21:49 -0400
+	id 1olXS6-0001QV-LC
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 11:27:24 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olXF8-0002Me-8Z
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 11:13:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51570)
+	id 1olXOc-0000OU-9Q
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 11:23:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olUJe-0001K8-Pu
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:06:29 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:46894)
+ id 1olUJs-0001TH-SX
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:06:50 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:40500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olUJZ-0006L8-UY
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:06:24 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id y8so20030802pfp.13
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 05:06:21 -0700 (PDT)
+ id 1olUJq-0006SY-92
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:06:40 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ g8-20020a17090a128800b0020c79f987ceso3235861pja.5
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 05:06:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=dAito+iJTuV+ScNU+7EPO6zEC3vQCU0v1eRbm3sueVU=;
- b=yLbWSVAJ231a1a9GjdkcVOJLXOzzZLIgCNAo5PzHJAl2qIw6+YlpZa+SAvab3oVU3i
- OC69xqf+oxj1ehtT9arMVDcrM6uCpoR7OmTYhaBuoXP5x0rUyuuf6s4GHIcxQK2b3v8H
- CPBq5mQ12VMjU15wxU/YJqtenH49YShrr/UWaNhlUFc6KuLdeEiAM9+E0PEm7NsJIFJN
- PhHG7+FqAW+qRhoz11OOX9DNegbgMWmw20H3nEJFgN7/cMbyOO2px/Alr56ZZNP7+e2v
- YvFbpZgPW6hYc8KIihlNNG+eiX9L6rWp5bqe2jjv13+fV0vlpytW/dSj0pqjjszXQAFv
- AdnQ==
+ bh=eHj2xvzFNLr9gyBfCqXDUoXUVXCjsjsI0T0DxBoaKWM=;
+ b=n1PpfCnpo7qAkxqGWv3C3P0heSSiXa0W9uGRGotcyn6f2FP6KiYjWo+j9pVSBzHPJH
+ SQcv8iZQd9ElhwS+/STT9bNuTrDBxeWJS14XZARudOnAqyVaYRVTbLUU2FNDcLPKx1rC
+ sdv2qc+DKl0nf0LTyMSjVBfvEaZV0XmDoXh7C6xCtTAuQGGk8wdZGHEhwSLeam3+3R8e
+ LmMeuoFzd9JbbNtptbhblAcf02h9fD9QhZdVpWpf2baztmKucRs0iXnJPhn7j3GzQMlN
+ 6nbDE7c5pJuck+/ldN6Z+7Pz2FrFDjUM70CR2zTgnvFG1HrirfzPVP69fUGKK22rkeAe
+ SdbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dAito+iJTuV+ScNU+7EPO6zEC3vQCU0v1eRbm3sueVU=;
- b=3BtzAV2NpcivGj1NoCCEM0iMUbysyE6ZCL0+bkqPzU8eNaC/0laNI3bggJ9l5WMbBA
- 8LlI59yAqmWM3fFjYJTBbuLQEHovSb3gbXAFKsp2sZuTcMgpcHaNO5xLwic07XJgmFvo
- fo1j/BOTBOoOID92XCU3hSWt3Pzq3UTlX8Pl2P3zXt1ui8JwAvMZBGd2OzZPodnvMFbE
- PLVfYdOoq0NWaAzdxVLXFnDLLQRbTdG7aUZAzpGjLSYvOH8pq2BA5pCQEJIJ/naALZxg
- /w2/bsEkVtwYCnBwwFYcpunYi1Md/brGvTajCBtKpw4wS0GBnDmf1P1ISLy6Ty9zA6i7
- RzrA==
-X-Gm-Message-State: ACrzQf3+19eqCoyyNW1+BUcrzbovM+hBmwfAogaGaYaeLaHvuz+CNRhG
- VtZ21mDElBxze6+ThyGJYBXM1g==
-X-Google-Smtp-Source: AMsMyM7aPuMHg4mkNuLMm0RwjgaiNqgN6hnEX+oMQH/zRridv1sSVhIxr93QCFMGvC8XCQftxRZwUQ==
-X-Received: by 2002:aa7:88d6:0:b0:563:9fe9:5da8 with SMTP id
- k22-20020aa788d6000000b005639fe95da8mr13748549pff.74.1666267580406; 
- Thu, 20 Oct 2022 05:06:20 -0700 (PDT)
+ bh=eHj2xvzFNLr9gyBfCqXDUoXUVXCjsjsI0T0DxBoaKWM=;
+ b=1mqu4BTmnhn1N5/IkxQPqwNwtkgK0O8iAsmXzKfVf0fi2pvfNpDO94snU1IpUzhqO4
+ PFA704iABqcKmCm2L3kvFiXih2T8s8xQ2lXbdC2ukxiZ90xJFcrvOM822U4v0xnMTHZP
+ qRvuYbLPnAu0YshBXLXaSSfMqbxSCKNsULDO/k1QcFpsG5B19EUIgbObJw1bZXOXgnkl
+ 1jt6wAJd1zpBZBN/BFOttVvyQHwaT5wFpgyljP0g2THCZ6XKhDK7ZY7NePfcL9t8Ymsq
+ Y3NR2rusjR+f4TEZl4diA0+fEVga9zzTNgPBfJXbf/YHEmmk7Hr05W+NCGiVfEz6Yoh4
+ DXCA==
+X-Gm-Message-State: ACrzQf3guz3zTCrRXEL6dHS0m93sxYwGg6T4lDBzc2c1XlRwMgkyK9bE
+ Z5l4jAjiaiqYrJ3vAVBrBPvQ3w==
+X-Google-Smtp-Source: AMsMyM5YxfyTtrhbIwVHH6Bzk2X/8Wjprj9oE/HJmBkE4LoXMOlb2r6KKJr90Ll2hcy3kRNS+eHvjw==
+X-Received: by 2002:a17:90b:d88:b0:211:4d8:1c93 with SMTP id
+ bg8-20020a17090b0d8800b0021104d81c93mr5623067pjb.41.1666267596768; 
+ Thu, 20 Oct 2022 05:06:36 -0700 (PDT)
 Received: from [192.168.1.107] ([149.135.10.35])
  by smtp.gmail.com with ESMTPSA id
- m3-20020a62a203000000b0053e38ac0ff4sm13133643pff.115.2022.10.20.05.06.13
+ p9-20020a17090a0e4900b00203917403ccsm1671765pja.1.2022.10.20.05.06.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Oct 2022 05:06:19 -0700 (PDT)
-Message-ID: <9772b561-083f-9029-e8da-678f9c7ab051@linaro.org>
-Date: Thu, 20 Oct 2022 22:06:09 +1000
+ Thu, 20 Oct 2022 05:06:35 -0700 (PDT)
+Message-ID: <a6b0bea6-c4a4-3536-8e8c-98e7ba2e3227@linaro.org>
+Date: Thu, 20 Oct 2022 22:06:26 +1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH v3 25/26] target/s390x: fake instruction loading when
- handling 'ex'
+Subject: Re: [PATCH v3 23/26] target/s390x: don't use ld_code2 to probe next pc
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
@@ -76,13 +76,13 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
  Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
  "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>
 References: <20221020115209.1761864-1-alex.bennee@linaro.org>
- <20221020115209.1761864-26-alex.bennee@linaro.org>
+ <20221020115209.1761864-24-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221020115209.1761864-26-alex.bennee@linaro.org>
+In-Reply-To: <20221020115209.1761864-24-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -106,25 +106,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/20/22 21:52, Alex Bennée wrote:
-> The s390x EXecute instruction is a bit weird as we synthesis the
-> executed instruction from what we have stored in memory. This missed
-> the plugin instrumentation.
-> 
-> Work around this with a special helper to inform the rest of the
-> translator about the instruction so things stay consistent.
+> This isn't an translator picking up an instruction so we shouldn't use
+> the translator_lduw function which has side effects for plugins.
 > 
 > Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> Cc: Richard Henderson<richard.henderson@linaro.org>
-> 
 > ---
-> v2
->    - s/w/b/ for translator_fake_ldb
->    - add comment to extract_insn
->    - reword commit message
-> ---
->   include/exec/translator.h    | 17 +++++++++++++++++
->   target/s390x/tcg/translate.c |  6 ++++++
->   2 files changed, 23 insertions(+)
+>   target/s390x/tcg/translate.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
