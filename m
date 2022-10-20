@@ -2,72 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA6FF60694F
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 22:04:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3D65606A43
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 23:28:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olbmX-00044u-1R
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 16:04:45 -0400
+	id 1old5T-0005x9-G0
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 17:28:23 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olbmC-0003GG-An
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 16:04:24 -0400
+	id 1old09-0002Qi-0J
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 17:22:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1olbm4-0002sm-3k
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 16:04:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1olbm2-0006YR-8I
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 16:04:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666296252;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XXww4SkFJsrkMIrF40r2KpYp6Ifz/WQGL6wQ76BQNhY=;
- b=ZUxsuY4MumI7/E0UqKBvyAI6QJxzuYOQuEKXUNPMCzjSGP8UWGRGmglZ1i40bF22gWBPEQ
- LVbEkEld+ags8SlL6a30XgqXdueT03q6VG88pb3xERqXZyaYte78JEmMOzlOxU4JwqgaTV
- KxxSpFK82zIEBcKnXj5jGzoJEQAuKbw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-642-yZQkurBHNkKOfuR53gXzOw-1; Thu, 20 Oct 2022 16:04:10 -0400
-X-MC-Unique: yZQkurBHNkKOfuR53gXzOw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 49080804187;
- Thu, 20 Oct 2022 20:04:04 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C9B7C4047A7;
- Thu, 20 Oct 2022 20:04:03 +0000 (UTC)
-Date: Thu, 20 Oct 2022 16:04:02 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PULL 00/24] target-arm queue
-Message-ID: <Y1Gpsj0btN9/O3kp@fedora>
-References: <20221020122146.3177980-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1old01-0002QG-QX
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 17:22:45 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1olczz-00054f-5H
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 17:22:45 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ g8-20020a17090a128800b0020c79f987ceso4722974pja.5
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 14:22:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=u2gmfiWqzgI/1RbLqoZXVNy3iQx1kP/VMYxQkMmhfl0=;
+ b=KsWq2UB4bgzHyl8bQePZ0Hbg9JvSwhRD1MZgVqDIdySKxnEFET98gkmsORQWgQg6NC
+ sXWXywbmsAaR1MnfXXkMlopR09fkrfejckM8ovVJsKLfcGw9yZ2BOTSF+tl0eCEhj+mc
+ zAFBZMoA6gzYseW+rjykCxgvH1EV5EmSDsRTP9TnyprDNthHZvaN9Ln2I9GGwLarQYne
+ Uvsqas44LMT4CHU/UqXgTiHdqJ3ULVKU67doYgQSdgZ3yITPafWj5MutBgoNHMLprRRS
+ VMDEVOP6+yGAZir4NF72plicCHZ4AsVMwUsPc9gO4itSXCaMdPPDSnEUm0f/a05KsuoQ
+ KHOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=u2gmfiWqzgI/1RbLqoZXVNy3iQx1kP/VMYxQkMmhfl0=;
+ b=Eos9OcAmpdNSTGE0C188UDqQHisq0JmJQ/E4b7wCTvkohJcLeyErTJeeUqf/x0/XOH
+ czq/vsFm0zNvwfCetgo5QrpACWsJ3bYTnHf+LWCMNpv/ngMGNwMo3Rrl7bNrX71S5f9b
+ geosjfeDiQ/gR63Khh8nSZPK1NT5QTori/qlVMa3W5GBLTyycIdGiLYm4DeskUL/uPz9
+ m4yYG/PT6h2F+0TpeuQ+izdwoICqxKCgmSnQSKZP0CJv10COIojPJe4yQ04a/vgYCQc9
+ 4BoVVvvvH4YEYyYiGzg/2bk+vt8F6jDZiXSZOEvK9CaPix71rIt+1KaCIj2M5q/PfIp5
+ UCZg==
+X-Gm-Message-State: ACrzQf3N0pm8zi6mDn8nFCBPV/YT3Vu0NeV/gtQjrBYWyU33M6YH+rQY
+ +ICthAO/xf+b63QHbMAJac+cQw==
+X-Google-Smtp-Source: AMsMyM7UWwhZCMgqtC7fQGPNAfq+W+sqdLXKHuAhErg6iKjCyOyAJ7RKMX54/eAnnOjmxP5zxwJjkw==
+X-Received: by 2002:a17:902:d4c5:b0:185:507b:5ef3 with SMTP id
+ o5-20020a170902d4c500b00185507b5ef3mr16214480plg.108.1666300960954; 
+ Thu, 20 Oct 2022 14:22:40 -0700 (PDT)
+Received: from [192.168.1.107] ([149.135.10.35])
+ by smtp.gmail.com with ESMTPSA id
+ r16-20020a63e510000000b004308422060csm11858860pgh.69.2022.10.20.14.22.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Oct 2022 14:22:40 -0700 (PDT)
+Message-ID: <87a62593-9b00-5120-849d-c00a41343ed7@linaro.org>
+Date: Fri, 21 Oct 2022 07:22:24 +1000
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="9QlUW0K0zX7sqt6a"
-Content-Disposition: inline
-In-Reply-To: <20221020122146.3177980-1-peter.maydell@linaro.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2] target/i386: implement FMA instructions
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20221020134353.50272-1-pbonzini@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221020134353.50272-1-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,30 +98,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 10/20/22 23:43, Paolo Bonzini wrote:
+> The only issue with FMA instructions is that there are_a lot_  of them (30
+> opcodes, each of which comes in up to 4 versions depending on VEX.W and
+> VEX.L; a total of 96 possibilities).  However, they can be implement with
+> only 6 helpers, two for scalar operations and four for packed operations.
+> (Scalar versions do not do any merging; they only affect the bottom 32
+> or 64 bits of the output operand.  Therefore, there is no separate XMM
+> and YMM of the scalar helpers).
+> 
+> First, we can reduce the number of helpers to one third by passing four
+> operands (one output and three inputs); the reordering of which operands
+> go to the multiply and which go to the add is done in emit.c.
+> 
+> Second, the different instructions also dispatch to the same softfloat
+> function, so the flags for float32_muladd and float64_muladd are passed
+> in the helper as int arguments, with a little extra complication to
+> handle FMADDSUB and FMSUBADD.
+> 
+> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
+> ---
+>   target/i386/cpu.c                |  5 ++--
+>   target/i386/ops_sse.h            | 27 +++++++++++++++++
+>   target/i386/ops_sse_header.h     | 11 +++++++
+>   target/i386/tcg/decode-new.c.inc | 40 +++++++++++++++++++++++++
+>   target/i386/tcg/decode-new.h     |  1 +
+>   target/i386/tcg/emit.c.inc       | 51 ++++++++++++++++++++++++++++++++
+>   target/i386/tcg/translate.c      |  1 +
+>   tests/tcg/i386/test-avx.py       |  2 +-
+>   8 files changed, 135 insertions(+), 3 deletions(-)
 
---9QlUW0K0zX7sqt6a
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
-
---9QlUW0K0zX7sqt6a
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNRqbIACgkQnKSrs4Gr
-c8isrggAxc7ZL4gXUwXw+PLrV75KuBwlvPEweuDqqlbhju+eS3lSDURz1s1i65Sy
-3y8/BCRMCqIBtMct8GhJZ1WZDfvZRPt6NwKfg7tvFer/T7QEfZa4YqLRAro6LVoO
-ARV6kX9xnyzaS8IofEPZFbvqNqqQjKO8Ae9yIJc2qUzdFoFRK1zDNHTM3P6iu7AL
-qs4qMVstOyuAswFil4LCno62Yn2llO14oNFISWkHiQQedZ7wyilxQLOYsnaQCTEE
-Pzc1GS/GaXcmpcLcdmyQDFgHX0OkEpTkHKyTUZI0L3tpc2h78e/OT0HhugR/KbeU
-k7ahrUBZBXwGE4RkxbQ3UB7QYAwV7g==
-=GhDF
------END PGP SIGNATURE-----
-
---9QlUW0K0zX7sqt6a--
-
+r~
 
