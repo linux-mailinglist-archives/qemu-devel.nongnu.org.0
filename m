@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9282F606026
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 14:27:41 +0200 (CEST)
-Received: from localhost ([::1]:42806 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAA3A6061B3
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 15:34:21 +0200 (CEST)
+Received: from localhost ([::1]:49660 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olUeC-0001YP-9u
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 08:27:40 -0400
+	id 1olVgh-0006WY-M2
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 09:34:19 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olUN1-0001uS-IQ
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 08:09:55 -0400
-Received: from [2001:470:142:3::10] (port=50826 helo=eggs.gnu.org)
+	id 1olVPm-0005sm-1t
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 09:16:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1olTSB-000134-VN; Thu, 20 Oct 2022 07:11:14 -0400
+ id 1olTbs-0001iw-6S; Thu, 20 Oct 2022 07:21:17 -0400
 Received: from out1-smtp.messagingengine.com ([66.111.4.25]:34611)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
