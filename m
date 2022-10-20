@@ -2,98 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E3996059A3
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 10:24:10 +0200 (CEST)
-Received: from localhost ([::1]:49360 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D4AE605941
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 10:03:35 +0200 (CEST)
+Received: from localhost ([::1]:45486 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olQqX-0003wi-Gq
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 04:24:09 -0400
+	id 1olQWY-0004q7-L4
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 04:03:32 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olQqX-0003cs-9A
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 04:24:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46254)
+	id 1olQWX-0004K1-JS
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 04:03:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1olPYE-0002NA-G3
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 03:01:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24881)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1olQMH-0003dp-Sg
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 03:52:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58277)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1olPY5-0005v4-DX
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 03:01:07 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1olQMF-00054i-Py
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 03:52:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666249259;
+ s=mimecast20190719; t=1666252368;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vftwg498zBqo+FuGW2qMpXv1UFPD5fAUNJIWBipJhrQ=;
- b=Bso6OsJpp7bu51/VI//DyYBw5+dU1BNmGeuomSA5qckBq828iwq0GYc0M2mUgMJgN1tMsc
- NgLaZqjISX0PXM+b0nDJSyYjtf9OTfKMrSo/TsL5PafNSSZFEmvgebBKPkeL/SXWdwzuCu
- LDeFrI/6i9DyEwRbDYg99PUoizhvG7Y=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=sGyEIeRqURR5x6gOCkBRjm3o4X6mDaFqZTLRzImhrSU=;
+ b=CLS8Y8FdEkvxL8atmkNeLX6qFfH9YR874HyDZAYiYS8ofzeA8Db33wNb/xejBpGgwU/zMP
+ qtQM0UOuZvlY1H86IoKXz4UG/CRCfrL09oEGUguqyBfFoHOligqIROb++YjvuNGXVP/Xeh
+ OEHqpuR+x9PCenYiCMwIuTC+yA3OzVc=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-64-muDN6lDjNgeqvjLK8CpNXw-1; Thu, 20 Oct 2022 03:00:55 -0400
-X-MC-Unique: muDN6lDjNgeqvjLK8CpNXw-1
-Received: by mail-pf1-f197.google.com with SMTP id
- g3-20020a056a000b8300b00563772d1021so10693749pfj.18
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 00:00:55 -0700 (PDT)
+ us-mta-624-8RAHFdkwMU62Ztcynx424A-1; Thu, 20 Oct 2022 03:52:47 -0400
+X-MC-Unique: 8RAHFdkwMU62Ztcynx424A-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ f19-20020ac84713000000b00397692bdaecso14600995qtp.22
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 00:52:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vftwg498zBqo+FuGW2qMpXv1UFPD5fAUNJIWBipJhrQ=;
- b=79cFF/8gwjQcDZMuJOrPPpqIaaDkVkgWy19igRUnPjxyWRF2p6SIf/X8aXiS21ABBI
- Pmw62ySTEyznlNH8LUqtpOb34hrc2hhl+TxZI89r6O2nY195TMAp5+fygxtaS9PW2Rnl
- UKL08pM81c1PAB0H8NkeIZCEfatWlv7VV4xIOP0B+bf04QFA1cIVT17j/Y+cv2NCmnHR
- 3+ZT57TFVUCu50yvwJ+TegZtKrmLgNlKy+MfgWZoTrckhcfPsLA0swZBmQzZbfUatIjI
- tUDlWnqsagB3DLbg7ZX2MlBKwBTpXiYtYMNJD5kGnGMCz8YTh74ak+B3gIfEqfpT+j7G
- jJWg==
-X-Gm-Message-State: ACrzQf2b03DrRn6suyrCs4UxuC68LNPPJk+g1heGe4aLY61J24STKC4o
- e0SO5tL4IFS61h7rs+IX/C+x5msL7Po+emIEg67TMqAqr50YzlU4DrSDEteCSl+uZFJ1On3xiyZ
- /hLnvoOmZ++AAMst1WF585nMyKy+G+dw=
-X-Received: by 2002:a62:174a:0:b0:563:69ac:562f with SMTP id
- 71-20020a62174a000000b0056369ac562fmr12601963pfx.68.1666249254204; 
- Thu, 20 Oct 2022 00:00:54 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM56/ideSrEi0faRPJZxkTIFAEEJ8U58zCKcIa3+1sRLYukkBsAy9N66KXtIy6DuzihR+TSgofLE7JiW0kiApfc=
-X-Received: by 2002:a62:174a:0:b0:563:69ac:562f with SMTP id
- 71-20020a62174a000000b0056369ac562fmr12601909pfx.68.1666249253673; Thu, 20
- Oct 2022 00:00:53 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sGyEIeRqURR5x6gOCkBRjm3o4X6mDaFqZTLRzImhrSU=;
+ b=cWIVDIgL1KD5Ov3P4zyr8J0TexxbCtQcDZCSU8GOIzJqTzgzl+6qYeL1OR1gMuAE6g
+ 2hW+YlKsnDuIvX6olbdb7GKQ4XaWZZgsHRu32ctWJlpvYPcvrGXLPNWfyIx91G9WDtAE
+ Q4dBgfKD1JyaJ5vf9a1vYvzj0SakPkBjzbH/yPlQQyXVp8E/LQCp7Z5vyZ5PP5y27kpo
+ PQlQ6Qmrnuc9UMRK6EUvCKPt5DAtRxzayK8cGnrdKtMj6GNVadwvMQfEBtfbX+Ee+rym
+ wEcwFygEQwzDZXZm1dYSptbKwTvFhtdNmOFiitsc73U9Q2WBleN+l+oyD+94RQTlZzYD
+ q5zw==
+X-Gm-Message-State: ACrzQf0JuRzyd00l/iuR70VS8jxAZqQxrxJyNuW8/CCexZq2ZRVh4jXV
+ 4uVzUZZ9rvFrNhcXkmVn/vAgGSOnqIPvNyi7ElqMFNoyHBFaMPkYRmc/yVHtnNtzP5YM5xL5Gow
+ C+CeXrPA3h3xdYAE=
+X-Received: by 2002:a0c:da07:0:b0:4b1:933b:57ed with SMTP id
+ x7-20020a0cda07000000b004b1933b57edmr10061475qvj.93.1666252366703; 
+ Thu, 20 Oct 2022 00:52:46 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5A3VvDWTXSJOskkM4Acb/KDoeVfx2Fbf4BBUofQClVrK8EgR6Sx2ulmBsnHmek5Wbwf51dWA==
+X-Received: by 2002:a0c:da07:0:b0:4b1:933b:57ed with SMTP id
+ x7-20020a0cda07000000b004b1933b57edmr10061458qvj.93.1666252366463; 
+ Thu, 20 Oct 2022 00:52:46 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-177-247.web.vodafone.de.
+ [109.43.177.247]) by smtp.gmail.com with ESMTPSA id
+ q2-20020a05620a0d8200b006cf9084f7d0sm6620256qkl.4.2022.10.20.00.52.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Oct 2022 00:52:45 -0700 (PDT)
+Message-ID: <12579dec-e80e-3489-79da-9bc93b68472a@redhat.com>
+Date: Thu, 20 Oct 2022 09:52:42 +0200
 MIME-Version: 1.0
-References: <20221019125210.226291-1-eperezma@redhat.com>
- <20221019125210.226291-7-eperezma@redhat.com>
- <CACGkMEuKCXP2DMQWtPFmLnCKYuyDA8LEFbETU==AM_aRvdVM8g@mail.gmail.com>
-In-Reply-To: <CACGkMEuKCXP2DMQWtPFmLnCKYuyDA8LEFbETU==AM_aRvdVM8g@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 20 Oct 2022 09:00:17 +0200
-Message-ID: <CAJaqyWfFk_yXTJjsvSpqG2XCJvgP7BqjcVediQL0KSDgN5nZ=A@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 6/8] vdpa: handle VIRTIO_NET_CTRL_ANNOUNCE in
- vhost_vdpa_net_handle_ctrl_avail
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel@nongnu.org, Zhu Lingshan <lingshan.zhu@intel.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>,
- Stefano Garzarella <sgarzare@redhat.com>, 
- Si-Wei Liu <si-wei.liu@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Cindy Lu <lulu@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Eli Cohen <eli@mellanox.com>, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>, 
- Gautam Dawar <gdawar@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: has anybody looked at the long-standing intermittent raspi2
+ avocado test failure?
+Content-Language: en-US
+To: John Snow <jsnow@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <CAFEAcA_hi1VHNVetOKkpUXuYtJ4akdVZxwBqSXf76Zvx=YB6Xg@mail.gmail.com>
+ <CAFn=p-aoe1QQMXkgdu_yKxb4jCTahsM1K-Fo+vtXOwG=8=_=Lw@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <CAFn=p-aoe1QQMXkgdu_yKxb4jCTahsM1K-Fo+vtXOwG=8=_=Lw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,79 +111,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 20, 2022 at 6:35 AM Jason Wang <jasowang@redhat.com> wrote:
->
-> On Wed, Oct 19, 2022 at 8:52 PM Eugenio P=C3=A9rez <eperezma@redhat.com> =
-wrote:
-> >
-> > Since this capability is emulated by qemu shadowed CVQ cannot forward i=
-t
-> > to the device.
->
-> I wonder what happens for a device that has GUEST_ANNOUNCE support on its=
- own?
->
+On 19/10/2022 22.38, John Snow wrote:
+> On Tue, Oct 18, 2022 at 6:23 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+>>
+>> If you run this single avocado test:
+>>
+>> while ./build/x86/tests/venv/bin/avocado run
+>> build/x86/tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_raspi2_initrd
+>> ; do true; done
+>>
+>> then on my machine it will fail within 4 or 5 iterations. Has anybody
+>> looked into this? Looking at a log from a failed test
+>> https://people.linaro.org/~peter.maydell/raspi-avocado-fail.log
+>> what seems to happen is that the test sends the "halt" command to
+>> the guest. The DEBUG log reports a transition from RUNNING to
+>> DISCONNECTING and the QMP connection disconnects, so presumably
+>> the guest really did exit -- or is that something the test framework
+>> is doing from its end?
+[...]
+> "Thanks for the analysis, but, like, what are you going to do to fix
+> any of this?"
+> 
+> Long term, an asyncio version of machine.py will help alleviate these
+> kinds of race conditions when dealing with multiple sockets from
+> Python as our testing requirements become more complex.
+> 
+> Short term, I'm not sure...
 
-If SVQ is enabled the feature is always emulated by qemu by this series.
+As a short term fix, what about simply changing the test
+like this:
 
-if SVQ is disabled then the device is the one in charge of all of it.
+diff a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
+--- a/tests/avocado/boot_linux_console.py
++++ b/tests/avocado/boot_linux_console.py
+@@ -489,7 +489,7 @@ def test_arm_raspi2_initrd(self):
+                                                  'BCM2835')
+          exec_command_and_wait_for_pattern(self, 'cat /proc/iomem',
+                                                  '/soc/cprman@7e101000')
+-        exec_command(self, 'halt')
++        exec_command_and_wait_for_pattern(self, 'halt', 'System halted')
+          # Wait for VM to shut down gracefully
+          self.vm.wait()
+  
+By waiting for another console pattern that the guest sends
+out after "halt", you can make sure that the connection is
+not closed too early.
 
-> > Process all that command within qemu.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >  net/vhost-vdpa.c | 15 ++++++++++++---
-> >  1 file changed, 12 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > index 3374c21b4d..5fda405a66 100644
-> > --- a/net/vhost-vdpa.c
-> > +++ b/net/vhost-vdpa.c
-> > @@ -488,9 +488,18 @@ static int vhost_vdpa_net_handle_ctrl_avail(VhostS=
-hadowVirtqueue *svq,
-> >      out.iov_len =3D iov_to_buf(elem->out_sg, elem->out_num, 0,
-> >                               s->cvq_cmd_out_buffer,
-> >                               vhost_vdpa_net_cvq_cmd_len());
-> > -    dev_written =3D vhost_vdpa_net_cvq_add(s, out.iov_len, sizeof(stat=
-us));
-> > -    if (unlikely(dev_written < 0)) {
-> > -        goto out;
-> > +    if (*(uint8_t *)s->cvq_cmd_out_buffer =3D=3D VIRTIO_NET_CTRL_ANNOU=
-NCE) {
->
-> Interesting, I thought we can do better by forbidding the code that
-> goes into vhost-vDPA specific code, everything should be set at
-> virtio-net.c level.
->
-
-Do you mean to move the SVQ processing to each handle_output? It's
-somehow on the roadmap but I'm not sure if it has more priority than
-implementing the different features.
-
-Thanks!
-
-
-> Thanks
->
-> > +        /*
-> > +         * Guest announce capability is emulated by qemu, so dont forw=
-ard to
-> > +         * the device.
-> > +         */
-> > +        dev_written =3D sizeof(status);
-> > +        *s->status =3D VIRTIO_NET_OK;
-> > +    } else {
-> > +        dev_written =3D vhost_vdpa_net_cvq_add(s, out.iov_len, sizeof(=
-status));
-> > +        if (unlikely(dev_written < 0)) {
-> > +            goto out;
-> > +        }
-> >      }
-> >
-> >      if (unlikely(dev_written < sizeof(status))) {
-> > --
-> > 2.31.1
-> >
->
+  Thomas
 
 
