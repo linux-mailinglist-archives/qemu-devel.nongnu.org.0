@@ -2,87 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95E64606643
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 18:51:49 +0200 (CEST)
-Received: from localhost ([::1]:46578 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 154EF6066B3
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 19:07:20 +0200 (CEST)
+Received: from localhost ([::1]:35698 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olYlm-0004nH-R1
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:51:46 -0400
+	id 1olZ0V-0002Dn-KP
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:07:01 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olYlK-0006LK-U9
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:51:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55652)
+	id 1olYpM-0001Ql-0l
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:55:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olXx6-0001z2-K3
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 11:59:26 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:35567)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olXxw-0003Jf-At
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:00:16 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37729)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olXx4-000793-5h
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 11:59:23 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- m29-20020a05600c3b1d00b003c6bf423c71so2756833wms.0
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 08:59:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olXxu-0007Hi-6x
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 12:00:15 -0400
+Received: by mail-wr1-x435.google.com with SMTP id bv10so35236211wrb.4
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 09:00:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=SuQVtmNWACAM/Cha3VCQEhJEt7snaW6H4e0aiVOaN+c=;
- b=id6v1YqyDEqoU4/GCMXlm+LXCnzo7qT8EkxDK1UgbV0PhDKNunye+lss3gRUlWGrX5
- +v/BXnAngZXIn5lm1i9+FuGF6v/I+QWhwpD9ThXPffiIR2x+PsMCVQPrWNRn5Cqns+0B
- HDHuRNKCuuZKhCoJ4sEyEVT2Iz18I1Vi4VOCTeT4cNaw0qXTrLxUxYrR1cWZbs3Xc2Zi
- COUJAJw/5gdcEyasRpx+SYkXgOdjsZExDkS+NKx8NEJ4n8qltsNqGGmuvA22Qk5Gpmoz
- JCWyhWPglI9LhSDk2FYUWn2AicOUE+e/DvdT8QSunn9OGhntFvNqTHLuJFS9Mw+GPo21
- YTXw==
+ bh=fUywh7wiG5ARvxRTb1BgGNRCEcPxDhfqaa+CbK4TdEM=;
+ b=EdVqCt72SHfxZv7s8HvcAcZYGho/6Paarn9Xs/F1gTclLy6gVYhifCGQVQDvPGlL+5
+ w3UIin6Q4bKJH7qvhSA1qPkch8xAnZJXqPmNVLEWhxIqUJoeklAcWD0+0YG2Sf2Kmytf
+ ACyvZgntAWJ4yAxxqMPgxtzjOhnglHKUA7MK0Kl+d6F678kIsln3X9Cl8K6AAtocCGA6
+ s5hlMcWj4zDNVbzE4wDecLnmgNRVbExEi+dcyqhkF/eBGnCwNFIaTEkHn6KT8ev4KlMZ
+ 25V3eKaDwLHMHY6O5eaqmDjhDj4D99bI87+p0HMBl16Efp/snx5RcUAaJnISSO0K3MK5
+ pvkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SuQVtmNWACAM/Cha3VCQEhJEt7snaW6H4e0aiVOaN+c=;
- b=bbCsQE4Y/dRdt5dwjnO50Qg8obxOm/bld7erFGtI30Q6Wdhbwu2rS3eBIPLnpnx2oG
- PRL002L+PILfb1FdYeDvg5dqWQEtpV4cjRNOMN1vLU4qy8kDxQ5phPeNcIdeUNTdRp8e
- UqE/5X8CcKFdqYipoNTVIledAC26MaK9YoRvwn6nDZuGQaQUvzgkAheNJ62ZTA+IsMMm
- BXzShJKCdMVUjp8Ln5D/x1+VGNpgl1sC+LBJcWHjhsDqAorOIGBDLTtvhGKs1wplOumT
- 5Zx7oQvSFi3EnWIRbNWx56AuSN23BQW8noaVWjRXJkvdJ4KCdoL68UlXf2QIr/Wc7jo7
- Om+A==
-X-Gm-Message-State: ACrzQf2sKsZsfw/+m+nbS9Yd2iEQ57N52Fjaj9ixlgZ9WVZuE6vZHXio
- DGmMjCn8q4AeM5JqJdCygUeUeQ==
-X-Google-Smtp-Source: AMsMyM7nwXAZ58oR6vmjNrniduaoqgDKVHVh41TPSKbacSJFVNgY1FTnakL/Vat55DqJahTxit+G7A==
-X-Received: by 2002:a7b:ca4f:0:b0:3c6:ce01:bc4a with SMTP id
- m15-20020a7bca4f000000b003c6ce01bc4amr31617218wml.42.1666281560324; 
- Thu, 20 Oct 2022 08:59:20 -0700 (PDT)
+ bh=fUywh7wiG5ARvxRTb1BgGNRCEcPxDhfqaa+CbK4TdEM=;
+ b=loq1kKtWyhH7YkAU3Rmqv2G9lXidfFEa7cxtmuOLEbHgMLUAr0V9w2L/Uiz3gVwIZK
+ KR3hW7PbmCiWVYyWC+UHY5v4tCwZ0iMItet8mwLq1PCXR6GQLqjKLNt21Q3675fCNImT
+ adgA/wY6Ct8nWbPfb29CsUSpegEh6587w4qAWSs4oPKA3uNAGguK54yio1B+atXXdBiG
+ AY6BVXpxcch+elG1/qMZLiYQ5qB4Dw1ggtFEVmHTgQXY4kT5c2ItAy7PRviEH0o58Khc
+ DDgPRV+w9Rb3lXuKFSw+msHgVy0YJhUqb1stXzb3jum8XQsdcIWvWkCucEQj0S4ulnCj
+ DiYg==
+X-Gm-Message-State: ACrzQf1cZyCEM4JuE+cOyruWET/Sxinck9wITdgUtfsYnQX6SxKsC3Bl
+ h3lB6SPBJjt9a6wa8FlN3DRAbQ==
+X-Google-Smtp-Source: AMsMyM7gds/dSeITwxRL+CPjeiJmyy19brLJiHjfw4m2PdpWBh6/UlFW799ytY09EnnJ4t6qhTrtJA==
+X-Received: by 2002:a5d:64e9:0:b0:22e:7631:bcab with SMTP id
+ g9-20020a5d64e9000000b0022e7631bcabmr9686806wri.36.1666281612028; 
+ Thu, 20 Oct 2022 09:00:12 -0700 (PDT)
 Received: from [10.50.0.10]
  (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
  by smtp.gmail.com with ESMTPSA id
- e10-20020adfdbca000000b0022e66749437sm16944620wrj.93.2022.10.20.08.59.18
+ m14-20020a05600c3b0e00b003b4fe03c881sm158655wms.48.2022.10.20.09.00.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Oct 2022 08:59:19 -0700 (PDT)
-Message-ID: <2fee5129-8977-7614-e7c3-a4506670ddfe@linaro.org>
-Date: Thu, 20 Oct 2022 17:59:17 +0200
+ Thu, 20 Oct 2022 09:00:11 -0700 (PDT)
+Message-ID: <25b2af90-0f03-4817-7c21-6d55057c6a4c@linaro.org>
+Date: Thu, 20 Oct 2022 18:00:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.3.2
-Subject: Re: [PATCH v3 12/26] block/vvfat: Unify the mkdir() call
+Subject: Re: [PATCH v3 14/26] hw/usb: dev-mtp: Use g_mkdir()
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
  aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
  crosa@redhat.com, Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- "open list:vvfat" <qemu-block@nongnu.org>
+ Gerd Hoffmann <kraxel@redhat.com>
 References: <20221020115209.1761864-1-alex.bennee@linaro.org>
- <20221020115209.1761864-13-alex.bennee@linaro.org>
+ <20221020115209.1761864-15-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221020115209.1761864-13-alex.bennee@linaro.org>
+In-Reply-To: <20221020115209.1761864-15-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -108,19 +105,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 20/10/22 13:51, Alex Bennée wrote:
 > From: Bin Meng <bin.meng@windriver.com>
 > 
-> There is a difference in the mkdir() call for win32 and non-win32
-> platforms, and currently is handled in the codes with #ifdefs.
-> 
-> glib provides a portable g_mkdir() API and we can use it to unify
-> the codes without #ifdefs.
+> Use g_mkdir() to create a directory on all platforms.
 > 
 > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Message-Id: <20221006151927.2079583-6-bmeng.cn@gmail.com>
+> Message-Id: <20221006151927.2079583-8-bmeng.cn@gmail.com>
 > ---
->   block/vvfat.c | 9 +++------
->   1 file changed, 3 insertions(+), 6 deletions(-)
+>   hw/usb/dev-mtp.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
