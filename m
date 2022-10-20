@@ -2,93 +2,125 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8594606B2A
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 00:20:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22FD5606B19
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 00:15:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oldtt-0004hV-Rz
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 18:20:29 -0400
+	id 1oldpC-0004dI-8W
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 18:15:38 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oldkp-0008Ta-0g
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 18:11:07 -0400
+	id 1oldlR-0000cB-Rh
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 18:11:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oldkh-0008KO-0M
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 18:10:59 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oldkf-0003H0-3P
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 18:10:58 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- x31-20020a17090a38a200b0020d2afec803so1011495pjb.2
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 15:10:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=a3PUQ9t3GrHLuFj1dQuxWB4bZv2L7hCpQ/K50OCmVbk=;
- b=knIs70X9StQ8ImLh5C/EUCAKTfyzGTWmxSJIXIzKVpwQuY16WJndLA5aKaDmAmh8Ho
- f5WhTmO0+CGjxfDiY5BYvhrdnKhPKszQMK5Mo41mTWIno5z3Spo5R413CbXcp5rKlXGs
- eW4gsTb9PhQP96ty0w1aCFQfnT22MAJshDA0x4E3AHjJIvdwiOw1OHJHPBY1X6mZhBGh
- XnhvpYBsCsXQbOdXXL/5dezk1zH+SJnfTdCBAPpUihf8eikqOj9lfSNg2dX7kXOAs/HW
- w+7eMeU09ZytcbCwTswHaIG3QLq2XSYD/mueOkdcGakR6k9FuYROteLqw0AXT4MJ/K7e
- /U1g==
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1oldlG-0000Sg-Ic
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 18:11:37 -0400
+Received: from esa4.hc2706-39.iphmx.com ([216.71.146.118])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1oldlE-0003OS-Nh
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 18:11:34 -0400
+X-IronPort-RemoteIP: 209.85.219.71
+X-IronPort-MID: 231676339
+X-IronPort-Reputation: None
+X-IronPort-Listener: OutgoingMail
+X-IronPort-SenderGroup: RELAY_GSUITE
+X-IronPort-MailFlowPolicy: $RELAYED
+IronPort-Data: A9a23:tglX/aMl9xJ/UyDvrR0UlcFynXyQoLVcMsEvi/4bfWQNrUomgjcEx
+ 2UYC2uAa6uDYmLwKdwnOdvjpBgGupbTx4RjHAZtpSBmQkwRlceUXt7xwmUcns+xwm8vaGo9s
+ q3yv/GZdJhcokf0/0vraP65xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOd8iYNz6TSDK1rlV
+ eja/ouOZTdJ5xYuajhOsvrZ8Es11BjPkGhwUmIWNKgjUGD2yiF94KI3fcmZM3b+S49IKe+2L
+ 86rIGaRpz6xE78FU7tJo56iGqE4aue60Tum0xK6b5Ofbi1q/UTe5Eqa2M00Mi+7gx3R9zx4J
+ U4kWZaYEG/FNYWV8AgRvoUx/4iT8sSq9ZeeSUVTv/B/wGXINGDTwdsyEHsuIIki0KVMPn1p0
+ K0xfWVlghCr34pawZq+Q+how909dYzlY9pZtXZnwjXUS/0hRPgvQY2QvY4ejGp23JkfW6mHD
+ yYaQWMHgBDoahlfPFsNIJgj2uqkmxETdhUC8wvL+vRsuDm7IApZ8p3BYPHZc8KzZIZ4shaTl
+ l3D9H7WHURPXDCY4X/fmp62vcfWkCbmHY4fCrC83vhthlKV2yoUEhJ+aLegifywi0r7QswGb
+ kJLo2whqq898EHtRd74N/GlnEO5Utcnc4I4O4UHBMulkMI4Py7x6rA4cwN8
+IronPort-HdrOrdr: A9a23:j3mLHqyb5yl+V5XtCo1rKrPwGL1zdoMgy1knxilNoH1uA6mlfq
+ WV954mPHDP5Ar5NEtOpTn4Atj6fZq+z+8W3WByB9eftWDd0QPEEGgF1+XfKlbbak7DH4BmtJ
+ uIPJIOb+EYSWIK9PoT3WGDYrIdKObuytHRuQ/9p00dKz1XVw==
+Received: from mail-qv1-f71.google.com ([209.85.219.71])
+ by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 20 Oct 2022 18:11:27 -0400
+Received: by mail-qv1-f71.google.com with SMTP id
+ q16-20020a0ce210000000b004ba8976d3aaso390685qvl.5
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 15:11:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=cmCDRjsUmYobkjUhhgvmMYj33PcU4au5ANOt49iQ6FY=;
+ b=PaBxC6AkeAdLo/hx8bnsgdom9j1k9Q/7m9pwKK+S4DDGrdtfsfF1lYIoHBxB05jzk0
+ TGMAVoAFjULO8m5TLwaTA7DYMgETCy86sP6s+zE6FiBL3cmq0+LEGxPpNq9scuOvu2qD
+ kJaB2zTArItKghuHfSyKC/24wpbnEjoz+nMFUO3vuqdInkpgZ++4YWpPzGMbvFP8+4A4
+ pcRWpK3Q7+Oh68BUAlzS2lt1/aVOKTw/iyBC9vfIdzDeF6Vu/gGJRJWk2YHhtKTP/xPE
+ bbO0f1V05RDIYy0VidhJ/L0hZHYxmrsONxeSLYDGTOn5N/Ce512SVlUfhputs+HVKOrI
+ POBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=a3PUQ9t3GrHLuFj1dQuxWB4bZv2L7hCpQ/K50OCmVbk=;
- b=mb9gB7UjebK+gL7sSGQ3yjL59SSMpmfirjj2B5lswiA8UhpPLxMS2QQ+pudE709mDA
- xT1bEoOGUFli3G1LuT1m00VR/mlZJ6CzTB498tqhpisvon2VvZJ1EoR2uRiqgPRsAP2k
- qu4sMb+6lGpg6tJvJtitGxDnVKRzaxwBM61HYgr6arptZhrnDOgCohzq/+mHNeQquwOI
- kwcCuIBfomsH2tYgmlLEF/+iXNUxWdV/MWyOt5r59pdryv9gzKIJMLCTJ7XKLboaRD9G
- BBNSBU0+kvTas+3ziusQRHhkgzbqZ7N0CS2v7PcdMpYxKDgWF5jlStmOHZBaTZXNjefw
- mPYw==
-X-Gm-Message-State: ACrzQf1+mRTWtMs0LIDqTK0nmewnAUplpvKiWfc1s6st7IvpWnHMX1m9
- 02YeZ0xJtMWdzzxuOcBgduUSSg==
-X-Google-Smtp-Source: AMsMyM7qKWA0JT4CMT2X3c8QHxByoioJT7bAxtsg+XnR3KnPfRdRwn4I4rk6jNuVW+wPASAHpLcYiA==
-X-Received: by 2002:a17:902:ea0c:b0:181:61d1:ac1c with SMTP id
- s12-20020a170902ea0c00b0018161d1ac1cmr16343808plg.120.1666303852685; 
- Thu, 20 Oct 2022 15:10:52 -0700 (PDT)
-Received: from [192.168.1.107] ([149.135.10.35])
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=cmCDRjsUmYobkjUhhgvmMYj33PcU4au5ANOt49iQ6FY=;
+ b=zvVg46eH/zWB6HU1/fd2qzEyMDj33j8TC2S1RPKwK00JtnnMrVnBj3QUmQq5zrJGR9
+ E/jYsns00fWhLRU3tJFw+e5FOYZRMPQVthkCKi3CE8ywsxETB8ISFIMkABswDC5LJQn0
+ jWYjvZpDOclpOYhSCX485vkHAZxF2oAV5zuSwATUxroiJNuKNylmweGkepCVT9VcYT3x
+ Py9cFrGVVThYaFBYLB/zB0yKUopgcL3qsQKwJ4qPLKVdOqYgtYqYfiJwG5Xu+CsiFexS
+ GFN3Jrm7sIN4qeIrhvvLnig63nEmx4D+dBTYZXUR/4pAkWmCGmJPU8TrNhK59ezMNyf7
+ k3kg==
+X-Gm-Message-State: ACrzQf3QKPWGUCPyGHI3ePx1WfpiY37oWcWdC0y436c/tMegygZe++7i
+ EmNe54skPAXiXTNFOgR+DW+LTyLhyCXSCFlIGUb/lhDuSJtNy23NgkWnRpNerSLWzqknfFKF8gh
+ XEYyaatiLpqIyYRgc7tLNrVB/13qKcQ==
+X-Received: by 2002:a05:6214:ca8:b0:4b1:87f8:c4ef with SMTP id
+ s8-20020a0562140ca800b004b187f8c4efmr13303383qvs.50.1666303885359; 
+ Thu, 20 Oct 2022 15:11:25 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6XVzMrY0IEjs2lyYCPLcR0gvtjdnT9pnLLPJkkwfK/aifAwXVrUeKPSF/Nbc9Po9XniTA7MQ==
+X-Received: by 2002:a05:6214:ca8:b0:4b1:87f8:c4ef with SMTP id
+ s8-20020a0562140ca800b004b187f8c4efmr13303352qvs.50.1666303885063; 
+ Thu, 20 Oct 2022 15:11:25 -0700 (PDT)
+Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
  by smtp.gmail.com with ESMTPSA id
- b9-20020a1709027e0900b001780e4e6b65sm13192245plm.114.2022.10.20.15.10.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Oct 2022 15:10:52 -0700 (PDT)
-Message-ID: <bc7775b6-7a7f-a932-cf3b-61c667e83c8d@linaro.org>
-Date: Fri, 21 Oct 2022 08:10:44 +1000
+ x6-20020a05620a448600b006eecc4a0de9sm8487725qkp.62.2022.10.20.15.11.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Oct 2022 15:11:24 -0700 (PDT)
+Date: Thu, 20 Oct 2022 18:11:06 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>, Peter Xu <peterx@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Li Qiang <liq3ea@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Bandan Das <bsd@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>
+Subject: Re: [PATCH v2] memory: prevent dma-reentracy issues
+Message-ID: <20221020220928.7gxd33eszrv7que5@mozz.bu.edu>
+References: <20220609135851.42193-1-alxndr@bu.edu>
+ <CAFEAcA-QOqGWzeeQLLK2pH0WwABzXP2ZjFKxLY7d62bWhGRWxw@mail.gmail.com>
+ <20220621155306.2mvr22dd5xuc6pqm@mozz.bu.edu>
+ <Ys1AOOWLZRBxYNbC@stefanha-x1.localdomain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v3 04/26] configure: don't enable cross compilers unless
- in target_list
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
- aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
- crosa@redhat.com
-References: <20221020115209.1761864-1-alex.bennee@linaro.org>
- <20221020115209.1761864-5-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221020115209.1761864-5-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Ys1AOOWLZRBxYNbC@stefanha-x1.localdomain>
+X-CES-GSUITE_AUTH: bf3aNvsZpxl8
+Received-SPF: pass client-ip=216.71.146.118; envelope-from=alxndr@bu.edu;
+ helo=esa4.hc2706-39.iphmx.com
+X-Spam_score_int: -2
+X-Spam_score: -0.3
+X-Spam_bar: /
+X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.781, HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,38 +136,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/20/22 21:51, Alex Bennée wrote:
-> This avoids the unfortunate effect of always builds the pc-bios blobs
-> for targets the user isn't interested in.
+On 220712 1034, Stefan Hajnoczi wrote:
+> On Tue, Jun 21, 2022 at 11:53:06AM -0400, Alexander Bulekov wrote:
+> > On 220621 1630, Peter Maydell wrote:
+> > > On Thu, 9 Jun 2022 at 14:59, Alexander Bulekov <alxndr@bu.edu> wrote:
+> > > > diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> > > > index 44dacfa224..ab1ad0f7a8 100644
+> > > > --- a/include/hw/pci/pci.h
+> > > > +++ b/include/hw/pci/pci.h
+> > > > @@ -834,8 +834,17 @@ static inline MemTxResult pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
+> > > >                                       void *buf, dma_addr_t len,
+> > > >                                       DMADirection dir, MemTxAttrs attrs)
+> > > >  {
+> > > > -    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
+> > > > -                         dir, attrs);
+> > > > +    bool prior_engaged_state;
+> > > > +    MemTxResult result;
+> > > > +
+> > > > +    prior_engaged_state = dev->qdev.engaged_in_io;
+> > > > +
+> > > > +    dev->qdev.engaged_in_io = true;
+> > > > +    result = dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
+> > > > +                           dir, attrs);
+> > > > +    dev->qdev.engaged_in_io = prior_engaged_state;
+> > > > +
+> > > > +    return result;
+> > > 
+> > > Why do we need to do something in this pci-specific function ?
+> > > I was expecting this to only need changes at the generic-to-all-devices
+> > > level.
+> > 
+> > Both of these handle the BH->DMA->MMIO case. Unlike MMIO, I don't think
+> > there is any neat way to set the engaged_in_io flag as we enter a BH. So
+> > instead, we try to set it when a device initiates DMA.
+> > 
+> > The pci function lets us do that since we get a glimpse of the dev/qdev
+> > (unlike the dma_memory_...  functions).
+> ...
+> > > > @@ -302,6 +310,10 @@ static MemTxResult dma_buf_rw(void *buf, dma_addr_t len, dma_addr_t *residual,
+> > > >          xresidual -= xfer;
+> > > >      }
+> > > >
+> > > > +    if (dev) {
+> > > > +        dev->engaged_in_io = prior_engaged_state;
+> > > > +    }
+> > > 
+> > > Not all DMA goes through dma_buf_rw() -- why does it need changes?
+> > 
+> > This one has the same goal, but accesses the qdev through sg, instead of
+> > PCI.
 > 
-> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   configure | 9 +++++++++
->   1 file changed, 9 insertions(+)
+> Should dma_*() APIs take a reentrancy guard argument so that all DMA
+> accesses are systematically covered?
 > 
-> diff --git a/configure b/configure
-> index 81561be7c1..dd6f58dcde 100755
-> --- a/configure
-> +++ b/configure
-> @@ -1877,6 +1877,15 @@ probe_target_compiler() {
->     container_cross_ranlib=
->     container_cross_strip=
->   
-> +  # We shall skip configuring the target compiler if the user didn't
-> +  # bother enabling an appropriate guest. This avoids building
-> +  # extraneous firmware images and tests.
-> +  if test "${target_list#*$1}" != "$1"; then
-> +      break;
-> +  else
-> +      return 1
-> +  fi
-> +
->     target_arch=${1%%-*}
->     case $target_arch in
->       aarch64) container_hosts="x86_64 aarch64" ;;
+>   /* Define this in the memory API */
+>   typedef struct {
+>       bool engaged_in_io;
+>   } MemReentrancyGuard;
+> 
+>   /* Embed MemReentrancyGuard in DeviceState */
+>   ...
+> 
+>   /* Require it in dma_*() APIs */
+>   static inline MemTxResult dma_memory_rw(AddressSpace *as, dma_addr_t addr,
+>                                           void *buf, dma_addr_t len,
+>                                           DMADirection dir, MemTxAttrs attrs,
+> 					  MemReentrancyGuard *guard);
+> 
+>   /* Call dma_*() APIs like this... */
+>   static inline MemTxResult pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
+>                                        void *buf, dma_addr_t len,
+>                                        DMADirection dir, MemTxAttrs attrs)
+>   {
+>       return dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
+>                            dir, attrs, &dev->qdev.reentrancy_guard);
+>   }
+> 
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Taking a stab at this. Here is the list of DMA APIs that appear to need
+changes:
+dma_memory_valid (1 usage)
+dma_memory_rw (~5 uses)
+dma_memory_read (~92 uses)
+dma_memory_write (~71 uses)
+dma_memory_set (~4 uses)
+dma_memory_map (~18 uses)
+dma_memory_unmap (~21 uses)
+{ld,st}_{le,be}_{uw,l,q}_dma (~10 uses)
+ldub_dma (does not appear to be used anywhere)
+stb_dma (1 usage)
+dma_buf_read (~18 uses)
+dma_buf_write (~7 uses)
 
-r~
+These appear to be internal to the DMA API and probably don't need to be
+changed:
+dma_memory_read_relaxed (does not appear to be used anywhere)
+dma_memory_write_relaxed (does not appear to be used anywhere)
+dma_memory_rw_relaxed 
+
+I don't think the sglist APIs need to be changed since we can get
+DeviceState from the QEMUSGList.
+
+Does this look more-or-less right?
+-Alex
 
