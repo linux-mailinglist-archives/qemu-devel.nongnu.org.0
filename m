@@ -2,92 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D97660665A
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 18:56:45 +0200 (CEST)
-Received: from localhost ([::1]:35190 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C45606719
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 19:34:37 +0200 (CEST)
+Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olYqX-0006GZ-5Z
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:56:41 -0400
+	id 1olZRE-0001tt-3G
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:34:36 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olYqI-0004VM-4S
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:56:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32982)
+	id 1olYp3-00059j-0a
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:55:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1olWUU-0005hX-S9; Thu, 20 Oct 2022 10:25:47 -0400
-Received: from mail-oo1-xc35.google.com ([2607:f8b0:4864:20::c35]:42852)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1olWUS-0001YE-Jb; Thu, 20 Oct 2022 10:25:46 -0400
-Received: by mail-oo1-xc35.google.com with SMTP id
- r15-20020a4abf0f000000b004761c7e6be1so3998629oop.9; 
- Thu, 20 Oct 2022 07:25:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=X+o/mnB+rGJMXPWZ34roL39aXZznqPXRlB+db6Kd2Io=;
- b=IDnjTl4YtT2cpoMsVtKuo0fo3W+PrVBC/24E9Ct/T99lLeDB7AjgBp+i+J07u3NCe/
- i6MVCxT90KnVoR+NzPAE58LgN1uX5kUUxFeuc7SWU7BxPc4Rg2OGKgwsZopDw3nVSKxa
- bQTvxY4QQaa3vh5+t94847jBZtNh7PUSjREId85xJGDoYx43V4Q4eAItZTtIW1Jr9Slz
- JR6JG8M7LRG10HpaCFubT3sPhemmX6sRJEJ0qUK0cwo6EFkLv6+iQ4TYnfI3EWhV9AsV
- Mtd9uneQNlIuN8I+m/MRsCks+kLc4zaoN/xR/OvNueIAoJoRatMlyUwzNz0SRrJUDoIb
- 9CAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=X+o/mnB+rGJMXPWZ34roL39aXZznqPXRlB+db6Kd2Io=;
- b=yzXLNsJSxduW9ZlAtdjDaVoHF/owWxTo0hrap9wcZDGshlW4D4d51KtdX6RDRButQX
- GvYIf7q//JG8kqsxjxK10qK9S1V00S3Qf69SCMrCFHsU/T606MPEPFoOwt5bf+6R6ZI2
- ahQac/WGehgS0aaTNjeSzFb449TLhxwA+6wcUJJGH17HUSmsAzmD0gNVPQCo5tTwzXPa
- LQfsGtgNvbgvDT+ZPoSs1o/mxAKLPMJu1XQ2G/Va+DS+OR/eJHu/IMMmK1xkf0WzX3c3
- W27w6v3jTyBcEgdkTOz4K25CQE35ZIBx85bOem8+qj6pKACMLbuFaCZp8po1CERzo/Ri
- hx9Q==
-X-Gm-Message-State: ACrzQf3evAIPOG4AHCwWLXnqHyePFNmLJEnnKb+nOAGZI6H2k6aEGafr
- kmloMOFr5UBRuaIAyeghIu4=
-X-Google-Smtp-Source: AMsMyM6LmIjiw1IOtDtNL1jIBfzJOhZNT6NyKtshh5vTdTFJxX6g9TrkJ7M5AwBl4GuGUHCfn5mpEA==
-X-Received: by 2002:a4a:d4c1:0:b0:476:42e3:b45e with SMTP id
- r1-20020a4ad4c1000000b0047642e3b45emr6418238oos.89.1666275939251; 
- Thu, 20 Oct 2022 07:25:39 -0700 (PDT)
-Received: from [192.168.10.102] ([179.111.38.2])
- by smtp.gmail.com with ESMTPSA id
- q7-20020a4aac47000000b0047f8ceca22bsm7680444oon.15.2022.10.20.07.25.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Oct 2022 07:25:38 -0700 (PDT)
-Message-ID: <b4231f37-cf2a-9268-17ac-8784e20b53ad@gmail.com>
-Date: Thu, 20 Oct 2022 11:25:34 -0300
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1olWW7-0005yB-3n
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 10:27:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56553)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1olWVn-0001qM-Vb
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 10:27:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666276024;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/rFXzkZGQ0umyxiJDyxK7RwH+IpQ/tkNc7nEeRcr49s=;
+ b=Hga9zRJbnvzgx+1hk0Fn0N+dSITh2OlclFvNr61Z8d4vk4UKm0lso4dSml37T5G5+3cUiK
+ r2dyYCf63hlMI3GN/vLFMn81hHpFrZLDWa0hfAiUud4GhssXE/SY8LxpF0ZzFJIsp5TcK1
+ M5TifvWhd+74cB+Q8FuI8WOgKL9kEb4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-376-OWgm2iTdO2WJP0txnFZ3oQ-1; Thu, 20 Oct 2022 10:27:00 -0400
+X-MC-Unique: OWgm2iTdO2WJP0txnFZ3oQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9DC6A811E75;
+ Thu, 20 Oct 2022 14:27:00 +0000 (UTC)
+Received: from server.redhat.com (ovpn-13-102.pek2.redhat.com [10.72.13.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CEDAA2166B33;
+ Thu, 20 Oct 2022 14:26:55 +0000 (UTC)
+From: Cindy Lu <lulu@redhat.com>
+To: lulu@redhat.com, mst@redhat.com, jasowang@redhat.com, kraxel@redhat.com,
+ dgilbert@redhat.com, stefanha@redhat.com, arei.gonglei@huawei.com,
+ marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+Subject: [PATCH v16 02/10] virtio-pci: decouple notifier from interrupt process
+Date: Thu, 20 Oct 2022 22:26:24 +0800
+Message-Id: <20221020142632.672893-3-lulu@redhat.com>
+In-Reply-To: <20221020142632.672893-1-lulu@redhat.com>
+References: <20221020142632.672893-1-lulu@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH 5/6] target/ppc: move msgclrp/msgsndp to decodetree
-Content-Language: en-US
-To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
- farosas@linux.ibm.com
-References: <20221006200654.725390-1-matheus.ferst@eldorado.org.br>
- <20221006200654.725390-6-matheus.ferst@eldorado.org.br>
- <00665dae-fd51-0962-4068-0760a1c70467@gmail.com>
- <026ce1e4-588b-5b8b-6431-8871ef6197f2@eldorado.org.br>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <026ce1e4-588b-5b8b-6431-8871ef6197f2@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c35;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc35.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lulu@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, T_SPF_HELO_TEMPERROR=0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,179 +81,253 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCk9uIDEwLzIwLzIyIDA5OjE4LCBNYXRoZXVzIEsuIEZlcnN0IHdyb3RlOg0KPiBPbiAx
-OS8xMC8yMDIyIDE3OjU5LCBEYW5pZWwgSGVucmlxdWUgQmFyYm96YSB3cm90ZToNCj4+IE1h
-dGhldXMsDQo+Pg0KPj4gVGhpcyBwYXRjaCBmYWlscyBwcGMtc29mdG1tdSBlbXVsYXRpb246
-DQo+Pg0KPj4NCj4+IEZBSUxFRDogbGlicWVtdS1wcGMtc29mdG1tdS5mYS5wL3RhcmdldF9w
-cGNfdHJhbnNsYXRlLmMubw0KPj4gY2MgLW02NCAtbWN4MTYgLUlsaWJxZW11LXBwYy1zb2Z0
-bW11LmZhLnAgLUkuIC1JLi4gLUl0YXJnZXQvcHBjIC1JLi4vdGFyZ2V0L3BwYyAtSS4uL2R0
-Yy9saWJmZHQgLUlxYXBpIC1JdHJhY2UgLUl1aSAtSXVpL3NoYWRlciAtSS91c3IvaW5jbHVk
-ZS9waXhtYW4tMSAtSS91c3IvaW5jbHVkZS9nbGliLTIuMCAtSS91c3IvbGliNjQvZ2xpYi0y
-LjAvaW5jbHVkZSAtSS91c3IvaW5jbHVkZS9zeXNwcm9mLTQgLWZkaWFnbm9zdGljcy1jb2xv
-cj1hdXRvIC1XYWxsIC1XaW52YWxpZC1wY2ggLVdlcnJvciAtc3RkPWdudTExIC1PMiAtZyAt
-aXN5c3RlbSAvaG9tZS9kYW5pZWxoYi9xZW11L2xpbnV4LWhlYWRlcnMgLWlzeXN0ZW0gbGlu
-dXgtaGVhZGVycyAtaXF1b3RlIC4gLWlxdW90ZSAvaG9tZS9kYW5pZWxoYi9xZW11IC1pcXVv
-dGUgL2hvbWUvZGFuaWVsaGIvcWVtdS9pbmNsdWRlIC1pcXVvdGUgL2hvbWUvZGFuaWVsaGIv
-cWVtdS90Y2cvaTM4NiAtcHRocmVhZCAtVV9GT1JUSUZZX1NPVVJDRSAtRF9GT1JUSUZZX1NP
-VVJDRT0yIC1EX0dOVV9TT1VSQ0UgLURfRklMRV9PRkZTRVRfQklUUz02NCAtRF9MQVJHRUZJ
-TEVfU09VUkNFIC1Xc3RyaWN0LXByb3RvdHlwZXMgLVdyZWR1bmRhbnQtZGVjbHMgLVd1bmRl
-ZiAtV3dyaXRlLXN0cmluZ3MgLVdtaXNzaW5nLXByb3RvdHlwZXMgLWZuby1zdHJpY3QtYWxp
-YXNpbmcgLWZuby1jb21tb24gLWZ3cmFwdiAtV29sZC1zdHlsZS1kZWNsYXJhdGlvbiAtV29s
-ZC1zdHlsZS1kZWZpbml0aW9uIC1XdHlwZS1saW1pdHMgLVdmb3JtYXQtc2VjdXJpdHkgLVdm
-b3JtYXQteTJrIC1XaW5pdC1zZWxmIC1XaWdub3JlZC1xdWFsaWZpZXJzIC1XZW1wdHktYm9k
-eSAtV25lc3RlZC1leHRlcm5zIC1XZW5kaWYtbGFiZWxzIC1XZXhwYW5zaW9uLXRvLWRlZmlu
-ZWQgLVdpbXBsaWNpdC1mYWxsdGhyb3VnaD0yIC1Xbm8tbWlzc2luZy1pbmNsdWRlLWRpcnMg
-LVduby1zaGlmdC1uZWdhdGl2ZS12YWx1ZSAtV25vLXBzYWJpIA0KPj4gLWZzdGFjay1wcm90
-ZWN0b3Itc3Ryb25nIC1mUElFIC1pc3lzdGVtLi4vbGludXgtaGVhZGVycyAtaXN5c3RlbWxp
-bnV4LWhlYWRlcnMgLURORUVEX0NQVV9IICctRENPTkZJR19UQVJHRVQ9InBwYy1zb2Z0bW11
-LWNvbmZpZy10YXJnZXQuaCInICctRENPTkZJR19ERVZJQ0VTPSJwcGMtc29mdG1tdS1jb25m
-aWctZGV2aWNlcy5oIicgLU1EIC1NUSBsaWJxZW11LXBwYy1zb2Z0bW11LmZhLnAvdGFyZ2V0
-X3BwY190cmFuc2xhdGUuYy5vIC1NRiBsaWJxZW11LXBwYy1zb2Z0bW11LmZhLnAvdGFyZ2V0
-X3BwY190cmFuc2xhdGUuYy5vLmQgLW8gbGlicWVtdS1wcGMtc29mdG1tdS5mYS5wL3Rhcmdl
-dF9wcGNfdHJhbnNsYXRlLmMubyAtYyAuLi90YXJnZXQvcHBjL3RyYW5zbGF0ZS5jDQo+PiBJ
-biBmaWxlIGluY2x1ZGVkIGZyb20gLi4vdGFyZ2V0L3BwYy90cmFuc2xhdGUuYzoyMToNCj4+
-IEluIGZ1bmN0aW9uIOKAmHRyYW5zX01TR0NMUlDigJksDQo+PiDCoMKgwqDCoCBpbmxpbmVk
-IGZyb20g4oCYZGVjb2RlX2luc24zMuKAmSBhdCBsaWJxZW11LXBwYy1zb2Z0bW11LmZhLnAv
-ZGVjb2RlLWluc24zMi5jLmluYzozMjUwOjIxLA0KPj4gwqDCoMKgwqAgaW5saW5lZCBmcm9t
-IOKAmHBwY190cl90cmFuc2xhdGVfaW5zbuKAmSBhdCAuLi90YXJnZXQvcHBjL3RyYW5zbGF0
-ZS5jOjc1NTI6MTU6DQo+PiAvaG9tZS9kYW5pZWxoYi9xZW11L2luY2x1ZGUvcWVtdS9vc2Rl
-cC5oOjE4NDozNTogZXJyb3I6IGNhbGwgdG8g4oCYcWVtdV9idWlsZF9ub3RfcmVhY2hlZF9h
-bHdheXPigJkgZGVjbGFyZWQgd2l0aCBhdHRyaWJ1dGUgZXJyb3I6IGNvZGUgcGF0aCBpcyBy
-ZWFjaGFibGUNCj4+IMKgwqAgMTg0IHwgI2RlZmluZSBxZW11X2J1aWxkX25vdF9yZWFjaGVk
-KCnCoCBxZW11X2J1aWxkX25vdF9yZWFjaGVkX2Fsd2F5cygpDQo+PiDCoMKgwqDCoMKgwqAg
-fMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIF5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4NCj4+IC4u
-L3RhcmdldC9wcGMvdHJhbnNsYXRlL3Byb2Nlc3Nvci1jdHJsLWltcGwuYy5pbmM6Nzk6NTog
-bm90ZTogaW4gZXhwYW5zaW9uIG9mIG1hY3JvIOKAmHFlbXVfYnVpbGRfbm90X3JlYWNoZWTi
-gJkNCj4+IMKgwqDCoCA3OSB8wqDCoMKgwqAgcWVtdV9idWlsZF9ub3RfcmVhY2hlZCgpOw0K
-Pj4gwqDCoMKgwqDCoMKgIHzCoMKgwqDCoCBefn5+fn5+fn5+fn5+fn5+fn5+fn5+DQo+Pg0K
-Pj4gVGhlIGVycm9yIGlzIGRvd24gdGhlcmU6DQo+Pg0KPiANCj4gSG1tLCB0aGF0J3Mgc3Ry
-YW5nZS4gSSBhbHdheXMgYnVpbGQgcHBjLXNvZnRtbXUgb24gbXkgdGVzdHMgYW5kIEknbSBu
-b3Qgc2VlaW5nIHRoaXMgZXJyb3IuIEknbSB1c2luZyBnY2MgOS40IHRob3VnaCwgbWF5YmUg
-aXQncyB0aW1lIHRvIHVwZGF0ZSBteSBjb21waWxlci4uLg0KPiANCj4+DQo+Pg0KPj4NCj4+
-IE9uIDEwLzYvMjIgMTc6MDYsIE1hdGhldXMgRmVyc3Qgd3JvdGU6DQo+Pj4gU2lnbmVkLW9m
-Zi1ieTogTWF0aGV1cyBGZXJzdCA8bWF0aGV1cy5mZXJzdEBlbGRvcmFkby5vcmcuYnI+DQo+
-Pj4gLS0tDQo+Pj4gwqAgdGFyZ2V0L3BwYy9pbnNuMzIuZGVjb2RlwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAyICsrDQo+Pj4gwqAgdGFyZ2V0L3Bw
-Yy90cmFuc2xhdGUuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgfCAyNiAtLS0tLS0tLS0tLS0tLS0tLS0tDQo+Pj4gwqAgLi4uL3BwYy90cmFuc2xh
-dGUvcHJvY2Vzc29yLWN0cmwtaW1wbC5jLmluY8KgwqAgfCAyNCArKysrKysrKysrKysrKysr
-Kw0KPj4+IMKgIDMgZmlsZXMgY2hhbmdlZCwgMjYgaW5zZXJ0aW9ucygrKSwgMjYgZGVsZXRp
-b25zKC0pDQo+Pj4NCj4+PiBkaWZmIC0tZ2l0IGEvdGFyZ2V0L3BwYy9pbnNuMzIuZGVjb2Rl
-IGIvdGFyZ2V0L3BwYy9pbnNuMzIuZGVjb2RlDQo+Pj4gaW5kZXggYmJhNDlkZWQxYi4uNWJh
-NGE2ODA3ZCAxMDA2NDQNCj4+PiAtLS0gYS90YXJnZXQvcHBjL2luc24zMi5kZWNvZGUNCj4+
-PiArKysgYi90YXJnZXQvcHBjL2luc24zMi5kZWNvZGUNCj4+PiBAQCAtOTEzLDMgKzkxMyw1
-IEBAIFRMQklFTMKgwqDCoMKgwqDCoMKgwqDCoCAwMTExMTEgLi4uLi4gLSAuLiAuIC4gLi4u
-Li4gMDEwMDAxMDAxMCAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBAWF90bGJpZQ0KPj4+DQo+
-Pj4gwqAgTVNHQ0xSwqDCoMKgwqDCoMKgwqDCoMKgIDAxMTExMSAtLS0tLSAtLS0tLSAuLi4u
-LiAwMDExMTAxMTEwIC3CoMKgIEBYX3JiDQo+Pj4gwqAgTVNHU05EwqDCoMKgwqDCoMKgwqDC
-oMKgIDAxMTExMSAtLS0tLSAtLS0tLSAuLi4uLiAwMDExMDAxMTEwIC3CoMKgIEBYX3JiDQo+
-Pj4gK01TR0NMUlDCoMKgwqDCoMKgwqDCoMKgIDAxMTExMSAtLS0tLSAtLS0tLSAuLi4uLiAw
-MDEwMTAxMTEwIC3CoMKgIEBYX3JiDQo+Pj4gK01TR1NORFDCoMKgwqDCoMKgwqDCoMKgIDAx
-MTExMSAtLS0tLSAtLS0tLSAuLi4uLiAwMDEwMDAxMTEwIC3CoMKgIEBYX3JiDQo+Pj4gZGlm
-ZiAtLWdpdCBhL3RhcmdldC9wcGMvdHJhbnNsYXRlLmMgYi90YXJnZXQvcHBjL3RyYW5zbGF0
-ZS5jDQo+Pj4gaW5kZXggODg5Y2NhNjMyNS4uMDg3YWI4ZTY5ZCAxMDA2NDQNCj4+PiAtLS0g
-YS90YXJnZXQvcHBjL3RyYW5zbGF0ZS5jDQo+Pj4gKysrIGIvdGFyZ2V0L3BwYy90cmFuc2xh
-dGUuYw0KPj4+IEBAIC02MjQxLDI4ICs2MjQxLDYgQEAgc3RhdGljIHZvaWQgZ2VuX2ljYnRf
-NDQwKERpc2FzQ29udGV4dCAqY3R4KQ0KPj4+DQo+Pj4gwqAgLyogRW1iZWRkZWQuUHJvY2Vz
-c29yIENvbnRyb2wgKi8NCj4+Pg0KPj4+IC0jaWYgZGVmaW5lZChUQVJHRVRfUFBDNjQpDQo+
-Pj4gLXN0YXRpYyB2b2lkIGdlbl9tc2djbHJwKERpc2FzQ29udGV4dCAqY3R4KQ0KPj4+IC17
-DQo+Pj4gLSNpZiBkZWZpbmVkKENPTkZJR19VU0VSX09OTFkpDQo+Pj4gLcKgwqDCoCBHRU5f
-UFJJVihjdHgpOw0KPj4+IC0jZWxzZQ0KPj4+IC3CoMKgwqAgQ0hLX1NWKGN0eCk7DQo+Pj4g
-LcKgwqDCoCBnZW5faGVscGVyX2Jvb2szc19tc2djbHJwKGNwdV9lbnYsIGNwdV9ncHJbckIo
-Y3R4LT5vcGNvZGUpXSk7DQo+Pj4gLSNlbmRpZiAvKiBkZWZpbmVkKENPTkZJR19VU0VSX09O
-TFkpICovDQo+Pj4gLX0NCj4+PiAtDQo+Pj4gLXN0YXRpYyB2b2lkIGdlbl9tc2dzbmRwKERp
-c2FzQ29udGV4dCAqY3R4KQ0KPj4+IC17DQo+Pj4gLSNpZiBkZWZpbmVkKENPTkZJR19VU0VS
-X09OTFkpDQo+Pj4gLcKgwqDCoCBHRU5fUFJJVihjdHgpOw0KPj4+IC0jZWxzZQ0KPj4+IC3C
-oMKgwqAgQ0hLX1NWKGN0eCk7DQo+Pj4gLcKgwqDCoCBnZW5faGVscGVyX2Jvb2szc19tc2dz
-bmRwKGNwdV9lbnYsIGNwdV9ncHJbckIoY3R4LT5vcGNvZGUpXSk7DQo+Pj4gLSNlbmRpZiAv
-KiBkZWZpbmVkKENPTkZJR19VU0VSX09OTFkpICovDQo+Pj4gLX0NCj4+PiAtI2VuZGlmDQo+
-Pj4gLQ0KPj4+IMKgIHN0YXRpYyB2b2lkIGdlbl9tc2dzeW5jKERpc2FzQ29udGV4dCAqY3R4
-KQ0KPj4+IMKgIHsNCj4+PiDCoCAjaWYgZGVmaW5lZChDT05GSUdfVVNFUl9PTkxZKQ0KPj4+
-IEBAIC02ODk2LDEwICs2ODc0LDYgQEAgR0VOX0hBTkRMRVIodm1sYWRkdWhtLCAweDA0LCAw
-eDExLCAweEZGLCAweDAwMDAwMDAwLCBQUENfQUxUSVZFQyksDQo+Pj4gwqAgR0VOX0hBTkRM
-RVJfRShtYWRkaGRfbWFkZGhkdSwgMHgwNCwgMHgxOCwgMHhGRiwgMHgwMDAwMDAwMCwgUFBD
-X05PTkUsDQo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFBQQzJfSVNBMzAw
-KSwNCj4+PiDCoCBHRU5fSEFORExFUl9FKG1hZGRsZCwgMHgwNCwgMHgxOSwgMHhGRiwgMHgw
-MDAwMDAwMCwgUFBDX05PTkUsIFBQQzJfSVNBMzAwKSwNCj4+PiAtR0VOX0hBTkRMRVIyX0Uo
-bXNnc25kcCwgIm1zZ3NuZHAiLCAweDFGLCAweDBFLCAweDA0LCAweDAzZmYwMDAxLA0KPj4+
-IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFBQQ19OT05FLCBQUEMyX0lTQTIwN1Mp
-LA0KPj4+IC1HRU5fSEFORExFUjJfRShtc2djbHJwLCAibXNnY2xycCIsIDB4MUYsIDB4MEUs
-IDB4MDUsIDB4MDNmZjAwMDEsDQo+Pj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-UFBDX05PTkUsIFBQQzJfSVNBMjA3UyksDQo+Pj4gwqAgI2VuZGlmDQo+Pj4NCj4+PiDCoCAj
-dW5kZWYgR0VOX0lOVF9BUklUSF9BREQNCj4+PiBkaWZmIC0tZ2l0IGEvdGFyZ2V0L3BwYy90
-cmFuc2xhdGUvcHJvY2Vzc29yLWN0cmwtaW1wbC5jLmluYyBiL3RhcmdldC9wcGMvdHJhbnNs
-YXRlL3Byb2Nlc3Nvci1jdHJsLWltcGwuYy5pbmMNCj4+PiBpbmRleCAwMTkyYjQ1YzhmLi4z
-NzAzMDAxZjMxIDEwMDY0NA0KPj4+IC0tLSBhL3RhcmdldC9wcGMvdHJhbnNsYXRlL3Byb2Nl
-c3Nvci1jdHJsLWltcGwuYy5pbmMNCj4+PiArKysgYi90YXJnZXQvcHBjL3RyYW5zbGF0ZS9w
-cm9jZXNzb3ItY3RybC1pbXBsLmMuaW5jDQo+Pj4gQEAgLTY4LDMgKzY4LDI3IEBAIHN0YXRp
-YyBib29sIHRyYW5zX01TR1NORChEaXNhc0NvbnRleHQgKmN0eCwgYXJnX1hfcmIgKmEpDQo+
-Pj4gwqAgI2VuZGlmDQo+Pj4gwqDCoMKgwqDCoCByZXR1cm4gdHJ1ZTsNCj4+PiDCoCB9DQo+
-Pj4gKw0KPj4+ICtzdGF0aWMgYm9vbCB0cmFuc19NU0dDTFJQKERpc2FzQ29udGV4dCAqY3R4
-LCBhcmdfWF9yYiAqYSkNCj4+PiArew0KPj4+ICvCoMKgwqAgUkVRVUlSRV9JTlNOU19GTEFH
-UzIoY3R4LCBJU0EyMDdTKTsNCj4+PiArwqDCoMKgIFJFUVVJUkVfU1YoY3R4KTsNCj4+PiAr
-I2lmICFkZWZpbmVkKENPTkZJR19VU0VSX09OTFkpICYmIGRlZmluZWQoVEFSR0VUX1BQQzY0
-KQ0KPj4+ICvCoMKgwqAgZ2VuX2hlbHBlcl9ib29rM3NfbXNnY2xycChjcHVfZW52LCBjcHVf
-Z3ByW2EtPnJiXSk7DQo+Pj4gKyNlbHNlDQo+Pj4gK8KgwqDCoCBxZW11X2J1aWxkX25vdF9y
-ZWFjaGVkKCk7DQo+Pg0KPj4NCj4+IF4gaGVyZS4gQW5kIGFsc28NCj4+DQo+Pg0KPj4NCj4+
-PiArI2VuZGlmDQo+Pj4gK8KgwqDCoCByZXR1cm4gdHJ1ZTsNCj4+PiArfQ0KPj4+ICsNCj4+
-PiArc3RhdGljIGJvb2wgdHJhbnNfTVNHU05EUChEaXNhc0NvbnRleHQgKmN0eCwgYXJnX1hf
-cmIgKmEpDQo+Pj4gK3sNCj4+PiArwqDCoMKgIFJFUVVJUkVfSU5TTlNfRkxBR1MyKGN0eCwg
-SVNBMjA3Uyk7DQo+Pj4gK8KgwqDCoCBSRVFVSVJFX1NWKGN0eCk7DQo+Pj4gKyNpZiAhZGVm
-aW5lZChDT05GSUdfVVNFUl9PTkxZKSAmJiBkZWZpbmVkKFRBUkdFVF9QUEM2NCkNCj4+PiAr
-wqDCoMKgIGdlbl9oZWxwZXJfYm9vazNzX21zZ3NuZHAoY3B1X2VudiwgY3B1X2dwclthLT5y
-Yl0pOw0KPj4+ICsjZWxzZQ0KPj4+ICvCoMKgwqAgcWVtdV9idWlsZF9ub3RfcmVhY2hlZCgp
-Ow0KPj4NCj4+DQo+PiBeIGhlcmUuIEl0IHNlZW1zIGxpa2UgeW91J3JlIGZpbHRlcmluZyBm
-b3IgVEFSR0VUX1BQQzY0IGJ1dCB5b3UncmUgbm90DQo+PiBndWFyZGluZyBmb3IgaXQsIGFu
-ZCB0aGUgcWVtdV9idWlsZF9ub3RfcmVhY2hlZCgpIGlzIGJlaW5nIGhpdC4NCj4+DQo+Pg0K
-Pj4gSSBmaXhlZCBieSBzcXVhc2hpbmcgdGhpcyBpbjoNCj4+DQo+PiBkaWZmIC0tZ2l0IGEv
-dGFyZ2V0L3BwYy90cmFuc2xhdGUvcHJvY2Vzc29yLWN0cmwtaW1wbC5jLmluYyBiL3Rhcmdl
-dC9wcGMvdHJhbnNsYXRlL3Byb2Nlc3Nvci1jdHJsLWltcGwuYy5pbmMNCj4+IGluZGV4IGYy
-NTMyMjZhNzUuLmZmMjMxZGIxYWYgMTAwNjQ0DQo+PiAtLS0gYS90YXJnZXQvcHBjL3RyYW5z
-bGF0ZS9wcm9jZXNzb3ItY3RybC1pbXBsLmMuaW5jDQo+PiArKysgYi90YXJnZXQvcHBjL3Ry
-YW5zbGF0ZS9wcm9jZXNzb3ItY3RybC1pbXBsLmMuaW5jDQo+PiBAQCAtNzMsNiArNzMsNyBA
-QCBzdGF0aWMgYm9vbCB0cmFuc19NU0dDTFJQKERpc2FzQ29udGV4dCAqY3R4LCBhcmdfWF9y
-YiAqYSkNCj4+IMKgwqB7DQo+PiDCoMKgwqDCoMKgIFJFUVVJUkVfSU5TTlNfRkxBR1MyKGN0
-eCwgSVNBMjA3Uyk7DQo+PiDCoMKgwqDCoMKgIFJFUVVJUkVfU1YoY3R4KTsNCj4+ICvCoMKg
-wqAgUkVRVUlSRV82NEJJVChjdHgpOw0KPj4gwqDCoCNpZiAhZGVmaW5lZChDT05GSUdfVVNF
-Ul9PTkxZKSAmJiBkZWZpbmVkKFRBUkdFVF9QUEM2NCkNCj4+IMKgwqDCoMKgwqAgZ2VuX2hl
-bHBlcl9ib29rM3NfbXNnY2xycChjcHVfZW52LCBjcHVfZ3ByW2EtPnJiXSk7DQo+PiDCoMKg
-I2Vsc2UNCj4+IEBAIC04NSw2ICs4Niw3IEBAIHN0YXRpYyBib29sIHRyYW5zX01TR1NORFAo
-RGlzYXNDb250ZXh0ICpjdHgsIGFyZ19YX3JiICphKQ0KPj4gwqDCoHsNCj4+IMKgwqDCoMKg
-wqAgUkVRVUlSRV9JTlNOU19GTEFHUzIoY3R4LCBJU0EyMDdTKTsNCj4+IMKgwqDCoMKgwqAg
-UkVRVUlSRV9TVihjdHgpOw0KPj4gK8KgwqDCoCBSRVFVSVJFXzY0QklUKGN0eCk7DQo+PiDC
-oMKgI2lmICFkZWZpbmVkKENPTkZJR19VU0VSX09OTFkpICYmIGRlZmluZWQoVEFSR0VUX1BQ
-QzY0KQ0KPj4gwqDCoMKgwqDCoCBnZW5faGVscGVyX2Jvb2szc19tc2dzbmRwKGNwdV9lbnYs
-IGNwdV9ncHJbYS0+cmJdKTsNCj4+IMKgwqAjZWxzZQ0KPj4NCj4+DQo+PiBJZiB5b3UgdGhp
-bmsgdGhpcyBmaXggaXMgYWNjZXB0YWJsZSB5b3UgY2FuIGNvbnNpZGVyIHRoaXMgcGF0Y2gg
-YWNrZWQgYXMgd2VsbC4NCj4+DQo+IA0KPiBJdCBzaG91bGRuJ3QgbWF0dGVyIHNpbmNlIHdl
-IG9ubHkgd2FudCB0byBtYWtlIHRoZSBjb21waWxlciBoYXBweSwgYnV0IHdlIHNob3VsZCBj
-aGVjayBpbnN0cnVjdGlvbiBmbGFncyBiZWZvcmUgcHJpdmlsZWdlLCBzbyB3ZSB0aHJvdyBQ
-T1dFUlBDX0VYQ1BfSU5WQUxfSU5WQUwgaW5zdGVhZCBvZiBQT1dFUlBDX0VYQ1BfUFJJVl9P
-UEMgaWYgdGhlIENQVSBkb2Vzbid0IGhhdmUgdGhlIGluc3RydWN0aW9uOg0KPiANCj4gID4g
-QEAgLTczLDYgKzczLDcgQEAgc3RhdGljIGJvb2wgdHJhbnNfTVNHQ0xSUChEaXNhc0NvbnRl
-eHQgKmN0eCwgYXJnX1hfcmIgKmEpDQo+ICA+wqDCoCB7DQo+ICA+ICvCoMKgwqDCoCBSRVFV
-SVJFXzY0QklUKGN0eCk7DQo+ICA+wqDCoMKgwqDCoMKgIFJFUVVJUkVfSU5TTlNfRkxBR1My
-KGN0eCwgSVNBMjA3Uyk7DQo+ICA+wqDCoMKgwqDCoMKgIFJFUVVJUkVfU1YoY3R4KTsNCj4g
-ID7CoMKgICNpZiAhZGVmaW5lZChDT05GSUdfVVNFUl9PTkxZKSAmJiBkZWZpbmVkKFRBUkdF
-VF9QUEM2NCkNCj4gID7CoMKgwqDCoMKgwqAgZ2VuX2hlbHBlcl9ib29rM3NfbXNnY2xycChj
-cHVfZW52LCBjcHVfZ3ByW2EtPnJiXSk7DQo+ICA+wqDCoCAjZWxzZQ0KPiAgPiBAQCAtODUs
-NiArODYsNyBAQCBzdGF0aWMgYm9vbCB0cmFuc19NU0dTTkRQKERpc2FzQ29udGV4dCAqY3R4
-LCBhcmdfWF9yYiAqYSkNCj4gID7CoMKgIHsNCj4gID4gK8KgwqDCoMKgIFJFUVVJUkVfNjRC
-SVQoY3R4KTsNCj4gID7CoMKgwqDCoMKgwqAgUkVRVUlSRV9JTlNOU19GTEFHUzIoY3R4LCBJ
-U0EyMDdTKTsNCj4gID7CoMKgwqDCoMKgwqAgUkVRVUlSRV9TVihjdHgpOw0KPiAgPsKgwqAg
-I2lmICFkZWZpbmVkKENPTkZJR19VU0VSX09OTFkpICYmIGRlZmluZWQoVEFSR0VUX1BQQzY0
-KQ0KPiAgPsKgwqDCoMKgwqDCoCBnZW5faGVscGVyX2Jvb2szc19tc2dzbmRwKGNwdV9lbnYs
-IGNwdV9ncHJbYS0+cmJdKTsNCj4gID7CoMKgICNlbHNlDQo+IA0KPiBTaW5jZSBhbGwgQ1BV
-cyB3aXRoIElTQTIwN1MgYXJlIDY0LWJpdCwgaXQgc2hvdWxkbid0IG1ha2UgYW55IGRpZmZl
-cmVuY2UgaW4gdGhpcyBjb250ZXh0LCBidXQgc29tZW9uZSBtaWdodCB1c2UgdGhpcyBjb2Rl
-IGFzIGFuIGV4YW1wbGUsIHNvIGl0J3MgYmV0dGVyIHRvIGhhdmUgdGhlc2UgY2hlY2tzIGlu
-IHRoZSBjb3JyZWN0IG9yZGVyLiBEbyB5b3Ugd2FudCBtZSB0byByZXNlbmQgd2l0aCB0aGlz
-IGNoYW5nZT8NCg0KDQpOYWggaXQncyBvay4gSSdsbCBtb3ZlIHRoZSBSRVFVSVJFXzY0QklU
-KCkgY2FsbCB0byB0aGUgc3RhcnQgb2YgdGhlDQpmdW5jdGlvbiBpbi10cmVlLg0KDQoNClRo
-YW5rcywNCg0KRGFuaWVsDQoNCj4gDQo+IFRoYW5rcywNCj4gTWF0aGV1cyBLLiBGZXJzdA0K
-PiBJbnN0aXR1dG8gZGUgUGVzcXVpc2FzIEVMRE9SQURPIDxodHRwOi8vd3d3LmVsZG9yYWRv
-Lm9yZy5ici8+DQo+IEFuYWxpc3RhIGRlIFNvZnR3YXJlDQo+IEF2aXNvIExlZ2FsIC0gRGlz
-Y2xhaW1lciA8aHR0cHM6Ly93d3cuZWxkb3JhZG8ub3JnLmJyL2Rpc2NsYWltZXIuaHRtbD4N
-Cj4gDQo=
+To reuse the notifier process. We add the virtio_pci_get_notifier
+to get the notifier and vector. The INPUT for this function is IDX,
+The OUTPUT is the notifier and the vector
+
+Signed-off-by: Cindy Lu <lulu@redhat.com>
+---
+ hw/virtio/virtio-pci.c | 88 +++++++++++++++++++++++++++---------------
+ 1 file changed, 57 insertions(+), 31 deletions(-)
+
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index e7d80242b7..adcf4ddc1d 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -706,29 +706,41 @@ static void kvm_virtio_pci_vq_vector_release(VirtIOPCIProxy *proxy,
+ }
+ 
+ static int kvm_virtio_pci_irqfd_use(VirtIOPCIProxy *proxy,
+-                                 unsigned int queue_no,
++                                 EventNotifier *n,
+                                  unsigned int vector)
+ {
+     VirtIOIRQFD *irqfd = &proxy->vector_irqfd[vector];
+-    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
+-    VirtQueue *vq = virtio_get_queue(vdev, queue_no);
+-    EventNotifier *n = virtio_queue_get_guest_notifier(vq);
+     return kvm_irqchip_add_irqfd_notifier_gsi(kvm_state, n, NULL, irqfd->virq);
+ }
+ 
+ static void kvm_virtio_pci_irqfd_release(VirtIOPCIProxy *proxy,
+-                                      unsigned int queue_no,
++                                      EventNotifier *n ,
+                                       unsigned int vector)
+ {
+-    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
+-    VirtQueue *vq = virtio_get_queue(vdev, queue_no);
+-    EventNotifier *n = virtio_queue_get_guest_notifier(vq);
+     VirtIOIRQFD *irqfd = &proxy->vector_irqfd[vector];
+     int ret;
+ 
+     ret = kvm_irqchip_remove_irqfd_notifier_gsi(kvm_state, n, irqfd->virq);
+     assert(ret == 0);
+ }
++static int virtio_pci_get_notifier(VirtIOPCIProxy *proxy, int queue_no,
++                                      EventNotifier **n, unsigned int *vector)
++{
++    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
++    VirtQueue *vq;
++
++    if (queue_no == VIRTIO_CONFIG_IRQ_IDX) {
++        return -1;
++    } else {
++        if (!virtio_queue_get_num(vdev, queue_no)) {
++            return -1;
++        }
++        *vector = virtio_queue_vector(vdev, queue_no);
++        vq = virtio_get_queue(vdev, queue_no);
++        *n = virtio_queue_get_guest_notifier(vq);
++    }
++    return 0;
++}
+ 
+ static int kvm_virtio_pci_vector_use(VirtIOPCIProxy *proxy, int nvqs)
+ {
+@@ -737,12 +749,15 @@ static int kvm_virtio_pci_vector_use(VirtIOPCIProxy *proxy, int nvqs)
+     VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+     unsigned int vector;
+     int ret, queue_no;
+-
++    EventNotifier *n;
+     for (queue_no = 0; queue_no < nvqs; queue_no++) {
+         if (!virtio_queue_get_num(vdev, queue_no)) {
+             break;
+         }
+-        vector = virtio_queue_vector(vdev, queue_no);
++        ret = virtio_pci_get_notifier(proxy, queue_no, &n, &vector);
++        if (ret < 0) {
++            break;
++        }
+         if (vector >= msix_nr_vectors_allocated(dev)) {
+             continue;
+         }
+@@ -754,7 +769,7 @@ static int kvm_virtio_pci_vector_use(VirtIOPCIProxy *proxy, int nvqs)
+          * Otherwise, delay until unmasked in the frontend.
+          */
+         if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
+-            ret = kvm_virtio_pci_irqfd_use(proxy, queue_no, vector);
++            ret = kvm_virtio_pci_irqfd_use(proxy, n, vector);
+             if (ret < 0) {
+                 kvm_virtio_pci_vq_vector_release(proxy, vector);
+                 goto undo;
+@@ -770,7 +785,11 @@ undo:
+             continue;
+         }
+         if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
+-            kvm_virtio_pci_irqfd_release(proxy, queue_no, vector);
++            ret = virtio_pci_get_notifier(proxy, queue_no, &n, &vector);
++            if (ret < 0) {
++                break;
++            }
++            kvm_virtio_pci_irqfd_release(proxy, n, vector);
+         }
+         kvm_virtio_pci_vq_vector_release(proxy, vector);
+     }
+@@ -784,12 +803,16 @@ static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int nvqs)
+     unsigned int vector;
+     int queue_no;
+     VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-
++    EventNotifier *n;
++    int ret ;
+     for (queue_no = 0; queue_no < nvqs; queue_no++) {
+         if (!virtio_queue_get_num(vdev, queue_no)) {
+             break;
+         }
+-        vector = virtio_queue_vector(vdev, queue_no);
++        ret = virtio_pci_get_notifier(proxy, queue_no, &n, &vector);
++        if (ret < 0) {
++            break;
++        }
+         if (vector >= msix_nr_vectors_allocated(dev)) {
+             continue;
+         }
+@@ -797,21 +820,20 @@ static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int nvqs)
+          * Otherwise, it was cleaned when masked in the frontend.
+          */
+         if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
+-            kvm_virtio_pci_irqfd_release(proxy, queue_no, vector);
++            kvm_virtio_pci_irqfd_release(proxy, n, vector);
+         }
+         kvm_virtio_pci_vq_vector_release(proxy, vector);
+     }
+ }
+ 
+-static int virtio_pci_vq_vector_unmask(VirtIOPCIProxy *proxy,
++static int virtio_pci_one_vector_unmask(VirtIOPCIProxy *proxy,
+                                        unsigned int queue_no,
+                                        unsigned int vector,
+-                                       MSIMessage msg)
++                                       MSIMessage msg,
++                                       EventNotifier *n)
+ {
+     VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
+     VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+-    VirtQueue *vq = virtio_get_queue(vdev, queue_no);
+-    EventNotifier *n = virtio_queue_get_guest_notifier(vq);
+     VirtIOIRQFD *irqfd;
+     int ret = 0;
+ 
+@@ -838,14 +860,15 @@ static int virtio_pci_vq_vector_unmask(VirtIOPCIProxy *proxy,
+             event_notifier_set(n);
+         }
+     } else {
+-        ret = kvm_virtio_pci_irqfd_use(proxy, queue_no, vector);
++        ret = kvm_virtio_pci_irqfd_use(proxy, n, vector);
+     }
+     return ret;
+ }
+ 
+-static void virtio_pci_vq_vector_mask(VirtIOPCIProxy *proxy,
++static void virtio_pci_one_vector_mask(VirtIOPCIProxy *proxy,
+                                              unsigned int queue_no,
+-                                             unsigned int vector)
++                                             unsigned int vector,
++                                             EventNotifier *n)
+ {
+     VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
+     VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+@@ -856,7 +879,7 @@ static void virtio_pci_vq_vector_mask(VirtIOPCIProxy *proxy,
+     if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
+         k->guest_notifier_mask(vdev, queue_no, true);
+     } else {
+-        kvm_virtio_pci_irqfd_release(proxy, queue_no, vector);
++        kvm_virtio_pci_irqfd_release(proxy, n, vector);
+     }
+ }
+ 
+@@ -866,6 +889,7 @@ static int virtio_pci_vector_unmask(PCIDevice *dev, unsigned vector,
+     VirtIOPCIProxy *proxy = container_of(dev, VirtIOPCIProxy, pci_dev);
+     VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
+     VirtQueue *vq = virtio_vector_first_queue(vdev, vector);
++    EventNotifier *n;
+     int ret, index, unmasked = 0;
+ 
+     while (vq) {
+@@ -874,7 +898,8 @@ static int virtio_pci_vector_unmask(PCIDevice *dev, unsigned vector,
+             break;
+         }
+         if (index < proxy->nvqs_with_notifiers) {
+-            ret = virtio_pci_vq_vector_unmask(proxy, index, vector, msg);
++            n = virtio_queue_get_guest_notifier(vq);
++            ret = virtio_pci_one_vector_unmask(proxy, index, vector, msg, n);
+             if (ret < 0) {
+                 goto undo;
+             }
+@@ -890,7 +915,8 @@ undo:
+     while (vq && unmasked >= 0) {
+         index = virtio_get_queue_index(vq);
+         if (index < proxy->nvqs_with_notifiers) {
+-            virtio_pci_vq_vector_mask(proxy, index, vector);
++            n = virtio_queue_get_guest_notifier(vq);
++            virtio_pci_one_vector_mask(proxy, index, vector, n);
+             --unmasked;
+         }
+         vq = virtio_vector_next_queue(vq);
+@@ -903,15 +929,17 @@ static void virtio_pci_vector_mask(PCIDevice *dev, unsigned vector)
+     VirtIOPCIProxy *proxy = container_of(dev, VirtIOPCIProxy, pci_dev);
+     VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
+     VirtQueue *vq = virtio_vector_first_queue(vdev, vector);
++    EventNotifier *n;
+     int index;
+ 
+     while (vq) {
+         index = virtio_get_queue_index(vq);
++        n = virtio_queue_get_guest_notifier(vq);
+         if (!virtio_queue_get_num(vdev, index)) {
+             break;
+         }
+         if (index < proxy->nvqs_with_notifiers) {
+-            virtio_pci_vq_vector_mask(proxy, index, vector);
++            virtio_pci_one_vector_mask(proxy, index, vector, n);
+         }
+         vq = virtio_vector_next_queue(vq);
+     }
+@@ -927,19 +955,17 @@ static void virtio_pci_vector_poll(PCIDevice *dev,
+     int queue_no;
+     unsigned int vector;
+     EventNotifier *notifier;
+-    VirtQueue *vq;
++    int ret;
+ 
+     for (queue_no = 0; queue_no < proxy->nvqs_with_notifiers; queue_no++) {
+-        if (!virtio_queue_get_num(vdev, queue_no)) {
++        ret = virtio_pci_get_notifier(proxy, queue_no, &notifier, &vector);
++        if (ret < 0) {
+             break;
+         }
+-        vector = virtio_queue_vector(vdev, queue_no);
+         if (vector < vector_start || vector >= vector_end ||
+             !msix_is_masked(dev, vector)) {
+             continue;
+         }
+-        vq = virtio_get_queue(vdev, queue_no);
+-        notifier = virtio_queue_get_guest_notifier(vq);
+         if (k->guest_notifier_pending) {
+             if (k->guest_notifier_pending(vdev, queue_no)) {
+                 msix_set_pending(dev, vector);
+-- 
+2.34.3
+
 
