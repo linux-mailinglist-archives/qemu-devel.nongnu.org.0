@@ -2,113 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71A9A606006
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 14:20:08 +0200 (CEST)
-Received: from localhost ([::1]:39830 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 353E4606154
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 15:18:15 +0200 (CEST)
+Received: from localhost ([::1]:35012 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olUWs-0008Me-7N
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 08:20:06 -0400
+	id 1olVR5-0004Yz-WD
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 09:18:12 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olUFU-0007sZ-Dw
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 08:02:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47650)
+	id 1olV0K-0003A4-4K
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 08:50:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seiden@linux.ibm.com>)
- id 1olTM0-0001ww-Ut; Thu, 20 Oct 2022 07:04:49 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:52334
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seiden@linux.ibm.com>)
- id 1olTLy-0002Ty-Il; Thu, 20 Oct 2022 07:04:48 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29KAWsTg020667;
- Thu, 20 Oct 2022 11:03:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=aj0rkl0cyh/AIUSvUNnLXqCO2uzJoQx2AKSwzOU9AA0=;
- b=HucOoGH8JlWHs77Obu46QRJWFAQRcLFygJTQpGVAz9YVLMo8mwlR2Zhg2V0Q1L2udpYI
- C5VsnGmUpOc/yYKD/T3wcBb07pxTpfZZTQ1xVQ6sN2FNx7ppWYCCrsjUSZaGTeaUyDZN
- cDoME5ztU6EVNTguDNpoyKmlYJrM/2AvXNoLaf78JBiQldZSD3+EWz4l1IxxWe5QtYoe
- zxMWaQYCDVa4pQJtxX3rs5kLl8JWpYv5e+nEewHDpyOIlsN4zq7t+h8Cg89whz1+HTUt
- c45TqF4atK44m6eDdSdOAM9r/ZGZ8dgRo9xv36IyYMcBnxrIt2ZLBE7t8z5Wwphr05h6 9g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3kb4nx8vcq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Oct 2022 11:03:40 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29KAWuUW020706;
- Thu, 20 Oct 2022 11:03:39 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3kb4nx8v5h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Oct 2022 11:03:39 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29KApVKj016313;
- Thu, 20 Oct 2022 11:03:24 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma04ams.nl.ibm.com with ESMTP id 3k7mg98qaq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Oct 2022 11:03:24 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 29KB3s3652953366
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 20 Oct 2022 11:03:54 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 70387A405B;
- Thu, 20 Oct 2022 11:03:21 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1412BA4054;
- Thu, 20 Oct 2022 11:03:21 +0000 (GMT)
-Received: from [9.152.224.253] (unknown [9.152.224.253])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 20 Oct 2022 11:03:21 +0000 (GMT)
-Message-ID: <b9032f7d-bce5-b614-4ad9-62b11908c6af@linux.ibm.com>
-Date: Thu, 20 Oct 2022 13:03:20 +0200
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olTLh-0001F4-GI
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:04:33 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:34416)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olTLf-0002aI-Lp
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:04:29 -0400
+Received: by mail-wr1-x430.google.com with SMTP id b4so33740195wrs.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 04:04:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=JKgokySAbSDocqAoeooaDVOHdyffvNbsXeaqlsl0F6Q=;
+ b=YuyG979IjH/omPZt2SGnYnru0cV909zoMvrCX3HL8PlAQdcIyioHPGUmIe8W7VRBSv
+ d2WnsvRMEK9yG7HTRtQWCf9RmSq9IbNSIhnsLVc2PCjx2Gm680bspMWPyW1lTeBwXRuv
+ xuMNES+nRwqUtt4PO6rfyf/9Fw2sP1qA7syP1NgiwDQTJlpmK2BMtT2+57Gcbs7vYsJn
+ yYio/2h/fsm9Fc9mw9t+Z4mkyDsXkIDwdnDXlUWjvpl7NtagwnivDivGU9ObtDvXMLYa
+ ZprzBgE8PHy04ffFEu2X2AHiYCKwPWAQQq8rs5rQHIAb2gFw+Pg6UZ6B9tqRap+rMoGj
+ pGsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=JKgokySAbSDocqAoeooaDVOHdyffvNbsXeaqlsl0F6Q=;
+ b=a9tUAdtFia6WyKHEaCR+GM73n5+Z3ipJxhr+R+iVa8Vq3NVRmF68l+WcnXYLLVTd1v
+ gOuvKaoewqSHPdLnSNcn+oH7VI9MB4fajHVXDNF6bbTUMWma3B4quEClCatwDmdnnynR
+ D3oX2T40n0vVK+zPKft7fUP7Ss+utOf/xPnF7MHc01/ga4/DhtpD48n8crshhEXBhZGc
+ EflQ+N39eGQzhHTD5N7N2ssu9j3Ch7SpHW4C6pnY4hzaMWLYmIBje88cheEvCr9W0v2B
+ N7cZRIMUz74GIaNr9Rh58B8Nh4qfI+8xFTppnWlCKlgKQ4yLHyURMykVy2EfPdB0C8KA
+ 1l8Q==
+X-Gm-Message-State: ACrzQf2d4uRlfev+AVUIwaPM3Ih4wnOk8kgPYonxnoN7Vm1FTnuNpBc/
+ Gi9nP2+36rFZ/NTmbGrCBX89PQ==
+X-Google-Smtp-Source: AMsMyM6fAcbMc6B7n6thzH2AP9CJAGCgb2F1dro5nYnmNF/EItcvTfq7llVzApvdJ80okI4kHx48fQ==
+X-Received: by 2002:a5d:6d0d:0:b0:230:1b65:a378 with SMTP id
+ e13-20020a5d6d0d000000b002301b65a378mr8393523wrq.406.1666263865964; 
+ Thu, 20 Oct 2022 04:04:25 -0700 (PDT)
+Received: from [10.50.0.10]
+ (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
+ by smtp.gmail.com with ESMTPSA id
+ b27-20020a05600c4a9b00b003c6b874a0dfsm2878294wmp.14.2022.10.20.04.04.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Oct 2022 04:04:25 -0700 (PDT)
+Message-ID: <644e55ec-1040-09ad-0d1b-1ac80b70b58c@linaro.org>
+Date: Thu, 20 Oct 2022 13:04:21 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v6 10/10] s390x: pv: Add dump support
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.2
+Subject: Re: [PATCH v12 12/17] net: dgram: add unix socket
 Content-Language: en-US
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
- borntraeger@linux.ibm.com, imbrenda@linux.ibm.com, pasic@linux.ibm.com,
- cohuck@redhat.com, thuth@redhat.com, qemu-s390x@nongnu.org,
- scgl@linux.ibm.com
-References: <20221017083822.43118-1-frankja@linux.ibm.com>
- <20221017083822.43118-11-frankja@linux.ibm.com>
-From: Steffen Eiden <seiden@linux.ibm.com>
-In-Reply-To: <20221017083822.43118-11-frankja@linux.ibm.com>
+To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ xen-devel@lists.xenproject.org, Eric Blake <eblake@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Jason Wang <jasowang@redhat.com>, Anthony Perard
+ <anthony.perard@citrix.com>, Thomas Huth <thuth@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Paul Durrant <paul@xen.org>,
+ Stefan Weil <sw@weilnetz.de>, Markus Armbruster <armbru@redhat.com>,
+ Stefano Brivio <sbrivio@redhat.com>
+References: <20221020091624.48368-1-lvivier@redhat.com>
+ <20221020091624.48368-13-lvivier@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221020091624.48368-13-lvivier@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: aAIsiHcX-MxeaU83WajDQRCkPJ2L8_nP
-X-Proofpoint-GUID: bRzLGzsHnG6tGLYsLox0bufgmWCOYcqU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-20_03,2022-10-20_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 phishscore=0
- adultscore=0 impostorscore=0 malwarescore=0 mlxscore=0 lowpriorityscore=0
- spamscore=0 bulkscore=0 clxscore=1011 priorityscore=1501 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
- definitions=main-2210200066
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=seiden@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -125,39 +109,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 20/10/22 11:16, Laurent Vivier wrote:
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
+> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+> QAPI schema
+> Acked-by: Markus Armbruster <armbru@redhat.com>
 
+Eventually:
 
-On 10/17/22 10:38, Janosch Frank wrote:
-> Sometimes dumping a guest from the outside is the only way to get the
-> data that is needed. This can be the case if a dumping mechanism like
-> KDUMP hasn't been configured or data needs to be fetched at a specific
-> point. Dumping a protected guest from the outside without help from
-> fw/hw doesn't yield sufficient data to be useful. Hence we now
-> introduce PV dump support.
-> 
-> The PV dump support works by integrating the firmware into the dump
-> process. New Ultravisor calls are used to initiate the dump process,
-> dump cpu data, dump memory state and lastly complete the dump process.
-> The UV calls are exposed by KVM via the new KVM_PV_DUMP command and
-> its subcommands. The guest's data is fully encrypted and can only be
-> decrypted by the entity that owns the customer communication key for
-> the dumped guest. Also dumping needs to be allowed via a flag in the
-> SE header.
-> 
-> On the QEMU side of things we store the PV dump data in the newly
-> introduced architecture ELF sections (storage state and completion
-> data) and the cpu notes (for cpu dump data).
-> 
-> Users can use the zgetdump tool to convert the encrypted QEMU dump to an
-> unencrypted one.
-> 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-Reviewed-by: Steffen Eiden <seiden@linux.ibm.com>
+   Acked-by: Markus Armbruster <armbru@redhat.com> (QAPI schema)
+
 > ---
->   dump/dump.c              |  12 +-
->   include/sysemu/dump.h    |   5 +
->   target/s390x/arch_dump.c | 262 +++++++++++++++++++++++++++++++++++----
->   3 files changed, 246 insertions(+), 33 deletions(-)
+>   net/dgram.c     | 54 ++++++++++++++++++++++++++++++++++++++++++++++++-
+>   qapi/net.json   |  2 +-
+>   qemu-options.hx |  1 +
+>   3 files changed, 55 insertions(+), 2 deletions(-)
 > 
-[ snip ]
+> diff --git a/net/dgram.c b/net/dgram.c
+> index e581cc62f39f..02a189e36358 100644
+> --- a/net/dgram.c
+> +++ b/net/dgram.c
+> @@ -426,6 +426,7 @@ int net_init_dgram(const Netdev *netdev, const char *name,
+>       SocketAddress *remote, *local;
+>       struct sockaddr *dest_addr;
+>       struct sockaddr_in laddr_in, raddr_in;
+> +    struct sockaddr_un laddr_un, raddr_un;
+>       socklen_t dest_len;
+>   
+>       assert(netdev->type == NET_CLIENT_DRIVER_DGRAM);
+> @@ -465,7 +466,7 @@ int net_init_dgram(const Netdev *netdev, const char *name,
+>           }
+>       } else {
+>           if (local->type != SOCKET_ADDRESS_TYPE_FD) {
+> -            error_setg(errp, "type=inet requires remote parameter");
+> +            error_setg(errp, "type=inet or unix require remote parameter");
+
+Maybe clearer reworded as:
+
+   "type=inet or type=unix requires remote parameter"
+
+>               return -1;
+>           }
+>       }
+
 
