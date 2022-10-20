@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B71606B06
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 00:11:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8594606B2A
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 00:20:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oldkj-0008My-AP
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 18:11:01 -0400
+	id 1oldtt-0004hV-Rz
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 18:20:29 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oldjn-0007Ng-Tj
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 18:10:03 -0400
+	id 1oldkp-0008Ta-0g
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 18:11:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oldjf-0007A8-LR
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 18:09:55 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+ id 1oldkh-0008KO-0M
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 18:10:59 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oldjd-0002v6-VT
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 18:09:55 -0400
-Received: by mail-pl1-x633.google.com with SMTP id d24so586332pls.4
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 15:09:53 -0700 (PDT)
+ id 1oldkf-0003H0-3P
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 18:10:58 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ x31-20020a17090a38a200b0020d2afec803so1011495pjb.2
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 15:10:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=kRyDyXFD+MsKZUngB9slDVzm5SfOz76h98eWmrwGaxc=;
- b=coKHSVPin56s+WnRbXQq5BIklDjeB4Jcwv4OHQOyC9rKrRxLQcq6Ew+OQ4t9roYuSG
- TL8/vdqj0B7OuvQnJCAATFt+WrkoJKcfdukGB3lrr3YFHiQI+g1uNFsMqI2w4JSsCiDp
- CMsYhSJB6d+w5sOw9CE6eRM6gXuihbtPOI1KU6q1ID99dOnIi37IiR6SM67QJltxvQlT
- Dw4fbLM/sb6LdTwCED3zlW8XKmglgyUOaHC2PU0XsIPzWChKBPio94YN9T/NHzWNlHQW
- JNXg8IHzp3xmxvqR3mGk+QEnwkT4JqmTIQNs4A6cIVCC0juQ2HpM37vBFKAOlW7bo+5p
- NuwA==
+ bh=a3PUQ9t3GrHLuFj1dQuxWB4bZv2L7hCpQ/K50OCmVbk=;
+ b=knIs70X9StQ8ImLh5C/EUCAKTfyzGTWmxSJIXIzKVpwQuY16WJndLA5aKaDmAmh8Ho
+ f5WhTmO0+CGjxfDiY5BYvhrdnKhPKszQMK5Mo41mTWIno5z3Spo5R413CbXcp5rKlXGs
+ eW4gsTb9PhQP96ty0w1aCFQfnT22MAJshDA0x4E3AHjJIvdwiOw1OHJHPBY1X6mZhBGh
+ XnhvpYBsCsXQbOdXXL/5dezk1zH+SJnfTdCBAPpUihf8eikqOj9lfSNg2dX7kXOAs/HW
+ w+7eMeU09ZytcbCwTswHaIG3QLq2XSYD/mueOkdcGakR6k9FuYROteLqw0AXT4MJ/K7e
+ /U1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kRyDyXFD+MsKZUngB9slDVzm5SfOz76h98eWmrwGaxc=;
- b=FvVH04BoS8BsFY+wqNQV1ZtzUBfChuJT+f2N38PV9VNAEDykwP6VhPikhLWeFgCDbS
- ZnfSaqB6wGMN9wZIJu1e9h+hu2xmR8OnPFI9rl7dgSrxUhyPEWRkOnyV4Qde1x2f0CYg
- JBPpE3pKSH3ktJW3lV0KT4EpFjwd02QzOjZsUiUJ6k/PJ3xpThIcSWsXvzs3r/jHAXpS
- qoKj/HA11lLlbRCGSGY2T7s9zjDQz3lueWKHwT/DpUY/ISeSR06bPZouFSIMDo22iSrq
- sO8APtWNwd6RKYmKNtKNPanpc+528DsfvozQD2L8UlF3czDB7FSXGkvCRb/097fvpkBG
- khVQ==
-X-Gm-Message-State: ACrzQf24rvUHGHloRC075cTsoQw1wJ2F6fYZNVNYk+kw08Cd0Pg3Mz9E
- qdzPe+9rVESHd6yBY2vULWi3/DLQOP5QMWLd
-X-Google-Smtp-Source: AMsMyM4O9+W278my8Gl1wru7YMmjZVaSNmBDpPbGqqbxKfnjY2mnvfggMpD/WAC6bsUCoPu8XCK6oA==
-X-Received: by 2002:a17:902:7596:b0:186:603e:9cb8 with SMTP id
- j22-20020a170902759600b00186603e9cb8mr6236278pll.155.1666303792481; 
- Thu, 20 Oct 2022 15:09:52 -0700 (PDT)
+ bh=a3PUQ9t3GrHLuFj1dQuxWB4bZv2L7hCpQ/K50OCmVbk=;
+ b=mb9gB7UjebK+gL7sSGQ3yjL59SSMpmfirjj2B5lswiA8UhpPLxMS2QQ+pudE709mDA
+ xT1bEoOGUFli3G1LuT1m00VR/mlZJ6CzTB498tqhpisvon2VvZJ1EoR2uRiqgPRsAP2k
+ qu4sMb+6lGpg6tJvJtitGxDnVKRzaxwBM61HYgr6arptZhrnDOgCohzq/+mHNeQquwOI
+ kwcCuIBfomsH2tYgmlLEF/+iXNUxWdV/MWyOt5r59pdryv9gzKIJMLCTJ7XKLboaRD9G
+ BBNSBU0+kvTas+3ziusQRHhkgzbqZ7N0CS2v7PcdMpYxKDgWF5jlStmOHZBaTZXNjefw
+ mPYw==
+X-Gm-Message-State: ACrzQf1+mRTWtMs0LIDqTK0nmewnAUplpvKiWfc1s6st7IvpWnHMX1m9
+ 02YeZ0xJtMWdzzxuOcBgduUSSg==
+X-Google-Smtp-Source: AMsMyM7qKWA0JT4CMT2X3c8QHxByoioJT7bAxtsg+XnR3KnPfRdRwn4I4rk6jNuVW+wPASAHpLcYiA==
+X-Received: by 2002:a17:902:ea0c:b0:181:61d1:ac1c with SMTP id
+ s12-20020a170902ea0c00b0018161d1ac1cmr16343808plg.120.1666303852685; 
+ Thu, 20 Oct 2022 15:10:52 -0700 (PDT)
 Received: from [192.168.1.107] ([149.135.10.35])
  by smtp.gmail.com with ESMTPSA id
- n13-20020a170902d2cd00b00183c67844aesm13572197plc.22.2022.10.20.15.09.47
+ b9-20020a1709027e0900b001780e4e6b65sm13192245plm.114.2022.10.20.15.10.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Oct 2022 15:09:51 -0700 (PDT)
-Message-ID: <db03813f-ef50-c845-b955-88c6f63533c5@linaro.org>
-Date: Fri, 21 Oct 2022 08:09:43 +1000
+ Thu, 20 Oct 2022 15:10:52 -0700 (PDT)
+Message-ID: <bc7775b6-7a7f-a932-cf3b-61c667e83c8d@linaro.org>
+Date: Fri, 21 Oct 2022 08:10:44 +1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH v3 05/26] configure: fix the --enable-static --disable-pie
- case
+Subject: Re: [PATCH v3 04/26] configure: don't enable cross compilers unless
+ in target_list
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
@@ -74,13 +75,13 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
  aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
  crosa@redhat.com
 References: <20221020115209.1761864-1-alex.bennee@linaro.org>
- <20221020115209.1761864-6-alex.bennee@linaro.org>
+ <20221020115209.1761864-5-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221020115209.1761864-6-alex.bennee@linaro.org>
+In-Reply-To: <20221020115209.1761864-5-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -104,13 +105,35 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/20/22 21:51, Alex Bennée wrote:
-> The previous tweak was incomplete as it missed a leg.
+> This avoids the unfortunate effect of always builds the pc-bios blobs
+> for targets the user isn't interested in.
 > 
-> Fixes: abafb64b6d (configure: explicitly set cflags for --disable-pie)
-> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->   configure | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
+>   configure | 9 +++++++++
+>   1 file changed, 9 insertions(+)
+> 
+> diff --git a/configure b/configure
+> index 81561be7c1..dd6f58dcde 100755
+> --- a/configure
+> +++ b/configure
+> @@ -1877,6 +1877,15 @@ probe_target_compiler() {
+>     container_cross_ranlib=
+>     container_cross_strip=
+>   
+> +  # We shall skip configuring the target compiler if the user didn't
+> +  # bother enabling an appropriate guest. This avoids building
+> +  # extraneous firmware images and tests.
+> +  if test "${target_list#*$1}" != "$1"; then
+> +      break;
+> +  else
+> +      return 1
+> +  fi
+> +
+>     target_arch=${1%%-*}
+>     case $target_arch in
+>       aarch64) container_hosts="x86_64 aarch64" ;;
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
