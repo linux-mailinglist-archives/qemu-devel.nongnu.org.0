@@ -2,70 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87D68606524
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 17:56:04 +0200 (CEST)
-Received: from localhost ([::1]:50786 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 634C2606435
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 17:21:53 +0200 (CEST)
+Received: from localhost ([::1]:39962 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olXtr-0000LH-Ba
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 11:56:03 -0400
+	id 1olXMj-0002JR-NQ
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 11:21:49 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olXsi-0001fa-Ln
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 11:54:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41416)
+	id 1olXF8-0002Me-8Z
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 11:13:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1olUIO-0008A2-63
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:05:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59682)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1olUII-0005vk-A4
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:05:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666267501;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=K42cM0qqMwxHTFL6wcvLlfAtW9sGytJc8XCKCAn7EBk=;
- b=Cqy4WPOhSnEhF5JuhLeOF4U72eNy4a97fxhc5aBmSgcsVzooKt9VLvEjo8eYwq3CIQ8P61
- PxcBHK+vF4hUbQ/PGvQqtio5lNkDF3XSMJ3DPOTQLWtjPBO8s5uFD6YmU3MjkrDqnBe1Oe
- 6QHGFPSHK3ZABmwVFcujuOhtojukaeI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-258-LGJrSaP0Pf-qzqZ5PJUjXA-1; Thu, 20 Oct 2022 08:04:59 -0400
-X-MC-Unique: LGJrSaP0Pf-qzqZ5PJUjXA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A3F46185A79C
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 12:04:59 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C70AC15BA5;
- Thu, 20 Oct 2022 12:04:59 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 65E8B21E6808; Thu, 20 Oct 2022 14:04:58 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: "Michael S . Tsirkin" <mst@redhat.com>
-Subject: [PATCH] MAINTAINERS: Add qapi/virtio.json to section "virtio"
-Date: Thu, 20 Oct 2022 14:04:58 +0200
-Message-Id: <20221020120458.80709-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1olUJe-0001K8-Pu
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:06:29 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:46894)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1olUJZ-0006L8-UY
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:06:24 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id y8so20030802pfp.13
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 05:06:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=dAito+iJTuV+ScNU+7EPO6zEC3vQCU0v1eRbm3sueVU=;
+ b=yLbWSVAJ231a1a9GjdkcVOJLXOzzZLIgCNAo5PzHJAl2qIw6+YlpZa+SAvab3oVU3i
+ OC69xqf+oxj1ehtT9arMVDcrM6uCpoR7OmTYhaBuoXP5x0rUyuuf6s4GHIcxQK2b3v8H
+ CPBq5mQ12VMjU15wxU/YJqtenH49YShrr/UWaNhlUFc6KuLdeEiAM9+E0PEm7NsJIFJN
+ PhHG7+FqAW+qRhoz11OOX9DNegbgMWmw20H3nEJFgN7/cMbyOO2px/Alr56ZZNP7+e2v
+ YvFbpZgPW6hYc8KIihlNNG+eiX9L6rWp5bqe2jjv13+fV0vlpytW/dSj0pqjjszXQAFv
+ AdnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=dAito+iJTuV+ScNU+7EPO6zEC3vQCU0v1eRbm3sueVU=;
+ b=3BtzAV2NpcivGj1NoCCEM0iMUbysyE6ZCL0+bkqPzU8eNaC/0laNI3bggJ9l5WMbBA
+ 8LlI59yAqmWM3fFjYJTBbuLQEHovSb3gbXAFKsp2sZuTcMgpcHaNO5xLwic07XJgmFvo
+ fo1j/BOTBOoOID92XCU3hSWt3Pzq3UTlX8Pl2P3zXt1ui8JwAvMZBGd2OzZPodnvMFbE
+ PLVfYdOoq0NWaAzdxVLXFnDLLQRbTdG7aUZAzpGjLSYvOH8pq2BA5pCQEJIJ/naALZxg
+ /w2/bsEkVtwYCnBwwFYcpunYi1Md/brGvTajCBtKpw4wS0GBnDmf1P1ISLy6Ty9zA6i7
+ RzrA==
+X-Gm-Message-State: ACrzQf3+19eqCoyyNW1+BUcrzbovM+hBmwfAogaGaYaeLaHvuz+CNRhG
+ VtZ21mDElBxze6+ThyGJYBXM1g==
+X-Google-Smtp-Source: AMsMyM7aPuMHg4mkNuLMm0RwjgaiNqgN6hnEX+oMQH/zRridv1sSVhIxr93QCFMGvC8XCQftxRZwUQ==
+X-Received: by 2002:aa7:88d6:0:b0:563:9fe9:5da8 with SMTP id
+ k22-20020aa788d6000000b005639fe95da8mr13748549pff.74.1666267580406; 
+ Thu, 20 Oct 2022 05:06:20 -0700 (PDT)
+Received: from [192.168.1.107] ([149.135.10.35])
+ by smtp.gmail.com with ESMTPSA id
+ m3-20020a62a203000000b0053e38ac0ff4sm13133643pff.115.2022.10.20.05.06.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Oct 2022 05:06:19 -0700 (PDT)
+Message-ID: <9772b561-083f-9029-e8da-678f9c7ab051@linaro.org>
+Date: Thu, 20 Oct 2022 22:06:09 +1000
 MIME-Version: 1.0
-Content-type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v3 25/26] target/s390x: fake instruction loading when
+ handling 'ex'
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
+ aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
+ crosa@redhat.com, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>
+References: <20221020115209.1761864-1-alex.bennee@linaro.org>
+ <20221020115209.1761864-26-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221020115209.1761864-26-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,25 +105,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+On 10/20/22 21:52, Alex Bennée wrote:
+> The s390x EXecute instruction is a bit weird as we synthesis the
+> executed instruction from what we have stored in memory. This missed
+> the plugin instrumentation.
+> 
+> Work around this with a special helper to inform the rest of the
+> translator about the instruction so things stay consistent.
+> 
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> Cc: Richard Henderson<richard.henderson@linaro.org>
+> 
+> ---
+> v2
+>    - s/w/b/ for translator_fake_ldb
+>    - add comment to extract_insn
+>    - reword commit message
+> ---
+>   include/exec/translator.h    | 17 +++++++++++++++++
+>   target/s390x/tcg/translate.c |  6 ++++++
+>   2 files changed, 23 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e3d5b7e09c..f2eff9ee85 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2000,6 +2000,7 @@ S: Supported
- F: hw/*/virtio*
- F: hw/virtio/Makefile.objs
- F: hw/virtio/trace-events
-+F: qapi/virtio.json
- F: net/vhost-user.c
- F: include/hw/virtio/
- 
--- 
-2.37.3
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+r~
 
