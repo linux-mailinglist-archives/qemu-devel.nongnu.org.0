@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A666606229
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 15:48:48 +0200 (CEST)
-Received: from localhost ([::1]:54464 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 745CA6060CB
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 14:59:23 +0200 (CEST)
+Received: from localhost ([::1]:40964 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olVuf-0003Fh-2m
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 09:48:45 -0400
+	id 1olV8Y-0007zu-Q7
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 08:59:12 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olVpu-0002Ok-Nn
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 09:43:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43370)
+	id 1olV6X-0008Eh-Og
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 08:56:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olU81-0005SI-1M
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:54:33 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:33771)
+ id 1olU88-0005Xs-Ru
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:54:42 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:38778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olU7y-00015w-Sn
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:54:24 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id m6so20076105pfb.0
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 04:54:21 -0700 (PDT)
+ id 1olU85-00018J-1M
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:54:32 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id p14so20058900pfq.5
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 04:54:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=fhmdF+MnCCSp2UKUALsQ6VhhmPNIo+wxdpEVDIQzUk0=;
- b=TA16wkv3Cu8kqcwrAiRs8as0ZsFpj8fqcwuRKSZfXTt6zIaQCpwwB9O0JGAUKEWop+
- RbKwuzl3PtScZML1Lw9a0GWV7BR+y3UL1zFv+V1vRYeA+11b8At2QlR/bHvhQpdNfNus
- URk7NuI6B3/RrT2P+1mdlcTCD9G6wvbQrxfMB+AvIZY8aML+n1oK2evi/lkcABYHddZH
- kN3X8ZfRpErRXvN8ChmSGDCaYFoWd4LtkVYGUMMqZplc2o+r1fz5NAiUErRrAwSUBngm
- xgrrzQ8as+uZSKpmviD216yGrUbyFGrZy8yoQEGoz7bZidqNJZ7vxW9NvmF/z8pteefG
- 81bg==
+ :reply-to; bh=k7bPKKs/aThsRZPJWHh1qzMHmjPNozKPmJgP4+3jfyA=;
+ b=sHduDF3kgPB02THemvuMv33t4O0tjgRF/TY0a3135Vpei6SKCd9Kh0ULG9XYYMA0OX
+ +OUr786ldypbRm8+9N6DzYM4gIFNC9Z46eKn4ZgvFOXEgLV30K2WZ3zindLxVHt86Jft
+ 3qe40v1TiobJmsd5SboixrRYiys9Wj8ldm72Az450y07jWRQRXL5EtBO/Mf3ypa+4/xh
+ d7U4uCeDcWEQ2LVNBnVZPw5n0cLMVgNqgS8NzYPU7cSPginn4KEis4mIQA2Dh5E85GBL
+ YHFuq2HuFAHP0leltPyenSMWpKjJNxjQqzz7F1DOhmZCarOBLzTDMCXdd9Rhx0r70Jk4
+ RK3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fhmdF+MnCCSp2UKUALsQ6VhhmPNIo+wxdpEVDIQzUk0=;
- b=Krt8i9RKonACpCOKl9nrteYixzEu0vrbUdRAt4BqKZqsPeL16tEAPSVNznaN02w5Xy
- 7azvuJnJmB5mfX7WFt5SFeq9oAkW06PqQWVWVGQpcm976CJC6UTlmPBNwIR5mLeFoE1K
- 0BiwsPxeyCx15TYyezn8UI8EVpwt+0MIjaSafxPEEeWzzYF1dYtFpalNMZtgfc1f9yVE
- 1OcCtUW27kcGHfM6HZ9AsZZ76xTU+FXobLfn2ezEfGCtIF7gz61nBoYhOTEe3+BJmOM0
- LJhaoznh+ALEK+UjF9GRxpzqQyaTuXDlXxNEtyUmZdhp9PexCFKefGQonRXyhgJSbvNq
- pRaA==
-X-Gm-Message-State: ACrzQf0Q8/elycNgWifC81sBoVY4KYsC8W9cvTW1G7Sq+9b5RQJmKIsT
- aubb2GBhRehTKNurxmKoH382Ex8UjG1UfH47
-X-Google-Smtp-Source: AMsMyM7HYL41RF2h1jPXlw+tLO+STueapCqU7S5FNHiGqgUOOI20Ez7NDDjDT3FEAKMCWyZ8vKTL6w==
-X-Received: by 2002:a62:1482:0:b0:55f:eb9a:38b2 with SMTP id
- 124-20020a621482000000b0055feb9a38b2mr13297623pfu.29.1666266859458; 
- Thu, 20 Oct 2022 04:54:19 -0700 (PDT)
+ bh=k7bPKKs/aThsRZPJWHh1qzMHmjPNozKPmJgP4+3jfyA=;
+ b=FG5hQJ3Sr5skaveQC7Uyk2pw+P73iGdJFAFqGtJG3TQe7JqSZFFsB8tmcE8FL7b698
+ t0iPYzWvu++MaZtFCrylhYdPYDW9UapNwzxtGrKwQk09uvfQ0we/moxxVOf42LhXBvaz
+ QPxQv/MbgHlBaJtLvnpQXifpkYxD6J9IHkPGBaeHATz3HPeKPiRRMB+Kk40hdL/lx1rZ
+ u3NUWDs2iDYcXyJyMwZGGTq/cdnWYijoJUDI9SgDj3DXeWa4mXqOBCFRW9jdVB9Hb4NA
+ 1UpwPT8TE4UnR+kvMzJ417vtrDIeBC88jVo+XuYfODZE0XK8Ayrm64hvuTwMlfXXO3yU
+ AszA==
+X-Gm-Message-State: ACrzQf1uSuGx0ELjGQrybxqGfc/cLcHCoUubkLERr8hBd7HF6rPgrHOD
+ MMxyt3nmTMtDI49nc+J5S4dQ1G/+qgK+KsDC
+X-Google-Smtp-Source: AMsMyM4EFOicDD2RQmc6EJmvzSO/jlkWsu4J5XCJ/5DErjd4MH2zxFpRVbLfbtkz8iYW3PjNieZreA==
+X-Received: by 2002:a63:1352:0:b0:469:793f:9683 with SMTP id
+ 18-20020a631352000000b00469793f9683mr11527504pgt.128.1666266867321; 
+ Thu, 20 Oct 2022 04:54:27 -0700 (PDT)
 Received: from localhost.localdomain ([149.135.10.35])
  by smtp.gmail.com with ESMTPSA id
- w206-20020a627bd7000000b0056109e15638sm13065464pfc.54.2022.10.20.04.54.17
+ w206-20020a627bd7000000b0056109e15638sm13065464pfc.54.2022.10.20.04.54.25
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Oct 2022 04:54:18 -0700 (PDT)
+ Thu, 20 Oct 2022 04:54:26 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 22/31] tcg: Add TCG_CALL_{RET,ARG}_NORMAL_4
-Date: Thu, 20 Oct 2022 21:52:33 +1000
-Message-Id: <20221020115242.2301066-23-richard.henderson@linaro.org>
+Subject: [PATCH 25/31] tcg: Add TCG_CALL_{RET,ARG}_BY_REF
+Date: Thu, 20 Oct 2022 21:52:36 +1000
+Message-Id: <20221020115242.2301066-26-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221020115242.2301066-1-richard.henderson@linaro.org>
 References: <20221020115242.2301066-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,218 +94,244 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These will be used by some 32-bit hosts to pass and return i128.
-Not yet used, because allocation is not yet enabled.
+These will be used by some hosts, 32 and 64-bit to pass and
+return i128.  Not yet used, because allocation is not yet enabled.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg-internal.h |   2 +
- tcg/tcg.c          | 127 ++++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 128 insertions(+), 1 deletion(-)
+ tcg/tcg-internal.h |  10 ++--
+ tcg/tcg.c          | 124 ++++++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 129 insertions(+), 5 deletions(-)
 
 diff --git a/tcg/tcg-internal.h b/tcg/tcg-internal.h
-index 696dc66ada..7d4f7049be 100644
+index 7d4f7049be..1fe7bd7d5d 100644
 --- a/tcg/tcg-internal.h
 +++ b/tcg/tcg-internal.h
-@@ -36,6 +36,7 @@
-  */
+@@ -37,6 +37,7 @@
  typedef enum {
      TCG_CALL_RET_NORMAL,         /* by registers */
-+    TCG_CALL_RET_NORMAL_4,       /* for i128, by 4 registers */
+     TCG_CALL_RET_NORMAL_4,       /* for i128, by 4 registers */
++    TCG_CALL_RET_BY_REF,         /* for i128, by reference as first arg */
  } TCGCallReturnKind;
  
  typedef enum {
-@@ -44,6 +45,7 @@ typedef enum {
-     TCG_CALL_ARG_EXTEND,         /* for i32, as a sign/zero-extended i64 */
+@@ -46,12 +47,15 @@ typedef enum {
      TCG_CALL_ARG_EXTEND_U,       /*      ... as a zero-extended i64 */
      TCG_CALL_ARG_EXTEND_S,       /*      ... as a sign-extended i64 */
-+    TCG_CALL_ARG_NORMAL_4,       /* for i128, like normal with 4 slots */
+     TCG_CALL_ARG_NORMAL_4,       /* for i128, like normal with 4 slots */
++    TCG_CALL_ARG_BY_REF,         /*      ... by reference, first */
++    TCG_CALL_ARG_BY_REF_2,       /*      ... by reference, second */
  } TCGCallArgumentKind;
  
  typedef struct TCGCallArgumentLoc {
+-    TCGCallArgumentKind kind    : 8;
+-    unsigned reg_slot           : 8;
+-    unsigned stk_slot           : 8;
++    TCGCallArgumentKind kind    : 4;
++    unsigned reg_slot           : 6;
++    unsigned stk_slot           : 6;
++    unsigned ref_slot           : 6;
+     unsigned reg_n              : 2;
+     unsigned arg_idx            : 4;
+     unsigned tmp_subindex       : 1;
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index b0f5eb0505..5b17892058 100644
+index 390724e652..c664e3b18d 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -658,6 +658,30 @@ static void layout_arg_normal_2(TCGCumulativeArgs *cum, TCGHelperInfo *info)
-     loc[1].tmp_subindex = 1;
+@@ -103,8 +103,7 @@ static void tcg_out_ld(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg1,
+ static bool tcg_out_mov(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg);
+ static void tcg_out_movi(TCGContext *s, TCGType type,
+                          TCGReg ret, tcg_target_long arg);
+-static void tcg_out_addi_ptr(TCGContext *s, TCGReg, TCGReg, tcg_target_long)
+-    __attribute__((unused));
++static void tcg_out_addi_ptr(TCGContext *s, TCGReg, TCGReg, tcg_target_long);
+ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+                        const TCGArg args[TCG_MAX_OP_ARGS],
+                        const int const_args[TCG_MAX_OP_ARGS]);
+@@ -684,6 +683,34 @@ static void layout_arg_normal_4(TCGCumulativeArgs *cum, TCGHelperInfo *info)
+     cum->op_arg_idx++;
  }
  
-+static void layout_arg_normal_4(TCGCumulativeArgs *cum, TCGHelperInfo *info)
++static void layout_arg_by_ref(TCGCumulativeArgs *cum, TCGHelperInfo *info)
 +{
 +    TCGCallArgumentLoc *loc = &info->in[cum->info_in_idx];
-+    int reg_n = MIN(4, cum->max_reg_slot - cum->reg_slot);
++    int n = 128 / TCG_TARGET_REG_BITS;
 +
-+    *loc = (TCGCallArgumentLoc){
-+        .kind = TCG_CALL_ARG_NORMAL_4,
-+        .arg_idx = cum->arg_idx,
-+    };
++    /* The first subindex carries the pointer. */
++    layout_arg_1(cum, info, TCG_CALL_ARG_BY_REF);
 +
-+    if (reg_n > 0) {
-+        loc->reg_slot = cum->reg_slot;
-+        loc->reg_n = reg_n;
-+        cum->reg_slot += reg_n;
++    /*
++     * The callee is allowed to clobber memory associated with
++     * structure pass by-reference.  Therefore we must make copies.
++     * Allocate space from the top of TCG_STATIC_CALL_ARGS_SIZE.
++     */
++    cum->max_stk_slot -= n;
++    loc[0].ref_slot = cum->max_stk_slot;
++
++    /* Any other subindex is present for liveness. */
++    if (TCG_TARGET_REG_BITS == 64) {
++        loc[1] = (TCGCallArgumentLoc){
++            .kind = TCG_CALL_ARG_BY_REF_2,
++            .arg_idx = cum->arg_idx,
++            .tmp_subindex = 1,
++        };
++        cum->info_in_idx++;
++        cum->op_arg_idx++;
 +    }
-+    if (reg_n < 4) {
-+        loc->stk_slot = cum->stk_slot;
-+        cum->stk_slot += 4 - reg_n;
-+    }
-+
-+    cum->info_in_idx++;
-+    cum->op_arg_idx++;
 +}
 +
  static void init_call_layout(TCGHelperInfo *info)
  {
      unsigned typemask = info->typemask;
-@@ -686,10 +710,29 @@ static void init_call_layout(TCGHelperInfo *info)
-         info->nr_out = 64 / TCG_TARGET_REG_BITS;
-         info->out_kind = TCG_CALL_RET_NORMAL;
-         break;
-+    case dh_typecode_i128:
-+        /*
-+         * No matter the call return method, we must have all of
-+         * the temp subindexes in the call for liveness.
-+         */
-+        info->nr_out = TCG_TARGET_REG_BITS == 32 ? 1 : 2;
-+        info->out_kind = TCG_CALL_RET_NORMAL; /* TODO */
-+        switch (/* TODO */ TCG_CALL_RET_NORMAL) {
-+        case TCG_CALL_RET_NORMAL:
-+            if (TCG_TARGET_REG_BITS == 32) {
-+                assert(ARRAY_SIZE(tcg_target_call_oarg_regs) >= 4);
-+                info->out_kind = TCG_CALL_RET_NORMAL_4;
+@@ -728,6 +755,18 @@ static void init_call_layout(TCGHelperInfo *info)
+                 assert(ARRAY_SIZE(tcg_target_call_oarg_regs) >= 2);
+             }
+             break;
++        case TCG_CALL_RET_BY_REF:
++            /*
++             * Allocate the first argument to the output.
++             * We don't need to store this anywhere, just make it
++             * unavailable for use in the input loop below.
++             */
++            if (cum.max_reg_slot == 0) {
++                cum.stk_slot = 1;
 +            } else {
-+                assert(ARRAY_SIZE(tcg_target_call_oarg_regs) >= 2);
++                cum.reg_slot = 1;
 +            }
 +            break;
-+        default:
-+            g_assert_not_reached();
-+        }
-+        break;
-     default:
-         g_assert_not_reached();
-     }
--    assert(info->nr_out <= ARRAY_SIZE(tcg_target_call_oarg_regs));
- 
-     /*
-      * The final two op->arg[] indexes are used for func & info.
-@@ -745,6 +788,13 @@ static void init_call_layout(TCGHelperInfo *info)
-                     layout_arg_1(&cum, info, TCG_CALL_ARG_NORMAL);
-                 }
-                 break;
-+            case TCG_TYPE_I128:
-+                if (TCG_TARGET_REG_BITS == 32) {
-+                    layout_arg_normal_4(&cum, info);
-+                } else {
-+                    layout_arg_normal_2(&cum, info);
-+                }
-+                break;
-             default:
-                 g_assert_not_reached();
-             }
-@@ -1687,6 +1737,7 @@ void tcg_gen_callN(void *func, TCGTemp *ret, int nargs, TCGTemp **args)
- 
+         default:
+             g_assert_not_reached();
+         }
+@@ -765,6 +804,10 @@ static void init_call_layout(TCGHelperInfo *info)
+             type = TCG_TYPE_PTR;
+             kind = TCG_CALL_ARG_NORMAL;
+             break;
++        case dh_typecode_i128:
++            type = TCG_TYPE_I128;
++            kind = TCG_CALL_ARG_NORMAL; /* TODO */
++            break;
+         default:
+             g_assert_not_reached();
+         }
+@@ -809,6 +852,10 @@ static void init_call_layout(TCGHelperInfo *info)
+             assert(type == TCG_TYPE_I32);
+             layout_arg_1(&cum, info, kind);
+             break;
++        case TCG_CALL_ARG_BY_REF:
++            assert(type == TCG_TYPE_I128);
++            layout_arg_by_ref(&cum, info);
++            break;
+         default:
+             g_assert_not_reached();
+         }
+@@ -1740,6 +1787,8 @@ void tcg_gen_callN(void *func, TCGTemp *ret, int nargs, TCGTemp **args)
          switch (loc->kind) {
          case TCG_CALL_ARG_NORMAL:
-+        case TCG_CALL_ARG_NORMAL_4:
+         case TCG_CALL_ARG_NORMAL_4:
++        case TCG_CALL_ARG_BY_REF:
++        case TCG_CALL_ARG_BY_REF_2:
              op->args[pi++] = temp_arg(ts);
              break;
  
-@@ -4299,6 +4350,41 @@ static bool tcg_reg_alloc_dup2(TCGContext *s, const TCGOp *op)
-     return true;
+@@ -4464,6 +4513,27 @@ static void load_arg_normal_4(TCGContext *s, const TCGCallArgumentLoc *loc,
+     }
  }
  
-+static void copy_to_stk_i128(TCGContext *s, int stk_slot, TCGTemp *ts,
-+                             int slot, TCGRegSet allocated_regs)
++static void load_arg_by_ref(TCGContext *s, const TCGCallArgumentLoc *loc,
++                            TCGReg ref_base, int ref_off,
++                            TCGRegSet *allocated_regs)
 +{
-+    int stk_off = TCG_TARGET_CALL_STACK_OFFSET
-+                + stk_slot * sizeof(tcg_target_long);
++    TCGReg reg;
 +
-+    if (TCG_TARGET_REG_BITS == 32) {
-+        TCGReg scratch;
-+
-+        tcg_debug_assert(ts->type == TCG_TYPE_I128);
-+        tcg_debug_assert(ts->val_type == TEMP_VAL_MEM);
-+        tcg_debug_assert(ts->mem_allocated);
-+
-+        scratch = tcg_reg_alloc(s, tcg_target_available_regs[TCG_TYPE_I32],
-+                                allocated_regs, 0, false);
-+
-+        for (; slot < 4; slot++) {
-+            tcg_out_ld(s, TCG_TYPE_I32, scratch,
-+                       ts->mem_base->reg, ts->mem_offset + slot * 4);
-+            tcg_out_st(s, TCG_TYPE_I32, scratch,
-+                       TCG_REG_CALL_STACK, stk_off + slot * 4);
-+        }
-+    } else {
-+        tcg_debug_assert(ts->base_type == TCG_TYPE_I128);
-+        tcg_debug_assert(ts->temp_subindex == 0);
-+
-+        for (; slot < 2; slot++) {
-+            temp_load(s, &ts[slot], tcg_target_available_regs[TCG_TYPE_I64],
-+                      allocated_regs, 0);
-+            tcg_out_st(s, TCG_TYPE_I64, ts[slot].reg,
-+                       TCG_REG_CALL_STACK, stk_off + slot * 8);
-+        }
-+    }
-+}
-+
- static void load_arg_normal_1(TCGContext *s, const TCGCallArgumentLoc *loc,
-                               TCGTemp *ts, TCGRegSet *allocated_regs)
- {
-@@ -4344,6 +4430,24 @@ static void load_arg_normal_1(TCGContext *s, const TCGCallArgumentLoc *loc,
-     tcg_regset_set_reg(*allocated_regs, reg);
- }
- 
-+static void load_arg_normal_4(TCGContext *s, const TCGCallArgumentLoc *loc,
-+                              TCGTemp *ts, TCGRegSet *allocated_regs)
-+{
-+    int reg_n = loc->reg_n;
-+
-+    if (reg_n != 4) {
-+        copy_to_stk_i128(s, loc->stk_slot, ts, reg_n, *allocated_regs);
-+    }
-+
-+    for (reg_n--; reg_n >= 0; reg_n--) {
-+        TCGReg reg = tcg_target_call_iarg_regs[loc->reg_slot + reg_n];
-+
-+        tcg_out_ld(s, TCG_TYPE_I32, reg,
-+                   ts->mem_base->reg, ts->mem_offset + reg_n * 4);
++    if (loc->reg_n) {
++        reg = tcg_target_call_iarg_regs[loc->reg_slot];
++        tcg_out_addi_ptr(s, reg, ref_base, ref_off);
 +        tcg_regset_set_reg(*allocated_regs, reg);
++    } else {
++        int stk_off = TCG_TARGET_CALL_STACK_OFFSET
++                    + loc->stk_slot * sizeof(tcg_target_long);
++
++        reg = tcg_reg_alloc(s, tcg_target_available_regs[TCG_TYPE_PTR],
++                            *allocated_regs, 0, false);
++        tcg_out_addi_ptr(s, reg, ref_base, ref_off);
++        tcg_out_st(s, TCG_TYPE_PTR, reg, TCG_REG_CALL_STACK, stk_off);
 +    }
 +}
 +
  static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
  {
      const int nb_oargs = TCGOP_CALLO(op);
-@@ -4367,6 +4471,9 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
-         case TCG_CALL_ARG_EXTEND_S:
-             load_arg_normal_1(s, loc, ts, &allocated_regs);
+@@ -4473,6 +4543,19 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
+     TCGRegSet allocated_regs = s->reserved_regs;
+     int i;
+ 
++    /*
++     * The callee is allowed to clobber memory associated with
++     * structure pass by-reference.  Therefore we must make copies.
++     * Do this first, before we start allocating argument regs.
++     */
++    for (i = 0; i < nb_iargs; ++i) {
++        const TCGCallArgumentLoc *loc = &info->in[i];
++        if (loc->kind == TCG_CALL_ARG_BY_REF) {
++            TCGTemp *ts = arg_temp(op->args[nb_oargs + i]);
++            copy_to_stk_i128(s, loc->ref_slot, ts, 0, allocated_regs);
++        }
++    }
++
+     /*
+      * Move inputs into place in reverse order,
+      * so that we place stacked arguments first.
+@@ -4490,6 +4573,15 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
+         case TCG_CALL_ARG_NORMAL_4:
+             load_arg_normal_4(s, loc, ts, &allocated_regs);
              break;
-+        case TCG_CALL_ARG_NORMAL_4:
-+            load_arg_normal_4(s, loc, ts, &allocated_regs);
++        case TCG_CALL_ARG_BY_REF:
++            load_arg_by_ref(s, loc, TCG_REG_CALL_STACK,
++                            TCG_TARGET_CALL_STACK_OFFSET +
++                            loc->ref_slot * sizeof(tcg_target_long),
++                            &allocated_regs);
++            break;
++        case TCG_CALL_ARG_BY_REF_2:
++            /* nothing to do */
 +            break;
          default:
              g_assert_not_reached();
          }
-@@ -4420,6 +4527,24 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
-             s->reg_to_temp[reg] = ts;
+@@ -4521,6 +4613,26 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
+         save_globals(s, allocated_regs);
+     }
+ 
++    /*
++     * If the ABI passes a pointer to the returned struct as the first
++     * argument, load that now.  Pass a pointer to the output home slot.
++     */
++    if (info->out_kind == TCG_CALL_RET_BY_REF) {
++        static const TCGCallArgumentLoc ret_loc = {
++            .reg_n = ARRAY_SIZE(tcg_target_call_iarg_regs) != 0
++        };
++        TCGTemp *ts = arg_temp(op->args[0]);
++
++        tcg_debug_assert(ts->base_type == TCG_TYPE_I128);
++        tcg_debug_assert(ts->temp_subindex == 0);
++
++        if (!ts->mem_allocated) {
++            temp_allocate_frame(s, ts);
++        }
++        load_arg_by_ref(s, &ret_loc, ts->mem_base->reg, ts->mem_offset,
++                        &allocated_regs);
++    }
++
+     tcg_out_call(s, tcg_call_func(op), info);
+ 
+     /* Assign output registers and emit moves if needed.  */
+@@ -4561,6 +4673,14 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
          }
          break;
-+
-+    case TCG_CALL_RET_NORMAL_4:
-+        tcg_debug_assert(TCG_TARGET_REG_BITS == 32);
-+        {
-+            TCGTemp *ts = arg_temp(op->args[0]);
-+
-+            tcg_debug_assert(ts->type == TCG_TYPE_I128);
-+            if (!ts->mem_allocated) {
-+                temp_allocate_frame(s, ts);
-+            }
-+            for (i = 0; i < 4; i++) {
-+                tcg_out_st(s, TCG_TYPE_I32, tcg_target_call_oarg_regs[i],
-+                           ts->mem_base->reg, ts->mem_offset + i * 4);
-+            }
+ 
++    case TCG_CALL_RET_BY_REF:
++        /* The callee has performed a write through the reference. */
++        for (i = 0; i < nb_oargs; i++) {
++            TCGTemp *ts = arg_temp(op->args[i]);
 +            ts->val_type = TEMP_VAL_MEM;
 +        }
 +        break;
