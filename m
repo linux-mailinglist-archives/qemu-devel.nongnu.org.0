@@ -2,87 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 904AC605F7E
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 13:57:25 +0200 (CEST)
-Received: from localhost ([::1]:60000 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D1D1605FEA
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 14:15:54 +0200 (CEST)
+Received: from localhost ([::1]:53344 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olUAT-00073r-S5
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 07:57:06 -0400
+	id 1olUSl-0003qe-TZ
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 08:15:52 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olTrF-0002MQ-U2
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 07:37:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41972)
+	id 1olU12-0002GT-2o
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 07:47:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olTEm-0006js-Pi
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 06:57:22 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:37431)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olTEl-0008UL-3y
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 06:57:20 -0400
-Received: by mail-wr1-x430.google.com with SMTP id bv10so33685541wrb.4
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 03:57:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=EF8OjhrYu/hVyDOPfsX0RBb0o+HBEomyd0T1PfIj4C8=;
- b=dUlOA9nFarJEaFBQwuaVbLRWfEdgIWbEVgqDAii3cPSYmuMOooXTrC0p/NV6CoJArj
- zB6oNascpOJxW3g7LOX4shucKDHosJRoU5CVACayXBUmiDOl/KL1ZxG6/G7EBGzqn3pi
- qScxes0a1ikdmqE7x57CGZ53XXpteAM2FCX4ii3+EbmN/LJ3gXmKxuvFkaApE7D6RKgJ
- yASPzHuHeL8fTEUOrFFHkKnjRMTQKVvtFnpc6y3/HuiTQCd2wC0L7zf9WPmk9v8WMO0L
- 5SWBb1pHRAT3+fVt9P1gfLWZzSmoYm4br+hhANNKe5UEoCrmUbc10/DaNpPxNLKLDjwh
- qJjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EF8OjhrYu/hVyDOPfsX0RBb0o+HBEomyd0T1PfIj4C8=;
- b=BJTs2nk1gox/AcmQeYlpfUJvw/OyCgeUdQKhTebVcRts0aUuq+FrUJijy5If/yq6FT
- BaZFYSyqIZP39F3GF/35WjU2sGvOOuaslc+zweP9dpE4lzL5CM7RWxLQvWti+bWi9Vu6
- w9yo701weLC9c14lzL+bEiW35YSSe07QOr/e0EXhG31ctPRnb0R5NSP8tKFLgP7T62LA
- honY0Mx/PYTB1E0zdkJWrono1BZ/Td1L0OB5lbkUSRHEdMtlW2sAo5awcEolitTo0aGi
- CLTNaJHVw6CsiMne6Ycl9U6aLFK9QCytQSi9IEoPn4qj4vzUG3aoh4rr9Dqy/8fVtIMl
- VcnA==
-X-Gm-Message-State: ACrzQf3tDEOZ359PknfX8czdi9Df9Kce/D7v/amo2m1eNkLTldFDH1ow
- Au4k6rwfd2X5R0UFkhJNrY5JcA==
-X-Google-Smtp-Source: AMsMyM5lSKq2vjeI0IHbuM/27Md4n4BJum8UMPo3W0HrsvaqKLkOOgIE9D40fWsiSaNa+I1+3OAh2w==
-X-Received: by 2002:a05:6000:1683:b0:230:d0b5:72c9 with SMTP id
- y3-20020a056000168300b00230d0b572c9mr8662141wrd.336.1666263437304; 
- Thu, 20 Oct 2022 03:57:17 -0700 (PDT)
-Received: from [10.50.0.10]
- (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
- by smtp.gmail.com with ESMTPSA id
- o13-20020adfe80d000000b0023580e7a2c4sm1826739wrm.86.2022.10.20.03.57.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Oct 2022 03:57:16 -0700 (PDT)
-Message-ID: <ef5ffebf-1e5c-aaf3-2b6f-87c140858351@linaro.org>
-Date: Thu, 20 Oct 2022 12:57:15 +0200
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1olSt0-0004B9-Fh
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 06:34:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20178)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1olSsz-0001Ja-1d
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 06:34:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666262088;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vBE5nMCvAVr1Mr3dLhXlNIjAdoIHkpEAl2B19ue2xxc=;
+ b=FOCn8+aygYVyLPHgXGMMB0m3D2jHnbsgsDO+VDKmsl9B10bP5gGZNh64bEZqpSPSLhZPu4
+ YCyreIkIZ34X8tUY4AI+sm1v+PekkaC//AsaJH0SMeg/0mHOfnKqJkmBhZxuw2YTDYTPqV
+ xMgRpS0iPwjVHdF6ZgHgaCZd/a2go88=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-499-2OO1UMTGNlCHnUcSKBmfog-1; Thu, 20 Oct 2022 06:34:45 -0400
+X-MC-Unique: 2OO1UMTGNlCHnUcSKBmfog-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 70150811E75;
+ Thu, 20 Oct 2022 10:34:44 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.192.230])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2DF34C15BBC;
+ Thu, 20 Oct 2022 10:34:42 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Zhu Lingshan <lingshan.zhu@intel.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Cindy Lu <lulu@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Si-Wei Liu <si-wei.liu@oracle.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Jason Wang <jasowang@redhat.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>,
+ Laurent Vivier <lvivier@redhat.com>
+Subject: [PATCH 4/7] vdpa: Expose VIRTIO_NET_F_STATUS unconditionally
+Date: Thu, 20 Oct 2022 12:34:26 +0200
+Message-Id: <20221020103429.347525-5-eperezma@redhat.com>
+In-Reply-To: <20221020103429.347525-1-eperezma@redhat.com>
+References: <20221020103429.347525-1-eperezma@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.3.2
-Subject: Re: [PATCH] tests/avocado: raspi2_initrd: Wait for guest shutdown
- message before stopping
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>
-References: <20221020102012.3015662-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221020102012.3015662-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,54 +90,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/10/22 12:20, Peter Maydell wrote:
-> The avocado test
->   tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_raspi2_initrd
-> finishes wiith
+Now that qemu can handle and emulate it if the vdpa backend does not
+support it we can offer it always.
 
-Typo "with"
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
+ net/vhost-vdpa.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> 
->      exec_command(self, 'halt')
->      # Wait for VM to shut down gracefully
->      self.vm.wait()
-> 
-> In theory this should be fine. In practice it runs into two bugs:
-> 
->   * when the test calls self.vm.wait() Avocado closes the socket
->     connection to the guest serial console immediately, so the
->     avocado logs don't have the last part of the guest output:
->     https://gitlab.com/qemu-project/qemu/-/issues/1265
->   * when the socket is closed, a bug in the QEMU socket chardev
->     means that it loses any data that the guest UART has not
->     yet consumed. This means that the guest doesn't always read
->     the full 'halt' command string, so the test intermittently
->     fails with a timeout:
->     https://gitlab.com/qemu-project/qemu/-/issues/1264
-> 
-> Work around both of these by waiting for the guest to print the
-> string that means it has completed the shutdown process.  This fixes
-> a very long standing intermittent failure in this test.
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/636
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   tests/avocado/boot_linux_console.py | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
-> index ca9d09b0d7c..eed4b49e6e4 100644
-> --- a/tests/avocado/boot_linux_console.py
-> +++ b/tests/avocado/boot_linux_console.py
-> @@ -489,7 +489,7 @@ def test_arm_raspi2_initrd(self):
->                                                   'BCM2835')
->           exec_command_and_wait_for_pattern(self, 'cat /proc/iomem',
->                                                   '/soc/cprman@7e101000')
-> -        exec_command(self, 'halt')
-> +        exec_command_and_wait_for_pattern(self, 'halt', 'reboot: System halted')
-
-Yeah :(
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index e7db40b7cd..3374c21b4d 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -554,6 +554,9 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+     if (svq) {
+         /* Add SVQ logging capabilities */
+         s->vhost_vdpa.added_features |= BIT_ULL(VHOST_F_LOG_ALL);
++
++        /* VIRTIO_NET_F_STATUS is mandatory for _F_GUEST_ANNOUNCE. */
++        s->vhost_vdpa.added_features |= BIT_ULL(VIRTIO_NET_F_STATUS);
+     }
+     if (!is_datapath) {
+         s->cvq_cmd_out_buffer = qemu_memalign(qemu_real_host_page_size(),
+-- 
+2.31.1
 
 
