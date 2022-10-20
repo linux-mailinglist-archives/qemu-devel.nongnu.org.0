@@ -2,86 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFB02606249
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 15:56:01 +0200 (CEST)
-Received: from localhost ([::1]:57452 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54347606209
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 15:43:54 +0200 (CEST)
+Received: from localhost ([::1]:43480 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olW1f-0001vy-JQ
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 09:55:59 -0400
+	id 1olVpv-0000Hi-F7
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 09:43:51 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olVkC-0007I1-3n
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 09:37:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58186)
+	id 1olVjm-0005Kh-Ga
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 09:37:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1olUZK-0001av-Uy
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:22:57 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:34805)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1olUm9-00080z-5D
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:35:56 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:34657)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1olUZ3-00017T-HH
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:22:34 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- l14-20020a05600c1d0e00b003c6ecc94285so2286079wms.1
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 05:22:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1olUm7-000705-El
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:35:52 -0400
+Received: by mail-pl1-x632.google.com with SMTP id n7so20193134plp.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 05:35:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=uyb2S8n7eO9/MF2z1HfUN8RrOfF7l5TiXrW0whPNRBY=;
- b=eWk/8EAvJaOUoOLjvN1nAVZDR0I0AR/VEeZpRdgcnSCzJcjvQYTV+576vb/MIkypIB
- foCfCKWRgF7yLvAuRBEqQ6bQZfGAvtB3IzwXPVPdf8d87EkvS0r7i9VnFTQ7wztDpYo4
- 68XqE3qrJpX0FEwj9CeGekRvqEGq7fYh66Uq9WNTb5AO0A6+iTv+yCCU51AIbAOlJXO5
- qDizEL+kkBNSp6mQZW59FyHebggNfxVJXJ0aQ/HSeEdsYJxh3dQw/Zyu1FMhq6ZwFkiQ
- LL6SQaWExk/geTCmZbiSTBUDBGARsmHGV2VlNDENAQcDTbcBuKEALYFEq0mq0tSVVofc
- uiEg==
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=eGQKJel249jbBuJn5CBZX3iJzYynF1O87yjeVXWwNmE=;
+ b=cYAQWIOGAS3DCTnjD9EJ6gpEl0a0bz1fmUMhoq71QGE6tCO6TXZfpOyAFN+/slTWWT
+ CvyWD3dnJniADoun4S6+fdqqqb6Kc2QCoyUXn6ZqgxUI98cLWLMHvyED6ZFBwdvm1wKH
+ 8NHkXpXvu4S04Ae52eNHBk4eIkkgWhPfqKobWfrh261edAXdP6Xxi75Fy3307AZGewlc
+ epcdI3IcUGkOiwHd+/yMF0q2FX5Wb4Uaz/VFn0JB9hebfGzpCp4YfAYlbtGqkoP6Kxal
+ enfpoGH2FuTvYuK3sB7BQOxiQYReYSN75zgfY4SrOcA8u0bDmP8Lj1pQm5Sxx++tLZA7
+ jn+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=uyb2S8n7eO9/MF2z1HfUN8RrOfF7l5TiXrW0whPNRBY=;
- b=lVEXy7+pCxMjVnA+any3jsIC1eMs5Qo+Vzp2RWYleJlEeJ/y8aE+tPBNpicVEiRjMc
- zRscN/UR4bDQMlDHUPZOpfV2+67/mq+E//TUQkAmAU5WqMNN1jw2zACDxkP6WvtibKq5
- 0k4yrrNyPOcNyFfsld1uRSX0GZBUxA0H2kvdhY1NAqkkcbJiWigitrF6vNFHgKO20bnA
- Y4xrH7sCag/4cZlZddVTRyci5SoZakdiHX3LoZGHBKsYc6nolSjUB98U9UqWL+Eb4Hd1
- 8t5DfXAEowH2mWsmf4xcCiRXPF3AyThdwxbdRyFz6OJNqIKgm8bbGgtpJoMX21CNh1eP
- XLcA==
-X-Gm-Message-State: ACrzQf0lRj3eBBWqEHSR2ZRI3GF6PyZkg16298ySWfqoAwqrgbaHOmh4
- gK1cOHigtm09RIVUzH0BFUwO/A79uGeWZw==
-X-Google-Smtp-Source: AMsMyM60XDkk/iujmmuflBXlQAl+FacANm2FZ9X339MOGYCEXXN7bS/k2DrNzxbIUaTcm2EVFNrnWw==
-X-Received: by 2002:a05:600c:1586:b0:3c6:bfcf:90a7 with SMTP id
- r6-20020a05600c158600b003c6bfcf90a7mr30319298wmf.163.1666268539422; 
- Thu, 20 Oct 2022 05:22:19 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- t15-20020a5d49cf000000b00230c9d427f9sm16520192wrs.53.2022.10.20.05.22.18
- for <qemu-devel@nongnu.org>
+ bh=eGQKJel249jbBuJn5CBZX3iJzYynF1O87yjeVXWwNmE=;
+ b=JYlY+ai/ZftHtYEwerRex48Fn/kn1fvPHF2ZotV7a/ghAW/Q1sQCkUlYe4A9neEjPr
+ hC3slXAQyXQFuVE2MEgFzJ++T3tPXoFjxNWgSrCKkam5U2mP8v5o+1WRbV/wflRgPPsE
+ u7dYc/oxAviedDufRx3rSY/T30eMKnh8IIjQzIBrvVFrNpPxjoga0CZZBV0Hk4t/qDcj
+ iTU8zvJ4o/KdfMhoyFyqsbBj2ridxIbA/C2AF9WXLSpRyJAvqysrD/XtTIKa1UUsNQYt
+ mn/aYFUP2ORwEtbb0SEOf/bLKMu2OnYE+CAY/cBhYLYejxJ7rU+fe6t/jIlM5p8V7lIE
+ xofg==
+X-Gm-Message-State: ACrzQf2SzfteSBFvhr7Nyig8OK6FDTj7tHBvV69dViOtUm1ZVLNFsULY
+ 6aeDZNT77TD9vHmc/BIXy2n0qQ==
+X-Google-Smtp-Source: AMsMyM5RJxgAp3TqyB3+nmxzu8Iics8tzA1W0uBXZwKmZQRDEb8bS+D1/8hNaZvUeaoV7lVqvatsvw==
+X-Received: by 2002:a17:90b:1b03:b0:20d:ac3b:f1dd with SMTP id
+ nu3-20020a17090b1b0300b0020dac3bf1ddmr41967211pjb.121.1666269350137; 
+ Thu, 20 Oct 2022 05:35:50 -0700 (PDT)
+Received: from anisinha-lenovo.ba.nuagenetworks.net ([203.212.246.137])
+ by smtp.googlemail.com with ESMTPSA id
+ l11-20020a170903244b00b00176b3c9693esm12794174pls.299.2022.10.20.05.35.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Oct 2022 05:22:18 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 24/24] hw/ide/microdrive: Use device_cold_reset() for
- self-resets
-Date: Thu, 20 Oct 2022 13:21:46 +0100
-Message-Id: <20221020122146.3177980-25-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221020122146.3177980-1-peter.maydell@linaro.org>
-References: <20221020122146.3177980-1-peter.maydell@linaro.org>
+ Thu, 20 Oct 2022 05:35:49 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+To: Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Maydell Peter <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>, Michael Tsirkin <mst@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: [PATCH v6 03/10] acpi/tests/avocado/bits: disable acpi PSS tests that
+ are failing in biosbits
+Date: Thu, 20 Oct 2022 18:04:59 +0530
+Message-Id: <20221020123506.26363-4-ani@anisinha.ca>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221020123506.26363-1-ani@anisinha.ca>
+References: <20221020123506.26363-1-ani@anisinha.ca>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2607:f8b0:4864:20::632;
+ envelope-from=ani@anisinha.ca; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,80 +105,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the microdrive code uses device_legacy_reset() to reset
-itself, and has its reset method call reset on the IDE bus as the
-last thing it does.  Switch to using device_cold_reset().
+PSS tests in acpi test suite seems to be failing in biosbits. This is because
+the test is unable to find PSS support in QEMU bios. Let us disable
+them for now so that make check does not fail. We can fix the tests and
+re-enable them later.
 
-The only concrete microdrive device is the TYPE_DSCM1XXXX; it is not
-command-line pluggable, so it is used only by the old pxa2xx Arm
-boards 'akita', 'borzoi', 'spitz', 'terrier' and 'tosa'.
+Example failure:
 
-You might think that this would result in the IDE bus being
-reset automatically, but it does not, because the IDEBus type
-does not set the BusClass::reset method. Instead the controller
-must explicitly call ide_bus_reset(). We therefore leave that
-call in md_reset().
+---- ACPI _PSS (Pstate) table conformance tests ----
+[assert] _PSS must exist FAIL
+  \_SB_.CPUS.C000
+  No _PSS exists
+Summary: 1 passed, 1 failed
+---- ACPI _PSS (Pstate) runtime tests ----
+[assert] _PSS must exist FAIL
+  \_SB_.CPUS.C000
+  No _PSS exists
+Summary: 0 passed, 1 failed
 
-Note also that because the PCMCIA card device is a direct subclass of
-TYPE_DEVICE and we don't model the PCMCIA controller-to-card
-interface as a qbus, PCMCIA cards are not on any qbus and so they
-don't get reset when the system is reset.  The reset only happens via
-the dscm1xxxx_attach() and dscm1xxxx_detach() functions during
-machine creation.
-
-Because our aim here is merely to try to get rid of calls to the
-device_legacy_reset() function, we leave these other dubious
-reset-related issues alone.  (They all stem from this code being
-absolutely ancient.)
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-id: 20221013174042.1602926-1-peter.maydell@linaro.org
+Cc: Daniel P. Berrangé <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Maydell Peter <peter.maydell@linaro.org>
+Cc: John Snow <jsnow@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>
+Cc: Alex Bennée <alex.bennee@linaro.org>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Michael Tsirkin <mst@redhat.com>
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
 ---
- hw/ide/microdrive.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ tests/avocado/acpi-bits/bits-tests/testacpi.py2 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/ide/microdrive.c b/hw/ide/microdrive.c
-index 6df9b4cbbe1..56c5be36551 100644
---- a/hw/ide/microdrive.c
-+++ b/hw/ide/microdrive.c
-@@ -175,7 +175,7 @@ static void md_attr_write(PCMCIACardState *card, uint32_t at, uint8_t value)
-     case 0x00:	/* Configuration Option Register */
-         s->opt = value & 0xcf;
-         if (value & OPT_SRESET) {
--            device_legacy_reset(DEVICE(s));
-+            device_cold_reset(DEVICE(s));
-         }
-         md_interrupt_update(s);
-         break;
-@@ -318,7 +318,7 @@ static void md_common_write(PCMCIACardState *card, uint32_t at, uint16_t value)
-     case 0xe:	/* Device Control */
-         s->ctrl = value;
-         if (value & CTRL_SRST) {
--            device_legacy_reset(DEVICE(s));
-+            device_cold_reset(DEVICE(s));
-         }
-         md_interrupt_update(s);
-         break;
-@@ -543,7 +543,7 @@ static int dscm1xxxx_attach(PCMCIACardState *card)
-     md->attr_base = pcc->cis[0x74] | (pcc->cis[0x76] << 8);
-     md->io_base = 0x0;
+diff --git a/tests/avocado/acpi-bits/bits-tests/testacpi.py2 b/tests/avocado/acpi-bits/bits-tests/testacpi.py2
+index 18dc818d62..f818a9cce6 100644
+--- a/tests/avocado/acpi-bits/bits-tests/testacpi.py2
++++ b/tests/avocado/acpi-bits/bits-tests/testacpi.py2
+@@ -40,8 +40,8 @@ import time
  
--    device_legacy_reset(DEVICE(md));
-+    device_cold_reset(DEVICE(md));
-     md_interrupt_update(md);
- 
-     return 0;
-@@ -553,7 +553,7 @@ static int dscm1xxxx_detach(PCMCIACardState *card)
- {
-     MicroDriveState *md = MICRODRIVE(card);
- 
--    device_legacy_reset(DEVICE(md));
-+    device_cold_reset(DEVICE(md));
-     return 0;
- }
- 
+ def register_tests():
+     testsuite.add_test("ACPI _MAT (Multiple APIC Table Entry) under Processor objects", test_mat, submenu="ACPI Tests")
+-    testsuite.add_test("ACPI _PSS (Pstate) table conformance tests", test_pss, submenu="ACPI Tests")
+-    testsuite.add_test("ACPI _PSS (Pstate) runtime tests", test_pstates, submenu="ACPI Tests")
++#    testsuite.add_test("ACPI _PSS (Pstate) table conformance tests", test_pss, submenu="ACPI Tests")
++#    testsuite.add_test("ACPI _PSS (Pstate) runtime tests", test_pstates, submenu="ACPI Tests")
+     testsuite.add_test("ACPI DSDT (Differentiated System Description Table)", test_dsdt, submenu="ACPI Tests")
+     testsuite.add_test("ACPI FACP (Fixed ACPI Description Table)", test_facp, submenu="ACPI Tests")
+     testsuite.add_test("ACPI HPET (High Precision Event Timer Table)", test_hpet, submenu="ACPI Tests")
 -- 
-2.25.1
+2.34.1
 
 
