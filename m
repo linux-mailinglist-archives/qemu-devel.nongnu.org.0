@@ -2,91 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55FEB6065AF
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 18:22:00 +0200 (CEST)
-Received: from localhost ([::1]:41864 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49C67606730
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 19:40:39 +0200 (CEST)
+Received: from localhost ([::1]:51546 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olYIv-0000dA-6M
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:21:58 -0400
+	id 1olZGz-0000Z0-2H
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:24:01 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olY4L-00078O-UF
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:06:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59692)
+	id 1olYnQ-0006oV-4K
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 12:53:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1olUDP-0000bT-7s
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:00:19 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:39835)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1olUK9-0001Yy-PR
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:07:06 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:42715)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1olUDL-00050K-0m
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:59:57 -0400
-Received: by mail-wr1-x433.google.com with SMTP id f11so34013404wrm.6
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 04:59:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1olUK5-0006Ui-Rt
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:06:57 -0400
+Received: by mail-pf1-x435.google.com with SMTP id i3so20052604pfk.9
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 05:06:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=m7sr6GL5lJZB4yWjZF5gxqBspzZ6Uelo42T5ViAMf8s=;
- b=fYp5WT/AkF5xJsmgCzENpVosfUTaVkm84oDXMMAnSgCM1cyVGw8+CMfF6SdZf/asWB
- fer1rU1YZtzr5/T6A0j+GsFIDXkWyTSglf/rQ3iq+vvDRqTNdsF1iaNeqqQPJ3TppxN0
- R7olrWwPFtnuImSym3908hNkSmeNMugioLPw2AngBw5mj6A5zZxSnAVxKFHQKv7HchIS
- YCNDs9XmAM+DYFE5FPZ5CwqNIIvBAeyRdjnMnJzv9WTNweCGzUb/rPw+aMIv2ftddmjk
- KwXcFxAld/F66hgbvZecAq6FKWQIti6QdnoNXz9FgZ2+UuYRS1kTcbmPt58ph8dngpgu
- uATA==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=rKuSigNuMkbE92QOQoq7OJxD5u0jCtmY/qcnH45fJis=;
+ b=itd0NZjM1bvjdSgo7Em1x1IL1WQZap2loSkezf6/ZjU3cMP3bwlakGuxu7llhMzIcf
+ TNM9KPP1xbzBvq/dZdhqhLvuYwwRHarQNw9O4ai8yRVk67iR/YowlqrCBcFbdlILvyO2
+ FwvyqIOJ4yQ4hbusjzBrevPtq9/IdcvD6l6gAsZj0BNl9Hw6e5BrS/NESQgK8tOiu+2e
+ z/QrLgZVzo01iI4uAsPqGJQZ+UNaeFmqBNJz0Q4gVRWSPsMTuRQkQSaYAuAssB8yCiau
+ 2k9oPI5WCfEUXTeYcPMBnRDdUaPn6j4SVFVF5W/kXJ/GM9rEdLzHQUj4B24sLPRZO2/R
+ 2Ymg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=m7sr6GL5lJZB4yWjZF5gxqBspzZ6Uelo42T5ViAMf8s=;
- b=B5RzRw7lZFbqb3Vj9GEE/NCOWQx/Va62KLNMCUEC68Sc+FuPgpX7Brw5CVrSOen7qr
- qMSoSmGiqrH3Mi3qPJ8gcTRyH4EFxdpWzWGFhJQ5LrtjtX0QpEZOhYpJ5R6M3dWUoe8r
- bpuF417ZnLCFTK03/XC42HsGNwBmj1/uTsxE2+vPMFxdS0aoOWKhspKZwTGxrwjmrA/A
- PptdeofaWtl68IAeQAVv4xoBgNmqIH0YMFNYtiSNqTvNbgXmaznzqESef6YzGuQBVUVp
- 2AWltrIpxi5kcdGEQQsE6PjIifw/fkTD6d1mz+hG3abqTM/4oi3r/9IsD4GzXXb4HDYS
- wkbQ==
-X-Gm-Message-State: ACrzQf3px4gZViYbTggsrTFSEOuFF4tCzyMz9yQnBOpA96LPPT0sQ2CK
- V/WlA6cSB3SIifimtMeP6JEJOg==
-X-Google-Smtp-Source: AMsMyM5inNCIaDi2i/YqZgZBRcEdPMysYU/3iQ9Mq6hLKjt6B/dfvwrKdUQLIDYJR8TvC76vvqtkqg==
-X-Received: by 2002:a05:6000:1c5:b0:22e:3c0b:5c8 with SMTP id
- t5-20020a05600001c500b0022e3c0b05c8mr8211291wrx.622.1666267193217; 
- Thu, 20 Oct 2022 04:59:53 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=rKuSigNuMkbE92QOQoq7OJxD5u0jCtmY/qcnH45fJis=;
+ b=PAFm5BdaNuXDCJ3AyTSw7Crtod0OhbJwVsUmdfGW7lz43Y9hlwG4UkvqOxMk3aKjMb
+ HwQlccJG1qKwXAP9tqct5urBSDwEkB/ViNPzvsKTkTShoIOLS3tGpFpUA7D/hTi/4nOl
+ ihuDhIy2qAOYIk2uBc9MZ7RCmW4AbFv/fOiNXRnX7tc1r1h7kXlQYq+78AoJvwi0qHfj
+ YCDCpsqcaMVD8Wy4ShUx14iYZLNlcvvSJhKzeBX4hGFitegS7L50HYLeLmp7GAoRNP7Z
+ Cumd6nikedu6Zj500zPHVNTO2byqVxJpSELFWj/HmUrJjroRklT78jo1hy9f/8AVb2Ps
+ A7KQ==
+X-Gm-Message-State: ACrzQf1gQk/pZXAcXpDTlBidlmyPcpeDRyNuQ+JS64UwpqFOmbeoxQNK
+ xNPYk03EJPWkyKbqskRiIUjC0yvGxqoZrOWm
+X-Google-Smtp-Source: AMsMyM4w/3s4k4jeCoq2giL3XFNdjh5ioD1PzCRIuk6linX/TSnYhL7cGUyI0p1N4xRqMlSFhMUOEQ==
+X-Received: by 2002:a63:1450:0:b0:439:3806:9b91 with SMTP id
+ 16-20020a631450000000b0043938069b91mr11448567pgu.407.1666267612271; 
+ Thu, 20 Oct 2022 05:06:52 -0700 (PDT)
+Received: from [192.168.1.107] ([149.135.10.35])
  by smtp.gmail.com with ESMTPSA id
- m17-20020a7bca51000000b003c6237e867esm2711807wml.0.2022.10.20.04.59.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Oct 2022 04:59:51 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 18E531FFCC;
- Thu, 20 Oct 2022 12:52:12 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
- pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>
-Subject: [PATCH  v3 22/26] tests/tcg: re-enable threadcount for sh4
-Date: Thu, 20 Oct 2022 12:52:05 +0100
-Message-Id: <20221020115209.1761864-23-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221020115209.1761864-1-alex.bennee@linaro.org>
-References: <20221020115209.1761864-1-alex.bennee@linaro.org>
+ a15-20020a170902710f00b0017f8290fcc0sm12462830pll.252.2022.10.20.05.06.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Oct 2022 05:06:51 -0700 (PDT)
+Message-ID: <25874b9c-d8b5-8b6a-d9a5-2a261ecacb74@linaro.org>
+Date: Thu, 20 Oct 2022 22:06:42 +1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v3 24/26] target/s390x: don't probe next pc for EXecuted
+ insns
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
+ aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
+ crosa@redhat.com, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>
+References: <20221020115209.1761864-1-alex.bennee@linaro.org>
+ <20221020115209.1761864-25-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221020115209.1761864-25-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,31 +105,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test was marked as broken due to bug #856 which was fixed by
-ab419fd8a0 (target/sh4: Fix TB_FLAG_UNALIGN). Local testing shows this
-is solid now so lets re-enable the test.
+On 10/20/22 21:52, Alex Bennée wrote:
+> We have finished the TB anyway so we can shortcut the other tests by
+> checking dc->ex_value first.
+> 
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> ---
+>   target/s390x/tcg/translate.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
----
- tests/tcg/sh4/Makefile.target | 6 ------
- 1 file changed, 6 deletions(-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/tests/tcg/sh4/Makefile.target b/tests/tcg/sh4/Makefile.target
-index 32b019bdf1..47c39a44b6 100644
---- a/tests/tcg/sh4/Makefile.target
-+++ b/tests/tcg/sh4/Makefile.target
-@@ -12,9 +12,3 @@ run-signals: signals
- 	$(call skip-test, $<, "BROKEN")
- run-plugin-signals-with-%:
- 	$(call skip-test, $<, "BROKEN")
--
--# This test is currently unreliable: https://gitlab.com/qemu-project/qemu/-/issues/856
--run-threadcount:
--	$(call skip-test, $<, "BROKEN")
--run-plugin-threadcount-with-%:
--	$(call skip-test, $<, "BROKEN")
--- 
-2.34.1
-
+r~
 
