@@ -2,81 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE6D8606727
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 19:38:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F1D2606736
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 19:44:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olZV9-0001zd-BG
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:38:40 -0400
+	id 1olZaR-0002lg-CX
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:44:09 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olZV7-0002KR-Ov
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:38:37 -0400
+	id 1olZaJ-0004Cd-T2
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 13:43:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=p68v=2V=zx2c4.com=Jason@kernel.org>)
- id 1olZUs-0000Po-SU
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 13:38:23 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=p68v=2V=zx2c4.com=Jason@kernel.org>)
- id 1olZUp-0008Jx-8X
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 13:38:22 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E640561B4B
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 17:38:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2359FC433C1
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 17:38:14 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="HUP5qSnM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1666287492;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mfqiLaJxRTM3Wv+HxLZJZIvcvIee16bx4CsWtfDr14I=;
- b=HUP5qSnM8HY71r5OkMypY9Ei/CqTZWbKsHlwa5LC6OTycAMGCjMsIqiYNuhxOwAXkpqeT8
- DKdwxlimwOqpsHm78mr7mcOyrkHXLw94jV3sFb+rfXBuDc7LMO11xlSUojA0ug65a/7bNW
- XCXjNnBQ8PySyyiID00Q+tnJNt9apDk=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 43d12593
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Thu, 20 Oct 2022 17:38:12 +0000 (UTC)
-Received: by mail-ua1-f51.google.com with SMTP id i20so81778ual.4
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 10:38:12 -0700 (PDT)
-X-Gm-Message-State: ACrzQf3u/Z3zNG6mJ7VDDuGicMzl3J1m9wZ4h1QGHxz7qoHpzZ40ZnhQ
- eBxcUUio+Mn8ZemZ+U8ktBgmYEpHiBxTnCjZnVw=
-X-Google-Smtp-Source: AMsMyM7pBbJpAUqaT9R2iqoEIj8Adu2oAH4Azy9Arr9Pp39QoFPSaFggi3mjFw9wtdxP8W31pO8ScRwvjIofEyMWa0Q=
-X-Received: by 2002:ab0:78d:0:b0:3da:ecc4:bdc6 with SMTP id
- c13-20020ab0078d000000b003daecc4bdc6mr8863637uaf.27.1666287491852; Thu, 20
- Oct 2022 10:38:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1olZa6-0002Yq-Or
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 13:43:46 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1olZa5-0005pE-6V
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 13:43:46 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ fn7-20020a05600c688700b003b4fb113b86so233197wmb.0
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 10:43:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5mcrTPtG+Hnug4mYT11Dbe6wqhC5jV24Oopg/d1mpTY=;
+ b=C98pw7XDTI2fQzwp2qfHXFMdQj9csoiCJLdOnqxUktfzC2aq2cyqKHkSSaQcvbo/ky
+ tPLUI69kSWfOXGr/89h3rb6O3A0VttpOWOjgtnHWFimiAhkUvrWUPv+PlkBE6Nw/U7+o
+ J9SfOE3DNLyQHAQAHiZ0aFlmuvgBJV8XtAL9mrMjNrbE/YDpU601VIZ0HE8Ivm3eMdvT
+ cx3PDzxbehiZkz0+jSpigw8+3jjcBKwWDHHMU+rqatgdkpAHbgMCHoC8VZVomgDTLsen
+ RnSMCvUA0vHye+q4r+axKikG/bkCwvV03h8tCJQ+7DRl/wiw/uHfBsh5E2ij3sjFusox
+ zK1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=5mcrTPtG+Hnug4mYT11Dbe6wqhC5jV24Oopg/d1mpTY=;
+ b=wOAX9e2cZG3GJ6caqQYKrk850x31uZhIny7jl/EMZ7Ik2gSSFrdMgwSDnXhbQrR9zI
+ xyURQIfj3447LeU2MRJ/ZlG4frvfRCEtVfzQLqfkbni6kAIKF8wkP8K5+UYZErZKsnUi
+ 8iLruWAj57sjYL/UINHHBfBq0WqT1NStNdJUhFhnLQQm5skiCK+IvLHBUvwPzZxiOc2H
+ yKtaHGRH5UXzrzB/lqmDGeIy3nqnDrjUeu87hwOvmd5j22Fr9Zu6UFb+VXogiCl4qR1Y
+ /baTvMF8K+qnmR7CSKhnq2x5b5ggUUQzU9JyHbW6inHmMNpJPYLJOyu5CT9FjKuFk+Gn
+ tncA==
+X-Gm-Message-State: ACrzQf3oNSn02JpaJ3G9xzeRBLOiVO5orXNEwNKXCdxDKKvCLejUPRBc
+ SOQf7oLY807TQyfYGdiW1VVoiQ==
+X-Google-Smtp-Source: AMsMyM4Bt8eOreBJGBGl2yab68y89mE7BiQ9gSJRYIhF29s95z7gMfP+/PrhiSkMP4BGNzZnUDNt8g==
+X-Received: by 2002:a05:600c:220a:b0:3c5:df6:2f3b with SMTP id
+ z10-20020a05600c220a00b003c50df62f3bmr30189914wml.63.1666287822570; 
+ Thu, 20 Oct 2022 10:43:42 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ r6-20020a05600c458600b003b47e8a5d22sm445391wmo.23.2022.10.20.10.43.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Oct 2022 10:43:42 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A40621FFB7;
+ Thu, 20 Oct 2022 18:43:41 +0100 (BST)
+References: <20221020123506.26363-1-ani@anisinha.ca>
+ <20221020123506.26363-6-ani@anisinha.ca>
+User-agent: mu4e 1.9.1; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Ani Sinha <ani@anisinha.ca>
+Cc: Cleber Rosa <crosa@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?=
+ <berrange@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Maydell Peter
+ <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>, Thomas Huth
+ <thuth@redhat.com>, Igor Mammedov <imammedo@redhat.com>, Michael Tsirkin
+ <mst@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v6 05/10] acpi/tests/avocado/bits: add SPDX license
+ identifiers for bios bits smilatency tests
+Date: Thu, 20 Oct 2022 18:43:36 +0100
+In-reply-to: <20221020123506.26363-6-ani@anisinha.ca>
+Message-ID: <87wn8u75ma.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20221014021653.1461512-1-Jason@zx2c4.com>
-In-Reply-To: <20221014021653.1461512-1-Jason@zx2c4.com>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Thu, 20 Oct 2022 11:38:00 -0600
-X-Gmail-Original-Message-ID: <CAHmME9ogKZEvw06dOPfQjAiSyPHAPednEA9Qh_urZhBAGd2bkw@mail.gmail.com>
-Message-ID: <CAHmME9ogKZEvw06dOPfQjAiSyPHAPednEA9Qh_urZhBAGd2bkw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/8] rerandomize RNG seeds on reboot and handle
- record&replay
-To: peter.maydell@linaro.org, pbonzini@redhat.com, qemu-devel@nongnu.org, 
- richard.henderson@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=139.178.84.217;
- envelope-from=SRS0=p68v=2V=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,10 +108,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hey Peter,
 
-Could you queue this up again like last time?
+Ani Sinha <ani@anisinha.ca> writes:
 
-Thanks,
-Jason
+> Added the SPDX license identifier for smilatency tests.
+> Also added a comment indicating that smilatency test is run from within t=
+he
+> biosbits environment/VM and hence is not subjected to QEMU build/test
+> environment dependency fulfilments or QEMU maintanance activities.
+>
+> Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Maydell Peter <peter.maydell@linaro.org>
+> Cc: John Snow <jsnow@redhat.com>
+> Cc: Thomas Huth <thuth@redhat.com>
+> Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: Michael Tsirkin <mst@redhat.com>
+> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
