@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5A6C6063EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 17:14:00 +0200 (CEST)
-Received: from localhost ([::1]:60400 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C61C36063E2
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 17:10:30 +0200 (CEST)
+Received: from localhost ([::1]:48822 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olXF9-0006Mm-17
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 11:13:59 -0400
+	id 1olXBY-0000tg-7G
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 11:10:18 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olWvT-0001jk-Dy
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:53:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40270)
+	id 1olXB6-0002bT-VL
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 11:09:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1olUmS-0008D6-Ey
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1olUmO-0008BS-Fw
  for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:36:22 -0400
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:34326)
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:37557)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1olUmQ-000785-VZ
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:36:12 -0400
-Received: by mail-oi1-x22d.google.com with SMTP id y67so274185oiy.1
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 05:36:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1olUmL-00072K-Rh
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:36:07 -0400
+Received: by mail-pg1-x536.google.com with SMTP id bh13so19090322pgb.4
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 05:36:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dyu7QZZcn9Q1/zGtjEBOGs4FcuSFU9uCRS/DX2QmpGI=;
- b=cmuU8OH0DMpGS1g/z2Q776xxGtGZu6tpAnZK1fCXu8M01LUtdPywQ3wvalYyfZaknG
- /L2lwvPkZkNUzjt98nHL2cKxGw3bfM40lOkM6rG6ZeMig5ai6Hd589+shc5fdg4MFzLj
- QOJn9QIPu3HaxNp159zUGvJ+qfI2OAgp4eTtkTN3eqsZmZTq2arrWwuQ41hVXRExbkx7
- 7OjxKbzBYsJQUzpcNMt57JDJGq+qyiFWjd/6mGCoE1UH7KhZiBy9D/EvgbXT7D7lDpaO
- Wfq4dHTyEAdflo5CPT+SXJS94/dqt4glcNRNAn5AGMp3bX50C/KH5/kRVd9QEwIXvMg8
- Eqyg==
+ bh=jEk7FxdszojxPPvnT3ShmomJx+A87ZwEhsEjJZPdWVk=;
+ b=E1aoPCPqbEsTqiPDorJoGZQjJSLWSQY5ZD5/3aPrPCA7vuuCxQl07p7QZ+UBAULOx2
+ BzWyoD8hifghkiYFIqvFZIUZbLehnD+ByuAyCACy0EQXdOP37q76qX3jV8LtO9RhvXsh
+ +YjQzPJWViXOHJAIQXG/2GXesbT4Uc5dBYK2s4MgLNtIa1dYioHIzH1J/NYzQaQ3PAnS
+ 0Gea9caiPAR+XrjSstvNHzk7/KfAWb2u1KT8B8+17YWp0c/F+LDIQfQdArMgEaUHLwZ+
+ Ucqcp0TU+GbaD5vPiHWIGX0OfBr68L+gb2gebz8Rs1mxthb986nX6VuAePv/nAH0NTJf
+ Z0gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=dyu7QZZcn9Q1/zGtjEBOGs4FcuSFU9uCRS/DX2QmpGI=;
- b=E9Mn/L4PLrZ32VXYnbkLgahudIVmCfaDJERAeXxXIkT+acbthGhlO2ouUDvL4Vtdng
- ljBSJ5I6rAfNcC/QQ5DAXEZ+5FWf/6+hnGSsCbS1d2+EHMjBrpqr8B4ZhPj6GtQc3KBn
- 13Q3LAFyG6YsrnLi5ucnbZs9p5Rwo5XhrdqMmJGQsp7x6xs/V9WWh//jssTJgql3tgpA
- F1wfw9T6iAsbAY7K5CrhVs+X+i6WxhjP3Ss7TOvRItcmtOLTA2eEpbdLps4iigkf4s5L
- 8nFmURSeoZ0Wgg3JInjoIn1neCeAT7T6lzoQ2SBT60EJ6zomeiz6RrLi2HEE8Ii/0QC8
- 8XmQ==
-X-Gm-Message-State: ACrzQf3kbMlv0l22h7q/rdILwNNjiKcYrJ2XWBPzj53kuDMk8aKEAqzP
- OkghY0w8OXHLMNUhj+zz0wccyqmdBLszvh/E
-X-Google-Smtp-Source: AMsMyM6L2Pxeqq+J4MYMk7pKurIVI8vnkciLwinPxzcUTFsRNbMgT9HPcwtb5LhxFOAJ7NAHt91gMA==
-X-Received: by 2002:a17:90b:4a11:b0:20d:382d:3994 with SMTP id
- kk17-20020a17090b4a1100b0020d382d3994mr15462424pjb.173.1666269359512; 
- Thu, 20 Oct 2022 05:35:59 -0700 (PDT)
+ bh=jEk7FxdszojxPPvnT3ShmomJx+A87ZwEhsEjJZPdWVk=;
+ b=pc4xIwOCwqM8XKqgOmUTp6l+gmB8MaTO8VU1o1bpVzkkBemZbgP+uwXuUMbg2wk9Ys
+ KyBmi88KJaKFZleCAFfgLne+NjcVOkgMRapmuZvoW2vKiubhh+KeU0dIrKeZ6tN8i2Ve
+ kkNVZA2VV0W4hMKYiMyNNJBucMsxQaRkyCibcuNYWLSqPe7XyzbsSPzNqh9nYzP4tWB7
+ LFuerKUTtydiV1uDODDDoWxjIEyopJZJ725xGrFoFbRT3LwSzD6biY7OOXQeohIFdoVx
+ Ph7EL7GcBWTk7KDlLSd7dcYOn8PaC7tjWu6Z0u+VxR0S9WFf2L4ixQblvp5zm+iKPVdX
+ MxRw==
+X-Gm-Message-State: ACrzQf2OUyo4Kpkn7Siaq1oYsJzE4i0RMHJGHIbhDD+SOLxULpRNLkY+
+ pNfqwXVWV6NMXtx1EQf+/MB5yQ==
+X-Google-Smtp-Source: AMsMyM7tMGTh2Be4Ri5LiwZIPVSOG5vC0r54pQIlO+5vn8aqwHrxkgL1S8e3sGlzOz4W10ezu1ckyw==
+X-Received: by 2002:a63:3155:0:b0:45a:553a:3479 with SMTP id
+ x82-20020a633155000000b0045a553a3479mr11560856pgx.408.1666269364242; 
+ Thu, 20 Oct 2022 05:36:04 -0700 (PDT)
 Received: from anisinha-lenovo.ba.nuagenetworks.net ([203.212.246.137])
  by smtp.googlemail.com with ESMTPSA id
- l11-20020a170903244b00b00176b3c9693esm12794174pls.299.2022.10.20.05.35.55
+ l11-20020a170903244b00b00176b3c9693esm12794174pls.299.2022.10.20.05.35.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Oct 2022 05:35:59 -0700 (PDT)
+ Thu, 20 Oct 2022 05:36:03 -0700 (PDT)
 From: Ani Sinha <ani@anisinha.ca>
 To: Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
@@ -72,18 +72,18 @@ Cc: Ani Sinha <ani@anisinha.ca>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Igor Mammedov <imammedo@redhat.com>, Michael Tsirkin <mst@redhat.com>,
  qemu-devel@nongnu.org
-Subject: [PATCH v6 05/10] acpi/tests/avocado/bits: add SPDX license
- identifiers for bios bits smilatency tests
-Date: Thu, 20 Oct 2022 18:05:01 +0530
-Message-Id: <20221020123506.26363-6-ani@anisinha.ca>
+Subject: [PATCH v6 06/10] acpi/tests/avocado/bits: disable smilatency test
+ since it does not pass everytime
+Date: Thu, 20 Oct 2022 18:05:02 +0530
+Message-Id: <20221020123506.26363-7-ani@anisinha.ca>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221020123506.26363-1-ani@anisinha.ca>
 References: <20221020123506.26363-1-ani@anisinha.ca>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::22d;
- envelope-from=ani@anisinha.ca; helo=mail-oi1-x22d.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::536;
+ envelope-from=ani@anisinha.ca; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -105,10 +105,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added the SPDX license identifier for smilatency tests.
-Also added a comment indicating that smilatency test is run from within the
-biosbits environment/VM and hence is not subjected to QEMU build/test
-environment dependency fulfilments or QEMU maintanance activities.
+smilatency test is latency sensitive and does not pass deterministically when
+run in QEMU environment under biosbits. Disable the test suite for now.
+
+Example failure:
+
+==== SMI latency test ====
+Warning: touching the keyboard can affect the results of this test.
+Starting test. Wait here, I will be back in 15 seconds.
+[assert] SMI latency < 150us to minimize risk of OS timeouts FAIL
+  1us   < t <=  10us; average = 1372ns; count = 10912449
+   Times between first few observations:  176us 1646ns 1441ns 1450ns 1462ns
+  10us  < t <= 100us; average = 16us; count = 1187
+   Times between first few observations:   15ms 3148us 5856us   49ms   33ms
+  100us < t <=   1ms; average = 259us; count = 8
+   Times between first few observations:  111ms 2227ms 1779ms  999ms  219ms
+  0 SMI detected using MSR_SMI_COUNT (MSR 0x34)
+  Summary of impact: observed maximum latency = 298us
+Summary: 0 passed, 1 failed
 
 Cc: Daniel P. Berrangé <berrange@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
@@ -120,31 +134,25 @@ Cc: Igor Mammedov <imammedo@redhat.com>
 Cc: Michael Tsirkin <mst@redhat.com>
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
 ---
- tests/avocado/acpi-bits/bits-tests/smilatency.py2 | 4 ++++
- 1 file changed, 4 insertions(+)
+ tests/avocado/acpi-bits/bits-tests/smilatency.py2 | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/tests/avocado/acpi-bits/bits-tests/smilatency.py2 b/tests/avocado/acpi-bits/bits-tests/smilatency.py2
-index fb1b7228e3..d616970b31 100644
+index d616970b31..e907c55cc2 100644
 --- a/tests/avocado/acpi-bits/bits-tests/smilatency.py2
 +++ b/tests/avocado/acpi-bits/bits-tests/smilatency.py2
-@@ -1,6 +1,8 @@
- # Copyright (c) 2015, Intel Corporation
- # All rights reserved.
- #
-+# SPDX-License-Identifier: BSD-3-Clause
-+#
- # Redistribution and use in source and binary forms, with or without
- # modification, are permitted provided that the following conditions are met:
- #
-@@ -24,6 +26,8 @@
- # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+@@ -37,8 +37,9 @@ import time
+ import usb
  
-+# This script runs only from the biosbits VM.
-+
- """SMI latency test."""
+ def register_tests():
+-    testsuite.add_test("SMI latency test", smi_latency);
+-    testsuite.add_test("SMI latency test with USB disabled via BIOS handoff", test_with_usb_disabled, runall=False);
++    pass
++    # testsuite.add_test("SMI latency test", smi_latency);
++    # testsuite.add_test("SMI latency test with USB disabled via BIOS handoff", test_with_usb_disabled, runall=False);
  
- import bits
+ def smi_latency():
+     MSR_SMI_COUNT = 0x34
 -- 
 2.34.1
 
