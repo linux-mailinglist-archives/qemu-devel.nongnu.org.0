@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 312B26056AF
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 07:19:27 +0200 (CEST)
-Received: from localhost ([::1]:51694 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55CC460577B
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 08:40:51 +0200 (CEST)
+Received: from localhost ([::1]:47562 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olNxl-0006CJ-MP
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 01:19:25 -0400
-Received: from [::1] (port=41132 helo=lists1p.gnu.org)
+	id 1olPEW-0005Xa-EJ
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 02:40:48 -0400
+Received: from [::1] (port=53258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olNxl-00062b-Ha
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 01:19:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48352)
+	id 1olP1u-0006vj-UA
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 02:27:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1olNvw-0001rH-2M
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 01:17:32 -0400
-Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c]:34451)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1olNvu-0005oL-IT
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 01:17:31 -0400
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-1321a1e94b3so23327996fac.1
- for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 22:17:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=hG1GymV552gEM804Oj5tZuQDS27QnOWcXwnI7+fp3dg=;
- b=PFF4WA+Q6qLwpQUnpnSmnUGbC/sdYJUJWTJWlQpIjEqV7JfcfAfeXlwbCOvS/LoDj7
- aLc6Xdk+RbCyscL7yD+I+y6xbyEeh/agv+aGklOlZyu59qYl2ZKvDgpyHLRmCztcdgo7
- LB32Ox2MGYx/PCiHrtWmDJQKHOHBGt8bnIrxXvMGFeRqhp/s9oT8749BbBqs2/McV40G
- 3WDXOeE+ZEcLK9ongVHHfVk1nWiBaiJWYlX/stUA/aM2QV//LjWmAkTdcuaEQNbKp6tT
- +EUk7FUnGIxR6DJqMSXRIYHLNSFWEkbdcv+9KuFJKaUnvkSaUx+NAeDGUnxoDA67n8jT
- nxTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=hG1GymV552gEM804Oj5tZuQDS27QnOWcXwnI7+fp3dg=;
- b=uSCOHPPj9W8AnlXr5hHaCAEP5yJCBidLXwLPwvvtF/YjqeB5NjXi/iPD4Tu5NJNeaK
- TdJnjwgbQ02Z1pr4iy5ta1Vz7ilAS29pPgbDB3d7Yc2VAEYqs2ukEoVTcbc7QyuDdsn8
- v8Oz6P8l0YafsUXjDCFcVIS1CqSUKDjvjz0szionZFC2VUnKtww1VBFUprqC+qOcK5uT
- 5mGIwYMRLzYKAjUGect4/IVttlt6lIYPCdFF4DKLny1oy8WBXl0OrtKyU9rcOqMeDD7o
- QkuZUJ5ZT/wspXSK9SGcf5ojst+ZwIiwWnFjjhdp8iPlfu4XulLZKegSGkpsS07rPD3S
- AcSA==
-X-Gm-Message-State: ACrzQf3hFSttXVScLAzDyVWNLKPnaHzH3cdiCGemRMGETbnEEPknBDP1
- DyRehVMsc6wt0ob0nbDimm7OnkVFF9pjwqAs+lQ=
-X-Google-Smtp-Source: AMsMyM7NVsvEpGHdoXW3/Mhqk5W6jR8gFyClqezYpmDOnUXBJii3/XVms7ZBjQ9TBG59yXq4lEqIIlU7MHElJC82+ss=
-X-Received: by 2002:a05:6871:7a7:b0:125:5c0d:de5d with SMTP id
- o39-20020a05687107a700b001255c0dde5dmr7653279oap.297.1666243049156; Wed, 19
- Oct 2022 22:17:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1olOpI-0002G1-2L
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 02:14:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25161)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1olOpE-0000vB-VV
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 02:14:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666246479;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=a5hu0QML86HkGsrPUnPc//IHgR/2siBH1P80JwNiPuc=;
+ b=FguAATtUL0sOvEtN5wAv52Ym9K585Ld/j5v7sbL5DLGpiKxX0EDyme1M/UsLrHFjVFvJ9c
+ u0Xo6hjP2TLnYpWmeDTn0Irth64B4tCVfYbFUM75HotyDweLtBdzlZ22D9Jrss/WQzHDGZ
+ bAXx1ZIbgn2Fi4PvWEfRnFXU2SnY0Ss=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-400-V93UGp8rPyeFDO4mg14Puw-1; Thu, 20 Oct 2022 02:14:35 -0400
+X-MC-Unique: V93UGp8rPyeFDO4mg14Puw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 54C94381796F;
+ Thu, 20 Oct 2022 06:14:35 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E149140CA413;
+ Thu, 20 Oct 2022 06:14:33 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D059C21E675B; Thu, 20 Oct 2022 08:14:32 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Christian A. Ehrhardt" <lk@c--e.de>
+Cc: qemu-devel@nongnu.org,  Eric DeVolder <eric.devolder@oracle.com>,
+ qemu-stable@nongnu.org,  "Michael S. Tsirkin" <mst@redhat.com>,  Igor
+ Mammedov <imammedo@redhat.com>,  Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH] hw/acpi/erst.c: Fix memset argument order
+References: <20221019191522.1004804-1-lk@c--e.de>
+Date: Thu, 20 Oct 2022 08:14:32 +0200
+In-Reply-To: <20221019191522.1004804-1-lk@c--e.de> (Christian A. Ehrhardt's
+ message of "Wed, 19 Oct 2022 21:15:22 +0200")
+Message-ID: <87r0z3dnsn.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20221018152524.137598-1-jusual@redhat.com>
-In-Reply-To: <20221018152524.137598-1-jusual@redhat.com>
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Thu, 20 Oct 2022 07:17:20 +0200
-Message-ID: <CAM9Jb+ipgwytqD+2bKHS_GfECy0mvfjNkM=fXuta2cETox+yBA@mail.gmail.com>
-Subject: Re: [RESEND PATCH] hw/mem/nvdimm: fix error message for 'unarmed' flag
-To: Julia Suvorova <jusual@redhat.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, 
- Igor Mammedov <imammedo@redhat.com>, David Hildenbrand <david@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2001:4860:4864:20::2c;
- envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-oa1-x2c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,34 +86,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> In the ACPI specification [1], the 'unarmed' bit is set when a device
-> cannot accept a persistent write. This means that when a memdev is
-> read-only, the 'unarmed' flag must be turned on. The logic is correct,
-> just changing the error message.
->
-> [1] ACPI NFIT NVDIMM Region Mapping Structure "NVDIMM State Flags" Bit 3
->
-> Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+"Christian A. Ehrhardt" <lk@c--e.de> writes:
+
+> Fix memset argument order: The second argument is
+> the value, the length goes last.
+
+Impact of the bug?
+
+> Cc: Eric DeVolder <eric.devolder@oracle.com>
+> Cc: qemu-stable@nongnu.org
+> Fixes: f7e26ffa590 ("ACPI ERST: support for ACPI ERST feature")
+> Signed-off-by: Christian A. Ehrhardt <lk@c--e.de>
 > ---
->  hw/mem/nvdimm.c | 2 +-
+>  hw/acpi/erst.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
-> index 7c7d777781..bfb76818c1 100644
-> --- a/hw/mem/nvdimm.c
-> +++ b/hw/mem/nvdimm.c
-> @@ -149,7 +149,7 @@ static void nvdimm_prepare_memory_region(NVDIMMDevice *nvdimm, Error **errp)
->      if (!nvdimm->unarmed && memory_region_is_rom(mr)) {
->          HostMemoryBackend *hostmem = dimm->hostmem;
->
-> -        error_setg(errp, "'unarmed' property must be off since memdev %s "
-> +        error_setg(errp, "'unarmed' property must be on since memdev %s "
->                     "is read-only",
->                     object_get_canonical_path_component(OBJECT(hostmem)));
->          return;
+> diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
+> index df856b2669..26391f93ca 100644
+> --- a/hw/acpi/erst.c
+> +++ b/hw/acpi/erst.c
+> @@ -716,7 +716,7 @@ static unsigned write_erst_record(ERSTDeviceState *s)
+       exchange_length = memory_region_size(&s->exchange_mr);
 
-With the suggested minor change.
+This is the size of the exchange buffer.
 
-Reviewed-by: Pankaj Gupta <pankaj.gupta@amd.com>
+Aside: it's unsigned int, but memory_region_size() returns uint64_t.
+Unclean if it fits, bug if it doesn't.
+
+       /* Validate record_offset */
+       if (s->record_offset > (exchange_length - UEFI_CPER_RECORD_MIN_SIZE)) {
+           return STATUS_FAILED;
+       }
+
+       /* Obtain pointer to record in the exchange buffer */
+       exchange = memory_region_get_ram_ptr(&s->exchange_mr);
+       exchange += s->record_offset;
+
+       /* Validate CPER record_length */
+       memcpy((uint8_t *)&record_length, &exchange[UEFI_CPER_RECORD_LENGTH_OFFSET],
+           sizeof(uint32_t));
+
+Aside: record_length = *(uint32_t *)exchange[UEFI_CPER_RECORD_LENGTH_OFFSET]
+would do, since UEFI_CPER_RECORD_LENGTH_OFFSET is a multiple of 4.
+
+       record_length = le32_to_cpu(record_length);
+       if (record_length < UEFI_CPER_RECORD_MIN_SIZE) {
+           return STATUS_FAILED;
+       }
+       if ((s->record_offset + record_length) > exchange_length) {
+           return STATUS_FAILED;
+       }
+
+This ensures there are at least @record_length bytes of space left in
+the exchange buffer.  Good.
+
+       [...]
+>      if (nvram) {
+>          /* Write the record into the slot */
+>          memcpy(nvram, exchange, record_length);
+
+This first copies @record_length bytes into the exchange buffer.
+
+> -        memset(nvram + record_length, exchange_length - record_length, 0xFF);
+> +        memset(nvram + record_length, 0xFF, exchange_length - record_length);
+
+The new code pads it to the full exchange buffer size.
+
+The old code writes 0xFF bytes.
+
+If 0xFF < exchange_length - record_length, the padding doesn't extend to
+the end of the buffer.  Impact?
+
+If 0xFF > exchange_length - record_length, we write beyond the end of
+the buffer.  Impact?
+
+>          /* If a new record, increment the record_count */
+>          if (!record_found) {
+>              uint32_t record_count;
+
 
