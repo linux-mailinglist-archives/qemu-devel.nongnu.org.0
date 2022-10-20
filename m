@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8A76606276
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 16:08:35 +0200 (CEST)
-Received: from localhost ([::1]:38058 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 442D1606393
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 16:52:22 +0200 (CEST)
+Received: from localhost ([::1]:40942 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olWDp-0004O2-B4
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:08:33 -0400
+	id 1olWuB-0001AR-6T
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:52:19 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olWBd-00018A-OR
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:06:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43366)
+	id 1olWk1-0006n3-E8
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:41:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1olU80-0005SF-0y
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:54:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59246)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1olU8o-0005jc-Oh
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:55:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28549)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1olU7r-000156-5t
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:54:23 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1olU8m-0001ND-Nb
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 07:55:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666266854;
+ s=mimecast20190719; t=1666266911;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7y+rgkZPA6nIJf4a6yjiWihfq//eeDESSDSHaqdWzFA=;
- b=Livfknmvt2OHSUGmaZck/E2UXVBJ1A5kHtBSp1BXzVWiDUa6IzPJFBtvD69j7Qczg+Z/Nx
- UUeIg9mrNts8zO3pFhQ+yWVKdOOYHYmGF3uhZPZDjqw9wceH/Dkvj1yehUxGFbw7+vA32p
- oYgAMgCdZZAWU8qsbm2e8+DsVyleDb0=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=CFhaFIbEwdyQNllIP4IlE8Ec6t8RLDYo8kBlNnh2rF8=;
+ b=OCN9GNNFtL1N4G861ep9AuOXGh2acMiz5DuCU738L70Nn3uCcjLYD0PKykXvGMnxTe+I3f
+ JCma7TSkopegO+AjmWZHL0/oxeyvGbgd9n4trj3VBdIb1EwYo0PwDVrJCN2rkb3+4ycY9W
+ COHnGrqztqwFHH5ZMhlQRsg8PS7XELw=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-15-FWeNoyYHNIOSbhQ6LnKKmA-1; Thu, 20 Oct 2022 07:54:13 -0400
-X-MC-Unique: FWeNoyYHNIOSbhQ6LnKKmA-1
-Received: by mail-qv1-f71.google.com with SMTP id
- 71-20020a0c804d000000b004b2fb260447so12587223qva.10
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 04:54:12 -0700 (PDT)
+ us-mta-626-Jij1c5ClMT-2bWOZtusCXg-1; Thu, 20 Oct 2022 07:55:10 -0400
+X-MC-Unique: Jij1c5ClMT-2bWOZtusCXg-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ e24-20020ac84918000000b0039878b3c676so14663348qtq.6
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 04:55:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7y+rgkZPA6nIJf4a6yjiWihfq//eeDESSDSHaqdWzFA=;
- b=tI97KgFAbqGwYVeRKDnZhdCgvtR6sEF3suoPXs5yhepmZ2EYCnUp5wOOR4m5rrQeV8
- O39rlDJkjB6ciLBa0jYg//UA1FthT8Z7uT40VnuTQcm/k0qPBHggNYAd/2njogD+LXlq
- yozzeDDtbPUdOh9khkmhnt/rZobcNuddT1yMnFzHDVqMR3r8BTHdvrYX8fQmHGryfPg/
- P0YSHlr1ClMNLksO5798XC8xWDgx3xWIGCNlICBuKp6Iz2ex6XKxyz27Nr+P2pi2CgDP
- UnGs/7rJxW79vLlP+qI8N/+mOgumCuC3X51Lrz9twJOKhufjRsM3fCgafR8pea8XUyVJ
- gfCQ==
-X-Gm-Message-State: ACrzQf3pppCxC6ZAvE0bSJVBfWnMqG6qaDgQ1inTP3xvHF4m8zQ1E420
- 9CC3OkmpbyCJg32bSoGzW551lu+r3txD54e5OzAPigH/ojsjiUD7FlblC6BQbRMiHmNqzWCx4Sn
- tbmLLu0onzFjD23I=
-X-Received: by 2002:a05:622a:190d:b0:39c:df75:6880 with SMTP id
- w13-20020a05622a190d00b0039cdf756880mr10321200qtc.32.1666266852593; 
- Thu, 20 Oct 2022 04:54:12 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7tf2EfHx9s9iHQVyZuyfJK3Uxe3Ab2XPdLwNy8uQC7bBTR66PoqosuJOBZC8Vo/nUKuo+Btg==
-X-Received: by 2002:a05:622a:190d:b0:39c:df75:6880 with SMTP id
- w13-20020a05622a190d00b0039cdf756880mr10321183qtc.32.1666266852360; 
- Thu, 20 Oct 2022 04:54:12 -0700 (PDT)
+ bh=CFhaFIbEwdyQNllIP4IlE8Ec6t8RLDYo8kBlNnh2rF8=;
+ b=7C1MftEZSHy8CjjTiIS0pO+iD2UaimOg8C11uYshx4MRGE0K+0m865MWjPZhbTeABr
+ 6MSZ86fZszJwzDZH7uGvTcUVtFVrxon23tqRbUQuG3Av9hQ5+HTinOneOgPdXoTreTt9
+ /o6W2rLRO+zM1ymvs7ZZH00kD2KFT9lO5UZmK1URs6lqe6kG7OloFvDQvHzn6XwXSt0u
+ JBMekMcnmDfYevu5yPIYMgNI2Tm+ZN/4R0ctVHiFpVtOe46SfWuM5FcnAmddvkNiHza5
+ kjexfpi00iNXrA8S2I9KkaSPyGz+rD4Cann2i9jeZAv9YWQ7vns3+K+UW0fT+xNsNsNM
+ davA==
+X-Gm-Message-State: ACrzQf1+Y1f9PX+xOvhCctSeLh073+3ryWH/gIFGuG2lbxLteRrb9mEg
+ +RyBO5QAJLDxuNVE2fsPNQDcYYlGdarqPY4LrJF5AaAwRueZ6iqYbfpWTVS9/Ck5RxdVSLqnXan
+ hyS+x2Z1UW2ekRfM=
+X-Received: by 2002:ae9:e907:0:b0:6e9:5397:15fb with SMTP id
+ x7-20020ae9e907000000b006e9539715fbmr8877805qkf.466.1666266910211; 
+ Thu, 20 Oct 2022 04:55:10 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4XdzxwIVVu/tNiWqERrZ3DtfZ5UyBcie3g91xrL+Yl9iukA0iO/yFkfSMCchjJ41I08HFgjw==
+X-Received: by 2002:ae9:e907:0:b0:6e9:5397:15fb with SMTP id
+ x7-20020ae9e907000000b006e9539715fbmr8877785qkf.466.1666266910006; 
+ Thu, 20 Oct 2022 04:55:10 -0700 (PDT)
 Received: from [192.168.0.5] (ip-109-43-177-247.web.vodafone.de.
  [109.43.177.247]) by smtp.gmail.com with ESMTPSA id
- y9-20020a37f609000000b006ce7cd81359sm6852077qkj.110.2022.10.20.04.54.09
+ c22-20020ac85a96000000b003992448029esm6116821qtc.19.2022.10.20.04.55.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Oct 2022 04:54:11 -0700 (PDT)
-Message-ID: <70a5cb4e-4f60-edb8-9733-b8cee0e81987@redhat.com>
-Date: Thu, 20 Oct 2022 13:54:08 +0200
+ Thu, 20 Oct 2022 04:55:09 -0700 (PDT)
+Message-ID: <ccef84df-7c06-29d4-b234-a55441ff6161@redhat.com>
+Date: Thu, 20 Oct 2022 13:55:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH v3 03/26] tests/docker: Add flex/bison to `debian-all-test`
+Subject: Re: [PATCH v3 07/26] tests/docker: Add flex/bison to
+ `debian-hexagon-cross`
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
@@ -83,12 +84,12 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
 References: <20221020115209.1761864-1-alex.bennee@linaro.org>
- <20221020115209.1761864-4-alex.bennee@linaro.org>
+ <20221020115209.1761864-8-alex.bennee@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20221020115209.1761864-4-alex.bennee@linaro.org>
+In-Reply-To: <20221020115209.1761864-8-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -115,32 +116,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 20/10/2022 13.51, Alex Bennée wrote:
 > From: Anton Johansson <anjo@rev.ng>
 > 
-> Adds flex/bison to the debian-all-test-cross container which was missed
-> in the previous CI patch. These dependencies are required by the
-> idef-parser patchset for target/hexagon.
+> debian-hexagon-cross contains two images, one to build the toolchain
+> used for building the Hexagon tests themselves, and one image to build
+> QEMU and run the tests.
+> 
+> This commit adds flex/bison to the final image that builds QEMU so that
+> it can also build idef-parser.
+> 
+> Note: This container is not built by the CI and needs to be rebuilt and
+> updated manually.
 > 
 > Signed-off-by: Anton Johansson <anjo@rev.ng>
+> Message-Id: <20221014223642.147845-1-anjo@rev.ng>
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Message-Id: <20221011173229.57909-1-anjo@rev.ng>
 > ---
->   tests/docker/dockerfiles/debian-all-test-cross.docker | 2 ++
->   1 file changed, 2 insertions(+)
+>   tests/docker/dockerfiles/debian-hexagon-cross.docker | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/tests/docker/dockerfiles/debian-all-test-cross.docker b/tests/docker/dockerfiles/debian-all-test-cross.docker
-> index 2beb077fb4..8dc5e1b5de 100644
-> --- a/tests/docker/dockerfiles/debian-all-test-cross.docker
-> +++ b/tests/docker/dockerfiles/debian-all-test-cross.docker
-> @@ -20,8 +20,10 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
->   # Add extra build tools and as many cross compilers as we can for testing
->   RUN DEBIAN_FRONTEND=noninteractive eatmydata \
->           apt install -y --no-install-recommends \
-> +        bison \
->           ccache \
->           clang  \
-> +        flex \
->           git \
->           ninja-build \
->           gcc-aarch64-linux-gnu \
+> diff --git a/tests/docker/dockerfiles/debian-hexagon-cross.docker b/tests/docker/dockerfiles/debian-hexagon-cross.docker
+> index 8d219bb81d..c4238e893f 100644
+> --- a/tests/docker/dockerfiles/debian-hexagon-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-hexagon-cross.docker
+> @@ -43,7 +43,7 @@ RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.lis
+>   # Install QEMU build deps for use in CI
+>   RUN apt update && \
+>       DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
+> -    DEBIAN_FRONTEND=noninteractive eatmydata apt install -yy git ninja-build && \
+> +    DEBIAN_FRONTEND=noninteractive eatmydata apt install -yy bison flex git ninja-build && \
+>       DEBIAN_FRONTEND=noninteractive eatmydata \
+>       apt build-dep -yy --arch-only qemu
+>   COPY --from=0 /usr/local /usr/local
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 
