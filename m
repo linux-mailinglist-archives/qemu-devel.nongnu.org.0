@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FBB9606B46
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 00:31:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4407A606B2E
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 00:21:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ole4N-0007dX-I8
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 18:31:19 -0400
+	id 1olduv-0006j4-JG
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 18:21:34 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ole3i-0006D4-8A
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 18:30:38 -0400
+	id 1oldhd-0006dj-GL
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 18:07:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bjorn.forsman@gmail.com>)
- id 1olde8-0003fK-S8
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 18:04:13 -0400
-Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bjorn.forsman@gmail.com>)
- id 1olde7-0001Q4-A0
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 18:04:12 -0400
-Received: by mail-lf1-x12a.google.com with SMTP id g7so1905852lfv.5
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 15:04:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=R6h3SmhhkjD+FnGPH/Witg97rL5L8SOPX9K7/DLPO6w=;
- b=UZ0NtMsULRSJeWaQAEtJMJ9yr2XZxjlDeU68OWeo+DyopTI4IGCp76coNdLmOZxAp2
- QuhcTJiPWGPp4orOAWFOjHBj9LzJAiwhekBR8RtcgP6QHvsZrxapqH2uPnCfZtan78kf
- /2j19FryzFP+Zu/tAYv8daoMxBi2DE2i2kM2kQfPXSNISsbrP/gKEU3+RHwQAW4qN85d
- WsZU3cDRJ6Bf+8iMUBhLkjK72POarHhYx52E6asTYw1nmWad2OabaWbmQ/LM+aEXeqkJ
- R1gCs6KLo50ff4v4mUT5GhWWYtBU8gNGGhynlbezda14JMKViS+HhU1PGZPELJCp/uST
- 6qzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=R6h3SmhhkjD+FnGPH/Witg97rL5L8SOPX9K7/DLPO6w=;
- b=hJg5FxlH+LFJPUZ3BQYBJ8ULoyBJmzN/J8ifw34sF6XzfNwezEBc2NuPUlhFJTOTQU
- JD10cRMHrMzFbPRox8f3CPDzNDPEkmo7kMSJqb7PYsAoBx8AwYhmuHNcEzC4ApghgkMZ
- hWQQzLQjOUKrQU+3xqycHf8id+lCz/1UZhUHIufgMof6amGQxxPlznd2AYhneu4S7hhS
- cVN5P+QiSiI6AVn1GoybVHcSHOVIdnTZqYkxMjY2RI7wR6bsTAJYj/Jqk0VMP3V95WDn
- XQdiA+pWIkUY/PQoVQ4Y51mDSZuRhWy+IWbkIIjEpGETL89V03n9IDM4RaoEE4vzr7nQ
- dKYQ==
-X-Gm-Message-State: ACrzQf2oOCLFn136WB8JWO8BC7wr6EW7qrTPOJ15eI5kTVUuWTiGRueZ
- /sh0ET6GaH66/GY00I2GhuDMgd2/DjRa
-X-Google-Smtp-Source: AMsMyM5OGMrGnoZBS1RuvD4m6VhdPJHSkkcyUreuBHLoJMvVoOKEBfILqv1Xc9+XMzombKimXkrfXg==
-X-Received: by 2002:a05:6512:3e10:b0:4a2:48c1:8794 with SMTP id
- i16-20020a0565123e1000b004a248c18794mr5272345lfv.17.1666303448851; 
- Thu, 20 Oct 2022 15:04:08 -0700 (PDT)
-Received: from localhost ([84.213.123.201]) by smtp.gmail.com with ESMTPSA id
- a5-20020a05651c010500b0026c032ee48esm2965141ljb.105.2022.10.20.15.04.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Oct 2022 15:04:07 -0700 (PDT)
-From: =?UTF-8?q?Bj=C3=B8rn=20Forsman?= <bjorn.forsman@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: michael.roth@amd.com, kkostiuk@redhat.com,
- =?UTF-8?q?Bj=C3=B8rn=20Forsman?= <bjorn.forsman@gmail.com>
-Subject: [PATCH] qga: add channel path to error messages
-Date: Fri, 21 Oct 2022 00:03:46 +0200
-Message-Id: <20221020220346.124381-1-bjorn.forsman@gmail.com>
-X-Mailer: git-send-email 2.36.2
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oldhU-0006d2-6G
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 18:07:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oldhR-00027o-GE
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 18:07:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666303656;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=Va8oCj1o0LjNDGBxN1xVRiOnDUw9j7JbQrBbkitPwUE=;
+ b=b8otAf4KgbLFgqNciBTOs2UEcHo/K9DvAVzgGCzWei+d1y1WDXxpgtrXpWbUI89ucLZ1Ro
+ Fz92qNfBDHme5U8X1CCIJzR9F5vCN6x24mLxUTM5vklUj17k1VgQbfuuXlACg0bs7ksLzG
+ H4nN1+DVmkdfJUO9J6/mZMURB1mRwB4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-477-GtYf0T29NCegJR0VMc3vYg-1; Thu, 20 Oct 2022 18:07:34 -0400
+X-MC-Unique: GtYf0T29NCegJR0VMc3vYg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0DCE5803D4A;
+ Thu, 20 Oct 2022 22:07:34 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CFD9B20290A5;
+ Thu, 20 Oct 2022 22:07:32 +0000 (UTC)
+Date: Thu, 20 Oct 2022 23:07:29 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: "manish.mishra" <manish.mishra@nutanix.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Prerna Saxena <prerna.saxena@nutanix.com>
+Subject: Re: MultiFD and default channel out of order mapping on receive side.
+Message-ID: <Y1HGgwe/tcJ80pM/@redhat.com>
+References: <9f02255a-ceb9-9ca6-2606-b91c5e9e6459@nutanix.com>
+ <Y0fJFcj9+wcnKYqd@redhat.com>
+ <a4f67b8d-21ec-4261-6ffb-3162c854ce8f@nutanix.com>
+ <Y00+tsrBs2m2CH6R@redhat.com> <Y03F97gmi7N4cyMM@x1n>
+ <Y05hVC7AXdc0Ak4z@redhat.com> <Y069YMtwwOrmI6lM@x1n>
+ <Y08T+DZQXh/89O/g@x1n>
+ <4c1e4137-a686-427c-df3e-22f299a39478@nutanix.com>
+ <Y1F4BgFskXizW2za@x1n>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
- envelope-from=bjorn.forsman@gmail.com; helo=mail-lf1-x12a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Y1F4BgFskXizW2za@x1n>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 20 Oct 2022 18:30:14 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,44 +91,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's useful to know which device was used if/when it fails.
+On Thu, Oct 20, 2022 at 12:32:06PM -0400, Peter Xu wrote:
+> On Thu, Oct 20, 2022 at 08:14:19PM +0530, manish.mishra wrote:
+> > I had one concern, during recover we do not send any magic. As of now we
+>   do not support multifd with postcopy so it should be fine, we can do
+>   explict checking for non-recovery case. But i remember from some
+>   discussion in future there may be support for multiFD with postcopy or
+>   have multiple postcopy preempt channels too, then proper handshake will
+>   be required? So at some point we want to take that path? For now i agree
+>   approach 1 will be good as suggested by Daniel it can be backported
+>   easily to older qemu's too.
+> 
+> Yes for the long run I think we should provide a generic solution for all
+> the channels to be established for migration purpose.
+> 
+> Not to mention that as I replied previously to my original email, the trick
+> won't easily work with dest QEMU where we need further change to allow qemu
+> to accept new channels during loading of the VM.
+> 
+> Considering the complexity that it'll take just to resolve the prempt
+> channel ordering, I think maybe it's cleaner we just look for the long term
+> goal.
 
-channel-win32.c had this since 2015, with
-c69403fcd4a0cb89f838a212ab71e4a1a3464c95 ("qemu-ga: debug printouts to
-help troubleshoot installation"), this brings channel-posix.c up to
-speed.
+I think we should just ignore the preempt channel. Lets just do the
+easy bit and fix the main vs multifd channel mixup, as that's the one
+that is definitely actively hitting people today. We can solve that as
+a quick win in a way that is easy to backport to existing releases of
+QEMU for those affected.
 
-Signed-off-by: Bjørn Forsman <bjorn.forsman@gmail.com>
----
- qga/channel-posix.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Separately from that, lets define a clean slate migration protocol to
+solve many of our historic problems and mistakes that can't be dealt
+with through retrofitting, not limited to just this ordering mistake.
 
-diff --git a/qga/channel-posix.c b/qga/channel-posix.c
-index 6796a02cff..e6dce985ae 100644
---- a/qga/channel-posix.c
-+++ b/qga/channel-posix.c
-@@ -138,7 +138,7 @@ static gboolean ga_channel_open(GAChannel *c, const gchar *path,
-             0
-         );
-         if (fd == -1) {
--            error_setg_errno(errp, errno, "error opening channel");
-+            error_setg_errno(errp, errno, "error opening channel '%s'", path);
-             return false;
-         }
- #ifdef CONFIG_SOLARIS
-@@ -163,7 +163,7 @@ static gboolean ga_channel_open(GAChannel *c, const gchar *path,
-         assert(fd < 0);
-         fd = qga_open_cloexec(path, O_RDWR | O_NOCTTY | O_NONBLOCK, 0);
-         if (fd == -1) {
--            error_setg_errno(errp, errno, "error opening channel");
-+            error_setg_errno(errp, errno, "error opening channel '%s'", path);
-             return false;
-         }
-         tcgetattr(fd, &tio);
+We had a significant discussion about it at the start of the year
+in this thread, which I think we should take forward and write into
+a formal protocol spec.
+
+  https://lists.gnu.org/archive/html/qemu-devel/2022-03/msg03655.html
+
+
+With regards,
+Daniel
 -- 
-2.36.2
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
