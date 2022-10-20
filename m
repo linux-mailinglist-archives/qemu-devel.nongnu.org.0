@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72CA56057D4
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 09:03:25 +0200 (CEST)
-Received: from localhost ([::1]:38006 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 088596057B8
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 08:56:18 +0200 (CEST)
+Received: from localhost ([::1]:46662 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olPaN-0005RB-LE
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 03:03:23 -0400
-Received: from [::1] (port=38430 helo=lists1p.gnu.org)
+	id 1olPTD-0007V5-Ga
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 02:56:12 -0400
+Received: from [::1] (port=48462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olPRz-0005vq-Hn
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 02:54:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49820)
+	id 1olPSf-0006wU-Nz
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 02:55:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1olP8m-0002ml-Iv
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 02:34:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38600)
+ id 1olPA3-0003Rf-Ia
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 02:36:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1olP8k-0005Iy-NX
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 02:34:52 -0400
+ id 1olP9v-0005eu-Vy
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 02:36:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666247687;
+ s=mimecast20190719; t=1666247762;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Mc2mYiXXYGu5uzK23Pd21Zl2xcgArM5mTXgn0rUNhAI=;
- b=MHwKFbbKk/pO36t0Vn1zhTzVSRnoY+UaOAluC+iAC9F9jIQRDT1eiQ8cdSOTjT1NbKSOjv
- 2CIahXBBnoUDB43q30pNIMf8lFG9fmbvSV4SIsUIldolFCSCkDPlhjspYM97JcapRn2FVM
- sO5+o7nRF5RCSJBbfjgSlzvIpiqgKNQ=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/zf+o6/K3fbMORDx/HrhbLq0wLj3t4PGPCXuWR06Cnw=;
+ b=JY/2zBYCQZbAwbym5YCsgKdDZV5+oDOqmcEdi62Z49FQ9adGzmEdbHgJ7wArziI8pqhc6W
+ qtJf9ASaqzopaQ+VCq0+ABJ5GLeXRFKG+fK04fN6QmLWGVjO9mErkmysSmAovBystG7B1N
+ ADL8IRQ2C/ACJjSWtyKaVEmnzTm1qBg=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-53-FYqNVNSfNz-I-l4KNNEBBA-1; Thu, 20 Oct 2022 02:34:46 -0400
-X-MC-Unique: FYqNVNSfNz-I-l4KNNEBBA-1
-Received: by mail-pl1-f200.google.com with SMTP id
- y1-20020a17090322c100b001853a004c1bso12777148plg.19
- for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 23:34:45 -0700 (PDT)
+ us-mta-444-H2ec6aGoOQGWDKE-hTfN5w-1; Thu, 20 Oct 2022 02:36:01 -0400
+X-MC-Unique: H2ec6aGoOQGWDKE-hTfN5w-1
+Received: by mail-pf1-f197.google.com with SMTP id
+ cu10-20020a056a00448a00b00562f2ff1058so10753829pfb.23
+ for <qemu-devel@nongnu.org>; Wed, 19 Oct 2022 23:36:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Mc2mYiXXYGu5uzK23Pd21Zl2xcgArM5mTXgn0rUNhAI=;
- b=EsJGoJAo5y+MCqiSXTdsFAyJFqmJ0zbFFJqrZLmfJABZga1ii9zUuc5OJTWK0uLc+i
- 0TfaY8FflHPccpY62eu6kt0N9Zz9B/JVjubd2sh98pJPHyQCstyHA9zVRiNPv71x9npF
- UMZEs+Q/hVZEdCQIKsxu6Qm5SinKuZdbhg6X7YoKQRhF83cbP/mXhm3h6KrOshj2dxYe
- 8quilfEEyvEBTkHTRch/CNynGr2yoLF2v/O6O7ZolARH2lbHtaHDjPdPuShxdH97yHxN
- TyTpc+PVWdTalKeOTmUHQoFNZ6Qa75kTxmfFhf41Y3gKbJ3zR9Pi/V1YBp9udGBQm4U8
- SScg==
-X-Gm-Message-State: ACrzQf0EjsYzaxwYcAB3DdB3uQyWUUS6WxT751VSeUdIULIFyjZWaDgU
- 2BOCiXo3gtSqiVZojcpUHqXrkc2Chm68YayFbH4f1zxUMHsKth7qJMAQu78873l1mA5ikaXR9r0
- eHfQBZ++Zb5hne6jTFJyh72DbtWJFt1A=
-X-Received: by 2002:a17:90a:6845:b0:210:7ef5:ab99 with SMTP id
- e5-20020a17090a684500b002107ef5ab99mr5504539pjm.80.1666247683161; 
- Wed, 19 Oct 2022 23:34:43 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM53SXSexWh3/JYW81xfgSZ5p2j6CYAj5lRtzntilBXCbkVinjM8JqrR4aAPVwneTy2nVNXzcLthAyqnElTWW0Y=
-X-Received: by 2002:a17:90a:6845:b0:210:7ef5:ab99 with SMTP id
- e5-20020a17090a684500b002107ef5ab99mr5504512pjm.80.1666247682906; Wed, 19 Oct
- 2022 23:34:42 -0700 (PDT)
+ bh=/zf+o6/K3fbMORDx/HrhbLq0wLj3t4PGPCXuWR06Cnw=;
+ b=Aw+csItefYu8fJoL4Xx0wg2PF0N9k7L7WUc0QUO28iG6GQdwbS2I3nxsuEui7WCHIr
+ Oejv7vfq5G+VFv+vg9s9btguicosTJE/odoJ65KOH9URaPdxanV2JHC0RhbEAPhWxxaZ
+ B3BkGQ2J6aH5xX4EQA02/8VGJg+OEEqfa5HJ0T01wBZ1O2lumtum9zyGMcdryeGjq5ab
+ H6qmomqmhDNu2iJBQrYAott9Tx4bEqPcdvSkud12NGYAkuefO/OgUJQkKD226J7x3Rub
+ SIvOP+VyShufH8Tc/YcdCwQw61yWDDuco3KlG3Rb9iLsuNWrKOgoEBmWcqSF6OR9QOim
+ iC3g==
+X-Gm-Message-State: ACrzQf3lbELmYUzUeEfQ5f37DQxFRcCQ4Qs3t+lx4262zi4Fw3sxDdL/
+ ScQj7y+pRGqj2oTIEm45/46ZDbyyumYKB+p+z7qmtX6VhZ8MXRvAfqCyk1yTlS3YV/cTvrmDhBV
+ N9nhRm5CvnzEPRpubTtNofeZ6Rf0G/FM=
+X-Received: by 2002:a17:90b:190c:b0:211:ab56:35e6 with SMTP id
+ mp12-20020a17090b190c00b00211ab5635e6mr2659774pjb.159.1666247760251; 
+ Wed, 19 Oct 2022 23:36:00 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5fURNG8W/QvpklVOFHdW+bMI+l6XBXCFT9JHpoKxyIfnjbhwYf0N6hFJiRBzc9yqs6sGACSzkKjovNgXdpnsg=
+X-Received: by 2002:a17:90b:190c:b0:211:ab56:35e6 with SMTP id
+ mp12-20020a17090b190c00b00211ab5635e6mr2659740pjb.159.1666247759992; Wed, 19
+ Oct 2022 23:35:59 -0700 (PDT)
 MIME-Version: 1.0
 References: <20221019125210.226291-1-eperezma@redhat.com>
- <20221019125210.226291-3-eperezma@redhat.com>
- <CACGkMEvQOksFuE37SCCW+4x=Ku5CfHpcbgCDq6tic_H5fW7hYw@mail.gmail.com>
-In-Reply-To: <CACGkMEvQOksFuE37SCCW+4x=Ku5CfHpcbgCDq6tic_H5fW7hYw@mail.gmail.com>
+ <20221019125210.226291-4-eperezma@redhat.com>
+ <CACGkMEtTG1YnqtTWs_1feAfdL=m9tiJxGX118fDCTUd2onPnPg@mail.gmail.com>
+In-Reply-To: <CACGkMEtTG1YnqtTWs_1feAfdL=m9tiJxGX118fDCTUd2onPnPg@mail.gmail.com>
 From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 20 Oct 2022 08:34:06 +0200
-Message-ID: <CAJaqyWd6bFH7ZL=rKr8kXrQEi2sOFkq=x=PHUmgz8N9K6Ct70w@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 2/8] vdpa: Save emulated features list in vhost_vdpa
+Date: Thu, 20 Oct 2022 08:35:23 +0200
+Message-ID: <CAJaqyWfOADNwUXCLcqr0MpJSdndXheni60vMH3PVc1C9qQt8Ug@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 3/8] vhost_net: Emulate link state up if backend
+ doesn't expose it
 To: Jason Wang <jasowang@redhat.com>
 Cc: qemu-devel@nongnu.org, Zhu Lingshan <lingshan.zhu@intel.com>, 
  Harpreet Singh Anand <hanand@xilinx.com>,
@@ -84,14 +85,14 @@ Cc: qemu-devel@nongnu.org, Zhu Lingshan <lingshan.zhu@intel.com>,
  Gautam Dawar <gdawar@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.256,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,96 +109,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 20, 2022 at 6:23 AM Jason Wang <jasowang@redhat.com> wrote:
+On Thu, Oct 20, 2022 at 6:30 AM Jason Wang <jasowang@redhat.com> wrote:
 >
 > On Wed, Oct 19, 2022 at 8:52 PM Eugenio P=C3=A9rez <eperezma@redhat.com> =
 wrote:
 > >
-> > At this moment only _F_LOG is added there.
+> > At this moment this code path is not reached, but vdpa devices can offe=
+r
+> > VIRTIO_NET_F_STATUS unconditionally.
+>
+> So I guess what you mean is that, for the parent that doesn't support
+> VIRTIO_NET_F_STATUS, emulate one for making sure the ANNOUCNE to work.
+> This is safe since the spec said the driver will assume the link is
+> always up if without this feature.
+>
+
+Right.
+
+> > While the guest must assume that
+> > link is always up by the standard, qemu will set the status bit to 1
+> > always in this case.
 > >
-> > However future patches add features that depend on the kind of device.
-> > In particular, only net devices can add VIRTIO_F_GUEST_ANNOUNCE. So
-> > let's allow vhost_vdpa creator to set custom emulated device features.
+> > This makes little use by itself, but VIRTIO_NET_F_STATUS is needed for
+> > the guest to read status bit VIRTIO_NET_F_GUEST_ANNOUNCE, used by featu=
+re
+> > VIRTIO_NET_F_GUEST_ANNOUNCE. So qemu must emulate status feature in cas=
+e
+> > it needs to emulate the guest announce feature.
 > >
 > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 > > ---
-> >  include/hw/virtio/vhost-vdpa.h | 2 ++
-> >  hw/virtio/vhost-vdpa.c         | 8 ++++----
-> >  net/vhost-vdpa.c               | 4 ++++
-> >  3 files changed, 10 insertions(+), 4 deletions(-)
+> >  hw/net/vhost_net.c | 27 ++++++++++++++++++++++++++-
+> >  1 file changed, 26 insertions(+), 1 deletion(-)
 > >
-> > diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-v=
-dpa.h
-> > index 1111d85643..50083e1e3b 100644
-> > --- a/include/hw/virtio/vhost-vdpa.h
-> > +++ b/include/hw/virtio/vhost-vdpa.h
-> > @@ -31,6 +31,8 @@ typedef struct vhost_vdpa {
-> >      bool iotlb_batch_begin_sent;
-> >      MemoryListener listener;
-> >      struct vhost_vdpa_iova_range iova_range;
-> > +    /* VirtIO device features that can be emulated by qemu */
-> > +    uint64_t added_features;
+> > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> > index d28f8b974b..5660606c1d 100644
+> > --- a/hw/net/vhost_net.c
+> > +++ b/hw/net/vhost_net.c
+> > @@ -117,7 +117,32 @@ uint64_t vhost_net_get_features(struct vhost_net *=
+net, uint64_t features)
+> >  int vhost_net_get_config(struct vhost_net *net,  uint8_t *config,
+> >                           uint32_t config_len)
+> >  {
+> > -    return vhost_dev_get_config(&net->dev, config, config_len, NULL);
+> > +    VirtIODevice *vdev;
+> > +    int r =3D vhost_dev_get_config(&net->dev, config, config_len, NULL=
+);
+> > +
+> > +    if (unlikely(r !=3D 0)) {
+> > +        return r;
+> > +    }
+> > +
+> > +    if (config_len < endof(struct virtio_net_config, status)) {
+> > +        return 0;
+> > +    }
+> > +
+> > +    /*
+> > +     * TODO: Perform this only if vhost_vdpa.
+> > +     */
 >
-> Any reason we need a per vhost_vdpa storage for this? Or is there a
-> chance that this field could be different among the devices?
+> Cindy adds some mediation codes for vhost-vDPA in
+> virtio_net_get_config(), so I believe it can be done there?
 >
 
-Yes, one device could support SVQ and the other one could not support
-it because of different feature sets for example.
+Sure, let me take a look.
 
 Thanks!
 
+
 > Thanks
 >
-> >      uint64_t acked_features;
-> >      bool shadow_vqs_enabled;
-> >      /* IOVA mapping used by the Shadow Virtqueue */
-> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > index 7468e44b87..ddb5e29288 100644
-> > --- a/hw/virtio/vhost-vdpa.c
-> > +++ b/hw/virtio/vhost-vdpa.c
-> > @@ -660,8 +660,8 @@ static int vhost_vdpa_set_features(struct vhost_dev=
- *dev,
-> >
-> >          v->acked_features =3D features;
-> >
-> > -        /* We must not ack _F_LOG if SVQ is enabled */
-> > -        features &=3D ~BIT_ULL(VHOST_F_LOG_ALL);
-> > +        /* Do not ack features emulated by qemu */
-> > +        features &=3D ~v->added_features;
-> >      }
-> >
-> >      trace_vhost_vdpa_set_features(dev, features);
-> > @@ -1244,8 +1244,8 @@ static int vhost_vdpa_get_features(struct vhost_d=
-ev *dev,
-> >      int ret =3D vhost_vdpa_get_dev_features(dev, features);
-> >
-> >      if (ret =3D=3D 0 && v->shadow_vqs_enabled) {
-> > -        /* Add SVQ logging capabilities */
-> > -        *features |=3D BIT_ULL(VHOST_F_LOG_ALL);
-> > +        /* Add emulated capabilities */
-> > +        *features |=3D v->added_features;
-> >      }
-> >
-> >      return ret;
-> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > index eebf29f5c1..3803452800 100644
-> > --- a/net/vhost-vdpa.c
-> > +++ b/net/vhost-vdpa.c
-> > @@ -599,6 +599,10 @@ static NetClientState *net_vhost_vdpa_init(NetClie=
-ntState *peer,
-> >      s->vhost_vdpa.index =3D queue_pair_index;
-> >      s->vhost_vdpa.shadow_vqs_enabled =3D svq;
-> >      s->vhost_vdpa.iova_tree =3D iova_tree;
-> > +    if (svq) {
-> > +        /* Add SVQ logging capabilities */
-> > +        s->vhost_vdpa.added_features |=3D BIT_ULL(VHOST_F_LOG_ALL);
+> > +    vdev =3D net->dev.vdev;
+> > +    if (!vdev) {
+> > +        /* Device is starting */
+> > +        return 0;
 > > +    }
-> >      if (!is_datapath) {
-> >          s->cvq_cmd_out_buffer =3D qemu_memalign(qemu_real_host_page_si=
-ze(),
-> >                                              vhost_vdpa_net_cvq_cmd_pag=
-e_len());
+> > +
+> > +    if ((net->dev.acked_features & BIT_ULL(VIRTIO_NET_F_STATUS)) &&
+> > +        !(net->dev.features & BIT_ULL(VIRTIO_NET_F_STATUS))) {
+> > +        ((struct virtio_net_config *)config)->status |=3D VIRTIO_NET_S=
+_LINK_UP;
+> > +    }
+> > +
+> > +    return 0;
+> >  }
+> >  int vhost_net_set_config(struct vhost_net *net, const uint8_t *data,
+> >                           uint32_t offset, uint32_t size, uint32_t flag=
+s)
 > > --
 > > 2.31.1
 > >
