@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D9AF606382
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 16:48:19 +0200 (CEST)
-Received: from localhost ([::1]:59602 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5A6C6063EE
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Oct 2022 17:14:00 +0200 (CEST)
+Received: from localhost ([::1]:60400 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olWpw-0000iZ-OV
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:47:56 -0400
+	id 1olXF9-0006Mm-17
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 11:13:59 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olWkm-0001Xx-04
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:42:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60404)
+	id 1olWvT-0001jk-Dy
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 10:53:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1olUmE-00086i-6A
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:36:10 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:55865)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1olUmS-0008D6-Ey
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:36:22 -0400
+Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:34326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1olUmC-00070b-Bt
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:35:57 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id pb15so2732902pjb.5
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 05:35:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1olUmQ-000785-VZ
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 08:36:12 -0400
+Received: by mail-oi1-x22d.google.com with SMTP id y67so274185oiy.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 05:36:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jmWzXLUEgkSQk0CtRC65Qy9q7k6vgCayAbWoRpw6RB8=;
- b=g5MmEysLQUZ9LEmQdMjE7GKuOWhEWWc5NLSXlxFG9ezj0VnC/t+SCokRvZCnxlSgYA
- qswgew/mMZSk8cXlj+aKB6FBK4mHybektV9TxFJDUsdNp8+X/2trFqMDpZNeKKHIBd4g
- z0qxoZaBj46dT5IBNRX3qHGjMAFzcztgmGD3sZkvD4izwRCi+wtq8h6D6llDvDcwRGjH
- Nlfy4niFptm4ZI/ppwYG2IUZSQQzrPkoLBebOc3P1x4GYgvVZSWSq7PXBAmPQ6D9Ag3u
- 2KWMAnsA1pCH/9KEJgg4DdIIp/4zoeiaAcEKpAjUZFsvEKZOgsyJ3vPtj2QbdEGdwpOB
- CHdw==
+ bh=dyu7QZZcn9Q1/zGtjEBOGs4FcuSFU9uCRS/DX2QmpGI=;
+ b=cmuU8OH0DMpGS1g/z2Q776xxGtGZu6tpAnZK1fCXu8M01LUtdPywQ3wvalYyfZaknG
+ /L2lwvPkZkNUzjt98nHL2cKxGw3bfM40lOkM6rG6ZeMig5ai6Hd589+shc5fdg4MFzLj
+ QOJn9QIPu3HaxNp159zUGvJ+qfI2OAgp4eTtkTN3eqsZmZTq2arrWwuQ41hVXRExbkx7
+ 7OjxKbzBYsJQUzpcNMt57JDJGq+qyiFWjd/6mGCoE1UH7KhZiBy9D/EvgbXT7D7lDpaO
+ Wfq4dHTyEAdflo5CPT+SXJS94/dqt4glcNRNAn5AGMp3bX50C/KH5/kRVd9QEwIXvMg8
+ Eqyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jmWzXLUEgkSQk0CtRC65Qy9q7k6vgCayAbWoRpw6RB8=;
- b=RnMG+7YoI5dvBnTaF58yuiLhjkAHS7MS9ww57roKNHGW5ARhoBtAv824VSseFJK+pu
- 59Xsx4+pG3dM0uleRPwOPeBGFiuLRlXRkKIsBWuHdSHNG+Vg7G/GXK+4aaeD4LKVHTcj
- xKYI6HsD0FvvO4EW9mkMVABkfjNY6yDl0Ke3+KpiErVcBX+IFjhRWHhAeq9tIzoVLEql
- BfTEnsd8OhTXu+spnTBZX07iANLwO6aC7JM9n5xp2eQDJUbwcFKMufbHnbQ00pAY0qaS
- OFyeca8UtUlGeQsBbiDheCRwej5LXrZJvCPoJ+uoQI0JrHT9IvJn6tsjwnfd5qObIXjz
- 5U2g==
-X-Gm-Message-State: ACrzQf3CTzhCtSzlgetLhqdYBFVMWvqWbBfLoPBcIKICeDuwy/g8e7Pc
- iH9nZQ2FWMUlF06MkmR97ifRcw==
-X-Google-Smtp-Source: AMsMyM46QGpVW5W/3jkOE2sLJKqviSGGGDPJvxL8lPqSFe1s1FXs744rhskqW8dBwSbqGpiOyu095A==
-X-Received: by 2002:a17:90b:2812:b0:205:cdc9:2ccf with SMTP id
- qb18-20020a17090b281200b00205cdc92ccfmr15432266pjb.97.1666269354783; 
- Thu, 20 Oct 2022 05:35:54 -0700 (PDT)
+ bh=dyu7QZZcn9Q1/zGtjEBOGs4FcuSFU9uCRS/DX2QmpGI=;
+ b=E9Mn/L4PLrZ32VXYnbkLgahudIVmCfaDJERAeXxXIkT+acbthGhlO2ouUDvL4Vtdng
+ ljBSJ5I6rAfNcC/QQ5DAXEZ+5FWf/6+hnGSsCbS1d2+EHMjBrpqr8B4ZhPj6GtQc3KBn
+ 13Q3LAFyG6YsrnLi5ucnbZs9p5Rwo5XhrdqMmJGQsp7x6xs/V9WWh//jssTJgql3tgpA
+ F1wfw9T6iAsbAY7K5CrhVs+X+i6WxhjP3Ss7TOvRItcmtOLTA2eEpbdLps4iigkf4s5L
+ 8nFmURSeoZ0Wgg3JInjoIn1neCeAT7T6lzoQ2SBT60EJ6zomeiz6RrLi2HEE8Ii/0QC8
+ 8XmQ==
+X-Gm-Message-State: ACrzQf3kbMlv0l22h7q/rdILwNNjiKcYrJ2XWBPzj53kuDMk8aKEAqzP
+ OkghY0w8OXHLMNUhj+zz0wccyqmdBLszvh/E
+X-Google-Smtp-Source: AMsMyM6L2Pxeqq+J4MYMk7pKurIVI8vnkciLwinPxzcUTFsRNbMgT9HPcwtb5LhxFOAJ7NAHt91gMA==
+X-Received: by 2002:a17:90b:4a11:b0:20d:382d:3994 with SMTP id
+ kk17-20020a17090b4a1100b0020d382d3994mr15462424pjb.173.1666269359512; 
+ Thu, 20 Oct 2022 05:35:59 -0700 (PDT)
 Received: from anisinha-lenovo.ba.nuagenetworks.net ([203.212.246.137])
  by smtp.googlemail.com with ESMTPSA id
- l11-20020a170903244b00b00176b3c9693esm12794174pls.299.2022.10.20.05.35.50
+ l11-20020a170903244b00b00176b3c9693esm12794174pls.299.2022.10.20.05.35.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Oct 2022 05:35:54 -0700 (PDT)
+ Thu, 20 Oct 2022 05:35:59 -0700 (PDT)
 From: Ani Sinha <ani@anisinha.ca>
 To: Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
@@ -72,18 +72,18 @@ Cc: Ani Sinha <ani@anisinha.ca>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Igor Mammedov <imammedo@redhat.com>, Michael Tsirkin <mst@redhat.com>,
  qemu-devel@nongnu.org
-Subject: [PATCH v6 04/10] acpi/tests/avocado/bits: add smilatency test suite
- from bits in order to disable it
-Date: Thu, 20 Oct 2022 18:05:00 +0530
-Message-Id: <20221020123506.26363-5-ani@anisinha.ca>
+Subject: [PATCH v6 05/10] acpi/tests/avocado/bits: add SPDX license
+ identifiers for bios bits smilatency tests
+Date: Thu, 20 Oct 2022 18:05:01 +0530
+Message-Id: <20221020123506.26363-6-ani@anisinha.ca>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221020123506.26363-1-ani@anisinha.ca>
 References: <20221020123506.26363-1-ani@anisinha.ca>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::1032;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x1032.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::22d;
+ envelope-from=ani@anisinha.ca; helo=mail-oi1-x22d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -105,12 +105,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-smilatency tests does not reliably pass every time it is run from QEMU. This
-change adds the test file unchanged from bits so that the next change can
-disable the test.
-
-The test has an extension .py2 just like other tests so that they are excluded
-from loading by avocado framework.
+Added the SPDX license identifier for smilatency tests.
+Also added a comment indicating that smilatency test is run from within the
+biosbits environment/VM and hence is not subjected to QEMU build/test
+environment dependency fulfilments or QEMU maintanance activities.
 
 Cc: Daniel P. Berrangé <berrange@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
@@ -122,118 +120,31 @@ Cc: Igor Mammedov <imammedo@redhat.com>
 Cc: Michael Tsirkin <mst@redhat.com>
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
 ---
- .../acpi-bits/bits-tests/smilatency.py2       | 102 ++++++++++++++++++
- 1 file changed, 102 insertions(+)
- create mode 100644 tests/avocado/acpi-bits/bits-tests/smilatency.py2
+ tests/avocado/acpi-bits/bits-tests/smilatency.py2 | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/tests/avocado/acpi-bits/bits-tests/smilatency.py2 b/tests/avocado/acpi-bits/bits-tests/smilatency.py2
-new file mode 100644
-index 0000000000..fb1b7228e3
---- /dev/null
+index fb1b7228e3..d616970b31 100644
+--- a/tests/avocado/acpi-bits/bits-tests/smilatency.py2
 +++ b/tests/avocado/acpi-bits/bits-tests/smilatency.py2
-@@ -0,0 +1,102 @@
-+# Copyright (c) 2015, Intel Corporation
-+# All rights reserved.
+@@ -1,6 +1,8 @@
+ # Copyright (c) 2015, Intel Corporation
+ # All rights reserved.
+ #
++# SPDX-License-Identifier: BSD-3-Clause
 +#
-+# Redistribution and use in source and binary forms, with or without
-+# modification, are permitted provided that the following conditions are met:
-+#
-+#     * Redistributions of source code must retain the above copyright notice,
-+#       this list of conditions and the following disclaimer.
-+#     * Redistributions in binary form must reproduce the above copyright notice,
-+#       this list of conditions and the following disclaimer in the documentation
-+#       and/or other materials provided with the distribution.
-+#     * Neither the name of Intel Corporation nor the names of its contributors
-+#       may be used to endorse or promote products derived from this software
-+#       without specific prior written permission.
-+#
-+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-+# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
-+# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-+# (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-+# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-+# ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-+# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ # Redistribution and use in source and binary forms, with or without
+ # modification, are permitted provided that the following conditions are met:
+ #
+@@ -24,6 +26,8 @@
+ # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ 
++# This script runs only from the biosbits VM.
 +
-+"""SMI latency test."""
-+
-+import bits
-+from collections import namedtuple
-+import testsuite
-+import time
-+import usb
-+
-+def register_tests():
-+    testsuite.add_test("SMI latency test", smi_latency);
-+    testsuite.add_test("SMI latency test with USB disabled via BIOS handoff", test_with_usb_disabled, runall=False);
-+
-+def smi_latency():
-+    MSR_SMI_COUNT = 0x34
-+
-+    print "Warning: touching the keyboard can affect the results of this test."
-+
-+    tsc_per_sec = bits.tsc_per_sec()
-+    tsc_per_usec = tsc_per_sec / (1000 * 1000)
-+    bins = [long(tsc_per_usec * 10**i) for i in range(9)]
-+    bin_descs = [
-+        "0     < t <=   1us",
-+        "1us   < t <=  10us",
-+        "10us  < t <= 100us",
-+        "100us < t <=   1ms",
-+        "1ms   < t <=  10ms",
-+        "10ms  < t <= 100ms",
-+        "100ms < t <=   1s ",
-+        "1s    < t <=  10s ",
-+        "10s   < t <= 100s ",
-+        "100s  < t         ",
-+    ]
-+
-+    print "Starting test. Wait here, I will be back in 15 seconds."
-+    (max_latency, smi_count_delta, bins) = bits.smi_latency(long(15 * tsc_per_sec), bins)
-+    BinType = namedtuple('BinType', ("max", "total", "count", "times"))
-+    bins = [BinType(*b) for b in bins]
-+
-+    testsuite.test("SMI latency < 150us to minimize risk of OS timeouts", max_latency / tsc_per_usec <= 150)
-+    if not testsuite.show_detail():
-+        return
-+
-+    for bin, desc in zip(bins, bin_descs):
-+        if bin.count == 0:
-+            continue
-+        testsuite.print_detail("{}; average = {}; count = {}".format(desc, bits.format_tsc(bin.total/bin.count), bin.count))
-+        deltas = (bits.format_tsc(t2 - t1) for t1,t2 in zip(bin.times, bin.times[1:]))
-+        testsuite.print_detail(" Times between first few observations: {}".format(" ".join("{:>6}".format(delta) for delta in deltas)))
-+
-+    if smi_count_delta is not None:
-+        testsuite.print_detail("{} SMI detected using MSR_SMI_COUNT (MSR {:#x})".format(smi_count_delta, MSR_SMI_COUNT))
-+
-+    testsuite.print_detail("Summary of impact: observed maximum latency = {}".format(bits.format_tsc(max_latency)))
-+
-+def test_with_usb_disabled():
-+    if usb.handoff_to_os():
-+        smi_latency()
-+
-+def average_io_smi(port, value, count):
-+    def f():
-+        tsc_start = bits.rdtsc()
-+        bits.outb(port, value)
-+        return bits.rdtsc() - tsc_start
-+    counts = [f() for i in range(count)]
-+    return sum(counts)/len(counts)
-+
-+def time_io_smi(port=0xb2, value=0, count=1000):
-+    count_for_estimate = 10
-+    start = time.time()
-+    average_io_smi(port, value, count_for_estimate)
-+    avg10 = time.time() - start
-+    estimate = avg10 * count/count_for_estimate
-+    if estimate > 1:
-+        print "Running test, estimated time: {}s".format(int(estimate))
-+    average = average_io_smi(port, value, count)
-+    print "Average of {} SMIs (via outb, port={:#x}, value={:#x}): {}".format(count, port, value, bits.format_tsc(average))
+ """SMI latency test."""
+ 
+ import bits
 -- 
 2.34.1
 
