@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A2D3607109
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 09:29:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C29C760718F
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 10:00:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olmTa-0002i2-DA
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:29:54 -0400
+	id 1olmxY-0002AZ-Bq
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 04:00:52 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olmH0-00036o-Up
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:16:54 -0400
+	id 1olmH8-0003B4-EY
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:17:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olmGq-0002yN-HO
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:16:45 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+ id 1olmGz-000367-16
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:16:53 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olmGo-0005dR-Tu
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:16:44 -0400
-Received: by mail-pl1-x631.google.com with SMTP id d24so1583323pls.4
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 00:16:42 -0700 (PDT)
+ id 1olmGx-0005fo-Ba
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:16:52 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ t10-20020a17090a4e4a00b0020af4bcae10so2013371pjl.3
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 00:16:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=3WQZzPRazLKJGEWz/VuQ3kFYrNgQhqvNUOfet5eTrD4=;
- b=B4hkVi7Lwa8mwbU7h+eN7W6dirVbhXHKVW/DFysm6huMUbbVPhJ31propZbPBxsMOS
- vcVf4Rgr9ZRtBwa1C+KrrljYr5MAGpqpZ6H6x7F9bAtHPR0d9AiyBuV6fiuqULUB6z9U
- lLsBAOOlCqAdNWxFZo2YKIcQn1rEPE6DLF1DqFe1LFANGh+gKMgJ/e46f0/9sRzxeWYv
- g0rxBfEbp6R1duYZKjch6NYjJSI99z6wDSOTwDq+jnilhh/HpXnOHPJZWybD1rbzS2Ey
- p5kK4LxneXmQvziuuBpM1FoAQTsUJ2P0Ka/BZZU1GEIlHnezvnxSEOiXDjfW2wY4dM68
- Sn+w==
+ bh=ffAk/uKFmYMud8oNMjB2hkT94GX/9Rmm5gafjNWj2X0=;
+ b=wNFTdlBq9+piNNR1XJEMvpJZ+1rT/udqse533tPPSRGx4/cHnV377I7kas5GLAPLBt
+ ox21l0RDoe/w5weqfreggNJUACq5idqdh8pTDwi+6wxEMXkBEj0oeD54kOoJPCkn1dap
+ 75Hy8yBhLVh4/Ipozmwpx+kgaLI+LFyJ38m0ZcFNkcFC726W2meb5yjusoZlyvk7z6bs
+ e6UySvMM9rC0cgDRthQxhqFMiqPh4pgF1bmUKwu2TkVSvJ7g++bc60hl2y7vJxnZs6tK
+ OndTZ8FCoTGcSBR+DUhNTG6FyDRhJANDGE5In5diEKbhMFoQxDVkt0JvmfhNiegiAyCf
+ vDKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3WQZzPRazLKJGEWz/VuQ3kFYrNgQhqvNUOfet5eTrD4=;
- b=EyiEpk3plNj5g/vevcfLBTZh2+MEO+YApu9MlHRhjxd6raUd7cdORCDTUCwhL/7sra
- luTlkqONkBIAuDZuCRVlgkdaylqWmmYtxmAi/ioxNagblN2IrodNyhqGMglHD1kaxM6S
- OlXtEDXFnw/ngFThpcKLi49qb+5S4sHVLDh+PTvrvul0mY/UOtW3ub1tLft8iXfU+Mpi
- ido1cYGt+J0pW8BwBM6H3Mn7ytoHeYtl7YKlJUtqwimd8C3j2CR/8aPwykRs3ooiApLg
- eVyai0qhZ7zg8GkXeXeWM2kpowcIdG2fw732kVZrVtb7qiby6Y0RLsD6AINujoTajM3n
- KSXg==
-X-Gm-Message-State: ACrzQf35Kp0VVle6Bm/Ufc3CCpNH7OyUYRsYMfIgEv31MPI6a7S1DrU+
- 2847OtBre2sAZEDao6f576oDFX4trM2VIhVl
-X-Google-Smtp-Source: AMsMyM5/GVvtAKm0WSXpxG6o30zONxhUJKM05Ga6efhnjp1NIMnbWena+BYQNN6y2wGS5Yx6w5VNEQ==
-X-Received: by 2002:a17:902:f7cf:b0:17f:9081:a3f7 with SMTP id
- h15-20020a170902f7cf00b0017f9081a3f7mr17730445plw.3.1666336601644; 
- Fri, 21 Oct 2022 00:16:41 -0700 (PDT)
+ bh=ffAk/uKFmYMud8oNMjB2hkT94GX/9Rmm5gafjNWj2X0=;
+ b=Wd3gzutEr19aLaq4aDgcwxCKCcEZ1t6wRL7XhxP7Q3s4SukWmeXoS8yE06xN+SoWW9
+ lvRxhD25C1FrH13aXLj1caQy5uUCPho5PMAkW43ikdhG9CtzaGxz79NX5ZCXjGGM0ukI
+ KguRdlgP+c153UIDsFYP8AsGzW3VgjOLXKj932hEpb/fO37PyOPc71+lNaqaqYxQUkJV
+ 79GZqGVOf3k+9NOhSsg9gfHBdaEeppdpfzo7q+ExEGxbAkGIRcuseNjRlG+pdlvxUhdR
+ ziaYMbO5Uk2F9k8hkXARyq9Ulc3BK5Jv7xFYaqprYGEEkkhMd2Sb72jsnYQ+5XlDrNds
+ bbfA==
+X-Gm-Message-State: ACrzQf14Q0WCXNVyqZbW20Drv9mIwXpF3Q7g+a4QE/4t0cER59bs69gk
+ OXTy7n4Vv6cgGCXMF8LSpRUK4bJs3gYXAJbQ
+X-Google-Smtp-Source: AMsMyM4Wzq8Q/rtLPXZyFSbWxGyfEG+aV9DcZsNL2XvUb5AQoBgdGvM7d76JAVRRcHKhHcaq1apq9Q==
+X-Received: by 2002:a17:90b:3ec3:b0:20d:9da6:56c1 with SMTP id
+ rm3-20020a17090b3ec300b0020d9da656c1mr21119024pjb.156.1666336610104; 
+ Fri, 21 Oct 2022 00:16:50 -0700 (PDT)
 Received: from localhost.localdomain ([149.135.10.35])
  by smtp.gmail.com with ESMTPSA id
- q9-20020a638c49000000b0041cd5ddde6fsm13003327pgn.76.2022.10.21.00.16.39
+ q9-20020a638c49000000b0041cd5ddde6fsm13003327pgn.76.2022.10.21.00.16.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Oct 2022 00:16:41 -0700 (PDT)
+ Fri, 21 Oct 2022 00:16:49 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v2 06/36] meson: Move CONFIG_TCG_INTERPRETER to config_host
-Date: Fri, 21 Oct 2022 17:15:19 +1000
-Message-Id: <20221021071549.2398137-7-richard.henderson@linaro.org>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: [PATCH v2 09/36] target/sparc: Avoid TCGV_{LOW,HIGH}
+Date: Fri, 21 Oct 2022 17:15:22 +1000
+Message-Id: <20221021071549.2398137-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221021071549.2398137-1-richard.henderson@linaro.org>
 References: <20221021071549.2398137-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,37 +96,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Like CONFIG_TCG, the enabled method of execution is a host property
-not a guest property.  This exposes the define to compile-once files.
+Use the official extend/extract functions instead of routines
+that will shortly be internal to tcg.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- meson.build | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ target/sparc/translate.c | 21 ++++-----------------
+ 1 file changed, 4 insertions(+), 17 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 1ec3f72edc..64c87d45a5 100644
---- a/meson.build
-+++ b/meson.build
-@@ -469,6 +469,7 @@ if get_option('tcg').allowed()
-   endif
-   if get_option('tcg_interpreter')
-     tcg_arch = 'tci'
-+    config_host += { 'CONFIG_TCG_INTERPRETER': 'y' }
-   elif host_arch == 'x86_64'
-     tcg_arch = 'i386'
-   elif host_arch == 'ppc64'
-@@ -2507,9 +2508,6 @@ foreach target : target_dirs
-     if sym == 'CONFIG_TCG' or target in accelerator_targets.get(sym, [])
-       config_target += { sym: 'y' }
-       config_all += { sym: 'y' }
--      if sym == 'CONFIG_TCG' and tcg_arch == 'tci'
--        config_target += { 'CONFIG_TCG_INTERPRETER': 'y' }
--      endif
-       if target in modular_tcg
-         config_target += { 'CONFIG_TCG_MODULAR': 'y' }
-       else
+diff --git a/target/sparc/translate.c b/target/sparc/translate.c
+index 2cbbe2396a..7e9631f004 100644
+--- a/target/sparc/translate.c
++++ b/target/sparc/translate.c
+@@ -163,13 +163,6 @@ static inline void gen_update_fprs_dirty(DisasContext *dc, int rd)
+ /* floating point registers moves */
+ static TCGv_i32 gen_load_fpr_F(DisasContext *dc, unsigned int src)
+ {
+-#if TCG_TARGET_REG_BITS == 32
+-    if (src & 1) {
+-        return TCGV_LOW(cpu_fpr[src / 2]);
+-    } else {
+-        return TCGV_HIGH(cpu_fpr[src / 2]);
+-    }
+-#else
+     TCGv_i32 ret = get_temp_i32(dc);
+     if (src & 1) {
+         tcg_gen_extrl_i64_i32(ret, cpu_fpr[src / 2]);
+@@ -177,22 +170,16 @@ static TCGv_i32 gen_load_fpr_F(DisasContext *dc, unsigned int src)
+         tcg_gen_extrh_i64_i32(ret, cpu_fpr[src / 2]);
+     }
+     return ret;
+-#endif
+ }
+ 
+ static void gen_store_fpr_F(DisasContext *dc, unsigned int dst, TCGv_i32 v)
+ {
+-#if TCG_TARGET_REG_BITS == 32
+-    if (dst & 1) {
+-        tcg_gen_mov_i32(TCGV_LOW(cpu_fpr[dst / 2]), v);
+-    } else {
+-        tcg_gen_mov_i32(TCGV_HIGH(cpu_fpr[dst / 2]), v);
+-    }
+-#else
+-    TCGv_i64 t = (TCGv_i64)v;
++    TCGv_i64 t = tcg_temp_new_i64();
++
++    tcg_gen_extu_i32_i64(t, v);
+     tcg_gen_deposit_i64(cpu_fpr[dst / 2], cpu_fpr[dst / 2], t,
+                         (dst & 1 ? 0 : 32), 32);
+-#endif
++    tcg_temp_free_i64(t);
+     gen_update_fprs_dirty(dc, dst);
+ }
+ 
 -- 
 2.34.1
 
