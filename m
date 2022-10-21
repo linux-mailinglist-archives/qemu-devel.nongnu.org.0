@@ -2,66 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 555F3606DE9
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 04:41:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38750606DEF
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 04:43:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olhyY-0002Pl-TW
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 22:41:34 -0400
+	id 1oli0k-0002A5-3n
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 22:43:50 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olhvf-00053i-Eg
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 22:38:35 -0400
+	id 1olhvu-0005ML-6Z
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 22:38:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1olhvX-0004pH-P7; Thu, 20 Oct 2022 22:38:28 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1olhvV-0008BC-3j; Thu, 20 Oct 2022 22:38:27 -0400
-Received: from smtpclient.apple (unknown [159.226.43.11])
- by APP-01 (Coremail) with SMTP id qwCowADn748HBlJjsnVKBg--.40815S2;
- Fri, 21 Oct 2022 10:38:00 +0800 (CST)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: [PATCH] hw/nvme: reenable cqe batching
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-In-Reply-To: <20221020113538.36526-1-its@irrelevant.dk>
-Date: Fri, 21 Oct 2022 10:37:58 +0800
-Cc: qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>
-Content-Transfer-Encoding: 7bit
-Message-Id: <D059FE13-A269-4C82-9BE7-1FEA9F2AE53A@ict.ac.cn>
-References: <20221020113538.36526-1-its@irrelevant.dk>
-To: Klaus Jensen <its@irrelevant.dk>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
-X-CM-TRANSID: qwCowADn748HBlJjsnVKBg--.40815S2
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
- VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUU5t7k0a2IF6w1UM7kC6x804xWl14x267AK
- xVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGw
- A2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj
- 6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26r
- 4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28I
- cVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx
- 0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF
- 04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
- 18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vI
- r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
- 1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
- x4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8v_M3UUUUU==
-X-Originating-IP: [159.226.43.11]
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
-Received-SPF: pass client-ip=159.226.251.21;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1olhvh-00056H-R2
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 22:38:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1olhvf-0000Ry-Pr
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 22:38:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666319913;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1utgquKqJ/cRD8wZqTiRF7IZkAAaMUoxnId7MjWDRN8=;
+ b=DSo3ypH/iOlF6ZJZiCjc+07FMjFgbYZsSqvisRunh2OLlNhDK1splka4y63NzAXfqdhX3w
+ lpHsOugMsHmQW3V3gT+bJVvZg0fzOqeMZbM+MW6cGruu/3ZBwdAxgvrRxlnw9ONYCPr4YH
+ JkEzL/FRk11QjQEQycmd8Ccga1m1wmM=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-589-v9jbAdiDNpmnhS4oltHSTw-1; Thu, 20 Oct 2022 22:38:31 -0400
+X-MC-Unique: v9jbAdiDNpmnhS4oltHSTw-1
+Received: by mail-ot1-f70.google.com with SMTP id
+ g18-20020a9d6a12000000b00661a4599b64so883454otn.12
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 19:38:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1utgquKqJ/cRD8wZqTiRF7IZkAAaMUoxnId7MjWDRN8=;
+ b=3vIKEc4DmWOPfkDcdKZ3vDCDVU8rpmO3MEHrgR4nEapNKNnpqOgjiQm59ynSZwxp/G
+ 04V9ausXGyF7AlFXJdP2B12AZWVU4MWd3CphDrq/ORxHdcSxh8BU0GLLOvivcha6hBDS
+ X/iM0Bd4ZEHvvcD+ZSkFykx9IjPCL0wzBkHDRLd5NsVt4HJv9U1EbBM257CBW//IuVlp
+ xjWyyhXf9O+3E02bg7duxXjeaKmaUum/KRkIp6a+O5rBPbjfq6vgOQxVrRgjq0KbaitB
+ x/S89n5D7SFr97wEZSoOqeIdMCg3Fck9uIwbYMECVvU9cQWUlUc4QTAAxvSVzMOEnKfh
+ XB6A==
+X-Gm-Message-State: ACrzQf1nRgBTV4oxqrLzpL5iOM9kCTgsFmI9W7E4vqM+lvXjR9BEZGfh
+ bzyAPvzdbI2HShYr9+0r8l1f+HwKhdOQMT2de/l20LJ2yPzMEK9KJaNx35tikLhCMRjVoyfB1FM
+ 96T7Ar3SFNf/gGntQy3gatz2/ALim1ZA=
+X-Received: by 2002:a05:6808:1985:b0:354:d7cf:9acb with SMTP id
+ bj5-20020a056808198500b00354d7cf9acbmr9122430oib.280.1666319910888; 
+ Thu, 20 Oct 2022 19:38:30 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7e/FMS1R8fGA+GqIbXmliH9WFxQnxdCGeJeIVfarNWKEl3Pnl1uDvnKlVyfaHIbm7cNAytTljhAUyt8WBLoew=
+X-Received: by 2002:a05:6808:1985:b0:354:d7cf:9acb with SMTP id
+ bj5-20020a056808198500b00354d7cf9acbmr9122424oib.280.1666319910605; Thu, 20
+ Oct 2022 19:38:30 -0700 (PDT)
+MIME-Version: 1.0
+References: <20221019122717.1259803-1-eric.auger@redhat.com>
+ <CACGkMEtL9Rf6YkHBJpNm2LXfvX51s2KDCgvBNH6cJWfp7PdfVA@mail.gmail.com>
+ <5d4d1994-8560-80da-dbc7-babb5cd4ee0b@redhat.com>
+In-Reply-To: <5d4d1994-8560-80da-dbc7-babb5cd4ee0b@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Fri, 21 Oct 2022 10:38:18 +0800
+Message-ID: <CACGkMEssGqm8vMr3=WP-4KJw03pbdmbWjmx0Z99dhD=i-Rpo_g@mail.gmail.com>
+Subject: Re: [PATCH v2] vhost: Warn if DEVIOTLB_UNMAP is not supported and ats
+ is set
+To: eric.auger@redhat.com
+Cc: eric.auger.pro@gmail.com, mst@redhat.com, peterx@redhat.com, 
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org, eperezma@redhat.com, 
+ jean-philippe@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,23 +102,229 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-at 7:35 PM, Klaus Jensen <its@irrelevant.dk> wrote:
+On Thu, Oct 20, 2022 at 9:03 PM Eric Auger <eric.auger@redhat.com> wrote:
+>
+> Hi Jason,
+>
+> On 10/20/22 05:58, Jason Wang wrote:
+> > On Wed, Oct 19, 2022 at 8:27 PM Eric Auger <eric.auger@redhat.com> wrote:
+> >> Since b68ba1ca5767 ("memory: Add IOMMU_NOTIFIER_DEVIOTLB_UNMAP
+> >> IOMMUTLBNotificationType"), vhost attempts to register DEVIOTLB_UNMAP
+> >> notifier. This latter is supported by the intel-iommu which supports
+> >> device-iotlb if the corresponding option is set. Then 958ec334bca3
+> >> ("vhost: Unbreak SMMU and virtio-iommu on dev-iotlb support") allowed
+> >> silent fallback to the legacy UNMAP notifier if the viommu does not
+> >> support device iotlb.
+> >>
+> >> Initially vhost/viommu integration was introduced with intel iommu
+> >> assuming ats=on was set on virtio-pci device and device-iotlb was set
+> >> on the intel iommu. vhost acts as an ATS capable device since it
+> >> implements an IOTLB on kernel side. However translated transactions
+> >> that hit the device IOTLB do not transit through the vIOMMU. So this
+> >> requires a limited ATS support on viommu side. Anyway this assumed
+> >> ATS was eventually enabled .
+> >>
+> >> But neither SMMUv3 nor virtio-iommu do support ATS and the integration
+> >> with vhost just relies on the fact those vIOMMU send UNMAP notifications
+> >> whenever the guest trigger them. This works without ATS being enabled.
+> >>
+> >> This patch makes sure we get a warning if ATS is set on a device
+> >> protected by virtio-iommu or vsmmuv3, reminding that we don't have
+> >> full support of ATS on those vIOMMUs and setting ats=on on the
+> >> virtio-pci end-point is not a requirement.
+> >>
+> >> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> >>
+> >> ---
+> >>
+> >> v1 -> v2:
+> >> - s/enabled/capable
+> >> - tweak the error message on vhost side
+> >> ---
+> >>  include/hw/virtio/virtio-bus.h |  3 +++
+> >>  hw/virtio/vhost.c              | 21 ++++++++++++++++++++-
+> >>  hw/virtio/virtio-bus.c         | 14 ++++++++++++++
+> >>  hw/virtio/virtio-pci.c         | 11 +++++++++++
+> >>  4 files changed, 48 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/include/hw/virtio/virtio-bus.h b/include/hw/virtio/virtio-bus.h
+> >> index 7ab8c9dab0..23360a1daa 100644
+> >> --- a/include/hw/virtio/virtio-bus.h
+> >> +++ b/include/hw/virtio/virtio-bus.h
+> >> @@ -94,6 +94,7 @@ struct VirtioBusClass {
+> >>      bool has_variable_vring_alignment;
+> >>      AddressSpace *(*get_dma_as)(DeviceState *d);
+> >>      bool (*iommu_enabled)(DeviceState *d);
+> >> +    bool (*ats_capable)(DeviceState *d);
+> >>  };
+> >>
+> >>  struct VirtioBusState {
+> >> @@ -157,4 +158,6 @@ int virtio_bus_set_host_notifier(VirtioBusState *bus, int n, bool assign);
+> >>  void virtio_bus_cleanup_host_notifier(VirtioBusState *bus, int n);
+> >>  /* Whether the IOMMU is enabled for this device */
+> >>  bool virtio_bus_device_iommu_enabled(VirtIODevice *vdev);
+> >> +/* Whether ATS is enabled for this device */
+> >> +bool virtio_bus_device_ats_capable(VirtIODevice *vdev);
+> >>  #endif /* VIRTIO_BUS_H */
+> >> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> >> index 5185c15295..3cf9efce5e 100644
+> >> --- a/hw/virtio/vhost.c
+> >> +++ b/hw/virtio/vhost.c
+> >> @@ -324,6 +324,16 @@ static bool vhost_dev_has_iommu(struct vhost_dev *dev)
+> >>      }
+> >>  }
+> >>
+> >> +static bool vhost_dev_ats_capable(struct vhost_dev *dev)
+> > I suggest to rename this as pf_capable() since ATS is PCI specific but
+> > vhost isn't.
+> Does pf sound for page fault?
 
-> Commit 2e53b0b45024 ("hw/nvme: Use ioeventfd to handle doorbell
-> updates") had the unintended effect of disabling batching of CQEs.
-> 
-> This patch changes the sq/cq timers to bottom halfs and instead of
-> calling nvme_post_cqes() immediately (causing an interrupt per cqe), we
-> defer the call.
+Yes.
 
-This change is definitely desired.
+> >
+> >> +{
+> >> +    VirtIODevice *vdev = dev->vdev;
+> >> +
+> >> +    if (vdev && virtio_bus_device_ats_capable(vdev)) {
+> >> +        return true;
+> >> +    }
+> >> +    return false;
+> >> +}
+> >> +
+> >>  static void *vhost_memory_map(struct vhost_dev *dev, hwaddr addr,
+> >>                                hwaddr *plen, bool is_write)
+> >>  {
+> >> @@ -737,6 +747,7 @@ static void vhost_iommu_region_add(MemoryListener *listener,
+> >>      Int128 end;
+> >>      int iommu_idx;
+> >>      IOMMUMemoryRegion *iommu_mr;
+> >> +    Error *err = NULL;
+> >>      int ret;
+> >>
+> >>      if (!memory_region_is_iommu(section->mr)) {
+> >> @@ -760,8 +771,16 @@ static void vhost_iommu_region_add(MemoryListener *listener,
+> >>      iommu->iommu_offset = section->offset_within_address_space -
+> >>                            section->offset_within_region;
+> >>      iommu->hdev = dev;
+> >> -    ret = memory_region_register_iommu_notifier(section->mr, &iommu->n, NULL);
+> >> +    ret = memory_region_register_iommu_notifier(section->mr, &iommu->n, &err);
+> >>      if (ret) {
+> >> +        if (vhost_dev_ats_capable(dev)) {
+> >> +            error_reportf_err(err,
+> >> +                              "%s: Although the device exposes ATS capability, "
+> >> +                              "fallback to legacy IOMMU UNMAP notifier: ",
+> >> +                              iommu_mr->parent_obj.name);
+> > I'm not sure if it's a real error, or I wonder what we need to do is
+> >
+> > 1) check is ATS is enabled
+> > 2) fallback to UNMAP is ATS is not enabled
+> Isn't the problem due to the fact that vhost, by construction, requires
+> "pf" (would it be though DEVIOTLB_UNMAP or UNMAP).
 
-> 
->                   | iops
->  -----------------+------
->    baseline       | 138k
->    +cqe batching  | 233k
+So the device IOTLB invalidation and miss were mapped to feature
+VIRTIO_F_ACCESS_PLATFORM. So when this feature is negotiated Qemu can
+send device IOTLB invalidation and process IOTLB miss (without caring
+about ATS). So the only issue is when to trigger the IOTLB
+invalidation. It could be done by both DEVIOTLB_UNMAP or UNMAP.
 
-What is the queue depth config for this test?
+> Don't UNMAP
+> notifications also implement part of ATS protocol?
+
+I'd treat UNMAP as a way to make the device work without ATS:
+
+1) when ATS is enabled, device IOTLB invalidation needs to be sent
+from guest and vIOMMU receive device IOTLB invalidation request and
+trigger DEVIOTLB_UNMAP
+2) when ATS is not enabled, the device should still work per PCIe
+spec, so we need find way to emulate this, since guest doesn't think
+there's a device IOTLB, Qemu can only receive IOTLB invalidation. In
+order to make dev devices work (receive IOTLB flush), we need to use
+UNMAP in this case.
+
+>I guess this is the
+> reason why you mandated ats in the first place.
+>
+> So if ATS is not enabled, shouldn't we fallback to virtio instead of vhost?
+
+If we can find a way to make vhost work that would be better and
+what's more important, the fallback only work for vhost-net but not
+vhost-user/vhost-vdpa.
+
+Thanks
+
+>
+> Thanks
+>
+> Eric
+> >
+> >> +        } else {
+> >> +            error_free(err);
+> >> +        }
+> >>          /*
+> >>           * Some vIOMMUs do not support dev-iotlb yet.  If so, try to use the
+> >>           * UNMAP legacy message
+> >> diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
+> >> index 896feb37a1..d46c3f8ec4 100644
+> >> --- a/hw/virtio/virtio-bus.c
+> >> +++ b/hw/virtio/virtio-bus.c
+> >> @@ -348,6 +348,20 @@ bool virtio_bus_device_iommu_enabled(VirtIODevice *vdev)
+> >>      return klass->iommu_enabled(qbus->parent);
+> >>  }
+> >>
+> >> +bool virtio_bus_device_ats_capable(VirtIODevice *vdev)
+> >> +{
+> >> +    DeviceState *qdev = DEVICE(vdev);
+> >> +    BusState *qbus = BUS(qdev_get_parent_bus(qdev));
+> >> +    VirtioBusState *bus = VIRTIO_BUS(qbus);
+> >> +    VirtioBusClass *klass = VIRTIO_BUS_GET_CLASS(bus);
+> >> +
+> >> +    if (!klass->ats_capable) {
+> >> +        return false;
+> > I think it's better to check whether or not ATS is enabled. Guest may
+> > choose to not enable ATS for various reasons.
+> >
+> > Thanks
+> >
+> >> +    }
+> >> +
+> >> +    return klass->ats_capable(qbus->parent);
+> >> +}
+> >> +
+> >>  static void virtio_bus_class_init(ObjectClass *klass, void *data)
+> >>  {
+> >>      BusClass *bus_class = BUS_CLASS(klass);
+> >> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> >> index e7d80242b7..c2ceba98a6 100644
+> >> --- a/hw/virtio/virtio-pci.c
+> >> +++ b/hw/virtio/virtio-pci.c
+> >> @@ -1141,6 +1141,16 @@ static bool virtio_pci_iommu_enabled(DeviceState *d)
+> >>      return true;
+> >>  }
+> >>
+> >> +static bool virtio_pci_ats_capable(DeviceState *d)
+> >> +{
+> >> +    VirtIOPCIProxy *proxy = VIRTIO_PCI(d);
+> >> +
+> >> +    if (proxy->flags & VIRTIO_PCI_FLAG_ATS) {
+> >> +        return true;
+> >> +    }
+> >> +    return false;
+> >> +}
+> >> +
+> >>  static bool virtio_pci_queue_enabled(DeviceState *d, int n)
+> >>  {
+> >>      VirtIOPCIProxy *proxy = VIRTIO_PCI(d);
+> >> @@ -2229,6 +2239,7 @@ static void virtio_pci_bus_class_init(ObjectClass *klass, void *data)
+> >>      k->ioeventfd_assign = virtio_pci_ioeventfd_assign;
+> >>      k->get_dma_as = virtio_pci_get_dma_as;
+> >>      k->iommu_enabled = virtio_pci_iommu_enabled;
+> >> +    k->ats_capable = virtio_pci_ats_capable;
+> >>      k->queue_enabled = virtio_pci_queue_enabled;
+> >>  }
+> >>
+> >> --
+> >> 2.35.3
+> >>
+>
 
 
