@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7328D60746E
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 11:50:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9E4A607492
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 11:58:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olofK-0004dY-LV
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:50:10 -0400
+	id 1oloni-0003AQ-2C
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:58:50 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oloWB-000068-Rm
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:40:43 -0400
+	id 1olobp-00025B-UB
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:46:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oloW0-0007IE-FF
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:40:32 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oloVy-0007ya-P4
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:40:32 -0400
-Received: by mail-pl1-x634.google.com with SMTP id y4so1874022plb.2
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 02:40:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=De6goZ7JkJ3YLqvW+bgz0dCp6u4aYLJy+OozOnLn8Gs=;
- b=sWQ0M2npDN5B2FIkmFjPdt8EnYt3HyWOU8gt+esKN4O5krXqRx8MFY3SsZ3hRzj4Q2
- C0EVABdwr8QTPwe8FEdQmDEl8+0oHUxB0tbpCZ6gaY4/K7zw4kSFNkQ1uCzIqUcTo/2q
- NU/XmXXKZH0Xok/pslnb+Dbv+pZTP1wNyGIT6n/umx3sMNvA6Oyd7JpPkaPzr4iwxPBr
- CLZOlPfBmbdTKAa0XWJeO3Gb/tzli3c6pP+8U3Hl3xClNeZ6gkb7QP6gqwIVmjhS/3Ep
- Uq/GAoWei01QDo8Y4jp1nr2EOX1pLV/mnkrHS42erQeItAFGQjzuFvQS76L6JoCjraQ/
- 4jfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=De6goZ7JkJ3YLqvW+bgz0dCp6u4aYLJy+OozOnLn8Gs=;
- b=csD1V81c27IAsRFskBsA3LqX22Nt6iaffDqecL6qL5ifFPgYj5m1MzUlBLaxN1ZxIr
- ljky9hnuwcbyhXc6YPXt7CaFpwfS+1v27gKGMYa+8W5uSrQQPNcOJ5Qv3OkT0C2wjga2
- 2qFUNUB1zMFeBcS6nhLWDImCqRp126dOM8zQFXAFXWNttvK21SbBvH/RYEZUuGc4Lwfs
- V3/gwYUw58RsuN4/gYacMR5l7ZyQhTKcor1NoBwyOD3ObDdy8uBMimOxjHROmpTVzf8f
- GtDrWTGaERCQQhyKEIOZ2nVBxRa3AWMUhQr5+D6MLxyIBUT0SfeBZfL0/y9mZ7NnIvjp
- Xtdw==
-X-Gm-Message-State: ACrzQf17kcKIyMtR5vK85fOHNc19PE7Ltinx2tC2/And788eBfz4nzZa
- sch0Tg/ABO3ffbKc1FUac1NrVw+L06bYyVSdfKOIKQ==
-X-Google-Smtp-Source: AMsMyM5tomvCTqqzDaiWrDHNPfKSi8m0a498XbIExYYjerJZcpGnQo+lfONELorGaXo2VJduQuKEADm6OofQMeeBzYo=
-X-Received: by 2002:a17:902:7c97:b0:17f:5abf:9450 with SMTP id
- y23-20020a1709027c9700b0017f5abf9450mr17826192pll.19.1666345228832; Fri, 21
- Oct 2022 02:40:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1olobW-0000ob-2o
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:46:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1olobJ-0001cW-FG
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:46:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666345560;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eEGcZTM4WGU313KAHF7BktRa/ucp0erVUqcUHAPhuxs=;
+ b=J+S5JpWdPK/DM4DMgPQv94PvV8MwCwlZ1qila7ySrmcXovIRJmrx8ZrNzvJov1qXDoesOS
+ D6hc/NsY1SdO7QNj4qGJB85V71qNBYT3hD4W0JMxfPI+qJTlEoNHHjrineWI6PNW/xIT9m
+ qOhxgQbbmyy/FEwj+MpNM5xyX7msqEs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-360-r4VLegGdPdyvGdnfNvixeA-1; Fri, 21 Oct 2022 05:45:57 -0400
+X-MC-Unique: r4VLegGdPdyvGdnfNvixeA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B089D8339CB;
+ Fri, 21 Oct 2022 09:45:56 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 008C32024CBF;
+ Fri, 21 Oct 2022 09:45:55 +0000 (UTC)
+Date: Fri, 21 Oct 2022 11:45:54 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>
+Cc: hreitz@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 0/2] Fix some problems with vvfat in R/W mode
+Message-ID: <Y1JqUvv7hRIKQipt@redhat.com>
+References: <20221010175511.3414357-1-hpoussin@reactos.org>
 MIME-Version: 1.0
-References: <20221020223548.2310496-1-richard.henderson@linaro.org>
- <20221020223548.2310496-10-richard.henderson@linaro.org>
- <1eda418c-61e1-a00a-1217-0ab2eaff0ae0@linaro.org>
-In-Reply-To: <1eda418c-61e1-a00a-1217-0ab2eaff0ae0@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 21 Oct 2022 10:40:17 +0100
-Message-ID: <CAFEAcA9E=-r6P6hR_E9VAjek+kbP=h1vp4hH6scXvprwzg67ng@mail.gmail.com>
-Subject: Re: [PATCH v5 09/14] target/arm: Don't shift attrs in
- get_phys_addr_lpae
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org, 
- qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221010175511.3414357-1-hpoussin@reactos.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,30 +82,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 21 Oct 2022 at 10:27, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
-g> wrote:
->
-> On 21/10/22 00:35, Richard Henderson wrote:
-> > Leave the upper and lower attributes in the place they originate
-> > from in the descriptor.  Shifting them around is confusing, since
-> > one cannot read the bit numbers out of the manual.  Also, new
-> > attributes have been added which would alter the shifts.
-> >
-> > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> > ---
-> >   target/arm/ptw.c | 31 +++++++++++++++----------------
-> >   1 file changed, 15 insertions(+), 16 deletions(-)
->
-> >       if (regime_is_stage2(mmu_idx)) {
-> >           ns =3D mmu_idx =3D=3D ARMMMUIdx_Stage2;
-> > -        xn =3D extract32(attrs, 11, 2);
-> > +        xn =3D extract64(attrs, 54, 2);
->
-> 54 -> 53?
+Am 10.10.2022 um 19:55 hat Hervé Poussineau geschrieben:
+> Hi,
+> 
+> When testing vvfat in read-write mode, I came across some blocking
+> problems when using Windows guests.
+> This patchset is not here to fix all problems of vvfat, but only the
+> main ones I encountered.
+> 
+> First patch allows setting/resetting the 'volume dirty' flag on
+> boosector, and the second one allows creating file names with spaces.
+> 
+> Hervé
+> 
+> Changes since v1:
+> - updated patch 1 with remarks (modify in-memory copy, add comment about
+>   FAT32)
 
-Yes. I spotted that in review of v3 but I guess we lost the fix
-along the way somewhere.
+Thanks, applied to the block branch.
 
--- PMM
+Kevin
+
 
