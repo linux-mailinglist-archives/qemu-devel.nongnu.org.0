@@ -2,73 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6841F60716F
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 09:50:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B273F607192
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 10:02:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olmnk-0002o5-DZ
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:50:44 -0400
+	id 1olmyk-0003xr-Ij
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 04:02:06 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olmQF-0000SR-NB
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:26:27 -0400
+	id 1olmVN-0004cA-1q
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:31:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
- id 1olmQ7-0000BX-DF
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:26:19 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
- id 1olmPx-0007GD-Hp
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:26:12 -0400
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Mtwr34fC2zVj5k;
- Fri, 21 Oct 2022 15:21:23 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 21 Oct 2022 15:25:54 +0800
-Received: from [10.174.178.174] (10.174.178.174) by
- dggpemm500007.china.huawei.com (7.185.36.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 21 Oct 2022 15:25:53 +0800
-Subject: Re: [PATCH 00/11] fix memory leak while kset_register() fails
-To: Luben Tuikov <luben.tuikov@amd.com>, <linux-kernel@vger.kernel.org>,
- <qemu-devel@nongnu.org>, <linux-f2fs-devel@lists.sourceforge.net>,
- <linux-erofs@lists.ozlabs.org>, <ocfs2-devel@oss.oracle.com>,
- <linux-mtd@lists.infradead.org>, <amd-gfx@lists.freedesktop.org>
-CC: <gregkh@linuxfoundation.org>, <rafael@kernel.org>, <somlo@cmu.edu>,
- <mst@redhat.com>, <jaegeuk@kernel.org>, <chao@kernel.org>,
- <hsiangkao@linux.alibaba.com>, <huangjianan@oppo.com>, <mark@fasheh.com>,
- <jlbec@evilplan.org>, <joseph.qi@linux.alibaba.com>,
- <akpm@linux-foundation.org>, <alexander.deucher@amd.com>, <richard@nod.at>,
- <liushixin2@huawei.com>
-References: <20221021022102.2231464-1-yangyingliang@huawei.com>
- <d559793a-0ce4-3384-e74e-19855aa31f31@amd.com>
-Message-ID: <2a99c52c-d29c-5f5c-57a8-9851018e7420@huawei.com>
-Date: Fri, 21 Oct 2022 15:25:51 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1olmUy-00046Z-A0
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:31:31 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1olmUV-0007tR-1Z
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:31:15 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id ez6so1717013pjb.1
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 00:30:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1tQ/dXFlqMICC2IRZodhBxwkDD25EVtE73g1mVneeVA=;
+ b=B6BBDFrj9zSFy1/mf2mDPx6igGOLHelz/sw8JCBNIjEpuS0IkH7DKVyplwFlYFDo/H
+ dL4VGJvMV5BFDgmLZtNIsLB/IIT+mRv0m++hUGw9CmyInCICG1jyxDLsve+yLQL1EnHD
+ c7VGMBA+Lz2w9QT7El52nGe2MYRZGA057IW3tn+fiCScNLoO90vgS9Qi5NUnSuFy3X73
+ H1xaYDswxYzf6dXWqlaFqeI5zkQCaGQx/6mmlqlSWFOOXbeBQ5tYQJqmWuoBVphISXtE
+ QYENaek6vbNL5JcjX9OCzU4TniLtkw60LOGK9hRWMYNBuqRRtbpiv+6idLuEMO3p7Okj
+ ZxZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=1tQ/dXFlqMICC2IRZodhBxwkDD25EVtE73g1mVneeVA=;
+ b=0N4uBIbk+Z+0Lz4sFR2AyrMBHQ7S+XbRgj9gDWhLziBY2zK4lYL/4e4Zz13AZwEhZ3
+ LND837fozVQRr+9Y614RE+w4/dGtVvlg8HtxHOERi54oBevZ6YZ3j2QHkDFZm9guUAMa
+ ov+FJRCAHTLF2EkRIDP6XvW/32eTY5TxSkFlBv/35ny2D1B0vCbNqj0qM9Qz5aHMpY4t
+ ioV6yuqbqI5LbCyO7VwRugZdFVds1862FqqxElLM3hUL0mfJm2KJhRYRlBVXOthmELba
+ QLahB+/3OsNe39dQlQ00qcR6xrv6xpwK01dy3TpLXMbom8mYsrwYu2kRKPOru/CMtGcd
+ hoRg==
+X-Gm-Message-State: ACrzQf2F7NlCUgCOVRBT/7inMrS4VMVDNT01DYIr3se1Q2mg5oVI9sdb
+ zSqxRavmGaFzM4WhdOiUdOtSJsiT1ikBICBZ
+X-Google-Smtp-Source: AMsMyM4LbjvIZ5mF2Dg5zZo+xW7smobkv4JkM1M4MyruiVhaU5tP6gXECLfoWOhk6X/IfF8/fYqZUg==
+X-Received: by 2002:a17:903:41cb:b0:183:1648:be0f with SMTP id
+ u11-20020a17090341cb00b001831648be0fmr17894812ple.18.1666337449506; 
+ Fri, 21 Oct 2022 00:30:49 -0700 (PDT)
+Received: from localhost.localdomain ([149.135.10.35])
+ by smtp.gmail.com with ESMTPSA id
+ a9-20020a17090a6d8900b002008d0e5cb5sm1042721pjk.47.2022.10.21.00.30.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Oct 2022 00:30:49 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org
+Subject: [PATCH 2/9] target/s390x: Use a single return for helper_divs64/u64
+Date: Fri, 21 Oct 2022 17:29:59 +1000
+Message-Id: <20221021073006.2398819-3-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221021073006.2398819-1-richard.henderson@linaro.org>
+References: <20221021073006.2398819-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <d559793a-0ce4-3384-e74e-19855aa31f31@amd.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.178.174]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=yangyingliang@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,112 +93,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Yang Yingliang <yangyingliang@huawei.com>
-From:  Yang Yingliang via <qemu-devel@nongnu.org>
 
-Hi,
+Pack the quotient and remainder into a single Int128.
+Use the divu128 primitive to remove the cpu_abort on
+32-bit hosts.
 
-On 2022/10/21 13:29, Luben Tuikov wrote:
-> On 2022-10-20 22:20, Yang Yingliang wrote:
->> The previous discussion link:
->> https://lore.kernel.org/lkml/0db486eb-6927-927e-3629-958f8f211194@huawei.com/T/
-> The very first discussion on this was here:
->
-> https://www.spinics.net/lists/dri-devel/msg368077.html
->
-> Please use this link, and not the that one up there you which quoted above,
-> and whose commit description is taken verbatim from the this link.
-I found this leaks in 
-bus_register()/class_register()/kset_create_and_add() at first, and describe
-the reason in these patches which is using kobject_set_name() 
-description, here is the patches:
+This is the first use of Int128 as a return value.
 
-https://lore.kernel.org/lkml/20221017014957.156645-1-yangyingliang@huawei.com/T/
-https://lore.kernel.org/lkml/20221017031335.1845383-1-yangyingliang@huawei.com/
-https://lore.kernel.org/lkml/Y0zfPKAgQSrYZg5o@kroah.com/T/
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/s390x/helper.h         |  4 ++--
+ target/s390x/tcg/int_helper.c | 38 +++++++++--------------------------
+ target/s390x/tcg/translate.c  | 14 +++++++++----
+ 3 files changed, 21 insertions(+), 35 deletions(-)
 
-And then I found other subsystem also have this problem, so posted the 
-fix patches for them
-(including qemu_fw_cfg/f2fs/erofs/ocfs2/amdgpu_discovery):
+diff --git a/target/s390x/helper.h b/target/s390x/helper.h
+index 97a9668eef..29986557ed 100644
+--- a/target/s390x/helper.h
++++ b/target/s390x/helper.h
+@@ -12,8 +12,8 @@ DEF_HELPER_3(clcl, i32, env, i32, i32)
+ DEF_HELPER_FLAGS_4(clm, TCG_CALL_NO_WG, i32, env, i32, i32, i64)
+ DEF_HELPER_FLAGS_3(divs32, TCG_CALL_NO_WG, i64, env, s64, s64)
+ DEF_HELPER_FLAGS_3(divu32, TCG_CALL_NO_WG, i64, env, i64, i64)
+-DEF_HELPER_FLAGS_3(divs64, TCG_CALL_NO_WG, s64, env, s64, s64)
+-DEF_HELPER_FLAGS_4(divu64, TCG_CALL_NO_WG, i64, env, i64, i64, i64)
++DEF_HELPER_FLAGS_3(divs64, TCG_CALL_NO_WG, i128, env, s64, s64)
++DEF_HELPER_FLAGS_4(divu64, TCG_CALL_NO_WG, i128, env, i64, i64, i64)
+ DEF_HELPER_3(srst, void, env, i32, i32)
+ DEF_HELPER_3(srstu, void, env, i32, i32)
+ DEF_HELPER_4(clst, i64, env, i64, i64, i64)
+diff --git a/target/s390x/tcg/int_helper.c b/target/s390x/tcg/int_helper.c
+index 130b8bd4d2..7dc919a102 100644
+--- a/target/s390x/tcg/int_helper.c
++++ b/target/s390x/tcg/int_helper.c
+@@ -76,46 +76,26 @@ uint64_t HELPER(divu32)(CPUS390XState *env, uint64_t a, uint64_t b64)
+ }
+ 
+ /* 64/64 -> 64 signed division */
+-int64_t HELPER(divs64)(CPUS390XState *env, int64_t a, int64_t b)
++Int128 HELPER(divs64)(CPUS390XState *env, int64_t a, int64_t b)
+ {
+     /* Catch divide by zero, and non-representable quotient (MIN / -1).  */
+     if (b == 0 || (b == -1 && a == (1ll << 63))) {
+         tcg_s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
+     }
+-    env->retxl = a % b;
+-    return a / b;
++    return int128_make128(a % b, a / b);
+ }
+ 
+ /* 128 -> 64/64 unsigned division */
+-uint64_t HELPER(divu64)(CPUS390XState *env, uint64_t ah, uint64_t al,
+-                        uint64_t b)
++Int128 HELPER(divu64)(CPUS390XState *env, uint64_t ah, uint64_t al, uint64_t b)
+ {
+-    uint64_t ret;
+-    /* Signal divide by zero.  */
+-    if (b == 0) {
+-        tcg_s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
+-    }
+-    if (ah == 0) {
+-        /* 64 -> 64/64 case */
+-        env->retxl = al % b;
+-        ret = al / b;
+-    } else {
+-        /* ??? Move i386 idivq helper to host-utils.  */
+-#ifdef CONFIG_INT128
+-        __uint128_t a = ((__uint128_t)ah << 64) | al;
+-        __uint128_t q = a / b;
+-        env->retxl = a % b;
+-        ret = q;
+-        if (ret != q) {
+-            tcg_s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
++    if (b != 0) {
++        uint64_t r = divu128(&al, &ah, b);
++        if (ah == 0) {
++            return int128_make128(r, al);
+         }
+-#else
+-        /* 32-bit hosts would need special wrapper functionality - just abort if
+-           we encounter such a case; it's very unlikely anyways. */
+-        cpu_abort(env_cpu(env), "128 -> 64/64 division not implemented\n");
+-#endif
+     }
+-    return ret;
++    /* divide by zero or overflow */
++    tcg_s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
+ }
+ 
+ uint64_t HELPER(cvd)(int32_t reg)
+diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
+index 525317c9df..a3f5a55891 100644
+--- a/target/s390x/tcg/translate.c
++++ b/target/s390x/tcg/translate.c
+@@ -2411,15 +2411,21 @@ static DisasJumpType op_divu32(DisasContext *s, DisasOps *o)
+ 
+ static DisasJumpType op_divs64(DisasContext *s, DisasOps *o)
+ {
+-    gen_helper_divs64(o->out2, cpu_env, o->in1, o->in2);
+-    return_low128(o->out);
++    TCGv_i128 t = tcg_temp_new_i128();
++
++    gen_helper_divs64(t, cpu_env, o->in1, o->in2);
++    tcg_gen_extr_i128_i64(o->out, o->out2, t);
++    tcg_temp_free_i128(t);
+     return DISAS_NEXT;
+ }
+ 
+ static DisasJumpType op_divu64(DisasContext *s, DisasOps *o)
+ {
+-    gen_helper_divu64(o->out2, cpu_env, o->out, o->out2, o->in2);
+-    return_low128(o->out);
++    TCGv_i128 t = tcg_temp_new_i128();
++
++    gen_helper_divu64(t, cpu_env, o->out, o->out2, o->in2);
++    tcg_gen_extr_i128_i64(o->out, o->out2, t);
++    tcg_temp_free_i128(t);
+     return DISAS_NEXT;
+ }
+ 
+-- 
+2.34.1
 
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg915553.html
-https://lore.kernel.org/linux-f2fs-devel/7908686b-9a7c-b754-d312-d689fc28366e@kernel.org/T/#t
-https://lore.kernel.org/linux-erofs/20221018073947.693206-1-yangyingliang@huawei.com/
-https://lore.kernel.org/lkml/0db486eb-6927-927e-3629-958f8f211194@huawei.com/T/
-
-https://www.spinics.net/lists/dri-devel/msg368092.html
-In the amdgpu_discovery patch, I sent a old one which using wrong 
-description and you pointer out,
-and then I send a v2.
-
-And then the maintainer of ocfs2 has different thought about this, so we 
-had a discussion in the link
-that I gave out, and Greg suggested me to update kset_register() 
-documentation and then put the fix
-patches together in one series, so I sent this patchset and use the link.
-
-Thanks,
-Yang
-
->
->> kset_register() is currently used in some places without calling
->> kset_put() in error path, because the callers think it should be
->> kset internal thing to do, but the driver core can not know what
->> caller doing with that memory at times. The memory could be freed
->> both in kset_put() and error path of caller, if it is called in
->> kset_register().
-> As I explained in the link above, the reason there's
-> a memory leak is that one cannot call kset_register() without
-> the kset->kobj.name being set--kobj_add_internal() returns -EINVAL,
-> in this case, i.e. kset_register() fails with -EINVAL.
->
-> Thus, the most common usage is something like this:
->
-> 	kobj_set_name(&kset->kobj, format, ...);
-> 	kset->kobj.kset = parent_kset;
-> 	kset->kobj.ktype = ktype;
-> 	res = kset_register(kset);
->
-> So, what is being leaked, is the memory allocated in kobj_set_name(),
-> by the common idiom shown above. This needs to be mentioned in
-> the documentation, at least, in case, in the future this is absolved
-> in kset_register() redesign, etc.
->
-> Regards,
-> Luben
->
->> So make the function documentation more explicit about calling
->> kset_put() in the error path of caller first, so that people
->> have a chance to know what to do here, then fixes this leaks
->> by calling kset_put() from callers.
->>
->> Liu Shixin (1):
->>    ubifs: Fix memory leak in ubifs_sysfs_init()
->>
->> Yang Yingliang (10):
->>    kset: fix documentation for kset_register()
->>    kset: add null pointer check in kset_put()
->>    bus: fix possible memory leak in bus_register()
->>    kobject: fix possible memory leak in kset_create_and_add()
->>    class: fix possible memory leak in __class_register()
->>    firmware: qemu_fw_cfg: fix possible memory leak in
->>      fw_cfg_build_symlink()
->>    f2fs: fix possible memory leak in f2fs_init_sysfs()
->>    erofs: fix possible memory leak in erofs_init_sysfs()
->>    ocfs2: possible memory leak in mlog_sys_init()
->>    drm/amdgpu/discovery: fix possible memory leak
->>
->>   drivers/base/bus.c                            | 4 +++-
->>   drivers/base/class.c                          | 6 ++++++
->>   drivers/firmware/qemu_fw_cfg.c                | 2 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c | 5 +++--
->>   fs/erofs/sysfs.c                              | 4 +++-
->>   fs/f2fs/sysfs.c                               | 4 +++-
->>   fs/ocfs2/cluster/masklog.c                    | 7 ++++++-
->>   fs/ubifs/sysfs.c                              | 2 ++
->>   include/linux/kobject.h                       | 3 ++-
->>   lib/kobject.c                                 | 5 ++++-
->>   10 files changed, 33 insertions(+), 9 deletions(-)
->>
-> .
 
