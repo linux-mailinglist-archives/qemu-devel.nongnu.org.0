@@ -2,75 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BB6A60746B
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 11:47:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D2DD60740F
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 11:30:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olod6-00054l-IE
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:47:52 -0400
+	id 1oloLu-000639-NZ
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:30:06 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olo9Z-0004Tz-AS
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:17:21 -0400
+	id 1oloBf-0007ig-4f
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:19:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1olo9F-0004N4-SI
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:17:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1olo9C-0003iC-L2
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:17:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666343817;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zVSpRSJo29H3kP4HL3MThDYZnsOwLIC+1tGoje/x+L0=;
- b=M0HcG5jMyMsv9DrUbUI1I+p2Puzcj/jWv6Fu6yM//3k0AAw8HGagdI1YZRi/Qj+etcfrGG
- EPFOsui+yo0GZeoXPPys/j8OryCjSTfzHOOxoSK3knK+mZXQeUchZBgqWR1ahkyA8lQMqt
- Gt8XFflrqptRNTrovyK8gWaeT8YwLIY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-546-y6DV_hmaNtqXWEvmvIUeDw-1; Fri, 21 Oct 2022 05:16:55 -0400
-X-MC-Unique: y6DV_hmaNtqXWEvmvIUeDw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 37C848279A6;
- Fri, 21 Oct 2022 09:16:54 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.131])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 44ABB2166B2D;
- Fri, 21 Oct 2022 09:16:45 +0000 (UTC)
-Date: Fri, 21 Oct 2022 11:16:39 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Bin Meng <bin.meng@windriver.com>
-Cc: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v6 2/2] block: Refactor get_tmp_filename()
-Message-ID: <Y1Jjd3AVlWwpttFz@redhat.com>
-References: <20221010040432.3380478-1-bin.meng@windriver.com>
- <20221010040432.3380478-2-bin.meng@windriver.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oloBO-0007SY-6A
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:19:16 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oloBJ-00040B-K2
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:19:13 -0400
+Received: by mail-wr1-x435.google.com with SMTP id n12so3811393wrp.10
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 02:19:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=bhkasDf+xRkJVcLAstxQYa8JpMtDeQpL/dvxlK2qwUI=;
+ b=AVS5C5+3hQsYo9JwqYAX2XE1RDhh9jkZkTjpFZ5UfGwV5Iu2+AP2qAJoB+mCyT9zEB
+ 7p2J/F8aPWs/j7KoDggaDRwhUYuB6zCfbo9vNZGETMkZP4PTEeFZt7bvyEleIz6evy3o
+ FqhYRb/IXiIe95SdKPvf/a2Ggv03KOEK2KZU4alUyWlT4x8kq2kQqM+u474pXvNDLMyo
+ SFQyIayPhpvVSTo9gSxu27YhyzocFTxqwM99b6lTYkVd4Cokg1iht8eDa4LBegyfZDl3
+ eC/M4GyDd0MZsnYxDXfVxAUxI9YCS4y9syreVQxFJeNmdLSL3c7rmUuteVpkVCTg+DAS
+ 8CCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bhkasDf+xRkJVcLAstxQYa8JpMtDeQpL/dvxlK2qwUI=;
+ b=RM+ac2f8mo2/Dj/yhWqpSGVby3fix7F5XmrgnNta4yTF5HBgR9qzQJXdagr8px846V
+ pcn3L/W6v7HpwP6AphuXKzH1QeFvATe/0ojgt0QZx/uH/3TGz1buYmmvStj1P13KRu27
+ TQXIPnzvzddgePCv1b4C80f77ySDjDAV/XiCCNdnV7FZUUCEDCTwXOk9MQTzQrHYjZG7
+ YezAv0IX5pZBneCfyf45uxkKe4+iiE6sUP/4ob3WsHCF9YpXWfuEg9POh76f6suxqV5+
+ SDk9tcfX5Wn7n+fK6m0ZyWP3rYCdTQOVvf6DEC/BT6nwcqrT8Hv+JYcOtnihogSvLpjO
+ T7mA==
+X-Gm-Message-State: ACrzQf3YfeY9BlEZrE4B1aebx2NteYVE4DaxkiNxkCak9dMkyhjbg9a4
+ mykSqPbpbs+d7jcRYaYM+EpugQ==
+X-Google-Smtp-Source: AMsMyM59x+5Iwyryr25aJj5lzYIUshHqivg9sR2BdXJEguUeIrvfmjTXng3UrYr5fhfZb4yoFKPhfg==
+X-Received: by 2002:a5d:64ab:0:b0:231:44c1:32b0 with SMTP id
+ m11-20020a5d64ab000000b0023144c132b0mr11599593wrp.255.1666343944815; 
+ Fri, 21 Oct 2022 02:19:04 -0700 (PDT)
+Received: from [10.50.0.10]
+ (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
+ by smtp.gmail.com with ESMTPSA id
+ p9-20020a05600c468900b003c452678025sm2384526wmo.4.2022.10.21.02.19.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Oct 2022 02:19:03 -0700 (PDT)
+Message-ID: <a5177035-344e-72bf-4267-d7b753cfb2fb@linaro.org>
+Date: Fri, 21 Oct 2022 11:19:02 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221010040432.3380478-2-bin.meng@windriver.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.2
+Subject: Re: [PATCH v5 01/14] target/arm: Introduce regime_is_stage2
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org
+References: <20221020223548.2310496-1-richard.henderson@linaro.org>
+ <20221020223548.2310496-2-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221020223548.2310496-2-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,133 +98,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 10.10.2022 um 06:04 hat Bin Meng geschrieben:
-> At present there are two callers of get_tmp_filename() and they are
-> inconsistent.
+On 21/10/22 00:35, Richard Henderson wrote:
+> Reduce the amount of typing required for this check.
 > 
-> One does:
-> 
->     /* TODO: extra byte is a hack to ensure MAX_PATH space on Windows. */
->     char *tmp_filename = g_malloc0(PATH_MAX + 1);
->     ...
->     ret = get_tmp_filename(tmp_filename, PATH_MAX + 1);
-> 
-> while the other does:
-> 
->     s->qcow_filename = g_malloc(PATH_MAX);
->     ret = get_tmp_filename(s->qcow_filename, PATH_MAX);
-> 
-> As we can see different 'size' arguments are passed. There are also
-> platform specific implementations inside the function, and the use
-> of snprintf is really undesirable.
-> 
-> The function name is also misleading. It creates a temporary file,
-> not just a filename.
-> 
-> Refactor this routine by changing its name and signature to:
-> 
->     char *create_tmp_file(Error **errp)
-> 
-> and use g_get_tmp_dir() / g_mkstemp() for a consistent implementation.
-> 
-> While we are here, add some comments to mention that /var/tmp is
-> preferred over /tmp on non-win32 hosts.
-> 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-> 
-> Changes in v6:
-> - use g_mkstemp() and stick to use /var/tmp for non-win32 hosts
-> 
-> Changes in v5:
-> - minor change in the commit message
-> - add some notes in the function comment block
-> - add g_autofree for tmp_filename
-> 
-> Changes in v4:
-> - Rename the function to create_tmp_file() and take "Error **errp" as
->   a parameter, so that callers can pass errp all the way down to this
->   routine.
-> - Commit message updated to reflect the latest change
-> 
-> Changes in v3:
-> - Do not use errno directly, instead still let get_tmp_filename() return
->   a negative number to indicate error
-> 
-> Changes in v2:
-> - Use g_autofree and g_steal_pointer
-> 
->  include/block/block_int-common.h |  2 +-
->  block.c                          | 56 +++++++++++++++++---------------
->  block/vvfat.c                    |  7 ++--
->  3 files changed, 34 insertions(+), 31 deletions(-)
-> 
-> diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-> index 8947abab76..d7c0a7e96f 100644
-> --- a/include/block/block_int-common.h
-> +++ b/include/block/block_int-common.h
-> @@ -1230,7 +1230,7 @@ static inline BlockDriverState *child_bs(BdrvChild *child)
->  }
->  
->  int bdrv_check_request(int64_t offset, int64_t bytes, Error **errp);
-> -int get_tmp_filename(char *filename, int size);
-> +char *create_tmp_file(Error **errp);
->  void bdrv_parse_filename_strip_prefix(const char *filename, const char *prefix,
->                                        QDict *options);
->  
-> diff --git a/block.c b/block.c
-> index 582c205307..8eeaa5623e 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -860,35 +860,42 @@ int bdrv_probe_geometry(BlockDriverState *bs, HDGeometry *geo)
->  
->  /*
->   * Create a uniquely-named empty temporary file.
-> - * Return 0 upon success, otherwise a negative errno value.
-> + * Return the actual file name used upon success, otherwise NULL.
-> + * This string should be freed with g_free() when not needed any longer.
-> + *
-> + * Note: creating a temporary file for the caller to (re)open is
-> + * inherently racy. Use g_file_open_tmp() instead whenever practical.
->   */
-> -int get_tmp_filename(char *filename, int size)
-> +char *create_tmp_file(Error **errp)
->  {
-> -#ifdef _WIN32
-> -    char temp_dir[MAX_PATH];
-> -    /* GetTempFileName requires that its output buffer (4th param)
-> -       have length MAX_PATH or greater.  */
-> -    assert(size >= MAX_PATH);
-> -    return (GetTempPath(MAX_PATH, temp_dir)
-> -            && GetTempFileName(temp_dir, "qem", 0, filename)
-> -            ? 0 : -GetLastError());
-> -#else
->      int fd;
->      const char *tmpdir;
-> -    tmpdir = getenv("TMPDIR");
-> -    if (!tmpdir) {
-> +    g_autofree char *filename = NULL;
-> +
-> +    tmpdir = g_get_tmp_dir();
-> +#ifndef _WIN32
-> +    /*
-> +     * See commit 69bef79 ("block: use /var/tmp instead of /tmp for -snapshot")
-> +     *
-> +     * This function is used to create temporary disk images (like -snapshot),
-> +     * so the files can become very large. /tmp is often a tmpfs where as
-> +     * /var/tmp is usually on a disk, so more appropriate for disk images.
-> +     */
-> +    if (!g_strcmp0(tmpdir, "/tmp")) {
->          tmpdir = "/var/tmp";
->      }
+>   target/arm/internals.h |  5 +++++
+>   target/arm/helper.c    | 14 +++++---------
+>   target/arm/ptw.c       | 14 ++++++--------
+>   3 files changed, 16 insertions(+), 17 deletions(-)
 
-This is still a slight change in behaviour: If the TMPDIR environment
-variable was explicit set to /tmp, QEMU would store the image file in
-/tmp before this patch. After the patch, it will use /var/tmp even in
-this case.
-
-I suppose this is a tolerable change.
-
-Kevin
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
