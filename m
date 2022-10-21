@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98CB4607A35
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 17:11:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02894607A34
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 17:11:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oltgK-0003KQ-Tw
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 11:11:33 -0400
+	id 1oltfz-0003Vx-JM
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 11:11:19 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oltft-0004Hu-05
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 11:11:05 -0400
+	id 1oltfw-00052V-Gn
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 11:11:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oltfV-0001hK-OS
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 11:10:42 -0400
-Received: from mout.kundenserver.de ([212.227.17.10])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oltfg-0002BI-GZ
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 11:10:52 -0400
+Received: from mout.kundenserver.de ([217.72.192.73])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oltfQ-0000Bz-4R
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 11:10:40 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oltfZ-0000D1-3u
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 11:10:51 -0400
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MdeOl-1pLEYD0R0L-00Zd33 for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022
- 17:10:32 +0200
-Message-ID: <669e0ccf-097e-9730-17cf-88a340717388@vivier.eu>
-Date: Fri, 21 Oct 2022 17:10:29 +0200
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MPooP-1oPfoe0SG3-00MtBR for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022
+ 17:10:43 +0200
+Message-ID: <cee5bfcf-aaf4-9962-3334-a8bc65cf7ec0@vivier.eu>
+Date: Fri, 21 Oct 2022 17:10:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
-Subject: Re: [PATCH v2 1/2] linux-user: handle /proc/self/exe with execve()
- syscall
+Subject: Re: [PATCH v2 2/2] linux-user: don't use AT_EXECFD in do_openat()
 Content-Language: fr
 To: qemu-devel@nongnu.org
 References: <20220927124357.688536-1-laurent@vivier.eu>
- <20220927124357.688536-2-laurent@vivier.eu>
+ <20220927124357.688536-3-laurent@vivier.eu>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220927124357.688536-2-laurent@vivier.eu>
+In-Reply-To: <20220927124357.688536-3-laurent@vivier.eu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:nWgMZXKV3xU6osQPAFmy8ne1M0WKzeU6f9oWpoVtMNQuTDTbU9V
- cURulKg7+6ApR6HfqoOtNbidS/jin/XQ9n+AE9FDvJ1OEd3jseTYJxeARsc1AdYDhcQ2QFW
- lfTaWB7wDzCFX5Uttl5XpoPqH80OIfSVclrUIBnaTjauVGCOMSD8Z+5/2BDup6ZvkJrfQvM
- WDb/YJaG6Cjdz5fJ7nk6g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:01n/kysLgbc=:jUDryKv95O64GKgzBkwrR1
- 3xrPaxr6LSUA4v0yI05FNMcjyp5HAY2eqxn+4ATSwDVHZSdBCL5AfDiijAi8F10hqU+h9t0dE
- VdZHMFcKz+uLQxPC6iO69j+fbluK321fWHAYSRwnrGPVtD7JDI68R8CpXMrg22tSXAEtTCIAl
- bNmbQ++oaGXnwjhStbT+j+4CTuERF2RtAvWkRMpDBN9NkVVxR+DXsLDjQDEz8XOX6GWXtKGBt
- hT4uamrbfXhywGRju2GmgMggk2ACZhoUWBv6kdN2csWUcD/eERmuKRUPayllP6xn3COSa1Bhz
- yIj6xArSkBhm/f+6dWX9DwSuHtKgDTwi95nIaCIqcRICOb5WfEwJNg8JE9uYOKLzmUbSKkFsm
- PxhhvJCDGRcNAI1exjyLL/E5t6GOFaUoOpxrxs8PDvVsLOP9Lgpgxim6L4CXbHqTW0qiKzrHk
- 7EGrLGeHNL7biENXBd0fdkNp2gwagM81edInPa5vkRSTI8mZXszKJJqF80KT5fypXPQqN3Bro
- VSpJvX0Hayb4CEHc8kRQO6nINxJ+pySo01M0n9gv+xWrCh+NUP7OtmFdv7w+1jh6v4cCisWW4
- nU/NMtnZnBb/PFV47NRadCw3PrWC6LBpUbuyKXBC2xTh5TnxP7XElorzFsgYVf8QlOIo8uIv0
- n8vnLwGEAwjxzHGilHLtvOnRzPboYzb0ezv7THL9cET090FnprxXlB3Y44F+Ha9cUOrW2v8H8
- V7bdSSpKcOuVfzUI6qcFhjVRolyAHT3mPPwCa3ZKvc7Ob26/Oh0HzVyVAmizsIJ4VpRLQVf2O
- 2VoP7Ys
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:Pzv+SqUAAgVPpHNorPgtAeeMesWdqCSVQqrz61YlNQF5jydDkdO
+ EhY+kC9hHUziJqgSb01aT9YDQJUh//Ojt+HtfxVzpOnX1QxXG17XsaovvX6XTRNjqH0iME6
+ w1B7z+HEbYiChCPtsvTLhHrFuEAMT7zLDS8uhMjhLM+ny/weVNjESQYpbmbdzweU7BJTeka
+ Gzd/vAqu4qPX+AnsmhjFw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:8DKH84G/UMc=:6hRByrxmNNdGj4KtHDVbNw
+ JsJoxxv7XnCtRhixWmf+27n3ldpFcQieBjJpDwTd6T5kHOz+ixOtxjjQjv9Lrw8L308/Wa3xL
+ dm6C/SyB1lUyLKnNvVJL+AoEhmpRrfC0Etx0c2kTi34U4w1Uu8WTl+GFpp0E9iE+bvfgenTGe
+ lBqCgcEam8N0NYBh/DdSsn4NGADxSXldthFo37NPmDHGUGLVHhtmSqlRK58oILugkQzdk6M+l
+ n5Hhfr+45PeYUmmMCBUijmGO2Zb6+p28E9Ya13Z4rY1VLJN7TGKzYIM/OyVlNvieXBPsdcwLN
+ auQOJ12u+z8SVUjENN6hJwBkBpEom1UkdFVFCu3uKg98sfG5O+YFQFU5yuj+VeVqlJa8KXzCO
+ Dk8nmX4A2FmBvkA21n8twJyLjJXF6Q2KUnh+9dMHiCaM0GGxmZ9VP2F5xv1Lvbh+prFXEzJ5i
+ DA+Iywyt6sr+Fz/Zbms3BF0pp/pKr0FsZVTZfTOdPBxz+PXaIMRfLcLr2FGJ+aZ7QiN24AhmU
+ 2qwaqvAAOGClJkzW0JNQmWXQk2haMI8po/GFYPmUVYUrjzfH6VTy4DQhEUekXf3dEscIRKABy
+ EAa8tXdxrdkISEobX1pOOy+Biqf1AmrU10JkTroLH3mB43egUBnEvKaQ0TlmrVVs+6hXvLKF1
+ b6fPhuvuIJwdQH9VTOtFUtr/jaH+j6ZOvbr4zZUHNt6Yu+4YGjvOEG1VLw0AXCcrFhSrzOuF6
+ rgj2tddyIQQj0KWzybUEO/tzwdAa0zYvMP3vQcnfkjb2tILi2EIrjWmAye4J33rpFlpKNxw3Z
+ U8oQEsv
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -82,37 +81,39 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 27/09/2022 à 14:43, Laurent Vivier a écrit :
-> If path is /proc/self/exe, use the executable path
-> provided by exec_path.
+> AT_EXECFD gives access to the binary file even if
+> it is not readable (only executable).
 > 
-> Don't use execfd as it is closed by loader_exec() and otherwise
-> will survive to the exec() syscall and be usable child process.
+> Moreover it can be opened with flags and mode that are not the ones
+> provided by do_openat() caller.
+> 
+> And it is not available because loader_exec() has closed it.
+> 
+> To avoid that, use only safe_openat() with the exec_path.
 > 
 > Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 > ---
->   linux-user/syscall.c | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
+>   linux-user/syscall.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
 > 
 > diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index f4091212027c..ddf09d7eb61a 100644
+> index ddf09d7eb61a..0c80e9d68e28 100644
 > --- a/linux-user/syscall.c
 > +++ b/linux-user/syscall.c
-> @@ -8843,7 +8843,11 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
->                * before the execve completes and makes it the other
->                * program's problem.
->                */
-> -            ret = get_errno(safe_execve(p, argp, envp));
-> +            if (is_proc_myself(p, "exe")) {
-> +                ret = get_errno(safe_execve(exec_path, argp, envp));
-> +            } else {
-> +                ret = get_errno(safe_execve(p, argp, envp));
-> +            }
->               unlock_user(p, arg1, 0);
+> @@ -8263,8 +8263,7 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, int
+>       };
 >   
->               goto execve_end;
+>       if (is_proc_myself(pathname, "exe")) {
+> -        int execfd = qemu_getauxval(AT_EXECFD);
+> -        return execfd ? execfd : safe_openat(dirfd, exec_path, flags, mode);
+> +        return safe_openat(dirfd, exec_path, flags, mode);
+>       }
+>   
+>       for (fake_open = fakes; fake_open->filename; fake_open++) {
 
 Applied to my linux-user-for-7.2 branch.
 
 Thanks,
 Laurent
+
 
