@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E7CC607507
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 12:34:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F62060749D
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 12:03:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olpM7-00022Z-4M
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:34:23 -0400
+	id 1olosc-0003mO-Fb
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:03:56 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oloFf-0007D8-3z
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:23:39 -0400
+	id 1oloKl-0000aZ-TQ
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:28:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
- id 1oloFG-0006bM-0o
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:23:15 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
- id 1oloFC-0004nP-SN
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:23:13 -0400
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.55])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MtzR01jchz15Lws;
- Fri, 21 Oct 2022 17:18:20 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 21 Oct 2022 17:23:06 +0800
-Received: from [10.174.178.174] (10.174.178.174) by
- dggpemm500007.china.huawei.com (7.185.36.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 21 Oct 2022 17:23:05 +0800
-Subject: Re: [PATCH 00/11] fix memory leak while kset_register() fails
-To: Luben Tuikov <luben.tuikov@amd.com>, Greg KH <gregkh@linuxfoundation.org>
-CC: <linux-kernel@vger.kernel.org>, <qemu-devel@nongnu.org>,
- <linux-f2fs-devel@lists.sourceforge.net>, <linux-erofs@lists.ozlabs.org>,
- <ocfs2-devel@oss.oracle.com>, <linux-mtd@lists.infradead.org>,
- <amd-gfx@lists.freedesktop.org>, <rafael@kernel.org>, <somlo@cmu.edu>,
- <mst@redhat.com>, <jaegeuk@kernel.org>, <chao@kernel.org>,
- <hsiangkao@linux.alibaba.com>, <huangjianan@oppo.com>, <mark@fasheh.com>,
- <jlbec@evilplan.org>, <joseph.qi@linux.alibaba.com>,
- <akpm@linux-foundation.org>, <alexander.deucher@amd.com>, <richard@nod.at>,
- <liushixin2@huawei.com>
-References: <20221021022102.2231464-1-yangyingliang@huawei.com>
- <d559793a-0ce4-3384-e74e-19855aa31f31@amd.com> <Y1IwLOUGayjT9p6d@kroah.com>
- <5efd73b0-d634-d34f-3d7a-13d674e40d04@amd.com> <Y1JV1wxf/7ERAMhl@kroah.com>
- <35e66c7c-ff25-efd3-cfbc-d06130687aa7@amd.com>
- <19689b9e-16d1-c6c5-4ee8-58885fbf8fb0@amd.com>
-Message-ID: <e8e21756-c5b8-9098-8fb6-8e381bbf3dd1@huawei.com>
-Date: Fri, 21 Oct 2022 17:23:04 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1oloKW-0007ut-C6
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:28:40 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1oloKE-0005bJ-SP
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:28:39 -0400
+Received: from loongson.cn (unknown [10.20.42.238])
+ by gateway (Coremail) with SMTP id _____8BxfdowZlJjeGMBAA--.6478S3;
+ Fri, 21 Oct 2022 17:28:16 +0800 (CST)
+Received: from [10.20.42.238] (unknown [10.20.42.238])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8BxHuIuZlJjBqUCAA--.10832S3; 
+ Fri, 21 Oct 2022 17:28:14 +0800 (CST)
+Subject: Re: [PATCH v8 2/2] hw/intc: Fix LoongArch extioi coreisr accessing
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
+ f4bug@amsat.org
+References: <20221021015307.2570844-1-yangxiaojuan@loongson.cn>
+ <20221021015307.2570844-3-yangxiaojuan@loongson.cn>
+ <9e356cfc-5532-2ef5-8356-fdde1033d398@linaro.org>
+From: yangxiaojuan <yangxiaojuan@loongson.cn>
+Message-ID: <62be3d21-3122-d5f4-4a39-c63330fb57c0@loongson.cn>
+Date: Fri, 21 Oct 2022 17:28:14 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <19689b9e-16d1-c6c5-4ee8-58885fbf8fb0@amd.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <9e356cfc-5532-2ef5-8356-fdde1033d398@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-Originating-IP: [10.174.178.174]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255;
- envelope-from=yangyingliang@huawei.com; helo=szxga08-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-CM-TRANSID: AQAAf8BxHuIuZlJjBqUCAA--.10832S3
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxZr48GFy7Xw1UCF1xWw4xXrb_yoW5KFWrpr
+ 48Gry5KryUJr4fJr4UJ3WUJry5Xw1UXw17Xr1FqFy8Ar4DJr1jgr10qryvgFyUXw48Ar1U
+ tr17Jr17ZF1UtwUanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bxAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AI
+ xVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64
+ kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8JwAm
+ 72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8wCF04
+ k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18
+ MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr4
+ 1lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l
+ IxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4
+ A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j1YL9UUUUU=
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,98 +87,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Yang Yingliang <yangyingliang@huawei.com>
-From:  Yang Yingliang via <qemu-devel@nongnu.org>
 
 
-On 2022/10/21 16:41, Luben Tuikov wrote:
-> On 2022-10-21 04:24, Luben Tuikov wrote:
->> On 2022-10-21 04:18, Greg KH wrote:
->>> On Fri, Oct 21, 2022 at 03:55:18AM -0400, Luben Tuikov wrote:
->>>> On 2022-10-21 01:37, Greg KH wrote:
->>>>> On Fri, Oct 21, 2022 at 01:29:31AM -0400, Luben Tuikov wrote:
->>>>>> On 2022-10-20 22:20, Yang Yingliang wrote:
->>>>>>> The previous discussion link:
->>>>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flkml%2F0db486eb-6927-927e-3629-958f8f211194%40huawei.com%2FT%2F&amp;data=05%7C01%7Cluben.tuikov%40amd.com%7Cd41da3fd6449492d01f808dab33cdb75%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638019371236833115%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=C%2Bj1THkHpzVGks5eqB%2Fm%2FPAkMRohR7CYvRnOCqUqdcM%3D&amp;reserved=0
->>>>>> The very first discussion on this was here:
->>>>>>
->>>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.spinics.net%2Flists%2Fdri-devel%2Fmsg368077.html&amp;data=05%7C01%7Cluben.tuikov%40amd.com%7Cd41da3fd6449492d01f808dab33cdb75%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638019371236833115%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=pSR10abmK8nAMvKSezqWC0SPUBL4qEwtCCizyIKW7Dc%3D&amp;reserved=0
->>>>>>
->>>>>> Please use this link, and not the that one up there you which quoted above,
->>>>>> and whose commit description is taken verbatim from the this link.
->>>>>>
->>>>>>> kset_register() is currently used in some places without calling
->>>>>>> kset_put() in error path, because the callers think it should be
->>>>>>> kset internal thing to do, but the driver core can not know what
->>>>>>> caller doing with that memory at times. The memory could be freed
->>>>>>> both in kset_put() and error path of caller, if it is called in
->>>>>>> kset_register().
->>>>>> As I explained in the link above, the reason there's
->>>>>> a memory leak is that one cannot call kset_register() without
->>>>>> the kset->kobj.name being set--kobj_add_internal() returns -EINVAL,
->>>>>> in this case, i.e. kset_register() fails with -EINVAL.
->>>>>>
->>>>>> Thus, the most common usage is something like this:
->>>>>>
->>>>>> 	kobj_set_name(&kset->kobj, format, ...);
->>>>>> 	kset->kobj.kset = parent_kset;
->>>>>> 	kset->kobj.ktype = ktype;
->>>>>> 	res = kset_register(kset);
->>>>>>
->>>>>> So, what is being leaked, is the memory allocated in kobj_set_name(),
->>>>>> by the common idiom shown above. This needs to be mentioned in
->>>>>> the documentation, at least, in case, in the future this is absolved
->>>>>> in kset_register() redesign, etc.
->>>>> Based on this, can kset_register() just clean up from itself when an
->>>>> error happens?  Ideally that would be the case, as the odds of a kset
->>>>> being embedded in a larger structure is probably slim, but we would have
->>>>> to search the tree to make sure.
->>>> Looking at kset_register(), we can add kset_put() in the error path,
->>>> when kobject_add_internal(&kset->kobj) fails.
->>>>
->>>> See the attached patch. It needs to be tested with the same error injection
->>>> as Yang has been doing.
->>>>
->>>> Now, struct kset is being embedded in larger structs--see amdgpu_discovery.c
->>>> starting at line 575. If you're on an AMD system, it gets you the tree
->>>> structure you'll see when you run "tree /sys/class/drm/card0/device/ip_discovery/".
->>>> That shouldn't be a problem though.
->>> Yes, that shouldn't be an issue as the kobject embedded in a kset is
->>> ONLY for that kset itself, the kset structure should not be controling
->>> the lifespan of the object it is embedded in, right?
->> Yes, and it doesn't. It only does a kobject_get(parent) and kobject_put(parent).
->> So that's fine and natural.
+在 2022/10/21 下午5:11, Philippe Mathieu-Daudé 写道:
+> On 21/10/22 03:53, Xiaojuan Yang wrote:
+>> 1. When cpu read or write extioi COREISR reg, it should access
+>> the reg belonged to itself, so the cpu index of 's->coreisr'
+>> is current cpu number. Using MemTxAttrs' requester_id to get
+>> the cpu index.
+>> 2. it need not to mask 0x1f when calculate the coreisr array index.
 >>
->> Yang, do you want to try the patch in my previous email in this thread, since you've
->> got the error injection set up already?
-> I spoke too soon. I believe you're onto something, because looking at the idiom:
+>> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+>> ---
+>>   hw/intc/loongarch_extioi.c      | 10 ++++++----
+>>   target/loongarch/iocsr_helper.c | 19 +++++++++++--------
+>>   2 files changed, 17 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/hw/intc/loongarch_extioi.c b/hw/intc/loongarch_extioi.c
+>> index 72f4b0cde5..4b8ec3f28a 100644
+>> --- a/hw/intc/loongarch_extioi.c
+>> +++ b/hw/intc/loongarch_extioi.c
+>> @@ -93,8 +93,9 @@ static MemTxResult extioi_readw(void *opaque, 
+>> hwaddr addr, uint64_t *data,
+>>           *data = s->bounce[index];
+>>           break;
+>>       case EXTIOI_COREISR_START ... EXTIOI_COREISR_END - 1:
+>> -        index = ((offset - EXTIOI_COREISR_START) & 0x1f) >> 2;
+>> -        cpu = ((offset - EXTIOI_COREISR_START) >> 8) & 0x3;
+>> +        index = (offset - EXTIOI_COREISR_START) >> 2;
+>> +        /* using attrs to get current cpu index */
+>> +        cpu = attrs.requester_id;
+>>           *data = s->coreisr[cpu][index];
+>>           break;
+>>       case EXTIOI_COREMAP_START ... EXTIOI_COREMAP_END - 1:
+>> @@ -185,8 +186,9 @@ static MemTxResult extioi_writew(void *opaque, 
+>> hwaddr addr,
+>>           s->bounce[index] = val;
+>>           break;
+>>       case EXTIOI_COREISR_START ... EXTIOI_COREISR_END - 1:
+>> -        index = ((offset - EXTIOI_COREISR_START) & 0x1f) >> 2;
+>> -        cpu = ((offset - EXTIOI_COREISR_START) >> 8) & 0x3;
+>> +        index = (offset - EXTIOI_COREISR_START) >> 2;
+>> +        /* using attrs to get current cpu index */
+>> +        cpu = attrs.requester_id;
+>>           old_data = s->coreisr[cpu][index];
+>>           s->coreisr[cpu][index] = old_data & ~val;
+>>           /* write 1 to clear interrrupt */
+>> diff --git a/target/loongarch/iocsr_helper.c 
+>> b/target/loongarch/iocsr_helper.c
+>> index 0e9c537dc7..505853e17b 100644
+>> --- a/target/loongarch/iocsr_helper.c
+>> +++ b/target/loongarch/iocsr_helper.c
+>> @@ -14,54 +14,57 @@
+>>   #include "exec/cpu_ldst.h"
+>>   #include "tcg/tcg-ldst.h"
+>>   +#define GET_MEMTXATTRS(cas) \
+>> +        ((MemTxAttrs){.requester_id = env_cpu(cas)->cpu_index})
 >
-> 	kobj_set_name(&kset->kobj, format, ...);
-> 	kset->kobj.kset = parent_kset;
-> 	kset->kobj.ktype = ktype;
-> 	res = kset_register(kset);
+> The suggestion from v7 is incomplete, I apologize for missing it.
 >
-> The ktype defines a release method, which frees the larger struct the kset is embedded in.
-> And this would result in double free, for instance in the amdgpu_discovery.c code, if
-> kset_put() is called after kset_register() fails, since we kzalloc the larger object
-> just before and kfree it on error just after. Ideally, we'd only "revert" the actions
-> done by kobj_set_name(), as there's some error recovery on create_dir() in kobject_add_internal().
+> #define GET_MEMTXATTRS(cas) ((MemTxAttrs) {\
+>                                .requester_type = MTRT_CPU,\
+>                                .requester_id = env_cpu(cas)->cpu_index,\
+>                             })
 >
-> So, we cannot do this business with the kset_put() on error from kset_register(), after all.
-> Not sure how this wasn't caught in Yang's testing--the kernel should've complained.
-I have already tried the change that in your posted patch when I was 
-debugging this issue
-before sent these fixes, because it may lead double free in some cases, 
-and I had mentioned
-it in this mail:
+> Also see from v6, add in the read/write handlers:
+>
+>             assert(attrs.requester_type == MTRT_CPU);
+>
+> https://lore.kernel.org/qemu-devel/f7c4f7ca-cbf9-87d6-4d8c-5957c36ae23c@linaro.org/ 
+>
+>
+hi,
+we do not based on the 'MemTxAttrs requester_type patch' so far, and 
+when that
+patch merged we will apply it quickly.
 
-https://lore.kernel.org/lkml/0db486eb-6927-927e-3629-958f8f211194@huawei.com/T/#m68eade1993859dfc6c3d14d35f988d35a32ef837
+Thanks.
+Xiaojuan.
 
-Thanks,
-Yang
->
-> Regards,
-> Luben
->
-> .
 
