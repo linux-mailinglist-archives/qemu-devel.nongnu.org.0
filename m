@@ -2,100 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 232126078BF
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 15:42:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 294FD6078AF
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 15:41:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olsIQ-0007JV-5R
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 09:42:46 -0400
+	id 1olsHL-0000z8-Sr
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 09:41:39 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olrxh-0003Mw-Pc
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 09:21:21 -0400
+	id 1olsCQ-0005LC-PF
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 09:36:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olrxE-0002nX-UQ
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 09:21:01 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olrx3-0003ay-Gq
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 09:20:45 -0400
-Received: by mail-wr1-x429.google.com with SMTP id f11so4389137wrm.6
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 06:20:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=fclBL2DpDYJrYU1BjyQuOIQ/MO5tKMgq37veQJeQ2n4=;
- b=FSBb67Bt1oZuJV6sOvlww0UJMA+bSH0WGVgnpYeTqP6H21Ju+WifYioUQAeL0Nojtk
- Z81sVaaMW50wPC77SAXzQPzQn3MkICX1KWjdWC4rEd6Asr/d9glTKj9ssYm/TY/E+Zje
- eKKrFQb6KQj0l9G+sXGCrAUg/b8jIvpIDDqW2WJQY4B1aZ8lWwCBCBngWofPok/o+8KJ
- f3QpbeawwQAyFFrJfDNL7M94T9UDPv1RTUPouKnpCuH6UJbc5hGzsBsFbDaN0V/8KCR1
- WXhNP+Dx4QWh4L/UlRa2mIpXMIkKjtzp7Gf8SaMwCkoqJNGJGjvZnKjtrcK5ryDzEgEV
- OZRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fclBL2DpDYJrYU1BjyQuOIQ/MO5tKMgq37veQJeQ2n4=;
- b=MM9wJe/LVkLfv03pMedB6UyV5l9jHqwpkOjFXzVXvAvcQLrXcRSlGIA/+CB7mAtwKU
- vtP2t7WAppE4AdAVkCASNGLRkenmOt2KP1hFElzjphzLEgn/l4JrMD7rEc9Q0Esz4tSF
- G2lpwc682LZd25yke0ub0MJgqYqtZwHnFbJgecAVmt3VXW6wPBVl74Ifx94KZ7H/9A5H
- 8yDZysXMcHIheeLedGZg0EoH2L2sz7Yj0w8CpBnEDextnhex2Qk4URqGeYpFLVpkMA7S
- PAjnMGtNxmWAYD7WUlxPLhU/DhoKvpo26X6jKPfNDx7pYpvtumN8bOnQuZKxR4+7Tvz4
- A6fA==
-X-Gm-Message-State: ACrzQf0iLTxMHwj7uT8u8PwXTqwAa+UM2nNglB4AR40AHP8aUG8aQyQE
- NkU8eQC5JGtC0Y9c9A4F809c6Q==
-X-Google-Smtp-Source: AMsMyM5e+Pbh1hb3QzRiLSLXWqIsw5ixTNWz9T3X6aT1kKxl5LI+D4J2QxglQZ8ZWWf5VOIdNxh+jw==
-X-Received: by 2002:a05:6000:18a1:b0:230:f9fb:c83 with SMTP id
- b1-20020a05600018a100b00230f9fb0c83mr12373772wri.329.1666358439681; 
- Fri, 21 Oct 2022 06:20:39 -0700 (PDT)
-Received: from [10.50.0.10]
- (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
- by smtp.gmail.com with ESMTPSA id
- f18-20020adff452000000b0022584c82c80sm18829340wrp.19.2022.10.21.06.20.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Oct 2022 06:20:39 -0700 (PDT)
-Message-ID: <34aef1b8-c8bb-995f-c9ee-0c9c982620c5@linaro.org>
-Date: Fri, 21 Oct 2022 15:20:36 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1olsBy-00051j-9U
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 09:36:16 -0400
+Received: from mout.kundenserver.de ([212.227.17.13])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1olsBv-00076C-T0
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 09:36:06 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MjSDU-1pVMLC3CR8-00kuUR; Fri, 21 Oct 2022 15:35:52 +0200
+Message-ID: <525dc49d-716f-f970-6fe2-028033d30197@vivier.eu>
+Date: Fri, 21 Oct 2022 15:35:49 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.3.2
-Subject: Re: [PATCH v14 15/17] net: stream: move to QIO to enable additional
- parameters
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- xen-devel@lists.xenproject.org, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, Anthony Perard <anthony.perard@citrix.com>,
- Stefan Weil <sw@weilnetz.de>, David Gibson <david@gibson.dropbear.id.au>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- Eric Blake <eblake@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>, Greg Kurz <groug@kaod.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20221021090922.170074-1-lvivier@redhat.com>
- <20221021090922.170074-16-lvivier@redhat.com>
- <1f769d00-cf50-abaf-f078-f301959156b9@linaro.org>
- <87tu3x1n2m.fsf@pond.sub.org>
- <881f1b6d-ac9f-a144-0e13-622981f02130@redhat.com>
- <871qr11kgt.fsf@pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <871qr11kgt.fsf@pond.sub.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v2] linux-user: Add guest memory layout to exception dump
+Content-Language: fr
+To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <YzMru6y+v5bbsTRn@p100>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <YzMru6y+v5bbsTRn@p100>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:D6guE41CDthgrDR8qEKqMPzjhuLixoGXDC/1aBkb4r9nAJFAKGu
+ LLy0Cy7w3+VZk0v87nTN6A4D3M2pfCq+Yz1H/cG02dFQx/uSAUL6P9+Iuc5DcBxegYP7nJo
+ kLA9UlP0KrmSj50jZx4M6hzuszKRj4VVF84DFg+t5oni54MJ1ucwnfWyw4zHTUAadRcmTG4
+ K0WWpMNMhQeHrfciE950A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:dkPqhpIm7PM=:7ylOKzAlv5P6nxaIP5DtvH
+ I4U87O4lok3Pl/xWTQ7CTk7gealx3EBr+nhtOhwZ4M0oypLvYMK1fIIvuofMYBRJC17KQYduX
+ rO1qi4cWgjvkQqx7MO0IXEhM9bibYGdqK1aq80YAcdbIRD0mPNhnwtpg8LlUOLQG3+qsmPVUY
+ UQR4IhWfaxjspjlClO6z8cNVXGt48Pv3qjrPWUCL6Zds0WoG+sPnSNVCeuh/ncqGSkLeKtsWz
+ 0ICK1wKxR8Njs62JYfyFFEq5R8+d/PvRtegTcvTHUN7uVLUJSH7RAwLwfl02Esb3X4bIB3kkD
+ MFH+XTtJajfT4Q/8QVd/g0Ou45FgXhhiY2l2Xrf3H74QPsAoeAFB919K2LL0vwrHVIpqG4sPv
+ z3V4sZxbUvhhpipCesmL3mLh6RiRit20a5aN+yGzZr4Rsi3Mo4YXUziHj+JtVKS0xK7J/udMm
+ walgp5UqSEJRUYyWbF9D1zgQDi4Ogo3PQKNEuQyS/GKGJV5mXSouqbeN/gDxkJ5CN6CvQ4P5C
+ RFTej2izKzQ32XrWrqCtyPK+FSG+LAXdNfcPz8Trzi5eVRQj17gpjTuOqqak719iJmUNQQWMK
+ QLTclGXsVt5b3ScbO3lHddf537eIs7mDBI7N0NjrG1eapxdWkZ3kRaMUY237FBZl8fYvDHgMW
+ Mmt1kAYSxF0HG6liJScWPeTE/eAR77fB4S5Nqrivhd15E2vTTfE8CwyDJjmpp3jhbE9P4elsk
+ lWHnUhxmeMMwwXLWhm7KwyB2cABsoU+llzrRihrfL26lWlBKExPj0+jEwwG7z+XEdoatIcUev
+ RawFUji
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,66 +79,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/10/22 13:31, Markus Armbruster wrote:
-> Laurent Vivier <lvivier@redhat.com> writes:
+Le 27/09/2022 à 18:58, Helge Deller a écrit :
+> When the emulation stops with a hard exception it's very useful for
+> debugging purposes to dump the current guest memory layout (for an
+> example see /proc/self/maps) beside the CPU registers.
 > 
->> On 10/21/22 12:35, Markus Armbruster wrote:
->>> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
->>>
->>>> On 21/10/22 11:09, Laurent Vivier wrote:
->>>>> Use QIOChannel, QIOChannelSocket and QIONetListener.
->>>>> This allows net/stream to use all the available parameters provided by
->>>>> SocketAddress.
->>>>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->>>>> Acked-by: Michael S. Tsirkin <mst@redhat.com>
->>>>> ---
->>>>>     net/stream.c    | 492 +++++++++++++++++-------------------------------
->>>>>     qemu-options.hx |   4 +-
->>>>>     2 files changed, 178 insertions(+), 318 deletions(-)
+> The open_self_maps() function provides such a memory dump, but since
+> it's located in the syscall.c file, various changes (add #includes, make
+> this function externally visible, ...) are needed to be able to call it
+> from the existing EXCP_DUMP() macro.
+> 
+> This patch takes another approach by re-defining EXCP_DUMP() to call
+> target_exception_dump(), which is in syscall.c, consolidates the log
+> print functions and allows to add the call to dump the memory layout.
+> 
+> Beside a reduced code footprint, this approach keeps the changes across
+> the various callers minimal, and keeps EXCP_DUMP() highlighted as
+> important macro/function.
+> 
+> Signed-off-by: Helge Deller <deller@gmx.de>
+> 
+> ---
+> 
+> v2:
+> Based on feedback by Philippe Mathieu-Daudé, renamed the two functions
+> to excp_dump_file() and target_exception_dump(), and #define'ed
+> EXCP_DUMP() to target_exception_dump().
+> I intentionally did not replace all occurences of EXCP_DUMP() by
+> target_exception_dump() as I think it's unneccesary and not beneficial.
+> If this is really wished, I will send a v3.
+> 
+> 
+> diff --git a/linux-user/cpu_loop-common.h b/linux-user/cpu_loop-common.h
+> index 36ff5b14f2..e644d2ef90 100644
+> --- a/linux-user/cpu_loop-common.h
+> +++ b/linux-user/cpu_loop-common.h
+> @@ -23,18 +23,9 @@
+>   #include "exec/log.h"
+>   #include "special-errno.h"
+> 
+> -#define EXCP_DUMP(env, fmt, ...)                                        \
+> -do {                                                                    \
+> -    CPUState *cs = env_cpu(env);                                        \
+> -    fprintf(stderr, fmt , ## __VA_ARGS__);                              \
+> -    fprintf(stderr, "Failing executable: %s\n", exec_path);             \
+> -    cpu_dump_state(cs, stderr, 0);                                      \
+> -    if (qemu_log_separate()) {                                          \
+> -        qemu_log(fmt, ## __VA_ARGS__);                                  \
+> -        qemu_log("Failing executable: %s\n", exec_path);                \
+> -        log_cpu_state(cs, 0);                                           \
+> -    }                                                                   \
+> -} while (0)
+> +void target_exception_dump(CPUArchState *env, const char *fmt, int code);
+> +#define EXCP_DUMP(env, fmt, code) \
+> +    target_exception_dump(env, fmt, code)
+> 
+>   void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs);
+>   #endif
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 2e954d8dbd..7d29c4c396 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -158,6 +158,7 @@
+>   #include "qapi/error.h"
+>   #include "fd-trans.h"
+>   #include "tcg/tcg.h"
+> +#include "cpu_loop-common.h"
+> 
+>   #ifndef CLONE_IO
+>   #define CLONE_IO                0x80000000      /* Clone io context */
+> @@ -8144,6 +8145,33 @@ static int is_proc_myself(const char *filename, const char *entry)
+>       return 0;
+>   }
+> 
+> +static void excp_dump_file(FILE *logfile, CPUArchState *env,
+> +                      const char *fmt, int code)
+> +{
+> +    if (logfile) {
+> +        CPUState *cs = env_cpu(env);
+> +
+> +        fprintf(logfile, fmt, code);
+> +        fprintf(logfile, "Failing executable: %s\n", exec_path);
+> +        cpu_dump_state(cs, logfile, 0);
+> +        open_self_maps(env, fileno(logfile));
+> +    }
+> +}
+> +
+> +void target_exception_dump(CPUArchState *env, const char *fmt, int code)
+> +{
+> +    /* dump to console */
+> +    excp_dump_file(stderr, env, fmt, code);
+> +
+> +    /* dump to log file */
+> +    if (qemu_log_separate()) {
+> +        FILE *logfile = qemu_log_trylock();
+> +
+> +        excp_dump_file(logfile, env, fmt, code);
+> +        qemu_log_unlock(logfile);
+> +    }
+> +}
+> +
+>   #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN || \
+>       defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
+>   static int is_proc(const char *filename, const char *entry)
+> 
 
->>>>> +    addr = qio_channel_socket_get_local_address(listen_sioc, NULL);
->>>>> +    g_assert(addr != NULL);
->>>>
->>>> Missing propagating Error* (observed in v12).
->>>
->>> *If* this is really a programming error: what about &error_abort?
->>
->> assert() informs the compiler that following code will not use addr with a NULL value, I
->> don't think &error_abort does that. This could avoid an error report in code static analyzer.
-> 
-> I'd expect Coverity to see right through it.
-> 
-> Static analyzers with a less global view won't, of course.
-> 
-> For what it's worth, there are about a thousand uses of &error_abort
-> outside tests/.  I'm not aware of them confusing static analyzers we
-> care about.
-> 
-> I like &error_abort, because it makes the program crash when we try to
-> put the error into &error_abort, with an informative message.  This is
-> often right where things go wrong[*].  I personally don't care much
-> about the better message, but others do.  The better stack backtrace has
-> been quite useful to me.
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
-I concur:
-
-   qemu-system-x86_64: socket family 0 unsupported
-
-VS:
-
-    ERROR:../../net/stream.c:321:net_stream_client_connected: assertion
-failed: (addr != NULL)
-
-https://lore.kernel.org/qemu-devel/6fa6b9e5-fede-0f68-752f-0c0d8fa3494f@linaro.org/
-
-> 
-> Let's use &error_abort, and throw in the assert when a static analyzer
-> we care about needs it.
-> 
-> 
-> [*] error_propagate() messes this up.  That's why the comments in
-> error.h ask you to do without when practical.
-> 
-> 
 
 
