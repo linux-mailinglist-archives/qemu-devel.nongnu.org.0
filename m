@@ -2,90 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54CF260806E
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 22:59:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C882607F9A
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 22:19:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1olxCx-0006kx-Fg; Fri, 21 Oct 2022 14:57:29 -0400
+	id 1olxCg-0006dw-Hf; Fri, 21 Oct 2022 14:57:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1olui1-0007I7-LU
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 12:17:23 -0400
-Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oluhx-0000GX-5v
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 12:17:21 -0400
-Received: by mail-io1-xd2f.google.com with SMTP id y80so2709578iof.3
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 09:17:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=fpDhMyo9fAHsgmqrZYJr6GA004fAc+9hkorhhpuIPjw=;
- b=B8xgazacPv25Y8SDaXRDkyQNP4We7MHyhwqeAtrGRrcdeBJlKQ7lcz9Cpl4wyiOJ3G
- 83DTA6M8X8HzJwTBv2bOyphpkTFBOXusn8DuHpUNN4AD6Y3kXxMQbYKKIUYcfP1VcoQ1
- TNK2eAUvFQDz4inzJ/5SyVyX5qmD4zCRyBsQP2MWWKpqUVhgdYQPwGRQSkBG7ElCYoWn
- 2zJo4rv+F5ELlCIz6zBN84Qf/bRi64fCEwPUhsTWWcU0BJrs1dFcLfFbo6SrBAGxVgd8
- eW7eD6fh8+aVjZhR9VhDE9D11kzxFHn/MAfzGE6p6/9bOTjDcIxoEjTjHER1MF0eWE7T
- iW7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fpDhMyo9fAHsgmqrZYJr6GA004fAc+9hkorhhpuIPjw=;
- b=H27GeO4hbwSHU3MVK/xWL4bbAtK1qDUgUNMsnECCY8ai5zmKShHkVCdCWVkDseCDyC
- T9nohn46tzOP0CsHKbrvybD4fAxUGsXSXtPxpdF/GURhQsn/7Yg3ft/J/G+820dDHc5/
- X8psxOkYHnkPq2WCOUVfqIGJ8QIdGQOl2KJaDh2h6sbZcLcOGhCNm04knqnw++Hubbos
- V4KVdckQYWYpeo3Wv+eKPGV5UqcCG30XiL/sIoebQU43u/AfPgBT3rhX8dVTksl43YYW
- vQ/viUIDFyz35szZf6DFVw24g17Fol+2Lfw7RzNEtuCu0RRRqPPxofsEHMbQ0fiPqwbA
- c3Sg==
-X-Gm-Message-State: ACrzQf2I+5lQevQFPtY2HP4gO3/UJAhAQBUmRbFNa6eS0lzEMjtJ43qP
- U874MXDIQvUrb9UULdBHjUY2cBff122POEtxoeKhZg==
-X-Google-Smtp-Source: AMsMyM6iDH1sRqunI0RRQN8t3kefu6bQScAwaDYyU/YRqjQ8b9QzFseu8jvWOWkDMq88Q2Iyn5xLfw6qmygtzaIHcsI=
-X-Received: by 2002:a05:6602:346:b0:6bb:f236:ae68 with SMTP id
- w6-20020a056602034600b006bbf236ae68mr13378257iou.161.1666369035679; Fri, 21
- Oct 2022 09:17:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1olumZ-0007kT-2z
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 12:22:06 -0400
+Received: from mout.gmx.net ([212.227.17.21])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1olumT-0001H7-IK
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 12:22:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1666369307;
+ bh=Ll/L8KVVCQj46H65U1CB5OHB86i++n5ngaqtheeJwL0=;
+ h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
+ b=g+R/abEvtou7mnV+18hEgw6eU9I6lEl8IYjYdclY5POPCIdhHYcfA8bOzu34TUmOz
+ KLkk7VYwd2N1Lr+IupEZPIlG59s9Vf74x5KfMLt5CUY38DMK4WHO7RNkNxioBVX7xj
+ +aSLAvkmBu4qtwqMuVf6NkV77r/qTL00d/ChMzxU=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.168.94]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MQeA2-1oQPNd2utq-00NmWs; Fri, 21
+ Oct 2022 18:21:47 +0200
+Message-ID: <722bd3f3-3b5f-03aa-0c2e-5ceef4cfd883@gmx.de>
+Date: Fri, 21 Oct 2022 18:21:46 +0200
 MIME-Version: 1.0
-References: <20221020083810-mutt-send-email-mst@kernel.org>
- <CAARzgwwd_How_h+9sHWPOrWWZ7CbX+DN-uy-KiGf1VVyVmrLnA@mail.gmail.com>
- <20221020084311-mutt-send-email-mst@kernel.org>
- <CAARzgwxfKbrxAqb15GXp4j1enDPUhGBsL5jUzFtDvJkGM-7azw@mail.gmail.com>
- <20221020150857-mutt-send-email-mst@kernel.org>
- <CAARzgwwDjjHL-1fEeuySNZm8NbnGNaeE5h6zrPz_zaANfs5dsw@mail.gmail.com>
- <CAARzgww8P4Za=+r8q2a30TCY7Uzw6g2tgHeLLKr7R+WV-7qQVg@mail.gmail.com>
- <20221021042449-mutt-send-email-mst@kernel.org>
- <CAARzgwyW+ved0iVinWzSCg+KSCL67v+m6KySRdg_hUUev8JLDA@mail.gmail.com>
- <87k04t7ca6.fsf@linaro.org> <20221021053828-mutt-send-email-mst@kernel.org>
- <CAARzgwzQZXdJCxn_YmXPGOuVTd7CzwnZ=aQRjVgZ5p2XiTosQA@mail.gmail.com>
- <87bkq575m8.fsf@linaro.org>
- <CAARzgwya9jw3YmAwHcSbzzTUewFcq8JR_hVM+=-cSePfyxO1CQ@mail.gmail.com>
- <87lep95ffx.fsf@linaro.org>
-In-Reply-To: <87lep95ffx.fsf@linaro.org>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Fri, 21 Oct 2022 21:47:04 +0530
-Message-ID: <CAARzgwyEWCNbs5HG07Dnv_pkzmHwB++Pr47enZ_uFupXZSH09g@mail.gmail.com>
-Subject: Re: [PATCH v6 00/10] Introduce new acpi/smbios avocado tests using
- biosbits
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>, 
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Igor Mammedov <imammedo@redhat.com>, John Snow <jsnow@redhat.com>, 
- Maydell Peter <peter.maydell@linaro.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Qemu Devel <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000006fdb8605eb8dc601"
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2f;
- envelope-from=ani@anisinha.ca; helo=mail-io1-xd2f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v2] linux-user: Add guest memory layout to exception dump
+Content-Language: en-US
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <YzMru6y+v5bbsTRn@p100>
+ <5cabeb0b-1219-ae01-38bc-dc0873d502c8@vivier.eu>
+ <7afdfcea-0b9e-9074-7331-b155dfe292e5@vivier.eu>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <7afdfcea-0b9e-9074-7331-b155dfe292e5@vivier.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-Provags-ID: V03:K1:FTwcsm1xKyMoVQXGb9brm+5YBXY6iuqU2jiUBXnRIBTDbZk1zrQ
+ DEMjezQWc+NQBmUBegwPcRg8EizQvPnuURTfZP3dMBjUTqJR450Me0FBk2hk0DwGX9W//Nd
+ afRZrN0A7pzO3yhu9gO32H4/NwAkYibjGYkV6VDZRDVDilfnPwjsw9bNn/4PLq5sdqCgrc3
+ bCJWbnjPSyGY5rPfvNTbg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:r8PYHGsxIlE=:Qzb8Lxk7Ks76g/31GU5wJf
+ s6t80sn0OkdpFhu/Z3CusYoOuBWZjz51pakq8hZKh2utzRSVhEUhtiWniWD6e3nySXQJBaVJ+
+ Fckkqol4QbDJXXqWzrAJSC87vSODUlmTZrRTGZ1c8e58XQafQXEA5ii04Yg1Lf+sGRujzxdXh
+ QBooxQsDV6xcnoiE5An8ycCFFhEWTIsjEoPoFjbb5i8DTdm30/zq7Ed2h6f5Brwf299jH1HVX
+ NWkx/jpaKvIY9EoqAJYXwxuFrQd4K5593eWHdgoJVCWtreu7VnA+dK5wrukMfwnarW+rtt0Un
+ zuRE7uqRVaApOTbcp/zXYTwOab7RM8Eob1fSlKEG2VoBOHawsQdAKohWgrcKv8Qs/wZ0eZ2PQ
+ bhaInWTOruPX7JajjLLIP+LN5JSa985gVK0jVZG9Msl5qWfLXK5ctPetEVLACKq0bQvA8ihuB
+ F2P2scws9LmUzLL0ALCwyXRNEgo3HJjLovvY/GE2ai2htKIiyRADZPUTqEvgQj09NAJPO7nsV
+ 08PqVUsujEzg7FAz3czqS84GPEad3SZSbBsblqpoAYtlRbr7KouUgPXmSGWBHuKMsxEzXsOnx
+ TKEWYtQE1lCIR1plCAg4yvIiU6jD2/GgRPreThy6yBCwJ5iSsGMiW67Ifd/uARU7dcYIOMaYy
+ BxkFhN352Yhf1m8NpwbimwIhwQy6ZilZOsl8/W7dl5gKWfJlx6dy6WOAOfx7XqV8YPWe2qvid
+ 0qgVXYnUkQ3J6iPFTOR2NfY4koUvsFhvueVOxYrJr4k2J94vbqC6KRyD2k0aIkpGpwm3WA+/+
+ jetv5p09qr8q+w3DK+PFIjVKx8qDM2p8Y15usv0tFS2ILRWVjWC/0A+blnhnl2RgqlGHD/b4M
+ uqUPWUS9ugDV4CS7yG0IoYnSPePUHfLgvbCbZEADiPyNeZIayYl1PcidCCqh9dxvn0rf5ahVj
+ yNPdU5GtL09v9unN21WlPtLkb6HyTPFXYrI51TUVYtKl14DRWjwIj5lNJ0yjK+SYN22km5I4k
+ VhKmdNYVhWHR7cgwpqcLeugRBg369t2jqqpH5WA8gSHiVIo/eatqmh9u8XZwr4KiQZfxIdEbH
+ jPIFpSwm68Rm+tuyuoASAipJGoYjLItiScqzQiuE46VhvmHOpKwBzgy3h/42VPy0WZpIQ4MVJ
+ wX6JF5WZqK/UeD8gmLtkJ0Sf3pqsAM2fq+Pe/isUlzfJzzMdKBJjiT1jbJtvmy4Hs4fBxNAmi
+ rQ89blpMwQ+cmhtZ97Ago2IR9iBOmcm+foRTcACSGnMfij92Fr7hk/QmxwpELWPUwZxVOHURF
+ fxTP0TalCHwx3nQX0ikX81ny9awcjl7W/zswEV179IleZU6rPX5CCB+8v62b//BCkYMz2t9x+
+ 1we7ksKXRdAbZOQ2Xzo3QLxSvm+Oeu7G55NDrqrowzguqILnX1XgDncHAPcdNFv7E4ksVCAvO
+ JXBmPuCbpnEIWM+Gfh8Z8mXgKA9kbX5XSvXnfsQgIi5au4Ps5PlfQ/3c0lorSaBWfz2jookCZ
+ dSBb3VXlqWbhDzZ5LWJondeY5ifkDTX0cx6YQ5pUBXcKP
+Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,147 +94,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000006fdb8605eb8dc601
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Oct 21, 2022 at 21:36 Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
-
->
-> Ani Sinha <ani@anisinha.ca> writes:
->
-> <snip>
-> >
-> >  We have added a mirror of biosbits to the QEMU project so there is no
-> >  reason why we can't track changes and modifications there (we do this
-> >  for TestFloat which is forked from the upstream SoftFloat code).
-> >
-> > The whole idea was that say an acpi developer added support for a new
-> table in QEMU, he should write a corresponding
-> > test for bits so that the same table is exercised during run time.
-> Making those changes from a single repo (either directly
-> > or through a submodule)  makes things lit simpler and also keeps things
-> in sync with each other. If we use separate
-> > repos for acpi bits test, it will be another mess when comes to
-> developers adding changes and keeping things in sync.
-> >
-> > Anyways these things should have been brought up earlier. I'm out of th=
-e
-> debate.
-> >
-> > I've sent v7 , incremental work over the last 6 months in my spare time
-> without getting any pay. So take it or scrap it.
-> >
-> > =F0=9F=98=8A
->
-> I'm sorry you feel that way but you asked for people to spend their time
-> reviewing your code and giving feedback.
-
-
-
-I=E2=80=99m sorry but you don=E2=80=99t understand. Giving feedback is one =
-thing. Asking
-people to make major changes to their design late in the game is completely
-not acceptable imho and outright rude. . I=E2=80=99ve been sending out the =
-patch
-series with cc to anyone who should remotely care about this stuff. So if
-major rework is needed it should be pointed out earlier and not later. I=E2=
-=80=99ve
-begged people on irc even to take look at this stuff including Igor and
-others. What else do you expect me to do?
-
-If you don't have time to take
-> it forward then fine
-
-
-I=E2=80=99m extremely discouraged by this and have lost all motivation. It=
-=E2=80=99s not
-that I have no time. I squeeze all my spare time to work on this beyond my
-paid responsibilities. Please be respectful of that.
-
-
-but I'm afraid a "take it or leave it" attitude
-> will just result in it not getting merged.
->
-> Hopefully someone else who has the time to look into it will be able to
-> pick it up later.
->
-> --
-> Alex Benn=C3=A9e
->
-
---0000000000006fdb8605eb8dc601
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Fri, Oct 21, 2022 at 21:36 Alex Benn=C3=A9e &lt;<a href=
-=3D"mailto:alex.bennee@linaro.org">alex.bennee@linaro.org</a>&gt; wrote:<br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left-width:1px;border-left-style:solid;padding-left:1ex;border-left-=
-color:rgb(204,204,204)"><br>
-Ani Sinha &lt;<a href=3D"mailto:ani@anisinha.ca" target=3D"_blank">ani@anis=
-inha.ca</a>&gt; writes:<br>
-<br>
-&lt;snip&gt;<br>
-&gt;<br>
-&gt;=C2=A0 We have added a mirror of biosbits to the QEMU project so there =
-is no<br>
-&gt;=C2=A0 reason why we can&#39;t track changes and modifications there (w=
-e do this<br>
-&gt;=C2=A0 for TestFloat which is forked from the upstream SoftFloat code).=
-<br>
-&gt;<br>
-&gt; The whole idea was that say an acpi developer added support for a new =
-table in QEMU, he should write a corresponding<br>
-&gt; test for bits so that the same table is exercised during run time. Mak=
-ing those changes from a single repo (either directly<br>
-&gt; or through a submodule)=C2=A0 makes things lit simpler and also keeps =
-things in sync with each other. If we use separate<br>
-&gt; repos for acpi bits test, it will be another mess when comes to develo=
-pers adding changes and keeping things in sync. <br>
-&gt;<br>
-&gt; Anyways these things should have been brought up earlier. I&#39;m out =
-of the debate. <br>
-&gt;<br>
-&gt; I&#39;ve sent v7 , incremental work over the last 6 months in my spare=
- time without getting any pay. So take it or scrap it. <br>
-&gt;<br>
-&gt; =F0=9F=98=8A<br>
-<br>
-I&#39;m sorry you feel that way but you asked for people to spend their tim=
-e<br>
-reviewing your code and giving feedback. </blockquote><div dir=3D"auto"><br=
-></div><div dir=3D"auto"><br></div><div dir=3D"auto">I=E2=80=99m sorry but =
-you don=E2=80=99t understand. Giving feedback is one thing. Asking people t=
-o make major changes to their design late in the game is completely not acc=
-eptable imho and outright rude. . I=E2=80=99ve been sending out the patch s=
-eries with cc to anyone who should remotely care about this stuff. So if ma=
-jor rework is needed it should be pointed out earlier and not later. I=E2=
-=80=99ve begged people on irc even to take look at this stuff including Igo=
-r and others. What else do you expect me to do?=C2=A0</div><div dir=3D"auto=
-"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;border-=
-left-color:rgb(204,204,204)" dir=3D"auto">If you don&#39;t have time to tak=
-e<br>
-it forward then fine</blockquote><div dir=3D"auto"><br></div><div dir=3D"au=
-to">I=E2=80=99m extremely discouraged by this and have lost all motivation.=
- It=E2=80=99s not that I have no time. I squeeze all my spare time to work =
-on this beyond my paid responsibilities. Please be respectful of that.</div=
-><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
-rder-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)" =
-dir=3D"auto"> but I&#39;m afraid a &quot;take it or leave it&quot; attitude=
-<br>
-will just result in it not getting merged.<br>
-<br>
-Hopefully someone else who has the time to look into it will be able to<br>
-pick it up later.<br>
-<br>
--- <br>
-Alex Benn=C3=A9e<br>
-</blockquote></div></div>
-
---0000000000006fdb8605eb8dc601--
+T24gMTAvMjEvMjIgMTc6NDMsIExhdXJlbnQgVml2aWVyIHdyb3RlOg0KPiBMZSAyMS8xMC8yMDIy
+IMOgIDE2OjU3LCBMYXVyZW50IFZpdmllciBhIMOpY3JpdMKgOg0KPj4gTGUgMjcvMDkvMjAyMiDD
+oCAxODo1OCwgSGVsZ2UgRGVsbGVyIGEgw6ljcml0wqA6DQo+Pj4gV2hlbiB0aGUgZW11bGF0aW9u
+IHN0b3BzIHdpdGggYSBoYXJkIGV4Y2VwdGlvbiBpdCdzIHZlcnkgdXNlZnVsIGZvcg0KPj4+IGRl
+YnVnZ2luZyBwdXJwb3NlcyB0byBkdW1wIHRoZSBjdXJyZW50IGd1ZXN0IG1lbW9yeSBsYXlvdXQg
+KGZvciBhbg0KPj4+IGV4YW1wbGUgc2VlIC9wcm9jL3NlbGYvbWFwcykgYmVzaWRlIHRoZSBDUFUg
+cmVnaXN0ZXJzLg0KPj4+DQo+Pj4gVGhlIG9wZW5fc2VsZl9tYXBzKCkgZnVuY3Rpb24gcHJvdmlk
+ZXMgc3VjaCBhIG1lbW9yeSBkdW1wLCBidXQgc2luY2UNCj4+PiBpdCdzIGxvY2F0ZWQgaW4gdGhl
+IHN5c2NhbGwuYyBmaWxlLCB2YXJpb3VzIGNoYW5nZXMgKGFkZCAjaW5jbHVkZXMsIG1ha2UNCj4+
+PiB0aGlzIGZ1bmN0aW9uIGV4dGVybmFsbHkgdmlzaWJsZSwgLi4uKSBhcmUgbmVlZGVkIHRvIGJl
+IGFibGUgdG8gY2FsbCBpdA0KPj4+IGZyb20gdGhlIGV4aXN0aW5nIEVYQ1BfRFVNUCgpIG1hY3Jv
+Lg0KPj4+DQo+Pj4gVGhpcyBwYXRjaCB0YWtlcyBhbm90aGVyIGFwcHJvYWNoIGJ5IHJlLWRlZmlu
+aW5nIEVYQ1BfRFVNUCgpIHRvIGNhbGwNCj4+PiB0YXJnZXRfZXhjZXB0aW9uX2R1bXAoKSwgd2hp
+Y2ggaXMgaW4gc3lzY2FsbC5jLCBjb25zb2xpZGF0ZXMgdGhlIGxvZw0KPj4+IHByaW50IGZ1bmN0
+aW9ucyBhbmQgYWxsb3dzIHRvIGFkZCB0aGUgY2FsbCB0byBkdW1wIHRoZSBtZW1vcnkgbGF5b3V0
+Lg0KPj4+DQo+Pj4gQmVzaWRlIGEgcmVkdWNlZCBjb2RlIGZvb3RwcmludCwgdGhpcyBhcHByb2Fj
+aCBrZWVwcyB0aGUgY2hhbmdlcyBhY3Jvc3MNCj4+PiB0aGUgdmFyaW91cyBjYWxsZXJzIG1pbmlt
+YWwsIGFuZCBrZWVwcyBFWENQX0RVTVAoKSBoaWdobGlnaHRlZCBhcw0KPj4+IGltcG9ydGFudCBt
+YWNyby9mdW5jdGlvbi4NCj4+Pg0KPj4+IFNpZ25lZC1vZmYtYnk6IEhlbGdlIERlbGxlciA8ZGVs
+bGVyQGdteC5kZT4NCj4+Pg0KPj4+IC0tLQ0KPj4+DQo+Pj4gdjI6DQo+Pj4gQmFzZWQgb24gZmVl
+ZGJhY2sgYnkgUGhpbGlwcGUgTWF0aGlldS1EYXVkw6ksIHJlbmFtZWQgdGhlIHR3byBmdW5jdGlv
+bnMNCj4+PiB0byBleGNwX2R1bXBfZmlsZSgpIGFuZCB0YXJnZXRfZXhjZXB0aW9uX2R1bXAoKSwg
+YW5kICNkZWZpbmUnZWQNCj4+PiBFWENQX0RVTVAoKSB0byB0YXJnZXRfZXhjZXB0aW9uX2R1bXAo
+KS4NCj4+PiBJIGludGVudGlvbmFsbHkgZGlkIG5vdCByZXBsYWNlIGFsbCBvY2N1cmVuY2VzIG9m
+IEVYQ1BfRFVNUCgpIGJ5DQo+Pj4gdGFyZ2V0X2V4Y2VwdGlvbl9kdW1wKCkgYXMgSSB0aGluayBp
+dCdzIHVubmVjY2VzYXJ5IGFuZCBub3QgYmVuZWZpY2lhbC4NCj4+PiBJZiB0aGlzIGlzIHJlYWxs
+eSB3aXNoZWQsIEkgd2lsbCBzZW5kIGEgdjMuDQo+Pj4NCj4+Pg0KPj4+IGRpZmYgLS1naXQgYS9s
+aW51eC11c2VyL2NwdV9sb29wLWNvbW1vbi5oIGIvbGludXgtdXNlci9jcHVfbG9vcC1jb21tb24u
+aA0KPj4+IGluZGV4IDM2ZmY1YjE0ZjIuLmU2NDRkMmVmOTAgMTAwNjQ0DQo+Pj4gLS0tIGEvbGlu
+dXgtdXNlci9jcHVfbG9vcC1jb21tb24uaA0KPj4+ICsrKyBiL2xpbnV4LXVzZXIvY3B1X2xvb3At
+Y29tbW9uLmgNCj4+PiBAQCAtMjMsMTggKzIzLDkgQEANCj4+PiDCoCAjaW5jbHVkZSAiZXhlYy9s
+b2cuaCINCj4+PiDCoCAjaW5jbHVkZSAic3BlY2lhbC1lcnJuby5oIg0KPj4+DQo+Pj4gLSNkZWZp
+bmUgRVhDUF9EVU1QKGVudiwgZm10LCAuLi4pwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFwNCj4+PiAt
+ZG8ge8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFwNCj4+PiAtwqDCoMKgIENQVVN0YXRlICpjcyA9IGVu
+dl9jcHUoZW52KTvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgXA0KPj4+IC3CoMKgwqAgZnByaW50Zihz
+dGRlcnIsIGZtdCAsICMjIF9fVkFfQVJHU19fKTvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFwNCj4+PiAtwqDCoMKgIGZwcmludGYoc3Rk
+ZXJyLCAiRmFpbGluZyBleGVjdXRhYmxlOiAlc1xuIiwgZXhlY19wYXRoKTvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgXA0KPj4+IC3CoMKgwqAgY3B1X2R1bXBfc3RhdGUoY3MsIHN0ZGVyciwgMCk7
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgXA0KPj4+IC3CoMKgwqAgaWYgKHFlbXVfbG9nX3NlcGFyYXRlKCkp
+IHvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFwNCj4+PiAtwqDCoMKgwqDCoMKgwqAgcWVtdV9s
+b2coZm10LCAjIyBfX1ZBX0FSR1NfXyk7wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFwNCj4+PiAtwqDCoMKgwqDCoMKgwqAg
+cWVtdV9sb2coIkZhaWxpbmcgZXhlY3V0YWJsZTogJXNcbiIsIGV4ZWNfcGF0aCk7wqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIFwNCj4+PiAtwqDCoMKgwqDCoMKgwqAgbG9nX2NwdV9zdGF0
+ZShjcywgMCk7wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFwNCj4+PiAtwqDCoMKgIH3CoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgXA0KPj4+IC19IHdoaWxlICgwKQ0KPj4+ICt2b2lkIHRhcmdldF9leGNl
+cHRpb25fZHVtcChDUFVBcmNoU3RhdGUgKmVudiwgY29uc3QgY2hhciAqZm10LCBpbnQgY29kZSk7
+DQo+Pj4gKyNkZWZpbmUgRVhDUF9EVU1QKGVudiwgZm10LCBjb2RlKSBcDQo+Pj4gK8KgwqDCoCB0
+YXJnZXRfZXhjZXB0aW9uX2R1bXAoZW52LCBmbXQsIGNvZGUpDQo+Pj4NCj4+PiDCoCB2b2lkIHRh
+cmdldF9jcHVfY29weV9yZWdzKENQVUFyY2hTdGF0ZSAqZW52LCBzdHJ1Y3QgdGFyZ2V0X3B0X3Jl
+Z3MgKnJlZ3MpOw0KPj4+IMKgICNlbmRpZg0KPj4+IGRpZmYgLS1naXQgYS9saW51eC11c2VyL3N5
+c2NhbGwuYyBiL2xpbnV4LXVzZXIvc3lzY2FsbC5jDQo+Pj4gaW5kZXggMmU5NTRkOGRiZC4uN2Qy
+OWM0YzM5NiAxMDA2NDQNCj4+PiAtLS0gYS9saW51eC11c2VyL3N5c2NhbGwuYw0KPj4+ICsrKyBi
+L2xpbnV4LXVzZXIvc3lzY2FsbC5jDQo+Pj4gQEAgLTE1OCw2ICsxNTgsNyBAQA0KPj4+IMKgICNp
+bmNsdWRlICJxYXBpL2Vycm9yLmgiDQo+Pj4gwqAgI2luY2x1ZGUgImZkLXRyYW5zLmgiDQo+Pj4g
+wqAgI2luY2x1ZGUgInRjZy90Y2cuaCINCj4+PiArI2luY2x1ZGUgImNwdV9sb29wLWNvbW1vbi5o
+Ig0KPj4+DQo+Pj4gwqAgI2lmbmRlZiBDTE9ORV9JTw0KPj4+IMKgICNkZWZpbmUgQ0xPTkVfSU/C
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMHg4MDAwMDAwMMKgwqDCoMKgwqAgLyogQ2xv
+bmUgaW8gY29udGV4dCAqLw0KPj4+IEBAIC04MTQ0LDYgKzgxNDUsMzMgQEAgc3RhdGljIGludCBp
+c19wcm9jX215c2VsZihjb25zdCBjaGFyICpmaWxlbmFtZSwgY29uc3QgY2hhciAqZW50cnkpDQo+
+Pj4gwqDCoMKgwqDCoCByZXR1cm4gMDsNCj4+PiDCoCB9DQo+Pj4NCj4+PiArc3RhdGljIHZvaWQg
+ZXhjcF9kdW1wX2ZpbGUoRklMRSAqbG9nZmlsZSwgQ1BVQXJjaFN0YXRlICplbnYsDQo+Pj4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjb25zdCBjaGFyICpmbXQs
+IGludCBjb2RlKQ0KPj4+ICt7DQo+Pj4gK8KgwqDCoCBpZiAobG9nZmlsZSkgew0KPj4+ICvCoMKg
+wqDCoMKgwqDCoCBDUFVTdGF0ZSAqY3MgPSBlbnZfY3B1KGVudik7DQo+Pj4gKw0KPj4+ICvCoMKg
+wqDCoMKgwqDCoCBmcHJpbnRmKGxvZ2ZpbGUsIGZtdCwgY29kZSk7DQo+Pj4gK8KgwqDCoMKgwqDC
+oMKgIGZwcmludGYobG9nZmlsZSwgIkZhaWxpbmcgZXhlY3V0YWJsZTogJXNcbiIsIGV4ZWNfcGF0
+aCk7DQo+Pj4gK8KgwqDCoMKgwqDCoMKgIGNwdV9kdW1wX3N0YXRlKGNzLCBsb2dmaWxlLCAwKTsN
+Cj4+PiArwqDCoMKgwqDCoMKgwqAgb3Blbl9zZWxmX21hcHMoZW52LCBmaWxlbm8obG9nZmlsZSkp
+Ow0KPj4+ICvCoMKgwqAgfQ0KPj4+ICt9DQo+Pj4gKw0KPj4+ICt2b2lkIHRhcmdldF9leGNlcHRp
+b25fZHVtcChDUFVBcmNoU3RhdGUgKmVudiwgY29uc3QgY2hhciAqZm10LCBpbnQgY29kZSkNCj4+
+PiArew0KPj4+ICvCoMKgwqAgLyogZHVtcCB0byBjb25zb2xlICovDQo+Pj4gK8KgwqDCoCBleGNw
+X2R1bXBfZmlsZShzdGRlcnIsIGVudiwgZm10LCBjb2RlKTsNCj4+PiArDQo+Pj4gK8KgwqDCoCAv
+KiBkdW1wIHRvIGxvZyBmaWxlICovDQo+Pj4gK8KgwqDCoCBpZiAocWVtdV9sb2dfc2VwYXJhdGUo
+KSkgew0KPj4+ICvCoMKgwqDCoMKgwqDCoCBGSUxFICpsb2dmaWxlID0gcWVtdV9sb2dfdHJ5bG9j
+aygpOw0KPj4+ICsNCj4+PiArwqDCoMKgwqDCoMKgwqAgZXhjcF9kdW1wX2ZpbGUobG9nZmlsZSwg
+ZW52LCBmbXQsIGNvZGUpOw0KPj4+ICvCoMKgwqDCoMKgwqDCoCBxZW11X2xvZ191bmxvY2sobG9n
+ZmlsZSk7DQo+Pj4gK8KgwqDCoCB9DQo+Pj4gK30NCj4+PiArDQo+Pj4gwqAgI2lmIEhPU1RfQklH
+X0VORElBTiAhPSBUQVJHRVRfQklHX0VORElBTiB8fCBcDQo+Pj4gwqDCoMKgwqDCoCBkZWZpbmVk
+KFRBUkdFVF9TUEFSQykgfHwgZGVmaW5lZChUQVJHRVRfTTY4SykgfHwgZGVmaW5lZChUQVJHRVRf
+SFBQQSkNCj4+PiDCoCBzdGF0aWMgaW50IGlzX3Byb2MoY29uc3QgY2hhciAqZmlsZW5hbWUsIGNv
+bnN0IGNoYXIgKmVudHJ5KQ0KPj4+DQo+Pg0KPj4gQXBwbGllZCB0byBteSBsaW51eC11c2VyLWZv
+ci03LjIgYnJhbmNoLg0KPiANCj4gVGhpcyBicmVha3MgYnVpbGQgd2l0aDoNCj4gDQo+IC4uLi9s
+aW51eC11c2VyL2kzODYvY3B1X2xvb3AuYzogSW4gZnVuY3Rpb24gJ2NwdV9sb29wJzoNCj4gLi4u
+bGludXgtdXNlci9pMzg2L2NwdV9sb29wLmM6MzEyOjM5OiBlcnJvcjogbWFjcm8gIkVYQ1BfRFVN
+UCIgcGFzc2VkIDQgYXJndW1lbnRzLCBidXQgdGFrZXMganVzdCAzDQo+ICDCoCAzMTIgfMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIChsb25nKXBjLCB0cmFwbnIp
+Ow0KPiAgwqDCoMKgwqDCoCB8wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBeDQoNClRoaXMgaXMgYmVjYXVz
+ZSBvZiB0aGlzIGxpbmU6DQogICAgICAgICAgICBFWENQX0RVTVAoZW52LCAicWVtdTogMHglMDhs
+eDogdW5oYW5kbGVkIENQVSBleGNlcHRpb24gMHgleCAtIGFib3J0aW5nXG4iLA0KICAgICAgICAg
+ICAgICAgICAgICAgICAobG9uZylwYywgdHJhcG5yKTsNCg0KSSB3b25kZXIgaWYgaXQgaXMgb2sg
+dG8gZHJvcCB0aGUgcGMgdmFsdWUuIEl0IHNob3VsZCBiZSBwcmludGVkIGluIHRoZSByZWdpc3Rl
+ciBkdW1wDQphbnl3YXkuDQpJZiBPaywgc2hvdWxkIEkgc2VuZCBhIG5ldyB2MyBwYXRjaCwgb3Ig
+YSBwYXRjaCBpbiBmcm9udCBvZiBteSB2MiBwYXRjaD8NCg0KSGVsZ2UNCg0K
 
