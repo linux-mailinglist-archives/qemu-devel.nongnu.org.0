@@ -2,90 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2C4607669
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 13:44:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E66D7607676
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 13:49:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olqSE-0002BB-OZ
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 07:44:46 -0400
+	id 1olqX2-0002sJ-Gl
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 07:49:44 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olqFx-0003TL-68
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 07:32:05 -0400
+	id 1olqQL-00080c-K7
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 07:42:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1olqFo-0003N5-Ov
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 07:31:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1olqFn-00079G-34
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 07:31:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666351914;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=p9dg7OvxbchOZSWhRuiUBoYJ1VdXWRMHMPlqUTGmjY4=;
- b=EhP44jNdLgNkALLKngiFn966sH2uv5JHY95feCujeurAfijznUPVccc//6WEtxR6O8zLmT
- It3bKoSjaKIM+VhoEH5e+X8hcOq5JhqiI6klkNZ/6DIYJjt2h5HygIsZixtiLFJIoYweH9
- +iNd2ec7l6qHHL0Z/BmGPKhQi0Ik/n4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-425-L3yhJ8jiMyK3C_XSd5RBOw-1; Fri, 21 Oct 2022 07:31:49 -0400
-X-MC-Unique: L3yhJ8jiMyK3C_XSd5RBOw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4F77138012DC;
- Fri, 21 Oct 2022 11:31:48 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C12FC10DF8;
- Fri, 21 Oct 2022 11:31:47 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A2B0821E675B; Fri, 21 Oct 2022 13:31:46 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org,
- Thomas Huth <thuth@redhat.com>,  xen-devel@lists.xenproject.org,  "Dr.
- David Alan Gilbert" <dgilbert@redhat.com>,  Anthony Perard
- <anthony.perard@citrix.com>,  Stefan Weil <sw@weilnetz.de>,  David Gibson
- <david@gibson.dropbear.id.au>,  Stefano Stabellini
- <sstabellini@kernel.org>,  Paul Durrant <paul@xen.org>,  Eric Blake
- <eblake@redhat.com>,  "Michael S. Tsirkin" <mst@redhat.com>,  Jason Wang
- <jasowang@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Samuel
- Thibault <samuel.thibault@ens-lyon.org>,  Greg Kurz <groug@kaod.org>,
- Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v14 15/17] net: stream: move to QIO to enable additional
- parameters
-References: <20221021090922.170074-1-lvivier@redhat.com>
- <20221021090922.170074-16-lvivier@redhat.com>
- <1f769d00-cf50-abaf-f078-f301959156b9@linaro.org>
- <87tu3x1n2m.fsf@pond.sub.org>
- <881f1b6d-ac9f-a144-0e13-622981f02130@redhat.com>
-Date: Fri, 21 Oct 2022 13:31:46 +0200
-In-Reply-To: <881f1b6d-ac9f-a144-0e13-622981f02130@redhat.com> (Laurent
- Vivier's message of "Fri, 21 Oct 2022 12:43:49 +0200")
-Message-ID: <871qr11kgt.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1olqQ0-0007nh-Ha
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 07:42:28 -0400
+Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1olqPy-0002rO-9o
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 07:42:28 -0400
+Received: by mail-il1-x12f.google.com with SMTP id l3so1458416ilg.13
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 04:42:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=lq80FXX/W2kdR5/qyu1nWd3Sh7ywtol2Ikw6ohbMZbs=;
+ b=z2hLdCOr1Q6aT8gkAJHUX+GxGrbv+g7KmvgiICD83/0WvwNExIo+9b9ioOGqfF3QBb
+ J1qeKpp77xb9Te0rv5R+tXvJ5a/FzC/6kSNeFbz/kgRhLiFt8ceZVeD/ZH2E221rHW6m
+ EuNSE6wwv5MDFSv0m0CVMhJnUev5lLpHQLl5xINwMEpVgWz8fRdLdoQmQLM9OK237XOM
+ yywtNoELZ457SQkCL0FOaCN9jMTEgozAT66ZK8Duc1DJrZ5W/9TlJmmbCLpMdA3oQidm
+ htBW10roRi0ShfiFQSE4HnrJm/y3hiQFypuQT3eot6oBvehb53iCqYM5tJ2xwDrUIVSM
+ kD/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lq80FXX/W2kdR5/qyu1nWd3Sh7ywtol2Ikw6ohbMZbs=;
+ b=Ed/8l7iG561k3bvIOTAS5PUYV+4HH2XR3It4PRrvxHFR6LuUb2pyhw/chmXocVXvZm
+ 22wIwkR+DLxYGYt9egW1s1Qonv+/pTe5K3ijqn1AteVAF+2pTc9YQjo/zkSlNtyuBvRD
+ 5ZuYutHEd5GBVOcwOh5O23evy09FtEzR9jBFh+8Q7wLOZCoGXIrRRLa82g9CqaNk2OKw
+ wWPyNt0pPwah1VyRsXRrL9G98AgqCUXTSyQdQCYT5b5i5AbjtnR+iXnL2E6ZgMl/qPOQ
+ /r80bpKJELxDKb5l2Vo56Q4yAMVXIWt40mrvOJbGcvpF/5pVfsFeQmRBrz8EfBTkenGn
+ 2E6g==
+X-Gm-Message-State: ACrzQf2xtlxqqCzYmC6F/fbgVG84oY24UYYIqdMn3ir81OlaSOsY8xl2
+ fkF+95AY/sROBzAL9MHIF1LJp86I/CvB2tg8spEdDw==
+X-Google-Smtp-Source: AMsMyM7+okT0M7hIdo8cjnwQ+eJteIwkEdPcjiJnOnljdePPHNqJChjvz4oAO1MhPhG816Vik5wyZh1p18omB5EsogY=
+X-Received: by 2002:a05:6e02:dc6:b0:2f9:76bd:9f76 with SMTP id
+ l6-20020a056e020dc600b002f976bd9f76mr14265690ilj.259.1666352538543; Fri, 21
+ Oct 2022 04:42:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221020123506.26363-1-ani@anisinha.ca>
+ <20221020083810-mutt-send-email-mst@kernel.org>
+ <CAARzgwwd_How_h+9sHWPOrWWZ7CbX+DN-uy-KiGf1VVyVmrLnA@mail.gmail.com>
+ <20221020084311-mutt-send-email-mst@kernel.org>
+ <CAARzgwxfKbrxAqb15GXp4j1enDPUhGBsL5jUzFtDvJkGM-7azw@mail.gmail.com>
+ <20221020150857-mutt-send-email-mst@kernel.org>
+ <CAARzgwwDjjHL-1fEeuySNZm8NbnGNaeE5h6zrPz_zaANfs5dsw@mail.gmail.com>
+ <20221021041731-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20221021041731-mutt-send-email-mst@kernel.org>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Fri, 21 Oct 2022 17:12:07 +0530
+Message-ID: <CAARzgww8iQs7Czf0pCG-3JuaKTrf7qtx1buMf_U-J++f_FW1eg@mail.gmail.com>
+Subject: Re: [PATCH v6 00/10] Introduce new acpi/smbios avocado tests using
+ biosbits
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>, 
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Igor Mammedov <imammedo@redhat.com>, John Snow <jsnow@redhat.com>, 
+ Maydell Peter <peter.maydell@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Qemu Devel <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000021807305eb89efbc"
+Received-SPF: none client-ip=2607:f8b0:4864:20::12f;
+ envelope-from=ani@anisinha.ca; helo=mail-il1-x12f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,103 +101,161 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Laurent Vivier <lvivier@redhat.com> writes:
+--00000000000021807305eb89efbc
+Content-Type: text/plain; charset="UTF-8"
 
-> On 10/21/22 12:35, Markus Armbruster wrote:
->> Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
->>=20
->>> On 21/10/22 11:09, Laurent Vivier wrote:
->>>> Use QIOChannel, QIOChannelSocket and QIONetListener.
->>>> This allows net/stream to use all the available parameters provided by
->>>> SocketAddress.
->>>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->>>> Acked-by: Michael S. Tsirkin <mst@redhat.com>
->>>> ---
->>>>    net/stream.c    | 492 +++++++++++++++++----------------------------=
----
->>>>    qemu-options.hx |   4 +-
->>>>    2 files changed, 178 insertions(+), 318 deletions(-)
->>>
->>>> -static void net_stream_accept(void *opaque)
->>>> +static void net_stream_server_listening(QIOTask *task, gpointer opaqu=
-e)
->>>>    {
->>>>        NetStreamState *s =3D opaque;
->>>> -    struct sockaddr_storage saddr;
->>>> -    socklen_t len;
->>>> -    int fd;
->>>> -
->>>> -    for (;;) {
->>>> -        len =3D sizeof(saddr);
->>>> -        fd =3D qemu_accept(s->listen_fd, (struct sockaddr *)&saddr, &=
-len);
->>>> -        if (fd < 0 && errno !=3D EINTR) {
->>>> -            return;
->>>> -        } else if (fd >=3D 0) {
->>>> -            qemu_set_fd_handler(s->listen_fd, NULL, NULL, NULL);
->>>> -            break;
->>>> -        }
->>>> -    }
->>>> +    QIOChannelSocket *listen_sioc =3D QIO_CHANNEL_SOCKET(s->listen_io=
-c);
->>>> +    SocketAddress *addr;
->>>> +    int ret;
->>>> -    s->fd =3D fd;
->>>> -    s->nc.link_down =3D false;
->>>> -    net_stream_connect(s);
->>>> -    switch (saddr.ss_family) {
->>>> -    case AF_INET: {
->>>> -        struct sockaddr_in *saddr_in =3D (struct sockaddr_in *)&saddr;
->>>> -
->>>> -        qemu_set_info_str(&s->nc, "connection from %s:%d",
->>>> -                          inet_ntoa(saddr_in->sin_addr),
->>>> -                          ntohs(saddr_in->sin_port));
->>>> -        break;
->>>> +    if (listen_sioc->fd < 0) {
->>>> +        qemu_set_info_str(&s->nc, "connection error");
->>>> +        return;
->>>>        }
->>>> -    case AF_UNIX: {
->>>> -        struct sockaddr_un saddr_un;
->>>> -        len =3D sizeof(saddr_un);
->>>> -        getsockname(s->listen_fd, (struct sockaddr *)&saddr_un, &len);
->>>> -        qemu_set_info_str(&s->nc, "connect from %s", saddr_un.sun_pat=
-h);
->>>> -        break;
->>>> -    }
->>>> -    default:
->>>> -        g_assert_not_reached();
->>>> +    addr =3D qio_channel_socket_get_local_address(listen_sioc, NULL);
->>>> +    g_assert(addr !=3D NULL);
->>>
->>> Missing propagating Error* (observed in v12).
->>=20
->> *If* this is really a programming error: what about &error_abort?
+On Fri, Oct 21, 2022 at 13:50 Michael S. Tsirkin <mst@redhat.com> wrote:
+
+> On Fri, Oct 21, 2022 at 05:10:43AM +0530, Ani Sinha wrote:
+> >
+> >
+> > On Fri, Oct 21, 2022 at 12:43 AM Michael S. Tsirkin <mst@redhat.com>
+> wrote:
+> >
+> >     On Thu, Oct 20, 2022 at 06:20:20PM +0530, Ani Sinha wrote:
+> >     > On Thu, Oct 20, 2022 at 6:15 PM Michael S. Tsirkin <mst@redhat.com
+> >
+> >     wrote:
+> >     > >
+> >     > > On Thu, Oct 20, 2022 at 06:12:10PM +0530, Ani Sinha wrote:
+> >     > > > On Thu, Oct 20, 2022 at 6:08 PM Michael S. Tsirkin <
+> mst@redhat.com>
+> >     wrote:
+> >     > > > >
+> >     > > > > On Thu, Oct 20, 2022 at 06:04:56PM +0530, Ani Sinha wrote:
+> >     > > > > >
+> >     > > > > >
+> >     > > > > > Changelog:
+> >     > > > > > v6:
+> >     > > > > >   - skip test when dependencies (xorriso for example) are
+> not
+> >     installed.
+> >     > > > > >   - skip test when run on a platform other than x86_64.
+> >     > > > >
+> >     > > > > Hmm why is that btw?
+> >     > > >
+> >     > > > The bits binaries that generate the iso (grub-mkrescue etc)
+> are built
+> >     > > > for and are known to work only on x86_64 platform. They might
+> also
+> >     > > > work on amd64 but I do not have one at my disposal at the
+> moment to
+> >     > > > check.
+> >     > > > On other platforms, for example 32 bit x86 and non-x86, those
+> >     binaries
+> >     > > > will likely not work. The test will fail.
+> >     > >
+> >     > > confused. I thought we are distributing the iso?
+> >     >
+> >     > No, the test builds the iso after adding the modified test scripts
+> and
+> >     > then spawns the vm with it. It is all part of the test itself.
+> >     > We need to do that so that the iso contains the newly added tests
+> etc.
+> >
+> >     It's good to have for people developing tests, but for most qemu
+> >     developers please just have a ready iso and have avocado fetch it.
+> >     It's important to make tests run on all platforms.
+> >
+> >
+> > This changes things a lot and goes down the path of where do we check in
+> test
+> > code changes? Do we deal with multiple repos? Where do we keep iso? Etc.
+> having
+> > a static iso limits us also.
 >
-> assert() informs the compiler that following code will not use addr with =
-a NULL value, I=20
-> don't think &error_abort does that. This could avoid an error report in c=
-ode static analyzer.
-
-I'd expect Coverity to see right through it.
-
-Static analyzers with a less global view won't, of course.
-
-For what it's worth, there are about a thousand uses of &error_abort
-outside tests/.  I'm not aware of them confusing static analyzers we
-care about.
-
-I like &error_abort, because it makes the program crash when we try to
-put the error into &error_abort, with an informative message.  This is
-often right where things go wrong[*].  I personally don't care much
-about the better message, but others do.  The better stack backtrace has
-been quite useful to me.
-
-Let's use &error_abort, and throw in the assert when a static analyzer
-we care about needs it.
+> It's the same as any firmware really. I don't see much of a difference.
 
 
-[*] error_propagate() messes this up.  That's why the comments in
-error.h ask you to do without when practical.
+Except that the iso is much larger than the current edk2 binaries and there
+are serious objections to keeping them along with other bios binary blobs
+in qemu repo.
 
+--00000000000021807305eb89efbc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Fri, Oct 21, 2022 at 13:50 Michael S. Tsirkin &lt;<a hre=
+f=3D"mailto:mst@redhat.com">mst@redhat.com</a>&gt; wrote:<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
+olid;padding-left:1ex">On Fri, Oct 21, 2022 at 05:10:43AM +0530, Ani Sinha =
+wrote:<br>
+&gt; <br>
+&gt; <br>
+&gt; On Fri, Oct 21, 2022 at 12:43 AM Michael S. Tsirkin &lt;<a href=3D"mai=
+lto:mst@redhat.com" target=3D"_blank">mst@redhat.com</a>&gt; wrote:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0On Thu, Oct 20, 2022 at 06:20:20PM +0530, Ani Sinha=
+ wrote:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; On Thu, Oct 20, 2022 at 6:15 PM Michael S. Tsi=
+rkin &lt;<a href=3D"mailto:mst@redhat.com" target=3D"_blank">mst@redhat.com=
+</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0wrote:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; On Thu, Oct 20, 2022 at 06:12:10PM +0530,=
+ Ani Sinha wrote:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; On Thu, Oct 20, 2022 at 6:08 PM Mich=
+ael S. Tsirkin &lt;<a href=3D"mailto:mst@redhat.com" target=3D"_blank">mst@=
+redhat.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0wrote:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; On Thu, Oct 20, 2022 at 06:04:5=
+6PM +0530, Ani Sinha wrote:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt; Changelog:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt; v6:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0- skip test wh=
+en dependencies (xorriso for example) are not<br>
+&gt;=C2=A0 =C2=A0 =C2=A0installed.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; &gt;=C2=A0 =C2=A0- skip test wh=
+en run on a platform other than x86_64.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; &gt; Hmm why is that btw?<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; The bits binaries that generate the =
+iso (grub-mkrescue etc) are built<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; for and are known to work only on x8=
+6_64 platform. They might also<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; work on amd64 but I do not have one =
+at my disposal at the moment to<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; check.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; On other platforms, for example 32 b=
+it x86 and non-x86, those<br>
+&gt;=C2=A0 =C2=A0 =C2=A0binaries<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; &gt; will likely not work. The test will =
+fail.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &gt; confused. I thought we are distributing t=
+he iso?<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; No, the test builds the iso after adding the m=
+odified test scripts and<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; then spawns the vm with it. It is all part of =
+the test itself.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; We need to do that so that the iso contains th=
+e newly added tests etc.<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0It&#39;s good to have for people developing tests, =
+but for most qemu<br>
+&gt;=C2=A0 =C2=A0 =C2=A0developers please just have a ready iso and have av=
+ocado fetch it.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0It&#39;s important to make tests run on all platfor=
+ms.<br>
+&gt; <br>
+&gt; <br>
+&gt; This changes things a lot and goes down the path of where do we check =
+in test<br>
+&gt; code changes? Do we deal with multiple repos? Where do we keep iso? Et=
+c. having<br>
+&gt; a static iso limits us also.=C2=A0<br>
+<br>
+It&#39;s the same as any firmware really. I don&#39;t see much of a differe=
+nce.</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Except that =
+the iso is much larger than the current edk2 binaries and there are serious=
+ objections to keeping them along with other bios binary blobs in qemu repo=
+.</div><div dir=3D"auto"><br></div></div></div>
+
+--00000000000021807305eb89efbc--
 
