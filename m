@@ -2,90 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 991106074EC
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 12:19:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42D760753C
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 12:42:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olp7w-0004y3-QJ
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:19:44 -0400
+	id 1olpUI-0008R9-4Y
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:42:50 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olp7Q-0001qY-As
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:19:12 -0400
+	id 1olpHM-00033q-5Y
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:29:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olp76-0000KM-Cu
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 06:18:57 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olpGr-0001gD-Gn
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 06:29:11 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olp74-0003qj-T8
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 06:18:52 -0400
-Received: by mail-wr1-x432.google.com with SMTP id u10so4150255wrq.2
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 03:18:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olpGo-0006bi-Fr
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 06:28:57 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ v130-20020a1cac88000000b003bcde03bd44so4672502wme.5
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 03:28:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=gSvLyqT2me3HwSX6zm/t5Hpc98ZaHpehQTZBKXuZF2o=;
- b=PZWl2AiJok3eJRD/+48hjCoQcX8/5ZIhFwo9HyNB94SJ3qoTnTU7D94wGDxEomBxAB
- CIVlCjw3ftJm7h/3+aQzjFjaOGwphovUFlccAvvjHlDXcZhfg8rn14C8brEVfbvIOLST
- PG74pnUZhk/Mrv+cZjt+6lXXncFe/CZnwmoMusJLFZID2ih23+3zpJj2lg7ivQB6nSuP
- WukR7G7o7x5o/BMyrR06XfSuSfgGp15g+hFZlmSACSOIv4PNYk54i3C8YUu9nZM0j6Mf
- H2KG4Br8hZatH7gFjPEbszjid8RIH6RPzEwRJjAsWGzNVFZ5/YOlxKRBS+67kCcDFmlU
- 4p8g==
+ bh=WtApQPBba67T6VtiGE56SH2SSr+yy3OWuL916E9NjEU=;
+ b=byxs82yinuHIraTMN90KKug+HqC88oTyuz6cDEyUJ2BFGFm37zJEltMr+AefHd9v/6
+ KSd7OWYwxwXkU1KggUYLMZs32Et7d44wWEJVj0xWUF84wqPUlY6W7VMLhOKmvh9fkaB+
+ g4VLxHIgV61HTXIPazn74twIp/3SeDW6y7/LZOBJR7RsYjm1mh5xLesVXnZBHklD/Ly4
+ Bv7iA9Ft+6E+y4GU8HCj5BdkC4RKZDLrJgjeZcHe2/8e/eUc+eVdkwwIcqX0TarzkkaI
+ aFi+ViC+G2sRQ3zRSZniRQL6Pp0+a9IgCXRbRI0xBSCdJW0uhAL+wvKAdjGS3g0PtKdQ
+ Xy/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gSvLyqT2me3HwSX6zm/t5Hpc98ZaHpehQTZBKXuZF2o=;
- b=s3R5h7dg62dGKCixhyFlIU8J1Vti2WsEP06Jw6au+27lF913Vvt64iAYBLwkMw4Ksl
- 96dEt/3BYPhF6fk4r6JkmQEAhxHR0eWGQSokhfesSdJBigqcwLmzHT/wHbBDy8fOBwQQ
- s4aqiNT3md/9NzmreNCTS6bTqxM89H4/jL+VyRm42FqUWTepy5hT8orVy444WcGI6X2W
- ulSmvRY/leVU1wFf9etNRGpx9yvCmquh2mwFDk/VKNnXsix8EGYJZO/7ugt4wL58+xtr
- 3UmaTQXj+VaKe0aDOceYkwdn3yTclm7vPz3XvZhNsC7Hs81YmGC9CeIYMMC/DMaZ0aH4
- XM+g==
-X-Gm-Message-State: ACrzQf0myaA7PChri4Zci7H3xQtLd8L/iXkCXP5PzNdtf2CQ9PjM3WZJ
- yTq6eEl8/8MeOjdFrt1uSNDoxA==
-X-Google-Smtp-Source: AMsMyM4J2oFrG2ayVaLyVj/gKPYm/vOmdGpMXDgE2bXapnVZsvvxjFKhOy/05+vEq1gluYAIazV3rg==
-X-Received: by 2002:a5d:65d0:0:b0:236:580e:c3f9 with SMTP id
- e16-20020a5d65d0000000b00236580ec3f9mr384228wrw.101.1666347529225; 
- Fri, 21 Oct 2022 03:18:49 -0700 (PDT)
+ bh=WtApQPBba67T6VtiGE56SH2SSr+yy3OWuL916E9NjEU=;
+ b=KBwgwx0XgGEGYWwdIIQTLVcAGWO1tVOAp8I1wxuDGvLveaKIEOdHlmdSft1x0SzJWf
+ yU/7iyBWW2K/CaiT95TlAyaG8USMZbBV5W8PzlLRwynsK5l/pHAATBBQAiJWIUprAkVz
+ nUSU+HXOU0OvH7Zw2SGNEyN4C0syzS5//XK+aOieeEKEABDERQG1fKN/ikGG0lkSsJQK
+ pGi+fFcUseE+3WNoIm1MfII7rEFlJ2GriUcyMbAzhGdOpXOKzlNSQJDg01QDyOFLWZDh
+ 9scCD4cBHfeS896OgwUyfUpnMbbZ8Oi+EbWO/hf3ZvnAHXAjeHt1pHAWYXAxLyB4T9v5
+ YAyg==
+X-Gm-Message-State: ACrzQf3qRaI1TIHb02zplNXLFiIGJY1lOK5oE2EvtfSi8lPdPVs6q0Os
+ womrYl35GdLd2AsDmnqeOSL1NQ==
+X-Google-Smtp-Source: AMsMyM76VHB9/lAqGrpcotIwZbDW16m4qm4m07nKeuzry8p/Pi4gN86XmmSF8PcGkDkGlUxM1QEW6A==
+X-Received: by 2002:a05:600c:474a:b0:3c7:6df:4493 with SMTP id
+ w10-20020a05600c474a00b003c706df4493mr8868949wmo.44.1666348132060; 
+ Fri, 21 Oct 2022 03:28:52 -0700 (PDT)
 Received: from [10.50.0.10]
  (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
  by smtp.gmail.com with ESMTPSA id
- e9-20020a5d5009000000b0022e3d7c9887sm18427284wrt.101.2022.10.21.03.18.46
+ m14-20020a05600c3b0e00b003b4fe03c881sm2389400wms.48.2022.10.21.03.28.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Oct 2022 03:18:48 -0700 (PDT)
-Message-ID: <e6470da4-41a9-b625-1298-3d92532aa61d@linaro.org>
-Date: Fri, 21 Oct 2022 12:18:46 +0200
+ Fri, 21 Oct 2022 03:28:51 -0700 (PDT)
+Message-ID: <d2d6639f-2f6f-edfc-2a3f-45e1aded4d07@linaro.org>
+Date: Fri, 21 Oct 2022 12:28:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.3.2
-Subject: Re: [PATCH v14 13/17] qemu-sockets: move and rename
- SocketAddress_to_str()
+Subject: Re: [PATCH v2 17/36] tcg: Replace TCG_TARGET_CALL_ALIGN_ARGS with
+ TCG_TARGET_CALL_ARG_I64
 Content-Language: en-US
-To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, xen-devel@lists.xenproject.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, Stefan Weil <sw@weilnetz.de>,
- David Gibson <david@gibson.dropbear.id.au>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- Eric Blake <eblake@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>, Greg Kurz <groug@kaod.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20221021090922.170074-1-lvivier@redhat.com>
- <20221021090922.170074-14-lvivier@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221021071549.2398137-1-richard.henderson@linaro.org>
+ <20221021071549.2398137-18-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221021090922.170074-14-lvivier@redhat.com>
+In-Reply-To: <20221021071549.2398137-18-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -108,22 +99,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/10/22 11:09, Laurent Vivier wrote:
-> Rename SocketAddress_to_str() to socket_uri() and move it to
-> util/qemu-sockets.c close to socket_parse().
+On 21/10/22 09:15, Richard Henderson wrote:
+> For 32-bit hosts when TCG_TARGET_CALL_ALIGN_ARGS was set, use
+> TCG_CALL_ARG_EVEN.  For 64-bit hosts, TCG_TARGET_CALL_ALIGN_ARGS
+> was silently ignored, so always use TCG_CALL_ARG_NORMAL.
 > 
-> socket_uri() generates a string from a SocketAddress while
-> socket_parse() generates a SocketAddress from a string.
-> 
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   include/qemu/sockets.h |  2 +-
->   monitor/hmp-cmds.c     | 23 +----------------------
->   util/qemu-sockets.c    | 20 ++++++++++++++++++++
->   3 files changed, 22 insertions(+), 23 deletions(-)
+>   tcg/aarch64/tcg-target.h     |  2 +-
+>   tcg/arm/tcg-target.h         |  2 +-
+>   tcg/i386/tcg-target.h        |  1 +
+>   tcg/loongarch64/tcg-target.h |  2 +-
+>   tcg/mips/tcg-target.h        |  3 ++-
+>   tcg/riscv/tcg-target.h       |  6 +++++-
+>   tcg/s390x/tcg-target.h       |  1 +
+>   tcg/sparc64/tcg-target.h     |  1 +
+>   tcg/tci/tcg-target.h         |  5 +++++
+>   tcg/tcg.c                    |  6 ++++--
+>   tcg/ppc/tcg-target.c.inc     | 21 ++++++++-------------
+>   11 files changed, 30 insertions(+), 20 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
