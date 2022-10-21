@@ -2,105 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B6D860740D
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 11:29:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CA796072B7
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 10:45:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oloLH-0001Qg-J5
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:29:27 -0400
+	id 1olneS-0002ys-GF
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 04:45:16 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olnGe-0001jl-9M
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 04:20:36 -0400
+	id 1olnKQ-0007ot-KR
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 04:24:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1olnGU-0001Rv-DG
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 04:20:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1olnGS-00047D-TQ
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 04:20:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666340423;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1olnKH-0007Rc-66
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 04:24:21 -0400
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1olnKF-0005VR-9i
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 04:24:20 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 631711F8CA;
+ Fri, 21 Oct 2022 08:24:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1666340656; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VQ7TvRf+z/7G26hXE4YQxcVSs/NFR0Y/s5JG1TSKRzc=;
- b=NEpYUbsyxjUnYj8s6SbouYWIuNnX6ShUF2waE0woltCrVElr5NaMia9qPP0GUExq2Nncgb
- lIIJjxgJkNzi+qiwo1WqidcJxRmoufD2SIUIP201ksDczlK866/G0zqUxhfFyvICb5Gwo0
- ODoTqV1uNfdVE5mPU/fCjrCD1qb9asI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-126-cAsplIusPTK20R6q0f6Ysw-1; Fri, 21 Oct 2022 04:20:22 -0400
-X-MC-Unique: cAsplIusPTK20R6q0f6Ysw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- v125-20020a1cac83000000b003bd44dc5242so2994411wme.7
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 01:20:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VQ7TvRf+z/7G26hXE4YQxcVSs/NFR0Y/s5JG1TSKRzc=;
- b=A9hSu9zatcQR/VzRc13Fv8NVRey7G9f/SqXFTPCXUPON63xvQZfJ8sa0Xen7tSMNFh
- RmxvWwZ1fhU5mduMYlnUpLJzcWRyWTjz5j97OvCHhfogcaV0cqcp8RM8SFzFu4fFZzZq
- XiW34/7gzwT/R71Dr8ldA7e4asaHTLy2Uk31+BlS4lkoZ4WbMq/lkQG+mD2E7JBDaPT1
- R3Row+9Kv9voi1tLjEgBTSv68CGB8bYm3MlvrzoAys7jBQ8o3dghKnqMD3/qTHJVITZo
- +tY6xgSVL1zaZXnBZL9Re1d4Lxa5eYaewfmXP2cq4EuP1UnLLIrSQXDmUPQI3Lawy6wV
- GECQ==
-X-Gm-Message-State: ACrzQf1Rrnv0X9I3Wg/qwef5QsaRtjXZKuz33KiGerqz5ysJ2iKQGfnN
- f54Hw2Yg58kOnsOKsSA781Cbae0Dep8xUkxeLcryfhlnTcOcRww/cU+pPQNBm1HIJJnQp6fIjzh
- YbLj93d4A1ftY+d0=
-X-Received: by 2002:adf:fb87:0:b0:22f:1880:d679 with SMTP id
- a7-20020adffb87000000b0022f1880d679mr11540950wrr.279.1666340421152; 
- Fri, 21 Oct 2022 01:20:21 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4KOGp3ynUz2GTiZvVP5mgb5v8P/JHlEkEHtIPQGRQqj82nevOyFSi+bsibvUAp4gb5OgAazw==
-X-Received: by 2002:adf:fb87:0:b0:22f:1880:d679 with SMTP id
- a7-20020adffb87000000b0022f1880d679mr11540928wrr.279.1666340420915; 
- Fri, 21 Oct 2022 01:20:20 -0700 (PDT)
-Received: from redhat.com ([2.54.40.233]) by smtp.gmail.com with ESMTPSA id
- i9-20020a05600c4b0900b003b47b80cec3sm1912541wmp.42.2022.10.21.01.20.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Oct 2022 01:20:20 -0700 (PDT)
-Date: Fri, 21 Oct 2022 04:20:16 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, John Snow <jsnow@redhat.com>,
- Maydell Peter <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Qemu Devel <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH v6 00/10] Introduce new acpi/smbios avocado tests using
- biosbits
-Message-ID: <20221021041731-mutt-send-email-mst@kernel.org>
-References: <20221020123506.26363-1-ani@anisinha.ca>
- <20221020083810-mutt-send-email-mst@kernel.org>
- <CAARzgwwd_How_h+9sHWPOrWWZ7CbX+DN-uy-KiGf1VVyVmrLnA@mail.gmail.com>
- <20221020084311-mutt-send-email-mst@kernel.org>
- <CAARzgwxfKbrxAqb15GXp4j1enDPUhGBsL5jUzFtDvJkGM-7azw@mail.gmail.com>
- <20221020150857-mutt-send-email-mst@kernel.org>
- <CAARzgwwDjjHL-1fEeuySNZm8NbnGNaeE5h6zrPz_zaANfs5dsw@mail.gmail.com>
+ bh=yE/6yNSmmxsqxQi8BA6wvCaAfZ/o8P5BxDEfGh4Iwkw=;
+ b=ShzBJFYmNRDE20Y1lxFsNa556b+KWfWY+H8Qx/EKKROVGzDLt3yPuuoZTGSdzznKqAqAnT
+ Ybom3u9ycxhzL9JxasX0IWSPVZVmhakPSIRytSJx9hW4r7dxBQ3oRLvO1OqPSS1p9+cfjX
+ beyQ9h8KhjgX2PTYW3aKQYEU0dAJmfs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1666340656;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yE/6yNSmmxsqxQi8BA6wvCaAfZ/o8P5BxDEfGh4Iwkw=;
+ b=z3Eeg0GhyJTONRpmKvVgdOsG1lZzA60IgMlis7XtbWzuF/I19p6CrmC8Z4OMpuoalPCmf3
+ M8KJZ41clklKmmCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0E9B61331A;
+ Fri, 21 Oct 2022 08:24:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id KeXuATBXUmODUwAAMHmgww
+ (envelope-from <cfontana@suse.de>); Fri, 21 Oct 2022 08:24:16 +0000
+Message-ID: <3568bac0-1b64-d096-b78a-29f628a70448@suse.de>
+Date: Fri, 21 Oct 2022 10:24:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAARzgwwDjjHL-1fEeuySNZm8NbnGNaeE5h6zrPz_zaANfs5dsw@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v9 0/5] improve error handling for module load
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-devel@nongnu.org, dinechin@redhat.com,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20220929093035.4231-1-cfontana@suse.de>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <20220929093035.4231-1-cfontana@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:67c:2178:6::1d;
+ envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -117,75 +99,136 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 21, 2022 at 05:10:43AM +0530, Ani Sinha wrote:
-> 
-> 
-> On Fri, Oct 21, 2022 at 12:43 AM Michael S. Tsirkin <mst@redhat.com> wrote:
-> 
->     On Thu, Oct 20, 2022 at 06:20:20PM +0530, Ani Sinha wrote:
->     > On Thu, Oct 20, 2022 at 6:15 PM Michael S. Tsirkin <mst@redhat.com>
->     wrote:
->     > >
->     > > On Thu, Oct 20, 2022 at 06:12:10PM +0530, Ani Sinha wrote:
->     > > > On Thu, Oct 20, 2022 at 6:08 PM Michael S. Tsirkin <mst@redhat.com>
->     wrote:
->     > > > >
->     > > > > On Thu, Oct 20, 2022 at 06:04:56PM +0530, Ani Sinha wrote:
->     > > > > >
->     > > > > >
->     > > > > > Changelog:
->     > > > > > v6:
->     > > > > >   - skip test when dependencies (xorriso for example) are not
->     installed.
->     > > > > >   - skip test when run on a platform other than x86_64.
->     > > > >
->     > > > > Hmm why is that btw?
->     > > >
->     > > > The bits binaries that generate the iso (grub-mkrescue etc) are built
->     > > > for and are known to work only on x86_64 platform. They might also
->     > > > work on amd64 but I do not have one at my disposal at the moment to
->     > > > check.
->     > > > On other platforms, for example 32 bit x86 and non-x86, those
->     binaries
->     > > > will likely not work. The test will fail.
->     > >
->     > > confused. I thought we are distributing the iso?
->     >
->     > No, the test builds the iso after adding the modified test scripts and
->     > then spawns the vm with it. It is all part of the test itself.
->     > We need to do that so that the iso contains the newly added tests etc.
-> 
->     It's good to have for people developing tests, but for most qemu
->     developers please just have a ready iso and have avocado fetch it.
->     It's important to make tests run on all platforms.
-> 
-> 
-> This changes things a lot and goes down the path of where do we check in test
-> code changes? Do we deal with multiple repos? Where do we keep iso? Etc. having
-> a static iso limits us also. 
+ping, can this series move on?
 
-It's the same as any firmware really. I don't see much of a difference.
+Thanks,
 
-> If we can think through and come up with a consensus, I can write a second
-> test. Else let's just go with this first.
+Claudio
 
-We can go ahead for now.
 
-> If we are really keen on running
-> tests on multiple platforms, we can have binaries built for those. 
+On 9/29/22 11:30, Claudio Fontana wrote:
+> CHANGELOG:
 > 
-
-Oh my.  Not dealing with this is *exactly* what people use
-virtualization for.
-
+> v8 -> v9:
 > 
+> * add Signed-off-by tag for Kevin's commit
+> * fully reviewed, added tags.
 > 
->     We can think about moving iso generation into a VM too
->     but as a first step I guess we can live with a container.
+> v7 -> v8:
 > 
->     --
->     MST
+> * fix a problem in module_load, where the module_name in v7 was mistakenly freed
+>   via g_free() also in the success code path, and instead module_name memory
+>   is owned by g_hash_table afer g_hash_table_add.
 > 
+> * add more text to the commit message to indicate areas of further improvements,
+>   and more details about changes.
+> 
+> * in PATCH 5/5, change the commit message to align with the change in v7,
+>   ie, we exit(), we do not abort().
+> 
+> v6 -> v7:
+> 
+> * changed instances of abort() to exit(1), for the CONFIG_MODULES case (Philippe).
+> 
+> * dmg: do not use a separate local error, use the existing errp (Kevin)
+> 
+> * block: do not use a separate local error, use the existing errp for
+>   bdrv_find_protocol (Markus)
+> 
+> v5 -> v6:
+> 
+> * added a patch by Kevin to handle the dmg warning about missing
+>   decompression submodules. (Kevin)
+> 
+> * added more verbose comments about all the affected callers of module_load
+>   and module_load_qom (Markus)
+> 
+> (OPEN ISSUE): change abort() to exit() when type not present even after loading module?
+> 
+> (Philippe)
+> 
+> v4 -> v5:
+> 
+> * added a patch to rename module_load_one and friends to module_load
+> 
+> * qdev_new: just reuse module_object_class_by_name, to avoid duplicating code
+> 
+> * changed return value of module_load to an int:
+>   -1 error (Error **errp set).
+>    0 module or dependencies not installed,
+>    1 loaded
+>    2 already loaded (or built-in)
+> 
+>    Adapted all callers.
+> 
+> * module_load: fixed some pre-existing memory leaks, used an out: label
+>   to do the cleanup.
+> 
+> v3 -> v4: (Richard)
+> 
+> * module_object_class_by_name: return NULL immediately on load error.
+> * audio_driver_lookup: same.
+> * bdrv_find_format: same.
+> 
+> * dmg_open: handle optional compression submodules better: f.e.,
+>   if "dmg-bz2" is not present, continue but offer a warning.
+>   If "dmg-bz2" load fails with error, error out and return.
+> 
+> * module_load_dso: add newline to error_append_hint.
+> 
+> v2 -> v3:
+> 
+> * take the file existence check outside of module_load_file,
+>   rename module_load_file to module_load_dso, will be called only on
+>   an existing file. This will simplify the return value. (Richard)
+> 
+> * move exported function documentation into header files (Richard)
+> 
+> v1 -> v2:
+> 
+> * do not treat the display help text any differently and do report
+>   module load _errors_. If the module does not exist (ENOENT, ENOTDIR),
+>   no error will be produced.
+> 
+> DESCRIPTION:
+> 
+> while investigating a permission issue in accel, where accel-tcg-x86_64.so
+> was not accessible, I noticed that no errors were produced regarding the
+> module load failure.
+> 
+> This series attempts to improve module_load_one and module_load_qom_one
+> to handle the error cases better and produce some errors.
+> 
+> Patch 1 is already reviewed and is about removing an unused existing
+> argument "mayfail" from the call stack.
+> 
+> Patch 2 is the real meat, and that one I would say is RFC.
+> Will follow up with comments on the specific questions I have.
+> 
+> Patch 3 finally adds a simple check in accel/, aborting if a module
+> is not found, but relying on the existing error report from
+> module_load_qom_one.
+> 
+> Claudio Fontana (4):
+>   module: removed unused function argument "mayfail"
+>   module: rename module_load_one to module_load
+>   module: add Error arguments to module_load and module_load_qom
+>   accel: abort if we fail to load the accelerator plugin
+> 
+> Kevin Wolf (1):
+>   dmg: warn when opening dmg images containing blocks of unknown type
+> 
+>  accel/accel-softmmu.c |   8 +-
+>  audio/audio.c         |  16 ++--
+>  block.c               |  20 +++-
+>  block/dmg.c           |  33 ++++++-
+>  hw/core/qdev.c        |  17 +++-
+>  include/qemu/module.h |  37 +++++++-
+>  qom/object.c          |  18 +++-
+>  softmmu/qtest.c       |   8 +-
+>  ui/console.c          |  18 +++-
+>  util/module.c         | 211 +++++++++++++++++++++++-------------------
+>  10 files changed, 260 insertions(+), 126 deletions(-)
 > 
 
 
