@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D56B607459
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 11:42:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BB6A60746B
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 11:47:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oloXz-0005PJ-Bv
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:42:38 -0400
+	id 1olod6-00054l-IE
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:47:52 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olo5g-0005Pv-Jf
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:13:20 -0400
+	id 1olo9Z-0004Tz-AS
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:17:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
- id 1olo5W-00046x-57
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:13:10 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1olo9F-0004N4-SI
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:17:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
- id 1olo5S-00030A-IF
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:13:09 -0400
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.57])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MtzJb6fMCzHvCS;
- Fri, 21 Oct 2022 17:12:47 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 21 Oct 2022 17:12:39 +0800
-Received: from [10.174.178.174] (10.174.178.174) by
- dggpemm500007.china.huawei.com (7.185.36.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 21 Oct 2022 17:12:38 +0800
-Subject: Re: [PATCH 00/11] fix memory leak while kset_register() fails
-To: Greg KH <gregkh@linuxfoundation.org>
-CC: Luben Tuikov <luben.tuikov@amd.com>, <linux-kernel@vger.kernel.org>,
- <qemu-devel@nongnu.org>, <linux-f2fs-devel@lists.sourceforge.net>,
- <linux-erofs@lists.ozlabs.org>, <ocfs2-devel@oss.oracle.com>,
- <linux-mtd@lists.infradead.org>, <amd-gfx@lists.freedesktop.org>,
- <rafael@kernel.org>, <somlo@cmu.edu>, <mst@redhat.com>, <jaegeuk@kernel.org>, 
- <chao@kernel.org>, <hsiangkao@linux.alibaba.com>, <huangjianan@oppo.com>,
- <mark@fasheh.com>, <jlbec@evilplan.org>, <joseph.qi@linux.alibaba.com>,
- <akpm@linux-foundation.org>, <alexander.deucher@amd.com>, <richard@nod.at>,
- <liushixin2@huawei.com>
-References: <20221021022102.2231464-1-yangyingliang@huawei.com>
- <d559793a-0ce4-3384-e74e-19855aa31f31@amd.com> <Y1IwLOUGayjT9p6d@kroah.com>
- <0591e66f-731a-5f81-fc9d-3a6d80516c65@huawei.com>
- <Y1JZ9IUPL6jZIQ8E@kroah.com>
-Message-ID: <1f3aa2ac-fba6-dc7a-d01d-7dd5331c8dc5@huawei.com>
-Date: Fri, 21 Oct 2022 17:12:37 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1olo9C-0003iC-L2
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:17:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666343817;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zVSpRSJo29H3kP4HL3MThDYZnsOwLIC+1tGoje/x+L0=;
+ b=M0HcG5jMyMsv9DrUbUI1I+p2Puzcj/jWv6Fu6yM//3k0AAw8HGagdI1YZRi/Qj+etcfrGG
+ EPFOsui+yo0GZeoXPPys/j8OryCjSTfzHOOxoSK3knK+mZXQeUchZBgqWR1ahkyA8lQMqt
+ Gt8XFflrqptRNTrovyK8gWaeT8YwLIY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-546-y6DV_hmaNtqXWEvmvIUeDw-1; Fri, 21 Oct 2022 05:16:55 -0400
+X-MC-Unique: y6DV_hmaNtqXWEvmvIUeDw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 37C848279A6;
+ Fri, 21 Oct 2022 09:16:54 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 44ABB2166B2D;
+ Fri, 21 Oct 2022 09:16:45 +0000 (UTC)
+Date: Fri, 21 Oct 2022 11:16:39 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Bin Meng <bin.meng@windriver.com>
+Cc: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v6 2/2] block: Refactor get_tmp_filename()
+Message-ID: <Y1Jjd3AVlWwpttFz@redhat.com>
+References: <20221010040432.3380478-1-bin.meng@windriver.com>
+ <20221010040432.3380478-2-bin.meng@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <Y1JZ9IUPL6jZIQ8E@kroah.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.174.178.174]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=yangyingliang@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221010040432.3380478-2-bin.meng@windriver.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,110 +85,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Yang Yingliang <yangyingliang@huawei.com>
-From:  Yang Yingliang via <qemu-devel@nongnu.org>
 
+Am 10.10.2022 um 06:04 hat Bin Meng geschrieben:
+> At present there are two callers of get_tmp_filename() and they are
+> inconsistent.
+> 
+> One does:
+> 
+>     /* TODO: extra byte is a hack to ensure MAX_PATH space on Windows. */
+>     char *tmp_filename = g_malloc0(PATH_MAX + 1);
+>     ...
+>     ret = get_tmp_filename(tmp_filename, PATH_MAX + 1);
+> 
+> while the other does:
+> 
+>     s->qcow_filename = g_malloc(PATH_MAX);
+>     ret = get_tmp_filename(s->qcow_filename, PATH_MAX);
+> 
+> As we can see different 'size' arguments are passed. There are also
+> platform specific implementations inside the function, and the use
+> of snprintf is really undesirable.
+> 
+> The function name is also misleading. It creates a temporary file,
+> not just a filename.
+> 
+> Refactor this routine by changing its name and signature to:
+> 
+>     char *create_tmp_file(Error **errp)
+> 
+> and use g_get_tmp_dir() / g_mkstemp() for a consistent implementation.
+> 
+> While we are here, add some comments to mention that /var/tmp is
+> preferred over /tmp on non-win32 hosts.
+> 
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> ---
+> 
+> Changes in v6:
+> - use g_mkstemp() and stick to use /var/tmp for non-win32 hosts
+> 
+> Changes in v5:
+> - minor change in the commit message
+> - add some notes in the function comment block
+> - add g_autofree for tmp_filename
+> 
+> Changes in v4:
+> - Rename the function to create_tmp_file() and take "Error **errp" as
+>   a parameter, so that callers can pass errp all the way down to this
+>   routine.
+> - Commit message updated to reflect the latest change
+> 
+> Changes in v3:
+> - Do not use errno directly, instead still let get_tmp_filename() return
+>   a negative number to indicate error
+> 
+> Changes in v2:
+> - Use g_autofree and g_steal_pointer
+> 
+>  include/block/block_int-common.h |  2 +-
+>  block.c                          | 56 +++++++++++++++++---------------
+>  block/vvfat.c                    |  7 ++--
+>  3 files changed, 34 insertions(+), 31 deletions(-)
+> 
+> diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+> index 8947abab76..d7c0a7e96f 100644
+> --- a/include/block/block_int-common.h
+> +++ b/include/block/block_int-common.h
+> @@ -1230,7 +1230,7 @@ static inline BlockDriverState *child_bs(BdrvChild *child)
+>  }
+>  
+>  int bdrv_check_request(int64_t offset, int64_t bytes, Error **errp);
+> -int get_tmp_filename(char *filename, int size);
+> +char *create_tmp_file(Error **errp);
+>  void bdrv_parse_filename_strip_prefix(const char *filename, const char *prefix,
+>                                        QDict *options);
+>  
+> diff --git a/block.c b/block.c
+> index 582c205307..8eeaa5623e 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -860,35 +860,42 @@ int bdrv_probe_geometry(BlockDriverState *bs, HDGeometry *geo)
+>  
+>  /*
+>   * Create a uniquely-named empty temporary file.
+> - * Return 0 upon success, otherwise a negative errno value.
+> + * Return the actual file name used upon success, otherwise NULL.
+> + * This string should be freed with g_free() when not needed any longer.
+> + *
+> + * Note: creating a temporary file for the caller to (re)open is
+> + * inherently racy. Use g_file_open_tmp() instead whenever practical.
+>   */
+> -int get_tmp_filename(char *filename, int size)
+> +char *create_tmp_file(Error **errp)
+>  {
+> -#ifdef _WIN32
+> -    char temp_dir[MAX_PATH];
+> -    /* GetTempFileName requires that its output buffer (4th param)
+> -       have length MAX_PATH or greater.  */
+> -    assert(size >= MAX_PATH);
+> -    return (GetTempPath(MAX_PATH, temp_dir)
+> -            && GetTempFileName(temp_dir, "qem", 0, filename)
+> -            ? 0 : -GetLastError());
+> -#else
+>      int fd;
+>      const char *tmpdir;
+> -    tmpdir = getenv("TMPDIR");
+> -    if (!tmpdir) {
+> +    g_autofree char *filename = NULL;
+> +
+> +    tmpdir = g_get_tmp_dir();
+> +#ifndef _WIN32
+> +    /*
+> +     * See commit 69bef79 ("block: use /var/tmp instead of /tmp for -snapshot")
+> +     *
+> +     * This function is used to create temporary disk images (like -snapshot),
+> +     * so the files can become very large. /tmp is often a tmpfs where as
+> +     * /var/tmp is usually on a disk, so more appropriate for disk images.
+> +     */
+> +    if (!g_strcmp0(tmpdir, "/tmp")) {
+>          tmpdir = "/var/tmp";
+>      }
 
-On 2022/10/21 16:36, Greg KH wrote:
-> On Fri, Oct 21, 2022 at 04:24:23PM +0800, Yang Yingliang wrote:
->> On 2022/10/21 13:37, Greg KH wrote:
->>> On Fri, Oct 21, 2022 at 01:29:31AM -0400, Luben Tuikov wrote:
->>>> On 2022-10-20 22:20, Yang Yingliang wrote:
->>>>> The previous discussion link:
->>>>> https://lore.kernel.org/lkml/0db486eb-6927-927e-3629-958f8f211194@huawei.com/T/
->>>> The very first discussion on this was here:
->>>>
->>>> https://www.spinics.net/lists/dri-devel/msg368077.html
->>>>
->>>> Please use this link, and not the that one up there you which quoted above,
->>>> and whose commit description is taken verbatim from the this link.
->>>>
->>>>> kset_register() is currently used in some places without calling
->>>>> kset_put() in error path, because the callers think it should be
->>>>> kset internal thing to do, but the driver core can not know what
->>>>> caller doing with that memory at times. The memory could be freed
->>>>> both in kset_put() and error path of caller, if it is called in
->>>>> kset_register().
->>>> As I explained in the link above, the reason there's
->>>> a memory leak is that one cannot call kset_register() without
->>>> the kset->kobj.name being set--kobj_add_internal() returns -EINVAL,
->>>> in this case, i.e. kset_register() fails with -EINVAL.
->>>>
->>>> Thus, the most common usage is something like this:
->>>>
->>>> 	kobj_set_name(&kset->kobj, format, ...);
->>>> 	kset->kobj.kset = parent_kset;
->>>> 	kset->kobj.ktype = ktype;
->>>> 	res = kset_register(kset);
->>>>
->>>> So, what is being leaked, is the memory allocated in kobj_set_name(),
->>>> by the common idiom shown above. This needs to be mentioned in
->>>> the documentation, at least, in case, in the future this is absolved
->>>> in kset_register() redesign, etc.
->>> Based on this, can kset_register() just clean up from itself when an
->>> error happens?  Ideally that would be the case, as the odds of a kset
->>> being embedded in a larger structure is probably slim, but we would have
->>> to search the tree to make sure.
->> I have search the whole tree, the kset used in bus_register() - patch #3,
->> kset_create_and_add() - patch #4
->> __class_register() - patch #5,  fw_cfg_build_symlink() - patch #6 and
->> amdgpu_discovery.c - patch #10
->> is embedded in a larger structure. In these cases, we can not call
->> kset_put() in error path in kset_register()
-> Yes you can as the kobject in the kset should NOT be controling the
-> lifespan of those larger objects.
-Read through the code the only leak in this case is the name, so can we 
-free it
-directly in kset_register():
+This is still a slight change in behaviour: If the TMPDIR environment
+variable was explicit set to /tmp, QEMU would store the image file in
+/tmp before this patch. After the patch, it will use /var/tmp even in
+this case.
 
---- a/lib/kobject.c
-+++ b/lib/kobject.c
-@@ -844,8 +844,11 @@ int kset_register(struct kset *k)
+I suppose this is a tolerable change.
 
-         kset_init(k);
-         err = kobject_add_internal(&k->kobj);
--       if (err)
-+       if (err) {
-+               kfree_const(k->kobj.name);
-+               k->kobj.name = NULL;
-                 return err;
-+       }
-         kobject_uevent(&k->kobj, KOBJ_ADD);
-         return 0;
-  }
+Kevin
 
-or unset ktype of kobject, then call kset_put():
-
---- a/lib/kobject.c
-+++ b/lib/kobject.c
-@@ -844,8 +844,11 @@ int kset_register(struct kset *k)
-
-         kset_init(k);
-         err = kobject_add_internal(&k->kobj);
--       if (err)
-+       if (err) {
-+               k->kobj.ktype = NULL;
-+               kset_put(k);
-                 return err;
-+       }
-         kobject_uevent(&k->kobj, KOBJ_ADD);
-         return 0;
-  }
-
->
-> If it is, please point out the call chain here as I don't think that
-> should be possible.
->
-> Note all of this is a mess because the kobject name stuff was added much
-> later, after the driver model had been created and running for a while.
-> We missed this error path when adding the dynamic kobject name logic,
-> thank for looking into this.
->
-> If you could test the patch posted with your error injection systems,
-> that could make this all much simpler to solve.
->
-> thanks,
->
-> greg k-h
-> .
 
