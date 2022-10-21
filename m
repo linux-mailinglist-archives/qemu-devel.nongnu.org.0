@@ -2,59 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00D446075D9
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 13:13:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AF256075E5
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 13:16:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olpyJ-0006RL-3m
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 07:13:51 -0400
+	id 1olq0y-0002ka-LD
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 07:16:36 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olpj7-0001vE-Sh
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:58:09 -0400
+	id 1olpym-0000I6-Sc
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 07:14:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1olpiz-0001sX-FE
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 06:58:01 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1olpiw-0006ae-SU
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 06:58:01 -0400
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-612-bGpXZVrOOWGV6wging3Jkg-1; Fri, 21 Oct 2022 06:57:36 -0400
-X-MC-Unique: bGpXZVrOOWGV6wging3Jkg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2FCEC185A792;
- Fri, 21 Oct 2022 10:57:36 +0000 (UTC)
-Received: from bahia.redhat.com (unknown [10.39.192.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2AC1549BB60;
- Fri, 21 Oct 2022 10:57:35 +0000 (UTC)
-From: Greg Kurz <groug@kaod.org>
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Greg Kurz <groug@kaod.org>, richard.henderson@linaro.org
-Subject: [PATCH] util/log: Close per-thread log file on thread termination
-Date: Fri, 21 Oct 2022 12:57:34 +0200
-Message-Id: <20221021105734.555797-1-groug@kaod.org>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olpyc-0008Cg-OW
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 07:14:11 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olpyb-00037l-30
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 07:14:10 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ o20-20020a05600c4fd400b003b4a516c479so1756718wmq.1
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 04:14:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=4SKfLPpIAxLCKbWZj1rohu1DCFOrNb7lblpLi8/L+LI=;
+ b=xInPVt1c+V3/2r7ppFz23gNCyv9l9uxiAA/nY4vxJt5CERGzduWZJF/3PrQ29nVZll
+ PDrtPg7TuYjMZjvkKVP3pP7dziw6pIWExNRQ74Dk9TgI/ov/OS7+VtJJMhTKvHT0TS9z
+ c684zAdgZR+NrzMZs71Afit3RbNtRSvT7tt/I90SBGWP5R4E8VfkgKx6+/tXwfbYU8EN
+ vmM59MdGPtkRjOYJNi0iaDr+MjnbG/TV4VGjEsqYLxIVIj23m3j3NqY7Y0v8xG0v5EEo
+ m9jDPdBWDWsh65sQvn7Z4b0iqtGnVJCaOk/jNEsugrX3zOR2H1Y3sCxz5Z8su3jdr2E9
+ 1ytg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4SKfLPpIAxLCKbWZj1rohu1DCFOrNb7lblpLi8/L+LI=;
+ b=jusQIzldmemmWTiJ0iHz8KCZ2A2h8deQiyp3V/dhjkLpPcRNpxmgqc4mptTfpKs1Vj
+ TE46X9rAa6b/Vujlw6jHChtvlP00ossZN97w6iLB9j/kWzMAeKuR4m4+rq650pwEDxp3
+ J2ZQ6B7JMy08W11ZV3zwZZV+H1hRX4sPdiqcEpV5VsO1/PEW55B3GihSZy5O+AFcVzpQ
+ j4sWkZIMqk9egfYKHaadvTC/+iznHSSkBZrYTOdW0v4/e2V7FYw6v/aS48wpDJShdpbm
+ co6HCWFu8LgT/SfHQ77erWUjoPww7DlRiCUf0rfm7BmekYrmc2Iizynq+qYDvnvOeI6P
+ DTAw==
+X-Gm-Message-State: ACrzQf0I8Jb6PTUF+D24sk62Tjh7lkmblFz8eLuiKGM596BzIFABEwaw
+ y50kxm1+B1sinl8pgSQVLd5kOQ==
+X-Google-Smtp-Source: AMsMyM4eRM31QS1cseB+pg9IudfD59DN0nTBURKobOBUuxodf107u7nF7oHkKhfEXtf+lQ+njTfv0Q==
+X-Received: by 2002:a05:600c:1c24:b0:3c6:c206:9ac0 with SMTP id
+ j36-20020a05600c1c2400b003c6c2069ac0mr33363005wms.172.1666350847231; 
+ Fri, 21 Oct 2022 04:14:07 -0700 (PDT)
+Received: from [10.50.0.10]
+ (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
+ by smtp.gmail.com with ESMTPSA id
+ g19-20020a05600c4ed300b003c409244bb0sm2597555wmq.6.2022.10.21.04.14.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Oct 2022 04:14:06 -0700 (PDT)
+Message-ID: <92533e71-500d-b816-1d06-0740d50e3ec8@linaro.org>
+Date: Fri, 21 Oct 2022 13:14:03 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.2
+Subject: Re: [PATCH v14 12/17] net: dgram: add unix socket
+Content-Language: en-US
+To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, xen-devel@lists.xenproject.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, Stefan Weil <sw@weilnetz.de>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ Eric Blake <eblake@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>, Greg Kurz <groug@kaod.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Stefano Brivio <sbrivio@redhat.com>
+References: <20221021090922.170074-1-lvivier@redhat.com>
+ <20221021090922.170074-13-lvivier@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221021090922.170074-13-lvivier@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,58 +109,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When `-D ${logfile} -d tid` is passed, qemu_log_trylock() creates
-a dedicated log file for the current thread and opens it. The
-corresponding file descriptor is cached in a __thread variable.
-Nothing is done to close the corresponding file descriptor when the
-thread terminates though and the file descriptor is leaked.
+On 21/10/22 11:09, Laurent Vivier wrote:
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
+> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+> Acked-by: Markus Armbruster <armbru@redhat.com> (QAPI schema)
+> ---
+>   net/dgram.c     | 55 ++++++++++++++++++++++++++++++++++++++++++++++++-
+>   qapi/net.json   |  2 +-
+>   qemu-options.hx |  1 +
+>   3 files changed, 56 insertions(+), 2 deletions(-)
+> 
+> diff --git a/net/dgram.c b/net/dgram.c
+> index e581cc62f39f..9f7bf3837653 100644
+> --- a/net/dgram.c
+> +++ b/net/dgram.c
+> @@ -426,6 +426,7 @@ int net_init_dgram(const Netdev *netdev, const char *name,
+>       SocketAddress *remote, *local;
+>       struct sockaddr *dest_addr;
+>       struct sockaddr_in laddr_in, raddr_in;
+> +    struct sockaddr_un laddr_un, raddr_un;
+>       socklen_t dest_len;
+>   
+>       assert(netdev->type == NET_CLIENT_DRIVER_DGRAM);
+> @@ -465,7 +466,8 @@ int net_init_dgram(const Netdev *netdev, const char *name,
+>           }
+>       } else {
+>           if (local->type != SOCKET_ADDRESS_TYPE_FD) {
+> -            error_setg(errp, "type=inet requires remote parameter");
+> +            error_setg(errp,
+> +                       "type=inet or type=unix requires remote parameter");
 
-The issue was found during code inspection and reproduced manually.
+Thanks for updating.
 
-Fix that with an atexit notifier.
+> @@ -546,6 +595,10 @@ int net_init_dgram(const Netdev *netdev, const char *name,
+>                             inet_ntoa(raddr_in.sin_addr),
+>                             ntohs(raddr_in.sin_port));
+>           break;
+> +    case SOCKET_ADDRESS_TYPE_UNIX:
+> +        qemu_set_info_str(&s->nc, "udp=%s:%s",
+> +                          laddr_un.sun_path, raddr_un.sun_path);
+> +        break;
 
-Fixes: 4e51069d6793 ("util/log: Support per-thread log files")
-Cc: richard.henderson@linaro.org
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- util/log.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/util/log.c b/util/log.c
-index d6eb0378c3a3..39866bdaf2fa 100644
---- a/util/log.c
-+++ b/util/log.c
-@@ -42,6 +42,7 @@ static QemuMutex global_mutex;
- static char *global_filename;
- static FILE *global_file;
- static __thread FILE *thread_file;
-+static __thread Notifier qemu_log_thread_cleanup_notifier;
- 
- int qemu_loglevel;
- static bool log_append;
-@@ -77,6 +78,12 @@ static int log_thread_id(void)
- #endif
- }
- 
-+static void qemu_log_thread_cleanup(Notifier *n, void *unused)
-+{
-+    fclose(thread_file);
-+    thread_file = NULL;
-+}
-+
- /* Lock/unlock output. */
- 
- FILE *qemu_log_trylock(void)
-@@ -93,6 +100,8 @@ FILE *qemu_log_trylock(void)
-                 return NULL;
-             }
-             thread_file = logfile;
-+            qemu_log_thread_cleanup_notifier.notify = qemu_log_thread_cleanup;
-+            qemu_thread_atexit_add(&qemu_log_thread_cleanup_notifier);
-         } else {
-             rcu_read_lock();
-             /*
--- 
-2.37.3
-
+"udp"?
 
