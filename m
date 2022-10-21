@@ -2,84 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A52606EE6
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 06:30:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BC36606F97
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 07:47:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oljgK-0002bW-N7
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 00:30:52 -0400
+	id 1olksL-0003dk-6B
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 01:47:21 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oljfV-0001s9-SV
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 00:30:01 -0400
+	id 1olkj2-0001an-2s
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 01:37:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oljfL-0001nU-Nr
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 00:29:52 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oljfJ-0007Fz-W3
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 00:29:51 -0400
-Received: by mail-ej1-x633.google.com with SMTP id ot12so4369523ejb.1
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 21:29:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=BTzgjLT/a7PzG3pt6gQTC3yOECKGKKrj4lCfSiSELTk=;
- b=IlCuREVgBBMCqxkD04RySMggheElYsH8MuwhGTM6iV6YLVadX1+n4enkOetSIGBCd1
- MFmLIDNFMMHyRmCsuNEvUQN4f3Y3dj8JFXAu+Me5RMtRwXFxN8oZO3BnfVGgLALvW9ZD
- uyEDfIvxVdBE0JvQQWvYjTxJ8iZIWThttAcB4U7QhStJFYe4DYa89YoRrjGJwFsQ1AJe
- pxVm58eQ7BcAO6H11hALY4uIQMpum5krcx/iG2bb4xb78Nnh/ekbemT+5GZrC8IIdLcV
- 7KWcemHtTXZMcveJqgU/6Z7OY3WASozH1A7mjn8yqtE8+KTWfd1TfetoKKkP1gfzMtah
- 9cGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=BTzgjLT/a7PzG3pt6gQTC3yOECKGKKrj4lCfSiSELTk=;
- b=6Sxyy9v0Pw43fxn2F1hg/yo5SGXl6EFyHAhcBn9GskKLxe3HWUWdntibHDQLCjwFug
- 7avn4Js+FRPhQ79Bj1ltdW/TGQ//4rULWjk4f7Wm8Q5vjifoGuENR9Un3N+youYuDw1Q
- bsCTFojinCO6u8WfhNyx02BZSy6iVz1iHy9NWXbHCMgatasocYxLCEjdp565DqVccK02
- bsPR+Fr2OpIHJ+GmXyzUU4YMDLZN18PJQN+SdsJTcW0YkTg2b6gfT50UtoUacUdS4/CJ
- vd+y898POhgG0kJhKE9VMlEbQqgaOUTQOFpNB7jNdXP4gueDBXGK6zHPi3m81FM4//VQ
- WtGw==
-X-Gm-Message-State: ACrzQf3/qVVHkXmEJ22l1UL3zSVvO3v6Txg9uaG286+DdD6xp+WPUMoB
- jWmsFgaj6PArLo011oFR+6rGz0S25MoQbK90demKdQ==
-X-Google-Smtp-Source: AMsMyM5YXDucnxxXnoekqOpmTdqWYmfHxhOKaSjYwvpBh21wiNRycMhxz0AAZRlr9jk+6u4vl1HqFkyHiD4aGwf4+kU=
-X-Received: by 2002:a17:906:ef8f:b0:78e:28e7:6c64 with SMTP id
- ze15-20020a170906ef8f00b0078e28e76c64mr14234827ejb.165.1666326587477; Thu, 20
- Oct 2022 21:29:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1olkin-0001Te-NH; Fri, 21 Oct 2022 01:37:30 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1olkii-0008Rw-43; Fri, 21 Oct 2022 01:37:29 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id A9D8B5C0110;
+ Fri, 21 Oct 2022 01:37:22 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Fri, 21 Oct 2022 01:37:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1666330642; x=1666417042; bh=41
+ +nvSg5mQtziDKiu2upcRZhMih8JEYCp9Mfbdw2G1Y=; b=RdnMMPdkm7DwR1JULK
+ u2hHPSHv1rmq6IrpPo9ypwHQuZNYALnm2dJlvlhn+n5WOwKq8ikp1PW7XnblVz2j
+ LxDTK8RjieL2pIdBwmaWhddh/6uEZIfApYsZm5tT8fBaq9tYTKi4kXZW5eXZSqv4
+ +3cYA399dmYM8mh6uweXtCVC/3lbsQDQRkaNqOfXdt03EunBvKyEvQ29m+CexHEB
+ bJhuWak2dmWzU0U0XPWQf8XD0/IqZWWB/v6TgGDl0hfTKIQVR4xzgHObYloTZhqR
+ DLrx/cwEQ7YqLAKG3rL+EXfUGrC5l1sHes868qjw2P2wdQ0dmJvamaB1W+WNnYn0
+ nwAw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1666330642; x=1666417042; bh=41+nvSg5mQtziDKiu2upcRZhMih8
+ JEYCp9Mfbdw2G1Y=; b=tSYLEBT3+jPV0CdFQ4wNprupaK+DSUJwLJ+4iskrvdWN
+ wl0ZDv/ZWFRafEO0PpjFU+f0hhQpQtj+u1wPvqnvWVsU856FvJ/cB+jOvAER4Zog
+ Gg0acDiPR196VwWWJhguff8nRPDPFQ+zF7ZQBHZSLmppNXNYms0dKub7nPd41gEe
+ LLHpYsIOhUGsMwPxfEd/T2FZ0OHJCSnxb1lDvy7RRtOX6kCa3k9lLbZiTufyfU4G
+ /pO+NWOLHsnIPKtlsoFU7M6/KM5hVcGv1nwcKv8oTdUNdkkw3YmrsPcYBCmb37fb
+ DsuCVMlT0TtUEPzZXQJ/bbAqGANYyv2ewC+AKfZ71Q==
+X-ME-Sender: <xms:ETBSYzzFci0WDPSbKAEhbHsCtj5z5us64UO3hpe6y_uIQmSrMQbzBA>
+ <xme:ETBSY7T-V5oHj5fzmulhhAkBlK6Sk033Nl8ciiDhIggJ6o8mkhniQvQHq1vhF5gXb
+ Ih4om49iU11cZy5whs>
+X-ME-Received: <xmr:ETBSY9WCnaPum_g8NgPEKDLAZwts-pYgAOkDqSbPEmzJ1B0TRat5tjRWvHjyizYDEM9k>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeljedgleelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
+ jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:ETBSY9h-28RYpdffM3-gLgIkIOdRjicgdfXXtekDzZfl8N-eqIr92g>
+ <xmx:ETBSY1DWzoDI3AJ58rAWXdLib5mYPUUP4DBSVk3q9QNwaUY_QHj3QA>
+ <xmx:ETBSY2K8Qx9Gclif4WcnpaqkDRdVSxRFtsU8RJVNaQHDhce3YHReQA>
+ <xmx:EjBSYw-KDVraQ4ay09v4-U6MtE2lOSW3ZwSUpus7Q5WQH3An3kN0TA>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 21 Oct 2022 01:37:20 -0400 (EDT)
+Date: Fri, 21 Oct 2022 07:37:18 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Cc: qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>
+Subject: Re: [PATCH] hw/nvme: reenable cqe batching
+Message-ID: <Y1IwDsaYc04+QhWu@cormorant.local>
+References: <20221020113538.36526-1-its@irrelevant.dk>
+ <D059FE13-A269-4C82-9BE7-1FEA9F2AE53A@ict.ac.cn>
 MIME-Version: 1.0
-References: <20221020104154.4276-1-zhiwei_liu@linux.alibaba.com>
- <20221020104154.4276-3-zhiwei_liu@linux.alibaba.com>
- <49246207-2202-0239-65f5-1f0b44d8bd64@linaro.org>
- <0cd94ce7-eeb8-c175-cfb1-c584f494bc57@linux.alibaba.com>
-In-Reply-To: <0cd94ce7-eeb8-c175-cfb1-c584f494bc57@linux.alibaba.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Date: Fri, 21 Oct 2022 14:29:36 +1000
-Message-ID: <CAFXwXrkDhKO_wE3m7KWzJ9-WaDH-XK14_0QEaw_usEyfueFFbg@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/3] tcg/riscv: Fix tcg_out_opc_imm when imm exceeds
-To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, 
- Bin Meng <bin.meng@windriver.com>, lzw194868@alibaba-inc.com
-Content-Type: multipart/alternative; boundary="00000000000053a7cb05eb83e475"
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-ej1-x633.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="XiS8wT3RD1W+ngtK"
+Content-Disposition: inline
+In-Reply-To: <D059FE13-A269-4C82-9BE7-1FEA9F2AE53A@ict.ac.cn>
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,115 +107,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000053a7cb05eb83e475
-Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 21 Oct 2022, 12:57 LIU Zhiwei, <zhiwei_liu@linux.alibaba.com> wrote:
-
->
-> On 2022/10/20 19:22, Richard Henderson wrote:
-> > On 10/20/22 20:41, LIU Zhiwei wrote:
-> >> TYPE-I immediate can only represent a signed 12-bit value. If immediate
-> >> exceed, mov it to an register.
-> >>
-> >> Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-> >> ---
-> >>   tcg/riscv/tcg-target.c.inc | 28 +++++++++++++++++++++++-----
-> >>   1 file changed, 23 insertions(+), 5 deletions(-)
-> >>
-> >> diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-> >> index 32f4bc7bfc..bfdf2bea69 100644
-> >> --- a/tcg/riscv/tcg-target.c.inc
-> >> +++ b/tcg/riscv/tcg-target.c.inc
-> >> @@ -668,7 +668,12 @@ static void tcg_out_addsub2(TCGContext *s,
-> >>       if (!cbh) {
-> >>           tcg_out_opc_reg(s, (is_sub ? opc_sub : opc_add), th, ah, bh);
-> >>       } else if (bh != 0 || ah == rl) {
-> >> -        tcg_out_opc_imm(s, opc_addi, th, ah, (is_sub ? -bh : bh));
-> >> +        if (bh == sextract(bh, 0, 12)) {
-> >> +            tcg_out_opc_imm(s, opc_addi, th, ah, (is_sub ? -bh : bh));
-> >> +        } else {
-> >> +            tcg_out_movi(s, TCG_TYPE_TL, th, (is_sub ? -bh : bh));
-> >> +            tcg_out_opc_reg(s, opc_add, th, ah, th);
-> >> +        }
-> >
-> > This value is currently constrained by 'M': +/- 0xfff.
->
-> I don't know why we need 'M'. Can I just use the constraint
->
-> C_O2_I4(r, r, rZ, rZ, rS, rS);
->
-
-I see the problem now. Look at the top of tcg_out_addsub2, where we
-(conditionally) negate the constant.
-
-We want to constrain the constant to be representable either positive or
-negative, i.e not -4096..4095 but -4095..4095.  But we got the endpoints
-wrong in tcg_target_const_match: 0xfff instead of 0x7ff.
-
-
-r~
-
---00000000000053a7cb05eb83e475
-Content-Type: text/html; charset="UTF-8"
+--XiS8wT3RD1W+ngtK
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div><div data-smartmail=3D"gmail_signature">On Fri, 21 O=
-ct 2022, 12:57 LIU Zhiwei, &lt;<a href=3D"mailto:zhiwei_liu@linux.alibaba.c=
-om">zhiwei_liu@linux.alibaba.com</a>&gt; wrote:</div><div class=3D"gmail_qu=
-ote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
-ft:1px #ccc solid;padding-left:1ex"><br>
-On 2022/10/20 19:22, Richard Henderson wrote:<br>
-&gt; On 10/20/22 20:41, LIU Zhiwei wrote:<br>
-&gt;&gt; TYPE-I immediate can only represent a signed 12-bit value. If imme=
-diate<br>
-&gt;&gt; exceed, mov it to an register.<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: LIU Zhiwei &lt;<a href=3D"mailto:zhiwei_liu@linux.a=
-libaba.com" target=3D"_blank" rel=3D"noreferrer">zhiwei_liu@linux.alibaba.c=
-om</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt; =C2=A0 tcg/riscv/tcg-target.c.inc | 28 +++++++++++++++++++++++----=
--<br>
-&gt;&gt; =C2=A0 1 file changed, 23 insertions(+), 5 deletions(-)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.i=
-nc<br>
-&gt;&gt; index 32f4bc7bfc..bfdf2bea69 100644<br>
-&gt;&gt; --- a/tcg/riscv/tcg-target.c.inc<br>
-&gt;&gt; +++ b/tcg/riscv/tcg-target.c.inc<br>
-&gt;&gt; @@ -668,7 +668,12 @@ static void tcg_out_addsub2(TCGContext *s,<br=
->
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!cbh) {<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tcg_out_opc=
-_reg(s, (is_sub ? opc_sub : opc_add), th, ah, bh);<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else if (bh !=3D 0 || ah =3D=3D r=
-l) {<br>
-&gt;&gt; -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tcg_out_opc_imm(s, opc=
-_addi, th, ah, (is_sub ? -bh : bh));<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (bh =3D=3D sextract=
-(bh, 0, 12)) {<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 tcg_out_opc_imm(s, opc_addi, th, ah, (is_sub ? -bh : bh));<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 tcg_out_movi(s, TCG_TYPE_TL, th, (is_sub ? -bh : bh));<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 tcg_out_opc_reg(s, opc_add, th, ah, th);<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
-&gt;<br>
-&gt; This value is currently constrained by &#39;M&#39;: +/- 0xfff.<br>
-<br>
-I don&#39;t know why we need &#39;M&#39;. Can I just use the constraint<br>
-<br>
-C_O2_I4(r, r, rZ, rZ, rS, rS);<br></blockquote></div></div><div dir=3D"auto=
-"><br></div><div dir=3D"auto">I see the problem now. Look at the top of tcg=
-_out_addsub2, where we (conditionally) negate the constant.</div><div dir=
-=3D"auto"><br></div><div dir=3D"auto">We want to constrain the constant to =
-be representable either positive or negative, i.e not -4096..4095 but -4095=
-..4095.=C2=A0 But we got the endpoints wrong in tcg_target_const_match: 0xf=
-ff instead of 0x7ff.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><br=
-></div><div dir=3D"auto">r~</div></div>
+On Okt 21 10:37, Jinhao Fan wrote:
+> at 7:35 PM, Klaus Jensen <its@irrelevant.dk> wrote:
+>=20
+> > Commit 2e53b0b45024 ("hw/nvme: Use ioeventfd to handle doorbell
+> > updates") had the unintended effect of disabling batching of CQEs.
+> >=20
+> > This patch changes the sq/cq timers to bottom halfs and instead of
+> > calling nvme_post_cqes() immediately (causing an interrupt per cqe), we
+> > defer the call.
+>=20
+> This change is definitely desired.
+>=20
+> >=20
+> >                   | iops
+> >  -----------------+------
+> >    baseline       | 138k
+> >    +cqe batching  | 233k
+>=20
+> What is the queue depth config for this test?
+>=20
 
---00000000000053a7cb05eb83e475--
+That's 64. My box isnt nearly as beefy as yours ;)
+
+--XiS8wT3RD1W+ngtK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmNSMA4ACgkQTeGvMW1P
+DeluDAf/RPRbVwc8EHMnaiyV0DLUzHJsK33Wt121spVNFmk9R74DMYrUr6yNUu80
+QXAN2FmdGQzYTkvXjwygT4YAXQxNwMtRUJga84XuFB000HYr7FzM1wUH3dtxbXPx
+QvkPtu9DY6/huQSyyzsHJpiskdoVC5n5jqhIq3XuYA/jJ0wZLyktfXZ8xcCVrj9Z
+fAResoP8PVxQYah00FtkXOkGStzy/3EM5bQ36QyrkG1yobPhfcCURAbgYKXmkb2Q
+jk08e4qmrm/gGkfNL0J3t/o1aejN2ffEfzGda1LXdlk25CMtJmhfzHuWPvy0Wdif
+txZpPBHo1cIhLNaVf/YjmtyNbdJTvg==
+=q9ES
+-----END PGP SIGNATURE-----
+
+--XiS8wT3RD1W+ngtK--
 
