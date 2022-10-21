@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8CDB607023
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 08:38:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7998160704E
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 08:46:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ollfN-0006oN-Cb
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 02:38:01 -0400
+	id 1ollnH-0007O2-AI
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 02:46:11 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ollee-0005nx-Ii
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 02:37:16 -0400
+	id 1olljG-0003hV-EQ
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 02:42:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1olle7-0005BP-Qo
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 02:36:51 -0400
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1ollj0-0002xy-GQ
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 02:41:48 -0400
 Received: from out2-smtp.messagingengine.com ([66.111.4.26])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1olle4-0000Wl-JU
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 02:36:42 -0400
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1olliy-000476-Mr
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 02:41:46 -0400
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id F01F65C00D0;
- Fri, 21 Oct 2022 02:36:39 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id 165DE5C0064;
+ Fri, 21 Oct 2022 02:41:31 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Fri, 21 Oct 2022 02:36:39 -0400
+ by compute2.internal (MEProxy); Fri, 21 Oct 2022 02:41:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-type:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1666334199; x=1666420599; bh=EZ
- 8L+0y3EjQz83l9UvHj/pJCiZx0XiiJfDo4l+Tn2ao=; b=CdIVn4/0umnrGh0jje
- t/FMKbT/9Tg5CtlOLD2V05Z/qfoZ/jYI0b0ReRRM3GURc8Vn+DNL6ffllsD1n411
- oC5VWsrim/ILGgJiwPF3Qj4P9AEcD6WcsZy/57TeGsWbQKPRHs8c862afGaZml5U
- qIMMjmOW7BvnN3Ca7lBHld/ZSPp5XEfAn8fVY2Uhg+XSXu7G0VWwq6iLc+ltGSC6
- z+E0rbREgNXsGh4K/xsYf0s+v+E2l6KHyJKaQV7wQxVU4DOdBpzYQjLriV9ORQn2
- LWBgHVwtkkLbcGHsfl/R0HAh4qaYJGFY7T1GkiRERtdQaGh3cB1tMd55RV52wO4p
- J4mQ==
+ :subject:subject:to:to; s=fm2; t=1666334491; x=1666420891; bh=6M
+ IvltKW2o9stoEATY99GoPr6ZBwFaxsY5jf0IaiA8E=; b=zUFXtnnXZpy1kbp8Ei
+ uQfI7bSAW7/coU9/qN2qnP51XuRiUQFWdWsCwWWt3Rs4++9I4BHUF0ULTsyvZ3mk
+ XBAA2vkDshXJN+8lEOZoLdUhfmfYqnkg/KjYZkUU3yUS9iYVrUnhDQWdxN3fXGxH
+ j0pi6HA6jrBdAZfeXHbPl0IL2WqHxR5yQND/47HLHri5u6gbryvgjqEZvD3QjRR/
+ GoCLOEGAadupCpTC8leGdzA66GiL+tFPUfRWr47bbuxXAMaxYLSdnjvOWuoEVZ/H
+ lSppqH4bFjHuCDxwiyXRRcuYXOkDshchayqq7h1ljqHWhJikj4OCJ35B/u3XFaq3
+ GKyw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
  :feedback-id:from:from:in-reply-to:in-reply-to:message-id
  :mime-version:references:reply-to:sender:subject:subject:to:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1666334199; x=1666420599; bh=EZ8L+0y3EjQz83l9UvHj/pJCiZx0
- XiiJfDo4l+Tn2ao=; b=atvSMLQbJyEfFtZno+397ITbB52Isj4kHF0lZa0aS3it
- BFRU6eagHP9NqDBMUCKMC8c4n+yutd+OR0Q+anFwzt7X6ZrwhirVXLIHakr1s8jF
- nmii5jQtC81jYU0gkWpJ9TyRi5SVNpdK0Q9FY/xkz2H5R3mEa1NswC2trAf5DnGk
- TEN53OYWqYstCztZn4sF/9S/2OnZXN40byl8PYHDOi9+guHCnUAw/2It71/b2EbB
- 5rWSKpj1215WDBkX32t0Z7Iwh9TUJmoUqTwCntCN4u0nnG2raxtDPAHNVxGGiAnn
- CHDUOZNa6bBFgdnSU5mW9oZrJLJKZhWZJdCLt+xxhg==
-X-ME-Sender: <xms:9z1SY6TrV4q-HX0Z2x76Tu_K6jHVcyA1Y7LSIU96bPzdARhUlqeSAA>
- <xme:9z1SY_zISqDDIwoWIRnt8b6VA8rIaeOwISiCUVBczQq8G4lXvrTBCHXjXosXo9TMP
- dRkdTwMRDflbbvgpXU>
-X-ME-Received: <xmr:9z1SY31TGjgE_w00AvA2FKbi2W67jn4Ikqq5WCNuIhLH0y5HKe66WnTSqLOqBaN1wX99>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeljedgudduvdcutefuodetggdotefrod
+ fm3; t=1666334491; x=1666420891; bh=6MIvltKW2o9stoEATY99GoPr6ZBw
+ FaxsY5jf0IaiA8E=; b=jTsscFlMqrBwoS4Qy2g3UDW12dxItS5DT2YeL3ozS2bG
+ Pwf3EXC2QVcVROP4f1WK2wmcA0d0PS9jw2A627lufM2RStkuUvSqKrhVM8gv27S3
+ p4I1ce1zl4wiibKoOzoGN9ApyDzMQekDwAoSB96S76AW4rDhAAfQRaLOa5ohCzWL
+ 5H0fpwLb9ppLe4PKVyOswmHUDPi21ZY/lqYmmpgBox6PZXVuyZJCvU66QV5cEtj1
+ 6w9hAvftmkrF02WXFma4bKxcKNdjgtonh6BDV9exXS2Cm7wPDbD23blKE19qeGII
+ 8yrA6FBZjQ+8uZcHEWiDtdGRyK/AyzyGqBbMlXQb8Q==
+X-ME-Sender: <xms:Gj9SYxmY8Mta8_TIPntO1vKKeBdVHfnkWRXy_rcPHnMMB8DuqcygIQ>
+ <xme:Gj9SY81UGSs0JC77WonWi9Zx01Yqqwmrfe4HhZIb_9HPdpbx13GGTpPWIxqnqZend
+ Gma2Gez4ONwtkmiDvo>
+X-ME-Received: <xmr:Gj9SY3qhVQapC2rTNOPoXMDnzWB3E5aqiFTCqLUTa0erUevv3_3iPh2bB16qobiasGGG>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeljedguddufecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgr
@@ -62,29 +62,28 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeljedgudduvdcutefuodetgg
  htthgvrhhnpeejgfejfeffvdeuhfeifefhgffgueelhedukeevjeevtdduudegieegteff
  ffejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:9z1SY2BGVyw4JtYh7i6G0veNPY6bTkZJ_vbsWzmFBUWp8hPI3Aftdw>
- <xmx:9z1SYzj7Jqe0lVORlCBQip0d4L4mZLqHtYULFe8LpagQZ2k4vKXRCQ>
- <xmx:9z1SYyrj09lFhg_MolteH0UEoOK5XhwN3hr7hiLzGKCcEODLC9rEmA>
- <xmx:9z1SYzf6OZSm3LeJGX_PqPUtAvxXpknxogQPaBdtg2Vl2wfqMdvpoQ>
+X-ME-Proxy: <xmx:Gj9SYxnJ5I5t4ag8WivivqjmCaTvMPoYBCEVzOZJOapRFASGfdBSxg>
+ <xmx:Gj9SY_3ZZbESzdL9-uFyW2qwgVLsf9rY-9NJxkOI0VUbKD7i1Xrc6g>
+ <xmx:Gj9SYwu7WeZ_PbKEdHTwj8T7DiseZxEFr_7RNtfUJ7uGcnHEd0QE9Q>
+ <xmx:Gz9SY6R3SaRTYorjUBLFPrDIftP98oLmIyj6ZRncGj2vCRODERYYRA>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 21 Oct 2022 02:36:38 -0400 (EDT)
-Date: Fri, 21 Oct 2022 08:36:36 +0200
+ 21 Oct 2022 02:41:29 -0400 (EDT)
+Date: Fri, 21 Oct 2022 08:41:27 +0200
 From: Klaus Jensen <its@irrelevant.dk>
 To: clay.mayers@kioxia.com
 Cc: qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>,
  Fam Zheng <fam@euphon.net>,
  Phlippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 1/4] hw/block/nvme: add ZONE_FINISH_RECOMMENDED
- functionality
-Message-ID: <Y1I99OtVUfBPLaF6@cormorant.local>
+Subject: Re: [PATCH 4/4] hw/block/nvme: add zone descriptor changed AEN
+Message-ID: <Y1I/F1Q6IjL5rLRH@cormorant.local>
 References: <20221021001835.942642-1-clay.mayers@kioxia.com>
- <20221021001835.942642-2-clay.mayers@kioxia.com>
+ <20221021001835.942642-5-clay.mayers@kioxia.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="gslNF128weE14mSQ"
+ protocol="application/pgp-signature"; boundary="vGGvmf2T7Ye0p5LB"
 Content-Disposition: inline
-In-Reply-To: <20221021001835.942642-2-clay.mayers@kioxia.com>
+In-Reply-To: <20221021001835.942642-5-clay.mayers@kioxia.com>
 Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
  helo=out2-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -110,7 +109,7 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---gslNF128weE14mSQ
+--vGGvmf2T7Ye0p5LB
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -118,48 +117,40 @@ Content-Transfer-Encoding: quoted-printable
 On Oct 20 17:18, clay.mayers@kioxia.com wrote:
 > From: Clay Mayers <clay.mayers@kioxia.com>
 >=20
-> Adds ns.param.zoned.finish_time, which sets the number of
-> seconds a zone can remain active before the zone attribute
-> ZONE_FINISH_RECOMMENDED is set.
->=20
-> This requires scanning the exp open, imp open and closed lists
-> of zones whenever a zone is marked as requiring finishing.  The
-> expectation is these lists will be short (10s of items) allowing a
-> simpler implementation than keeping the lists sorted.  It also
-> keeps the overhead during the exception of a timeout instead of
-> when zones change state between open and closed. For use cases
-> where this isn't true, finish_time should be 0 to disable this
-> feature (the default).
+> If a namespace's param.zoned.finish_time is non-zero,
+> controllers register with the namespace to be notified
+> when entries are added to its zone-descriptor-changed
+> log page.  If the zone-descriptor-changed aen is enabled,
+> this will cause an AEN to be sent from that controller.
 >=20
 > Signed-off-by: Clay Mayers <clay.mayers@kioxia.com>
 > ---
->  docs/system/devices/nvme.rst |  5 +++++
->  hw/nvme/ctrl.c               | 35 +++++++++++++++++++++++++++++++++++
->  hw/nvme/ns.c                 |  8 ++++++++
->  hw/nvme/nvme.h               | 18 ++++++++++++++----
->  4 files changed, 62 insertions(+), 4 deletions(-)
+>  hw/nvme/ctrl.c       | 62 +++++++++++++++++++++++++++++++++++++++++++-
+>  hw/nvme/ns.c         |  1 +
+>  hw/nvme/nvme.h       |  9 +++++++
+>  include/block/nvme.h |  2 ++
+>  4 files changed, 73 insertions(+), 1 deletion(-)
 >=20
 
-Single timer? Check.
+If the controller is hotplugged (device_del'ed), you need to remove the
+controller from the watch list as well. I think in nvme_exit().
 
-LGTM.
+Otherwise, looks good!
 
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-
---gslNF128weE14mSQ
+--vGGvmf2T7Ye0p5LB
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmNSPfQACgkQTeGvMW1P
-Den+pQf8CbAQ5rfdpPbdqz6qHC5r+46hCtH/vL5vhWNhS53XpO8tBBkWupRP66jK
-4FnS4Z4/mt8uvsDYW9MBasTIUC+Oa0MCmaYJY8YUw3436x36ZdansFdpscXuc9iP
-BRE8/UneWEbD8iZdQx0l5f9x2JdnBzsBS6CIRazA9bLevCRT3onTrJWJk2X2oAh8
-+FtYa7F5/cDgxGymQSs2DjHaXBioFgZYJLQGXhFrjydoKyMqYwonWobs3NcZZ22A
-OafVx02CKuwsc1H7WvrGjjP0fYGzPwawUnXceZZFRWQu7Uq2wI5irR25w78GDdUZ
-phB7lRn54wmBZHdNl6zaq7KolbmbvA==
-=vxof
+iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmNSPxcACgkQTeGvMW1P
+DekZ+AgAuBHYiWOBcriu6PPZ4mMu7gfDH31U9HXYRkENuDUKna50jfLtofu2llJo
+5LQM08lFv0P376QABM0auxEdIas9H3FlcbodWx95vUS+BzEddJzh7vCV8Qo5eI0f
+J4Ejy40ByubLaHYaCdJXw1Eovy1WBwcG48Ckeld0LYlmfNYY+KC0Wynij+0xtf2W
+kEEwlqj4ncDzbqsIlU7YvHOEW8AMRymyqzAYXPiXf81Qq5f36P+Ueg2zPcANHZWl
+a1kIjQ2tbhIU2Hl2ia+WQDur4liB/iCDbOQqSRwfoCO9hdpT71UWGs04i2aM/EqT
+AOvJkCa8jWiSPEqnltxcKGbpGw8/Ww==
+=V2nf
 -----END PGP SIGNATURE-----
 
---gslNF128weE14mSQ--
+--vGGvmf2T7Ye0p5LB--
 
