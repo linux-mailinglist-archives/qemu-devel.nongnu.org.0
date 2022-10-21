@@ -2,38 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC029606FFE
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 08:25:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE53C607042
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 08:44:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ollTi-0008P3-RD
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 02:25:58 -0400
+	id 1olllF-0001HM-NE
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 02:44:05 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oll33-00016c-8h
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 01:58:25 -0400
+	id 1oll32-00016T-RL
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 01:58:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben@luna.fluff.org>)
- id 1oll2w-00011e-10; Fri, 21 Oct 2022 01:58:18 -0400
+ id 1oll2v-00011a-RW; Fri, 21 Oct 2022 01:58:17 -0400
 Received: from cpc152649-stkp13-2-0-cust121.10-2.cable.virginm.net
  ([86.15.83.122] helo=luna)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben@luna.fluff.org>)
- id 1oll2u-00074O-2r; Fri, 21 Oct 2022 01:58:17 -0400
+ id 1oll2u-00074Q-2q; Fri, 21 Oct 2022 01:58:17 -0400
 Received: from ben by luna with local (Exim 4.96)
- (envelope-from <ben@luna.fluff.org>) id 1oll2n-001R0L-29;
+ (envelope-from <ben@luna.fluff.org>) id 1oll2n-001R0O-2H;
  Fri, 21 Oct 2022 06:58:09 +0100
 From: Ben Dooks <qemu@ben.fluff.org>
 To: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org, alistair@alistair23.me, peter.maydell@linaro.org,
- qemu-riscv@nongnu.org
-Subject: add qemu_fdt_setprop_strings
-Date: Fri, 21 Oct 2022 06:58:02 +0100
-Message-Id: <20221021055808.342055-1-qemu@ben.fluff.org>
+ qemu-riscv@nongnu.org, Ben Dooks <qemu@ben.fluff.org>
+Subject: [PATCH v5 1/6] device_tree: add qemu_fdt_setprop_strings() helper
+Date: Fri, 21 Oct 2022 06:58:03 +0100
+Message-Id: <20221021055808.342055-2-qemu@ben.fluff.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221021055808.342055-1-qemu@ben.fluff.org>
+References: <20221021055808.342055-1-qemu@ben.fluff.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: none client-ip=86.15.83.122; envelope-from=ben@luna.fluff.org;
@@ -60,9 +62,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a qemu_fdt_setprop_strings to set a string array into a device-tree.
+Add a helper to set a property from a set of strings
+to reduce the following code:
 
-Only minor updates from v4 to fix a couple of minor patch issues.
+    static const char * const clint_compat[2] = {
+        "sifive,clint0", "riscv,clint0"
+    };
 
+    qemu_fdt_setprop_string_array(fdt, nodename, "compatible",
+        (char **)&clint_compat, ARRAY_SIZE(clint_compat));
+
+Signed-off-by: Ben Dooks <qemu@ben.fluff.org>
+---
+v4:
+ - go back to the non-return call, no-one is using the result
+v3;
+ - fix return value for the call
+ - add better help text
+v2:
+ - fix node/path in comment
+---
+ include/sysemu/device_tree.h | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
+index e7c5441f56..cb49df471b 100644
+--- a/include/sysemu/device_tree.h
++++ b/include/sysemu/device_tree.h
+@@ -87,6 +87,25 @@ int qemu_fdt_setprop_string(void *fdt, const char *node_path,
+ int qemu_fdt_setprop_string_array(void *fdt, const char *node_path,
+                                   const char *prop, char **array, int len);
+ 
++/**
++ * qemu_fdt_setprop_strings: set a property from a set of strings
++ *
++ * @fdt: pointer to the dt blob
++ * @path: node name
++ * @prop: property array
++ *
++ * This is a helper for the qemu_fdt_setprop_string_array() function
++ * which takes a va-arg set of strings instead of having to setup a
++ * single use string array.
++ */
++#define qemu_fdt_setprop_strings(fdt, path, prop, ...)          \
++    do {                                                        \
++        static const char * const __strs[] = { __VA_ARGS__ };   \
++        qemu_fdt_setprop_string_array(fdt, path, prop,          \
++                (char **)&__strs, ARRAY_SIZE(__strs));          \
++     } while(0)
++
++
+ int qemu_fdt_setprop_phandle(void *fdt, const char *node_path,
+                              const char *property,
+                              const char *target_node_path);
+-- 
+2.35.1
 
 
