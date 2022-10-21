@@ -2,100 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F00B607087
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 08:53:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4243F607091
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 08:56:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ollu3-0004WQ-4p
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 02:53:14 -0400
+	id 1ollxP-0004hY-7W
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 02:56:39 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ollrs-0001Wd-30
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 02:50:56 -0400
+	id 1ollui-0005PX-7s
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 02:53:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ollrN-0001Md-Jv
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 02:50:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ollrM-0006AU-5S
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 02:50:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666335023;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XOzz6RqxEFeDgZOvB1fTWZ3fuSCGIDuMSc6tKtrk8+s=;
- b=Bkkj7l4BIpFCpVB6sMFEyxFoGYa6Kd8PUk3ArKECFUVvolQgoy45DR+EyUG0XW3vkisIWC
- QZbFOF6N9AsCJHUH8X/5uXvJTORlTkIfAeGI3MTyiKgLO8uT8H73SuKoQjMlQiNT62OcZW
- C7suPINtRkVCjBrIGV9C2uySYI5voME=
-Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
- [209.85.160.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-653-PHNoVHPfO-ibSuIDlURNQg-1; Fri, 21 Oct 2022 02:50:21 -0400
-X-MC-Unique: PHNoVHPfO-ibSuIDlURNQg-1
-Received: by mail-oa1-f69.google.com with SMTP id
- 586e51a60fabf-13193fb45b9so1265393fac.1
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 23:50:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1olluY-0004rg-QP
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 02:53:43 -0400
+Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1olluW-0006kU-AV
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 02:53:41 -0400
+Received: by mail-lf1-x12e.google.com with SMTP id d6so3460952lfs.10
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 23:53:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=fHnKrbzCJXhSEw9TL8T2pniPx00Ev5WVNG+7WsKcxJA=;
+ b=LtzxlXQGcV73/8S/TlvbkFVgd7bun6o1nqPdCzXvGPAfkzZf8/9C7m6kanIlwXFaSu
+ Q5RZOgkHtaTR/Om1o1AqF+3zyBTFZ0tdSqjyigEsmau5dQp15twD3BZ50pbnt745ol1X
+ apUff7eFp9DcuBHNu/RMCMQp7cQbHkQ17Hei6dpMX4lur33mgruwwij77GmW8SCB92ZT
+ VUI5wWT2TGkC0hw1xiJM3DM8OD8L1q+BOan2vf5D37WpGFGF8EiXJwfCrG9eyB/Db9cO
+ 2fEFcNtZZGJGNEJmY/1azzlaaLPcSjSt7rcCU6Bkw6rp55HZHAsHoFkKh+/LwiVYSG6F
+ dSQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=XOzz6RqxEFeDgZOvB1fTWZ3fuSCGIDuMSc6tKtrk8+s=;
- b=hreD/WgKEUJW/o3pduGoeQqgsmjhW8dAH9mkIafRegkImoEYVEgDKh/HQVoalaH58U
- lQ58V34udnbZ/1WUA89TWBZcb5+cN2bdrz5zNrDu0/5ksYUkKrJS5qiATkBNgxVwal3I
- iET4TnmVCmPeNLI+p09Euzk+suZINyXSUPYFfIlsWMg+/cqqUTwz+/fsBZa+mQTnaBk+
- xVVFzGcUdBfatgupK4XZO+xD1aie5DhieQc1shW41MR2ThdOwW0gTqG4QM6rR2u/qq/E
- ybSkQpdqcFZLiVns0xq9hzizHwsAsrcttzUXwhRRa9zIurWsN5pq95sFxT1S7uipxqfx
- OVHg==
-X-Gm-Message-State: ACrzQf1C2cuD7/cD0TVMSVO2dhb9G46VctmktDvGMvltC3Mn5/Z2PpuJ
- dJSqjBKLssC0Gk1n0NnPJmt/hm+0A8ROzoKwjJjO5whfNNPDA9xhRyJG7D85nc4mnN140N/ETm9
- SIsshy0wmer/JyC9I8Be5TlgndpOJZqw=
-X-Received: by 2002:a05:6808:1985:b0:354:d7cf:9acb with SMTP id
- bj5-20020a056808198500b00354d7cf9acbmr9563862oib.280.1666335021208; 
- Thu, 20 Oct 2022 23:50:21 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4MsrSkczxgyL5VrPWYzqqA1GHmIu6vGijSgB1rVxOImIbAyk3VP+uSlEbR8x7X/fkgKZMWn8pgX5+JVE+IwmU=
-X-Received: by 2002:a05:6808:1985:b0:354:d7cf:9acb with SMTP id
- bj5-20020a056808198500b00354d7cf9acbmr9563848oib.280.1666335020995; Thu, 20
- Oct 2022 23:50:20 -0700 (PDT)
+ bh=fHnKrbzCJXhSEw9TL8T2pniPx00Ev5WVNG+7WsKcxJA=;
+ b=njKFQQzp/tAmImnIFud7Ffwi0mLNNpU2D2LUPNAPHw8w4RBQ/sEdpmI/Ns1A2ClExG
+ txcaiV9rvURaM8o0IHSxnd67P5Kdd6giI7xXv7/bHTxMQPLTLKNPJk/zR2YBKHXm2lrT
+ fhJoLoWlTl2mxTWFt+BgiOdlSnBd5Y8gt7HsKEHgzBYZQHzbOC5DybcKyq3lXDc7UAKY
+ sHNKjDK4UKVeiRjggtmRUQr8YdNkBbHcGz/Wa7879LOwhGaOIEmZulDmXbA+wN/0NWmU
+ 08nD9aD2SFNJiTQWdS/zISe3nwBNoCAIsxqav17izwrkI/UupiOrWrIFynuoi4MxymTo
+ Io/g==
+X-Gm-Message-State: ACrzQf2AF2ZZYrRnk7myfJLSLWGucYhQwfOZNwZ3kOOMy4WYbxmqjXJ/
+ kxQtyi55ZeYmzh73smMQOxzvlJLoyzQNzedMuMU=
+X-Google-Smtp-Source: AMsMyM7NI756Iy/umPVW4i9V4MCNpCSQrTvWRkmN3wpuYGFUmuNMvytv6agKmWCA1RC0iiEjo1isiefqBsa8qTb7tZ8=
+X-Received: by 2002:a05:6512:3d1d:b0:4a2:588b:d78 with SMTP id
+ d29-20020a0565123d1d00b004a2588b0d78mr6868788lfv.375.1666335217969; Thu, 20
+ Oct 2022 23:53:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221020162558.123284-1-lvivier@redhat.com>
- <CACGkMEt9Hoo=GAuCUqMcBjqNvs94fEPA_GU9Z7TOh8c7Wam55Q@mail.gmail.com>
- <87h6zx4qsk.fsf@pond.sub.org>
-In-Reply-To: <87h6zx4qsk.fsf@pond.sub.org>
-From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 21 Oct 2022 14:50:09 +0800
-Message-ID: <CACGkMEsnq2pFaLwBpzpCSiD8jZrx77SUTn_6JhGG9jKe1PJkwA@mail.gmail.com>
-Subject: Re: [PATCH v13 00/17] qapi: net: add unix socket type support to
- netdev backend
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org,
- Paul Durrant <paul@xen.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>, 
- Stefano Stabellini <sstabellini@kernel.org>,
- David Gibson <david@gibson.dropbear.id.au>, 
- Eric Blake <eblake@redhat.com>, xen-devel@lists.xenproject.org, 
- "Michael S. Tsirkin" <mst@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Paolo Bonzini <pbonzini@redhat.com>, 
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Anthony Perard <anthony.perard@citrix.com>, 
- Ralph Schmieder <ralph.schmieder@gmail.com>,
- Stefano Brivio <sbrivio@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20221020220346.124381-1-bjorn.forsman@gmail.com>
+In-Reply-To: <20221020220346.124381-1-bjorn.forsman@gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 21 Oct 2022 10:53:26 +0400
+Message-ID: <CAJ+F1CKhatwA0i-KUF0pkS+8GxaP7v0cox1rpEj6KCVCR9e9bg@mail.gmail.com>
+Subject: Re: [PATCH] qga: add channel path to error messages
+To: =?UTF-8?Q?Bj=C3=B8rn_Forsman?= <bjorn.forsman@gmail.com>
+Cc: qemu-devel@nongnu.org, michael.roth@amd.com, kkostiuk@redhat.com
+Content-Type: multipart/alternative; boundary="000000000000be71b605eb85e65e"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,21 +88,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 21, 2022 at 2:46 PM Markus Armbruster <armbru@redhat.com> wrote:
->
-> Jason Wang <jasowang@redhat.com> writes:
->
-> > I've queued this version and will send pull requests shortly.
-> >
-> > Any future comment we can do patches on top.
->
-> Please give Laurent and me a few hours to try to improve PATCH 17's
-> commit message.  Which you could then integrate without a respin.
+--000000000000be71b605eb85e65e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Ok.
+Hi
 
-Thanks
+On Fri, Oct 21, 2022 at 2:31 AM Bj=C3=B8rn Forsman <bjorn.forsman@gmail.com=
+>
+wrote:
 
+> It's useful to know which device was used if/when it fails.
+>
+> channel-win32.c had this since 2015, with
+> c69403fcd4a0cb89f838a212ab71e4a1a3464c95 ("qemu-ga: debug printouts to
+> help troubleshoot installation"), this brings channel-posix.c up to
+> speed.
+>
+> Signed-off-by: Bj=C3=B8rn Forsman <bjorn.forsman@gmail.com>
+> ---
+>  qga/channel-posix.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/qga/channel-posix.c b/qga/channel-posix.c
+> index 6796a02cff..e6dce985ae 100644
+> --- a/qga/channel-posix.c
+> +++ b/qga/channel-posix.c
+> @@ -138,7 +138,7 @@ static gboolean ga_channel_open(GAChannel *c, const
+> gchar *path,
+>              0
+>          );
+>          if (fd =3D=3D -1) {
+> -            error_setg_errno(errp, errno, "error opening channel");
+> +            error_setg_errno(errp, errno, "error opening channel '%s'",
+> path);
+>              return false;
+>          }
+>  #ifdef CONFIG_SOLARIS
+> @@ -163,7 +163,7 @@ static gboolean ga_channel_open(GAChannel *c, const
+> gchar *path,
+>          assert(fd < 0);
+>          fd =3D qga_open_cloexec(path, O_RDWR | O_NOCTTY | O_NONBLOCK, 0)=
+;
+>          if (fd =3D=3D -1) {
+> -            error_setg_errno(errp, errno, "error opening channel");
+> +            error_setg_errno(errp, errno, "error opening channel '%s'",
+> path);
+>              return false;
+>          }
+>          tcgetattr(fd, &tio);
+> --
+> 2.36.2
+>
+>
+>
+Wouldn't it be simpler to modify the g_critical() in ga_channel_new()
+instead?
+
+    if (!ga_channel_open(c, path, method, listen_fd, &err)) {
+        g_critical("Failed to open %s: %s", path, error_get_pretty(err));
+...
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000be71b605eb85e65e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 21, 2022 at 2:31 AM Bj=
+=C3=B8rn Forsman &lt;<a href=3D"mailto:bjorn.forsman@gmail.com">bjorn.forsm=
+an@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">It&#39;s useful to know which device was used if/when it fails.=
+<br>
+<br>
+channel-win32.c had this since 2015, with<br>
+c69403fcd4a0cb89f838a212ab71e4a1a3464c95 (&quot;qemu-ga: debug printouts to=
+<br>
+help troubleshoot installation&quot;), this brings channel-posix.c up to<br=
+>
+speed.<br>
+<br>
+Signed-off-by: Bj=C3=B8rn Forsman &lt;<a href=3D"mailto:bjorn.forsman@gmail=
+.com" target=3D"_blank">bjorn.forsman@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0qga/channel-posix.c | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/qga/channel-posix.c b/qga/channel-posix.c<br>
+index 6796a02cff..e6dce985ae 100644<br>
+--- a/qga/channel-posix.c<br>
++++ b/qga/channel-posix.c<br>
+@@ -138,7 +138,7 @@ static gboolean ga_channel_open(GAChannel *c, const gch=
+ar *path,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (fd =3D=3D -1) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
+uot;error opening channel&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
+uot;error opening channel &#39;%s&#39;&quot;, path);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0#ifdef CONFIG_SOLARIS<br>
+@@ -163,7 +163,7 @@ static gboolean ga_channel_open(GAChannel *c, const gch=
+ar *path,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0assert(fd &lt; 0);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fd =3D qga_open_cloexec(path, O_RDWR | O_=
+NOCTTY | O_NONBLOCK, 0);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (fd =3D=3D -1) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
+uot;error opening channel&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
+uot;error opening channel &#39;%s&#39;&quot;, path);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcgetattr(fd, &amp;tio);<br>
+-- <br>
+2.36.2<br>
+<br>
+<br></blockquote><div><br></div><div>Wouldn&#39;t it be simpler to modify t=
+he g_critical() in ga_channel_new() instead?</div><div>=C2=A0<br></div></di=
+v>=C2=A0 =C2=A0 if (!ga_channel_open(c, path, method, listen_fd, &amp;err))=
+ {<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_critical(&quot;Failed to open %s: %s&qu=
+ot;, path, error_get_pretty(err));<br>...<br clear=3D"all"><br>-- <br><div =
+dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div=
 >
 
+--000000000000be71b605eb85e65e--
 
