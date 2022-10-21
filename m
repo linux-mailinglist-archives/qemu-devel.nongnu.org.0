@@ -2,72 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4919860728C
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 10:38:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B6D860740D
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 11:29:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olnYN-0001P9-Rv
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 04:38:56 -0400
+	id 1oloLH-0001Qg-J5
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:29:27 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olnEu-0006Sa-Fj
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 04:18:48 -0400
+	id 1olnGe-0001jl-9M
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 04:20:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregkh@linuxfoundation.org>)
- id 1olnEm-00061S-H3
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 04:18:40 -0400
-Received: from ams.source.kernel.org ([145.40.68.75])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1olnGU-0001Rv-DG
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 04:20:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregkh@linuxfoundation.org>)
- id 1olnEk-0003l5-J2
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 04:18:40 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 0B7F2B82B49;
- Fri, 21 Oct 2022 08:18:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C09FC433D7;
- Fri, 21 Oct 2022 08:18:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1666340313;
- bh=8++5V96CRoT3offEW1sfGPjlBhG5kCvkZ9nTWWOETBI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jgzWKnVMDL4jjfh3rpyIZnQ6lzYGvVQFOfB2Sz0ckbK8TSaMML0PB6ejva6LPIpVh
- ec2TKJYGoaFx30SX5W4+m5zVlvfmFnd1+qS08e2EpH9AWzJBI41sDGDR+b9qaC68rY
- UySyAc400Lqb6/UqLIyGB/GHeIBa76ZzCFASzYBo=
-Date: Fri, 21 Oct 2022 10:18:31 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Luben Tuikov <luben.tuikov@amd.com>
-Cc: Yang Yingliang <yangyingliang@huawei.com>, linux-kernel@vger.kernel.org,
- qemu-devel@nongnu.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-erofs@lists.ozlabs.org, ocfs2-devel@oss.oracle.com,
- linux-mtd@lists.infradead.org, amd-gfx@lists.freedesktop.org,
- rafael@kernel.org, somlo@cmu.edu, mst@redhat.com,
- jaegeuk@kernel.org, chao@kernel.org, hsiangkao@linux.alibaba.com,
- huangjianan@oppo.com, mark@fasheh.com, jlbec@evilplan.org,
- joseph.qi@linux.alibaba.com, akpm@linux-foundation.org,
- alexander.deucher@amd.com, richard@nod.at, liushixin2@huawei.com
-Subject: Re: [PATCH 00/11] fix memory leak while kset_register() fails
-Message-ID: <Y1JV1wxf/7ERAMhl@kroah.com>
-References: <20221021022102.2231464-1-yangyingliang@huawei.com>
- <d559793a-0ce4-3384-e74e-19855aa31f31@amd.com>
- <Y1IwLOUGayjT9p6d@kroah.com>
- <5efd73b0-d634-d34f-3d7a-13d674e40d04@amd.com>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1olnGS-00047D-TQ
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 04:20:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666340423;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VQ7TvRf+z/7G26hXE4YQxcVSs/NFR0Y/s5JG1TSKRzc=;
+ b=NEpYUbsyxjUnYj8s6SbouYWIuNnX6ShUF2waE0woltCrVElr5NaMia9qPP0GUExq2Nncgb
+ lIIJjxgJkNzi+qiwo1WqidcJxRmoufD2SIUIP201ksDczlK866/G0zqUxhfFyvICb5Gwo0
+ ODoTqV1uNfdVE5mPU/fCjrCD1qb9asI=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-126-cAsplIusPTK20R6q0f6Ysw-1; Fri, 21 Oct 2022 04:20:22 -0400
+X-MC-Unique: cAsplIusPTK20R6q0f6Ysw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ v125-20020a1cac83000000b003bd44dc5242so2994411wme.7
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 01:20:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=VQ7TvRf+z/7G26hXE4YQxcVSs/NFR0Y/s5JG1TSKRzc=;
+ b=A9hSu9zatcQR/VzRc13Fv8NVRey7G9f/SqXFTPCXUPON63xvQZfJ8sa0Xen7tSMNFh
+ RmxvWwZ1fhU5mduMYlnUpLJzcWRyWTjz5j97OvCHhfogcaV0cqcp8RM8SFzFu4fFZzZq
+ XiW34/7gzwT/R71Dr8ldA7e4asaHTLy2Uk31+BlS4lkoZ4WbMq/lkQG+mD2E7JBDaPT1
+ R3Row+9Kv9voi1tLjEgBTSv68CGB8bYm3MlvrzoAys7jBQ8o3dghKnqMD3/qTHJVITZo
+ +tY6xgSVL1zaZXnBZL9Re1d4Lxa5eYaewfmXP2cq4EuP1UnLLIrSQXDmUPQI3Lawy6wV
+ GECQ==
+X-Gm-Message-State: ACrzQf1Rrnv0X9I3Wg/qwef5QsaRtjXZKuz33KiGerqz5ysJ2iKQGfnN
+ f54Hw2Yg58kOnsOKsSA781Cbae0Dep8xUkxeLcryfhlnTcOcRww/cU+pPQNBm1HIJJnQp6fIjzh
+ YbLj93d4A1ftY+d0=
+X-Received: by 2002:adf:fb87:0:b0:22f:1880:d679 with SMTP id
+ a7-20020adffb87000000b0022f1880d679mr11540950wrr.279.1666340421152; 
+ Fri, 21 Oct 2022 01:20:21 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4KOGp3ynUz2GTiZvVP5mgb5v8P/JHlEkEHtIPQGRQqj82nevOyFSi+bsibvUAp4gb5OgAazw==
+X-Received: by 2002:adf:fb87:0:b0:22f:1880:d679 with SMTP id
+ a7-20020adffb87000000b0022f1880d679mr11540928wrr.279.1666340420915; 
+ Fri, 21 Oct 2022 01:20:20 -0700 (PDT)
+Received: from redhat.com ([2.54.40.233]) by smtp.gmail.com with ESMTPSA id
+ i9-20020a05600c4b0900b003b47b80cec3sm1912541wmp.42.2022.10.21.01.20.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Oct 2022 01:20:20 -0700 (PDT)
+Date: Fri, 21 Oct 2022 04:20:16 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, John Snow <jsnow@redhat.com>,
+ Maydell Peter <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Qemu Devel <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+Subject: Re: [PATCH v6 00/10] Introduce new acpi/smbios avocado tests using
+ biosbits
+Message-ID: <20221021041731-mutt-send-email-mst@kernel.org>
+References: <20221020123506.26363-1-ani@anisinha.ca>
+ <20221020083810-mutt-send-email-mst@kernel.org>
+ <CAARzgwwd_How_h+9sHWPOrWWZ7CbX+DN-uy-KiGf1VVyVmrLnA@mail.gmail.com>
+ <20221020084311-mutt-send-email-mst@kernel.org>
+ <CAARzgwxfKbrxAqb15GXp4j1enDPUhGBsL5jUzFtDvJkGM-7azw@mail.gmail.com>
+ <20221020150857-mutt-send-email-mst@kernel.org>
+ <CAARzgwwDjjHL-1fEeuySNZm8NbnGNaeE5h6zrPz_zaANfs5dsw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <5efd73b0-d634-d34f-3d7a-13d674e40d04@amd.com>
-Received-SPF: pass client-ip=145.40.68.75;
- envelope-from=gregkh@linuxfoundation.org; helo=ams.source.kernel.org
-X-Spam_score_int: -73
-X-Spam_score: -7.4
-X-Spam_bar: -------
-X-Spam_report: (-7.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAARzgwwDjjHL-1fEeuySNZm8NbnGNaeE5h6zrPz_zaANfs5dsw@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,71 +117,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 21, 2022 at 03:55:18AM -0400, Luben Tuikov wrote:
-> On 2022-10-21 01:37, Greg KH wrote:
-> > On Fri, Oct 21, 2022 at 01:29:31AM -0400, Luben Tuikov wrote:
-> >> On 2022-10-20 22:20, Yang Yingliang wrote:
-> >>> The previous discussion link:
-> >>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flkml%2F0db486eb-6927-927e-3629-958f8f211194%40huawei.com%2FT%2F&amp;data=05%7C01%7Cluben.tuikov%40amd.com%7C65b33f087ef245a9f23708dab3264840%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638019274318153227%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=1ZoieEob62iU9kI8fvpp20qGut9EeHKIHtCAT01t%2Bz8%3D&amp;reserved=0
-> >>
-> >> The very first discussion on this was here:
-> >>
-> >> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.spinics.net%2Flists%2Fdri-devel%2Fmsg368077.html&amp;data=05%7C01%7Cluben.tuikov%40amd.com%7C65b33f087ef245a9f23708dab3264840%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638019274318153227%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=9joWxGLUxZZMvrfkxCR8KbkoXifsqoMK0vGR%2FyEG62w%3D&amp;reserved=0
-> >>
-> >> Please use this link, and not the that one up there you which quoted above,
-> >> and whose commit description is taken verbatim from the this link.
-> >>
-> >>>
-> >>> kset_register() is currently used in some places without calling
-> >>> kset_put() in error path, because the callers think it should be
-> >>> kset internal thing to do, but the driver core can not know what
-> >>> caller doing with that memory at times. The memory could be freed
-> >>> both in kset_put() and error path of caller, if it is called in
-> >>> kset_register().
-> >>
-> >> As I explained in the link above, the reason there's
-> >> a memory leak is that one cannot call kset_register() without
-> >> the kset->kobj.name being set--kobj_add_internal() returns -EINVAL,
-> >> in this case, i.e. kset_register() fails with -EINVAL.
-> >>
-> >> Thus, the most common usage is something like this:
-> >>
-> >> 	kobj_set_name(&kset->kobj, format, ...);
-> >> 	kset->kobj.kset = parent_kset;
-> >> 	kset->kobj.ktype = ktype;
-> >> 	res = kset_register(kset);
-> >>
-> >> So, what is being leaked, is the memory allocated in kobj_set_name(),
-> >> by the common idiom shown above. This needs to be mentioned in
-> >> the documentation, at least, in case, in the future this is absolved
-> >> in kset_register() redesign, etc.
-> > 
-> > Based on this, can kset_register() just clean up from itself when an
-> > error happens?  Ideally that would be the case, as the odds of a kset
-> > being embedded in a larger structure is probably slim, but we would have
-> > to search the tree to make sure.
+On Fri, Oct 21, 2022 at 05:10:43AM +0530, Ani Sinha wrote:
 > 
-> Looking at kset_register(), we can add kset_put() in the error path,
-> when kobject_add_internal(&kset->kobj) fails.
 > 
-> See the attached patch. It needs to be tested with the same error injection
-> as Yang has been doing.
+> On Fri, Oct 21, 2022 at 12:43 AM Michael S. Tsirkin <mst@redhat.com> wrote:
 > 
-> Now, struct kset is being embedded in larger structs--see amdgpu_discovery.c
-> starting at line 575. If you're on an AMD system, it gets you the tree
-> structure you'll see when you run "tree /sys/class/drm/card0/device/ip_discovery/".
-> That shouldn't be a problem though.
+>     On Thu, Oct 20, 2022 at 06:20:20PM +0530, Ani Sinha wrote:
+>     > On Thu, Oct 20, 2022 at 6:15 PM Michael S. Tsirkin <mst@redhat.com>
+>     wrote:
+>     > >
+>     > > On Thu, Oct 20, 2022 at 06:12:10PM +0530, Ani Sinha wrote:
+>     > > > On Thu, Oct 20, 2022 at 6:08 PM Michael S. Tsirkin <mst@redhat.com>
+>     wrote:
+>     > > > >
+>     > > > > On Thu, Oct 20, 2022 at 06:04:56PM +0530, Ani Sinha wrote:
+>     > > > > >
+>     > > > > >
+>     > > > > > Changelog:
+>     > > > > > v6:
+>     > > > > >   - skip test when dependencies (xorriso for example) are not
+>     installed.
+>     > > > > >   - skip test when run on a platform other than x86_64.
+>     > > > >
+>     > > > > Hmm why is that btw?
+>     > > >
+>     > > > The bits binaries that generate the iso (grub-mkrescue etc) are built
+>     > > > for and are known to work only on x86_64 platform. They might also
+>     > > > work on amd64 but I do not have one at my disposal at the moment to
+>     > > > check.
+>     > > > On other platforms, for example 32 bit x86 and non-x86, those
+>     binaries
+>     > > > will likely not work. The test will fail.
+>     > >
+>     > > confused. I thought we are distributing the iso?
+>     >
+>     > No, the test builds the iso after adding the modified test scripts and
+>     > then spawns the vm with it. It is all part of the test itself.
+>     > We need to do that so that the iso contains the newly added tests etc.
+> 
+>     It's good to have for people developing tests, but for most qemu
+>     developers please just have a ready iso and have avocado fetch it.
+>     It's important to make tests run on all platforms.
+> 
+> 
+> This changes things a lot and goes down the path of where do we check in test
+> code changes? Do we deal with multiple repos? Where do we keep iso? Etc. having
+> a static iso limits us also. 
 
-Yes, that shouldn't be an issue as the kobject embedded in a kset is
-ONLY for that kset itself, the kset structure should not be controling
-the lifespan of the object it is embedded in, right?
+It's the same as any firmware really. I don't see much of a difference.
 
-Note, the use of ksets by a device driver like you are doing here in the
-amd driver is BROKEN and will cause problems by userspace tools.  Don't
-do that please, just use a single subdirectory for an attribute.  Doing
-deeper stuff like this is sure to cause problems and be a headache.
+> If we can think through and come up with a consensus, I can write a second
+> test. Else let's just go with this first.
 
-thanks,
+We can go ahead for now.
 
-greg k-h
+> If we are really keen on running
+> tests on multiple platforms, we can have binaries built for those. 
+> 
+
+Oh my.  Not dealing with this is *exactly* what people use
+virtualization for.
+
+> 
+> 
+>     We can think about moving iso generation into a VM too
+>     but as a first step I guess we can live with a container.
+> 
+>     --
+>     MST
+> 
+> 
+
 
