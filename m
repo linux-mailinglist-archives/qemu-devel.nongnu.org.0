@@ -2,69 +2,123 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B527607B6F
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 17:44:54 +0200 (CEST)
-Received: from localhost ([::1] helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5623607B75
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 17:50:14 +0200 (CEST)
+Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
-	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oluCZ-0000Zd-Sf
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 11:44:52 -0400
-Received: from [::1] (helo=lists1p.gnu.org)
-	by lists.gnu.org with esmtp (Exim 4.90_1)
-	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oluCX-00008y-3r
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 11:44:49 -0400
+	(envelope-from <qemu-devel-bounces@nongnu.org>)
+	id 1oluGf-0005d4-V7; Fri, 21 Oct 2022 11:49:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oluBi-0001hA-9U
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 11:44:00 -0400
-Received: from mout.kundenserver.de ([217.72.192.74])
+ (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1oluGG-0005aj-Ed; Fri, 21 Oct 2022 11:48:40 -0400
+Received: from mail-mw2nam04on2096.outbound.protection.outlook.com
+ ([40.107.101.96] helo=NAM04-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oluBg-0002De-2q
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 11:43:57 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MCsHm-1oufbz2Z6m-008oWV; Fri, 21 Oct 2022 17:43:51 +0200
-Message-ID: <7afdfcea-0b9e-9074-7331-b155dfe292e5@vivier.eu>
-Date: Fri, 21 Oct 2022 17:43:50 +0200
+ (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1oluGE-00038i-9B; Fri, 21 Oct 2022 11:48:40 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RDr3AK3zocUVS1U+WwuoYrpnJ/x7cmt7eP2eqMQ4Ya8Qhy1JNC8EsBvMkd3RI4lTMn+iI/QmAhUjSYVpcAnpyF2pBf6OD5BXoAOZDbv/xVxH5B2v9HLATnyMY3CLsjuxXJQjTorQsr7vm9bda/eYBsFm9HmFFcDlBmd4aE0u+pYaEKRvMq42zylewM92W1JI9ne/OpmjZXUb0+sY4J4W6hcfh095J8+goS7vcBvecrK+W6I8eNfDeLYnGIFfBR5WS0Jr0sJ3bGyTLBW8W581PXWWawoBAK07yRWbNji2njtkO9kPIllCp6JaWl04WzPhD0Y2Yh8OiwC2rZxiuX1j0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LTklF+HGSgpkBA8qwjR0PzFjJ+IdyTXn6GghsvqN2/8=;
+ b=YExFUdQwOrGTvNFvREYFBh9L0BGtE28fg5cThMnLYao4ltHPXv75e31uWOL7lO41QI+/Gw5lor0oxs7G5A7zSwxGA07uSmwgPVObGRCQ/qSTpzoU8LTLI+XTBbjmg1XyMdHS3Q9epmNyN3uGi4se7bVIJ3KWBBDSDaVGRc2GtxoSZWfx3zUMlplrZPEPV47VkpV2Cpafv6jCTNy08eC3Uxj40eGzWke0zshjCGNllAYkdzfAcCZ4IWxwY6Qq6J3g1uEnbQuXH6zXI5y/nmM1Z+szB1MZaAm9NyR784IclKcRMGUYPkPSzOMxHDh91Hz4CgMqodac3Hu361hXJxD76Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LTklF+HGSgpkBA8qwjR0PzFjJ+IdyTXn6GghsvqN2/8=;
+ b=umEt6vX842Ftkz+zx4v9gZrn1uvdSIHGE0huwjKED+VMHnn+OspVH4uJASMjgUVwZ0P8OpeVV4mAMvbF9alN9KhZZVMKS0qqJRkfH4IC/RqEcpg2O64iEnwyP+JOF2NbYH4ke4RfPtTN+znl15k/Zn/sXHL/Caa3jVrUljdG5g8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
+Received: from CH0PR01MB7124.prod.exchangelabs.com (2603:10b6:610:f3::20) by
+ MW4PR01MB6403.prod.exchangelabs.com (2603:10b6:303:70::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5723.29; Fri, 21 Oct 2022 15:48:30 +0000
+Received: from CH0PR01MB7124.prod.exchangelabs.com
+ ([fe80::aa43:6c60:26f0:d9c8]) by CH0PR01MB7124.prod.exchangelabs.com
+ ([fe80::aa43:6c60:26f0:d9c8%3]) with mapi id 15.20.5723.034; Fri, 21 Oct 2022
+ 15:48:30 +0000
+Date: Fri, 21 Oct 2022 11:48:10 -0400
+From: Aaron Lindsay <aaron@os.amperecomputing.com>
+To: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: [BUG] AArch64 boot hang with -icount and -smp >1 (iothread locking
+ issue?)
+Message-ID: <Y1K/Oo/dagg6D46m@strawberry.localdomain>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-ClientProxiedBy: CH0PR03CA0394.namprd03.prod.outlook.com
+ (2603:10b6:610:11b::28) To CH0PR01MB7124.prod.exchangelabs.com
+ (2603:10b6:610:f3::20)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v2] linux-user: Add guest memory layout to exception dump
-Content-Language: fr
-From: Laurent Vivier <laurent@vivier.eu>
-To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <YzMru6y+v5bbsTRn@p100>
- <5cabeb0b-1219-ae01-38bc-dc0873d502c8@vivier.eu>
-In-Reply-To: <5cabeb0b-1219-ae01-38bc-dc0873d502c8@vivier.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:n0eQycNV5oMalxRhR0MMhr6fp4emvssr4lt9KfasG3p1wOOWakz
- Uvo1xvHTgH9TA9vboupkEYuDV01860rewSYAVhfXsppr3n0zI7V/fch12QpVQelqjNqaq+c
- UATZQTnBAmSRSPWnYVO39/Cp+ArgGHdii2EZ1hJG6dDC/olXJTuAovobcOmgoxSsIVGgIJz
- jfXnr8KGQrH6pSJ3v12oA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:swaJ6/KZ8JA=:5Nxze7uSaWiLzV9SuN6hFG
- JRk/tzZM+yr+NrG/DW1tk9P57TmHVOVvO5uuciWr+Wy68wAZ+0fwC1WE1ioWwtPQu9LWw1rxg
- dtgi9kciXUhg1EFJQ6UFiBb2809IoBhMcGVWBtoWFXgz8pf8NFGQwN/lH6g+qlke1QfHECBbP
- QICoHB3CMf6yMKK2LY1WS8jNIP/0bhBYZCbJIOrWEXhuTdkt1BWVSdOAOWb+hTTezxYX6Ji1P
- RU9RJ0pqBfv3nM1gE//Rq9IpuUNOKvjcrSsPxz5IpKuN0PNGFvh34ovM0GJnyoNbdF+xwFcLA
- KuQCWnkFusgH5gJNGE2h2gAADN4B92ljMGvoUAcYYyuXVM2TRPWu7yD3O+IKdBMLnb4gzMWKg
- 2ukkMfL3MiKe8Iiw4fCOU5onjXYs4qqDIq1ZJbQXLTIT1BWvShydYWdD0LopowJe7V3gAzg+8
- fK2g2BT2AYO6P8DX+1HKzMOUgAgw1IWwBngtmMADtvPGbojImHMDynN91qAU/UUd6kEThbm7g
- ZXWgYLmhHTQl4v5DsX2pQY8ml74fT4GTDumeYpkA/yMJBKQy4OeDgDbwjU360RghC+BTejLI4
- nNFvjxDX9gg+IQ2FnqXZCHo1fifcKp5NxxHFr0l5H4nWaXPoKx2H+wwPyPux5AaTl8V0P8MYz
- 7NeTLeMPeW4xjlN9rZ0QRKzsLbe2j9aZiWTgH50yniYstuOdGomNkMFXDamoO453YbQBcsJc+
- 3WhtfIbeza56kYsMkyUfaFQCD+fxJbECmKo08lQM5ajDKE8gmElw+fAi2lR3J5C9b56evMJtS
- aWghd8Q
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR01MB7124:EE_|MW4PR01MB6403:EE_
+X-MS-Office365-Filtering-Correlation-Id: cb650359-b2f3-4f0f-f4e6-08dab37bb390
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: CFuVKuCTujXMmhIEx/z3BtnZcniT4tKNIFSg4EKD/iMTcRcE11+a4PuZVFgzZlhVGD8DL08zCrZceolQ9s5zDXXoNnYj/7K4AmEen5ixL6bTOUYbmFiLDxMe3anFsy736tcGZwhYVfIb4bZOJUakscnELscFyX85Trs21UAcM8LAwADmkyVJ94Vwad1NdShXp7CyjA2TYwwQ3Wfp4ZSGZJcp15bwipVmsEopxqel/fAX/rcHprPAflL3thCTM2UCOEb7iv34JFM5izhCmcmOVxoAuPKKHwl2BjVMdAwPvGan1OtXTl7pYgBsChpucsNs5JUcGB+RHta4eut6cOPNIWPrvlQpdD3qACzs63TGuvtPXcVZ5+kJ2XVW4vdtGL8O1T+VYjSv0M307pp96dvIhYJMo+DCaLsmH1SopBi+7jeMATMIwUDck+ZsJ3T7pCbRQvfUYdMMCJwfNK19i5iS+H7BYlrco3tGld5aMHdzxRAFA+cXfTnEgG8OPFAmNR1MHZwrCwK2ljonh//nmE7G3tJNmvlRiJ6G+4sCsRASKU3NRxDxx1R5jXWjFBBatqurhNzbAD6Jb2XcviRfLPgD+CkngwBQAYjfbaJbvPuyBIO0bJMbAdV0+EVGL6ZfEafbA5k/qz3dGTk2gdKUWYlTOmznq4ESj+T5GjSumivLF0Xw6Xq2xmwDyp2aWxx8KUo2TNAWyShHZmeX55jKpBf5LKQfoQUwE9yPSAyKbP0sAZk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH0PR01MB7124.prod.exchangelabs.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(136003)(366004)(376002)(39850400004)(396003)(346002)(451199015)(966005)(38100700002)(478600001)(66899015)(6486002)(316002)(8936002)(110136005)(6506007)(86362001)(83380400001)(6666004)(66946007)(66556008)(66476007)(41300700001)(186003)(2906002)(8676002)(6512007)(26005)(9686003)(5660300002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EtJ7CFP65JSJYSso32rbrQMoLYRyXZXxJ9eDgFEQsI7ud8b5jFvDwYLh/PH/?=
+ =?us-ascii?Q?oN585o3k90jrx1ITDiau1XWRAR/zIeyKy46oeL5QrgodIxJq5bcThiGhjlNd?=
+ =?us-ascii?Q?ZfYMSlbggsn26gdqMWzOp3NJyXoErQn3z7h4yKKspKlJt2vEixLLxeRnyaKU?=
+ =?us-ascii?Q?Gpt/kcgf6vzlYAvQXoCr5kmbarCuSCzDb9KFQ/dRxtFPzf6PrNhxMhD6ZLIt?=
+ =?us-ascii?Q?lPJaIBODvaX90/w4V71d6E6+giXfMiHD5bsuWMXTcPh1TVPnrPAYHXUQhUsd?=
+ =?us-ascii?Q?wZ0j0CkVEfKgVOcliODMiIHs7bXlIieSUBgQ4uV0OkeC4Y4FpZ9VDK6haTU2?=
+ =?us-ascii?Q?LjRuB0eXemDNeJEUcivHsLoNvszY3ZEaKk7kB2XKpnGn0uz7CLkM/F8GKOlu?=
+ =?us-ascii?Q?ai1VsQWLB2ol2Yu5ycVmx+ZmgNATTKjaeIatZEhEzdW4O2lG+sxTw5dBXN8A?=
+ =?us-ascii?Q?pgnX/iV902TvQ+hD++TH1RSec0guSr5RqMVjL53dhQ4UFo47HNbst3TZVyRr?=
+ =?us-ascii?Q?x74c1ZI4qMntTGbs418pv3mNdSb/VXXc3A8DXT1vZRISCFSVRJuzQVD5QR6k?=
+ =?us-ascii?Q?xJQDbOt/rFRL4DS3m84ufICrGlOTsF/M8lnutX6TDzYxrprIDAZ4naUHcHIk?=
+ =?us-ascii?Q?jkrxCWP3PJe4FWrQIBVwzPXlD6hR2IC/DisAzPuYlgMZ0ZNQUmtw+lfNDais?=
+ =?us-ascii?Q?oyhWtmAMpKC49pcjGxLfEWc27SCnCpXLMrDEjA1CUwfkfbvOl3tjRcp8zgCM?=
+ =?us-ascii?Q?4Z4s4JaC5tM+kyMepwv+ouuHJSpC43+jBcpIPZbKU3Lmut1QukRjXN7n1V5p?=
+ =?us-ascii?Q?hb5JS83Mdewv6x3KZhg7sYZfHvf52jpUpapARtouoFDWAMNdF3GGuoMgZz3f?=
+ =?us-ascii?Q?mXV4kQXeByiUYmKr14oXlzCJllExv75i73JQEVpF31rvOFTq9xOEN7gdCL/0?=
+ =?us-ascii?Q?Rb8HOv0LqBHtse6OUdb8PJ1jJCfKiCrFtiEcgApcZQJaeZgDJGSG772PknBu?=
+ =?us-ascii?Q?2tDz7nkljM7H9Y8kJQUpzQ8vXHsvOy8hOAY4QPxU/Li23Y5dqevmTDxGPcdQ?=
+ =?us-ascii?Q?wnHTLcpTkZBDtvje9b/2jR3NCaERhzI5hYGJ8+xfs1W42c82iXHUH2EP1Kb2?=
+ =?us-ascii?Q?eyVngl//fBirc2ykv2xzcFbXobQu2wzKZFkpmQo/wIrbXzBEGRsEgxv2r833?=
+ =?us-ascii?Q?Uy4Z52syOU+DVjzqkahd6CmkZtveDw1FlPIMmfs3VKdxojlEz7rxUknhvDPp?=
+ =?us-ascii?Q?AcmpIiaGcb1hsPLVxTHM41hJpHWNmHM5sB83kP4bMGYbPhQyy91u7KQUTv+f?=
+ =?us-ascii?Q?a/4Jytk0F1ThMyMyToAg0dqOFRdRn21STm4aX7Pa1B2911WX3m17dqJ2MNUc?=
+ =?us-ascii?Q?mHwDwSarSYgPZBtg9hPC2PON8kLOc/KzcsVsMOBjKoGk8uwS8rQLP8qdURCk?=
+ =?us-ascii?Q?XaDWVJyQuTTEMhBP/JNuMg2+SNxx/kXnwxpz2f8wGC7dMaVtT3pmQ1DFqXBU?=
+ =?us-ascii?Q?Qu+v3dQqIA52h5tA0z5RI4sBCD06mawEq5+h+vBm0kgbQqvQEiOz+aRPrLvh?=
+ =?us-ascii?Q?a47FjmgbJHMQ2mKmYbVp410+pY+xPbRBkRrmBskxGA61PrmBXS+scuE+2Z9t?=
+ =?us-ascii?Q?FljT426TSM7Ubk2ZEczPYyk=3D?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cb650359-b2f3-4f0f-f4e6-08dab37bb390
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR01MB7124.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2022 15:48:30.3348 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WkTBxoBAgjKaA/sB9YMoERkNmV5oi9T30/kEBia/DoPv0eLUs9eSNKOd6+At0aI3nUWKjYet2WCsBnSyasipjEfOcHXvi/BSoFahfuJ0JJSubNPvwION3JP9GOJSh+ec
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR01MB6403
+Received-SPF: pass client-ip=40.107.101.96;
+ envelope-from=aaron@os.amperecomputing.com;
+ helo=NAM04-MW2-obe.outbound.protection.outlook.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,138 +131,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
-Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 21/10/2022 à 16:57, Laurent Vivier a écrit :
-> Le 27/09/2022 à 18:58, Helge Deller a écrit :
->> When the emulation stops with a hard exception it's very useful for
->> debugging purposes to dump the current guest memory layout (for an
->> example see /proc/self/maps) beside the CPU registers.
->>
->> The open_self_maps() function provides such a memory dump, but since
->> it's located in the syscall.c file, various changes (add #includes, make
->> this function externally visible, ...) are needed to be able to call it
->> from the existing EXCP_DUMP() macro.
->>
->> This patch takes another approach by re-defining EXCP_DUMP() to call
->> target_exception_dump(), which is in syscall.c, consolidates the log
->> print functions and allows to add the call to dump the memory layout.
->>
->> Beside a reduced code footprint, this approach keeps the changes across
->> the various callers minimal, and keeps EXCP_DUMP() highlighted as
->> important macro/function.
->>
->> Signed-off-by: Helge Deller <deller@gmx.de>
->>
->> ---
->>
->> v2:
->> Based on feedback by Philippe Mathieu-Daudé, renamed the two functions
->> to excp_dump_file() and target_exception_dump(), and #define'ed
->> EXCP_DUMP() to target_exception_dump().
->> I intentionally did not replace all occurences of EXCP_DUMP() by
->> target_exception_dump() as I think it's unneccesary and not beneficial.
->> If this is really wished, I will send a v3.
->>
->>
->> diff --git a/linux-user/cpu_loop-common.h b/linux-user/cpu_loop-common.h
->> index 36ff5b14f2..e644d2ef90 100644
->> --- a/linux-user/cpu_loop-common.h
->> +++ b/linux-user/cpu_loop-common.h
->> @@ -23,18 +23,9 @@
->>   #include "exec/log.h"
->>   #include "special-errno.h"
->>
->> -#define EXCP_DUMP(env, fmt, ...)                                        \
->> -do {                                                                    \
->> -    CPUState *cs = env_cpu(env);                                        \
->> -    fprintf(stderr, fmt , ## __VA_ARGS__);                              \
->> -    fprintf(stderr, "Failing executable: %s\n", exec_path);             \
->> -    cpu_dump_state(cs, stderr, 0);                                      \
->> -    if (qemu_log_separate()) {                                          \
->> -        qemu_log(fmt, ## __VA_ARGS__);                                  \
->> -        qemu_log("Failing executable: %s\n", exec_path);                \
->> -        log_cpu_state(cs, 0);                                           \
->> -    }                                                                   \
->> -} while (0)
->> +void target_exception_dump(CPUArchState *env, const char *fmt, int code);
->> +#define EXCP_DUMP(env, fmt, code) \
->> +    target_exception_dump(env, fmt, code)
->>
->>   void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs);
->>   #endif
->> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
->> index 2e954d8dbd..7d29c4c396 100644
->> --- a/linux-user/syscall.c
->> +++ b/linux-user/syscall.c
->> @@ -158,6 +158,7 @@
->>   #include "qapi/error.h"
->>   #include "fd-trans.h"
->>   #include "tcg/tcg.h"
->> +#include "cpu_loop-common.h"
->>
->>   #ifndef CLONE_IO
->>   #define CLONE_IO                0x80000000      /* Clone io context */
->> @@ -8144,6 +8145,33 @@ static int is_proc_myself(const char *filename, const char *entry)
->>       return 0;
->>   }
->>
->> +static void excp_dump_file(FILE *logfile, CPUArchState *env,
->> +                      const char *fmt, int code)
->> +{
->> +    if (logfile) {
->> +        CPUState *cs = env_cpu(env);
->> +
->> +        fprintf(logfile, fmt, code);
->> +        fprintf(logfile, "Failing executable: %s\n", exec_path);
->> +        cpu_dump_state(cs, logfile, 0);
->> +        open_self_maps(env, fileno(logfile));
->> +    }
->> +}
->> +
->> +void target_exception_dump(CPUArchState *env, const char *fmt, int code)
->> +{
->> +    /* dump to console */
->> +    excp_dump_file(stderr, env, fmt, code);
->> +
->> +    /* dump to log file */
->> +    if (qemu_log_separate()) {
->> +        FILE *logfile = qemu_log_trylock();
->> +
->> +        excp_dump_file(logfile, env, fmt, code);
->> +        qemu_log_unlock(logfile);
->> +    }
->> +}
->> +
->>   #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN || \
->>       defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
->>   static int is_proc(const char *filename, const char *entry)
->>
-> 
-> Applied to my linux-user-for-7.2 branch.
+Hello,
 
-This breaks build with:
+I am encountering one or more bugs when using -icount and -smp >1 that I am
+attempting to sort out. My current theory is that it is an iothread locking
+issue.
 
-.../linux-user/i386/cpu_loop.c: In function 'cpu_loop':
-...linux-user/i386/cpu_loop.c:312:39: error: macro "EXCP_DUMP" passed 4 arguments, but takes just 3
-   312 |                       (long)pc, trapnr);
-       |                                       ^
-In file included from .../linux-user/i386/cpu_loop.c:24:
-.../linux-user/cpu_loop-common.h:27: note: macro "EXCP_DUMP" defined here
-    27 | #define EXCP_DUMP(env, fmt, code) \
-       |
-.../linux-user/i386/cpu_loop.c:311:13: error: 'EXCP_DUMP' undeclared (first use in this function)
-   311 |             EXCP_DUMP(env, "qemu: 0x%08lx: unhandled CPU exception 0x%x - aborting\n",
-       |             ^~~~~~~~~
-.../linux-user/i386/cpu_loop.c:311:13: note: each undeclared identifier is reported only once for 
-each function it appears in
-.../linux-user/i386/cpu_loop.c:204:15: error: variable 'pc' set but not used 
-[-Werror=unused-but-set-variable]
-   204 |     abi_ulong pc;
-       |               ^~
-cc1: all warnings being treated as errors
+I am using a command-line like the following where $kernel is a recent upstream
+AArch64 Linux kernel Image (I can provide a binary if that would be helpful -
+let me know how is best to post):
 
+	qemu-system-aarch64 \
+		-M virt -cpu cortex-a57 -m 1G \
+		-nographic \
+		-smp 2 \
+		-icount 0 \
+		-kernel $kernel
 
+For any/all of the symptoms described below, they seem to disappear when I
+either remove `-icount 0` or change smp to `-smp 1`. In other words, it is the
+combination of `-smp >1` and `-icount` which triggers what I'm seeing.
 
+I am seeing two different (but seemingly related) behaviors. The first (and
+what I originally started debugging) shows up as a boot hang. When booting
+using the above command after Peter's "icount: Take iothread lock when running
+QEMU timers" patch [1], The kernel boots for a while and then hangs after:
+
+> ...snip...
+> [    0.010764] Serial: AMBA PL011 UART driver
+> [    0.016334] 9000000.pl011: ttyAMA0 at MMIO 0x9000000 (irq = 13, base_baud = 0) is a PL011 rev1
+> [    0.016907] printk: console [ttyAMA0] enabled
+> [    0.017624] KASLR enabled
+> [    0.031986] HugeTLB: registered 16.0 GiB page size, pre-allocated 0 pages
+> [    0.031986] HugeTLB: 16320 KiB vmemmap can be freed for a 16.0 GiB page
+> [    0.031986] HugeTLB: registered 512 MiB page size, pre-allocated 0 pages
+> [    0.031986] HugeTLB: 448 KiB vmemmap can be freed for a 512 MiB page
+> [    0.031986] HugeTLB: registered 2.00 MiB page size, pre-allocated 0 pages
+> [    0.031986] HugeTLB: 0 KiB vmemmap can be freed for a 2.00 MiB page
+
+When it hangs here, I drop into QEMU's console, attach to the gdbserver, and it
+always reports that it is at address 0xffff800008dc42e8 (as shown below from an
+objdump of the vmlinux). I note this is in the middle of messing with timer
+system registers - which makes me suspect we're attempting to take the iothread
+lock when its already held:
+
+>   ffff800008dc42b8 <arch_timer_set_next_event_virt>:
+>   ffff800008dc42b8:       d503201f        nop
+>   ffff800008dc42bc:       d503201f        nop
+>   ffff800008dc42c0:       d503233f        paciasp
+>   ffff800008dc42c4:       d53be321        mrs     x1, cntv_ctl_el0
+>   ffff800008dc42c8:       32000021        orr     w1, w1, #0x1
+>   ffff800008dc42cc:       d5033fdf        isb
+>   ffff800008dc42d0:       d53be042        mrs     x2, cntvct_el0
+>   ffff800008dc42d4:       ca020043        eor     x3, x2, x2
+>   ffff800008dc42d8:       8b2363e3        add     x3, sp, x3
+>   ffff800008dc42dc:       f940007f        ldr     xzr, [x3]
+>   ffff800008dc42e0:       8b020000        add     x0, x0, x2
+>   ffff800008dc42e4:       d51be340        msr     cntv_cval_el0, x0
+> * ffff800008dc42e8:       927ef820        and     x0, x1, #0xfffffffffffffffd
+>   ffff800008dc42ec:       d51be320        msr     cntv_ctl_el0, x0
+>   ffff800008dc42f0:       d5033fdf        isb
+>   ffff800008dc42f4:       52800000        mov     w0, #0x0                        // #0
+>   ffff800008dc42f8:       d50323bf        autiasp
+>   ffff800008dc42fc:       d65f03c0        ret 
+
+The second behavior is that prior to Peter's "icount: Take iothread lock when
+running QEMU timers" patch [1], I observe the following message (same command
+as above):
+
+> ERROR:../accel/tcg/tcg-accel-ops.c:79:tcg_handle_interrupt: assertion failed: (qemu_mutex_iothread_locked())
+> Aborted (core dumped)
+
+This is the same behavior described in Gitlab issue 1130 [0] and addressed by
+[1]. I bisected the appearance of this assertion, and found it was introduced
+by Pavel's "replay: rewrite async event handling" commit [2]. Commits prior to
+that one boot successfully (neither assertions nor hangs) with `-icount 0 -smp
+2`.
+
+I've looked over these two commits ([1], [2]), but it is not obvious to me
+how/why they might be interacting to produce the boot hangs I'm seeing and
+I welcome any help investigating further.
+
+Thanks!
+
+-Aaron Lindsay
+
+[0] - https://gitlab.com/qemu-project/qemu/-/issues/1130
+[1] - https://gitlab.com/qemu-project/qemu/-/commit/c7f26ded6d5065e4116f630f6a490b55f6c5f58e
+[2] - https://gitlab.com/qemu-project/qemu/-/commit/60618e2d77691e44bb78e23b2b0cf07b5c405e56
 
