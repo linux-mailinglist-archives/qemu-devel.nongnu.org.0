@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A71E607191
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 10:01:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6841F60716F
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 09:50:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olmyV-00039p-DB
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 04:01:51 -0400
+	id 1olmnk-0002o5-DZ
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:50:44 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olmIN-0003kr-FU
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:18:19 -0400
+	id 1olmQF-0000SR-NB
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:26:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olmIA-0003Y3-02
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:18:06 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olmI7-0005wL-UW
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:18:05 -0400
-Received: by mail-pg1-x530.google.com with SMTP id g129so177947pgc.7
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 00:18:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=wp/4CM/qsbuV4ZCuidIv3Ny+CUT3ruhHsC9wYblkvAU=;
- b=KlZPyMGyK/J9Fu+pplc/X7YHjibXQF65uwT4/lMB3cZqXu+NKBF8euRK1qcfClXpGN
- +83ePMkeDAKE3oMjrF5zFxOrpVq8doRJuCfCgnH4DXUCNNGX/O9Bx1B+gasE09kS+Ti/
- sQi7Z8ryHyUq1N6p0KixyYlUNX7Ofl/Oz99ycBErZnEkF560H5fP9ixKXcgxm/eSxBLH
- 5autcQW+qOk46dvwomgzofmVq6Sg7I2Qvr8mWR8o6bP/Mdjf2c+tWWM/qDwkRSUSx8gy
- DOOopQoFbIfZJYeoCXu3/rl2kdfltIZDvi4hzshL4cdKFWh3JwJXUn5y/eWIL7pOWqGE
- BL7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wp/4CM/qsbuV4ZCuidIv3Ny+CUT3ruhHsC9wYblkvAU=;
- b=B+GYkHvrGi5LFtl4PmEMIJIVmZ6E3ExShpQ92+MmtZ4douoeF/+sP9gG83T36X4hnX
- gWh83tIKF0/LKGMxcFPZO7KWd0BMKGRcaDwgdTP61BUCMNo1tQTT7af8tZFieBwqr3qP
- MSWPR7jiL6BiYjOhjT9dfTvnTRhbCs5bOLyaLJp2rdpQSdX+pmdxqT3rD5Deb2aZg7nP
- Id17Ly5KNPK3rJAV1nsmGt0uri5eXwzpzNIDWdvK/UPCEItycq1CrpIHtegI+mlC/Yl2
- qxsis4W/3pUtj8UePjpLW+j9td9HQnUJTFlPBOkpgHSa0Ki+QyIpyGOE3tR5AA54lZuq
- HmoA==
-X-Gm-Message-State: ACrzQf0O8QLH+9lh5Pqgw1BCS25ikj1oq0rtIA8e1btvL5ei7+Sid9Co
- sHiMTSglnkG4e+mDS96g8a+Xc+3ssIfEZ4e6
-X-Google-Smtp-Source: AMsMyM5WX5J+n9GtVLJA2zESQ4901VER/fvAdQbyG3q1KxIZzrWZnbfkZBxlQDtKykhZDW650kW42Q==
-X-Received: by 2002:a63:6c07:0:b0:457:523c:4bd0 with SMTP id
- h7-20020a636c07000000b00457523c4bd0mr15117557pgc.101.1666336682365; 
- Fri, 21 Oct 2022 00:18:02 -0700 (PDT)
-Received: from localhost.localdomain ([149.135.10.35])
- by smtp.gmail.com with ESMTPSA id
- q9-20020a638c49000000b0041cd5ddde6fsm13003327pgn.76.2022.10.21.00.18.00
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Oct 2022 00:18:01 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 36/36] tcg: Add tcg_gen_extr_i128_i64,
- tcg_gen_concat_i64_i128
-Date: Fri, 21 Oct 2022 17:15:49 +1000
-Message-Id: <20221021071549.2398137-37-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221021071549.2398137-1-richard.henderson@linaro.org>
-References: <20221021071549.2398137-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
+ id 1olmQ7-0000BX-DF
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:26:19 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
+ id 1olmPx-0007GD-Hp
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:26:12 -0400
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.54])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Mtwr34fC2zVj5k;
+ Fri, 21 Oct 2022 15:21:23 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 21 Oct 2022 15:25:54 +0800
+Received: from [10.174.178.174] (10.174.178.174) by
+ dggpemm500007.china.huawei.com (7.185.36.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 21 Oct 2022 15:25:53 +0800
+Subject: Re: [PATCH 00/11] fix memory leak while kset_register() fails
+To: Luben Tuikov <luben.tuikov@amd.com>, <linux-kernel@vger.kernel.org>,
+ <qemu-devel@nongnu.org>, <linux-f2fs-devel@lists.sourceforge.net>,
+ <linux-erofs@lists.ozlabs.org>, <ocfs2-devel@oss.oracle.com>,
+ <linux-mtd@lists.infradead.org>, <amd-gfx@lists.freedesktop.org>
+CC: <gregkh@linuxfoundation.org>, <rafael@kernel.org>, <somlo@cmu.edu>,
+ <mst@redhat.com>, <jaegeuk@kernel.org>, <chao@kernel.org>,
+ <hsiangkao@linux.alibaba.com>, <huangjianan@oppo.com>, <mark@fasheh.com>,
+ <jlbec@evilplan.org>, <joseph.qi@linux.alibaba.com>,
+ <akpm@linux-foundation.org>, <alexander.deucher@amd.com>, <richard@nod.at>,
+ <liushixin2@huawei.com>
+References: <20221021022102.2231464-1-yangyingliang@huawei.com>
+ <d559793a-0ce4-3384-e74e-19855aa31f31@amd.com>
+Message-ID: <2a99c52c-d29c-5f5c-57a8-9851018e7420@huawei.com>
+Date: Fri, 21 Oct 2022 15:25:51 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <d559793a-0ce4-3384-e74e-19855aa31f31@amd.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.174.178.174]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=yangyingliang@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,224 +83,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Yang Yingliang <yangyingliang@huawei.com>
+From:  Yang Yingliang via <qemu-devel@nongnu.org>
 
-Add code generation functions for data movement between
-TCGv_i128 and TCGv_i64.
+Hi,
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/tcg/tcg-op.h  |  3 ++
- include/tcg/tcg-opc.h |  4 ++
- tcg/tcg-internal.h    | 12 ++++++
- tcg/tcg-op.c          | 35 ++++++++++++++++++
- tcg/tcg.c             | 85 +++++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 139 insertions(+)
+On 2022/10/21 13:29, Luben Tuikov wrote:
+> On 2022-10-20 22:20, Yang Yingliang wrote:
+>> The previous discussion link:
+>> https://lore.kernel.org/lkml/0db486eb-6927-927e-3629-958f8f211194@huawei.com/T/
+> The very first discussion on this was here:
+>
+> https://www.spinics.net/lists/dri-devel/msg368077.html
+>
+> Please use this link, and not the that one up there you which quoted above,
+> and whose commit description is taken verbatim from the this link.
+I found this leaks in 
+bus_register()/class_register()/kset_create_and_add() at first, and describe
+the reason in these patches which is using kobject_set_name() 
+description, here is the patches:
 
-diff --git a/include/tcg/tcg-op.h b/include/tcg/tcg-op.h
-index 209e168305..2ce2ff28c9 100644
---- a/include/tcg/tcg-op.h
-+++ b/include/tcg/tcg-op.h
-@@ -735,6 +735,9 @@ void tcg_gen_extrh_i64_i32(TCGv_i32 ret, TCGv_i64 arg);
- void tcg_gen_extr_i64_i32(TCGv_i32 lo, TCGv_i32 hi, TCGv_i64 arg);
- void tcg_gen_extr32_i64(TCGv_i64 lo, TCGv_i64 hi, TCGv_i64 arg);
- 
-+void tcg_gen_extr_i128_i64(TCGv_i64 lo, TCGv_i64 hi, TCGv_i128 arg);
-+void tcg_gen_concat_i64_i128(TCGv_i128 ret, TCGv_i64 lo, TCGv_i64 hi);
-+
- static inline void tcg_gen_concat32_i64(TCGv_i64 ret, TCGv_i64 lo, TCGv_i64 hi)
- {
-     tcg_gen_deposit_i64(ret, lo, hi, 32, 32);
-diff --git a/include/tcg/tcg-opc.h b/include/tcg/tcg-opc.h
-index dd444734d9..6211fb3242 100644
---- a/include/tcg/tcg-opc.h
-+++ b/include/tcg/tcg-opc.h
-@@ -158,6 +158,10 @@ DEF(extrh_i64_i32, 1, 1, 0,
-     IMPL(TCG_TARGET_HAS_extrh_i64_i32)
-     | (TCG_TARGET_REG_BITS == 32 ? TCG_OPF_NOT_PRESENT : 0))
- 
-+/* For 32-bit host only, implemented generically using ld/st/mov. */
-+DEF(extr_i128_i32, 1, 1, 1, TCG_OPF_NOT_PRESENT)
-+DEF(concat4_i32_i128, 1, 4, 0, TCG_OPF_NOT_PRESENT)
-+
- DEF(brcond_i64, 0, 2, 2, TCG_OPF_BB_END | TCG_OPF_COND_BRANCH | IMPL64)
- DEF(ext8s_i64, 1, 1, 0, IMPL64 | IMPL(TCG_TARGET_HAS_ext8s_i64))
- DEF(ext16s_i64, 1, 1, 0, IMPL64 | IMPL(TCG_TARGET_HAS_ext16s_i64))
-diff --git a/tcg/tcg-internal.h b/tcg/tcg-internal.h
-index 44ef51ca30..8112a0a491 100644
---- a/tcg/tcg-internal.h
-+++ b/tcg/tcg-internal.h
-@@ -110,9 +110,21 @@ static inline TCGv_i32 TCGV_HIGH(TCGv_i64 t)
- {
-     return temp_tcgv_i32(tcgv_i64_temp(t) + !HOST_BIG_ENDIAN);
- }
-+extern TCGv_i64 TCGV128_LOW(TCGv_i128)
-+    QEMU_ERROR("64-bit code path is reachable");
-+extern TCGv_i64 TCGV128_HIGH(TCGv_i128)
-+    QEMU_ERROR("64-bit code path is reachable");
- #else
- extern TCGv_i32 TCGV_LOW(TCGv_i64) QEMU_ERROR("32-bit code path is reachable");
- extern TCGv_i32 TCGV_HIGH(TCGv_i64) QEMU_ERROR("32-bit code path is reachable");
-+static inline TCGv_i64 TCGV128_LOW(TCGv_i128 t)
-+{
-+    return temp_tcgv_i64(tcgv_i128_temp(t) + HOST_BIG_ENDIAN);
-+}
-+static inline TCGv_i64 TCGV128_HIGH(TCGv_i128 t)
-+{
-+    return temp_tcgv_i64(tcgv_i128_temp(t) + !HOST_BIG_ENDIAN);
-+}
- #endif
- 
- #endif /* TCG_INTERNAL_H */
-diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-index 3ed98ffa01..6031fa89c2 100644
---- a/tcg/tcg-op.c
-+++ b/tcg/tcg-op.c
-@@ -2718,6 +2718,41 @@ void tcg_gen_extr32_i64(TCGv_i64 lo, TCGv_i64 hi, TCGv_i64 arg)
-     tcg_gen_shri_i64(hi, arg, 32);
- }
- 
-+void tcg_gen_extr_i128_i64(TCGv_i64 lo, TCGv_i64 hi, TCGv_i128 arg)
-+{
-+    if (TCG_TARGET_REG_BITS == 32) {
-+        TCGArg a_arg = tcgv_i128_arg(arg);
-+        int be = HOST_BIG_ENDIAN ? 0xc : 0;
-+
-+        tcg_gen_op3(INDEX_op_extr_i128_i32, tcgv_i32_arg(TCGV_LOW(lo)),
-+                    a_arg, 0x0 ^ be);
-+        tcg_gen_op3(INDEX_op_extr_i128_i32, tcgv_i32_arg(TCGV_HIGH(lo)),
-+                    a_arg, 0x4 ^ be);
-+        tcg_gen_op3(INDEX_op_extr_i128_i32, tcgv_i32_arg(TCGV_LOW(hi)),
-+                    a_arg, 0x8 ^ be);
-+        tcg_gen_op3(INDEX_op_extr_i128_i32, tcgv_i32_arg(TCGV_HIGH(hi)),
-+                    a_arg, 0xc ^ be);
-+    } else {
-+        tcg_gen_mov_i64(lo, TCGV128_LOW(arg));
-+        tcg_gen_mov_i64(hi, TCGV128_HIGH(arg));
-+    }
-+}
-+
-+void tcg_gen_concat_i64_i128(TCGv_i128 ret, TCGv_i64 lo, TCGv_i64 hi)
-+{
-+    if (TCG_TARGET_REG_BITS == 32) {
-+        tcg_gen_op5(INDEX_op_concat4_i32_i128,
-+                    tcgv_i128_arg(ret),
-+                    tcgv_i32_arg(TCGV_LOW(lo)),
-+                    tcgv_i32_arg(TCGV_HIGH(lo)),
-+                    tcgv_i32_arg(TCGV_LOW(hi)),
-+                    tcgv_i32_arg(TCGV_HIGH(hi)));
-+    } else {
-+        tcg_gen_mov_i64(TCGV128_LOW(ret), lo);
-+        tcg_gen_mov_i64(TCGV128_HIGH(ret), hi);
-+    }
-+}
-+
- /* QEMU specific operations.  */
- 
- void tcg_gen_exit_tb(const TranslationBlock *tb, unsigned idx)
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index adf592ac96..6974564f49 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -3949,6 +3949,85 @@ static void tcg_reg_alloc_mov(TCGContext *s, const TCGOp *op)
-     }
- }
- 
-+/*
-+ * Specialized code generation for TCG_TYPE_I128 on 32-bit host.
-+ * Here, 128-bit values are *always* in memory, never regs or constants.
-+ * Move 32-bit pieces into and out of the 128-bit memory slot.
-+ */
-+static void tcg_reg_alloc_exrl_i128_i32(TCGContext *s, const TCGOp *op)
-+{
-+    const TCGLifeData arg_life = op->life;
-+    TCGTemp *ots = arg_temp(op->args[0]);
-+    TCGTemp *its = arg_temp(op->args[1]);
-+    TCGArg ofs = op->args[2];
-+    TCGReg reg;
-+
-+    assert(TCG_TARGET_REG_BITS == 32);
-+    tcg_debug_assert(ots->type == TCG_TYPE_I32);
-+    tcg_debug_assert(!temp_readonly(ots));
-+    tcg_debug_assert(its->type == TCG_TYPE_I128);
-+    tcg_debug_assert(its->val_type == TEMP_VAL_MEM);
-+    tcg_debug_assert(ofs < 16);
-+    tcg_debug_assert((ofs & 3) == 0);
-+
-+    if (ots->val_type == TEMP_VAL_REG) {
-+        reg = ots->reg;
-+    } else {
-+        reg = tcg_reg_alloc(s, tcg_target_available_regs[TCG_TYPE_I32],
-+                            s->reserved_regs, op->output_pref[0],
-+                            ots->indirect_base);
-+        ots->val_type = TEMP_VAL_REG;
-+        ots->reg = reg;
-+        s->reg_to_temp[reg] = ots;
-+    }
-+
-+    tcg_out_ld(s, TCG_TYPE_I32, reg,
-+               its->mem_base->reg, its->mem_offset + ofs);
-+    ots->mem_coherent = 0;
-+
-+    if (IS_DEAD_ARG(1)) {
-+        temp_dead(s, its);
-+    }
-+}
-+
-+static void tcg_reg_alloc_concat4_i32_i128(TCGContext *s, const TCGOp *op)
-+{
-+    const TCGLifeData arg_life = op->life;
-+    TCGTemp *ots = arg_temp(op->args[0]);
-+    int be = HOST_BIG_ENDIAN ? 0xc : 0;
-+
-+    assert(TCG_TARGET_REG_BITS == 32);
-+    tcg_debug_assert(ots->type == TCG_TYPE_I128);
-+    tcg_debug_assert(!temp_readonly(ots));
-+    tcg_debug_assert(NEED_SYNC_ARG(0));
-+
-+    if (!ots->mem_allocated) {
-+        temp_allocate_frame(s, ots);
-+    }
-+
-+    for (int i = 0; i < 4; ++i) {
-+        TCGTemp *its = arg_temp(op->args[i + 1]);
-+        int ofs = ots->mem_offset + ((i * 4) ^ be);
-+
-+        if (its->val_type == TEMP_VAL_CONST &&
-+            IS_DEAD_ARG(i + 1) &&
-+            tcg_out_sti(s, TCG_TYPE_I32, its->val, ots->mem_base->reg, ofs)) {
-+            continue;
-+        }
-+
-+        temp_load(s, its, tcg_target_available_regs[TCG_TYPE_I32],
-+                  s->reserved_regs, 0);
-+        tcg_out_st(s, TCG_TYPE_I32, its->reg, ots->mem_base->reg, ofs);
-+
-+        if (IS_DEAD_ARG(i + 1)) {
-+            temp_dead(s, its);
-+        }
-+    }
-+
-+    ots->val_type = TEMP_VAL_MEM;
-+    ots->mem_coherent = 1;
-+}
-+
- /*
-  * Specialized code generation for INDEX_op_dup_vec.
-  */
-@@ -5009,6 +5088,12 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb, target_ulong pc_start)
-         case INDEX_op_mov_vec:
-             tcg_reg_alloc_mov(s, op);
-             break;
-+        case INDEX_op_extr_i128_i32:
-+            tcg_reg_alloc_exrl_i128_i32(s, op);
-+            break;
-+        case INDEX_op_concat4_i32_i128:
-+            tcg_reg_alloc_concat4_i32_i128(s, op);
-+            break;
-         case INDEX_op_dup_vec:
-             tcg_reg_alloc_dup(s, op);
-             break;
--- 
-2.34.1
+https://lore.kernel.org/lkml/20221017014957.156645-1-yangyingliang@huawei.com/T/
+https://lore.kernel.org/lkml/20221017031335.1845383-1-yangyingliang@huawei.com/
+https://lore.kernel.org/lkml/Y0zfPKAgQSrYZg5o@kroah.com/T/
 
+And then I found other subsystem also have this problem, so posted the 
+fix patches for them
+(including qemu_fw_cfg/f2fs/erofs/ocfs2/amdgpu_discovery):
+
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg915553.html
+https://lore.kernel.org/linux-f2fs-devel/7908686b-9a7c-b754-d312-d689fc28366e@kernel.org/T/#t
+https://lore.kernel.org/linux-erofs/20221018073947.693206-1-yangyingliang@huawei.com/
+https://lore.kernel.org/lkml/0db486eb-6927-927e-3629-958f8f211194@huawei.com/T/
+
+https://www.spinics.net/lists/dri-devel/msg368092.html
+In the amdgpu_discovery patch, I sent a old one which using wrong 
+description and you pointer out,
+and then I send a v2.
+
+And then the maintainer of ocfs2 has different thought about this, so we 
+had a discussion in the link
+that I gave out, and Greg suggested me to update kset_register() 
+documentation and then put the fix
+patches together in one series, so I sent this patchset and use the link.
+
+Thanks,
+Yang
+
+>
+>> kset_register() is currently used in some places without calling
+>> kset_put() in error path, because the callers think it should be
+>> kset internal thing to do, but the driver core can not know what
+>> caller doing with that memory at times. The memory could be freed
+>> both in kset_put() and error path of caller, if it is called in
+>> kset_register().
+> As I explained in the link above, the reason there's
+> a memory leak is that one cannot call kset_register() without
+> the kset->kobj.name being set--kobj_add_internal() returns -EINVAL,
+> in this case, i.e. kset_register() fails with -EINVAL.
+>
+> Thus, the most common usage is something like this:
+>
+> 	kobj_set_name(&kset->kobj, format, ...);
+> 	kset->kobj.kset = parent_kset;
+> 	kset->kobj.ktype = ktype;
+> 	res = kset_register(kset);
+>
+> So, what is being leaked, is the memory allocated in kobj_set_name(),
+> by the common idiom shown above. This needs to be mentioned in
+> the documentation, at least, in case, in the future this is absolved
+> in kset_register() redesign, etc.
+>
+> Regards,
+> Luben
+>
+>> So make the function documentation more explicit about calling
+>> kset_put() in the error path of caller first, so that people
+>> have a chance to know what to do here, then fixes this leaks
+>> by calling kset_put() from callers.
+>>
+>> Liu Shixin (1):
+>>    ubifs: Fix memory leak in ubifs_sysfs_init()
+>>
+>> Yang Yingliang (10):
+>>    kset: fix documentation for kset_register()
+>>    kset: add null pointer check in kset_put()
+>>    bus: fix possible memory leak in bus_register()
+>>    kobject: fix possible memory leak in kset_create_and_add()
+>>    class: fix possible memory leak in __class_register()
+>>    firmware: qemu_fw_cfg: fix possible memory leak in
+>>      fw_cfg_build_symlink()
+>>    f2fs: fix possible memory leak in f2fs_init_sysfs()
+>>    erofs: fix possible memory leak in erofs_init_sysfs()
+>>    ocfs2: possible memory leak in mlog_sys_init()
+>>    drm/amdgpu/discovery: fix possible memory leak
+>>
+>>   drivers/base/bus.c                            | 4 +++-
+>>   drivers/base/class.c                          | 6 ++++++
+>>   drivers/firmware/qemu_fw_cfg.c                | 2 +-
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c | 5 +++--
+>>   fs/erofs/sysfs.c                              | 4 +++-
+>>   fs/f2fs/sysfs.c                               | 4 +++-
+>>   fs/ocfs2/cluster/masklog.c                    | 7 ++++++-
+>>   fs/ubifs/sysfs.c                              | 2 ++
+>>   include/linux/kobject.h                       | 3 ++-
+>>   lib/kobject.c                                 | 5 ++++-
+>>   10 files changed, 33 insertions(+), 9 deletions(-)
+>>
+> .
 
