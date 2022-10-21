@@ -2,74 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1D19607406
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 11:27:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9004607409
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 11:28:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oloJT-0004jZ-RZ
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:27:35 -0400
+	id 1oloKh-0000RI-HQ
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:28:53 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olnWD-0005BR-GV
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 04:36:41 -0400
+	id 1olndI-0001SY-Vi
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 04:44:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregkh@linuxfoundation.org>)
- id 1olnVl-0004Jn-Gy
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 04:36:14 -0400
-Received: from ams.source.kernel.org ([145.40.68.75])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregkh@linuxfoundation.org>)
- id 1olnVi-0007as-Kt
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 04:36:12 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 95B30B82B63;
- Fri, 21 Oct 2022 08:36:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C57E2C433D6;
- Fri, 21 Oct 2022 08:36:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1666341367;
- bh=VYkxOdyqZTRP94uFOMrKlhrYPkv6+oVeaJOCigiokeE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=0LHArjuO/emmogeedg4sidpH81EIC1oFajIQk20rr9Km/Y0ewObOQB0i43jXid6V8
- MEWVl4mxIE2auEWLdOFh5S0zN7a5cdswL8kZv1F5sHrcBCX+9z8wc+kpjX8Czr8S07
- DVGuTf4yxBxOxcpimxvN26SCCFuV+ZffgRv7I1WQ=
-Date: Fri, 21 Oct 2022 10:36:04 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Yang Yingliang <yangyingliang@huawei.com>
-Cc: Luben Tuikov <luben.tuikov@amd.com>, linux-kernel@vger.kernel.org,
- qemu-devel@nongnu.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-erofs@lists.ozlabs.org, ocfs2-devel@oss.oracle.com,
- linux-mtd@lists.infradead.org, amd-gfx@lists.freedesktop.org,
- rafael@kernel.org, somlo@cmu.edu, mst@redhat.com,
- jaegeuk@kernel.org, chao@kernel.org, hsiangkao@linux.alibaba.com,
- huangjianan@oppo.com, mark@fasheh.com, jlbec@evilplan.org,
- joseph.qi@linux.alibaba.com, akpm@linux-foundation.org,
- alexander.deucher@amd.com, richard@nod.at, liushixin2@huawei.com
-Subject: Re: [PATCH 00/11] fix memory leak while kset_register() fails
-Message-ID: <Y1JZ9IUPL6jZIQ8E@kroah.com>
-References: <20221021022102.2231464-1-yangyingliang@huawei.com>
- <d559793a-0ce4-3384-e74e-19855aa31f31@amd.com>
- <Y1IwLOUGayjT9p6d@kroah.com>
- <0591e66f-731a-5f81-fc9d-3a6d80516c65@huawei.com>
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1olncx-00011j-5a
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 04:43:43 -0400
+Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1olnct-0000dE-SA
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 04:43:38 -0400
+Received: by mail-io1-xd2d.google.com with SMTP id 137so1718760iou.9
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 01:43:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=m/HG8cM3n1IGSsLWrAZfDJmFGNOHO84tOtH4pBIcE2Y=;
+ b=zjeV/GyJ6NyOAPI5BRwSS6aA//RJG/YcRuvfSZUUDxO7QWILJcB4cUieM+WTGOnA9Q
+ 8A23TGiO8Gozkuz+lzxvtaoT+ISqwso0Mwupfdfj0Q0aw2jqJgjQZK7V2y3DvQIWksxb
+ Xy7IdYFFrkzXyNh23QgmTFBIdkJP3tWz2+0doJU4NCWk7IGrqQtxpd2Jv1x78iqM2ob0
+ Hkn74fqVdFcyeCnfb6Ig3hCn7QSRXqP3ZJhG5bbUptwblHvj/cmJMpWaslzUPh7+Sg2Z
+ C3rll50OvkzEoNII4jIsJiFtkO/Y8dkLKt/ugfWtIz7A9JFpzOxm8cxkT1XNrqVv/zMX
+ vR5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=m/HG8cM3n1IGSsLWrAZfDJmFGNOHO84tOtH4pBIcE2Y=;
+ b=XwQRec+mJoeWPgIwqZvU+IFHcrxh+k0iWRpKOaJ7bEYBGFGURj8qmOYREL75QeSYbZ
+ OBli9zM3CycJOstZyTUSNhNeMFt1rFbwukbHgUnXhAI74bXWU0DIrdfvXja91FGUkO8L
+ gc24x/Cyk0yqTVG143P5oNIhpOH8AT8TqWspYw7cnkU+XApahiiaqdDaaIjKHUvexPck
+ LtAfuGPtFnDZmQJFm2u9WmldXt4xZTWsJkO6fqkXPY5POhLjQ1lDJIXQnDi4kC8kiq3i
+ fHvMIrSApiitLYRMFMitnpccNUV6MYSUjOmIieImPxid+UtIsu8pJxidEt1sgczFPukk
+ 4xCw==
+X-Gm-Message-State: ACrzQf0sUSTqzf36oWVuyvYw/+jfxdNc7JfEUjvD7F6UY84SnxhhEBTu
+ VrVdzq58fX4OUU/6qASAWr7ZcSq3DfIgx2aYFMxweA==
+X-Google-Smtp-Source: AMsMyM6RkEdiRX3rwnRfP7cXsNISA/IQUFXuCoQkPE+qHh1vIAAknuihECnSryu0SixTq+E5fzqSulrvT4Y9f76Xbic=
+X-Received: by 2002:a05:6638:168a:b0:364:77b:6e54 with SMTP id
+ f10-20020a056638168a00b00364077b6e54mr14010121jat.261.1666341814653; Fri, 21
+ Oct 2022 01:43:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0591e66f-731a-5f81-fc9d-3a6d80516c65@huawei.com>
-Received-SPF: pass client-ip=145.40.68.75;
- envelope-from=gregkh@linuxfoundation.org; helo=ams.source.kernel.org
-X-Spam_score_int: -73
-X-Spam_score: -7.4
-X-Spam_bar: -------
-X-Spam_report: (-7.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221020123506.26363-1-ani@anisinha.ca>
+ <20221020083810-mutt-send-email-mst@kernel.org>
+ <CAARzgwwd_How_h+9sHWPOrWWZ7CbX+DN-uy-KiGf1VVyVmrLnA@mail.gmail.com>
+ <20221020084311-mutt-send-email-mst@kernel.org>
+ <CAARzgwxfKbrxAqb15GXp4j1enDPUhGBsL5jUzFtDvJkGM-7azw@mail.gmail.com>
+ <20221020150857-mutt-send-email-mst@kernel.org>
+ <CAARzgwwDjjHL-1fEeuySNZm8NbnGNaeE5h6zrPz_zaANfs5dsw@mail.gmail.com>
+ <CAARzgww8P4Za=+r8q2a30TCY7Uzw6g2tgHeLLKr7R+WV-7qQVg@mail.gmail.com>
+ <20221021042449-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20221021042449-mutt-send-email-mst@kernel.org>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Fri, 21 Oct 2022 14:13:23 +0530
+Message-ID: <CAARzgwyW+ved0iVinWzSCg+KSCL67v+m6KySRdg_hUUev8JLDA@mail.gmail.com>
+Subject: Re: [PATCH v6 00/10] Introduce new acpi/smbios avocado tests using
+ biosbits
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>, 
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Igor Mammedov <imammedo@redhat.com>, John Snow <jsnow@redhat.com>, 
+ Maydell Peter <peter.maydell@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Qemu Devel <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2d;
+ envelope-from=ani@anisinha.ca; helo=mail-io1-xd2d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,68 +102,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 21, 2022 at 04:24:23PM +0800, Yang Yingliang wrote:
-> 
-> On 2022/10/21 13:37, Greg KH wrote:
-> > On Fri, Oct 21, 2022 at 01:29:31AM -0400, Luben Tuikov wrote:
-> > > On 2022-10-20 22:20, Yang Yingliang wrote:
-> > > > The previous discussion link:
-> > > > https://lore.kernel.org/lkml/0db486eb-6927-927e-3629-958f8f211194@huawei.com/T/
-> > > The very first discussion on this was here:
-> > > 
-> > > https://www.spinics.net/lists/dri-devel/msg368077.html
-> > > 
-> > > Please use this link, and not the that one up there you which quoted above,
-> > > and whose commit description is taken verbatim from the this link.
-> > > 
-> > > > kset_register() is currently used in some places without calling
-> > > > kset_put() in error path, because the callers think it should be
-> > > > kset internal thing to do, but the driver core can not know what
-> > > > caller doing with that memory at times. The memory could be freed
-> > > > both in kset_put() and error path of caller, if it is called in
-> > > > kset_register().
-> > > As I explained in the link above, the reason there's
-> > > a memory leak is that one cannot call kset_register() without
-> > > the kset->kobj.name being set--kobj_add_internal() returns -EINVAL,
-> > > in this case, i.e. kset_register() fails with -EINVAL.
-> > > 
-> > > Thus, the most common usage is something like this:
-> > > 
-> > > 	kobj_set_name(&kset->kobj, format, ...);
-> > > 	kset->kobj.kset = parent_kset;
-> > > 	kset->kobj.ktype = ktype;
-> > > 	res = kset_register(kset);
-> > > 
-> > > So, what is being leaked, is the memory allocated in kobj_set_name(),
-> > > by the common idiom shown above. This needs to be mentioned in
-> > > the documentation, at least, in case, in the future this is absolved
-> > > in kset_register() redesign, etc.
-> > Based on this, can kset_register() just clean up from itself when an
-> > error happens?  Ideally that would be the case, as the odds of a kset
-> > being embedded in a larger structure is probably slim, but we would have
-> > to search the tree to make sure.
-> I have search the whole tree, the kset used in bus_register() - patch #3,
-> kset_create_and_add() - patch #4
-> __class_register() - patch #5,  fw_cfg_build_symlink() - patch #6 and
-> amdgpu_discovery.c - patch #10
-> is embedded in a larger structure. In these cases, we can not call
-> kset_put() in error path in kset_register()
+On Fri, Oct 21, 2022 at 2:02 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Fri, Oct 21, 2022 at 05:45:15AM +0530, Ani Sinha wrote:
+> > And have multiple platform specific branches in bits that have fixes for those
+> > platforms so that bits can run there. Plus the existing test can be enhanced to
+> > pull in binaries from those branches based on the platform on which it is being
+> > run.
+> >
+>
+> What a mess.
+> Who is going to be testing all these million platforms?
 
-Yes you can as the kobject in the kset should NOT be controling the
-lifespan of those larger objects.
+I am not talking about branches in QEMU but branches in bits.
+If you are going to test multiple platforms, you do need to build bits
+binaries for them. There is no way around it.
+bits is not all platform independent python. It does have binary executables.
 
-If it is, please point out the call chain here as I don't think that
-should be possible.
+Currently bits is built only for the x86 platform. Other platforms are
+not tested. I doubt if anyone even tried building bits for arm or
+mips.
+It makes sense to try things incrementally once we have something going.
 
-Note all of this is a mess because the kobject name stuff was added much
-later, after the driver model had been created and running for a while.
-We missed this error path when adding the dynamic kobject name logic,
-thank for looking into this.
+Lets discuss this on a separate thread.
 
-If you could test the patch posted with your error injection systems,
-that could make this all much simpler to solve.
-
-thanks,
-
-greg k-h
+> All this does nothing at all to help developers avoid
+> bugs and when they do trigger debug the issue. Which is
+> after all why we have testing.
+> Yes once in a very long while we are going to tweak
+> something in the tests, and for that rare occurence
+> it makes sense to periodically rebuild everything,
+> otherwise code bitrots.
+>
+> But the test is supposed to run within a VM anyway, let's
+> have an image and be done with it.
+>
+> --
+> MST
+>
 
