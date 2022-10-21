@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 035686074E2
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 12:19:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 991106074EC
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 12:19:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olp7H-0000r5-O7
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:19:04 -0400
+	id 1olp7w-0004y3-QJ
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:19:44 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olour-00080i-Oi
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:06:13 -0400
+	id 1olp7Q-0001qY-As
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:19:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olouX-0007af-9y
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 06:05:59 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olp76-0000KM-Cu
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 06:18:57 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olouT-00076y-Gc
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 06:05:53 -0400
-Received: by mail-wr1-x433.google.com with SMTP id bk15so3984160wrb.13
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 03:05:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olp74-0003qj-T8
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 06:18:52 -0400
+Received: by mail-wr1-x432.google.com with SMTP id u10so4150255wrq.2
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 03:18:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=GB+pI3kGAuzpQoXTGpIpiRRFsRdWt5+i8pDVrDo5vB4=;
- b=CzmN+f1TmY8uBHSiAVNQ6zxNfaxGebmiadC1wQAKTZhLYj4FiEtIhMWq0tQPVm0SLK
- XacWht1NGqaR6Y2jUwfAX6IhcpakVK5I5Ftql2ljjangwJsABF4wCMYf/+1KhfnO8qeN
- +nXSa8G/ckLYCwIq5ePsKdGZU2tzFcH1uNhkaHxhtFOVnnTCpJMGdOS9MeubZtkYvuAG
- priGcqXsO1s7WMpoaZIqaQD3k1Rr6tmYW3Cht+70sThqlFsHIdS0KmJ9BG3/PuTq2vzq
- cTibJzhhXONM9xOhAM6lWBPZb3cKY0M1XDdOM33WnNtrOtlwJBh7x8n6Gg9EpsEBfjbl
- h33w==
+ bh=gSvLyqT2me3HwSX6zm/t5Hpc98ZaHpehQTZBKXuZF2o=;
+ b=PZWl2AiJok3eJRD/+48hjCoQcX8/5ZIhFwo9HyNB94SJ3qoTnTU7D94wGDxEomBxAB
+ CIVlCjw3ftJm7h/3+aQzjFjaOGwphovUFlccAvvjHlDXcZhfg8rn14C8brEVfbvIOLST
+ PG74pnUZhk/Mrv+cZjt+6lXXncFe/CZnwmoMusJLFZID2ih23+3zpJj2lg7ivQB6nSuP
+ WukR7G7o7x5o/BMyrR06XfSuSfgGp15g+hFZlmSACSOIv4PNYk54i3C8YUu9nZM0j6Mf
+ H2KG4Br8hZatH7gFjPEbszjid8RIH6RPzEwRJjAsWGzNVFZ5/YOlxKRBS+67kCcDFmlU
+ 4p8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GB+pI3kGAuzpQoXTGpIpiRRFsRdWt5+i8pDVrDo5vB4=;
- b=Wg5lgGRg1uhanb57ptUYJvtmhVIsM1nJFJ4iidv3jmXx8H7ImQyTSov6zbMluJaO09
- KodEzOCJ9lvSQKvKSPvYRKtFPy2BOHTbIMs8rF8BDs+X4DgjdXoN/cFSfOBbpvtgrMIJ
- phEx81FH+N1IBPynwajW581AxU/Z/ZmySZwou43xkftNqHIwtgrqJFAE0nGt+35ErhBR
- cdLIgcopxTM6kC4mxvgHF21zMQajTkI144+NKxxBP/ftY9lkHdk74YhTbpVOMv8hCpvE
- gA11UT1KApxaWubYXw5WKHeKHCuAL6CKOLhEUkbq3S73lR5Fju8ZQnvYxdLwDYhSxf+H
- AS9g==
-X-Gm-Message-State: ACrzQf1cJaqD3o+Jfu5AIwh/kDIoQ+CURV7A0ocrL7MKDNwy443YfHfZ
- RixLfPqYY1Vs4whR2BrlwFCv3Q==
-X-Google-Smtp-Source: AMsMyM56sq1HIy0HWbcR0IYJtQwp46T1S4N7uaKz29DxhotsSlDQw6YPcANPVrmEUULyqMfgiJqRig==
-X-Received: by 2002:adf:ee84:0:b0:22c:d1fd:71d4 with SMTP id
- b4-20020adfee84000000b0022cd1fd71d4mr11781164wro.350.1666346745235; 
- Fri, 21 Oct 2022 03:05:45 -0700 (PDT)
+ bh=gSvLyqT2me3HwSX6zm/t5Hpc98ZaHpehQTZBKXuZF2o=;
+ b=s3R5h7dg62dGKCixhyFlIU8J1Vti2WsEP06Jw6au+27lF913Vvt64iAYBLwkMw4Ksl
+ 96dEt/3BYPhF6fk4r6JkmQEAhxHR0eWGQSokhfesSdJBigqcwLmzHT/wHbBDy8fOBwQQ
+ s4aqiNT3md/9NzmreNCTS6bTqxM89H4/jL+VyRm42FqUWTepy5hT8orVy444WcGI6X2W
+ ulSmvRY/leVU1wFf9etNRGpx9yvCmquh2mwFDk/VKNnXsix8EGYJZO/7ugt4wL58+xtr
+ 3UmaTQXj+VaKe0aDOceYkwdn3yTclm7vPz3XvZhNsC7Hs81YmGC9CeIYMMC/DMaZ0aH4
+ XM+g==
+X-Gm-Message-State: ACrzQf0myaA7PChri4Zci7H3xQtLd8L/iXkCXP5PzNdtf2CQ9PjM3WZJ
+ yTq6eEl8/8MeOjdFrt1uSNDoxA==
+X-Google-Smtp-Source: AMsMyM4J2oFrG2ayVaLyVj/gKPYm/vOmdGpMXDgE2bXapnVZsvvxjFKhOy/05+vEq1gluYAIazV3rg==
+X-Received: by 2002:a5d:65d0:0:b0:236:580e:c3f9 with SMTP id
+ e16-20020a5d65d0000000b00236580ec3f9mr384228wrw.101.1666347529225; 
+ Fri, 21 Oct 2022 03:18:49 -0700 (PDT)
 Received: from [10.50.0.10]
  (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
  by smtp.gmail.com with ESMTPSA id
- l24-20020a1c7918000000b003b50428cf66sm2082907wme.33.2022.10.21.03.05.43
+ e9-20020a5d5009000000b0022e3d7c9887sm18427284wrt.101.2022.10.21.03.18.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Oct 2022 03:05:44 -0700 (PDT)
-Message-ID: <1f769d00-cf50-abaf-f078-f301959156b9@linaro.org>
-Date: Fri, 21 Oct 2022 12:05:42 +0200
+ Fri, 21 Oct 2022 03:18:48 -0700 (PDT)
+Message-ID: <e6470da4-41a9-b625-1298-3d92532aa61d@linaro.org>
+Date: Fri, 21 Oct 2022 12:18:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.3.2
-Subject: Re: [PATCH v14 15/17] net: stream: move to QIO to enable additional
- parameters
+Subject: Re: [PATCH v14 13/17] qemu-sockets: move and rename
+ SocketAddress_to_str()
 Content-Language: en-US
 To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, xen-devel@lists.xenproject.org,
@@ -79,13 +79,13 @@ Cc: Thomas Huth <thuth@redhat.com>, xen-devel@lists.xenproject.org,
  Samuel Thibault <samuel.thibault@ens-lyon.org>, Greg Kurz <groug@kaod.org>,
  =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
 References: <20221021090922.170074-1-lvivier@redhat.com>
- <20221021090922.170074-16-lvivier@redhat.com>
+ <20221021090922.170074-14-lvivier@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221021090922.170074-16-lvivier@redhat.com>
+In-Reply-To: <20221021090922.170074-14-lvivier@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -109,237 +109,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 21/10/22 11:09, Laurent Vivier wrote:
-> Use QIOChannel, QIOChannelSocket and QIONetListener.
-> This allows net/stream to use all the available parameters provided by
-> SocketAddress.
+> Rename SocketAddress_to_str() to socket_uri() and move it to
+> util/qemu-sockets.c close to socket_parse().
+> 
+> socket_uri() generates a string from a SocketAddress while
+> socket_parse() generates a SocketAddress from a string.
 > 
 > Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > Acked-by: Michael S. Tsirkin <mst@redhat.com>
 > ---
->   net/stream.c    | 492 +++++++++++++++++-------------------------------
->   qemu-options.hx |   4 +-
->   2 files changed, 178 insertions(+), 318 deletions(-)
+>   include/qemu/sockets.h |  2 +-
+>   monitor/hmp-cmds.c     | 23 +----------------------
+>   util/qemu-sockets.c    | 20 ++++++++++++++++++++
+>   3 files changed, 22 insertions(+), 23 deletions(-)
 
-> -static void net_stream_accept(void *opaque)
-> +static void net_stream_server_listening(QIOTask *task, gpointer opaque)
->   {
->       NetStreamState *s = opaque;
-> -    struct sockaddr_storage saddr;
-> -    socklen_t len;
-> -    int fd;
-> -
-> -    for (;;) {
-> -        len = sizeof(saddr);
-> -        fd = qemu_accept(s->listen_fd, (struct sockaddr *)&saddr, &len);
-> -        if (fd < 0 && errno != EINTR) {
-> -            return;
-> -        } else if (fd >= 0) {
-> -            qemu_set_fd_handler(s->listen_fd, NULL, NULL, NULL);
-> -            break;
-> -        }
-> -    }
-> +    QIOChannelSocket *listen_sioc = QIO_CHANNEL_SOCKET(s->listen_ioc);
-> +    SocketAddress *addr;
-> +    int ret;
->   
-> -    s->fd = fd;
-> -    s->nc.link_down = false;
-> -    net_stream_connect(s);
-> -    switch (saddr.ss_family) {
-> -    case AF_INET: {
-> -        struct sockaddr_in *saddr_in = (struct sockaddr_in *)&saddr;
-> -
-> -        qemu_set_info_str(&s->nc, "connection from %s:%d",
-> -                          inet_ntoa(saddr_in->sin_addr),
-> -                          ntohs(saddr_in->sin_port));
-> -        break;
-> +    if (listen_sioc->fd < 0) {
-> +        qemu_set_info_str(&s->nc, "connection error");
-> +        return;
->       }
-> -    case AF_UNIX: {
-> -        struct sockaddr_un saddr_un;
->   
-> -        len = sizeof(saddr_un);
-> -        getsockname(s->listen_fd, (struct sockaddr *)&saddr_un, &len);
-> -        qemu_set_info_str(&s->nc, "connect from %s", saddr_un.sun_path);
-> -        break;
-> -    }
-> -    default:
-> -        g_assert_not_reached();
-> +    addr = qio_channel_socket_get_local_address(listen_sioc, NULL);
-> +    g_assert(addr != NULL);
-
-Missing propagating Error* (observed in v12).
-
-> +    ret = qemu_socket_try_set_nonblock(listen_sioc->fd);
-> +    if (addr->type == SOCKET_ADDRESS_TYPE_FD && ret < 0) {
-> +        qemu_set_info_str(&s->nc, "can't use file descriptor %s (errno %d)",
-> +                          addr->u.fd.str, -ret);
-> +        return;
->       }
-> +    g_assert(ret == 0);
-> +    qapi_free_SocketAddress(addr);
-> +
-> +    s->nc.link_down = true;
-> +    s->listener = qio_net_listener_new();
-> +
-> +    net_socket_rs_init(&s->rs, net_stream_rs_finalize, false);
-> +    qio_net_listener_set_client_func(s->listener, net_stream_listen, s, NULL);
-> +    qio_net_listener_add(s->listener, listen_sioc);
->   }
->   
->   static int net_stream_server_init(NetClientState *peer,
-> @@ -283,105 +286,61 @@ static int net_stream_server_init(NetClientState *peer,
->   {
->       NetClientState *nc;
->       NetStreamState *s;
-> -    int fd, ret;
-> +    QIOChannelSocket *listen_sioc = qio_channel_socket_new();
->   
-> -    switch (addr->type) {
-> -    case SOCKET_ADDRESS_TYPE_INET: {
-> -        struct sockaddr_in saddr_in;
-> -
-> -        if (convert_host_port(&saddr_in, addr->u.inet.host, addr->u.inet.port,
-> -                              errp) < 0) {
-> -            return -1;
-> -        }
-> -
-> -        fd = qemu_socket(PF_INET, SOCK_STREAM, 0);
-> -        if (fd < 0) {
-> -            error_setg_errno(errp, errno, "can't create stream socket");
-> -            return -1;
-> -        }
-> -        qemu_socket_set_nonblock(fd);
-> +    nc = qemu_new_net_client(&net_stream_info, peer, model, name);
-> +    s = DO_UPCAST(NetStreamState, nc, nc);
->   
-> -        socket_set_fast_reuse(fd);
-> +    s->listen_ioc = QIO_CHANNEL(listen_sioc);
-> +    qio_channel_socket_listen_async(listen_sioc, addr, 0,
-> +                                    net_stream_server_listening, s,
-> +                                    NULL, NULL);
->   
-> -        ret = bind(fd, (struct sockaddr *)&saddr_in, sizeof(saddr_in));
-> -        if (ret < 0) {
-> -            error_setg_errno(errp, errno, "can't bind ip=%s to socket",
-> -                             inet_ntoa(saddr_in.sin_addr));
-> -            closesocket(fd);
-> -            return -1;
-> -        }
-> -        break;
-> -    }
-> -    case SOCKET_ADDRESS_TYPE_UNIX: {
-> -        struct sockaddr_un saddr_un;
-> -
-> -        ret = unlink(addr->u.q_unix.path);
-> -        if (ret < 0 && errno != ENOENT) {
-> -            error_setg_errno(errp, errno, "failed to unlink socket %s",
-> -                             addr->u.q_unix.path);
-> -            return -1;
-> -        }
-> +    return 0;
-> +}
->   
-> -        saddr_un.sun_family = PF_UNIX;
-> -        ret = snprintf(saddr_un.sun_path, sizeof(saddr_un.sun_path), "%s",
-> -                       addr->u.q_unix.path);
-> -        if (ret < 0 || ret >= sizeof(saddr_un.sun_path)) {
-> -            error_setg(errp, "UNIX socket path '%s' is too long",
-> -                       addr->u.q_unix.path);
-> -            error_append_hint(errp, "Path must be less than %zu bytes\n",
-> -                              sizeof(saddr_un.sun_path));
-> -            return -1;
-> -        }
-> +static void net_stream_client_connected(QIOTask *task, gpointer opaque)
-> +{
-> +    NetStreamState *s = opaque;
-> +    QIOChannelSocket *sioc = QIO_CHANNEL_SOCKET(s->ioc);
-> +    SocketAddress *addr;
-> +    gchar *uri;
-> +    int ret;
->   
-> -        fd = qemu_socket(PF_UNIX, SOCK_STREAM, 0);
-> -        if (fd < 0) {
-> -            error_setg_errno(errp, errno, "can't create stream socket");
-> -            return -1;
-> -        }
-> -        qemu_socket_set_nonblock(fd);
-> -
-> -        ret = bind(fd, (struct sockaddr *)&saddr_un, sizeof(saddr_un));
-> -        if (ret < 0) {
-> -            error_setg_errno(errp, errno, "can't create socket with path: %s",
-> -                             saddr_un.sun_path);
-> -            closesocket(fd);
-> -            return -1;
-> -        }
-> -        break;
-> -    }
-> -    case SOCKET_ADDRESS_TYPE_FD:
-> -        fd = monitor_fd_param(monitor_cur(), addr->u.fd.str, errp);
-> -        if (fd == -1) {
-> -            return -1;
-> -        }
-> -        ret = qemu_socket_try_set_nonblock(fd);
-> -        if (ret < 0) {
-> -            error_setg_errno(errp, -ret, "%s: Can't use file descriptor %d",
-> -                             name, fd);
-> -            return -1;
-> -        }
-> -        break;
-> -    default:
-> -        error_setg(errp, "only support inet or fd type");
-> -        return -1;
-> +    if (sioc->fd < 0) {
-> +        qemu_set_info_str(&s->nc, "connection error");
-> +        goto error;
->       }
->   
-> -    ret = listen(fd, 0);
-> -    if (ret < 0) {
-> -        error_setg_errno(errp, errno, "can't listen on socket");
-> -        closesocket(fd);
-> -        return -1;
-> +    addr = qio_channel_socket_get_remote_address(sioc, NULL);
-> +    g_assert(addr != NULL);
-
-Ditto (Error*).
-
-> +    uri = socket_uri(addr);
-> +    qemu_set_info_str(&s->nc, uri);
-> +    g_free(uri);
-> +
-> +    ret = qemu_socket_try_set_nonblock(sioc->fd);
-> +    if (addr->type == SOCKET_ADDRESS_TYPE_FD && ret < 0) {
-> +        qemu_set_info_str(&s->nc, "can't use file descriptor %s (errno %d)",
-> +                          addr->u.fd.str, -ret);
-> +        qapi_free_SocketAddress(addr);
-> +        goto error;
->       }
-> +    g_assert(ret == 0);
->   
-> -    nc = qemu_new_net_client(&net_stream_info, peer, model, name);
-> -    s = DO_UPCAST(NetStreamState, nc, nc);
-> -    s->fd = -1;
-> -    s->listen_fd = fd;
-> -    s->nc.link_down = true;
->       net_socket_rs_init(&s->rs, net_stream_rs_finalize, false);
->   
-> -    qemu_set_fd_handler(s->listen_fd, net_stream_accept, NULL, s);
-> -    return 0;
-> +    /* Disable Nagle algorithm on TCP sockets to reduce latency */
-> +    qio_channel_set_delay(s->ioc, false);
-> +
-> +    s->ioc_read_tag = qio_channel_add_watch(s->ioc, G_IO_IN, net_stream_send,
-> +                                            s, NULL);
-> +    s->nc.link_down = false;
-> +    qapi_free_SocketAddress(addr);
-> +
-> +    return;
-> +error:
-> +    object_unref(OBJECT(s->ioc));
-> +    s->ioc = NULL;
->   }
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
