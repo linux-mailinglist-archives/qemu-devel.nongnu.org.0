@@ -2,89 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83428607EC6
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 21:11:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63A08607E9C
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 21:03:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1olxOL-0003lT-HP; Fri, 21 Oct 2022 15:09:14 -0400
+	id 1olxCm-0006p7-TY; Fri, 21 Oct 2022 14:57:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1olvGW-0002xZ-Kh
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 12:53:00 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1olvGt-000311-Tk
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 12:53:24 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1olvGB-00088c-J6
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 12:53:00 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id bu30so5870511wrb.8
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 09:52:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yLEcE8O44JrkvO7cla+PVTgQr9rK4WWaCp53Xny/2Mc=;
- b=sP5jtVQzQCWlRmf17PlSC2HU45+qEY5TX+iV/rtg0uV7X8Fw/jQCw+Zjg2L4uYLFgm
- xChQHU+w6fOZESlxOglKwZFKmnmMm50n5KkOKt2/vp06ubm1dKKbGftt1dVD2nKZWsh/
- 6xghy6MjVFVroTBR7iuUC8gr8nbLKh0CYMtSj6WnUYYtftf24iXXshRczHqcsT+CvyQj
- ilgvvxyI82kYnqij//4JzGbEKKqe6NTnPBxKsvrPNMUU/Xhhcje/OV6AoHBorWF88qVm
- 72SRK5UOprZ7WM3UFJ9XfsX2bQRhBSF3XFCF9KUxGSZCzEPjJgChu+I5xTU1BLeT+8vv
- fPUw==
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1olvGs-0008NE-5x
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 12:53:23 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ q10-20020a17090a304a00b0020b1d5f6975so3504026pjl.0
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 09:53:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=xrysGx55UenjRLyS1DI8lWgE85TWYqrMWgtnLZZFAkc=;
+ b=RHWZQBLe9HXVngD3tJPBIAxrqGbPxOHUi+EuoMf2wh8wAVWCUykhVBw5M4bpHipxKX
+ AQrvUqN4owfPyZqdyzULb7AFBCSDE+f4NUKYHAYIddpZR67VGGUvvxapOtY3ozT/Ml4t
+ aiXuSjYrXY3eVMT1GbVbskQFgGxypZbRWqNEOhCm30Zif46drkOhIOZelqHekwQwUk43
+ bnuW3YgCEoukR20OzDrDD/o7UY7n/fRCHqej35doY178zBweJ3IoeGQQs9hPHYSo3Ohx
+ OqzLxanZHEvXOsNtWfWWxGtsKOFGJnejx5vYFgdKqN5Vb6+SO3aa9cMSKsUkIyd4p5eH
+ sJHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=yLEcE8O44JrkvO7cla+PVTgQr9rK4WWaCp53Xny/2Mc=;
- b=YglTaQ4fcEYY+4TdUDlBmHJIJbpRq8nb8o/O8Cecld/vtBLC4GgLsmVQNJkm9Hzktv
- No9q8M+QWgPxsWHNKLNI8XNgCyptBwtaq7Hv4ZmE970LFnAtE32+xlBCDiDwdfOXM8SX
- vyAtomnQnjZx2HhSz5VojCvoJTY3vT431JikqvimiO7EC8XSfExqbXIsLTnLBUyvU/GL
- yZBdCmeqBOo3x2ZIhycMD2HGznlhcS9lBofgAgmSVP3tzhPw0u6LV98Io2yvtOcLVaU8
- DYPcfbn68hNU8z1Wfb95lrm+jWhFaDo1iqJMRg0XfAYuM0LzOEBBrkQ6/HpNKLCaXksC
- D/FA==
-X-Gm-Message-State: ACrzQf1mgg0yzpH0YMzy+1KiuxRbFgB0dmLNxeBnP0tQDKMfbDw5yW0O
- YVKuNuW7rcQBVSe6XGdamKU0Dw==
-X-Google-Smtp-Source: AMsMyM5UXocUlkwrkvSP6QBjGqgmPYf2gAL0iXPFiH3ueMk2C+w1vP9iuuxC9sUuXYEo6kHcJocolw==
-X-Received: by 2002:a5d:650f:0:b0:22e:6597:fdd0 with SMTP id
- x15-20020a5d650f000000b0022e6597fdd0mr12370940wru.127.1666371157563; 
- Fri, 21 Oct 2022 09:52:37 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- k16-20020a5d6290000000b0022ae4f8395dsm18745022wru.96.2022.10.21.09.52.37
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xrysGx55UenjRLyS1DI8lWgE85TWYqrMWgtnLZZFAkc=;
+ b=BRnzZg68wFo02HVZKHsztp2fgwkbs8NJiUt0EiOjdPNCxGYPBe8AH1CZtWNwujY1Jp
+ yScBfKTZ//LCwj+esOCqWhqYBlBlCsOPyotLWyawbClRBlgcfbydH0mEHnBofCyiTu5L
+ yB8lrGzblFSdArRgXGhBEU6UMPvoORXG42lhis45K60UxSfPmcKxeSYXrdSPOnZylHuc
+ VURWHeXLjLt7K9OvVcV5hfTtiAKPxCCLCiopAQEYzPfv6t3+mgyPAPOSxKjHTfu+rLLW
+ 2rNzC0VlNeu/vvhehFVV+TMLEteKp0Q96sqdI+Moxlz+xIExNq4hCFNBixcVU3rn34kk
+ fm6g==
+X-Gm-Message-State: ACrzQf3GfDTCZw2rd+6HL4i2kjXeGCJ1HY7RYEK5UiWwtPaDZ7JMxuKa
+ ug2UmGezW0XzW+C9LtJd4DHbug==
+X-Google-Smtp-Source: AMsMyM4X0ByBcSID7/aMrdZ0mivytsG1EHhlrHnS2og4yoaJvAdKT/AGmOFlcmS9yqzFtIJMO1ZXxQ==
+X-Received: by 2002:a17:90b:2651:b0:20a:daaf:75f0 with SMTP id
+ pa17-20020a17090b265100b0020adaaf75f0mr22464873pjb.142.1666371200475; 
+ Fri, 21 Oct 2022 09:53:20 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com.
+ [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
+ b14-20020a170903228e00b00176e8f85147sm15298020plh.83.2022.10.21.09.53.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Oct 2022 09:52:37 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 958D61FFB7;
- Fri, 21 Oct 2022 17:52:36 +0100 (BST)
-References: <20221004093206.652431-1-berrange@redhat.com>
- <20221004093206.652431-4-berrange@redhat.com>
- <d51ca4c0-6115-7ed3-a6be-dec67bdbfdb0@vivier.eu>
- <CAFEAcA-GSKzEwPnjzBw0tn4G6+uRHRL1dDmvAiiYUb1YVo8T4Q@mail.gmail.com>
- <Y1Kxv6djOygcZCuk@redhat.com>
-User-agent: mu4e 1.9.1; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Laurent Vivier
- <laurent@vivier.eu>, Eduardo Habkost <eduardo@habkost.net>, Richard
- Henderson <richard.henderson@linaro.org>, Paolo Bonzini
- <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH 3/4] meson: enforce a minimum Linux kernel headers
- version >= 4.18
-Date: Fri, 21 Oct 2022 17:50:24 +0100
-In-reply-to: <Y1Kxv6djOygcZCuk@redhat.com>
-Message-ID: <87h6zx5dbf.fsf@linaro.org>
+ Fri, 21 Oct 2022 09:53:19 -0700 (PDT)
+Date: Fri, 21 Oct 2022 16:53:15 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Vishal Annapurve <vannapurve@google.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ "Gupta, Pankaj" <pankaj.gupta@amd.com>,
+ Vlastimil Babka <vbabka@suse.cz>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+Message-ID: <Y1LOe4JvnTbFNs4u@google.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+ <de680280-f6b1-9337-2ae4-4b2faf2b823b@suse.cz>
+ <20221017161955.t4gditaztbwijgcn@box.shutemov.name>
+ <c63ad0cd-d517-0f1e-59e9-927d8ae15a1a@amd.com>
+ <20221017215640.hobzcz47es7dq2bi@box.shutemov.name>
+ <CAGtprH8xEdgATjQdhi2b_KqUuSOZHUM-Lh+O-ZtcFKbHf2_75g@mail.gmail.com>
+ <20221019153225.njvg45glehlnjgc7@box.shutemov.name>
+ <CAGtprH-8y9iTyVZ+EYW2t=zGqz7fVgPu-3wVm0Wgv5134NU6WQ@mail.gmail.com>
+ <20221021135434.GB3607894@chaop.bj.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221021135434.GB3607894@chaop.bj.intel.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=seanjc@google.com; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,58 +121,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Fri, Oct 21, 2022, Chao Peng wrote:
+> On Thu, Oct 20, 2022 at 04:20:58PM +0530, Vishal Annapurve wrote:
+> > On Wed, Oct 19, 2022 at 9:02 PM Kirill A . Shutemov <kirill.shutemov@linux.intel.com> wrote:
+> > >
+> > > On Tue, Oct 18, 2022 at 07:12:10PM +0530, Vishal Annapurve wrote:
+> > > > I think moving this notifier_invalidate before fallocate may not solve
+> > > > the problem completely. Is it possible that between invalidate and
+> > > > fallocate, KVM tries to handle the page fault for the guest VM from
+> > > > another vcpu and uses the pages to be freed to back gpa ranges? Should
+> > > > hole punching here also update mem_attr first to say that KVM should
+> > > > consider the corresponding gpa ranges to be no more backed by
+> > > > inaccessible memfd?
+> > >
+> > > We rely on external synchronization to prevent this. See code around
+> > > mmu_invalidate_retry_hva().
+> > >
+> > > --
+> > >   Kiryl Shutsemau / Kirill A. Shutemov
+> > 
+> > IIUC, mmu_invalidate_retry_hva/gfn ensures that page faults on gfn
+> > ranges that are being invalidated are retried till invalidation is
+> > complete. In this case, is it possible that KVM tries to serve the
+> > page fault after inaccessible_notifier_invalidate is complete but
+> > before fallocate could punch hole into the files?
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+It's not just the page fault edge case.  In the more straightforward scenario
+where the memory is already mapped into the guest, freeing pages back to the kernel
+before they are removed from the guest will lead to use-after-free.
 
-> On Fri, Oct 21, 2022 at 03:38:38PM +0100, Peter Maydell wrote:
->> On Fri, 21 Oct 2022 at 15:30, Laurent Vivier <laurent@vivier.eu> wrote:
->> >
->> > Le 04/10/2022 =C3=A0 11:32, Daniel P. Berrang=C3=A9 a =C3=A9crit :
->> > > Various areas of QEMU have a dependency on Linux kernel header
->> > > definitions. This falls under the scope of our supported platforms
->> > > matrix, but historically we've not checked for a minimum kernel
->> > > headers version. This has made it unclear when we can drop support
->> > > for older kernel headers.
->> > >
->> > >    * Alpine 3.14: 5.10
->> > >    * CentOS 8: 4.18
->> > >    * CentOS 9: 5.14
->> > >    * Debian 10: 4.19
->> > >    * Debian 11: 5.10
->> > >    * Fedora 35: 5.19
->> > >    * Fedora 36: 5.19
->> > >    * OpenSUSE 15.3: 5.3.0
->> > >    * Ubuntu 20.04: 5.4
->> > >    * Ubuntu 22.04: 5.15
->> > >
->> > > The above ignores the 3rd version digit since distros update their
->> > > packages periodically and such updates don't generally affect public
->> > > APIs to the extent that it matters for our build time check.
->> > >
->> > > Overall, we can set the baseline to 4.18 currently.
->> >
->> > As this change affects entire QEMU build, I'd prefer to have some "Ack=
-ed-by" before merging it via
->> > linux-user branch.
->>=20
->> I still think we should be more conservative about kernel header
->> requirements than we are for other dependencies.
->
-> How much more though ?  What other distros do we want to target that
-> we don't already cover with our targetted platforms  ?
+> > e.g.
+> > inaccessible_notifier_invalidate(...)
+> > ... (system event preempting this control flow, giving a window for
+> > the guest to retry accessing the gfn range which was invalidated)
+> > fallocate(.., PUNCH_HOLE..)
+> 
+> Looks this is something can happen.
+> And sounds to me the solution needs
+> just follow the mmu_notifier's way of using a invalidate_start/end pair.
+> 
+>   invalidate_start()  --> kvm->mmu_invalidate_in_progress++;
+>                           zap KVM page table entries;
+>   fallocate()
+>   invalidate_end()  --> kvm->mmu_invalidate_in_progress--;
+> 
+> Then during invalidate_start/end time window mmu_invalidate_retry_gfn
+> checks 'mmu_invalidate_in_progress' and prevent repopulating the same
+> page in KVM page table.
 
-Well purely selfishly the big build box I have access to is still on
-18.04 which is currently running 4.15.0-191-generic. It will hopefully
-get upgraded before 18.04 goes out of support from Canonical. From a
-practical point of view it will be a pain if I can't bisect on it in the
-meantime.
+Yes, if it's not safe to invalidate after making the change (fallocate()), then
+the change needs to be bookended by a start+end pair.  The mmu_notifier's unpaired
+invalidate() hook works by zapping the primary MMU's PTEs before invalidate(), but
+frees the underlying physical page _after_ invalidate().
 
->
->
-> With regards,
-> Daniel
+And the only reason the unpaired invalidate() exists is because there are secondary
+MMUs that reuse the primary MMU's page tables, e.g. shared virtual addressing, in
+which case bookending doesn't work because the secondary MMU can't remove PTEs, it
+can only flush its TLBs.
 
+For this case, the whole point is to not create PTEs in the primary MMU, so there
+should never be a use case that _needs_ an unpaired invalidate().
 
---=20
-Alex Benn=C3=A9e
+TL;DR: a start+end pair is likely the simplest solution.
 
