@@ -2,83 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F7546079EF
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 16:51:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87958607A04
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 16:57:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oltMa-0001Ma-RX
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 10:51:18 -0400
+	id 1oltSv-0000gW-Po
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 10:57:43 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oltMZ-0001Gj-Ic
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 10:51:07 -0400
+	id 1oltSn-0002fG-Od
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 10:57:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oltMM-0008Lx-Ge
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 10:50:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oltSc-0000h6-0o
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 10:57:22 -0400
+Received: from mout.kundenserver.de ([217.72.192.73])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oltMH-0004wi-Rd
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 10:50:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666363846;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ggm4zQ2f5PkZtN/CJOCuxvUTOsFvAipR0YVyfs8AILI=;
- b=ZytvutAnnBJ8dkhSTxTmA0SFrNVgfk1cixb9wsw95CRdOgtltl19NEdQgL49cjiMOXGTMi
- QcVhAG26k0SEQhvPrn/HtVoZH448jLAtjCbSvyG7/jI8sXaSc3nKJWJQypsOLvmUqEbWos
- xHd6fLTzpZDaBONrroc4j9MGq9IJ6RI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-484-O4eqZjlZPKCANEHEMFPayA-1; Fri, 21 Oct 2022 10:50:43 -0400
-X-MC-Unique: O4eqZjlZPKCANEHEMFPayA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9A111811E75;
- Fri, 21 Oct 2022 14:50:42 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.210])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AF17D2166B2D;
- Fri, 21 Oct 2022 14:50:41 +0000 (UTC)
-Date: Fri, 21 Oct 2022 15:50:39 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
- Eduardo Habkost <eduardo@habkost.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 3/4] meson: enforce a minimum Linux kernel headers
- version >= 4.18
-Message-ID: <Y1Kxv6djOygcZCuk@redhat.com>
-References: <20221004093206.652431-1-berrange@redhat.com>
- <20221004093206.652431-4-berrange@redhat.com>
- <d51ca4c0-6115-7ed3-a6be-dec67bdbfdb0@vivier.eu>
- <CAFEAcA-GSKzEwPnjzBw0tn4G6+uRHRL1dDmvAiiYUb1YVo8T4Q@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oltSX-00065Z-1E
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 10:57:21 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MfpGR-1pJ1I42lSb-00gKhK; Fri, 21 Oct 2022 16:57:09 +0200
+Message-ID: <5cabeb0b-1219-ae01-38bc-dc0873d502c8@vivier.eu>
+Date: Fri, 21 Oct 2022 16:57:08 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v2] linux-user: Add guest memory layout to exception dump
+Content-Language: fr
+To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <YzMru6y+v5bbsTRn@p100>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <YzMru6y+v5bbsTRn@p100>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFEAcA-GSKzEwPnjzBw0tn4G6+uRHRL1dDmvAiiYUb1YVo8T4Q@mail.gmail.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Provags-ID: V03:K1:G7qZt2H4n7xGrRzTQt3KF8BQe0dfBA+4SJoAO7IwqqDL3vMMLQo
+ Hs+tmyP1GZvEAvAkm9jMScuGfgBfrN4ofaq0XV9K0a2cecCzGrhn0Usjr8l3Qrq/R545Gpy
+ zcxhckGo1dnQMa13aEtByHQj9G6Su5la+fzhvPVmROm7XUmrongxzFr3j8CldNVJl2+p4P4
+ zybYn06DEprABnDYjA72w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:k01ohU27TFQ=:fQJDdpuR549Jobma22pVze
+ 97sG/y8Ij9cfl8ShrajSDncsp5MFmxQCeV93XkGsaSSacV0Id/eqGYot6ts28zwIP0OmZHPHa
+ vKBpapqpy+sV5Ek0X5bvsyG/ORWEpho5jWwtRQ5nSL7ER2gwqkOFfykp8vYQzp2vfv6R9St3u
+ QqBPKlYB7r5wQ/BvqbZfKHmdLYD54uA6nOhj45ww0SuSlzEAQeNC28rkbGPXddauxAJA9e1eO
+ cztF86btrc95xfBrnkAoeFBKuE3cd3JoOqVXQEy8dl1qGG2Jf+ErHLx8VYeX6yE7fEZm1/EAp
+ xlMjGvJy0DiOopOBugSCPyqTVculuPkWuIrs1t7NHRR8Hrf4GLlwjrt6fb6BbtlOR8d9REgQa
+ +JX1m5ylRVCLyTm1YCDvEDftpfguQ2lX/8kXZk/DrbEbbqMeim2opAzQyBzol4gW8w87qqBfw
+ K49NQWruRFWT/Z33ftUgYh1JijQ4l0a9NaHikpt+2tPB26a4vmEoFqROoeCalDXd5p/YBHsw3
+ 1ii3c68u0hcst8kChDiT5R8r7ry49GO95mPSFTT+KwIA9g1r50eoHyHeUQxLhxhJchaxtchSP
+ lez6Gja26snw+xfzyIQ7t2qpN9xbfi/LholhESU72sCxeLkBbNioxoeYTBi2SiWuSgzdI3beM
+ PDa/I+QjHfdCbYlf2gxI5OfBSOhNWkvsIvxQSqf/Xw6r9Vs+WgNE0j9OMLQk0q/J5pqrUwoPH
+ x/nQo2HcowKggNhkCQF80/AOpbdqEGWEiJ8azo8MpDGcQgQ+lqtTMfEaGwUHogr2mV9ty2ne4
+ FfLKbBa
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,52 +76,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 21, 2022 at 03:38:38PM +0100, Peter Maydell wrote:
-> On Fri, 21 Oct 2022 at 15:30, Laurent Vivier <laurent@vivier.eu> wrote:
-> >
-> > Le 04/10/2022 à 11:32, Daniel P. Berrangé a écrit :
-> > > Various areas of QEMU have a dependency on Linux kernel header
-> > > definitions. This falls under the scope of our supported platforms
-> > > matrix, but historically we've not checked for a minimum kernel
-> > > headers version. This has made it unclear when we can drop support
-> > > for older kernel headers.
-> > >
-> > >    * Alpine 3.14: 5.10
-> > >    * CentOS 8: 4.18
-> > >    * CentOS 9: 5.14
-> > >    * Debian 10: 4.19
-> > >    * Debian 11: 5.10
-> > >    * Fedora 35: 5.19
-> > >    * Fedora 36: 5.19
-> > >    * OpenSUSE 15.3: 5.3.0
-> > >    * Ubuntu 20.04: 5.4
-> > >    * Ubuntu 22.04: 5.15
-> > >
-> > > The above ignores the 3rd version digit since distros update their
-> > > packages periodically and such updates don't generally affect public
-> > > APIs to the extent that it matters for our build time check.
-> > >
-> > > Overall, we can set the baseline to 4.18 currently.
-> >
-> > As this change affects entire QEMU build, I'd prefer to have some "Acked-by" before merging it via
-> > linux-user branch.
+Le 27/09/2022 à 18:58, Helge Deller a écrit :
+> When the emulation stops with a hard exception it's very useful for
+> debugging purposes to dump the current guest memory layout (for an
+> example see /proc/self/maps) beside the CPU registers.
 > 
-> I still think we should be more conservative about kernel header
-> requirements than we are for other dependencies.
+> The open_self_maps() function provides such a memory dump, but since
+> it's located in the syscall.c file, various changes (add #includes, make
+> this function externally visible, ...) are needed to be able to call it
+> from the existing EXCP_DUMP() macro.
+> 
+> This patch takes another approach by re-defining EXCP_DUMP() to call
+> target_exception_dump(), which is in syscall.c, consolidates the log
+> print functions and allows to add the call to dump the memory layout.
+> 
+> Beside a reduced code footprint, this approach keeps the changes across
+> the various callers minimal, and keeps EXCP_DUMP() highlighted as
+> important macro/function.
+> 
+> Signed-off-by: Helge Deller <deller@gmx.de>
+> 
+> ---
+> 
+> v2:
+> Based on feedback by Philippe Mathieu-Daudé, renamed the two functions
+> to excp_dump_file() and target_exception_dump(), and #define'ed
+> EXCP_DUMP() to target_exception_dump().
+> I intentionally did not replace all occurences of EXCP_DUMP() by
+> target_exception_dump() as I think it's unneccesary and not beneficial.
+> If this is really wished, I will send a v3.
+> 
+> 
+> diff --git a/linux-user/cpu_loop-common.h b/linux-user/cpu_loop-common.h
+> index 36ff5b14f2..e644d2ef90 100644
+> --- a/linux-user/cpu_loop-common.h
+> +++ b/linux-user/cpu_loop-common.h
+> @@ -23,18 +23,9 @@
+>   #include "exec/log.h"
+>   #include "special-errno.h"
+> 
+> -#define EXCP_DUMP(env, fmt, ...)                                        \
+> -do {                                                                    \
+> -    CPUState *cs = env_cpu(env);                                        \
+> -    fprintf(stderr, fmt , ## __VA_ARGS__);                              \
+> -    fprintf(stderr, "Failing executable: %s\n", exec_path);             \
+> -    cpu_dump_state(cs, stderr, 0);                                      \
+> -    if (qemu_log_separate()) {                                          \
+> -        qemu_log(fmt, ## __VA_ARGS__);                                  \
+> -        qemu_log("Failing executable: %s\n", exec_path);                \
+> -        log_cpu_state(cs, 0);                                           \
+> -    }                                                                   \
+> -} while (0)
+> +void target_exception_dump(CPUArchState *env, const char *fmt, int code);
+> +#define EXCP_DUMP(env, fmt, code) \
+> +    target_exception_dump(env, fmt, code)
+> 
+>   void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs);
+>   #endif
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 2e954d8dbd..7d29c4c396 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -158,6 +158,7 @@
+>   #include "qapi/error.h"
+>   #include "fd-trans.h"
+>   #include "tcg/tcg.h"
+> +#include "cpu_loop-common.h"
+> 
+>   #ifndef CLONE_IO
+>   #define CLONE_IO                0x80000000      /* Clone io context */
+> @@ -8144,6 +8145,33 @@ static int is_proc_myself(const char *filename, const char *entry)
+>       return 0;
+>   }
+> 
+> +static void excp_dump_file(FILE *logfile, CPUArchState *env,
+> +                      const char *fmt, int code)
+> +{
+> +    if (logfile) {
+> +        CPUState *cs = env_cpu(env);
+> +
+> +        fprintf(logfile, fmt, code);
+> +        fprintf(logfile, "Failing executable: %s\n", exec_path);
+> +        cpu_dump_state(cs, logfile, 0);
+> +        open_self_maps(env, fileno(logfile));
+> +    }
+> +}
+> +
+> +void target_exception_dump(CPUArchState *env, const char *fmt, int code)
+> +{
+> +    /* dump to console */
+> +    excp_dump_file(stderr, env, fmt, code);
+> +
+> +    /* dump to log file */
+> +    if (qemu_log_separate()) {
+> +        FILE *logfile = qemu_log_trylock();
+> +
+> +        excp_dump_file(logfile, env, fmt, code);
+> +        qemu_log_unlock(logfile);
+> +    }
+> +}
+> +
+>   #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN || \
+>       defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
+>   static int is_proc(const char *filename, const char *entry)
+> 
 
-How much more though ?  What other distros do we want to target that
-we don't already cover with our targetted platforms  ?
+Applied to my linux-user-for-7.2 branch.
 
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Thanks,
+Laurent
 
 
