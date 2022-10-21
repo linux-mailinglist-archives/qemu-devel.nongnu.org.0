@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ED9F606C8C
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 02:41:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61319606C82
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 02:37:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olg5w-0005Zl-E0
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 20:41:04 -0400
+	id 1olg1z-0002ri-89
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 20:36:59 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olfzr-0001ip-EG
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 20:34:47 -0400
+	id 1olfzu-0001je-65
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 20:34:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Clay.Mayers@kioxia.com>)
- id 1olfza-0001fi-66
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 20:34:34 -0400
+ id 1olfzk-0001gf-Jp
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 20:34:41 -0400
 Received: from usmailhost21.kioxia.com ([12.0.68.226]
  helo=SJSMAIL01.us.kioxia.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <Clay.Mayers@kioxia.com>)
- id 1olfzY-0004k2-2S
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 20:34:29 -0400
+ id 1olfzd-0004k2-1b
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 20:34:36 -0400
 Received: from localhost.localdomain (10.93.83.20) by SJSMAIL01.us.kioxia.com
  (10.90.133.90) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.32; Thu, 20 Oct
@@ -34,9 +34,9 @@ To: <qemu-devel@nongnu.org>
 CC: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>, Fam
  Zheng <fam@euphon.net>, =?UTF-8?q?Phlippe=20Mathieu-Daud=C3=A9?=
  <f4bug@amsat.org>
-Subject: [PATCH 1/4] hw/block/nvme: add ZONE_FINISH_RECOMMENDED functionality
-Date: Thu, 20 Oct 2022 17:18:32 -0700
-Message-ID: <20221021001835.942642-2-clay.mayers@kioxia.com>
+Subject: [PATCH 2/4] hw/block/nvme: add zone descriptor changed log page
+Date: Thu, 20 Oct 2022 17:18:33 -0700
+Message-ID: <20221021001835.942642-3-clay.mayers@kioxia.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20221021001835.942642-1-clay.mayers@kioxia.com>
 References: <20221021001835.942642-1-clay.mayers@kioxia.com>
@@ -70,213 +70,215 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Clay Mayers <clay.mayers@kioxia.com>
 
-Adds ns.param.zoned.finish_time, which sets the number of
-seconds a zone can remain active before the zone attribute
-ZONE_FINISH_RECOMMENDED is set.
+Zones marked with ZONE_FINISH_RECOMMENDED are added to the zone
+descriptor changed log page.  Once read with RAE cleared, they are
+removed from the list.
 
-This requires scanning the exp open, imp open and closed lists
-of zones whenever a zone is marked as requiring finishing.  The
-expectation is these lists will be short (10s of items) allowing a
-simpler implementation than keeping the lists sorted.  It also
-keeps the overhead during the exception of a timeout instead of
-when zones change state between open and closed. For use cases
-where this isn't true, finish_time should be 0 to disable this
-feature (the default).
+Zones stay in the list regardless of what other states the zones may
+go through so applications must be aware of ABA issues where finish
+may be recommended, the zone freed and re-opened and now the attribute
+is now clear.
 
 Signed-off-by: Clay Mayers <clay.mayers@kioxia.com>
 ---
- docs/system/devices/nvme.rst |  5 +++++
- hw/nvme/ctrl.c               | 35 +++++++++++++++++++++++++++++++++++
- hw/nvme/ns.c                 |  8 ++++++++
- hw/nvme/nvme.h               | 18 ++++++++++++++----
- 4 files changed, 62 insertions(+), 4 deletions(-)
+ hw/nvme/ctrl.c       | 50 ++++++++++++++++++++++++++++++++++++++++++++
+ hw/nvme/ns.c         |  6 ++++++
+ hw/nvme/nvme.h       |  8 +++++++
+ hw/nvme/trace-events |  1 +
+ include/block/nvme.h |  8 +++++++
+ 5 files changed, 73 insertions(+)
 
-diff --git a/docs/system/devices/nvme.rst b/docs/system/devices/nvme.rst
-index 30f841ef62..1cb0ef844c 100644
---- a/docs/system/devices/nvme.rst
-+++ b/docs/system/devices/nvme.rst
-@@ -212,6 +212,11 @@ The namespace may be configured with additional parameters
-   the minimum memory page size (CAP.MPSMIN). The default value (``0``)
-   has this property inherit the ``mdts`` value.
- 
-+``zoned.finish_time=UINT32`` (default: ``0``)
-+  Set the time in seconds for how long a zone can be active before setting the
-+  zone attribute ``Zone Finish Recommended``.  The default value (``0``)
-+  disables this feature.
-+
- Metadata
- --------
- 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 87aeba0564..d7e9fae0b0 100644
+index d7e9fae0b0..3ffd0fb469 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -1516,6 +1516,38 @@ static void nvme_clear_events(NvmeCtrl *n, uint8_t event_type)
+@@ -1516,15 +1516,42 @@ static void nvme_clear_events(NvmeCtrl *n, uint8_t event_type)
      }
  }
  
-+static void nvme_check_finish(NvmeNamespace *ns, NvmeZoneListHead *list)
++static void nvme_zdc_list(NvmeNamespace *ns, NvmeZoneIdList *zlist, bool reset)
 +{
-+    int64_t now = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
-+    NvmeZone *zone;
++    NvmeZdc *zdc;
++    NvmeZdc *next;
++    int index = 0;
 +
-+    QTAILQ_FOREACH(zone, list, entry) {
-+        if (zone->finish_ms <= now) {
-+            zone->finish_ms = INT64_MAX;
-+            zone->d.za |= NVME_ZA_FINISH_RECOMMENDED;
-+        } else if (zone->finish_ms != INT64_MAX) {
-+            timer_mod_anticipate(ns->active_timer, zone->finish_ms);
++    QTAILQ_FOREACH_SAFE(zdc, &ns->zdc_list, entry, next) {
++        if (index >= ARRAY_SIZE(zlist->zids)) {
++            break;
++        }
++        zlist->zids[index++] = zdc->zone->d.zslba;
++        if (reset) {
++            QTAILQ_REMOVE(&ns->zdc_list, zdc, entry);
++            zdc->zone->zdc_entry = NULL;
++            g_free(zdc);
 +        }
 +    }
++    zlist->nzid = cpu_to_le16(index);
 +}
 +
-+void nvme_finish_needed(void *opaque)
-+{
-+    NvmeNamespace *ns = opaque;
-+
-+    nvme_check_finish(ns, &ns->exp_open_zones);
-+    nvme_check_finish(ns, &ns->imp_open_zones);
-+    nvme_check_finish(ns, &ns->closed_zones);
-+}
-+
-+void nvme_set_active_timeout(NvmeNamespace *ns, NvmeZone *zone)
-+{
-+    if (ns->fto_ms) {
-+        zone->finish_ms = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + ns->fto_ms;
-+        timer_mod_anticipate(ns->active_timer, zone->finish_ms);
-+    }
-+}
-+
- static inline uint16_t nvme_check_mdts(NvmeCtrl *n, size_t len)
+ static void nvme_check_finish(NvmeNamespace *ns, NvmeZoneListHead *list)
  {
-     uint8_t mdts = n->params.mdts;
-@@ -1791,6 +1823,7 @@ static uint16_t nvme_zrm_finish(NvmeNamespace *ns, NvmeZone *zone)
+     int64_t now = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
+     NvmeZone *zone;
++    NvmeZdc  *zdc;
  
-         /* fallthrough */
-     case NVME_ZONE_STATE_EMPTY:
-+        zone->d.za &= ~NVME_ZA_FINISH_RECOMMENDED;
-         nvme_assign_zone_state(ns, zone, NVME_ZONE_STATE_FULL);
-         return NVME_SUCCESS;
- 
-@@ -1891,6 +1924,7 @@ static uint16_t nvme_zrm_open_flags(NvmeCtrl *n, NvmeNamespace *ns,
- 
-         if (act) {
-             nvme_aor_inc_active(ns);
-+            nvme_set_active_timeout(ns, zone);
+     QTAILQ_FOREACH(zone, list, entry) {
+         if (zone->finish_ms <= now) {
+             zone->finish_ms = INT64_MAX;
+             zone->d.za |= NVME_ZA_FINISH_RECOMMENDED;
++            if (!zone->zdc_entry) {
++                zdc = g_malloc0(sizeof(*zdc));
++                zdc->zone = zone;
++                zone->zdc_entry = zdc;
++                QTAILQ_INSERT_TAIL(&ns->zdc_list, zdc, entry);
++            }
+         } else if (zone->finish_ms != INT64_MAX) {
+             timer_mod_anticipate(ns->active_timer, zone->finish_ms);
          }
- 
-         nvme_aor_inc_open(ns);
-@@ -3619,6 +3653,7 @@ static uint16_t nvme_set_zd_ext(NvmeNamespace *ns, NvmeZone *zone)
-             return status;
-         }
-         nvme_aor_inc_active(ns);
-+        nvme_set_active_timeout(ns, zone);
-         zone->d.za |= NVME_ZA_ZD_EXT_VALID;
-         nvme_assign_zone_state(ns, zone, NVME_ZONE_STATE_CLOSED);
-         return NVME_SUCCESS;
-diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
-index 62a1f97be0..b577f2d8e0 100644
---- a/hw/nvme/ns.c
-+++ b/hw/nvme/ns.c
-@@ -322,6 +322,11 @@ static void nvme_ns_init_zoned(NvmeNamespace *ns)
-         ns->id_ns.nsfeat &= ~0x4;
-     }
- 
-+    ns->fto_ms = ns->params.fto * INT64_C(1000);
-+    if (ns->fto_ms) {
-+        ns->active_timer = timer_new_ms(QEMU_CLOCK_VIRTUAL, nvme_finish_needed,
-+                                        ns);
-+    }
-     ns->id_ns_zoned = id_ns_z;
+@@ -4675,6 +4702,27 @@ static uint16_t nvme_cmd_effects(NvmeCtrl *n, uint8_t csi, uint32_t buf_len,
+     return nvme_c2h(n, ((uint8_t *)&log) + off, trans_len, req);
  }
  
-@@ -338,6 +343,7 @@ static void nvme_clear_zone(NvmeNamespace *ns, NvmeZone *zone)
-             nvme_set_zone_state(zone, NVME_ZONE_STATE_CLOSED);
-         }
-         nvme_aor_inc_active(ns);
-+        nvme_set_active_timeout(ns, zone);
-         QTAILQ_INSERT_HEAD(&ns->closed_zones, zone, entry);
-     } else {
-         trace_pci_nvme_clear_ns_reset(state, zone->d.zslba);
-@@ -521,6 +527,7 @@ void nvme_ns_shutdown(NvmeNamespace *ns)
++static uint16_t nvme_changed_zones(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
++                                    uint64_t off, NvmeRequest *req)
++{
++    NvmeNamespace *ns;
++    NvmeCmd *cmd = &req->cmd;
++    uint32_t nsid = le32_to_cpu(cmd->nsid);
++    NvmeZoneIdList zlist = { };
++    uint32_t trans_len = MIN(sizeof(zlist) - off, buf_len);
++
++    nsid = le32_to_cpu(cmd->nsid);
++    trace_pci_nvme_changed_zones(nsid);
++
++    ns = nvme_ns(n, nsid);
++    if (!ns) {
++        return NVME_INVALID_NSID | NVME_DNR;
++    }
++    nvme_zdc_list(ns, &zlist, !rae);
++
++    return nvme_c2h(n, ((uint8_t *)&zlist) + off, trans_len, req);
++}
++
+ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
+ {
+     NvmeCmd *cmd = &req->cmd;
+@@ -4722,6 +4770,8 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
+         return nvme_changed_nslist(n, rae, len, off, req);
+     case NVME_LOG_CMD_EFFECTS:
+         return nvme_cmd_effects(n, csi, len, off, req);
++    case NVME_LOG_CHANGED_ZONE:
++        return nvme_changed_zones(n, rae, len, off, req);
+     default:
+         trace_pci_nvme_err_invalid_log_page(nvme_cid(req), lid);
+         return NVME_INVALID_FIELD | NVME_DNR;
+diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
+index b577f2d8e0..25cd490c99 100644
+--- a/hw/nvme/ns.c
++++ b/hw/nvme/ns.c
+@@ -240,6 +240,7 @@ static void nvme_ns_zoned_init_state(NvmeNamespace *ns)
+     QTAILQ_INIT(&ns->imp_open_zones);
+     QTAILQ_INIT(&ns->closed_zones);
+     QTAILQ_INIT(&ns->full_zones);
++    QTAILQ_INIT(&ns->zdc_list);
+ 
+     zone = ns->zone_array;
+     for (i = 0; i < ns->num_zones; i++, zone++) {
+@@ -526,8 +527,13 @@ void nvme_ns_shutdown(NvmeNamespace *ns)
+ 
  void nvme_ns_cleanup(NvmeNamespace *ns)
  {
++    NvmeZdc *zdc;
++
      if (ns->params.zoned) {
-+        timer_free(ns->active_timer);
+         timer_free(ns->active_timer);
++        while ((zdc = QTAILQ_FIRST(&ns->zdc_list))) {
++            g_free(zdc);
++        }
          g_free(ns->id_ns_zoned);
          g_free(ns->zone_array);
          g_free(ns->zd_extensions);
-@@ -644,6 +651,7 @@ static Property nvme_ns_props[] = {
-     DEFINE_PROP_SIZE("zoned.zrwafg", NvmeNamespace, params.zrwafg, -1),
-     DEFINE_PROP_BOOL("eui64-default", NvmeNamespace, params.eui64_default,
-                      false),
-+    DEFINE_PROP_UINT32("zoned.finish_time", NvmeNamespace, params.fto, 0),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
 diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index 79f5c281c2..9a54dcdb32 100644
+index 9a54dcdb32..ae65226150 100644
 --- a/hw/nvme/nvme.h
 +++ b/hw/nvme/nvme.h
-@@ -93,6 +93,7 @@ static inline NvmeNamespace *nvme_subsys_ns(NvmeSubsystem *subsys,
+@@ -32,6 +32,7 @@ QEMU_BUILD_BUG_ON(NVME_MAX_NAMESPACES > NVME_NSID_BROADCAST - 1);
+ 
+ typedef struct NvmeCtrl NvmeCtrl;
+ typedef struct NvmeNamespace NvmeNamespace;
++typedef struct NvmeZone NvmeZone;
+ 
+ #define TYPE_NVME_BUS "nvme-bus"
+ OBJECT_DECLARE_SIMPLE_TYPE(NvmeBus, NVME_BUS)
+@@ -90,10 +91,16 @@ static inline NvmeNamespace *nvme_subsys_ns(NvmeSubsystem *subsys,
+ #define NVME_NS(obj) \
+     OBJECT_CHECK(NvmeNamespace, (obj), TYPE_NVME_NS)
+ 
++typedef struct NvmeZdc {
++    QTAILQ_ENTRY(NvmeZdc) entry;
++    NvmeZone *zone;
++} NvmeZdc;
++
  typedef struct NvmeZone {
      NvmeZoneDescr   d;
      uint64_t        w_ptr;
-+    int64_t         finish_ms;
+     int64_t         finish_ms;
++    NvmeZdc         *zdc_entry;
      QTAILQ_ENTRY(NvmeZone) entry;
  } NvmeZone;
  
-@@ -121,12 +122,15 @@ typedef struct NvmeNamespaceParams {
-     uint32_t max_active_zones;
-     uint32_t max_open_zones;
-     uint32_t zd_extension_size;
-+    uint32_t fto;
+@@ -172,6 +179,7 @@ typedef struct NvmeNamespace {
  
-     uint32_t numzrwa;
-     uint64_t zrwas;
-     uint64_t zrwafg;
- } NvmeNamespaceParams;
+     int64_t         fto_ms;
+     QEMUTimer       *active_timer;
++    QTAILQ_HEAD(, NvmeZdc) zdc_list;
  
-+typedef QTAILQ_HEAD(, NvmeZone) NvmeZoneListHead;
-+
- typedef struct NvmeNamespace {
-     DeviceState  parent_obj;
-     BlockConf    blkconf;
-@@ -154,10 +158,10 @@ typedef struct NvmeNamespace {
- 
-     NvmeIdNsZoned   *id_ns_zoned;
-     NvmeZone        *zone_array;
--    QTAILQ_HEAD(, NvmeZone) exp_open_zones;
--    QTAILQ_HEAD(, NvmeZone) imp_open_zones;
--    QTAILQ_HEAD(, NvmeZone) closed_zones;
--    QTAILQ_HEAD(, NvmeZone) full_zones;
-+    NvmeZoneListHead exp_open_zones;
-+    NvmeZoneListHead imp_open_zones;
-+    NvmeZoneListHead closed_zones;
-+    NvmeZoneListHead full_zones;
-     uint32_t        num_zones;
-     uint64_t        zone_size;
-     uint64_t        zone_capacity;
-@@ -166,6 +170,9 @@ typedef struct NvmeNamespace {
-     int32_t         nr_open_zones;
-     int32_t         nr_active_zones;
- 
-+    int64_t         fto_ms;
-+    QEMUTimer       *active_timer;
-+
      NvmeNamespaceParams params;
  
-     struct {
-@@ -274,6 +281,9 @@ static inline void nvme_aor_dec_active(NvmeNamespace *ns)
-     assert(ns->nr_active_zones >= 0);
- }
+diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
+index fccb79f489..337927e607 100644
+--- a/hw/nvme/trace-events
++++ b/hw/nvme/trace-events
+@@ -64,6 +64,7 @@ pci_nvme_identify_nslist(uint32_t ns) "nsid %"PRIu32""
+ pci_nvme_identify_nslist_csi(uint16_t ns, uint8_t csi) "nsid=%"PRIu16", csi=0x%"PRIx8""
+ pci_nvme_identify_cmd_set(void) "identify i/o command set"
+ pci_nvme_identify_ns_descr_list(uint32_t ns) "nsid %"PRIu32""
++pci_nvme_changed_zones(uint32_t ns) "nsid %"PRIu32""
+ pci_nvme_get_log(uint16_t cid, uint8_t lid, uint8_t lsp, uint8_t rae, uint32_t len, uint64_t off) "cid %"PRIu16" lid 0x%"PRIx8" lsp 0x%"PRIx8" rae 0x%"PRIx8" len %"PRIu32" off %"PRIu64""
+ pci_nvme_getfeat(uint16_t cid, uint32_t nsid, uint8_t fid, uint8_t sel, uint32_t cdw11) "cid %"PRIu16" nsid 0x%"PRIx32" fid 0x%"PRIx8" sel 0x%"PRIx8" cdw11 0x%"PRIx32""
+ pci_nvme_setfeat(uint16_t cid, uint32_t nsid, uint8_t fid, uint8_t save, uint32_t cdw11) "cid %"PRIu16" nsid 0x%"PRIx32" fid 0x%"PRIx8" save 0x%"PRIx8" cdw11 0x%"PRIx32""
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 8027b7126b..c747cc4948 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -1010,6 +1010,7 @@ enum NvmeLogIdentifier {
+     NVME_LOG_FW_SLOT_INFO   = 0x03,
+     NVME_LOG_CHANGED_NSLIST = 0x04,
+     NVME_LOG_CMD_EFFECTS    = 0x05,
++    NVME_LOG_CHANGED_ZONE   = 0xbf,
+ };
  
-+void nvme_set_active_timeout(NvmeNamespace *ns, NvmeZone *zone);
-+void nvme_finish_needed(void *opaque);
+ typedef struct QEMU_PACKED NvmePSD {
+@@ -1617,6 +1618,12 @@ typedef enum NvmeVirtualResourceType {
+     NVME_VIRT_RES_INTERRUPT     = 0x01,
+ } NvmeVirtualResourceType;
+ 
++typedef struct QEMU_PACKED NvmeZoneIdList {
++    uint16_t nzid;
++    uint16_t rsvd2[3];
++    uint64_t zids[511];
++} NvmeZoneIdList;
 +
- void nvme_ns_init_format(NvmeNamespace *ns);
- int nvme_ns_setup(NvmeNamespace *ns, Error **errp);
- void nvme_ns_drain(NvmeNamespace *ns);
+ static inline void _nvme_check_size(void)
+ {
+     QEMU_BUILD_BUG_ON(sizeof(NvmeBar) != 4096);
+@@ -1655,5 +1662,6 @@ static inline void _nvme_check_size(void)
+     QEMU_BUILD_BUG_ON(sizeof(NvmePriCtrlCap) != 4096);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeSecCtrlEntry) != 32);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeSecCtrlList) != 4096);
++    QEMU_BUILD_BUG_ON(sizeof(NvmeZoneIdList) != 4096);
+ }
+ #endif
 -- 
 2.27.0
 
