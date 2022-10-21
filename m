@@ -2,73 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 704BF6079A7
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 16:33:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECA3B6079A9
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 16:34:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olt5k-0005Mq-Ri
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 10:33:45 -0400
+	id 1olt6M-0005Nt-Q2
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 10:34:23 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olt56-0006Qk-99
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 10:33:04 -0400
+	id 1olt5w-0008Mo-TU
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 10:33:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1olt4v-0005LF-Ve
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 10:32:54 -0400
-Received: from mout.kundenserver.de ([217.72.192.73])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1olt4t-0007DJ-5R
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 10:32:52 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MGz9p-1opzp829jv-00E3Tn; Fri, 21 Oct 2022 16:32:45 +0200
-Message-ID: <549a9009-f657-750f-8acb-6c7715e7fb97@vivier.eu>
-Date: Fri, 21 Oct 2022 16:32:44 +0200
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1olt5b-0006Un-21
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 10:33:44 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1olt5Y-0007jc-A5
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 10:33:34 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id a14so2289019wru.5
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 07:33:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=WDLa7n/zN17cmLnBWe5rmnJ44HQUR2mq7sgSsOR9wmQ=;
+ b=u4FUzC1GRTfmm1fnpH8ueh0RHjD1Q7h9eSKo65wkmexjDI/lU+jc5Y3XQEQSmt8exn
+ nas2MeqY8yNd762ALH0r3lwMeEO7hsK0OPSLNWTW3f0sP1rDmwRwIaUoaStto4Xnqps9
+ 6wZM2U0l2MCvuMQiY6xWBS3LW80+Pc9mf+tXnvb7rE1SvRwGx0lZhCIuMUGk9LMXL50t
+ Q6WYabTwVv3mRi2QV4lsMh1fDGFpqlX0YfePLxxCooXqoG6Dn/oFHIyqj/DLMV/1K7rq
+ h2qnZdFiVZgPA5KyQl+ilp1lNfpe3aoVhWBLeXjw1gRzubLHmgPUi2vdUDup8NSpt31X
+ KH4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=WDLa7n/zN17cmLnBWe5rmnJ44HQUR2mq7sgSsOR9wmQ=;
+ b=UnhOoQ/aws+/JA0bfxfHg46gMB8P0kD5eoWhT6qMzIzn+N0I+fUZK5+HXmUCM/S7Im
+ /t6tAKSGrUvU5K+EZXyjof4Qxm6y6gzPfsiHbmmbBfjCrS9xinslCTIytiI7Kj5wWQ6z
+ QU2Qt6sH8qbhcilohUDnbxAtugvfqI5fgbSUHqOQoW8kfNiqz+zA5Bw8GSLSHxnu+ERs
+ gMXbX750wU6KRBagS5yRvRHQ0dfzRb44coD7zZyQOWU6TN+UgthKTm63aqdYbuVQaTuv
+ 7d/4WwS4mUdzz2VIxWiTxcfdRjSZBYU/75wn2NqUdQsROcLTlNaPeecmRW99ocCrxQgo
+ /YgA==
+X-Gm-Message-State: ACrzQf0JzCbm95H3wMj460S55P0QU3cttrOkwdHvnkEpySaNYOaCzKqx
+ 6hdLpB+wu2g1KKLeUzur8UCoCA==
+X-Google-Smtp-Source: AMsMyM6pCkwuNyZeLE2PWg0GkM0Qd3SUa/hL5s3wlyrqZ/2EJiybFfIAO/tFe7uOjMPAWrYNZpqoIg==
+X-Received: by 2002:a5d:58ca:0:b0:236:2324:3f0f with SMTP id
+ o10-20020a5d58ca000000b0023623243f0fmr5669362wrf.325.1666362806871; 
+ Fri, 21 Oct 2022 07:33:26 -0700 (PDT)
+Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
+ [82.27.106.168]) by smtp.gmail.com with ESMTPSA id
+ j8-20020a05600c1c0800b003c6b7f5567csm10531106wms.0.2022.10.21.07.33.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Oct 2022 07:33:26 -0700 (PDT)
+Date: Fri, 21 Oct 2022 15:33:23 +0100
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Eric Auger <eauger@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, robh+dt@kernel.org
+Subject: Re: [PATCH v2 7/8] hw/arm/virt: Fix devicetree warnings about the
+ virtio-iommu node
+Message-ID: <Y1Kts+K0WiHs7b8A@myrica>
+References: <20220927100347.176606-1-jean-philippe@linaro.org>
+ <20220927100347.176606-8-jean-philippe@linaro.org>
+ <CAFEAcA8_mLVgvorF12qBMAW5NoZT2mXAzjfavCbDtcZjzcprow@mail.gmail.com>
+ <5641321a-4bec-2ca9-bb14-d5ed883a9ded@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH 4/4] linux-user: drop conditionals for obsolete kernel
- header versions
-Content-Language: fr
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20221004093206.652431-1-berrange@redhat.com>
- <20221004093206.652431-5-berrange@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20221004093206.652431-5-berrange@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:qflWqc+9HeUBZ+1kYU2RxH1qSbxM+ZUbx29SK2SmhMCLoBDJaxS
- imRdbWLHQw8b4SUQk0AEiB/H4SHnHONucfPFu8nz+Uj3n7IJY+CabkqovwgcvZ7Dh2or4qL
- uEzS8rpwLARIGQg3jOhsumP6vIdBTnnrzu8gyru6T/GnQIbuCfUciDU7lboQW3hrSNHhnp3
- 64Jm089Cr0sRwVElwvnaA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:9A8CvB7nk4k=:MTn9PQTIiKsXOAMJbPQVJx
- vUczQwUOwYh+czVyuwkeoaUNI3+oRn5db6F+8hKK2b+nd2hqmKeh/mZOX8SZPZPGLHEskApYO
- 9z3ddHQH8KG2wJefi9wcSg0YZBZMS0LZwIT5hntqwVCunm7yXXkXgkPdZmC+uiXFSmctFNKJ1
- fkNGF7PV52RUz8SxjdHwyi60D11Ut9KT4Lb+584xRNdgEbtZb+enfN7FiVvTI4OjTXGrtJBgy
- a1Gio4y5sloqcoWMgFo4C7LC5bt0+Z7/BDvB1ew3+6BpymTDpj0mp3AusddzJhpf5Q6/o8AEx
- dhzNmmthBub31FeRZEwKLfBejWvjw7DZaUrEo9eT8F1qajT/5uvE9pML/ejGM7W8J8nu1fyAK
- k0FOOi/8Vke2fNwuYk8vm2QsW+dGVW6maxuvGSo7grE1g3kndAQSh767z6QWqcQuvOFxKmwza
- htXVNNrbWP5WKszsAXz9Cq2YT1t/KV/VWueZfBdbkt/Psp+jQ+TiCspHb3vqee9BPYXzdMRaJ
- CCEMgaAUmMXkwvD+7cOz4wP1X6gSQITnj9fURBPYQY/PzSHP2aopplgvDY8W0g8aHCFixahHd
- HaLlZnGrZJFHoOHg23Mqppp5N3bOI30qwK54/4OdDcawU4IH+RQO2ZuqWuOThn1Zcn7U7GhEm
- o3aR24bawQ5EYZylm9zEJmnLncSxYHLpQFXj7zSR2Xpg9IYe2qtajr3B/13UwCu6cNcK154av
- UI+uvWxHjNPvg6eR/NzyL2faevaLlzDMgo93LTM0ultRW4vQ4UhMb8M6AaOrnRhsG4Rlc/5Ws
- mosWpfx
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5641321a-4bec-2ca9-bb14-d5ed883a9ded@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,131 +99,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 04/10/2022 à 11:32, Daniel P. Berrangé a écrit :
-> Given our newly enforced 4.18 baseline for the kernel headers version,
-> we can drop any conditional checks for older versions.
+On Tue, Sep 27, 2022 at 04:35:25PM +0200, Eric Auger wrote:
+> >> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> >> index 2de16f6324..5e16d54bbb 100644
+> >> --- a/hw/arm/virt.c
+> >> +++ b/hw/arm/virt.c
+> >> @@ -1372,14 +1372,15 @@ static void create_smmu(const VirtMachineState *vms,
+> >>
+> >>  static void create_virtio_iommu_dt_bindings(VirtMachineState *vms)
+> >>  {
+> >> -    const char compat[] = "virtio,pci-iommu";
+> >> +    const char compat[] = "virtio,pci-iommu\0pci1af4,1057";
+> >>      uint16_t bdf = vms->virtio_iommu_bdf;
+> > 
+> > PCI_DEVICE_ID_VIRTIO_IOMMU is listed in include/hw/pci/pci.h
+> > as 0x1014, so where does 1057 come from? (This is a hex value,
+> > right?)
+> the virtio spec states:
+> The PCI Device ID is calculated by adding 0x1040 to the Virtio Device ID
+> (this IOMMU device ID is 0d23 = 0x17 for the virtio-iommu device, also
+> found in include/uapi/linux/virtio_ids.h) so 0x1057 above looks correct
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->   linux-user/linux_loop.h    |  4 ----
->   linux-user/syscall.c       | 14 ++------------
->   tests/tcg/i386/test-i386.c | 10 +++-------
->   3 files changed, 5 insertions(+), 23 deletions(-)
+> note that in docs/specs/pci-ids.txt there are a bunch of other device
+> ids not documented (virtio-mem, pmem)
 > 
-> diff --git a/linux-user/linux_loop.h b/linux-user/linux_loop.h
-> index f80b96f1ff..5a9e0edef2 100644
-> --- a/linux-user/linux_loop.h
-> +++ b/linux-user/linux_loop.h
-> @@ -31,10 +31,6 @@ enum {
->   #include <asm/posix_types.h>	/* for __kernel_old_dev_t */
->   #include <asm/types.h>		/* for __u64 */
->   
-> -#if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,0) /* This is a guess.  */
-> -#define __kernel_old_dev_t __kernel_dev_t
-> -#endif
-> -
->   /* Backwards compatibility version */
->   struct loop_info {
->   	int		   lo_number;		/* ioctl r/o */
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index f6a15df69d..377867907a 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -2540,16 +2540,12 @@ set_timeout:
->           case NETLINK_DROP_MEMBERSHIP:
->           case NETLINK_BROADCAST_ERROR:
->           case NETLINK_NO_ENOBUFS:
-> -#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 2, 0)
->           case NETLINK_LISTEN_ALL_NSID:
->           case NETLINK_CAP_ACK:
-> -#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4, 2, 0) */
-> -#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0)
->           case NETLINK_EXT_ACK:
-> -#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0) */
->   #if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 20, 0)
->           case NETLINK_GET_STRICT_CHK:
-> -#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0) */
-> +#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4, 20, 0) */
->               break;
->           default:
->               goto unimplemented;
-> @@ -2918,16 +2914,12 @@ get_timeout:
->           case NETLINK_PKTINFO:
->           case NETLINK_BROADCAST_ERROR:
->           case NETLINK_NO_ENOBUFS:
-> -#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 2, 0)
->           case NETLINK_LISTEN_ALL_NSID:
->           case NETLINK_CAP_ACK:
-> -#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4, 2, 0) */
-> -#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0)
->           case NETLINK_EXT_ACK:
-> -#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0) */
->   #if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 20, 0)
->           case NETLINK_GET_STRICT_CHK:
-> -#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4, 12, 0) */
-> +#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4, 20, 0) */
->               if (get_user_u32(len, optlen)) {
->                   return -TARGET_EFAULT;
->               }
-> @@ -2944,7 +2936,6 @@ get_timeout:
->                   return -TARGET_EFAULT;
->               }
->               break;
-> -#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 2, 0)
->           case NETLINK_LIST_MEMBERSHIPS:
->           {
->               uint32_t *results;
-> @@ -2975,7 +2966,6 @@ get_timeout:
->               unlock_user(results, optval_addr, 0);
->               break;
->           }
-> -#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4, 2, 0) */
->           default:
->               goto unimplemented;
->           }
-> diff --git a/tests/tcg/i386/test-i386.c b/tests/tcg/i386/test-i386.c
-> index 864c4e620d..881b45cd19 100644
-> --- a/tests/tcg/i386/test-i386.c
-> +++ b/tests/tcg/i386/test-i386.c
-> @@ -1224,10 +1224,6 @@ static inline int modify_ldt(int func, void * ptr, unsigned long bytecount)
->       return syscall(__NR_modify_ldt, func, ptr, bytecount);
->   }
->   
-> -#if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 5, 66)
-> -#define modify_ldt_ldt_s user_desc
-> -#endif
-> -
->   #define MK_SEL(n) (((n) << 3) | 7)
->   
->   uint8_t seg_data1[4096];
-> @@ -1265,7 +1261,7 @@ uint8_t seg_data2[4096];
->   /* NOTE: we use Linux modify_ldt syscall */
->   void test_segs(void)
->   {
-> -    struct modify_ldt_ldt_s ldt;
-> +    struct user_desc ldt;
->       long long ldt_table[3];
->       int res, res2;
->       char tmp;
-> @@ -1367,7 +1363,7 @@ extern char code16_func3;
->   
->   void test_code16(void)
->   {
-> -    struct modify_ldt_ldt_s ldt;
-> +    struct user_desc ldt;
->       int res, res2;
->   
->       /* build a code segment */
-> @@ -1774,7 +1770,7 @@ void test_exceptions(void)
->       }
->   
->       {
-> -        struct modify_ldt_ldt_s ldt;
-> +        struct user_desc ldt;
->           ldt.entry_number = 1;
->           ldt.base_addr = (unsigned long)&seg_data1;
->           ldt.limit = (sizeof(seg_data1) + 0xfff) >> 12;
+> What I don't get anymore is the device id in qemu include/hw/pci/pci.h
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Yes 0x1057 is the right device ID, and it matches what the
+virtio-iommu-pci device gets in hw/virtio/virtio-pci.c:1691.
+The wrong 0x1014 value set by hw/virtio/virtio-iommu-pci.c:78 gets
+overwritten since virtio-iommu is modern only. I can send a patch to
+remove it.
 
+Peter, do you mind taking this patch as well, or should I resend it?
+I can't decide what to do about the other issues in this series, we may
+have to live with some warnings, but this one should be OK.
+
+Thanks,
+Jean
+
+[1] https://lore.kernel.org/qemu-devel/aec4e9d1-b70e-2e8d-6503-b3e550c6d5ea@redhat.com/
 
