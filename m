@@ -2,58 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D9A0607E95
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 21:02:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71F42607EBE
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 21:10:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1olxBP-0005zg-7r; Fri, 21 Oct 2022 14:55:51 -0400
+	id 1olxNM-0003Uu-Cj; Fri, 21 Oct 2022 15:08:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Clay.Mayers@kioxia.com>)
- id 1olv3K-00010l-Mr
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 12:39:22 -0400
-Received: from usmailhost21.kioxia.com ([12.0.68.226]
- helo=SJSMAIL01.us.kioxia.com)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1olv4W-00015o-E0
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 12:40:36 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <Clay.Mayers@kioxia.com>)
- id 1olv3I-0004og-HZ
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 12:39:21 -0400
-Received: from SJSMAIL01.us.kioxia.com (10.90.133.90) by
- SJSMAIL01.us.kioxia.com (10.90.133.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.32; Fri, 21 Oct 2022 09:39:16 -0700
-Received: from SJSMAIL01.us.kioxia.com ([::1]) by SJSMAIL01.us.kioxia.com
- ([fe80::213a:a308:b836:4a06%3]) with mapi id 15.01.2375.032; Fri, 21 Oct 2022
- 09:39:16 -0700
-From: Clay Mayers <Clay.Mayers@kioxia.com>
-To: Klaus Jensen <its@irrelevant.dk>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Keith Busch
- <kbusch@kernel.org>, Fam Zheng <fam@euphon.net>,
- =?utf-8?B?UGhsaXBwZSBNYXRoaWV1LURhdWTDqQ==?= <f4bug@amsat.org>
-Subject: RE: [PATCH 4/4] hw/block/nvme: add zone descriptor changed AEN
-Thread-Topic: [PATCH 4/4] hw/block/nvme: add zone descriptor changed AEN
-Thread-Index: AQHY5OYcPLHAptvadkGcKRcXf014/64Y29aAgAAsLNA=
-Date: Fri, 21 Oct 2022 16:39:15 +0000
-Message-ID: <05759d4720ae493d881c254bc19d3e30@kioxia.com>
-References: <20221021001835.942642-1-clay.mayers@kioxia.com>
- <20221021001835.942642-5-clay.mayers@kioxia.com>
- <Y1I/F1Q6IjL5rLRH@cormorant.local>
-In-Reply-To: <Y1I/F1Q6IjL5rLRH@cormorant.local>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.93.77.43]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1olv4U-00057T-4w
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 12:40:36 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 186-20020a1c02c3000000b003c6c154d528so5461058wmc.4
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 09:40:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=FLSLvPI5diE0vfct5cvufJQNAvAsRI7ZBMMMOLBJMAg=;
+ b=od++4Fq9bgCOUAJ+FKch2cJCteaCQ20a9YyIv6Y7EREPPvwkmf+LG5lpRgsf0HP1X7
+ XfWmFdyp9e2u8rkBZXgTnenj5UVbfhtFbB5DByvVpI+sn/WQUVjPSuHwe14CpyMsn18w
+ /2zNYfK5xLt7Sw7hF6T9rPn7cR/ViE1lMJZyD0HEi1Noduhvdepy/B/mQZt5WV8Hj7V4
+ hNXWHKY/3rb2HCW1y/oTGp57Y6pAs3IU0nv/0m9mWmO1RPyQCY9Ven5bQ8oGnD9MvdhE
+ G3GU9qFGGCcb00oOkhny6CAU71p90nV51pai1EuT/PHAPlqXc+eYFtQ45MSn4QOPjTG0
+ QWsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FLSLvPI5diE0vfct5cvufJQNAvAsRI7ZBMMMOLBJMAg=;
+ b=eSae+btDDyJVc6H1faj26LdwiWcbjlMUfMDtCNd8pM6aPOCvYKaugSyvir9COTLthz
+ 5GB2vifwax4Q1mzB5hSK16VHHKAKWTZMPTFOZzQX92r6tHekPg+7+npmVB6VymNgxQp4
+ pdOfPQEuX5vh6u8yTMLm2pCHaAMUt/y0i9SwDDGaX/fea6odR69n5IV+EhCXqWScX4Lj
+ LXxmKa1iPaUP1Y626hlTJm4O6Uq1SnEpcmN5bLvR/que31rHnatIqp4Y4FV5Sp1tqgFQ
+ ML87//JlhbcEb6ZlClJb/SDZt+8lnXJGDTThIGVBdJ1eCNJKZWZo/7zFOK15tXQ679tK
+ eQMg==
+X-Gm-Message-State: ACrzQf167WGpoOc8k+Dxxb7jLvDOVVHmgZ02qf//osSARAo63WpTRRX9
+ LEqnFkv3VRDW4J9E1LDcEICKKw==
+X-Google-Smtp-Source: AMsMyM61WTYdETQ8KQY2U0H9HlPghYkblosOZ19wfNhOIvXV1LJVWcNG1Q7XDUqerH9nXrxzm/KFHw==
+X-Received: by 2002:a05:600c:a04:b0:3b4:f20e:63f4 with SMTP id
+ z4-20020a05600c0a0400b003b4f20e63f4mr13811863wmp.201.1666370432348; 
+ Fri, 21 Oct 2022 09:40:32 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ bw17-20020a0560001f9100b0022afedf3c87sm5564545wrb.105.2022.10.21.09.40.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Oct 2022 09:40:31 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 36EF21FFB7;
+ Fri, 21 Oct 2022 17:40:31 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Alexandre Iooss <erdnaxe@crans.org>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>
+Subject: [RFC PATCH] contrib/plugins: protect execlog's last_exec expansion
+Date: Fri, 21 Oct 2022 17:40:27 +0100
+Message-Id: <20221021164028.2757262-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Received-SPF: pass client-ip=12.0.68.226; envelope-from=Clay.Mayers@kioxia.com;
- helo=SJSMAIL01.us.kioxia.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,26 +93,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-PiBGcm9tOiBLbGF1cyBKZW5zZW4gPGl0c0BpcnJlbGV2YW50LmRrPg0KPiBTZW50OiBUaHVyc2Rh
-eSwgT2N0b2JlciAyMCwgMjAyMiAxMTo0MSBQTQ0KPiANCj4gT24gT2N0IDIwIDE3OjE4LCBjbGF5
-Lm1heWVyc0BraW94aWEuY29tIHdyb3RlOg0KPiA+IEZyb206IENsYXkgTWF5ZXJzIDxjbGF5Lm1h
-eWVyc0BraW94aWEuY29tPg0KPiA+DQo+ID4gSWYgYSBuYW1lc3BhY2UncyBwYXJhbS56b25lZC5m
-aW5pc2hfdGltZSBpcyBub24temVybywNCj4gPiBjb250cm9sbGVycyByZWdpc3RlciB3aXRoIHRo
-ZSBuYW1lc3BhY2UgdG8gYmUgbm90aWZpZWQNCj4gPiB3aGVuIGVudHJpZXMgYXJlIGFkZGVkIHRv
-IGl0cyB6b25lLWRlc2NyaXB0b3ItY2hhbmdlZA0KPiA+IGxvZyBwYWdlLiAgSWYgdGhlIHpvbmUt
-ZGVzY3JpcHRvci1jaGFuZ2VkIGFlbiBpcyBlbmFibGVkLA0KPiA+IHRoaXMgd2lsbCBjYXVzZSBh
-biBBRU4gdG8gYmUgc2VudCBmcm9tIHRoYXQgY29udHJvbGxlci4NCj4gPg0KPiA+IFNpZ25lZC1v
-ZmYtYnk6IENsYXkgTWF5ZXJzIDxjbGF5Lm1heWVyc0BraW94aWEuY29tPg0KPiA+IC0tLQ0KPiA+
-ICBody9udm1lL2N0cmwuYyAgICAgICB8IDYyICsrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKystDQo+ID4gIGh3L252bWUvbnMuYyAgICAgICAgIHwgIDEgKw0KPiA+ICBo
-dy9udm1lL252bWUuaCAgICAgICB8ICA5ICsrKysrKysNCj4gPiAgaW5jbHVkZS9ibG9jay9udm1l
-LmggfCAgMiArKw0KPiA+ICA0IGZpbGVzIGNoYW5nZWQsIDczIGluc2VydGlvbnMoKyksIDEgZGVs
-ZXRpb24oLSkNCj4gPg0KPiANCj4gSWYgdGhlIGNvbnRyb2xsZXIgaXMgaG90cGx1Z2dlZCAoZGV2
-aWNlX2RlbCdlZCksIHlvdSBuZWVkIHRvIHJlbW92ZSB0aGUNCj4gY29udHJvbGxlciBmcm9tIHRo
-ZSB3YXRjaCBsaXN0IGFzIHdlbGwuIEkgdGhpbmsgaW4gbnZtZV9leGl0KCkuDQo+IA0KPiBPdGhl
-cndpc2UsIGxvb2tzIGdvb2QhDQoNClRoYW5rcyBmb3IgdGhlIHF1aWNrIGFuZCB1c2VmdWwgcmV2
-aWV3LiAgQWRkaW5nIHRoZSB3YXRjaCBsaXN0IHdhcyANCmEgc2lnbmlmaWNhbnQgZGVzaWduIGNo
-YW5nZSBhbmQgSSB3YXNuJ3QgY2VydGFpbiBpdCB3YXMgaW4gdGhlDQpzcGlyaXQgb2YgdGhlIGV4
-aXN0aW5nIGNvZGUuICBUaGUgbG9naWMgc3BsaXQgYmV0d2VlbiBjdHJsL25zIHdhcyB0bw0KaGFu
-ZGxlIHNoYXJlZCBuYW1lc3BhY2VzIGFzIHNtb290aGx5IGFzIHBvc3NpYmxlLg0KDQo=
+We originally naively treated expansion as safe because we expected
+each new CPU/thread to appear in order. However the -M raspi2 model
+triggered a case where a new high cpu_index thread started executing
+just before a smaller one.
+
+Clean this up by converting the GArray into the simpler GPtrArray and
+then holding a lock for the expansion.
+
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Alexandre Iooss <erdnaxe@crans.org>
+---
+ contrib/plugins/execlog.c | 38 ++++++++++++++++++++++++++++++--------
+ 1 file changed, 30 insertions(+), 8 deletions(-)
+
+diff --git a/contrib/plugins/execlog.c b/contrib/plugins/execlog.c
+index 1b3bb7ebba..e255bd21fd 100644
+--- a/contrib/plugins/execlog.c
++++ b/contrib/plugins/execlog.c
+@@ -18,11 +18,30 @@
+ QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
+ 
+ /* Store last executed instruction on each vCPU as a GString */
+-GArray *last_exec;
++static GPtrArray *last_exec;
++static GMutex expand_array_lock;
+ 
+ static GPtrArray *imatches;
+ static GArray *amatches;
+ 
++/*
++ * Expand last_exec array.
++ *
++ * As we could have multiple threads trying to do this we need to
++ * serialise the expansion under a lock. Threads accessing already
++ * created entries can continue without issue even if the ptr array
++ * gets reallocated during resize.
++ */
++static void expand_last_exec(int cpu_index)
++{
++    g_mutex_lock(&expand_array_lock);
++    while (cpu_index >= last_exec->len) {
++        GString *s = g_string_new(NULL);
++        g_ptr_array_add(last_exec, s);
++    }
++    g_mutex_unlock(&expand_array_lock);
++}
++
+ /**
+  * Add memory read or write information to current instruction log
+  */
+@@ -33,7 +52,7 @@ static void vcpu_mem(unsigned int cpu_index, qemu_plugin_meminfo_t info,
+ 
+     /* Find vCPU in array */
+     g_assert(cpu_index < last_exec->len);
+-    s = g_array_index(last_exec, GString *, cpu_index);
++    s = g_ptr_array_index(last_exec, cpu_index);
+ 
+     /* Indicate type of memory access */
+     if (qemu_plugin_mem_is_store(info)) {
+@@ -61,11 +80,10 @@ static void vcpu_insn_exec(unsigned int cpu_index, void *udata)
+     GString *s;
+ 
+     /* Find or create vCPU in array */
+-    while (cpu_index >= last_exec->len) {
+-        s = g_string_new(NULL);
+-        g_array_append_val(last_exec, s);
++    if (cpu_index >= last_exec->len) {
++        expand_last_exec(cpu_index);
+     }
+-    s = g_array_index(last_exec, GString *, cpu_index);
++    s = g_ptr_array_index(last_exec, cpu_index);
+ 
+     /* Print previous instruction in cache */
+     if (s->len) {
+@@ -163,7 +181,7 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
+     guint i;
+     GString *s;
+     for (i = 0; i < last_exec->len; i++) {
+-        s = g_array_index(last_exec, GString *, i);
++        s = g_ptr_array_index(last_exec, i);
+         if (s->str) {
+             qemu_plugin_outs(s->str);
+             qemu_plugin_outs("\n");
+@@ -201,7 +219,11 @@ QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
+      * Initialize dynamic array to cache vCPU instruction. In user mode
+      * we don't know the size before emulation.
+      */
+-    last_exec = g_array_new(FALSE, FALSE, sizeof(GString *));
++    if (info->system_emulation) {
++        last_exec = g_ptr_array_sized_new(info->system.max_vcpus);
++    } else {
++        last_exec = g_ptr_array_new();
++    }
+ 
+     for (int i = 0; i < argc; i++) {
+         char *opt = argv[i];
+-- 
+2.34.1
+
 
