@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26179606E94
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 05:59:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 930D8606EE2
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 06:27:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oljC7-0000YO-8q
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 23:59:39 -0400
+	id 1oljcg-0006gN-U7
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 00:27:08 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olj7M-0005MJ-Q6
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 23:54:44 -0400
+	id 1oljYp-0008Vh-EE
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 00:23:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1olj7F-0005LY-I6
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 23:54:37 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1olj74-0002rJ-Vx
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 23:54:37 -0400
-Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8DxTtvtF1JjHE4BAA--.6060S3;
- Fri, 21 Oct 2022 11:54:21 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.2.5.185])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Bxj+DrF1JjtGsCAA--.9655S5; 
- Fri, 21 Oct 2022 11:54:20 +0800 (CST)
-From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
- f4bug@amsat.org, philmd@linaro.org
-Subject: [PATCH v1 3/3] hw/loongarch: Add TPM device for LoongArch virt machine
-Date: Fri, 21 Oct 2022 11:54:19 +0800
-Message-Id: <20221021035419.2632878-4-yangxiaojuan@loongson.cn>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20221021035419.2632878-1-yangxiaojuan@loongson.cn>
-References: <20221021035419.2632878-1-yangxiaojuan@loongson.cn>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oljYh-0008H9-U4
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 00:22:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oljYg-00062p-4r
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 00:22:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666326177;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=79BGXd9ukZ3gVIAAED5YXpsgXdgNuyDFzBNvjnWmmkg=;
+ b=V/sihG9T9IBeqZKAPrpUwl5f+Z+sGfeBMxVcBsTp0JkFz7EzvfeifcxCjEoN/bjl2tcSt1
+ X1qSnSiu6GrZHTbmTyfiPihEad9njwJkahU1Kqe+lyv2YJUl/3Iw2RITf10XLYSMAgCMlD
+ tAJYOCkTMSlgEOX+SnTIAg15w9iiMB4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-668-NMXmZTRmPXKbS9Ev2cng1Q-1; Fri, 21 Oct 2022 00:22:52 -0400
+X-MC-Unique: NMXmZTRmPXKbS9Ev2cng1Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AE5063C01D99;
+ Fri, 21 Oct 2022 04:22:51 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 79D45111D7AD;
+ Fri, 21 Oct 2022 04:22:51 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 3034721E6686; Fri, 21 Oct 2022 06:22:50 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Christian A. Ehrhardt" <lk@c--e.de>
+Cc: qemu-devel@nongnu.org,  Eric DeVolder <eric.devolder@oracle.com>,
+ qemu-stable@nongnu.org,  "Michael S. Tsirkin" <mst@redhat.com>,  Igor
+ Mammedov <imammedo@redhat.com>,  Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH] hw/acpi/erst.c: Fix memset argument order
+References: <20221019191522.1004804-1-lk@c--e.de>
+ <87r0z3dnsn.fsf@pond.sub.org> <Y1God1/x+A71ID7+@cae.in-ulm.de>
+Date: Fri, 21 Oct 2022 06:22:50 +0200
+In-Reply-To: <Y1God1/x+A71ID7+@cae.in-ulm.de> (Christian A. Ehrhardt's message
+ of "Thu, 20 Oct 2022 21:58:47 +0200")
+Message-ID: <8735bh6c11.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Bxj+DrF1JjtGsCAA--.9655S5
-X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxWw1UJryDXw43Xr1DCw48WFg_yoWrGFWDpa
- y7uFZYyrWrWFnrW3sxJwn0gFn8Jr4kA342vF1IkrsakF9rKr1kXr40k3sFyF17A3yvqF45
- urykta4xuF4rXrJanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bnxFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
- AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF
- 7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7
- CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2
- zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_WwAm72CE4IkC6x
- 0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxF
- aVAv8VWrMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxV
- Cjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY
- 6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6x
- AIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY
- 1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7xRE6wZ7UUUUU==
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,121 +87,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add TPM device for LoongArch virt machine, including
-establish TPM acpi info and add TYPE_TPM_TIS_SYSBUS
-to dynamic_sysbus_devices list.
+"Christian A. Ehrhardt" <lk@c--e.de> writes:
 
-Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
----
- hw/loongarch/acpi-build.c | 50 +++++++++++++++++++++++++++++++++++++--
- hw/loongarch/virt.c       |  4 ++++
- 2 files changed, 52 insertions(+), 2 deletions(-)
+> Hi Markus,
+>
+> On Thu, Oct 20, 2022 at 08:14:32AM +0200, Markus Armbruster wrote:
+>> "Christian A. Ehrhardt" <lk@c--e.de> writes:
+>> 
+>> > Fix memset argument order: The second argument is
+>> > the value, the length goes last.
+>> 
+>> Impact of the bug?
+>
+> Well, this is a memory error, i.e. the potential impact is
+> anything from silent data corruption to arbitrary code execution.
+> Phillipe described this accurately as "Ouch".
+>
+>> > Cc: Eric DeVolder <eric.devolder@oracle.com>
+>> > Cc: qemu-stable@nongnu.org
+>> > Fixes: f7e26ffa590 ("ACPI ERST: support for ACPI ERST feature")
+>> > Signed-off-by: Christian A. Ehrhardt <lk@c--e.de>
+>> >          /* Write the record into the slot */
+>
+> [ ... ]
+>
+>> This first copies @record_length bytes into the exchange buffer.
+>> 
+>> > -        memset(nvram + record_length, exchange_length - record_length, 0xFF);
+>> > +        memset(nvram + record_length, 0xFF, exchange_length - record_length);
+>> 
+>> The new code pads it to the full exchange buffer size.
+>> 
+>> The old code writes 0xFF bytes.
+>> 
+>> If 0xFF < exchange_length - record_length, the padding doesn't extend to
+>> the end of the buffer.  Impact?
+>
+> Incorrect and insufficient data is written.
+>
+>> If 0xFF > exchange_length - record_length, we write beyond the end of
+>> the buffer.  Impact?
+>
+> Buffer overrun with well known potentially catastrophic consequences.
+> Additionally, incorrect data is used for the padding.
 
-diff --git a/hw/loongarch/acpi-build.c b/hw/loongarch/acpi-build.c
-index 378a6d9d38..1d0e562435 100644
---- a/hw/loongarch/acpi-build.c
-+++ b/hw/loongarch/acpi-build.c
-@@ -31,6 +31,9 @@
- 
- #include "hw/acpi/generic_event_device.h"
- #include "hw/pci-host/gpex.h"
-+#include "sysemu/tpm.h"
-+#include "hw/platform-bus.h"
-+#include "hw/acpi/aml-build.h"
- 
- #define ACPI_BUILD_ALIGN_SIZE             0x1000
- #define ACPI_BUILD_TABLE_SIZE             0x20000
-@@ -275,6 +278,41 @@ static void build_pci_device_aml(Aml *scope, LoongArchMachineState *lams)
-     acpi_dsdt_add_gpex(scope, &cfg);
- }
- 
-+#ifdef CONFIG_TPM
-+static void acpi_dsdt_add_tpm(Aml *scope, LoongArchMachineState *vms)
-+{
-+    PlatformBusDevice *pbus = PLATFORM_BUS_DEVICE(vms->platform_bus_dev);
-+    hwaddr pbus_base = VIRT_PLATFORM_BUS_BASEADDRESS;
-+    SysBusDevice *sbdev = SYS_BUS_DEVICE(tpm_find());
-+    MemoryRegion *sbdev_mr;
-+    hwaddr tpm_base;
-+
-+    if (!sbdev) {
-+        return;
-+    }
-+
-+    tpm_base = platform_bus_get_mmio_addr(pbus, sbdev, 0);
-+    assert(tpm_base != -1);
-+
-+    tpm_base += pbus_base;
-+
-+    sbdev_mr = sysbus_mmio_get_region(sbdev, 0);
-+
-+    Aml *dev = aml_device("TPM0");
-+    aml_append(dev, aml_name_decl("_HID", aml_string("MSFT0101")));
-+    aml_append(dev, aml_name_decl("_STR", aml_string("TPM 2.0 Device")));
-+    aml_append(dev, aml_name_decl("_UID", aml_int(0)));
-+
-+    Aml *crs = aml_resource_template();
-+    aml_append(crs,
-+               aml_memory32_fixed(tpm_base,
-+                                  (uint32_t)memory_region_size(sbdev_mr),
-+                                  AML_READ_WRITE));
-+    aml_append(dev, aml_name_decl("_CRS", crs));
-+    aml_append(scope, dev);
-+}
-+#endif
-+
- /* build DSDT */
- static void
- build_dsdt(GArray *table_data, BIOSLinker *linker, MachineState *machine)
-@@ -289,7 +327,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, MachineState *machine)
-     build_uart_device_aml(dsdt);
-     build_pci_device_aml(dsdt, lams);
-     build_la_ged_aml(dsdt, machine);
--
-+#ifdef CONFIG_TPM
-+    acpi_dsdt_add_tpm(dsdt, lams);
-+#endif
-     /* System State Package */
-     scope = aml_scope("\\");
-     pkg = aml_package(4);
-@@ -358,7 +398,13 @@ static void acpi_build(AcpiBuildTables *tables, MachineState *machine)
-         build_mcfg(tables_blob, tables->linker, &mcfg, lams->oem_id,
-                    lams->oem_table_id);
-     }
--
-+    /* TPM info */
-+    if (tpm_get_version(tpm_find()) == TPM_VERSION_2_0) {
-+        acpi_add_table(table_offsets, tables_blob);
-+        build_tpm2(tables_blob, tables->linker,
-+                   tables->tcpalog, lams->oem_id,
-+                   lams->oem_table_id);
-+    }
-     /* Add tables supplied by user (if any) */
-     for (u = acpi_table_first(); u; u = acpi_table_next(u)) {
-         unsigned len = acpi_table_len(u);
-diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
-index eed9d591e7..c1612d5e05 100644
---- a/hw/loongarch/virt.c
-+++ b/hw/loongarch/virt.c
-@@ -41,6 +41,7 @@
- #include "hw/platform-bus.h"
- #include "hw/display/ramfb.h"
- #include "hw/mem/pc-dimm.h"
-+#include "sysemu/tpm.h"
- 
- static void fdt_add_rtc_node(LoongArchMachineState *lams)
- {
-@@ -993,6 +994,9 @@ static void loongarch_class_init(ObjectClass *oc, void *data)
-     object_class_property_set_description(oc, "acpi",
-         "Enable ACPI");
-     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_RAMFB_DEVICE);
-+#ifdef CONFIG_TPM
-+    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_TPM_TIS_SYSBUS);
-+#endif
- }
- 
- static const TypeInfo loongarch_machine_types[] = {
--- 
-2.31.1
+Is record_length controlled by the guest?
 
 
