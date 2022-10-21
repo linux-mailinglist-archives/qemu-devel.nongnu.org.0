@@ -2,77 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F62060749D
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 12:03:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC2FB6074A0
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 12:07:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olosc-0003mO-Fb
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:03:56 -0400
+	id 1olowE-00030z-Uq
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:07:40 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oloKl-0000aZ-TQ
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:28:55 -0400
+	id 1oloO2-0002iq-E3
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:32:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1oloKW-0007ut-C6
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:28:40 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1oloKE-0005bJ-SP
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:28:39 -0400
-Received: from loongson.cn (unknown [10.20.42.238])
- by gateway (Coremail) with SMTP id _____8BxfdowZlJjeGMBAA--.6478S3;
- Fri, 21 Oct 2022 17:28:16 +0800 (CST)
-Received: from [10.20.42.238] (unknown [10.20.42.238])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxHuIuZlJjBqUCAA--.10832S3; 
- Fri, 21 Oct 2022 17:28:14 +0800 (CST)
-Subject: Re: [PATCH v8 2/2] hw/intc: Fix LoongArch extioi coreisr accessing
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
- f4bug@amsat.org
-References: <20221021015307.2570844-1-yangxiaojuan@loongson.cn>
- <20221021015307.2570844-3-yangxiaojuan@loongson.cn>
- <9e356cfc-5532-2ef5-8356-fdde1033d398@linaro.org>
-From: yangxiaojuan <yangxiaojuan@loongson.cn>
-Message-ID: <62be3d21-3122-d5f4-4a39-c63330fb57c0@loongson.cn>
-Date: Fri, 21 Oct 2022 17:28:14 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oloNp-00024n-MN
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:32:07 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oloNo-0006JR-39
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:32:05 -0400
+Received: by mail-wm1-x333.google.com with SMTP id y10so1831570wma.0
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 02:32:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Lqq4zzBhlmooFt4FjzKzSd74kR82FUfV6MQzCvUbGfM=;
+ b=HOfmmAkoYAB/6RWVnJ5t+WcKhBJPfREl5NGfaXDCZ7WWmTPxftiE3bzHrMb+Z9is6p
+ ka8C2pManh7RpXJft3uWB7qbpyCeOfznm6InYEJ3dEm8/OHYB9zzeyUPwAPxECrj1gvF
+ SmFvNy0G1imgYDkOIbHCML4KFUOVsTN3DrGz2eZSlWjIlm27/xfOgHemxSq4N37lgm97
+ hkHnD8hj2qxeYzc5gnnvq2um3OM+2C1wEre/gqPgHgVVNgM/q9UkoyDQPz7ears7r1tN
+ ueYGvIwKLUlx0kbFSFlWzvGJn3J83oZODNN/SDquQSrdlaR45x3HQwsyohRMaublnYXt
+ Zlxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=Lqq4zzBhlmooFt4FjzKzSd74kR82FUfV6MQzCvUbGfM=;
+ b=SV97h7rNg7eDUMv6mwBR8m3+l8l2eCIIq65lz6jQ/ga6I6Jj1HQ90F7OApl7e6XSVT
+ SabgFq0V9uVfrgI1VbEUgDhdVXrfqSZgRXo/pFjmj1DheRYk5eciKYPwf1JV2TgxTz4n
+ /hzDij8gPR8B80isGmFHb4ZmWpFpuqopKOIWLTDsu7TUnqvFN34sqIAujExm9uX3+11s
+ GTe3sdKcnamV/UMJHK1SofLJvttTTv+98WzTcmXWT3UV4eEo8MmKUfR+WP+mMDfaod0d
+ ur7cK2IUJriHnsbIULXMPd+GTbT4JnGrZmdXSA0h6tVmIcYyaEBDWl0OssD1vYYHJgTi
+ 4zNQ==
+X-Gm-Message-State: ACrzQf1JAN7Dc3LOK7D+P4kXYU3EMnzYwIAzaq3JQXiHvnvdLL2ji/Ox
+ R7jTaoXnoYqtORMfssl9tsJ43g==
+X-Google-Smtp-Source: AMsMyM7F8na6H5F/7PBnBqUkkxX44r7NNIEVUmj8Uo2NgcFPcUimKHSAISgkNg+Lku4jWRRjFCKD3A==
+X-Received: by 2002:a05:600c:3b1d:b0:3c6:ff0d:6a60 with SMTP id
+ m29-20020a05600c3b1d00b003c6ff0d6a60mr12013977wms.183.1666344722261; 
+ Fri, 21 Oct 2022 02:32:02 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ fc19-20020a05600c525300b003b505d26776sm2591355wmb.5.2022.10.21.02.32.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Oct 2022 02:32:01 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 36E1A1FFB7;
+ Fri, 21 Oct 2022 10:32:01 +0100 (BST)
+References: <20221020123506.26363-1-ani@anisinha.ca>
+ <20221020083810-mutt-send-email-mst@kernel.org>
+ <CAARzgwwd_How_h+9sHWPOrWWZ7CbX+DN-uy-KiGf1VVyVmrLnA@mail.gmail.com>
+ <20221020084311-mutt-send-email-mst@kernel.org>
+ <CAARzgwxfKbrxAqb15GXp4j1enDPUhGBsL5jUzFtDvJkGM-7azw@mail.gmail.com>
+ <20221020150857-mutt-send-email-mst@kernel.org>
+ <CAARzgwwDjjHL-1fEeuySNZm8NbnGNaeE5h6zrPz_zaANfs5dsw@mail.gmail.com>
+ <CAARzgww8P4Za=+r8q2a30TCY7Uzw6g2tgHeLLKr7R+WV-7qQVg@mail.gmail.com>
+ <20221021042449-mutt-send-email-mst@kernel.org>
+ <CAARzgwyW+ved0iVinWzSCg+KSCL67v+m6KySRdg_hUUev8JLDA@mail.gmail.com>
+User-agent: mu4e 1.9.1; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Ani Sinha <ani@anisinha.ca>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?=
+ <berrange@redhat.com>, Igor Mammedov <imammedo@redhat.com>, John Snow
+ <jsnow@redhat.com>, Maydell Peter <peter.maydell@linaro.org>, Paolo
+ Bonzini <pbonzini@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <f4bug@amsat.org>,
+ Qemu Devel <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>, Wainer
+ dos Santos Moschetta <wainersm@redhat.com>
+Subject: Re: [PATCH v6 00/10] Introduce new acpi/smbios avocado tests using
+ biosbits
+Date: Fri, 21 Oct 2022 10:30:09 +0100
+In-reply-to: <CAARzgwyW+ved0iVinWzSCg+KSCL67v+m6KySRdg_hUUev8JLDA@mail.gmail.com>
+Message-ID: <87k04t7ca6.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <9e356cfc-5532-2ef5-8356-fdde1033d398@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf8BxHuIuZlJjBqUCAA--.10832S3
-X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxZr48GFy7Xw1UCF1xWw4xXrb_yoW5KFWrpr
- 48Gry5KryUJr4fJr4UJ3WUJry5Xw1UXw17Xr1FqFy8Ar4DJr1jgr10qryvgFyUXw48Ar1U
- tr17Jr17ZF1UtwUanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bxAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
- x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AI
- xVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64
- kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8JwAm
- 72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8wCF04
- k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18
- MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr4
- 1lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l
- IxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4
- A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j1YL9UUUUU=
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,81 +117,58 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2022/10/21 下午5:11, Philippe Mathieu-Daudé 写道:
-> On 21/10/22 03:53, Xiaojuan Yang wrote:
->> 1. When cpu read or write extioi COREISR reg, it should access
->> the reg belonged to itself, so the cpu index of 's->coreisr'
->> is current cpu number. Using MemTxAttrs' requester_id to get
->> the cpu index.
->> 2. it need not to mask 0x1f when calculate the coreisr array index.
->>
->> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
->> ---
->>   hw/intc/loongarch_extioi.c      | 10 ++++++----
->>   target/loongarch/iocsr_helper.c | 19 +++++++++++--------
->>   2 files changed, 17 insertions(+), 12 deletions(-)
->>
->> diff --git a/hw/intc/loongarch_extioi.c b/hw/intc/loongarch_extioi.c
->> index 72f4b0cde5..4b8ec3f28a 100644
->> --- a/hw/intc/loongarch_extioi.c
->> +++ b/hw/intc/loongarch_extioi.c
->> @@ -93,8 +93,9 @@ static MemTxResult extioi_readw(void *opaque, 
->> hwaddr addr, uint64_t *data,
->>           *data = s->bounce[index];
->>           break;
->>       case EXTIOI_COREISR_START ... EXTIOI_COREISR_END - 1:
->> -        index = ((offset - EXTIOI_COREISR_START) & 0x1f) >> 2;
->> -        cpu = ((offset - EXTIOI_COREISR_START) >> 8) & 0x3;
->> +        index = (offset - EXTIOI_COREISR_START) >> 2;
->> +        /* using attrs to get current cpu index */
->> +        cpu = attrs.requester_id;
->>           *data = s->coreisr[cpu][index];
->>           break;
->>       case EXTIOI_COREMAP_START ... EXTIOI_COREMAP_END - 1:
->> @@ -185,8 +186,9 @@ static MemTxResult extioi_writew(void *opaque, 
->> hwaddr addr,
->>           s->bounce[index] = val;
->>           break;
->>       case EXTIOI_COREISR_START ... EXTIOI_COREISR_END - 1:
->> -        index = ((offset - EXTIOI_COREISR_START) & 0x1f) >> 2;
->> -        cpu = ((offset - EXTIOI_COREISR_START) >> 8) & 0x3;
->> +        index = (offset - EXTIOI_COREISR_START) >> 2;
->> +        /* using attrs to get current cpu index */
->> +        cpu = attrs.requester_id;
->>           old_data = s->coreisr[cpu][index];
->>           s->coreisr[cpu][index] = old_data & ~val;
->>           /* write 1 to clear interrrupt */
->> diff --git a/target/loongarch/iocsr_helper.c 
->> b/target/loongarch/iocsr_helper.c
->> index 0e9c537dc7..505853e17b 100644
->> --- a/target/loongarch/iocsr_helper.c
->> +++ b/target/loongarch/iocsr_helper.c
->> @@ -14,54 +14,57 @@
->>   #include "exec/cpu_ldst.h"
->>   #include "tcg/tcg-ldst.h"
->>   +#define GET_MEMTXATTRS(cas) \
->> +        ((MemTxAttrs){.requester_id = env_cpu(cas)->cpu_index})
->
-> The suggestion from v7 is incomplete, I apologize for missing it.
->
-> #define GET_MEMTXATTRS(cas) ((MemTxAttrs) {\
->                                .requester_type = MTRT_CPU,\
->                                .requester_id = env_cpu(cas)->cpu_index,\
->                             })
->
-> Also see from v6, add in the read/write handlers:
->
->             assert(attrs.requester_type == MTRT_CPU);
->
-> https://lore.kernel.org/qemu-devel/f7c4f7ca-cbf9-87d6-4d8c-5957c36ae23c@linaro.org/ 
->
->
-hi,
-we do not based on the 'MemTxAttrs requester_type patch' so far, and 
-when that
-patch merged we will apply it quickly.
+Ani Sinha <ani@anisinha.ca> writes:
 
-Thanks.
-Xiaojuan.
+> On Fri, Oct 21, 2022 at 2:02 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>>
+>> On Fri, Oct 21, 2022 at 05:45:15AM +0530, Ani Sinha wrote:
+>> > And have multiple platform specific branches in bits that have fixes f=
+or those
+>> > platforms so that bits can run there. Plus the existing test can be en=
+hanced to
+>> > pull in binaries from those branches based on the platform on which it=
+ is being
+>> > run.
+>> >
+>>
+>> What a mess.
+>> Who is going to be testing all these million platforms?
+>
+> I am not talking about branches in QEMU but branches in bits.
+> If you are going to test multiple platforms, you do need to build bits
+> binaries for them. There is no way around it.
+> bits is not all platform independent python. It does have binary executab=
+les.
+>
+> Currently bits is built only for the x86 platform. Other platforms are
+> not tested. I doubt if anyone even tried building bits for arm or
+> mips.
 
+I'm not worried about test bits on other targets, but we do run x86
+targets on a number of hosts. The current reliance on a special patched
+host build tool for only one architecture is the problem. If  we just
+download the iso that problem goes away.
+
+> It makes sense to try things incrementally once we have something going.
+>
+> Lets discuss this on a separate thread.
+>
+>> All this does nothing at all to help developers avoid
+>> bugs and when they do trigger debug the issue. Which is
+>> after all why we have testing.
+>> Yes once in a very long while we are going to tweak
+>> something in the tests, and for that rare occurence
+>> it makes sense to periodically rebuild everything,
+>> otherwise code bitrots.
+>>
+>> But the test is supposed to run within a VM anyway, let's
+>> have an image and be done with it.
+>>
+>> --
+>> MST
+>>
+
+
+--=20
+Alex Benn=C3=A9e
 
