@@ -2,89 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A574F607A02
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 16:57:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70F0D607938
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 16:08:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oltSg-0001Pj-3u
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 10:57:31 -0400
+	id 1olsgo-0004Hc-Mh
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 10:07:58 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oltSX-0008JJ-Ta
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 10:57:17 -0400
+	id 1olsYc-00067e-9o
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 09:59:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oltS4-0004Qf-Vz
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 10:56:50 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oltS0-000619-Bf
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 10:56:48 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id a14so2393065wru.5
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 07:56:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5wvWEXDCWexj2nNxdHI7ZWJ91KwbXGeybGhCSuG00e4=;
- b=tq8LXchoCbhpL+EniHi4yM1p/10pEAsMqY4IBwF9b86CrXXro5/FBEee5adDiAjoTb
- E2XAQWJxStJED81KeehE+/tbiqhzqdHXRUvbrEHK3Cq+6RH9BBivM+l84gQYdQLslMU1
- M3fgZ0zJJ0icrRPZT0ggAKy8aSEXw6NPGZbyxcgweGwT+XWpSW8bCN8e+XoFJFcKRndY
- K8nTiFgWG3DscGqdLrupD62cv6Qk8bdu8FgAJSXZw132mM+ucwJobgLhVLPI3PzjnQzf
- lZAspFi2/OnYgt4UQDuwQZ6hJg9hFC9wnCHAPRMpTWglvo5iUiEjq0LJTdO+oLj75ciR
- 9gvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=5wvWEXDCWexj2nNxdHI7ZWJ91KwbXGeybGhCSuG00e4=;
- b=3SMGesZ8jTCDC0GFqCsCRjHr5TjMGrozb9aEjnTxKyM+GCx5klhwJgqCeEgQompu0R
- rDhSRJBreB1cfhyAXRL+Y9HT7DiLhmDqOOg0BbXzwomnZGtB0fWsbWaEX4jZahfYBzpW
- yMgyADk66OmP5sFkSIpHtldoAf3geAQ5Jjxztsd5pgmlxBHKIp1Th/sY763cfDCziPwO
- L11WsR6eT8VtgZ7OhAKrX507XPi3ENYRvybeD60kce8u5ii/FHKUURWBjLVktem65Q3h
- /4HI4QDelFDGIhtXrZjUbWMmdFVaLjMtdQDU0r/dyPKsJsF/fW2bQZOKptULNe48KGhD
- Vc7g==
-X-Gm-Message-State: ACrzQf2QjSh1qzmgdmPuEYSZBPqOu0iiQT8h0pptwA4a+dWPMqRGPqAT
- i696yHteHyrHmtckNCfgzM6EUg==
-X-Google-Smtp-Source: AMsMyM666DXNuEL6QEkKYawFhczAODmwpJyLQ3VTN+OCz7j3NKd0oS9TISMlhlUsEEWD85GPuUHTwA==
-X-Received: by 2002:a5d:5111:0:b0:235:849f:f132 with SMTP id
- s17-20020a5d5111000000b00235849ff132mr6554112wrt.5.1666364200973; 
- Fri, 21 Oct 2022 07:56:40 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- z23-20020a1cf417000000b003c6b874a0dfsm3401345wma.14.2022.10.21.07.56.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Oct 2022 07:56:40 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E90521FFB7;
- Fri, 21 Oct 2022 15:56:39 +0100 (BST)
-References: <20221020122146.3177980-1-peter.maydell@linaro.org>
- <20221020122146.3177980-13-peter.maydell@linaro.org>
-User-agent: mu4e 1.9.1; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PULL 12/24] target/arm: Use softmmu tlbs for page table walking
-Date: Fri, 21 Oct 2022 14:39:00 +0100
-In-reply-to: <20221020122146.3177980-13-peter.maydell@linaro.org>
-Message-ID: <87tu3x5ioo.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1olsYR-0005zl-V7
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 09:59:21 -0400
+Received: from mga14.intel.com ([192.55.52.115])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1olsYP-00068t-T8
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 09:59:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666360757; x=1697896757;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=nqyW/uEhggv7r8+w3xJjD0vAC8+H09GKfNJh/nelGsA=;
+ b=CZZ0WOw4dMl19/2hWT2m/IqOf2zNqPVvrn5d/NHKnXCKBtq0/EXIaXUR
+ qugPIYzkxU+LV2IgR6ynoiD2DvToEEfLq3Teez2wn3IvNqSACXzXUlbKP
+ Snd+GA60QO9PlU3nxKlMfwos+lYFcXZjcGAAGAwz/xPtPE4FXNUf8e5jq
+ BBdDD+S3tF9/+MLCrxIc4G823Akk0NLIJ+TfkjwS4VCbsdb2nH9vuvegD
+ 1VejSFcljHCI39KHDz7EegDoDewTg2qNho+mD+wQG+uAFLs3pA4fZ2CXe
+ l42BgAFbU/x4guXK4LMGujRH11nWY8nnCwKDtHBfljnkB0WRg+FZolMaw A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10507"; a="306999040"
+X-IronPort-AV: E=Sophos;i="5.95,200,1661842800"; d="scan'208";a="306999040"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Oct 2022 06:59:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10507"; a="625350623"
+X-IronPort-AV: E=Sophos;i="5.95,200,1661842800"; d="scan'208";a="625350623"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+ by orsmga007.jf.intel.com with ESMTP; 21 Oct 2022 06:59:05 -0700
+Date: Fri, 21 Oct 2022 21:54:34 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Vishal Annapurve <vannapurve@google.com>
+Cc: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ "Gupta, Pankaj" <pankaj.gupta@amd.com>,
+ Vlastimil Babka <vbabka@suse.cz>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+Message-ID: <20221021135434.GB3607894@chaop.bj.intel.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+ <de680280-f6b1-9337-2ae4-4b2faf2b823b@suse.cz>
+ <20221017161955.t4gditaztbwijgcn@box.shutemov.name>
+ <c63ad0cd-d517-0f1e-59e9-927d8ae15a1a@amd.com>
+ <20221017215640.hobzcz47es7dq2bi@box.shutemov.name>
+ <CAGtprH8xEdgATjQdhi2b_KqUuSOZHUM-Lh+O-ZtcFKbHf2_75g@mail.gmail.com>
+ <20221019153225.njvg45glehlnjgc7@box.shutemov.name>
+ <CAGtprH-8y9iTyVZ+EYW2t=zGqz7fVgPu-3wVm0Wgv5134NU6WQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGtprH-8y9iTyVZ+EYW2t=zGqz7fVgPu-3wVm0Wgv5134NU6WQ@mail.gmail.com>
+Received-SPF: none client-ip=192.55.52.115;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga14.intel.com
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,415 +109,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Oct 20, 2022 at 04:20:58PM +0530, Vishal Annapurve wrote:
+> On Wed, Oct 19, 2022 at 9:02 PM Kirill A . Shutemov
+> <kirill.shutemov@linux.intel.com> wrote:
+> >
+> > On Tue, Oct 18, 2022 at 07:12:10PM +0530, Vishal Annapurve wrote:
+> > > On Tue, Oct 18, 2022 at 3:27 AM Kirill A . Shutemov
+> > > <kirill.shutemov@linux.intel.com> wrote:
+> > > >
+> > > > On Mon, Oct 17, 2022 at 06:39:06PM +0200, Gupta, Pankaj wrote:
+> > > > > On 10/17/2022 6:19 PM, Kirill A . Shutemov wrote:
+> > > > > > On Mon, Oct 17, 2022 at 03:00:21PM +0200, Vlastimil Babka wrote:
+> > > > > > > On 9/15/22 16:29, Chao Peng wrote:
+> > > > > > > > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> > > > > > > >
+> > > > > > > > KVM can use memfd-provided memory for guest memory. For normal userspace
+> > > > > > > > accessible memory, KVM userspace (e.g. QEMU) mmaps the memfd into its
+> > > > > > > > virtual address space and then tells KVM to use the virtual address to
+> > > > > > > > setup the mapping in the secondary page table (e.g. EPT).
+> > > > > > > >
+> > > > > > > > With confidential computing technologies like Intel TDX, the
+> > > > > > > > memfd-provided memory may be encrypted with special key for special
+> > > > > > > > software domain (e.g. KVM guest) and is not expected to be directly
+> > > > > > > > accessed by userspace. Precisely, userspace access to such encrypted
+> > > > > > > > memory may lead to host crash so it should be prevented.
+> > > > > > > >
+> > > > > > > > This patch introduces userspace inaccessible memfd (created with
+> > > > > > > > MFD_INACCESSIBLE). Its memory is inaccessible from userspace through
+> > > > > > > > ordinary MMU access (e.g. read/write/mmap) but can be accessed via
+> > > > > > > > in-kernel interface so KVM can directly interact with core-mm without
+> > > > > > > > the need to map the memory into KVM userspace.
+> > > > > > > >
+> > > > > > > > It provides semantics required for KVM guest private(encrypted) memory
+> > > > > > > > support that a file descriptor with this flag set is going to be used as
+> > > > > > > > the source of guest memory in confidential computing environments such
+> > > > > > > > as Intel TDX/AMD SEV.
+> > > > > > > >
+> > > > > > > > KVM userspace is still in charge of the lifecycle of the memfd. It
+> > > > > > > > should pass the opened fd to KVM. KVM uses the kernel APIs newly added
+> > > > > > > > in this patch to obtain the physical memory address and then populate
+> > > > > > > > the secondary page table entries.
+> > > > > > > >
+> > > > > > > > The userspace inaccessible memfd can be fallocate-ed and hole-punched
+> > > > > > > > from userspace. When hole-punching happens, KVM can get notified through
+> > > > > > > > inaccessible_notifier it then gets chance to remove any mapped entries
+> > > > > > > > of the range in the secondary page tables.
+> > > > > > > >
+> > > > > > > > The userspace inaccessible memfd itself is implemented as a shim layer
+> > > > > > > > on top of real memory file systems like tmpfs/hugetlbfs but this patch
+> > > > > > > > only implemented tmpfs. The allocated memory is currently marked as
+> > > > > > > > unmovable and unevictable, this is required for current confidential
+> > > > > > > > usage. But in future this might be changed.
+> > > > > > > >
+> > > > > > > > Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> > > > > > > > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > > > > > > > ---
+> > > > > > >
+> > > > > > > ...
+> > > > > > >
+> > > > > > > > +static long inaccessible_fallocate(struct file *file, int mode,
+> > > > > > > > +                                  loff_t offset, loff_t len)
+> > > > > > > > +{
+> > > > > > > > +       struct inaccessible_data *data = file->f_mapping->private_data;
+> > > > > > > > +       struct file *memfd = data->memfd;
+> > > > > > > > +       int ret;
+> > > > > > > > +
+> > > > > > > > +       if (mode & FALLOC_FL_PUNCH_HOLE) {
+> > > > > > > > +               if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
+> > > > > > > > +                       return -EINVAL;
+> > > > > > > > +       }
+> > > > > > > > +
+> > > > > > > > +       ret = memfd->f_op->fallocate(memfd, mode, offset, len);
+> > > > > > > > +       inaccessible_notifier_invalidate(data, offset, offset + len);
+> > > > > > >
+> > > > > > > Wonder if invalidate should precede the actual hole punch, otherwise we open
+> > > > > > > a window where the page tables point to memory no longer valid?
+> > > > > >
+> > > > > > Yes, you are right. Thanks for catching this.
+> > > > >
+> > > > > I also noticed this. But then thought the memory would be anyways zeroed
+> > > > > (hole punched) before this call?
+> > > >
+> > > > Hole punching can free pages, given that offset/len covers full page.
+> > > >
+> > > > --
+> > > >   Kiryl Shutsemau / Kirill A. Shutemov
+> > >
+> > > I think moving this notifier_invalidate before fallocate may not solve
+> > > the problem completely. Is it possible that between invalidate and
+> > > fallocate, KVM tries to handle the page fault for the guest VM from
+> > > another vcpu and uses the pages to be freed to back gpa ranges? Should
+> > > hole punching here also update mem_attr first to say that KVM should
+> > > consider the corresponding gpa ranges to be no more backed by
+> > > inaccessible memfd?
+> >
+> > We rely on external synchronization to prevent this. See code around
+> > mmu_invalidate_retry_hva().
+> >
+> > --
+> >   Kiryl Shutsemau / Kirill A. Shutemov
+> 
+> IIUC, mmu_invalidate_retry_hva/gfn ensures that page faults on gfn
+> ranges that are being invalidated are retried till invalidation is
+> complete. In this case, is it possible that KVM tries to serve the
+> page fault after inaccessible_notifier_invalidate is complete but
+> before fallocate could punch hole into the files?
+> e.g.
+> inaccessible_notifier_invalidate(...)
+> ... (system event preempting this control flow, giving a window for
+> the guest to retry accessing the gfn range which was invalidated)
+> fallocate(.., PUNCH_HOLE..)
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Looks this is something can happen. And sounds to me the solution needs
+just follow the mmu_notifier's way of using a invalidate_start/end pair.
 
-> From: Richard Henderson <richard.henderson@linaro.org>
->
-> So far, limit the change to S1_ptw_translate, arm_ldl_ptw, and
-> arm_ldq_ptw.  Use probe_access_full to find the host address,
-> and if so use a host load.  If the probe fails, we've got our
-> fault info already.  On the off chance that page tables are not
-> in RAM, continue to use the address_space_ld* functions.
->
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> Message-id: 20221011031911.2408754-11-richard.henderson@linaro.org
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
+  invalidate_start()  --> kvm->mmu_invalidate_in_progress++;
+                          zap KVM page table entries;
+  fallocate()
+  invalidate_end()  --> kvm->mmu_invalidate_in_progress--;
 
-git bisect just pointed at this breaking:
+Then during invalidate_start/end time window mmu_invalidate_retry_gfn
+checks 'mmu_invalidate_in_progress' and prevent repopulating the same
+page in KVM page table.
 
-  =E2=9E=9C  ./tests/venv/bin/avocado run tests/avocado/boot_linux_console.=
-py:BootLinuxConsole.test_arm_raspi2_uart0
-  JOB ID     : 12949b614095bbc064fea1bc260ab2a99e5673a0
-  JOB LOG    : /home/alex.bennee/avocado/job-results/job-2022-10-21T14.40-1=
-2949b6/job.log
-   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_arm_rasp=
-i2_uart0: INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred: =
-Timeout reached\nOriginal
-   status: ERROR\n{'name': '1-tests/avocado/boot_linux_console.py:BootLinux=
-Console.test_arm_raspi2_uart0', 'logdir': '/home/alex.bennee/avocado/job-re=
-sults/job-2022-10-21T14.40-12949b... (90.39 s)
-  RESULTS    : PASS 0 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 1 | =
-CANCEL 0
-  JOB TIME   : 90.73 s
+  if(kvm->mmu_invalidate_in_progress)
+      return 1; /* retry */
 
-Looking at the log it looks like the kernel never gets started.
+Thanks,
+Chao
 
->  target/arm/cpu.h        |   5 +
->  target/arm/ptw.c        | 196 +++++++++++++++++++++++++---------------
->  target/arm/tlb_helper.c |  17 +++-
->  3 files changed, 144 insertions(+), 74 deletions(-)
->
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index 315c1c2820c..64fc03214c1 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -225,6 +225,8 @@ typedef struct CPUARMTBFlags {
->      target_ulong flags2;
->  } CPUARMTBFlags;
->=20=20
-> +typedef struct ARMMMUFaultInfo ARMMMUFaultInfo;
-> +
->  typedef struct CPUArchState {
->      /* Regs for current mode.  */
->      uint32_t regs[16];
-> @@ -715,6 +717,9 @@ typedef struct CPUArchState {
->      struct CPUBreakpoint *cpu_breakpoint[16];
->      struct CPUWatchpoint *cpu_watchpoint[16];
->=20=20
-> +    /* Optional fault info across tlb lookup. */
-> +    ARMMMUFaultInfo *tlb_fi;
-> +
->      /* Fields up to this point are cleared by a CPU reset */
->      struct {} end_reset_fields;
->=20=20
-> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-> index c58788ac693..8f41d285b7d 100644
-> --- a/target/arm/ptw.c
-> +++ b/target/arm/ptw.c
-> @@ -9,6 +9,7 @@
->  #include "qemu/osdep.h"
->  #include "qemu/log.h"
->  #include "qemu/range.h"
-> +#include "exec/exec-all.h"
->  #include "cpu.h"
->  #include "internals.h"
->  #include "idau.h"
-> @@ -21,6 +22,7 @@ typedef struct S1Translate {
->      bool out_secure;
->      bool out_be;
->      hwaddr out_phys;
-> +    void *out_host;
->  } S1Translate;
->=20=20
->  static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
-> @@ -200,7 +202,7 @@ static bool regime_translation_disabled(CPUARMState *=
-env, ARMMMUIdx mmu_idx,
->      return (regime_sctlr(env, mmu_idx) & SCTLR_M) =3D=3D 0;
->  }
->=20=20
-> -static bool ptw_attrs_are_device(uint64_t hcr, ARMCacheAttrs cacheattrs)
-> +static bool S2_attrs_are_device(uint64_t hcr, uint8_t attrs)
->  {
->      /*
->       * For an S1 page table walk, the stage 1 attributes are always
-> @@ -211,11 +213,10 @@ static bool ptw_attrs_are_device(uint64_t hcr, ARMC=
-acheAttrs cacheattrs)
->       * With HCR_EL2.FWB =3D=3D 1 this is when descriptor bit [4] is 0, ie
->       * when cacheattrs.attrs bit [2] is 0.
->       */
-> -    assert(cacheattrs.is_s2_format);
->      if (hcr & HCR_FWB) {
-> -        return (cacheattrs.attrs & 0x4) =3D=3D 0;
-> +        return (attrs & 0x4) =3D=3D 0;
->      } else {
-> -        return (cacheattrs.attrs & 0xc) =3D=3D 0;
-> +        return (attrs & 0xc) =3D=3D 0;
->      }
->  }
->=20=20
-> @@ -224,32 +225,65 @@ static bool S1_ptw_translate(CPUARMState *env, S1Tr=
-anslate *ptw,
->                               hwaddr addr, ARMMMUFaultInfo *fi)
->  {
->      bool is_secure =3D ptw->in_secure;
-> +    ARMMMUIdx mmu_idx =3D ptw->in_mmu_idx;
->      ARMMMUIdx s2_mmu_idx =3D is_secure ? ARMMMUIdx_Stage2_S : ARMMMUIdx_=
-Stage2;
-> +    bool s2_phys =3D false;
-> +    uint8_t pte_attrs;
-> +    bool pte_secure;
->=20=20
-> -    if (arm_mmu_idx_is_stage1_of_2(ptw->in_mmu_idx) &&
-> -        !regime_translation_disabled(env, s2_mmu_idx, is_secure)) {
-> -        GetPhysAddrResult s2 =3D {};
-> -        S1Translate s2ptw =3D {
-> -            .in_mmu_idx =3D s2_mmu_idx,
-> -            .in_secure =3D is_secure,
-> -            .in_debug =3D ptw->in_debug,
-> -        };
-> -        uint64_t hcr;
-> -        int ret;
-> +    if (!arm_mmu_idx_is_stage1_of_2(mmu_idx)
-> +        || regime_translation_disabled(env, s2_mmu_idx, is_secure)) {
-> +        s2_mmu_idx =3D is_secure ? ARMMMUIdx_Phys_S : ARMMMUIdx_Phys_NS;
-> +        s2_phys =3D true;
-> +    }
->=20=20
-> -        ret =3D get_phys_addr_lpae(env, &s2ptw, addr, MMU_DATA_LOAD,
-> -                                 false, &s2, fi);
-> -        if (ret) {
-> -            assert(fi->type !=3D ARMFault_None);
-> -            fi->s2addr =3D addr;
-> -            fi->stage2 =3D true;
-> -            fi->s1ptw =3D true;
-> -            fi->s1ns =3D !is_secure;
-> -            return false;
-> +    if (unlikely(ptw->in_debug)) {
-> +        /*
-> +         * From gdbstub, do not use softmmu so that we don't modify the
-> +         * state of the cpu at all, including softmmu tlb contents.
-> +         */
-> +        if (s2_phys) {
-> +            ptw->out_phys =3D addr;
-> +            pte_attrs =3D 0;
-> +            pte_secure =3D is_secure;
-> +        } else {
-> +            S1Translate s2ptw =3D {
-> +                .in_mmu_idx =3D s2_mmu_idx,
-> +                .in_secure =3D is_secure,
-> +                .in_debug =3D true,
-> +            };
-> +            GetPhysAddrResult s2 =3D { };
-> +            if (!get_phys_addr_lpae(env, &s2ptw, addr, MMU_DATA_LOAD,
-> +                                    false, &s2, fi)) {
-> +                goto fail;
-> +            }
-> +            ptw->out_phys =3D s2.f.phys_addr;
-> +            pte_attrs =3D s2.cacheattrs.attrs;
-> +            pte_secure =3D s2.f.attrs.secure;
->          }
-> +        ptw->out_host =3D NULL;
-> +    } else {
-> +        CPUTLBEntryFull *full;
-> +        int flags;
->=20=20
-> -        hcr =3D arm_hcr_el2_eff_secstate(env, is_secure);
-> -        if ((hcr & HCR_PTW) && ptw_attrs_are_device(hcr, s2.cacheattrs))=
- {
-> +        env->tlb_fi =3D fi;
-> +        flags =3D probe_access_full(env, addr, MMU_DATA_LOAD,
-> +                                  arm_to_core_mmu_idx(s2_mmu_idx),
-> +                                  true, &ptw->out_host, &full, 0);
-> +        env->tlb_fi =3D NULL;
-> +
-> +        if (unlikely(flags & TLB_INVALID_MASK)) {
-> +            goto fail;
-> +        }
-> +        ptw->out_phys =3D full->phys_addr;
-> +        pte_attrs =3D full->pte_attrs;
-> +        pte_secure =3D full->attrs.secure;
-> +    }
-> +
-> +    if (!s2_phys) {
-> +        uint64_t hcr =3D arm_hcr_el2_eff_secstate(env, is_secure);
-> +
-> +        if ((hcr & HCR_PTW) && S2_attrs_are_device(hcr, pte_attrs)) {
->              /*
->               * PTW set and S1 walk touched S2 Device memory:
->               * generate Permission fault.
-> @@ -261,25 +295,23 @@ static bool S1_ptw_translate(CPUARMState *env, S1Tr=
-anslate *ptw,
->              fi->s1ns =3D !is_secure;
->              return false;
->          }
-> -
-> -        if (arm_is_secure_below_el3(env)) {
-> -            /* Check if page table walk is to secure or non-secure PA sp=
-ace. */
-> -            if (is_secure) {
-> -                is_secure =3D !(env->cp15.vstcr_el2 & VSTCR_SW);
-> -            } else {
-> -                is_secure =3D !(env->cp15.vtcr_el2 & VTCR_NSW);
-> -            }
-> -        } else {
-> -            assert(!is_secure);
-> -        }
-> -
-> -        addr =3D s2.f.phys_addr;
->      }
->=20=20
-> -    ptw->out_secure =3D is_secure;
-> -    ptw->out_phys =3D addr;
-> -    ptw->out_be =3D regime_translation_big_endian(env, ptw->in_mmu_idx);
-> +    /* Check if page table walk is to secure or non-secure PA space. */
-> +    ptw->out_secure =3D (is_secure
-> +                       && !(pte_secure
-> +                            ? env->cp15.vstcr_el2 & VSTCR_SW
-> +                            : env->cp15.vtcr_el2 & VTCR_NSW));
-> +    ptw->out_be =3D regime_translation_big_endian(env, mmu_idx);
->      return true;
-> +
-> + fail:
-> +    assert(fi->type !=3D ARMFault_None);
-> +    fi->s2addr =3D addr;
-> +    fi->stage2 =3D true;
-> +    fi->s1ptw =3D true;
-> +    fi->s1ns =3D !is_secure;
-> +    return false;
->  }
->=20=20
->  /* All loads done in the course of a page table walk go through here. */
-> @@ -287,56 +319,78 @@ static uint32_t arm_ldl_ptw(CPUARMState *env, S1Tra=
-nslate *ptw, hwaddr addr,
->                              ARMMMUFaultInfo *fi)
->  {
->      CPUState *cs =3D env_cpu(env);
-> -    MemTxAttrs attrs =3D {};
-> -    MemTxResult result =3D MEMTX_OK;
-> -    AddressSpace *as;
->      uint32_t data;
->=20=20
->      if (!S1_ptw_translate(env, ptw, addr, fi)) {
-> +        /* Failure. */
-> +        assert(fi->s1ptw);
->          return 0;
->      }
-> -    addr =3D ptw->out_phys;
-> -    attrs.secure =3D ptw->out_secure;
-> -    as =3D arm_addressspace(cs, attrs);
-> -    if (ptw->out_be) {
-> -        data =3D address_space_ldl_be(as, addr, attrs, &result);
-> +
-> +    if (likely(ptw->out_host)) {
-> +        /* Page tables are in RAM, and we have the host address. */
-> +        if (ptw->out_be) {
-> +            data =3D ldl_be_p(ptw->out_host);
-> +        } else {
-> +            data =3D ldl_le_p(ptw->out_host);
-> +        }
->      } else {
-> -        data =3D address_space_ldl_le(as, addr, attrs, &result);
-> +        /* Page tables are in MMIO. */
-> +        MemTxAttrs attrs =3D { .secure =3D ptw->out_secure };
-> +        AddressSpace *as =3D arm_addressspace(cs, attrs);
-> +        MemTxResult result =3D MEMTX_OK;
-> +
-> +        if (ptw->out_be) {
-> +            data =3D address_space_ldl_be(as, ptw->out_phys, attrs, &res=
-ult);
-> +        } else {
-> +            data =3D address_space_ldl_le(as, ptw->out_phys, attrs, &res=
-ult);
-> +        }
-> +        if (unlikely(result !=3D MEMTX_OK)) {
-> +            fi->type =3D ARMFault_SyncExternalOnWalk;
-> +            fi->ea =3D arm_extabort_type(result);
-> +            return 0;
-> +        }
->      }
-> -    if (result =3D=3D MEMTX_OK) {
-> -        return data;
-> -    }
-> -    fi->type =3D ARMFault_SyncExternalOnWalk;
-> -    fi->ea =3D arm_extabort_type(result);
-> -    return 0;
-> +    return data;
->  }
->=20=20
->  static uint64_t arm_ldq_ptw(CPUARMState *env, S1Translate *ptw, hwaddr a=
-ddr,
->                              ARMMMUFaultInfo *fi)
->  {
->      CPUState *cs =3D env_cpu(env);
-> -    MemTxAttrs attrs =3D {};
-> -    MemTxResult result =3D MEMTX_OK;
-> -    AddressSpace *as;
->      uint64_t data;
->=20=20
->      if (!S1_ptw_translate(env, ptw, addr, fi)) {
-> +        /* Failure. */
-> +        assert(fi->s1ptw);
->          return 0;
->      }
-> -    addr =3D ptw->out_phys;
-> -    attrs.secure =3D ptw->out_secure;
-> -    as =3D arm_addressspace(cs, attrs);
-> -    if (ptw->out_be) {
-> -        data =3D address_space_ldq_be(as, addr, attrs, &result);
-> +
-> +    if (likely(ptw->out_host)) {
-> +        /* Page tables are in RAM, and we have the host address. */
-> +        if (ptw->out_be) {
-> +            data =3D ldq_be_p(ptw->out_host);
-> +        } else {
-> +            data =3D ldq_le_p(ptw->out_host);
-> +        }
->      } else {
-> -        data =3D address_space_ldq_le(as, addr, attrs, &result);
-> +        /* Page tables are in MMIO. */
-> +        MemTxAttrs attrs =3D { .secure =3D ptw->out_secure };
-> +        AddressSpace *as =3D arm_addressspace(cs, attrs);
-> +        MemTxResult result =3D MEMTX_OK;
-> +
-> +        if (ptw->out_be) {
-> +            data =3D address_space_ldq_be(as, ptw->out_phys, attrs, &res=
-ult);
-> +        } else {
-> +            data =3D address_space_ldq_le(as, ptw->out_phys, attrs, &res=
-ult);
-> +        }
-> +        if (unlikely(result !=3D MEMTX_OK)) {
-> +            fi->type =3D ARMFault_SyncExternalOnWalk;
-> +            fi->ea =3D arm_extabort_type(result);
-> +            return 0;
-> +        }
->      }
-> -    if (result =3D=3D MEMTX_OK) {
-> -        return data;
-> -    }
-> -    fi->type =3D ARMFault_SyncExternalOnWalk;
-> -    fi->ea =3D arm_extabort_type(result);
-> -    return 0;
-> +    return data;
->  }
->=20=20
->  static bool get_level1_table_address(CPUARMState *env, ARMMMUIdx mmu_idx,
-> diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
-> index 3462a6ea14e..69b0dc69dfa 100644
-> --- a/target/arm/tlb_helper.c
-> +++ b/target/arm/tlb_helper.c
-> @@ -208,10 +208,21 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, =
-int size,
->                        bool probe, uintptr_t retaddr)
->  {
->      ARMCPU *cpu =3D ARM_CPU(cs);
-> -    ARMMMUFaultInfo fi =3D {};
->      GetPhysAddrResult res =3D {};
-> +    ARMMMUFaultInfo local_fi, *fi;
->      int ret;
->=20=20
-> +    /*
-> +     * Allow S1_ptw_translate to see any fault generated here.
-> +     * Since this may recurse, read and clear.
-> +     */
-> +    fi =3D cpu->env.tlb_fi;
-> +    if (fi) {
-> +        cpu->env.tlb_fi =3D NULL;
-> +    } else {
-> +        fi =3D memset(&local_fi, 0, sizeof(local_fi));
-> +    }
-> +
->      /*
->       * Walk the page table and (if the mapping exists) add the page
->       * to the TLB.  On success, return true.  Otherwise, if probing,
-> @@ -220,7 +231,7 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, in=
-t size,
->       */
->      ret =3D get_phys_addr(&cpu->env, address, access_type,
->                          core_to_arm_mmu_idx(&cpu->env, mmu_idx),
-> -                        &res, &fi);
-> +                        &res, fi);
->      if (likely(!ret)) {
->          /*
->           * Map a single [sub]page. Regions smaller than our declared
-> @@ -242,7 +253,7 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, in=
-t size,
->      } else {
->          /* now we have a real cpu fault */
->          cpu_restore_state(cs, retaddr, true);
-> -        arm_deliver_fault(cpu, address, access_type, mmu_idx, &fi);
-> +        arm_deliver_fault(cpu, address, access_type, mmu_idx, fi);
->      }
->  }
->  #else
-
-
---=20
-Alex Benn=C3=A9e
 
