@@ -2,77 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F4BE6074AC
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 12:10:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C19226074BA
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 12:12:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oloyX-0000to-7R
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:10:01 -0400
+	id 1olp1E-0007N1-96
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:12:50 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olo2l-0004lI-5I
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:10:19 -0400
+	id 1olo53-0002yq-IW
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:12:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1olo2Q-0003UR-TN
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:09:59 -0400
-Received: from mout.kundenserver.de ([212.227.17.10])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1olo4t-0001T8-9C
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:12:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1olo2N-0001uG-CS
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:09:58 -0400
-Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
- mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N1PPJ-1pEAl80De7-012t23; Fri, 21 Oct 2022 11:09:45 +0200
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, xen-devel@lists.xenproject.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, Stefan Weil <sw@weilnetz.de>,
- David Gibson <david@gibson.dropbear.id.au>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- Eric Blake <eblake@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>, Greg Kurz <groug@kaod.org>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH v14 13/17] qemu-sockets: move and rename SocketAddress_to_str()
-Date: Fri, 21 Oct 2022 11:09:18 +0200
-Message-Id: <20221021090922.170074-14-lvivier@redhat.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221021090922.170074-1-lvivier@redhat.com>
-References: <20221021090922.170074-1-lvivier@redhat.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1olo4q-0002wM-Oy
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:12:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666343546;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qreRhXMURe1cGQAjM1jaeJIUg5mfmfbyjf20udgeVoY=;
+ b=b9lO1b1Uo/U+/rLIR2wy5YiN5sFRmORg64AV50oV+mJUM/8eBH+VBRCFS1UKtkUsz6ODxs
+ oZ9PRIsfqbu/wypaf6FdC98O5ma+5qhuF0jszwT5HJPQX+A+8oO6rEgIWSMatllGO1xfkg
+ LEQAUZ/6REXy/2Ox13X9ilen0MBIQAQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-593-qEtzvub4OaazuZhJHrPKIQ-1; Fri, 21 Oct 2022 05:12:22 -0400
+X-MC-Unique: qEtzvub4OaazuZhJHrPKIQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 34F27101A52A;
+ Fri, 21 Oct 2022 09:12:22 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D804A40E9783;
+ Fri, 21 Oct 2022 09:12:21 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C5CC921E675B; Fri, 21 Oct 2022 11:12:20 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Cc: qemu-devel@nongnu.org,  Paul Durrant <paul@xen.org>,  Thomas Huth
+ <thuth@redhat.com>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
+ <berrange@redhat.com>,  "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>,  Greg Kurz <groug@kaod.org>,  Stefano
+ Stabellini <sstabellini@kernel.org>,  David Gibson
+ <david@gibson.dropbear.id.au>,  Eric Blake <eblake@redhat.com>,
+ xen-devel@lists.xenproject.org,  "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>,  Paolo Bonzini <pbonzini@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,  Samuel Thibault
+ <samuel.thibault@ens-lyon.org>,  Anthony Perard
+ <anthony.perard@citrix.com>, Stefano Brivio <sbrivio@redhat.com>
+Subject: Re: [PATCH v13 17/17] net: stream: add QAPI events to report
+ connection state
+References: <20221020162558.123284-1-lvivier@redhat.com>
+ <20221020162558.123284-18-lvivier@redhat.com>
+ <87pmel4th4.fsf@pond.sub.org>
+ <52e989b9-6f8d-99c6-ef04-3ce32006b002@redhat.com>
+Date: Fri, 21 Oct 2022 11:12:20 +0200
+In-Reply-To: <52e989b9-6f8d-99c6-ef04-3ce32006b002@redhat.com> (Laurent
+ Vivier's message of "Fri, 21 Oct 2022 10:13:59 +0200")
+Message-ID: <87lep935hn.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:SGPHMmhVZPB1uoH0LDFHdWcUM+GySHvjZxMiffkQ7slHZxfXZXv
- Kvhz8CVVZTwbaVvFTHUrSjL5viL3UhWsPcQIjdsFcSQ7rHx5z7it1iiQO3LN/5z7Pn0Kd8G
- cpoDSMI1/ePp0lU93Zna7iBljpdDgpF9O1iJqwYrLUZPlHe9fUXiptvek29gZZwmy/hDxdX
- Zkc4O74vEqsGG7WV5WL/w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:urGg64dbi7w=:2Dx/2yFQV+NL74Kry8YAl1
- Z/KESyqz19PveuclRrBliY8Cy/Fpjih0XjGTxXtJ52GCeaZ/Ke1kcxIkc9asSiPyNbuhLrK3s
- uljGH3C5SHYZK48NQnv+UZVkfM4TVQWkNtgyROIf9FxpGxe2OSB8fVnF96wUDmSCw0vUwHIlG
- xYrgMulHnFv8iBJl0zPneHckQ+XpJuSUqcVVyJshtbeSwTjwAHZxu4fVylFxsuSYihBVKCqim
- AZNoxoy1nrsy9pOcM+puw8mGQcoBilUGpIugoG37tSBiSIQDHJP42qMNAMbmq3fTHuFMoNzpu
- +U7iCw0JjCBMHbdXA1GJI8wPu65/uGBiOIhtF18fMnN6C2io5XsVHHS705T6NRqwfhHuBVtSh
- W+uViBYVTJ862NIsvAUFajuIRO4v+3LF+VYaPn4hIsUy/8sG1rvvTVGvwMeJFItZ6jokEECfu
- 8j3ksaTDnxeIUDAmHAGWaUPbBDbFggJGoRTpsvONPfSwrrBz8mNOkiDBoHxm35NYEIybx0B4R
- qn1ffa1qyTWD9TeI798CVSdQpaM8nYv1//HnE/XK8ldI/C1m37bsgecMg/Vkw+7SY/ROkRfVX
- Vs4rNu+tN99wOQDE6Yh8UG8zfFgZDN7VSTERky6T9Kv5lzLPGpLP2wGKic+N4kmAmo34razG+
- esvLYWdHDL8KKWdyLeOuzi7BQ/ofVENXijFdLJTx94b2crTHBL9GrCqOJw8f/wJ8+OB9lM6Sq
- 65kQVyZmovBsBafS6x1+0gzrQivoc9hV5hDex3AV9t6XsOxoa+39teDWdPImDGpmx5IyimLVd
- OamzIaS
-Received-SPF: permerror client-ip=212.227.17.10;
- envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_FAIL=0.001,
- SPF_HELO_NONE=0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,113 +98,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename SocketAddress_to_str() to socket_uri() and move it to
-util/qemu-sockets.c close to socket_parse().
+Cc: Stefano Brivio
 
-socket_uri() generates a string from a SocketAddress while
-socket_parse() generates a SocketAddress from a string.
+Laurent Vivier <lvivier@redhat.com> writes:
 
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
----
- include/qemu/sockets.h |  2 +-
- monitor/hmp-cmds.c     | 23 +----------------------
- util/qemu-sockets.c    | 20 ++++++++++++++++++++
- 3 files changed, 22 insertions(+), 23 deletions(-)
+> On 10/21/22 07:48, Markus Armbruster wrote:
+>> Laurent Vivier <lvivier@redhat.com> writes:
+>> 
+>>> The netdev reports NETDEV_STREAM_CONNECTED event when the backend
+>>> is connected, and NETDEV_STREAM_DISCONNECTED when it is disconnected.
+>>
+>> Use cases?
+>
+> This is asked by Stefano Brivio to allow libvirt to detect if connection to passt is lost and to restart passt.
 
-diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
-index db4bedb6fa20..214058d8e307 100644
---- a/include/qemu/sockets.h
-+++ b/include/qemu/sockets.h
-@@ -58,6 +58,7 @@ NetworkAddressFamily inet_netfamily(int family);
- int unix_listen(const char *path, Error **errp);
- int unix_connect(const char *path, Error **errp);
- 
-+char *socket_uri(SocketAddress *addr);
- SocketAddress *socket_parse(const char *str, Error **errp);
- int socket_connect(SocketAddress *addr, Error **errp);
- int socket_listen(SocketAddress *addr, int num, Error **errp);
-@@ -141,5 +142,4 @@ SocketAddress *socket_address_flatten(SocketAddressLegacy *addr);
-  * Return 0 on success.
-  */
- int socket_address_parse_named_fd(SocketAddress *addr, Error **errp);
--
- #endif /* QEMU_SOCKETS_H */
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index bab86c5537e1..01b789a79e62 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -199,27 +199,6 @@ void hmp_info_mice(Monitor *mon, const QDict *qdict)
-     qapi_free_MouseInfoList(mice_list);
- }
- 
--static char *SocketAddress_to_str(SocketAddress *addr)
--{
--    switch (addr->type) {
--    case SOCKET_ADDRESS_TYPE_INET:
--        return g_strdup_printf("tcp:%s:%s",
--                               addr->u.inet.host,
--                               addr->u.inet.port);
--    case SOCKET_ADDRESS_TYPE_UNIX:
--        return g_strdup_printf("unix:%s",
--                               addr->u.q_unix.path);
--    case SOCKET_ADDRESS_TYPE_FD:
--        return g_strdup_printf("fd:%s", addr->u.fd.str);
--    case SOCKET_ADDRESS_TYPE_VSOCK:
--        return g_strdup_printf("tcp:%s:%s",
--                               addr->u.vsock.cid,
--                               addr->u.vsock.port);
--    default:
--        return g_strdup("unknown address type");
--    }
--}
--
- void hmp_info_migrate(Monitor *mon, const QDict *qdict)
- {
-     MigrationInfo *info;
-@@ -382,7 +361,7 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
-         monitor_printf(mon, "socket address: [\n");
- 
-         for (addr = info->socket_address; addr; addr = addr->next) {
--            char *s = SocketAddress_to_str(addr->value);
-+            char *s = socket_uri(addr->value);
-             monitor_printf(mon, "\t%s\n", s);
-             g_free(s);
-         }
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-index 83f4bd6fd211..9f6f655fd526 100644
---- a/util/qemu-sockets.c
-+++ b/util/qemu-sockets.c
-@@ -1077,6 +1077,26 @@ int unix_connect(const char *path, Error **errp)
-     return sock;
- }
- 
-+char *socket_uri(SocketAddress *addr)
-+{
-+    switch (addr->type) {
-+    case SOCKET_ADDRESS_TYPE_INET:
-+        return g_strdup_printf("tcp:%s:%s",
-+                               addr->u.inet.host,
-+                               addr->u.inet.port);
-+    case SOCKET_ADDRESS_TYPE_UNIX:
-+        return g_strdup_printf("unix:%s",
-+                               addr->u.q_unix.path);
-+    case SOCKET_ADDRESS_TYPE_FD:
-+        return g_strdup_printf("fd:%s", addr->u.fd.str);
-+    case SOCKET_ADDRESS_TYPE_VSOCK:
-+        return g_strdup_printf("tcp:%s:%s",
-+                               addr->u.vsock.cid,
-+                               addr->u.vsock.port);
-+    default:
-+        return g_strdup("unknown address type");
-+    }
-+}
- 
- SocketAddress *socket_parse(const char *str, Error **errp)
- {
--- 
-2.37.3
+Let's add something like this to the commit message:
+
+    This lets libvirt notice when the connection is lost somehow, and
+    restart the peer (such as passt).
+
+Who's working on the libvirt part?
+
+> I have also a patch to add a "reconnect=seconds" option, but I didn't want to add it to this series.
+
+It's okay to mention future work in commit messages, but not required.
+
+>> Could similar event signalling be useful for other kinds of netdev
+>> backends?
+>
+> I was wondering, but it becomes more complicated to be generic.
+
+Making something complicated and generic where a simpler special
+solution would do is the worst.
+
+Not quite as bad (but still plenty bad) is making a few special
+solutions first, then replace them all with a generic solution.
+
+I believe we should have a good, hard think on possible applications of
+a generic solution now.
+
+There is no need to hold back this series for that.
+
+If we conclude a generic solution is called for, we better replace this
+special solution before it becomes ABI.  Either by replacing it before
+we release it, or by keeping it unstable until we replace it.
 
 
