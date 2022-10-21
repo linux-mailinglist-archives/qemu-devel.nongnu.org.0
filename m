@@ -2,100 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2644F606F9F
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 07:51:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05568607190
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 10:00:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olkwY-0000JA-14
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 01:51:42 -0400
+	id 1olmxd-0002RS-Fn
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 04:00:57 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olkuf-0006v8-CJ
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 01:49:45 -0400
+	id 1olmHF-0003CF-FH
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:17:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1olkuJ-0006nO-Qg
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 01:49:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1olkuH-0005Ru-Fu
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 01:49:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666331360;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vnJgyxJi0WUdobvp11tF9QEmwGMEfQeuu353PWho6+4=;
- b=MU0JeONIs+bD0r1BW1NrCrAhQRLgid7G9G9V9zY7Jv0w1Pps/zuxj48sJT2vKIaPHwun+Z
- 2OeQNTg147M9QvN7zLXOrz7ctcYe/kE2OVtWi2EyWsaGyadvANX49kyx++OjvAZFhxJXmA
- xqnWUESjdls5bLc3dyCDV9PpZpuG3hg=
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-338-gDql8YA1PPCvIFCiU_OLXA-1; Fri, 21 Oct 2022 01:49:18 -0400
-X-MC-Unique: gDql8YA1PPCvIFCiU_OLXA-1
-Received: by mail-oo1-f69.google.com with SMTP id
- c20-20020a4ad214000000b0048086d0c456so1130380oos.2
- for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 22:49:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vnJgyxJi0WUdobvp11tF9QEmwGMEfQeuu353PWho6+4=;
- b=c5V5gZ60RB6tDP9bMezVxV8ds7QVExoR6UE+emzZSzkVc8Jtpalh+5SeEHPGNLS3Pp
- EVBx5c0bGyvNmFIjJh7qztVdDF3SLUtubnGP8pPEeFq0lQkfSOMzq4TLm53aFVAgdZkP
- JEDUdMExNS0gZMCDVM9ABii3QwPAAciVf7Q308ic2AhsFqZOMryapEXefwzmOyxqi7Ar
- ug6qgNUWROUAPNdICmLtD2/MkyUxWlglL5QBP+aiCO4ka/KM6hVsTUtECOC2QxTYCbVA
- hMNmdFZ123Odn6MI2d4L+GtatUDyxkBqC5GaeTPR46MdXZMn2AhsRqev2LOyM+p5BNBF
- PDGA==
-X-Gm-Message-State: ACrzQf1kJue5pOwRfl1qxnSC1Y0nCkXIf+n3aCu8qDHJE5J3pOI1r73c
- HYr4ZsTyqvFXwGfdiqrdh4TrHe2ev4CUXnExOAMBBPYq6NkSYoilkdPSWKO/H9xSXXWZW02JRww
- UpnpPQRuMgLs+i0sP4FT9CfsNQ0Nk0is=
-X-Received: by 2002:a05:6871:54e:b0:13b:29b7:e2e8 with SMTP id
- t14-20020a056871054e00b0013b29b7e2e8mr1080451oal.35.1666331358174; 
- Thu, 20 Oct 2022 22:49:18 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5OxvlAr/sRYRZ4/SWbuH4Yd8f+24dXScokHZS5516ZdOe56EquuERpXrSwO5NnOuPdkC330Zx3Mu1qjw7Szcg=
-X-Received: by 2002:a05:6871:54e:b0:13b:29b7:e2e8 with SMTP id
- t14-20020a056871054e00b0013b29b7e2e8mr1080435oal.35.1666331357894; Thu, 20
- Oct 2022 22:49:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1olmH5-00039O-3T
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:16:59 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1olmH0-0005fc-Og
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:16:58 -0400
+Received: from loongson.cn (unknown [10.2.5.185])
+ by gateway (Coremail) with SMTP id _____8BxGdiG+1FjKkcBAA--.3958S3;
+ Fri, 21 Oct 2022 09:53:10 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Cxb+KD+1Fj1FgCAA--.9824S3; 
+ Fri, 21 Oct 2022 09:53:09 +0800 (CST)
+From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
+ f4bug@amsat.org, philmd@linaro.org
+Subject: [PATCH v8 1/2] hw/intc: Convert the memops to with_attrs in LoongArch
+ extioi
+Date: Fri, 21 Oct 2022 09:53:06 +0800
+Message-Id: <20221021015307.2570844-2-yangxiaojuan@loongson.cn>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20221021015307.2570844-1-yangxiaojuan@loongson.cn>
+References: <20221021015307.2570844-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
-References: <20221020162558.123284-1-lvivier@redhat.com>
-In-Reply-To: <20221020162558.123284-1-lvivier@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 21 Oct 2022 13:49:05 +0800
-Message-ID: <CACGkMEt9Hoo=GAuCUqMcBjqNvs94fEPA_GU9Z7TOh8c7Wam55Q@mail.gmail.com>
-Subject: Re: [PATCH v13 00/17] qapi: net: add unix socket type support to
- netdev backend
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-devel@nongnu.org, Paul Durrant <paul@xen.org>, 
- Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>, 
- Stefano Stabellini <sstabellini@kernel.org>,
- David Gibson <david@gibson.dropbear.id.au>, 
- Eric Blake <eblake@redhat.com>, xen-devel@lists.xenproject.org, 
- "Michael S. Tsirkin" <mst@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Paolo Bonzini <pbonzini@redhat.com>, 
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Anthony Perard <anthony.perard@citrix.com>, 
- Ralph Schmieder <ralph.schmieder@gmail.com>,
- Stefano Brivio <sbrivio@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Cxb+KD+1Fj1FgCAA--.9824S3
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxur1UZFWkWw1fCry7KF48JFb_yoWrGr4Dpr
+ W8uwnIgr1UtF4xWFs093WUZF18G393XryavF4a9a4S9w18C34F9a4vqr92yFWY934kAr90
+ gayfXr1YqF1qyrDanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bn8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
+ AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF
+ 7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7
+ CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2
+ zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_WwAm72CE4IkC6x
+ 0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxF
+ aVAv8VWrMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxV
+ Cjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY
+ 6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6x
+ AIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY
+ 1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvj4RC_MaUUUUU
+X-Gw-Check: d37b32320bdb7537
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,218 +84,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 21, 2022 at 12:26 AM Laurent Vivier <lvivier@redhat.com> wrote:
->
-> "-netdev socket" only supports inet sockets.
->
-> It's not a complex task to add support for unix sockets, but
-> the socket netdev parameters are not defined to manage well unix
-> socket parameters.
->
-> As discussed in:
->
->   "socket.c added support for unix domain socket datagram transport"
->   https://lore.kernel.org/qemu-devel/1C0E1BC5-904F-46B0-8044-68E43E67BE60=
-@gmail.com/
->
-> This series adds support of unix socket type using SocketAddress QAPI str=
-ucture.
->
-> Two new netdev backends, "stream" and "dgram" are added, that are barely =
-a copy of "socket"
-> backend but they use the SocketAddress QAPI to provide socket parameters.
-> And then they also implement unix sockets (TCP and UDP).
->
-> Some examples of CLI syntax:
->
->   for TCP:
->
->   -netdev stream,id=3Dsocket0,addr.type=3Dinet,addr.host=3Dlocalhost,addr=
-.port=3D1234
->   -netdev stream,id=3Dsocket0,server=3Doff,addr.type=3Dinet,addr.host=3Dl=
-ocalhost,addr.port=3D1234
->
->   -netdev dgram,id=3Dsocket0,\
->           local.type=3Dinet,local.host=3Dlocalhost,local.port=3D1234,\
->           remote.type=3Dinet,remote.host=3Dlocalhost,remote.port=3D1235
->
->   for UNIX:
->
->   -netdev stream,id=3Dsocket0,addr.type=3Dunix,addr.path=3D/tmp/qemu0
->   -netdev stream,id=3Dsocket0,server=3Doff,addr.type=3Dunix,addr.path=3D/=
-tmp/qemu0
->
->   -netdev dgram,id=3Dsocket0,\
->           local.type=3Dunix,local.path=3D/tmp/qemu0,\
->           remote.type=3Dunix,remote.path=3D/tmp/qemu1
->
->   for FD:
->
->   -netdev stream,id=3Dsocket0,addr.type=3Dfd,addr.str=3D4
->   -netdev stream,id=3Dsocket0,server=3Doff,addr.type=3Dfd,addr.str=3D5
->
->   -netdev dgram,id=3Dsocket0,local.type=3Dfd,addr.str=3D4
->
-> v13:
->   - fix server default in qtest
->   - use SocketAddress in event
->   - remove unwanted meson update
->   - update error message in net_init_dgram()
+Converting the MemoryRegionOps read/write handlers to
+with_attrs in LoongArch extioi emulation.
 
-I've queued this version and will send pull requests shortly.
+Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ hw/intc/loongarch_extioi.c | 31 +++++++++++++++++--------------
+ hw/intc/trace-events       |  3 +--
+ 2 files changed, 18 insertions(+), 16 deletions(-)
 
-Any future comment we can do patches on top.
-
-Thanks
-
->
-> v12:
->   - replace NETDEV_STREAM_EOC by NETDEV_STREAM_DISCONNECTED
->   - set server=3Doff by default
->
-> v11:
->   - use qemu_set_info_str() in hw/net/xen_nic.c
->   - fix link_down state in stream client mode
->   - cleanup error case in net_stream_receive()
->   - update qapi version to 7.2
->
-> v10:
->   - add Red Hat copyright
->   - initialize dgram_dst to NULL in SOCKET_ADDRESS_TYPE_FD
->   - remove redundente _stream / _dgram in functions name
->   - move net_dgram_init() into net_init_dgram()
->   - address Thomas' comments on qtest
->   - add a function qemu_set_info_str() to set info string
->   - tested stream netdev with fd type using qrap/passt and
->     "-netdev stream,addr.type=3Dfd,server=3Doff,addr.str=3D5,id=3Dnetdev0=
-"
->
-> v9:
->   - add events to report stream connection/disconnection
->   - remove from net/dgram.c send_fn, listen_fd, net_dgram_accept()
->     net_dgram_connect() and net_dgram_send() that are only
->     needed by net/stream.c
->   - remove from net/stream.c send_fn
->   - add Red Hat copyright
->   - add original net/socket.c Stefano's patch (EINVAL)
->
-> v8:
->   - test ipv4 and ipv6 parameters (stream inet)
->   - test abstract parameter (stream unix)
->   - add SocketAddressInet supported parameters in qemu-options.hx
->     (only stream, supported by the move to QIO)
->   - with qio_channel_writev() replace (ret =3D=3D -1 && errno =3D=3D EAGA=
-IN)
->     by (ret =3D=3D QIO_CHANNEL_ERR_BLOCK)
->
-> v7:
->   - add qtests
->   - update parameters table in net.json
->   - update socket_uri() and socket_parse()
->
-> v6:
->   - s/netdev option/-netdev option/ PATCH 4
->   - s/ / /
->   - update @NetdevStreamOptions and @NetdevDgramOptions comments
->   - update PATCH 4 description message
->   - add missing return in error case for unix stream socket
->   - split socket_uri() patch: move and rename, then change content
->
-> v5:
->   - remove RFC prefix
->   - put the change of net_client_parse() into its own patch (exit() in th=
-e
->     function)
->   - update comments regarding netdev_is_modern() and netdev_parse_modern(=
-)
->   - update error case in net_stream_server_init()
->   - update qemu-options.hx with unix type
->   - fix HMP "info network" with unix protocol/server side.
->
-> v4:
->   - net_client_parse() fails with exit() rather than with return.
->   - keep "{ 'name': 'vmnet-host', 'if': 'CONFIG_VMNET' }" on its
->     own line in qapi/net.json
->   - add a comment in qapi/net.json about parameters usage
->   - move netdev_is_modern() check to qemu_init()
->   - in netdev_is_modern(), check for JSON and use qemu_opts_do_parse()
->     to parse parameters and detect type value.
->   - add a blank line after copyright comment
->
-> v3:
->   - remove support of "-net" for dgram and stream. They are only
->     supported with "-netdev" option.
->   - use &error_fatal directly in net_client_inits()
->   - update qemu-options.hx
->   - move to QIO for stream socket
->
-> v2:
->   - use "stream" and "dgram" rather than "socket-ng,mode=3Dstream"
->     and ""socket-ng,mode=3Ddgram"
->   - extract code to bypass qemu_opts_parse_noisily() to
->     a new patch
->   - do not ignore EINVAL (Stefano)
->   - fix "-net" option
->
-> CC: Ralph Schmieder <ralph.schmieder@gmail.com>
-> CC: Stefano Brivio <sbrivio@redhat.com>
-> CC: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> CC: Markus Armbruster <armbru@redhat.com>
->
-> Laurent Vivier (15):
->   net: introduce convert_host_port()
->   net: remove the @errp argument of net_client_inits()
->   net: simplify net_client_parse() error management
->   qapi: net: introduce a way to bypass qemu_opts_parse_noisily()
->   net: introduce qemu_set_info_str() function
->   qapi: net: add stream and dgram netdevs
->   net: stream: add unix socket
->   net: dgram: make dgram_dst generic
->   net: dgram: move mcast specific code from net_socket_fd_init_dgram()
->   net: dgram: add unix socket
->   qemu-sockets: move and rename SocketAddress_to_str()
->   qemu-sockets: update socket_uri() and socket_parse()  to be consistent
->   net: stream: move to QIO to enable additional parameters
->   tests/qtest: netdev: test stream and dgram backends
->   net: stream: add QAPI events to report connection state
->
-> Stefano Brivio (2):
->   net: socket: Don't ignore EINVAL on netdev socket connection
->   net: stream: Don't ignore EINVAL on netdev socket connection
->
->  hmp-commands.hx             |   2 +-
->  hw/net/xen_nic.c            |   5 +-
->  include/net/net.h           |   7 +-
->  include/qemu/sockets.h      |   4 +-
->  monitor/hmp-cmds.c          |  23 +-
->  net/clients.h               |   6 +
->  net/dgram.c                 | 623 ++++++++++++++++++++++++++++++++++++
->  net/hub.c                   |   2 +
->  net/l2tpv3.c                |   3 +-
->  net/meson.build             |   2 +
->  net/net.c                   | 186 ++++++++---
->  net/slirp.c                 |   5 +-
->  net/socket.c                |  36 +--
->  net/stream.c                | 387 ++++++++++++++++++++++
->  net/tap-win32.c             |   3 +-
->  net/tap.c                   |  13 +-
->  net/vde.c                   |   3 +-
->  net/vhost-user.c            |   3 +-
->  net/vhost-vdpa.c            |   2 +-
->  qapi/net.json               | 115 ++++++-
->  qemu-options.hx             |  14 +
->  softmmu/vl.c                |  16 +-
->  tests/qtest/meson.build     |   1 +
->  tests/qtest/netdev-socket.c | 420 ++++++++++++++++++++++++
->  util/qemu-sockets.c         |  25 ++
->  25 files changed, 1775 insertions(+), 131 deletions(-)
->  create mode 100644 net/dgram.c
->  create mode 100644 net/stream.c
->  create mode 100644 tests/qtest/netdev-socket.c
->
-> --
-> 2.37.3
->
->
+diff --git a/hw/intc/loongarch_extioi.c b/hw/intc/loongarch_extioi.c
+index 22803969bc..72f4b0cde5 100644
+--- a/hw/intc/loongarch_extioi.c
++++ b/hw/intc/loongarch_extioi.c
+@@ -68,44 +68,45 @@ static void extioi_setirq(void *opaque, int irq, int level)
+     extioi_update_irq(s, irq, level);
+ }
+ 
+-static uint64_t extioi_readw(void *opaque, hwaddr addr, unsigned size)
++static MemTxResult extioi_readw(void *opaque, hwaddr addr, uint64_t *data,
++                                unsigned size, MemTxAttrs attrs)
+ {
+     LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
+     unsigned long offset = addr & 0xffff;
+-    uint32_t index, cpu, ret = 0;
++    uint32_t index, cpu;
+ 
+     switch (offset) {
+     case EXTIOI_NODETYPE_START ... EXTIOI_NODETYPE_END - 1:
+         index = (offset - EXTIOI_NODETYPE_START) >> 2;
+-        ret = s->nodetype[index];
++        *data = s->nodetype[index];
+         break;
+     case EXTIOI_IPMAP_START ... EXTIOI_IPMAP_END - 1:
+         index = (offset - EXTIOI_IPMAP_START) >> 2;
+-        ret = s->ipmap[index];
++        *data = s->ipmap[index];
+         break;
+     case EXTIOI_ENABLE_START ... EXTIOI_ENABLE_END - 1:
+         index = (offset - EXTIOI_ENABLE_START) >> 2;
+-        ret = s->enable[index];
++        *data = s->enable[index];
+         break;
+     case EXTIOI_BOUNCE_START ... EXTIOI_BOUNCE_END - 1:
+         index = (offset - EXTIOI_BOUNCE_START) >> 2;
+-        ret = s->bounce[index];
++        *data = s->bounce[index];
+         break;
+     case EXTIOI_COREISR_START ... EXTIOI_COREISR_END - 1:
+         index = ((offset - EXTIOI_COREISR_START) & 0x1f) >> 2;
+         cpu = ((offset - EXTIOI_COREISR_START) >> 8) & 0x3;
+-        ret = s->coreisr[cpu][index];
++        *data = s->coreisr[cpu][index];
+         break;
+     case EXTIOI_COREMAP_START ... EXTIOI_COREMAP_END - 1:
+         index = (offset - EXTIOI_COREMAP_START) >> 2;
+-        ret = s->coremap[index];
++        *data = s->coremap[index];
+         break;
+     default:
+         break;
+     }
+ 
+-    trace_loongarch_extioi_readw(addr, ret);
+-    return ret;
++    trace_loongarch_extioi_readw(addr, *data);
++    return MEMTX_OK;
+ }
+ 
+ static inline void extioi_enable_irq(LoongArchExtIOI *s, int index,\
+@@ -127,8 +128,9 @@ static inline void extioi_enable_irq(LoongArchExtIOI *s, int index,\
+     }
+ }
+ 
+-static void extioi_writew(void *opaque, hwaddr addr,
+-                          uint64_t val, unsigned size)
++static MemTxResult extioi_writew(void *opaque, hwaddr addr,
++                          uint64_t val, unsigned size,
++                          MemTxAttrs attrs)
+ {
+     LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
+     int i, cpu, index, old_data, irq;
+@@ -231,11 +233,12 @@ static void extioi_writew(void *opaque, hwaddr addr,
+     default:
+         break;
+     }
++    return MEMTX_OK;
+ }
+ 
+ static const MemoryRegionOps extioi_ops = {
+-    .read = extioi_readw,
+-    .write = extioi_writew,
++    .read_with_attrs = extioi_readw,
++    .write_with_attrs = extioi_writew,
+     .impl.min_access_size = 4,
+     .impl.max_access_size = 4,
+     .valid.min_access_size = 4,
+diff --git a/hw/intc/trace-events b/hw/intc/trace-events
+index 0a90c1cdec..6fbc2045e6 100644
+--- a/hw/intc/trace-events
++++ b/hw/intc/trace-events
+@@ -306,6 +306,5 @@ loongarch_msi_set_irq(int irq_num) "set msi irq %d"
+ 
+ # loongarch_extioi.c
+ loongarch_extioi_setirq(int irq, int level) "set extirq irq %d level %d"
+-loongarch_extioi_readw(uint64_t addr, uint32_t val) "addr: 0x%"PRIx64 "val: 0x%x"
++loongarch_extioi_readw(uint64_t addr, uint64_t val) "addr: 0x%"PRIx64 "val: 0x%" PRIx64
+ loongarch_extioi_writew(uint64_t addr, uint64_t val) "addr: 0x%"PRIx64 "val: 0x%" PRIx64
+-
+-- 
+2.31.1
 
 
