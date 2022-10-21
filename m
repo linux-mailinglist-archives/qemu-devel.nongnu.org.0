@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C88E607334
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 11:04:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43156607321
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 10:59:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olnxA-00060g-Ee
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:04:32 -0400
+	id 1olnsU-0005MR-6j
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 04:59:43 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olmIE-0003d0-BP
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:18:10 -0400
+	id 1olmIJ-0003ig-7k
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:18:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olmI4-0003Ry-EZ
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:18:00 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+ id 1olmI7-0003Tb-4S
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:18:03 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olmI2-0005vR-F8
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:18:00 -0400
-Received: by mail-pl1-x633.google.com with SMTP id u6so1552755plq.12
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 00:17:57 -0700 (PDT)
+ id 1olmI5-0005vu-1i
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:18:02 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id 67so1768210pfz.12
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 00:18:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=6MECj/5wfaqJXkyCl06/YPafA19dUtMTe/s1ymy0xIM=;
- b=CrlTmmx3I7+eSr7GU/ObuF0y85aF3WFpnwnCr5iRag0VCAM4mZrQuahh5c1wxRfoqJ
- B/AEJ6VogTdb9N4YndC6jScUK2agdqUcC5cPu0c9G8QMyT2PCm3WMi5+5YBrp/yVT+/m
- MG/EOhoYHC8sV6dHErvRzlL9iju3l1USrsZ+7sUCdExKlrQva1hejV5tD14QIvBz15Sn
- 5DXgV9SFx8nkBRsc6zYD5vj4WBVOUOtj8QZswVkfew2Af7DF974aP4gSgh1an4KultjK
- sEw9PBqiSNST5T08BM7kUk5uIvoryi4hZ36lyVF3xzKFM95JVEvIPx6hOj+opYWfrYdQ
- jcgA==
+ :reply-to; bh=PgG5Fqrssx+hkjV71ieV43u3E3Admzr0DyJnKERg/wk=;
+ b=uTjEO3S+5D2iCzyR9gxlKziNgg/CVVxBavm+mGgXMCLCOw8k19pHpw7VemSUDD1sVd
+ 6WzWgZ6/1oPuEkiGg/OQluP9Ctd5Evs3dNHJKKv+AXtdzhhnHyuk1rRuZcsA+IJM0pgU
+ 6ZsDetv0Z7G7YmyaW6wbfxP68wbdjsrrKP4q2lRzKw0UfNcHDUGuIX0jNa5MwYy1Ft1v
+ Wzf6C0qsdDKPQI97g582jw1rRmX2I23ym2Vt1oOBTXEGDX4kny6Vt2Th3MZTW8W5adT5
+ jFjECOeOy1mAkZbwvBwDmoh6f0NduRGVUWwbO/xfMz/cBaaIMLRFNQuSpM7PylXopFxn
+ gsuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=6MECj/5wfaqJXkyCl06/YPafA19dUtMTe/s1ymy0xIM=;
- b=xwKHXZwMXszwi5aISLRpqlU57tlbwoBRAG+3HbmP0hxDo4EnGEycSbgTpvbd7Tl9CP
- Ih/iPJ04mD4fXnC0shtakhi6vYumw0YNgTOS1P4E2E8DCFM6F3din1ZQHGORQAmZsPEf
- mbz8iNiZCItvTl5i/4A1NonaXMfXvM0Jm9CuzcVGfNTbSyPRThpZL2ABVX+xdlw75BkE
- dv2dBHcSWxzmYLY2q41GQHP3uVGqZshzkENtQJnX4YsHl/8WDSj3Hr9lDVvJFNLqd3vd
- PJQ/xFJcGN5sGqT5s76r5Dgu+j/WESYO74S8Q0SXLHiMagv9UKmf5R5bpWsso7ZBcNJ/
- F6lg==
-X-Gm-Message-State: ACrzQf2J+VyJcPScsOoiiKeLN2b5ySmC/VpUgvJUgXWEFWwthMF+zsNI
- ZAD2jKNWcn5TXIHkwaNhrQzsNyePgDnLNdMu
-X-Google-Smtp-Source: AMsMyM5c5fdM1c5/yS7iOKJ7b+f4A2Vpg4IwzJx+zi7gSP0c8CJirnFLOwgu+3NSgC7FWOROxnR+VA==
-X-Received: by 2002:a17:90b:4b10:b0:20c:c3a8:38e with SMTP id
- lx16-20020a17090b4b1000b0020cc3a8038emr20112935pjb.195.1666336676966; 
- Fri, 21 Oct 2022 00:17:56 -0700 (PDT)
+ bh=PgG5Fqrssx+hkjV71ieV43u3E3Admzr0DyJnKERg/wk=;
+ b=lbrdpp8BFpm3gqi5857h4ruOfLqbpRXNC8tfj/ash/EbtKP8QuI4qXpBR+43JumWyB
+ OR1IDCYnVc9DJI7Kz/ScW+0M4GhYgCP+i5YQUMBQh4I9TYiLYvaaGfhOeK9EmHmtUzF8
+ OrX6U2liLFS9OFUSPeQexKrkdts2hMhdaHuf0SCZuhYGYu18nYBtNsETiD/BkQqJggE8
+ +uwaW15JtMqQBavgC53cs09l671LkAIXu6uOBv8sPeLZQuIowaKGgp5gytmUzxfjdLPm
+ oYWCfR/DFVzAEtkX+rbELQ9+lWTX6YiVOzkj4akJAkX8rkfvcb+dsFzZgNYrCoxq0LS+
+ UOPA==
+X-Gm-Message-State: ACrzQf2xHzuyxjvVn5HlpMQV61A/i40eZDODw/KlkXEKClYIq/87ZfAG
+ PrWc9BsPeFRfd4ott7ekpwNNSVSuNfImIGog
+X-Google-Smtp-Source: AMsMyM4tAS36muBNk+er0pd2SQzmFntHouV1gGH1AYJC7Vim9T51qZ5SfeYgPuN1fsbJupB97KuPpw==
+X-Received: by 2002:a63:5703:0:b0:439:14a8:52b with SMTP id
+ l3-20020a635703000000b0043914a8052bmr14521561pgb.500.1666336679704; 
+ Fri, 21 Oct 2022 00:17:59 -0700 (PDT)
 Received: from localhost.localdomain ([149.135.10.35])
  by smtp.gmail.com with ESMTPSA id
- q9-20020a638c49000000b0041cd5ddde6fsm13003327pgn.76.2022.10.21.00.17.54
+ q9-20020a638c49000000b0041cd5ddde6fsm13003327pgn.76.2022.10.21.00.17.57
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Oct 2022 00:17:56 -0700 (PDT)
+ Fri, 21 Oct 2022 00:17:59 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 34/36] tcg: Add TCG_TARGET_CALL_{RET,ARG}_I128
-Date: Fri, 21 Oct 2022 17:15:47 +1000
-Message-Id: <20221021071549.2398137-35-richard.henderson@linaro.org>
+Subject: [PATCH v2 35/36] tcg: Add temp allocation for TCGv_i128
+Date: Fri, 21 Oct 2022 17:15:48 +1000
+Message-Id: <20221021071549.2398137-36-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221021071549.2398137-1-richard.henderson@linaro.org>
 References: <20221021071549.2398137-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,162 +94,151 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fill in the parameters for the host ABI for Int128 for
-those backends which require no extra modification.
+This enables allocation of i128.  The type is not yet
+usable, as we have not yet added data movement ops.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/aarch64/tcg-target.h     |  2 ++
- tcg/arm/tcg-target.h         |  2 ++
- tcg/loongarch64/tcg-target.h |  2 ++
- tcg/mips/tcg-target.h        |  2 ++
- tcg/riscv/tcg-target.h       |  3 +++
- tcg/s390x/tcg-target.h       |  2 ++
- tcg/sparc64/tcg-target.h     |  2 ++
- tcg/tcg.c                    | 11 ++++++-----
- tcg/ppc/tcg-target.c.inc     |  3 +++
- 9 files changed, 24 insertions(+), 5 deletions(-)
+ include/tcg/tcg.h | 32 ++++++++++++++++++++++++++++++++
+ tcg/tcg.c         | 32 +++++++++++++++++++++++++++-----
+ 2 files changed, 59 insertions(+), 5 deletions(-)
 
-diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
-index 413a5410c5..0dff5807f6 100644
---- a/tcg/aarch64/tcg-target.h
-+++ b/tcg/aarch64/tcg-target.h
-@@ -54,6 +54,8 @@ typedef enum {
- #define TCG_TARGET_CALL_STACK_OFFSET    0
- #define TCG_TARGET_CALL_ARG_I32         TCG_CALL_ARG_NORMAL
- #define TCG_TARGET_CALL_ARG_I64         TCG_CALL_ARG_NORMAL
-+#define TCG_TARGET_CALL_ARG_I128        TCG_CALL_ARG_NORMAL
-+#define TCG_TARGET_CALL_RET_I128        TCG_CALL_RET_NORMAL
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 88fb4f1d17..db2e10610d 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -701,6 +701,11 @@ static inline TCGTemp *tcgv_i64_temp(TCGv_i64 v)
+     return tcgv_i32_temp((TCGv_i32)v);
+ }
  
- /* optional instructions */
- #define TCG_TARGET_HAS_div_i32          1
-diff --git a/tcg/arm/tcg-target.h b/tcg/arm/tcg-target.h
-index b7843d2d54..6613d3d791 100644
---- a/tcg/arm/tcg-target.h
-+++ b/tcg/arm/tcg-target.h
-@@ -91,6 +91,8 @@ extern bool use_neon_instructions;
- #define TCG_TARGET_CALL_STACK_OFFSET	0
- #define TCG_TARGET_CALL_ARG_I32         TCG_CALL_ARG_NORMAL
- #define TCG_TARGET_CALL_ARG_I64         TCG_CALL_ARG_EVEN
-+#define TCG_TARGET_CALL_ARG_I128        TCG_CALL_ARG_EVEN
-+#define TCG_TARGET_CALL_RET_I128        TCG_CALL_RET_BY_REF
++static inline TCGTemp *tcgv_i128_temp(TCGv_i128 v)
++{
++    return tcgv_i32_temp((TCGv_i32)v);
++}
++
+ static inline TCGTemp *tcgv_ptr_temp(TCGv_ptr v)
+ {
+     return tcgv_i32_temp((TCGv_i32)v);
+@@ -721,6 +726,11 @@ static inline TCGArg tcgv_i64_arg(TCGv_i64 v)
+     return temp_arg(tcgv_i64_temp(v));
+ }
  
- /* optional instructions */
- #define TCG_TARGET_HAS_ext8s_i32        1
-diff --git a/tcg/loongarch64/tcg-target.h b/tcg/loongarch64/tcg-target.h
-index 74fbb22dfd..54e3478355 100644
---- a/tcg/loongarch64/tcg-target.h
-+++ b/tcg/loongarch64/tcg-target.h
-@@ -91,6 +91,8 @@ typedef enum {
- #define TCG_TARGET_CALL_STACK_OFFSET    0
- #define TCG_TARGET_CALL_ARG_I32         TCG_CALL_ARG_NORMAL
- #define TCG_TARGET_CALL_ARG_I64         TCG_CALL_ARG_NORMAL
-+#define TCG_TARGET_CALL_ARG_I128        TCG_CALL_ARG_NORMAL
-+#define TCG_TARGET_CALL_RET_I128        TCG_CALL_RET_NORMAL
++static inline TCGArg tcgv_i128_arg(TCGv_i128 v)
++{
++    return temp_arg(tcgv_i128_temp(v));
++}
++
+ static inline TCGArg tcgv_ptr_arg(TCGv_ptr v)
+ {
+     return temp_arg(tcgv_ptr_temp(v));
+@@ -742,6 +752,11 @@ static inline TCGv_i64 temp_tcgv_i64(TCGTemp *t)
+     return (TCGv_i64)temp_tcgv_i32(t);
+ }
  
- /* optional instructions */
- #define TCG_TARGET_HAS_movcond_i32      0
-diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
-index 15721c3e42..b235cba8ba 100644
---- a/tcg/mips/tcg-target.h
-+++ b/tcg/mips/tcg-target.h
-@@ -89,6 +89,8 @@ typedef enum {
- # define TCG_TARGET_CALL_ARG_I64      TCG_CALL_ARG_NORMAL
- #endif
- #define TCG_TARGET_CALL_ARG_I32       TCG_CALL_ARG_NORMAL
-+#define TCG_TARGET_CALL_ARG_I128      TCG_CALL_ARG_EVEN
-+#define TCG_TARGET_CALL_RET_I128      TCG_CALL_RET_NORMAL
++static inline TCGv_i128 temp_tcgv_i128(TCGTemp *t)
++{
++    return (TCGv_i128)temp_tcgv_i32(t);
++}
++
+ static inline TCGv_ptr temp_tcgv_ptr(TCGTemp *t)
+ {
+     return (TCGv_ptr)temp_tcgv_i32(t);
+@@ -864,6 +879,11 @@ static inline void tcg_temp_free_i64(TCGv_i64 arg)
+     tcg_temp_free_internal(tcgv_i64_temp(arg));
+ }
  
- /* MOVN/MOVZ instructions detection */
- #if (defined(__mips_isa_rev) && (__mips_isa_rev >= 1)) || \
-diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
-index 232537ccea..d61ca902d3 100644
---- a/tcg/riscv/tcg-target.h
-+++ b/tcg/riscv/tcg-target.h
-@@ -85,9 +85,12 @@ typedef enum {
- #define TCG_TARGET_CALL_ARG_I32         TCG_CALL_ARG_NORMAL
- #if TCG_TARGET_REG_BITS == 32
- #define TCG_TARGET_CALL_ARG_I64         TCG_CALL_ARG_EVEN
-+#define TCG_TARGET_CALL_ARG_I128        TCG_CALL_ARG_EVEN
- #else
- #define TCG_TARGET_CALL_ARG_I64         TCG_CALL_ARG_NORMAL
-+#define TCG_TARGET_CALL_ARG_I128        TCG_CALL_ARG_NORMAL
- #endif
-+#define TCG_TARGET_CALL_RET_I128        TCG_CALL_RET_NORMAL
++static inline void tcg_temp_free_i128(TCGv_i128 arg)
++{
++    tcg_temp_free_internal(tcgv_i128_temp(arg));
++}
++
+ static inline void tcg_temp_free_ptr(TCGv_ptr arg)
+ {
+     tcg_temp_free_internal(tcgv_ptr_temp(arg));
+@@ -912,6 +932,18 @@ static inline TCGv_i64 tcg_temp_local_new_i64(void)
+     return temp_tcgv_i64(t);
+ }
  
- /* optional instructions */
- #define TCG_TARGET_HAS_movcond_i32      0
-diff --git a/tcg/s390x/tcg-target.h b/tcg/s390x/tcg-target.h
-index db5665c375..9a3856f0b3 100644
---- a/tcg/s390x/tcg-target.h
-+++ b/tcg/s390x/tcg-target.h
-@@ -168,6 +168,8 @@ extern uint64_t s390_facilities[3];
- #define TCG_TARGET_CALL_STACK_OFFSET	160
- #define TCG_TARGET_CALL_ARG_I32         TCG_CALL_ARG_EXTEND
- #define TCG_TARGET_CALL_ARG_I64         TCG_CALL_RET_NORMAL
-+#define TCG_TARGET_CALL_ARG_I128        TCG_CALL_ARG_BY_REF
-+#define TCG_TARGET_CALL_RET_I128        TCG_CALL_RET_BY_REF
- 
- #define TCG_TARGET_HAS_MEMORY_BSWAP   1
- 
-diff --git a/tcg/sparc64/tcg-target.h b/tcg/sparc64/tcg-target.h
-index 0044ac8d78..53cfa843da 100644
---- a/tcg/sparc64/tcg-target.h
-+++ b/tcg/sparc64/tcg-target.h
-@@ -73,6 +73,8 @@ typedef enum {
- #define TCG_TARGET_CALL_STACK_OFFSET    (128 + 6*8 + TCG_TARGET_STACK_BIAS)
- #define TCG_TARGET_CALL_ARG_I32         TCG_CALL_ARG_EXTEND
- #define TCG_TARGET_CALL_ARG_I64         TCG_CALL_ARG_NORMAL
-+#define TCG_TARGET_CALL_ARG_I128        TCG_CALL_ARG_NORMAL
-+#define TCG_TARGET_CALL_RET_I128        TCG_CALL_RET_NORMAL
- 
- #if defined(__VIS__) && __VIS__ >= 0x300
- #define use_vis3_instructions  1
++static inline TCGv_i128 tcg_temp_new_i128(void)
++{
++    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_I128, false);
++    return temp_tcgv_i128(t);
++}
++
++static inline TCGv_i128 tcg_temp_local_new_i128(void)
++{
++    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_I128, true);
++    return temp_tcgv_i128(t);
++}
++
+ static inline TCGv_ptr tcg_global_mem_new_ptr(TCGv_ptr reg, intptr_t offset,
+                                               const char *name)
+ {
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index f921a5ca24..7cde82f12d 100644
+index 7cde82f12d..adf592ac96 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -760,12 +760,13 @@ static void init_call_layout(TCGHelperInfo *info)
-         break;
-     case dh_typecode_i128:
-         /*
--         * No matter the call return method, we must have all of
--         * the temp subindexes in the call for liveness.
-+         * For 32-bit hosts, do not split out individual temps.
-+         * For 64-bit hosts, we need to add both temps for liveness
-+         * no matter the backend calling convention.
-          */
-         info->nr_out = TCG_TARGET_REG_BITS == 32 ? 1 : 2;
--        info->out_kind = TCG_CALL_RET_NORMAL; /* TODO */
--        switch (/* TODO */ TCG_CALL_RET_NORMAL) {
-+        info->out_kind = TCG_TARGET_CALL_RET_I128;
-+        switch (TCG_TARGET_CALL_RET_I128) {
-         case TCG_CALL_RET_NORMAL:
-             if (TCG_TARGET_REG_BITS == 32) {
-                 info->out_kind = TCG_CALL_RET_NORMAL_4;
-@@ -827,7 +828,7 @@ static void init_call_layout(TCGHelperInfo *info)
-             break;
-         case dh_typecode_i128:
-             type = TCG_TYPE_I128;
--            kind = TCG_CALL_ARG_NORMAL; /* TODO */
-+            kind = TCG_TARGET_CALL_ARG_I128;
-             break;
-         default:
-             g_assert_not_reached();
-diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-index 781ecfe161..e86d4a5e78 100644
---- a/tcg/ppc/tcg-target.c.inc
-+++ b/tcg/ppc/tcg-target.c.inc
-@@ -54,6 +54,9 @@
- #else
- # define TCG_TARGET_CALL_ARG_I64   TCG_CALL_ARG_NORMAL
- #endif
-+/* Note sysv arg alignment applies only to 2-word types, not more. */
-+#define TCG_TARGET_CALL_ARG_I128   TCG_CALL_ARG_NORMAL
-+#define TCG_TARGET_CALL_RET_I128   TCG_CALL_RET_NORMAL
+@@ -1250,18 +1250,39 @@ TCGTemp *tcg_temp_new_internal(TCGType type, bool temp_local)
+         tcg_debug_assert(ts->base_type == type);
+         tcg_debug_assert(ts->kind == kind);
+     } else {
++        bool want_pair = false;
++        TCGType half = type;
++
++        switch (type) {
++        case TCG_TYPE_I32:
++        case TCG_TYPE_V64:
++        case TCG_TYPE_V128:
++        case TCG_TYPE_V256:
++            break;
++        case TCG_TYPE_I64:
++            half = TCG_TYPE_I32;
++            want_pair = TCG_TARGET_REG_BITS == 32;
++            break;
++        case TCG_TYPE_I128:
++            half = TCG_TYPE_I64;
++            want_pair = TCG_TARGET_REG_BITS == 64;
++            break;
++        default:
++            g_assert_not_reached();
++        }
++
+         ts = tcg_temp_alloc(s);
+-        if (TCG_TARGET_REG_BITS == 32 && type == TCG_TYPE_I64) {
++        if (want_pair) {
+             TCGTemp *ts2 = tcg_temp_alloc(s);
  
- /* For some memory operations, we need a scratch that isn't R0.  For the AIX
-    calling convention, we can re-use the TOC register since we'll be reloading
+             ts->base_type = type;
+-            ts->type = TCG_TYPE_I32;
++            ts->type = half;
+             ts->temp_allocated = 1;
+             ts->kind = kind;
+ 
+             tcg_debug_assert(ts2 == ts + 1);
+-            ts2->base_type = TCG_TYPE_I64;
+-            ts2->type = TCG_TYPE_I32;
++            ts2->base_type = type;
++            ts2->type = half;
+             ts2->temp_allocated = 1;
+             ts2->temp_subindex = 1;
+             ts2->kind = kind;
+@@ -2773,7 +2794,7 @@ static void la_cross_call(TCGContext *s, int nt)
+ 
+     for (i = 0; i < nt; i++) {
+         TCGTemp *ts = &s->temps[i];
+-        if (!(ts->state & TS_DEAD)) {
++        if (ts->type != TCG_TYPE_I128 && !(ts->state & TS_DEAD)) {
+             TCGRegSet *pset = la_temp_pref(ts);
+             TCGRegSet set = *pset;
+ 
+@@ -3404,6 +3425,7 @@ static void temp_allocate_frame(TCGContext *s, TCGTemp *ts)
+     case TCG_TYPE_V64:
+         align = 8;
+         break;
++    case TCG_TYPE_I128:
+     case TCG_TYPE_V128:
+     case TCG_TYPE_V256:
+         /* Note that we do not require aligned storage for V256. */
 -- 
 2.34.1
 
