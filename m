@@ -2,69 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14FAD607856
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 15:25:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 232126078BF
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 15:42:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ols11-0001Ac-9f
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 09:24:57 -0400
+	id 1olsIQ-0007JV-5R
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 09:42:46 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olrut-0000Yd-42
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 09:18:27 -0400
+	id 1olrxh-0003Mw-Pc
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 09:21:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huqi@loongson.cn>) id 1olruk-0000F6-V4
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 09:18:20 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huqi@loongson.cn>) id 1olruh-0002m9-IX
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 09:18:18 -0400
-Received: from loongson.cn (unknown [10.90.50.23])
- by gateway (Coremail) with SMTP id _____8Bx3NgJnFJjKHIBAA--.6520S3;
- Fri, 21 Oct 2022 21:18:01 +0800 (CST)
-Received: from lingfengzhe-ms7c94.loongson.cn (unknown [10.90.50.23])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxtuMJnFJjo8kCAA--.11466S2; 
- Fri, 21 Oct 2022 21:18:01 +0800 (CST)
-From: Qi Hu <huqi@loongson.cn>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Cc: qemu-devel@nongnu.org, Jinyang Shen <shenjinyang@loongson.cn>,
- Xuehai Chen <chenxuehai@loongson.cn>
-Subject: [PATCH] target/i386: Fix caculation of LOCK NEG eflags
-Date: Fri, 21 Oct 2022 21:17:44 +0800
-Message-Id: <20221021131744.337567-1-huqi@loongson.cn>
-X-Mailer: git-send-email 2.38.0
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olrxE-0002nX-UQ
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 09:21:01 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olrx3-0003ay-Gq
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 09:20:45 -0400
+Received: by mail-wr1-x429.google.com with SMTP id f11so4389137wrm.6
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 06:20:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=fclBL2DpDYJrYU1BjyQuOIQ/MO5tKMgq37veQJeQ2n4=;
+ b=FSBb67Bt1oZuJV6sOvlww0UJMA+bSH0WGVgnpYeTqP6H21Ju+WifYioUQAeL0Nojtk
+ Z81sVaaMW50wPC77SAXzQPzQn3MkICX1KWjdWC4rEd6Asr/d9glTKj9ssYm/TY/E+Zje
+ eKKrFQb6KQj0l9G+sXGCrAUg/b8jIvpIDDqW2WJQY4B1aZ8lWwCBCBngWofPok/o+8KJ
+ f3QpbeawwQAyFFrJfDNL7M94T9UDPv1RTUPouKnpCuH6UJbc5hGzsBsFbDaN0V/8KCR1
+ WXhNP+Dx4QWh4L/UlRa2mIpXMIkKjtzp7Gf8SaMwCkoqJNGJGjvZnKjtrcK5ryDzEgEV
+ OZRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fclBL2DpDYJrYU1BjyQuOIQ/MO5tKMgq37veQJeQ2n4=;
+ b=MM9wJe/LVkLfv03pMedB6UyV5l9jHqwpkOjFXzVXvAvcQLrXcRSlGIA/+CB7mAtwKU
+ vtP2t7WAppE4AdAVkCASNGLRkenmOt2KP1hFElzjphzLEgn/l4JrMD7rEc9Q0Esz4tSF
+ G2lpwc682LZd25yke0ub0MJgqYqtZwHnFbJgecAVmt3VXW6wPBVl74Ifx94KZ7H/9A5H
+ 8yDZysXMcHIheeLedGZg0EoH2L2sz7Yj0w8CpBnEDextnhex2Qk4URqGeYpFLVpkMA7S
+ PAjnMGtNxmWAYD7WUlxPLhU/DhoKvpo26X6jKPfNDx7pYpvtumN8bOnQuZKxR4+7Tvz4
+ A6fA==
+X-Gm-Message-State: ACrzQf0iLTxMHwj7uT8u8PwXTqwAa+UM2nNglB4AR40AHP8aUG8aQyQE
+ NkU8eQC5JGtC0Y9c9A4F809c6Q==
+X-Google-Smtp-Source: AMsMyM5e+Pbh1hb3QzRiLSLXWqIsw5ixTNWz9T3X6aT1kKxl5LI+D4J2QxglQZ8ZWWf5VOIdNxh+jw==
+X-Received: by 2002:a05:6000:18a1:b0:230:f9fb:c83 with SMTP id
+ b1-20020a05600018a100b00230f9fb0c83mr12373772wri.329.1666358439681; 
+ Fri, 21 Oct 2022 06:20:39 -0700 (PDT)
+Received: from [10.50.0.10]
+ (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
+ by smtp.gmail.com with ESMTPSA id
+ f18-20020adff452000000b0022584c82c80sm18829340wrp.19.2022.10.21.06.20.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Oct 2022 06:20:39 -0700 (PDT)
+Message-ID: <34aef1b8-c8bb-995f-c9ee-0c9c982620c5@linaro.org>
+Date: Fri, 21 Oct 2022 15:20:36 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.2
+Subject: Re: [PATCH v14 15/17] net: stream: move to QIO to enable additional
+ parameters
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ xen-devel@lists.xenproject.org, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>, Anthony Perard <anthony.perard@citrix.com>,
+ Stefan Weil <sw@weilnetz.de>, David Gibson <david@gibson.dropbear.id.au>,
+ Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ Eric Blake <eblake@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>, Greg Kurz <groug@kaod.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20221021090922.170074-1-lvivier@redhat.com>
+ <20221021090922.170074-16-lvivier@redhat.com>
+ <1f769d00-cf50-abaf-f078-f301959156b9@linaro.org>
+ <87tu3x1n2m.fsf@pond.sub.org>
+ <881f1b6d-ac9f-a144-0e13-622981f02130@redhat.com>
+ <871qr11kgt.fsf@pond.sub.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <871qr11kgt.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxtuMJnFJjo8kCAA--.11466S2
-X-CM-SenderInfo: pkxtxqxorr0wxvrqhubq/1tbiAQAGCWNROmIeOgBQsQ
-X-Coremail-Antispam: 1Uk129KBjvJXoW7WrW5ZF4kXrWkXFyktw1DJrb_yoW8WFWrpF
- y7C34IgaykJr15A3srWayUJr4UC398CFW0q39Ikws5WwsxX3ykZr10k3yYga1FvayfurWF
- yFyDuF4DuayUX3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- b7xYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
- x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AI
- xVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64
- kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm
- 72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l4I8I3I
- 0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWU
- GVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI
- 0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0
- rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r
- 4UYxBIdaVFxhVjvjDU0xZFpf9x07UE-erUUUUU=
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=huqi@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,76 +111,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In sequence:
----
-lock negl -0x14(%rbp)
-pushf
-pop    %rax
----
+On 21/10/22 13:31, Markus Armbruster wrote:
+> Laurent Vivier <lvivier@redhat.com> writes:
+> 
+>> On 10/21/22 12:35, Markus Armbruster wrote:
+>>> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
+>>>
+>>>> On 21/10/22 11:09, Laurent Vivier wrote:
+>>>>> Use QIOChannel, QIOChannelSocket and QIONetListener.
+>>>>> This allows net/stream to use all the available parameters provided by
+>>>>> SocketAddress.
+>>>>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+>>>>> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+>>>>> ---
+>>>>>     net/stream.c    | 492 +++++++++++++++++-------------------------------
+>>>>>     qemu-options.hx |   4 +-
+>>>>>     2 files changed, 178 insertions(+), 318 deletions(-)
 
-%rax will obtain the wrong value becasue "lock neg" caculates the
-wrong eflags. The "s->T0" is updated by the wrong value.
+>>>>> +    addr = qio_channel_socket_get_local_address(listen_sioc, NULL);
+>>>>> +    g_assert(addr != NULL);
+>>>>
+>>>> Missing propagating Error* (observed in v12).
+>>>
+>>> *If* this is really a programming error: what about &error_abort?
+>>
+>> assert() informs the compiler that following code will not use addr with a NULL value, I
+>> don't think &error_abort does that. This could avoid an error report in code static analyzer.
+> 
+> I'd expect Coverity to see right through it.
+> 
+> Static analyzers with a less global view won't, of course.
+> 
+> For what it's worth, there are about a thousand uses of &error_abort
+> outside tests/.  I'm not aware of them confusing static analyzers we
+> care about.
+> 
+> I like &error_abort, because it makes the program crash when we try to
+> put the error into &error_abort, with an informative message.  This is
+> often right where things go wrong[*].  I personally don't care much
+> about the better message, but others do.  The better stack backtrace has
+> been quite useful to me.
 
-You can use this to do some test:
----
-#include <assert.h>
+I concur:
 
-int main()
-{
-  __volatile__ unsigned test = 0x2363a;
-  __volatile__ char cond = 0;
-  asm(
-      "lock negl %0 \n\t"
-      "sets %1"
-      : "=m"(test), "=r"(cond)
-      :
-      :);
-  assert(cond & 1);
-}
----
+   qemu-system-x86_64: socket family 0 unsupported
 
-Reported-by: Jinyang Shen <shenjinyang@loongson.cn>
-Co-Developed-by: Xuehai Chen <chenxuehai@loongson.cn>
-Signed-off-by: Xuehai Chen <chenxuehai@loongson.cn>
-Signed-off-by: Qi Hu <huqi@loongson.cn>
----
- target/i386/tcg/translate.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+VS:
 
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index e19d5c1c64..e72c32827a 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -3282,24 +3282,25 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-                 }
-                 a0 = tcg_temp_local_new();
-                 t0 = tcg_temp_local_new();
-+                t1 = tcg_temp_local_new();
-                 label1 = gen_new_label();
- 
-                 tcg_gen_mov_tl(a0, s->A0);
-                 tcg_gen_mov_tl(t0, s->T0);
- 
-                 gen_set_label(label1);
--                t1 = tcg_temp_new();
-                 t2 = tcg_temp_new();
-                 tcg_gen_mov_tl(t2, t0);
-                 tcg_gen_neg_tl(t1, t0);
-                 tcg_gen_atomic_cmpxchg_tl(t0, a0, t0, t1,
-                                           s->mem_index, ot | MO_LE);
--                tcg_temp_free(t1);
-                 tcg_gen_brcond_tl(TCG_COND_NE, t0, t2, label1);
- 
-                 tcg_temp_free(t2);
-+
-+                tcg_gen_mov_tl(s->T0, t1);
-+                tcg_temp_free(t1);
-                 tcg_temp_free(a0);
--                tcg_gen_mov_tl(s->T0, t0);
-                 tcg_temp_free(t0);
-             } else {
-                 tcg_gen_neg_tl(s->T0, s->T0);
--- 
-2.38.0
+    ERROR:../../net/stream.c:321:net_stream_client_connected: assertion
+failed: (addr != NULL)
+
+https://lore.kernel.org/qemu-devel/6fa6b9e5-fede-0f68-752f-0c0d8fa3494f@linaro.org/
+
+> 
+> Let's use &error_abort, and throw in the assert when a static analyzer
+> we care about needs it.
+> 
+> 
+> [*] error_propagate() messes this up.  That's why the comments in
+> error.h ask you to do without when practical.
+> 
+> 
 
 
