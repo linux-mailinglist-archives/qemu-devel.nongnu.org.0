@@ -2,50 +2,146 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77EE060829D
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Oct 2022 02:03:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE96A6082B1
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Oct 2022 02:08:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1om1Ah-0006PW-FP; Fri, 21 Oct 2022 19:11:23 -0400
+	id 1om1hy-0000hm-9I; Fri, 21 Oct 2022 19:45:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Clay.Mayers@kioxia.com>)
- id 1om1Af-0006PO-6v
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 19:11:21 -0400
-Received: from usmailhost21.kioxia.com ([12.0.68.226]
- helo=SJSMAIL01.us.kioxia.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <Clay.Mayers@kioxia.com>)
- id 1om1Ad-0005ry-DX
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 19:11:20 -0400
-Received: from localhost.localdomain (10.93.83.20) by SJSMAIL01.us.kioxia.com
- (10.90.133.90) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.32; Fri, 21 Oct
- 2022 16:10:51 -0700
-From: <clay.mayers@kioxia.com>
-To: <qemu-devel@nongnu.org>
-CC: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>, Fam
- Zheng <fam@euphon.net>, =?UTF-8?q?Phlippe=20Mathieu-Daud=C3=A9?=
- <f4bug@amsat.org>
-Subject: [PATCH V2 4/4] hw/block/nvme: add zone descriptor changed AEN
-Date: Fri, 21 Oct 2022 16:10:38 -0700
-Message-ID: <20221021231038.1042659-5-clay.mayers@kioxia.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20221021231038.1042659-1-clay.mayers@kioxia.com>
-References: <20221021231038.1042659-1-clay.mayers@kioxia.com>
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <Luben.Tuikov@amd.com>)
+ id 1om1hn-0000dd-Ax
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 19:45:36 -0400
+Received: from mail-bn7nam10on2077.outbound.protection.outlook.com
+ ([40.107.92.77] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Luben.Tuikov@amd.com>)
+ id 1om1hk-0002KN-A8
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 19:45:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IfgLgnrqxfnApVTN7pcxZUGWZSXDqaoJTvcG+gjlQkk/1NS7C8CtLbjEVyO14kXX78rp6uc7yNuWYwLO4bpZqrsOpMQHgUiMzZU+VHpLvmP/nHmX69RI4vEsgxUptZyadYqfZe7iambjMJUbAuR0wSV/hQs/Au32szORymPZNLs8eyOXqz9GS4YQryw/LKw7wHOUb2jOms64nPwUL1c4wNcyaoNxOZYozfyFjMUP+hhV0RvsFpW/mv2yMDhPFHk8xFmvAHjfF97UEyGv/tjTV0mFpzhZWbyydNruRxXuW5edu7G/pjFPS2FAkGdZnvSSEBVjEkxWC4dZP+LWzN9Mag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bpGBa9Rr4uN64ok9iDDV/hFbcVrvfG/84EdVCW/8ySE=;
+ b=Tc0WAeDHHAlh3ldQuKqNVdkW8Poac3KPtya50OFkSwsely9fRfTpw94y7+JEWxv6BY7nWTsLvhhKT9ZvC/I4BtLSKjZRv8KORPhuoMMCiNTw1KV2q4oWwssfkI+ibffqh4iNVZT3QYa6sk42jFXdoXcCLnqVlPJIzSoNJL6R2o5Mj8iefkxyCByP6wPnGS1RCiImCifStV5yWBD3x6NEncH0ye5eD0WKmnseY127cHRt0uiCOXy8SiOEKYE+IBCdvKvDwRqB3lgdZrXBXnVDMYyQsJ1SrRGkZs5hha+i/ahvXb8aVjCO4/kIX5hjQsW8VREXggNjiFn6WtyHrNrkRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bpGBa9Rr4uN64ok9iDDV/hFbcVrvfG/84EdVCW/8ySE=;
+ b=sikIsTSBPprQEYv/TS0i4n0ua5kGE0zSmdDFvSK1RTZ9FRcYZDstf8IurKTL9wdIPjwhlu5NsJzL0Rozqf8GQJooc8/JvY0jMHUpdwpkijVLpBzEabO13bTo5Bw4QSiOoVckclNdr7GpGQF/okgsUj2h9Ceiy08PPMY+LVXWzQ8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
+ MW5PR12MB5650.namprd12.prod.outlook.com (2603:10b6:303:19e::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.29; Fri, 21 Oct
+ 2022 23:45:26 +0000
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::d309:77d2:93d8:2425]) by DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::d309:77d2:93d8:2425%7]) with mapi id 15.20.5723.035; Fri, 21 Oct 2022
+ 23:45:26 +0000
+Message-ID: <dddec689-c945-a564-3870-b8cebf142323@amd.com>
+Date: Fri, 21 Oct 2022 19:45:22 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH 00/11] fix memory leak while kset_register() fails
+Content-Language: en-CA
+To: Yang Yingliang <yangyingliang@huawei.com>,
+ Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-f2fs-devel@lists.sourceforge.net, linux-erofs@lists.ozlabs.org,
+ ocfs2-devel@oss.oracle.com, linux-mtd@lists.infradead.org,
+ amd-gfx@lists.freedesktop.org, rafael@kernel.org, somlo@cmu.edu,
+ mst@redhat.com, jaegeuk@kernel.org, chao@kernel.org,
+ hsiangkao@linux.alibaba.com, huangjianan@oppo.com, mark@fasheh.com,
+ jlbec@evilplan.org, joseph.qi@linux.alibaba.com, akpm@linux-foundation.org,
+ alexander.deucher@amd.com, richard@nod.at, liushixin2@huawei.com
+References: <20221021022102.2231464-1-yangyingliang@huawei.com>
+ <d559793a-0ce4-3384-e74e-19855aa31f31@amd.com> <Y1IwLOUGayjT9p6d@kroah.com>
+ <0591e66f-731a-5f81-fc9d-3a6d80516c65@huawei.com>
+ <Y1JZ9IUPL6jZIQ8E@kroah.com>
+ <f1210e20-d167-26c4-7aba-490d8fb7241e@huawei.com>
+ <78f84006-955f-6209-1cae-024e4f199b97@amd.com>
+ <9ee10048-f3fe-533b-5f00-8e5dd176808e@huawei.com>
+From: Luben Tuikov <luben.tuikov@amd.com>
+In-Reply-To: <9ee10048-f3fe-533b-5f00-8e5dd176808e@huawei.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.93.83.20]
-X-ClientProxiedBy: SJSMAIL01.us.kioxia.com (10.90.133.90) To
- SJSMAIL01.us.kioxia.com (10.90.133.90)
-Received-SPF: pass client-ip=12.0.68.226; envelope-from=Clay.Mayers@kioxia.com;
- helo=SJSMAIL01.us.kioxia.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-ClientProxiedBy: YT3PR01CA0021.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:86::32) To DM6PR12MB3370.namprd12.prod.outlook.com
+ (2603:10b6:5:38::25)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|MW5PR12MB5650:EE_
+X-MS-Office365-Filtering-Correlation-Id: 54580e30-f48c-4ace-142d-08dab3be53f9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: aGw1DrPLFR4cKWXUAaEcDXP7kewxDGHHsexFg+bcleKM44gaAlIfGy7WDrKTwPi758grxCfL14m28Qfzy1zAFeihOhbCSkTRgYXx451/vS5EpxKSCGKoPYFob1YDAmBBy2hUdXaFJy9du+OqrQ580BGM//1l/PQPwjSO15AYjEI7DQXW8DvpCYA5eQCRwRp2oA1UJV35og8h93wl/LVn0KAsdU/Ch5ZLzMWDbF2IH8/FnjM6EtMn+1XSdMvlaV/4mDnTrP0oFj9EuWyAKOvJjYKcqZMVLai8jVxW7UbKn2XU6kCQI4Qg2bGWDEIpyVKmmZJqBdjxc10eDer4H/WVPC5XFpAhYajU1YPpOADE8XZFmjQ8CaX9ts7ZM6oY1ZHuPoT9FqL/nbXYbzDfasrkByqBiEUaZ5jYGM9DPTO5gK8l9Hk/ao/7ZEw0pD3gvVrbt1QA2MubHmhtqjv3gOE/3ZY2y152uBTOyDiLZKasmc0tONJvUo/omNxiweDwV2TfndKqn1f8+EIoQ/WiMmwWW8h9pPy1pR3GZxgEccgL7jklmS4MGMn+uemyKTUIJF2ErugTZtcu6Bnnh+iYHPorsRXtOMFrYak6IUReOEDdQdPkJxGGFUvfe598C3FWfMhpf5uc2/QbcC6v7ksUSmXGopjeKu88e7BEaIZytmxckU8p+W9cw8gxRRnymlxX3FfUz6zziOZ6NeLmU/ATcfY5oERHUUIrKZJxiedMZRlc/lw2gFjMY5APJeGw9Ev6l9HMEOMRLC/THaeCUb/7V4Tg6+Zx4p4dLThLmUpXkaYqvQgv5T3LBR6i2kEk2dAdx0N+VEDT3/v03YuyyfqilHuLaw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(366004)(136003)(376002)(39860400002)(396003)(346002)(451199015)(6666004)(6486002)(966005)(45080400002)(7416002)(5660300002)(66556008)(41300700001)(478600001)(36756003)(8936002)(4326008)(8676002)(44832011)(316002)(110136005)(66946007)(66476007)(2616005)(6512007)(38100700002)(26005)(6506007)(53546011)(31696002)(186003)(31686004)(2906002)(86362001)(4001150100001)(66899015)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q2FWellvK2p6ZmpiRkFPK3Bkc2Y0SVhJbUV6WUlJOEpPQk9uU3E5Z0crVHJU?=
+ =?utf-8?B?SzBtZkxZSzI0MjBGYWlGSmNqZ2d1WGlpd0s0VUExcE9Zd084b1J6blg2VW8r?=
+ =?utf-8?B?UzFpMEsyRnhPQnRuNnNEMktzdUIwT0p3MmdoZ0xCUGxwdlo2STQvZ2p0bENz?=
+ =?utf-8?B?OG5saldyQkg0NTJwaTdPZm5NV1NLZ3RBSlF6eXdSV2FGeGNva0NsRXZaS2ZC?=
+ =?utf-8?B?d0Vma3d4WEg3dVEzYlRWQlVIU1VnQUdaclBOU3ZLeWlmN25WelZIaC84WVJY?=
+ =?utf-8?B?c2FaaDljK0tTWWJPSEVjR3lhaERrSi9WQk5SOXFRMkRWeTFRR0dXaEtKTGlW?=
+ =?utf-8?B?RkdWbzJCY2k0MkkzUVJtTldWV090amhoNEpEcU43b3FMbHQvdW5mQ0lHUjRR?=
+ =?utf-8?B?dkJSMFUxb1hxUkg2aVcrcTMxQkdrVVZGU3R3QUppSTdVczIva21ydG9vVWZC?=
+ =?utf-8?B?VStkd2M0YUEvL09PVjdKZFFBMndvUGF5blp2ajA5ek50K1JLdDBwN2QyZTN0?=
+ =?utf-8?B?MXkwaW1zamkrbk4wNldZLzNuaDdUUkZnRGs4MjZHOUU2akUrVGZCZFpaY1Nw?=
+ =?utf-8?B?Y3FGcFk2VHEvOXJoZTBOUzNLYXdjdm1BenVCL1lWajkzVUN0NHl0NXpIdFVl?=
+ =?utf-8?B?QWdqUjVFYWlKZzh5YWh2eFVvYXAveldMcm1hVVYxaSt3ZXRFenN1RmErbVhI?=
+ =?utf-8?B?b1FNeFgxczJoRnhJc1FkcS9vdW9GTjN5bHA4OW5OVjNnSUViQ0s5YkdPcnJF?=
+ =?utf-8?B?UXF5SEJ2TlN5SmZVSXo0OFFjWHpHUzZsU2c5bFgzSk95WlVVYXpERWNGdnB6?=
+ =?utf-8?B?dDVmTlJMdVNCRDk0bFZQZWxwa2h2eUNmVFNzOFZrQXFLTGJwc3dMRjZ0RzVv?=
+ =?utf-8?B?WStCdFUxeEFIcmRxWXcxNEpCU25NMjJIZ2ExZlVqdUorM3FWYmN2MTRXQjVk?=
+ =?utf-8?B?U1hKVnJoVldsZGZwRWRocmVjSEFxakZYT2NuQXdhRTF4OU91YVdIaStldis3?=
+ =?utf-8?B?QzBEc1QvM2V6UmJZYjdPdk03NitjMGNtdFVCc3FPN0VSRnJpV3lKbEkrUnZr?=
+ =?utf-8?B?MW52anZDUmE2QUxJbjJyMDdsS0xILzI2U3BMQ2gzaTh5SjQwQWM0V0ZDQzVq?=
+ =?utf-8?B?OGdOUTh6WU9PWE1OaU9Za2g5N1FONUo2NGREZHdZcHE3dzZybGE1TkVzaWVL?=
+ =?utf-8?B?Y01TcjN0Q2s1M2EwNS9TakNhMWlIM1dhUCsrclo3cTRVaThabDVEUkd6UWo1?=
+ =?utf-8?B?ZlVpcmFpY3dxSTltTkxlbktlZ0g1MGl0bCtjNVBJQ1lUZU1GMko2SG11YnN1?=
+ =?utf-8?B?cnk3VDdJU2o1K0xjMWs3TlJLWm04WmlCTWxvUjhzYWxGWGpzWWxIa29Ya1lR?=
+ =?utf-8?B?V2p1czg3YWVaNGNkeHVBbTMvTlJvZGFjMWtJRHR4bEtpNVJEQ3hFb3lNeS9R?=
+ =?utf-8?B?NXowM3E5dk40NFR2VXZ3Ky9McVNhb0NidGZsekp0VlErQ3YzNXdoK0FpS0ZX?=
+ =?utf-8?B?UmJOMmVvSS9mbGtNZnRmRUliUlRzeEFLMW56RGNTY1JqYU1Ia0tld2xKVVJW?=
+ =?utf-8?B?ZVZRQTVoMllrYnU1Y2dUaEFmKzJUWEFodmRUT2RiUFBQbVZkNzFoVys3Z3Nk?=
+ =?utf-8?B?MndTNytmRDYvWWxuaStDeFJWb3l2anZMVUR1b3Y5RVJLNHlEaGdmcnVIWEV1?=
+ =?utf-8?B?MngzZHErMm5Uc1dSUmFNRE9Ed253VGdLL1c2cGp2NUtjcUN4aFJHQnBOY3h2?=
+ =?utf-8?B?b2NUakJNWlpwa0ZGWjhVWXhZU2E1bjhFRTkvWnFnenEvemIrSHVQd2xRZXJz?=
+ =?utf-8?B?bUlDS2V5L253M0VHbmpURDVLWVQrWmRMeGZBVVY1ei9wMVl3RkVKVWtNQmMw?=
+ =?utf-8?B?YUVicHY2aVptYW1ueFFTZk9sQVh4UlhiNmRIYXRsbmFPbkczUXNVRWVhUzNS?=
+ =?utf-8?B?S0NZZFZyR2Vid2svd014RythOWxPU2FWL01rc3Q0TFcrbUJHQUFwMHdBalFJ?=
+ =?utf-8?B?VHVQZVcxQUhEZXJ2VVJSQ1JhM0ozSld5OERxNjFVWXJNaFNpWmQ5WTNUTURY?=
+ =?utf-8?B?REpuWmJpRmFhYmh5VlVNWnlIUFhuMmJ0VkZVZFBmNTVSc29NeUMydWQ0bk9X?=
+ =?utf-8?Q?J4JTjMsig2S9FxnKmAe7Vbw1M?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 54580e30-f48c-4ace-142d-08dab3be53f9
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2022 23:45:26.1743 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7iawkYfgjKrRJkKVJ9PC3JfmAwNlzjkogEihwWkOSQrKv8vCMKol/DssN80A9GML
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5650
+Received-SPF: permerror client-ip=40.107.92.77;
+ envelope-from=Luben.Tuikov@amd.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,207 +158,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Clay Mayers <clay.mayers@kioxia.com>
+On 2022-10-21 05:56, Yang Yingliang wrote:
+> 
+> On 2022/10/21 17:08, Luben Tuikov wrote:
+>> On 2022-10-21 04:59, Yang Yingliang wrote:
+>>> On 2022/10/21 16:36, Greg KH wrote:
+>>>> On Fri, Oct 21, 2022 at 04:24:23PM +0800, Yang Yingliang wrote:
+>>>>> On 2022/10/21 13:37, Greg KH wrote:
+>>>>>> On Fri, Oct 21, 2022 at 01:29:31AM -0400, Luben Tuikov wrote:
+>>>>>>> On 2022-10-20 22:20, Yang Yingliang wrote:
+>>>>>>>> The previous discussion link:
+>>>>>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flkml%2F0db486eb-6927-927e-3629-958f8f211194%40huawei.com%2FT%2F&amp;data=05%7C01%7Cluben.tuikov%40amd.com%7C2597f1097c204be54c7c08dab34a8654%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638019429914730071%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=NNVCtbTxI5uzxxJA9mKvnsy8d3jyudtl1u4CTcm3tsU%3D&amp;reserved=0
+>>>>>>> The very first discussion on this was here:
+>>>>>>>
+>>>>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.spinics.net%2Flists%2Fdri-devel%2Fmsg368077.html&amp;data=05%7C01%7Cluben.tuikov%40amd.com%7C2597f1097c204be54c7c08dab34a8654%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638019429914886316%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=ByCQk0qGktyyoNQg8IFj5AGxmaeWOXnbIA4rFnX%2B6%2BA%3D&amp;reserved=0
+>>>>>>>
+>>>>>>> Please use this link, and not the that one up there you which quoted above,
+>>>>>>> and whose commit description is taken verbatim from the this link.
+>>>>>>>
+>>>>>>>> kset_register() is currently used in some places without calling
+>>>>>>>> kset_put() in error path, because the callers think it should be
+>>>>>>>> kset internal thing to do, but the driver core can not know what
+>>>>>>>> caller doing with that memory at times. The memory could be freed
+>>>>>>>> both in kset_put() and error path of caller, if it is called in
+>>>>>>>> kset_register().
+>>>>>>> As I explained in the link above, the reason there's
+>>>>>>> a memory leak is that one cannot call kset_register() without
+>>>>>>> the kset->kobj.name being set--kobj_add_internal() returns -EINVAL,
+>>>>>>> in this case, i.e. kset_register() fails with -EINVAL.
+>>>>>>>
+>>>>>>> Thus, the most common usage is something like this:
+>>>>>>>
+>>>>>>> 	kobj_set_name(&kset->kobj, format, ...);
+>>>>>>> 	kset->kobj.kset = parent_kset;
+>>>>>>> 	kset->kobj.ktype = ktype;
+>>>>>>> 	res = kset_register(kset);
+>>>>>>>
+>>>>>>> So, what is being leaked, is the memory allocated in kobj_set_name(),
+>>>>>>> by the common idiom shown above. This needs to be mentioned in
+>>>>>>> the documentation, at least, in case, in the future this is absolved
+>>>>>>> in kset_register() redesign, etc.
+>>>>>> Based on this, can kset_register() just clean up from itself when an
+>>>>>> error happens?  Ideally that would be the case, as the odds of a kset
+>>>>>> being embedded in a larger structure is probably slim, but we would have
+>>>>>> to search the tree to make sure.
+>>>>> I have search the whole tree, the kset used in bus_register() - patch #3,
+>>>>> kset_create_and_add() - patch #4
+>>>>> __class_register() - patch #5,  fw_cfg_build_symlink() - patch #6 and
+>>>>> amdgpu_discovery.c - patch #10
+>>>>> is embedded in a larger structure. In these cases, we can not call
+>>>>> kset_put() in error path in kset_register()
+>>>> Yes you can as the kobject in the kset should NOT be controling the
+>>>> lifespan of those larger objects.
+>>>>
+>>>> If it is, please point out the call chain here as I don't think that
+>>>> should be possible.
+>>>>
+>>>> Note all of this is a mess because the kobject name stuff was added much
+>>>> later, after the driver model had been created and running for a while.
+>>>> We missed this error path when adding the dynamic kobject name logic,
+>>>> thank for looking into this.
+>>>>
+>>>> If you could test the patch posted with your error injection systems,
+>>>> that could make this all much simpler to solve.
+>>> The patch posted by Luben will cause double free in some cases.
+>> Yes, I figured this out in the other email and posted the scenario Greg
+>> was asking about.
+>>
+>> But I believe the question still stands if we can do kset_put()
+>> after a *failed* kset_register(), namely if more is being done than
+>> necessary, which is just to free the memory allocated by
+>> kobject_set_name().
+> The name memory is allocated in kobject_set_name() in caller,  and I 
+> think caller
+> free the memory that it allocated is reasonable, it's weird that some 
+> callers allocate
+> some memory and use function (kset_register) failed, then it free the 
+> memory allocated
+> in callers,  I think use kset_put()/kfree_const(name) in caller seems 
+> more reasonable.
 
-If a namespace's param.zoned.finish_time is non-zero,
-controllers register with the namespace to be notified
-when entries are added to its zone-descriptor-changed
-log page.  If the zone-descriptor-changed aen is enabled,
-this will cause an AEN to be sent from that controller.
+kset_put() would work only in implementations, such as amdgpu_discovery.c,
+where the ktype.release is defined and it frees the embedding object in
+which the kset is embedded.
 
-Signed-off-by: Clay Mayers <clay.mayers@kioxia.com>
----
- hw/nvme/ctrl.c       | 63 +++++++++++++++++++++++++++++++++++++++++++-
- hw/nvme/ns.c         |  1 +
- hw/nvme/nvme.h       | 11 ++++++++
- include/block/nvme.h |  2 ++
- 4 files changed, 76 insertions(+), 1 deletion(-)
+Depending on the implementation, you may need to call kfree_const(name).
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 4fb85160cc..be6147363d 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -1519,6 +1519,52 @@ static void nvme_clear_events(NvmeCtrl *n, uint8_t event_type)
-     }
- }
- 
-+static void nvme_zdc_watch(NvmeCtrl *n, NvmeNamespace *ns, NvmeNotifyFnc fnc)
-+{
-+    NvmeZdcNotify *watcher = g_malloc0(sizeof(*watcher));
-+
-+    watcher->n = n;
-+    watcher->notify = fnc;
-+    QTAILQ_INSERT_TAIL(&ns->zdc_watchers, watcher, entry);
-+}
-+
-+static void nvme_zdc_unwatch(NvmeCtrl *n, NvmeNamespace *ns)
-+{
-+    NvmeZdcNotify *watcher;
-+
-+    QTAILQ_FOREACH(watcher, &ns->zdc_watchers, entry) {
-+        if (watcher->n == n) {
-+            QTAILQ_REMOVE(&ns->zdc_watchers, watcher, entry);
-+            break;
-+        }
-+    }
-+}
-+
-+static void nvme_zdc_notify(NvmeNamespace *ns)
-+{
-+    NvmeZdcNotify *watcher;
-+
-+    QTAILQ_FOREACH(watcher, &ns->zdc_watchers, entry) {
-+        (*watcher->notify)(watcher->n, ns);
-+    }
-+}
-+
-+static void nvme_zdc_aen(NvmeCtrl *n, NvmeNamespace *ns)
-+{
-+    g_assert(n->id_ctrl.oaes & (1 << 27));
-+
-+    if (!NVME_AEC_ZONE_CHANGED(n->features.async_config)) {
-+        return;
-+    }
-+
-+    if (!n->zdc_event_queued) {
-+        n->zdc_event_queued = true;
-+        nvme_enqueue_event(n, NVME_AER_TYPE_NOTICE,
-+                            NVME_AER_INFO_NOTICE_ZONE_DESC_CHANGED,
-+                            NVME_LOG_CHANGED_ZONE, ns->params.nsid);
-+    }
-+}
-+
- static void nvme_zdc_list(NvmeNamespace *ns, NvmeZoneIdList *zlist, bool reset)
- {
-     NvmeZdc *zdc;
-@@ -1554,6 +1600,7 @@ static void nvme_check_finish(NvmeNamespace *ns, NvmeZoneListHead *list)
-                 zdc->zone = zone;
-                 zone->zdc_entry = zdc;
-                 QTAILQ_INSERT_TAIL(&ns->zdc_list, zdc, entry);
-+                nvme_zdc_notify(ns);
-             }
-         } else if (zone->finish_ms != INT64_MAX) {
-             timer_mod_anticipate(ns->active_timer, zone->finish_ms);
-@@ -4727,6 +4774,14 @@ static uint16_t nvme_changed_zones(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
-         return NVME_INVALID_NSID | NVME_DNR;
-     }
-     nvme_zdc_list(ns, &zlist, !rae);
-+    if (!rae) {
-+        n->zdc_event_queued = false;
-+        nvme_clear_events(n, NVME_AER_TYPE_NOTICE);
-+        /* send a new aen if there are still zdc entries */
-+        if (!QTAILQ_EMPTY(&ns->zdc_list)) {
-+            nvme_zdc_notify(ns);
-+        }
-+    }
- 
-     trans_len = MIN(sizeof(zlist) - off, buf_len);
- 
-@@ -5815,6 +5870,7 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
-                 return NVME_NS_NOT_ATTACHED | NVME_DNR;
-             }
- 
-+            nvme_zdc_unwatch(n, ns);
-             ctrl->namespaces[nsid] = NULL;
-             ns->attached--;
- 
-@@ -7542,7 +7598,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
- 
-     id->cntlid = cpu_to_le16(n->cntlid);
- 
--    id->oaes = cpu_to_le32(NVME_OAES_NS_ATTR);
-+    id->oaes = cpu_to_le32(NVME_OAES_NS_ATTR | NVME_OAES_ZDC);
-     id->ctratt |= cpu_to_le32(NVME_CTRATT_ELBAS);
- 
-     id->rab = 6;
-@@ -7659,6 +7715,10 @@ void nvme_attach_ns(NvmeCtrl *n, NvmeNamespace *ns)
- 
-     n->dmrsl = MIN_NON_ZERO(n->dmrsl,
-                             BDRV_REQUEST_MAX_BYTES / nvme_l2b(ns, 1));
-+
-+    if (ns->params.fto) {
-+        nvme_zdc_watch(n, ns, nvme_zdc_aen);
-+    }
- }
- 
- static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-@@ -7721,6 +7781,7 @@ static void nvme_exit(PCIDevice *pci_dev)
-         for (i = 1; i <= NVME_MAX_NAMESPACES; i++) {
-             ns = nvme_ns(n, i);
-             if (ns) {
-+                nvme_zdc_unwatch(n, ns);
-                 ns->attached--;
-             }
-         }
-diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
-index 25cd490c99..5629b61302 100644
---- a/hw/nvme/ns.c
-+++ b/hw/nvme/ns.c
-@@ -241,6 +241,7 @@ static void nvme_ns_zoned_init_state(NvmeNamespace *ns)
-     QTAILQ_INIT(&ns->closed_zones);
-     QTAILQ_INIT(&ns->full_zones);
-     QTAILQ_INIT(&ns->zdc_list);
-+    QTAILQ_INIT(&ns->zdc_watchers);
- 
-     zone = ns->zone_array;
-     for (i = 0; i < ns->num_zones; i++, zone++) {
-diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index ae65226150..5499105e7b 100644
---- a/hw/nvme/nvme.h
-+++ b/hw/nvme/nvme.h
-@@ -91,6 +91,14 @@ static inline NvmeNamespace *nvme_subsys_ns(NvmeSubsystem *subsys,
- #define NVME_NS(obj) \
-     OBJECT_CHECK(NvmeNamespace, (obj), TYPE_NVME_NS)
- 
-+typedef void (*NvmeNotifyFnc)(NvmeCtrl *n, NvmeNamespace *ns);
-+
-+typedef struct NvmeZdcNotify {
-+    QTAILQ_ENTRY(NvmeZdcNotify) entry;
-+    NvmeNotifyFnc notify;
-+    NvmeCtrl *n;
-+} NvmeZdcNotify;
-+
- typedef struct NvmeZdc {
-     QTAILQ_ENTRY(NvmeZdc) entry;
-     NvmeZone *zone;
-@@ -179,6 +187,7 @@ typedef struct NvmeNamespace {
- 
-     int64_t         fto_ms;
-     QEMUTimer       *active_timer;
-+    QTAILQ_HEAD(, NvmeZdcNotify) zdc_watchers;
-     QTAILQ_HEAD(, NvmeZdc) zdc_list;
- 
-     NvmeNamespaceParams params;
-@@ -477,6 +486,8 @@ typedef struct NvmeCtrl {
-     uint64_t    dbbuf_eis;
-     bool        dbbuf_enabled;
- 
-+    bool        zdc_event_queued;
-+
-     struct {
-         MemoryRegion mem;
-         uint8_t      *buf;
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 9467d4b939..1662046c0d 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -830,6 +830,7 @@ enum NvmeAsyncEventRequest {
-     NVME_AER_INFO_SMART_TEMP_THRESH         = 1,
-     NVME_AER_INFO_SMART_SPARE_THRESH        = 2,
-     NVME_AER_INFO_NOTICE_NS_ATTR_CHANGED    = 0,
-+    NVME_AER_INFO_NOTICE_ZONE_DESC_CHANGED  = 0xef,
- };
- 
- typedef struct QEMU_PACKED NvmeAerResult {
-@@ -1133,6 +1134,7 @@ typedef struct NvmeIdCtrlNvm {
- 
- enum NvmeIdCtrlOaes {
-     NVME_OAES_NS_ATTR   = 1 << 8,
-+    NVME_OAES_ZDC       = 1 << 27,
- };
- 
- enum NvmeIdCtrlCtratt {
--- 
-2.27.0
+And this is why this needs to be documented in kset_register(), as I noted
+in the review earlier.
 
+Regards,
+Luben
 
