@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C29C760718F
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 10:00:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E6036070D9
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 09:20:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olmxY-0002AZ-Bq
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 04:00:52 -0400
+	id 1olmKD-0004lR-Jd
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:20:14 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olmH8-0003B4-EY
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:17:02 -0400
+	id 1olmHE-0003CD-P4
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:17:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olmGz-000367-16
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:16:53 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ id 1olmH5-00039P-3h
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:16:59 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olmGx-0005fo-Ba
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:16:52 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- t10-20020a17090a4e4a00b0020af4bcae10so2013371pjl.3
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 00:16:50 -0700 (PDT)
+ id 1olmH0-0005d3-P8
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:16:58 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id ez6so1689430pjb.1
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 00:16:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ffAk/uKFmYMud8oNMjB2hkT94GX/9Rmm5gafjNWj2X0=;
- b=wNFTdlBq9+piNNR1XJEMvpJZ+1rT/udqse533tPPSRGx4/cHnV377I7kas5GLAPLBt
- ox21l0RDoe/w5weqfreggNJUACq5idqdh8pTDwi+6wxEMXkBEj0oeD54kOoJPCkn1dap
- 75Hy8yBhLVh4/Ipozmwpx+kgaLI+LFyJ38m0ZcFNkcFC726W2meb5yjusoZlyvk7z6bs
- e6UySvMM9rC0cgDRthQxhqFMiqPh4pgF1bmUKwu2TkVSvJ7g++bc60hl2y7vJxnZs6tK
- OndTZ8FCoTGcSBR+DUhNTG6FyDRhJANDGE5In5diEKbhMFoQxDVkt0JvmfhNiegiAyCf
- vDKQ==
+ bh=JuYObXlFmz1SmrGQdE1r0MOoxWD6WYua5nMC/+UaBVA=;
+ b=fNqdUS16CSPmNuUqAF51Na2aaujn8wyzVkoyTlQujG7W6D+887kBWLGgukONLCtCVP
+ snNutcu3RSX7S5Ud/lw9ZKfx22XpsLDxeL0hEOPWMJ6Xq+jJsBOoUZhQcKM1V2wvI/PF
+ n3l9OUbv0HKPWhlPRdkrFM0ixw+4sTAFGrwb3z0L4Le9dpumnU7Ko5tVGkNcNRFOmnUK
+ lEWK9436B38Tpu3ejDBLqJpc/PEGE0n4yLC0v4FDzt2p/huFajx74WVctn5wwgIIUMyb
+ j2qy2aq4+ZCKA1149POJOfLJpI1lTLPBoGG3lJm6terfSe0hpnNwFtAhaHQsBQIhnKtm
+ QuKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ffAk/uKFmYMud8oNMjB2hkT94GX/9Rmm5gafjNWj2X0=;
- b=Wd3gzutEr19aLaq4aDgcwxCKCcEZ1t6wRL7XhxP7Q3s4SukWmeXoS8yE06xN+SoWW9
- lvRxhD25C1FrH13aXLj1caQy5uUCPho5PMAkW43ikdhG9CtzaGxz79NX5ZCXjGGM0ukI
- KguRdlgP+c153UIDsFYP8AsGzW3VgjOLXKj932hEpb/fO37PyOPc71+lNaqaqYxQUkJV
- 79GZqGVOf3k+9NOhSsg9gfHBdaEeppdpfzo7q+ExEGxbAkGIRcuseNjRlG+pdlvxUhdR
- ziaYMbO5Uk2F9k8hkXARyq9Ulc3BK5Jv7xFYaqprYGEEkkhMd2Sb72jsnYQ+5XlDrNds
- bbfA==
-X-Gm-Message-State: ACrzQf14Q0WCXNVyqZbW20Drv9mIwXpF3Q7g+a4QE/4t0cER59bs69gk
- OXTy7n4Vv6cgGCXMF8LSpRUK4bJs3gYXAJbQ
-X-Google-Smtp-Source: AMsMyM4Wzq8Q/rtLPXZyFSbWxGyfEG+aV9DcZsNL2XvUb5AQoBgdGvM7d76JAVRRcHKhHcaq1apq9Q==
-X-Received: by 2002:a17:90b:3ec3:b0:20d:9da6:56c1 with SMTP id
- rm3-20020a17090b3ec300b0020d9da656c1mr21119024pjb.156.1666336610104; 
- Fri, 21 Oct 2022 00:16:50 -0700 (PDT)
+ bh=JuYObXlFmz1SmrGQdE1r0MOoxWD6WYua5nMC/+UaBVA=;
+ b=Vq6kRpWWyc/1MkTxV3sYj42Jkya/+KbsxJlTQ0n6fy6+8l/WHObMA1fa8CkC0ic4yu
+ QGqHZs6r5e5IcuNgHsAx2nczUu/Nv/5al2/XoDpeUalWASBWhA15GtGMW1sJRIzbeLeL
+ /HV71dU4iHNjFGr1/gOmfOFDJrsH/tpNI+9Dugbq+2DJgbxyVuoQJR4qxsGd/+f1R+yK
+ gtoxh8WYSqS4DqhtmC2Cu1eCnLmYykZW3sM4spH2a5QwWKoQf2Cfvpjm5RoIfRr8HL9Q
+ TYpT4IQPK1fr1iUFCwMI144bOCU5B5A9FoJM9USGY1e+OFeifpjcaTyMJ+fKvNuA6oDO
+ /6OQ==
+X-Gm-Message-State: ACrzQf22pTqwNiEvxCfnjoLaNYvSqq/uqV8v9xXMNn0b2RQUAepCTcXh
+ UxULC4gksobJpq5Eh+L2sAcbvNQWMVGcIC9F
+X-Google-Smtp-Source: AMsMyM51FEqgTzjUwcopVQFw3Na1Y5f80VyiVTNwjd7cgJK1fnx0kTKOML9ECaNCoGp2wrzpp35Xbw==
+X-Received: by 2002:a17:90b:4a84:b0:20d:8953:5ab0 with SMTP id
+ lp4-20020a17090b4a8400b0020d89535ab0mr55825022pjb.48.1666336612792; 
+ Fri, 21 Oct 2022 00:16:52 -0700 (PDT)
 Received: from localhost.localdomain ([149.135.10.35])
  by smtp.gmail.com with ESMTPSA id
- q9-20020a638c49000000b0041cd5ddde6fsm13003327pgn.76.2022.10.21.00.16.47
+ q9-20020a638c49000000b0041cd5ddde6fsm13003327pgn.76.2022.10.21.00.16.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Oct 2022 00:16:49 -0700 (PDT)
+ Fri, 21 Oct 2022 00:16:52 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: [PATCH v2 09/36] target/sparc: Avoid TCGV_{LOW,HIGH}
-Date: Fri, 21 Oct 2022 17:15:22 +1000
-Message-Id: <20221021071549.2398137-10-richard.henderson@linaro.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v2 10/36] tcg: Move TCG_{LOW,HIGH} to tcg-internal.h
+Date: Fri, 21 Oct 2022 17:15:23 +1000
+Message-Id: <20221021071549.2398137-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221021071549.2398137-1-richard.henderson@linaro.org>
 References: <20221021071549.2398137-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,60 +96,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the official extend/extract functions instead of routines
-that will shortly be internal to tcg.
+Move the error-generating fallback from tcg-op.c, and
+replace "_link_error" with modern QEMU_ERROR markup.
 
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/sparc/translate.c | 21 ++++-----------------
- 1 file changed, 4 insertions(+), 17 deletions(-)
+ include/tcg/tcg.h  | 12 ------------
+ tcg/tcg-internal.h | 14 ++++++++++++++
+ tcg/tcg-op.c       | 10 +---------
+ 3 files changed, 15 insertions(+), 21 deletions(-)
 
-diff --git a/target/sparc/translate.c b/target/sparc/translate.c
-index 2cbbe2396a..7e9631f004 100644
---- a/target/sparc/translate.c
-+++ b/target/sparc/translate.c
-@@ -163,13 +163,6 @@ static inline void gen_update_fprs_dirty(DisasContext *dc, int rd)
- /* floating point registers moves */
- static TCGv_i32 gen_load_fpr_F(DisasContext *dc, unsigned int src)
- {
--#if TCG_TARGET_REG_BITS == 32
--    if (src & 1) {
--        return TCGV_LOW(cpu_fpr[src / 2]);
--    } else {
--        return TCGV_HIGH(cpu_fpr[src / 2]);
--    }
--#else
-     TCGv_i32 ret = get_temp_i32(dc);
-     if (src & 1) {
-         tcg_gen_extrl_i64_i32(ret, cpu_fpr[src / 2]);
-@@ -177,22 +170,16 @@ static TCGv_i32 gen_load_fpr_F(DisasContext *dc, unsigned int src)
-         tcg_gen_extrh_i64_i32(ret, cpu_fpr[src / 2]);
-     }
-     return ret;
--#endif
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 5c2254ce9f..d207bc47be 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -737,18 +737,6 @@ static inline TCGv_vec temp_tcgv_vec(TCGTemp *t)
+     return (TCGv_vec)temp_tcgv_i32(t);
  }
  
- static void gen_store_fpr_F(DisasContext *dc, unsigned int dst, TCGv_i32 v)
- {
 -#if TCG_TARGET_REG_BITS == 32
--    if (dst & 1) {
--        tcg_gen_mov_i32(TCGV_LOW(cpu_fpr[dst / 2]), v);
--    } else {
--        tcg_gen_mov_i32(TCGV_HIGH(cpu_fpr[dst / 2]), v);
--    }
--#else
--    TCGv_i64 t = (TCGv_i64)v;
-+    TCGv_i64 t = tcg_temp_new_i64();
+-static inline TCGv_i32 TCGV_LOW(TCGv_i64 t)
+-{
+-    return temp_tcgv_i32(tcgv_i64_temp(t));
+-}
+-
+-static inline TCGv_i32 TCGV_HIGH(TCGv_i64 t)
+-{
+-    return temp_tcgv_i32(tcgv_i64_temp(t) + 1);
+-}
+-#endif
+-
+ static inline TCGArg tcg_get_insn_param(TCGOp *op, int arg)
+ {
+     return op->args[arg];
+diff --git a/tcg/tcg-internal.h b/tcg/tcg-internal.h
+index cc82088d52..a9ea27f67a 100644
+--- a/tcg/tcg-internal.h
++++ b/tcg/tcg-internal.h
+@@ -59,4 +59,18 @@ static inline unsigned tcg_call_flags(TCGOp *op)
+     return tcg_call_info(op)->flags;
+ }
+ 
++#if TCG_TARGET_REG_BITS == 32
++static inline TCGv_i32 TCGV_LOW(TCGv_i64 t)
++{
++    return temp_tcgv_i32(tcgv_i64_temp(t));
++}
++static inline TCGv_i32 TCGV_HIGH(TCGv_i64 t)
++{
++    return temp_tcgv_i32(tcgv_i64_temp(t) + 1);
++}
++#else
++extern TCGv_i32 TCGV_LOW(TCGv_i64) QEMU_ERROR("32-bit code path is reachable");
++extern TCGv_i32 TCGV_HIGH(TCGv_i64) QEMU_ERROR("32-bit code path is reachable");
++#endif
 +
-+    tcg_gen_extu_i32_i64(t, v);
-     tcg_gen_deposit_i64(cpu_fpr[dst / 2], cpu_fpr[dst / 2], t,
-                         (dst & 1 ? 0 : 32), 32);
--#endif
-+    tcg_temp_free_i64(t);
-     gen_update_fprs_dirty(dc, dst);
- }
+ #endif /* TCG_INTERNAL_H */
+diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
+index 019fab00cc..3ed98ffa01 100644
+--- a/tcg/tcg-op.c
++++ b/tcg/tcg-op.c
+@@ -28,16 +28,8 @@
+ #include "tcg/tcg-op.h"
+ #include "tcg/tcg-mo.h"
+ #include "exec/plugin-gen.h"
++#include "tcg-internal.h"
  
+-/* Reduce the number of ifdefs below.  This assumes that all uses of
+-   TCGV_HIGH and TCGV_LOW are properly protected by a conditional that
+-   the compiler can eliminate.  */
+-#if TCG_TARGET_REG_BITS == 64
+-extern TCGv_i32 TCGV_LOW_link_error(TCGv_i64);
+-extern TCGv_i32 TCGV_HIGH_link_error(TCGv_i64);
+-#define TCGV_LOW  TCGV_LOW_link_error
+-#define TCGV_HIGH TCGV_HIGH_link_error
+-#endif
+ 
+ void tcg_gen_op1(TCGOpcode opc, TCGArg a1)
+ {
 -- 
 2.34.1
 
