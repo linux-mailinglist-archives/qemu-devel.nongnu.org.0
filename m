@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5BB6606FF7
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 08:22:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5FD960701A
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 08:30:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ollQi-0002GR-Dn
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 02:22:52 -0400
+	id 1ollYR-00079a-MU
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 02:30:51 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oll34-00017Y-3Q
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 01:58:26 -0400
+	id 1oll39-00018a-7d
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 01:58:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben@luna.fluff.org>)
- id 1oll2w-00011g-1b; Fri, 21 Oct 2022 01:58:18 -0400
+ id 1oll2x-00013G-9R; Fri, 21 Oct 2022 01:58:19 -0400
 Received: from cpc152649-stkp13-2-0-cust121.10-2.cable.virginm.net
  ([86.15.83.122] helo=luna)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben@luna.fluff.org>)
- id 1oll2u-00074N-5h; Fri, 21 Oct 2022 01:58:17 -0400
+ id 1oll2u-00074T-2z; Fri, 21 Oct 2022 01:58:19 -0400
 Received: from ben by luna with local (Exim 4.96)
- (envelope-from <ben@luna.fluff.org>) id 1oll2n-001R0R-2O;
+ (envelope-from <ben@luna.fluff.org>) id 1oll2n-001R0U-2V;
  Fri, 21 Oct 2022 06:58:09 +0100
 From: Ben Dooks <qemu@ben.fluff.org>
 To: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org, alistair@alistair23.me, peter.maydell@linaro.org,
  qemu-riscv@nongnu.org, Ben Dooks <qemu@ben.fluff.org>
-Subject: [PATCH v5 2/6] hw/core: don't check return on
- qemu_fdt_setprop_string_array()
-Date: Fri, 21 Oct 2022 06:58:04 +0100
-Message-Id: <20221021055808.342055-3-qemu@ben.fluff.org>
+Subject: [PATCH v5 3/6] hw/riscv: use qemu_fdt_setprop_strings() for string
+ arrays
+Date: Fri, 21 Oct 2022 06:58:05 +0100
+Message-Id: <20221021055808.342055-4-qemu@ben.fluff.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221021055808.342055-1-qemu@ben.fluff.org>
 References: <20221021055808.342055-1-qemu@ben.fluff.org>
@@ -63,55 +63,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The qemu_fdt_setprop_string_array() does not return error codes and
-will call exit() if any of the fdt calls fails (and should print an
-error with the node being altered). This is done to prepare for the
-change for qemu_fdt_setprop_strings() helper which does not return
-any error codes (hw/core/guest-loader.c is the only place where an
-return is checked).
+Use the qemu_fdt_setprop_strings() in sifve_u.c to simplify the code.
 
 Signed-off-by: Ben Dooks <qemu@ben.fluff.org>
 ---
- hw/core/guest-loader.c | 22 +++++++---------------
- 1 file changed, 7 insertions(+), 15 deletions(-)
+v5: fix re-ordering in sifive_u
+---
+ hw/riscv/sifive_u.c | 18 +++++-------------
+ hw/riscv/spike.c    |  7 ++-----
+ hw/riscv/virt.c     | 25 ++++++-------------------
+ 3 files changed, 13 insertions(+), 37 deletions(-)
 
-diff --git a/hw/core/guest-loader.c b/hw/core/guest-loader.c
-index 391c875a29..c61ebc4144 100644
---- a/hw/core/guest-loader.c
-+++ b/hw/core/guest-loader.c
-@@ -57,25 +57,17 @@ static void loader_insert_platform_data(GuestLoaderState *s, int size,
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index b139824aab..2e0e78cbee 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -103,13 +103,6 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
+     char *nodename;
+     uint32_t plic_phandle, prci_phandle, gpio_phandle, phandle = 1;
+     uint32_t hfclk_phandle, rtcclk_phandle, phy_phandle;
+-    static const char * const ethclk_names[2] = { "pclk", "hclk" };
+-    static const char * const clint_compat[2] = {
+-        "sifive,clint0", "riscv,clint0"
+-    };
+-    static const char * const plic_compat[2] = {
+-        "sifive,plic-1.0.0", "riscv,plic0"
+-    };
  
-     if (s->kernel) {
-         const char *compat[2] = { "multiboot,module", "multiboot,kernel" };
--        if (qemu_fdt_setprop_string_array(fdt, node, "compatible",
--                                          (char **) &compat,
--                                          ARRAY_SIZE(compat)) < 0) {
--            error_setg(errp, "couldn't set %s/compatible", node);
--            return;
--        }
-+        qemu_fdt_setprop_string_array(fdt, node, "compatible",
-+                                      (char **) &compat,
-+                                      ARRAY_SIZE(compat));
-         if (s->args) {
--            if (qemu_fdt_setprop_string(fdt, node, "bootargs", s->args) < 0) {
--                error_setg(errp, "couldn't set %s/bootargs", node);
--            }
-+            qemu_fdt_setprop_string(fdt, node, "bootargs", s->args);
-         }
-     } else if (s->initrd) {
-         const char *compat[2] = { "multiboot,module", "multiboot,ramdisk" };
--        if (qemu_fdt_setprop_string_array(fdt, node, "compatible",
--                                          (char **) &compat,
--                                          ARRAY_SIZE(compat)) < 0) {
--            error_setg(errp, "couldn't set %s/compatible", node);
--            return;
--        }
-+        qemu_fdt_setprop_string_array(fdt, node, "compatible",
-+                                      (char **) &compat,
-+                                      ARRAY_SIZE(compat));
-     }
- }
+     if (ms->dtb) {
+         fdt = s->fdt = load_device_tree(ms->dtb, &s->fdt_size);
+@@ -221,8 +214,8 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
+     nodename = g_strdup_printf("/soc/clint@%lx",
+         (long)memmap[SIFIVE_U_DEV_CLINT].base);
+     qemu_fdt_add_subnode(fdt, nodename);
+-    qemu_fdt_setprop_string_array(fdt, nodename, "compatible",
+-        (char **)&clint_compat, ARRAY_SIZE(clint_compat));
++    qemu_fdt_setprop_strings(fdt, nodename, "compatible",
++                             "sifive,clint0", "riscv,clint0");
+     qemu_fdt_setprop_cells(fdt, nodename, "reg",
+         0x0, memmap[SIFIVE_U_DEV_CLINT].base,
+         0x0, memmap[SIFIVE_U_DEV_CLINT].size);
+@@ -279,8 +272,8 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
+         (long)memmap[SIFIVE_U_DEV_PLIC].base);
+     qemu_fdt_add_subnode(fdt, nodename);
+     qemu_fdt_setprop_cell(fdt, nodename, "#interrupt-cells", 1);
+-    qemu_fdt_setprop_string_array(fdt, nodename, "compatible",
+-        (char **)&plic_compat, ARRAY_SIZE(plic_compat));
++    qemu_fdt_setprop_strings(fdt, nodename, "compatbile",
++                             "sifive,plic-1.0.0", "riscv,plic0");
+     qemu_fdt_setprop(fdt, nodename, "interrupt-controller", NULL, 0);
+     qemu_fdt_setprop(fdt, nodename, "interrupts-extended",
+         cells, (ms->smp.cpus * 4 - 2) * sizeof(uint32_t));
+@@ -426,8 +419,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
+     qemu_fdt_setprop_cell(fdt, nodename, "interrupts", SIFIVE_U_GEM_IRQ);
+     qemu_fdt_setprop_cells(fdt, nodename, "clocks",
+         prci_phandle, PRCI_CLK_GEMGXLPLL, prci_phandle, PRCI_CLK_GEMGXLPLL);
+-    qemu_fdt_setprop_string_array(fdt, nodename, "clock-names",
+-        (char **)&ethclk_names, ARRAY_SIZE(ethclk_names));
++    qemu_fdt_setprop_strings(fdt, nodename, "clock-names", "pclk", "hclk");
+     qemu_fdt_setprop(fdt, nodename, "local-mac-address",
+         s->soc.gem.conf.macaddr.a, ETH_ALEN);
+     qemu_fdt_setprop_cell(fdt, nodename, "#address-cells", 1);
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index 1e1d752c00..80480d4ab4 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -61,9 +61,6 @@ static void create_fdt(SpikeState *s, const MemMapEntry *memmap,
+     uint32_t cpu_phandle, intc_phandle, phandle = 1;
+     char *name, *mem_name, *clint_name, *clust_name;
+     char *core_name, *cpu_name, *intc_name;
+-    static const char * const clint_compat[2] = {
+-        "sifive,clint0", "riscv,clint0"
+-    };
  
+     fdt = s->fdt = create_device_tree(&s->fdt_size);
+     if (!fdt) {
+@@ -161,8 +158,8 @@ static void create_fdt(SpikeState *s, const MemMapEntry *memmap,
+             (memmap[SPIKE_CLINT].size * socket);
+         clint_name = g_strdup_printf("/soc/clint@%lx", clint_addr);
+         qemu_fdt_add_subnode(fdt, clint_name);
+-        qemu_fdt_setprop_string_array(fdt, clint_name, "compatible",
+-            (char **)&clint_compat, ARRAY_SIZE(clint_compat));
++        qemu_fdt_setprop_strings(fdt, clint_name, "compatible",
++                                 "sifive,clint0", "riscv,clint0");
+         qemu_fdt_setprop_cells(fdt, clint_name, "reg",
+             0x0, clint_addr, 0x0, memmap[SPIKE_CLINT].size);
+         qemu_fdt_setprop(fdt, clint_name, "interrupts-extended",
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index a5bc7353b4..5c644212a2 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -303,9 +303,6 @@ static void create_fdt_socket_clint(RISCVVirtState *s,
+     uint32_t *clint_cells;
+     unsigned long clint_addr;
+     MachineState *mc = MACHINE(s);
+-    static const char * const clint_compat[2] = {
+-        "sifive,clint0", "riscv,clint0"
+-    };
+ 
+     clint_cells = g_new0(uint32_t, s->soc[socket].num_harts * 4);
+ 
+@@ -319,9 +316,8 @@ static void create_fdt_socket_clint(RISCVVirtState *s,
+     clint_addr = memmap[VIRT_CLINT].base + (memmap[VIRT_CLINT].size * socket);
+     clint_name = g_strdup_printf("/soc/clint@%lx", clint_addr);
+     qemu_fdt_add_subnode(mc->fdt, clint_name);
+-    qemu_fdt_setprop_string_array(mc->fdt, clint_name, "compatible",
+-                                  (char **)&clint_compat,
+-                                  ARRAY_SIZE(clint_compat));
++    qemu_fdt_setprop_strings(mc->fdt, clint_name, "compatible",
++                             "sifive,clint0", "riscv,clint0");
+     qemu_fdt_setprop_cells(mc->fdt, clint_name, "reg",
+         0x0, clint_addr, 0x0, memmap[VIRT_CLINT].size);
+     qemu_fdt_setprop(mc->fdt, clint_name, "interrupts-extended",
+@@ -430,9 +426,6 @@ static void create_fdt_socket_plic(RISCVVirtState *s,
+     uint32_t *plic_cells;
+     unsigned long plic_addr;
+     MachineState *mc = MACHINE(s);
+-    static const char * const plic_compat[2] = {
+-        "sifive,plic-1.0.0", "riscv,plic0"
+-    };
+ 
+     if (kvm_enabled()) {
+         plic_cells = g_new0(uint32_t, s->soc[socket].num_harts * 2);
+@@ -460,9 +453,8 @@ static void create_fdt_socket_plic(RISCVVirtState *s,
+         "#interrupt-cells", FDT_PLIC_INT_CELLS);
+     qemu_fdt_setprop_cell(mc->fdt, plic_name,
+         "#address-cells", FDT_PLIC_ADDR_CELLS);
+-    qemu_fdt_setprop_string_array(mc->fdt, plic_name, "compatible",
+-                                  (char **)&plic_compat,
+-                                  ARRAY_SIZE(plic_compat));
++    qemu_fdt_setprop_strings(mc->fdt, plic_name, "compatible",
++                             "sifive,plic-1.0.0", "riscv,plic0");
+     qemu_fdt_setprop(mc->fdt, plic_name, "interrupt-controller", NULL, 0);
+     qemu_fdt_setprop(mc->fdt, plic_name, "interrupts-extended",
+         plic_cells, s->soc[socket].num_harts * sizeof(uint32_t) * 4);
+@@ -890,13 +882,8 @@ static void create_fdt_reset(RISCVVirtState *s, const MemMapEntry *memmap,
+     name = g_strdup_printf("/soc/test@%lx",
+         (long)memmap[VIRT_TEST].base);
+     qemu_fdt_add_subnode(mc->fdt, name);
+-    {
+-        static const char * const compat[3] = {
+-            "sifive,test1", "sifive,test0", "syscon"
+-        };
+-        qemu_fdt_setprop_string_array(mc->fdt, name, "compatible",
+-                                      (char **)&compat, ARRAY_SIZE(compat));
+-    }
++    qemu_fdt_setprop_strings(mc->fdt, name, "compatible",
++                             "sifive,test1", "sifive,test0", "syscon");
+     qemu_fdt_setprop_cells(mc->fdt, name, "reg",
+         0x0, memmap[VIRT_TEST].base, 0x0, memmap[VIRT_TEST].size);
+     qemu_fdt_setprop_cell(mc->fdt, name, "phandle", test_phandle);
 -- 
 2.35.1
 
