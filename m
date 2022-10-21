@@ -2,87 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CA796072B7
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 10:45:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7387D607423
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 11:34:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olneS-0002ys-GF
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 04:45:16 -0400
+	id 1oloQJ-0003MA-6p
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:34:39 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olnKQ-0007ot-KR
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 04:24:30 -0400
+	id 1olnLD-0008Su-Ve
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 04:25:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1olnKH-0007Rc-66
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 04:24:21 -0400
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1olnKF-0005VR-9i
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 04:24:20 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 631711F8CA;
- Fri, 21 Oct 2022 08:24:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1666340656; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yE/6yNSmmxsqxQi8BA6wvCaAfZ/o8P5BxDEfGh4Iwkw=;
- b=ShzBJFYmNRDE20Y1lxFsNa556b+KWfWY+H8Qx/EKKROVGzDLt3yPuuoZTGSdzznKqAqAnT
- Ybom3u9ycxhzL9JxasX0IWSPVZVmhakPSIRytSJx9hW4r7dxBQ3oRLvO1OqPSS1p9+cfjX
- beyQ9h8KhjgX2PTYW3aKQYEU0dAJmfs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1666340656;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yE/6yNSmmxsqxQi8BA6wvCaAfZ/o8P5BxDEfGh4Iwkw=;
- b=z3Eeg0GhyJTONRpmKvVgdOsG1lZzA60IgMlis7XtbWzuF/I19p6CrmC8Z4OMpuoalPCmf3
- M8KJZ41clklKmmCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0E9B61331A;
- Fri, 21 Oct 2022 08:24:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id KeXuATBXUmODUwAAMHmgww
- (envelope-from <cfontana@suse.de>); Fri, 21 Oct 2022 08:24:16 +0000
-Message-ID: <3568bac0-1b64-d096-b78a-29f628a70448@suse.de>
-Date: Fri, 21 Oct 2022 10:24:15 +0200
+ (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
+ id 1olnKv-0008Eo-AU
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 04:25:04 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
+ id 1olnKs-0005Ze-2p
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 04:25:00 -0400
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.55])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Mty7v25HnzVj06;
+ Fri, 21 Oct 2022 16:20:11 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 21 Oct 2022 16:24:25 +0800
+Received: from [10.174.178.174] (10.174.178.174) by
+ dggpemm500007.china.huawei.com (7.185.36.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 21 Oct 2022 16:24:24 +0800
+Subject: Re: [PATCH 00/11] fix memory leak while kset_register() fails
+To: Greg KH <gregkh@linuxfoundation.org>, Luben Tuikov <luben.tuikov@amd.com>
+CC: <linux-kernel@vger.kernel.org>, <qemu-devel@nongnu.org>,
+ <linux-f2fs-devel@lists.sourceforge.net>, <linux-erofs@lists.ozlabs.org>,
+ <ocfs2-devel@oss.oracle.com>, <linux-mtd@lists.infradead.org>,
+ <amd-gfx@lists.freedesktop.org>, <rafael@kernel.org>, <somlo@cmu.edu>,
+ <mst@redhat.com>, <jaegeuk@kernel.org>, <chao@kernel.org>,
+ <hsiangkao@linux.alibaba.com>, <huangjianan@oppo.com>, <mark@fasheh.com>,
+ <jlbec@evilplan.org>, <joseph.qi@linux.alibaba.com>,
+ <akpm@linux-foundation.org>, <alexander.deucher@amd.com>, <richard@nod.at>,
+ <liushixin2@huawei.com>
+References: <20221021022102.2231464-1-yangyingliang@huawei.com>
+ <d559793a-0ce4-3384-e74e-19855aa31f31@amd.com> <Y1IwLOUGayjT9p6d@kroah.com>
+Message-ID: <0591e66f-731a-5f81-fc9d-3a6d80516c65@huawei.com>
+Date: Fri, 21 Oct 2022 16:24:23 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v9 0/5] improve error handling for module load
+In-Reply-To: <Y1IwLOUGayjT9p6d@kroah.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-devel@nongnu.org, dinechin@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20220929093035.4231-1-cfontana@suse.de>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <20220929093035.4231-1-cfontana@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d;
- envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Originating-IP: [10.174.178.174]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=yangyingliang@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,137 +83,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Yang Yingliang <yangyingliang@huawei.com>
+From:  Yang Yingliang via <qemu-devel@nongnu.org>
 
-ping, can this series move on?
+
+On 2022/10/21 13:37, Greg KH wrote:
+> On Fri, Oct 21, 2022 at 01:29:31AM -0400, Luben Tuikov wrote:
+>> On 2022-10-20 22:20, Yang Yingliang wrote:
+>>> The previous discussion link:
+>>> https://lore.kernel.org/lkml/0db486eb-6927-927e-3629-958f8f211194@huawei.com/T/
+>> The very first discussion on this was here:
+>>
+>> https://www.spinics.net/lists/dri-devel/msg368077.html
+>>
+>> Please use this link, and not the that one up there you which quoted above,
+>> and whose commit description is taken verbatim from the this link.
+>>
+>>> kset_register() is currently used in some places without calling
+>>> kset_put() in error path, because the callers think it should be
+>>> kset internal thing to do, but the driver core can not know what
+>>> caller doing with that memory at times. The memory could be freed
+>>> both in kset_put() and error path of caller, if it is called in
+>>> kset_register().
+>> As I explained in the link above, the reason there's
+>> a memory leak is that one cannot call kset_register() without
+>> the kset->kobj.name being set--kobj_add_internal() returns -EINVAL,
+>> in this case, i.e. kset_register() fails with -EINVAL.
+>>
+>> Thus, the most common usage is something like this:
+>>
+>> 	kobj_set_name(&kset->kobj, format, ...);
+>> 	kset->kobj.kset = parent_kset;
+>> 	kset->kobj.ktype = ktype;
+>> 	res = kset_register(kset);
+>>
+>> So, what is being leaked, is the memory allocated in kobj_set_name(),
+>> by the common idiom shown above. This needs to be mentioned in
+>> the documentation, at least, in case, in the future this is absolved
+>> in kset_register() redesign, etc.
+> Based on this, can kset_register() just clean up from itself when an
+> error happens?  Ideally that would be the case, as the odds of a kset
+> being embedded in a larger structure is probably slim, but we would have
+> to search the tree to make sure.
+I have search the whole tree, the kset used in bus_register() - patch 
+#3, kset_create_and_add() - patch #4
+__class_register() - patch #5,  fw_cfg_build_symlink() - patch #6 and 
+amdgpu_discovery.c - patch #10
+is embedded in a larger structure. In these cases, we can not call 
+kset_put() in error path in kset_register()
+itself.
 
 Thanks,
-
-Claudio
-
-
-On 9/29/22 11:30, Claudio Fontana wrote:
-> CHANGELOG:
-> 
-> v8 -> v9:
-> 
-> * add Signed-off-by tag for Kevin's commit
-> * fully reviewed, added tags.
-> 
-> v7 -> v8:
-> 
-> * fix a problem in module_load, where the module_name in v7 was mistakenly freed
->   via g_free() also in the success code path, and instead module_name memory
->   is owned by g_hash_table afer g_hash_table_add.
-> 
-> * add more text to the commit message to indicate areas of further improvements,
->   and more details about changes.
-> 
-> * in PATCH 5/5, change the commit message to align with the change in v7,
->   ie, we exit(), we do not abort().
-> 
-> v6 -> v7:
-> 
-> * changed instances of abort() to exit(1), for the CONFIG_MODULES case (Philippe).
-> 
-> * dmg: do not use a separate local error, use the existing errp (Kevin)
-> 
-> * block: do not use a separate local error, use the existing errp for
->   bdrv_find_protocol (Markus)
-> 
-> v5 -> v6:
-> 
-> * added a patch by Kevin to handle the dmg warning about missing
->   decompression submodules. (Kevin)
-> 
-> * added more verbose comments about all the affected callers of module_load
->   and module_load_qom (Markus)
-> 
-> (OPEN ISSUE): change abort() to exit() when type not present even after loading module?
-> 
-> (Philippe)
-> 
-> v4 -> v5:
-> 
-> * added a patch to rename module_load_one and friends to module_load
-> 
-> * qdev_new: just reuse module_object_class_by_name, to avoid duplicating code
-> 
-> * changed return value of module_load to an int:
->   -1 error (Error **errp set).
->    0 module or dependencies not installed,
->    1 loaded
->    2 already loaded (or built-in)
-> 
->    Adapted all callers.
-> 
-> * module_load: fixed some pre-existing memory leaks, used an out: label
->   to do the cleanup.
-> 
-> v3 -> v4: (Richard)
-> 
-> * module_object_class_by_name: return NULL immediately on load error.
-> * audio_driver_lookup: same.
-> * bdrv_find_format: same.
-> 
-> * dmg_open: handle optional compression submodules better: f.e.,
->   if "dmg-bz2" is not present, continue but offer a warning.
->   If "dmg-bz2" load fails with error, error out and return.
-> 
-> * module_load_dso: add newline to error_append_hint.
-> 
-> v2 -> v3:
-> 
-> * take the file existence check outside of module_load_file,
->   rename module_load_file to module_load_dso, will be called only on
->   an existing file. This will simplify the return value. (Richard)
-> 
-> * move exported function documentation into header files (Richard)
-> 
-> v1 -> v2:
-> 
-> * do not treat the display help text any differently and do report
->   module load _errors_. If the module does not exist (ENOENT, ENOTDIR),
->   no error will be produced.
-> 
-> DESCRIPTION:
-> 
-> while investigating a permission issue in accel, where accel-tcg-x86_64.so
-> was not accessible, I noticed that no errors were produced regarding the
-> module load failure.
-> 
-> This series attempts to improve module_load_one and module_load_qom_one
-> to handle the error cases better and produce some errors.
-> 
-> Patch 1 is already reviewed and is about removing an unused existing
-> argument "mayfail" from the call stack.
-> 
-> Patch 2 is the real meat, and that one I would say is RFC.
-> Will follow up with comments on the specific questions I have.
-> 
-> Patch 3 finally adds a simple check in accel/, aborting if a module
-> is not found, but relying on the existing error report from
-> module_load_qom_one.
-> 
-> Claudio Fontana (4):
->   module: removed unused function argument "mayfail"
->   module: rename module_load_one to module_load
->   module: add Error arguments to module_load and module_load_qom
->   accel: abort if we fail to load the accelerator plugin
-> 
-> Kevin Wolf (1):
->   dmg: warn when opening dmg images containing blocks of unknown type
-> 
->  accel/accel-softmmu.c |   8 +-
->  audio/audio.c         |  16 ++--
->  block.c               |  20 +++-
->  block/dmg.c           |  33 ++++++-
->  hw/core/qdev.c        |  17 +++-
->  include/qemu/module.h |  37 +++++++-
->  qom/object.c          |  18 +++-
->  softmmu/qtest.c       |   8 +-
->  ui/console.c          |  18 +++-
->  util/module.c         | 211 +++++++++++++++++++++++-------------------
->  10 files changed, 260 insertions(+), 126 deletions(-)
-> 
-
+Yang
+>
+> thanks,
+>
+> greg k-h
+> .
 
