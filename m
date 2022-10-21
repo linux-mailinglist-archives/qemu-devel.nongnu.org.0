@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86BC86070A4
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 09:02:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E511D6070F4
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 09:24:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olm2b-0004pm-Cz
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:02:01 -0400
+	id 1olmOA-0007Ex-JA
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:24:18 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olm1e-0003d9-R7
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:01:02 -0400
+	id 1olmH1-00036q-1g
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:16:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1olm1W-0003HT-05
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:00:54 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1olmGe-0002vD-9h
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:16:32 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1olm1T-0008Br-0l
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:00:53 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id l22so2922360edj.5
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 00:00:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=c6P1kJ3+RZCXmOOnzZhCwC+wtSAstY5MFcuyoarUrWY=;
- b=EjTarj4ctnZDyQ+NGNhHsvKC51EgZzpuLShYbWBZKY71J7GG+iIXyIVy6rflEoi9P3
- Dmah9+mbIrDu4oV8201t7eO51odq62juRUo/Ha+2RYpJJbwdZkHrjJKfWK3RNyjupV7s
- Dq5SpspOF6eFghaEQqrGQXZJWcqAfojKNS8nvby4etz2KN0y3oavQnlEO+3Wu1yef7Yv
- /niYspcPaM/WHJ8rHsgBi3vjHlRSAVO97ZYv0Q78UBNZHbQIt4TlCvX5Z2xFzwJCfik/
- iJtD430jU7FpOsqKBb7W0ISupiU2zwoZsUbFRbTqL6AbtQ9TpKAubgVmV2p7VXWxEhQ8
- cqog==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1olmGc-0005bK-9E
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:16:31 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id 20so1804354pgc.5
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 00:16:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=PB3nAjYqPE0Ri3rKlsMJ9c6TgJjZ6GaMPRBD/PmouBs=;
+ b=F9iS+YBpSImt8bieV9JH3062iAxm0rA2e75f1dotc1/K6WT2+6pu4SinR0jY8EXZhB
+ PNwyR0iAFu4we0MjGavdAZ+EpezSQhlNpjmbQOEBUpc8P+2/8ntAVfAHtwOpr/IBSRfR
+ V5WSuXMX3htp3GoJWVDNHQodKw2AgavTIHK1jJli+dDISUJzyw0++iqOoWMHm31RiY44
+ gZzpAgvzF/EkjG2stCTJoDGoU0MuIwayAvgDSt3cI1J48Fq2WOL/rS/8+JYoxIFtVJ5A
+ 0a5H0W6UA22rZrCvy+4+87fpyQJ+jWrXpDFrpmfhyWvxw14F6NLT3MNF00THy9Zdt3zM
+ HgTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=c6P1kJ3+RZCXmOOnzZhCwC+wtSAstY5MFcuyoarUrWY=;
- b=m4GNODiia3eEt37/dqG92AM0iA6FuDoRtVz4nskzYN51HaQPhCis6HFjALhaoU0JhV
- Pgb0IiOx34SOTQTQi7K8htFbg4v6e7KO2kxaOK5NvvMpiTvE9QmwvFagbm+2ipNoD52A
- t2ZINf4U/NidXVENbP2eUPX6b75mtgYZ359/83i0GvIcZovNmMT17cyk8Ve9ZLNigCOT
- N1e5rO6aCLg7TwgHpZqs699I8ktDLySHzviE6534DBWUHtIWqzLJ2/uwurFsA0olToNH
- 3JKMKknfXe8c68yPPTziqLS4AtpNWNc06kW6WOHxpbPYSLJYfFVNAGHLEYzoMwUzZbxA
- iCAw==
-X-Gm-Message-State: ACrzQf0vMtQKGuzRcfhTvrswWQGFulg5pK8K3LLyBzOGM6TDXe1BK+3T
- 8h13MPfoe/qjIA0ljI1Cwhd8gg==
-X-Google-Smtp-Source: AMsMyM5HE/m/1FQtpOSC3wCM+ms8ocP9pfEoMyGYcQuK5E8qws8CjWyPfgBEUlcDIGsmIvaMsjg+ww==
-X-Received: by 2002:a05:6402:3512:b0:45d:4f99:6151 with SMTP id
- b18-20020a056402351200b0045d4f996151mr15605559edd.74.1666335648763; 
- Fri, 21 Oct 2022 00:00:48 -0700 (PDT)
-Received: from localhost (cst2-173-61.cust.vodafone.cz. [31.30.173.61])
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=PB3nAjYqPE0Ri3rKlsMJ9c6TgJjZ6GaMPRBD/PmouBs=;
+ b=38UgUm9JevIpulKzf4eQW5M4/BAh3KMHI6SfM0q641ffyIfq2tD1S0GJzkQq5v2A9U
+ 2+NUvslnNGKnpaHorCPNRm1aPDVD1W52b0doeQK5Cc6ih4jP3VYjFkAeWE2DnoK6krHl
+ /o2j2Y3Re/63LedvAiyDLtXfXVRzKxD1SsFoiiOa9YdLGV/2rHAxKWtmsAauSLMeXRce
+ BFt33Gs36UpN41tZ8nksVD9DZqE02/NbaOjMReFfd1hrV1qDwAT9BbnMe3L8aIFT+Nqg
+ kv1pfri4CKuiorSxpruAxjd+qok1KbDZMPei+yngOZJsJ90baW1Ov2KFrDL4w7Hh1lSi
+ 65rw==
+X-Gm-Message-State: ACrzQf0WCjtrW5zDRZxR36tSQqM6cUdt0sVas23xOzZHKf0pxikoZWHJ
+ jyOTPhtD6fGwpNmLup+oiSlC4eYVTbeJ5j1T
+X-Google-Smtp-Source: AMsMyM44y3Ts+nrPZ04xJVnsNbDi18EzSkue2wf714aJRpe+iHJH4j4Xa4Yt/Xt8kuIJPSqNu+8Qhw==
+X-Received: by 2002:a65:6cc7:0:b0:42a:4d40:8dc1 with SMTP id
+ g7-20020a656cc7000000b0042a4d408dc1mr15328647pgw.321.1666336588701; 
+ Fri, 21 Oct 2022 00:16:28 -0700 (PDT)
+Received: from localhost.localdomain ([149.135.10.35])
  by smtp.gmail.com with ESMTPSA id
- gf26-20020a170906e21a00b0078ae0fb3d11sm11216442ejb.54.2022.10.21.00.00.48
+ q9-20020a638c49000000b0041cd5ddde6fsm13003327pgn.76.2022.10.21.00.16.26
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Oct 2022 00:00:48 -0700 (PDT)
-Date: Fri, 21 Oct 2022 09:00:47 +0200
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Ben Dooks <qemu@ben.fluff.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, alistair@alistair23.me,
- peter.maydell@linaro.org, qemu-riscv@nongnu.org
-Subject: Re: add qemu_fdt_setprop_strings
-Message-ID: <20221021070047.225ngzlqqwsvgbqw@kamzik>
-References: <20221021055808.342055-1-qemu@ben.fluff.org>
+ Fri, 21 Oct 2022 00:16:28 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 01/36] include/qemu/atomic128: Support 16-byte atomic
+ read/write for Intel AVX
+Date: Fri, 21 Oct 2022 17:15:14 +1000
+Message-Id: <20221021071549.2398137-2-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221021071549.2398137-1-richard.henderson@linaro.org>
+References: <20221021071549.2398137-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221021055808.342055-1-qemu@ben.fluff.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=ajones@ventanamicro.com; helo=mail-ed1-x52e.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,17 +96,161 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 21, 2022 at 06:58:02AM +0100, Ben Dooks wrote:
-> Add a qemu_fdt_setprop_strings to set a string array into a device-tree.
-> 
-> Only minor updates from v4 to fix a couple of minor patch issues.
+Intel has now given guarantees about the atomicity of SSE read
+and write instructions on cpus supporting AVX.  We can use these
+instead of the much slower cmpxchg16b.
 
-Please see the comments I made on patch 1 of the v4 series, they should
-be addressed. Also, I'm pretty sure I gave r-b's on most, or the rest,
-of the series, but I don't see those here in v5. And, please CC previous
-reviewers when sending out new versions. Finally, why not generate this
-cover letter with git-format-patch?
+Derived from https://gcc.gnu.org/bugzilla/show_bug.cgi?id=104688
 
-Thanks,
-drew
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/qemu/atomic128.h | 44 ++++++++++++++++++++++++++
+ util/atomic128.c         | 67 ++++++++++++++++++++++++++++++++++++++++
+ util/meson.build         |  1 +
+ 3 files changed, 112 insertions(+)
+ create mode 100644 util/atomic128.c
+
+diff --git a/include/qemu/atomic128.h b/include/qemu/atomic128.h
+index adb9a1a260..d179c05ede 100644
+--- a/include/qemu/atomic128.h
++++ b/include/qemu/atomic128.h
+@@ -127,6 +127,50 @@ static inline void atomic16_set(Int128 *ptr, Int128 val)
+         : [l] "r"(l), [h] "r"(h));
+ }
+ 
++# define HAVE_ATOMIC128 1
++#elif !defined(CONFIG_USER_ONLY) && defined(__x86_64__)
++/*
++ * The latest Intel SDM has added:
++ *     Processors that enumerate support for Intel® AVX (by setting
++ *     the feature flag CPUID.01H:ECX.AVX[bit 28]) guarantee that the
++ *     16-byte memory operations performed by the following instructions
++ *     will always be carried out atomically:
++ *      - MOVAPD, MOVAPS, and MOVDQA.
++ *      - VMOVAPD, VMOVAPS, and VMOVDQA when encoded with VEX.128.
++ *      - VMOVAPD, VMOVAPS, VMOVDQA32, and VMOVDQA64 when encoded
++ *        with EVEX.128 and k0 (masking disabled).
++ *    Note that these instructions require the linear addresses of their
++ *    memory operands to be 16-byte aligned.
++ *
++ * We do not yet have a similar guarantee from AMD, so we detect this
++ * at runtime rather than assuming the fact when __AVX__ is defined.
++ */
++extern bool have_atomic128;
++
++static inline Int128 atomic16_read(Int128 *ptr)
++{
++    Int128 ret;
++    if (have_atomic128) {
++        asm("vmovdqa %1, %0" : "=x" (ret) : "m" (*ptr));
++    } else {
++        ret = atomic16_cmpxchg(ptr, 0, 0);
++    }
++    return ret;
++}
++
++static inline void atomic16_set(Int128 *ptr, Int128 val)
++{
++    if (have_atomic128) {
++        asm("vmovdqa %1, %0" : "=m" (*ptr) : "x" (val));
++    } else {
++        Int128 old = *ptr, cmp;
++        do {
++            cmp = old;
++            old = atomic16_cmpxchg(ptr, cmp, val);
++        } while (old != cmp);
++    }
++}
++
+ # define HAVE_ATOMIC128 1
+ #elif !defined(CONFIG_USER_ONLY) && HAVE_CMPXCHG128
+ static inline Int128 atomic16_read(Int128 *ptr)
+diff --git a/util/atomic128.c b/util/atomic128.c
+new file mode 100644
+index 0000000000..55863ce9bd
+--- /dev/null
++++ b/util/atomic128.c
+@@ -0,0 +1,67 @@
++/*
++ * Copyright (C) 2022, Linaro Ltd.
++ *
++ * License: GNU GPL, version 2 or later.
++ *   See the COPYING file in the top-level directory.
++ */
++#include "qemu/osdep.h"
++#include "qemu/atomic128.h"
++
++#ifdef __x86_64__
++#include "qemu/cpuid.h"
++
++#ifndef signature_INTEL_ecx
++/* "Genu ineI ntel" */
++#define signature_INTEL_ebx     0x756e6547
++#define signature_INTEL_edx     0x49656e69
++#define signature_INTEL_ecx     0x6c65746e
++#endif
++
++/*
++ * The latest Intel SDM has added:
++ *     Processors that enumerate support for Intel® AVX (by setting
++ *     the feature flag CPUID.01H:ECX.AVX[bit 28]) guarantee that the
++ *     16-byte memory operations performed by the following instructions
++ *     will always be carried out atomically:
++ *      - MOVAPD, MOVAPS, and MOVDQA.
++ *      - VMOVAPD, VMOVAPS, and VMOVDQA when encoded with VEX.128.
++ *      - VMOVAPD, VMOVAPS, VMOVDQA32, and VMOVDQA64 when encoded
++ *        with EVEX.128 and k0 (masking disabled).
++ *    Note that these instructions require the linear addresses of their
++ *    memory operands to be 16-byte aligned.
++ *
++ * We do not yet have a similar guarantee from AMD, so we detect this
++ * at runtime rather than assuming the fact when __AVX__ is defined.
++ */
++bool have_atomic128;
++
++static void __attribute__((constructor))
++init_have_atomic128(void)
++{
++    unsigned int a, b, c, d, xcrl, xcrh;
++
++    __cpuid(0, a, b, c, d);
++    if (a < 1) {
++        return; /* AVX leaf not present */
++    }
++    if (c != signature_INTEL_ecx) {
++        return; /* Not an Intel product */
++    }
++
++    __cpuid(1, a, b, c, d);
++    if ((c & (bit_AVX | bit_OSXSAVE)) != (bit_AVX | bit_OSXSAVE)) {
++        return; /* AVX not present or XSAVE not enabled by OS */
++    }
++
++    /*
++     * The xgetbv instruction is not available to older versions of
++     * the assembler, so we encode the instruction manually.
++     */
++    asm(".byte 0x0f, 0x01, 0xd0" : "=a" (xcrl), "=d" (xcrh) : "c" (0));
++    if ((xcrl & 6) != 6) {
++        return; /* AVX not enabled by OS */
++    }
++
++    have_atomic128 = true;
++}
++#endif /* __x86_64__ */
+diff --git a/util/meson.build b/util/meson.build
+index 5e282130df..4b29b719a8 100644
+--- a/util/meson.build
++++ b/util/meson.build
+@@ -2,6 +2,7 @@ util_ss.add(files('osdep.c', 'cutils.c', 'unicode.c', 'qemu-timer-common.c'))
+ if not config_host_data.get('CONFIG_ATOMIC64')
+   util_ss.add(files('atomic64.c'))
+ endif
++util_ss.add(when: 'CONFIG_SOFTMMU', if_true: files('atomic128.c'))
+ util_ss.add(when: 'CONFIG_POSIX', if_true: files('aio-posix.c'))
+ util_ss.add(when: 'CONFIG_POSIX', if_true: files('fdmon-poll.c'))
+ if config_host_data.get('CONFIG_EPOLL_CREATE1')
+-- 
+2.34.1
+
 
