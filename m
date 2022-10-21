@@ -2,81 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C64CC6074ED
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 12:19:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70E9D60756D
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 12:52:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olp81-0005aG-BC
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:19:50 -0400
+	id 1olpdZ-0002KH-Do
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:52:26 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oloX0-0002ik-9R
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:41:34 -0400
+	id 1oloeH-0001CN-QZ
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:49:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oloWk-00018V-Sx
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:41:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oloe7-00008t-AI
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:48:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oloWj-00086l-BG
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:41:18 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oloe4-0003lY-MM
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:48:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666345275;
+ s=mimecast20190719; t=1666345731;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=tnyF06QSYZDYFQcAMt2EoCOKDh9Ezhx8aWqcenWAlts=;
- b=GUYz/o437HzCwYHCp97CtMNkHpHHvdf34lQF+dsrliPkPoHhNJCxo3ng7mOye2ra5EVPTr
- +kKJWXKPcIW4mlj5arW2j5hFNF2CGDA7zuGzeUhOOsaJ/Q6NhtMzaKdpIcbXyKXLUciXJa
- UJ/KYfOkBaxTGNxXqvkw3rk6PzmwB6M=
+ bh=bV2zaXulo4/o29W/e6MyuweBzq44uZMfw0Dk7Oa0fNo=;
+ b=CKiMzK5RvPDBH3hFXXCEN/v0ztxN54vKgHJkdoaz31gaAFSf6ERYeyqZcGugex2m4S31xq
+ s9ZO73Rcprjma3hOTpjo3hGw4bEdw8D0487PE3Zhp7hpuY56041ON7EnEFwTwZ1YuCWDMd
+ 7TithN40sFIPL+6OXnBPuu8xSE7De4A=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-647-3FGA5yS9Nvm9-naxw_QUsA-1; Fri, 21 Oct 2022 05:41:07 -0400
-X-MC-Unique: 3FGA5yS9Nvm9-naxw_QUsA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-266-3lSunoIRMkeni78UxFM8Pw-1; Fri, 21 Oct 2022 05:48:47 -0400
+X-MC-Unique: 3lSunoIRMkeni78UxFM8Pw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DF596185A7AE;
- Fri, 21 Oct 2022 09:41:06 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A437540F156;
- Fri, 21 Oct 2022 09:41:06 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8F84E21E675B; Fri, 21 Oct 2022 11:41:05 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: Jason Wang <jasowang@redhat.com>,  qemu-devel@nongnu.org,  Paul Durrant
- <paul@xen.org>,  Thomas Huth <thuth@redhat.com>,  Daniel P. =?utf-8?Q?Ber?=
- =?utf-8?Q?rang=C3=A9?=
- <berrange@redhat.com>,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Greg Kurz <groug@kaod.org>,  Stefano Stabellini <sstabellini@kernel.org>,
- David Gibson <david@gibson.dropbear.id.au>,  Eric Blake
- <eblake@redhat.com>,  xen-devel@lists.xenproject.org,  "Michael S.
- Tsirkin" <mst@redhat.com>,  Stefan Weil <sw@weilnetz.de>,  Paolo Bonzini
- <pbonzini@redhat.com>,  Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Anthony Perard <anthony.perard@citrix.com>,  Stefano Brivio
- <sbrivio@redhat.com>
-Subject: Re: [PATCH v13 17/17] net: stream: add QAPI events to report
- connection state
-References: <20221020162558.123284-1-lvivier@redhat.com>
- <20221020162558.123284-18-lvivier@redhat.com>
- <87pmel4th4.fsf@pond.sub.org>
- <52e989b9-6f8d-99c6-ef04-3ce32006b002@redhat.com>
- <87lep935hn.fsf@pond.sub.org>
- <30b445bb-a268-d2c9-209f-3b2390746749@redhat.com>
-Date: Fri, 21 Oct 2022 11:41:05 +0200
-In-Reply-To: <30b445bb-a268-d2c9-209f-3b2390746749@redhat.com> (Laurent
- Vivier's message of "Fri, 21 Oct 2022 11:36:24 +0200")
-Message-ID: <87bkq5345q.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2741C877CA4;
+ Fri, 21 Oct 2022 09:48:41 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 099191759E;
+ Fri, 21 Oct 2022 09:48:31 +0000 (UTC)
+Date: Fri, 21 Oct 2022 11:48:30 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Sam Li <faithilikerun@gmail.com>
+Cc: qemu-devel@nongnu.org, Julia Suvorova <jusual@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>, qemu-block@nongnu.org
+Subject: Re: [PATCH] block/io_uring: revert "Use io_uring_register_ring_fd()
+ to skip fd operations"
+Message-ID: <Y1Jq7hQSXPzgQAxX@redhat.com>
+References: <20220924144815.5591-1-faithilikerun@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220924144815.5591-1-faithilikerun@gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -84,7 +69,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,62 +85,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Laurent Vivier <lvivier@redhat.com> writes:
+Am 24.09.2022 um 16:48 hat Sam Li geschrieben:
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1193
+> 
+> The commit "Use io_uring_register_ring_fd() to skip fd operations" broke
+> when booting a guest with iothread and io_uring. That is because the
+> io_uring_register_ring_fd() call is made from the main thread instead of
+> IOThread where io_uring_submit() is called. It can not be guaranteed
+> to register the ring fd in the correct thread or unregister the same ring
+> fd if the IOThread is disabled. This optimization is not critical so we
+> will revert previous commit.
+> 
+> This reverts commit e2848bc574fe2715c694bf8fe9a1ba7f78a1125a
+> and 77e3f038af1764983087e3551a0fde9951952c4d.
+> 
+> Signed-off-by: Sam Li <faithilikerun@gmail.com>
 
-> On 10/21/22 11:12, Markus Armbruster wrote:
->> Cc: Stefano Brivio
->> 
->> Laurent Vivier <lvivier@redhat.com> writes:
->> 
->>> On 10/21/22 07:48, Markus Armbruster wrote:
->>>> Laurent Vivier <lvivier@redhat.com> writes:
->>>>
->>>>> The netdev reports NETDEV_STREAM_CONNECTED event when the backend
->>>>> is connected, and NETDEV_STREAM_DISCONNECTED when it is disconnected.
->>>>
->>>> Use cases?
->>>
->>> This is asked by Stefano Brivio to allow libvirt to detect if connection to passt is lost and to restart passt.
->> 
->> Let's add something like this to the commit message:
->> 
->>      This lets libvirt notice when the connection is lost somehow, and
->>      restart the peer (such as passt).
->> 
->> Who's working on the libvirt part?
->> 
->>> I have also a patch to add a "reconnect=seconds" option, but I didn't want to add it to this series.
->> 
->> It's okay to mention future work in commit messages, but not required.
->> 
->>>> Could similar event signalling be useful for other kinds of netdev
->>>> backends?
->>>
->>> I was wondering, but it becomes more complicated to be generic.
->> 
->> Making something complicated and generic where a simpler special
->> solution would do is the worst.
->> 
->> Not quite as bad (but still plenty bad) is making a few special
->> solutions first, then replace them all with a generic solution.
->> 
->> I believe we should have a good, hard think on possible applications of
->> a generic solution now.
->> 
->> There is no need to hold back this series for that.
->> 
->> If we conclude a generic solution is called for, we better replace this
->> special solution before it becomes ABI.  Either by replacing it before
->> we release it, or by keeping it unstable until we replace it.
->> 
->
-> I sent the v14 few minutes before this email.
->
-> Jason, perhaps we can remove PATCH 17 from the series and only merge PATCH 1 to 16?
->
-> I will resend PATCH 17 in a new series with the reconnect option patch once this series is 
-> merged.
+Thanks, applied to the block branch.
 
-Certainly works for me.  Thanks for your patience!
+Kevin
 
 
