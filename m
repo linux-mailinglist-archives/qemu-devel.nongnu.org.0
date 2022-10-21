@@ -2,105 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC2FB6074A0
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 12:07:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D28CD6074B4
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 12:12:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olowE-00030z-Uq
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:07:40 -0400
+	id 1olp0n-0006Eo-SO
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:12:22 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oloO2-0002iq-E3
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:32:18 -0400
+	id 1oloSM-0006qI-54
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:36:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oloNp-00024n-MN
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:32:07 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oloNo-0006JR-39
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:32:05 -0400
-Received: by mail-wm1-x333.google.com with SMTP id y10so1831570wma.0
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 02:32:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Lqq4zzBhlmooFt4FjzKzSd74kR82FUfV6MQzCvUbGfM=;
- b=HOfmmAkoYAB/6RWVnJ5t+WcKhBJPfREl5NGfaXDCZ7WWmTPxftiE3bzHrMb+Z9is6p
- ka8C2pManh7RpXJft3uWB7qbpyCeOfznm6InYEJ3dEm8/OHYB9zzeyUPwAPxECrj1gvF
- SmFvNy0G1imgYDkOIbHCML4KFUOVsTN3DrGz2eZSlWjIlm27/xfOgHemxSq4N37lgm97
- hkHnD8hj2qxeYzc5gnnvq2um3OM+2C1wEre/gqPgHgVVNgM/q9UkoyDQPz7ears7r1tN
- ueYGvIwKLUlx0kbFSFlWzvGJn3J83oZODNN/SDquQSrdlaR45x3HQwsyohRMaublnYXt
- Zlxg==
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1oloSB-0006R8-GK
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:36:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1oloSA-00071w-2X
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:36:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666344992;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=K6+Nj7rw2ygq8wV7bZt+IrcWSvF1WDIQyRmejPr4x8M=;
+ b=UswBF7Jx7bMXKnubRrcXa5mzsv010M864jp9zu9cYxZgrHskTU3nr6OwlFLsmzwsQ9EPt+
+ OnFyS5IIRS30yrjRQhytrAeP3kQWXr+VBBRm+NGCzKOV3GaR89BWgQa2wMghxHOG8T2MiM
+ xoivHoivMXoJ6+PVPk0WvPMOjvSj/gM=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-570-t8SZyr1FN9CttbZ8IyX36w-1; Fri, 21 Oct 2022 05:36:30 -0400
+X-MC-Unique: t8SZyr1FN9CttbZ8IyX36w-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ d12-20020a05622a100c00b0039ce6373d2cso2032417qte.9
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 02:36:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=Lqq4zzBhlmooFt4FjzKzSd74kR82FUfV6MQzCvUbGfM=;
- b=SV97h7rNg7eDUMv6mwBR8m3+l8l2eCIIq65lz6jQ/ga6I6Jj1HQ90F7OApl7e6XSVT
- SabgFq0V9uVfrgI1VbEUgDhdVXrfqSZgRXo/pFjmj1DheRYk5eciKYPwf1JV2TgxTz4n
- /hzDij8gPR8B80isGmFHb4ZmWpFpuqopKOIWLTDsu7TUnqvFN34sqIAujExm9uX3+11s
- GTe3sdKcnamV/UMJHK1SofLJvttTTv+98WzTcmXWT3UV4eEo8MmKUfR+WP+mMDfaod0d
- ur7cK2IUJriHnsbIULXMPd+GTbT4JnGrZmdXSA0h6tVmIcYyaEBDWl0OssD1vYYHJgTi
- 4zNQ==
-X-Gm-Message-State: ACrzQf1JAN7Dc3LOK7D+P4kXYU3EMnzYwIAzaq3JQXiHvnvdLL2ji/Ox
- R7jTaoXnoYqtORMfssl9tsJ43g==
-X-Google-Smtp-Source: AMsMyM7F8na6H5F/7PBnBqUkkxX44r7NNIEVUmj8Uo2NgcFPcUimKHSAISgkNg+Lku4jWRRjFCKD3A==
-X-Received: by 2002:a05:600c:3b1d:b0:3c6:ff0d:6a60 with SMTP id
- m29-20020a05600c3b1d00b003c6ff0d6a60mr12013977wms.183.1666344722261; 
- Fri, 21 Oct 2022 02:32:02 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=K6+Nj7rw2ygq8wV7bZt+IrcWSvF1WDIQyRmejPr4x8M=;
+ b=Bcdw1T/qzynOFdSWHVZlMbdOlwODtDazAtE1AQH+hka6nPbfYkB26SHY4xeIJ2PnM1
+ tfUflTPZUWE67nz5H3XV1tr/Q8tR0Ojfys7XBKY2Rb14W1MrfzKhoQUp59sz02ffIdXN
+ gGoRsAoKtGiKowE5c7D08gEClFLuVe1ntURbUwZwQ3/R56Kl/lcc/r+dysT3c1l+IEgv
+ FFtC1p0LFgrW215FJOVdyZYnzc5wvODfOxRpmiC3UTKcDLxty1CYs7lSSdGEvEFa2BUC
+ t0oUVqykQORbzS/O4yJkYzoFQxg/fVL9TQGHxHYAx8iWFp35+UwcmFcrQlFl7H1I6C/w
+ 1sag==
+X-Gm-Message-State: ACrzQf3Ls/11bTYvWMJYk8WlCrZPeg9gNFaI6Sdk9Xbf9+Dn0gyE6s1k
+ Bjy+k58wfPOiKUzfW4s9OjHkKgSnR+mkY7A4mD1pT226gf0I1AkQSRiX2YSxT+ihwJbgsn3CgFe
+ ORU5OJqpjYlt69nk=
+X-Received: by 2002:a37:ccc:0:b0:6eb:1095:e4d9 with SMTP id
+ 195-20020a370ccc000000b006eb1095e4d9mr12992357qkm.93.1666344989793; 
+ Fri, 21 Oct 2022 02:36:29 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6LsNXsHJn0Hr35ZPPaELK7ir7BhcrwNfcxWQB/0oflDEFJ401P6SW83Ra/iR14SaWEQZaN6w==
+X-Received: by 2002:a37:ccc:0:b0:6eb:1095:e4d9 with SMTP id
+ 195-20020a370ccc000000b006eb1095e4d9mr12992340qkm.93.1666344989540; 
+ Fri, 21 Oct 2022 02:36:29 -0700 (PDT)
+Received: from [192.168.100.30] ([82.142.8.70])
  by smtp.gmail.com with ESMTPSA id
- fc19-20020a05600c525300b003b505d26776sm2591355wmb.5.2022.10.21.02.32.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Oct 2022 02:32:01 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 36E1A1FFB7;
- Fri, 21 Oct 2022 10:32:01 +0100 (BST)
-References: <20221020123506.26363-1-ani@anisinha.ca>
- <20221020083810-mutt-send-email-mst@kernel.org>
- <CAARzgwwd_How_h+9sHWPOrWWZ7CbX+DN-uy-KiGf1VVyVmrLnA@mail.gmail.com>
- <20221020084311-mutt-send-email-mst@kernel.org>
- <CAARzgwxfKbrxAqb15GXp4j1enDPUhGBsL5jUzFtDvJkGM-7azw@mail.gmail.com>
- <20221020150857-mutt-send-email-mst@kernel.org>
- <CAARzgwwDjjHL-1fEeuySNZm8NbnGNaeE5h6zrPz_zaANfs5dsw@mail.gmail.com>
- <CAARzgww8P4Za=+r8q2a30TCY7Uzw6g2tgHeLLKr7R+WV-7qQVg@mail.gmail.com>
- <20221021042449-mutt-send-email-mst@kernel.org>
- <CAARzgwyW+ved0iVinWzSCg+KSCL67v+m6KySRdg_hUUev8JLDA@mail.gmail.com>
-User-agent: mu4e 1.9.1; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Ani Sinha <ani@anisinha.ca>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?=
- <berrange@redhat.com>, Igor Mammedov <imammedo@redhat.com>, John Snow
- <jsnow@redhat.com>, Maydell Peter <peter.maydell@linaro.org>, Paolo
- Bonzini <pbonzini@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <f4bug@amsat.org>,
- Qemu Devel <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>, Wainer
- dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH v6 00/10] Introduce new acpi/smbios avocado tests using
- biosbits
-Date: Fri, 21 Oct 2022 10:30:09 +0100
-In-reply-to: <CAARzgwyW+ved0iVinWzSCg+KSCL67v+m6KySRdg_hUUev8JLDA@mail.gmail.com>
-Message-ID: <87k04t7ca6.fsf@linaro.org>
+ y13-20020a05620a25cd00b006bbf85cad0fsm9523029qko.20.2022.10.21.02.36.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Oct 2022 02:36:29 -0700 (PDT)
+Message-ID: <30b445bb-a268-d2c9-209f-3b2390746749@redhat.com>
+Date: Fri, 21 Oct 2022 11:36:24 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v13 17/17] net: stream: add QAPI events to report
+ connection state
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>, Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org, Paul Durrant <paul@xen.org>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Stefano Stabellini <sstabellini@kernel.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Eric Blake <eblake@redhat.com>,
+ xen-devel@lists.xenproject.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Stefano Brivio <sbrivio@redhat.com>
+References: <20221020162558.123284-1-lvivier@redhat.com>
+ <20221020162558.123284-18-lvivier@redhat.com> <87pmel4th4.fsf@pond.sub.org>
+ <52e989b9-6f8d-99c6-ef04-3ce32006b002@redhat.com>
+ <87lep935hn.fsf@pond.sub.org>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <87lep935hn.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,59 +120,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Ani Sinha <ani@anisinha.ca> writes:
-
-> On Fri, Oct 21, 2022 at 2:02 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+On 10/21/22 11:12, Markus Armbruster wrote:
+> Cc: Stefano Brivio
+> 
+> Laurent Vivier <lvivier@redhat.com> writes:
+> 
+>> On 10/21/22 07:48, Markus Armbruster wrote:
+>>> Laurent Vivier <lvivier@redhat.com> writes:
+>>>
+>>>> The netdev reports NETDEV_STREAM_CONNECTED event when the backend
+>>>> is connected, and NETDEV_STREAM_DISCONNECTED when it is disconnected.
+>>>
+>>> Use cases?
 >>
->> On Fri, Oct 21, 2022 at 05:45:15AM +0530, Ani Sinha wrote:
->> > And have multiple platform specific branches in bits that have fixes f=
-or those
->> > platforms so that bits can run there. Plus the existing test can be en=
-hanced to
->> > pull in binaries from those branches based on the platform on which it=
- is being
->> > run.
->> >
+>> This is asked by Stefano Brivio to allow libvirt to detect if connection to passt is lost and to restart passt.
+> 
+> Let's add something like this to the commit message:
+> 
+>      This lets libvirt notice when the connection is lost somehow, and
+>      restart the peer (such as passt).
+> 
+> Who's working on the libvirt part?
+> 
+>> I have also a patch to add a "reconnect=seconds" option, but I didn't want to add it to this series.
+> 
+> It's okay to mention future work in commit messages, but not required.
+> 
+>>> Could similar event signalling be useful for other kinds of netdev
+>>> backends?
 >>
->> What a mess.
->> Who is going to be testing all these million platforms?
->
-> I am not talking about branches in QEMU but branches in bits.
-> If you are going to test multiple platforms, you do need to build bits
-> binaries for them. There is no way around it.
-> bits is not all platform independent python. It does have binary executab=
-les.
->
-> Currently bits is built only for the x86 platform. Other platforms are
-> not tested. I doubt if anyone even tried building bits for arm or
-> mips.
+>> I was wondering, but it becomes more complicated to be generic.
+> 
+> Making something complicated and generic where a simpler special
+> solution would do is the worst.
+> 
+> Not quite as bad (but still plenty bad) is making a few special
+> solutions first, then replace them all with a generic solution.
+> 
+> I believe we should have a good, hard think on possible applications of
+> a generic solution now.
+> 
+> There is no need to hold back this series for that.
+> 
+> If we conclude a generic solution is called for, we better replace this
+> special solution before it becomes ABI.  Either by replacing it before
+> we release it, or by keeping it unstable until we replace it.
+> 
 
-I'm not worried about test bits on other targets, but we do run x86
-targets on a number of hosts. The current reliance on a special patched
-host build tool for only one architecture is the problem. If  we just
-download the iso that problem goes away.
+I sent the v14 few minutes before this email.
 
-> It makes sense to try things incrementally once we have something going.
->
-> Lets discuss this on a separate thread.
->
->> All this does nothing at all to help developers avoid
->> bugs and when they do trigger debug the issue. Which is
->> after all why we have testing.
->> Yes once in a very long while we are going to tweak
->> something in the tests, and for that rare occurence
->> it makes sense to periodically rebuild everything,
->> otherwise code bitrots.
->>
->> But the test is supposed to run within a VM anyway, let's
->> have an image and be done with it.
->>
->> --
->> MST
->>
+Jason, perhaps we can remove PATCH 17 from the series and only merge PATCH 1 to 16?
 
+I will resend PATCH 17 in a new series with the reconnect option patch once this series is 
+merged.
 
---=20
-Alex Benn=C3=A9e
+Thanks,
+Laurent
+
 
