@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDAF560806D
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 22:59:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1221660803C
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 22:50:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1olxCd-0006az-9V; Fri, 21 Oct 2022 14:57:11 -0400
+	id 1olxSc-0006Do-1b; Fri, 21 Oct 2022 15:13:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oluvU-0000Rv-NG; Fri, 21 Oct 2022 12:31:18 -0400
-Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29])
+ (Exim 4.90_1) (envelope-from <amarjargal16@gmail.com>)
+ id 1olvMc-00040X-TF
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 12:59:18 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oluvS-00038W-Q9; Fri, 21 Oct 2022 12:31:16 -0400
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-131dda37dddso4261786fac.0; 
- Fri, 21 Oct 2022 09:31:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <amarjargal16@gmail.com>)
+ id 1olvMb-0001dL-Cn
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 12:59:18 -0400
+Received: by mail-wr1-x429.google.com with SMTP id a3so6073560wrt.0
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 09:59:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=LX6fD4c+KvNBnXr43vhCU1rtVpE+IllA6KJJHpU3Ifw=;
- b=jqSa79cPbBN1QihYrxB5eJNT+xS6zFohPmEFvGTek5/jDMRLBhXBJKplrYeKZE2kyq
- qFzfKCPVNy46dYciMsptWrOO9Z1qhA/+a7TFEQlomX8T/bkNqxXZNNkN3r2l+tDY2Zna
- z/+o4iaxSNTXuAPGPIWqY+cMHUclNpZ5CaMnRk+q8xe1R7t2pdnwYM2oBe4FWsAVDzvd
- pvFIYKsCT8po0AtVckL6kS3ou/6w16j35TOhwqZ/ssj6m8BAb8Y8xeMYEStC+YFvCJs1
- cdvBj9t7ndhic3+05dHw7I6LrtpWrFYhc3pgHxEi8kPJZ0EDw0+mMOwGwQqJSXZvpP55
- +MaA==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=/OO5iR0ZGIXSf4g7oVCcPeBb0G6b/uVNbLfDPUHtpPY=;
+ b=GX1FFU7xMio1WITBQe7j5hDmq5XV6yM38TAhxJK/o0GgKGD6yYSbL0j5KbJ9UX+rex
+ SyTD4x7OXnL1t3ArH0j0vV9Z6HKzQpRU4SfRq1dBqqTcXKluwOoPvLW+iphy3OJKux2+
+ LYagRQiO26Esq2vR/DsfpB1Xh+aMFj5BNufMToZdgB6kmpo+JOLEbjpNlMRlIcr5XYI5
+ E6bnBZMG6Fdb/YE0Z9uVwTJIRhfVBxk+UlJkxuF4WKYXSwSKwt1FRAQhXp3SGvCPNVAt
+ zx+JDaBUXTdhUM+vVaZ74BtdLLqf+qeKRE+e+6wsr6QnB4Rp1oREgo7761Y/KzRO22cu
+ qCww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LX6fD4c+KvNBnXr43vhCU1rtVpE+IllA6KJJHpU3Ifw=;
- b=gh76XpSXqg66PQzgatduPfrS1IAYD7XKn7VzR+fweq8oa57Y8WSjXjWSo9Tp8m3CxA
- aIJE2CX5NkmyvlHWz4+PC7loI3YWp/PlsPUeDFhPQ9ki9gaQysPRAxpcVlHJBz+bY1QB
- 4HXCiODhRykEPEootP+yqi4U0D6SnOaFVbwmDnhbe1DSgIYTQkrXgRk2u2HL87X8p0ed
- p4SK+1Z0/WRaoxlgSx4nysMidAjygnmc5g54/53srQNI59gpaAwFMDRqnb/xrPJSD1Cy
- ZT2YNVRSujTP3w20/20YmQMrXoE/x340ymrwJDIow58xNTetfwtXBmxzTmkadVo9MndH
- 4H4Q==
-X-Gm-Message-State: ACrzQf2VONr+9sXwDUfLB3pcJPTQCEwVelR57wCIYgzWKsPyyAP2vcmg
- w4KqyoWhTof3wFyPO744MBY=
-X-Google-Smtp-Source: AMsMyM7uhUot99K2r+r26p3tSZXv0BfcX8YQabWNNxM89McHgMWioYwvWYGjFR6NAZap7OnkbBOdoA==
-X-Received: by 2002:a05:6870:a91b:b0:131:f14a:30c2 with SMTP id
- eq27-20020a056870a91b00b00131f14a30c2mr12569394oab.286.1666369873035; 
- Fri, 21 Oct 2022 09:31:13 -0700 (PDT)
-Received: from [192.168.10.102] ([179.111.38.2])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/OO5iR0ZGIXSf4g7oVCcPeBb0G6b/uVNbLfDPUHtpPY=;
+ b=AEfuKUHclf6aNsXtR8bQkm8G1yHz/01P5DglE9Tzxp1gtW0NGXpN+ycvyj104/j1Sq
+ P9PAVBAKxfMyL5x7aL4KXLbYQtSwZy+hCpmh7wEGlPxhz5hNv+ZnEquC2grcGKE0BGye
+ 1hR8chDAkI6y74h/nSXo8iThYQnpUBipQ77qpAA2DIZttsaJtCHdog1ybRDlPe/MrCPu
+ W8GQXlQc/JGSZCfEmmgvZb+ZWVlej0ztBLw4f3i0KWvPAmdi60Gayh8CHrdu4KJ8VjZc
+ Ox6t4b3neKLyNMDzN8gCtf3F3qruoalIs5L20G9zPA0r9moYbAHN20nIV6ViOBZbfQzk
+ CGUg==
+X-Gm-Message-State: ACrzQf0KtasBI8bw8fVHsMMSvXMATNVYUU4hja7aFVwkQDCt3LHuGq0o
+ ZqzMHcCGt6r0DwUcb1ox9RZWpUijvYcolt38
+X-Google-Smtp-Source: AMsMyM48XB/xqZrXZfgjEkjTRwOTnqBzF8SnABDFlwYZLXO4ndvp8UVpVqOYY9wN/uynVT516KQstA==
+X-Received: by 2002:a05:6000:184e:b0:22e:4612:496d with SMTP id
+ c14-20020a056000184e00b0022e4612496dmr13187334wri.91.1666371555212; 
+ Fri, 21 Oct 2022 09:59:15 -0700 (PDT)
+Received: from localhost.localdomain ([202.21.109.40])
  by smtp.gmail.com with ESMTPSA id
- h14-20020a4ad00e000000b00476995b5f0fsm8867668oor.9.2022.10.21.09.31.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Oct 2022 09:31:12 -0700 (PDT)
-Message-ID: <7bd3abea-d945-cbe3-a21a-8b8dde5f3c9f@gmail.com>
-Date: Fri, 21 Oct 2022 13:31:08 -0300
+ h16-20020a05600c315000b003b4cba4ef71sm94903wmo.41.2022.10.21.09.59.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Oct 2022 09:59:14 -0700 (PDT)
+From: Amarjargal Gundjalam <amarjargal16@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: kraxel@redhat.com, berrange@redhat.com, thuth@redhat.com,
+ Amarjargal Gundjalam <amarjargal16@gmail.com>
+Subject: [PATCH v3 0/4] ui:hw: fix tab indentation
+Date: Sat, 22 Oct 2022 00:59:04 +0800
+Message-Id: <cover.1666371095.git.amarjargal16@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v7 3/8] ppc4xx_sdram: Move ppc4xx_sdram_banks() to
- ppc4xx_sdram.c
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: clg@kaod.org, philmd@linaro.org
-References: <cover.1666194485.git.balaton@eik.bme.hu>
- <b1504a82157a586aa284e8ee3b427b9a07b24169.1666194485.git.balaton@eik.bme.hu>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <b1504a82157a586aa284e8ee3b427b9a07b24169.1666194485.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::29;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x29.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=amarjargal16@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,208 +89,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+V3 addresses the comments put forward by Thomas. V2 actually already addressed the comments by Daniel, but I forgot to update the patch description add his R-b which are all added in this version.
 
+Amarjargal Gundjalam (4):
+  ui: fix tab indentation
+  hw/audio: fix tab indentation
+  hw/display: fix tab indentation
+  hw/usb: fix tab indentation
 
-On 10/19/22 13:02, BALATON Zoltan wrote:
-> This function is only used by the ppc4xx memory controller models so
-> it can be made static.
-> 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
+ hw/audio/fmopl.c             | 1664 +++---
+ hw/audio/fmopl.h             |  138 +-
+ hw/audio/intel-hda-defs.h    | 1008 ++--
+ hw/audio/wm8750.c            |  270 +-
+ hw/display/blizzard.c        |  352 +-
+ hw/display/cirrus_vga.c      | 1602 +++---
+ hw/display/omap_dss.c        |  598 +--
+ hw/display/omap_lcdc.c       |   24 +-
+ hw/display/pxa2xx_lcd.c      |  196 +-
+ hw/display/tc6393xb.c        |   74 +-
+ hw/display/vga.c             |    6 +-
+ hw/display/vga_regs.h        |    6 +-
+ hw/display/xenfb.c           |  260 +-
+ hw/usb/dev-hub.c             |   86 +-
+ hw/usb/dev-network.c         |  286 +-
+ hw/usb/dev-wacom.c           |    4 +-
+ hw/usb/hcd-musb.c            |  328 +-
+ hw/usb/quirks-pl2303-ids.h   |  180 +-
+ include/hw/usb.h             |  118 +-
+ include/hw/usb/dwc2-regs.h   | 1628 +++---
+ ui/vgafont.h                 | 9214 +++++++++++++++++-----------------
+ ui/vnc-enc-zywrle-template.c |   20 +-
+ ui/vnc-enc-zywrle.h          |   16 +-
+ ui/vnc_keysym.h              |    2 +-
+ 24 files changed, 9040 insertions(+), 9040 deletions(-)
 
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+-- 
+2.25.1
 
->   hw/ppc/ppc4xx_devs.c    | 62 -----------------------------------------
->   hw/ppc/ppc4xx_sdram.c   | 61 ++++++++++++++++++++++++++++++++++++++++
->   include/hw/ppc/ppc4xx.h | 20 ++++++-------
->   3 files changed, 69 insertions(+), 74 deletions(-)
-> 
-> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-> index f737dbb3d6..c1d111465d 100644
-> --- a/hw/ppc/ppc4xx_devs.c
-> +++ b/hw/ppc/ppc4xx_devs.c
-> @@ -23,73 +23,11 @@
->    */
->   
->   #include "qemu/osdep.h"
-> -#include "qemu/units.h"
->   #include "cpu.h"
->   #include "hw/ppc/ppc4xx.h"
->   #include "hw/qdev-properties.h"
->   #include "qapi/error.h"
->   
-> -/*
-> - * Split RAM between SDRAM banks.
-> - *
-> - * sdram_bank_sizes[] must be in descending order, that is sizes[i] > sizes[i+1]
-> - * and must be 0-terminated.
-> - *
-> - * The 4xx SDRAM controller supports a small number of banks, and each bank
-> - * must be one of a small set of sizes. The number of banks and the supported
-> - * sizes varies by SoC.
-> - */
-> -void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
-> -                        Ppc4xxSdramBank ram_banks[],
-> -                        const ram_addr_t sdram_bank_sizes[])
-> -{
-> -    ram_addr_t size_left = memory_region_size(ram);
-> -    ram_addr_t base = 0;
-> -    ram_addr_t bank_size;
-> -    int i;
-> -    int j;
-> -
-> -    for (i = 0; i < nr_banks; i++) {
-> -        for (j = 0; sdram_bank_sizes[j] != 0; j++) {
-> -            bank_size = sdram_bank_sizes[j];
-> -            if (bank_size <= size_left) {
-> -                char name[32];
-> -
-> -                ram_banks[i].base = base;
-> -                ram_banks[i].size = bank_size;
-> -                base += bank_size;
-> -                size_left -= bank_size;
-> -                snprintf(name, sizeof(name), "ppc4xx.sdram%d", i);
-> -                memory_region_init_alias(&ram_banks[i].ram, NULL, name, ram,
-> -                                         ram_banks[i].base, ram_banks[i].size);
-> -                break;
-> -            }
-> -        }
-> -        if (!size_left) {
-> -            /* No need to use the remaining banks. */
-> -            break;
-> -        }
-> -    }
-> -
-> -    if (size_left) {
-> -        ram_addr_t used_size = memory_region_size(ram) - size_left;
-> -        GString *s = g_string_new(NULL);
-> -
-> -        for (i = 0; sdram_bank_sizes[i]; i++) {
-> -            g_string_append_printf(s, "%" PRIi64 "%s",
-> -                                   sdram_bank_sizes[i] / MiB,
-> -                                   sdram_bank_sizes[i + 1] ? ", " : "");
-> -        }
-> -        error_report("at most %d bank%s of %s MiB each supported",
-> -                     nr_banks, nr_banks == 1 ? "" : "s", s->str);
-> -        error_printf("Possible valid RAM size: %" PRIi64 " MiB\n",
-> -            used_size ? used_size / MiB : sdram_bank_sizes[i - 1] / MiB);
-> -
-> -        g_string_free(s, true);
-> -        exit(EXIT_FAILURE);
-> -    }
-> -}
-> -
->   /*****************************************************************************/
->   /* MAL */
->   
-> diff --git a/hw/ppc/ppc4xx_sdram.c b/hw/ppc/ppc4xx_sdram.c
-> index d88363bc3d..62ef7d8f0d 100644
-> --- a/hw/ppc/ppc4xx_sdram.c
-> +++ b/hw/ppc/ppc4xx_sdram.c
-> @@ -43,6 +43,67 @@
->   /*****************************************************************************/
->   /* Shared functions */
->   
-> +/*
-> + * Split RAM between SDRAM banks.
-> + *
-> + * sdram_bank_sizes[] must be in descending order, that is sizes[i] > sizes[i+1]
-> + * and must be 0-terminated.
-> + *
-> + * The 4xx SDRAM controller supports a small number of banks, and each bank
-> + * must be one of a small set of sizes. The number of banks and the supported
-> + * sizes varies by SoC.
-> + */
-> +static void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
-> +                               Ppc4xxSdramBank ram_banks[],
-> +                               const ram_addr_t sdram_bank_sizes[])
-> +{
-> +    ram_addr_t size_left = memory_region_size(ram);
-> +    ram_addr_t base = 0;
-> +    ram_addr_t bank_size;
-> +    int i;
-> +    int j;
-> +
-> +    for (i = 0; i < nr_banks; i++) {
-> +        for (j = 0; sdram_bank_sizes[j] != 0; j++) {
-> +            bank_size = sdram_bank_sizes[j];
-> +            if (bank_size <= size_left) {
-> +                char name[32];
-> +
-> +                ram_banks[i].base = base;
-> +                ram_banks[i].size = bank_size;
-> +                base += bank_size;
-> +                size_left -= bank_size;
-> +                snprintf(name, sizeof(name), "ppc4xx.sdram%d", i);
-> +                memory_region_init_alias(&ram_banks[i].ram, NULL, name, ram,
-> +                                         ram_banks[i].base, ram_banks[i].size);
-> +                break;
-> +            }
-> +        }
-> +        if (!size_left) {
-> +            /* No need to use the remaining banks. */
-> +            break;
-> +        }
-> +    }
-> +
-> +    if (size_left) {
-> +        ram_addr_t used_size = memory_region_size(ram) - size_left;
-> +        GString *s = g_string_new(NULL);
-> +
-> +        for (i = 0; sdram_bank_sizes[i]; i++) {
-> +            g_string_append_printf(s, "%" PRIi64 "%s",
-> +                                   sdram_bank_sizes[i] / MiB,
-> +                                   sdram_bank_sizes[i + 1] ? ", " : "");
-> +        }
-> +        error_report("at most %d bank%s of %s MiB each supported",
-> +                     nr_banks, nr_banks == 1 ? "" : "s", s->str);
-> +        error_printf("Possible valid RAM size: %" PRIi64 " MiB\n",
-> +            used_size ? used_size / MiB : sdram_bank_sizes[i - 1] / MiB);
-> +
-> +        g_string_free(s, true);
-> +        exit(EXIT_FAILURE);
-> +    }
-> +}
-> +
->   static void sdram_bank_map(Ppc4xxSdramBank *bank)
->   {
->       memory_region_init(&bank->container, NULL, "sdram-container", bank->size);
-> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
-> index 10c6dd535f..f8c86e09ec 100644
-> --- a/include/hw/ppc/ppc4xx.h
-> +++ b/include/hw/ppc/ppc4xx.h
-> @@ -29,18 +29,6 @@
->   #include "exec/memory.h"
->   #include "hw/sysbus.h"
->   
-> -typedef struct {
-> -    MemoryRegion ram;
-> -    MemoryRegion container; /* used for clipping */
-> -    hwaddr base;
-> -    hwaddr size;
-> -    uint32_t bcr;
-> -} Ppc4xxSdramBank;
-> -
-> -void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
-> -                        Ppc4xxSdramBank ram_banks[],
-> -                        const ram_addr_t sdram_bank_sizes[]);
-> -
->   #define TYPE_PPC4xx_PCI_HOST_BRIDGE "ppc4xx-pcihost"
->   
->   /*
-> @@ -111,6 +99,14 @@ struct Ppc4xxEbcState {
->   };
->   
->   /* SDRAM DDR controller */
-> +typedef struct {
-> +    MemoryRegion ram;
-> +    MemoryRegion container; /* used for clipping */
-> +    hwaddr base;
-> +    hwaddr size;
-> +    uint32_t bcr;
-> +} Ppc4xxSdramBank;
-> +
->   #define SDR0_DDR0_DDRM_ENCODE(n)  ((((unsigned long)(n)) & 0x03) << 29)
->   #define SDR0_DDR0_DDRM_DDR1       0x20000000
->   #define SDR0_DDR0_DDRM_DDR2       0x40000000
 
