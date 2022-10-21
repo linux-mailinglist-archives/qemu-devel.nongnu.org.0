@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F77607152
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 09:43:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D9CC60713E
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 09:37:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olmh6-0008Mg-7f
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:43:52 -0400
+	id 1olmb5-0001HH-AF
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:37:39 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olmHY-0003G2-Rw
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:17:28 -0400
+	id 1olmHi-0003JW-Jx
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:17:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olmHG-0003CH-BJ
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:17:11 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ id 1olmHR-0003F1-Sk
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:17:23 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olmHE-0005kb-Fv
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:17:09 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- i3-20020a17090a3d8300b00212cf2e2af9so854516pjc.1
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 00:17:08 -0700 (PDT)
+ id 1olmHP-0005oI-QF
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:17:21 -0400
+Received: by mail-pl1-x633.google.com with SMTP id c24so1584919plo.3
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 00:17:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=JONxt9CE65pjWaD+nTpNlKjL3nDuRwB7r5QiBKPwDCY=;
- b=VABAGKaGx25IkbEfL0YUAnzAlz49KNPSwdhSN8lORyV5W4oMvfl237lql2virU41US
- jinc/H23DO4NskLnEamk54jreoJ1AYN7h2L1XZAyDQeDzJCgHnMxGuZcRBe+ue843Lo3
- 1zgMatg2W2t9XzCfY0UdozJ/mTPevHP4bPIF8cGWff8APMKAyAbdQjwxxlnt6oeupBd0
- 1QOYJC4lYbTOyapP5DqE1IIipyMc05L516aE5cLAOHuWtN/EiDZcQ8wDomlaKtCtqseh
- bqFSzt/t0cki/5nptwX5K1RUd7ODevRojnn01X2Ak3Xo6pmXQauznqBX10zZWjSFa9Hw
- R/JA==
+ :reply-to; bh=YL8W2fQ+28CPJzwzlqNSd9vlVmUOZrRLduSb6SVZ5pE=;
+ b=CIgAbSny0mKIJfru330j4NH2hSkZFTeWyyqhgtsEM04xi8oGpFkhrYL20xPb4ohbCs
+ JrBXRy9reoui42skjWfJSSANoHyzjRez0bTCsI3/QFDoF8a8vLAfS8C1ROtjO7a/+J/v
+ 4+7Pz8X9v9vaWfkwaVHgSufnNlaugQTB+zn50PjQ1ndrO3kS+6pqt95RShBjJcUL/WGo
+ qEbeSqsGTnnWfUUgmxFrGfwx7jdLpUcbNIeqBkGJwXzw4T5ghnNu0By31LvN71tFMTLD
+ 6Gr2mt2yo3TdklZ6q4PHgOO09q/uoLCPQv9rkZBt094MJQaZ274ZWX1v7bqJlqVZRTFu
+ UklQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=JONxt9CE65pjWaD+nTpNlKjL3nDuRwB7r5QiBKPwDCY=;
- b=vpZ8+mwO7inLFPczGalCXbfNOLgybsjtDmaAtUKXEfTP1OK10CO8EBs6/1QFCMlSvj
- cRL13GZxvBNyAHiFZcn1F7tbiexmM/FJ284UPLue4YNHAYrdLDF/F2zaGPMP1GC3966G
- RXg5aaDpzbs6FTgSUzYi7Hz15/2WMDPuQ330Irz0VUOdxCe6OgkzeDljMLBZF75HzP8g
- 5A0ynT1yAY8aovC6TSxejuQgeylqVmZGQD0rMnQupJN9zwwt5EtZkA4ePwEzjbz353pG
- dvqk4oPaLYFENl9IuBJI0v3dxx+NNOlX9ZKWGk/age+uJQmLG1Sl85cW7igCdAX7SRB4
- pJKg==
-X-Gm-Message-State: ACrzQf1CLoOB9n6W0ilmgs+V+jyzToApSBxb83lN8wktrBNGQtK40/ku
- MxFgVdqw8hHTJ5hdQZ+UzOiHKe6U+sFMWm6G
-X-Google-Smtp-Source: AMsMyM6Sh603TYee2sO0Lc1QHwbz2+IebEccL2YigTd6+YcyCiaSr553x3dulocC0u/fHuAPWamDlw==
-X-Received: by 2002:a17:90b:4a0b:b0:20c:5ac8:1e2c with SMTP id
- kk11-20020a17090b4a0b00b0020c5ac81e2cmr20417930pjb.98.1666336627030; 
- Fri, 21 Oct 2022 00:17:07 -0700 (PDT)
+ bh=YL8W2fQ+28CPJzwzlqNSd9vlVmUOZrRLduSb6SVZ5pE=;
+ b=0epr44rspn7v26+2r5L+KFfSHv9+dRHw6chas71dm6mts07xtfis7hZqzTKyGWu9Nr
+ ctW2nNlITF/KuCx3jmUCKbV0x6WKHBzul3lXSWgokDnTDUTnFkvznULupgklHMuyr70F
+ 6JYKcNV0Jehx0kLxC4byyiuPSdsJC2JKcEPxd+NtykzJf9b9KCz4UY0alHpHr5ZKUXH9
+ hhFJxoyy4zhJkKzHPtDmi34pd8uVM+qMfiz+y33T/EqqwF4OEWIeGB/19u4agIyGd7KG
+ Nejx6aXtm3+S3Ic3KeyVa2yDSqUbWBWre4O1WzqlmcV4jBs0cO2WNWoHhxf9SQsZYEXz
+ mA3g==
+X-Gm-Message-State: ACrzQf1zmZe2mrOsxMBCrgz9qlmdXOo3PaWToORYonoQPTx8RaeG1WKD
+ Wu76aQa1spz184Y+L4RjwJHwpX05hH8kC+ln
+X-Google-Smtp-Source: AMsMyM5d1uuaOLM+v5TE0LHmDE6kIzhnTLWs/8tPM5BvJ/D/+LNkcQlqYFVKDbsXzMPrabmHrtHzeA==
+X-Received: by 2002:a17:903:48e:b0:17e:ea4a:394e with SMTP id
+ jj14-20020a170903048e00b0017eea4a394emr17417365plb.48.1666336637236; 
+ Fri, 21 Oct 2022 00:17:17 -0700 (PDT)
 Received: from localhost.localdomain ([149.135.10.35])
  by smtp.gmail.com with ESMTPSA id
- q9-20020a638c49000000b0041cd5ddde6fsm13003327pgn.76.2022.10.21.00.17.04
+ q9-20020a638c49000000b0041cd5ddde6fsm13003327pgn.76.2022.10.21.00.17.15
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Oct 2022 00:17:06 -0700 (PDT)
+ Fri, 21 Oct 2022 00:17:16 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 15/36] tcg: Introduce tcg_type_size
-Date: Fri, 21 Oct 2022 17:15:28 +1000
-Message-Id: <20221021071549.2398137-16-richard.henderson@linaro.org>
+Subject: [PATCH v2 19/36] tcg: Use TCG_CALL_ARG_EVEN for TCI special case
+Date: Fri, 21 Oct 2022 17:15:32 +1000
+Message-Id: <20221021071549.2398137-20-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221021071549.2398137-1-richard.henderson@linaro.org>
 References: <20221021071549.2398137-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,104 +94,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a helper function for computing the size of a type.
+Change 32-bit tci TCG_TARGET_CALL_ARG_I32 to TCG_CALL_ARG_EVEN, to
+force 32-bit values to be aligned to 64-bit.  With a small reorg
+to the argument processing loop, this neatly replaces an ifdef for
+CONFIG_TCG_INTERPRETER.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg.h | 16 ++++++++++++++++
- tcg/tcg.c         | 26 ++++++++++++--------------
- 2 files changed, 28 insertions(+), 14 deletions(-)
+ tcg/tci/tcg-target.h |  3 ++-
+ tcg/tcg.c            | 62 ++++++++++++++++++++++++++------------------
+ 2 files changed, 39 insertions(+), 26 deletions(-)
 
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index f2da340bb9..8bcd60d0ed 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -319,6 +319,22 @@ typedef enum TCGType {
+diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
+index d6e0450ed8..94ec541b4e 100644
+--- a/tcg/tci/tcg-target.h
++++ b/tcg/tci/tcg-target.h
+@@ -158,10 +158,11 @@ typedef enum {
+ /* Used for function call generation. */
+ #define TCG_TARGET_CALL_STACK_OFFSET    0
+ #define TCG_TARGET_STACK_ALIGN          8
+-#define TCG_TARGET_CALL_ARG_I32         TCG_CALL_ARG_NORMAL
+ #if TCG_TARGET_REG_BITS == 32
++# define TCG_TARGET_CALL_ARG_I32        TCG_CALL_ARG_EVEN
+ # define TCG_TARGET_CALL_ARG_I64        TCG_CALL_ARG_EVEN
+ #else
++# define TCG_TARGET_CALL_ARG_I32        TCG_CALL_ARG_NORMAL
+ # define TCG_TARGET_CALL_ARG_I64        TCG_CALL_ARG_NORMAL
  #endif
- } TCGType;
  
-+/**
-+ * tcg_type_size
-+ * @t: type
-+ *
-+ * Return the size of the type in bytes.
-+ */
-+static inline int tcg_type_size(TCGType t)
-+{
-+    unsigned i = t;
-+    if (i >= TCG_TYPE_V64) {
-+        tcg_debug_assert(i < TCG_TYPE_COUNT);
-+        i -= TCG_TYPE_V64 - 1;
-+    }
-+    return 4 << i;
-+}
-+
- /**
-  * get_alignment_bits
-  * @memop: MemOp value
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 73d8b33b06..48b517a856 100644
+index d4960c62b5..e0f5c6ea7b 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -3110,22 +3110,22 @@ static void check_regs(TCGContext *s)
+@@ -1532,36 +1532,48 @@ void tcg_gen_callN(void *func, TCGTemp *ret, int nargs, TCGTemp **args)
+     real_args = 0;
+     for (i = 0; i < nargs; i++) {
+         int argtype = extract32(typemask, (i + 1) * 3, 3);
+-        bool is_64bit = (argtype & ~1) == dh_typecode_i64;
+-        bool want_align = false;
++        TCGCallArgumentKind kind;
++        TCGType type;
  
- static void temp_allocate_frame(TCGContext *s, TCGTemp *ts)
- {
--    intptr_t off, size, align;
-+    int size = tcg_type_size(ts->type);
-+    int align;
-+    intptr_t off;
- 
-     switch (ts->type) {
-     case TCG_TYPE_I32:
--        size = align = 4;
-+        align = 4;
-         break;
-     case TCG_TYPE_I64:
-     case TCG_TYPE_V64:
--        size = align = 8;
-+        align = 8;
-         break;
-     case TCG_TYPE_V128:
--        size = align = 16;
--        break;
-     case TCG_TYPE_V256:
-         /* Note that we do not require aligned storage for V256. */
--        size = 32, align = 16;
-+        align = 16;
-         break;
-     default:
-         g_assert_not_reached();
-@@ -3641,8 +3641,8 @@ static void tcg_reg_alloc_dup(TCGContext *s, const TCGOp *op)
-     TCGRegSet dup_out_regs, dup_in_regs;
-     TCGTemp *its, *ots;
-     TCGType itype, vtype;
--    intptr_t endian_fixup;
-     unsigned vece;
-+    int lowpart_ofs;
-     bool ok;
- 
-     ots = arg_temp(op->args[0]);
-@@ -3711,14 +3711,12 @@ static void tcg_reg_alloc_dup(TCGContext *s, const TCGOp *op)
-         /* fall through */
- 
-     case TEMP_VAL_MEM:
--#if HOST_BIG_ENDIAN
--        endian_fixup = itype == TCG_TYPE_I32 ? 4 : 8;
--        endian_fixup -= 1 << vece;
+-#if defined(CONFIG_TCG_INTERPRETER)
+-        /*
+-         * Align all arguments, so that they land in predictable places
+-         * for passing off to ffi_call.
+-         */
+-        want_align = true;
 -#else
--        endian_fixup = 0;
+-        /* Some targets want aligned 64 bit args */
+-        if (is_64bit) {
+-            want_align = TCG_TARGET_CALL_ARG_I64 == TCG_CALL_ARG_EVEN;
+-        }
 -#endif
-+        lowpart_ofs = 0;
-+        if (HOST_BIG_ENDIAN) {
-+            lowpart_ofs = tcg_type_size(itype) - (1 << vece);
-+        }
-         if (tcg_out_dupm_vec(s, vtype, vece, ots->reg, its->mem_base->reg,
--                             its->mem_offset + endian_fixup)) {
-+                             its->mem_offset + lowpart_ofs)) {
-             goto done;
+-
+-        if (TCG_TARGET_REG_BITS < 64 && want_align && (real_args & 1)) {
+-            op->args[pi++] = TCG_CALL_DUMMY_ARG;
+-            real_args++;
++        switch (argtype) {
++        case dh_typecode_i32:
++        case dh_typecode_s32:
++            type = TCG_TYPE_I32;
++            kind = TCG_TARGET_CALL_ARG_I32;
++            break;
++        case dh_typecode_i64:
++        case dh_typecode_s64:
++            type = TCG_TYPE_I64;
++            kind = TCG_TARGET_CALL_ARG_I64;
++            break;
++        case dh_typecode_ptr:
++            type = TCG_TYPE_PTR;
++            kind = TCG_CALL_ARG_NORMAL;
++            break;
++        default:
++            g_assert_not_reached();
          }
-         tcg_out_ld(s, itype, ots->reg, its->mem_base->reg, its->mem_offset);
+ 
+-        if (TCG_TARGET_REG_BITS < 64 && is_64bit) {
++        switch (kind) {
++        case TCG_CALL_ARG_EVEN:
++            if (real_args & 1) {
++                op->args[pi++] = TCG_CALL_DUMMY_ARG;
++                real_args++;
++            }
++            /* fall through */
++        case TCG_CALL_ARG_NORMAL:
++            if (TCG_TARGET_REG_BITS == 32 && type == TCG_TYPE_I64) {
++                op->args[pi++] = temp_arg(args[i]);
++                op->args[pi++] = temp_arg(args[i] + 1);
++                real_args += 2;
++                break;
++            }
+             op->args[pi++] = temp_arg(args[i]);
+-            op->args[pi++] = temp_arg(args[i] + 1);
+-            real_args += 2;
+-            continue;
++            real_args++;
++            break;
++        default:
++            g_assert_not_reached();
+         }
+-
+-        op->args[pi++] = temp_arg(args[i]);
+-        real_args++;
+     }
+     op->args[pi++] = (uintptr_t)func;
+     op->args[pi++] = (uintptr_t)info;
 -- 
 2.34.1
 
