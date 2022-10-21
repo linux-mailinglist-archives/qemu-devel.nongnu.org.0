@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B88BC607B22
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 17:38:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B527607B6F
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 17:44:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olu6A-0007DM-Mo
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 11:38:14 -0400
+	id 1oluCZ-0000Zd-Sf
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 11:44:52 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olu5w-0006EX-8E
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 11:38:00 -0400
+	id 1oluCX-00008y-3r
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 11:44:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1olu5n-0004jH-Om
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 11:37:51 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oluBi-0001hA-9U
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 11:44:00 -0400
 Received: from mout.kundenserver.de ([217.72.192.74])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1olu5l-0007It-Vb
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 11:37:51 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oluBg-0002De-2q
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 11:43:57 -0400
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MSLlu-1ofKWD3Nfs-00SgM1; Fri, 21 Oct 2022 17:37:33 +0200
-Message-ID: <0825f689-a649-3b3c-796e-ae3d8a3556e0@vivier.eu>
-Date: Fri, 21 Oct 2022 17:37:32 +0200
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MCsHm-1oufbz2Z6m-008oWV; Fri, 21 Oct 2022 17:43:51 +0200
+Message-ID: <7afdfcea-0b9e-9074-7331-b155dfe292e5@vivier.eu>
+Date: Fri, 21 Oct 2022 17:43:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
-Subject: Re: [PATCH] linux-user: Implement faccessat2
+Subject: Re: [PATCH v2] linux-user: Add guest memory layout to exception dump
 Content-Language: fr
-To: WANG Xuerui <xen0n@gentoo.org>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- =?UTF-8?Q?Andreas_K_=2e_H=c3=bcttel?= <dilfridge@gentoo.org>
-References: <20221009060813.2289077-1-xen0n@gentoo.org>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20221009060813.2289077-1-xen0n@gentoo.org>
+To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <YzMru6y+v5bbsTRn@p100>
+ <5cabeb0b-1219-ae01-38bc-dc0873d502c8@vivier.eu>
+In-Reply-To: <5cabeb0b-1219-ae01-38bc-dc0873d502c8@vivier.eu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:yIVHzhCwDdtCJzdYMFI78tLYKDlbxzFNR2NLRRLI76MhljHruwk
- HxqNHmmoI8lyblkcjut6RGeX9IYUE41VXfD3fMMI3zNHWU+zKi3YJ8ckgHRdzwf/s+Yt03M
- 7IiaPZax23FctTs6hmcNp9qWRPUTyUdowSLjm4eKWK6+kn0OA1e4PTeY6dYtVTtM13QeWjU
- ShHPnvdYKNH0dgaZYt+VQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7ldu8XlwsOE=:2psD4mGBaC6gDRSYXQ9UTV
- mKxZYizvZI3l3ee1Rm36lBcMGyt1povN5MPmmjOPgHxWOwpf8IOeXX1P7UQ9jdiLw5e1EAMrw
- KtsW9581qTQVEk7j7dtG2qnG8MkrYQM1K1GKszHc0QwoTkwMb/QLQBUNP3BnLrVlUzwI1jBM+
- yZ2aIlG1WK3pYa85GIPPARq8KuJEbrRTM7EnObRMrhn6eRVGCp6K026QI4tWWE3pwhkR8Exkl
- 5bfNhdBwYIeKM4RDpOmtIsBaV5nT4IZqfGZ49Km5J3wBbH+dhdGTf1MVIkjwsOIoflxErmbc/
- ewRSTBrgXGCQbM30CBSxYQFzWxxOFfkebQi6/uEy5T6EPr+2Uk1Cc7cUQbemrhTrxKceq/eZ3
- 1Akp5v+GyTlOzKgNjbIu97wwTbv3jB8I/y0Ih2uFc7F+fifxeHb8c2LhMhzFg6fPiQW5VDWui
- Wcob8oKiQ2S3BrDIRg+qADMnPalJbUhbHHomWyHBUEJW1ROjavCqliUO4LcZpVpAvkM9ER/ha
- U3axBMkwnKt1I1l3Twkj5AYvWJrtkFUjp1Xie8F4dlsv02NGzxe8xqwBwZLIivTJZmkKDcwVp
- XKRgdolw7PqrC0b5oy6xFmfmbPXY6Ah6dLRLVYofG8ICU3/iVQzz8URqT8VnnURb7lKv17Fl4
- T7hnu1qApXDDxwlF0UCVeGE/08EIY1FO1i7y9dczbkgCJ5sbVnksLVkoKNF8VuZ3dCa5A3gxs
- F0focc28gzcsSKL2zrUaDCKkNkqSV4AcV7MSidGH5Il22occpERo0TCTifd4hVjdF6al85XEd
- NDTY5U4
+X-Provags-ID: V03:K1:n0eQycNV5oMalxRhR0MMhr6fp4emvssr4lt9KfasG3p1wOOWakz
+ Uvo1xvHTgH9TA9vboupkEYuDV01860rewSYAVhfXsppr3n0zI7V/fch12QpVQelqjNqaq+c
+ UATZQTnBAmSRSPWnYVO39/Cp+ArgGHdii2EZ1hJG6dDC/olXJTuAovobcOmgoxSsIVGgIJz
+ jfXnr8KGQrH6pSJ3v12oA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:swaJ6/KZ8JA=:5Nxze7uSaWiLzV9SuN6hFG
+ JRk/tzZM+yr+NrG/DW1tk9P57TmHVOVvO5uuciWr+Wy68wAZ+0fwC1WE1ioWwtPQu9LWw1rxg
+ dtgi9kciXUhg1EFJQ6UFiBb2809IoBhMcGVWBtoWFXgz8pf8NFGQwN/lH6g+qlke1QfHECBbP
+ QICoHB3CMf6yMKK2LY1WS8jNIP/0bhBYZCbJIOrWEXhuTdkt1BWVSdOAOWb+hTTezxYX6Ji1P
+ RU9RJ0pqBfv3nM1gE//Rq9IpuUNOKvjcrSsPxz5IpKuN0PNGFvh34ovM0GJnyoNbdF+xwFcLA
+ KuQCWnkFusgH5gJNGE2h2gAADN4B92ljMGvoUAcYYyuXVM2TRPWu7yD3O+IKdBMLnb4gzMWKg
+ 2ukkMfL3MiKe8Iiw4fCOU5onjXYs4qqDIq1ZJbQXLTIT1BWvShydYWdD0LopowJe7V3gAzg+8
+ fK2g2BT2AYO6P8DX+1HKzMOUgAgw1IWwBngtmMADtvPGbojImHMDynN91qAU/UUd6kEThbm7g
+ ZXWgYLmhHTQl4v5DsX2pQY8ml74fT4GTDumeYpkA/yMJBKQy4OeDgDbwjU360RghC+BTejLI4
+ nNFvjxDX9gg+IQ2FnqXZCHo1fifcKp5NxxHFr0l5H4nWaXPoKx2H+wwPyPux5AaTl8V0P8MYz
+ 7NeTLeMPeW4xjlN9rZ0QRKzsLbe2j9aZiWTgH50yniYstuOdGomNkMFXDamoO453YbQBcsJc+
+ 3WhtfIbeza56kYsMkyUfaFQCD+fxJbECmKo08lQM5ajDKE8gmElw+fAi2lR3J5C9b56evMJtS
+ aWghd8Q
 Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -80,61 +80,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 09/10/2022 à 08:08, WANG Xuerui a écrit :
-> User space has been preferring this syscall for a while, due to its
-> closer match with C semantics, and newer platforms such as LoongArch
-> apparently have libc implementations that don't fallback to faccessat
-> so normal access checks are failing without the emulation in place.
+Le 21/10/2022 à 16:57, Laurent Vivier a écrit :
+> Le 27/09/2022 à 18:58, Helge Deller a écrit :
+>> When the emulation stops with a hard exception it's very useful for
+>> debugging purposes to dump the current guest memory layout (for an
+>> example see /proc/self/maps) beside the CPU registers.
+>>
+>> The open_self_maps() function provides such a memory dump, but since
+>> it's located in the syscall.c file, various changes (add #includes, make
+>> this function externally visible, ...) are needed to be able to call it
+>> from the existing EXCP_DUMP() macro.
+>>
+>> This patch takes another approach by re-defining EXCP_DUMP() to call
+>> target_exception_dump(), which is in syscall.c, consolidates the log
+>> print functions and allows to add the call to dump the memory layout.
+>>
+>> Beside a reduced code footprint, this approach keeps the changes across
+>> the various callers minimal, and keeps EXCP_DUMP() highlighted as
+>> important macro/function.
+>>
+>> Signed-off-by: Helge Deller <deller@gmx.de>
+>>
+>> ---
+>>
+>> v2:
+>> Based on feedback by Philippe Mathieu-Daudé, renamed the two functions
+>> to excp_dump_file() and target_exception_dump(), and #define'ed
+>> EXCP_DUMP() to target_exception_dump().
+>> I intentionally did not replace all occurences of EXCP_DUMP() by
+>> target_exception_dump() as I think it's unneccesary and not beneficial.
+>> If this is really wished, I will send a v3.
+>>
+>>
+>> diff --git a/linux-user/cpu_loop-common.h b/linux-user/cpu_loop-common.h
+>> index 36ff5b14f2..e644d2ef90 100644
+>> --- a/linux-user/cpu_loop-common.h
+>> +++ b/linux-user/cpu_loop-common.h
+>> @@ -23,18 +23,9 @@
+>>   #include "exec/log.h"
+>>   #include "special-errno.h"
+>>
+>> -#define EXCP_DUMP(env, fmt, ...)                                        \
+>> -do {                                                                    \
+>> -    CPUState *cs = env_cpu(env);                                        \
+>> -    fprintf(stderr, fmt , ## __VA_ARGS__);                              \
+>> -    fprintf(stderr, "Failing executable: %s\n", exec_path);             \
+>> -    cpu_dump_state(cs, stderr, 0);                                      \
+>> -    if (qemu_log_separate()) {                                          \
+>> -        qemu_log(fmt, ## __VA_ARGS__);                                  \
+>> -        qemu_log("Failing executable: %s\n", exec_path);                \
+>> -        log_cpu_state(cs, 0);                                           \
+>> -    }                                                                   \
+>> -} while (0)
+>> +void target_exception_dump(CPUArchState *env, const char *fmt, int code);
+>> +#define EXCP_DUMP(env, fmt, code) \
+>> +    target_exception_dump(env, fmt, code)
+>>
+>>   void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs);
+>>   #endif
+>> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+>> index 2e954d8dbd..7d29c4c396 100644
+>> --- a/linux-user/syscall.c
+>> +++ b/linux-user/syscall.c
+>> @@ -158,6 +158,7 @@
+>>   #include "qapi/error.h"
+>>   #include "fd-trans.h"
+>>   #include "tcg/tcg.h"
+>> +#include "cpu_loop-common.h"
+>>
+>>   #ifndef CLONE_IO
+>>   #define CLONE_IO                0x80000000      /* Clone io context */
+>> @@ -8144,6 +8145,33 @@ static int is_proc_myself(const char *filename, const char *entry)
+>>       return 0;
+>>   }
+>>
+>> +static void excp_dump_file(FILE *logfile, CPUArchState *env,
+>> +                      const char *fmt, int code)
+>> +{
+>> +    if (logfile) {
+>> +        CPUState *cs = env_cpu(env);
+>> +
+>> +        fprintf(logfile, fmt, code);
+>> +        fprintf(logfile, "Failing executable: %s\n", exec_path);
+>> +        cpu_dump_state(cs, logfile, 0);
+>> +        open_self_maps(env, fileno(logfile));
+>> +    }
+>> +}
+>> +
+>> +void target_exception_dump(CPUArchState *env, const char *fmt, int code)
+>> +{
+>> +    /* dump to console */
+>> +    excp_dump_file(stderr, env, fmt, code);
+>> +
+>> +    /* dump to log file */
+>> +    if (qemu_log_separate()) {
+>> +        FILE *logfile = qemu_log_trylock();
+>> +
+>> +        excp_dump_file(logfile, env, fmt, code);
+>> +        qemu_log_unlock(logfile);
+>> +    }
+>> +}
+>> +
+>>   #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN || \
+>>       defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
+>>   static int is_proc(const char *filename, const char *entry)
+>>
 > 
-> Tested by successfully emerging several packages within a Gentoo loong
-> stage3 chroot, emulated on amd64 with help of static qemu-loongarch64.
-> 
-> Reported-by: Andreas K. Hüttel <dilfridge@gentoo.org>
-> Signed-off-by: WANG Xuerui <xen0n@gentoo.org>
-> ---
->   linux-user/strace.list | 3 +++
->   linux-user/syscall.c   | 9 +++++++++
->   2 files changed, 12 insertions(+)
-> 
-> diff --git a/linux-user/strace.list b/linux-user/strace.list
-> index a87415bf3d..3df2184580 100644
-> --- a/linux-user/strace.list
-> +++ b/linux-user/strace.list
-> @@ -178,6 +178,9 @@
->   #ifdef TARGET_NR_faccessat
->   { TARGET_NR_faccessat, "faccessat" , NULL, print_faccessat, NULL },
->   #endif
-> +#ifdef TARGET_NR_faccessat2
-> +{ TARGET_NR_faccessat2, "faccessat2" , NULL, print_faccessat, NULL },
-> +#endif
->   #ifdef TARGET_NR_fadvise64
->   { TARGET_NR_fadvise64, "fadvise64" , NULL, NULL, NULL },
->   #endif
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 2e954d8dbd..a81f0b65b9 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -9110,6 +9110,15 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
->           unlock_user(p, arg2, 0);
->           return ret;
->   #endif
-> +#if defined(TARGET_NR_faccessat2) && defined(__NR_faccessat2)
-> +    case TARGET_NR_faccessat2:
-> +        if (!(p = lock_user_string(arg2))) {
-> +            return -TARGET_EFAULT;
-> +        }
-> +        ret = get_errno(faccessat(arg1, p, arg3, arg4));
-> +        unlock_user(p, arg2, 0);
-> +        return ret;
-> +#endif
->   #ifdef TARGET_NR_nice /* not on alpha */
->       case TARGET_NR_nice:
->           return get_errno(nice(arg1));
+> Applied to my linux-user-for-7.2 branch.
 
-I have applied this patch to my linux-user-for-7.2 branch,
-adding defined(TARGET_NR_faccessat2) for print_faccessat() and removing the defined(__NR_faccessat2) 
-in syscall.c (as we call the glibc wrapper).
+This breaks build with:
 
-Thanks,
-Laurent
+.../linux-user/i386/cpu_loop.c: In function 'cpu_loop':
+...linux-user/i386/cpu_loop.c:312:39: error: macro "EXCP_DUMP" passed 4 arguments, but takes just 3
+   312 |                       (long)pc, trapnr);
+       |                                       ^
+In file included from .../linux-user/i386/cpu_loop.c:24:
+.../linux-user/cpu_loop-common.h:27: note: macro "EXCP_DUMP" defined here
+    27 | #define EXCP_DUMP(env, fmt, code) \
+       |
+.../linux-user/i386/cpu_loop.c:311:13: error: 'EXCP_DUMP' undeclared (first use in this function)
+   311 |             EXCP_DUMP(env, "qemu: 0x%08lx: unhandled CPU exception 0x%x - aborting\n",
+       |             ^~~~~~~~~
+.../linux-user/i386/cpu_loop.c:311:13: note: each undeclared identifier is reported only once for 
+each function it appears in
+.../linux-user/i386/cpu_loop.c:204:15: error: variable 'pc' set but not used 
+[-Werror=unused-but-set-variable]
+   204 |     abi_ulong pc;
+       |               ^~
+cc1: all warnings being treated as errors
+
+
+
 
