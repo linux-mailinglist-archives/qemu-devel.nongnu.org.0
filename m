@@ -2,64 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D91766082DF
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Oct 2022 02:33:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A9E26082E4
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Oct 2022 02:34:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1om0CM-000463-21; Fri, 21 Oct 2022 18:09:02 -0400
+	id 1om0CM-00046J-J5; Fri, 21 Oct 2022 18:09:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1olxmV-0003Gy-LN
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 15:34:11 -0400
-Received: from mga17.intel.com ([192.55.52.151])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1olxmT-00063x-Nl
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 15:34:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666380849; x=1697916849;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=UidzKKWcIsWvtxtE2MHDAvmKyxwTXvtrcTkX8nOkDz0=;
- b=kfnRLBgYNH59pBTucw5adnDBl2eNtLujRIdqym0wbBd95JVTm0+K0nu5
- IKkj/2X8ncUdIGcmL8gvcAjqazWlXW4nVtNNR42YliScHovS2+tePYAzH
- d4b2fTsUX/4nV74ukrjTvpThSeseZf2diJFsWYAD0uPnhTOXNAHtmTKbs
- wje8K0VexEwTvE+MkgL5AKAppg3hyggWO2Z1L78GO6DZnjIiqnxcneTVK
- Wx6hEPAJ7QbXYcCSnXKwfnlvaijxM//QBBA7jJzHFXSdrHYE1mWELehWa
- nZOvwCXiXGb3/08yg5bOolP2CQpwsEzPpF4IY2oc5+BCFn6ha3YMW5BU/ g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10507"; a="287488930"
-X-IronPort-AV: E=Sophos;i="5.95,202,1661842800"; d="scan'208";a="287488930"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Oct 2022 12:34:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10507"; a="959764501"
-X-IronPort-AV: E=Sophos;i="5.95,202,1661842800"; d="scan'208";a="959764501"
-Received: from dongwonk-z390-aorus-ultra-intel-gfx.fm.intel.com
- ([10.105.129.122])
- by fmsmga005.fm.intel.com with ESMTP; 21 Oct 2022 12:34:02 -0700
-From: Dongwon Kim <dongwon.kim@intel.com>
-To: qemu-devel@nongnu.org
-Cc: Dongwon Kim <dongwon.kim@intel.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: [PATCH] ui/gtk: prevent ui lock up when dpy_gl_update called again
- before current draw event occurs
-Date: Fri, 21 Oct 2022 12:23:15 -0700
-Message-Id: <20221021192315.9110-1-dongwon.kim@intel.com>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <bjorn.forsman@gmail.com>)
+ id 1olxmm-0003IN-C4
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 15:34:28 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bjorn.forsman@gmail.com>)
+ id 1olxml-00065q-0V
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 15:34:28 -0400
+Received: by mail-pl1-x632.google.com with SMTP id n7so3256652plp.1
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 12:34:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jGLRZeQCEKrpYmmrX5ulyMqkM4XX3BjcnzH3CfSUfOQ=;
+ b=fOyLTBOJMXFxplp83k3G3EO7uB39pnIunmapLvlf9FWXq5jL8/P+3w5Dr+tnBhjto0
+ ECeFU1zxJE9YJSOJXzjQuy+64R/Xzz1qeAPRUdIlypMbWmEj0KINu+HhVlT9sA5Mc9hV
+ TUHH9C2wwmtph1Loxm9+OWCnAv1gnj9dYQp+xuyv5f/SPI81w2ChUOYbQSBR0bP9oYBr
+ jrilAp/aXrsVJ8GAY5cJaDraJSLY/WYzuyaoi26RIK/T2GAZkLzhGibsczdTaha0TC1W
+ 3Tet/ezOCYF7mn5I5/003yyDlpJF52pAtb0BCkBmvgxcGCWWFGcVY4CgCgu7rhHU3heI
+ 9brQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=jGLRZeQCEKrpYmmrX5ulyMqkM4XX3BjcnzH3CfSUfOQ=;
+ b=6fBX+oD6zOMuyTVClXUhDzN8fH9XOYmDwC/xG138cP/cww4xtL9nOroeGrdx2dLd9Z
+ 5nVlj3S+VA7xDJUNoaApmhgh84mr2Ik/m4mYEA1oFJ9GJmitBh4eIN8Wi2vS4zzZM6U+
+ d63SSBSSbz3nDBouq8tWXn8XqxVES0spK5vo8sjq6KM4VsluFFXAYVvjXoAmip2VcFn0
+ uqbBlh0wnNy3rgsS9xD+AWKqgg5AJlvAvV+InsTFj0kSVL1NwkgvMMaqlq9MZ2cfyioH
+ nJjziYK97/xC9seNj21EvJpAGNLV2iZ5hG/PoPTG4Ev1fyYi0RmZzJmaUro/JdLo5Bfv
+ 5FpA==
+X-Gm-Message-State: ACrzQf0/HKvFm/we24LfDKHh16b6vPzZjCIvgEdrGr15VuGScP26GLO9
+ wb1X4qxC8MXEq2AxdnpNJofBrj0cI9xEr8HKlg==
+X-Google-Smtp-Source: AMsMyM6FpUGrS9PKufXcYbTCfXbxiLQGzMHEu8T0MacJAPiLWnzAbzqXHP+CUoSbL09J3cHXWDL8VoefVM/oXBvEZEg=
+X-Received: by 2002:a17:902:ea0c:b0:181:61d1:ac1c with SMTP id
+ s12-20020a170902ea0c00b0018161d1ac1cmr21084938plg.120.1666380865511; Fri, 21
+ Oct 2022 12:34:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.151; envelope-from=dongwon.kim@intel.com;
- helo=mga17.intel.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+References: <20221020220346.124381-1-bjorn.forsman@gmail.com>
+ <CAJ+F1CKhatwA0i-KUF0pkS+8GxaP7v0cox1rpEj6KCVCR9e9bg@mail.gmail.com>
+In-Reply-To: <CAJ+F1CKhatwA0i-KUF0pkS+8GxaP7v0cox1rpEj6KCVCR9e9bg@mail.gmail.com>
+From: =?UTF-8?Q?Bj=C3=B8rn_Forsman?= <bjorn.forsman@gmail.com>
+Date: Fri, 21 Oct 2022 21:34:12 +0200
+Message-ID: <CAEYzJUEuWx5LfypYQLANuQSE+6p_m1somtrWXvONwhLr9B-5fA@mail.gmail.com>
+Subject: Re: [PATCH] qga: add channel path to error messages
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Cc: qemu-devel@nongnu.org, michael.roth@amd.com, kkostiuk@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=bjorn.forsman@gmail.com; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,60 +85,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-A warning, "qemu: warning: console: no gl-unblock within" followed by
-guest scanout lockup can happen if dpy_gl_update is called in a row
-and the second call is made before gd_draw_event scheduled by the first
-call is taking place. This is because draw call returns without decrementing
-gl_block ref count if the dmabuf was already submitted as shown below.
+On Fri, 21 Oct 2022 at 08:53, Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@gmail.com> wrote:
+> [...]
+> Wouldn't it be simpler to modify the g_critical() in ga_channel_new() ins=
+tead?
+>
+>     if (!ga_channel_open(c, path, method, listen_fd, &err)) {
+>         g_critical("Failed to open %s: %s", path, error_get_pretty(err));
 
-(gd_gl_area_draw/gd_egl_draw)
+Sounds like a good idea -- it's a more central place.
 
-        if (dmabuf) {
-            if (!dmabuf->draw_submitted) {
-                return;
-            } else {
-                dmabuf->draw_submitted = false;
-            }
-        }
+However, I'm hesitant about doing that now:
+* This patch just syncs channel-posix.c up with channel-win32.c.
+* I don't have a way to test the windows code so I'd rather not touch
+it (which I think one should do to keep the win32/posix files mostly
+in sync).
+* My test iteration time on this code is quite slow.
+* I'm a noob -- first time submitter.
 
-So it should not schedule any redundant draw event in case draw_submitted is
-already set in gd_egl_fluch/gd_gl_area_scanout_flush.
+Can we merge as-is please?
 
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
----
- ui/gtk-egl.c     | 2 +-
- ui/gtk-gl-area.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
-index 35f917ceb1..e84431790c 100644
---- a/ui/gtk-egl.c
-+++ b/ui/gtk-egl.c
-@@ -341,7 +341,7 @@ void gd_egl_flush(DisplayChangeListener *dcl,
-     VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
-     GtkWidget *area = vc->gfx.drawing_area;
- 
--    if (vc->gfx.guest_fb.dmabuf) {
-+    if (vc->gfx.guest_fb.dmabuf && !vc->gfx.guest_fb.dmabuf->draw_submitted) {
-         graphic_hw_gl_block(vc->gfx.dcl.con, true);
-         vc->gfx.guest_fb.dmabuf->draw_submitted = true;
-         gtk_widget_queue_draw_area(area, x, y, w, h);
-diff --git a/ui/gtk-gl-area.c b/ui/gtk-gl-area.c
-index 682638a197..7696df1f6b 100644
---- a/ui/gtk-gl-area.c
-+++ b/ui/gtk-gl-area.c
-@@ -278,7 +278,7 @@ void gd_gl_area_scanout_flush(DisplayChangeListener *dcl,
- {
-     VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
- 
--    if (vc->gfx.guest_fb.dmabuf) {
-+    if (vc->gfx.guest_fb.dmabuf && !vc->gfx.guest_fb.dmabuf->draw_submitted) {
-         graphic_hw_gl_block(vc->gfx.dcl.con, true);
-         vc->gfx.guest_fb.dmabuf->draw_submitted = true;
-     }
--- 
-2.30.2
-
+/Bj=C3=B8rn
 
