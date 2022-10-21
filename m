@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE53C607042
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 08:44:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5BB6606FF7
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 08:22:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olllF-0001HM-NE
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 02:44:05 -0400
+	id 1ollQi-0002GR-Dn
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 02:22:52 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oll32-00016T-RL
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 01:58:24 -0400
+	id 1oll34-00017Y-3Q
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 01:58:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben@luna.fluff.org>)
- id 1oll2v-00011a-RW; Fri, 21 Oct 2022 01:58:17 -0400
+ id 1oll2w-00011g-1b; Fri, 21 Oct 2022 01:58:18 -0400
 Received: from cpc152649-stkp13-2-0-cust121.10-2.cable.virginm.net
  ([86.15.83.122] helo=luna)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben@luna.fluff.org>)
- id 1oll2u-00074Q-2q; Fri, 21 Oct 2022 01:58:17 -0400
+ id 1oll2u-00074N-5h; Fri, 21 Oct 2022 01:58:17 -0400
 Received: from ben by luna with local (Exim 4.96)
- (envelope-from <ben@luna.fluff.org>) id 1oll2n-001R0O-2H;
+ (envelope-from <ben@luna.fluff.org>) id 1oll2n-001R0R-2O;
  Fri, 21 Oct 2022 06:58:09 +0100
 From: Ben Dooks <qemu@ben.fluff.org>
 To: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org, alistair@alistair23.me, peter.maydell@linaro.org,
  qemu-riscv@nongnu.org, Ben Dooks <qemu@ben.fluff.org>
-Subject: [PATCH v5 1/6] device_tree: add qemu_fdt_setprop_strings() helper
-Date: Fri, 21 Oct 2022 06:58:03 +0100
-Message-Id: <20221021055808.342055-2-qemu@ben.fluff.org>
+Subject: [PATCH v5 2/6] hw/core: don't check return on
+ qemu_fdt_setprop_string_array()
+Date: Fri, 21 Oct 2022 06:58:04 +0100
+Message-Id: <20221021055808.342055-3-qemu@ben.fluff.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221021055808.342055-1-qemu@ben.fluff.org>
 References: <20221021055808.342055-1-qemu@ben.fluff.org>
@@ -62,59 +63,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a helper to set a property from a set of strings
-to reduce the following code:
-
-    static const char * const clint_compat[2] = {
-        "sifive,clint0", "riscv,clint0"
-    };
-
-    qemu_fdt_setprop_string_array(fdt, nodename, "compatible",
-        (char **)&clint_compat, ARRAY_SIZE(clint_compat));
+The qemu_fdt_setprop_string_array() does not return error codes and
+will call exit() if any of the fdt calls fails (and should print an
+error with the node being altered). This is done to prepare for the
+change for qemu_fdt_setprop_strings() helper which does not return
+any error codes (hw/core/guest-loader.c is the only place where an
+return is checked).
 
 Signed-off-by: Ben Dooks <qemu@ben.fluff.org>
 ---
-v4:
- - go back to the non-return call, no-one is using the result
-v3;
- - fix return value for the call
- - add better help text
-v2:
- - fix node/path in comment
----
- include/sysemu/device_tree.h | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ hw/core/guest-loader.c | 22 +++++++---------------
+ 1 file changed, 7 insertions(+), 15 deletions(-)
 
-diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
-index e7c5441f56..cb49df471b 100644
---- a/include/sysemu/device_tree.h
-+++ b/include/sysemu/device_tree.h
-@@ -87,6 +87,25 @@ int qemu_fdt_setprop_string(void *fdt, const char *node_path,
- int qemu_fdt_setprop_string_array(void *fdt, const char *node_path,
-                                   const char *prop, char **array, int len);
+diff --git a/hw/core/guest-loader.c b/hw/core/guest-loader.c
+index 391c875a29..c61ebc4144 100644
+--- a/hw/core/guest-loader.c
++++ b/hw/core/guest-loader.c
+@@ -57,25 +57,17 @@ static void loader_insert_platform_data(GuestLoaderState *s, int size,
  
-+/**
-+ * qemu_fdt_setprop_strings: set a property from a set of strings
-+ *
-+ * @fdt: pointer to the dt blob
-+ * @path: node name
-+ * @prop: property array
-+ *
-+ * This is a helper for the qemu_fdt_setprop_string_array() function
-+ * which takes a va-arg set of strings instead of having to setup a
-+ * single use string array.
-+ */
-+#define qemu_fdt_setprop_strings(fdt, path, prop, ...)          \
-+    do {                                                        \
-+        static const char * const __strs[] = { __VA_ARGS__ };   \
-+        qemu_fdt_setprop_string_array(fdt, path, prop,          \
-+                (char **)&__strs, ARRAY_SIZE(__strs));          \
-+     } while(0)
-+
-+
- int qemu_fdt_setprop_phandle(void *fdt, const char *node_path,
-                              const char *property,
-                              const char *target_node_path);
+     if (s->kernel) {
+         const char *compat[2] = { "multiboot,module", "multiboot,kernel" };
+-        if (qemu_fdt_setprop_string_array(fdt, node, "compatible",
+-                                          (char **) &compat,
+-                                          ARRAY_SIZE(compat)) < 0) {
+-            error_setg(errp, "couldn't set %s/compatible", node);
+-            return;
+-        }
++        qemu_fdt_setprop_string_array(fdt, node, "compatible",
++                                      (char **) &compat,
++                                      ARRAY_SIZE(compat));
+         if (s->args) {
+-            if (qemu_fdt_setprop_string(fdt, node, "bootargs", s->args) < 0) {
+-                error_setg(errp, "couldn't set %s/bootargs", node);
+-            }
++            qemu_fdt_setprop_string(fdt, node, "bootargs", s->args);
+         }
+     } else if (s->initrd) {
+         const char *compat[2] = { "multiboot,module", "multiboot,ramdisk" };
+-        if (qemu_fdt_setprop_string_array(fdt, node, "compatible",
+-                                          (char **) &compat,
+-                                          ARRAY_SIZE(compat)) < 0) {
+-            error_setg(errp, "couldn't set %s/compatible", node);
+-            return;
+-        }
++        qemu_fdt_setprop_string_array(fdt, node, "compatible",
++                                      (char **) &compat,
++                                      ARRAY_SIZE(compat));
+     }
+ }
+ 
 -- 
 2.35.1
 
