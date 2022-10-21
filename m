@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8825607986
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 16:25:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15570607985
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 16:25:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olsxI-00055k-NJ
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 10:25:05 -0400
+	id 1olsxG-0005df-4G
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 10:24:58 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olsx8-0006uk-Co
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 10:24:50 -0400
+	id 1olsx9-00075M-3d
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 10:24:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1olswh-0002GR-WB; Fri, 21 Oct 2022 10:24:24 -0400
+ id 1olswm-000346-Lf; Fri, 21 Oct 2022 10:24:29 -0400
 Received: from [200.168.210.66] (helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1olswe-0004cV-OM; Fri, 21 Oct 2022 10:24:23 -0400
+ id 1olswj-0004cV-4T; Fri, 21 Oct 2022 10:24:28 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Fri, 21 Oct 2022 11:21:59 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id C3EF58001F1;
+ by p9ibm (Postfix) with ESMTP id E60B780020E;
  Fri, 21 Oct 2022 11:21:58 -0300 (-03)
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 To: qemu-devel@nongnu.org,
@@ -34,17 +34,17 @@ To: qemu-devel@nongnu.org,
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, fbarrat@linux.ibm.com, alex.bennee@linaro.org,
  farosas@linux.ibm.com, Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: [PATCH v4 2/3] target/ppc: unify cpu->has_work based on
- cs->interrupt_request
-Date: Fri, 21 Oct 2022 11:21:55 -0300
-Message-Id: <20221021142156.4134411-3-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v4 3/3] target/ppc: move the p*_interrupt_powersave methods to
+ excp_helper.c
+Date: Fri, 21 Oct 2022 11:21:56 -0300
+Message-Id: <20221021142156.4134411-4-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221021142156.4134411-1-matheus.ferst@eldorado.org.br>
 References: <20221021142156.4134411-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 21 Oct 2022 14:21:59.0112 (UTC)
- FILETIME=[7B033480:01D8E558]
+X-OriginalArrivalTime: 21 Oct 2022 14:21:59.0252 (UTC)
+ FILETIME=[7B189140:01D8E558]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -68,193 +68,285 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that cs->interrupt_request indicates if there is any unmasked
-interrupt, checking if the CPU has work to do can be simplified to a
-single check that works for all CPU models.
+Move the methods to excp_helper.c and make them static.
 
 Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/cpu_init.c | 94 +------------------------------------------
- 1 file changed, 1 insertion(+), 93 deletions(-)
+ target/ppc/cpu_init.c    | 102 ---------------------------------------
+ target/ppc/excp_helper.c | 102 +++++++++++++++++++++++++++++++++++++++
+ target/ppc/internal.h    |   6 ---
+ 3 files changed, 102 insertions(+), 108 deletions(-)
 
 diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 0adc866485..15d549ad38 100644
+index 15d549ad38..6f3539f13a 100644
 --- a/target/ppc/cpu_init.c
 +++ b/target/ppc/cpu_init.c
-@@ -5984,27 +5984,10 @@ int p7_interrupt_powersave(CPUPPCState *env)
-     return 0;
+@@ -5960,30 +5960,6 @@ static bool ppc_pvr_match_power7(PowerPCCPUClass *pcc, uint32_t pvr, bool best)
+     return true;
  }
  
--static bool cpu_has_work_POWER7(CPUState *cs)
+-int p7_interrupt_powersave(CPUPPCState *env)
 -{
--    PowerPCCPU *cpu = POWERPC_CPU(cs);
--    CPUPPCState *env = &cpu->env;
--
--    if (cs->halted) {
--        if (!(cs->interrupt_request & CPU_INTERRUPT_HARD)) {
--            return false;
--        }
--        return p7_interrupt_powersave(env) != 0;
--    } else {
--        return FIELD_EX64(env->msr, MSR, EE) &&
--               (cs->interrupt_request & CPU_INTERRUPT_HARD);
+-    if ((env->pending_interrupts & PPC_INTERRUPT_EXT) &&
+-        (env->spr[SPR_LPCR] & LPCR_P7_PECE0)) {
+-        return PPC_INTERRUPT_EXT;
 -    }
+-    if ((env->pending_interrupts & PPC_INTERRUPT_DECR) &&
+-        (env->spr[SPR_LPCR] & LPCR_P7_PECE1)) {
+-        return PPC_INTERRUPT_DECR;
+-    }
+-    if ((env->pending_interrupts & PPC_INTERRUPT_MCK) &&
+-        (env->spr[SPR_LPCR] & LPCR_P7_PECE2)) {
+-        return PPC_INTERRUPT_MCK;
+-    }
+-    if ((env->pending_interrupts & PPC_INTERRUPT_HMI) &&
+-        (env->spr[SPR_LPCR] & LPCR_P7_PECE2)) {
+-        return PPC_INTERRUPT_HMI;
+-    }
+-    if (env->pending_interrupts & PPC_INTERRUPT_RESET) {
+-        return PPC_INTERRUPT_RESET;
+-    }
+-    return 0;
 -}
 -
  POWERPC_FAMILY(POWER7)(ObjectClass *oc, void *data)
  {
      DeviceClass *dc = DEVICE_CLASS(oc);
-     PowerPCCPUClass *pcc = POWERPC_CPU_CLASS(oc);
--    CPUClass *cc = CPU_CLASS(oc);
- 
-     dc->fw_name = "PowerPC,POWER7";
-     dc->desc = "POWER7";
-@@ -6013,7 +5996,6 @@ POWERPC_FAMILY(POWER7)(ObjectClass *oc, void *data)
-     pcc->pcr_supported = PCR_COMPAT_2_06 | PCR_COMPAT_2_05;
-     pcc->init_proc = init_proc_POWER7;
-     pcc->check_pow = check_pow_nocheck;
--    cc->has_work = cpu_has_work_POWER7;
-     pcc->insns_flags = PPC_INSNS_BASE | PPC_ISEL | PPC_STRING | PPC_MFTB |
-                        PPC_FLOAT | PPC_FLOAT_FSEL | PPC_FLOAT_FRES |
-                        PPC_FLOAT_FSQRT | PPC_FLOAT_FRSQRTE |
-@@ -6170,27 +6152,10 @@ int p8_interrupt_powersave(CPUPPCState *env)
-     return 0;
+@@ -6120,38 +6096,6 @@ static bool ppc_pvr_match_power8(PowerPCCPUClass *pcc, uint32_t pvr, bool best)
+     return true;
  }
  
--static bool cpu_has_work_POWER8(CPUState *cs)
+-int p8_interrupt_powersave(CPUPPCState *env)
 -{
--    PowerPCCPU *cpu = POWERPC_CPU(cs);
--    CPUPPCState *env = &cpu->env;
--
--    if (cs->halted) {
--        if (!(cs->interrupt_request & CPU_INTERRUPT_HARD)) {
--            return false;
--        }
--        return p8_interrupt_powersave(env) != 0;
--    } else {
--        return FIELD_EX64(env->msr, MSR, EE) &&
--               (cs->interrupt_request & CPU_INTERRUPT_HARD);
+-    if ((env->pending_interrupts & PPC_INTERRUPT_EXT) &&
+-        (env->spr[SPR_LPCR] & LPCR_P8_PECE2)) {
+-        return PPC_INTERRUPT_EXT;
 -    }
+-    if ((env->pending_interrupts & PPC_INTERRUPT_DECR) &&
+-        (env->spr[SPR_LPCR] & LPCR_P8_PECE3)) {
+-        return PPC_INTERRUPT_DECR;
+-    }
+-    if ((env->pending_interrupts & PPC_INTERRUPT_MCK) &&
+-        (env->spr[SPR_LPCR] & LPCR_P8_PECE4)) {
+-        return PPC_INTERRUPT_MCK;
+-    }
+-    if ((env->pending_interrupts & PPC_INTERRUPT_HMI) &&
+-        (env->spr[SPR_LPCR] & LPCR_P8_PECE4)) {
+-        return PPC_INTERRUPT_HMI;
+-    }
+-    if ((env->pending_interrupts & PPC_INTERRUPT_DOORBELL) &&
+-        (env->spr[SPR_LPCR] & LPCR_P8_PECE0)) {
+-        return PPC_INTERRUPT_DOORBELL;
+-    }
+-    if ((env->pending_interrupts & PPC_INTERRUPT_HDOORBELL) &&
+-        (env->spr[SPR_LPCR] & LPCR_P8_PECE1)) {
+-        return PPC_INTERRUPT_HDOORBELL;
+-    }
+-    if (env->pending_interrupts & PPC_INTERRUPT_RESET) {
+-        return PPC_INTERRUPT_RESET;
+-    }
+-    return 0;
 -}
 -
  POWERPC_FAMILY(POWER8)(ObjectClass *oc, void *data)
  {
      DeviceClass *dc = DEVICE_CLASS(oc);
-     PowerPCCPUClass *pcc = POWERPC_CPU_CLASS(oc);
--    CPUClass *cc = CPU_CLASS(oc);
- 
-     dc->fw_name = "PowerPC,POWER8";
-     dc->desc = "POWER8";
-@@ -6199,7 +6164,6 @@ POWERPC_FAMILY(POWER8)(ObjectClass *oc, void *data)
-     pcc->pcr_supported = PCR_COMPAT_2_07 | PCR_COMPAT_2_06 | PCR_COMPAT_2_05;
-     pcc->init_proc = init_proc_POWER8;
-     pcc->check_pow = check_pow_nocheck;
--    cc->has_work = cpu_has_work_POWER8;
-     pcc->insns_flags = PPC_INSNS_BASE | PPC_ISEL | PPC_STRING | PPC_MFTB |
-                        PPC_FLOAT | PPC_FLOAT_FSEL | PPC_FLOAT_FRES |
-                        PPC_FLOAT_FSQRT | PPC_FLOAT_FRSQRTE |
-@@ -6407,35 +6371,10 @@ int p9_interrupt_powersave(CPUPPCState *env)
-     return 0;
+@@ -6325,52 +6269,6 @@ static bool ppc_pvr_match_power9(PowerPCCPUClass *pcc, uint32_t pvr, bool best)
+     return false;
  }
  
--static bool cpu_has_work_POWER9(CPUState *cs)
+-int p9_interrupt_powersave(CPUPPCState *env)
 -{
--    PowerPCCPU *cpu = POWERPC_CPU(cs);
--    CPUPPCState *env = &cpu->env;
--
--    if (cs->halted) {
--        uint64_t psscr = env->spr[SPR_PSSCR];
--
--        if (!(cs->interrupt_request & CPU_INTERRUPT_HARD)) {
--            return false;
+-    /* External Exception */
+-    if ((env->pending_interrupts & PPC_INTERRUPT_EXT) &&
+-        (env->spr[SPR_LPCR] & LPCR_EEE)) {
+-        bool heic = !!(env->spr[SPR_LPCR] & LPCR_HEIC);
+-        if (!heic || !FIELD_EX64_HV(env->msr) ||
+-            FIELD_EX64(env->msr, MSR, PR)) {
+-            return PPC_INTERRUPT_EXT;
 -        }
--
--        /* If EC is clear, just return true on any pending interrupt */
--        if (!(psscr & PSSCR_EC)) {
--            return true;
--        }
--
--        return p9_interrupt_powersave(env) != 0;
--    } else {
--        return FIELD_EX64(env->msr, MSR, EE) &&
--               (cs->interrupt_request & CPU_INTERRUPT_HARD);
 -    }
+-    /* Decrementer Exception */
+-    if ((env->pending_interrupts & PPC_INTERRUPT_DECR) &&
+-        (env->spr[SPR_LPCR] & LPCR_DEE)) {
+-        return PPC_INTERRUPT_DECR;
+-    }
+-    /* Machine Check or Hypervisor Maintenance Exception */
+-    if (env->spr[SPR_LPCR] & LPCR_OEE) {
+-        if (env->pending_interrupts & PPC_INTERRUPT_MCK) {
+-            return PPC_INTERRUPT_MCK;
+-        }
+-        if (env->pending_interrupts & PPC_INTERRUPT_HMI) {
+-            return PPC_INTERRUPT_HMI;
+-        }
+-    }
+-    /* Privileged Doorbell Exception */
+-    if ((env->pending_interrupts & PPC_INTERRUPT_DOORBELL) &&
+-        (env->spr[SPR_LPCR] & LPCR_PDEE)) {
+-        return PPC_INTERRUPT_DOORBELL;
+-    }
+-    /* Hypervisor Doorbell Exception */
+-    if ((env->pending_interrupts & PPC_INTERRUPT_HDOORBELL) &&
+-        (env->spr[SPR_LPCR] & LPCR_HDEE)) {
+-        return PPC_INTERRUPT_HDOORBELL;
+-    }
+-    /* Hypervisor virtualization exception */
+-    if ((env->pending_interrupts & PPC_INTERRUPT_HVIRT) &&
+-        (env->spr[SPR_LPCR] & LPCR_HVEE)) {
+-        return PPC_INTERRUPT_HVIRT;
+-    }
+-    if (env->pending_interrupts & PPC_INTERRUPT_RESET) {
+-        return PPC_INTERRUPT_RESET;
+-    }
+-    return 0;
 -}
 -
  POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *data)
  {
      DeviceClass *dc = DEVICE_CLASS(oc);
-     PowerPCCPUClass *pcc = POWERPC_CPU_CLASS(oc);
--    CPUClass *cc = CPU_CLASS(oc);
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index 8b67053728..abe2669d8e 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -1692,6 +1692,30 @@ void ppc_cpu_do_interrupt(CPUState *cs)
+      PPC_INTERRUPT_PIT | PPC_INTERRUPT_DOORBELL | PPC_INTERRUPT_HDOORBELL | \
+      PPC_INTERRUPT_THERM | PPC_INTERRUPT_EBB)
  
-     dc->fw_name = "PowerPC,POWER9";
-     dc->desc = "POWER9";
-@@ -6445,7 +6384,6 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *data)
-                          PCR_COMPAT_2_05;
-     pcc->init_proc = init_proc_POWER9;
-     pcc->check_pow = check_pow_nocheck;
--    cc->has_work = cpu_has_work_POWER9;
-     pcc->insns_flags = PPC_INSNS_BASE | PPC_ISEL | PPC_STRING | PPC_MFTB |
-                        PPC_FLOAT | PPC_FLOAT_FSEL | PPC_FLOAT_FRES |
-                        PPC_FLOAT_FSQRT | PPC_FLOAT_FRSQRTE |
-@@ -6604,35 +6542,10 @@ static bool ppc_pvr_match_power10(PowerPCCPUClass *pcc, uint32_t pvr, bool best)
-     return false;
++static int p7_interrupt_powersave(CPUPPCState *env)
++{
++    if ((env->pending_interrupts & PPC_INTERRUPT_EXT) &&
++        (env->spr[SPR_LPCR] & LPCR_P7_PECE0)) {
++        return PPC_INTERRUPT_EXT;
++    }
++    if ((env->pending_interrupts & PPC_INTERRUPT_DECR) &&
++        (env->spr[SPR_LPCR] & LPCR_P7_PECE1)) {
++        return PPC_INTERRUPT_DECR;
++    }
++    if ((env->pending_interrupts & PPC_INTERRUPT_MCK) &&
++        (env->spr[SPR_LPCR] & LPCR_P7_PECE2)) {
++        return PPC_INTERRUPT_MCK;
++    }
++    if ((env->pending_interrupts & PPC_INTERRUPT_HMI) &&
++        (env->spr[SPR_LPCR] & LPCR_P7_PECE2)) {
++        return PPC_INTERRUPT_HMI;
++    }
++    if (env->pending_interrupts & PPC_INTERRUPT_RESET) {
++        return PPC_INTERRUPT_RESET;
++    }
++    return 0;
++}
++
+ static int p7_next_unmasked_interrupt(CPUPPCState *env)
+ {
+     PowerPCCPU *cpu = env_archcpu(env);
+@@ -1756,6 +1780,38 @@ static int p7_next_unmasked_interrupt(CPUPPCState *env)
+     PPC_INTERRUPT_CEXT | PPC_INTERRUPT_WDT | PPC_INTERRUPT_CDOORBELL |  \
+     PPC_INTERRUPT_FIT | PPC_INTERRUPT_PIT | PPC_INTERRUPT_THERM)
+ 
++static int p8_interrupt_powersave(CPUPPCState *env)
++{
++    if ((env->pending_interrupts & PPC_INTERRUPT_EXT) &&
++        (env->spr[SPR_LPCR] & LPCR_P8_PECE2)) {
++        return PPC_INTERRUPT_EXT;
++    }
++    if ((env->pending_interrupts & PPC_INTERRUPT_DECR) &&
++        (env->spr[SPR_LPCR] & LPCR_P8_PECE3)) {
++        return PPC_INTERRUPT_DECR;
++    }
++    if ((env->pending_interrupts & PPC_INTERRUPT_MCK) &&
++        (env->spr[SPR_LPCR] & LPCR_P8_PECE4)) {
++        return PPC_INTERRUPT_MCK;
++    }
++    if ((env->pending_interrupts & PPC_INTERRUPT_HMI) &&
++        (env->spr[SPR_LPCR] & LPCR_P8_PECE4)) {
++        return PPC_INTERRUPT_HMI;
++    }
++    if ((env->pending_interrupts & PPC_INTERRUPT_DOORBELL) &&
++        (env->spr[SPR_LPCR] & LPCR_P8_PECE0)) {
++        return PPC_INTERRUPT_DOORBELL;
++    }
++    if ((env->pending_interrupts & PPC_INTERRUPT_HDOORBELL) &&
++        (env->spr[SPR_LPCR] & LPCR_P8_PECE1)) {
++        return PPC_INTERRUPT_HDOORBELL;
++    }
++    if (env->pending_interrupts & PPC_INTERRUPT_RESET) {
++        return PPC_INTERRUPT_RESET;
++    }
++    return 0;
++}
++
+ static int p8_next_unmasked_interrupt(CPUPPCState *env)
+ {
+     PowerPCCPU *cpu = env_archcpu(env);
+@@ -1831,6 +1887,52 @@ static int p8_next_unmasked_interrupt(CPUPPCState *env)
+      PPC_INTERRUPT_WDT | PPC_INTERRUPT_CDOORBELL | PPC_INTERRUPT_FIT |  \
+      PPC_INTERRUPT_PIT | PPC_INTERRUPT_THERM)
+ 
++static int p9_interrupt_powersave(CPUPPCState *env)
++{
++    /* External Exception */
++    if ((env->pending_interrupts & PPC_INTERRUPT_EXT) &&
++        (env->spr[SPR_LPCR] & LPCR_EEE)) {
++        bool heic = !!(env->spr[SPR_LPCR] & LPCR_HEIC);
++        if (!heic || !FIELD_EX64_HV(env->msr) ||
++            FIELD_EX64(env->msr, MSR, PR)) {
++            return PPC_INTERRUPT_EXT;
++        }
++    }
++    /* Decrementer Exception */
++    if ((env->pending_interrupts & PPC_INTERRUPT_DECR) &&
++        (env->spr[SPR_LPCR] & LPCR_DEE)) {
++        return PPC_INTERRUPT_DECR;
++    }
++    /* Machine Check or Hypervisor Maintenance Exception */
++    if (env->spr[SPR_LPCR] & LPCR_OEE) {
++        if (env->pending_interrupts & PPC_INTERRUPT_MCK) {
++            return PPC_INTERRUPT_MCK;
++        }
++        if (env->pending_interrupts & PPC_INTERRUPT_HMI) {
++            return PPC_INTERRUPT_HMI;
++        }
++    }
++    /* Privileged Doorbell Exception */
++    if ((env->pending_interrupts & PPC_INTERRUPT_DOORBELL) &&
++        (env->spr[SPR_LPCR] & LPCR_PDEE)) {
++        return PPC_INTERRUPT_DOORBELL;
++    }
++    /* Hypervisor Doorbell Exception */
++    if ((env->pending_interrupts & PPC_INTERRUPT_HDOORBELL) &&
++        (env->spr[SPR_LPCR] & LPCR_HDEE)) {
++        return PPC_INTERRUPT_HDOORBELL;
++    }
++    /* Hypervisor virtualization exception */
++    if ((env->pending_interrupts & PPC_INTERRUPT_HVIRT) &&
++        (env->spr[SPR_LPCR] & LPCR_HVEE)) {
++        return PPC_INTERRUPT_HVIRT;
++    }
++    if (env->pending_interrupts & PPC_INTERRUPT_RESET) {
++        return PPC_INTERRUPT_RESET;
++    }
++    return 0;
++}
++
+ static int p9_next_unmasked_interrupt(CPUPPCState *env)
+ {
+     PowerPCCPU *cpu = env_archcpu(env);
+diff --git a/target/ppc/internal.h b/target/ppc/internal.h
+index 25827ebf6f..337a362205 100644
+--- a/target/ppc/internal.h
++++ b/target/ppc/internal.h
+@@ -306,10 +306,4 @@ static inline int ger_pack_masks(int pmsk, int ymsk, int xmsk)
+     return msk;
  }
  
--static bool cpu_has_work_POWER10(CPUState *cs)
--{
--    PowerPCCPU *cpu = POWERPC_CPU(cs);
--    CPUPPCState *env = &cpu->env;
+-#if defined(TARGET_PPC64)
+-int p9_interrupt_powersave(CPUPPCState *env);
+-int p8_interrupt_powersave(CPUPPCState *env);
+-int p7_interrupt_powersave(CPUPPCState *env);
+-#endif
 -
--    if (cs->halted) {
--        uint64_t psscr = env->spr[SPR_PSSCR];
--
--        if (!(cs->interrupt_request & CPU_INTERRUPT_HARD)) {
--            return false;
--        }
--
--        /* If EC is clear, just return true on any pending interrupt */
--        if (!(psscr & PSSCR_EC)) {
--            return true;
--        }
--
--        return p9_interrupt_powersave(env) != 0;
--    } else {
--        return FIELD_EX64(env->msr, MSR, EE) &&
--               (cs->interrupt_request & CPU_INTERRUPT_HARD);
--    }
--}
--
- POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
-     PowerPCCPUClass *pcc = POWERPC_CPU_CLASS(oc);
--    CPUClass *cc = CPU_CLASS(oc);
- 
-     dc->fw_name = "PowerPC,POWER10";
-     dc->desc = "POWER10";
-@@ -6643,7 +6556,6 @@ POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *data)
-                          PCR_COMPAT_2_06 | PCR_COMPAT_2_05;
-     pcc->init_proc = init_proc_POWER10;
-     pcc->check_pow = check_pow_nocheck;
--    cc->has_work = cpu_has_work_POWER10;
-     pcc->insns_flags = PPC_INSNS_BASE | PPC_ISEL | PPC_STRING | PPC_MFTB |
-                        PPC_FLOAT | PPC_FLOAT_FSEL | PPC_FLOAT_FRES |
-                        PPC_FLOAT_FSQRT | PPC_FLOAT_FRSQRTE |
-@@ -7207,11 +7119,7 @@ static vaddr ppc_cpu_get_pc(CPUState *cs)
- 
- static bool ppc_cpu_has_work(CPUState *cs)
- {
--    PowerPCCPU *cpu = POWERPC_CPU(cs);
--    CPUPPCState *env = &cpu->env;
--
--    return FIELD_EX64(env->msr, MSR, EE) &&
--           (cs->interrupt_request & CPU_INTERRUPT_HARD);
-+    return cs->interrupt_request & CPU_INTERRUPT_HARD;
- }
- 
- static void ppc_cpu_reset(DeviceState *dev)
+ #endif /* PPC_INTERNAL_H */
 -- 
 2.25.1
 
