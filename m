@@ -2,71 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F706070D8
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 09:19:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22BF160700E
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 08:28:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olmJi-0004Hb-JY
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:19:42 -0400
+	id 1ollWD-0003du-Rk
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 02:28:33 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olmHE-0003CC-Ji
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:17:08 -0400
+	id 1oll2L-0000yz-7V
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 01:57:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1olmH5-00039V-3s
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:16:59 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1olmH0-0005fe-Og
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:16:58 -0400
-Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8BxHdnsF1JjEk4BAA--.5951S3;
- Fri, 21 Oct 2022 11:54:20 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.2.5.185])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Bxj+DrF1JjtGsCAA--.9655S3; 
- Fri, 21 Oct 2022 11:54:20 +0800 (CST)
-From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
- f4bug@amsat.org, philmd@linaro.org
-Subject: [PATCH v1 1/3] hw/loongarch: Change FDT base addr to 2 MiB
-Date: Fri, 21 Oct 2022 11:54:17 +0800
-Message-Id: <20221021035419.2632878-2-yangxiaojuan@loongson.cn>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20221021035419.2632878-1-yangxiaojuan@loongson.cn>
-References: <20221021035419.2632878-1-yangxiaojuan@loongson.cn>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oll29-0000y0-Dv
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 01:57:29 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oll27-0006y4-EI
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 01:57:29 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 187105C00AE;
+ Fri, 21 Oct 2022 01:57:25 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Fri, 21 Oct 2022 01:57:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1666331845; x=1666418245; bh=62
+ 3LHy4n6UT3NbGjmMwf1wm0a59dAvMQaaIAlkRtRSo=; b=NoNivlJvTHgxVLWfhZ
+ qLvoy7UCubDKIzCpsqt7uYKPzaNjjxIyXH6PauAugJfKRmAC3RxvVV0WLhsF4U7C
+ l8En0cInfnDnZKxR7Oa3nXVhuEQkR6vkl1tu3ZBpkE97fDUEeH0VWW6GMaLLygub
+ IhpGi1TwxN1MAtc/gs37UyV+Mlmdt6toG+oDS0REWaaGBhbSORNhutIMynEXRjWn
+ Kv3HEQ/nbPauf2FqV+oPcq+XY9+TqXON1Gih81599fOWDrX6NZMfvRy80JYkPsrv
+ BsFRvGUxe/e5UbriBCmtQu5rhZvjkqa7LYh+io779sgAd46DblO04TKblZ1snTx6
+ 6fag==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1666331845; x=1666418245; bh=623LHy4n6UT3NbGjmMwf1wm0a59d
+ AvMQaaIAlkRtRSo=; b=snJAQQbTPt8xfTs2MfzrI4bdUKfkF+6khgBM2oNZYd0o
+ ucNVv8+goNtVkdauOF5sjw4q26gC2jWZdegxBj10XHTrgXu07U3lNE8iCqqeaRjl
+ yQe+OGKg3pFa2MLNNzMMe3f3TJKlEq4tp5Zrsy03x08DCA5udaz00HlHxnQeVfXG
+ 4efm2voX/CtaRAKPtGp/7dwe/OJWiHqhHm2GDw4c71/4tKDWlBT/n3ISBepcfOQV
+ M8QS761N8jm+DbIUbaaUbHiReRV8GQzH+3CFv9Xkg0r4pDSWKVIHf0S3+svWIONW
+ yfjLvwmJQqAR195Mx40BlMs0vMPBjnjDr5WJyRs2QA==
+X-ME-Sender: <xms:xDRSYynIILnbk0ZcZ8s0SUBEKrYZlbXih_eu8XATbOFMnbdKCJs3sw>
+ <xme:xDRSY50rjKJY84vc9TVQtPjGP3ggQjTJ6p5OmFatD4znDdh27NgPIQML1JeQQ5VFy
+ KdiKZnHodCOhxlqH2g>
+X-ME-Received: <xmr:xDRSYwr4-XYctqAq7VJMZ53zf_cNdR1SOzPZj7PeW3EPTgJiNSTPD5zUuSu_PYuaKBG_>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeljedguddtfecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgr
+ uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
+ htthgvrhhnpeejgfejfeffvdeuhfeifefhgffgueelhedukeevjeevtdduudegieegteff
+ ffejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:xDRSY2kEY9etQe0BB4EkyPFKkmgivgCNTGBXQcDK3R2js7m3d5tONw>
+ <xmx:xDRSYw37LgaL8Ssu98aNMhR0OYX6ZYJFLNRLTzSk6EigYffXx9IQJA>
+ <xmx:xDRSY9sucQ7SnY6o5JZpiJHKfNUxitXUUUMf1Kk71970GHiCT33CwQ>
+ <xmx:xTRSY0-ZGJYVbDD7FPNXNKMxyOy_O5YjWgKyfu8R-HabwWpa0vOQeg>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 21 Oct 2022 01:57:23 -0400 (EDT)
+Date: Fri, 21 Oct 2022 07:57:21 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: clay.mayers@kioxia.com
+Cc: qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>,
+ Fam Zheng <fam@euphon.net>,
+ Phlippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Subject: Re: [PATCH 0/4] hw/block/nvme: Implement ZNS finish-zone ZDC AEN
+Message-ID: <Y1I0wfC4FRbFdhFA@cormorant.local>
+References: <20221021001835.942642-1-clay.mayers@kioxia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Bxj+DrF1JjtGsCAA--.9655S3
-X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxAF45WFykWw13uFyxtw4rGrg_yoW5Xr1DpF
- 9xuFn3Wr40qrs3Wrn7GF98uF1DArn7Ca42gFW2kw4FkF9rWr1jqrW8A3yqvFy8J395XF4Y
- vFyvqrWxX3WrJ3DanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bnxFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
- AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF
- 7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7
- CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2
- zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_WwAm72CE4IkC6x
- 0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxF
- aVAv8VWrMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxV
- Cjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY
- 6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6x
- AIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY
- 1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7xRE6wZ7UUUUU==
-X-Gw-Check: d37b32320bdb7537
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="XjgKJLKWhFzvYWwv"
+Content-Disposition: inline
+In-Reply-To: <20221021001835.942642-1-clay.mayers@kioxia.com>
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,74 +108,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Change FDT base addr to 2 MiB in lowmem region. Since lowmem
-region starts from 0, FDT base address is located at 2 MiB to
-avoid NULL pointer access.
 
-Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
----
- hw/loongarch/virt.c         | 18 +++++++++++-------
- include/hw/loongarch/virt.h |  3 ---
- 2 files changed, 11 insertions(+), 10 deletions(-)
+--XjgKJLKWhFzvYWwv
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
-index 29df99727d..fe33e7e3e4 100644
---- a/hw/loongarch/virt.c
-+++ b/hw/loongarch/virt.c
-@@ -159,7 +159,6 @@ static void fdt_add_pcie_node(const LoongArchMachineState *lams)
-                                  1, FDT_PCI_RANGE_MMIO, 2, base_mmio,
-                                  2, base_mmio, 2, size_mmio);
-     g_free(nodename);
--    qemu_fdt_dumpdtb(ms->fdt, lams->fdt_size);
- }
- 
- static void fdt_add_irqchip_node(LoongArchMachineState *lams)
-@@ -689,6 +688,7 @@ static void loongarch_init(MachineState *machine)
-     MemoryRegion *address_space_mem = get_system_memory();
-     LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
-     int i;
-+    hwaddr fdt_base;
- 
-     if (!cpu_model) {
-         cpu_model = LOONGARCH_CPU_TYPE_NAME("la464");
-@@ -793,12 +793,16 @@ static void loongarch_init(MachineState *machine)
-     lams->machine_done.notify = virt_machine_done;
-     qemu_add_machine_init_done_notifier(&lams->machine_done);
-     fdt_add_pcie_node(lams);
--
--    /* load fdt */
--    MemoryRegion *fdt_rom = g_new(MemoryRegion, 1);
--    memory_region_init_rom(fdt_rom, NULL, "fdt", VIRT_FDT_SIZE, &error_fatal);
--    memory_region_add_subregion(get_system_memory(), VIRT_FDT_BASE, fdt_rom);
--    rom_add_blob_fixed("fdt", machine->fdt, lams->fdt_size, VIRT_FDT_BASE);
-+    /*
-+     * Since lowmem region starts from 0, FDT base address is located
-+     * at 2 MiB to avoid NULL pointer access.
-+     *
-+     * Put the FDT into the memory map as a ROM image: this will ensure
-+     * the FDT is copied again upon reset, even if addr points into RAM.
-+     */
-+    fdt_base = 2 * MiB;
-+    qemu_fdt_dumpdtb(machine->fdt, lams->fdt_size);
-+    rom_add_blob_fixed("fdt", machine->fdt, lams->fdt_size, fdt_base);
- }
- 
- bool loongarch_is_acpi_enabled(LoongArchMachineState *lams)
-diff --git a/include/hw/loongarch/virt.h b/include/hw/loongarch/virt.h
-index 09f1c88ee5..45c383f5a7 100644
---- a/include/hw/loongarch/virt.h
-+++ b/include/hw/loongarch/virt.h
-@@ -28,9 +28,6 @@
- #define VIRT_GED_MEM_ADDR       (VIRT_GED_EVT_ADDR + ACPI_GED_EVT_SEL_LEN)
- #define VIRT_GED_REG_ADDR       (VIRT_GED_MEM_ADDR + MEMORY_HOTPLUG_IO_LEN)
- 
--#define VIRT_FDT_BASE           0x1c400000
--#define VIRT_FDT_SIZE           0x100000
--
- struct LoongArchMachineState {
-     /*< private >*/
-     MachineState parent_obj;
--- 
-2.31.1
+On Okt 20 17:18, clay.mayers@kioxia.com wrote:
+> From: Clay Mayers <clay.mayers@kioxia.com>
+>=20
+> ZNS controllers have the option to limit the time a zone can remain in
+> the active state.  It begins with a background process in the controller
+> setting the finish-zone-recommended FZR attribute for a zone.  As part of
+> setting this attribute, the zone's id is added to the namespace's
+> zone-descriptor-changed (ZDC) log page. If enabled, items added to the
+> ZDC log page generate a ZDC "asynchronous event notification" AEN. Option=
+ally,
+> the control can induce a "zone excursion" forcing the zone into the finis=
+hed
+> state that also generates a ZDC event.
+>=20
+> Zone enabled applications need to properly handle ZDC events. In a real d=
+evice,
+> the timeout is many hours making testing an application difficult.
+> Implemented is the generation of FZR ZDC events to speed up O/S and appli=
+cation
+> testing.
+>=20
+> Added to the zoned NVMe command set is an optional, per-namespace timer
+> (zoned.finish_time) to set the FZR attr for long-lived active zones; A per
+> namespace ZDC log page; AEN results to including CQE.DW1 (the NSID of the=
+ ZDC
+> AEN) and generating a ZDC AEN if it's been enabled. Zone excursions are n=
+ot
+> modeled.
+>=20
+> See section 5.5 of the NVMe Zoned Namespace Command Set Specification v1.1
+> for more details.
+>=20
+> Clay Mayers (4):
+>   hw/block/nvme: add ZONE_FINISH_RECOMMENDED functionality
+>   hw/block/nvme: add zone descriptor changed log page
+>   hw/block/nvme: supply dw1 for aen result
+>   hw/block/nvme: add zone descriptor changed AEN
+>=20
+>  docs/system/devices/nvme.rst |   5 ++
+>  hw/nvme/ctrl.c               | 166 +++++++++++++++++++++++++++++++++--
+>  hw/nvme/ns.c                 |  15 ++++
+>  hw/nvme/nvme.h               |  37 +++++++-
+>  hw/nvme/trace-events         |   3 +-
+>  include/block/nvme.h         |  14 ++-
+>  6 files changed, 225 insertions(+), 15 deletions(-)
+>=20
+> --=20
+> 2.27.0
+>=20
 
+
+Hi Clay,
+
+Thanks! Very nicely done, I have only a few comments on the individual
+patches.
+
+Adding Dmitry on CC.
+
+--XjgKJLKWhFzvYWwv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmNSNMAACgkQTeGvMW1P
+DeltBwf+IGWiDyRL8NT9JFaHoSzr7BZUfSjgccDIvDvLNTknxM8jinP89Wu2ZNm5
+1+nkltkyEmM69CAmEX4MJ/ai5zmcC1A7oav8Gs5rGyllWv+F2hh0yHYuZ8f+oqje
+w8WSM9vS7tSrVCNVgYLx4DRwg3uOlGAGbFBHTEFnG6upz5LRPWfrzcGRcZun+HXV
+fjPFJtX5YztWcEPlGtPeBhYzoJIFGfChOE4t6V8oIWhu1BLjZChTBCURKgUhzB/M
+Nv+tdGCxq5j1p8u0zAcbxRxb6IgiJWYwFjqWogcArB6i48esaUvVe80JdtNejzMx
++Zsb/YPLww6pxWCK7jvnTF9kXejC0w==
+=Q2x/
+-----END PGP SIGNATURE-----
+
+--XjgKJLKWhFzvYWwv--
 
