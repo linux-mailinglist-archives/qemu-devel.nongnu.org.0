@@ -2,87 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72AC760715A
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 09:45:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 337F060725A
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 10:32:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olmia-0002F7-6Z
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:45:24 -0400
+	id 1olnSM-0001xo-5D
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 04:32:42 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olmYx-0000UR-Ff
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:35:27 -0400
+	id 1olmHA-0003Bu-Tn
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:17:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olmYd-0000El-2x
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:35:14 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olmYb-0008LB-Bx
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:35:06 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id pb15so1689478pjb.5
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 00:35:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=fVnW4+prgGs1u+QsCM56geiB9FugmlaoXkqywN91fFs=;
- b=PiJtvUMu6S0dg4bBlq12T47NtmmEjOg8/yD0Iv0lJbdR3SdyRPAz9X5Mhu04rXzmRo
- cc6ww4BiZhEBXizqzV77Jas39LxKVmp3Ks4PX5ZFx18UDap9IimYEI0NohbE6P3s8/B0
- CHthJf3Fva8QQvlCy9p8rmrq7zVm6oNxBYDMxPhkiodF1pt5rLNgZeNJqxeBQmW64Vzl
- 0GNb6DRcAOYjlBK3AcszMOsrOP2QC4aHl1OMVL7cvYynvj/vHWeCLJP26KGmmQlHFl0N
- VvWhuYAlA9yHb1WPyUOPeowb84CPhQz8XsdSBOxgKOyMVy2oQH+QJwjXtQvpGJg3GLVx
- mN4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fVnW4+prgGs1u+QsCM56geiB9FugmlaoXkqywN91fFs=;
- b=Ct89tP5+wNFLy6m/WA0tTKcqR9LpDnq+YGGIDY5E/5WS9T0hCJ4IXmWutm5N8QprJZ
- auZMazmdWSUsz82DCLaNi7IB6UGLvL08tOG5w1nav1mCbsOeu8vyAXoePASYhCTp3k9e
- kmHUvO9OIDZXq/UYoyQMLtFfk5w9l/e725m2Ehw75a6RZ1MIsP9V/QjI/hlX8UiEyY5u
- Q6XKXlFjgoJTu55QTMxHUlZeGnBc8gcsEw+9mD4EOgnUMUwGvmRsrvOSIois/bhVcMd6
- Rumc58oq7sFXNJC67dNXZYTRnXFlCtpPg+2RsUW63bm/ITz3K9b8uL4Ubj1MaQDtaBXQ
- bdDg==
-X-Gm-Message-State: ACrzQf0Vbpm4G7H7FcIDpq7tLjLlJYH/jU0XivnxqVZYai5wnjQ5BcI0
- 69uEkHusI0GFYEuaHyuspT+Zsg==
-X-Google-Smtp-Source: AMsMyM420VTT06kD9ITuw7JKWL5OdkicFCB+z1ERlWrwYSoBcl/fEv7p9gqxpsZQXsfgALcAq9Nf2w==
-X-Received: by 2002:a17:90b:3805:b0:20d:4e77:371f with SMTP id
- mq5-20020a17090b380500b0020d4e77371fmr20760386pjb.170.1666337703861; 
- Fri, 21 Oct 2022 00:35:03 -0700 (PDT)
-Received: from [192.168.1.107] ([149.135.10.35])
- by smtp.gmail.com with ESMTPSA id
- z28-20020aa7949c000000b0052d4b0d0c74sm14512705pfk.70.2022.10.21.00.35.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Oct 2022 00:35:03 -0700 (PDT)
-Message-ID: <1d8bb48c-cc19-a8d5-8517-d854a1405e2c@linaro.org>
-Date: Fri, 21 Oct 2022 17:31:16 +1000
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1olmH2-00037y-QN
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:16:57 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1olmGz-0005fd-NC
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:16:56 -0400
+Received: from loongson.cn (unknown [10.2.5.185])
+ by gateway (Coremail) with SMTP id _____8Cx7NjsF1JjDk4BAA--.6129S3;
+ Fri, 21 Oct 2022 11:54:20 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Bxj+DrF1JjtGsCAA--.9655S2; 
+ Fri, 21 Oct 2022 11:54:19 +0800 (CST)
+From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
+ f4bug@amsat.org, philmd@linaro.org
+Subject: [PATCH v1 0/3] Improve FDT and support TPM for LoongArch
+Date: Fri, 21 Oct 2022 11:54:16 +0800
+Message-Id: <20221021035419.2632878-1-yangxiaojuan@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v8 0/2] Fix LoongArch extioi coreisr accessing
-Content-Language: en-US
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-Cc: gaosong@loongson.cn, maobibo@loongson.cn, f4bug@amsat.org,
- philmd@linaro.org
-References: <20221021015307.2570844-1-yangxiaojuan@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221021015307.2570844-1-yangxiaojuan@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Bxj+DrF1JjtGsCAA--.9655S2
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvdXoWrKr18XFW3Kr13CFWrKw1UGFg_yoWxCFX_Cw
+ 1fA34UGFs8Ja4jva4Yqa4rA34UGa1xtF45AF1vqr4xWF1UJr1xJa17WwnIvr4jqF4DZrsx
+ Jr40q3WrAr17WjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
+ xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUU5
+ a7CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+ vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7Cj
+ xVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x
+ 0267AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E
+ 6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWrMcvjeVCFs4IE7x
+ kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv
+ 6cx26rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+ 8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE
+ 2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42
+ xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF
+ 7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj4RC_MaUUUUU
+X-Gw-Check: d37b32320bdb7537
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,17 +80,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/21/22 11:53, Xiaojuan Yang wrote:
-> When cpu read or write extioi COREISR reg, it should access
-> the reg belonged to itself, so the cpu index of 's->coreisr'
-> is current cpu number. Using MemTxAttrs' requester_id to get
-> the cpu index.
-> 
-> Changes for v8:
-> 1. Move the iocsr_helper changes to the second patch.
-> 2. Change the argument of GET_MEMTXATTRS() macro to env.
+This series change FDT base addr and add uart,rtc info into
+FDT, Add TPM device for LoongArch virt machine.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Changes for v1: 
+1. Change FDT base addr to 2 MiB.
+2. Add uart and rtc info into FDT.
+3. Add TPM device support.
 
-r~
+Xiaojuan Yang (3):
+  hw/loongarch: Change FDT base addr to 2 MiB
+  hw/loongarch: Improve fdt for LoongArch virt machine
+  hw/loongarch: Add TPM device for LoongArch virt machine
+
+ hw/loongarch/acpi-build.c   | 50 ++++++++++++++++++++++++++++++++--
+ hw/loongarch/virt.c         | 53 ++++++++++++++++++++++++++++++++-----
+ include/hw/loongarch/virt.h |  3 ---
+ include/hw/pci-host/ls7a.h  |  1 +
+ 4 files changed, 95 insertions(+), 12 deletions(-)
+
+-- 
+2.31.1
+
 
