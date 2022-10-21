@@ -2,88 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADA0A6074F4
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 12:24:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA327607508
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 12:34:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olpCV-0002hq-HG
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:24:43 -0400
+	id 1olpMD-00039U-TL
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:34:30 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olnZk-0004Yz-40
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 04:40:20 -0400
+	id 1olo2c-0003uZ-Db
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:10:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1olnZa-00046m-70
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 04:40:10 -0400
-Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1olnZY-0008NQ-25
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 04:40:09 -0400
-Received: by mail-il1-x12c.google.com with SMTP id q18so1262632ils.12
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 01:40:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gN/IWnN4i4mj9ANFciejCOi8iM7M4vqPHnKXpSEW1Qw=;
- b=yDnev7cxsAy1HRv0JWHTu9nN+5XLQKk1nWFcm/oq6wvzV8Mbnxlx/nKOushRMC1qb1
- MMYJBUTUR4Z0han1won99wp8f8Xuh0aDg7ez3xwPsFjT5cbwpK4HjRZ+npjIuQA5qYuL
- arW65MdFxeq6dIjPz9zx6FBufF1Q85begvuum25osErDNdamD/Bda271keSPKMXLst5L
- AoKbs+PV3dGancLc5Tu57tHXetR2gTHafluDaiZqSs/9GKtFO89mr6Ajp9YmD91+hnXu
- Qwa5TSynkfDc/J5NkVGyvbUg2I5po/CnMAVjyoKGsqyaSe4/qYe1obPRlJMesclOj5CM
- bkDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=gN/IWnN4i4mj9ANFciejCOi8iM7M4vqPHnKXpSEW1Qw=;
- b=0xIHEDCw8S0+sQpSBQ5kYakqlDtE+X/t1TzHxaDnnaC9R0p28N7dwCOO97QWSpndw5
- aRooI7Z9pKArL+xZRc0lNs2nAsUc57D8fg+46Sqy5lcNIw1qe+DlAZ7vxeudEm4ezswd
- ZPaJjY0xQo5bfthwEiP4Q8gx9isMQIYpZI5bl2kUVvdiJuybkA9pjLC+13+63HpH4eUQ
- mlL9FFKVBmLHZbXE8HZeRNp6pAz2vwraTHML1tE3XcOv76O5dGhyCHg9anp5iFdLeLy1
- BRJIVjjHGui5ULdz9k2qGa1wLMcPYVg1Jc1KsgyD8eBAhjtyieaJ7JCpPM/zQ6Z4uGfY
- wifw==
-X-Gm-Message-State: ACrzQf2bKsnRlG/pwCyVESIq9iMmP+6LVWQQMaQYQ4QqD5WvIVhSinvx
- oOOmEfVf2OiJHsVPm3HZsBagJP6sbOuwSqpQBpXD5g==
-X-Google-Smtp-Source: AMsMyM7R3oMkjbW9l3gy17DQ7KFcaXhIeEQkLwjIFHBcL4TWVoVMY6C5hztok3u+2IofA1A/VmpcSu/91ovSK4lPcsU=
-X-Received: by 2002:a92:2601:0:b0:2fc:48be:e77a with SMTP id
- n1-20020a922601000000b002fc48bee77amr12795801ile.202.1666341606513; Fri, 21
- Oct 2022 01:40:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1olo2J-0003Mv-RU
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:09:54 -0400
+Received: from mout.kundenserver.de ([212.227.17.13])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1olo2H-0001ap-US
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:09:51 -0400
+Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MDgxt-1ovOxI0zPb-00AmPP; Fri, 21 Oct 2022 11:09:39 +0200
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, xen-devel@lists.xenproject.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, Stefan Weil <sw@weilnetz.de>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ Eric Blake <eblake@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>, Greg Kurz <groug@kaod.org>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Stefano Brivio <sbrivio@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v14 09/17] net: stream: add unix socket
+Date: Fri, 21 Oct 2022 11:09:14 +0200
+Message-Id: <20221021090922.170074-10-lvivier@redhat.com>
+X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20221021090922.170074-1-lvivier@redhat.com>
+References: <20221021090922.170074-1-lvivier@redhat.com>
 MIME-Version: 1.0
-References: <20221020123506.26363-1-ani@anisinha.ca>
- <20221020123506.26363-7-ani@anisinha.ca>
- <87sfji75g2.fsf@linaro.org>
-In-Reply-To: <87sfji75g2.fsf@linaro.org>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Fri, 21 Oct 2022 14:09:55 +0530
-Message-ID: <CAARzgwzK41qMoC2j5sYOYBpCOV8-2EOu2SLTDbaZvWEkqws0YQ@mail.gmail.com>
-Subject: Re: [PATCH v6 06/10] acpi/tests/avocado/bits: disable smilatency test
- since it does not pass everytime
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, 
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Maydell Peter <peter.maydell@linaro.org>, 
- John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, 
- Michael Tsirkin <mst@redhat.com>, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2607:f8b0:4864:20::12c;
- envelope-from=ani@anisinha.ca; helo=mail-il1-x12c.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:AV2lG9hA5qh6jdvV7vYHx4BwdiWeVyu1SsntwDCDTMWUkAJgckP
+ 0RP5ZhNCfXz/NO/1I4l2Wxn5kkHFc3nx0i0QhLkMFo7Io7anJjws9zS1kxXwhD2HSVPxq64
+ PJnv13nvgwe/MFm0SpUJwr3d7YSX3xU8DOGlJMaDmH4QxLlaqpQLfwCb7oGMCu437tOT8uj
+ SbBO50VMgJ+kA3O/aqusg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:eKAce30NA6o=:P7ekYlHk/wHXznaJR1BW3U
+ Y5Pj19NLWe5uCShE/HjsuoQ2mpZhCLFvoq7nD1PY+Jt4En7yU32KDAtfLf+o6E0T7nlLMed7d
+ PW8rJoezqtrulLMawc/kEB652YrQJRW8S9JlWqnnUMYiAKTV/bw6cHmGZOc3jPeBY2kqnQ74f
+ aZ3Jd5+yxdQnqDGxwrtV5vHAub6xQjipVL++tyxMuTRAhjWhsRs45avr+FukrC1fuXpvRIkc/
+ rZ0p9560tYDMOBU22l3bVHmmHZxQdWrqvTXE3v293wScyHv8ipaDKMwugW/2PHxD2RYanQh7B
+ NN2fHUDFt3PLj946P5RU7mjEMGJLHPnP2ROPC8HmAY0IiqTm8xDAKHDYm5IdMj9/FeVmyFa7A
+ 8NDif0WxWMGvZjXCNIWbCwrWRu0+A/H6Q/e75TGE+ywAg1BWsu0u6FZvlxJTiWKqFcctvzZew
+ 2x6Qds7cY7sfwiFxMESZjJ7cm9vwtYBCiKH/b9Lw/cXV7uUZUVpY9X9UrFYDGfgXakigV2zym
+ zJcFwIsz2W8T72uUXPeQWy5GqQzwJYMjaDkN+PSFOsmSPDwKmh5NslLUdPEYAh2qHsSP8+2BL
+ J5XJ3p1dc8Jlpx0wsvawSyEsrhJLmcG5XRL8iEiklijAWm4toKjU/2jWoES0RCPMYrPRGFCcO
+ SZUCln8J5bylvga0YpXrS6nvn5ZOViZ0gmxlDeAmRaOMUMQ+DMR+DaD9Q5sct/88c3WRu/yvp
+ jGXbG1OxhKIRzdFj08ZUxoMeZAuUvnn5at5szzusgf8I6cExB5YwOZd1kpcvq8BYKGEiyeelG
+ Wot34X7
+Received-SPF: permerror client-ip=212.227.17.13;
+ envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_FAIL=0.001,
+ SPF_HELO_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,79 +91,209 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 20, 2022 at 11:17 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
->
->
-> Ani Sinha <ani@anisinha.ca> writes:
->
-> > smilatency test is latency sensitive and does not pass deterministicall=
-y when
-> > run in QEMU environment under biosbits. Disable the test suite for now.
-> >
-> > Example failure:
-> >
-> > =3D=3D=3D=3D SMI latency test =3D=3D=3D=3D
-> > Warning: touching the keyboard can affect the results of this test.
-> > Starting test. Wait here, I will be back in 15 seconds.
-> > [assert] SMI latency < 150us to minimize risk of OS timeouts FAIL
-> >   1us   < t <=3D  10us; average =3D 1372ns; count =3D 10912449
-> >    Times between first few observations:  176us 1646ns 1441ns 1450ns 14=
-62ns
-> >   10us  < t <=3D 100us; average =3D 16us; count =3D 1187
-> >    Times between first few observations:   15ms 3148us 5856us   49ms   =
-33ms
-> >   100us < t <=3D   1ms; average =3D 259us; count =3D 8
-> >    Times between first few observations:  111ms 2227ms 1779ms  999ms  2=
-19ms
-> >   0 SMI detected using MSR_SMI_COUNT (MSR 0x34)
-> >   Summary of impact: observed maximum latency =3D 298us
-> > Summary: 0 passed, 1 failed
->
-> Is this because of TCG slowness? You might try running under icount for
-> a more consistent elapsed time for the guest.
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Acked-by: Markus Armbruster <armbru@redhat.com> (QAPI schema)
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ net/stream.c    | 107 +++++++++++++++++++++++++++++++++++++++++++++---
+ qapi/net.json   |   2 +-
+ qemu-options.hx |   1 +
+ 3 files changed, 104 insertions(+), 6 deletions(-)
 
-bang on! It does indeed pass consistently with "-icount auto" set. I
-have tried 10 iterations on baremetal and on a VM environment.
-I will remove smilatency test stuff from the patchset for now and add
-that additional command line in v7.
+diff --git a/net/stream.c b/net/stream.c
+index e4388fe7e45c..884f473018da 100644
+--- a/net/stream.c
++++ b/net/stream.c
+@@ -235,7 +235,7 @@ static NetStreamState *net_stream_fd_init(NetClientState *peer,
+ static void net_stream_accept(void *opaque)
+ {
+     NetStreamState *s = opaque;
+-    struct sockaddr_in saddr;
++    struct sockaddr_storage saddr;
+     socklen_t len;
+     int fd;
+ 
+@@ -253,8 +253,26 @@ static void net_stream_accept(void *opaque)
+     s->fd = fd;
+     s->nc.link_down = false;
+     net_stream_connect(s);
+-    qemu_set_info_str(&s->nc, "connection from %s:%d",
+-                      inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
++    switch (saddr.ss_family) {
++    case AF_INET: {
++        struct sockaddr_in *saddr_in = (struct sockaddr_in *)&saddr;
++
++        qemu_set_info_str(&s->nc, "connection from %s:%d",
++                          inet_ntoa(saddr_in->sin_addr),
++                          ntohs(saddr_in->sin_port));
++        break;
++    }
++    case AF_UNIX: {
++        struct sockaddr_un saddr_un;
++
++        len = sizeof(saddr_un);
++        getsockname(s->listen_fd, (struct sockaddr *)&saddr_un, &len);
++        qemu_set_info_str(&s->nc, "connect from %s", saddr_un.sun_path);
++        break;
++    }
++    default:
++        g_assert_not_reached();
++    }
+ }
+ 
+ static int net_stream_server_init(NetClientState *peer,
+@@ -294,6 +312,43 @@ static int net_stream_server_init(NetClientState *peer,
+         }
+         break;
+     }
++    case SOCKET_ADDRESS_TYPE_UNIX: {
++        struct sockaddr_un saddr_un;
++
++        ret = unlink(addr->u.q_unix.path);
++        if (ret < 0 && errno != ENOENT) {
++            error_setg_errno(errp, errno, "failed to unlink socket %s",
++                             addr->u.q_unix.path);
++            return -1;
++        }
++
++        saddr_un.sun_family = PF_UNIX;
++        ret = snprintf(saddr_un.sun_path, sizeof(saddr_un.sun_path), "%s",
++                       addr->u.q_unix.path);
++        if (ret < 0 || ret >= sizeof(saddr_un.sun_path)) {
++            error_setg(errp, "UNIX socket path '%s' is too long",
++                       addr->u.q_unix.path);
++            error_append_hint(errp, "Path must be less than %zu bytes\n",
++                              sizeof(saddr_un.sun_path));
++            return -1;
++        }
++
++        fd = qemu_socket(PF_UNIX, SOCK_STREAM, 0);
++        if (fd < 0) {
++            error_setg_errno(errp, errno, "can't create stream socket");
++            return -1;
++        }
++        qemu_socket_set_nonblock(fd);
++
++        ret = bind(fd, (struct sockaddr *)&saddr_un, sizeof(saddr_un));
++        if (ret < 0) {
++            error_setg_errno(errp, errno, "can't create socket with path: %s",
++                             saddr_un.sun_path);
++            closesocket(fd);
++            return -1;
++        }
++        break;
++    }
+     case SOCKET_ADDRESS_TYPE_FD:
+         fd = monitor_fd_param(monitor_cur(), addr->u.fd.str, errp);
+         if (fd == -1) {
+@@ -337,6 +392,7 @@ static int net_stream_client_init(NetClientState *peer,
+ {
+     NetStreamState *s;
+     struct sockaddr_in saddr_in;
++    struct sockaddr_un saddr_un;
+     int fd, connected, ret;
+ 
+     switch (addr->type) {
+@@ -373,6 +429,45 @@ static int net_stream_client_init(NetClientState *peer,
+             }
+         }
+         break;
++    case SOCKET_ADDRESS_TYPE_UNIX:
++        saddr_un.sun_family = PF_UNIX;
++        ret = snprintf(saddr_un.sun_path, sizeof(saddr_un.sun_path), "%s",
++                       addr->u.q_unix.path);
++        if (ret < 0 || ret >= sizeof(saddr_un.sun_path)) {
++            error_setg(errp, "UNIX socket path '%s' is too long",
++                       addr->u.q_unix.path);
++            error_append_hint(errp, "Path must be less than %zu bytes\n",
++                              sizeof(saddr_un.sun_path));
++            return -1;
++        }
++
++        fd = qemu_socket(PF_UNIX, SOCK_STREAM, 0);
++        if (fd < 0) {
++            error_setg_errno(errp, errno, "can't create stream socket");
++            return -1;
++        }
++        qemu_socket_set_nonblock(fd);
++
++        connected = 0;
++        for (;;) {
++            ret = connect(fd, (struct sockaddr *)&saddr_un, sizeof(saddr_un));
++            if (ret < 0) {
++                if (errno == EINTR || errno == EWOULDBLOCK) {
++                    /* continue */
++                } else if (errno == EAGAIN ||
++                           errno == EALREADY) {
++                    break;
++                } else {
++                    error_setg_errno(errp, errno, "can't connect socket");
++                    closesocket(fd);
++                    return -1;
++                }
++            } else {
++                connected = 1;
++                break;
++            }
++        }
++        break;
+     case SOCKET_ADDRESS_TYPE_FD:
+         fd = monitor_fd_param(monitor_cur(), addr->u.fd.str, errp);
+         if (fd == -1) {
+@@ -387,7 +482,7 @@ static int net_stream_client_init(NetClientState *peer,
+         connected = 1;
+         break;
+     default:
+-        error_setg(errp, "only support inet or fd type");
++        error_setg(errp, "only support inet, unix or fd type");
+         return -1;
+     }
+ 
+@@ -399,13 +494,15 @@ static int net_stream_client_init(NetClientState *peer,
+                           inet_ntoa(saddr_in.sin_addr),
+                           ntohs(saddr_in.sin_port));
+         break;
++    case SOCKET_ADDRESS_TYPE_UNIX:
++        qemu_set_info_str(&s->nc, " connect to %s", saddr_un.sun_path);
++        break;
+     case SOCKET_ADDRESS_TYPE_FD:
+         qemu_set_info_str(&s->nc, "connect to fd %d", fd);
+         break;
+     default:
+         g_assert_not_reached();
+     }
+-
+     return 0;
+ }
+ 
+diff --git a/qapi/net.json b/qapi/net.json
+index 185748cc6c6c..aed4ce1a97ff 100644
+--- a/qapi/net.json
++++ b/qapi/net.json
+@@ -583,7 +583,7 @@
+ #        or connect to (server=false)
+ # @server: create server socket (default: false)
+ #
+-# Only SocketAddress types 'inet' and 'fd' are supported.
++# Only SocketAddress types 'unix', 'inet' and 'fd' are supported.
+ #
+ # Since: 7.2
+ ##
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 396c1d11e1e2..98e2595df93b 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -2773,6 +2773,7 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
+     "                configure a network backend to connect to another network\n"
+     "                using an UDP tunnel\n"
+     "-netdev stream,id=str[,server=on|off],addr.type=inet,addr.host=host,addr.port=port\n"
++    "-netdev stream,id=str[,server=on|off],addr.type=unix,addr.path=path\n"
+     "-netdev stream,id=str[,server=on|off],addr.type=fd,addr.str=file-descriptor\n"
+     "                configure a network backend to connect to another network\n"
+     "                using a socket connection in stream mode.\n"
+-- 
+2.37.3
 
->
-> >
-> > Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > Cc: Maydell Peter <peter.maydell@linaro.org>
-> > Cc: John Snow <jsnow@redhat.com>
-> > Cc: Thomas Huth <thuth@redhat.com>
-> > Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> > Cc: Igor Mammedov <imammedo@redhat.com>
-> > Cc: Michael Tsirkin <mst@redhat.com>
-> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> > ---
-> >  tests/avocado/acpi-bits/bits-tests/smilatency.py2 | 5 +++--
-> >  1 file changed, 3 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/tests/avocado/acpi-bits/bits-tests/smilatency.py2 b/tests/=
-avocado/acpi-bits/bits-tests/smilatency.py2
-> > index d616970b31..e907c55cc2 100644
-> > --- a/tests/avocado/acpi-bits/bits-tests/smilatency.py2
-> > +++ b/tests/avocado/acpi-bits/bits-tests/smilatency.py2
-> > @@ -37,8 +37,9 @@ import time
-> >  import usb
-> >
-> >  def register_tests():
-> > -    testsuite.add_test("SMI latency test", smi_latency);
-> > -    testsuite.add_test("SMI latency test with USB disabled via BIOS ha=
-ndoff", test_with_usb_disabled, runall=3DFalse);
-> > +    pass
-> > +    # testsuite.add_test("SMI latency test", smi_latency);
-> > +    # testsuite.add_test("SMI latency test with USB disabled via BIOS =
-handoff", test_with_usb_disabled, runall=3DFalse);
-> >
-> >  def smi_latency():
-> >      MSR_SMI_COUNT =3D 0x34
->
->
-> --
-> Alex Benn=C3=A9e
 
