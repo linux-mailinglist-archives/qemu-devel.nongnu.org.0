@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FE616071D8
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 10:15:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A02160745C
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 11:43:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olnBL-00008K-D0
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 04:15:07 -0400
+	id 1oloYg-0000RU-Ff
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:43:19 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olmH5-00039J-6m
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:16:59 -0400
+	id 1olmHI-0003Cg-Lc
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:17:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olmGw-00033y-9X
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:16:50 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
+ id 1olmH5-00039M-1Z
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:16:59 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1olmGu-0005fK-NL
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:16:49 -0400
-Received: by mail-pl1-x636.google.com with SMTP id l4so1565481plb.8
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 00:16:48 -0700 (PDT)
+ id 1olmH3-0005gQ-8W
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:16:58 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id i3so1784917pfk.9
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 00:16:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=1fcBWbZUmm5Jnpz4Izudl/A6K0HNswQpl9r23JhxDb4=;
- b=EfeGSJN5LIhg5P+Ac3FuxmvuWKqRbCNdRXXzUEEng4lzd0Dnc2SBJSjZEcQ7xZRHcV
- NVNeThNK+I6jEFlXktISA7aKos0ENj1/t4plNIckQHdrdapFPvfeEBl4niT8Ud/eyfqJ
- 6bNuRChAEYNbk46dhkuE6PhXr+O4bJXke0JdZwCksIigrYD1t7KOxScJFvsYYrSdIaUj
- JqixMuF7Wl4LG6t05FpuUfJqgLb/dPD4dXjw6zlCL7KAF+JG1d+weSlto02bBy0lWc6Q
- G3BUiCcSmxLlF7s5hBCfoTCqTJrcf4P9Ph2UDQmkmSr53bmPRvKLatNeiVaw5D4j6mJJ
- oEPg==
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=L8z30GASyjyVRHVSC+j+Ssl7AGNt135XvRhLazZAsug=;
+ b=BJFs+JcNM8Yh+Va2bMuv5w2uKT//TxeggMLjakhUrUKh3svwR1fqajAScoBtlJWK5b
+ WeBBeriP4NQ2k7X72SY7tQViARtUx/UOkrk+YqVxZ8NU+NmQf5jALH+/bqcJkcrT2IJi
+ Dy9GdLULUgWEnHZnaY1LznK8PWVo6teMKlOAwUIyUJCGO+obfV34vz529jnAdL+fWCI/
+ +sBIgxr0OgwN95IxJzUsHPc0DoyFJKjy9YFXT/Vgx9QQ8PKAOoz/s3W0enDsOGrd/+HY
+ gBfXcfdXRN3LxVF9BaGbiN28RN4sdfBtdgpvteQdqAAxofFKhc82ltnzVlcRB+H1qW6+
+ BUiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1fcBWbZUmm5Jnpz4Izudl/A6K0HNswQpl9r23JhxDb4=;
- b=5VWhI0n2EPn0YXNuDBVMlqzlDuXlAfapAQ2gNC71t4Z3a3g63gPkxFr9ZwvelTPnCT
- /rRTs9hnwLgsR878VQ81zsXsjnX0aUBg/OfI7MNZeTGGF3EPnvRKQOxxVe3+TSqfdaEi
- 2es8h7vXESf7WuFOzKa94YaSbLMkSZ22V8ZKzAzKT1tqD5vvz8dWgJUNRMfqy/FB25kM
- M9Z6ZLbLRITRJ5M/nmBSRyBoZLBetjVizGAsFJ8JZ+J1w922tdIIzpAKAex5hoKhD1bn
- MMC35wpL7YVJMvg3GJW0+CPKXlVwI8VtvjNUT3Ik/CS5bWTroriFRybyd4aIys4aLcBU
- EMUA==
-X-Gm-Message-State: ACrzQf3ble+M0IQgUAZ7WyvfkGHxlpHkCRqFOr377mioyqX/Kh+Aj7FN
- vccjU9S69zDCB7wrvuNKcPMRR46+dtfS2XNv
-X-Google-Smtp-Source: AMsMyM6ZZ8uwxVUssJYFoiI0aynJfeYUtKGIvorm5BkZRpzN4HiAzG7U7hrlOz9dLhoUaeEz6X7h+g==
-X-Received: by 2002:a17:90a:4607:b0:202:e22d:489c with SMTP id
- w7-20020a17090a460700b00202e22d489cmr57407036pjg.80.1666336607257; 
- Fri, 21 Oct 2022 00:16:47 -0700 (PDT)
+ bh=L8z30GASyjyVRHVSC+j+Ssl7AGNt135XvRhLazZAsug=;
+ b=Xt2wDAQ3QAbP8fi2eGwANBEiy7qXeXBD6wlmVyZc3SPR/nVF6EyBk6EyHI+9+97Wsh
+ fqs9/N4p8n25w9d6x7iNLe5LSEjGZ73G83J821jlOSI6F17bN4xB9McW74+8W+MbBQzo
+ A+49JoB2tGBNJKHWGkYHOGrWtr1LXAvv/qeoWxqlqHw2DM54gVOgXVk3HjaiEU9Vy+5d
+ PoW+sbBSsPuhXnZZ8ftfsy56KZW++DFgIP8QkdURljxejPjsRM0BwTMB4HKDPKLjrPhC
+ 4xGDSanQAIr1r2dSHpcXG17rkmFBy81HVxvKhau9Us9Zfel+Fl9FZ05krp20d6VL2NyT
+ 12dA==
+X-Gm-Message-State: ACrzQf3ZcpekNaAu8vVa4IUrwJnqGMo1BXrsGHFqcMA60wTqVU0pVxO1
+ LG0U6YOSarCE74c1h6Wa3J1xEWL9F2oCXum+
+X-Google-Smtp-Source: AMsMyM6+D0TDl59avP5gnozkz8Yw9Tw1A9lcN0sH6gXAjS0z2lwt2Ul0C2Dwcj5G2K+uS0HhN+//8w==
+X-Received: by 2002:a05:6a00:cce:b0:565:cbe0:16c6 with SMTP id
+ b14-20020a056a000cce00b00565cbe016c6mr17964614pfv.56.1666336615857; 
+ Fri, 21 Oct 2022 00:16:55 -0700 (PDT)
 Received: from localhost.localdomain ([149.135.10.35])
  by smtp.gmail.com with ESMTPSA id
- q9-20020a638c49000000b0041cd5ddde6fsm13003327pgn.76.2022.10.21.00.16.44
- for <qemu-devel@nongnu.org>
+ q9-20020a638c49000000b0041cd5ddde6fsm13003327pgn.76.2022.10.21.00.16.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Oct 2022 00:16:46 -0700 (PDT)
+ Fri, 21 Oct 2022 00:16:55 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/36] accel/tcg: Set cflags_next_tb in cpu_common_initfn
-Date: Fri, 21 Oct 2022 17:15:21 +1000
-Message-Id: <20221021071549.2398137-9-richard.henderson@linaro.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v2 11/36] tcg: Add temp_subindex to TCGTemp
+Date: Fri, 21 Oct 2022 17:15:24 +1000
+Message-Id: <20221021071549.2398137-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221021071549.2398137-1-richard.henderson@linaro.org>
 References: <20221021071549.2398137-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,28 +96,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While we initialize this value in cpu_common_reset, that
-isn't called during startup, so set it as well in init.
-This fixes -singlestep versus the very first TB.
+Record the location of a TCGTemp within a larger object.
 
-Fixes: 04f5b647ed07 ("accel/tcg: Handle -singlestep in curr_cflags")
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/core/cpu-common.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/tcg/tcg.h | 1 +
+ tcg/tcg.c         | 3 +++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/hw/core/cpu-common.c b/hw/core/cpu-common.c
-index f9fdd46b9d..6a4022eb14 100644
---- a/hw/core/cpu-common.c
-+++ b/hw/core/cpu-common.c
-@@ -235,6 +235,7 @@ static void cpu_common_initfn(Object *obj)
-     /* the default value is changed by qemu_init_vcpu() for softmmu */
-     cpu->nr_cores = 1;
-     cpu->nr_threads = 1;
-+    cpu->cflags_next_tb = -1;
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index d207bc47be..afa18986b1 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -456,6 +456,7 @@ typedef struct TCGTemp {
+     unsigned int mem_coherent:1;
+     unsigned int mem_allocated:1;
+     unsigned int temp_allocated:1;
++    unsigned int temp_subindex:1;
  
-     qemu_mutex_init(&cpu->work_mutex);
-     QSIMPLEQ_INIT(&cpu->work_list);
+     int64_t val;
+     struct TCGTemp *mem_base;
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 6c4f949c85..135d9a9a0a 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -927,6 +927,7 @@ TCGTemp *tcg_global_mem_new_internal(TCGType type, TCGv_ptr base,
+         ts2->mem_allocated = 1;
+         ts2->mem_base = base_ts;
+         ts2->mem_offset = offset + (1 - bigendian) * 4;
++        ts2->temp_subindex = 1;
+         pstrcpy(buf, sizeof(buf), name);
+         pstrcat(buf, sizeof(buf), "_1");
+         ts2->name = strdup(buf);
+@@ -973,6 +974,7 @@ TCGTemp *tcg_temp_new_internal(TCGType type, bool temp_local)
+             ts2->base_type = TCG_TYPE_I64;
+             ts2->type = TCG_TYPE_I32;
+             ts2->temp_allocated = 1;
++            ts2->temp_subindex = 1;
+             ts2->kind = kind;
+         } else {
+             ts->base_type = type;
+@@ -1091,6 +1093,7 @@ TCGTemp *tcg_constant_internal(TCGType type, int64_t val)
+             ts2->type = TCG_TYPE_I32;
+             ts2->kind = TEMP_CONST;
+             ts2->temp_allocated = 1;
++            ts2->temp_subindex = 1;
+             ts2->val = val >> 32;
+         } else {
+             ts->base_type = type;
 -- 
 2.34.1
 
