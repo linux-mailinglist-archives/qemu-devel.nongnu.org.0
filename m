@@ -2,96 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BC36606F97
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 07:47:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE47606F94
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 07:46:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olksL-0003dk-6B
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 01:47:21 -0400
+	id 1olkrU-0001So-6K
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 01:46:28 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olkj2-0001an-2s
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 01:37:44 -0400
+	id 1olkjC-0001fz-Ke
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 01:37:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1olkin-0001Te-NH; Fri, 21 Oct 2022 01:37:30 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1olkii-0008Rw-43; Fri, 21 Oct 2022 01:37:29 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id A9D8B5C0110;
- Fri, 21 Oct 2022 01:37:22 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Fri, 21 Oct 2022 01:37:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1666330642; x=1666417042; bh=41
- +nvSg5mQtziDKiu2upcRZhMih8JEYCp9Mfbdw2G1Y=; b=RdnMMPdkm7DwR1JULK
- u2hHPSHv1rmq6IrpPo9ypwHQuZNYALnm2dJlvlhn+n5WOwKq8ikp1PW7XnblVz2j
- LxDTK8RjieL2pIdBwmaWhddh/6uEZIfApYsZm5tT8fBaq9tYTKi4kXZW5eXZSqv4
- +3cYA399dmYM8mh6uweXtCVC/3lbsQDQRkaNqOfXdt03EunBvKyEvQ29m+CexHEB
- bJhuWak2dmWzU0U0XPWQf8XD0/IqZWWB/v6TgGDl0hfTKIQVR4xzgHObYloTZhqR
- DLrx/cwEQ7YqLAKG3rL+EXfUGrC5l1sHes868qjw2P2wdQ0dmJvamaB1W+WNnYn0
- nwAw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1666330642; x=1666417042; bh=41+nvSg5mQtziDKiu2upcRZhMih8
- JEYCp9Mfbdw2G1Y=; b=tSYLEBT3+jPV0CdFQ4wNprupaK+DSUJwLJ+4iskrvdWN
- wl0ZDv/ZWFRafEO0PpjFU+f0hhQpQtj+u1wPvqnvWVsU856FvJ/cB+jOvAER4Zog
- Gg0acDiPR196VwWWJhguff8nRPDPFQ+zF7ZQBHZSLmppNXNYms0dKub7nPd41gEe
- LLHpYsIOhUGsMwPxfEd/T2FZ0OHJCSnxb1lDvy7RRtOX6kCa3k9lLbZiTufyfU4G
- /pO+NWOLHsnIPKtlsoFU7M6/KM5hVcGv1nwcKv8oTdUNdkkw3YmrsPcYBCmb37fb
- DsuCVMlT0TtUEPzZXQJ/bbAqGANYyv2ewC+AKfZ71Q==
-X-ME-Sender: <xms:ETBSYzzFci0WDPSbKAEhbHsCtj5z5us64UO3hpe6y_uIQmSrMQbzBA>
- <xme:ETBSY7T-V5oHj5fzmulhhAkBlK6Sk033Nl8ciiDhIggJ6o8mkhniQvQHq1vhF5gXb
- Ih4om49iU11cZy5whs>
-X-ME-Received: <xmr:ETBSY9WCnaPum_g8NgPEKDLAZwts-pYgAOkDqSbPEmzJ1B0TRat5tjRWvHjyizYDEM9k>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeljedgleelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
- jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:ETBSY9h-28RYpdffM3-gLgIkIOdRjicgdfXXtekDzZfl8N-eqIr92g>
- <xmx:ETBSY1DWzoDI3AJ58rAWXdLib5mYPUUP4DBSVk3q9QNwaUY_QHj3QA>
- <xmx:ETBSY2K8Qx9Gclif4WcnpaqkDRdVSxRFtsU8RJVNaQHDhce3YHReQA>
- <xmx:EjBSYw-KDVraQ4ay09v4-U6MtE2lOSW3ZwSUpus7Q5WQH3An3kN0TA>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 21 Oct 2022 01:37:20 -0400 (EDT)
-Date: Fri, 21 Oct 2022 07:37:18 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Cc: qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>
-Subject: Re: [PATCH] hw/nvme: reenable cqe batching
-Message-ID: <Y1IwDsaYc04+QhWu@cormorant.local>
-References: <20221020113538.36526-1-its@irrelevant.dk>
- <D059FE13-A269-4C82-9BE7-1FEA9F2AE53A@ict.ac.cn>
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1olkiz-0001Zp-KU
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 01:37:43 -0400
+Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1olkix-0008Tn-IZ
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 01:37:41 -0400
+Received: by mail-il1-x135.google.com with SMTP id q11so1082418ilj.10
+ for <qemu-devel@nongnu.org>; Thu, 20 Oct 2022 22:37:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gWHqvcmSGye6d8J6gddvP83nE9hY0LWorQqMeCj88x8=;
+ b=EvL/HX9oatKDaXqNxZtN4KYZTjrJ0+zYMdSAn6tuBlvMoBLMSLWncy+a44/W2AEWPX
+ Yj7RL+h7nRBmWQDsoYQs3j6kcdoCXkvXYs6NLZ7iEnxV9uvfOrZRtG1y9AB+EQ1Jm/Yc
+ rFy9hyfTI8oV5KqwBbfHBA94Nf5VRQk16+QRV3quTh1rQ8+kDiFpxBaHPqYIjgq4sb3C
+ rrin7vVWUDnMzG1pn8K6whhS1q1HWqAnHMkIWcbDdkLrlpFkhhRZIJMM0MdaVseWHKzw
+ tnvNXn+TxOVQOfuC+OaGRv7NBWMf6PSoS2Q38IO/73/xvG55+LzajI6MQb9y4b1fhVjA
+ f2YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=gWHqvcmSGye6d8J6gddvP83nE9hY0LWorQqMeCj88x8=;
+ b=gFYKPjBBbWMkmvEOFIc2rHsb+uLFb2M/oowQRpg8emRtMD4I0PbS97ps6knG/Se6qC
+ qKy5wsXyWeszYwmCwwn/KtdiMg6PnuIx+vii9TxTAPvTtKBnSOo2iM+8+p/wBqvPFL6O
+ guPLEBKMa5EXlsMK3VVNsiRK92hsc+zLVhS11Ni4VWEM01+mBcpjW08zN7QZ7Myp+F8k
+ vK51JA/UbuY94ldrFw9oyTlpXu4g/hn/z6E2BPxto7whJ4cOJGMF/gnvNA3gi9zRB3EI
+ rPMFSBt2dfE6T6RApikFmw4nRcv9KIImm2cZaynSnP7UCy9rJbJgCnbTLuftRo2wCwj6
+ B0YA==
+X-Gm-Message-State: ACrzQf025ZBzSNshgeVQsU6AAheA/UtwX7L2vYF7efutQykng/3PED4t
+ /VvRQWvt6jfU+4jxuVwh+7q26bpF2ps2mNKhz3blQA==
+X-Google-Smtp-Source: AMsMyM4ywDaRleTsoeRVprVHXFsjI/u0ag/MWu5hiHo0W+Oec5R/sA6X9Q8sVGywNH9CD1XpE5kxoPxYODT3YmfWMXQ=
+X-Received: by 2002:a05:6e02:1253:b0:2fd:2fb5:c9f7 with SMTP id
+ j19-20020a056e02125300b002fd2fb5c9f7mr12627533ilq.129.1666330658197; Thu, 20
+ Oct 2022 22:37:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="XiS8wT3RD1W+ngtK"
-Content-Disposition: inline
-In-Reply-To: <D059FE13-A269-4C82-9BE7-1FEA9F2AE53A@ict.ac.cn>
-Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
- helo=out2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+References: <20221020123506.26363-1-ani@anisinha.ca>
+ <20221020123506.26363-8-ani@anisinha.ca>
+ <87o7u675el.fsf@linaro.org>
+In-Reply-To: <87o7u675el.fsf@linaro.org>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Fri, 21 Oct 2022 11:07:27 +0530
+Message-ID: <CAARzgwzF0=gN3md2awgY85oSn2zUGrz5gbX_zoMRg-OZc1WeBA@mail.gmail.com>
+Subject: Re: [PATCH v6 07/10] acpi/tests/avocado/bits: add biosbits config
+ file for running bios tests
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, 
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Maydell Peter <peter.maydell@linaro.org>, 
+ John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, 
+ Michael Tsirkin <mst@redhat.com>, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: none client-ip=2607:f8b0:4864:20::135;
+ envelope-from=ani@anisinha.ca; helo=mail-il1-x135.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,49 +99,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Oct 20, 2022 at 11:18 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
+wrote:
+>
+>
+> Ani Sinha <ani@anisinha.ca> writes:
+>
+> > This change adds initial biosbits config file that instructs biosbits t=
+o run
+> > bios test suits in batch mode. Additionally acpi and smbios structures =
+are also
+> > dumped.
+>
+> Is it possible to split this into different avocado tests or would it
+> require building multiple isos?
 
---XiS8wT3RD1W+ngtK
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Bits takes this configuration to decide which tests it should run.
+Currently, this config is not modified from the original bits config
+file upstream.
+It might be possible to use different config files for different bits
+tests as you suggested and generate a separate iso for each of the
+tests with their corresponding config file (and then use that iso for
+the corresponding test).
+However, I would like to leave this as a future exercise. Currently,
+it's simple enough in my opinion to have just one config file and run
+all the tests in batch mode. I do not see a compelling reason to add
+the extra complication of generating an iso for every sub-test yet.
 
-On Okt 21 10:37, Jinhao Fan wrote:
-> at 7:35 PM, Klaus Jensen <its@irrelevant.dk> wrote:
->=20
-> > Commit 2e53b0b45024 ("hw/nvme: Use ioeventfd to handle doorbell
-> > updates") had the unintended effect of disabling batching of CQEs.
-> >=20
-> > This patch changes the sq/cq timers to bottom halfs and instead of
-> > calling nvme_post_cqes() immediately (causing an interrupt per cqe), we
-> > defer the call.
->=20
-> This change is definitely desired.
->=20
-> >=20
-> >                   | iops
-> >  -----------------+------
-> >    baseline       | 138k
-> >    +cqe batching  | 233k
->=20
-> What is the queue depth config for this test?
->=20
-
-That's 64. My box isnt nearly as beefy as yours ;)
-
---XiS8wT3RD1W+ngtK
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmNSMA4ACgkQTeGvMW1P
-DeluDAf/RPRbVwc8EHMnaiyV0DLUzHJsK33Wt121spVNFmk9R74DMYrUr6yNUu80
-QXAN2FmdGQzYTkvXjwygT4YAXQxNwMtRUJga84XuFB000HYr7FzM1wUH3dtxbXPx
-QvkPtu9DY6/huQSyyzsHJpiskdoVC5n5jqhIq3XuYA/jJ0wZLyktfXZ8xcCVrj9Z
-fAResoP8PVxQYah00FtkXOkGStzy/3EM5bQ36QyrkG1yobPhfcCURAbgYKXmkb2Q
-jk08e4qmrm/gGkfNL0J3t/o1aejN2ffEfzGda1LXdlk25CMtJmhfzHuWPvy0Wdif
-txZpPBHo1cIhLNaVf/YjmtyNbdJTvg==
-=q9ES
------END PGP SIGNATURE-----
-
---XiS8wT3RD1W+ngtK--
+>
+> Otherwise:
+>
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>
+>
+> >
+> > Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> > Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > Cc: Maydell Peter <peter.maydell@linaro.org>
+> > Cc: John Snow <jsnow@redhat.com>
+> > Cc: Thomas Huth <thuth@redhat.com>
+> > Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> > Cc: Igor Mammedov <imammedo@redhat.com>
+> > Cc: Michael Tsirkin <mst@redhat.com>
+> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> > ---
+> >  .../avocado/acpi-bits/bits-config/bits-cfg.txt | 18 ++++++++++++++++++
+> >  1 file changed, 18 insertions(+)
+> >  create mode 100644 tests/avocado/acpi-bits/bits-config/bits-cfg.txt
+> >
+> > diff --git a/tests/avocado/acpi-bits/bits-config/bits-cfg.txt
+> > b/tests/avocado/acpi-bits/bits-config/bits-cfg.txt
+> > new file mode 100644
+> > index 0000000000..8010804453
+> > --- /dev/null
+> > +++ b/tests/avocado/acpi-bits/bits-config/bits-cfg.txt
+> > @@ -0,0 +1,18 @@
+> > +# BITS configuration file
+> > +[bits]
+> > +
+> > +# To run BITS in batch mode, set batch to a list of one or more of the
+> > +# following keywords; BITS will then run all of the requested operatio=
+ns, then
+> > +# save the log file to disk.
+> > +#
+> > +# test: Run the full BITS testsuite.
+> > +# acpi: Dump all ACPI structures.
+> > +# smbios: Dump all SMBIOS structures.
+> > +#
+> > +# Leave batch set to an empty string to disable batch mode.
+> > +# batch =3D
+> > +
+> > +# Uncomment the following to run all available batch operations
+> > +# please take a look at boot/python/init.py in bits zip file
+> > +# to see how these options are parsed and used.
+> > +batch =3D test acpi smbios
+>
+>
+> --
+> Alex Benn=C3=A9e
 
