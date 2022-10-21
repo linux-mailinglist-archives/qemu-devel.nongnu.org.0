@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2B9A60751E
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 12:39:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C10E60753B
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 12:42:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olpRC-0002Xa-Lg
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:39:39 -0400
+	id 1olpTI-0007X1-Bn
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:41:48 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olpLv-0001GS-7u
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:34:11 -0400
+	id 1olpNg-00007s-Nb
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:36:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olpLj-0000pj-1M
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 06:34:01 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olpLh-0007xI-IP
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 06:33:58 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id bk15so4093561wrb.13
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 03:33:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=QXxu2YkBfOpHD6G0pVXdjBAbYvYBVfdJSLp2Z52v2LI=;
- b=MeOOCVUA7xo+OdwxMUpdmdvMDpWu/ECC1eTlnEdA+JhTCoUMdKF+HstFOAl+vrv/Xp
- 7/BauszGXH3vdLg9e9hDCxzjEiIWjBTfVkgi6caMFBDpcsA9vAfjNCf1Oi7hlO0pCmCO
- wQm9tc8J9/TW13KG6YcautsSsuWs+wNUmEhcHmChs4NH2sYZ20j6k9fbF/YafFwiQhvO
- j7qznKXyEApBz08gdYxNAsYCYXtAyK8z26dFVwFV6LRgvPnzqJqugD2MQLQCa7xbkeFC
- gJxQwjFjhUesa4bV3migvg/LifC4HbFv3mm89r+AHqSDVAfTqv4QdFI39OlCDO+sX23z
- FtLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QXxu2YkBfOpHD6G0pVXdjBAbYvYBVfdJSLp2Z52v2LI=;
- b=Tv91Db2wbvQ+VEt7OupycrihGkH0BGPUENTYYfiTuIMH0Q1hMx84pFxHBf5A/wNXPf
- B6fZK0mcEHArRNigDyM6bHkXjP3po6LmMVhWDY/NzpK940C6vsizv3XPjAvLl+iuvq1B
- sVUIAqPWRwdLQDEnq+VuTWP3I6dOZAfRYF8pV8tXc5UZftIpQFmrNYflQgPLXaIHlHQG
- Hx4cje6TtERVMxZ6FlFHVQx+S0OBFt9cfahlHHo2goRIAptfSgULcC/UmHryQODdcYuf
- ZtDpDBiZSoR4b4zGw4uME+re+gc9tN0yM2UL5aCO7+anN/fefuTzxdC71uKIH6xVFyBE
- BVOg==
-X-Gm-Message-State: ACrzQf3TEcV2Be0asUQVW6UJVrm/PAha4vfAmq1TqteCZ0UX+WYAyDuW
- PQtD7+XgCpQhnk0IdOs5+2jXIw==
-X-Google-Smtp-Source: AMsMyM5Xh8YTPRBJqkCeiP83Psl/7CK7qoMzi7Ym7OdctKxlQ2xf1f9wV4g6AZImdPw9kjUr1fbDgA==
-X-Received: by 2002:a05:6000:168c:b0:231:7950:1114 with SMTP id
- y12-20020a056000168c00b0023179501114mr11310627wrd.484.1666348436112; 
- Fri, 21 Oct 2022 03:33:56 -0700 (PDT)
-Received: from [10.50.0.10]
- (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
- by smtp.gmail.com with ESMTPSA id
- b1-20020adfe641000000b002206203ed3dsm2425699wrn.29.2022.10.21.03.33.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Oct 2022 03:33:55 -0700 (PDT)
-Message-ID: <c3dbcd20-d724-bb52-cf97-410fc5edc90a@linaro.org>
-Date: Fri, 21 Oct 2022 12:33:54 +0200
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1olpNK-000812-Fx
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 06:35:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1olpNI-0008Pi-Vu
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 06:35:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666348535;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wOEGEZqptswKIUfgBEEm4tgnEbbBtNC3oZfW8NqaNe0=;
+ b=Lf46owVAOeUGtLHTFVYMO5cYkT6VR9aaHMLiEDG9uMVReAoqPmn79mZAHgjYY6h3itSHx/
+ 042yd1rqs0ZBEwqOGzAp4g1y6Qwo5RYs95sfuKm+XaxRxG3ZX/SThN6P3lsqAeBeRmHt8w
+ nBi9o6wORLMShC4FhlGZHzb9DJqH7Ak=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-449-3eY7vKtJMmWUC5Xz_P5i2w-1; Fri, 21 Oct 2022 06:35:31 -0400
+X-MC-Unique: 3eY7vKtJMmWUC5Xz_P5i2w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8A5E5185A7A3;
+ Fri, 21 Oct 2022 10:35:30 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 281612024CBF;
+ Fri, 21 Oct 2022 10:35:30 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 11F0C21E6686; Fri, 21 Oct 2022 12:35:29 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: Laurent Vivier <lvivier@redhat.com>,  qemu-devel@nongnu.org,  Thomas
+ Huth <thuth@redhat.com>,  xen-devel@lists.xenproject.org,  "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>,  Anthony Perard
+ <anthony.perard@citrix.com>,  Stefan Weil <sw@weilnetz.de>,  David Gibson
+ <david@gibson.dropbear.id.au>,  Stefano Stabellini
+ <sstabellini@kernel.org>,  Paul Durrant <paul@xen.org>,  Eric Blake
+ <eblake@redhat.com>,  "Michael S. Tsirkin" <mst@redhat.com>,  Jason Wang
+ <jasowang@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Samuel
+ Thibault <samuel.thibault@ens-lyon.org>,  Greg Kurz <groug@kaod.org>,
+ Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH v14 15/17] net: stream: move to QIO to enable additional
+ parameters
+References: <20221021090922.170074-1-lvivier@redhat.com>
+ <20221021090922.170074-16-lvivier@redhat.com>
+ <1f769d00-cf50-abaf-f078-f301959156b9@linaro.org>
+Date: Fri, 21 Oct 2022 12:35:29 +0200
+In-Reply-To: <1f769d00-cf50-abaf-f078-f301959156b9@linaro.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Fri, 21 Oct 2022 12:05:42
+ +0200")
+Message-ID: <87tu3x1n2m.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.3.2
-Subject: Re: [PATCH v2 18/36] tcg: Replace TCG_TARGET_EXTEND_ARGS with
- TCG_TARGET_CALL_ARG_I32
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20221021071549.2398137-1-richard.henderson@linaro.org>
- <20221021071549.2398137-19-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221021071549.2398137-19-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,26 +99,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/10/22 09:15, Richard Henderson wrote:
-> For 64-bit hosts that had TCG_TARGET_EXTEND_ARGS, set
-> TCG_TARGET_CALL_ARG_I32 to TCG_CALL_ARG_EXTEND.
-> Otherwise, use TCG_CALL_ARG_NORMAL.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   tcg/aarch64/tcg-target.h     |  1 +
->   tcg/arm/tcg-target.h         |  1 +
->   tcg/i386/tcg-target.h        |  1 +
->   tcg/loongarch64/tcg-target.h |  1 +
->   tcg/mips/tcg-target.h        |  1 +
->   tcg/riscv/tcg-target.h       |  1 +
->   tcg/s390x/tcg-target.h       |  2 +-
->   tcg/sparc64/tcg-target.h     |  2 +-
->   tcg/tci/tcg-target.h         |  1 +
->   tcg/tcg.c                    | 42 ++++++++++++++++++------------------
->   tcg/ppc/tcg-target.c.inc     |  6 +++++-
->   11 files changed, 35 insertions(+), 24 deletions(-)
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> On 21/10/22 11:09, Laurent Vivier wrote:
+>> Use QIOChannel, QIOChannelSocket and QIONetListener.
+>> This allows net/stream to use all the available parameters provided by
+>> SocketAddress.
+>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+>> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+>> ---
+>>   net/stream.c    | 492 +++++++++++++++++-------------------------------
+>>   qemu-options.hx |   4 +-
+>>   2 files changed, 178 insertions(+), 318 deletions(-)
+>
+>> -static void net_stream_accept(void *opaque)
+>> +static void net_stream_server_listening(QIOTask *task, gpointer opaque)
+>>   {
+>>       NetStreamState *s =3D opaque;
+>> -    struct sockaddr_storage saddr;
+>> -    socklen_t len;
+>> -    int fd;
+>> -
+>> -    for (;;) {
+>> -        len =3D sizeof(saddr);
+>> -        fd =3D qemu_accept(s->listen_fd, (struct sockaddr *)&saddr, &le=
+n);
+>> -        if (fd < 0 && errno !=3D EINTR) {
+>> -            return;
+>> -        } else if (fd >=3D 0) {
+>> -            qemu_set_fd_handler(s->listen_fd, NULL, NULL, NULL);
+>> -            break;
+>> -        }
+>> -    }
+>> +    QIOChannelSocket *listen_sioc =3D QIO_CHANNEL_SOCKET(s->listen_ioc);
+>> +    SocketAddress *addr;
+>> +    int ret;
+>>   -    s->fd =3D fd;
+>> -    s->nc.link_down =3D false;
+>> -    net_stream_connect(s);
+>> -    switch (saddr.ss_family) {
+>> -    case AF_INET: {
+>> -        struct sockaddr_in *saddr_in =3D (struct sockaddr_in *)&saddr;
+>> -
+>> -        qemu_set_info_str(&s->nc, "connection from %s:%d",
+>> -                          inet_ntoa(saddr_in->sin_addr),
+>> -                          ntohs(saddr_in->sin_port));
+>> -        break;
+>> +    if (listen_sioc->fd < 0) {
+>> +        qemu_set_info_str(&s->nc, "connection error");
+>> +        return;
+>>       }
+>> -    case AF_UNIX: {
+>> -        struct sockaddr_un saddr_un;
+>>   -        len =3D sizeof(saddr_un);
+>> -        getsockname(s->listen_fd, (struct sockaddr *)&saddr_un, &len);
+>> -        qemu_set_info_str(&s->nc, "connect from %s", saddr_un.sun_path);
+>> -        break;
+>> -    }
+>> -    default:
+>> -        g_assert_not_reached();
+>> +    addr =3D qio_channel_socket_get_local_address(listen_sioc, NULL);
+>> +    g_assert(addr !=3D NULL);
+>
+> Missing propagating Error* (observed in v12).
+
+*If* this is really a programming error: what about &error_abort?
+
+[...]
 
 
