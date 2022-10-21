@@ -2,88 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C10E60753B
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 12:42:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 071D5607549
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 12:44:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olpTI-0007X1-Bn
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:41:48 -0400
+	id 1olpWE-0000wV-13
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:44:50 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olpNg-00007s-Nb
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:36:00 -0400
+	id 1olpSv-0006KQ-Gx
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:41:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1olpNK-000812-Fx
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 06:35:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1olpS1-0005Pf-3i; Fri, 21 Oct 2022 06:40:36 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1olpNI-0008Pi-Vu
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 06:35:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666348535;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wOEGEZqptswKIUfgBEEm4tgnEbbBtNC3oZfW8NqaNe0=;
- b=Lf46owVAOeUGtLHTFVYMO5cYkT6VR9aaHMLiEDG9uMVReAoqPmn79mZAHgjYY6h3itSHx/
- 042yd1rqs0ZBEwqOGzAp4g1y6Qwo5RYs95sfuKm+XaxRxG3ZX/SThN6P3lsqAeBeRmHt8w
- nBi9o6wORLMShC4FhlGZHzb9DJqH7Ak=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-449-3eY7vKtJMmWUC5Xz_P5i2w-1; Fri, 21 Oct 2022 06:35:31 -0400
-X-MC-Unique: 3eY7vKtJMmWUC5Xz_P5i2w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8A5E5185A7A3;
- Fri, 21 Oct 2022 10:35:30 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 281612024CBF;
- Fri, 21 Oct 2022 10:35:30 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 11F0C21E6686; Fri, 21 Oct 2022 12:35:29 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: Laurent Vivier <lvivier@redhat.com>,  qemu-devel@nongnu.org,  Thomas
- Huth <thuth@redhat.com>,  xen-devel@lists.xenproject.org,  "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>,  Anthony Perard
- <anthony.perard@citrix.com>,  Stefan Weil <sw@weilnetz.de>,  David Gibson
- <david@gibson.dropbear.id.au>,  Stefano Stabellini
- <sstabellini@kernel.org>,  Paul Durrant <paul@xen.org>,  Eric Blake
- <eblake@redhat.com>,  "Michael S. Tsirkin" <mst@redhat.com>,  Jason Wang
- <jasowang@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Samuel
- Thibault <samuel.thibault@ens-lyon.org>,  Greg Kurz <groug@kaod.org>,
- Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v14 15/17] net: stream: move to QIO to enable additional
- parameters
-References: <20221021090922.170074-1-lvivier@redhat.com>
- <20221021090922.170074-16-lvivier@redhat.com>
- <1f769d00-cf50-abaf-f078-f301959156b9@linaro.org>
-Date: Fri, 21 Oct 2022 12:35:29 +0200
-In-Reply-To: <1f769d00-cf50-abaf-f078-f301959156b9@linaro.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Fri, 21 Oct 2022 12:05:42
- +0200")
-Message-ID: <87tu3x1n2m.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1olpRy-0002mh-S1; Fri, 21 Oct 2022 06:40:28 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29LAbIqA025998;
+ Fri, 21 Oct 2022 10:40:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=v2Fp76MMuzfJYNAvRhCF0EUzw/SrdY7ZjXqH1UwAumQ=;
+ b=AXqdABf6tJ+jm0NgLS/8fEsLWvf60xhnBtp1Wl+N8Qv8bAhPozUQw39ZpR/SKoOfsUzZ
+ D4hXtDHZZ0NJB/A9+/o73hUktiotLEWTv2VnohGmXRmuGxigDkSUf4/sA9tszsPr0xUs
+ q+3gxuZ2ryAEStWXkvj6sUGizPEg4K8cGaoBgpVHTBT4G2nKK3rR6IUW/buR16QrYbj0
+ r4mv4Xj6qb2z2hZLIna+lw9zR0X05zsp9jsXhO7shpwC4IIRH7y+rT4ilzG53y5wqVAn
+ c7MItnoXrrph41MAGMgvoisOIlcK2fKVGaTx6hBLOvVTIuNbhObOcNfHGWwed2Y5ZiAO UQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kbsfcgnxp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 21 Oct 2022 10:40:07 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29LAcf6a002920;
+ Fri, 21 Oct 2022 10:40:07 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kbsfcgnvh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 21 Oct 2022 10:40:07 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29LAb67s015538;
+ Fri, 21 Oct 2022 10:40:04 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma01fra.de.ibm.com with ESMTP id 3k99fn5a01-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 21 Oct 2022 10:40:04 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 29LAe1hl9372140
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 21 Oct 2022 10:40:01 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AA538AE057;
+ Fri, 21 Oct 2022 10:35:54 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F0B3BAE056;
+ Fri, 21 Oct 2022 10:35:53 +0000 (GMT)
+Received: from [9.171.39.72] (unknown [9.171.39.72])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 21 Oct 2022 10:35:53 +0000 (GMT)
+Message-ID: <47845fe1fefa760ce11b687f85c5f631ea0a8646.camel@linux.ibm.com>
+Subject: Re: [PATCH  v3 23/26] target/s390x: don't use ld_code2 to probe
+ next pc
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
+ pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>, David
+ Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>, Thomas
+ Huth <thuth@redhat.com>, "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>
+Date: Fri, 21 Oct 2022 12:35:53 +0200
+In-Reply-To: <20221020115209.1761864-24-alex.bennee@linaro.org>
+References: <20221020115209.1761864-1-alex.bennee@linaro.org>
+ <20221020115209.1761864-24-alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: C3YmXTdBHvhwpL85NMHlvvuNWbM0FkHv
+X-Proofpoint-GUID: GcNqeVo7Qs0gERCMmxziMNQBkot9UUR_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-21_04,2022-10-21_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ malwarescore=0 adultscore=0 clxscore=1015 spamscore=0 mlxlogscore=958
+ lowpriorityscore=0 phishscore=0 priorityscore=1501 mlxscore=0 bulkscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210210061
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,72 +124,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+On Thu, 2022-10-20 at 12:52 +0100, Alex Bennée wrote:
+> This isn't an translator picking up an instruction so we shouldn't
+> use
+> the translator_lduw function which has side effects for plugins.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  target/s390x/tcg/translate.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/target/s390x/tcg/translate.c
+> b/target/s390x/tcg/translate.c
+> index 1d2dddab1c..f4de8efe3a 100644
+> --- a/target/s390x/tcg/translate.c
+> +++ b/target/s390x/tcg/translate.c
+> @@ -6612,7 +6612,7 @@ static void
+> s390x_tr_insn_start(DisasContextBase *dcbase, CPUState *cs)
+>  static target_ulong get_next_pc(CPUS390XState *env, DisasContext *s,
+>                                  uint64_t pc)
+>  {
+> -    uint64_t insn = ld_code2(env, s, pc);
+> +    uint64_t insn = cpu_lduw_code(env, pc);
+>  
+>      return pc + get_ilen((insn >> 8) & 0xff);
+>  }
 
-> On 21/10/22 11:09, Laurent Vivier wrote:
->> Use QIOChannel, QIOChannelSocket and QIONetListener.
->> This allows net/stream to use all the available parameters provided by
->> SocketAddress.
->> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->> Acked-by: Michael S. Tsirkin <mst@redhat.com>
->> ---
->>   net/stream.c    | 492 +++++++++++++++++-------------------------------
->>   qemu-options.hx |   4 +-
->>   2 files changed, 178 insertions(+), 318 deletions(-)
->
->> -static void net_stream_accept(void *opaque)
->> +static void net_stream_server_listening(QIOTask *task, gpointer opaque)
->>   {
->>       NetStreamState *s =3D opaque;
->> -    struct sockaddr_storage saddr;
->> -    socklen_t len;
->> -    int fd;
->> -
->> -    for (;;) {
->> -        len =3D sizeof(saddr);
->> -        fd =3D qemu_accept(s->listen_fd, (struct sockaddr *)&saddr, &le=
-n);
->> -        if (fd < 0 && errno !=3D EINTR) {
->> -            return;
->> -        } else if (fd >=3D 0) {
->> -            qemu_set_fd_handler(s->listen_fd, NULL, NULL, NULL);
->> -            break;
->> -        }
->> -    }
->> +    QIOChannelSocket *listen_sioc =3D QIO_CHANNEL_SOCKET(s->listen_ioc);
->> +    SocketAddress *addr;
->> +    int ret;
->>   -    s->fd =3D fd;
->> -    s->nc.link_down =3D false;
->> -    net_stream_connect(s);
->> -    switch (saddr.ss_family) {
->> -    case AF_INET: {
->> -        struct sockaddr_in *saddr_in =3D (struct sockaddr_in *)&saddr;
->> -
->> -        qemu_set_info_str(&s->nc, "connection from %s:%d",
->> -                          inet_ntoa(saddr_in->sin_addr),
->> -                          ntohs(saddr_in->sin_port));
->> -        break;
->> +    if (listen_sioc->fd < 0) {
->> +        qemu_set_info_str(&s->nc, "connection error");
->> +        return;
->>       }
->> -    case AF_UNIX: {
->> -        struct sockaddr_un saddr_un;
->>   -        len =3D sizeof(saddr_un);
->> -        getsockname(s->listen_fd, (struct sockaddr *)&saddr_un, &len);
->> -        qemu_set_info_str(&s->nc, "connect from %s", saddr_un.sun_path);
->> -        break;
->> -    }
->> -    default:
->> -        g_assert_not_reached();
->> +    addr =3D qio_channel_socket_get_local_address(listen_sioc, NULL);
->> +    g_assert(addr !=3D NULL);
->
-> Missing propagating Error* (observed in v12).
-
-*If* this is really a programming error: what about &error_abort?
-
-[...]
-
+Acked-by: Ilya Leoshkevich <iii@linux.ibm.com>
 
