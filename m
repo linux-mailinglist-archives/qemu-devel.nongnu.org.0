@@ -2,87 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E333B607597
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 13:04:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 377626075D8
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 13:13:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olppO-0004Ev-8L
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 07:04:38 -0400
+	id 1olpxY-00048q-0X
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 07:13:04 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olpgs-0001BE-TK
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:55:50 -0400
+	id 1olphT-0001Gv-3h
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:56:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1olpgl-0001Ad-By
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 06:55:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1olpgj-0006LN-Sp
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 06:55:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666349740;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fL4PnehEm8f13PDLz7kiV4oIdcucSxynau12gJFqJSA=;
- b=CWq4ueXocTojoZ25G8nhze41Rj+G66jv1GjsakP0IZ6ufxgytb/kxkIABhD7YDwZdVmrbp
- m7L//HWpDc93wfAda35ptBYTGbEPRp1j9PNSqJLW3ERNtP0XsuikzuNnlwYtGFxm4noViI
- 97uauPpdwUY+D/tRIrF6q9VFhMVCAtE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-39-1VDSkEuqP8Ka01rnX2mVLA-1; Fri, 21 Oct 2022 06:55:37 -0400
-X-MC-Unique: 1VDSkEuqP8Ka01rnX2mVLA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2A1F4811E75;
- Fri, 21 Oct 2022 10:55:37 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CC052C5FEC0;
- Fri, 21 Oct 2022 10:55:36 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A5D6221E6936; Fri, 21 Oct 2022 12:55:35 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Stefano Brivio <sbrivio@redhat.com>
-Cc: Laurent Vivier <lvivier@redhat.com>,  qemu-devel@nongnu.org,  Paul
- Durrant <paul@xen.org>,  Thomas Huth <thuth@redhat.com>,  =?utf-8?Q?Danie?=
- =?utf-8?Q?l_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,  "Dr. David Alan
- Gilbert"
- <dgilbert@redhat.com>,  Greg Kurz <groug@kaod.org>,  Stefano Stabellini
- <sstabellini@kernel.org>,  David Gibson <david@gibson.dropbear.id.au>,
- Eric Blake <eblake@redhat.com>,  xen-devel@lists.xenproject.org,
- "Michael S. Tsirkin" <mst@redhat.com>,  Stefan Weil <sw@weilnetz.de>,
- Paolo Bonzini <pbonzini@redhat.com>,  Jason Wang <jasowang@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,  Anthony Perard
- <anthony.perard@citrix.com>,  Laine Stump <laine@redhat.com>
-Subject: Re: [PATCH v13 17/17] net: stream: add QAPI events to report
- connection state
-References: <20221020162558.123284-1-lvivier@redhat.com>
- <20221020162558.123284-18-lvivier@redhat.com>
- <87pmel4th4.fsf@pond.sub.org>
- <52e989b9-6f8d-99c6-ef04-3ce32006b002@redhat.com>
- <87lep935hn.fsf@pond.sub.org> <20221021114052.339f6aac@elisabeth>
-Date: Fri, 21 Oct 2022 12:55:35 +0200
-In-Reply-To: <20221021114052.339f6aac@elisabeth> (Stefano Brivio's message of
- "Fri, 21 Oct 2022 11:40:52 +0200")
-Message-ID: <87o7u51m54.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1olphH-0001Dl-SC; Fri, 21 Oct 2022 06:56:16 -0400
+Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1olphE-0006Ol-Kn; Fri, 21 Oct 2022 06:56:15 -0400
+Received: by mail-ot1-x335.google.com with SMTP id
+ t4-20020a9d7f84000000b00661c3d864f9so1565650otp.10; 
+ Fri, 21 Oct 2022 03:56:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=40hdAJYWxvdM3C0c/3D7SQniAq9dfGi6ADXsoJ9F0Ac=;
+ b=AEjnnFZGv27PlvqcHlK6NMgv4m2DBycOeoSLuYRMhzXTRM9JTDDyjLyOGMWGoml9Ff
+ fssOK77pckVww0AQYt1qKXWaARwJgb/sAoXCYW2ks4CvyTwci+nc1cbYT+NPlYUU7D8P
+ ucs2YcYDQoN7cGtpPsfqFmGqqVq7KhrncWQqsYbOB8afkr9zAV486P2ZFfYcjW4mEjyL
+ cWfE5e5gLmeDSnjyqCLcpIHsWdMWU09r7D4QJqd+yIhOt2n8bnktRg4sQyG3IpQTyX2z
+ gwTF6JV+kr6QNiwPnPVpBJiNJFmQGdeCWCKdrW47AmHUy+lUhAWrhDUtQnOTFvMkoim3
+ xbNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=40hdAJYWxvdM3C0c/3D7SQniAq9dfGi6ADXsoJ9F0Ac=;
+ b=7ec6l8J8Uji/czuRsPqbchsPkTk2xfXnNozYv05dRbY3iTAioGM5vQtUrXh8yiajjt
+ qtL+d9p1Yk6FUhSSUddFXBP46m5BxPs5BVgTA/t/ppo6Fq8e1rLLzTq0LZYtM6Wpdefv
+ j9/A74YERgNgmYzsqk88rCcdOUUy+t8PS7w4vGuKPHGLusBbeFVfYnFVA3kNVj0eGgZL
+ 2eiatLMADV/RlQjpLJMFRDM3CQuJLW7CR7Fr+qUOFfjihyxYAWWNiQa19yXKS0cnEVM4
+ 9lIZ/PiAqfu/IgYh/G9QZ65375BqcEs2Hxk+tsAAN7Dn/0GE1639Xz5RxM/AoryWDX/7
+ 0nHQ==
+X-Gm-Message-State: ACrzQf2AL+xFYFI7NTbB/9QoMdeLyPvs+X+rgAF6vBjgtD1FiHwD9ytn
+ YS1wqmwfSBgw7HxqrhNuZus=
+X-Google-Smtp-Source: AMsMyM553BKkJMT2iOM/2rQOhrgBhqaI/q/rfu1FhYIN2iCY8trAQVTU/TAwBL5Ge4Z9+/pzKt+DvA==
+X-Received: by 2002:a9d:198c:0:b0:661:aa2e:1aa0 with SMTP id
+ k12-20020a9d198c000000b00661aa2e1aa0mr9324498otk.154.1666349770251; 
+ Fri, 21 Oct 2022 03:56:10 -0700 (PDT)
+Received: from [192.168.10.102] ([179.111.38.2])
+ by smtp.gmail.com with ESMTPSA id
+ 33-20020a9d0ba4000000b006618ca5caa0sm898350oth.78.2022.10.21.03.56.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Oct 2022 03:56:09 -0700 (PDT)
+Message-ID: <0fc9927d-44cd-8260-1a4d-810364946973@gmail.com>
+Date: Fri, 21 Oct 2022 07:56:05 -0300
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v3 00/29] PowerPC interrupt rework
+Content-Language: en-US
+To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
+ fbarrat@linux.ibm.com, alex.bennee@linaro.org, farosas@linux.ibm.com
+References: <20221011204829.1641124-1-matheus.ferst@eldorado.org.br>
+ <56d9bc9d-65ac-05a5-d35b-4d64766687a4@gmail.com>
+ <3cf56329-4513-d983-88da-4265a1d5f677@gmail.com>
+ <d47b8750-02d8-ed94-78d6-4fcbd7b92c56@eldorado.org.br>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <d47b8750-02d8-ed94-78d6-4fcbd7b92c56@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x335.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,38 +103,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefano Brivio <sbrivio@redhat.com> writes:
+Matheus,
 
-> [Cc: Laine, full quote]
->
-> On Fri, 21 Oct 2022 11:12:20 +0200
-> Markus Armbruster <armbru@redhat.com> wrote:
->
->> Cc: Stefano Brivio
->> 
->> Laurent Vivier <lvivier@redhat.com> writes:
->> 
->> > On 10/21/22 07:48, Markus Armbruster wrote:  
->> >> Laurent Vivier <lvivier@redhat.com> writes:
->> >>   
->> >>> The netdev reports NETDEV_STREAM_CONNECTED event when the backend
->> >>> is connected, and NETDEV_STREAM_DISCONNECTED when it is disconnected.  
->> >>
->> >> Use cases?  
->> >
->> > This is asked by Stefano Brivio to allow libvirt to detect if connection to passt is lost and to restart passt.  
->> 
->> Let's add something like this to the commit message:
->> 
->>     This lets libvirt notice when the connection is lost somehow, and
->>     restart the peer (such as passt).
->> 
->> Who's working on the libvirt part?
->
-> Laine Stump and myself. Nothing to show yet, though.
+I did some digging yesterday. There are 2 distinct things happening:
 
-Good enough for me :)
+- the apparent problem with the avocado test. After doing more and more tests
+it seems like the test failure rate is lower than 10%. With a simple script
+to exercise it in my laptop:
 
-[...]
+n=1
+while [ 1 ]; do
+	make -j check-avocado \
+		AVOCADO_TESTS='tests/avocado/replay_kernel.py:ReplayKernelNormal.test_ppc64_e500' ;
+	if [ $? -ne 0 ]; then
+		echo "test failed after $n interactions"
+		exit 1
+	fi
+	((n=n+1))
+done
 
+In master I managed to get up to 100+ runs without failure. Sometimes I get 90,
+50, 30 runs before failure and so on. This is an OK failure rate in my opinion,
+so if any code contribution does not dramatically increase this failure rate I'm
+fine with it. This also means that I'll not be skipping the test.
+
+- back to this series, I couldn't manage to get a single successful run with
+patch 27 applied. On the other hand, running the aforementioned script with
+patches 1-26 I just got 96 test runs before the first failure. This is enough
+evidence for me to believe that, yeah, patch 27 is really doing something that is
+messing with the icount replay for e500 one way or the other.
+
+
+All that said, patches 1-26 are queued in ppc-next.
+
+
+On 10/20/22 10:40, Matheus K. Ferst wrote:
+> On 20/10/2022 08:18, Daniel Henrique Barboza wrote:
+>> On 10/19/22 18:55, Daniel Henrique Barboza wrote:
+>>> Matheus,
+>>>
+>>> This series fails 'make check-avocado' in an e500 test. This is the error output:
+>>
+>> Scrap that.
+>>
+>> This avocado test is also failing on master 10% of the time, give or take.
+>> It might be case that patch 27 makes the failure more consistent, but I can't
+>> say it's the culprit.
+>>
+>>
+>> I'll take a closer look and see if I can diagnose one particular commit that
+>> is making the patch fail 1 out of 10 times. It can be case where I might need
+>> to skip the test altogether.
+>>
+> 
+> Nice catch. I guess we need a gen_icount_io_start before calling helper_ppc_maybe_interrupt, so maybe it's better to make a gen_ppc_maybe_interrupt that calls icount and the helper. I'll give it a bit more testing and re-spin the series.
+
+
+Don't need to re-spin everything (unless you needed to do some changes in
+the patches prior). Just resend patch 27+.
+
+
+Thanks,
+
+
+Daniel
+
+> 
+> Thanks,
+> Matheus K. Ferst
+> Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
+> Analista de Software
+> Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+> 
 
