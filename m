@@ -2,48 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33EA6607BD5
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 18:11:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D8B3607BC9
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 18:08:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oluWw-0003rU-Vh; Fri, 21 Oct 2022 12:06:00 -0400
+	id 1oluSl-0002gO-4b; Fri, 21 Oct 2022 12:01:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eldon-qemu@eldondev.com>)
- id 1oluU8-0003pg-8E; Fri, 21 Oct 2022 12:03:00 -0400
-Received: from [209.195.0.149] (helo=npcomp.net)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eldon-qemu@eldondev.com>)
- id 1oluU4-0005oE-R7; Fri, 21 Oct 2022 12:02:59 -0400
-Received: by npcomp.net (Postfix, from userid 1000)
- id E2D7211004B; Fri, 21 Oct 2022 15:55:06 +0000 ()
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=eldondev.com;
- s=eldondev; t=1666367706;
- bh=bjTqeV8SmCjg58QefAYb6a6rvrdipcXPk8TTR8Y86LA=;
- h=Date:From:To:Cc:Subject;
- b=bIu0JXfdg3ZGpr5Fhzi+0aEXtImY4RGaAIwE5/kb7KlPWDk/C2fPtOaPqVgEu0zAQ
- 0fJQ/QyytzBZnt2pg3jprAjjKss6nipTDLYy/KoEPvlGg0b0foCCjBD5IeCpVXDBjC
- qKqTTUaFJxSSHo6rJdAEPHE4xFozJZnpGTTpadBE=
-Date: Fri, 21 Oct 2022 15:55:06 +0000
-From: Eldon Stegall <eldon-qemu@eldondev.com>
-To: Eldon Stegall <eldon-qemu@eldondev.com>
-Cc: qemu-discuss@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org,
- libvir-list@redhat.com
-Subject: QEMU Advent Calendar 2022 Call for Images
-Message-ID: <Y1LA2qoQEoQ+bNMG@invalid>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oluSJ-0002YK-CU
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 12:01:18 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oluS7-0005U0-Qe
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 12:01:01 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id f23so2741512plr.6
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 09:00:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=z3+lgBUOUMk0VTZfcka40Z4LyTbdgXQZO/4d+Y/c9Fg=;
+ b=eY67rfIukKseMquAziFC8G/7a48d7mbOgo3TQ/JZOPZrDRFArMoNvnihQ5MUizyvBD
+ zODjFyLQg2+pyQDTKoBrsGq0HmQ8owOr7R34ic3puZBpd4d7RBp1MA0xAf2Vg8YzZgM0
+ uNbi463Q5kc9Yf/1O8O45Gg8fyd9v36hlqWbSrHb+vBc/4yogVsyyrgSTw9guHK8ps8t
+ DZJ+7M+sgN3wcObvpV4nVIy1uVOmAyGonyFojwv7MkSpRutdF3zF02e9M3HB6Wne9dFR
+ mZZeaHYU6/cYOWkl7I1krtL9dCK8PN/slRf8E1sYciZI/kdE34kKGX0PZfakfJjx+eO8
+ 9SJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=z3+lgBUOUMk0VTZfcka40Z4LyTbdgXQZO/4d+Y/c9Fg=;
+ b=nTAqJvdOwiW8uV2EN2kT868A4iGzdUayF2GQROw//xZ1UNl5f6xzCZIY1TWJr6xfsf
+ GLw8tNki0jPmgIegG9MxV+COshXMw+Wq0r0PW5vIEkBN7zBPD2yDTGlNYnaT3zNFim1w
+ v1c35jKndoiPwVPnUj1moY1gVAjYrU2E1nYS7Vxo+86SMiduV+t8sKUPWPErd5qTyyXh
+ 05676exvXlwhWRIByAzQvHBctifm/g8WRcQTAPGa6oO/83/ZCtNrbSWI6y+IjHfHT6vy
+ so4Q8VHES/mujp1TbvoHOtytlKSNDWpWh+i9Syd+XKWHT0i7gDUgjvveyCvREcCj9I+Q
+ uQYg==
+X-Gm-Message-State: ACrzQf1h33kT7+Bi8jjdVJO2wgbHm13AAIoZNKGA3cf6lJ6GX0irDq29
+ 081y4/C4a9f2oJiP5gc1pH7XAhaHcXgx7kLil6f0iA==
+X-Google-Smtp-Source: AMsMyM5vnSUXXxCu6Q2oEX9BMGsnPN/oXhXoueunH3igeNLEvzkohffewajcyYCgAR+362NdGQR0y6TsrFBZUhjRGD4=
+X-Received: by 2002:a17:902:7c97:b0:17f:5abf:9450 with SMTP id
+ y23-20020a1709027c9700b0017f5abf9450mr19290833pll.19.1666368053045; Fri, 21
+ Oct 2022 09:00:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 209.195.0.149 (failed)
-Received-SPF: pass client-ip=209.195.0.149;
- envelope-from=eldon-qemu@eldondev.com; helo=npcomp.net
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <Y1K/Oo/dagg6D46m@strawberry.localdomain>
+In-Reply-To: <Y1K/Oo/dagg6D46m@strawberry.localdomain>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 21 Oct 2022 17:00:41 +0100
+Message-ID: <CAFEAcA-H+OW+sMTTsb-sOKt_Gm0Fhg4iTbGHUYfVysNDqeYG=w@mail.gmail.com>
+Subject: Re: [BUG] AArch64 boot hang with -icount and -smp >1 (iothread
+ locking issue?)
+To: Aaron Lindsay <aaron@os.amperecomputing.com>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
+ Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -59,47 +86,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
-We are working to make QEMU Advent Calendar 2022 happen this year, and
-if you have had an interesting experience with QEMU recently, we would
-love for you to contribute! QEMU invocations that showcase new functionality,
-something cool, bring back retro computing memories, or simply entertain
-with a puzzle or game are welcome. If you have an idea but aren't sure
-if it fits, email me and we can try to put something together.
+On Fri, 21 Oct 2022 at 16:48, Aaron Lindsay
+<aaron@os.amperecomputing.com> wrote:
+>
+> Hello,
+>
+> I am encountering one or more bugs when using -icount and -smp >1 that I am
+> attempting to sort out. My current theory is that it is an iothread locking
+> issue.
 
-QEMU Advent Calendar publishes a QEMU disk image each day from December
-1-24. Each image is a surprise designed to delight an audience
-consisting of the QEMU community and beyond. You can see previous years
-here:
+Weird coincidence, that is a bug that's been in the tree for months
+but was only reported to me earlier this week. Try reverting
+commit a82fd5a4ec24d923ff1e -- that should fix it.
 
-  https://www.qemu-advent-calendar.org/
+https://lore.kernel.org/qemu-devel/CAFEAcA_i8x00hD-4XX18ySLNbCB6ds1-DSazVb4yDnF8skjd9A@mail.gmail.com/
+has the explanation.
 
-You can help us make this year's calendar awesome by:
- * Sending disk images ( or links to larger images )
- * Replying with ideas for disk images (reply off-list to avoid spoilers!)
-
-If you have an idea after the start of the advent, go ahead and send it. We may
-find space to include it, or go ahead and get a jump on 2024!
-
-Here is the format we will work with you to create:
- * A name and a short description of the disk image
-   (e.g. with hints on what to try)
- * A ./run shell script that prints out the name and
-   description/hints and launches QEMU
- * A 320x240 screenshot/image/logo for the website
-
-Content must be freely redistributable (i.e. no proprietary
-license that prevents distribution). For GPL based software,
-you need to provide the source code, too.
-
-Check out this disk image as an example of how to distribute an image:
-https://www.qemu-advent-calendar.org/2018/download/day24.tar.xz
-
-PS: QEMU Advent Calendar is a secular calendar (not
-religious). The idea is to create a fun experience for the QEMU
-community which can be shared with everyone. You don't need
-to celebrate Christmas or another religious festival to participate!
-
-Thanks, and best wishes!
-Eldon
+thanks
+-- PMM
 
