@@ -2,27 +2,27 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05568607190
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 10:00:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21668607145
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 09:39:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olmxd-0002RS-Fn
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 04:00:57 -0400
+	id 1olmce-0002sn-1x
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:39:16 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olmHF-0003CF-FH
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:17:09 -0400
+	id 1olmHa-0003GB-QK
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 03:17:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1olmH5-00039O-3T
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:16:59 -0400
+ id 1olmHN-0003Dd-Tz
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:17:18 -0400
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1olmH0-0005fc-Og
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:16:58 -0400
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1olmHK-0005nR-Um
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 03:17:17 -0400
 Received: from loongson.cn (unknown [10.2.5.185])
  by gateway (Coremail) with SMTP id _____8BxGdiG+1FjKkcBAA--.3958S3;
  Fri, 21 Oct 2022 09:53:10 +0800 (CST)
@@ -68,7 +68,7 @@ X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
