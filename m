@@ -2,109 +2,148 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 024CA60769D
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 13:58:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5636B60777C
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 15:03:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olqf9-0002qD-Rf
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 07:58:07 -0400
+	id 1olrgq-0002vj-7m
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 09:03:57 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olqdK-0001dS-NV
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 07:56:14 -0400
+	id 1olrep-0000ix-5N
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 09:01:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1olqdA-0001Xu-5l
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 07:56:04 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1olqd8-00063o-GH
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 07:56:03 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- r8-20020a1c4408000000b003c47d5fd475so4823871wma.3
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 04:56:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=y7vABXJVNRwGpSv4QF7b1f84AO3CzCmX7wh1wuYuvqM=;
- b=dZjSyDMevjuzwqGddcfHCdKh1yenplqGoKSvtOW57S3vtMhgb9/sbH2M1q5t7RuyBU
- 1clIreBwCx7pMKHd0jgMHl3TneUHQIxex3NRIOItr7n1Wv3q6Cb73YrixJd5gv0c+Vbb
- VMHc7Cu4b4BIPBgo7oRw6aT1csKeqiGmKJZFmEKVMvJq8KKNN5XRg5hAgdTrj8neOHC9
- Snz8P9e48g7L9OVqfxR4SCjdg8t7Fqrb7GFacJ3+WZTB6Mp5eV66RBBwJ+O64/c7pCaX
- pBjGzb7W0UDo7Rc7PUnTFpceYtdMCzTty2m4vp9rzmr+bbd7dL3PTU2kKU7ALP7005ud
- z7KQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=y7vABXJVNRwGpSv4QF7b1f84AO3CzCmX7wh1wuYuvqM=;
- b=z6X28cQt9/R9YxjteCaObbOcnqXx9zmpOStz8ogTzb3FgqydloErDatzOsVLlZUtFo
- 1yJJY8EkVOdC8ZU5xV0kKS1EhLAVR1BkMcA7yUD2lkZHh6HKq0oiTtZ2u1lz0BqfuF51
- 246T/bs0V5ae8vIIf5G/7psJvnwMx1qz53zazEbRglY0gAPFPvKK2tEkpNY9f1V91wKU
- d0hBYNTX35djtsUDKQW3A0cuKVq3jvehgambQsG+Ji7qyhECPRiIvdiXMnuUF1YWcMBr
- fgVYx0mGQbZwA0TThO56WbwawVZiBJMu2Bqt8Htz2bxmj7Dn7i9Tn+9KBqXwrLdfLZGo
- 16pA==
-X-Gm-Message-State: ACrzQf2+DvXlL5Zd+cZiSw65FfK2pVAiBB5vPtOIgTTX9HZLFUT/DB/y
- QuJEqDjBP0Okm6qWIS4371nL/Q==
-X-Google-Smtp-Source: AMsMyM6iPwFMft+GigcmvMaDcRe1jtJuFrdiNkLB+0tKfMu892KDJLOLiBNLa7p+XQU0Pogoh9KO9A==
-X-Received: by 2002:a05:600c:1d1a:b0:3c6:d715:2d69 with SMTP id
- l26-20020a05600c1d1a00b003c6d7152d69mr12877544wms.145.1666353360676; 
- Fri, 21 Oct 2022 04:56:00 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- u6-20020adfeb46000000b002258235bda3sm18547229wrn.61.2022.10.21.04.56.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Oct 2022 04:56:00 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BD78E1FFB7;
- Fri, 21 Oct 2022 12:55:59 +0100 (BST)
-References: <20221020083810-mutt-send-email-mst@kernel.org>
- <CAARzgwwd_How_h+9sHWPOrWWZ7CbX+DN-uy-KiGf1VVyVmrLnA@mail.gmail.com>
- <20221020084311-mutt-send-email-mst@kernel.org>
- <CAARzgwxfKbrxAqb15GXp4j1enDPUhGBsL5jUzFtDvJkGM-7azw@mail.gmail.com>
- <20221020150857-mutt-send-email-mst@kernel.org>
- <CAARzgwwDjjHL-1fEeuySNZm8NbnGNaeE5h6zrPz_zaANfs5dsw@mail.gmail.com>
- <CAARzgww8P4Za=+r8q2a30TCY7Uzw6g2tgHeLLKr7R+WV-7qQVg@mail.gmail.com>
- <20221021042449-mutt-send-email-mst@kernel.org>
- <CAARzgwyW+ved0iVinWzSCg+KSCL67v+m6KySRdg_hUUev8JLDA@mail.gmail.com>
- <87k04t7ca6.fsf@linaro.org>
- <20221021053828-mutt-send-email-mst@kernel.org>
- <CAARzgwzQZXdJCxn_YmXPGOuVTd7CzwnZ=aQRjVgZ5p2XiTosQA@mail.gmail.com>
-User-agent: mu4e 1.9.1; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Ani Sinha <ani@anisinha.ca>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?=
- <berrange@redhat.com>, Igor Mammedov <imammedo@redhat.com>, John Snow
- <jsnow@redhat.com>, Maydell Peter <peter.maydell@linaro.org>, Paolo
- Bonzini <pbonzini@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <f4bug@amsat.org>,
- Qemu Devel <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>, Wainer
- dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH v6 00/10] Introduce new acpi/smbios avocado tests using
- biosbits
-Date: Fri, 21 Oct 2022 12:52:27 +0100
-In-reply-to: <CAARzgwzQZXdJCxn_YmXPGOuVTd7CzwnZ=aQRjVgZ5p2XiTosQA@mail.gmail.com>
-Message-ID: <87bkq575m8.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <Luben.Tuikov@amd.com>)
+ id 1olkgr-0008AR-Q6
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 01:35:31 -0400
+Received: from mail-co1nam11on2061c.outbound.protection.outlook.com
+ ([2a01:111:f400:7eab::61c]
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Luben.Tuikov@amd.com>)
+ id 1olkgU-0007fC-Pk
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 01:35:28 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Cvqp3P3B8BLfAmpNZxHvh7i9DBRLxrF0L/Puf+VClskgfrGn6tLUXXdLD+sHtspD2l57WBbG2sjZXzUG6eiPg0fU4jRvyKPxdOw6GkssGXnsjsRrL9aZ4M6qGsrWDrN1J4VAE6nd64uj3ZIumGRMhdXMHTT8uIvxSkcOO6Hac8nLvgmtOx/DEf2WEwHPE4xZEhCUfM3uvaVO0tPrVnmu3szQEJAv0N6hVRs38BgnAA30Xd1hhOrzqwbj2MD4CZ06cYwpIMSiJRVJouM1O2UVPuLKefpkM8lBbJMVqnzgbK2k+ke7+RkXiWWZD0mY1Y291mXuICqnfv9gfQIbujqbeg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=c1p/x8XJ+Q362Wu9z4oBoXAVVel641qCZMxeygRMU98=;
+ b=mbQtjLOiAVIvijp3wfz9SNisohTWlTmCr+CaK2KbmRjNdggP7RN6VTe5KnTkk3Q9Na6J5WGrNntWGz4iFlAdTMFNvzSqkcdP9ZPwkWnjTj1xTOFM6DZFwrmpDiciNvlWtEe5G2CrwXG/CXWKYfQvvbSCnquY2VQwKNElLbwaxWx7z9QCaZJ9u2TgxZjwmijEoVfBoHs/zURaraT/erHU4XTzMVCZmpGB99rKRz46qwgCjnPjBcOX6xJ9yjY/Lqy1aa1bKS/Lw55thpRJ+fwE7RCFoyPVRWpJ/+S9+ijFYIAGBptPbVSpVkEzPGOqPBmpdfrPU7CX0x/BOhpPyfKppQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c1p/x8XJ+Q362Wu9z4oBoXAVVel641qCZMxeygRMU98=;
+ b=5qc34ng+gRAm2isjW+n5AB+xpET61TNj1PNivsUyi2YfAKrHCEgoG+RV8GyZQoU/FRd7wl6/rY4hsKNJwqHP57KHUYGubRVhZ3HsoLDhdS3PP4UUDKAa95v5p7TK7lt3Qn4bWxlRHnbuzAVjoiqoky2DIOvPde++XR2UCUef75o=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
+ DM4PR12MB5796.namprd12.prod.outlook.com (2603:10b6:8:63::16) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5723.26; Fri, 21 Oct 2022 05:29:35 +0000
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::d309:77d2:93d8:2425]) by DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::d309:77d2:93d8:2425%7]) with mapi id 15.20.5723.035; Fri, 21 Oct 2022
+ 05:29:34 +0000
+Message-ID: <d559793a-0ce4-3384-e74e-19855aa31f31@amd.com>
+Date: Fri, 21 Oct 2022 01:29:31 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH 00/11] fix memory leak while kset_register() fails
+Content-Language: en-CA
+To: Yang Yingliang <yangyingliang@huawei.com>, linux-kernel@vger.kernel.org,
+ qemu-devel@nongnu.org, linux-f2fs-devel@lists.sourceforge.net,
+ linux-erofs@lists.ozlabs.org, ocfs2-devel@oss.oracle.com,
+ linux-mtd@lists.infradead.org, amd-gfx@lists.freedesktop.org
+Cc: gregkh@linuxfoundation.org, rafael@kernel.org, somlo@cmu.edu,
+ mst@redhat.com, jaegeuk@kernel.org, chao@kernel.org,
+ hsiangkao@linux.alibaba.com, huangjianan@oppo.com, mark@fasheh.com,
+ jlbec@evilplan.org, joseph.qi@linux.alibaba.com, akpm@linux-foundation.org,
+ alexander.deucher@amd.com, richard@nod.at, liushixin2@huawei.com
+References: <20221021022102.2231464-1-yangyingliang@huawei.com>
+From: Luben Tuikov <luben.tuikov@amd.com>
+In-Reply-To: <20221021022102.2231464-1-yangyingliang@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YT3PR01CA0006.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:86::11) To DM6PR12MB3370.namprd12.prod.outlook.com
+ (2603:10b6:5:38::25)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|DM4PR12MB5796:EE_
+X-MS-Office365-Filtering-Correlation-Id: c28566e1-cfbf-4438-67ea-08dab3253d04
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: mjWTlJ3Cv2/NULzy2Tc/vPlmV1pquOu9JJpHuBRHadPSWO9WG7mI5LRewAMLLM8Fwbt1IwxsJ7d63QBVd5/QMJ3xzdznICvg0MENoiuIBR3+FzawRsnpGezkk4+BDlVtwb6DSxRHE/QpV50QTyd2hHXLtU1Csld2td4wd+GPY1okb4Xj9sPSOc2hcU8WfdSxMG0blhkkjv4xMMnQZhT3pd04DroIdsH6NEQ51ibKfXcoDQbTQPfB6D/y7ZcI2oAiCjM5RIWLL2F1O8ouOBUvcHO5tb1FmYOx9osZXajXC9YtuVC3l/t9RJR9q/KhdXhMtzovyBRvvENKYIakR/j4pbZ2RdCZ9HWAmX8M/AS7VT1kVK2RAjVgOuhkQvbSWj8Qk69i0yXXZCTtTvgllUCwsVDK9+nSjtH9QUCeCuOf6aBMInSjslizYFzHulVZTBkQ0sE3uYM6utUh7+n0aNFpJs2STvSt2DCzBuxmr8ZzWCUzrK6UKK6hs3x1umkdWfFWf1EZXe2o7/jqKD7QbfZAqiTPPnqjC7Iq/HihwxIIl7UNTDXa+5ABMBvvYF6bW2pHRJG9xh48T02IyyZxcDZhlHhQA9J8/yuyNMauyQujmbyy8wgkeZP45quE09aJFQ05NkRWHDCsGkCuj+/2h0ZZEClofr5LSPMAtmWB9Zmyvm9e4uLF89Rr/Y8++k+fZ6AAxKJZBu/oL5AxjrG5kwMwU+3hiI2dAkPx2iwpnjrFEF71UrWU6F9cyzMY82azhObAQR8/BVRhj3wuICFWEWTQRhmGT7zJh/Iu0btVUHwtzyBzklJg9/atoyu9ZsWBhTfiHBZAC/IQVEtqF5f5NfajGw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(136003)(376002)(346002)(396003)(39860400002)(366004)(451199015)(36756003)(31686004)(31696002)(86362001)(5660300002)(7416002)(38100700002)(4001150100001)(44832011)(26005)(41300700001)(2906002)(2616005)(83380400001)(186003)(316002)(6512007)(4326008)(6506007)(53546011)(478600001)(6666004)(66556008)(66946007)(66476007)(8936002)(966005)(8676002)(6486002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Wmw5T0xrR2xpTTQ4ZjNDOWYzeWgrNkovb3dEdlNNNXFOeXhLejVqc3duRkdU?=
+ =?utf-8?B?blFLY1VEa21IMEhlOHdTNGFJeHo1bzZQT3cvYW8waHJyUmFBS21NVGVNT0F4?=
+ =?utf-8?B?WVZRUjU3UXBUaTZ1MUlJQ3pSekhkTVVhR1hRUTJqQmJkM2VYWVVQWGYwMzhS?=
+ =?utf-8?B?VEc4SVJxcTg4aWZ3UGdrN2J3T3YwWUdacThiUW1kbjlXd3hEZEh4T3ZqU1Js?=
+ =?utf-8?B?a21QOWNkZXNFVk9JQklVRXJ1TDhPVGJ3NzE1UUhXaGE1MnlBYVpubERPUDdh?=
+ =?utf-8?B?K3J2eUl1WWNjc2NyK1RvdWI0NDRCM3M0eVVkWHhLODFnMFE5NUh6SUI5Tzl4?=
+ =?utf-8?B?cG5tVXZHbmpqQnU0dVp3L2RMRWpWL0NHOHcrRHV5Q21HWmFsQkFzYlExaGJp?=
+ =?utf-8?B?dlowS1Z2ZktlOUMyMzEwdGR5bDJ6ak9IR1JQRTQ4M0F1em95a25lRHZSUGwy?=
+ =?utf-8?B?Z3MzcHIzbFd2WUlqcm00WGFVOURDYUNjQWFlVGxUd2x4ZDNjdE9LSUpTVGtX?=
+ =?utf-8?B?VDFNK1hCYlQydGd0c2grYVUzVHFiWHBxdmpEQ2xSKzE5YjI5aHd2aE90ZjNF?=
+ =?utf-8?B?cnVxcGFLb21weGY0MmtyRVBWZmJYM05JaERTektIaHE0MmVqbklpbDVjdk04?=
+ =?utf-8?B?Zkw1bXJWeWdTdEgzMVJRNU5NKzlpMlBsTlZURkQxME5lcVUvRkUxYS9MVDZ1?=
+ =?utf-8?B?ZDBYNDBYQ1VuV0NuOThOZ0hzL0Y1dFltUG1PYitXbkZ2Q0hqM09ydktpd1lm?=
+ =?utf-8?B?cG00SzVTeDJTWWk5MVZnUTVoaC80cCtUMFQxUjJWWFdwRjdsdHhlVlFCT2JH?=
+ =?utf-8?B?YzBYTXJzSXozNitJck1IQkZqeFdWQjBvajNLYUFjditESDcya3hwd2MzUkE3?=
+ =?utf-8?B?WGVmLzkxNnNZNFFPVkRYS2RZYmxEN0NKcC82ZmhUdGNSVnc1TDFtQnJvZ1RI?=
+ =?utf-8?B?OEJ0M3Q1bTNlenBxSm1NRHhKQmdKNjFkYXp2eU5GeVI3VDJIYVB0SGZOODYv?=
+ =?utf-8?B?aTlnSURSVmp4YW9pRkh6RlkxZG9Fb2FKM254NkJjK1F3SnNHaU9Ibi9HTTYx?=
+ =?utf-8?B?TDlKY1Zvb1dESnJ6ZXliR1hLSTQ5NHo1RUNZOGFpZk9OQitWNFF1K2JhcHhv?=
+ =?utf-8?B?MVBwNE9lRmdsMHB6VlJ2b0xaR3VQK0owZzF4WWJkQ05zaEF2L1V0ZVpKSWN6?=
+ =?utf-8?B?bzFQOXh2MUFQZDBGNHBKVXRyZm42WnR5a3RaVHZCL1pabzVIb2I0OFhBTlVs?=
+ =?utf-8?B?UmY3RmdDcjN5SnFyU3BwRmJhcFUrNFppbDduL01RZFZRVDZFV2JPRXdic1Bl?=
+ =?utf-8?B?aU54c0huUDJrMWxkRmhUdVcwT1h3V0ZaMGJQS0pyb2FyWlBFMXZlVWc4SWNN?=
+ =?utf-8?B?ek9TYmJjZ0srZUZvOTF5MUdzeGk3eEZCaWp1aXBIaGJPMzJMcmU5K2Qrb2I5?=
+ =?utf-8?B?RThpNjdEZCtHQ2pDTUxQOGgvSGZOamMxWU1LNFJrQVo2TzZ2cWJqQlhmUnRj?=
+ =?utf-8?B?Si9vVTkwdzU0dnFzUld5RHdLS25yMEJ4ZWN3T2wzeVQ1Y1MrRWVER1BrOWJM?=
+ =?utf-8?B?cjdGdHBVcGpVdzlLZmptQUZSZ05WS3FwdERVckNVQWxHRDZudjYrK0NwcHRp?=
+ =?utf-8?B?c0ZpTVM4eTIyOHUzbmV4M1g1Zlo1QjFvb1ZPVjZCNmNqaXhSdVJzMVhZMTJ2?=
+ =?utf-8?B?b0xRdXpKOGVBcGlJelA5Y3UzQ3hNcWJ5SnkyRUUxa3RPUlZQQ0hkb0c4M05T?=
+ =?utf-8?B?NHJiQVF6bnhBbmpKSkZDaUZSSFhCdk5XR3orVFphVlhVZHdNZ2F3Q1dZNDBo?=
+ =?utf-8?B?c3pFMEVtaldJbGZmakFLSGUxWHFmV01XWUpBSklPWC9XUklVUVpGcXI5ZzBT?=
+ =?utf-8?B?VE1tdzlzLyttQllkRVB0aFBIbWFOMnZ4QkJaaVltajdMdW56Z1o0MDhBQjNh?=
+ =?utf-8?B?ZWFQWXdmL3RrVkpYeThFYzgxb2FBQmJqbFRUbXRoQlAyN3pqNmxUMUcvcTFZ?=
+ =?utf-8?B?YTZvQkQ1alFaUnRBOEJJWmh0VTlWRndCVVM5eDIrUXc5aHhRbjdrVWhDUlhB?=
+ =?utf-8?B?Tjh5NWJ3M3krOXRIWGhmM24ybzZWZjFLdGt4RkxsK3VsSHFOMXlHZUZqZktp?=
+ =?utf-8?Q?3UzzgtirfBpiDA4Ptxkl45avu?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c28566e1-cfbf-4438-67ea-08dab3253d04
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2022 05:29:34.7082 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Hbu/u6glgoW0HucQLPGQd6k/0y2eEgO7DiDM7flyTq6Wd4We8kaohSkQXEa+eJKK
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5796
+Received-SPF: permerror client-ip=2a01:111:f400:7eab::61c;
+ envelope-from=Luben.Tuikov@amd.com;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 21 Oct 2022 09:01:22 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,103 +158,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2022-10-20 22:20, Yang Yingliang wrote:
+> The previous discussion link:
+> https://lore.kernel.org/lkml/0db486eb-6927-927e-3629-958f8f211194@huawei.com/T/
 
-Ani Sinha <ani@anisinha.ca> writes:
+The very first discussion on this was here:
 
-> On Fri, Oct 21, 2022 at 3:10 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->>
->> On Fri, Oct 21, 2022 at 10:30:09AM +0100, Alex Benn=C3=A9e wrote:
->> >
->> > Ani Sinha <ani@anisinha.ca> writes:
->> >
->> > > On Fri, Oct 21, 2022 at 2:02 PM Michael S. Tsirkin <mst@redhat.com> =
-wrote:
->> > >>
->> > >> On Fri, Oct 21, 2022 at 05:45:15AM +0530, Ani Sinha wrote:
->> > >> > And have multiple platform specific branches in bits that have fi=
-xes for those
->> > >> > platforms so that bits can run there. Plus the existing test can =
-be enhanced to
->> > >> > pull in binaries from those branches based on the platform on whi=
-ch it is being
->> > >> > run.
->> > >> >
->> > >>
->> > >> What a mess.
->> > >> Who is going to be testing all these million platforms?
->> > >
->> > > I am not talking about branches in QEMU but branches in bits.
->> > > If you are going to test multiple platforms, you do need to build bi=
-ts
->> > > binaries for them. There is no way around it.
->> > > bits is not all platform independent python. It does have binary exe=
-cutables.
->> > >
->> > > Currently bits is built only for the x86 platform. Other platforms a=
-re
->> > > not tested. I doubt if anyone even tried building bits for arm or
->> > > mips.
->> >
->> > I'm not worried about test bits on other targets, but we do run x86
->> > targets on a number of hosts. The current reliance on a special patched
->> > host build tool for only one architecture is the problem. If  we just
->> > download the iso that problem goes away.
->>
->> =F0=9F=91=8Dwhat he said.
->
-> Yes, in that case the problem is that upstream bits does not pass all
-> the test out of the box. Hence we are taking this approach of keeping
-> some test scripts in QEMU repo and modifying them. Then generating the
-> iso with the modified scripts. It also helps developers who want to
-> write new tests or make enhancements to existing tests.
-> If modifications need to be made to tests, they need to be versioned.
-> We have gone through the route of not using submodules and I am not
-> going to open that can of worms again.
+https://www.spinics.net/lists/dri-devel/msg368077.html
 
-We have added a mirror of biosbits to the QEMU project so there is no
-reason why we can't track changes and modifications there (we do this
-for TestFloat which is forked from the upstream SoftFloat code).
-Maintaining and occasionally re-based "vendor" branch shouldn't be too
-hard and would track the changes we've made for QEMU's purposes.
+Please use this link, and not the that one up there you which quoted above,
+and whose commit description is taken verbatim from the this link.
 
-> We also have no consensus on where to keep the one time built iso that
-> we can download for this test you are proposing.
+> 
+> kset_register() is currently used in some places without calling
+> kset_put() in error path, because the callers think it should be
+> kset internal thing to do, but the driver core can not know what
+> caller doing with that memory at times. The memory could be freed
+> both in kset_put() and error path of caller, if it is called in
+> kset_register().
 
-How big is the eventual ISO? If it's small we could just enable some CI
-steps and serve the ISOs directly as tagged build artefacts from GitLab.
+As I explained in the link above, the reason there's
+a memory leak is that one cannot call kset_register() without
+the kset->kobj.name being set--kobj_add_internal() returns -EINVAL,
+in this case, i.e. kset_register() fails with -EINVAL.
 
-> So let's figure out the above first. Programmatically downloading an
-> iso and running tests within a VM would be a much simpler test than
-> the one I wrote. We can add a subtest or a brand new test anytime if
-> we can figure out the above logistics.
->
->>
->> > > It makes sense to try things incrementally once we have something go=
-ing.
->> > >
->> > > Lets discuss this on a separate thread.
->> > >
->> > >> All this does nothing at all to help developers avoid
->> > >> bugs and when they do trigger debug the issue. Which is
->> > >> after all why we have testing.
->> > >> Yes once in a very long while we are going to tweak
->> > >> something in the tests, and for that rare occurence
->> > >> it makes sense to periodically rebuild everything,
->> > >> otherwise code bitrots.
->> > >>
->> > >> But the test is supposed to run within a VM anyway, let's
->> > >> have an image and be done with it.
->> > >>
->> > >> --
->> > >> MST
->> > >>
->> >
->> >
->> > --
->> > Alex Benn=C3=A9e
->>
+Thus, the most common usage is something like this:
 
+	kobj_set_name(&kset->kobj, format, ...);
+	kset->kobj.kset = parent_kset;
+	kset->kobj.ktype = ktype;
+	res = kset_register(kset);
 
---=20
-Alex Benn=C3=A9e
+So, what is being leaked, is the memory allocated in kobj_set_name(),
+by the common idiom shown above. This needs to be mentioned in
+the documentation, at least, in case, in the future this is absolved
+in kset_register() redesign, etc.
+
+Regards,
+Luben
+
+> 
+> So make the function documentation more explicit about calling
+> kset_put() in the error path of caller first, so that people
+> have a chance to know what to do here, then fixes this leaks
+> by calling kset_put() from callers.
+> 
+> Liu Shixin (1):
+>   ubifs: Fix memory leak in ubifs_sysfs_init()
+> 
+> Yang Yingliang (10):
+>   kset: fix documentation for kset_register()
+>   kset: add null pointer check in kset_put()
+>   bus: fix possible memory leak in bus_register()
+>   kobject: fix possible memory leak in kset_create_and_add()
+>   class: fix possible memory leak in __class_register()
+>   firmware: qemu_fw_cfg: fix possible memory leak in
+>     fw_cfg_build_symlink()
+>   f2fs: fix possible memory leak in f2fs_init_sysfs()
+>   erofs: fix possible memory leak in erofs_init_sysfs()
+>   ocfs2: possible memory leak in mlog_sys_init()
+>   drm/amdgpu/discovery: fix possible memory leak
+> 
+>  drivers/base/bus.c                            | 4 +++-
+>  drivers/base/class.c                          | 6 ++++++
+>  drivers/firmware/qemu_fw_cfg.c                | 2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c | 5 +++--
+>  fs/erofs/sysfs.c                              | 4 +++-
+>  fs/f2fs/sysfs.c                               | 4 +++-
+>  fs/ocfs2/cluster/masklog.c                    | 7 ++++++-
+>  fs/ubifs/sysfs.c                              | 2 ++
+>  include/linux/kobject.h                       | 3 ++-
+>  lib/kobject.c                                 | 5 ++++-
+>  10 files changed, 33 insertions(+), 9 deletions(-)
+> 
 
