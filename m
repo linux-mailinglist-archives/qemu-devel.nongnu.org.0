@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0C3960780E
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 15:15:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 826B0607823
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 15:17:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olrrd-0004CJ-C9
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 09:15:05 -0400
+	id 1olruH-0007ro-Eq
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 09:17:49 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olrji-0005ai-Kj
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 09:06:54 -0400
+	id 1olrjj-0005bh-RY
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 09:06:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1olrjN-0005TK-Fv
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 09:06:34 -0400
+ id 1olrjR-0005VE-Q1
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 09:06:44 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1olrjJ-00086P-8B
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 09:06:33 -0400
+ id 1olrjQ-00087e-Cs
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 09:06:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666357588;
+ s=mimecast20190719; t=1666357595;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p1EGsGNJqZR2tziqXLokPkR5z2ueiD1sLUFLeVnCqPg=;
- b=PKqhsaPdS4yI8NLzPXxxOYs5E457rZ0n2EFStekvq/C8MNUcZiwYTfb6bI96HUvVLRFOP5
- SvD2ufBbn7035WusvBMK+jOClFOK1JkE4CV3R5Hxc+D+rk9cnehir/FFu59OEGwka4wn/E
- fhobOWGDJtIR79jenQM5nbGBYGO2RMI=
+ bh=Z+tuF9NxtegY4Tbg7sWTcsxDmANcSbzvi65yANVeOLg=;
+ b=AJ6I3sRXqX9/VpE7WY4B17ccB+RLm4cYbJw0rT84NpLoLi3iq/JeD49L1Ybuth8bymh4rc
+ dpVpQ88PFijmSKCKiHUsKJzslho59Pn8zzyYnSugdnLxG39XIySeGT0BSWDOA6zuXNRmwL
+ a/m3qlPVfT4us+mSxO3bSmuJS7hRXDs=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-505-gwDX8YEwOhaQCke6kgwM7w-1; Fri, 21 Oct 2022 09:06:25 -0400
-X-MC-Unique: gwDX8YEwOhaQCke6kgwM7w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-275-bPrvygjyO5-IPilU14IPzw-1; Fri, 21 Oct 2022 09:06:29 -0400
+X-MC-Unique: bPrvygjyO5-IPilU14IPzw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D2A68811E84;
- Fri, 21 Oct 2022 13:06:24 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E0DA3101A54E;
+ Fri, 21 Oct 2022 13:06:28 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 626F11401CC5;
- Fri, 21 Oct 2022 13:06:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F27ED400DFC2;
+ Fri, 21 Oct 2022 13:06:27 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: qemu-s390x@nongnu.org,
@@ -58,14 +58,14 @@ Cc: qemu-s390x@nongnu.org,
  Halil Pasic <pasic@linux.ibm.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Janosch Frank <frankja@linux.ibm.com>
-Subject: [PULL 07/11] s390x: Introduce PV query interface
-Date: Fri, 21 Oct 2022 17:05:45 +0400
-Message-Id: <20221021130549.111864-8-marcandre.lureau@redhat.com>
+Subject: [PULL 08/11] include/elf.h: add s390x note types
+Date: Fri, 21 Oct 2022 17:05:46 +0400
+Message-Id: <20221021130549.111864-9-marcandre.lureau@redhat.com>
 In-Reply-To: <20221021130549.111864-1-marcandre.lureau@redhat.com>
 References: <20221021130549.111864-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -93,159 +93,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Janosch Frank <frankja@linux.ibm.com>
 
-Introduce an interface over which we can get information about UV data.
+Adding two s390x note types
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-Reviewed-by: Steffen Eiden <seiden@linux.ibm.com>
-Reviewed-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20221017083822.43118-8-frankja@linux.ibm.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20221017083822.43118-9-frankja@linux.ibm.com>
 ---
- include/hw/s390x/pv.h      | 10 +++++++
- hw/s390x/pv.c              | 61 ++++++++++++++++++++++++++++++++++++++
- hw/s390x/s390-virtio-ccw.c |  6 ++++
- 3 files changed, 77 insertions(+)
+ include/elf.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/hw/s390x/pv.h b/include/hw/s390x/pv.h
-index 1f1f545bfc..e5ea0eca16 100644
---- a/include/hw/s390x/pv.h
-+++ b/include/hw/s390x/pv.h
-@@ -38,6 +38,7 @@ static inline bool s390_is_pv(void)
-     return ccw->pv;
- }
- 
-+int s390_pv_query_info(void);
- int s390_pv_vm_enable(void);
- void s390_pv_vm_disable(void);
- int s390_pv_set_sec_parms(uint64_t origin, uint64_t length);
-@@ -46,8 +47,13 @@ void s390_pv_prep_reset(void);
- int s390_pv_verify(void);
- void s390_pv_unshare(void);
- void s390_pv_inject_reset_error(CPUState *cs);
-+uint64_t kvm_s390_pv_dmp_get_size_cpu(void);
-+uint64_t kvm_s390_pv_dmp_get_size_mem_state(void);
-+uint64_t kvm_s390_pv_dmp_get_size_completion_data(void);
-+bool kvm_s390_pv_info_basic_valid(void);
- #else /* CONFIG_KVM */
- static inline bool s390_is_pv(void) { return false; }
-+static inline int s390_pv_query_info(void) { return 0; }
- static inline int s390_pv_vm_enable(void) { return 0; }
- static inline void s390_pv_vm_disable(void) {}
- static inline int s390_pv_set_sec_parms(uint64_t origin, uint64_t length) { return 0; }
-@@ -56,6 +62,10 @@ static inline void s390_pv_prep_reset(void) {}
- static inline int s390_pv_verify(void) { return 0; }
- static inline void s390_pv_unshare(void) {}
- static inline void s390_pv_inject_reset_error(CPUState *cs) {};
-+static inline uint64_t kvm_s390_pv_dmp_get_size_cpu(void) { return 0; }
-+static inline uint64_t kvm_s390_pv_dmp_get_size_mem_state(void) { return 0; }
-+static inline uint64_t kvm_s390_pv_dmp_get_size_completion_data(void) { return 0; }
-+static inline bool kvm_s390_pv_info_basic_valid(void) { return false; }
- #endif /* CONFIG_KVM */
- 
- int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
-diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
-index 401b63d6cb..4c012f2eeb 100644
---- a/hw/s390x/pv.c
-+++ b/hw/s390x/pv.c
-@@ -20,6 +20,11 @@
- #include "exec/confidential-guest-support.h"
- #include "hw/s390x/ipl.h"
- #include "hw/s390x/pv.h"
-+#include "target/s390x/kvm/kvm_s390x.h"
-+
-+static bool info_valid;
-+static struct kvm_s390_pv_info_vm info_vm;
-+static struct kvm_s390_pv_info_dump info_dump;
- 
- static int __s390_pv_cmd(uint32_t cmd, const char *cmdname, void *data)
- {
-@@ -56,6 +61,42 @@ static int __s390_pv_cmd(uint32_t cmd, const char *cmdname, void *data)
-     }                                  \
- }
- 
-+int s390_pv_query_info(void)
-+{
-+    struct kvm_s390_pv_info info = {
-+        .header.id = KVM_PV_INFO_VM,
-+        .header.len_max = sizeof(info.header) + sizeof(info.vm),
-+    };
-+    int rc;
-+
-+    /* Info API's first user is dump so they are bundled */
-+    if (!kvm_s390_get_protected_dump()) {
-+        return 0;
-+    }
-+
-+    rc = s390_pv_cmd(KVM_PV_INFO, &info);
-+    if (rc) {
-+        error_report("KVM PV INFO cmd %x failed: %s",
-+                     info.header.id, strerror(-rc));
-+        return rc;
-+    }
-+    memcpy(&info_vm, &info.vm, sizeof(info.vm));
-+
-+    info.header.id = KVM_PV_INFO_DUMP;
-+    info.header.len_max = sizeof(info.header) + sizeof(info.dump);
-+    rc = s390_pv_cmd(KVM_PV_INFO, &info);
-+    if (rc) {
-+        error_report("KVM PV INFO cmd %x failed: %s",
-+                     info.header.id, strerror(-rc));
-+        return rc;
-+    }
-+
-+    memcpy(&info_dump, &info.dump, sizeof(info.dump));
-+    info_valid = true;
-+
-+    return rc;
-+}
-+
- int s390_pv_vm_enable(void)
- {
-     return s390_pv_cmd(KVM_PV_ENABLE, NULL);
-@@ -114,6 +155,26 @@ void s390_pv_inject_reset_error(CPUState *cs)
-     env->regs[r1 + 1] = DIAG_308_RC_INVAL_FOR_PV;
- }
- 
-+uint64_t kvm_s390_pv_dmp_get_size_cpu(void)
-+{
-+    return info_dump.dump_cpu_buffer_len;
-+}
-+
-+uint64_t kvm_s390_pv_dmp_get_size_completion_data(void)
-+{
-+    return info_dump.dump_config_finalize_len;
-+}
-+
-+uint64_t kvm_s390_pv_dmp_get_size_mem_state(void)
-+{
-+    return info_dump.dump_config_mem_buffer_per_1m;
-+}
-+
-+bool kvm_s390_pv_info_basic_valid(void)
-+{
-+    return info_valid;
-+}
-+
- #define TYPE_S390_PV_GUEST "s390-pv-guest"
- OBJECT_DECLARE_SIMPLE_TYPE(S390PVGuest, S390_PV_GUEST)
- 
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 03855c7231..1cc20d8717 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -366,6 +366,12 @@ static int s390_machine_protect(S390CcwMachineState *ms)
- 
-     ms->pv = true;
- 
-+    /* Will return 0 if API is not available since it's not vital */
-+    rc = s390_pv_query_info();
-+    if (rc) {
-+        goto out_err;
-+    }
-+
-     /* Set SE header and unpack */
-     rc = s390_ipl_prepare_pv_header();
-     if (rc) {
+diff --git a/include/elf.h b/include/elf.h
+index 3d6b9062c0..8bf1e72720 100644
+--- a/include/elf.h
++++ b/include/elf.h
+@@ -1650,6 +1650,8 @@ typedef struct elf64_shdr {
+ #define NT_TASKSTRUCT	4
+ #define NT_AUXV		6
+ #define NT_PRXFPREG     0x46e62b7f      /* copied from gdb5.1/include/elf/common.h */
++#define NT_S390_PV_CPU_DATA	0x30e	/* s390 protvirt cpu dump data */
++#define NT_S390_RI_CB	0x30d		/* s390 runtime instrumentation */
+ #define NT_S390_GS_CB   0x30b           /* s390 guarded storage registers */
+ #define NT_S390_VXRS_HIGH 0x30a         /* s390 vector registers 16-31 */
+ #define NT_S390_VXRS_LOW  0x309         /* s390 vector registers 0-15 (lower half) */
 -- 
 2.37.3
 
