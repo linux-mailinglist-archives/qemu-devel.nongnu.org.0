@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75B75606D61
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 04:03:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECEAD606DEC
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 04:42:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olhNZ-00046F-4N
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 22:03:21 -0400
+	id 1olhzt-00072l-RC
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 22:42:57 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olhMp-00042u-4J
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 22:02:35 -0400
+	id 1olhga-0004Ri-Pm
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 22:23:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <viktor.prutyanov@phystech.edu>)
- id 1olhMi-00040b-Ig; Thu, 20 Oct 2022 22:02:28 -0400
-Received: from forward503o.mail.yandex.net ([2a02:6b8:0:1a2d::613])
+ (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
+ id 1olhgT-0004OZ-1i
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 22:22:53 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <viktor.prutyanov@phystech.edu>)
- id 1olhMg-0004eT-KW; Thu, 20 Oct 2022 22:02:28 -0400
-Received: from iva2-0a73a57cc944.qloud-c.yandex.net
- (iva2-0a73a57cc944.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:6985:0:640:a73:a57c])
- by forward503o.mail.yandex.net (Yandex) with ESMTP id 2BAED5C4211;
- Fri, 21 Oct 2022 05:02:14 +0300 (MSK)
-Received: by iva2-0a73a57cc944.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
- id 1KrHBvAx8X-2CTKEcrU; Fri, 21 Oct 2022 05:02:14 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=phystech.edu; s=mail;
- t=1666317734; bh=oCFR5B7SdOBNbg1BLpcG/K8dQ/tdtqQfwdbdBQrkxdM=;
- h=Cc:References:Date:Message-ID:In-Reply-To:From:To:Subject;
- b=Y16l8l0d44WZbc/DnbG/tqjyTGP4lLE63Jec5eayCcpETSI8qg/ptCBsg4w9Y7XxU
- PMOfPOa5S1Ae3MinZlMaRbL945yzu8B6XhmmW1VMoJZcHPxs67sVM1mrO9OmpnvOcC
- dsFpVJQwIisphXvvq0R/9lpVBBs8BAqK7ru2U9yE=
-Authentication-Results: iva2-0a73a57cc944.qloud-c.yandex.net;
- dkim=pass header.i=@phystech.edu
-Subject: Re: [PATCH RESEND] elf2dmp: free memory in failure
-To: luzhipeng <luzhipeng@cestc.cn>, qemu-devel <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-References: <20221007020128.760-1-luzhipeng@cestc.cn>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- Viktor Prutyanov <viktor.prutyanov@redhat.com>
-From: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-Message-ID: <226f401e-b147-a44e-6264-182d5858151d@phystech.edu>
-Date: Fri, 21 Oct 2022 05:02:12 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
+ id 1olhgR-0003QX-8w
+ for qemu-devel@nongnu.org; Thu, 20 Oct 2022 22:22:52 -0400
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.57])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MtpC82VSGzHvDB;
+ Fri, 21 Oct 2022 10:22:28 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 21 Oct 2022 10:22:36 +0800
+Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
+ (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Fri, 21 Oct
+ 2022 10:22:35 +0800
+To: <linux-kernel@vger.kernel.org>, <qemu-devel@nongnu.org>,
+ <linux-f2fs-devel@lists.sourceforge.net>, <linux-erofs@lists.ozlabs.org>,
+ <ocfs2-devel@oss.oracle.com>, <linux-mtd@lists.infradead.org>,
+ <amd-gfx@lists.freedesktop.org>
+CC: <gregkh@linuxfoundation.org>, <rafael@kernel.org>, <somlo@cmu.edu>,
+ <mst@redhat.com>, <jaegeuk@kernel.org>, <chao@kernel.org>,
+ <hsiangkao@linux.alibaba.com>, <huangjianan@oppo.com>, <mark@fasheh.com>,
+ <jlbec@evilplan.org>, <joseph.qi@linux.alibaba.com>,
+ <akpm@linux-foundation.org>, <alexander.deucher@amd.com>,
+ <luben.tuikov@amd.com>, <richard@nod.at>, <liushixin2@huawei.com>
+Subject: [PATCH 00/11] fix memory leak while kset_register() fails
+Date: Fri, 21 Oct 2022 10:20:51 +0800
+Message-ID: <20221021022102.2231464-1-yangyingliang@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20221007020128.760-1-luzhipeng@cestc.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:0:1a2d::613;
- envelope-from=viktor.prutyanov@phystech.edu; helo=forward503o.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=yangyingliang@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,35 +77,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Yang Yingliang <yangyingliang@huawei.com>
+From:  Yang Yingliang via <qemu-devel@nongnu.org>
 
-On 10/7/22 5:01 AM, luzhipeng wrote:
-> From: lu zhipeng <luzhipeng@cestc.cn>
-> 
-> The 'kdgb' is allocating memory in get_kdbg(), but it is not freed in
-> error path. So fix that.
-> 
-> Signed-off-by: lu zhipeng <luzhipeng@cestc.cn>
-> ---
->   contrib/elf2dmp/main.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/contrib/elf2dmp/main.c b/contrib/elf2dmp/main.c
-> index b9fc6d230c..d77b8f98f7 100644
-> --- a/contrib/elf2dmp/main.c
-> +++ b/contrib/elf2dmp/main.c
-> @@ -125,6 +125,7 @@ static KDDEBUGGER_DATA64 *get_kdbg(uint64_t KernBase, struct pdb_reader *pdb,
->   
->       if (va_space_rw(vs, KdDebuggerDataBlock, kdbg, kdbg_hdr.Size, 0)) {
->           eprintf("Failed to extract entire KDBG\n");
-> +        free(kdbg);
->           return NULL;
->       }
->   
-> 
+The previous discussion link:
+https://lore.kernel.org/lkml/0db486eb-6927-927e-3629-958f8f211194@huawei.com/T/
 
-I suppose Philippe's R-b should be on this version of the patch, not 
-previous one. Also I'm not sure if this patch should go through Paolo's 
-branch or QEMU Trivial.
+kset_register() is currently used in some places without calling
+kset_put() in error path, because the callers think it should be
+kset internal thing to do, but the driver core can not know what
+caller doing with that memory at times. The memory could be freed
+both in kset_put() and error path of caller, if it is called in
+kset_register().
 
-Reviewed-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+So make the function documentation more explicit about calling
+kset_put() in the error path of caller first, so that people
+have a chance to know what to do here, then fixes this leaks
+by calling kset_put() from callers.
+
+Liu Shixin (1):
+  ubifs: Fix memory leak in ubifs_sysfs_init()
+
+Yang Yingliang (10):
+  kset: fix documentation for kset_register()
+  kset: add null pointer check in kset_put()
+  bus: fix possible memory leak in bus_register()
+  kobject: fix possible memory leak in kset_create_and_add()
+  class: fix possible memory leak in __class_register()
+  firmware: qemu_fw_cfg: fix possible memory leak in
+    fw_cfg_build_symlink()
+  f2fs: fix possible memory leak in f2fs_init_sysfs()
+  erofs: fix possible memory leak in erofs_init_sysfs()
+  ocfs2: possible memory leak in mlog_sys_init()
+  drm/amdgpu/discovery: fix possible memory leak
+
+ drivers/base/bus.c                            | 4 +++-
+ drivers/base/class.c                          | 6 ++++++
+ drivers/firmware/qemu_fw_cfg.c                | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c | 5 +++--
+ fs/erofs/sysfs.c                              | 4 +++-
+ fs/f2fs/sysfs.c                               | 4 +++-
+ fs/ocfs2/cluster/masklog.c                    | 7 ++++++-
+ fs/ubifs/sysfs.c                              | 2 ++
+ include/linux/kobject.h                       | 3 ++-
+ lib/kobject.c                                 | 5 ++++-
+ 10 files changed, 33 insertions(+), 9 deletions(-)
+
+-- 
+2.25.1
+
 
