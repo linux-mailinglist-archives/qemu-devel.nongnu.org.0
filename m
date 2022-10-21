@@ -2,88 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC5CD60741F
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 11:32:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 211C6607496
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 12:00:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oloOC-0002ud-Ch
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:32:28 -0400
+	id 1oloou-0006JN-Am
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 06:00:07 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oloJr-00060X-Sf
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:27:59 -0400
+	id 1oloW7-00087Q-PH
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:40:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oloJg-0005gt-11
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:27:49 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oloJe-0005WL-2v
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:27:47 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- 186-20020a1c02c3000000b003c6c154d528so4560937wmc.4
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 02:27:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=XUXwM+y94t+6aa+HG3YriDKzvTDw3Nf7ute3pCKUr8U=;
- b=qeLI6Ek3N27ryOWgc8ulM/BXjqfPqRcASdMmE6yMiAdIOzHJjv7nDA3hj0EYTeHio4
- 1+JeIsJhsT3sRlkDnEOd3UKU46MXh8SxLTphHyUWGeJNZMBEQTDHKdbD1GI1BZ9R7JKh
- OW3twzRPPD+RG2BFsk0VouLwx9GGBNrA37VNLVJrE80IGQ0Yo/RpzGuD7Q68ck/p1+1R
- Ppa4lETQ9Iyqj0G9YvIF8cPuzWE95ARcyefW8VekxL0TzqBWFWob3RgbhLrRZQM+nFq3
- lL6Oz/tGvh0UtP+gIZrRIQIJp6+jLmCO+ggDI+YemmpeHSqK0vfcnOHnBRmteERsDFhD
- i6jg==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oloVv-0006b6-Ga
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:40:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oloVt-0007t6-PY
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:40:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666345225;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=K8EZtt3OUldsrbF0/x+gOSNeqqbLIGjTCexPpogixFo=;
+ b=H/HrNRJzeXDMsR9MhM9l/emp51kmjmGoB5VU4e6ODMQlHwB4bjor/OvMErBlcvgfOQeY+v
+ bo+U2eLjKvWx7yibRdYTLEmLjTW6IFoAU6y+bMByDYUx6hWYZUYYElKlqDQch81837V0Qh
+ KV/PuRhFEWQIJsPD12fYGi+vrAJEzKo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-314--V86PT_DO16Es2Wg2HD4dw-1; Fri, 21 Oct 2022 05:40:23 -0400
+X-MC-Unique: -V86PT_DO16Es2Wg2HD4dw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ h129-20020a1c2187000000b003bf635eac31so1221073wmh.4
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 02:40:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XUXwM+y94t+6aa+HG3YriDKzvTDw3Nf7ute3pCKUr8U=;
- b=dfvcXFVx+mLhXbdVGRJmlIN8K5co/5TihogQyWP58VuW6AVfPGuPFKAyFs3xb+dC8n
- DMY66k0IM+UPIzWaJscU6ZPVfVf5F+kLY8Ksv1JZD6KQUGXe3h6LAAkHf05kQje27lCt
- UXaKILqX2tSZuJposInuyYPbSVGt9jnyK9+G+XStswc26xxZfFCqRBbkmRGLkE6I+wNK
- iRKmVlbUTdKlm5sYcPMj93/Ot4M78oheU1ppvot+MvO3imkI7aN5Sa31f0MLh8ArvkJ7
- bLwFkAEFGUUdnroCUX362IlC6Pf+26sjCIptHQNd28wkAm8nU5/waJD1biE9/kmTqhyl
- V1pg==
-X-Gm-Message-State: ACrzQf3CzzYb4fg1CpkEUABeTX9mg/nj5eXM/ZoM9FQO5O9mtyS/PVzA
- yLbAx0j9TU6fu+qpOdjC0YtbCw==
-X-Google-Smtp-Source: AMsMyM5rdC8We3j/9YX4DRMcFtRL1uVh21o75ojwRjfrg2ZXiF6FVCKKI9+6EDQ1BlOy9pddzHdpcQ==
-X-Received: by 2002:a05:600c:6003:b0:3c6:f6e8:25fc with SMTP id
- az3-20020a05600c600300b003c6f6e825fcmr12280374wmb.50.1666344464228; 
- Fri, 21 Oct 2022 02:27:44 -0700 (PDT)
-Received: from [10.50.0.10]
- (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
- by smtp.gmail.com with ESMTPSA id
- j8-20020adfd208000000b00235da296623sm3797758wrh.31.2022.10.21.02.27.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Oct 2022 02:27:43 -0700 (PDT)
-Message-ID: <1eda418c-61e1-a00a-1217-0ab2eaff0ae0@linaro.org>
-Date: Fri, 21 Oct 2022 11:27:42 +0200
+ bh=K8EZtt3OUldsrbF0/x+gOSNeqqbLIGjTCexPpogixFo=;
+ b=FRTV6+H3iuDxO9aHH2bLg1VUSE/VJHfBrL+SZyHW7AFc7UhEtXxg6kabU/SLEEV3Qa
+ 2nobjanEwSBf4T1soAbbEwuoCG7pbNGjF68OtBp6WUb5jx0GjYT5Yqh2ouDuGKQ3skwF
+ Uofm/Xbib3A7n9cX9C8aYCqMb6NrnXqtsj/5bJMrfs90zeG9M+CYGP5Ozkb3QfT4pSm4
+ buwjHrnmRsuVeiSC1LVpF1mRmrS79WcbMFJSYrctQcrdIVrHzCWXeLVNJM5TDxDGjR9x
+ PJvkQOe5IWJzeP9QEPhOGJSYyF3ISf872zYT2kQG8uoti9cBYLqCyZPiKHm2oN51TMzb
+ U47w==
+X-Gm-Message-State: ACrzQf3RzSthYsGbL0m30y34ZLX926pGRmbsHv1ArxlQx357+9bb1JVc
+ sra2mHQlqLemBx1n7b4HOA9h9e+cdwiwqRw26OaoXtOu17d3A3ElUMyzV8yMLrBX1YBU++Kwaev
+ yXD2R+lgFvFkqbxA=
+X-Received: by 2002:a05:6000:2ae:b0:231:86ac:979a with SMTP id
+ l14-20020a05600002ae00b0023186ac979amr11410152wry.611.1666345222078; 
+ Fri, 21 Oct 2022 02:40:22 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7sPtE547KpQojoIkUsHbjkfjuOyhMnemE6FRH6BqW5aT0PywxUUT0b/62AQ7vcfo4tD+GSPw==
+X-Received: by 2002:a05:6000:2ae:b0:231:86ac:979a with SMTP id
+ l14-20020a05600002ae00b0023186ac979amr11410131wry.611.1666345221835; 
+ Fri, 21 Oct 2022 02:40:21 -0700 (PDT)
+Received: from redhat.com ([2.54.40.233]) by smtp.gmail.com with ESMTPSA id
+ s6-20020a7bc386000000b003c4ecff4e25sm2107524wmj.9.2022.10.21.02.40.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Oct 2022 02:40:21 -0700 (PDT)
+Date: Fri, 21 Oct 2022 05:40:17 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: Ani Sinha <ani@anisinha.ca>, Beraldo Leal <bleal@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, John Snow <jsnow@redhat.com>,
+ Maydell Peter <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Qemu Devel <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+Subject: Re: [PATCH v6 00/10] Introduce new acpi/smbios avocado tests using
+ biosbits
+Message-ID: <20221021053828-mutt-send-email-mst@kernel.org>
+References: <20221020083810-mutt-send-email-mst@kernel.org>
+ <CAARzgwwd_How_h+9sHWPOrWWZ7CbX+DN-uy-KiGf1VVyVmrLnA@mail.gmail.com>
+ <20221020084311-mutt-send-email-mst@kernel.org>
+ <CAARzgwxfKbrxAqb15GXp4j1enDPUhGBsL5jUzFtDvJkGM-7azw@mail.gmail.com>
+ <20221020150857-mutt-send-email-mst@kernel.org>
+ <CAARzgwwDjjHL-1fEeuySNZm8NbnGNaeE5h6zrPz_zaANfs5dsw@mail.gmail.com>
+ <CAARzgww8P4Za=+r8q2a30TCY7Uzw6g2tgHeLLKr7R+WV-7qQVg@mail.gmail.com>
+ <20221021042449-mutt-send-email-mst@kernel.org>
+ <CAARzgwyW+ved0iVinWzSCg+KSCL67v+m6KySRdg_hUUev8JLDA@mail.gmail.com>
+ <87k04t7ca6.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.3.2
-Subject: Re: [PATCH v5 09/14] target/arm: Don't shift attrs in
- get_phys_addr_lpae
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-References: <20221020223548.2310496-1-richard.henderson@linaro.org>
- <20221020223548.2310496-10-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221020223548.2310496-10-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87k04t7ca6.fsf@linaro.org>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,22 +120,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/10/22 00:35, Richard Henderson wrote:
-> Leave the upper and lower attributes in the place they originate
-> from in the descriptor.  Shifting them around is confusing, since
-> one cannot read the bit numbers out of the manual.  Also, new
-> attributes have been added which would alter the shifts.
+On Fri, Oct 21, 2022 at 10:30:09AM +0100, Alex Bennée wrote:
 > 
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/arm/ptw.c | 31 +++++++++++++++----------------
->   1 file changed, 15 insertions(+), 16 deletions(-)
+> Ani Sinha <ani@anisinha.ca> writes:
+> 
+> > On Fri, Oct 21, 2022 at 2:02 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> >>
+> >> On Fri, Oct 21, 2022 at 05:45:15AM +0530, Ani Sinha wrote:
+> >> > And have multiple platform specific branches in bits that have fixes for those
+> >> > platforms so that bits can run there. Plus the existing test can be enhanced to
+> >> > pull in binaries from those branches based on the platform on which it is being
+> >> > run.
+> >> >
+> >>
+> >> What a mess.
+> >> Who is going to be testing all these million platforms?
+> >
+> > I am not talking about branches in QEMU but branches in bits.
+> > If you are going to test multiple platforms, you do need to build bits
+> > binaries for them. There is no way around it.
+> > bits is not all platform independent python. It does have binary executables.
+> >
+> > Currently bits is built only for the x86 platform. Other platforms are
+> > not tested. I doubt if anyone even tried building bits for arm or
+> > mips.
+> 
+> I'm not worried about test bits on other targets, but we do run x86
+> targets on a number of hosts. The current reliance on a special patched
+> host build tool for only one architecture is the problem. If  we just
+> download the iso that problem goes away.
 
->       if (regime_is_stage2(mmu_idx)) {
->           ns = mmu_idx == ARMMMUIdx_Stage2;
-> -        xn = extract32(attrs, 11, 2);
-> +        xn = extract64(attrs, 54, 2);
+👍what he said.
 
-54 -> 53?
+> > It makes sense to try things incrementally once we have something going.
+> >
+> > Lets discuss this on a separate thread.
+> >
+> >> All this does nothing at all to help developers avoid
+> >> bugs and when they do trigger debug the issue. Which is
+> >> after all why we have testing.
+> >> Yes once in a very long while we are going to tweak
+> >> something in the tests, and for that rare occurence
+> >> it makes sense to periodically rebuild everything,
+> >> otherwise code bitrots.
+> >>
+> >> But the test is supposed to run within a VM anyway, let's
+> >> have an image and be done with it.
+> >>
+> >> --
+> >> MST
+> >>
+> 
+> 
+> -- 
+> Alex Bennée
+
 
