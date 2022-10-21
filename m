@@ -2,97 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EE3C6076F0
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 14:33:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AD2E607767
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 14:58:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olrDN-0000zm-E1
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 08:33:29 -0400
+	id 1olrbI-00055S-3e
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 08:58:12 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olrCB-0008Pm-KU
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 08:32:15 -0400
+	id 1olrSB-00065K-U9
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 08:48:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1olrBf-0008D7-No
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 08:31:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1olrBc-0006f1-BJ
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 08:31:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666355499;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O0x/dK80y/sqaMMIS7iy1dKaE5CAGMUMw8bYnbWU8Kc=;
- b=DEjgJ3OhACKXuD3ihqHqJyZishhcB/+Gw1ldCU37yq+Eu18a5KilmoAehP1TM5p3WI4qQO
- Lm4yYVB/iPrkcInAgyITZJenUF+8XWgCjLiGJOeU63jhT7Yzmemvigs99bmOdNJzMfte3G
- JXNig6wzVKUVwIbuFoT7OuFE2HFoinE=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-636-VOnh14kINea2HxDUXyPV1A-1; Fri, 21 Oct 2022 08:31:36 -0400
-X-MC-Unique: VOnh14kINea2HxDUXyPV1A-1
-Received: by mail-qt1-f198.google.com with SMTP id
- fy10-20020a05622a5a0a00b0039cd5097697so2413947qtb.7
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 05:31:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1olrRy-000648-W9; Fri, 21 Oct 2022 08:48:36 -0400
+Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1olrRx-0003vI-7p; Fri, 21 Oct 2022 08:48:34 -0400
+Received: by mail-lf1-x12e.google.com with SMTP id a29so4973272lfo.1;
+ Fri, 21 Oct 2022 05:48:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=7bCCSG5bTGC/wk38/NWBuXhfu6/eiIlyma+4izuZJBg=;
+ b=jxoMv2F6TV1Yw21siXRjk3wzJb6yzI9WlsuAwGSwHtp+WyOjV+2yI9EqhO+6cjLtJ0
+ ekR9Ton44Rn2rHKajYL2S176QDZjAx7ozTpZ1fGViw0OWS/yXFXQUdYfWlli1ZO9LGBF
+ DkZlc6NSM55k5iF3FxjA28qm9PdhwowuDaRt+UPSHX1rX12eqQsKlSSCjAUp7PCKLpBT
+ gzK4f6W3KydfYHioA8NUpkxWjLz+pJXiFCCSYQULr/vzH9QlcDXuKyKfgSnxjn8PHcLl
+ qNjZk0AAZsAoImOWdBj136NKmSKU2beOMKLH3c+ihFcwbN8rv+aANgMgib56wVFkbKPe
+ zXHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=O0x/dK80y/sqaMMIS7iy1dKaE5CAGMUMw8bYnbWU8Kc=;
- b=Z2nkaP/aPb46qoCxwiRnIafEUBvRSgInlioEujHEJkgJNVilWGMi6dtQxHrM92mQ1t
- 9aXjq2Q4UDT6DCFX2iifwf25wSG0vpo0IV2bCG3IftnC0nMUgzh6qxLxSk9EWLz13WKs
- m9eG1sMO1GjSzArFdOhAN9Ql+YbfewAQiy1ifuPWIS5klEq6UZ4irJZtAeYQoazByMOB
- 8Z1KbUkWytr6DteqSHn2D7jGvdrYDIoRUXmfSRhqnd59ErN3A+RCS1+0c5M49myiM7oW
- r9kXIWVxLFnxr9GUiV7vwoU0t2ZuNhxBsjJyxQar8QO022n8xe8GgWYoY8uXI7ZcT4ud
- 7q3A==
-X-Gm-Message-State: ACrzQf2QU9ti03BSDDin46EML3QiHi1VON0mgL5VfewOlnUk23K9FB32
- vmJJSghHBxhIy8+ISl+gWbjoAox0SNO7LG+Lx2K7Cr9X2NmPEOsE5vGiF71BylLdcfRq4/3nf3a
- TT6ylMR4ohNBu6ZOvirKQszVTsYljJZvm69n6kRMnoQH5xQ6De54eso+Qf1ZVkwc=
-X-Received: by 2002:a05:620a:2892:b0:6cf:60a0:84ec with SMTP id
- j18-20020a05620a289200b006cf60a084ecmr13062176qkp.574.1666355494459; 
- Fri, 21 Oct 2022 05:31:34 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5q5Igg/5j9OgmWz/psmyTPe+cd4kkzJvdxVcjGA6h7M47pjXrVBN8gSDnbMaFLZnftU4M8EA==
-X-Received: by 2002:a05:620a:2f5:b0:6ee:82ea:b531 with SMTP id
- a21-20020a05620a02f500b006ee82eab531mr13675454qko.324.1666355483969; 
- Fri, 21 Oct 2022 05:31:23 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-178-110.web.vodafone.de.
- [109.43.178.110]) by smtp.gmail.com with ESMTPSA id
- n12-20020a05620a294c00b006ced5d3f921sm9793590qkp.52.2022.10.21.05.31.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Oct 2022 05:31:23 -0700 (PDT)
-Message-ID: <3b8f8249-e8ed-b129-18d8-f132c4e23e44@redhat.com>
-Date: Fri, 21 Oct 2022 14:31:20 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7bCCSG5bTGC/wk38/NWBuXhfu6/eiIlyma+4izuZJBg=;
+ b=Otv4sr1xrbO3qwJ3BmdVuOcn7dhLa5xEwJ+M/Nrzq1MNN/z1E202RJOpdJyy8j3NFe
+ L37oVE0/ZfdOk1jv/84MFEMMZTwVWmuwa1cceJSiBkeLfDZlIJKESmbFhyA3jrcgEaeq
+ K5zw0P5zXSBIgNN7yrAhlqASN27IlL3HdVxN4VnXwBGIF9S+Vb9iHDkgrL0ErFCRzvtR
+ j8qJ7HP2O7MjSthTYIfqR1iU08a7dQEL+5zGo5PkT/NTvvCT6bG5kEs0cxKADutznyTI
+ yl5CeQot6Shjs54DlCfGrKNBL8Ws82ZuIOcULp9wW4FbmRvtXiIxl2zjG2YH4Mg9jv9n
+ ZAWw==
+X-Gm-Message-State: ACrzQf1xm+btzAMQsA7jDU+xt3YpMEdAv73650TpBTlozPWxbz05JJW6
+ IZ1gnp7d0mHFVzsDV1WRQzIKhV4obIT95usxf5E=
+X-Google-Smtp-Source: AMsMyM4m7zJVs9L7tRvYQ0ulwwzXgdwx1YDLpA6F30Ao++NFGHf6XMwjfj6d4Jg19CHRuhxR1LxGWMrQTJ+z0LAgCjE=
+X-Received: by 2002:ac2:59d9:0:b0:4a2:bdbf:c20a with SMTP id
+ x25-20020ac259d9000000b004a2bdbfc20amr6319822lfn.362.1666356510272; Fri, 21
+ Oct 2022 05:48:30 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v6 00/10] dump: Add arch section and s390x PV dump
-Content-Language: en-US
-To: qemu-devel@nongnu.org, marcandre.lureau@redhat.com
-Cc: pbonzini@redhat.com, mhartmay@linux.ibm.com, borntraeger@linux.ibm.com,
- imbrenda@linux.ibm.com, pasic@linux.ibm.com, cohuck@redhat.com,
- qemu-s390x@nongnu.org, seiden@linux.ibm.com, scgl@linux.ibm.com,
- Janosch Frank <frankja@linux.ibm.com>
 References: <20221017083822.43118-1-frankja@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20221017083822.43118-1-frankja@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+ <3b8f8249-e8ed-b129-18d8-f132c4e23e44@redhat.com>
+In-Reply-To: <3b8f8249-e8ed-b129-18d8-f132c4e23e44@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 21 Oct 2022 16:48:18 +0400
+Message-ID: <CAJ+F1CK=kbDO29CUfoZ_2_yPO6XNQEmJ=DhX5A-MABmwd0QPww@mail.gmail.com>
+Subject: Re: [PATCH v6 00/10] dump: Add arch section and s390x PV dump
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
+ borntraeger@linux.ibm.com, imbrenda@linux.ibm.com, pasic@linux.ibm.com, 
+ cohuck@redhat.com, qemu-s390x@nongnu.org, seiden@linux.ibm.com, 
+ scgl@linux.ibm.com, Janosch Frank <frankja@linux.ibm.com>
+Content-Type: multipart/alternative; boundary="000000000000dd338f05eb8adb8b"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,24 +90,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/10/2022 10.38, Janosch Frank wrote:
-> Previously this series was two separate series:
->   * Arch section support
->     Adds the possibility for arch code to add custom section data.
-> 
->   * s390 PV dump support
->     Adds PV dump data to the custom arch sections.
-> 
-> I've chosen to merge them so it's easier to understand why the arch
-> section support has been implement the way it is.
-> 
-> Additionally I've added cleanup patches beforehand which clean up the
-> GuestPhysBlock usage.
+--000000000000dd338f05eb8adb8b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-As far as I can see, all patches have been reviewed now ... Marc-André, do 
-you want to pick this up for your "dump" branch, or shall I take it through 
-the s390x tree?
+Hi
 
-  Thomas
+On Fri, Oct 21, 2022 at 4:38 PM Thomas Huth <thuth@redhat.com> wrote:
 
+> On 17/10/2022 10.38, Janosch Frank wrote:
+> > Previously this series was two separate series:
+> >   * Arch section support
+> >     Adds the possibility for arch code to add custom section data.
+> >
+> >   * s390 PV dump support
+> >     Adds PV dump data to the custom arch sections.
+> >
+> > I've chosen to merge them so it's easier to understand why the arch
+> > section support has been implement the way it is.
+> >
+> > Additionally I've added cleanup patches beforehand which clean up the
+> > GuestPhysBlock usage.
+>
+> As far as I can see, all patches have been reviewed now ... Marc-Andr=C3=
+=A9, do
+> you want to pick this up for your "dump" branch, or shall I take it
+> through
+> the s390x tree?
+>
+>
+ack, I'll take them
+
+thanks
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000dd338f05eb8adb8b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 21, 2022 at 4:38 PM Tho=
+mas Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; w=
+rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 17/10/2=
+022 10.38, Janosch Frank wrote:<br>
+&gt; Previously this series was two separate series:<br>
+&gt;=C2=A0 =C2=A0* Arch section support<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Adds the possibility for arch code to add custom se=
+ction data.<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0* s390 PV dump support<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Adds PV dump data to the custom arch sections.<br>
+&gt; <br>
+&gt; I&#39;ve chosen to merge them so it&#39;s easier to understand why the=
+ arch<br>
+&gt; section support has been implement the way it is.<br>
+&gt; <br>
+&gt; Additionally I&#39;ve added cleanup patches beforehand which clean up =
+the<br>
+&gt; GuestPhysBlock usage.<br>
+<br>
+As far as I can see, all patches have been reviewed now ... Marc-Andr=C3=A9=
+, do <br>
+you want to pick this up for your &quot;dump&quot; branch, or shall I take =
+it through <br>
+the s390x tree?<br><br></blockquote><div><br></div><div>ack, I&#39;ll take =
+them</div><div><br></div><div>thanks</div><div>=C2=A0<br></div></div>-- <br=
+><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div=
+></div>
+
+--000000000000dd338f05eb8adb8b--
 
