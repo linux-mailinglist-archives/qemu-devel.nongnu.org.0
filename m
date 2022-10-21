@@ -2,72 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7387D607423
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 11:34:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAD9F607313
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 10:57:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oloQJ-0003MA-6p
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:34:39 -0400
+	id 1olnql-0007Ky-H4
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 04:57:55 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olnLD-0008Su-Ve
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 04:25:19 -0400
+	id 1olnT0-0002U9-E9
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 04:33:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
- id 1olnKv-0008Eo-AU
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 04:25:04 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1olnSW-0002L9-LD
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 04:33:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
- id 1olnKs-0005Ze-2p
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 04:25:00 -0400
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Mty7v25HnzVj06;
- Fri, 21 Oct 2022 16:20:11 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 21 Oct 2022 16:24:25 +0800
-Received: from [10.174.178.174] (10.174.178.174) by
- dggpemm500007.china.huawei.com (7.185.36.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 21 Oct 2022 16:24:24 +0800
-Subject: Re: [PATCH 00/11] fix memory leak while kset_register() fails
-To: Greg KH <gregkh@linuxfoundation.org>, Luben Tuikov <luben.tuikov@amd.com>
-CC: <linux-kernel@vger.kernel.org>, <qemu-devel@nongnu.org>,
- <linux-f2fs-devel@lists.sourceforge.net>, <linux-erofs@lists.ozlabs.org>,
- <ocfs2-devel@oss.oracle.com>, <linux-mtd@lists.infradead.org>,
- <amd-gfx@lists.freedesktop.org>, <rafael@kernel.org>, <somlo@cmu.edu>,
- <mst@redhat.com>, <jaegeuk@kernel.org>, <chao@kernel.org>,
- <hsiangkao@linux.alibaba.com>, <huangjianan@oppo.com>, <mark@fasheh.com>,
- <jlbec@evilplan.org>, <joseph.qi@linux.alibaba.com>,
- <akpm@linux-foundation.org>, <alexander.deucher@amd.com>, <richard@nod.at>,
- <liushixin2@huawei.com>
-References: <20221021022102.2231464-1-yangyingliang@huawei.com>
- <d559793a-0ce4-3384-e74e-19855aa31f31@amd.com> <Y1IwLOUGayjT9p6d@kroah.com>
-Message-ID: <0591e66f-731a-5f81-fc9d-3a6d80516c65@huawei.com>
-Date: Fri, 21 Oct 2022 16:24:23 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1olnSU-0006zK-C5
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 04:32:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666341167;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UtmwzBKAXY7FDry+PhkiaoLN81OrUSbrew++0WyszTg=;
+ b=W6NLh212j2zNoSw/jxb0h8F+5XoBzTuK5KnO4002/RK8q4SydT4QS9XF2B8xOP74nTMsJn
+ a/4JYwns0xvztXbFHCBSGQMMefYoulBPdVVAeeZP5L5nu8mE8+gkeyDdOid2A9+SEfloqT
+ UtGyB0mf4aIZIONprKgf7SNbdf2XOSU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-260-A7XyOnXIPs6FuQGmItvLcQ-1; Fri, 21 Oct 2022 04:32:46 -0400
+X-MC-Unique: A7XyOnXIPs6FuQGmItvLcQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ h26-20020adfaa9a000000b002364ad63bbcso576103wrc.10
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 01:32:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UtmwzBKAXY7FDry+PhkiaoLN81OrUSbrew++0WyszTg=;
+ b=Ee83sri8TwUiRGxwZ+lm2MB2x4AgTOuaXy10dtgBfv6Hrs8XD6/rKSchSUuXrqVKro
+ pDddD1fCWaKRXf1ayK1JWvsswQMLq3iaTxj1uSemAVNbyRHIFKlVuMnafhd0vKn4ET/k
+ Unv7JoV2c21noG2E6H7lEGLNvC7g+OsnlB/bkqEnfdNIVmHhIT0kLPMLpym8iOqza1DP
+ Nl2HpTMyLKscOgk0P6mspYSGZuGv7qX5HjQ/4fU1R2zdzzxQGPjJKPy0ZTapD2lhwQjW
+ CYV8Mnqxn9MaTQGRdw8stVaRYEzcjANYm87ZSSX1StJTJN0bjA2oa+4ehkPzp+5a71Ar
+ 8vrw==
+X-Gm-Message-State: ACrzQf3d4IgHtO/+iTtt1D/IQAGqv7e2rnb+Cyd+ycDbW5znWJ6xQwqP
+ /k+AhNMpBGBJxqpv1M0h6SESTKdZN9aRZ9DFVz8fcdn7suj+31wPnU/lq50nEozTTcgdmwdmIjX
+ L61xtXMsvUfqdBzE=
+X-Received: by 2002:a05:6000:1d94:b0:22c:c4d1:3622 with SMTP id
+ bk20-20020a0560001d9400b0022cc4d13622mr11189561wrb.63.1666341164874; 
+ Fri, 21 Oct 2022 01:32:44 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4U8mA/Q01/4JZg7gTeppehxx6YglbE+y5RJVk/vUd3xNGK/zhvIOVNx+7QuAJ4kQS8+WVP6w==
+X-Received: by 2002:a05:6000:1d94:b0:22c:c4d1:3622 with SMTP id
+ bk20-20020a0560001d9400b0022cc4d13622mr11189535wrb.63.1666341164538; 
+ Fri, 21 Oct 2022 01:32:44 -0700 (PDT)
+Received: from redhat.com ([2.54.40.233]) by smtp.gmail.com with ESMTPSA id
+ i9-20020a5d6309000000b0022afcc11f65sm18212833wru.47.2022.10.21.01.32.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Oct 2022 01:32:44 -0700 (PDT)
+Date: Fri, 21 Oct 2022 04:32:40 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, John Snow <jsnow@redhat.com>,
+ Maydell Peter <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Qemu Devel <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+Subject: Re: [PATCH v6 00/10] Introduce new acpi/smbios avocado tests using
+ biosbits
+Message-ID: <20221021042449-mutt-send-email-mst@kernel.org>
+References: <20221020123506.26363-1-ani@anisinha.ca>
+ <20221020083810-mutt-send-email-mst@kernel.org>
+ <CAARzgwwd_How_h+9sHWPOrWWZ7CbX+DN-uy-KiGf1VVyVmrLnA@mail.gmail.com>
+ <20221020084311-mutt-send-email-mst@kernel.org>
+ <CAARzgwxfKbrxAqb15GXp4j1enDPUhGBsL5jUzFtDvJkGM-7azw@mail.gmail.com>
+ <20221020150857-mutt-send-email-mst@kernel.org>
+ <CAARzgwwDjjHL-1fEeuySNZm8NbnGNaeE5h6zrPz_zaANfs5dsw@mail.gmail.com>
+ <CAARzgww8P4Za=+r8q2a30TCY7Uzw6g2tgHeLLKr7R+WV-7qQVg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <Y1IwLOUGayjT9p6d@kroah.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.174.178.174]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=yangyingliang@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAARzgww8P4Za=+r8q2a30TCY7Uzw6g2tgHeLLKr7R+WV-7qQVg@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,61 +115,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Yang Yingliang <yangyingliang@huawei.com>
-From:  Yang Yingliang via <qemu-devel@nongnu.org>
 
+On Fri, Oct 21, 2022 at 05:45:15AM +0530, Ani Sinha wrote:
+> And have multiple platform specific branches in bits that have fixes for those
+> platforms so that bits can run there. Plus the existing test can be enhanced to
+> pull in binaries from those branches based on the platform on which it is being
+> run.
+> 
 
-On 2022/10/21 13:37, Greg KH wrote:
-> On Fri, Oct 21, 2022 at 01:29:31AM -0400, Luben Tuikov wrote:
->> On 2022-10-20 22:20, Yang Yingliang wrote:
->>> The previous discussion link:
->>> https://lore.kernel.org/lkml/0db486eb-6927-927e-3629-958f8f211194@huawei.com/T/
->> The very first discussion on this was here:
->>
->> https://www.spinics.net/lists/dri-devel/msg368077.html
->>
->> Please use this link, and not the that one up there you which quoted above,
->> and whose commit description is taken verbatim from the this link.
->>
->>> kset_register() is currently used in some places without calling
->>> kset_put() in error path, because the callers think it should be
->>> kset internal thing to do, but the driver core can not know what
->>> caller doing with that memory at times. The memory could be freed
->>> both in kset_put() and error path of caller, if it is called in
->>> kset_register().
->> As I explained in the link above, the reason there's
->> a memory leak is that one cannot call kset_register() without
->> the kset->kobj.name being set--kobj_add_internal() returns -EINVAL,
->> in this case, i.e. kset_register() fails with -EINVAL.
->>
->> Thus, the most common usage is something like this:
->>
->> 	kobj_set_name(&kset->kobj, format, ...);
->> 	kset->kobj.kset = parent_kset;
->> 	kset->kobj.ktype = ktype;
->> 	res = kset_register(kset);
->>
->> So, what is being leaked, is the memory allocated in kobj_set_name(),
->> by the common idiom shown above. This needs to be mentioned in
->> the documentation, at least, in case, in the future this is absolved
->> in kset_register() redesign, etc.
-> Based on this, can kset_register() just clean up from itself when an
-> error happens?  Ideally that would be the case, as the odds of a kset
-> being embedded in a larger structure is probably slim, but we would have
-> to search the tree to make sure.
-I have search the whole tree, the kset used in bus_register() - patch 
-#3, kset_create_and_add() - patch #4
-__class_register() - patch #5,  fw_cfg_build_symlink() - patch #6 and 
-amdgpu_discovery.c - patch #10
-is embedded in a larger structure. In these cases, we can not call 
-kset_put() in error path in kset_register()
-itself.
+What a mess.
+Who is going to be testing all these million platforms?
+All this does nothing at all to help developers avoid
+bugs and when they do trigger debug the issue. Which is
+after all why we have testing.
+Yes once in a very long while we are going to tweak
+something in the tests, and for that rare occurence
+it makes sense to periodically rebuild everything,
+otherwise code bitrots.
 
-Thanks,
-Yang
->
-> thanks,
->
-> greg k-h
-> .
+But the test is supposed to run within a VM anyway, let's
+have an image and be done with it.
+
+-- 
+MST
+
 
