@@ -2,78 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9174C607411
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 11:30:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5659C6073B1
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 11:14:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oloMI-0006qV-M0
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:30:30 -0400
+	id 1olo77-0001UW-Ac
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:14:49 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olo2r-00053x-Nr
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:10:25 -0400
+	id 1olo48-0008DB-E2
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 05:11:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1olo2b-0003tU-5N
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:10:09 -0400
-Received: from mout.kundenserver.de ([217.72.192.74])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1olo2V-000254-0x
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:10:07 -0400
-Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
- mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N2VKr-1pFHDk0Xh1-013zUl; Fri, 21 Oct 2022 11:09:51 +0200
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, xen-devel@lists.xenproject.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, Stefan Weil <sw@weilnetz.de>,
- David Gibson <david@gibson.dropbear.id.au>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- Eric Blake <eblake@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>, Greg Kurz <groug@kaod.org>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH v14 17/17] net: stream: add QAPI events to report connection
- state
-Date: Fri, 21 Oct 2022 11:09:22 +0200
-Message-Id: <20221021090922.170074-18-lvivier@redhat.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221021090922.170074-1-lvivier@redhat.com>
-References: <20221021090922.170074-1-lvivier@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olo3a-0007Mf-Cl
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:11:16 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1olo3Y-0002fJ-Dp
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 05:11:09 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id j7so3885953wrr.3
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 02:11:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=6TIFrpGKLWJyV9aOfW5LxnL1Omh/kE372hyN6eDy0f4=;
+ b=cC6hUvbcHZlYOJDSHAaA+jG0wa2Ihe5eMh3vEtk6OLPgILTIuXEQRIy/va99Qpxr/B
+ cbDecmoH1r99xyOOmqjp+5oAfjNmxIFWwDsP/yjAuKAX6SfT8MKIapcEvrcTz0HPWjcz
+ MrIhsnsVr6Hc5O9bMMdIBGMFEcOWq7Jw5GigIYSOixXsFLGHPyUTbEos5jB/qS2wauzz
+ yiFU3VdbF8ECB62EuuOIC/98YYuF3MF0nNitK/ubnLDnYSGXC5r1+Kfhw3t5dyhlcEj5
+ juml3HhoP2XyojcR3YkUz1ln0bXNhnAaUd82drq6NBW9EINR/mTlO7laCMdolljjV0Hp
+ bykw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6TIFrpGKLWJyV9aOfW5LxnL1Omh/kE372hyN6eDy0f4=;
+ b=M2f3yI9O1ZksaVD1WkTLEc9VABrgLDCEk+AaVpbP7Ri8ge0zFtnTvCbZyPCPvPdp81
+ eiGqskmz3c/loIHLjc6GhdnnTaeosk1idMMwJpvXVGY8Zl5/hgwdReqAk+zgA/OyZ/r9
+ yVJBaO1doG+KOgj0RRZ+rhNp7RHZHLxDWswt989aNQO5n+FVCVnAoZ1immQc5VgqKWdU
+ BJwthmBQUrxLEAz7bIyQxzetuEIu9ccWescodmxZ6HvB2hzVAsCa8Ln3HskZvzyxo7TH
+ xvbMeXc240Ajhb2TpEEpJlg8y27cAeSSNRiripb5HrtNxHactloxoJPf2XbjGanOr+aE
+ xJ5A==
+X-Gm-Message-State: ACrzQf1qVjcFEfoKrOuWIiirhrEOdPFdJitHkKl2ekyX9ydz9fdqFJFs
+ +w406vPKp7AoTbxN04DAxSUTDA==
+X-Google-Smtp-Source: AMsMyM5d5xWcioCS5nTq9OCICLmjq5z8xp3G2DuP+ootyN3HV+aPaEreYeJJxueWgz+K4GBTCgADXA==
+X-Received: by 2002:a5d:6dcd:0:b0:235:f087:fec2 with SMTP id
+ d13-20020a5d6dcd000000b00235f087fec2mr4727573wrz.444.1666343466511; 
+ Fri, 21 Oct 2022 02:11:06 -0700 (PDT)
+Received: from [10.50.0.10]
+ (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
+ by smtp.gmail.com with ESMTPSA id
+ g6-20020a05600c310600b003a6a3595edasm2026734wmo.27.2022.10.21.02.11.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Oct 2022 02:11:05 -0700 (PDT)
+Message-ID: <9e356cfc-5532-2ef5-8356-fdde1033d398@linaro.org>
+Date: Fri, 21 Oct 2022 11:11:04 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:3qigyZi+KVz96ySGS6bqVJaYaPxXAMgTyYwclTCtKTSb7A3gsIt
- SdMTbioFbJo7FqHB+14qedMmyEF7GpvmUNv8gPVARyqLvd32BdEC90dhWYdE+8RSLucnhOf
- TkRD8Tz10832VhOljwKfSqVSJYrOC2g8Lvaw7lA1g6tcnygpoYyRsuG4TonEL6gEu1y98Yk
- Ui4PfpZmyHLzuXBbrc3Wg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:u2SBYcxc29k=:Z/SFRNQr3jfmeh0w45tVSV
- vtMdPTAgRWe4h7V3llXabx44mm5VsuCmFpmdi73loD6zH9Q+mqGGkgmOhFI9v1CNxWODjYUn3
- UfjXRSwNrbsCXActkVXz6RNxTGtjaJMqexh4Dn+qjpdUIUKVgBslww8jC6iYHXw4zQZYRfrlQ
- 7ombF82cX2ef/cKES/02n5QVwbr5KaK7rLNjR0EJel0UEvRskLQLiQ5nznxrX35EiCN+I7BHa
- CYXDkuGzi2eU0viRa/mwuT44neFg1fUfCCJcDJ72b00U/24x8285y4ya6CXyyPe9p32Ub85XT
- K0LST8UIFl+Ep78xuZ0tibVLYCCFVLTBRxpbCwn+zUYZrR3CL0BcH9j7sPaOqwDHA/GpqmcNT
- 8PmbtUe72tNOYQPoM6yGfbn2lq7GMx89lebNLgPlki35gOICljAqYBPZXqIKv2vOc98pGbB8t
- IN29Pari/OtGwyQ2uEgWA3Bac01JpTF4mkun7knlh91EuqCkPpoCvUxpAYvIwrlE0pvdAsfjB
- hkKCghIg1POfKRIr10I7yW5eVJsQVYgiYniiFC8s5qvyiKwC/IYTRivWmGIQvUeo7QyR67rP0
- qbteljVsGy2lSXwn6Uyevhdy4qq1YhSSRmWXaDvBjrs5LKJK5BumKqbDV2m+W7YPMf08O8JJv
- NXnWaeNeZsPQue6u3ZVBmd8CXEbkzShFXps/YBFfWCedxvteoZHgl7traR7zVEp9cHcAu5Bjx
- HR6terX2Ega5aoWEvbvVT7Gdrq4dUfICGgx/GrkhfptRslCOIgPx73MetcMgm1TZRHb8j1zXp
- +tEC/mn
-Received-SPF: permerror client-ip=217.72.192.74;
- envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.2
+Subject: Re: [PATCH v8 2/2] hw/intc: Fix LoongArch extioi coreisr accessing
+Content-Language: en-US
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
+ f4bug@amsat.org
+References: <20221021015307.2570844-1-yangxiaojuan@loongson.cn>
+ <20221021015307.2570844-3-yangxiaojuan@loongson.cn>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221021015307.2570844-3-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,131 +99,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The netdev reports NETDEV_STREAM_CONNECTED event when the backend
-is connected, and NETDEV_STREAM_DISCONNECTED when it is disconnected.
+On 21/10/22 03:53, Xiaojuan Yang wrote:
+> 1. When cpu read or write extioi COREISR reg, it should access
+> the reg belonged to itself, so the cpu index of 's->coreisr'
+> is current cpu number. Using MemTxAttrs' requester_id to get
+> the cpu index.
+> 2. it need not to mask 0x1f when calculate the coreisr array index.
+> 
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> ---
+>   hw/intc/loongarch_extioi.c      | 10 ++++++----
+>   target/loongarch/iocsr_helper.c | 19 +++++++++++--------
+>   2 files changed, 17 insertions(+), 12 deletions(-)
+> 
+> diff --git a/hw/intc/loongarch_extioi.c b/hw/intc/loongarch_extioi.c
+> index 72f4b0cde5..4b8ec3f28a 100644
+> --- a/hw/intc/loongarch_extioi.c
+> +++ b/hw/intc/loongarch_extioi.c
+> @@ -93,8 +93,9 @@ static MemTxResult extioi_readw(void *opaque, hwaddr addr, uint64_t *data,
+>           *data = s->bounce[index];
+>           break;
+>       case EXTIOI_COREISR_START ... EXTIOI_COREISR_END - 1:
+> -        index = ((offset - EXTIOI_COREISR_START) & 0x1f) >> 2;
+> -        cpu = ((offset - EXTIOI_COREISR_START) >> 8) & 0x3;
+> +        index = (offset - EXTIOI_COREISR_START) >> 2;
+> +        /* using attrs to get current cpu index */
+> +        cpu = attrs.requester_id;
+>           *data = s->coreisr[cpu][index];
+>           break;
+>       case EXTIOI_COREMAP_START ... EXTIOI_COREMAP_END - 1:
+> @@ -185,8 +186,9 @@ static MemTxResult extioi_writew(void *opaque, hwaddr addr,
+>           s->bounce[index] = val;
+>           break;
+>       case EXTIOI_COREISR_START ... EXTIOI_COREISR_END - 1:
+> -        index = ((offset - EXTIOI_COREISR_START) & 0x1f) >> 2;
+> -        cpu = ((offset - EXTIOI_COREISR_START) >> 8) & 0x3;
+> +        index = (offset - EXTIOI_COREISR_START) >> 2;
+> +        /* using attrs to get current cpu index */
+> +        cpu = attrs.requester_id;
+>           old_data = s->coreisr[cpu][index];
+>           s->coreisr[cpu][index] = old_data & ~val;
+>           /* write 1 to clear interrrupt */
+> diff --git a/target/loongarch/iocsr_helper.c b/target/loongarch/iocsr_helper.c
+> index 0e9c537dc7..505853e17b 100644
+> --- a/target/loongarch/iocsr_helper.c
+> +++ b/target/loongarch/iocsr_helper.c
+> @@ -14,54 +14,57 @@
+>   #include "exec/cpu_ldst.h"
+>   #include "tcg/tcg-ldst.h"
+>   
+> +#define GET_MEMTXATTRS(cas) \
+> +        ((MemTxAttrs){.requester_id = env_cpu(cas)->cpu_index})
 
-The NETDEV_STREAM_CONNECTED event includes the destination address.
+The suggestion from v7 is incomplete, I apologize for missing it.
 
-This allows a system manager like libvirt to detect when the server
-fails.
+#define GET_MEMTXATTRS(cas) ((MemTxAttrs) {\
+                                .requester_type = MTRT_CPU,\
+                                .requester_id = env_cpu(cas)->cpu_index,\
+                             })
 
-For instance with passt:
+Also see from v6, add in the read/write handlers:
 
-{ 'execute': 'qmp_capabilities' }
-{ "return": { } }
-{ "timestamp": { "seconds": 1666341395, "microseconds": 505347 },
-    "event": "NETDEV_STREAM_CONNECTED",
-    "data": { "netdev-id": "netdev0",
-        "addr": { "path": "/tmp/passt_1.socket", "type": "unix" } } }
+             assert(attrs.requester_type == MTRT_CPU);
 
-[killing passt here]
+https://lore.kernel.org/qemu-devel/f7c4f7ca-cbf9-87d6-4d8c-5957c36ae23c@linaro.org/
 
-{ "timestamp": { "seconds": 1666341430, "microseconds": 968694 },
-    "event": "NETDEV_STREAM_DISCONNECTED",
-    "data": { "netdev-id": "netdev0" } }
+Regards,
 
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
----
- net/stream.c  |  5 +++++
- qapi/net.json | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 54 insertions(+)
+Phil.
 
-diff --git a/net/stream.c b/net/stream.c
-index 54c67e14d240..53b7040cc417 100644
---- a/net/stream.c
-+++ b/net/stream.c
-@@ -38,6 +38,7 @@
- #include "io/channel.h"
- #include "io/channel-socket.h"
- #include "io/net-listener.h"
-+#include "qapi/qapi-events-net.h"
- 
- typedef struct NetStreamState {
-     NetClientState nc;
-@@ -168,6 +169,8 @@ static gboolean net_stream_send(QIOChannel *ioc,
-         s->nc.link_down = true;
-         qemu_set_info_str(&s->nc, "");
- 
-+        qapi_event_send_netdev_stream_disconnected(s->nc.name);
-+
-         return G_SOURCE_REMOVE;
-     }
-     buf = buf1;
-@@ -244,6 +247,7 @@ static void net_stream_listen(QIONetListener *listener,
-     uri = socket_uri(addr);
-     qemu_set_info_str(&s->nc, uri);
-     g_free(uri);
-+    qapi_event_send_netdev_stream_connected(s->nc.name, addr);
-     qapi_free_SocketAddress(addr);
- }
- 
-@@ -335,6 +339,7 @@ static void net_stream_client_connected(QIOTask *task, gpointer opaque)
-     s->ioc_read_tag = qio_channel_add_watch(s->ioc, G_IO_IN, net_stream_send,
-                                             s, NULL);
-     s->nc.link_down = false;
-+    qapi_event_send_netdev_stream_connected(s->nc.name, addr);
-     qapi_free_SocketAddress(addr);
- 
-     return;
-diff --git a/qapi/net.json b/qapi/net.json
-index 39388b1b6c41..c37b24717382 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -895,3 +895,52 @@
- ##
- { 'event': 'FAILOVER_NEGOTIATED',
-   'data': {'device-id': 'str'} }
-+
-+##
-+# @NETDEV_STREAM_CONNECTED:
-+#
-+# Emitted when the netdev stream backend is connected
-+#
-+# @netdev-id: QEMU netdev id that is connected
-+# @addr: The destination address
-+#
-+# Since: 7.2
-+#
-+# Example:
-+#
-+# <- { "event": "NETDEV_STREAM_CONNECTED",
-+#      "data": { "netdev-id": "netdev0",
-+#                "addr": { "port": "47666", "ipv6": true,
-+#                          "host": "::1", "type": "inet" } },
-+#      "timestamp": { "seconds": 1666269863, "microseconds": 311222 } }
-+#
-+# or
-+#
-+# <- { "event": "NETDEV_STREAM_CONNECTED",
-+#      "data": { "netdev-id": "netdev0",
-+#                "addr": { "path": "/tmp/qemu0", "type": "unix" } },
-+#      "timestamp": { "seconds": 1666269706, "microseconds": 413651 } }
-+#
-+##
-+{ 'event': 'NETDEV_STREAM_CONNECTED',
-+  'data': { 'netdev-id': 'str',
-+            'addr': 'SocketAddress' } }
-+
-+##
-+# @NETDEV_STREAM_DISCONNECTED:
-+#
-+# Emitted when the netdev stream backend is disconnected
-+#
-+# @netdev-id: QEMU netdev id that is disconnected
-+#
-+# Since: 7.2
-+#
-+# Example:
-+#
-+# <- { 'event': 'NETDEV_STREAM_DISCONNECTED',
-+#      'data': {'netdev-id': 'netdev0'},
-+#      'timestamp': {'seconds': 1663330937, 'microseconds': 526695} }
-+#
-+##
-+{ 'event': 'NETDEV_STREAM_DISCONNECTED',
-+  'data': { 'netdev-id': 'str' } }
--- 
-2.37.3
 
 
