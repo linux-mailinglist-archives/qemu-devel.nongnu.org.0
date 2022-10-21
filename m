@@ -2,71 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454266079C3
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 16:38:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 685B06079C4
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 16:39:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oltAi-0001Zw-GP
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 10:38:53 -0400
+	id 1oltB2-0002f5-Ez
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 10:39:16 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oltAi-0001TE-BG
-	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 10:38:52 -0400
+	id 1oltAw-0003H9-Sh
+	for lists+qemu-devel@lfdr.de; Fri, 21 Oct 2022 10:39:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oltAS-0007e6-65
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 10:38:36 -0400
-Received: from mout.kundenserver.de ([212.227.17.24])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oltAQ-0000Np-9k
- for qemu-devel@nongnu.org; Fri, 21 Oct 2022 10:38:35 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1Mxm7U-1p1lod2YpC-00zIhb; Fri, 21 Oct 2022 16:38:17 +0200
-Message-ID: <cf3c7362-25f1-e615-ce73-9bc86405f67b@vivier.eu>
-Date: Fri, 21 Oct 2022 16:38:16 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oltAl-0001k7-ON
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 10:38:55 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oltAk-0000P7-5u
+ for qemu-devel@nongnu.org; Fri, 21 Oct 2022 10:38:55 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id y4so2551067plb.2
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 07:38:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HoDjLm6qRUsktNVzqh6x3Ld/wH9OIsEUcmpAVw3xNbw=;
+ b=D6n/uxHPbShQr/uIOLyMHk1c7BpQXjCTeC5wNU1hN707Fm/B52GVy03aoaP76aNOC7
+ f63ojj2q+nFsRwwOs7iBop5YWYpk9SKEyJ6imtuvoHJNmHG3XeNO5BEXrkIWQuQmrRd4
+ pQtJqfSW4hui7j3KX8g+x/k6q9Dg5U9CLA2vvFO7CtCVKJuL8tOSgE5L+2HByApCW4w8
+ xQME6AMuIQP+biF0f2CCQr7XakQijHY/jxDJ37nJYWyuiO6xDCexR5+9m9KwMGy/i/w6
+ zu4fnNHBRxi4OsvwHnpbe8OVG8U7gQpvSoLXerzAcBOlVmTRT8PVmB8Zj1R5WFjimTlK
+ 04Bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=HoDjLm6qRUsktNVzqh6x3Ld/wH9OIsEUcmpAVw3xNbw=;
+ b=gSB2EF2ohLzRrGXqSxoEMU97Jp4TQDPTnY+FnTPOQLUkbhwLZ6HlMgkAQSesAL0QXb
+ 2b9EuRWePbvqei+bTABuLQRXp3MfVOXTgcCSkIp/unw50eV+czYeQf5w4mEFxok2PlQN
+ 3uzYmSbL9mIDyE6O7l0Cl4l3MeVK0r3hzbByif2lySWdTwXqoRh04l77+7RguEEc2sau
+ Z7k+aUJP9d9+tZoi9QSyap0nIP1OGlbdqPblcroL7UIdFkfu9lyAem0NnECoUhyd90Dw
+ EWoKIo5S2yAJaxLBnEWWrM/ZRUnNdqmapCOb/fVVI+U1KX2odIX5Dfa3l7VBzdC9MBd+
+ FSjQ==
+X-Gm-Message-State: ACrzQf1EgHI2nUNNVLQbKLs8U70K+mSX8RpLqIHJrvKw0y9+K3VXh3Hg
+ Vq/qErwqdPe9gvNpHu4o6We1QKXkEpCoRN6d5KX/3A==
+X-Google-Smtp-Source: AMsMyM58sm1aaydh1ObJ73OUXimQaY8A9jBgOW1mAMXSy4rhxxdyT6t3RAxTbqZ2kUkqC1O+AoEou5eW6vC4B3g1nAs=
+X-Received: by 2002:a17:903:4d7:b0:178:8564:f754 with SMTP id
+ jm23-20020a17090304d700b001788564f754mr19563343plb.60.1666363130465; Fri, 21
+ Oct 2022 07:38:50 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH] linux-user: Fix more MIPS n32 syscall ABI issues
-Content-Language: fr
-To: WANG Xuerui <xen0n@gentoo.org>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- =?UTF-8?Q?Andreas_K_=2e_H=c3=bcttel?= <dilfridge@gentoo.org>,
- Joshua Kinard <kumba@gentoo.org>
-References: <20221006085500.290341-1-xen0n@gentoo.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20221006085500.290341-1-xen0n@gentoo.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:L2nr8nEFD0fuLvK7+7vlRZkvSlyN8t3UCI6pKpwoIOZpcGmPMhI
- 7SpyuLMarvJEZ3d9izevPvMiXmpboQJfDGLZYuVBgYFMhU+k827xFIgblG/H5iyzDRtZ6TX
- 9XWiLowhgZT1dOK7GOt800JDYVAU5rJtl0vwGaw3kPnmAskajrU/a8JVkqO59jdJuygx4Qv
- rLOt/YMiYpbnCT2K3ZuXw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:O7ZaI2cZHxA=:wqw0SqIfclcOGGMQaZ5S7q
- E7/1kmQjVXAe3RiUwoZiU8OWimRuQLfStn8ooWItQPt/JA0XRTcv85sxtFFQiZm/3Yw1N9XmI
- vOpA6dMbbK2CUrMNJu6jbz9wtvaeAf6EopXZbHiTjE55imk/O+OrKG6oCIf/BMnRN1YxtlkzT
- XHYQUy4wDdtLEryUElgBSGo5xZu16XPAgDMhPgA8wUYbH5wt65lDbWbtc1BumtHHEwt3gysA6
- bLIlcBdSfRleM6EhahoT+L/PRhorUulDfl5hiCLI0M/dj/IWShktjHqWKzgorcfjsY9Jp06YE
- d8iRByRpAxXncIAKSe0YqLL6838eGDTXZQGOmAWN9i+sY90w+hgsnAtTtcMj/V8AUYK4h8vIS
- V453C5h4nW+yju+w8IQ5bJvNkQm+Nvf93ZrbX6FU+7ziLgbFqtcqrs8UaEav9gU7XlxdUTYHg
- DNQwBKEWI5/n1ghAmFS0EX9bkogQeIIvBE51N5qV9UUmeWEdXEsP/t8UeGKcp6qtLj6AEHPpR
- GQJSnHW3kE/XhZPtwRmjwwZXRnosaRky2bfP+OozYVI2fnKwVdJkncZX6YD2Q9xQPkERHTesj
- mLXefxb3RX3DuGoHVlliR5nHvT766M9F95bt0sZTyD4p39BFppEj1qQJuo3gKe4oU/K+xshva
- CUpL+hHiSC1HWWLrylCeQSPD9INNb71/QrLGat5q6Fssgpc9DEnOFgbWXSYLp9JR2xRLgnK69
- 3yBgvPFnOVAtbAj6o+d0xhqXoaMmQUoPO/26Xp0DtJ4HUGxNWOz5Z10vwwA7maAYOu+neQj0F
- 2WvKNI+
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20221004093206.652431-1-berrange@redhat.com>
+ <20221004093206.652431-4-berrange@redhat.com>
+ <d51ca4c0-6115-7ed3-a6be-dec67bdbfdb0@vivier.eu>
+In-Reply-To: <d51ca4c0-6115-7ed3-a6be-dec67bdbfdb0@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 21 Oct 2022 15:38:38 +0100
+Message-ID: <CAFEAcA-GSKzEwPnjzBw0tn4G6+uRHRL1dDmvAiiYUb1YVo8T4Q@mail.gmail.com>
+Subject: Re: [PATCH 3/4] meson: enforce a minimum Linux kernel headers version
+ >= 4.18
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,82 +96,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 06/10/2022 à 10:55, WANG Xuerui a écrit :
-> In commit 80f0fe3a85 ("linux-user: Fix syscall parameter handling for
-> MIPS n32") the ABI problem regarding offset64 on MIPS n32 was fixed,
-> but still some cases remain where the n32 is incorrectly treated as any
-> other 32-bit ABI that passes 64-bit arguments in pairs of GPRs. Fix by
-> excluding TARGET_ABI_MIPSN32 from various TARGET_ABI_BITS == 32 checks.
-> 
-> Closes: https://gitlab.com/qemu-project/qemu/-/issues/1238
-> Signed-off-by: WANG Xuerui <xen0n@gentoo.org>
-> Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> Cc: Andreas K. Hüttel <dilfridge@gentoo.org>
-> Cc: Joshua Kinard <kumba@gentoo.org>
-> ---
-> 
-> Note: I can't reproduce the crash with neither MIPS n32 sysroot at my hand
-> (a self-built one for Loongson-2F, and stage3-mips64_n32-openrc-20221001T170527Z),
-> so I can only verify by looking at the (host and qemu) strace outputs, and
-> would have to ask you to review/test this harder. Thanks.
-> 
->   linux-user/syscall.c | 10 +++++-----
->   1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 2e954d8dbd..8b2d39fe73 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -11793,7 +11793,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
->           return -host_to_target_errno(ret);
->   #endif
->   
-> -#if TARGET_ABI_BITS == 32
-> +#if TARGET_ABI_BITS == 32 && !defined(TARGET_ABI_MIPSN32)
->   
->   #ifdef TARGET_NR_fadvise64_64
->       case TARGET_NR_fadvise64_64:
-> @@ -11920,7 +11920,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
->           return get_errno(sys_gettid());
->   #ifdef TARGET_NR_readahead
->       case TARGET_NR_readahead:
-> -#if TARGET_ABI_BITS == 32
-> +#if TARGET_ABI_BITS == 32 && !defined(TARGET_ABI_MIPSN32)
->           if (regpairs_aligned(cpu_env, num)) {
->               arg2 = arg3;
->               arg3 = arg4;
-> @@ -12612,7 +12612,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
->   #endif /* CONFIG_EVENTFD  */
->   #if defined(CONFIG_FALLOCATE) && defined(TARGET_NR_fallocate)
->       case TARGET_NR_fallocate:
-> -#if TARGET_ABI_BITS == 32
-> +#if TARGET_ABI_BITS == 32 && !defined(TARGET_ABI_MIPSN32)
->           ret = get_errno(fallocate(arg1, arg2, target_offset64(arg3, arg4),
->                                     target_offset64(arg5, arg6)));
->   #else
-> @@ -12623,7 +12623,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
->   #if defined(CONFIG_SYNC_FILE_RANGE)
->   #if defined(TARGET_NR_sync_file_range)
->       case TARGET_NR_sync_file_range:
-> -#if TARGET_ABI_BITS == 32
-> +#if TARGET_ABI_BITS == 32 && !defined(TARGET_ABI_MIPSN32)
->   #if defined(TARGET_MIPS)
->           ret = get_errno(sync_file_range(arg1, target_offset64(arg3, arg4),
->                                           target_offset64(arg5, arg6), arg7));
-> @@ -12645,7 +12645,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
->       case TARGET_NR_arm_sync_file_range:
->   #endif
->           /* This is like sync_file_range but the arguments are reordered */
-> -#if TARGET_ABI_BITS == 32
-> +#if TARGET_ABI_BITS == 32 && !defined(TARGET_ABI_MIPSN32)
->           ret = get_errno(sync_file_range(arg1, target_offset64(arg3, arg4),
->                                           target_offset64(arg5, arg6), arg2));
->   #else
+On Fri, 21 Oct 2022 at 15:30, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> Le 04/10/2022 =C3=A0 11:32, Daniel P. Berrang=C3=A9 a =C3=A9crit :
+> > Various areas of QEMU have a dependency on Linux kernel header
+> > definitions. This falls under the scope of our supported platforms
+> > matrix, but historically we've not checked for a minimum kernel
+> > headers version. This has made it unclear when we can drop support
+> > for older kernel headers.
+> >
+> >    * Alpine 3.14: 5.10
+> >    * CentOS 8: 4.18
+> >    * CentOS 9: 5.14
+> >    * Debian 10: 4.19
+> >    * Debian 11: 5.10
+> >    * Fedora 35: 5.19
+> >    * Fedora 36: 5.19
+> >    * OpenSUSE 15.3: 5.3.0
+> >    * Ubuntu 20.04: 5.4
+> >    * Ubuntu 22.04: 5.15
+> >
+> > The above ignores the 3rd version digit since distros update their
+> > packages periodically and such updates don't generally affect public
+> > APIs to the extent that it matters for our build time check.
+> >
+> > Overall, we can set the baseline to 4.18 currently.
+>
+> As this change affects entire QEMU build, I'd prefer to have some "Acked-=
+by" before merging it via
+> linux-user branch.
 
-Applied to my linux-user-for-7.2 branch.
+I still think we should be more conservative about kernel header
+requirements than we are for other dependencies.
 
-Thanks,
-Laurent
-
+thanks
+-- PMM
 
