@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D39B3606DF6
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 04:47:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 555F3606DE9
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Oct 2022 04:41:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oli4S-0002rh-Ep
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 22:47:40 -0400
+	id 1olhyY-0002Pl-TW
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 22:41:34 -0400
 Received: from [::1] (helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1olhgb-0004Rl-9S
-	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 22:23:01 -0400
+	id 1olhvf-00053i-Eg
+	for lists+qemu-devel@lfdr.de; Thu, 20 Oct 2022 22:38:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
- id 1olhgS-0004OI-Gs
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 22:22:52 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
- id 1olhgQ-0003RY-KP
- for qemu-devel@nongnu.org; Thu, 20 Oct 2022 22:22:52 -0400
-Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Mtp605R63zmVCd;
- Fri, 21 Oct 2022 10:18:00 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 21 Oct 2022 10:22:46 +0800
-Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
- (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Fri, 21 Oct
- 2022 10:22:46 +0800
-To: <linux-kernel@vger.kernel.org>, <qemu-devel@nongnu.org>,
- <linux-f2fs-devel@lists.sourceforge.net>, <linux-erofs@lists.ozlabs.org>,
- <ocfs2-devel@oss.oracle.com>, <linux-mtd@lists.infradead.org>,
- <amd-gfx@lists.freedesktop.org>
-CC: <gregkh@linuxfoundation.org>, <rafael@kernel.org>, <somlo@cmu.edu>,
- <mst@redhat.com>, <jaegeuk@kernel.org>, <chao@kernel.org>,
- <hsiangkao@linux.alibaba.com>, <huangjianan@oppo.com>, <mark@fasheh.com>,
- <jlbec@evilplan.org>, <joseph.qi@linux.alibaba.com>,
- <akpm@linux-foundation.org>, <alexander.deucher@amd.com>,
- <luben.tuikov@amd.com>, <richard@nod.at>, <liushixin2@huawei.com>
-Subject: [PATCH 11/11] ubifs: Fix memory leak in ubifs_sysfs_init()
-Date: Fri, 21 Oct 2022 10:21:02 +0800
-Message-ID: <20221021022102.2231464-12-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221021022102.2231464-1-yangyingliang@huawei.com>
-References: <20221021022102.2231464-1-yangyingliang@huawei.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=yangyingliang@huawei.com; helo=szxga01-in.huawei.com
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1olhvX-0004pH-P7; Thu, 20 Oct 2022 22:38:28 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1olhvV-0008BC-3j; Thu, 20 Oct 2022 22:38:27 -0400
+Received: from smtpclient.apple (unknown [159.226.43.11])
+ by APP-01 (Coremail) with SMTP id qwCowADn748HBlJjsnVKBg--.40815S2;
+ Fri, 21 Oct 2022 10:38:00 +0800 (CST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH] hw/nvme: reenable cqe batching
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+In-Reply-To: <20221020113538.36526-1-its@irrelevant.dk>
+Date: Fri, 21 Oct 2022 10:37:58 +0800
+Cc: qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <D059FE13-A269-4C82-9BE7-1FEA9F2AE53A@ict.ac.cn>
+References: <20221020113538.36526-1-its@irrelevant.dk>
+To: Klaus Jensen <its@irrelevant.dk>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-CM-TRANSID: qwCowADn748HBlJjsnVKBg--.40815S2
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+ VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUU5t7k0a2IF6w1UM7kC6x804xWl14x267AK
+ xVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGw
+ A2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj
+ 6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26r
+ 4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28I
+ cVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx
+ 0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF
+ 04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
+ 18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vI
+ r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
+ 1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
+ x4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8v_M3UUUUU==
+X-Originating-IP: [159.226.43.11]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.21;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,56 +76,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Yang Yingliang <yangyingliang@huawei.com>
-From:  Yang Yingliang via <qemu-devel@nongnu.org>
 
-From: Liu Shixin <liushixin2@huawei.com>
+at 7:35 PM, Klaus Jensen <its@irrelevant.dk> wrote:
 
-When insmod ubifs.ko, a kmemleak reported as below:
+> Commit 2e53b0b45024 ("hw/nvme: Use ioeventfd to handle doorbell
+> updates") had the unintended effect of disabling batching of CQEs.
+> 
+> This patch changes the sq/cq timers to bottom halfs and instead of
+> calling nvme_post_cqes() immediately (causing an interrupt per cqe), we
+> defer the call.
 
- unreferenced object 0xffff88817fb1a780 (size 8):
-   comm "insmod", pid 25265, jiffies 4295239702 (age 100.130s)
-   hex dump (first 8 bytes):
-     75 62 69 66 73 00 ff ff                          ubifs...
-   backtrace:
-     [<ffffffff81b3fc4c>] slab_post_alloc_hook+0x9c/0x3c0
-     [<ffffffff81b44bf3>] __kmalloc_track_caller+0x183/0x410
-     [<ffffffff8198d3da>] kstrdup+0x3a/0x80
-     [<ffffffff8198d486>] kstrdup_const+0x66/0x80
-     [<ffffffff83989325>] kvasprintf_const+0x155/0x190
-     [<ffffffff83bf55bb>] kobject_set_name_vargs+0x5b/0x150
-     [<ffffffff83bf576b>] kobject_set_name+0xbb/0xf0
-     [<ffffffff8100204c>] do_one_initcall+0x14c/0x5a0
-     [<ffffffff8157e380>] do_init_module+0x1f0/0x660
-     [<ffffffff815857be>] load_module+0x6d7e/0x7590
-     [<ffffffff8158644f>] __do_sys_finit_module+0x19f/0x230
-     [<ffffffff815866b3>] __x64_sys_finit_module+0x73/0xb0
-     [<ffffffff88c98e85>] do_syscall_64+0x35/0x80
-     [<ffffffff88e00087>] entry_SYSCALL_64_after_hwframe+0x63/0xcd
+This change is definitely desired.
 
-When kset_register() failed, we should call kset_put to cleanup it.
+> 
+>                   | iops
+>  -----------------+------
+>    baseline       | 138k
+>    +cqe batching  | 233k
 
-Fixes: 2e3cbf425804 ("ubifs: Export filesystem error counters")
-Signed-off-by: Liu Shixin <liushixin2@huawei.com>
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
----
- fs/ubifs/sysfs.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/fs/ubifs/sysfs.c b/fs/ubifs/sysfs.c
-index 06ad8fa1fcfb..54270ad36321 100644
---- a/fs/ubifs/sysfs.c
-+++ b/fs/ubifs/sysfs.c
-@@ -144,6 +144,8 @@ int __init ubifs_sysfs_init(void)
- 	kobject_set_name(&ubifs_kset.kobj, "ubifs");
- 	ubifs_kset.kobj.parent = fs_kobj;
- 	ret = kset_register(&ubifs_kset);
-+	if (ret)
-+		kset_put(&ubifs_kset);
- 
- 	return ret;
- }
--- 
-2.25.1
+What is the queue depth config for this test?
 
 
