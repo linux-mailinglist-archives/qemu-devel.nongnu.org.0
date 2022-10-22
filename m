@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD349609771
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 02:17:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 078536097F0
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 03:46:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1omjgj-0006Yf-L2
-	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 18:43:25 -0400
+	id 1omjlq-0007tq-MX
+	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 18:48:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1omLmG-0007nK-1c; Sat, 22 Oct 2022 17:11:32 -0400
-Received: from mout.kundenserver.de ([212.227.17.10])
+ id 1omLuN-0008Gr-4O; Sat, 22 Oct 2022 17:19:55 -0400
+Received: from mout.kundenserver.de ([217.72.192.74])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1omLmE-0007G2-Gf; Sat, 22 Oct 2022 17:11:31 -0400
+ id 1omLuL-0001qf-IB; Sat, 22 Oct 2022 17:19:54 -0400
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1M58OQ-1olFJK3xLQ-0017jz; Sat, 22 Oct 2022 23:11:19 +0200
-Message-ID: <f7119867-2674-d074-5fc5-9b0fa58b6bef@vivier.eu>
-Date: Sat, 22 Oct 2022 23:11:16 +0200
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MlwFp-1pVLUS4Bdb-00iyb7; Sat, 22 Oct 2022 23:19:44 +0200
+Message-ID: <203ceff3-5251-c03e-8d43-802eab45de64@vivier.eu>
+Date: Sat, 22 Oct 2022 23:19:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
-Subject: Re: [PATCH RESEND] elf2dmp: free memory in failure
+Subject: Re: [PATCH] vmstate-static-checker:remove this redundant return
 Content-Language: fr
-To: luzhipeng <luzhipeng@cestc.cn>, qemu-devel <qemu-devel@nongnu.org>
-Cc: Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
- "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-References: <20221007020128.760-1-luzhipeng@cestc.cn>
+To: dinglimin <dinglimin@cmss.chinamobile.com>, thuth@redhat.com
+Cc: alex.bennee@linaro.org, jsnow@redhat.com, qemu-devel@nongnu.org,
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
+References: <20220928090312.2537-1-dinglimin@cmss.chinamobile.com>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20221007020128.760-1-luzhipeng@cestc.cn>
+In-Reply-To: <20220928090312.2537-1-dinglimin@cmss.chinamobile.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:9nUX6QiKlOE2ALsphTTYY6arNzY/rZyYq2NFMtcGqvZ9IDQIyma
- DeoIvXfVull7T5avQLZ327bfcQT6Cipt+7IVb2sC157dL3RCyxyvPL8jvV+ZBBLvoj5kxiv
- Z/SzMwBs1hTqIkQOuf2bGSCyDkEVYmUXxFDYATkL+zZ73aIL8X3Nj5aO7q5HH3eyiU0pfOG
- 3shm7kBKm/C5Z/PeODBNw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:VKGElcgkXN0=:nBXv+LU6fUyXDUI82Hk0B/
- p4kt63TCIPTqk/ZSTDlArLHOcPzLeWHwK0IJW8VX2Xevco3V1kA8OcBzGSCeDvug0YkgUw+jw
- 0n4QbYsdnQ+ulPbV1ll3/NWsAO3XI05IppykeUCk+dBN23laMujsznoi06oWtn03nUmsCWOau
- sDjbWj/7dTgAb21NgShN8aydfMybgznL039gfgIc2uZh7NFXywTfUH/7eOe0gtyGpaZiYyLbn
- x/F4wZ6pXnUETMJStunm0/0iWIaN3NFxIQqIUdqhHO2atrBEsNMmpd4uo0leJBnBvSQPDUJH6
- pQ8JOEEJjxp1vJXYVcsDK33YgGN2qK/TSph2Gcrjo9toY6VFQXcTtUP5JN14S5LIJQe7qRcwH
- 69Sr+lEVAronEYnO7m81iNLuA+yN0g3ZqUq/rXoWaqhdN3NRF5sMdwadl2W0MF4CLJcyX70DG
- sgWxN7ILzQCHoe9P/W88rZNAmILdMLBX+mdoQRY0PxIVQmtTCT+5ugH1XMANUnq+HEPcHan5S
- umvSfyo1QZCr8/OtOVCQnenci64UeO7HOpMA+mB0veliObdgC5SVsu0wU4xod8bkMOElpe+ZZ
- hF+FNCm9xRbexYdKn3S9BgoVjG5Zh5+JGORyseJQgI1WAxBz0C2ck5TUDC4FNN57YJ6ADEVkR
- nmqdKvh52GYO57AM37KK18Fh1qvFOoZHh1HdN6o2RDDj0B/mKa69KslZo9gu3r3rk1qFhb2Ts
- Vc699kkS9OL9w1qMI4F3J9GhCvOc15p4J1dH/AC18gi/12WIM4KrmUwWFsEyp4En7NA6PGi6P
- 3aimgp0
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:YoxcKFFygAIimmOLiNZcaNwwj5PBQjEoHGgsyXxHPYsXmhQys9b
+ accYB8T9SsDt35VU63qH2X8AAhTNHo8VgwEkKUmPkYarCdck/1Np4Y0yVJdfgRg5Cx8f+XT
+ 8SX5Qf9kkfx3QkgzjjD5KlcWoOszTC4UufkC6gGlW2kSnV3H/6fbX2dLppPBUcfdR5fke67
+ Ev4OcFZ+3F+bqeLOvsecQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ruHY1dDL3XY=:d8lbMj+XdvI/0zk5Krew4o
+ 6fa0KzwfrbThZiebWOBSFLEfQYvw/ZCOWRCUEIX4haEDunKbJqObTEP8JqE/3y88hVN66xPtv
+ O88Q9Nw4Q2O81gz+eftNNlicj/S1bXSexiFLLttmJbCVix66rOkBz/zR1W2NibuUpSvszV1uh
+ KH3/x7EXCla0nLMTNsrvlG/meB+AXbVbPfpNxTzHtdNofoOfCMo/+Y09xZqXuDpIrHFO4uLjc
+ lXRZDLN2TlkhPDGAX6bmJeNvObCvP9Aei831TObUWTT8gwXX3mStM2QznFc9z9wHYsVkgEEyP
+ v3Nq36boWo7GfSb7ZsO/VivZ7TRSKPev3H5s3RHEVpKKZfy67cN0o190hl6rpvUqe3rijxNuj
+ nQ+oXiLqcZJWRU5IP70qRuTvj/KLT0zaHrFNciC0NryhkxiLPvNHsc480EVSPVk15t1kw3Vvg
+ QwR8FDDUkwEKoJ9PB6W8Pe/GGGl5Bo/q1MP5jIw6C9PrMtRXL6dcnxziS1vc2YfdaoL7VSEMK
+ NDvNHvrsEhb4rdC9BzT53oQ9vlu2cIh8xEgPK2+IPVfxIfWtYQSoN7tXaET9dTeaFQ3sDUiw6
+ oU8Jy4v3FrOuIyYLavESSYJGkrpmU2qO4bw98QZPhW8jvTupExFQIpb/qbo1qFw3U1KHh6nYy
+ VrxVDzpHS5GONKWW5rhyLoZKrhvityWNqjaYpngbEacUxz/NGcuypTLozQfNPgarEz2/g6RmB
+ STYhGxmn/AfPGw6euVp77WfrfgKviyIOICRd9CvncmdXUMFM62hf080NtYbCUB3zSKAez8btM
+ f/402HH
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -76,29 +75,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 07/10/2022 à 04:01, luzhipeng a écrit :
-> From: lu zhipeng <luzhipeng@cestc.cn>
+Le 28/09/2022 à 11:03, dinglimin a écrit :
+> Jump statements, such as return and continue let you
+> change the default flow of program execution,
+> but jump statements that direct the control flow to
+> the original direction are just a waste of keystrokes.
 > 
-> The 'kdgb' is allocating memory in get_kdbg(), but it is not freed in
-> error path. So fix that.
-> 
-> Signed-off-by: lu zhipeng <luzhipeng@cestc.cn>
+> Signed-off-by: dinglimin <dinglimin@cmss.chinamobile.com>
 > ---
->   contrib/elf2dmp/main.c | 1 +
->   1 file changed, 1 insertion(+)
+>   scripts/vmstate-static-checker.py | 1 -
+>   1 file changed, 1 deletion(-)
 > 
-> diff --git a/contrib/elf2dmp/main.c b/contrib/elf2dmp/main.c
-> index b9fc6d230c..d77b8f98f7 100644
-> --- a/contrib/elf2dmp/main.c
-> +++ b/contrib/elf2dmp/main.c
-> @@ -125,6 +125,7 @@ static KDDEBUGGER_DATA64 *get_kdbg(uint64_t KernBase, struct pdb_reader *pdb,
+> diff --git a/scripts/vmstate-static-checker.py b/scripts/vmstate-static-checker.py
+> index b369388360..dfeee8231a 100755
+> --- a/scripts/vmstate-static-checker.py
+> +++ b/scripts/vmstate-static-checker.py
+> @@ -367,7 +367,6 @@ def check_machine_type(s, d):
+>       if s["Name"] != d["Name"]:
+>           print("Warning: checking incompatible machine types:", end=' ')
+>           print("\"" + s["Name"] + "\", \"" + d["Name"] + "\"")
+> -    return
 >   
->       if (va_space_rw(vs, KdDebuggerDataBlock, kdbg, kdbg_hdr.Size, 0)) {
->           eprintf("Failed to extract entire KDBG\n");
-> +        free(kdbg);
->           return NULL;
->       }
 >   
+>   def main():
 
 Applied to my trivial-patches branch.
 
