@@ -2,53 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A17356096F6
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 00:13:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F9E6609762
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 01:58:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1omiNB-0000se-7g
-	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 17:19:09 -0400
+	id 1omjfq-0006Lw-T4
+	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 18:42:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1omGvl-0003Pa-FG
- for qemu-devel@nongnu.org; Sat, 22 Oct 2022 12:01:10 -0400
-Received: from mailout12.t-online.de ([194.25.134.22])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1omLis-0007I7-Fd; Sat, 22 Oct 2022 17:08:02 -0400
+Received: from mout.kundenserver.de ([212.227.17.13])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1omGvj-0006AN-BL
- for qemu-devel@nongnu.org; Sat, 22 Oct 2022 12:01:01 -0400
-Received: from fwd76.dcpf.telekom.de (fwd76.aul.t-online.de [10.223.144.102])
- by mailout12.t-online.de (Postfix) with SMTP id 6E55B669D;
- Sat, 22 Oct 2022 18:00:55 +0200 (CEST)
-Received: from linpower.localnet ([84.175.228.229]) by fwd76.t-online.de
- with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1omGvd-0ZEjZJ0; Sat, 22 Oct 2022 18:00:53 +0200
-Received: by linpower.localnet (Postfix, from userid 1000)
- id C75F22000A4; Sat, 22 Oct 2022 18:00:52 +0200 (CEST)
-From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
-To: Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org
-Subject: [PATCH] tests/qtest/ac97-test: add up-/downsampling tests
-Date: Sat, 22 Oct 2022 18:00:52 +0200
-Message-Id: <20221022160052.1132-1-vr_qemu@t-online.de>
-X-Mailer: git-send-email 2.35.3
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1omLiq-0002K2-Bh; Sat, 22 Oct 2022 17:08:02 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MmkjY-1pTyCD3Hd8-00jmei; Sat, 22 Oct 2022 23:07:55 +0200
+Message-ID: <777f273e-2ce0-2d84-4009-9f33a8eae9ef@vivier.eu>
+Date: Sat, 22 Oct 2022 23:07:54 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH 0/3] Drop useless casts from void * to pointer
+Content-Language: fr
+To: Markus Armbruster <armbru@redhat.com>, qemu-trivial@nongnu.org
+Cc: qemu-devel@nongnu.org
+References: <20220923120025.448759-1-armbru@redhat.com>
+ <87a65qbsn3.fsf@pond.sub.org>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <87a65qbsn3.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1666454453-EEFF2A26-E0B2D685/0/0 CLEAN NORMAL
-X-TOI-MSGID: 35994585-f13a-4db1-9750-3e1a701f6551
-Received-SPF: none client-ip=194.25.134.22;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout12.t-online.de
+X-Provags-ID: V03:K1:w5vBeyN4GHjCOJ/3DVWxaKIG1XGYRYTkJIJjz2etogM8IjcHAai
+ 3+BTXiZCeL2fPyu2RgmTeSwjLtz7ackqBgvHEY6vu3aQIxzTE37k2mOgbpwY8pmc0XCl8+8
+ fIY7QoF/90enR3rqNUAAYvH1h/kaa0eWwkdGh5jw9ZxjQOEFpEhM3oYKjArZZsbqMxxFL3b
+ XVb9kUKbcI9EaFAvg1fnQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:NmnT+JwYM9A=:EXCC7LgB7qoxcV7NvWNHzZ
+ PSCqdtt8hVQvKM4Nvg3nYaRmdPAY9guWvVQ2sgD/WC2KWAJ4fzFNJxMPFgiTZtFaxUlmYAjy3
+ mlmTloxxgwkpNbD1DrrNBMI/A5e9DR/aFe03m0Ke2JwXePhQI4uwstnd1I78nXTvfVXTkbJem
+ 0J4/Kj3Z11Vn4iVkhtph7Xd0+HianeF5eAm22jUN1kGrGt2tNYLiv2W2pq9vZFNWMvO01ZqpH
+ i9diVBIzsAR6O+4vVEfDIAcXEKCnTS2scWaur/+aWV2thO4eXK+OzaqhAR1i/ju3YIb0V+pyX
+ 4Uv/GrVVIvVry6vrmcq7w8A74S0mqr+8+7yE7mswWZnZjIt89KjXGQXnb/EXpJs8cO5Y80CJx
+ kpf1Qfh+GBCU4FB+o5Mx3pHzvL3toj4CbgfzsObH0iocao8oqH9ULtHlEy/1qsuknTntk3jCM
+ qPfJ7MpJd7YEt3g18vyk8j8dq+6/BFPb1slULlnDikM1a/17yxhNkmi2zdr8DAv0Ao9Lem05n
+ ZEwufbFG5OnTvu7g0kEDhphqUgbc4OX6ZTS3niwh+NunyQ3TRQOB6rMAc1Id0utsvJzjn6i3e
+ WSTZjX2tqkBeUNMwKaItNiZgKZtjb5AxC7U3/M5HXC5Hv9vUauphhdKPbFIG9ILZ3B2waL8ic
+ zZcJdHDvgEPm2d+Q3X4+otKkw9bTjZVDmVQM9vk4m9CfknfNYOoQHaI6WtrKkEs7KKiBnQMP6
+ bqMx8vsIHk2JXoWtpSIqVTkaMSZqE/P5xNLHfI7Tir5of8o5qbe3lw7uw6p9jW4eFYaTR23Bw
+ 64b775y
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,79 +75,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test if the audio subsystem can handle extreme up- and down-
-sampling ratios like 44100/1 and 1/44100. For some time these
-used to trigger QEMU aborts. The test was taken from
-https://gitlab.com/qemu-project/qemu/-/issues/71 where it was
-used to demonstrate a very different issue.
+Le 20/10/2022 à 14:12, Markus Armbruster a écrit :
+> Could this go via qemu-trivial now?
+> 
+> 
 
-Suggested-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
----
- tests/qtest/ac97-test.c | 40 +++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 39 insertions(+), 1 deletion(-)
+Yes, sorry for the delay.
 
-diff --git a/tests/qtest/ac97-test.c b/tests/qtest/ac97-test.c
-index 74103efdfa..ce25f1d588 100644
---- a/tests/qtest/ac97-test.c
-+++ b/tests/qtest/ac97-test.c
-@@ -42,16 +42,54 @@ static void *ac97_create(void *pci_bus, QGuestAllocator *alloc, void *addr)
-     return &ac97->obj;
- }
- 
-+/*
-+ * This is rather a test of the audio subsystem and not an AC97 test. Test if
-+ * the audio subsystem can handle a 44100/1 upsample ratio. With an audio
-+ * mixing buffer size of 1024 audio frames, the audio subsystem should either
-+ * generate 1024 output frames from 0.0232 input frames or silently give up.
-+ */
-+static void ac97_playback_upsample(void *obj, void *data, QGuestAllocator *alloc)
-+{
-+    QAC97 *ac97 = obj;
-+    QPCIDevice *dev = &ac97->dev;
-+    QPCIBar bar0;
-+
-+    qpci_device_enable(dev);
-+    bar0 = qpci_iomap(dev, 0, NULL);
-+    qpci_io_writew(dev, bar0, 0x2c, 0x1);
-+}
-+
-+/*
-+ * This test is similar to the playback upsample test. This time the audio
-+ * subsystem should either generate 0.0232 audio frames from 1024 input frames
-+ * or silently give up.
-+ */
-+static void ac97_record_downsample(void *obj, void *data, QGuestAllocator *alloc)
-+{
-+    QAC97 *ac97 = obj;
-+    QPCIDevice *dev = &ac97->dev;
-+    QPCIBar bar0;
-+
-+    qpci_device_enable(dev);
-+    bar0 = qpci_iomap(dev, 0, NULL);
-+    qpci_io_writew(dev, bar0, 0x32, 0x1);
-+}
-+
- static void ac97_register_nodes(void)
- {
-     QOSGraphEdgeOptions opts = {
--        .extra_device_opts = "addr=04.0",
-+        .extra_device_opts = "addr=04.0,audiodev=snd0",
-+        .after_cmd_line = "-audiodev none,id=snd0"
-+                          ",out.frequency=44100,in.frequency=44100",
-     };
-     add_qpci_address(&opts, &(QPCIAddress) { .devfn = QPCI_DEVFN(4, 0) });
- 
-     qos_node_create_driver("AC97", ac97_create);
-     qos_node_produces("AC97", "pci-device");
-     qos_node_consumes("AC97", "pci-bus", &opts);
-+
-+    qos_add_test("playback_upsample", "AC97", ac97_playback_upsample, NULL);
-+    qos_add_test("record_downsample", "AC97", ac97_record_downsample, NULL);
- }
- 
- libqos_init(ac97_register_nodes);
--- 
-2.35.3
+I think there is a problem with PATCH 3.
 
+Thanks,
+Laurent
 
