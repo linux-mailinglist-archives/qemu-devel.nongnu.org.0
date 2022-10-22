@@ -2,75 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD7FD608BE2
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Oct 2022 12:47:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F27A0608B49
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Oct 2022 12:09:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omBHk-0004aU-7l; Sat, 22 Oct 2022 05:59:20 -0400
+	id 1omBMY-00059V-8E; Sat, 22 Oct 2022 06:04:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1omBHi-0004aM-F7
- for qemu-devel@nongnu.org; Sat, 22 Oct 2022 05:59:18 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
+ id 1omBMN-00058w-MJ
+ for qemu-devel@nongnu.org; Sat, 22 Oct 2022 06:04:16 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1omBHT-0008FD-7t
- for qemu-devel@nongnu.org; Sat, 22 Oct 2022 05:59:18 -0400
-Received: by mail-pg1-x533.google.com with SMTP id f9so246483pgj.2
- for <qemu-devel@nongnu.org>; Sat, 22 Oct 2022 02:59:02 -0700 (PDT)
+ id 1omBML-0000XO-Bg
+ for qemu-devel@nongnu.org; Sat, 22 Oct 2022 06:04:06 -0400
+Received: by mail-pl1-x632.google.com with SMTP id d24so4461982pls.4
+ for <qemu-devel@nongnu.org>; Sat, 22 Oct 2022 03:04:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=RU8/5HTo8+baKMeHrUEQiBWbmsr/936MisDwlU3iBGk=;
- b=m+HclE7BndO+171z9rIM5f+KdAsuQQwcekZv5h0GAIUIYxV1BvJndK+zpQZPe4T7sa
- o4LdYXvgfBlEduVXcPXw8z0G7MAkDMTXkonGjlM1uL5YC1CmJ9GBnfx4Jsc8wjpCFeKh
- 5rZiy9WR0936WanKNzwHeudWvmwBdswwKVxnJhdB/HoNqIxjgfmP24lDPgrZxEIdmpM0
- rvx7ZM32MWjhn/TgBFOEXr1BQZGYWPJ7/8WvX8AdWplTzcjPbRXllTATwrzhPAEEgvMa
- xeUomqcp10JpVUIXfygszLOXgpQWOFb1EoGEGhuSosK1+vQ0FUO68gtcCI+OVwc40TiH
- glIg==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=4zqNBc7b8bEGYkNdJxxbw5xpseYOOFr5/dckYLSjKqQ=;
+ b=bFhxEXv5PRpDzYY2MW7iktNuzacNvYuwAtZLknhk+Inmz0DybBRwtIKCutztyxfB1u
+ zAbEMXqwR+ExmpFubBhq8GzBUkUTnopmRgAV6GGKhCqH0mqKQHumUiVxstmx4vPHVEXA
+ N4++auSkgO+b81rIm28s2EZQ2kg4vJx5Jkjjo8wnhVMKVSVFfxLhq+qUjhoRAIS4XivG
+ IiyVHAcoweTnmXVr6tmailYaAi3F7P9vh1AIHFi6mnU7J5lmH7Z6r+xKK+N4TpKfHEkj
+ rISV4lIJYdOO9Utz5LldLaiXjwtAxzk+/mNqWJDqK4BCx4OE1vHAHtpHNGc0Jf5zn/iP
+ iI0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=RU8/5HTo8+baKMeHrUEQiBWbmsr/936MisDwlU3iBGk=;
- b=m7QC7RQVdiCjum4nj/13IsaZQ4J1cmGFfbkfXvdECPJkqwedVuoKYIsgxeDTjOuYii
- ImChr1gdzAzljDZRV/AXj7iizUWreXTfsaRrtmK6tgAvP3JQ5nG/TAwuJV01p+fUbjTA
- kYgdcfJGi0fyVttD+G8lxo7qXCGigLcKgcnzhmFcvPNan38x/hw2BixQg5QTwHN2xd9W
- bl8Je9rmAjQHfFYHA1jo1VQ5P1fUy7xc/bcasnaro4T+DNJO+HtSeky++X+PKaWekN8Z
- eIzu3kDT/8ADUVRa3byOzH6ov1zk24LbRa+glpwDoSv0TBgnIydM+hGMyvOuKPnJaSbT
- tLeQ==
-X-Gm-Message-State: ACrzQf2ZrtTTsVslf9Gd1sPTKa/SSNSggB0uDQlssY8Yxg0SHMuxBS7u
- lLMHICmwXXkzpYuTX+TBbE7DgAI+uSOOJQo0
-X-Google-Smtp-Source: AMsMyM7wpT23k+x74M/B8jO4WigDRTCxoZaYInGTBWeodb80VqIvB7Iq+88z3waJiUVBEua9mpZc+A==
-X-Received: by 2002:a05:6a00:174c:b0:565:c73a:9117 with SMTP id
- j12-20020a056a00174c00b00565c73a9117mr23288425pfc.23.1666432741344; 
- Sat, 22 Oct 2022 02:59:01 -0700 (PDT)
-Received: from localhost.localdomain ([149.135.10.35])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4zqNBc7b8bEGYkNdJxxbw5xpseYOOFr5/dckYLSjKqQ=;
+ b=N4h1r0OKSJby+nArVWLPVTqw2zPw0WhEeJibFm9K8RIFJZvMnaIiaCuwv5ELVa34YE
+ jyR7VjhrxI85lNFKxlWd8+Ix4KeVQceAIzm+UN1pnhhvokPcfZ/gl1VND1EUOYeC4JH2
+ 137QMo/N1+ALBebIOGaj4AzeRgqbmVtWzMVcu0nt34h/PfWU/vDw4vJFuqqGbtNC9ul/
+ z8NZEJmi556nK9f4ZjmstXW7lgN4VQLU5GS/gVcy4PwMBZKX0tOvYpweza/nu3ZWqAaG
+ RKpAvMSkE5eom7Bp5TuivlTPeZnTe+c4qlIwocUglprhtugPOEqpNXmJNU2NtexYDMCN
+ NxnQ==
+X-Gm-Message-State: ACrzQf3tyXMerepKGqm/7thc8gGzVVwU2I0XPox+WyrS4c6dqb4XM3qC
+ 4b4nuKm0sbILr+Dv6AAWrvqlug==
+X-Google-Smtp-Source: AMsMyM7ipqkb1Sw3d2ddi/UeNUNgWNPCPdzyi+M74w0qPK084B0KsJZLKRwgXUvHxf72c72axIjYIQ==
+X-Received: by 2002:a17:90b:3c88:b0:20d:9724:95dc with SMTP id
+ pv8-20020a17090b3c8800b0020d972495dcmr27059101pjb.56.1666433043502; 
+ Sat, 22 Oct 2022 03:04:03 -0700 (PDT)
+Received: from [192.168.1.107] ([149.135.10.35])
  by smtp.gmail.com with ESMTPSA id
- 129-20020a621987000000b0056b3c863950sm2021564pfz.8.2022.10.22.02.58.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Oct 2022 02:59:00 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Alistair.Francis@wdc.com, qemu-riscv@nongnu.org, palmer@dabbelt.com,
- LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Subject: [PATCH] tcg/riscv: Fix range matched by TCG_CT_CONST_M12
-Date: Sat, 22 Oct 2022 19:58:21 +1000
-Message-Id: <20221022095821.2441874-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ l3-20020a170903244300b00174f7d107c8sm16510934pls.293.2022.10.22.03.03.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 22 Oct 2022 03:04:02 -0700 (PDT)
+Message-ID: <3da176b2-160f-5365-8c88-64d7e1523807@linaro.org>
+Date: Sat, 22 Oct 2022 20:03:46 +1000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH] Revert "accel/tcg: Init TCG cflags in vCPU thread handler"
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-stable@nongnu.org, Aaron Lindsay <aaron@os.amperecomputing.com>
+References: <20221021163409.3674911-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221021163409.3674911-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,51 +93,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We were matching a signed 13-bit range, not a 12-bit range.
-Expand the commentary within the function and be explicit
-about all of the ranges.
+On 10/22/22 02:34, Peter Maydell wrote:
+> Commit a82fd5a4ec24d was intended to be a code cleanup, but
+> unfortunately it has a bug. It moves the initialization of the
+> TCG cflags from the "start a new vcpu" function to the
+> thread handler; this is fine when each vcpu has its own thread,
+> but when we are doing round-robin of vcpus on a single thread
+> we end up only initializing the cflags for CPU 0, not for any
+> of the others.
+> 
+> The most obvious effect of this bug is that running in icount
+> mode with more than one CPU is broken; typically the guest
+> hangs shortly after it brings up the secondary CPUs.
+> 
+> This reverts commit a82fd5a4ec24d923ff1e6da128c0fd4a74079d99.
+> 
+> Cc:qemu-stable@nongnu.org
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   accel/tcg/tcg-accel-ops-mttcg.c | 5 +++--
+>   accel/tcg/tcg-accel-ops-rr.c    | 7 ++++---
+>   2 files changed, 7 insertions(+), 5 deletions(-)
 
-Reported-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/riscv/tcg-target.c.inc | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
+Thanks, queued to tcg-next.
 
-diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-index 1cdaf7b57b..2a84c57bec 100644
---- a/tcg/riscv/tcg-target.c.inc
-+++ b/tcg/riscv/tcg-target.c.inc
-@@ -154,13 +154,26 @@ static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
-     if ((ct & TCG_CT_CONST_ZERO) && val == 0) {
-         return 1;
-     }
--    if ((ct & TCG_CT_CONST_S12) && val == sextreg(val, 0, 12)) {
-+    /*
-+     * Sign extended from 12 bits: [-0x800, 0x7ff].
-+     * Used for most arithmetic, as this is the isa field.
-+     */
-+    if ((ct & TCG_CT_CONST_S12) && val >= -0x800 && val <= 0x7ff) {
-         return 1;
-     }
--    if ((ct & TCG_CT_CONST_N12) && -val == sextreg(-val, 0, 12)) {
-+    /*
-+     * Sign extended from 12 bits, negated: [-0x7ff, 0x800].
-+     * Used for subtraction, where a constant must be handled by ADDI.
-+     */
-+    if ((ct & TCG_CT_CONST_N12) && val >= -0x7ff && val <= 0x800) {
-         return 1;
-     }
--    if ((ct & TCG_CT_CONST_M12) && val >= -0xfff && val <= 0xfff) {
-+    /*
-+     * Sign extended from 12 bits, +/- matching: [-0x7ff, 0x7ff].
-+     * Used by addsub2, which may need the negative operation,
-+     * and requires the modified constant to be representable.
-+     */
-+    if ((ct & TCG_CT_CONST_M12) && val >= -0x7ff && val <= 0x7ff) {
-         return 1;
-     }
-     return 0;
--- 
-2.34.1
-
+r~
 
