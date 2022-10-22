@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B506E609631
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Oct 2022 22:36:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53342609604
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Oct 2022 22:09:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1omgiL-0001nr-I5
-	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 15:32:53 -0400
+	id 1omgoX-0002Wr-7b
+	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 15:39:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1omG4S-00070c-Ty; Sat, 22 Oct 2022 11:05:58 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
+ id 1omG4a-00072K-No; Sat, 22 Oct 2022 11:06:04 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1omG4R-00021c-Gw; Sat, 22 Oct 2022 11:05:56 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id l22so16101200edj.5;
- Sat, 22 Oct 2022 08:05:53 -0700 (PDT)
+ id 1omG4Z-00022R-6f; Sat, 22 Oct 2022 11:06:04 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id z97so16067643ede.8;
+ Sat, 22 Oct 2022 08:06:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qnV3W8Z9RH7b0qdMsOmMLVYIItfoiFpG/WHHVfc30eI=;
- b=JC6+UAnDWIkocwNkSfsljKYdufhv0IjDkUBiUjJ9cUIuO1Hszs1UFknGkKWv2I3LV/
- vhfZZ7PcsurbpLlu3U8wo7/xj9U7kStL993vTw9h2oEpcxO71+HtJJFLSc3LlCyOC62n
- uIs0a5WBhL2o2LdYF6lMf+IA3hnA5c2eR11Et+femXgMXauhc+0TJpX4k02sXiIx0GPg
- MW28Y9uLWr+7JhHklHytTcIsgFdfulJXmTJ2HoysBJ4qk60Tqoe6G5Op/CBY/5Xu7tvJ
- 7vwJBXnESDyfKQyUH9gyFa0V+fAQ87WyjYYMN06sSRSZP0x1wlbpbGrqcBvkGRs/wvlv
- FKww==
+ bh=jA1SDPeK2ToD4+n7uN+7fLnNFWowNdP73qPzh6JImnI=;
+ b=P4FNIyYoO6zLOLiLJgn+UP70kMfg7xJDAW2c53DZEo/7Ipcy5esMJL1mjeWZtHW2Tw
+ 8Ot1yW+jeJUoXsdh4SBZJ1hqP+h5EZ8nqVabbnVpaP0wfDHjw3GJNVHUk9en1AxOPTjV
+ OcKcoHwLSHWAj2q2qxAO6T/CK0q8vwuOyb7CkHuZcwk55kkBsekTSYG6hOqI931EzUv6
+ qmwNaXGqbmpjQIONpiGGMRzKMusOvcQ8d1ebgsM6GjOnCPFqy1jjJZ8EkRWoZbMg1pO3
+ OG/U0hqRPl4qiQ1mEt3/nUP5Nc8xof9Zx+xUUzFJxTsCpFWg4oeRFJR7lIKUj8kdqMgL
+ ac3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qnV3W8Z9RH7b0qdMsOmMLVYIItfoiFpG/WHHVfc30eI=;
- b=U18A4giYDLpRup72kwDD8O86qyTB9VSWyoFCQseUlYJh2aa6Ob36IJby/qnj02l3DR
- QQATtlWbuZUGKMKStxiu4MwOR6D/GhTMBZXPES/eEZuKP1ZonlJIMI8lsnRQyfKy0WuH
- Jyl/W05lEw9mby8F3T5gT1/NSntV0jzHKpj4HBop+S7OYL69HInQScyF538gMKOo4G6/
- ThoVCwS/4uft3mYPp83I9qFN+5wl5D1dRzRkiwgD/mDjdi3MLni5WUcm9ONwsYCvrFSi
- aqAB4YdmTw2HLceUQAlqB6PEOuz3oXG7dosayLVhi7IHABZkqS1UptMgcs4VCkDIuiOz
- wFMg==
-X-Gm-Message-State: ACrzQf1JW2O3slxzxwHpfRLHk59S/y3/8myir9TOEG33LdN1EqMtxKl/
- ZBLRChX1wL5Psi3p9Pr83z+kmg4eqvA/MA==
-X-Google-Smtp-Source: AMsMyM68bjcr4cUKMQ9+dOLbkPbqSjdEd7taJlqld7grhihDilE63c4ynWhanHQhuBNqpjwp78x4iw==
-X-Received: by 2002:a17:907:c15:b0:78d:9c3c:fb8f with SMTP id
- ga21-20020a1709070c1500b0078d9c3cfb8fmr20980994ejc.347.1666451152158; 
- Sat, 22 Oct 2022 08:05:52 -0700 (PDT)
+ bh=jA1SDPeK2ToD4+n7uN+7fLnNFWowNdP73qPzh6JImnI=;
+ b=3KK5jRAoYDCGkH+q7BCPLwnUbJClxoEO3133IaS9Yg5LKXx5+zD45Vcwt7hmNXD5yN
+ rPDT7cv5yInoxfJQkCbg8G7spNR4TvP5zv41cNfgBY7YzCvp0l8/Vvn47TmJLRQRin4H
+ vrzQ4E4xLONZ0nt4UoSoR4AbHHigyRxjdabjke5j4MfEWT6gDAo4iIopd4bktx1G6/ZA
+ PrKVH1jyrVdj1oArQ6uPtYs2C/KKxNgLRIwvKX//WbIzmaUorg8IcM/bUrD0C+NWp9dn
+ zfFroQJ61kVpHabmPqefn4UXPzCJagKisTEuSzYiE2RGdrg8LMg2VDHJZU3ZnTqMetVU
+ QP3Q==
+X-Gm-Message-State: ACrzQf0ex+nP3FryKZQu2aufDtI5pJTs5XIMs6h9iLV/71+nm46bz5wz
+ L3jp+syBIY25NtdxFEUkSM3mOni8SEzpLQ==
+X-Google-Smtp-Source: AMsMyM5QGJ4AQYzVd/VymUA8lyKvM09RGq3PvIadpMhfdA7JMBMp2YMhnjRG6zVYULxzohn3DgvN1A==
+X-Received: by 2002:a17:906:ee8e:b0:730:3646:d178 with SMTP id
+ wt14-20020a170906ee8e00b007303646d178mr20556686ejb.426.1666451161453; 
+ Sat, 22 Oct 2022 08:06:01 -0700 (PDT)
 Received: from localhost.localdomain
  (dynamic-077-191-171-138.77.191.pool.telefonica.de. [77.191.171.138])
  by smtp.gmail.com with ESMTPSA id
- 4-20020a170906310400b00780ab5a9116sm13021558ejx.211.2022.10.22.08.05.48
+ 4-20020a170906310400b00780ab5a9116sm13021558ejx.211.2022.10.22.08.05.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Oct 2022 08:05:50 -0700 (PDT)
+ Sat, 22 Oct 2022 08:06:00 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Eduardo Habkost <eduardo@habkost.net>,
@@ -66,19 +66,18 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Bernhard Beschow <shentey@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 02/43] hw/i386/pc_piix: Allow for setting properties before
- realizing PIIX3 south bridge
-Date: Sat, 22 Oct 2022 17:04:27 +0200
-Message-Id: <20221022150508.26830-3-shentey@gmail.com>
+ Bernhard Beschow <shentey@gmail.com>
+Subject: [PATCH v2 05/43] hw/isa/piix3: Modernize reset handling
+Date: Sat, 22 Oct 2022 17:04:30 +0200
+Message-Id: <20221022150508.26830-6-shentey@gmail.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221022150508.26830-1-shentey@gmail.com>
 References: <20221022150508.26830-1-shentey@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,28 +100,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The next patches will need to take advantage of it.
+Rather than registering the reset handler via a function which
+appends the handler to a global list, prefer to implement it as
+a virtual method - PIIX4 does the same already.
+
+Note that this means that piix3_reset can now also be called writing to
+the relevant configuration space register on a PCI bridge.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/i386/pc_piix.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/isa/piix3.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 7a55b9ca8e..5caef9bfc9 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -217,7 +217,8 @@ static void pc_init1(MachineState *machine,
-                               pci_memory, ram_memory);
-         pcms->bus = pci_bus;
+diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
+index 72dbf688d9..723ad0a896 100644
+--- a/hw/isa/piix3.c
++++ b/hw/isa/piix3.c
+@@ -31,7 +31,6 @@
+ #include "hw/isa/isa.h"
+ #include "hw/xen/xen.h"
+ #include "sysemu/xen.h"
+-#include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
+ #include "migration/vmstate.h"
+ #include "hw/acpi/acpi_aml_interface.h"
+@@ -156,9 +155,9 @@ static void piix3_write_config_xen(PCIDevice *dev,
+     piix3_write_config(dev, address, val, len);
+ }
  
--        pci_dev = pci_create_simple_multifunction(pci_bus, -1, true, type);
-+        pci_dev = pci_new_multifunction(-1, true, type);
-+        pci_realize_and_unref(pci_dev, pci_bus, &error_fatal);
-         piix3 = PIIX3_PCI_DEVICE(pci_dev);
-         piix3->pic = x86ms->gsi;
-         piix3_devfn = piix3->dev.devfn;
+-static void piix3_reset(void *opaque)
++static void piix3_reset(DeviceState *dev)
+ {
+-    PIIX3State *d = opaque;
++    PIIX3State *d = PIIX3_PCI_DEVICE(dev);
+     uint8_t *pci_conf = d->dev.config;
+ 
+     pci_conf[0x04] = 0x07; /* master, memory and I/O */
+@@ -313,8 +312,6 @@ static void pci_piix3_realize(PCIDevice *dev, Error **errp)
+     memory_region_add_subregion_overlap(pci_address_space_io(dev),
+                                         PIIX_RCR_IOPORT, &d->rcr_mem, 1);
+ 
+-    qemu_register_reset(piix3_reset, d);
+-
+     i8257_dma_init(isa_bus, 0);
+ }
+ 
+@@ -337,6 +334,7 @@ static void pci_piix3_class_init(ObjectClass *klass, void *data)
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+     AcpiDevAmlIfClass *adevc = ACPI_DEV_AML_IF_CLASS(klass);
+ 
++    dc->reset       = piix3_reset;
+     dc->desc        = "ISA bridge";
+     dc->vmsd        = &vmstate_piix3;
+     dc->hotpluggable   = false;
 -- 
 2.38.1
 
