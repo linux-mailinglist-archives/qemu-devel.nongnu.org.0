@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8600A6084CD
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Oct 2022 07:55:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3009A60849B
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Oct 2022 07:33:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1om6L1-0005fb-SL; Sat, 22 Oct 2022 00:42:23 -0400
+	id 1om6L4-0005fz-Mx; Sat, 22 Oct 2022 00:42:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1om6Ku-0005eR-JP
- for qemu-devel@nongnu.org; Sat, 22 Oct 2022 00:42:17 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ id 1om6Kx-0005f9-1V
+ for qemu-devel@nongnu.org; Sat, 22 Oct 2022 00:42:19 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1om6Ks-0003uD-6t
- for qemu-devel@nongnu.org; Sat, 22 Oct 2022 00:42:16 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id pq16so4062805pjb.2
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 21:42:12 -0700 (PDT)
+ id 1om6Kv-0003j8-LD
+ for qemu-devel@nongnu.org; Sat, 22 Oct 2022 00:42:18 -0400
+Received: by mail-pg1-x530.google.com with SMTP id b5so4256487pgb.6
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 21:42:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9zy/FucJITly2PoO9JfOkp83R0OTklifrDwJAvFdxOM=;
- b=SDtI5cwT8/pviqwp7SLnPCWxTTh3z4AfJKNCjBiohur16fa35BgBDB/RrX1op24YQq
- Qxw8PkUCGmmJP9toabb2FiYIleO7R/0SN6Wn9Z1dNdmiN9h1uhvTA3xnuslvii9sIxWi
- H7E9laKdybmGM+HWWaGdhmXvHJbl7GkbELn2YtOUvXwr1ssBiKe3hY3K7em8SiZidISc
- AUPSgzOQXknImShZrL+myv7p2HftduwF0a+t2m+8jZ3HPh7qt0akXkYpFvglIbSs18H9
- AhaNutCg2us1hpEUo0sS5H9+Ma28G4Wu8s3hONnsUJZsD0OtCkNrBps2gm2TarWASV8O
- X3FA==
+ bh=SbAX8umKvR/G7QIptphEmCjplY3oI9MYCnJ19Wzju+Q=;
+ b=OkADUB1IrY2MCxnyWd3KYKjUorrXuCoDabxeVUw5gMC6JRjgrdoKA8HTReCuL6B7s1
+ N4qvMQm0KlgPdtgRgFCbGTvBa58XsA/pJesYXyrdGJrr+mxHGMhiIBMAf5RBXN165tGo
+ YE/rPu8Ln2dUFiEm5sN4pTVGTdIKbCfXSuvjUXPyYKR/3wPLGZ4fKCiVAhVrZjuVkOWE
+ ap9WY3XZAJajk7k703VHAFIzoD7pODILLc/orrpphsS4Ev6wYqt+Jybq2exTM0x6hk17
+ HySltwWjgBK/dajsv+WqiwaSzXjmhu8FT3pLAYDhJIyOb48OREsgiWVQlmnga3Pk061u
+ m4Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9zy/FucJITly2PoO9JfOkp83R0OTklifrDwJAvFdxOM=;
- b=qZxDX/1sgoIaW84RK3C8R6/6r47lnIQO/0Z2yn05eg7lnRMQ7WyYf4mXmiOvaVhH8m
- 4jlHCt9jk4CiteAEuDqJym1mFha1brlmmovC/64adAHN/oLGHhoVzOQ/t9cfbuqCws0W
- K6he7gLTmCMyK/ZJfnTdn5fwLAFa9/fyDsox5M5u+0MJNrkI2kHmi+YlR07mfJKHvums
- ZjN1EApnKxOEiP74jULztWBn9HruznNKWqYQxmaoqW9+pdcggIK/a9E1sZC4RS2ySEtB
- 2iifeMCgxhmiTj0x/IX/mp3VvwZvNm+PCpLPlMEFELeaj8AX/etDV4V/CIwWcTZNjrWW
- IXDQ==
-X-Gm-Message-State: ACrzQf0DL6E+LM57NGyEd3fCo9kTXG2DnOBjUGiDyS4Sk+ZZPcNoZA4F
- nhyq8tES+GReWfbI9AIkGcRhxA==
-X-Google-Smtp-Source: AMsMyM5w8BBmra9YXnsTUuPmWnaoj5A3SAesxiSzi0yNuW9D35yaLQPInw3MfviNuAnWX0fzQAx1lQ==
-X-Received: by 2002:a17:90b:38d1:b0:20d:8f2a:c4c4 with SMTP id
- nn17-20020a17090b38d100b0020d8f2ac4c4mr59768279pjb.192.1666413731848; 
- Fri, 21 Oct 2022 21:42:11 -0700 (PDT)
+ bh=SbAX8umKvR/G7QIptphEmCjplY3oI9MYCnJ19Wzju+Q=;
+ b=1x2DpRtGyB7Tkv6sUBcCTFr5BtvDt7LJFZ0eu4nm1uEbtxlKJy0T6Zoetzs6vuIBu3
+ 21h5IjTqyEqqiwgFRCaK4BgB32Pn70sqA0NJ+Lva6PqhgxfTMyi8/Gv31KyAFsObyJtt
+ EyUpDeagnNPiQc5h3DpkE3qoTvdgun7NYyex7ieuYlWTxP2Y2SSctgQkgXSbeawQYQGe
+ ySSSQYebr0Qd63VynBYdKc6kOkO6xbbT8zPBI2UDWVcwYhJOyytM7dSHvp8TZ9eqaJyW
+ KXng9ynQ24P/+FmYtxDK9DAskmZM2MhT5Nou2rDHLwXMHEaMmmrXWXm3c3dRJ0jrlS+D
+ TRkw==
+X-Gm-Message-State: ACrzQf0sxOMqFLLEyj3KD0K/0lzuCqVQ8vyRa0lMgu8Tn/OP1GXyi4l+
+ poxcP1cclJxGCxq0IIlohdMGjQ==
+X-Google-Smtp-Source: AMsMyM68VMce1vL1B0BW1xHT1i+mSfZ3l6VTXMFRrpVsscAZMd5+CN+vrx0+v+BMehI/2KIQRz/RDQ==
+X-Received: by 2002:a63:91c7:0:b0:460:156c:ded7 with SMTP id
+ l190-20020a6391c7000000b00460156cded7mr19221692pge.298.1666413737034; 
+ Fri, 21 Oct 2022 21:42:17 -0700 (PDT)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
  by smtp.gmail.com with ESMTPSA id
- y16-20020a17090264d000b001868d4600b8sm178049pli.158.2022.10.21.21.42.06
+ y16-20020a17090264d000b001868d4600b8sm178049pli.158.2022.10.21.21.42.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Oct 2022 21:42:11 -0700 (PDT)
+ Fri, 21 Oct 2022 21:42:16 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org,
@@ -74,22 +74,23 @@ Cc: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org,
  Yan Vugenfirer <yan@daynix.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v2 12/17] pci/slotid: Omit errp for pci_add_capability
-Date: Sat, 22 Oct 2022 13:40:48 +0900
-Message-Id: <20221022044053.81650-13-akihiko.odaki@daynix.com>
+Subject: [PATCH v2 13/17] hw/pci-bridge/pcie_pci_bridge: Omit errp for
+ pci_add_capability
+Date: Sat, 22 Oct 2022 13:40:49 +0900
+Message-Id: <20221022044053.81650-14-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221022044053.81650-1-akihiko.odaki@daynix.com>
 References: <20221022044053.81650-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::1035;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1035.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::530;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,35 +108,45 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- hw/pci/slotid_cap.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ hw/pci-bridge/pcie_pci_bridge.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
-diff --git a/hw/pci/slotid_cap.c b/hw/pci/slotid_cap.c
-index 36d021b4a6..5da8c82133 100644
---- a/hw/pci/slotid_cap.c
-+++ b/hw/pci/slotid_cap.c
-@@ -12,7 +12,7 @@ int slotid_cap_init(PCIDevice *d, int nslots,
-                     unsigned offset,
-                     Error **errp)
+diff --git a/hw/pci-bridge/pcie_pci_bridge.c b/hw/pci-bridge/pcie_pci_bridge.c
+index 99778e3e24..1b839465e7 100644
+--- a/hw/pci-bridge/pcie_pci_bridge.c
++++ b/hw/pci-bridge/pcie_pci_bridge.c
+@@ -35,7 +35,7 @@ static void pcie_pci_bridge_realize(PCIDevice *d, Error **errp)
  {
--    int cap;
-+    uint8_t cap;
+     PCIBridge *br = PCI_BRIDGE(d);
+     PCIEPCIBridge *pcie_br = PCIE_PCI_BRIDGE_DEV(d);
+-    int rc, pos;
++    int rc;
  
-     if (!chassis) {
-         error_setg(errp, "Bridge chassis not specified. Each bridge is required"
-@@ -24,11 +24,7 @@ int slotid_cap_init(PCIDevice *d, int nslots,
-         return -EINVAL;
-     }
+     pci_bridge_initfn(d, TYPE_PCI_BUS);
  
--    cap = pci_add_capability(d, PCI_CAP_ID_SLOTID, offset,
--                             SLOTID_CAP_LENGTH, errp);
--    if (cap < 0) {
--        return cap;
+@@ -49,12 +49,8 @@ static void pcie_pci_bridge_realize(PCIDevice *d, Error **errp)
+ 
+     pcie_cap_init(d, 0, PCI_EXP_TYPE_PCI_BRIDGE, 0);
+ 
+-    pos = pci_add_capability(d, PCI_CAP_ID_PM, 0, PCI_PM_SIZEOF, errp);
+-    if (pos < 0) {
+-        goto pm_error;
 -    }
-+    cap = pci_add_capability(d, PCI_CAP_ID_SLOTID, offset, SLOTID_CAP_LENGTH);
-     /* We make each chassis unique, this way each bridge is First in Chassis */
-     d->config[cap + PCI_SID_ESR] = PCI_SID_ESR_FIC |
-         (nslots << SLOTID_NSLOTS_SHIFT);
+-    d->exp.pm_cap = pos;
+-    pci_set_word(d->config + pos + PCI_PM_PMC, 0x3);
++    d->exp.pm_cap = pci_add_capability(d, PCI_CAP_ID_PM, 0, PCI_PM_SIZEOF);
++    pci_set_word(d->config + d->exp.pm_cap + PCI_PM_PMC, 0x3);
+ 
+     pcie_cap_arifwd_init(d);
+     pcie_cap_deverr_init(d);
+@@ -85,7 +81,6 @@ static void pcie_pci_bridge_realize(PCIDevice *d, Error **errp)
+ msi_error:
+     pcie_aer_exit(d);
+ aer_error:
+-pm_error:
+     pcie_cap_exit(d);
+     shpc_cleanup(d, &pcie_br->shpc_bar);
+ error:
 -- 
 2.37.3
 
