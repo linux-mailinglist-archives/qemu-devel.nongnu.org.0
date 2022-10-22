@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55FDE6096F8
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 00:14:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75AEF60975B
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 01:52:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1omhJb-0006jc-Ld
-	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 16:11:23 -0400
+	id 1omhVG-0008TE-Ec
+	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 16:23:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1omG5H-0007ET-MP; Sat, 22 Oct 2022 11:06:47 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+ id 1omG5c-0007Km-FZ; Sat, 22 Oct 2022 11:07:08 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1omG5G-0002FL-4g; Sat, 22 Oct 2022 11:06:47 -0400
-Received: by mail-ed1-x536.google.com with SMTP id w8so13814923edc.1;
- Sat, 22 Oct 2022 08:06:45 -0700 (PDT)
+ id 1omG5a-0002KU-Sh; Sat, 22 Oct 2022 11:07:08 -0400
+Received: by mail-ed1-x530.google.com with SMTP id r14so16113023edc.7;
+ Sat, 22 Oct 2022 08:07:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Wl16VqDv6IvuOIAdJh9KzEybJStJI1TitkoYrynXms4=;
- b=S+8Ydmkc1DcLIUgY5r/j179bPu/hNu8zkL7PU+sIeDZFUUzbw1HWJtcTUhJ+ltMuu7
- Y9k8+lhuBi68ZgwCGS8pNZEDklP337Rq2Otug0wzrvNeGO45prrrUgIsDdHx+IX7tEwX
- cAlbKHWPoi2Ow/rmMdTUcDNRHmuqIEvB27W4FWT6ysmV9b1E8XXjzCkH5BLyi2rsVvOM
- ypygjoFqLoqniRalz/0sL3n4KkDE/Hq8kRl74nDUH3iT96zoXTVOZk+/0ec276i6b30X
- e6ITTjFza78+8YTc/MhGMoIy/z8MNiQRo5VWhVzxjLVV5DDh5qxwxyvlBukFEGrs5UF9
- dA5w==
+ bh=RTpOClvzPkztIRM/jCrquvIhowaJtx1x6Tz2AKs9S08=;
+ b=QtFDbeU2bIQTKLHhGIt2xG7WxEclU/xAgo0tHaWHYbOsx0/FwAWxuynwst6AUzUk4g
+ Xgrdjd8xyEiXfFnMv0nHnGzkqvYUeIhRXz7zYAQEhCN63tGQ4pFRMbFDgm0T57ssssFk
+ gLiQuZZcf2dGH1vXfrTAfagZ9xCxwdZxBVCUAZbNCu8Gu7D6+2w5yXUpNDDJObx7yYMI
+ bQ6mCKLPd/5BNdLYp5pahFz96si9rKfBxlq+7XDlWhtP+kT0Y5boF6d9UPBpUN2GFhlB
+ 0wVEKMCpXV3Q9wcLUd+NTPIGc7pNJDzZnzQcelp4wIcwMwNnjapaDyd2CvHFSIxVx7e5
+ DJsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Wl16VqDv6IvuOIAdJh9KzEybJStJI1TitkoYrynXms4=;
- b=46JMP13xXEgODMqfjmuWPA8QuoTnnk6x4KKrYqF2iyzSul940rAMjrP1xp08iy/Atp
- 4Il0G5OlRHLWml+q62+8N1D8rY3PvGzdVZqtggzQspkY7N/H4tqPpxHhm2Sj5WUSE9i6
- hy5uRXLzbOTZqFBHoTzDQy17MTpPfoP03IQ0h/KduMacZ420uIP/82DqiWvAwlZ5hbl4
- Juy5px/yRyQTBiJwEjX2r6PraisulmtjqLfcqyvIRBupCp/lXnWuMRV8+YrYKY7Zllky
- qMt7S5o416/hlu/zypGGuT6bIjFn+oiavYrFbko+LMmGyX4MBqfksa8FmcN4e6wPrF2S
- 3k1A==
-X-Gm-Message-State: ACrzQf1Vj8oEGwZZLlA5qeYX7w5DrxU6SJmGcHQmoe/NpGlL3R0fRVQl
- avvufAeKeWKF5Y31J9JCIMEUIiTVYv139Q==
-X-Google-Smtp-Source: AMsMyM4qQDy6IpJqCGyWXDdf8LKtKgQOfMihMhTQn0cfUnOYJtAciTn0s1FnnvUpqAtBTXQCgkVvUA==
-X-Received: by 2002:a17:906:401:b0:73d:af73:b78 with SMTP id
- d1-20020a170906040100b0073daf730b78mr20691269eja.122.1666451204035; 
- Sat, 22 Oct 2022 08:06:44 -0700 (PDT)
+ bh=RTpOClvzPkztIRM/jCrquvIhowaJtx1x6Tz2AKs9S08=;
+ b=cXavJpLHE29KKPOujAR6JR9mBvLgZwsdWyKfqUUsUt9gJMFGnJsbnnF7ahXx+Q5CHS
+ 3tMgFwQ+mn6zPOoH+Lb0ZNpWKY5tIkIe06vpl19qg8Yrs5XblPhBBefziU51iQacBvEY
+ ixmwCv7wsqYcHBbjbeOY8b/Vc/hDicKwmALkLUDRZmd0zXoKqAXxFIVadskh0SK7zHW3
+ WvBnoSkWvGmEKFM/pA0FgUHjk0Ddsl2r+wUee+Yp2GXbLZsd2RK5sOyKJs8Y4aVv4qGR
+ nJMIlx0rZ+d1c1UeZg2OHG/OQD3pnQpmS8TpWt0nG3XgQmiJw/BjGn9OYBci3vfyoAFQ
+ miEQ==
+X-Gm-Message-State: ACrzQf1jXEojTEoAo9ePhNw8iGqUvkKOUkG1c6HqB/Ro1rxWAQyeogDL
+ t+29eftxzODedUMfnzNYLLY5AYwmurUA+Q==
+X-Google-Smtp-Source: AMsMyM7o/B8hau+TbKqv08DNbI6Ka6naoRw/s118aNDHgFpLyFzzy5JQTSSEwvZN3mC3xScVgyBQEg==
+X-Received: by 2002:a17:907:3ea9:b0:78d:fdf0:88fe with SMTP id
+ hs41-20020a1709073ea900b0078dfdf088femr21046792ejc.667.1666451224953; 
+ Sat, 22 Oct 2022 08:07:04 -0700 (PDT)
 Received: from localhost.localdomain
  (dynamic-077-191-171-138.77.191.pool.telefonica.de. [77.191.171.138])
  by smtp.gmail.com with ESMTPSA id
- 4-20020a170906310400b00780ab5a9116sm13021558ejx.211.2022.10.22.08.06.42
+ 4-20020a170906310400b00780ab5a9116sm13021558ejx.211.2022.10.22.08.07.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Oct 2022 08:06:43 -0700 (PDT)
+ Sat, 22 Oct 2022 08:07:03 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Eduardo Habkost <eduardo@habkost.net>,
@@ -67,17 +67,17 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 21/43] hw/isa/piix3: Rename pci_piix3_props for sharing
- with PIIX4
-Date: Sat, 22 Oct 2022 17:04:46 +0200
-Message-Id: <20221022150508.26830-22-shentey@gmail.com>
+Subject: [PATCH v2 29/43] hw/isa/piix4: Make PIIX4's ACPI and USB functions
+ optional
+Date: Sat, 22 Oct 2022 17:04:54 +0200
+Message-Id: <20221022150508.26830-30-shentey@gmail.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221022150508.26830-1-shentey@gmail.com>
 References: <20221022150508.26830-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,33 +100,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This aligns PIIX4 with PIIX3.
+
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/isa/piix3.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/isa/piix4.c  | 44 ++++++++++++++++++++++++++++++++------------
+ hw/mips/malta.c |  6 ++++--
+ 2 files changed, 36 insertions(+), 14 deletions(-)
 
-diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
-index 9de7287589..8dbf22eaab 100644
---- a/hw/isa/piix3.c
-+++ b/hw/isa/piix3.c
-@@ -381,7 +381,7 @@ static void pci_piix3_init(Object *obj)
-     object_initialize_child(obj, "ide", &d->ide, TYPE_PIIX3_IDE);
+diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+index a7389ff193..fc698c23be 100644
+--- a/hw/isa/piix4.c
++++ b/hw/isa/piix4.c
+@@ -51,9 +51,16 @@ struct PIIX4State {
+     PCIIDEState ide;
+     UHCIState uhci;
+     PIIX4PMState pm;
++
++    uint32_t smb_io_base;
++
+     /* Reset Control Register */
+     MemoryRegion rcr_mem;
+     uint8_t rcr;
++
++    bool has_acpi;
++    bool has_usb;
++    bool smm_enabled;
+ };
+ 
+ OBJECT_DECLARE_SIMPLE_TYPE(PIIX4State, PIIX4_PCI_DEVICE)
+@@ -259,17 +266,26 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
+     }
+ 
+     /* USB */
+-    qdev_prop_set_int32(DEVICE(&s->uhci), "addr", dev->devfn + 2);
+-    if (!qdev_realize(DEVICE(&s->uhci), BUS(pci_bus), errp)) {
+-        return;
++    if (s->has_usb) {
++        object_initialize_child(OBJECT(dev), "uhci", &s->uhci,
++                                TYPE_PIIX4_USB_UHCI);
++        qdev_prop_set_int32(DEVICE(&s->uhci), "addr", dev->devfn + 2);
++        if (!qdev_realize(DEVICE(&s->uhci), BUS(pci_bus), errp)) {
++            return;
++        }
+     }
+ 
+     /* ACPI controller */
+-    qdev_prop_set_int32(DEVICE(&s->pm), "addr", dev->devfn + 3);
+-    if (!qdev_realize(DEVICE(&s->pm), BUS(pci_bus), errp)) {
+-        return;
++    if (s->has_acpi) {
++        object_initialize_child(OBJECT(s), "pm", &s->pm, TYPE_PIIX4_PM);
++        qdev_prop_set_int32(DEVICE(&s->pm), "addr", dev->devfn + 3);
++        qdev_prop_set_uint32(DEVICE(&s->pm), "smb_io_base", s->smb_io_base);
++        qdev_prop_set_bit(DEVICE(&s->pm), "smm-enabled", s->smm_enabled);
++        if (!qdev_realize(DEVICE(&s->pm), BUS(pci_bus), errp)) {
++            return;
++        }
++        qdev_connect_gpio_out(DEVICE(&s->pm), 0, s->isa[9]);
+     }
+-    qdev_connect_gpio_out(DEVICE(&s->pm), 0, s->isa[9]);
+ 
+     pci_bus_irqs(pci_bus, piix4_set_irq, pci_slot_get_pirq, s, PIIX_NUM_PIRQS);
+ }
+@@ -280,13 +296,16 @@ static void piix4_init(Object *obj)
+ 
+     object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
+     object_initialize_child(obj, "ide", &s->ide, TYPE_PIIX4_IDE);
+-    object_initialize_child(obj, "uhci", &s->uhci, TYPE_PIIX4_USB_UHCI);
+-
+-    object_initialize_child(obj, "pm", &s->pm, TYPE_PIIX4_PM);
+-    qdev_prop_set_uint32(DEVICE(&s->pm), "smb_io_base", 0x1100);
+-    qdev_prop_set_bit(DEVICE(&s->pm), "smm-enabled", 0);
  }
  
--static Property pci_piix3_props[] = {
-+static Property pci_piix_props[] = {
-     DEFINE_PROP_UINT32("smb_io_base", PIIX3State, smb_io_base, 0),
-     DEFINE_PROP_UINT8("pirqa", PIIX3State, pci_irq_reset_mappings[0], 0x80),
-     DEFINE_PROP_UINT8("pirqb", PIIX3State, pci_irq_reset_mappings[1], 0x80),
-@@ -412,7 +412,7 @@ static void pci_piix3_class_init(ObjectClass *klass, void *data)
-      * pc_piix.c's pc_init1()
++static Property piix4_props[] = {
++    DEFINE_PROP_UINT32("smb_io_base", PIIX4State, smb_io_base, 0),
++    DEFINE_PROP_BOOL("has-acpi", PIIX4State, has_acpi, true),
++    DEFINE_PROP_BOOL("has-usb", PIIX4State, has_usb, true),
++    DEFINE_PROP_BOOL("smm-enabled", PIIX4State, smm_enabled, false),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void piix4_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -305,6 +324,7 @@ static void piix4_class_init(ObjectClass *klass, void *data)
       */
      dc->user_creatable = false;
--    device_class_set_props(dc, pci_piix3_props);
-+    device_class_set_props(dc, pci_piix_props);
-     adevc->build_dev_aml = build_pci_isa_aml;
+     dc->hotpluggable = false;
++    device_class_set_props(dc, piix4_props);
  }
  
+ static const TypeInfo piix4_info = {
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index a4b866a2cf..6339b0d66c 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -1400,8 +1400,10 @@ void mips_malta_init(MachineState *machine)
+     empty_slot_init("GT64120", 0, 0x20000000);
+ 
+     /* Southbridge */
+-    piix4 = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0), true,
+-                                            TYPE_PIIX4_PCI_DEVICE);
++    piix4 = pci_new_multifunction(PCI_DEVFN(10, 0), true,
++                                  TYPE_PIIX4_PCI_DEVICE);
++    qdev_prop_set_uint32(DEVICE(piix4), "smb_io_base", 0x1100);
++    pci_realize_and_unref(piix4, pci_bus, &error_fatal);
+     isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(piix4), "isa.0"));
+ 
+     dev = DEVICE(object_resolve_path_component(OBJECT(piix4), "ide"));
 -- 
 2.38.1
 
