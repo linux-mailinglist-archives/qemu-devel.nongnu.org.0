@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A318608B8A
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Oct 2022 12:24:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD7FD608BE2
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Oct 2022 12:47:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omArU-0001Li-Id; Sat, 22 Oct 2022 05:32:13 -0400
+	id 1omBHk-0004aU-7l; Sat, 22 Oct 2022 05:59:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1omAqz-0001L6-90
- for qemu-devel@nongnu.org; Sat, 22 Oct 2022 05:31:46 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+ id 1omBHi-0004aM-F7
+ for qemu-devel@nongnu.org; Sat, 22 Oct 2022 05:59:18 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1omAqx-0005TD-Ks
- for qemu-devel@nongnu.org; Sat, 22 Oct 2022 05:31:41 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id pb15so4360361pjb.5
- for <qemu-devel@nongnu.org>; Sat, 22 Oct 2022 02:31:39 -0700 (PDT)
+ id 1omBHT-0008FD-7t
+ for qemu-devel@nongnu.org; Sat, 22 Oct 2022 05:59:18 -0400
+Received: by mail-pg1-x533.google.com with SMTP id f9so246483pgj.2
+ for <qemu-devel@nongnu.org>; Sat, 22 Oct 2022 02:59:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=8jmJ13dVNdqaNPBNke7dgSs1Si43cdDNLYKTfdHhL3w=;
- b=J0/xMshZ4uOdecntKn4DgCkV479Ha0E4nicomh0TC9vSTKtn9JvKW0MIrGRwdKVfBQ
- BHk7S1Amg8MW+eto0wvpFn9rZP8HWc/mQgAbwbrpxUkZ/WQfmOODkl+he5YTSZFOqs6X
- 5Rpfv5CrKoY9VqDMK59QGMRMmHGPITqejG903ieJgp9tzPIPY0riUYosSSF8/Tgn5Vc9
- 53sxu3hbySTQYEVEZd/CN7IFkf48nzGSQXZeebK7I5drALO+4AsDhVaaubu9EfoEPPUb
- sYJ6ImzgyWNwByAfbAN5UFDNQkBrwJeS8uqxhrXR+bSLSScs/jgjvRWesno+xm3uMAu5
- dTow==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=RU8/5HTo8+baKMeHrUEQiBWbmsr/936MisDwlU3iBGk=;
+ b=m+HclE7BndO+171z9rIM5f+KdAsuQQwcekZv5h0GAIUIYxV1BvJndK+zpQZPe4T7sa
+ o4LdYXvgfBlEduVXcPXw8z0G7MAkDMTXkonGjlM1uL5YC1CmJ9GBnfx4Jsc8wjpCFeKh
+ 5rZiy9WR0936WanKNzwHeudWvmwBdswwKVxnJhdB/HoNqIxjgfmP24lDPgrZxEIdmpM0
+ rvx7ZM32MWjhn/TgBFOEXr1BQZGYWPJ7/8WvX8AdWplTzcjPbRXllTATwrzhPAEEgvMa
+ xeUomqcp10JpVUIXfygszLOXgpQWOFb1EoGEGhuSosK1+vQ0FUO68gtcCI+OVwc40TiH
+ glIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8jmJ13dVNdqaNPBNke7dgSs1Si43cdDNLYKTfdHhL3w=;
- b=LwCxFS93PCUEvLUqntQFgbMchEzVI/8yJtQ0ygkdq+XT0jrks3P2VOVHsjkRbIWcjz
- +JBMcgd3oYWahwiVAaQplT7ryBJKxS9FAth7j3kGULhkk+DAO5lCLCyRDzTR5dtd4KMc
- VDnJyXWlXweNem40cE+kWpJmo5tOhIFOfdNzYz13UPvPJIUknBQuTHKbRTFF5Yl9kWsm
- zH5VZMLU6TYJUeeUjvplFLKZPXzIEsAUqcbUNo+rqCi0h9FemUhFfzsBYJrFRd3zQDp5
- 7ReiLABor2RyJ4YasMfyZYTQICqWpvx7h/yzjumuKbvTJsFs4lZ12EVlBs2gK/oSG1jJ
- uRkA==
-X-Gm-Message-State: ACrzQf1MVjsFLa8bkMZepa8S3KF71SGmawEyEPIBfq5UxwENpbYnJneV
- CzhjL9Jkkg8XXw8oYe06m+U4gg==
-X-Google-Smtp-Source: AMsMyM6KXWfzMsH1fsi24ygeI9E6psgOUYdJqUhoFKbl4Id9yJVDW/6FKB9jXc8eNPwgIrYREswYtw==
-X-Received: by 2002:a17:902:b28c:b0:186:708e:6ed7 with SMTP id
- u12-20020a170902b28c00b00186708e6ed7mr9864409plr.98.1666431097796; 
- Sat, 22 Oct 2022 02:31:37 -0700 (PDT)
-Received: from [192.168.1.107] ([149.135.10.35])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=RU8/5HTo8+baKMeHrUEQiBWbmsr/936MisDwlU3iBGk=;
+ b=m7QC7RQVdiCjum4nj/13IsaZQ4J1cmGFfbkfXvdECPJkqwedVuoKYIsgxeDTjOuYii
+ ImChr1gdzAzljDZRV/AXj7iizUWreXTfsaRrtmK6tgAvP3JQ5nG/TAwuJV01p+fUbjTA
+ kYgdcfJGi0fyVttD+G8lxo7qXCGigLcKgcnzhmFcvPNan38x/hw2BixQg5QTwHN2xd9W
+ bl8Je9rmAjQHfFYHA1jo1VQ5P1fUy7xc/bcasnaro4T+DNJO+HtSeky++X+PKaWekN8Z
+ eIzu3kDT/8ADUVRa3byOzH6ov1zk24LbRa+glpwDoSv0TBgnIydM+hGMyvOuKPnJaSbT
+ tLeQ==
+X-Gm-Message-State: ACrzQf2ZrtTTsVslf9Gd1sPTKa/SSNSggB0uDQlssY8Yxg0SHMuxBS7u
+ lLMHICmwXXkzpYuTX+TBbE7DgAI+uSOOJQo0
+X-Google-Smtp-Source: AMsMyM7wpT23k+x74M/B8jO4WigDRTCxoZaYInGTBWeodb80VqIvB7Iq+88z3waJiUVBEua9mpZc+A==
+X-Received: by 2002:a05:6a00:174c:b0:565:c73a:9117 with SMTP id
+ j12-20020a056a00174c00b00565c73a9117mr23288425pfc.23.1666432741344; 
+ Sat, 22 Oct 2022 02:59:01 -0700 (PDT)
+Received: from localhost.localdomain ([149.135.10.35])
  by smtp.gmail.com with ESMTPSA id
- f7-20020a170902860700b001789ee5c821sm16030303plo.61.2022.10.22.02.31.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 22 Oct 2022 02:31:37 -0700 (PDT)
-Message-ID: <ff582518-668a-91b6-d9c9-01ba290f9f86@linaro.org>
-Date: Sat, 22 Oct 2022 19:31:08 +1000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2] target/i386: Fix caculation of LOCK NEG eflags
-Content-Language: en-US
-To: Qi Hu <huqi@loongson.cn>, Paolo Bonzini <pbonzini@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>
-Cc: qemu-devel@nongnu.org, Jinyang Shen <shenjinyang@loongson.cn>,
- Xuehai Chen <chenxuehai@loongson.cn>
-References: <20221022061216.423098-1-huqi@loongson.cn>
+ 129-20020a621987000000b0056b3c863950sm2021564pfz.8.2022.10.22.02.58.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 22 Oct 2022 02:59:00 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221022061216.423098-1-huqi@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: qemu-devel@nongnu.org
+Cc: Alistair.Francis@wdc.com, qemu-riscv@nongnu.org, palmer@dabbelt.com,
+ LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Subject: [PATCH] tcg/riscv: Fix range matched by TCG_CT_CONST_M12
+Date: Sat, 22 Oct 2022 19:58:21 +1000
+Message-Id: <20221022095821.2441874-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,66 +86,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/22/22 16:12, Qi Hu wrote:
-> In sequence:
-> ---
-> lock negl -0x14(%rbp)
-> pushf
-> pop    %rax
-> ---
-> 
-> %rax will obtain the wrong value becasue the "lock neg" caculates the
-> wrong eflags. The "s->T0" is updated by the wrong value.
-> 
-> You can use this to do some test:
-> ---
-> #include <assert.h>
-> 
-> int main()
-> {
->    __volatile__ unsigned test = 0x2363a;
->    __volatile__ char cond = 0;
->    asm(
->        "lock negl %0 \n\t"
->        "sets %1"
->        : "=m"(test), "=r"(cond)
->        :
->        :);
->    assert(cond & 1);
->    return 0;
-> }
-> ---
-> 
-> Reported-by: Jinyang Shen <shenjinyang@loongson.cn>
-> Co-Developed-by: Xuehai Chen <chenxuehai@loongson.cn>
-> Signed-off-by: Xuehai Chen <chenxuehai@loongson.cn>
-> Signed-off-by: Qi Hu <huqi@loongson.cn>
-> ---
-> V1 -> V2:
-> Following Richard's suggestion, just change mov to neg instead of using
-> local_tmp.
+We were matching a signed 13-bit range, not a 12-bit range.
+Expand the commentary within the function and be explicit
+about all of the ranges.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reported-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tcg/riscv/tcg-target.c.inc | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
 
-
-r~
-
-> ---
->   target/i386/tcg/translate.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-> index e19d5c1c64..cec2182080 100644
-> --- a/target/i386/tcg/translate.c
-> +++ b/target/i386/tcg/translate.c
-> @@ -3299,7 +3299,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
->   
->                   tcg_temp_free(t2);
->                   tcg_temp_free(a0);
-> -                tcg_gen_mov_tl(s->T0, t0);
-> +                tcg_gen_neg_tl(s->T0, t0);
->                   tcg_temp_free(t0);
->               } else {
->                   tcg_gen_neg_tl(s->T0, s->T0);
+diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
+index 1cdaf7b57b..2a84c57bec 100644
+--- a/tcg/riscv/tcg-target.c.inc
++++ b/tcg/riscv/tcg-target.c.inc
+@@ -154,13 +154,26 @@ static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
+     if ((ct & TCG_CT_CONST_ZERO) && val == 0) {
+         return 1;
+     }
+-    if ((ct & TCG_CT_CONST_S12) && val == sextreg(val, 0, 12)) {
++    /*
++     * Sign extended from 12 bits: [-0x800, 0x7ff].
++     * Used for most arithmetic, as this is the isa field.
++     */
++    if ((ct & TCG_CT_CONST_S12) && val >= -0x800 && val <= 0x7ff) {
+         return 1;
+     }
+-    if ((ct & TCG_CT_CONST_N12) && -val == sextreg(-val, 0, 12)) {
++    /*
++     * Sign extended from 12 bits, negated: [-0x7ff, 0x800].
++     * Used for subtraction, where a constant must be handled by ADDI.
++     */
++    if ((ct & TCG_CT_CONST_N12) && val >= -0x7ff && val <= 0x800) {
+         return 1;
+     }
+-    if ((ct & TCG_CT_CONST_M12) && val >= -0xfff && val <= 0xfff) {
++    /*
++     * Sign extended from 12 bits, +/- matching: [-0x7ff, 0x7ff].
++     * Used by addsub2, which may need the negative operation,
++     * and requires the modified constant to be representable.
++     */
++    if ((ct & TCG_CT_CONST_M12) && val >= -0x7ff && val <= 0x7ff) {
+         return 1;
+     }
+     return 0;
+-- 
+2.34.1
 
 
