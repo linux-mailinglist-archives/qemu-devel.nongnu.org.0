@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 148E36099E3
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 07:37:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8A31609993
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 07:01:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1omhI4-0006Ri-7v
-	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 16:09:48 -0400
+	id 1omhTv-0008H9-CD
+	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 16:22:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1omG5G-0007EF-5W; Sat, 22 Oct 2022 11:06:46 -0400
+ id 1omG5Z-0007KZ-Ts; Sat, 22 Oct 2022 11:07:05 -0400
 Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1omG5E-0002Ex-J3; Sat, 22 Oct 2022 11:06:45 -0400
-Received: by mail-ed1-x535.google.com with SMTP id l22so16106274edj.5;
- Sat, 22 Oct 2022 08:06:43 -0700 (PDT)
+ id 1omG5X-0002Ex-O8; Sat, 22 Oct 2022 11:07:05 -0400
+Received: by mail-ed1-x535.google.com with SMTP id l22so16108163edj.5;
+ Sat, 22 Oct 2022 08:07:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ABmoX0NxCwxVmKp1ogPkbw+xGj88SbGX6PhBV12lAkI=;
- b=Hj1r6vCYrRgRLGftTqdV8mqQ5+d8m3zR+8PFc0unkbeARj7GhTp7bxv//2xmxKHLsA
- GpEO61Z8cDjv5a46yKiB/P4BgbS2QR+QJL3DFfEZ+sFlJjE8JQqjwmSqfPP04CcNSGwI
- AZUGYQ4CqiBAQG+64/8MM493yG/KkqDj81+oHrxht7qhwdwMrelWf45XZojnsV+IfnYm
- PVrNI4EOqVj+bzWtLwQNO2Zw00iCMvn+jOx2j0DJKOBahJVpQ4szAc6yzc9ErSd06FM1
- mgYTGht9WsyuoQT1W16xPBUYOX5xFqPsB8I++C/bsDemLcq5M7OCWsH0kRqKGVF53g5P
- sJ5w==
+ bh=EJFanPG6Dom+OOVnb+H9BrqEGSCa/O3aKDM5m7Y77qA=;
+ b=qod+5162ymnRd2jvZL24H4AlE6V2Zuq87FLbA/gJ4y6xGP5OuBb8r+paHhhH9wTimS
+ lTxgrIV5q6o80JLVdIKdB1UemAvCcq3ogg2RjROzxJJ9og2lPRJBtEXmC1oeZkZr/Aha
+ TJQo1EsHBdZfXU7URhfRvzygeyc5PBKm2K3Ykj8M0MF/dUBY7j74ZeQ0Q8QcgN2Q4ux9
+ y0XH+KT5wNrQveNd00/pCdIsTBq8Jfe5+5AsPCHceOCqYZByO23G8txjGvh+ciDZcyau
+ FW+EmWf0+I/jkz12ngeaGtTIz3ZWL6R4abc5WwePoL+hRp/crgtMncXVS4PnGg0rnzjB
+ DTdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ABmoX0NxCwxVmKp1ogPkbw+xGj88SbGX6PhBV12lAkI=;
- b=NnTwLkuEto2XufcutwdkhBbPL3hf5J/bsaHS5CJ9j+9UjyUv6tsURm5Lrvbq3H6uKE
- Q63gZoEFht6LGTye2wkL2tLyk7Y8mwP0u15ig7YQtSH6uhwuLQVcVA65AzGycm8TCABg
- FrRHaNGvP3lx6WA3+o/rgTy4OmWjmkWc4P1qJ2r49nij8z+pTXUpaiH1ns94KGslk49e
- kDz/OqoasFKot66Tc0glvXP8W5UMut8DgMK97x3RsGOi8R5dgsPpqrxMuNkgGgvgDWez
- mK8z0zEhJwwLXqtoebCytU2KKYo5Vj3tvs3yS1LMLP2JzMljI0jccXlJ9BxZZafYVQ0U
- w4Cw==
-X-Gm-Message-State: ACrzQf1XX5/qBGExVhKMBHiSi8D5TySHXeHGeHJR9KamlaHkevox5UGr
- YA4SyZKuocfXd7/7An8w5+G0nAXqlcAGwg==
-X-Google-Smtp-Source: AMsMyM6I/XKIOIh/lSprscY5F8mcom6fQ6I5XDltI1DCG7/9Ox8WcrcgiMy6+xFvm1zhYTLIyYCvOA==
-X-Received: by 2002:a05:6402:144a:b0:461:8e34:d07b with SMTP id
- d10-20020a056402144a00b004618e34d07bmr1390756edx.426.1666451202464; 
- Sat, 22 Oct 2022 08:06:42 -0700 (PDT)
+ bh=EJFanPG6Dom+OOVnb+H9BrqEGSCa/O3aKDM5m7Y77qA=;
+ b=c4YQndfVx+m45zg6JVogIsJupjK0+8y2R5vNvwm3o5WfrAdePCPwajNREGjK6SweW7
+ gTF+2mJlxjOWxm1c49YaoepZ1ywi6GMGXXIjio+oZ5xCy6bAb4EW84sfj4v9hcAQrBSD
+ S6zXL01fGc3v6h4pTAVRpB5iGOse6x2c0H4VPSZM156kkIO3e2ue45INJkYbxKDATgOE
+ hCEycDPVlrLIIVYMttkdLm38zziztZZBy4AVZ2AuVU3zbqsj+3ubT92lFrZ9/cl0xdI5
+ 6ETmxSdEjPXoaZeu5WvR2O93B1owPLhmarP30DhdLPuWSYkB4uMscsmT+SOtmsAPHj00
+ 9p4A==
+X-Gm-Message-State: ACrzQf19p03Rw9h9SaDQlvJCRkiM0MGsjr/ei1LZlCDQotm7hlZVYpGY
+ YL8bSsM7JPLWO7qV2SZ65gsS+frt2SHWmg==
+X-Google-Smtp-Source: AMsMyM4id+kj4HX88VqemgqLrHjsC1rJmuZUCRXj8rIXePeoeNKAqN/7TrF+EA0BGsjpw2vNtJWvsA==
+X-Received: by 2002:a17:907:7b86:b0:78d:cb21:da0c with SMTP id
+ ne6-20020a1709077b8600b0078dcb21da0cmr20857331ejc.24.1666451222460; 
+ Sat, 22 Oct 2022 08:07:02 -0700 (PDT)
 Received: from localhost.localdomain
  (dynamic-077-191-171-138.77.191.pool.telefonica.de. [77.191.171.138])
  by smtp.gmail.com with ESMTPSA id
- 4-20020a170906310400b00780ab5a9116sm13021558ejx.211.2022.10.22.08.06.40
+ 4-20020a170906310400b00780ab5a9116sm13021558ejx.211.2022.10.22.08.07.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Oct 2022 08:06:41 -0700 (PDT)
+ Sat, 22 Oct 2022 08:07:01 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Eduardo Habkost <eduardo@habkost.net>,
@@ -67,13 +67,15 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 20/43] hw/isa/piix3: Resolve redundant PIIX_NUM_PIC_IRQS
-Date: Sat, 22 Oct 2022 17:04:45 +0200
-Message-Id: <20221022150508.26830-21-shentey@gmail.com>
+Subject: [PATCH v2 28/43] hw/isa/piix4: Move pci_ide_create_devs() call to
+ board code
+Date: Sat, 22 Oct 2022 17:04:53 +0200
+Message-Id: <20221022150508.26830-29-shentey@gmail.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221022150508.26830-1-shentey@gmail.com>
 References: <20221022150508.26830-1-shentey@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::535;
  envelope-from=shentey@gmail.com; helo=mail-ed1-x535.google.com
@@ -99,80 +101,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PIIX_NUM_PIC_IRQS is assumed to be the same as ISA_NUM_IRQS, otherwise
-inconsistencies can occur.
+For the VIA south bridges there was a comment to have the call in board code.
+Move it there for PIIX4 as well for consistency.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/isa/piix3.c                | 8 ++++----
- include/hw/southbridge/piix.h | 5 ++---
- 2 files changed, 6 insertions(+), 7 deletions(-)
+ hw/isa/piix4.c  |  1 -
+ hw/mips/malta.c | 10 ++++++----
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
-index c6a8f1f27d..9de7287589 100644
---- a/hw/isa/piix3.c
-+++ b/hw/isa/piix3.c
-@@ -52,7 +52,7 @@ static void piix3_set_irq_level_internal(PIIX3State *piix3, int pirq, int level)
-     uint64_t mask;
- 
-     pic_irq = piix3->dev.config[PIIX_PIRQCA + pirq];
--    if (pic_irq >= PIIX_NUM_PIC_IRQS) {
-+    if (pic_irq >= ISA_NUM_IRQS) {
+diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+index 4b8dece257..a7389ff193 100644
+--- a/hw/isa/piix4.c
++++ b/hw/isa/piix4.c
+@@ -257,7 +257,6 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
+     if (!qdev_realize(DEVICE(&s->ide), BUS(pci_bus), errp)) {
          return;
      }
+-    pci_ide_create_devs(PCI_DEVICE(&s->ide));
  
-@@ -66,7 +66,7 @@ static void piix3_set_irq_level(PIIX3State *piix3, int pirq, int level)
-     int pic_irq;
+     /* USB */
+     qdev_prop_set_int32(DEVICE(&s->uhci), "addr", dev->devfn + 2);
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index 0ec2ac2eaf..a4b866a2cf 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -39,7 +39,7 @@
+ #include "hw/pci/pci.h"
+ #include "qemu/log.h"
+ #include "hw/mips/bios.h"
+-#include "hw/ide.h"
++#include "hw/ide/pci.h"
+ #include "hw/irq.h"
+ #include "hw/loader.h"
+ #include "elf.h"
+@@ -1402,11 +1402,13 @@ void mips_malta_init(MachineState *machine)
+     /* Southbridge */
+     piix4 = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0), true,
+                                             TYPE_PIIX4_PCI_DEVICE);
+-    dev = DEVICE(piix4);
+-    isa_bus = ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
++    isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(piix4), "isa.0"));
++
++    dev = DEVICE(object_resolve_path_component(OBJECT(piix4), "ide"));
++    pci_ide_create_devs(PCI_DEVICE(dev));
  
-     pic_irq = piix3->dev.config[PIIX_PIRQCA + pirq];
--    if (pic_irq >= PIIX_NUM_PIC_IRQS) {
-+    if (pic_irq >= ISA_NUM_IRQS) {
-         return;
-     }
+     /* Interrupt controller */
+-    qdev_connect_gpio_out_named(dev, "intr", 0, i8259_irq);
++    qdev_connect_gpio_out_named(DEVICE(piix4), "intr", 0, i8259_irq);
  
-@@ -98,7 +98,7 @@ static PCIINTxRoute piix3_route_intx_pin_to_irq(void *opaque, int pin)
-     int irq = piix3->dev.config[PIIX_PIRQCA + pin];
-     PCIINTxRoute route;
- 
--    if (irq < PIIX_NUM_PIC_IRQS) {
-+    if (irq < ISA_NUM_IRQS) {
-         route.mode = PCI_INTX_ENABLED;
-         route.irq = irq;
-     } else {
-@@ -130,7 +130,7 @@ static void piix3_write_config(PCIDevice *dev,
- 
-         pci_bus_fire_intx_routing_notifier(pci_get_bus(&piix3->dev));
-         piix3_update_irq_levels(piix3);
--        for (pic_irq = 0; pic_irq < PIIX_NUM_PIC_IRQS; pic_irq++) {
-+        for (pic_irq = 0; pic_irq < ISA_NUM_IRQS; pic_irq++) {
-             piix3_set_irq_pic(piix3, pic_irq);
-         }
-     }
-diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
-index df3e0084c5..ae3b49fe93 100644
---- a/include/hw/southbridge/piix.h
-+++ b/include/hw/southbridge/piix.h
-@@ -32,7 +32,6 @@
-  */
- #define PIIX_RCR_IOPORT 0xcf9
- 
--#define PIIX_NUM_PIC_IRQS       16      /* i8259 * 2 */
- #define PIIX_NUM_PIRQS          4ULL    /* PIRQ[A-D] */
- 
- struct PIIXState {
-@@ -44,10 +43,10 @@ struct PIIXState {
-      * So one PIC level is tracked by PIIX_NUM_PIRQS bits.
-      *
-      * PIRQ is mapped to PIC pins, we track it by
--     * PIIX_NUM_PIRQS * PIIX_NUM_PIC_IRQS = 64 bits with
-+     * PIIX_NUM_PIRQS * ISA_NUM_IRQS = 64 bits with
-      * pic_irq * PIIX_NUM_PIRQS + pirq
-      */
--#if PIIX_NUM_PIC_IRQS * PIIX_NUM_PIRQS > 64
-+#if ISA_NUM_IRQS * PIIX_NUM_PIRQS > 64
- #error "unable to encode pic state in 64bit in pic_levels."
- #endif
-     uint64_t pic_levels;
+     /* generate SPD EEPROM data */
+     dev = DEVICE(object_resolve_path_component(OBJECT(piix4), "pm"));
 -- 
 2.38.1
 
