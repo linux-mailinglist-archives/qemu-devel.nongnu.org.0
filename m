@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21067609797
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 02:51:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD1926097F5
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 03:49:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1omhPi-0007ZR-1m
-	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 16:17:42 -0400
+	id 1omhdt-0001VX-4i
+	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 16:32:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1omG5R-0007IT-LI; Sat, 22 Oct 2022 11:06:57 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
+ id 1omG5o-0007OO-Ve; Sat, 22 Oct 2022 11:07:20 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1omG5Q-00022R-9Z; Sat, 22 Oct 2022 11:06:57 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id z97so16073582ede.8;
- Sat, 22 Oct 2022 08:06:55 -0700 (PDT)
+ id 1omG5n-0002N2-H9; Sat, 22 Oct 2022 11:07:20 -0400
+Received: by mail-ed1-x535.google.com with SMTP id a13so16199973edj.0;
+ Sat, 22 Oct 2022 08:07:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=EbtYcb5eFZhFTw0lwbRQrA+9dbnsHJ+1Kgq6FNU5GiA=;
- b=HIbcn68id0Rp/M0JkHBJmVpZGkr50Mgi7s0hWRet+slS2LTXP7joY9qKlY6O7Gba41
- LeSzcEZCV1rmTxDpqX73SjH1ngU4k6u43qG86jOqo7PLa8m+uJOx7D7pljdSfTzn3DWN
- QkcFAcX7C4Rs/L0wtqWYtcjthxYrdppS4VsIaCuFxxiIBSaZr5kXI7pfiwo234j1Fm2a
- psdTQ2zvXUEwnWj5VzkXKnXbLs1Sq2SyZ1eNaYTmjVYsRP4xY85Ywv8Yf6d60+3HwSmX
- VLq/lFSActzgZPOJo4IQGVBjLY2POJ7Hd/bJ42hnGbAaIcF6PebbamQ2dYytBL9c0Cz9
- 85Pw==
+ bh=SFbd++xa2DU9bFufAS2KUldQztSNRiFISYkcnazU4Uo=;
+ b=XmWbZDzoyn1a/1zi/BJW0YSC3BDYRvYXTmxRWIqgWRftgidxYo0x7ANG+DbubSQO0C
+ STUnHEXBiSY4ObAQci2cwQDqrb79c0At5mjD+LmiXzgeSfMRY84fq1FIAi29bUVxYbIy
+ rhI5p59HJlLgBydZArV+Vr7qkv7DiwEMDgF84feEGXAnvw7Y7kA6H4t0K7DsBsjEULjo
+ XHs7s1K2QoUAussiEu1Ei+nwhrwFtyiMfrMUsQ7VRBEpcQI49Txj6hzmTxhlHfVAFOw+
+ KccgDYucSCq8EdAoDaNaTv0qzPIP9ZiKhgdUhdyc9132AxPc0Ja9NUoHLH3tRVK3o2To
+ 5b3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=EbtYcb5eFZhFTw0lwbRQrA+9dbnsHJ+1Kgq6FNU5GiA=;
- b=rM2D0yWPXuRSaCqCHN21Ogq213kDYXnSfltma/AE94z/uGDOJtqaXXiJBoLGuPLL5Q
- d2BhysSm0H4Q9NM6FCzJbUGe0CFy82q3IFsCnGTr2T6PEXlbmiFS6XOTaP1s1XizMvO/
- uD9ALGMMtxhJ2eX86YLsKBzkaA45wqfRFRQkJjJ4wtxFkHSXqmTXgpu/l1Vpyx8YmRYY
- mB0izg8S7rhng20yh4lXFcK/fYJQ8Nd7nEFYUzQgN3N7PEZ0MlYHeWZI8JgsuCdn2eW0
- I35TQoEusHsh2jRjVl7ytNLOPpZuZLQF8jAFINr8QbNozC0AdG6zMEr2F+btnYGHsuQf
- oELg==
-X-Gm-Message-State: ACrzQf2js6w63ywMaIDv7uMZdYgOjnP1pS0N8elFxOEuLnBB6d2YoaSZ
- 5QXfWzZgTGDY6Nr83DseAzQS937YhXFM0A==
-X-Google-Smtp-Source: AMsMyM6cDAyscE2ZnBB9lAsVRFjt4+dyru4DcJ/sz1r4ZJ3FcXYkM20K/5vaopOoytu1NeoE+NyFHw==
-X-Received: by 2002:aa7:cd92:0:b0:456:cbb5:2027 with SMTP id
- x18-20020aa7cd92000000b00456cbb52027mr22441389edv.384.1666451214843; 
- Sat, 22 Oct 2022 08:06:54 -0700 (PDT)
+ bh=SFbd++xa2DU9bFufAS2KUldQztSNRiFISYkcnazU4Uo=;
+ b=Pp5B13eFbRLJ4MoyEsRUtzSFyV5gPVshL+7E84owZG0b8ctPIagUH4XT2JC1NPMvgX
+ RLaNkYSeiIHE1ix6zkJQMzVoycGutFR2HRlthUrPuogy3foB6NJkTSk7JuXFH/sIbC2D
+ DkS2vO04NhsF8YtYlsGpoSmE6O/LVbI8HaU5gyWlZsPj4DY0WIULWK7porJVIkLlUbYo
+ NprZqFSQYaESr1kmhhzWlyP2v47V3b2pRJFHMSLgn6HsKAKnee6mqMNMP9D9lO9AXGe0
+ 7Ko2gWExhHIIlMbuiPkFaSNO3z3zJYusvdEQEr7+igOxMVjHR1Xvo82fT7qHDP1d+qX/
+ uH2A==
+X-Gm-Message-State: ACrzQf3vo885q5jZ0OORs73vv+aATAiwfJR3ecL1FQ4hrAWzeK7olR7+
+ rTMDPO2bj3GXx5/PZivf2eeCK9vqU4Uehw==
+X-Google-Smtp-Source: AMsMyM5crq2lxtvj4J0t6dUpzBS0iEdW3KgK+TEnU3ceSm4HEpxvER3FrnrySIdkNlDlLmsNY1zFKg==
+X-Received: by 2002:a17:906:844f:b0:78d:8bd1:ee8c with SMTP id
+ e15-20020a170906844f00b0078d8bd1ee8cmr21107065ejy.262.1666451237500; 
+ Sat, 22 Oct 2022 08:07:17 -0700 (PDT)
 Received: from localhost.localdomain
  (dynamic-077-191-171-138.77.191.pool.telefonica.de. [77.191.171.138])
  by smtp.gmail.com with ESMTPSA id
- 4-20020a170906310400b00780ab5a9116sm13021558ejx.211.2022.10.22.08.06.52
+ 4-20020a170906310400b00780ab5a9116sm13021558ejx.211.2022.10.22.08.07.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Oct 2022 08:06:53 -0700 (PDT)
+ Sat, 22 Oct 2022 08:07:16 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Eduardo Habkost <eduardo@habkost.net>,
@@ -67,16 +67,17 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 25/43] hw/mips/malta: Reuse dev variable
-Date: Sat, 22 Oct 2022 17:04:50 +0200
-Message-Id: <20221022150508.26830-26-shentey@gmail.com>
+Subject: [PATCH v2 34/43] hw/isa/piix4: Rename reset control operations to
+ match PIIX3
+Date: Sat, 22 Oct 2022 17:04:59 +0200
+Message-Id: <20221022150508.26830-35-shentey@gmail.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221022150508.26830-1-shentey@gmail.com>
 References: <20221022150508.26830-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,41 +100,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While at it, move the assignments closer to where they are used.
+Both implementations are the same and will be shared upon merging.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/mips/malta.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ hw/isa/piix4.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index 0e932988e0..0ec2ac2eaf 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -1239,7 +1239,6 @@ void mips_malta_init(MachineState *machine)
-     MaltaState *s;
-     PCIDevice *piix4;
-     DeviceState *dev;
--    DeviceState *pm_dev;
+diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+index a7d52c5294..2f5b6fc934 100644
+--- a/hw/isa/piix4.c
++++ b/hw/isa/piix4.c
+@@ -152,7 +152,7 @@ static const VMStateDescription vmstate_piix4 = {
+     }
+ };
  
-     s = MIPS_MALTA(qdev_new(TYPE_MIPS_MALTA));
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(s), &error_fatal);
-@@ -1405,13 +1404,13 @@ void mips_malta_init(MachineState *machine)
-                                             TYPE_PIIX4_PCI_DEVICE);
-     dev = DEVICE(piix4);
-     isa_bus = ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
--    pm_dev = DEVICE(object_resolve_path_component(OBJECT(dev), "pm"));
--    smbus = I2C_BUS(qdev_get_child_bus(pm_dev, "i2c"));
+-static void piix4_rcr_write(void *opaque, hwaddr addr, uint64_t val,
++static void rcr_write(void *opaque, hwaddr addr, uint64_t val,
+                             unsigned int len)
+ {
+     PIIXState *s = opaque;
+@@ -165,16 +165,16 @@ static void piix4_rcr_write(void *opaque, hwaddr addr, uint64_t val,
+     s->rcr = val & 2; /* keep System Reset type only */
+ }
  
-     /* Interrupt controller */
-     qdev_connect_gpio_out_named(dev, "intr", 0, i8259_irq);
+-static uint64_t piix4_rcr_read(void *opaque, hwaddr addr, unsigned int len)
++static uint64_t rcr_read(void *opaque, hwaddr addr, unsigned int len)
+ {
+     PIIXState *s = opaque;
  
-     /* generate SPD EEPROM data */
-+    dev = DEVICE(object_resolve_path_component(OBJECT(piix4), "pm"));
-+    smbus = I2C_BUS(qdev_get_child_bus(dev, "i2c"));
-     generate_eeprom_spd(&smbus_eeprom_buf[0 * 256], ram_size);
-     generate_eeprom_serial(&smbus_eeprom_buf[6 * 256]);
-     smbus_eeprom_init(smbus, 8, smbus_eeprom_buf, smbus_eeprom_size);
+     return s->rcr;
+ }
+ 
+-static const MemoryRegionOps piix4_rcr_ops = {
+-    .read = piix4_rcr_read,
+-    .write = piix4_rcr_write,
++static const MemoryRegionOps rcr_ops = {
++    .read = rcr_read,
++    .write = rcr_write,
+     .endianness = DEVICE_LITTLE_ENDIAN,
+     .impl = {
+         .min_access_size = 1,
+@@ -194,7 +194,7 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
+         return;
+     }
+ 
+-    memory_region_init_io(&s->rcr_mem, OBJECT(dev), &piix4_rcr_ops, s,
++    memory_region_init_io(&s->rcr_mem, OBJECT(dev), &rcr_ops, s,
+                           "reset-control", 1);
+     memory_region_add_subregion_overlap(pci_address_space_io(dev),
+                                         PIIX_RCR_IOPORT, &s->rcr_mem, 1);
 -- 
 2.38.1
 
