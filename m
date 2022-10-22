@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28462609A1F
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 07:56:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA8C7609924
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 06:27:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1omje8-0005qe-QK
-	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 18:40:44 -0400
+	id 1omjmv-00088Q-5J
+	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 18:49:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1omLiD-0007Ev-R0; Sat, 22 Oct 2022 17:07:21 -0400
+ id 1omLwD-0008Qo-Nm; Sat, 22 Oct 2022 17:21:49 -0400
 Received: from mout.kundenserver.de ([217.72.192.73])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1omLiB-0002H9-WC; Sat, 22 Oct 2022 17:07:21 -0400
+ id 1omLwC-0002Be-5C; Sat, 22 Oct 2022 17:21:49 -0400
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1Mnq0K-1pSq9A2EZO-00pN4p; Sat, 22 Oct 2022 23:07:14 +0200
-Message-ID: <6a978ba7-45cb-323d-0c1c-ed40dd68972f@vivier.eu>
-Date: Sat, 22 Oct 2022 23:07:13 +0200
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MwQOx-1p3Bvm0Rkr-00sR0G; Sat, 22 Oct 2022 23:21:43 +0200
+Message-ID: <9c4a9734-ce67-8538-40b2-227755bf9e0b@vivier.eu>
+Date: Sat, 22 Oct 2022 23:21:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
-Subject: Re: [PATCH 3/3] Drop more useless casts from void * to pointer
+Subject: Re: [PATCH] include/hw/scsi/scsi.h: Remove unused
+ scsi_legacy_handle_cmdline() prototype
 Content-Language: fr
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org
-References: <20220923120025.448759-1-armbru@redhat.com>
- <20220923120025.448759-4-armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ qemu-trivial@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>
+References: <20221013130500.967432-1-peter.maydell@linaro.org>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220923120025.448759-4-armbru@redhat.com>
+In-Reply-To: <20221013130500.967432-1-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:yfP9r8Jdaorb6aN6wRucBPoLiBto1GMtflYkOOFobLd5PE2ocbY
- OnQC9KFTQDJblAGRutGYK9SSM2pj2yqBPrXKHXr7OMSFeSB5z7ZJdruTxadFsh/unFVf3dx
- XRZt6Y7QyOFPUXWd91dAjsUfSNuWmZKYqdYjZI1fvKjLK65z2mvNScVKClxUkSOvzZIK95S
- 6r2g8oZ7ao1ArgRglDkvA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:nhjUG/N8dl4=:/7QGBCQCf+MXO9GUdzQaJD
- MXNxAO2jrfELSmR/QX5G6xRoYwVtcJAPoJt7P+DwT60wBpnAhhHDfDLNGk4GDFVvY6VzQAVtY
- 3OQSpN5zvgq25iuVjovwTWF7MNrztYOc3boTFRCFlhHroXUgJCeh+v/RvbHsespe1GgJnEnFd
- kHfy/XdEmrwe86PYAH0uCciMEf4zxlTWE0qruoYsgis9yT7arrohxNnGR4UCW0F34351FkBp1
- G5rEuA7fEAV/AAmF7QEOEEzWpK926ZTilkgSfJgJJP0Fi8Ys1gimMX+032DU1SOEZXOy74mR0
- LZ7+S6qG5ylZTvk/5mAw+Cm8j/o0XlEuroDaAgQoZCimavI10OvEr+wkCxT+K29aA3BfBf6tm
- eyfQG7zPJSPgcoUJBN/Eq1c0tSYlt/bzKmtk6clV8lrGkvTWQL9J93Ko1STNuDoHJCt0qkaDz
- tvJTHnTC7/wJ1eGHYgcrAKOc9A/Y/b37ZJn+VTWMAKFvJOu1npzRiEVQmaC3QVjSTzkbdMw9W
- 14p9qlE8Y1xzliFFeLNYF8GSQBd6P687lSdiXpIe5quJNUXicIeQ0knSPdA9fgDg/zwEyPOtC
- jg0ZYVccUeGqLNGaTI7ZhedKaprJJFW3RJme4LuTgJws0/Wwo/0rJ51WoI2nacST17OBxBt8C
- U2MgJcD670z9ZFEmxh0StgSbvm2LTcIQ6cXxX7WfO9EY67rm7W971B9GEYZhEQ/+tY3/9EC5H
- gYhXmsHPQfgXIp98QAZhI955AaLz3x9gYc0tVwN8loxnEx6ZJPdYPDm3uRWV/YCjryoo/Io6T
- 5cpkSEq
+X-Provags-ID: V03:K1:ANN8iw0ocjPvmF4HfcM7fffJgduOLOa7hgk0w6oiWuEJwSzkUrn
+ R4AF+XIhQ9kWD7zn9Zh/7bFEzdZ4zJ+jt7dE6U0kjBHcZjD0F3lfyUuc3JS+xSFljl8wBFM
+ 2pPoNl7XWW7Ob6EDYuVF2BgnK1yivwmzSSbjiIOm3mW+TFsKQcPEJyJCvKpMrtO4f2LRMtI
+ FQIfo/MWontCSZEK7k3GA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0XIpKEmp6E4=:x09ZBlVX1QJ+U59I2KmKxg
+ KJTFYNOUjjonqOcZYrdK/OxhI6IjZ48nJVKM0BJiiEFzFGJWYyRkRpSeGcVn2bdit3hpCiPxp
+ dyOm9NfaYtywefh37atbOf+0IRfooWmeGBPJPMSWp4mLXOK8GQMDHjVC3aH4YoE2MHl/mQToc
+ ro5pCL5vIVXUb1J9DLt9l6Smxk4cM5zRN+NDxS8kBY4Iea3vdsKSIDubknU+gp3ZlmZ1KKpBa
+ DQB+2Zwx+2LXMG/oy/lKy0KqziOlvqQJJ2gsRakKHrbRqFhv8S0f882OG/9Xg80X3HI4OlxYW
+ o5kYbJ2oWIOCOsNrDtwYykC0VzNSKP+uUGNuBe/o7D3ll3X4oGV51flfO9mnfVsBxj7BCSHCf
+ WLL0SAwT1ej35l9oIITd/rNhL8Uz8KV1DQn+T+RbgAzwibmnYkaj1V7Ze0QlvTG+iwnwopFrn
+ NFusgVGbjVnrQzhSNKETJ2BT/MseS/HxY4qLTD8CCgmpywKzGNoX8Yzl1zSMbR8E1iXgiSppR
+ ervBsfbGIP/Lj2CT2Fo982uziBAEvVPfZDuK0K6PUJk+qp22Wtgf9qgasEMcF9XCeZSgGnJLF
+ xyqBxKlllK6yH/gn4tAjOT/cRSmnAAOHEODBTXx+CQU9UgmKMo5gfRua9N1PG+y6eZcm7tNGu
+ fjC+h33JwG9bwRuy8DZBJD8QtV0OV0XxsqJKnzUYphsbgIi7Z1GaJiikH74JrLFrrNF3lU/jY
+ zS7Joct6Wvia3bA7fe47eFT5cYRil2oihu4V5tpPR3dVI3wVUd2sADY2iQngLcRsX7xl/q+hM
+ iMCVhWy
 Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -75,44 +76,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 23/09/2022 à 14:00, Markus Armbruster a écrit :
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->   bsd-user/elfload.c                      | 2 +-
->   contrib/plugins/cache.c                 | 8 ++++----
->   contrib/vhost-user-blk/vhost-user-blk.c | 2 +-
->   hw/core/qdev-clock.c                    | 2 +-
->   hw/hyperv/vmbus.c                       | 2 +-
->   hw/net/cadence_gem.c                    | 2 +-
->   hw/net/virtio-net.c                     | 2 +-
->   hw/nvme/ctrl.c                          | 4 ++--
->   hw/rdma/vmw/pvrdma_cmd.c                | 9 +++------
->   hw/rdma/vmw/pvrdma_qp_ops.c             | 6 +++---
->   hw/virtio/virtio-iommu.c                | 3 +--
->   linux-user/syscall.c                    | 2 +-
->   target/i386/hax/hax-all.c               | 2 +-
->   tests/tcg/aarch64/system/semiheap.c     | 4 ++--
->   util/coroutine-ucontext.c               | 2 +-
->   util/vfio-helpers.c                     | 2 +-
->   16 files changed, 25 insertions(+), 29 deletions(-)
+Le 13/10/2022 à 15:05, Peter Maydell a écrit :
+> In commit 1454509726719e0933c80 we removed the function
+> scsi_legacy_handle_cmdline() and all of its callers, but forgot to
+> delete the prototype from the header function.  Delete the prototype
+> too.
 > 
-...
-> diff --git a/util/coroutine-ucontext.c b/util/coroutine-ucontext.c
-> index ddc98fb4f8..31f586d366 100644
-> --- a/util/coroutine-ucontext.c
-> +++ b/util/coroutine-ucontext.c
-> @@ -105,7 +105,7 @@ void finish_switch_fiber(void *fake_stack_save)
->       __sanitizer_finish_switch_fiber(fake_stack_save, &bottom_old, &size_old);
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   include/hw/scsi/scsi.h | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/include/hw/scsi/scsi.h b/include/hw/scsi/scsi.h
+> index 001103488c2..9ad86b25bb4 100644
+> --- a/include/hw/scsi/scsi.h
+> +++ b/include/hw/scsi/scsi.h
+> @@ -187,7 +187,6 @@ SCSIDevice *scsi_bus_legacy_add_drive(SCSIBus *bus, BlockBackend *blk,
+>                                         BlockdevOnError werror,
+>                                         const char *serial, Error **errp);
+>   void scsi_bus_legacy_handle_cmdline(SCSIBus *bus);
+> -void scsi_legacy_handle_cmdline(void);
 >   
->       if (!leaderp->stack) {
-> -        leaderp->stack = (void *)bottom_old;
-> +        leaderp->stack = bottom_old;
+>   SCSIRequest *scsi_req_alloc(const SCSIReqOps *reqops, SCSIDevice *d,
+>                               uint32_t tag, uint32_t lun, void *hba_private);
 
-bottom_old is "const void *" and stack is "void *", I think compiler will complain we discard the 
-"const" qualifier.
+Applied to my trivial-patches branch.
 
-Otherwise:
+Thanks,
+Laurent
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
 
