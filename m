@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7311D609801
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 03:59:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21067609797
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 02:51:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1omhFt-00069p-86
-	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 16:07:33 -0400
+	id 1omhPi-0007ZR-1m
+	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 16:17:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1omG5D-0007DY-7P; Sat, 22 Oct 2022 11:06:43 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
+ id 1omG5R-0007IT-LI; Sat, 22 Oct 2022 11:06:57 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1omG5B-0002Cw-KY; Sat, 22 Oct 2022 11:06:43 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id a5so3029074edb.11;
- Sat, 22 Oct 2022 08:06:40 -0700 (PDT)
+ id 1omG5Q-00022R-9Z; Sat, 22 Oct 2022 11:06:57 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id z97so16073582ede.8;
+ Sat, 22 Oct 2022 08:06:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=aPF9+HfmXGc/QS2MxhD55Mybo4zeq8/bfRvcchWncns=;
- b=I8OJ82nIGVhQNSgYz7xcBYcTBFq5IXI2DGCE3WEJX+AHYH4rUpLC1Is8PGpe9RK5ao
- irSjm3rBzz393bC/BRiGMpUZ82Zita6oGCF0CpZVjw8qTsyhLzVfHK7yb68+Ai745JGZ
- Gcgrh5tlAN0Tj3u5qRnuABpatvehjEOf6i3jG/AuEvBV+g/Ltq+iGTjIpzbsodajZVLn
- TuPZcctRUUXDZEhTwo6L7QoogZIj2qB6vfulmx40jjROKL4eT696NHI6ybgqYDL+j8sO
- e54tYRdarFsZRhu2IE5pwP+pU3eH02y3wgJfUVZybk7G5oSQNoxGJJVHeUhPYcQOjjAP
- ITwg==
+ bh=EbtYcb5eFZhFTw0lwbRQrA+9dbnsHJ+1Kgq6FNU5GiA=;
+ b=HIbcn68id0Rp/M0JkHBJmVpZGkr50Mgi7s0hWRet+slS2LTXP7joY9qKlY6O7Gba41
+ LeSzcEZCV1rmTxDpqX73SjH1ngU4k6u43qG86jOqo7PLa8m+uJOx7D7pljdSfTzn3DWN
+ QkcFAcX7C4Rs/L0wtqWYtcjthxYrdppS4VsIaCuFxxiIBSaZr5kXI7pfiwo234j1Fm2a
+ psdTQ2zvXUEwnWj5VzkXKnXbLs1Sq2SyZ1eNaYTmjVYsRP4xY85Ywv8Yf6d60+3HwSmX
+ VLq/lFSActzgZPOJo4IQGVBjLY2POJ7Hd/bJ42hnGbAaIcF6PebbamQ2dYytBL9c0Cz9
+ 85Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=aPF9+HfmXGc/QS2MxhD55Mybo4zeq8/bfRvcchWncns=;
- b=CQvf0XQ5lLSXrLaqcw5jTiRsXItVv5LB+EFjrWfEV36yDZ8Vjv3MBBcvP9fEf48xOe
- zVg9qakRj4A/W8yO+mnfiARv4ZRao+65+quaIke3NZW2y6RC8psxseC2P3Gis0h4kzmJ
- L07vjjHCFEInVlLSFCk8Y4Bh6LZfZhIusb1Sax10xppw+/zWO8zkitQ2HFoh7d4Vk2oa
- OS4FAGQJN49Vk6HicMWwb0xJqjoGHeQ3YxPsyYZNelqsTS5WR5BfLj600C43ttXO92kU
- H+xL8rP2u9ndBD5jhz/CXK3llzeN0sYqy37gjSBxA3yDlRIcxbKVni0JcaqY+QOMyqaf
- /0Fw==
-X-Gm-Message-State: ACrzQf3KTxbpfuba8/zVlCMJitMen/kilAlEl3qks2Gwqh0wOmCIw3r6
- ZAMI21mxlELibvyoaPptvcMJaUy1SSfD8w==
-X-Google-Smtp-Source: AMsMyM41h1cDcBqTFIcHfWvZlyR+i+uyqV2T/jhcre+zeVZhQcf7YEC7XOJ1dUk/N9D9s4onR5MtMQ==
-X-Received: by 2002:a05:6402:3887:b0:458:289e:c9cc with SMTP id
- fd7-20020a056402388700b00458289ec9ccmr22456316edb.101.1666451200351; 
- Sat, 22 Oct 2022 08:06:40 -0700 (PDT)
+ bh=EbtYcb5eFZhFTw0lwbRQrA+9dbnsHJ+1Kgq6FNU5GiA=;
+ b=rM2D0yWPXuRSaCqCHN21Ogq213kDYXnSfltma/AE94z/uGDOJtqaXXiJBoLGuPLL5Q
+ d2BhysSm0H4Q9NM6FCzJbUGe0CFy82q3IFsCnGTr2T6PEXlbmiFS6XOTaP1s1XizMvO/
+ uD9ALGMMtxhJ2eX86YLsKBzkaA45wqfRFRQkJjJ4wtxFkHSXqmTXgpu/l1Vpyx8YmRYY
+ mB0izg8S7rhng20yh4lXFcK/fYJQ8Nd7nEFYUzQgN3N7PEZ0MlYHeWZI8JgsuCdn2eW0
+ I35TQoEusHsh2jRjVl7ytNLOPpZuZLQF8jAFINr8QbNozC0AdG6zMEr2F+btnYGHsuQf
+ oELg==
+X-Gm-Message-State: ACrzQf2js6w63ywMaIDv7uMZdYgOjnP1pS0N8elFxOEuLnBB6d2YoaSZ
+ 5QXfWzZgTGDY6Nr83DseAzQS937YhXFM0A==
+X-Google-Smtp-Source: AMsMyM6cDAyscE2ZnBB9lAsVRFjt4+dyru4DcJ/sz1r4ZJ3FcXYkM20K/5vaopOoytu1NeoE+NyFHw==
+X-Received: by 2002:aa7:cd92:0:b0:456:cbb5:2027 with SMTP id
+ x18-20020aa7cd92000000b00456cbb52027mr22441389edv.384.1666451214843; 
+ Sat, 22 Oct 2022 08:06:54 -0700 (PDT)
 Received: from localhost.localdomain
  (dynamic-077-191-171-138.77.191.pool.telefonica.de. [77.191.171.138])
  by smtp.gmail.com with ESMTPSA id
- 4-20020a170906310400b00780ab5a9116sm13021558ejx.211.2022.10.22.08.06.37
+ 4-20020a170906310400b00780ab5a9116sm13021558ejx.211.2022.10.22.08.06.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Oct 2022 08:06:39 -0700 (PDT)
+ Sat, 22 Oct 2022 08:06:53 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Eduardo Habkost <eduardo@habkost.net>,
@@ -67,18 +67,16 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 19/43] hw/isa/piix3: Allow board to provide PCI interrupt
- routes
-Date: Sat, 22 Oct 2022 17:04:44 +0200
-Message-Id: <20221022150508.26830-20-shentey@gmail.com>
+Subject: [PATCH v2 25/43] hw/mips/malta: Reuse dev variable
+Date: Sat, 22 Oct 2022 17:04:50 +0200
+Message-Id: <20221022150508.26830-26-shentey@gmail.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221022150508.26830-1-shentey@gmail.com>
 References: <20221022150508.26830-1-shentey@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,61 +99,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PIIX3 initializes the PIRQx route control registers to the default
-values as described in the 82371AB PCI-TO-ISA/IDE XCELERATOR (PIIX4)
-April 1997 manual. PIIX4, however, initializes the routes according to
-the Malta™ User’s Manual, ch 6.6, which are IRQs 10 and 11. In order to
-allow the reset methods to be consolidated, allow board code to specify
-the routes.
+While at it, move the assignments closer to where they are used.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/isa/piix3.c                | 12 ++++++++----
- include/hw/southbridge/piix.h |  1 +
- 2 files changed, 9 insertions(+), 4 deletions(-)
+ hw/mips/malta.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
-index aa32f43e4a..c6a8f1f27d 100644
---- a/hw/isa/piix3.c
-+++ b/hw/isa/piix3.c
-@@ -168,10 +168,10 @@ static void piix3_reset(DeviceState *dev)
-     pci_conf[0x4c] = 0x4d;
-     pci_conf[0x4e] = 0x03;
-     pci_conf[0x4f] = 0x00;
--    pci_conf[0x60] = 0x80;
--    pci_conf[0x61] = 0x80;
--    pci_conf[0x62] = 0x80;
--    pci_conf[0x63] = 0x80;
-+    pci_conf[PIIX_PIRQCA] = d->pci_irq_reset_mappings[0];
-+    pci_conf[PIIX_PIRQCB] = d->pci_irq_reset_mappings[1];
-+    pci_conf[PIIX_PIRQCC] = d->pci_irq_reset_mappings[2];
-+    pci_conf[PIIX_PIRQCD] = d->pci_irq_reset_mappings[3];
-     pci_conf[0x69] = 0x02;
-     pci_conf[0x70] = 0x80;
-     pci_conf[0x76] = 0x0c;
-@@ -383,6 +383,10 @@ static void pci_piix3_init(Object *obj)
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index 0e932988e0..0ec2ac2eaf 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -1239,7 +1239,6 @@ void mips_malta_init(MachineState *machine)
+     MaltaState *s;
+     PCIDevice *piix4;
+     DeviceState *dev;
+-    DeviceState *pm_dev;
  
- static Property pci_piix3_props[] = {
-     DEFINE_PROP_UINT32("smb_io_base", PIIX3State, smb_io_base, 0),
-+    DEFINE_PROP_UINT8("pirqa", PIIX3State, pci_irq_reset_mappings[0], 0x80),
-+    DEFINE_PROP_UINT8("pirqb", PIIX3State, pci_irq_reset_mappings[1], 0x80),
-+    DEFINE_PROP_UINT8("pirqc", PIIX3State, pci_irq_reset_mappings[2], 0x80),
-+    DEFINE_PROP_UINT8("pirqd", PIIX3State, pci_irq_reset_mappings[3], 0x80),
-     DEFINE_PROP_BOOL("has-acpi", PIIX3State, has_acpi, true),
-     DEFINE_PROP_BOOL("has-usb", PIIX3State, has_usb, true),
-     DEFINE_PROP_BOOL("smm-enabled", PIIX3State, smm_enabled, false),
-diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
-index 1f22eb1444..df3e0084c5 100644
---- a/include/hw/southbridge/piix.h
-+++ b/include/hw/southbridge/piix.h
-@@ -54,6 +54,7 @@ struct PIIXState {
+     s = MIPS_MALTA(qdev_new(TYPE_MIPS_MALTA));
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(s), &error_fatal);
+@@ -1405,13 +1404,13 @@ void mips_malta_init(MachineState *machine)
+                                             TYPE_PIIX4_PCI_DEVICE);
+     dev = DEVICE(piix4);
+     isa_bus = ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
+-    pm_dev = DEVICE(object_resolve_path_component(OBJECT(dev), "pm"));
+-    smbus = I2C_BUS(qdev_get_child_bus(pm_dev, "i2c"));
  
-     /* This member isn't used. Just for save/load compatibility */
-     int32_t pci_irq_levels_vmstate[PIIX_NUM_PIRQS];
-+    uint8_t pci_irq_reset_mappings[PIIX_NUM_PIRQS];
+     /* Interrupt controller */
+     qdev_connect_gpio_out_named(dev, "intr", 0, i8259_irq);
  
-     ISAPICState pic;
-     RTCState rtc;
+     /* generate SPD EEPROM data */
++    dev = DEVICE(object_resolve_path_component(OBJECT(piix4), "pm"));
++    smbus = I2C_BUS(qdev_get_child_bus(dev, "i2c"));
+     generate_eeprom_spd(&smbus_eeprom_buf[0 * 256], ram_size);
+     generate_eeprom_serial(&smbus_eeprom_buf[6 * 256]);
+     smbus_eeprom_init(smbus, 8, smbus_eeprom_buf, smbus_eeprom_size);
 -- 
 2.38.1
 
