@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3D0E609A30
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 08:04:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 930B8609A62
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 08:17:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1omhKk-0006sl-5H
-	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 16:12:34 -0400
+	id 1omhM4-000735-Er
+	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 16:13:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1omG5K-0007FV-GN; Sat, 22 Oct 2022 11:06:50 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
+ id 1omG5M-0007G8-Ts; Sat, 22 Oct 2022 11:06:53 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1omG5J-0002Fy-0v; Sat, 22 Oct 2022 11:06:50 -0400
-Received: by mail-ed1-x531.google.com with SMTP id q19so16091258edd.10;
- Sat, 22 Oct 2022 08:06:48 -0700 (PDT)
+ id 1omG5L-0002Ex-Ei; Sat, 22 Oct 2022 11:06:52 -0400
+Received: by mail-ed1-x535.google.com with SMTP id l22so16106983edj.5;
+ Sat, 22 Oct 2022 08:06:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4hH7Zx094YKTH3+tfeZdWsJT5RpfWAbTwX+VLBtc4L0=;
- b=NoCzPBrxAj0d9jQwEZWqqgYkh3moPVJZv5hn35XIu9LavWm4a3SSaO04nM7tJk/mpk
- kP/vpiouwvuWt9/TV1YwmhBPOtjBvL9oOGIvrglKP4aCu4Uox1fPWQW8EW6ZuLZhcPp2
- 7ZsnaAPh1RInqWa24rfOhtjk7gX0IY/YCT95ClmbOwwrHVc9AMB6oUf3vsVfmJ0U0RNM
- KzSRQTXO+TM+JETv5vqrogUwSYbq9dV5EHNTZDViS8zaGlwKrioXHkSe+2Fm1B6qSNPa
- dTvsJn7gDUdvPrGH5c7GCbEEZpD305oTMBAXPqe9RLVje1wrp1+na88WMf7y0G/7e4Dd
- PevA==
+ bh=Git7/sip742NQi6zIX98XKP/b6U0B+VRnQH1rBmU1Sc=;
+ b=VwUQBgJv9vZF+dlIBRHtpjIBtMsL0dm0LqGjStX9Th/j4ecMRPtA7zPZi36M71+yev
+ BRMjxZw5YNwtwjxlhYvfWrs443EURElBkHZ+Cf5sBPGL4/qgQLaf7RWLMKtNpJlMxsFg
+ 1C7KMZVR0ZZGk710UuVygKTugx3vJt+m7R+vyB395ygU31TTB8eltWC23Gy8oUJETHTf
+ evcL7wSahJoX76sYvr/8CWrO+MhAfIS7GoribWQdZboSsNSdpRKpVbRA+98mkruCYjzw
+ mNNFaqacVLHpbflCWMB0E1dhdf2n72x6gnY8AhMivSN5MksuuSjL/zXGsiXz3bextZ1V
+ uBSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4hH7Zx094YKTH3+tfeZdWsJT5RpfWAbTwX+VLBtc4L0=;
- b=Tjfnqg/ST8XUb94XuyyBc8wQ6gSaQn3pYSkqVX5U077Jog99q0nv+oA0VjRIuz9jM/
- y391CsCoiIuu+4SdwZ+mkeW7KJpAj/G735Xzw37U5ZiUO6hkLDxhcyNIdFPFmJGkFNve
- 5wbGDwVsgO6NfkuXXATx4UQkEmbHERMDWg+gJ7m+jZlGx8tex9VitYZafzYD9bYLGWxU
- waAU7GZGfxE9ga5jXm9iasI5tla2uRS08RP2yBOxK4OPYFD4rrBdf1so7T/l9uDoSm2m
- FrVO3ZGRC/NI0P7f1WG/pUBofXENBv3PDanORlfjwmgJ+9ZCVrpC5NWterp0m+ynFPh8
- ITfQ==
-X-Gm-Message-State: ACrzQf1fLwfeaotcx1zAQ8cAHinoLEgkdP8LZAZl703iCf9YPel8g5xu
- /19sqURMTwYhZSZcycWAj8NiAXcd30i1hw==
-X-Google-Smtp-Source: AMsMyM5Vw0DpNMlUWq9A0M+XMrNev0F+m7JN9NXEV+jMT3incrRu+T087bZORb0FpCC5z9kAWhu2NQ==
-X-Received: by 2002:a05:6402:410:b0:451:ea13:4ed7 with SMTP id
- q16-20020a056402041000b00451ea134ed7mr23432009edv.262.1666451206961; 
- Sat, 22 Oct 2022 08:06:46 -0700 (PDT)
+ bh=Git7/sip742NQi6zIX98XKP/b6U0B+VRnQH1rBmU1Sc=;
+ b=RWE+GjdcbZhC/pW+0x+wu/5JVQ9dV4ay/O0NCAwWiEAsf9aSNgWsp/mHrjgH2qc97T
+ M5qbeqo9ozU1PZVI8Qvj3+yVH45dEAwqHl1k1yzg6EVErIWV9zpDQfArT7CI65qzUEzY
+ fyyFYFx3ULa3jB1wnE/7TbJyb+WjodcP2LaypWJjF0ki0+jUPuIDS864XUJiiXCC7Lnb
+ mNCnQWuaoj183+aBEWOQQdZ3aTzZC+MmgkyE9DE/Uu2j2EKZvGIOPIpspNmPT4VNMv9k
+ UYDjAKyDYv8CzRHq8n2H97ygq9VsrTFu6MbKFJFpHL5BHX4TuxTFqpt2d6LSsuAJRUT+
+ 2Z5g==
+X-Gm-Message-State: ACrzQf1jEc3NS+PfoORwd4VIQAY7x83ffG258M/twVJbEuAQt9ffsPYx
+ lN6JMhexooIM++4uis44A8u67myZE6/mhw==
+X-Google-Smtp-Source: AMsMyM6ui+Ghxwp2GLiJZTTK0okDk45iW5KRNMxXhNaLMdXyxEYdJv/x6rC+Ipj+wSVoIz3tx1i/rw==
+X-Received: by 2002:a05:6402:b0e:b0:461:7f1d:258d with SMTP id
+ bm14-20020a0564020b0e00b004617f1d258dmr2669689edb.68.1666451210174; 
+ Sat, 22 Oct 2022 08:06:50 -0700 (PDT)
 Received: from localhost.localdomain
  (dynamic-077-191-171-138.77.191.pool.telefonica.de. [77.191.171.138])
  by smtp.gmail.com with ESMTPSA id
- 4-20020a170906310400b00780ab5a9116sm13021558ejx.211.2022.10.22.08.06.44
+ 4-20020a170906310400b00780ab5a9116sm13021558ejx.211.2022.10.22.08.06.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Oct 2022 08:06:45 -0700 (PDT)
+ Sat, 22 Oct 2022 08:06:49 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Eduardo Habkost <eduardo@habkost.net>,
@@ -67,17 +67,17 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 22/43] hw/isa/piix3: Rename piix3_reset() for sharing with
- PIIX4
-Date: Sat, 22 Oct 2022 17:04:47 +0200
-Message-Id: <20221022150508.26830-23-shentey@gmail.com>
+Subject: [PATCH v2 23/43] hw/isa/piix3: Prefix pci_slot_get_pirq() with
+ "piix3_"
+Date: Sat, 22 Oct 2022 17:04:48 +0200
+Message-Id: <20221022150508.26830-24-shentey@gmail.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221022150508.26830-1-shentey@gmail.com>
 References: <20221022150508.26830-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,33 +100,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The additional prefix aligns the function name with both other
+piix3-internal functions as well as QEMU conventions. Furthermore, it
+will help to distinguish the function from its PIIX4 counterpart once
+merged.
+
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
  hw/isa/piix3.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
-index 8dbf22eaab..5214a75891 100644
+index 5214a75891..8878d71465 100644
 --- a/hw/isa/piix3.c
 +++ b/hw/isa/piix3.c
-@@ -156,7 +156,7 @@ static void piix3_write_config_xen(PCIDevice *dev,
-     piix3_write_config(dev, address, val, len);
- }
- 
--static void piix3_reset(DeviceState *dev)
-+static void piix_reset(DeviceState *dev)
+@@ -85,7 +85,7 @@ static void piix3_set_irq(void *opaque, int pirq, int level)
+  * Return the global irq number corresponding to a given device irq
+  * pin. We could also use the bus number to have a more precise mapping.
+  */
+-static int pci_slot_get_pirq(PCIDevice *pci_dev, int pci_intx)
++static int piix3_pci_slot_get_pirq(PCIDevice *pci_dev, int pci_intx)
  {
-     PIIX3State *d = PIIX3_PCI_DEVICE(dev);
-     uint8_t *pci_conf = d->dev.config;
-@@ -399,7 +399,7 @@ static void pci_piix3_class_init(ObjectClass *klass, void *data)
-     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-     AcpiDevAmlIfClass *adevc = ACPI_DEV_AML_IF_CLASS(klass);
+     int slot_addend;
+     slot_addend = PCI_SLOT(pci_dev->devfn) - 1;
+@@ -441,7 +441,7 @@ static void piix3_realize(PCIDevice *dev, Error **errp)
+         return;
+     }
  
--    dc->reset       = piix3_reset;
-+    dc->reset       = piix_reset;
-     dc->desc        = "ISA bridge";
-     dc->vmsd        = &vmstate_piix3;
-     dc->hotpluggable   = false;
+-    pci_bus_irqs(pci_bus, piix3_set_irq, pci_slot_get_pirq,
++    pci_bus_irqs(pci_bus, piix3_set_irq, piix3_pci_slot_get_pirq,
+                  piix3, PIIX_NUM_PIRQS);
+     pci_bus_set_route_irq_fn(pci_bus, piix3_route_intx_pin_to_irq);
+ }
 -- 
 2.38.1
 
