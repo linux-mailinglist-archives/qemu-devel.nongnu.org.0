@@ -2,64 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E65BA608521
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Oct 2022 08:32:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25855608553
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Oct 2022 09:05:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1om7kd-0007JE-SC; Sat, 22 Oct 2022 02:12:55 -0400
+	id 1om8CW-0000FR-JD; Sat, 22 Oct 2022 02:41:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huqi@loongson.cn>) id 1om7kT-0007J3-HE
- for qemu-devel@nongnu.org; Sat, 22 Oct 2022 02:12:45 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huqi@loongson.cn>) id 1om7kQ-00047q-SM
- for qemu-devel@nongnu.org; Sat, 22 Oct 2022 02:12:45 -0400
-Received: from loongson.cn (unknown [10.90.50.23])
- by gateway (Coremail) with SMTP id _____8Axz7fUiVNjLZkBAA--.2054S3;
- Sat, 22 Oct 2022 14:12:37 +0800 (CST)
-Received: from lingfengzhe-ms7c94.loongson.cn (unknown [10.90.50.23])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxPuLUiVNjeEYDAA--.13144S2; 
- Sat, 22 Oct 2022 14:12:36 +0800 (CST)
-From: Qi Hu <huqi@loongson.cn>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Cc: qemu-devel@nongnu.org, Jinyang Shen <shenjinyang@loongson.cn>,
- Xuehai Chen <chenxuehai@loongson.cn>
-Subject: [PATCH v2] target/i386: Fix caculation of LOCK NEG eflags
-Date: Sat, 22 Oct 2022 14:12:16 +0800
-Message-Id: <20221022061216.423098-1-huqi@loongson.cn>
-X-Mailer: git-send-email 2.38.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1om8CO-0000BG-BZ
+ for qemu-devel@nongnu.org; Sat, 22 Oct 2022 02:41:36 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1om8CM-0006ED-Qd
+ for qemu-devel@nongnu.org; Sat, 22 Oct 2022 02:41:36 -0400
+Received: by mail-ed1-x535.google.com with SMTP id w8so11084694edc.1
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 23:41:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=CkxeIRHuUMPIt0Pd5XU8pQ9NTK0HcTQQcdFbuRfsmBE=;
+ b=I/ky+7F17fcPWhlW0BltMo6bJAsJEfSyLnhtYg9vEgIXILJrFPLCJjfFB/LGWcj08U
+ H5b6nrTxsT8Xqafdh4raGWSIiek0Ng44qTiG1+OkvFqxxWTAHeRmIcwUIFsaaxqJG2jP
+ aaDjMMJ4oj3sj6oMIZo2KPa1zI/f5z+2tNWravU0iYFgdSRI3ia8JF6ICII9ZKDnMc52
+ jwsxFVq2nbeoYd7P4i3H+9OjAYhNd/y4vKIBOwRPZwzv98GsL34SIxAFxi1vyKvvyFaI
+ 9enzFvkMnQSgznUeW6Mf050WRgFlq+shiKSB2NP3QAl8Xq3rMoIwCgsWQkB0N8XOf3le
+ uAAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=CkxeIRHuUMPIt0Pd5XU8pQ9NTK0HcTQQcdFbuRfsmBE=;
+ b=P9VeTpfjJSKuiabMWIrU0S71oSM6PqTktBiihHmVJH8C/GHIAtptgnlQyee+yDJyT2
+ JR50oblyMkOAgarSvx1z/smyQQYrdDcJpkTtp9Ak4hTtldl/idarZ6F1yuAss+OfDv3N
+ zr9zhXgDxQF7qUMorxkGV6TyODQHbzChETt1CouWgXQoYAyQpz1hqAlhxvaXhmsi19bn
+ GG3ChIBGC1maLHCbiHmyiUy8NdIBwxy5cJ4+9STsmbYJKDtWs7tvgAzDBwhfuYn4bV0C
+ OfyDZHGD4Dkciyrh77ye8APxTLKM60FT9kKI+/S9IWeNO/Obds/9ZNPH+y3sB0ye4Ny9
+ qkxA==
+X-Gm-Message-State: ACrzQf2S71jOepW5TbaigqYKXm4Kie3POSwsRgnUG9oSADEd1Zci6ySg
+ f7N5WFMlUP9FmqOh8TGVgMveIdCC3OWJoIwBG7wmKA==
+X-Google-Smtp-Source: AMsMyM5LBlL8PDqLLiwrKOXFWV4GFU0YQyCVOQAuLJp7mhN4uot45g3oDPwYZNeXQR5GA+f8WKC2Ud7o5Wpi6rzXQuQ=
+X-Received: by 2002:a17:907:7fa5:b0:791:9a5f:101a with SMTP id
+ qk37-20020a1709077fa500b007919a5f101amr18763765ejc.453.1666420892215; Fri, 21
+ Oct 2022 23:41:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxPuLUiVNjeEYDAA--.13144S2
-X-CM-SenderInfo: pkxtxqxorr0wxvrqhubq/1tbiAQAHCWNSi+IJ-gAKsq
-X-Coremail-Antispam: 1Uk129KBjvJXoW7WFyDWry3GF4fCw1rtFy8uFg_yoW8JFy5pF
- W7Cry8K3y8Jr1UCwnrWayUJr1UCws8CFy8Xa9Fyrs5WwnxXw1kZry8K3y5GayF9ayFgF15
- ZryqyFWDCFWjqa7anT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- b3kYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
- x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
- n4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
- ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r126r1DMcIj6I8E
- 87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82
- IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2Iq
- xVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r
- 126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY
- 6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67
- AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x
- 07jeQ6JUUUUU=
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=huqi@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+References: <fe30a5ce-f318-55f2-165f-b555e19f3160@vivier.eu>
+ <20221017202952.60762-1-Jason@zx2c4.com>
+ <e24ce881-2f0b-860d-05e5-a9a8a7dda3c8@vivier.eu>
+In-Reply-To: <e24ce881-2f0b-860d-05e5-a9a8a7dda3c8@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+Date: Sat, 22 Oct 2022 16:41:21 +1000
+Message-ID: <CAFXwXrmNpYMBYC8A3kMMW3Jf3oHQurPwErHmrAh2Pjzf0==z_g@mail.gmail.com>
+Subject: Re: [PATCH v4] m68k: write bootinfo as rom section and re-randomize
+ on reboot
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+Content-Type: multipart/alternative; boundary="00000000000053c44105eb99d92e"
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,61 +87,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In sequence:
----
-lock negl -0x14(%rbp)
-pushf
-pop    %rax
----
+--00000000000053c44105eb99d92e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-%rax will obtain the wrong value becasue the "lock neg" caculates the
-wrong eflags. The "s->T0" is updated by the wrong value.
+On Sat, 22 Oct 2022, 08:33 Laurent Vivier, <laurent@vivier.eu> wrote:
 
-You can use this to do some test:
----
-#include <assert.h>
+> Le 17/10/2022 =C3=A0 22:29, Jason A. Donenfeld a =C3=A9crit :
+>
+>
+> Notes:
+> - don't send your patch as a reply to a previous version
+> - add an history:
+>
+> v4: replace  (void *)(((unsigned long)base + 3) & ~3) by
+>               (void *)(((uintptr_t)base + 3) & ~3);
+>
 
-int main()
-{
-  __volatile__ unsigned test = 0x2363a;
-  __volatile__ char cond = 0;
-  asm(
-      "lock negl %0 \n\t"
-      "sets %1"
-      : "=m"(test), "=r"(cond)
-      :
-      :);
-  assert(cond & 1);
-  return 0;
-}
----
 
-Reported-by: Jinyang Shen <shenjinyang@loongson.cn>
-Co-Developed-by: Xuehai Chen <chenxuehai@loongson.cn>
-Signed-off-by: Xuehai Chen <chenxuehai@loongson.cn>
-Signed-off-by: Qi Hu <huqi@loongson.cn>
----
-V1 -> V2:
-Following Richard's suggestion, just change mov to neg instead of using
-local_tmp.
----
- target/i386/tcg/translate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+QEMU_ALIGN_PTR_UP.
 
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index e19d5c1c64..cec2182080 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -3299,7 +3299,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
- 
-                 tcg_temp_free(t2);
-                 tcg_temp_free(a0);
--                tcg_gen_mov_tl(s->T0, t0);
-+                tcg_gen_neg_tl(s->T0, t0);
-                 tcg_temp_free(t0);
-             } else {
-                 tcg_gen_neg_tl(s->T0, s->T0);
--- 
-2.38.0
 
+r~
+
+--00000000000053c44105eb99d92e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><div data-smartmail=3D"gmail_signature">On Sat, 22 O=
+ct 2022, 08:33 Laurent Vivier, &lt;<a href=3D"mailto:laurent@vivier.eu">lau=
+rent@vivier.eu</a>&gt; wrote:</div><div class=3D"gmail_quote"><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;=
+padding-left:1ex">Le 17/10/2022 =C3=A0 22:29, Jason A. Donenfeld a =C3=A9cr=
+it=C2=A0:<br><br>
+<br>
+Notes:<br>
+- don&#39;t send your patch as a reply to a previous version<br>
+- add an history:<br>
+<br>
+v4: replace=C2=A0 (void *)(((unsigned long)base + 3) &amp; ~3) by<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (void *)(((uintptr_t)base =
++ 3) &amp; ~3);<br></blockquote></div></div><div dir=3D"auto"><br></div><di=
+v dir=3D"auto"><br></div><div dir=3D"auto">QEMU_ALIGN_PTR_UP.</div><div dir=
+=3D"auto"><br></div><div dir=3D"auto"><br></div><div dir=3D"auto">r~</div><=
+/div>
+
+--00000000000053c44105eb99d92e--
 
