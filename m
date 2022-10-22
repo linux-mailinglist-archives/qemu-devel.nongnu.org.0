@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB87C609852
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 04:48:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC39660982E
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 04:23:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1omgnE-0002MR-Qh
-	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 15:37:56 -0400
+	id 1omgqm-0002p6-5B
+	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 15:41:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1omG4a-00072J-LT; Sat, 22 Oct 2022 11:06:04 -0400
+ id 1omG4f-00074D-2y; Sat, 22 Oct 2022 11:06:09 -0400
 Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1omG4Z-00023s-7D; Sat, 22 Oct 2022 11:06:04 -0400
-Received: by mail-ed1-x534.google.com with SMTP id m16so15998494edc.4;
- Sat, 22 Oct 2022 08:06:00 -0700 (PDT)
+ id 1omG4d-00024P-Kk; Sat, 22 Oct 2022 11:06:08 -0400
+Received: by mail-ed1-x534.google.com with SMTP id e18so16102332edj.3;
+ Sat, 22 Oct 2022 08:06:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=uX6RSTfRaf07nsOqTQPiiSP6v8L6Z8I07u4DqsFmNRo=;
- b=Pq/Ui5/xxiWYGmeu0t8Poo/cyBkBU9UlhZlp7pMKnYYMIR/lHUpTPTjhqj6ElV6YZ7
- eQ1s4rwvmdYuj6jw3dthaD7StB/McY7JJswaDq5wQxiLPlll/GNJ1oBuiWixCwdH7TWS
- PVAC6AnzoRp8vSbd+Tk5g6vfnybLk9Fh/RxUc2E5pp5vMwQhQjaUPFR2ee//4ludch39
- 3DgmNZZe/3g3xCC/cHYn65EGxKdzAh2ReMaWgGVryO9YS6F67NubPTvXu72omxtjIati
- Jpq3tfgdf/nVo21ddcoyOmpHpGpwN8Gbrzspe0bUc6ClJX2asMZ21h0N3cgqy1SEVX88
- WvoA==
+ bh=HYMDu5mDtutX+XNVdVht0ydVyFdG15WL8sqXmNN4tBA=;
+ b=HptB+jNrTG3gUDRS+yjnYBx9LlNe/Kni/LyiGjFBv/Pz6g4bbFD35oBF0lvpmBE0qB
+ kXvdZSLDGbsebi9xAIWIMQlYFzhhjxXLFiU4nspKAWXcC/+0iAHTN6jaZ0SV77W3E44J
+ 1lQt1iDe2Xzt6l+6sc1Em6T6M30UXZCKozcEz06WPA5p7kkDhvSpqZZ7eTGRlSFVFm66
+ 1Zfcf/ZhuYCrxhrtFN6cCLF0jB0x0n31rKgels0BNjkeVzTr3EkEFwwetLKveYDHJyCb
+ e8mOhhMsvxaIsXMbW3ODqpk+E3F+McOlwmukslABilxDl70C4rj1o4P10+8uTfJc7c78
+ NM0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=uX6RSTfRaf07nsOqTQPiiSP6v8L6Z8I07u4DqsFmNRo=;
- b=VfXRJLf4nW4UTmDTJ7x8N10lfAixIR6YQBp+WYpN7OUI2vss+pobDVd4OHyn/zYckZ
- 0rdIpLF57FyWmvRFL+2J6U4Fz6cgn7NPp6NQJ/GsDurwcleSwJvA33O+NfkE3SKH/XH/
- 7t9a2I5SqdFPrLxqZWK9iXizHjTFHTbLte15sLZ7uX75nEj7qf3ymZaBxpBsdfZ0Vhyt
- u9IiEWt7ZyyHNKlPSgUkUDqgN8Hq2M4lDZCnzk7Ct3DmOI80ZgJiWnr6c7ITGMlZHvJL
- ZNg2ZkPXSAXByQtmD2CcqdE7VBNAvRUl7FiwlwaiuNBTS7CYo2XWsBwbfQxztksqRBh+
- pqrw==
-X-Gm-Message-State: ACrzQf2mig9O+eEyhBl/v+mzk6dXpCmiuOdsjwajZOsEcAm00XmTd7ES
- xLo97MlFNt8jxgQC7oPpGon7N2SyovoPmA==
-X-Google-Smtp-Source: AMsMyM7NucFIJxQj9aYKz/jYjzNLaXVdA0Blj7bQBtRkkJCzF+DaDkYhxLCHP3+gAJuQ/05MvElJAw==
-X-Received: by 2002:a17:907:7e87:b0:78e:1a4:130 with SMTP id
- qb7-20020a1709077e8700b0078e01a40130mr20823066ejc.101.1666451158886; 
- Sat, 22 Oct 2022 08:05:58 -0700 (PDT)
+ bh=HYMDu5mDtutX+XNVdVht0ydVyFdG15WL8sqXmNN4tBA=;
+ b=juUTxlQEyFgwr1u+MDoUIi/8cKd+hDXlYroDCUSDP80jZbs3k03VGamInQzmTX1VmV
+ BHdMd7lwxFVzvWc3vSSOFwd5uNG0vmuq69cj8VhlLe/THWlUrPRVq1SvOr1fBnI0tq0g
+ DZ6CcmgaOb5gfIKovmv0jMh0MG+mip8ePToYFSgooA4kRvjfHT0cNG56fYujy12S1CBu
+ Cvb/1nbFz7Ek2dT1vVGHwfsMHULwh8ehxUvaAiFE/eFyzkR97xku7EZPwmFXa+abhkbF
+ 8cKg7RK/fvB4Wrjn05StgyRov85+WgAtuM9xgHVCuI9/78uZzl6MDo2zG6rNYRO7MCP5
+ Y8Eg==
+X-Gm-Message-State: ACrzQf2IChNL8lezmw9FfMOJzvCUccyQ6m/xeRoU9n+wo2DwRwbC6RoU
+ y1Fq5jcp4mc/qLw4EbTDefwkKi8mzU+kyQ==
+X-Google-Smtp-Source: AMsMyM40/y0MNwVHIF20gdocya9iuXBTPTIihe/L3TaEATLx8J30/CnGZpfSMdfWACzPWx8FZBxSQw==
+X-Received: by 2002:a17:906:844f:b0:78d:8bd1:ee8c with SMTP id
+ e15-20020a170906844f00b0078d8bd1ee8cmr21102605ejy.262.1666451164562; 
+ Sat, 22 Oct 2022 08:06:04 -0700 (PDT)
 Received: from localhost.localdomain
  (dynamic-077-191-171-138.77.191.pool.telefonica.de. [77.191.171.138])
  by smtp.gmail.com with ESMTPSA id
- 4-20020a170906310400b00780ab5a9116sm13021558ejx.211.2022.10.22.08.05.54
+ 4-20020a170906310400b00780ab5a9116sm13021558ejx.211.2022.10.22.08.06.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Oct 2022 08:05:56 -0700 (PDT)
+ Sat, 22 Oct 2022 08:06:03 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Eduardo Habkost <eduardo@habkost.net>,
@@ -67,9 +67,10 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 04/43] hw/isa/piix3: Add size constraints to rcr_ops
-Date: Sat, 22 Oct 2022 17:04:29 +0200
-Message-Id: <20221022150508.26830-5-shentey@gmail.com>
+Subject: [PATCH v2 06/43] hw/isa/piix3: Prefer pci_address_space() over
+ get_system_memory()
+Date: Sat, 22 Oct 2022 17:04:31 +0200
+Message-Id: <20221022150508.26830-7-shentey@gmail.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221022150508.26830-1-shentey@gmail.com>
 References: <20221022150508.26830-1-shentey@gmail.com>
@@ -100,32 +101,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to the PIIX3 datasheet, the reset control register is one byte in size.
-Moreover, PIIX4 has it, so add it to PIIX3 as well.
+get_system_memory() accesses global state while pci_address_space() uses
+whatever has been passed to the device instance, so avoid the global.
+Moreover, PIIX4 uses pci_address_space() here as well.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/isa/piix3.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ hw/isa/piix3.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
-index 04895ce2e5..72dbf688d9 100644
+index 723ad0a896..0bea4aefe7 100644
 --- a/hw/isa/piix3.c
 +++ b/hw/isa/piix3.c
-@@ -290,7 +290,11 @@ static uint64_t rcr_read(void *opaque, hwaddr addr, unsigned len)
- static const MemoryRegionOps rcr_ops = {
-     .read = rcr_read,
-     .write = rcr_write,
--    .endianness = DEVICE_LITTLE_ENDIAN
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+    .impl = {
-+        .min_access_size = 1,
-+        .max_access_size = 1,
-+    },
- };
+@@ -301,7 +301,7 @@ static void pci_piix3_realize(PCIDevice *dev, Error **errp)
+     PIIX3State *d = PIIX3_PCI_DEVICE(dev);
+     ISABus *isa_bus;
  
- static void pci_piix3_realize(PCIDevice *dev, Error **errp)
+-    isa_bus = isa_bus_new(DEVICE(d), get_system_memory(),
++    isa_bus = isa_bus_new(DEVICE(d), pci_address_space(dev),
+                           pci_address_space_io(dev), errp);
+     if (!isa_bus) {
+         return;
 -- 
 2.38.1
 
