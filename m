@@ -2,71 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C33A6098A7
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 05:19:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8931060983B
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 04:28:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1omikV-00068v-Lj
-	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 17:43:15 -0400
+	id 1omjWt-0004SD-F1
+	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 18:33:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsengiyumvawilberforce@gmail.com>)
- id 1omIl2-0003W7-W6
- for qemu-devel@nongnu.org; Sat, 22 Oct 2022 13:58:05 -0400
-Received: from mail-yw1-x1143.google.com ([2607:f8b0:4864:20::1143])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nsengiyumvawilberforce@gmail.com>)
- id 1omIl1-0005an-Kx
- for qemu-devel@nongnu.org; Sat, 22 Oct 2022 13:58:04 -0400
-Received: by mail-yw1-x1143.google.com with SMTP id
- 00721157ae682-36a4b86a0abso35643907b3.7
- for <qemu-devel@nongnu.org>; Sat, 22 Oct 2022 10:58:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=rkfqHZ26MRrvf1EJH12hlN9RWSM+HsF90hhs0644ZoQ=;
- b=lVkSZYMd54VnfzK3GlJqt3vS9Uim8AvhWlGz8oatrtYiwNhO/fs0dIGgdBCkKxnl4Y
- gIRwiJw3KosfY8dPuvh3vh2SL1GcM0PJULZMbk95RpO671Adc0I4nDVmMP8WfNBsantH
- 71bHMXQQ6bxhbchPGkt7Kz5Tpd54s/DZWSlHWFnYrLZdPkvXPTKFA+PH0izXpi49Za3Q
- NTWd54tmy14cULvihn0JdkGIRP+cM+Sphgl8jnYHWP+k7YGQhZDHxrgK92jmxuGN+cub
- SSbz1EodJx8vaHF0OenOu6r0DYSgwvTagpA1wTdJEk05ss3bMGZZYJ5MV6OaiH35I5Ln
- 933Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=rkfqHZ26MRrvf1EJH12hlN9RWSM+HsF90hhs0644ZoQ=;
- b=cYrQPsRYfLh+mwPl2yaotRbtFp5EmMYBsBgbMMUNjIY5VCi/xUcBB0lsb7XOCU1YRJ
- WJyNJ9cUsp7sLSK3ANh9FKRmxrRmOj0byBrMg0YNC2Q0JNjhjMC0YkhzAoRQPb2YE7U2
- BADHYnnfiv0d/G7JGf+Wc2r8lExlCGa40A2M3I8nC6VDFspE0iK98W/u+JUb+JHtWkMn
- uEbpyuERhIt77zfK1vgWmfZOlYfFwj4OYaADIFWjAZ+W+Aa3TT1EIF5lkclfN4huKl8X
- wacbi1MEM7tw2whDtHFciQq9TRk6qEtYCQpwmk/+N7OPqhzTwfYoIjf8ESR75jm85Dz0
- ebVQ==
-X-Gm-Message-State: ACrzQf3dPDWFCTvApmhg4r+OG0PXlnijSvtBPKh/CHhpcncOTPzA4NnM
- cmy7GYU3txGD4dZjDK++Q4zGjdhiLRvQ+7zg+aM=
-X-Google-Smtp-Source: AMsMyM6E+rlw4yPcVrVMqln/w6KIR8KR+KRHOWEg1YOFSrak8tUxxJuN2aLE0S3bqu46lXEBWRt38nFdsWB6k2HL+Ws=
-X-Received: by 2002:a81:a116:0:b0:36a:de9d:824c with SMTP id
- y22-20020a81a116000000b0036ade9d824cmr4493338ywg.449.1666461481863; Sat, 22
- Oct 2022 10:58:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1omLQv-00069w-BH; Sat, 22 Oct 2022 16:49:29 -0400
+Received: from mout.kundenserver.de ([217.72.192.75])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1omLQt-00058C-Q0; Sat, 22 Oct 2022 16:49:29 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MsIfc-1p6lkj3vzu-00tnkB; Sat, 22 Oct 2022 22:48:40 +0200
+Message-ID: <2c44912b-6e82-61b5-65f3-c2fe9d5664aa@vivier.eu>
+Date: Sat, 22 Oct 2022 22:48:38 +0200
 MIME-Version: 1.0
-From: NSENGIYUMVA WILBERFORCE <nsengiyumvawilberforce@gmail.com>
-Date: Sat, 22 Oct 2022 13:57:50 -0400
-Message-ID: <CA+PPyiEvbs0-Pn0ndthWL=Q5Q4ArN7P4Lu-26UHWf+7O3KG5eA@mail.gmail.com>
-Subject: [OUTREACHY] Asking about contribution ideas
-To: ming.lei@redhat.com, sgarzare@redhat.com, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1143;
- envelope-from=nsengiyumvawilberforce@gmail.com; helo=mail-yw1-x1143.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH] .gitignore: add multiple items to .gitignore
+Content-Language: fr
+To: "Wang, Lei" <lei4.wang@intel.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, alex.bennee@linaro.org, f4bug@amsat.org
+References: <20221020171921.1078533-1-lei4.wang@intel.com>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20221020171921.1078533-1-lei4.wang@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:G5CmO9bbS37OZvAxDIwY7ILV1Y/SXiaUsPGPw7BhJMW7+3zePjH
+ DLKcRfMDGZoTs+5KA6Ywj0v1UimmNhzhjb9zaZk539ZxlIv6p3HwJ93+3Rr+qtKIhMhnKAw
+ eQNrQzNp+GsM5Kaz+kK2BL6c9vmrn23LF2giJrzFfOnBBTUt8LlbN/wAccO74+Rv8iSTxVb
+ Ntx8w7iViA84kDO15bjNw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:y+qs+buk/XY=:ctdSE0i7lYVPjInvxAMHqT
+ UAMmtUO3vwT1UiXvcOug4r7389ly45sAxqmQZgmXkirDYrYNG3PAWVt7ddMvWINDf4IZjSfBa
+ xHQ/W/bvFkFPoP4NBasyOnWWtpW5RuAYIT7Gn+lJ3AUbaQqgNekdRx8mG0CFbHC+hqZBGe2jm
+ r1DBir+VkUpOPGKRQfyJG/3YgzzRGGqZboqA4gyun8t9bs4b5X+GC4BBJgNJsDgegnPgyLM+y
+ Ek6NDeiSWRcCcr/u+JTGkrx3GasHShclu/HzKcb3yZbcA3pjSAWlqxO5FYjP4Ozt3Gfxo1ZmQ
+ kOlUZzawlHkt01HehiNkUbZmh00LvEvE+NU/w0ikWnt5FWN9mNJKJ+IemoWxvP28sAMgKTld3
+ vfsWfsc4c4ICUXGawIPa7B62N2yQz7ZrEgJinRR3YKSRWFcOFd2bzyhVBwFk5j5AAVc9DS0HZ
+ YVWMChhY+CQbCxZ1TFlD/eOQcAdaHE8BEL2N+Dmil+O+m3BbZ/6/WFiCz6q7tVQIBGK09C8js
+ 1NgNbLfsNwGoTDWCGdqPHXsze+RWMuLIJI+n1u/f0WGJ4mIxSN9tQZTmDyzyEAqadXDfXzSKx
+ vHDlkuCgQ35FMMnfHEZvYEKjgWxt9SfZR9PU+FYpCy6D7Hecm/iq/sQ7QPj8Ga3X6Yz4tVTDB
+ +4GETLjYy8OGT7O32z3ZKKjqpmSLPdspbstkPyGkZ7NfG1erw8G8PewYy7V2+YPHxJNKT0QKf
+ GYw4p2nblbxXGGxWJsmzMv0fbNTxmv7OAW3kjl5CIKTjtcKhiSJplrXW1HIFbhbdYU+P2pRJd
+ a8+DOM0
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 22 Oct 2022 16:16:28 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,11 +74,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi team,
-I am an outreachy applicant and I would like to know how I can make my
-first contribution and what the contribution should be.
+Le 20/10/2022 à 19:19, Wang, Lei a écrit :
+> Add /.vscode/, .clang-format and .gdb_history to .gitignore because:
+> 
+>   - For VSCode, workspace settings as well as debugging and task
+>   configurations are stored at the root in a .vscode folder;
+>   - For ClangFormat, the .clang-format file is searched relative to
+>   the current working directory when reading stdin;
+>   - For GDB, GDB command history file defaults to the value of the
+>   environment variable GDBHISTFILE, or to ./.gdb_history if this
+>   variable is not set.
+> 
+> Signed-off-by: Wang, Lei <lei4.wang@intel.com>
+> ---
+>   .gitignore | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/.gitignore b/.gitignore
+> index 8aab671265..61fa39967b 100644
+> --- a/.gitignore
+> +++ b/.gitignore
+> @@ -1,10 +1,13 @@
+>   /GNUmakefile
+>   /build/
+>   /.cache/
+> +/.vscode/
+>   *.pyc
+>   .sdk
+>   .stgit-*
+>   .git-submodule-status
+> +.clang-format
+> +.gdb_history
+>   cscope.*
+>   tags
+>   TAGS
 
+Applied to my trivial-patches branch.
 
-Best Regards,
-Wilberforce
+Thanks,
+Laurent
+
 
