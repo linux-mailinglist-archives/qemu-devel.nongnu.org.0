@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C020608484
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Oct 2022 07:26:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 262CF608477
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Oct 2022 07:16:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1om6Jz-0005Eg-5S; Sat, 22 Oct 2022 00:41:19 -0400
+	id 1om6K0-0005Ff-Cg; Sat, 22 Oct 2022 00:41:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1om6Jt-0005EK-CY
- for qemu-devel@nongnu.org; Sat, 22 Oct 2022 00:41:14 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
+ id 1om6Jw-0005Ei-PN
+ for qemu-devel@nongnu.org; Sat, 22 Oct 2022 00:41:17 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1om6Jr-0003Gl-B6
- for qemu-devel@nongnu.org; Sat, 22 Oct 2022 00:41:12 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id k9so4059581pll.11
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 21:41:09 -0700 (PDT)
+ id 1om6Jv-0003YO-4Q
+ for qemu-devel@nongnu.org; Sat, 22 Oct 2022 00:41:16 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id m6so4495063pfb.0
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 21:41:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=KSduAt5OWvLla49AODdFswSKTVSp8teWN5RFR6WXygs=;
- b=IGZTGdBA+0XF3fkB1E2JfP1QnJz5sVhf+uYum/WaWJ5OYXRx+7RXTFM23oKRh4Bv+i
- vovKHRhn1shdCW+SQUcWD9g780RMZwdRs1PMHXaBQpWJzMdhf/jW+xusemhLYaozOdU4
- YLrshT6NYyc7Nhx+W2hX8Smqwtf5gQrrYuWLacjiIl+j7POrvANX6s80hyPFtJEkllh5
- bZ5zNlZdpa+8VNl4Y8W0Lrt6f95I7+MkDkVwdVjpY13JGpSpRTMN3FaevQB0BFb6j9Ha
- Bka1PXUni/61yAUnjugi6F1NLn6RgLL2tjML0dCFEalxt8aPXTtciERu1j7DM0oF8l+h
- iu+Q==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Amj+vSFcdbQnaoWcuLvjNhpGRqy42M12Pln3+46OKr0=;
+ b=gZ48ofMttxNaD0YttAZ4PAFFUPBGh+saYUeyHYqRb/1lp3fMDLtqU7paLb6mb8uzc2
+ bgYYQsFVi3sl09GNmN5hATjNvWk8UpTaQpt0ajYdic/1PKiwZI9kZa5En1cdeMNzpLGD
+ xQwvDrEUtbskWgEjgPQWEs6imDvCRIAPCUbYX0hECtH9Zq7nD1V/JF2kiFY1cB/RwgRB
+ AULS2Ncis7s7XTNEl0Cfd1LTK2y5zo+SAsz6oNdEzYPJUcenm8dj4h9fvpJIIlDM3RFD
+ hOc9u7Q+xx6F+NHjI+iYs1yhZdihPKP0Rem39YnTLYdHbxOddBLQ3dKdlG1zxl2DQkOB
+ 44ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KSduAt5OWvLla49AODdFswSKTVSp8teWN5RFR6WXygs=;
- b=vDzhcFoxvY22zllipoVlz+/2ppIiNzQHZfcjyaNdsadHpBurJjf5Di2ySCmFwuw8Ly
- cQ8mwrzfsgl3+hv9eqfATnZfjpyPcH/GO8LOYtsAbC8KX2jApR3x3UuWG8bdlW3ekMFx
- 2zTRHf6jqVDdgfVRsEwl4AhRZyXOLhJNlyTorzpvvsFpo3STuKEANXD3tlJuqK+Mz5Nz
- NNFDmqvD2iwvB7PzoNnKIDif6uQ5zu9P4WvWcelh6iYJebXMfahBcE7g0PntDaX+WX1R
- TZFoSHR6NPXhyNPSFPr4wMck4RQYuYlqGVr5wjg2XKIXECstqb5zcbwngzp/Xscjcooo
- EUiA==
-X-Gm-Message-State: ACrzQf2nepu2eaKdyIzrAN/4UTuciEcrn7JmhcDX3vlmUjKxIOxVk7Eh
- 3V7BlRYpLBzgGi722Webr6gZKw==
-X-Google-Smtp-Source: AMsMyM5wCZaYTVGhuUJZQdQ76DrG4TC8wXs/c3iioocYXz4RGOHm6PJSdQxBZI9gD03bbgeB4l0S3Q==
-X-Received: by 2002:a17:90b:d98:b0:212:d3f9:c311 with SMTP id
- bg24-20020a17090b0d9800b00212d3f9c311mr6195585pjb.243.1666413668637; 
- Fri, 21 Oct 2022 21:41:08 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Amj+vSFcdbQnaoWcuLvjNhpGRqy42M12Pln3+46OKr0=;
+ b=r9sn8pl+3gH0rMry1q713u6VYzfoaVCv18fJ+oUk9mRexvsztwryTv+VHuNRWxpW8x
+ zBZEsEiDEDouqmfl/+i0CMu598d1J6yzBdFMhPCoQE5f0y/TXuV5dhiOoU3G9SlNdsKN
+ 7aAcYxFz6+p5zgqmoOkcoscmJRahHxT7JWJ7Ca/PNlR8AXEhZ+FmkB2+kkL5EQp3HL0T
+ 1+aVbpRiqUIcqhiL0Nolh4w1J/aZ1pl40116BAPF7gfT9NMH08IECTV9ZpId9QSwH/FS
+ K3Qkxdzb6BRaEEYy6CvBJAT1EMMCOp5YK5Aj9JkRrBhZ7HdjG1yaPULPu1iRZf95nLqW
+ aYjQ==
+X-Gm-Message-State: ACrzQf0Chhx6C6Ehqi3FLlnP/H20I8YBH0GZLV+E5K9MO5va/fDH97FH
+ PQGdIPu/nNmPmfI8lElgOwaP3A==
+X-Google-Smtp-Source: AMsMyM7dPqB7DzmKa37q6fWVDdz0Z5Thdi76N5DA7nFMFNKcnkfNYY7xNQYIg/2OMKrduVh0G3BYbQ==
+X-Received: by 2002:a63:5144:0:b0:43b:ed4b:224 with SMTP id
+ r4-20020a635144000000b0043bed4b0224mr19234060pgl.594.1666413673769; 
+ Fri, 21 Oct 2022 21:41:13 -0700 (PDT)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
  by smtp.gmail.com with ESMTPSA id
- y16-20020a17090264d000b001868d4600b8sm178049pli.158.2022.10.21.21.41.03
+ y16-20020a17090264d000b001868d4600b8sm178049pli.158.2022.10.21.21.41.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Oct 2022 21:41:08 -0700 (PDT)
+ Fri, 21 Oct 2022 21:41:13 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org,
@@ -73,14 +74,16 @@ Cc: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org,
  Yan Vugenfirer <yan@daynix.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v2 00/17] pci: Abort if pci_add_capability fails
-Date: Sat, 22 Oct 2022 13:40:36 +0900
-Message-Id: <20221022044053.81650-1-akihiko.odaki@daynix.com>
+Subject: [PATCH v2 01/17] pci: Allow to omit errp for pci_add_capability
+Date: Sat, 22 Oct 2022 13:40:37 +0900
+Message-Id: <20221022044053.81650-2-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20221022044053.81650-1-akihiko.odaki@daynix.com>
+References: <20221022044053.81650-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::62c;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62c.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -124,62 +127,72 @@ capabilities never overlap. Therefore, we can always assert that
 capabilities never overlap when pci_add_capability is called, resolving
 these inconsistencies.
 
-v2: Split the patch (Markus Armbruster)
+Such an implementation of pci_add_capability will not have errp
+parameter. However, there are so many callers of pci_add_capability
+that it does not make sense to amend all of them at once to match
+with the new signature. Instead, this change will allow callers of
+pci_add_capability to omit errp as the first step.
 
-Akihiko Odaki (17):
-  pci: Allow to omit errp for pci_add_capability
-  hw/i386/amd_iommu: Omit errp for pci_add_capability
-  ahci: Omit errp for pci_add_capability
-  e1000e: Omit errp for pci_add_capability
-  eepro100: Omit errp for pci_add_capability
-  hw/nvme: Omit errp for pci_add_capability
-  msi: Omit errp for pci_add_capability
-  hw/pci/pci_bridge: Omit errp for pci_add_capability
-  pcie: Omit errp for pci_add_capability
-  pci/shpc: Omit errp for pci_add_capability
-  msix: Omit errp for pci_add_capability
-  pci/slotid: Omit errp for pci_add_capability
-  hw/pci-bridge/pcie_pci_bridge: Omit errp for pci_add_capability
-  hw/vfio/pci-quirks: Omit errp for pci_add_capability
-  hw/vfio/pci: Omit errp for pci_add_capability
-  virtio-pci: Omit errp for pci_add_capability
-  pci: Remove legacy errp from pci_add_capability
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+---
+ hw/pci/pci.c         |  8 ++++----
+ include/hw/pci/pci.h | 13 ++++++++++---
+ 2 files changed, 14 insertions(+), 7 deletions(-)
 
- docs/pcie_sriov.txt                |  4 +--
- hw/display/bochs-display.c         |  4 +--
- hw/i386/amd_iommu.c                | 21 +++---------
- hw/ide/ich.c                       |  8 ++---
- hw/net/e1000e.c                    | 22 +++----------
- hw/net/eepro100.c                  |  7 +---
- hw/nvme/ctrl.c                     | 14 ++------
- hw/pci-bridge/cxl_downstream.c     |  9 ++----
- hw/pci-bridge/cxl_upstream.c       |  8 ++---
- hw/pci-bridge/i82801b11.c          | 14 ++------
- hw/pci-bridge/pci_bridge_dev.c     |  2 +-
- hw/pci-bridge/pcie_pci_bridge.c    | 19 +++--------
- hw/pci-bridge/pcie_root_port.c     | 16 ++-------
- hw/pci-bridge/xio3130_downstream.c | 15 ++-------
- hw/pci-bridge/xio3130_upstream.c   | 15 ++-------
- hw/pci-host/designware.c           |  3 +-
- hw/pci-host/xilinx-pcie.c          |  4 +--
- hw/pci/msi.c                       |  9 +-----
- hw/pci/msix.c                      |  8 ++---
- hw/pci/pci.c                       | 29 ++++-------------
- hw/pci/pci_bridge.c                | 21 ++++--------
- hw/pci/pcie.c                      | 52 ++++++++----------------------
- hw/pci/shpc.c                      | 23 ++++---------
- hw/pci/slotid_cap.c                |  8 ++---
- hw/usb/hcd-xhci-pci.c              |  3 +-
- hw/vfio/pci-quirks.c               | 15 ++-------
- hw/vfio/pci.c                      | 14 +++-----
- hw/virtio/virtio-pci.c             | 12 ++-----
- include/hw/pci/pci.h               |  5 ++-
- include/hw/pci/pci_bridge.h        |  5 ++-
- include/hw/pci/pcie.h              | 11 +++----
- include/hw/pci/shpc.h              |  3 +-
- include/hw/virtio/virtio-pci.h     |  2 +-
- 33 files changed, 99 insertions(+), 306 deletions(-)
-
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 2f450f6a72..8ee2171011 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -2513,14 +2513,14 @@ static void pci_del_option_rom(PCIDevice *pdev)
+ }
+ 
+ /*
+- * On success, pci_add_capability() returns a positive value
++ * On success, pci_add_capability_legacy() returns a positive value
+  * that the offset of the pci capability.
+  * On failure, it sets an error and returns a negative error
+  * code.
+  */
+-int pci_add_capability(PCIDevice *pdev, uint8_t cap_id,
+-                       uint8_t offset, uint8_t size,
+-                       Error **errp)
++int pci_add_capability_legacy(PCIDevice *pdev, uint8_t cap_id,
++                              uint8_t offset, uint8_t size,
++                              Error **errp)
+ {
+     uint8_t *config;
+     int i, overlapping_cap;
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index b54b6ef88f..51fd106f16 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -2,6 +2,7 @@
+ #define QEMU_PCI_H
+ 
+ #include "exec/memory.h"
++#include "qapi/error.h"
+ #include "sysemu/dma.h"
+ 
+ /* PCI includes legacy ISA access.  */
+@@ -390,9 +391,15 @@ void pci_register_vga(PCIDevice *pci_dev, MemoryRegion *mem,
+ void pci_unregister_vga(PCIDevice *pci_dev);
+ pcibus_t pci_get_bar_addr(PCIDevice *pci_dev, int region_num);
+ 
+-int pci_add_capability(PCIDevice *pdev, uint8_t cap_id,
+-                       uint8_t offset, uint8_t size,
+-                       Error **errp);
++int pci_add_capability_legacy(PCIDevice *pdev, uint8_t cap_id,
++                              uint8_t offset, uint8_t size,
++                              Error **errp);
++
++#define PCI_ADD_CAPABILITY_VA(pdev, cap_id, offset, size, errp, ...) \
++    pci_add_capability_legacy(pdev, cap_id, offset, size, errp)
++
++#define pci_add_capability(...) \
++    PCI_ADD_CAPABILITY_VA(__VA_ARGS__, &error_abort)
+ 
+ void pci_del_capability(PCIDevice *pci_dev, uint8_t cap_id, uint8_t cap_size);
+ 
 -- 
 2.37.3
 
