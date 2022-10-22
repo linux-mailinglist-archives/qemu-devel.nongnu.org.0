@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A9C6084FA
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Oct 2022 08:13:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53330608503
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Oct 2022 08:18:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1om6KI-0005Oi-4E; Sat, 22 Oct 2022 00:41:38 -0400
+	id 1om6Kh-0005aC-0O; Sat, 22 Oct 2022 00:42:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1om6KD-0005OJ-Ru
- for qemu-devel@nongnu.org; Sat, 22 Oct 2022 00:41:33 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529])
+ id 1om6KY-0005YH-MO
+ for qemu-devel@nongnu.org; Sat, 22 Oct 2022 00:41:55 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1om6KC-0003j7-9s
- for qemu-devel@nongnu.org; Sat, 22 Oct 2022 00:41:33 -0400
-Received: by mail-pg1-x529.google.com with SMTP id s196so4269700pgs.3
- for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 21:41:30 -0700 (PDT)
+ id 1om6KX-0003lJ-2I
+ for qemu-devel@nongnu.org; Sat, 22 Oct 2022 00:41:54 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id i3so4409090pfc.11
+ for <qemu-devel@nongnu.org>; Fri, 21 Oct 2022 21:41:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=P+vwGTfDGUfglEd+A+a9uNkSk8M5X1nPBLZPxAQj164=;
- b=sUBdSnHRlDEeVwMhCgWYsNI0QvMLEqxkgU+pu8XY1BjW2yGdOwCcC5615ZqmYm6Nwv
- ktIoEaxpkE5YQddrKjM5DscTjlOhBYFDvORS3geweqmmT0fVR3j8ne4yltJVc9D2XgXB
- OYFq3PrRm/4+9J1n4S7dtsQ1194cODcu0QBxbhuha4oSuW4kAoVzQfLKqZepc2vbGlHN
- pbQeN9h/wHH4+bVItDNlKKP+QhLx1kgWDKb/9qM9VBMvww+1L/3pNO4d/1bgMKwAsNNX
- H5N0yVONLukLT5U6ic+Ojo9im2S8zXB+P2wBN4p+kt9ocasDzDtHeR3BwxuX0wYyvQmG
- KsBg==
+ bh=t/kFrXOcR9C4uEYjQ13TPDg8KKmTpe6uLP4NpFkoLnc=;
+ b=0FeUs7r3aT1oEEhJdE6luQfwfa0ZDu5syNnzlgttLFg/hz/1M/NTV9gnfW/s9OSEi3
+ qdgM1UpzzKr1Fj5SqJCeFUppoz4YnbmPHivHyR896t3+7vezndm2aXY+r7KqHuHAQt1G
+ dXxCNh6sunVSNfaolBeUP6yyMd/3GCkgEBXf5MyN4HKS9aNahtqjLDRCi9/E9NGKxq9H
+ IBBmENWhEohN8e/EcAzXlbdfkkfOvaj0N9qHtmifikGuxQaEytt3cN+VnhKAUxn0sdrS
+ IngX0kG2C9A3AuQKKQOoX7A0cWVlXFhsJaeXKF1JGbT37h7cYjoN16j7teJWH/8O/PTy
+ 2w+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=P+vwGTfDGUfglEd+A+a9uNkSk8M5X1nPBLZPxAQj164=;
- b=J8U1Ly/TtD6aKVvaKkS1eRwao/LN+56rGYs2ZdfQO2929PCOPhs9Mgf7y2vP4MMGkM
- aekkkIMi4rW7FErKzJ+bgk2Q++ZrHBhHVf7seA+kmOkml6FVu2UaAQe55oFsNb6HnvsB
- fsiJXkzO3MBBDaBBhrl2Tu2ADF5vhvQwqkQNL00NgGoxNDrC2UQX0JLLr1Bv+I4A1gFC
- p0VWNXesP2u99INdCRY6tqEXZR6ab7ok+Q1kToJaItOSr/FfapYvcJLQeqPsEuJCfsnm
- EIo0kkE+8TMdQVfaW3BhZ/I8d3ofZ7mqJCPOs2TwB1lBA4i+jU4Dn/laEMxnFTAf+Ckv
- 05lQ==
-X-Gm-Message-State: ACrzQf0uk+u0lHRykKFCcIrGTtdrD0IrOpvAT3vlIOA9WB3vM8b8Fb6H
- cLI4N3nhlAZnKsgyX0VmtoB8sQ==
-X-Google-Smtp-Source: AMsMyM7kRIvuZyWXMRmjPHOEmcEz+FnGnM7R3uiuWoqhQLq8JNo2LJlW9zFYe/u4h8HTAcNEkuv2tA==
-X-Received: by 2002:a63:5702:0:b0:44b:290:f24f with SMTP id
- l2-20020a635702000000b0044b0290f24fmr19105076pgb.558.1666413690163; 
- Fri, 21 Oct 2022 21:41:30 -0700 (PDT)
+ bh=t/kFrXOcR9C4uEYjQ13TPDg8KKmTpe6uLP4NpFkoLnc=;
+ b=3AAfvvNDkVaKm74F6IK+hsfr7RsCeXTpb5prUasCt/floFUbPSdJX4+YN7vJf5ao6t
+ zihtCT95yzzmWVLHKULQ5C6UEhsuffb3JRgcWfGxH5vn46SH/hWLrjuO08nZIZs+a8Qc
+ XR6EGqLInTJ0Or/nXOjRiG1/JkNrRHq7NhNvnv3bUI9o/qHZIpoI9SADOO7houUNbzij
+ /3Zag1kruHA5UCqwPd0LjxFM1vC54iHxjFwAJ33vQ/TglQhI4tf/V2WBeKSBRJqrpzqX
+ vt+2IW68BA7Sn1I1gir/BUtBYpUA+lotRapmM+RkX66jovwCxCBXG7udFFcbnGRLJLrY
+ hMCg==
+X-Gm-Message-State: ACrzQf2zNqZB2dCY5f2zplsLzNu5XyjBVQyC6rr/qcQrPRz1t7zacmKG
+ VpYBgDF2EhapwdV4T94QHXLzcw==
+X-Google-Smtp-Source: AMsMyM5pannZABw7K6PnXCHvDaLuepk/DHcIUf4OJMi8BL19b16ngWCOl0jdT0J7QvlWlnAfWd1ROw==
+X-Received: by 2002:a63:cc43:0:b0:43a:2f12:d326 with SMTP id
+ q3-20020a63cc43000000b0043a2f12d326mr18923080pgi.320.1666413711080; 
+ Fri, 21 Oct 2022 21:41:51 -0700 (PDT)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
  by smtp.gmail.com with ESMTPSA id
- y16-20020a17090264d000b001868d4600b8sm178049pli.158.2022.10.21.21.41.25
+ y16-20020a17090264d000b001868d4600b8sm178049pli.158.2022.10.21.21.41.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Oct 2022 21:41:29 -0700 (PDT)
+ Fri, 21 Oct 2022 21:41:50 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org,
@@ -74,16 +74,16 @@ Cc: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org,
  Yan Vugenfirer <yan@daynix.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v2 04/17] e1000e: Omit errp for pci_add_capability
-Date: Sat, 22 Oct 2022 13:40:40 +0900
-Message-Id: <20221022044053.81650-5-akihiko.odaki@daynix.com>
+Subject: [PATCH v2 08/17] hw/pci/pci_bridge: Omit errp for pci_add_capability
+Date: Sat, 22 Oct 2022 13:40:44 +0900
+Message-Id: <20221022044053.81650-9-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221022044053.81650-1-akihiko.odaki@daynix.com>
 References: <20221022044053.81650-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::529;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pg1-x529.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -107,54 +107,158 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- hw/net/e1000e.c | 18 +++---------------
- 1 file changed, 3 insertions(+), 15 deletions(-)
+ hw/pci-bridge/i82801b11.c          | 14 ++------------
+ hw/pci-bridge/pcie_root_port.c     |  7 +------
+ hw/pci-bridge/xio3130_downstream.c |  8 ++------
+ hw/pci-bridge/xio3130_upstream.c   |  8 ++------
+ hw/pci/pci_bridge.c                | 21 ++++++---------------
+ include/hw/pci/pci_bridge.h        |  5 ++---
+ 6 files changed, 15 insertions(+), 48 deletions(-)
 
-diff --git a/hw/net/e1000e.c b/hw/net/e1000e.c
-index ac96f7665a..e433b8f9a5 100644
---- a/hw/net/e1000e.c
-+++ b/hw/net/e1000e.c
-@@ -377,17 +377,10 @@ e1000e_gen_dsn(uint8_t *mac)
-            (uint64_t)(mac[0])  << 56;
- }
+diff --git a/hw/pci-bridge/i82801b11.c b/hw/pci-bridge/i82801b11.c
+index f28181e210..f45dcdbacc 100644
+--- a/hw/pci-bridge/i82801b11.c
++++ b/hw/pci-bridge/i82801b11.c
+@@ -61,21 +61,11 @@ typedef struct I82801b11Bridge {
  
--static int
-+static void
- e1000e_add_pm_capability(PCIDevice *pdev, uint8_t offset, uint16_t pmc)
+ static void i82801b11_bridge_realize(PCIDevice *d, Error **errp)
  {
--    Error *local_err = NULL;
--    int ret = pci_add_capability(pdev, PCI_CAP_ID_PM, offset,
--                                 PCI_PM_SIZEOF, &local_err);
+-    int rc;
 -
--    if (local_err) {
--        error_report_err(local_err);
--        return ret;
+     pci_bridge_initfn(d, TYPE_PCI_BUS);
+ 
+-    rc = pci_bridge_ssvid_init(d, I82801ba_SSVID_OFFSET,
+-                               I82801ba_SSVID_SVID, I82801ba_SSVID_SSID,
+-                               errp);
+-    if (rc < 0) {
+-        goto err_bridge;
 -    }
-+    pci_add_capability(pdev, PCI_CAP_ID_PM, offset, PCI_PM_SIZEOF);
- 
-     pci_set_word(pdev->config + offset + PCI_PM_PMC,
-                  PCI_PM_CAP_VER_1_1 |
-@@ -400,8 +393,6 @@ e1000e_add_pm_capability(PCIDevice *pdev, uint8_t offset, uint16_t pmc)
- 
-     pci_set_word(pdev->w1cmask + offset + PCI_PM_CTRL,
-                  PCI_PM_CTRL_PME_STATUS);
++    pci_bridge_ssvid_init(d, I82801ba_SSVID_OFFSET,
++                          I82801ba_SSVID_SVID, I82801ba_SSVID_SSID);
+     pci_config_set_prog_interface(d->config, PCI_CLASS_BRIDGE_PCI_INF_SUB);
+-    return;
 -
--    return ret;
+-err_bridge:
+-    pci_bridge_exitfn(d);
  }
  
- static void e1000e_write_config(PCIDevice *pci_dev, uint32_t address,
-@@ -480,10 +471,7 @@ static void e1000e_pci_realize(PCIDevice *pci_dev, Error **errp)
-         trace_e1000e_msi_init_fail(ret);
+ static const VMStateDescription i82801b11_bridge_dev_vmstate = {
+diff --git a/hw/pci-bridge/pcie_root_port.c b/hw/pci-bridge/pcie_root_port.c
+index 460e48269d..a9d8c2adb4 100644
+--- a/hw/pci-bridge/pcie_root_port.c
++++ b/hw/pci-bridge/pcie_root_port.c
+@@ -74,12 +74,7 @@ static void rp_realize(PCIDevice *d, Error **errp)
+     }
+     pcie_port_init_reg(d);
+ 
+-    rc = pci_bridge_ssvid_init(d, rpc->ssvid_offset, dc->vendor_id,
+-                               rpc->ssid, errp);
+-    if (rc < 0) {
+-        error_append_hint(errp, "Can't init SSV ID, error %d\n", rc);
+-        goto err_bridge;
+-    }
++    pci_bridge_ssvid_init(d, rpc->ssvid_offset, dc->vendor_id, rpc->ssid);
+ 
+     if (rpc->interrupts_init) {
+         rc = rpc->interrupts_init(d, errp);
+diff --git a/hw/pci-bridge/xio3130_downstream.c b/hw/pci-bridge/xio3130_downstream.c
+index 05e2b06c0c..eea3d3a2df 100644
+--- a/hw/pci-bridge/xio3130_downstream.c
++++ b/hw/pci-bridge/xio3130_downstream.c
+@@ -81,12 +81,8 @@ static void xio3130_downstream_realize(PCIDevice *d, Error **errp)
+         goto err_bridge;
      }
  
--    if (e1000e_add_pm_capability(pci_dev, e1000e_pmrb_offset,
--                                  PCI_PM_CAP_DSI) < 0) {
--        hw_error("Failed to initialize PM capability");
+-    rc = pci_bridge_ssvid_init(d, XIO3130_SSVID_OFFSET,
+-                               XIO3130_SSVID_SVID, XIO3130_SSVID_SSID,
+-                               errp);
+-    if (rc < 0) {
+-        goto err_msi;
 -    }
-+    e1000e_add_pm_capability(pci_dev, e1000e_pmrb_offset, PCI_PM_CAP_DSI);
++    pci_bridge_ssvid_init(d, XIO3130_SSVID_OFFSET,
++                          XIO3130_SSVID_SVID, XIO3130_SSVID_SSID);
  
-     if (pcie_aer_init(pci_dev, PCI_ERR_VER, e1000e_aer_offset,
-                       PCI_ERR_SIZEOF, NULL) < 0) {
+     rc = pcie_cap_init(d, XIO3130_EXP_OFFSET, PCI_EXP_TYPE_DOWNSTREAM,
+                        p->port, errp);
+diff --git a/hw/pci-bridge/xio3130_upstream.c b/hw/pci-bridge/xio3130_upstream.c
+index 5ff46ef050..d954906d79 100644
+--- a/hw/pci-bridge/xio3130_upstream.c
++++ b/hw/pci-bridge/xio3130_upstream.c
+@@ -71,12 +71,8 @@ static void xio3130_upstream_realize(PCIDevice *d, Error **errp)
+         goto err_bridge;
+     }
+ 
+-    rc = pci_bridge_ssvid_init(d, XIO3130_SSVID_OFFSET,
+-                               XIO3130_SSVID_SVID, XIO3130_SSVID_SSID,
+-                               errp);
+-    if (rc < 0) {
+-        goto err_msi;
+-    }
++    pci_bridge_ssvid_init(d, XIO3130_SSVID_OFFSET,
++                          XIO3130_SSVID_SVID, XIO3130_SSVID_SSID);
+ 
+     rc = pcie_cap_init(d, XIO3130_EXP_OFFSET, PCI_EXP_TYPE_UPSTREAM,
+                        p->port, errp);
+diff --git a/hw/pci/pci_bridge.c b/hw/pci/pci_bridge.c
+index da34c8ebcd..30032fed64 100644
+--- a/hw/pci/pci_bridge.c
++++ b/hw/pci/pci_bridge.c
+@@ -42,21 +42,15 @@
+ #define PCI_SSVID_SVID          4
+ #define PCI_SSVID_SSID          6
+ 
+-int pci_bridge_ssvid_init(PCIDevice *dev, uint8_t offset,
+-                          uint16_t svid, uint16_t ssid,
+-                          Error **errp)
++void pci_bridge_ssvid_init(PCIDevice *dev, uint8_t offset,
++                           uint16_t svid, uint16_t ssid)
+ {
+-    int pos;
++    uint8_t pos;
+ 
+-    pos = pci_add_capability(dev, PCI_CAP_ID_SSVID, offset,
+-                             PCI_SSVID_SIZEOF, errp);
+-    if (pos < 0) {
+-        return pos;
+-    }
++    pos = pci_add_capability(dev, PCI_CAP_ID_SSVID, offset, PCI_SSVID_SIZEOF);
+ 
+     pci_set_word(dev->config + pos + PCI_SSVID_SVID, svid);
+     pci_set_word(dev->config + pos + PCI_SSVID_SSID, ssid);
+-    return pos;
+ }
+ 
+ /* Accessor function to get parent bridge device from pci bus. */
+@@ -455,11 +449,8 @@ int pci_bridge_qemu_reserve_cap_init(PCIDevice *dev, int cap_offset,
+             .mem_pref_64 = cpu_to_le64(res_reserve.mem_pref_64)
+     };
+ 
+-    int offset = pci_add_capability(dev, PCI_CAP_ID_VNDR,
+-                                    cap_offset, cap_len, errp);
+-    if (offset < 0) {
+-        return offset;
+-    }
++    uint8_t offset = pci_add_capability(dev, PCI_CAP_ID_VNDR,
++                                        cap_offset, cap_len);
+ 
+     memcpy(dev->config + offset + PCI_CAP_FLAGS,
+            (char *)&cap + PCI_CAP_FLAGS,
+diff --git a/include/hw/pci/pci_bridge.h b/include/hw/pci/pci_bridge.h
+index ba4bafac7c..e499482972 100644
+--- a/include/hw/pci/pci_bridge.h
++++ b/include/hw/pci/pci_bridge.h
+@@ -101,9 +101,8 @@ typedef struct PXBDev PXBDev;
+ DECLARE_INSTANCE_CHECKER(PXBDev, PXB_CXL_DEV,
+                          TYPE_PXB_CXL_DEVICE)
+ 
+-int pci_bridge_ssvid_init(PCIDevice *dev, uint8_t offset,
+-                          uint16_t svid, uint16_t ssid,
+-                          Error **errp);
++void pci_bridge_ssvid_init(PCIDevice *dev, uint8_t offset,
++                           uint16_t svid, uint16_t ssid);
+ 
+ PCIDevice *pci_bridge_get_device(PCIBus *bus);
+ PCIBus *pci_bridge_get_sec_bus(PCIBridge *br);
 -- 
 2.37.3
 
