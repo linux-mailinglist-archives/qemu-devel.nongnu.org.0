@@ -2,76 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B4936099C8
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 07:27:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F91609901
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 06:04:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1omkKR-0000tk-5U
-	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 19:24:27 -0400
+	id 1omgeM-0001Gn-Kg
+	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 15:28:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mathbern@qualcomm.com>)
- id 1omRPp-0008UT-FA; Sat, 22 Oct 2022 23:12:46 -0400
-Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mathbern@qualcomm.com>)
- id 1omRPn-0001md-NM; Sat, 22 Oct 2022 23:12:45 -0400
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29N32aEV006270;
- Sun, 23 Oct 2022 03:12:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=qcppdkim1; bh=mqNKx9EOZOwNOpbZ70ssiGwhbr9TjejI4qFljTpkUyo=;
- b=UD5fFWRg2WxID8NFN6A9uedFqofWSyEFTiKhRJoa+jnoK+rcSmBh2Qbzk3OAZ5UqG8mX
- t32gNgdBKPr3Ig9UomkM6R3+4JrxvehpnL0mhSdg26bhyi87DlTa7voyplNe9trMU29r
- 9hAwwlTdmkgKXnviePvch5yhUB7o/n24N9PqEjTjrNzYQ/wjgDgP8A2Ek2YGqjNZ3K2m
- SrogFpOkA9oH8Z2n1quyNqLreFV9VidWrjhwLwjoEKEV5iWCw9rcJYnWbEUtTai8o2Rz
- pBerUHblykntOa/vPyTAGaQNTICZJjSZzaTkgEOlyOh+gEkMLxoHGvDHjIla8SRP+abQ Pw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kc99qsk6x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 23 Oct 2022 03:12:39 +0000
-Received: from hu-devc-sd-u20-a-1.qualcomm.com (hu-mathbern-lv.qualcomm.com
- [10.47.235.147])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 29N3Cc2T022545
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 23 Oct 2022 03:12:38 GMT
-Received: by hu-devc-sd-u20-a-1.qualcomm.com (Postfix, from userid 4229910)
- id 600373BB; Fri, 21 Oct 2022 14:36:08 -0300 (-03)
-From: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1omG4P-0006zC-Ec; Sat, 22 Oct 2022 11:05:53 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1omG4N-00020s-NI; Sat, 22 Oct 2022 11:05:53 -0400
+Received: by mail-ed1-x533.google.com with SMTP id m15so16048518edb.13;
+ Sat, 22 Oct 2022 08:05:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=7NYjJAiwL3UkwUI5mA0F3Wlg5qiA3msCo54CbNGwBvU=;
+ b=Y9BFyq6eC2hhZUACYAhhwfxetpXfaVv8xvz8h4fo37MaMENg2lSZgQyIJ/HO0TWWCN
+ fT9ue+DGg8eYjazACEspN2nQsjFCpbsDJJS1QKvh4j6KowPjscBorUXEVk8Ct7D9B9Ss
+ K4IR6pLjg70sS0L2eFXLBp8fawfENn1Dpi6/95PHg0Fb5WagUY/5moDhsmhPp8jdZFzx
+ p5lPSqCHPr2feSxEd29xNi4/uW1lRr6n1IqD9jp+Sm2deUTW729EzOkOO6wUkDxvGCKU
+ WmGwqVrWv8zFeHzKer/glsWxyA6z0ZcUMe0ehQkseMj6QIDa2sbO6T0vwtpYmgkY/Nyo
+ KhEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=7NYjJAiwL3UkwUI5mA0F3Wlg5qiA3msCo54CbNGwBvU=;
+ b=faCEjyBB8TqLr9RYy69+QPLuUJdj76SUTyq3+I5cX479a8gQo7T74ZHB5cv7C734bk
+ 6/DevZqxY8kvVFf45Le5U/tVh7RsG5J+s9kV5qgodS2X+6xOMQp7+xeEhxjSEbwnmmBl
+ xyUq9jxDE32ghYbM7ZcEyMcrR9MhzLXLtNsliRizqdk0rx2uMT4VB2ILAwhngdmcfkRK
+ L2S7IkEZjzFUxZT0mOyrOYDL0YjrdY4B631voqSiABmWPoEU+XkNy68rc0d9yFGAXLGs
+ suSzPXJVUY+A/KEkyiXxu2xw+OjdXWsjaN5glVVyW3bLga9hfZGIshkyLHj125FRqV6z
+ ucoQ==
+X-Gm-Message-State: ACrzQf1eAUgNd+oUtOh5g4inzueQ3TVhfSuraMSONWPaL5f/3yWz1KOF
+ BZBbYAOqCwgGrmGLBujo6SZ5dNQrLD1mYw==
+X-Google-Smtp-Source: AMsMyM4nXtChWRXkOU/AyiyUMhmhOFJaAeFiotW50Mq6NZZOv2EAUcV3ur0ZB35vrBXGojQv59hJ7Q==
+X-Received: by 2002:a17:907:d9e:b0:78e:2ff7:72f4 with SMTP id
+ go30-20020a1709070d9e00b0078e2ff772f4mr19383740ejc.608.1666451148449; 
+ Sat, 22 Oct 2022 08:05:48 -0700 (PDT)
+Received: from localhost.localdomain
+ (dynamic-077-191-171-138.77.191.pool.telefonica.de. [77.191.171.138])
+ by smtp.gmail.com with ESMTPSA id
+ 4-20020a170906310400b00780ab5a9116sm13021558ejx.211.2022.10.22.08.05.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 22 Oct 2022 08:05:47 -0700 (PDT)
+From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org
-Subject: [PATCH] accel/tcg/tcg-accel-ops-rr: fix trivial typo
-Date: Fri, 21 Oct 2022 14:36:06 -0300
-Message-Id: <5dc556dbe241ae03859b7890d1998de5c77b7c6c.1666373742.git.quic_mathbern@quicinc.com>
-X-Mailer: git-send-email 2.37.2
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Igor Mammedov <imammedo@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, John Snow <jsnow@redhat.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Ani Sinha <ani@anisinha.ca>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-block@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Bernhard Beschow <shentey@gmail.com>
+Subject: [PATCH v2 01/43] hw/i386/pc: Create DMA controllers in south bridges
+Date: Sat, 22 Oct 2022 17:04:26 +0200
+Message-Id: <20221022150508.26830-2-shentey@gmail.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221022150508.26830-1-shentey@gmail.com>
+References: <20221022150508.26830-1-shentey@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: YIozH9cmKc1sX8ow_U_XJFe-TXC7fNs3
-X-Proofpoint-ORIG-GUID: YIozH9cmKc1sX8ow_U_XJFe-TXC7fNs3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-21_04,2022-10-21_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=661
- malwarescore=0 suspectscore=0 lowpriorityscore=0 mlxscore=0 phishscore=0
- priorityscore=1501 bulkscore=0 adultscore=0 impostorscore=0 clxscore=1011
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210230019
-Received-SPF: pass client-ip=205.220.168.131;
- envelope-from=mathbern@qualcomm.com; helo=mx0a-0031df01.pphosted.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,25 +100,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
----
- accel/tcg/tcg-accel-ops-rr.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Just like in the real hardware (and in PIIX4), create the DMA
+controllers in the south bridges.
 
-diff --git a/accel/tcg/tcg-accel-ops-rr.c b/accel/tcg/tcg-accel-ops-rr.c
-index cc8adc2380..cc912df108 100644
---- a/accel/tcg/tcg-accel-ops-rr.c
-+++ b/accel/tcg/tcg-accel-ops-rr.c
-@@ -51,7 +51,7 @@ void rr_kick_vcpu_thread(CPUState *unused)
-  *
-  * The kick timer is responsible for moving single threaded vCPU
-  * emulation on to the next vCPU. If more than one vCPU is running a
-- * timer event with force a cpu->exit so the next vCPU can get
-+ * timer event we force a cpu->exit so the next vCPU can get
-  * scheduled.
-  *
-  * The timer is removed if all vCPUs are idle and restarted again once
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/i386/pc.c      | 3 ---
+ hw/i386/pc_piix.c | 2 ++
+ hw/isa/Kconfig    | 2 ++
+ hw/isa/lpc_ich9.c | 3 +++
+ hw/isa/piix3.c    | 9 +++++++--
+ 5 files changed, 14 insertions(+), 5 deletions(-)
+
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 768982ae9a..b39ecd4d0c 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -47,7 +47,6 @@
+ #include "multiboot.h"
+ #include "hw/rtc/mc146818rtc.h"
+ #include "hw/intc/i8259.h"
+-#include "hw/dma/i8257.h"
+ #include "hw/timer/i8254.h"
+ #include "hw/input/i8042.h"
+ #include "hw/irq.h"
+@@ -1320,8 +1319,6 @@ void pc_basic_device_init(struct PCMachineState *pcms,
+         pcspk_init(pcms->pcspk, isa_bus, pit);
+     }
+ 
+-    i8257_dma_init(isa_bus, 0);
+-
+     /* Super I/O */
+     pc_superio_init(isa_bus, create_fdctrl, pcms->i8042_enabled,
+                     pcms->vmport != ON_OFF_AUTO_ON);
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 0b1a79c0fa..7a55b9ca8e 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -26,6 +26,7 @@
+ #include CONFIG_DEVICES
+ 
+ #include "qemu/units.h"
++#include "hw/dma/i8257.h"
+ #include "hw/loader.h"
+ #include "hw/i386/x86.h"
+ #include "hw/i386/pc.h"
+@@ -225,6 +226,7 @@ static void pc_init1(MachineState *machine,
+         pci_bus = NULL;
+         isa_bus = isa_bus_new(NULL, get_system_memory(), system_io,
+                               &error_abort);
++        i8257_dma_init(isa_bus, 0);
+         pcms->hpet_enabled = false;
+     }
+     isa_bus_irqs(isa_bus, x86ms->gsi);
+diff --git a/hw/isa/Kconfig b/hw/isa/Kconfig
+index d42143a991..c65d2d2666 100644
+--- a/hw/isa/Kconfig
++++ b/hw/isa/Kconfig
+@@ -33,6 +33,7 @@ config PC87312
+ 
+ config PIIX3
+     bool
++    select I8257
+     select ISA_BUS
+ 
+ config PIIX4
+@@ -67,6 +68,7 @@ config LPC_ICH9
+     bool
+     # For historical reasons, SuperIO devices are created in the board
+     # for ICH9.
++    select I8257
+     select ISA_BUS
+     select ACPI_SMBUS
+     select ACPI_X86_ICH
+diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+index 4553b5925b..8694e58b21 100644
+--- a/hw/isa/lpc_ich9.c
++++ b/hw/isa/lpc_ich9.c
+@@ -34,6 +34,7 @@
+ #include "qapi/error.h"
+ #include "qapi/visitor.h"
+ #include "qemu/range.h"
++#include "hw/dma/i8257.h"
+ #include "hw/isa/isa.h"
+ #include "migration/vmstate.h"
+ #include "hw/irq.h"
+@@ -722,6 +723,8 @@ static void ich9_lpc_realize(PCIDevice *d, Error **errp)
+     qdev_init_gpio_out_named(dev, lpc->gsi, ICH9_GPIO_GSI, GSI_NUM_PINS);
+ 
+     isa_bus_irqs(isa_bus, lpc->gsi);
++
++    i8257_dma_init(isa_bus, 0);
+ }
+ 
+ static bool ich9_rst_cnt_needed(void *opaque)
+diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
+index 48f9ab1096..44a9998752 100644
+--- a/hw/isa/piix3.c
++++ b/hw/isa/piix3.c
+@@ -25,6 +25,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/range.h"
+ #include "qapi/error.h"
++#include "hw/dma/i8257.h"
+ #include "hw/southbridge/piix.h"
+ #include "hw/irq.h"
+ #include "hw/isa/isa.h"
+@@ -295,9 +296,11 @@ static const MemoryRegionOps rcr_ops = {
+ static void pci_piix3_realize(PCIDevice *dev, Error **errp)
+ {
+     PIIX3State *d = PIIX3_PCI_DEVICE(dev);
++    ISABus *isa_bus;
+ 
+-    if (!isa_bus_new(DEVICE(d), get_system_memory(),
+-                     pci_address_space_io(dev), errp)) {
++    isa_bus = isa_bus_new(DEVICE(d), get_system_memory(),
++                          pci_address_space_io(dev), errp);
++    if (!isa_bus) {
+         return;
+     }
+ 
+@@ -307,6 +310,8 @@ static void pci_piix3_realize(PCIDevice *dev, Error **errp)
+                                         PIIX_RCR_IOPORT, &d->rcr_mem, 1);
+ 
+     qemu_register_reset(piix3_reset, d);
++
++    i8257_dma_init(isa_bus, 0);
+ }
+ 
+ static void build_pci_isa_aml(AcpiDevAmlIf *adev, Aml *scope)
 -- 
-2.37.2
+2.38.1
 
 
