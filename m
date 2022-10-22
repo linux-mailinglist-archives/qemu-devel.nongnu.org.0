@@ -2,85 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1578609ADF
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 09:01:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DD1B609AD4
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 08:58:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1omj7h-00052W-2r
-	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 18:07:13 -0400
+	id 1omjhh-0006na-U0
+	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 18:44:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1omJX4-0006bp-0C
- for qemu-devel@nongnu.org; Sat, 22 Oct 2022 14:47:42 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1omJX2-0005hF-FD
- for qemu-devel@nongnu.org; Sat, 22 Oct 2022 14:47:41 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- e20-20020a05600c449400b003cce0107a6fso332452wmo.0
- for <qemu-devel@nongnu.org>; Sat, 22 Oct 2022 11:47:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PdlBk28oLlVkFTL63OkALSZnW6hUHvNPbIGPAPBNTOc=;
- b=aLhOek04x8mGW0Y2mJmNpfqommL2dDLYZ1OP6LggGeF5I7ky2aHKhrRajzHQiSKytg
- V+Gy/WJIZlKWUvHbKfOgVnXyvxfoekw9PxJQ4B07ypBccNzcgZTPgt1yAAIXwuiU7xMe
- Lw3abAjPDxId+UgkuqHik6KlCZQFICI9tfnb9KogvLX66JFEnDMQHbriKe14/xKiI8W2
- WgPZSarM2l00zO7LyY55wyCZQHwa+K/KqVQ901TUxp7nVPVG/5szgWUwDWQGWqYK/a1A
- xhntZ2GCQKMx5N3rhcB4N7OpgzDkRNyPvpx+7X5YXLaDSlFrk2dzvTFdua+on5zKLMCO
- t3KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=PdlBk28oLlVkFTL63OkALSZnW6hUHvNPbIGPAPBNTOc=;
- b=s7eP1U638VyPRQ44jsblyaOUgX8VuzFG0Pd7I/uDBl2JXhPZRlG+3mBep87cIdGUHz
- IeBdqkgOhEu/1z477PivxT+fp3NMjNVwMLGqSqmKWs87bshpZEg4ZaXgzeeBPLpocogU
- brNNd5yzgIiKCGQeRVJy1AXYFo/8pnP8ihcUoWAzbXlCfBw+vQDqdvuy+zjnX3HnsQpj
- jP5wUdCbDqBkScYkFwsabsJX6+0eCyPewYYwaUBnsWi2hWBjzSsCl0GhdH3AmMp2WGrL
- QsjK5UAm4J2KON7NPmpvYBm3g2VE7cazCthXLuE4wVRirgpkwx5j6l6dhb6j0dFeFVC1
- Oz9g==
-X-Gm-Message-State: ACrzQf3ZU/GLAxXu+zoBLX50qxIHCSk/DsfxDNUFJbdEkN20CtV1fJCi
- 1yedVOW85ysMFRRFLCp3kM75rQ==
-X-Google-Smtp-Source: AMsMyM6VFmmJmEIKd6VeuBc08QdfZ4SAeA1zHDAaJ/coDsw/mYppFj6X5lAELzItg/1m9vOXTmizow==
-X-Received: by 2002:a05:600c:3781:b0:3b4:63c8:554b with SMTP id
- o1-20020a05600c378100b003b463c8554bmr37943692wmr.25.1666464458365; 
- Sat, 22 Oct 2022 11:47:38 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- t189-20020a1c46c6000000b003c701c12a17sm3316354wma.12.2022.10.22.11.47.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Oct 2022 11:47:37 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 37AC81FFB7;
- Sat, 22 Oct 2022 19:47:37 +0100 (BST)
-References: <20221020223548.2310496-1-richard.henderson@linaro.org>
- <20221020223548.2310496-2-richard.henderson@linaro.org>
-User-agent: mu4e 1.9.1; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Subject: Re: [PATCH v5 01/14] target/arm: Introduce regime_is_stage2
-Date: Sat, 22 Oct 2022 19:47:31 +0100
-In-reply-to: <20221020223548.2310496-2-richard.henderson@linaro.org>
-Message-ID: <875ygbae5z.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1omLsA-0008Az-5o; Sat, 22 Oct 2022 17:17:38 -0400
+Received: from mout.kundenserver.de ([212.227.17.24])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1omLs8-0001gA-0d; Sat, 22 Oct 2022 17:17:37 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MF39S-1osxZd2bua-00FUIX; Sat, 22 Oct 2022 23:17:25 +0200
+Message-ID: <066ae14c-d92f-de2c-1787-6bc2553b19df@vivier.eu>
+Date: Sat, 22 Oct 2022 23:17:21 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v2 1/2] tests/qtest: migration-test: Fix
+ [-Werror=format-overflow=] build warning
+Content-Language: fr
+To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org,
+ qemu-trivial@nongnu.org
+Cc: Markus Armbruster <armbru@redhat.com>, Bin Meng <bin.meng@windriver.com>, 
+ Shengjiang Wu <shengjiang.wu@windriver.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+References: <20221017132023.2228641-1-bmeng.cn@gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20221017132023.2228641-1-bmeng.cn@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:sapLzfozshUtiaLd8l7X0xNnxBp0GR3F/R79nK/8eGYKHNoUTL+
+ wSh0y3WlRqaiXDhcRENm1/aIAKygTAMAGX9d+n5Ax2La6aO6eurJhvV4sjikzXDrtMw4LGr
+ gHHz0JoE2KrnxdfPDa3bRDALfJiX2P82etxASDzoobvdRhNmXG5Tk96rCtph6LE+7SMToZj
+ AMr/XhhpeQ2SfcaLYzO5g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:c/HvC6j+9Bs=:fQqMdsPatckbGbCZYEd+yW
+ W8Ak3/Rr/493kQbwacSiluVoJa23crTqJ/+1SBghrLiN3vjDgAlRqYsVKZ9WUKK2xzk2Sui7y
+ XrM8kJLbHpPshIRlDV3a0fKybd66HJwNWrbL1i2RhFemWk1yXV9SmpJRFUWIbdRVt0LigHuSx
+ kTWdRbLcL2FE4CuUQWHqupK33HFEioiv8OAIMB7kqYLaYiABKS5mmSXtEvQZ4WZ8TParyI2mS
+ LdUuNz8xEZ8bj1Zhm6s9BMK5uRfb3d1oIDF6tctt7vDHb+PImtThQ7bD6rqWTLYxxvdcdiIRf
+ wQXPvit+ssn0YPbvTT5ucxHsQBsFInh1OVjZgHYXV4u6cOGGJ8nRiY9xQWfGCuEOIkxrbV9as
+ RP0TDran11ZlyGAklIueI1TbBrrd5bIY5QuykQm90dHj7MA2kWKlztRKeVQTAG0itxNZB9rcu
+ tsNxK1t+90L1Ueax4N3cm7MgmZKlpdXGUnQLBZETuOqsvVgDsL9ipi45fSyKHwYHFyIoks3/v
+ gxBrvVK7EI9T5//iOlOVsuJBBLLoSYYBr23/XiMlhmgPRDoMueJSw2wDrAQR+7RbbmE88tCBF
+ RaFVS5VqitzsicIZ5vcNdtDwxNffTPjZ36ZNznDWXGFGZMa7qLb25kc59ntj20yFx981bHOXi
+ YE7AWfpBwbP2zER4uR5VpC+9wTUv1GwYqPJdHc6eyixyRc8EvKbek8Uml61Tcsaj0H8WJ0VqM
+ 97uecdJjWqrVeH3NypHNtXK1uDQ7WUlx8R5x/u0XiaFQ9HvB29oFKoe8K7hzwAap5QAZ7BTsH
+ bnpMPR9
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,15 +80,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Le 17/10/2022 à 15:20, Bin Meng a écrit :
+> From: Bin Meng <bin.meng@windriver.com>
+> 
+> When tmpfs is NULL, a build warning is seen with GCC 9.3.0.
+> It's strange that GCC 11.2.0 on Ubuntu 22.04 does not catch this,
+> neither did the QEMU CI.
+> 
+> While we are here, improve the error message as well.
+> 
+> Reported-by: Shengjiang Wu <shengjiang.wu@windriver.com>
+> Fixes: e5553c1b8d28 ("tests/qtest: migration-test: Avoid using hardcoded /tmp")
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+> ---
+> 
+> Changes in v2:
+> - improve the error message
+> 
+>   tests/qtest/migration-test.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+> index ef4427ff4d..aa1ba179fa 100644
+> --- a/tests/qtest/migration-test.c
+> +++ b/tests/qtest/migration-test.c
+> @@ -2481,8 +2481,8 @@ int main(int argc, char **argv)
+>   
+>       tmpfs = g_dir_make_tmp("migration-test-XXXXXX", &err);
+>       if (!tmpfs) {
+> -        g_test_message("g_dir_make_tmp on path (%s): %s", tmpfs,
+> -                       err->message);
+> +        g_test_message("Can't create temporary directory in %s: %s",
+> +                       g_get_tmp_dir(), err->message);
+>       }
+>       g_assert(tmpfs);
+>   
+Applied to my trivial-patches branch.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Thanks,
+Laurent
 
-> Reduce the amount of typing required for this check.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
 
