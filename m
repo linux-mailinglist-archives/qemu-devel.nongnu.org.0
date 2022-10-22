@@ -2,104 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48ACB609965
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 06:50:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7743E609966
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 06:50:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1omiZ2-0003fq-DP
-	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 17:31:24 -0400
+	id 1omibv-0004Ak-VK
+	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 17:34:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1omHfI-0006s0-88
- for qemu-devel@nongnu.org; Sat, 22 Oct 2022 12:48:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1omHfG-0002UQ-EI
- for qemu-devel@nongnu.org; Sat, 22 Oct 2022 12:48:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666457279;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nwImJoYTJI6IzhIxObrqsfYHCjX16MpXUBlg5Z8kLys=;
- b=NRsQHfoz1p+4Wr/mnEckad91bGLwoSwTKMPmlJMwUmfex1p47t0bU3MJuCu/poTnQ7N76b
- EkngFZoA6wmU0rmP+EIP4KWj1d2ioQe0j7eVSiUTrLw2LtnhUbM5YikhiWmWlF04/+yAlo
- wWmTke0u5DtaJs+I8XgfYhjkXtNjHDY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-213-YdMdu_8aOXmPS2PA76Ve2w-1; Sat, 22 Oct 2022 12:47:58 -0400
-X-MC-Unique: YdMdu_8aOXmPS2PA76Ve2w-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k22-20020a05600c0b5600b003c6cf5c5592so1253768wmr.3
- for <qemu-devel@nongnu.org>; Sat, 22 Oct 2022 09:47:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1omHui-0007ve-8p
+ for qemu-devel@nongnu.org; Sat, 22 Oct 2022 13:04:00 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1omHug-0002Pz-8X
+ for qemu-devel@nongnu.org; Sat, 22 Oct 2022 13:04:00 -0400
+Received: by mail-oi1-x236.google.com with SMTP id g130so6595001oia.13
+ for <qemu-devel@nongnu.org>; Sat, 22 Oct 2022 10:03:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=g78qBcPXbaG4JbTKy3OkH49y1ulAP5teBr5pvmwrD4M=;
+ b=O3dbouZk2GwD9QTIcnjwwMIfV6mGDj9xzwr8k41XYNDxYFuBPIKbeeMW5kEGdUN/1b
+ ZTnLCmPjJpU280Q2tu7IlFFbYjoaqMqWnwilJJI+PI3vgHtReAtqYIX7k85BAIPM1yd1
+ RsI9I3uOG92UKmnpUqFca01ES5FcibsjcbgyY5TxUpaj8LmCsGG24aejoaEDfMlbP/j2
+ Wqq6tUGH3KhYNdHqEXusoDCTTzDPyE5uVvJc4XwRWETX9utDPgOYkd7a1k+MeX0GotEq
+ rfbI2Al34R1Un/MhnUl00m+vNJNiuD4rC7FvbzPvFgG5Z5uFAjuHGJRzP8peg07fQUW+
+ FuVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nwImJoYTJI6IzhIxObrqsfYHCjX16MpXUBlg5Z8kLys=;
- b=VxlsS/Z0GFqbYoYjLKwgD3aa0MFoffrHMDX5sNXsutidoRLG+BOMiTC9BL6/V6YnXL
- f5nbA/xVY4/5eurERfUIWyCNqff0pKcXIS5aa0EYhFcr+xuQUN4Nl4i5rn/hzdDP89Oc
- LyFNFGrsi6o4OnAw4YZb1VB2vJGQPvFSXO3pDj15G1mvQ9Mwpe+fGdZExPDtxFZuslyp
- DIhrYFv6AbmXgS7LR1gtBQ3z1fMghCQqwNLYAk4V1NMv//W39tpEAnGsiP4wQBaWFOQW
- IOBHRJWx89zQb/UEnyD+//EY2j2ejukdkZnSiq3GvKbCuiqm7eTH9lvlOZWFltFzPPJU
- wCEA==
-X-Gm-Message-State: ACrzQf2hAncu59Ak4u30hexKrsDvAsjc1lzrvgQ+JwCIssrzuyS/Qeli
- WgxwfoetVc3UFr2B86r3CctgEEAmfZ0R4TAVfaPzjbhbfmkwR2QbUercjLlTuTqoTirZapL6MZU
- 9kGpY3tuEp4F8mRI=
-X-Received: by 2002:a05:6000:1565:b0:235:37f6:9e06 with SMTP id
- 5-20020a056000156500b0023537f69e06mr10537604wrz.211.1666457277030; 
- Sat, 22 Oct 2022 09:47:57 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7yej3TAvTGM2wrdwsYPzTMfpRqh8jSenBgQSdr7tT8zrwr02OpdeBv6GLSvB8D5XhPsaxJpw==
-X-Received: by 2002:a05:6000:1565:b0:235:37f6:9e06 with SMTP id
- 5-20020a056000156500b0023537f69e06mr10537588wrz.211.1666457276735; 
- Sat, 22 Oct 2022 09:47:56 -0700 (PDT)
-Received: from redhat.com ([2a06:c701:7435:2100:975b:ee03:5e6d:6634])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=g78qBcPXbaG4JbTKy3OkH49y1ulAP5teBr5pvmwrD4M=;
+ b=4rWICq1KUIePIRMvFbnm/Sn2W+Jgo8DWN6SYl58txjBwEqzq5Gx377i+JPNLR/+fzr
+ KzC0wqSh933qQV6eruEbS8nL/2WCHlMMOjN+2kr3gE7qP0lI0iJ6Oow6Ux4b26AFRKK8
+ RG6EtqKnOTD96sp2A+LyjfT+McJBrDz1Dy+ikO89u8Vz+/ogijyD/0fV/x60Qid+6ojj
+ eYd3l1Rj0F4EHZT1s4JGdrHGuKW+rcm4G/7r38bWPkuZF8759fQP0iJ3scuPLbd/ER3S
+ KcoXck1L/qlbroaUtBVWsRPBQupfFe51St5r0zvMJgG4Kebq6EfimoloD/lRfxQm6dXD
+ RBQQ==
+X-Gm-Message-State: ACrzQf0c0WEjTYBDpCRZeheekqfJFgj1BsLk715haMIvZy86yfBTC1ay
+ HHJgOsYeRmLgD1kUDQwDFYXHoXbEHKM=
+X-Google-Smtp-Source: AMsMyM4Nrf3SdJBZA7O1KfI/5xt3R5ArPlLepZ1xD2n8JumktbGOqBSAabimA2FYgILVqdFGMUGZQA==
+X-Received: by 2002:a05:6808:120f:b0:351:98b4:a86f with SMTP id
+ a15-20020a056808120f00b0035198b4a86fmr26770199oil.189.1666458235991; 
+ Sat, 22 Oct 2022 10:03:55 -0700 (PDT)
+Received: from balboa.COMFAST ([179.111.38.2])
  by smtp.gmail.com with ESMTPSA id
- h10-20020a5d504a000000b0022a9246c853sm21718546wrt.41.2022.10.22.09.47.55
+ v24-20020a056830141800b006618f1fbb84sm2426722otp.80.2022.10.22.10.03.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Oct 2022 09:47:56 -0700 (PDT)
-Date: Sat, 22 Oct 2022 12:47:53 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, John Snow <jsnow@redhat.com>,
- Maydell Peter <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Qemu Devel <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>,
+ Sat, 22 Oct 2022 10:03:55 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH v6 00/10] Introduce new acpi/smbios avocado tests using
- biosbits
-Message-ID: <20221022124624-mutt-send-email-mst@kernel.org>
-References: <87k04t7ca6.fsf@linaro.org>
- <20221021053828-mutt-send-email-mst@kernel.org>
- <CAARzgwzQZXdJCxn_YmXPGOuVTd7CzwnZ=aQRjVgZ5p2XiTosQA@mail.gmail.com>
- <87bkq575m8.fsf@linaro.org>
- <CAARzgwya9jw3YmAwHcSbzzTUewFcq8JR_hVM+=-cSePfyxO1CQ@mail.gmail.com>
- <CAARzgwy8iEDxet6bHxe4AqU=9qQfC=pk=QWoLdF+rz61T1+bMQ@mail.gmail.com>
- <87pmel5fm7.fsf@linaro.org>
- <CAARzgwygyiK7FZppZEczHV3p8yz43N2v9-hL374mrNPWowDWXg@mail.gmail.com>
- <20221022123308-mutt-send-email-mst@kernel.org>
- <CAARzgwztz3TG+f8+NoYU6KyxNQBKfZ76abTDPXs696iNiw5BEQ@mail.gmail.com>
+Subject: [PATCH] avocado: use sha1 for fc31 imgs to avoid first time
+ re-download
+Date: Sat, 22 Oct 2022 14:03:50 -0300
+Message-Id: <20221022170350.936685-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAARzgwztz3TG+f8+NoYU6KyxNQBKfZ76abTDPXs696iNiw5BEQ@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x236.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -116,157 +94,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Oct 22, 2022 at 10:13:13PM +0530, Ani Sinha wrote:
-> 
-> 
-> On Sat, Oct 22, 2022 at 22:05 Michael S. Tsirkin <mst@redhat.com> wrote:
-> 
->     On Sat, Oct 22, 2022 at 06:28:32AM +0530, Ani Sinha wrote:
->     >
->     >
->     > On Fri, Oct 21, 2022 at 21:32 Alex Bennée <alex.bennee@linaro.org> wrote:
->     >
->     >
->     >     Ani Sinha <ani@anisinha.ca> writes:
->     >
->     >     > On Fri, 21 Oct, 2022, 5:52 pm Ani Sinha, <ani@anisinha.ca> wrote:
->     >     >
->     >     >  On Fri, 21 Oct, 2022, 5:26 pm Alex Bennée, <alex.bennee@linaro.org
->     >
->     >     wrote:
->     >     >
->     >     >  Ani Sinha <ani@anisinha.ca> writes:
->     >     >
->     >     >  > On Fri, Oct 21, 2022 at 3:10 PM Michael S. Tsirkin <
->     mst@redhat.com>
->     >     wrote:
->     >     >  >>
->     >     >  >> On Fri, Oct 21, 2022 at 10:30:09AM +0100, Alex Bennée wrote:
->     >     >  >> >
->     >     >  >> > Ani Sinha <ani@anisinha.ca> writes:
->     >     >  >> >
->     >     >  >> > > On Fri, Oct 21, 2022 at 2:02 PM Michael S. Tsirkin <
->     >     mst@redhat.com> wrote:
->     >     >  >> > >>
->     >     >  >> > >> On Fri, Oct 21, 2022 at 05:45:15AM +0530, Ani Sinha wrote:
->     >     >  >> > >> > And have multiple platform specific branches in bits
->     that have
->     >     fixes for those
->     >     >  >> > >> > platforms so that bits can run there. Plus the existing
->     test
->     >     can be enhanced to
->     >     >  >> > >> > pull in binaries from those branches based on the
->     platform on
->     >     which it is being
->     >     >  >> > >> > run.
->     >     >  >> > >> >
->     >     >  >> > >>
->     >     >  >> > >> What a mess.
->     >     >  >> > >> Who is going to be testing all these million platforms?
->     >     >  >> > >
->     >     >  >> > > I am not talking about branches in QEMU but branches in
->     bits.
->     >     >  >> > > If you are going to test multiple platforms, you do need to
->     build
->     >     bits
->     >     >  >> > > binaries for them. There is no way around it.
->     >     >  >> > > bits is not all platform independent python. It does have
->     binary
->     >     executables.
->     >     >  >> > >
->     >     >  >> > > Currently bits is built only for the x86 platform. Other
->     >     platforms are
->     >     >  >> > > not tested. I doubt if anyone even tried building bits for
->     arm or
->     >     >  >> > > mips.
->     >     >  >> >
->     >     >  >> > I'm not worried about test bits on other targets, but we do
->     run x86
->     >     >  >> > targets on a number of hosts. The current reliance on a
->     special
->     >     patched
->     >     >  >> > host build tool for only one architecture is the problem. If 
->     we
->     >     just
->     >     >  >> > download the iso that problem goes away.
->     >     >  >>
->     >     >  >> 👍what he said.
->     >     >  >
->     >     >  > Yes, in that case the problem is that upstream bits does not
->     pass all
->     >     >  > the test out of the box. Hence we are taking this approach of
->     keeping
->     >     >  > some test scripts in QEMU repo and modifying them. Then
->     generating the
->     >     >  > iso with the modified scripts. It also helps developers who want
->     to
->     >     >  > write new tests or make enhancements to existing tests.
->     >     >  > If modifications need to be made to tests, they need to be
->     versioned.
->     >     >  > We have gone through the route of not using submodules and I am
->     not
->     >     >  > going to open that can of worms again.
->     >     >
->     >     >  We have added a mirror of biosbits to the QEMU project so there is
->     no
->     >     >  reason why we can't track changes and modifications there (we do
->     this
->     >     >  for TestFloat which is forked from the upstream SoftFloat code).
->     >
->     >
->     > One last option. Commit this patch set but also double commit patch 3 to
->     the
->     > bits repo so that we can build an iso that would successfully run all
->     tests for
->     > a separate platform independent test to be written later.
->     >
->     > Then we will have two tests:
->     >
->     > - this one for developers writing new test.
->     > - platform independent one for a basic sanity.
->     >
->     > I’m just documenting the fact that I have proposed ideas that can work
->     where
->     > all can be happy. It’s up to others to take it or keep objecting and
->     killing
->     > motivations for freelance contributors. 
-> 
->     I think it's ok to apply this as is for starters.
->     Anyone has objections?
-> 
->     Down the road I think things should be refactored slightly to work as
->     follows:
->     - test developers can check out biosbits repo to create the iso
->     - everyone else gets iso downloaded
-> 
-> 
-> It will be difficult to convince test developers to check out another repo and
-> go back and forth between two repos. If the bits repo was a sub module that’s
-> another story.
-> 
-> Test developers should use the test scripts from qemu repo. Someone then later
-> can incrementally commit these new tests into bits repo and generate newer iso
-> at some periodic intervals. Since I am the maintainer of the bits repo I can do
-> the second part.
+'make check-avocado' will download any images that aren't present in the
+cache via 'get-vm-images' in tests/Makefile.include. The target that
+downloads fedora 31 images, get-vm-image-fedora-31, will use 'avocado
+vmimage get  --distro=fedora --distro-version=31 --arch=(...)' to
+download the image for each arch. Note that this command does not
+support any argument to set the hash algorithm used and, based on the
+avocado source code [1], DEFAULT_HASH_ALGORITHM is set to "sha1". The
+sha1 hash is stored in a Fedora-Cloud-Base-31-1.9.{ARCH}.qcow2-CHECKSUM
+in the cache.
 
-Sounds like a plan. Anyway, I think we can worry about that down the road
-after something is merged.
+Back in QEMU, the LinuxDistro class defines the images it is going to
+use in the KNOWN_DISTROS attribute. All images have the 'checksum'
+attribute, defined using sha256, that will make avocado check if it has
+the right asset in the cache. So this means that we're downloading a
+sha1 image during check-avocado, then trying to fetch it using a sha256
+hash.
 
+This doesn't work. Avocado will match the provided checksum, a sha256
+hash, with the sha1 hash from the existing CHECKSUM file for the asset,
+and will re-download the image again. Avocado doesn't take into account
+that we're using a different hash algorithm than the one used to fetch
+the image via get-vm-image-fedora31 (in avocado: utils/asset.py,
+self.find_asset_file() and fetch(self, timeout=None). The new download will
+take into account the chosen hash algorithm, and subsequent avocado runs
+will not re-download the image again because now it's comparing sha256 with
+sha256.
 
-> 
-> 
-> 
-> 
->     Objections to this plan?
-> 
-> 
->     >
->     >
->     >
->     >     >
->     >     > 
->     >
-> 
-> 
+All of this, of course, assuming that the system was able to re-download
+the image before the avocado test timeouts. A more "fun" scenario
+happens if the network is not fast enough to download the image during
+the avocado timeout, the test will fail and the sha1 image will remain
+in the cache. And the test will keep trying to re-fetch it, and will
+keep failing with a timeout.
+
+There's something to be said about avocado matching different sha
+algorithms instead of re-calculating the hash with the chosen algorithm
+during fetch(), especially considering that the CHECKSUM file contains
+the name of the algorithm used. An avocado feature request [2] was
+opened to see if this is a feasible change to do.
+
+For now, in QEMU, let's use sha1 for all Fedora 31 images. This will
+immediately spares us at least one extra download for each Fedora 31
+image that we're doing in all our CI runs.
+
+[1] https://github.com/avocado-framework/avocado.git @ 942a5d6972906
+[2] https://github.com/avocado-framework/avocado/issues/5496
+
+Cc: Alex Bennée <alex.bennee@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>
+Cc: John Snow <jsnow@redhat.com>
+Cc: Cleber Rosa <crosa@redhat.com>
+Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ tests/avocado/avocado_qemu/__init__.py | 30 ++++++++++++++++++--------
+ 1 file changed, 21 insertions(+), 9 deletions(-)
+
+diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
+index 910f3ba1ea..68c42948a3 100644
+--- a/tests/avocado/avocado_qemu/__init__.py
++++ b/tests/avocado/avocado_qemu/__init__.py
+@@ -423,12 +423,24 @@ class LinuxDistro:
+     Holds information of known distros.
+     """
+     #: A collection of known distros and their respective image checksum
++    #
++    # 'get-vm-image-fedora-31' target from Makefile.include will
++    # download the images using avocado default 'sha1' algorithm.
++    # This happens because the command line 'avocado vmimage get'
++    # from Makefile.include is not able to handle an extra --algorithm
++    # argument.
++    #
++    # To avoid a re-download of a recent image download due to a sha
++    # mismatch in the first test run, all Fedora 31 images are using
++    # 'sha1' instead of 'sha256'.
++    #
++    # FIXME: revisit this change if/when avocado learns to do CHECKSUM
++    # matches using different algorithms.
+     KNOWN_DISTROS = {
+         'fedora': {
+             '31': {
+                 'x86_64':
+-                {'checksum': ('e3c1b309d9203604922d6e255c2c5d09'
+-                              '8a309c2d46215d8fc026954f3c5c27a0'),
++                {'checksum': ('f62f8eabbf3687ea610c495bd59551a0025f99b7'),
+                  'pxeboot_url': ('https://archives.fedoraproject.org/'
+                                  'pub/archive/fedora/linux/releases/31/'
+                                  'Everything/x86_64/os/images/pxeboot/'),
+@@ -438,8 +450,7 @@ class LinuxDistro:
+                                    'console=ttyS0,115200n8'),
+                 },
+                 'aarch64':
+-                {'checksum': ('1e18d9c0cf734940c4b5d5ec592facae'
+-                              'd2af0ad0329383d5639c997fdf16fe49'),
++                {'checksum': ('39d1fe099cdecacae894480d421be57d18b4e854'),
+                 'pxeboot_url': 'https://archives.fedoraproject.org/'
+                                'pub/archive/fedora/linux/releases/31/'
+                                'Everything/aarch64/os/images/pxeboot/',
+@@ -450,11 +461,9 @@ class LinuxDistro:
+                                   ' console=ttyAMA0'),
+                 },
+                 'ppc64':
+-                {'checksum': ('7c3528b85a3df4b2306e892199a9e1e4'
+-                              '3f991c506f2cc390dc4efa2026ad2f58')},
++                {'checksum': ('9993dc28e7c49ceb52125f9513130dfe2ace026c')},
+                 's390x':
+-                {'checksum': ('4caaab5a434fd4d1079149a072fdc789'
+-                              '1e354f834d355069ca982fdcaf5a122d')},
++                {'checksum': ('455f017b82decf32f366e06e7a7d0f6da86f96a7')},
+             },
+             '32': {
+                 'aarch64':
+@@ -595,15 +604,18 @@ def download_boot(self):
+         self.log.info('Downloading/preparing boot image')
+         # Fedora 31 only provides ppc64le images
+         image_arch = self.arch
++        hash_algorithm = 'sha256'
+         if self.distro.name == 'fedora':
+             if image_arch == 'ppc64':
+                 image_arch = 'ppc64le'
++            if self.distro.version == '31':
++                hash_algorithm = 'sha1'
+ 
+         try:
+             boot = vmimage.get(
+                 self.distro.name, arch=image_arch, version=self.distro.version,
+                 checksum=self.distro.checksum,
+-                algorithm='sha256',
++                algorithm=hash_algorithm,
+                 cache_dir=self.cache_dirs[0],
+                 snapshot_dir=self.workdir)
+         except:
+-- 
+2.37.3
 
 
