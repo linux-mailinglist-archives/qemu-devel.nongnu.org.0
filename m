@@ -2,82 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDAB0609856
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 04:52:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F3C06098F2
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 05:42:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1omg6x-0006Bj-3Z
-	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 14:54:15 -0400
+	id 1omg9M-0006MX-B9
+	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 14:56:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
- id 1omd2V-00062F-MP
- for qemu-devel@nongnu.org; Sun, 23 Oct 2022 11:37:27 -0400
-Received: from mail-out-4.itc.rwth-aachen.de ([2a00:8a60:1:e501::5:49])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
- id 1omd2T-0006NF-GF
- for qemu-devel@nongnu.org; Sun, 23 Oct 2022 11:37:27 -0400
-X-IPAS-Result: =?us-ascii?q?A2DQAgC8Q0Vj/5sagoZaHAEBAQEBAQcBARIBAQQEAQFAg?=
- =?us-ascii?q?U+EfoROkRiBE54ACwEBAQEBAQEBAQgBQgQBAYUBAgIChHUmOBMBAgQBAQEBA?=
- =?us-ascii?q?wIDAQEBAQEBAwEBBgEBAQEBAQYEgRyFL0aGQwIBAyMPAUEFECAFAiYCAlcGD?=
- =?us-ascii?q?gWCfYMhrRSBMoEBhHCJcQkBgQcsiFGCK4U0glCBFYJzdYRhMIMKgmYEmjkcO?=
- =?us-ascii?q?AMJAwcFLB1AAwsfDRY1GAMUAwUhBwMZDyMNDQQdDAMDBSUDAgIbBwICAwIGE?=
- =?us-ascii?q?wUCAjUYNAgECAQrJA8FAgcvBQQvAh4EBQYRCAIWAgYEBAQEFQIQCAIIJhcHE?=
- =?us-ascii?q?zMZAQUyJw4JIRwOGg0FBhMDIG8FBzsPKC9pKx0bB4EMKigVAwQEAwIGEwMgA?=
- =?us-ascii?q?g0pMRQEKRMPLQcpcQkCAyJlBQMDBCgsAwlABygkPAdYOgUDAhAiPAYDCQMCJ?=
- =?us-ascii?q?BNGdDASFAUDDRcmCAU3GwQIPAIFBlITAgoSAxIPLUkPSj47FwicUQeBDoF5N?=
- =?us-ascii?q?sJdB4IboWpMlnQCkhYtlmSjHoQoAgQCBAUCFoF4gX5xgzZRFwIPnHJzOwIGA?=
- =?us-ascii?q?QoBAQMJiwoBAQ?=
-IronPort-Data: A9a23:0PWucarctJaZNGGQEqfyHiDTHJ5eBmJHZBIvgKrLsJaIsI4StFCzt
- garIBmEPq2KNmv0Kd4kPY+xpk5X6MDVnNdiGVY9rH1jEXlG8uPIVI+TRqvS04J+DeWeFh49v
- 5VGAjXkBJppJpMJjk71atANlVEliefSAOKU5NfsYkhZXRVjRDoqlSVtkus4hp8AqdWiCmthg
- /uryyHkEALjimMc3l48sfrZ8ko35a2q4lv0g3RnDRx1lA6G/5UqJM9HTU2BByOQapVZGOe8W
- 9HCwNmRlo8O105wYj8Nuu+TnnwiGtY+DyDX4pZlc/TKbix5m8AH+v1T2Mw0NB0L0WXZx7id/
- /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN13A2I/ELUjpdwrLlNM+
- u4BCBoNdQ660rfeLLKTEoGAh+wZE/XLEbNagSsl53fDEuomBJnPBanHjTNa9G5r2oYXRq6YP
- ZRfMGcyBPjDS0Qn1lM/FJU0ne6zwGP4fj1dpVa9v7Ur4y3axQdx3b6rPNe9ltmiHJsNxBnE9
- zidl4j/Ki9EOt2UwGecziK93qz/xTHkd6wfNrLto5aGh3XWnAT/EiY+TFa+vLy1h1CzX/pZL
- Eob/DdoqrI9nGSzQ8XwRVu9qW+IsxoYc95RFeQg70eK0KW83uqCLnIbUj5MeJk97oo8AyY1y
- l/Mlt+vCTEHXKCpdE9xP4y89VuaURX550dYDcPYZWPpO+Xenbw=
-IronPort-HdrOrdr: A9a23:98O7Ga2kTrup3Bnm093kEQqjBIMkLtp133Aq2lEZdPRUGvb1qy
- nIpoV96faUskd0ZJhOo7690cW7K080sKQFgrX5Xo3SOTUO2lHIEGgK1+KLqAEIWReOlNK1vZ
- 0QFZSWY+eeMbEVt6vHCF7SKadZ/DD+ysCVbLDlvg5QcT0=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="5.95,176,1661810400"; d="scan'208";a="160274923"
-Received: from rwthex-s2-b.rwth-ad.de ([134.130.26.155])
- by mail-in-4.itc.rwth-aachen.de with ESMTP; 23 Oct 2022 17:37:12 +0200
-Received: from localhost.localdomain (2a02:908:1088:5920:10a7:3a65:7c9d:55ef)
- by RWTHEX-S2-B.rwth-ad.de (2a00:8a60:1:e500::26:155) with Microsoft
- SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.15; Sun, 23 Oct 2022 17:37:12 +0200
-From: <tobias.roehmel@rwth-aachen.de>
-To: <qemu-devel@nongnu.org>
-CC: <peter.maydell@linaro.org>, =?UTF-8?q?Tobias=20R=C3=B6hmel?=
- <tobias.roehmel@rwth-aachen.de>
-Subject: [PATCH v4 3/7] target/arm: Make stage_2_format for cache attributes
- optional
-Date: Sun, 23 Oct 2022 17:36:55 +0200
-Message-ID: <20221023153659.121138-4-tobias.roehmel@rwth-aachen.de>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221023153659.121138-1-tobias.roehmel@rwth-aachen.de>
-References: <20221023153659.121138-1-tobias.roehmel@rwth-aachen.de>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1omd7j-0006tu-Qt
+ for qemu-devel@nongnu.org; Sun, 23 Oct 2022 11:42:51 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1omd7h-00008g-4l
+ for qemu-devel@nongnu.org; Sun, 23 Oct 2022 11:42:51 -0400
+Received: by mail-pf1-x436.google.com with SMTP id f140so7093459pfa.1
+ for <qemu-devel@nongnu.org>; Sun, 23 Oct 2022 08:42:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=vv//padBuisfHjg+DIinAFC17BphP196B2vdOmMj6JM=;
+ b=txyExrojrZ0QCg/5yyZvrraB0MkunhRVQsxN+MYUuyIFTPf+wjUIlJ368xaoND8gSP
+ kUAcVT+DfOOUEDzSepI7jODO0goII5qcX6lqBa1F3E3CMa9Wpa3UEldgUn8EjbMfya6e
+ 2vW+UJhbnYQjuKIBz8OyYvZ+EG2l3sWjv3L3bay9h7RjMcWDRUwhIAZLwYFly6TEKmW9
+ NyjMI6xaDgJ413RYOh7sUplyQ2srY8QjM83kyqKZ6tKvOciXXUuLbtB7BJ6ji13M2N6Y
+ 5zQGgzqjDfRCGlzNPBz5eOxmXhvSWxRVjxFssS/0a3iIl2Z1kByhYtfmQgMicHpfAvl7
+ tSVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=vv//padBuisfHjg+DIinAFC17BphP196B2vdOmMj6JM=;
+ b=Cr0F6d/pGtUUk1ZrKKIB3E/rkLIDEZPi2CYp/F+GglBYNeoML9gNnNGk5fvF3u368f
+ olag4GKFscDvLJUMRRN/+eEwVa47e/T1/BjxNgN5OukT6Kt8RmO4VKp6IVHBL6Iu4xar
+ IlY58AEyL8x2PiX6GElTeBeoXfEyBeqP9h3LdwreaXFaGXavrMRgNR4HyZhhh6eAzOpe
+ V5T7M31p1dxR+A2ccT2/MBmrelnBxhkhdFYEUptBXNLggq4fcAV8jb+Dxl9z/pGS5pSM
+ ENnHUs7YguUQ1L5a5M9Zteex+1K0NFG8g7VSZagZJmzQbrEslE0/1az9P0FJlZJmN6Qi
+ pjMw==
+X-Gm-Message-State: ACrzQf3YzJ406Hvh2FvVTBeP93w74xS49KU9S1QZJTyZ7MtdQYaQ/2tp
+ /AHihwqpbxcY5fJ2equdapsCnA==
+X-Google-Smtp-Source: AMsMyM4nEOGFPUa+rPiELa15TL7SRkoCJGSMA8vHn3pFnVTsYCX2r9CmeJfnRKoryG2FWI4Qyl2NDA==
+X-Received: by 2002:a05:6a00:430c:b0:562:6897:7668 with SMTP id
+ cb12-20020a056a00430c00b0056268977668mr29550406pfb.23.1666539766864; 
+ Sun, 23 Oct 2022 08:42:46 -0700 (PDT)
+Received: from [192.168.136.227] ([103.100.225.182])
+ by smtp.gmail.com with ESMTPSA id
+ w18-20020a1709027b9200b001780a528540sm5977559pll.93.2022.10.23.08.42.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 23 Oct 2022 08:42:46 -0700 (PDT)
+Message-ID: <f82581ac-618a-4f4b-486f-8a9b009f6960@linaro.org>
+Date: Mon, 24 Oct 2022 01:42:38 +1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [2a02:908:1088:5920:10a7:3a65:7c9d:55ef]
-X-ClientProxiedBy: rwthex-s4-b.rwth-ad.de (2a00:8a60:1:e500::26:165) To
- RWTHEX-S2-B.rwth-ad.de (2a00:8a60:1:e500::26:155)
-Received-SPF: pass client-ip=2a00:8a60:1:e501::5:49;
- envelope-from=tobias.roehmel@rwth-aachen.de;
- helo=mail-out-4.itc.rwth-aachen.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 1/1] tcg/riscv: Fix base regsiter for qemu_ld/st
+Content-Language: en-US
+To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Cc: Alistair.Francis@wdc.com, palmer@dabbelt.com, bin.meng@windriver.com,
+ lzw194868@alibaba-inc.com
+References: <20221023124148.6283-1-zhiwei_liu@linux.alibaba.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221023124148.6283-1-zhiwei_liu@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,60 +95,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
+On 10/23/22 22:41, LIU Zhiwei wrote:
+>       if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
+> -        tcg_out_ext32u(s, base, addr_regl);
+> -        addr_regl = base;
+> +        tcg_out_ext32u(s, addr_regl, addr_regl);
+>       }
 
-The v8R PMSAv8 has a two-stage MPU translation process, but, unlike
-VMSAv8, the stage 2 attributes are in the same format as the stage 1
-attributes (8-bit MAIR format). Rather than converting the MAIR
-format to the format used for VMSA stage 2 (bits [5:2] of a VMSA
-stage 2 descriptor) and then converting back to do the attribute
-combination, allow combined_attrs_nofwb() to accept s2 attributes
-that are already in the MAIR format.
+Incorrect.  You may not modify input registers.
 
-We move the assert() to combined_attrs_fwb(), because that function
-really does require a VMSA stage 2 attribute format. (We will never
-get there for v8R, because PMSAv8 does not implement FEAT_S2FWB.)
 
-Signed-off-by: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
----
- target/arm/ptw.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
-
-diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 2ddfc028ab..db50715fa7 100644
---- a/target/arm/ptw.c
-+++ b/target/arm/ptw.c
-@@ -2105,7 +2105,11 @@ static uint8_t combined_attrs_nofwb(CPUARMState *env,
- {
-     uint8_t s1lo, s2lo, s1hi, s2hi, s2_mair_attrs, ret_attrs;
- 
--    s2_mair_attrs = convert_stage2_attrs(env, s2.attrs);
-+    if (s2.is_s2_format) {
-+        s2_mair_attrs = convert_stage2_attrs(env, s2.attrs);
-+    } else {
-+        s2_mair_attrs = s2.attrs;
-+    }
- 
-     s1lo = extract32(s1.attrs, 0, 4);
-     s2lo = extract32(s2_mair_attrs, 0, 4);
-@@ -2163,6 +2167,8 @@ static uint8_t force_cacheattr_nibble_wb(uint8_t attr)
- static uint8_t combined_attrs_fwb(CPUARMState *env,
-                                   ARMCacheAttrs s1, ARMCacheAttrs s2)
- {
-+    assert(s2.is_s2_format && !s1.is_s2_format);
-+
-     switch (s2.attrs) {
-     case 7:
-         /* Use stage 1 attributes */
-@@ -2212,7 +2218,6 @@ static ARMCacheAttrs combine_cacheattrs(CPUARMState *env,
-     ARMCacheAttrs ret;
-     bool tagged = false;
- 
--    assert(s2.is_s2_format && !s1.is_s2_format);
-     ret.is_s2_format = false;
- 
-     if (s1.attrs == 0xf0) {
--- 
-2.34.1
-
+r~
 
