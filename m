@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83F0F609AB2
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 08:44:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 933C3609ABC
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 08:49:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omnHn-0004TS-7Y; Sun, 23 Oct 2022 22:33:55 -0400
+	id 1omnKO-00066p-7E; Sun, 23 Oct 2022 22:36:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=Qviv=2Y=zx2c4.com=Jason@kernel.org>)
- id 1omgMI-0007gs-Hl
- for qemu-devel@nongnu.org; Sun, 23 Oct 2022 15:10:08 -0400
-Received: from ams.source.kernel.org ([145.40.68.75])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=Qviv=2Y=zx2c4.com=Jason@kernel.org>)
- id 1omgMF-00014Q-Jr
- for qemu-devel@nongnu.org; Sun, 23 Oct 2022 15:10:06 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 6DD35B80D5F
- for <qemu-devel@nongnu.org>; Sun, 23 Oct 2022 19:09:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C94EFC433B5
- for <qemu-devel@nongnu.org>; Sun, 23 Oct 2022 19:09:52 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="Rxf4cNBk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1666552189;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=o+xVLpe2ll3gczvzvPbhn6XJfh9pY8dHDYGHoV/FymM=;
- b=Rxf4cNBkAvVRP1NpnMiYXlKTPuqllNFjkHz/HTT2hZjGp/Uo2emDSc7dNHXyafuZz300FX
- 6udHXimt2ubNH81L6fc1shZvvG5AfTmz52x2/3Yw3X1nW2IdZppRBUyBlcCJfQdANQJClO
- ESkSZ2qLhKrlFzCFJOpK/hGl/XYK3Xw=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 6cc54eb2
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Sun, 23 Oct 2022 19:09:49 +0000 (UTC)
-Received: by mail-ua1-f51.google.com with SMTP id p89so4037068uap.12
- for <qemu-devel@nongnu.org>; Sun, 23 Oct 2022 12:09:48 -0700 (PDT)
-X-Gm-Message-State: ACrzQf2yCzqMPyVtNnF8IiDdqvX6st3CjGLlRCz3zJ84ex78G/hM4IqN
- 5CJfqlJWkz5HScB3agb8L8okEX8wyDxH8p3tYM8=
-X-Google-Smtp-Source: AMsMyM4HW/jE5u9/XSuobygpBUu1yfdaIXxYF1Q9L4FD9DTqPeyyJBL/mo1fT9oq3j0SlIp5i2mIEvvoll3kEfYeYGw=
-X-Received: by 2002:ab0:4467:0:b0:402:70c9:a0ce with SMTP id
- m94-20020ab04467000000b0040270c9a0cemr7476432uam.24.1666552187788; Sun, 23
- Oct 2022 12:09:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1omi6x-0006SE-Ro
+ for qemu-devel@nongnu.org; Sun, 23 Oct 2022 17:02:31 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1omi6v-0002kj-6Y
+ for qemu-devel@nongnu.org; Sun, 23 Oct 2022 17:02:23 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ fn7-20020a05600c688700b003b4fb113b86so5520495wmb.0
+ for <qemu-devel@nongnu.org>; Sun, 23 Oct 2022 14:02:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=KCPZ/jZzakaBN34zZCSaeMP1/DLcIe6ezeazQPw3pFg=;
+ b=GICa3lHZnpHHL8tnCHeBfffl8gmF7bW4Z7Y8NJOVuAS5WvuXA70uyv1pIyic9uVmzD
+ VEJUeo2Mam4eJQG4KxOuUuxA8c54+yzYsYUEinMwjuIu1c1Bc7iadr13TuUJeyzHYVkI
+ vpFNmbyQgV06aclmzUB6Lnd877xAoO/XuNyV+SkfqA39+MszptQr1+GTN8OOORU2wmYp
+ /cUB+5/Ny2uiDuNGRhQ8T0oKMAtYqNhBD3WyWhLegIzURPTHaAWHIGOVcmtGlCYjgz8g
+ l6/5rQ/u57WMGbHcZZwID+f5/lEbS6dkg30wzF2vq7M2wDec3Z4S/r4nONvWCQ8oquoc
+ bNhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=KCPZ/jZzakaBN34zZCSaeMP1/DLcIe6ezeazQPw3pFg=;
+ b=2ndqlVneEfqbFbSCopKhu+N7yOKyOlOCgiF87tuoklJM6Jm4uuVZYEHFNybukQh2VT
+ 0E5svrRIXPU4Sz6a4UAR8v11LVc6J/rTLItvb+zd/7zJWipds/Y8sZFs6hcXgJwRX33C
+ TrFl0LwZYi2xFZJLQmNWQdmn0iM1TL8M2932wkKxpWt8rEJlZyXqZHAQ60tm613Aj3mo
+ kxJOXQHLw9exfTzcLCsV2BCikuvhBub+I9BcT20uma6y2opsxcAgm8x92HQ5OvHwTIDG
+ yW94NGpSBLzznTbZsnho1KDW5unFPjMKJZwC+JraUOFirVdl2OART7s/VN+5vbTPKJgr
+ LtFg==
+X-Gm-Message-State: ACrzQf0OlnYwNGO7OEppQ57D6gkf+UjpKHGYsfJ+v+viInGLv7xl9c72
+ HxFstgRE8rh/qnEbWS6BH7zwdA==
+X-Google-Smtp-Source: AMsMyM6Hze2hagtgz3v502pIu8UwUlBTIGntGKUinPQOVCwY/98/Z7nJBhydEefQF5aDY0E+ONul7w==
+X-Received: by 2002:a05:600c:4ed0:b0:3cd:3422:62d8 with SMTP id
+ g16-20020a05600c4ed000b003cd342262d8mr3744393wmq.154.1666558939934; 
+ Sun, 23 Oct 2022 14:02:19 -0700 (PDT)
+Received: from [10.50.0.10]
+ (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
+ by smtp.gmail.com with ESMTPSA id
+ t2-20020a5d49c2000000b0023657e1b980sm6471645wrs.53.2022.10.23.14.02.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 23 Oct 2022 14:02:19 -0700 (PDT)
+Message-ID: <bee67948-bbdf-d9a9-854a-ebc62f170589@linaro.org>
+Date: Sun, 23 Oct 2022 23:02:17 +0200
 MIME-Version: 1.0
-References: <fe30a5ce-f318-55f2-165f-b555e19f3160@vivier.eu>
- <20221017202952.60762-1-Jason@zx2c4.com>
- <e24ce881-2f0b-860d-05e5-a9a8a7dda3c8@vivier.eu>
- <CAFXwXrmNpYMBYC8A3kMMW3Jf3oHQurPwErHmrAh2Pjzf0==z_g@mail.gmail.com>
-In-Reply-To: <CAFXwXrmNpYMBYC8A3kMMW3Jf3oHQurPwErHmrAh2Pjzf0==z_g@mail.gmail.com>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Sun, 23 Oct 2022 21:09:36 +0200
-X-Gmail-Original-Message-ID: <CAHmME9oDuaukngYQDam3b1cybwP2cTw6vpn5Oh3uEhjzqf0_jg@mail.gmail.com>
-Message-ID: <CAHmME9oDuaukngYQDam3b1cybwP2cTw6vpn5Oh3uEhjzqf0_jg@mail.gmail.com>
-Subject: Re: [PATCH v4] m68k: write bootinfo as rom section and re-randomize
- on reboot
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: Laurent Vivier <laurent@vivier.eu>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=145.40.68.75;
- envelope-from=SRS0=Qviv=2Y=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.2
+Subject: Re: [PATCH v2] target/i386: Fix caculation of LOCK NEG eflags
+Content-Language: en-US
+To: Qi Hu <huqi@loongson.cn>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+Cc: qemu-devel@nongnu.org, Jinyang Shen <shenjinyang@loongson.cn>,
+ Xuehai Chen <chenxuehai@loongson.cn>
+References: <20221022061216.423098-1-huqi@loongson.cn>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221022061216.423098-1-huqi@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,24 +95,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Oct 22, 2022 at 8:41 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On Sat, 22 Oct 2022, 08:33 Laurent Vivier, <laurent@vivier.eu> wrote:
->>
->> Le 17/10/2022 =C3=A0 22:29, Jason A. Donenfeld a =C3=A9crit :
->>
->>
->> Notes:
->> - don't send your patch as a reply to a previous version
->> - add an history:
->>
->> v4: replace  (void *)(((unsigned long)base + 3) & ~3) by
->>               (void *)(((uintptr_t)base + 3) & ~3);
->
->
->
-> QEMU_ALIGN_PTR_UP.
+Typo "calculation" in subject.
 
-Will do. v5 on its way.
+On 22/10/22 08:12, Qi Hu wrote:
+> In sequence:
+> ---
+> lock negl -0x14(%rbp)
+> pushf
+> pop    %rax
+> ---
+> 
+> %rax will obtain the wrong value becasue the "lock neg" caculates the
+> wrong eflags. The "s->T0" is updated by the wrong value.
+> 
+> You can use this to do some test:
+> ---
+> #include <assert.h>
+> 
+> int main()
+> {
+>    __volatile__ unsigned test = 0x2363a;
+>    __volatile__ char cond = 0;
+>    asm(
+>        "lock negl %0 \n\t"
+>        "sets %1"
+>        : "=m"(test), "=r"(cond)
+>        :
+>        :);
+>    assert(cond & 1);
+>    return 0;
+> }
+> ---
+> 
+> Reported-by: Jinyang Shen <shenjinyang@loongson.cn>
+> Co-Developed-by: Xuehai Chen <chenxuehai@loongson.cn>
+> Signed-off-by: Xuehai Chen <chenxuehai@loongson.cn>
+> Signed-off-by: Qi Hu <huqi@loongson.cn>
+> ---
+> V1 -> V2:
+> Following Richard's suggestion, just change mov to neg instead of using
+> local_tmp.
+> ---
+>   target/i386/tcg/translate.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+
 
