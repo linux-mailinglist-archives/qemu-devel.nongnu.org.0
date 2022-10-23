@@ -2,88 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2445609690
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Oct 2022 23:35:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6055960968C
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Oct 2022 23:32:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1omhbw-00017n-9T
-	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 16:30:20 -0400
+	id 1omfFN-0001vO-MU
+	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 13:58:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1omG5m-0007Nm-6E; Sat, 22 Oct 2022 11:07:18 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1omG5k-0002KU-Gc; Sat, 22 Oct 2022 11:07:18 -0400
-Received: by mail-ed1-x530.google.com with SMTP id r14so16114072edc.7;
- Sat, 22 Oct 2022 08:07:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Z07minTOk1rXwVjB17CSKw9aYv/B+jQfGu8WS6wTJWg=;
- b=cP0eJIcab0+VCXZY4ukh72cPLXr/JviZjSWf8OkMqaldJujSTDKrdH1j/B/jYRvxfB
- NWlLO/1T4EuSYjmhilosc3m6XtuEBfzhyS1wb7bbq5iMMbZt8DeVHh1zpRgmMN5CVBLO
- 1wMw0w6zSHpYXo+Rn896sYy5nT+37XGCABE0fXbZpIcFZxxCCXrS9JiAheOKT+hsjGNI
- pHMSCFGzW/xJb3YDRnq7k47izQaLe03L6eUPr5FPLSx3eA6WIVBMHy7eUu44umNAvhXW
- XWkc5+jg9sEDA6NehNmZjQ0Oe80r0LX88tWDxLLfEEsswanXtXxsGF2d4wUCiNP3jpUT
- qxSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Z07minTOk1rXwVjB17CSKw9aYv/B+jQfGu8WS6wTJWg=;
- b=vb/pc2JJ0yRGFjlxGqP8xoz4v5yUMakm74RM/xwA58R1smqPLrwRIdTRrZSqjsQWfN
- 4zTIQJ6+g0vhcFRKn+h1a3+ha8A7zoR+/Vx/axs4g6G3iYmNnadCSl+jUt4iUjLssboS
- t0puWh5orHImKKE55fmwoKWDxgtRCERbOrRk2qvWbGVQqRLY3smOLupkiHB3L4DDVK9S
- TEpJl+52I/jhuUK+SAL/zrCJNZ6dEGciPXQ43ldOThtAM2+WHL9xtXc/lYwFwAUuFPfz
- PrK0pq2qZgCZ+PoqUN7TjheEVGSxiimFWAdgbgyiQmL2HeIQA1uQxoQHRjenS6IWETJr
- AFpw==
-X-Gm-Message-State: ACrzQf3TsXTb+cwrHQ6kQzAHf0ly3qaaH1o3q1Ddg5amQn2ibDrmt9tK
- 7CSjJm/bXQv9vNyWKJOTiOWufKNSHaGUtg==
-X-Google-Smtp-Source: AMsMyM5JM+aRrdSGWQmWkIo4TbASwgvoEELIt2cusXku3doUm4H2mZidbwWzjHf6FP4hsNWo7RD6GQ==
-X-Received: by 2002:a05:6402:5cd:b0:446:5965:f4af with SMTP id
- n13-20020a05640205cd00b004465965f4afmr22290336edx.12.1666451235043; 
- Sat, 22 Oct 2022 08:07:15 -0700 (PDT)
-Received: from localhost.localdomain
- (dynamic-077-191-171-138.77.191.pool.telefonica.de. [77.191.171.138])
- by smtp.gmail.com with ESMTPSA id
- 4-20020a170906310400b00780ab5a9116sm13021558ejx.211.2022.10.22.08.07.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Oct 2022 08:07:14 -0700 (PDT)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Igor Mammedov <imammedo@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, John Snow <jsnow@redhat.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Ani Sinha <ani@anisinha.ca>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-block@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 33/43] hw/isa/piix4: Reuse struct PIIXState from PIIX3
-Date: Sat, 22 Oct 2022 17:04:58 +0200
-Message-Id: <20221022150508.26830-34-shentey@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221022150508.26830-1-shentey@gmail.com>
-References: <20221022150508.26830-1-shentey@gmail.com>
+ (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
+ id 1omd2S-0005zz-CN
+ for qemu-devel@nongnu.org; Sun, 23 Oct 2022 11:37:25 -0400
+Received: from mail-out-4.itc.rwth-aachen.de ([2a00:8a60:1:e501::5:49])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
+ id 1omd2N-0006L4-9C
+ for qemu-devel@nongnu.org; Sun, 23 Oct 2022 11:37:24 -0400
+X-IPAS-Result: =?us-ascii?q?A2CrAAC8Q0Vj/5sagoZaHAEBAQEBAQcBARIBAQQEAQFAg?=
+ =?us-ascii?q?T4EAQELAYR9hE6RGIETngALAQEBAQEBAQEBCAFCBAEBhQECAgKEdSY3Bg4BA?=
+ =?us-ascii?q?gQBAQEBAwIDAQEBAQEBAwEBBgEBAQEBAQYEgRyFL0aGQwIBAyMECwFGECAFA?=
+ =?us-ascii?q?iYCAlcGDgWCfYMhrRR/M4EBhHCJcQkBgQcsAYhQgiuFNIJQgRWCc3WEYTCDC?=
+ =?us-ascii?q?oJmBJo5HDgDCQMHBSwdQAMLHw0WNRgDFAMFIQcDGQ8jDQ0EHQwDAwUlAwICG?=
+ =?us-ascii?q?wcCAgMCBhMFAgI1GDQIBAgEKyQPBQIHLwUELwIeBAUGEQgCFgIGBAQEBBUCE?=
+ =?us-ascii?q?AgCCCYXBxMzGQEFMicOCSEcDhoNBQYTAyBvBQc7DygvaSsdGweBDCooFQMEB?=
+ =?us-ascii?q?AMCBhMDIAINKTEUBCkTDy0HKXEJAgMiZQUDAwQoLAMJQAcoJDwHWDoFAwIQI?=
+ =?us-ascii?q?jwGAwkDAiRZdDASFAUDDRcmCAU3GwQIPAIFBlITAgoSAxIPLUkPSj47FwicW?=
+ =?us-ascii?q?IEOpAqhAgeCG6FqTJZ0ApIWlxGiBoEYhCgCBAIEBQIWgXeBf3GDNlEXAg+OL?=
+ =?us-ascii?q?BYVjhtzOwIGAQoBAQMJiwoBAQ?=
+IronPort-Data: A9a23:Xshf86/AGzuE14Qrpfc5DrUD33+TJUtcMsCJ2f8bNWPcYEJGY0x3y
+ mYeW2+Obv+KNDfxeIxyPI3i8k9U6MKBydBlTwdv+C1EQiMRo6IpJzg4wmTYYnnOdJ2TFCqLy
+ +1EN7Es+ehtFie0Si+Fa+Sn9z8kvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRWmthg
+ vuv5ZyCULOZ82QsaDhNs/va8EkHUMna4Vv0gHRvPZing3eDzxH5PLpHTYmtIn3xRJVjH+LSb
+ 44vG5ngows1Vz90Yj+Uuu6Tnn8iG9Y+DiDS4pZiYJVOtzAZzsAE+vthaKBMOR8/ZwKhxLidw
+ P0V3XC5pJxA0qfkwIzxWDEAe81y0DEvFLLveRCCXcKvI0LuQ1DlyehICRENIog6y+xHUWhur
+ vYBEWVYBvyDr7reLLOTcNZQpukTafKxealZoG58zXTQAbAqTPgvQY2TvoMehWxowJoQW6+DO
+ qL1ahI2BPjESwFIMFYeE9Qkm+qog3T7WydHtFLQrKM842XVigB8uFToGIOLIobVGZQPxi50o
+ Ero+0/bLRAFaeCjyAW/7kqonuLBgxzCDdd6+LqQs6QCbEeo7nUeDQBTWValrP2RjEm4VNRCb
+ UsO9UIGtaUu+VbtS9DsUxC8pFaAvxgVQd0WFPc1gDxh0YLO/BqZC3hBVWQEYpo8q9M2ADUmk
+ FOE9z/0OQFSXHSuYSr13t+pQfmaYED58Udqifc4cDY4
+IronPort-HdrOrdr: A9a23:+5PIa6HArULrRPuJpLqE0ceALOsnbusQ8zAXPidKOHtom62j5q
+ STdZEgvnXJYVkqNU3I5urwXpVoLUmyyXcN2/hyAV7AZniChILLFuFfBOLZqlXd8kvFmNK1vp
+ 0AT0ERMrHN5CBB/KXHCQCDYq8d/OU=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="5.95,176,1661810400"; d="scan'208";a="160274920"
+Received: from rwthex-s2-b.rwth-ad.de ([134.130.26.155])
+ by mail-in-4.itc.rwth-aachen.de with ESMTP; 23 Oct 2022 17:37:11 +0200
+Received: from localhost.localdomain (2a02:908:1088:5920:10a7:3a65:7c9d:55ef)
+ by RWTHEX-S2-B.rwth-ad.de (2a00:8a60:1:e500::26:155) with Microsoft
+ SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.15; Sun, 23 Oct 2022 17:37:12 +0200
+From: <tobias.roehmel@rwth-aachen.de>
+To: <qemu-devel@nongnu.org>
+CC: <peter.maydell@linaro.org>, =?UTF-8?q?Tobias=20R=C3=B6hmel?=
+ <tobias.roehmel@rwth-aachen.de>
+Subject: [PATCH v4 1/7] target/arm: Don't add all MIDR aliases for cores that
+ immplement PMSA
+Date: Sun, 23 Oct 2022 17:36:53 +0200
+Message-ID: <20221023153659.121138-2-tobias.roehmel@rwth-aachen.de>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221023153659.121138-1-tobias.roehmel@rwth-aachen.de>
+References: <20221023153659.121138-1-tobias.roehmel@rwth-aachen.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [2a02:908:1088:5920:10a7:3a65:7c9d:55ef]
+X-ClientProxiedBy: rwthex-s4-b.rwth-ad.de (2a00:8a60:1:e500::26:165) To
+ RWTHEX-S2-B.rwth-ad.de (2a00:8a60:1:e500::26:155)
+Received-SPF: pass client-ip=2a00:8a60:1:e501::5:49;
+ envelope-from=tobias.roehmel@rwth-aachen.de;
+ helo=mail-out-4.itc.rwth-aachen.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,158 +93,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that PIIX4 also uses the "isa-pic" proxy, both implementations
-can share the same struct.
+From: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Cores with PMSA have the MPUIR register which has the
+same encoding as the MIDR alias with opc2=4. So we only
+add that alias if we are not realizing a core that
+implements PMSA.
+
+Signed-off-by: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
 ---
- hw/isa/piix4.c | 61 ++++++++++++++++----------------------------------
- 1 file changed, 19 insertions(+), 42 deletions(-)
+ target/arm/helper.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index 8ddff23116..a7d52c5294 100644
---- a/hw/isa/piix4.c
-+++ b/hw/isa/piix4.c
-@@ -42,34 +42,10 @@
- #include "sysemu/runstate.h"
- #include "qom/object.h"
- 
--struct PIIX4State {
--    PCIDevice dev;
--
--    ISAPICState pic;
--    RTCState rtc;
--    PCIIDEState ide;
--    UHCIState uhci;
--    PIIX4PMState pm;
--
--    uint32_t smb_io_base;
--
--    /* Reset Control Register */
--    MemoryRegion rcr_mem;
--    uint8_t rcr;
--
--    uint8_t pci_irq_reset_mappings[PIIX_NUM_PIRQS];
--
--    bool has_acpi;
--    bool has_usb;
--    bool smm_enabled;
--};
--
--OBJECT_DECLARE_SIMPLE_TYPE(PIIX4State, PIIX4_PCI_DEVICE)
--
- static void piix4_set_irq(void *opaque, int irq_num, int level)
- {
-     int i, pic_irq, pic_level;
--    PIIX4State *s = opaque;
-+    PIIXState *s = opaque;
-     PCIBus *bus = pci_get_bus(&s->dev);
- 
-     /* now we change the pic irq level according to the piix irq mappings */
-@@ -114,7 +90,7 @@ static int pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
- 
- static void piix4_isa_reset(DeviceState *dev)
- {
--    PIIX4State *d = PIIX4_PCI_DEVICE(dev);
-+    PIIXState *d = PIIX_PCI_DEVICE(dev);
-     uint8_t *pci_conf = d->dev.config;
- 
-     pci_conf[0x04] = 0x07; // master, memory and I/O
-@@ -149,12 +125,13 @@ static void piix4_isa_reset(DeviceState *dev)
-     pci_conf[0xac] = 0x00;
-     pci_conf[0xae] = 0x00;
- 
-+    d->pic_levels = 0; /* not used in PIIX4 */
-     d->rcr = 0;
- }
- 
- static int piix4_post_load(void *opaque, int version_id)
- {
--    PIIX4State *s = opaque;
-+    PIIXState *s = opaque;
- 
-     if (version_id == 2) {
-         s->rcr = 0;
-@@ -169,8 +146,8 @@ static const VMStateDescription vmstate_piix4 = {
-     .minimum_version_id = 2,
-     .post_load = piix4_post_load,
-     .fields = (VMStateField[]) {
--        VMSTATE_PCI_DEVICE(dev, PIIX4State),
--        VMSTATE_UINT8_V(rcr, PIIX4State, 3),
-+        VMSTATE_PCI_DEVICE(dev, PIIXState),
-+        VMSTATE_UINT8_V(rcr, PIIXState, 3),
-         VMSTATE_END_OF_LIST()
-     }
- };
-@@ -178,7 +155,7 @@ static const VMStateDescription vmstate_piix4 = {
- static void piix4_rcr_write(void *opaque, hwaddr addr, uint64_t val,
-                             unsigned int len)
- {
--    PIIX4State *s = opaque;
-+    PIIXState *s = opaque;
- 
-     if (val & 4) {
-         qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-@@ -190,7 +167,7 @@ static void piix4_rcr_write(void *opaque, hwaddr addr, uint64_t val,
- 
- static uint64_t piix4_rcr_read(void *opaque, hwaddr addr, unsigned int len)
- {
--    PIIX4State *s = opaque;
-+    PIIXState *s = opaque;
- 
-     return s->rcr;
- }
-@@ -207,7 +184,7 @@ static const MemoryRegionOps piix4_rcr_ops = {
- 
- static void piix4_realize(PCIDevice *dev, Error **errp)
- {
--    PIIX4State *s = PIIX4_PCI_DEVICE(dev);
-+    PIIXState *s = PIIX_PCI_DEVICE(dev);
-     PCIBus *pci_bus = pci_get_bus(dev);
-     ISABus *isa_bus;
- 
-@@ -277,7 +254,7 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
- 
- static void piix4_init(Object *obj)
- {
--    PIIX4State *s = PIIX4_PCI_DEVICE(obj);
-+    PIIXState *s = PIIX_PCI_DEVICE(obj);
- 
-     object_initialize_child(obj, "pic", &s->pic, TYPE_ISA_PIC);
-     object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
-@@ -285,14 +262,14 @@ static void piix4_init(Object *obj)
- }
- 
- static Property piix4_props[] = {
--    DEFINE_PROP_UINT32("smb_io_base", PIIX4State, smb_io_base, 0),
--    DEFINE_PROP_UINT8("pirqa", PIIX4State, pci_irq_reset_mappings[0], 0x80),
--    DEFINE_PROP_UINT8("pirqb", PIIX4State, pci_irq_reset_mappings[1], 0x80),
--    DEFINE_PROP_UINT8("pirqc", PIIX4State, pci_irq_reset_mappings[2], 0x80),
--    DEFINE_PROP_UINT8("pirqd", PIIX4State, pci_irq_reset_mappings[3], 0x80),
--    DEFINE_PROP_BOOL("has-acpi", PIIX4State, has_acpi, true),
--    DEFINE_PROP_BOOL("has-usb", PIIX4State, has_usb, true),
--    DEFINE_PROP_BOOL("smm-enabled", PIIX4State, smm_enabled, false),
-+    DEFINE_PROP_UINT32("smb_io_base", PIIXState, smb_io_base, 0),
-+    DEFINE_PROP_UINT8("pirqa", PIIXState, pci_irq_reset_mappings[0], 0x80),
-+    DEFINE_PROP_UINT8("pirqb", PIIXState, pci_irq_reset_mappings[1], 0x80),
-+    DEFINE_PROP_UINT8("pirqc", PIIXState, pci_irq_reset_mappings[2], 0x80),
-+    DEFINE_PROP_UINT8("pirqd", PIIXState, pci_irq_reset_mappings[3], 0x80),
-+    DEFINE_PROP_BOOL("has-acpi", PIIXState, has_acpi, true),
-+    DEFINE_PROP_BOOL("has-usb", PIIXState, has_usb, true),
-+    DEFINE_PROP_BOOL("smm-enabled", PIIXState, smm_enabled, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-@@ -320,7 +297,7 @@ static void piix4_class_init(ObjectClass *klass, void *data)
- static const TypeInfo piix4_info = {
-     .name          = TYPE_PIIX4_PCI_DEVICE,
-     .parent        = TYPE_PCI_DEVICE,
--    .instance_size = sizeof(PIIX4State),
-+    .instance_size = sizeof(PIIXState),
-     .instance_init = piix4_init,
-     .class_init    = piix4_class_init,
-     .interfaces = (InterfaceInfo[]) {
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index db3b1ea72d..3c517356e1 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -8025,10 +8025,7 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+               .access = PL1_R, .type = ARM_CP_NO_RAW, .resetvalue = cpu->midr,
+               .fieldoffset = offsetof(CPUARMState, cp15.c0_cpuid),
+               .readfn = midr_read },
+-            /* crn = 0 op1 = 0 crm = 0 op2 = 4,7 : AArch32 aliases of MIDR */
+-            { .name = "MIDR", .type = ARM_CP_ALIAS | ARM_CP_CONST,
+-              .cp = 15, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 4,
+-              .access = PL1_R, .resetvalue = cpu->midr },
++            /* crn = 0 op1 = 0 crm = 0 op2 = 7 : AArch32 aliases of MIDR */
+             { .name = "MIDR", .type = ARM_CP_ALIAS | ARM_CP_CONST,
+               .cp = 15, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 7,
+               .access = PL1_R, .resetvalue = cpu->midr },
+@@ -8038,6 +8035,11 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+               .accessfn = access_aa64_tid1,
+               .type = ARM_CP_CONST, .resetvalue = cpu->revidr },
+         };
++        ARMCPRegInfo id_v8_midr_alias_cp_reginfo = {
++              .name = "MIDR", .type = ARM_CP_ALIAS | ARM_CP_CONST,
++              .cp = 15, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 4,
++              .access = PL1_R, .resetvalue = cpu->midr
++        };
+         ARMCPRegInfo id_cp_reginfo[] = {
+             /* These are common to v8 and pre-v8 */
+             { .name = "CTR",
+@@ -8101,8 +8103,12 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+             id_mpuir_reginfo.access = PL1_RW;
+             id_tlbtr_reginfo.access = PL1_RW;
+         }
++
+         if (arm_feature(env, ARM_FEATURE_V8)) {
+             define_arm_cp_regs(cpu, id_v8_midr_cp_reginfo);
++            if (!arm_feature(env, ARM_FEATURE_PMSA)) {
++                define_one_arm_cp_reg(cpu, &id_v8_midr_alias_cp_reginfo);
++            }
+         } else {
+             define_arm_cp_regs(cpu, id_pre_v8_midr_cp_reginfo);
+         }
 -- 
-2.38.1
+2.34.1
 
 
