@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D47A9609839
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 04:28:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C46406098F0
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 05:37:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1omlJL-000201-Cx
-	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 20:27:23 -0400
+	id 1ommib-00056U-Sc
+	for lists+qemu-devel@lfdr.de; Sun, 23 Oct 2022 21:57:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nivanov@cloudlinux.com>)
- id 1omWuM-0007Ci-Sm
- for qemu-devel@nongnu.org; Sun, 23 Oct 2022 05:04:38 -0400
-Received: from mail-lj1-x236.google.com ([2a00:1450:4864:20::236])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nivanov@cloudlinux.com>)
- id 1omWuK-0001Qj-Tq
- for qemu-devel@nongnu.org; Sun, 23 Oct 2022 05:04:38 -0400
-Received: by mail-lj1-x236.google.com with SMTP id j14so9180258ljh.12
- for <qemu-devel@nongnu.org>; Sun, 23 Oct 2022 02:04:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cloudlinux.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9lVu6m7ds6lIjW35SYKVsoRoC2ayjigTDLfVvXIWLc0=;
- b=UMljknfqxXZH+1ZnFeaJDQnFto1pQCKZzXc9ycLy/Cg52AJ5o2gGZoMaIS/33XxJah
- mooneJCcp4IiL+5TuqfHmIe29CzRwFa1xV05QwKVYpD5PjhZxK00JNubOe00vLCA5Dpo
- ITSY+IuOoWjgp7tl4htERiOTe0HvMUDvKNrXNBSGJJLxcUn3lW2o11AIvSBfxUFyHfug
- E9/kGGlU6vtCSsDUNZwMEQizEy3iaCB5ABoo+fWIXz5MrtPvk+igFR7L2XfjSs6tcA2r
- k1ltyJuiuidTwA0ny4dhoMo9SHyXd9mKqrVLwxJjged8w177e8FnwxUiEYpIBf1TIGNE
- ir0g==
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1omcEq-0002hA-93
+ for qemu-devel@nongnu.org; Sun, 23 Oct 2022 10:46:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1omcEo-00045n-38
+ for qemu-devel@nongnu.org; Sun, 23 Oct 2022 10:46:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666536361;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OthyEON0u4Vl2JG5xX3MotBZCIuuwcaryHXxwWW4GY8=;
+ b=df1ahC8XsFhCgHF8CpPthY/qqVZe6SPWNXIbIaPtm5ykdSumeSdQi28TBCD6UEJzBwiv9t
+ kKL4D8sSw1jFYCIAW6Ydm/7AJSqs8Fog5YSZd2f0URdfVcb3Y7oyyZpqnqFJbL8+28bWiF
+ YCLxt+tL1OgTYg/XkmJ33vzV9rho5Kc=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-519-8ptKhwKkMdi8elCRswv1dw-1; Sun, 23 Oct 2022 10:45:58 -0400
+X-MC-Unique: 8ptKhwKkMdi8elCRswv1dw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ s8-20020a056402520800b0045cab560d5eso7094934edd.1
+ for <qemu-devel@nongnu.org>; Sun, 23 Oct 2022 07:45:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9lVu6m7ds6lIjW35SYKVsoRoC2ayjigTDLfVvXIWLc0=;
- b=sfhuZPLJ2sq8lWKNOwx7dLpCUD9XP3svYG65p2tETtCOfayh5CoSCo0KfHA5FJ+RPZ
- AOHr8vc844YYVAiTvn8LgcDrxdi6bWFrU+SxbRikmyxqG0Xxz+wTMl6lflFron32AKPa
- bd7m2fCMjCvgW9TELjAbKrYCEx6DniNgXE6ucazwXoN7RaGcyojOJ0rCTHLBAGrH7YYD
- mS/q9jfeEW73DpL+JpxTwAWz7ZQ92G++2PWySnUliYHTLHAtjyXDyQE/eamc+PyQBTty
- zhoU1fTokNcDBJeNRwe4auUMUqXrxhEVMbK9fQ4bv1Xhd0S9nO9+54xo0wP3HCdvDFw/
- zFzQ==
-X-Gm-Message-State: ACrzQf0ke3ccJnwbHZqMFFO+MQVFZhqGj/moONewRJP9QjfHLxSRv0Aa
- fs0sHIJYMoHTGCqnP+aOfFOeXUR3xGe0KA==
-X-Google-Smtp-Source: AMsMyM7QOZn5FUyX6nRpUTmq4xVS+4N9rgZJsOASA5mZYpP5aG0vq0m2H0Pzz6+wHh8nUOYS8WjVMw==
-X-Received: by 2002:a2e:8183:0:b0:26e:823d:d51a with SMTP id
- e3-20020a2e8183000000b0026e823dd51amr9806854ljg.472.1666515874975; 
- Sun, 23 Oct 2022 02:04:34 -0700 (PDT)
-Received: from fedora.cloudlinux.com ([85.143.112.90])
- by smtp.gmail.com with ESMTPSA id
- c27-20020a056512239b00b0049908e21e26sm3938101lfv.253.2022.10.23.02.04.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Oct 2022 02:04:34 -0700 (PDT)
-From: Nikita Ivanov <nivanov@cloudlinux.com>
-To: qemu-devel@nongnu.org
-Cc: Nikita Ivanov <nivanov@cloudlinux.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-Subject: [PATCH v4 1/2] Refactoring: refactor TFR() macro to RETRY_ON_EINTR()
-Date: Sun, 23 Oct 2022 12:04:21 +0300
-Message-Id: <20221023090422.242617-2-nivanov@cloudlinux.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221023090422.242617-1-nivanov@cloudlinux.com>
-References: <20221023090422.242617-1-nivanov@cloudlinux.com>
+ bh=OthyEON0u4Vl2JG5xX3MotBZCIuuwcaryHXxwWW4GY8=;
+ b=5C8OFcHUzUXyfZ2zBMLS97hifK4r2RKdAxwHytvgjUrp10f+8hqgmfTrgh4KrXFLTP
+ v69hIlYFHwF5zE+Ki+4jP6DYy8ohKLNsNrZO5sp/QsORlUWOz9I27L7cySYD43Zl42V7
+ lVrSEIWXSiiUMOWxpfzAQ2Zr7i2Yyc6T4ByNbyCNN7z5UYvQ1AbP2HrmTJ+UTiXTH3FM
+ g09aJT/JjuUE3OokriyumUplaschGMwH0gG13ag4rtfMdXk2DlcAD7DbF6tgAJkcEDil
+ B3iB+Il/LVpCzygFES+0PPri8lMl2d713nLzOAvUMiusXLnKenB7OGFWeKlInu3KlggL
+ HmIg==
+X-Gm-Message-State: ACrzQf3sWCM6tbuIz3xEm4vhQBrsypUsA84meL3Kvkhd4zdbNEIzkNYp
+ heXAjHCK2zDc7FqNkr5pW75GS8+9UtfyJFRVk41NNvlMgK6KvNfP3UnA6wX7kEW7P0GBPQZcrV9
+ /3Yud0OhyqYcN+WPfRDD5fuDyYhyu8PM=
+X-Received: by 2002:a17:907:2721:b0:78d:4e30:df36 with SMTP id
+ d1-20020a170907272100b0078d4e30df36mr23763026ejl.508.1666536357640; 
+ Sun, 23 Oct 2022 07:45:57 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5xj174hCyo6Gm4yLgMesvZcAsDis+jr2sUNLHs9idIQBp7dVf6ImcdaXU+0kV3pKehq9ybVd2P8Hpe9bvt+Ew=
+X-Received: by 2002:a17:907:2721:b0:78d:4e30:df36 with SMTP id
+ d1-20020a170907272100b0078d4e30df36mr23763012ejl.508.1666536357325; Sun, 23
+ Oct 2022 07:45:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::236;
- envelope-from=nivanov@cloudlinux.com; helo=mail-lj1-x236.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20221019063925.581928-1-lulu@redhat.com>
+ <CACGkMEsmrcraoE4h9RjFrart4R5m+2ACvVTiLuDKaYtGdGOevQ@mail.gmail.com>
+In-Reply-To: <CACGkMEsmrcraoE4h9RjFrart4R5m+2ACvVTiLuDKaYtGdGOevQ@mail.gmail.com>
+From: Cindy Lu <lulu@redhat.com>
+Date: Sun, 23 Oct 2022 22:45:20 +0800
+Message-ID: <CACLfguUET+811tYPNZ9xqp7Ubx4t2gUOBERkiwcV45Cn6T10Mg@mail.gmail.com>
+Subject: Re: [PATCH v2] vhost-vdpa: add support for vIOMMU
+To: Jason Wang <jasowang@redhat.com>
+Cc: mst@redhat.com, eperezma@redhat.com, qemu-devel@nongnu.org, 
+ stefanha@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lulu@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,202 +94,427 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename macro name to more transparent one and refactor
-it to expression.
-
-Signed-off-by: Nikita Ivanov <nivanov@cloudlinux.com>
----
- chardev/char-fd.c      | 2 +-
- chardev/char-pipe.c    | 8 +++++---
- include/qemu/osdep.h   | 8 +++++++-
- net/tap-bsd.c          | 6 +++---
- net/tap-linux.c        | 2 +-
- net/tap-solaris.c      | 8 ++++----
- net/tap.c              | 2 +-
- os-posix.c             | 2 +-
- tests/qtest/libqtest.c | 2 +-
- 9 files changed, 24 insertions(+), 16 deletions(-)
-
-diff --git a/chardev/char-fd.c b/chardev/char-fd.c
-index cf78454841..d2c4923359 100644
---- a/chardev/char-fd.c
-+++ b/chardev/char-fd.c
-@@ -198,7 +198,7 @@ int qmp_chardev_open_file_source(char *src, int flags, Error **errp)
+On Thu, 20 Oct 2022 at 10:15, Jason Wang <jasowang@redhat.com> wrote:
+>
+> On Wed, Oct 19, 2022 at 2:39 PM Cindy Lu <lulu@redhat.com> wrote:
+> >
+> > Add support for vIOMMU. Register a memory listener to dma_as in
+> > dev_start
+> > - during region_add register a specific IOMMU notifier, and store all n=
+otifiers in a list.
+> > - during region_del, compare and delete the IOMMU notifier from the lis=
+t
+> >
+> > Verified in vp_vdpa and vdpa_sim_net driver
+> >
+> > Signed-off-by: Cindy Lu <lulu@redhat.com>
+> > ---
+> >  hw/virtio/vhost-vdpa.c         | 218 ++++++++++++++++++++++++++++++++-
+> >  include/hw/virtio/vhost-vdpa.h |  11 ++
+> >  2 files changed, 226 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > index 3ff9ce3501..8f36423c28 100644
+> > --- a/hw/virtio/vhost-vdpa.c
+> > +++ b/hw/virtio/vhost-vdpa.c
+> > @@ -26,6 +26,7 @@
+> >  #include "cpu.h"
+> >  #include "trace.h"
+> >  #include "qapi/error.h"
+> > +#include "hw/virtio/virtio-access.h"
+> >
+> >  /*
+> >   * Return one past the end of the end of section. Be careful with uint=
+64_t
+> > @@ -146,9 +147,8 @@ static void vhost_vdpa_iotlb_batch_begin_once(struc=
+t vhost_vdpa *v)
+> >      v->iotlb_batch_begin_sent =3D true;
+> >  }
+> >
+> > -static void vhost_vdpa_listener_commit(MemoryListener *listener)
+> > +static void vhost_vdpa_iotlb_batch_end(struct vhost_vdpa *v)
+> >  {
+> > -    struct vhost_vdpa *v =3D container_of(listener, struct vhost_vdpa,=
+ listener);
+> >      struct vhost_dev *dev =3D v->dev;
+> >      struct vhost_msg_v2 msg =3D {};
+> >      int fd =3D v->device_fd;
+> > @@ -172,6 +172,18 @@ static void vhost_vdpa_listener_commit(MemoryListe=
+ner *listener)
+> >
+> >      v->iotlb_batch_begin_sent =3D false;
+> >  }
+> > +static void vhost_vdpa_listener_commit(MemoryListener *listener)
+> > +{
+> > +    struct vhost_vdpa *v =3D container_of(listener, struct vhost_vdpa,=
+ listener);
+> > +    return vhost_vdpa_iotlb_batch_end(v);
+> > +}
+> > +
+> > +static void vhost_vdpa_listener_iommu_commit(MemoryListener *listener)
+> > +{
+> > +    struct vhost_vdpa *v =3D
+> > +        container_of(listener, struct vhost_vdpa, iommu_listener);
+> > +    return vhost_vdpa_iotlb_batch_end(v);
+> > +}
+> >
+> >  static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+> >                                             MemoryRegionSection *sectio=
+n)
+> > @@ -186,6 +198,9 @@ static void vhost_vdpa_listener_region_add(MemoryLi=
+stener *listener,
+> >                                              v->iova_range.last)) {
+> >          return;
+> >      }
+> > +    if (memory_region_is_iommu(section->mr)) {
+> > +        return;
+> > +    }
+> >
+> >      if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_=
+MASK) !=3D
+> >                   (section->offset_within_region & ~TARGET_PAGE_MASK)))=
  {
-     int fd = -1;
- 
--    TFR(fd = qemu_open_old(src, flags, 0666));
-+    fd = RETRY_ON_EINTR(qemu_open_old(src, flags, 0666));
-     if (fd == -1) {
-         error_setg_file_open(errp, errno, src);
-     }
-diff --git a/chardev/char-pipe.c b/chardev/char-pipe.c
-index 66d3b85091..5ad30bcc59 100644
---- a/chardev/char-pipe.c
-+++ b/chardev/char-pipe.c
-@@ -131,8 +131,8 @@ static void qemu_chr_open_pipe(Chardev *chr,
- 
-     filename_in = g_strdup_printf("%s.in", filename);
-     filename_out = g_strdup_printf("%s.out", filename);
--    TFR(fd_in = qemu_open_old(filename_in, O_RDWR | O_BINARY));
--    TFR(fd_out = qemu_open_old(filename_out, O_RDWR | O_BINARY));
-+    fd_in = RETRY_ON_EINTR(qemu_open_old(filename_in, O_RDWR | O_BINARY));
-+    fd_out = RETRY_ON_EINTR(qemu_open_old(filename_out, O_RDWR | O_BINARY));
-     g_free(filename_in);
-     g_free(filename_out);
-     if (fd_in < 0 || fd_out < 0) {
-@@ -142,7 +142,9 @@ static void qemu_chr_open_pipe(Chardev *chr,
-         if (fd_out >= 0) {
-             close(fd_out);
-         }
--        TFR(fd_in = fd_out = qemu_open_old(filename, O_RDWR | O_BINARY));
-+        fd_in = fd_out = RETRY_ON_EINTR(
-+            qemu_open_old(filename, O_RDWR | O_BINARY)
-+        );
-         if (fd_in < 0) {
-             error_setg_file_open(errp, errno, filename);
-             return;
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index b1c161c035..25c35b9a0e 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -243,7 +243,13 @@ void QEMU_ERROR("code path is reachable")
- #define ESHUTDOWN 4099
- #endif
- 
--#define TFR(expr) do { if ((expr) != -1) break; } while (errno == EINTR)
-+#define RETRY_ON_EINTR(expr) \
-+    (__extension__                                          \
-+        ({ typeof(expr) __result;                               \
-+           do {                                             \
-+                __result = (expr);         \
-+           } while (__result == -1 && errno == EINTR);     \
-+           __result; }))
- 
- /* time_t may be either 32 or 64 bits depending on the host OS, and
-  * can be either signed or unsigned, so we can't just hardcode a
-diff --git a/net/tap-bsd.c b/net/tap-bsd.c
-index 005ce05c6e..4c98fdd337 100644
---- a/net/tap-bsd.c
-+++ b/net/tap-bsd.c
-@@ -56,7 +56,7 @@ int tap_open(char *ifname, int ifname_size, int *vnet_hdr,
-         } else {
-             snprintf(dname, sizeof dname, "/dev/tap%d", i);
-         }
--        TFR(fd = open(dname, O_RDWR));
-+        fd = RETRY_ON_EINTR(open(dname, O_RDWR));
-         if (fd >= 0) {
-             break;
-         }
-@@ -111,7 +111,7 @@ static int tap_open_clone(char *ifname, int ifname_size, Error **errp)
-     int fd, s, ret;
-     struct ifreq ifr;
- 
--    TFR(fd = open(PATH_NET_TAP, O_RDWR));
-+    fd = RETRY_ON_EINTR(open(PATH_NET_TAP, O_RDWR));
-     if (fd < 0) {
-         error_setg_errno(errp, errno, "could not open %s", PATH_NET_TAP);
-         return -1;
-@@ -159,7 +159,7 @@ int tap_open(char *ifname, int ifname_size, int *vnet_hdr,
-     if (ifname[0] != '\0') {
-         char dname[100];
-         snprintf(dname, sizeof dname, "/dev/%s", ifname);
--        TFR(fd = open(dname, O_RDWR));
-+        fd = RETRY_ON_EINTR(open(dname, O_RDWR));
-         if (fd < 0 && errno != ENOENT) {
-             error_setg_errno(errp, errno, "could not open %s", dname);
-             return -1;
-diff --git a/net/tap-linux.c b/net/tap-linux.c
-index 304ff45071..f54f308d35 100644
---- a/net/tap-linux.c
-+++ b/net/tap-linux.c
-@@ -45,7 +45,7 @@ int tap_open(char *ifname, int ifname_size, int *vnet_hdr,
-     int len = sizeof(struct virtio_net_hdr);
-     unsigned int features;
- 
--    TFR(fd = open(PATH_NET_TUN, O_RDWR));
-+    fd = RETRY_ON_EINTR(open(PATH_NET_TUN, O_RDWR));
-     if (fd < 0) {
-         error_setg_errno(errp, errno, "could not open %s", PATH_NET_TUN);
-         return -1;
-diff --git a/net/tap-solaris.c b/net/tap-solaris.c
-index a44f8805c2..38e15028bf 100644
---- a/net/tap-solaris.c
-+++ b/net/tap-solaris.c
-@@ -84,13 +84,13 @@ static int tap_alloc(char *dev, size_t dev_size, Error **errp)
-     if( ip_fd )
-        close(ip_fd);
- 
--    TFR(ip_fd = open("/dev/udp", O_RDWR, 0));
-+    ip_fd = RETRY_ON_EINTR(open("/dev/udp", O_RDWR, 0));
-     if (ip_fd < 0) {
-         error_setg(errp, "Can't open /dev/ip (actually /dev/udp)");
-         return -1;
-     }
- 
--    TFR(tap_fd = open("/dev/tap", O_RDWR, 0));
-+    tap_fd = RETRY_ON_EINTR(open("/dev/tap", O_RDWR, 0));
-     if (tap_fd < 0) {
-         error_setg(errp, "Can't open /dev/tap");
-         return -1;
-@@ -104,7 +104,7 @@ static int tap_alloc(char *dev, size_t dev_size, Error **errp)
-     if ((ppa = ioctl (tap_fd, I_STR, &strioc_ppa)) < 0)
-         error_report("Can't assign new interface");
- 
--    TFR(if_fd = open("/dev/tap", O_RDWR, 0));
-+    if_fd = RETRY_ON_EINTR(open("/dev/tap", O_RDWR, 0));
-     if (if_fd < 0) {
-         error_setg(errp, "Can't open /dev/tap (2)");
-         return -1;
-@@ -137,7 +137,7 @@ static int tap_alloc(char *dev, size_t dev_size, Error **errp)
-     if (ioctl (ip_fd, I_PUSH, "arp") < 0)
-         error_report("Can't push ARP module (3)");
-     /* Open arp_fd */
--    TFR(arp_fd = open ("/dev/tap", O_RDWR, 0));
-+    arp_fd = RETRY_ON_EINTR(open("/dev/tap", O_RDWR, 0));
-     if (arp_fd < 0)
-         error_report("Can't open %s", "/dev/tap");
- 
-diff --git a/net/tap.c b/net/tap.c
-index e203d07a12..e090d14203 100644
---- a/net/tap.c
-+++ b/net/tap.c
-@@ -651,7 +651,7 @@ static int net_tap_init(const NetdevTapOptions *tap, int *vnet_hdr,
-         vnet_hdr_required = 0;
-     }
- 
--    TFR(fd = tap_open(ifname, ifname_sz, vnet_hdr, vnet_hdr_required,
-+    fd = RETRY_ON_EINTR(tap_open(ifname, ifname_sz, vnet_hdr, vnet_hdr_required,
-                       mq_required, errp));
-     if (fd < 0) {
-         return -1;
-diff --git a/os-posix.c b/os-posix.c
-index 321fc4bd13..bb27f67bac 100644
---- a/os-posix.c
-+++ b/os-posix.c
-@@ -266,7 +266,7 @@ void os_setup_post(void)
-             error_report("not able to chdir to /: %s", strerror(errno));
-             exit(1);
-         }
--        TFR(fd = qemu_open_old("/dev/null", O_RDWR));
-+        fd = RETRY_ON_EINTR(qemu_open_old("/dev/null", O_RDWR));
-         if (fd == -1) {
-             exit(1);
-         }
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index b23eb3edc3..90648eb8d1 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -140,7 +140,7 @@ void qtest_kill_qemu(QTestState *s)
-     /* Skip wait if qtest_probe_child already reaped.  */
-     if (pid != -1) {
-         kill(pid, SIGTERM);
--        TFR(pid = waitpid(s->qemu_pid, &s->wstatus, 0));
-+        pid = RETRY_ON_EINTR(waitpid(s->qemu_pid, &s->wstatus, 0));
-         assert(pid == s->qemu_pid);
-         s->qemu_pid = -1;
-     }
--- 
-2.37.3
+> > @@ -260,6 +275,9 @@ static void vhost_vdpa_listener_region_del(MemoryLi=
+stener *listener,
+> >                                              v->iova_range.last)) {
+> >          return;
+> >      }
+> > +    if (memory_region_is_iommu(section->mr)) {
+> > +        return;
+> > +    }
+> >
+> >      if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_=
+MASK) !=3D
+> >                   (section->offset_within_region & ~TARGET_PAGE_MASK)))=
+ {
+> > @@ -312,6 +330,180 @@ static const MemoryListener vhost_vdpa_memory_lis=
+tener =3D {
+> >      .region_del =3D vhost_vdpa_listener_region_del,
+> >  };
+> >
+> > +/* Called with rcu_read_lock held.  */
+> > +static bool vhost_vdpa_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vadd=
+r,
+> > +                                     ram_addr_t *ram_addr, bool *read_=
+only)
+>
+> So this looks exact the same as what VFIO did, try to unify them?
+>
+for this function, I have tried but seems the vfio does not complied
+in some arch by default
+such as m68k-softmmu, if we want to use this function, maybe we need
+to enable the VFIO in
+that arch, not sure if this is worth=EF=BC=9F
+Thanks
+cindy
+
+> > +{
+> > +    MemoryRegion *mr;
+> > +    hwaddr xlat;
+> > +    hwaddr len =3D iotlb->addr_mask + 1;
+> > +    bool writable =3D iotlb->perm & IOMMU_WO;
+> > +
+> > +    /*
+> > +     * The IOMMU TLB entry we have just covers translation through
+> > +     * this IOMMU to its immediate target.  We need to translate
+> > +     * it the rest of the way through to memory.
+> > +     */
+> > +    mr =3D address_space_translate(&address_space_memory, iotlb->trans=
+lated_addr,
+> > +                                 &xlat, &len, writable, MEMTXATTRS_UNS=
+PECIFIED);
+> > +    if (!memory_region_is_ram(mr)) {
+> > +        error_report("iommu map to non memory area %" HWADDR_PRIx "", =
+xlat);
+> > +        return false;
+> > +    } else if (memory_region_has_ram_discard_manager(mr)) {
+> > +        RamDiscardManager *rdm =3D memory_region_get_ram_discard_manag=
+er(mr);
+> > +        MemoryRegionSection tmp =3D {
+> > +            .mr =3D mr,
+> > +            .offset_within_region =3D xlat,
+> > +            .size =3D int128_make64(len),
+> > +        };
+> > +
+> > +        if (!ram_discard_manager_is_populated(rdm, &tmp)) {
+> > +            error_report("iommu map to discarded memory (e.g., unplugg=
+ed via"
+> > +                         " virtio-mem): %" HWADDR_PRIx "",
+> > +                         iotlb->translated_addr);
+> > +            return false;
+> > +        }
+> > +    }
+> > +    /*
+> > +     * Translation truncates length to the IOMMU page size,
+> > +     * check that it did not truncate too much.
+> > +     */
+> > +    if (len & iotlb->addr_mask) {
+> > +        error_report("iommu has granularity incompatible with target A=
+S");
+> > +        return false;
+> > +    }
+> > +
+> > +    if (vaddr) {
+> > +        *vaddr =3D memory_region_get_ram_ptr(mr) + xlat;
+> > +    }
+> > +
+> > +    if (ram_addr) {
+> > +        *ram_addr =3D memory_region_get_ram_addr(mr) + xlat;
+> > +    }
+> > +
+> > +    if (read_only) {
+> > +        *read_only =3D !writable || mr->readonly;
+> > +    }
+> > +
+> > +    return true;
+> > +}
+> > +
+> > +static void vhost_vdpa_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntr=
+y *iotlb)
+> > +{
+> > +    struct vdpa_iommu *iommu =3D container_of(n, struct vdpa_iommu, n)=
+;
+> > +
+> > +    hwaddr iova =3D iotlb->iova + iommu->iommu_offset;
+> > +    struct vhost_vdpa *v =3D iommu->dev;
+> > +    void *vaddr;
+> > +    int ret;
+> > +
+> > +    if (iotlb->target_as !=3D &address_space_memory) {
+> > +        error_report("Wrong target AS \"%s\", only system memory is al=
+lowed",
+> > +                     iotlb->target_as->name ? iotlb->target_as->name :=
+ "none");
+> > +        return;
+> > +    }
+> > +    RCU_READ_LOCK_GUARD();
+> > +    vhost_vdpa_iotlb_batch_begin_once(v);
+> > +
+> > +    if ((iotlb->perm & IOMMU_RW) !=3D IOMMU_NONE) {
+> > +        bool read_only;
+> > +
+> > +        if (!vhost_vdpa_get_xlat_addr(iotlb, &vaddr, NULL, &read_only)=
+) {
+> > +            return;
+> > +        }
+> > +        ret =3D
+> > +            vhost_vdpa_dma_map(v, iova, iotlb->addr_mask + 1, vaddr, r=
+ead_only);
+> > +        if (ret) {
+> > +            error_report("vhost_vdpa_dma_map(%p, 0x%" HWADDR_PRIx ", "
+> > +                         "0x%" HWADDR_PRIx ", %p) =3D %d (%m)",
+> > +                         v, iova, iotlb->addr_mask + 1, vaddr, ret);
+> > +        }
+> > +    } else {
+> > +        ret =3D vhost_vdpa_dma_unmap(v, iova, iotlb->addr_mask + 1);
+> > +        if (ret) {
+> > +            error_report("vhost_vdpa_dma_unmap(%p, 0x%" HWADDR_PRIx ",=
+ "
+> > +                         "0x%" HWADDR_PRIx ") =3D %d (%m)",
+> > +                         v, iova, iotlb->addr_mask + 1, ret);
+> > +        }
+> > +    }
+> > +}
+> > +
+> > +static void vhost_vdpa_iommu_region_add(MemoryListener *listener,
+> > +                                        MemoryRegionSection *section)
+> > +{
+> > +    struct vhost_vdpa *v =3D
+> > +        container_of(listener, struct vhost_vdpa, iommu_listener);
+> > +
+> > +    struct vdpa_iommu *iommu;
+> > +    Int128 end;
+> > +    int iommu_idx;
+> > +    IOMMUMemoryRegion *iommu_mr;
+> > +    int ret;
+> > +
+> > +    if (!memory_region_is_iommu(section->mr)) {
+> > +        return;
+> > +    }
+> > +
+> > +    iommu_mr =3D IOMMU_MEMORY_REGION(section->mr);
+> > +
+> > +    iommu =3D g_malloc0(sizeof(*iommu));
+> > +    end =3D
+> > +        int128_add(int128_make64(section->offset_within_region), secti=
+on->size);
+>
+> I'd suggest to tweak the line breaking here and below, e.g you can
+> keep int128_add and other stuffs as long as it does not exceeds 70 or
+> 80 characters at the line where "end =3D" sits.
+>
+sure will change this
+> > +    end =3D int128_sub(end, int128_one());
+> > +    iommu_idx =3D
+> > +        memory_region_iommu_attrs_to_index(iommu_mr, MEMTXATTRS_UNSPEC=
+IFIED);
+> > +    iommu->iommu_mr =3D iommu_mr;
+> > +
+> > +    iommu_notifier_init(
+> > +        &iommu->n, vhost_vdpa_iommu_map_notify, IOMMU_NOTIFIER_IOTLB_E=
+VENTS,
+> > +        section->offset_within_region, int128_get64(end), iommu_idx);
+> > +    iommu->iommu_offset =3D
+> > +        section->offset_within_address_space - section->offset_within_=
+region;
+> > +    iommu->dev =3D v;
+> > +
+> > +    ret =3D memory_region_register_iommu_notifier(section->mr, &iommu-=
+>n, NULL);
+> > +    if (ret) {
+> > +        g_free(iommu);
+> > +        return;
+> > +    }
+> > +
+> > +    QLIST_INSERT_HEAD(&v->iommu_list, iommu, iommu_next);
+> > +    memory_region_iommu_replay(iommu->iommu_mr, &iommu->n);
+> > +
+> > +    return;
+> > +}
+> > +
+> > +static void vhost_vdpa_iommu_region_del(MemoryListener *listener,
+> > +                                        MemoryRegionSection *section)
+> > +{
+> > +    struct vhost_vdpa *v =3D
+> > +        container_of(listener, struct vhost_vdpa, iommu_listener);
+> > +
+> > +    struct vdpa_iommu *iommu;
+> > +
+> > +    if (!memory_region_is_iommu(section->mr)) {
+> > +        return;
+> > +    }
+> > +
+> > +    QLIST_FOREACH(iommu, &v->iommu_list, iommu_next)
+> > +    {
+> > +        if (MEMORY_REGION(iommu->iommu_mr) =3D=3D section->mr &&
+> > +            iommu->n.start =3D=3D section->offset_within_region) {
+> > +            memory_region_unregister_iommu_notifier(section->mr, &iomm=
+u->n);
+> > +            QLIST_REMOVE(iommu, iommu_next);
+> > +            g_free(iommu);
+> > +            break;
+> > +        }
+> > +    }
+> > +}
+> > +
+> > +static const MemoryListener vhost_vdpa_iommu_listener =3D {
+> > +    .name =3D "vhost-vdpa-iommu",
+> > +    .region_add =3D vhost_vdpa_iommu_region_add,
+> > +    .region_del =3D vhost_vdpa_iommu_region_del,
+> > +    .commit =3D vhost_vdpa_listener_iommu_commit,
+>
+> Unless there's a special requirement. I'd suggest to reuse the
+> existing listener (since you've already had if (iommu_region()) check
+> there).
+>
+> Thanks
+>
+sure Thanks Jason , will provide a new version soon
+Thanks
+Cindy
+> > +};
+> > +
+> >  static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int re=
+quest,
+> >                               void *arg)
+> >  {
+> > @@ -433,6 +625,18 @@ static int vhost_vdpa_init_svq(struct vhost_dev *h=
+dev, struct vhost_vdpa *v,
+> >      return 0;
+> >  }
+> >
+> > +static bool vdpa_dev_has_iommu(struct vhost_dev *dev)
+> > +{
+> > +    VirtIODevice *vdev =3D dev->vdev;
+> > +
+> > +    if (vdev) {
+> > +        return virtio_bus_device_iommu_enabled(vdev) &&
+> > +               virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+> > +    } else {
+> > +        return false;
+> > +    }
+> > +}
+> > +
+> >  static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error =
+**errp)
+> >  {
+> >      struct vhost_vdpa *v;
+> > @@ -454,6 +658,7 @@ static int vhost_vdpa_init(struct vhost_dev *dev, v=
+oid *opaque, Error **errp)
+> >      v->dev =3D dev;
+> >      dev->opaque =3D  opaque ;
+> >      v->listener =3D vhost_vdpa_memory_listener;
+> > +    v->iommu_listener =3D vhost_vdpa_iommu_listener;
+> >      v->msg_type =3D VHOST_IOTLB_MSG_V2;
+> >      ret =3D vhost_vdpa_init_svq(dev, v, errp);
+> >      if (ret) {
+> > @@ -587,7 +792,6 @@ static int vhost_vdpa_cleanup(struct vhost_dev *dev=
+)
+> >      v =3D dev->opaque;
+> >      trace_vhost_vdpa_cleanup(dev, v);
+> >      vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
+> > -    memory_listener_unregister(&v->listener);
+> >      vhost_vdpa_svq_cleanup(dev);
+> >
+> >      dev->opaque =3D NULL;
+> > @@ -1128,11 +1332,19 @@ static int vhost_vdpa_dev_start(struct vhost_de=
+v *dev, bool started)
+> >
+> >      if (started) {
+> >          memory_listener_register(&v->listener, &address_space_memory);
+> > +        if (vdpa_dev_has_iommu(dev)) {
+> > +            memory_listener_register(&v->iommu_listener, dev->vdev->dm=
+a_as);
+> > +        }
+> > +
+> >          return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
+> >      } else {
+> >          vhost_vdpa_reset_device(dev);
+> >          vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+> >                                     VIRTIO_CONFIG_S_DRIVER);
+> > +
+> > +        if (vdpa_dev_has_iommu(dev)) {
+> > +            memory_listener_unregister(&v->iommu_listener);
+> > +        }
+> >          memory_listener_unregister(&v->listener);
+> >
+> >          return 0;
+> > diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-v=
+dpa.h
+> > index d10a89303e..22cbce7934 100644
+> > --- a/include/hw/virtio/vhost-vdpa.h
+> > +++ b/include/hw/virtio/vhost-vdpa.h
+> > @@ -30,6 +30,7 @@ typedef struct vhost_vdpa {
+> >      uint32_t msg_type;
+> >      bool iotlb_batch_begin_sent;
+> >      MemoryListener listener;
+> > +    MemoryListener iommu_listener;
+> >      struct vhost_vdpa_iova_range iova_range;
+> >      uint64_t acked_features;
+> >      bool shadow_vqs_enabled;
+> > @@ -41,8 +42,18 @@ typedef struct vhost_vdpa {
+> >      void *shadow_vq_ops_opaque;
+> >      struct vhost_dev *dev;
+> >      VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
+> > +    QLIST_HEAD(, vdpa_iommu) iommu_list;
+> > +    IOMMUNotifier n;
+> >  } VhostVDPA;
+> >
+> > +struct vdpa_iommu {
+> > +    struct vhost_vdpa *dev;
+> > +    IOMMUMemoryRegion *iommu_mr;
+> > +    hwaddr iommu_offset;
+> > +    IOMMUNotifier n;
+> > +    QLIST_ENTRY(vdpa_iommu) iommu_next;
+> > +};
+> > +
+> >  int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
+> >                         void *vaddr, bool readonly);
+> >  int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova, hwaddr siz=
+e);
+> > --
+> > 2.34.3
+> >
+>
 
 
