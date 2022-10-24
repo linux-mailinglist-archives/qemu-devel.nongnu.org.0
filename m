@@ -2,86 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE79C609AC3
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 08:52:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B16609B0C
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 09:13:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omrG1-0005Dm-S9; Mon, 24 Oct 2022 02:48:21 -0400
+	id 1omrXt-0006Ub-0F; Mon, 24 Oct 2022 03:06:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1omrFz-00055Q-5r
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 02:48:19 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1omrFx-0000hs-4a
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 02:48:18 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id j15so4042460wrq.3
- for <qemu-devel@nongnu.org>; Sun, 23 Oct 2022 23:48:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ai1ej37o9Hc4blbbw1ItSj94465SUXhgj2+sX0zsi70=;
- b=lnO1GnOQ6ikEQ7BTDT/MS85rsUC7O0Qly+usCLldr6siPRC+SNMRjic7jLELG86O8R
- Oi9JW8nDQRRf+8hnM/7uHqWvjUBd+d+/I6cs1/UXYZM1RNmCTm7rMJIjznJJd+xBhH8v
- gMH4li/Xdg1WF2K113QNofJF3z77olQR2uSED2UegR9qjDcRggaidDh4tJ/DulFRfZJ9
- yJkRrvzfmshcpR4nSZsYRmTOQRAAGeHa8xqrcOTu2vl1P/BmiDuilBhoDgNl/oQe+l3i
- Oy3nN5Dkyu4RFrDOA2ieEC5giDHAsLfiC27SOCLbPuTJv4qVAT/Q7nhryjgjmJKT/DHo
- l15A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ai1ej37o9Hc4blbbw1ItSj94465SUXhgj2+sX0zsi70=;
- b=gUBn0uOLmAIwe56S+i+W67FNoYIDdYHB3Gy4m5tyjx4cdgNs2gNNkFU6RzkW/agZBr
- E8wGrpqmSzIngxFbsOdOOCgJ+qi+0OKlNsYEpr3O/nSSFdxifGRX1oSxuTurBlpaMpfg
- pwJ42mHUxnF8n4S6c3s8KBazQ2voiUBmfpM4Tf2An7zWSmDlXMJJbYhS8D8SZ/WVZsD/
- fg9391onY4m9K93jn4lQYZyU6Mw19rE3Y81nPDNKxckueHyt0Q/cSIfbT1uVCnwSkZ/X
- AfvTLkHiuxyWnRNPG0k09Dn8KK8GDmACHVunFTYxPKLqJhFbm4Fj/n0aK9Pbv+ByK52m
- XS2Q==
-X-Gm-Message-State: ACrzQf0shFA747J3ne1f3TIs6iXj9QSAg78Fd3i63tYr1UVm672WbAnp
- k5juEY2AHoa3/PacG6WBG1GQoPJG8oFp+Q==
-X-Google-Smtp-Source: AMsMyM72OPCKnPFtkcMLwDKciusoCpI3XTboVC47HY6VuktKgA7I3THdw6Nuked/Dotvr5FFlhtpTg==
-X-Received: by 2002:a05:6000:69b:b0:22e:36aa:5f1 with SMTP id
- bo27-20020a056000069b00b0022e36aa05f1mr19767017wrb.430.1666594095508; 
- Sun, 23 Oct 2022 23:48:15 -0700 (PDT)
-Received: from [10.50.0.10]
- (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
- by smtp.gmail.com with ESMTPSA id
- r18-20020a05600c35d200b003c6c182bef9sm9202775wmq.36.2022.10.23.23.48.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 23 Oct 2022 23:48:15 -0700 (PDT)
-Message-ID: <814a7987-dece-6fc5-0bae-06b72c202b0c@linaro.org>
-Date: Mon, 24 Oct 2022 08:48:13 +0200
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1omrXR-00067n-U4
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 03:06:31 -0400
+Received: from smtp-relay-services-0.canonical.com ([185.125.188.250])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1omrXP-0005bq-6j
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 03:06:21 -0400
+Received: from scripts-1.lp.internal (scripts.lp.internal [10.131.66.196])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id 3728C41635
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 07:05:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1666595154;
+ bh=F3G8U5pJCoqRix1xLjpx1MiBz7uHDwrqzTzsduT1ECQ=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:Message-Id:
+ Subject;
+ b=VfGzd1eCCPkZYNEGYxchdk3nB3f87fnoFn7GMTog1Dbu5xIOJNINTYWO8TwiS/0K8
+ Q3ss1EZoCUourmMda2N3vathgnzXLAa3+QXTx8VQ0Mx5QavFCQEm9nRib3aTSNrCFU
+ gv4SpbmcIK3EMs87XreVaYvwiClwHwDfEKrDGfSUAL7nVUqR709oUJ5apEYY0lXKxF
+ ZNOErYvVPg/qQ9bcE2HaGZpS8muLs2kTPlZUE9qVnKUcUmZuvd/zuUpoY+5u7OjdpO
+ TA915wnqlzjIt7wVnm3SfdmBbHTi2sRsnPJMeBh8PTejXSPUEeCUsIm5ZUzTXCzfMT
+ a5Uj5lep9xWbQ==
+Received: from
+ juju-4112d9-prod-launchpad-manual-servers-36.openstack.prodstack5.lan
+ (localhost [127.0.0.1])
+ by scripts-1.lp.internal (Postfix) with ESMTP id 655AF4083B
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 07:05:45 +0000 (UTC)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.3.2
-Subject: Re: [PATCH] ui: remove useless typecasts
-Content-Language: en-US
-To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
- Gerd Hoffmann <kraxel@redhat.com>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org, qemu-trivial@nongnu.org
-References: <20221022141204.29358-1-vr_qemu@t-online.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221022141204.29358-1-vr_qemu@t-online.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 24 Oct 2022 06:53:24 -0000
+From: Brett Milford <1994002@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=cloud-archive; status=New; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: product=cloud-archive; productseries=ussuri; status=New;
+ importance=Undecided; assignee=brett.milford@canonical.com; 
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu;
+ component=main; status=New; importance=Undecided;
+ assignee=brett.milford@canonical.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=jammy; sourcepackage=qemu;
+ component=main; status=New; importance=Undecided;
+ assignee=brett.milford@canonical.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=kinetic; sourcepackage=qemu;
+ component=main; status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: brettmilford
+X-Launchpad-Bug-Reporter: Brett Milford (brettmilford)
+X-Launchpad-Bug-Modifier: Brett Milford (brettmilford)
+Message-Id: <166659440525.2803.16352024231081465383.malonedeb@angus.canonical.com>
+Subject: [Bug 1994002] [NEW] [SRU] migration was active,
+ but no RAM info was set
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="083267bcef06a439af1c3ee2507b2333659521d4"; Instance="production"
+X-Launchpad-Hash: 0ea30200c6c9c24abae17c28a13750ab5dc963af
+Received-SPF: pass client-ip=185.125.188.250;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,23 +96,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1994002 <1994002@bugs.launchpad.net>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 22/10/22 16:12, Volker Rümelin wrote:
-> Commit 8f9abdf586 ("chardev: src buffer const for write functions")
-> changed the type of the second parameter of qemu_chr_be_write()
-> from uint8_t * to const uint8_t *. Remove the now useless type
-> casts from qemu_chr_be_write() function calls in ui/console.c and
-> ui/gtk.c.
-> 
-> Cc: qemu-trivial@nongnu.org
-> Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-> ---
->   ui/console.c | 2 +-
->   ui/gtk.c     | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
+Public bug reported:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+While live-migrating many instances concurrently, libvirt sometimes return =
+internal error: migration was active, but no RAM info was set:
+~~~
+2022-03-30 06:08:37.197 7 WARNING nova.virt.libvirt.driver [req-5c3296cf-88=
+ee-4af6-ae6a-ddba99935e23 - - - - -] [instance: af339c99-1182-4489-b15c-21e=
+52f50f724] Error monitoring migration: internal error: migration was active=
+, but no RAM info was set: libvirt.libvirtError: internal error: migration =
+was active, but no RAM info was set
+~~~
+
+From upstream bug: https://bugzilla.redhat.com/show_bug.cgi?id=3D2074205
+
+[Impact]
+
+ * Effects of this bug are mostly observed in large scale clusters with a l=
+ot of live migration activity.
+ * Has second order effects for consumers of migration monitor such as libv=
+irt and openstack.
+
+[Test Case]
+Steps to Reproduce:
+1. live evacuate a compute
+2. live migration of one or more instances fails with the above error
+
+N.B Due to the nature of this bug it is difficult consistently
+reproduce.
+
+[Where problems could occur]
+ * In the event of a regression the migration monitor may report an inconsi=
+stent state.
+
+** Affects: cloud-archive
+     Importance: Undecided
+         Status: New
+
+** Affects: cloud-archive/ussuri
+     Importance: Undecided
+     Assignee: Brett Milford (brettmilford)
+         Status: New
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Affects: qemu (Ubuntu)
+     Importance: Undecided
+         Status: New
+
+** Affects: qemu (Ubuntu Focal)
+     Importance: Undecided
+     Assignee: Brett Milford (brettmilford)
+         Status: New
+
+** Affects: qemu (Ubuntu Jammy)
+     Importance: Undecided
+     Assignee: Brett Milford (brettmilford)
+         Status: New
+
+** Affects: qemu (Ubuntu Kinetic)
+     Importance: Undecided
+         Status: New
+
+** Also affects: qemu (Ubuntu Kinetic)
+   Importance: Undecided
+       Status: New
+
+** Also affects: qemu (Ubuntu Jammy)
+   Importance: Undecided
+       Status: New
+
+** Also affects: qemu (Ubuntu Focal)
+   Importance: Undecided
+       Status: New
+
+** Also affects: qemu
+   Importance: Undecided
+       Status: New
+
+** Also affects: cloud-archive
+   Importance: Undecided
+       Status: New
+
+** Also affects: cloud-archive/ussuri
+   Importance: Undecided
+       Status: New
+
+** Changed in: cloud-archive/ussuri
+     Assignee: (unassigned) =3D> Brett Milford (brettmilford)
+
+** Changed in: qemu (Ubuntu Focal)
+     Assignee: (unassigned) =3D> Brett Milford (brettmilford)
+
+** Changed in: qemu (Ubuntu Jammy)
+     Assignee: (unassigned) =3D> Brett Milford (brettmilford)
+
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1994002
+
+Title:
+  [SRU] migration was active, but no RAM info was set
+
+Status in Ubuntu Cloud Archive:
+  New
+Status in Ubuntu Cloud Archive ussuri series:
+  New
+Status in QEMU:
+  New
+Status in qemu package in Ubuntu:
+  New
+Status in qemu source package in Focal:
+  New
+Status in qemu source package in Jammy:
+  New
+Status in qemu source package in Kinetic:
+  New
+
+Bug description:
+  While live-migrating many instances concurrently, libvirt sometimes retur=
+n internal error: migration was active, but no RAM info was set:
+  ~~~
+  2022-03-30 06:08:37.197 7 WARNING nova.virt.libvirt.driver [req-5c3296cf-=
+88ee-4af6-ae6a-ddba99935e23 - - - - -] [instance: af339c99-1182-4489-b15c-2=
+1e52f50f724] Error monitoring migration: internal error: migration was acti=
+ve, but no RAM info was set: libvirt.libvirtError: internal error: migratio=
+n was active, but no RAM info was set
+  ~~~
+
+  From upstream bug: https://bugzilla.redhat.com/show_bug.cgi?id=3D2074205
+
+  [Impact]
+
+   * Effects of this bug are mostly observed in large scale clusters with a=
+ lot of live migration activity.
+   * Has second order effects for consumers of migration monitor such as li=
+bvirt and openstack.
+
+  [Test Case]
+  Steps to Reproduce:
+  1. live evacuate a compute
+  2. live migration of one or more instances fails with the above error
+
+  N.B Due to the nature of this bug it is difficult consistently
+  reproduce.
+
+  [Where problems could occur]
+   * In the event of a regression the migration monitor may report an incon=
+sistent state.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/cloud-archive/+bug/1994002/+subscriptions
 
 
