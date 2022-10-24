@@ -2,64 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 592DA609E40
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 11:47:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A604E609D60
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 11:02:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omt2P-0002ZJ-F4; Mon, 24 Oct 2022 04:42:25 -0400
+	id 1omtFi-00052R-JW; Mon, 24 Oct 2022 04:56:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huqi@loongson.cn>) id 1omt2K-0002Wk-Gb
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 04:42:21 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huqi@loongson.cn>) id 1omt2G-0005vW-V6
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 04:42:20 -0400
-Received: from loongson.cn (unknown [10.90.50.23])
- by gateway (Coremail) with SMTP id _____8Axz7flT1ZjKRACAA--.3282S3;
- Mon, 24 Oct 2022 16:42:13 +0800 (CST)
-Received: from lingfengzhe-ms7c94.loongson.cn (unknown [10.90.50.23])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Dx_eHkT1ZjKEcEAA--.16143S2; 
- Mon, 24 Oct 2022 16:42:12 +0800 (CST)
-From: Qi Hu <huqi@loongson.cn>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Cc: qemu-devel@nongnu.org, Jinyang Shen <shenjinyang@loongson.cn>,
- Xuehai Chen <chenxuehai@loongson.cn>
-Subject: [PATCH v3] target/i386: Fix calculation of LOCK NEG eflags
-Date: Mon, 24 Oct 2022 16:41:55 +0800
-Message-Id: <20221024084155.713121-1-huqi@loongson.cn>
-X-Mailer: git-send-email 2.38.0
+ (Exim 4.90_1) (envelope-from <helei.sig11@bytedance.com>)
+ id 1omtFf-000521-MQ
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 04:56:07 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <helei.sig11@bytedance.com>)
+ id 1omtFb-0002Vt-U8
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 04:56:07 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id g16so3004338pfr.12
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 01:56:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to:subject:cc
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vI7+sH2MkxIGRAMgYMCX6kO6TmdVdUfOBwywroU48HM=;
+ b=2LxRCXDlgWikIjfKRUUlJtlbnucmWMt5/8CswD9SNz/0pMx8Vsn2LgZloHhXgL5CXN
+ cmUPCyHD9AG92LgbBarUa4+SW6zOKs7ygu7XZuJ+V0uauq4rwJJl1KXmBKiZati9wCuO
+ m0HSvgFQhE35aangm00bTxU6BPARx5yUJAPb52bNEpYQHURWJZrB2oi4Lh0A6sbw9I2M
+ QVTh4T55PbIqPs3PgLIXK95EZmnfHohtghVYlhODE6QM3GlhJBFoOzT68XzvhowGNSVC
+ ZCZPIemoujEGOgPiQNVaHgeLepMetJJYRiJbqr46Q9Or7lcXoCB9Gm3OrCYvbuMdCgeY
+ YSUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to:subject:cc
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=vI7+sH2MkxIGRAMgYMCX6kO6TmdVdUfOBwywroU48HM=;
+ b=NNekPsgwQdUaX67pC50McUZLu9t1VMEr2T3yd8FjAHteI2i8nnlNcNQ42wU18nImhI
+ Zp7+9bAObZGGbru3/ASC7i0jLUZoFUxA9Q1smvz9JyvD+AlIolRfalVZY+TOa8m9/Y80
+ SazAEYIyL5PNpQiVl30hY1eOSX7z3thcc0qltYE47QqhFY+vDswgdX6PnsvySgXLpOjv
+ cgaw3M8g5bvqIoM2pUMSz32OUnbCEwEm9yPtIWxv/B/owd5CgOkqOja3kO2hf1lwnjxc
+ upBL2ECRiYen4n9UO6hJKhaK5XS/1xm2NW5eOaBedVtfml0BJxCcrhfbkk/FNvef2lld
+ 1t0w==
+X-Gm-Message-State: ACrzQf2VN38JhScVoaSf/NoYny1J2S7IWYkTvwQeEb1ZGS7TJzZ6ht2U
+ JNiL9yc/aEc9IeYhZbOmC+ORMg==
+X-Google-Smtp-Source: AMsMyM4GJtiWi/+9RNzVwEbM7Pl7TD19AYEecmVp+zTxgniWhK7G7DMvZr+r+85n5dQ0RwVhvt8Ygg==
+X-Received: by 2002:a63:d01:0:b0:46b:2eed:50b9 with SMTP id
+ c1-20020a630d01000000b0046b2eed50b9mr27448439pgl.71.1666601760777; 
+ Mon, 24 Oct 2022 01:56:00 -0700 (PDT)
+Received: from [10.254.65.179] ([139.177.225.246])
+ by smtp.gmail.com with ESMTPSA id
+ a8-20020a1709027d8800b001743ba85d39sm19007476plm.110.2022.10.24.01.55.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Oct 2022 01:56:00 -0700 (PDT)
+Message-ID: <e42736d8-bf32-d467-19f1-7c037ac57630@bytedance.com>
+Date: Mon, 24 Oct 2022 16:55:54 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Dx_eHkT1ZjKEcEAA--.16143S2
-X-CM-SenderInfo: pkxtxqxorr0wxvrqhubq/1tbiAQAJCWNVLuIOUwABsn
-X-Coremail-Antispam: 1Uk129KBjvJXoW7Cr45Xr4kGF45Gry5XrWfAFb_yoW8Jw4UpF
- W7Cry8K3y8Jr1UCwnrWayDtr1Uuws8CFyvqa9Fyrs5WwnxXw1kZry0k3yrGayS9ayFgFy5
- ZryqkFWDCFWjqa7anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- b7AYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
- x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
- e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
- IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2jsIE14v26r1j6r4U
- McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCFx2
- IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v2
- 6r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67
- AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IY
- s7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr
- 0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8wNVDUUUUU==
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=huqi@loongson.cn;
- helo=loongson.cn
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.3
+Cc: helei.sig11@bytedance.com, pizhenwei@bytedance.com,
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v2 0/4] Add a new backend for cryptodev
+To: berrange@redhat.com, arei.gonglei@huawei.com
+References: <20221008085030.70212-1-helei.sig11@bytedance.com>
+From: Lei He <helei.sig11@bytedance.com>
+In-Reply-To: <20221008085030.70212-1-helei.sig11@bytedance.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=helei.sig11@bytedance.com; helo=mail-pf1-x42e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,64 +92,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In sequence:
----
-lock negl -0x14(%rbp)
-pushf
-pop    %rax
----
+On 2022/10/8 16:50, Lei He wrote:
+> v1 --> v2:
+> - Fix compile errors when neither 'nettle' nor 'gcrypt' are enabled.
+> - Trivial changes to error codes when neither 'nettle' nor 'gcrypt' are
+> enabled.
+> 
 
-%rax will obtain the wrong value becasue the "lock neg" calculates the
-wrong eflags. The "s->T0" is updated by the wrong value.
+Hi, lei:
+   Daniel has reviewed the crypto part of this patch(thanks a lot for 
+Daniel), can you help to have a glance at rest codes? Thanks.
 
-You can use this to do some test:
----
-#include <assert.h>
-
-int main()
-{
-  __volatile__ unsigned test = 0x2363a;
-  __volatile__ char cond = 0;
-  asm(
-      "lock negl %0 \n\t"
-      "sets %1"
-      : "=m"(test), "=r"(cond)
-      :
-      :);
-  assert(cond & 1);
-  return 0;
-}
----
-
-Reported-by: Jinyang Shen <shenjinyang@loongson.cn>
-Co-Developed-by: Xuehai Chen <chenxuehai@loongson.cn>
-Signed-off-by: Xuehai Chen <chenxuehai@loongson.cn>
-Signed-off-by: Qi Hu <huqi@loongson.cn>
----
-V2 -> V3:
-Fix typo "caculation".
-
-V1 -> V2:
-Following Richard's suggestion, just change mov to neg instead of using
-local_tmp.
----
- target/i386/tcg/translate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index e19d5c1c64..cec2182080 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -3299,7 +3299,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
- 
-                 tcg_temp_free(t2);
-                 tcg_temp_free(a0);
--                tcg_gen_mov_tl(s->T0, t0);
-+                tcg_gen_neg_tl(s->T0, t0);
-                 tcg_temp_free(t0);
-             } else {
-                 tcg_gen_neg_tl(s->T0, s->T0);
--- 
-2.38.0
+Best regards,
+Lei He
+--
+helei.sig11@bytedance.com
 
 
