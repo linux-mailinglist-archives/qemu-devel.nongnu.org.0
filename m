@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AFA260B1FB
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 18:41:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACEBE60B186
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 18:27:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omyQQ-0008OE-5W; Mon, 24 Oct 2022 10:27:34 -0400
+	id 1omycS-0006TK-Em; Mon, 24 Oct 2022 10:40:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1omyQM-0008Nn-Sa
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 10:27:30 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1omyQL-0006Pa-9Z
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 10:27:30 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- v13-20020a17090a6b0d00b0021332e5388fso362854pjj.1
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 07:27:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=PTk0fWCUItVIHdURTLAtOf+2B0xgp6Gs199ICmXqWpE=;
- b=lQhXKzJMUSodGXtUtYhIXmqjD4iAI4L4cO/NiT5OK5Xx2NQojpbSLvJQcOvwWfgRWM
- 5QdFNZRhaVEjx/WF/aXoejhurzljjup9oMkr0baNQ81uBT2iO56g1L8z0jqaSL17h4wO
- D8bHokf/jdi/LYeZCBQoWUZmFxegDQ5sIlyNQl+ftQGNtr9AzhsuUlOYxzr70itMH1rt
- 6UEZT6BlN41emAzFrO5QKjHz8MNrnr4tmvwC2hbq79eTrC7rwXk/f9DTrYVnZMsH63SB
- VEjINTDnxS1hlPB/cNWXN3CEUVKRhVW3k3w/GV4Jf2ZpB4VStHVpiLlKUreQGK78m6WX
- laGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=PTk0fWCUItVIHdURTLAtOf+2B0xgp6Gs199ICmXqWpE=;
- b=ukjZB4HJgOH+QrFd2PK4YJvZ+cv3z7JH8+dmDd53FnPtxXSbf8EnY3WVcZ+o+bfmYO
- tzcrKypnUmp3X+iithPJLiQddGdl3NoxBCuLo3oiSGtygelPM1PQkxkeUMKX9rS11PK7
- KhTv1iA+iFEfk+wl6874bLDBfSxB+laJlWRwWjXyigM0ZB28xBxAR+AhmQDdi/KuXUi+
- DuwNMyNivjmoDljzFTTcEedM+LdHPP/2XI6FT1mojAuSxl8gA2yjdXNKVAaBHnn+v4Ef
- ZMa0vY0enUHTG1gLinVxeu0KHVOekTHs0jXljicECuW6dRaMpgAvkeP1r9MdiRCkGnP0
- H20g==
-X-Gm-Message-State: ACrzQf32bt2ap3Z8qFWttbMgNP2AAF0xA0c40FtNpd+jou7n5YpZH2C0
- 3sJ5bIli5i1KLjA3ebdIkF/PYo8/qMijVkA1B8wQ/A==
-X-Google-Smtp-Source: AMsMyM6wUm6dOI4pWMJ0eU2xD6Ex8iluw6lILjSDN7ckYsGMt8lTaK8dN7zoN0lYCKRiBOhkD7pEEs0jgjD0Nku22Ek=
-X-Received: by 2002:a17:90b:4b81:b0:213:341d:3ea6 with SMTP id
- lr1-20020a17090b4b8100b00213341d3ea6mr758993pjb.19.1666621647705; Mon, 24 Oct
- 2022 07:27:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
+ id 1omycP-0006Su-Sn
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 10:39:57 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
+ id 1omycL-0008PG-R6
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 10:39:57 -0400
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.54])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MwyJw2YFFz15M0d;
+ Mon, 24 Oct 2022 22:34:56 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 24 Oct 2022 22:39:46 +0800
+Received: from [10.174.178.174] (10.174.178.174) by
+ dggpemm500007.china.huawei.com (7.185.36.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 24 Oct 2022 22:39:45 +0800
+Subject: Re: [PATCH v2] kset: fix memory leak when kset_register() returns
+ error
+To: Greg KH <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <qemu-devel@nongnu.org>,
+ <linux-f2fs-devel@lists.sourceforge.net>, <linux-erofs@lists.ozlabs.org>,
+ <ocfs2-devel@oss.oracle.com>, <linux-mtd@lists.infradead.org>,
+ <amd-gfx@lists.freedesktop.org>, <rafael@kernel.org>, <somlo@cmu.edu>,
+ <mst@redhat.com>, <jaegeuk@kernel.org>, <chao@kernel.org>,
+ <hsiangkao@linux.alibaba.com>, <huangjianan@oppo.com>, <mark@fasheh.com>,
+ <jlbec@evilplan.org>, <joseph.qi@linux.alibaba.com>,
+ <akpm@linux-foundation.org>, <alexander.deucher@amd.com>,
+ <luben.tuikov@amd.com>, <richard@nod.at>, <liushixin2@huawei.com>,
+ <yangyingliang@huawei.com>
+References: <20221024121910.1169801-1-yangyingliang@huawei.com>
+ <Y1aYuLmlXBRvMP1Z@kroah.com>
+Message-ID: <8281fc72-948a-162d-6e5f-a9fe29d8ee46@huawei.com>
+Date: Mon, 24 Oct 2022 22:39:44 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20221014021653.1461512-1-Jason@zx2c4.com>
- <20221014021653.1461512-2-Jason@zx2c4.com>
- <CAFEAcA8jra50q_DvNTGG8Wi+eF+PEKPHnfLNBhUjG9muqiPe0A@mail.gmail.com>
- <87sfjdqubj.fsf@pond.sub.org>
- <CAFEAcA-TT_zRZQ076k6thP2ANk07EqMg8u7MP_6j24u2CCiEGA@mail.gmail.com>
- <8735bd8ikk.fsf@pond.sub.org>
-In-Reply-To: <8735bd8ikk.fsf@pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 24 Oct 2022 15:27:15 +0100
-Message-ID: <CAFEAcA-xbu_nPFSg8K04nXgHGk3xm0HNRwGeGFgPNmoP3Ay_Fw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/8] reset: allow registering handlers that aren't
- called by snapshot loading
-To: Markus Armbruster <armbru@redhat.com>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, pbonzini@redhat.com,
- qemu-devel@nongnu.org, richard.henderson@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <Y1aYuLmlXBRvMP1Z@kroah.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.174.178.174]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=yangyingliang@huawei.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,44 +78,81 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
+Reply-to:  Yang Yingliang <yangyingliang@huawei.com>
+From:  Yang Yingliang via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 24 Oct 2022 at 14:20, Markus Armbruster <armbru@redhat.com> wrote:
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > On Mon, 24 Oct 2022 at 13:28, Markus Armbruster <armbru@redhat.com> wrote:
-> >>
-> >> Peter Maydell <peter.maydell@linaro.org> writes:
-> >> > Markus: if we add a new value to the ShutdownCause enumeration,
-> >> > how annoying is it if we decide we don't want it later? I guess
-> >> > we can just leave it in the enum unused... (In this case we're
-> >> > using it for purely internal purposes and it won't ever actually
-> >> > wind up in any QMP events.)
-> >>
-> >> Deleting enumeration values is a compatibility issue only if the value
-> >> is usable in QMP input.
-> >>
-> >> "Purely internal" means it cannot occur in QMP output, and any attempt
-> >> to use it in input fails.  Aside: feels a bit fragile.
-> >
-> > In this case there are as far as I can see no QMP input commands
-> > which use the enum at all -- it's only used in events, which are
-> > always output, I think.
->
-> They are.
->
-> Ascertaining "not used in QMP input" is pretty easy, and "not used in
-> CLI" isn't hard.  My point is that uses could creep in later.  This is
-> what makes "purely internal" fragile.
 
-True. But otoh if there's a meaningful use of the enum constant in
-input in future we'll want to keep it around anyway.
+On 2022/10/24 21:52, Greg KH wrote:
+> On Mon, Oct 24, 2022 at 08:19:10PM +0800, Yang Yingliang wrote:
+>> Inject fault while loading module, kset_register() may fail.
+>> If it fails, the name allocated by kobject_set_name() which
+>> is called before kset_register() is leaked, because refcount
+>> of kobject is hold in kset_init().
+>>
+>> As a kset may be embedded in a larger structure which needs
+>> be freed in release() function or error path in callers, we
+>> can not call kset_put() in kset_register(), or it will cause
+>> double free, so just call kfree_const() to free the name and
+>> set it to NULL.
+>>
+>> With this fix, the callers don't need to care about the name
+>> freeing and call an extra kset_put() if kset_register() fails.
+>>
+>> Suggested-by: Luben Tuikov <luben.tuikov@amd.com>
+>> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+>> ---
+>> v1 -> v2:
+>>    Free name inside of kset_register() instead of calling kset_put()
+>>    in drivers.
+>> ---
+>>   lib/kobject.c | 8 +++++++-
+>>   1 file changed, 7 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/lib/kobject.c b/lib/kobject.c
+>> index a0b2dbfcfa23..3409a89c81e5 100644
+>> --- a/lib/kobject.c
+>> +++ b/lib/kobject.c
+>> @@ -834,6 +834,9 @@ EXPORT_SYMBOL_GPL(kobj_sysfs_ops);
+>>   /**
+>>    * kset_register() - Initialize and add a kset.
+>>    * @k: kset.
+>> + *
+>> + * NOTE: On error, the kset.kobj.name allocated by() kobj_set_name()
+>> + * which is called before kset_register() in caller need be freed.
+> This comment doesn't make any sense anymore.  No caller needs to worry
+> about this, right?
+With this fix, the name is freed inside of kset_register(), it can not 
+be accessed,
+if it allocated dynamically, but callers don't know this if no comment here,
+they may use it in error path (something like to print error message 
+with it),
+so how about comment like this to tell callers not to use the name:
 
-I guess what I'm asking is: do you specifically want this patch
-done some other way, or to require that "mark some values as
-internal-only" feature in the QAPI generator, or are you OK with
-it as-is?  QMP/QAPI is your area, so your call...
+NOTE: On error, the kset.kobj.name allocated by() kobj_set_name()
+is freed, it can not be used any more.
+>
+>>    */
+>>   int kset_register(struct kset *k)
+>>   {
+>> @@ -844,8 +847,11 @@ int kset_register(struct kset *k)
+>>   
+>>   	kset_init(k);
+>>   	err = kobject_add_internal(&k->kobj);
+>> -	if (err)
+>> +	if (err) {
+>> +		kfree_const(k->kobj.name);
+>> +		k->kobj.name = NULL;
+> Why are you setting the name here to NULL?
+I set it to NULL to avoid accessing bad pointer in callers,
+if callers use it in error path, current callers won't use this
+name pointer in error path, so we can remove this assignment?
 
--- PMM
+Thanks,
+Yang
+>
+> thanks,
+>
+> greg k-h
+> .
 
