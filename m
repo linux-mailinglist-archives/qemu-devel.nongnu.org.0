@@ -2,51 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EE3560A354
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 13:54:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DE2360A241
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 13:40:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omvMm-0000ix-8W; Mon, 24 Oct 2022 07:11:36 -0400
+	id 1omv6e-0008VN-HS; Mon, 24 Oct 2022 06:54:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <28c736709b82c8f47edf3cb18b9fb601fdab9151@lizzy.crudebyte.com>)
- id 1omvMF-0000SR-OW
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:11:13 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13])
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1omv6a-0008Uq-6L
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 06:54:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <28c736709b82c8f47edf3cb18b9fb601fdab9151@lizzy.crudebyte.com>)
- id 1omvMC-0006qa-9d
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:11:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=vesG7fpTJO7/Ux70A/tOkL9a3DqIlneVwqfLChoP7NI=; b=DU6FF
- t3Y0JmjqHZAVsTdnoDG5GBXhmsR0yFxM8n5bBGBiPbVqAOsO23WS5s9HYfUoTFBcc+cVJChR8tYgi
- D52XWiIlpmyoPqWeL2ruA45+Rmv7wdLfjuq9+LsP89BO3/Fset6ZNNmPozv153S9d5PNW495GZs/q
- uW4bWBGScB5J+i+beba53o7BtnpBWLuGD69aIr8LeIcGujCt8J2N9ypU2OPXRQcRI4HZlrF6iYEir
- 9oysao2XKdaBYwHoopQiBMda9ad4U3D71HqvVyoTkgFEvulD3XX8mZ+pF+mYR/Ncq2UpkuHLnEixc
- q1grb+5fo/YhHRuW3Cu63bg8BhD4A==;
-Message-Id: <28c736709b82c8f47edf3cb18b9fb601fdab9151.1666608862.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1666608862.git.qemu_oss@crudebyte.com>
-References: <cover.1666608862.git.qemu_oss@crudebyte.com>
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Mon, 24 Oct 2022 12:54:23 +0200
-Subject: [PULL 10/23] tests/9p: simplify callers of tgetattr()
-To: qemu-devel@nongnu.org,
-    Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Greg Kurz <groug@kaod.org>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=28c736709b82c8f47edf3cb18b9fb601fdab9151@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1omv6X-0002e1-0B
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 06:54:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666608885;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bnaoPU4DgOETL9MVtBv9nacghLjMuBTI5y7+roxt99g=;
+ b=SNwdtKq0wJMKYgnlJzFIXR+zB0MgatimxVCNyzGADIkGraakIS+41uB6gpmUCtT+GFDyCk
+ 36UTmMtzecA+nPnrJXr477Nz424HKPrBhWpWY3N/XsrjALXr+Ca9nWzsPPzlSUzFGHedg8
+ nELNglggRrTMnbJFzloxX9agH0SZuGU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-671-lxN9sJIHOw2TNzYFIKpN3A-1; Mon, 24 Oct 2022 06:54:43 -0400
+X-MC-Unique: lxN9sJIHOw2TNzYFIKpN3A-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ q14-20020a7bce8e000000b003c6b7debf22so1823163wmj.0
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 03:54:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bnaoPU4DgOETL9MVtBv9nacghLjMuBTI5y7+roxt99g=;
+ b=P5QUlK2/6E1g+ao6qlxlLsdKgtbIqdveUS+icbnorlJEUIuOhxstIJdEt2mCEpPhnt
+ v8kOlags2kewFSZbUeC8PXoh3O8GqCMx4mbUXtEHLYrsC+Ukg+Dr41/KteRtSvTpZhBt
+ yhu+0DBrmpyL6Z5JStxC9E2avjT+LAG55z0VEhH9MrmDUORK4Pph3//34ypkR0kMZxAo
+ uZRyYp/hYrNfozOaAgn6KrVp2puG4dixMJQFXcncADQBrUDc5TnHLOyg/Lsx0teeJHuH
+ 5jPecCfuKOGLGMKHbOnZvoxGPTq8gom9qVUfHCd11LHpXCJK4GX1Sb5faxZX/K3Q/Q0z
+ B10g==
+X-Gm-Message-State: ACrzQf2/T8Qxg8y3dzugd22NOIVJG/yBUVtT/dR+7jrrd2iYKozmJlLX
+ YpDrytqrdEHOzrifVzqwBFsAPTc1mwtoIRd04rcy9mK2mO+2CJp9/1zp6FGKONFZfqmt2JrdWAq
+ n4Yjut1YpJDweAGM=
+X-Received: by 2002:a05:600c:3787:b0:3c6:f85c:ebfe with SMTP id
+ o7-20020a05600c378700b003c6f85cebfemr22595464wmr.105.1666608882383; 
+ Mon, 24 Oct 2022 03:54:42 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5gkL5Y6uKz5qE2MDQA3nQIPAlPCjdkRi7b0jzB45l50JT9SJ28fB6RNyZyvLreAfME2lJpTQ==
+X-Received: by 2002:a05:600c:3787:b0:3c6:f85c:ebfe with SMTP id
+ o7-20020a05600c378700b003c6f85cebfemr22595440wmr.105.1666608882133; 
+ Mon, 24 Oct 2022 03:54:42 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c704:f100:6371:a05b:e038:ac2c?
+ (p200300cbc704f1006371a05be038ac2c.dip0.t-ipconnect.de.
+ [2003:cb:c704:f100:6371:a05b:e038:ac2c])
+ by smtp.gmail.com with ESMTPSA id
+ g42-20020a05600c4caa00b003a84375d0d1sm7457474wmp.44.2022.10.24.03.54.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Oct 2022 03:54:41 -0700 (PDT)
+Message-ID: <cb770300-d0b3-b0f2-2731-fa88f7c5a274@redhat.com>
+Date: Mon, 24 Oct 2022 12:54:40 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v2] hw/mem/nvdimm: fix error message for 'unarmed' flag
+Content-Language: en-US
+To: Julia Suvorova <jusual@redhat.com>, qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Pankaj Gupta <pankaj.gupta@amd.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+References: <20221023195812.15523-1-jusual@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20221023195812.15523-1-jusual@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.503,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,72 +105,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Now as tgetattr() is using a declarative approach, simplify the
-code of callers of this function.
+On 23.10.22 21:58, Julia Suvorova wrote:
+> In the ACPI specification [1], the 'unarmed' bit is set when a device
+> cannot accept a persistent write. This means that when a memdev is
+> read-only, the 'unarmed' flag must be turned on. The logic is correct,
+> just changing the error message.
+> 
+> [1] ACPI NFIT NVDIMM Region Mapping Structure "NVDIMM State Flags" Bit 3
+> 
+> Fixes: dbd730e859 ("nvdimm: check -object memory-backend-file, readonly=on option")
+> Signed-off-by: Julia Suvorova <jusual@redhat.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Reviewed-by: Pankaj Gupta <pankaj.gupta@amd.com>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Acked-by: David Hildenbrand <david@redhat.com>
+> ---
+> v2:
+>      * enquote 'on' [Philippe]
+> 
+>   hw/mem/nvdimm.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
+> index 7c7d777781..31080c22c9 100644
+> --- a/hw/mem/nvdimm.c
+> +++ b/hw/mem/nvdimm.c
+> @@ -149,7 +149,7 @@ static void nvdimm_prepare_memory_region(NVDIMMDevice *nvdimm, Error **errp)
+>       if (!nvdimm->unarmed && memory_region_is_rom(mr)) {
+>           HostMemoryBackend *hostmem = dimm->hostmem;
+>   
+> -        error_setg(errp, "'unarmed' property must be off since memdev %s "
+> +        error_setg(errp, "'unarmed' property must be 'on' since memdev %s "
+>                      "is read-only",
+>                      object_get_canonical_path_component(OBJECT(hostmem)));
+>           return;
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Message-Id: <60c6a083f320b86f3172951445df7bbc895932e2.1664917004.git.qemu_oss@crudebyte.com>
----
- tests/qtest/virtio-9p-test.c | 22 +++++++---------------
- 1 file changed, 7 insertions(+), 15 deletions(-)
 
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 9c1219db33..ae1220d0cb 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -264,8 +264,7 @@ static void fs_walk_2nd_nonexistent(void *obj, void *data,
-     v9fs_set_allocator(t_alloc);
-     v9fs_qid root_qid;
-     uint16_t nwqid;
--    uint32_t fid, err;
--    P9Req *req;
-+    uint32_t fid;
-     g_autofree v9fs_qid *wqid = NULL;
-     g_autofree char *path = g_strdup_printf(
-         QTEST_V9FS_SYNTH_WALK_FILE "/non-existent", 0
-@@ -286,14 +285,10 @@ static void fs_walk_2nd_nonexistent(void *obj, void *data,
-     g_assert(wqid && wqid[0] && !is_same_qid(root_qid, wqid[0]));
- 
-     /* expect fid being unaffected by walk above */
--    req = tgetattr({
-+    tgetattr({
-         .client = v9p, .fid = fid, .request_mask = P9_GETATTR_BASIC,
--        .requestOnly = true
--    }).req;
--    v9fs_req_wait_for_reply(req, NULL);
--    v9fs_rlerror(req, &err);
--
--    g_assert_cmpint(err, ==, ENOENT);
-+        .expectErr = ENOENT
-+    });
- }
- 
- static void fs_walk_none(void *obj, void *data, QGuestAllocator *t_alloc)
-@@ -302,7 +297,6 @@ static void fs_walk_none(void *obj, void *data, QGuestAllocator *t_alloc)
-     v9fs_set_allocator(t_alloc);
-     v9fs_qid root_qid;
-     g_autofree v9fs_qid *wqid = NULL;
--    P9Req *req;
-     struct v9fs_attr attr;
- 
-     tversion({ .client = v9p });
-@@ -319,12 +313,10 @@ static void fs_walk_none(void *obj, void *data, QGuestAllocator *t_alloc)
-     /* special case: no QID is returned if nwname=0 was sent */
-     g_assert(wqid == NULL);
- 
--    req = tgetattr({
-+    tgetattr({
-         .client = v9p, .fid = 1, .request_mask = P9_GETATTR_BASIC,
--        .requestOnly = true
--    }).req;
--    v9fs_req_wait_for_reply(req, NULL);
--    v9fs_rgetattr(req, &attr);
-+        .rgetattr.attr = &attr
-+    });
- 
-     g_assert(is_same_qid(root_qid, attr.qid));
- }
+Thanks, queued to
+
+https://github.com/davidhildenbrand/qemu.git mem-next
+
 -- 
-2.30.2
+Thanks,
+
+David / dhildenb
 
 
