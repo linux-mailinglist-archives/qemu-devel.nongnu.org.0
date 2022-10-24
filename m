@@ -2,92 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AC67609EC7
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 12:12:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D90609EC9
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 12:14:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omsvq-0000xo-Or; Mon, 24 Oct 2022 04:35:38 -0400
+	id 1omt0p-00029P-Es; Mon, 24 Oct 2022 04:40:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1omsvn-0000xY-AY
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 04:35:35 -0400
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1omsvi-0003LY-Ih
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 04:35:35 -0400
-Received: from scripts-1.lp.internal (scripts.lp.internal [10.131.66.196])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id B162541447
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 08:35:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1666600521;
- bh=936GF9HkqjOfcvQDTjOn0GkcSU2oBCW7Ww/tSpzbyyo=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=qhIiwJ1swceJCgJh+H4krJojXVHhL109w2d7bUaf56GLYnxpKLfSA7uNP/YgGwjL6
- sTrKnOmXVa0cDvelS+Ku3O5OqekGUBMrahNTKZ+96CanE9eyTsrMnj12JWmh+8VFSL
- iiegu6A1Zvyu2mli8szvtl7U3v2ah0QI08dWnS4ZIOYPEXkwjnkTuye16srExzfYES
- jnM8PHCBloPUpvlP8PjdQW9x52yHrbvag4dxRuZB9eBLLsq06XMqhcMvjOKjPfq2pi
- KKiQUmP3uuCA9M7PxpEv+EhUiUADQQZFrkKx4SfMZSVzEUc981wNgBDfLH18NDHYii
- zQpU9Nn8LVHPg==
-Received: from
- juju-4112d9-prod-launchpad-manual-servers-36.openstack.prodstack5.lan
- (localhost [127.0.0.1])
- by scripts-1.lp.internal (Postfix) with ESMTP id 003B63FF86
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 08:35:19 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <huqi@loongson.cn>) id 1omt0c-000291-FZ
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 04:40:37 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huqi@loongson.cn>) id 1omt0a-0005DK-1c
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 04:40:34 -0400
+Received: from loongson.cn (unknown [10.90.50.23])
+ by gateway (Coremail) with SMTP id _____8CxbbdsT1Zj9g8CAA--.3257S3;
+ Mon, 24 Oct 2022 16:40:12 +0800 (CST)
+Received: from [10.90.50.23] (unknown [10.90.50.23])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Cxb+JrT1Zj_UYEAA--.16467S3; 
+ Mon, 24 Oct 2022 16:40:12 +0800 (CST)
+Message-ID: <af5794d3-5a16-d3d8-cf9d-6436c3df8e38@loongson.cn>
+Date: Mon, 24 Oct 2022 16:40:11 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 24 Oct 2022 08:28:47 -0000
-From: Ubuntu Foundations Team Bug Bot <1994002@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=cloud-archive; status=New; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: product=cloud-archive; productseries=ussuri; status=New;
- importance=Undecided; assignee=brett.milford@canonical.com; 
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu;
- component=main; status=New; importance=Undecided;
- assignee=brett.milford@canonical.com; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=jammy; sourcepackage=qemu;
- component=main; status=New; importance=Undecided;
- assignee=brett.milford@canonical.com; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=kinetic; sourcepackage=qemu;
- component=main; status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Tags: patch
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: brettmilford crichton
-X-Launchpad-Bug-Reporter: Brett Milford (brettmilford)
-X-Launchpad-Bug-Modifier: Ubuntu Foundations Team Bug Bot (crichton)
-References: <166659440525.2803.16352024231081465383.malonedeb@angus.canonical.com>
-Message-Id: <166660012773.26568.15461618472130908781.malone@dale.canonical.com>
-Subject: [Bug 1994002] Re: [SRU] migration was active, but no RAM info was set
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="083267bcef06a439af1c3ee2507b2333659521d4"; Instance="production"
-X-Launchpad-Hash: fb959b63f891912f68e8188105a1efe45348df36
-Received-SPF: pass client-ip=185.125.188.251;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v2] target/i386: Fix caculation of LOCK NEG eflags
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+Cc: qemu-devel@nongnu.org, Jinyang Shen <shenjinyang@loongson.cn>,
+ Xuehai Chen <chenxuehai@loongson.cn>
+References: <20221022061216.423098-1-huqi@loongson.cn>
+ <bee67948-bbdf-d9a9-854a-ebc62f170589@linaro.org>
+Content-Language: en-US
+From: Qi Hu <huqi@loongson.cn>
+In-Reply-To: <bee67948-bbdf-d9a9-854a-ebc62f170589@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Cxb+JrT1Zj_UYEAA--.16467S3
+X-CM-SenderInfo: pkxtxqxorr0wxvrqhubq/1tbiAQAJCWNVLuILnwANsi
+X-Coremail-Antispam: 1Uk129KBjvJXoWrKF45WFyUuFy3Xry5Jr4rAFb_yoW8Jr43pr
+ WkCFyvkayjkrn5GrnrWryDXrW5Z398Ga4kJFW7tFy5ZrZ8Xw1qqF4vqF40gFn7ua1rKF18
+ AryUAF9I9F1YyFUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
+ e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
+ IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4U
+ McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
+ AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
+ Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwI
+ xGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8
+ JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcV
+ C2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUzsqWUUUUU
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=huqi@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -96,78 +79,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1994002 <1994002@bugs.launchpad.net>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The attachment "lp1994002-qemu-ussuri.debdiff" seems to be a debdiff.
-The ubuntu-sponsors team has been subscribed to the bug report so that
-they can review and hopefully sponsor the debdiff.  If the attachment
-isn't a patch, please remove the "patch" flag from the attachment,
-remove the "patch" tag, and if you are member of the ~ubuntu-sponsors,
-unsubscribe the team.
 
-[This is an automated message performed by a Launchpad user owned by
-~brian-murray, for any issue please contact him.]
+On 2022/10/24 05:02, Philippe Mathieu-Daudé wrote:
+> Typo "calculation" in subject.
 
-** Tags added: patch
+Thanks for the reminder. It's my fault. I will send V3 to fix this typo.
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1994002
 
-Title:
-  [SRU] migration was active, but no RAM info was set
+Qi
 
-Status in Ubuntu Cloud Archive:
-  New
-Status in Ubuntu Cloud Archive ussuri series:
-  New
-Status in QEMU:
-  New
-Status in qemu package in Ubuntu:
-  New
-Status in qemu source package in Focal:
-  New
-Status in qemu source package in Jammy:
-  New
-Status in qemu source package in Kinetic:
-  New
-
-Bug description:
-  While live-migrating many instances concurrently, libvirt sometimes retur=
-n internal error: migration was active, but no RAM info was set:
-  ~~~
-  2022-03-30 06:08:37.197 7 WARNING nova.virt.libvirt.driver [req-5c3296cf-=
-88ee-4af6-ae6a-ddba99935e23 - - - - -] [instance: af339c99-1182-4489-b15c-2=
-1e52f50f724] Error monitoring migration: internal error: migration was acti=
-ve, but no RAM info was set: libvirt.libvirtError: internal error: migratio=
-n was active, but no RAM info was set
-  ~~~
-
-  From upstream bug: https://bugzilla.redhat.com/show_bug.cgi?id=3D2074205
-
-  [Impact]
-
-   * Effects of this bug are mostly observed in large scale clusters with a=
- lot of live migration activity.
-   * Has second order effects for consumers of migration monitor such as li=
-bvirt and openstack.
-
-  [Test Case]
-  Steps to Reproduce:
-  1. live evacuate a compute
-  2. live migration of one or more instances fails with the above error
-
-  N.B Due to the nature of this bug it is difficult consistently
-  reproduce.
-
-  [Where problems could occur]
-   * In the event of a regression the migration monitor may report an incon=
-sistent state.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/cloud-archive/+bug/1994002/+subscriptions
+>
+> On 22/10/22 08:12, Qi Hu wrote:
+>> In sequence:
+>> ---
+>> lock negl -0x14(%rbp)
+>> pushf
+>> pop    %rax
+>> ---
+>>
+>> %rax will obtain the wrong value becasue the "lock neg" caculates the
+>> wrong eflags. The "s->T0" is updated by the wrong value.
+>>
+>> You can use this to do some test:
+>> ---
+>> #include <assert.h>
+>>
+>> int main()
+>> {
+>>    __volatile__ unsigned test = 0x2363a;
+>>    __volatile__ char cond = 0;
+>>    asm(
+>>        "lock negl %0 \n\t"
+>>        "sets %1"
+>>        : "=m"(test), "=r"(cond)
+>>        :
+>>        :);
+>>    assert(cond & 1);
+>>    return 0;
+>> }
+>> ---
+>>
+>> Reported-by: Jinyang Shen <shenjinyang@loongson.cn>
+>> Co-Developed-by: Xuehai Chen <chenxuehai@loongson.cn>
+>> Signed-off-by: Xuehai Chen <chenxuehai@loongson.cn>
+>> Signed-off-by: Qi Hu <huqi@loongson.cn>
+>> ---
+>> V1 -> V2:
+>> Following Richard's suggestion, just change mov to neg instead of using
+>> local_tmp.
+>> ---
+>>   target/i386/tcg/translate.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
 
 
