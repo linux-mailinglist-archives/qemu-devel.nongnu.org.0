@@ -2,72 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E016A60B2E9
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 18:53:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A46460B427
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 19:31:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on0Sb-0007dg-FV; Mon, 24 Oct 2022 12:37:57 -0400
+	id 1on16z-0000SD-LQ; Mon, 24 Oct 2022 13:19:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1on0SY-0007dQ-6j
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 12:37:54 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1on16w-0000P6-0f
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 13:19:38 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1on0SW-00044J-Ha
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 12:37:54 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id jo13so5308082plb.13
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 09:37:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1on16p-0002hB-HP
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 13:19:37 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id bs21so1407457wrb.4
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 10:19:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=MrCwu+eqwdsVgBk9dvsRU7MwgqUcA3AMQc+6ZiWhQq0=;
- b=I/aWNRtq/WSBhgTOQ7M0sfV3tSf5sv/M8KaILJV+MLPb0lmwqQv8yrkn+uNyAqCCz6
- Ver+XS9/ViyvWC6ALmLPokqc7NeE4JS56IVHjpqeZ/UHqqalazHlXbdN45DM/v69t2Gu
- AZ934Xx7r3SP/zZELlLptde/oetupDZ6WVr8QxvtbobMB0EQpgPvp4kVJOOWp62yDNtg
- rHbL1s9ulciGnYayOWg9un2w/RvjmUXlYzK3U//YDR/1mNFGlpoyS34nkP+27ZP5dSV6
- TBz1aH+2k/yZ1O6Eq4N1APrK86JuT5ChfY436KFUFrRhbPXnPvO0jNH0wbsw5D3VAive
- APDg==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=zN8eZ3sDF0JepmaSWchVQLpqUqMskvP9M8txyDY11sU=;
+ b=p8ly8nBv72YRXwQONRvPscRhbaEFHfFfEmKj6i8yKvfn85g2AlWGnI28cVK07V5bKb
+ nqw2uxLS9RFPw74uJZMyRhg330yAGQvO+C4+ZgMPfJIiWJfEfMCoVAoz2ErkpLvo5og4
+ R0X56dNyt4u+oLqa6GqxRGggol5CtNSwY6E0QGMeG/xwUHIJ+Leg5YiTX8zGT2hpgnwd
+ Oh0n85zDgJrCiwqGAB246Bdt3ir1acCKz3NC8hL3+SPlMcfvurtChO6K9g+rNwssz1p0
+ e3nNGruW7n//r6dofXUCZK0e+cj6uCOZ0b1/qHv1rDAgo0M2iaoUt+Tf5re8lym5bXmM
+ UdDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=MrCwu+eqwdsVgBk9dvsRU7MwgqUcA3AMQc+6ZiWhQq0=;
- b=vLR5zQL+drNSEdrRZscFTkdFRj+8LbeDHAgKZGJd1uE2A35+khwegTwe9oepxlaZgH
- t+pXJI9Guw9GL9/FgUSRBNORdgwlEFddiozLX9Wtz5SPtebzKSblidxBSlskdM5y5r15
- bS3C9KaO1ej8igEYDMGxUp3u9NvbEcDpDobMMlbmpiAoHVO8q0cE18b+a8EnqS3wdMZH
- q3xykxIqPa68z0bnzeudDc1hmU4pj+LGQFCGSoafFwhZWixQ5gaNZrrw2PsJ7ifvEUu3
- KsgKGBTtYZP9X+JAhssCud5baFLRNLt25PcBLuSpQb7xM52z1OdjCdIDhBgcDSMTv2Wl
- 4sNw==
-X-Gm-Message-State: ACrzQf03AIdTJnG1yD9FyGRFy6RvLtromr3De4xGc71JMKLLqgSXA99j
- xUABC4N8Jv/vWqatc1fUmvL18LXklUchSVMuEU1WZw==
-X-Google-Smtp-Source: AMsMyM6uRmld0EXTMiW/jereIvJ6kUPfu+0gMexM5rVthb/JPGRAC0tpqIiYGoCe2NkPkI5DQ+xJ350INLMu+R84JPU=
-X-Received: by 2002:a17:90b:1d04:b0:20b:cb40:4b3 with SMTP id
- on4-20020a17090b1d0400b0020bcb4004b3mr38646037pjb.215.1666629470535; Mon, 24
- Oct 2022 09:37:50 -0700 (PDT)
+ bh=zN8eZ3sDF0JepmaSWchVQLpqUqMskvP9M8txyDY11sU=;
+ b=uhscIe7EzcloijVN2H00E3lCfcj8blbhpS8ZnVAnz4ZvjuxAAOm4dDsSLAt3odyGix
+ yRoM+3nC5oaGE0LO66geDWjeFvmGTq65u9bwXpK6n1iC6TGuo/tvYnJU6IMvHD1QTVmi
+ YVReNXIY9RIpytLvPhI44yiNfp6ZNwukm1WskJXXbIEuPL09gQvRqfWvs+gZ6TD5pmmJ
+ CZvDoQS2YooAZWEQFzKtbQNgo2e6h0INpXovhYkf8od5UcLUdfLAWHnsg+XNfCIeoZ1j
+ WMk3FyXh9c/nrv0xFLmfyR+U3vBGMV12pKJGXgviQkVnD/YXzbc/PeL1+L9QX0jrA4HM
+ FmTA==
+X-Gm-Message-State: ACrzQf1nxoJU2f/C+Wqjg5fmG8qXqNHFeq83+EzVvJyL7CLPOEgpolGQ
+ lEipkRYSRxolXVJyu91TcsFJWU2Q7nCsCw==
+X-Google-Smtp-Source: AMsMyM7sGomxnnsI+8dUUfmcBTFtdGlbUq39o0rE8xRyCajX8QPB/bdyZwFyV3SLFbdFe/zyBOnmDA==
+X-Received: by 2002:a05:6000:15c8:b0:22f:c428:2493 with SMTP id
+ y8-20020a05600015c800b0022fc4282493mr21711724wry.83.1666631957617; 
+ Mon, 24 Oct 2022 10:19:17 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ z3-20020a05600c0a0300b003a682354f63sm9706442wmp.11.2022.10.24.10.19.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Oct 2022 10:19:17 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 980661FFB7;
+ Mon, 24 Oct 2022 18:19:16 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
+Subject: [RFC PATCH] main-loop: introduce WITH_QEMU_IOTHREAD_LOCK
+Date: Mon, 24 Oct 2022 18:19:09 +0100
+Message-Id: <20221024171909.434818-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20221017092432.546881-1-ake@igel.co.jp>
-In-Reply-To: <20221017092432.546881-1-ake@igel.co.jp>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 24 Oct 2022 17:37:38 +0100
-Message-ID: <CAFEAcA9sQ-QJCw_P3OAp5O9o7pHcpz1kwmSi+=Dg4qqMfYt1iQ@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: honor HCR_E2H and HCR_TGE in
- arm_excp_unmasked()
-To: Ake Koomsin <ake@igel.co.jp>
-Cc: qemu-devel@nongnu.org, "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62f.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,74 +94,188 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 17 Oct 2022 at 10:29, Ake Koomsin <ake@igel.co.jp> wrote:
->
-> An exception targeting EL2 from lower EL is actually maskable when
-> HCR_E2H and HCR_TGE are both set. This applies to both secure and
-> non-secure Security state.
->
-> Signed-off-by: Ake Koomsin <ake@igel.co.jp>
-> ---
->  target/arm/cpu.c | 24 +++++++++++++++++-------
->  1 file changed, 17 insertions(+), 7 deletions(-)
->
-> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> index 94ca6f163f..86d3377d3f 100644
-> --- a/target/arm/cpu.c
-> +++ b/target/arm/cpu.c
-> @@ -561,14 +561,24 @@ static inline bool arm_excp_unmasked(CPUState *cs, unsigned int excp_idx,
->      if ((target_el > cur_el) && (target_el != 1)) {
->          /* Exceptions targeting a higher EL may not be maskable */
->          if (arm_feature(env, ARM_FEATURE_AARCH64)) {
-> -            /*
-> -             * 64-bit masking rules are simple: exceptions to EL3
-> -             * can't be masked, and exceptions to EL2 can only be
-> -             * masked from Secure state. The HCR and SCR settings
-> -             * don't affect the masking logic, only the interrupt routing.
-> -             */
-> -            if (target_el == 3 || !secure || (env->cp15.scr_el3 & SCR_EEL2)) {
-> +            switch (target_el) {
-> +            case 2:
-> +                /*
-> +                 * According to ARM DDI 0487H.a, an interrupt can be masked
-> +                 * when HCR_E2H and HCR_TGE are both set regardless of the
-> +                 * current Security state. Note that We need to revisit this
-> +                 * part again once we need to support NMI.
-> +                 */
-> +                if ((hcr_el2 & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
-> +                        unmasked = true;
-> +                }
-> +                break;
-> +            case 3:
-> +                /* Interrupt cannot be masked when the target EL is 3 */
->                  unmasked = true;
-> +                break;
-> +            default:
-> +                g_assert_not_reached();
+This helper intends to ape our other auto-unlocking helpers with
+WITH_QEMU_LOCK_GUARD. The principle difference is the iothread lock
+is often nested needs a little extra book keeping to ensure we don't
+double lock or unlock a lock taken higher up the call chain.
 
-Hi; thanks for this patch. You're correct that there is a bug here, but
-it took me a while to work out why it's OK to remove the "don't allow
-masking if we're in Secure EL0/EL1 and the exception is going to NS EL2"
-check. The answer to that turns out to be "the target_el could never be
-2 anyway in that case": because arm_phys_excp_target_el() uses
-arm_hcr_el2_eff(),
-if we're Secure and SEL2 isn't enabled then the effective HCR_EL2 bits
-will all be zero, which forces us into the "targets EL1" or "targets EL3"
-cases.
+Convert some of the common routines that follow this pattern to use
+the new wrapper.
 
-So I think that's worth mentioning in the commit message:
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ include/qemu/main-loop.h | 41 ++++++++++++++++++++++++++++++++++++++++
+ hw/core/cpu-common.c     | 10 ++--------
+ util/rcu.c               | 40 ++++++++++++++++-----------------------
+ ui/cocoa.m               | 18 ++++--------------
+ 4 files changed, 63 insertions(+), 46 deletions(-)
 
-"We can remove the conditions that try to suppress masking of
-interrupts when we are Secure and the exception targets EL2 and
-Secure EL2 is disabled, because in that case arm_phys_excp_target_el()
-will never return 2 as the target EL. The 'not if secure' check
-in this function was originally written before arm_hcr_el2_eff(), and
-back then the target EL could be 2 even if we were in Secure EL0/EL1;
-it is no longer needed."
+diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
+index aac707d073..604e1823da 100644
+--- a/include/qemu/main-loop.h
++++ b/include/qemu/main-loop.h
+@@ -341,6 +341,47 @@ void qemu_mutex_lock_iothread_impl(const char *file, int line);
+  */
+ void qemu_mutex_unlock_iothread(void);
+ 
++/**
++ * WITH_QEMU_IOTHREAD_LOCK - nested lock of iothread
++ *
++ * This is a specialised form of WITH_QEMU_LOCK_GUARD which is used to
++ * safely encapsulate code that needs the BQL. The main difference is
++ * the BQL is often nested so we need to save the state of it on entry
++ * so we know if we need to free it once we leave the scope of the gaurd.
++ */
++
++typedef struct {
++    bool taken;
++} IoThreadLocked;
++
++static inline IoThreadLocked * qemu_iothread_auto_lock(IoThreadLocked *x)
++{
++    bool locked = qemu_mutex_iothread_locked();
++    if (!locked) {
++        qemu_mutex_lock_iothread();
++        x->taken = true;
++    }
++    return x;
++}
++
++static inline void qemu_iothread_auto_unlock(IoThreadLocked *x)
++{
++    if (x->taken) {
++        qemu_mutex_unlock_iothread();
++    }
++}
++
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(IoThreadLocked, qemu_iothread_auto_unlock)
++
++#define WITH_QEMU_IOTHREAD_LOCK_(var) \
++    for (g_autoptr(IoThreadLocked) var = \
++             qemu_iothread_auto_lock(&(IoThreadLocked) {}); \
++         var; \
++         qemu_iothread_auto_unlock(var), var = NULL)
++
++#define WITH_QEMU_IOTHREAD_LOCK \
++    WITH_QEMU_IOTHREAD_LOCK_(glue(qemu_lockable_auto, __COUNTER__))
++
+ /*
+  * qemu_cond_wait_iothread: Wait on condition for the main loop mutex
+  *
+diff --git a/hw/core/cpu-common.c b/hw/core/cpu-common.c
+index f9fdd46b9d..0a60f916a9 100644
+--- a/hw/core/cpu-common.c
++++ b/hw/core/cpu-common.c
+@@ -70,14 +70,8 @@ CPUState *cpu_create(const char *typename)
+  * BQL here if we need to.  cpu_interrupt assumes it is held.*/
+ void cpu_reset_interrupt(CPUState *cpu, int mask)
+ {
+-    bool need_lock = !qemu_mutex_iothread_locked();
+-
+-    if (need_lock) {
+-        qemu_mutex_lock_iothread();
+-    }
+-    cpu->interrupt_request &= ~mask;
+-    if (need_lock) {
+-        qemu_mutex_unlock_iothread();
++    WITH_QEMU_IOTHREAD_LOCK {
++        cpu->interrupt_request &= ~mask;
+     }
+ }
+ 
+diff --git a/util/rcu.c b/util/rcu.c
+index b6d6c71cff..02e7491de1 100644
+--- a/util/rcu.c
++++ b/util/rcu.c
+@@ -320,35 +320,27 @@ static void drain_rcu_callback(struct rcu_head *node)
+ void drain_call_rcu(void)
+ {
+     struct rcu_drain rcu_drain;
+-    bool locked = qemu_mutex_iothread_locked();
+ 
+     memset(&rcu_drain, 0, sizeof(struct rcu_drain));
+     qemu_event_init(&rcu_drain.drain_complete_event, false);
+ 
+-    if (locked) {
+-        qemu_mutex_unlock_iothread();
+-    }
+-
+-
+-    /*
+-     * RCU callbacks are invoked in the same order as in which they
+-     * are registered, thus we can be sure that when 'drain_rcu_callback'
+-     * is called, all RCU callbacks that were registered on this thread
+-     * prior to calling this function are completed.
+-     *
+-     * Note that since we have only one global queue of the RCU callbacks,
+-     * we also end up waiting for most of RCU callbacks that were registered
+-     * on the other threads, but this is a side effect that shoudn't be
+-     * assumed.
+-     */
+-
+-    qatomic_inc(&in_drain_call_rcu);
+-    call_rcu1(&rcu_drain.rcu, drain_rcu_callback);
+-    qemu_event_wait(&rcu_drain.drain_complete_event);
+-    qatomic_dec(&in_drain_call_rcu);
++    WITH_QEMU_IOTHREAD_LOCK {
++        /*
++         * RCU callbacks are invoked in the same order as in which they
++         * are registered, thus we can be sure that when 'drain_rcu_callback'
++         * is called, all RCU callbacks that were registered on this thread
++         * prior to calling this function are completed.
++         *
++         * Note that since we have only one global queue of the RCU callbacks,
++         * we also end up waiting for most of RCU callbacks that were registered
++         * on the other threads, but this is a side effect that shoudn't be
++         * assumed.
++         */
+ 
+-    if (locked) {
+-        qemu_mutex_lock_iothread();
++        qatomic_inc(&in_drain_call_rcu);
++        call_rcu1(&rcu_drain.rcu, drain_rcu_callback);
++        qemu_event_wait(&rcu_drain.drain_complete_event);
++        qatomic_dec(&in_drain_call_rcu);
+     }
+ 
+ }
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index 660d3e0935..f8bd315bdd 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -115,27 +115,17 @@ static void cocoa_switch(DisplayChangeListener *dcl,
+ 
+ static void with_iothread_lock(CodeBlock block)
+ {
+-    bool locked = qemu_mutex_iothread_locked();
+-    if (!locked) {
+-        qemu_mutex_lock_iothread();
+-    }
+-    block();
+-    if (!locked) {
+-        qemu_mutex_unlock_iothread();
++    WITH_QEMU_IOTHREAD_LOCK {
++        block();
+     }
+ }
+ 
+ static bool bool_with_iothread_lock(BoolCodeBlock block)
+ {
+-    bool locked = qemu_mutex_iothread_locked();
+     bool val;
+ 
+-    if (!locked) {
+-        qemu_mutex_lock_iothread();
+-    }
+-    val = block();
+-    if (!locked) {
+-        qemu_mutex_unlock_iothread();
++    WITH_QEMU_IOTHREAD_LOCK {
++      val = block();
+     }
+     return val;
+ }
+-- 
+2.34.1
 
-I'll apply this to target-arm.next, with the commit message
-updated to include that.
-
-thanks
--- PMM
 
