@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71C5E60BD86
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 00:37:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA22F60BD97
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 00:40:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on62X-00061Q-TQ; Mon, 24 Oct 2022 18:35:25 -0400
+	id 1on66H-0008Kv-Oh; Mon, 24 Oct 2022 18:39:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1on62T-00061E-AV
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 18:35:21 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
+ id 1on66G-0008Aa-7F
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 18:39:16 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1on62G-0000Sp-AA
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 18:35:10 -0400
-Received: by mail-pg1-x534.google.com with SMTP id 78so9834423pgb.13
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 15:35:07 -0700 (PDT)
+ id 1on66E-0000sp-My
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 18:39:15 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id ez6so9210022pjb.1
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 15:39:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=RqRsRg3JTj2eLILv/f6DUwhHjb/VUS1cRCK2PjuP9N0=;
- b=kCLv9RBpjx347s5GS2vbdM9nf7flJ15yo4rwK1M4SQYK50rl2+csYbXp1algJAtNYr
- llCWb7lg22Zx4DSyGe3o2Z8QWW538y3umlUoU3GL/2hZw/AlkoGh5ixLYWvskUhtX7g+
- /7bEhDhPGHfRyKpUhdbAqllDhWjOUztv/tYiny4nlje6Si8ZY//hOM57YNW26XAZUsiu
- kYP8znZuslS+pf7+7CdhWYqXe4L3/4Kx5djgdukNFPDUnIzpPx2sbCbkmsfNmqT7UMdN
- Fw/ue3sXpZ1xLojjNWzcVZwoMilpdwFa66+bjkqkShzbZgccmoRJvAthU7Zokn777XML
- n7yw==
+ bh=Zw3DYU+bMu9nBE6QIjgLy3+XLXjLWvv4EqWofFlBjWU=;
+ b=Sw6EUv4CJhmfH98ZEhQvraYtVXXESWE1pA/fXHbMN6AxHdgH/9oyNYMZX8p36k5C5w
+ THVcN9lEBvWoRfecRjsy8K8brYz0Am3LXCtjdYXtwBzVFRwcZN3jwG8/IiX7CEP+mb2M
+ 0ttCz+lwYAiSoJHj7rv3x7gPuscaRP2iVhxaATsIx13boYSqraQ6u+VKWFUtTNRIF9FO
+ zDimhijiCZkovkAtHZ2gt+rZJS5raN6UejFzZfdENm6XSOcESWyEMflSJ+rUakfyTln4
+ SMWepwcisPkic94m1a3J/l3vAXLBIMTD6/ONVIagzeSjPaYezeFaPyTpm8svSIqotYjC
+ GEYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RqRsRg3JTj2eLILv/f6DUwhHjb/VUS1cRCK2PjuP9N0=;
- b=XlQH0H06dlKZ0R3V85fl7UIhhxWGUKvoa/N1jn437cM+AH1mdUHHnmxCoGnOcq90JN
- 4ww2Ql5GSy+QNJ3XqF44f11+cAdKeYuU8RMvdUcrtF348e6zWSmUt8vSXPT1lQvSf36Y
- etpnXN+GIKnK/KNQfDaYc88aZYcJFAMbyCWGqIutOeH/1j2smjQ4HLu65jBTnvID/5Cx
- ikqh521SpRmZ9FTHoXr9AbUaIlep622Vu4sRivrOjjghmmQGPgkee1E4l8nAm57zhkem
- XLQnDFiNeYdqoe9FQsAb4Xp6WqYkElC0kCAguyy7S9cawh+U1Wt/XTkanFe/WTRKtIjC
- ELag==
-X-Gm-Message-State: ACrzQf3lBkIP4gWnLJWVdhe2LSqs8+GAyk9Fu4OMOH+XQmq69pTNXGu3
- +Kap08YWIb1ogBwtJWLLz0GACg==
-X-Google-Smtp-Source: AMsMyM5AV0Hf7dp6GJwcPZXCVLj1IBHUbcGBOwENFgeDgSyW/APvrxrnJA3KBKOhq7I/1HMSM6wzKA==
-X-Received: by 2002:a65:4c0e:0:b0:46a:eeb1:e78a with SMTP id
- u14-20020a654c0e000000b0046aeeb1e78amr30183062pgq.193.1666650906796; 
- Mon, 24 Oct 2022 15:35:06 -0700 (PDT)
+ bh=Zw3DYU+bMu9nBE6QIjgLy3+XLXjLWvv4EqWofFlBjWU=;
+ b=FnctRsjK4pa7batYdDKgDxSgiDkmR1GQkIPub9Qqscb+ZTsHUNI/it57ZZmXuoExyj
+ o/qluKhD1BD8XjsXZ2lQuqZoG3UXII4NHCWnmXJUox9ejSASGlk78RHS5HxyeBjZWkId
+ Y8uVjp1eg2kW53UqVdA+Y3pZh2IKSec9+NGOKYTFDLr/VdWBI29WO5Gvf4+EHIte5sWp
+ fWk1ucUWGZ1MUPoiGcUqiV1667j4Y/CEgovi7Ho50JEDFVmts5OuzTAK1+Wm57lc51Kj
+ JU6/aihiAzIxalZx1fUveGVEMu5gN1QC4Sfq2s6ioFh6mPXIqyucS8SwxQHI3rveHb/+
+ JTkw==
+X-Gm-Message-State: ACrzQf1xoa7n3TuO9Ppc+EkLZCby/j+GY91rBDFn413v+20xrCTMUven
+ aU9vVayFssgXlLRT48ePsq6HbA==
+X-Google-Smtp-Source: AMsMyM6fK3lbbEkuFiPRg4sITIMAzw3xoz/z+Fh73YLWxpZp88WegOgWmLeSMe+CexFDRKR/s7F81A==
+X-Received: by 2002:a17:902:cccc:b0:178:a9b3:43e6 with SMTP id
+ z12-20020a170902cccc00b00178a9b343e6mr35007469ple.92.1666651153159; 
+ Mon, 24 Oct 2022 15:39:13 -0700 (PDT)
 Received: from [192.168.136.227] ([103.100.225.182])
  by smtp.gmail.com with ESMTPSA id
- z24-20020a17090acb1800b00212d4cbcbfdsm345109pjt.22.2022.10.24.15.35.04
+ y12-20020a17090322cc00b00174c1855cd9sm191464plg.267.2022.10.24.15.39.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Oct 2022 15:35:06 -0700 (PDT)
-Message-ID: <8c348149-6edf-c6f7-f539-d40a4479c46c@linaro.org>
-Date: Tue, 25 Oct 2022 08:35:00 +1000
+ Mon, 24 Oct 2022 15:39:12 -0700 (PDT)
+Message-ID: <6412545a-5b43-421f-d94a-cf3111725047@linaro.org>
+Date: Tue, 25 Oct 2022 08:39:07 +1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH v3] linux-user: Add guest memory layout to exception dump
+Subject: Re: [PATCH v4] linux-user: Add close_range() syscall
 Content-Language: en-US
 To: Helge Deller <deller@gmx.de>, Laurent Vivier <laurent@vivier.eu>,
- qemu-devel@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>
-References: <Y1bzAWbw07WBKPxw@p100>
+ qemu-devel@nongnu.org
+References: <Y1b45IL371MJP2WW@p100>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <Y1bzAWbw07WBKPxw@p100>
+In-Reply-To: <Y1b45IL371MJP2WW@p100>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,19 +92,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/25/22 06:18, Helge Deller wrote:
-> When the emulation stops with a hard exception it's very useful for
-> debugging purposes to dump the current guest memory layout (for an
-> example see /proc/self/maps) beside the CPU registers.
-> 
-> The open_self_maps() function provides such a memory dump, but since
-> it's located in the syscall.c file, various changes (add #includes, make
-> this function externally visible, ...) are needed to be able to call it
-> from the existing EXCP_DUMP() macro.
+On 10/25/22 06:43, Helge Deller wrote:
+> +            abi_long maxfd = arg2;
+> +
+> +            if ((sizeof(abi_long) == 4 && arg2 == (abi_long)0x7FFFFFFFUL) ||
+> +                (sizeof(abi_long) == 8 && arg2 == (abi_long)0x7FFFFFFFFFFFFFFFULL)) {
+> +                maxfd = target_fd_max;
+> +            }
+> +
+> +            for (fd = arg1; fd < maxfd; fd++) {
 
-/proc/self/maps has all of the qemu mappings in it as well.
+Why do we need explicit checks for INT32/64_MAX?  If the guest passes 
+0x7FFFFFFFFFFFFFFEULL, do we really need to iterate over all of those impossible values?
 
-The page_dump() function provides exclusively the guest mappings.
+I should think some expression involving MIN() is in order.
 
 
 r~
