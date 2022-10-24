@@ -2,80 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78B1260ADC3
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 16:33:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2335F60AE9B
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 17:10:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omy3q-0006Ri-LH; Mon, 24 Oct 2022 10:04:15 -0400
+	id 1omy4C-0006YH-9Y; Mon, 24 Oct 2022 10:04:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1omy3o-0006RD-91
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 10:04:12 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1omy3l-0002HG-4O
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 10:04:11 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- fn7-20020a05600c688700b003b4fb113b86so6750059wmb.0
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 07:04:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=t8PylLZAFYFtbLbxjl/1A1vME4l9Kv2GmM1TEEcW+68=;
- b=CZWLRWDRjD8aIaDkA7KwlpkF2OzOsh6Rp0UObtG/IoRj24Xh25WZMsMWX/uxsPAmUj
- Rjwi5Pn4iVk6ndkm5yHASsvBg2Hq2ISQCpiHSBbxub7ZI1svHc0lFWSa1Ev5bNIbO84i
- hTCDgAM23VERWu60STKrH31nbydPlc1+M15b2THhwuVour3OQaWW+yMVHFwXE5B0pLhN
- 1kvgldGGw4zWWU2qAS8wxAyFj7iqqgFdq6PwwB5wAQk5j0Klkl015+j14RFMgOkLl6Ru
- uoxVqIv83d11V+Qqy4km748du9+ETU1NOwSK1VevoRnT2Fwt8LlCUytRT4qzB45FoyaO
- vrLw==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1omy45-0006TM-CH
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 10:04:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1omy43-0002J5-MW
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 10:04:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666620267;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=q7UsfNg4hPqytuO+KsjythAZ9/5AuoNcBm6X7rR42Jw=;
+ b=FfYgdiPb7HPt0VW/ou/srwCuzKY4VOKegNfIEpx00D9YhPzm/cywspKFl0W0J1bFv19T6x
+ DuqSqTtdw0jXFrhlttOAlEGzKBt5XR80HIpmecbK7McFnOAeFStET0hZexrPB1lqqCmIXY
+ CHzlQgK+bEKSHWmn3mon8gVLzXHpFCU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-641-Hlua6l4iPcKTFasnoy8D7g-1; Mon, 24 Oct 2022 10:04:24 -0400
+X-MC-Unique: Hlua6l4iPcKTFasnoy8D7g-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ i14-20020adfa50e000000b0023652707418so3334909wrb.20
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 07:04:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=t8PylLZAFYFtbLbxjl/1A1vME4l9Kv2GmM1TEEcW+68=;
- b=7FJXSCgmbpBfOGeRBK1bXjnuGNHb2J4xOYl+bK88ra4rKONHOVD2BoAe1QvLP+lSbr
- KuulUWnKj8iecQi0nb/uhZd3tJ7PDddUS/CPhc5Xq0wudGBM9/679wz415pwSNQg6AZc
- 0JBRL1986CvEYaHpQOswaWNy0ewJUVJsqfXafvB8547FqDwPGrm4xBtQiXNbrd7DsT4J
- 1AuKCapS7BomRItyrN7OC2TbSY+DRm+apNGignstBz6jJoZiQvvVl+xd3bi8H0pgTe76
- zvZp9Nroju2a1eivZu30yqgpQMXFrBPsPaZb1Du43p5A8VVt1Fnn6xEUeR5H4Z/cn5lf
- HACg==
-X-Gm-Message-State: ACrzQf1onKi/9TwXmyfzvIV7zMVtSofyh3d3/KHUPpBT01CIj9dd3PX8
- aFS5KvXhVXwKemsJyF60P1fdRQ==
-X-Google-Smtp-Source: AMsMyM54XcKPc3stkwi180wakU1YcOkfzJRLEhzlOymp3m8PZxXzYuaeGB8HksuVM4Oq0Z18coNPxw==
-X-Received: by 2002:a05:600c:3584:b0:3c6:f234:852b with SMTP id
- p4-20020a05600c358400b003c6f234852bmr29983577wmq.10.1666620247402; 
- Mon, 24 Oct 2022 07:04:07 -0700 (PDT)
-Received: from [10.50.0.10]
- (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
- by smtp.gmail.com with ESMTPSA id
- g5-20020a5d4885000000b0022e55f40bc7sm26351309wrq.82.2022.10.24.07.04.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Oct 2022 07:04:07 -0700 (PDT)
-Message-ID: <53e73ae0-6ee2-5a85-cb16-9be6ac1d1f99@linaro.org>
-Date: Mon, 24 Oct 2022 16:04:05 +0200
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=q7UsfNg4hPqytuO+KsjythAZ9/5AuoNcBm6X7rR42Jw=;
+ b=e8NfTW8mIz2TlpplSrKIJbR8gDFYx5XkbAisp01D8CIOi3q9jbtQjiqA25V+gEpoOF
+ ieTvsPdyoFZE+/dyS4OE4g3z1y5488iTEOv5Sf7mekCIkeO2NMmsvMC0IGNybyje+uYx
+ 14qL1TzURAXsiTiuGndMUfStYMd6Q365ISIo3D40BAPEK3iMfnx1LyYVgNrUvtU5EtKp
+ A645GS1/209smIoxW0fEjcEfQg/Pxbo6jrhuObeTAyFX27KZBNVVRGCyb+V1xjYFsB7j
+ pVPkW7PID4hK3ft4/qtNIfeEj5mo7VhrAxZnGYYZi576X5pbHMzPOvCXr9GA1qDGskmy
+ o7Og==
+X-Gm-Message-State: ACrzQf04ksa2sM2bVnFFlQw25zA+WwQm7OIHv4Ara4ERYH23TS/2UYAW
+ kZodCUqUa+75I1sk1mPHSmp4kjhOmwQj8XiHWtWhM+weV5ey1oeT5s99YSIoMI6p/d4tLf6qMSw
+ oSdk9IXNRm87jutA=
+X-Received: by 2002:a05:600c:19d1:b0:3c7:b52:3aa4 with SMTP id
+ u17-20020a05600c19d100b003c70b523aa4mr16445839wmq.56.1666620263114; 
+ Mon, 24 Oct 2022 07:04:23 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7s/oRmCyxWND4AqztLvNGlaq98vzHI/DNi2luuSYJYNXOPhympAbEdg78iKbikt1B5G1c07w==
+X-Received: by 2002:a05:600c:19d1:b0:3c7:b52:3aa4 with SMTP id
+ u17-20020a05600c19d100b003c70b523aa4mr16445796wmq.56.1666620262839; 
+ Mon, 24 Oct 2022 07:04:22 -0700 (PDT)
+Received: from redhat.com ([2.54.160.13]) by smtp.gmail.com with ESMTPSA id
+ c192-20020a1c35c9000000b003c6fb525b4csm11030025wma.38.2022.10.24.07.04.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Oct 2022 07:04:21 -0700 (PDT)
+Date: Mon, 24 Oct 2022 10:04:18 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Alexander Bulekov <alxndr@bu.edu>
+Cc: "Christian A. Ehrhardt" <lk@c--e.de>, qemu-devel@nongnu.org,
+ Eric DeVolder <eric.devolder@oracle.com>, qemu-stable@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Markus Armbruster <armbru@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Subject: Re: [PATCH] hw/acpi/erst.c: Fix memset argument order
+Message-ID: <20221024100323-mutt-send-email-mst@kernel.org>
+References: <20221019191522.1004804-1-lk@c--e.de>
+ <20221021190524.433s2uh6i5md74gf@mozz.bu.edu>
+ <20221022053727.flc3bq3opyjimwgb@mozz.bu.edu>
+ <Y1VRj0Eu4iGp0smF@cae.in-ulm.de>
+ <20221024132040.5dnn45eatygojipe@mozz.bu.edu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.3.2
-Subject: Re: [PATCH 19/29] target/sh4: Convert to tcg_ops restore_state_to_opc
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20221024132459.3229709-1-richard.henderson@linaro.org>
- <20221024132459.3229709-21-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221024132459.3229709-21-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221024132040.5dnn45eatygojipe@mozz.bu.edu>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.503,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,13 +102,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 24/10/22 15:24, Richard Henderson wrote:
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/sh4/cpu.c       | 16 ++++++++++++++++
->   target/sh4/translate.c | 10 ----------
->   2 files changed, 16 insertions(+), 10 deletions(-)
+On Mon, Oct 24, 2022 at 09:20:40AM -0400, Alexander Bulekov wrote:
+> On 221023 1637, Christian A. Ehrhardt wrote:
+> > 
+> > Hi,
+> > 
+> > On Sat, Oct 22, 2022 at 01:37:27AM -0400, Alexander Bulekov wrote:
+> > > On 221021 1505, Alexander Bulekov wrote:
+> > > > On 221019 2115, Christian A. Ehrhardt wrote:
+> > > > > Fix memset argument order: The second argument is
+> > > > > the value, the length goes last.
+> > > > > 
+> > > > > Cc: Eric DeVolder <eric.devolder@oracle.com>
+> > > > > Cc: qemu-stable@nongnu.org
+> > > > > Fixes: f7e26ffa590 ("ACPI ERST: support for ACPI ERST feature")
+> > > > > Signed-off-by: Christian A. Ehrhardt <lk@c--e.de>
+> > > > > ---
+> > > > >  hw/acpi/erst.c | 2 +-
+> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > 
+> > > > > diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
+> > > > > index df856b2669..26391f93ca 100644
+> > > > > --- a/hw/acpi/erst.c
+> > > > > +++ b/hw/acpi/erst.c
+> > > > > @@ -716,7 +716,7 @@ static unsigned write_erst_record(ERSTDeviceState *s)
+> > > > >      if (nvram) {
+> > > > >          /* Write the record into the slot */
+> > > > >          memcpy(nvram, exchange, record_length);
+> > > > > -        memset(nvram + record_length, exchange_length - record_length, 0xFF);
+> > > > > +        memset(nvram + record_length, 0xFF, exchange_length - record_length);
+> > > > 
+> > > > Hi, 
+> > > > I'm running the fuzzer over this code. So far, it hasn't complained
+> > > > about this particular memset call, but it has crashed on the memcpy,
+> > > > directly preceding it. I think the record_length checks might be
+> > > > insufficient. I made an issue/reproducer:
+> > > > https://gitlab.com/qemu-project/qemu/-/issues/1268
+> > > > 
+> > > > In that particular case, record_length is ffffff00 and passes the
+> > > > checks. I'll keep an eye on the fuzzer to see if it will be able to
+> > > > crash the memset.
+> > > 
+> > > Here's a testcase for the memset issue:
+> > 
+> > Looks like this check in {read,write}_erst_record():
+> > |   if ((s->record_offset + record_length) > exchange_length) {
+> > |       return STATUS_FAILED;
+> > |   }
+> > 
+> > has an integer overrun and should be re-written as:
+> > |   if (record_length > exchange_length - s->record_offset) {
+> > |       return STATUS_FAILED;
+> > |   }
+> > 
+> >        regards    Christian
+> 
+> Hi Christian,
+> With this change applied (along with the memset fix), the fuzzer doesn't
+> find any crashes.
+> Thanks
+> -Alex
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Thanks!
+Christian, are you doing to be sending a combined patch for the whole
+issue? If you do pls add Tested-by tags as appropriate. Thanks!
+
+-- 
+MST
 
 
