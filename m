@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A46460B427
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 19:31:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 249CF60B47F
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 19:47:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on16z-0000SD-LQ; Mon, 24 Oct 2022 13:19:41 -0400
+	id 1on1R8-0006GI-Gx; Mon, 24 Oct 2022 13:40:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1on16w-0000P6-0f
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 13:19:38 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1on16p-0002hB-HP
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 13:19:37 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id bs21so1407457wrb.4
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 10:19:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=zN8eZ3sDF0JepmaSWchVQLpqUqMskvP9M8txyDY11sU=;
- b=p8ly8nBv72YRXwQONRvPscRhbaEFHfFfEmKj6i8yKvfn85g2AlWGnI28cVK07V5bKb
- nqw2uxLS9RFPw74uJZMyRhg330yAGQvO+C4+ZgMPfJIiWJfEfMCoVAoz2ErkpLvo5og4
- R0X56dNyt4u+oLqa6GqxRGggol5CtNSwY6E0QGMeG/xwUHIJ+Leg5YiTX8zGT2hpgnwd
- Oh0n85zDgJrCiwqGAB246Bdt3ir1acCKz3NC8hL3+SPlMcfvurtChO6K9g+rNwssz1p0
- e3nNGruW7n//r6dofXUCZK0e+cj6uCOZ0b1/qHv1rDAgo0M2iaoUt+Tf5re8lym5bXmM
- UdDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=zN8eZ3sDF0JepmaSWchVQLpqUqMskvP9M8txyDY11sU=;
- b=uhscIe7EzcloijVN2H00E3lCfcj8blbhpS8ZnVAnz4ZvjuxAAOm4dDsSLAt3odyGix
- yRoM+3nC5oaGE0LO66geDWjeFvmGTq65u9bwXpK6n1iC6TGuo/tvYnJU6IMvHD1QTVmi
- YVReNXIY9RIpytLvPhI44yiNfp6ZNwukm1WskJXXbIEuPL09gQvRqfWvs+gZ6TD5pmmJ
- CZvDoQS2YooAZWEQFzKtbQNgo2e6h0INpXovhYkf8od5UcLUdfLAWHnsg+XNfCIeoZ1j
- WMk3FyXh9c/nrv0xFLmfyR+U3vBGMV12pKJGXgviQkVnD/YXzbc/PeL1+L9QX0jrA4HM
- FmTA==
-X-Gm-Message-State: ACrzQf1nxoJU2f/C+Wqjg5fmG8qXqNHFeq83+EzVvJyL7CLPOEgpolGQ
- lEipkRYSRxolXVJyu91TcsFJWU2Q7nCsCw==
-X-Google-Smtp-Source: AMsMyM7sGomxnnsI+8dUUfmcBTFtdGlbUq39o0rE8xRyCajX8QPB/bdyZwFyV3SLFbdFe/zyBOnmDA==
-X-Received: by 2002:a05:6000:15c8:b0:22f:c428:2493 with SMTP id
- y8-20020a05600015c800b0022fc4282493mr21711724wry.83.1666631957617; 
- Mon, 24 Oct 2022 10:19:17 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- z3-20020a05600c0a0300b003a682354f63sm9706442wmp.11.2022.10.24.10.19.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Oct 2022 10:19:17 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 980661FFB7;
- Mon, 24 Oct 2022 18:19:16 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: [RFC PATCH] main-loop: introduce WITH_QEMU_IOTHREAD_LOCK
-Date: Mon, 24 Oct 2022 18:19:09 +0100
-Message-Id: <20221024171909.434818-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1on1Qn-0006AE-9T
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 13:40:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1on1Ql-0006Xu-4R
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 13:40:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666633205;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=X3UdK8MXvAT2wzNJYnRPAZyLYbs2zBySMA1YTDc8X74=;
+ b=b+5lRRcDC5yzupt/skf37aBUjWOlFLWWE12nH0eJ2/S+JiHsKy1XmLxIjE3F+tTEhadelo
+ 62A8Dis5UMDwHfQ05mbKbEh2Jv0zSqO05huHt+/sutzCf88sTuab/wPfFVbdKwhHjbedpK
+ +9J/uRbQp9mz/qfb1zuHyo4iwhxtSxM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-376-DqycNrktNoi8oZk5_m9pEg-1; Mon, 24 Oct 2022 13:39:59 -0400
+X-MC-Unique: DqycNrktNoi8oZk5_m9pEg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CB5E41019C89;
+ Mon, 24 Oct 2022 17:39:58 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 917412166B2A;
+ Mon, 24 Oct 2022 17:39:52 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8CE5421E6936; Mon, 24 Oct 2022 19:39:51 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,  pbonzini@redhat.com,
+ qemu-devel@nongnu.org,  richard.henderson@linaro.org
+Subject: Re: [PATCH v3 1/8] reset: allow registering handlers that aren't
+ called by snapshot loading
+References: <20221014021653.1461512-1-Jason@zx2c4.com>
+ <20221014021653.1461512-2-Jason@zx2c4.com>
+ <CAFEAcA8jra50q_DvNTGG8Wi+eF+PEKPHnfLNBhUjG9muqiPe0A@mail.gmail.com>
+ <87sfjdqubj.fsf@pond.sub.org>
+ <CAFEAcA-TT_zRZQ076k6thP2ANk07EqMg8u7MP_6j24u2CCiEGA@mail.gmail.com>
+ <8735bd8ikk.fsf@pond.sub.org>
+ <CAFEAcA-xbu_nPFSg8K04nXgHGk3xm0HNRwGeGFgPNmoP3Ay_Fw@mail.gmail.com>
+Date: Mon, 24 Oct 2022 19:39:51 +0200
+In-Reply-To: <CAFEAcA-xbu_nPFSg8K04nXgHGk3xm0HNRwGeGFgPNmoP3Ay_Fw@mail.gmail.com>
+ (Peter Maydell's message of "Mon, 24 Oct 2022 15:27:15 +0100")
+Message-ID: <871qqx6ryw.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.503,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,188 +86,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This helper intends to ape our other auto-unlocking helpers with
-WITH_QEMU_LOCK_GUARD. The principle difference is the iothread lock
-is often nested needs a little extra book keeping to ensure we don't
-double lock or unlock a lock taken higher up the call chain.
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-Convert some of the common routines that follow this pattern to use
-the new wrapper.
+> On Mon, 24 Oct 2022 at 14:20, Markus Armbruster <armbru@redhat.com> wrote:
+>>
+>> Peter Maydell <peter.maydell@linaro.org> writes:
+>>
+>> > On Mon, 24 Oct 2022 at 13:28, Markus Armbruster <armbru@redhat.com> wrote:
+>> >>
+>> >> Peter Maydell <peter.maydell@linaro.org> writes:
+>> >> > Markus: if we add a new value to the ShutdownCause enumeration,
+>> >> > how annoying is it if we decide we don't want it later? I guess
+>> >> > we can just leave it in the enum unused... (In this case we're
+>> >> > using it for purely internal purposes and it won't ever actually
+>> >> > wind up in any QMP events.)
+>> >>
+>> >> Deleting enumeration values is a compatibility issue only if the value
+>> >> is usable in QMP input.
+>> >>
+>> >> "Purely internal" means it cannot occur in QMP output, and any attempt
+>> >> to use it in input fails.  Aside: feels a bit fragile.
+>> >
+>> > In this case there are as far as I can see no QMP input commands
+>> > which use the enum at all -- it's only used in events, which are
+>> > always output, I think.
+>>
+>> They are.
+>>
+>> Ascertaining "not used in QMP input" is pretty easy, and "not used in
+>> CLI" isn't hard.  My point is that uses could creep in later.  This is
+>> what makes "purely internal" fragile.
+>
+> True. But otoh if there's a meaningful use of the enum constant in
+> input in future we'll want to keep it around anyway.
+>
+> I guess what I'm asking is: do you specifically want this patch
+> done some other way, or to require that "mark some values as
+> internal-only" feature in the QAPI generator, or are you OK with
+> it as-is?  QMP/QAPI is your area, so your call...
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- include/qemu/main-loop.h | 41 ++++++++++++++++++++++++++++++++++++++++
- hw/core/cpu-common.c     | 10 ++--------
- util/rcu.c               | 40 ++++++++++++++++-----------------------
- ui/cocoa.m               | 18 ++++--------------
- 4 files changed, 63 insertions(+), 46 deletions(-)
+QAPI was designed to specify QMP.  We pretty soon discovered that QAPI
+types can be useful elsewhere, and added some to the schema without
+marking them.  Introspection doesn't show these.  Generated
+documentation does.  Known shortcoming of the doc generator.
 
-diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
-index aac707d073..604e1823da 100644
---- a/include/qemu/main-loop.h
-+++ b/include/qemu/main-loop.h
-@@ -341,6 +341,47 @@ void qemu_mutex_lock_iothread_impl(const char *file, int line);
-  */
- void qemu_mutex_unlock_iothread(void);
- 
-+/**
-+ * WITH_QEMU_IOTHREAD_LOCK - nested lock of iothread
-+ *
-+ * This is a specialised form of WITH_QEMU_LOCK_GUARD which is used to
-+ * safely encapsulate code that needs the BQL. The main difference is
-+ * the BQL is often nested so we need to save the state of it on entry
-+ * so we know if we need to free it once we leave the scope of the gaurd.
-+ */
-+
-+typedef struct {
-+    bool taken;
-+} IoThreadLocked;
-+
-+static inline IoThreadLocked * qemu_iothread_auto_lock(IoThreadLocked *x)
-+{
-+    bool locked = qemu_mutex_iothread_locked();
-+    if (!locked) {
-+        qemu_mutex_lock_iothread();
-+        x->taken = true;
-+    }
-+    return x;
-+}
-+
-+static inline void qemu_iothread_auto_unlock(IoThreadLocked *x)
-+{
-+    if (x->taken) {
-+        qemu_mutex_unlock_iothread();
-+    }
-+}
-+
-+G_DEFINE_AUTOPTR_CLEANUP_FUNC(IoThreadLocked, qemu_iothread_auto_unlock)
-+
-+#define WITH_QEMU_IOTHREAD_LOCK_(var) \
-+    for (g_autoptr(IoThreadLocked) var = \
-+             qemu_iothread_auto_lock(&(IoThreadLocked) {}); \
-+         var; \
-+         qemu_iothread_auto_unlock(var), var = NULL)
-+
-+#define WITH_QEMU_IOTHREAD_LOCK \
-+    WITH_QEMU_IOTHREAD_LOCK_(glue(qemu_lockable_auto, __COUNTER__))
-+
- /*
-  * qemu_cond_wait_iothread: Wait on condition for the main loop mutex
-  *
-diff --git a/hw/core/cpu-common.c b/hw/core/cpu-common.c
-index f9fdd46b9d..0a60f916a9 100644
---- a/hw/core/cpu-common.c
-+++ b/hw/core/cpu-common.c
-@@ -70,14 +70,8 @@ CPUState *cpu_create(const char *typename)
-  * BQL here if we need to.  cpu_interrupt assumes it is held.*/
- void cpu_reset_interrupt(CPUState *cpu, int mask)
- {
--    bool need_lock = !qemu_mutex_iothread_locked();
--
--    if (need_lock) {
--        qemu_mutex_lock_iothread();
--    }
--    cpu->interrupt_request &= ~mask;
--    if (need_lock) {
--        qemu_mutex_unlock_iothread();
-+    WITH_QEMU_IOTHREAD_LOCK {
-+        cpu->interrupt_request &= ~mask;
-     }
- }
- 
-diff --git a/util/rcu.c b/util/rcu.c
-index b6d6c71cff..02e7491de1 100644
---- a/util/rcu.c
-+++ b/util/rcu.c
-@@ -320,35 +320,27 @@ static void drain_rcu_callback(struct rcu_head *node)
- void drain_call_rcu(void)
- {
-     struct rcu_drain rcu_drain;
--    bool locked = qemu_mutex_iothread_locked();
- 
-     memset(&rcu_drain, 0, sizeof(struct rcu_drain));
-     qemu_event_init(&rcu_drain.drain_complete_event, false);
- 
--    if (locked) {
--        qemu_mutex_unlock_iothread();
--    }
--
--
--    /*
--     * RCU callbacks are invoked in the same order as in which they
--     * are registered, thus we can be sure that when 'drain_rcu_callback'
--     * is called, all RCU callbacks that were registered on this thread
--     * prior to calling this function are completed.
--     *
--     * Note that since we have only one global queue of the RCU callbacks,
--     * we also end up waiting for most of RCU callbacks that were registered
--     * on the other threads, but this is a side effect that shoudn't be
--     * assumed.
--     */
--
--    qatomic_inc(&in_drain_call_rcu);
--    call_rcu1(&rcu_drain.rcu, drain_rcu_callback);
--    qemu_event_wait(&rcu_drain.drain_complete_event);
--    qatomic_dec(&in_drain_call_rcu);
-+    WITH_QEMU_IOTHREAD_LOCK {
-+        /*
-+         * RCU callbacks are invoked in the same order as in which they
-+         * are registered, thus we can be sure that when 'drain_rcu_callback'
-+         * is called, all RCU callbacks that were registered on this thread
-+         * prior to calling this function are completed.
-+         *
-+         * Note that since we have only one global queue of the RCU callbacks,
-+         * we also end up waiting for most of RCU callbacks that were registered
-+         * on the other threads, but this is a side effect that shoudn't be
-+         * assumed.
-+         */
- 
--    if (locked) {
--        qemu_mutex_lock_iothread();
-+        qatomic_inc(&in_drain_call_rcu);
-+        call_rcu1(&rcu_drain.rcu, drain_rcu_callback);
-+        qemu_event_wait(&rcu_drain.drain_complete_event);
-+        qatomic_dec(&in_drain_call_rcu);
-     }
- 
- }
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 660d3e0935..f8bd315bdd 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -115,27 +115,17 @@ static void cocoa_switch(DisplayChangeListener *dcl,
- 
- static void with_iothread_lock(CodeBlock block)
- {
--    bool locked = qemu_mutex_iothread_locked();
--    if (!locked) {
--        qemu_mutex_lock_iothread();
--    }
--    block();
--    if (!locked) {
--        qemu_mutex_unlock_iothread();
-+    WITH_QEMU_IOTHREAD_LOCK {
-+        block();
-     }
- }
- 
- static bool bool_with_iothread_lock(BoolCodeBlock block)
- {
--    bool locked = qemu_mutex_iothread_locked();
-     bool val;
- 
--    if (!locked) {
--        qemu_mutex_lock_iothread();
--    }
--    val = block();
--    if (!locked) {
--        qemu_mutex_unlock_iothread();
-+    WITH_QEMU_IOTHREAD_LOCK {
-+      val = block();
-     }
-     return val;
- }
--- 
-2.34.1
+This case differs in that we're adding an internal-only member to a type
+that is used by QMP.  Both introspection and documentation will show it.
+
+Interface introspection and (especially!) documentation showing stuff
+that doesn't exist in the interface is certainly less than ideal.
+However, I don't want to hold this patch hostage to getting QAPI
+shortcomings addressed.
+
+Instead, I want QMP documentation to make clear that this value cannot
+actually occur.
+
+Fair?
 
 
