@@ -2,83 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3698C60B0FF
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 18:14:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4863760B1B9
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 18:34:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omzGF-00025i-7e; Mon, 24 Oct 2022 11:21:07 -0400
+	id 1omzNz-0007GN-Os; Mon, 24 Oct 2022 11:29:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1omzGC-00025D-NX
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:21:04 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ (Exim 4.90_1) (envelope-from <Clay.Mayers@kioxia.com>)
+ id 1omzNy-0007GC-4G
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:29:06 -0400
+Received: from usmailhost21.kioxia.com ([12.0.68.226]
+ helo=SJSMAIL01.us.kioxia.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1omzGA-0007zN-Up
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:21:04 -0400
-Received: by mail-wm1-x336.google.com with SMTP id y10so6833613wma.0
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 08:21:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zD8E24ouQaievn8cnU2ef9NsFkiPAZ0ElUkNUiKT6GE=;
- b=W+EAO0PEzApHGRCf6plt8HI5dtU6MOmqUm5tYFZ5FYUD6NIXsNNpufy7BObs0ubNmC
- xBqsLegKOTYWd0Js/MsHUuvU6ywE54SZZTgELuIQVhloQIrBRAnju+pEJn/F+TT1X42N
- r7vz+YWCBzdHL3Lln6J5u0HDuNIb1hbrpIAM69aKDmFlMBsrirDXQ8DT/pXzAUe2CHXN
- W5NEbU8fJ6+z/x6dyj84FMk0r/SiAUI2vEyqD6Wq2xGWWIbhyVw5p2ZwAxj4m16KWuWx
- 4yP32AETjp35AHMAyT7cAK9TLFSa7UCnZk4N+9azu8UzFGke5/YV8FCF3uznlKvYJrUI
- Y8Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=zD8E24ouQaievn8cnU2ef9NsFkiPAZ0ElUkNUiKT6GE=;
- b=lWPpk57hdvwIeFGHZdYd0XI1tmic2azyst2uppOZJVuJ7D3S57Vo3YCKi/QD0iuuWV
- sZrWpcpS9X9kOXUdw9XQiUhwY2orSzWuzVMclQZHS2/13j4SHkBe7qQ2yxHwNvfdUrLf
- agUWpZ5sUOcHtQB2J/+Ir2/6fGdCdSY8SHW3uDAis6PQnWzo42ng5xKBxxBbqytDPf7q
- 0dWyk+ekE6oEF3rFp8hXK4CwcK/lmS52RF8s/a+VxpkeUicOVE3CNSeGcp4Jo2Uijqk1
- x9gUMunSfG7dWDdpCL2GE1P2r7qWg9uCjGtsqVNr2aivLQ2oAYonktsETqwYNTFIoGI8
- Dcbg==
-X-Gm-Message-State: ACrzQf1txp7ncvxUdwFzzQIRp1+qsTwZghDw+fdXK1qnDWpa//24KUUH
- Gu5AwCQNW1tf8HfrfAginC7MgA==
-X-Google-Smtp-Source: AMsMyM52SNWt9nRnk+WIMAjoA17oGlOB/wTjt+rQyVgv0U7MZjGb3Cq6rcrceTbVN/gfqnsvvAhYbg==
-X-Received: by 2002:a05:600c:3c8e:b0:3b4:d224:ae27 with SMTP id
- bg14-20020a05600c3c8e00b003b4d224ae27mr23217143wmb.187.1666624859881; 
- Mon, 24 Oct 2022 08:20:59 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- t189-20020a1c46c6000000b003c701c12a17sm8373306wma.12.2022.10.24.08.20.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Oct 2022 08:20:59 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 72DBC1FFB7;
- Mon, 24 Oct 2022 16:20:57 +0100 (BST)
-References: <20221024051851.3074715-1-richard.henderson@linaro.org>
- <20221024051851.3074715-12-richard.henderson@linaro.org>
-User-agent: mu4e 1.9.1; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH v6 11/14] target/arm: Tidy merging of attributes from
- descriptor and table
-Date: Mon, 24 Oct 2022 16:20:53 +0100
-In-reply-to: <20221024051851.3074715-12-richard.henderson@linaro.org>
-Message-ID: <8735bd9rja.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <Clay.Mayers@kioxia.com>)
+ id 1omzNw-0000g0-3Q
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:29:05 -0400
+Received: from SJSMAIL01.us.kioxia.com (10.90.133.90) by
+ SJSMAIL01.us.kioxia.com (10.90.133.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.32; Mon, 24 Oct 2022 08:22:57 -0700
+Received: from SJSMAIL01.us.kioxia.com ([::1]) by SJSMAIL01.us.kioxia.com
+ ([fe80::213a:a308:b836:4a06%3]) with mapi id 15.01.2375.032; Mon, 24 Oct 2022
+ 08:22:57 -0700
+From: Clay Mayers <Clay.Mayers@kioxia.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>, "Fam
+ Zheng" <fam@euphon.net>, =?iso-8859-1?Q?Phlippe_Mathieu-Daud=E9?=
+ <f4bug@amsat.org>, Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Subject: RE: [PATCH V2 0/4] hw/block/nvme: Implement ZNS finish-zone ZDC AEN
+Thread-Topic: [PATCH V2 0/4] hw/block/nvme: Implement ZNS finish-zone ZDC AEN
+Thread-Index: AQHY5aY4pNtOdbFOA0uMGvVaZoR3h64drOQg
+Date: Mon, 24 Oct 2022 15:22:57 +0000
+Message-ID: <7bedb8d5019f49db8b2102badfdac821@kioxia.com>
+References: <20221021231038.1042659-1-clay.mayers@kioxia.com>
+In-Reply-To: <20221021231038.1042659-1-clay.mayers@kioxia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.93.77.43]
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+MIME-Version: 1.0
+Received-SPF: pass client-ip=12.0.68.226; envelope-from=Clay.Mayers@kioxia.com;
+ helo=SJSMAIL01.us.kioxia.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,15 +68,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+> From:  clay.mayers@kioxia.com
+> Sent: Friday, October 21, 2022 4:11 PM
+> To: qemu-devel@nongnu.org
+> Cc: Keith Busch <kbusch@kernel.org>; Klaus Jensen <its@irrelevant.dk>; Fa=
+m
+> Zheng <fam@euphon.net>; Phlippe Mathieu-Daud=E9 <f4bug@amsat.org>
+> Subject: [PATCH V2 0/4] hw/block/nvme: Implement ZNS finish-zone ZDC AEN
+>=20
+> From: Clay Mayers <clay.mayers@kioxia.com>
+>=20
+> ZNS controllers have the option to limit the time a zone can remain in
+> the active state.  It begins with a background process in the controller
+> setting the finish-zone-recommended FZR attribute for a zone.  As part of
+> setting this attribute, the zone's id is added to the namespace's
+> zone-descriptor-changed (ZDC) log page. If enabled, items added to the
+> ZDC log page generate a ZDC "asynchronous event notification" AEN.
+> Optionally,
+> the control can induce a "zone excursion" forcing the zone into the finis=
+hed
+> state that also generates a ZDC event.
+>=20
+> Zone enabled applications need to properly handle ZDC events. In a real
+> device,
+> the timeout is many hours making testing an application difficult.
+> Implemented is the generation of FZR ZDC events to speed up O/S and
+> application
+> testing.
+>=20
+> Added to the zoned NVMe command set is an optional, per-namespace timer
+> (zoned.finish_time) to set the FZR attr for long-lived active zones; A pe=
+r
+> namespace ZDC log page; AEN results to including CQE.DW1 (the NSID of the
+> ZDC
+> AEN) and generating a ZDC AEN if it's been enabled. Zone excursions are n=
+ot
+> modeled.
+>=20
+> See section 5.5 of the NVMe Zoned Namespace Command Set Specification
+> v1.1
+> for more details.
+>=20
+> Changes since v1
+> - Fixed offset length checking in zdc log page
+> - Moved zdc_event_queued to the patch 4
+> - Unwatched zdc events in nvme_exit()
+>=20
+> Clay Mayers (4):
+>   hw/block/nvme: add ZONE_FINISH_RECOMMENDED functionality
+>   hw/block/nvme: add zone descriptor changed log page
+>   hw/block/nvme: supply dw1 for aen result
+>   hw/block/nvme: add zone descriptor changed AEN
+>=20
+>  docs/system/devices/nvme.rst |   5 +
+>  hw/nvme/ctrl.c               | 174 +++++++++++++++++++++++++++++++++--
+>  hw/nvme/ns.c                 |  15 +++
+>  hw/nvme/nvme.h               |  37 +++++++-
+>  hw/nvme/trace-events         |   3 +-
+>  include/block/nvme.h         |  14 ++-
+>  6 files changed, 233 insertions(+), 15 deletions(-)
+>=20
+> --
+> 2.27.0
 
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> Replace some gotos with some nested if statements.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
+I forgot to add Dmitry to the CC list for v2
 
