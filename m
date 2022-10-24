@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 631D360A17E
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 13:25:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2560160A1A7
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 13:32:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omvNA-00015W-5T; Mon, 24 Oct 2022 07:12:00 -0400
+	id 1omvN4-0000ro-Ts; Mon, 24 Oct 2022 07:11:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <e11680102af6a9f42ab198a77015696820a1993e@lizzy.crudebyte.com>)
- id 1omvN7-00014D-7o
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:11:57 -0400
+ (envelope-from <0e4c4ff02aecaa3cea3e583d07509378b7783307@lizzy.crudebyte.com>)
+ id 1omvMt-0000o0-PN
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:11:46 -0400
 Received: from lizzy.crudebyte.com ([91.194.90.13])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <e11680102af6a9f42ab198a77015696820a1993e@lizzy.crudebyte.com>)
- id 1omvN5-0007WF-65
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:11:57 -0400
+ (envelope-from <0e4c4ff02aecaa3cea3e583d07509378b7783307@lizzy.crudebyte.com>)
+ id 1omvMf-0007Fm-1v
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:11:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=jUls6/y9esxRDFCxtCfStb+XE9xSYXdI6Fy1YzanfOw=; b=Upjy8
- xFSbBPdKt2GiWlN50Ctj1Kgvakm4go8+uOjbQGxIYTlj8yjTHK0rHjmXyKI/coJUdRLMuVSC7VluL
- yJ+qciH9CKzib3dOddmuNPgJ8gIr5tKcWZmSZStEAMWRA38jWWpHNxbyzepe4E4tc2BqzFoKj7QFc
- 2CCxYGRG3+9AjPJly8D5NArmpc2Pb818cyKyZXB9pt/KUMAb/kpsLLfLTvBG724oZavU/ozkzOq7y
- NJ/P6OyrtMr6e2DTbdRSifyHQmYAOgJXKIcbC/3iaq9GwoH0q9H62k7VDcPo1h3pgIkPafwft1Hwi
- uxHfHZJwF9HFJZZzGY8etEL4onv5g==;
-Message-Id: <e11680102af6a9f42ab198a77015696820a1993e.1666608862.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=CeHtuR5SWe3A/AmP2z5ZDNoepvaxVnrEVDW+XfndFNI=; b=NHHuV
+ MxjLbC5bQ3DQOKkhY2Fe5JkZHLrQA3K113n2hhA3MChrvEqztG7GQfEEVxOxPc4UoKkq+osqBTdyc
+ 7zPCixXziR4magqZibb4KhEuYUI2je9bIfthheo0hNMWEndX0unvCNG+HuxPD5KTCpzUf6XNZ8sXR
+ jeKukLziVvCe9G6FPgZeYT6bToz1O3oorQbkAn6GjoXd96XcJf3v3hiQXEngp0jTc9vzz8r91bYhM
+ Xb4H6ZSZIaRoWdpQ1Ug1X4iPjUKd3RjPkNDcG6SdN/JKFA/m18frg0WkdE3pg7RLpmO6cCwNs13sb
+ z4xARZrBUXorAU4Yr+/o1vYyD+XvA==;
+Message-Id: <0e4c4ff02aecaa3cea3e583d07509378b7783307.1666608862.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1666608862.git.qemu_oss@crudebyte.com>
 References: <cover.1666608862.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Mon, 24 Oct 2022 12:54:23 +0200
-Subject: [PULL 18/23] tests/9p: merge v9fs_tmkdir() and do_mkdir()
+Subject: [PULL 14/23] tests/9p: simplify callers of tlopen()
 To: qemu-devel@nongnu.org,
     Stefan Hajnoczi <stefanha@redhat.com>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=e11680102af6a9f42ab198a77015696820a1993e@lizzy.crudebyte.com;
+ envelope-from=0e4c4ff02aecaa3cea3e583d07509378b7783307@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -62,239 +62,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-As with previous patches, unify those 2 functions into a single function
-v9fs_tmkdir() by using a declarative function arguments approach.
+Now as tlopen() is using a declarative approach, simplify the
+code of callers of this function.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Message-Id: <b87b2c972921df980440ff5b2d3e6bb8163d6551.1664917004.git.qemu_oss@crudebyte.com>
+Message-Id: <f74b6153e079fc7a340e5cb575ee32e0fe1e0ae6.1664917004.git.qemu_oss@crudebyte.com>
 ---
- tests/qtest/libqos/virtio-9p-client.c | 42 ++++++++++++++++++++++-----
- tests/qtest/libqos/virtio-9p-client.h | 36 +++++++++++++++++++++--
- tests/qtest/virtio-9p-test.c          | 30 ++++++-------------
- 3 files changed, 78 insertions(+), 30 deletions(-)
+ tests/qtest/virtio-9p-test.c | 43 +++++++++---------------------------
+ 1 file changed, 10 insertions(+), 33 deletions(-)
 
-diff --git a/tests/qtest/libqos/virtio-9p-client.c b/tests/qtest/libqos/virtio-9p-client.c
-index 3be0ffc7da..c374ba2048 100644
---- a/tests/qtest/libqos/virtio-9p-client.c
-+++ b/tests/qtest/libqos/virtio-9p-client.c
-@@ -766,10 +766,26 @@ void v9fs_rflush(P9Req *req)
- }
- 
- /* size[4] Tmkdir tag[2] dfid[4] name[s] mode[4] gid[4] */
--P9Req *v9fs_tmkdir(QVirtio9P *v9p, uint32_t dfid, const char *name,
--                   uint32_t mode, uint32_t gid, uint16_t tag)
-+TMkdirRes v9fs_tmkdir(TMkdirOpt opt)
- {
-     P9Req *req;
-+    uint32_t err;
-+    g_autofree char *name = g_strdup(opt.name);
-+
-+    g_assert(opt.client);
-+    /* expecting either hi-level atPath or low-level dfid, but not both */
-+    g_assert(!opt.atPath || !opt.dfid);
-+    /* expecting either Rmkdir or Rlerror, but obviously not both */
-+    g_assert(!opt.expectErr || !opt.rmkdir.qid);
-+
-+    if (opt.atPath) {
-+        opt.dfid = v9fs_twalk((TWalkOpt) { .client = opt.client,
-+                                           .path = opt.atPath }).newfid;
-+    }
-+
-+    if (!opt.mode) {
-+        opt.mode = 0750;
-+    }
- 
-     uint32_t body_size = 4 + 4 + 4;
-     uint16_t string_size = v9fs_string_size(name);
-@@ -777,13 +793,25 @@ P9Req *v9fs_tmkdir(QVirtio9P *v9p, uint32_t dfid, const char *name,
-     g_assert_cmpint(body_size, <=, UINT32_MAX - string_size);
-     body_size += string_size;
- 
--    req = v9fs_req_init(v9p, body_size, P9_TMKDIR, tag);
--    v9fs_uint32_write(req, dfid);
-+    req = v9fs_req_init(opt.client, body_size, P9_TMKDIR, opt.tag);
-+    v9fs_uint32_write(req, opt.dfid);
-     v9fs_string_write(req, name);
--    v9fs_uint32_write(req, mode);
--    v9fs_uint32_write(req, gid);
-+    v9fs_uint32_write(req, opt.mode);
-+    v9fs_uint32_write(req, opt.gid);
-     v9fs_req_send(req);
--    return req;
-+
-+    if (!opt.requestOnly) {
-+        v9fs_req_wait_for_reply(req, NULL);
-+        if (opt.expectErr) {
-+            v9fs_rlerror(req, &err);
-+            g_assert_cmpint(err, ==, opt.expectErr);
-+        } else {
-+            v9fs_rmkdir(req, opt.rmkdir.qid);
-+        }
-+        req = NULL; /* request was freed */
-+    }
-+
-+    return (TMkdirRes) { .req = req };
- }
- 
- /* size[4] Rmkdir tag[2] qid[13] */
-diff --git a/tests/qtest/libqos/virtio-9p-client.h b/tests/qtest/libqos/virtio-9p-client.h
-index b22b54c720..ae44f95a4d 100644
---- a/tests/qtest/libqos/virtio-9p-client.h
-+++ b/tests/qtest/libqos/virtio-9p-client.h
-@@ -287,6 +287,39 @@ typedef struct TFlushRes {
-     P9Req *req;
- } TFlushRes;
- 
-+/* options for 'Tmkdir' 9p request */
-+typedef struct TMkdirOpt {
-+    /* 9P client being used (mandatory) */
-+    QVirtio9P *client;
-+    /* user supplied tag number being returned with response (optional) */
-+    uint16_t tag;
-+    /* low level variant of directory where new one shall be created */
-+    uint32_t dfid;
-+    /* high-level variant of directory where new one shall be created */
-+    const char *atPath;
-+    /* New directory's name (required) */
-+    const char *name;
-+    /* Linux mkdir(2) mode bits (optional) */
-+    uint32_t mode;
-+    /* effective group ID of caller */
-+    uint32_t gid;
-+    /* data being received from 9p server as 'Rmkdir' response (optional) */
-+    struct {
-+        /* QID of newly created directory */
-+        v9fs_qid *qid;
-+    } rmkdir;
-+    /* only send Tmkdir request but not wait for a reply? (optional) */
-+    bool requestOnly;
-+    /* do we expect an Rlerror response, if yes which error code? (optional) */
-+    uint32_t expectErr;
-+} TMkdirOpt;
-+
-+/* result of 'TMkdir' 9p request */
-+typedef struct TMkdirRes {
-+    /* if requestOnly was set: request object for further processing */
-+    P9Req *req;
-+} TMkdirRes;
-+
- void v9fs_set_allocator(QGuestAllocator *t_alloc);
- void v9fs_memwrite(P9Req *req, const void *addr, size_t len);
- void v9fs_memskip(P9Req *req, size_t len);
-@@ -326,8 +359,7 @@ TWriteRes v9fs_twrite(TWriteOpt);
- void v9fs_rwrite(P9Req *req, uint32_t *count);
- TFlushRes v9fs_tflush(TFlushOpt);
- void v9fs_rflush(P9Req *req);
--P9Req *v9fs_tmkdir(QVirtio9P *v9p, uint32_t dfid, const char *name,
--                   uint32_t mode, uint32_t gid, uint16_t tag);
-+TMkdirRes v9fs_tmkdir(TMkdirOpt);
- void v9fs_rmkdir(P9Req *req, v9fs_qid *qid);
- P9Req *v9fs_tlcreate(QVirtio9P *v9p, uint32_t fid, const char *name,
-                      uint32_t flags, uint32_t mode, uint32_t gid,
 diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 5544998bac..6d75afee87 100644
+index 0455c3a094..60a030b877 100644
 --- a/tests/qtest/virtio-9p-test.c
 +++ b/tests/qtest/virtio-9p-test.c
-@@ -24,6 +24,7 @@
- #define tlopen(...) v9fs_tlopen((TLOpenOpt) __VA_ARGS__)
- #define twrite(...) v9fs_twrite((TWriteOpt) __VA_ARGS__)
- #define tflush(...) v9fs_tflush((TFlushOpt) __VA_ARGS__)
-+#define tmkdir(...) v9fs_tmkdir((TMkdirOpt) __VA_ARGS__)
+@@ -105,7 +105,6 @@ static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
+     v9fs_qid qid;
+     uint32_t count, nentries;
+     struct V9fsDirent *entries = NULL;
+-    P9Req *req;
  
- static void pci_config(void *obj, void *data, QGuestAllocator *t_alloc)
- {
-@@ -477,19 +478,6 @@ static void fs_flush_ignored(void *obj, void *data, QGuestAllocator *t_alloc)
+     tattach({ .client = v9p });
+     twalk({
+@@ -114,11 +113,9 @@ static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
+     });
+     g_assert_cmpint(nqid, ==, 1);
+ 
+-    req = tlopen({
+-        .client = v9p, .fid = 1, .flags = O_DIRECTORY, .requestOnly = true
+-    }).req;
+-    v9fs_req_wait_for_reply(req, NULL);
+-    v9fs_rlopen(req, &qid, NULL);
++    tlopen({
++        .client = v9p, .fid = 1, .flags = O_DIRECTORY, .rlopen.qid = &qid
++    });
+ 
+     /*
+      * submit count = msize - 11, because 11 is the header size of Rreaddir
+@@ -163,7 +160,6 @@ static void do_readdir_split(QVirtio9P *v9p, uint32_t count)
+     v9fs_qid qid;
+     uint32_t nentries, npartialentries;
+     struct V9fsDirent *entries, *tail, *partialentries;
+-    P9Req *req;
+     int fid;
+     uint64_t offset;
+ 
+@@ -181,11 +177,9 @@ static void do_readdir_split(QVirtio9P *v9p, uint32_t count)
+     });
+     g_assert_cmpint(nqid, ==, 1);
+ 
+-    req = tlopen({
+-        .client = v9p, .fid = fid, .flags = O_DIRECTORY, .requestOnly = true
+-    }).req;
+-    v9fs_req_wait_for_reply(req, NULL);
+-    v9fs_rlopen(req, &qid, NULL);
++    tlopen({
++        .client = v9p, .fid = fid, .flags = O_DIRECTORY, .rlopen.qid = &qid
++    });
+ 
+     /*
+      * send as many Treaddir requests as required to get all directory
+@@ -363,18 +357,13 @@ static void fs_lopen(void *obj, void *data, QGuestAllocator *t_alloc)
+     QVirtio9P *v9p = obj;
+     v9fs_set_allocator(t_alloc);
+     char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_LOPEN_FILE) };
+-    P9Req *req;
+ 
+     tattach({ .client = v9p });
+     twalk({
+         .client = v9p, .fid = 0, .newfid = 1, .nwname = 1, .wnames = wnames
+     });
+ 
+-    req = tlopen({
+-        .client = v9p, .fid = 1, .flags = O_WRONLY, .requestOnly = true
+-    }).req;
+-    v9fs_req_wait_for_reply(req, NULL);
+-    v9fs_rlopen(req, NULL, NULL);
++    tlopen({ .client = v9p, .fid = 1, .flags = O_WRONLY });
+ 
      g_free(wnames[0]);
  }
+@@ -394,11 +383,7 @@ static void fs_write(void *obj, void *data, QGuestAllocator *t_alloc)
+         .client = v9p, .fid = 0, .newfid = 1, .nwname = 1, .wnames = wnames
+     });
  
--static void do_mkdir(QVirtio9P *v9p, const char *path, const char *cname)
--{
--    g_autofree char *name = g_strdup(cname);
--    uint32_t fid;
--    P9Req *req;
--
--    fid = twalk({ .client = v9p, .path = path }).newfid;
--
--    req = v9fs_tmkdir(v9p, fid, name, 0750, 0, 0);
+-    req = tlopen({
+-        .client = v9p, .fid = 1, .flags = O_WRONLY, .requestOnly = true
+-    }).req;
 -    v9fs_req_wait_for_reply(req, NULL);
--    v9fs_rmkdir(req, NULL);
--}
--
- /* create a regular file with Tlcreate and return file's fid */
- static uint32_t do_lcreate(QVirtio9P *v9p, const char *path,
-                            const char *cname)
-@@ -587,7 +575,7 @@ static void fs_create_dir(void *obj, void *data, QGuestAllocator *t_alloc)
-     g_assert(root_path != NULL);
+-    v9fs_rlopen(req, NULL, NULL);
++    tlopen({ .client = v9p, .fid = 1, .flags = O_WRONLY });
  
-     tattach({ .client = v9p });
--    do_mkdir(v9p, "/", "01");
-+    tmkdir({ .client = v9p, .atPath = "/", .name = "01" });
+     req = v9fs_twrite(v9p, 1, 0, write_count, buf, 0);
+     v9fs_req_wait_for_reply(req, NULL);
+@@ -422,11 +407,7 @@ static void fs_flush_success(void *obj, void *data, QGuestAllocator *t_alloc)
+         .client = v9p, .fid = 0, .newfid = 1, .nwname = 1, .wnames = wnames
+     });
  
-     /* check if created directory really exists now ... */
-     g_assert(stat(new_dir, &st) == 0);
-@@ -606,7 +594,7 @@ static void fs_unlinkat_dir(void *obj, void *data, QGuestAllocator *t_alloc)
-     g_assert(root_path != NULL);
+-    req = tlopen({
+-        .client = v9p, .fid = 1, .flags = O_WRONLY, .requestOnly = true
+-    }).req;
+-    v9fs_req_wait_for_reply(req, NULL);
+-    v9fs_rlopen(req, NULL, NULL);
++    tlopen({ .client = v9p, .fid = 1, .flags = O_WRONLY });
  
-     tattach({ .client = v9p });
--    do_mkdir(v9p, "/", "02");
-+    tmkdir({ .client = v9p, .atPath = "/", .name = "02" });
+     /* This will cause the 9p server to try to write data to the backend,
+      * until the write request gets cancelled.
+@@ -461,11 +442,7 @@ static void fs_flush_ignored(void *obj, void *data, QGuestAllocator *t_alloc)
+         .client = v9p, .fid = 0, .newfid = 1, .nwname = 1, .wnames = wnames
+     });
  
-     /* check if created directory really exists now ... */
-     g_assert(stat(new_dir, &st) == 0);
-@@ -626,7 +614,7 @@ static void fs_create_file(void *obj, void *data, QGuestAllocator *t_alloc)
-     g_autofree char *new_file = virtio_9p_test_path("03/1st_file");
+-    req = tlopen({
+-        .client = v9p, .fid = 1, .flags = O_WRONLY, .requestOnly = true
+-    }).req;
+-    v9fs_req_wait_for_reply(req, NULL);
+-    v9fs_rlopen(req, NULL, NULL);
++    tlopen({ .client = v9p, .fid = 1, .flags = O_WRONLY });
  
-     tattach({ .client = v9p });
--    do_mkdir(v9p, "/", "03");
-+    tmkdir({ .client = v9p, .atPath = "/", .name = "03" });
-     do_lcreate(v9p, "03", "1st_file");
- 
-     /* check if created file exists now ... */
-@@ -643,7 +631,7 @@ static void fs_unlinkat_file(void *obj, void *data, QGuestAllocator *t_alloc)
-     g_autofree char *new_file = virtio_9p_test_path("04/doa_file");
- 
-     tattach({ .client = v9p });
--    do_mkdir(v9p, "/", "04");
-+    tmkdir({ .client = v9p, .atPath = "/", .name = "04" });
-     do_lcreate(v9p, "04", "doa_file");
- 
-     /* check if created file exists now ... */
-@@ -665,7 +653,7 @@ static void fs_symlink_file(void *obj, void *data, QGuestAllocator *t_alloc)
-     g_autofree char *symlink_file = virtio_9p_test_path("05/symlink_file");
- 
-     tattach({ .client = v9p });
--    do_mkdir(v9p, "/", "05");
-+    tmkdir({ .client = v9p, .atPath = "/", .name = "05" });
-     do_lcreate(v9p, "05", "real_file");
-     g_assert(stat(real_file, &st) == 0);
-     g_assert((st.st_mode & S_IFMT) == S_IFREG);
-@@ -686,7 +674,7 @@ static void fs_unlinkat_symlink(void *obj, void *data,
-     g_autofree char *symlink_file = virtio_9p_test_path("06/symlink_file");
- 
-     tattach({ .client = v9p });
--    do_mkdir(v9p, "/", "06");
-+    tmkdir({ .client = v9p, .atPath = "/", .name = "06" });
-     do_lcreate(v9p, "06", "real_file");
-     g_assert(stat(real_file, &st) == 0);
-     g_assert((st.st_mode & S_IFMT) == S_IFREG);
-@@ -708,7 +696,7 @@ static void fs_hardlink_file(void *obj, void *data, QGuestAllocator *t_alloc)
-     g_autofree char *hardlink_file = virtio_9p_test_path("07/hardlink_file");
- 
-     tattach({ .client = v9p });
--    do_mkdir(v9p, "/", "07");
-+    tmkdir({ .client = v9p, .atPath = "/", .name = "07" });
-     do_lcreate(v9p, "07", "real_file");
-     g_assert(stat(real_file, &st_real) == 0);
-     g_assert((st_real.st_mode & S_IFMT) == S_IFREG);
-@@ -733,7 +721,7 @@ static void fs_unlinkat_hardlink(void *obj, void *data,
-     g_autofree char *hardlink_file = virtio_9p_test_path("08/hardlink_file");
- 
-     tattach({ .client = v9p });
--    do_mkdir(v9p, "/", "08");
-+    tmkdir({ .client = v9p, .atPath = "/", .name = "08" });
-     do_lcreate(v9p, "08", "real_file");
-     g_assert(stat(real_file, &st_real) == 0);
-     g_assert((st_real.st_mode & S_IFMT) == S_IFREG);
+     /* This will cause the write request to complete right away, before it
+      * could be actually cancelled.
 -- 
 2.30.2
 
