@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C43660BE66
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 01:17:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42EE860BE6E
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 01:18:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on6fk-0006WJ-Q9; Mon, 24 Oct 2022 19:15:56 -0400
+	id 1on6gC-0008MD-0t; Mon, 24 Oct 2022 19:16:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1on6fZ-0005tP-S7
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 19:15:50 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
+ id 1on6g7-0008EU-7R
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 19:16:19 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1on6fV-0007Cj-HP
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 19:15:42 -0400
-Received: by mail-pg1-x534.google.com with SMTP id h2so3826938pgp.4
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 16:15:41 -0700 (PDT)
+ id 1on6g5-0007M7-MI
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 19:16:19 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id d24so9733942pls.4
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 16:16:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=bScAIMAQnaee7P9QNK8Qmogz3YuSSoc1+y/ZsG7Flfk=;
- b=vp5lB59VOk+dH7VlePd1OP1SQPoEsqQuNHBeOwTVte0YCcJ94rSFxBe10BffrBwEwn
- 55XhEJ8UiHmVMxV89eYTw1ZaN22a3G60p/Cp9j0qFsMKLJQudP8Sxns83rVPZHpQDmaW
- PHYa/21GMT3GIeKe0dVLqEyDxOl6KHC7W+HXDYG65RPY/zU7R8HNZ2aofMGUHlRu4wcQ
- Jg9ftItW2lXGRi6MObThpMmkMCUCV/8oxbXDGLV0qLmS+IuKiz2bQp0ufVST5blYHKsK
- ofhZsrs70o7Wu1laU3hnooGKDp+Q+dM9vTFczQ8PtzIXDmYjBROl8hY8+4Qu2XMowiP7
- lg6Q==
+ bh=XVon5DHILRbuJvecoizaCWg2xrmICIr7n4KRdk6Aa4Q=;
+ b=SMtWBKdFzjbE0FaqkXltNfjuu+neVropZZKDyyUfzV09ztwH6h5NjpSZutG+yBB30v
+ Tf6Bt/pTPxapEW0JtU6VZm0B1zkRhkc35WucnxgLcubt4Cx2KWKFgL0ZOgqR696GNkbx
+ tdZxfOENnf7YB+S+OK/laUA2Y+vfxS9snyX4oPPYFDWNstBhs+1pec5wKr3ZQxM5IhkP
+ EbwHcDCmkTmu0qXzAgZxAyhkuEEMBlYOCZTMN3LQ0JBqPy/161ew8RaGy8RhitYcYOLg
+ ok9/UWfBDmoq9h2SprcVCJE0/sWDAFpnwjm7gLfbkcHONzA9dXRASQasxHqVW6hJ5ojH
+ 0RWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bScAIMAQnaee7P9QNK8Qmogz3YuSSoc1+y/ZsG7Flfk=;
- b=YyUiH8Ff0g4v3nP/j3LFPvSMHIUzPQa9b3BEktKWVMNdfDDsUrSynflcIublIOdK4W
- CknLoHQ6ynZitPFgTj+oqGr3H2J3llc7ogT6wWlYbSavIKoBUllBvaxdi2b2I/obWkeN
- w5SovpkS9hkIvw0O/V+6GvNd+i5OP78+okgentz3myX2NrSAj0B8mYYzqjZ6lXuTOaN6
- S+ph3ULJlxYXM6Ar+RpZ88+hl8Dtto1jFFJYMyp6zdhswYe3niJZdLEEzb/hip7efLZo
- PP4UT6shTwwKpXU8P0zUcQLx66PmESKr/EBTJQ9nn0zijFRLsjd2Ex3Y1EHktvas1vZk
- V9sg==
-X-Gm-Message-State: ACrzQf0+O44Fz5VIht6NoFK3gPjzNU8jMyNumUXbsQnU//trQYc/Xdfy
- Tyr4UrrB4cbfUzu2A1zCPDszCw==
-X-Google-Smtp-Source: AMsMyM79wGKx/2j4NLOhj+8wUVwyeufNE+yD5Fuq0pCKd9WRxzKb2v3TPs6+zKNVpvM9xiiKu/VJwg==
-X-Received: by 2002:a05:6a00:32c9:b0:56b:a54e:68be with SMTP id
- cl9-20020a056a0032c900b0056ba54e68bemr11526469pfb.16.1666653340056; 
- Mon, 24 Oct 2022 16:15:40 -0700 (PDT)
+ bh=XVon5DHILRbuJvecoizaCWg2xrmICIr7n4KRdk6Aa4Q=;
+ b=jxfI3rYaIzQKWAYFFuu7GU5JVGXqFRItA1S1ADl1rTkJNKGf7a3FGHGtCLCKcpWF35
+ yWHXolZIssUpt1eKmaLq2DwZgwiWjqW1oqLBde/y8hFJz48n1IhraabG8o8rO8UKRX/3
+ sUoMYJ2gakNpr77PwXSoBpBA502IXDxrY9OSpTaj6KjTQ2FkgYti+nRkUYzAi6wmfaCp
+ LuDjPKTsoztM3i8y07USs9X4TcrttmTIwvEKKX5enm73r+uYY3+Nl8brwczirItUWJ5y
+ F5WDKDPnryRszusHyu55mbd59tVx8oMHJ5NHMHhE/+TZJql4E2XclwdB5NG9IySzuqxX
+ dBrA==
+X-Gm-Message-State: ACrzQf3PaRwfXJM+47mxchMvlP3MBk7Re/g9PehmMSydaHnk8j0L5Y4Z
+ OHV2AbA1vhP99OKYgVEyrod5rw==
+X-Google-Smtp-Source: AMsMyM46AAzKrx1Dg+EUV0T6v7QpZ3OytL5TvmkYYgWQU7ibeKzlOZbx22NJGhLGJ5GHzF8/hiy7XA==
+X-Received: by 2002:a17:902:d486:b0:181:33f0:f60b with SMTP id
+ c6-20020a170902d48600b0018133f0f60bmr36611904plg.174.1666653375519; 
+ Mon, 24 Oct 2022 16:16:15 -0700 (PDT)
 Received: from [192.168.136.227] ([103.100.225.182])
  by smtp.gmail.com with ESMTPSA id
- j10-20020a170902da8a00b00186b5c1a715sm222246plx.182.2022.10.24.16.15.37
+ z1-20020a170903018100b0017dd8c8009esm237786plg.4.2022.10.24.16.16.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Oct 2022 16:15:39 -0700 (PDT)
-Message-ID: <6e784305-d256-151c-cf28-d32e84e5c821@linaro.org>
-Date: Tue, 25 Oct 2022 09:15:33 +1000
+ Mon, 24 Oct 2022 16:16:14 -0700 (PDT)
+Message-ID: <cf37bd41-a7d2-d988-989e-bd584d9e7235@linaro.org>
+Date: Tue, 25 Oct 2022 09:16:09 +1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH v2 06/11] hw/ppc/pnv: Avoid dynamic stack allocation
+Subject: Re: [PATCH v2 07/11] hw/intc/xics: Avoid dynamic stack allocation
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
 References: <20220819153931.3147384-1-peter.maydell@linaro.org>
- <20220819153931.3147384-7-peter.maydell@linaro.org>
+ <20220819153931.3147384-8-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220819153931.3147384-7-peter.maydell@linaro.org>
+In-Reply-To: <20220819153931.3147384-8-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,13 +101,11 @@ On 8/20/22 01:39, Peter Maydell wrote:
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<philmd@redhat.com>
 > Acked-by: David Gibson<david@gibson.dropbear.id.au>
+> Reviewed-by: Greg Kurz<groug@kaod.org>
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> Reviewed-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   hw/ppc/pnv.c               | 4 ++--
->   hw/ppc/spapr.c             | 8 ++++----
->   hw/ppc/spapr_pci_nvlink2.c | 2 +-
->   3 files changed, 7 insertions(+), 7 deletions(-)
+>   hw/intc/xics.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
