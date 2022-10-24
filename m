@@ -2,47 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C2A60B37A
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 19:07:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3698C60B0FF
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 18:14:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omzmU-0004za-7H; Mon, 24 Oct 2022 11:54:26 -0400
+	id 1omzGF-00025i-7e; Mon, 24 Oct 2022 11:21:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.dooks@codethink.co.uk>)
- id 1omzmQ-0004yj-VU; Mon, 24 Oct 2022 11:54:22 -0400
-Received: from imap4.hz.codethink.co.uk ([188.40.203.114])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.dooks@codethink.co.uk>)
- id 1omzmP-00050i-CQ; Mon, 24 Oct 2022 11:54:22 -0400
-Received: from [167.98.27.226] (helo=[10.35.6.130])
- by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
- id 1omzDu-002Qlb-KQ; Mon, 24 Oct 2022 16:18:43 +0100
-Message-ID: <3c28b299-28ce-04f0-1430-f2b2ca0f2a95@codethink.co.uk>
-Date: Mon, 24 Oct 2022 16:18:42 +0100
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1omzGC-00025D-NX
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:21:04 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1omzGA-0007zN-Up
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:21:04 -0400
+Received: by mail-wm1-x336.google.com with SMTP id y10so6833613wma.0
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 08:21:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=zD8E24ouQaievn8cnU2ef9NsFkiPAZ0ElUkNUiKT6GE=;
+ b=W+EAO0PEzApHGRCf6plt8HI5dtU6MOmqUm5tYFZ5FYUD6NIXsNNpufy7BObs0ubNmC
+ xBqsLegKOTYWd0Js/MsHUuvU6ywE54SZZTgELuIQVhloQIrBRAnju+pEJn/F+TT1X42N
+ r7vz+YWCBzdHL3Lln6J5u0HDuNIb1hbrpIAM69aKDmFlMBsrirDXQ8DT/pXzAUe2CHXN
+ W5NEbU8fJ6+z/x6dyj84FMk0r/SiAUI2vEyqD6Wq2xGWWIbhyVw5p2ZwAxj4m16KWuWx
+ 4yP32AETjp35AHMAyT7cAK9TLFSa7UCnZk4N+9azu8UzFGke5/YV8FCF3uznlKvYJrUI
+ Y8Jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=zD8E24ouQaievn8cnU2ef9NsFkiPAZ0ElUkNUiKT6GE=;
+ b=lWPpk57hdvwIeFGHZdYd0XI1tmic2azyst2uppOZJVuJ7D3S57Vo3YCKi/QD0iuuWV
+ sZrWpcpS9X9kOXUdw9XQiUhwY2orSzWuzVMclQZHS2/13j4SHkBe7qQ2yxHwNvfdUrLf
+ agUWpZ5sUOcHtQB2J/+Ir2/6fGdCdSY8SHW3uDAis6PQnWzo42ng5xKBxxBbqytDPf7q
+ 0dWyk+ekE6oEF3rFp8hXK4CwcK/lmS52RF8s/a+VxpkeUicOVE3CNSeGcp4Jo2Uijqk1
+ x9gUMunSfG7dWDdpCL2GE1P2r7qWg9uCjGtsqVNr2aivLQ2oAYonktsETqwYNTFIoGI8
+ Dcbg==
+X-Gm-Message-State: ACrzQf1txp7ncvxUdwFzzQIRp1+qsTwZghDw+fdXK1qnDWpa//24KUUH
+ Gu5AwCQNW1tf8HfrfAginC7MgA==
+X-Google-Smtp-Source: AMsMyM52SNWt9nRnk+WIMAjoA17oGlOB/wTjt+rQyVgv0U7MZjGb3Cq6rcrceTbVN/gfqnsvvAhYbg==
+X-Received: by 2002:a05:600c:3c8e:b0:3b4:d224:ae27 with SMTP id
+ bg14-20020a05600c3c8e00b003b4d224ae27mr23217143wmb.187.1666624859881; 
+ Mon, 24 Oct 2022 08:20:59 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ t189-20020a1c46c6000000b003c701c12a17sm8373306wma.12.2022.10.24.08.20.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Oct 2022 08:20:59 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 72DBC1FFB7;
+ Mon, 24 Oct 2022 16:20:57 +0100 (BST)
+References: <20221024051851.3074715-1-richard.henderson@linaro.org>
+ <20221024051851.3074715-12-richard.henderson@linaro.org>
+User-agent: mu4e 1.9.1; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH v6 11/14] target/arm: Tidy merging of attributes from
+ descriptor and table
+Date: Mon, 24 Oct 2022 16:20:53 +0100
+In-reply-to: <20221024051851.3074715-12-richard.henderson@linaro.org>
+Message-ID: <8735bd9rja.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: add qemu_fdt_setprop_strings
-Content-Language: en-GB
-To: Andrew Jones <ajones@ventanamicro.com>, Ben Dooks <qemu@ben.fluff.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, alistair@alistair23.me,
- peter.maydell@linaro.org, qemu-riscv@nongnu.org
-References: <20221021055808.342055-1-qemu@ben.fluff.org>
- <20221021070047.225ngzlqqwsvgbqw@kamzik>
-From: Ben Dooks <ben.dooks@codethink.co.uk>
-Organization: Codethink Limited.
-In-Reply-To: <20221021070047.225ngzlqqwsvgbqw@kamzik>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=188.40.203.114;
- envelope-from=ben.dooks@codethink.co.uk; helo=imap4.hz.codethink.co.uk
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,33 +95,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21/10/2022 08:00, Andrew Jones wrote:
-> On Fri, Oct 21, 2022 at 06:58:02AM +0100, Ben Dooks wrote:
->> Add a qemu_fdt_setprop_strings to set a string array into a device-tree.
->>
->> Only minor updates from v4 to fix a couple of minor patch issues.
-> 
-> Please see the comments I made on patch 1 of the v4 series, they should
-> be addressed. Also, I'm pretty sure I gave r-b's on most, or the rest,
-> of the series, but I don't see those here in v5. And, please CC previous
-> reviewers when sending out new versions. Finally, why not generate this
-> cover letter with git-format-patch?
 
-I'll go back and check the reports, I think I missed the "static const"
-one.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-I did completely forget to update the reviewed comments, so will do that
-and post a V6 this week.
+> Replace some gotos with some nested if statements.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-> Thanks,
-> drew
-> 
-> 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
--- 
-Ben Dooks				http://www.codethink.co.uk/
-Senior Engineer				Codethink - Providing Genius
-
-https://www.codethink.co.uk/privacy.html
-
+--=20
+Alex Benn=C3=A9e
 
