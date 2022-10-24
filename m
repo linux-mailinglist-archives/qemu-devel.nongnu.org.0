@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1183760B385
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 19:08:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F86260B232
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 18:43:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omz23-0003sH-IE; Mon, 24 Oct 2022 11:06:27 -0400
+	id 1omz5v-0005UV-Qx; Mon, 24 Oct 2022 11:10:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1omz1c-0003pu-Pc
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:06:02 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1omz1Z-0004pE-NG
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:06:00 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id AD58B1FD8F;
- Mon, 24 Oct 2022 15:05:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1666623954; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qHmixmHnkZta/6y8LLc5y0H62gVo4AYGmVY0gwSVPdY=;
- b=2VkNMHckHFFSYhpX1eHdY23/UHkbQzjhxBgKXSt75w7k50Rb1yRfuZWSE/DjVzMZBZiktI
- lr0bTdAeXRQ9H5zlhZR4ICCYXkIb9ydcJCOIarIAksTrx7qFeco+yFiujG3WMQO9njb6US
- 4m3BzohpUsAmsurClgc2XoNMzSYw6Ko=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1666623954;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qHmixmHnkZta/6y8LLc5y0H62gVo4AYGmVY0gwSVPdY=;
- b=RI7VFS/vXNTOqacU+KUpbuSU12ZIJdw51VzTfi74moJT8SNhc7aRcTnci5p9TekPAQhNCJ
- /zyKOmwFQQUHFDCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8E82113A79;
- Mon, 24 Oct 2022 15:05:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SpzvINKpVmNeOAAAMHmgww
- (envelope-from <cfontana@suse.de>); Mon, 24 Oct 2022 15:05:54 +0000
-Message-ID: <e1eb87ed-c43c-6dae-4beb-9d0a9907bce9@suse.de>
-Date: Mon, 24 Oct 2022 17:05:53 +0200
+ (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
+ id 1omz5r-0005U4-H8
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:10:23 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
+ id 1omz5n-0005bn-CH
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:10:22 -0400
+Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.57])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Mwyzq5YM5z15M0P;
+ Mon, 24 Oct 2022 23:05:11 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 24 Oct 2022 23:10:02 +0800
+Received: from [10.174.178.174] (10.174.178.174) by
+ dggpemm500007.china.huawei.com (7.185.36.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 24 Oct 2022 23:10:01 +0800
+Subject: Re: [PATCH v2] kset: fix memory leak when kset_register() returns
+ error
+To: Greg KH <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <qemu-devel@nongnu.org>,
+ <linux-f2fs-devel@lists.sourceforge.net>, <linux-erofs@lists.ozlabs.org>,
+ <ocfs2-devel@oss.oracle.com>, <linux-mtd@lists.infradead.org>,
+ <amd-gfx@lists.freedesktop.org>, <rafael@kernel.org>, <somlo@cmu.edu>,
+ <mst@redhat.com>, <jaegeuk@kernel.org>, <chao@kernel.org>,
+ <hsiangkao@linux.alibaba.com>, <huangjianan@oppo.com>, <mark@fasheh.com>,
+ <jlbec@evilplan.org>, <joseph.qi@linux.alibaba.com>,
+ <akpm@linux-foundation.org>, <alexander.deucher@amd.com>,
+ <luben.tuikov@amd.com>, <richard@nod.at>, <liushixin2@huawei.com>,
+ <yangyingliang@huawei.com>
+References: <20221024121910.1169801-1-yangyingliang@huawei.com>
+ <Y1aYuLmlXBRvMP1Z@kroah.com>
+ <8281fc72-948a-162d-6e5f-a9fe29d8ee46@huawei.com>
+ <Y1am4mjS+obAbUTJ@kroah.com>
+Message-ID: <87e4e75b-a26e-6b4b-4799-c56c0b8891c0@huawei.com>
+Date: Mon, 24 Oct 2022 23:10:00 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 01/29] accel/tcg: Add restore_state_to_opc to TCGCPUOps
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20221024132459.3229709-1-richard.henderson@linaro.org>
- <20221024132459.3229709-2-richard.henderson@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <20221024132459.3229709-2-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <Y1am4mjS+obAbUTJ@kroah.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
+Content-Language: en-US
+X-Originating-IP: [10.174.178.174]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=yangyingliang@huawei.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,111 +80,90 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
+Reply-to:  Yang Yingliang <yangyingliang@huawei.com>
+From:  Yang Yingliang via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/24/22 15:24, Richard Henderson wrote:
-> Add a tcg_ops hook to replace the restore_state_to_opc
-> function call.  Because these generic hooks cannot depend
-> on target-specific types, temporarily, copy the current
-> target_ulong data[] into uint64_t d64[].
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/exec/exec-all.h       |  2 +-
->  include/hw/core/tcg-cpu-ops.h | 11 +++++++++++
->  accel/tcg/translate-all.c     | 24 ++++++++++++++++++++++--
->  3 files changed, 34 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-> index e5f8b224a5..a772e8cbdc 100644
-> --- a/include/exec/exec-all.h
-> +++ b/include/exec/exec-all.h
-> @@ -40,7 +40,7 @@ typedef ram_addr_t tb_page_addr_t;
->  #endif
->  
->  void restore_state_to_opc(CPUArchState *env, TranslationBlock *tb,
-> -                          target_ulong *data);
-> +                          target_ulong *data) __attribute__((weak));
 
-Hi Richard, doesn't matter much since this is removed later on, but I wonder why the need for attribute weak here?
-I don't see you overloading this function in later patches..
+On 2022/10/24 22:53, Greg KH wrote:
+> On Mon, Oct 24, 2022 at 10:39:44PM +0800, Yang Yingliang wrote:
+>> On 2022/10/24 21:52, Greg KH wrote:
+>>> On Mon, Oct 24, 2022 at 08:19:10PM +0800, Yang Yingliang wrote:
+>>>> Inject fault while loading module, kset_register() may fail.
+>>>> If it fails, the name allocated by kobject_set_name() which
+>>>> is called before kset_register() is leaked, because refcount
+>>>> of kobject is hold in kset_init().
+>>>>
+>>>> As a kset may be embedded in a larger structure which needs
+>>>> be freed in release() function or error path in callers, we
+>>>> can not call kset_put() in kset_register(), or it will cause
+>>>> double free, so just call kfree_const() to free the name and
+>>>> set it to NULL.
+>>>>
+>>>> With this fix, the callers don't need to care about the name
+>>>> freeing and call an extra kset_put() if kset_register() fails.
+>>>>
+>>>> Suggested-by: Luben Tuikov <luben.tuikov@amd.com>
+>>>> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+>>>> ---
+>>>> v1 -> v2:
+>>>>     Free name inside of kset_register() instead of calling kset_put()
+>>>>     in drivers.
+>>>> ---
+>>>>    lib/kobject.c | 8 +++++++-
+>>>>    1 file changed, 7 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/lib/kobject.c b/lib/kobject.c
+>>>> index a0b2dbfcfa23..3409a89c81e5 100644
+>>>> --- a/lib/kobject.c
+>>>> +++ b/lib/kobject.c
+>>>> @@ -834,6 +834,9 @@ EXPORT_SYMBOL_GPL(kobj_sysfs_ops);
+>>>>    /**
+>>>>     * kset_register() - Initialize and add a kset.
+>>>>     * @k: kset.
+>>>> + *
+>>>> + * NOTE: On error, the kset.kobj.name allocated by() kobj_set_name()
+>>>> + * which is called before kset_register() in caller need be freed.
+>>> This comment doesn't make any sense anymore.  No caller needs to worry
+>>> about this, right?
+>> With this fix, the name is freed inside of kset_register(), it can not be
+>> accessed,
+> Agreed.
+>
+>> if it allocated dynamically, but callers don't know this if no comment here,
+>> they may use it in error path (something like to print error message with
+>> it),
+>> so how about comment like this to tell callers not to use the name:
+>>
+>> NOTE: On error, the kset.kobj.name allocated by() kobj_set_name()
+>> is freed, it can not be used any more.
+> Sure, that's a better way to word it.
+>
+>>>>     */
+>>>>    int kset_register(struct kset *k)
+>>>>    {
+>>>> @@ -844,8 +847,11 @@ int kset_register(struct kset *k)
+>>>>    	kset_init(k);
+>>>>    	err = kobject_add_internal(&k->kobj);
+>>>> -	if (err)
+>>>> +	if (err) {
+>>>> +		kfree_const(k->kobj.name);
+>>>> +		k->kobj.name = NULL;
+>>> Why are you setting the name here to NULL?
+>> I set it to NULL to avoid accessing bad pointer in callers,
+>> if callers use it in error path, current callers won't use this
+>> name pointer in error path, so we can remove this assignment?
+> Ah, I didn't think about using it on error paths.  Ideally that would
+> never happen, but that's good to set just to make it obvious.  How about
+> adding a small comment here saying why you are setting it so we all
+> remember it in 5 years when we look at the code again.
+OK, I can add it in v3.
 
 Thanks,
-
-Claudio
->  
->  /**
->   * cpu_restore_state:
-> diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
-> index 78c6c6635d..20e3c0ffbb 100644
-> --- a/include/hw/core/tcg-cpu-ops.h
-> +++ b/include/hw/core/tcg-cpu-ops.h
-> @@ -31,6 +31,17 @@ struct TCGCPUOps {
->       * function to restore all the state, and register it here.
->       */
->      void (*synchronize_from_tb)(CPUState *cpu, const TranslationBlock *tb);
-> +    /**
-> +     * @restore_state_to_opc: Synchronize state from INDEX_op_start_insn
-> +     *
-> +     * This is called when we unwind state in the middle of a TB,
-> +     * usually before raising an exception.  Set all part of the CPU
-> +     * state which are tracked insn-by-insn in the target-specific
-> +     * arguments to start_insn, passed as @data.
-> +     */
-> +    void (*restore_state_to_opc)(CPUState *cpu, const TranslationBlock *tb,
-> +                                 const uint64_t *data);
-> +
->      /** @cpu_exec_enter: Callback for cpu_exec preparation */
->      void (*cpu_exec_enter)(CPUState *cpu);
->      /** @cpu_exec_exit: Callback for cpu_exec cleanup */
-> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-> index 4ed75a13e1..19cd23e9a0 100644
-> --- a/accel/tcg/translate-all.c
-> +++ b/accel/tcg/translate-all.c
-> @@ -329,7 +329,6 @@ static int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
->  {
->      target_ulong data[TARGET_INSN_START_WORDS];
->      uintptr_t host_pc = (uintptr_t)tb->tc.ptr;
-> -    CPUArchState *env = cpu->env_ptr;
->      const uint8_t *p = tb->tc.ptr + tb->tc.size;
->      int i, j, num_insns = tb->icount;
->  #ifdef CONFIG_PROFILER
-> @@ -368,7 +367,20 @@ static int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
->             and shift if to the number of actually executed instructions */
->          cpu_neg(cpu)->icount_decr.u16.low += num_insns - i;
->      }
-> -    restore_state_to_opc(env, tb, data);
-> +
-> +    {
-> +        const struct TCGCPUOps *ops = cpu->cc->tcg_ops;
-> +        __typeof(ops->restore_state_to_opc) restore = ops->restore_state_to_opc;
-> +        if (restore) {
-> +            uint64_t d64[TARGET_INSN_START_WORDS];
-> +            for (i = 0; i < TARGET_INSN_START_WORDS; ++i) {
-> +                d64[i] = data[i];
-> +            }
-> +            restore(cpu, tb, d64);
-> +        } else {
-> +            restore_state_to_opc(cpu->env_ptr, tb, data);
-> +        }
-> +    }
->  
->  #ifdef CONFIG_PROFILER
->      qatomic_set(&prof->restore_time,
-> @@ -380,6 +392,14 @@ static int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
->  
->  bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit)
->  {
-> +    /*
-> +     * The pc update associated with restore without exit will
-> +     * break the relative pc adjustments performed by TARGET_TB_PCREL.
-> +     */
-> +    if (TARGET_TB_PCREL) {
-> +        assert(will_exit);
-> +    }
-> +
->      /*
->       * The host_pc has to be in the rx region of the code buffer.
->       * If it is not we will not be able to resolve it here.
-
+Yang
+>
+> thanks,
+>
+> greg k-h
+> .
 
