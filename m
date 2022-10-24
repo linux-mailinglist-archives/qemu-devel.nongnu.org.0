@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF31B609922
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 06:27:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12B7660995B
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 06:42:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omoY8-0008UI-AQ; Sun, 23 Oct 2022 23:54:52 -0400
+	id 1omoYB-000080-5D; Sun, 23 Oct 2022 23:54:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1omoY6-0008Ss-Kv
- for qemu-devel@nongnu.org; Sun, 23 Oct 2022 23:54:50 -0400
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1omoY7-0008Tv-JG
+ for qemu-devel@nongnu.org; Sun, 23 Oct 2022 23:54:51 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1omoY5-0000jr-8A
- for qemu-devel@nongnu.org; Sun, 23 Oct 2022 23:54:50 -0400
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1omoY5-0000k2-VU
+ for qemu-devel@nongnu.org; Sun, 23 Oct 2022 23:54:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666583688;
+ s=mimecast20190719; t=1666583689;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WSq58Oi2QPxK1jylHq564L9qs0YFSerIVcHKNyN5Y4o=;
- b=VdNEQgkZqA5OtttvVR3fxGFNwwsPqza0d0meqWu8caOmwpEZAtomdcF2Z43qMFml8oPICk
- jqJCiESodeAert+UVNtnyzHzGVqccSo5LBtOciT60EpoDhC+7EcTFvJ60WdHaqaMUQjoJH
- sF7HbiYLBg13oH7Is5Oyjs0Vt6iHNMw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=nsP5JqLfu1xybUwbVvOVW7lKrpO9ImVl/g/gvH5NRmY=;
+ b=dd3lVM20qP4ijvhpQmQvlLGMYKQowyiEZL4wz6AKHSpfSNbUEIcDpP6MDzWeD+eKnKjROK
+ BrHUohHtiCldZGnnYoRE3EogB6MxkrXWLo3SrjvG2kw8aXelxiuEiQWbeBDh1eWdAZuE17
+ PxBLH9C5+TXAHbG+Xk4/l0NjxeuXupg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-627-6Do9aOHbPumzEpKMJ4k5IQ-1; Sun, 23 Oct 2022 23:54:43 -0400
-X-MC-Unique: 6Do9aOHbPumzEpKMJ4k5IQ-1
+ us-mta-439-bxTAAC7SMPey4eoqgm2uzw-1; Sun, 23 Oct 2022 23:54:46 -0400
+X-MC-Unique: bxTAAC7SMPey4eoqgm2uzw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4D67E1C05AC2;
- Mon, 24 Oct 2022 03:54:42 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B20A0855438;
+ Mon, 24 Oct 2022 03:54:45 +0000 (UTC)
 Received: from gshan.redhat.com (vpn2-54-29.bne.redhat.com [10.64.54.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 64AEC40C6F75;
- Mon, 24 Oct 2022 03:54:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C971E40C6F9F;
+ Mon, 24 Oct 2022 03:54:42 +0000 (UTC)
 From: Gavin Shan <gshan@redhat.com>
 To: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org, maz@kernel.org, eric.auger@redhat.com,
  cohuck@redhat.com, zhenyzha@redhat.com, richard.henderson@linaro.org,
  peter.maydell@linaro.org, shan.gavin@gmail.com
-Subject: [PATCH v6 4/7] hw/arm/virt: Introduce virt_get_high_memmap_enabled()
- helper
-Date: Mon, 24 Oct 2022 11:54:13 +0800
-Message-Id: <20221024035416.34068-5-gshan@redhat.com>
+Subject: [PATCH v6 5/7] hw/arm/virt: Improve high memory region address
+ assignment
+Date: Mon, 24 Oct 2022 11:54:14 +0800
+Message-Id: <20221024035416.34068-6-gshan@redhat.com>
 In-Reply-To: <20221024035416.34068-1-gshan@redhat.com>
 References: <20221024035416.34068-1-gshan@redhat.com>
 MIME-Version: 1.0
@@ -63,7 +63,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,77 +79,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This introduces virt_get_high_memmap_enabled() helper, which returns
-the pointer to vms->highmem_{redists, ecam, mmio}. The pointer will
-be used in the subsequent patches.
+There are three high memory regions, which are VIRT_HIGH_REDIST2,
+VIRT_HIGH_PCIE_ECAM and VIRT_HIGH_PCIE_MMIO. Their base addresses
+are floating on highest RAM address. However, they can be disabled
+in several cases.
 
-No functional change intended.
+(1) One specific high memory region is likely to be disabled by
+    code by toggling vms->highmem_{redists, ecam, mmio}.
+
+(2) VIRT_HIGH_PCIE_ECAM region is disabled on machine, which is
+    'virt-2.12' or ealier than it.
+
+(3) VIRT_HIGH_PCIE_ECAM region is disabled when firmware is loaded
+    on 32-bits system.
+
+(4) One specific high memory region is disabled when it breaks the
+    PA space limit.
+
+The current implementation of virt_set_{memmap, high_memmap}() isn't
+optimized because the high memory region's PA space is always reserved,
+regardless of whatever the actual state in the corresponding
+vms->highmem_{redists, ecam, mmio} flag. In the code, 'base' and
+'vms->highest_gpa' are always increased for case (1), (2) and (3).
+It's unnecessary since the assigned PA space for the disabled high
+memory region won't be used afterwards.
+
+Improve the address assignment for those three high memory region by
+skipping the address assignment for one specific high memory region if
+it has been disabled in case (1), (2) and (3). The memory layout may
+be changed after the improvement is applied, which leads to potential
+migration breakage. So 'vms->highmem_compact' is added to control if
+the improvement should be applied. For now, 'vms->highmem_compact' is
+set to false, meaning that we don't have memory layout change until it
+becomes configurable through property 'compact-highmem' in next patch.
 
 Signed-off-by: Gavin Shan <gshan@redhat.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Tested-by: Zhenyu Zhang <zhenyzha@redhat.com>
 ---
- hw/arm/virt.c | 32 +++++++++++++++++++-------------
- 1 file changed, 19 insertions(+), 13 deletions(-)
+ hw/arm/virt.c         | 15 ++++++++++-----
+ include/hw/arm/virt.h |  1 +
+ 2 files changed, 11 insertions(+), 5 deletions(-)
 
 diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 0bf3cb7057..ee98a8a3b6 100644
+index ee98a8a3b6..4896f600b4 100644
 --- a/hw/arm/virt.c
 +++ b/hw/arm/virt.c
-@@ -1689,14 +1689,31 @@ static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
-     return arm_cpu_mp_affinity(idx, clustersz);
- }
+@@ -1721,18 +1721,23 @@ static void virt_set_high_memmap(VirtMachineState *vms,
+         vms->memmap[i].size = region_size;
  
-+static inline bool *virt_get_high_memmap_enabled(VirtMachineState *vms,
-+                                                 int index)
-+{
-+    bool *enabled_array[] = {
-+        &vms->highmem_redists,
-+        &vms->highmem_ecam,
-+        &vms->highmem_mmio,
-+    };
-+
-+    assert(ARRAY_SIZE(extended_memmap) - VIRT_LOWMEMMAP_LAST ==
-+           ARRAY_SIZE(enabled_array));
-+    assert(index - VIRT_LOWMEMMAP_LAST < ARRAY_SIZE(enabled_array));
-+
-+    return enabled_array[index - VIRT_LOWMEMMAP_LAST];
-+}
-+
- static void virt_set_high_memmap(VirtMachineState *vms,
-                                  hwaddr base, int pa_bits)
- {
-     hwaddr region_base, region_size;
--    bool fits;
-+    bool *region_enabled, fits;
-     int i;
- 
-     for (i = VIRT_LOWMEMMAP_LAST; i < ARRAY_SIZE(extended_memmap); i++) {
-+        region_enabled = virt_get_high_memmap_enabled(vms, i);
-         region_base = ROUND_UP(base, extended_memmap[i].size);
-         region_size = extended_memmap[i].size;
- 
-@@ -1714,18 +1731,7 @@ static void virt_set_high_memmap(VirtMachineState *vms,
-             vms->highest_gpa = region_base + region_size - 1;
+         /*
+-         * Check each device to see if they fit in the PA space,
+-         * moving highest_gpa as we go.
++         * Check each device to see if it fits in the PA space,
++         * moving highest_gpa as we go. For compatibility, move
++         * highest_gpa for disabled fitting devices as well, if
++         * the compact layout has been disabled.
+          *
+          * For each device that doesn't fit, disable it.
+          */
+         fits = (region_base + region_size) <= BIT_ULL(pa_bits);
+-        if (fits) {
+-            vms->highest_gpa = region_base + region_size - 1;
++        *region_enabled &= fits;
++        if (vms->highmem_compact && !*region_enabled) {
++            continue;
          }
  
--        switch (i) {
--        case VIRT_HIGH_GIC_REDIST2:
--            vms->highmem_redists &= fits;
--            break;
--        case VIRT_HIGH_PCIE_ECAM:
--            vms->highmem_ecam &= fits;
--            break;
--        case VIRT_HIGH_PCIE_MMIO:
--            vms->highmem_mmio &= fits;
--            break;
--        }
--
-+        *region_enabled &= fits;
+-        *region_enabled &= fits;
          base = region_base + region_size;
++        if (fits) {
++            vms->highest_gpa = region_base + region_size - 1;
++        }
      }
  }
+ 
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index 6ec479ca2b..709f623741 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -144,6 +144,7 @@ struct VirtMachineState {
+     PFlashCFI01 *flash[2];
+     bool secure;
+     bool highmem;
++    bool highmem_compact;
+     bool highmem_ecam;
+     bool highmem_mmio;
+     bool highmem_redists;
 -- 
 2.23.0
 
