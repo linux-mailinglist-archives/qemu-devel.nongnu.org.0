@@ -2,69 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F3856099B5
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 07:21:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2DC8609A12
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 07:53:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ompdL-0007XO-Dj; Mon, 24 Oct 2022 01:04:19 -0400
+	id 1ompgb-0001RX-UH; Mon, 24 Oct 2022 01:07:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ompcC-000753-V6; Mon, 24 Oct 2022 01:03:09 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ompgW-0001Ov-7I
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 01:07:36 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ompbf-00072p-2v; Mon, 24 Oct 2022 01:02:37 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id 20so7807093pgc.5;
- Sun, 23 Oct 2022 22:02:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ZA+I9P+HA0eRsWd0aw5rkAerG5WV+yD1m4cluS74LDM=;
- b=JROy1/rYu5w5vaoAiSwSMgmXJ9wK1qFTmXW9qGXYDEhw393TEwCTijkHOcfQAhr1K8
- 4pIrc+AN5/ET7A+5Kppoa1WdzHxkgcva03UeekhJAMMDiY4jLXo/+eTI8rDeqh0ur6p5
- sZqO3ftWgtW3EhgfSj4bcicahTlawZRjh0iIpKp/IC1NnD6y0V2ltfWg7Snr03gCwFpX
- rgRkyV0Hkc4w6Tksb0M68hoVmwH4rY/iJAFO6FHHgEexzRq4uACsdSIJujmVX6+zR/Z1
- UQ7D14H+WvbfK8lsN2bizbB/DE4Vvkg5kaVUFFTNQUBl315NuMipGLEQA4WsWia5+tLE
- 60Cw==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ompgU-0007xx-Qz
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 01:07:36 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ c3-20020a1c3503000000b003bd21e3dd7aso9226567wma.1
+ for <qemu-devel@nongnu.org>; Sun, 23 Oct 2022 22:07:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ChbXoBI9PTstc5ztUVMkoXJAxqyW6lL7AXSb4LcVBQk=;
+ b=LVUpRnzDmb+HRdm0vyKPE/YDfZ4DaUM8dlg+xSjpGQqrEqOKidxDUnYK8a0Tv9D96w
+ BnxU2hu2Dnj65mn4PFx1VEia+49rTf+m/QsOKnQQZYc1NFwBL7efN0R2m+GNuY8pyH8I
+ Q0zy6BBdHsbvG5dEg75Am4NHEDT6xzgLpqkojogGLihKYdoOQ/Tnb8GMDOF6cw+R5fYh
+ QRAl5zA/yM+tVpSL5W4GAoOX2wjKDb+t6J3+GeL8ZnsXze0yLkSkc+UigQ50uQZ8TgYY
+ sHPORZPoheVWVHEekkhmoMUkQeEitml0vJBYOUdLzTp0lXgK8+f+aaRJZ8RoBwNSZv5h
+ JcfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ZA+I9P+HA0eRsWd0aw5rkAerG5WV+yD1m4cluS74LDM=;
- b=i0ZT0AeIGNxc+mtcAj3a/HUoDC1wSOcb77Q40QPZLup+uZrSmo1TnLOfK6k6yY7vGt
- TsJIOHcQEqYVlF1J0x/iUXlKl+kHREu5G2qFIG+h/kS13MauT86OXfqAR856HGBMr5kg
- ZJsIH14hwhGw0G+lAEvtanJAc1fjSTfkcrFcO6hYOdHqh1S4kR/nSVqEEQqf5J48OL3L
- 2jNihdGxRU8LEhbwrth3JvhE8e7kEY/qmhsF7i/SxEdYm4PvkZesSzv8H6bIXJN12rSW
- QaDMhqg33j7VrwhLEP4zBSJNhKAk3MV2JtTLvllWTxf+3IPMqa9D1xCxk33Y36TQ5W3c
- 44tg==
-X-Gm-Message-State: ACrzQf3/sPX5f/krvGhGLZMCKKZXo49ysyQo38Grx3m7HQjTbb9z4IE6
- zD5AbRCCX0jAQsu9GwGHIo1MZ0Oj+UszqjheTpc=
-X-Google-Smtp-Source: AMsMyM4kJYRysFNJGjSLFYr+2BIL/dFSexD2QGXzCBSa4/WIvL2yQVzFzUlD/zTnyme4rvVWBXMnlT+WfDfVVV4X1KY=
-X-Received: by 2002:a63:ce43:0:b0:45b:d6ed:6c2 with SMTP id
- r3-20020a63ce43000000b0045bd6ed06c2mr26593148pgi.406.1666587752456; Sun, 23
- Oct 2022 22:02:32 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ChbXoBI9PTstc5ztUVMkoXJAxqyW6lL7AXSb4LcVBQk=;
+ b=NI8T4y2QaP+P5+yUyOegdJoZQX8qH2TbyMOlJb85TD3pokZfAb8TnbHDh33+5DcKt3
+ ivG2SLsWxPY/zBz1KHtgznobvPbFZfWDvhojB6XhS9wQKFm0A80RtsCVvzBF+0b5llug
+ s7wjzJ9j63YedFSI4FqQR8ljEDVsgVD0teOGEzXGjonUSUh7pTg0P128qH3l9P903/bk
+ OeF3vvN7z4SsdXWtD5JWLowE+hL4Biy05LcVS42oFII6Qi4JHoteWo+bCkLJ+bGJczYk
+ rPCPUvEa/VHMIDOelWB5QZlB9+PSBixu0nEfKo0A2zT0VYuJV0rhzWgOqu2/RFcgMxlp
+ wPfg==
+X-Gm-Message-State: ACrzQf3ALcZ2ceAFCMD2WINqDeo5dKZv0fTD6cOWm7nBpcI33OKILgg4
+ zO7Z870GnGlNJSv8r8Bf/7t7jQ==
+X-Google-Smtp-Source: AMsMyM6vxTbsEQw1CE+xqx0BahTmAwU4msygPjW2qQyVNfLZ7pwDoUs8KBQfvTbN61n/oP3XmQ3XOg==
+X-Received: by 2002:a05:600c:3b8f:b0:3cc:c287:46f3 with SMTP id
+ n15-20020a05600c3b8f00b003ccc28746f3mr5043562wms.186.1666588053349; 
+ Sun, 23 Oct 2022 22:07:33 -0700 (PDT)
+Received: from [10.50.0.10]
+ (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
+ by smtp.gmail.com with ESMTPSA id
+ r10-20020a5d52ca000000b0022e653f5abbsm25834760wrv.69.2022.10.23.22.07.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 23 Oct 2022 22:07:32 -0700 (PDT)
+Message-ID: <beee91cd-7e90-57b3-1f10-7d2fb21e6877@linaro.org>
+Date: Mon, 24 Oct 2022 07:07:30 +0200
 MIME-Version: 1.0
-References: <20221017054950.317584-1-wilfred.mallawa@opensource.wdc.com>
-In-Reply-To: <20221017054950.317584-1-wilfred.mallawa@opensource.wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 24 Oct 2022 15:02:05 +1000
-Message-ID: <CAKmqyKOUjUbgjhqvWA9ozsQxemApvcHGa0GSDe=6DTBtr-wDsA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/2] implement `FIELDx_1CLEAR() macro
-To: Wilfred Mallawa <wilfred.mallawa@opensource.wdc.com>
-Cc: alistair@alistair23.me, qemu-riscv@nongnu.org, qemu-devel@nongnu.org, 
- Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=alistair23@gmail.com; helo=mail-pg1-x52d.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.2
+Subject: Re: [PATCH v2 24/43] hw/isa/piix3: Rename typedef PIIX3State to
+ PIIXState
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Igor Mammedov <imammedo@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, John Snow <jsnow@redhat.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Ani Sinha <ani@anisinha.ca>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-block@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20221022150508.26830-1-shentey@gmail.com>
+ <20221022150508.26830-25-shentey@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221022150508.26830-25-shentey@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,44 +102,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Oct 17, 2022 at 3:52 PM Wilfred Mallawa
-<wilfred.mallawa@opensource.wdc.com> wrote:
->
-> From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
->
-> This patch series implements a `FIELDx_1CLEAR()` macro and implements it
-> in the `hw/ssi/ibex_spi.c` model.
->
->                     *** Changelog ***
-> Since v2:
->         - change the macro arguments name to match
->           the existing macros.
->          (reg_val, reg, field) -> (storage, reg, field)
->
->         - Add the use of this macro to `ibex_spi`
->
-> Since v1:
->         - Instead of needing all field bits to be set
->           we clear the field if any are set.
->           If the field is 0/clear then no change.
->
-> Wilfred Mallawa (2):
->   hw/registerfields: add `FIELDx_1CLEAR()` macro
->   hw/ssi/ibex_spi:  implement `FIELD32_1CLEAR` macro
+On 22/10/22 17:04, Bernhard Beschow wrote:
+> This commit marks the finalization of the PIIX3 preparations
+> to be merged with PIIX4. In particular, PIIXState is prepared
+> to be reused in piix4.c.
+> 
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>   hw/isa/piix3.c                | 58 +++++++++++++++++------------------
+>   include/hw/southbridge/piix.h |  4 +--
+>   2 files changed, 31 insertions(+), 31 deletions(-)
 
-Thanks!
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Applied to riscv-to-apply.next
-
-Alistair
-
->
->  hw/ssi/ibex_spi_host.c      | 21 +++++++++------------
->  include/hw/registerfields.h | 22 ++++++++++++++++++++++
->  2 files changed, 31 insertions(+), 12 deletions(-)
->
-> --
-> 2.37.3
->
->
 
