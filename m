@@ -2,82 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03D5360A4CA
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 14:16:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50E9E60A44B
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 14:07:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omw1Q-000872-Rt; Mon, 24 Oct 2022 07:53:40 -0400
+	id 1omw7v-0004t5-9j; Mon, 24 Oct 2022 08:00:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1omw0h-00081S-7w
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:52:54 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1omw0Z-0006tr-C0
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:52:47 -0400
-Received: by mail-wm1-x333.google.com with SMTP id l32so6414832wms.2
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 04:52:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Sa4TjcSOfYG09omt4EDadCpwUIzFavZpnJ1UBNIkmC0=;
- b=FETtA3BuVoNUsyOAjAhhxlTzSbx0omyl401DaB2gkcKLdor9/p5B6MpjHFcK4Uf1u/
- U7FVGQJ1TdTe59TMEW9aPHPsdLg1vFS2Cfq7DjAaWY+zzOhi/oswWG90rDxpwiNVw/uB
- pCqGyrrazKRzpJDSEWH4mFVrHZNv76f73fI5odtVGDQqamiWfZ4Q299rVWG32PxUcLTR
- qU+CcIt+T6F7KAv26pk1ELPRfTYA0ZeRden7aEX8xQaY1H0r48NLASaSjNN0ggfp3zOi
- NnKorgGpYAeeJKvAgoVWGFxk2s01aqNC74lbhYymFFzIAyVFtRQ/yTOxiKf4WT+Idx4B
- SCOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Sa4TjcSOfYG09omt4EDadCpwUIzFavZpnJ1UBNIkmC0=;
- b=6/mdvw6wI4iIkUg45eK7UgqT/oIYQi2fexfScUC1VQoLE2y4oJi83/Rhwe7LgGFscA
- voBUosgJg6VJFmFXnSGU+es12bdgLDWstv8XPe1nhm8Xz9B/83HpR2Gstn1Di708NJj4
- 5cLDfE/3SPp5OcOrIr3+2fjMl6BATRMs3izMVrNXGZbz0ag/5KuNHU84FlaQaMUtzELH
- OzP5tGrOG8hRwjAzcw3EhAwCQlU7Of2Q+aK6LY0qP9ac5Cb3jqwY67V6uSW0Yp6fE4+R
- SN3QDnhmvoATcn1iL/MFM2YVw7bS7C/AEvVLTGqn/ybwQbOqy8uVMNRIktFwHro2sDd+
- hHLA==
-X-Gm-Message-State: ACrzQf23QTCvVAc1ryJUsMQhoymONlBQyKRypDW5ZIfceDYUhPGXw5L/
- cjlqd4gE3HZ1GEEwhMP2Iul1pg==
-X-Google-Smtp-Source: AMsMyM6kWE9PfKOieBSakyIPgUgyN2IHvS4yHW+cR4KqkRSwu2Vs/PqWISZGOJhkkZYKVSWL+ciK+g==
-X-Received: by 2002:a05:600c:474a:b0:3c6:ff98:624c with SMTP id
- w10-20020a05600c474a00b003c6ff98624cmr21746235wmo.26.1666612360805; 
- Mon, 24 Oct 2022 04:52:40 -0700 (PDT)
-Received: from [10.50.0.10]
- (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
- by smtp.gmail.com with ESMTPSA id
- f186-20020a1c38c3000000b003c6d21a19a0sm10402639wma.29.2022.10.24.04.52.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Oct 2022 04:52:40 -0700 (PDT)
-Message-ID: <a023cb61-c020-bee9-123a-d8cd44292a63@linaro.org>
-Date: Mon, 24 Oct 2022 13:52:38 +0200
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1omw7r-0004rn-56; Mon, 24 Oct 2022 08:00:15 -0400
+Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1omw7m-0008E6-TP; Mon, 24 Oct 2022 08:00:13 -0400
+Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
+ (sas1-c73b4b4f4b95.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:12a9:0:640:c73b:4b4f])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 822725EF83;
+ Mon, 24 Oct 2022 14:59:49 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b691::1:15] (unknown
+ [2a02:6b8:b081:b691::1:15])
+ by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ 3WdJ6ggXIw-xmNWctMG; Mon, 24 Oct 2022 14:59:48 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1666612788; bh=quEauSfJqAyS0DCNTxAKKDzznsKnUSEciJreIBZ7MLw=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=Z6bwdDMpQadLWJfZGTMYCmPzeekoKxl37cpjhpU/8ce0ZAsXW5WPKJr1SywkAqbFS
+ 4A8EmxMpspUxQCqpZndzXlxFPqqvRsMlc6ncDje/X4HSulaF/scHbHzVUUJcbVIgXc
+ jx861NcpYc4QX85n2XneOqQbY+P9e/RxRKdlm1vU=
+Authentication-Results: sas1-c73b4b4f4b95.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <fae5e95a-ab8c-3471-dfdb-a959cc7aa1bd@yandex-team.ru>
+Date: Mon, 24 Oct 2022 14:59:48 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.3.2
-Subject: Re: [PATCH v6 09/14] target/arm: Don't shift attrs in
- get_phys_addr_lpae
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2] nbd/client: Use smarter assert
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-References: <20221024051851.3074715-1-richard.henderson@linaro.org>
- <20221024051851.3074715-10-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221024051851.3074715-10-richard.henderson@linaro.org>
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>
+References: <20221017191207.1255807-1-eblake@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20221017191207.1255807-1-eblake@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=178.154.239.200;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,18 +73,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 24/10/22 07:18, Richard Henderson wrote:
-> Leave the upper and lower attributes in the place they originate
-> from in the descriptor.  Shifting them around is confusing, since
-> one cannot read the bit numbers out of the manual.  Also, new
-> attributes have been added which would alter the shifts.
+On 10/17/22 22:12, Eric Blake wrote:
+> Assigning strlen() to a uint32_t and then asserting that it isn't too
+> large doesn't catch the case of an input string 4G in length.
+> Thankfully, the incoming strings can never be that large: if the
+> export name or query is reflecting a string the client got from the
+> server, we already guarantee that we dropped the NBD connection if the
+> server sent more than 32M in a single reply to our NBD_OPT_* request;
+> if the export name is coming from qemu, nbd_receive_negotiate()
+> asserted that strlen(info->name) <= NBD_MAX_STRING_SIZE; and
+> similarly, a query string via x->dirty_bitmap coming from the user was
+> bounds-checked in either qemu-nbd or by the limitations of QMP.
+> Still, it doesn't hurt to be more explicit in how we write our
+> assertions to not have to analyze whether inadvertent wraparound is
+> possible.
 > 
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Fixes: 93676c88 ("nbd: Don't send oversize strings", v4.2.0)
+> Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Eric Blake <eblake@redhat.com>
 > ---
->   target/arm/ptw.c | 31 +++++++++++++++----------------
->   1 file changed, 15 insertions(+), 16 deletions(-)
+> 
+> v2: update subject line and commit message to reflect file being
+> touched; adjust a second nearby assertion with the same issue
+> 
+>   nbd/client.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/nbd/client.c b/nbd/client.c
+> index 30d5383cb1..90a6b7b38b 100644
+> --- a/nbd/client.c
+> +++ b/nbd/client.c
+> @@ -658,11 +658,11 @@ static int nbd_send_meta_query(QIOChannel *ioc, uint32_t opt,
+>       char *p;
+> 
+>       data_len = sizeof(export_len) + export_len + sizeof(queries);
+> -    assert(export_len <= NBD_MAX_STRING_SIZE);
+> +    assert(strlen(export) <= NBD_MAX_STRING_SIZE);
+>       if (query) {
+>           query_len = strlen(query);
+>           data_len += sizeof(query_len) + query_len;
+> -        assert(query_len <= NBD_MAX_STRING_SIZE);
+> +        assert(strlen(query) <= NBD_MAX_STRING_SIZE);
+>       } else {
+>           assert(opt == NBD_OPT_LIST_META_CONTEXT);
+>       }
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+I'm a bit late, and this should work as is.
+
+Still, for me it's a bit strange: you point to the fact that we probably overflow uint32_t variable. But we keep this fact hidden in the code. So, everyone who read should guess "aha, this extra strlen here is because the previous one may overflow the variable)".
+
+Could we use strnlen() instead of strlen()? That would be also more effective.
+
+-- 
+Best regards,
+Vladimir
 
 
