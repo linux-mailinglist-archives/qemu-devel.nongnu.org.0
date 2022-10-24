@@ -2,77 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37EE660BE7E
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 01:25:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D278D60BF09
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 01:53:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on6oS-0000Qt-Mg; Mon, 24 Oct 2022 19:24:56 -0400
+	id 1on7F0-00033K-BE; Mon, 24 Oct 2022 19:52:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1on6oP-0008WE-MI
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 19:24:53 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1on6oO-0000FL-4H
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 19:24:53 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- l22-20020a17090a3f1600b00212fbbcfb78so4926102pjc.3
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 16:24:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=ZKPPwqUM3u9rEDoyh08pEPXNUD2eKrireqQWX4VXiQY=;
- b=a2sE8Y6sh/8LHZaXz/+TmN4Kozz2XmqhrJ7pCN3CvcRRk6VgKNC2k+Se5jkudwjTUk
- 16YCYvzZGAWyBGDLvelgmsZOj/m2A7bOY2YloCZyc0o98gIBFWcP8DhM/StxToHOC+EB
- 7Tycn5ZlUV/qE2hrVc5gmmjCWEqbzkP1YNh20SbbLqX+Xj5V+gOehi07X57UnRDAWiyO
- UBccLnQ3Q6++enxVh2cVKlwbo70ZDcCRCRAyqOeBvwOeBjN9fx1l4vTbNMwCuQQGJ/aL
- hvcPTAuUbA6AS6+rhbr5ZChEXp6n9p1goXNY5KXFa9HAt69zFLxDPKphrUxMJdcvPAjp
- xIig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ZKPPwqUM3u9rEDoyh08pEPXNUD2eKrireqQWX4VXiQY=;
- b=bkYrYt9Q0kLPYsZu4cRJ1W909Fj2vAAI8jlnUkDCNl3WlRIFUajdhiFwt82XbrM7/v
- tooVFNVTTkmPgHmxKmcmx3FhADqk5DeF2K6MruIrfISjdLpw3fymEHN66qxuWF13a/rG
- lF27KSByeVXbg9/EDehvsM8yxP50vPEzXhyQx4F9Yyn12jXxUEFf+KaJLVG8HRTMNeYu
- to5X+/FSrcNexG4Sfx73W+zEDhJNPMuwfNJyP9co8CKCCNzRbev1tAxGUeD1JAVkKfGD
- QyUW/sQH4/jpnlWvoVxMhPgmPe9HFSKd0a/mHwFbiAyb/UideslKlqEy8vVa/cpM3FEs
- CpSg==
-X-Gm-Message-State: ACrzQf0vrB0qcgtYYUNMc7KLGLMqwjbhwkrZrPNc3+ja8VlrrolQ5Zj4
- 0fKweWvCkzKnPDEjhaz7hHZAAqZU6/MIfg==
-X-Google-Smtp-Source: AMsMyM5cuLO+GCCvJtbyebxYlj61AmyezxuUKEMyvKazZiHWjTbzY4rg7NC3jtk+XSr2afBxahCXOg==
-X-Received: by 2002:a17:902:eccd:b0:186:5d25:ec5a with SMTP id
- a13-20020a170902eccd00b001865d25ec5amr27747326plh.93.1666653890059; 
- Mon, 24 Oct 2022 16:24:50 -0700 (PDT)
-Received: from stoup.. ([103.100.225.182]) by smtp.gmail.com with ESMTPSA id
- k3-20020aa79983000000b0056bfa2cf517sm324788pfh.3.2022.10.24.16.24.48
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Oct 2022 16:24:49 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1on7E8-0000kT-Iv
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 19:51:29 -0400
+Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1on7E4-0005Cd-Up
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 19:51:28 -0400
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29ONbQCs029786;
+ Mon, 24 Oct 2022 23:51:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=qcppdkim1;
+ bh=QfJupkI4lG4o5CWsNViyCgAEm1gEaa2bQvibQgZ7s/U=;
+ b=A9BXTadb3u7ucWuMzfIG2VhDZxeksCRW03i3f1QFrBDbOUWiD6/5Uw4hT90gdDq8c12N
+ JuUCgIQPppdvHJUOqp0lGRD9TYaQgVrywRddfWeuw7Mspu8q7KSfYTUz1jrq17cYDJxJ
+ iBQJXV76nsfIze3zXfGOUbg9q3f8uAGH5u5pK0/AAJQgMPZ9GlCRxqY7h4+RRhCObJ5/
+ pt2u4UHJ/gRtH7TroPkgUW5wxT1LZkRourpOG77p7CMHFBkRKoKPua9FtoxhYfAzxlgA
+ YULeuQwHCbsAYl9dCDt0glM828YrgLrar8ID1Jkyw9w7dlF5shFfDP2HMDfuU4GAbg25 cQ== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kc7utcr4f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 24 Oct 2022 23:51:21 +0000
+Received: from pps.filterd (NALASPPMTA03.qualcomm.com [127.0.0.1])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 29ONpJso021251; 
+ Mon, 24 Oct 2022 23:51:20 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by NALASPPMTA03.qualcomm.com (PPS) with ESMTP id 3kc9kkr1y2-1;
+ Mon, 24 Oct 2022 23:51:19 +0000
+Received: from NALASPPMTA03.qualcomm.com (NALASPPMTA03.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29ONpJfd021246;
+ Mon, 24 Oct 2022 23:51:19 GMT
+Received: from hu-devc-lv-u18-c.qualcomm.com (hu-tsimpson-lv.qualcomm.com
+ [10.47.235.220])
+ by NALASPPMTA03.qualcomm.com (PPS) with ESMTP id 29ONpJrh021244;
+ Mon, 24 Oct 2022 23:51:19 +0000
+Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 47164)
+ id 3523B5000A7; Mon, 24 Oct 2022 16:51:19 -0700 (PDT)
+From: Taylor Simpson <tsimpson@quicinc.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] include/qemu/atomic128: Avoid
- __sync_val_compare_and_swap_16
-Date: Tue, 25 Oct 2022 09:24:35 +1000
-Message-Id: <20221024232435.3334600-5-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221024232435.3334600-1-richard.henderson@linaro.org>
-References: <20221024232435.3334600-1-richard.henderson@linaro.org>
+Cc: tsimpson@quicinc.com, richard.henderson@linaro.org, philmd@linaro.org,
+ ale@rev.ng, anjo@rev.ng, bcain@quicinc.com, quic_mathbern@quicinc.com
+Subject: [PATCH v2 0/8] Hexagon (target/hexagon) Improve change-of-flow
+Date: Mon, 24 Oct 2022 16:51:09 -0700
+Message-Id: <20221024235117.3663-1-tsimpson@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 7Mi6cDa0UIYh-p4v0pQBAepGVvMji71U
+X-Proofpoint-GUID: 7Mi6cDa0UIYh-p4v0pQBAepGVvMji71U
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-24_07,2022-10-21_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=5
+ priorityscore=1501
+ impostorscore=0 mlxscore=5 malwarescore=0 lowpriorityscore=0 phishscore=0
+ suspectscore=0 spamscore=5 bulkscore=0 mlxlogscore=125 clxscore=1015
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210240142
+Received-SPF: pass client-ip=205.220.180.131;
+ envelope-from=tsimpson@qualcomm.com; helo=mx0b-0031df01.pphosted.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,58 +104,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Merge the CONFIG_ATOMIC128 and CONFIG_CMPXCHG128 cases
-with respect to atomic16_cmpxchg and use
-__atomic_compare_exchange_nomic (via qatomic_cmpxchg)
-instead of the "legacy" __sync_val_compare_and_swap_16.
-
-Update the meson has_cmpxchg128 test to match.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/qemu/atomic128.h | 8 +-------
- meson.build              | 3 ++-
- 2 files changed, 3 insertions(+), 8 deletions(-)
-
-diff --git a/include/qemu/atomic128.h b/include/qemu/atomic128.h
-index adb9a1a260..ec45754515 100644
---- a/include/qemu/atomic128.h
-+++ b/include/qemu/atomic128.h
-@@ -41,18 +41,12 @@
-  * Therefore, special case each platform.
-  */
- 
--#if defined(CONFIG_ATOMIC128)
-+#if defined(CONFIG_ATOMIC128) || defined(CONFIG_CMPXCHG128)
- static inline Int128 atomic16_cmpxchg(Int128 *ptr, Int128 cmp, Int128 new)
- {
-     return qatomic_cmpxchg__nocheck(ptr, cmp, new);
- }
- # define HAVE_CMPXCHG128 1
--#elif defined(CONFIG_CMPXCHG128)
--static inline Int128 atomic16_cmpxchg(Int128 *ptr, Int128 cmp, Int128 new)
--{
--    return __sync_val_compare_and_swap_16(ptr, cmp, new);
--}
--# define HAVE_CMPXCHG128 1
- #elif defined(__aarch64__)
- /* Through gcc 8, aarch64 has no support for 128-bit at all.  */
- static inline Int128 atomic16_cmpxchg(Int128 *ptr, Int128 cmp, Int128 new)
-diff --git a/meson.build b/meson.build
-index 1ec3f72edc..d8c4e76e7b 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2224,7 +2224,8 @@ if has_int128
-       int main(void)
-       {
-         unsigned __int128 x = 0, y = 0;
--        __sync_val_compare_and_swap_16(&x, y, x);
-+        __atomic_compare_exchange_n(&x, &y, x, 0,
-+            __ATOMIC_RELAXED, __ATOMIC_RELAXED);
-         return 0;
-       }
-     ''')
--- 
-2.34.1
-
+VGhpcyBwYXRjaCBzZXJpZXMgaW1wcm92ZXMgY2hhbmdlLW9mLWZsb3cgaGFuZGxpbmcuCgpDdXJy
+ZW50bHksIHdlIHNldCB0aGUgUEMgdG8gYSBuZXcgYWRkcmVzcyBiZWZvcmUgZXhpdGluZyBhIFRC
+LiAgVGhlCnVsdGltYXRlIGdvYWwgaXMgdG8gdXNlIGRpcmVjdCBibG9jayBjaGFpbmluZy4gIEhv
+d2V2ZXIsIHNldmVyYWwgc3RlcHMKYXJlIG5lZWRlZCBhbG9uZyB0aGUgd2F5LgoKMSkKV2hlbiBh
+IHBhY2tldCBoYXMgbW9yZSB0aGFuIG9uZSBjaGFuZ2Utb2YtZmxvdyAoQ09GKSBpbnN0cnVjdGlv
+biwgb25seQp0aGUgZmlyc3Qgb25lIHRha2VuIGlzIGNvbnNpZGVyZWQuICBUaGUgcnVudGltZSBi
+b29ra2VlcGluZyBpcyBvbmx5Cm5lZWRlZCB3aGVuIHRoZXJlIGlzIG1vcmUgdGhhbiBvbmUgQ09G
+IGluc3RydWN0aW9uIGluIGEgcGFja2V0LgoKMiwgMykKUmVtb3ZlIFBDIGFuZCBuZXh0X1BDIGZy
+b20gdGhlIHJ1bnRpbWUgc3RhdGUgYW5kIGFsd2F5cyB1c2UgYQp0cmFuc2xhdGlvbi10aW1lIGNv
+bnN0YW50LiAgTm90ZSB0aGF0IG5leHRfUEMgaXMgdXNlZCBieSBjYWxsIGluc3RydWN0aW9ucwp0
+byBzZXQgTFIgYW5kIGJ5IGNvbmRpdGlvbmFsIENPRiBpbnN0cnVjdGlvbnMgdG8gc2V0IHRoZSBm
+YWxsLXRocm91Z2gKYWRkcmVzcy4KCjQsIDUsIDYpCkFkZCBoZWxwZXIgb3ZlcnJpZGVzIGZvciBD
+T0YgaW5zdHJ1Y3Rpb25zLiAgSW4gcGFydGljdWxhciwgd2UgbXVzdApkaXN0aW5ndWlzaCB0aG9z
+ZSB0aGF0IHVzZSBhIFBDLXJlbGF0aXZlIGFkZHJlc3MgZm9yIHRoZSBkZXN0aW5hdGlvbi4KVGhl
+c2UgYXJlIGNhbmRpZGF0ZXMgZm9yIGRpcmVjdCBibG9jayBjaGFpbmluZyBsYXRlci4KCjcpClVz
+ZSBkaXJlY3QgYmxvY2sgY2hhaW5pbmcgZm9yIHBhY2tldHMgdGhhdCBoYXZlIGEgc2luZ2xlIFBD
+LXJlbGF0aXZlCkNPRiBpbnN0cnVjdGlvbi4gIEluc3RlYWQgb2YgZ2VuZXJhdGluZyB0aGUgY29k
+ZSB3aGlsZSBwcm9jZXNzaW5nIHRoZQppbnN0cnVjdGlvbiwgd2UgcmVjb3JkIHRoZSBlZmZlY3Qg
+aW4gRGlzYXNDb250ZXh0IGFuZCBnZW5lcmF0ZSB0aGUgY29kZQpkdXJpbmcgZ2VuX2VuZF90Yi4K
+CjgpClVzZSBkaXJlY3QgYmxvY2sgY2hhaW5pbmcgZm9yIHRpZ2h0IGxvb3BzLiAgV2UgbG9vayBm
+b3IgVEJzIHRoYXQgZW5kCndpdGggYW4gZW5kbG9vcDAgdGhhdCB3aWxsIGJyYW5jaCBiYWNrIHRv
+IHRoZSBUQiBzdGFydCBhZGRyZXNzLgoKCioqKiogQ2hhbmdlcyBpbiBWMiAqKioqClNpbXBsaWZ5
+IHRlc3QgaW4gbmVlZF9wa3RfaGFzX211bHRpX2NvZgpBZGRyZXNzIGZlZWRiYWNrIGZyb20gTWF0
+aGV1cyBUYXZhcmVzIEJlcm5hcmRpbm8gPHF1aWNfbWF0aGJlcm5AcXVpY2luYy5jb20+CiAgICBS
+ZWFycmFuZ2UgbmV3LXZhbHVlLWp1bXAgb3ZlcnJpZGVzCiAgICBTaW1wbGlmeSBnZW5fd3JpdGVf
+bmV3X3BjX2FkZHIKCgoKVGF5bG9yIFNpbXBzb24gKDgpOgogIEhleGFnb24gKHRhcmdldC9oZXhh
+Z29uKSBPbmx5IHVzZSBicmFuY2hfdGFrZW4gd2hlbiBwYWNrZXQgaGFzIG11bHRpCiAgICBjb2YK
+ICBIZXhhZ29uICh0YXJnZXQvaGV4YWdvbikgUmVtb3ZlIFBDIGZyb20gdGhlIHJ1bnRpbWUgc3Rh
+dGUKICBIZXhhZ29uICh0YXJnZXQvaGV4YWdvbikgUmVtb3ZlIG5leHRfUEMgZnJvbSBydW50aW1l
+IHN0YXRlCiAgSGV4YWdvbiAodGFyZ2V0L2hleGFnb24pIEFkZCBvdmVycmlkZXMgZm9yIGRpcmVj
+dCBjYWxsIGluc3RydWN0aW9ucwogIEhleGFnb24gKHRhcmdldC9oZXhhZ29uKSBBZGQgb3ZlcnJp
+ZGVzIGZvciBjb21wb3VuZCBjb21wYXJlIGFuZCBqdW1wCiAgSGV4YWdvbiAodGFyZ2V0L2hleGFn
+b24pIEFkZCBvdmVycmlkZXMgZm9yIHZhcmlvdXMgZm9ybXMgb2YganVtcAogIEhleGFnb24gKHRh
+cmdldC9oZXhhZ29uKSBVc2UgZGlyZWN0IGJsb2NrIGNoYWluaW5nIGZvciBkaXJlY3QKICAgIGp1
+bXAvYnJhbmNoCiAgSGV4YWdvbiAodGFyZ2V0L2hleGFnb24pIFVzZSBkaXJlY3QgYmxvY2sgY2hh
+aW5pbmcgZm9yIHRpZ2h0IGxvb3BzCgogdGFyZ2V0L2hleGFnb24vY3B1LmggICAgICAgICAgICAg
+ICAgfCAgMTggKy0KIHRhcmdldC9oZXhhZ29uL2dlbl90Y2cuaCAgICAgICAgICAgIHwgMzkwICsr
+KysrKysrKysrKysrKysrKysrKysrKysrKysKIHRhcmdldC9oZXhhZ29uL2luc24uaCAgICAgICAg
+ICAgICAgIHwgICAyICsKIHRhcmdldC9oZXhhZ29uL21hY3Jvcy5oICAgICAgICAgICAgIHwgICA2
+ICstCiB0YXJnZXQvaGV4YWdvbi90cmFuc2xhdGUuaCAgICAgICAgICB8ICAgNiArLQogdGFyZ2V0
+L2hleGFnb24vZGVjb2RlLmMgICAgICAgICAgICAgfCAgMTUgKy0KIHRhcmdldC9oZXhhZ29uL2dl
+bnB0ci5jICAgICAgICAgICAgIHwgMjYwICsrKysrKysrKysrKysrKysrKysKIHRhcmdldC9oZXhh
+Z29uL29wX2hlbHBlci5jICAgICAgICAgIHwgIDI4ICstCiB0YXJnZXQvaGV4YWdvbi90cmFuc2xh
+dGUuYyAgICAgICAgICB8IDEyMCArKysrKysrLS0KIHRhcmdldC9oZXhhZ29uL2dlbl9oZWxwZXJf
+ZnVuY3MucHkgIHwgIDExICsKIHRhcmdldC9oZXhhZ29uL2dlbl9oZWxwZXJfcHJvdG9zLnB5IHwg
+IDEyICstCiB0YXJnZXQvaGV4YWdvbi9nZW5fdGNnX2Z1bmNzLnB5ICAgICB8ICAxMSArCiB0YXJn
+ZXQvaGV4YWdvbi9oZXhfY29tbW9uLnB5ICAgICAgICB8ICAyOSArKy0KIDEzIGZpbGVzIGNoYW5n
+ZWQsIDg2MyBpbnNlcnRpb25zKCspLCA0NSBkZWxldGlvbnMoLSkKCi0tIAoyLjE3LjEKCg==
 
