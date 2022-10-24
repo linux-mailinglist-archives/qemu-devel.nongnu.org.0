@@ -2,74 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C5660A267
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 13:42:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5595560A248
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 13:40:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omvI6-00051G-3z; Mon, 24 Oct 2022 07:06:46 -0400
+	id 1omvbF-00032r-Rv; Mon, 24 Oct 2022 07:26:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1omvI4-0004zP-4b
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:06:44 -0400
-Received: from mail-oa1-x2e.google.com ([2001:4860:4864:20::2e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1omvI2-0005pi-Dx
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:06:43 -0400
-Received: by mail-oa1-x2e.google.com with SMTP id
- 586e51a60fabf-1322d768ba7so11426667fac.5
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 04:06:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=cgLzXaT6dLw5TNGf5bcGcQQYvkat9WyvjkpOw1QBReI=;
- b=Eq3dkTdT8Z8hzJXy3VQ5r6tWpJhtRfRhOzO/lBQGXzbPouh4SVJSgopXnKS9Ug6Qn7
- S/OnhKYozvRuUP5olaF9tdzTu+JnPXKqnxRmOhC7GyTd5UIuXtwC8+yJY5dW/IxwzUC4
- 4CM/mq9bBh9AgJCq507T2Gld4Air87FxqR+bvd94ZiqJaR/rMKWCQtPmlIYoAb/47kqH
- QgoqKXLBg8ukQhIBtdgMfSOZJLRhEbHzD6XRbl9/Va70S18ECpjsmfKuEsIbb0cyO/0T
- Zf23Auq8Q9+3VyYDAfNozD3BNb0SwI2oAJfnEilVC6i+eKzIrVaCSs/fzKArSw3icGrH
- A96g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=cgLzXaT6dLw5TNGf5bcGcQQYvkat9WyvjkpOw1QBReI=;
- b=qya39sk3VLyOtbR/VehdIJqnjeBc9qDihXQxeMxtMF/34/pB9AuHtxzSo1NTuhuMrC
- KY9Nx9m9SL/+/Rf+H3tjmMc3eV9BwWw0DE+cKrYEBeT1HVEVRRHrHMwGg+hGyEIE6AlD
- 70ebSR0uFuOH4lr8cMxLYUxYjPQ7g+WyUjEf957CzpRYyc3Dy411zi66/vPCH7YnQa1Z
- gt/kP9cCr8+PH33VM0ZAlhPk3x1O6BTe+R4QnkoYUbNe3aQ9XjzYe5SI7D+OeQKxtMZm
- +T9B7DeZ2NFOQSS4PjtAez0B8IA7Js2mkmQ6OICFHjSvnKwT/HD1LNllVIiJ7tNPtFPl
- oFqw==
-X-Gm-Message-State: ACrzQf1gazhtAebi2arwKTyCQWlzhJiGS+vzMYIIcRn8t9CMVag8Vipw
- Ry39QarAdRsubcAs+MaN4TiYRhgZcubwnMJkrVy330sxipk=
-X-Google-Smtp-Source: AMsMyM7P+Z+91QkZy1zzM17SAi655vjo6B+ACUn4f0PFnsSMma6S/PB74dhzYN7sz0N9ArV8OO4uH4lHofLOXPoUeGU=
-X-Received: by 2002:a17:90b:f06:b0:212:cb07:fb82 with SMTP id
- br6-20020a17090b0f0600b00212cb07fb82mr20114928pjb.221.1666609590595; Mon, 24
- Oct 2022 04:06:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1omvay-0002tR-4v; Mon, 24 Oct 2022 07:26:24 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1omvat-0002AX-BD; Mon, 24 Oct 2022 07:26:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=S2LrAu0dVEbd5+snTOh+W0uqiOdzeHgo4KhsA3+cznI=; b=GJsyr3tDObeG0yh3K22YWO8viS
+ 9NbfYnocQoMYbMb6I0QiYCgRcfNG8fYIdTSr4zSz6dsow+6ks6BwqCC1swGUkR9KIGGi3Rl3ryNC1
+ SZjZXqxnoSj3Oyb3bJ9N4W5OrKBIMnRpSoGBGOcS7UDLSP0jpD3ofXconpYltOAWMMhEopOe+Sds5
+ Kn7R0a2J/RX1cCKwq5mn0GGqcIp/HxNXeQZVdCVEpvD1+QpiXmJT58NNCau3qVYiASi+AmzXMZm75
+ eW858E2udHphJmab6PKnLYNkBmwvckNQNTP2tGfun4vXlBwN977CFXWmb3fbCs9InRiBezTW6r7LO
+ ju8vnlXBMmcpdOF9eGR2Bho2kSCuepuQt6zjUNgvQBUd7JGJoDpdVIWZOpPLKJgZXw9s+QKs6erqe
+ S/85u+oO9NI5Z2K2RDT0g4V5ZkpJmoN8tyOWiviYsZZvSUZLzJYyonml5SPTV6QkMlaocLgG/w6Tm
+ PF8c0vJYfwuLeuoUxU3QAhNLnxAMSD1+3VPyGeMb4BcX5YOTU3Cf6pNkJ8muICgt0gWn5yC02LNn4
+ SIZ4GaofPbE3yC1uQZHzeQ/UZT8e38SPS+Whsjj5yEWng7Mgak2OYi/JTq6WZQZNpkXGwP6NOXIeq
+ GhcXe5lFKpd94J8pXGt4COwUFJGWfq2cqDKsvHnGY=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org, qemu-trivial@nongnu.org
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Jason Wang <jasowang@redhat.com>,
+ Magnus Damm <magnus.damm@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Pavel Pisa <pisa@cmp.felk.cvut.cz>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Vikram Garhwal <fnu.vikram@xilinx.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-arm@nongnu.org,
+ qemu-riscv@nongnu.org, Bin Meng <bmeng@tinylab.org>
+Subject: Re: [PATCH] treewide: Remove the unnecessary space before semicolon
+Date: Mon, 24 Oct 2022 13:25:47 +0200
+Message-ID: <2066693.1BhqGHn6RX@silver>
+In-Reply-To: <20221024072802.457832-1-bmeng@tinylab.org>
+References: <20221024072802.457832-1-bmeng@tinylab.org>
 MIME-Version: 1.0
-References: <20221014021653.1461512-1-Jason@zx2c4.com>
- <20221014021653.1461512-2-Jason@zx2c4.com>
-In-Reply-To: <20221014021653.1461512-2-Jason@zx2c4.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 24 Oct 2022 12:06:18 +0100
-Message-ID: <CAFEAcA8jra50q_DvNTGG8Wi+eF+PEKPHnfLNBhUjG9muqiPe0A@mail.gmail.com>
-Subject: Re: [PATCH v3 1/8] reset: allow registering handlers that aren't
- called by snapshot loading
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, richard.henderson@linaro.org, 
- Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2001:4860:4864:20::2e;
- envelope-from=peter.maydell@linaro.org; helo=mail-oa1-x2e.google.com
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,84 +72,203 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-(Cc'ing Markus for a QMP related question.)
+On Monday, October 24, 2022 9:28:02 AM CEST Bin Meng wrote:
+> %s/return ;/return;
+> 
+> Signed-off-by: Bin Meng <bmeng@tinylab.org>
+> ---
 
-On Fri, 14 Oct 2022 at 03:17, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
->
-> Snapshot loading only expects to call deterministic handlers, not
-> non-deterministic ones. So introduce a way of registering handlers that
-> won't be called when reseting for snapshots.
->
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index 48e85c052c..a0cdb714f7 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -3058,7 +3058,7 @@ bool load_snapshot(const char *name, const char *vmstate,
->          goto err_drain;
+> 
+>  include/hw/elf_ops.h         | 2 +-
+>  hw/9pfs/9p.c                 | 2 +-
+>  hw/dma/pl330.c               | 2 +-
+>  hw/net/can/can_sja1000.c     | 2 +-
+>  hw/timer/renesas_cmt.c       | 2 +-
+>  hw/timer/renesas_tmr.c       | 8 ++++----
+>  hw/virtio/virtio-pci.c       | 2 +-
+>  target/riscv/vector_helper.c | 2 +-
+>  target/rx/op_helper.c        | 4 ++--
+>  ui/vnc-jobs.c                | 2 +-
+>  ui/vnc.c                     | 2 +-
+>  11 files changed, 15 insertions(+), 15 deletions(-)
+> 
+> diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
+> index 7c3b1d0f6c..fbe0b1e956 100644
+> --- a/include/hw/elf_ops.h
+> +++ b/include/hw/elf_ops.h
+> @@ -117,7 +117,7 @@ static void glue(load_symbols, SZ)(struct elfhdr *ehdr, int fd, int must_swab,
+>      shdr_table = load_at(fd, ehdr->e_shoff,
+>                           sizeof(struct elf_shdr) * ehdr->e_shnum);
+>      if (!shdr_table) {
+> -        return ;
+> +        return;
 >      }
->
-> -    qemu_system_reset(SHUTDOWN_CAUSE_NONE);
-> +    qemu_system_reset(SHUTDOWN_CAUSE_SNAPSHOT_LOAD);
->      mis->from_src_file = f;
->
->      if (!yank_register_instance(MIGRATION_YANK_INSTANCE, errp)) {
-> diff --git a/qapi/run-state.json b/qapi/run-state.json
-> index 9273ea6516..74ed0ac93c 100644
-> --- a/qapi/run-state.json
-> +++ b/qapi/run-state.json
-> @@ -86,12 +86,14 @@
->  #                   ignores --no-reboot. This is useful for sanitizing
->  #                   hypercalls on s390 that are used during kexec/kdump/boot
->  #
-> +# @snapshot-load: A snapshot is being loaded by the record & replay subsystem.
-> +#
->  ##
->  { 'enum': 'ShutdownCause',
->    # Beware, shutdown_caused_by_guest() depends on enumeration order
->    'data': [ 'none', 'host-error', 'host-qmp-quit', 'host-qmp-system-reset',
->              'host-signal', 'host-ui', 'guest-shutdown', 'guest-reset',
-> -            'guest-panic', 'subsystem-reset'] }
-> +            'guest-panic', 'subsystem-reset', 'snapshot-load'] }
-
-Markus: do we need to mark new enum values with some kind of "since n.n"
-version info ?
-
->  ##
->  # @StatusInfo:
-> diff --git a/softmmu/runstate.c b/softmmu/runstate.c
-> index 1e68680b9d..03e1ee3a8a 100644
-> --- a/softmmu/runstate.c
-> +++ b/softmmu/runstate.c
-> @@ -441,9 +441,9 @@ void qemu_system_reset(ShutdownCause reason)
->      cpu_synchronize_all_states();
->
->      if (mc && mc->reset) {
-> -        mc->reset(current_machine);
-> +        mc->reset(current_machine, reason);
+>  
+>      if (must_swab) {
+> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> index aebadeaa03..76c591a01b 100644
+> --- a/hw/9pfs/9p.c
+> +++ b/hw/9pfs/9p.c
+> @@ -1786,7 +1786,7 @@ static void coroutine_fn v9fs_walk(void *opaque)
+>      err = pdu_unmarshal(pdu, offset, "ddw", &fid, &newfid, &nwnames);
+>      if (err < 0) {
+>          pdu_complete(pdu, err);
+> -        return ;
+> +        return;
+>      }
+>      offset += err;
+>  
+> diff --git a/hw/dma/pl330.c b/hw/dma/pl330.c
+> index 08e5938ec7..e5d521c329 100644
+> --- a/hw/dma/pl330.c
+> +++ b/hw/dma/pl330.c
+> @@ -1328,7 +1328,7 @@ static void pl330_debug_exec(PL330State *s)
+>      }
+>      if (!insn) {
+>          pl330_fault(ch, PL330_FAULT_UNDEF_INSTR | PL330_FAULT_DBG_INSTR);
+> -        return ;
+> +        return;
+>      }
+>      ch->stall = 0;
+>      insn->exec(ch, opcode, args, insn->size - 1);
+> diff --git a/hw/net/can/can_sja1000.c b/hw/net/can/can_sja1000.c
+> index e0f76d3eb3..73201f9139 100644
+> --- a/hw/net/can/can_sja1000.c
+> +++ b/hw/net/can/can_sja1000.c
+> @@ -431,7 +431,7 @@ void can_sja_mem_write(CanSJA1000State *s, hwaddr addr, uint64_t val,
+>              (unsigned long long)val, (unsigned int)addr);
+>  
+>      if (addr > CAN_SJA_MEM_SIZE) {
+> -        return ;
+> +        return;
+>      }
+>  
+>      if (s->clock & 0x80) { /* PeliCAN Mode */
+> diff --git a/hw/timer/renesas_cmt.c b/hw/timer/renesas_cmt.c
+> index 2e0fd21a36..69eabc678a 100644
+> --- a/hw/timer/renesas_cmt.c
+> +++ b/hw/timer/renesas_cmt.c
+> @@ -57,7 +57,7 @@ static void update_events(RCMTState *cmt, int ch)
+>  
+>      if ((cmt->cmstr & (1 << ch)) == 0) {
+>          /* count disable, so not happened next event. */
+> -        return ;
+> +        return;
+>      }
+>      next_time = cmt->cmcor[ch] - cmt->cmcnt[ch];
+>      next_time *= NANOSECONDS_PER_SECOND;
+> diff --git a/hw/timer/renesas_tmr.c b/hw/timer/renesas_tmr.c
+> index d96002e1ee..c15f654738 100644
+> --- a/hw/timer/renesas_tmr.c
+> +++ b/hw/timer/renesas_tmr.c
+> @@ -67,18 +67,18 @@ static void update_events(RTMRState *tmr, int ch)
+>      int i, event;
+>  
+>      if (tmr->tccr[ch] == 0) {
+> -        return ;
+> +        return;
+>      }
+>      if (FIELD_EX8(tmr->tccr[ch], TCCR, CSS) == 0) {
+>          /* external clock mode */
+>          /* event not happened */
+> -        return ;
+> +        return;
+>      }
+>      if (FIELD_EX8(tmr->tccr[0], TCCR, CSS) == CSS_CASCADING) {
+>          /* cascading mode */
+>          if (ch == 1) {
+>              tmr->next[ch] = none;
+> -            return ;
+> +            return;
+>          }
+>          diff[cmia] = concat_reg(tmr->tcora) - concat_reg(tmr->tcnt);
+>          diff[cmib] = concat_reg(tmr->tcorb) - concat_reg(tmr->tcnt);
+> @@ -384,7 +384,7 @@ static void timer_events(RTMRState *tmr, int ch)
+>                                      tmr->tcorb[ch]) & 0xff;
 >      } else {
-> -        qemu_devices_reset();
-> +        qemu_devices_reset(reason);
+>          if (ch == 1) {
+> -            return ;
+> +            return;
+>          }
+>          tcnt = issue_event(tmr, ch, 16,
+>                             concat_reg(tmr->tcnt),
+> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> index e7d80242b7..34db51e241 100644
+> --- a/hw/virtio/virtio-pci.c
+> +++ b/hw/virtio/virtio-pci.c
+> @@ -1675,7 +1675,7 @@ static void virtio_pci_device_plugged(DeviceState *d, Error **errp)
+>          if (virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
+>              error_setg(errp, "VIRTIO_F_IOMMU_PLATFORM was supported by"
+>                         " neither legacy nor transitional device");
+> -            return ;
+> +            return;
+>          }
+>          /*
+>           * Legacy and transitional devices use specific subsystem IDs.
+> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+> index b94f809eb3..0020b9a95d 100644
+> --- a/target/riscv/vector_helper.c
+> +++ b/target/riscv/vector_helper.c
+> @@ -211,7 +211,7 @@ static void vext_set_elems_1s(void *base, uint32_t is_agnostic, uint32_t cnt,
+>          return;
 >      }
->      if (reason && reason != SHUTDOWN_CAUSE_SUBSYSTEM_RESET) {
->          qapi_event_send_reset(shutdown_caused_by_guest(reason), reason);
+>      if (tot - cnt == 0) {
+> -        return ;
+> +        return;
+>      }
+>      memset(base + cnt, -1, tot - cnt);
+>  }
+> diff --git a/target/rx/op_helper.c b/target/rx/op_helper.c
+> index 9ca32dcc82..acce650185 100644
+> --- a/target/rx/op_helper.c
+> +++ b/target/rx/op_helper.c
+> @@ -286,7 +286,7 @@ void helper_suntil(CPURXState *env, uint32_t sz)
+>      uint32_t tmp;
+>      tcg_debug_assert(sz < 3);
+>      if (env->regs[3] == 0) {
+> -        return ;
+> +        return;
+>      }
+>      do {
+>          tmp = cpu_ldufn[sz](env, env->regs[1], GETPC());
+> @@ -305,7 +305,7 @@ void helper_swhile(CPURXState *env, uint32_t sz)
+>      uint32_t tmp;
+>      tcg_debug_assert(sz < 3);
+>      if (env->regs[3] == 0) {
+> -        return ;
+> +        return;
+>      }
+>      do {
+>          tmp = cpu_ldufn[sz](env, env->regs[1], GETPC());
+> diff --git a/ui/vnc-jobs.c b/ui/vnc-jobs.c
+> index 4562bf8928..886f9bf611 100644
+> --- a/ui/vnc-jobs.c
+> +++ b/ui/vnc-jobs.c
+> @@ -373,7 +373,7 @@ void vnc_start_worker_thread(void)
+>      VncJobQueue *q;
+>  
+>      if (vnc_worker_thread_running())
+> -        return ;
+> +        return;
+>  
+>      q = vnc_queue_init();
+>      qemu_thread_create(&q->thread, "vnc_worker", vnc_worker_thread, q,
+> diff --git a/ui/vnc.c b/ui/vnc.c
+> index acb3629cd8..88f55cbf3c 100644
+> --- a/ui/vnc.c
+> +++ b/ui/vnc.c
+> @@ -3085,7 +3085,7 @@ static void vnc_rect_updated(VncDisplay *vd, int x, int y, struct timeval * tv)
+>  
+>      rect = vnc_stat_rect(vd, x, y);
+>      if (rect->updated) {
+> -        return ;
+> +        return;
+>      }
+>      rect->times[rect->idx] = *tv;
+>      rect->idx = (rect->idx + 1) % ARRAY_SIZE(rect->times);
+> 
 
-This change means that resets on snapshot-load, which previously
-did not result in sending a QMP event, will now start to do so
-with this new ShutdownCause type. I don't think we want that
-change in behaviour.
 
-(Also, as per the 'Beware' comment in run-state.json, we will
-claim this to be a 'caused by guest' reset, which doesn't seem
-right. If we suppress the sending the event that is moot, though.)
-
-Markus: if we add a new value to the ShutdownCause enumeration,
-how annoying is it if we decide we don't want it later? I guess
-we can just leave it in the enum unused... (In this case we're
-using it for purely internal purposes and it won't ever actually
-wind up in any QMP events.)
-
-thanks
--- PMM
 
