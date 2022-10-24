@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A70160A7A3
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 14:54:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7434D60A91E
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 15:15:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omwiW-0001zh-KF; Mon, 24 Oct 2022 08:38:08 -0400
+	id 1omwkh-0002pM-7q; Mon, 24 Oct 2022 08:40:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1omwiO-0001tm-FM
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 08:38:01 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
+ id 1omwkQ-0002kL-E7
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 08:40:07 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1omwiJ-0001LH-4p
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 08:38:00 -0400
-Received: by mail-pf1-x436.google.com with SMTP id m6so8897935pfb.0
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 05:37:54 -0700 (PDT)
+ id 1omwkO-0001fG-NX
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 08:40:06 -0400
+Received: by mail-pl1-x630.google.com with SMTP id c24so8314220pls.9
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 05:40:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=GtPs6BSk7iG0Xyw1d5kT3P/rp11OqlJBNSYSF5SRXao=;
- b=XUC7GGTHvUZ5oaWgA8cvu0nAyluVu0xGMd2yoetliMz936Irmi1fM/epkorg71E8RA
- tluQIs/T1N35VF2KlFE/4JbUwBSBK8EXtfmyt5/EbqmymI/o/v+wtkX9s5tDXl+6E/m2
- lKVB7X0SmoYkj5JWTcYgZylDKjLGkytWNXLDRLQzajEXeR9D0EAbe1mzPpyPBU/g/WgT
- viLKPqDz4dGupBc6fQfFXIWgrADNg5L5YawgjIArN6BwDIw5qdjTvR4O1RNvNAqs1wVk
- cVadEuQ4/boDBo0LgW7E3W1kGK0RX9jKeZnows4e4paDX3KfEhGcVdzrnVjFHSJZhX+b
- jzbQ==
+ bh=1+LWvDiP9vbwUIgIoA64lNkImn7woEzeErNi4yRDfo4=;
+ b=q3lyBW35JqIM3EFXLqfLJXlHWqj3u+y24BlVJy42aB2n6j9gpMV0MkjAWquto5/C0M
+ RfVPBTL9SoP+loDj8hMNMsAGzDdTOe3HO6qUO02nTp7WvfaOFk0BnX9hBefRTPT5o0G3
+ XTsDgf6ahhizKShbDg0bTGw45j3cR2h6KlVD32u611GT7RWPjnVGUcsq15K/nLki9GeG
+ GZL1mz2ASoeB2cZFf61dp0egO6cSKQnk+UI3M27qp06doLRA7RGDnGnAvgYfQClbERXA
+ HIviavyKcPYyNZyAnnDBPD+OZaUIykmGo8ugzZeY9k4YtP51GELZ8xI8gf7fC2gQc8Jl
+ CANw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=GtPs6BSk7iG0Xyw1d5kT3P/rp11OqlJBNSYSF5SRXao=;
- b=t+3Xv2EPQI7ZKsHyWnnL5/grBJARWTc9neGUxaX8gXc9JqM4Ene4VbUoh6CIrkr+Fc
- /aTcWXRA2AgBA6h+TSZBhrwBdqRL7dOmdbBhQH/wiavXJiqEOpeFOCdajkaOo16dPYGV
- fMsziR9683cgk/Eu/nN2cUg3cI8xyXF+zT5IZUjVVLp6H4NBFNFrjF5Y3QVUXv0taxcx
- H054tjHoVbXHnsm9tz2oXTFUbTyCdRoET8Wi0DPOeYpG0BqbMog6fgx+eLME004BHKnW
- nBm4C6m9spRfi4yTIGuKSaPbnEzWvt+P0XteCRimHP9GO50Ofkx1FA8RjELA1WwZxzKW
- hZXg==
-X-Gm-Message-State: ACrzQf3ZxmWRjxheesF0sKPPt3PyyF6QIGe/Gbj7DPWbNqfewD4xnKCg
- 6PjArDsP/+kyC2A67ob0s2W5YfMu7rZ3oLC/cclVAA==
-X-Google-Smtp-Source: AMsMyM7gfqUNBXGjZ7Inas97zJc+EAElt7QwBqpmHhh3U2u4ckVyGAei/gs4ZDNWn7ZTyQjlO9poDn59d2IQNBV3OR8=
-X-Received: by 2002:a63:2212:0:b0:43b:f03d:856a with SMTP id
- i18-20020a632212000000b0043bf03d856amr28111011pgi.192.1666615073548; Mon, 24
- Oct 2022 05:37:53 -0700 (PDT)
+ bh=1+LWvDiP9vbwUIgIoA64lNkImn7woEzeErNi4yRDfo4=;
+ b=yJXumdxyw3qXXfIU3yV+Zbtdzv/K3SYygIcmBfW6yueba8oJWefZwFNMAep/B8aXm4
+ WNfVfvm6cadbJcsEWNh5KrHEXTgH9OUWPRKm2FJSOy6lCq5lJ+kEQ2F4TH9iCj20pDas
+ e41Gb2WkZIlMByDQT2KolDLe4/0OtwNmLQILZKlJqdmc96A8KUg6q7qgZvcWmdwCqepx
+ bP68RETVSoF/Z/psX3ae2zuN/TVmqZrMGVyqyDIY0M93owHH7hqgf3VEs+TwxSTDljbC
+ RMK5E6hULtMkno6GjPY6ebZSMa2G1C0yEuHJ6SXo/5z3wXgkvzSwymbVyZSkTtsY3ARC
+ jZPw==
+X-Gm-Message-State: ACrzQf1+fFRzGiUqGZSKZ8XR3L7XQKCPAp+c0M08M3ickClnWQmcHTMc
+ MdOg0vme95jnZM24SHQ1e41Zh28i0mTrO+s/odqBsQ==
+X-Google-Smtp-Source: AMsMyM7Qk2jTU9mp5T25hGXFt1gQjbaelXxxhg5pWLL6ofCyJhGmBFvtzpN/qzTxUivTY1NZfxdX9Z55goXZO2G+z0s=
+X-Received: by 2002:a17:90b:f06:b0:212:cb07:fb82 with SMTP id
+ br6-20020a17090b0f0600b00212cb07fb82mr20541114pjb.221.1666615200676; Mon, 24
+ Oct 2022 05:40:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <166636579128.26670.11954825054446993916-0@git.sr.ht>
-In-Reply-To: <166636579128.26670.11954825054446993916-0@git.sr.ht>
+References: <20221014021653.1461512-1-Jason@zx2c4.com>
+ <20221014021653.1461512-2-Jason@zx2c4.com>
+ <CAFEAcA8jra50q_DvNTGG8Wi+eF+PEKPHnfLNBhUjG9muqiPe0A@mail.gmail.com>
+ <87sfjdqubj.fsf@pond.sub.org>
+In-Reply-To: <87sfjdqubj.fsf@pond.sub.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 24 Oct 2022 13:37:41 +0100
-Message-ID: <CAFEAcA_szmT55giak4NNkTaZoGU=xJSaa1zz+h-ZR8bxPdCSTA@mail.gmail.com>
-Subject: Re: [PATCH qemu.git] target/imx: reload cmp timer outside of the
- reload ptimer transaction
-To: "~axelheider" <axelheider@gmx.de>
-Cc: qemu-devel@nongnu.org
+Date: Mon, 24 Oct 2022 13:39:49 +0100
+Message-ID: <CAFEAcA-TT_zRZQ076k6thP2ANk07EqMg8u7MP_6j24u2CCiEGA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/8] reset: allow registering handlers that aren't
+ called by snapshot loading
+To: Markus Armbruster <armbru@redhat.com>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, pbonzini@redhat.com,
+ qemu-devel@nongnu.org, richard.henderson@linaro.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,52 +87,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 21 Oct 2022 at 20:18, ~axelheider <axelheider@git.sr.ht> wrote:
+On Mon, 24 Oct 2022 at 13:28, Markus Armbruster <armbru@redhat.com> wrote:
 >
-> From: Axel Heider <axel.heider@hensoldt.net>
+> Peter Maydell <peter.maydell@linaro.org> writes:
+> > Markus: if we add a new value to the ShutdownCause enumeration,
+> > how annoying is it if we decide we don't want it later? I guess
+> > we can just leave it in the enum unused... (In this case we're
+> > using it for purely internal purposes and it won't ever actually
+> > wind up in any QMP events.)
 >
-> Signed-off-by: Axel Heider <axel.heider@hensoldt.net>
-> ---
-> See https://gitlab.com/qemu-project/qemu/-/issues/1263
-> When running the seL4 tests
-> (https://docs.sel4.systems/projects/sel4test), on the sabrelight
-> platform the timer test fails (and thus it's disabled by default).
-> Investigation has shown that the arm/imx6 EPIT timer interrupt does not
-> fire properly, instead of a second in can take up to a minute to finally
-> see the interrupt.
+> Deleting enumeration values is a compatibility issue only if the value
+> is usable in QMP input.
 >
->  hw/timer/imx_epit.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/timer/imx_epit.c b/hw/timer/imx_epit.c
-> index 2bf8c754b2..0b13c1eab0 100644
-> --- a/hw/timer/imx_epit.c
-> +++ b/hw/timer/imx_epit.c
-> @@ -276,9 +276,12 @@ static void imx_epit_write(void *opaque, hwaddr offset, uint64_t value,
->              ptimer_set_count(s->timer_reload, s->lr);
->          }
->
-> +        // commit s->timer_reload before imx_epit_reload_compare_timer
-> +        // as timer_reload is read in imx_epit_reload_compare_timer
+> "Purely internal" means it cannot occur in QMP output, and any attempt
+> to use it in input fails.  Aside: feels a bit fragile.
 
-QEMU coding style requires /* ... */ for comments, not //
-(with the /* and */ on lines of their own if it's a multiline
-comment.
-
-> +        ptimer_transaction_commit(s->timer_reload);
-> +
->          imx_epit_reload_compare_timer(s);
->          ptimer_transaction_commit(s->timer_cmp);
-> -        ptimer_transaction_commit(s->timer_reload);
->          break;
-
-Yes, I see what's happening here. It's OK to commit the timer_reload
-timer transaction first because that timer doesn't care about the
-timer_cmp timer.
-
-Do we also need to change the other places that call
-imx_epit_reload_compare_timer() in the handling of CR
-register writes ? (Those are a little more tricky.)
+In this case there are as far as I can see no QMP input commands
+which use the enum at all -- it's only used in events, which are
+always output, I think.
 
 thanks
 -- PMM
