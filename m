@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2DC8609A12
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 07:53:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67367609A28
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 08:01:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ompgb-0001RX-UH; Mon, 24 Oct 2022 01:07:41 -0400
+	id 1ompl5-0006CJ-8M; Mon, 24 Oct 2022 01:12:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ompgW-0001Ov-7I
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 01:07:36 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ompky-00065O-5L
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 01:12:12 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ompgU-0007xx-Qz
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 01:07:36 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- c3-20020a1c3503000000b003bd21e3dd7aso9226567wma.1
- for <qemu-devel@nongnu.org>; Sun, 23 Oct 2022 22:07:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ompkw-0000d3-H4
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 01:12:11 -0400
+Received: by mail-wr1-x429.google.com with SMTP id k8so5665036wrh.1
+ for <qemu-devel@nongnu.org>; Sun, 23 Oct 2022 22:12:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ChbXoBI9PTstc5ztUVMkoXJAxqyW6lL7AXSb4LcVBQk=;
- b=LVUpRnzDmb+HRdm0vyKPE/YDfZ4DaUM8dlg+xSjpGQqrEqOKidxDUnYK8a0Tv9D96w
- BnxU2hu2Dnj65mn4PFx1VEia+49rTf+m/QsOKnQQZYc1NFwBL7efN0R2m+GNuY8pyH8I
- Q0zy6BBdHsbvG5dEg75Am4NHEDT6xzgLpqkojogGLihKYdoOQ/Tnb8GMDOF6cw+R5fYh
- QRAl5zA/yM+tVpSL5W4GAoOX2wjKDb+t6J3+GeL8ZnsXze0yLkSkc+UigQ50uQZ8TgYY
- sHPORZPoheVWVHEekkhmoMUkQeEitml0vJBYOUdLzTp0lXgK8+f+aaRJZ8RoBwNSZv5h
- JcfA==
+ bh=rJMtHcIMjcIdaGUYJL+XY/D8z/7MMRPFGeO+/Vl2SiM=;
+ b=VuVIOJ+3OkrSdffoAa6beL3dLZwiM++77NU9HiLl2458W4P0HrBRoB5p02M0ouKsyD
+ AU/r853vUxduQcnb3UIu+x9c6QF4BjygfNAccbMZp2hRDL1NLI9wpuJ0rtxO2Rqgkcj3
+ 6PmZDR92Kz+A4d8/LAY+0aXExigwRDW4Fkh+BiNaWb+yD0+qx6/33MSvgK4Dlsj/LzLx
+ odz+bFZnmLXcSflfvlActjfqVEpjLsu1tK54ryGtNTSpsFbG96zCprJHqoZWC6DTW8AL
+ NRRxO3d5dJ2fxh1IKQ1s2+sqWPn1/DsbTS7F+og7mb/+CUyRkw2pNMK4K6A3aGAJhjXD
+ iNGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ChbXoBI9PTstc5ztUVMkoXJAxqyW6lL7AXSb4LcVBQk=;
- b=NI8T4y2QaP+P5+yUyOegdJoZQX8qH2TbyMOlJb85TD3pokZfAb8TnbHDh33+5DcKt3
- ivG2SLsWxPY/zBz1KHtgznobvPbFZfWDvhojB6XhS9wQKFm0A80RtsCVvzBF+0b5llug
- s7wjzJ9j63YedFSI4FqQR8ljEDVsgVD0teOGEzXGjonUSUh7pTg0P128qH3l9P903/bk
- OeF3vvN7z4SsdXWtD5JWLowE+hL4Biy05LcVS42oFII6Qi4JHoteWo+bCkLJ+bGJczYk
- rPCPUvEa/VHMIDOelWB5QZlB9+PSBixu0nEfKo0A2zT0VYuJV0rhzWgOqu2/RFcgMxlp
- wPfg==
-X-Gm-Message-State: ACrzQf3ALcZ2ceAFCMD2WINqDeo5dKZv0fTD6cOWm7nBpcI33OKILgg4
- zO7Z870GnGlNJSv8r8Bf/7t7jQ==
-X-Google-Smtp-Source: AMsMyM6vxTbsEQw1CE+xqx0BahTmAwU4msygPjW2qQyVNfLZ7pwDoUs8KBQfvTbN61n/oP3XmQ3XOg==
-X-Received: by 2002:a05:600c:3b8f:b0:3cc:c287:46f3 with SMTP id
- n15-20020a05600c3b8f00b003ccc28746f3mr5043562wms.186.1666588053349; 
- Sun, 23 Oct 2022 22:07:33 -0700 (PDT)
+ bh=rJMtHcIMjcIdaGUYJL+XY/D8z/7MMRPFGeO+/Vl2SiM=;
+ b=aVnpzBWV1R1thlyZrNY7I2spnqdiUl4y0LpNnvtebRtYcQAIpFwbjAAIx3ULRaXUjF
+ +wVBsiYhkh4ofTcDvQgtZZtvORvmX3kfAtj3muIAnMMp5JWG17cjmuC/qmXlbQtAEAK/
+ 2pWCVHiquAUH0rS8nBg9DPOkuH+1QEd5T5Zg2KZhsoFZyLj3HQ2xWuDDaxIXXnc9T6Rx
+ PZdAyrRwbf4EpoGSmIT40QExox8RXOFvGSUzqNq7a1Uo7lvYiBalLbWouoozslaUGuRF
+ fMv4uFhlKHhHgD4z7zzcPrwb5/EyqDwKsS09npVdHdxPdxf04Xx9d5mftXINparSQNI1
+ Sj8A==
+X-Gm-Message-State: ACrzQf2SuKSUtWu9fDuP4R1f+66uPM6xyidUk7bOm1z1exBqWmHbxZkW
+ aZXH5wJDeKVYBc61QqE/BqLlfA==
+X-Google-Smtp-Source: AMsMyM4QmeSYF5J0KZlqkmZHDSLbs0ifr4X30usBas4er+DEC/gq3Ni8QxAGhslwz134AWPqWRV7lw==
+X-Received: by 2002:a5d:648c:0:b0:22e:6417:751a with SMTP id
+ o12-20020a5d648c000000b0022e6417751amr19847992wri.261.1666588328795; 
+ Sun, 23 Oct 2022 22:12:08 -0700 (PDT)
 Received: from [10.50.0.10]
  (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
  by smtp.gmail.com with ESMTPSA id
- r10-20020a5d52ca000000b0022e653f5abbsm25834760wrv.69.2022.10.23.22.07.31
+ r10-20020a5d52ca000000b0022e653f5abbsm25844657wrv.69.2022.10.23.22.12.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 23 Oct 2022 22:07:32 -0700 (PDT)
-Message-ID: <beee91cd-7e90-57b3-1f10-7d2fb21e6877@linaro.org>
-Date: Mon, 24 Oct 2022 07:07:30 +0200
+ Sun, 23 Oct 2022 22:12:08 -0700 (PDT)
+Message-ID: <7e55a76a-1336-6abf-c1d7-3f7ea14e11d1@linaro.org>
+Date: Mon, 24 Oct 2022 07:12:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.3.2
-Subject: Re: [PATCH v2 24/43] hw/isa/piix3: Rename typedef PIIX3State to
- PIIXState
+Subject: Re: [PATCH v2 19/43] hw/isa/piix3: Allow board to provide PCI
+ interrupt routes
 Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
 Cc: Eduardo Habkost <eduardo@habkost.net>,
@@ -73,13 +72,13 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 References: <20221022150508.26830-1-shentey@gmail.com>
- <20221022150508.26830-25-shentey@gmail.com>
+ <20221022150508.26830-20-shentey@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221022150508.26830-25-shentey@gmail.com>
+In-Reply-To: <20221022150508.26830-20-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -103,16 +102,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 22/10/22 17:04, Bernhard Beschow wrote:
-> This commit marks the finalization of the PIIX3 preparations
-> to be merged with PIIX4. In particular, PIIXState is prepared
-> to be reused in piix4.c.
+> PIIX3 initializes the PIRQx route control registers to the default
+> values as described in the 82371AB PCI-TO-ISA/IDE XCELERATOR (PIIX4)
+> April 1997 manual. PIIX4, however, initializes the routes according to
+> the Malta™ User’s Manual, ch 6.6, which are IRQs 10 and 11. In order to
+> allow the reset methods to be consolidated, allow board code to specify
+> the routes.
 > 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   hw/isa/piix3.c                | 58 +++++++++++++++++------------------
->   include/hw/southbridge/piix.h |  4 +--
->   2 files changed, 31 insertions(+), 31 deletions(-)
+>   hw/isa/piix3.c                | 12 ++++++++----
+>   include/hw/southbridge/piix.h |  1 +
+>   2 files changed, 9 insertions(+), 4 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> diff --git a/include/hw/southbridge/piix.h b/include/hw/southbridge/piix.h
+> index 1f22eb1444..df3e0084c5 100644
+> --- a/include/hw/southbridge/piix.h
+> +++ b/include/hw/southbridge/piix.h
+> @@ -54,6 +54,7 @@ struct PIIXState {
+>   
+>       /* This member isn't used. Just for save/load compatibility */
+>       int32_t pci_irq_levels_vmstate[PIIX_NUM_PIRQS];
+> +    uint8_t pci_irq_reset_mappings[PIIX_NUM_PIRQS];
+
+pci_irq_reset_mappings[PCI_NUM_PINS]?
+
+>   
+>       ISAPICState pic;
+>       RTCState rtc;
 
 
