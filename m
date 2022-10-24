@@ -2,44 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F28460A197
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 13:29:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1B0860A328
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 13:52:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omvMk-0000hc-2R; Mon, 24 Oct 2022 07:11:34 -0400
+	id 1omvLY-0008CC-Jf; Mon, 24 Oct 2022 07:10:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <1125ddf66f47dc4986d97948253890fdb3c0a6d6@lizzy.crudebyte.com>)
- id 1omvM1-0000PZ-1x
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:10:50 -0400
+ (envelope-from <f5265c8f917ea8c71a30e549b7e3017c1038db63@lizzy.crudebyte.com>)
+ id 1omvLX-0008B5-0a
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:10:19 -0400
 Received: from lizzy.crudebyte.com ([91.194.90.13])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <1125ddf66f47dc4986d97948253890fdb3c0a6d6@lizzy.crudebyte.com>)
- id 1omvLz-0006p1-MC
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:10:48 -0400
+ (envelope-from <f5265c8f917ea8c71a30e549b7e3017c1038db63@lizzy.crudebyte.com>)
+ id 1omvLS-0006lL-UO
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:10:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=bidGNUANNm8clwXP9H0NxxwzaxNI/qeKWRH/eaPplbI=; b=YvZpF
- OO+Lg2sMWd7XGXXoQ6/C3hxXKCxlTS58R2yMU66GzHWhkIGJBptTZ4TzVV76fYjZBgGc+PHkU4ja6
- UjGow13ogYkcrkz9MQpKIsb70M4/UrPFrtz1IAYI24oPJZYLx37mRz92xUMWZq/6j8av4qtPP6giS
- aVCz5pwJMK/bvKOfMMZN4uwH8Ji7INun7pS9WFAXqq33XzSFCJdzj9GWwM00uNbwKn9zoLagWLTrl
- 45E3iSa2yw9hREmnbagnzkEXlFDpejmGNZFbbcYUl9ponLeRLXx/Y6AOsnbo97ydgXS/SaMUrw5kN
- iWtx+xRXLptMnpCGs9wpHxcrRhHUg==;
-Message-Id: <1125ddf66f47dc4986d97948253890fdb3c0a6d6.1666608862.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Subject:Date:From:References:In-Reply-To:Message-Id:Content-ID:
+ Content-Description; bh=+M93Zo1AqKb/eHYu/3EHa3Qa4RhX9K9J8RcibMu0eBs=; b=jXrnu
+ XGtUzCKuF1RDQ6KcMGKYEAPwbGWDmCOt5K5wwH2WKuiiB6kybicUBh7aaluqMjU4BzgcxD2u9hnfV
+ kZ3ICV1+tamRVXLmmCnzzRDjyvEdaxxZ8jwqpWbZbn8EwFoj7Wn4xoBlTmr8rz3xz1bMHYvNLqO7A
+ /U/4TrwwH5iaTdNSsAkzS9A43hWOi9bjBBFkp2mDKa5yUDZeeki9+OI606GC7p/2gv39BJhI4p3rs
+ dcOxu13V5tnPeZY6D8R6dw2fK8pD11s9JEBFBg3RNEujIlNNuZY5WQ039Yn5vLi28uG3NQEyoPjq5
+ ME6auFsQDVyNhEm03Is2wfJ13dI/Q==;
+Message-Id: <f5265c8f917ea8c71a30e549b7e3017c1038db63.1666608862.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1666608862.git.qemu_oss@crudebyte.com>
 References: <cover.1666608862.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Mon, 24 Oct 2022 12:54:23 +0200
-Subject: [PULL 08/23] tests/9p: simplify callers of tattach()
+Subject: [PULL 03/23] 9pfs: use GHashTable for fid table
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org,
     Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Greg Kurz <groug@kaod.org>
+Cc: Greg Kurz <groug@kaod.org>,
+    Linus Heckemann <git@sphalerite.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=1125ddf66f47dc4986d97948253890fdb3c0a6d6@lizzy.crudebyte.com;
+ envelope-from=f5265c8f917ea8c71a30e549b7e3017c1038db63@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -62,54 +66,369 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Now as tattach() is using a declarative approach, simplify the
-code of callers of this function.
+From: Linus Heckemann <git@sphalerite.org>
 
+The previous implementation would iterate over the fid table for
+lookup operations, resulting in an operation with O(n) complexity on
+the number of open files and poor cache locality -- for every open,
+stat, read, write, etc operation.
+
+This change uses a hashtable for this instead, significantly improving
+the performance of the 9p filesystem. The runtime of NixOS's simple
+installer test, which copies ~122k files totalling ~1.8GiB from 9p,
+decreased by a factor of about 10.
+
+Signed-off-by: Linus Heckemann <git@sphalerite.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+[CS: - Retain BUG_ON(f->clunked) in get_fid().
+     - Add TODO comment in clunk_fid(). ]
+Message-Id: <20221004104121.713689-1-git@sphalerite.org>
+[CS: - Drop unnecessary goto and out: label. ]
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Message-Id: <9b50e5b89a0072e84a9191d18c19a53546a28bba.1664917004.git.qemu_oss@crudebyte.com>
 ---
- tests/qtest/virtio-9p-test.c | 19 ++++++++-----------
- 1 file changed, 8 insertions(+), 11 deletions(-)
+ hw/9pfs/9p.c | 196 +++++++++++++++++++++++++++++----------------------
+ hw/9pfs/9p.h |   2 +-
+ 2 files changed, 113 insertions(+), 85 deletions(-)
 
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 271c42f6f9..46bb189b81 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -302,11 +302,10 @@ static void fs_walk_none(void *obj, void *data, QGuestAllocator *t_alloc)
-     struct v9fs_attr attr;
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index aebadeaa03..9bf13133e5 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -256,7 +256,8 @@ static size_t v9fs_string_size(V9fsString *str)
+ }
  
-     tversion({ .client = v9p });
--    req = tattach({
--        .client = v9p, .fid = 0, .n_uname = getuid(), .requestOnly = true
--    }).req;
--    v9fs_req_wait_for_reply(req, NULL);
--    v9fs_rattach(req, &root_qid);
-+    tattach({
-+        .client = v9p, .fid = 0, .n_uname = getuid(),
-+        .rattach.qid = &root_qid
-+    });
+ /*
+- * returns 0 if fid got re-opened, 1 if not, < 0 on error */
++ * returns 0 if fid got re-opened, 1 if not, < 0 on error
++ */
+ static int coroutine_fn v9fs_reopen_fid(V9fsPDU *pdu, V9fsFidState *f)
+ {
+     int err = 1;
+@@ -282,33 +283,32 @@ static V9fsFidState *coroutine_fn get_fid(V9fsPDU *pdu, int32_t fid)
+     V9fsFidState *f;
+     V9fsState *s = pdu->s;
  
-     twalk({
-         .client = v9p, .fid = 0, .newfid = 1, .nwname = 0, .wnames = NULL,
-@@ -330,14 +329,12 @@ static void fs_walk_dotdot(void *obj, void *data, QGuestAllocator *t_alloc)
-     char *wnames[] = { g_strdup("..") };
-     v9fs_qid root_qid;
-     g_autofree v9fs_qid *wqid = NULL;
--    P9Req *req;
+-    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
++    f = g_hash_table_lookup(s->fids, GINT_TO_POINTER(fid));
++    if (f) {
+         BUG_ON(f->clunked);
+-        if (f->fid == fid) {
+-            /*
+-             * Update the fid ref upfront so that
+-             * we don't get reclaimed when we yield
+-             * in open later.
+-             */
+-            f->ref++;
+-            /*
+-             * check whether we need to reopen the
+-             * file. We might have closed the fd
+-             * while trying to free up some file
+-             * descriptors.
+-             */
+-            err = v9fs_reopen_fid(pdu, f);
+-            if (err < 0) {
+-                f->ref--;
+-                return NULL;
+-            }
+-            /*
+-             * Mark the fid as referenced so that the LRU
+-             * reclaim won't close the file descriptor
+-             */
+-            f->flags |= FID_REFERENCED;
+-            return f;
++        /*
++         * Update the fid ref upfront so that
++         * we don't get reclaimed when we yield
++         * in open later.
++         */
++        f->ref++;
++        /*
++         * check whether we need to reopen the
++         * file. We might have closed the fd
++         * while trying to free up some file
++         * descriptors.
++         */
++        err = v9fs_reopen_fid(pdu, f);
++        if (err < 0) {
++            f->ref--;
++            return NULL;
+         }
++        /*
++         * Mark the fid as referenced so that the LRU
++         * reclaim won't close the file descriptor
++         */
++        f->flags |= FID_REFERENCED;
++        return f;
+     }
+     return NULL;
+ }
+@@ -317,12 +317,11 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t fid)
+ {
+     V9fsFidState *f;
  
-     tversion({ .client = v9p });
--    req = tattach((TAttachOpt) {
--        .client = v9p, .fid = 0, .n_uname = getuid(), .requestOnly = true
--    }).req;
--    v9fs_req_wait_for_reply(req, NULL);
--    v9fs_rattach(req, &root_qid);
-+    tattach({
-+        .client = v9p, .fid = 0, .n_uname = getuid(),
-+        .rattach.qid = &root_qid
-+    });
+-    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
++    f = g_hash_table_lookup(s->fids, GINT_TO_POINTER(fid));
++    if (f) {
+         /* If fid is already there return NULL */
+         BUG_ON(f->clunked);
+-        if (f->fid == fid) {
+-            return NULL;
+-        }
++        return NULL;
+     }
+     f = g_new0(V9fsFidState, 1);
+     f->fid = fid;
+@@ -333,7 +332,7 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t fid)
+      * reclaim won't close the file descriptor
+      */
+     f->flags |= FID_REFERENCED;
+-    QSIMPLEQ_INSERT_TAIL(&s->fid_list, f, next);
++    g_hash_table_insert(s->fids, GINT_TO_POINTER(fid), f);
  
-     twalk({
-         .client = v9p, .fid = 0, .newfid = 1, .nwname = 1, .wnames = wnames,
+     v9fs_readdir_init(s->proto_version, &f->fs.dir);
+     v9fs_readdir_init(s->proto_version, &f->fs_reclaim.dir);
+@@ -424,12 +423,12 @@ static V9fsFidState *clunk_fid(V9fsState *s, int32_t fid)
+ {
+     V9fsFidState *fidp;
+ 
+-    QSIMPLEQ_FOREACH(fidp, &s->fid_list, next) {
+-        if (fidp->fid == fid) {
+-            QSIMPLEQ_REMOVE(&s->fid_list, fidp, V9fsFidState, next);
+-            fidp->clunked = true;
+-            return fidp;
+-        }
++    /* TODO: Use g_hash_table_steal_extended() instead? */
++    fidp = g_hash_table_lookup(s->fids, GINT_TO_POINTER(fid));
++    if (fidp) {
++        g_hash_table_remove(s->fids, GINT_TO_POINTER(fid));
++        fidp->clunked = true;
++        return fidp;
+     }
+     return NULL;
+ }
+@@ -439,10 +438,15 @@ void coroutine_fn v9fs_reclaim_fd(V9fsPDU *pdu)
+     int reclaim_count = 0;
+     V9fsState *s = pdu->s;
+     V9fsFidState *f;
++    GHashTableIter iter;
++    gpointer fid;
++
++    g_hash_table_iter_init(&iter, s->fids);
++
+     QSLIST_HEAD(, V9fsFidState) reclaim_list =
+         QSLIST_HEAD_INITIALIZER(reclaim_list);
+ 
+-    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
++    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &f)) {
+         /*
+          * Unlink fids cannot be reclaimed. Check
+          * for them and skip them. Also skip fids
+@@ -514,72 +518,85 @@ void coroutine_fn v9fs_reclaim_fd(V9fsPDU *pdu)
+     }
+ }
+ 
++/*
++ * This is used when a path is removed from the directory tree. Any
++ * fids that still reference it must not be closed from then on, since
++ * they cannot be reopened.
++ */
+ static int coroutine_fn v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath *path)
+ {
+-    int err;
++    int err = 0;
+     V9fsState *s = pdu->s;
+-    V9fsFidState *fidp, *fidp_next;
++    V9fsFidState *fidp;
++    gpointer fid;
++    GHashTableIter iter;
++    /*
++     * The most common case is probably that we have exactly one
++     * fid for the given path, so preallocate exactly one.
++     */
++    g_autoptr(GArray) to_reopen = g_array_sized_new(FALSE, FALSE,
++            sizeof(V9fsFidState *), 1);
++    gint i;
+ 
+-    fidp = QSIMPLEQ_FIRST(&s->fid_list);
+-    if (!fidp) {
+-        return 0;
+-    }
++    g_hash_table_iter_init(&iter, s->fids);
+ 
+     /*
+-     * v9fs_reopen_fid() can yield : a reference on the fid must be held
+-     * to ensure its pointer remains valid and we can safely pass it to
+-     * QSIMPLEQ_NEXT(). The corresponding put_fid() can also yield so
+-     * we must keep a reference on the next fid as well. So the logic here
+-     * is to get a reference on a fid and only put it back during the next
+-     * iteration after we could get a reference on the next fid. Start with
+-     * the first one.
++     * We iterate over the fid table looking for the entries we need
++     * to reopen, and store them in to_reopen. This is because
++     * v9fs_reopen_fid() and put_fid() yield. This allows the fid table
++     * to be modified in the meantime, invalidating our iterator.
+      */
+-    for (fidp->ref++; fidp; fidp = fidp_next) {
++    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &fidp)) {
+         if (fidp->path.size == path->size &&
+             !memcmp(fidp->path.data, path->data, path->size)) {
+-            /* Mark the fid non reclaimable. */
+-            fidp->flags |= FID_NON_RECLAIMABLE;
+-
+-            /* reopen the file/dir if already closed */
+-            err = v9fs_reopen_fid(pdu, fidp);
+-            if (err < 0) {
+-                put_fid(pdu, fidp);
+-                return err;
+-            }
+-        }
+-
+-        fidp_next = QSIMPLEQ_NEXT(fidp, next);
+-
+-        if (fidp_next) {
+             /*
+-             * Ensure the next fid survives a potential clunk request during
+-             * put_fid() below and v9fs_reopen_fid() in the next iteration.
++             * Ensure the fid survives a potential clunk request during
++             * v9fs_reopen_fid or put_fid.
+              */
+-            fidp_next->ref++;
++            fidp->ref++;
++            fidp->flags |= FID_NON_RECLAIMABLE;
++            g_array_append_val(to_reopen, fidp);
+         }
+-
+-        /* We're done with this fid */
+-        put_fid(pdu, fidp);
+     }
+ 
+-    return 0;
++    for (i = 0; i < to_reopen->len; i++) {
++        fidp = g_array_index(to_reopen, V9fsFidState*, i);
++        /* reopen the file/dir if already closed */
++        err = v9fs_reopen_fid(pdu, fidp);
++        if (err < 0) {
++            break;
++        }
++    }
++
++    for (i = 0; i < to_reopen->len; i++) {
++        put_fid(pdu, g_array_index(to_reopen, V9fsFidState*, i));
++    }
++    return err;
+ }
+ 
+ static void coroutine_fn virtfs_reset(V9fsPDU *pdu)
+ {
+     V9fsState *s = pdu->s;
+     V9fsFidState *fidp;
++    GList *freeing;
++    /*
++     * Get a list of all the values (fid states) in the table, which
++     * we then...
++     */
++    g_autoptr(GList) fids = g_hash_table_get_values(s->fids);
+ 
+-    /* Free all fids */
+-    while (!QSIMPLEQ_EMPTY(&s->fid_list)) {
+-        /* Get fid */
+-        fidp = QSIMPLEQ_FIRST(&s->fid_list);
++    /* ... remove from the table, taking over ownership. */
++    g_hash_table_steal_all(s->fids);
++
++    /*
++     * This allows us to release our references to them asynchronously without
++     * iterating over the hash table and risking iterator invalidation
++     * through concurrent modifications.
++     */
++    for (freeing = fids; freeing; freeing = freeing->next) {
++        fidp = freeing->data;
+         fidp->ref++;
+-
+-        /* Clunk fid */
+-        QSIMPLEQ_REMOVE(&s->fid_list, fidp, V9fsFidState, next);
+         fidp->clunked = true;
+-
+         put_fid(pdu, fidp);
+     }
+ }
+@@ -3205,6 +3222,8 @@ static int coroutine_fn v9fs_complete_rename(V9fsPDU *pdu, V9fsFidState *fidp,
+     V9fsFidState *tfidp;
+     V9fsState *s = pdu->s;
+     V9fsFidState *dirfidp = NULL;
++    GHashTableIter iter;
++    gpointer fid;
+ 
+     v9fs_path_init(&new_path);
+     if (newdirfid != -1) {
+@@ -3238,11 +3257,13 @@ static int coroutine_fn v9fs_complete_rename(V9fsPDU *pdu, V9fsFidState *fidp,
+     if (err < 0) {
+         goto out;
+     }
++
+     /*
+      * Fixup fid's pointing to the old name to
+      * start pointing to the new name
+      */
+-    QSIMPLEQ_FOREACH(tfidp, &s->fid_list, next) {
++    g_hash_table_iter_init(&iter, s->fids);
++    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &tfidp)) {
+         if (v9fs_path_is_ancestor(&fidp->path, &tfidp->path)) {
+             /* replace the name */
+             v9fs_fix_path(&tfidp->path, &new_path, strlen(fidp->path.data));
+@@ -3320,6 +3341,8 @@ static int coroutine_fn v9fs_fix_fid_paths(V9fsPDU *pdu, V9fsPath *olddir,
+     V9fsPath oldpath, newpath;
+     V9fsState *s = pdu->s;
+     int err;
++    GHashTableIter iter;
++    gpointer fid;
+ 
+     v9fs_path_init(&oldpath);
+     v9fs_path_init(&newpath);
+@@ -3336,7 +3359,8 @@ static int coroutine_fn v9fs_fix_fid_paths(V9fsPDU *pdu, V9fsPath *olddir,
+      * Fixup fid's pointing to the old name to
+      * start pointing to the new name
+      */
+-    QSIMPLEQ_FOREACH(tfidp, &s->fid_list, next) {
++    g_hash_table_iter_init(&iter, s->fids);
++    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &tfidp)) {
+         if (v9fs_path_is_ancestor(&oldpath, &tfidp->path)) {
+             /* replace the name */
+             v9fs_fix_path(&tfidp->path, &newpath, strlen(oldpath.data));
+@@ -4226,7 +4250,7 @@ int v9fs_device_realize_common(V9fsState *s, const V9fsTransport *t,
+     s->ctx.fmode = fse->fmode;
+     s->ctx.dmode = fse->dmode;
+ 
+-    QSIMPLEQ_INIT(&s->fid_list);
++    s->fids = g_hash_table_new(NULL, NULL);
+     qemu_co_rwlock_init(&s->rename_lock);
+ 
+     if (s->ops->init(&s->ctx, errp) < 0) {
+@@ -4286,6 +4310,10 @@ void v9fs_device_unrealize_common(V9fsState *s)
+     if (s->ctx.fst) {
+         fsdev_throttle_cleanup(s->ctx.fst);
+     }
++    if (s->fids) {
++        g_hash_table_destroy(s->fids);
++        s->fids = NULL;
++    }
+     g_free(s->tag);
+     qp_table_destroy(&s->qpd_table);
+     qp_table_destroy(&s->qpp_table);
+diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+index a523ac34a9..2fce4140d1 100644
+--- a/hw/9pfs/9p.h
++++ b/hw/9pfs/9p.h
+@@ -339,7 +339,7 @@ typedef struct {
+ struct V9fsState {
+     QLIST_HEAD(, V9fsPDU) free_list;
+     QLIST_HEAD(, V9fsPDU) active_list;
+-    QSIMPLEQ_HEAD(, V9fsFidState) fid_list;
++    GHashTable *fids;
+     FileOperations *ops;
+     FsContext ctx;
+     char *tag;
 -- 
 2.30.2
 
