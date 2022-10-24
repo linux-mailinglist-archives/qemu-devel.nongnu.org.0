@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7998A60B1DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 18:39:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B8DC60B484
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 19:50:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omy3Q-0005rx-EE; Mon, 24 Oct 2022 10:03:48 -0400
+	id 1omyCn-0000fr-1E; Mon, 24 Oct 2022 10:13:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1omy2s-0005aS-1L
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 10:03:45 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1omyCi-0000fS-6i
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 10:13:25 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1omy2q-0002BE-4b
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 10:03:13 -0400
-Received: by mail-wr1-x434.google.com with SMTP id j15so5881731wrq.3
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 07:03:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1omyCf-0003oq-Sb
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 10:13:23 -0400
+Received: by mail-wr1-x435.google.com with SMTP id j15so5934498wrq.3
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 07:13:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=asieHF49RoIjJy6ijkykosfXzJ2CM2pnRF90WSo+dsg=;
- b=Y5W2GHPWTTd4ST1rM8TnHlwxMlV0Kg22rNwxJQHKuBL1HOZL07gfMj8+endyxsXYSo
- pV+LfWpr+Nb2rYCZJq9QxBI7i9p7Ibj5m8gmXG275eAJKqBvR8O6pC1Mm6pBSiJzX7zM
- 4Jj92g80vk1A9OqrI5wvFiyYFYYJ6m3xQuNTVfvoPjQO2ZKO9TBYU6JQdz+iV8p1UmGp
- PzKZp/XaJM6iAo7GjW9hp71FtNjj19Yzfri4wj8Hi90DJqC1IB2VkDOalRYScrpYwuKy
- aGOs8z5WBOvIzotdwKDQxVHkqQtNvkZqU6bxs9LIUMMrcXdB2DU9yRVChbLAwRt8mct/
- 0YZQ==
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=PtmqCieWIsT0up/9ewZKR1k/Nlo4HihK+EnvKTG+kr8=;
+ b=MCtghc+f8Wg6CaMBL1qxA4I0TuK2iDE8YCU/fEextAfYojFgBh5DQCW4e0dGWMM31A
+ 6dfqSD02ZEqF9LzUd0veH9lJTvSw+UQGwU1q8gqpwJdCvHMa5KkUde540JI37x2NPk7e
+ 4h14UDzgHLicvHjJ72/9MPt/Y8YZcErRD2Qk5p/bgeIAkStgltSpGPwdyWGb0aNNsTos
+ GLOflHSgZVXDkcQha4P38ZbyCwu8zFF9qS8LzCG5sDf71+LajA68SOVdsQwsAWysGI63
+ Cah1tKoJJ6iXTuU94am25mUO6KJ9UIWoyyAFhujNk02dJQGD7JouiMjaoy//5exITnkQ
+ 1SLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=asieHF49RoIjJy6ijkykosfXzJ2CM2pnRF90WSo+dsg=;
- b=7tk4X3xdfsVcO4Vq8zKOh+znwWbzCLGAQhFfP8ztuPT+nPsmiJowcHWs86Dck1PZS6
- oyc7gNxhHcr4jA2z3IZGWMnp/E0QndTfMlKC4k7AJn2gW9mPF9Mz75osd0zaKM9zvLpp
- KYDElEyg9CbKmcTxgfk3qTmr67XxMyjy5VPswZW9Lfv2xunainWLSxgIyaEa183Rvqz6
- Ur7xAzpD4zJTLqEgJhSsx6oJRUTWhhBHFlF0RAseC2QGEeMn0WUVRSdvjUkmRu4dqi4J
- N7CxH3HyHR+PRXBXgKKbEJvvXEAtq1q6OfzOYWpgHWeMWy1+BZIoEk9bXzKQnjXyf9Og
- tCHA==
-X-Gm-Message-State: ACrzQf13BqF8vWmPSIU4swOBHxkmRAHlNn2708qlYHDFcV7nPPed/n6l
- jj9NSJRH33WjKGeYCFIzPNUgTg==
-X-Google-Smtp-Source: AMsMyM7TvmnjZ6ZhkXfLPY39dckugEpM2GhZD5vsyyx0VoJlpzH9nRRAxDotn5uQWzQ0KTeqwvMvnQ==
-X-Received: by 2002:a5d:4811:0:b0:236:7077:e3c3 with SMTP id
- l17-20020a5d4811000000b002367077e3c3mr3546144wrq.368.1666620190308; 
- Mon, 24 Oct 2022 07:03:10 -0700 (PDT)
-Received: from [10.50.0.10]
- (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=PtmqCieWIsT0up/9ewZKR1k/Nlo4HihK+EnvKTG+kr8=;
+ b=GAnKSUYn0VvHhJNj0VbwuK3uPpGjz+dakXsN/uFf9l9WqLK5E5piMxjv4MelgyChYO
+ 7S45HfHeNXo/epgHSyDQI5lmIqNqT1DmYvqEEKdpNFTQ0v6WIdbCVHQzS++PLUzVh8jp
+ TQaohstWPvTmDwJx3WAkl35lZDImv78V2jgK4+vaTcCBeK45PQkOZvNJtPn1hTbR9n2H
+ hvQEpbr7R3IHivp+HyNNAbgbRwVKF5N69E6PpRH1jbjjNvO+ITxrZIDFZxKmW3Ojcjbg
+ PV+9Q7tvobAV3CoMassVdl0jjJGYe3nmCjJDcx2/MLlgmA/R0jiNvcmdKmp6SzLlUY6c
+ wkxA==
+X-Gm-Message-State: ACrzQf0YNPdUwRN4zopwJeCG5CExDjZUZ4maTJObooctXPnK58nerKO6
+ V1YSaDhe3FnxRN6KWJlKA87FKQ==
+X-Google-Smtp-Source: AMsMyM5O0RazgBWEyEnRqy3LnL60IuwLpTHRXpUrpSUDd68zi+tQx8xXZn5n+pFyXJlndxYcAnv0TQ==
+X-Received: by 2002:a5d:584d:0:b0:230:c250:603e with SMTP id
+ i13-20020a5d584d000000b00230c250603emr21171210wrf.143.1666620800118; 
+ Mon, 24 Oct 2022 07:13:20 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- az27-20020a05600c601b00b003c6c2ff7f25sm11211wmb.15.2022.10.24.07.03.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Oct 2022 07:03:09 -0700 (PDT)
-Message-ID: <a2c7ea4d-2447-23c3-d385-c9b0be83dff4@linaro.org>
-Date: Mon, 24 Oct 2022 16:03:08 +0200
+ i17-20020a5d6311000000b0022e035a4e93sm26150983wru.87.2022.10.24.07.13.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Oct 2022 07:13:19 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 344A21FFB7;
+ Mon, 24 Oct 2022 15:13:19 +0100 (BST)
+References: <20221024051851.3074715-1-richard.henderson@linaro.org>
+ <20221024051851.3074715-3-richard.henderson@linaro.org>
+User-agent: mu4e 1.9.1; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH v6 02/14] target/arm: Add ptw_idx to S1Translate
+Date: Mon, 24 Oct 2022 15:09:32 +0100
+In-reply-to: <20221024051851.3074715-3-richard.henderson@linaro.org>
+Message-ID: <87o7u19uo0.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.3.2
-Subject: Re: [PATCH 13/29] target/nios2: Convert to tcg_ops
- restore_state_to_opc
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20221024132459.3229709-1-richard.henderson@linaro.org>
- <20221024132459.3229709-15-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221024132459.3229709-15-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,13 +94,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 24/10/22 15:24, Richard Henderson wrote:
+
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> Hoist the computation of the mmu_idx for the ptw up to
+> get_phys_addr_with_struct and get_phys_addr_twostage.
+> This removes the duplicate check for stage2 disabled
+> from the middle of the walk, performing it only once.
+>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   target/nios2/cpu.c       | 11 +++++++++++
->   target/nios2/translate.c |  6 ------
->   2 files changed, 11 insertions(+), 6 deletions(-)
+>  target/arm/ptw.c | 71 ++++++++++++++++++++++++++++++++++++------------
+>  1 file changed, 54 insertions(+), 17 deletions(-)
+>
+> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+> index 004375e02b..161b7922e3 100644
+> --- a/target/arm/ptw.c
+> +++ b/target/arm/ptw.c
+> @@ -17,6 +17,7 @@
+>=20=20
+>  typedef struct S1Translate {
+>      ARMMMUIdx in_mmu_idx;
+> +    ARMMMUIdx in_ptw_idx;
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+I could use a comment here to explain the difference between mmu and ptr
+indexes here because...
 
+<snip>
+> @@ -2527,10 +2536,32 @@ static bool get_phys_addr_with_struct(CPUARMState=
+ *env, S1Translate *ptw,
+>                                        ARMMMUFaultInfo *fi)
+>  {
+>      ARMMMUIdx mmu_idx =3D ptw->in_mmu_idx;
+> -    ARMMMUIdx s1_mmu_idx =3D stage_1_mmu_idx(mmu_idx);
+>      bool is_secure =3D ptw->in_secure;
+> +    ARMMMUIdx s1_mmu_idx;
+>=20=20
+> -    if (mmu_idx !=3D s1_mmu_idx) {
+> +    switch (mmu_idx) {
+> +    case ARMMMUIdx_Phys_S:
+> +    case ARMMMUIdx_Phys_NS:
+> +        /* Checking Phys early avoids special casing later vs regime_el.=
+ */
+> +        return get_phys_addr_disabled(env, address, access_type, mmu_idx,
+> +                                      is_secure, result, fi);
+> +
+> +    case ARMMMUIdx_Stage1_E0:
+> +    case ARMMMUIdx_Stage1_E1:
+> +    case ARMMMUIdx_Stage1_E1_PAN:
+> +        /* First stage lookup uses second stage for ptw. */
+> +        ptw->in_ptw_idx =3D is_secure ? ARMMMUIdx_Stage2_S : ARMMMUIdx_S=
+tage2;
+> +        break;
+> +
+> +    case ARMMMUIdx_E10_0:
+> +        s1_mmu_idx =3D ARMMMUIdx_Stage1_E0;
+> +        goto do_twostage;
+> +    case ARMMMUIdx_E10_1:
+> +        s1_mmu_idx =3D ARMMMUIdx_Stage1_E1;
+> +        goto do_twostage;
+> +    case ARMMMUIdx_E10_1_PAN:
+> +        s1_mmu_idx =3D ARMMMUIdx_Stage1_E1_PAN;
+> +    do_twostage:
+>          /*
+>           * Call ourselves recursively to do the stage 1 and then stage 2
+>           * translations if mmu_idx is a two-stage regime, and EL2 presen=
+t.
+> @@ -2541,6 +2572,12 @@ static bool get_phys_addr_with_struct(CPUARMState =
+*env, S1Translate *ptw,
+>              return get_phys_addr_twostage(env, ptw, address, access_type,
+>                                            result, fi);
+>          }
+> +        /* fall through */
+
+following this I got confused as to what might be overwritten or
+ignored. I assume for v8-A (ARM_FEATURE_EL2) we won't be falling through
+anyway?
+
+Anyway I think I understand it now:
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+
+> +
+> +    default:
+> +        /* Single stage and second stage uses physical for ptw. */
+> +        ptw->in_ptw_idx =3D is_secure ? ARMMMUIdx_Phys_S : ARMMMUIdx_Phy=
+s_NS;
+> +        break;
+>      }
+>=20=20
+>      /*
+
+
+--=20
+Alex Benn=C3=A9e
 
