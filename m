@@ -2,88 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53C6F609F2C
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 12:37:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04651609F13
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 12:31:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omu1u-0000qP-0M; Mon, 24 Oct 2022 05:45:58 -0400
+	id 1omu3r-0002Ay-2c; Mon, 24 Oct 2022 05:47:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1omu1b-0000n6-D0
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 05:45:39 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1omu1S-0001ja-Uh
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 05:45:32 -0400
-Received: by mail-wm1-x336.google.com with SMTP id y10so6244512wma.0
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 02:45:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/i5qxO2badS2CnHwdWsZfGQfbz9F81wQHMSwyPzeCAQ=;
- b=iy9yIi+w2vpPXiHzfbbEAO42yBQfQQ07lIpWp6IgKDDjjlMxejhZIt4CBP4DdZ+4dS
- NbNHnHWt/pMuW7bpdH7sLTNAIX9T+D4ZQbvOmQywzK3D+xs7/e93ox85QUnv/aGoBjow
- 1k50LCTDvPZcLhxFs6oEmASQVy/I0J7mgFx5X8ixGdliOlhtBFKp5VP/zmnmxs2nBiQ7
- fhpGpAXnBmC5BbwtgHKk5ojzMewISAdYxCDqWe7n4cz8SMCvY8nWxpKn3vVFsGGfCvpR
- rdS9E6OoryaZDIRiSCavGEzih7jXZV8fte3WsQKkE57WBEzbHA9rTboQp6P3X7JlmIOH
- Uiaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=/i5qxO2badS2CnHwdWsZfGQfbz9F81wQHMSwyPzeCAQ=;
- b=7A3dDaGGc7VOvlDk1vJyRV+R3HWZ2Bix5Pi/iBwrF1+RHgvh87PYdDqq11oknJX+Oi
- tPyvA9Q17A2vBJ9iC41RJ2QDJHt85XaFPGdY4y/co8N5epI1k0LLRDWkMm6pPpD/SwmB
- +V/IFFpFM+kXoBGmh3Pun2A2amEDdq7zkYPR4J03sQVIJVLAlkIn4JisPIbthsR5UhLP
- L21fKTZWoqIlWOB/HE/sWgibuR33IBAMC/fJa0fj7aFDuY1yMWKWKd+oF9m2kC5HmuPO
- REfKuC1ioQ0YP48A7UBE+M73LPAgE6ZDGGo9tLIidUGFzbgaqBXncAHhJPgZezKUa3AD
- opjQ==
-X-Gm-Message-State: ACrzQf2eYK1u0Djc6yzwjEuuoMTKn1ndZp9GZYITcj/JE05rAxFxWlwE
- svB3dJ9MjTspjhWhRdEW92tdJQ==
-X-Google-Smtp-Source: AMsMyM4QRa+3qV79G3t4vFPMoS2AVZZjs+ld1kxdooDpXBQYfM7NLWzDKbsNxSct56Y3ETc8OtUr2A==
-X-Received: by 2002:a7b:c3c4:0:b0:3c4:785a:36d7 with SMTP id
- t4-20020a7bc3c4000000b003c4785a36d7mr43436221wmj.138.1666604728583; 
- Mon, 24 Oct 2022 02:45:28 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- t11-20020a05600c41cb00b003b47ff307e1sm9928354wmh.31.2022.10.24.02.45.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Oct 2022 02:45:25 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CE26E1FFB7;
- Mon, 24 Oct 2022 10:45:24 +0100 (BST)
-References: <20221019151651.334334-1-groug@kaod.org>
- <20221019151651.334334-3-groug@kaod.org>
- <47ea1c0e-9e32-ce9a-7bef-bd2ac70bdbb9@linaro.org>
- <20221020114937.3558737e@bahia> <Y1Ebv28whPgwdaMW@redhat.com>
- <1b76bdd4-f5ca-cb0a-2593-b025d6575e9b@redhat.com>
-User-agent: mu4e 1.9.1; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, Greg Kurz
- <groug@kaod.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 2/2] util/log: Always send errors to logfile when
- daemonized
-Date: Mon, 24 Oct 2022 10:44:11 +0100
-In-reply-to: <1b76bdd4-f5ca-cb0a-2593-b025d6575e9b@redhat.com>
-Message-ID: <87wn8pa72j.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <lkujaw@mailbox.org>)
+ id 1omu31-0001q8-Qc; Mon, 24 Oct 2022 05:47:13 -0400
+Received: from mout-p-202.mailbox.org ([2001:67c:2050:0:465::202])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <lkujaw@mailbox.org>)
+ id 1omu2X-0002Uh-N3; Mon, 24 Oct 2022 05:47:07 -0400
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Mwqw44vgvz9sQj;
+ Mon, 24 Oct 2022 11:46:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1666604788;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=N6jULGxGNtsNAE/2BFhkOSZuUBlXCYqAy5VrKNSdXCE=;
+ b=Wy7UWnTwqzqy/uf/7muWQO8M0IlTWSSVDpIyo8pX4MFCGzvGuSi/vOEV1Tf/p74BhTjO5e
+ hoDXiSfPhmIuGEhWEtgpc4QEqYZqkgKkb2E8sBfA5MITsM0XE0PfywdT0oK86GtyiV6DKs
+ qXMTbAdvFGHHzR8rCjsHgVOStDaBFQ4Uvif29/llbyU4OPZYtJLABOhfHPbFtFO8JESNd9
+ bKYbY1rttjYKyqXGpJRVdUfW507x9E8KiRwpFFZaCpdy5X0ZLq8PkU/lR/Hgg68Y3F0/Nb
+ FHBcRXaVmudfhj0fefc0wj3VmP2G0IKphbW/Cnw98CA2iItUT2l/wEono0twXA==
+From: Lev Kujawski <lkujaw@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1666604786;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=N6jULGxGNtsNAE/2BFhkOSZuUBlXCYqAy5VrKNSdXCE=;
+ b=SO/msC6/PrFDVvsr7L022t+P5Da6NC6pZafLjuNOG4gRsS93DXsaEIiYNm8W7XhY8C1QlP
+ Fnypn4kxxioHMhRCqEc4gOlSICPLJUL40FHAAFeN5bqHZoVJ6wQBXx6Ya1KbDWI0P/mU9r
+ pJEebXU26Y5crhsu6/J+hSJ3S6R1PS4HavovZB0GfRK3i3+Oyg9a2H6QwxcRP8tKxuMqid
+ +7q96wSpvRgPcxhuI+KqM83+NtJ6MDtT3DFJrf7v7ep4cc5Y09xoHz71iMNsiCcQtx4Krw
+ IlzpS0PjE/etIWPt1UiMj1wyikYT1Bcxwwh16OxBu7mQS/a/U5Zbp93JY6sjDA==
+To: qemu-devel@nongnu.org,
+	mst@redhat.com
+Cc: Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>,
+ qemu-block@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Laurent Vivier <lvivier@redhat.com>, Yanan Wang <wangyanan55@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Lev Kujawski <lkujaw@mailbox.org>
+Subject: Re: [PATCH v3 2/2] hw/ide/piix: Ignore writes of hardwired PCI
+ command register bits
+Date: Mon, 24 Oct 2022 09:46:19 +0000
+Message-Id: <20221024094621.512806-1-lkujaw@mailbox.org>
+In-Reply-To: <20221007095229-mutt-send-email-mst@kernel.org>
+References: <20221007095229-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 5df85d2dd0e882e606d
+X-MBO-RS-META: whd9m9ue1zq3fkt318ne56cdoqcdyoft
+Received-SPF: pass client-ip=2001:67c:2050:0:465::202;
+ envelope-from=lkujaw@mailbox.org; helo=mout-p-202.mailbox.org
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,50 +90,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-Paolo Bonzini <pbonzini@redhat.com> writes:
-
-<snip>
->> If we want to connect stdout/err to something when daemonized
->> then lets either have a dedicated option for that, or simply
->> tell apps not to use -daemonize and to take care of daemonzing
->> themselves, thus having full control over stdout/err. The latter
->> is what libvirt uses, because we actually want stderr/out on a
->> pipe, not a file, in order to enforce rollover.
+> I guess this cna work but what I had in mind is much
+> simpler. Add an internal property (name starting with "x-")
+> enabling the buggy behaviour and set it in hw compat array.
+> If set - do not touch the wmask register.
 >
-> I would gladly get rid of -daemonize, unfortunately it has many users.
-> Adding further complication to it is not beautiful, but overall I
-> think Greg's patch does make sense.  In particular I would continue
-> the refactoring by moving
->
->
->             /*
->              * If per-thread, filename contains a single %d that should be
->              * converted.
->              */
->             if (per_thread) {
->                 fname =3D g_strdup_printf(filename, getpid());
->             } else {
->                 fname =3D g_strdup(filename);
->             }
->
->             return fopen(fname, log_append ? "a" : "w");
->
-> to a new function that can be used in both qemu_log_trylock() and
-> qemu_set_log_internal().  (In fact this refactoring is a bugfix
-> because per-thread log files do not currently obey log_append).
+> post load hooks are harder to reason about.
 
-What is the use case for log_append. AFAICT it only ever applied if you
-did a dynamic set_log. Was it ever really used or should it be dropped
-as an excessive complication?
+Thanks again for the review and clarification, please find attached an
+updated patch.  My only concern with the internal property approach is
+a potential proliferation of similar boolean values if someone else
+encounters an incompatibility.  I have not conducted a thorough audit
+of all the PIIX 3/4 IDE registers for hardwired bits (only what I
+encountered testing proprietary firmware - PCICMD), and I do not have
+access to my PIIX 3 system at the moment.
 
-From my point of view appending to an existing per-thread log is just
-going to cause confusion.
+Kind regards,
+Lev Kujawski
 
->
-> Paolo
+Lev Kujawski (2):
+  qpci_device_enable: Allow for command bits hardwired to 0
+  hw/ide/piix: Ignore writes of hardwired PCI command register bits
 
+ hw/core/machine.c        |  5 ++++-
+ hw/ide/piix.c            | 24 ++++++++++++++++++++++++
+ include/hw/ide/pci.h     |  1 +
+ tests/qtest/ide-test.c   |  1 +
+ tests/qtest/libqos/pci.c | 13 +++++++------
+ tests/qtest/libqos/pci.h |  1 +
+ 6 files changed, 38 insertions(+), 7 deletions(-)
 
---=20
-Alex Benn=C3=A9e
+-- 
+2.34.1
+
 
