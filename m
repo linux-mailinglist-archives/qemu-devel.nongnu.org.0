@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D802F60AD6F
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 16:24:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A84DA60AD8D
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 16:26:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omxSU-0003HX-Cj; Mon, 24 Oct 2022 09:25:38 -0400
+	id 1omxSU-0003Hc-Vh; Mon, 24 Oct 2022 09:25:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1omxSM-0003GE-KS
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 09:25:30 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
+ id 1omxSQ-0003Gm-Ch
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 09:25:34 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1omxSK-0003yq-6Q
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 09:25:30 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id c24so8420794pls.9
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 06:25:27 -0700 (PDT)
+ id 1omxSO-0003zi-QH
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 09:25:34 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id y13so4397165pfp.7
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 06:25:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=U318AeTBizk8iybf4IKiTJfeP/3EJY4p5aqb59+L12c=;
- b=D2ikOz5RQm7yrLZdBEt66GoP+FEP+YtuZVXPtofKWYJz5gwZw2TK55eSgs3zbdtXK9
- 0Lunj3mhL6cXSRa3gcWnUiu0ynjRYrhXt38j7xrhRlUJDSZ+UaxlgWaRkXR8Cp5QFknf
- dBVZG3nI5+vJu/Vtslrt1D2fu5GcUkykZ+2rZV4vBePLOWMZUHzDQfwV6oqvNC6hOYjX
- P31FJlz/nmaqpr3rH5JSFHcTe9kh5WmKe13VDlHoRyE58YYBP5U0chLNSyAh25+KgQNg
- IZyzi1SaCcM4+FDo75t0YLb3X9+2zF/fokxPzQ3WNa/qO8PkF1v2ptJ4c1ydzRVesvrB
- hWvw==
+ :reply-to; bh=sLwtp+woNcAwBurs5vXqRRocciat0zxGGrqqGlUOysI=;
+ b=TTeQb2g07AU2XkINHJZheWEh6aXFzPK0YbTRWSqLEpvjdHpsw+Maocxb5KCkv7R015
+ QNubRC+uT2/cDvbVr5JPddQFs0HqjKggBDwZBoGDyeKeMkrfUMU3FPuloJwVvyZjpHjr
+ IL/RxI0WsaghajHnlrmcUtg0EmJbRMeVcQWvtPD7LMijjWojnsTdWeltSsUNIXlucwcw
+ v+cqvopJp9pkKf2CtJ4S7zN5A7m1U1XNBI+8EaF1lQT6ScrSkGVt/wGIeWIvia2Sq6/r
+ VmCozahhAnaf9IYQOH2f9St+SyBgZULd7IZhbzz2uYvoI/fSfw/qnj1T4wUkzWvQSzf4
+ iHmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=U318AeTBizk8iybf4IKiTJfeP/3EJY4p5aqb59+L12c=;
- b=Wi3wNGtjgmlTO8boIox4hJYHGU7AUdFonlUAhWmpMjMTWpB+/cTvayafs2smGXkpDx
- 02ujZR+3+1HnsaTGyjqbFuM6ekLbUcXbPWKyj28o/cAmtiNcVTy5z31u17K1/HAu4y12
- pq4afKiODjh1VzwYLNYTCq5i7xOIdtvrS6LpQE05UOkc1JHMz3FOzXsbBgnn1c9DUBd/
- KJvhOW9JHYrvRD40pPTV5z67m28IwgCyhcgG8bRI3fRXuK9buy1e40VPHoPIJSL7l5yg
- AA7GbuJIKl3weOhkuHpaX2jQ9EZIoBvZWd0+vSaNjg9UHiS0hbGzZLqRrxnywkEKXqFc
- Znpw==
-X-Gm-Message-State: ACrzQf180Kv8aP/lgzobJhS0zTdpc6F6KZqChzEQmKlJ7iPZ2+wAgGKo
- /+/z+SqCN7rj7zTY9Syhh0A+SWihDofMRA==
-X-Google-Smtp-Source: AMsMyM6KNyrk7pbhDBDSfzjNUYawsta39Idn/aV49futNgIFXyUTHSwqBMoHPfS67WdQJqKdKy0deA==
-X-Received: by 2002:a17:90a:d30c:b0:213:1035:f914 with SMTP id
- p12-20020a17090ad30c00b002131035f914mr5928436pju.196.1666617926965; 
- Mon, 24 Oct 2022 06:25:26 -0700 (PDT)
+ bh=sLwtp+woNcAwBurs5vXqRRocciat0zxGGrqqGlUOysI=;
+ b=1dMRJtGuH0zNBSs4CFBptVqtc4sM3UBiAqsv+JnB3A565LTUby+v1+tq2yK/FfCPZB
+ x4OJpwYTO1XxmrGquZjM667ClUk7lrIF/MtflnGn81H27cCwfoj9Z2yVMHL/bSM2tB+T
+ +nLU3yxg0JBChSwkxD0dNkx4dkn3qfShySsztSKpls7oewJR3A3gQxSVDAK52PgFMep7
+ +CM9wYJdIfcr/C43Rai3HRk77tuVG7Pbe+zcfmphpJNChsO4g/oUc5zhgBYV+nK4YuSW
+ sPewuj9l+MT26+ROu12KFZ++x5iRbB3TMk+a/isi6180ANihqJLai8j6Xeq4+nmlspUg
+ ng6w==
+X-Gm-Message-State: ACrzQf0jsVmpHZ9LKfxG5BN6O4/ZJDAuKJKMU6V7eANbrq+mgO9BYR26
+ IGYfoI4HnaQ8zRYdk0O3oUp1Zt9ktgTe5w==
+X-Google-Smtp-Source: AMsMyM5ZDoOWJlX/bL0DzSkocDHFpA+D8G5kzeNBUB9G8BvWMRSCjS+2e0mcSb7TJIlHWkEnUwaq2w==
+X-Received: by 2002:a63:8ac2:0:b0:460:6480:8c59 with SMTP id
+ y185-20020a638ac2000000b0046064808c59mr28362624pgd.472.1666617931507; 
+ Mon, 24 Oct 2022 06:25:31 -0700 (PDT)
 Received: from stoup.. ([103.100.225.182]) by smtp.gmail.com with ESMTPSA id
- b12-20020a1709027e0c00b00178ab008364sm17009216plm.37.2022.10.24.06.25.25
+ b12-20020a1709027e0c00b00178ab008364sm17009216plm.37.2022.10.24.06.25.29
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Oct 2022 06:25:26 -0700 (PDT)
+ Mon, 24 Oct 2022 06:25:31 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/29] target/hexagon: Convert to tcg_ops restore_state_to_opc
-Date: Mon, 24 Oct 2022 23:24:36 +1000
-Message-Id: <20221024132459.3229709-8-richard.henderson@linaro.org>
+Subject: [PATCH 08/29] target/i386: Convert to tcg_ops restore_state_to_opc
+Date: Mon, 24 Oct 2022 23:24:38 +1000
+Message-Id: <20221024132459.3229709-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221024132459.3229709-1-richard.henderson@linaro.org>
 References: <20221024132459.3229709-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,37 +89,70 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/hexagon/cpu.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ target/i386/tcg/tcg-cpu.c   | 19 +++++++++++++++++++
+ target/i386/tcg/translate.c | 15 ---------------
+ 2 files changed, 19 insertions(+), 15 deletions(-)
 
-diff --git a/target/hexagon/cpu.c b/target/hexagon/cpu.c
-index fa6d722555..03221fbdc2 100644
---- a/target/hexagon/cpu.c
-+++ b/target/hexagon/cpu.c
-@@ -271,9 +271,13 @@ static bool hexagon_cpu_has_work(CPUState *cs)
-     return true;
+diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
+index 828244abe2..79ac5908f7 100644
+--- a/target/i386/tcg/tcg-cpu.c
++++ b/target/i386/tcg/tcg-cpu.c
+@@ -56,6 +56,24 @@ static void x86_cpu_synchronize_from_tb(CPUState *cs,
+     }
  }
  
--void restore_state_to_opc(CPUHexagonState *env, TranslationBlock *tb,
--                          target_ulong *data)
-+static void hexagon_restore_state_to_opc(CPUState *cs,
-+                                         const TranslationBlock *tb,
-+                                         const uint64_t *data)
- {
-+    HexagonCPU *cpu = HEXAGON_CPU(cs);
-+    CPUHexagonState *env = &cpu->env;
++static void x86_restore_state_to_opc(CPUState *cs,
++                                     const TranslationBlock *tb,
++                                     const uint64_t *data)
++{
++    X86CPU *cpu = X86_CPU(cs);
++    CPUX86State *env = &cpu->env;
++    int cc_op = data[1];
 +
-     env->gpr[HEX_REG_PC] = data[0];
++    if (TARGET_TB_PCREL) {
++        env->eip = (env->eip & TARGET_PAGE_MASK) | data[0];
++    } else {
++        env->eip = data[0] - tb->cs_base;
++    }
++    if (cc_op != CC_OP_DYNAMIC) {
++        env->cc_op = cc_op;
++    }
++}
++
+ #ifndef CONFIG_USER_ONLY
+ static bool x86_debug_check_breakpoint(CPUState *cs)
+ {
+@@ -72,6 +90,7 @@ static bool x86_debug_check_breakpoint(CPUState *cs)
+ static const struct TCGCPUOps x86_tcg_ops = {
+     .initialize = tcg_x86_init,
+     .synchronize_from_tb = x86_cpu_synchronize_from_tb,
++    .restore_state_to_opc = x86_restore_state_to_opc,
+     .cpu_exec_enter = x86_cpu_exec_enter,
+     .cpu_exec_exit = x86_cpu_exec_exit,
+ #ifdef CONFIG_USER_ONLY
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index e19d5c1c64..c8597e2008 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -7022,18 +7022,3 @@ void gen_intermediate_code(CPUState *cpu, TranslationBlock *tb, int max_insns,
+ 
+     translator_loop(cpu, tb, max_insns, pc, host_pc, &i386_tr_ops, &dc.base);
  }
- 
-@@ -327,6 +331,7 @@ static void hexagon_cpu_init(Object *obj)
- static const struct TCGCPUOps hexagon_tcg_ops = {
-     .initialize = hexagon_translate_init,
-     .synchronize_from_tb = hexagon_cpu_synchronize_from_tb,
-+    .restore_state_to_opc = hexagon_restore_state_to_opc,
- };
- 
- static void hexagon_cpu_class_init(ObjectClass *c, void *data)
+-
+-void restore_state_to_opc(CPUX86State *env, TranslationBlock *tb,
+-                          target_ulong *data)
+-{
+-    int cc_op = data[1];
+-
+-    if (TARGET_TB_PCREL) {
+-        env->eip = (env->eip & TARGET_PAGE_MASK) | data[0];
+-    } else {
+-        env->eip = data[0] - tb->cs_base;
+-    }
+-    if (cc_op != CC_OP_DYNAMIC) {
+-        env->cc_op = cc_op;
+-    }
+-}
 -- 
 2.34.1
 
