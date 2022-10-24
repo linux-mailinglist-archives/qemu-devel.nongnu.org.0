@@ -2,94 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5D3760AE38
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 16:52:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B53DB60ACF2
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 16:17:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omy5l-0007Hw-LT; Mon, 24 Oct 2022 10:06:13 -0400
+	id 1omy5h-0007Gp-FA; Mon, 24 Oct 2022 10:06:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1omy5c-0007DH-68
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1omy5c-0007DF-2C
  for qemu-devel@nongnu.org; Mon, 24 Oct 2022 10:06:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1omy5Z-0002hK-8b
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1omy5Z-0002hB-92
  for qemu-devel@nongnu.org; Mon, 24 Oct 2022 10:06:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666620359;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=muWwd2YArURnF0+pCHYBTB2ividZSrhyqVfgv0KZHKo=;
- b=GbMuR1cWsOk0W6ZdYjR0wIShWQuOAgmCKA0j62MvH0iWzVmnWBBXT1g+QzVEGrtagQAhCO
- +ATsRASjsdib8uFrOUtDuU5zUTafwmf9WCmNWYpKLC12encAdT9xXEwkW/C1cEtGO7PwmV
- xDk7n7a7k0dEGn9unLOV6SQ8offwXrU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-642-5vHr8mmGO2WpKRCO5_kU_A-1; Mon, 24 Oct 2022 10:05:54 -0400
-X-MC-Unique: 5vHr8mmGO2WpKRCO5_kU_A-1
-Received: by mail-wr1-f69.google.com with SMTP id
- p7-20020adfba87000000b0022cc6f805b1so3463402wrg.21
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 07:05:54 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id jb18so3233851wmb.4
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 07:05:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=azJwmTJQjJmnPnfMc/80KP1xF9YL8dFHx2E3ACVWdx0=;
+ b=bczW26RzdNQ64QxU7VNWWfa0GnaShqFDHIxScXgcJr57oqXucMYtqWaxRrYz9szrSo
+ gqXyZnw6mLMm7DIicIj8tGDLGJaZcmlOrl4Rpms6xtYsVcC440Nqy1aLy81YxHHUpa95
+ PMqXNAHLF6+0Gg5Yqlwhmoj8zeARVoRlX8EQKpeH4LxzIPUNxqEY+JpXJx5wE0p59681
+ YUEaoU2ciadR/UCCuFZhiUu3FzZPnHsWKWWtw1huIO3jye9ie7veo8uU4QQxRCd82LMN
+ iMNecoCoSZbPTIHjiybuee1JKBcJVtwhxY8H7UTsoU8P02X7fctLNW//vfaWmUE7idGm
+ qILQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=muWwd2YArURnF0+pCHYBTB2ividZSrhyqVfgv0KZHKo=;
- b=TIJOBqnHZa2ysHuVIc3nrfsgYuWpGvDCJdSoLUM863NU34uXo1rG7D/4/OAWi3xP3N
- WPJ5E8HySHHvvJWq4nmMxJ8C1LJacdxDtFjVzuHPjxrSIliQUW5gXtTYtzEV6atRtD52
- 8VChe4mKUSL83Pdc70Mnpr20hS+K4n+lNSV5RQ+8lgU4AwScQNC96QkHmURmnjdfj8pW
- iTGC3IJSC3LIMy4JiA3ptO4gZCN9G7chcQQX5akcr52soRsZdDtj7cFaX+y+dZ9sxzxD
- qr+W6YZ6rAJ2fFG14tB/1ozZzTSI4+vu0G7g6nhnco4yjzPAHHJt3MLZjQUhObzSCBIK
- mz3A==
-X-Gm-Message-State: ACrzQf2RsNX13aeruP7NO1q8KbJBt5GZ8ekryqOYfYQdD9g40L7RyoKS
- mE9HYM797j1GHld/U5Zm0927p5POIdTs4LY8eb5rbFTe/zalBaJ+Jk3CwCocQfHzynRGXv0SeVS
- va3Xz7+7FgUmDecU=
-X-Received: by 2002:a5d:5c11:0:b0:236:547e:a38b with SMTP id
- cc17-20020a5d5c11000000b00236547ea38bmr11189186wrb.221.1666620353476; 
- Mon, 24 Oct 2022 07:05:53 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM79ubGKUPbmc9xZdFQpqp3CLJj+Re7ZyUzg6e2Tic0c3aBsum64Zsk/U8gG3kmgvWujzAlNUg==
-X-Received: by 2002:a5d:5c11:0:b0:236:547e:a38b with SMTP id
- cc17-20020a5d5c11000000b00236547ea38bmr11189159wrb.221.1666620353253; 
- Mon, 24 Oct 2022 07:05:53 -0700 (PDT)
-Received: from redhat.com ([2.54.160.13]) by smtp.gmail.com with ESMTPSA id
- q10-20020adff94a000000b00225307f43fbsm26799526wrr.44.2022.10.24.07.05.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Oct 2022 07:05:52 -0700 (PDT)
-Date: Mon, 24 Oct 2022 10:05:48 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>,
- Harpreet Singh Anand <hanand@xilinx.com>,
- Laurent Vivier <lvivier@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
- Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Cindy Lu <lulu@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>
-Subject: Re: [PATCH 2/4] vhost: toggle device callbacks using used event idx
-Message-ID: <20221024100442-mutt-send-email-mst@kernel.org>
-References: <20221020155251.398735-1-eperezma@redhat.com>
- <20221020155251.398735-3-eperezma@redhat.com>
- <CACGkMEukKCXRDSmR3nemxdHDphQHspGdY3nC9O5g9grQ59PN8w@mail.gmail.com>
- <CAJaqyWf0uXRze3qK1d02RB+Q4BJ60A8E7YYnnjBpdyANB2=new@mail.gmail.com>
- <20221021041453-mutt-send-email-mst@kernel.org>
- <CACGkMEvNoxKcFBpawaWgtq=YgCh4CXMDD9Y5DUgoZ1Qn-zOwpA@mail.gmail.com>
- <CAJaqyWfVEb8cp4c0m_LEjy-aMCmHMuMUao6zaCOFW3EzyuLF6Q@mail.gmail.com>
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=azJwmTJQjJmnPnfMc/80KP1xF9YL8dFHx2E3ACVWdx0=;
+ b=fEUrlNRlQkuTCGOe4sSXMEaRcF4AZO9vrVmATpY9zvvsXvOQH5spjyhZMk4VX0thPj
+ /jLOTrK86im3tcIimpKPQfmqXETPpTFo9B2Ws/IwRU8EekOl3BSJDqHaN6oepNC7tOg9
+ biRRUbL9DKzusMHc+FGbFSKWTsL+xX/7SrB6xz2msL2p1OF2PslTX8+k49ow61PajPmZ
+ 26D9JyPOdMN4odmRj2WB5ve+KVbef6RR8SbHfjkH/RlXgB9hDYr+D3wsx+pElB3TC4Zw
+ Vimyc7nG5v4QvljoLYBjlLYmSLxZUv+0GBgCansHy7fYZgAU3AAocvgAKMt6iAweCYjk
+ Kh0g==
+X-Gm-Message-State: ACrzQf1t4QeNRq8iKT/Xed3dGkuPlye3pNaw0HLfxGz+rUfzK6JXfG3y
+ u4+q9E4pF8XgnnXDNs9bv/6sOm6872OdgQ==
+X-Google-Smtp-Source: AMsMyM6+YyVbHLVxAP7Tul+Omhw4FMaIr04qaMPXb6NQM75S4TjW0AaERuKsgbtmxO8Hd0UK+cIgWw==
+X-Received: by 2002:a05:600c:4e0b:b0:3cd:d83b:7998 with SMTP id
+ b11-20020a05600c4e0b00b003cdd83b7998mr5310588wmq.119.1666620358301; 
+ Mon, 24 Oct 2022 07:05:58 -0700 (PDT)
+Received: from [10.50.0.10]
+ (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
+ by smtp.gmail.com with ESMTPSA id
+ 15-20020a05600c020f00b003a3170a7af9sm38410wmi.4.2022.10.24.07.05.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Oct 2022 07:05:57 -0700 (PDT)
+Message-ID: <c07cdb60-a8c5-02f2-71dd-f411964269ad@linaro.org>
+Date: Mon, 24 Oct 2022 16:05:56 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJaqyWfVEb8cp4c0m_LEjy-aMCmHMuMUao6zaCOFW3EzyuLF6Q@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.2
+Subject: Re: [PATCH 18/29] target/s390x: Convert to tcg_ops
+ restore_state_to_opc
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221024132459.3229709-1-richard.henderson@linaro.org>
+ <20221024132459.3229709-20-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221024132459.3229709-20-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.503,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,61 +92,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Oct 24, 2022 at 04:00:37PM +0200, Eugenio Perez Martin wrote:
-> > > It's generally a waste that we don't use endian-ness annotations
-> > > the way linux does.
-> >
-> > Yes, it's worth doing something similar sometime.
-> >
-> 
-> Maybe we could wrap them in some struct like virtio_le16 or virtio_16,
-> avoiding at least integer direct assignment? Wrappers like
-> cpu_to_virtio16 could return these structs and I think all compilers
-> should emit the same code as direct assignment.
-> 
-> Thanks!
-> 
+On 24/10/22 15:24, Richard Henderson wrote:
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/s390x/s390x-internal.h | 4 +++-
+>   target/s390x/cpu.c            | 1 +
+>   target/s390x/tcg/translate.c  | 7 +++++--
+>   3 files changed, 9 insertions(+), 3 deletions(-)
 
-This will break bitwise operations such as | and &.
-Generally Linux has solved the problem and I don't think
-we should go look for another solution.
-
-
-> 
-> 
-> > Thanks
-> >
-> > >
-> > >
-> > > > > Thanks
-> > > > >
-> > > > > > +    } else {
-> > > > > > +        svq->vring.avail->flags &= ~cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
-> > > > > > +    }
-> > > > > > +
-> > > > > > +    /* Make sure the event is enabled before the read of used_idx */
-> > > > > >      smp_mb();
-> > > > > >      return !vhost_svq_more_used(svq);
-> > > > > >  }
-> > > > > >
-> > > > > >  static void vhost_svq_disable_notification(VhostShadowVirtqueue *svq)
-> > > > > >  {
-> > > > > > -    svq->vring.avail->flags |= cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
-> > > > > > +    /*
-> > > > > > +     * No need to disable notification in the event idx case, since used event
-> > > > > > +     * index is already an index too far away.
-> > > > > > +     */
-> > > > > > +    if (!virtio_vdev_has_feature(svq->vdev, VIRTIO_RING_F_EVENT_IDX)) {
-> > > > > > +        svq->vring.avail->flags |= cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
-> > > > > > +    }
-> > > > > >  }
-> > > > > >
-> > > > > >  static uint16_t vhost_svq_last_desc_of_chain(const VhostShadowVirtqueue *svq,
-> > > > > > --
-> > > > > > 2.31.1
-> > > > > >
-> > > > >
-> > >
-> >
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
