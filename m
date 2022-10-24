@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 333C7609A7D
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 08:28:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B49FE609AC2
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 08:52:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ompYZ-0004dz-8k; Mon, 24 Oct 2022 00:59:23 -0400
+	id 1ompYi-0004t3-CY; Mon, 24 Oct 2022 00:59:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=72963f20b2=bin.meng@windriver.com>)
- id 1ompY6-000433-Ce
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 00:58:55 -0400
-Received: from mx0b-0064b401.pphosted.com ([205.220.178.238])
+ id 1ompYF-0004JI-BN
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 00:59:03 -0400
+Received: from mx0a-0064b401.pphosted.com ([205.220.166.238])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=72963f20b2=bin.meng@windriver.com>)
- id 1ompY4-0006BT-PJ
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 00:58:54 -0400
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+ id 1ompYC-0006D5-D0
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 00:59:02 -0400
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
  by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 29O4uZvR011846; Mon, 24 Oct 2022 04:58:42 GMT
+ 29O4rWf1025182; Sun, 23 Oct 2022 21:58:47 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version; s=PPS06212021;
- bh=6XgbaW1j3UaX/Qr65o3z7cIMt9V1DanK+ZYU3xctle8=;
- b=rMIykFBKbvQotD2qYXB0RFtqOXt4TUb2qBP3PRKQZj4QSv85qoXJPmlPYHEZVuGK/X9I
- Hh7sXAoQlIbG/Lzw41bzi9kKssYv2up//UmwUF56LyaqCwNMWW7vSQj+sXdKHtMJwdG2
- CefmTWE1Ypbat914gyg+XwU907mKOczTHsv9dpATQyOaRGhSbqxJ7TxTLO7phfdu3qlz
- fBuZSafeCTkHZc6t1eZp4C6zStOlEUXReua+B+2CdY+zlgJM6BeuL0hGj5+nVXZHbtZQ
- RopbtUROQxCeFs2RlSsZZUs7VQdzTdlifLx7ckcT1bIb8aUVhogeEsaC+lM/wE6tlUqS iQ== 
+ bh=A8rMuHBIpTw3noUrUHbCRcArxsTXdLFPt4FCt/dN2gY=;
+ b=MAEI4HPlkRmp9zL0Nk3RHDNpSWhogxRh4ud7ZWEJiuPvqshwmVb9wSB3BkjpPey73Irg
+ XZ3eFvgFrQPxLa/4mfICinuOFDF5ebFLiMjsNfk+u85ao0vffdNfwN98Wf6eY5v3doNu
+ YxKrjp7+hei7FThZl9E8a5vt0pqNeUfzeSHpmvTC/5ZZklZmaJLzZ5F5s45596oF9z8+
+ fAVIoPwx65kufoqQjg9k9VKwrNZITOD/aKgujRyJLdc7r/v3Ot9MaI23pJEn75xzSM89
+ bW8N0KgoNbbZn4xdB18MmH2sAhusOOrHtfgvlpbelxC4l73ZbzA7qCs9o/h0qcO5kCi0 2Q== 
 Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10lp2105.outbound.protection.outlook.com [104.47.70.105])
- by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kc7g9stjd-1
+ (mail-bn7nam10lp2109.outbound.protection.outlook.com [104.47.70.109])
+ by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kcg1ksmag-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Oct 2022 04:58:41 +0000
+ Sun, 23 Oct 2022 21:58:46 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j2tj7Ngi7r8y1xB8+B1WTwR9oKQLtGswEY77OWtgBVL34mB2WMtO0gsZMsp+gBMizZjP6h26fruvC3ih+eHSg5Wzb8JtNPzZQrpDq2xXPdiuecWdqXy4GoJcLMhkU934FIyNqzuz7fsk953nxdjeKbMQDkSmsgcdTA22DwMszY1BO0hd17DThE3yNi0HqYP/nL7oQt2XJH6DobNV1JGEZgX4Q45Dr9INwBZe307eWjsZrtr3HgMvxvlQREx6sQPJ4T5i8+foT3ai9tmfMztxgNQ0sXXPOQmWoEdf+KCT6G2yGiJ94yXll0K46AMskXHvygzjwnYOY5U0JHk/gS5Kog==
+ b=Y3y0e72Kunnll6vdj5/OL3iWfezH/UQxwJ7hKmDYUa5T9OOPao2y7r7UfRGxftiQKqrX4Hpw24Qy6qa5x2H8ZeQJWrn7RpX6CLJQavxPQbxmYC7+PsifPWqwmj7wGIr29F9weT79ty1JMg/A/kz5Vp478L2ArskCOignhW502s1luo4GD0uaQK5Tdit79LQmLsC14NEtkO6BYTzbm/iMf4alpathPa06vQna3X5naX6ghk2gn6gVRUteq23vo/eaHNBnIL4TCbganxjnzAJR45pGd+A0MuZTSYzhBMahjuFkHmW2SU/X72BDJk7P20d86nohxtI7Ff8cCwqXMbVb5Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6XgbaW1j3UaX/Qr65o3z7cIMt9V1DanK+ZYU3xctle8=;
- b=PkLUfnPc5+lpGMISZpG6NgTCbaWp67TE+eAOG0kLn75ZtSFuAb8jnaUkdnlE+IAgolJ6kxx/8oE3w9MGAv/Xjr6u2WD3Zg8NUkN/YMiEjnrXfqLna5v3otRP6Vwmy1nKcWs5WLWX9DT29I/voxbCIAnHSN71w8Gx+Y8o0c4/wOtN00cLu4ohzGnWqbUeOyg6nVaYorPx6R7EvR8jQbDsxrjoGhy/d2s5b3KAo6cLnzhFUcWeDQD31yFERmOPkeCwYBcSZH7vuL6OVGi4+BdZp9XZzub5sHQZNIssH5X5HjOF65JtmavuWkXbRcZFRP92NCz4Y6SVQt2xDydu/ZgD4w==
+ bh=A8rMuHBIpTw3noUrUHbCRcArxsTXdLFPt4FCt/dN2gY=;
+ b=J/bwD1x0LNVkJIYNk6vudND2tD283e+UC6BHFe1c/T8gXAchnqzBbHX6jAjTngHo87fgLA7mdCZ/Qfg6n036bgPBWW+ah/t+M+Rq6/AoqL81sc4OAQAz4BFUDhjdr9QcNW5b/SXEGFV6vrhdOyWvGfQiv7ol3vj13zjvM2hH5wuJEXN6qlMZzP61MW3FKs0S3zuBrDXcxzDC7b+iJibWuokkkgAwaPLaD5TnMN3sChCf1MuT8fReLmxvmAM1+BoYb7/K33gxjqQPiWH5LdYU/GuBnJ/b5jBlwabYs7Goqt5omOuWMNYKNIZE57wH6rk98e63waNZ8r3/YjNKrHT+lg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -52,18 +52,18 @@ Received: from DM4PR11MB5358.namprd11.prod.outlook.com (2603:10b6:5:395::7) by
  MW4PR11MB6911.namprd11.prod.outlook.com (2603:10b6:303:22d::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.26; Mon, 24 Oct
- 2022 04:58:40 +0000
+ 2022 04:58:45 +0000
 Received: from DM4PR11MB5358.namprd11.prod.outlook.com
  ([fe80::b051:27b7:c1c1:7cb9]) by DM4PR11MB5358.namprd11.prod.outlook.com
  ([fe80::b051:27b7:c1c1:7cb9%4]) with mapi id 15.20.5746.025; Mon, 24 Oct 2022
- 04:58:40 +0000
+ 04:58:44 +0000
 From: Bin Meng <bin.meng@windriver.com>
 To: qemu-devel@nongnu.org
 Cc: Guohuai Shi <guohuai.shi@windriver.com>,
  Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>
-Subject: [PATCH 12/16] hw/9pfs: Translate Windows errno to Linux value
-Date: Mon, 24 Oct 2022 12:57:55 +0800
-Message-Id: <20221024045759.448014-13-bin.meng@windriver.com>
+Subject: [PATCH 14/16] hw/9pfs: Update synth fs driver for Windows
+Date: Mon, 24 Oct 2022 12:57:57 +0800
+Message-Id: <20221024045759.448014-15-bin.meng@windriver.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221024045759.448014-1-bin.meng@windriver.com>
 References: <20221024045759.448014-1-bin.meng@windriver.com>
@@ -75,68 +75,68 @@ X-ClientProxiedBy: BY3PR03CA0021.namprd03.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM4PR11MB5358:EE_|MW4PR11MB6911:EE_
-X-MS-Office365-Filtering-Correlation-Id: e0761660-2c7f-4cde-f273-08dab57c6b0e
+X-MS-Office365-Filtering-Correlation-Id: 778a3ab2-dd91-4cae-0d4f-08dab57c6d9a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qtDruQI0nPSWsSJu1JT0pKlUUE1jTxmz5nzTYSOwtjRh2ElDv8GkFqJPJyAqe9UOg3jqXEQ+e4wSXf4QUuiObGRRcpCO1i/38Wqs3jKTAoo3acQCgs/o9QNoQmxzQiDYXHafpZZkcw87nb01Pv+mf5YjcktmmLPiCItCDuuJ7lADPeKY6eCF4aSSFjlW84Z9bO3OY9q1w/K0SCzB/oLmmZBpLr42+XVPuULQmauREN+PjXi7RSmV/9ZLWmgrDw/8NWhKZ4HJvS9jHzFuP2OnOSpRPC4PKeHcoTfzpkFRkChY/tvgSsXKMXBSnG1I3M2E/MsnvEtiP7GQRaLnOqNgkwimZev58AcJtaUYI0RT7rJV09DTp1nuBci1m1MdhESogGAEJExrYHmXEz62PNO62qQ1hZmkF+X991TfWMs16y+0+ImgQ1g0e6/HssQ2hr6lTTlQfUPrxhc+fHpKByw3mQm9HY6RuCw6pjFaBCYyBuTUDcl9cXgz3zMd//KzmFhQQQl6r23QDbAmZViKN54xThPZg06hyEDYBanp5ZwNi3fuLfMmBW/vlEfa+NCVysMyZNRY0wGEUdgcCu8h4y8UpW6qF/j6PcjnscTtqjQ84S7QaJ8s7+Ip9d21YvjYDPsW3FAHRErll419kSp54SBYeYo2dFmBh2tN5lqYIeSYT91NZronej6vfKTsyf0Sg22JGqs52d7v7APLAwF3om9EoYKCC/KZUEeFE80MWcdY50Zb35XhELCXL3MRcM2WCuI95uF32DXMDo8wFQlxeN/xxw==
+X-Microsoft-Antispam-Message-Info: IjSgZTi80sQzL6KVwD9/7M9lVmB7jmnzTMSlfVTC3gglC8Iv2DUHaoHrDNNJkvUgKMpGsdCVkaEik7MYNspLVl/vuZway/ETeZmjd9Tm9Oc9xKIzaXEDoSKQjzDnPhTAJXpUAOxLFgkbqIhR24e5uTKPlQJP9WNK9FidLlrpYYRSreZ9r0y7Jo5sX7tLz4bBVFAUzZ8MXoKwzBphrhlRlKI0GHcM48FNl2iVqeEKWC/XU/sM3qvOcFfS258h0dcicuDsENo8D6TbbEmjEWoHHnpxx3GqIBTHF3IJE/q5V6EX8lxiYQk1Mmn5OObILd2OKmKGCB4j+/cy7orUQxbCNt3QgGnvrOYFibsFLXR6yA/hsqY8e6M5wh0Y3WnZF75GAVWvahCLr1I/boEtcyGVnuoonH36b6mfHgsBCsd5+97jnvjUeiRBMPec73k6Mf2P+hjdVFPz9kqOz6mVgpg/DbbyLWJD1unf1S9A1CZ8T0rcJps7b+xuzvcInuMEyHh8cH39iBA5eb5VNWlcH3k/jW+28Lx6fn27ULqlTIYlPyENok+gxF9MNAwFptzHdy+r0h5qZABMRAtg1Uhm1zRzwAp5zA190KUalVxVGCZT5FUsDb92ncahUAK8KWfB9R/z7AummcZz5gnFNKTXfWOkxnvZk5BngewMsGOGtQmK3KrEbHn1P5ZKICa2sFL2q2ibkQAnqpVhaqqeT7Umtbd4/sCRt3tRkP4IpPFg+wx1Pt7+AUUFzsk4FH981VZ0BEy7t/a6J9fGMPdmAWML+KBEJA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB5358.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(376002)(396003)(39850400004)(346002)(136003)(366004)(451199015)(6666004)(6506007)(2616005)(52116002)(6512007)(26005)(1076003)(186003)(83380400001)(44832011)(2906002)(6916009)(54906003)(316002)(478600001)(6486002)(5660300002)(8936002)(41300700001)(66946007)(66556008)(4326008)(8676002)(66476007)(86362001)(36756003)(38100700002)(38350700002);
+ SFS:(13230022)(4636009)(376002)(396003)(39850400004)(346002)(136003)(366004)(451199015)(6666004)(6506007)(2616005)(52116002)(6512007)(26005)(1076003)(186003)(83380400001)(44832011)(2906002)(4744005)(6916009)(54906003)(316002)(478600001)(6486002)(5660300002)(8936002)(41300700001)(66946007)(66556008)(4326008)(8676002)(66476007)(86362001)(36756003)(38100700002)(38350700002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6FW62tE4MuE9Z8Cid8Q1ErFPS4Y9JKm1WGfLa0iTHIzeB+4jiBz6iTfZR6UZ?=
- =?us-ascii?Q?+OCPHNC2KuFb0YmAcfy8XlSuy6bpvKT2kvtXrQ5PkpvAdun/l1eLhmLS/6mn?=
- =?us-ascii?Q?KgYEIJotSsoeDLpVvOELGUarzqnTAOs93zBDugdT5CtbpUdAbIQqtUM++CFy?=
- =?us-ascii?Q?xT6rYJ2O0s5LUGOkEAWGxVBV0DRH4gEn3RUqBSng2S7gKBkotsucLnjKmwhE?=
- =?us-ascii?Q?0VNp4io/k32vVhvYIiv4qnfxZRSus1kko9UPbNUkYWkeuFrJ2EpZD7Rd8D+N?=
- =?us-ascii?Q?9/r6y68bZEg3AZTUrVFKceVY6z6wp/RS5TzGCKtwbAcYSmC4tpDo3Uoi4nXq?=
- =?us-ascii?Q?oAtXM3Qt6djZJOogb0uUgS0tj0Cu5VTq/IAJZuWIG9NGw0WrR0X4ygu5/BJv?=
- =?us-ascii?Q?Apbqt92txkFr4oLlscVV+bB4H/kQVkK7UAh7vAY0svGywptHVH37feJhZxOI?=
- =?us-ascii?Q?ngG9A4SR1EZvrYfachSq50VpFZ3iL9VtyTGyoWUimBs8wRV8cYcdo68CdDXW?=
- =?us-ascii?Q?Hn5M0WN8aSjFPd6oMjQUYdWZBwkPnswp0gOxoefy9cqSTwwBPAeGIzjmIIOT?=
- =?us-ascii?Q?0cdLS3Immid23N8G3CSvVL2HKvY/4IlbVRspw/TFwtszWKCqkJJy8dVZPB/d?=
- =?us-ascii?Q?oVPct5PlBAO1ZoHeeIe712vnbtGgHCbevqV+eGLz4u34lIntBwYOtAGV0M6S?=
- =?us-ascii?Q?wd6yHQeF6paEJ4W+tGQnokctdS2zUmvHavV+qHEYaRvcarkhvW+UxWPi6idK?=
- =?us-ascii?Q?I8Ng7mcBmNzDXdV33OpZka3yF4pNmSuKiKtPsjZyTv9q+e2QBZ/KcfgI2GMK?=
- =?us-ascii?Q?ErbuA8WHDbJY9VpW+/S3SmJ0WACC5PkudJ0LEPT6vlSAbB/k1TFXKm8uCi5H?=
- =?us-ascii?Q?g2Zn9C1FgHPrG2hBxymP1IdNUbuFm/mqMxaQ53JGYRbCVQnb1m7/a9i70O2v?=
- =?us-ascii?Q?9/BXuGf+ui4a0YSq7dBTd6ZQII2iYc7lmNf3Eip8k7nxqPE4fsuv649dbjhm?=
- =?us-ascii?Q?x1/FtWR7aer4V889IkBB9wq++Q0coDGIyPFXz2BlCZyiishTI7B7DqH6dbm5?=
- =?us-ascii?Q?PO7QJxABol54rES5SATiJos/NsKcsOLHemPrWu7PX6SkoHtyve9dU3qQYQoq?=
- =?us-ascii?Q?nRSoJ+bU7c0Ti6kiA/UmkG3f08sc5xS7pNpN7P5Bi3q+wPu2g1/nrnewwdcd?=
- =?us-ascii?Q?5lZrBo1exI45g3VZfN2kLpLg7RUwOiBI7re/HJ1BhdFiIra2QDNCRu+29kWn?=
- =?us-ascii?Q?mSNUZH0RYlRfHSuHmVYY7wlADkIzKqJHwV5PngW81FQWmEfERRby1I3Cwx1B?=
- =?us-ascii?Q?kYthRL8fB+SJODyvzaBYn+NOf9MS/ZreK5cnPFhT4yvBwNV1U70ZwsVdfBho?=
- =?us-ascii?Q?ABzOMKJbRTlHdRiqk20dT/BoAQV6VuPIVvJijJOyIdNqOC3hplsu2CaNIVZq?=
- =?us-ascii?Q?DWJFzJzHTOMlgB/dadn4MMVdbg8AlBuGEcQkvxZyOOzpzKRPqdTyI83uawWL?=
- =?us-ascii?Q?sEQgqpgpAwtIzUAeeQS6ru6Ue0Jzpl2XATj2DGVYHb7QVFwsMg8WAyCZGpPL?=
- =?us-ascii?Q?o5Zrp6hZHYj6wF3gG80sn4w6MfAO2AJgD3pY9hnfCrUq+C9XcqHhH80mporA?=
- =?us-ascii?Q?ow=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2i6ZwS58Uwv6+iXzx+iTx4uQuxIUQpEq6oWQipNv2ccELstQtpKNfVYdl9Sb?=
+ =?us-ascii?Q?2Box+us5kqeKgsKYjfgOcAjXcwG3XjK4mF8P3zWce4YSq8163TPxxJOs0BhD?=
+ =?us-ascii?Q?0DxTagYWbpsuwZ+PSnU0KYWa3ON13th6Duyt3wliI0OVJIgmLfeoxa4KKUMe?=
+ =?us-ascii?Q?gbI9bU0XaTx7vp2yW8ehruZ2A7V96sTbLmiPWXVIwHPYCVqznRdcCT1d+yKc?=
+ =?us-ascii?Q?GepRvgxXsPODVZf9anwDhU67tdWYLURuhIWsDSBdA/udEwaeiKbY+a+pRiSD?=
+ =?us-ascii?Q?f/og4KylZvfC1EcMCWxCp+mu83o7QHEa3ysz/tBssBqMkz0Ibars/4szrLcb?=
+ =?us-ascii?Q?+6uD79JAexPzLvGn9U4jDnlgpxbcS/0UD+fveOEd2Hd3PHHYkOCiYMnabvg3?=
+ =?us-ascii?Q?/jSXDGVeujMNPHfwM+pNo1uLtUeXvw0tAb8pM3rRU5P2Hh05gsdb1snX9Xiw?=
+ =?us-ascii?Q?Ut5DF82jJO5Z3x1QFQoPYAg0ZDJgQDrHS0A1KXYjaYi0x1Vuqe7fHJNnIS3c?=
+ =?us-ascii?Q?Pi/7PkSLcI0djBf5LRmjqI6jInNXE3kEAK9zk5WlulrQVmt7vyLLrSs82kys?=
+ =?us-ascii?Q?AODHvt56NNLqQ3MLFaXxbyWYO4QQDUwfsSfGIGmgBETS/ynTKUH7PbeoFDh9?=
+ =?us-ascii?Q?0BvV0h9Rq4UxoCGtSRUvhw/DcnP1ya46DHBTiWBsjj6gwvdDt9xOEIrni558?=
+ =?us-ascii?Q?IRhczG5Sg5yUyEQLl7/c66JT/4zO0NTF+M+q8j6/qoHZQ+6XQ8dsrVjospnv?=
+ =?us-ascii?Q?SEeGVyqoHkYyPW5nAB+c0EOEnaFeP7ZYbxPHEg+kEatQjMjLMp+IIzETnKWp?=
+ =?us-ascii?Q?U7vRZfiwsr3OI8Hzh+/HcPYDCvzosSk/iuiRSPTJoF4Q/o+GNf1wMqRbjnj6?=
+ =?us-ascii?Q?gB00F3KdlMx1leQq1jOk8WBNDb/Gq4RI0aCmVEFFPixHtyxudL6pX8BHBrMd?=
+ =?us-ascii?Q?vFfatci4C2Oy/E/uCSR1/fCU/26vuah7CJ7kFU3iaKXgsfuURlM/2tUnhEUA?=
+ =?us-ascii?Q?BQJngdKgOstmOUFcgtmGMzgYMXt6wHoESHM1yZi6YNT0+ZTYoSuJE+mRkHGi?=
+ =?us-ascii?Q?xR35GF1/c/J8FwQUwHT66o5HWFuIHtLT93gdRvu7PY6ckyKTsNadNibkCzSZ?=
+ =?us-ascii?Q?f3oZS6LLpLLNzdFpGuSuSEX2k8xEt/iP3+0wXH8hmHrgKY9jDRhQgFRkMavw?=
+ =?us-ascii?Q?R1cHzv/mlThlvmbdaZSYB+BYCROfuQDcneDZEiFsJiMN1RqPQGqb+/arOhhL?=
+ =?us-ascii?Q?DmziCStsPyKK4zjsPe6DuP7WeWx+WJ0Veei+HLgrB+7hk/UclEWxSYubyg3y?=
+ =?us-ascii?Q?Tn6/OcJY0XBXgy9C5bwVTL8CpUlBFLAtxZIzSuJvSCfflyymf3KahvOsvf4x?=
+ =?us-ascii?Q?PcAEauJ+DeEiz6cVVPrOMkVsZ7hkJG+vhJ2PZGaV0GAkutPLHS9A+5+AqFer?=
+ =?us-ascii?Q?D3AVs8pY/VAGFtNLFs+7rTSvsjf6xQndAX/XjhhUz5uHbT7YaDID+PoQ8DOp?=
+ =?us-ascii?Q?rVsKM47BRkjkldseP4/BvBg2+6U2zhMHYSiT8xJhjnmLWHgnvmNu4rW4niCD?=
+ =?us-ascii?Q?thXCpAZihrTZ3q7tsUkYLeWeTXFpwRA8rv0r0/zBSZm3caD8w09vlVii++Zi?=
+ =?us-ascii?Q?7A=3D=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e0761660-2c7f-4cde-f273-08dab57c6b0e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 778a3ab2-dd91-4cae-0d4f-08dab57c6d9a
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5358.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 04:58:40.4466 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 04:58:44.7917 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HtrUauHKvs6e/UCsmSt0lgKiFEbeb31XLmhkV0wGj3jwfKd6W4L3aIFQN2/qbwqMBPuCWulGvvAo33NSux83iQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: va7RaoL97J6s/s4dsbf+qPgVZdJvp2YCMoYqB0JbzfNUtDLhip1hYUUHbJc2HJzDwl+LdAKWu+UoT2sDSbKcFw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6911
-X-Proofpoint-GUID: Fpkp-sllKNhfRijf7MG0zlLnpxh0oLbZ
-X-Proofpoint-ORIG-GUID: Fpkp-sllKNhfRijf7MG0zlLnpxh0oLbZ
+X-Proofpoint-ORIG-GUID: eBdzmNnwJBQKX--60CcaWf9oJUBoWObS
+X-Proofpoint-GUID: eBdzmNnwJBQKX--60CcaWf9oJUBoWObS
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-10-23_02,2022-10-21_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015
- bulkscore=0 malwarescore=0 mlxlogscore=564 spamscore=0 suspectscore=0
- mlxscore=0 adultscore=0 priorityscore=1501 lowpriorityscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
- definitions=main-2210240031
-Received-SPF: pass client-ip=205.220.178.238;
+ adultscore=0 spamscore=0
+ phishscore=0 clxscore=1015 lowpriorityscore=0 mlxlogscore=942 mlxscore=0
+ priorityscore=1501 impostorscore=0 bulkscore=0 suspectscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210240031
+Received-SPF: pass client-ip=205.220.166.238;
  envelope-from=prvs=72963f20b2=bin.meng@windriver.com;
- helo=mx0b-0064b401.pphosted.com
+ helo=mx0a-0064b401.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -161,71 +161,41 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Guohuai Shi <guohuai.shi@windriver.com>
 
-Some of Windows error numbers have different value from Linux ones.
-For example, ENOTEMPTY is defined to 39 in Linux, but is defined to
-41 in Windows. So deleting a directory from a Linux guest on top
-of QEMU from a Windows host complains:
-
-  # rmdir tmp
-  rmdir: 'tmp': Unknown error 41
-
-This commit provides error number translation from Windows to Linux.
-It can make Linux guest OS happy with the error number when running
-on top of QEMU from a Windows host.
+Adapt synth fs driver for Windows in preparation to running qtest
+9p testing on Windows.
 
 Signed-off-by: Guohuai Shi <guohuai.shi@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- hw/9pfs/9p-util.h | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
+ hw/9pfs/9p-synth.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-index 281fdcbf8c..145a3117dc 100644
---- a/hw/9pfs/9p-util.h
-+++ b/hw/9pfs/9p-util.h
-@@ -69,9 +69,9 @@ static inline int errno_to_dotl(int err)
- {
- #if defined(CONFIG_LINUX)
-     /* nothing to translate (Linux -> Linux) */
--#elif defined(CONFIG_DARWIN)
-+#elif defined(CONFIG_DARWIN) || defined(CONFIG_WIN32)
-     /*
--     * translation mandatory for macOS hosts
-+     * translation mandatory for different hosts
-      *
-      * FIXME: Only most important errnos translated here yet, this should be
-      * extended to as many errnos being translated as possible in future.
-@@ -86,6 +86,7 @@ static inline int errno_to_dotl(int err)
-     case ELOOP:
-         err = L_ELOOP;
-         break;
-+#ifdef CONFIG_DARWIN
-     case ENOATTR:
-         err = L_ENODATA;
-         break;
-@@ -95,6 +96,21 @@ static inline int errno_to_dotl(int err)
-     case EOPNOTSUPP:
-         err = L_EOPNOTSUPP;
-         break;
+diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
+index 1c5813e4dd..6d33eb1cf3 100644
+--- a/hw/9pfs/9p-synth.c
++++ b/hw/9pfs/9p-synth.c
+@@ -152,8 +152,10 @@ static void synth_fill_statbuf(V9fsSynthNode *node, struct stat *stbuf)
+     stbuf->st_gid = 0;
+     stbuf->st_rdev = 0;
+     stbuf->st_size = 0;
++#ifndef CONFIG_WIN32
+     stbuf->st_blksize = 0;
+     stbuf->st_blocks = 0;
 +#endif
-+#ifdef CONFIG_WIN32
-+    case EDEADLK:
-+        err = L_EDEADLK;
-+        break;
-+    case ENOLCK:
-+        err = L_ENOLCK;
-+        break;
-+    case ENOSYS:
-+        err = L_ENOSYS;
-+        break;
-+    case EILSEQ:
-+        err = L_EILSEQ;
-+        break;
+     stbuf->st_atime = 0;
+     stbuf->st_mtime = 0;
+     stbuf->st_ctime = 0;
+@@ -236,7 +238,8 @@ static void synth_direntry(V9fsSynthNode *node,
+     entry->d_ino = node->attr->inode;
+ #ifdef CONFIG_DARWIN
+     entry->d_seekoff = off + 1;
+-#else
 +#endif
-     default:
-         break;
-     }
++#ifdef CONFIG_LINUX
+     entry->d_off = off + 1;
+ #endif
+ }
 -- 
 2.25.1
 
