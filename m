@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42EE860BE6E
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 01:18:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EC6360BE80
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 01:25:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on6gC-0008MD-0t; Mon, 24 Oct 2022 19:16:24 -0400
+	id 1on6oH-0007GA-TV; Mon, 24 Oct 2022 19:24:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1on6g7-0008EU-7R
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 19:16:19 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+ id 1on6oG-000707-2Z
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 19:24:44 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1on6g5-0007M7-MI
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 19:16:19 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id d24so9733942pls.4
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 16:16:16 -0700 (PDT)
+ id 1on6oE-0000D1-HX
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 19:24:43 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id io19so4784550plb.8
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 16:24:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=XVon5DHILRbuJvecoizaCWg2xrmICIr7n4KRdk6Aa4Q=;
- b=SMtWBKdFzjbE0FaqkXltNfjuu+neVropZZKDyyUfzV09ztwH6h5NjpSZutG+yBB30v
- Tf6Bt/pTPxapEW0JtU6VZm0B1zkRhkc35WucnxgLcubt4Cx2KWKFgL0ZOgqR696GNkbx
- tdZxfOENnf7YB+S+OK/laUA2Y+vfxS9snyX4oPPYFDWNstBhs+1pec5wKr3ZQxM5IhkP
- EbwHcDCmkTmu0qXzAgZxAyhkuEEMBlYOCZTMN3LQ0JBqPy/161ew8RaGy8RhitYcYOLg
- ok9/UWfBDmoq9h2SprcVCJE0/sWDAFpnwjm7gLfbkcHONzA9dXRASQasxHqVW6hJ5ojH
- 0RWA==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=qhqlCbK+Vyfuhw07z3L7AMoxj5A7y8nNEGzeS8BGSg4=;
+ b=BuvzTWK5X1qutaiB8mWsdfz9g5Ef1YwqgoWPzqTocosB66KVEzasgW9kbSAnhCD4rw
+ z9EoXLatbit/MFo8kQwQBcp+hu6PTXHJFdWhxXUAwDhafQf1AvxHNOnwhV4AKbEtUGaO
+ giZQ6owBIdWSnS5WiWG39sKyIMWemngFbChMjUUSDXQqJBSJJfu3X6fyy4XSkRdZCQ9P
+ sJAaGaTj0sp/jkvLNBEQ9Yg5bWn/MgA0kMzM9jJYorqmncallTqGtVsYJ9zTzFjzsGXv
+ y99YVdifjVLzV4ecoEzh6ANOnmqOvUUlKLNDw7LoIfCBlvtWyPcSuTFIG10aUIeA+rAs
+ CAig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XVon5DHILRbuJvecoizaCWg2xrmICIr7n4KRdk6Aa4Q=;
- b=jxfI3rYaIzQKWAYFFuu7GU5JVGXqFRItA1S1ADl1rTkJNKGf7a3FGHGtCLCKcpWF35
- yWHXolZIssUpt1eKmaLq2DwZgwiWjqW1oqLBde/y8hFJz48n1IhraabG8o8rO8UKRX/3
- sUoMYJ2gakNpr77PwXSoBpBA502IXDxrY9OSpTaj6KjTQ2FkgYti+nRkUYzAi6wmfaCp
- LuDjPKTsoztM3i8y07USs9X4TcrttmTIwvEKKX5enm73r+uYY3+Nl8brwczirItUWJ5y
- F5WDKDPnryRszusHyu55mbd59tVx8oMHJ5NHMHhE/+TZJql4E2XclwdB5NG9IySzuqxX
- dBrA==
-X-Gm-Message-State: ACrzQf3PaRwfXJM+47mxchMvlP3MBk7Re/g9PehmMSydaHnk8j0L5Y4Z
- OHV2AbA1vhP99OKYgVEyrod5rw==
-X-Google-Smtp-Source: AMsMyM46AAzKrx1Dg+EUV0T6v7QpZ3OytL5TvmkYYgWQU7ibeKzlOZbx22NJGhLGJ5GHzF8/hiy7XA==
-X-Received: by 2002:a17:902:d486:b0:181:33f0:f60b with SMTP id
- c6-20020a170902d48600b0018133f0f60bmr36611904plg.174.1666653375519; 
- Mon, 24 Oct 2022 16:16:15 -0700 (PDT)
-Received: from [192.168.136.227] ([103.100.225.182])
- by smtp.gmail.com with ESMTPSA id
- z1-20020a170903018100b0017dd8c8009esm237786plg.4.2022.10.24.16.16.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Oct 2022 16:16:14 -0700 (PDT)
-Message-ID: <cf37bd41-a7d2-d988-989e-bd584d9e7235@linaro.org>
-Date: Tue, 25 Oct 2022 09:16:09 +1000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 07/11] hw/intc/xics: Avoid dynamic stack allocation
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-References: <20220819153931.3147384-1-peter.maydell@linaro.org>
- <20220819153931.3147384-8-peter.maydell@linaro.org>
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qhqlCbK+Vyfuhw07z3L7AMoxj5A7y8nNEGzeS8BGSg4=;
+ b=wXDyDbRnGD3EI86mCN9z2pY6atO9nc10FvLWAJiwcedczNKjjmF8x+PBiCCA66uuNf
+ JJ0a2eyeeVRe2KYXMmT6hjW4Y9j+6fMCNVVHq2NfnYgqVgi9Yv0SV4ItVucf4jb1mRf/
+ D2fTtOFITdjEK9lOHlOV/P06ljxM40mPrJ7CABxBhXLACduEqpYPAZktU3M7zZEgUOLP
+ c2+xhW/z2ND3kb5+Oyyidv0103xDZk7Siq2SD26+gDp42REmXoGgZTQeLLLA2Y560NQs
+ Jrg9wD9i2wbJM8F8FRKu32lebb69O4Hnizd8dV21I2mkKhqpLnlyExNzSzr93VziWIqn
+ mZXA==
+X-Gm-Message-State: ACrzQf0M8vwTpGqFbMMcYBUPmWkPiUnAsrO4o2yLUjfH8LdJbDOqxKBK
+ QzOT7sogdevHJXLsfAAXm4uMn4xWHTMylA==
+X-Google-Smtp-Source: AMsMyM5lZ6eFcYPxZSIjB2jJgsKRAOCgA4D4ULHnW9uBdQZwR1y16RUcdI/vqOuZ8bBVloFqBIychg==
+X-Received: by 2002:a17:902:ab8f:b0:185:46d3:8c96 with SMTP id
+ f15-20020a170902ab8f00b0018546d38c96mr37315321plr.136.1666653881115; 
+ Mon, 24 Oct 2022 16:24:41 -0700 (PDT)
+Received: from stoup.. ([103.100.225.182]) by smtp.gmail.com with ESMTPSA id
+ k3-20020aa79983000000b0056bfa2cf517sm324788pfh.3.2022.10.24.16.24.39
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Oct 2022 16:24:40 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220819153931.3147384-8-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] atomic: Friendlier assertions, avoidance of __sync
+Date: Tue, 25 Oct 2022 09:24:31 +1000
+Message-Id: <20221024232435.3334600-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,21 +84,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 8/20/22 01:39, Peter Maydell wrote:
-> From: Philippe Mathieu-Daudé<philmd@redhat.com>
-> 
-> Use autofree heap allocation instead of variable-length
-> array on the stack.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@redhat.com>
-> Acked-by: David Gibson<david@gibson.dropbear.id.au>
-> Reviewed-by: Greg Kurz<groug@kaod.org>
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> ---
->   hw/intc/xics.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+The current use of _Static_assert, via QEMU_BUILD_BUG_ON, requires
+the user have #if conditionals to avoid the statement from appearing
+in the preprocessed file at all.  Introduce a new primitive that
+allows normal C conditionals and dead-code elimination.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Remove all use of __sync* builtins in favor of __atomic*.
+We have required them since 47345e71247, last year, and
+should have removed these at that point.  My bad.
+
 
 r~
+
+
+Richard Henderson (4):
+  include/qemu/osdep: Add qemu_build_assert
+  include/qemu/atomic: Use qemu_build_assert
+  include/qemu/thread: Use qatomic_* functions
+  include/qemu/atomic128: Avoid __sync_val_compare_and_swap_16
+
+ include/qemu/atomic.h    | 16 ++++++++--------
+ include/qemu/atomic128.h |  8 +-------
+ include/qemu/osdep.h     |  8 ++++++++
+ include/qemu/thread.h    |  8 ++++----
+ meson.build              |  3 ++-
+ 5 files changed, 23 insertions(+), 20 deletions(-)
+
+-- 
+2.34.1
+
 
