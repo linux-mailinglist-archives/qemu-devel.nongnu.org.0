@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1213360A9FF
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 15:27:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C42C60ABFA
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 16:00:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omxT7-0003Rt-JN; Mon, 24 Oct 2022 09:26:20 -0400
+	id 1omxTC-0003WZ-3s; Mon, 24 Oct 2022 09:26:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1omxSd-0003NM-PV
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 09:25:47 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
+ id 1omxSj-0003PZ-AW
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 09:25:55 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1omxSb-00041C-Dp
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 09:25:46 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id 20so8684908pgc.5
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 06:25:45 -0700 (PDT)
+ id 1omxSd-00041P-TH
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 09:25:52 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id m2so4136827pjr.3
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 06:25:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=+CkKupTcUlISL2yEb/3shQiouXGSNf8rqXTFn5cdoYg=;
- b=aukLhvV6t3EeSfe7kxweDUK/Zw/TxVbQJBXIsNJ1J7SJpVAP2n7VRGF2L7x7vjvxXQ
- 4BUw+1oh9IickIchkEfJ4p5npdknF5XpseU5dp5OTouT+fCaqNW4ESaCsfDMjMcWcUV4
- CCtHpL0Nu6E2xq3Gcp2auYQ+TMjrWZ2SJvatoX5hVnTd4faGDd9C8pvWmvVHSeKe9D8j
- oTa04S5ZXkU0RL7QPbReQkNjGD0MxuzjSLdYSG+gV9cohEyRxw9TwoLQJ9CztXGW3ixD
- EbPjYJNITbxP8Rdk8Oe7yoCf3zszeIUidbzAK13qGaesp5CRsiyf3q6Uhy/InAufsmP1
- VEww==
+ :reply-to; bh=t9KcFtAB+U6fMt8nUgtzl/UbXoLeJjXXCvK7XIkKin8=;
+ b=F4byWkIAQ6NAlCy8JpbmKsYxwq/RQ8SOmJ0aoevOaVK2VGIqp+ox/gUexWrybInDIV
+ qxoHg1ru1ookZNlFEuD7AmHtRQXpKt4litmPa/HxTQC9EiFwl/fGKA9PES1WLeVEODco
+ KEKVH0cQ4InhnRjnk7Tv/c3kMYCz5a+NBsBaMOGpCzScCn43pt21o/66T7V63BvjkQTr
+ eFeUerloY0Rerw8fQVz7AlbdSrothLpb0thKGniBRopNOcEdfrkR1t6XbYhUQaizFlWF
+ CaqxVfmf1TDfU+DGis6Q/Z1nNKu1vmt921spx+P3YOIEVI5Vag41I4UEAayroE89fgEd
+ D3Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+CkKupTcUlISL2yEb/3shQiouXGSNf8rqXTFn5cdoYg=;
- b=pa76NNtUXmiFl8l0J79I3ExYMuIp460t5ZGNbP0JVbr80revM+kf5+YpDZHnf8KxAq
- 5cu+6g1Y1LxxFGmBq644XxesGpZ0rmDaiiDMBFKYNTe8elnyygo2e2DHyrRaaLTWm39t
- q1XKHgp3dc8n9Zx/CUrmmbG0mSHNyNamgPneDRxJqfvxwXk0kcjyxEBI2vGNKMHpLWuS
- l1KAg43EN/LG1eavf4Ac/RodGpSc/XLe4cvlhpanmcMLOoNA53WTzvJQut6exYrQh/6f
- i7NGBLvVPldlQFKBBJjy0jAHaG7CHaXNjMP9qIGyKayTszuE5XvoonoaC0VTb6wtKfK0
- 67SA==
-X-Gm-Message-State: ACrzQf0W9MvtWxngrmygIOMskngH+Z+uZHZBFFkjDTlcekPAH4aexgXB
- qXk5KAhJQFSRoX9iIV6WFm1WC7xvSm4QOg==
-X-Google-Smtp-Source: AMsMyM5wFWZ7ISiWoTgmAECq+4WT8oQeYuheFX8U/ViPBl/uUH5chIMWxYEDgTjstvJXF3u7hCVVbg==
-X-Received: by 2002:a63:6b49:0:b0:46a:fcba:308f with SMTP id
- g70-20020a636b49000000b0046afcba308fmr28494232pgc.8.1666617944049; 
- Mon, 24 Oct 2022 06:25:44 -0700 (PDT)
+ bh=t9KcFtAB+U6fMt8nUgtzl/UbXoLeJjXXCvK7XIkKin8=;
+ b=n59EPVIgLDdL1eeYJ0ekn6x2m4wcc2+Adu5mdQMDqZ2fVLkQICfeuzpeFkSONNTDDO
+ 3QAo4L/+KjJc+huPbM93XEWaBbAQGMYQUtfXvgRfTFOMcJVZuz9lxbj+b0FUafMlRcy+
+ 4kTMZq9v+YT/RexAmBKlmEqILGuE7asxoM362TlpogM+zN0xfnGhZXEKcMC+Pk6WDYvv
+ nZdN71J245m2BwGv/P2fzYV/mwzbGCaQvDEzNyZeWgd21HvhoqRCQFnGP4WxV+uFQ2/p
+ mewfFoPrW37WCJKhP/pQywYFEI1ru1y/IwOHhRWwktE38HRFeOB2fOL5dlUpOqEP6MKW
+ GYew==
+X-Gm-Message-State: ACrzQf14YxvN0uG0NShF/YP7f/AS3d3hIlmO2Rr8T5PCrGRLJkyZ2qvP
+ k4AnRCmjywk+NQdGbIkniuNfq5sw67w/qg==
+X-Google-Smtp-Source: AMsMyM7ff8PP02xvY20RmoySCLjofRr+gKsHvAU7geBKn661s+Kys49hlgdpeHi9ST6On1uXNB8pBw==
+X-Received: by 2002:a17:902:cac3:b0:186:6ce4:f94a with SMTP id
+ y3-20020a170902cac300b001866ce4f94amr20707871pld.145.1666617946279; 
+ Mon, 24 Oct 2022 06:25:46 -0700 (PDT)
 Received: from stoup.. ([103.100.225.182]) by smtp.gmail.com with ESMTPSA id
- b12-20020a1709027e0c00b00178ab008364sm17009216plm.37.2022.10.24.06.25.41
+ b12-20020a1709027e0c00b00178ab008364sm17009216plm.37.2022.10.24.06.25.44
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Oct 2022 06:25:43 -0700 (PDT)
+ Mon, 24 Oct 2022 06:25:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 13/29] target/nios2: Convert to tcg_ops restore_state_to_opc
-Date: Mon, 24 Oct 2022 23:24:43 +1000
-Message-Id: <20221024132459.3229709-15-richard.henderson@linaro.org>
+Subject: [PATCH 14/29] target/openrisc: Convert to tcg_ops restore_state_to_opc
+Date: Mon, 24 Oct 2022 23:24:44 +1000
+Message-Id: <20221024132459.3229709-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221024132459.3229709-1-richard.henderson@linaro.org>
 References: <20221024132459.3229709-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,52 +89,58 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/nios2/cpu.c       | 11 +++++++++++
- target/nios2/translate.c |  6 ------
- 2 files changed, 11 insertions(+), 6 deletions(-)
+ target/openrisc/cpu.c       | 13 +++++++++++++
+ target/openrisc/translate.c | 10 ----------
+ 2 files changed, 13 insertions(+), 10 deletions(-)
 
-diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
-index 2b28429c08..9a5351bc81 100644
---- a/target/nios2/cpu.c
-+++ b/target/nios2/cpu.c
-@@ -42,6 +42,16 @@ static vaddr nios2_cpu_get_pc(CPUState *cs)
-     return env->pc;
+diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
+index f6fd437785..de0176cd20 100644
+--- a/target/openrisc/cpu.c
++++ b/target/openrisc/cpu.c
+@@ -46,6 +46,18 @@ static void openrisc_cpu_synchronize_from_tb(CPUState *cs,
+     cpu->env.pc = tb_pc(tb);
  }
  
-+static void nios2_restore_state_to_opc(CPUState *cs,
-+                                       const TranslationBlock *tb,
-+                                       const uint64_t *data)
++static void openrisc_restore_state_to_opc(CPUState *cs,
++                                          const TranslationBlock *tb,
++                                          const uint64_t *data)
 +{
-+    Nios2CPU *cpu = NIOS2_CPU(cs);
-+    CPUNios2State *env = &cpu->env;
++    OpenRISCCPU *cpu = OPENRISC_CPU(cs);
 +
-+    env->pc = data[0];
++    cpu->env.pc = data[0];
++    cpu->env.dflag = data[1] & 1;
++    if (data[1] & 2) {
++        cpu->env.ppc = cpu->env.pc - 4;
++    }
 +}
-+
- static bool nios2_cpu_has_work(CPUState *cs)
- {
-     return cs->interrupt_request & CPU_INTERRUPT_HARD;
-@@ -346,6 +356,7 @@ static const struct SysemuCPUOps nios2_sysemu_ops = {
  
- static const struct TCGCPUOps nios2_tcg_ops = {
-     .initialize = nios2_tcg_init,
-+    .restore_state_to_opc = nios2_restore_state_to_opc,
+ static bool openrisc_cpu_has_work(CPUState *cs)
+ {
+@@ -203,6 +215,7 @@ static const struct SysemuCPUOps openrisc_sysemu_ops = {
+ static const struct TCGCPUOps openrisc_tcg_ops = {
+     .initialize = openrisc_translate_init,
+     .synchronize_from_tb = openrisc_cpu_synchronize_from_tb,
++    .restore_state_to_opc = openrisc_restore_state_to_opc,
  
  #ifndef CONFIG_USER_ONLY
-     .tlb_fill = nios2_cpu_tlb_fill,
-diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index 8dc0a32c6c..4db8b47744 100644
---- a/target/nios2/translate.c
-+++ b/target/nios2/translate.c
-@@ -1110,9 +1110,3 @@ void nios2_tcg_init(void)
-     cpu_pc = tcg_global_mem_new(cpu_env,
-                                 offsetof(CPUNios2State, pc), "pc");
+     .tlb_fill = openrisc_cpu_tlb_fill,
+diff --git a/target/openrisc/translate.c b/target/openrisc/translate.c
+index 8154f9d744..2f3d7c5fd1 100644
+--- a/target/openrisc/translate.c
++++ b/target/openrisc/translate.c
+@@ -1726,13 +1726,3 @@ void openrisc_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+                      (i % 4) == 3 ? '\n' : ' ');
+     }
  }
 -
--void restore_state_to_opc(CPUNios2State *env, TranslationBlock *tb,
+-void restore_state_to_opc(CPUOpenRISCState *env, TranslationBlock *tb,
 -                          target_ulong *data)
 -{
 -    env->pc = data[0];
+-    env->dflag = data[1] & 1;
+-    if (data[1] & 2) {
+-        env->ppc = env->pc - 4;
+-    }
 -}
 -- 
 2.34.1
