@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 468B860BC57
+	by mail.lfdr.de (Postfix) with ESMTPS id 37DE460BC56
 	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 23:39:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on4I7-0007Iy-U9; Mon, 24 Oct 2022 16:43:23 -0400
+	id 1on4Ka-0007dV-B9; Mon, 24 Oct 2022 16:45:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1on4I6-0007Ir-78
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 16:43:22 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1on4KX-0007dD-On
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 16:45:54 -0400
 Received: from mout.gmx.net ([212.227.15.18])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1on4I4-0006mO-9l
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 16:43:22 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1on4KR-0007OV-Nc
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 16:45:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1666644198;
- bh=2xx23iL/h5cvIMyaPiGUP7CNQh4bvjUXR+LF0N9eleQ=;
+ s=badeba3b8450; t=1666644345;
+ bh=nJ0wueOxq1vqycFHTvKBkdR2E6kvvVqX/k6i6o/MM1I=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
- b=YJIrJ1L/j5/P/pOoQNkMmT/tpvNi6xob5uaWFBwlnnkcoKu4qOVuGcsySAraC2Q2J
- I8OXye6Dkt9QxKqocUffGbcv5UvDOT0/Z0GV4F2qPMnQzN6jOSVGJ+KStLBWa8uevg
- Kug8Vjzav/gJxobc4nLg4Ns1mrZngm9jbpY9uL58=
+ b=YrYwXbDFSl8TKFE+XiY/Ah8Y4gr4IKFqAgrSqCDAc6SaRiboJjbtqWZbfSKZEuHsR
+ cRt5d805IAi/7rjACUq26E515hcpWG0aRoodaDJxMSDFKLrGBlGcRwJWow9tY2/8ER
+ ssB7v6wxeUxfH73Uef8iyz8qx1oVc61pOLIufPoA=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from p100 ([92.116.136.30]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MowKi-1pR1XX3SYg-00qNyo; Mon, 24
- Oct 2022 22:43:17 +0200
-Date: Mon, 24 Oct 2022 22:43:16 +0200
+Received: from p100 ([92.116.136.30]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M9FnZ-1ohHZ81p1L-006Pss; Mon, 24
+ Oct 2022 22:45:45 +0200
+Date: Mon, 24 Oct 2022 22:45:44 +0200
 From: Helge Deller <deller@gmx.de>
 To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
 Cc: Helge Deller <deller@gmx.de>
-Subject: [PATCH v4] linux-user: Add close_range() syscall
-Message-ID: <Y1b45IL371MJP2WW@p100>
+Subject: [PATCH] linux-user: Add strace output for timer_settime64() syscall
+Message-ID: <Y1b5eIXFoMRDcDL9@p100>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Provags-ID: V03:K1:vN84Cft1X4FHGuQR0RVk4OnAsgkWXBBEOoXDrRdN2nMCgrbFehn
- LR8BxinrfV6MerNZv87zrmdRkT3a69PSH+xfibTykzYMvV2srky4ZhrVyH30FAipfJv+SpQ
- WTlVprahF82B5ZVd8WtW2hP7jhgqZR3soWJjGPjglU0dohCiH6BQ1gL90XbLlosReNN/byw
- v4iq7RX1QYM2+FI2u8FXA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7mIH1ZAGM8A=:iiqxQ/H4DvCE0kwEaHMQ5P
- kFmf26SlRTm6SlB+staphOYSuzVL6j7/nm+y51onSvRCMShWjGE9/bcgnqucPubC8j/7B92Z1
- Cwac3EYzX31LQIYL7W6Vk6JY6F0h9sQn5M3BoOpbVcU7L7MEptXK5lAJOULNk5Yd5yEiX5Yv2
- JFEJ+R2NlgfqhOgGEHOmfMTUcTrwlYGWOmtua2blJusqzpc0/MbT9IR5gtkZS749L+GjVAFuu
- gxzahDugT1/MrJKhRMhB/ON41YNLx+DIW6QldnePd15hrmlBZERMGo2vyh7+8upgVim9s287x
- txUc9gY5u1F78MU7VPbM/07j6ymZOkMEfLADv1yVNJVKeB+6f8ldNptpyCwazv5yg0wga8Pid
- SrZrO1kbDqe4MDzyy8+ZZsvYNcmlkTwgshsPO1Bqb3jFuOmSRBH3e1+WQn7i9Vo6LuKl01unX
- Z2P0+RAJFXi5KcI8Y17aWpjD3MOVX9P7dMU4Mce9XUdqr/zl8ZylgzRzz+VkvnddIYC6A5K5y
- WPA2o9Otsi7kvuli7oNazJ5VG1NbmW3jF00Tje9Jy7m02E/hgfF6U6ZeuPHjnBkUeweYDig3w
- AZMzugBWtx7xkxSlVQclXyKiGGSsLehcJNxY5xF0BNv02c2utoSj4EMjmXLLZE5wnffHpwDWX
- CWcbIaqo/8vDioi79KVyAVi6cVHdcpeue7cUGlBDCzKvzL9e+oXp6eOM5LcPZk+G0afhniXT2
- vCK1xMuyYVol2+j0HU/XYX4+/azo6TUV8vN9ccQwfp6Z19XbvnjNCH2ZcjboXmEHkjUk4Y8EC
- rgooPL/oCNS3XU3t3DR2zwZujPyThargJLS03XwaEWQpst51vc4IvwDELUZpAce3p52KdnVXB
- g+7i8B4wSwwaI7e4krNVJgYxXTnlkQVhRBJVsqlU0E+qBsgmxFKN+RIYrW1Akm07OfRN+6ef9
- diGHJkord73YGQ0NRUHlq+QgcM9kOpBhaJTURlx3zwS4dQdWqM3LFPQZxNawP6poh3KPCBU0i
- QTe2nKXvgxi+RnnOqIExnevSkmsfOXFIMV7d/gTMjNyCJuBHQMrI4bXiQzt2OdKIAyCwUtrw+
- bjm7gWh0tzNy+8VJ1UHM+rpOEExy3ovrJLGi2Xrjb1cklOJ3nIrFkXcefU+ggtRc5QEEV/Kvc
- KTqph6qZnpRJZpbnfa/vQRKlqbnwgxnlq5n4EFi0KLA+sHi7awpegShpND/BQ4k51v82fMbpt
- KIOWMPWiEaybZQ3ZJWCvy3OeE4Gs9A0fAaL1aL8TJ0IJvaOk9pcQz7y5RxwjL5pFEf63cZfMA
- bAUi3+dF4ioEee10vhedcwui9BFg3tNQUoI0hA6Fv7kJHLwRtj8YlSgU1tdqLzl75ewQY5ntK
- FRebzvN8r9dQ54zR8xnt59OKaG2ACFXiDSLIeeKhppdJhdTDDveUEJUuGH/qOCBfybos4P8gS
- HNVjYyLWGYBfTpbN4q1r18hsRCF/sSGH9561l5l1W0Ilfb6cLGaU/fIFn1pLadmAH5wgCI8CB
- sMV3G1lsJGZCO8Av9gMzOh1CbfuvR9Dfq34Xb13yBawKN
-Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ACqgxNX1rVsqaGJkKFAWLs+f6fJsQnmF6NwAZgRS+traLJiiBdM
+ 0HUcZ0eo4lUjsTCxWtNyOo9dlTIqWJJCan9S8QgNNs8XaClfDiGsThmoxNO7aDxViQfcPgt
+ HPGAXWAWJhYzXWAtXmw2ldwVxNDEAGEFafRS/fbXLGkkN37mp3ouBbQH5u44iqYw2J/9hCj
+ Tgf7k4aw9v5VXu/myy6tA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:K5AyY5nV7qE=:AopN0mp0dGqKmDm6HC/d8S
+ k71dEGwg0TAwzFVrH2t0gfZMqWsjVjWN8N6Fgop+cO8BRvupsR/IaUPJvaI/cCeAiWif9yXvY
+ xEyhXfCfqoC0CQdrjNckbNEgKxmpIlna0hgp8IOYZUSdZLqvCZziICENGgMaH1LoVwGf0To96
+ Pna3mGHDGJIbEQ2HYcAOWO4xMmS8vuhB6Y+c6WIcqWFUgYYEQYTnfOSLpTPFcHGRuDFt2kv1V
+ X+4Wr9QTwjAIOqTWTx5C6bLhs8l/BIEqjofzDouriv5jtTwou1UQtp9S4xt3GLBXdnC3cE44J
+ nBs4FOt82i6AJLdK/XQRQJ901VWEtjRm61d9xab9psHg6T9oOuyQT+WF1NSlnw/NtFK2mshGN
+ m4IBRh3zONoP9757b6qRiW4fJSc7AiRcfdawcLcjQV9XT60OAEe1TgR+dUIfzuKxKWoWIjj3h
+ YcmaKeubuf1OYsbuNqH8d/yyp3IFoHIR45c8tnd2GAtMeEkUJLI+gb6mLXnW5IyABiaT9pxqx
+ 5Um4LXvgk1QLFp0zbhYcaaILpY2Qa4swc5AyjlCytA1vNvGCnJRWcGYIMCkDdDic3Z0zluEYU
+ 2+FWPHCc6yfOJcjRsAd32PHfc/U/Rjx1WtUVHH4t+v9GK1sWntiPITCh5nJMDYZVcB7YSdo7M
+ CdF0zbj+9FYgDWdDyYZ/TgLYAlUx6XFxUr8+7rrrfsX00uZSmpQl7RH0dqVwY3sYvgKKwtEgl
+ 4zmM1iZr/ZwauVzemGdlI7Twdw3MB2B6YBGChmDKOmWw1RXI4NGbC6ZiIXfMvadOtE7BzhLJv
+ WnSi/m17DU5ED/sbLpPdOuZT3VcnUJoyR+KSdXt6w1PXE1qH3EGQgLqQ+m7mePojisYSZ1ked
+ TDXdCJG6RnQlrYOBCEnjcwr/skA2PIgSv8cP5vM8VTn/Gi94L4iREcglOMIFOorm7PD9Un5Nc
+ yiFTMslXkKmmEFhGR+7NBM4W6SrLe6xP7xXcTZBT+XWLA4DwKAVYHpEr25cmKwoKkbdZ93uMC
+ ulTMfizgoC3AtQLqF5Wi6Lol6HmRKpZXlN7PbUulJWJOIuA9wmVShtmxWnPaZrIJbEu43HrCp
+ XuxUstH1nZ8q9vph5Z13wEJgsIcYfBGiAoJLaz14y+EBWVtBzedQ64g0xkS4oTwYbNfgc9LkB
+ TaajXGwaKdX0n1jqUKro5fiHiO4KSl3UCKpXupMzapL2zBJzuWAtrdp1+5A3ZLIHrL1x08stZ
+ tHi6RSApBNICRbk7WF86pom3V1y6gsfnPchZAuDOY0LEFOVKHOGOpzxFGTLdyetd5sw9SIw9A
+ QAYMHSOxCFsv24WV85p8XOl1gggSFk+A5r+bsmReQ63PQwLPhTkAkIhRDYVQq4aFqW9rgoxWl
+ uq/QQq+d9jjz49cv9kHx7A4QOzX+/6DzFPVmos+lQAvLHNBluJpyddTc4Pfs6i+Sveb0yrmGm
+ h0TWTHHR5xKZ36KPig7UKnQG7mn0E3D2sbddpu0vklPGAV0SYfuzFTpv/oV6JJX31VflDKulA
+ vw4eQuQQ2uOqlT3Hk6E9rjowhkPhss1CNf8sslkrm/VW4
 Received-SPF: pass client-ip=212.227.15.18; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -25
@@ -88,71 +87,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Add missing timer_settime64() strace output and specify format for
+timer_settime().
+
 Signed-off-by: Helge Deller <deller@gmx.de>
-=2D--
-Changes:
-v4: Fix check for arg2
-v3: fd_trans_unregister() only called if close_range() doesn't fail
-v2: consider CLOSE_RANGE_CLOEXEC flag
 
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 3df2184580..cd995e5d56 100644
-=2D-- a/linux-user/strace.list
+index cd995e5d56..3a898e2532 100644
+--- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -103,6 +103,9 @@
- #ifdef TARGET_NR_close
- { TARGET_NR_close, "close" , "%s(%d)", NULL, NULL },
+@@ -1534,7 +1534,10 @@
+ { TARGET_NR_timer_gettime, "timer_gettime" , NULL, NULL, NULL },
  #endif
-+#ifdef TARGET_NR_close_range
-+{ TARGET_NR_close_range, "close_range" , "%s(%u,%u,%u)", NULL, NULL },
+ #ifdef TARGET_NR_timer_settime
+-{ TARGET_NR_timer_settime, "timer_settime" , NULL, NULL, NULL },
++{ TARGET_NR_timer_settime, "timer_settime" , "%s(%d,%d,%p,%p)", NULL, NULL },
 +#endif
- #ifdef TARGET_NR_connect
- { TARGET_NR_connect, "connect" , "%s(%d,%#x,%d)", NULL, NULL },
++#ifdef TARGET_NR_timer_settime64
++{ TARGET_NR_timer_settime64, "timer_settime64" , "%s(%d,%d,%p,%p)", NULL, NULL },
  #endif
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 12195d4e99..984039f928 100644
-=2D-- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -339,6 +339,13 @@ _syscall3(int,sys_syslog,int,type,char*,bufp,int,len)
- #ifdef __NR_exit_group
- _syscall1(int,exit_group,int,error_code)
- #endif
-+#if defined(__NR_close_range) && defined(TARGET_NR_close_range)
-+#define __NR_sys_close_range __NR_close_range
-+_syscall3(int,sys_close_range,int,first,int,last,int,flags)
-+#ifndef CLOSE_RANGE_CLOEXEC
-+#define CLOSE_RANGE_CLOEXEC     (1U << 2)
-+#endif
-+#endif
- #if defined(__NR_futex)
- _syscall6(int,sys_futex,int *,uaddr,int,op,int,val,
-           const struct timespec *,timeout,int *,uaddr2,int,val3)
-@@ -8735,6 +8742,24 @@ static abi_long do_syscall1(CPUArchState *cpu_env, =
-int num, abi_long arg1,
-     case TARGET_NR_close:
-         fd_trans_unregister(arg1);
-         return get_errno(close(arg1));
-+#if defined(__NR_close_range) && defined(TARGET_NR_close_range)
-+    case TARGET_NR_close_range:
-+        ret =3D get_errno(sys_close_range(arg1, arg2, arg3));
-+        if (ret =3D=3D 0 && !(arg3 & CLOSE_RANGE_CLOEXEC)) {
-+            abi_long fd;
-+            abi_long maxfd =3D arg2;
-+
-+            if ((sizeof(abi_long) =3D=3D 4 && arg2 =3D=3D (abi_long)0x7FF=
-FFFFFUL) ||
-+                (sizeof(abi_long) =3D=3D 8 && arg2 =3D=3D (abi_long)0x7FF=
-FFFFFFFFFFFFFULL)) {
-+                maxfd =3D target_fd_max;
-+            }
-+
-+            for (fd =3D arg1; fd < maxfd; fd++) {
-+                fd_trans_unregister(fd);
-+            }
-+        }
-+        return ret;
-+#endif
-
-     case TARGET_NR_brk:
-         return do_brk(arg1);
+ #ifdef TARGET_NR_timerfd
+ { TARGET_NR_timerfd, "timerfd" , NULL, NULL, NULL },
 
