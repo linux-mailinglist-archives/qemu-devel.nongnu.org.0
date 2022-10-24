@@ -2,109 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4E3060B389
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 19:09:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E016A60B2E9
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 18:53:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on0GW-0006jf-6c; Mon, 24 Oct 2022 12:25:28 -0400
+	id 1on0Sb-0007dg-FV; Mon, 24 Oct 2022 12:37:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1on0GQ-0006cT-Ih
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 12:25:22 -0400
-Received: from esa2.hc2706-39.iphmx.com ([216.71.152.49])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1on0GN-0001zS-Bw
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 12:25:22 -0400
-X-IronPort-RemoteIP: 209.85.166.69
-X-IronPort-MID: 233131376
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:2IoeI6CsPqi/7xVW/5jhw5YqxClBgxIJ4kV8jS/XYbTApDhzgWBVy
- GocXz2OMqyMZDT3fd51aYzi8EMEupLcy9ZrTANkpHpgcSl2pJueD7x1DKtR0wB+jCHnZBg6h
- ynLQoCYdKjYdleF+lH3dOCJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kqsyj5UAbeKRWmthg
- vuv5ZyCULOZ82QsaDhNs/jf8EkHUMna41v0gHRvPZing3eDzxH5PLpHTYmtIn3xRJVjH+LSb
- 44vG5ngows1Vz90Yj+Uuu+Tnn8iG9Y+DiDX4pZiYJVOtzAZzsAEPgfXA9JHAatfo23hc9mcU
- 7yhv7TpIesiFvSkdOjwz3C0usyxVEFL0OavHJSxjSCc5x3tSUOrnfNBMG8zAKIG5KVnL0wT9
- PNNfVjhbjjb7w636LeyS+0ph8N6ace1bcUQvXZvyTyfBvEjKXzBa/+StJkIgXFp2J4IQ6e2i
- 8kxMFKDaDzJZw1JNk0/Ao94keu17pX6W2cD8wvO/PFovQA/yiR97L/uDID5dufSBst5mUyJl
- m/f5FnmV0Ry2Nu3jGDtHmiXrvbCmD6+VI8MGbmQ8Plsj1uOgGsJB3UruUCTpPC4jgu/XIsaJ
- RJFvCUpqqc2+QqgSdyVswCEnUNodyU0A7J4e9DWIinTokYIy2513lQ5cwM=
-IronPort-HdrOrdr: A9a23:HNRShK+KhpPZenKbp8Buk+D+I+orL9Y04lQ7vn2ZKCYlCvBw8v
- rEoB1173HJYVoqNU3I2urwXZVoOEm8yXct2+ks1NSZLWvbUQmTXfhfBOLZqlWLJ8SUzIFgPM
- lbH5SWR+eAaWSSIPyKhzWQApIL+vHC2qatnOLfx3BmQUVRbb165QsRMHf5LqQzfnghOaYE
-Received: from mail-io1-f69.google.com ([209.85.166.69])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 24 Oct 2022 12:25:15 -0400
-Received: by mail-io1-f69.google.com with SMTP id
- y26-20020a5d9b1a000000b006bc71505e97so6713359ion.16
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 09:25:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=OUkj68GizAw6MKOxn5P2/2vMzmgzXkuV3sm86tNq+sM=;
- b=VdCN/2ZtRyRfZw3I0KpPHCi/UqY68PXBKS4bE815GCX5Fd0vndUXVYzdRtctb45dPG
- QxyHvomYIC4fOGUkRwI04gJpeF/YSJwJY/z/j+8YSZB8aYxFcZK3Ofquc6U0N/2Ixzvb
- H4Z1RFxQffS5gZ7u9YFH941DIAjnD8HntRIhWEjxkrA016xMii7U2+KrInfDx0figUW2
- KAurtjNmT2JF8oFTS/i3YdjNg7i9jxbRhV7nw8+u8RwV+PaiG6MPNlnZabmdXsz6G+BD
- o+ex6uGy0fB6ImSb8SLKy6ZfuZSrcIPM1CPdIeBw3OjuovZjvND3XT91vmvlNFu1FpJ4
- 2acQ==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1on0SY-0007dQ-6j
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 12:37:54 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1on0SW-00044J-Ha
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 12:37:54 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id jo13so5308082plb.13
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 09:37:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=MrCwu+eqwdsVgBk9dvsRU7MwgqUcA3AMQc+6ZiWhQq0=;
+ b=I/aWNRtq/WSBhgTOQ7M0sfV3tSf5sv/M8KaILJV+MLPb0lmwqQv8yrkn+uNyAqCCz6
+ Ver+XS9/ViyvWC6ALmLPokqc7NeE4JS56IVHjpqeZ/UHqqalazHlXbdN45DM/v69t2Gu
+ AZ934Xx7r3SP/zZELlLptde/oetupDZ6WVr8QxvtbobMB0EQpgPvp4kVJOOWp62yDNtg
+ rHbL1s9ulciGnYayOWg9un2w/RvjmUXlYzK3U//YDR/1mNFGlpoyS34nkP+27ZP5dSV6
+ TBz1aH+2k/yZ1O6Eq4N1APrK86JuT5ChfY436KFUFrRhbPXnPvO0jNH0wbsw5D3VAive
+ APDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OUkj68GizAw6MKOxn5P2/2vMzmgzXkuV3sm86tNq+sM=;
- b=SiTPoGxBRBGvEl23CO1WSuKxMarvD+3Adsh0V/FWIH45V9fVALuFN2IWBPGgaOwNVX
- J0gCRd+b+aOW3qRvO8DRnkOrinYU2ZzM9nKTwVNrG5a/tpA3mrv4D3a/v8faefAVRQxO
- Tup4MbIu3eMOTiKt+zU2Gzr2GXrn/GunQjJBzhAGbcKLCsKbhKViA2s1Z7zI/ZyanEMl
- ngqyOkt3Hl1Ep4xXJXh+frf0Wma8TLlVDMclnI+EY+aNH/6b+tvozzuFaUGpp5yZ2L3a
- AYa9euag8bar+7j0B8RLXF/Cy0hn659/bMqobYxfXCbOtOP1JEijsdKVVDwn7N4YwB+D
- 9IFQ==
-X-Gm-Message-State: ACrzQf1oee0enIKJcjblcQd9riw1PkZbr285Lc5K3Ytg8Xlistb96mbT
- xlBagdgB2JPX/moHXsHm6VLsnvIYtDVZFYwDK0+3tUqXIYZFUafxg/4wv328lxwsutmbjYIw6PN
- KYWfaG7ttH92pS1kvS8FX0OP7gd4gLQ==
-X-Received: by 2002:a05:6602:1509:b0:69b:35ba:4720 with SMTP id
- g9-20020a056602150900b0069b35ba4720mr20245995iow.155.1666628714535; 
- Mon, 24 Oct 2022 09:25:14 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7P3lnGm65xzsRXfL/+HKBIYg0Or2jam1zNjjf/ZkHPZYQGfPsIRQfGr7l4d1XaUE5XHRWJcQ==
-X-Received: by 2002:a05:6602:1509:b0:69b:35ba:4720 with SMTP id
- g9-20020a056602150900b0069b35ba4720mr20245981iow.155.1666628714257; 
- Mon, 24 Oct 2022 09:25:14 -0700 (PDT)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
- by smtp.gmail.com with ESMTPSA id
- j3-20020a026303000000b00363e4730a41sm7508321jac.175.2022.10.24.09.25.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Oct 2022 09:25:14 -0700 (PDT)
-Date: Mon, 24 Oct 2022 12:24:53 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: "Christian A. Ehrhardt" <lk@c--e.de>
-Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Eric DeVolder <eric.devolder@oracle.com>,
- Markus Armbruster <armbru@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: Re: [PATCH v2] hw/acpi/erst.c: Fix memory handling issues
-Message-ID: <20221024162453.4cwxxam6u3s5ia7v@mozz.bu.edu>
-References: <20221024100323-mutt-send-email-mst@kernel.org>
- <20221024154233.1043347-1-lk@c--e.de>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=MrCwu+eqwdsVgBk9dvsRU7MwgqUcA3AMQc+6ZiWhQq0=;
+ b=vLR5zQL+drNSEdrRZscFTkdFRj+8LbeDHAgKZGJd1uE2A35+khwegTwe9oepxlaZgH
+ t+pXJI9Guw9GL9/FgUSRBNORdgwlEFddiozLX9Wtz5SPtebzKSblidxBSlskdM5y5r15
+ bS3C9KaO1ej8igEYDMGxUp3u9NvbEcDpDobMMlbmpiAoHVO8q0cE18b+a8EnqS3wdMZH
+ q3xykxIqPa68z0bnzeudDc1hmU4pj+LGQFCGSoafFwhZWixQ5gaNZrrw2PsJ7ifvEUu3
+ KsgKGBTtYZP9X+JAhssCud5baFLRNLt25PcBLuSpQb7xM52z1OdjCdIDhBgcDSMTv2Wl
+ 4sNw==
+X-Gm-Message-State: ACrzQf03AIdTJnG1yD9FyGRFy6RvLtromr3De4xGc71JMKLLqgSXA99j
+ xUABC4N8Jv/vWqatc1fUmvL18LXklUchSVMuEU1WZw==
+X-Google-Smtp-Source: AMsMyM6uRmld0EXTMiW/jereIvJ6kUPfu+0gMexM5rVthb/JPGRAC0tpqIiYGoCe2NkPkI5DQ+xJ350INLMu+R84JPU=
+X-Received: by 2002:a17:90b:1d04:b0:20b:cb40:4b3 with SMTP id
+ on4-20020a17090b1d0400b0020bcb4004b3mr38646037pjb.215.1666629470535; Mon, 24
+ Oct 2022 09:37:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221024154233.1043347-1-lk@c--e.de>
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.152.49; envelope-from=alxndr@bu.edu;
- helo=esa2.hc2706-39.iphmx.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20221017092432.546881-1-ake@igel.co.jp>
+In-Reply-To: <20221017092432.546881-1-ake@igel.co.jp>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 24 Oct 2022 17:37:38 +0100
+Message-ID: <CAFEAcA9sQ-QJCw_P3OAp5O9o7pHcpz1kwmSi+=Dg4qqMfYt1iQ@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: honor HCR_E2H and HCR_TGE in
+ arm_excp_unmasked()
+To: Ake Koomsin <ake@igel.co.jp>
+Cc: qemu-devel@nongnu.org, "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -120,60 +83,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 221024 1742, Christian A. Ehrhardt wrote:
-> - Fix memset argument order: The second argument is
->   the value, the length goes last.
-> - Fix an integer overflow reported by Alexander Bulekov.
-> 
-> Both issues allow the guest to overrun the host buffer
-> allocated for the ERST memory device.
-> 
-> Cc: Eric DeVolder <eric.devolder@oracle.com
-> Cc: Alexander Bulekov <alxndr@bu.edu>
-> Cc: qemu-stable@nongnu.org
-> Fixes: f7e26ffa590 ("ACPI ERST: support for ACPI ERST feature")
-> Tested-by: Alexander Bulekov <alxndr@bu.edu>
-
-Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
-
-> Signed-off-by: Christian A. Ehrhardt <lk@c--e.de>
+On Mon, 17 Oct 2022 at 10:29, Ake Koomsin <ake@igel.co.jp> wrote:
+>
+> An exception targeting EL2 from lower EL is actually maskable when
+> HCR_E2H and HCR_TGE are both set. This applies to both secure and
+> non-secure Security state.
+>
+> Signed-off-by: Ake Koomsin <ake@igel.co.jp>
 > ---
->  hw/acpi/erst.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
-> index df856b2669..aefcc03ad6 100644
-> --- a/hw/acpi/erst.c
-> +++ b/hw/acpi/erst.c
-> @@ -635,7 +635,7 @@ static unsigned read_erst_record(ERSTDeviceState *s)
->          if (record_length < UEFI_CPER_RECORD_MIN_SIZE) {
->              rc = STATUS_FAILED;
->          }
-> -        if ((s->record_offset + record_length) > exchange_length) {
-> +        if (record_length > exchange_length - s->record_offset) {
->              rc = STATUS_FAILED;
->          }
->          /* If all is ok, copy the record to the exchange buffer */
-> @@ -684,7 +684,7 @@ static unsigned write_erst_record(ERSTDeviceState *s)
->      if (record_length < UEFI_CPER_RECORD_MIN_SIZE) {
->          return STATUS_FAILED;
->      }
-> -    if ((s->record_offset + record_length) > exchange_length) {
-> +    if (record_length > exchange_length - s->record_offset) {
->          return STATUS_FAILED;
->      }
->  
-> @@ -716,7 +716,7 @@ static unsigned write_erst_record(ERSTDeviceState *s)
->      if (nvram) {
->          /* Write the record into the slot */
->          memcpy(nvram, exchange, record_length);
-> -        memset(nvram + record_length, exchange_length - record_length, 0xFF);
-> +        memset(nvram + record_length, 0xFF, exchange_length - record_length);
->          /* If a new record, increment the record_count */
->          if (!record_found) {
->              uint32_t record_count;
-> -- 
-> 2.34.1
-> 
-> 
+>  target/arm/cpu.c | 24 +++++++++++++++++-------
+>  1 file changed, 17 insertions(+), 7 deletions(-)
+>
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index 94ca6f163f..86d3377d3f 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -561,14 +561,24 @@ static inline bool arm_excp_unmasked(CPUState *cs, unsigned int excp_idx,
+>      if ((target_el > cur_el) && (target_el != 1)) {
+>          /* Exceptions targeting a higher EL may not be maskable */
+>          if (arm_feature(env, ARM_FEATURE_AARCH64)) {
+> -            /*
+> -             * 64-bit masking rules are simple: exceptions to EL3
+> -             * can't be masked, and exceptions to EL2 can only be
+> -             * masked from Secure state. The HCR and SCR settings
+> -             * don't affect the masking logic, only the interrupt routing.
+> -             */
+> -            if (target_el == 3 || !secure || (env->cp15.scr_el3 & SCR_EEL2)) {
+> +            switch (target_el) {
+> +            case 2:
+> +                /*
+> +                 * According to ARM DDI 0487H.a, an interrupt can be masked
+> +                 * when HCR_E2H and HCR_TGE are both set regardless of the
+> +                 * current Security state. Note that We need to revisit this
+> +                 * part again once we need to support NMI.
+> +                 */
+> +                if ((hcr_el2 & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
+> +                        unmasked = true;
+> +                }
+> +                break;
+> +            case 3:
+> +                /* Interrupt cannot be masked when the target EL is 3 */
+>                  unmasked = true;
+> +                break;
+> +            default:
+> +                g_assert_not_reached();
+
+Hi; thanks for this patch. You're correct that there is a bug here, but
+it took me a while to work out why it's OK to remove the "don't allow
+masking if we're in Secure EL0/EL1 and the exception is going to NS EL2"
+check. The answer to that turns out to be "the target_el could never be
+2 anyway in that case": because arm_phys_excp_target_el() uses
+arm_hcr_el2_eff(),
+if we're Secure and SEL2 isn't enabled then the effective HCR_EL2 bits
+will all be zero, which forces us into the "targets EL1" or "targets EL3"
+cases.
+
+So I think that's worth mentioning in the commit message:
+
+"We can remove the conditions that try to suppress masking of
+interrupts when we are Secure and the exception targets EL2 and
+Secure EL2 is disabled, because in that case arm_phys_excp_target_el()
+will never return 2 as the target EL. The 'not if secure' check
+in this function was originally written before arm_hcr_el2_eff(), and
+back then the target EL could be 2 even if we were in Secure EL0/EL1;
+it is no longer needed."
+
+I'll apply this to target-arm.next, with the commit message
+updated to include that.
+
+thanks
+-- PMM
 
