@@ -2,91 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0611B60AD8E
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 16:26:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73BD960AE50
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 16:56:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omxmO-0003bG-3P; Mon, 24 Oct 2022 09:46:12 -0400
+	id 1omxsL-0007Z5-ON; Mon, 24 Oct 2022 09:52:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1omxm2-0003ZL-Uw
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 09:45:51 -0400
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251])
+ (Exim 4.90_1) (envelope-from <gregkh@linuxfoundation.org>)
+ id 1omxsB-0007Wb-LD
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 09:52:12 -0400
+Received: from ams.source.kernel.org ([145.40.68.75])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1omxm0-0007Wa-JB
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 09:45:50 -0400
-Received: from scripts-1.lp.internal (scripts.lp.internal [10.131.66.196])
+ (Exim 4.90_1) (envelope-from <gregkh@linuxfoundation.org>)
+ id 1omxsA-0000GX-3V
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 09:52:11 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 5784A416F0
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 13:45:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1666619142;
- bh=0red62TbDrmtiI1ngxUxKtCoJEBk0DPo1JNiPZKHqpI=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=blwTe1ZOEQSdfdsSnhxvJWC9nBxRg7X+uG9aK9Pb6eA5eMEFIi7klF45cNBsRdiIK
- KeMELnTLo1jFOQV+4bQK5xD87gF6XGoSCoNoeQoCGWkc4pm+0qnAqC2YiIMW7J5w5U
- PXA1pMnGdXt2xPbqsGfM9siswlTHrwSzCE1kZ+xUC4M15vqXLPHMgmHfpQY0B56Dob
- dNZVKfUwgOE1aaukvMSI3HxuGBlA47Xng0xupnoTtVdrzvKcDkxhUa//7OGabn1+9j
- R5eK99gkP+DzEbqq+GB/hxiYzly/DZFuXbi0bOXIJYv+1GchnkiYbTpwMPhboObYuJ
- +05XHmX8wlg+w==
-Received: from
- juju-4112d9-prod-launchpad-manual-servers-36.openstack.prodstack5.lan
- (localhost [127.0.0.1])
- by scripts-1.lp.internal (Postfix) with ESMTP id 20B664084A
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 13:45:42 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 9A36CB81B73;
+ Mon, 24 Oct 2022 13:52:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1728C433C1;
+ Mon, 24 Oct 2022 13:52:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1666619524;
+ bh=QIHnXVxCIGETsd0dywR9WOXQe2R85leBxjgt9psJDlE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=a2H9OWmUuPXe1nsvDHzMz7pk28v9U01aePXWCqE/PYv8mU+b3XDQLri0CqGVaRsJz
+ jDX3YxQNP/rC/SyUqCZ86yUqxIXbKkp05GDQaItPKZLX+Z/tQqtvt0HtDKDldCwU2Z
+ RC0760eEL3DTVNddcLXXtAu1W45/R1VDk/n+VsGo=
+Date: Mon, 24 Oct 2022 15:52:56 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Yang Yingliang <yangyingliang@huawei.com>
+Cc: linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-f2fs-devel@lists.sourceforge.net,
+ linux-erofs@lists.ozlabs.org, ocfs2-devel@oss.oracle.com,
+ linux-mtd@lists.infradead.org, amd-gfx@lists.freedesktop.org,
+ rafael@kernel.org, somlo@cmu.edu, mst@redhat.com,
+ jaegeuk@kernel.org, chao@kernel.org, hsiangkao@linux.alibaba.com,
+ huangjianan@oppo.com, mark@fasheh.com, jlbec@evilplan.org,
+ joseph.qi@linux.alibaba.com, akpm@linux-foundation.org,
+ alexander.deucher@amd.com, luben.tuikov@amd.com, richard@nod.at,
+ liushixin2@huawei.com
+Subject: Re: [PATCH v2] kset: fix memory leak when kset_register() returns
+ error
+Message-ID: <Y1aYuLmlXBRvMP1Z@kroah.com>
+References: <20221024121910.1169801-1-yangyingliang@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 24 Oct 2022 13:37:08 -0000
-From: Thomas Huth <1994002@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=cloud-archive; status=New; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: product=cloud-archive; productseries=ussuri; status=New;
- importance=Undecided; assignee=brett.milford@canonical.com; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu;
- component=main; status=New; importance=Undecided;
- assignee=brett.milford@canonical.com; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=jammy; sourcepackage=qemu;
- component=main; status=New; importance=Undecided;
- assignee=brett.milford@canonical.com; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=kinetic; sourcepackage=qemu;
- component=main; status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Tags: patch
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: brettmilford crichton th-huth
-X-Launchpad-Bug-Reporter: Brett Milford (brettmilford)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <166659440525.2803.16352024231081465383.malonedeb@angus.canonical.com>
-Message-Id: <166661862866.22998.10158432107119198638.malone@gac.canonical.com>
-Subject: [Bug 1994002] Re: [SRU] migration was active, but no RAM info was set
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="083267bcef06a439af1c3ee2507b2333659521d4"; Instance="production"
-X-Launchpad-Hash: 04231cfcc74fa48bdebba8473c90e339a29bbc69
-Received-SPF: pass client-ip=185.125.188.251;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221024121910.1169801-1-yangyingliang@huawei.com>
+Received-SPF: pass client-ip=145.40.68.75;
+ envelope-from=gregkh@linuxfoundation.org; helo=ams.source.kernel.org
+X-Spam_score_int: -75
+X-Spam_score: -7.6
+X-Spam_bar: -------
+X-Spam_report: (-7.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.503,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -95,69 +74,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1994002 <1994002@bugs.launchpad.net>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-If you need something from upstream QEMU, please use the new bug tracker
-here: https://gitlab.com/qemu-project/qemu/-/issues
+On Mon, Oct 24, 2022 at 08:19:10PM +0800, Yang Yingliang wrote:
+> Inject fault while loading module, kset_register() may fail.
+> If it fails, the name allocated by kobject_set_name() which
+> is called before kset_register() is leaked, because refcount
+> of kobject is hold in kset_init().
+> 
+> As a kset may be embedded in a larger structure which needs
+> be freed in release() function or error path in callers, we
+> can not call kset_put() in kset_register(), or it will cause
+> double free, so just call kfree_const() to free the name and
+> set it to NULL.
+> 
+> With this fix, the callers don't need to care about the name
+> freeing and call an extra kset_put() if kset_register() fails.
+> 
+> Suggested-by: Luben Tuikov <luben.tuikov@amd.com>
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+> ---
+> v1 -> v2:
+>   Free name inside of kset_register() instead of calling kset_put()
+>   in drivers.
+> ---
+>  lib/kobject.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/lib/kobject.c b/lib/kobject.c
+> index a0b2dbfcfa23..3409a89c81e5 100644
+> --- a/lib/kobject.c
+> +++ b/lib/kobject.c
+> @@ -834,6 +834,9 @@ EXPORT_SYMBOL_GPL(kobj_sysfs_ops);
+>  /**
+>   * kset_register() - Initialize and add a kset.
+>   * @k: kset.
+> + *
+> + * NOTE: On error, the kset.kobj.name allocated by() kobj_set_name()
+> + * which is called before kset_register() in caller need be freed.
 
-** No longer affects: qemu
+This comment doesn't make any sense anymore.  No caller needs to worry
+about this, right?
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1994002
+>   */
+>  int kset_register(struct kset *k)
+>  {
+> @@ -844,8 +847,11 @@ int kset_register(struct kset *k)
+>  
+>  	kset_init(k);
+>  	err = kobject_add_internal(&k->kobj);
+> -	if (err)
+> +	if (err) {
+> +		kfree_const(k->kobj.name);
+> +		k->kobj.name = NULL;
 
-Title:
-  [SRU] migration was active, but no RAM info was set
+Why are you setting the name here to NULL?
 
-Status in Ubuntu Cloud Archive:
-  New
-Status in Ubuntu Cloud Archive ussuri series:
-  New
-Status in qemu package in Ubuntu:
-  New
-Status in qemu source package in Focal:
-  New
-Status in qemu source package in Jammy:
-  New
-Status in qemu source package in Kinetic:
-  New
+thanks,
 
-Bug description:
-  While live-migrating many instances concurrently, libvirt sometimes retur=
-n internal error: migration was active, but no RAM info was set:
-  ~~~
-  2022-03-30 06:08:37.197 7 WARNING nova.virt.libvirt.driver [req-5c3296cf-=
-88ee-4af6-ae6a-ddba99935e23 - - - - -] [instance: af339c99-1182-4489-b15c-2=
-1e52f50f724] Error monitoring migration: internal error: migration was acti=
-ve, but no RAM info was set: libvirt.libvirtError: internal error: migratio=
-n was active, but no RAM info was set
-  ~~~
-
-  From upstream bug: https://bugzilla.redhat.com/show_bug.cgi?id=3D2074205
-
-  [Impact]
-
-   * Effects of this bug are mostly observed in large scale clusters with a=
- lot of live migration activity.
-   * Has second order effects for consumers of migration monitor such as li=
-bvirt and openstack.
-
-  [Test Case]
-  Steps to Reproduce:
-  1. live evacuate a compute
-  2. live migration of one or more instances fails with the above error
-
-  N.B Due to the nature of this bug it is difficult consistently
-  reproduce.
-
-  [Where problems could occur]
-   * In the event of a regression the migration monitor may report an incon=
-sistent state.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/cloud-archive/+bug/1994002/+subscriptions
-
+greg k-h
 
