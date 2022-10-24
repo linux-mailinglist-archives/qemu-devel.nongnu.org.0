@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F4560AFCC
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 17:58:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2F3C60AFDF
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 17:58:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omzJ4-0003dk-8G; Mon, 24 Oct 2022 11:24:02 -0400
+	id 1omzJ6-0003eG-9y; Mon, 24 Oct 2022 11:24:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1omzJ2-0003dI-PY
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:24:00 -0400
+ id 1omzJ4-0003dx-6E
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:24:02 -0400
 Received: from wout3-smtp.messagingengine.com ([64.147.123.19])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1omzJ0-0008Fk-M1
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:24:00 -0400
+ id 1omzJ1-0008Ft-Hw
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:24:01 -0400
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 4744D3200645;
- Mon, 24 Oct 2022 11:23:56 -0400 (EDT)
+ by mailout.west.internal (Postfix) with ESMTP id 227683200805;
+ Mon, 24 Oct 2022 11:23:58 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 24 Oct 2022 11:23:56 -0400
+ by compute2.internal (MEProxy); Mon, 24 Oct 2022 11:23:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
  cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1666625035; x=1666711435; bh=lQ
- HWUYJM8thKmUr0Q+IUw7XZeSNMjQBQ0vISQ+mREWM=; b=o+2F6fX9iLYjNuX24j
- sN/x2FUS8ioqK5LJlGS0R9g+fo9IJzOMg2k7DvSAmx/26cW+/B4imTYD8szKMem+
- 3t5hSAqAJBTCv0kVOMSFsDM/kaWsPg4EtwgYhrz7xupRBmY9HiPD7xH6Sq20n70T
- yvtwwu5DW0VLq/lecXAzkngugCfDcS9LJJhUE2r7VvE06ED74peqiVBVuKi7frbn
- 9OOVVG3SmnspUVLn79X6Lud7c1VSD49Sp3Y9Xtp9JuhBRbi6HXHwAuJsK1TxPHoj
- 8BHWwMDE1d7fV2MLPTyqcjJHUHPWXd0XsVpFYQkL6qQz5gWO6lPutRQ1omEa6l5Y
- D0zw==
+ :subject:subject:to:to; s=fm1; t=1666625037; x=1666711437; bh=d+
+ LjkiAfgacH3tsiShIBiIkdBeIpKthkGtVUtdrd/LQ=; b=jCLelnyp6Llb45XeQQ
+ yH6W5ArNEDKgJTLeGSYAq+mpLCJCErtkAzf4cLWLQxd+JZt6E4aSoZhpHj2chds1
+ nMv6NaBUWtk9KHZmn0MzgCpYzUpT8NhR2OtVK06iiwUfrlBcK9HNA1tyI8PwKkTI
+ IXUSxCOqnQfHJSA+uaJO25nb9PX5dy1Nnwt+SNlJvXFAYDyBFuttWtgUGYxK9BRC
+ N5OToIHSoe8bO5gOiubgmhz+kzTXSuGjNJoCJGB8hZigoDHsCYVtnQyztvF2DwD/
+ 4ceK4RJE6tfgEDoRq3RJxFAJ8IqtKJVZPiCDx98LkurbWHKGL3mdEUuCU8Gped3j
+ WQoQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1666625035; x=1666711435; bh=lQHWUYJM8thKm
- Ur0Q+IUw7XZeSNMjQBQ0vISQ+mREWM=; b=pNsyy8TG4hwFXImRIOkZXRM2GNcMS
- iQEjhTZ5bSpD+TsFheDUCmk2rQ5th1CmMfEJJ06KjNANhiA+6of1ONbK2f81wIWF
- EJNBQ7jhyYXUSDBl2X9VBPo6U2tO6Tn7KP4b8t/xFzOVbThJG+PNEkQoaNmTDi15
- bMv9kDna4i0lj+9w+PZOJC9YEKpda8xdPulzluFnpsov67CIYZ5ItZZcAid+yPn3
- 2MpiYYeM9jK7FkLuHzQ+Nz/Myta0Apq8xNTOIZw1b0mkmFdkPgiBgR9FLpJ4j5gl
- lBdLNPfaIgtMbKLvd5x4K89l5aU7pleLLxHSMAjboujHwNaJQorvMYf2A==
-X-ME-Sender: <xms:C65WY3XwSKA5BK7oZRZvIlcBodk7wmiuaym8z29K5iHo1ouQb1iRWQ>
- <xme:C65WY_mb6TAEINxG_-LC7ETjGYF0kEtZPfnOkx0LeWcuwcnxsz2HdcBCdQa0Og0AA
- 2Y_r76JvvjNF7K43g0>
-X-ME-Received: <xmr:C65WYzZ3hWS-UdbtOJc82H2U2ro2T6l7xy6CRupcQLm3-rA78vhBoTxdIQ>
+ :x-sasl-enc; s=fm3; t=1666625037; x=1666711437; bh=d+LjkiAfgacH3
+ tsiShIBiIkdBeIpKthkGtVUtdrd/LQ=; b=B2NwIjms+CGnZ3UuvWvsU1ENKkW4S
+ DeD4LLuyvicTnanc9+auig5FLm3eVgE86H2KKw8SSJdQSWWrBZWxdNllNzc35qLC
+ YBjqDzO2c//VIOoXhITaO3PCSfEoNs7oHuEKpS8Uru07+QYmqz9ZXfH+0ns1rdB6
+ SSVN4Hrq/zO3BuXguR6O6k+tE17NL+8HTUmPWmo5NjF3C/4cIExRSXiWyVdH1MCQ
+ p0XMfdt67ibXJ3kbaVDvwM6fjGtRlYrOZQxxwamco8RTlFv/mUNvnXhnXbHmfLW8
+ ZoMj5c0qE1j21AVQklO3NcjPZxXbb1PmiFvMn05h2dkXiA+MhJW6ToGcQ==
+X-ME-Sender: <xms:Da5WY2mJTsY5puiIsZqN6L1FPYdIgzuzfatUf47pUl1a8sFYF-5ZaA>
+ <xme:Da5WY93zpgEQsPJ3MlXC6ckXGD7cVpmjqIpG--NsETtZdJAWfTW2NzLvX8CVdFsn5
+ zF3eyH4n8Me7p1Sgjc>
+X-ME-Received: <xmr:Da5WY0q7SiATlEK2N7pfOHpOI1Myu1nyYnTQ70gSZzZ2ObRVAsagdGJVOw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgedtgedgkeegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfggfgsedtke
@@ -58,20 +58,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgedtgedgkeegucetufdoteggod
  dvgeekgfdvtdettdelieeihfegtedugeekhfdvhfejfedtnecuvehluhhsthgvrhfuihii
  vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhi
  hgohgrthdrtghomh
-X-ME-Proxy: <xmx:C65WYyWymbR-9F6QkXR4W1F5QLTl5W7cqXRCVytJSL5mbi7WALqAng>
- <xmx:C65WYxnc3YcYFS2B196up8vn7VR0kKguYVRenvMgU8yTpb6e7VLGZQ>
- <xmx:C65WY_fIJ0Mdu0mp8PZBtYyY5zuBF4lwBaCGrSlQzwvFrQ0scdlB0w>
- <xmx:C65WY2zztGLozSau7bCBmkDbkSg-tMr99i1QujSWi19Su4vhev8FNA>
+X-ME-Proxy: <xmx:Da5WY6mmMf1NtohJ2c0fbmML3wU84WfaxUUmqAkXpSmv-HPbLG6Dkw>
+ <xmx:Da5WY02Q79dNDIwnD8fTK9D1cRI3uWKt04PF1dZZl4rH-CJgLWIchw>
+ <xmx:Da5WYxs7iHq7SeffHvgzWZ0jWrMzG720qahoNBI80MmP_hlEPX_eNQ>
+ <xmx:Da5WYyB6bQuPcZtJNRR2CL8w4k6X3Z8GZ4k10xVQgJmlfWAMxWhNMg>
 Feedback-ID: ifd894703:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 24 Oct 2022 11:23:54 -0400 (EDT)
+ 24 Oct 2022 11:23:56 -0400 (EDT)
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
 Cc: f4bug@amsat.org, richard.henderson@linaro.org,
  Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: [PATCH 1/6] target/mips: Introduce register access helper functions
-Date: Mon, 24 Oct 2022 16:23:44 +0100
-Message-Id: <20221024152349.215135-2-jiaxun.yang@flygoat.com>
+Subject: [PATCH 2/6] target/mips: Convert legacy arithmatic instructions to
+ decodetree
+Date: Mon, 24 Oct 2022 16:23:45 +0100
+Message-Id: <20221024152349.215135-3-jiaxun.yang@flygoat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221024152349.215135-1-jiaxun.yang@flygoat.com>
 References: <20221024152349.215135-1-jiaxun.yang@flygoat.com>
@@ -101,297 +102,507 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Introduce register access functions with value extend capability
-to prepare for decodetree based translation implmentation.
+Mostly copy paste from translate.c, with some simplification
+based on newly introduced register access functions.
 
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 ---
- target/mips/tcg/translate.c | 143 +++++++++++++++++++++++++++++++++++-
- target/mips/tcg/translate.h |  54 ++++++++++++++
- 2 files changed, 196 insertions(+), 1 deletion(-)
+ target/mips/tcg/insn_trans/trans_arith.c.inc | 352 +++++++++++++++++++
+ target/mips/tcg/legacy.decode                |  62 ++++
+ target/mips/tcg/meson.build                  |   1 +
+ target/mips/tcg/translate.c                  |  20 +-
+ 4 files changed, 425 insertions(+), 10 deletions(-)
+ create mode 100644 target/mips/tcg/insn_trans/trans_arith.c.inc
+ create mode 100644 target/mips/tcg/legacy.decode
 
+diff --git a/target/mips/tcg/insn_trans/trans_arith.c.inc b/target/mips/tcg/insn_trans/trans_arith.c.inc
+new file mode 100644
+index 0000000000..3de9722939
+--- /dev/null
++++ b/target/mips/tcg/insn_trans/trans_arith.c.inc
+@@ -0,0 +1,352 @@
++static bool gen_arith_notrap(DisasContext *ctx, arg_r *a,
++                             DisasExtend ext, void (*func)(TCGv, TCGv, TCGv))
++{
++    TCGv dest = dest_gpr(ctx, a->rd);
++    TCGv src1 = get_gpr(ctx, a->rs, ext);
++    TCGv src2 = get_gpr(ctx, a->rt, ext);
++
++    func(dest, src1, src2);
++    gen_set_gpr(a->rd, dest, ext);
++
++    return true;
++}
++
++static bool gen_add(DisasContext *ctx, arg_r *a, DisasExtend ext)
++{
++    TCGv t0 = tcg_temp_local_new();
++    TCGv t1 = get_gpr(ctx, a->rs, ext);
++    TCGv t2 = get_gpr(ctx, a->rt, ext);
++    TCGLabel *l1 = gen_new_label();
++
++    tcg_gen_add_tl(t0, t1, t2);
++    gen_extend(t0, t0, ext);
++    tcg_gen_xor_tl(t1, t1, t2);
++    tcg_gen_xor_tl(t2, t0, t2);
++    tcg_gen_andc_tl(t1, t2, t1);
++    tcg_gen_brcondi_tl(TCG_COND_GE, t1, 0, l1);
++    /* operands of same sign, result different sign */
++    generate_exception(ctx, EXCP_OVERFLOW);
++    gen_set_label(l1);
++    gen_store_gpr(t0, a->rd);
++    tcg_temp_free(t0);
++
++    return true;
++}
++
++static bool gen_sub(DisasContext *ctx, arg_r *a, DisasExtend ext)
++{
++    TCGv src1 = get_gpr(ctx, a->rs, ext);
++    TCGv src2 = get_gpr(ctx, a->rt, ext);
++    TCGv t0 = tcg_temp_local_new();
++    TCGv t1 = tcg_temp_local_new();
++    TCGv t2 = tcg_temp_local_new();
++    TCGLabel *l1 = gen_new_label();
++
++    tcg_gen_sub_tl(t0, src1, src2);
++    gen_extend(t0, t0, ext);
++    tcg_gen_xor_tl(t2, src1, src2);
++    tcg_gen_xor_tl(t1, t0, src1);
++    tcg_gen_and_tl(t1, t1, t2);
++    tcg_temp_free(t2);
++    tcg_gen_brcondi_tl(TCG_COND_GE, t1, 0, l1);
++    tcg_temp_free(t1);
++    /*
++     * operands of different sign, first operand and the result
++     * of different sign
++     */
++    generate_exception(ctx, EXCP_OVERFLOW);
++    gen_set_label(l1);
++    gen_store_gpr(t0, a->rd);
++    tcg_temp_free(t0);
++
++    return true;
++}
++
++static bool gen_arith_imm_notrap(DisasContext *ctx, arg_i *a, DisasExtend ext,
++                             void (*func)(TCGv, TCGv, target_long))
++{
++    TCGv dest = dest_gpr(ctx, a->rt);
++    TCGv src1 = get_gpr(ctx, a->rs, ext);
++
++    func(dest, src1, a->imm);
++    gen_set_gpr(a->rt, dest, ext);
++
++    return true;
++}
++
++static bool gen_add_imm(DisasContext *ctx, arg_i *a, DisasExtend ext)
++{
++    TCGv t0 = tcg_temp_local_new();
++    TCGv t1 = get_gpr(ctx, a->rs, ext);
++    TCGv t2 = tcg_temp_new();
++    TCGLabel *l1 = gen_new_label();
++    target_ulong uimm = (target_long)a->imm; /* Sign extend to 32/64 bits */
++
++    gen_load_gpr(t1, a->rs);
++    tcg_gen_addi_tl(t0, t1, uimm);
++    tcg_gen_ext32s_tl(t0, t0);
++
++    tcg_gen_xori_tl(t1, t1, ~uimm);
++    tcg_gen_xori_tl(t2, t0, uimm);
++    tcg_gen_and_tl(t1, t1, t2);
++    tcg_temp_free(t2);
++    tcg_gen_brcondi_tl(TCG_COND_GE, t1, 0, l1);
++    /* operands of same sign, result different sign */
++    generate_exception(ctx, EXCP_OVERFLOW);
++    gen_set_label(l1);
++    tcg_gen_ext32s_tl(t0, t0);
++    gen_store_gpr(t0, a->rt);
++    tcg_temp_free(t0);
++
++    return true;
++}
++
++#define DECLEAR_GEN_CL(suffix, arg_type)                                    \
++static bool gen_cl_##suffix(DisasContext *ctx, arg_type * a, bool zero)     \
++{                                                                           \
++    TCGv dest = dest_gpr(ctx, a->rd);                                       \
++    TCGv src = get_gpr(ctx, a->rs, EXT_NONE);                               \
++    if (!zero) {                                                            \
++        tcg_gen_not_tl(dest, src);                                          \
++    }                                                                       \
++    tcg_gen_ext32u_tl(dest, dest);                                          \
++    tcg_gen_clzi_tl(dest, dest, TARGET_LONG_BITS);                          \
++    tcg_gen_subi_tl(dest, dest, TARGET_LONG_BITS - 32);                     \
++    gen_set_gpr(a->rd, dest, EXT_NONE);                                     \
++    return true;                                                            \
++}                                                                           \
++
++DECLEAR_GEN_CL(legacy, arg_r)
++#undef DECLEAR_GEN_CL
++
++#ifdef TARGET_MIPS64
++#define DECLEAR_GEN_DCL(suffix, arg_type)                                   \
++static bool gen_dcl_##suffix(DisasContext *ctx, arg_type * a, bool zero)    \
++{                                                                           \
++    TCGv dest = dest_gpr(ctx, a->rd);                                       \
++    TCGv src = get_gpr(ctx, a->rs, EXT_NONE);                               \
++    if (!zero) {                                                            \
++        tcg_gen_not_tl(dest, src);                                          \
++    }                                                                       \
++    tcg_gen_clzi_i64(dest, dest, 64);                                       \
++    gen_set_gpr(a->rd, dest, EXT_NONE);                                     \
++    return true;                                                            \
++}                                                                           \
++
++DECLEAR_GEN_DCL(legacy, arg_r)
++#undef DECLEAR_GEN_DCL
++#endif
++
++static bool gen_setcond(DisasContext *ctx, arg_r *a, TCGCond cond)
++{
++    TCGv dest = dest_gpr(ctx, a->rd);
++    TCGv src1 = get_gpr(ctx, a->rs, EXT_NONE);
++    TCGv src2 = get_gpr(ctx, a->rt, EXT_NONE);
++
++    tcg_gen_setcond_tl(cond, dest, src1, src2);
++
++    gen_set_gpr(a->rd, dest, EXT_NONE);
++
++    return true;
++}
++
++static bool gen_setcond_imm(DisasContext *ctx, arg_i *a, TCGCond cond)
++{
++    TCGv dest = dest_gpr(ctx, a->rt);
++    TCGv src1 = get_gpr(ctx, a->rs, EXT_NONE);
++
++    tcg_gen_setcondi_tl(cond, dest, src1, a->imm);
++
++    gen_set_gpr(a->rt, dest, EXT_NONE);
++
++    return true;
++}
++
++static bool gen_mult32(DisasContext *ctx, arg_r2_s *a,
++                       void (*func)(TCGv_i32, TCGv_i32, TCGv_i32, TCGv_i32))
++{
++    TCGv src1 = get_gpr(ctx, a->rs, EXT_NONE);
++    TCGv src2 = get_gpr(ctx, a->rt, EXT_NONE);
++    TCGv dst_lo = dest_lo(ctx, 0);
++    TCGv dst_hi = dest_hi(ctx, 0);
++    TCGv_i32 t1 = tcg_temp_new_i32();
++    TCGv_i32 t2 = tcg_temp_new_i32();
++
++    tcg_gen_trunc_tl_i32(t1, src1);
++    tcg_gen_trunc_tl_i32(t2, src2);
++
++    func(t1, t2, t1, t2);
++
++    tcg_gen_ext_i32_tl(dst_lo, t1);
++    tcg_gen_ext_i32_tl(dst_hi, t2);
++
++    gen_set_lo(0, dst_lo, EXT_NONE);
++    gen_set_hi(0, dst_hi, EXT_NONE);
++
++    return true;
++}
++
++#if defined(TARGET_MIPS64)
++static bool gen_mult64(DisasContext *ctx, arg_r2_s *a,
++                       void (*func)(TCGv_i64, TCGv_i64, TCGv_i64, TCGv_i64))
++{
++    TCGv src1 = get_gpr(ctx, a->rs, EXT_NONE);
++    TCGv src2 = get_gpr(ctx, a->rt, EXT_NONE);
++    TCGv dst_lo = dest_lo(ctx, 0);
++    TCGv dst_hi = dest_hi(ctx, 0);
++
++    func(dst_lo, dst_hi, src1, src2);
++
++    gen_set_lo(0, dst_lo, EXT_NONE);
++    gen_set_hi(0, dst_hi, EXT_NONE);
++
++    return true;
++}
++#endif
++
++static bool gen_div(DisasContext *ctx, arg_r2_s *a, DisasExtend src_ext,
++                    DisasExtend dst_ext)
++{
++    TCGv temp1, temp2, zero, one, mone, min;
++    TCGv src1 = get_gpr(ctx, a->rs, src_ext);
++    TCGv src2 = get_gpr(ctx, a->rt, src_ext);
++    TCGv dst_lo = dest_lo(ctx, 0);
++    TCGv dst_hi = dest_hi(ctx, 0);
++
++    temp1 = tcg_temp_new();
++    temp2 = tcg_temp_new();
++    zero = tcg_constant_tl(0);
++    one = tcg_constant_tl(1);
++    mone = tcg_constant_tl(-1);
++    min = tcg_constant_tl(1ull << (TARGET_LONG_BITS - 1));
++
++    /*
++     * If overflow, set temp2 to 1, else source2.
++     * This produces the required result of min.
++     */
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp1, src1, min);
++    tcg_gen_setcond_tl(TCG_COND_EQ, temp2, src2, mone);
++    tcg_gen_and_tl(temp1, temp1, temp2);
++    tcg_gen_movcond_tl(TCG_COND_NE, temp2, temp1, zero, one, src2);
++
++    /*
++     * If div by zero, set temp1 to -1 and temp2 to 1 to
++     * produce the required result of -1.
++     */
++    tcg_gen_movcond_tl(TCG_COND_EQ, temp1, src2, zero, mone, src1);
++    tcg_gen_movcond_tl(TCG_COND_EQ, temp2, src2, zero, one, src2);
++
++    tcg_gen_div_tl(dst_lo, temp1, temp2);
++    tcg_gen_rem_tl(dst_hi, temp1, temp2);
++
++    tcg_temp_free(temp1);
++    tcg_temp_free(temp2);
++
++    gen_set_lo(0, dst_lo, dst_ext);
++    gen_set_hi(0, dst_hi, dst_ext);
++
++    return true;
++}
++
++static bool gen_divu(DisasContext *ctx, arg_r2_s *a, DisasExtend src_ext,
++                    DisasExtend dst_ext)
++{
++    TCGv temp1, temp2, zero, one, max;
++    TCGv src1 = get_gpr(ctx, a->rs, src_ext);
++    TCGv src2 = get_gpr(ctx, a->rt, src_ext);
++    TCGv dst_lo = dest_lo(ctx, 0);
++    TCGv dst_hi = dest_hi(ctx, 0);
++
++    temp1 = tcg_temp_new();
++    temp2 = tcg_temp_new();
++    zero = tcg_constant_tl(0);
++    one = tcg_constant_tl(1);
++    max = tcg_constant_tl(~0);
++
++    /*
++     * If div by zero, set temp1 to max and temp2 to 1 to
++     * produce the required result of max.
++     */
++    tcg_gen_movcond_tl(TCG_COND_EQ, temp1, src2, zero, max, src1);
++    tcg_gen_movcond_tl(TCG_COND_EQ, temp2, src2, zero, one, src2);
++
++    tcg_gen_divu_tl(dst_lo, temp1, temp2);
++    tcg_gen_remu_tl(dst_hi, temp1, temp2);
++
++    tcg_temp_free(temp1);
++    tcg_temp_free(temp2);
++
++    gen_set_lo(0, dst_lo, dst_ext);
++    gen_set_hi(0, dst_hi, dst_ext);
++
++    return true;
++}
++
++static bool gen_mul_addsub(DisasContext *ctx, arg_r2_s *a, DisasExtend ext,
++                            void (*func)(TCGv_i64, TCGv_i64, TCGv_i64))
++{
++    TCGv src1 = get_gpr(ctx, a->rs, ext);
++    TCGv src2 = get_gpr(ctx, a->rt, ext);
++    TCGv_i64 src3 = get_hilo(ctx, 0);
++    TCGv_i64 dst = dest_hilo(ctx, 0);
++    TCGv_i64 t2 = tcg_temp_new_i64();
++    TCGv_i64 t3 = tcg_temp_new_i64();
++
++    switch (ext) {
++    case EXT_SIGN:
++        tcg_gen_ext_tl_i64(t2, src1);
++        tcg_gen_ext_tl_i64(t3, src2);
++        break;
++    case EXT_ZERO:
++        tcg_gen_extu_tl_i64(t2, src1);
++        tcg_gen_extu_tl_i64(t3, src2);
++        break;
++    default:
++        g_assert_not_reached();
++        break;
++    }
++
++    tcg_gen_mul_i64(dst, t2, t3);
++    tcg_temp_free_i64(t2);
++    tcg_temp_free_i64(t3);
++    func(dst, dst, src3);
++
++    gen_set_hilo(0, dst);
++
++    return true;
++}
++
++TRANS(ADD, gen_add, EXT_SIGN)
++TRANS(ADDU, gen_arith_notrap, EXT_SIGN, tcg_gen_add_tl)
++TRANS_6R(ADDI, gen_add_imm, EXT_SIGN)
++TRANS(ADDIU, gen_arith_imm_notrap, EXT_SIGN, tcg_gen_addi_tl)
++TRANS(SUB, gen_sub, EXT_SIGN)
++TRANS(SUBU, gen_arith_notrap, EXT_SIGN, tcg_gen_sub_tl)
++TRANS_6R(CLO, gen_cl_legacy, false)
++TRANS_6R(CLZ, gen_cl_legacy, true)
++TRANS(SLT, gen_setcond, TCG_COND_LT)
++TRANS(SLTU, gen_setcond, TCG_COND_LTU)
++TRANS(SLTI, gen_setcond_imm, TCG_COND_LT)
++TRANS(SLTIU, gen_setcond_imm, TCG_COND_LTU)
++TRANS_6R(MUL, gen_arith_notrap, EXT_SIGN, tcg_gen_mul_tl)
++TRANS_6R(MULT, gen_mult32, tcg_gen_muls2_i32)
++TRANS_6R(MULTU, gen_mult32, tcg_gen_mulu2_i32)
++TRANS_6R(DIV, gen_div, EXT_SIGN, EXT_SIGN)
++TRANS_6R(DIVU, gen_divu, EXT_ZERO, EXT_SIGN)
++TRANS_6R(MADD, gen_mul_addsub, EXT_SIGN, tcg_gen_add_i64)
++TRANS_6R(MADDU, gen_mul_addsub, EXT_ZERO, tcg_gen_add_i64)
++TRANS_6R(MSUB, gen_mul_addsub, EXT_SIGN, tcg_gen_sub_i64)
++TRANS_6R(MSUBU, gen_mul_addsub, EXT_ZERO, tcg_gen_sub_i64)
++
++TRANS64(DADD, gen_add, EXT_NONE)
++TRANS64(DADDU, gen_arith_notrap, EXT_NONE, tcg_gen_add_tl)
++TRANS64_6R(DADDI, gen_add_imm, EXT_NONE)
++TRANS64(DADDIU, gen_arith_imm_notrap, EXT_NONE, tcg_gen_addi_tl)
++TRANS64(DSUB, gen_sub, EXT_NONE)
++TRANS64(DSUBU, gen_arith_notrap, EXT_NONE, tcg_gen_sub_tl)
++TRANS64_6R(DCLO, gen_dcl_legacy, false)
++TRANS64_6R(DCLZ, gen_dcl_legacy, true)
++TRANS64_6R(DMULT, gen_mult64, tcg_gen_muls2_i64)
++TRANS64_6R(DMULTU, gen_mult64, tcg_gen_mulu2_i64)
++TRANS64_6R(DDIV, gen_div, EXT_NONE, EXT_NONE)
++TRANS64_6R(DDIVU, gen_divu, EXT_NONE, EXT_NONE)
+diff --git a/target/mips/tcg/legacy.decode b/target/mips/tcg/legacy.decode
+new file mode 100644
+index 0000000000..d535fbe31b
+--- /dev/null
++++ b/target/mips/tcg/legacy.decode
+@@ -0,0 +1,62 @@
++# MIPS I to MIPS Release 5 instructions
++#
++# Copyright (C) 2022 Jiaxun Yang
++#
++# SPDX-License-Identifier: LGPL-2.1-or-later
++#
++
++
++# Fields:
++%rd       11:5
++%rs       21:5
++%rt       16:5
++
++%imms16   0:s16
++
++# Argument sets:
++&empty
++&r      rd rs rt
++&r2_s   rs rt
++&i      rt rs imm
++
++# Formats:
++@r             ................................     &r  %rd %rs %rt
++@r2_s          ................................     &r2_s %rs %rt
++@i             ................................     &i   %rt %rs imm=%imms16
++
++# Base arithmetic instructions
++ADD            000000 ...............00000100000       @r
++ADDI           001000 ..........................       @i # 6R
++ADDIU          001001 ..........................       @i
++ADDU           000000 ...............00000100001       @r
++CLO            011100 ...............00000100001       @r # 6Rm
++CLZ            011100 ...............00000100000       @r # 6Rm
++DIV            000000 ..........0000000000011010       @r2_s # 6R
++DIVU           000000 ..........0000000000011011       @r2_s # 6R
++MADD           011100 ..........0000000000000000       @r2_s # 6R
++MADDU          011100 ..........0000000000000001       @r2_s # 6R
++MSUB           011100 ..........0000000000000100       @r2_s # 6R
++MSUBU          011100 ..........0000000000000101       @r2_s # 6R
++MUL            011100 ...............00000000010       @r    # 6R
++MULT           000000 ..........0000000000011000       @r2_s # 6R
++MULTU          000000 ..........0000000000011001       @r2_s # 6R
++SLT            000000 ...............00000101010       @r
++SLTI           001010 ..........................       @i
++SLTIU          001011 ..........................       @i
++SLTU           000000 ...............00000101011       @r
++SUB            000000 ...............00000100010       @r
++SUBU           000000 ...............00000100011       @r
++
++
++DADD           000000 ...............00000101100       @r
++DADDI          011000 ..........................       @i # 6R
++DADDIU         011001 ..........................       @i
++DADDU          000000 ...............00000101101       @r
++DCLO           011100 ...............00000100101       @r # 6Rm
++DCLZ           011100 ...............00000100100       @r # 6Rm
++DDIV           000000 ..........0000000000011110       @r2_s # 6R
++DDIVU          000000 ..........0000000000011111       @r2_s # 6R
++DSUB           000000 ...............00000101110       @r
++DSUBU          000000 ...............00000101111       @r
++DMULT          000000 ..........0000000000011100       @r2_s # 6R
++DMULTU         000000 ..........0000000000011101       @r2_s  # 6R
+diff --git a/target/mips/tcg/meson.build b/target/mips/tcg/meson.build
+index 7ee969ec8f..7a27fe93e0 100644
+--- a/target/mips/tcg/meson.build
++++ b/target/mips/tcg/meson.build
+@@ -1,4 +1,5 @@
+ gen = [
++  decodetree.process('legacy.decode', extra_args: ['--static-decode=decode_isa_legacy']),
+   decodetree.process('rel6.decode', extra_args: ['--decode=decode_isa_rel6']),
+   decodetree.process('msa.decode', extra_args: '--decode=decode_ase_msa'),
+   decodetree.process('tx79.decode', extra_args: '--static-decode=decode_tx79'),
 diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index de1511baaf..b5d595ef34 100644
+index b5d595ef34..bcb267e6bd 100644
 --- a/target/mips/tcg/translate.c
 +++ b/target/mips/tcg/translate.c
-@@ -1196,6 +1196,17 @@ enum {
+@@ -38,6 +38,9 @@
+ #include "fpu_helper.h"
+ #include "translate.h"
+ 
++/* Include the generated ISA decoders */
++#include "decode-legacy.c.inc"
++
+ /*
+  * Many sysemu-only helpers are not reachable for user-only.
+  * Define stub generators here, so that we need not either sprinkle
+@@ -1196,16 +1199,6 @@ enum {
      MMI_OPC_MADDU1     = 0x21 | MMI_OPC_CLASS_MMI,
  };
  
-+/*
-+ * If an operation is being performed on less than TARGET_LONG_BITS,
-+ * it may require the inputs to be sign- or zero-extended; which will
-+ * depend on the exact operation being performed.
-+ */
-+typedef enum {
-+    EXT_NONE,
-+    EXT_SIGN,
-+    EXT_ZERO
-+} DisasExtend;
-+
+-/*
+- * If an operation is being performed on less than TARGET_LONG_BITS,
+- * it may require the inputs to be sign- or zero-extended; which will
+- * depend on the exact operation being performed.
+- */
+-typedef enum {
+-    EXT_NONE,
+-    EXT_SIGN,
+-    EXT_ZERO
+-} DisasExtend;
+ 
  /* global register indices */
  TCGv cpu_gpr[32], cpu_PC;
- /*
-@@ -1221,6 +1232,18 @@ static const char regnames_LO[][4] = {
-     "LO0", "LO1", "LO2", "LO3",
- };
- 
-+static TCGv ctx_temp_new(DisasContext *ctx)
-+{
-+    assert(ctx->ntemp < ARRAY_SIZE(ctx->temp));
-+    return ctx->temp[ctx->ntemp++] = tcg_temp_new();
-+}
-+
-+static TCGv_i64 ctx_temp_new_i64(DisasContext *ctx)
-+{
-+    assert(ctx->ntemp64 < ARRAY_SIZE(ctx->temp64));
-+    return ctx->temp64[ctx->ntemp64++] = tcg_temp_new_i64();
-+}
-+
- /* General purpose registers moves. */
- void gen_load_gpr(TCGv t, int reg)
- {
-@@ -1238,6 +1261,106 @@ void gen_store_gpr(TCGv t, int reg)
-     }
+@@ -12261,6 +12254,9 @@ static void gen_sync(int stype)
+     tcg_gen_mb(tcg_mo);
  }
  
-+void gen_extend(TCGv dst, TCGv src, DisasExtend src_ext)
-+{
-+    switch (src_ext) {
-+    case EXT_NONE:
-+        tcg_gen_mov_tl(dst, src);
-+        return;
-+    case EXT_SIGN:
-+        tcg_gen_ext32s_tl(dst, src);
-+        return;
-+    case EXT_ZERO:
-+        tcg_gen_ext32u_tl(dst, src);
-+        return;
-+    }
-+    g_assert_not_reached();
-+}
++/* ISA base */
++#include "insn_trans/trans_arith.c.inc"
 +
-+TCGv get_gpr(DisasContext *ctx, int reg_num, DisasExtend src_ext)
-+{
-+    TCGv t;
-+
-+    if (reg_num == 0) {
-+        return ctx->zero;
-+    }
-+
-+    switch (src_ext) {
-+    case EXT_NONE:
-+        return cpu_gpr[reg_num];
-+    default:
-+        t = ctx_temp_new(ctx);
-+        gen_extend(t, cpu_gpr[reg_num], src_ext);
-+        return t;
-+    }
-+}
-+
-+TCGv_i64 get_hilo(DisasContext *ctx, int acc)
-+{
-+    TCGv_i64 t = ctx_temp_new_i64(ctx);
-+    /* acc must be 0 when DSP is not implemented */
-+    g_assert(acc == 0 || ctx->insn_flags & ASE_DSP);
-+    tcg_gen_concat_tl_i64(t, cpu_LO[acc], cpu_HI[acc]);
-+
-+    return t;
-+}
-+
-+TCGv dest_gpr(DisasContext *ctx, int reg_num)
-+{
-+    if (reg_num == 0) {
-+        return ctx_temp_new(ctx);
-+    }
-+    return cpu_gpr[reg_num];
-+}
-+
-+TCGv dest_lo(DisasContext *ctx, int acc)
-+{
-+    /* acc must be 0 when DSP is not implemented */
-+    g_assert(acc == 0 || ctx->insn_flags & ASE_DSP);
-+
-+    return cpu_LO[acc];
-+}
-+
-+TCGv dest_hi(DisasContext *ctx, int acc)
-+{
-+    /* acc must be 0 when DSP is not implemented */
-+    g_assert(acc == 0 || ctx->insn_flags & ASE_DSP);
-+
-+    return cpu_HI[acc];
-+}
-+
-+/* For 32 bit hilo pair */
-+TCGv_i64 dest_hilo(DisasContext *ctx, int acc)
-+{
-+    /* acc must be 0 when DSP is not implemented */
-+    g_assert(acc == 0 || ctx->insn_flags & ASE_DSP);
-+    return ctx_temp_new_i64(ctx);
-+}
-+
-+void gen_set_gpr(int reg_num, TCGv t, DisasExtend dst_ext)
-+{
-+    if (reg_num != 0) {
-+        gen_extend(cpu_gpr[reg_num], t, dst_ext);
-+    }
-+}
-+
-+void gen_set_lo(int acc, TCGv t, DisasExtend dst_ext)
-+{
-+    gen_extend(cpu_LO[acc], t, dst_ext);
-+}
-+
-+void gen_set_hi(int acc, TCGv t, DisasExtend dst_ext)
-+{
-+    gen_extend(cpu_HI[acc], t, dst_ext);
-+}
-+
-+/* For 32 bit hilo pair */
-+void gen_set_hilo(int acc, TCGv_i64 t)
-+{
-+    gen_move_low32(cpu_LO[acc], t);
-+    gen_move_high32(cpu_HI[acc], t);
-+}
-+
- #if defined(TARGET_MIPS64)
- void gen_load_gpr_hi(TCGv_i64 t, int reg)
- {
-@@ -2615,7 +2738,6 @@ static void gen_shift_imm(DisasContext *ctx, uint32_t opc,
-     tcg_temp_free(t0);
- }
+ /* ISA extensions (ASEs) */
  
--/* Arithmetic */
- static void gen_arith(DisasContext *ctx, uint32_t opc,
-                       int rd, int rs, int rt)
- {
-@@ -16031,6 +16153,12 @@ static void mips_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-         ctx->base.max_insns = 2;
-     }
- 
-+    ctx->ntemp = 0;
-+    ctx->ntemp64 = 0;
-+    memset(ctx->temp, 0, sizeof(ctx->temp));
-+    memset(ctx->temp64, 0, sizeof(ctx->temp));
-+    ctx->zero = tcg_constant_tl(0);
-+
-     LOG_DISAS("\ntb %p idx %d hflags %04x\n", ctx->base.tb, ctx->mem_idx,
-               ctx->hflags);
- }
-@@ -16053,6 +16181,7 @@ static void mips_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-     DisasContext *ctx = container_of(dcbase, DisasContext, base);
-     int insn_bytes;
-     int is_slot;
-+    int i;
- 
-     is_slot = ctx->hflags & MIPS_HFLAG_BMASK;
-     if (ctx->insn_flags & ISA_NANOMIPS32) {
-@@ -16074,6 +16203,18 @@ static void mips_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+ /* MIPS16 extension to MIPS32 */
+@@ -16090,6 +16086,10 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
          return;
      }
  
-+    for (i = ctx->ntemp - 1; i >= 0; --i) {
-+        tcg_temp_free(ctx->temp[i]);
-+        ctx->temp[i] = NULL;
-+        ctx->ntemp--;
++    if (decode_isa_legacy(ctx, ctx->opcode)) {
++        return;
 +    }
 +
-+    for (i = ctx->ntemp64 - 1; i >= 0; --i) {
-+        tcg_temp_free_i64(ctx->temp64[i]);
-+        ctx->temp64[i] = NULL;
-+        ctx->ntemp64--;
-+    }
-+
-     if (ctx->hflags & MIPS_HFLAG_BMASK) {
-         if (!(ctx->hflags & (MIPS_HFLAG_BDS16 | MIPS_HFLAG_BDS32 |
-                              MIPS_HFLAG_FBNSLOT))) {
-diff --git a/target/mips/tcg/translate.h b/target/mips/tcg/translate.h
-index 69f85841d2..980aa8682d 100644
---- a/target/mips/tcg/translate.h
-+++ b/target/mips/tcg/translate.h
-@@ -49,6 +49,11 @@ typedef struct DisasContext {
-     bool saar;
-     bool mi;
-     int gi;
-+    TCGv zero;
-+    TCGv temp[4];
-+    uint8_t ntemp;
-+    TCGv_i64 temp64[4];
-+    uint8_t ntemp64;
- } DisasContext;
- 
- #define DISAS_STOP       DISAS_TARGET_0
-@@ -119,6 +124,17 @@ enum {
-     OPC_BC1TANY4     = (0x01 << 16) | OPC_BC1ANY4,
- };
- 
-+/*
-+ * If an operation is being performed on less than TARGET_LONG_BITS,
-+ * it may require the inputs to be sign- or zero-extended; which will
-+ * depend on the exact operation being performed.
-+ */
-+typedef enum {
-+    EXT_NONE,
-+    EXT_SIGN,
-+    EXT_ZERO
-+} DisasExtend;
-+
- #define gen_helper_0e1i(name, arg1, arg2) do { \
-     gen_helper_##name(cpu_env, arg1, tcg_constant_i32(arg2)); \
-     } while (0)
-@@ -150,6 +166,18 @@ void check_cp1_64bitmode(DisasContext *ctx);
- void check_cp1_registers(DisasContext *ctx, int regs);
- void check_cop1x(DisasContext *ctx);
- 
-+void gen_extend(TCGv dst, TCGv src, DisasExtend src_ext);
-+TCGv get_gpr(DisasContext *ctx, int reg_num, DisasExtend src_ext);
-+TCGv_i64 get_hilo(DisasContext *ctx, int acc);
-+TCGv dest_gpr(DisasContext *ctx, int reg_num);
-+TCGv dest_lo(DisasContext *ctx, int acc);
-+TCGv dest_hi(DisasContext *ctx, int acc);
-+TCGv_i64 dest_hilo(DisasContext *ctx, int acc);
-+void gen_set_gpr(int reg_num, TCGv t, DisasExtend dst_ext);
-+void gen_set_lo(int acc, TCGv t, DisasExtend dst_ext);
-+void gen_set_hi(int acc, TCGv t, DisasExtend dst_ext);
-+void gen_set_hilo(int acc, TCGv_i64 t);
-+
- void gen_base_offset_addr(DisasContext *ctx, TCGv addr, int base, int offset);
- void gen_move_low32(TCGv ret, TCGv_i64 arg);
- void gen_move_high32(TCGv ret, TCGv_i64 arg);
-@@ -231,6 +259,32 @@ bool decode_ext_vr54xx(DisasContext *ctx, uint32_t insn);
-     static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
-     { return FUNC(ctx, a, __VA_ARGS__); }
- 
-+/* Instructions removed in Release 6 */
-+#define TRANS_6R(NAME, FUNC, ...) \
-+    static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
-+    { return !(ctx->insn_flags & ISA_MIPS_R6) & FUNC(ctx, a, __VA_ARGS__); }
-+
-+#if defined(TARGET_MIPS64)
-+#define TRANS64(NAME, FUNC, ...) \
-+    static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
-+    { check_mips_64(ctx); return FUNC(ctx, a, __VA_ARGS__); }
-+#define TRANS64_6R(NAME, FUNC, ...) \
-+    static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
-+    { if (ctx->insn_flags & ISA_MIPS_R6) return false; check_mips_64(ctx); \
-+    return FUNC(ctx, a, __VA_ARGS__); }
-+#else
-+#define TRANS64(NAME, FUNC, ...) \
-+    static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
-+    { return false; }
-+#define TRANS64_6R(NAME, FUNC, ...) \
-+    static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
-+    { return false; }
-+#endif
-+
-+#define TRANS_FLAGS(NAME, FLAGS, ...) \
-+    static bool trans_##NAME(DisasContext *s, arg_##NAME *a) \
-+    { return (ctx->insn_flags & FLAGS) && FUNC(s, __VA_ARGS__); }
-+
- static inline bool cpu_is_bigendian(DisasContext *ctx)
- {
-     return extract32(ctx->CP0_Config0, CP0C0_BE, 1);
+     if (decode_opc_legacy(env, ctx)) {
+         return;
+     }
 -- 
 2.34.1
 
