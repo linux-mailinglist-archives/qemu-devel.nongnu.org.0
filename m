@@ -2,91 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57960609D74
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 11:06:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FF56609C22
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 10:12:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oms15-000827-4l; Mon, 24 Oct 2022 03:36:59 -0400
+	id 1omru8-0007NC-9T; Mon, 24 Oct 2022 03:29:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1omrzx-0007xC-Mu
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 03:36:00 -0400
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1omrtw-0007Mk-8R
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 03:29:40 -0400
+Received: from mout.kundenserver.de ([212.227.17.10])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1omrzu-0004hy-KM
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 03:35:48 -0400
-Received: from scripts-1.lp.internal (scripts.lp.internal [10.131.66.196])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 28B7A414FC
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 07:35:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1666596935;
- bh=RG0hDL2RE7EUbjE+gjDM3anJJhY8sPiM32p1WWMhzDQ=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=KfkgxC/A5Snu3WmLsLnzWjXVwga6ThjkpUuGq/vb0CoCAlFtP/96VGK9W1+4RD4yl
- AX35sR+mlklKIMdZcJg8mB/T7V3biXbPRC7Fyxysz28kFMpEzwRmEXv5vmOKZyzm/3
- zpBhMfznaDozZM9md0rEq3zEnA7Nx0pKKZjIVbbKrn36cb2rSoOSBW9Nx8N36vzbNF
- APtHRXDNFWLucEkbQ78HwhPYCxcp67OWORaJLMYQjuI78NAVLUzYB9K/wGaGbN0itd
- 7IXmvEqa5kVKK8S3hGiCqrM8BCI2caxWCtyn9zmhmi3uMOTu1amZgNv/AS7HwyNFU4
- gtASXI4+PvqHg==
-Received: from
- juju-4112d9-prod-launchpad-manual-servers-36.openstack.prodstack5.lan
- (localhost [127.0.0.1])
- by scripts-1.lp.internal (Postfix) with ESMTP id 0AA2C40842
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 07:35:28 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1omrtu-0003TN-Hw
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 03:29:35 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MXoxG-1oam053hSW-00YBei for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022
+ 09:29:30 +0200
+Message-ID: <f7ccc508-5dd0-d6d8-a599-5d11de71db1b@vivier.eu>
+Date: Mon, 24 Oct 2022 09:29:29 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 24 Oct 2022 07:26:00 -0000
-From: Brett Milford <1994002@bugs.launchpad.net>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PULL 0/2] M68k for 7.2 patches
+Content-Language: fr
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=cloud-archive; status=New; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: product=cloud-archive; productseries=ussuri; status=New;
- importance=Undecided; assignee=brett.milford@canonical.com; 
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu;
- component=main; status=New; importance=Undecided;
- assignee=brett.milford@canonical.com; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=jammy; sourcepackage=qemu;
- component=main; status=New; importance=Undecided;
- assignee=brett.milford@canonical.com; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=kinetic; sourcepackage=qemu;
- component=main; status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: brettmilford
-X-Launchpad-Bug-Reporter: Brett Milford (brettmilford)
-X-Launchpad-Bug-Modifier: Brett Milford (brettmilford)
-References: <166659440525.2803.16352024231081465383.malonedeb@angus.canonical.com>
-Message-Id: <166659636037.47784.7287213105521211467.malone@dale.canonical.com>
-Subject: [Bug 1994002] Re: [SRU] migration was active, but no RAM info was set
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="083267bcef06a439af1c3ee2507b2333659521d4"; Instance="production"
-X-Launchpad-Hash: 6c62f20ec9da156778e572dd72106f3d7324d3e6
-Received-SPF: pass client-ip=185.125.188.251;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221022091750.2713763-1-laurent@vivier.eu>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20221022091750.2713763-1-laurent@vivier.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:tl4lrMmVXu2cc1ISR8xQlEaFLyWVhpLVbeSkFFRSILW4vEBchG5
+ IOmKtD5MyrE7w61j7c+Yd5RMKic0g/8jiCX78I2F2BXSQXN0oIz6e9mZhhyYx/y0WpJ4YNp
+ 6XUdnABkgWC5N2su0gtBY9KbONxRUQ5dRbLZ8FngYgpcJlNT+xynBwv0H8NQRVso5GBKgNi
+ YGwqA5MJYjKANouneoPEw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Gl0U/RreDJg=:2k5xekQYdTAugzjD0DsOj4
+ yaoqLc6Ow2BzHPpl14iqRnc5RvoMclysMD4A0+oXxgvBZPBaB15jnhmAyeZLJiraJzlkoXMfG
+ sb1i52WgrauRga1b3SpVq17DCIwt4ZWNMuIARygMTIzlE7Gv73oJQm24xmyT7Il+xH9dY4qio
+ jFqvvjS7jE+ICJXmTAQSGBj9c7Ff5+d7h7CGmry1veNqGmwo3mUdgsQY3KuACKvFCBSvkZaOP
+ V/Bm/4Aepj/gAhZoXFbSGQ7qSKmQjptYAF1a22ZJLAQuSSgBekLIwThZO7gS27WfNvByPSzRJ
+ hNrV9LakeyqLmPts3jgdCh6kAl4Fu37BjWa5Bw8ftTePhKv6HAPttWrwR1FDreW4FEaeB4vU1
+ Ndrjdag+v/5uGEmblAeS/hj7ItAvu/1slqTYbEkd5yMIb8lGU2hWMELduSHqf4e3DPnxsWM/Z
+ BmOYAoyzx9A4EL7zzypeMmQvNbFdL3xAJYPW+txJaiQQPL1A9qEooSeJzGhl/iHL4AVksoq/Z
+ jFzSVxOGfn1Ud9zZbyMsVTzdSpnE6yiOmUBlhipTqNgavWHuFU+CTM/ZSm6elmspsnWPzkwny
+ QO6X3799ZGtz1kPXQ+2+SK0W8/v7FhenzqGVwdU9MudFsbZBh77t7WkLLw51qql0Fh7RKzLMS
+ 4pJ16ChjJoFGdTIqAYCjisN8ohalOlDyw2gaC+W6XMpT9bkMq17PleNHSJ+AFrbDl9P1zz92G
+ KeDtK/iees5ljofvfAEycwStUrOuhFBZRtg4Ledt2aM9Nrr6vgRIhpzED/xHHUvBBWjZmnz46
+ GYtEdQX
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -95,70 +70,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1994002 <1994002@bugs.launchpad.net>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-** Patch added: "lp1994002-qemu-ussuri.debdiff"
-   https://bugs.launchpad.net/cloud-archive/+bug/1994002/+attachment/562637=
-4/+files/lp1994002-qemu-ussuri.debdiff
+Le 22/10/2022 à 11:17, Laurent Vivier a écrit :
+> The following changes since commit 0529245488865038344d64fff7ee05864d3d17f6:
+> 
+>    Merge tag 'pull-target-arm-20221020' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-10-20 14:36:12 -0400)
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/vivier/qemu-m68k.git tags/m68k-for-7.2-pull-request
+> 
+> for you to fetch changes up to d3c7b59be912d257ae7773eb3f1127f81a710a4d:
+> 
+>    m68k: write bootinfo as rom section and re-randomize on reboot (2022-10-22 09:58:24 +0200)
+> 
+> ----------------------------------------------------------------
+> Pull request m68k branch 20221022
+> 
+> Update rng seed boot parameter
+> 
+> ----------------------------------------------------------------
+> 
+> Jason A. Donenfeld (2):
+>    m68k: rework BI_VIRT_RNG_SEED as BI_RNG_SEED
+>    m68k: write bootinfo as rom section and re-randomize on reboot
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1994002
+Please, cancel this pull request, there is a new version of PATCH 2.
 
-Title:
-  [SRU] migration was active, but no RAM info was set
-
-Status in Ubuntu Cloud Archive:
-  New
-Status in Ubuntu Cloud Archive ussuri series:
-  New
-Status in QEMU:
-  New
-Status in qemu package in Ubuntu:
-  New
-Status in qemu source package in Focal:
-  New
-Status in qemu source package in Jammy:
-  New
-Status in qemu source package in Kinetic:
-  New
-
-Bug description:
-  While live-migrating many instances concurrently, libvirt sometimes retur=
-n internal error: migration was active, but no RAM info was set:
-  ~~~
-  2022-03-30 06:08:37.197 7 WARNING nova.virt.libvirt.driver [req-5c3296cf-=
-88ee-4af6-ae6a-ddba99935e23 - - - - -] [instance: af339c99-1182-4489-b15c-2=
-1e52f50f724] Error monitoring migration: internal error: migration was acti=
-ve, but no RAM info was set: libvirt.libvirtError: internal error: migratio=
-n was active, but no RAM info was set
-  ~~~
-
-  From upstream bug: https://bugzilla.redhat.com/show_bug.cgi?id=3D2074205
-
-  [Impact]
-
-   * Effects of this bug are mostly observed in large scale clusters with a=
- lot of live migration activity.
-   * Has second order effects for consumers of migration monitor such as li=
-bvirt and openstack.
-
-  [Test Case]
-  Steps to Reproduce:
-  1. live evacuate a compute
-  2. live migration of one or more instances fails with the above error
-
-  N.B Due to the nature of this bug it is difficult consistently
-  reproduce.
-
-  [Where problems could occur]
-   * In the event of a regression the migration monitor may report an incon=
-sistent state.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/cloud-archive/+bug/1994002/+subscriptions
+Thanks,
+Laurent
 
 
