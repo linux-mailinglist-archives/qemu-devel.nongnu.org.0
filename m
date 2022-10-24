@@ -2,67 +2,148 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6735C60990E
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 06:07:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F1026099AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 07:15:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omoYI-0000MF-Ls; Sun, 23 Oct 2022 23:55:02 -0400
+	id 1ompYd-0004i9-6U; Mon, 24 Oct 2022 00:59:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1omoYG-0000Ik-Cs
- for qemu-devel@nongnu.org; Sun, 23 Oct 2022 23:55:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1)
+ (envelope-from <prvs=72963f20b2=bin.meng@windriver.com>)
+ id 1ompXs-0003ry-7O
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 00:58:41 -0400
+Received: from mx0b-0064b401.pphosted.com ([205.220.178.238])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1omoYE-0000mi-TQ
- for qemu-devel@nongnu.org; Sun, 23 Oct 2022 23:55:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666583697;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MMkXncs52ndySHJgm8eoiBON5a8d4PMnIToe0RlC2vU=;
- b=gIdFlINO3tmEOk6toq/PF1RuYZOHI+AJ1zRLlavJblCBOUTcK4iTUe4azZ/9OwhYHtwTEX
- 3HntDub8nk1da3Q85j5zjo1LKXxrVOhTvvKrTd36lo+osozPgveX0S21aStyU6rHBOGTwY
- 5uHWkTcIVfnXX+tt9RbGH0nrOkUUpPE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-556-a7AEOR_zPwizzJDOJaXiXA-1; Sun, 23 Oct 2022 23:54:53 -0400
-X-MC-Unique: a7AEOR_zPwizzJDOJaXiXA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7DA58185A794;
- Mon, 24 Oct 2022 03:54:53 +0000 (UTC)
-Received: from gshan.redhat.com (vpn2-54-29.bne.redhat.com [10.64.54.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 178F840C6E16;
- Mon, 24 Oct 2022 03:54:49 +0000 (UTC)
-From: Gavin Shan <gshan@redhat.com>
-To: qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, maz@kernel.org, eric.auger@redhat.com,
- cohuck@redhat.com, zhenyzha@redhat.com, richard.henderson@linaro.org,
- peter.maydell@linaro.org, shan.gavin@gmail.com
-Subject: [PATCH v6 7/7] hw/arm/virt: Add properties to disable high memory
- regions
-Date: Mon, 24 Oct 2022 11:54:16 +0800
-Message-Id: <20221024035416.34068-8-gshan@redhat.com>
-In-Reply-To: <20221024035416.34068-1-gshan@redhat.com>
-References: <20221024035416.34068-1-gshan@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.90_1)
+ (envelope-from <prvs=72963f20b2=bin.meng@windriver.com>)
+ id 1ompXp-00067z-1r
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 00:58:38 -0400
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+ by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 29O4wBlu017153; Mon, 24 Oct 2022 04:58:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=PPS06212021;
+ bh=7d2WqDzhYuOnmt2P9ArzjvElFMaS4t33HUS9hOx+Ryc=;
+ b=YbH4hPCzrcA3LYCpuWMW5fGUMG456kY41G8YyIsXgTa+6+GLRiBUxVocWhgQgZQaknaf
+ fnSDCa3vGhEcpi5CyFF5MjA1MF+dfBt9z0IRIDSAQ6bCoX+VyStzrc2xHMRFunaBEWRd
+ PhjquBosOp0SmRbxUFhc2YEZOoGxXzeO0o4oQ1Ew7WRsn8Jsh2utQQH00E+NISZZNDTy
+ xiM0MSlCX1XyGmKRwIFuA9kUVX2/A+ymE1iSqarD33DJ1UQba3NgWMHrrypnGv1D4gvs
+ 9FgdsBydu32q56DPBu8WJYTzpf3c1JVJHpgBpcAvKGOUruSkAtsKTxOxmU4jUS/nnnOd WA== 
+Received: from nam10-bn7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10lp2106.outbound.protection.outlook.com [104.47.70.106])
+ by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kc5r2svr6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 24 Oct 2022 04:58:17 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kwGn+4pAilTgjems46sWC/O3rFB25oY7qYdBwvHq3eGhO6U7kb8t+hoZTltVkbJVvNon2T8Bmk8nntZ6I9gsiv4XQ8FNz+46A4y6/53ivUJ2JpdQuJk8cr1cBJOksk677UCSguJovfppH7g94my61VvEtmZhtysetCIOQ6/6DSVX1bNwru4MhVUH0YhMnULHGpJwW4R0RBj6v2/+cZ6kNdEAM+mqUcEdZx9/Sh07gSa+QH9RBEeZmVh+ACY4lTBeFjrMe95X3KB6bLYm8yiP/dUdvKTuL+JhMwDUu106FN6TXSckxrUs43KVDYiYmEhqh23VbUG/tW3CMqW4kmJOVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7d2WqDzhYuOnmt2P9ArzjvElFMaS4t33HUS9hOx+Ryc=;
+ b=MRCbBEyLsyiN4WVaUAj9pSIP6cr8HBXh0GT7QwaaZK+AwnFR/vTdSS8ovw10Rbc6Zc7WrM07qlo7B0pQ10GVFY+w6NyAfpXvR4zsJPA2u5s8aqhqXlZ5BoGDA+lK8vQ+KxmtwbFO2clDkTkrkkICsLQvyJUyhVqPhfE2VBShQtVdTTiXsANhiu0G3kPMd2cmsYDrVik8Pcr9hj21zxz36Ur6KFvq8UDbZsQHeDZstb8T/JPPftdTUVrbgiXkbFnfDlswAm9Xb8MprRzdRnKl3KLyFob+MLgchP3fhAIdY6Zrj0dkkA2huJl+zg4V7g3eAyH6RuHwmque8MpeuGQIPA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DM4PR11MB5358.namprd11.prod.outlook.com (2603:10b6:5:395::7) by
+ MW4PR11MB6911.namprd11.prod.outlook.com (2603:10b6:303:22d::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.26; Mon, 24 Oct
+ 2022 04:58:15 +0000
+Received: from DM4PR11MB5358.namprd11.prod.outlook.com
+ ([fe80::b051:27b7:c1c1:7cb9]) by DM4PR11MB5358.namprd11.prod.outlook.com
+ ([fe80::b051:27b7:c1c1:7cb9%4]) with mapi id 15.20.5746.025; Mon, 24 Oct 2022
+ 04:58:15 +0000
+From: Bin Meng <bin.meng@windriver.com>
+To: qemu-devel@nongnu.org
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
+ Keno Fischer <keno@juliacomputing.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Thomas Huth <thuth@redhat.com>, Will Cohen <wwcohen@gmail.com>
+Subject: [PATCH 00/16] hw/9pfs: Add 9pfs support for Windows
+Date: Mon, 24 Oct 2022 12:57:43 +0800
+Message-Id: <20221024045759.448014-1-bin.meng@windriver.com>
+X-Mailer: git-send-email 2.25.1
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Type: text/plain
+X-ClientProxiedBy: BY3PR03CA0021.namprd03.prod.outlook.com
+ (2603:10b6:a03:39a::26) To DM4PR11MB5358.namprd11.prod.outlook.com
+ (2603:10b6:5:395::7)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5358:EE_|MW4PR11MB6911:EE_
+X-MS-Office365-Filtering-Correlation-Id: 49322fb9-d49c-4715-8b8b-08dab57c5c3e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: mjrhErO2Y+wavoHW/3YfdejzIFHlscPcOUSbaLT+zQunHc+qIYgTkVj318z/HZLJng2CuFSXWuPMVlf9S0ksA8GDfv/pjoomxEnNcQXQBW6wWPP/PR5Gng1FHtkoyyA/5lHVZ/FTYjGMPj9sz11Q4YVNzUQJ6X14Ak/u2eixNR2N+XqoGT54/sy5vs33uegvdS4moe7dIZ/lPSsT3ZZgeWzWTMBGzZb/7BeE119SOBaaQfg58IHsGVBOgDnFAS8dM6aBNLBpx/Px+7oy5xlXLNcHFrlb6pqv35ak55tCMjXxGHZBPCuZAXPnSvlE0ACBB8SGtuwhf8os4J8U+Q0tFakB0IlwPczJKKTrf/2I6Kpx+dcvp3yUn2dlGR55j+irCssUsoTjdRoLRl4SUXihWHFZhILwiCAEolRdCIZEhXXVVpmVdCnXxw8SayHpsfVzj5TyfyNCvBqwXFqUe7Iao8JUqJ/u2CElySJWxZBdkaOYnE8dTM64uU8y8IL5vQ+l9Bi8IpJ/0Ky6HDuF/7SlXq/czdMKJl8LUGy1Zd1KVnR0jcNTVHJdeygOWLE4RmdKGxmVBS3cVya5NfBdrYDmcjmAVMr4e5KcYxp3UqJPMWlcGJaCcXdjZ5OAjFQ2oCH322kRGjd3peAakVxN2xjpbCWNIzn3I+eE07xTsRtZ0VJCtLQkeiYFkAC+FXUMrhEcLc2Qrr4jy4biMc3q393Urdp7aq0P6IjrJsC5aq30TP2Dyu1fJFxv0zqWB+ZCrrFIhL0KAgfOGvqOW4XsDKlg1A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5358.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(376002)(396003)(39850400004)(346002)(136003)(366004)(451199015)(6666004)(6506007)(2616005)(52116002)(6512007)(26005)(1076003)(186003)(83380400001)(44832011)(2906002)(6916009)(54906003)(316002)(478600001)(6486002)(5660300002)(8936002)(41300700001)(66946007)(66556008)(4326008)(8676002)(66476007)(86362001)(36756003)(38100700002)(38350700002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?n1FEP6WXZ4XYvMyJmT6cudI8587w2VnCQGJHFz3TOcE/TVnjI296qw38U4np?=
+ =?us-ascii?Q?xsL9xcLpG/+ObwS4QYd58vAN8RLbvgqdcjg4yQDiBKZLIhEmLQddbw78pVVA?=
+ =?us-ascii?Q?AONQS6kouxurOw0flOZfBU8RKED8mIo1m4IolV9vFL3zTdTw/spbeZyXmSpb?=
+ =?us-ascii?Q?sGUl4ZITHr63biZI1OPkpbzx8m48NP1sS/qBpIdeTWOeo0vaRupv7qOZchcP?=
+ =?us-ascii?Q?oeypjgpQXIjXnbDE0Ls2XjFmaBC2V32QNJ5U4oectkYwYdyA59dqMJa6NqDo?=
+ =?us-ascii?Q?1mrUU9xI4Q6Hhsg3sl6FuhoV/rG9Q/1fJulPpg/paOTQ+RMWXJn6Adi41g+P?=
+ =?us-ascii?Q?BvA1dXG5Eg38Pfr0bHu9j4pP/kk9CVC9NAFrWCrXYFCk4sh+9xNBLcAWfavT?=
+ =?us-ascii?Q?dXDaMfCSFg3DPZddKfo56KfM/fARsmnVZhtvM98k23pAkUAOXjTgp8hmLcnr?=
+ =?us-ascii?Q?Nd4rAnA1eITcB1qC0kzZlP9li1GRU29MywvCSYWP8bLkVqlyq2CWklsoPcKh?=
+ =?us-ascii?Q?mz3nfatwpKZ1OmP3vTEe416YlN0NvWF78c/R8A4XOIEDHw0YWFWMbuP6vpkx?=
+ =?us-ascii?Q?nPUNMST/Z22c6m/HLi0MdpFZMaC+CAPiCZXQ9QIDVPiaQnOsaWvjKti6dbZK?=
+ =?us-ascii?Q?SdcZtajZu90rKpnw9DWAINJBKfubgLQ460TgSMNzbzKP7bolXihUMfvzOnLR?=
+ =?us-ascii?Q?qaXYzQYNp28g2zg8v2GhL7kG8fSGndfUeNGrGA08BOtOslqRdjq5qehz8FIe?=
+ =?us-ascii?Q?pHPW+v9B4aL9Bde2+4NaxpvpDRs1gEL7f6XuVChwNB6AHK8LR7/NGW3yQH7F?=
+ =?us-ascii?Q?VQEmz3ODRTSYzh2EGDko4m9vVD730FfCp4cA/Ey3PL2JscLtxLI9TLWoZHWK?=
+ =?us-ascii?Q?BW3WQKzX6HQXdAVR93ppMdiBY0l8vfM6jaok8p9yWatqrc9QV4d1xs/G5y6f?=
+ =?us-ascii?Q?fWYP2XjIr1M9oyr6lkcArdR14Q1LUbITHJw5CDUfPdmTPl6lzwKRCHrg+jgi?=
+ =?us-ascii?Q?hJR5FtB1uDtJDsClR1ZeYsyJxzEqrcs2BPELODzsEQXmIS2fEabsyvhId6Ic?=
+ =?us-ascii?Q?LI/T/TJaglygY1T+pPyTtNNuUKbyxpLdwfJMHe+C0BU2SoUbp+RyLLuj10it?=
+ =?us-ascii?Q?yYbXNgLvDV63kUXOghJied6rk0zwaQKmYFKCWTzjggS5uit0ddH6rDcJx5KO?=
+ =?us-ascii?Q?XSnT7Zy7Y/t/P+h3aQFICS3+yAK2dwh0D9bDrFJEhotvn+v08rd47Z1DDngi?=
+ =?us-ascii?Q?BFd69jOslHek6/KiFTshyVum29oJNACvaNLttRudDIl2/cPg7yxah6RVtrmC?=
+ =?us-ascii?Q?E2iuJYhFVU7DugWl0dwh1hl75/Wa3ohLDVQTicJhDYYwOd/ijA7fFEmEvTBz?=
+ =?us-ascii?Q?T+YgjaWemHxUtr3tEmtIwS8UjpWn6q+gTBYYawabuV0wOy+3yOYUJ/4aBZLL?=
+ =?us-ascii?Q?GF4Lkm56fRt1jmeZRX57QbIAZ7pHJU8K17mJZXfEy5ug0zjxGCPfg3i3PLYl?=
+ =?us-ascii?Q?DIQiWoPcu6C3RuepH8mlA8a6uJH0yMkJZ8YXCklUZRHbM/xOTOff9vJ173rF?=
+ =?us-ascii?Q?JzHeQkpIfZRMnfqJUwnqepz8jXHMz+5vNVP2VWJ8ObQp/z1ij6H2OlJSYQdJ?=
+ =?us-ascii?Q?Fg=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 49322fb9-d49c-4715-8b8b-08dab57c5c3e
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5358.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 04:58:15.6238 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FZBd13GCRRIU5kwK5eA9Df6WGJFpdLQFdpe7olDFHp6HuQGlw+6tQnWh5qZ1KqGiuw1GKvo0RiphdLiqNqsxOg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6911
+X-Proofpoint-ORIG-GUID: TrDo9q1AHbfgusZjtRarlK7XlME3-oMT
+X-Proofpoint-GUID: TrDo9q1AHbfgusZjtRarlK7XlME3-oMT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-23_02,2022-10-21_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ priorityscore=1501 lowpriorityscore=0 mlxlogscore=257 mlxscore=0
+ malwarescore=0 bulkscore=0 phishscore=0 adultscore=0 clxscore=1011
+ spamscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2209130000 definitions=main-2210240031
+Received-SPF: pass client-ip=205.220.178.238;
+ envelope-from=prvs=72963f20b2=bin.meng@windriver.com;
+ helo=mx0b-0064b401.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,126 +160,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These 3 high memory regions are usually enabled by default, but
-they may be not used. For example, VIRT_HIGH_GIC_REDIST2 isn't
-needed by GICv2. This leads to waste in the PA space.
+At present there is no Windows support for 9p file system.
+This series adds initial Windows support for 9p file system.
 
-Add properties to allow users selectively disable them if needed:
-"highmem-redists", "highmem-ecam", "highmem-mmio".
+'local' file system backend driver is supported on Windows,
+including open, read, write, close, rename, remove, etc.
+All security models are supported. The mapped (mapped-xattr)
+security model is implemented using NTFS Alternate Data Stream
+(ADS) so the 9p export path shall be on an NTFS partition.
 
-Suggested-by: Marc Zyngier <maz@kernel.org>
-Signed-off-by: Gavin Shan <gshan@redhat.com>
----
- docs/system/arm/virt.rst | 12 ++++++++
- hw/arm/virt.c            | 64 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 76 insertions(+)
+'synth' driver is adapted for Windows too so that we can now
+run qtests on Windows for 9p related regression testing.
 
-diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
-index 4454706392..a1668a969d 100644
---- a/docs/system/arm/virt.rst
-+++ b/docs/system/arm/virt.rst
-@@ -98,6 +98,18 @@ compact-highmem
-   Set ``on``/``off`` to enable/disable the compact layout for high memory regions.
-   The default is ``on`` for machine types later than ``virt-7.2``.
- 
-+highmem-redists
-+  Set ``on``/``off`` to enable/disable the high memry region for GICv3/4
-+  redistributor. The default is ``on``.
-+
-+highmem-ecam
-+  Set ``on``/``off`` to enable/disable the high memry region for PCI ECAM.
-+  The default is ``on`` for machine types later than ``virt-3.0``.
-+
-+highmem-mmio
-+  Set ``on``/``off`` to enable/disable the high memry region for PCI MMIO.
-+  The default is ``on``.
-+
- gic-version
-   Specify the version of the Generic Interrupt Controller (GIC) to provide.
-   Valid values are:
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 11b5685432..afafc2d1b8 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2371,6 +2371,49 @@ static void virt_set_compact_highmem(Object *obj, bool value, Error **errp)
-     vms->highmem_compact = value;
- }
- 
-+static bool virt_get_highmem_redists(Object *obj, Error **errp)
-+{
-+    VirtMachineState *vms = VIRT_MACHINE(obj);
-+
-+    return vms->highmem_redists;
-+}
-+
-+static void virt_set_highmem_redists(Object *obj, bool value, Error **errp)
-+{
-+    VirtMachineState *vms = VIRT_MACHINE(obj);
-+
-+    vms->highmem_redists = value;
-+}
-+
-+static bool virt_get_highmem_ecam(Object *obj, Error **errp)
-+{
-+    VirtMachineState *vms = VIRT_MACHINE(obj);
-+
-+    return vms->highmem_ecam;
-+}
-+
-+static void virt_set_highmem_ecam(Object *obj, bool value, Error **errp)
-+{
-+    VirtMachineState *vms = VIRT_MACHINE(obj);
-+
-+    vms->highmem_ecam = value;
-+}
-+
-+static bool virt_get_highmem_mmio(Object *obj, Error **errp)
-+{
-+    VirtMachineState *vms = VIRT_MACHINE(obj);
-+
-+    return vms->highmem_mmio;
-+}
-+
-+static void virt_set_highmem_mmio(Object *obj, bool value, Error **errp)
-+{
-+    VirtMachineState *vms = VIRT_MACHINE(obj);
-+
-+    vms->highmem_mmio = value;
-+}
-+
-+
- static bool virt_get_its(Object *obj, Error **errp)
- {
-     VirtMachineState *vms = VIRT_MACHINE(obj);
-@@ -2996,6 +3039,27 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-                                           "Set on/off to enable/disable compact "
-                                           "layout for high memory regions");
- 
-+    object_class_property_add_bool(oc, "highmem-redists",
-+                                   virt_get_highmem_redists,
-+                                   virt_set_highmem_redists);
-+    object_class_property_set_description(oc, "highmem-redists",
-+                                          "Set on/off to enable/disable high "
-+                                          "memory region for GICv3/4 redistributor");
-+
-+    object_class_property_add_bool(oc, "highmem-ecam",
-+                                   virt_get_highmem_ecam,
-+                                   virt_set_highmem_ecam);
-+    object_class_property_set_description(oc, "highmem-ecam",
-+                                          "Set on/off to enable/disable high "
-+                                          "memory region for PCI ECAM");
-+
-+    object_class_property_add_bool(oc, "highmem-mmio",
-+                                   virt_get_highmem_mmio,
-+                                   virt_set_highmem_mmio);
-+    object_class_property_set_description(oc, "highmem-mmio",
-+                                          "Set on/off to enable/disable high "
-+                                          "memory region for PCI MMIO");
-+
-     object_class_property_add_str(oc, "gic-version", virt_get_gic_version,
-                                   virt_set_gic_version);
-     object_class_property_set_description(oc, "gic-version",
+Example command line to test:
+
+  "-fsdev local,path=c:\msys64,security_model=mapped,id=p9 -device virtio-9p-pci,fsdev=p9,mount_tag=p9fs"
+
+
+Bin Meng (5):
+  qemu/xattr.h: Exclude <sys/xattr.h> for Windows
+  hw/9pfs: Drop unnecessary *xattr wrapper API declarations
+  hw/9pfs: Replace the direct call to xxxat() APIs with a wrapper
+  hw/9pfs: Introduce an opaque type 9P_FILE_ID
+  hw/9pfs: Update P9_FILE_ID to support Windows
+
+Guohuai Shi (11):
+  hw/9pfs: Add missing definitions for Windows
+  hw/9pfs: Implement Windows specific utilities functions for 9pfs
+  hw/9pfs: Handle current directory offset for Windows
+  hw/9pfs: Disable unsupported flags and features for Windows
+  hw/9pfs: Update the local fs driver to support Windows
+  hw/9pfs: Add Linux error number definition
+  hw/9pfs: Translate Windows errno to Linux value
+  fsdev: Disable proxy fs driver on Windows
+  hw/9pfs: Update synth fs driver for Windows
+  tests/qtest: virtio-9p-test: Adapt the case for win32
+  meson.build: Turn on virtfs for Windows
+
+ meson.build                  |  10 +-
+ fsdev/file-op-9p.h           |  33 ++
+ hw/9pfs/9p-file-id.h         |  29 ++
+ hw/9pfs/9p-linux-errno.h     | 151 ++++++
+ hw/9pfs/9p-local.h           |  15 +-
+ hw/9pfs/9p-util.h            | 158 +++++--
+ hw/9pfs/9p.h                 |  11 +
+ include/qemu/xattr.h         |   4 +-
+ fsdev/qemu-fsdev.c           |   2 +
+ hw/9pfs/9p-local.c           | 532 ++++++++++++++++-----
+ hw/9pfs/9p-synth.c           |   5 +-
+ hw/9pfs/9p-util-darwin.c     |  14 +-
+ hw/9pfs/9p-util-linux.c      |  14 +-
+ hw/9pfs/9p-util-win32.c      | 885 +++++++++++++++++++++++++++++++++++
+ hw/9pfs/9p-xattr.c           |  16 +-
+ hw/9pfs/9p.c                 | 106 ++++-
+ hw/9pfs/codir.c              |  15 +
+ tests/qtest/virtio-9p-test.c |   7 +
+ fsdev/meson.build            |   1 +
+ hw/9pfs/meson.build          |   8 +-
+ 20 files changed, 1822 insertions(+), 194 deletions(-)
+ create mode 100644 hw/9pfs/9p-file-id.h
+ create mode 100644 hw/9pfs/9p-linux-errno.h
+ create mode 100644 hw/9pfs/9p-util-win32.c
+
 -- 
-2.23.0
+2.25.1
 
 
