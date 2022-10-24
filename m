@@ -2,61 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B13E160BA94
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 22:38:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65EFC60BC25
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 23:28:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on45E-0005X9-75; Mon, 24 Oct 2022 16:30:04 -0400
+	id 1on47Y-0005ke-Dh; Mon, 24 Oct 2022 16:32:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1on45C-0005Wx-J4
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 16:30:02 -0400
-Received: from mout.kundenserver.de ([212.227.126.133])
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1on47M-0005iO-Kh
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 16:32:18 -0400
+Received: from mailout05.t-online.de ([194.25.134.82])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1on45A-0003pE-NX
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 16:30:02 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MN5S1-1oUZC23wEH-00J2Wv; Mon, 24 Oct 2022 22:29:56 +0200
-Message-ID: <74966876-89f0-92bb-9af5-8998e590311d@vivier.eu>
-Date: Mon, 24 Oct 2022 22:29:54 +0200
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1on46t-0004Rt-JK
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 16:31:49 -0400
+Received: from fwd71.dcpf.telekom.de (fwd71.aul.t-online.de [10.223.144.97])
+ by mailout05.t-online.de (Postfix) with SMTP id 9BAF51C6F3;
+ Mon, 24 Oct 2022 22:31:42 +0200 (CEST)
+Received: from [192.168.211.200] ([84.175.228.229]) by fwd71.t-online.de
+ with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+ esmtp id 1on46o-0uqzwX0; Mon, 24 Oct 2022 22:31:42 +0200
+Message-ID: <b3c5e4b6-0208-0b0d-fef4-b536ce889dfc@t-online.de>
+Date: Mon, 24 Oct 2022 22:31:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v3] linux-user: Add guest memory layout to exception dump
-Content-Language: fr
-To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <Y1bzAWbw07WBKPxw@p100>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <Y1bzAWbw07WBKPxw@p100>
+ Thunderbird/102.4.0
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+Subject: Re: [PATCH] tests/qtest/ac97-test: add up-/downsampling tests
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20221022160052.1132-1-vr_qemu@t-online.de>
+ <CAJ+F1CLjiCs4zSxSpr_OPWDM9_xCC0YfJTL_82umDB-rX6aW3Q@mail.gmail.com>
+Content-Language: en-US
+In-Reply-To: <CAJ+F1CLjiCs4zSxSpr_OPWDM9_xCC0YfJTL_82umDB-rX6aW3Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:QiwTtOeJbow9jpnQz7dRA3voqtRq7NRPH23S/r/0GHETpfahc3r
- Li74TNzROgxKHJyStzAutpqH2C+gB5AawvIoyGzQsqX2q2NC1idA2iwgnaoDg1gMCQ8Qe3f
- epFULGS+RAyVm1l68usqizR4QyQbvSod7zqSCa/1qgLY3Ok+obmowFz6MNWchgx/8JqHuBn
- lNPn0GLbH+ys7DgS10v3w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:yqgH1FU9DjA=:/Wjyf9D1r42G5vcwoIQvVp
- aJl5l9TTqmJvn1X+muCnUA+mq/+08MCwgxISYIlA0OON9I6JamGMU84XJAOAEDvtUcZvjjn1Y
- IPbG6KE0SF3ZOqhSQu5pc7xTvIL/Is2DTRLSHJFo1Ira5q/TPjmZv7IWSxE3v7fazzNM6T9gD
- lq9N2z1W0QGaFwl9XQcIdVj5eF+m3/Kek+MJiA/OJLCQ2fe6bpeXifZv9Z1hTEQaK/OQnpMqL
- kx7gKgmbzaoqPF77MQkgxtHbxQfMJFnMXcpF85FWDXJoNd1stxGXW3InUuxt8WlBCqxvqo/KI
- PLEwAfz1EjiSsDERVbF80ORoC8UwR/HJ1eWsYD7MZMoD0lb3IT7amBAzLTizSeAkkinYCZL7N
- +EQVw9KtwwANUv09dhujNgbqPgrpXmv3Ng9ab/4BgZkbjIJ3hE7mEzeGg8Yhqdpsmck0tWYp9
- bh8C7NRcV1e4wwBVDdMcMzIidqU1z/ievVlcdTWfDDRbtMmpwfsfEzp+Op7f+ywM45h8RLcIR
- M3KdrsXgMQu8ZEiJnScL4REnXHwWqFwFWTQW/i6jPQz+L5w34THxxYhPMdotqubnKvaMseV1W
- 1J5QNl2q9+NbxmM/p7UgBNZRdTwmMuzQu888Oz2vp8gKOih1hRXDpuxkNbj/wHl0I5kOs8xts
- CcsGwfHmQhGj4joT39YEIakURVxFSlQTWe0RSm4dnJ2OuvJCGJpGoHzZuBoQlCHQqD8yuOE5h
- Sfkub0Ax9gC3tExCy3K+WU9Qe21pGu2wCUqeM5UW4A92VTF1O4oOdMXYfUOgo8AsE75K9Q72J
- AVePGFD
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
+X-TOI-EXPURGATEID: 150726::1666643502-F2FF5ECF-467FE97A/0/0 CLEAN NORMAL
+X-TOI-MSGID: 9966d916-8530-4777-a9d7-1f55129cab78
+Received-SPF: none client-ip=194.25.134.82; envelope-from=vr_qemu@t-online.de;
+ helo=mailout05.t-online.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,130 +67,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 24/10/2022 à 22:18, Helge Deller a écrit :
-> When the emulation stops with a hard exception it's very useful for
-> debugging purposes to dump the current guest memory layout (for an
-> example see /proc/self/maps) beside the CPU registers.
-> 
-> The open_self_maps() function provides such a memory dump, but since
-> it's located in the syscall.c file, various changes (add #includes, make
-> this function externally visible, ...) are needed to be able to call it
-> from the existing EXCP_DUMP() macro.
-> 
-> This patch takes another approach by re-defining EXCP_DUMP() to call
-> target_exception_dump(), which is in syscall.c, consolidates the log
-> print functions and allows to add the call to dump the memory layout.
-> 
-> Beside a reduced code footprint, this approach keeps the changes across
-> the various callers minimal, and keeps EXCP_DUMP() highlighted as
-> important macro/function.
-> 
-> Signed-off-by: Helge Deller <deller@gmx.de>
-> ---
-> 
-> v3:
-> Fix build error in i386/cpu_loop.c
-> 
-> v2:
-> Based on feedback by Philippe Mathieu-Daudé, renamed the two functions
-> to excp_dump_file() and target_exception_dump(), and #define'ed
-> EXCP_DUMP() to target_exception_dump().
-> I intentionally did not replace all occurences of EXCP_DUMP() by
-> target_exception_dump() as I think it's unneccesary and not beneficial.
-> If this is really wished, I will send a v3.
-> 
-> 
-> diff --git a/linux-user/cpu_loop-common.h b/linux-user/cpu_loop-common.h
-> index 36ff5b14f2..e644d2ef90 100644
-> --- a/linux-user/cpu_loop-common.h
-> +++ b/linux-user/cpu_loop-common.h
-> @@ -23,18 +23,9 @@
->   #include "exec/log.h"
->   #include "special-errno.h"
-> 
-> -#define EXCP_DUMP(env, fmt, ...)                                        \
-> -do {                                                                    \
-> -    CPUState *cs = env_cpu(env);                                        \
-> -    fprintf(stderr, fmt , ## __VA_ARGS__);                              \
-> -    fprintf(stderr, "Failing executable: %s\n", exec_path);             \
-> -    cpu_dump_state(cs, stderr, 0);                                      \
-> -    if (qemu_log_separate()) {                                          \
-> -        qemu_log(fmt, ## __VA_ARGS__);                                  \
-> -        qemu_log("Failing executable: %s\n", exec_path);                \
-> -        log_cpu_state(cs, 0);                                           \
-> -    }                                                                   \
-> -} while (0)
-> +void target_exception_dump(CPUArchState *env, const char *fmt, int code);
-> +#define EXCP_DUMP(env, fmt, code) \
-> +    target_exception_dump(env, fmt, code)
-> 
->   void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs);
->   #endif
-> diff --git a/linux-user/i386/cpu_loop.c b/linux-user/i386/cpu_loop.c
-> index 42837399bc..404f6d6634 100644
-> --- a/linux-user/i386/cpu_loop.c
-> +++ b/linux-user/i386/cpu_loop.c
-> @@ -308,8 +308,8 @@ void cpu_loop(CPUX86State *env)
->               break;
->           default:
->               pc = env->segs[R_CS].base + env->eip;
-> -            EXCP_DUMP(env, "qemu: 0x%08lx: unhandled CPU exception 0x%x - aborting\n",
-> -                      (long)pc, trapnr);
-> +            EXCP_DUMP(env, "qemu: unhandled CPU exception 0x%x - aborting\n",
-> +                      trapnr);
->               abort();
->           }
->           process_pending_signals(env);
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 2e954d8dbd..7d29c4c396 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -158,6 +158,7 @@
->   #include "qapi/error.h"
->   #include "fd-trans.h"
->   #include "tcg/tcg.h"
-> +#include "cpu_loop-common.h"
-> 
->   #ifndef CLONE_IO
->   #define CLONE_IO                0x80000000      /* Clone io context */
-> @@ -8144,6 +8145,33 @@ static int is_proc_myself(const char *filename, const char *entry)
->       return 0;
->   }
-> 
-> +static void excp_dump_file(FILE *logfile, CPUArchState *env,
-> +                      const char *fmt, int code)
-> +{
-> +    if (logfile) {
-> +        CPUState *cs = env_cpu(env);
-> +
-> +        fprintf(logfile, fmt, code);
-> +        fprintf(logfile, "Failing executable: %s\n", exec_path);
-> +        cpu_dump_state(cs, logfile, 0);
-> +        open_self_maps(env, fileno(logfile));
-> +    }
-> +}
-> +
-> +void target_exception_dump(CPUArchState *env, const char *fmt, int code)
-> +{
-> +    /* dump to console */
-> +    excp_dump_file(stderr, env, fmt, code);
-> +
-> +    /* dump to log file */
-> +    if (qemu_log_separate()) {
-> +        FILE *logfile = qemu_log_trylock();
-> +
-> +        excp_dump_file(logfile, env, fmt, code);
-> +        qemu_log_unlock(logfile);
-> +    }
-> +}
-> +
->   #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN || \
->       defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
->   static int is_proc(const char *filename, const char *entry)
+Am 24.10.22 um 10:13 schrieb Marc-André Lureau:
+> Hi
+>
+> On Mon, Oct 24, 2022 at 9:28 AM Volker Rümelin <vr_qemu@t-online.de> 
+> wrote:
+>
+>     Test if the audio subsystem can handle extreme up- and down-
+>     sampling ratios like 44100/1 and 1/44100. For some time these
+>     used to trigger QEMU aborts. The test was taken from
+>     https://gitlab.com/qemu-project/qemu/-/issues/71 where it was
+>     used to demonstrate a very different issue.
+>
+>     Suggested-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+>     Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+>
+>
+> Thanks for working on this
+>
+> It seems to show something different though:
+> "
+> A bug was just triggered in audio_calloc
+> Save all your work and restart without audio
+> I am sorry
+> "
+>
+> AUD_open_out() is called with audsettings: {freq = 1, nchannels = 2, 
+> fmt = AUDIO_FORMAT_S16, endianness = 0}
+>
+> And that's it. Any idea?
 
-Applied to my linux-user-for-7.2 branch.
+Hi,
 
-Thanks,
-Laurent
+the scary message is expected and doesn't mean this qos-test failed. 
+This is the currently not so silent 'the audio subsystem should (...) 
+silently give up' case.
+
+The noaudio backend uses a mixing-engine buffer size of 1024 audio 
+frames and AUD_open_* tries to allocate memory for 1024/44100 = 0.0232 
+audio frames for the resample buffer in audio_pcm_sw_alloc_resources_*. 
+This allocation fails and produces the scary message. The error is 
+handled correctly and AUD_open_* returns NULL. AUD_read and AUD_write 
+return early if this pointer is NULL and the audio frontend callback 
+functions will also not be called because the audio_frontend_frames_* 
+functions return 0 in this case.
+
+If you would like to see the two tests fail, revert commit 0cbc8bd469 
+("audio: remove abort() in audio_bug()") and rerun qos-test.
+
+With best regards,
+Volker
+
+>
+>
+>     ---
+>      tests/qtest/ac97-test.c | 40 +++++++++++++++++++++++++++++++++++++++-
+>      1 file changed, 39 insertions(+), 1 deletion(-)
+>
+>     diff --git a/tests/qtest/ac97-test.c b/tests/qtest/ac97-test.c
+>     index 74103efdfa..ce25f1d588 100644
+>     --- a/tests/qtest/ac97-test.c
+>     +++ b/tests/qtest/ac97-test.c
+>     @@ -42,16 +42,54 @@ static void *ac97_create(void *pci_bus,
+>     QGuestAllocator *alloc, void *addr)
+>          return &ac97->obj;
+>      }
+>
+>     +/*
+>     + * This is rather a test of the audio subsystem and not an AC97
+>     test. Test if
+>     + * the audio subsystem can handle a 44100/1 upsample ratio. With
+>     an audio
+>     + * mixing buffer size of 1024 audio frames, the audio subsystem
+>     should either
+>     + * generate 1024 output frames from 0.0232 input frames or
+>     silently give up.
+>     + */
+>     +static void ac97_playback_upsample(void *obj, void *data,
+>     QGuestAllocator *alloc)
+>     +{
+>     +    QAC97 *ac97 = obj;
+>     +    QPCIDevice *dev = &ac97->dev;
+>     +    QPCIBar bar0;
+>     +
+>     +    qpci_device_enable(dev);
+>     +    bar0 = qpci_iomap(dev, 0, NULL);
+>     +    qpci_io_writew(dev, bar0, 0x2c, 0x1);
+>     +}
+>     +
+>     +/*
+>     + * This test is similar to the playback upsample test. This time
+>     the audio
+>     + * subsystem should either generate 0.0232 audio frames from 1024
+>     input frames
+>     + * or silently give up.
+>     + */
+>     +static void ac97_record_downsample(void *obj, void *data,
+>     QGuestAllocator *alloc)
+>     +{
+>     +    QAC97 *ac97 = obj;
+>     +    QPCIDevice *dev = &ac97->dev;
+>     +    QPCIBar bar0;
+>     +
+>     +    qpci_device_enable(dev);
+>     +    bar0 = qpci_iomap(dev, 0, NULL);
+>     +    qpci_io_writew(dev, bar0, 0x32, 0x1);
+>     +}
+>     +
+>      static void ac97_register_nodes(void)
+>      {
+>          QOSGraphEdgeOptions opts = {
+>     -        .extra_device_opts = "addr=04.0",
+>     +        .extra_device_opts = "addr=04.0,audiodev=snd0",
+>     +        .after_cmd_line = "-audiodev none,id=snd0"
+>     + ",out.frequency=44100,in.frequency=44100",
+>          };
+>          add_qpci_address(&opts, &(QPCIAddress) { .devfn =
+>     QPCI_DEVFN(4, 0) });
+>
+>          qos_node_create_driver("AC97", ac97_create);
+>          qos_node_produces("AC97", "pci-device");
+>          qos_node_consumes("AC97", "pci-bus", &opts);
+>     +
+>     +    qos_add_test("playback_upsample", "AC97",
+>     ac97_playback_upsample, NULL);
+>     +    qos_add_test("record_downsample", "AC97",
+>     ac97_record_downsample, NULL);
+>      }
+>
+>      libqos_init(ac97_register_nodes);
+>     -- 
+>     2.35.3
+>
+>
+>
+>
+> -- 
+> Marc-André Lureau
 
 
