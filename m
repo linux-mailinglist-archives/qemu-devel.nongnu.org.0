@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5934E60AE42
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 16:54:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14DFE60ADE1
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 16:39:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omxSL-0003FI-N4; Mon, 24 Oct 2022 09:25:29 -0400
+	id 1omxSS-0003HK-VL; Mon, 24 Oct 2022 09:25:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1omxSH-0003Cz-3U
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 09:25:25 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
+ id 1omxSL-0003Fg-T5
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 09:25:29 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1omxSD-0003tv-Rp
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 09:25:23 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id u6so8408504plq.12
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 06:25:20 -0700 (PDT)
+ id 1omxSI-0003yT-MY
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 09:25:29 -0400
+Received: by mail-pg1-x530.google.com with SMTP id 78so8646386pgb.13
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 06:25:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=FZc9mr+Lj/5v+/f/s9nBwTEyh4pQeC09vzywJopn5pg=;
- b=bzq+lTPhnonF8y1A5z0S/iaWskTTjwoelDSoVgOvk3fPddVSF3CfYmDIw0x8n42zDD
- cpPhp/g9MVj3QhOu1qer09JHsh/UhYA7OyaAH/TRUEp6WabOpHa6wtUDFUgQw1/TRS6x
- onF8JlLOUtpUwgDQop95o1jSQeo/Hb2Hln+PgguyENlW6fAXcWy3AWYtB4hYTRuzhnXr
- hbvUb3c/ESvNYTqeLNqzdIGBHTK1JdqW7wYG7sTFKk1Pm2R35HOu/AzfDFcaOs/pffAc
- RZDHokDFS4C6WrIvltN3ZE3D1IHcuH8sgpdzR+0tIWOPoENwHCqhhUxZytc2a+uITmw2
- /RIw==
+ :reply-to; bh=g+JyoE/JLPQZeDvC/7V0SYveT535zxxz5m5s4NFje60=;
+ b=gtIS7NPX/CH5AArmdQ575TaDrS+TagyeuPxUGjWG9hjSWNnTXg49J2kMntCzXy8T23
+ YBYueKWt299AwLLQaI80jy5rtkOE/BMSd13r3fALo31VD1sTUf6sN0YjSApnAzjV+C9S
+ Eu0n+fbo1jX9bb3v+ErW72Su1tLVAAuwfxpPGHC6Zz1364bAFYkbog51zQvwBLjH05/X
+ 3iv/SaJJcQ6/EnT1dPhhuHdnQlUX27X+HdT+DemnooLyfbd81C1+4mnZK9u7NDvcy+vZ
+ kJ1COG7CjbIfZlihXuP9oAYuz0Gfm9r+RkpkRPiBr4O+tGJI44wbtiEAF5fSl2s99oVh
+ TrWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=FZc9mr+Lj/5v+/f/s9nBwTEyh4pQeC09vzywJopn5pg=;
- b=OhJeM5KqjtrTix+dNVGTESCXShcXRp8rWNBoWVE36679Rr1SYRcYF08sc/rloTqOVi
- wNZDIw4vvPP/fDjTsoIb718k8sJAu7k33oNPlHORZ/oPYPwK/qI9/3uV1VI3RuAIdQtH
- IkiHYgon7KgDJlaJrQCa5YZbBdMKCmcbKxt3HfzABF4ioVUNz6dU5XO90exw/TwzRVZm
- P0iLV/MQKxgRtmgiAmXJQ+SJ9o/z6g/+ZwOApUvibdKAeKfInUm55ReUZv7JemJSdhXs
- RI4p0IDuRALgG9fE2MleNsYVb8IjeCs2Y4GHgh3WNHinIwlXicTv/wkB9nmRolBND7CN
- sUKA==
-X-Gm-Message-State: ACrzQf3xrtezeZqxDVEj75SDt/zsGJmgRoOfXs1GiH3sVR5BgmKi5T31
- qI9YO01wWJ15LAtCpco1n8IN0YOkQrqYmw==
-X-Google-Smtp-Source: AMsMyM7UXXpnJWqtQuFQ6oahziuwJChv26LNd5kjW+v40ayJWwJmOIl0iPzy+DubL1ZrShT+eHmMTA==
-X-Received: by 2002:a17:90b:1e46:b0:20a:f9d8:1ff7 with SMTP id
- pi6-20020a17090b1e4600b0020af9d81ff7mr75993021pjb.34.1666617919406; 
- Mon, 24 Oct 2022 06:25:19 -0700 (PDT)
+ bh=g+JyoE/JLPQZeDvC/7V0SYveT535zxxz5m5s4NFje60=;
+ b=pC+dNsnvJTMHSLTYIjlhJ2zZoNBEPD+W5pe5C/Fv/9ffFXUOpvWOn3r9Lxv7YG3Np7
+ q2CAweryzGxScnoHUswseRn/sHPSJHP5O8RgXgHLNIF4LZp3hoMH5TQ7SbcFD4BeXWDz
+ Cn/nB5P9Aq+4aZImmaBfPQZIGPdx+luW5nxtUqUmazkAjZqQe6TUqGesVZLSa3LQJQNT
+ h112YY1GrrckeBPk9tnShYwWymCncu4S2s+j01SbWMLlK8c/6KPDvawG8vI1wlO3Ux5V
+ orJWaC43GO+AgdcZJutw3yBtswaW/Tjyz8ZdZQ0I1v6cMR/li7+7/mg1jDDpA7uqNsmr
+ saew==
+X-Gm-Message-State: ACrzQf0TaNDjYjBpsRXeGFq2QLmlNEDQFVqcEPI3QRWF4CRG5W6s2XsW
+ gJK2u2N9DZgnv8o7cf+yWy4L/lNjmS89IA==
+X-Google-Smtp-Source: AMsMyM6lhKSbRl4mUMJjwPbaNgF3V3R47MMhT42XscGFLpzTtaNUi6dWlZb3g2+MjjVWYDkpbwo/Fw==
+X-Received: by 2002:a05:6a00:124e:b0:565:ba3c:58bf with SMTP id
+ u14-20020a056a00124e00b00565ba3c58bfmr33565660pfi.82.1666617924717; 
+ Mon, 24 Oct 2022 06:25:24 -0700 (PDT)
 Received: from stoup.. ([103.100.225.182]) by smtp.gmail.com with ESMTPSA id
- b12-20020a1709027e0c00b00178ab008364sm17009216plm.37.2022.10.24.06.25.17
+ b12-20020a1709027e0c00b00178ab008364sm17009216plm.37.2022.10.24.06.25.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Oct 2022 06:25:19 -0700 (PDT)
+ Mon, 24 Oct 2022 06:25:24 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/29] target/arm: Convert to tcg_ops restore_state_to_opc
-Date: Mon, 24 Oct 2022 23:24:33 +1000
-Message-Id: <20221024132459.3229709-5-richard.henderson@linaro.org>
+Subject: [PATCH 05/29] target/cris: Convert to tcg_ops restore_state_to_opc
+Date: Mon, 24 Oct 2022 23:24:35 +1000
+Message-Id: <20221024132459.3229709-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221024132459.3229709-1-richard.henderson@linaro.org>
 References: <20221024132459.3229709-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,83 +89,59 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.c       | 26 ++++++++++++++++++++++++++
- target/arm/translate.c | 22 ----------------------
- 2 files changed, 26 insertions(+), 22 deletions(-)
+ target/cris/cpu.c       | 11 +++++++++++
+ target/cris/translate.c |  6 ------
+ 2 files changed, 11 insertions(+), 6 deletions(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 0bc5e9b125..0a7bfbf999 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -90,6 +90,31 @@ void arm_cpu_synchronize_from_tb(CPUState *cs,
-         }
+diff --git a/target/cris/cpu.c b/target/cris/cpu.c
+index 22f5c70f39..fb05dc6f9a 100644
+--- a/target/cris/cpu.c
++++ b/target/cris/cpu.c
+@@ -42,6 +42,15 @@ static vaddr cris_cpu_get_pc(CPUState *cs)
+     return cpu->env.pc;
+ }
+ 
++static void cris_restore_state_to_opc(CPUState *cs,
++                                      const TranslationBlock *tb,
++                                      const uint64_t *data)
++{
++    CRISCPU *cpu = CRIS_CPU(cs);
++
++    cpu->env.pc = data[0];
++}
++
+ static bool cris_cpu_has_work(CPUState *cs)
+ {
+     return cs->interrupt_request & (CPU_INTERRUPT_HARD | CPU_INTERRUPT_NMI);
+@@ -212,6 +221,7 @@ static const struct SysemuCPUOps cris_sysemu_ops = {
+ 
+ static const struct TCGCPUOps crisv10_tcg_ops = {
+     .initialize = cris_initialize_crisv10_tcg,
++    .restore_state_to_opc = cris_restore_state_to_opc,
+ 
+ #ifndef CONFIG_USER_ONLY
+     .tlb_fill = cris_cpu_tlb_fill,
+@@ -222,6 +232,7 @@ static const struct TCGCPUOps crisv10_tcg_ops = {
+ 
+ static const struct TCGCPUOps crisv32_tcg_ops = {
+     .initialize = cris_initialize_tcg,
++    .restore_state_to_opc = cris_restore_state_to_opc,
+ 
+ #ifndef CONFIG_USER_ONLY
+     .tlb_fill = cris_cpu_tlb_fill,
+diff --git a/target/cris/translate.c b/target/cris/translate.c
+index 73385b0b3c..fbc3fd5865 100644
+--- a/target/cris/translate.c
++++ b/target/cris/translate.c
+@@ -3392,9 +3392,3 @@ void cris_initialize_tcg(void)
+                                        pregnames_v32[i]);
      }
  }
-+
-+static void arm_restore_state_to_opc(CPUState *cs,
-+                                     const TranslationBlock *tb,
-+                                     const uint64_t *data)
-+{
-+    CPUARMState *env = cs->env_ptr;
-+
-+    if (is_a64(env)) {
-+        if (TARGET_TB_PCREL) {
-+            env->pc = (env->pc & TARGET_PAGE_MASK) | data[0];
-+        } else {
-+            env->pc = data[0];
-+        }
-+        env->condexec_bits = 0;
-+        env->exception.syndrome = data[2] << ARM_INSN_START_WORD2_SHIFT;
-+    } else {
-+        if (TARGET_TB_PCREL) {
-+            env->regs[15] = (env->regs[15] & TARGET_PAGE_MASK) | data[0];
-+        } else {
-+            env->regs[15] = data[0];
-+        }
-+        env->condexec_bits = data[1];
-+        env->exception.syndrome = data[2] << ARM_INSN_START_WORD2_SHIFT;
-+    }
-+}
- #endif /* CONFIG_TCG */
- 
- static bool arm_cpu_has_work(CPUState *cs)
-@@ -2152,6 +2177,7 @@ static const struct TCGCPUOps arm_tcg_ops = {
-     .initialize = arm_translate_init,
-     .synchronize_from_tb = arm_cpu_synchronize_from_tb,
-     .debug_excp_handler = arm_debug_excp_handler,
-+    .restore_state_to_opc = arm_restore_state_to_opc,
- 
- #ifdef CONFIG_USER_ONLY
-     .record_sigsegv = arm_cpu_record_sigsegv,
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index d1b868430e..74a903072f 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -9939,25 +9939,3 @@ void gen_intermediate_code(CPUState *cpu, TranslationBlock *tb, int max_insns,
- 
-     translator_loop(cpu, tb, max_insns, pc, host_pc, ops, &dc.base);
- }
 -
--void restore_state_to_opc(CPUARMState *env, TranslationBlock *tb,
+-void restore_state_to_opc(CPUCRISState *env, TranslationBlock *tb,
 -                          target_ulong *data)
 -{
--    if (is_a64(env)) {
--        if (TARGET_TB_PCREL) {
--            env->pc = (env->pc & TARGET_PAGE_MASK) | data[0];
--        } else {
--            env->pc = data[0];
--        }
--        env->condexec_bits = 0;
--        env->exception.syndrome = data[2] << ARM_INSN_START_WORD2_SHIFT;
--    } else {
--        if (TARGET_TB_PCREL) {
--            env->regs[15] = (env->regs[15] & TARGET_PAGE_MASK) | data[0];
--        } else {
--            env->regs[15] = data[0];
--        }
--        env->condexec_bits = data[1];
--        env->exception.syndrome = data[2] << ARM_INSN_START_WORD2_SHIFT;
--    }
+-    env->pc = data[0];
 -}
 -- 
 2.34.1
