@@ -2,141 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F6EB60BC3E
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 23:32:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBEC460BC5E
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 23:41:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on4x0-000052-TT; Mon, 24 Oct 2022 17:25:38 -0400
+	id 1on58r-0003sB-5I; Mon, 24 Oct 2022 17:37:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Luben.Tuikov@amd.com>)
- id 1on4wy-00004v-Rv
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 17:25:36 -0400
-Received: from mail-mw2nam10on2054.outbound.protection.outlook.com
- ([40.107.94.54] helo=NAM10-MW2-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Luben.Tuikov@amd.com>)
- id 1on4ww-0006gC-DQ
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 17:25:36 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=c032ZbrJbcAm/40O5j182wsCqvB5ujL3qpzezPt+6k6JxXJgSmOMdaituwS4w8DbsVkpGgZ2ipgShW1pH3jIua1SYLuE+6MAitmeLOrUKOE9hGlicpYi2xy+eab2BTXQVWFOuk0qeSNk2oh48eSWIjRLPoSOGu13G/0wd4ekJJQc2cW2yMLiViEzyi6j1wJxLfFPnfYUQzF8jUu0vN0m/TolGd3Mot/Vvggl2GYa2zvu4SvNLa05DGf+wqkPGL933ssAnJAE2OvuGB4pgcjW7VTSwYpt5ePQjy8zHV4El5GCLyBA5hTnU29K1psSrLz40H3oIWSQ+vHtTmWyXxT/fw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aKLI9t59nWGEXVCakOqqAeZb8XgnUTLQV7s+exihwxo=;
- b=n+pYkdxyE2UqHq0XCulfvqHfRMy41SeZ3sErEomQjHSSqocOkfOJbBWc0a7r0FJAe+WUBtKndKcxSuKmKsnws0iqx4r5ND4cLieV52AcHk5qJyHNARIPMwO3IgVBlnjy0UtSOOKp7RNVh33ADwrjZVEtjyHcCXEYk8E2u/0/z+OJ1FVuqB/QoyKnpPhGoa36YnbkphimfJYo8I+5I008d/qlR6uF2XeYvdgPGvBSC8O4XdpDMjM89c2WZxdgIw1WkAN7SZqYNtfwOSR7j2sVtDExDeObi9xxfDftEejwU/w6cHrfOw/kTrui0AUsNzvIqrVt0CmJIq0wCnQzdPqB4w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aKLI9t59nWGEXVCakOqqAeZb8XgnUTLQV7s+exihwxo=;
- b=druCWTl939K2PvchFOrU7w/XcVexoZzePd4pHEPATb0bJy8n+RNJkAF+Jgrqa9SSe/6ApeHBGRBrPpmxlFZEAcfd9kjIXdACYUK6EQPsUeXmh09WuHPqdeLcQG8/HUB3qQgvSW8Pej3gD1vBcs+kcyc5R3XnRMmc8VbuQ4BDK98=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
- IA1PR12MB6187.namprd12.prod.outlook.com (2603:10b6:208:3e5::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.26; Mon, 24 Oct
- 2022 21:25:29 +0000
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::d309:77d2:93d8:2425]) by DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::d309:77d2:93d8:2425%7]) with mapi id 15.20.5746.026; Mon, 24 Oct 2022
- 21:25:29 +0000
-Message-ID: <dcb8b35a-7d0d-cc00-41e3-6e66837c506f@amd.com>
-Date: Mon, 24 Oct 2022 17:25:26 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v2] kset: fix memory leak when kset_register() returns
- error
-Content-Language: en-CA
-From: Luben Tuikov <luben.tuikov@amd.com>
-To: Yang Yingliang <yangyingliang@huawei.com>, linux-kernel@vger.kernel.org,
- qemu-devel@nongnu.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-erofs@lists.ozlabs.org, ocfs2-devel@oss.oracle.com,
- linux-mtd@lists.infradead.org, amd-gfx@lists.freedesktop.org
-Cc: gregkh@linuxfoundation.org, rafael@kernel.org, somlo@cmu.edu,
- mst@redhat.com, jaegeuk@kernel.org, chao@kernel.org,
- hsiangkao@linux.alibaba.com, huangjianan@oppo.com, mark@fasheh.com,
- jlbec@evilplan.org, joseph.qi@linux.alibaba.com, akpm@linux-foundation.org,
- alexander.deucher@amd.com, richard@nod.at, liushixin2@huawei.com
-References: <20221024121910.1169801-1-yangyingliang@huawei.com>
- <176ae1a1-9240-eef8-04e9-000d47646f4a@amd.com>
-In-Reply-To: <176ae1a1-9240-eef8-04e9-000d47646f4a@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT4PR01CA0001.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:d1::11) To DM6PR12MB3370.namprd12.prod.outlook.com
- (2603:10b6:5:38::25)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1on58p-0003pO-1G
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 17:37:51 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1on58n-0000JM-DF
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 17:37:50 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id bu30so18089556wrb.8
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 14:37:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9M8sF9U94jzIUFQIp2DX9bx+NdVCz568aPkxO0ld7RU=;
+ b=trvWxu0LLppqHB5no6alRopRTAqNRgJ5GTEMpMIWO1Hsg0MFIvvqHAmCt4Q46eu9c4
+ 7ztVGz/GWopEcmSQR3kKf8CdneW6WYoBT82fkZdXR4rk0v8WxCdWex4n/YSjtpjsCsR5
+ EqWRlxEJJOvgqJ+LWF1FMVz/ez3yb+yl0Pe1s9WyNhq0sEFs5oSE+nkEZPKV9AGNsWjb
+ qJF2XnZTNcUdShcX1DP6sG99ltyAGjF/T6H1hzAT/oJwjGVdgj8uDzJu46urBo/D9A9Y
+ H9eg1wVONNrc+ZDHthbTAaIaoYfRe89CW1vI3gaki0FYv0H9UMxEMvlODTNIxdTxxD7K
+ 22iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=9M8sF9U94jzIUFQIp2DX9bx+NdVCz568aPkxO0ld7RU=;
+ b=0a/HdkTAuiUK9j8UygrGsvD8YB4Go4W47xX08F1Kho2uaRZ3FYNa7awksdb6Dsr+yv
+ l7edqvqESG3B316pG4gCckzrMCc14fpV1ZMqu5YfrXJ9TY4WRKkf3aXEkAoz1ROFQWsE
+ 0rU86KuFfTMx9+VruIRbo6ffjAJkRh6qAofRTUAYGKGGnIsPc6rODU1MmU11n9CJNgM0
+ uxT2Bi53XTFXEkyJNA+l951MipfjBz0Lio8gTzSQYKrLZheJQtcv2av45TAZg37osVFZ
+ MNOoZ7ihbVivtG/0fbug3kJWCWTVAzPfM+ZtMqqC5GFdv33D5SZDCoVTW3ND/DBlvUFc
+ U9ug==
+X-Gm-Message-State: ACrzQf3WRz1Am/n633Kj81t/ltrnbiwKNpkNHd3WT7whPV+NQoQGvXzH
+ 29wm5ZZyaOwg3Uta53b26+QOFA==
+X-Google-Smtp-Source: AMsMyM5DeNoJK5qFnnd4VintJq/gbdOuN3aQCs5hAxgQMTHTL+2Z3vKrbv1IOoLSz92vOjPQ/bapyw==
+X-Received: by 2002:adf:e84a:0:b0:236:5f2d:9027 with SMTP id
+ d10-20020adfe84a000000b002365f2d9027mr9264572wrn.89.1666647467442; 
+ Mon, 24 Oct 2022 14:37:47 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ az27-20020a05600c601b00b003c6c2ff7f25sm877068wmb.15.2022.10.24.14.37.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Oct 2022 14:37:47 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8965B1FFB7;
+ Mon, 24 Oct 2022 22:37:46 +0100 (BST)
+References: <20221024035341.2971123-1-richard.henderson@linaro.org>
+User-agent: mu4e 1.9.1; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH] tests/tcg/nios2: Tweak 10m50-ghrd.ld
+Date: Mon, 24 Oct 2022 22:37:40 +0100
+In-reply-to: <20221024035341.2971123-1-richard.henderson@linaro.org>
+Message-ID: <87y1t49a39.fsf@linaro.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|IA1PR12MB6187:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0efaccf6-f9a0-4d8d-e4af-08dab6064684
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CzcHZS8vBg6TeA4dbFTkeAn7o3CJ71KDQ5duLSRBDtlcQ3pAFchZDw30qT3a4Llp4Rbxy4r4X4Ir21GM/RFa8AWkQvFHSwdbYgnuXQ0DxoOy9TDKe1nGZWk9nw9vl6xzRkT3VbYdLLq3JXDJH8jHbF4CV17H4v3blVGwJFv96K7bdYx2ZEvYbXgspFIvzpy5EvhvVUGbikqVyaLb2E7zcE17zLkyKAszzPMWrk/fo012uQapx/pYhLooIEOydRVTWReM2vI2DrWuGlD+RvnMwqxkHXgItxtmb5uXVnHk5DQhavwGW3PpaFhyF6Hqy/Z3vU+VeZ+2EWG/9PhSxQVrXilHuRJDG5DBAvq+nbKnOU0Ail2uy5CLvsyLlj7ZEJZdsnEm7dMZtq963fjNoH7l1jHcwchsCvF1ZGaZOXpIa53F9vqWxz95+eWpvaXGerNpQuWzTq6tAL5cCS1Iy5sUZarV9Vtpn5gfzOhqXEzY4qqcRLjJ7+ZmP8zy6O3aEY+zg0UCAYg+/kAaIsXsM1qbp+1GGYurmDkVmB/JDtEWZHpTuJ6W89bPk1nQjNOp5ruZN66BxawHx3Gpnz8poR/9lGvtlgmUTsbUnppQG7TlQLsFDkkZUodwihH2z+OxdSFhhbq6yF9xpUz4KMAmKCxzK/mUQERUYbc1wraRNnUi650tC2yIpTI9WMneCOr7wAtwpDxeXOYq6yG5fHaD9/+w4e05TWHa1/+KqtKenQvo+QfgOfjRN+ciz2hFYKy5Eyr8+1xFwHD18KvIxWfwq0BGo0R0KZfDC7Fnbgy7pt4mgjc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(376002)(346002)(39860400002)(396003)(136003)(366004)(451199015)(316002)(478600001)(53546011)(6666004)(66946007)(4326008)(66556008)(66476007)(6506007)(8676002)(31686004)(6486002)(186003)(41300700001)(8936002)(5660300002)(7416002)(44832011)(2616005)(4001150100001)(2906002)(26005)(6512007)(36756003)(38100700002)(31696002)(86362001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YU03eU9sLzdxdFVYM3FuRW1pTTZYTUYxRmJpNEFFQkc4S1Brandqd0RxMm9Z?=
- =?utf-8?B?Tk1LZ0dFZ1RVbXdHUUowMGZ3WVg5UVpjRGpXYjFLYjM3WkVCOWMyTnlWMkpa?=
- =?utf-8?B?S3dmaWFWYjRLUUZCUXBudWE0azQwaXFydkQvYXA2VHVpd1pFT1VKakd4TElL?=
- =?utf-8?B?OFpOa1ZlRFRvNDhZRUNnRCtOTWNQUkVUejN0YzQ5cVVOUXdVSXJmUVJZcDhY?=
- =?utf-8?B?OUtqNFUxZS9PSlpsakNKYWNPaldkY3lFZ3QvbW5iS0VOOXBDUElaY0tmQk52?=
- =?utf-8?B?RzJHN1VQTXFrdWluRHF0YkdId0tMWnQzcHZKMUluYXlpcFF5S0JnMVhpcEt1?=
- =?utf-8?B?UndpMmlKL0pwK3BZL2I1VGJ1ZXF4ODZyczZ5OUFsaGtCaUVDbkFwNUdXOFZH?=
- =?utf-8?B?YXZ0Z0xyNkgzZXpjZFh2bFNvdDFNM3pVTXRZV2JPZjExNmNpaERiN2hmRVIr?=
- =?utf-8?B?Zk1BVFVNeVNnbWxpQ3ZZb2llM2tBdmtwWVVLS3l6VVZhUEY1UlVFdEU4WHU2?=
- =?utf-8?B?YXY2ZVBjb2JGcW0zM1pDR2hpR1lYTERqWW1LZko2ZHJlT21vNm9MeGxneFU1?=
- =?utf-8?B?ZElpTnVJaUxRSU5HaU9DaUswNjhFWm0wTzQ4RWtHZ1NyQUowTGZBTjhKYnUw?=
- =?utf-8?B?aCs3dklIVXNCY3dGMCtFazF2d3VtVTg4MmFjbFpUUWplb1NVbC95K2pyS0N0?=
- =?utf-8?B?bEtUU1h2eHpmSXJCTmxGYTlYdmcvM0tJVXpKdXVldEN3WTRDSzl6NjJ1cXJu?=
- =?utf-8?B?S2lSUkw4TWdFemdtS0JyRlUzOGJaN2s3RHgvRGVSM1pXaUh3d0xRd3B3eVo3?=
- =?utf-8?B?YmRENGIzUnpIeTBIbEVIOTRrUlFqeVk0OGl3aVBaZ3VETUI5Tk8weEw0Q2VN?=
- =?utf-8?B?Z1dwYUlpQTZIUXdud0svVnEyMFhsV0lvOUIxVVlLQ3NzK1ZSYnRDVzF2YzFC?=
- =?utf-8?B?NEs1M1lYVkdMZEcyYVZRQlYvMjVhcUR1bDA3aTN5UDEyRWVrUEM1cEYzUjRX?=
- =?utf-8?B?MStBaUV1bHZnUTM4dHJYUlFteVlTS1RUM0hRRTA5WmxDSWZEL1J6R3c2dHBs?=
- =?utf-8?B?UDNXR2xUdjBxRS93S25GY3VNeEYxdXNhcUsxYml2ZElQUFh2Qmd1d0FLb3lC?=
- =?utf-8?B?L1ljTHNFWmgzQm5sQi81aXlzemlXMWZ3Nkx5dTFsWWJpNExsazV5Z3lNSnRk?=
- =?utf-8?B?bnJlZXJQNUxnSFkzY042NkhxZmlvTGNuR3RCMnUyekFCUDg0MjgyRXdUUGhq?=
- =?utf-8?B?TTdoWHQ2emhyb1hqTWR5dTdabHBySUlvSVkvZGJkSkdqZUVlZjA0ZERCczZE?=
- =?utf-8?B?TlhZOFhWV2ZhbmRuc2VLaFBRYXI1SC9SV0gxWEU1aWMxSDRmREtSRXJ2bmpW?=
- =?utf-8?B?VFBvS0tndVBpcEtIMjE0eXBKeWtQZTh0Nno5bzE3cmlJK2hScGRBamdzK21M?=
- =?utf-8?B?eHYrZW43UlJvRHp0R1hpZzMyVmVTUUxFVy9FMUs5SHdVUWdxek0zSnZLb3Z6?=
- =?utf-8?B?eWptcGN2N3hrUWdQZmZaVlN1bnk4ZTE2a01BamVkd2RwMXpBTVpUaU1jRURl?=
- =?utf-8?B?ZVNrY09WWHU0NU9pQmMyM0xFeXNiU3EvMjdlRk1oWndHTE41NDZ4bVhOQ3Ri?=
- =?utf-8?B?TUx4Ym5EblpGcmQrVWpFSkk5NWlCb2RtanRwNUZwQ3Q4aWZnU0lONHhpckJ4?=
- =?utf-8?B?MGpHejZ5N3BNWWs0dTQxZTk2czlteGdGRkphRkMwcEFrZWhGc3ErV3JiR1BO?=
- =?utf-8?B?WW94QXg5SHQ2c1l4eHQxSlNZaUtDdmdBS295V2hoclRuYmtKOEtacGxwSS9h?=
- =?utf-8?B?ZFVBaTFyVjMwbEJ2OEd4SHRWZDN1ZmJPVEZMVXdCRlVZM1owaGVQSUJwTkhx?=
- =?utf-8?B?ZEE1SzJWcWx1YWkwVmRzYUFjc1hhVWMyMW90YThPeE1OdTU4OUUwWkFHR3BV?=
- =?utf-8?B?eWlHZzk1TXpGODdzam5HbzA5RXlWZ08xM3F3YmdlZFlIdFl5TG1WemdxaHNw?=
- =?utf-8?B?VkFRakJkZy91RXFGR2ZGMHF6YnJaeGhZTnExT1RLaVVUWmNGQzdaQmpjY0gw?=
- =?utf-8?B?N1JJVVRhZ01kcjgrYXIvUUNheFFWb2V0Q2txcy8yLzBOcXM4RHROSENoZDFO?=
- =?utf-8?Q?Y7E7Sp6Bx6mqzxMYPoUtbkARC?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0efaccf6-f9a0-4d8d-e4af-08dab6064684
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2022 21:25:29.7707 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Zk+gt6mxWiTKdVHkUE/yuWTTNy/nX/+eaE2y/7veK7NVnXIw0WTaJuS5EAODxD4A
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6187
-Received-SPF: permerror client-ip=40.107.94.54;
- envelope-from=Luben.Tuikov@amd.com;
- helo=NAM10-MW2-obe.outbound.protection.outlook.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -153,87 +93,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2022-10-24 17:06, Luben Tuikov wrote:
-> On 2022-10-24 08:19, Yang Yingliang wrote:
->> Inject fault while loading module, kset_register() may fail.
->> If it fails, the name allocated by kobject_set_name() which
->> is called before kset_register() is leaked, because refcount
->> of kobject is hold in kset_init().
-> 
-> "is hold" --> "was set".
-> 
-> Also, I'd say "which must be called" instead of "is", since
-> we cannot register kobj/kset without a name--the kobj code crashes,
-> and we want to make this clear. IOW, a novice user may wonder
-> where "is" it called, as opposed to learning that they "must"
-> call it to allocate/set a name, before calling kset_register().
-> 
-> So, I'd say this:
-> 
-> "If it fails, the name allocated by kobject_set_name() which must
->  be called before a call to kset_regsiter() is leaked, since
->  refcount of kobj was set in kset_init()."
 
-Actually, to be a bit more clear:
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-"If kset_register() fails, the name allocated by kobject_set_name(),
- namely kset.kobj.name, which must be called before a call to kset_register(),
- may be leaked, if the caller doesn't explicitly free it, say by calling kset_put().
+> More closely follow the default linker script for nios2.
+> This magically fixes a problem resolving .got relocs from
+> the toolchain's libgcc.a.
+>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1258
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
- To mitigate this, we free the name in kset_register() when an error is encountered,
- i.e. when kset_register() returns an error."
+Queued to testing/next, thanks.
 
-> 
->>
->> As a kset may be embedded in a larger structure which needs
->> be freed in release() function or error path in callers, we
-> 
-> Drop "As", start with "A kset". "which needs _to_ be".
-> Also please specify that the release is part of the ktype,
-> like this:
-> 
-> "A kset may be embedded in a larger structure which needs to be
->  freed in ktype.release() or error path in callers, we ..."
-> 
->> can not call kset_put() in kset_register(), or it will cause
->> double free, so just call kfree_const() to free the name and
->> set it to NULL.
->>
->> With this fix, the callers don't need to care about the name
->> freeing and call an extra kset_put() if kset_register() fails.
-> 
-> This is unclear because you're *missing* a verb:
-> "and call an extra kset_put()".
-> Please add the proper verb _between_ "and call", something like,
-> 
-> "With this fix, the callers don't need to care about freeing
->  the name of the kset, and _can_ call kset_put() if kset_register() fails."
-> 
-> Choose a proper verb here: can, should, cannot, should not, etc.
-> 
-> We can do this because you set "kset.kobj.name to NULL, and this
-> is checked for in kobject_cleanup(). We just need to stipulate
-> whether they should/shouldn't have to call kset_put(), or can free the kset
-> and/or the embedding object themselves. This really depends
-> on how we want kset_register() to behave in the future, and on
-> user's own ktype.release implementation...
-
-Forgot "may", "may not".
-
-So, do we want to say "may call kset_put()", like:
-
-"With this fix, the callers need not care about freeing
- the name of the kset, and _may_ call kset_put() if kset_register() fails."
-
-Or do we want to say "should" or even "must"--it really depends on
-what else is (would be) going on in kobj registration.
-
-Although, the user may have additional work to be done in the ktype.release()
-callback for the embedding object. It would be good to give them the freedom,
-i.e. "may", to call kset_put(). If that's not the case, this must be explicitly
-stipulated with the proper verb.
-
-Regards,
-Luben
-
+--=20
+Alex Benn=C3=A9e
 
