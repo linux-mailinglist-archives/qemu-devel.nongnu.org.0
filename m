@@ -2,77 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8860360B850
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 21:44:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A950F60B893
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 21:51:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on2WX-0003DU-CY; Mon, 24 Oct 2022 14:50:09 -0400
+	id 1on350-0002aw-IC; Mon, 24 Oct 2022 15:25:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1on2WV-0003DN-G6
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 14:50:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
+ id 1on34y-0002a9-3n; Mon, 24 Oct 2022 15:25:44 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1on2WT-0003MZ-S9
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 14:50:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666637405;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SH+X6fPQ63UVEtvhO3Y5FEj/UQcIkIEOajKafqYJrPw=;
- b=Xa2ABC/8r62TnsNVmyncfA1YgYNqNRiplRg4GgYhOJhFxhG8I4TgX58xpnSSgD6PkpfNce
- lJde0Vim6Z+AS1YagvxTL4UpGujmqn3XsmL5j+PSdumzRfEQfYIRr7QbaPM0RQaksFIf17
- +VgoIyCG4rmwyin0ZKXW+LcXs8dDpbQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-496-acbCVkeWNie5Pb1ci4IUWw-1; Mon, 24 Oct 2022 14:49:59 -0400
-X-MC-Unique: acbCVkeWNie5Pb1ci4IUWw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A24C418E5312;
- Mon, 24 Oct 2022 18:49:58 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.177])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 53451C15BB2;
- Mon, 24 Oct 2022 18:49:48 +0000 (UTC)
-Date: Mon, 24 Oct 2022 14:49:47 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, quintela@redhat.com
-Subject: Re: [PATCH 2/2] thread-pool: use ThreadPool from the running thread
-Message-ID: <Y1beS+QAuNx/Zdck@fedora>
-References: <20220609134452.1146309-1-eesposit@redhat.com>
- <20220609134452.1146309-3-eesposit@redhat.com>
- <YzW6FkfT9LT7aE7d@redhat.com>
- <29c33add-81ca-5a16-a02a-d2a0c5bfaf88@redhat.com>
- <YzcPBFcf3idA4MLH@redhat.com>
- <dc4bf265-4cd9-ef29-2e3f-d15e779bd8db@redhat.com>
- <Y1Frq6R4DFOPWyIY@fedora> <Y1F1uU5bAQw80mG0@work-vm>
+ (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
+ id 1on34v-0008Uv-Jn; Mon, 24 Oct 2022 15:25:43 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29OJK01d006740;
+ Mon, 24 Oct 2022 19:25:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=oj4Xpi3y/sF3NwpyWc7gM1sVU1+h/ni/w2Fu+loJQoY=;
+ b=DomFDbpFVd22jZMm6qqgd2TdwPCrbZ9ueFN3Ck38dY0/MVgYHKR11vTCCJSZHkSE1leW
+ Lyrma/p42IwHA2M2aSEaNs20/wA9OlgUMI432qCgf37eOlrp17UCfvPsLVtUAa00d1AM
+ mTBnoaivPt4rzKjg6Zd2H84yIm2HT6MMp3OienAGlYwih04TVPZS2f5oQBw1r4Roaser
+ dT7E/rJaAm2J5hJCu7EB0x7vVwz5tcbT8PjWWQIfmjZH+caZ7IU2g83r/Th82U7uGKdx
+ cU88XiFtQZiI3qW4tUcBBJMHoYlfeTM+GzxGNvW9AFryX7nlRzhQs81CSfuTrohh8OIl 0w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ke0s7g4ck-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 24 Oct 2022 19:25:30 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29OJKecC010025;
+ Mon, 24 Oct 2022 19:25:30 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ke0s7g4br-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 24 Oct 2022 19:25:30 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29OJLsRh016078;
+ Mon, 24 Oct 2022 19:25:28 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma04ams.nl.ibm.com with ESMTP id 3kc859bt70-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 24 Oct 2022 19:25:28 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 29OJPOOM48038384
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 24 Oct 2022 19:25:24 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C46434C040;
+ Mon, 24 Oct 2022 19:25:24 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E76864C044;
+ Mon, 24 Oct 2022 19:25:23 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.27.135])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 24 Oct 2022 19:25:23 +0000 (GMT)
+Message-ID: <65c3bfd263b03ca524444cdf5f96d937f582f2d7.camel@linux.ibm.com>
+Subject: Re: [PATCH v10 1/9] s390x/cpu topology: core_id sets s390x CPU
+ topology
+From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+Date: Mon, 24 Oct 2022 21:25:23 +0200
+In-Reply-To: <20221012162107.91734-2-pmorel@linux.ibm.com>
+References: <20221012162107.91734-1-pmorel@linux.ibm.com>
+ <20221012162107.91734-2-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="luZd3gwvZjT1irOH"
-Content-Disposition: inline
-In-Reply-To: <Y1F1uU5bAQw80mG0@work-vm>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 5tBexhp7Fh5ZvXxLe_nLQvgUZ7Nb_E1_
+X-Proofpoint-GUID: O5OQ_8LJ7V4QgM32HhiSVpbKFGeZV3rg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-24_06,2022-10-21_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ suspectscore=0 bulkscore=0 phishscore=0 mlxscore=0 malwarescore=0
+ adultscore=0 spamscore=0 lowpriorityscore=0 impostorscore=0 clxscore=1015
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210240114
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=scgl@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.503,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,112 +120,247 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, 2022-10-12 at 18:20 +0200, Pierre Morel wrote:
+> In the S390x CPU topology the core_id specifies the CPU address
+> and the position of the core withing the topology.
+> 
+> Let's build the topology based on the core_id.
+> s390x/cpu topology: core_id sets s390x CPU topology
+> 
+> In the S390x CPU topology the core_id specifies the CPU address
+> and the position of the cpu withing the topology.
+> 
+> Let's build the topology based on the core_id.
+> 
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+>  include/hw/s390x/cpu-topology.h |  45 +++++++++++
+>  hw/s390x/cpu-topology.c         | 132 ++++++++++++++++++++++++++++++++
+>  hw/s390x/s390-virtio-ccw.c      |  21 +++++
+>  hw/s390x/meson.build            |   1 +
+>  4 files changed, 199 insertions(+)
+>  create mode 100644 include/hw/s390x/cpu-topology.h
+>  create mode 100644 hw/s390x/cpu-topology.c
+> 
+> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
+> new file mode 100644
+> index 0000000000..66c171d0bc
+> --- /dev/null
+> +++ b/include/hw/s390x/cpu-topology.h
+> @@ -0,0 +1,45 @@
+> +/*
+> + * CPU Topology
+> + *
+> + * Copyright 2022 IBM Corp.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
+> + * your option) any later version. See the COPYING file in the top-level
+> + * directory.
+> + */
+> +#ifndef HW_S390X_CPU_TOPOLOGY_H
+> +#define HW_S390X_CPU_TOPOLOGY_H
+> +
+> +#include "hw/qdev-core.h"
+> +#include "qom/object.h"
+> +
+> +typedef struct S390TopoContainer {
+> +    int active_count;
+> +} S390TopoContainer;
+> +
+> +#define S390_TOPOLOGY_CPU_IFL 0x03
+> +#define S390_TOPOLOGY_MAX_ORIGIN ((63 + S390_MAX_CPUS) / 64)
+> +typedef struct S390TopoTLE {
+> +    uint64_t mask[S390_TOPOLOGY_MAX_ORIGIN];
+> +} S390TopoTLE;
 
---luZd3gwvZjT1irOH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Since this actually represents multiple TLEs, you might want to change the
+name of the struct to reflect this. S390TopoTLEList maybe?
 
-On Thu, Oct 20, 2022 at 05:22:17PM +0100, Dr. David Alan Gilbert wrote:
-> * Stefan Hajnoczi (stefanha@redhat.com) wrote:
-> > On Mon, Oct 03, 2022 at 10:52:33AM +0200, Emanuele Giuseppe Esposito wr=
-ote:
-> > >=20
-> > >=20
-> > > Am 30/09/2022 um 17:45 schrieb Kevin Wolf:
-> > > > Am 30.09.2022 um 14:17 hat Emanuele Giuseppe Esposito geschrieben:
-> > > >> Am 29/09/2022 um 17:30 schrieb Kevin Wolf:
-> > > >>> Am 09.06.2022 um 15:44 hat Emanuele Giuseppe Esposito geschrieben:
-> > > >>>> Remove usage of aio_context_acquire by always submitting work it=
-ems
-> > > >>>> to the current thread's ThreadPool.
-> > > >>>>
-> > > >>>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> > > >>>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> > > >>>
-> > > >>> The thread pool is used by things outside of the file-* block dri=
-vers,
-> > > >>> too. Even outside the block layer. Not all of these seem to submi=
-t work
-> > > >>> in the same thread.
-> > > >>>
-> > > >>>
-> > > >>> For example:
-> > > >>>
-> > > >>> postcopy_ram_listen_thread() -> qemu_loadvm_state_main() ->
-> > > >>> qemu_loadvm_section_start_full() -> vmstate_load() ->
-> > > >>> vmstate_load_state() -> spapr_nvdimm_flush_post_load(), which has:
-> > > >>>
-> > > >>> ThreadPool *pool =3D aio_get_thread_pool(qemu_get_aio_context());
-> >                          ^^^^^^^^^^^^^^^^^^^
-> >=20
-> > aio_get_thread_pool() isn't thread safe either:
-> >=20
-> >   ThreadPool *aio_get_thread_pool(AioContext *ctx)
-> >   {
-> >       if (!ctx->thread_pool) {
-> >           ctx->thread_pool =3D thread_pool_new(ctx);
-> > 	  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> >=20
-> > Two threads could race in aio_get_thread_pool().
-> >=20
-> > I think post-copy is broken here: it's calling code that was only
-> > designed to be called from the main loop thread.
-> >=20
-> > I have CCed Juan and David.
->=20
-> In theory the path that you describe there shouldn't happen - although
-> there is perhaps not enough protection on the load side to stop it
-> happening if presented with a bad stream.
-> This is documented in docs/devel/migration.rst under 'Destination
-> behaviour'; but to recap, during postcopy load we have a problem that we
-> need to be able to load incoming iterative (ie. RAM) pages during the
-> loading of normal devices, because the loading of a device may access
-> RAM that's not yet been transferred.
->=20
-> To do that, the device state of all the non-iterative devices (which I
-> think includes your spapr_nvdimm) is serialised into a separate
-> migration stream and sent as a 'package'.
->=20
-> We read the package off the stream on the main thread, but don't process
-> it until we fire off the 'listen' thread - which you spotted the
-> creation of above; the listen thread now takes over reading the
-> migration stream to process RAM pages, and since it's in the same
-> format, it calls qemu_loadvm_state_main() - but it doesn't expect
-> any devices in that other than the RAM devices; it's just expecting RAM.
->=20
-> In parallel with that, the main thread carries on loading the contents
-> of the 'package' - and that contains your spapr_nvdimm device (and any
-> other 'normal' devices); but that's OK because that's the main thread.
->=20
-> Now if something was very broken and sent a header for the spapr-nvdimm
-> down the main thread rather than into the package then, yes, we'd
-> trigger your case, but that shouldn't happen.
+> +
+> +struct S390Topology {
+> +    SysBusDevice parent_obj;
+> +    int cpus;
+> +    S390TopoContainer *socket;
+> +    S390TopoTLE *tle;
+> +    MachineState *ms;
+> +};
+> +
+> +#define TYPE_S390_CPU_TOPOLOGY "s390-topology"
+> +OBJECT_DECLARE_SIMPLE_TYPE(S390Topology, S390_CPU_TOPOLOGY)
+> +
+> +S390Topology *s390_get_topology(void);
+> +void s390_topology_new_cpu(int core_id);
+> +
+> +static inline bool s390_has_topology(void)
+> +{
+> +    return false;
+> +}
+> +
+> +#endif
+> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+> new file mode 100644
+> index 0000000000..42b22a1831
+> --- /dev/null
+> +++ b/hw/s390x/cpu-topology.c
+> @@ -0,0 +1,132 @@
+> +/*
+> + * CPU Topology
+> + *
+> + * Copyright IBM Corp. 2022
+> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
+> +
+> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
+> + * your option) any later version. See the COPYING file in the top-level
+> + * directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "qemu/error-report.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/qdev-properties.h"
+> +#include "hw/boards.h"
+> +#include "qemu/typedefs.h"
+> +#include "target/s390x/cpu.h"
+> +#include "hw/s390x/s390-virtio-ccw.h"
+> +#include "hw/s390x/cpu-topology.h"
+> +
+> +S390Topology *s390_get_topology(void)
+> +{
+> +    static S390Topology *s390Topology;
+> +
+> +    if (!s390Topology) {
+> +        s390Topology = S390_CPU_TOPOLOGY(
+> +            object_resolve_path(TYPE_S390_CPU_TOPOLOGY, NULL));
+> +    }
+> +
+> +    return s390Topology;
+> +}
+> +
+> +/*
+> + * s390_topology_new_cpu:
+> + * @core_id: the core ID is machine wide
+> + *
+> + * The topology returned by s390_get_topology(), gives us the CPU
+> + * topology established by the -smp QEMU aruments.
 
-Thanks for explaining that. A way to restrict the listen thread to only
-process RAM pages would be good both as documentation and to prevent
-invalid migration streams for causing problems.
+s/aruments/arguments/
 
-For Emanuele and Kevin's original question about this code, it seems the
-thread pool won't be called from the listen thread.
+> + * The core-id gives:
+> + *  - the Container TLE (Topology List Entry) containing the CPU TLE.
+> + *  - in the CPU TLE the origin, or offset of the first bit in the core mask
+> + *  - the bit in the CPU TLE core mask
+> + */
 
-Stefan
+Not sure if that comment helps if you don't already know how the topology list works.
+> +void s390_topology_new_cpu(int core_id)
+> +{
+> +    S390Topology *topo = s390_get_topology();
+> +    int socket_id;
+> +    int bit, origin;
+> +
+> +    /* In the case no Topology is used nothing is to be done here */
+> +    if (!topo) {
+> +        return;
+> +    }
+> +
+> +    socket_id = core_id / topo->cpus;
+> +
+> +    /*
+> +     * At the core level, each CPU is represented by a bit in a 64bit
+> +     * unsigned long which represent the presence of a CPU.
+> +     * The firmware assume that all CPU in a CPU TLE have the same
 
---luZd3gwvZjT1irOH
-Content-Type: application/pgp-signature; name="signature.asc"
+s/firmware assume/architecture specifies/
 
------BEGIN PGP SIGNATURE-----
+> +     * type, polarization and are all dedicated or shared.
+> +     * In that case the origin variable represents the offset of the first
+> +     * CPU in the CPU container.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNW3ksACgkQnKSrs4Gr
-c8hxwwgAwnNxmYknrnHwfrOmxNRYREsDgLvfDJQHVUJpt/6JiQ4erB2CuLRPRayo
-W1r55ocLwUs1QJdOxzlAQI6GAep3co4DJRCPjt/C804NChZt//Vbr+FEr+JfpF+Y
-NjsQSrLt/YIrGvwhZUtVe2mYbo4rOnzkdLcUK4GP3zE75Az2yF438zSCWvoWzZxS
-JgeaPnmNLNkhIqC37ukl+lPfFv5aamSszFoNomcR8DH0uBz/DRrTgjVihLYeYMn6
-+EtJdxR0vT7tic5jwvA8x5EiRwGrV06180pDHy53xFtqaZgnoLNZgna5AqLbxIiT
-n210lnU6rbDMZVePWXPTHX5BQxU7+w==
-=LhaA
------END PGP SIGNATURE-----
+This sentence is repeated further down.
 
---luZd3gwvZjT1irOH--
+> +     * More than 64 CPUs per socket are represented in several CPU containers
+> +     * inside the socket container.
+> +     * The only reason to have several S390TopologyCores inside a socket is
+> +     * to have more than 64 CPUs.
+> +     * In that case the origin variable represents the offset of the first CPU
+> +     * in the CPU container. More than 64 CPUs per socket are represented in
+> +     * several CPU containers inside the socket container.
+> +     */
+
+In the last version you had:
++ /*
++ * At the core level, each CPU is represented by a bit in a 64bit
++ * unsigned long. Set on plug and clear on unplug of a CPU.
++ * The firmware assume that all CPU in a CPU TLE have the same
++ * type, polarization and are all dedicated or shared.
++ * In the case a socket contains CPU with different type, polarization
++ * or entitlement then they will be defined in different CPU containers.
++ * Currently we assume all CPU are identical IFL CPUs and that they are
++ * all dedicated CPUs.
++ * The only reason to have several S390TopologyCores inside a socket is
++ * to have more than 64 CPUs.
++ * In that case the origin field, representing the offset of the first CPU
++ * in the CPU container allows to represent up to the maximal number of
++ * CPU inside several CPU containers inside the socket container.
++ */
+
+I would modify it thus (with better line wrapping):
++ /*
++ * At the core level, each CPU is represented by a bit in a 64bit
++ * unsigned long.
++ * The architecture specifies that all CPU in a CPU TLE have the same
++ * type, polarization and are all dedicated or shared.
++ * In the case that a socket contains CPUs with different type, polarization
++ * or entitlement then they will be defined in different CPU containers.
++ * Currently we assume all CPU are identical IFL CPUs and that they are
++ * all dedicated CPUs.
++ * Therefore, the only reason to have several S390TopologyCores inside a socket is
++ * to support CPU id differences > 64.
++ * In that case, the origin field in a container represents the offset of the first CPU
++ * in that CPU container, thereby allowing representation of all CPUs via multiple containers.
++ */
+
+> +    bit = core_id;
+> +    origin = bit / 64;
+> +    bit %= 64;
+> +    bit = 63 - bit;
+
+I'm not convinced that that is more readable than just
+ origin = core_id / 64;
+ bit = 63 - (core_id % 64);
+
+but that is for you to decide.
+> +
+> +    topo->socket[socket_id].active_count++;
+> +    set_bit(bit, &topo->tle[socket_id].mask[origin]);
+> +}
+> +
+> +/**
+> + * s390_topology_realize:
+> + * @dev: the device state
+> + * @errp: the error pointer (not used)
+> + *
+> + * During realize the machine CPU topology is initialized with the
+> + * QEMU -smp parameters.
+> + * The maximum count of CPU TLE in the all Topology can not be greater
+> + * than the maximum CPUs.
+> + */
+> +static void s390_topology_realize(DeviceState *dev, Error **errp)
+> +{
+> +    MachineState *ms = MACHINE(qdev_get_machine());
+> +    S390Topology *topo = S390_CPU_TOPOLOGY(dev);
+> +
+> +    topo->cpus = ms->smp.cores * ms->smp.threads;
+> +
+> +    topo->socket = g_new0(S390TopoContainer, ms->smp.sockets);
+> +    topo->tle = g_new0(S390TopoTLE, ms->smp.max_cpus);
+
+As Cédric pointed out, the number of TLE(List)s should be the same as the
+sockets.
+> +
+> +    topo->ms = ms;
+> +}
+[...]
 
 
