@@ -2,75 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04E876098C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 05:25:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DF316098ED
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 05:35:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omnbF-0002c7-TF; Sun, 23 Oct 2022 22:54:01 -0400
+	id 1omneG-0005Fr-88; Sun, 23 Oct 2022 22:57:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1omkTU-0003SA-QG
- for qemu-devel@nongnu.org; Sun, 23 Oct 2022 19:33:48 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1omkTS-0006Gp-8d
- for qemu-devel@nongnu.org; Sun, 23 Oct 2022 19:33:48 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id b5so7335782pgb.6
- for <qemu-devel@nongnu.org>; Sun, 23 Oct 2022 16:33:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=MewdPyktiyBkCdehsIltkoxQQEY+GMy0CMNIdAP60v4=;
- b=uZGiOAM70E9/02YjLIzNyvbbV+fOUU03cl0Drl5L5GMVQl3VoRqlXgCfdVoWiGBSjM
- IVa7mf9zzLRk7qaWsdsJmCxCWWePp8Cd+5F3f6tVBv8jqIHnAJn090orn3g9q9SC8oe7
- zS92448MkH1VcfVWCD5Jh8J1RQxsMoKZnDLMP+D9c2W6uM9nD80pV5HA58s7cGJqYy+n
- 1TdddKeQoVxOuhxFz2NEZiQr6bmOtHkg961NJ1Qo5P05nSLk7q52EnVqXZMmP2eOdFi+
- QE9FwOBxBoXIiAOzG06y4pluOLCD61KfBw+c1K8JYk9FIiJa71Ybs0OwFMjRPpTwaw7N
- xK7w==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1omn1J-0001HE-Pb
+ for qemu-devel@nongnu.org; Sun, 23 Oct 2022 22:17:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1omn1I-00034h-1Z
+ for qemu-devel@nongnu.org; Sun, 23 Oct 2022 22:16:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666577810;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=O+KG/R6IbfK9PN7QqMcXu9YUuUL8CIJnK7BDtDB4dAU=;
+ b=FJf52Cb2xzScr1iLc0/jpBYs0OrA/WLSotJS2JErRHj8QWJjfRATOtjYvPgQZxV/OgBKlx
+ szFnmWXd6vXLk75iOzYZ9Tebnj7fWOjZShKQ907k+jsPwqKpUhqQDy7a1aPyfwjEVyRu4U
+ paEiZFUlXg40K0EQJfFBDqk/w+N1XMs=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-125-qiDks83yO6qVqgkXYLD8WA-1; Sun, 23 Oct 2022 22:16:46 -0400
+X-MC-Unique: qiDks83yO6qVqgkXYLD8WA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ m20-20020a056402511400b0045da52f2d3cso8144744edd.20
+ for <qemu-devel@nongnu.org>; Sun, 23 Oct 2022 19:16:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=MewdPyktiyBkCdehsIltkoxQQEY+GMy0CMNIdAP60v4=;
- b=dvU0Km65TkQeXQOxUSpdIBH5ny8bkCWXBZaE6gmSBM242HZsTtWxtzL6uA0q5wQR9a
- ofEIBKt6IljwiPm+ZXqrNFN7QiJjX9C7ZLaLF/0QYriIC4YvARbpW6FlARhimzITi0TG
- OdB0wKitW/coHO3YFalkzft+S3Rt8KhZjwMEEikg9sz3Ice2EoSPyzebbPAuSVmgWo0B
- D/cOs7jDVFfxc3bJliY9IJA1AmA5q+GrQi2jtmwxGSuwpNwKdFXDJTWtWP570yFeCpQu
- E+FjSNHuh6AkzHc9KFrNS8ZsfxKe0v61m39RYOWunO8EGeYqhMr4ZFjKHxA6yvtoqQEK
- jjmw==
-X-Gm-Message-State: ACrzQf31bjqoIgKzCiG12ln45BcAmi2WLnQuXpffwLiSnsuDimU7Hzcf
- NLt1cLsF82vs6jFMo2xjmBTRcdSj/Y4W+M9f
-X-Google-Smtp-Source: AMsMyM4dARr4aAQaRFNFRM41KHSgifykruu0sdP59W9fj2Y6NKdz1MxYY0HmqdG6vS1BGDA2PUmbRg==
-X-Received: by 2002:a63:2253:0:b0:43c:c924:e56a with SMTP id
- t19-20020a632253000000b0043cc924e56amr25044462pgm.122.1666568024547; 
- Sun, 23 Oct 2022 16:33:44 -0700 (PDT)
-Received: from stoup.. ([103.100.225.182]) by smtp.gmail.com with ESMTPSA id
- y12-20020a63fa0c000000b0045dc85c4a5fsm16645427pgh.44.2022.10.23.16.33.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Oct 2022 16:33:44 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org,
-	LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Subject: [PATCH] tcg/riscv: Fix base register for user-only qemu_ld/st
-Date: Mon, 24 Oct 2022 09:33:37 +1000
-Message-Id: <20221023233337.2846860-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=O+KG/R6IbfK9PN7QqMcXu9YUuUL8CIJnK7BDtDB4dAU=;
+ b=eO2itkGRzy7UeDADWOGyIpFrz+GFE1+RnZtRk+ww9W0X6p7szmCaPt+QbGzTkeEIay
+ VXGtcQWHemW1tRZd6Rvxj7tqqQi8zh76HFcMCB0xca/4CIpg149rPYKtRQU2B/Rtilxh
+ oyvbsK98vtY2IDBRwSnpW70IhXStQL38USCPM/QmsYIf4oLJU6sGX7/cObolohJHl/MD
+ UiDl8m8Nduiz5OE5DBXdcbOFydHwzZu4zlQkS7KmLS8gujr8ClZJzHGaE6Y9FYcD4KQX
+ kScawRBvhMMLo29KheLPHErrwKwjUJjxkCi5sP36kdR68x4iDJx1WTdFzZTc0py/aFil
+ lGEg==
+X-Gm-Message-State: ACrzQf0sb5kzNRF9nHMCt/ngjjAMWZ94h5RlfBhXGUWxLKbwhYDlLJXt
+ bn0I5ZD36DbxFqMwHzPlfc1JgI2GJ+OT997Y1SvNbrTsjQrAkRLS5+2sAxV89TwTa4aAR94mvqZ
+ 60V8KrFo9ILud+9JpXOdcNvPaz4D+hwk=
+X-Received: by 2002:aa7:cb59:0:b0:461:7378:7be0 with SMTP id
+ w25-20020aa7cb59000000b0046173787be0mr9569957edt.60.1666577803569; 
+ Sun, 23 Oct 2022 19:16:43 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5uAHP3l7BMj1xfH3+oQGAPrS255NmA36JDzEoa2i9rPyccj0yxfLeYQjeMEgi74U9IW7UH2A9/mFNfOzwvn1k=
+X-Received: by 2002:aa7:cb59:0:b0:461:7378:7be0 with SMTP id
+ w25-20020aa7cb59000000b0046173787be0mr9569948edt.60.1666577803400; Sun, 23
+ Oct 2022 19:16:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20221020155251.398735-1-eperezma@redhat.com>
+ <20221020155251.398735-3-eperezma@redhat.com>
+ <CACGkMEukKCXRDSmR3nemxdHDphQHspGdY3nC9O5g9grQ59PN8w@mail.gmail.com>
+ <CAJaqyWf0uXRze3qK1d02RB+Q4BJ60A8E7YYnnjBpdyANB2=new@mail.gmail.com>
+ <20221021041453-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20221021041453-mutt-send-email-mst@kernel.org>
+From: Jason Wang <jasowang@redhat.com>
+Date: Mon, 24 Oct 2022 10:16:30 +0800
+Message-ID: <CACGkMEvNoxKcFBpawaWgtq=YgCh4CXMDD9Y5DUgoZ1Qn-zOwpA@mail.gmail.com>
+Subject: Re: [PATCH 2/4] vhost: toggle device callbacks using used event idx
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Eugenio Perez Martin <eperezma@redhat.com>, qemu-devel@nongnu.org, 
+ Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Eli Cohen <eli@mellanox.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Cindy Lu <lulu@redhat.com>, 
+ Si-Wei Liu <si-wei.liu@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,131 +103,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When guest_base != 0, we were not coordinating the usage of
-TCG_REG_TMP0 as base properly, leading to a previous zero-extend
-of the input address being discarded.
+On Fri, Oct 21, 2022 at 4:15 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Fri, Oct 21, 2022 at 09:45:14AM +0200, Eugenio Perez Martin wrote:
+> > On Fri, Oct 21, 2022 at 5:40 AM Jason Wang <jasowang@redhat.com> wrote:
+> > >
+> > > On Thu, Oct 20, 2022 at 11:53 PM Eugenio P=C3=A9rez <eperezma@redhat.=
+com> wrote:
+> > > >
+> > > > Actually use the new field of the used ring and tell the device if =
+SVQ
+> > > > wants to be notified.
+> > > >
+> > > > The code is not reachable at the moment.
+> > > >
+> > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > > ---
+> > > >  hw/virtio/vhost-shadow-virtqueue.c | 18 +++++++++++++++---
+> > > >  1 file changed, 15 insertions(+), 3 deletions(-)
+> > > >
+> > > > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-s=
+hadow-virtqueue.c
+> > > > index a518f84772..f5c0fad3fc 100644
+> > > > --- a/hw/virtio/vhost-shadow-virtqueue.c
+> > > > +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> > > > @@ -369,15 +369,27 @@ static bool vhost_svq_more_used(VhostShadowVi=
+rtqueue *svq)
+> > > >   */
+> > > >  static bool vhost_svq_enable_notification(VhostShadowVirtqueue *sv=
+q)
+> > > >  {
+> > > > -    svq->vring.avail->flags &=3D ~cpu_to_le16(VRING_AVAIL_F_NO_INT=
+ERRUPT);
+> > > > -    /* Make sure the flag is written before the read of used_idx *=
+/
+> > > > +    if (virtio_vdev_has_feature(svq->vdev, VIRTIO_RING_F_EVENT_IDX=
+)) {
+> > > > +        uint16_t *used_event =3D (uint16_t *)&svq->vring.avail->ri=
+ng[svq->vring.num];
+> > > > +        *used_event =3D svq->shadow_used_idx;
+> > >
+> > > Do we need to care about the endian here?
+> > >
+> > > E.g vduse has:
+> > >
+> > >     *((uint16_t *)&vq->vring.used->ring[vq->vring.num]) =3D htole16(v=
+al);
+> > >
+> >
+> > Good catch, I forgot about endianness.
+> >
+> > I'll review the series, thanks!
+>
+> It's generally a waste that we don't use endian-ness annotations
+> the way linux does.
 
-Shuffle the alignment check to the front, because that does not
-depend on the zero-extend, and it keeps the register usage clear.
-Set base after each step of the address arithmetic instead of before.
+Yes, it's worth doing something similar sometime.
 
-Return the base register used from tcg_out_tlb_load, so as to
-keep that register choice localized to that function.
+Thanks
 
-Reported-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/riscv/tcg-target.c.inc | 39 +++++++++++++++++++++-----------------
- 1 file changed, 22 insertions(+), 17 deletions(-)
-
-diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-index 2a84c57bec..e3b608034f 100644
---- a/tcg/riscv/tcg-target.c.inc
-+++ b/tcg/riscv/tcg-target.c.inc
-@@ -923,9 +923,9 @@ static void tcg_out_goto(TCGContext *s, const tcg_insn_unit *target)
-     tcg_debug_assert(ok);
- }
- 
--static void tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
--                             TCGReg addrh, MemOpIdx oi,
--                             tcg_insn_unit **label_ptr, bool is_load)
-+static TCGReg tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
-+                               TCGReg addrh, MemOpIdx oi,
-+                               tcg_insn_unit **label_ptr, bool is_load)
- {
-     MemOp opc = get_memop(oi);
-     unsigned s_bits = opc & MO_SIZE;
-@@ -975,6 +975,7 @@ static void tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
-         addrl = TCG_REG_TMP0;
-     }
-     tcg_out_opc_reg(s, OPC_ADD, TCG_REG_TMP0, TCG_REG_TMP2, addrl);
-+    return TCG_REG_TMP0;
- }
- 
- static void add_qemu_ldst_label(TCGContext *s, int is_ld, MemOpIdx oi,
-@@ -1177,7 +1178,7 @@ static void tcg_out_qemu_ld(TCGContext *s, const TCGArg *args, bool is_64)
- #else
-     unsigned a_bits;
- #endif
--    TCGReg base = TCG_REG_TMP0;
-+    TCGReg base;
- 
-     data_regl = *args++;
-     data_regh = (TCG_TARGET_REG_BITS == 32 && is_64 ? *args++ : 0);
-@@ -1187,23 +1188,25 @@ static void tcg_out_qemu_ld(TCGContext *s, const TCGArg *args, bool is_64)
-     opc = get_memop(oi);
- 
- #if defined(CONFIG_SOFTMMU)
--    tcg_out_tlb_load(s, addr_regl, addr_regh, oi, label_ptr, 1);
-+    base = tcg_out_tlb_load(s, addr_regl, addr_regh, oi, label_ptr, 1);
-     tcg_out_qemu_ld_direct(s, data_regl, data_regh, base, opc, is_64);
-     add_qemu_ldst_label(s, 1, oi,
-                         (is_64 ? TCG_TYPE_I64 : TCG_TYPE_I32),
-                         data_regl, data_regh, addr_regl, addr_regh,
-                         s->code_ptr, label_ptr);
- #else
--    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
--        tcg_out_ext32u(s, base, addr_regl);
--        addr_regl = base;
--    }
-     a_bits = get_alignment_bits(opc);
-     if (a_bits) {
-         tcg_out_test_alignment(s, true, addr_regl, a_bits);
-     }
-+    base = addr_regl;
-+    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
-+        tcg_out_ext32u(s, TCG_REG_TMP0, base);
-+        base = TCG_REG_TMP0;
-+    }
-     if (guest_base != 0) {
--        tcg_out_opc_reg(s, OPC_ADD, base, TCG_GUEST_BASE_REG, addr_regl);
-+        tcg_out_opc_reg(s, OPC_ADD, TCG_REG_TMP0, TCG_GUEST_BASE_REG, base);
-+        base = TCG_REG_TMP0;
-     }
-     tcg_out_qemu_ld_direct(s, data_regl, data_regh, base, opc, is_64);
- #endif
-@@ -1249,7 +1252,7 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args, bool is_64)
- #else
-     unsigned a_bits;
- #endif
--    TCGReg base = TCG_REG_TMP0;
-+    TCGReg base;
- 
-     data_regl = *args++;
-     data_regh = (TCG_TARGET_REG_BITS == 32 && is_64 ? *args++ : 0);
-@@ -1259,23 +1262,25 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args, bool is_64)
-     opc = get_memop(oi);
- 
- #if defined(CONFIG_SOFTMMU)
--    tcg_out_tlb_load(s, addr_regl, addr_regh, oi, label_ptr, 0);
-+    base = tcg_out_tlb_load(s, addr_regl, addr_regh, oi, label_ptr, 0);
-     tcg_out_qemu_st_direct(s, data_regl, data_regh, base, opc);
-     add_qemu_ldst_label(s, 0, oi,
-                         (is_64 ? TCG_TYPE_I64 : TCG_TYPE_I32),
-                         data_regl, data_regh, addr_regl, addr_regh,
-                         s->code_ptr, label_ptr);
- #else
--    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
--        tcg_out_ext32u(s, base, addr_regl);
--        addr_regl = base;
--    }
-     a_bits = get_alignment_bits(opc);
-     if (a_bits) {
-         tcg_out_test_alignment(s, false, addr_regl, a_bits);
-     }
-+    base = addr_regl;
-+    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
-+        tcg_out_ext32u(s, TCG_REG_TMP0, base);
-+        base = TCG_REG_TMP0;
-+    }
-     if (guest_base != 0) {
--        tcg_out_opc_reg(s, OPC_ADD, base, TCG_GUEST_BASE_REG, addr_regl);
-+        tcg_out_opc_reg(s, OPC_ADD, TCG_REG_TMP0, TCG_GUEST_BASE_REG, base);
-+        base = TCG_REG_TMP0;
-     }
-     tcg_out_qemu_st_direct(s, data_regl, data_regh, base, opc);
- #endif
--- 
-2.34.1
+>
+>
+> > > Thanks
+> > >
+> > > > +    } else {
+> > > > +        svq->vring.avail->flags &=3D ~cpu_to_le16(VRING_AVAIL_F_NO=
+_INTERRUPT);
+> > > > +    }
+> > > > +
+> > > > +    /* Make sure the event is enabled before the read of used_idx =
+*/
+> > > >      smp_mb();
+> > > >      return !vhost_svq_more_used(svq);
+> > > >  }
+> > > >
+> > > >  static void vhost_svq_disable_notification(VhostShadowVirtqueue *s=
+vq)
+> > > >  {
+> > > > -    svq->vring.avail->flags |=3D cpu_to_le16(VRING_AVAIL_F_NO_INTE=
+RRUPT);
+> > > > +    /*
+> > > > +     * No need to disable notification in the event idx case, sinc=
+e used event
+> > > > +     * index is already an index too far away.
+> > > > +     */
+> > > > +    if (!virtio_vdev_has_feature(svq->vdev, VIRTIO_RING_F_EVENT_ID=
+X)) {
+> > > > +        svq->vring.avail->flags |=3D cpu_to_le16(VRING_AVAIL_F_NO_=
+INTERRUPT);
+> > > > +    }
+> > > >  }
+> > > >
+> > > >  static uint16_t vhost_svq_last_desc_of_chain(const VhostShadowVirt=
+queue *svq,
+> > > > --
+> > > > 2.31.1
+> > > >
+> > >
+>
 
 
