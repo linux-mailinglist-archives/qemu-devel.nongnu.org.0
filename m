@@ -2,61 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A49460A564
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 14:23:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79C4660A74C
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 14:49:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omwTU-0002A0-KH; Mon, 24 Oct 2022 08:22:36 -0400
+	id 1omwZm-0006y0-Ct; Mon, 24 Oct 2022 08:29:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
- id 1omwRZ-0001G0-80
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 08:20:37 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1omwZf-0006x6-5v
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 08:28:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
- id 1omwRV-0005Kz-IX
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 08:20:36 -0400
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MwvD90QZGzVhmf;
- Mon, 24 Oct 2022 20:15:37 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 24 Oct 2022 20:20:21 +0800
-Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
- (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 24 Oct
- 2022 20:20:20 +0800
-To: <linux-kernel@vger.kernel.org>, <qemu-devel@nongnu.org>,
- <linux-f2fs-devel@lists.sourceforge.net>, <linux-erofs@lists.ozlabs.org>,
- <ocfs2-devel@oss.oracle.com>, <linux-mtd@lists.infradead.org>,
- <amd-gfx@lists.freedesktop.org>
-CC: <gregkh@linuxfoundation.org>, <rafael@kernel.org>, <somlo@cmu.edu>,
- <mst@redhat.com>, <jaegeuk@kernel.org>, <chao@kernel.org>,
- <hsiangkao@linux.alibaba.com>, <huangjianan@oppo.com>, <mark@fasheh.com>,
- <jlbec@evilplan.org>, <joseph.qi@linux.alibaba.com>,
- <akpm@linux-foundation.org>, <alexander.deucher@amd.com>,
- <luben.tuikov@amd.com>, <richard@nod.at>, <liushixin2@huawei.com>
-Subject: [PATCH v2] kset: fix memory leak when kset_register() returns error
-Date: Mon, 24 Oct 2022 20:19:10 +0800
-Message-ID: <20221024121910.1169801-1-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1omwZd-0007vB-3g
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 08:28:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666614534;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=N1BFPJjmHz2Pg9VkcsyWL7M72jhBy9Tlg68zfF5Y9Ek=;
+ b=ZPzgxkz4jwzAFDZN7b/k5FZAGGS7iDwJdF9NChg3OH02Fiaazm1u9ZYS0V9JfMofhddTAv
+ vxj1XqZSurpHdIRQxXJ+SWAm5tQ50o0G9S4e2XSHPjFcc+0b0FwyNQ8xe7zh9Dj9mWFQLe
+ 07tAWZgo2VtVC/TnDdgbHlE3j9Mr4Lw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-264-lUv6wrGpNPGjrneNr42RIg-1; Mon, 24 Oct 2022 08:28:51 -0400
+X-MC-Unique: lUv6wrGpNPGjrneNr42RIg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B6452800186;
+ Mon, 24 Oct 2022 12:28:50 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 220A640C6E16;
+ Mon, 24 Oct 2022 12:28:50 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id E169121E6936; Mon, 24 Oct 2022 14:28:48 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,  pbonzini@redhat.com,
+ qemu-devel@nongnu.org,  richard.henderson@linaro.org
+Subject: Re: [PATCH v3 1/8] reset: allow registering handlers that aren't
+ called by snapshot loading
+References: <20221014021653.1461512-1-Jason@zx2c4.com>
+ <20221014021653.1461512-2-Jason@zx2c4.com>
+ <CAFEAcA8jra50q_DvNTGG8Wi+eF+PEKPHnfLNBhUjG9muqiPe0A@mail.gmail.com>
+Date: Mon, 24 Oct 2022 14:28:48 +0200
+In-Reply-To: <CAFEAcA8jra50q_DvNTGG8Wi+eF+PEKPHnfLNBhUjG9muqiPe0A@mail.gmail.com>
+ (Peter Maydell's message of "Mon, 24 Oct 2022 12:06:18 +0100")
+Message-ID: <87sfjdqubj.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=yangyingliang@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.503,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,62 +80,106 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
-Reply-to:  Yang Yingliang <yangyingliang@huawei.com>
-From:  Yang Yingliang via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Inject fault while loading module, kset_register() may fail.
-If it fails, the name allocated by kobject_set_name() which
-is called before kset_register() is leaked, because refcount
-of kobject is hold in kset_init().
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-As a kset may be embedded in a larger structure which needs
-be freed in release() function or error path in callers, we
-can not call kset_put() in kset_register(), or it will cause
-double free, so just call kfree_const() to free the name and
-set it to NULL.
+> (Cc'ing Markus for a QMP related question.)
+>
+> On Fri, 14 Oct 2022 at 03:17, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+>>
+>> Snapshot loading only expects to call deterministic handlers, not
+>> non-deterministic ones. So introduce a way of registering handlers that
+>> won't be called when reseting for snapshots.
+>>
+>> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+>
+>> diff --git a/migration/savevm.c b/migration/savevm.c
+>> index 48e85c052c..a0cdb714f7 100644
+>> --- a/migration/savevm.c
+>> +++ b/migration/savevm.c
+>> @@ -3058,7 +3058,7 @@ bool load_snapshot(const char *name, const char *vmstate,
+>>          goto err_drain;
+>>      }
+>>
+>> -    qemu_system_reset(SHUTDOWN_CAUSE_NONE);
+>> +    qemu_system_reset(SHUTDOWN_CAUSE_SNAPSHOT_LOAD);
+>>      mis->from_src_file = f;
+>>
+>>      if (!yank_register_instance(MIGRATION_YANK_INSTANCE, errp)) {
+>> diff --git a/qapi/run-state.json b/qapi/run-state.json
+>> index 9273ea6516..74ed0ac93c 100644
+>> --- a/qapi/run-state.json
+>> +++ b/qapi/run-state.json
+>> @@ -86,12 +86,14 @@
+>>  #                   ignores --no-reboot. This is useful for sanitizing
+>>  #                   hypercalls on s390 that are used during kexec/kdump/boot
+>>  #
+>> +# @snapshot-load: A snapshot is being loaded by the record & replay subsystem.
+>> +#
+>>  ##
+>>  { 'enum': 'ShutdownCause',
+>>    # Beware, shutdown_caused_by_guest() depends on enumeration order
+>>    'data': [ 'none', 'host-error', 'host-qmp-quit', 'host-qmp-system-reset',
+>>              'host-signal', 'host-ui', 'guest-shutdown', 'guest-reset',
+>> -            'guest-panic', 'subsystem-reset'] }
+>> +            'guest-panic', 'subsystem-reset', 'snapshot-load'] }
+>
+> Markus: do we need to mark new enum values with some kind of "since n.n"
+> version info ?
 
-With this fix, the callers don't need to care about the name
-freeing and call an extra kset_put() if kset_register() fails.
+We do!  Commonly like
 
-Suggested-by: Luben Tuikov <luben.tuikov@amd.com>
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
----
-v1 -> v2:
-  Free name inside of kset_register() instead of calling kset_put()
-  in drivers.
----
- lib/kobject.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+    # @snapshot-load: A snapshot is being loaded by the record & replay
+    #                 subsystem (since 7.2)
 
-diff --git a/lib/kobject.c b/lib/kobject.c
-index a0b2dbfcfa23..3409a89c81e5 100644
---- a/lib/kobject.c
-+++ b/lib/kobject.c
-@@ -834,6 +834,9 @@ EXPORT_SYMBOL_GPL(kobj_sysfs_ops);
- /**
-  * kset_register() - Initialize and add a kset.
-  * @k: kset.
-+ *
-+ * NOTE: On error, the kset.kobj.name allocated by() kobj_set_name()
-+ * which is called before kset_register() in caller need be freed.
-  */
- int kset_register(struct kset *k)
- {
-@@ -844,8 +847,11 @@ int kset_register(struct kset *k)
- 
- 	kset_init(k);
- 	err = kobject_add_internal(&k->kobj);
--	if (err)
-+	if (err) {
-+		kfree_const(k->kobj.name);
-+		k->kobj.name = NULL;
- 		return err;
-+	}
- 	kobject_uevent(&k->kobj, KOBJ_ADD);
- 	return 0;
- }
--- 
-2.25.1
+>>  ##
+>>  # @StatusInfo:
+>> diff --git a/softmmu/runstate.c b/softmmu/runstate.c
+>> index 1e68680b9d..03e1ee3a8a 100644
+>> --- a/softmmu/runstate.c
+>> +++ b/softmmu/runstate.c
+>> @@ -441,9 +441,9 @@ void qemu_system_reset(ShutdownCause reason)
+>>      cpu_synchronize_all_states();
+>>
+>>      if (mc && mc->reset) {
+>> -        mc->reset(current_machine);
+>> +        mc->reset(current_machine, reason);
+>>      } else {
+>> -        qemu_devices_reset();
+>> +        qemu_devices_reset(reason);
+>>      }
+>>      if (reason && reason != SHUTDOWN_CAUSE_SUBSYSTEM_RESET) {
+>>          qapi_event_send_reset(shutdown_caused_by_guest(reason), reason);
+>
+> This change means that resets on snapshot-load, which previously
+> did not result in sending a QMP event, will now start to do so
+> with this new ShutdownCause type. I don't think we want that
+> change in behaviour.
+>
+> (Also, as per the 'Beware' comment in run-state.json, we will
+> claim this to be a 'caused by guest' reset, which doesn't seem
+> right. If we suppress the sending the event that is moot, though.)
+>
+> Markus: if we add a new value to the ShutdownCause enumeration,
+> how annoying is it if we decide we don't want it later? I guess
+> we can just leave it in the enum unused... (In this case we're
+> using it for purely internal purposes and it won't ever actually
+> wind up in any QMP events.)
+
+Deleting enumeration values is a compatibility issue only if the value
+is usable in QMP input.
+
+"Purely internal" means it cannot occur in QMP output, and any attempt
+to use it in input fails.  Aside: feels a bit fragile.
+
+Having an enumeration type where some values are like this is mildly
+ugly, because introspection still shows the value.
+
+If we care about fragile or mildly ugly, we can mark such values with a
+special feature flag, and have the QAPI generator keep them internal
+(input, output, introspection).
+
+Does this answer your question?
 
 
