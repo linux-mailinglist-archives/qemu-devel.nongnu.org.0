@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9C58609AB3
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 08:45:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6577B609A37
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 08:07:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ompsm-0007NQ-Tf; Mon, 24 Oct 2022 01:20:17 -0400
+	id 1ompso-0007Pc-3H; Mon, 24 Oct 2022 01:20:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1omprk-0006ZM-0b
+ id 1ompro-0006aj-R3
  for qemu-devel@nongnu.org; Mon, 24 Oct 2022 01:19:20 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ompri-0002Kr-4Q
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 01:19:11 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id 20so7829908pgc.5
- for <qemu-devel@nongnu.org>; Sun, 23 Oct 2022 22:19:09 -0700 (PDT)
+ id 1omprl-0002La-8V
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 01:19:14 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id m2so3321783pjr.3
+ for <qemu-devel@nongnu.org>; Sun, 23 Oct 2022 22:19:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ALv+diZzer09a5GMXMjosNYk9lCWFpNzZXXMnFTG3Zg=;
- b=Z2KHSzBAkg2Xf11Snoc26pJ3BxAl+a9asBngWvnZ4nfKXr85BySTz7+awp+hZUV4H4
- Ps7VmOF0gzlKaovvEpxhxgpfiHnR+YebjygBpgaAvya8dtM+CGQXZV+gWqsVkzi/soem
- 7jRYNyZaHPmXYOK+EN001GlKqwDcVzBGuEIgN4dNVbF3p7d1CZWkaz+gUHDdPQJCaugU
- 3CL/dmQfwVxNAeWY4xQx0PVbWZ4ruZcQhoIHlRHkA1fcX2xBqxt9zhWpJIAJJ5kTIS/3
- R5adtZg0+UsshaABgNBMkqL0HZOvxjXuMJYTmk6Nx8hoR1sxYyhViGnkdHjN5z6mJ1Om
- I6Ew==
+ bh=4OEjLGxioHnK53AFYFEVfccxIYEwGKi33iPaWC9c5ZM=;
+ b=IfYYdXX5BP6H2RKB06MWo2FGklxdm07IL/N5UXRPwLBGTAEP0hqm7919yy3GVGqKjd
+ uaD75kv6DQqxgbZf5VyT0kdfFeTX2Cw4eOAkIIg9ITJdmArWCGyKJcTqEsH6R69cslJy
+ oruTjvQQqUYgs0jrjaXKqb5smIVyxVJwENHfbH8Q7sUgbu2CgUGIXLJbA4gErK1KHQH8
+ tcxw6VuFgGhQuYc69C//SKX4J9c/07HSugvm/2EVoVAZmRfEQTOAjKPBYWlWnyNrEKw3
+ AYPSnVcrBCBI1F03zgDwWtz7ZqBnlmB0lzLFLnRN4GPSuYZ86Q5tcAqu9b6HFA06VtdS
+ yIeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ALv+diZzer09a5GMXMjosNYk9lCWFpNzZXXMnFTG3Zg=;
- b=TN98HtCTQiKI956bqsTmr/nz67R6xBas5lZUWQElZqen8RNOnpE5pkkj1i4eGssiPE
- i6C6XIixdz1xDUVZ5NTHDJZtCUU8+OSjruTEnQkWXYkDESqguttJgqK/Ubl/kq72WCbu
- sj/WBxD6sQo9aCdM5XmlK+9dzoeom53r6Ncdk1ne/tIHDwnvdRBFdcxrGcg+C0nnELjc
- V5ktrEJKNHwISbT6UBXe8pZ+yfeldLX52N9KufIw6k2t2fBa+eStd+LuaDTx4R8+u7id
- xK7LjAzm+Cp2QyMnpQvb3PktFrYs9vFgJ7kfkswZp7kpuZ7JNWZxPsChO306rS1YydLe
- BDcA==
-X-Gm-Message-State: ACrzQf1lan3wwOqKq4NwKWfsxLJ1PYD81UWiZWrGrcJL9YBt5vrKW5uA
- 8GhhrICfoMSSPcV0l1x2qTxAKg5CUENLYcha
-X-Google-Smtp-Source: AMsMyM6LXmN6OclQ4zEEErtQhstcoGRZjyi/BT0s6LouQ6w121FzM6DeA18RcFP03R2jhuwmBjjzEg==
-X-Received: by 2002:a63:b545:0:b0:43c:2ad9:b00 with SMTP id
- u5-20020a63b545000000b0043c2ad90b00mr26701098pgo.535.1666588748701; 
- Sun, 23 Oct 2022 22:19:08 -0700 (PDT)
+ bh=4OEjLGxioHnK53AFYFEVfccxIYEwGKi33iPaWC9c5ZM=;
+ b=Q9u/CTbpsuyt+vL/yIxrL5pNR478Gk+hKHZIa5AENgq+5hU80mnwf7hSfVzlMs51K3
+ dSNmPqnC2cbCUUVsCEmrGpOEq4xED6GZ10V0OiBbcYelPZrGYuoDwdZ2awOU6PsVJTmB
+ h4Ku79CS8PsTX/4sN2yuGfYhqSSwWqQUViLPw1KEmIxn1L98Oezw0BZTVV1vw+mGEqb7
+ rTVAfmSSmapAuliIF88+ocsBWJeXcP9NUhtZUe5JRVlfY13OMzxYL0xtiJoSohMfJnD7
+ NcXp6cW1qoWS0vUE8l3m+JEORZmRKfcDZNqQvqPsDVabCzK7gDv+VHZEX1PGTtNuW7p4
+ kojg==
+X-Gm-Message-State: ACrzQf2YmDessKD80gzXToAZLF6BxAhK/h8u92m6heqaTXllFB1Nq+Zc
+ cpGBj2Gj3NKb+PELry/rWOMl5da62cwddWOB
+X-Google-Smtp-Source: AMsMyM7pvFvFpRNMM5cnT2xW2vSFpIYMp9+eKhf6DDzFizDr2DkJwjDGQrk5fx8S3ombY4NeG3gXEw==
+X-Received: by 2002:a17:903:283:b0:186:8a20:c1b6 with SMTP id
+ j3-20020a170903028300b001868a20c1b6mr10784768plr.119.1666588751667; 
+ Sun, 23 Oct 2022 22:19:11 -0700 (PDT)
 Received: from stoup.. ([103.100.225.182]) by smtp.gmail.com with ESMTPSA id
- q12-20020a170902f34c00b00172951ddb12sm1895231ple.42.2022.10.23.22.19.06
+ q12-20020a170902f34c00b00172951ddb12sm1895231ple.42.2022.10.23.22.19.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Oct 2022 22:19:08 -0700 (PDT)
+ Sun, 23 Oct 2022 22:19:11 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v6 04/14] target/arm: Extract HA and HD in aa64_va_parameters
-Date: Mon, 24 Oct 2022 15:18:41 +1000
-Message-Id: <20221024051851.3074715-5-richard.henderson@linaro.org>
+Subject: [PATCH v6 05/14] target/arm: Move S1_ptw_translate outside
+ arm_ld[lq]_ptw
+Date: Mon, 24 Oct 2022 15:18:42 +1000
+Message-Id: <20221024051851.3074715-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221024051851.3074715-1-richard.henderson@linaro.org>
 References: <20221024051851.3074715-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,66 +90,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Separate S1 translation from the actual lookup.
+Will enable lpae hardware updates.
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/internals.h | 2 ++
- target/arm/helper.c    | 8 +++++++-
- 2 files changed, 9 insertions(+), 1 deletion(-)
+ target/arm/ptw.c | 41 ++++++++++++++++++++++-------------------
+ 1 file changed, 22 insertions(+), 19 deletions(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 2b6889073d..16d7989604 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1046,6 +1046,8 @@ typedef struct ARMVAParameters {
-     bool hpd        : 1;
-     bool tsz_oob    : 1;  /* tsz has been clamped to legal range */
-     bool ds         : 1;
-+    bool ha         : 1;
-+    bool hd         : 1;
-     ARMGranuleSize gran : 2;
- } ARMVAParameters;
- 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index cbfaabbc09..6c7a8beed6 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -10470,7 +10470,7 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-                                    ARMMMUIdx mmu_idx, bool data)
- {
-     uint64_t tcr = regime_tcr(env, mmu_idx);
--    bool epd, hpd, tsz_oob, ds;
-+    bool epd, hpd, tsz_oob, ds, ha, hd;
-     int select, tsz, tbi, max_tsz, min_tsz, ps, sh;
-     ARMGranuleSize gran;
-     ARMCPU *cpu = env_archcpu(env);
-@@ -10489,6 +10489,8 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-         epd = false;
-         sh = extract32(tcr, 12, 2);
-         ps = extract32(tcr, 16, 3);
-+        ha = extract32(tcr, 21, 1) && cpu_isar_feature(aa64_hafs, cpu);
-+        hd = extract32(tcr, 22, 1) && cpu_isar_feature(aa64_hdbs, cpu);
-         ds = extract64(tcr, 32, 1);
-     } else {
-         /*
-@@ -10510,6 +10512,8 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-             hpd = extract64(tcr, 42, 1);
-         }
-         ps = extract64(tcr, 32, 3);
-+        ha = extract64(tcr, 39, 1) && cpu_isar_feature(aa64_hafs, cpu);
-+        hd = extract64(tcr, 40, 1) && cpu_isar_feature(aa64_hdbs, cpu);
-         ds = extract64(tcr, 59, 1);
-     }
- 
-@@ -10577,6 +10581,8 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-         .hpd = hpd,
-         .tsz_oob = tsz_oob,
-         .ds = ds,
-+        .ha = ha,
-+        .hd = ha && hd,
-         .gran = gran,
-     };
+diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+index 161b7922e3..36524b35ef 100644
+--- a/target/arm/ptw.c
++++ b/target/arm/ptw.c
+@@ -319,18 +319,12 @@ static bool S1_ptw_translate(CPUARMState *env, S1Translate *ptw,
  }
+ 
+ /* All loads done in the course of a page table walk go through here. */
+-static uint32_t arm_ldl_ptw(CPUARMState *env, S1Translate *ptw, hwaddr addr,
++static uint32_t arm_ldl_ptw(CPUARMState *env, S1Translate *ptw,
+                             ARMMMUFaultInfo *fi)
+ {
+     CPUState *cs = env_cpu(env);
+     uint32_t data;
+ 
+-    if (!S1_ptw_translate(env, ptw, addr, fi)) {
+-        /* Failure. */
+-        assert(fi->s1ptw);
+-        return 0;
+-    }
+-
+     if (likely(ptw->out_host)) {
+         /* Page tables are in RAM, and we have the host address. */
+         if (ptw->out_be) {
+@@ -358,18 +352,12 @@ static uint32_t arm_ldl_ptw(CPUARMState *env, S1Translate *ptw, hwaddr addr,
+     return data;
+ }
+ 
+-static uint64_t arm_ldq_ptw(CPUARMState *env, S1Translate *ptw, hwaddr addr,
++static uint64_t arm_ldq_ptw(CPUARMState *env, S1Translate *ptw,
+                             ARMMMUFaultInfo *fi)
+ {
+     CPUState *cs = env_cpu(env);
+     uint64_t data;
+ 
+-    if (!S1_ptw_translate(env, ptw, addr, fi)) {
+-        /* Failure. */
+-        assert(fi->s1ptw);
+-        return 0;
+-    }
+-
+     if (likely(ptw->out_host)) {
+         /* Page tables are in RAM, and we have the host address. */
+         if (ptw->out_be) {
+@@ -526,7 +514,10 @@ static bool get_phys_addr_v5(CPUARMState *env, S1Translate *ptw,
+         fi->type = ARMFault_Translation;
+         goto do_fault;
+     }
+-    desc = arm_ldl_ptw(env, ptw, table, fi);
++    if (!S1_ptw_translate(env, ptw, table, fi)) {
++        goto do_fault;
++    }
++    desc = arm_ldl_ptw(env, ptw, fi);
+     if (fi->type != ARMFault_None) {
+         goto do_fault;
+     }
+@@ -564,7 +555,10 @@ static bool get_phys_addr_v5(CPUARMState *env, S1Translate *ptw,
+             /* Fine pagetable.  */
+             table = (desc & 0xfffff000) | ((address >> 8) & 0xffc);
+         }
+-        desc = arm_ldl_ptw(env, ptw, table, fi);
++        if (!S1_ptw_translate(env, ptw, table, fi)) {
++            goto do_fault;
++        }
++        desc = arm_ldl_ptw(env, ptw, fi);
+         if (fi->type != ARMFault_None) {
+             goto do_fault;
+         }
+@@ -649,7 +643,10 @@ static bool get_phys_addr_v6(CPUARMState *env, S1Translate *ptw,
+         fi->type = ARMFault_Translation;
+         goto do_fault;
+     }
+-    desc = arm_ldl_ptw(env, ptw, table, fi);
++    if (!S1_ptw_translate(env, ptw, table, fi)) {
++        goto do_fault;
++    }
++    desc = arm_ldl_ptw(env, ptw, fi);
+     if (fi->type != ARMFault_None) {
+         goto do_fault;
+     }
+@@ -702,7 +699,10 @@ static bool get_phys_addr_v6(CPUARMState *env, S1Translate *ptw,
+         ns = extract32(desc, 3, 1);
+         /* Lookup l2 entry.  */
+         table = (desc & 0xfffffc00) | ((address >> 10) & 0x3fc);
+-        desc = arm_ldl_ptw(env, ptw, table, fi);
++        if (!S1_ptw_translate(env, ptw, table, fi)) {
++            goto do_fault;
++        }
++        desc = arm_ldl_ptw(env, ptw, fi);
+         if (fi->type != ARMFault_None) {
+             goto do_fault;
+         }
+@@ -1291,7 +1291,10 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
+             ptw->in_ptw_idx &= ~1;
+             ptw->in_secure = false;
+         }
+-        descriptor = arm_ldq_ptw(env, ptw, descaddr, fi);
++        if (!S1_ptw_translate(env, ptw, descaddr, fi)) {
++            goto do_fault;
++        }
++        descriptor = arm_ldq_ptw(env, ptw, fi);
+         if (fi->type != ARMFault_None) {
+             goto do_fault;
+         }
 -- 
 2.34.1
 
