@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E04EB6099AD
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 07:15:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF31B609922
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 06:27:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omoXu-0008Bo-SG; Sun, 23 Oct 2022 23:54:38 -0400
+	id 1omoY8-0008UI-AQ; Sun, 23 Oct 2022 23:54:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1omoXs-00089z-Sw
- for qemu-devel@nongnu.org; Sun, 23 Oct 2022 23:54:36 -0400
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1omoY6-0008Ss-Kv
+ for qemu-devel@nongnu.org; Sun, 23 Oct 2022 23:54:50 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1omoXr-0000fr-Fk
- for qemu-devel@nongnu.org; Sun, 23 Oct 2022 23:54:36 -0400
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1omoY5-0000jr-8A
+ for qemu-devel@nongnu.org; Sun, 23 Oct 2022 23:54:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666583674;
+ s=mimecast20190719; t=1666583688;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J1StH2dMBzUeyRMEsgfoJeHQ/K4Oy05VZ1BcH9DQeqI=;
- b=HX3rHPLinRpfIgtLme71nWLVgekgn6RL1qJCoDTjOfvr9ieu66rejds8StJeVU8HPz0Mce
- vCF1MwirjScrP/rGKzRutrX8iGjGhwpLhXUvIFp9QqW7KWaXCwxWEKGxw9B/IzmFBtRZUg
- Yrhxr5j6qWsUCoXN2bHDnHKIyorAvzU=
+ bh=WSq58Oi2QPxK1jylHq564L9qs0YFSerIVcHKNyN5Y4o=;
+ b=VdNEQgkZqA5OtttvVR3fxGFNwwsPqza0d0meqWu8caOmwpEZAtomdcF2Z43qMFml8oPICk
+ jqJCiESodeAert+UVNtnyzHzGVqccSo5LBtOciT60EpoDhC+7EcTFvJ60WdHaqaMUQjoJH
+ sF7HbiYLBg13oH7Is5Oyjs0Vt6iHNMw=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-163--TV7x0WtNni4YESCe9IrvQ-1; Sun, 23 Oct 2022 23:54:31 -0400
-X-MC-Unique: -TV7x0WtNni4YESCe9IrvQ-1
+ us-mta-627-6Do9aOHbPumzEpKMJ4k5IQ-1; Sun, 23 Oct 2022 23:54:43 -0400
+X-MC-Unique: 6Do9aOHbPumzEpKMJ4k5IQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D542B299E750;
- Mon, 24 Oct 2022 03:54:30 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4D67E1C05AC2;
+ Mon, 24 Oct 2022 03:54:42 +0000 (UTC)
 Received: from gshan.redhat.com (vpn2-54-29.bne.redhat.com [10.64.54.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7F0F440C6F75;
- Mon, 24 Oct 2022 03:54:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 64AEC40C6F75;
+ Mon, 24 Oct 2022 03:54:39 +0000 (UTC)
 From: Gavin Shan <gshan@redhat.com>
 To: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org, maz@kernel.org, eric.auger@redhat.com,
  cohuck@redhat.com, zhenyzha@redhat.com, richard.henderson@linaro.org,
  peter.maydell@linaro.org, shan.gavin@gmail.com
-Subject: [PATCH v6 1/7] hw/arm/virt: Introduce virt_set_high_memmap() helper
-Date: Mon, 24 Oct 2022 11:54:10 +0800
-Message-Id: <20221024035416.34068-2-gshan@redhat.com>
+Subject: [PATCH v6 4/7] hw/arm/virt: Introduce virt_get_high_memmap_enabled()
+ helper
+Date: Mon, 24 Oct 2022 11:54:13 +0800
+Message-Id: <20221024035416.34068-5-gshan@redhat.com>
 In-Reply-To: <20221024035416.34068-1-gshan@redhat.com>
 References: <20221024035416.34068-1-gshan@redhat.com>
 MIME-Version: 1.0
@@ -78,10 +79,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This introduces virt_set_high_memmap() helper. The logic of high
-memory region address assignment is moved to the helper. The intention
-is to make the subsequent optimization for high memory region address
-assignment easier.
+This introduces virt_get_high_memmap_enabled() helper, which returns
+the pointer to vms->highmem_{redists, ecam, mmio}. The pointer will
+be used in the subsequent patches.
 
 No functional change intended.
 
@@ -90,83 +90,50 @@ Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Tested-by: Zhenyu Zhang <zhenyzha@redhat.com>
 ---
- hw/arm/virt.c | 74 ++++++++++++++++++++++++++++-----------------------
- 1 file changed, 41 insertions(+), 33 deletions(-)
+ hw/arm/virt.c | 32 +++++++++++++++++++-------------
+ 1 file changed, 19 insertions(+), 13 deletions(-)
 
 diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index cda9defe8f..7572c44bda 100644
+index 0bf3cb7057..ee98a8a3b6 100644
 --- a/hw/arm/virt.c
 +++ b/hw/arm/virt.c
-@@ -1689,6 +1689,46 @@ static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
+@@ -1689,14 +1689,31 @@ static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
      return arm_cpu_mp_affinity(idx, clustersz);
  }
  
-+static void virt_set_high_memmap(VirtMachineState *vms,
-+                                 hwaddr base, int pa_bits)
++static inline bool *virt_get_high_memmap_enabled(VirtMachineState *vms,
++                                                 int index)
 +{
-+    int i;
++    bool *enabled_array[] = {
++        &vms->highmem_redists,
++        &vms->highmem_ecam,
++        &vms->highmem_mmio,
++    };
 +
-+    for (i = VIRT_LOWMEMMAP_LAST; i < ARRAY_SIZE(extended_memmap); i++) {
-+        hwaddr size = extended_memmap[i].size;
-+        bool fits;
++    assert(ARRAY_SIZE(extended_memmap) - VIRT_LOWMEMMAP_LAST ==
++           ARRAY_SIZE(enabled_array));
++    assert(index - VIRT_LOWMEMMAP_LAST < ARRAY_SIZE(enabled_array));
 +
-+        base = ROUND_UP(base, size);
-+        vms->memmap[i].base = base;
-+        vms->memmap[i].size = size;
-+
-+        /*
-+         * Check each device to see if they fit in the PA space,
-+         * moving highest_gpa as we go.
-+         *
-+         * For each device that doesn't fit, disable it.
-+         */
-+        fits = (base + size) <= BIT_ULL(pa_bits);
-+        if (fits) {
-+            vms->highest_gpa = base + size - 1;
-+        }
-+
-+        switch (i) {
-+        case VIRT_HIGH_GIC_REDIST2:
-+            vms->highmem_redists &= fits;
-+            break;
-+        case VIRT_HIGH_PCIE_ECAM:
-+            vms->highmem_ecam &= fits;
-+            break;
-+        case VIRT_HIGH_PCIE_MMIO:
-+            vms->highmem_mmio &= fits;
-+            break;
-+        }
-+
-+        base += size;
-+    }
++    return enabled_array[index - VIRT_LOWMEMMAP_LAST];
 +}
 +
- static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
+ static void virt_set_high_memmap(VirtMachineState *vms,
+                                  hwaddr base, int pa_bits)
  {
-     MachineState *ms = MACHINE(vms);
-@@ -1744,39 +1784,7 @@ static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
-     /* We know for sure that at least the memory fits in the PA space */
-     vms->highest_gpa = memtop - 1;
+     hwaddr region_base, region_size;
+-    bool fits;
++    bool *region_enabled, fits;
+     int i;
  
--    for (i = VIRT_LOWMEMMAP_LAST; i < ARRAY_SIZE(extended_memmap); i++) {
--        hwaddr size = extended_memmap[i].size;
--        bool fits;
--
--        base = ROUND_UP(base, size);
--        vms->memmap[i].base = base;
--        vms->memmap[i].size = size;
--
--        /*
--         * Check each device to see if they fit in the PA space,
--         * moving highest_gpa as we go.
--         *
--         * For each device that doesn't fit, disable it.
--         */
--        fits = (base + size) <= BIT_ULL(pa_bits);
--        if (fits) {
--            vms->highest_gpa = base + size - 1;
--        }
--
+     for (i = VIRT_LOWMEMMAP_LAST; i < ARRAY_SIZE(extended_memmap); i++) {
++        region_enabled = virt_get_high_memmap_enabled(vms, i);
+         region_base = ROUND_UP(base, extended_memmap[i].size);
+         region_size = extended_memmap[i].size;
+ 
+@@ -1714,18 +1731,7 @@ static void virt_set_high_memmap(VirtMachineState *vms,
+             vms->highest_gpa = region_base + region_size - 1;
+         }
+ 
 -        switch (i) {
 -        case VIRT_HIGH_GIC_REDIST2:
 -            vms->highmem_redists &= fits;
@@ -179,12 +146,10 @@ index cda9defe8f..7572c44bda 100644
 -            break;
 -        }
 -
--        base += size;
--    }
-+    virt_set_high_memmap(vms, base, pa_bits);
- 
-     if (device_memory_size > 0) {
-         ms->device_memory = g_malloc0(sizeof(*ms->device_memory));
++        *region_enabled &= fits;
+         base = region_base + region_size;
+     }
+ }
 -- 
 2.23.0
 
