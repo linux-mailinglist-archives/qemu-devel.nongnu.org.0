@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E23E60B001
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 18:00:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A841F60AF18
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 17:32:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omz46-0004iq-55; Mon, 24 Oct 2022 11:08:34 -0400
+	id 1omzAf-0007zR-Al; Mon, 24 Oct 2022 11:15:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1omz44-0004iW-Im
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:08:32 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1omzAc-0007wI-O6
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:15:18 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1omz43-0005Hy-4r
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:08:32 -0400
-Received: by mail-wr1-x430.google.com with SMTP id z14so3218804wrn.7
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 08:08:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1omzAb-0006ky-4t
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:15:18 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id b11so2230646pjp.2
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 08:15:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=EAKxV6CPMQEGY3xMPHZoRDXKujdOYzGkVEkcDHJ/NrU=;
- b=jqMZmGOwXFSeyjBzPHrXsULUegAfGQhtfz4sxWWzST11my1klUcXQnxLTd3UfhBGIk
- b6w7lSbOMkfachUMrjpMGOsw11P1jC54aIMCdMrlRH2IR7P3chnvAqF90SPdXRDqCFK2
- P09WoEY8M/GusXbdtZ4TvWABPI4s5GojdUDhFOM1gMTnJMJpmlR0vsSbrA3/OCcETvnm
- Jw5vrOhoHYdGZXE9tysjuMhEg0dnWvehy71aJXyrcCbEzUno3EQI3ItCpMsmOGzGtWBU
- 5irMjhqWs0jfO6P6MOnJ+gqoxE28BWJgklT+G0nahgc1QSFW+vRfO+FOjndku/Ytrunt
- WgpA==
+ bh=T1ZD74HQL7Py/+XW+RX24Mqw27wQ/B8Z658k6Acm3aM=;
+ b=NQf72qMKABK3QmcFIYpc3lZeTw5s+TCQFaUdzwTQuu4VvzC0WNBzPs6j8e78UKT+mH
+ 3ISjEGfH0puk69nOLMF5X0MSTxN0qKEoLv/V9eSuJnOH08q2+RKKKC8p6YVmXyAlO5zp
+ ZsH8Y2dHCA30heRHUYulDVIMqvt8yHXbvYA758jvSnEbsxZ1s4P1y78mkhCXkR9pE2J8
+ ACkJV5sZzI/eYwMyjvMvE1bQUYHwJq9t/QslujERJuIykf7lufyGp3coQUwkyh5Hbi1Y
+ XI2WIqyzFwF9NSW/UrIKOeaoijgRelTYoaWT+ynFLp+KNO7vxEHaLaWPz/Tqf/0hHbOv
+ kamA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EAKxV6CPMQEGY3xMPHZoRDXKujdOYzGkVEkcDHJ/NrU=;
- b=bsFLztU5cfCf1nixa+jrBIui4L+urlivscu6lFrImu1SQqkn4N1CW3ZfeEom4NWFDJ
- 02VwTDnwnvJbdVWaPK5NfwKUQ06VKGRn87UHbCfEuIDNaas7nuWIuhVr+6MA3B+RqlKz
- nUeErQwrKz1FZbPtphwhU56EyVUgZuZnf9+p/c96V/ShMhoN9fgYM6PcjLpjsl4+yJvR
- 7LrGGBp1vLpDqwdNixnFhI3TX5XwE5FyQwbloKGMMcSR4aaH6G8ea6GSThm32naXBSZI
- jVBweyw3ZfwDejqtaLT2MUbSgj+UijCdSXmiy2YgW4BSDwPEJ7jPv9yJXnwfTI8u6Yf9
- h69A==
-X-Gm-Message-State: ACrzQf2NhB9o5m4PIACyPSsfD/Nu68nYiY1BH7oOhyxfIMBAVhCKRGrf
- fXg8MHcArP6winsu3+0VvWBy2Q==
-X-Google-Smtp-Source: AMsMyM7Jz2qcQG8GociLagMoNMMX8voIFNOdyDBjXdLCfWlA/etkXtNlDY8afporaAgxQouNz9BF+A==
-X-Received: by 2002:a5d:6701:0:b0:22e:6545:995d with SMTP id
- o1-20020a5d6701000000b0022e6545995dmr22071074wru.301.1666624109633; 
- Mon, 24 Oct 2022 08:08:29 -0700 (PDT)
-Received: from [10.50.0.10]
- (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
+ bh=T1ZD74HQL7Py/+XW+RX24Mqw27wQ/B8Z658k6Acm3aM=;
+ b=e3uaUqGgGC1PzzEpJiyqAeABWdDe8DbRdrBHWMB+V1Vh7YtFpwncwwkqFFDxOJYT4C
+ Wxftm+dFhnWW6X69dm5aUoS3Al87uXuu9fwB+fJIY3LWWswMsULvrzaXPEC1Tqhm8DDh
+ 76al8nP9XVyjbUBhrRzosM/dgv2SObyIuobd0LnZJP3pMLOpDDWmcO5pAZc7cPT0oeM2
+ uHD7K0Ax5+7vhkmiNaSW7AQ9U/pWM+eRu5ls416wfn79yyzBCWnWl1j4nVdtNELVDB5x
+ er6r4HMNjYs9I0Yodgyp76+YMHlMBE8PKSiGXN2WGZ4ePHWgwdfCrhgz/q7lMmqQvVCH
+ BglA==
+X-Gm-Message-State: ACrzQf2gu71xq1Biynf+MSW6prW7ZnSoOjSYQQF3LjMnxrkmq9rw8NKQ
+ za85WwZPMlqm/OAbdF44W05r8g==
+X-Google-Smtp-Source: AMsMyM5A4je5rTmxs/4ueh0ONyhnqVCEAQRqtutSw6BSNfDrXQYP0FuUigbTQXGcGww7oZxrKg0xMQ==
+X-Received: by 2002:a17:90b:4d07:b0:1ef:521c:f051 with SMTP id
+ mw7-20020a17090b4d0700b001ef521cf051mr76528468pjb.164.1666624514284; 
+ Mon, 24 Oct 2022 08:15:14 -0700 (PDT)
+Received: from [192.168.136.227] ([103.100.225.182])
  by smtp.gmail.com with ESMTPSA id
- bp23-20020a5d5a97000000b002366553eca7sm5920836wrb.83.2022.10.24.08.08.28
+ a4-20020aa79704000000b0056bb4bbfb9bsm2618205pfg.95.2022.10.24.08.15.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Oct 2022 08:08:28 -0700 (PDT)
-Message-ID: <7fcc1aa7-d009-c9cb-304a-9cbd93669609@linaro.org>
-Date: Mon, 24 Oct 2022 17:08:27 +0200
+ Mon, 24 Oct 2022 08:15:13 -0700 (PDT)
+Message-ID: <ab0e8b0f-be77-7947-244c-e542473206a7@linaro.org>
+Date: Tue, 25 Oct 2022 01:15:08 +1000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.3.2
-Subject: Re: [PATCH 02/29] target/alpha: Convert to tcg_ops
- restore_state_to_opc
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 01/29] accel/tcg: Add restore_state_to_opc to TCGCPUOps
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+To: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
 References: <20221024132459.3229709-1-richard.henderson@linaro.org>
- <20221024132459.3229709-4-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221024132459.3229709-4-richard.henderson@linaro.org>
+ <20221024132459.3229709-2-richard.henderson@linaro.org>
+ <e1eb87ed-c43c-6dae-4beb-9d0a9907bce9@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <e1eb87ed-c43c-6dae-4beb-9d0a9907bce9@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,13 +93,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 24/10/22 15:24, Richard Henderson wrote:
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/alpha/cpu.c       | 9 +++++++++
->   target/alpha/translate.c | 6 ------
->   2 files changed, 9 insertions(+), 6 deletions(-)
+On 10/25/22 01:05, Claudio Fontana wrote:
+> On 10/24/22 15:24, Richard Henderson wrote:
+>> Add a tcg_ops hook to replace the restore_state_to_opc
+>> function call.  Because these generic hooks cannot depend
+>> on target-specific types, temporarily, copy the current
+>> target_ulong data[] into uint64_t d64[].
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   include/exec/exec-all.h       |  2 +-
+>>   include/hw/core/tcg-cpu-ops.h | 11 +++++++++++
+>>   accel/tcg/translate-all.c     | 24 ++++++++++++++++++++++--
+>>   3 files changed, 34 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+>> index e5f8b224a5..a772e8cbdc 100644
+>> --- a/include/exec/exec-all.h
+>> +++ b/include/exec/exec-all.h
+>> @@ -40,7 +40,7 @@ typedef ram_addr_t tb_page_addr_t;
+>>   #endif
+>>   
+>>   void restore_state_to_opc(CPUArchState *env, TranslationBlock *tb,
+>> -                          target_ulong *data);
+>> +                          target_ulong *data) __attribute__((weak));
+> 
+> Hi Richard, doesn't matter much since this is removed later on, but I wonder why the need for attribute weak here?
+> I don't see you overloading this function in later patches..
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+So that it can be undefined.  Otherwise I can't remove the existing symbol from each target.
+
+
+r~
 
 
