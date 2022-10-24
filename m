@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2560160A1A7
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 13:32:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 408E860A1E0
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 13:35:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omvN4-0000ro-Ts; Mon, 24 Oct 2022 07:11:54 -0400
+	id 1omvMl-0000hx-8z; Mon, 24 Oct 2022 07:11:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <0e4c4ff02aecaa3cea3e583d07509378b7783307@lizzy.crudebyte.com>)
- id 1omvMt-0000o0-PN
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:11:46 -0400
+ (envelope-from <2af5be47b9ba264f31f5594e587207cd854e01cc@lizzy.crudebyte.com>)
+ id 1omvM7-0000S3-6z
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:11:08 -0400
 Received: from lizzy.crudebyte.com ([91.194.90.13])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <0e4c4ff02aecaa3cea3e583d07509378b7783307@lizzy.crudebyte.com>)
- id 1omvMf-0007Fm-1v
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:11:40 -0400
+ (envelope-from <2af5be47b9ba264f31f5594e587207cd854e01cc@lizzy.crudebyte.com>)
+ id 1omvM5-0006ph-Ji
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:10:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=CeHtuR5SWe3A/AmP2z5ZDNoepvaxVnrEVDW+XfndFNI=; b=NHHuV
- MxjLbC5bQ3DQOKkhY2Fe5JkZHLrQA3K113n2hhA3MChrvEqztG7GQfEEVxOxPc4UoKkq+osqBTdyc
- 7zPCixXziR4magqZibb4KhEuYUI2je9bIfthheo0hNMWEndX0unvCNG+HuxPD5KTCpzUf6XNZ8sXR
- jeKukLziVvCe9G6FPgZeYT6bToz1O3oorQbkAn6GjoXd96XcJf3v3hiQXEngp0jTc9vzz8r91bYhM
- Xb4H6ZSZIaRoWdpQ1Ug1X4iPjUKd3RjPkNDcG6SdN/JKFA/m18frg0WkdE3pg7RLpmO6cCwNs13sb
- z4xARZrBUXorAU4Yr+/o1vYyD+XvA==;
-Message-Id: <0e4c4ff02aecaa3cea3e583d07509378b7783307.1666608862.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=hI9kImIbspr68mmFCTnv2ZHLqfOxZWPcjTlKjtj4HHg=; b=Zxt1c
+ 1sIl0653HRd0zgYkB2/5JuoZwxQkxgEqHg3g7RYZsAG4rDljXP/VvcBMVB5LPf66j+70yL4ldDotU
+ TTHEnXxH04lZCwbf2GnUKoYi/yPqSXeewnsfSSAtQFgPzr7+nNSPnZMUTvstWfgf8UfA2Somh+HpY
+ KLEVNxeq3HllSKzpubd5+bJ1yErPepre2bVVsDG2AOwUcc3f1ACdXJ4jy2sEvH317S4CLVgvt8jfD
+ s+cjCJErngUctSJ7wYGBnQnj2zQY4NaajOzp3aZL9whGDqIw3lYJkmC8Na4DyR/ZJnPHKBgRsIGP3
+ MWAFAX+gVVa7BYV158+HRfS7oJl9g==;
+Message-Id: <2af5be47b9ba264f31f5594e587207cd854e01cc.1666608862.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1666608862.git.qemu_oss@crudebyte.com>
 References: <cover.1666608862.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Mon, 24 Oct 2022 12:54:23 +0200
-Subject: [PULL 14/23] tests/9p: simplify callers of tlopen()
+Subject: [PULL 09/23] tests/9p: convert v9fs_tgetattr() to declarative
+ arguments
 To: qemu-devel@nongnu.org,
     Stefan Hajnoczi <stefanha@redhat.com>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=0e4c4ff02aecaa3cea3e583d07509378b7783307@lizzy.crudebyte.com;
+ envelope-from=2af5be47b9ba264f31f5594e587207cd854e01cc@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -62,124 +63,154 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Now as tlopen() is using a declarative approach, simplify the
-code of callers of this function.
+Use declarative function arguments for function v9fs_tgetattr().
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Message-Id: <f74b6153e079fc7a340e5cb575ee32e0fe1e0ae6.1664917004.git.qemu_oss@crudebyte.com>
+Message-Id: <d340a91be96fbfecfb8dacdd7558223b3c0d0e2c.1664917004.git.qemu_oss@crudebyte.com>
 ---
- tests/qtest/virtio-9p-test.c | 43 +++++++++---------------------------
- 1 file changed, 10 insertions(+), 33 deletions(-)
+ tests/qtest/libqos/virtio-9p-client.c | 32 ++++++++++++++++++++++-----
+ tests/qtest/libqos/virtio-9p-client.h | 30 +++++++++++++++++++++++--
+ tests/qtest/virtio-9p-test.c          | 11 +++++++--
+ 3 files changed, 63 insertions(+), 10 deletions(-)
 
+diff --git a/tests/qtest/libqos/virtio-9p-client.c b/tests/qtest/libqos/virtio-9p-client.c
+index 5e6bd6120c..29916a23b5 100644
+--- a/tests/qtest/libqos/virtio-9p-client.c
++++ b/tests/qtest/libqos/virtio-9p-client.c
+@@ -489,16 +489,36 @@ void v9fs_rwalk(P9Req *req, uint16_t *nwqid, v9fs_qid **wqid)
+ }
+ 
+ /* size[4] Tgetattr tag[2] fid[4] request_mask[8] */
+-P9Req *v9fs_tgetattr(QVirtio9P *v9p, uint32_t fid, uint64_t request_mask,
+-                     uint16_t tag)
++TGetAttrRes v9fs_tgetattr(TGetAttrOpt opt)
+ {
+     P9Req *req;
++    uint32_t err;
+ 
+-    req = v9fs_req_init(v9p, 4 + 8, P9_TGETATTR, tag);
+-    v9fs_uint32_write(req, fid);
+-    v9fs_uint64_write(req, request_mask);
++    g_assert(opt.client);
++    /* expecting either Rgetattr or Rlerror, but obviously not both */
++    g_assert(!opt.expectErr || !opt.rgetattr.attr);
++
++    if (!opt.request_mask) {
++        opt.request_mask = P9_GETATTR_ALL;
++    }
++
++    req = v9fs_req_init(opt.client, 4 + 8, P9_TGETATTR, opt.tag);
++    v9fs_uint32_write(req, opt.fid);
++    v9fs_uint64_write(req, opt.request_mask);
+     v9fs_req_send(req);
+-    return req;
++
++    if (!opt.requestOnly) {
++        v9fs_req_wait_for_reply(req, NULL);
++        if (opt.expectErr) {
++            v9fs_rlerror(req, &err);
++            g_assert_cmpint(err, ==, opt.expectErr);
++        } else {
++            v9fs_rgetattr(req, opt.rgetattr.attr);
++        }
++        req = NULL; /* request was freed */
++    }
++
++    return (TGetAttrRes) { .req = req };
+ }
+ 
+ /*
+diff --git a/tests/qtest/libqos/virtio-9p-client.h b/tests/qtest/libqos/virtio-9p-client.h
+index 64b97b229b..f7b1bfc79a 100644
+--- a/tests/qtest/libqos/virtio-9p-client.h
++++ b/tests/qtest/libqos/virtio-9p-client.h
+@@ -63,6 +63,7 @@ typedef struct v9fs_attr {
+ } v9fs_attr;
+ 
+ #define P9_GETATTR_BASIC    0x000007ffULL /* Mask for fields up to BLOCKS */
++#define P9_GETATTR_ALL      0x00003fffULL /* Mask for ALL fields */
+ 
+ struct V9fsDirent {
+     v9fs_qid qid;
+@@ -155,6 +156,32 @@ typedef struct TAttachRes {
+     P9Req *req;
+ } TAttachRes;
+ 
++/* options for 'Tgetattr' 9p request */
++typedef struct TGetAttrOpt {
++    /* 9P client being used (mandatory) */
++    QVirtio9P *client;
++    /* user supplied tag number being returned with response (optional) */
++    uint16_t tag;
++    /* file ID of file/dir whose attributes shall be retrieved (required) */
++    uint32_t fid;
++    /* bitmask indicating attribute fields to be retrieved (optional) */
++    uint64_t request_mask;
++    /* data being received from 9p server as 'Rgetattr' response (optional) */
++    struct {
++        v9fs_attr *attr;
++    } rgetattr;
++    /* only send Tgetattr request but not wait for a reply? (optional) */
++    bool requestOnly;
++    /* do we expect an Rlerror response, if yes which error code? (optional) */
++    uint32_t expectErr;
++} TGetAttrOpt;
++
++/* result of 'Tgetattr' 9p request */
++typedef struct TGetAttrRes {
++    /* if requestOnly was set: request object for further processing */
++    P9Req *req;
++} TGetAttrRes;
++
+ void v9fs_set_allocator(QGuestAllocator *t_alloc);
+ void v9fs_memwrite(P9Req *req, const void *addr, size_t len);
+ void v9fs_memskip(P9Req *req, size_t len);
+@@ -182,8 +209,7 @@ TAttachRes v9fs_tattach(TAttachOpt);
+ void v9fs_rattach(P9Req *req, v9fs_qid *qid);
+ TWalkRes v9fs_twalk(TWalkOpt opt);
+ void v9fs_rwalk(P9Req *req, uint16_t *nwqid, v9fs_qid **wqid);
+-P9Req *v9fs_tgetattr(QVirtio9P *v9p, uint32_t fid, uint64_t request_mask,
+-                     uint16_t tag);
++TGetAttrRes v9fs_tgetattr(TGetAttrOpt);
+ void v9fs_rgetattr(P9Req *req, v9fs_attr *attr);
+ P9Req *v9fs_treaddir(QVirtio9P *v9p, uint32_t fid, uint64_t offset,
+                      uint32_t count, uint16_t tag);
 diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 0455c3a094..60a030b877 100644
+index 46bb189b81..9c1219db33 100644
 --- a/tests/qtest/virtio-9p-test.c
 +++ b/tests/qtest/virtio-9p-test.c
-@@ -105,7 +105,6 @@ static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
-     v9fs_qid qid;
-     uint32_t count, nentries;
-     struct V9fsDirent *entries = NULL;
--    P9Req *req;
+@@ -19,6 +19,7 @@
+ #define twalk(...) v9fs_twalk((TWalkOpt) __VA_ARGS__)
+ #define tversion(...) v9fs_tversion((TVersionOpt) __VA_ARGS__)
+ #define tattach(...) v9fs_tattach((TAttachOpt) __VA_ARGS__)
++#define tgetattr(...) v9fs_tgetattr((TGetAttrOpt) __VA_ARGS__)
  
-     tattach({ .client = v9p });
-     twalk({
-@@ -114,11 +113,9 @@ static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
-     });
-     g_assert_cmpint(nqid, ==, 1);
+ static void pci_config(void *obj, void *data, QGuestAllocator *t_alloc)
+ {
+@@ -285,7 +286,10 @@ static void fs_walk_2nd_nonexistent(void *obj, void *data,
+     g_assert(wqid && wqid[0] && !is_same_qid(root_qid, wqid[0]));
  
--    req = tlopen({
--        .client = v9p, .fid = 1, .flags = O_DIRECTORY, .requestOnly = true
--    }).req;
--    v9fs_req_wait_for_reply(req, NULL);
--    v9fs_rlopen(req, &qid, NULL);
-+    tlopen({
-+        .client = v9p, .fid = 1, .flags = O_DIRECTORY, .rlopen.qid = &qid
-+    });
- 
-     /*
-      * submit count = msize - 11, because 11 is the header size of Rreaddir
-@@ -163,7 +160,6 @@ static void do_readdir_split(QVirtio9P *v9p, uint32_t count)
-     v9fs_qid qid;
-     uint32_t nentries, npartialentries;
-     struct V9fsDirent *entries, *tail, *partialentries;
--    P9Req *req;
-     int fid;
-     uint64_t offset;
- 
-@@ -181,11 +177,9 @@ static void do_readdir_split(QVirtio9P *v9p, uint32_t count)
-     });
-     g_assert_cmpint(nqid, ==, 1);
- 
--    req = tlopen({
--        .client = v9p, .fid = fid, .flags = O_DIRECTORY, .requestOnly = true
--    }).req;
--    v9fs_req_wait_for_reply(req, NULL);
--    v9fs_rlopen(req, &qid, NULL);
-+    tlopen({
-+        .client = v9p, .fid = fid, .flags = O_DIRECTORY, .rlopen.qid = &qid
-+    });
- 
-     /*
-      * send as many Treaddir requests as required to get all directory
-@@ -363,18 +357,13 @@ static void fs_lopen(void *obj, void *data, QGuestAllocator *t_alloc)
-     QVirtio9P *v9p = obj;
-     v9fs_set_allocator(t_alloc);
-     char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_LOPEN_FILE) };
--    P9Req *req;
- 
-     tattach({ .client = v9p });
-     twalk({
-         .client = v9p, .fid = 0, .newfid = 1, .nwname = 1, .wnames = wnames
-     });
- 
--    req = tlopen({
--        .client = v9p, .fid = 1, .flags = O_WRONLY, .requestOnly = true
--    }).req;
--    v9fs_req_wait_for_reply(req, NULL);
--    v9fs_rlopen(req, NULL, NULL);
-+    tlopen({ .client = v9p, .fid = 1, .flags = O_WRONLY });
- 
-     g_free(wnames[0]);
- }
-@@ -394,11 +383,7 @@ static void fs_write(void *obj, void *data, QGuestAllocator *t_alloc)
-         .client = v9p, .fid = 0, .newfid = 1, .nwname = 1, .wnames = wnames
-     });
- 
--    req = tlopen({
--        .client = v9p, .fid = 1, .flags = O_WRONLY, .requestOnly = true
--    }).req;
--    v9fs_req_wait_for_reply(req, NULL);
--    v9fs_rlopen(req, NULL, NULL);
-+    tlopen({ .client = v9p, .fid = 1, .flags = O_WRONLY });
- 
-     req = v9fs_twrite(v9p, 1, 0, write_count, buf, 0);
+     /* expect fid being unaffected by walk above */
+-    req = v9fs_tgetattr(v9p, fid, P9_GETATTR_BASIC, 0);
++    req = tgetattr({
++        .client = v9p, .fid = fid, .request_mask = P9_GETATTR_BASIC,
++        .requestOnly = true
++    }).req;
      v9fs_req_wait_for_reply(req, NULL);
-@@ -422,11 +407,7 @@ static void fs_flush_success(void *obj, void *data, QGuestAllocator *t_alloc)
-         .client = v9p, .fid = 0, .newfid = 1, .nwname = 1, .wnames = wnames
-     });
+     v9fs_rlerror(req, &err);
  
--    req = tlopen({
--        .client = v9p, .fid = 1, .flags = O_WRONLY, .requestOnly = true
--    }).req;
--    v9fs_req_wait_for_reply(req, NULL);
--    v9fs_rlopen(req, NULL, NULL);
-+    tlopen({ .client = v9p, .fid = 1, .flags = O_WRONLY });
+@@ -315,7 +319,10 @@ static void fs_walk_none(void *obj, void *data, QGuestAllocator *t_alloc)
+     /* special case: no QID is returned if nwname=0 was sent */
+     g_assert(wqid == NULL);
  
-     /* This will cause the 9p server to try to write data to the backend,
-      * until the write request gets cancelled.
-@@ -461,11 +442,7 @@ static void fs_flush_ignored(void *obj, void *data, QGuestAllocator *t_alloc)
-         .client = v9p, .fid = 0, .newfid = 1, .nwname = 1, .wnames = wnames
-     });
+-    req = v9fs_tgetattr(v9p, 1, P9_GETATTR_BASIC, 0);
++    req = tgetattr({
++        .client = v9p, .fid = 1, .request_mask = P9_GETATTR_BASIC,
++        .requestOnly = true
++    }).req;
+     v9fs_req_wait_for_reply(req, NULL);
+     v9fs_rgetattr(req, &attr);
  
--    req = tlopen({
--        .client = v9p, .fid = 1, .flags = O_WRONLY, .requestOnly = true
--    }).req;
--    v9fs_req_wait_for_reply(req, NULL);
--    v9fs_rlopen(req, NULL, NULL);
-+    tlopen({ .client = v9p, .fid = 1, .flags = O_WRONLY });
- 
-     /* This will cause the write request to complete right away, before it
-      * could be actually cancelled.
 -- 
 2.30.2
 
