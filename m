@@ -2,60 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAE41609E34
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 11:45:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19E04609E5B
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 11:56:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omtIH-0005XQ-NB; Mon, 24 Oct 2022 04:58:50 -0400
+	id 1omtMJ-0006V1-OF; Mon, 24 Oct 2022 05:02:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1omtIF-0005Wo-Jo
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 04:58:47 -0400
-Received: from mout.kundenserver.de ([217.72.192.74])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1omtMH-0006Ud-7i
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 05:02:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1omtID-0003O5-Rw
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 04:58:47 -0400
-Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MyKYE-1p1Fmw0u44-00yl1d; Mon, 24
- Oct 2022 10:58:42 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: [PULL 1/2] m68k: rework BI_VIRT_RNG_SEED as BI_RNG_SEED
-Date: Mon, 24 Oct 2022 10:58:39 +0200
-Message-Id: <20221024085840.3023854-2-laurent@vivier.eu>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221024085840.3023854-1-laurent@vivier.eu>
-References: <20221024085840.3023854-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1omtMC-00054P-4A
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 05:02:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666602169;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=KJUEJMn11u3FLVpgUD/gEc1ufRjNJIqYniNbjSp9KLI=;
+ b=hF+AdAdfMC6HnH6XfE6q6uJreNm6qVhgIWhHvc62jrb9jS193rJ1fLp2GMpYdshx/L2NOT
+ t2VMvnfIBUhTdPp+WiQ1iJzpTs+KX74M2MGE/4gtKGf/4LguTQayJMt/EX1Dl5muW78P0o
+ tOsxMYrY7V+l6718BTcfylnplc/EOA0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-115-dUavuJ9gMUihAOkvBEjnHg-1; Mon, 24 Oct 2022 05:02:46 -0400
+X-MC-Unique: dUavuJ9gMUihAOkvBEjnHg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7801686F123;
+ Mon, 24 Oct 2022 09:02:45 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.204])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 00DCC2027064;
+ Mon, 24 Oct 2022 09:02:43 +0000 (UTC)
+Date: Mon, 24 Oct 2022 10:02:41 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: qemu-devel@nongnu.org,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+Subject: Re: [PATCH] avocado: use sha1 for fc31 imgs to avoid first time
+ re-download
+Message-ID: <Y1ZUsauC6F3yDuny@redhat.com>
+References: <20221022170350.936685-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:tO1zXLDnDq5Xi8kd9cO5PxuAvVyxvn0IBUrcd4JzP0YntTDbD7F
- wP4Mk+Xt7UqFR/bDqgjOJnbH+Ckklk3nvrmTXnUaTO5rjPBEHp9Wmxdve8YRC4wlzJ2EagX
- lkZsiFnbCdJs8uY/pvWrq39yxiddxLR+RZAPBsDcoAo0nFS+Hc9xz15Px9XoUZmiHmP2ojb
- l4FN2CEbjGShVW+A1kHOg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:H0mOahc9Qwg=:OL6wj43YqE30Rmeq8hEsN5
- luw5lrzY3ebST6zPrskZKsgosI5FL7zOGjStNuXvgiBf392c3QKsomiXNSJOnyRNGPHAI/U2Y
- nubFsiL3T7OJhUE6OphT3SjIQfWuwJza2zYVrV0kICJmuNFzl8+TK4BrIdkL+PZPNLp+TejQ0
- a9ZGy8bNCMOhiqepe/bbv9tTTglHCHnl4gK8tESpSVnOyG2hp0BTdEoEENq3YtOqu6PbU8OeJ
- Z1g4sz7MA1a0MQLtk+qryu2nz4Xn6tJO9w4nxLYW5vdjJflVQAtGeYHor+NQK5oS/HQRqvP7r
- al2ITHM6eJP/el1TiTy4ku6yMuCKNvD6qeMqfez3/IZ93IbTpW9m9Nro1ebryWqiPCxh6yUly
- D3W6Ppozy5OOuPVXDVPwEsxVGsLz5oI1j+xdqPfiSpjTAQgGb62VkivFcZAJ8ABIjGujfn9pl
- NE40eSWQUWfC/9l5GyI59/g0lsh71TTVB4UwaZjvbfWALm+lAzd8twfLc8mXO4W8iogAXSEYj
- FVVVgO/XVV+T/S+YJSslv32eXRBj/4IYQ0OExXP9w4C1XD4ivFFbo8yFivaTL+wMC2SGfv7lR
- 7XsfVjNG7TohjvGsN2Z5NQh+xT6YqPyNkJlsC3tlu5Zfd5Zzf52TqblDGFS8IcO6duBkfx6sn
- PTysMNiPxjxUjYB08KUGFRn5VB4dGyoEoWp5i9R+DlwKzF4TcI0Eb2jbic+kfJ7VW2H4QSEnC
- D+o24PoMRx1BcvIWF92vquj0DUcsprGgG6RBS0Zhm4DFoJvWjH4xOPWp+SjtleXcsPS6oRI91
- 6RnKQH+
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221022170350.936685-1-danielhb413@gmail.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,117 +80,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+On Sat, Oct 22, 2022 at 02:03:50PM -0300, Daniel Henrique Barboza wrote:
+> 'make check-avocado' will download any images that aren't present in the
+> cache via 'get-vm-images' in tests/Makefile.include. The target that
+> downloads fedora 31 images, get-vm-image-fedora-31, will use 'avocado
+> vmimage get  --distro=fedora --distro-version=31 --arch=(...)' to
+> download the image for each arch. Note that this command does not
+> support any argument to set the hash algorithm used and, based on the
+> avocado source code [1], DEFAULT_HASH_ALGORITHM is set to "sha1". The
+> sha1 hash is stored in a Fedora-Cloud-Base-31-1.9.{ARCH}.qcow2-CHECKSUM
+> in the cache.
 
-Following a change on the kernel side (see link), pass BI_RNG_SEED
-instead of BI_VIRT_RNG_SEED. This should have no impact on
-compatibility, as there will simply be no effect if it's an old kernel,
-which is how things have always been. We then use this as an opportunity
-to add this to q800, since now we can, which is a nice improvement.
+> For now, in QEMU, let's use sha1 for all Fedora 31 images. This will
+> immediately spares us at least one extra download for each Fedora 31
+> image that we're doing in all our CI runs.
+> 
+> [1] https://github.com/avocado-framework/avocado.git @ 942a5d6972906
+> [2] https://github.com/avocado-framework/avocado/issues/5496
 
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Laurent Vivier <laurent@vivier.eu>
-Link: https://lore.kernel.org/lkml/20220923170340.4099226-3-Jason@zx2c4.com/
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-Message-Id: <20220926113900.1256630-1-Jason@zx2c4.com>
-[lv: s/^I/         /g]
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- include/standard-headers/asm-m68k/bootinfo-virt.h | 4 +++-
- include/standard-headers/asm-m68k/bootinfo.h      | 8 +++++++-
- hw/m68k/q800.c                                    | 7 +++++++
- hw/m68k/virt.c                                    | 8 ++++----
- 4 files changed, 21 insertions(+), 6 deletions(-)
+Can we just ask Avocado maintainers to fix this problem on their
+side to allow use of a modern hash alg as a priority item. We've
+already had this problem in QEMU for over a year AFAICT, so doesn't
+seem like we need to urgently do a workaround on QEMU side, so we
+can get Avocado devs to commit to fixing it in the next month.
 
-diff --git a/include/standard-headers/asm-m68k/bootinfo-virt.h b/include/standard-headers/asm-m68k/bootinfo-virt.h
-index 1b1ffd4705d6..75ac6bbd7d73 100644
---- a/include/standard-headers/asm-m68k/bootinfo-virt.h
-+++ b/include/standard-headers/asm-m68k/bootinfo-virt.h
-@@ -12,7 +12,9 @@
- #define BI_VIRT_GF_TTY_BASE	0x8003
- #define BI_VIRT_VIRTIO_BASE	0x8004
- #define BI_VIRT_CTRL_BASE	0x8005
--#define BI_VIRT_RNG_SEED	0x8006
-+
-+/* No longer used -- replaced with BI_RNG_SEED -- but don't reuse this index:
-+ * #define BI_VIRT_RNG_SEED	0x8006 */
- 
- #define VIRT_BOOTI_VERSION	MK_BI_VERSION(2, 0)
- 
-diff --git a/include/standard-headers/asm-m68k/bootinfo.h b/include/standard-headers/asm-m68k/bootinfo.h
-index 7b790e8ec8d6..b7a8dd2514fe 100644
---- a/include/standard-headers/asm-m68k/bootinfo.h
-+++ b/include/standard-headers/asm-m68k/bootinfo.h
-@@ -57,7 +57,13 @@ struct mem_info {
- 					/* (struct mem_info) */
- #define BI_COMMAND_LINE		0x0007	/* kernel command line parameters */
- 					/* (string) */
--
-+/*
-+ * A random seed used to initialize the RNG. Record format:
-+ *
-+ *   - length       [ 2 bytes, 16-bit big endian ]
-+ *   - seed data    [ `length` bytes, padded to preserve 4-byte struct alignment ]
-+ */
-+#define BI_RNG_SEED		0x0008
- 
-     /*
-      *  Linux/m68k Architectures (BI_MACHTYPE)
-diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-index 101ab0f803f6..a4590c2cb0b1 100644
---- a/hw/m68k/q800.c
-+++ b/hw/m68k/q800.c
-@@ -23,6 +23,7 @@
- #include "qemu/osdep.h"
- #include "qemu/units.h"
- #include "qemu/datadir.h"
-+#include "qemu/guest-random.h"
- #include "sysemu/sysemu.h"
- #include "cpu.h"
- #include "hw/boards.h"
-@@ -385,6 +386,7 @@ static void q800_init(MachineState *machine)
-     NubusBus *nubus;
-     DeviceState *glue;
-     DriveInfo *dinfo;
-+    uint8_t rng_seed[32];
- 
-     linux_boot = (kernel_filename != NULL);
- 
-@@ -634,6 +636,11 @@ static void q800_init(MachineState *machine)
-                         kernel_cmdline);
-         }
- 
-+        /* Pass seed to RNG. */
-+        qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
-+        BOOTINFODATA(cs->as, parameters_base, BI_RNG_SEED,
-+                     rng_seed, sizeof(rng_seed));
-+
-         /* load initrd */
-         if (initrd_filename) {
-             initrd_size = get_image_size(initrd_filename);
-diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
-index 2f3ffc0de677..f7b903ea1b62 100644
---- a/hw/m68k/virt.c
-+++ b/hw/m68k/virt.c
-@@ -248,10 +248,10 @@ static void virt_init(MachineState *machine)
-                         kernel_cmdline);
-         }
- 
--	/* Pass seed to RNG. */
--	qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
--	BOOTINFODATA(cs->as, parameters_base, BI_VIRT_RNG_SEED,
--		     rng_seed, sizeof(rng_seed));
-+        /* Pass seed to RNG. */
-+        qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
-+        BOOTINFODATA(cs->as, parameters_base, BI_RNG_SEED,
-+                     rng_seed, sizeof(rng_seed));
- 
-         /* load initrd */
-         if (initrd_filename) {
+
+With regards,
+Daniel
 -- 
-2.37.3
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
