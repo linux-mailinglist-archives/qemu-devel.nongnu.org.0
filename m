@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E3C1609FC4
+	by mail.lfdr.de (Postfix) with ESMTPS id 42160609FC5
 	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 13:07:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omvC6-00028X-6S; Mon, 24 Oct 2022 07:00:34 -0400
+	id 1omvC9-0002Fw-1n; Mon, 24 Oct 2022 07:00:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1omvBy-000286-WC
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:00:27 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1omvC3-00028b-2v
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:00:31 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1omvBx-000474-FL
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:00:26 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1omvC1-00049X-NL
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:00:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666609223;
+ s=mimecast20190719; t=1666609228;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=JPt5T8Uiv1CdWndjYYsC1Y8mTRQPX3OEHe0yHwxlQJc=;
- b=QXomIgjjRwKbLy3km5dpd9tMbrmH2ExUd65ixbtTCqHm7Yi7MFKSbC529LPFE/SnnkTH7/
- XKrcmjFWYlw7C1Wv87lcjKUpLiRYbygW6mUt4m32YnZtgh7aMtlnEE0+ECRntM0v08Ma1S
- Mp4oiKduukhbGC8HRQiMvR7hUpX3FVM=
+ bh=JNAZ05a51GbUnlYYzMLPhMzSa+J+jdwJlMxR4+x/+O8=;
+ b=PDHjTCCSGYvoBvrqTqfOlOR7ol696wDd5z+617aoulP8x1ODC8iX7uWezuOGy65xLT/xf/
+ jT9B7qj3JCxNL3AePRYBIWzLSwzWmyV8qiKvCh7rSfe0q48M6neuWqtcX3bz0quZpg0Zj8
+ P8GnCUzN1xTpISrd9P1CgpjYX1YGo7Y=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-257-Qtw4snbNPCawDnP8qruIEA-1; Mon, 24 Oct 2022 07:00:19 -0400
-X-MC-Unique: Qtw4snbNPCawDnP8qruIEA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-549-GfbhPK-tPGSU8XwydhnJrA-1; Mon, 24 Oct 2022 07:00:22 -0400
+X-MC-Unique: GfbhPK-tPGSU8XwydhnJrA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 69972299E759;
- Mon, 24 Oct 2022 11:00:18 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EBC3B3C0F222;
+ Mon, 24 Oct 2022 11:00:21 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.195.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C6B2440C2064;
- Mon, 24 Oct 2022 11:00:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AE56BC15BB2;
+ Mon, 24 Oct 2022 11:00:21 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DEAAD21E6936; Mon, 24 Oct 2022 13:00:09 +0200 (CEST)
+ id E471221E6936; Mon, 24 Oct 2022 13:00:19 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Stefano Brivio <sbrivio@redhat.com>
-Cc: Laurent Vivier <lvivier@redhat.com>,  qemu-devel@nongnu.org,  Paul
- Durrant <paul@xen.org>,  Thomas Huth <thuth@redhat.com>,  Daniel P.
- =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>,  Greg Kurz <groug@kaod.org>,  Stefano Stabellini
- <sstabellini@kernel.org>,  David Gibson <david@gibson.dropbear.id.au>,
- Eric Blake <eblake@redhat.com>,  xen-devel@lists.xenproject.org,
- "Michael S. Tsirkin" <mst@redhat.com>,  Stefan Weil <sw@weilnetz.de>,
- Paolo Bonzini <pbonzini@redhat.com>,  Jason Wang <jasowang@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,  Anthony Perard
- <anthony.perard@citrix.com>
-Subject: Re: [PATCH v13 17/17] net: stream: add QAPI events to report
+To: Laurent Vivier <lvivier@redhat.com>
+Cc: qemu-devel@nongnu.org,  Thomas Huth <thuth@redhat.com>,
+ xen-devel@lists.xenproject.org,  "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>,  Anthony Perard <anthony.perard@citrix.com>,
+ Stefan Weil <sw@weilnetz.de>,  David Gibson
+ <david@gibson.dropbear.id.au>,  Stefano Stabellini
+ <sstabellini@kernel.org>,  Paul Durrant <paul@xen.org>,  Eric Blake
+ <eblake@redhat.com>,  "Michael S. Tsirkin" <mst@redhat.com>,  Jason Wang
+ <jasowang@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Samuel
+ Thibault <samuel.thibault@ens-lyon.org>,  Greg Kurz <groug@kaod.org>,
+ Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH v14 17/17] net: stream: add QAPI events to report
  connection state
-References: <20221020162558.123284-1-lvivier@redhat.com>
- <20221020162558.123284-18-lvivier@redhat.com>
- <87pmel4th4.fsf@pond.sub.org>
- <52e989b9-6f8d-99c6-ef04-3ce32006b002@redhat.com>
- <87lep935hn.fsf@pond.sub.org>
-Date: Mon, 24 Oct 2022 13:00:09 +0200
-In-Reply-To: <87lep935hn.fsf@pond.sub.org> (Markus Armbruster's message of
- "Fri, 21 Oct 2022 11:12:20 +0200")
-Message-ID: <87tu3tsczq.fsf@pond.sub.org>
+References: <20221021090922.170074-1-lvivier@redhat.com>
+ <20221021090922.170074-18-lvivier@redhat.com>
+Date: Mon, 24 Oct 2022 13:00:19 +0200
+In-Reply-To: <20221021090922.170074-18-lvivier@redhat.com> (Laurent Vivier's
+ message of "Fri, 21 Oct 2022 11:09:22 +0200")
+Message-ID: <87sfjdsczg.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
@@ -92,44 +89,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Markus Armbruster <armbru@redhat.com> writes:
+Laurent Vivier <lvivier@redhat.com> writes:
 
-> Cc: Stefano Brivio
+> The netdev reports NETDEV_STREAM_CONNECTED event when the backend
+> is connected, and NETDEV_STREAM_DISCONNECTED when it is disconnected.
 >
-> Laurent Vivier <lvivier@redhat.com> writes:
+> The NETDEV_STREAM_CONNECTED event includes the destination address.
 >
->> On 10/21/22 07:48, Markus Armbruster wrote:
->>> Laurent Vivier <lvivier@redhat.com> writes:
->>> 
->>>> The netdev reports NETDEV_STREAM_CONNECTED event when the backend
->>>> is connected, and NETDEV_STREAM_DISCONNECTED when it is disconnected.
->>>
->>> Use cases?
->>
->> This is asked by Stefano Brivio to allow libvirt to detect if connection to passt is lost and to restart passt.
+> This allows a system manager like libvirt to detect when the server
+> fails.
+>
+> For instance with passt:
+>
+> { 'execute': 'qmp_capabilities' }
+> { "return": { } }
+> { "timestamp": { "seconds": 1666341395, "microseconds": 505347 },
+>     "event": "NETDEV_STREAM_CONNECTED",
+>     "data": { "netdev-id": "netdev0",
+>         "addr": { "path": "/tmp/passt_1.socket", "type": "unix" } } }
+>
+> [killing passt here]
+>
+> { "timestamp": { "seconds": 1666341430, "microseconds": 968694 },
+>     "event": "NETDEV_STREAM_DISCONNECTED",
+>     "data": { "netdev-id": "netdev0" } }
+>
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
-[...]
-
->>> Could similar event signalling be useful for other kinds of netdev
->>> backends?
->>
->> I was wondering, but it becomes more complicated to be generic.
->
-> Making something complicated and generic where a simpler special
-> solution would do is the worst.
->
-> Not quite as bad (but still plenty bad) is making a few special
-> solutions first, then replace them all with a generic solution.
->
-> I believe we should have a good, hard think on possible applications of
-> a generic solution now.
->
-> There is no need to hold back this series for that.
->
-> If we conclude a generic solution is called for, we better replace this
-> special solution before it becomes ABI.  Either by replacing it before
-> we release it, or by keeping it unstable until we replace it.
-
-Stefano, any thoughts on this?
+QAPI schema
+Acked-by: Markus Armbruster <armbru@redhat.com>
 
 
