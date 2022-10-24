@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE46E60A3BC
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 14:00:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2DD960A333
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 13:52:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omvNm-0001Dm-Sx; Mon, 24 Oct 2022 07:12:38 -0400
+	id 1omvLG-0007yU-Dj; Mon, 24 Oct 2022 07:10:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <3ce77865bf813f313cf79c00fd951bfc95a50165@lizzy.crudebyte.com>)
- id 1omvNh-0001Cq-PT
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:12:37 -0400
+ (envelope-from <f723f626627fda681327075105701695d7c630e5@lizzy.crudebyte.com>)
+ id 1omvLE-0007yC-NJ
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:10:00 -0400
 Received: from lizzy.crudebyte.com ([91.194.90.13])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <3ce77865bf813f313cf79c00fd951bfc95a50165@lizzy.crudebyte.com>)
- id 1omvNg-0007p0-6u
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:12:33 -0400
+ (envelope-from <f723f626627fda681327075105701695d7c630e5@lizzy.crudebyte.com>)
+ id 1omvLD-0006YY-Cg
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:10:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=43qjrEU+qICoG2YcaXEhc530rA2w1ghXNbxEfdS/IhU=; b=Ml1BT
- 4F/wMnC4/dmnoyqYMbcrYoA8cKhQmacRnqXlI1WYGK6sqyOObCJpSJv13EaQ03gu7UEA5FR5P6xMu
- P++wFGofIj8L6g1NxMuEFuyhEKlIPBh/dOy67Ef+4Dc4gcN/zKHRMB/AWcfaGU3NqdLW5yCd6u8Yn
- qIJdJrH84yNDRrdfaRKsAof31zMXXMuUwyhTXp864eg/ht/RZJErBI9WtCxXh0pzEW/U8H22Rlym6
- n8O/TmSyLifuT2cw1kyUQEtNVQdhCxui9G7nn6sGLgD6R85eVr5fIh1+s305qSJ9U5OGKtxm3y5Ec
- dAcrrO2bcV9JLByu0eV9NM4WcCYlQ==;
-Message-Id: <3ce77865bf813f313cf79c00fd951bfc95a50165.1666608862.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=OOUuvHQ3ZvZyswiEWMATddvQ5xkB4LreZjcDVjUK7VY=; b=GpGSn
+ /H/KE6l1LELX785RJ/WiyVR3EV2bRUDRo4ikiHPsBgm9mZ4SZoBlfbK7HHYFQLP5H94vBqGC5p7/y
+ osolgqcUvL3BQUDTF/zS88m0yFM6V7+DmX1WlbnFQPd9jaX0Ign/oxxKFIQl4/SmpF5F2lnZkiyQw
+ MV3XJtj/Ugy+1nUFlW/iw5WOXELGbBjcXnOd2Ybk6DzvHQ/EhrhYgCRgzsGQBWdk80pk9PMDDvcsj
+ 4+8u1SRz/fMC5IFN8jjg9l8i+yUYril+qVYjc9q3TVS0jGNRTqezc6MwEisFAsrICGnu9N8dMzp6P
+ wJB9ZqMUkOw0FbEFnNRVwJvqIpAxQ==;
+Message-Id: <f723f626627fda681327075105701695d7c630e5.1666608862.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1666608862.git.qemu_oss@crudebyte.com>
 References: <cover.1666608862.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Mon, 24 Oct 2022 12:54:23 +0200
-Subject: [PULL 23/23] tests/9p: remove unnecessary g_strdup() calls
+Subject: [PULL 01/23] fsdev/virtfs-proxy-helper: Use g_mkdir()
 To: qemu-devel@nongnu.org,
     Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Greg Kurz <groug@kaod.org>
+Cc: Greg Kurz <groug@kaod.org>,
+    Bin Meng <bin.meng@windriver.com>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=3ce77865bf813f313cf79c00fd951bfc95a50165@lizzy.crudebyte.com;
+ envelope-from=f723f626627fda681327075105701695d7c630e5@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -62,101 +63,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a leftover from before the recent function merge and
-refactoring patches:
+From: Bin Meng <bin.meng@windriver.com>
 
-As these functions do not return control to the caller in
-between, it is not necessary to duplicate strings passed to them.
+Use g_mkdir() to create a directory on all platforms.
 
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Message-Id: <20220927110632.1973965-27-bmeng.cn@gmail.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Message-Id: <0f80141cde3904ed0591354059da49d1d60bcdbc.1664917004.git.qemu_oss@crudebyte.com>
 ---
- tests/qtest/libqos/virtio-9p-client.c | 19 ++++++++-----------
- 1 file changed, 8 insertions(+), 11 deletions(-)
+ fsdev/virtfs-proxy-helper.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/libqos/virtio-9p-client.c b/tests/qtest/libqos/virtio-9p-client.c
-index e017e030ec..e4a368e036 100644
---- a/tests/qtest/libqos/virtio-9p-client.c
-+++ b/tests/qtest/libqos/virtio-9p-client.c
-@@ -770,7 +770,6 @@ TMkdirRes v9fs_tmkdir(TMkdirOpt opt)
- {
-     P9Req *req;
-     uint32_t err;
--    g_autofree char *name = g_strdup(opt.name);
+diff --git a/fsdev/virtfs-proxy-helper.c b/fsdev/virtfs-proxy-helper.c
+index 2dde27922f..5cafcd7703 100644
+--- a/fsdev/virtfs-proxy-helper.c
++++ b/fsdev/virtfs-proxy-helper.c
+@@ -10,6 +10,7 @@
+  */
  
-     g_assert(opt.client);
-     /* expecting either hi-level atPath or low-level dfid, but not both */
-@@ -788,14 +787,14 @@ TMkdirRes v9fs_tmkdir(TMkdirOpt opt)
-     }
- 
-     uint32_t body_size = 4 + 4 + 4;
--    uint16_t string_size = v9fs_string_size(name);
-+    uint16_t string_size = v9fs_string_size(opt.name);
- 
-     g_assert_cmpint(body_size, <=, UINT32_MAX - string_size);
-     body_size += string_size;
- 
-     req = v9fs_req_init(opt.client, body_size, P9_TMKDIR, opt.tag);
-     v9fs_uint32_write(req, opt.dfid);
--    v9fs_string_write(req, name);
-+    v9fs_string_write(req, opt.name);
-     v9fs_uint32_write(req, opt.mode);
-     v9fs_uint32_write(req, opt.gid);
-     v9fs_req_send(req);
-@@ -831,7 +830,6 @@ TlcreateRes v9fs_tlcreate(TlcreateOpt opt)
- {
-     P9Req *req;
-     uint32_t err;
--    g_autofree char *name = g_strdup(opt.name);
- 
-     g_assert(opt.client);
-     /* expecting either hi-level atPath or low-level fid, but not both */
-@@ -849,14 +847,14 @@ TlcreateRes v9fs_tlcreate(TlcreateOpt opt)
-     }
- 
-     uint32_t body_size = 4 + 4 + 4 + 4;
--    uint16_t string_size = v9fs_string_size(name);
-+    uint16_t string_size = v9fs_string_size(opt.name);
- 
-     g_assert_cmpint(body_size, <=, UINT32_MAX - string_size);
-     body_size += string_size;
- 
-     req = v9fs_req_init(opt.client, body_size, P9_TLCREATE, opt.tag);
-     v9fs_uint32_write(req, opt.fid);
--    v9fs_string_write(req, name);
-+    v9fs_string_write(req, opt.name);
-     v9fs_uint32_write(req, opt.flags);
-     v9fs_uint32_write(req, opt.mode);
-     v9fs_uint32_write(req, opt.gid);
-@@ -896,8 +894,6 @@ TsymlinkRes v9fs_tsymlink(TsymlinkOpt opt)
- {
-     P9Req *req;
-     uint32_t err;
--    g_autofree char *name = g_strdup(opt.name);
--    g_autofree char *symtgt = g_strdup(opt.symtgt);
- 
-     g_assert(opt.client);
-     /* expecting either hi-level atPath or low-level fid, but not both */
-@@ -911,15 +907,16 @@ TsymlinkRes v9fs_tsymlink(TsymlinkOpt opt)
-     }
- 
-     uint32_t body_size = 4 + 4;
--    uint16_t string_size = v9fs_string_size(name) + v9fs_string_size(symtgt);
-+    uint16_t string_size = v9fs_string_size(opt.name) +
-+                           v9fs_string_size(opt.symtgt);
- 
-     g_assert_cmpint(body_size, <=, UINT32_MAX - string_size);
-     body_size += string_size;
- 
-     req = v9fs_req_init(opt.client, body_size, P9_TSYMLINK, opt.tag);
-     v9fs_uint32_write(req, opt.fid);
--    v9fs_string_write(req, name);
--    v9fs_string_write(req, symtgt);
-+    v9fs_string_write(req, opt.name);
-+    v9fs_string_write(req, opt.symtgt);
-     v9fs_uint32_write(req, opt.gid);
-     v9fs_req_send(req);
- 
+ #include "qemu/osdep.h"
++#include <glib/gstdio.h>
+ #include <sys/resource.h>
+ #include <getopt.h>
+ #include <syslog.h>
+@@ -639,7 +640,7 @@ static int do_create_others(int type, struct iovec *iovec)
+         if (retval < 0) {
+             goto err_out;
+         }
+-        retval = mkdir(path.data, mode);
++        retval = g_mkdir(path.data, mode);
+         break;
+     case T_SYMLINK:
+         retval = proxy_unmarshal(iovec, offset, "ss", &oldpath, &path);
 -- 
 2.30.2
 
