@@ -2,46 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B2EE60A2E5
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 13:49:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F70060A19B
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 13:30:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omvLE-0007xg-C8; Mon, 24 Oct 2022 07:10:00 -0400
+	id 1omvNo-0001Ec-0M; Mon, 24 Oct 2022 07:12:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <3ce77865bf813f313cf79c00fd951bfc95a50165@lizzy.crudebyte.com>)
- id 1omvLC-0007w8-46
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:09:58 -0400
+ (envelope-from <43e0d9fb358b01539d0de9494208e80ff84b5456@lizzy.crudebyte.com>)
+ id 1omvNi-0001Cs-Au
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:12:37 -0400
 Received: from lizzy.crudebyte.com ([91.194.90.13])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <3ce77865bf813f313cf79c00fd951bfc95a50165@lizzy.crudebyte.com>)
- id 1omvLA-0006YD-3Q
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:09:57 -0400
+ (envelope-from <43e0d9fb358b01539d0de9494208e80ff84b5456@lizzy.crudebyte.com>)
+ id 1omvNX-0007lX-6P
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:12:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Content-Transfer-Encoding:Content-Type:
- MIME-Version:Subject:Date:From:Message-Id:References:In-Reply-To:Content-ID:
- Content-Description; bh=nzkJQ+eM1RXAfsgG/vaAFq1MElp1WMFQthcmTldfz3c=; b=E/dGF
- HCfDpUJJCpsLslVQOX78EcBUY8obbFIbRPQH3IpvkqNj6wk4MZxl3nKBLWph6fuvNt7XtdFWhszWC
- THOjOPe1glFnnc0ZEhl/IOPvc9her+f9eaGMtYjxB4+A4QGlk4Mi8w9pKZ7vRccO5oBrltl55yNLc
- Rq7Q9qh8uOrDh9GiL/tjznNuDAALf/th4Kb4mX0gf1GGqFn1KdsdHQzK1rsalPZUN043FIV99AnIy
- hL891LvVZ/NsQQ+WhAXS7Ge9MPa7nXliA9ftoIIWyXmpEqtWX2Ifdt5yg8dzRiiJx7a6Y9PQvZFmQ
- IlXmSRexxmZALEkxQ8LXYpSnHMR4w==;
-Message-Id: <cover.1666608862.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=fqOvxrtxl0kAozVZf8lzZQlTXEjT9vupeLsdMhmgBW8=; b=Jpmvw
+ XV0IOfnqLeLszvCVFKfv+NF4yJaBfhe5Wh1H+wFWC4LImaSP53nD1Z+hB/NAB7DmhWDTu53xO7dtj
+ xw6XEPEgVw2FdZbgxak6+5ZjJuetEo4kS4xfinM42KIdl5olrQBXWXTmiJiIU/z0feInHP0DBNwO2
+ qXNmdLcCp7NI6exwJZQ465OKlIywC/lANK6CqX7AiiM/NbOGnRBGGtLIpj3IWsUCpovtQF9fZaJLg
+ 2CwVp4Mz3a9Z3l5a1fRSgvlfmFp+bqvqRoNOjQPTOQ1r2RXVRJlpJUlURYS3TWaFy25BDyGUS1dPW
+ myiIBefD0i+/uiyCYsEbn469HIgrA==;
+Message-Id: <43e0d9fb358b01539d0de9494208e80ff84b5456.1666608862.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1666608862.git.qemu_oss@crudebyte.com>
+References: <cover.1666608862.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Mon, 24 Oct 2022 12:54:23 +0200
-Subject: [PULL 00/23] 9p queue 2022-10-24
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: [PULL 22/23] tests/9p: merge v9fs_tunlinkat() and do_unlinkat()
 To: qemu-devel@nongnu.org,
     Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Greg Kurz <groug@kaod.org>, Linus Heckemann <git@sphalerite.org>,
- Bin Meng <bin.meng@windriver.com>
+Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=3ce77865bf813f313cf79c00fd951bfc95a50165@lizzy.crudebyte.com;
+ envelope-from=43e0d9fb358b01539d0de9494208e80ff84b5456@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -64,70 +62,194 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 0529245488865038344d64fff7ee05864d3d17f6:
+As with previous patches, unify those 2 functions into a single function
+v9fs_tunlinkat() by using a declarative function arguments approach.
 
-  Merge tag 'pull-target-arm-20221020' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-10-20 14:36:12 -0400)
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Message-Id: <1dea593edd464908d92501933c068388c01f1744.1664917004.git.qemu_oss@crudebyte.com>
+---
+ tests/qtest/libqos/virtio-9p-client.c | 37 +++++++++++++++++++++------
+ tests/qtest/libqos/virtio-9p-client.h | 29 +++++++++++++++++++--
+ tests/qtest/virtio-9p-test.c          | 26 ++++++-------------
+ 3 files changed, 64 insertions(+), 28 deletions(-)
 
-are available in the Git repository at:
+diff --git a/tests/qtest/libqos/virtio-9p-client.c b/tests/qtest/libqos/virtio-9p-client.c
+index a2770719b9..e017e030ec 100644
+--- a/tests/qtest/libqos/virtio-9p-client.c
++++ b/tests/qtest/libqos/virtio-9p-client.c
+@@ -1004,23 +1004,44 @@ void v9fs_rlink(P9Req *req)
+ }
+ 
+ /* size[4] Tunlinkat tag[2] dirfd[4] name[s] flags[4] */
+-P9Req *v9fs_tunlinkat(QVirtio9P *v9p, uint32_t dirfd, const char *name,
+-                      uint32_t flags, uint16_t tag)
++TunlinkatRes v9fs_tunlinkat(TunlinkatOpt opt)
+ {
+     P9Req *req;
++    uint32_t err;
++
++    g_assert(opt.client);
++    /* expecting either hi-level atPath or low-level dirfd, but not both */
++    g_assert(!opt.atPath || !opt.dirfd);
++
++    if (opt.atPath) {
++        opt.dirfd = v9fs_twalk((TWalkOpt) { .client = opt.client,
++                                            .path = opt.atPath }).newfid;
++    }
+ 
+     uint32_t body_size = 4 + 4;
+-    uint16_t string_size = v9fs_string_size(name);
++    uint16_t string_size = v9fs_string_size(opt.name);
+ 
+     g_assert_cmpint(body_size, <=, UINT32_MAX - string_size);
+     body_size += string_size;
+ 
+-    req = v9fs_req_init(v9p, body_size, P9_TUNLINKAT, tag);
+-    v9fs_uint32_write(req, dirfd);
+-    v9fs_string_write(req, name);
+-    v9fs_uint32_write(req, flags);
++    req = v9fs_req_init(opt.client, body_size, P9_TUNLINKAT, opt.tag);
++    v9fs_uint32_write(req, opt.dirfd);
++    v9fs_string_write(req, opt.name);
++    v9fs_uint32_write(req, opt.flags);
+     v9fs_req_send(req);
+-    return req;
++
++    if (!opt.requestOnly) {
++        v9fs_req_wait_for_reply(req, NULL);
++        if (opt.expectErr) {
++            v9fs_rlerror(req, &err);
++            g_assert_cmpint(err, ==, opt.expectErr);
++        } else {
++            v9fs_runlinkat(req);
++        }
++        req = NULL; /* request was freed */
++    }
++
++    return (TunlinkatRes) { .req = req };
+ }
+ 
+ /* size[4] Runlinkat tag[2] */
+diff --git a/tests/qtest/libqos/virtio-9p-client.h b/tests/qtest/libqos/virtio-9p-client.h
+index 49ffd0fc51..78228eb97d 100644
+--- a/tests/qtest/libqos/virtio-9p-client.h
++++ b/tests/qtest/libqos/virtio-9p-client.h
+@@ -415,6 +415,32 @@ typedef struct TlinkRes {
+     P9Req *req;
+ } TlinkRes;
+ 
++/* options for 'Tunlinkat' 9p request */
++typedef struct TunlinkatOpt {
++    /* 9P client being used (mandatory) */
++    QVirtio9P *client;
++    /* user supplied tag number being returned with response (optional) */
++    uint16_t tag;
++    /* low-level variant of directory where name shall be unlinked */
++    uint32_t dirfd;
++    /* high-level variant of directory where name shall be unlinked */
++    const char *atPath;
++    /* name of directory entry to be unlinked (required) */
++    const char *name;
++    /* Linux unlinkat(2) flags */
++    uint32_t flags;
++    /* only send Tunlinkat request but not wait for a reply? (optional) */
++    bool requestOnly;
++    /* do we expect an Rlerror response, if yes which error code? (optional) */
++    uint32_t expectErr;
++} TunlinkatOpt;
++
++/* result of 'Tunlinkat' 9p request */
++typedef struct TunlinkatRes {
++    /* if requestOnly was set: request object for further processing */
++    P9Req *req;
++} TunlinkatRes;
++
+ void v9fs_set_allocator(QGuestAllocator *t_alloc);
+ void v9fs_memwrite(P9Req *req, const void *addr, size_t len);
+ void v9fs_memskip(P9Req *req, size_t len);
+@@ -462,8 +488,7 @@ TsymlinkRes v9fs_tsymlink(TsymlinkOpt);
+ void v9fs_rsymlink(P9Req *req, v9fs_qid *qid);
+ TlinkRes v9fs_tlink(TlinkOpt);
+ void v9fs_rlink(P9Req *req);
+-P9Req *v9fs_tunlinkat(QVirtio9P *v9p, uint32_t dirfd, const char *name,
+-                      uint32_t flags, uint16_t tag);
++TunlinkatRes v9fs_tunlinkat(TunlinkatOpt);
+ void v9fs_runlinkat(P9Req *req);
+ 
+ #endif
+diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+index 185eaf8b1e..65e69491e5 100644
+--- a/tests/qtest/virtio-9p-test.c
++++ b/tests/qtest/virtio-9p-test.c
+@@ -28,6 +28,7 @@
+ #define tlcreate(...) v9fs_tlcreate((TlcreateOpt) __VA_ARGS__)
+ #define tsymlink(...) v9fs_tsymlink((TsymlinkOpt) __VA_ARGS__)
+ #define tlink(...) v9fs_tlink((TlinkOpt) __VA_ARGS__)
++#define tunlinkat(...) v9fs_tunlinkat((TunlinkatOpt) __VA_ARGS__)
+ 
+ static void pci_config(void *obj, void *data, QGuestAllocator *t_alloc)
+ {
+@@ -481,20 +482,6 @@ static void fs_flush_ignored(void *obj, void *data, QGuestAllocator *t_alloc)
+     g_free(wnames[0]);
+ }
+ 
+-static void do_unlinkat(QVirtio9P *v9p, const char *atpath, const char *rpath,
+-                        uint32_t flags)
+-{
+-    g_autofree char *name = g_strdup(rpath);
+-    uint32_t fid;
+-    P9Req *req;
+-
+-    fid = twalk({ .client = v9p, .path = atpath }).newfid;
+-
+-    req = v9fs_tunlinkat(v9p, fid, name, flags, 0);
+-    v9fs_req_wait_for_reply(req, NULL);
+-    v9fs_runlinkat(req);
+-}
+-
+ static void fs_readdir_split_128(void *obj, void *data,
+                                  QGuestAllocator *t_alloc)
+ {
+@@ -556,7 +543,10 @@ static void fs_unlinkat_dir(void *obj, void *data, QGuestAllocator *t_alloc)
+     /* ... and is actually a directory */
+     g_assert((st.st_mode & S_IFMT) == S_IFDIR);
+ 
+-    do_unlinkat(v9p, "/", "02", P9_DOTL_AT_REMOVEDIR);
++    tunlinkat({
++        .client = v9p, .atPath = "/", .name = "02",
++        .flags = P9_DOTL_AT_REMOVEDIR
++    });
+     /* directory should be gone now */
+     g_assert(stat(new_dir, &st) != 0);
+ }
+@@ -594,7 +584,7 @@ static void fs_unlinkat_file(void *obj, void *data, QGuestAllocator *t_alloc)
+     /* ... and is a regular file */
+     g_assert((st.st_mode & S_IFMT) == S_IFREG);
+ 
+-    do_unlinkat(v9p, "04", "doa_file", 0);
++    tunlinkat({ .client = v9p, .atPath = "04", .name = "doa_file" });
+     /* file should be gone now */
+     g_assert(stat(new_file, &st) != 0);
+ }
+@@ -643,7 +633,7 @@ static void fs_unlinkat_symlink(void *obj, void *data,
+     });
+     g_assert(stat(symlink_file, &st) == 0);
+ 
+-    do_unlinkat(v9p, "06", "symlink_file", 0);
++    tunlinkat({ .client = v9p, .atPath = "06", .name = "symlink_file" });
+     /* symlink should be gone now */
+     g_assert(stat(symlink_file, &st) != 0);
+ }
+@@ -696,7 +686,7 @@ static void fs_unlinkat_hardlink(void *obj, void *data,
+     });
+     g_assert(stat(hardlink_file, &st_link) == 0);
+ 
+-    do_unlinkat(v9p, "08", "hardlink_file", 0);
++    tunlinkat({ .client = v9p, .atPath = "08", .name = "hardlink_file" });
+     /* symlink should be gone now */
+     g_assert(stat(hardlink_file, &st_link) != 0);
+     /* and old file should still exist */
+-- 
+2.30.2
 
-  https://github.com/cschoenebeck/qemu.git tags/pull-9p-20221024
-
-for you to fetch changes up to 3ce77865bf813f313cf79c00fd951bfc95a50165:
-
-  tests/9p: remove unnecessary g_strdup() calls (2022-10-24 12:24:32 +0200)
-
-----------------------------------------------------------------
-9pfs: performance, Windows host prep, tests restructure
-
-* Highlight of this PR is Linus Heckemann's GHashTable patch which
-  brings massive general performance improvements of 9p server
-  somewhere between factor 6 .. 12.
-
-* Bin Meng's g_mkdir patch is a preparatory patch for upcoming
-  Windows host support of 9p server.
-
-* The rest of the patches in this PR are 9p test code restructuring
-  and refactoring changes to improve readability and to ease
-  maintenance of 9p test code on the long-term.
-
-----------------------------------------------------------------
-Bin Meng (1):
-      fsdev/virtfs-proxy-helper: Use g_mkdir()
-
-Christian Schoenebeck (21):
-      tests/9p: split virtio-9p-test.c into tests and 9p client part
-      tests/9p: merge *walk*() functions
-      tests/9p: simplify callers of twalk()
-      tests/9p: merge v9fs_tversion() and do_version()
-      tests/9p: merge v9fs_tattach(), do_attach(), do_attach_rqid()
-      tests/9p: simplify callers of tattach()
-      tests/9p: convert v9fs_tgetattr() to declarative arguments
-      tests/9p: simplify callers of tgetattr()
-      tests/9p: convert v9fs_treaddir() to declarative arguments
-      tests/9p: simplify callers of treaddir()
-      tests/9p: convert v9fs_tlopen() to declarative arguments
-      tests/9p: simplify callers of tlopen()
-      tests/9p: convert v9fs_twrite() to declarative arguments
-      tests/9p: simplify callers of twrite()
-      tests/9p: convert v9fs_tflush() to declarative arguments
-      tests/9p: merge v9fs_tmkdir() and do_mkdir()
-      tests/9p: merge v9fs_tlcreate() and do_lcreate()
-      tests/9p: merge v9fs_tsymlink() and do_symlink()
-      tests/9p: merge v9fs_tlink() and do_hardlink()
-      tests/9p: merge v9fs_tunlinkat() and do_unlinkat()
-      tests/9p: remove unnecessary g_strdup() calls
-
-Linus Heckemann (1):
-      9pfs: use GHashTable for fid table
-
- fsdev/virtfs-proxy-helper.c           |    3 +-
- hw/9pfs/9p.c                          |  196 ++---
- hw/9pfs/9p.h                          |    2 +-
- tests/qtest/libqos/meson.build        |    1 +
- tests/qtest/libqos/virtio-9p-client.c | 1049 ++++++++++++++++++++++++++
- tests/qtest/libqos/virtio-9p-client.h |  494 +++++++++++++
- tests/qtest/virtio-9p-test.c          | 1299 ++++++---------------------------
- 7 files changed, 1867 insertions(+), 1177 deletions(-)
- create mode 100644 tests/qtest/libqos/virtio-9p-client.c
- create mode 100644 tests/qtest/libqos/virtio-9p-client.h
 
