@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54562609A3B
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 08:11:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E81C609AC1
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 08:52:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omqIB-00068O-QH; Mon, 24 Oct 2022 01:46:31 -0400
+	id 1omrEm-0003E3-HY; Mon, 24 Oct 2022 02:47:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1omqHc-0005mw-0t
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 01:46:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1omqHX-0000u9-NR
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 01:45:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666590348;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1PoG0FQT2c4UkGydohqPRXgn4pALXTindYsLRjqQo2c=;
- b=dkm/MlDkdx6f3fpUPqadqs9t5HBvgCqLW8PteUr2ZxBXvVaElSbEZnmqtdqxf/6L318Ura
- 6bjhZd8BuYn2U4Be3R1IYHxR8fDOT7H0sOnW4+T81N0rBI3v6waGE/hGt8P4bwh30uc2sH
- 6TUXhf0kxPPYBbgFnUGZvHCTKHTHdi4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-85-yT5wv1YoNWKr_3xnkVkYow-1; Mon, 24 Oct 2022 01:45:42 -0400
-X-MC-Unique: yT5wv1YoNWKr_3xnkVkYow-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C6B8802540;
- Mon, 24 Oct 2022 05:45:17 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B2720112132C;
- Mon, 24 Oct 2022 05:45:01 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9F01A21E6936; Mon, 24 Oct 2022 07:44:57 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Volker =?utf-8?Q?R=C3=BCmelin?= <vr_qemu@t-online.de>
-Cc: Gerd Hoffmann <kraxel@redhat.com>,  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
- <marcandre.lureau@redhat.com>,  qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-Subject: Re: [PATCH] ui: remove useless typecasts
-References: <20221022141204.29358-1-vr_qemu@t-online.de>
-Date: Mon, 24 Oct 2022 07:44:57 +0200
-In-Reply-To: <20221022141204.29358-1-vr_qemu@t-online.de> ("Volker
- =?utf-8?Q?R=C3=BCmelin=22's?=
- message of "Sat, 22 Oct 2022 16:12:04 +0200")
-Message-ID: <87k04pu65i.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1omrE1-0002fO-W3
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 02:46:32 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1omrE0-0000Cd-09
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 02:46:17 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id g12so1772619wrs.10
+ for <qemu-devel@nongnu.org>; Sun, 23 Oct 2022 23:46:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Epqq8F0IEXyV5guURf9EVUBuC8wp/Vyr34qWgjLBpvY=;
+ b=RXZRd48qAwMNvCj1cfJN9wdSvqG767liJqY8dXcMULV/dIClfmxNaZxAgvbypPGmmB
+ cbqQuY1G4VG2bOvppoLFrr5ZLZR4jAvmJtmRSW+AGiQwwLNYkpYR4fzOv99Etws9pYxI
+ hy5xE9GNmydc2uzeYKgNfwTLXPz9bWKVAzUoIIqWYT6bVVrQoJjVjmiNxOlpxTjIfwoH
+ F17UQUoHNi8COmtr9ERargKfsjWFwJu5SIJUSWgx2xGD65zPBZXGr/5t59NNyekcY9ej
+ E43meXGdKFHZPI+9EbQicxbW6PFqQ1jTWkeBqBoxUPqtEYEYFbmCFyqLLYzYqYYQXa8c
+ XQ/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Epqq8F0IEXyV5guURf9EVUBuC8wp/Vyr34qWgjLBpvY=;
+ b=vUZqjhTB3u5uyXI+YmqaOTjm/V3NROVIKSqmWwrSyIyo3iEwEv0EVRmmekrJ6YtnwV
+ ud2xD6OmYc+bql0ilmhOwRQZiqrPNBxW4q24R83dJxXLzzgTh53BpppagSf4sEEqQHsm
+ AiFJ3YCj3iz0Cfurn0eZNxIwpG1M71urezAlXl8w3qwBpE4epNKKg48uoSv1tT2SaiMf
+ U5+epExXgemN2ue4Qt25JdRc+OuFxlPKVOID8uwUnhbfs1dypapZ7+QP3kc1KgUqp7JL
+ SXEUd6KSQ6iQdZrSxNrl42uPI9DgX63qEgk1i/lzLCTwD/WLMUOXsidwtwQQuVGApZJU
+ UoNA==
+X-Gm-Message-State: ACrzQf1ttBle3wtkvlT7i5NGSLT6tzLE6W6Y4a8NSEGxXMGTr+gkf+b0
+ 12Y+8KCpq9oPNlsoNeNGcIcJdw==
+X-Google-Smtp-Source: AMsMyM7KBAZIQN0kLXHsSd72SZeJPOnbCv9mhLlKTkQj6cfkrWYrCq8m/gCyK3rP71y99Owz80GMFQ==
+X-Received: by 2002:adf:e305:0:b0:22e:6b55:3ed9 with SMTP id
+ b5-20020adfe305000000b0022e6b553ed9mr19664878wrj.684.1666593974501; 
+ Sun, 23 Oct 2022 23:46:14 -0700 (PDT)
+Received: from [10.50.0.10]
+ (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
+ by smtp.gmail.com with ESMTPSA id
+ k16-20020a5d6290000000b0022ae4f8395dsm24836852wru.96.2022.10.23.23.46.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 23 Oct 2022 23:46:13 -0700 (PDT)
+Message-ID: <87119fc5-bd0c-5046-7651-65e1ba833178@linaro.org>
+Date: Mon, 24 Oct 2022 08:46:12 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.2
+Subject: Re: [PATCH] accel/tcg/tcg-accel-ops-rr: fix trivial typo
+Content-Language: en-US
+To: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>,
+ qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org
+References: <5dc556dbe241ae03859b7890d1998de5c77b7c6c.1666373742.git.quic_mathbern@quicinc.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <5dc556dbe241ae03859b7890d1998de5c77b7c6c.1666373742.git.quic_mathbern@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,65 +92,12 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Volker R=C3=BCmelin <vr_qemu@t-online.de> writes:
-
-> Commit 8f9abdf586 ("chardev: src buffer const for write functions")
-> changed the type of the second parameter of qemu_chr_be_write()
-> from uint8_t * to const uint8_t *. Remove the now useless type
-> casts from qemu_chr_be_write() function calls in ui/console.c and
-> ui/gtk.c.
->
-> Cc: qemu-trivial@nongnu.org
-> Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
+On 21/10/22 19:36, Matheus Tavares Bernardino wrote:
+> Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
 > ---
->  ui/console.c | 2 +-
->  ui/gtk.c     | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/ui/console.c b/ui/console.c
-> index 49da6a91df..65c117874c 100644
-> --- a/ui/console.c
-> +++ b/ui/console.c
-> @@ -1297,7 +1297,7 @@ static void kbd_send_chars(QemuConsole *s)
->          uint32_t size;
->=20=20
->          buf =3D fifo8_pop_buf(&s->out_fifo, MIN(len, avail), &size);
-> -        qemu_chr_be_write(s->chr, (uint8_t *)buf, size);
-> +        qemu_chr_be_write(s->chr, buf, size);
->          len =3D qemu_chr_be_can_write(s->chr);
->          avail -=3D size;
->      }
-> diff --git a/ui/gtk.c b/ui/gtk.c
-> index 92daaa6a6e..7ec21f7798 100644
-> --- a/ui/gtk.c
-> +++ b/ui/gtk.c
-> @@ -1763,7 +1763,7 @@ static void gd_vc_send_chars(VirtualConsole *vc)
->          uint32_t size;
->=20=20
->          buf =3D fifo8_pop_buf(&vc->vte.out_fifo, MIN(len, avail), &size);
-> -        qemu_chr_be_write(vc->vte.chr, (uint8_t *)buf, size);
-> +        qemu_chr_be_write(vc->vte.chr, buf, size);
->          len =3D qemu_chr_be_can_write(vc->vte.chr);
->          avail -=3D size;
->      }
+>   accel/tcg/tcg-accel-ops-rr.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-
-Related:
-
-tests/unit/test-char.c:219:    qemu_chr_be_write(base, (void *)"hello", 6);
-tests/unit/test-char.c:236:    qemu_chr_be_write(base, (void *)"\1b", 2);
-tests/unit/test-char.c:240:    qemu_chr_be_write(base, (void *)"\1c", 2);
-tests/unit/test-char.c:247:    qemu_chr_be_write(base, (void *)"hello", 6);
-tests/unit/test-char.c:253:    qemu_chr_be_write(base, (void *)"\1b", 2);
-tests/unit/test-char.c:319:    qemu_chr_be_write(base, (void *)"hello", 6);
-tests/unit/test-char.c:323:    qemu_chr_be_write(base, (void *)"\1c", 2);
-tests/unit/test-char.c:324:    qemu_chr_be_write(base, (void *)"hello", 6);
-tests/unit/test-char.c:331:    qemu_chr_be_write(base, (void *)"\1?", 2);
-
-The cast strips away const, and the conversion adds it back.  Slightly
-unclean.  Not sure its worth a patch.
-
-I wonder why the parameter isn't const void *, though.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
