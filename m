@@ -2,56 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4863760B1B9
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 18:34:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5CCA60B375
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 19:06:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omzNz-0007GN-Os; Mon, 24 Oct 2022 11:29:07 -0400
+	id 1omzJ3-0003dM-E9; Mon, 24 Oct 2022 11:24:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Clay.Mayers@kioxia.com>)
- id 1omzNy-0007GC-4G
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:29:06 -0400
-Received: from usmailhost21.kioxia.com ([12.0.68.226]
- helo=SJSMAIL01.us.kioxia.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <Clay.Mayers@kioxia.com>)
- id 1omzNw-0000g0-3Q
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:29:05 -0400
-Received: from SJSMAIL01.us.kioxia.com (10.90.133.90) by
- SJSMAIL01.us.kioxia.com (10.90.133.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.32; Mon, 24 Oct 2022 08:22:57 -0700
-Received: from SJSMAIL01.us.kioxia.com ([::1]) by SJSMAIL01.us.kioxia.com
- ([fe80::213a:a308:b836:4a06%3]) with mapi id 15.01.2375.032; Mon, 24 Oct 2022
- 08:22:57 -0700
-From: Clay Mayers <Clay.Mayers@kioxia.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-CC: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>, "Fam
- Zheng" <fam@euphon.net>, =?iso-8859-1?Q?Phlippe_Mathieu-Daud=E9?=
- <f4bug@amsat.org>, Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Subject: RE: [PATCH V2 0/4] hw/block/nvme: Implement ZNS finish-zone ZDC AEN
-Thread-Topic: [PATCH V2 0/4] hw/block/nvme: Implement ZNS finish-zone ZDC AEN
-Thread-Index: AQHY5aY4pNtOdbFOA0uMGvVaZoR3h64drOQg
-Date: Mon, 24 Oct 2022 15:22:57 +0000
-Message-ID: <7bedb8d5019f49db8b2102badfdac821@kioxia.com>
-References: <20221021231038.1042659-1-clay.mayers@kioxia.com>
-In-Reply-To: <20221021231038.1042659-1-clay.mayers@kioxia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.93.77.43]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1omzJ1-0003cj-Il
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:23:59 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1omzIz-0008EV-CT
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:23:59 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 5CD7D320083A;
+ Mon, 24 Oct 2022 11:23:54 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Mon, 24 Oct 2022 11:23:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+ s=fm1; t=1666625033; x=1666711433; bh=a2lEq79IhxWUrbYMVDjfCn8JQ
+ s4CShLWoZXrNy9J7hE=; b=kR2bOD7grReWXTWLmVVq2Vj7iamZnCxsgfEtYhgpw
+ eBduTjd+kGxMuL+L1XP6JkaoEYa1GipvkfNkexqMGYpS3svoIdT3ANRRMPUMwBr8
+ 4HvlX/wYuemqumgThVnkJ8xMtVDixa+YGyA3vNJsrgbMnD6vbbGXMw0l/251LO+N
+ /D0linQqF3vIvsbyrS5uWhMXfPJOToa5pq2Z/LPX8QHv0cym6BwhKr06PHbaZQHQ
+ 2vInlpTTf9B5Evx2BiC9kGtuSDBPyT/dVkqjUPcrmcksL2EVy/SpUdcZ0gdDM9FH
+ +fzvb8CHbpBY/Tu0EhZ16SQp5+88hG9JLPoVvrkKFsshA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+ 1666625033; x=1666711433; bh=a2lEq79IhxWUrbYMVDjfCn8JQs4CShLWoZX
+ rNy9J7hE=; b=ToR9k4qnPXhpo2iN1zdPx6IjxeSfEWDDG4/rR/bXXjYYRkK5caA
+ 8z//4Lzc7gQU1sOfSjTpCK10tR87U7dSh29Ecqe/YpST2iJmh4BLBOzssBjE2xad
+ 4QsYIFKJEHk1ERT4a5mPCLRqE95rhNM9NzfLPN74pBCNrEAeEGTs8lUyoZ8MUdxu
+ YMq3CckNQi94RI5E/61NCbvqcQbnesWkMfAk0OkWmnlTXWbXBo+Nq6b7eJ7a6Bn/
+ /qRbPndUoDnMsBeAqin1MHrJ3w3JX9H/eZy4tB+jTnPk8QyOxjA2KO0UAjIbpF2X
+ aXMzEHGGR+AdzsS7ebxqFYV8rqpPbP/+1/g==
+X-ME-Sender: <xms:Ca5WY_gOxEZFxuKvuIf3gd9oa-U2KfbGL-gaaA5cW-8gnhRPWOytjw>
+ <xme:Ca5WY8BLg2vSJC3etc2Yrz3GYnkD_8FGtLkmGCVX2PBMTUpEutm7_mhILL_9wjKSN
+ VmpzhSMfSLZe3rAZcs>
+X-ME-Received: <xmr:Ca5WY_EYVgnGzNY1uHTPhjYSLMlEYEGUEPe7G6TJk-5ItHEIntxPT3wf4w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgedtgedgkeegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+ ertddtnecuhfhrohhmpeflihgrgihunhcujggrnhhguceojhhirgiguhhnrdihrghnghes
+ fhhlhihgohgrthdrtghomheqnecuggftrfgrthhtvghrnhephfetuddtudevieeljeejte
+ ffheeujeduhefgffejudfhueelleduffefgfffveeknecuvehluhhsthgvrhfuihiivgep
+ tdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgoh
+ grthdrtghomh
+X-ME-Proxy: <xmx:Ca5WY8SQIJWEM9xv5I6fNom6VAjHA-ikEy3iZSlaU_EYzIctlnNh5w>
+ <xmx:Ca5WY8x_4Wn1nNc4FcNeKHgNRsfsLg9CDshNe4DbRGd1glA9qVRHsA>
+ <xmx:Ca5WYy5Oy-YhfjJaeKhICxj7e-m_KawiFXcuwUYCYiX-J4sCRjgZYg>
+ <xmx:Ca5WY386uJ3QLwT0eJilhK5q22xFEkrOsxkacvIBddkYt96_GfCrHQ>
+Feedback-ID: ifd894703:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 24 Oct 2022 11:23:53 -0400 (EDT)
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+To: qemu-devel@nongnu.org
+Cc: f4bug@amsat.org, richard.henderson@linaro.org,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: [PATCH 0/6] MIPS decodetree conversion
+Date: Mon, 24 Oct 2022 16:23:43 +0100
+Message-Id: <20221024152349.215135-1-jiaxun.yang@flygoat.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Received-SPF: pass client-ip=12.0.68.226; envelope-from=Clay.Mayers@kioxia.com;
- helo=SJSMAIL01.us.kioxia.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=64.147.123.19;
+ envelope-from=jiaxun.yang@flygoat.com; helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,68 +98,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-> From:  clay.mayers@kioxia.com
-> Sent: Friday, October 21, 2022 4:11 PM
-> To: qemu-devel@nongnu.org
-> Cc: Keith Busch <kbusch@kernel.org>; Klaus Jensen <its@irrelevant.dk>; Fa=
-m
-> Zheng <fam@euphon.net>; Phlippe Mathieu-Daud=E9 <f4bug@amsat.org>
-> Subject: [PATCH V2 0/4] hw/block/nvme: Implement ZNS finish-zone ZDC AEN
->=20
-> From: Clay Mayers <clay.mayers@kioxia.com>
->=20
-> ZNS controllers have the option to limit the time a zone can remain in
-> the active state.  It begins with a background process in the controller
-> setting the finish-zone-recommended FZR attribute for a zone.  As part of
-> setting this attribute, the zone's id is added to the namespace's
-> zone-descriptor-changed (ZDC) log page. If enabled, items added to the
-> ZDC log page generate a ZDC "asynchronous event notification" AEN.
-> Optionally,
-> the control can induce a "zone excursion" forcing the zone into the finis=
-hed
-> state that also generates a ZDC event.
->=20
-> Zone enabled applications need to properly handle ZDC events. In a real
-> device,
-> the timeout is many hours making testing an application difficult.
-> Implemented is the generation of FZR ZDC events to speed up O/S and
-> application
-> testing.
->=20
-> Added to the zoned NVMe command set is an optional, per-namespace timer
-> (zoned.finish_time) to set the FZR attr for long-lived active zones; A pe=
-r
-> namespace ZDC log page; AEN results to including CQE.DW1 (the NSID of the
-> ZDC
-> AEN) and generating a ZDC AEN if it's been enabled. Zone excursions are n=
-ot
-> modeled.
->=20
-> See section 5.5 of the NVMe Zoned Namespace Command Set Specification
-> v1.1
-> for more details.
->=20
-> Changes since v1
-> - Fixed offset length checking in zdc log page
-> - Moved zdc_event_queued to the patch 4
-> - Unwatched zdc events in nvme_exit()
->=20
-> Clay Mayers (4):
->   hw/block/nvme: add ZONE_FINISH_RECOMMENDED functionality
->   hw/block/nvme: add zone descriptor changed log page
->   hw/block/nvme: supply dw1 for aen result
->   hw/block/nvme: add zone descriptor changed AEN
->=20
->  docs/system/devices/nvme.rst |   5 +
->  hw/nvme/ctrl.c               | 174 +++++++++++++++++++++++++++++++++--
->  hw/nvme/ns.c                 |  15 +++
->  hw/nvme/nvme.h               |  37 +++++++-
->  hw/nvme/trace-events         |   3 +-
->  include/block/nvme.h         |  14 ++-
->  6 files changed, 233 insertions(+), 15 deletions(-)
->=20
-> --
-> 2.27.0
+Currently only MIPS I to MIPS Release 5 arithmatic functions are converted.
+Old decoding functions are perserved in codebase for now due to dependencies
+from microMIPS/nanoMIPS translation code. Will remove them after dealing with
+release 6.
 
-I forgot to add Dmitry to the CC list for v2
+Both instruction encoding and test cases are generated form MIPS's internal
+architecture validation tools so they are gureented to be correct.
+
+Note:
+There are some checkpatch warning/error on test cases but I'm not going to
+touch them as they are generated code.
+
+Thanks.
+
+RFC->v1:
+ - Tidy up test cases
+ - Convert TX79 as well
+
+- Jiaxun
+Jiaxun Yang (6):
+  target/mips: Introduce register access helper functions
+  target/mips: Convert legacy arithmatic instructions to decodetree
+  tests/tcg/mips: Add mips32 arithmatic instruction test cases
+  target/mips: Split Loongson extention translation into standalone file
+  target/mips: Move all tx79 instructions to decodetree
+  target/mips: Make MXU decoder standalone
+
+ target/mips/tcg/insn_trans/trans_arith.c.inc  |  352 +++
+ target/mips/tcg/legacy.decode                 |   62 +
+ target/mips/tcg/loongson_translate.c          | 1290 +++++++++++
+ target/mips/tcg/meson.build                   |    2 +
+ target/mips/tcg/mxu_translate.c               |   98 +-
+ target/mips/tcg/translate.c                   | 1917 ++---------------
+ target/mips/tcg/translate.h                   |   60 +
+ target/mips/tcg/tx79.decode                   |   14 +
+ target/mips/tcg/tx79_translate.c              |  205 +-
+ tests/tcg/mips/include/test_utils_32.h        |   75 +
+ .../tcg/mips/user/isa/mips32/arithmatic/add.c |   99 +
+ .../mips/user/isa/mips32/arithmatic/addi.c    |   70 +
+ .../mips/user/isa/mips32/arithmatic/addiu.c   |   90 +
+ .../mips/user/isa/mips32/arithmatic/addu.c    |  125 ++
+ .../tcg/mips/user/isa/mips32/arithmatic/div.c |   81 +
+ .../mips/user/isa/mips32/arithmatic/divu.c    |   78 +
+ .../mips/user/isa/mips32/arithmatic/madd.c    |   79 +
+ .../mips/user/isa/mips32/arithmatic/maddu.c   |   78 +
+ .../mips/user/isa/mips32/arithmatic/msub.c    |   78 +
+ .../mips/user/isa/mips32/arithmatic/msubu.c   |   78 +
+ .../tcg/mips/user/isa/mips32/arithmatic/mul.c |   78 +
+ .../mips/user/isa/mips32/arithmatic/mult.c    |   78 +
+ .../mips/user/isa/mips32/arithmatic/multu.c   |   78 +
+ .../tcg/mips/user/isa/mips32/arithmatic/slt.c |   61 +
+ .../mips/user/isa/mips32/arithmatic/slti.c    |   48 +
+ .../mips/user/isa/mips32/arithmatic/sltiu.c   |   48 +
+ .../mips/user/isa/mips32/arithmatic/sltu.c    |   61 +
+ .../tcg/mips/user/isa/mips32/arithmatic/sub.c |  104 +
+ .../mips/user/isa/mips32/arithmatic/subu.c    |  108 +
+ 29 files changed, 3865 insertions(+), 1730 deletions(-)
+ create mode 100644 target/mips/tcg/insn_trans/trans_arith.c.inc
+ create mode 100644 target/mips/tcg/legacy.decode
+ create mode 100644 target/mips/tcg/loongson_translate.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/add.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/addi.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/addiu.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/addu.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/div.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/divu.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/madd.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/maddu.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/msub.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/msubu.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/mul.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/mult.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/multu.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/slt.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/slti.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/sltiu.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/sltu.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/sub.c
+ create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/subu.c
+
+-- 
+2.34.1
+
 
