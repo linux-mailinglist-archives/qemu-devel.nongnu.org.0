@@ -2,117 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A700660B162
+	by mail.lfdr.de (Postfix) with ESMTPS id 94EB160B161
 	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 18:21:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omzLi-0005T2-FM; Mon, 24 Oct 2022 11:26:46 -0400
+	id 1omzad-0006RM-AA; Mon, 24 Oct 2022 11:42:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1omzLf-0005Rg-NW
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:26:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1omzLc-0000W0-TY
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:26:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666625200;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UBAegUasNa5RuqJ7q9GZwuYTzFErEwMDb+Eg1mrTrvE=;
- b=Bf6K+ywIiuvLBIKKRrUP39dmMwFcgNefQxA4dO3oi3HFUaByQEC3liHAa/WTmbSHjqP3UA
- Y+q9Ilo0xYZxzNlFVNFFP4+jaRx/1yzA2LmDtMov0jwTu+dzE0x6C7Mh79wdW0sOURDBb/
- ap3tA5yDdHgaP4W/UH5ILaRgq21M80k=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-410-cFxDQatgN9iE-l2saw3BXQ-1; Mon, 24 Oct 2022 11:26:39 -0400
-X-MC-Unique: cFxDQatgN9iE-l2saw3BXQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- r203-20020a1c44d4000000b003c3a87d8abdso4286236wma.2
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 08:26:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <amarjargal16@gmail.com>)
+ id 1omzaa-0006RA-UL
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:42:08 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <amarjargal16@gmail.com>)
+ id 1omzaZ-00032s-B3
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 11:42:08 -0400
+Received: by mail-ed1-x532.google.com with SMTP id r14so32407828edc.7
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 08:42:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=v+mHN3ErBBBsbADz29Ldk6jmeeoNmEyDSlnja4h3Z5I=;
+ b=OTPg1H2p+/nSPeAA5ycIYEkE4b636onNMyjdcX5BMkk2sGN+Wf3qoHCcnmXQSeeepB
+ SYZMyv18DH3dNj/0Tm381zl0BVItLsw0hamopn8w0s3bc+JofGVPuFNp85Pvzn6wbhof
+ 8KbrBb++grHljJhn0U2tiWZoMuzf7rKxjOXvOzzcP1QI3dOb18nuC8cdfcwxacIKum2R
+ 7YoBwEfH/OR3Ng9HBgehlsAlc6UQlB40EWT8veSEQeMT2DEm7xI1MRA/oylzqM063/qd
+ v8fTmZuV5lGnFBV3P9t3cgmOzgPiA3bMwy65etJMDiaWD0AdxUutjRuJ/dWJRKdLdTXo
+ 74Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=UBAegUasNa5RuqJ7q9GZwuYTzFErEwMDb+Eg1mrTrvE=;
- b=aiZma/rO2MkU1legtK+wZLMBeln8W3pR+65LEUfi8W5OcI7kLJ39UrgScM5vEG+mgl
- vrMEy9FXItJYPqc6kthdBW6EEQcQ8Zj/BCiHY7P7KG1ms1cFEhVddg5/64YP/DiCEAQs
- wDf2GEqDWc3gSp8D2yvcC3ABqYhBKHyVX5/ZOs5Ko4z2BlHWnr9Gvb0en1CHpAWx57co
- ewOnfYBiKKLKm7tDetpK2mrwb54VTHWPewDw6erI8D15+uzliROAGuaAjaAH9YfkJqeP
- jjZGvHz8wct3g6+qt0A/wPMpdAKrjcF7vPr4sOFByp7oX4AOh5tXk8pkMtSt/b0uvgnc
- zQaQ==
-X-Gm-Message-State: ACrzQf3MbASYQSIC1+KwgGFl9ML4KseWyRA0pBrf0yTG+PV/hnTuHcjl
- 5oFsZleDXsoPyfnofQH3YKJ55fcLFw/EAFl+fXg1DvPnVWiVfKFGtWKyZeR+rS4yiqhOVnKL4DP
- md5p96tMCE8/yTNo=
-X-Received: by 2002:a5d:5a11:0:b0:22e:3ed1:e426 with SMTP id
- bq17-20020a5d5a11000000b0022e3ed1e426mr21883690wrb.642.1666625197884; 
- Mon, 24 Oct 2022 08:26:37 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4QYF0qpu+Yh4YQF+Y42ukyfMe46omRnCHz7TFmRMmq2+h+eVJ2IzD1faJk9A3cMFb5eNTxMw==
-X-Received: by 2002:a5d:5a11:0:b0:22e:3ed1:e426 with SMTP id
- bq17-20020a5d5a11000000b0022e3ed1e426mr21883650wrb.642.1666625197580; 
- Mon, 24 Oct 2022 08:26:37 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c704:f100:6371:a05b:e038:ac2c?
- (p200300cbc704f1006371a05be038ac2c.dip0.t-ipconnect.de.
- [2003:cb:c704:f100:6371:a05b:e038:ac2c])
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=v+mHN3ErBBBsbADz29Ldk6jmeeoNmEyDSlnja4h3Z5I=;
+ b=Sif/Ewb+EwR7FvuhyQIK03nYccNf6BwOTZpkmhAG8rgicHHSwoebv+I7+eSac+/2oh
+ eFy+Yi8Tn4UHi+rA2W3FY7b0szRVXxUIpCZdmk4ID59r2yTA/DleaBrtVo9lLC4ZdNgU
+ xT3HXUqmmTY+hrecluZp+3CdNrR4QRQtWY97H3jdzNNGiTf5AZ/6AwTjIp+qbhFCBZiz
+ FMcQbPUX+jcpqkSW6E3YwA3jpKLUMeTU4ZjXu8UZZa6JR+PE2OYvdzJnnuBHzdY1+zmU
+ 0tGBkpqnuS4jB0ymjg4WeOkGsux1lqLSeUo2AuJYNdTGw6GnHAIKwWwVK7U6usGgSLiT
+ FPXA==
+X-Gm-Message-State: ACrzQf2PB0+3qk5QlrIaQ+0/GBca8M8rmfXUSU7XJW7Qds+6zjUA8MZ7
+ DyMbW0e3IO2YhFWrNOXcYQc=
+X-Google-Smtp-Source: AMsMyM6J5Be6eKaqHwS7Q3SQW4XZlrDcxBnMZr4sSJGQGGThUAXBx3Yug9O5Zpi+gcSiETWm/hXX2g==
+X-Received: by 2002:a05:6402:254b:b0:45d:b117:90f0 with SMTP id
+ l11-20020a056402254b00b0045db11790f0mr30825645edb.57.1666626124455; 
+ Mon, 24 Oct 2022 08:42:04 -0700 (PDT)
+Received: from [192.168.1.9] ([202.21.109.40])
  by smtp.gmail.com with ESMTPSA id
- k21-20020a05600c0b5500b003cdf141f363sm194606wmr.11.2022.10.24.08.26.35
+ y21-20020aa7d515000000b00461aebb2fe2sm55771edq.54.2022.10.24.08.42.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Oct 2022 08:26:37 -0700 (PDT)
-Message-ID: <e0371b20-0edf-0fc3-71db-e0c94bd0f290@redhat.com>
-Date: Mon, 24 Oct 2022 17:26:34 +0200
+ Mon, 24 Oct 2022 08:42:04 -0700 (PDT)
+Message-ID: <407d964d-7a00-4e94-a0d7-054eb6f881cf@gmail.com>
+Date: Mon, 24 Oct 2022 23:42:01 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v3 2/4] hw/audio: fix tab indentation
+To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <cover.1666371095.git.amarjargal16@gmail.com>
+ <5072d17c33b7bdb068f45308961259889ce1fd8a.1666371096.git.amarjargal16@gmail.com>
+ <2448bc23-3849-a25b-8e77-f487ae7efb46@t-online.de>
 Content-Language: en-US
-To: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Sean Christopherson <seanjc@google.com>
-Cc: Chao Peng <chao.p.peng@linux.intel.com>,
- Vishal Annapurve <vannapurve@google.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Yu Zhang <yu.c.zhang@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
- <CAGtprH_MiCxT2xSxD2UrM4M+ghL0V=XEZzEX4Fo5wQKV4fAL4w@mail.gmail.com>
- <20221021134711.GA3607894@chaop.bj.intel.com> <Y1LGRvVaWwHS+Zna@google.com>
- <20221024145928.66uehsokp7bpa2st@box.shutemov.name>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20221024145928.66uehsokp7bpa2st@box.shutemov.name>
+From: Amarjargal Gundjalam <amarjargal16@gmail.com>
+In-Reply-To: <2448bc23-3849-a25b-8e77-f487ae7efb46@t-online.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.503,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=amarjargal16@gmail.com; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -128,51 +97,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 24.10.22 16:59, Kirill A . Shutemov wrote:
-> On Fri, Oct 21, 2022 at 04:18:14PM +0000, Sean Christopherson wrote:
->> On Fri, Oct 21, 2022, Chao Peng wrote:
->>>>
->>>> In the context of userspace inaccessible memfd, what would be a
->>>> suggested way to enforce NUMA memory policy for physical memory
->>>> allocation? mbind[1] won't work here in absence of virtual address
->>>> range.
->>>
->>> How about set_mempolicy():
->>> https://www.man7.org/linux/man-pages/man2/set_mempolicy.2.html
+
+On 23/10/22 15:53, Volker Rümelin wrote:
+> Am 21.10.22 um 18:59 schrieb Amarjargal Gundjalam:
+>
+>> The TABs should be replaced with spaces, to make sure that we have a
+>> consistent coding style with an indentation of 4 spaces everywhere.
 >>
->> Andy Lutomirski brought this up in an off-list discussion way back when the whole
->> private-fd thing was first being proposed.
+>> Resolves:https://gitlab.com/qemu-project/qemu/-/issues/370
+>> Reviewed-by: Daniel P. Berrangé<berrange@redhat.com>
 >>
->>    : The current Linux NUMA APIs (mbind, move_pages) work on virtual addresses.  If
->>    : we want to support them for TDX private memory, we either need TDX private
->>    : memory to have an HVA or we need file-based equivalents. Arguably we should add
->>    : fmove_pages and fbind syscalls anyway, since the current API is quite awkward
->>    : even for tools like numactl.
-> 
-> Yeah, we definitely have gaps in API wrt NUMA, but I don't think it be
-> addressed in the initial submission.
-> 
-> BTW, it is not regression comparing to old KVM slots, if the memory is
-> backed by memfd or other file:
-> 
-> MBIND(2)
->         The  specified policy will be ignored for any MAP_SHARED mappings in the
->         specified memory range.  Rather the pages will be allocated according to
->         the  memory  policy  of the thread that caused the page to be allocated.
->         Again, this may not be the thread that called mbind().
+>> Signed-off-by: Amarjargal Gundjalam<amarjargal16@gmail.com>
+>> ---
+>>   hw/audio/fmopl.c          | 1664 ++++++++++++++++++-------------------
+>>   hw/audio/fmopl.h          |  138 +--
+>>   hw/audio/intel-hda-defs.h | 1008 +++++++++++-----------
+>>   hw/audio/wm8750.c         |  270 +++---
+>>   4 files changed, 1540 insertions(+), 1540 deletions(-)
+>
+> Hi Amarjargal,
+>
+> I had a look at hw/audio/fmopl.c and I think the result doesn't look 
+> right. A few comments are no longer correctly aligned. I guess you 
+> just replaced all TABs with four spaces. But this is not how TABs work.
+>
+> For reference: I used the vim command
+>
+> :%s/^I/    /g
+>
+> and the result is identical to your file. The commands
+>
+> :se ts=4 expandtab
+> :retab
+>
+> would have been a much better starting point for the last few manual 
+> changes.
+>
+> Here is another example. For the file hw/audio/wm8750.c I would have 
+> started with the following vim commands
+>
+> :se ts=8 expandtab
+> :retab
+>
+> With best regards,
+> Volker
 
-IIRC, that documentation is imprecise/incorrect especially when it comes 
-to memfd. Page faults in shared mappings will similarly obey the set 
-mbind() policy when allocating new pages.
+Hi Volker,
 
-QEMU relies on that.
+Thank you for your review!
 
-The "fun" begins when we have multiple mappings, and only some have a 
-policy set ... or if we already, previously allocated the pages.
+Yes, I did indeed replaced all the tabs with spaces. I'll fix all of 
+them and update.
 
--- 
-Thanks,
+Best Regards,
 
-David / dhildenb
+Amarjargal
+
 
 
