@@ -2,70 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4903F609E6E
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 12:01:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17173609E5A
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 11:56:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omtfW-0003B8-Nm; Mon, 24 Oct 2022 05:22:50 -0400
+	id 1omtiz-00043Y-8w; Mon, 24 Oct 2022 05:26:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1omtfR-00037w-IU
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 05:22:48 -0400
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81])
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1omtix-00043C-1Z
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 05:26:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1omtfP-0004DR-EJ
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 05:22:45 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.210])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 625D8135A8AF0;
- Mon, 24 Oct 2022 11:22:31 +0200 (CEST)
-Received: from kaod.org (37.59.142.95) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Mon, 24 Oct
- 2022 11:22:30 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G001ecf31bd4-2aa5-49d2-8f04-f3d7e1676005,
- 6590F3F04E20B41924A4A18FF3E3B83F50E47F7B) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <1d99c9e3-bbd7-299a-3d68-dc498745115d@kaod.org>
-Date: Mon, 24 Oct 2022 11:22:29 +0200
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1omtiu-0005V6-SO
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 05:26:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666603579;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nEu3hD3gXhclm8xSr45jeYMG53LUvrPP7+MltOGk3n8=;
+ b=Y2Qg6m0lzSDsOzVXnrUrmgfzqliEWg3DWVKQLRRFBzhPRyFhGuPbhHJMdiVbopqrexXVeM
+ 7yBMYjvEO2weoSeFg1j5ZrZLqoCpClnw7KAYIlbEYE6e+l9Lh5EqIGjUmJf5y5cS6ogNKt
+ USrrCylGbV54UnunEHLyN3DOI3ajxTk=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-12-adflYwCONtqmY1RIamwCRw-1; Mon, 24 Oct 2022 05:26:17 -0400
+X-MC-Unique: adflYwCONtqmY1RIamwCRw-1
+Received: by mail-pg1-f199.google.com with SMTP id
+ j191-20020a638bc8000000b0046eacc32423so4487752pge.23
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 02:26:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=nEu3hD3gXhclm8xSr45jeYMG53LUvrPP7+MltOGk3n8=;
+ b=nwrS5U9iGgU8obq/16RTcUUuQrHYHOBcxlrfr6mOk0vPugLKHhiWCX3KCp3DWUDQc+
+ R9ZFtnqEvCiJt7Eu5QzU/3IX22bZ3vbUbPgRBCDajXpfdsi5e/JdeTtqG9erTJWAIFcz
+ JQeN5GtRxdAgVt8YTy0BKckDbBp6/hpGOLEMlKA6PHHejU+Biipoy5QR86v76sCad+dn
+ VsSrSDuuRljz+hhKz4Vlql1zeXpHwCf1H6HKymwH4zBlTtxq0tQJZTDPwC8vgYTYpUFX
+ Ml+jiHUQI0lawKb2oiqFO3d1/jXtLpNbXCPmyYvoNNSzMfHVB7KBgyF4b4cWrZzdwDGz
+ Ycxw==
+X-Gm-Message-State: ACrzQf0Ia0tsn9wbqoBRAMWtsXHvqoWRdveoGCrUhKqKj3znLW5UR2ho
+ 8mWdFPVFHDQSsgiw2+iN3i5IpnIAhlYHG8l1FZHhrupGGDxxpQuq8q/2bYC1+9fiNkPsaRCyko3
+ HjaHSTESDWebpqRzcAmWXriVHjnRKl6s=
+X-Received: by 2002:a17:903:1303:b0:186:969d:97cf with SMTP id
+ iy3-20020a170903130300b00186969d97cfmr8717389plb.17.1666603575500; 
+ Mon, 24 Oct 2022 02:26:15 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM733y1oUxajS+mtTF7Kh5YyQjeTrEOaC6SL4IU+edorXYoj6J1d/mzH9jKbdMA4JCAxvS1oG/xd28NaXpzp1VU=
+X-Received: by 2002:a17:903:1303:b0:186:969d:97cf with SMTP id
+ iy3-20020a170903130300b00186969d97cfmr8717360plb.17.1666603575170; Mon, 24
+ Oct 2022 02:26:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v10 1/9] s390x/cpu topology: core_id sets s390x CPU
- topology
-Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, <qemu-s390x@nongnu.org>
-CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
- <richard.henderson@linaro.org>, <david@redhat.com>, <thuth@redhat.com>,
- <cohuck@redhat.com>, <mst@redhat.com>, <pbonzini@redhat.com>,
- <kvm@vger.kernel.org>, <ehabkost@redhat.com>, <marcel.apfelbaum@gmail.com>,
- <eblake@redhat.com>, <armbru@redhat.com>, <seiden@linux.ibm.com>,
- <nrb@linux.ibm.com>, <frankja@linux.ibm.com>, <berrange@redhat.com>
-References: <20221012162107.91734-1-pmorel@linux.ibm.com>
- <20221012162107.91734-2-pmorel@linux.ibm.com>
- <5d5ff3cb-43a0-3d15-ff17-50b46c57a525@kaod.org>
- <b584418d-8a6d-d618-fd21-3b71d27f1e3e@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <b584418d-8a6d-d618-fd21-3b71d27f1e3e@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 45379858-eace-497f-959d-441f6896aa54
-X-Ovh-Tracer-Id: 6437614193720920848
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrgedtgedguddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehpmhhorhgvlheslhhinhhugidrihgsmhdrtghomhdpnhhrsgeslhhinhhugidrihgsmhdrtghomhdpshgvihguvghnsehlihhnuhigrdhisghmrdgtohhmpdgrrhhmsghruhesrhgvughhrghtrdgtohhmpdgvsghlrghkvgesrhgvughhrghtrdgtohhmpdhmrghrtggvlhdrrghpfhgvlhgsrghumhesghhmrghilhdrtghomhdpvghhrggskhhoshhtsehrvgguhhgrthdrtghomhdpkhhvmhesvhhgvghrrdhkvghrnhgvlhdrohhrghdpphgsohhniihinhhisehrvgguhhgrthdrtghomh
- dpmhhsthesrhgvughhrghtrdgtohhmpdgtohhhuhgtkhesrhgvughhrghtrdgtohhmpdhthhhuthhhsehrvgguhhgrthdrtghomhdpuggrvhhiugesrhgvughhrghtrdgtohhmpdhrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdpphgrshhitgeslhhinhhugidrihgsmhdrtghomhdpsghorhhnthhrrggvghgvrhesuggvrdhisghmrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhqvghmuhdqshefledtgiesnhhonhhgnhhurdhorhhgpdhfrhgrnhhkjhgrsehlihhnuhigrdhisghmrdgtohhmpdgsvghrrhgrnhhgvgesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221019125210.226291-1-eperezma@redhat.com>
+ <20221019125210.226291-3-eperezma@redhat.com>
+ <CACGkMEvQOksFuE37SCCW+4x=Ku5CfHpcbgCDq6tic_H5fW7hYw@mail.gmail.com>
+ <CAJaqyWd6bFH7ZL=rKr8kXrQEi2sOFkq=x=PHUmgz8N9K6Ct70w@mail.gmail.com>
+ <CACGkMEs9mc5pqRr8XNhVw8pvQZ+hvnPRiMmyuzJvNsSU=Cfoxg@mail.gmail.com>
+ <CAJaqyWfCn0gPc=+GY-0ASutwSP+1-AyFhp0XO4v6K+3JJZktuA@mail.gmail.com>
+ <CACGkMEuwq_s6P9AxQD4Pmhb5R3naETeiQG+Nx0TJLbpdF6Xesg@mail.gmail.com>
+In-Reply-To: <CACGkMEuwq_s6P9AxQD4Pmhb5R3naETeiQG+Nx0TJLbpdF6Xesg@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Mon, 24 Oct 2022 11:25:38 +0200
+Message-ID: <CAJaqyWfo4WJo_LJpBtLirHtNCUO23NZQETv7k_jWo0LjQ1tVLw@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 2/8] vdpa: Save emulated features list in vhost_vdpa
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org, Zhu Lingshan <lingshan.zhu@intel.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, 
+ Si-Wei Liu <si-wei.liu@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Eli Cohen <eli@mellanox.com>, 
+ Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>, 
+ Gautam Dawar <gdawar@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,188 +106,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/19/22 17:39, Pierre Morel wrote:
-> 
-> 
-> On 10/18/22 18:43, Cédric Le Goater wrote:
->> Hello Pierre,
->>
->> On 10/12/22 18:20, Pierre Morel wrote:
->>> In the S390x CPU topology the core_id specifies the CPU address
->>> and the position of the core withing the topology.
->>>
->>> Let's build the topology based on the core_id.
->>> s390x/cpu topology: core_id sets s390x CPU topology
->>>
->>> In the S390x CPU topology the core_id specifies the CPU address
->>> and the position of the cpu withing the topology.
->>>
->>> Let's build the topology based on the core_id.
->>
->> The commit log is doubled.
-> 
-> Yes, thanks.
-> 
->>
->>>
->>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->>> ---
->>>   include/hw/s390x/cpu-topology.h |  45 +++++++++++
->>>   hw/s390x/cpu-topology.c         | 132 ++++++++++++++++++++++++++++++++
->>>   hw/s390x/s390-virtio-ccw.c      |  21 +++++
->>>   hw/s390x/meson.build            |   1 +
->>>   4 files changed, 199 insertions(+)
->>>   create mode 100644 include/hw/s390x/cpu-topology.h
->>>   create mode 100644 hw/s390x/cpu-topology.c
->>>
->>> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
->>> new file mode 100644
->>> index 0000000000..66c171d0bc
->>> --- /dev/null
->>> +++ b/include/hw/s390x/cpu-topology.h
->>> @@ -0,0 +1,45 @@
->>> +/*
->>> + * CPU Topology
->>> + *
->>> + * Copyright 2022 IBM Corp.
->>> + *
->>> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
->>> + * your option) any later version. See the COPYING file in the top-level
->>> + * directory.
->>> + */
->>> +#ifndef HW_S390X_CPU_TOPOLOGY_H
->>> +#define HW_S390X_CPU_TOPOLOGY_H
->>> +
->>> +#include "hw/qdev-core.h"
->>> +#include "qom/object.h"
->>> +
->>> +typedef struct S390TopoContainer {
->>> +    int active_count;
->>> +} S390TopoContainer;
->>
->> This structure does not seem very useful.
->>
->>> +
->>> +#define S390_TOPOLOGY_CPU_IFL 0x03
->>> +#define S390_TOPOLOGY_MAX_ORIGIN ((63 + S390_MAX_CPUS) / 64)
->>> +typedef struct S390TopoTLE { 
->>
->> The 'Topo' is redundant as TLE stands for 'topology-list entry'. This is minor.
->>
->>> +    uint64_t mask[S390_TOPOLOGY_MAX_ORIGIN];
->>> +} S390TopoTLE;
->>> +
->>> +struct S390Topology {
->>> +    SysBusDevice parent_obj;
->>> +    int cpus;
->>> +    S390TopoContainer *socket;
->>> +    S390TopoTLE *tle;
->>> +    MachineState *ms;
->>
->> hmm, it would be cleaner to introduce the fields and properties needed
->> by the S390Topology model and avoid dragging the machine object pointer.
->> AFAICT, these properties would be :
->>
->>    "nr-cpus"
->>    "max-cpus"
->>    "nr-sockets"
->>
-> 
-> OK
-> 
->>
->>
->>> +};
->>> +
->>> +#define TYPE_S390_CPU_TOPOLOGY "s390-topology"
->>> +OBJECT_DECLARE_SIMPLE_TYPE(S390Topology, S390_CPU_TOPOLOGY)
->>> +
->>> +S390Topology *s390_get_topology(void);
->>> +void s390_topology_new_cpu(int core_id);
->>> +
->>> +static inline bool s390_has_topology(void)
->>> +{
->>> +    return false;
->>> +}
->>> +
->>> +#endif
->>> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
->>> new file mode 100644
->>> index 0000000000..42b22a1831
->>> --- /dev/null
->>> +++ b/hw/s390x/cpu-topology.c
->>> @@ -0,0 +1,132 @@
->>> +/*
->>> + * CPU Topology
->>> + *
->>> + * Copyright IBM Corp. 2022
->>
->> The Copyright tag is different in the .h file.
-> 
-> OK, I change this to be like in the header file it seems to be the most used format.
-> 
->>
->>> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
->>> +
->>> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
->>> + * your option) any later version. See the COPYING file in the top-level
->>> + * directory.
->>> + */
->>> +
->>> +#include "qemu/osdep.h"
->>> +#include "qapi/error.h"
->>> +#include "qemu/error-report.h"
->>> +#include "hw/sysbus.h"
->>> +#include "hw/qdev-properties.h"
->>> +#include "hw/boards.h"
->>> +#include "qemu/typedefs.h"
->>> +#include "target/s390x/cpu.h"
->>> +#include "hw/s390x/s390-virtio-ccw.h"
->>> +#include "hw/s390x/cpu-topology.h"
->>> +
->>> +S390Topology *s390_get_topology(void)
->>> +{
->>> +    static S390Topology *s390Topology;
->>> +
->>> +    if (!s390Topology) {
->>> +        s390Topology = S390_CPU_TOPOLOGY(
->>> +            object_resolve_path(TYPE_S390_CPU_TOPOLOGY, NULL));
->>> +    }
->>> +
->>> +    return s390Topology;
->>
->> I am not convinced this routine is useful. The s390Topology pointer
->> could be stored under the machine state I think. It wouldn't be a
->> problem when CPUs are hot plugged since we have access to the machine
->> in the hot plug handler.
-> 
-> OK, I add a pointer to the machine state that will be initialised during s390_init_topology()
+On Mon, Oct 24, 2022 at 4:14 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+> On Fri, Oct 21, 2022 at 4:56 PM Eugenio Perez Martin
+> <eperezma@redhat.com> wrote:
+> >
+> > On Fri, Oct 21, 2022 at 4:57 AM Jason Wang <jasowang@redhat.com> wrote:
+> > >
+> > > On Thu, Oct 20, 2022 at 2:34 PM Eugenio Perez Martin
+> > > <eperezma@redhat.com> wrote:
+> > > >
+> > > > On Thu, Oct 20, 2022 at 6:23 AM Jason Wang <jasowang@redhat.com> wr=
+ote:
+> > > > >
+> > > > > On Wed, Oct 19, 2022 at 8:52 PM Eugenio P=C3=A9rez <eperezma@redh=
+at.com> wrote:
+> > > > > >
+> > > > > > At this moment only _F_LOG is added there.
+> > > > > >
+> > > > > > However future patches add features that depend on the kind of =
+device.
+> > > > > > In particular, only net devices can add VIRTIO_F_GUEST_ANNOUNCE=
+. So
+> > > > > > let's allow vhost_vdpa creator to set custom emulated device fe=
+atures.
+> > > > > >
+> > > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > > > > ---
+> > > > > >  include/hw/virtio/vhost-vdpa.h | 2 ++
+> > > > > >  hw/virtio/vhost-vdpa.c         | 8 ++++----
+> > > > > >  net/vhost-vdpa.c               | 4 ++++
+> > > > > >  3 files changed, 10 insertions(+), 4 deletions(-)
+> > > > > >
+> > > > > > diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio=
+/vhost-vdpa.h
+> > > > > > index 1111d85643..50083e1e3b 100644
+> > > > > > --- a/include/hw/virtio/vhost-vdpa.h
+> > > > > > +++ b/include/hw/virtio/vhost-vdpa.h
+> > > > > > @@ -31,6 +31,8 @@ typedef struct vhost_vdpa {
+> > > > > >      bool iotlb_batch_begin_sent;
+> > > > > >      MemoryListener listener;
+> > > > > >      struct vhost_vdpa_iova_range iova_range;
+> > > > > > +    /* VirtIO device features that can be emulated by qemu */
+> > > > > > +    uint64_t added_features;
+> > > > >
+> > > > > Any reason we need a per vhost_vdpa storage for this? Or is there=
+ a
+> > > > > chance that this field could be different among the devices?
+> > > > >
+> > > >
+> > > > Yes, one device could support SVQ and the other one could not suppo=
+rt
+> > > > it because of different feature sets for example.
+> > >
+> > > Right, but for those devices that don't support SVQ, we don't even
+> > > need mediation for feature like F_LOG and _F_STATUS?
+> > >
+> >
+> > No, and we cannot offer it to the guest either.
+>
+> Just to make sure we are on the same page, what I meant is, consider
+> in the future SVQ get the support of all features, so we can remove
+> this field? This is because _F_STATUS can be mediated unconditionally
+> anyhow.
+>
 
-LGTM.
+For _F_STATUS that is right. But we cannot handle full
+_F_GUEST_ANNOUNCE since control SVQ (will) needs features from the
+device that cannot be emulated, like ASID.
 
-> 
->>
->> For the stsi call, 'struct ArchCPU' probably lacks a back pointer to
->> the machine objects with which CPU interact. These are typically
->> interrupt controllers or this new s390Topology model. You could add
->> the pointer there or, better, under a generic 'void *opaque' attribute.
->>
->> That said, what you did works fine. The modeling could be cleaner.
-> 
-> Yes. I think you are right and I add a opaque pointer to the topology.
+I think your point is "Since qemu cannot migrate these devices it will
+never set VIRTIO_NET_S_ANNOUNCE, so the guest will never send
+VIRTIO_NET_CTRL_ANNOUNCE messages". And I think that is totally right,
+but I still feel it is weird to expose it if we cannot handle it.
 
-As an example, you could look at PPC where the PowerPCCPU CPU model is
-shared between two differents machine, a baremetal one PowerNV and the
-para-virtual one pSeries/sPAPR. Look for :
+Maybe a good first step is to move added_features to vhost_net, or
+maybe to convert it to "bool guest_announce_emulated" or something
+similar?  This way hw/virtio/vhost-vdpa is totally unaware of this and
+changes are more self contained.
 
-    pnv_cpu_state(PowerPCCPU *cpu)
-    spapr_cpu_state(PowerPCCPU *cpu)
+Thanks!
 
-the machine CPU state is stored under an opaque cpu->machine_data which is
-specific to each machine. It doesn't have to be as complex on s390 since
-we only have one type of z-machine. An opaque is a good idea still.
 
-Thanks,
 
-C.
+> Thanks
+>
+> >
+> > > Thanks
+> > >
+> > > >
+> > > > Thanks!
+> > > >
+> > > > > Thanks
+> > > > >
+> > > > > >      uint64_t acked_features;
+> > > > > >      bool shadow_vqs_enabled;
+> > > > > >      /* IOVA mapping used by the Shadow Virtqueue */
+> > > > > > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > > > > > index 7468e44b87..ddb5e29288 100644
+> > > > > > --- a/hw/virtio/vhost-vdpa.c
+> > > > > > +++ b/hw/virtio/vhost-vdpa.c
+> > > > > > @@ -660,8 +660,8 @@ static int vhost_vdpa_set_features(struct v=
+host_dev *dev,
+> > > > > >
+> > > > > >          v->acked_features =3D features;
+> > > > > >
+> > > > > > -        /* We must not ack _F_LOG if SVQ is enabled */
+> > > > > > -        features &=3D ~BIT_ULL(VHOST_F_LOG_ALL);
+> > > > > > +        /* Do not ack features emulated by qemu */
+> > > > > > +        features &=3D ~v->added_features;
+> > > > > >      }
+> > > > > >
+> > > > > >      trace_vhost_vdpa_set_features(dev, features);
+> > > > > > @@ -1244,8 +1244,8 @@ static int vhost_vdpa_get_features(struct=
+ vhost_dev *dev,
+> > > > > >      int ret =3D vhost_vdpa_get_dev_features(dev, features);
+> > > > > >
+> > > > > >      if (ret =3D=3D 0 && v->shadow_vqs_enabled) {
+> > > > > > -        /* Add SVQ logging capabilities */
+> > > > > > -        *features |=3D BIT_ULL(VHOST_F_LOG_ALL);
+> > > > > > +        /* Add emulated capabilities */
+> > > > > > +        *features |=3D v->added_features;
+> > > > > >      }
+> > > > > >
+> > > > > >      return ret;
+> > > > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > > > > > index eebf29f5c1..3803452800 100644
+> > > > > > --- a/net/vhost-vdpa.c
+> > > > > > +++ b/net/vhost-vdpa.c
+> > > > > > @@ -599,6 +599,10 @@ static NetClientState *net_vhost_vdpa_init=
+(NetClientState *peer,
+> > > > > >      s->vhost_vdpa.index =3D queue_pair_index;
+> > > > > >      s->vhost_vdpa.shadow_vqs_enabled =3D svq;
+> > > > > >      s->vhost_vdpa.iova_tree =3D iova_tree;
+> > > > > > +    if (svq) {
+> > > > > > +        /* Add SVQ logging capabilities */
+> > > > > > +        s->vhost_vdpa.added_features |=3D BIT_ULL(VHOST_F_LOG_=
+ALL);
+> > > > > > +    }
+> > > > > >      if (!is_datapath) {
+> > > > > >          s->cvq_cmd_out_buffer =3D qemu_memalign(qemu_real_host=
+_page_size(),
+> > > > > >                                              vhost_vdpa_net_cvq=
+_cmd_page_len());
+> > > > > > --
+> > > > > > 2.31.1
+> > > > > >
+> > > > >
+> > > >
+> > >
+> >
+>
+
 
