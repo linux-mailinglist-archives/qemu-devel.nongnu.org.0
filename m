@@ -2,65 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6D0060AE22
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 16:49:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5D3760AE38
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 16:52:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omy5e-00077y-I7; Mon, 24 Oct 2022 10:06:07 -0400
+	id 1omy5l-0007Hw-LT; Mon, 24 Oct 2022 10:06:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1omy55-000725-8C
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 10:05:38 -0400
-Received: from mout.kundenserver.de ([212.227.126.134])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1omy5c-0007DH-68
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 10:06:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1omy52-0002bj-42
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 10:05:30 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1McpW6-1pLTY90Uni-00Zwqt; Mon, 24 Oct 2022 16:05:23 +0200
-Message-ID: <95122ba4-503d-18b9-a12f-44dbb5105504@vivier.eu>
-Date: Mon, 24 Oct 2022 16:05:22 +0200
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1omy5Z-0002hK-8b
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 10:06:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666620359;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=muWwd2YArURnF0+pCHYBTB2ividZSrhyqVfgv0KZHKo=;
+ b=GbMuR1cWsOk0W6ZdYjR0wIShWQuOAgmCKA0j62MvH0iWzVmnWBBXT1g+QzVEGrtagQAhCO
+ +ATsRASjsdib8uFrOUtDuU5zUTafwmf9WCmNWYpKLC12encAdT9xXEwkW/C1cEtGO7PwmV
+ xDk7n7a7k0dEGn9unLOV6SQ8offwXrU=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-642-5vHr8mmGO2WpKRCO5_kU_A-1; Mon, 24 Oct 2022 10:05:54 -0400
+X-MC-Unique: 5vHr8mmGO2WpKRCO5_kU_A-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ p7-20020adfba87000000b0022cc6f805b1so3463402wrg.21
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 07:05:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=muWwd2YArURnF0+pCHYBTB2ividZSrhyqVfgv0KZHKo=;
+ b=TIJOBqnHZa2ysHuVIc3nrfsgYuWpGvDCJdSoLUM863NU34uXo1rG7D/4/OAWi3xP3N
+ WPJ5E8HySHHvvJWq4nmMxJ8C1LJacdxDtFjVzuHPjxrSIliQUW5gXtTYtzEV6atRtD52
+ 8VChe4mKUSL83Pdc70Mnpr20hS+K4n+lNSV5RQ+8lgU4AwScQNC96QkHmURmnjdfj8pW
+ iTGC3IJSC3LIMy4JiA3ptO4gZCN9G7chcQQX5akcr52soRsZdDtj7cFaX+y+dZ9sxzxD
+ qr+W6YZ6rAJ2fFG14tB/1ozZzTSI4+vu0G7g6nhnco4yjzPAHHJt3MLZjQUhObzSCBIK
+ mz3A==
+X-Gm-Message-State: ACrzQf2RsNX13aeruP7NO1q8KbJBt5GZ8ekryqOYfYQdD9g40L7RyoKS
+ mE9HYM797j1GHld/U5Zm0927p5POIdTs4LY8eb5rbFTe/zalBaJ+Jk3CwCocQfHzynRGXv0SeVS
+ va3Xz7+7FgUmDecU=
+X-Received: by 2002:a5d:5c11:0:b0:236:547e:a38b with SMTP id
+ cc17-20020a5d5c11000000b00236547ea38bmr11189186wrb.221.1666620353476; 
+ Mon, 24 Oct 2022 07:05:53 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM79ubGKUPbmc9xZdFQpqp3CLJj+Re7ZyUzg6e2Tic0c3aBsum64Zsk/U8gG3kmgvWujzAlNUg==
+X-Received: by 2002:a5d:5c11:0:b0:236:547e:a38b with SMTP id
+ cc17-20020a5d5c11000000b00236547ea38bmr11189159wrb.221.1666620353253; 
+ Mon, 24 Oct 2022 07:05:53 -0700 (PDT)
+Received: from redhat.com ([2.54.160.13]) by smtp.gmail.com with ESMTPSA id
+ q10-20020adff94a000000b00225307f43fbsm26799526wrr.44.2022.10.24.07.05.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Oct 2022 07:05:52 -0700 (PDT)
+Date: Mon, 24 Oct 2022 10:05:48 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ Laurent Vivier <lvivier@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>
+Subject: Re: [PATCH 2/4] vhost: toggle device callbacks using used event idx
+Message-ID: <20221024100442-mutt-send-email-mst@kernel.org>
+References: <20221020155251.398735-1-eperezma@redhat.com>
+ <20221020155251.398735-3-eperezma@redhat.com>
+ <CACGkMEukKCXRDSmR3nemxdHDphQHspGdY3nC9O5g9grQ59PN8w@mail.gmail.com>
+ <CAJaqyWf0uXRze3qK1d02RB+Q4BJ60A8E7YYnnjBpdyANB2=new@mail.gmail.com>
+ <20221021041453-mutt-send-email-mst@kernel.org>
+ <CACGkMEvNoxKcFBpawaWgtq=YgCh4CXMDD9Y5DUgoZ1Qn-zOwpA@mail.gmail.com>
+ <CAJaqyWfVEb8cp4c0m_LEjy-aMCmHMuMUao6zaCOFW3EzyuLF6Q@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v2] linux-user: Add guest memory layout to exception dump
-Content-Language: fr
-To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <YzMru6y+v5bbsTRn@p100>
- <5cabeb0b-1219-ae01-38bc-dc0873d502c8@vivier.eu>
- <7afdfcea-0b9e-9074-7331-b155dfe292e5@vivier.eu>
- <722bd3f3-3b5f-03aa-0c2e-5ceef4cfd883@gmx.de>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <722bd3f3-3b5f-03aa-0c2e-5ceef4cfd883@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ho2rhzIu6UeHnf+yG2+OU124ybqg/cNTl0rplzvkGQzaXL7z0tA
- f2tmdMw5xQ1XfMMek5xeja9z89+CeaE+bcP9pDXUik3kgTsz9zf/GJ/FbstEClioUEQftfg
- 0tQsRfmrycH47qnXo2pfBZMwbloXAhERkfw/ZDbhYYPdJ8GZjRAWqQ3s4d77TEIymaDxWVV
- PTTczbF3MNN9fKzHGUQNw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:SPVYGEjl0PI=:rbT2crTS5MwL5Dfq+t6Fkb
- Bfx4tqFoQM6Y4pW2Wr8QU6wZp3gKEFCOEtsZcDv7JC9I570ipa+wAh0FgQcUJ0UJ10CAFhequ
- SGLJhxT5gCBufk4+flpG04HAjdWJkbyypdSyH3MeSwjQbcPEnp3Whtq+n2BZQtGjEXiJl83Ho
- 7kcaT18A0awY6ing4VnoRoQPsadXxZwIlilk9mycKt6ZoJIGWzDExMbVZbJy69D6hBAXSZ3Hs
- LXBK3FQ6DNAlHF0ZIkneBlKWqiqa2cvLCUB5pGJPrFAUVsc6T6QsZNfwBefkTIzyklZNEhO1d
- 8NIqx1QqlnA4mvV+dL6w5RPku2ma3uUDayXTkAyMHs6G7zdYpg+eBQHooiaAKBqJd19RtQ2Iy
- wODBAeuTgm6ZaBJuglY1IwPhXeNVcZY/RJO9a1y9QdNaTY+T8B1rVVZYVDypRybn64vrvfHQO
- oWLjE4TjWHSsGu0gxh636oYXF1k27MQZ6w9dpVnHf7ZFfOdoF9Olh5smreWkm60Eb05givbSy
- uPD4KHJdK12PiPo374CkqZTRc7vZcd0YVxt0+6pGYYAoWFR2GrgUFk6gwLM2d/7RT+M5dChkf
- XJrRlNeizSYR3tcxTqTXtTaRXt0rjzjnQe7zi3MXs++3pLyhMqfqyi/xKbt/HSxU5iFZijELD
- tQmYmWwjP+OXOVNOXw99AhakOTfwgNDVZd9ueOU7w7SxuFSA3+hU1Z+wfR8a5o/15BtC4tfFh
- 6OqSr/9PvD3TtviMkaI5XiU/qrG3Wu6xKpnaTrbRhwlCzdVdGsj6uPnAHw3CcKpEafK7/7V76
- SxoKyFs
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJaqyWfVEb8cp4c0m_LEjy-aMCmHMuMUao6zaCOFW3EzyuLF6Q@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.503,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,135 +106,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 21/10/2022 à 18:21, Helge Deller a écrit :
-> On 10/21/22 17:43, Laurent Vivier wrote:
->> Le 21/10/2022 à 16:57, Laurent Vivier a écrit :
->>> Le 27/09/2022 à 18:58, Helge Deller a écrit :
->>>> When the emulation stops with a hard exception it's very useful for
->>>> debugging purposes to dump the current guest memory layout (for an
->>>> example see /proc/self/maps) beside the CPU registers.
->>>>
->>>> The open_self_maps() function provides such a memory dump, but since
->>>> it's located in the syscall.c file, various changes (add #includes, make
->>>> this function externally visible, ...) are needed to be able to call it
->>>> from the existing EXCP_DUMP() macro.
->>>>
->>>> This patch takes another approach by re-defining EXCP_DUMP() to call
->>>> target_exception_dump(), which is in syscall.c, consolidates the log
->>>> print functions and allows to add the call to dump the memory layout.
->>>>
->>>> Beside a reduced code footprint, this approach keeps the changes across
->>>> the various callers minimal, and keeps EXCP_DUMP() highlighted as
->>>> important macro/function.
->>>>
->>>> Signed-off-by: Helge Deller <deller@gmx.de>
->>>>
->>>> ---
->>>>
->>>> v2:
->>>> Based on feedback by Philippe Mathieu-Daudé, renamed the two functions
->>>> to excp_dump_file() and target_exception_dump(), and #define'ed
->>>> EXCP_DUMP() to target_exception_dump().
->>>> I intentionally did not replace all occurences of EXCP_DUMP() by
->>>> target_exception_dump() as I think it's unneccesary and not beneficial.
->>>> If this is really wished, I will send a v3.
->>>>
->>>>
->>>> diff --git a/linux-user/cpu_loop-common.h b/linux-user/cpu_loop-common.h
->>>> index 36ff5b14f2..e644d2ef90 100644
->>>> --- a/linux-user/cpu_loop-common.h
->>>> +++ b/linux-user/cpu_loop-common.h
->>>> @@ -23,18 +23,9 @@
->>>>   #include "exec/log.h"
->>>>   #include "special-errno.h"
->>>>
->>>> -#define EXCP_DUMP(env, fmt, ...)                                        \
->>>> -do {                                                                    \
->>>> -    CPUState *cs = env_cpu(env);                                        \
->>>> -    fprintf(stderr, fmt , ## __VA_ARGS__);                              \
->>>> -    fprintf(stderr, "Failing executable: %s\n", exec_path);             \
->>>> -    cpu_dump_state(cs, stderr, 0);                                      \
->>>> -    if (qemu_log_separate()) {                                          \
->>>> -        qemu_log(fmt, ## __VA_ARGS__);                                  \
->>>> -        qemu_log("Failing executable: %s\n", exec_path);                \
->>>> -        log_cpu_state(cs, 0);                                           \
->>>> -    }                                                                   \
->>>> -} while (0)
->>>> +void target_exception_dump(CPUArchState *env, const char *fmt, int code);
->>>> +#define EXCP_DUMP(env, fmt, code) \
->>>> +    target_exception_dump(env, fmt, code)
->>>>
->>>>   void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs);
->>>>   #endif
->>>> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
->>>> index 2e954d8dbd..7d29c4c396 100644
->>>> --- a/linux-user/syscall.c
->>>> +++ b/linux-user/syscall.c
->>>> @@ -158,6 +158,7 @@
->>>>   #include "qapi/error.h"
->>>>   #include "fd-trans.h"
->>>>   #include "tcg/tcg.h"
->>>> +#include "cpu_loop-common.h"
->>>>
->>>>   #ifndef CLONE_IO
->>>>   #define CLONE_IO                0x80000000      /* Clone io context */
->>>> @@ -8144,6 +8145,33 @@ static int is_proc_myself(const char *filename, const char *entry)
->>>>       return 0;
->>>>   }
->>>>
->>>> +static void excp_dump_file(FILE *logfile, CPUArchState *env,
->>>> +                      const char *fmt, int code)
->>>> +{
->>>> +    if (logfile) {
->>>> +        CPUState *cs = env_cpu(env);
->>>> +
->>>> +        fprintf(logfile, fmt, code);
->>>> +        fprintf(logfile, "Failing executable: %s\n", exec_path);
->>>> +        cpu_dump_state(cs, logfile, 0);
->>>> +        open_self_maps(env, fileno(logfile));
->>>> +    }
->>>> +}
->>>> +
->>>> +void target_exception_dump(CPUArchState *env, const char *fmt, int code)
->>>> +{
->>>> +    /* dump to console */
->>>> +    excp_dump_file(stderr, env, fmt, code);
->>>> +
->>>> +    /* dump to log file */
->>>> +    if (qemu_log_separate()) {
->>>> +        FILE *logfile = qemu_log_trylock();
->>>> +
->>>> +        excp_dump_file(logfile, env, fmt, code);
->>>> +        qemu_log_unlock(logfile);
->>>> +    }
->>>> +}
->>>> +
->>>>   #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN || \
->>>>       defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
->>>>   static int is_proc(const char *filename, const char *entry)
->>>>
->>>
->>> Applied to my linux-user-for-7.2 branch.
->>
->> This breaks build with:
->>
->> .../linux-user/i386/cpu_loop.c: In function 'cpu_loop':
->> ...linux-user/i386/cpu_loop.c:312:39: error: macro "EXCP_DUMP" passed 4 arguments, but takes just 3
->>    312 |                       (long)pc, trapnr);
->>        |                                       ^
+On Mon, Oct 24, 2022 at 04:00:37PM +0200, Eugenio Perez Martin wrote:
+> > > It's generally a waste that we don't use endian-ness annotations
+> > > the way linux does.
+> >
+> > Yes, it's worth doing something similar sometime.
+> >
 > 
-> This is because of this line:
->             EXCP_DUMP(env, "qemu: 0x%08lx: unhandled CPU exception 0x%x - aborting\n",
->                        (long)pc, trapnr);
+> Maybe we could wrap them in some struct like virtio_le16 or virtio_16,
+> avoiding at least integer direct assignment? Wrappers like
+> cpu_to_virtio16 could return these structs and I think all compilers
+> should emit the same code as direct assignment.
 > 
-> I wonder if it is ok to drop the pc value. It should be printed in the register dump
-> anyway.
-> If Ok, should I send a new v3 patch, or a patch in front of my v2 patch?
+> Thanks!
+> 
 
-I think you can drop the PC value. Send a v3 please.
+This will break bitwise operations such as | and &.
+Generally Linux has solved the problem and I don't think
+we should go look for another solution.
 
-Thanks,
-Laurent
 
+> 
+> 
+> > Thanks
+> >
+> > >
+> > >
+> > > > > Thanks
+> > > > >
+> > > > > > +    } else {
+> > > > > > +        svq->vring.avail->flags &= ~cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
+> > > > > > +    }
+> > > > > > +
+> > > > > > +    /* Make sure the event is enabled before the read of used_idx */
+> > > > > >      smp_mb();
+> > > > > >      return !vhost_svq_more_used(svq);
+> > > > > >  }
+> > > > > >
+> > > > > >  static void vhost_svq_disable_notification(VhostShadowVirtqueue *svq)
+> > > > > >  {
+> > > > > > -    svq->vring.avail->flags |= cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
+> > > > > > +    /*
+> > > > > > +     * No need to disable notification in the event idx case, since used event
+> > > > > > +     * index is already an index too far away.
+> > > > > > +     */
+> > > > > > +    if (!virtio_vdev_has_feature(svq->vdev, VIRTIO_RING_F_EVENT_IDX)) {
+> > > > > > +        svq->vring.avail->flags |= cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
+> > > > > > +    }
+> > > > > >  }
+> > > > > >
+> > > > > >  static uint16_t vhost_svq_last_desc_of_chain(const VhostShadowVirtqueue *svq,
+> > > > > > --
+> > > > > > 2.31.1
+> > > > > >
+> > > > >
+> > >
+> >
 
 
