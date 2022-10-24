@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12B7660995B
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 06:42:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6735C60990E
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 06:07:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omoYB-000080-5D; Sun, 23 Oct 2022 23:54:55 -0400
+	id 1omoYI-0000MF-Ls; Sun, 23 Oct 2022 23:55:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1omoY7-0008Tv-JG
- for qemu-devel@nongnu.org; Sun, 23 Oct 2022 23:54:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1omoYG-0000Ik-Cs
+ for qemu-devel@nongnu.org; Sun, 23 Oct 2022 23:55:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1omoY5-0000k2-VU
- for qemu-devel@nongnu.org; Sun, 23 Oct 2022 23:54:51 -0400
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1omoYE-0000mi-TQ
+ for qemu-devel@nongnu.org; Sun, 23 Oct 2022 23:55:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666583689;
+ s=mimecast20190719; t=1666583697;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nsP5JqLfu1xybUwbVvOVW7lKrpO9ImVl/g/gvH5NRmY=;
- b=dd3lVM20qP4ijvhpQmQvlLGMYKQowyiEZL4wz6AKHSpfSNbUEIcDpP6MDzWeD+eKnKjROK
- BrHUohHtiCldZGnnYoRE3EogB6MxkrXWLo3SrjvG2kw8aXelxiuEiQWbeBDh1eWdAZuE17
- PxBLH9C5+TXAHbG+Xk4/l0NjxeuXupg=
+ bh=MMkXncs52ndySHJgm8eoiBON5a8d4PMnIToe0RlC2vU=;
+ b=gIdFlINO3tmEOk6toq/PF1RuYZOHI+AJ1zRLlavJblCBOUTcK4iTUe4azZ/9OwhYHtwTEX
+ 3HntDub8nk1da3Q85j5zjo1LKXxrVOhTvvKrTd36lo+osozPgveX0S21aStyU6rHBOGTwY
+ 5uHWkTcIVfnXX+tt9RbGH0nrOkUUpPE=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-439-bxTAAC7SMPey4eoqgm2uzw-1; Sun, 23 Oct 2022 23:54:46 -0400
-X-MC-Unique: bxTAAC7SMPey4eoqgm2uzw-1
+ us-mta-556-a7AEOR_zPwizzJDOJaXiXA-1; Sun, 23 Oct 2022 23:54:53 -0400
+X-MC-Unique: a7AEOR_zPwizzJDOJaXiXA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B20A0855438;
- Mon, 24 Oct 2022 03:54:45 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7DA58185A794;
+ Mon, 24 Oct 2022 03:54:53 +0000 (UTC)
 Received: from gshan.redhat.com (vpn2-54-29.bne.redhat.com [10.64.54.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C971E40C6F9F;
- Mon, 24 Oct 2022 03:54:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 178F840C6E16;
+ Mon, 24 Oct 2022 03:54:49 +0000 (UTC)
 From: Gavin Shan <gshan@redhat.com>
 To: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org, maz@kernel.org, eric.auger@redhat.com,
  cohuck@redhat.com, zhenyzha@redhat.com, richard.henderson@linaro.org,
  peter.maydell@linaro.org, shan.gavin@gmail.com
-Subject: [PATCH v6 5/7] hw/arm/virt: Improve high memory region address
- assignment
-Date: Mon, 24 Oct 2022 11:54:14 +0800
-Message-Id: <20221024035416.34068-6-gshan@redhat.com>
+Subject: [PATCH v6 7/7] hw/arm/virt: Add properties to disable high memory
+ regions
+Date: Mon, 24 Oct 2022 11:54:16 +0800
+Message-Id: <20221024035416.34068-8-gshan@redhat.com>
 In-Reply-To: <20221024035416.34068-1-gshan@redhat.com>
 References: <20221024035416.34068-1-gshan@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -79,93 +79,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-There are three high memory regions, which are VIRT_HIGH_REDIST2,
-VIRT_HIGH_PCIE_ECAM and VIRT_HIGH_PCIE_MMIO. Their base addresses
-are floating on highest RAM address. However, they can be disabled
-in several cases.
+These 3 high memory regions are usually enabled by default, but
+they may be not used. For example, VIRT_HIGH_GIC_REDIST2 isn't
+needed by GICv2. This leads to waste in the PA space.
 
-(1) One specific high memory region is likely to be disabled by
-    code by toggling vms->highmem_{redists, ecam, mmio}.
+Add properties to allow users selectively disable them if needed:
+"highmem-redists", "highmem-ecam", "highmem-mmio".
 
-(2) VIRT_HIGH_PCIE_ECAM region is disabled on machine, which is
-    'virt-2.12' or ealier than it.
-
-(3) VIRT_HIGH_PCIE_ECAM region is disabled when firmware is loaded
-    on 32-bits system.
-
-(4) One specific high memory region is disabled when it breaks the
-    PA space limit.
-
-The current implementation of virt_set_{memmap, high_memmap}() isn't
-optimized because the high memory region's PA space is always reserved,
-regardless of whatever the actual state in the corresponding
-vms->highmem_{redists, ecam, mmio} flag. In the code, 'base' and
-'vms->highest_gpa' are always increased for case (1), (2) and (3).
-It's unnecessary since the assigned PA space for the disabled high
-memory region won't be used afterwards.
-
-Improve the address assignment for those three high memory region by
-skipping the address assignment for one specific high memory region if
-it has been disabled in case (1), (2) and (3). The memory layout may
-be changed after the improvement is applied, which leads to potential
-migration breakage. So 'vms->highmem_compact' is added to control if
-the improvement should be applied. For now, 'vms->highmem_compact' is
-set to false, meaning that we don't have memory layout change until it
-becomes configurable through property 'compact-highmem' in next patch.
-
+Suggested-by: Marc Zyngier <maz@kernel.org>
 Signed-off-by: Gavin Shan <gshan@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Tested-by: Zhenyu Zhang <zhenyzha@redhat.com>
 ---
- hw/arm/virt.c         | 15 ++++++++++-----
- include/hw/arm/virt.h |  1 +
- 2 files changed, 11 insertions(+), 5 deletions(-)
+ docs/system/arm/virt.rst | 12 ++++++++
+ hw/arm/virt.c            | 64 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 76 insertions(+)
 
+diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
+index 4454706392..a1668a969d 100644
+--- a/docs/system/arm/virt.rst
++++ b/docs/system/arm/virt.rst
+@@ -98,6 +98,18 @@ compact-highmem
+   Set ``on``/``off`` to enable/disable the compact layout for high memory regions.
+   The default is ``on`` for machine types later than ``virt-7.2``.
+ 
++highmem-redists
++  Set ``on``/``off`` to enable/disable the high memry region for GICv3/4
++  redistributor. The default is ``on``.
++
++highmem-ecam
++  Set ``on``/``off`` to enable/disable the high memry region for PCI ECAM.
++  The default is ``on`` for machine types later than ``virt-3.0``.
++
++highmem-mmio
++  Set ``on``/``off`` to enable/disable the high memry region for PCI MMIO.
++  The default is ``on``.
++
+ gic-version
+   Specify the version of the Generic Interrupt Controller (GIC) to provide.
+   Valid values are:
 diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index ee98a8a3b6..4896f600b4 100644
+index 11b5685432..afafc2d1b8 100644
 --- a/hw/arm/virt.c
 +++ b/hw/arm/virt.c
-@@ -1721,18 +1721,23 @@ static void virt_set_high_memmap(VirtMachineState *vms,
-         vms->memmap[i].size = region_size;
- 
-         /*
--         * Check each device to see if they fit in the PA space,
--         * moving highest_gpa as we go.
-+         * Check each device to see if it fits in the PA space,
-+         * moving highest_gpa as we go. For compatibility, move
-+         * highest_gpa for disabled fitting devices as well, if
-+         * the compact layout has been disabled.
-          *
-          * For each device that doesn't fit, disable it.
-          */
-         fits = (region_base + region_size) <= BIT_ULL(pa_bits);
--        if (fits) {
--            vms->highest_gpa = region_base + region_size - 1;
-+        *region_enabled &= fits;
-+        if (vms->highmem_compact && !*region_enabled) {
-+            continue;
-         }
- 
--        *region_enabled &= fits;
-         base = region_base + region_size;
-+        if (fits) {
-+            vms->highest_gpa = region_base + region_size - 1;
-+        }
-     }
+@@ -2371,6 +2371,49 @@ static void virt_set_compact_highmem(Object *obj, bool value, Error **errp)
+     vms->highmem_compact = value;
  }
  
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index 6ec479ca2b..709f623741 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -144,6 +144,7 @@ struct VirtMachineState {
-     PFlashCFI01 *flash[2];
-     bool secure;
-     bool highmem;
-+    bool highmem_compact;
-     bool highmem_ecam;
-     bool highmem_mmio;
-     bool highmem_redists;
++static bool virt_get_highmem_redists(Object *obj, Error **errp)
++{
++    VirtMachineState *vms = VIRT_MACHINE(obj);
++
++    return vms->highmem_redists;
++}
++
++static void virt_set_highmem_redists(Object *obj, bool value, Error **errp)
++{
++    VirtMachineState *vms = VIRT_MACHINE(obj);
++
++    vms->highmem_redists = value;
++}
++
++static bool virt_get_highmem_ecam(Object *obj, Error **errp)
++{
++    VirtMachineState *vms = VIRT_MACHINE(obj);
++
++    return vms->highmem_ecam;
++}
++
++static void virt_set_highmem_ecam(Object *obj, bool value, Error **errp)
++{
++    VirtMachineState *vms = VIRT_MACHINE(obj);
++
++    vms->highmem_ecam = value;
++}
++
++static bool virt_get_highmem_mmio(Object *obj, Error **errp)
++{
++    VirtMachineState *vms = VIRT_MACHINE(obj);
++
++    return vms->highmem_mmio;
++}
++
++static void virt_set_highmem_mmio(Object *obj, bool value, Error **errp)
++{
++    VirtMachineState *vms = VIRT_MACHINE(obj);
++
++    vms->highmem_mmio = value;
++}
++
++
+ static bool virt_get_its(Object *obj, Error **errp)
+ {
+     VirtMachineState *vms = VIRT_MACHINE(obj);
+@@ -2996,6 +3039,27 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+                                           "Set on/off to enable/disable compact "
+                                           "layout for high memory regions");
+ 
++    object_class_property_add_bool(oc, "highmem-redists",
++                                   virt_get_highmem_redists,
++                                   virt_set_highmem_redists);
++    object_class_property_set_description(oc, "highmem-redists",
++                                          "Set on/off to enable/disable high "
++                                          "memory region for GICv3/4 redistributor");
++
++    object_class_property_add_bool(oc, "highmem-ecam",
++                                   virt_get_highmem_ecam,
++                                   virt_set_highmem_ecam);
++    object_class_property_set_description(oc, "highmem-ecam",
++                                          "Set on/off to enable/disable high "
++                                          "memory region for PCI ECAM");
++
++    object_class_property_add_bool(oc, "highmem-mmio",
++                                   virt_get_highmem_mmio,
++                                   virt_set_highmem_mmio);
++    object_class_property_set_description(oc, "highmem-mmio",
++                                          "Set on/off to enable/disable high "
++                                          "memory region for PCI MMIO");
++
+     object_class_property_add_str(oc, "gic-version", virt_get_gic_version,
+                                   virt_set_gic_version);
+     object_class_property_set_description(oc, "gic-version",
 -- 
 2.23.0
 
