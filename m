@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50DD960ADF6
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 16:42:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC08360B002
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 18:00:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omxSd-0003MB-UJ; Mon, 24 Oct 2022 09:25:52 -0400
+	id 1omxTF-0003c4-Ox; Mon, 24 Oct 2022 09:26:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1omxSW-0003I3-KL
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 09:25:41 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+ id 1omxSs-0003RD-7k
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 09:26:02 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1omxSU-00040G-9f
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 09:25:39 -0400
-Received: by mail-pl1-x631.google.com with SMTP id p6so8427309plr.7
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 06:25:37 -0700 (PDT)
+ id 1omxSq-00044I-IC
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 09:26:01 -0400
+Received: by mail-pf1-x431.google.com with SMTP id g62so4933362pfb.10
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 06:26:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=DjUS+tQaX/U5U5rcl8RyljhouuNX2K7mx9ij2CFhI3s=;
- b=wLo+IZiHcupTAxZy7izbaHOT8SpjbHOupkwvcbsJP+w+8dI15gOqpN8rBq3KmQCHFT
- OARmniC4eDu+uTI35k+8Zvl3lf2uKh+/MhfcWjSInnt3XQ0fgXy1lKO92fsHVSCaTCGT
- x1af5nhDX5gG/0xVUtIdkURvyI3tRZ4tHETVlzplch67c1xSZrS4NpLwaxG6W6YGQ+Sw
- 3VTbni3OBBF/7OWFvwWUZQj4RrIX0pqe6hByx7HT7Q3cIe+3zDA6HrxeVOPM+19AC6ER
- nJ/NY9q+7pFrpON5g0kw2rZRZEKRUnV9+U+11jXhMOLSMBQFfBBU44+7dBFXyclhhXR7
- 7gng==
+ :reply-to; bh=qyxkF9rav08pAN066OMHtqVcS93bmJM30Eii8isiVIE=;
+ b=kxx19Bi3JxnHIkdixfbFVeHn2cjovhsKLGnaDOfrESyGnlT/laelcVDHOSKSDKcfS1
+ G64bneLc6+ymKdkDimoclafmoSibO7Hjrw76uSC14uHS5PsVF5OwxTyY3HnZ+pS3owQH
+ h/0IUofI+MQKir9KrEUSx8b+fg60Oh6gG1Av81a9RmNC1OWovObwHlaIjFswUQIA3aVS
+ EKCqbnmlvI2isMDA2EFI3ocGIvh7usQHA0aJKWfn3o2HDwvlH3JyVyrOHU/Q4plAxqac
+ vZhQ9StrTf90Xjf8RfFbVSTMVx5/N741Iy7btn9X/w6xAMm8IMboGMWNXu+ko3Fyx438
+ zvzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=DjUS+tQaX/U5U5rcl8RyljhouuNX2K7mx9ij2CFhI3s=;
- b=mqtUZQiGJKKt7dZFU/zXaN2d8kPC2fzhhrZOUZTiFTUc+BeD2w5LucTenVTYVdxZdX
- Pjzxw4wTUe6CcHHCCXpQMurFAD+u16tTkmS7GtTbAhJjayjnf6BYhlKNrI5BYXmIzLYj
- favw8HXImeLPG19CS9oisbMpVY3fYQ73isIAs6ZAftiEwa23w/W5kKMCtFveCG3MNwtH
- EYwVFQ64hxcQgUZ2fh2AZ9qWwcgOD1LGI/KA0DXUrRssVmrDzKjJxx9+Z9YeOVb5ujCH
- rNV12YUjiFyqWG39f1XQbRbwAbowYMLEN/XO9HkZlRlXFuPunhyN+bbFMZLI0+17Nvh0
- 1Mig==
-X-Gm-Message-State: ACrzQf2Olj5q97MlSlHvLC3HEIuQjYtwbmi7uHJLPPKaSlhmHio66oPd
- Ku4xXpnnFjxGH2iujz5sgAa8pzNz/82orA==
-X-Google-Smtp-Source: AMsMyM5OkpazQwZLIdiJ3/sTLthp+YoemZo5XJcD9Ki7ru7nXWs7hX1hesbuFYLWgqrWxKZyvaSzlw==
-X-Received: by 2002:a17:902:6bcc:b0:182:df88:e6c8 with SMTP id
- m12-20020a1709026bcc00b00182df88e6c8mr33739025plt.117.1666617936758; 
- Mon, 24 Oct 2022 06:25:36 -0700 (PDT)
+ bh=qyxkF9rav08pAN066OMHtqVcS93bmJM30Eii8isiVIE=;
+ b=us43t+FtCk7JerMxxkahFhDIb3MIw3+/nw8rnlqV46NjyncJHAVC47Of1J01/wXBQr
+ AuA3qoum0LU6D9W/+/OIONeyU20GfTK70zHTyXD+xlmvoqGwP3en2stKbIbh+Kowy2Dk
+ ZukL6uQSS8xOf+qX/vWzPUK1S7KKyd99tgAvedRib1D5NRM/1Mt+Zgy3dPk5Y7RSp4y+
+ eQzdCKzLcS1zJ5RGmvkVYWP+miKfo2Xp/RBV6Q2yLMX5zTaHiC88L1MuFeAolzyMJaD9
+ WUgfkD+yfmgO01hgwmh+cIRChG7LluUxXs8gW1b8wbh/8DvXjokwKmLSOoIuKIgAeydR
+ LgHQ==
+X-Gm-Message-State: ACrzQf24Ra4LN/nbDWgUW98jzS+C6YzkCDG2X2wXpeSL2Pcpd3OJZXO6
+ 2ZdaUL42wuNb55LAlx/F9lbSjXpP7BV/VQ==
+X-Google-Smtp-Source: AMsMyM5F6TgB+m9JMRajWE0IynVR36TShb9lo69M6zLE6lgv8UrGHiYNxIWouamfO7j9o5XgbFENEw==
+X-Received: by 2002:a05:6a00:238d:b0:563:b212:9257 with SMTP id
+ f13-20020a056a00238d00b00563b2129257mr33370542pfc.21.1666617948828; 
+ Mon, 24 Oct 2022 06:25:48 -0700 (PDT)
 Received: from stoup.. ([103.100.225.182]) by smtp.gmail.com with ESMTPSA id
- b12-20020a1709027e0c00b00178ab008364sm17009216plm.37.2022.10.24.06.25.34
+ b12-20020a1709027e0c00b00178ab008364sm17009216plm.37.2022.10.24.06.25.46
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Oct 2022 06:25:36 -0700 (PDT)
+ Mon, 24 Oct 2022 06:25:48 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/29] target/m68k: Convert to tcg_ops restore_state_to_opc
-Date: Mon, 24 Oct 2022 23:24:40 +1000
-Message-Id: <20221024132459.3229709-12-richard.henderson@linaro.org>
+Subject: [PATCH 15/29] target/ppc: Convert to tcg_ops restore_state_to_opc
+Date: Mon, 24 Oct 2022 23:24:45 +1000
+Message-Id: <20221024132459.3229709-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221024132459.3229709-1-richard.henderson@linaro.org>
 References: <20221024132459.3229709-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,59 +89,51 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/m68k/cpu.c       | 14 ++++++++++++++
- target/m68k/translate.c | 10 ----------
- 2 files changed, 14 insertions(+), 10 deletions(-)
+ target/ppc/cpu_init.c  | 10 ++++++++++
+ target/ppc/translate.c |  6 ------
+ 2 files changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
-index 1e902e1ef0..b67ddea2ae 100644
---- a/target/m68k/cpu.c
-+++ b/target/m68k/cpu.c
-@@ -38,6 +38,19 @@ static vaddr m68k_cpu_get_pc(CPUState *cs)
-     return cpu->env.pc;
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index 763a8431be..335351c226 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -7221,6 +7221,15 @@ static vaddr ppc_cpu_get_pc(CPUState *cs)
+     return cpu->env.nip;
  }
  
-+static void m68k_restore_state_to_opc(CPUState *cs,
-+                                      const TranslationBlock *tb,
-+                                      const uint64_t *data)
++static void ppc_restore_state_to_opc(CPUState *cs,
++                                     const TranslationBlock *tb,
++                                     const uint64_t *data)
 +{
-+    M68kCPU *cpu = M68K_CPU(cs);
-+    int cc_op = data[1];
++    PowerPCCPU *cpu = POWERPC_CPU(cs);
 +
-+    cpu->env.pc = data[0];
-+    if (cc_op != CC_OP_DYNAMIC) {
-+        cpu->env.cc_op = cc_op;
-+    }
++    cpu->env.nip = data[0];
 +}
 +
- static bool m68k_cpu_has_work(CPUState *cs)
+ static bool ppc_cpu_has_work(CPUState *cs)
  {
-     return cs->interrupt_request & CPU_INTERRUPT_HARD;
-@@ -524,6 +537,7 @@ static const struct SysemuCPUOps m68k_sysemu_ops = {
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+@@ -7446,6 +7455,7 @@ static const struct SysemuCPUOps ppc_sysemu_ops = {
  
- static const struct TCGCPUOps m68k_tcg_ops = {
-     .initialize = m68k_tcg_init,
-+    .restore_state_to_opc = m68k_restore_state_to_opc,
+ static const struct TCGCPUOps ppc_tcg_ops = {
+   .initialize = ppc_translate_init,
++  .restore_state_to_opc = ppc_restore_state_to_opc,
  
- #ifndef CONFIG_USER_ONLY
-     .tlb_fill = m68k_cpu_tlb_fill,
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index 9df17aa4b2..5cbde4be34 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -6479,13 +6479,3 @@ void m68k_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-                  env->mmu.mmusr, env->mmu.ar);
- #endif
+ #ifdef CONFIG_USER_ONLY
+   .record_sigsegv = ppc_cpu_record_sigsegv,
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index e810842925..7228857e23 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -7739,9 +7739,3 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns,
+ 
+     translator_loop(cs, tb, max_insns, pc, host_pc, &ppc_tr_ops, &ctx.base);
  }
 -
--void restore_state_to_opc(CPUM68KState *env, TranslationBlock *tb,
+-void restore_state_to_opc(CPUPPCState *env, TranslationBlock *tb,
 -                          target_ulong *data)
 -{
--    int cc_op = data[1];
--    env->pc = data[0];
--    if (cc_op != CC_OP_DYNAMIC) {
--        env->cc_op = cc_op;
--    }
+-    env->nip = data[0];
 -}
 -- 
 2.34.1
