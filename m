@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04651609F13
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 12:31:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B46B609F47
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 12:46:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omu3r-0002Ay-2c; Mon, 24 Oct 2022 05:47:59 -0400
+	id 1omu3s-0002BU-41; Mon, 24 Oct 2022 05:48:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lkujaw@mailbox.org>)
- id 1omu31-0001q8-Qc; Mon, 24 Oct 2022 05:47:13 -0400
-Received: from mout-p-202.mailbox.org ([2001:67c:2050:0:465::202])
+ id 1omu37-0001rQ-Te; Mon, 24 Oct 2022 05:47:16 -0400
+Received: from mout-p-103.mailbox.org ([2001:67c:2050:0:465::103])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
  (Exim 4.90_1) (envelope-from <lkujaw@mailbox.org>)
- id 1omu2X-0002Uh-N3; Mon, 24 Oct 2022 05:47:07 -0400
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+ id 1omu2Y-0002ZN-9e; Mon, 24 Oct 2022 05:47:13 -0400
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Mwqw44vgvz9sQj;
- Mon, 24 Oct 2022 11:46:28 +0200 (CEST)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4Mwqw872bFz9sJ4;
+ Mon, 24 Oct 2022 11:46:32 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1666604788;
+ s=mail20150812; t=1666604793;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N6jULGxGNtsNAE/2BFhkOSZuUBlXCYqAy5VrKNSdXCE=;
- b=Wy7UWnTwqzqy/uf/7muWQO8M0IlTWSSVDpIyo8pX4MFCGzvGuSi/vOEV1Tf/p74BhTjO5e
- hoDXiSfPhmIuGEhWEtgpc4QEqYZqkgKkb2E8sBfA5MITsM0XE0PfywdT0oK86GtyiV6DKs
- qXMTbAdvFGHHzR8rCjsHgVOStDaBFQ4Uvif29/llbyU4OPZYtJLABOhfHPbFtFO8JESNd9
- bKYbY1rttjYKyqXGpJRVdUfW507x9E8KiRwpFFZaCpdy5X0ZLq8PkU/lR/Hgg68Y3F0/Nb
- FHBcRXaVmudfhj0fefc0wj3VmP2G0IKphbW/Cnw98CA2iItUT2l/wEono0twXA==
+ bh=uSci2HODWG9PjNVJx6Y+YEanIA2l0t9/txobPaXHSjg=;
+ b=ecZ9gsHm2YONviEE2XjfZoO5U+c+Ek7uvM0RmmBeduDfYtfQp4ZZVh8ZC++sVy/morylPW
+ 2G1/N6PdDAw4h1WyaRk5H7nUKu6Dd9MXnftr4hCmpC/mI1ZU4vmABtLCUnt9vmSJkRLABV
+ EdA1AyLkAjVZqe/ub9ZCw9nY3FAHnQpz1v59hgxAsTQtKebTzMXSV4/aikNkvq27yALJhL
+ D7cNypv8hDBFTGPNj6zhy18jnmf02lC1a8ZcLqZnqJwqHu1bZfRqjav5qIvdYXZWN1OBd1
+ 0nwgGhi2yClDzSFWTPG+f/TtsAkUS69xcRQaYhC34Eiz17yc6V/i7yKbwGdfJQ==
 From: Lev Kujawski <lkujaw@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1666604786;
+ s=mail20150812; t=1666604791;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N6jULGxGNtsNAE/2BFhkOSZuUBlXCYqAy5VrKNSdXCE=;
- b=SO/msC6/PrFDVvsr7L022t+P5Da6NC6pZafLjuNOG4gRsS93DXsaEIiYNm8W7XhY8C1QlP
- Fnypn4kxxioHMhRCqEc4gOlSICPLJUL40FHAAFeN5bqHZoVJ6wQBXx6Ya1KbDWI0P/mU9r
- pJEebXU26Y5crhsu6/J+hSJ3S6R1PS4HavovZB0GfRK3i3+Oyg9a2H6QwxcRP8tKxuMqid
- +7q96wSpvRgPcxhuI+KqM83+NtJ6MDtT3DFJrf7v7ep4cc5Y09xoHz71iMNsiCcQtx4Krw
- IlzpS0PjE/etIWPt1UiMj1wyikYT1Bcxwwh16OxBu7mQS/a/U5Zbp93JY6sjDA==
+ bh=uSci2HODWG9PjNVJx6Y+YEanIA2l0t9/txobPaXHSjg=;
+ b=TUdLQ4uLt4d8jrrzHtj0QNKwVOrydxBLs9QCzh/Xnn95Dz0gGxYFgaER7A4fr/R5AzpSyb
+ X57SSQmSe6XhYbhGVuQADQiU0jOqWbizj9pzHQCkH7SDPrvWR4sY01zUqxmaQ3EFQLc/wT
+ EA7doWdPjDXBhnM4xuVESpnuqhvga7v8+iEdJKyiQz3yfjcCG/ASpyyixt9z2+pWBahu9X
+ XXfozmi0xQEPXoRXdWKtjif1KBerAhrWrqKKNmeZriEWyRYHfqXN4tPMLqAo10Zw81DRB8
+ K5VTHfUBt93roMFvihC59VN2tBDDo7iwVeeoZyHy26hPu+dc8ecBGTfyE4L1ng==
 To: qemu-devel@nongnu.org,
 	mst@redhat.com
 Cc: Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>,
@@ -56,24 +57,25 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>, Yanan Wang <wangyanan55@huawei.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Lev Kujawski <lkujaw@mailbox.org>
-Subject: Re: [PATCH v3 2/2] hw/ide/piix: Ignore writes of hardwired PCI
- command register bits
-Date: Mon, 24 Oct 2022 09:46:19 +0000
-Message-Id: <20221024094621.512806-1-lkujaw@mailbox.org>
-In-Reply-To: <20221007095229-mutt-send-email-mst@kernel.org>
+Subject: [PATCH 1/2] qpci_device_enable: Allow for command bits hardwired to 0
+Date: Mon, 24 Oct 2022 09:46:20 +0000
+Message-Id: <20221024094621.512806-2-lkujaw@mailbox.org>
+In-Reply-To: <20221024094621.512806-1-lkujaw@mailbox.org>
 References: <20221007095229-mutt-send-email-mst@kernel.org>
+ <20221024094621.512806-1-lkujaw@mailbox.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 5df85d2dd0e882e606d
-X-MBO-RS-META: whd9m9ue1zq3fkt318ne56cdoqcdyoft
-Received-SPF: pass client-ip=2001:67c:2050:0:465::202;
- envelope-from=lkujaw@mailbox.org; helo=mout-p-202.mailbox.org
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-MBO-RS-ID: 19dec13ea3fa218dc78
+X-MBO-RS-META: 5g5m87k4jhceg1ezzqgz1bh6tw7ces6h
+X-Rspamd-Queue-Id: 4Mwqw872bFz9sJ4
+Received-SPF: pass client-ip=2001:67c:2050:0:465::103;
+ envelope-from=lkujaw@mailbox.org; helo=mout-p-103.mailbox.org
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,36 +92,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-> I guess this cna work but what I had in mind is much
-> simpler. Add an internal property (name starting with "x-")
-> enabling the buggy behaviour and set it in hw compat array.
-> If set - do not touch the wmask register.
->
-> post load hooks are harder to reason about.
+Devices like the PIIX3/4 IDE controller do not support certain modes
+of operation, such as memory space accesses, and indicate this lack of
+support by hardwiring the applicable bits to zero.  Extend the QEMU
+PCI device testing framework to accommodate such devices.
 
-Thanks again for the review and clarification, please find attached an
-updated patch.  My only concern with the internal property approach is
-a potential proliferation of similar boolean values if someone else
-encounters an incompatibility.  I have not conducted a thorough audit
-of all the PIIX 3/4 IDE registers for hardwired bits (only what I
-encountered testing proprietary firmware - PCICMD), and I do not have
-access to my PIIX 3 system at the moment.
+* tests/qtest/libqos/pci.h: Add the command_disabled word to indicate
+  bits hardwired to 0.
+* tests/qtest/libqos/pci.c: Verify that hardwired bits are actually
+  hardwired.
 
-Kind regards,
-Lev Kujawski
-
-Lev Kujawski (2):
-  qpci_device_enable: Allow for command bits hardwired to 0
-  hw/ide/piix: Ignore writes of hardwired PCI command register bits
-
- hw/core/machine.c        |  5 ++++-
- hw/ide/piix.c            | 24 ++++++++++++++++++++++++
- include/hw/ide/pci.h     |  1 +
- tests/qtest/ide-test.c   |  1 +
+Signed-off-by: Lev Kujawski <lkujaw@mailbox.org>
+---
  tests/qtest/libqos/pci.c | 13 +++++++------
  tests/qtest/libqos/pci.h |  1 +
- 6 files changed, 38 insertions(+), 7 deletions(-)
+ 2 files changed, 8 insertions(+), 6 deletions(-)
 
+diff --git a/tests/qtest/libqos/pci.c b/tests/qtest/libqos/pci.c
+index b23d72346b..4f3d28d8d9 100644
+--- a/tests/qtest/libqos/pci.c
++++ b/tests/qtest/libqos/pci.c
+@@ -220,18 +220,19 @@ int qpci_secondary_buses_init(QPCIBus *bus)
+ 
+ void qpci_device_enable(QPCIDevice *dev)
+ {
+-    uint16_t cmd;
++    const uint16_t enable_bits =
++        PCI_COMMAND_IO | PCI_COMMAND_MEMORY | PCI_COMMAND_MASTER;
++    uint16_t cmd, new_cmd;
+ 
+     /* FIXME -- does this need to be a bus callout? */
+     cmd = qpci_config_readw(dev, PCI_COMMAND);
+-    cmd |= PCI_COMMAND_IO | PCI_COMMAND_MEMORY | PCI_COMMAND_MASTER;
++    cmd |= enable_bits;
+     qpci_config_writew(dev, PCI_COMMAND, cmd);
+ 
+     /* Verify the bits are now set. */
+-    cmd = qpci_config_readw(dev, PCI_COMMAND);
+-    g_assert_cmphex(cmd & PCI_COMMAND_IO, ==, PCI_COMMAND_IO);
+-    g_assert_cmphex(cmd & PCI_COMMAND_MEMORY, ==, PCI_COMMAND_MEMORY);
+-    g_assert_cmphex(cmd & PCI_COMMAND_MASTER, ==, PCI_COMMAND_MASTER);
++    new_cmd = qpci_config_readw(dev, PCI_COMMAND);
++    new_cmd &= enable_bits;
++    g_assert_cmphex(new_cmd, ==, enable_bits & ~dev->command_disabled);
+ }
+ 
+ /**
+diff --git a/tests/qtest/libqos/pci.h b/tests/qtest/libqos/pci.h
+index 8389614523..eaedb98588 100644
+--- a/tests/qtest/libqos/pci.h
++++ b/tests/qtest/libqos/pci.h
+@@ -68,6 +68,7 @@ struct QPCIDevice
+     bool msix_enabled;
+     QPCIBar msix_table_bar, msix_pba_bar;
+     uint64_t msix_table_off, msix_pba_off;
++    uint16_t command_disabled;
+ };
+ 
+ struct QPCIAddress {
 -- 
 2.34.1
 
