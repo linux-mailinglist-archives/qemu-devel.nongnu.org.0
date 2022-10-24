@@ -2,65 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A23060A421
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 14:05:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 695B560A540
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 14:22:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omvrv-0008Gr-23; Mon, 24 Oct 2022 07:43:48 -0400
+	id 1omvs0-0000HW-Gy; Mon, 24 Oct 2022 07:43:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1omvqw-0007uK-Uz; Mon, 24 Oct 2022 07:42:47 -0400
-Received: from mout.kundenserver.de ([212.227.126.134])
+ id 1omvrR-00086Z-1U; Mon, 24 Oct 2022 07:43:20 -0400
+Received: from mout.kundenserver.de ([212.227.126.135])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1omvqu-0004x5-6s; Mon, 24 Oct 2022 07:42:46 -0400
+ id 1omvrP-00052T-5Z; Mon, 24 Oct 2022 07:43:16 -0400
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mspy4-1p6n970jKy-00tFml; Mon, 24 Oct 2022 13:42:09 +0200
-Message-ID: <f1f2683a-b0a3-75b5-c0bc-8fc15c16518f@vivier.eu>
-Date: Mon, 24 Oct 2022 13:42:04 +0200
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N0Fl9-1oyoNV1cYB-00xIq2; Mon, 24 Oct 2022 13:43:10 +0200
+Message-ID: <01d737a4-96a8-61e3-d0e5-b798c8e51299@vivier.eu>
+Date: Mon, 24 Oct 2022 13:43:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
-Subject: Re: [PATCH] treewide: Remove the unnecessary space before semicolon
+Subject: Re: [PATCH] ui: remove useless typecasts
 Content-Language: fr
-To: Bin Meng <bmeng@tinylab.org>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Greg Kurz <groug@kaod.org>,
- Jason Wang <jasowang@redhat.com>, Magnus Damm <magnus.damm@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Pavel Pisa <pisa@cmp.felk.cvut.cz>, Peter Maydell
- <peter.maydell@linaro.org>, Vikram Garhwal <fnu.vikram@xilinx.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-arm@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20221024072802.457832-1-bmeng@tinylab.org>
+To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org, qemu-trivial@nongnu.org
+References: <20221022141204.29358-1-vr_qemu@t-online.de>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20221024072802.457832-1-bmeng@tinylab.org>
+In-Reply-To: <20221022141204.29358-1-vr_qemu@t-online.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:neP4ncOU5CRyRY0nrsX11UOREtgdaf63CoxVhcL+prnifXmItZt
- +o5MyfxJyZwDvvqc6z3/WCTaV88nHW4reN5YsYQ7irJ/Ry9G4v9b0OBK6imP3ljV1IrTr8o
- 99CqzXAoW3iaM0FEtKx+/9lk+pRw+U3bWJzBkszFgLoWCwP4xyWa8b7Tc17mHAl7ECeVOCT
- rvkUbnqEGKOA0anyTTv3g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:2e+Z2xh238I=:rZ5UTSIpbnFT10FK2nYeY2
- cp4aRKWKZSpBZAicbhaicnNCifMkH6kepGOWoyJ6u05z4UjlQvWPm8nTJDUHa2yLhAhzWi/9p
- Gu9fMq5arwkHOv+PzRzHqLUDyOORj1N437J/sS/AuFv2Eg0jF36XkhxNCRB0GBNuMcFNKklAy
- je1V62/R+zdrYvii2SnZRieGVyiWB9EMETwLS46yukNxQ98T1K1tA/YI0Nev0xBsAaDaTksE/
- FLPXT8YdVxOb89Xxuysp0p2GbhkxkjeNxcwdprhMbjGoDJDVxHmDkRIeqJmKP75R2PzIv1/h5
- Z4dha+OcPlNO4lTmpZt58cnAKgvEk4HTXi0BC5V8aosItcqKQ6ZsFuBZrR4rNwEvHEPTZrMOH
- mlhOBvf03lQkL3CRZY6PsRLgwxX0DSyKLYqgiSve/w0BrdrBYBU6lORsjIldP15j5cOjg7xrE
- FZyNDl0xy2+6pMHXkayrelpvAaZ9/6MfcauP+swSajY9w+kVdBvkmKLpyS9le2vBxzN8YAnGr
- I/PI948kbycUSa3ZZq9B8DHId9o4dd1AN8VuanXc9KhABQzeKXB1VVt0WBHGLKOGCjiZ2iX2n
- rxje5JGD2YaYH9QW+1Y2cNgkE8Rv4xTvG6sITWEo6CJE4YZcWxmZDY6qCTqLdnX2oNhmMAbHo
- 94s89IB8W6NS0CebWA+4vOCgH/rvEd6KiF2ERQvtFpgxXz8rstSKe34TVNh0bybSTfyiDraP6
- uRMTM9A6Zy8SdjDWAE1Lu3ZrMTh46zAxQglLPLd4KqsrmsaiHKehgxmTmiOnagN17p2X9qekI
- qsawGuO
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:1U4+H6JG2c13uMhGcNc5N/e4hxUtO4GlfDeMl3FMoTj4jP7O/Xh
+ seGfLlAjkXBniJnl0sn4PXzo69HyS85rp/zWk7WiutyqOhukeKSc0Xn6hcY63NUt1GCH0wp
+ HgpoYKICyKtk1l/vHH4DY0HDowCE7DphOEc1+qRYeCN2DpuQ+gRM8Qp3X6nlwMkdBCbfvo5
+ AoCmgGUmAlsNlFXB8PqfQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:TrtPyIB4r8k=:Z3yTEVP/hdBBuLmupUG6ol
+ 4hZBkO0d07AWsjFtvFw4Mi8QbOaMeUkzKztQk8bv8LUf4e5BO9rKpI6IiCnxhHWl5XtjjO5Aa
+ ZhNKlu9lkUiW9coIF6F2iUWKVzmEabThMsUj7tVlD8mAKmPIuArusiDZZCm1jaQuAUS3NczzK
+ I/iz+mHh80kZg7Fas9m5vZoRbOkCdlzl3ojDz+C/4paeEsD2zknc3DhMp16yczDNKb5jV6pmQ
+ CULIRxwFVZETggvW72FP/ijnz5CJr3RA/wx4ikoNijthpQAS4awiV1YDvboxli2qglxWVuaOV
+ KnexKNailX5kJB61L1YAJJ02W7qOYae1SzIw3V8BlYyZummQCELGcq8S4FRWgm8V/mBepEvuJ
+ fDwZCQ7V8v/KEFWwzs9EI56dzxgyQinNcU0wZRnXKZ3zAYgsrAnb6ESR4s64NvFSCu6HsqabI
+ CVUYkLvox1nMdZ5jjiWWqMZ20hoQ2Cz3TrsyyfQYr5SeE1XgBBoKgOj5t8XJNY3fM+oB9r5fi
+ h4SXTrKYyrellel2E+s9JGsS3NXwnUyK3HXEVKp0ErgIlyqY/m2p4nRsPbkBWbQM7I56toHCU
+ ssBH7x4N3TkoMGfVRjHZns5nw86bCVz8n848nWIe69sDsJWIJSf44Rbix3MiD+iWcba9YlrNg
+ G5d1ZPtcTKztnhIn6kclqKe39eVFVC79k6R+d1OH/oUioo5I/blDAXcT5cirDffyovgz8hmr5
+ pmfRaSzDHQ2uUl/d0OAYber6H6XZ6Z7HVMfkDn9t5lurWpaC1XaMost6slDW5YHrEm8MxU7ig
+ fk9YuN4
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -83,199 +75,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 24/10/2022 à 09:28, Bin Meng a écrit :
-> %s/return ;/return;
+Le 22/10/2022 à 16:12, Volker Rümelin a écrit :
+> Commit 8f9abdf586 ("chardev: src buffer const for write functions")
+> changed the type of the second parameter of qemu_chr_be_write()
+> from uint8_t * to const uint8_t *. Remove the now useless type
+> casts from qemu_chr_be_write() function calls in ui/console.c and
+> ui/gtk.c.
 > 
-> Signed-off-by: Bin Meng <bmeng@tinylab.org>
+> Cc: qemu-trivial@nongnu.org
+> Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 > ---
+>   ui/console.c | 2 +-
+>   ui/gtk.c     | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
 > 
->   include/hw/elf_ops.h         | 2 +-
->   hw/9pfs/9p.c                 | 2 +-
->   hw/dma/pl330.c               | 2 +-
->   hw/net/can/can_sja1000.c     | 2 +-
->   hw/timer/renesas_cmt.c       | 2 +-
->   hw/timer/renesas_tmr.c       | 8 ++++----
->   hw/virtio/virtio-pci.c       | 2 +-
->   target/riscv/vector_helper.c | 2 +-
->   target/rx/op_helper.c        | 4 ++--
->   ui/vnc-jobs.c                | 2 +-
->   ui/vnc.c                     | 2 +-
->   11 files changed, 15 insertions(+), 15 deletions(-)
-> 
-> diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
-> index 7c3b1d0f6c..fbe0b1e956 100644
-> --- a/include/hw/elf_ops.h
-> +++ b/include/hw/elf_ops.h
-> @@ -117,7 +117,7 @@ static void glue(load_symbols, SZ)(struct elfhdr *ehdr, int fd, int must_swab,
->       shdr_table = load_at(fd, ehdr->e_shoff,
->                            sizeof(struct elf_shdr) * ehdr->e_shnum);
->       if (!shdr_table) {
-> -        return ;
-> +        return;
->       }
+> diff --git a/ui/console.c b/ui/console.c
+> index 49da6a91df..65c117874c 100644
+> --- a/ui/console.c
+> +++ b/ui/console.c
+> @@ -1297,7 +1297,7 @@ static void kbd_send_chars(QemuConsole *s)
+>           uint32_t size;
 >   
->       if (must_swab) {
-> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> index aebadeaa03..76c591a01b 100644
-> --- a/hw/9pfs/9p.c
-> +++ b/hw/9pfs/9p.c
-> @@ -1786,7 +1786,7 @@ static void coroutine_fn v9fs_walk(void *opaque)
->       err = pdu_unmarshal(pdu, offset, "ddw", &fid, &newfid, &nwnames);
->       if (err < 0) {
->           pdu_complete(pdu, err);
-> -        return ;
-> +        return;
+>           buf = fifo8_pop_buf(&s->out_fifo, MIN(len, avail), &size);
+> -        qemu_chr_be_write(s->chr, (uint8_t *)buf, size);
+> +        qemu_chr_be_write(s->chr, buf, size);
+>           len = qemu_chr_be_can_write(s->chr);
+>           avail -= size;
 >       }
->       offset += err;
+> diff --git a/ui/gtk.c b/ui/gtk.c
+> index 92daaa6a6e..7ec21f7798 100644
+> --- a/ui/gtk.c
+> +++ b/ui/gtk.c
+> @@ -1763,7 +1763,7 @@ static void gd_vc_send_chars(VirtualConsole *vc)
+>           uint32_t size;
 >   
-> diff --git a/hw/dma/pl330.c b/hw/dma/pl330.c
-> index 08e5938ec7..e5d521c329 100644
-> --- a/hw/dma/pl330.c
-> +++ b/hw/dma/pl330.c
-> @@ -1328,7 +1328,7 @@ static void pl330_debug_exec(PL330State *s)
+>           buf = fifo8_pop_buf(&vc->vte.out_fifo, MIN(len, avail), &size);
+> -        qemu_chr_be_write(vc->vte.chr, (uint8_t *)buf, size);
+> +        qemu_chr_be_write(vc->vte.chr, buf, size);
+>           len = qemu_chr_be_can_write(vc->vte.chr);
+>           avail -= size;
 >       }
->       if (!insn) {
->           pl330_fault(ch, PL330_FAULT_UNDEF_INSTR | PL330_FAULT_DBG_INSTR);
-> -        return ;
-> +        return;
->       }
->       ch->stall = 0;
->       insn->exec(ch, opcode, args, insn->size - 1);
-> diff --git a/hw/net/can/can_sja1000.c b/hw/net/can/can_sja1000.c
-> index e0f76d3eb3..73201f9139 100644
-> --- a/hw/net/can/can_sja1000.c
-> +++ b/hw/net/can/can_sja1000.c
-> @@ -431,7 +431,7 @@ void can_sja_mem_write(CanSJA1000State *s, hwaddr addr, uint64_t val,
->               (unsigned long long)val, (unsigned int)addr);
->   
->       if (addr > CAN_SJA_MEM_SIZE) {
-> -        return ;
-> +        return;
->       }
->   
->       if (s->clock & 0x80) { /* PeliCAN Mode */
-> diff --git a/hw/timer/renesas_cmt.c b/hw/timer/renesas_cmt.c
-> index 2e0fd21a36..69eabc678a 100644
-> --- a/hw/timer/renesas_cmt.c
-> +++ b/hw/timer/renesas_cmt.c
-> @@ -57,7 +57,7 @@ static void update_events(RCMTState *cmt, int ch)
->   
->       if ((cmt->cmstr & (1 << ch)) == 0) {
->           /* count disable, so not happened next event. */
-> -        return ;
-> +        return;
->       }
->       next_time = cmt->cmcor[ch] - cmt->cmcnt[ch];
->       next_time *= NANOSECONDS_PER_SECOND;
-> diff --git a/hw/timer/renesas_tmr.c b/hw/timer/renesas_tmr.c
-> index d96002e1ee..c15f654738 100644
-> --- a/hw/timer/renesas_tmr.c
-> +++ b/hw/timer/renesas_tmr.c
-> @@ -67,18 +67,18 @@ static void update_events(RTMRState *tmr, int ch)
->       int i, event;
->   
->       if (tmr->tccr[ch] == 0) {
-> -        return ;
-> +        return;
->       }
->       if (FIELD_EX8(tmr->tccr[ch], TCCR, CSS) == 0) {
->           /* external clock mode */
->           /* event not happened */
-> -        return ;
-> +        return;
->       }
->       if (FIELD_EX8(tmr->tccr[0], TCCR, CSS) == CSS_CASCADING) {
->           /* cascading mode */
->           if (ch == 1) {
->               tmr->next[ch] = none;
-> -            return ;
-> +            return;
->           }
->           diff[cmia] = concat_reg(tmr->tcora) - concat_reg(tmr->tcnt);
->           diff[cmib] = concat_reg(tmr->tcorb) - concat_reg(tmr->tcnt);
-> @@ -384,7 +384,7 @@ static void timer_events(RTMRState *tmr, int ch)
->                                       tmr->tcorb[ch]) & 0xff;
->       } else {
->           if (ch == 1) {
-> -            return ;
-> +            return;
->           }
->           tcnt = issue_event(tmr, ch, 16,
->                              concat_reg(tmr->tcnt),
-> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> index e7d80242b7..34db51e241 100644
-> --- a/hw/virtio/virtio-pci.c
-> +++ b/hw/virtio/virtio-pci.c
-> @@ -1675,7 +1675,7 @@ static void virtio_pci_device_plugged(DeviceState *d, Error **errp)
->           if (virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
->               error_setg(errp, "VIRTIO_F_IOMMU_PLATFORM was supported by"
->                          " neither legacy nor transitional device");
-> -            return ;
-> +            return;
->           }
->           /*
->            * Legacy and transitional devices use specific subsystem IDs.
-> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> index b94f809eb3..0020b9a95d 100644
-> --- a/target/riscv/vector_helper.c
-> +++ b/target/riscv/vector_helper.c
-> @@ -211,7 +211,7 @@ static void vext_set_elems_1s(void *base, uint32_t is_agnostic, uint32_t cnt,
->           return;
->       }
->       if (tot - cnt == 0) {
-> -        return ;
-> +        return;
->       }
->       memset(base + cnt, -1, tot - cnt);
->   }
-> diff --git a/target/rx/op_helper.c b/target/rx/op_helper.c
-> index 9ca32dcc82..acce650185 100644
-> --- a/target/rx/op_helper.c
-> +++ b/target/rx/op_helper.c
-> @@ -286,7 +286,7 @@ void helper_suntil(CPURXState *env, uint32_t sz)
->       uint32_t tmp;
->       tcg_debug_assert(sz < 3);
->       if (env->regs[3] == 0) {
-> -        return ;
-> +        return;
->       }
->       do {
->           tmp = cpu_ldufn[sz](env, env->regs[1], GETPC());
-> @@ -305,7 +305,7 @@ void helper_swhile(CPURXState *env, uint32_t sz)
->       uint32_t tmp;
->       tcg_debug_assert(sz < 3);
->       if (env->regs[3] == 0) {
-> -        return ;
-> +        return;
->       }
->       do {
->           tmp = cpu_ldufn[sz](env, env->regs[1], GETPC());
-> diff --git a/ui/vnc-jobs.c b/ui/vnc-jobs.c
-> index 4562bf8928..886f9bf611 100644
-> --- a/ui/vnc-jobs.c
-> +++ b/ui/vnc-jobs.c
-> @@ -373,7 +373,7 @@ void vnc_start_worker_thread(void)
->       VncJobQueue *q;
->   
->       if (vnc_worker_thread_running())
-> -        return ;
-> +        return;
->   
->       q = vnc_queue_init();
->       qemu_thread_create(&q->thread, "vnc_worker", vnc_worker_thread, q,
-> diff --git a/ui/vnc.c b/ui/vnc.c
-> index acb3629cd8..88f55cbf3c 100644
-> --- a/ui/vnc.c
-> +++ b/ui/vnc.c
-> @@ -3085,7 +3085,7 @@ static void vnc_rect_updated(VncDisplay *vd, int x, int y, struct timeval * tv)
->   
->       rect = vnc_stat_rect(vd, x, y);
->       if (rect->updated) {
-> -        return ;
-> +        return;
->       }
->       rect->times[rect->idx] = *tv;
->       rect->idx = (rect->idx + 1) % ARRAY_SIZE(rect->times);
 
 Applied to my trivial-patches branch.
 
