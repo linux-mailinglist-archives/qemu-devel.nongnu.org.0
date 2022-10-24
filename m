@@ -2,94 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 078796099E1
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 07:34:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2AB3609964
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 06:49:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omneE-0005E2-AQ; Sun, 23 Oct 2022 22:57:06 -0400
+	id 1omnxR-0005x6-Rw; Sun, 23 Oct 2022 23:16:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1omn0O-0000um-PT
- for qemu-devel@nongnu.org; Sun, 23 Oct 2022 22:16:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1omn0M-0002v0-SX
- for qemu-devel@nongnu.org; Sun, 23 Oct 2022 22:15:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666577754;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=V3IyIleP6Ueaqpm0l87Cw2/dZK97bXxDX9MLYqlD9YA=;
- b=VcadB1YJvUkLH2W0wo+lM1eFsORVPZa/cHzItu3dlkJ4hQpEFzLT9cMkqQXKEkKR4vhXXp
- bdxvez2/O41PLwbzPgF3lIkrgi2OjgVMzYaJTBXEHXx7NX1pl/hRBkDzljgPUNduU/oDkX
- eNS78S5BtQW+AbHpw5FY8reUVNtQs0k=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-551-dmRfaw7JMZSDXg0G7FHA8g-1; Sun, 23 Oct 2022 22:15:52 -0400
-X-MC-Unique: dmRfaw7JMZSDXg0G7FHA8g-1
-Received: by mail-ed1-f71.google.com with SMTP id
- q20-20020a056402519400b004613ae68b7bso7608563edd.5
- for <qemu-devel@nongnu.org>; Sun, 23 Oct 2022 19:15:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1omnxQ-0005vn-L6; Sun, 23 Oct 2022 23:16:56 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1omnxN-0006y4-NT; Sun, 23 Oct 2022 23:16:56 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ m14-20020a17090a3f8e00b00212dab39bcdso5357431pjc.0; 
+ Sun, 23 Oct 2022 20:16:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Lxzh5LefGuDbVzsrre0X27UzcFf5RnONM/zEXD/f4go=;
+ b=F6hXj13BVfwYRJvmEg0/34XIOuy0piOt2rcDsYMuTKYWe4DGyBiZUHEY/oozFQBQvZ
+ EIgtr75UAxlKbb2ZEdjxAqcAQe0YserKKbhSiRCpexe4wQVdgmK/EkPUYkEShSizWvXZ
+ 98tpM1zJXiSR11kNd2nNgD1zsZ6d9vovicGBjByaDphH9CulQdFyf2cMB5w6qZ9ahf2k
+ braNLCVgwU0g2fIn6Ss6V96mzVVjZgQVkRWNuiVFJZ8kaNmoFpPSnAcCbn+qLs92HMcf
+ b10r4LDpv/DcQTog4qnKM/nUQEN1ow/G3beo5xeS7mNM/9pMMB2OBwaFryC9v3u3Sses
+ FEVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=V3IyIleP6Ueaqpm0l87Cw2/dZK97bXxDX9MLYqlD9YA=;
- b=B8aoZve93FKmVayTKSloE6Enfq4FjcfnyC56kEokYRDP4hL+f1HD4BnjnJmC98Xsl+
- kbipuf1xYL1DeCn80g8PlqoH25afSN/8fwWzkajXInGbUudG6KcNY4LhubeXuBZtts9L
- lJ1nIYgUYYdmJaVQp+zMuC63dJcz9cATBLf5GJIRykbc2s2PMnqgo0NtAzs3syvgOVRM
- NCS+1/KE7D1DVrbkNngFVWveea237wkragmM7/Twqeynyz1kVmDGjM6+K7CtRDJF8F/0
- LNN3z17jy//MpN+BIM0wYOQiS6PEcE1xurjUZM91mwH4Fd1gZHrE145xnSTTJwJDJVXV
- QyAw==
-X-Gm-Message-State: ACrzQf23vM4IFZ9XAVNbzQ5ptEZUGyBapWRd0nHK7ClBqtyYHl7uaUEL
- dWlkxwhT4w7GmHEyProYc0njNiBT0WCv49EeH3rsjWpVZel3pJXioFVZblk4Y7caugw9zn5K/27
- 2K/vo4DmehiqMbX7Md2UDj5OBA9bzo5g=
-X-Received: by 2002:a17:906:8a62:b0:78d:a05c:c37f with SMTP id
- hy2-20020a1709068a6200b0078da05cc37fmr25128696ejc.159.1666577751701; 
- Sun, 23 Oct 2022 19:15:51 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7swKu6tnJA0QynFbo5od86WBRpo1FUMAyF8junVfFc41zvPdOmGqoDf/YjlisSNwLhNCfadEpdxA2A6yb75nI=
-X-Received: by 2002:a17:906:8a62:b0:78d:a05c:c37f with SMTP id
- hy2-20020a1709068a6200b0078da05cc37fmr25128672ejc.159.1666577751505; Sun, 23
- Oct 2022 19:15:51 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Lxzh5LefGuDbVzsrre0X27UzcFf5RnONM/zEXD/f4go=;
+ b=Ibd2NTdZFIaP7/7IWoAGuV7/QoISUmejGdZSno9PgReTknqlyaPsF3xtg07Lkjzvuu
+ fnDbvG35FW6crhTDm79fmGPHmVuff9PBgWleTi1Gpvki8+mYOpwj28REg29bJM4RLo+E
+ GjfxN13I5RX5SNMGAXURda/om+XZIufj4fl+kMSKmKAQdopdxDPudytoFkDFKlIZr9g7
+ yCU0kWdP97uOdWp5DBqX2d1w/QoIvwJMOSWWntJi3gxA0mx65UneFrvWe1BappS9BJrj
+ xfy9fTg23nJnPAdk/XSbGXJnanMQvm72lMDcwmPn7cTg5dZ63BFTGpfvlXM16WqzAZSk
+ FmBg==
+X-Gm-Message-State: ACrzQf1mX176qHeP1nwsqG4fF9XgWE53HvjUjqNE9cWLZzZHMoLdpWtK
+ 0sY2utfP+0ZRUu0+7HlMFFBO3VbtJu0Ru8aFme4=
+X-Google-Smtp-Source: AMsMyM7lfRzYtxvNRs+wjGQEsEqqnewgIGL+ZwwWIamVPKbLbFw8eyBldzZ+8z6he3PaK/RotNIGjKOWD+bTlCzRdMQ=
+X-Received: by 2002:a17:90b:314a:b0:20d:904b:18a8 with SMTP id
+ ip10-20020a17090b314a00b0020d904b18a8mr70673089pjb.96.1666581409514; Sun, 23
+ Oct 2022 20:16:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221019125210.226291-1-eperezma@redhat.com>
- <20221019125210.226291-7-eperezma@redhat.com>
- <CACGkMEuKCXP2DMQWtPFmLnCKYuyDA8LEFbETU==AM_aRvdVM8g@mail.gmail.com>
- <CAJaqyWfFk_yXTJjsvSpqG2XCJvgP7BqjcVediQL0KSDgN5nZ=A@mail.gmail.com>
- <CACGkMEtUBz99zAyreiUgqp7U3BFgFgLi+bPKW1tKZhq7p2+cFQ@mail.gmail.com>
- <CAJaqyWdBtxW8y6Oeji+UJ5QmYTMiy3NP2Q9FaaZyvYR5VyS6TA@mail.gmail.com>
-In-Reply-To: <CAJaqyWdBtxW8y6Oeji+UJ5QmYTMiy3NP2Q9FaaZyvYR5VyS6TA@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 24 Oct 2022 10:15:38 +0800
-Message-ID: <CACGkMEvx687RWph3NT5C9bXk7SSZYaLyyjLjjfH4s1z6aRTdqw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 6/8] vdpa: handle VIRTIO_NET_CTRL_ANNOUNCE in
- vhost_vdpa_net_handle_ctrl_avail
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, Zhu Lingshan <lingshan.zhu@intel.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>,
- Stefano Garzarella <sgarzare@redhat.com>, 
- Si-Wei Liu <si-wei.liu@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Cindy Lu <lulu@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Eli Cohen <eli@mellanox.com>, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>, 
- Gautam Dawar <gdawar@xilinx.com>
+References: <20221012060016.30856-1-zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <20221012060016.30856-1-zhiwei_liu@linux.alibaba.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 24 Oct 2022 13:16:22 +1000
+Message-ID: <CAKmqyKPZRK993u3QeaRBdafNOrUXFu_Q3zzbGrMC7v0ycYzkhA@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Fix PMP propagation for tlb
+To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, Alistair.Francis@wdc.com, 
+ palmer@dabbelt.com, bin.meng@windriver.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=alistair23@gmail.com; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,112 +83,243 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Oct 21, 2022 at 5:05 PM Eugenio Perez Martin
-<eperezma@redhat.com> wrote:
+On Wed, Oct 12, 2022 at 4:01 PM LIU Zhiwei <zhiwei_liu@linux.alibaba.com> wrote:
 >
-> On Fri, Oct 21, 2022 at 5:02 AM Jason Wang <jasowang@redhat.com> wrote:
-> >
-> > On Thu, Oct 20, 2022 at 3:01 PM Eugenio Perez Martin
-> > <eperezma@redhat.com> wrote:
-> > >
-> > > On Thu, Oct 20, 2022 at 6:35 AM Jason Wang <jasowang@redhat.com> wrot=
-e:
-> > > >
-> > > > On Wed, Oct 19, 2022 at 8:52 PM Eugenio P=C3=A9rez <eperezma@redhat=
-.com> wrote:
-> > > > >
-> > > > > Since this capability is emulated by qemu shadowed CVQ cannot for=
-ward it
-> > > > > to the device.
-> > > >
-> > > > I wonder what happens for a device that has GUEST_ANNOUNCE support =
-on its own?
-> > > >
-> > >
-> > > If SVQ is enabled the feature is always emulated by qemu by this seri=
-es.
-> > >
-> > > if SVQ is disabled then the device is the one in charge of all of it.
-> >
-> > Ok, I see.
-> >
-> > >
-> > > > > Process all that command within qemu.
-> > > > >
-> > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > > > ---
-> > > > >  net/vhost-vdpa.c | 15 ++++++++++++---
-> > > > >  1 file changed, 12 insertions(+), 3 deletions(-)
-> > > > >
-> > > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > > > > index 3374c21b4d..5fda405a66 100644
-> > > > > --- a/net/vhost-vdpa.c
-> > > > > +++ b/net/vhost-vdpa.c
-> > > > > @@ -488,9 +488,18 @@ static int vhost_vdpa_net_handle_ctrl_avail(=
-VhostShadowVirtqueue *svq,
-> > > > >      out.iov_len =3D iov_to_buf(elem->out_sg, elem->out_num, 0,
-> > > > >                               s->cvq_cmd_out_buffer,
-> > > > >                               vhost_vdpa_net_cvq_cmd_len());
-> > > > > -    dev_written =3D vhost_vdpa_net_cvq_add(s, out.iov_len, sizeo=
-f(status));
-> > > > > -    if (unlikely(dev_written < 0)) {
-> > > > > -        goto out;
-> > > > > +    if (*(uint8_t *)s->cvq_cmd_out_buffer =3D=3D VIRTIO_NET_CTRL=
-_ANNOUNCE) {
-> > > >
-> > > > Interesting, I thought we can do better by forbidding the code that
-> > > > goes into vhost-vDPA specific code, everything should be set at
-> > > > virtio-net.c level.
-> > > >
-> > >
-> > > Do you mean to move the SVQ processing to each handle_output? It's
-> > > somehow on the roadmap but I'm not sure if it has more priority than
-> > > implementing the different features.
-> >
-> > Right, but I think we need to find a way to eliminate the casting here.
-> >
+> Only the pmp index that be checked by pmp_hart_has_privs can be used
+> by pmp_get_tlb_size to avoid an error pmp index.
 >
-> Would it work to use it this way?
-> uint8_t *virtio_net_ctrl_class =3D s->cvq_cmd_out_buffer
-> if (*virtio_net_ctrl_class =3D=3D VIRTIO_NET_CTRL_ANNOUNCE) {
->   ...
-> }
-
-Something like this, yes.
-
-Thanks
-
+> Before modification, we may use an error pmp index. For example,
+> we check address 0x4fc, and the size 0x4 in pmp_hart_has_privs. If there
+> is an pmp rule, valid range is [0x4fc, 0x500), then pmp_hart_has_privs
+> will return true;
 >
-> > Thanks
-> >
-> > >
-> > > Thanks!
-> > >
-> > >
-> > > > Thanks
-> > > >
-> > > > > +        /*
-> > > > > +         * Guest announce capability is emulated by qemu, so don=
-t forward to
-> > > > > +         * the device.
-> > > > > +         */
-> > > > > +        dev_written =3D sizeof(status);
-> > > > > +        *s->status =3D VIRTIO_NET_OK;
-> > > > > +    } else {
-> > > > > +        dev_written =3D vhost_vdpa_net_cvq_add(s, out.iov_len, s=
-izeof(status));
-> > > > > +        if (unlikely(dev_written < 0)) {
-> > > > > +            goto out;
-> > > > > +        }
-> > > > >      }
-> > > > >
-> > > > >      if (unlikely(dev_written < sizeof(status))) {
-> > > > > --
-> > > > > 2.31.1
-> > > > >
-> > > >
-> > >
-> >
+> However, this checked pmp index is discarded as pmp_hart_has_privs
+> return bool value. In pmp_is_range_in_tlb, it will traverse all pmp
+> rules. The tlb_sa will be 0x0, and tlb_ea will be 0xfff. If there is
+> a pmp rule [0x10, 0x14), it will be misused as it is legal in
+> pmp_get_tlb_size.
 >
+> As we have already known the correct pmp index, just remove the
+> remove the pmp_is_range_in_tlb and get tlb size directly from
+> pmp_get_tlb_size.
+>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 
+Thanks!
+
+Applied to riscv-to-apply.next
+
+Alistair
+
+> ---
+>  target/riscv/cpu_helper.c | 16 ++++---
+>  target/riscv/pmp.c        | 90 +++++++++++++--------------------------
+>  target/riscv/pmp.h        |  6 +--
+>  3 files changed, 42 insertions(+), 70 deletions(-)
+>
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 278d163803..5d66246c2c 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -706,24 +706,26 @@ static int get_physical_address_pmp(CPURISCVState *env, int *prot,
+>                                      int mode)
+>  {
+>      pmp_priv_t pmp_priv;
+> -    target_ulong tlb_size_pmp = 0;
+> +    int pmp_index = -1;
+>
+>      if (!riscv_feature(env, RISCV_FEATURE_PMP)) {
+>          *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+>          return TRANSLATE_SUCCESS;
+>      }
+>
+> -    if (!pmp_hart_has_privs(env, addr, size, 1 << access_type, &pmp_priv,
+> -                            mode)) {
+> +    pmp_index = pmp_hart_has_privs(env, addr, size, 1 << access_type,
+> +                                   &pmp_priv, mode);
+> +    if (pmp_index < 0) {
+>          *prot = 0;
+>          return TRANSLATE_PMP_FAIL;
+>      }
+>
+>      *prot = pmp_priv_to_page_prot(pmp_priv);
+> -    if (tlb_size != NULL) {
+> -        if (pmp_is_range_in_tlb(env, addr & ~(*tlb_size - 1), &tlb_size_pmp)) {
+> -            *tlb_size = tlb_size_pmp;
+> -        }
+> +    if ((tlb_size != NULL) && pmp_index != MAX_RISCV_PMPS) {
+> +        target_ulong tlb_sa = addr & ~(TARGET_PAGE_SIZE - 1);
+> +        target_ulong tlb_ea = tlb_sa + TARGET_PAGE_SIZE - 1;
+> +
+> +        *tlb_size = pmp_get_tlb_size(env, pmp_index, tlb_sa, tlb_ea);
+>      }
+>
+>      return TRANSLATE_SUCCESS;
+> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+> index 2b43e399b8..d1126a6066 100644
+> --- a/target/riscv/pmp.c
+> +++ b/target/riscv/pmp.c
+> @@ -292,8 +292,11 @@ static bool pmp_hart_has_privs_default(CPURISCVState *env, target_ulong addr,
+>
+>  /*
+>   * Check if the address has required RWX privs to complete desired operation
+> + * Return PMP rule index if a pmp rule match
+> + * Return MAX_RISCV_PMPS if default match
+> + * Return negtive value if no match
+>   */
+> -bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+> +int pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+>      target_ulong size, pmp_priv_t privs, pmp_priv_t *allowed_privs,
+>      target_ulong mode)
+>  {
+> @@ -305,8 +308,10 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+>
+>      /* Short cut if no rules */
+>      if (0 == pmp_get_num_rules(env)) {
+> -        return pmp_hart_has_privs_default(env, addr, size, privs,
+> -                                          allowed_privs, mode);
+> +        if (pmp_hart_has_privs_default(env, addr, size, privs,
+> +                                       allowed_privs, mode)) {
+> +            ret = MAX_RISCV_PMPS;
+> +        }
+>      }
+>
+>      if (size == 0) {
+> @@ -333,7 +338,7 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+>          if ((s + e) == 1) {
+>              qemu_log_mask(LOG_GUEST_ERROR,
+>                            "pmp violation - access is partially inside\n");
+> -            ret = 0;
+> +            ret = -1;
+>              break;
+>          }
+>
+> @@ -436,18 +441,22 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+>                  }
+>              }
+>
+> -            ret = ((privs & *allowed_privs) == privs);
+> +            if ((privs & *allowed_privs) == privs) {
+> +                ret = i;
+> +            }
+>              break;
+>          }
+>      }
+>
+>      /* No rule matched */
+>      if (ret == -1) {
+> -        return pmp_hart_has_privs_default(env, addr, size, privs,
+> -                                          allowed_privs, mode);
+> +        if (pmp_hart_has_privs_default(env, addr, size, privs,
+> +                                       allowed_privs, mode)) {
+> +            ret = MAX_RISCV_PMPS;
+> +        }
+>      }
+>
+> -    return ret == 1 ? true : false;
+> +    return ret;
+>  }
+>
+>  /*
+> @@ -586,64 +595,25 @@ target_ulong mseccfg_csr_read(CPURISCVState *env)
+>   * Calculate the TLB size if the start address or the end address of
+>   * PMP entry is presented in the TLB page.
+>   */
+> -static target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
+> -                                     target_ulong tlb_sa, target_ulong tlb_ea)
+> +target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
+> +                              target_ulong tlb_sa, target_ulong tlb_ea)
+>  {
+>      target_ulong pmp_sa = env->pmp_state.addr[pmp_index].sa;
+>      target_ulong pmp_ea = env->pmp_state.addr[pmp_index].ea;
+>
+> -    if (pmp_sa >= tlb_sa && pmp_ea <= tlb_ea) {
+> -        return pmp_ea - pmp_sa + 1;
+> -    }
+> -
+> -    if (pmp_sa >= tlb_sa && pmp_sa <= tlb_ea && pmp_ea >= tlb_ea) {
+> -        return tlb_ea - pmp_sa + 1;
+> -    }
+> -
+> -    if (pmp_ea <= tlb_ea && pmp_ea >= tlb_sa && pmp_sa <= tlb_sa) {
+> -        return pmp_ea - tlb_sa + 1;
+> -    }
+> -
+> -    return 0;
+> -}
+> -
+> -/*
+> - * Check is there a PMP entry which range covers this page. If so,
+> - * try to find the minimum granularity for the TLB size.
+> - */
+> -bool pmp_is_range_in_tlb(CPURISCVState *env, hwaddr tlb_sa,
+> -                         target_ulong *tlb_size)
+> -{
+> -    int i;
+> -    target_ulong val;
+> -    target_ulong tlb_ea = (tlb_sa + TARGET_PAGE_SIZE - 1);
+> -
+> -    for (i = 0; i < MAX_RISCV_PMPS; i++) {
+> -        val = pmp_get_tlb_size(env, i, tlb_sa, tlb_ea);
+> -        if (val) {
+> -            if (*tlb_size == 0 || *tlb_size > val) {
+> -                *tlb_size = val;
+> -            }
+> -        }
+> -    }
+> -
+> -    if (*tlb_size != 0) {
+> +    if (pmp_sa <= tlb_sa && pmp_ea >= tlb_ea) {
+> +        return TARGET_PAGE_SIZE;
+> +    } else {
+>          /*
+> -         * At this point we have a tlb_size that is the smallest possible size
+> -         * That fits within a TARGET_PAGE_SIZE and the PMP region.
+> -         *
+> -         * If the size is less then TARGET_PAGE_SIZE we drop the size to 1.
+> -         * This means the result isn't cached in the TLB and is only used for
+> -         * a single translation.
+> -         */
+> -        if (*tlb_size < TARGET_PAGE_SIZE) {
+> -            *tlb_size = 1;
+> -        }
+> -
+> -        return true;
+> +        * At this point we have a tlb_size that is the smallest possible size
+> +        * That fits within a TARGET_PAGE_SIZE and the PMP region.
+> +        *
+> +        * If the size is less then TARGET_PAGE_SIZE we drop the size to 1.
+> +        * This means the result isn't cached in the TLB and is only used for
+> +        * a single translation.
+> +        */
+> +        return 1;
+>      }
+> -
+> -    return false;
+>  }
+>
+>  /*
+> diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
+> index a8dd797476..da32c61c85 100644
+> --- a/target/riscv/pmp.h
+> +++ b/target/riscv/pmp.h
+> @@ -72,11 +72,11 @@ target_ulong mseccfg_csr_read(CPURISCVState *env);
+>  void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
+>      target_ulong val);
+>  target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index);
+> -bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+> +int pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+>      target_ulong size, pmp_priv_t privs, pmp_priv_t *allowed_privs,
+>      target_ulong mode);
+> -bool pmp_is_range_in_tlb(CPURISCVState *env, hwaddr tlb_sa,
+> -                         target_ulong *tlb_size);
+> +target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
+> +                              target_ulong tlb_sa, target_ulong tlb_ea);
+>  void pmp_update_rule_addr(CPURISCVState *env, uint32_t pmp_index);
+>  void pmp_update_rule_nums(CPURISCVState *env);
+>  uint32_t pmp_get_num_rules(CPURISCVState *env);
+> --
+> 2.25.1
+>
+>
 
