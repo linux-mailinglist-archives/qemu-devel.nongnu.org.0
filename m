@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBEC460BC5E
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 23:41:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC1F360BD74
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 00:33:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on58r-0003sB-5I; Mon, 24 Oct 2022 17:37:53 -0400
+	id 1on5yn-0003Wp-0I; Mon, 24 Oct 2022 18:31:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1on58p-0003pO-1G
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 17:37:51 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1on5yb-00031J-Or
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 18:31:24 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1on58n-0000JM-DF
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 17:37:50 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id bu30so18089556wrb.8
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 14:37:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1on5yZ-0008M8-U3
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 18:31:21 -0400
+Received: by mail-pl1-x631.google.com with SMTP id c24so9631239pls.9
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 15:31:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9M8sF9U94jzIUFQIp2DX9bx+NdVCz568aPkxO0ld7RU=;
- b=trvWxu0LLppqHB5no6alRopRTAqNRgJ5GTEMpMIWO1Hsg0MFIvvqHAmCt4Q46eu9c4
- 7ztVGz/GWopEcmSQR3kKf8CdneW6WYoBT82fkZdXR4rk0v8WxCdWex4n/YSjtpjsCsR5
- EqWRlxEJJOvgqJ+LWF1FMVz/ez3yb+yl0Pe1s9WyNhq0sEFs5oSE+nkEZPKV9AGNsWjb
- qJF2XnZTNcUdShcX1DP6sG99ltyAGjF/T6H1hzAT/oJwjGVdgj8uDzJu46urBo/D9A9Y
- H9eg1wVONNrc+ZDHthbTAaIaoYfRe89CW1vI3gaki0FYv0H9UMxEMvlODTNIxdTxxD7K
- 22iw==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=4P23ZXw/vPWgL27NpKz7T1GHcZgfYve8CnOZdhtbtkk=;
+ b=bkpAuQM8x4RUTORK75Czzdrmue6+zdRXxJvqB5RjbYn5y+NRnMVDWgciCtcvSSfKIq
+ Rs4gz9QoqdsMEITvWrOcX5fy9m8UNEDQAEad50IgND5j/8JCLNUx5Ppn1gMy6Gm56gOj
+ nfGywQr+BCuOZPfEj7zDgWtTnUcP+Nn2+YYOVkYPTZxRfC2qYW5q+XdsLTxVwiqHusz3
+ wJHNzdbfGsOwVVV6GOHIvIlmo4/2QAK9tpjnTbQalNfz23Ug22e6yQx+YIjxZkPiB6dX
+ EcmP8BzK478T0WrbFOQxxzUqUJa6UiWDlaoSaxaEfdc8FO5zrfEOsUFsg+OaoCZZiU9R
+ mLKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=9M8sF9U94jzIUFQIp2DX9bx+NdVCz568aPkxO0ld7RU=;
- b=0a/HdkTAuiUK9j8UygrGsvD8YB4Go4W47xX08F1Kho2uaRZ3FYNa7awksdb6Dsr+yv
- l7edqvqESG3B316pG4gCckzrMCc14fpV1ZMqu5YfrXJ9TY4WRKkf3aXEkAoz1ROFQWsE
- 0rU86KuFfTMx9+VruIRbo6ffjAJkRh6qAofRTUAYGKGGnIsPc6rODU1MmU11n9CJNgM0
- uxT2Bi53XTFXEkyJNA+l951MipfjBz0Lio8gTzSQYKrLZheJQtcv2av45TAZg37osVFZ
- MNOoZ7ihbVivtG/0fbug3kJWCWTVAzPfM+ZtMqqC5GFdv33D5SZDCoVTW3ND/DBlvUFc
- U9ug==
-X-Gm-Message-State: ACrzQf3WRz1Am/n633Kj81t/ltrnbiwKNpkNHd3WT7whPV+NQoQGvXzH
- 29wm5ZZyaOwg3Uta53b26+QOFA==
-X-Google-Smtp-Source: AMsMyM5DeNoJK5qFnnd4VintJq/gbdOuN3aQCs5hAxgQMTHTL+2Z3vKrbv1IOoLSz92vOjPQ/bapyw==
-X-Received: by 2002:adf:e84a:0:b0:236:5f2d:9027 with SMTP id
- d10-20020adfe84a000000b002365f2d9027mr9264572wrn.89.1666647467442; 
- Mon, 24 Oct 2022 14:37:47 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4P23ZXw/vPWgL27NpKz7T1GHcZgfYve8CnOZdhtbtkk=;
+ b=Pq96iU5EJVwPo0K3b6Ent4PLv+btBSnk+ENxAUk9qkpaCTjf9C8XRlAsE8oSlMFwSW
+ bVk1zAkbrl+fkz+eZ+bw5HRcRshcX28QNdt2AgxrXsxnLBudnCj1d//RmmAbfMivNMzH
+ jap7IwCR0LApTsK84kWtR+kVY+zrBWZR/2rZiPK+kgRlcokml9ytf2bKhVidgk+Q6gVQ
+ LiaeLjOm9p19igb3/x03wbjW6q1gNIsTLhjEhIcqvtbeCNBDGt7/wlhfjrgeyOGC5bp4
+ /28x8fd2FV4QjGz+AkLQYpR2WbcilFxc6ELAhy/LebCWXIdXCadzjgnLp+My3jBo9edi
+ mp3g==
+X-Gm-Message-State: ACrzQf2cjJuzx56DthiWi2WfoIridey9OMJOhgcYhTULM5u+F1NZ1qUf
+ d9p9qSmNq/J0mrXeuExic8EDmw==
+X-Google-Smtp-Source: AMsMyM7/yIF2IdzHgHioqsyRmKQhTPNoKb1tZZA7Z+PmzkkSg/sTbYC0RCAvOpuZDFrzA5hgssglRw==
+X-Received: by 2002:a17:90b:4a47:b0:212:f7ef:1bd6 with SMTP id
+ lb7-20020a17090b4a4700b00212f7ef1bd6mr12490682pjb.79.1666650677775; 
+ Mon, 24 Oct 2022 15:31:17 -0700 (PDT)
+Received: from [192.168.136.227] ([103.100.225.182])
  by smtp.gmail.com with ESMTPSA id
- az27-20020a05600c601b00b003c6c2ff7f25sm877068wmb.15.2022.10.24.14.37.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Oct 2022 14:37:47 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8965B1FFB7;
- Mon, 24 Oct 2022 22:37:46 +0100 (BST)
-References: <20221024035341.2971123-1-richard.henderson@linaro.org>
-User-agent: mu4e 1.9.1; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH] tests/tcg/nios2: Tweak 10m50-ghrd.ld
-Date: Mon, 24 Oct 2022 22:37:40 +0100
-In-reply-to: <20221024035341.2971123-1-richard.henderson@linaro.org>
-Message-ID: <87y1t49a39.fsf@linaro.org>
+ e2-20020a621e02000000b005613220346asm254204pfe.205.2022.10.24.15.31.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Oct 2022 15:31:17 -0700 (PDT)
+Message-ID: <472ae8a3-d61b-d3a2-7725-2666b7ecb8e1@linaro.org>
+Date: Tue, 25 Oct 2022 08:31:10 +1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 9/9] target/s390x: Use Int128 for passing float128
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org
+References: <20221021073006.2398819-1-richard.henderson@linaro.org>
+ <20221021073006.2398819-10-richard.henderson@linaro.org>
+ <ab7457e6-d06f-6f0e-f46c-f103e39795fa@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <ab7457e6-d06f-6f0e-f46c-f103e39795fa@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,18 +95,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 10/25/22 04:01, Philippe Mathieu-Daudé wrote:
+> On 21/10/22 09:30, Richard Henderson wrote:
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   target/s390x/helper.h          | 32 ++++++-------
+>>   target/s390x/tcg/fpu_helper.c  | 88 ++++++++++++++--------------------
+>>   target/s390x/tcg/translate.c   | 76 ++++++++++++++++++++---------
+>>   target/s390x/tcg/insn-data.def | 30 ++++++------
+>>   4 files changed, 121 insertions(+), 105 deletions(-)
+> 
+>> diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
+>> index d1ffbb8710..8023bbab2f 100644
+>> --- a/target/s390x/tcg/translate.c
+>> +++ b/target/s390x/tcg/translate.c
+>> @@ -305,6 +305,18 @@ static TCGv_i64 load_freg32_i64(int reg)
+>>       return r;
+>>   }
+>> +static TCGv_i128 load_freg_128(int reg)
+>> +{
+>> +    TCGv_i64 h = load_freg(reg);
+>> +    TCGv_i64 l = load_freg(reg + 2);
+>> +    TCGv_i128 r = tcg_temp_new_i128();
+> 
+> Maybe rename as load_freg_new_128() to make emphasis on the returned
+> TCGv need to be freed?
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+It's no different from the other load_freg* functions just above.  As with those, the 
+result is assigned to one of the DisasOps slots, and all of those slots are freed at the 
+end of each instruction.
 
-> More closely follow the default linker script for nios2.
-> This magically fixes a problem resolving .got relocs from
-> the toolchain's libgcc.a.
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1258
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Queued to testing/next, thanks.
-
---=20
-Alex Benn=C3=A9e
+r~
 
