@@ -2,44 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F187360A19D
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 13:31:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B2EE60A2E5
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Oct 2022 13:49:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1omvNc-0001Bt-NT; Mon, 24 Oct 2022 07:12:28 -0400
+	id 1omvLE-0007xg-C8; Mon, 24 Oct 2022 07:10:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <9beabfa52cb17fad0e8211031f301f12281d65f8@lizzy.crudebyte.com>)
- id 1omvNa-0001BH-S4
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:12:26 -0400
+ (envelope-from <3ce77865bf813f313cf79c00fd951bfc95a50165@lizzy.crudebyte.com>)
+ id 1omvLC-0007w8-46
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:09:58 -0400
 Received: from lizzy.crudebyte.com ([91.194.90.13])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <9beabfa52cb17fad0e8211031f301f12281d65f8@lizzy.crudebyte.com>)
- id 1omvNJ-0007hx-3q
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:12:26 -0400
+ (envelope-from <3ce77865bf813f313cf79c00fd951bfc95a50165@lizzy.crudebyte.com>)
+ id 1omvLA-0006YD-3Q
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 07:09:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=BEtTOUeD/jH0dPsqOv2nbWpaJhOfjmOB4J26UFiGjkw=; b=A7nQN
- muXf+fWr1m+BnivQdV1Jz2Act+0QCe+h8bgCBWsMDhatAfbDCmW2o7uY30ZtCrSMkoHY5oCCuixrq
- Q/m+AqUCLmS1T+7YK7RMn1UYfKj5D/6dmgGsGhXfk9Xc/0d3UcYToQVJOrS4UaemJxL77JRn9f8EH
- rxaTtqeq2SLO9mnUQ83lrjPEeaXOaACdwVZ+HS0KgeaNpwvCMNKKhrEZNhCD4nwGoObuOQRNkE7LO
- TfTBRg+f+QwgDCJgy+LV1pN/Y2k4QiRXNTsK2UcG7UuTftSSNV4obTXW3xxbdgG42qZemMutXw7Tp
- /vjrgQurrhzqhtGzIKnXVaQryAwiQ==;
-Message-Id: <9beabfa52cb17fad0e8211031f301f12281d65f8.1666608862.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1666608862.git.qemu_oss@crudebyte.com>
-References: <cover.1666608862.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Subject:Date:From:Message-Id:References:In-Reply-To:Content-ID:
+ Content-Description; bh=nzkJQ+eM1RXAfsgG/vaAFq1MElp1WMFQthcmTldfz3c=; b=E/dGF
+ HCfDpUJJCpsLslVQOX78EcBUY8obbFIbRPQH3IpvkqNj6wk4MZxl3nKBLWph6fuvNt7XtdFWhszWC
+ THOjOPe1glFnnc0ZEhl/IOPvc9her+f9eaGMtYjxB4+A4QGlk4Mi8w9pKZ7vRccO5oBrltl55yNLc
+ Rq7Q9qh8uOrDh9GiL/tjznNuDAALf/th4Kb4mX0gf1GGqFn1KdsdHQzK1rsalPZUN043FIV99AnIy
+ hL891LvVZ/NsQQ+WhAXS7Ge9MPa7nXliA9ftoIIWyXmpEqtWX2Ifdt5yg8dzRiiJx7a6Y9PQvZFmQ
+ IlXmSRexxmZALEkxQ8LXYpSnHMR4w==;
+Message-Id: <cover.1666608862.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Mon, 24 Oct 2022 12:54:23 +0200
-Subject: [PULL 20/23] tests/9p: merge v9fs_tsymlink() and do_symlink()
+Subject: [PULL 00/23] 9p queue 2022-10-24
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org,
     Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Greg Kurz <groug@kaod.org>
+Cc: Greg Kurz <groug@kaod.org>, Linus Heckemann <git@sphalerite.org>,
+ Bin Meng <bin.meng@windriver.com>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=9beabfa52cb17fad0e8211031f301f12281d65f8@lizzy.crudebyte.com;
+ envelope-from=3ce77865bf813f313cf79c00fd951bfc95a50165@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -62,190 +64,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-As with previous patches, unify those 2 functions into a single function
-v9fs_tsymlink() by using a declarative function arguments approach.
+The following changes since commit 0529245488865038344d64fff7ee05864d3d17f6:
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Message-Id: <563f3ad04fe596ce0ae1e2654d1d08237f18c830.1664917004.git.qemu_oss@crudebyte.com>
----
- tests/qtest/libqos/virtio-9p-client.c | 37 ++++++++++++++++++++++-----
- tests/qtest/libqos/virtio-9p-client.h | 35 +++++++++++++++++++++++--
- tests/qtest/virtio-9p-test.c          | 27 +++++++------------
- 3 files changed, 73 insertions(+), 26 deletions(-)
+  Merge tag 'pull-target-arm-20221020' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-10-20 14:36:12 -0400)
 
-diff --git a/tests/qtest/libqos/virtio-9p-client.c b/tests/qtest/libqos/virtio-9p-client.c
-index 5c805a133c..89eaf50355 100644
---- a/tests/qtest/libqos/virtio-9p-client.c
-+++ b/tests/qtest/libqos/virtio-9p-client.c
-@@ -892,10 +892,23 @@ void v9fs_rlcreate(P9Req *req, v9fs_qid *qid, uint32_t *iounit)
- }
- 
- /* size[4] Tsymlink tag[2] fid[4] name[s] symtgt[s] gid[4] */
--P9Req *v9fs_tsymlink(QVirtio9P *v9p, uint32_t fid, const char *name,
--                     const char *symtgt, uint32_t gid, uint16_t tag)
-+TsymlinkRes v9fs_tsymlink(TsymlinkOpt opt)
- {
-     P9Req *req;
-+    uint32_t err;
-+    g_autofree char *name = g_strdup(opt.name);
-+    g_autofree char *symtgt = g_strdup(opt.symtgt);
-+
-+    g_assert(opt.client);
-+    /* expecting either hi-level atPath or low-level fid, but not both */
-+    g_assert(!opt.atPath || !opt.fid);
-+    /* expecting either Rsymlink or Rlerror, but obviously not both */
-+    g_assert(!opt.expectErr || !opt.rsymlink.qid);
-+
-+    if (opt.atPath) {
-+        opt.fid = v9fs_twalk((TWalkOpt) { .client = opt.client,
-+                                          .path = opt.atPath }).newfid;
-+    }
- 
-     uint32_t body_size = 4 + 4;
-     uint16_t string_size = v9fs_string_size(name) + v9fs_string_size(symtgt);
-@@ -903,13 +916,25 @@ P9Req *v9fs_tsymlink(QVirtio9P *v9p, uint32_t fid, const char *name,
-     g_assert_cmpint(body_size, <=, UINT32_MAX - string_size);
-     body_size += string_size;
- 
--    req = v9fs_req_init(v9p, body_size, P9_TSYMLINK, tag);
--    v9fs_uint32_write(req, fid);
-+    req = v9fs_req_init(opt.client, body_size, P9_TSYMLINK, opt.tag);
-+    v9fs_uint32_write(req, opt.fid);
-     v9fs_string_write(req, name);
-     v9fs_string_write(req, symtgt);
--    v9fs_uint32_write(req, gid);
-+    v9fs_uint32_write(req, opt.gid);
-     v9fs_req_send(req);
--    return req;
-+
-+    if (!opt.requestOnly) {
-+        v9fs_req_wait_for_reply(req, NULL);
-+        if (opt.expectErr) {
-+            v9fs_rlerror(req, &err);
-+            g_assert_cmpint(err, ==, opt.expectErr);
-+        } else {
-+            v9fs_rsymlink(req, opt.rsymlink.qid);
-+        }
-+        req = NULL; /* request was freed */
-+    }
-+
-+    return (TsymlinkRes) { .req = req };
- }
- 
- /* size[4] Rsymlink tag[2] qid[13] */
-diff --git a/tests/qtest/libqos/virtio-9p-client.h b/tests/qtest/libqos/virtio-9p-client.h
-index 8916b1c7aa..b905a54966 100644
---- a/tests/qtest/libqos/virtio-9p-client.h
-+++ b/tests/qtest/libqos/virtio-9p-client.h
-@@ -355,6 +355,38 @@ typedef struct TlcreateRes {
-     P9Req *req;
- } TlcreateRes;
- 
-+/* options for 'Tsymlink' 9p request */
-+typedef struct TsymlinkOpt {
-+    /* 9P client being used (mandatory) */
-+    QVirtio9P *client;
-+    /* user supplied tag number being returned with response (optional) */
-+    uint16_t tag;
-+    /* low-level variant of directory where symlink shall be created */
-+    uint32_t fid;
-+    /* high-level variant of directory where symlink shall be created */
-+    const char *atPath;
-+    /* name of symlink (required) */
-+    const char *name;
-+    /* where symlink will point to (required) */
-+    const char *symtgt;
-+    /* effective group ID of caller */
-+    uint32_t gid;
-+    /* data being received from 9p server as 'Rsymlink' response (optional) */
-+    struct {
-+        v9fs_qid *qid;
-+    } rsymlink;
-+    /* only send Tsymlink request but not wait for a reply? (optional) */
-+    bool requestOnly;
-+    /* do we expect an Rlerror response, if yes which error code? (optional) */
-+    uint32_t expectErr;
-+} TsymlinkOpt;
-+
-+/* result of 'Tsymlink' 9p request */
-+typedef struct TsymlinkRes {
-+    /* if requestOnly was set: request object for further processing */
-+    P9Req *req;
-+} TsymlinkRes;
-+
- void v9fs_set_allocator(QGuestAllocator *t_alloc);
- void v9fs_memwrite(P9Req *req, const void *addr, size_t len);
- void v9fs_memskip(P9Req *req, size_t len);
-@@ -398,8 +430,7 @@ TMkdirRes v9fs_tmkdir(TMkdirOpt);
- void v9fs_rmkdir(P9Req *req, v9fs_qid *qid);
- TlcreateRes v9fs_tlcreate(TlcreateOpt);
- void v9fs_rlcreate(P9Req *req, v9fs_qid *qid, uint32_t *iounit);
--P9Req *v9fs_tsymlink(QVirtio9P *v9p, uint32_t fid, const char *name,
--                     const char *symtgt, uint32_t gid, uint16_t tag);
-+TsymlinkRes v9fs_tsymlink(TsymlinkOpt);
- void v9fs_rsymlink(P9Req *req, v9fs_qid *qid);
- P9Req *v9fs_tlink(QVirtio9P *v9p, uint32_t dfid, uint32_t fid,
-                   const char *name, uint16_t tag);
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index d13b27bd2e..c7213d6caf 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -26,6 +26,7 @@
- #define tflush(...) v9fs_tflush((TFlushOpt) __VA_ARGS__)
- #define tmkdir(...) v9fs_tmkdir((TMkdirOpt) __VA_ARGS__)
- #define tlcreate(...) v9fs_tlcreate((TlcreateOpt) __VA_ARGS__)
-+#define tsymlink(...) v9fs_tsymlink((TsymlinkOpt) __VA_ARGS__)
- 
- static void pci_config(void *obj, void *data, QGuestAllocator *t_alloc)
- {
-@@ -479,22 +480,6 @@ static void fs_flush_ignored(void *obj, void *data, QGuestAllocator *t_alloc)
-     g_free(wnames[0]);
- }
- 
--/* create symlink named @a clink in directory @a path pointing to @a to */
--static void do_symlink(QVirtio9P *v9p, const char *path, const char *clink,
--                       const char *to)
--{
--    g_autofree char *name = g_strdup(clink);
--    g_autofree char *dst = g_strdup(to);
--    uint32_t fid;
--    P9Req *req;
--
--    fid = twalk({ .client = v9p, .path = path }).newfid;
--
--    req = v9fs_tsymlink(v9p, fid, name, dst, 0, 0);
--    v9fs_req_wait_for_reply(req, NULL);
--    v9fs_rsymlink(req, NULL);
--}
--
- /* create a hard link named @a clink in directory @a path pointing to @a to */
- static void do_hardlink(QVirtio9P *v9p, const char *path, const char *clink,
-                         const char *to)
-@@ -642,7 +627,10 @@ static void fs_symlink_file(void *obj, void *data, QGuestAllocator *t_alloc)
-     g_assert(stat(real_file, &st) == 0);
-     g_assert((st.st_mode & S_IFMT) == S_IFREG);
- 
--    do_symlink(v9p, "05", "symlink_file", "real_file");
-+    tsymlink({
-+        .client = v9p, .atPath = "05", .name = "symlink_file",
-+        .symtgt = "real_file"
-+    });
- 
-     /* check if created link exists now */
-     g_assert(stat(symlink_file, &st) == 0);
-@@ -663,7 +651,10 @@ static void fs_unlinkat_symlink(void *obj, void *data,
-     g_assert(stat(real_file, &st) == 0);
-     g_assert((st.st_mode & S_IFMT) == S_IFREG);
- 
--    do_symlink(v9p, "06", "symlink_file", "real_file");
-+    tsymlink({
-+        .client = v9p, .atPath = "06", .name = "symlink_file",
-+        .symtgt = "real_file"
-+    });
-     g_assert(stat(symlink_file, &st) == 0);
- 
-     do_unlinkat(v9p, "06", "symlink_file", 0);
--- 
-2.30.2
+are available in the Git repository at:
 
+  https://github.com/cschoenebeck/qemu.git tags/pull-9p-20221024
+
+for you to fetch changes up to 3ce77865bf813f313cf79c00fd951bfc95a50165:
+
+  tests/9p: remove unnecessary g_strdup() calls (2022-10-24 12:24:32 +0200)
+
+----------------------------------------------------------------
+9pfs: performance, Windows host prep, tests restructure
+
+* Highlight of this PR is Linus Heckemann's GHashTable patch which
+  brings massive general performance improvements of 9p server
+  somewhere between factor 6 .. 12.
+
+* Bin Meng's g_mkdir patch is a preparatory patch for upcoming
+  Windows host support of 9p server.
+
+* The rest of the patches in this PR are 9p test code restructuring
+  and refactoring changes to improve readability and to ease
+  maintenance of 9p test code on the long-term.
+
+----------------------------------------------------------------
+Bin Meng (1):
+      fsdev/virtfs-proxy-helper: Use g_mkdir()
+
+Christian Schoenebeck (21):
+      tests/9p: split virtio-9p-test.c into tests and 9p client part
+      tests/9p: merge *walk*() functions
+      tests/9p: simplify callers of twalk()
+      tests/9p: merge v9fs_tversion() and do_version()
+      tests/9p: merge v9fs_tattach(), do_attach(), do_attach_rqid()
+      tests/9p: simplify callers of tattach()
+      tests/9p: convert v9fs_tgetattr() to declarative arguments
+      tests/9p: simplify callers of tgetattr()
+      tests/9p: convert v9fs_treaddir() to declarative arguments
+      tests/9p: simplify callers of treaddir()
+      tests/9p: convert v9fs_tlopen() to declarative arguments
+      tests/9p: simplify callers of tlopen()
+      tests/9p: convert v9fs_twrite() to declarative arguments
+      tests/9p: simplify callers of twrite()
+      tests/9p: convert v9fs_tflush() to declarative arguments
+      tests/9p: merge v9fs_tmkdir() and do_mkdir()
+      tests/9p: merge v9fs_tlcreate() and do_lcreate()
+      tests/9p: merge v9fs_tsymlink() and do_symlink()
+      tests/9p: merge v9fs_tlink() and do_hardlink()
+      tests/9p: merge v9fs_tunlinkat() and do_unlinkat()
+      tests/9p: remove unnecessary g_strdup() calls
+
+Linus Heckemann (1):
+      9pfs: use GHashTable for fid table
+
+ fsdev/virtfs-proxy-helper.c           |    3 +-
+ hw/9pfs/9p.c                          |  196 ++---
+ hw/9pfs/9p.h                          |    2 +-
+ tests/qtest/libqos/meson.build        |    1 +
+ tests/qtest/libqos/virtio-9p-client.c | 1049 ++++++++++++++++++++++++++
+ tests/qtest/libqos/virtio-9p-client.h |  494 +++++++++++++
+ tests/qtest/virtio-9p-test.c          | 1299 ++++++---------------------------
+ 7 files changed, 1867 insertions(+), 1177 deletions(-)
+ create mode 100644 tests/qtest/libqos/virtio-9p-client.c
+ create mode 100644 tests/qtest/libqos/virtio-9p-client.h
 
