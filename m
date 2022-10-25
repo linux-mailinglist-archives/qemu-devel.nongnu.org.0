@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ED7360D092
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 17:28:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EADCD60D0B9
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 17:35:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onLjy-00074K-S2; Tue, 25 Oct 2022 11:21:18 -0400
+	id 1onLjx-0006zK-Vr; Tue, 25 Oct 2022 11:21:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=KVXu=22=kaod.org=clg@ozlabs.org>)
- id 1onLjp-0006YO-Vv; Tue, 25 Oct 2022 11:21:10 -0400
+ id 1onLjq-0006Ye-5X; Tue, 25 Oct 2022 11:21:10 -0400
 Received: from gandalf.ozlabs.org ([150.107.74.76])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=KVXu=22=kaod.org=clg@ozlabs.org>)
- id 1onLjn-0004kw-7H; Tue, 25 Oct 2022 11:21:09 -0400
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4MxbHf1kbpz4xGh;
- Wed, 26 Oct 2022 02:21:02 +1100 (AEDT)
+ id 1onLjo-0004mQ-AB; Tue, 25 Oct 2022 11:21:09 -0400
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4MxbHj26QFz4xMh;
+ Wed, 26 Oct 2022 02:21:05 +1100 (AEDT)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4MxbHb32cqz4x1F;
- Wed, 26 Oct 2022 02:20:59 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4MxbHf5Kmmz4xGd;
+ Wed, 26 Oct 2022 02:21:02 +1100 (AEDT)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>,
  Alistair Francis <alistair@alistair23.me>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-block@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 03/16] ssi: cache SSIPeripheralClass to avoid GET_CLASS()
-Date: Tue, 25 Oct 2022 17:20:29 +0200
-Message-Id: <20221025152042.278287-4-clg@kaod.org>
+ qemu-block@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PULL 04/16] aspeed/smc: Cache AspeedSMCClass
+Date: Tue, 25 Oct 2022 17:20:30 +0200
+Message-Id: <20221025152042.278287-5-clg@kaod.org>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221025152042.278287-1-clg@kaod.org>
 References: <20221025152042.278287-1-clg@kaod.org>
@@ -66,110 +65,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Alex Bennée <alex.bennee@linaro.org>
+Store a reference on the AspeedSMC class under the flash object and
+use it when accessing the flash contents. Avoiding the class cast
+checkers in these hot paths improves performance by 10% when running
+the aspeed avocado tests.
 
-Investigating why some BMC models are so slow compared to a plain ARM
-virt machines I did some profiling of:
-
-  ./qemu-system-arm -M romulus-bmc -nic user \
-    -drive
-    file=obmc-phosphor-image-romulus.static.mtd,format=raw,if=mtd \
-    -nographic -serial mon:stdio
-
-And saw that object_class_dynamic_cast_assert was dominating the
-profile times. We have a number of cases in this model of the SSI bus.
-As the class is static once the object is created we just cache it and
-use it instead of the dynamic case macros.
-
-Profiling against:
-
-  ./tests/venv/bin/avocado run \
-    tests/avocado/machine_aspeed.py:test_arm_ast2500_romulus_openbmc_v2_9_0
-
-Before: 35.565 s ±  0.087 s
-After: 15.713 s ±  0.287 s
-
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Cédric Le Goater <clg@kaod.org>
-Tested-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20220811151413.3350684-6-alex.bennee@linaro.org>
-Message-Id: <20220923084803.498337-6-clg@kaod.org>
+Message-Id: <20220923084803.498337-7-clg@kaod.org>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- include/hw/ssi/ssi.h |  3 +++
- hw/ssi/ssi.c         | 18 ++++++++----------
- 2 files changed, 11 insertions(+), 10 deletions(-)
+ include/hw/ssi/aspeed_smc.h | 2 ++
+ hw/ssi/aspeed_smc.c         | 9 ++++-----
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/ssi/ssi.h b/include/hw/ssi/ssi.h
-index f411858ab083..6950f86810d3 100644
---- a/include/hw/ssi/ssi.h
-+++ b/include/hw/ssi/ssi.h
-@@ -59,6 +59,9 @@ struct SSIPeripheralClass {
- struct SSIPeripheral {
-     DeviceState parent_obj;
+diff --git a/include/hw/ssi/aspeed_smc.h b/include/hw/ssi/aspeed_smc.h
+index 2d5f8f3d8f68..8e1dda556b91 100644
+--- a/include/hw/ssi/aspeed_smc.h
++++ b/include/hw/ssi/aspeed_smc.h
+@@ -30,6 +30,7 @@
+ #include "qom/object.h"
  
-+    /* cache the class */
-+    SSIPeripheralClass *spc;
-+
-     /* Chip select state */
-     bool cs;
- };
-diff --git a/hw/ssi/ssi.c b/hw/ssi/ssi.c
-index 003931fb509e..d54a109beeb5 100644
---- a/hw/ssi/ssi.c
-+++ b/hw/ssi/ssi.c
-@@ -38,9 +38,8 @@ static void ssi_cs_default(void *opaque, int n, int level)
-     bool cs = !!level;
-     assert(n == 0);
-     if (s->cs != cs) {
--        SSIPeripheralClass *ssc = SSI_PERIPHERAL_GET_CLASS(s);
--        if (ssc->set_cs) {
--            ssc->set_cs(s, cs);
-+        if (s->spc->set_cs) {
-+            s->spc->set_cs(s, cs);
-         }
-     }
-     s->cs = cs;
-@@ -48,11 +47,11 @@ static void ssi_cs_default(void *opaque, int n, int level)
+ struct AspeedSMCState;
++struct AspeedSMCClass;
  
- static uint32_t ssi_transfer_raw_default(SSIPeripheral *dev, uint32_t val)
+ #define TYPE_ASPEED_SMC_FLASH "aspeed.smc.flash"
+ OBJECT_DECLARE_SIMPLE_TYPE(AspeedSMCFlash, ASPEED_SMC_FLASH)
+@@ -37,6 +38,7 @@ struct AspeedSMCFlash {
+     SysBusDevice parent_obj;
+ 
+     struct AspeedSMCState *controller;
++    struct AspeedSMCClass *asc;
+     uint8_t cs;
+ 
+     MemoryRegion mmio;
+diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
+index faed7e0cbe17..22df4be528a7 100644
+--- a/hw/ssi/aspeed_smc.c
++++ b/hw/ssi/aspeed_smc.c
+@@ -388,7 +388,7 @@ static inline int aspeed_smc_flash_cmd(const AspeedSMCFlash *fl)
+ static inline int aspeed_smc_flash_addr_width(const AspeedSMCFlash *fl)
  {
--    SSIPeripheralClass *ssc = SSI_PERIPHERAL_GET_CLASS(dev);
-+    SSIPeripheralClass *ssc = dev->spc;
+     const AspeedSMCState *s = fl->controller;
+-    AspeedSMCClass *asc = ASPEED_SMC_GET_CLASS(s);
++    AspeedSMCClass *asc = fl->asc;
  
-     if ((dev->cs && ssc->cs_polarity == SSI_CS_HIGH) ||
--            (!dev->cs && ssc->cs_polarity == SSI_CS_LOW) ||
--            ssc->cs_polarity == SSI_CS_NONE) {
-+        (!dev->cs && ssc->cs_polarity == SSI_CS_LOW) ||
-+        ssc->cs_polarity == SSI_CS_NONE) {
-         return ssc->transfer(dev, val);
-     }
-     return 0;
-@@ -67,6 +66,7 @@ static void ssi_peripheral_realize(DeviceState *dev, Error **errp)
-             ssc->cs_polarity != SSI_CS_NONE) {
-         qdev_init_gpio_in_named(dev, ssi_cs_default, SSI_GPIO_CS, 1);
-     }
-+    s->spc = ssc;
+     if (asc->addr_width) {
+         return asc->addr_width(s);
+@@ -420,7 +420,7 @@ static uint32_t aspeed_smc_check_segment_addr(const AspeedSMCFlash *fl,
+                                               uint32_t addr)
+ {
+     const AspeedSMCState *s = fl->controller;
+-    AspeedSMCClass *asc = ASPEED_SMC_GET_CLASS(s);
++    AspeedSMCClass *asc = fl->asc;
+     AspeedSegments seg;
  
-     ssc->realize(s, errp);
+     asc->reg_to_segment(s, s->regs[R_SEG_ADDR0 + fl->cs], &seg);
+@@ -1234,7 +1234,6 @@ static const TypeInfo aspeed_smc_info = {
+ static void aspeed_smc_flash_realize(DeviceState *dev, Error **errp)
+ {
+     AspeedSMCFlash *s = ASPEED_SMC_FLASH(dev);
+-    AspeedSMCClass *asc;
+     g_autofree char *name = g_strdup_printf(TYPE_ASPEED_SMC_FLASH ".%d", s->cs);
+ 
+     if (!s->controller) {
+@@ -1242,14 +1241,14 @@ static void aspeed_smc_flash_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
+-    asc = ASPEED_SMC_GET_CLASS(s->controller);
++    s->asc = ASPEED_SMC_GET_CLASS(s->controller);
+ 
+     /*
+      * Use the default segment value to size the memory region. This
+      * can be changed by FW at runtime.
+      */
+     memory_region_init_io(&s->mmio, OBJECT(s), &aspeed_smc_flash_ops,
+-                          s, name, asc->segments[s->cs].size);
++                          s, name, s->asc->segments[s->cs].size);
+     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mmio);
  }
-@@ -115,13 +115,11 @@ uint32_t ssi_transfer(SSIBus *bus, uint32_t val)
- {
-     BusState *b = BUS(bus);
-     BusChild *kid;
--    SSIPeripheralClass *ssc;
-     uint32_t r = 0;
  
-     QTAILQ_FOREACH(kid, &b->children, sibling) {
--        SSIPeripheral *peripheral = SSI_PERIPHERAL(kid->child);
--        ssc = SSI_PERIPHERAL_GET_CLASS(peripheral);
--        r |= ssc->transfer_raw(peripheral, val);
-+        SSIPeripheral *p = SSI_PERIPHERAL(kid->child);
-+        r |= p->spc->transfer_raw(p, val);
-     }
- 
-     return r;
 -- 
 2.37.3
 
