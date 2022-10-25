@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D193460C7AC
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 11:14:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAC1660C6F8
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 10:53:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onFOs-0008Rl-8f; Tue, 25 Oct 2022 04:35:06 -0400
+	id 1onFQ3-0001BR-0P; Tue, 25 Oct 2022 04:36:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1onEhd-0003Ey-6C
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:50:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1onEhf-0003Gm-Ke
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:50:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1onEha-0005S4-2e
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:50:24 -0400
+ id 1onEhc-0005Ux-IM
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:50:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666684219;
+ s=mimecast20190719; t=1666684223;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YB4V5ihMQ6DA/f+0fE4sJLzVdNzD5DFNFZBuoZGA7ts=;
- b=iN4XToav14RClWRyblNNBwNU/gTnnieGAeB49x0oeQJjilpTOmIsmsRGkRBdapiMNuLfmR
- I1AR1rKT+x3V3S8hmGX7MIr+YNPb3nXEx+/ODdU6f8w+5jSg/wXsAuYH76x3n5iJxg46ih
- dfl1ZWpunh2bZ5Sl2f4L39wipYb/Xpg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=51si67oMLHfMigUNv16V9jLVZNglhcVFQhgyfCf3TyU=;
+ b=R6w1JZzJtE0PEXwvkt8tM9vq6CspvnTdkkflPJ6wEwBu9nFQEwe++OhhG3Kk/dwXoWJgoC
+ wT+BK4VoySeSozYJ8avNjI/NEEMOn8lGD5lf5BCYJ4pX7zKsYKRZID3FXPQ59lxM6Oopgs
+ AJYOiasSPfs5Boqy8ag8jWIdgoIfQVo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-550-dX-5_5j_MW6ALGu7W7hD_w-1; Tue, 25 Oct 2022 03:50:16 -0400
-X-MC-Unique: dX-5_5j_MW6ALGu7W7hD_w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-615-TAxe2ATXN8OR6zCq3DTo_w-1; Tue, 25 Oct 2022 03:50:20 -0400
+X-MC-Unique: TAxe2ATXN8OR6zCq3DTo_w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A2733101A5C0;
- Tue, 25 Oct 2022 07:50:15 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D62A1381796B;
+ Tue, 25 Oct 2022 07:50:19 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4E87F20290A2;
- Tue, 25 Oct 2022 07:50:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D7D6A17582;
+ Tue, 25 Oct 2022 07:50:18 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
@@ -51,25 +51,25 @@ Cc: Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
  Eric Farman <farman@linux.ibm.com>,
  Christian Borntraeger <borntraeger@linux.ibm.com>,
  Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>
-Subject: [PULL v2 01/11] dump: Use a buffer for ELF section data and headers
-Date: Tue, 25 Oct 2022 11:49:53 +0400
-Message-Id: <20221025075003.18161-2-marcandre.lureau@redhat.com>
+Subject: [PULL v2 02/11] dump: Write ELF section headers right after ELF header
+Date: Tue, 25 Oct 2022 11:49:54 +0400
+Message-Id: <20221025075003.18161-3-marcandre.lureau@redhat.com>
 In-Reply-To: <20221025075003.18161-1-marcandre.lureau@redhat.com>
 References: <20221025075003.18161-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.503,
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.503,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,135 +87,89 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Janosch Frank <frankja@linux.ibm.com>
 
-Currently we're writing the NULL section header if we overflow the
-physical header number in the ELF header. But in the future we'll add
-custom section headers AND section data.
-
-To facilitate this we need to rearange section handling a bit. As with
-the other ELF headers we split the code into a prepare and a write
-step.
+Let's start bundling the writes of the headers and of the data so we
+have a clear ordering between them. Since the ELF header uses offsets
+to the headers we can freely order them.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20221017083822.43118-2-frankja@linux.ibm.com>
+Message-Id: <20221017083822.43118-3-frankja@linux.ibm.com>
 ---
- include/sysemu/dump.h |  2 ++
- dump/dump.c           | 75 +++++++++++++++++++++++++++++--------------
- 2 files changed, 53 insertions(+), 24 deletions(-)
+ dump/dump.c | 31 ++++++++++++++-----------------
+ 1 file changed, 14 insertions(+), 17 deletions(-)
 
-diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
-index b62513d87d..9995f65dc8 100644
---- a/include/sysemu/dump.h
-+++ b/include/sysemu/dump.h
-@@ -177,6 +177,8 @@ typedef struct DumpState {
-     int64_t filter_area_begin;  /* Start address of partial guest memory area */
-     int64_t filter_area_length; /* Length of partial guest memory area */
- 
-+    void *elf_section_hdrs;     /* Pointer to section header buffer */
-+
-     uint8_t *note_buf;          /* buffer for notes */
-     size_t note_buf_offset;     /* the writing place in note_buf */
-     uint32_t nr_cpus;           /* number of guest's cpu */
 diff --git a/dump/dump.c b/dump/dump.c
-index 236559b03a..e7a3b54ebe 100644
+index e7a3b54ebe..b168a25321 100644
 --- a/dump/dump.c
 +++ b/dump/dump.c
-@@ -380,31 +380,60 @@ static void write_elf_phdr_note(DumpState *s, Error **errp)
-     }
- }
- 
--static void write_elf_section(DumpState *s, int type, Error **errp)
-+static void prepare_elf_section_hdr_zero(DumpState *s)
- {
--    Elf32_Shdr shdr32;
--    Elf64_Shdr shdr64;
--    int shdr_size;
--    void *shdr;
--    int ret;
-+    if (dump_is_64bit(s)) {
-+        Elf64_Shdr *shdr64 = s->elf_section_hdrs;
- 
--    if (type == 0) {
--        shdr_size = sizeof(Elf32_Shdr);
--        memset(&shdr32, 0, shdr_size);
--        shdr32.sh_info = cpu_to_dump32(s, s->phdr_num);
--        shdr = &shdr32;
-+        shdr64->sh_info = cpu_to_dump32(s, s->phdr_num);
-     } else {
--        shdr_size = sizeof(Elf64_Shdr);
--        memset(&shdr64, 0, shdr_size);
--        shdr64.sh_info = cpu_to_dump32(s, s->phdr_num);
--        shdr = &shdr64;
-+        Elf32_Shdr *shdr32 = s->elf_section_hdrs;
-+
-+        shdr32->sh_info = cpu_to_dump32(s, s->phdr_num);
-+    }
-+}
-+
-+static void prepare_elf_section_hdrs(DumpState *s)
-+{
-+    size_t len, sizeof_shdr;
-+
-+    /*
-+     * Section ordering:
-+     * - HDR zero
-+     */
-+    sizeof_shdr = dump_is_64bit(s) ? sizeof(Elf64_Shdr) : sizeof(Elf32_Shdr);
-+    len = sizeof_shdr * s->shdr_num;
-+    s->elf_section_hdrs = g_malloc0(len);
-+
-+    /*
-+     * The first section header is ALWAYS a special initial section
-+     * header.
-+     *
-+     * The header should be 0 with one exception being that if
-+     * phdr_num is PN_XNUM then the sh_info field contains the real
-+     * number of segment entries.
-+     *
-+     * As we zero allocate the buffer we will only need to modify
-+     * sh_info for the PN_XNUM case.
-+     */
-+    if (s->phdr_num >= PN_XNUM) {
-+        prepare_elf_section_hdr_zero(s);
-     }
-+}
- 
--    ret = fd_write_vmcore(shdr, shdr_size, s);
-+static void write_elf_section_headers(DumpState *s, Error **errp)
-+{
-+    size_t sizeof_shdr = dump_is_64bit(s) ? sizeof(Elf64_Shdr) : sizeof(Elf32_Shdr);
-+    int ret;
-+
-+    prepare_elf_section_hdrs(s);
-+
-+    ret = fd_write_vmcore(s->elf_section_hdrs, s->shdr_num * sizeof_shdr, s);
-     if (ret < 0) {
--        error_setg_errno(errp, -ret,
--                         "dump: failed to write section header table");
-+        error_setg_errno(errp, -ret, "dump: failed to write section headers");
-     }
-+
-+    g_free(s->elf_section_hdrs);
- }
- 
- static void write_data(DumpState *s, void *buf, int length, Error **errp)
-@@ -591,12 +620,10 @@ static void dump_begin(DumpState *s, Error **errp)
+@@ -583,6 +583,8 @@ static void dump_begin(DumpState *s, Error **errp)
+      *   --------------
+      *   |  elf header |
+      *   --------------
++     *   |  sctn_hdr   |
++     *   --------------
+      *   |  PT_NOTE    |
+      *   --------------
+      *   |  PT_LOAD    |
+@@ -591,8 +593,6 @@ static void dump_begin(DumpState *s, Error **errp)
+      *   --------------
+      *   |  PT_LOAD    |
+      *   --------------
+-     *   |  sec_hdr    |
+-     *   --------------
+      *   |  elf note   |
+      *   --------------
+      *   |  memory     |
+@@ -608,20 +608,20 @@ static void dump_begin(DumpState *s, Error **errp)
          return;
      }
  
--    /* write section to vmcore */
--    if (s->shdr_num) {
--        write_elf_section(s, 1, errp);
--        if (*errp) {
--            return;
--        }
+-    /* write PT_NOTE to vmcore */
+-    write_elf_phdr_note(s, errp);
 +    /* write section headers to vmcore */
 +    write_elf_section_headers(s, errp);
-+    if (*errp) {
-+        return;
+     if (*errp) {
+         return;
      }
  
-     /* write notes to vmcore */
+-    /* write all PT_LOADs to vmcore */
+-    write_elf_phdr_loads(s, errp);
++    /* write PT_NOTE to vmcore */
++    write_elf_phdr_note(s, errp);
+     if (*errp) {
+         return;
+     }
+ 
+-    /* write section headers to vmcore */
+-    write_elf_section_headers(s, errp);
++    /* write all PT_LOADs to vmcore */
++    write_elf_phdr_loads(s, errp);
+     if (*errp) {
+         return;
+     }
+@@ -1868,16 +1868,13 @@ static void dump_init(DumpState *s, int fd, bool has_format,
+     }
+ 
+     if (dump_is_64bit(s)) {
+-        s->phdr_offset = sizeof(Elf64_Ehdr);
+-        s->shdr_offset = s->phdr_offset + sizeof(Elf64_Phdr) * s->phdr_num;
+-        s->note_offset = s->shdr_offset + sizeof(Elf64_Shdr) * s->shdr_num;
+-        s->memory_offset = s->note_offset + s->note_size;
++        s->shdr_offset = sizeof(Elf64_Ehdr);
++        s->phdr_offset = s->shdr_offset + sizeof(Elf64_Shdr) * s->shdr_num;
++        s->note_offset = s->phdr_offset + sizeof(Elf64_Phdr) * s->phdr_num;
+     } else {
+-
+-        s->phdr_offset = sizeof(Elf32_Ehdr);
+-        s->shdr_offset = s->phdr_offset + sizeof(Elf32_Phdr) * s->phdr_num;
+-        s->note_offset = s->shdr_offset + sizeof(Elf32_Shdr) * s->shdr_num;
+-        s->memory_offset = s->note_offset + s->note_size;
++        s->shdr_offset = sizeof(Elf32_Ehdr);
++        s->phdr_offset = s->shdr_offset + sizeof(Elf32_Shdr) * s->shdr_num;
++        s->note_offset = s->phdr_offset + sizeof(Elf32_Phdr) * s->phdr_num;
+     }
+ 
+     return;
 -- 
 2.37.3
 
