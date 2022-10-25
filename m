@@ -2,140 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74F7B60C1FD
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 04:55:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBC4360C22C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 05:18:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onA4p-0000vF-3o; Mon, 24 Oct 2022 22:54:03 -0400
+	id 1onAN7-0004UJ-St; Mon, 24 Oct 2022 23:12:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Luben.Tuikov@amd.com>)
- id 1onA4n-0000v6-Ov
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 22:54:01 -0400
-Received: from mail-dm6nam12on2069.outbound.protection.outlook.com
- ([40.107.243.69] helo=NAM12-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Luben.Tuikov@amd.com>)
- id 1onA4l-0001tU-CK
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 22:54:01 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EXABH+xc7pAFvC0238xMgcdn9t/F1UW74ZX5ttHyBMQhcc/kD9jRZYLmDol1HD6d7NkmA+JaSGBIFX9wmC0fI3v/+idQmabED5RphTaf3LSgy7ZTzUgUoRJUF+LAAqK0J6ztEhuSVkFBU39td7DqOD9+izIzss3clh3aUHiM8hIfaugce122rCzZLMoIo4Eff6PNQKFM64BTU1FGX9MeVI4MxbkxJJi3Zq07YNksukyL+PVUNmluEYEJGoJCV/dhYwwYUEyWlraWG9OBS0yfbp8s9yl0H1HlLcK/fxROCeS+fSgwLxhdFwTMiWjR7KuziutjXoBHqEZGhBPNMWDbTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k7NBY9ipv5YwqEHDXRYBVzed/xLjTDkOqX4rE6JdQyw=;
- b=MT7gvdcye8Wyx2tuawiVJ9UdYfe5LrkX2aejCTjof+7YVaSbpl+EQyck6nZ0hczEdJ1wP1J2zH8tOEflrUri9j2OF10FX5bJ7o5d1KCDMqVtat0qqoSIBTBGovn+UQ1e0tF+jRsrIqAL9G8OBKXI+Utd9JjFQclJqrYeNjinsUuoz8xXAGBRcshYcP6z4JzItP4GTsjYxhOi27tETwTLOwWImBXZDJxZMZkT3Nj1f97AiwVmWl+XooYYava0tAXNUr038jQ9zMA06on31lYA5jjSZ/4HjmuE9zxKL2VkBQChlEvRhQTzJ6EuHGAueSD4n52zcYZ3Z0mEckLbuKZALA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k7NBY9ipv5YwqEHDXRYBVzed/xLjTDkOqX4rE6JdQyw=;
- b=Se5QShH56qEXMODLTBZgP5G19uOIB5/YHiu21fa6RwGHUbtaX3K63ucU0rndZ4NK/V6S7TxeesfHQ73xn5zsIT6rZ8bHLWzbUoh21oHOr0mj2P+9/zt9XF0ADSL9ZK8Lzxb6HdCBxlY2Zh3VmsAJqbZDbKkBtzIhXHxo6iBeaM8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
- BL1PR12MB5192.namprd12.prod.outlook.com (2603:10b6:208:311::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.21; Tue, 25 Oct
- 2022 02:53:54 +0000
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::d309:77d2:93d8:2425]) by DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::d309:77d2:93d8:2425%7]) with mapi id 15.20.5746.026; Tue, 25 Oct 2022
- 02:53:54 +0000
-Message-ID: <aca964ca-c9de-4d86-0e95-254575db4315@amd.com>
-Date: Mon, 24 Oct 2022 22:53:51 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v2] kset: fix memory leak when kset_register() returns
- error
-Content-Language: en-CA
-To: Yang Yingliang <yangyingliang@huawei.com>, linux-kernel@vger.kernel.org,
- qemu-devel@nongnu.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-erofs@lists.ozlabs.org, ocfs2-devel@oss.oracle.com,
- linux-mtd@lists.infradead.org, amd-gfx@lists.freedesktop.org
-Cc: gregkh@linuxfoundation.org, rafael@kernel.org, somlo@cmu.edu,
- mst@redhat.com, jaegeuk@kernel.org, chao@kernel.org,
- hsiangkao@linux.alibaba.com, huangjianan@oppo.com, mark@fasheh.com,
- jlbec@evilplan.org, joseph.qi@linux.alibaba.com, akpm@linux-foundation.org,
- alexander.deucher@amd.com, richard@nod.at, liushixin2@huawei.com
-References: <20221024121910.1169801-1-yangyingliang@huawei.com>
-From: Luben Tuikov <luben.tuikov@amd.com>
-In-Reply-To: <20221024121910.1169801-1-yangyingliang@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT1PR01CA0113.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2c::22) To DM6PR12MB3370.namprd12.prod.outlook.com
- (2603:10b6:5:38::25)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1onAN5-0004Tp-BW
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 23:12:55 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1onAN3-00053I-R7
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 23:12:55 -0400
+Received: by mail-pg1-x532.google.com with SMTP id b5so10354287pgb.6
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 20:12:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=OwOLh5ZeT9l1nr/HHUcvLzRJpD/PCdhMsmXZX8AYtS0=;
+ b=VIfd52F5Ouy+qNlGf+MQjC5kr0CJyTBniMM6LMVoRbrwmnRsUMrPWV1loI1a7j9Y95
+ IW/3UrOrkp9tPog32J0diiUUZQ8rWts6ErXJn9CxHFc0ROgop3yLdDNKKluMSCC34run
+ IiVhveWFusS099XyJDLv10pdZIwYD/SG0ZWU8qLwt/3FWCTpF1N3U9s2lDCnrabC0NIB
+ JYWNENiG84ORgwEYcUpOnOYK3F6cHYUVPY+aiC08YujOT7fHcCQ7jx+bzCVHTLjlwtoq
+ cF26NfZkwmiT9HCCDEfbCGXPaYEi8UgTSMbivpVSE5CizMp/NmXe70JJRlhpH2Zpz5Sc
+ 4KSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=OwOLh5ZeT9l1nr/HHUcvLzRJpD/PCdhMsmXZX8AYtS0=;
+ b=mIk1M4k1HPmuepxVmsYThqfcJt1qghrSZ8/aackVhe5/L12bwDALSqeS5AZwGePsFG
+ I2QKm4T0MZtkqIM90rcCruAGWakEvrVsmejlN8ldwNjwXb9iqLq+yDSysz6fk/AZzNi3
+ Z7D+HZpa6eZ0KeFVaE5LTL/ozMeOt0ZLxbdKjuBpShGKEL70/MZjJNu6lY6GSyAWmn8W
+ FjHZT1EV9JB5dzIzCurpBZxTov5EFbw+Zfu8e2BtTsdLgaZyAtx1jE3WNmmlen0HmpgS
+ 9dErFgvZ9kVaA4gemaC8/bWANrHoISyVOTEvQT2AcF+MnKw3akVUkiX1HgBk4Ne/4bPz
+ pyFg==
+X-Gm-Message-State: ACrzQf1X8Fv6qCrIKWc7K66HTmy47hJC3sK+MZPo1LwXwBEcdUm/Fmd1
+ y4iC7p3xh8JHDpm86WkN/LdgJsNrP0fgQpKk0Y8=
+X-Google-Smtp-Source: AMsMyM6tIEQJ69rRRaxbi8/1x4dDptAhZ9YLPq6luZ0x7zNZZNoNyVjCjhZ1hyothC5nqURv74kCNszWHwNe3qXnzfw=
+X-Received: by 2002:a63:1a65:0:b0:460:d5db:8688 with SMTP id
+ a37-20020a631a65000000b00460d5db8688mr30784029pgm.221.1666667572077; Mon, 24
+ Oct 2022 20:12:52 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|BL1PR12MB5192:EE_
-X-MS-Office365-Filtering-Correlation-Id: ba67d978-a8bf-4431-21c8-08dab634277c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Rg4JmRzCyskyoj1/Jgb4MVeT306WDkjZEU5luFQJ/CcvIjAAOUZ06o8RM++2KlL+nD9MfIslBcJrlydoa812RLwLq/NA78q9cqKRqAuQ2tAsgn03CZe89sIC0AZnnZ9DinmaYsnAlRx+N01lbHOAnpc85l/QO6SBiTY1UYVnTXywu/spP9YkMr9PCp8gBvDLlMiYmvoXqqQkWcVsdMBbpOOoGnIyVxyC8A7spI6pRSFMehcWSprM8VnG7n2odLQSVGfd1z0zcJh4PYgJqTflH0PmDit6+HyvlZpnLPzIf7YTNleP+Z/tJsYIG5nlmTtpOhlxMaAYZds4Om0pmaDgoTicmy23v3+V0XKD98r0WG1Hchp/aSPrWWuk54KZx4PI2zeK2M21BqY1rGGFvRB8J4E9JPANSADouL63T+jo+roexHvF0Pn1cTawi/pY+sNtxvfta8toCkIcT1S51CJBHD6yat+IwDP8KBsmpkCOz3QxWiw+DYGw1PFHrabpeVIJ6JWTFny0sFscRmHtgQPk+EdOgrhCzh/y5Qf5BOSwJksHBSsyAHqzlSlTi5zMXKF38rP4Wu+7fEqUkYwqbQSxzzYznBx6YoSHN9mN4HJ6KdOds2AfLv3lyAysdJ56wdRvRKn7gyLPexSBXV62300Z+LTJhr785LNaZiwlPvYjbb8iRFBoqBWIGe954rmnsqfZ2xA1EHjJZJxXBlxJWsZI3KZSuGaywO69Ch/jwxY7QAu6x/++JA0HGVsEC/4ISMWU54F/4u7qZUlTfigpPyv6/up4+nZMYAi98U4qe2haOyg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(346002)(39860400002)(136003)(376002)(396003)(451199015)(6666004)(66556008)(6506007)(66476007)(4326008)(66946007)(7416002)(6512007)(8936002)(36756003)(53546011)(5660300002)(26005)(8676002)(41300700001)(316002)(86362001)(83380400001)(4001150100001)(31696002)(2906002)(38100700002)(44832011)(186003)(2616005)(478600001)(31686004)(6486002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZDAzZG5lYy9hdVNvVmpSQk1xQmdtK0dDTFl4Y25wS1QydUh1aHZFalZwRVZ4?=
- =?utf-8?B?ZEJ0U0gvV2ZWanhDUFlPVDF1TDRzd01XVVNCd0tQeUQ4d21FbWpJWmx3WlMx?=
- =?utf-8?B?elhGN3lNR2JNUkdYUlJ2Y0ZjN3FENkJaSXRMMlgvVVlJNTRBTllFd1FSS2hD?=
- =?utf-8?B?VnBScnNSR0xHbVdmTVVKcGNwV1pQQXk4aWRFQTZkN0FuRTRmdmw4bXRaNXJl?=
- =?utf-8?B?azZRRFUxd0hXSlQvOTVRbHZWMlBhVnVSZGZmTWFGNTkzVXFLbmtIM0F6MzE0?=
- =?utf-8?B?djlNZ2RhRzVrVDBDMEtHTGVaOHJ5S1JZU0VIMytjQTVkaWljcWVBcmNGc0Nw?=
- =?utf-8?B?VEhqT3Z5VmVpTkdyTlN4d3YxL25iSnJxYVNLM1ZPbWpvVGFxVktDaUFZcmJn?=
- =?utf-8?B?Qno5bmtwUlR4MjlIQjNWOTJZdjBqZmFmODdCaERKeXpNZEdTaDBteGIvNmNt?=
- =?utf-8?B?V3QvQUtLUmVhV3p6OFBXNWVTTUEzNTBIa2FRdVpZSlEwdVAxZlJJMDJQbmNq?=
- =?utf-8?B?djgya1FQbHNTNkUvQTJaVGxnanU4ak1ZN1NjZENvWlBwaFdJZVFnODRCN3By?=
- =?utf-8?B?SlJLVmNzNStKcFBwSjQrZjlybWJCTzVRWmFxc25YL0lwa2xEYTB5aFZjK21w?=
- =?utf-8?B?dWlvMG9nSENhM2xjSTh5SEtTeFhrbUxRNEg2cndmUDhjeGZ3VmlNc3p3Rk1Z?=
- =?utf-8?B?ckJyZnR3K2gzUUx2QzJtZGd4U0xqaHAyaEhQRGVvSU5UaUlldXNGMlovTVJW?=
- =?utf-8?B?RGY0UGpIcmMvMnNNMWJNZkg4RGN3dnJwMHkvb0c0cWJ4cFBtS3Jkd29JYXla?=
- =?utf-8?B?aEloOEM5N01jSm9HeFZHV3NKMEFSOEN2ZDcyNDdFT3JLano3UlpSaGZBcnIr?=
- =?utf-8?B?V3JDQlpkZ0IyN28rMnliUUZURzFubXUxc2sycFhkbVZqYVVHUFNkTTA0VmRQ?=
- =?utf-8?B?b2pUWWFYVnRuTnJXcEJlQ0xNVUJmSk41blBnU0RkRCtFWGJ1RjhPaXJBZCs0?=
- =?utf-8?B?NzdFd3ZGZHVEVk1TTFNLVDlFYUk0anlRSitnSjRVcVFJaUlGY2RaMitEanda?=
- =?utf-8?B?aVNBOTdlcVRvR2JPMFFoTkZJRnRtWmdKeXNoV3lTYzFLZ1ltZ01nb2dyRUJm?=
- =?utf-8?B?WDIzSE9CVnJSZ25PMEtLNFk2cXc4Wlp0d0FaZlByWCtHVlE5YmdnUFFVakhE?=
- =?utf-8?B?dzhyNkRMZnJkZ0VFeG5wenNEaVpaUUxZTUs5WFZUdGFUTlM0bThUZ2MrcmNG?=
- =?utf-8?B?RXNiRzRxT0NPQkRkYWkveTJ6RjQwU1Z4TkptYnoyRy9YUWxwTUVraUoxeXFv?=
- =?utf-8?B?bWxpYjE3eXpMOFV5OCs5ai9OQzZ1WEF1RGNwejlkTHFzOWEzNmJOaC9oWEl6?=
- =?utf-8?B?MS9BRFNNRjRmUFZKd0k0cUl5TVJNTW5oR2t5VVNoUVNteVlMak9ITkZWb0tN?=
- =?utf-8?B?cGlINDVQTU1uT3MrZE4rQ0xld00rb2tkaUtHUTN6d1hCNHJjTnRraTVzb0xp?=
- =?utf-8?B?ZEtkTmRDVTF3NWxLZDhDQnpsME1rM0M3MktzdjNkODBiOGozaXRzWUZtS3F4?=
- =?utf-8?B?ejF2ajNBL3ZKZzUrdVo2NFp2YzBlVVJ5Sll3WDZuay9qS2pDRldqSWlCby9V?=
- =?utf-8?B?elZQSjZxOTBxVTZBSDJmNkJRSXAwNWlGM2swRnFhRSsycElCYjF5L1A5V1hF?=
- =?utf-8?B?Z0dpcFNDYUF0alI1Zk42L2FlZWhneDFLditidGpPWm05Z20zTWp5MzFLZmtS?=
- =?utf-8?B?UHNLclhMMGdVOEVrR3ZJNkNqanV3cmRreHFMUzlFdVRPMDZxOVRrOEdKQUF4?=
- =?utf-8?B?bDBRZEMwNEJHazVUdkZVVEQwaGhrN1g0cVBFcXJTQXVnR293cmhLU1hwV3hm?=
- =?utf-8?B?YlgvSzVWQXFrWHlzNW9oUTZCck5SYnJiOWFOYmlBaHUvYXlnMmVRc3p0NXFO?=
- =?utf-8?B?OGc2S2JhSnh6UFFnM3JhKytpWktyeTF1ZUoxOHRhY2dqUWg2d3E1UTdiUitj?=
- =?utf-8?B?dktSQ05HMGJnNDdwMWhWTGNLL0duVVB0WVhhWVdjQVlHc0tTNnF2UnR0elRC?=
- =?utf-8?B?Q0tIcWt2SUlJZnhMZlNjZ0w2V1Q5REJrNTUzdzZ6RVZzQ2lQc2syQmFDTzNi?=
- =?utf-8?Q?yMu762TROlWcMlxBwPUQkPCz6?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba67d978-a8bf-4431-21c8-08dab634277c
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2022 02:53:54.5222 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: udfwo2j2L0kUkGGo78kdRh16ERRTKwA6ahabLxoGBnT90KiWFGofDioJlAkMsb63
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5192
-Received-SPF: permerror client-ip=40.107.243.69;
- envelope-from=Luben.Tuikov@amd.com;
- helo=NAM12-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+References: <20221020233836.2341671-1-richard.henderson@linaro.org>
+In-Reply-To: <20221020233836.2341671-1-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 25 Oct 2022 13:12:15 +1000
+Message-ID: <CAKmqyKN=s50o1jM+jUvG70M4U4h_shuMtwVGmJLfKJ1GUkOuPg@mail.gmail.com>
+Subject: Re: [PATCH] tcg/riscv: Fix reg overlap case in tcg_out_addsub2
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x532.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -152,69 +83,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2022-10-24 08:19, Yang Yingliang wrote:
-> Inject fault while loading module, kset_register() may fail.
-> If it fails, the name allocated by kobject_set_name() which
-> is called before kset_register() is leaked, because refcount
-> of kobject is hold in kset_init().
-> 
-> As a kset may be embedded in a larger structure which needs
-> be freed in release() function or error path in callers, we
-> can not call kset_put() in kset_register(), or it will cause
-> double free, so just call kfree_const() to free the name and
-> set it to NULL.
-> 
-> With this fix, the callers don't need to care about the name
-> freeing and call an extra kset_put() if kset_register() fails.
-> 
-> Suggested-by: Luben Tuikov <luben.tuikov@amd.com>
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+On Fri, Oct 21, 2022 at 9:47 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> There was a typo using opc_addi instead of opc_add with the
+> two registers.  While we're at it, simplify the gating test
+> to al == bl to improve dynamic scheduling even when the
+> output register does not overlap the inputs.
+>
+> Reported-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Thanks!
+
+Applied to riscv-to-apply.next
+
+Alistair
+
 > ---
-> v1 -> v2:
->   Free name inside of kset_register() instead of calling kset_put()
->   in drivers.
+> Supersedes: 20221020104154.4276-4-zhiwei_liu@linux.alibaba.com
+> ("[RFC PATCH 3/3] tcg/riscv: Remove a wrong optimization for addsub2")
 > ---
->  lib/kobject.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/lib/kobject.c b/lib/kobject.c
-> index a0b2dbfcfa23..3409a89c81e5 100644
-> --- a/lib/kobject.c
-> +++ b/lib/kobject.c
-> @@ -834,6 +834,9 @@ EXPORT_SYMBOL_GPL(kobj_sysfs_ops);
->  /**
->   * kset_register() - Initialize and add a kset.
->   * @k: kset.
-> + *
-> + * NOTE: On error, the kset.kobj.name allocated by() kobj_set_name()
-> + * which is called before kset_register() in caller need be freed.
->   */
-
-The "need be freed" is confusing here because it is not clear if the user
-needs to do this or if it is done by the code. Since it is the latter,
-it should read "_is_ freed". Like this (no "NOTE"):
-
-"On error, the kset.kobj.name allocated by kobj_set_name(),
- which must be called before kset_register() is called, is freed
- by this function."
-
-Regards,
-Luben
-
->  int kset_register(struct kset *k)
->  {
-> @@ -844,8 +847,11 @@ int kset_register(struct kset *k)
->  
->  	kset_init(k);
->  	err = kobject_add_internal(&k->kobj);
-> -	if (err)
-> +	if (err) {
-> +		kfree_const(k->kobj.name);
-> +		k->kobj.name = NULL;
->  		return err;
-> +	}
->  	kobject_uevent(&k->kobj, KOBJ_ADD);
->  	return 0;
->  }
-
+>  tcg/riscv/tcg-target.c.inc | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+>
+> diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
+> index 81a83e45b1..1cdaf7b57b 100644
+> --- a/tcg/riscv/tcg-target.c.inc
+> +++ b/tcg/riscv/tcg-target.c.inc
+> @@ -687,9 +687,15 @@ static void tcg_out_addsub2(TCGContext *s,
+>          if (cbl) {
+>              tcg_out_opc_imm(s, opc_addi, rl, al, bl);
+>              tcg_out_opc_imm(s, OPC_SLTIU, TCG_REG_TMP0, rl, bl);
+> -        } else if (rl == al && rl == bl) {
+> +        } else if (al == bl) {
+> +            /*
+> +             * If the input regs overlap, this is a simple doubling
+> +             * and carry-out is the input msb.  This special case is
+> +             * required when the output reg overlaps the input,
+> +             * but we might as well use it always.
+> +             */
+>              tcg_out_opc_imm(s, OPC_SLTI, TCG_REG_TMP0, al, 0);
+> -            tcg_out_opc_reg(s, opc_addi, rl, al, bl);
+> +            tcg_out_opc_reg(s, opc_add, rl, al, al);
+>          } else {
+>              tcg_out_opc_reg(s, opc_add, rl, al, bl);
+>              tcg_out_opc_reg(s, OPC_SLTU, TCG_REG_TMP0,
+> --
+> 2.34.1
+>
+>
 
