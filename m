@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C437060D289
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 19:32:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA9A860D3BB
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 20:42:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onNjc-0004di-L9; Tue, 25 Oct 2022 13:29:04 -0400
+	id 1onOpu-000195-Cn; Tue, 25 Oct 2022 14:39:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=a4uw=22=zx2c4.com=Jason@kernel.org>)
- id 1onNjZ-0004Iz-KT
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 13:29:01 -0400
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=a4uw=22=zx2c4.com=Jason@kernel.org>)
- id 1onNjX-00014C-16
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 13:29:01 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 5FB76B81DD9;
- Tue, 25 Oct 2022 17:28:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 142BBC433C1;
- Tue, 25 Oct 2022 17:28:53 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="QhxvzynS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1666718931;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=T+V06H4P00ZSoR6H2jPPFk3LaUZTgLAGw5bHzhJdIgc=;
- b=QhxvzynSD9AN3ZsWyvRkgtQxae8EUV4XI8X0NNWZSWQ6npPcQlva6saJR9aZL5cdaCVHjV
- cnbt02YlWSFWdcq7mLcmuEYiUgRfjkkJqqVyJPZTxDvucsiEzNB5cMg3xyutPxFN6rx5oL
- ERdiho86ta2/AAZyOOFEhwk+M/EYTS8=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 08f36a0b
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Tue, 25 Oct 2022 17:28:51 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: peter.maydell@linaro.org, pbonzini@redhat.com, qemu-devel@nongnu.org,
- richard.henderson@linaro.org
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Paul Burton <paulburton@kernel.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v5] mips/malta: pass RNG seed via env var and re-randomize on
- reboot
-Date: Tue, 25 Oct 2022 19:28:43 +0200
-Message-Id: <20221025172843.623383-1-Jason@zx2c4.com>
-In-Reply-To: <CAHmME9qcKd44sLPpMsFVoo+Ty77f5Ke7+Z93fL86YbAMU+hB0A@mail.gmail.com>
-References: <CAHmME9qcKd44sLPpMsFVoo+Ty77f5Ke7+Z93fL86YbAMU+hB0A@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <jaykhandkar2002@gmail.com>)
+ id 1onOpr-0000v7-Qi
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 14:39:35 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jaykhandkar2002@gmail.com>)
+ id 1onOpq-00036O-8f
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 14:39:35 -0400
+Received: by mail-pf1-x430.google.com with SMTP id e4so8787245pfl.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 11:39:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=KxqBpN3dIw7NdjOGD6yinW3PvjVZUdappDXGBwZuYYU=;
+ b=ZoYOWKG3q7Aaqapkm2JS6NP9qVSK1TA8N/AGSiiUlMp7Ks1xKxWtDIYtDtTNrY9H9/
+ aYc7+B2IGYXzwKbb3MFgPxCp/eu1SSECThz8CB/Bv339NzldBqj9Agc+MqWlVRDfoko3
+ xI/mrrCH0uMngSfMRMiMI3nNgXmzud4MGLwAxupdNxL8+0f8/KIByWPFJjYBz62zc9xy
+ T/ouZ+YZAbEgUr9mA30HXBzKCruLUpcKAu3YRLh5B+3v5kNTPdeHDwkGkfNpuO5BA9Zg
+ e80z5w/6AFtJKWAS/uhiFhi/27NpWcBlNRMqFyup2V5siQnipT3IE8t9beZVtSOT/fs5
+ vF7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KxqBpN3dIw7NdjOGD6yinW3PvjVZUdappDXGBwZuYYU=;
+ b=fz0fnOHHXlaPCoQU9mU+SHp6Xt4mKM4GC6PJfVISvaFHKlgVHoE2Z0pGfl/KAwvgE0
+ lA50uzDZ4vdl3YrBLuTnpBBaDhgqDeGCpqeTcnx8AfJyCbsNiVylxReLp/E8YNOBpEZU
+ Sdsom35tyTKZwXLecLFY+LBAcAr39xuq8wrSjKUGqkmDM5DCUkvGxE8zyMA9dtIFEXab
+ BLYCCAHHMUtabZNN9Njybc2Wt7wslR/16cmtmxNci/zjC+6on74PCYyfHGka4G1G96kb
+ 5rbwwmI5yTlQQWn0ZKUeC303y9nGVtVYkkeuLInkLywwq0KfXpHn4pUazWz9L94FEmiD
+ Mhgg==
+X-Gm-Message-State: ACrzQf0eN0f9mDKrX0TSa1fvlBd3zK881CmbwZ8PUdLRrNJt9PLxWZ4I
+ /Kl988TKVVieWNcWdjaFyPo=
+X-Google-Smtp-Source: AMsMyM4oQGUb63d0QR5LU6+kmFXynEG90NQ9M0K4fRB1M+GJ4SZbiY0IVuyrx1ckDlPc9Pc5nT3BvQ==
+X-Received: by 2002:a62:a512:0:b0:536:e2bd:e15e with SMTP id
+ v18-20020a62a512000000b00536e2bde15emr40838462pfm.1.1666723171679; 
+ Tue, 25 Oct 2022 11:39:31 -0700 (PDT)
+Received: from thinkpad ([103.144.92.240]) by smtp.gmail.com with ESMTPSA id
+ c10-20020a170903234a00b0017f49b41c12sm1503703plh.173.2022.10.25.11.39.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Oct 2022 11:39:29 -0700 (PDT)
+Date: Wed, 26 Oct 2022 00:09:25 +0530
+From: Jay Khandkar <jaykhandkar2002@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, mst@redhat.com
+Subject: Re: [PATCH V2] hw/intc: Handle software disabling of APIC correctly
+Message-ID: <Y1gtXdQVtNMHhRxJ@thinkpad.localdomain>
+References: <20220907174410.25180-1-jaykhandkar2002@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=SRS0=a4uw=22=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220907174410.25180-1-jaykhandkar2002@gmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=jaykhandkar2002@gmail.com; helo=mail-pf1-x430.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,95 +88,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-As of the kernel commit linked below, Linux ingests an RNG seed
-passed as part of the environment block by the bootloader or firmware.
-This mechanism works across all different environment block types,
-generically, which pass some block via the second firmware argument. On
-malta, this has been tested to work when passed as an argument from
-U-Boot's linux_env_set.
-
-As is the case on most other architectures (such as boston), when
-booting with `-kernel`, QEMU, acting as the bootloader, should pass the
-RNG seed, so that the machine has good entropy for Linux to consume. So
-this commit implements that quite simply by using the guest random API,
-which is what is used on nearly all other archs too. It also
-reinitializes the seed on reboot, so that it is always fresh.
-
-Link: https://git.kernel.org/torvalds/c/056a68cea01
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-Cc: Paul Burton <paulburton@kernel.org>
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
-Changes v4->v5:
-- Calculate offset rather than using memmem for updating on reboot.
-
- hw/mips/malta.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
-
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index 0e932988e0..7c3ad0974b 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -26,6 +26,7 @@
- #include "qemu/units.h"
- #include "qemu/bitops.h"
- #include "qemu/datadir.h"
-+#include "qemu/guest-random.h"
- #include "hw/clock.h"
- #include "hw/southbridge/piix.h"
- #include "hw/isa/superio.h"
-@@ -1017,6 +1018,17 @@ static void G_GNUC_PRINTF(3, 4) prom_set(uint32_t *prom_buf, int index,
-     va_end(ap);
- }
- 
-+static void reinitialize_rng_seed(void *opaque)
-+{
-+    char *rng_seed_hex = opaque;
-+    uint8_t rng_seed[32];
-+
-+    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
-+    for (size_t i = 0; i < sizeof(rng_seed); ++i) {
-+        sprintf(rng_seed_hex + i * 2, "%02x", rng_seed[i]);
-+    }
-+}
-+
- /* Kernel */
- static uint64_t load_kernel(void)
- {
-@@ -1028,6 +1040,9 @@ static uint64_t load_kernel(void)
-     long prom_size;
-     int prom_index = 0;
-     uint64_t (*xlate_to_kseg0) (void *opaque, uint64_t addr);
-+    uint8_t rng_seed[32];
-+    char rng_seed_hex[sizeof(rng_seed) * 2 + 1];
-+    size_t rng_seed_prom_offset;
- 
- #if TARGET_BIG_ENDIAN
-     big_endian = 1;
-@@ -1115,9 +1130,21 @@ static uint64_t load_kernel(void)
- 
-     prom_set(prom_buf, prom_index++, "modetty0");
-     prom_set(prom_buf, prom_index++, "38400n8r");
-+
-+    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
-+    for (size_t i = 0; i < sizeof(rng_seed); ++i) {
-+        sprintf(rng_seed_hex + i * 2, "%02x", rng_seed[i]);
-+    }
-+    prom_set(prom_buf, prom_index++, "rngseed");
-+    rng_seed_prom_offset = prom_index * ENVP_ENTRY_SIZE +
-+                           sizeof(uint32_t) * ENVP_NB_ENTRIES;
-+    prom_set(prom_buf, prom_index++, "%s", rng_seed_hex);
-+
-     prom_set(prom_buf, prom_index++, NULL);
- 
-     rom_add_blob_fixed("prom", prom_buf, prom_size, ENVP_PADDR);
-+    qemu_register_reset_nosnapshotload(reinitialize_rng_seed,
-+            rom_ptr(ENVP_PADDR, prom_size) + rng_seed_prom_offset);
- 
-     g_free(prom_buf);
-     return kernel_entry;
--- 
-2.38.1
-
+On Wed, Sep 07, 2022 at 11:14:11PM +0530, Jay Khandkar wrote:
+> When the local APIC is in a software disabled state, all local interrupt
+> sources must be masked and all attempts to unmask them should be
+> ignored. Currently, we don't do either. Fix this by handling it
+> correctly in apic_mem_write().
+> 
+> Signed-off-by: Jay Khandkar <jaykhandkar2002@gmail.com>
+> ---
+>  hw/intc/apic.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/hw/intc/apic.c b/hw/intc/apic.c
+> index 3df11c34d6..be26b5c913 100644
+> --- a/hw/intc/apic.c
+> +++ b/hw/intc/apic.c
+> @@ -793,6 +793,11 @@ static void apic_mem_write(void *opaque, hwaddr addr, uint64_t val,
+>          break;
+>      case 0x0f:
+>          s->spurious_vec = val & 0x1ff;
+> +        if (!(val & APIC_SPURIO_ENABLED)) {
+> +            for (int i = 0; i < APIC_LVT_NB; i++) {
+> +                s->lvt[i] |= APIC_LVT_MASKED;
+> +            }
+> +        }
+>          apic_update_irq(s);
+>          break;
+>      case 0x10 ... 0x17:
+> @@ -812,6 +817,9 @@ static void apic_mem_write(void *opaque, hwaddr addr, uint64_t val,
+>      case 0x32 ... 0x37:
+>          {
+>              int n = index - 0x32;
+> +            if (!(s->spurious_vec & APIC_SPURIO_ENABLED)) {
+> +                val |= APIC_LVT_MASKED;
+> +            }
+>              s->lvt[n] = val;
+>              if (n == APIC_LVT_TIMER) {
+>                  apic_timer_update(s, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
+> -- 
+> 2.37.3
+> 
+Ping...?
 
