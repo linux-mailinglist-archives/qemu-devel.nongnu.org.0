@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 925B360C1A4
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 04:24:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4595860C1AA
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 04:26:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on9Yw-00036A-DN; Mon, 24 Oct 2022 22:21:06 -0400
+	id 1on9do-0006UM-1c; Mon, 24 Oct 2022 22:26:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1on9Yi-0002zY-K9
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 22:20:53 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+ id 1on9dl-00069c-AA
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 22:26:05 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1on9Yf-0004K1-TR
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 22:20:52 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id pb15so9540224pjb.5
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 19:20:49 -0700 (PDT)
+ id 1on9dj-0005Gk-En
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 22:26:04 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id e4so6674741pfl.2
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 19:26:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=mOsji/zr2IFciMJ4k4N69wTW3L6ugFiv+W5OZ+1vNLY=;
- b=G61qHHtynv8/QazOkREILda7T9qvezsnevQ+nvNLjCuiP5yo+jhsFYucSeyEBSwUiR
- 32VJyc4O8h0MoIJu0sjcbJhqLWH8AYMd792qCA8d6kooc9d/YG7hOJfX4bA739NuQZcz
- Yin9W4YcmeMoMj7me8Q1iIKYAs5HqnPLMbkrEQf+d2FGX05Hh5+qvee9qiHoTaro8qfU
- 4CxtLJ4nCmNQjMQhdW6jVEYPvhW0GqhV3qbjckGPXCdlyWDSfcQB4dBCva111GI79D2u
- XFHp3Pui4/lTg+CGT6V/6b+DvdyiTRWqDLM7hfrfbQzV6jplmosD1BBDqg2Qp/xCBWmV
- w3kA==
+ bh=WuFAKnJnm9Vdq7rwM3bK9knwaAa4nBUL0enZb9VuOP4=;
+ b=PNCtTd7Xmwxo+fkO87Ag2eX6o0i8aFPx0PCwMMeMrs9uXjrR5iTwn3NWcDHjg1axUC
+ hxJXI1JILFnRvRdQFKyqMj46Huh1vL8i6geuifbz/o3EdFGC2Jvc1ImdYz0Xd3TxB7qV
+ AqKx7Kj+KjVVvWiIl2t/iJr82MOp8gDkojgR8HSfRKKrHAnu56YEai2GrGJz0k9fYMca
+ Ho6FSPIb+nLmLEg9xTukcVNNJuaoqU3RaAcs+y/7ZCHR4gwFYMpmuut5XKCuHeLS635p
+ Vv9iTyT4vWpPzMysmDNalBYkhoM1yjQ8uGtGU8vX5jwGUWfx+hQ2muU7P7ZKce9gXfT9
+ AiZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mOsji/zr2IFciMJ4k4N69wTW3L6ugFiv+W5OZ+1vNLY=;
- b=EMk9GmExM86bFEQ/+yJDSayswfKjLt7kH+LtjyGeEEHWgaJCuDX/Y/hOxHZmNNYAif
- LTDZzEIG2Qy8ELXLdHty6lI9M71dbG8U3kgoJR5RJlTtsu+CD6Hf6PcSvMubzTzDfSOB
- igGldGGSg4WxcrGac7/b/tKshrNEF8I4WNbIWfEAnzemkN9IWbOlYPJselabix1yr0hp
- NJj2Idyz5KdVjY23crUcq3C9S/XEW+ISi46lTC421CEcvKvYWLXU2Qp46cLB9q1rybkk
- mYZCnktAGqZOkMMMF1kD+HMsI6DVe7o6U6k9Garx6N/RGqIy0IMR6mo9wDnJGJI9v3T1
- WeRw==
-X-Gm-Message-State: ACrzQf0YaMAC4j5CcqvdfuUH7fz+Z7DXnZfJqqI2lGQolurG2JAY1oK/
- GJfNbAvTCPPZf0EtNnTApiZiiw==
-X-Google-Smtp-Source: AMsMyM7iTtFd0rPnQicFzauPtCtg0msAawj77PjKuV0zmR6CGbu3A3QTFXq3JsIRK7sefEKRkXFLSg==
-X-Received: by 2002:a17:902:ec92:b0:186:9fc6:868c with SMTP id
- x18-20020a170902ec9200b001869fc6868cmr10004158plg.12.1666664448143; 
- Mon, 24 Oct 2022 19:20:48 -0700 (PDT)
+ bh=WuFAKnJnm9Vdq7rwM3bK9knwaAa4nBUL0enZb9VuOP4=;
+ b=2EaiLHW4oIMR1bSQ+7+IkRLrYkZeB4o/oea2lPUGPMYc29j6lBQrCJSvO0VAc5bN0Q
+ GIysOXagIE95ueatIumWKIRrfhdtaBWUEfXBgCnWAVGMSJLNWVx7tcMNVS3YBLcD90kt
+ gkTveoKDwvRVu5biMP1cOcZR3jtJqBqsg0jLamqzWbRW9HN7CriNvr1aFc0be/tHV24P
+ M/9tfEXbD4OEOwnf6dQdymn9citpFElUGSJq2WnUz6d2lkP40BIvcL20x+OIlJ66LXGq
+ sSrAsVoAQoR/Z3R76N3OFzqRcX7gRC5Qok/aocUCts+iUQYXF9BEkFbNSGW8ffgs/RnZ
+ twIw==
+X-Gm-Message-State: ACrzQf2bYkbdgkv5ks8cmLE8DOAGSTUBWZ/BU3AWrdETSaUe/cWF+duj
+ M6gI0iJCDF4rZHGU/sxVchaFVA==
+X-Google-Smtp-Source: AMsMyM75xwXGJzVlAzlEDbBgEvSWNrB7O4XCwWgkYiV2Hd4Mw+5tXD5oWFSGFNfRGk3hsxeGGho8Uw==
+X-Received: by 2002:a63:db42:0:b0:45c:9c73:d72e with SMTP id
+ x2-20020a63db42000000b0045c9c73d72emr30040851pgi.181.1666664761902; 
+ Mon, 24 Oct 2022 19:26:01 -0700 (PDT)
 Received: from [172.31.50.139] ([103.100.225.182])
  by smtp.gmail.com with ESMTPSA id
- a1-20020a17090a688100b0020d29388107sm4498921pjd.21.2022.10.24.19.20.45
+ v6-20020a17090a00c600b001ef8ab65052sm503877pjd.11.2022.10.24.19.25.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Oct 2022 19:20:47 -0700 (PDT)
-Message-ID: <bbae47f1-45b5-f206-4c25-1641209f19c3@linaro.org>
-Date: Tue, 25 Oct 2022 12:20:41 +1000
+ Mon, 24 Oct 2022 19:26:01 -0700 (PDT)
+Message-ID: <e3d81adf-d47f-98ad-9f41-f55c1f73e9c8@linaro.org>
+Date: Tue, 25 Oct 2022 12:25:55 +1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH v4] linux-user: Add close_range() syscall
+Subject: Re: [PATCH v3] linux-user: Add guest memory layout to exception dump
 Content-Language: en-US
 To: Helge Deller <deller@gmx.de>, Laurent Vivier <laurent@vivier.eu>,
- qemu-devel@nongnu.org
-References: <Y1b45IL371MJP2WW@p100>
- <6412545a-5b43-421f-d94a-cf3111725047@linaro.org>
- <436afa3a-bb4b-3807-4c01-25d3ddb195a1@gmx.de>
+ qemu-devel@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>
+References: <Y1bzAWbw07WBKPxw@p100>
+ <8c348149-6edf-c6f7-f539-d40a4479c46c@linaro.org>
+ <07dbe94d-c215-2be3-1769-4f2a8290573e@gmx.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <436afa3a-bb4b-3807-4c01-25d3ddb195a1@gmx.de>
+In-Reply-To: <07dbe94d-c215-2be3-1769-4f2a8290573e@gmx.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,32 +95,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/25/22 11:39, Helge Deller wrote:
-> On 10/25/22 00:39, Richard Henderson wrote:
->> On 10/25/22 06:43, Helge Deller wrote:
->>> +            abi_long maxfd = arg2;
->>> +
->>> +            if ((sizeof(abi_long) == 4 && arg2 == (abi_long)0x7FFFFFFFUL) ||
->>> +                (sizeof(abi_long) == 8 && arg2 == (abi_long)0x7FFFFFFFFFFFFFFFULL)) {
->>> +                maxfd = target_fd_max;
->>> +            }
->>> +
->>> +            for (fd = arg1; fd < maxfd; fd++) {
+On 10/25/22 11:57, Helge Deller wrote:
+> On 10/25/22 00:35, Richard Henderson wrote:
+>> On 10/25/22 06:18, Helge Deller wrote:
+>>> When the emulation stops with a hard exception it's very useful for
+>>> debugging purposes to dump the current guest memory layout (for an
+>>> example see /proc/self/maps) beside the CPU registers.
+>>>
+>>> The open_self_maps() function provides such a memory dump, but since
+>>> it's located in the syscall.c file, various changes (add #includes, make
+>>> this function externally visible, ...) are needed to be able to call it
+>>> from the existing EXCP_DUMP() macro.
 >>
->> Why do we need explicit checks for INT32/64_MAX?
->> If the guest passes 0x7FFFFFFFFFFFFFFEULL,
+>> /proc/self/maps has all of the qemu mappings in it as well.
 > 
-> A 32-bit guest (on a 64bit host) will pass 0x7FFFFFFFUL...
-> 
->> do we really need to iterate over all of those impossible values?
-> 
-> The compiler will optimize one of those checks away, so it's effectively
-> just one expression.
+> I'm not quite sure on how to understand your comments above.
+> Just comments or NAK to the patch?
 
-By impossible values, I mean all descriptors above target_fd_max.
-The compiler will most certainly not optimize the number of loop iterations.
+A question.
+
+Did you really wanted the host mappings included?
+If so, fine.
+If not, pointing out there's a better function to use.
 
 
 r~
-
 
