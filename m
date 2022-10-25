@@ -2,56 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD9ED60D0B0
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 17:34:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD51660D0B5
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 17:35:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onLkY-0008UK-2P; Tue, 25 Oct 2022 11:21:54 -0400
+	id 1onLmX-0003hn-1B; Tue, 25 Oct 2022 11:23:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <SRS0=KVXu=22=kaod.org=clg@ozlabs.org>)
- id 1onLkU-0008Rp-71; Tue, 25 Oct 2022 11:21:50 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <SRS0=KVXu=22=kaod.org=clg@ozlabs.org>)
- id 1onLkS-00051u-K3; Tue, 25 Oct 2022 11:21:49 -0400
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4MxbJT55J6z4xGk;
- Wed, 26 Oct 2022 02:21:45 +1100 (AEDT)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4MxbJQ6TKCz4xGG;
- Wed, 26 Oct 2022 02:21:42 +1100 (AEDT)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>,
- Alistair Francis <alistair@alistair23.me>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-block@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Francisco Iglesias <frasse.iglesias@gmail.com>
-Subject: [PULL 16/16] arm/aspeed: Replace mx25l25635e chip model
-Date: Tue, 25 Oct 2022 17:20:42 +0200
-Message-Id: <20221025152042.278287-17-clg@kaod.org>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221025152042.278287-1-clg@kaod.org>
-References: <20221025152042.278287-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1onLmV-0003hS-0h
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 11:23:55 -0400
+Received: from speedy.comstyle.com ([2607:f938:3000:8::2]
+ helo=mail.comstyle.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1onLmS-0005Cv-RX
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 11:23:54 -0400
+Received: from mail.comstyle.com (localhost [127.0.0.1])
+ by mail.comstyle.com (Postfix) with ESMTP id 4MxbLv4BVMz8PbN;
+ Tue, 25 Oct 2022 11:23:51 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=from:to:cc
+ :date:message-id:in-reply-to:references:subject:mime-version
+ :content-type; s=default; bh=uNoVZ061HZmjvCEUJRcLHHOrbkY=; b=kyN
+ 6LDmwO+jD2Q8uxISb785o4bBW3C7f0WNGOUzLzZ+Yl6jR3zjTjGOqQNNfuQmivyv
+ GfGEBD/pExTWFrYgxthPy32D2GTG7kK8QdK9wE8fDMrUbsN3LFjSb4yoP9zBOm1J
+ kAwZEHiB5kVRFS9EtDKGNXiEqnMcFg5ULo25RrbI=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=from:to:cc
+ :date:message-id:in-reply-to:references:subject:mime-version
+ :content-type; q=dns; s=default; b=BmFigRjFKLrCu1WpRqLo6TJ9uO8Ry
+ w54vLKXA1O5oxIojkEU+MSDtbKeHnPy9LRjCQtq/twCmkrzielW29Kek80CU39lk
+ HnjxjbsqIa7yf9T6qG0AH4rFPnJEilLBQL9Zuajd5EFGxbVOnCeYMnMEisQplEPE
+ 6Lds2Nz4HsRm44=
+Received: from [192.168.100.93]
+ (ipagstaticip-fb0cb5d9-e423-dda2-c442-adc5999de965.sdsl.bell.ca
+ [76.65.209.165])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: brad)
+ by mail.comstyle.com (Postfix) with ESMTPSA id 4MxbLv31Ppz8PbK;
+ Tue, 25 Oct 2022 11:23:51 -0400 (EDT)
+From: Brad Smith <brad@comstyle.com>
+To: Thomas Huth <thuth@redhat.com>, Warner Losh <imp@bsdimp.com>,
+ Kyle Evans <kevans@freebsd.org>, Ed Maste <emaste@freebsd.org>,
+ "Li-Wen Hsu" <lwhsu@freebsd.org>, "Alex Benn_e" <alex.bennee@linaro.org>,
+ "Philippe Mathieu-Daud_" <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+CC: <qemu-devel@nongnu.org>
+Date: Tue, 25 Oct 2022 11:23:49 -0400
+Message-ID: <1840fbe1f88.27f3.c0f5e3539a5acb9c2563017afaca17d6@comstyle.com>
+In-Reply-To: <791d0182-e6ae-4db3-96f0-8b69cb33d06c@redhat.com>
+References: <Yz/TeblRI77AIHJe@humpty.home.comstyle.com>
+ <Y1f6dxjvD01DtXyG@humpty.home.comstyle.com>
+ <791d0182-e6ae-4db3-96f0-8b69cb33d06c@redhat.com>
+User-Agent: AquaMail/1.39.1 (build: 103901207)
+Subject: Re: [PATCH v2] tests: Add sndio to the FreeBSD CI containers / VM
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=SRS0=KVXu=22=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/alternative; boundary="1840fbe21c64cdc27f34619f77"
+Received-SPF: pass client-ip=2607:f938:3000:8::2;
+ envelope-from=brad@comstyle.com; helo=mail.comstyle.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,50 +80,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-A mx25l25635f chip model is generally found on these machines. It's
-newer and uses 4B opcodes which is better to exercise the support in
-the Linux kernel.
+This is a multi-part message in MIME format.
+--1840fbe21c64cdc27f34619f77
+Content-Type: text/plain; format=flowed; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-Message-Id: <20220722063602.128144-9-clg@kaod.org>
-Message-Id: <20221013161241.2805140-11-clg@kaod.org>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
----
- hw/arm/aspeed.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Thank you.
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index bc5c1e167773..f8bc6d4a1406 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -1099,7 +1099,7 @@ static void aspeed_machine_palmetto_class_init(ObjectClass *oc, void *data)
-     amc->soc_name  = "ast2400-a1";
-     amc->hw_strap1 = PALMETTO_BMC_HW_STRAP1;
-     amc->fmc_model = "n25q256a";
--    amc->spi_model = "mx25l25635e";
-+    amc->spi_model = "mx25l25635f";
-     amc->num_cs    = 1;
-     amc->i2c_init  = palmetto_bmc_i2c_init;
-     mc->default_ram_size       = 256 * MiB;
-@@ -1150,7 +1150,7 @@ static void aspeed_machine_ast2500_evb_class_init(ObjectClass *oc, void *data)
-     amc->soc_name  = "ast2500-a1";
-     amc->hw_strap1 = AST2500_EVB_HW_STRAP1;
-     amc->fmc_model = "mx25l25635e";
--    amc->spi_model = "mx25l25635e";
-+    amc->spi_model = "mx25l25635f";
-     amc->num_cs    = 1;
-     amc->i2c_init  = ast2500_evb_i2c_init;
-     mc->default_ram_size       = 512 * MiB;
-@@ -1200,7 +1200,7 @@ static void aspeed_machine_witherspoon_class_init(ObjectClass *oc, void *data)
-     mc->desc       = "OpenPOWER Witherspoon BMC (ARM1176)";
-     amc->soc_name  = "ast2500-a1";
-     amc->hw_strap1 = WITHERSPOON_BMC_HW_STRAP1;
--    amc->fmc_model = "mx25l25635e";
-+    amc->fmc_model = "mx25l25635f";
-     amc->spi_model = "mx66l1g45g";
-     amc->num_cs    = 2;
-     amc->i2c_init  = witherspoon_bmc_i2c_init;
--- 
-2.37.3
+On October 25, 2022 11:10:49 a.m. Thomas Huth <thuth@redhat.com> wrote:
+
+> On 25/10/2022 17.02, Brad Smith wrote:
+>> tests: Add sndio to the FreeBSD CI containers / VM
+>>
+>> Signed-off-by: Brad Smith <brad@comstyle.com>
+>> ---
+>
+> Thanks, queued to my testing-next branch:
+>
+>  https://gitlab.com/thuth/qemu/-/commits/testing-next
+>
+>  Thomas
+
+
+Sent with Aqua Mail for Android
+https://www.aqua-mail.com
+
+--1840fbe21c64cdc27f34619f77
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.=
+w3.org/TR/html4/loose.dtd">
+<html>
+<body>
+<div dir=3D"auto">
+<div dir=3D"auto"><span style=3D"font-size: 12pt;">Thank you.</span></div><=
+div dir=3D"auto"><br></div>
+<div id=3D"aqm-original" style=3D"color: black;">
+<div dir=3D"auto">On October 25, 2022 11:10:49 a.m. Thomas Huth &lt;thuth@r=
+edhat.com&gt; wrote:</div>
+<div><br></div>
+<blockquote type=3D"cite" class=3D"gmail_quote" style=3D"margin: 0 0 0 0.75=
+ex; border-left: 1px solid #808080; padding-left: 0.75ex;">
+<div dir=3D"auto">On 25/10/2022 17.02, Brad Smith wrote:</div>
+<blockquote type=3D"cite" class=3D"gmail_quote" style=3D"margin: 0 0 0 0.75=
+ex; border-left: 1px solid #0099CC; padding-left: 0.75ex;">
+<div dir=3D"auto">tests: Add sndio to the FreeBSD CI containers / VM</div>
+<div dir=3D"auto"><br></div>
+<div dir=3D"auto">Signed-off-by: Brad Smith &lt;brad@comstyle.com&gt;</div>
+<div dir=3D"auto">---</div>
+</blockquote>
+<div dir=3D"auto"><br></div>
+<div dir=3D"auto">Thanks, queued to my testing-next branch:</div>
+<div dir=3D"auto"><br></div>
+<div dir=3D"auto">&nbsp; https://gitlab.com/thuth/qemu/-/commits/testing-ne=
+xt</div>
+<div dir=3D"auto"><br></div>
+<div dir=3D"auto">&nbsp; Thomas</div>
+</blockquote>
+</div><div dir=3D"auto"><br></div>
+</div>
+<div style=3D"color: black;">
+<p style=3D"margin: 0 0 1em 0; color: black; font-family: sans-serif;">Sent=
+ with <a href=3D"https://play.google.com/store/apps/details?id=3Dorg.kman.A=
+quaMail">Aqua Mail for Android</a><br>
+<a href=3D"https://www.aqua-mail.com">https://www.aqua-mail.com</a></p>
+</div>
+</body>
+</html>
+
+--1840fbe21c64cdc27f34619f77--
 
 
