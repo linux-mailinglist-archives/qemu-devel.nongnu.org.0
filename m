@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2836460CD25
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 15:14:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9337460CD3E
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 15:18:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onJkW-0004Zr-Ce; Tue, 25 Oct 2022 09:13:44 -0400
+	id 1onJmo-0002x5-LC; Tue, 25 Oct 2022 09:16:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1onJkJ-0004NG-J2
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 09:13:33 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1onJmZ-0002Ip-2l
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 09:15:53 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1onJkG-0007qO-Hk
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 09:13:31 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id y16so10407020wrt.12
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 06:13:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1onJmW-0008KX-49
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 09:15:50 -0400
+Received: by mail-wr1-x434.google.com with SMTP id bs21so4991644wrb.4
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 06:15:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=18MAZ578oFY/aR/BXCz5HEv7GcIEgV4rz1YjxSZtAv0=;
- b=JP07SaUOgix5xHB0P56HUUnN0F26KfeAyoDkVPs87WxRAPN6ohxwX70s0cQ3wti6b6
- pwBo7AM6nR8FryOs4GgoKRfRtCiaM4uKIs5W+72AfPK2sXDwZeiK8mQSYquFtjvAUu/T
- eN5YXF90XBRuID7geJYnP2Kj8x4IagbOt6yjtZG72CCtHvLDb2ZBXQhkvfrp19YY7V2s
- EjsSFqdC3VI/v+iih4cPRkhv5Z8/vHswfHXSwgYdPDlRMQE1TRhESd4mJsm6gzO4ZvcE
- 1auGaFb8PNex9rw9tYsXLHo/IZeJg22nXu7kquD/bQpDZvfY16jk81JnTMILqS2oDWOI
- leYg==
+ bh=igPKnvZX1tA+V5jqnO00CBiLXcl+HMh4nJZtZXcAkM4=;
+ b=EJP6EruJZYCtttDSPVu3C+4NU1FPpVy6M5ulR7snASf08ka9ToNG+nwDoeD5ydtJqx
+ eW7vHBFnsz2mQEQq3nvCBkj7TDOSOHLBbh0aJP2f0DQTZOLcCwNVEF9fRaPGFgzHzST7
+ +7P8HJ6MqInbmz4QesjzC4DBN5z5//7XVc48PxXhtL6AtmyLjAvGzLHRKSBnP7wHvgUB
+ 9H9IUFIysbj5yIj83RHT4jp/yo4nGMv1GJv1v9c47iHRRJATW3tDfbO6QoE84deR0RtU
+ NV7LvPEE6A+A/mgdjyvKLjHZ7VMAfX2v47i65mZQMWCV1CgJC98R0NxBFmWrzFIjLZ5d
+ hgMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=18MAZ578oFY/aR/BXCz5HEv7GcIEgV4rz1YjxSZtAv0=;
- b=Gxfp0wYAfgXrCMfhjpY37B0TnwG7D0hws4mv0qLXOLY4RwTjOniyAWBvsQNrXY1zM3
- hhjFJX+oY3Fm3AXpqH+mloOy9wujjjIUpbcBGF6Qguqv50TA3H9N5TrlJmr2CeMjXZmH
- nG5TOBS9ZJWEdz7mh35iy5Kq0qheg0BhLHHlAfUZsUIqrtXu8CpcW3P8YqzDz3gj8naO
- kAa7E2z2ju1OayNL4p1TVJtDQKK6taxoKg/Y8chRgVUTFNMdDHrbzqF0XRIFJbiPfQCF
- INcN5/vvrtwzafJ8GBLQ3qHQBqfSwr0SOPjHpOdLQnJZJKGPIQW9s/9xhBnSua7DexT5
- RhRw==
-X-Gm-Message-State: ACrzQf2OaQjI+3oRcPuYPjYH6/06JuHU6epf2orrfO5JBTyMh2bwlVq0
- IgFdJm+mw/oCAEtwqpcl6Y5Wdw==
-X-Google-Smtp-Source: AMsMyM6n+wX66RehpvzUqPvJtRhdpWEFmoAfZeUZlTnZlEXNT8CGVc9eHa9N+f2GNjEwvJF5Cnu/mg==
-X-Received: by 2002:a05:600c:4588:b0:3c6:f8b2:dd34 with SMTP id
- r8-20020a05600c458800b003c6f8b2dd34mr30039337wmo.178.1666703606052; 
- Tue, 25 Oct 2022 06:13:26 -0700 (PDT)
+ bh=igPKnvZX1tA+V5jqnO00CBiLXcl+HMh4nJZtZXcAkM4=;
+ b=wkanH8FaIFy0iCReOnGMDNjVZLMEaNdHc38z6dgPq7Qn7WQBHrApGQRQUBGSp2Sgmi
+ EDkDj6K9Zt0qusftwHE7cepVl7JWrwpodsTdizdjaNGxlgn4eBbgrhBJmFJoTRqGoYyx
+ SlAP3W6JFcQZbbShJLB5/ctq6Mn8EwfZy1Svr5JPh1XOr2PNYJZGuTup3Tmfpi9Y1Uri
+ eN4jbuqmkVmdd9phJjjY8xa7YKtlO6q5GryxAMnKBymuoS2a7+jbk/+xrTsbaUs53bDK
+ ubW0IUF9CF8zcMsp89+pJOI8aLavYe0a+Mrm4vgibd5Egs/ReBcuXIhsc/HXKEei+Fel
+ uIIg==
+X-Gm-Message-State: ACrzQf3cfNU8YbHzFuAd93BGcaQ/Ok/Ny4PoD82P281CpAWjsBbrM/ug
+ LQBST+GQI256iGTJWpX24yVKmg==
+X-Google-Smtp-Source: AMsMyM6AzF3qDAELC7hDDIRWGV4DZmgpBHIAJdFHR2/0VXnHOuhI7RWNFyj/kqbLMzLlNlp/uB+MPA==
+X-Received: by 2002:a05:6000:50a:b0:225:210c:a7e4 with SMTP id
+ a10-20020a056000050a00b00225210ca7e4mr25061669wrf.704.1666703746687; 
+ Tue, 25 Oct 2022 06:15:46 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- iv11-20020a05600c548b00b003a601a1c2f7sm12015742wmb.19.2022.10.25.06.13.25
+ l7-20020adffe87000000b00236740c6e6fsm2587082wrr.100.2022.10.25.06.15.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Oct 2022 06:13:25 -0700 (PDT)
-Message-ID: <6d4f3fc9-b91e-3978-affd-fbe8e29671c2@linaro.org>
-Date: Tue, 25 Oct 2022 15:13:24 +0200
+ Tue, 25 Oct 2022 06:15:46 -0700 (PDT)
+Message-ID: <6b525f12-2d4f-5b4a-3782-18b93982fcd1@linaro.org>
+Date: Tue, 25 Oct 2022 15:15:45 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.3.2
-Subject: Re: [PATCH] seccomp: Get actual errno value from failed seccomp
- functions
+Subject: Re: [PATCH 1/4] include/qemu/osdep: Add qemu_build_assert
 Content-Language: en-US
-To: Michal Privoznik <mprivozn@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <b971585976862e52df4c373286104dd0540be8b7.1666699164.git.mprivozn@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221024232435.3334600-1-richard.henderson@linaro.org>
+ <20221024232435.3334600-2-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <b971585976862e52df4c373286104dd0540be8b7.1666699164.git.mprivozn@redhat.com>
+In-Reply-To: <20221024232435.3334600-2-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,84 +90,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Cc'ing Daniel (maintainer)
-
-On 25/10/22 13:59, Michal Privoznik wrote:
-> Upon failure, a libseccomp API returns actual errno value very
-> rarely. Fortunately, after its commit 34bf78ab (contained in
-> 2.5.0 release), the SCMP_FLTATR_API_SYSRAWRC attribute can be set
-> which makes subsequent APIs return true errno on failure.
+On 25/10/22 01:24, Richard Henderson wrote:
+> This differs from assert, in that with optimization enabled it
+> triggers at build-time.  It differs from QEMU_BUILD_BUG_ON,
+> aka _Static_assert, in that it is sensitive to control flow
+> and is subject to dead-code elimination.
 > 
-> This is especially critical when seccomp_load() fails, because
-> generic -ECANCELED says nothing.
-> 
-> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   meson.build            | 9 +++++++++
->   softmmu/qemu-seccomp.c | 9 +++++++++
->   2 files changed, 18 insertions(+)
-> 
-> diff --git a/meson.build b/meson.build
-> index b686dfef75..5f114c89d9 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -636,10 +636,16 @@ if vmnet.found() and not cc.has_header_symbol('vmnet/vmnet.h',
->   endif
->   
->   seccomp = not_found
-> +seccomp_has_sysrawrc = false
->   if not get_option('seccomp').auto() or have_system or have_tools
->     seccomp = dependency('libseccomp', version: '>=2.3.0',
->                          required: get_option('seccomp'),
->                          method: 'pkg-config', kwargs: static_kwargs)
-> +  if seccomp.found()
-> +    seccomp_has_sysrawrc = cc.has_header_symbol('seccomp.h',
-> +                                                'SCMP_FLTATR_API_SYSRAWRC',
-> +                                                dependencies: seccomp)
-> +  endif
->   endif
->   
->   libcap_ng = not_found
-> @@ -1849,6 +1855,9 @@ config_host_data.set('CONFIG_RDMA', rdma.found())
->   config_host_data.set('CONFIG_SDL', sdl.found())
->   config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
->   config_host_data.set('CONFIG_SECCOMP', seccomp.found())
-> +if seccomp.found()
-> +  config_host_data.set('CONFIG_SECCOMP_SYSRAWRC', seccomp_has_sysrawrc)
-> +endif
->   config_host_data.set('CONFIG_SNAPPY', snappy.found())
->   config_host_data.set('CONFIG_TPM', have_tpm)
->   config_host_data.set('CONFIG_USB_LIBUSB', libusb.found())
-> diff --git a/softmmu/qemu-seccomp.c b/softmmu/qemu-seccomp.c
-> index deaf8a4ef5..05abf257c4 100644
-> --- a/softmmu/qemu-seccomp.c
-> +++ b/softmmu/qemu-seccomp.c
-> @@ -312,6 +312,15 @@ static int seccomp_start(uint32_t seccomp_opts, Error **errp)
->           goto seccomp_return;
->       }
->   
-> +#if defined(CONFIG_SECCOMP_SYSRAWRC)
-
-Maybe add some comment here such:
-
-  /*
-   * This must be the first seccomp_attr_set() call to have full
-   * error propagation.
-   */
-
-> +    rc = seccomp_attr_set(ctx, SCMP_FLTATR_API_SYSRAWRC, 1);
-> +    if (rc != 0) {
-> +        error_setg_errno(errp, -rc,
-> +                         "failed to set seccomp rawrc attribute");
-> +        goto seccomp_return;
-> +    }
-> +#endif
-> +
->       rc = seccomp_attr_set(ctx, SCMP_FLTATR_CTL_TSYNC, 1);
->       if (rc != 0) {
->           error_setg_errno(errp, -rc,
+>   include/qemu/osdep.h | 8 ++++++++
+>   1 file changed, 8 insertions(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
 
 
