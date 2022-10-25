@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D47F260D1C2
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 18:44:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA48960D1EC
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 18:49:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onMzT-00070f-Qr; Tue, 25 Oct 2022 12:41:23 -0400
+	id 1onMzf-0007Ua-PJ; Tue, 25 Oct 2022 12:41:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1onMz1-0006du-6u
+ id 1onMz1-0006e0-7n
  for qemu-devel@nongnu.org; Tue, 25 Oct 2022 12:40:55 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1onMyf-0001kD-LB
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 12:40:49 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- c7-20020a05600c0ac700b003c6cad86f38so11880412wmr.2
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 09:40:22 -0700 (PDT)
+ id 1onMyf-0001km-LL
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 12:40:50 -0400
+Received: by mail-wr1-x432.google.com with SMTP id bs21so6188375wrb.4
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 09:40:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=BI6oZ4aEIYwnI+ESyvZ1YC+hWtdkqyODG5DEJQCOMTc=;
- b=EPjhAaD4xvIib8SqVqO4OTkiZkmgTlFKf1dfkAB9sOPWUQpPE+Lt4fvLxoQXhVG86q
- 2MPQYfoo0gJ2MkIHrf7gQklzOTCJyyqYF3q/4sRe+Gl96e6QCwOS9NSRIWi7BZ9tXf/Y
- SG+cCbWj70JIVbtwo985Aij83Iq/dZeG8WNc0xJa58s2pFyrOQM5CRYbhGMd8tMjCPO+
- RRiS135o439Tk1gfMQD6weW5cSJiNKEXDDPo3W4I4L/Wqgnb4XP7ADMVO/7bykbzy8NF
- JOpDiSrQgsrtKD3qSmFJ/wPRFz4BIbBZO4g/NOOpuFz9Ns1pnp3BzZQhVGYRCNgOZzJD
- /s8w==
+ :reply-to; bh=Eln4ge06npuUpSMBwWAzr3VNU4hXMayNTGSGJ/gD114=;
+ b=BI0z7qfQhZWPTltWMDsSY5di33s5cPeKHWgi5xTObpmqyYVM20k/xF6bl26N9oHQOQ
+ R4TvZml04Yp4xNxZUwqma5WyEDbc2NGYm4EWf50R7Z0vXtooNE4tadhsP3KNZwOln1yH
+ ifC784TLE65j2S9Ly32+pD/I2h7Rv1nFpLO818P6kmCmuhy/UEvwo4EaNCEKAIwZOOXT
+ AbMpR089TM+iORgrblHvJNtHpzXQU9pFKM4PzNf0aCHy4q2uHlNa08l07HCyzlJVWl9N
+ 8tZRx1QZHxVrJbSlsplM1YYnn4v4/ViUyeQ4t2CxFTBmw6qxKrB2hI/ViHtuCEgOqfr9
+ JCxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BI6oZ4aEIYwnI+ESyvZ1YC+hWtdkqyODG5DEJQCOMTc=;
- b=NVxY+/aKxOC73mRyH91zhmqgjAX4knxjowRafcsDwEC9BldLvwUyjhl77r1WqMWF/q
- 0sQPGHdv5lXdLNxjLRQypKWEfynSYkALESnhl6aOZi8pslN0AOJSH/fJ5TugCgz66i5b
- DLpNtKEAvgCoXKxF6XDnxkGQfBviai/e2eZsqKDwuCVt36tCc4qrPlmONh2mF1qbRuoJ
- HIex1OWb3SQ/4J7Mn8ul2oFPOBhW54qq/KTdsr1rrCKpIvgjojKd/NpiCptMoQ5ufRVk
- 8dUggYgsyfy9wVN729jCP84ycvoyXkDqdfdB6nKnnq3rQyqEXtIyXjlaJ/ZAv9/2H7ZT
- PuRw==
-X-Gm-Message-State: ACrzQf0ToV//5NXWUI/gcWARp1/iFsNAKoY9zqy3r3gE5gGd8DqM5Obd
- IjplYuMGhbtm83v7wwaCbRj+Gps3iMwpvA==
-X-Google-Smtp-Source: AMsMyM7HFiEpGoYbnslLvJ2+k7t5c/zGP+TVQ9pB4vlTArWR494P/o1syYk5bK3v7HQC317k7EUTng==
-X-Received: by 2002:a05:600c:19d1:b0:3c7:b52:3aa4 with SMTP id
- u17-20020a05600c19d100b003c70b523aa4mr20646607wmq.56.1666716021916; 
- Tue, 25 Oct 2022 09:40:21 -0700 (PDT)
+ bh=Eln4ge06npuUpSMBwWAzr3VNU4hXMayNTGSGJ/gD114=;
+ b=wDkaYtGjSsjCKoR37g4I8TuEhdMPT/4wtvKo7SJGKg84F0NS8h7dLtV4o49P9DOwvu
+ I4RmGKiuOeYNBBvuPAL+fOpI/jOYXBslyPzbqd5DWVIgUSxugQyc7GC8PuvTkKBc13qt
+ R9/Ut1gyULV13xyBkup93okh7fn5lnRHJlEuqqh9hH12mIbgpi1+wK1oFIe+tsuXd4I6
+ 4MLtiGkJU0F3gGSUc0pJcOphQN6lEaeplHxA5OJ5ffWFjmrJ8IGkKqKd9DKypvULAKth
+ ei3sakj5RsYNAgV3w7MVopR5nE8NeOrdT6SnUgvvPzdDr2gPKbGeGGJxBAF9w5llOQ+h
+ F4Tg==
+X-Gm-Message-State: ACrzQf3Yl8w+XV5iLV0CFRzLDiSlxM2ar/JTjHy4jmgRXsibGmpDM17M
+ k0KbyxPYdIqpuwh3Lwo2HWanWgsha7nPXg==
+X-Google-Smtp-Source: AMsMyM5H9izKxEgk0SSB8Ktb5G5H5NjZZ5WifwHgm5KjTFibtSrOc9XBOkn3XKl/G+WiRKt4qoprbA==
+X-Received: by 2002:a05:6000:1143:b0:236:5ede:cdad with SMTP id
+ d3-20020a056000114300b002365edecdadmr12723586wrx.410.1666716022828; 
+ Tue, 25 Oct 2022 09:40:22 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- z12-20020a05600c220c00b003cd9c26a0basm2971084wml.40.2022.10.25.09.40.20
+ z12-20020a05600c220c00b003cd9c26a0basm2971084wml.40.2022.10.25.09.40.22
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Oct 2022 09:40:21 -0700 (PDT)
+ Tue, 25 Oct 2022 09:40:22 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/30] x86: do not re-randomize RNG seed on snapshot load
-Date: Tue, 25 Oct 2022 17:39:45 +0100
-Message-Id: <20221025163952.4131046-24-peter.maydell@linaro.org>
+Subject: [PULL 24/30] arm: re-randomize rng-seed on reboot
+Date: Tue, 25 Oct 2022 17:39:46 +0100
+Message-Id: <20221025163952.4131046-25-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221025163952.4131046-1-peter.maydell@linaro.org>
 References: <20221025163952.4131046-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,30 +90,34 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 
-Snapshot loading is supposed to be deterministic, so we shouldn't
-re-randomize the various seeds used.
+When the system reboots, the rng-seed that the FDT has should be
+re-randomized, so that the new boot gets a new seed. Since the FDT is in
+the ROM region at this point, we add a hook right after the ROM has been
+added, so that we have a pointer to that copy of the FDT.
 
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org
 Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-Message-id: 20221025004327.568476-4-Jason@zx2c4.com
+Message-id: 20221025004327.568476-5-Jason@zx2c4.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/i386/x86.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/arm/boot.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 1148f70c03d..bd50a064a36 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -1111,7 +1111,7 @@ void x86_load_linux(X86MachineState *x86ms,
-         setup_data->type = cpu_to_le32(SETUP_RNG_SEED);
-         setup_data->len = cpu_to_le32(RNG_SEED_LENGTH);
-         qemu_guest_getrandom_nofail(setup_data->data, RNG_SEED_LENGTH);
--        qemu_register_reset(reset_rng_seed, setup_data);
-+        qemu_register_reset_nosnapshotload(reset_rng_seed, setup_data);
-         fw_cfg_add_bytes_callback(fw_cfg, FW_CFG_KERNEL_DATA, reset_rng_seed, NULL,
-                                   setup_data, kernel, kernel_size, true);
-     } else {
+diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+index b0b92af1889..b106f314685 100644
+--- a/hw/arm/boot.c
++++ b/hw/arm/boot.c
+@@ -683,6 +683,8 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
+      * the DTB is copied again upon reset, even if addr points into RAM.
+      */
+     rom_add_blob_fixed_as("dtb", fdt, size, addr, as);
++    qemu_register_reset_nosnapshotload(qemu_fdt_randomize_seeds,
++                                       rom_ptr_for_as(as, addr, size));
+ 
+     g_free(fdt);
+ 
 -- 
 2.25.1
 
