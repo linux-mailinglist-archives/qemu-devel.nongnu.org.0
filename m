@@ -2,83 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA43060C708
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 10:57:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 765E960C780
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 11:07:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onFiB-0001PW-UE; Tue, 25 Oct 2022 04:55:04 -0400
+	id 1onFhU-0008OT-Tm; Tue, 25 Oct 2022 04:54:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1onFWI-0006uB-OF
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 04:42:47 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1onFVG-0007MW-5p
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 04:41:42 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1onFWG-0006En-3c
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 04:42:45 -0400
-Received: by mail-wr1-x429.google.com with SMTP id bs21so3736553wrb.4
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 01:42:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AVK4dvIaoIDivKMpUrr/VPjAD/PBVF3uAn924FX2j2I=;
- b=A0HrkcqhdaZObHftmU5vEO6UQEO6SUMGQ7pW0esy60yQAzKZCQ7T+f5tGum3OnSX9b
- 7JsYTWKvn6+H2FZ9WL8r6SkOHaSGCRcvw2kOABvhrL6ERalrOn5GqE7sni6LGXUkRKqb
- 4OP+myizPE/GdepNmI/JvUGf6CR358O6hzEdUkTt6YvyLVrFyMVPIat/FMnOcmMxvq6v
- bgPASRarFyecLBN21gkDJcSqFNOK6ls8Qua2RdlzwDtZj3kOQ5iCq959e3+8wjepnQ4c
- Q956n5rnmWi+yINJSXIHF72Ue+Bf0i+Npw2Fws3Rt9bcPh+HdiCNWWahvEMztzLW6lbt
- HWVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=AVK4dvIaoIDivKMpUrr/VPjAD/PBVF3uAn924FX2j2I=;
- b=8O1RvTSsSZ4j1p2khj8hucP03o0yRd+MdvtUcJyJ4JrKSSE91SN0OA617x4XQTCpWD
- i8p36ICkrskvP999IKj+9j7cnoIHCg2ZHpkBt0Q6QVzUtvMOZtP/goZLJ/UOzhZCiP9j
- O1nW+z0xNFbBvfc9Ca8EsS4NNHT0oXe3c0lnWoflzJXGPyCzQlHsPb92EgjA5PlC3MR5
- wBsHsA2q6pYTp7v0+xoo2hZyNgPYd4NNQliN9eBz/rFz3iuiXgDoKmOlw2lB+TU5jt8W
- Rts/6kcBv+MXKWFzHQjKaY6viaiQvJGCj2fqknZGLWAoP/iEeixtAuqwHvYYYI8VXRNf
- Nv3w==
-X-Gm-Message-State: ACrzQf0KmvXtmga8JdJ3OuIbO88zXRzknPsk6fIHlAsMHWTxTyMhyuju
- w6W2j+r7P0dJTL4FLNVzn0c7+A==
-X-Google-Smtp-Source: AMsMyM5H1EO010lkFbv0kN7WIjS6UCgnGnlewfKR3f/x86pUmAjcUHel9qV66oFjY6XwQe+l6222Jg==
-X-Received: by 2002:a5d:498f:0:b0:236:55e9:6c16 with SMTP id
- r15-20020a5d498f000000b0023655e96c16mr14312550wrq.331.1666687361451; 
- Tue, 25 Oct 2022 01:42:41 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- a16-20020adff7d0000000b002366d1cc198sm1908877wrq.41.2022.10.25.01.42.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Oct 2022 01:42:40 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 503A51FFB7;
- Tue, 25 Oct 2022 09:42:40 +0100 (BST)
-References: <20221006031113.1139454-1-richard.henderson@linaro.org>
- <20221006031113.1139454-2-richard.henderson@linaro.org>
-User-agent: mu4e 1.9.1; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, laurent@vivier.eu, pbonzini@redhat.com,
- imp@bsdimp.com, f4bug@amsat.org
-Subject: Re: [PATCH 01/24] util: Add interval-tree.c
-Date: Tue, 25 Oct 2022 09:40:35 +0100
-In-reply-to: <20221006031113.1139454-2-richard.henderson@linaro.org>
-Message-ID: <87tu3s8fb3.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1onFVE-00068w-6K
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 04:41:41 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2F42022062;
+ Tue, 25 Oct 2022 08:41:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1666687298; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gBA+UUNDI8z40mbtcgsHJYDh86QoDjYSNZssAbkyRqs=;
+ b=R4LUTibpGSnzyr9FAO57Fp9DChIVlBfdO7R6Lza0QjDegahh9EdY9bsYSDeJspXArSF2jI
+ 9rjbK/UWLDIaEIpkcQv0o6xlYyVkXDa81OCikCn4u8uCpFI7k7SxEgslRiX0iPkdoANfLI
+ 5dXZ1S/U8YfWUqpLsV0TWDO2wAe/ibE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1666687298;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gBA+UUNDI8z40mbtcgsHJYDh86QoDjYSNZssAbkyRqs=;
+ b=HiQUvI8gI92ERXmqNWleQUSEYgG4JKHBTaoQ5R6CwBmsAq+Kui44h31rq5+we6QIiTs8Oo
+ XWC3XXF9cuKV+yAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 14286134CA;
+ Tue, 25 Oct 2022 08:41:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id vHROA0KhV2NWJgAAMHmgww
+ (envelope-from <cfontana@suse.de>); Tue, 25 Oct 2022 08:41:38 +0000
+Message-ID: <9ed736ee-c9ca-0fb8-642a-1876e89b722a@suse.de>
+Date: Tue, 25 Oct 2022 10:41:37 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 01/29] accel/tcg: Add restore_state_to_opc to TCGCPUOps
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221024132459.3229709-1-richard.henderson@linaro.org>
+ <20221024132459.3229709-2-richard.henderson@linaro.org>
+ <e1eb87ed-c43c-6dae-4beb-9d0a9907bce9@suse.de>
+ <ab0e8b0f-be77-7947-244c-e542473206a7@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <ab0e8b0f-be77-7947-244c-e542473206a7@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,59 +89,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 10/24/22 17:15, Richard Henderson wrote:
+> On 10/25/22 01:05, Claudio Fontana wrote:
+>> On 10/24/22 15:24, Richard Henderson wrote:
+>>> Add a tcg_ops hook to replace the restore_state_to_opc
+>>> function call.  Because these generic hooks cannot depend
+>>> on target-specific types, temporarily, copy the current
+>>> target_ulong data[] into uint64_t d64[].
+>>>
+>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>>> ---
+>>>   include/exec/exec-all.h       |  2 +-
+>>>   include/hw/core/tcg-cpu-ops.h | 11 +++++++++++
+>>>   accel/tcg/translate-all.c     | 24 ++++++++++++++++++++++--
+>>>   3 files changed, 34 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+>>> index e5f8b224a5..a772e8cbdc 100644
+>>> --- a/include/exec/exec-all.h
+>>> +++ b/include/exec/exec-all.h
+>>> @@ -40,7 +40,7 @@ typedef ram_addr_t tb_page_addr_t;
+>>>   #endif
+>>>   
+>>>   void restore_state_to_opc(CPUArchState *env, TranslationBlock *tb,
+>>> -                          target_ulong *data);
+>>> +                          target_ulong *data) __attribute__((weak));
+>>
+>> Hi Richard, doesn't matter much since this is removed later on, but I wonder why the need for attribute weak here?
+>> I don't see you overloading this function in later patches..
+> 
+> So that it can be undefined.  Otherwise I can't remove the existing symbol from each target.
+> 
+> 
+> r~
+> 
+> 
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Right - there is still the call to restore_state_to_opc in the else branch in the general code.
 
-> Copy and simplify the Linux kernel's interval_tree_generic.h,
-> instantiating for uint64_t.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-<snip>
-> diff --git a/util/interval-tree.c b/util/interval-tree.c
-> new file mode 100644
-> index 0000000000..9578c05830
-> --- /dev/null
-> +++ b/util/interval-tree.c
-> @@ -0,0 +1,881 @@
-<snip>
-> +
-> +#if 1
-> +static void debug_interval_tree_int(IntervalTreeNode *node,
-> +                                    const char *dir, int level)
-> +{
-> +    printf("%4d %*s %s [%" PRId64 ",%" PRId64 "] subtree_last:%" PRId64 =
-"\n",
-> +           level, level + 1, dir, rb_is_red(&node->rb) ? "r" : "b",
-> +           node->start, node->last, node->subtree_last);
-> +
-> +    if (node->rb.rb_left) {
-> +        debug_interval_tree_int(rb_to_itree(node->rb.rb_left), "<", leve=
-l + 1);
-> +    }
-> +    if (node->rb.rb_right) {
-> +        debug_interval_tree_int(rb_to_itree(node->rb.rb_right), ">", lev=
-el + 1);
-> +    }
-> +}
-> +
-> +void debug_interval_tree(IntervalTreeNode *node);
-> +void debug_interval_tree(IntervalTreeNode *node)
-> +{
-> +    if (node) {
-> +        debug_interval_tree_int(node, "*", 0);
-> +    } else {
-> +        printf("null\n");
-> +    }
-> +}
-> +#endif
+I wonder if checking for NULL would make sense in theory, I think that with both GCC and Clang the external declaration with attribute weak would make the function address evaluate to NULL,
+so that could be a possible thing to exploit, but no matter.
 
-This seems superfluous especially as we have unit tests.
+Reviewed-by: Claudio Fontana <cfontana@suse.de>
 
-Otherwise:
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
---=20
-Alex Benn=C3=A9e
+
+
+
+
+
+
+
+
 
