@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 484D760D649
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 23:45:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CDD860D654
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 23:51:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onRhY-0002OC-TH; Tue, 25 Oct 2022 17:43:12 -0400
+	id 1onRmx-0002mw-QD; Tue, 25 Oct 2022 17:48:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1onRhR-000291-S3
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 17:43:06 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1onRhO-0001On-SK
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 17:43:04 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- u8-20020a17090a5e4800b002106dcdd4a0so354308pji.1
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 14:43:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=g9DTdrSN6/qlZXCGy7xNJL6fDY+SfqtAN2m0zpIfsgg=;
- b=lm4OYf+ys7qPcUt3F4CbMDuBN5zp27jTsc88tTrwaN6RsUxfyaE1tksVBBbWpBwQ8f
- HkPKLkN5BVTV1g5ifogje6LIv125MnIBEqH6hZ5nCnNVO3aYi/Nudg3Me3VCfAXjZPbV
- I7E4kMhYX9HsGv7ViDqL7Nedh+j0Rk8bfXVup8voVbkRmjLp3VCg8JtlGMeaVET0ajAe
- /aN19B1hCXr38FW0VcxeCDkM5GeAJ/+gfH5f2aLEIAuNBM3+n2edayRbJC+7ZmDIWoOA
- grQCNdH0wt86W51Mr7m+sHQhBlnP3bOBOo15+X+A+dwiJThrENYu8mvHoq6n0TnbXX6O
- PMdg==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1onRmt-0002h4-Hc
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 17:48:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1onRmq-0002EI-QY
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 17:48:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666734518;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cOjU1z43BwAxXe1Y7CvDDDVf9ZxqR0VIeeGHA/9WMfM=;
+ b=GB79sT3TGFzwjrwTDkaOQI4ZdfAGfO1vM4xcPCc6m6Ww+OPqV4YK6gfP4zgtQPLbPYk8hf
+ DVZ+lNgxGhXfkyFg8MdScS6SjPNnmskJYU6vJiokyXQ05TX0L0EObCXOj7mDlkkVo0uPpK
+ mk6CP0FXZM/OldFjVeDCZRWHDOhceho=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-570-UXLtyzgfM_CW75cDmEe5AA-1; Tue, 25 Oct 2022 17:48:36 -0400
+X-MC-Unique: UXLtyzgfM_CW75cDmEe5AA-1
+Received: by mail-lj1-f199.google.com with SMTP id
+ k9-20020a2ea269000000b0026fba0d4422so5950755ljm.18
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 14:48:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=g9DTdrSN6/qlZXCGy7xNJL6fDY+SfqtAN2m0zpIfsgg=;
- b=fHqJVEiCbXfgygbCVHNate8HMjpb97ab877+TY1ZGvSujGfMdCVhdLcCBMfuhdKhz6
- JUl5qR1JRCV2/PmC00DAXafHFQmttU2Lp8zJmp8yVE/9hlLRkAJzvuL1uVbHPpUDLTfn
- my7EgyQiegchhgX5K/EjxXtnWrjSt359I/KIHX96K5r1cWzwQq9npYMOrOZ5SjxGqdXU
- 4B3mjF0gfKw5pBat0Zv/vn6I/llI0+LKTkOgghMpPZWc58NF6mDf/soen/+ARG8a77kc
- 4LDX5Avg3M56xnNBSHE7o3qTsL6UGwhMvF5sB9+R3jRUiUBcpxsh8ceteDKn7tQkZHxo
- Pukw==
-X-Gm-Message-State: ACrzQf2c2GGJYWyaTimmhlmjTCT0rgyLBIofbGUMCPaXoN8rLw06yvmf
- 4k4va2jUvtBa3xizYQ3SbbxdSg==
-X-Google-Smtp-Source: AMsMyM4G5vpKp1c5sA9/DBQ01FmVL/B522/idIvg4yHVGLtyYtF6aV2cfrrBU8Y++9s6ygMmbn5v7Q==
-X-Received: by 2002:a17:902:e552:b0:179:e795:71c5 with SMTP id
- n18-20020a170902e55200b00179e79571c5mr40367231plf.57.1666734180623; 
- Tue, 25 Oct 2022 14:43:00 -0700 (PDT)
-Received: from [172.31.50.139] ([103.100.225.182])
- by smtp.gmail.com with ESMTPSA id
- i5-20020a170902c94500b001754064ac31sm1601130pla.280.2022.10.25.14.42.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Oct 2022 14:42:59 -0700 (PDT)
-Message-ID: <6d550122-7084-49d1-087c-31f7d8fb29bd@linaro.org>
-Date: Wed, 26 Oct 2022 07:42:52 +1000
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cOjU1z43BwAxXe1Y7CvDDDVf9ZxqR0VIeeGHA/9WMfM=;
+ b=ynEV9If24tmNgYMts6f0AvLyHcKgl0tul84++0KHjYPjWJ1LC0401FxMElpmOBTd53
+ uLMiazujIuXCtsZSANe7KC/1T4jtTMmBnNIjUOqvcT+odK/5suNWQ3EY26VKvBfpg3Ni
+ 9IwzPAySBNFGoHAQ5OnB3I2Oc1HLGGgoVLSJzumPf3EqFLAYmOj8oJgenLl+SdPvRSqB
+ DKGlp9Jxa6nWRueJ2SCJ+3/ohOpBITwtCC4V8/9fYKkHYIrj7dsSuM7eIX3QVcNJLMx/
+ Mupyqy449ZuOXfYO+H1rV7Kc9iNhMjB9mq+ZUQfD1nJYECtJQ92ofUmab1yVxTm7q9hs
+ 7FOg==
+X-Gm-Message-State: ACrzQf2mfvAdiyAyApBv5mo85RMMs011WyE9Yp3IFHK+qI6nfjTBFY2i
+ TvFwYUH+IOalDKgngdKvmhZCXlOx0zLlJcaBUQhv27d62+VQWEGSZjMsxPFOgDV7S+jQwjMjaUh
+ 29mU70G1orZpSLvJmO8smKNbPEH/TlJE=
+X-Received: by 2002:a05:6512:3f8c:b0:4a1:8d5:d75b with SMTP id
+ x12-20020a0565123f8c00b004a108d5d75bmr16136379lfa.670.1666734515236; 
+ Tue, 25 Oct 2022 14:48:35 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4pFUahweVG/yOaNCe72Ioa4XTnKI/zW/SU4fansikYfe1m4awVqfWfagg5o8ETqh7YO+nP6BFj8Ro3tdsoRIQ=
+X-Received: by 2002:a05:6512:3f8c:b0:4a1:8d5:d75b with SMTP id
+ x12-20020a0565123f8c00b004a108d5d75bmr16136371lfa.670.1666734514966; Tue, 25
+ Oct 2022 14:48:34 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 1/3] accel/tcg: Add a quicker check for breakpoints
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: Leandro Lupori <leandro.lupori@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: pbonzini@redhat.com, clg@kaod.org, danielhb413@gmail.com,
- david@gibson.dropbear.id.au, groug@kaod.org
-References: <20221025202424.195984-1-leandro.lupori@eldorado.org.br>
- <20221025202424.195984-2-leandro.lupori@eldorado.org.br>
- <d97d023e-978a-57df-f691-9db89aac0da0@linaro.org>
-In-Reply-To: <d97d023e-978a-57df-f691-9db89aac0da0@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20221024195355.860504-1-jsnow@redhat.com>
+ <20221024195355.860504-2-jsnow@redhat.com>
+ <Y1edRZ5nDcXu074W@redhat.com>
+In-Reply-To: <Y1edRZ5nDcXu074W@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 25 Oct 2022 17:48:22 -0400
+Message-ID: <CAFn=p-ZBtKMwEbYkh24fAErGM2oMRDJnLiaW-PARtbeDxXRCCA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] python/machine: Add debug logging to key state changes
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Beraldo Leal <bleal@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,32 +94,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/26/22 07:37, Richard Henderson wrote:
-> On 10/26/22 06:24, Leandro Lupori wrote:
->> Profiling QEMU during Fedora 35 for PPC64 boot revealed that a
->> considerable amount of time was being spent in
->> check_for_breakpoints() (0.61% of total time on PPC64 and 2.19% on
->> amd64), even though it was just checking that its queue was empty
->> and returning, when no breakpoints were set. It turns out this
->> function is not inlined by the compiler and it's always called by
->> helper_lookup_tb_ptr(), one of the most called functions.
->>
->> By leaving only the check for empty queue in
->> check_for_breakpoints() and moving the remaining code to
->> check_for_breakpoints_slow(), called only when the queue is not
->> empty, it's possible to avoid the call overhead. An improvement of
->> about 3% in total time was measured on POWER9.
->>
->> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
->> ---
->>   accel/tcg/cpu-exec.c | 15 +++++++++------
->>   1 file changed, 9 insertions(+), 6 deletions(-)
-> 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On Tue, Oct 25, 2022 at 4:24 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>
+> On Mon, Oct 24, 2022 at 03:53:54PM -0400, John Snow wrote:
+> > When key decisions are made about the lifetime of the VM process being
+> > managed, there's no log entry. Juxtaposed with the very verbose runstat=
+e
+> > change logging of the QMP module, machine seems a bit too introverted
+> > now.
+> >
+> > Season the machine.py module with logging statements to taste to help
+> > make a tastier soup.
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > ---
+> >  python/qemu/machine/machine.py | 18 ++++++++++++++++++
+> >  1 file changed, 18 insertions(+)
+> >
+> > diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machi=
+ne.py
+> > index 37191f433b2..c467f951d5d 100644
+> > --- a/python/qemu/machine/machine.py
+> > +++ b/python/qemu/machine/machine.py
+> > @@ -373,6 +373,7 @@ def _post_shutdown(self) -> None:
+> >          Called to cleanup the VM instance after the process has exited=
+.
+> >          May also be called after a failed launch.
+> >          """
+> > +        LOG.debug("Cleaning up after VM process")
+> >          try:
+> >              self._close_qmp_connection()
+> >          except Exception as err:  # pylint: disable=3Dbroad-except
+> > @@ -497,6 +498,7 @@ def _early_cleanup(self) -> None:
+> >          # for QEMU to exit, while QEMU is waiting for the socket to
+> >          # become writable.
+> >          if self._console_socket is not None:
+> > +            LOG.debug("Closing console socket")
+> >              self._console_socket.close()
+> >              self._console_socket =3D None
+> >
+> > @@ -507,6 +509,7 @@ def _hard_shutdown(self) -> None:
+> >          :raise subprocess.Timeout: When timeout is exceeds 60 seconds
+> >              waiting for the QEMU process to terminate.
+> >          """
+> > +        LOG.debug("Performing hard shutdown")
+> >          self._early_cleanup()
+> >          self._subp.kill()
+> >          self._subp.wait(timeout=3D60)
+> > @@ -523,6 +526,13 @@ def _soft_shutdown(self, timeout: Optional[int]) -=
+> None:
+> >          :raise subprocess.TimeoutExpired: When timeout is exceeded wai=
+ting for
+> >              the QEMU process to terminate.
+> >          """
+> > +        LOG.debug("Attempting graceful termination")
+> > +        if self._quit_issued:
+> > +            LOG.debug(
+> > +                "Anticipating QEMU termination due to prior 'quit' com=
+mand, "
+> > +                "or explicit call to wait()"
+> > +            )
+> > +
+> >          self._early_cleanup()
+> >
+> >          if self._qmp_connection:
+> > @@ -553,6 +563,10 @@ def _do_shutdown(self, timeout: Optional[int]) -> =
+None:
+> >          try:
+> >              self._soft_shutdown(timeout)
+> >          except Exception as exc:
+> > +            if isinstance(exc, subprocess.TimeoutExpired):
+> > +                LOG.debug("Timed out waiting for QEMU process to exit"=
+)
+> > +            LOG.debug("Graceful shutdown failed, "
+> > +                      "falling back to hard shutdown")
+>
+> If you add 'exc_info=3DTrue' when logging from inside an 'except'
+> clause, it captures the stack trace which is often critical for
+> debugging unexpected exceptions, especially when you're catchintg
+> the top level 'Exception' class instead of a very specialized
+> class.
+>
 
-Cherry-picking this one patch to tcg-next.
+Sure. If the exception goes unhandled, ultimately, we'll see that
+stack trace twice. On the other hand, if someone handles this trace
+and you still want to see the exception in the debug log somewhere,
+it's probably a fair trade-off.
 
-r~
+I'll touch it up while we're here.
 
+--js
 
 
