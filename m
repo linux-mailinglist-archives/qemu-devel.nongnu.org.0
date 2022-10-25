@@ -2,28 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F4A6612EDC
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 03:17:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0F27612EE2
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 03:18:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opKL9-00015j-Su; Sun, 30 Oct 2022 22:15:51 -0400
+	id 1opKLP-0001BB-0d; Sun, 30 Oct 2022 22:16:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1opKL6-00014S-TJ; Sun, 30 Oct 2022 22:15:48 -0400
+ id 1opKL9-000167-Fn; Sun, 30 Oct 2022 22:15:51 -0400
 Received: from mail-b.sr.ht ([173.195.146.151])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1opKL5-00033v-FT; Sun, 30 Oct 2022 22:15:48 -0400
+ id 1opKL7-00035v-PJ; Sun, 30 Oct 2022 22:15:51 -0400
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id E112C11F25A;
- Mon, 31 Oct 2022 02:15:45 +0000 (UTC)
+ by mail-b.sr.ht (Postfix) with ESMTPSA id 941A711F279;
+ Mon, 31 Oct 2022 02:15:46 +0000 (UTC)
 From: ~axelheider <axelheider@git.sr.ht>
-Date: Tue, 25 Oct 2022 17:33:43 +0200
-Subject: [PATCH qemu.git 02/11] hw/timer/imx_epit: improve comments
-Message-ID: <166718254546.5893.5075929684621857903-2@git.sr.ht>
+Date: Tue, 25 Oct 2022 20:06:20 +0200
+Subject: [PATCH qemu.git 07/11] hw/timer/imx_epit: do not persist CR.SWR bit
+Message-ID: <166718254546.5893.5075929684621857903-7@git.sr.ht>
 X-Mailer: git.sr.ht
 In-Reply-To: <166718254546.5893.5075929684621857903-0@git.sr.ht>
 To: qemu-devel@nongnu.org
@@ -59,34 +59,38 @@ From: Axel Heider <axel.heider@hensoldt.net>
 
 Signed-off-by: Axel Heider <axel.heider@hensoldt.net>
 ---
- hw/timer/imx_epit.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ hw/timer/imx_epit.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/hw/timer/imx_epit.c b/hw/timer/imx_epit.c
-index 06785fe6f6..b6c013292f 100644
+index 2e4ff89613..bba9c87cd4 100644
 --- a/hw/timer/imx_epit.c
 +++ b/hw/timer/imx_epit.c
-@@ -352,8 +352,18 @@ static void imx_epit_realize(DeviceState *dev, Error **e=
-rrp)
-                           0x00001000);
-     sysbus_init_mmio(sbd, &s->iomem);
+@@ -175,9 +175,12 @@ static void imx_epit_reload_compare_timer(IMXEPITState *=
+s)
+ static void imx_epit_write_cr(IMXEPITState *s, uint32_t value)
+ {
+     uint32_t freq =3D 0;
++
++    /* SWR bit is never persisted, it clears itself once reset is done */
+     uint32_t oldcr =3D s->cr;
+-    s->cr =3D value & 0x03ffffff;
+-    if (s->cr & CR_SWR) {
++    s->cr =3D (value & ~CR_SWR) & 0x03ffffff;
++
++    if (value & CR_SWR) {
+         /* handle the reset */
+         imx_epit_reset(DEVICE(s));
+         /*
+@@ -189,7 +192,7 @@ static void imx_epit_write_cr(IMXEPITState *s, uint32_t v=
+alue)
+     ptimer_transaction_begin(s->timer_cmp);
+     ptimer_transaction_begin(s->timer_reload);
 =20
-+    /*
-+     * The reload timer keeps running when the peripheral is enabled. It is a
-+     * kind of wall clock that does not generate any interrupts. The callback
-+     * needs to be provided, but it does nothing as the ptimer already suppo=
-rts
-+     * all necessary reloading functionality.
-+     */
-     s->timer_reload =3D ptimer_init(imx_epit_reload, s, PTIMER_POLICY_LEGACY=
-);
-=20
-+    /*
-+     * The compare timer is running only when the peripheral configuration is
-+     * in a state that will generate compare interrupts.
-+     */
-     s->timer_cmp =3D ptimer_init(imx_epit_cmp, s, PTIMER_POLICY_LEGACY);
- }
+-    if (!(s->cr & CR_SWR)) {
++    if (!(value & CR_SWR)) {
+         freq =3D imx_epit_set_freq(s);
+     }
 =20
 --=20
 2.34.5
