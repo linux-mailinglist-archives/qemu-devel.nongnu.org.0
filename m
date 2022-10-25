@@ -2,60 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B95B160CF51
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 16:41:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C68FF60CFBC
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 16:58:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onL52-0000Ce-UL; Tue, 25 Oct 2022 10:39:00 -0400
+	id 1onLKX-0005b7-LF; Tue, 25 Oct 2022 10:55:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1onL51-0008WR-L5
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 10:38:59 -0400
-Received: from 1.mo552.mail-out.ovh.net ([178.32.96.117])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1onLKU-0004qe-7i
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 10:54:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1onL4z-0006KY-OC
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 10:38:59 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.221])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 64DA42A4E9;
- Tue, 25 Oct 2022 14:38:53 +0000 (UTC)
-Received: from kaod.org (37.59.142.108) by DAG8EX2.mxp5.local (172.16.2.72)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Tue, 25 Oct
- 2022 16:38:52 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-108S002554aebd2-0592-4289-87ab-09fe38daca4a,
- 5AA7337ABCEACBE3F99194CB0234B772833894C4) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Tue, 25 Oct 2022 16:38:51 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-CC: <qemu-devel@nongnu.org>, Alex =?UTF-8?B?QmVubsOpZQ==?=
- <alex.bennee@linaro.org>, Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH] util/log: do not close and reopen log files when flags
- are turned off
-Message-ID: <20221025163851.75ac37a1@bahia>
-In-Reply-To: <20221025143315.5697edad@bahia>
-References: <20221025092119.236224-1-pbonzini@redhat.com>
- <20221025143315.5697edad@bahia>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1onLKR-0000KR-Ae
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 10:54:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666709690;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tz3iZX09kHq3cgNxY0+rJfZHeWtzgKFGFrua2Lw8i4o=;
+ b=g4dctqAJV8ZpRP+02/Hicf5ETKZKKRfZjinMNotzpWc/58j8QtdFo9qm9C1Ehk/2LKDgT1
+ /cPeUZOVP6YxJ8HoDBLmPfhrUPYwQ881hwLPlv9HtMqiYwIZPwzLiZhe8dqPiLxsB0nZwv
+ H1q4j+Hs+qY4ihMwOfsspEwSGpB1wnM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-53-rJXoHD-mPum-VJ4BBzrBGQ-1; Tue, 25 Oct 2022 10:54:48 -0400
+X-MC-Unique: rJXoHD-mPum-VJ4BBzrBGQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ h26-20020adfaa9a000000b002364ad63bbcso4885469wrc.10
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 07:54:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tz3iZX09kHq3cgNxY0+rJfZHeWtzgKFGFrua2Lw8i4o=;
+ b=kCzQbbB3aic/siM1guFExEbtmFOSK0CGtZsW/K4Rz9X+neqnMsRrxw2g1bWzDAxEV8
+ AdJznAfMlFIREQYGs5knXEQdt8D1LGwY5kW/GLhe6UxQtsBfVdEswrw+09mgdbFCVOLW
+ BAJQoCyp8jbXXoCduDMG3zeqzcpy5CYYa8oB9dCu0LWWphnOlkyBYcBKx7xosXSyRTIx
+ ZpZbqDdwR86IoN7n4VOwjKRF665b0t154ioLr06e89eUKkieOlhGHe3n0meRWay9oQ48
+ GIO8TtqeN4w93og1/Oetn7izUxwcZerk1nhUIrk5qxpcDPo4tiuMHI9z/jjWfUbaylZY
+ 3VsA==
+X-Gm-Message-State: ACrzQf0vbIVg69WiFPcrdpaDqDrTDZlG98xYnxTWMYuH2r7PpQhDbRYZ
+ fjvz55TlmBxSgXuKMM4djYvbf+L8OSnJ1rSWXqrLz415PcP36vKg+UyBt+dbDkBPDwUA22zbVGU
+ y1oAlFhSpadSPeXg=
+X-Received: by 2002:adf:ed82:0:b0:236:62cc:77ce with SMTP id
+ c2-20020adfed82000000b0023662cc77cemr11751652wro.271.1666709687834; 
+ Tue, 25 Oct 2022 07:54:47 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM78QzJ6UJznnuY2jMXh0O3Xlhqyj/hZcaYVlORg7LteEZmUIIiapnM5DBFWWR6/mDzmR+Lidg==
+X-Received: by 2002:adf:ed82:0:b0:236:62cc:77ce with SMTP id
+ c2-20020adfed82000000b0023662cc77cemr11751634wro.271.1666709687653; 
+ Tue, 25 Oct 2022 07:54:47 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-176-58.web.vodafone.de.
+ [109.43.176.58]) by smtp.gmail.com with ESMTPSA id
+ r20-20020a05600c35d400b003b47e75b401sm11750752wmq.37.2022.10.25.07.54.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Oct 2022 07:54:47 -0700 (PDT)
+Message-ID: <ee90e31f-1036-1ce8-d1c1-174cc58cf0e0@redhat.com>
+Date: Tue, 25 Oct 2022 16:54:40 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [37.59.142.108]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG8EX2.mxp5.local
- (172.16.2.72)
-X-Ovh-Tracer-GUID: 6003162e-7eee-4989-89f7-ae314c03ec2e
-X-Ovh-Tracer-Id: 17653266115906935264
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrtddtgdehtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhfogggtgfhisehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeuueeijedtleeluedthfetjeffieetffeuvefffeeftedvieefueejgfdugeetueenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehgrhhouhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphgsohhniihinhhisehrvgguhhgrthdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdprghlvgigrdgsvghnnhgvvgeslhhinhgrrhhordhorhhgpdhrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=178.32.96.117; envelope-from=groug@kaod.org;
- helo=1.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Yan Vugenfirer <yan@daynix.com>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>
+References: <20221013055245.28102-1-akihiko.odaki@daynix.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] tests/qtest/libqos/e1000e: Use e1000_regs.h
+In-Reply-To: <20221013055245.28102-1-akihiko.odaki@daynix.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,103 +102,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 25 Oct 2022 14:33:15 +0200
-Greg Kurz <groug@kaod.org> wrote:
+On 13/10/2022 07.52, Akihiko Odaki wrote:
+> The register definitions in tests/qtest/libqos/e1000e.c had names
+> different from hw/net/e1000_regs.h, which made it hard to understand
+> what test codes corresponds to the implementation. Use
+> hw/net/e1000_regs.h from tests/qtest/libqos/e1000e.c to remove
+> these duplications.
+> 
+> E1000E_CTRL_EXT_TXLSFLOW is removed from E1000E_CTRL_EXT settings
+> because hw/net/e1000_regs.h does not have the definition and it is for
+> TCP segmentation offload, which does not matter for the implemented
+> tests.
+> 
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> ---
+>   hw/net/e1000_regs.h         |   1 +
+>   tests/qtest/libqos/e1000e.c | 119 +++++++++++++-----------------------
+>   2 files changed, 45 insertions(+), 75 deletions(-)
 
-> On Tue, 25 Oct 2022 11:21:19 +0200
-> Paolo Bonzini <pbonzini@redhat.com> wrote:
->=20
-> > log_append makes sure that if you turn off the logging (which clears
-> > log_flags and makes need_to_open_file false) the old log is not
-> > overwritten.  The usecase is that if you remove or move the file
-> > QEMU will not keep writing to the old file.  However, this is
-> > not always the desited behavior, in particular having log_append=3D=3D1
-> > after changing the file name makes little sense.
-> >=20
-> > When qemu_set_log_internal is called from the logfile monitor
-> > command, filename must be non-NULL and therefore changed_name must
-> > be true.  Therefore, the only case where the file is closed and
-> > need_to_open_file =3D=3D false is indeed when log_flags becomes
-> > zero.  In this case, just flush the file and do not bother
-> > closing it, thus faking the same append behavior as previously.
-> >=20
-> > The behavioral change is that changing the logfile twice, for
-> > example log1 -> log2 -> log1, will cause log1 to be overwritten.
-> > This can simply be documented, since it is not a particularly
-> > surprising behavior.
-> >=20
-> > Suggested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> > ---
->=20
-> Heh I currently have a very similar patch in my tree :-)
->=20
-> Reviewed-by: Greg Kurz <groug@kaod.org>
->=20
-> I'll include this and other bug fixes as prerequisites for my
-> on-going work on logging when daemonized.
->=20
-> >  util/log.c | 13 +++++--------
-> >  1 file changed, 5 insertions(+), 8 deletions(-)
-> >=20
-> > diff --git a/util/log.c b/util/log.c
-> > index d6eb0378c3a3..06d0173788dc 100644
-> > --- a/util/log.c
-> > +++ b/util/log.c
-> > @@ -44,7 +44,6 @@ static FILE *global_file;
-> >  static __thread FILE *thread_file;
-> > =20
-> >  int qemu_loglevel;
-> > -static bool log_append;
-> >  static bool log_per_thread;
-> >  static GArray *debug_regions;
-> > =20
-> > @@ -259,19 +258,19 @@ static bool qemu_set_log_internal(const char *fil=
-ename, bool changed_name,
-> >      daemonized =3D is_daemonized();
-> >      need_to_open_file =3D log_flags && !per_thread && (!daemonized || =
-filename);
-> > =20
-> > -    if (logfile && (!need_to_open_file || changed_name)) {
-> > -        qatomic_rcu_set(&global_file, NULL);
+Acked-by: Thomas Huth <thuth@redhat.com>
 
-Hmm... wait, shouldn't this NULLifying be performed...
+I can take it through my testing-next tree:
 
-> > -        if (logfile !=3D stderr) {
-> > +    if (logfile) {
-> > +        fflush(logfile);
-> > +        if (changed_name && logfile !=3D stderr) {
-> >              RCUCloseFILE *r =3D g_new0(RCUCloseFILE, 1);
-> >              r->fd =3D logfile;
+  https://gitlab.com/thuth/qemu/-/commits/testing-next
 
-
-... here since we the following closes the global_file ?
-
-> >              call_rcu(r, rcu_close_file, rcu);
-> > +            logfile =3D NULL;
-> >          }
-> > -        logfile =3D NULL;
-> >      }
-> > =20
-> >      if (!logfile && need_to_open_file) {
-> >          if (filename) {
-> > -            logfile =3D fopen(filename, log_append ? "a" : "w");
-> > +            logfile =3D fopen(filename, "w");
-> >              if (!logfile) {
-> >                  error_setg_errno(errp, errno, "Error opening logfile %=
-s",
-> >                                   filename);
-> > @@ -290,8 +289,6 @@ static bool qemu_set_log_internal(const char *filen=
-ame, bool changed_name,
-> >              logfile =3D stderr;
-> >          }
-> > =20
-> > -        log_append =3D 1;
-> > -
-> >          qatomic_rcu_set(&global_file, logfile);
-> >      }
-> >      return true;
->=20
->=20
+  Thomas
 
 
