@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BB6060C1A3
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 04:24:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A41260C1A7
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 04:24:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on9YA-0001zU-Hf; Mon, 24 Oct 2022 22:20:18 -0400
+	id 1on9Yh-0002y6-Cf; Mon, 24 Oct 2022 22:20:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1on9Y7-0001yx-TL; Mon, 24 Oct 2022 22:20:15 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
+ id 1on9Ye-0002v1-IY
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 22:20:48 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1on9Y6-00041m-0O; Mon, 24 Oct 2022 22:20:15 -0400
-Received: by mail-pg1-x530.google.com with SMTP id q71so10262517pgq.8;
- Mon, 24 Oct 2022 19:20:13 -0700 (PDT)
+ id 1on9Yc-0004In-W6
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 22:20:48 -0400
+Received: by mail-pf1-x436.google.com with SMTP id f140so10621970pfa.1
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 19:20:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Uv/wE81/zWTfnFs2ZgkIgNycUuOUxvgfJh+AfaDNfFo=;
- b=jW4OVkCvxm3TSM1u2fZFAAWPxE1pftmrqnGGx9CLIqjvzMu9RfMqVFmBFj0lNhIK0H
- Ph0DM/jGQ2e60k2ddvUfkWfDIwP5MfaKjTz4BFs+n7XvaD/dvMMIt5w05aAViq+icx32
- r/DpVgAEZv9PDQedvqip/h+gnzqTdyOWRY5i5L88h/W6D2pEQb+8UtkntFQn8xzDtju3
- wqKxXayCn8ehEzA6iNBx/S6cF0Fz8YWfwvsIltO9I2QonDzr7aGbUYeXqVDgH0/4001+
- q+p/dZVOEJN9uKRjUDR1IlKZTGmyvYh0dl8B1bGMzqroZ090ZqpUmwsoTkMO2Ybgta0W
- ysUw==
+ bh=ScyE5ptKB7D6TStUw1sX/KBGX+dTB2LUf+Z/S+yxlmA=;
+ b=gEipV5mH8zVVeMWOmOWE6lX+NSPLORbf6VxlJTgXMIj5nANQv8Hdnk+wyrtyQ/u5oS
+ mwJtjM7G5HEKaFPvvj0aHKmmbHsg+Wx8/T/kBL/HLO8baFXaCRN+r2ii1x3wsW8R1bVc
+ S5Q5vAPd3pAYobXLZq9rpDrTMyf9icqc0hZQPYMQCmbeIdKTYlLJJSEjrGJjU8t5TWn5
+ kvznHz6/KaOnfPq0qnplGqEoZ765WdEvc1ai4y0HeitLj/P6NQ0ji0q1TUS+IL2lj1qf
+ 5LCm5QttTZ6ALIUiUHc8JlzN4SEVTjVelLjLcmL3PfctT9ycZ8hUmqTti9p1qPHuqXFs
+ RZCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Uv/wE81/zWTfnFs2ZgkIgNycUuOUxvgfJh+AfaDNfFo=;
- b=k/xpBtuKlbOOboafKFxBLoxHMtef5lCweHrjnKapwCwq/Mym0+Rbf4azC6dJEYLsWs
- fptzsdIuDZSOjTsSAuwqsp+3Ffa5N7y6RjNWHN2IWHihsbhK02aVL6yGg8oOtc44dAS1
- RtwzbPQ4W39UQysKb4DG91/Fp88gP6cpZZZ9qNPzSyIdxsd2uU6AwSwFa0Yn+KJnntZM
- xAIOKJGV0Cs8JIhmMIkQnS7EkCmky1tZjnNVco+x54Im0L3QgWBV/M12HwdWUuHGiHSX
- hPbZK2MZS7cfjI7qvwMgl/anJ7NTlY8a4gmfAz3DhdwUrKylpQQVW/upAju/idOmoPNy
- /izg==
-X-Gm-Message-State: ACrzQf14hkFO5q/ngDn1hI6UiQUO1HQU6YPOB7D4792G1qWpK8SHsTuA
- SUdyp63uo21yjmE8hn/7qDs2/KcGaayQC7jZ7gQ=
-X-Google-Smtp-Source: AMsMyM4LxXsYSj3Rzu5Q1B6J+eiCjP2UCz3r+WoQL369B9kTBSM6mOMSuwk00jyBauPUp5njorTT8ZarbZ3LaMjhYKs=
-X-Received: by 2002:a63:ce43:0:b0:45b:d6ed:6c2 with SMTP id
- r3-20020a63ce43000000b0045bd6ed06c2mr30608055pgi.406.1666664411977; Mon, 24
- Oct 2022 19:20:11 -0700 (PDT)
+ bh=ScyE5ptKB7D6TStUw1sX/KBGX+dTB2LUf+Z/S+yxlmA=;
+ b=tLtXGeEHeaeErv2MyONugUppw3ScO13kap1gkLbFBG4hRpn0FDSdfioV0biBoJj3ve
+ AYu1xXC5V4peBTfKwjTWh4Z4QJvEczIcgQU4kH2KbvJtyS19Yj2adVJa+Kf/KvdhWc8A
+ NkwfsgBSBRQHxzYr0+LBmtJAwc42Bk4sBFIrI4pPPaW0N11gLEU70lTyLxvXWjwNdVtu
+ APfXmXqtFvWCOTiCx9Mzg61NKXdmPtgc6SIEsIR1z9EKHPimBCeortrAouKD9J1krUyS
+ g1/j6TcgdcWsp5fId9am/+pfbuOCP8+7sILF0GR9jotm1vzMOZskrWeMz+YLCWMf5BOY
+ PQOA==
+X-Gm-Message-State: ACrzQf1oFi5XKIupbxQLGW1SOhNuGY5VuyTy0c7CrPJTnP1LO5jErYKh
+ 6xKzu8PKcwu2qORU4HU3Yv7gOIi9h6ynsWjpa3KZER2McyS5bw==
+X-Google-Smtp-Source: AMsMyM4Kcr6wAjzAOi2vFIMrUZBTpVYgnfhb7qaLLV+QSgT6W+AJvuSaVE0wLkChWmtvcLH+MMS3qpLBlFf9P3j4yb8=
+X-Received: by 2002:a05:6a00:2402:b0:52c:81cf:8df8 with SMTP id
+ z2-20020a056a00240200b0052c81cf8df8mr37223387pfh.60.1666664445650; Mon, 24
+ Oct 2022 19:20:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220909152258.2568942-1-leon@is.currently.online>
- <CAKmqyKMfZXarM1g8PdhAqcgZzDyq6RY3R94cYhOo80WXiCv5aA@mail.gmail.com>
- <8735bjqz8f.fsf@silicon.host.schuermann.io>
-In-Reply-To: <8735bjqz8f.fsf@silicon.host.schuermann.io>
+References: <20221020233836.2341671-1-richard.henderson@linaro.org>
+In-Reply-To: <20221020233836.2341671-1-richard.henderson@linaro.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 25 Oct 2022 12:19:35 +1000
-Message-ID: <CAKmqyKO7=LS9JbMyCKg3C5U3-vNJiQTEDR59atwMGoCSpF3C2g@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv/pmp: fix non-translated page size address
- checks w/ MPU
-To: Leon Schuermann <leon@is.currently.online>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Date: Tue, 25 Oct 2022 12:20:19 +1000
+Message-ID: <CAKmqyKO1Wuru30xtJLeYFbuvzMM_3AT+ZtJ8=YGkoXrC0=xp7g@mail.gmail.com>
+Subject: Re: [PATCH] tcg/riscv: Fix reg overlap case in tcg_out_addsub2
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=alistair23@gmail.com; helo=mail-pg1-x530.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=alistair23@gmail.com; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -87,111 +83,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Oct 20, 2022 at 7:29 AM Leon Schuermann
-<leon@is.currently.online> wrote:
+On Fri, Oct 21, 2022 at 9:47 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Alistair Francis <alistair23@gmail.com> writes:
-> >> @@ -310,10 +311,17 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
-> >>      }
-> >>
-> >>      if (size == 0) {
-> >> -        if (riscv_feature(env, RISCV_FEATURE_MMU)) {
-> >> +        if (riscv_cpu_mxl(env) == MXL_RV32) {
-> >> +            satp_mode = SATP32_MODE;
-> >> +        } else {
-> >> +            satp_mode = SATP64_MODE;
-> >> +        }
-> >> +
-> >> +        if (riscv_feature(env, RISCV_FEATURE_MMU)
-> >> +            && get_field(env->satp, satp_mode)) {
-> >>              /*
-> >> -             * If size is unknown (0), assume that all bytes
-> >> -             * from addr to the end of the page will be accessed.
-> >> +             * If size is unknown (0) and virtual memory is enabled, assume that
-> >> +             * all bytes from addr to the end of the page will be accessed.
-> >>               */
-> >>              pmp_size = -(addr | TARGET_PAGE_MASK);
-> >
-> > I'm not sure if we need this at all.
-> >
-> > This function is only called from get_physical_address_pmp() which
-> > then calculates the maximum size using pmp_is_range_in_tlb().
+> There was a typo using opc_addi instead of opc_add with the
+> two registers.  While we're at it, simplify the gating test
+> to al == bl to improve dynamic scheduling even when the
+> output register does not overlap the inputs.
 >
-> I'm by no means an expert on QEMU and the TCG, so I've spun up GDB to
-> trace down why exactly this function is called with a `size = 0`
-> argument. It seems that there are, generally, two code paths to this
-> function for instruction fetching:
->
-> 1. From `get_page_addr_code`: this will invoke `tlb_fill` with
->    `size = 0` to check whether an entire page is accessible and can be
->    translated given the current MMU / PMP configuration. In my
->    particular example, it may rightfully fail then. `get_page_addr_code`
->    can handle this and will subsequently cause an MMU protection check
->    to be run for each instruction translated.
->
-> 2. From `riscv_tr_translate_insn` through `cpu_lduw_code`, which will
->    execute `tlb_fill` with `size = 2` (to try and decode a compressed
->    instruction), assuming that the above check failed.
->
-> So far, so good. In this context, it actually makes sense for
-> `pmp_hart_has_privs` to interpret `size = 0` to mean whether the entire
-> page is allowed to be accessed.
->
-> > I suspect that we could just use sizeof(target_ulong) as the fallback
-> > for every time size == 0. Then pmp_is_range_in_tlb() will set the
-> > tlb_size to the maximum possible size of the PMP region.
->
-> Given the above, I don't think that this is correct either. The PMP
-> check would pass even for non-page sized regions, but the entire page
-> would be accessible through the TCG's TLB, as a consequence of
-> `get_page_addr_code`.
+> Reported-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-If we pass a size smaller than the page, it won't be cached in the
-TLB, so that should be ok.
-
-A few PMP improvements have gone into
-https://github.com/alistair23/qemu/tree/riscv-to-apply.next. It might
-be worth checking to see if that fixes the issue you are seeing.
-Otherwise I think defaulting to the xlen should be ok.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
+> ---
+> Supersedes: 20221020104154.4276-4-zhiwei_liu@linux.alibaba.com
+> ("[RFC PATCH 3/3] tcg/riscv: Remove a wrong optimization for addsub2")
+> ---
+>  tcg/riscv/tcg-target.c.inc | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+>
+> diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
+> index 81a83e45b1..1cdaf7b57b 100644
+> --- a/tcg/riscv/tcg-target.c.inc
+> +++ b/tcg/riscv/tcg-target.c.inc
+> @@ -687,9 +687,15 @@ static void tcg_out_addsub2(TCGContext *s,
+>          if (cbl) {
+>              tcg_out_opc_imm(s, opc_addi, rl, al, bl);
+>              tcg_out_opc_imm(s, OPC_SLTIU, TCG_REG_TMP0, rl, bl);
+> -        } else if (rl == al && rl == bl) {
+> +        } else if (al == bl) {
+> +            /*
+> +             * If the input regs overlap, this is a simple doubling
+> +             * and carry-out is the input msb.  This special case is
+> +             * required when the output reg overlaps the input,
+> +             * but we might as well use it always.
+> +             */
+>              tcg_out_opc_imm(s, OPC_SLTI, TCG_REG_TMP0, al, 0);
+> -            tcg_out_opc_reg(s, opc_addi, rl, al, bl);
+> +            tcg_out_opc_reg(s, opc_add, rl, al, al);
+>          } else {
+>              tcg_out_opc_reg(s, opc_add, rl, al, bl);
+>              tcg_out_opc_reg(s, OPC_SLTU, TCG_REG_TMP0,
+> --
+> 2.34.1
 >
 >
-> In the current implementation, `get_page_addr_code_hostp` calls
-> `tlb_fill`, which in turn invokes the RISC-V TCG op `tlb_fill` with the
-> parameter `probe = false`. This in turn raises a PMP exception in the
-> CPU, whereas `get_page_addr_code` would seem to expect this a failing
-> `tlb_fill` to be side-effect free, such that the MMU protection checks
-> can be re-run per instruction in the TCG code generation phase.
->
-> I think that this is sufficient evidence to conclude that my initial
-> patch is actually incorrect, however I am unsure as to how this issue
-> can be solved proper. One approach which seems to work is to change
-> `get_page_addr_code_hostp` to use a non-faulting page-table read
-> instead:
->
-> @@ -1510,11 +1510,15 @@ tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, target_ulong addr,
->      uintptr_t mmu_idx = cpu_mmu_index(env, true);
->      uintptr_t index = tlb_index(env, mmu_idx, addr);
->      CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
-> +    CPUState *cs = env_cpu(env);
-> +    CPUClass *cc = CPU_GET_CLASS(cs);
->      void *p;
->
->      if (unlikely(!tlb_hit(entry->addr_code, addr))) {
->          if (!VICTIM_TLB_HIT(addr_code, addr)) {
-> -            tlb_fill(env_cpu(env), addr, 0, MMU_INST_FETCH, mmu_idx, 0);
-> +            // Nonfaulting page-table read:
-> +            cc->tcg_ops->tlb_fill(cs, addr, 0, MMU_INST_FETCH, mmu_idx, true,
-> +                                  0);
->              index = tlb_index(env, mmu_idx, addr);
->              entry = tlb_entry(env, mmu_idx, addr);
->
->
-> However, given this touches the generic TCG implementation, I cannot
-> judge whether this is correct or has any unintended side effects for
-> other targets. If this is correct, I'd be happy to send a proper patch.
->
-> -Leon
 
