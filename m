@@ -2,28 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 068FD63F46F
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 16:45:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37F2763F45C
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 16:43:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0lhW-0005Je-HV; Thu, 01 Dec 2022 10:42:14 -0500
+	id 1p0lhP-0005Fy-M5; Thu, 01 Dec 2022 10:42:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1p0lhN-0005Ep-DC; Thu, 01 Dec 2022 10:42:05 -0500
+ id 1p0lhM-0005E9-4G; Thu, 01 Dec 2022 10:42:04 -0500
 Received: from mail-b.sr.ht ([173.195.146.151])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1p0lhL-0004vw-0j; Thu, 01 Dec 2022 10:42:05 -0500
+ id 1p0lhK-0004w2-FZ; Thu, 01 Dec 2022 10:42:03 -0500
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id 0AC7C11F204;
+ by mail-b.sr.ht (Postfix) with ESMTPSA id 6865F11F99F;
  Thu,  1 Dec 2022 15:42:01 +0000 (UTC)
 From: ~axelheider <axelheider@git.sr.ht>
-Date: Tue, 25 Oct 2022 17:33:43 +0200
-Subject: [PATCH qemu.git v3 1/8] hw/timer/imx_epit: improve comments
-Message-ID: <166990932074.29941.8709118178538288040-1@git.sr.ht>
+Date: Tue, 25 Oct 2022 20:32:30 +0200
+Subject: [PATCH qemu.git v3 4/8] hw/timer/imx_epit: update interrupt state on
+ CR write access
+Message-ID: <166990932074.29941.8709118178538288040-4@git.sr.ht>
 X-Mailer: git.sr.ht
 In-Reply-To: <166990932074.29941.8709118178538288040-0@git.sr.ht>
 To: qemu-devel@nongnu.org
@@ -57,75 +58,44 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Axel Heider <axel.heider@hensoldt.net>
 
-Fix typos, add background information
+The interrupt state can change due to:
+- reset clears both SR.OCIF and CR.OCIE
+- write to CR.EN or CR.OCIE
 
 Signed-off-by: Axel Heider <axel.heider@hensoldt.net>
 ---
- hw/timer/imx_epit.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+ hw/timer/imx_epit.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
 diff --git a/hw/timer/imx_epit.c b/hw/timer/imx_epit.c
-index ec0fa440d7..2841fbaa1c 100644
+index f148868b8c..7af3a8b10e 100644
 --- a/hw/timer/imx_epit.c
 +++ b/hw/timer/imx_epit.c
-@@ -96,13 +96,14 @@ static void imx_epit_set_freq(IMXEPITState *s)
-     }
- }
+@@ -206,12 +206,20 @@ static void imx_epit_write(void *opaque, hwaddr offset,=
+ uint64_t value,
+         if (s->cr & CR_SWR) {
+             /* handle the reset */
+             imx_epit_reset(DEVICE(s));
+-            /*
+-             * TODO: could we 'break' here? following operations appear
+-             * to duplicate the work imx_epit_reset() already did.
+-             */
+         }
 =20
-+/*
-+ * This is called both on hardware (device) reset and software reset.
-+ */
- static void imx_epit_reset(DeviceState *dev)
- {
-     IMXEPITState *s =3D IMX_EPIT(dev);
-=20
--    /*
--     * Soft reset doesn't touch some bits; hard reset clears them
--     */
-+    /* Soft reset doesn't touch some bits; hard reset clears them */
-     s->cr &=3D (CR_EN|CR_ENMOD|CR_STOPEN|CR_DOZEN|CR_WAITEN|CR_DBGEN);
-     s->sr =3D 0;
-     s->lr =3D EPIT_TIMER_MAX;
-@@ -214,6 +215,7 @@ static void imx_epit_write(void *opaque, hwaddr offset, u=
-int64_t value,
++        /*
++         * The interrupt state can change due to:
++         * - reset clears both SR.OCIF and CR.OCIE
++         * - write to CR.EN or CR.OCIE
++         */
++        imx_epit_update_int(s);
++
++        /*
++         * TODO: could we 'break' here for reset? following operations appear
++         * to duplicate the work imx_epit_reset() already did.
++         */
++
          ptimer_transaction_begin(s->timer_cmp);
          ptimer_transaction_begin(s->timer_reload);
-=20
-+        /* Update the frequency. Has been done already in case of a reset. */
-         if (!(s->cr & CR_SWR)) {
-             imx_epit_set_freq(s);
-         }
-@@ -254,7 +256,7 @@ static void imx_epit_write(void *opaque, hwaddr offset, u=
-int64_t value,
-         break;
-=20
-     case 1: /* SR - ACK*/
--        /* writing 1 to OCIF clear the OCIF bit */
-+        /* writing 1 to OCIF clears the OCIF bit */
-         if (value & 0x01) {
-             s->sr =3D 0;
-             imx_epit_update_int(s);
-@@ -352,8 +354,18 @@ static void imx_epit_realize(DeviceState *dev, Error **e=
-rrp)
-                           0x00001000);
-     sysbus_init_mmio(sbd, &s->iomem);
-=20
-+    /*
-+     * The reload timer keeps running when the peripheral is enabled. It is a
-+     * kind of wall clock that does not generate any interrupts. The callback
-+     * needs to be provided, but it does nothing as the ptimer already suppo=
-rts
-+     * all necessary reloading functionality.
-+     */
-     s->timer_reload =3D ptimer_init(imx_epit_reload, s, PTIMER_POLICY_LEGACY=
-);
-=20
-+    /*
-+     * The compare timer is running only when the peripheral configuration is
-+     * in a state that will generate compare interrupts.
-+     */
-     s->timer_cmp =3D ptimer_init(imx_epit_cmp, s, PTIMER_POLICY_LEGACY);
- }
 =20
 --=20
 2.34.5
