@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C50D360C725
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 11:02:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DAFD60C77E
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 11:07:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onFmD-0004W7-Ry; Tue, 25 Oct 2022 04:59:13 -0400
+	id 1onFmg-00062N-V3; Tue, 25 Oct 2022 04:59:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1onFdV-0007Ww-U0
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 04:50:14 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ id 1onFeM-0000CS-Iy
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 04:51:15 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1onFdL-0007Vc-A5
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 04:50:12 -0400
-Received: by mail-wr1-x433.google.com with SMTP id l14so12414105wrw.2
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 01:50:02 -0700 (PDT)
+ id 1onFeJ-0007up-BA
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 04:51:05 -0400
+Received: by mail-wr1-x435.google.com with SMTP id y16so9198730wrt.12
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 01:51:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5RDtPSrqXV3yB+UTF5ELAbcRLyVSznvPZpYgJ7VFvsI=;
- b=bwcm8Ie5T9GAmBTlx5LzqXBcATpRaqcV00TiloqxTWvA1y5+jFFlFO83lE4mYD2Des
- qOVaNvDdYmmwRVWXej4xkGlbSHo5RZGGFYyo755ywme+mp75MC0CZEY8F3INpdzxJvt5
- HY4XErQ0vFmKpWVsTHs8pxL8ia/SQP4NMMjfIUUQ8bNGUt7w3mLiVRKt6cCndg/ep2XF
- wrrOFMWkP12H55o5OVfD/xvoo/g32sNd01cwZH8sUU52E0qgDY0ccylTIV6hEizOWwQP
- dV2rL5dhkpzl4gH7crPXdQvagGvl4RPVZ9xDGk0/qQjqHsgRdyfvPFhzRivmA4/KA69o
- 4//w==
+ bh=9QnA0BpkOCpl9YyAeD7es+725onovI4WkUt7mdLGXVI=;
+ b=CRV3+f+cmvggxvy1tFrdnO5pY5zBH+I7CgdteVpceXELIxBJxoUeZZVbu7II24vgvS
+ mHR8L6KPUoz3O6IxS+MpDmve4WCM96jtHWJnj5bxzDwA2kmlCYBpj/Y+U3vDirB5Lx3U
+ TDdgv3iG4/iQJccjX7x7+wRlzhXod/obXERHdoCC37Wi2L/XEuS8cNwzHi1SMYHIqIcV
+ JhsgYUv8rSCpE1deJILj86ghSkeP+3wNYmy1UOhrIqecX8XiN2v4tnky2GlZgqusalhr
+ mDfvJlHZcRHaNBR+1yWZ+FqTMNPdaxRHYAT4M//9KMwpMDrQPuKYVE8B8ADLJE62WSKR
+ BzxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=5RDtPSrqXV3yB+UTF5ELAbcRLyVSznvPZpYgJ7VFvsI=;
- b=TVvkVOvFkKEbxYFc/TKDHAMVw6LrN19kTujc977V8Fx1JRCWe2IXbblwoS0w9cnpUw
- Iha2XsSy+HpBLXVxNgbJUvbtbZlk1BFWN4ey/XBdPf5bigDiQb6SpCZ0OOAq5IaV7oP6
- +KAJSGWjB1b5pE3CtS9C3aGy2QG8D5KdXeRIoW9dRubxS0dgqKcBN0qk09KVuhAWsyWG
- UwGZhw5bxPvEGLsU/Duku5Pj5nRgf0KMJeLZCIVuB/fJ9+7wwSEJEw0PkPiTRWU/u2x3
- ++oJOGW/K8qw8xsjUOPfq2AFIKPVKue55ak3nOyK5kQrXELmC3eNcrpnK9P/qb3WGAB6
- vxdw==
-X-Gm-Message-State: ACrzQf2OsQepdCPulZOSeJqBdRwloIlGibw47U9nBwQEEl7mgyRUpGQs
- U7boyqdOY0aBrLWVC+LyTmNRtA==
-X-Google-Smtp-Source: AMsMyM7uCZqe698uf4XnJo9eZMlQ2jixoJmGVjJZf9Cqnkp8PQxNxixwjmbrAkXApE6XRDpGy83+9A==
-X-Received: by 2002:adf:d1ca:0:b0:236:737f:8dfa with SMTP id
- b10-20020adfd1ca000000b00236737f8dfamr5634107wrd.588.1666687801386; 
- Tue, 25 Oct 2022 01:50:01 -0700 (PDT)
+ bh=9QnA0BpkOCpl9YyAeD7es+725onovI4WkUt7mdLGXVI=;
+ b=AcSdjM2KRFhB7zHHnkdd9S/PTF0rddRs1SucFpzKntAL/adqrVqfBWhydwltFWvTBS
+ PPVwglnxNLK4azKubEqrva9QMCjgxDEG+Dg2oPOSy8Pd/U1GGPDbGAhO6dFHMslzEMjT
+ DJ3Z8SBQZbg9QiSCzBfBooxLlrW3pktiuRmDxtGAj8m1PsS/ug4PemCDilc6PYBk/f9+
+ 7yM7GW5yQBeCSdK8gLfqxf1QLrAFpgql6/XBYooyv0KSvwbVNhLCDFGZlT/wHYhzKhMd
+ HYU9WOH71955IPPGB9LvLYWO0SbEMGEnMcMJ/LraReOC48S2TYmEKf8M3YG9tD/WZkex
+ D/TQ==
+X-Gm-Message-State: ACrzQf2e6ZkrEnOR8lCtZo/H3NklxbtoTnYTOeJHzXXgrI9Q69hngZdN
+ 2Z0NS+0dH88/S6utOUzsm1YN8g==
+X-Google-Smtp-Source: AMsMyM4QwXUHMECGF0TPFiataP6rsn9UAMGujOQtdWuHcfZVlYrmUBNMx10zSgrHJ0BzSbZUxhTcUw==
+X-Received: by 2002:a05:6000:904:b0:21a:3dca:4297 with SMTP id
+ bz4-20020a056000090400b0021a3dca4297mr24506889wrb.487.1666687860652; 
+ Tue, 25 Oct 2022 01:51:00 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- n4-20020a1ca404000000b003c41144b3cfsm10247807wme.20.2022.10.25.01.50.00
+ q63-20020a1c4342000000b003c43dc42b4dsm10303133wma.16.2022.10.25.01.51.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Oct 2022 01:50:00 -0700 (PDT)
+ Tue, 25 Oct 2022 01:51:00 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6CA2F1FFB7;
- Tue, 25 Oct 2022 09:50:00 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id AA0051FFB7;
+ Tue, 25 Oct 2022 09:50:59 +0100 (BST)
 References: <20221006031113.1139454-1-richard.henderson@linaro.org>
- <20221006031113.1139454-7-richard.henderson@linaro.org>
+ <20221006031113.1139454-8-richard.henderson@linaro.org>
 User-agent: mu4e 1.9.1; emacs 28.2.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, laurent@vivier.eu, pbonzini@redhat.com,
  imp@bsdimp.com, f4bug@amsat.org
-Subject: Re: [PATCH 06/24] accel/tcg: Move assert_no_pages_locked to internal.h
-Date: Tue, 25 Oct 2022 09:49:56 +0100
-In-reply-to: <20221006031113.1139454-7-richard.henderson@linaro.org>
-Message-ID: <878rl48eyv.fsf@linaro.org>
+Subject: Re: [PATCH 07/24] accel/tcg: Drop cpu_get_tb_cpu_state from
+ TARGET_HAS_PRECISE_SMC
+Date: Tue, 25 Oct 2022 09:50:55 +0100
+In-reply-to: <20221006031113.1139454-8-richard.henderson@linaro.org>
+Message-ID: <874jvs8ex8.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,8 +99,9 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> There are no users outside of accel/tcg; this function
-> does not need to be defined in exec-all.h.
+> The results of the calls to cpu_get_tb_cpu_state,
+> current_{pc,cs_base,flags}, are not used.
+> In tb_invalidate_phys_page, use bool for current_tb_modified.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
