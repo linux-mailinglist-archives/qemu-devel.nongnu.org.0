@@ -2,95 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4AC260CC41
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 14:44:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25BE660CC42
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 14:44:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onJGE-0004Zk-BN; Tue, 25 Oct 2022 08:42:26 -0400
+	id 1onJGr-0008OE-3x; Tue, 25 Oct 2022 08:43:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1onJG9-0004Ci-WD
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 08:42:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1)
+ (envelope-from <SRS0=a4uw=22=zx2c4.com=Jason@kernel.org>)
+ id 1onJGn-000890-UB
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 08:43:01 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1onJG7-0002nM-4D
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 08:42:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666701737;
+ (Exim 4.90_1)
+ (envelope-from <SRS0=a4uw=22=zx2c4.com=Jason@kernel.org>)
+ id 1onJGa-0002pa-Ip
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 08:43:00 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E7BFE6191C
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 12:42:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 158C2C4347C
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 12:42:45 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="f6UI0c/U"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1666701762;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0UtVZv8BhP33EMBwYQNFc9v/3YBi15vC8S7M37GRYRg=;
- b=DvKA72ChOOtWBqYjXBCyvnHkjemFxCai2lpB4Pki6hFDtcDA3mDQQ6VTF9+Z2/lJUlyJfD
- N2Z14aHBRaY3T48jMXVcCvo2YusZ4gGNZ62VkpEdHMCpRatgsqgLHcbsuvxLUbZbRLJDwP
- zIaZDWAIyeweGGlFKJUpl/GgWL5aqpY=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-265-DogebTscP-mKDTMiKnIW0A-1; Tue, 25 Oct 2022 08:42:15 -0400
-X-MC-Unique: DogebTscP-mKDTMiKnIW0A-1
-Received: by mail-qk1-f200.google.com with SMTP id
- w13-20020a05620a424d00b006e833c4fb0dso11282354qko.2
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 05:42:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0UtVZv8BhP33EMBwYQNFc9v/3YBi15vC8S7M37GRYRg=;
- b=PpY+CjVpnD4tZoM3UQ2ZIilESFPuS5o0UQIQlV8hBIykMEDQ5i6p3KnE5tuQmrW1ED
- hhR6MLFcKFyObVloIdZOk/053suhwOKNZeCNOyciEUSVGv9vJVj6/NZz5u2Va6BZBTN3
- N5Yq6IQBd5RCiHJaXth5/JaSOaAmeOOXC1IDgudGyCWgBG/qiFvzvQv7hbPeloXBBryx
- /+LGFJpqknF6naM24iOhCWaiQ5aX96t5r7FbJcNdH7FvGXWPbz/EMbJ8XA5ZT8AuVopW
- 0xr5NsxPuMlOsiGfQP2VwAK38fYF1hiA9THyb4tXSdZ3P9+rr3omK6cYsQNnBYiU/cgH
- YkVQ==
-X-Gm-Message-State: ACrzQf0sUsN6P8R2hiTp1zSbIFWKx6b93DgFeo7wOaBKu2Ty9v3VoEyi
- nA8B0yoplemJqZ/seInFyavIC1gcbz1V1176pU+ow/UBjTvx6pelOs9V8ozCgI65b9atGD4D14x
- B+NyS7tjvmeY7stQ=
-X-Received: by 2002:a05:622a:1648:b0:39c:b953:d1b8 with SMTP id
- y8-20020a05622a164800b0039cb953d1b8mr31623915qtj.506.1666701735045; 
- Tue, 25 Oct 2022 05:42:15 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4U3xrTOD5eOZ3w1zIVVqc9Rogy1Z0idxGM2Zp2qzWrjjXwQ/XoCRyBfiS1nuKacMlx+0zN0Q==
-X-Received: by 2002:a05:622a:1648:b0:39c:b953:d1b8 with SMTP id
- y8-20020a05622a164800b0039cb953d1b8mr31623885qtj.506.1666701734760; 
- Tue, 25 Oct 2022 05:42:14 -0700 (PDT)
-Received: from [10.201.49.36] (nat-pool-mxp-u.redhat.com. [149.6.153.187])
- by smtp.googlemail.com with ESMTPSA id
- bi24-20020a05620a319800b006eeca296c00sm2014713qkb.104.2022.10.25.05.42.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Oct 2022 05:42:13 -0700 (PDT)
-Message-ID: <c60fa9e2-b5c4-6765-da23-e6cc31746f53@redhat.com>
-Date: Tue, 25 Oct 2022 14:42:11 +0200
+ bh=MWSC40VcA+t6TbjTHMAxL90NX+uowi3SDLcd/+h4Sfk=;
+ b=f6UI0c/UdkEat1Rm2LJXNzI8rWeeVy2w5kwXHBAsHn6wa1AggBDp7oC0/eRAyQB1d7cjFO
+ KzPUeZT0+1v8aPzte+FhIhbjP1QByaEoj/tmn65TXHiABG3omKQhCaxT8bu0r9+vPIhPA5
+ ZCHH6MMEqUk1d4dfW+DlBRGGcMNoGQE=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 6819baae
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO) for <qemu-devel@nongnu.org>;
+ Tue, 25 Oct 2022 12:42:42 +0000 (UTC)
+Received: by mail-vk1-f169.google.com with SMTP id v81so6078543vkv.5
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 05:42:42 -0700 (PDT)
+X-Gm-Message-State: ACrzQf26vkqJgFqSf8In9jGfRmIGOJRVoRqe2LrgyY967FU5a4m5btc7
+ TbpO0Rg3IhyhkSCpYoSFpHuXTQ4C/x0zqZ/nU18=
+X-Google-Smtp-Source: AMsMyM7FRtLOJHZNH42sG9aivVeBNz0IG6ewMWWYfTH3n6XE8mWN9ROMP1hEKjZPXdriDW82jWkqYVCBPgPRM+6L6ZE=
+X-Received: by 2002:a05:6122:317:b0:3b7:6590:daa1 with SMTP id
+ c23-20020a056122031700b003b76590daa1mr4338177vko.37.1666701761739; Tue, 25
+ Oct 2022 05:42:41 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v4 1/1] os-posix: asynchronous teardown for shutdown on
- Linux
-Content-Language: en-US
-To: Claudio Imbrenda <imbrenda@linux.ibm.com>
-Cc: qemu-devel@nongnu.org, david@redhat.com, cohuck@redhat.com,
- thuth@redhat.com, borntraeger@de.ibm.com, frankja@linux.ibm.com,
- fiuczy@linux.ibm.com, pasic@linux.ibm.com, berrange@redhat.com,
- alex.bennee@linaro.org, armbru@redhat.com,
- Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-References: <20220812133453.82671-1-imbrenda@linux.ibm.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220812133453.82671-1-imbrenda@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221025004327.568476-1-Jason@zx2c4.com>
+ <20221025004327.568476-2-Jason@zx2c4.com>
+ <874jvs5t5k.fsf@pond.sub.org> <Y1fR/bMo/HcDvo7A@zx2c4.com>
+ <CAFEAcA-cqzoEyWiCd0RCGezqijvWfnXso1kH9zDb9fYdYpa_6w@mail.gmail.com>
+ <CAHmME9owB8eay2DJrYiEaZKRoJA6RA_EmCPSV0_XgU2aHYx_wg@mail.gmail.com>
+ <CAFEAcA_vLqKQnXuYs6nQqbqw5KYUq4ye5O1s2CRPrdEkxOAVcw@mail.gmail.com>
+In-Reply-To: <CAFEAcA_vLqKQnXuYs6nQqbqw5KYUq4ye5O1s2CRPrdEkxOAVcw@mail.gmail.com>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Tue, 25 Oct 2022 14:42:30 +0200
+X-Gmail-Original-Message-ID: <CAHmME9rhXu6MuDPAYK0te8NBEHeJE17oNV6e-v6O+4U1-0s_Ew@mail.gmail.com>
+Message-ID: <CAHmME9rhXu6MuDPAYK0te8NBEHeJE17oNV6e-v6O+4U1-0s_Ew@mail.gmail.com>
+Subject: Re: [PATCH v4 01/11] reset: allow registering handlers that aren't
+ called by snapshot loading
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Markus Armbruster <armbru@redhat.com>, pbonzini@redhat.com,
+ qemu-devel@nongnu.org, richard.henderson@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=SRS0=a4uw=22=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,64 +92,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 8/12/22 15:34, Claudio Imbrenda wrote:
-> This patch adds support for asynchronously tearing down a VM on Linux.
-> 
-> When qemu terminates, either naturally or because of a fatal signal,
-> the VM is torn down. If the VM is huge, it can take a considerable
-> amount of time for it to be cleaned up. In case of a protected VM, it
-> might take even longer than a non-protected VM (this is the case on
-> s390x, for example).
-> 
-> Some users might want to shut down a VM and restart it immediately,
-> without having to wait. This is especially true if management
-> infrastructure like libvirt is used.
-> 
-> This patch implements a simple trick on Linux to allow qemu to return
-> immediately, with the teardown of the VM being performed
-> asynchronously.
-> 
-> If the new commandline option -async-teardown is used, a new process is
-> spawned from qemu at startup, using the clone syscall, in such way that
-> it will share its address space with qemu.The new process will have the
-> name "cleanup/<QEMU_PID>". It will wait until qemu terminates
-> completely, and then it will exit itself.
-> 
-> This allows qemu to terminate quickly, without having to wait for the
-> whole address space to be torn down. The cleanup process will exit
-> after qemu, so it will be the last user of the address space, and
-> therefore it will take care of the actual teardown. The cleanup
-> process will share the same cgroups as qemu, so both memory usage and
-> cpu time will be accounted properly.
-> 
-> If possible, close_range will be used in the cleanup process to close
-> all open file descriptors. If it is not available or if it fails, /proc
-> will be used to determine which file descriptors to close.
-> 
-> If the cleanup process is forcefully killed with SIGKILL before the
-> main qemu process has terminated completely, the mechanism is defeated
-> and the teardown will not be asynchronous.
-> 
-> This feature can already be used with libvirt by adding the following
-> to the XML domain definition to pass the parameter to qemu directly:
-> 
->    <commandline xmlns="http://libvirt.org/schemas/domain/qemu/1.0">
->    <arg value='-async-teardown'/>
->    </commandline>
-> 
-> Signed-off-by: Claudio Imbrenda<imbrenda@linux.ibm.com>
-> Reviewed-by: Murilo Opsfelder Araujo<muriloo@linux.ibm.com>
-> Tested-by: Murilo Opsfelder Araujo<muriloo@linux.ibm.com>
-> ---
+On Tue, Oct 25, 2022 at 2:34 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Tue, 25 Oct 2022 at 13:33, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> >
+> > On Tue, Oct 25, 2022 at 2:26 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+> > >
+> > > On Tue, 25 Oct 2022 at 13:09, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> > > >
+> > > > Hi Markus,
+> > > >
+> > > > On Tue, Oct 25, 2022 at 08:11:51AM +0200, Markus Armbruster wrote:
+> > > > > > diff --git a/qapi/run-state.json b/qapi/run-state.json
+> > > > > > index 49989d30e6..e44c0de914 100644
+> > > > > > --- a/qapi/run-state.json
+> > > > > > +++ b/qapi/run-state.json
+> > > > > > @@ -86,12 +86,15 @@
+> > > > > >  #                   ignores --no-reboot. This is useful for sanitizing
+> > > > > >  #                   hypercalls on s390 that are used during kexec/kdump/boot
+> > > > > >  #
+> > > > > > +# @snapshot-load: A snapshot is being loaded by the record & replay
+> > > > > > +#                 subsystem; internal value (since 7.2)
+> > > > > > +#
+> > > > >
+> > > > > If "internal value" was an established way to mark parts that aren't
+> > > > > visible externally, this would do.  Since it isn't, it's too terse.
+> > > > > Suggest something like "This value is used only within QEMU.  It doesn't
+> > > > > occur in QMP."
+> > > >
+> > > > Thanks for the precise text. I can do that for a v5, or, Peter - do you
+> > > > want to just fold that in upon committing these patches?
+> > >
+> > > If there's no other issues with the series I'll just fold that change in.
+> >
+> > Great, okay. Last time when we found this original snapshot reset
+> > issue, it surfaced because you put this somewhere that the CI ran on.
+>
+> No, I was just running "make check-avocado" locally.
 
-Nice trick indeed!
+Oh, okay. I'll try out a full `make check` locally then just to be sure.
 
-The only question I have is whether it would make sense to do this in 
-Libvirt instead.
-
-Having a new independent one-off option like this is not great, but I 
-think it's fine because it's not a very reusable grouping.
-
-Paolo
-
+Jason
 
