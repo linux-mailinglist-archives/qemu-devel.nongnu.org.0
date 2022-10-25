@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DD9160C12F
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 03:41:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 306E160C17A
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 04:00:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on8v8-00062c-3z; Mon, 24 Oct 2022 21:39:58 -0400
+	id 1on9CG-0006vJ-4p; Mon, 24 Oct 2022 21:57:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1on8v6-00061M-SW
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 21:39:56 -0400
-Received: from mout.gmx.net ([212.227.17.21])
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1on9CB-0006uQ-3Z
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 21:57:35 -0400
+Received: from mout.gmx.net ([212.227.17.22])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1on8uy-0006Df-2u
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 21:39:56 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1on9C8-0000dy-8u
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 21:57:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1666661985;
- bh=StS7/5rAXiO+1rQ9goRaovLrIJ3hKDmkHJ09/4KJuZE=;
+ s=badeba3b8450; t=1666663046;
+ bh=x41EEiJ145g+A29apEYcYOxb8rD74pxvFGIuiESQ+b0=;
  h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
- b=NR3+II0IfEl2lrjyuyx4ZAUJj4U4VmwR907vA1UlDiMQGMigzYf6bAobzHtzl7fOO
- gUEN9bxU9tvm/rBqCgXCwQRE0WHtp/MZmNmt+xONzb61Km+AbBFfmQCnb+P0nPgfaq
- 0ialkTWncKIgNIizc2FmUgtiebifHGnAuWlJmIRo=
+ b=RiFd8JyrFQJf3NCHADxaSeNdKhqg8Os1WrSjwco2nbkd1JujNUuWVdz9GFhJ6R3r9
+ yuSDCxc7NrrdFASSziYVarU4pMPaNL/j+B1DnlQuzhKtSWoUmv+C9CX1ZZaouDPwKI
+ ogbWadQl9LFL8KTu6/UOjB06/IJpNkMsPJxPjpHE=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from [192.168.20.60] ([92.116.136.30]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1McH5Q-1pNZ8P1NXw-00cfgm; Tue, 25
- Oct 2022 03:39:45 +0200
-Message-ID: <436afa3a-bb4b-3807-4c01-25d3ddb195a1@gmx.de>
-Date: Tue, 25 Oct 2022 03:39:44 +0200
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1Md6R1-1pLejN1bjH-00aCx1; Tue, 25
+ Oct 2022 03:57:26 +0200
+Message-ID: <07dbe94d-c215-2be3-1769-4f2a8290573e@gmx.de>
+Date: Tue, 25 Oct 2022 03:57:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH v4] linux-user: Add close_range() syscall
+Subject: Re: [PATCH v3] linux-user: Add guest memory layout to exception dump
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <Y1b45IL371MJP2WW@p100>
- <6412545a-5b43-421f-d94a-cf3111725047@linaro.org>
+ Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <Y1bzAWbw07WBKPxw@p100>
+ <8c348149-6edf-c6f7-f539-d40a4479c46c@linaro.org>
 From: Helge Deller <deller@gmx.de>
-In-Reply-To: <6412545a-5b43-421f-d94a-cf3111725047@linaro.org>
+In-Reply-To: <8c348149-6edf-c6f7-f539-d40a4479c46c@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:/DxSVQ3JwSixVn2H/SJwTQkYa7J+V9GVr9/PhTeoMOhaSHBuPvU
- pp5F+/tpkEp7zIf9J8ZIDNBsNmMzMwZDQLYWNwANpD8jqZS64PCVQZNQiTVYoWPLQgDjRcp
- WeOfNPtEXVH2SGjrSAEkJiXgq7Zt7q2SywMbpyMaHq1xgRTNwUb8qoauDiGVuLJXUfC3Q+T
- quhqc+0nEiNJMlSJGhGoA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hXq69NOJlMU=:C/Hp48gCDK0wby9D5qvb9s
- ub6DTmPKn3WTzcwT64Meea+/JLclTuA52nXO8F0PIsK+MSx7u0RXqXBdtQ7rcAXHi9hE0T9zJ
- FtU9vG5BS+39WetqM59iO0o6ymNdi1oXzcSF4XMBo2dUZIiBlwnzCMv5U/imYKAr5fDLc1q+Y
- 2ZIKYb2bikSWw+6/P+SHDRpiXeqZhR2giwf82AxlmMi3UU0pEKPmqQ1XALzlB0z9HlmkQ8ajd
- zF5YP5m5rd4wwihdrm2X3mRDrW47kH3bop9gVhvHPbxwyuu/6fK9y5ywwVzrheW+jRqT6r/mi
- MiW54B50v8elSXBEVbmHEUsm3wSc+r/MTsnVSp70agNK5W/6pgEGsCxr4Yr+I4clr2HmH8ixV
- 5OMoHT6SSpj0l6RKV3iBcWucL0RpgBeQlF4D3MKz7lTrFqfR0CoF+ksmKecnSO0GZmwUx6FJ5
- hy7vValwRw+znTLw0t/apcfn0Lhl93OxpGruMVwaBz+3V5gzPuRkpZ3Jeznf2cJzVWDXG3lsG
- g0CQyaaIykdY+juyqdvjtBj4n8RSqD1GBWWJADZ54oqAN/+AEI4MCAvKNGGKiVj5nGyK004E8
- u9SYIUwGcl+0OujQchRR94+gKBI4YaL1e79B7XPZllsC0xOk9WvMNnssGyOmC+cKvwQjHsEEu
- ntaCwwIn6cWCJZxsL/LUGQFa6GmwatV04pXLyaqAGI5OBK9Y2fUe572NbXeih9C8HX/mThnew
- CbQ2BNEH3ivC1wF7TqunobOaRKP2I/QqAWEpKwS0AqQK2MoCPK0N0IhobT7OEsVB9K+kBWywH
- XjFEyOb+Umd34teLHG9JJSvL3Llkc5ZKMmmcwY3fVSJ5SC7Hk9JHJvCgUVdd3tNUDzS/bDdpj
- DHDCpEsQxqXF1F3oihna2/HdqJifbxs62rOYjNx0dfeOSEFnihc4nDPQoYlLv+BdRVBTcTLDD
- GrGUMPlmwEktopDUOy35kpC7J2nk5NDkJjb3SsVozP/fVDhdYDS1dMl938W/WF/2X7aU8MRlF
- N6K+Pq8qF5CK+QCkIRmn7zFxRecqe3nkHuFm1eaahX+eUNrNdZZJmWJ42m2ou9i0wqUpEyiAH
- 0dTpKHZPLubhDjsmd988VQy1nYONa0xEEE6BlXRKj4e+Vxg0c2/ydfQrihfX8WbXAHQ/Kzfeg
- qHbr0YZr07kdWSr7pJpcadDAao4JooU8nv3//tp0KGDM8BeUoujqnSJup1RY3bfFTBrC+BPJy
- SyGBxRIJ8s+STQFUhGC/ux7SUeEk82Zjl2lVF6lwBbJrU4YODyui6rwe82iI5yivxWboElJhh
- V/UCr4I6ppu8x9iPOY4ybHQgaWpoxu6F8y4Uw5Az+2yZFs89m+WBhebJlepsARVM4uakWBKf4
- UZ2pe6KqXnZKO3a+gBT98m+mXbgf7oDMVXQ8mbzgr2Bnyd9ApMQ5XcV1+2FyLbVKAUC63ItH/
- 33/6zvWqdwB7rLwZpuC3GupoMIcGEZ/cZYBedSTRlhweGxZrVA+doOHGYiygY8yDnfTrf3cOY
- H1DmUYt06zzjW+nyXIP4JZQkVROWFrOQwydGZBB+Y2pNb
-Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
+X-Provags-ID: V03:K1:5owh04l3Fp+PaFUReR0WbYSxxeve2R1PtWp0YwCdavj6h13M/ge
+ 8lhKtuGIQbKokQSc4qkICfeONPFh1BiwK7i07gHkk3OwPrwMpl3Er2Gy5kfIgwyUrLcCkaC
+ FXcHW5v+TCJ0NVKE3ywxLEiSd19PAJpfgqWm0oduX1V0VQflbjeq6nlL1X543OaqHSDtuLG
+ goUEt98+lPo64z+SfYYZQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ZddAKAc+dCM=:apj9aPD0mrUS7Xu9ulotRt
+ Z/gKOlvPNJ1DcvOChQs4xSXfo7zMJ5/jdDPRN4sN7pP0vNR9ImkAr+kMymElf2wgY3w4nMOXs
+ Ee93mv895dSTW6/AA/SHTQEUhHzDrU4WoHCdIFsqP48hdLQhsqsmDhwIrkdTbakHMIQodXspt
+ PT/5yuDI9796aeyCkJzIJ8nhmhbwA0VC+uxe3y472bWLGXKi5VqJ8nWAyL7IBjJSB+GjH8dJD
+ YX4SSQucROHrAqpkn3uDnmbM3fIrfJiOk4OG09hKW7FSJO5++v7Zyl6djycSFyrIoqPALlGD7
+ jUo0guvNNxhEubC2DKhBYFFgYcf1xwPb9eGH6X1CMD+MZTctJOypP7/1Tk4jGMXEjFJ5+jNZC
+ bkFas8ZUswD+0FGYn7GIQ64T4bJo9XV/sx/5JaH4gvo39LtOgkTPUVy//NJOoN1H6zCJ61qSj
+ dWCwt5zJnRTolZz1tPQykoUCg+Hpe8Nab8+v/HvpfFHQac1qULlAmYNzphZ1VoD2vg82jtvXR
+ oHT1CD6nTDwPvx/7L/JSUork8Eg48pMZe+AYym6PwHTGe64JctE6WNT0iwtgoZI3DbSrXEvWF
+ 4oC74lbVFthLATDmYKmuodPMxrSPjekXnM66hzGsYHhnbhQkms1uoBiIbk87KEoqVjX9ztnEC
+ TkbHJAnTeDE4qcTl0cLRuqbaANF1UYTsA55XmHaxZk+F2GfslgaBUYJvcZj2XF1wqI48f2cKW
+ 5Kxa05HLdokhgqEVMFI9//8Ux7Pmq3tWmH7CU8XvVFrPNbiR5y6B6Y7hROwX5fQDtoezScNUC
+ xuMM0RfkMttd5glOh95p3bbGpIKZErAJj6m04+gWcZIogaRJaBiKZ9bvYPl6eKeMk5W7otDqo
+ f/Y0mqWWdINBw/C0A6gqt4vE5hovv91Ds3jAroBMC2hw2zMehxVDLJxjcfzDuNLk+lRJjRhbp
+ i+SVx2k+T/Sru7XZYZ8oLc5HDgP1MubxuYl6xIvmfwmCotewKtAWdCuWh6d6gX02k1dds5wtQ
+ Pc88+u+STFrNQQhMyu8mQp4NS99+oEsNlpxkfew7F0Tc5ma1rpW1WkvfgplYEIRk5IE66oZBz
+ ufxl0g5Byn8FJT3kcptg0Nq/t0CFsyUNyVGeetwgzeyooPYMYl0A1yQdcp+morP9Ubu7TDwX4
+ IvhSzWrkDPKgEQ1QgQchWTE0rmmvhcCeSOUctZzXO24BK0nGlbp8RZ+niz1GTeVerC+jyezvQ
+ D/MKCXGT0Y4207qafnO/6aIG6/86UHi4yuyUjWNdKToeIIQKRsnoIJc34QB+y+BMP5JpgmyLG
+ XaGw/bV12Pg8r8lFUssiNzHTTV6FrPcdNkSxzKfJMlePhS4cQddcQjks9N9JKY2fA8pr7zD7M
+ EwxM6MWnEOf8MD6fTRqskW5ntr9MKqwXHFyLynsS0cQq5rIL6JFfwtJuqjZeaLrUFM/LVl/b3
+ ZnUszPVvDFwVz7SI1oakCRsPWkUAPu0AkksjurgAxc24XbACgm1G7keghfn8bmen6pBCuVrar
+ ++tKYZlvBDwHSkQA6CHKUM8IGoD5yLEO4OZw9K95nZqaI
+Received-SPF: pass client-ip=212.227.17.22; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -93,34 +94,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/25/22 00:39, Richard Henderson wrote:
-> On 10/25/22 06:43, Helge Deller wrote:
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 abi=
-_long maxfd =3D arg2;
->> +
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if =
-((sizeof(abi_long) =3D=3D 4 && arg2 =3D=3D (abi_long)0x7FFFFFFFUL) ||
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 (sizeof(abi_long) =3D=3D 8 && arg2 =3D=3D (abi_long)=
-0x7FFFFFFFFFFFFFFFULL)) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 maxfd =3D target_fd_max;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> +
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for=
- (fd =3D arg1; fd < maxfd; fd++) {
+On 10/25/22 00:35, Richard Henderson wrote:
+> On 10/25/22 06:18, Helge Deller wrote:
+>> When the emulation stops with a hard exception it's very useful for
+>> debugging purposes to dump the current guest memory layout (for an
+>> example see /proc/self/maps) beside the CPU registers.
+>>
+>> The open_self_maps() function provides such a memory dump, but since
+>> it's located in the syscall.c file, various changes (add #includes, mak=
+e
+>> this function externally visible, ...) are needed to be able to call it
+>> from the existing EXCP_DUMP() macro.
 >
-> Why do we need explicit checks for INT32/64_MAX?
-> If the guest passes 0x7FFFFFFFFFFFFFFEULL,
+> /proc/self/maps has all of the qemu mappings in it as well.
 
-A 32-bit guest (on a 64bit host) will pass 0x7FFFFFFFUL...
+I'm not quite sure on how to understand your comments above.
+Just comments or NAK to the patch?
 
-> do we really need to iterate over all of those impossible values?
+*Main* feature of this patch is that output like /proc/self/maps
+ends up on stdout and in the log file (if qemu log was enabled)
+at all, before the program exits and /proc/self/maps is gone.
+Quite useful for bug reports from other users too...
 
-The compiler will optimize one of those checks away, so it's effectively
-just one expression.
+> The page_dump() function provides exclusively the guest mappings.
 
-> I should think some expression involving MIN() is in order.
+Which is usually sufficient in this case, and has the advantage that it
+shows the guest-stack and -heap areas.
 
 Helge
 
