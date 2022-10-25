@@ -2,92 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2B1D60CF38
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 16:40:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B95B160CF51
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 16:41:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onL30-0002Lf-7j; Tue, 25 Oct 2022 10:36:54 -0400
+	id 1onL52-0000Ce-UL; Tue, 25 Oct 2022 10:39:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1onL2y-0002Kt-19
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 10:36:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1onL51-0008WR-L5
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 10:38:59 -0400
+Received: from 1.mo552.mail-out.ovh.net ([178.32.96.117])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1onL2w-0005w2-Gs
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 10:36:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666708608;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ATF6Kc3YZD7oBiD20/4XA0RK19rj0UKalxg7Rq6Hyfs=;
- b=FKw7hMi2Z0pjOj7gdfKXnNI7WT0VbApmZZEmrijJ14Qf/wzM5boPVc2ygp7Mrpm+mD2OJf
- 2AeuLznJeAoDiAacwX0Gh3XB+KRcZsTTUg1OVDR/5sMim0aTNTx9E3bYQrxF7vxUVIb16s
- jAaPYNGBZrFyg8QnYdz8SbWQ8iLz4Zg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-615-E1G8YScHOQCT2GM-qzg6vw-1; Tue, 25 Oct 2022 10:36:45 -0400
-X-MC-Unique: E1G8YScHOQCT2GM-qzg6vw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- d10-20020adfa34a000000b00236616a168bso3486047wrb.18
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 07:36:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ATF6Kc3YZD7oBiD20/4XA0RK19rj0UKalxg7Rq6Hyfs=;
- b=KHRmEpMB2uBcf0lPK+vSeejTw1c/lirD/LWaEVmnTAefDLm8hYyRla192DQugMgok3
- tcxhASNUYHz4xi0sz5QM3piqPa1rcFjYy6aJcYnDV1W8g5VZiadRaGSrI4eryVtLVmjd
- 1pOjbGAPdqxrEwLnevBSJHNFxzOYw4+FKq7SaE6JLwsDiq2juXiYIEUEBFKig8aBAe5y
- omvb3GycS4YNTbN3LXJHXqHdve8r/n6PGJv+3Lc+MBCmjyAxKx685uDdSCJlaeu6rM5j
- kjcP5UH8Rr/yNY8y9OdaGr9X4TgOh+k4Y9moe0qAZ3ZUCqlqWSRiqZHCXJ84XUFVgyy5
- t59g==
-X-Gm-Message-State: ACrzQf1n+hSVdVFtMm1VrZU/RMjqyDn/X/Xaz6qpwS5AieQfoOmizuuX
- E/kCP9cNiGKfiv079PBf9loncUdjnXmkQyHF3FA55Jw4jVGiKS45jfrWCL7aFBg4w+xTGWYOdzr
- ZJkLTJ5rkuhq3QTE=
-X-Received: by 2002:a05:6000:2a6:b0:22e:ddd1:d9ff with SMTP id
- l6-20020a05600002a600b0022eddd1d9ffmr24561805wry.447.1666708604680; 
- Tue, 25 Oct 2022 07:36:44 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4lU6BTbgCQAUQdo5SD5atsgX3OczSjeou/b4GexoHElqJ/M/KPQMhBOG+VJiKwlkpgwKbxPw==
-X-Received: by 2002:a05:6000:2a6:b0:22e:ddd1:d9ff with SMTP id
- l6-20020a05600002a600b0022eddd1d9ffmr24561784wry.447.1666708604426; 
- Tue, 25 Oct 2022 07:36:44 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-176-58.web.vodafone.de.
- [109.43.176.58]) by smtp.gmail.com with ESMTPSA id
- p20-20020a1c5454000000b003a5f3f5883dsm11219420wmi.17.2022.10.25.07.36.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Oct 2022 07:36:43 -0700 (PDT)
-Message-ID: <0c946fe0-930e-7cc9-0f72-b16f3b2587e3@redhat.com>
-Date: Tue, 25 Oct 2022 16:36:42 +0200
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1onL4z-0006KY-OC
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 10:38:59 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.221])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 64DA42A4E9;
+ Tue, 25 Oct 2022 14:38:53 +0000 (UTC)
+Received: from kaod.org (37.59.142.108) by DAG8EX2.mxp5.local (172.16.2.72)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Tue, 25 Oct
+ 2022 16:38:52 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-108S002554aebd2-0592-4289-87ab-09fe38daca4a,
+ 5AA7337ABCEACBE3F99194CB0234B772833894C4) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Tue, 25 Oct 2022 16:38:51 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+CC: <qemu-devel@nongnu.org>, Alex =?UTF-8?B?QmVubsOpZQ==?=
+ <alex.bennee@linaro.org>, Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH] util/log: do not close and reopen log files when flags
+ are turned off
+Message-ID: <20221025163851.75ac37a1@bahia>
+In-Reply-To: <20221025143315.5697edad@bahia>
+References: <20221025092119.236224-1-pbonzini@redhat.com>
+ <20221025143315.5697edad@bahia>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2] tests: Add sndio to the FreeBSD CI containers / VM
-Content-Language: en-US
-To: Brad Smith <brad@comstyle.com>, Warner Losh <imp@bsdimp.com>,
- Kyle Evans <kevans@freebsd.org>, Ed Maste <emaste@freebsd.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Alex Benn_e <alex.bennee@linaro.org>,
- Philippe Mathieu-Daud_ <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Cc: qemu-devel@nongnu.org
-References: <Yz/TeblRI77AIHJe@humpty.home.comstyle.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <Yz/TeblRI77AIHJe@humpty.home.comstyle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [37.59.142.108]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG8EX2.mxp5.local
+ (172.16.2.72)
+X-Ovh-Tracer-GUID: 6003162e-7eee-4989-89f7-ae314c03ec2e
+X-Ovh-Tracer-Id: 17653266115906935264
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrtddtgdehtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhfogggtgfhisehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeuueeijedtleeluedthfetjeffieetffeuvefffeeftedvieefueejgfdugeetueenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehgrhhouhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphgsohhniihinhhisehrvgguhhgrthdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdprghlvgigrdgsvghnnhgvvgeslhhinhgrrhhordhorhhgpdhrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=178.32.96.117; envelope-from=groug@kaod.org;
+ helo=1.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,15 +72,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 07/10/2022 09.21, Brad Smith wrote:
-> tests: Add sndio to the FreeBSD CI containers / VM
-> 
-> ---
+On Tue, 25 Oct 2022 14:33:15 +0200
+Greg Kurz <groug@kaod.org> wrote:
 
-Patch description is missing "Signed-off-by" line ... to follow our QEMU 
-development process, could you please reply with such a line to this mail? 
-Thanks!
+> On Tue, 25 Oct 2022 11:21:19 +0200
+> Paolo Bonzini <pbonzini@redhat.com> wrote:
+>=20
+> > log_append makes sure that if you turn off the logging (which clears
+> > log_flags and makes need_to_open_file false) the old log is not
+> > overwritten.  The usecase is that if you remove or move the file
+> > QEMU will not keep writing to the old file.  However, this is
+> > not always the desited behavior, in particular having log_append=3D=3D1
+> > after changing the file name makes little sense.
+> >=20
+> > When qemu_set_log_internal is called from the logfile monitor
+> > command, filename must be non-NULL and therefore changed_name must
+> > be true.  Therefore, the only case where the file is closed and
+> > need_to_open_file =3D=3D false is indeed when log_flags becomes
+> > zero.  In this case, just flush the file and do not bother
+> > closing it, thus faking the same append behavior as previously.
+> >=20
+> > The behavioral change is that changing the logfile twice, for
+> > example log1 -> log2 -> log1, will cause log1 to be overwritten.
+> > This can simply be documented, since it is not a particularly
+> > surprising behavior.
+> >=20
+> > Suggested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> > ---
+>=20
+> Heh I currently have a very similar patch in my tree :-)
+>=20
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+>=20
+> I'll include this and other bug fixes as prerequisites for my
+> on-going work on logging when daemonized.
+>=20
+> >  util/log.c | 13 +++++--------
+> >  1 file changed, 5 insertions(+), 8 deletions(-)
+> >=20
+> > diff --git a/util/log.c b/util/log.c
+> > index d6eb0378c3a3..06d0173788dc 100644
+> > --- a/util/log.c
+> > +++ b/util/log.c
+> > @@ -44,7 +44,6 @@ static FILE *global_file;
+> >  static __thread FILE *thread_file;
+> > =20
+> >  int qemu_loglevel;
+> > -static bool log_append;
+> >  static bool log_per_thread;
+> >  static GArray *debug_regions;
+> > =20
+> > @@ -259,19 +258,19 @@ static bool qemu_set_log_internal(const char *fil=
+ename, bool changed_name,
+> >      daemonized =3D is_daemonized();
+> >      need_to_open_file =3D log_flags && !per_thread && (!daemonized || =
+filename);
+> > =20
+> > -    if (logfile && (!need_to_open_file || changed_name)) {
+> > -        qatomic_rcu_set(&global_file, NULL);
 
-  Thomas
+Hmm... wait, shouldn't this NULLifying be performed...
+
+> > -        if (logfile !=3D stderr) {
+> > +    if (logfile) {
+> > +        fflush(logfile);
+> > +        if (changed_name && logfile !=3D stderr) {
+> >              RCUCloseFILE *r =3D g_new0(RCUCloseFILE, 1);
+> >              r->fd =3D logfile;
+
+
+... here since we the following closes the global_file ?
+
+> >              call_rcu(r, rcu_close_file, rcu);
+> > +            logfile =3D NULL;
+> >          }
+> > -        logfile =3D NULL;
+> >      }
+> > =20
+> >      if (!logfile && need_to_open_file) {
+> >          if (filename) {
+> > -            logfile =3D fopen(filename, log_append ? "a" : "w");
+> > +            logfile =3D fopen(filename, "w");
+> >              if (!logfile) {
+> >                  error_setg_errno(errp, errno, "Error opening logfile %=
+s",
+> >                                   filename);
+> > @@ -290,8 +289,6 @@ static bool qemu_set_log_internal(const char *filen=
+ame, bool changed_name,
+> >              logfile =3D stderr;
+> >          }
+> > =20
+> > -        log_append =3D 1;
+> > -
+> >          qatomic_rcu_set(&global_file, logfile);
+> >      }
+> >      return true;
+>=20
+>=20
 
 
