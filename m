@@ -2,92 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B8C60C1B2
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 04:27:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F00B760C1C9
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 04:38:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on9eb-000661-5y; Mon, 24 Oct 2022 22:26:57 -0400
+	id 1on9m6-0006YK-W3; Mon, 24 Oct 2022 22:34:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1on9eZ-0005rc-55
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 22:26:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1on9ln-0006Uv-RO
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 22:34:28 -0400
+Received: from mout.gmx.net ([212.227.17.21])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1on9eX-0005Vz-M7
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 22:26:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666664812;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=xucOabqKy/VTtQwkPKL7XuDbJ/R9Yz4jrG5/0Trf3fA=;
- b=XH/yK7JtSTgdAsiHVwTkXYtXV/d/3lfI+gsQqIvE3guMN2MMoh8E3+OadpSvI44vif7iD4
- K6X7LUFFxFT3fmb/L2XZuJWEmOYkFuqEiRWWuR5I/06upZVFHRoOhVvBdJzclcomAEuHdA
- Fvngtwbe2MDXxzuRKfoIDImPZEC3TXA=
-Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
- [209.85.160.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-296-ICdtuKMcOHusCvkDBgC3iQ-1; Mon, 24 Oct 2022 22:26:48 -0400
-X-MC-Unique: ICdtuKMcOHusCvkDBgC3iQ-1
-Received: by mail-oa1-f69.google.com with SMTP id
- 586e51a60fabf-13b7af40a31so3301575fac.1
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 19:26:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xucOabqKy/VTtQwkPKL7XuDbJ/R9Yz4jrG5/0Trf3fA=;
- b=COgmKQd+V27XIxgUZ+ebIFXSUQiohsHJ66/CigdFrZmv2XXB8zJ+1yXn2BlCnP8YmE
- D+xB0pdzVeTxmhlW3OGbERtFCrGAeByL3Ci0qSW/FuuklhXrMbwMzzfaCz4alsAKkqhd
- ekWiJf8b5dhXu3F19SJ318KoTMg7xkqQGkI6pOzdGUuXSpsgGweGD2IJYfSXJ7WRxJZQ
- 2wv6m1LA05Wm/zHydwFq4AWvjEFwaUbZjfmcFQ/jPzKR03eJCCgrRaoBUBIPx5a/U8Ev
- A4bKJYLuDElSvfcmZ7lk7Kc2zcisIiBnh3DCl1WKuQIx7ftZnJh6JJWAc+9LE9GBX/IF
- fxYw==
-X-Gm-Message-State: ACrzQf31cGTTMlLN9NUnrURxiebLd/ba+UoecWuLU3M74JSO+RMEym7v
- zPDIfct7bi3K67V4vdO9aDHvupyFluzOHfvjii6v2GN9Xl9zdV80OzDj9DfWfb/xLmAheCAkF4u
- uJ+Jtjy2iDJmKFwtluPlvdyEDB7TY2q4=
-X-Received: by 2002:a05:6870:eca8:b0:132:df46:5c66 with SMTP id
- eo40-20020a056870eca800b00132df465c66mr22347412oab.280.1666664807922; 
- Mon, 24 Oct 2022 19:26:47 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7GUNNL3SgnnDNXq+mHglZxdkg4A5BO194/CfP2GlSscqdxVRDyTnoN3WjFXfT4uIxxz/fB/ZWVozzsIUeZDeQ=
-X-Received: by 2002:a05:6870:eca8:b0:132:df46:5c66 with SMTP id
- eo40-20020a056870eca800b00132df465c66mr22347397oab.280.1666664807759; Mon, 24
- Oct 2022 19:26:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1on9li-0006fu-8c
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 22:34:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1666665255;
+ bh=l+0+TgBn0P8Q+6c1mzQiS08UvHrvZ4gtQDqwpq6k67g=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=WSK/kfJdAgvP20cKct4b94jHweWXYc4D8S3NtuQdQ5y6Zo+Pz8RsT31WiX4CvRNny
+ BAtywP8T7/5ED4Cb8fCmbIadUMNP2lk1w4iVP0S74SvGBUlOoabbskjeAeRG5aG7/H
+ tQmkt0Ydv035JEhXg0rTz/ekXpQTIqbZ6k4gZeFg=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from p100 ([92.116.136.30]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1M7sDq-1oiDp72AWw-00513U; Tue, 25
+ Oct 2022 04:34:15 +0200
+Date: Tue, 25 Oct 2022 04:34:14 +0200
+From: Helge Deller <deller@gmx.de>
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>
+Cc: Helge Deller <deller@gmx.de>
+Subject: [PATCH v5] linux-user: Add close_range() syscall
+Message-ID: <Y1dLJoEDhJ2AAYDn@p100>
 MIME-Version: 1.0
-References: <20221020155251.398735-1-eperezma@redhat.com>
- <20221020155251.398735-3-eperezma@redhat.com>
- <CACGkMEukKCXRDSmR3nemxdHDphQHspGdY3nC9O5g9grQ59PN8w@mail.gmail.com>
- <CAJaqyWf0uXRze3qK1d02RB+Q4BJ60A8E7YYnnjBpdyANB2=new@mail.gmail.com>
- <20221021041453-mutt-send-email-mst@kernel.org>
- <CACGkMEvNoxKcFBpawaWgtq=YgCh4CXMDD9Y5DUgoZ1Qn-zOwpA@mail.gmail.com>
- <CAJaqyWfVEb8cp4c0m_LEjy-aMCmHMuMUao6zaCOFW3EzyuLF6Q@mail.gmail.com>
- <20221024100442-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20221024100442-mutt-send-email-mst@kernel.org>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 25 Oct 2022 10:26:35 +0800
-Message-ID: <CACGkMEtB=WimY3c7ErROrh7SiU6L9Y6AeEr7NmNqMNOsYnw54A@mail.gmail.com>
-Subject: Re: [PATCH 2/4] vhost: toggle device callbacks using used event idx
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Eugenio Perez Martin <eperezma@redhat.com>, qemu-devel@nongnu.org, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>, Laurent Vivier <lvivier@redhat.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>, Gautam Dawar <gdawar@xilinx.com>,
- Eli Cohen <eli@mellanox.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, Cindy Lu <lulu@redhat.com>, 
- Si-Wei Liu <si-wei.liu@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Provags-ID: V03:K1:0iNqPumLwof2q/0F5xKJn0rtTt+DuMWmyvOVFLPj8eKzYLB5Y8A
+ iZr2hY/SnTzwTIvEBiMVBk/uWEHbMJGtihi8WNdV2BmQqcYFgyN2ulqvESP6/XhhOpzeIPx
+ BaOrJc7rmo9m4Pah/nKvQsL5A3rO0Ln4XNnaFwAAo9afSdUZJ0VJLQe39K2tGk/Vs0gOyjx
+ EouLUGcsg+JVNoy/hK81g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:RWuazRpU+EQ=:Z6r72k+5MwhdJvGoDirNaF
+ gDPD0QUgwQzzPiFnFIjxE1JFh0MqWw+jM2i2qxa3yu5HCZkEHaiCt0x2EC1MCXad/u6izomIH
+ BCWbg6UuaS8o7p6RJcMv1wXQ/6AgMjyziDhqhq4jg5d+QC3AAvzwjFNuB9mMpJkvg+94zxQSR
+ gJxklkqmFYsr7MjrPJQjSomiDV6Fla2omgG0BfnwHoey0bsQGgL5S/fhqnmgGP6BtAhwQk2qL
+ NCDqLF2mVBfN+mYyeUvuSTVgtJ4qIHSI08DiFeXRYp2w0GYFXcpAY/dVDqLITcPAJ5pru6wIc
+ GEcNH4ss5W6Ury/6EMygmeUWYKEHS3rKJFGUYwhBlWPKO6vy0D+peEULLBtJP7NeQrEGIkKgE
+ 02G2AJeNI0Pm13D3rqsc0WZZofXERcOqTCRTewoW18LFtXE6vhkUMaan780EzPjTIuAjjBf+y
+ XhM3QJh5mF/8SfOz+AXROlXfbKGSQGC3Ajm0piPSbILZ6D52ueYK1P2Veac1VF++qjabjzmR6
+ eb5SiQTt4iBjzwbHTEZeehx/Prjwc7RwYykoaLZ+ZHP4EwO5eMTzFAAs/erPye7wNz2VqjwQE
+ yLz3p+AnTGjS58TstV42MIS8menFcmpqtpVM6xXTix5DdAgj3oTNja0eVI8B6jcefzi2wAOBb
+ vJLLZADD+CGn+9n+6LAScpdrygNz9uq0SK6KfTs3DxL2uE41nnS59z2EOxdzX0qq4UdKUKB25
+ J+Tm2zXFhitEszhcWMkU0RkU+WOVn78h+1+bgVGakqWQTKYTq8P0W2O5Z6i9uoShdnD97fodp
+ WSHdBAsErHKCpdexvNhkLg32EBuRpqJjXUvENMnTcD1UPTG5sVm42PTyS0wP4mNhCWoghDQ2s
+ tMYsKo5xBGMkAZ1nKwHIN395VvnOlQB70TItmAM6rNKZpVrYGxffLkhZorrgdFx1ij7uTPbSw
+ HCDyKcpNAQdhgXVY3q/5JEN/DH3Mt+5z7NWfiw85dZjvY5lx6+ANE4o0MTPlthJSaURopLewg
+ FtQ22O8f7f4SZuQpHmq55U414LtaGias2Dq7f7pMtfYY+N6U636pogGuvZDsm5SQ968IxOrmR
+ lufm+6WgdwiFiEay5pB8CwhMPeQ6KMm0F3v299b4ffGU4qd5JDNMtQBZYxc4InObr8nhhb/eC
+ Y4/DQU9ZDtVuSYJrX5oYJzv/KFSgi7Y6QEbrxvT/PSPf5OoY6rdX918hY6S+W6PKkmvqzLf7A
+ sSfB3lqe4sBqaqMHd3UrDLYaG1wWyZH4/QLwMwE4+UWieYsn/EzcPwfP/PnMpnbARoLBp7TCz
+ /m0rHqonPSuC/RGVEq2ka0qsxi79gBLAMpUo8tJBZscxaQHRDHr46ekwFCi1EZ7E/i9S1+44y
+ DcIlOmtrmGMlXWDp5GithFb7P3QPNv44GZPtpCcGMiJ5qY3fYwIgWgzmEc5VGGEbxoj6jSlaj
+ LDTmcN7yq6dxyQfHtjoyq82Nj5jBuZn9GGwJXO5Q6GcpvP++LoKfQeuHZjOMe/YWRvLDtcAEi
+ TditVcxpxnWYhH3HTW9+SVEd+LUPEYOeU9OMVsKorUq4t
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.503,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,70 +89,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Oct 24, 2022 at 10:05 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Mon, Oct 24, 2022 at 04:00:37PM +0200, Eugenio Perez Martin wrote:
-> > > > It's generally a waste that we don't use endian-ness annotations
-> > > > the way linux does.
-> > >
-> > > Yes, it's worth doing something similar sometime.
-> > >
-> >
-> > Maybe we could wrap them in some struct like virtio_le16 or virtio_16,
-> > avoiding at least integer direct assignment? Wrappers like
-> > cpu_to_virtio16 could return these structs and I think all compilers
-> > should emit the same code as direct assignment.
-> >
-> > Thanks!
-> >
->
-> This will break bitwise operations such as | and &.
-> Generally Linux has solved the problem and I don't think
-> we should go look for another solution.
+Signed-off-by: Helge Deller <deller@gmx.de>
+=2D--
+Changes:
+v5: Simplify check of arg2 against target_fd_max even more
+v4: Fix check of arg2
+v3: fd_trans_unregister() only called if close_range() doesn't fail
+v2: consider CLOSE_RANGE_CLOEXEC flag
 
-Yes, but it should not block this series (we can do that in the future
-if we had bandwidth).
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index a87415bf3d..78796266e8 100644
+=2D-- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -103,6 +103,9 @@
+ #ifdef TARGET_NR_close
+ { TARGET_NR_close, "close" , "%s(%d)", NULL, NULL },
+ #endif
++#ifdef TARGET_NR_close_range
++{ TARGET_NR_close_range, "close_range" , "%s(%u,%u,%u)", NULL, NULL },
++#endif
+ #ifdef TARGET_NR_connect
+ { TARGET_NR_connect, "connect" , "%s(%d,%#x,%d)", NULL, NULL },
+ #endif
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 2e954d8dbd..c51d619a5c 100644
+=2D-- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -338,6 +338,13 @@ _syscall3(int,sys_syslog,int,type,char*,bufp,int,len)
+ #ifdef __NR_exit_group
+ _syscall1(int,exit_group,int,error_code)
+ #endif
++#if defined(__NR_close_range) && defined(TARGET_NR_close_range)
++#define __NR_sys_close_range __NR_close_range
++_syscall3(int,sys_close_range,int,first,int,last,int,flags)
++#ifndef CLOSE_RANGE_CLOEXEC
++#define CLOSE_RANGE_CLOEXEC     (1U << 2)
++#endif
++#endif
+ #if defined(__NR_futex)
+ _syscall6(int,sys_futex,int *,uaddr,int,op,int,val,
+           const struct timespec *,timeout,int *,uaddr2,int,val3)
+@@ -8699,6 +8706,18 @@ static abi_long do_syscall1(CPUArchState *cpu_env, =
+int num, abi_long arg1,
+     case TARGET_NR_close:
+         fd_trans_unregister(arg1);
+         return get_errno(close(arg1));
++#if defined(__NR_close_range) && defined(TARGET_NR_close_range)
++    case TARGET_NR_close_range:
++        ret =3D get_errno(sys_close_range(arg1, arg2, arg3));
++        if (ret =3D=3D 0 && !(arg3 & CLOSE_RANGE_CLOEXEC)) {
++            abi_long fd, maxfd;
++            maxfd =3D MIN(arg2, target_fd_max);
++            for (fd =3D arg1; fd < maxfd; fd++) {
++                fd_trans_unregister(fd);
++            }
++        }
++        return ret;
++#endif
 
-Thanks
-
->
->
-> >
-> >
-> > > Thanks
-> > >
-> > > >
-> > > >
-> > > > > > Thanks
-> > > > > >
-> > > > > > > +    } else {
-> > > > > > > +        svq->vring.avail->flags &= ~cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
-> > > > > > > +    }
-> > > > > > > +
-> > > > > > > +    /* Make sure the event is enabled before the read of used_idx */
-> > > > > > >      smp_mb();
-> > > > > > >      return !vhost_svq_more_used(svq);
-> > > > > > >  }
-> > > > > > >
-> > > > > > >  static void vhost_svq_disable_notification(VhostShadowVirtqueue *svq)
-> > > > > > >  {
-> > > > > > > -    svq->vring.avail->flags |= cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
-> > > > > > > +    /*
-> > > > > > > +     * No need to disable notification in the event idx case, since used event
-> > > > > > > +     * index is already an index too far away.
-> > > > > > > +     */
-> > > > > > > +    if (!virtio_vdev_has_feature(svq->vdev, VIRTIO_RING_F_EVENT_IDX)) {
-> > > > > > > +        svq->vring.avail->flags |= cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
-> > > > > > > +    }
-> > > > > > >  }
-> > > > > > >
-> > > > > > >  static uint16_t vhost_svq_last_desc_of_chain(const VhostShadowVirtqueue *svq,
-> > > > > > > --
-> > > > > > > 2.31.1
-> > > > > > >
-> > > > > >
-> > > >
-> > >
->
-
+     case TARGET_NR_brk:
+         return do_brk(arg1);
 
