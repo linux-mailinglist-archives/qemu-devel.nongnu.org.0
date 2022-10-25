@@ -2,80 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5173D60CC43
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 14:44:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F29F060CC78
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 14:50:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onJHW-0002q0-Ah; Tue, 25 Oct 2022 08:43:46 -0400
+	id 1onJK6-0001Ki-U9; Tue, 25 Oct 2022 08:46:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1onJHN-0002In-GM
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 08:43:41 -0400
+ id 1onJJa-00011n-OX
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 08:45:57 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1onJHL-0002tC-Vh
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 08:43:37 -0400
+ id 1onJJJ-0003O9-Ix
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 08:45:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666701815;
+ s=mimecast20190719; t=1666701936;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XuPgnqH5797G/5yrah2QxarckjUjL7Hg0qCfvQ3D3+E=;
- b=c2xDA56NoFz3qB8+UkXx3P8OSnFGvsnF/xmDr2YP1bK2anz7+3VSVqutPxzauNNeDKSW5u
- sVy4zldT6xBP3wU7pNnLSvw//2l1RmFwI5wFUozl74r5BxtpgFMv9ZLqlRDhE+8vTYHCuC
- j5tUWp+1SND/cTLrYsmtExfmtmWq1f4=
+ bh=dosdjlv4VFrM6JM2sKUh+t5+WPlyRVuBS+rMWiomFmU=;
+ b=DBD2yiz7tFToVg3wOLIn+cdVPALW6jjUKzBiSv4m1gHp/83ruSsSae5rYSIQMNUzohk5ce
+ Pokk0+PhO9Kjaej7+VjMqLZUu8mKL2SOVkQJkj1EhCNoXcogcyphREe9XtpQxdgGqw0IqF
+ 1okM5MnlWjxIsbI6l9ZfX7yKNQZEzgE=
 Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
  [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-379-aFqUxGacPVSJwWzd3_ULhA-1; Tue, 25 Oct 2022 08:43:33 -0400
-X-MC-Unique: aFqUxGacPVSJwWzd3_ULhA-1
+ us-mta-467-B4sHJD4eNxGcvAFDFozX5w-1; Tue, 25 Oct 2022 08:45:33 -0400
+X-MC-Unique: B4sHJD4eNxGcvAFDFozX5w-1
 Received: by mail-qk1-f198.google.com with SMTP id
- o13-20020a05620a2a0d00b006cf9085682dso11253296qkp.7
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 05:43:32 -0700 (PDT)
+ n13-20020a05620a294d00b006cf933c40feso11478479qkp.20
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 05:45:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XuPgnqH5797G/5yrah2QxarckjUjL7Hg0qCfvQ3D3+E=;
- b=eNmLlYmkMH6ZtbIPcLF+mIu4Olao+znd3B67i04dCjtOFX737EV1DYI5b4nd19NOEN
- ceV+Qcr+rxitX4tUawU6Va9gFK916gr1t1h8ntK5bIxvF9VYP0S4AEP68vp4Vjwy5wze
- SMbL0uwghILXx2t2Fd9KKzAuBOz4eUPy7TcooBj5jjxq9DdK0dY23Xl5e0G+owN4IcrD
- MdM2xcKdwsIad7DbUeDT9IJOwjHnUYIwFuhVh+ql+/u0En4gUIHdUh8Ii21AqGPhNs84
- wlxQXFQBjnV2JRur/Wd/lzD1wqshVcn8NtqOg5XU1jbaCamtRzbfiuV5285c6qpNWtZW
- VUCg==
-X-Gm-Message-State: ACrzQf3O1S3gqmHeQXvVEqxQ8dk0wdksDVvbdG3YgHySBYkFAHSjFfZ4
- uhKtP3ZvUdj8V3HVA402V1K67hAFlQYuE6y6BC5I0hE3cmR83Eix/5RXnAioC3gwCbBIB0Ih3Zn
- af4Ne60S3Y7yjFd0=
-X-Received: by 2002:ae9:eb85:0:b0:6ec:54e4:707d with SMTP id
- b127-20020ae9eb85000000b006ec54e4707dmr26805573qkg.336.1666701812338; 
- Tue, 25 Oct 2022 05:43:32 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7gZFRMtRKBbSjSyDcvOkLCg/i1/gtWWnH0lRLg9LsSVaZiS0y/B8wNNvEdcH+atV5QLwLB4A==
-X-Received: by 2002:ae9:eb85:0:b0:6ec:54e4:707d with SMTP id
- b127-20020ae9eb85000000b006ec54e4707dmr26805562qkg.336.1666701812080; 
- Tue, 25 Oct 2022 05:43:32 -0700 (PDT)
+ bh=dosdjlv4VFrM6JM2sKUh+t5+WPlyRVuBS+rMWiomFmU=;
+ b=PQCZVPIzWphFxMN2D8smtB+9/jxDSWhupSLMgPUIVkRhvtw6GEKgYxLefduXcbo5T7
+ BPvMhrXoY2zi5lXNZ2notColnLBuLFgrK2fVDMsn07M6OrEfrkJCeypVpwxXxMX8B9LX
+ 5zTyaxPL1pJnC/B58q1tP6WDbNHxcszSv1H+0xB2DxqZyB0slWJCU9uzDXhBDTTBVSu2
+ 9Wpn1XeqCmQXvGY+a7edeRVHHV8dwap5FxekPkPX28Ww22YzYM3KsMrmWNwhJT5WqOLH
+ tad9Ng8emrRQAHrdnaeqawmmGF2LSQYUL5mEFVNYK7JJWOfCuLF6oW0rV+xDWY7uor90
+ 6crQ==
+X-Gm-Message-State: ACrzQf1grZYOqZ1FihIHiT/2qY/70+2syyXD475VICV+j6hHE82b47Pc
+ +50vo8X8G/GEwjPXW3iQerKrHGC5cxnyYCiOsL3vjTk4YBKXjjKOPyRs0lpFnGlvP/GK6UDYaIn
+ 6VqkSWxPekqKBFOQ=
+X-Received: by 2002:a05:622a:489:b0:3a4:b9dd:7af6 with SMTP id
+ p9-20020a05622a048900b003a4b9dd7af6mr802121qtx.511.1666701932777; 
+ Tue, 25 Oct 2022 05:45:32 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4k/f4TumDvXk7Afug/BBlEUxjifFf3Qs+Fs7kmxtmVTkg7j6z6eTjVrQfblt0tI9Fjreospg==
+X-Received: by 2002:a05:622a:489:b0:3a4:b9dd:7af6 with SMTP id
+ p9-20020a05622a048900b003a4b9dd7af6mr802098qtx.511.1666701932487; 
+ Tue, 25 Oct 2022 05:45:32 -0700 (PDT)
 Received: from [10.201.49.36] (nat-pool-mxp-u.redhat.com. [149.6.153.187])
  by smtp.googlemail.com with ESMTPSA id
- f14-20020a05620a280e00b006eec09eed39sm2022082qkp.40.2022.10.25.05.43.31
+ y21-20020a05620a44d500b006eed75805a2sm2018520qkp.126.2022.10.25.05.45.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Oct 2022 05:43:31 -0700 (PDT)
-Message-ID: <2485e808-6115-1d18-0a4a-131c08cb4bed@redhat.com>
-Date: Tue, 25 Oct 2022 14:43:30 +0200
+ Tue, 25 Oct 2022 05:45:31 -0700 (PDT)
+Message-ID: <b5317dc1-30fe-c59f-2a41-a47e7346a616@redhat.com>
+Date: Tue, 25 Oct 2022 14:45:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
-Subject: Re: [PATCH 0/4] atomic: Friendlier assertions, avoidance of __sync
+Subject: Re: [RFC PATCH] main-loop: introduce WITH_QEMU_IOTHREAD_LOCK
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20221024232435.3334600-1-richard.henderson@linaro.org>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
+References: <20221024171909.434818-1-alex.bennee@linaro.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20221024232435.3334600-1-richard.henderson@linaro.org>
+In-Reply-To: <20221024171909.434818-1-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
@@ -83,8 +87,8 @@ X-Spam_score: -2.6
 X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,38 +104,200 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/25/22 01:24, Richard Henderson wrote:
-> The current use of _Static_assert, via QEMU_BUILD_BUG_ON, requires
-> the user have #if conditionals to avoid the statement from appearing
-> in the preprocessed file at all.  Introduce a new primitive that
-> allows normal C conditionals and dead-code elimination.
+On 10/24/22 19:19, Alex Bennée wrote:
+> This helper intends to ape our other auto-unlocking helpers with
+> WITH_QEMU_LOCK_GUARD. The principle difference is the iothread lock
+> is often nested needs a little extra book keeping to ensure we don't
+> double lock or unlock a lock taken higher up the call chain.
 > 
-> Remove all use of __sync* builtins in favor of __atomic*.
-> We have required them since 47345e71247, last year, and
-> should have removed these at that point.  My bad.
+> Convert some of the common routines that follow this pattern to use
+> the new wrapper.
 > 
-> 
-> r~
-> 
-> 
-> Richard Henderson (4):
->    include/qemu/osdep: Add qemu_build_assert
->    include/qemu/atomic: Use qemu_build_assert
->    include/qemu/thread: Use qatomic_* functions
->    include/qemu/atomic128: Avoid __sync_val_compare_and_swap_16
-> 
->   include/qemu/atomic.h    | 16 ++++++++--------
->   include/qemu/atomic128.h |  8 +-------
->   include/qemu/osdep.h     |  8 ++++++++
->   include/qemu/thread.h    |  8 ++++----
->   meson.build              |  3 ++-
->   5 files changed, 23 insertions(+), 20 deletions(-)
-> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-For patches 1-3,
+Looks good, but having to check whether the lock is taken is a bit of an 
+antipattern.
 
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+What do you think about having both WITH_QEMU_IOTHREAD_LOCK() and 
+MAYBE_WITH_QEMU_IOTHREAD_LOCK()?
+
+Also lots of bonus points for finally renaming these functions to 
+"*_main_thread" rather than "*_iothread" since, confusingly, iothreads 
+(plural) are the only ones that do not and cannot take the "iothread lock".
 
 Paolo
+
+> ---
+>   include/qemu/main-loop.h | 41 ++++++++++++++++++++++++++++++++++++++++
+>   hw/core/cpu-common.c     | 10 ++--------
+>   util/rcu.c               | 40 ++++++++++++++++-----------------------
+>   ui/cocoa.m               | 18 ++++--------------
+>   4 files changed, 63 insertions(+), 46 deletions(-)
+> 
+> diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
+> index aac707d073..604e1823da 100644
+> --- a/include/qemu/main-loop.h
+> +++ b/include/qemu/main-loop.h
+> @@ -341,6 +341,47 @@ void qemu_mutex_lock_iothread_impl(const char *file, int line);
+>    */
+>   void qemu_mutex_unlock_iothread(void);
+>   
+> +/**
+> + * WITH_QEMU_IOTHREAD_LOCK - nested lock of iothread
+> + *
+> + * This is a specialised form of WITH_QEMU_LOCK_GUARD which is used to
+> + * safely encapsulate code that needs the BQL. The main difference is
+> + * the BQL is often nested so we need to save the state of it on entry
+> + * so we know if we need to free it once we leave the scope of the gaurd.
+> + */
+> +
+> +typedef struct {
+> +    bool taken;
+> +} IoThreadLocked;
+> +
+> +static inline IoThreadLocked * qemu_iothread_auto_lock(IoThreadLocked *x)
+> +{
+> +    bool locked = qemu_mutex_iothread_locked();
+> +    if (!locked) {
+> +        qemu_mutex_lock_iothread();
+> +        x->taken = true;
+> +    }
+> +    return x;
+> +}
+> +
+> +static inline void qemu_iothread_auto_unlock(IoThreadLocked *x)
+> +{
+> +    if (x->taken) {
+> +        qemu_mutex_unlock_iothread();
+> +    }
+> +}
+> +
+> +G_DEFINE_AUTOPTR_CLEANUP_FUNC(IoThreadLocked, qemu_iothread_auto_unlock)
+> +
+> +#define WITH_QEMU_IOTHREAD_LOCK_(var) \
+> +    for (g_autoptr(IoThreadLocked) var = \
+> +             qemu_iothread_auto_lock(&(IoThreadLocked) {}); \
+> +         var; \
+> +         qemu_iothread_auto_unlock(var), var = NULL)
+> +
+> +#define WITH_QEMU_IOTHREAD_LOCK \
+> +    WITH_QEMU_IOTHREAD_LOCK_(glue(qemu_lockable_auto, __COUNTER__))
+> +
+>   /*
+>    * qemu_cond_wait_iothread: Wait on condition for the main loop mutex
+>    *
+> diff --git a/hw/core/cpu-common.c b/hw/core/cpu-common.c
+> index f9fdd46b9d..0a60f916a9 100644
+> --- a/hw/core/cpu-common.c
+> +++ b/hw/core/cpu-common.c
+> @@ -70,14 +70,8 @@ CPUState *cpu_create(const char *typename)
+>    * BQL here if we need to.  cpu_interrupt assumes it is held.*/
+>   void cpu_reset_interrupt(CPUState *cpu, int mask)
+>   {
+> -    bool need_lock = !qemu_mutex_iothread_locked();
+> -
+> -    if (need_lock) {
+> -        qemu_mutex_lock_iothread();
+> -    }
+> -    cpu->interrupt_request &= ~mask;
+> -    if (need_lock) {
+> -        qemu_mutex_unlock_iothread();
+> +    WITH_QEMU_IOTHREAD_LOCK {
+> +        cpu->interrupt_request &= ~mask;
+>       }
+>   }
+>   
+> diff --git a/util/rcu.c b/util/rcu.c
+> index b6d6c71cff..02e7491de1 100644
+> --- a/util/rcu.c
+> +++ b/util/rcu.c
+> @@ -320,35 +320,27 @@ static void drain_rcu_callback(struct rcu_head *node)
+>   void drain_call_rcu(void)
+>   {
+>       struct rcu_drain rcu_drain;
+> -    bool locked = qemu_mutex_iothread_locked();
+>   
+>       memset(&rcu_drain, 0, sizeof(struct rcu_drain));
+>       qemu_event_init(&rcu_drain.drain_complete_event, false);
+>   
+> -    if (locked) {
+> -        qemu_mutex_unlock_iothread();
+> -    }
+> -
+> -
+> -    /*
+> -     * RCU callbacks are invoked in the same order as in which they
+> -     * are registered, thus we can be sure that when 'drain_rcu_callback'
+> -     * is called, all RCU callbacks that were registered on this thread
+> -     * prior to calling this function are completed.
+> -     *
+> -     * Note that since we have only one global queue of the RCU callbacks,
+> -     * we also end up waiting for most of RCU callbacks that were registered
+> -     * on the other threads, but this is a side effect that shoudn't be
+> -     * assumed.
+> -     */
+> -
+> -    qatomic_inc(&in_drain_call_rcu);
+> -    call_rcu1(&rcu_drain.rcu, drain_rcu_callback);
+> -    qemu_event_wait(&rcu_drain.drain_complete_event);
+> -    qatomic_dec(&in_drain_call_rcu);
+> +    WITH_QEMU_IOTHREAD_LOCK {
+> +        /*
+> +         * RCU callbacks are invoked in the same order as in which they
+> +         * are registered, thus we can be sure that when 'drain_rcu_callback'
+> +         * is called, all RCU callbacks that were registered on this thread
+> +         * prior to calling this function are completed.
+> +         *
+> +         * Note that since we have only one global queue of the RCU callbacks,
+> +         * we also end up waiting for most of RCU callbacks that were registered
+> +         * on the other threads, but this is a side effect that shoudn't be
+> +         * assumed.
+> +         */
+>   
+> -    if (locked) {
+> -        qemu_mutex_lock_iothread();
+> +        qatomic_inc(&in_drain_call_rcu);
+> +        call_rcu1(&rcu_drain.rcu, drain_rcu_callback);
+> +        qemu_event_wait(&rcu_drain.drain_complete_event);
+> +        qatomic_dec(&in_drain_call_rcu);
+>       }
+>   
+>   }
+> diff --git a/ui/cocoa.m b/ui/cocoa.m
+> index 660d3e0935..f8bd315bdd 100644
+> --- a/ui/cocoa.m
+> +++ b/ui/cocoa.m
+> @@ -115,27 +115,17 @@ static void cocoa_switch(DisplayChangeListener *dcl,
+>   
+>   static void with_iothread_lock(CodeBlock block)
+>   {
+> -    bool locked = qemu_mutex_iothread_locked();
+> -    if (!locked) {
+> -        qemu_mutex_lock_iothread();
+> -    }
+> -    block();
+> -    if (!locked) {
+> -        qemu_mutex_unlock_iothread();
+> +    WITH_QEMU_IOTHREAD_LOCK {
+> +        block();
+>       }
+>   }
+>   
+>   static bool bool_with_iothread_lock(BoolCodeBlock block)
+>   {
+> -    bool locked = qemu_mutex_iothread_locked();
+>       bool val;
+>   
+> -    if (!locked) {
+> -        qemu_mutex_lock_iothread();
+> -    }
+> -    val = block();
+> -    if (!locked) {
+> -        qemu_mutex_unlock_iothread();
+> +    WITH_QEMU_IOTHREAD_LOCK {
+> +      val = block();
+>       }
+>       return val;
+>   }
 
 
