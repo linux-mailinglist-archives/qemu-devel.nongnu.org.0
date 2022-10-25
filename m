@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 829F560D730
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 00:35:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EDB960D75C
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 00:49:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onSU4-000260-6P; Tue, 25 Oct 2022 18:33:20 -0400
+	id 1onSgq-0000Q6-HC; Tue, 25 Oct 2022 18:46:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1onSTw-0001rU-9J
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 18:33:14 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1onSgo-0000GH-Py; Tue, 25 Oct 2022 18:46:30 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1onSTt-0000sV-M1
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 18:33:10 -0400
-Received: by mail-pl1-x632.google.com with SMTP id 4so6357434pli.0
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 15:33:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=SmeFH8zEYHt4XXTH8xr6MKh9nrrpSZRDWKIKc9NNB2M=;
- b=buRyRqT9DFYQun2YGvdQgMpr4662O5cwJQnnV2XK0nsQL5F7rJfyrxkN05ZEQb8ebd
- isH8+mmlKhrw3er9jZe1VppDA5bJ33qG+5RV1QwZWzl5uu5TePasrPE9ynezEaLOsoqr
- 8pag06Ci4DX8UyE0KvuXOSjmXwKimXsWhtAHglvMGcZo0dXiW97zFE9Y2LOWs1UOHXRL
- 1ZVxrz+fTC0GjLig4xa36EJRpZN27OMSbiOsXOmKo6DIBzJVWBTpKCdPunJWYXnVQDGo
- 0mJ2ow/z1CgezrAnlTTfumHEjEkgGz5NDR5gXok+V2mi7d6wq4x49+jPN98o91G4V+uZ
- Yrlg==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1onSgm-0002tu-7r; Tue, 25 Oct 2022 18:46:30 -0400
+Received: by mail-pf1-x433.google.com with SMTP id y13so8874897pfp.7;
+ Tue, 25 Oct 2022 15:46:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=xL5pju1ZGlr10niKOO7BDyu/UjM6zSvTW38fF30MvtU=;
+ b=nv8TVrAzyGpdvn5ziUMtQQ3BYnpm18hxPLfn/y2Hvk//QcNkUvuJReGBz3IJEUIf1m
+ j1xnYLY3gjomE9JFSh1pHQfqNywxMQ/0WaCNBgcS9a0KgQMWba/dg4v9UWTMz2NjWIod
+ n03UT8Te6LK18tCcj1xY2YQKBlOuUoYBADHjuDfHUvZSO02xqYb76V7dAHWqRRNC3gCD
+ Ec10e7JC2rbvLSIEj5jmofkvvQh5fQ/ncFtkfnUyzB3RZYxk4RtWlQbCyNzobr2ZyDs6
+ RUL7lXzFnOEf0txh/haT+zk8tyicLT/8RmCrUEpPF+p+WMiPb2k13yNcfLc40VLpmlaC
+ xxgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SmeFH8zEYHt4XXTH8xr6MKh9nrrpSZRDWKIKc9NNB2M=;
- b=AUoWWwv4DTCAwJL95b71HfT8YhY63mjpVpka5c5R92uyOikMLRI99mffu5zO/mxrsS
- mOM8hTCffZIvbSMWRtwfOGhzIGisV/585Rf7YH9ZURK8qeyzaNraEWVYXHmZRKfqsDSI
- zoaBXHlk0vMz7E+TTQuIA5sN9SVzYwIgvrgducNRUA17e4DGn+KW8FSjs5ZQ9JWzQMh+
- iT7VjbhJhvht0HjBn6bd5lAVnKAuSRu0DidP0kp+EP1hm8RWoweme1rtui6EPa7uB0ws
- 0V85TvU5svuBJRZHaT/jRmjVzlbwpteUkG9YFxl8OY7Io1SrB59VexnlIPV3ZaFwVgzG
- t7Qg==
-X-Gm-Message-State: ACrzQf16ANFIdE3vS+wxJDdNTZ9cusBNwJ/HZE7FGMO/7+9pltdmz9QV
- zea2CQJTcRelKC/Z0FkRrUKZ/A==
-X-Google-Smtp-Source: AMsMyM5bGUG3VUTGZyvSrYIb/UI/UGzeI6N5MSt8AfVxS6XbKOfbSMQTN1SpdTYnOUgA6cKPiTLvGQ==
-X-Received: by 2002:a17:902:edc3:b0:172:8ae3:9778 with SMTP id
- q3-20020a170902edc300b001728ae39778mr40640159plk.72.1666737187669; 
- Tue, 25 Oct 2022 15:33:07 -0700 (PDT)
-Received: from [172.31.50.139] ([103.100.225.182])
- by smtp.gmail.com with ESMTPSA id
- d9-20020a63f249000000b0044ed37dbca8sm1740449pgk.2.2022.10.25.15.33.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Oct 2022 15:33:07 -0700 (PDT)
-Message-ID: <464365a2-72bd-ccb4-4c69-5defec55d625@linaro.org>
-Date: Wed, 26 Oct 2022 08:33:02 +1000
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xL5pju1ZGlr10niKOO7BDyu/UjM6zSvTW38fF30MvtU=;
+ b=CyFKWtEcBRSNR13oHtBvxm1tlheZY2Ebbku0d/OpF4ox9MslQo0Vd5eSZbrZTycXsR
+ 1cM289OM7x1xlXEfkLXh52ctd36nbaza5nsVOgRsJNHHp3Vdi7MxFB5XARbwT/03v49F
+ io5GuRVq0OdByOGj5n2B+2aUbetfmbUVgB57WAmW/BaSFViRgv+qhxgdcDZJxecjnHWK
+ iOC9yvEFXgzXkX1/aR6pBmCOgOtFoRaAODYkXr245P+5WCujUp0d8kZhm9m4/L2Io1Ri
+ w7Zq5jULyVPkDqCH2r58FRcBubEyEWpA3dPXnSLtQi7S+6cqgtiEgxBiZmcTKALSoXUG
+ Ao9Q==
+X-Gm-Message-State: ACrzQf3rKvLOUu/sR5tu3m9E1NTRWjWUlYiaj5LvFnPCoBWZZnuImwFp
+ 1Pt7i2JtFoX2fo51hr3K7KcdvHgw4n3FcAFKUBE=
+X-Google-Smtp-Source: AMsMyM7BFYHTHlgvzp9sWHOWsCgl3ASk+rgmQqjglwaJFO10MNu+u9uZTtkV2M8X32OLD8W7CgBb821EZu1QbHe4Cxw=
+X-Received: by 2002:a65:604e:0:b0:43c:428d:16a9 with SMTP id
+ a14-20020a65604e000000b0043c428d16a9mr7360198pgp.423.1666737983575; Tue, 25
+ Oct 2022 15:46:23 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH 0/4] atomic: Friendlier assertions, avoidance of __sync
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20221024232435.3334600-1-richard.henderson@linaro.org>
- <2485e808-6115-1d18-0a4a-131c08cb4bed@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <2485e808-6115-1d18-0a4a-131c08cb4bed@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+References: <20221023233337.2846860-1-richard.henderson@linaro.org>
+In-Reply-To: <20221023233337.2846860-1-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 26 Oct 2022 08:45:56 +1000
+Message-ID: <CAKmqyKNUrA+jUEYc0hxSbq-kUwjyhwJRfLO0aXb4t+Y=4MzawQ@mail.gmail.com>
+Subject: Re: [PATCH] tcg/riscv: Fix base register for user-only qemu_ld/st
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, 
+ LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=alistair23@gmail.com; helo=mail-pf1-x433.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,41 +82,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/25/22 22:43, Paolo Bonzini wrote:
-> On 10/25/22 01:24, Richard Henderson wrote:
->> The current use of _Static_assert, via QEMU_BUILD_BUG_ON, requires
->> the user have #if conditionals to avoid the statement from appearing
->> in the preprocessed file at all.  Introduce a new primitive that
->> allows normal C conditionals and dead-code elimination.
->>
->> Remove all use of __sync* builtins in favor of __atomic*.
->> We have required them since 47345e71247, last year, and
->> should have removed these at that point.  My bad.
->>
->>
->> r~
->>
->>
->> Richard Henderson (4):
->>    include/qemu/osdep: Add qemu_build_assert
->>    include/qemu/atomic: Use qemu_build_assert
->>    include/qemu/thread: Use qatomic_* functions
->>    include/qemu/atomic128: Avoid __sync_val_compare_and_swap_16
->>
->>   include/qemu/atomic.h    | 16 ++++++++--------
->>   include/qemu/atomic128.h |  8 +-------
->>   include/qemu/osdep.h     |  8 ++++++++
->>   include/qemu/thread.h    |  8 ++++----
->>   meson.build              |  3 ++-
->>   5 files changed, 23 insertions(+), 20 deletions(-)
->>
-> 
-> For patches 1-3,
-> 
-> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+On Mon, Oct 24, 2022 at 1:26 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> When guest_base != 0, we were not coordinating the usage of
+> TCG_REG_TMP0 as base properly, leading to a previous zero-extend
+> of the input address being discarded.
+>
+> Shuffle the alignment check to the front, because that does not
+> depend on the zero-extend, and it keeps the register usage clear.
+> Set base after each step of the address arithmetic instead of before.
+>
+> Return the base register used from tcg_out_tlb_load, so as to
+> keep that register choice localized to that function.
+>
+> Reported-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Queuing patches 1-3 to tcg-next.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
+Alistair
 
-r~
+> ---
+>  tcg/riscv/tcg-target.c.inc | 39 +++++++++++++++++++++-----------------
+>  1 file changed, 22 insertions(+), 17 deletions(-)
+>
+> diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
+> index 2a84c57bec..e3b608034f 100644
+> --- a/tcg/riscv/tcg-target.c.inc
+> +++ b/tcg/riscv/tcg-target.c.inc
+> @@ -923,9 +923,9 @@ static void tcg_out_goto(TCGContext *s, const tcg_insn_unit *target)
+>      tcg_debug_assert(ok);
+>  }
+>
+> -static void tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
+> -                             TCGReg addrh, MemOpIdx oi,
+> -                             tcg_insn_unit **label_ptr, bool is_load)
+> +static TCGReg tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
+> +                               TCGReg addrh, MemOpIdx oi,
+> +                               tcg_insn_unit **label_ptr, bool is_load)
+>  {
+>      MemOp opc = get_memop(oi);
+>      unsigned s_bits = opc & MO_SIZE;
+> @@ -975,6 +975,7 @@ static void tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
+>          addrl = TCG_REG_TMP0;
+>      }
+>      tcg_out_opc_reg(s, OPC_ADD, TCG_REG_TMP0, TCG_REG_TMP2, addrl);
+> +    return TCG_REG_TMP0;
+>  }
+>
+>  static void add_qemu_ldst_label(TCGContext *s, int is_ld, MemOpIdx oi,
+> @@ -1177,7 +1178,7 @@ static void tcg_out_qemu_ld(TCGContext *s, const TCGArg *args, bool is_64)
+>  #else
+>      unsigned a_bits;
+>  #endif
+> -    TCGReg base = TCG_REG_TMP0;
+> +    TCGReg base;
+>
+>      data_regl = *args++;
+>      data_regh = (TCG_TARGET_REG_BITS == 32 && is_64 ? *args++ : 0);
+> @@ -1187,23 +1188,25 @@ static void tcg_out_qemu_ld(TCGContext *s, const TCGArg *args, bool is_64)
+>      opc = get_memop(oi);
+>
+>  #if defined(CONFIG_SOFTMMU)
+> -    tcg_out_tlb_load(s, addr_regl, addr_regh, oi, label_ptr, 1);
+> +    base = tcg_out_tlb_load(s, addr_regl, addr_regh, oi, label_ptr, 1);
+>      tcg_out_qemu_ld_direct(s, data_regl, data_regh, base, opc, is_64);
+>      add_qemu_ldst_label(s, 1, oi,
+>                          (is_64 ? TCG_TYPE_I64 : TCG_TYPE_I32),
+>                          data_regl, data_regh, addr_regl, addr_regh,
+>                          s->code_ptr, label_ptr);
+>  #else
+> -    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
+> -        tcg_out_ext32u(s, base, addr_regl);
+> -        addr_regl = base;
+> -    }
+>      a_bits = get_alignment_bits(opc);
+>      if (a_bits) {
+>          tcg_out_test_alignment(s, true, addr_regl, a_bits);
+>      }
+> +    base = addr_regl;
+> +    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
+> +        tcg_out_ext32u(s, TCG_REG_TMP0, base);
+> +        base = TCG_REG_TMP0;
+> +    }
+>      if (guest_base != 0) {
+> -        tcg_out_opc_reg(s, OPC_ADD, base, TCG_GUEST_BASE_REG, addr_regl);
+> +        tcg_out_opc_reg(s, OPC_ADD, TCG_REG_TMP0, TCG_GUEST_BASE_REG, base);
+> +        base = TCG_REG_TMP0;
+>      }
+>      tcg_out_qemu_ld_direct(s, data_regl, data_regh, base, opc, is_64);
+>  #endif
+> @@ -1249,7 +1252,7 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args, bool is_64)
+>  #else
+>      unsigned a_bits;
+>  #endif
+> -    TCGReg base = TCG_REG_TMP0;
+> +    TCGReg base;
+>
+>      data_regl = *args++;
+>      data_regh = (TCG_TARGET_REG_BITS == 32 && is_64 ? *args++ : 0);
+> @@ -1259,23 +1262,25 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args, bool is_64)
+>      opc = get_memop(oi);
+>
+>  #if defined(CONFIG_SOFTMMU)
+> -    tcg_out_tlb_load(s, addr_regl, addr_regh, oi, label_ptr, 0);
+> +    base = tcg_out_tlb_load(s, addr_regl, addr_regh, oi, label_ptr, 0);
+>      tcg_out_qemu_st_direct(s, data_regl, data_regh, base, opc);
+>      add_qemu_ldst_label(s, 0, oi,
+>                          (is_64 ? TCG_TYPE_I64 : TCG_TYPE_I32),
+>                          data_regl, data_regh, addr_regl, addr_regh,
+>                          s->code_ptr, label_ptr);
+>  #else
+> -    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
+> -        tcg_out_ext32u(s, base, addr_regl);
+> -        addr_regl = base;
+> -    }
+>      a_bits = get_alignment_bits(opc);
+>      if (a_bits) {
+>          tcg_out_test_alignment(s, false, addr_regl, a_bits);
+>      }
+> +    base = addr_regl;
+> +    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
+> +        tcg_out_ext32u(s, TCG_REG_TMP0, base);
+> +        base = TCG_REG_TMP0;
+> +    }
+>      if (guest_base != 0) {
+> -        tcg_out_opc_reg(s, OPC_ADD, base, TCG_GUEST_BASE_REG, addr_regl);
+> +        tcg_out_opc_reg(s, OPC_ADD, TCG_REG_TMP0, TCG_GUEST_BASE_REG, base);
+> +        base = TCG_REG_TMP0;
+>      }
+>      tcg_out_qemu_st_direct(s, data_regl, data_regh, base, opc);
+>  #endif
+> --
+> 2.34.1
+>
+>
 
