@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 745BA60D1C1
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 18:43:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8848B60D1CA
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 18:46:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onMyB-00052Q-O8; Tue, 25 Oct 2022 12:40:03 -0400
+	id 1onMyL-0005La-7T; Tue, 25 Oct 2022 12:40:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1onMy9-0004zr-24
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 12:40:02 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ id 1onMyE-00057c-0q
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 12:40:06 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1onMy6-0001OR-Pg
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 12:40:00 -0400
-Received: by mail-wr1-x431.google.com with SMTP id z14so8564697wrn.7
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 09:39:57 -0700 (PDT)
+ id 1onMy6-0001OT-Pz
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 12:40:05 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ bh7-20020a05600c3d0700b003c6fb3b2052so8679904wmb.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 09:39:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=hY0POGqFqW7EijffbvLzF0Tmz3qfnjEYn1YZBVrMPJY=;
- b=lmY/TYV+Oquski4hdEXG79Ux52L2UHVXlPMIPix2t8mbt6UR3r/6iX9kHa2WSvvv8G
- +UJyk4zQl0Nni58BH5HVYlVhPyhsRJFGGBv8/C69wJStUk5e1vmnY94HyxK4Q3qbcOVF
- hsMDyCK7Xv7SrRI+hpyEu/6mXgXQkeEaaUG0CJcbctGElsw5bkt7e2QduU1Jcdh/8O8C
- +mTMfSwnPJ/frREB1VFr8YYvG5qoVmdgfkIpkfxQjDKkO0GvuM5aPLupnQdNneKnEEMJ
- OThTSyQpOY2P7Tk+JWR4iHVvXWx0QQZXyq79mZxdBhOjqtL7tDLnExpZql3yQ+4SkDXx
- /Wlw==
+ :reply-to; bh=utmGtkV3MP5DXSAZKoAvE/klwIkMKDQpq8pKnbZX+nE=;
+ b=XcW1UDKPRnvCBmc7Mk5XxmBOXNMjn744zGtLPL/6j4EBwPy7XAfb11ouBsWDJuzc6r
+ R4m1bfVjwWG6wZGt0lD/nrWbXR6FpiRn0eXgloFrzdH3zC8siR4mXUqQfowL+7tkh9ir
+ r76QkEjVQQDuuG8k1e8wLKUqjaaJmMnXlyUWjQvmP0juIFTaasBeWEs6XrVnDXqrxJYm
+ x2UvbXVeRzaR3VEdX7dYgUP0Jkvqy415is2dv4xe4XtX4ZjbDp6se5uAan0g0tkOY9wU
+ r5o2+V0IFsrfJcMVVlBzio3f5GOfFZUmQbOAMgw5CxkhOff98nw95RdlSV979oxKivOM
+ 5QTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hY0POGqFqW7EijffbvLzF0Tmz3qfnjEYn1YZBVrMPJY=;
- b=o4tpoY4+fPUZC3kWEeldYApPEbtRNmGzUwMBQfrgJTam10iNdAIP3Nmqgo7xAj1QqG
- j5+DK1Z0TOggqUA9nsB2h12S/I3mluUaGmCRz62WDDyZjRd/8SV+TDLIDCjALnRu85sS
- RJApAvC+R+LKubWACjK+ONKo1YsHdadIZoRH6sBaIMdJYkSEEz5LuqZE6SwCLuiswuSL
- xn/yzAAmLUlxSIOV9b3reIh7snH1RcQYn9TGe6Z44midZ3Zv+1eiqQJ1dUNvTr/IS8YN
- mxh6wrocVOkV0mUekU9w9GCrOup3j2s4YGHfvDCoimGcEAvQChjIY8qISsvlNyEy5/Uf
- lvzQ==
-X-Gm-Message-State: ACrzQf1YvhokkWMaPodyAOhQ/iWvp6Yar4Ui+TnZKd2GtapuZSYvpMEt
- gmbFkvXvSZ5X6xtMhdHAdhRD5X4EhY1kkg==
-X-Google-Smtp-Source: AMsMyM4COY2qkaxTuhQEvx7mxvDHJxNSU3x9+cchOXNapPMEow2r3ao/xJWYHKRZb99vPjY0vZ8Gfg==
-X-Received: by 2002:adf:d1ca:0:b0:236:737f:8dfa with SMTP id
- b10-20020adfd1ca000000b00236737f8dfamr7228369wrd.588.1666715996190; 
- Tue, 25 Oct 2022 09:39:56 -0700 (PDT)
+ bh=utmGtkV3MP5DXSAZKoAvE/klwIkMKDQpq8pKnbZX+nE=;
+ b=GXtoVePMh0qMX51axMa06rWoJ/EYSJGWPjK+HUL0bpO5Af6l1IaNrr6BTn+3fIaIS6
+ fDVOF1w5JMkAnoHUIGZ4+1uREt/T+olGg1A4dS+i1H9dAUm/1FXoEpGHHd9b3JckMvWW
+ I055cED+9pcgoQnKSLB+Bi4dh2IcvJCiqfvbO20dT73M8HlZNHg2woGhrmUdA8RJjVF9
+ 458hDVs/U/IC2+VZBXHebVVv3DrUHmkQ2xqlYqTWPLw/YrdOOGck8y/OxtId7Tkx/+BC
+ SGVGOyGEEJrF1yxC/eHAe2NseibTwhn+z8ji3RhylOSoYRLfO1ZHN9nnVyjdG8G4s3tz
+ lMxg==
+X-Gm-Message-State: ACrzQf0H+M8iJXs3xQI/12bAWNOaru6Rur8o4H35EmrWv4SBiW0K8jOt
+ 3jx6m2BJ78S2enxzsFnU8Q8sJ4ZexVOXFg==
+X-Google-Smtp-Source: AMsMyM7FryKkY5UpnspV2IsIf38vG80h3QmNfDJKPExs/z6obzBnz5uiaMMNGBHVcSODTiYdekzNcw==
+X-Received: by 2002:a05:600c:3384:b0:3c6:f25a:96e9 with SMTP id
+ o4-20020a05600c338400b003c6f25a96e9mr34935482wmp.112.1666715997213; 
+ Tue, 25 Oct 2022 09:39:57 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- z12-20020a05600c220c00b003cd9c26a0basm2971084wml.40.2022.10.25.09.39.54
+ z12-20020a05600c220c00b003cd9c26a0basm2971084wml.40.2022.10.25.09.39.56
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Oct 2022 09:39:55 -0700 (PDT)
+ Tue, 25 Oct 2022 09:39:56 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/30] target/arm: Implement FEAT_E0PD
-Date: Tue, 25 Oct 2022 17:39:23 +0100
-Message-Id: <20221025163952.4131046-2-peter.maydell@linaro.org>
+Subject: [PULL 02/30] hw/arm/virt: Fix devicetree warnings about the
+ virtio-iommu node
+Date: Tue, 25 Oct 2022 17:39:24 +0100
+Message-Id: <20221025163952.4131046-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221025163952.4131046-1-peter.maydell@linaro.org>
 References: <20221025163952.4131046-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,162 +90,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-FEAT_E0PD adds new bits E0PD0 and E0PD1 to TCR_EL1, which allow the
-OS to forbid EL0 access to half of the address space.  Since this is
-an EL0-specific variation on the existing TCR_ELx.{EPD0,EPD1}, we can
-implement it entirely in aa64_va_parameters().
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 
-This requires moving the existing regime_is_user() to internals.h
-so that the code in helper.c can get at it.
+The "PCI Bus Binding to: IEEE Std 1275-1994" defines the compatible
+string for a PCIe bus or endpoint as "pci<vendorid>,<deviceid>" or
+similar. Since the initial binding for PCI virtio-iommu didn't follow
+this rule, it was modified to accept both strings and ensure backward
+compatibility. Also, the unit-name for the node should be
+"device,function".
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Fix corresponding dt-validate and dtc warnings:
+
+  pcie@10000000: virtio_iommu@16:compatible: ['virtio,pci-iommu'] does not contain items matching the given schema
+  pcie@10000000: Unevaluated properties are not allowed (... 'virtio_iommu@16' were unexpected)
+  From schema: linux/Documentation/devicetree/bindings/pci/host-generic-pci.yaml
+  virtio_iommu@16: compatible: 'oneOf' conditional failed, one must be fixed:
+        ['virtio,pci-iommu'] is too short
+        'pci1af4,1057' was expected
+  From schema: dtschema/schemas/pci/pci-bus.yaml
+
+  Warning (pci_device_reg): /pcie@10000000/virtio_iommu@16: PCI unit address format error, expected "2,0"
+
+Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20221021160131.3531787-1-peter.maydell@linaro.org
 ---
- docs/system/arm/emulation.rst |  1 +
- target/arm/cpu.h              |  5 +++++
- target/arm/internals.h        | 19 +++++++++++++++++++
- target/arm/cpu64.c            |  1 +
- target/arm/helper.c           |  9 +++++++++
- target/arm/ptw.c              | 19 -------------------
- 6 files changed, 35 insertions(+), 19 deletions(-)
+ hw/arm/virt.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
-index cfb4b0768b0..fd61360a086 100644
---- a/docs/system/arm/emulation.rst
-+++ b/docs/system/arm/emulation.rst
-@@ -24,6 +24,7 @@ the following architecture extensions:
- - FEAT_Debugv8p4 (Debug changes for v8.4)
- - FEAT_DotProd (Advanced SIMD dot product instructions)
- - FEAT_DoubleFault (Double Fault Extension)
-+- FEAT_E0PD (Preventing EL0 access to halves of address maps)
- - FEAT_ETS (Enhanced Translation Synchronization)
- - FEAT_FCMA (Floating-point complex number instructions)
- - FEAT_FHM (Floating-point half-precision multiplication instructions)
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 64fc03214c1..f8c59858063 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -4139,6 +4139,11 @@ static inline bool isar_feature_aa64_lva(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, VARANGE) != 0;
- }
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index cda9defe8f0..b8713508561 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1371,14 +1371,15 @@ static void create_smmu(const VirtMachineState *vms,
  
-+static inline bool isar_feature_aa64_e0pd(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, E0PD) != 0;
-+}
-+
- static inline bool isar_feature_aa64_tts2uxn(const ARMISARegisters *id)
+ static void create_virtio_iommu_dt_bindings(VirtMachineState *vms)
  {
-     return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, XNX) != 0;
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index c3c3920ded2..c8c5ca7b934 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -707,6 +707,25 @@ static inline uint32_t regime_el(CPUARMState *env, ARMMMUIdx mmu_idx)
-     }
- }
+-    const char compat[] = "virtio,pci-iommu";
++    const char compat[] = "virtio,pci-iommu\0pci1af4,1057";
+     uint16_t bdf = vms->virtio_iommu_bdf;
+     MachineState *ms = MACHINE(vms);
+     char *node;
  
-+static inline bool regime_is_user(CPUARMState *env, ARMMMUIdx mmu_idx)
-+{
-+    switch (mmu_idx) {
-+    case ARMMMUIdx_E20_0:
-+    case ARMMMUIdx_Stage1_E0:
-+    case ARMMMUIdx_MUser:
-+    case ARMMMUIdx_MSUser:
-+    case ARMMMUIdx_MUserNegPri:
-+    case ARMMMUIdx_MSUserNegPri:
-+        return true;
-+    default:
-+        return false;
-+    case ARMMMUIdx_E10_0:
-+    case ARMMMUIdx_E10_1:
-+    case ARMMMUIdx_E10_1_PAN:
-+        g_assert_not_reached();
-+    }
-+}
-+
- /* Return the SCTLR value which controls this address translation regime */
- static inline uint64_t regime_sctlr(CPUARMState *env, ARMMMUIdx mmu_idx)
- {
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 85e0d1daf1c..da95eabab5e 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -1185,6 +1185,7 @@ static void aarch64_max_initfn(Object *obj)
-     t = FIELD_DP64(t, ID_AA64MMFR2, FWB, 1);      /* FEAT_S2FWB */
-     t = FIELD_DP64(t, ID_AA64MMFR2, TTL, 1);      /* FEAT_TTL */
-     t = FIELD_DP64(t, ID_AA64MMFR2, BBM, 2);      /* FEAT_BBM at level 2 */
-+    t = FIELD_DP64(t, ID_AA64MMFR2, E0PD, 1);     /* FEAT_E0PD */
-     cpu->isar.id_aa64mmfr2 = t;
+     vms->iommu_phandle = qemu_fdt_alloc_phandle(ms->fdt);
  
-     t = cpu->isar.id_aa64zfr0;
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index c672903f432..252651a8d19 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -10491,6 +10491,8 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-         ps = extract32(tcr, 16, 3);
-         ds = extract64(tcr, 32, 1);
-     } else {
-+        bool e0pd;
-+
-         /*
-          * Bit 55 is always between the two regions, and is canonical for
-          * determining if address tagging is enabled.
-@@ -10502,15 +10504,22 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-             epd = extract32(tcr, 7, 1);
-             sh = extract32(tcr, 12, 2);
-             hpd = extract64(tcr, 41, 1);
-+            e0pd = extract64(tcr, 55, 1);
-         } else {
-             tsz = extract32(tcr, 16, 6);
-             gran = tg1_to_gran_size(extract32(tcr, 30, 2));
-             epd = extract32(tcr, 23, 1);
-             sh = extract32(tcr, 28, 2);
-             hpd = extract64(tcr, 42, 1);
-+            e0pd = extract64(tcr, 56, 1);
-         }
-         ps = extract64(tcr, 32, 3);
-         ds = extract64(tcr, 59, 1);
-+
-+        if (e0pd && cpu_isar_feature(aa64_e0pd, cpu) &&
-+            regime_is_user(env, mmu_idx)) {
-+            epd = true;
-+        }
-     }
- 
-     gran = sanitize_gran_size(cpu, gran, stage2);
-diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 6c5ed56a101..aed6f92d6f6 100644
---- a/target/arm/ptw.c
-+++ b/target/arm/ptw.c
-@@ -104,25 +104,6 @@ static bool regime_translation_big_endian(CPUARMState *env, ARMMMUIdx mmu_idx)
-     return (regime_sctlr(env, mmu_idx) & SCTLR_EE) != 0;
- }
- 
--static bool regime_is_user(CPUARMState *env, ARMMMUIdx mmu_idx)
--{
--    switch (mmu_idx) {
--    case ARMMMUIdx_E20_0:
--    case ARMMMUIdx_Stage1_E0:
--    case ARMMMUIdx_MUser:
--    case ARMMMUIdx_MSUser:
--    case ARMMMUIdx_MUserNegPri:
--    case ARMMMUIdx_MSUserNegPri:
--        return true;
--    default:
--        return false;
--    case ARMMMUIdx_E10_0:
--    case ARMMMUIdx_E10_1:
--    case ARMMMUIdx_E10_1_PAN:
--        g_assert_not_reached();
--    }
--}
--
- /* Return the TTBR associated with this translation regime */
- static uint64_t regime_ttbr(CPUARMState *env, ARMMMUIdx mmu_idx, int ttbrn)
- {
+-    node = g_strdup_printf("%s/virtio_iommu@%d", vms->pciehb_nodename, bdf);
++    node = g_strdup_printf("%s/virtio_iommu@%x,%x", vms->pciehb_nodename,
++                           PCI_SLOT(bdf), PCI_FUNC(bdf));
+     qemu_fdt_add_subnode(ms->fdt, node);
+     qemu_fdt_setprop(ms->fdt, node, "compatible", compat, sizeof(compat));
+     qemu_fdt_setprop_sized_cells(ms->fdt, node, "reg",
 -- 
 2.25.1
 
