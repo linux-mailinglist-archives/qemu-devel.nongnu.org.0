@@ -2,68 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA93460C19C
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 04:21:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BB6060C1A3
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 04:24:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on9Up-0006kv-Jt; Mon, 24 Oct 2022 22:16:51 -0400
+	id 1on9YA-0001zU-Hf; Mon, 24 Oct 2022 22:20:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
- id 1on9Um-0006jJ-2V
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 22:16:48 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
- id 1on9Ui-0003TS-FU
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 22:16:47 -0400
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.56])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MxFmv6qXjz15M3T;
- Tue, 25 Oct 2022 10:11:43 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 25 Oct 2022 10:16:35 +0800
-Received: from [10.174.178.174] (10.174.178.174) by
- dggpemm500007.china.huawei.com (7.185.36.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 25 Oct 2022 10:16:33 +0800
-Subject: Re: [PATCH v2] kset: fix memory leak when kset_register() returns
- error
-To: Luben Tuikov <luben.tuikov@amd.com>, <linux-kernel@vger.kernel.org>,
- <qemu-devel@nongnu.org>, <linux-f2fs-devel@lists.sourceforge.net>,
- <linux-erofs@lists.ozlabs.org>, <ocfs2-devel@oss.oracle.com>,
- <linux-mtd@lists.infradead.org>, <amd-gfx@lists.freedesktop.org>
-CC: <gregkh@linuxfoundation.org>, <rafael@kernel.org>, <somlo@cmu.edu>,
- <mst@redhat.com>, <jaegeuk@kernel.org>, <chao@kernel.org>,
- <hsiangkao@linux.alibaba.com>, <huangjianan@oppo.com>, <mark@fasheh.com>,
- <jlbec@evilplan.org>, <joseph.qi@linux.alibaba.com>,
- <akpm@linux-foundation.org>, <alexander.deucher@amd.com>, <richard@nod.at>,
- <liushixin2@huawei.com>
-References: <20221024121910.1169801-1-yangyingliang@huawei.com>
- <176ae1a1-9240-eef8-04e9-000d47646f4a@amd.com>
- <dcb8b35a-7d0d-cc00-41e3-6e66837c506f@amd.com>
-Message-ID: <26c8c125-453c-af32-a66c-2a37e964ce19@huawei.com>
-Date: Tue, 25 Oct 2022 10:16:33 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1on9Y7-0001yx-TL; Mon, 24 Oct 2022 22:20:15 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1on9Y6-00041m-0O; Mon, 24 Oct 2022 22:20:15 -0400
+Received: by mail-pg1-x530.google.com with SMTP id q71so10262517pgq.8;
+ Mon, 24 Oct 2022 19:20:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Uv/wE81/zWTfnFs2ZgkIgNycUuOUxvgfJh+AfaDNfFo=;
+ b=jW4OVkCvxm3TSM1u2fZFAAWPxE1pftmrqnGGx9CLIqjvzMu9RfMqVFmBFj0lNhIK0H
+ Ph0DM/jGQ2e60k2ddvUfkWfDIwP5MfaKjTz4BFs+n7XvaD/dvMMIt5w05aAViq+icx32
+ r/DpVgAEZv9PDQedvqip/h+gnzqTdyOWRY5i5L88h/W6D2pEQb+8UtkntFQn8xzDtju3
+ wqKxXayCn8ehEzA6iNBx/S6cF0Fz8YWfwvsIltO9I2QonDzr7aGbUYeXqVDgH0/4001+
+ q+p/dZVOEJN9uKRjUDR1IlKZTGmyvYh0dl8B1bGMzqroZ090ZqpUmwsoTkMO2Ybgta0W
+ ysUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Uv/wE81/zWTfnFs2ZgkIgNycUuOUxvgfJh+AfaDNfFo=;
+ b=k/xpBtuKlbOOboafKFxBLoxHMtef5lCweHrjnKapwCwq/Mym0+Rbf4azC6dJEYLsWs
+ fptzsdIuDZSOjTsSAuwqsp+3Ffa5N7y6RjNWHN2IWHihsbhK02aVL6yGg8oOtc44dAS1
+ RtwzbPQ4W39UQysKb4DG91/Fp88gP6cpZZZ9qNPzSyIdxsd2uU6AwSwFa0Yn+KJnntZM
+ xAIOKJGV0Cs8JIhmMIkQnS7EkCmky1tZjnNVco+x54Im0L3QgWBV/M12HwdWUuHGiHSX
+ hPbZK2MZS7cfjI7qvwMgl/anJ7NTlY8a4gmfAz3DhdwUrKylpQQVW/upAju/idOmoPNy
+ /izg==
+X-Gm-Message-State: ACrzQf14hkFO5q/ngDn1hI6UiQUO1HQU6YPOB7D4792G1qWpK8SHsTuA
+ SUdyp63uo21yjmE8hn/7qDs2/KcGaayQC7jZ7gQ=
+X-Google-Smtp-Source: AMsMyM4LxXsYSj3Rzu5Q1B6J+eiCjP2UCz3r+WoQL369B9kTBSM6mOMSuwk00jyBauPUp5njorTT8ZarbZ3LaMjhYKs=
+X-Received: by 2002:a63:ce43:0:b0:45b:d6ed:6c2 with SMTP id
+ r3-20020a63ce43000000b0045bd6ed06c2mr30608055pgi.406.1666664411977; Mon, 24
+ Oct 2022 19:20:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <dcb8b35a-7d0d-cc00-41e3-6e66837c506f@amd.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.178.174]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255;
- envelope-from=yangyingliang@huawei.com; helo=szxga08-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+References: <20220909152258.2568942-1-leon@is.currently.online>
+ <CAKmqyKMfZXarM1g8PdhAqcgZzDyq6RY3R94cYhOo80WXiCv5aA@mail.gmail.com>
+ <8735bjqz8f.fsf@silicon.host.schuermann.io>
+In-Reply-To: <8735bjqz8f.fsf@silicon.host.schuermann.io>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 25 Oct 2022 12:19:35 +1000
+Message-ID: <CAKmqyKO7=LS9JbMyCKg3C5U3-vNJiQTEDR59atwMGoCSpF3C2g@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv/pmp: fix non-translated page size address
+ checks w/ MPU
+To: Leon Schuermann <leon@is.currently.online>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x530.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,95 +85,113 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
-Reply-to:  Yang Yingliang <yangyingliang@huawei.com>
-From:  Yang Yingliang via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+On Thu, Oct 20, 2022 at 7:29 AM Leon Schuermann
+<leon@is.currently.online> wrote:
+>
+> Alistair Francis <alistair23@gmail.com> writes:
+> >> @@ -310,10 +311,17 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+> >>      }
+> >>
+> >>      if (size == 0) {
+> >> -        if (riscv_feature(env, RISCV_FEATURE_MMU)) {
+> >> +        if (riscv_cpu_mxl(env) == MXL_RV32) {
+> >> +            satp_mode = SATP32_MODE;
+> >> +        } else {
+> >> +            satp_mode = SATP64_MODE;
+> >> +        }
+> >> +
+> >> +        if (riscv_feature(env, RISCV_FEATURE_MMU)
+> >> +            && get_field(env->satp, satp_mode)) {
+> >>              /*
+> >> -             * If size is unknown (0), assume that all bytes
+> >> -             * from addr to the end of the page will be accessed.
+> >> +             * If size is unknown (0) and virtual memory is enabled, assume that
+> >> +             * all bytes from addr to the end of the page will be accessed.
+> >>               */
+> >>              pmp_size = -(addr | TARGET_PAGE_MASK);
+> >
+> > I'm not sure if we need this at all.
+> >
+> > This function is only called from get_physical_address_pmp() which
+> > then calculates the maximum size using pmp_is_range_in_tlb().
+>
+> I'm by no means an expert on QEMU and the TCG, so I've spun up GDB to
+> trace down why exactly this function is called with a `size = 0`
+> argument. It seems that there are, generally, two code paths to this
+> function for instruction fetching:
+>
+> 1. From `get_page_addr_code`: this will invoke `tlb_fill` with
+>    `size = 0` to check whether an entire page is accessible and can be
+>    translated given the current MMU / PMP configuration. In my
+>    particular example, it may rightfully fail then. `get_page_addr_code`
+>    can handle this and will subsequently cause an MMU protection check
+>    to be run for each instruction translated.
+>
+> 2. From `riscv_tr_translate_insn` through `cpu_lduw_code`, which will
+>    execute `tlb_fill` with `size = 2` (to try and decode a compressed
+>    instruction), assuming that the above check failed.
+>
+> So far, so good. In this context, it actually makes sense for
+> `pmp_hart_has_privs` to interpret `size = 0` to mean whether the entire
+> page is allowed to be accessed.
+>
+> > I suspect that we could just use sizeof(target_ulong) as the fallback
+> > for every time size == 0. Then pmp_is_range_in_tlb() will set the
+> > tlb_size to the maximum possible size of the PMP region.
+>
+> Given the above, I don't think that this is correct either. The PMP
+> check would pass even for non-page sized regions, but the entire page
+> would be accessible through the TCG's TLB, as a consequence of
+> `get_page_addr_code`.
 
-On 2022/10/25 5:25, Luben Tuikov wrote:
-> On 2022-10-24 17:06, Luben Tuikov wrote:
->> On 2022-10-24 08:19, Yang Yingliang wrote:
->>> Inject fault while loading module, kset_register() may fail.
->>> If it fails, the name allocated by kobject_set_name() which
->>> is called before kset_register() is leaked, because refcount
->>> of kobject is hold in kset_init().
->> "is hold" --> "was set".
->>
->> Also, I'd say "which must be called" instead of "is", since
->> we cannot register kobj/kset without a name--the kobj code crashes,
->> and we want to make this clear. IOW, a novice user may wonder
->> where "is" it called, as opposed to learning that they "must"
->> call it to allocate/set a name, before calling kset_register().
->>
->> So, I'd say this:
->>
->> "If it fails, the name allocated by kobject_set_name() which must
->>   be called before a call to kset_regsiter() is leaked, since
->>   refcount of kobj was set in kset_init()."
-> Actually, to be a bit more clear:
->
-> "If kset_register() fails, the name allocated by kobject_set_name(),
->   namely kset.kobj.name, which must be called before a call to kset_register(),
->   may be leaked, if the caller doesn't explicitly free it, say by calling kset_put().
->
->   To mitigate this, we free the name in kset_register() when an error is encountered,
->   i.e. when kset_register() returns an error."
-Thanks for you suggestion.
->
->>> As a kset may be embedded in a larger structure which needs
->>> be freed in release() function or error path in callers, we
->> Drop "As", start with "A kset". "which needs _to_ be".
->> Also please specify that the release is part of the ktype,
->> like this:
->>
->> "A kset may be embedded in a larger structure which needs to be
->>   freed in ktype.release() or error path in callers, we ..."
->>
->>> can not call kset_put() in kset_register(), or it will cause
->>> double free, so just call kfree_const() to free the name and
->>> set it to NULL.
->>>
->>> With this fix, the callers don't need to care about the name
->>> freeing and call an extra kset_put() if kset_register() fails.
->> This is unclear because you're *missing* a verb:
->> "and call an extra kset_put()".
->> Please add the proper verb _between_ "and call", something like,
->>
->> "With this fix, the callers don't need to care about freeing
->>   the name of the kset, and _can_ call kset_put() if kset_register() fails."
-I was mean
-the callers don't need to care about freeing the name of the kset and
-the callers don't need to care about calling kset_put()
+If we pass a size smaller than the page, it won't be cached in the
+TLB, so that should be ok.
 
-Thanks,
-Yang
->>
->> Choose a proper verb here: can, should, cannot, should not, etc.
->>
->> We can do this because you set "kset.kobj.name to NULL, and this
->> is checked for in kobject_cleanup(). We just need to stipulate
->> whether they should/shouldn't have to call kset_put(), or can free the kset
->> and/or the embedding object themselves. This really depends
->> on how we want kset_register() to behave in the future, and on
->> user's own ktype.release implementation...
-> Forgot "may", "may not".
+A few PMP improvements have gone into
+https://github.com/alistair23/qemu/tree/riscv-to-apply.next. It might
+be worth checking to see if that fixes the issue you are seeing.
+Otherwise I think defaulting to the xlen should be ok.
+
+Alistair
+
 >
-> So, do we want to say "may call kset_put()", like:
 >
-> "With this fix, the callers need not care about freeing
->   the name of the kset, and _may_ call kset_put() if kset_register() fails."
+> In the current implementation, `get_page_addr_code_hostp` calls
+> `tlb_fill`, which in turn invokes the RISC-V TCG op `tlb_fill` with the
+> parameter `probe = false`. This in turn raises a PMP exception in the
+> CPU, whereas `get_page_addr_code` would seem to expect this a failing
+> `tlb_fill` to be side-effect free, such that the MMU protection checks
+> can be re-run per instruction in the TCG code generation phase.
 >
-> Or do we want to say "should" or even "must"--it really depends on
-> what else is (would be) going on in kobj registration.
+> I think that this is sufficient evidence to conclude that my initial
+> patch is actually incorrect, however I am unsure as to how this issue
+> can be solved proper. One approach which seems to work is to change
+> `get_page_addr_code_hostp` to use a non-faulting page-table read
+> instead:
 >
-> Although, the user may have additional work to be done in the ktype.release()
-> callback for the embedding object. It would be good to give them the freedom,
-> i.e. "may", to call kset_put(). If that's not the case, this must be explicitly
-> stipulated with the proper verb.
+> @@ -1510,11 +1510,15 @@ tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, target_ulong addr,
+>      uintptr_t mmu_idx = cpu_mmu_index(env, true);
+>      uintptr_t index = tlb_index(env, mmu_idx, addr);
+>      CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
+> +    CPUState *cs = env_cpu(env);
+> +    CPUClass *cc = CPU_GET_CLASS(cs);
+>      void *p;
 >
-> Regards,
-> Luben
+>      if (unlikely(!tlb_hit(entry->addr_code, addr))) {
+>          if (!VICTIM_TLB_HIT(addr_code, addr)) {
+> -            tlb_fill(env_cpu(env), addr, 0, MMU_INST_FETCH, mmu_idx, 0);
+> +            // Nonfaulting page-table read:
+> +            cc->tcg_ops->tlb_fill(cs, addr, 0, MMU_INST_FETCH, mmu_idx, true,
+> +                                  0);
+>              index = tlb_index(env, mmu_idx, addr);
+>              entry = tlb_entry(env, mmu_idx, addr);
 >
-> .
+>
+> However, given this touches the generic TCG implementation, I cannot
+> judge whether this is correct or has any unintended side effects for
+> other targets. If this is correct, I'd be happy to send a proper patch.
+>
+> -Leon
 
