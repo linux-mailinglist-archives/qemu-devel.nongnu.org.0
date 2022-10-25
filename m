@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E63760C68B
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 10:35:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36ED460C697
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 10:37:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onFMQ-0002d8-7q; Tue, 25 Oct 2022 04:32:34 -0400
+	id 1onFMP-0002Fb-2w; Tue, 25 Oct 2022 04:32:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1onETx-0001JG-WC
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:36:27 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1onETx-0001JE-Rr
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:36:24 -0400
 Received: from mout.kundenserver.de ([212.227.126.133])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1onETu-0003GM-Ie
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:36:15 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1onETu-0003GN-K9
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:36:17 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1Mw9Dg-1p3fN01ByO-00s5hu; Tue, 25
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MmDZI-1pV7s22hX6-00iDpq; Tue, 25
  Oct 2022 09:36:10 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 3/8] linux-user: handle /proc/self/exe with execve() syscall
-Date: Tue, 25 Oct 2022 09:36:01 +0200
-Message-Id: <20221025073606.3114355-4-laurent@vivier.eu>
+Subject: [PULL 4/8] linux-user: don't use AT_EXECFD in do_openat()
+Date: Tue, 25 Oct 2022 09:36:02 +0200
+Message-Id: <20221025073606.3114355-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221025073606.3114355-1-laurent@vivier.eu>
 References: <20221025073606.3114355-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:3StfFPlIReSm6A+oxQIyyz58djW7xGdZS0pdCg+AEOetKGflG9O
- ACY/haEe2aklj1phez5R8BcyChsd1bsbm/fNlD9Yit/AKKu+Ag0uzBArlXkQXwOLICu3BU+
- e6d9xHshpItxcVsBlncf1BcinD7HSIWUKoOs8tnDFKiBgrqx76ODiRiG3fZi0fynvgcGomx
- yCz/+Ub9PTWFtLq3PSkoQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:enHGnr2kr1c=:PRM3nDTdbwjmu3ettL6/AM
- 3fwiMZWIv8mrM4RIaWoNKytbr41APacHGK8uXzbS0OT8dwMQ2rn1eFyH/eAcdllmWBqS3vqG/
- qOP19JpvXqbtHEePy0TiLo9u8nvN8iLe1QxMkbn4+a8/RFyEmTN0XbMYF+zJPgy9GGwHU14+L
- KnOoGi1bC67eRSCdcaUsj+rEwV0k79TfvCNqkgAFQczIfHl59MSs/RAGngpxpVGvW+mHIy3HU
- H1S1r3PEaus2363rdIPHJUOtkecWVOSPnuVu18jCwUo3v/5l6G0AQppaQOEBtCdr9mzWT9vm+
- haPMGVcNZremzmZYd9wFl/NQ7XwuIJdsxdlTE882HGVYcIiYUFF1T7Kbi2rekqsNhq8OohBJG
- 3iFjpKhA1yoTeG+dMReXIzuBsjA64r8wWUC3czEDLMdnd9Tniwtn84rcMH1wljyqeUFLGw5+w
- mZuEn3hVvR34e36BdJMn9TJBtsa8kqQApqW6ZOvz8NokmwGOyBUqvRb484dz6XZpZEr1WUGIl
- VLNcW/JrJgyrSXikEoQEKMZLjCjggrRl/xw9nY3TnQBLDf1X/hRRgHa5ywwR69fuaQXIdJZAb
- T97G/u7sFG5yYN91Pl2HnRppdnA7Jm4keuWd/kDGDlRwMo5B2CSUfv7iJQAMAMVufdrdLDRzh
- MPIIvjEZS5Q7Pzl+qJWruY/ONNzaabWq+rINNkMcg8aSyQ5wxku8UHkcVYCHOhX5aVvdL5CMi
- oVmSCwKVCUO5Dc4Ih473QL8nS8UMBhHPUFOX+OPgqMSdoSCRqFGyzGjpoxDRa/N3MJoXVCI5x
- 3rpvZOf
+X-Provags-ID: V03:K1:FasWSiQEGXXU505rB4KLG475g78LV0gnuq3gpwDhTTprLBb9ANd
+ VIhRJ8ZkrvIvarB1p6tqf7ivEVbT5R5ilGOxGHMAK9Mn7vH1e4CwwXZhgRCF8RBuHxs52Uf
+ GpiFNXlFs9pkstRTPhAIjtDrQHiKGlF+orPOraxXllGdRAKFHsUdWbz54ssF+7ACq92yU1s
+ 0Hm8dRqCgMlFr09X4EQBg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5XZtzPtxoXs=:B0ZtI4BUR7AX3WU4PfaqVo
+ IgLtx6JX6cwm6V+d03CT8OJMEMot127AN0W3Cx+swr9XZSEo/2wsvXOudafr/c/q4wawSEU5c
+ VCSmyOEoOeuTFoH51MeaIZSUITCGqn/pBdemUQLsODoZy+rhyCCzyJAJxapr0baqGsnc5bGJB
+ TvpFWySL9VWXDYwWFn8ciqNFJSC6h9q6XOyYPVTXfAsdIJcQIDV5jQBjGJ9ZoRtcXcnHdeBb+
+ 5+6OM2pBYNUxfEdw2XEtmhakeRg7r0e1bsuGbGp9FDsWE/gP+Pisg6Rn0xAnOeAjDE8CLrThv
+ E1fkD8GySh3tVkRnV0MLOkAeMbg2wZCO06O4pePMvuzfzBVmwchuT2WIVTRV0U3ONNlfAFWSo
+ rlzUJt060ci7WpGbZwdX+48DQnByfEmFWD4xcuI5OmyYBKK+kxfAkNQJEvCpRrGkQmbpn69Sb
+ RH+drlsn4mlDVr0tiN4d3v5b07yukiDytdzLr+5oVyJrRAXTcpj5Nchdj0KwYUgTXEBGf3Xm0
+ mRMzCFr+7eOgTgKlzgYtkvlB2UYdV3p9jtBwbo5ETtciUqApqJPnL1yGwqKeWtINcACf813KY
+ GcvvpMdy2JUlP0WjvUjRre7fj+xM+1wrcUgtS7eyYRem4vJhBVVIKQFYzt/2t+JC/UZqwB9ao
+ nKrdakEaBtrpgHG8lFy5SG34615suwoYe7xl6dzmRRs5neFQsrwXENiMI7gb2J3z1JVO4aWGD
+ fFHdcDqI/J5Tx/CXBgpK/0zqlZwRqCl5VJglbuTeMN5ak0lk+GjhxfrWwhvzyPFRJ1jd0uaeb
+ 69WL8Ty
 Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -70,36 +70,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-If path is /proc/self/exe, use the executable path
-provided by exec_path.
+AT_EXECFD gives access to the binary file even if
+it is not readable (only executable).
 
-Don't use execfd as it is closed by loader_exec() and otherwise
-will survive to the exec() syscall and be usable child process.
+Moreover it can be opened with flags and mode that are not the ones
+provided by do_openat() caller.
+
+And it is not available because loader_exec() has closed it.
+
+To avoid that, use only safe_openat() with the exec_path.
 
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220927124357.688536-2-laurent@vivier.eu>
+Message-Id: <20220927124357.688536-3-laurent@vivier.eu>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ linux-user/syscall.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index ad06ec7bd54c..a7a29091c91e 100644
+index a7a29091c91e..665db67c0598 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -8860,7 +8860,11 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-              * before the execve completes and makes it the other
-              * program's problem.
-              */
--            ret = get_errno(safe_execve(p, argp, envp));
-+            if (is_proc_myself(p, "exe")) {
-+                ret = get_errno(safe_execve(exec_path, argp, envp));
-+            } else {
-+                ret = get_errno(safe_execve(p, argp, envp));
-+            }
-             unlock_user(p, arg1, 0);
+@@ -8251,8 +8251,7 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, int
+     };
  
-             goto execve_end;
+     if (is_proc_myself(pathname, "exe")) {
+-        int execfd = qemu_getauxval(AT_EXECFD);
+-        return execfd ? execfd : safe_openat(dirfd, exec_path, flags, mode);
++        return safe_openat(dirfd, exec_path, flags, mode);
+     }
+ 
+     for (fake_open = fakes; fake_open->filename; fake_open++) {
 -- 
 2.37.3
 
