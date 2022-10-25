@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 793E260D485
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 21:16:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEC5E60D4AB
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 21:27:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onPNW-0006WM-B0; Tue, 25 Oct 2022 15:14:22 -0400
+	id 1onPXh-0007AY-Gl; Tue, 25 Oct 2022 15:24:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1onPNQ-0005kx-KU; Tue, 25 Oct 2022 15:14:19 -0400
-Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f])
+ id 1onPXa-0006k0-Rq; Tue, 25 Oct 2022 15:24:49 -0400
+Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1onPNJ-0000AT-6J; Tue, 25 Oct 2022 15:14:15 -0400
-Received: by mail-ot1-x32f.google.com with SMTP id
- 16-20020a9d0490000000b0066938311495so79933otm.4; 
- Tue, 25 Oct 2022 12:14:08 -0700 (PDT)
+ id 1onPXY-0002el-O5; Tue, 25 Oct 2022 15:24:46 -0400
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-13b6c1c89bdso11121846fac.13; 
+ Tue, 25 Oct 2022 12:24:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=gI6h13DNRRrX99jAUiSrfhgbvx9qwkbm+6A5mIID3/Y=;
- b=bPK0/h1LX0ObAyeOmo5r2xLmddV6QjQkLZvyO5M0VxRJd7yPtzOCREILX4sP0cn31C
- gGGbY8cLhE4lpotuI2m7CjZCTVvK+aQZ3KNMp4gVmfC/9ikAHwS5ga4Go8KRXDG2wQFk
- x/9IEnEqrE1PK2CHkA6QO1iR+SuWAh/pgWJj9IUWHYHSoRaoZoVIq3S9lIz0kp4DUio2
- UEkzF77EV6VFHd2pxP8EYZrp66oBBtKDAZjYIcEdhLBIQ9Dp2E5BPHuDzlGdYl+ALgn1
- TqD+5XvmvBo/6TPFMFNodQ7sm3wmQ/UFrTUMGxLjRfVWycuV70m+n44ubPwjL7B761nK
- bG6Q==
+ bh=pU2dBjDKoZUYiLlwdkd7SiLOzXhafGS+IObSX4QEItI=;
+ b=dfTKizD0hQ0HUq8xO+3j1rHmC+N76e45x4lisb4TtQTKDAsqTom8XzTjHCD+kdR4EI
+ 3heGhajL4HFc3+LHhwqC2BdL2s5frUs9BEIOHYFjkWngcCMF25TVFxHn6GJ3awWWexZ5
+ b08IIpD5d3IVhJd0mgXh3r7+/5MYc2pnlXlPDnWDZZHtfC+d3wjRmRsAu19wvvKxgFkD
+ g8qCqJA/CkAEY/nmYWgzoR4/Dy3yt3wGB/rfibC0+jjwzsZj5JRv5XnxuEtgxynYekek
+ FIOZABZHlveDUZAgcr2ddOPQ26PiWmrM5giE+tHR9YDW1gWDibU0kAjeMpw1VR05jGpC
+ FHYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gI6h13DNRRrX99jAUiSrfhgbvx9qwkbm+6A5mIID3/Y=;
- b=JDIwAt3TdK+y2Kys/TnywmBWsaDbw/LUMP+tGRZpiVoz9kYvhC7bI2SYQjHGJ5iF30
- oDITVabYqmnH1fwMyaVsh/rFOaMNTBUGaoHDGEJ2dYaJqnWvoLxCp0ueGSqaGb2lFgB1
- cgcxx1ux4mXdF7K4TLhuMug373gFCl1Fv7xQOJQ10dBAk9R72LsTDngJ7o8Zcg83VHKB
- 4UWd3/HBNDAypmT6dkqpSmltXAPB/CqkdOfXKYZoSLz4KOxIqhtuiXSW9L6ZlOsWKeoE
- N09o80T5rkOIcM6dMoIQRFfs8MsOfA141KPgp9baZ+BtrGFcU1rsOhNmt8MwkIPOE2ff
- Xz5w==
-X-Gm-Message-State: ACrzQf3s/dXgbJqQaDonyRsk18AzPt6GNxOHxDGkFtzNl9vaIsYGiyJV
- Y1KlF9/+Mq7rv0PDsUaosVg=
-X-Google-Smtp-Source: AMsMyM430C0Y2kskBH+fc2NXtleH+XgdB7o2+ctgJ/AvnC2/ZWzqczVw4yGuB3ldyIvtUw8vgeGM0A==
-X-Received: by 2002:a05:6830:3156:b0:661:e5d1:725d with SMTP id
- c22-20020a056830315600b00661e5d1725dmr20612439ots.312.1666725245731; 
- Tue, 25 Oct 2022 12:14:05 -0700 (PDT)
+ bh=pU2dBjDKoZUYiLlwdkd7SiLOzXhafGS+IObSX4QEItI=;
+ b=BU+ygq3keLF4QXqd3NbRwXJs+nzJ7GxompnRy4MhXDRKjQIY3UVKYvLDuLyvgS4MHr
+ NzIpuUet78Ur5mCuvvREbXjcRESW/+CCwMLjTW8CbYNvqb2+jyzQj1iNfiT1HADJ2HSy
+ 0sqhdqH/+Wth6D3xuG6YHRrmj2qm0DzklAhDYfjO3pl4Z1JwYNYg1F3DyLzZ3YI3FZlR
+ /FN1FP93/A9snyiczfz3PA0N/wH8OiO2rNn8pJvHL1gPEoQFzWzBePvMgcHp5XADWRls
+ DanUfv9hfpcqyUzDpNtWDaDUxC5dwY9zf/WL3Qd+TJcGMrUzqSh0uFNFNGnF+12pD6U/
+ 67ww==
+X-Gm-Message-State: ACrzQf0GJZLNWiIrxHpKM8s0dlJXTK3xUT8sR5MQGV/ILuzoYSUodr8G
+ nHa9UIeC867AotfdDGIjq/E=
+X-Google-Smtp-Source: AMsMyM6gcWnd4HaCJUH7o5R/F/ZCtNusHVOE97GvsuWhZRTAS0JtmzbNjugWnd9cTOmRKs9idcqDBw==
+X-Received: by 2002:a05:6870:179c:b0:136:3c63:3b86 with SMTP id
+ r28-20020a056870179c00b001363c633b86mr25825996oae.131.1666725880150; 
+ Tue, 25 Oct 2022 12:24:40 -0700 (PDT)
 Received: from [192.168.10.102] ([177.45.165.63])
  by smtp.gmail.com with ESMTPSA id
- v18-20020a9d7d12000000b006690f65a830sm85507otn.14.2022.10.25.12.14.03
+ q84-20020acac057000000b00354d8589a15sm1236368oif.45.2022.10.25.12.24.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Oct 2022 12:14:05 -0700 (PDT)
-Message-ID: <f0832120-3890-58a1-e4d9-01c33c7cfa2c@gmail.com>
-Date: Tue, 25 Oct 2022 16:14:02 -0300
+ Tue, 25 Oct 2022 12:24:39 -0700 (PDT)
+Message-ID: <6124d4d2-2197-8950-261e-2b5c21e8dc45@gmail.com>
+Date: Tue, 25 Oct 2022 16:24:35 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH v7 0/8] ppc4xx_sdram QOMify and clean ups
+Subject: Re: [PATCH 2/3] target/ppc: Add new PMC HFLAGS
 Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+To: Leandro Lupori <leandro.lupori@eldorado.org.br>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
-Cc: clg@kaod.org, philmd@linaro.org
-References: <cover.1666194485.git.balaton@eik.bme.hu>
+Cc: richard.henderson@linaro.org, pbonzini@redhat.com, clg@kaod.org,
+ david@gibson.dropbear.id.au, groug@kaod.org
+References: <20221021170112.151393-1-leandro.lupori@eldorado.org.br>
+ <20221021170112.151393-3-leandro.lupori@eldorado.org.br>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <cover.1666194485.git.balaton@eik.bme.hu>
+In-Reply-To: <20221021170112.151393-3-leandro.lupori@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32f.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::29;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x29.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -93,54 +95,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Queued in gitlab.com/danielhb/qemu/tree/ppc-next.
 
 
-Phil, your acks for these patches are using the f4bug@amsat.org email.
-Let me know if you want to use your new work address instead.
-
-
-Thanks,
-
-
-Daniel
-
-On 10/19/22 13:02, BALATON Zoltan wrote:
-> This is the end of the QOMify series originially started by Cédric
-> rebased on master now only including patches not yet merged. Patches
-> that still need review are 1-3 (these only move code to
-> ppc4xx_sdram.c) and 6-7 (unify DDR and DDR2 models to share code where
-> possible).
+On 10/21/22 14:01, Leandro Lupori wrote:
+> Add 2 new PMC related HFLAGS:
+> - HFLAGS_PMCJCE - value of MMCR0 PMCjCE bit
+> - HFLAGS_PMC_OTHER - set if a PMC other than PMC5-6 is enabled
 > 
-> Regards,
-> BALATON Zoltan
+> These flags allow further optimization of PMC5 update code, by
+> allowing frequently tested conditions to be performed at
+> translation time.
 > 
-> v7: Rebase on master after merge of first part of the series
-> v6: Split patch moving sdram controller models together into smaller steps
-> v5: Add functions the enable sdram controller and call it from boards
-> v4: address more review comments
-> v3: Fix patches that got squashed during rebase
-> v2: address some review comments and try to avoid compile problem with
-> gcc 12.2 (untested)
+> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
+> ---
+
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+>   target/ppc/cpu.h         | 4 +++-
+>   target/ppc/helper_regs.c | 6 ++++++
+>   target/ppc/translate.c   | 4 ++++
+>   3 files changed, 13 insertions(+), 1 deletion(-)
 > 
-> 
-> BALATON Zoltan (8):
->    ppc440_uc.c: Move DDR2 SDRAM controller model to ppc4xx_sdram.c
->    ppc4xx_devs.c: Move DDR SDRAM controller model to ppc4xx_sdram.c
->    ppc4xx_sdram: Move ppc4xx_sdram_banks() to ppc4xx_sdram.c
->    ppc4xx_sdram: Use hwaddr for memory bank size
->    ppc4xx_sdram: Rename local state variable for brevity
->    ppc4xx_sdram: Generalise bank setup
->    ppc4xx_sdram: Convert DDR SDRAM controller to new bank handling
->    ppc4xx_sdram: Add errp parameter to ppc4xx_sdram_banks()
-> 
->   hw/ppc/meson.build      |   3 +-
->   hw/ppc/ppc440_uc.c      | 332 ------------------
->   hw/ppc/ppc4xx_devs.c    | 414 ----------------------
->   hw/ppc/ppc4xx_sdram.c   | 757 ++++++++++++++++++++++++++++++++++++++++
->   hw/ppc/trace-events     |   1 +
->   include/hw/ppc/ppc4xx.h |  20 +-
->   6 files changed, 768 insertions(+), 759 deletions(-)
->   create mode 100644 hw/ppc/ppc4xx_sdram.c
-> 
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index cca6c4e51c..28b9b8d4e3 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -696,7 +696,9 @@ enum {
+>       HFLAGS_PR = 14,  /* MSR_PR */
+>       HFLAGS_PMCC0 = 15,  /* MMCR0 PMCC bit 0 */
+>       HFLAGS_PMCC1 = 16,  /* MMCR0 PMCC bit 1 */
+> -    HFLAGS_INSN_CNT = 17, /* PMU instruction count enabled */
+> +    HFLAGS_PMCJCE = 17, /* MMCR0 PMCjCE bit */
+> +    HFLAGS_PMC_OTHER = 18, /* PMC other than PMC5-6 is enabled */
+> +    HFLAGS_INSN_CNT = 19, /* PMU instruction count enabled */
+>       HFLAGS_VSX = 23, /* MSR_VSX if cpu has VSX */
+>       HFLAGS_VR = 25,  /* MSR_VR if cpu has VRE */
+>   
+> diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+> index 12235ea2e9..65f5f7b2c0 100644
+> --- a/target/ppc/helper_regs.c
+> +++ b/target/ppc/helper_regs.c
+> @@ -109,6 +109,9 @@ static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
+>       if (env->spr[SPR_POWER_MMCR0] & MMCR0_PMCC1) {
+>           hflags |= 1 << HFLAGS_PMCC1;
+>       }
+> +    if (env->spr[SPR_POWER_MMCR0] & MMCR0_PMCjCE) {
+> +        hflags |= 1 << HFLAGS_PMCJCE;
+> +    }
+>   
+>   #ifndef CONFIG_USER_ONLY
+>       if (!env->has_hv_mode || (msr & (1ull << MSR_HV))) {
+> @@ -119,6 +122,9 @@ static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
+>       if (env->pmc_ins_cnt) {
+>           hflags |= 1 << HFLAGS_INSN_CNT;
+>       }
+> +    if (env->pmc_ins_cnt & 0x1e) {
+> +        hflags |= 1 << HFLAGS_PMC_OTHER;
+> +    }
+>   #endif
+>   
+>       /*
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index e810842925..8fda2cf836 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -177,6 +177,8 @@ struct DisasContext {
+>       bool hr;
+>       bool mmcr0_pmcc0;
+>       bool mmcr0_pmcc1;
+> +    bool mmcr0_pmcjce;
+> +    bool pmc_other;
+>       bool pmu_insn_cnt;
+>       ppc_spr_t *spr_cb; /* Needed to check rights for mfspr/mtspr */
+>       int singlestep_enabled;
+> @@ -7574,6 +7576,8 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>       ctx->hr = (hflags >> HFLAGS_HR) & 1;
+>       ctx->mmcr0_pmcc0 = (hflags >> HFLAGS_PMCC0) & 1;
+>       ctx->mmcr0_pmcc1 = (hflags >> HFLAGS_PMCC1) & 1;
+> +    ctx->mmcr0_pmcjce = (hflags >> HFLAGS_PMCJCE) & 1;
+> +    ctx->pmc_other = (hflags >> HFLAGS_PMC_OTHER) & 1;
+>       ctx->pmu_insn_cnt = (hflags >> HFLAGS_INSN_CNT) & 1;
+>   
+>       ctx->singlestep_enabled = 0;
 
