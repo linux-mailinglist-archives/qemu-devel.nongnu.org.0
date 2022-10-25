@@ -2,29 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEDC663F45B
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 16:42:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 068FD63F46F
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 16:45:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0lha-0005Kx-AL; Thu, 01 Dec 2022 10:42:18 -0500
+	id 1p0lhW-0005Je-HV; Thu, 01 Dec 2022 10:42:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1p0lhP-0005Gk-Ha; Thu, 01 Dec 2022 10:42:07 -0500
+ id 1p0lhN-0005Ep-DC; Thu, 01 Dec 2022 10:42:05 -0500
 Received: from mail-b.sr.ht ([173.195.146.151])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1p0lhM-0004wn-Vx; Thu, 01 Dec 2022 10:42:07 -0500
+ id 1p0lhL-0004vw-0j; Thu, 01 Dec 2022 10:42:05 -0500
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id C682A11F9A2;
+ by mail-b.sr.ht (Postfix) with ESMTPSA id 0AC7C11F204;
  Thu,  1 Dec 2022 15:42:01 +0000 (UTC)
 From: ~axelheider <axelheider@git.sr.ht>
-Date: Tue, 25 Oct 2022 12:33:42 +0200
-Subject: [PATCH qemu.git v3 7/8] hw/timer/imx_epit: remove explicit fields cnt
- and freq
-Message-ID: <166990932074.29941.8709118178538288040-7@git.sr.ht>
+Date: Tue, 25 Oct 2022 17:33:43 +0200
+Subject: [PATCH qemu.git v3 1/8] hw/timer/imx_epit: improve comments
+Message-ID: <166990932074.29941.8709118178538288040-1@git.sr.ht>
 X-Mailer: git.sr.ht
 In-Reply-To: <166990932074.29941.8709118178538288040-0@git.sr.ht>
 To: qemu-devel@nongnu.org
@@ -58,183 +57,75 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Axel Heider <axel.heider@hensoldt.net>
 
-The CNT register is a read-only register. There is no need to
-store it's value, it can be calculated on demand.
-The calculated frequency is needed temporarily only.
-
-Note that this is a migration compatibility break for all boards
-types that use the EPIT peripheral.
+Fix typos, add background information
 
 Signed-off-by: Axel Heider <axel.heider@hensoldt.net>
 ---
- hw/timer/imx_epit.c         | 73 ++++++++++++++-----------------------
- include/hw/timer/imx_epit.h |  2 -
- 2 files changed, 28 insertions(+), 47 deletions(-)
+ hw/timer/imx_epit.c | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
 diff --git a/hw/timer/imx_epit.c b/hw/timer/imx_epit.c
-index e04427542f..cf13496165 100644
+index ec0fa440d7..2841fbaa1c 100644
 --- a/hw/timer/imx_epit.c
 +++ b/hw/timer/imx_epit.c
-@@ -73,27 +73,14 @@ static void imx_epit_update_int(IMXEPITState *s)
+@@ -96,13 +96,14 @@ static void imx_epit_set_freq(IMXEPITState *s)
      }
  }
 =20
--/*
-- * Must be called from within a ptimer_transaction_begin/commit block
-- * for both s->timer_cmp and s->timer_reload.
-- */
--static void imx_epit_set_freq(IMXEPITState *s)
-+static uint32_t imx_epit_get_freq(IMXEPITState *s)
++/*
++ * This is called both on hardware (device) reset and software reset.
++ */
+ static void imx_epit_reset(DeviceState *dev)
  {
--    uint32_t clksrc;
--    uint32_t prescaler;
--
--    clksrc =3D extract32(s->cr, CR_CLKSRC_SHIFT, CR_CLKSRC_BITS);
--    prescaler =3D 1 + extract32(s->cr, CR_PRESCALE_SHIFT, CR_PRESCALE_BITS);
--
--    s->freq =3D imx_ccm_get_clock_frequency(s->ccm,
--                                imx_epit_clocks[clksrc]) / prescaler;
--
--    DPRINTF("Setting ptimer frequency to %u\n", s->freq);
--
--    if (s->freq) {
--        ptimer_set_freq(s->timer_reload, s->freq);
--        ptimer_set_freq(s->timer_cmp, s->freq);
--    }
-+    uint32_t clksrc =3D extract32(s->cr, CR_CLKSRC_SHIFT, CR_CLKSRC_BITS);
-+    uint32_t prescaler =3D 1 + extract32(s->cr, CR_PRESCALE_SHIFT, CR_PRESCA=
-LE_BITS);
-+    uint32_t f_in =3D imx_ccm_get_clock_frequency(s->ccm, imx_epit_clocks[cl=
-ksrc]);
-+    uint32_t freq =3D f_in / prescaler;
-+    DPRINTF("ptimer frequency is %u\n", freq);
-+    return freq;
- }
+     IMXEPITState *s =3D IMX_EPIT(dev);
 =20
- /*
-@@ -110,32 +97,23 @@ static void imx_epit_reset(IMXEPITState *s, bool is_hard=
-_reset)
+-    /*
+-     * Soft reset doesn't touch some bits; hard reset clears them
+-     */
++    /* Soft reset doesn't touch some bits; hard reset clears them */
+     s->cr &=3D (CR_EN|CR_ENMOD|CR_STOPEN|CR_DOZEN|CR_WAITEN|CR_DBGEN);
      s->sr =3D 0;
      s->lr =3D EPIT_TIMER_MAX;
-     s->cmp =3D 0;
--    s->cnt =3D 0;
-     ptimer_transaction_begin(s->timer_cmp);
-     ptimer_transaction_begin(s->timer_reload);
--    /* stop both timers */
-+
+@@ -214,6 +215,7 @@ static void imx_epit_write(void *opaque, hwaddr offset, u=
+int64_t value,
+         ptimer_transaction_begin(s->timer_cmp);
+         ptimer_transaction_begin(s->timer_reload);
+=20
++        /* Update the frequency. Has been done already in case of a reset. */
+         if (!(s->cr & CR_SWR)) {
+             imx_epit_set_freq(s);
+         }
+@@ -254,7 +256,7 @@ static void imx_epit_write(void *opaque, hwaddr offset, u=
+int64_t value,
+         break;
+=20
+     case 1: /* SR - ACK*/
+-        /* writing 1 to OCIF clear the OCIF bit */
++        /* writing 1 to OCIF clears the OCIF bit */
+         if (value & 0x01) {
+             s->sr =3D 0;
+             imx_epit_update_int(s);
+@@ -352,8 +354,18 @@ static void imx_epit_realize(DeviceState *dev, Error **e=
+rrp)
+                           0x00001000);
+     sysbus_init_mmio(sbd, &s->iomem);
+=20
 +    /*
-+     * The reset switches off the input clock, so even if the CR.EN is still
-+     * set, the timers are no longer running.
++     * The reload timer keeps running when the peripheral is enabled. It is a
++     * kind of wall clock that does not generate any interrupts. The callback
++     * needs to be provided, but it does nothing as the ptimer already suppo=
+rts
++     * all necessary reloading functionality.
 +     */
-+    assert(imx_epit_get_freq(s) =3D=3D 0);
-     ptimer_stop(s->timer_cmp);
-     ptimer_stop(s->timer_reload);
--    /* compute new frequency */
--    imx_epit_set_freq(s);
-     /* init both timers to EPIT_TIMER_MAX */
-     ptimer_set_limit(s->timer_cmp, EPIT_TIMER_MAX, 1);
-     ptimer_set_limit(s->timer_reload, EPIT_TIMER_MAX, 1);
--    if (s->freq && (s->cr & CR_EN)) {
--        /* if the timer is still enabled, restart it */
--        ptimer_run(s->timer_reload, 0);
--    }
-     ptimer_transaction_commit(s->timer_cmp);
-     ptimer_transaction_commit(s->timer_reload);
+     s->timer_reload =3D ptimer_init(imx_epit_reload, s, PTIMER_POLICY_LEGACY=
+);
+=20
++    /*
++     * The compare timer is running only when the peripheral configuration is
++     * in a state that will generate compare interrupts.
++     */
+     s->timer_cmp =3D ptimer_init(imx_epit_cmp, s, PTIMER_POLICY_LEGACY);
  }
-=20
--static uint32_t imx_epit_update_count(IMXEPITState *s)
--{
--    s->cnt =3D ptimer_get_count(s->timer_reload);
--
--    return s->cnt;
--}
--
- static uint64_t imx_epit_read(void *opaque, hwaddr offset, unsigned size)
- {
-     IMXEPITState *s =3D IMX_EPIT(opaque);
-@@ -159,8 +137,7 @@ static uint64_t imx_epit_read(void *opaque, hwaddr offset=
-, unsigned size)
-         break;
-=20
-     case 4: /* CNT */
--        imx_epit_update_count(s);
--        reg_value =3D s->cnt;
-+        reg_value =3D ptimer_get_count(s->timer_reload);
-         break;
-=20
-     default:
-@@ -179,7 +156,7 @@ static void imx_epit_reload_compare_timer(IMXEPITState *s)
- {
-     if ((s->cr & (CR_EN | CR_OCIEN)) =3D=3D (CR_EN | CR_OCIEN))  {
-         /* if the compare feature is on and timers are running */
--        uint32_t tmp =3D imx_epit_update_count(s);
-+        uint32_t tmp =3D ptimer_get_count(s->timer_reload);
-         uint64_t next;
-         if (tmp > s->cmp) {
-             /* It'll fire in this round of the timer */
-@@ -193,6 +170,7 @@ static void imx_epit_reload_compare_timer(IMXEPITState *s)
-=20
- static void imx_epit_write_cr(IMXEPITState *s, uint32_t value)
- {
-+    uint32_t freq =3D 0;
-     uint32_t oldcr =3D s->cr;
-=20
-     s->cr =3D value & 0x03ffffff;
-@@ -217,12 +195,19 @@ static void imx_epit_write_cr(IMXEPITState *s, uint32_t=
- value)
-     ptimer_transaction_begin(s->timer_cmp);
-     ptimer_transaction_begin(s->timer_reload);
-=20
--    /* Update the frequency. Has been done already in case of a reset. */
-+    /*
-+     * Update the frequency. In case of a reset the input clock was
-+     * switched off, so this can be skipped.
-+     */
-     if (!(s->cr & CR_SWR)) {
--        imx_epit_set_freq(s);
-+        freq =3D imx_epit_get_freq(s);
-+        if (freq) {
-+            ptimer_set_freq(s->timer_reload, freq);
-+            ptimer_set_freq(s->timer_cmp, freq);
-+        }
-     }
-=20
--    if (s->freq && (s->cr & CR_EN) && !(oldcr & CR_EN)) {
-+    if (freq && (s->cr & CR_EN) && !(oldcr & CR_EN)) {
-         if (s->cr & CR_ENMOD) {
-             if (s->cr & CR_RLD) {
-                 ptimer_set_limit(s->timer_reload, s->lr, 1);
-@@ -356,15 +341,13 @@ static const MemoryRegionOps imx_epit_ops =3D {
-=20
- static const VMStateDescription vmstate_imx_timer_epit =3D {
-     .name =3D TYPE_IMX_EPIT,
--    .version_id =3D 2,
--    .minimum_version_id =3D 2,
-+    .version_id =3D 3,
-+    .minimum_version_id =3D 3,
-     .fields =3D (VMStateField[]) {
-         VMSTATE_UINT32(cr, IMXEPITState),
-         VMSTATE_UINT32(sr, IMXEPITState),
-         VMSTATE_UINT32(lr, IMXEPITState),
-         VMSTATE_UINT32(cmp, IMXEPITState),
--        VMSTATE_UINT32(cnt, IMXEPITState),
--        VMSTATE_UINT32(freq, IMXEPITState),
-         VMSTATE_PTIMER(timer_reload, IMXEPITState),
-         VMSTATE_PTIMER(timer_cmp, IMXEPITState),
-         VMSTATE_END_OF_LIST()
-diff --git a/include/hw/timer/imx_epit.h b/include/hw/timer/imx_epit.h
-index 783eaf0c3a..79aff0cec2 100644
---- a/include/hw/timer/imx_epit.h
-+++ b/include/hw/timer/imx_epit.h
-@@ -74,9 +74,7 @@ struct IMXEPITState {
-     uint32_t sr;
-     uint32_t lr;
-     uint32_t cmp;
--    uint32_t cnt;
-=20
--    uint32_t freq;
-     qemu_irq irq;
- };
 =20
 --=20
 2.34.5
