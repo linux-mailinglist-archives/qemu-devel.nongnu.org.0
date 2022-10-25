@@ -2,75 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97AF260C6A1
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 10:38:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B41260C6B4
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 10:41:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onFRM-0004hv-Dj; Tue, 25 Oct 2022 04:37:40 -0400
+	id 1onFOg-0007fl-Uy; Tue, 25 Oct 2022 04:34:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1onEid-0003U7-W1
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:51:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1onEhZ-0003A5-Bx; Tue, 25 Oct 2022 03:50:21 -0400
+Received: from mout.kundenserver.de ([212.227.126.130])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1onEiS-0005ik-7u
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:51:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666684275;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3y6uBtQ/zA2SdT/qrNkOEOIaXH4LO+St7na1j07ASJU=;
- b=LdS6x6u4ay2jL5tYhj1eCvm6xiyQT3Nc8JxtqEPEU6Q7Apxmr4k10GymAFdIYNizuDw98k
- xIzSTlNAOENIRAWrXQFx/vRHSNISg2pGA5oaksHLX9KJPmhvJBbwPt9V75AMRcY2SLLE/T
- ReryDyx9Wi7QFzM0pz3jG4HRt23k5Iw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-466-OKxvT4tuOa2CtG3fy7q65A-1; Tue, 25 Oct 2022 03:51:12 -0400
-X-MC-Unique: OKxvT4tuOa2CtG3fy7q65A-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C1A14101A528;
- Tue, 25 Oct 2022 07:51:11 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E1C3492CA4;
- Tue, 25 Oct 2022 07:51:07 +0000 (UTC)
-From: marcandre.lureau@redhat.com
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1onEhX-0005RP-G4; Tue, 25 Oct 2022 03:50:21 -0400
+Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue010
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1Mzi3l-1p04eP1Jtx-00veZ3; Tue, 25
+ Oct 2022 09:50:16 +0200
+From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>, David Hildenbrand <david@redhat.com>,
- Eric Farman <farman@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>,
- Viktor Prutyanov <viktor.prutyanov@redhat.com>
-Subject: [PULL v2 11/11] dump/win_dump: limit number of processed PRCBs
-Date: Tue, 25 Oct 2022 11:50:03 +0400
-Message-Id: <20221025075003.18161-12-marcandre.lureau@redhat.com>
-In-Reply-To: <20221025075003.18161-1-marcandre.lureau@redhat.com>
-References: <20221025075003.18161-1-marcandre.lureau@redhat.com>
+Cc: qemu-trivial@nongnu.org,
+	Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 00/11] Trivial branch for 7.2 patches
+Date: Tue, 25 Oct 2022 09:50:04 +0200
+Message-Id: <20221025075015.3116812-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.503,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Provags-ID: V03:K1:Dc4UKg/Uiem+73wlv+YPryZwMbDr+e3y71yhtdzaDZTJpxNLWPl
+ 14exfw2QqQiCl5RP67+4iDLmmsiSLrzVUfETsd2AMJNk5p+FbDKt/KuHeDbY9/DjFPdnrU/
+ b1O0ufHOCE/QEFVlKOO8zOjGSGe3bRggAPOsw0OAFN//k4PM4nAvxZULBS9TSI+sy8UKkvI
+ ZsrkuvnL2Jv3cb98Uziiw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:OT2mff0NQO8=:mnQUzmgRi18A73VbgP+muk
+ 50TsXEJouw5pIBq3UTWXcERt/ItK5FeQDuFME/ifX7GNTwvsD4jpU7AtEhHoBLlI6fhnAWElu
+ yGn0br0d9Bq9yVMuZOQGDCQ8Rp3Hn2Ob2K2FPeifgC1sym96+U1Ta54Tzc+f9aSjus00HuZsv
+ KCfaWnTWjJ3fGzLPGGzKbMIU5Lm3k82X+kzB9FXX3mfrFC6XeGL3sMVf3plRnZ/1Er2cngiSg
+ zT55fVO0mS+wtvM3YBot+ZpTQOxfZ1uSl9G28knEeiuj051yf1QM/ByqrHP4r1ggHaQbtx88+
+ XIIkdhW8PqwdQIzW49LhA3FA32s3UeRmZ+JhOX/JW5/vMYiNCNzUtBchMhtjkeGxKqkHMTLd4
+ plwy7AHY3kxfAeWZP9kX5g3sxq5ysWSzFFlBjho6p+tInpduoYXr7Zxvchp7aLP01BbbXpe9p
+ ExDLknGvx8PwCqBWDqf1rYsdr0HG/i1mIlbkMF8CjN6Z6huhSqqixWYEHAR48NWP7qWOrzNwe
+ uECHDwTlUUrNTM/hrR+EczMQwc/JynP+4zWdov6cpZ3Zofe9hTnZ4JcwjjEhs4+JwqYs75k8g
+ AWh8jjRFNbBK0ZhXqdA+JNDSOcjElIM2HgxAd0h/ajNNNn9pME+nl6lQeoAEBoFJdArnZ/ILW
+ iVg4t9a9RnZfmwqrqgcGOtgDYNRrN8lojGc85hpHmRy/Aiw4pvrhbNvjszrJH53MMv56UcYAS
+ JUoZgPAuP2zQpIX4/3HXhytSM7d3s+o08sY9KwBaAQ/e7fLYs6p6LgPUmN4DbM3l6ElGg2QRu
+ OUYpgG1
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,39 +70,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Viktor Prutyanov <viktor.prutyanov@redhat.com>
+The following changes since commit 0529245488865038344d64fff7ee05864d3d17f6:
 
-When number of CPUs utilized by guest Windows is less than defined in
-QEMU (i.e., desktop versions of Windows severely limits number of CPU
-sockets), patch_and_save_context routine accesses non-existent PRCB and
-fails. So, limit number of processed PRCBs by NumberProcessors taken
-from guest Windows driver.
+  Merge tag 'pull-target-arm-20221020' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-10-20 14:36:12 -0400)
 
-Signed-off-by: Viktor Prutyanov <viktor.prutyanov@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20221019235948.656411-1-viktor.prutyanov@redhat.com>
----
- dump/win_dump.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+are available in the Git repository at:
 
-diff --git a/dump/win_dump.c b/dump/win_dump.c
-index fd91350fbb..f20b6051b6 100644
---- a/dump/win_dump.c
-+++ b/dump/win_dump.c
-@@ -273,6 +273,13 @@ static void patch_and_save_context(WinDumpHeader *h, bool x64,
-         uint64_t Context;
-         WinContext ctx;
- 
-+        if (i >= WIN_DUMP_FIELD(NumberProcessors)) {
-+            warn_report("win-dump: number of QEMU CPUs is bigger than"
-+                        " NumberProcessors (%u) in guest Windows",
-+                        WIN_DUMP_FIELD(NumberProcessors));
-+            return;
-+        }
-+
-         if (cpu_read_ptr(x64, first_cpu,
-                 KiProcessorBlock + i * win_dump_ptr_size(x64),
-                 &Prcb)) {
+  https://gitlab.com/laurent_vivier/qemu.git tags/trivial-branch-for-7.2-pull-request
+
+for you to fetch changes up to 046ab3b80891f4aa6d0cfd7db15c622b1933e598:
+
+  accel/tcg/tcg-accel-ops-rr: fix trivial typo (2022-10-24 13:43:42 +0200)
+
+----------------------------------------------------------------
+Trivial branch pull request 20221025
+
+----------------------------------------------------------------
+
+Bin Meng (3):
+  tests/qtest: migration-test: Fix [-Werror=format-overflow=] build
+    warning
+  tests/qtest: vhost-user-test: Fix [-Werror=format-overflow=] build
+    warning
+  treewide: Remove the unnecessary space before semicolon
+
+Markus Armbruster (2):
+  hw/core: Tidy up unnecessary casting away of const
+  Drop useless casts from g_malloc() & friends to pointer
+
+Matheus Tavares Bernardino (1):
+  accel/tcg/tcg-accel-ops-rr: fix trivial typo
+
+Peter Maydell (1):
+  include/hw/scsi/scsi.h: Remove unused scsi_legacy_handle_cmdline()
+    prototype
+
+Volker Rümelin (1):
+  ui: remove useless typecasts
+
+Wang, Lei (1):
+  .gitignore: add multiple items to .gitignore
+
+dinglimin (1):
+  vmstate-static-checker:remove this redundant return
+
+lu zhipeng (1):
+  elf2dmp: free memory in failure
+
+ .gitignore                        | 3 +++
+ accel/tcg/tcg-accel-ops-rr.c      | 2 +-
+ contrib/elf2dmp/main.c            | 1 +
+ hw/9pfs/9p.c                      | 2 +-
+ hw/arm/nseries.c                  | 4 ++--
+ hw/char/exynos4210_uart.c         | 2 +-
+ hw/core/sysbus-fdt.c              | 5 +++--
+ hw/display/blizzard.c             | 2 +-
+ hw/dma/pl330.c                    | 2 +-
+ hw/misc/cbus.c                    | 6 +++---
+ hw/net/can/can_sja1000.c          | 2 +-
+ hw/nvram/eeprom93xx.c             | 2 +-
+ hw/timer/renesas_cmt.c            | 2 +-
+ hw/timer/renesas_tmr.c            | 8 ++++----
+ hw/usb/ccid-card-emulated.c       | 2 +-
+ hw/virtio/virtio-pci.c            | 2 +-
+ include/hw/elf_ops.h              | 2 +-
+ include/hw/scsi/scsi.h            | 1 -
+ scripts/vmstate-static-checker.py | 1 -
+ target/i386/kvm/kvm.c             | 3 +--
+ target/i386/whpx/whpx-all.c       | 5 ++---
+ target/riscv/vector_helper.c      | 2 +-
+ target/rx/op_helper.c             | 4 ++--
+ target/s390x/kvm/kvm.c            | 2 +-
+ tests/qtest/migration-test.c      | 4 ++--
+ tests/qtest/vhost-user-test.c     | 4 ++--
+ ui/console.c                      | 2 +-
+ ui/gtk.c                          | 2 +-
+ ui/vnc-enc-hextile.c              | 4 ++--
+ ui/vnc-jobs.c                     | 2 +-
+ ui/vnc.c                          | 2 +-
+ 31 files changed, 44 insertions(+), 43 deletions(-)
+
 -- 
 2.37.3
 
