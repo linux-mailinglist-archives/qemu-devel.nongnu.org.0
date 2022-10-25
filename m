@@ -2,82 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A690760D82D
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 01:51:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92E0960D842
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 01:57:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onTgU-0005CR-4p; Tue, 25 Oct 2022 19:50:14 -0400
+	id 1onTgW-0005Qe-0K; Tue, 25 Oct 2022 19:50:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1onTgS-0004zr-7s
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 19:50:12 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1onTgT-00059t-E8
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 19:50:13 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1onTgQ-0002xf-8c
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 19:50:11 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- d13-20020a17090a3b0d00b00213519dfe4aso552419pjc.2
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 16:50:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1onTgQ-0002y1-DG
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 19:50:13 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ l16-20020a05600c4f1000b003c6c0d2a445so359116wmq.4
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 16:50:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=SpUwsYmWJLaXasltbRDgdudnm5JOibAtNFyKmzAElEk=;
- b=FUQg8kCLk5uomG4HWy+894RlOzUJdycz+T4ih5OYUZ466781e5/tzP0t9gsVGAQYgb
- siVYell8RYnRB17oXxvNYzA0s0AMQwd/HXQ5GJvusGVaHC50S7uvZSMYWlr9COFTiL1c
- NkKNONUL+GpUeqssnr0mM5yHxxcPmlZx7xkp7JkM0yesauG+JXxs4ybzbzUAXu9NCE8U
- hpSk6zwJx0Ll/eDOfK3EfvkONubXRiza6JZsg1VTZ0swnHpNJZV0mdip6c4QFGSlhxeC
- 5nYVa3IZZaXe8dHuIM9ofY31JR3WR1SvMUE1gf3iJkxYp6rry3SkjZwi7iziuBjPszMQ
- fbhA==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=1v4OfOhcWozZ/CgeCzudetGzG1PeA7rd0snr6NhxT5c=;
+ b=BLaJEAS93rQEHJoeSyFY4yt7y1XeQVSvrLbKgGgx3S2IUItsry1gGbC0s7jyhbtGnb
+ EIHIAp0juE2A1bO3g4EhWBV5LvQNICwsPmVHOhX2D3RdB82iud0wtCzxY2NZ/uj+SWlD
+ gerTUraiEmPsqcu3QO38XILbeXI0zea46DafHB2jb+XML2puTflHhYbLyjfycellVg8R
+ ceRm0IHlJuOECR//86+ZdGyYJv7EEi2EGAmK/5mGoGAhy79CvPdJHyeUx5dmZ97zyeIb
+ 4bpd9kWMXkJdn8/CeyeO85CUxhkDNbiWU6MgAD/1Tzu0ioSX5LIBdzFB1Zv3iiZ9OxDg
+ pVdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SpUwsYmWJLaXasltbRDgdudnm5JOibAtNFyKmzAElEk=;
- b=PscDoO7Ufj6tPFs8Nyobx5gyfHH8VZfuv3XqfVp0ISje76lnYdIWYkfyBXLMW1XtWr
- 9kDBfpITJpDAlxC5XQ1cfOJ+p2bCIII9c8CW285s+S+LxqH4XgQXV8OxQ+qLmuBEPbAf
- MdWCqRUvTX4VbaL0F8zCPTV38A6Fea8SI1vVGzTsgv3lUS62dwfSha3WANdZlMmBZklY
- Gnh9ygsVflPQfOCKJhYtPcXJK1cb4Cakm2DWQ7O/p6yQRWdIGYSeq7LWtut793cP5Vby
- esE+oxtTNPSF+dsF2tPNhNbDWQnuR9nysASz24TyoYliu3HewpSxBLDLX/5tG2mtpXxc
- hywQ==
-X-Gm-Message-State: ACrzQf17K5lh0YEDUFvLyIavvUZfqTeF2ESjE3RXNzvuuo4RBkH2Bb1m
- hUX44naMh+ITEDYPivGnw6YXOQ==
-X-Google-Smtp-Source: AMsMyM40h59nwOCKbFG4PUCW2cD/T5oJJU3xgAAV72keSczwm6g4bpBubAOFCR59pSUdJIt8kozACQ==
-X-Received: by 2002:a17:90b:3847:b0:20d:c41f:de7a with SMTP id
- nl7-20020a17090b384700b0020dc41fde7amr916674pjb.85.1666741807736; 
- Tue, 25 Oct 2022 16:50:07 -0700 (PDT)
-Received: from [172.31.50.139] ([103.100.225.182])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1v4OfOhcWozZ/CgeCzudetGzG1PeA7rd0snr6NhxT5c=;
+ b=sBz9cJgEN108H6MjCEJ92fVBICDpXQCa3GyEJaqDLaPHCpMEzmsguQhxhbApVYN+wQ
+ OvIJUaNOycIZfIr0nX+fc6Eq5SCwLz/szaL+0k9Pq9vP1bpcViw/r/TlVEjymP4L1LoA
+ ktUrKHZeCK5hWWnW0wfaH9blFV+vM1TmgDL4/9tDSKD3QzXBKSE2s/El19ngDI8kQ9Kg
+ ZNwR1BNNrkd/Qp1iratbDoaazlCHajpDSgiJjUtUgm+01WqUuQ/+aM9kATF+CXLEKOux
+ Lun+oXwdiwnn4mMxJCdjhF9aFlLUX4I6MOkLtE1KFpRuxlHEVFAcwjwDduCkInYyTz1b
+ fo3A==
+X-Gm-Message-State: ACrzQf1Q9ra404McyYHbY/w5SneaNhdYxlotbgabt6uqSm0+HGSAdTvR
+ vduxqRKCTgl2rtRj29o8yATTmW/e6LHcfPK6
+X-Google-Smtp-Source: AMsMyM5Be01EAZChao5dc6p6LQcRZbzYpCplWJ/MUFX93N5cYku8HJZBCoe1GCJtPAsGpJPBNItEdQ==
+X-Received: by 2002:a05:600c:6003:b0:3c6:f6e8:25fc with SMTP id
+ az3-20020a05600c600300b003c6f6e825fcmr442085wmb.50.1666741808576; 
+ Tue, 25 Oct 2022 16:50:08 -0700 (PDT)
+Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- u1-20020a632341000000b0043a09d5c32bsm1776785pgm.74.2022.10.25.16.50.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Oct 2022 16:50:07 -0700 (PDT)
-Message-ID: <548c9d6e-16d2-1a61-a1ba-ee4aded712a7@linaro.org>
-Date: Wed, 26 Oct 2022 09:50:01 +1000
+ u17-20020a05600c19d100b003a3442f1229sm299303wmq.29.2022.10.25.16.50.07
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Tue, 25 Oct 2022 16:50:08 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: David Hildenbrand <david@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH 0/3] target: Rename headers using .def extension to .h.inc
+Date: Wed, 26 Oct 2022 01:50:03 +0200
+Message-Id: <20221025235006.7215-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] target/arm: honor HCR_E2H for AT S1E2R and AT S1E2W
- address translation
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, Ake Koomsin <ake@igel.co.jp>
-Cc: qemu-devel@nongnu.org, "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
-References: <20221017093003.547009-1-ake@igel.co.jp>
- <CAFEAcA_E5P2+ybnhH05DNsb_LuKjROU9-NKke46x+_LO7zr-qw@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA_E5P2+ybnhH05DNsb_LuKjROU9-NKke46x+_LO7zr-qw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -95,21 +92,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/25/22 22:25, Peter Maydell wrote:
-> In the pseudocode, E2H is handled by changing the behaviour not
-> just of the S1E2 ops, but also of the S1E1 ops. If E2H is set:
->   * the S1E2 ops use the EL2&0 regime, but continue to ignore
->     PSTATE.PAN
->   * the S1E1 ops also use the EL2&0 regime, with the S1E1RP and
->     S1E1WP ops looking at PSTATE.PAN and the others not
-> 
-> Richard -- do we want to just do the same thing, or do
-> our MMUIdx uses differ from the architectural translation
-> regimes in a way that means we need to do something else?
+We use the .h.inc extension to include C headers. To be consistent
+with the rest of the codebase, rename the C headers using the .def
+extension.
 
-We want to do the same thing.  The *_PAN MMUIdx are intended to be exactly like the 
-architecture, when PAN is enabled and not ignored.
+IDE/tools using our .editorconfig / .gitattributes will leverage
+this consistency.
 
+Philippe Mathieu-Daudé (3):
+  target/m68k: Rename qregs.def -> qregs.h.inc
+  target/s390x: Rename insn-data/format.def -> insn-data/format.h.inc
+  target/tricore: Rename csfr.def -> csfr.h.inc
 
-r~
+ target/m68k/{qregs.def => qregs.h.inc}                 |  0
+ target/m68k/translate.c                                |  4 ++--
+ target/s390x/tcg/{insn-data.def => insn-data.h.inc}    |  2 +-
+ .../s390x/tcg/{insn-format.def => insn-format.h.inc}   |  0
+ target/s390x/tcg/translate.c                           | 10 +++++-----
+ target/tricore/{csfr.def => csfr.h.inc}                |  0
+ target/tricore/translate.c                             |  4 ++--
+ 7 files changed, 10 insertions(+), 10 deletions(-)
+ rename target/m68k/{qregs.def => qregs.h.inc} (100%)
+ rename target/s390x/tcg/{insn-data.def => insn-data.h.inc} (99%)
+ rename target/s390x/tcg/{insn-format.def => insn-format.h.inc} (100%)
+ rename target/tricore/{csfr.def => csfr.h.inc} (100%)
+
+-- 
+2.37.3
+
 
