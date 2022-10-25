@@ -2,82 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0711C60C194
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 04:18:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA93460C19C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 04:21:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on9Tx-0004Xh-Rg; Mon, 24 Oct 2022 22:15:57 -0400
+	id 1on9Up-0006kv-Jt; Mon, 24 Oct 2022 22:16:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1on9Tr-0004QT-7s
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 22:15:51 -0400
-Received: from mout.gmx.net ([212.227.17.20])
+ (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
+ id 1on9Um-0006jJ-2V
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 22:16:48 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1on9Tp-0003Ka-Et
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 22:15:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1666664142;
- bh=I/ChHoSuQbJu+gdWjYrTcozcMf5DwHQ2HWyioGqM9xk=;
- h=X-UI-Sender-Class:Date:Subject:From:To:References:In-Reply-To;
- b=Mw5xCPZ58InvhfmbDRNwa2C9uaxZtBfPD7hA/aXTWE6Vxhao6vPeF+ACpfZ5VFVp7
- LWlYFhT8+vlCFY1mxukMyhJ+BRBs7rs6sl1VTWbYAHgdX6HWtORmHm25PhNMyHxvTg
- SNW38avudnkDX5rdokY86eXvkh2jKENtm3h4II3Y=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.136.30]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1My36N-1p0iLx0BiB-00zZoU; Tue, 25
- Oct 2022 04:15:42 +0200
-Message-ID: <00224c21-4218-d3e9-689f-ec4acf4350ad@gmx.de>
-Date: Tue, 25 Oct 2022 04:15:41 +0200
+ (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
+ id 1on9Ui-0003TS-FU
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 22:16:47 -0400
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.56])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MxFmv6qXjz15M3T;
+ Tue, 25 Oct 2022 10:11:43 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 25 Oct 2022 10:16:35 +0800
+Received: from [10.174.178.174] (10.174.178.174) by
+ dggpemm500007.china.huawei.com (7.185.36.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 25 Oct 2022 10:16:33 +0800
+Subject: Re: [PATCH v2] kset: fix memory leak when kset_register() returns
+ error
+To: Luben Tuikov <luben.tuikov@amd.com>, <linux-kernel@vger.kernel.org>,
+ <qemu-devel@nongnu.org>, <linux-f2fs-devel@lists.sourceforge.net>,
+ <linux-erofs@lists.ozlabs.org>, <ocfs2-devel@oss.oracle.com>,
+ <linux-mtd@lists.infradead.org>, <amd-gfx@lists.freedesktop.org>
+CC: <gregkh@linuxfoundation.org>, <rafael@kernel.org>, <somlo@cmu.edu>,
+ <mst@redhat.com>, <jaegeuk@kernel.org>, <chao@kernel.org>,
+ <hsiangkao@linux.alibaba.com>, <huangjianan@oppo.com>, <mark@fasheh.com>,
+ <jlbec@evilplan.org>, <joseph.qi@linux.alibaba.com>,
+ <akpm@linux-foundation.org>, <alexander.deucher@amd.com>, <richard@nod.at>,
+ <liushixin2@huawei.com>
+References: <20221024121910.1169801-1-yangyingliang@huawei.com>
+ <176ae1a1-9240-eef8-04e9-000d47646f4a@amd.com>
+ <dcb8b35a-7d0d-cc00-41e3-6e66837c506f@amd.com>
+Message-ID: <26c8c125-453c-af32-a66c-2a37e964ce19@huawei.com>
+Date: Tue, 25 Oct 2022 10:16:33 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v4] linux-user: Add close_range() syscall
+In-Reply-To: <dcb8b35a-7d0d-cc00-41e3-6e66837c506f@amd.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-To: Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <Y1b45IL371MJP2WW@p100>
- <6412545a-5b43-421f-d94a-cf3111725047@linaro.org>
- <436afa3a-bb4b-3807-4c01-25d3ddb195a1@gmx.de>
-In-Reply-To: <436afa3a-bb4b-3807-4c01-25d3ddb195a1@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:K+N2Lz5TYSyH1eckMZ3qPiLuMLu/Kx+ig5SRiVLAHyo17PuRRrj
- kxO8L4TvlYN7DNUu7Xa1b90b2YB/8v5qrRAVVaYK3x1bMEnztinTGFvrb40WJXv27j9MXWk
- s1TTbejE5MxWx0GX6xWIheRfNIQwSz4Ol4b0Li9ffs+CVMFi8mchNYYaXpamAlXLFo7o35L
- Ww4PRsh9G7I9QIM2rtnvA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:nEqFgS5mm7o=:Cvz8QRyIS4QrAUDWmMFjhn
- phiZtlN9JU1/xWkNXVu7R5XuPjBj5+gQ2kCORUcO8/jX6PfewO3ME35R7wAjbvj4JAsjm2aG0
- 8ztX02OAskb4HQnWBxYOTNJbAC6mUqwhJ0l/S6rpjSC1ApZJGuvKcQVBfCMt4wyDL37E+lpTo
- 18JPvGY+wc0W17VufFJMVV6YjsZwNbyqb/9HC/T+OfpCyWH9iE/51dCY+m+ZF/x9PcCM3gF2f
- woJ9k3NX/H9OZqvyNpT0tutzjU/iUH9w94rl3autHef6axMhU+JLamTIiEfCPSqHAeEycrVaR
- wqcbVn85ZRGX8odB1jRf/c3uZGlWrgb0eqqvlN+cWR0dhoew7fIO+UBKXK7bCX6VaDwjGbYRj
- zQp0ylS2rc02BZK0jlY8ybMiRt08MN8e9Odgn70QdTVaQ9ZovK0fUOc+Ct+QEJeODv6jozCVm
- dcXQZsDT0+wk6vkVdAOGSGm3IUrhQDjFRR6blbvBmBLEMs+cj3UvWmrm0tvF5vtkS9oKj+3o3
- DiOSKc+fL0m1rawpZN6WBQ+U8pCxxnvOd+S036Izn/9pu7L6MYtDP82GaO26YcJg//wiwYac1
- nNMP57j2NpBbZD5yX28OHI/U1HqTDwo3Z0V5/Tk68cFt1vtRIECOFb89/WzZ5/USB/hjn3F6s
- Kho9OmO31fKWagm4xiyfGm7v11LYfDZN0i+cgTVIuaZO/BFgjzqnEcHLDSQkShcXxI1yj49d2
- RjnBQxJYtZHlauFFMb3d2TqwTbgmbmN2nMJxC+PeRYjjYkRR2TUKyP9HD2KnUPOPhRSaszdwh
- xLRlhpxsCB4fwCc3yDZZli3pttXrGiVfnRKBpQbxoD/a3V6jJwmyC8Cd775mSyl+/2PjifxXm
- zmkXyznejEUqcE+oGOgpMjSIZuB+SBn0rC/p9l7CG5tZUkLQuHy10LetGBbfVAg2LsGMWlD9u
- CXmfTXFCtIseMevwvK4j1S8ezgwIUfKtJUeZnMfmKnWxHwf9z/tYamVUttte0jm+reH71AjhP
- NMXMZPd1h1oVbOPz2zQJCioMsFohfomLYjIaEU2btAV+7K3YBqDYgnornbLbpl6CAO8UV4UuH
- kGngOfdxqeMD1h5EsBErsle77yEHllVyBhM8kcipt34M8uXGpHu4n79AGXdubNsZEEpez3T1U
- a+7VgDQ+SS42tO4ECPLNV875fMvPhIir84DZ1ShQb2Kh7qV6wPZKnD97gNp3yxgrhBcFaRVjm
- OAfzceceKOsnxoBRPwJlxxxP1Y5w6GWGAdC3EMVd2VeSGo+inrJJvUD2hCap8Ii2tjIsbzuJy
- z77t+uKDw/mafxNEiRRlnkXbCtwbRD9kdvDHy/HkPB6GJJOh6kPZR509wmxl6wnieAxf1jmjG
- zeqdG3wVS/dxqIzUC//zRFWqIeSQaMtSbadivOe1ncekxb6VUkaM83pCPuEkE7p1MbEykamT+
- 18uGo3GmBdqVHdtq2XUY3p+VS6/42lYcLhppZ+cs4CinnGo9uffg7hf8sDkyvj4HMiuDu1Xy3
- dLPjdV/XU/Y7XcoGMJI/Ahvuwwj0n2qsLmvwePGEg0KU+
-Received-SPF: pass client-ip=212.227.17.20; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [10.174.178.174]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=yangyingliang@huawei.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,43 +78,95 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
+Reply-to:  Yang Yingliang <yangyingliang@huawei.com>
+From:  Yang Yingliang via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/25/22 03:39, Helge Deller wrote:
-> On 10/25/22 00:39, Richard Henderson wrote:
->> On 10/25/22 06:43, Helge Deller wrote:
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ab=
-i_long maxfd =3D arg2;
->>> +
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if=
- ((sizeof(abi_long) =3D=3D 4 && arg2 =3D=3D (abi_long)0x7FFFFFFFUL) ||
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 (sizeof(abi_long) =3D=3D 8 && arg2 =3D=3D (abi_long)=
-0x7FFFFFFFFFFFFFFFULL)) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 maxfd =3D target_fd_max;
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>> +
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fo=
-r (fd =3D arg1; fd < maxfd; fd++) {
+Hi,
+
+On 2022/10/25 5:25, Luben Tuikov wrote:
+> On 2022-10-24 17:06, Luben Tuikov wrote:
+>> On 2022-10-24 08:19, Yang Yingliang wrote:
+>>> Inject fault while loading module, kset_register() may fail.
+>>> If it fails, the name allocated by kobject_set_name() which
+>>> is called before kset_register() is leaked, because refcount
+>>> of kobject is hold in kset_init().
+>> "is hold" --> "was set".
 >>
->> Why do we need explicit checks for INT32/64_MAX?
->> If the guest passes 0x7FFFFFFFFFFFFFFEULL,
+>> Also, I'd say "which must be called" instead of "is", since
+>> we cannot register kobj/kset without a name--the kobj code crashes,
+>> and we want to make this clear. IOW, a novice user may wonder
+>> where "is" it called, as opposed to learning that they "must"
+>> call it to allocate/set a name, before calling kset_register().
+>>
+>> So, I'd say this:
+>>
+>> "If it fails, the name allocated by kobject_set_name() which must
+>>   be called before a call to kset_regsiter() is leaked, since
+>>   refcount of kobj was set in kset_init()."
+> Actually, to be a bit more clear:
 >
-> A 32-bit guest (on a 64bit host) will pass 0x7FFFFFFFUL...
+> "If kset_register() fails, the name allocated by kobject_set_name(),
+>   namely kset.kobj.name, which must be called before a call to kset_register(),
+>   may be leaked, if the caller doesn't explicitly free it, say by calling kset_put().
 >
->> do we really need to iterate over all of those impossible values?
+>   To mitigate this, we free the name in kset_register() when an error is encountered,
+>   i.e. when kset_register() returns an error."
+Thanks for you suggestion.
 >
-> The compiler will optimize one of those checks away, so it's effectively
-> just one expression.
+>>> As a kset may be embedded in a larger structure which needs
+>>> be freed in release() function or error path in callers, we
+>> Drop "As", start with "A kset". "which needs _to_ be".
+>> Also please specify that the release is part of the ktype,
+>> like this:
+>>
+>> "A kset may be embedded in a larger structure which needs to be
+>>   freed in ktype.release() or error path in callers, we ..."
+>>
+>>> can not call kset_put() in kset_register(), or it will cause
+>>> double free, so just call kfree_const() to free the name and
+>>> set it to NULL.
+>>>
+>>> With this fix, the callers don't need to care about the name
+>>> freeing and call an extra kset_put() if kset_register() fails.
+>> This is unclear because you're *missing* a verb:
+>> "and call an extra kset_put()".
+>> Please add the proper verb _between_ "and call", something like,
+>>
+>> "With this fix, the callers don't need to care about freeing
+>>   the name of the kset, and _can_ call kset_put() if kset_register() fails."
+I was mean
+the callers don't need to care about freeing the name of the kset and
+the callers don't need to care about calling kset_put()
 
-My above comments are correct, but....
-
->> I should think some expression involving MIN() is in order.
-
-that's even better.
-
-Will resend v5 patch.
-
-Helge
+Thanks,
+Yang
+>>
+>> Choose a proper verb here: can, should, cannot, should not, etc.
+>>
+>> We can do this because you set "kset.kobj.name to NULL, and this
+>> is checked for in kobject_cleanup(). We just need to stipulate
+>> whether they should/shouldn't have to call kset_put(), or can free the kset
+>> and/or the embedding object themselves. This really depends
+>> on how we want kset_register() to behave in the future, and on
+>> user's own ktype.release implementation...
+> Forgot "may", "may not".
+>
+> So, do we want to say "may call kset_put()", like:
+>
+> "With this fix, the callers need not care about freeing
+>   the name of the kset, and _may_ call kset_put() if kset_register() fails."
+>
+> Or do we want to say "should" or even "must"--it really depends on
+> what else is (would be) going on in kobj registration.
+>
+> Although, the user may have additional work to be done in the ktype.release()
+> callback for the embedding object. It would be good to give them the freedom,
+> i.e. "may", to call kset_put(). If that's not the case, this must be explicitly
+> stipulated with the proper verb.
+>
+> Regards,
+> Luben
+>
+> .
 
