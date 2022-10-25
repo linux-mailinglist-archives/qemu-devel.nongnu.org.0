@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DB9060C727
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 11:03:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF7BF60C685
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 10:33:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onFMs-00089v-8G; Tue, 25 Oct 2022 04:33:02 -0400
+	id 1onFN3-0001KC-2Z; Tue, 25 Oct 2022 04:33:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1onEXc-0002Yt-DF; Tue, 25 Oct 2022 03:40:06 -0400
-Received: from mout.kundenserver.de ([217.72.192.75])
+ id 1onEa8-0003vY-7w; Tue, 25 Oct 2022 03:42:41 -0400
+Received: from mout.kundenserver.de ([212.227.126.134])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1onEXY-0003eE-B8; Tue, 25 Oct 2022 03:40:03 -0400
-Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1M4Ja3-1omxYb1Hmb-000IOi; Tue, 25
- Oct 2022 09:39:56 +0200
+ id 1onEa5-0004CV-Sj; Tue, 25 Oct 2022 03:42:39 -0400
+Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue010
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MHXWL-1orNJB2dJB-00DYLD; Tue, 25
+ Oct 2022 09:42:32 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: qemu-trivial@nongnu.org,
 	Laurent Vivier <laurent@vivier.eu>
 Subject: [PULL 00/11] Trivial branch for 7.2 patches
-Date: Tue, 25 Oct 2022 09:39:44 +0200
-Message-Id: <20221025073955.3115315-1-laurent@vivier.eu>
+Date: Tue, 25 Oct 2022 09:42:29 +0200
+Message-Id: <20221025074229.3115835-1-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:LU/VIbVlg6HwwffNb6E60bUYDAG/nl/ZOEHYnGSXwItQAdjMLfm
- +MdM1rIpTFhjPAHmcoS02fZRrnqzvNlqGwGVNSg80x8O+v+QmkH4AUDPjhGYb0VzmIijJPs
- qgCF0d8IQP1jBGqGUBaU3iE3DgjHHgXPUGtrASh2EmGuRCHtGQj3qbHdYNm6QQ4vx9+qYGy
- zLBm8DQaXN02mHmQ/+oYA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:nexSQETKBAY=:Hj8wtXHf3ZE/i2sSPDgRT3
- Gmw/zoVG6chVAtDWy4+IWjTcfeRvCQAV3CjkJGa8nxLuNtbsklSEP1FAQCA0OLetRDcXOgP6I
- z6taxYuT73CMhXUDiXyVwIUwVwmkIrvmN9QxrzUsyslV/EBlDg0nLhfFCf94Zlse2yqvDbMiY
- r/WOPH/3utkomVHqoUBl74pVXWz+lSwouliFfBvlg0wyPyrSzbFShDzlKaAZmdz7bIjZs8JBr
- y8qZAK4nK5VBY5l+s/TZPplQIBCJYiQ6c41QF62AN5lQuCN6TZS6uABOJMoXWKzaHDBhYZhdQ
- PHyzgv912Ufeb2PBUIRf2aXmrdMlc5nSMq8sJdLEifrkQhyjdtYm/3UvxYN+7E1EhYF45ou/c
- /uWrHuOJu3r8FQDOg3Iy5ZK35Lm6nb0vnNQ56/6nXJQBA4KcIZ88IIrbws7uXNiRjKEi8ioWj
- tNmH6Eu2HgeR1zULH8ueB11rn5k+XpLfCLYaV009tEOL+yuJgIgiOlhfz7lUDw3hAcZwl+wND
- ZewnPIwpwInIWojdd9D36nPHCpcCbJQIzhg3S4WU/RTsQu4Dgttg9+zSrPajAAiwQkcZNsr3e
- H7RR+wi2udXjyajVtVc27mcPh/ENG91f2VaH+7QN/jj2SI9AqzK975iR/scAE54vaY0Zg8j76
- xo6LbMsGJoX9MVV9hu5Cur4YpBNJjF9IAoBI1yRFoCqv0r5r6hY9WiG/OROR3UFcAvXUI2Hwn
- fhDHVLQaGmC0WWwbF8m9EtAvN31p999Wlw4DVYyler1gl0PVXoectsCBFeMUpgGDEd+EnaRWO
- m0SMiX5
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:p2XZdtTRYD9vT86hTlVGoQY9utxhfP6+5g4KaKtDwnSVnvTyW0c
+ v6WbEVa2N9pmyp/2KQS8HPRDaqMh5nyISjKGJU9N/oSM09iEGeNZDb24SJrlR4zSgTS7I5m
+ 7rUkbiWUuwIXPTeVaSB3bU5kG8XX+O0N9RH6CbLJ95sdIqoUVuxPCbacHUsUQlXS6CmEK8k
+ F2SuCJ8Y/auSe0m1bE+fw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:F5n45sj8KLM=:F8uEbvrQZoPUnLDJMDSpP1
+ 6ToK+3IdoJv7/Mxb1Ro3yrrdwiT0niWvmuB4+4FHmMy8B0pjEZxxr4cmkJnVqIhrxto3sWO69
+ tFf0YMKJtu4fPqULxW279v1VH0ztTqVAiVnSffF2eZMQ6RGCragTsEp76c2w2XY+ET71CY9wN
+ bMHLpSwYOWZrk7krNYvSUFMJBrYhrPFFCxoeu2bpm/HTByj28IUcVCld+HwCInkepqPFpnPO3
+ R7sbQGeSO58YCMcuwTM0rzwQlLvudcGSJiqqrjfz41wdHJT2172X/Y4CgWJzJhgpbMvQvqzqP
+ bfruoTZEGoqp/ZwpbCg4qLZDxcRUPGuxpevAlbMmy9DyOIU40tER0owd8jIN0KSxuPeAD1xhX
+ k0X6pyGSkFmf5KayLE+t8WOVBZ3xl153/9lAV1umSyWNGVgbWBFeZQdZ7eeDhv7kk07Bw7TyN
+ uh8Zk+XYE3LV8p2MOk7tQThwM0Z0rADo42ClkBjkn1tdKrwcrADuLK5XZ+Iuvzbwg4TU/Lq4z
+ Oexw7xjdkI5JYwLcLzlMbUPgu2toelGYPbHFJdtszw5tBI7pQR9M12xvyIWd/KlQEDNqhaZkM
+ csE0mFtCkB/Q6s6KQWkgBFj0eSWeWFDDsONFwTWg7G9MAN9I2jWLb1Yz4gJOMqficMWQMlW2Z
+ +4AbDeAW+Bw8dmg6htpIdv8icLU18zGfqlNFwUziDm08HEwQ+HpAf/w6lQaUMQNufvfhnI1j1
+ J25kEM9vdminEpBPSAGSZPNLg8MMAbGvbRruWZeoxFUx9ugHXV80tkbp+AfdQNgU1RBLfIg2s
+ a/g+8MY
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
