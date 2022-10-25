@@ -2,44 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 218AB60D20D
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 18:56:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D70B60D23B
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 19:06:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onN2v-0006sC-3J; Tue, 25 Oct 2022 12:44:57 -0400
+	id 1onN2y-00077C-AJ; Tue, 25 Oct 2022 12:45:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1onN2n-0006YB-TY; Tue, 25 Oct 2022 12:44:49 -0400
+ id 1onN2s-0006js-J2; Tue, 25 Oct 2022 12:44:54 -0400
 Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1onN2l-0002FR-Jt; Tue, 25 Oct 2022 12:44:49 -0400
+ id 1onN2o-0002Fh-6j; Tue, 25 Oct 2022 12:44:54 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 1E40875A15B;
- Tue, 25 Oct 2022 18:44:46 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 2F86875A156;
+ Tue, 25 Oct 2022 18:44:47 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id D991075A156; Tue, 25 Oct 2022 18:44:45 +0200 (CEST)
-Message-Id: <0dc9e33cf44fff8c7d980949aad0bd9f9f3428cf.1666715145.git.balaton@eik.bme.hu>
+ id E951875A135; Tue, 25 Oct 2022 18:44:46 +0200 (CEST)
+Message-Id: <56c45268933f2240f1a192db52f19966b5316020.1666715145.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1666715145.git.balaton@eik.bme.hu>
 References: <cover.1666715145.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v4 11/19] hw/ppc/mac.h: Move PROM and KERNEL defines to board
- code
+Subject: [PATCH v4 12/19] hw/ppc/mac.h: Rename to include/hw/nvram/mac_nvram.h
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Date: Tue, 25 Oct 2022 18:44:45 +0200 (CEST)
+Date: Tue, 25 Oct 2022 18:44:46 +0200 (CEST)
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, PP_MIME_FAKE_ASCII_TEXT=0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -55,73 +53,235 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The PROM_FILENAME and KERNEL_* defines are used by mac_oldworld and
-mac_newworld but they don't have to be identical so these could be
-moved to the individual boards.
+All that is left in mac.h now belongs to the nvram emulation so rename
+it accordingly and only include it where it is really used.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/ppc/mac.h          | 4 ----
- hw/ppc/mac_newworld.c | 4 ++++
- hw/ppc/mac_oldworld.c | 7 ++++++-
- 3 files changed, 10 insertions(+), 5 deletions(-)
+ MAINTAINERS                                  |  1 +
+ hw/ide/macio.c                               |  1 -
+ hw/intc/heathrow_pic.c                       |  1 -
+ hw/intc/openpic.c                            |  1 -
+ hw/misc/macio/cuda.c                         |  1 -
+ hw/misc/macio/gpio.c                         |  1 -
+ hw/misc/macio/macio.c                        |  1 -
+ hw/misc/macio/pmu.c                          |  1 -
+ hw/nvram/mac_nvram.c                         |  2 +-
+ hw/pci-host/grackle.c                        |  1 -
+ hw/pci-host/uninorth.c                       |  1 -
+ hw/ppc/mac_newworld.c                        |  2 +-
+ hw/ppc/mac_oldworld.c                        |  1 -
+ include/hw/misc/macio/macio.h                |  2 +-
+ hw/ppc/mac.h => include/hw/nvram/mac_nvram.h | 11 ++++++-----
+ 15 files changed, 10 insertions(+), 18 deletions(-)
+ rename hw/ppc/mac.h => include/hw/nvram/mac_nvram.h (89%)
 
-diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
-index fe77a6c6db..3e2df262ee 100644
---- a/hw/ppc/mac.h
-+++ b/hw/ppc/mac.h
-@@ -30,10 +30,6 @@
- #include "hw/sysbus.h"
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 021b99492c..54553093af 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1328,6 +1328,7 @@ F: hw/nvram/mac_nvram.c
+ F: hw/input/adb*
+ F: include/hw/misc/macio/
+ F: include/hw/misc/mos6522.h
++F: include/hw/nvram/mac_nvram.h
+ F: include/hw/ppc/mac_dbdma.h
+ F: include/hw/pci-host/uninorth.h
+ F: include/hw/input/adb*
+diff --git a/hw/ide/macio.c b/hw/ide/macio.c
+index 1c15c37ec5..e604466acb 100644
+--- a/hw/ide/macio.c
++++ b/hw/ide/macio.c
+@@ -24,7 +24,6 @@
+  */
  
- #define NVRAM_SIZE        0x2000
--#define PROM_FILENAME    "openbios-ppc"
--
--#define KERNEL_LOAD_ADDR 0x01000000
--#define KERNEL_GAP       0x00100000
+ #include "qemu/osdep.h"
+-#include "hw/ppc/mac.h"
+ #include "hw/ppc/mac_dbdma.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+diff --git a/hw/intc/heathrow_pic.c b/hw/intc/heathrow_pic.c
+index cb97c315da..13048a2735 100644
+--- a/hw/intc/heathrow_pic.c
++++ b/hw/intc/heathrow_pic.c
+@@ -24,7 +24,6 @@
+  */
  
- /* Mac NVRAM */
- #define TYPE_MACIO_NVRAM "macio-nvram"
+ #include "qemu/osdep.h"
+-#include "hw/ppc/mac.h"
+ #include "migration/vmstate.h"
+ #include "qemu/module.h"
+ #include "hw/intc/heathrow_pic.h"
+diff --git a/hw/intc/openpic.c b/hw/intc/openpic.c
+index b0787e8ee7..c757adbe53 100644
+--- a/hw/intc/openpic.c
++++ b/hw/intc/openpic.c
+@@ -32,7 +32,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "hw/irq.h"
+-#include "hw/ppc/mac.h"
+ #include "hw/pci/pci.h"
+ #include "hw/ppc/openpic.h"
+ #include "hw/ppc/ppc_e500.h"
+diff --git a/hw/misc/macio/cuda.c b/hw/misc/macio/cuda.c
+index 1498113cfc..0d4c13319a 100644
+--- a/hw/misc/macio/cuda.c
++++ b/hw/misc/macio/cuda.c
+@@ -25,7 +25,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "hw/irq.h"
+-#include "hw/ppc/mac.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+ #include "hw/input/adb.h"
+diff --git a/hw/misc/macio/gpio.c b/hw/misc/macio/gpio.c
+index b1bcf830c3..c8ac5633b2 100644
+--- a/hw/misc/macio/gpio.c
++++ b/hw/misc/macio/gpio.c
+@@ -24,7 +24,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "hw/ppc/mac.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+ #include "hw/misc/macio/macio.h"
+diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
+index f9f0758b03..93a7c7bbc8 100644
+--- a/hw/misc/macio/macio.c
++++ b/hw/misc/macio/macio.c
+@@ -26,7 +26,6 @@
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include "qemu/module.h"
+-#include "hw/ppc/mac.h"
+ #include "hw/misc/macio/cuda.h"
+ #include "hw/pci/pci.h"
+ #include "hw/ppc/mac_dbdma.h"
+diff --git a/hw/misc/macio/pmu.c b/hw/misc/macio/pmu.c
+index 336502a84b..70562ed8d0 100644
+--- a/hw/misc/macio/pmu.c
++++ b/hw/misc/macio/pmu.c
+@@ -29,7 +29,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "hw/ppc/mac.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+ #include "hw/input/adb.h"
+diff --git a/hw/nvram/mac_nvram.c b/hw/nvram/mac_nvram.c
+index 11f2d31cdb..3d9ddda217 100644
+--- a/hw/nvram/mac_nvram.c
++++ b/hw/nvram/mac_nvram.c
+@@ -25,7 +25,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "hw/nvram/chrp_nvram.h"
+-#include "hw/ppc/mac.h"
++#include "hw/nvram/mac_nvram.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+ #include "qemu/cutils.h"
+diff --git a/hw/pci-host/grackle.c b/hw/pci-host/grackle.c
+index e4c7303859..95945ac0f4 100644
+--- a/hw/pci-host/grackle.c
++++ b/hw/pci-host/grackle.c
+@@ -24,7 +24,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "hw/ppc/mac.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/pci/pci.h"
+ #include "hw/irq.h"
+diff --git a/hw/pci-host/uninorth.c b/hw/pci-host/uninorth.c
+index d25b62d6a5..aebd44d265 100644
+--- a/hw/pci-host/uninorth.c
++++ b/hw/pci-host/uninorth.c
+@@ -24,7 +24,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "hw/irq.h"
+-#include "hw/ppc/mac.h"
+ #include "hw/qdev-properties.h"
+ #include "qemu/module.h"
+ #include "hw/pci/pci.h"
 diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index 957f301d6c..c05e29bf67 100644
+index c05e29bf67..0a72da89ca 100644
 --- a/hw/ppc/mac_newworld.c
 +++ b/hw/ppc/mac_newworld.c
-@@ -83,9 +83,13 @@
- 
- #define NDRV_VGA_FILENAME "qemu_vga.ndrv"
- 
-+#define PROM_FILENAME "openbios-ppc"
- #define PROM_BASE 0xfff00000
- #define PROM_SIZE (1 * MiB)
- 
-+#define KERNEL_LOAD_ADDR 0x01000000
-+#define KERNEL_GAP       0x00100000
-+
- #define TYPE_CORE99_MACHINE MACHINE_TYPE_NAME("mac99")
- typedef struct Core99MachineState Core99MachineState;
- DECLARE_INSTANCE_CHECKER(Core99MachineState, CORE99_MACHINE,
+@@ -52,7 +52,7 @@
+ #include "qapi/error.h"
+ #include "hw/ppc/ppc.h"
+ #include "hw/qdev-properties.h"
+-#include "hw/ppc/mac.h"
++#include "hw/nvram/mac_nvram.h"
+ #include "hw/boards.h"
+ #include "hw/pci-host/uninorth.h"
+ #include "hw/input/adb.h"
 diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index e1a22f8eba..5213cbcc04 100644
+index 5213cbcc04..e2b5dd0650 100644
 --- a/hw/ppc/mac_oldworld.c
 +++ b/hw/ppc/mac_oldworld.c
-@@ -58,10 +58,15 @@
+@@ -30,7 +30,6 @@
+ #include "qapi/error.h"
+ #include "hw/ppc/ppc.h"
+ #include "hw/qdev-properties.h"
+-#include "mac.h"
+ #include "hw/boards.h"
+ #include "hw/input/adb.h"
+ #include "sysemu/sysemu.h"
+diff --git a/include/hw/misc/macio/macio.h b/include/hw/misc/macio/macio.h
+index 26cf15b1ce..95d30a1745 100644
+--- a/include/hw/misc/macio/macio.h
++++ b/include/hw/misc/macio/macio.h
+@@ -33,7 +33,7 @@
+ #include "hw/misc/macio/cuda.h"
+ #include "hw/misc/macio/gpio.h"
+ #include "hw/misc/macio/pmu.h"
+-#include "hw/ppc/mac.h"
++#include "hw/nvram/mac_nvram.h"
+ #include "hw/ppc/mac_dbdma.h"
+ #include "hw/ppc/openpic.h"
+ #include "qom/object.h"
+diff --git a/hw/ppc/mac.h b/include/hw/nvram/mac_nvram.h
+similarity index 89%
+rename from hw/ppc/mac.h
+rename to include/hw/nvram/mac_nvram.h
+index 3e2df262ee..baa9f6a5a6 100644
+--- a/hw/ppc/mac.h
++++ b/include/hw/nvram/mac_nvram.h
+@@ -1,5 +1,5 @@
+ /*
+- * QEMU PowerMac emulation shared definitions and prototypes
++ * PowerMac NVRAM emulation
+  *
+  * Copyright (c) 2004-2007 Fabrice Bellard
+  * Copyright (c) 2007 Jocelyn Mayer
+@@ -23,8 +23,8 @@
+  * THE SOFTWARE.
+  */
  
- #define NDRV_VGA_FILENAME "qemu_vga.ndrv"
+-#ifndef PPC_MAC_H
+-#define PPC_MAC_H
++#ifndef MAC_NVRAM_H
++#define MAC_NVRAM_H
  
--#define GRACKLE_BASE 0xfec00000
-+#define PROM_FILENAME "openbios-ppc"
- #define PROM_BASE 0xffc00000
- #define PROM_SIZE (4 * MiB)
+ #include "exec/memory.h"
+ #include "hw/sysbus.h"
+@@ -47,5 +47,6 @@ struct MacIONVRAMState {
+     uint8_t *data;
+ };
  
-+#define KERNEL_LOAD_ADDR 0x01000000
-+#define KERNEL_GAP       0x00100000
+-void pmac_format_nvram_partition (MacIONVRAMState *nvr, int len);
+-#endif /* PPC_MAC_H */
++void pmac_format_nvram_partition(MacIONVRAMState *nvr, int len);
 +
-+#define GRACKLE_BASE 0xfec00000
-+
- static void fw_cfg_boot_set(void *opaque, const char *boot_device,
-                             Error **errp)
- {
++#endif /* MAC_NVRAM_H */
 -- 
 2.30.4
 
