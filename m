@@ -2,93 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 061C260C67C
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 10:33:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96E2F60C676
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 10:32:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onFKl-0002DP-D6; Tue, 25 Oct 2022 04:30:51 -0400
+	id 1onFKt-0002lf-Un; Tue, 25 Oct 2022 04:30:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1onE28-00024P-Gn
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:07:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
+ id 1onEBI-00042O-2g
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:17:00 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1onE26-0007MX-A0
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:07:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666681649;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=K9yyWdl0ksGUjiX/WO67Noj7n2je4NdflJckapT6Yd8=;
- b=cLmSROtnTOImRq1//RR+xnqMAwm6IxAmpCQ8e3cCdf5hy6HpDUyx/TpQv5t72Cm8samkaR
- N0H0e7RSPYDHtZGEmdSVXJkatm2DmzC0JbrX/qPfp8O/qaDu6obSyqzwAviNR/GmUwqRvv
- coI/7aB8GA7dnFSCTpsNvGIAYPTjGVI=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-547-vjA1xPlDOvOaAYLLRnJWLg-1; Tue, 25 Oct 2022 03:07:22 -0400
-X-MC-Unique: vjA1xPlDOvOaAYLLRnJWLg-1
-Received: by mail-pf1-f197.google.com with SMTP id
- e12-20020a62aa0c000000b0056c12c0aadeso1048381pff.21
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 00:07:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=K9yyWdl0ksGUjiX/WO67Noj7n2je4NdflJckapT6Yd8=;
- b=RRNqio5P3C6CDWv1li6B3kAuoax1r3TIk5Fq9G/OF0UHF5KirHfb49/auLhzohtikA
- rkh30ML1cR9e/gXHzPoCnYMJqgtk4kUO6gWhSD9R3cI/NUoCQDHCfBgKOufIdTnGTmEc
- 3PPVYEd0hvoW19KIeOntfGgtM8CvbFUAQFMygV+QOZhJMKc0DjDlamphaS4fxz03qg87
- FIFF2xOV4+32UJ1oyqBXgorSDkQbjUk6o9/ZpdSa6KQEunMamxzL/CUkBFXmGv2spDMN
- Zwcls0MhoXc6NBJUC/MEAcZTp8ZvV53JAve0BAEaOGg/7yvrXfwym9PYlJrf6CiTs3Mw
- 1t6g==
-X-Gm-Message-State: ACrzQf3SAXfHgHPQ1Pbdkn9vx1y4wxo8d7KiYH+ogi8B0mwdM63Sf4vH
- JH+webNYTRj7KltSq9kmGKOsOhfWZ/VDPszObJiuFZv68HfhZwaVH0zHYrhatkqTFfmercjGFI1
- Dv1FbkuR7SdkQQaN0fRCKXF/9KnlxosQ=
-X-Received: by 2002:a17:90a:6845:b0:210:7ef5:ab99 with SMTP id
- e5-20020a17090a684500b002107ef5ab99mr34000346pjm.80.1666681641500; 
- Tue, 25 Oct 2022 00:07:21 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5GmZavJZqO9l+i1cR+rus/xzU29SxwkexVN+UrEkl0Ot4e4WizW3aX28K3cjqNYB1tKEdOkgoT5NKhLgo7ppY=
-X-Received: by 2002:a17:90a:6845:b0:210:7ef5:ab99 with SMTP id
- e5-20020a17090a684500b002107ef5ab99mr34000316pjm.80.1666681641240; Tue, 25
- Oct 2022 00:07:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <yangyingliang@huawei.com>)
+ id 1onEB8-0000Ox-As
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:16:52 -0400
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.54])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MxNR81GpYzmVK5;
+ Tue, 25 Oct 2022 15:11:48 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 25 Oct 2022 15:16:39 +0800
+Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
+ (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Tue, 25 Oct
+ 2022 15:16:38 +0800
+To: <linux-kernel@vger.kernel.org>, <qemu-devel@nongnu.org>,
+ <linux-f2fs-devel@lists.sourceforge.net>, <linux-erofs@lists.ozlabs.org>,
+ <ocfs2-devel@oss.oracle.com>, <linux-mtd@lists.infradead.org>,
+ <amd-gfx@lists.freedesktop.org>
+CC: <gregkh@linuxfoundation.org>, <rafael@kernel.org>, <somlo@cmu.edu>,
+ <mst@redhat.com>, <jaegeuk@kernel.org>, <chao@kernel.org>,
+ <hsiangkao@linux.alibaba.com>, <huangjianan@oppo.com>, <mark@fasheh.com>,
+ <jlbec@evilplan.org>, <joseph.qi@linux.alibaba.com>,
+ <akpm@linux-foundation.org>, <alexander.deucher@amd.com>,
+ <luben.tuikov@amd.com>, <richard@nod.at>, <liushixin2@huawei.com>,
+ <yangyingliang@huawei.com>
+Subject: [PATCH v3] kset: fix memory leak when kset_register() returns error
+Date: Tue, 25 Oct 2022 15:15:49 +0800
+Message-ID: <20221025071549.1280528-1-yangyingliang@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20221020155251.398735-1-eperezma@redhat.com>
- <20221020155251.398735-3-eperezma@redhat.com>
- <CACGkMEukKCXRDSmR3nemxdHDphQHspGdY3nC9O5g9grQ59PN8w@mail.gmail.com>
- <CAJaqyWf0uXRze3qK1d02RB+Q4BJ60A8E7YYnnjBpdyANB2=new@mail.gmail.com>
- <20221021041453-mutt-send-email-mst@kernel.org>
- <CACGkMEvNoxKcFBpawaWgtq=YgCh4CXMDD9Y5DUgoZ1Qn-zOwpA@mail.gmail.com>
- <CAJaqyWfVEb8cp4c0m_LEjy-aMCmHMuMUao6zaCOFW3EzyuLF6Q@mail.gmail.com>
- <20221024100442-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20221024100442-mutt-send-email-mst@kernel.org>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Tue, 25 Oct 2022 09:06:44 +0200
-Message-ID: <CAJaqyWf4LCmU_pu=6+PhC_TCj5SoFKfXZRvsRqwuiRqbh7SY8w@mail.gmail.com>
-Subject: Re: [PATCH 2/4] vhost: toggle device callbacks using used event idx
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>, Laurent Vivier <lvivier@redhat.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>, Gautam Dawar <gdawar@xilinx.com>,
- Eli Cohen <eli@mellanox.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, Cindy Lu <lulu@redhat.com>, 
- Si-Wei Liu <si-wei.liu@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.503,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=yangyingliang@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,74 +71,69 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
+Reply-to:  Yang Yingliang <yangyingliang@huawei.com>
+From:  Yang Yingliang via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Oct 24, 2022 at 4:06 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Mon, Oct 24, 2022 at 04:00:37PM +0200, Eugenio Perez Martin wrote:
-> > > > It's generally a waste that we don't use endian-ness annotations
-> > > > the way linux does.
-> > >
-> > > Yes, it's worth doing something similar sometime.
-> > >
-> >
-> > Maybe we could wrap them in some struct like virtio_le16 or virtio_16,
-> > avoiding at least integer direct assignment? Wrappers like
-> > cpu_to_virtio16 could return these structs and I think all compilers
-> > should emit the same code as direct assignment.
-> >
-> > Thanks!
-> >
->
-> This will break bitwise operations such as | and &.
-> Generally Linux has solved the problem and I don't think
-> we should go look for another solution.
->
+Inject fault while loading module, kset_register() may fail.
+If it fails, the kset.kobj.name allocated by kobject_set_name()
+which must be called before a call to kset_register() may be
+leaked, since refcount of kobj was set in kset_init().
 
-That's right, we would need to do it with functions like we do with
-the Int128 type. The idea is the same, do not mix operations with
-bitwise integers and cpu type ones.
+To mitigate this, we free the name in kset_register() when an
+error is encountered, i.e. when kset_register() returns an error.
 
-But I totally agree a sparse tag or similar is way more clean and convenient.
+A kset may be embedded in a larger structure which may be dynamically
+allocated in callers, it needs to be freed in ktype.release() or error
+path in callers, in this case, we can not call kset_put() in kset_register(),
+or it will cause double free, so just call kfree_const() to free the
+name and set it to NULL to avoid accessing bad pointer in callers.
 
+With this fix, the callers don't need care about freeing the name
+and may call kset_put() if kset_register() fails.
 
->
-> >
-> >
-> > > Thanks
-> > >
-> > > >
-> > > >
-> > > > > > Thanks
-> > > > > >
-> > > > > > > +    } else {
-> > > > > > > +        svq->vring.avail->flags &= ~cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
-> > > > > > > +    }
-> > > > > > > +
-> > > > > > > +    /* Make sure the event is enabled before the read of used_idx */
-> > > > > > >      smp_mb();
-> > > > > > >      return !vhost_svq_more_used(svq);
-> > > > > > >  }
-> > > > > > >
-> > > > > > >  static void vhost_svq_disable_notification(VhostShadowVirtqueue *svq)
-> > > > > > >  {
-> > > > > > > -    svq->vring.avail->flags |= cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
-> > > > > > > +    /*
-> > > > > > > +     * No need to disable notification in the event idx case, since used event
-> > > > > > > +     * index is already an index too far away.
-> > > > > > > +     */
-> > > > > > > +    if (!virtio_vdev_has_feature(svq->vdev, VIRTIO_RING_F_EVENT_IDX)) {
-> > > > > > > +        svq->vring.avail->flags |= cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
-> > > > > > > +    }
-> > > > > > >  }
-> > > > > > >
-> > > > > > >  static uint16_t vhost_svq_last_desc_of_chain(const VhostShadowVirtqueue *svq,
-> > > > > > > --
-> > > > > > > 2.31.1
-> > > > > > >
-> > > > > >
-> > > >
-> > >
->
+Suggested-by: Luben Tuikov <luben.tuikov@amd.com>
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+---
+v2 -> v3:
+  Update commit message and comment of kset_register().
+
+v1 -> v2:
+  Free name inside of kset_register() instead of calling kset_put()
+  in drivers.
+---
+ lib/kobject.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/lib/kobject.c b/lib/kobject.c
+index a0b2dbfcfa23..3cd19b9ca5ab 100644
+--- a/lib/kobject.c
++++ b/lib/kobject.c
+@@ -834,6 +834,9 @@ EXPORT_SYMBOL_GPL(kobj_sysfs_ops);
+ /**
+  * kset_register() - Initialize and add a kset.
+  * @k: kset.
++ *
++ * NOTE: On error, the kset.kobj.name allocated by() kobj_set_name()
++ * is freed, it can not be used any more.
+  */
+ int kset_register(struct kset *k)
+ {
+@@ -844,8 +847,12 @@ int kset_register(struct kset *k)
+ 
+ 	kset_init(k);
+ 	err = kobject_add_internal(&k->kobj);
+-	if (err)
++	if (err) {
++		kfree_const(k->kobj.name);
++		/* Set it to NULL to avoid accessing bad pointer in callers. */
++		k->kobj.name = NULL;
+ 		return err;
++	}
+ 	kobject_uevent(&k->kobj, KOBJ_ADD);
+ 	return 0;
+ }
+-- 
+2.25.1
 
 
