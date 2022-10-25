@@ -2,82 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CDD860D654
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 23:51:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D4E960D6CE
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 00:10:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onRmx-0002mw-QD; Tue, 25 Oct 2022 17:48:47 -0400
+	id 1onS4r-0000WS-IS; Tue, 25 Oct 2022 18:07:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1onRmt-0002h4-Hc
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 17:48:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1onS4h-00080d-3e
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 18:07:07 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1onRmq-0002EI-QY
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 17:48:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666734518;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cOjU1z43BwAxXe1Y7CvDDDVf9ZxqR0VIeeGHA/9WMfM=;
- b=GB79sT3TGFzwjrwTDkaOQI4ZdfAGfO1vM4xcPCc6m6Ww+OPqV4YK6gfP4zgtQPLbPYk8hf
- DVZ+lNgxGhXfkyFg8MdScS6SjPNnmskJYU6vJiokyXQ05TX0L0EObCXOj7mDlkkVo0uPpK
- mk6CP0FXZM/OldFjVeDCZRWHDOhceho=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-570-UXLtyzgfM_CW75cDmEe5AA-1; Tue, 25 Oct 2022 17:48:36 -0400
-X-MC-Unique: UXLtyzgfM_CW75cDmEe5AA-1
-Received: by mail-lj1-f199.google.com with SMTP id
- k9-20020a2ea269000000b0026fba0d4422so5950755ljm.18
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 14:48:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cOjU1z43BwAxXe1Y7CvDDDVf9ZxqR0VIeeGHA/9WMfM=;
- b=ynEV9If24tmNgYMts6f0AvLyHcKgl0tul84++0KHjYPjWJ1LC0401FxMElpmOBTd53
- uLMiazujIuXCtsZSANe7KC/1T4jtTMmBnNIjUOqvcT+odK/5suNWQ3EY26VKvBfpg3Ni
- 9IwzPAySBNFGoHAQ5OnB3I2Oc1HLGGgoVLSJzumPf3EqFLAYmOj8oJgenLl+SdPvRSqB
- DKGlp9Jxa6nWRueJ2SCJ+3/ohOpBITwtCC4V8/9fYKkHYIrj7dsSuM7eIX3QVcNJLMx/
- Mupyqy449ZuOXfYO+H1rV7Kc9iNhMjB9mq+ZUQfD1nJYECtJQ92ofUmab1yVxTm7q9hs
- 7FOg==
-X-Gm-Message-State: ACrzQf2mfvAdiyAyApBv5mo85RMMs011WyE9Yp3IFHK+qI6nfjTBFY2i
- TvFwYUH+IOalDKgngdKvmhZCXlOx0zLlJcaBUQhv27d62+VQWEGSZjMsxPFOgDV7S+jQwjMjaUh
- 29mU70G1orZpSLvJmO8smKNbPEH/TlJE=
-X-Received: by 2002:a05:6512:3f8c:b0:4a1:8d5:d75b with SMTP id
- x12-20020a0565123f8c00b004a108d5d75bmr16136379lfa.670.1666734515236; 
- Tue, 25 Oct 2022 14:48:35 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4pFUahweVG/yOaNCe72Ioa4XTnKI/zW/SU4fansikYfe1m4awVqfWfagg5o8ETqh7YO+nP6BFj8Ro3tdsoRIQ=
-X-Received: by 2002:a05:6512:3f8c:b0:4a1:8d5:d75b with SMTP id
- x12-20020a0565123f8c00b004a108d5d75bmr16136371lfa.670.1666734514966; Tue, 25
- Oct 2022 14:48:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1onS4d-00055Z-FV
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 18:07:06 -0400
+Received: from fraeml708-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4MxmGB16vyz6HJVH;
+ Wed, 26 Oct 2022 06:05:22 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
+ fraeml708-chm.china.huawei.com (10.206.15.36) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Wed, 26 Oct 2022 00:06:44 +0200
+Received: from localhost (10.45.158.174) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Tue, 25 Oct
+ 2022 23:06:43 +0100
+Date: Tue, 25 Oct 2022 23:06:39 +0100
+To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Ben Widawsky
+ <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>, Huai-Cheng Kuo
+ <hchkuo@avery-design.com.tw>, Chris Browy <cbrowy@avery-design.com>, "Gregory
+ Price" <gregory.price@memverge.com>, <ira.weiny@intel.com>
+CC: Jonathan Cameron <jonathan.cameron@huawei.com>
+Subject: Re: [PATCH v9 0/5] QEMU PCIe DOE for PCIe 4.0/5.0 and CXL 2.
+Message-ID: <20221025230621.00006ccb@huawei.com>
+In-Reply-To: <20221014151045.24781-1-Jonathan.Cameron@huawei.com>
+References: <20221014151045.24781-1-Jonathan.Cameron@huawei.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-References: <20221024195355.860504-1-jsnow@redhat.com>
- <20221024195355.860504-2-jsnow@redhat.com>
- <Y1edRZ5nDcXu074W@redhat.com>
-In-Reply-To: <Y1edRZ5nDcXu074W@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 25 Oct 2022 17:48:22 -0400
-Message-ID: <CAFn=p-ZBtKMwEbYkh24fAErGM2oMRDJnLiaW-PARtbeDxXRCCA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] python/machine: Add debug logging to key state changes
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Beraldo Leal <bleal@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.45.158.174]
+X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,98 +68,121 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Oct 25, 2022 at 4:24 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
->
-> On Mon, Oct 24, 2022 at 03:53:54PM -0400, John Snow wrote:
-> > When key decisions are made about the lifetime of the VM process being
-> > managed, there's no log entry. Juxtaposed with the very verbose runstat=
-e
-> > change logging of the QMP module, machine seems a bit too introverted
-> > now.
-> >
-> > Season the machine.py module with logging statements to taste to help
-> > make a tastier soup.
-> >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> > ---
-> >  python/qemu/machine/machine.py | 18 ++++++++++++++++++
-> >  1 file changed, 18 insertions(+)
-> >
-> > diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machi=
-ne.py
-> > index 37191f433b2..c467f951d5d 100644
-> > --- a/python/qemu/machine/machine.py
-> > +++ b/python/qemu/machine/machine.py
-> > @@ -373,6 +373,7 @@ def _post_shutdown(self) -> None:
-> >          Called to cleanup the VM instance after the process has exited=
-.
-> >          May also be called after a failed launch.
-> >          """
-> > +        LOG.debug("Cleaning up after VM process")
-> >          try:
-> >              self._close_qmp_connection()
-> >          except Exception as err:  # pylint: disable=3Dbroad-except
-> > @@ -497,6 +498,7 @@ def _early_cleanup(self) -> None:
-> >          # for QEMU to exit, while QEMU is waiting for the socket to
-> >          # become writable.
-> >          if self._console_socket is not None:
-> > +            LOG.debug("Closing console socket")
-> >              self._console_socket.close()
-> >              self._console_socket =3D None
-> >
-> > @@ -507,6 +509,7 @@ def _hard_shutdown(self) -> None:
-> >          :raise subprocess.Timeout: When timeout is exceeds 60 seconds
-> >              waiting for the QEMU process to terminate.
-> >          """
-> > +        LOG.debug("Performing hard shutdown")
-> >          self._early_cleanup()
-> >          self._subp.kill()
-> >          self._subp.wait(timeout=3D60)
-> > @@ -523,6 +526,13 @@ def _soft_shutdown(self, timeout: Optional[int]) -=
-> None:
-> >          :raise subprocess.TimeoutExpired: When timeout is exceeded wai=
-ting for
-> >              the QEMU process to terminate.
-> >          """
-> > +        LOG.debug("Attempting graceful termination")
-> > +        if self._quit_issued:
-> > +            LOG.debug(
-> > +                "Anticipating QEMU termination due to prior 'quit' com=
-mand, "
-> > +                "or explicit call to wait()"
-> > +            )
-> > +
-> >          self._early_cleanup()
-> >
-> >          if self._qmp_connection:
-> > @@ -553,6 +563,10 @@ def _do_shutdown(self, timeout: Optional[int]) -> =
-None:
-> >          try:
-> >              self._soft_shutdown(timeout)
-> >          except Exception as exc:
-> > +            if isinstance(exc, subprocess.TimeoutExpired):
-> > +                LOG.debug("Timed out waiting for QEMU process to exit"=
-)
-> > +            LOG.debug("Graceful shutdown failed, "
-> > +                      "falling back to hard shutdown")
->
-> If you add 'exc_info=3DTrue' when logging from inside an 'except'
-> clause, it captures the stack trace which is often critical for
-> debugging unexpected exceptions, especially when you're catchintg
-> the top level 'Exception' class instead of a very specialized
-> class.
->
 
-Sure. If the exception goes unhandled, ultimately, we'll see that
-stack trace twice. On the other hand, if someone handles this trace
-and you still want to see the exception in the debug log somewhere,
-it's probably a fair trade-off.
+Hi Michael,
 
-I'll touch it up while we're here.
+Any chance of this making 7.2?  Gregory has identified a bug
+in the Linux kernel support that we've reported (debug marking
+related). I don't think there are any other queries outstanding on this.
 
---js
+I've been holding off on sending other features to focus on
+getting this in, but given timing those will probably have to wait
+for next cycle now along with Gregory's series for volatile support
+(which we don't have OS support for yet anyway).
+
+Thanks,
+
+Jonathan
+
+On Fri, 14 Oct 2022 16:10:40 +0100
+Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
+
+> Changes since v8:
+>  - Take the entry enums out of the functions and prefix them
+>    appropriately.
+>  - Use the visibility of *_NUM_ENTRIES to allocate the cdat_table
+>  - Fix volatile_mr -> nonvolatile_mr
+> 
+> V7 Cover letter - lightly edited.
+> 
+> Whilst I have carried on Huai-Cheng Kuo's series version numbering and
+> naming, there have been very substantial changes since v6 so I would
+> suggest fresh review makes sense for anyone who has looked at this before.
+> In particularly if the Avery design folks could check I haven't broken
+> anything that would be great.
+> 
+> For reference v6: QEMU PCIe DOE for PCIe 4.0/5.0 and CXL 2.0
+> https://lore.kernel.org/qemu-devel/1623330943-18290-1-git-send-email-cbrowy@avery-design.com/
+> 
+> Summary of changes:
+> 1) Linux headers definitions for DOE are now upstream so drop that patch.
+> 2) Add CDAT for switch upstream port.
+> 3) Generate 'plausible' default CDAT tables when a file is not provided.
+> 4) General refactoring to calculate the correct table sizes and allocate
+>    based on that rather than copying from a local static array.
+> 5) Changes from earlier reviews such as matching QEMU type naming style.
+> 6) Moved compliance and SPDM usecases to future patch sets.
+> 
+> Sign-offs on these are complex because the patches were originally developed
+> by Huai-Cheng Kuo, but posted by Chris Browy and then picked up by Jonathan
+> Cameron who made substantial changes.
+> 
+> Huai-Cheng Kuo confirmed they are happy to maintain this updated code.
+> 
+> What's here?
+> 
+> This series brings generic PCI Express Data Object Exchange support (DOE)
+> DOE is defined in the PCIe Base Spec r6.0. It consists of a mailbox in PCI
+> config space via a PCIe Extended Capability Structure.
+> The PCIe spec defines several protocols (including one to discover what
+> protocols a given DOE instance supports) and other specification such as
+> CXL define additional protocols using their own vendor IDs.
+> 
+> In this series we make use of the DOE to support the CXL spec defined
+> Table Access Protocol, specifically to provide access to CDAT - a
+> table specified in a specification that is hosted by the UEFI forum
+> and is used to provide runtime discoverability of the sort of information
+> that would otherwise be available in firmware tables (memory types,
+> latency and bandwidth information etc).
+> 
+> The Linux kernel gained support for DOE / CDAT on CXL type 3 EPs in 6.0.
+> The version merged did not support interrupts (earlier versions did
+> so that support in the emulation was tested a while back).
+> 
+> This series provides CDAT emulation for CXL switch upstream ports
+> and CXL type 3 memory devices. Note that to exercise the switch support
+> additional Linux kernel patches are needed.
+> https://lore.kernel.org/linux-cxl/20220503153449.4088-1-Jonathan.Cameron@huawei.com/
+> (I'll post a new version of that support shortly)
+> 
+> Additional protocols will be supported by follow on patch sets:
+> * CXL compliance protocol.
+> * CMA / SPDM device attestation.
+> (Old version at https://gitlab.com/jic23/qemu/-/commits/cxl-next - will refresh
+> that tree next week)
+> Huai-Cheng Kuo (3):
+>   hw/pci: PCIe Data Object Exchange emulation
+>   hw/cxl/cdat: CXL CDAT Data Object Exchange implementation
+>   hw/mem/cxl-type3: Add CXL CDAT Data Object Exchange
+> 
+> Jonathan Cameron (2):
+>   hw/mem/cxl-type3: Add MSIX support
+>   hw/pci-bridge/cxl-upstream: Add a CDAT table access DOE
+> 
+>  MAINTAINERS                    |   7 +
+>  hw/cxl/cxl-cdat.c              | 224 ++++++++++++++++++++
+>  hw/cxl/meson.build             |   1 +
+>  hw/mem/cxl_type3.c             | 264 ++++++++++++++++++++++++
+>  hw/pci-bridge/cxl_upstream.c   | 195 +++++++++++++++++-
+>  hw/pci/meson.build             |   1 +
+>  hw/pci/pcie_doe.c              | 367 +++++++++++++++++++++++++++++++++
+>  include/hw/cxl/cxl_cdat.h      | 166 +++++++++++++++
+>  include/hw/cxl/cxl_component.h |   7 +
+>  include/hw/cxl/cxl_device.h    |   3 +
+>  include/hw/cxl/cxl_pci.h       |   1 +
+>  include/hw/pci/pci_ids.h       |   3 +
+>  include/hw/pci/pcie.h          |   1 +
+>  include/hw/pci/pcie_doe.h      | 123 +++++++++++
+>  include/hw/pci/pcie_regs.h     |   4 +
+>  15 files changed, 1366 insertions(+), 1 deletion(-)
+>  create mode 100644 hw/cxl/cxl-cdat.c
+>  create mode 100644 hw/pci/pcie_doe.c
+>  create mode 100644 include/hw/cxl/cxl_cdat.h
+>  create mode 100644 include/hw/pci/pcie_doe.h
+> 
 
 
