@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1794860C6CA
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 10:45:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB5860C6BD
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 10:43:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onFWg-0008Jy-T4; Tue, 25 Oct 2022 04:43:10 -0400
+	id 1onFVF-0006ok-FE; Tue, 25 Oct 2022 04:41:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1onEwz-0004iN-LL
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1onEwy-0004i2-MM
  for qemu-devel@nongnu.org; Tue, 25 Oct 2022 04:06:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1onEwj-0007ul-Kz
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 04:06:08 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1onEwZ-0007v2-8I
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 04:05:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666685146;
+ s=mimecast20190719; t=1666685147;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yxzXkdKVvKeF+sk5QRbn7EHpUBmLdp/MmhKoXrNf/y4=;
- b=LkZ6vYwscFnaFIQfLppc4uzmZcONEIjRDTNd8AszRixX0Sb2QKWizdxSALYn2UtfExsmuJ
- 5S55rVxLCjVj/nJQy7IfMbYoyE7OcdGLKEZdC4aHpnWPrW0y6pCUuAHdWwFU9IGZiv20hm
- gfAbYviF3ki5dtVGX7PB7jzPmOGyhL0=
+ bh=j7YjDLUKvpnDFj6KiOciO9nTxg1H+vC9MyXFA6tsWUA=;
+ b=Bj16HoE9IFdgWOxivWAReiGr7lFPHfAefH8XZEt4aY8VK/mA/etLssccghQXO+QwJvkKr+
+ yoflXbs77Dz+Nc5GdsZf2Sn1K0NJj885YapTFT5Ed68hQVCmeLyfU+n+GlXdKgAxeCpUAa
+ r57/lIx1/Jrx09PlVey1HoBvxrLWSgg=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-52-SIxAL1LyPeqA7bF6F0KXkA-1; Tue, 25 Oct 2022 04:05:44 -0400
-X-MC-Unique: SIxAL1LyPeqA7bF6F0KXkA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-215-dNz_1LenMXikGirE20jWZg-1; Tue, 25 Oct 2022 04:05:44 -0400
+X-MC-Unique: dNz_1LenMXikGirE20jWZg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B6A71811E75;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B018E185A78F;
  Tue, 25 Oct 2022 08:05:43 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.195.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 67CD4492B0A;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 67D27140EBF5;
  Tue, 25 Oct 2022 08:05:43 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2CCAF21E649F; Tue, 25 Oct 2022 10:05:41 +0200 (CEST)
+ id 2F57C21E64A2; Tue, 25 Oct 2022 10:05:41 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 09/28] qapi chardev: Elide redundant has_FOO in generated C
-Date: Tue, 25 Oct 2022 10:05:22 +0200
-Message-Id: <20221025080541.271547-10-armbru@redhat.com>
+Subject: [PULL 10/28] qapi crypto: Elide redundant has_FOO in generated C
+Date: Tue, 25 Oct 2022 10:05:23 +0200
+Message-Id: <20221025080541.271547-11-armbru@redhat.com>
 In-Reply-To: <20221025080541.271547-1-armbru@redhat.com>
 References: <20221025080541.271547-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.503,
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.503,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,173 +83,151 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 The has_FOO for pointer-valued FOO are redundant, except for arrays.
 They are also a nuisance to work with.  Recent commit "qapi: Start to
 elide redundant has_FOO in generated C" provided the means to elide
-them step by step.  This is the step for qapi/char.json.
+them step by step.  This is the step for qapi/crypto.json.
 
 Said commit explains the transformation in more detail.  The invariant
 violations mentioned there do not occur here.
 
-Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Daniel P. Berrangé" <berrange@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20221018062849.3420573-10-armbru@redhat.com>
+Message-Id: <20221018062849.3420573-11-armbru@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- chardev/char-file.c    |  4 ++--
- chardev/char-socket.c  | 10 ++++------
- chardev/char-udp.c     |  1 -
- chardev/char.c         |  6 +-----
- tests/unit/test-char.c |  1 -
- scripts/qapi/schema.py |  1 -
- 6 files changed, 7 insertions(+), 16 deletions(-)
+ crypto/block-luks.c            | 16 ++++++++--------
+ tests/unit/test-crypto-block.c |  6 ------
+ scripts/qapi/schema.py         |  1 -
+ 3 files changed, 8 insertions(+), 15 deletions(-)
 
-diff --git a/chardev/char-file.c b/chardev/char-file.c
-index 2fd80707e5..3a7b9caf6f 100644
---- a/chardev/char-file.c
-+++ b/chardev/char-file.c
-@@ -45,7 +45,7 @@ static void qmp_chardev_open_file(Chardev *chr,
-     DWORD accessmode;
-     DWORD flags;
+diff --git a/crypto/block-luks.c b/crypto/block-luks.c
+index f62be6836b..4205bc491e 100644
+--- a/crypto/block-luks.c
++++ b/crypto/block-luks.c
+@@ -1629,13 +1629,13 @@ qcrypto_block_luks_amend_add_keyslot(QCryptoBlock *block,
+     g_autofree char *new_password = NULL;
+     g_autofree uint8_t *master_key = NULL;
  
--    if (file->has_in) {
-+    if (file->in) {
-         error_setg(errp, "input file not supported");
-         return;
+-    char *secret = opts_luks->has_secret ? opts_luks->secret : luks->secret;
++    char *secret = opts_luks->secret ?: luks->secret;
+ 
+-    if (!opts_luks->has_new_secret) {
++    if (!opts_luks->new_secret) {
+         error_setg(errp, "'new-secret' is required to activate a keyslot");
+         return -1;
      }
-@@ -83,7 +83,7 @@ static void qmp_chardev_open_file(Chardev *chr,
-         return;
+-    if (opts_luks->has_old_secret) {
++    if (opts_luks->old_secret) {
+         error_setg(errp,
+                    "'old-secret' must not be given when activating keyslots");
+         return -1;
+@@ -1709,7 +1709,7 @@ qcrypto_block_luks_amend_erase_keyslots(QCryptoBlock *block,
+     g_autofree uint8_t *tmpkey = NULL;
+     g_autofree char *old_password = NULL;
+ 
+-    if (opts_luks->has_new_secret) {
++    if (opts_luks->new_secret) {
+         error_setg(errp,
+                    "'new-secret' must not be given when erasing keyslots");
+         return -1;
+@@ -1719,14 +1719,14 @@ qcrypto_block_luks_amend_erase_keyslots(QCryptoBlock *block,
+                    "'iter-time' must not be given when erasing keyslots");
+         return -1;
+     }
+-    if (opts_luks->has_secret) {
++    if (opts_luks->secret) {
+         error_setg(errp,
+                    "'secret' must not be given when erasing keyslots");
+         return -1;
      }
  
--    if (file->has_in) {
-+    if (file->in) {
-         flags = O_RDONLY;
-         in = qmp_chardev_open_file_source(file->in, flags, errp);
-         if (in < 0) {
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index 879564aa8a..29ffe5075e 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -1251,7 +1251,7 @@ static bool qmp_chardev_validate_socket(ChardevSocket *sock,
-                        "'fd' address type");
-             return false;
+     /* Load the old password if given */
+-    if (opts_luks->has_old_secret) {
++    if (opts_luks->old_secret) {
+         old_password = qcrypto_secret_lookup_as_utf8(opts_luks->old_secret,
+                                                      errp);
+         if (!old_password) {
+@@ -1751,7 +1751,7 @@ qcrypto_block_luks_amend_erase_keyslots(QCryptoBlock *block,
+             return -1;
          }
--        if (sock->has_tls_creds &&
-+        if (sock->tls_creds &&
-             !(sock->has_server && sock->server)) {
-             error_setg(errp,
-                        "'tls_creds' option is incompatible with "
-@@ -1261,7 +1261,7 @@ static bool qmp_chardev_validate_socket(ChardevSocket *sock,
-         break;
  
-     case SOCKET_ADDRESS_TYPE_UNIX:
--        if (sock->has_tls_creds) {
-+        if (sock->tls_creds) {
-             error_setg(errp,
-                        "'tls_creds' option is incompatible with "
-                        "'unix' address type");
-@@ -1273,7 +1273,7 @@ static bool qmp_chardev_validate_socket(ChardevSocket *sock,
-         break;
+-        if (opts_luks->has_old_secret) {
++        if (opts_luks->old_secret) {
+             int rv = qcrypto_block_luks_load_key(block,
+                                                  keyslot,
+                                                  old_password,
+@@ -1793,7 +1793,7 @@ qcrypto_block_luks_amend_erase_keyslots(QCryptoBlock *block,
+         }
  
-     case SOCKET_ADDRESS_TYPE_VSOCK:
--        if (sock->has_tls_creds) {
-+        if (sock->tls_creds) {
-             error_setg(errp,
-                        "'tls_creds' option is incompatible with "
-                        "'vsock' address type");
-@@ -1284,7 +1284,7 @@ static bool qmp_chardev_validate_socket(ChardevSocket *sock,
-         break;
-     }
+     /* Erase all keyslots that match the given old password */
+-    } else if (opts_luks->has_old_secret) {
++    } else if (opts_luks->old_secret) {
  
--    if (sock->has_tls_authz && !sock->has_tls_creds) {
-+    if (sock->tls_authz && !sock->tls_creds) {
-         error_setg(errp, "'tls_authz' option requires 'tls_creds' option");
-         return false;
-     }
-@@ -1465,9 +1465,7 @@ static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
-     sock->wait = qemu_opt_get_bool(opts, "wait", true);
-     sock->has_reconnect = qemu_opt_find(opts, "reconnect");
-     sock->reconnect = qemu_opt_get_number(opts, "reconnect", 0);
--    sock->has_tls_creds = qemu_opt_get(opts, "tls-creds");
-     sock->tls_creds = g_strdup(qemu_opt_get(opts, "tls-creds"));
--    sock->has_tls_authz = qemu_opt_get(opts, "tls-authz");
-     sock->tls_authz = g_strdup(qemu_opt_get(opts, "tls-authz"));
- 
-     addr = g_new0(SocketAddressLegacy, 1);
-diff --git a/chardev/char-udp.c b/chardev/char-udp.c
-index 6756e69924..3d9a2d5e77 100644
---- a/chardev/char-udp.c
-+++ b/chardev/char-udp.c
-@@ -178,7 +178,6 @@ static void qemu_chr_parse_udp(QemuOpts *opts, ChardevBackend *backend,
-     udp->remote = addr;
- 
-     if (has_local) {
--        udp->has_local = true;
-         addr = g_new0(SocketAddressLegacy, 1);
-         addr->type = SOCKET_ADDRESS_TYPE_INET;
-         addr->u.inet.data = g_new(InetSocketAddress, 1);
-diff --git a/chardev/char.c b/chardev/char.c
-index b005df3ccf..4c5de16402 100644
---- a/chardev/char.c
-+++ b/chardev/char.c
-@@ -240,7 +240,7 @@ static void qemu_char_open(Chardev *chr, ChardevBackend *backend,
-     /* Any ChardevCommon member would work */
-     ChardevCommon *common = backend ? backend->u.null.data : NULL;
- 
--    if (common && common->has_logfile) {
-+    if (common && common->logfile) {
-         int flags = O_WRONLY;
-         if (common->has_logappend &&
-             common->logappend) {
-@@ -496,9 +496,7 @@ void qemu_chr_parse_common(QemuOpts *opts, ChardevCommon *backend)
- {
-     const char *logfile = qemu_opt_get(opts, "logfile");
- 
--    backend->has_logfile = logfile != NULL;
-     backend->logfile = g_strdup(logfile);
--
-     backend->has_logappend = true;
-     backend->logappend = qemu_opt_get_bool(opts, "logappend", false);
- }
-@@ -1057,7 +1055,6 @@ ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
-     ret = g_new0(ChardevReturn, 1);
-     if (CHARDEV_IS_PTY(chr)) {
-         ret->pty = g_strdup(chr->filename + 4);
--        ret->has_pty = true;
-     }
- 
-     return ret;
-@@ -1160,7 +1157,6 @@ ChardevReturn *qmp_chardev_change(const char *id, ChardevBackend *backend,
-     ret = g_new0(ChardevReturn, 1);
-     if (CHARDEV_IS_PTY(chr_new)) {
-         ret->pty = g_strdup(chr_new->filename + 4);
--        ret->has_pty = true;
-     }
- 
-     return ret;
-diff --git a/tests/unit/test-char.c b/tests/unit/test-char.c
-index 5b3b48ebac..649fdf64e1 100644
---- a/tests/unit/test-char.c
-+++ b/tests/unit/test-char.c
-@@ -1212,7 +1212,6 @@ static void char_file_fifo_test(void)
-     char *fifo = g_build_filename(tmp_path, "fifo", NULL);
-     char *out = g_build_filename(tmp_path, "out", NULL);
-     ChardevFile file = { .in = fifo,
--                         .has_in = true,
-                          .out = out };
-     ChardevBackend backend = { .type = CHARDEV_BACKEND_KIND_FILE,
-                                .u.file.data = &file };
+         unsigned long slots_to_erase_bitmap = 0;
+         size_t i;
+diff --git a/tests/unit/test-crypto-block.c b/tests/unit/test-crypto-block.c
+index 3417b67be5..6bef471afb 100644
+--- a/tests/unit/test-crypto-block.c
++++ b/tests/unit/test-crypto-block.c
+@@ -39,7 +39,6 @@
+ static QCryptoBlockCreateOptions qcow_create_opts = {
+     .format = Q_CRYPTO_BLOCK_FORMAT_QCOW,
+     .u.qcow = {
+-        .has_key_secret = true,
+         .key_secret = (char *)"sec0",
+     },
+ };
+@@ -47,7 +46,6 @@ static QCryptoBlockCreateOptions qcow_create_opts = {
+ static QCryptoBlockOpenOptions qcow_open_opts = {
+     .format = Q_CRYPTO_BLOCK_FORMAT_QCOW,
+     .u.qcow = {
+-        .has_key_secret = true,
+         .key_secret = (char *)"sec0",
+     },
+ };
+@@ -57,7 +55,6 @@ static QCryptoBlockOpenOptions qcow_open_opts = {
+ static QCryptoBlockOpenOptions luks_open_opts = {
+     .format = Q_CRYPTO_BLOCK_FORMAT_LUKS,
+     .u.luks = {
+-        .has_key_secret = true,
+         .key_secret = (char *)"sec0",
+     },
+ };
+@@ -67,7 +64,6 @@ static QCryptoBlockOpenOptions luks_open_opts = {
+ static QCryptoBlockCreateOptions luks_create_opts_default = {
+     .format = Q_CRYPTO_BLOCK_FORMAT_LUKS,
+     .u.luks = {
+-        .has_key_secret = true,
+         .key_secret = (char *)"sec0",
+     },
+ };
+@@ -77,7 +73,6 @@ static QCryptoBlockCreateOptions luks_create_opts_default = {
+ static QCryptoBlockCreateOptions luks_create_opts_aes256_cbc_plain64 = {
+     .format = Q_CRYPTO_BLOCK_FORMAT_LUKS,
+     .u.luks = {
+-        .has_key_secret = true,
+         .key_secret = (char *)"sec0",
+         .has_cipher_alg = true,
+         .cipher_alg = QCRYPTO_CIPHER_ALG_AES_256,
+@@ -92,7 +87,6 @@ static QCryptoBlockCreateOptions luks_create_opts_aes256_cbc_plain64 = {
+ static QCryptoBlockCreateOptions luks_create_opts_aes256_cbc_essiv = {
+     .format = Q_CRYPTO_BLOCK_FORMAT_LUKS,
+     .u.luks = {
+-        .has_key_secret = true,
+         .key_secret = (char *)"sec0",
+         .has_cipher_alg = true,
+         .cipher_alg = QCRYPTO_CIPHER_ALG_AES_256,
 diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index a205aae1e3..707c671133 100644
+index 707c671133..21d0b28790 100644
 --- a/scripts/qapi/schema.py
 +++ b/scripts/qapi/schema.py
 @@ -759,7 +759,6 @@ def need_has(self):
          assert self.type
          # Temporary hack to support dropping the has_FOO in reviewable chunks
          opt_out = [
--            'qapi/char.json',
-             'qapi/crypto.json',
+-            'qapi/crypto.json',
              'qapi/dump.json',
              'qapi/job.json',
+             'qapi/machine.json',
 -- 
 2.37.3
 
