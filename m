@@ -2,43 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFB7C60D63B
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 23:37:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 038B660D63E
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 23:38:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onRXB-0002aM-SA; Tue, 25 Oct 2022 17:32:29 -0400
+	id 1onRaF-0007QT-R8; Tue, 25 Oct 2022 17:35:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1onRW7-0001uS-RA; Tue, 25 Oct 2022 17:31:25 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2])
+ id 1onRaD-0007Pt-3D; Tue, 25 Oct 2022 17:35:37 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1onRW5-0008Da-H6; Tue, 25 Oct 2022 17:31:23 -0400
+ id 1onRaB-00005u-DH; Tue, 25 Oct 2022 17:35:36 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id A6DF974632C;
- Tue, 25 Oct 2022 23:31:19 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 2033E74632C;
+ Tue, 25 Oct 2022 23:35:32 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 7C9BF74632B; Tue, 25 Oct 2022 23:31:19 +0200 (CEST)
-Message-Id: <915b28547446c1fad749fbab2943b13e3a0d856b.1666733213.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1666715145.git.balaton@eik.bme.hu>
-References: <cover.1666715145.git.balaton@eik.bme.hu>
+ id D78D574632B; Tue, 25 Oct 2022 23:35:31 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id D58A2746324;
+ Tue, 25 Oct 2022 23:35:31 +0200 (CEST)
+Date: Tue, 25 Oct 2022 23:35:31 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v5 20/20] mac_{old, new}world: Pass MacOS VGA NDRV in card ROM
- instead of fw_cfg
-To: qemu-devel@nongnu.org,
-    qemu-ppc@nongnu.org
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Date: Tue, 25 Oct 2022 23:31:19 +0200 (CEST)
+To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH v4 00/19] Misc ppc/mac machines clean up
+In-Reply-To: <cover.1666715145.git.balaton@eik.bme.hu>
+Message-ID: <56788178-ac46-c59-d817-3a4eeb5b7d59@eik.bme.hu>
+References: <cover.1666715145.git.balaton@eik.bme.hu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -54,112 +57,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-OpenBIOS cannot run FCode ROMs yet but it can detect NDRV in VGA card
-ROM and add it to the device tree for MacOS. Pass the NDRV this way
-instead of via fw_cfg. This solves the problem with OpenBIOS also
-adding the NDRV to ati-vga which it does not work with. This does not
-need any changes to OpenBIOS as this NDRV ROM handling is already
-there but this patch also allows simplifying OpenBIOS later to remove
-the fw_cfg ndrv handling from the vga FCode and also drop the
-vga-ndrv? option which is not needed any more as users can disable the
-ndrv with -device VGA,romfile="" (or override it with their own NDRV
-or ROM). Once FCode support is implemented in OpenBIOS, the proper
-FCode ROM can be set the same way so this paves the way to remove some
-hacks.
+On Tue, 25 Oct 2022, BALATON Zoltan wrote:
+> Since only one week is left until freeze starts I've included some
+> more patches in this version that I've intended to submit after the
+> clean ups but we're running out of time now. The last 3 patches could
+> be squashed together, I've just split these up because I expect
+> resistence from Mark to any changes so maybe it's easier to digest
+> piece by piece and can cherry pick parts easier this way but ideally
+> these should be in one patch.
+>
+> I'd appreciate very much if this series would get in before the
+> freeze, it is very discouraging to spend time with something that gets
+> ignored and then postponed for the rest of the year just to start
+> again the same in January. This might be a reason why not many people
+> contribute to this part of QEMU besides that maybe only a few people
+> are still interested so those who are interested should be served
+> better to not scare them off even more.
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/ppc/mac_newworld.c | 18 ++++++------------
- hw/ppc/mac_oldworld.c | 18 ++++++------------
- 2 files changed, 12 insertions(+), 24 deletions(-)
+Found a typo in the last (docs) patch so resent a v5 for just this patch 
+and added another patch that could go in now as it works without OpenBIOS 
+changes now so changes this allows in OpenBIOS can be done later at any 
+time independently but it fixes the problem with ati-vga and qemu_vga.ndrv 
+so it's useful for that alone.
 
-diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index de4a7bae12..1d12bd85ed 100644
---- a/hw/ppc/mac_newworld.c
-+++ b/hw/ppc/mac_newworld.c
-@@ -526,18 +526,6 @@ static void ppc_core99_init(MachineState *machine)
-     fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_BUSFREQ, BUSFREQ);
-     fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_NVRAM_ADDR, nvram_addr);
- 
--    /* MacOS NDRV VGA driver */
--    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, NDRV_VGA_FILENAME);
--    if (filename) {
--        gchar *ndrv_file;
--        gsize ndrv_size;
--
--        if (g_file_get_contents(filename, &ndrv_file, &ndrv_size, NULL)) {
--            fw_cfg_add_file(fw_cfg, "ndrv/qemu_vga.ndrv", ndrv_file, ndrv_size);
--        }
--        g_free(filename);
--    }
--
-     qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
- }
- 
-@@ -581,6 +569,11 @@ static int core99_kvm_type(MachineState *machine, const char *arg)
-     return 2;
- }
- 
-+static GlobalProperty props[] = {
-+    /* MacOS NDRV VGA driver */
-+    { "VGA", "romfile", NDRV_VGA_FILENAME },
-+};
-+
- static void core99_machine_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -601,6 +594,7 @@ static void core99_machine_class_init(ObjectClass *oc, void *data)
- #endif
-     mc->default_ram_id = "ppc_core99.ram";
-     mc->ignore_boot_device_suffixes = true;
-+    compat_props_add(mc->compat_props, props, G_N_ELEMENTS(props));
-     fwc->get_dev_path = core99_fw_dev_path;
- }
- 
-diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index eecc54da59..e7d35135d6 100644
---- a/hw/ppc/mac_oldworld.c
-+++ b/hw/ppc/mac_oldworld.c
-@@ -344,18 +344,6 @@ static void ppc_heathrow_init(MachineState *machine)
-     fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_CLOCKFREQ, CLOCKFREQ);
-     fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_BUSFREQ, BUSFREQ);
- 
--    /* MacOS NDRV VGA driver */
--    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, NDRV_VGA_FILENAME);
--    if (filename) {
--        gchar *ndrv_file;
--        gsize ndrv_size;
--
--        if (g_file_get_contents(filename, &ndrv_file, &ndrv_size, NULL)) {
--            fw_cfg_add_file(fw_cfg, "ndrv/qemu_vga.ndrv", ndrv_file, ndrv_size);
--        }
--        g_free(filename);
--    }
--
-     qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
- }
- 
-@@ -400,6 +388,11 @@ static int heathrow_kvm_type(MachineState *machine, const char *arg)
-     return 2;
- }
- 
-+static GlobalProperty props[] = {
-+    /* MacOS NDRV VGA driver */
-+    { "VGA", "romfile", NDRV_VGA_FILENAME },
-+};
-+
- static void heathrow_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -420,6 +413,7 @@ static void heathrow_class_init(ObjectClass *oc, void *data)
-     mc->default_display = "std";
-     mc->ignore_boot_device_suffixes = true;
-     mc->default_ram_id = "ppc_heathrow.ram";
-+    compat_props_add(mc->compat_props, props, G_N_ELEMENTS(props));
-     fwc->get_dev_path = heathrow_fw_dev_path;
- }
- 
--- 
-2.30.4
+Regards,
+BALATON Zoltan
 
+> v4: Add some more patches that I've found since v3 or was intended in
+> separate series
+> v3: Some more patch spliting and changes I've noticed and address more
+> review comments
+> v2: Split some patches and add a few more I've noticed now and address
+> review comments
+>
+> BALATON Zoltan (19):
+>  mac_newworld: Drop some variables
+>  mac_oldworld: Drop some more variables
+>  mac_{old|new}world: Set tbfreq at declaration
+>  mac_{old|new}world: Avoid else branch by setting default value
+>  mac_{old|new}world: Simplify cmdline_base calculation
+>  mac_newworld: Clean up creation of Uninorth devices
+>  mac_{old|new}world: Reduce number of QOM casts
+>  hw/ppc/mac.h: Move newworld specific parts out from shared header
+>  hw/ppc/mac.h: Move macio specific parts out from shared header
+>  hw/ppc/mac.h: Move grackle-pcihost type declaration out to a header
+>  hw/ppc/mac.h: Move PROM and KERNEL defines to board code
+>  hw/ppc/mac.h: Rename to include/hw/nvram/mac_nvram.h
+>  mac_nvram: Use NVRAM_SIZE constant
+>  mac_{old|new}world: Code style fix adding missing braces to if-s
+>  mac_newworld: Turn CORE99_VIA_CONFIG defines into an enum
+>  mac_newworld: Add machine types for different mac99 configs
+>  mac_newworld: Deprecate mac99 with G5 CPU
+>  mac_newworld: Deprecate mac99 "via" option
+>  mac_newworld: Document deprecation
+>
+> MAINTAINERS                   |   2 +
+> docs/about/deprecated.rst     |   7 +
+> docs/system/ppc/powermac.rst  |  12 +-
+> hw/ide/macio.c                |   1 -
+> hw/intc/heathrow_pic.c        |   1 -
+> hw/intc/openpic.c             |   1 -
+> hw/misc/macio/cuda.c          |   1 -
+> hw/misc/macio/gpio.c          |   1 -
+> hw/misc/macio/macio.c         |   8 +-
+> hw/misc/macio/pmu.c           |   1 -
+> hw/nvram/mac_nvram.c          |   2 +-
+> hw/pci-host/grackle.c         |  15 +-
+> hw/pci-host/uninorth.c        |   1 -
+> hw/ppc/mac.h                  | 105 -----------
+> hw/ppc/mac_newworld.c         | 341 ++++++++++++++++++++++------------
+> hw/ppc/mac_oldworld.c         | 120 ++++++------
+> include/hw/misc/macio/macio.h |  23 ++-
+> include/hw/nvram/mac_nvram.h  |  51 +++++
+> include/hw/pci-host/grackle.h |  44 +++++
+> 19 files changed, 415 insertions(+), 322 deletions(-)
+> delete mode 100644 hw/ppc/mac.h
+> create mode 100644 include/hw/nvram/mac_nvram.h
+> create mode 100644 include/hw/pci-host/grackle.h
+>
+>
 
