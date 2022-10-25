@@ -2,93 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8356760CD87
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 15:32:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C96C160CD91
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 15:33:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onJyu-0003xj-1X; Tue, 25 Oct 2022 09:28:36 -0400
+	id 1onK1A-0005cr-TU; Tue, 25 Oct 2022 09:30:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1onJyr-0003xF-Rf
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 09:28:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1onJyp-0002Vo-9e
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 09:28:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666704510;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NoOZwYF4ldrIR2yenflmN0YYncPlmuSa3nITj3mCyCw=;
- b=L/a01tSlGG53JAEACnWbvYm8hRQ6bKC6IJ14R3OzsmCQzt+iTEmIt94JFeLlivAqibpsyR
- Sp/OREbhOnyFqKB1l+rQIoehmtOS3nteZ7hRnfqQ2o1LjaFadXE12SOm5nTmefy/kjHgUM
- 6ulF/fQew1d9ZriyKfA/8VvhalPZmXQ=
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-45-DfH6xvhJOP6QBLakrsSwyA-1; Tue, 25 Oct 2022 09:28:28 -0400
-X-MC-Unique: DfH6xvhJOP6QBLakrsSwyA-1
-Received: by mail-oi1-f197.google.com with SMTP id
- j186-20020aca3cc3000000b003542949670eso2855623oia.6
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 06:28:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1onK12-0005Yj-9Y
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 09:30:48 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1onK0w-0002yr-4W
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 09:30:48 -0400
+Received: by mail-wr1-x436.google.com with SMTP id v1so20979343wrt.11
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 06:30:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=0ONiAMRjS6sBzn3UPrvRvOwNFeWtCBDZcLoXuZLukCg=;
+ b=oYzr+gXec/++EQ8awQWdNDeIYUkpwb3522acVwx6qnHXE/H+DR57az4/CaJkVVoqmg
+ Wcm0J5Dloj0PSUHwgaynOKGII0m08MRZlP8ybpgz4s7AMhcNrMaRO3j5itCxzS0zjviq
+ oAvYr0rZtyH73/JZZZSxBiviqmrLMdKaLGLhim0JeHitP28SprIUBGoj0K08dvFTqQht
+ yEY0eiWi9NVdXrB3y8Y09ou46gfK4gmxdkEH4JMoL2PdsBG72Z7ez7hJ+SDqK3ZyOHiN
+ +v8IIYAzWS5w6opKFT7nBt4EmtNT4TG+NwyHhJm8SuSwL6gZ/btRXZKYY9+0f4unvt3N
+ qyPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=NoOZwYF4ldrIR2yenflmN0YYncPlmuSa3nITj3mCyCw=;
- b=RFUSUoaY02oAU4/NxGgOt1Hf6ZLD/bmUEQ5na1inrOS6fxWNj6tk13pgQoegg3SaUJ
- y9zYzCFRV6PhOLnuNshSSbTW6oQXZeb5YnX1WpwOJnf2OsKJibBQl+3CJVC//mqWFvA3
- 4IhTj63wh6UyAbfu45duxrCpwKMiKDz2q6cWn0jdVYkEypI5jI+8out9fzlCtdGYAK9N
- L2Nt5h0BfiMlKFu32B9Jyy34IghzoYp3+UdTP9YlccsHG8jeBhC1sU7lG6vtoTpXZzh7
- WDVEam596gJHNHGXdDyDnnh+nKjSIUUOtkUzjMuA702kRC6wfmXtqbIxnJA2PpRrrUMh
- nWiA==
-X-Gm-Message-State: ACrzQf1L8706WyjEYWstRaKvO9Nb8zVBWc/iUz9fz+JBducHajXeMV29
- FNBBAm5W3OETThzi+MUvTnKYj5PmhYnbwflIoMz+wm+uDpQJr2kgMv2RacxFsyyujMgeXNwuTB5
- NLjZo4wGlxq3i8mQ=
-X-Received: by 2002:a05:6870:160f:b0:131:e2c3:8fe3 with SMTP id
- b15-20020a056870160f00b00131e2c38fe3mr39778128oae.54.1666704508031; 
- Tue, 25 Oct 2022 06:28:28 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6KiRun5dQPnI8CB76NEopfgTOsyAWZbI6VV33nP4Op/Im8XKoUmiQHkr+EURcndwY0VqKEzQ==
-X-Received: by 2002:a05:6870:160f:b0:131:e2c3:8fe3 with SMTP id
- b15-20020a056870160f00b00131e2c38fe3mr39778111oae.54.1666704507784; 
- Tue, 25 Oct 2022 06:28:27 -0700 (PDT)
-Received: from ?IPv6:2804:1b3:a801:de5e:6447:4a67:eb7c:b690?
- ([2804:1b3:a801:de5e:6447:4a67:eb7c:b690])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0ONiAMRjS6sBzn3UPrvRvOwNFeWtCBDZcLoXuZLukCg=;
+ b=AqvqkK8HTI0TmXPgKMRH9wHcHAyDwlSezjreXFjtWRpjX8hBqADw9DC51Ssld4W1jM
+ 9n1Pxp+0o2uu/fqy0V5FFyUWq1ttVQZ8G2vTXfD+iS++7nhXNBl8F7IKOgubPZb9Ama/
+ FfWM6Qwb8mhzHiYKCCWhTB+SKUL9xaVYq65hORdC7+blbQ/DP+dzOu4yOGfs57URZUxq
+ YzlK/iHdNIHlLRcYK/hb1YPJRimOsGArs5Em8A/nAi9tnbWdJ02uDMzHnlwzDOxigfIL
+ 1/ZpwnTqlcvaJ5Q4ueRyl8A5LoxUIy3Mz3qFzC60KGknKn6Za8kCv2sBeMfIH1sEH87B
+ eBQw==
+X-Gm-Message-State: ACrzQf3A7DYSOUjAXxjAVji1cD6RECpWCPba7GXmM2yjAdE4r8AVK40u
+ Iym8VuBcS/mohWdAabOdx01jEg==
+X-Google-Smtp-Source: AMsMyM6fGV1CszVQmFw24Wjq4n3ZHesdgfQOr+tPgvTQOQ8phKGSEJMgy8NBUo9EN/m4Dpy2RDy28g==
+X-Received: by 2002:a1c:a1c3:0:b0:3c6:b709:aa49 with SMTP id
+ k186-20020a1ca1c3000000b003c6b709aa49mr26336588wme.197.1666704630205; 
+ Tue, 25 Oct 2022 06:30:30 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- q4-20020a05683022c400b00661a16f14a1sm1009640otc.15.2022.10.25.06.28.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Oct 2022 06:28:27 -0700 (PDT)
-Message-ID: <b4d926e8b8d62c2f513e1de610bb5971c1eb53a1.camel@redhat.com>
-Subject: Re: [RFC PATCH 2/4] migration/multifd/zero-copy: Merge header &
- pages send in a single write
-From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras@redhat.com>
-To: quintela@redhat.com
-Cc: Daniel =?ISO-8859-1?Q?P=2EBerrang=E9?= <berrange@redhat.com>, "Dr.
- David Alan Gilbert"
- <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
-Date: Tue, 25 Oct 2022 10:28:22 -0300
-In-Reply-To: <87a65kdydn.fsf@secure.mitica>
-References: <20221025044730.319941-1-leobras@redhat.com>
- <20221025044730.319941-3-leobras@redhat.com> <87a65kdydn.fsf@secure.mitica>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 
+ y1-20020adff141000000b0022cc0a2cbecsm2541744wro.15.2022.10.25.06.30.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Oct 2022 06:30:29 -0700 (PDT)
+Message-ID: <6fcfcf5a-55bc-e77e-2a36-4ac68f56bdfa@linaro.org>
+Date: Tue, 25 Oct 2022 15:30:28 +0200
 MIME-Version: 1.0
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=leobras@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.2
+Subject: Re: [PATCH v4 02/11] device-tree: add re-randomization helper function
+Content-Language: en-US
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>, peter.maydell@linaro.org,
+ pbonzini@redhat.com, qemu-devel@nongnu.org, richard.henderson@linaro.org
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20221025004327.568476-1-Jason@zx2c4.com>
+ <20221025004327.568476-3-Jason@zx2c4.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221025004327.568476-3-Jason@zx2c4.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,143 +93,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 2022-10-25 at 11:51 +0200, Juan Quintela wrote:
-> Leonardo Bras <leobras@redhat.com> wrote:
-> > When zero-copy-send is enabled, each loop iteration of the
-> > multifd_send_thread will calls for qio_channel_write_*() twice: The fir=
-st
-> > one for sending the header without zero-copy flag and the second one fo=
-r
-> > sending the memory pages, with zero-copy flag enabled.
-> >=20
-> > This ends up calling two syscalls per loop iteration, where one should =
-be
-> > enough.
-> >=20
-> > Also, since the behavior for non-zero-copy write is synchronous, and th=
-e
-> > behavior for zero-copy write is asynchronous, it ends up interleaving
-> > synchronous and asynchronous writes, hurting performance that could
-> > otherwise be improved.
-> >=20
-> > The choice of sending the header without the zero-copy flag in a separa=
-ted
-> > write happened because the header memory area would be reused in the ne=
-xt
-> > write, so it was almost certain to have changed before the kernel could
-> > send the packet.
-> >=20
-> > To send the packet with zero-copy, create an array of header area inste=
-ad
-> > of a single one, and use a different header area after each write. Also=
-,
-> > flush the sending queue after all the headers have been used.
-> >=20
-> > To avoid adding a zero-copy conditional in multifd_send_fill_packet(),
-> > add a packet parameter (the packet that should be filled). This way it'=
-s
-> > simpler to pick which element of the array will be used as a header.
-> >=20
-> > Suggested-by: Juan Quintela <quintela@redhat.com>
-> > Signed-off-by: Leonardo Bras <leobras@redhat.com>
->=20
-> > =20
-> > +            if (use_zero_copy_send) {
-> > +                p->packet_idx =3D (p->packet_idx + 1) % HEADER_ARR_SZ;
-> > +
-> > +                if (!p->packet_idx && (multifd_zero_copy_flush(p->c) <=
- 0)) {
-> > +                    break;
-> > +                }
-> > +                header =3D (void *)p->packet + p->packet_idx * p->pack=
-et_len;
->=20
-> Isn't this equivalent to?
->=20
->       header =3D &(p->packet[p->packet_idx]);
+On 25/10/22 02:43, Jason A. Donenfeld wrote:
+> When the system reboots, the rng-seed that the FDT has should be
+> re-randomized, so that the new boot gets a new seed. Several
+> architectures require this functionality, so export a function for
+> injecting a new seed into the given FDT.
+> 
+> Cc: Alistair Francis <alistair.francis@wdc.com>
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> ---
+>   include/sysemu/device_tree.h |  9 +++++++++
+>   softmmu/device_tree.c        | 21 +++++++++++++++++++++
+>   2 files changed, 30 insertions(+)
 
+> +void qemu_fdt_randomize_seeds(void *fdt)
+> +{
+> +    int noffset, poffset, len;
+> +    const char *name;
+> +    uint8_t *data;
+> +
+> +    for (noffset = fdt_next_node(fdt, 0, NULL);
+> +         noffset >= 0;
+> +         noffset = fdt_next_node(fdt, noffset, NULL)) {
+> +        for (poffset = fdt_first_property_offset(fdt, noffset);
+> +             poffset >= 0;
+> +             poffset = fdt_next_property_offset(fdt, poffset)) {
+> +            data = (uint8_t *)fdt_getprop_by_offset(fdt, poffset, &name, &len);
 
-So, that's the thing:
-MultiFDPacket_t does contain a flexible array member (offset[]) at the end =
-of
-the struct, which is used together with dynamic allocation to create the
-perception of a variable size struct.=20
+Is this non-const cast is safe?
 
-This is used to make sure the packet will be able to carry the offset for e=
-ach
-memory page getting sent, independent of it's size:
+> +            if (!data || strcmp(name, "rng-seed"))
+> +                continue;
+> +            qemu_guest_getrandom_nofail(data, len);
 
-multifd_save_setup (){=20
-	uint32_t page_count =3D MULTIFD_PACKET_SIZE / qemu_target_page_size();
-	[...]
-	p->packet_len =3D sizeof(MultiFDPacket_t)
-                      + sizeof(uint64_t) * page_count;
-	p->packet =3D g_malloc0(p->packet_len);
-	[...]
-}
+Shouldn't we read to the stack and fill with fdt_setprop_inplace()?
 
-So the size of the header is actually p->packet_len, and not
-sizeof(MultiFDPacket_t). This means using the default pointer arithmetic do=
-es
-not work for this case, and
-
-header =3D &(p->packet[p->packet_idx])=C2=A0
-
-will actually point to the wrong place in memory, since it does not conside=
-r the
-the actual size of offset[] array.
-
->=20
-> >      for (i =3D 0; i < thread_count; i++) {
-> >          MultiFDSendParams *p =3D &multifd_send_state->params[i];
-> > +        int j;
->=20
-> For new code you can:
->=20
-> >          qemu_mutex_init(&p->mutex);
-> >          qemu_sem_init(&p->sem, 0);
-> > @@ -940,9 +940,13 @@ int multifd_save_setup(Error **errp)
-> >          p->pages =3D multifd_pages_init(page_count);
-> >          p->packet_len =3D sizeof(MultiFDPacket_t)
-> >                        + sizeof(uint64_t) * page_count;
-> > -        p->packet =3D g_malloc0(p->packet_len);
-> > -        p->packet->magic =3D cpu_to_be32(MULTIFD_MAGIC);
-> > -        p->packet->version =3D cpu_to_be32(MULTIFD_VERSION);
-> > +        p->packet =3D g_malloc0_n(HEADER_ARR_SZ, p->packet_len);
-> > +        for (j =3D 0; j < HEADER_ARR_SZ ; j++) {
->=20
->            for (int j =3D 0; j < HEADER_ARR_SZ ; j++) {
-
-Oh, sweet. I am very fond of C99, just not used to it getting accepted upst=
-ream.
-Thanks for the tip :)
-
->=20
-> > +            MultiFDPacket_t *packet =3D (void *)p->packet + j * p->pac=
-ket_len;
-> > +            packet->magic =3D cpu_to_be32(MULTIFD_MAGIC);
-> > +            packet->version =3D cpu_to_be32(MULTIFD_VERSION);
->=20
-> Can't you use here:
->=20
->             packet[j].magic =3D cpu_to_be32(MULTIFD_MAGIC);
->             packet[j].version =3D cpu_to_be32(MULTIFD_VERSION);
->=20
-> And call it a day?
-
-Not actually. The size of this struct is different from sizeof(MultiFDPacke=
-t_t),
-so it does not work. See above.
-
->=20
-> The rest is fine for me.  Thanks for the effort.
-
-Thanks for reviewing Juan!
-
-Leo
-
->=20
-> Later, Juan.
->=20
+> +        }
+> +    }
+> +}
 
 
