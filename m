@@ -2,92 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3BC060D62A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 23:31:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61CA160D631
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 23:33:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onRVD-00014u-BJ; Tue, 25 Oct 2022 17:30:27 -0400
+	id 1onRXA-0001xk-Ka; Tue, 25 Oct 2022 17:32:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1onRVB-00014k-Qs
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 17:30:25 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1onRW7-0001uR-1O; Tue, 25 Oct 2022 17:31:24 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1onRVA-00082g-8B
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 17:30:25 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29PKPl6H022575;
- Tue, 25 Oct 2022 21:30:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=9+cwNM/A6H7WamKkfuuKB2ta6DOYDTs2U6e4cuIMvj0=;
- b=B30zM5HmQC9LEVJymJsGkkpaOhAOiUaowzTOt0ugiEo4/ncNMJbKryq+xqEygnSP14BQ
- OXe54X2azOKJBevvWe/e5z+b+PfPMKB12mS32PzwvxKlxbc44+puZFRuZXDEn4F+Ojtp
- cL1uJLQQ2WTHb37KqwHFowcgTJCUv65wSwXjr5rSb2GVvujlPEnAo+rvGJ8RgCsiov41
- OY/gx/hRk2R0QZ9RnL1mwDlmDvIJwo2iU91PDdkGGtd4hHi89GDzPqwSlOGqxK2LdRvW
- hoUfO3TD5lLEmaRWuKwS3M0arQ2P4oZcukvFyHQnENIiyOq5gkZWCAViwKS1BKZAuHLm 7w== 
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kecrrfwuv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Oct 2022 21:30:22 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29PLKZmE026748;
- Tue, 25 Oct 2022 21:30:21 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma02fra.de.ibm.com with ESMTP id 3kc859mhp0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Oct 2022 21:30:20 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 29PLP4Dh48300408
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 25 Oct 2022 21:25:04 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DAFE411C04C;
- Tue, 25 Oct 2022 21:30:17 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A14EF11C04A;
- Tue, 25 Oct 2022 21:30:17 +0000 (GMT)
-Received: from heavy.ibmuc.com (unknown [9.171.39.72])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 25 Oct 2022 21:30:17 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH 1/1] tests/tcg/s390x: Add clst.c
-Date: Tue, 25 Oct 2022 23:30:08 +0200
-Message-Id: <20221025213008.2209006-2-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20221025213008.2209006-1-iii@linux.ibm.com>
-References: <20221021073006.2398819-4-richard.henderson@linaro.org>
- <20221025213008.2209006-1-iii@linux.ibm.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: v7W466iNfDgr4aOiAAAruCEeuZzY5QK1
-X-Proofpoint-ORIG-GUID: v7W466iNfDgr4aOiAAAruCEeuZzY5QK1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-25_13,2022-10-25_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- suspectscore=0 phishscore=0 impostorscore=0 spamscore=0 clxscore=1015
- mlxscore=0 lowpriorityscore=0 bulkscore=0 adultscore=0 mlxlogscore=747
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210250117
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1onRW4-0008DX-RU; Tue, 25 Oct 2022 17:31:22 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 9ABA374633D;
+ Tue, 25 Oct 2022 23:31:18 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 63E8374632B; Tue, 25 Oct 2022 23:31:18 +0200 (CEST)
+Message-Id: <961abafadba35d9f746540984422371d4b799745.1666733213.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1666715145.git.balaton@eik.bme.hu>
+References: <cover.1666715145.git.balaton@eik.bme.hu>
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH v5 19/20] mac_newworld: Document deprecation
+To: qemu-devel@nongnu.org,
+    qemu-ppc@nongnu.org
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Date: Tue, 25 Oct 2022 23:31:18 +0200 (CEST)
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,116 +53,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add a basic test to prevent regressions.
+Also update PowerMac family docs with some more recent info.
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- tests/tcg/s390x/Makefile.target |  1 +
- tests/tcg/s390x/clst.c          | 82 +++++++++++++++++++++++++++++++++
- 2 files changed, 83 insertions(+)
- create mode 100644 tests/tcg/s390x/clst.c
+ docs/about/deprecated.rst    |  7 +++++++
+ docs/system/ppc/powermac.rst | 12 ++++++++----
+ 2 files changed, 15 insertions(+), 4 deletions(-)
 
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index 627668e1ce9..ad2e34b1859 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -18,6 +18,7 @@ TESTS+=signals-s390x
- TESTS+=branch-relative-long
- TESTS+=noexec
- TESTS+=long-double
-+TESTS+=clst
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index 93affe3669..07661af7fe 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -248,6 +248,13 @@ These old machine types are quite neglected nowadays and thus might have
+ various pitfalls with regards to live migration. Use a newer machine type
+ instead.
  
- Z14_TESTS=vfminmax
- vfminmax: LDFLAGS+=-lm
-diff --git a/tests/tcg/s390x/clst.c b/tests/tcg/s390x/clst.c
-new file mode 100644
-index 00000000000..ed2fe7326c3
---- /dev/null
-+++ b/tests/tcg/s390x/clst.c
-@@ -0,0 +1,82 @@
-+#define _GNU_SOURCE
-+#include <stdio.h>
-+#include <stdlib.h>
++``mac99`` variants other than the default qemu-system-ppc version (since 7.2)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 +
-+static int clst(char sep, const char **s1, const char **s2)
-+{
-+    const char *r1 = *s1;
-+    const char *r2 = *s2;
-+    int cc;
++The ``mac99`` machine emulates different hardware depending on using
++qemu-system-ppc64 or ``via`` property. To avoid confusion new machine
++types has been added for these variants which are now preferred over
++``mac99``.
+ 
+ Backend options
+ ---------------
+diff --git a/docs/system/ppc/powermac.rst b/docs/system/ppc/powermac.rst
+index 04334ba210..d4a47a6881 100644
+--- a/docs/system/ppc/powermac.rst
++++ b/docs/system/ppc/powermac.rst
+@@ -4,8 +4,12 @@ PowerMac family boards (``g3beige``, ``mac99``)
+ Use the executable ``qemu-system-ppc`` to simulate a complete PowerMac
+ PowerPC system.
+ 
+-- ``g3beige``              Heathrow based PowerMAC
+-- ``mac99``                Mac99 based PowerMAC
++- ``g3beige``           Heathrow based old world Power Macintosh G3
++- ``mac99``             Core99 based generic PowerMac
++- ``powermac3_1``       Power Mac G4 AGP (Sawtooth)
++- ``powerbook3_2``      PowerBook G4 Titanium (Mercury)
++- ``powermac7_3``       Power Mac G5 (Niagara) (only in ``qemu-system-ppc64``)
 +
-+    do {
-+        register int r0 asm("r0") = sep;
-+
-+        asm("clst %[r1],%[r2]\n"
-+            "ipm %[cc]\n"
-+            "srl %[cc],28"
-+            : [r1] "+r" (r1), [r2] "+r" (r2), "+r" (r0), [cc] "=r" (cc)
-+            :
-+            : "cc");
-+        *s1 = r1;
-+        *s2 = r2;
-+    } while (cc == 3);
-+
-+    return cc;
-+}
-+
-+static const struct test {
-+    const char *name;
-+    char sep;
-+    const char *s1;
-+    const char *s2;
-+    int exp_cc;
-+    int exp_off;
-+} tests[] = {
-+    {
-+        .name = "cc0",
-+        .sep = 0,
-+        .s1 = "aa",
-+        .s2 = "aa",
-+        .exp_cc = 0,
-+        .exp_off = 0,
-+    },
-+    {
-+        .name = "cc1",
-+        .sep = 1,
-+        .s1 = "a\x01",
-+        .s2 = "aa\x01",
-+        .exp_cc = 1,
-+        .exp_off = 1,
-+    },
-+    {
-+        .name = "cc2",
-+        .sep = 2,
-+        .s1 = "abc\x02",
-+        .s2 = "abb\x02",
-+        .exp_cc = 2,
-+        .exp_off = 2,
-+    },
-+};
-+
-+int main(void)
-+{
-+    const struct test *t;
-+    const char *s1, *s2;
-+    size_t i;
-+    int cc;
-+
-+    for (i = 0; i < sizeof(tests) / sizeof(tests[0]); i++) {
-+        t = &tests[i];
-+        s1 = t->s1;
-+        s2 = t->s2;
-+        cc = clst(t->sep, &s1, &s2);
-+        if (cc != t->exp_cc ||
-+                s1 != t->s1 + t->exp_off ||
-+                s2 != t->s2 + t->exp_off) {
-+            fprintf(stderr, "%s\n", t->name);
-+            return EXIT_FAILURE;
-+        }
-+    }
-+
-+    return EXIT_SUCCESS;
-+}
+ 
+ Supported devices
+ -----------------
+@@ -15,9 +19,9 @@ QEMU emulates the following PowerMac peripherals:
+  *  UniNorth or Grackle PCI Bridge
+  *  PCI VGA compatible card with VESA Bochs Extensions
+  *  2 PMAC IDE interfaces with hard disk and CD-ROM support
+- *  NE2000 PCI adapters
++ *  Sungem PCI network adapter
+  *  Non Volatile RAM
+- *  VIA-CUDA with ADB keyboard and mouse.
++ *  VIA-CUDA or VIA-PMU99 with or without ADB or USB keyboard and mouse.
+ 
+ 
+ Missing devices
 -- 
-2.37.2
+2.30.4
 
 
