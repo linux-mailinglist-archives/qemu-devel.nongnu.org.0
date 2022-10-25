@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B99A60D45B
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 21:12:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 793E260D485
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 21:16:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onPIT-00013W-TE; Tue, 25 Oct 2022 15:09:09 -0400
+	id 1onPNW-0006WM-B0; Tue, 25 Oct 2022 15:14:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1onPIS-0000zT-5A; Tue, 25 Oct 2022 15:09:08 -0400
-Received: from mail-oo1-xc30.google.com ([2607:f8b0:4864:20::c30])
+ id 1onPNQ-0005kx-KU; Tue, 25 Oct 2022 15:14:19 -0400
+Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1onPIQ-0007bI-9G; Tue, 25 Oct 2022 15:09:07 -0400
-Received: by mail-oo1-xc30.google.com with SMTP id
- x6-20020a4ac586000000b0047f8cc6dbe4so1998276oop.3; 
- Tue, 25 Oct 2022 12:09:04 -0700 (PDT)
+ id 1onPNJ-0000AT-6J; Tue, 25 Oct 2022 15:14:15 -0400
+Received: by mail-ot1-x32f.google.com with SMTP id
+ 16-20020a9d0490000000b0066938311495so79933otm.4; 
+ Tue, 25 Oct 2022 12:14:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=RPg6bbZxg3/obU2M+gjEKwgRpqqiAWgjcWBmyUo5WGo=;
- b=RNzL4S1iDaS1OjBG/37fsW+dtopYkTZ6k1OllnAhD6BxtrHe/5VLZGX7IPN7cV1oqD
- FnVtllXUDdpI10IpsV3w3y4yn/SVSzdj34c4S/ZLOqa8ndGqoliVyAePk7bpmCT0x7SN
- Grl8o/V8lqwC/P7kfC+KbkRvW8BIkW4xYHQluV3UOlNCrv4WpOA5o2sp9I6eAvFDGvT9
- wu7dWljLZafttP1JTthH1JEk2Xfzpee9OhOc7B4jssssKg+DzGmHCAig5NRCtkVAW65o
- 4O6Q4qGA99zCcod8e+w1FmwE8yxcjzwUOMALkaA9HZDE67FW78v6VB/T6k7fRIhpHbyh
- FQPw==
+ bh=gI6h13DNRRrX99jAUiSrfhgbvx9qwkbm+6A5mIID3/Y=;
+ b=bPK0/h1LX0ObAyeOmo5r2xLmddV6QjQkLZvyO5M0VxRJd7yPtzOCREILX4sP0cn31C
+ gGGbY8cLhE4lpotuI2m7CjZCTVvK+aQZ3KNMp4gVmfC/9ikAHwS5ga4Go8KRXDG2wQFk
+ x/9IEnEqrE1PK2CHkA6QO1iR+SuWAh/pgWJj9IUWHYHSoRaoZoVIq3S9lIz0kp4DUio2
+ UEkzF77EV6VFHd2pxP8EYZrp66oBBtKDAZjYIcEdhLBIQ9Dp2E5BPHuDzlGdYl+ALgn1
+ TqD+5XvmvBo/6TPFMFNodQ7sm3wmQ/UFrTUMGxLjRfVWycuV70m+n44ubPwjL7B761nK
+ bG6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RPg6bbZxg3/obU2M+gjEKwgRpqqiAWgjcWBmyUo5WGo=;
- b=SHl2Bkmr1BZJHfBA87crN1R9ZiagJVKRSdleW5hzanmJSvGsyhnyXC/tyWpKaDAV5/
- TmmDIEGKCjDegGfEA9OgzebpG3POeXJ3oULBBW/qYjXJMG1LrRVLwuSgLASWmM928do9
- tj36B5EGqU5Ctypa+2JXbD8KGTRIUt9zV9RWvkpLgW8FZo2b+POaAc3rvqN7Hrm+TlyR
- Xwq9N8WrVy/bg10k8UPHh+D3nmXaBohOtXWHIba3JHp1lhgsCVJgHxIhJCWmcEYXc96h
- q6hsFvSnGQSZoYAL0CEqJETWCsi1uwppNhTQc1lcOYGIUzx0Vs8CnktDPCMZgLA9ybtQ
- 4OBQ==
-X-Gm-Message-State: ACrzQf2joB8RyFQTtpsN1pNf3bMet1QJLolf+GPpYXEcpV9rO0cKPcUX
- /B6XB0JFcVeMl1nvVYNk6qE=
-X-Google-Smtp-Source: AMsMyM4q2RDI1aEp3HzSLysrkJlVWy/8E4/bkHR6RUFOshcjtVMV74iFLv4zNV1B12F0K2vwRZ7RtA==
-X-Received: by 2002:a05:6820:1746:b0:47f:926a:286d with SMTP id
- bf6-20020a056820174600b0047f926a286dmr17308437oob.5.1666724941939; 
- Tue, 25 Oct 2022 12:09:01 -0700 (PDT)
+ bh=gI6h13DNRRrX99jAUiSrfhgbvx9qwkbm+6A5mIID3/Y=;
+ b=JDIwAt3TdK+y2Kys/TnywmBWsaDbw/LUMP+tGRZpiVoz9kYvhC7bI2SYQjHGJ5iF30
+ oDITVabYqmnH1fwMyaVsh/rFOaMNTBUGaoHDGEJ2dYaJqnWvoLxCp0ueGSqaGb2lFgB1
+ cgcxx1ux4mXdF7K4TLhuMug373gFCl1Fv7xQOJQ10dBAk9R72LsTDngJ7o8Zcg83VHKB
+ 4UWd3/HBNDAypmT6dkqpSmltXAPB/CqkdOfXKYZoSLz4KOxIqhtuiXSW9L6ZlOsWKeoE
+ N09o80T5rkOIcM6dMoIQRFfs8MsOfA141KPgp9baZ+BtrGFcU1rsOhNmt8MwkIPOE2ff
+ Xz5w==
+X-Gm-Message-State: ACrzQf3s/dXgbJqQaDonyRsk18AzPt6GNxOHxDGkFtzNl9vaIsYGiyJV
+ Y1KlF9/+Mq7rv0PDsUaosVg=
+X-Google-Smtp-Source: AMsMyM430C0Y2kskBH+fc2NXtleH+XgdB7o2+ctgJ/AvnC2/ZWzqczVw4yGuB3ldyIvtUw8vgeGM0A==
+X-Received: by 2002:a05:6830:3156:b0:661:e5d1:725d with SMTP id
+ c22-20020a056830315600b00661e5d1725dmr20612439ots.312.1666725245731; 
+ Tue, 25 Oct 2022 12:14:05 -0700 (PDT)
 Received: from [192.168.10.102] ([177.45.165.63])
  by smtp.gmail.com with ESMTPSA id
- r5-20020a056870580500b0013669485016sm1963756oap.37.2022.10.25.12.08.59
+ v18-20020a9d7d12000000b006690f65a830sm85507otn.14.2022.10.25.12.14.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Oct 2022 12:09:01 -0700 (PDT)
-Message-ID: <1dc355d3-c973-5691-fd9e-bf6493adfed8@gmail.com>
-Date: Tue, 25 Oct 2022 16:08:58 -0300
+ Tue, 25 Oct 2022 12:14:05 -0700 (PDT)
+Message-ID: <f0832120-3890-58a1-e4d9-01c33c7cfa2c@gmail.com>
+Date: Tue, 25 Oct 2022 16:14:02 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH v7 7/8] ppc4xx_sdram: Convert DDR SDRAM controller to new
- bank handling
+Subject: Re: [PATCH v7 0/8] ppc4xx_sdram QOMify and clean ups
 Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
 Cc: clg@kaod.org, philmd@linaro.org
 References: <cover.1666194485.git.balaton@eik.bme.hu>
- <fc7c50e365d0027a659111e9cd67f9b93113a163.1666194485.git.balaton@eik.bme.hu>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <fc7c50e365d0027a659111e9cd67f9b93113a163.1666194485.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1666194485.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c30;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc30.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -95,178 +93,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Queued in gitlab.com/danielhb/qemu/tree/ppc-next.
 
+
+Phil, your acks for these patches are using the f4bug@amsat.org email.
+Let me know if you want to use your new work address instead.
+
+
+Thanks,
+
+
+Daniel
 
 On 10/19/22 13:02, BALATON Zoltan wrote:
-> Use the generic bank handling introduced in previous patch in the DDR
-> SDRAM controller too. This also fixes previously broken region unmap
-> due to sdram_ddr_unmap_bcr() ignoring container region so it crashed
-> with an assert when the guest tried to disable the controller.
+> This is the end of the QOMify series originially started by Cédric
+> rebased on master now only including patches not yet merged. Patches
+> that still need review are 1-3 (these only move code to
+> ppc4xx_sdram.c) and 6-7 (unify DDR and DDR2 models to share code where
+> possible).
 > 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
-
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
->   hw/ppc/ppc4xx_sdram.c | 98 ++++++++++++++++---------------------------
->   1 file changed, 37 insertions(+), 61 deletions(-)
+> Regards,
+> BALATON Zoltan
 > 
-> diff --git a/hw/ppc/ppc4xx_sdram.c b/hw/ppc/ppc4xx_sdram.c
-> index 63a33b8fd4..7c097efe20 100644
-> --- a/hw/ppc/ppc4xx_sdram.c
-> +++ b/hw/ppc/ppc4xx_sdram.c
-> @@ -141,6 +141,8 @@ enum {
->   
->   /*****************************************************************************/
->   /* DDR SDRAM controller */
-> +#define SDRAM_DDR_BCR_MASK 0xFFDEE001
-> +
->   static uint32_t sdram_ddr_bcr(hwaddr ram_base, hwaddr ram_size)
->   {
->       uint32_t bcr;
-> @@ -199,58 +201,6 @@ static hwaddr sdram_ddr_size(uint32_t bcr)
->       return size;
->   }
->   
-> -static void sdram_ddr_set_bcr(Ppc4xxSdramDdrState *sdram, int i,
-> -                              uint32_t bcr, int enabled)
-> -{
-> -    if (sdram->bank[i].bcr & 1) {
-> -        /* Unmap RAM */
-> -        trace_ppc4xx_sdram_unmap(sdram_ddr_base(sdram->bank[i].bcr),
-> -                                 sdram_ddr_size(sdram->bank[i].bcr));
-> -        memory_region_del_subregion(get_system_memory(),
-> -                                    &sdram->bank[i].container);
-> -        memory_region_del_subregion(&sdram->bank[i].container,
-> -                                    &sdram->bank[i].ram);
-> -        object_unparent(OBJECT(&sdram->bank[i].container));
-> -    }
-> -    sdram->bank[i].bcr = bcr & 0xFFDEE001;
-> -    if (enabled && (bcr & 1)) {
-> -        trace_ppc4xx_sdram_map(sdram_ddr_base(bcr), sdram_ddr_size(bcr));
-> -        memory_region_init(&sdram->bank[i].container, NULL, "sdram-container",
-> -                           sdram_ddr_size(bcr));
-> -        memory_region_add_subregion(&sdram->bank[i].container, 0,
-> -                                    &sdram->bank[i].ram);
-> -        memory_region_add_subregion(get_system_memory(),
-> -                                    sdram_ddr_base(bcr),
-> -                                    &sdram->bank[i].container);
-> -    }
-> -}
-> -
-> -static void sdram_ddr_map_bcr(Ppc4xxSdramDdrState *sdram)
-> -{
-> -    int i;
-> -
-> -    for (i = 0; i < sdram->nbanks; i++) {
-> -        if (sdram->bank[i].size != 0) {
-> -            sdram_ddr_set_bcr(sdram, i, sdram_ddr_bcr(sdram->bank[i].base,
-> -                                                      sdram->bank[i].size), 1);
-> -        } else {
-> -            sdram_ddr_set_bcr(sdram, i, 0, 0);
-> -        }
-> -    }
-> -}
-> -
-> -static void sdram_ddr_unmap_bcr(Ppc4xxSdramDdrState *sdram)
-> -{
-> -    int i;
-> -
-> -    for (i = 0; i < sdram->nbanks; i++) {
-> -        trace_ppc4xx_sdram_unmap(sdram_ddr_base(sdram->bank[i].bcr),
-> -                                 sdram_ddr_size(sdram->bank[i].bcr));
-> -        memory_region_del_subregion(get_system_memory(),
-> -                                    &sdram->bank[i].ram);
-> -    }
-> -}
-> -
->   static uint32_t sdram_ddr_dcr_read(void *opaque, int dcrn)
->   {
->       Ppc4xxSdramDdrState *s = opaque;
-> @@ -321,6 +271,7 @@ static uint32_t sdram_ddr_dcr_read(void *opaque, int dcrn)
->   static void sdram_ddr_dcr_write(void *opaque, int dcrn, uint32_t val)
->   {
->       Ppc4xxSdramDdrState *s = opaque;
-> +    int i;
->   
->       switch (dcrn) {
->       case SDRAM0_CFGADDR:
-> @@ -342,12 +293,24 @@ static void sdram_ddr_dcr_write(void *opaque, int dcrn, uint32_t val)
->               if (!(s->cfg & 0x80000000) && (val & 0x80000000)) {
->                   trace_ppc4xx_sdram_enable("enable");
->                   /* validate all RAM mappings */
-> -                sdram_ddr_map_bcr(s);
-> +                for (i = 0; i < s->nbanks; i++) {
-> +                    if (s->bank[i].size) {
-> +                        sdram_bank_set_bcr(&s->bank[i], s->bank[i].bcr,
-> +                                           s->bank[i].base, s->bank[i].size,
-> +                                           1);
-> +                    }
-> +                }
->                   s->status &= ~0x80000000;
->               } else if ((s->cfg & 0x80000000) && !(val & 0x80000000)) {
->                   trace_ppc4xx_sdram_enable("disable");
->                   /* invalidate all RAM mappings */
-> -                sdram_ddr_unmap_bcr(s);
-> +                for (i = 0; i < s->nbanks; i++) {
-> +                    if (s->bank[i].size) {
-> +                        sdram_bank_set_bcr(&s->bank[i], s->bank[i].bcr,
-> +                                           s->bank[i].base, s->bank[i].size,
-> +                                           0);
-> +                    }
-> +                }
->                   s->status |= 0x80000000;
->               }
->               if (!(s->cfg & 0x40000000) && (val & 0x40000000)) {
-> @@ -367,16 +330,16 @@ static void sdram_ddr_dcr_write(void *opaque, int dcrn, uint32_t val)
->               s->pmit = (val & 0xF8000000) | 0x07C00000;
->               break;
->           case 0x40: /* SDRAM_B0CR */
-> -            sdram_ddr_set_bcr(s, 0, val, s->cfg & 0x80000000);
-> -            break;
->           case 0x44: /* SDRAM_B1CR */
-> -            sdram_ddr_set_bcr(s, 1, val, s->cfg & 0x80000000);
-> -            break;
->           case 0x48: /* SDRAM_B2CR */
-> -            sdram_ddr_set_bcr(s, 2, val, s->cfg & 0x80000000);
-> -            break;
->           case 0x4C: /* SDRAM_B3CR */
-> -            sdram_ddr_set_bcr(s, 3, val, s->cfg & 0x80000000);
-> +            i = (s->addr - 0x40) / 4;
-> +            val &= SDRAM_DDR_BCR_MASK;
-> +            if (s->bank[i].size) {
-> +                sdram_bank_set_bcr(&s->bank[i], val,
-> +                                   sdram_ddr_base(val), sdram_ddr_size(val),
-> +                                   s->cfg & 0x80000000);
-> +            }
->               break;
->           case 0x80: /* SDRAM_TR */
->               s->tr = val & 0x018FC01F;
-> @@ -426,6 +389,7 @@ static void ppc4xx_sdram_ddr_realize(DeviceState *dev, Error **errp)
->       const ram_addr_t valid_bank_sizes[] = {
->           256 * MiB, 128 * MiB, 64 * MiB, 32 * MiB, 16 * MiB, 8 * MiB, 4 * MiB, 0
->       };
-> +    int i;
->   
->       if (s->nbanks < 1 || s->nbanks > 4) {
->           error_setg(errp, "Invalid number of RAM banks");
-> @@ -436,6 +400,18 @@ static void ppc4xx_sdram_ddr_realize(DeviceState *dev, Error **errp)
->           return;
->       }
->       ppc4xx_sdram_banks(s->dram_mr, s->nbanks, s->bank, valid_bank_sizes);
-> +    for (i = 0; i < s->nbanks; i++) {
-> +        if (s->bank[i].size) {
-> +            s->bank[i].bcr = sdram_ddr_bcr(s->bank[i].base, s->bank[i].size);
-> +            sdram_bank_set_bcr(&s->bank[i], s->bank[i].bcr,
-> +                               s->bank[i].base, s->bank[i].size, 0);
-> +        } else {
-> +            sdram_bank_set_bcr(&s->bank[i], 0, 0, 0, 0);
-> +        }
-> +        trace_ppc4xx_sdram_init(sdram_ddr_base(s->bank[i].bcr),
-> +                                sdram_ddr_size(s->bank[i].bcr),
-> +                                s->bank[i].bcr);
-> +    }
->   
->       sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
->   
+> v7: Rebase on master after merge of first part of the series
+> v6: Split patch moving sdram controller models together into smaller steps
+> v5: Add functions the enable sdram controller and call it from boards
+> v4: address more review comments
+> v3: Fix patches that got squashed during rebase
+> v2: address some review comments and try to avoid compile problem with
+> gcc 12.2 (untested)
+> 
+> 
+> BALATON Zoltan (8):
+>    ppc440_uc.c: Move DDR2 SDRAM controller model to ppc4xx_sdram.c
+>    ppc4xx_devs.c: Move DDR SDRAM controller model to ppc4xx_sdram.c
+>    ppc4xx_sdram: Move ppc4xx_sdram_banks() to ppc4xx_sdram.c
+>    ppc4xx_sdram: Use hwaddr for memory bank size
+>    ppc4xx_sdram: Rename local state variable for brevity
+>    ppc4xx_sdram: Generalise bank setup
+>    ppc4xx_sdram: Convert DDR SDRAM controller to new bank handling
+>    ppc4xx_sdram: Add errp parameter to ppc4xx_sdram_banks()
+> 
+>   hw/ppc/meson.build      |   3 +-
+>   hw/ppc/ppc440_uc.c      | 332 ------------------
+>   hw/ppc/ppc4xx_devs.c    | 414 ----------------------
+>   hw/ppc/ppc4xx_sdram.c   | 757 ++++++++++++++++++++++++++++++++++++++++
+>   hw/ppc/trace-events     |   1 +
+>   include/hw/ppc/ppc4xx.h |  20 +-
+>   6 files changed, 768 insertions(+), 759 deletions(-)
+>   create mode 100644 hw/ppc/ppc4xx_sdram.c
+> 
 
