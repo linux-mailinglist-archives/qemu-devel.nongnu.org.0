@@ -2,86 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 290A960D4CB
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 21:39:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEFF460D547
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 22:12:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onPix-0001Pu-2A; Tue, 25 Oct 2022 15:36:31 -0400
+	id 1onQEb-0000XB-OT; Tue, 25 Oct 2022 16:09:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1onPis-000190-9B
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 15:36:26 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ (Exim 4.90_1) (envelope-from <chenshuo8@gmail.com>)
+ id 1onN0O-0008J7-UL
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 12:42:20 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1onPiq-0004gw-4Z
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 15:36:25 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id g12so10055642wrs.10
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 12:36:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8imvIOMzLJXGzG1g66Obi5LJ6SXIPOUSobi1+rzclj0=;
- b=Zmz4Ikp4vGVwe4vWCqBWmdmgBEH8AuG0ChR8Ih/5bAo2AkgTZ4dHqRb4RiADvYOa56
- AsUF9ahydo67ya4Hz3AV0FXQUmuHB/ALbLRSJw8Z4Eb4s1hKhqi3wD7M7x3yaaFVK6uz
- LNP21rnw9GO3BGVitgNfEFHURC5j6L8hlXqzmYhIUPA9TtT7pDZCTjd7dlmW3n4U6VkK
- V69Z3Kvu0aME9elXaQ6bIlbr9LE06SphckCRhnpfJ1xASzJ2TZElwtAHXDRjv5I8foO8
- PkSof4tPyNidYXwKD8h4pt+MWJzOlGHqbTbwpKe0HOLFjeh/imxSPZy4jTn0mezPHcBB
- bKsA==
+ (Exim 4.90_1) (envelope-from <chenshuo8@gmail.com>)
+ id 1onN0M-00022R-IZ
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 12:42:20 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ l14-20020a05600c1d0e00b003c6ecc94285so939837wms.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 09:42:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=OvdDUdoUkyCCREj0yEPRR6IIbREmI6VMyjEceGF02JU=;
+ b=cjkzldNtiy1V5OxjjdhpW7vkChkqfzD4EwIPHIdZcizpPj6SMWV3AWuPs0GV8d2uSQ
+ K9iUW+SLdSIhg3hrJXBOuODkT/0n4vorDMC9Xwx9IFocPIwqzLSivpUgsE12XJGtCc0V
+ fA1e6HVBvl975eI22pUz58lL2fKjlRptlP01cOAaQev9YAN8F1LANoPRHU1rJWG6H2tE
+ /FlthohTIBBT0jMyfvLxh1zWURw/Wsc9xI+OHbIsimsVien/SRzXj0F4FvTxE6Sk3AXu
+ zsJAnSTcZJPhnUhcdLU2foBM3FHU6NhAnJkgEQOiVBZ1U0Jp/LSSe9MhMeSRqD7UGs3J
+ htWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=8imvIOMzLJXGzG1g66Obi5LJ6SXIPOUSobi1+rzclj0=;
- b=kMwBVd587FEUceVFEPq43E8SuJwLQOMwHfN9UudRH1j3T0lB1qwuunSQ37xhvzc1zO
- zj84u0cZsICG9doAUFyJxvCPAoFVl5sNZRPpxIn7uCgKMEt+xCHmM8FXIPVfLzqmvoKO
- BWsHhSAPHQHIgBkaOhmn42wWykyn5c3aOrMfJHQPdpKGlnr67uqes4fzWBfH2aj5FMVX
- 1jwi5MD5RoNEQ5q5M1kMb/grqZv3tlfK36d9vN0O/QdUv+tJSNqCyb/Oq2akP2PFU713
- zW7PsAk8XllE3nemO9+sGBoljIurM7ymzc6pzV1dK7TS4dBtAXrFQyVdSWpD0ftlk0O/
- mwmA==
-X-Gm-Message-State: ACrzQf0ltn3TASVsWt6xDIOe6xej0MJcnKzM6NPH9IbqMLFZfZHQ+zun
- lQRoieivWqtxFUdWvkNkGXIKIw==
-X-Google-Smtp-Source: AMsMyM5BEK+zijIBxzYaZZVLS2Xh1o2ByW0S/td1+BBia+hmHSHjTS8n6HpVKJYOJELephNnrcLErw==
-X-Received: by 2002:adf:ef4e:0:b0:236:6608:f6ce with SMTP id
- c14-20020adfef4e000000b002366608f6cemr10915871wrp.85.1666726581361; 
- Tue, 25 Oct 2022 12:36:21 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- m13-20020a05600c4f4d00b003c7087f6c9asm12349669wmq.32.2022.10.25.12.36.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Oct 2022 12:36:20 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 631F01FFB7;
- Tue, 25 Oct 2022 20:36:20 +0100 (BST)
-References: <20221006031113.1139454-1-richard.henderson@linaro.org>
- <20221006031113.1139454-21-richard.henderson@linaro.org>
-User-agent: mu4e 1.9.1; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, laurent@vivier.eu, pbonzini@redhat.com,
- imp@bsdimp.com, f4bug@amsat.org
-Subject: Re: [PATCH 20/24] accel/tcg: Use interval tree for
- TARGET_PAGE_DATA_SIZE
-Date: Tue, 25 Oct 2022 20:30:20 +0100
-In-reply-to: <20221006031113.1139454-21-richard.henderson@linaro.org>
-Message-ID: <87bkpz66h7.fsf@linaro.org>
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=OvdDUdoUkyCCREj0yEPRR6IIbREmI6VMyjEceGF02JU=;
+ b=DL6DwMjyxB3Xlfgn9e3/x1HL603JLWC7Fifs/ASc1X338QHSY3WlLXXvJ5ZtYZ1huk
+ O9VbxLEazsAUmcaJAfIF0N7mCGLgNKkF4uRyn1cEf6s9jCfF9ef1AOxGdlCguZCE5A6C
+ +fYFe34Vgo2jPO/TfS4LXFJRJbx297zBRWGv2nTJ2oiRgniY4TLnohvVEzvhzUHwoSta
+ nmD5L/fF0Ez3qnCp0pHdXg2grKpMZlJsLD05fBIBFFRsrstCJzNHOCyLCN8pDY3PTEBB
+ qgxSh7ZjE8BfsoPqjb70+GoMFhaCYuGIAbsrDthxR3BZXT7usRX6y3aEo3zIs7dwJGOE
+ p49g==
+X-Gm-Message-State: ACrzQf3wf2b31lZsi9+lkbxvtQzNqhqJEa5AsBvUzerL7jDKjCVkWeIj
+ k+uxhieXpHG8fOREt/KfOUAY/6X6akj6oA+DXBitIdjCZts=
+X-Google-Smtp-Source: AMsMyM6QRdaNNBWOpbuqp7FGgV836M9Icm0+4dPT1ACxn0ru5BLdPLDb216eKo3jvrMrgkdj07vPS25WV3nt2k4iLgk=
+X-Received: by 2002:a05:600c:3789:b0:3c6:beed:fecf with SMTP id
+ o9-20020a05600c378900b003c6beedfecfmr25563163wmr.174.1666716136245; Tue, 25
+ Oct 2022 09:42:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+From: =?UTF-8?B?6ZmI56GV?= <chenshuo8@gmail.com>
+Date: Tue, 25 Oct 2022 09:42:05 -0700
+Message-ID: <CAKNF+u_Ky4F+1k=cCxUahOiEp_Cbu2Rp_Q6WrvwdXETKCm6q6A@mail.gmail.com>
+Subject: question about assymetric network throughput when using qemu +
+ vhost-net
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000003e0cf305ebde9775"
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=chenshuo8@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 25 Oct 2022 16:09:12 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,185 +82,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+--0000000000003e0cf305ebde9775
+Content-Type: text/plain; charset="UTF-8"
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Hi
+We are doing some network experiment and found something that we can't
+explain well.
 
-> Continue weaning user-only away from PageDesc.
->
-> Use an interval tree to record target data.
-> Chunk the data, to minimize allocation overhead.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  accel/tcg/internal.h  |   1 -
->  accel/tcg/user-exec.c | 110 ++++++++++++++++++++++++++++++++----------
->  2 files changed, 85 insertions(+), 26 deletions(-)
->
-> diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
-> index 1bd5a02911..8731dc52e2 100644
-> --- a/accel/tcg/internal.h
-> +++ b/accel/tcg/internal.h
-> @@ -26,7 +26,6 @@
->  typedef struct PageDesc {
->  #ifdef CONFIG_USER_ONLY
->      unsigned long flags;
-> -    void *target_data;
->  #else
->      QemuSpin lock;
->      /* list of TBs intersecting this ram page */
-> diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-> index fb7d6ee9e9..bce3d5f335 100644
-> --- a/accel/tcg/user-exec.c
-> +++ b/accel/tcg/user-exec.c
-> @@ -210,47 +210,107 @@ tb_page_addr_t get_page_addr_code_hostp(CPUArchSta=
-te *env, target_ulong addr,
->      return addr;
->  }
->=20=20
-> +#ifdef TARGET_PAGE_DATA_SIZE
-> +/*
-> + * Allocate chunks of target data together.  For the only current user,
-> + * if we allocate one hunk per page, we have overhead of 40/128 or 40%.
-> + * Therefore, allocate memory for 64 pages at a time for overhead < 1%.
-> + */
-> +#define TPD_PAGES  64
-> +#define TBD_MASK   (TARGET_PAGE_MASK * TPD_PAGES)
-> +
-> +typedef struct TargetPageDataNode {
-> +    IntervalTreeNode itree;
-> +    char data[TPD_PAGES][TARGET_PAGE_DATA_SIZE] __attribute__((aligned));
-> +} TargetPageDataNode;
-> +
-> +static IntervalTreeRoot targetdata_root;
-> +
->  void page_reset_target_data(target_ulong start, target_ulong end)
->  {
-> -#ifdef TARGET_PAGE_DATA_SIZE
-> -    target_ulong addr, len;
-> +    IntervalTreeNode *n, *next;
-> +    target_ulong last;
->=20=20
-> -    /*
-> -     * This function should never be called with addresses outside the
-> -     * guest address space.  If this assert fires, it probably indicates
-> -     * a missing call to h2g_valid.
-> -     */
-> -    assert(end - 1 <=3D GUEST_ADDR_MAX);
-> -    assert(start < end);
->      assert_memory_lock();
->=20=20
->      start =3D start & TARGET_PAGE_MASK;
-> -    end =3D TARGET_PAGE_ALIGN(end);
-> +    last =3D TARGET_PAGE_ALIGN(end) - 1;
->=20=20
-> -    for (addr =3D start, len =3D end - start;
-> -         len !=3D 0;
-> -         len -=3D TARGET_PAGE_SIZE, addr +=3D TARGET_PAGE_SIZE) {
-> -        PageDesc *p =3D page_find_alloc(addr >> TARGET_PAGE_BITS, 1);
-> +    for (n =3D interval_tree_iter_first(&targetdata_root, start, last),
-> +         next =3D n ? interval_tree_iter_next(n, start, last) : NULL;
-> +         n !=3D NULL;
-> +         n =3D next,
-> +         next =3D next ? interval_tree_iter_next(n, start, last) : NULL)=
- {
-> +        target_ulong n_start, n_last, p_ofs, p_len;
-> +        TargetPageDataNode *t;
->=20=20
-> -        g_free(p->target_data);
-> -        p->target_data =3D NULL;
-> +        if (n->start >=3D start && n->last <=3D last) {
-> +            interval_tree_remove(n, &targetdata_root);
-> +            g_free(n);
-> +            continue;
-> +        }
-> +
-> +        if (n->start < start) {
-> +            n_start =3D start;
-> +            p_ofs =3D (start - n->start) >> TARGET_PAGE_BITS;
-> +        } else {
-> +            n_start =3D n->start;
-> +            p_ofs =3D 0;
-> +        }
-> +        n_last =3D MIN(last, n->last);
-> +        p_len =3D (n_last + 1 - n_start) >> TARGET_PAGE_BITS;
-> +
-> +        t =3D container_of(n, TargetPageDataNode, itree);
-> +        memset(t->data[p_ofs], 0, p_len * TARGET_PAGE_DATA_SIZE);
->      }
-> -#endif
->  }
->=20=20
-> -#ifdef TARGET_PAGE_DATA_SIZE
->  void *page_get_target_data(target_ulong address)
->  {
-> -    PageDesc *p =3D page_find(address >> TARGET_PAGE_BITS);
-> -    void *ret =3D p->target_data;
-> +    IntervalTreeNode *n;
-> +    TargetPageDataNode *t;
-> +    target_ulong page, region;
-> +    bool locked;
->=20=20
-> -    if (!ret) {
-> -        ret =3D g_malloc0(TARGET_PAGE_DATA_SIZE);
-> -        p->target_data =3D ret;
-> +    page =3D address & TARGET_PAGE_MASK;
-> +    region =3D address & TBD_MASK;
-> +
-> +    n =3D interval_tree_iter_first(&targetdata_root, page, page);
-> +    if (n) {
-> +        goto found;
->      }
-> -    return ret;
-> +
-> +    /*
-> +     * See util/interval-tree.c re lockless lookups: no false positives =
-but
-> +     * there are false negatives.  If we find nothing, retry with the mm=
-ap
-> +     * lock acquired.  We also need the lock for the allocation + insert.
-> +     */
-> +    locked =3D have_mmap_lock();
+We are using qemu+kvm to create a sandbox and use virtio vhost net to setup
+the network between guest and host. Then we start to send some traffics
+from host to guest and guest to host.
 
-Are we expecting to already hold the lock here?
+An interesting finding we got is  guest to host bandwidth(10Gbps) is
+much smaller than host to guest bandwidth(40Gbps) and we didn't have any
+special settings for vhost-net and qemu. So i wanna ask some insights about
+why we see such performance difference and how we can improve the guest to
+host network.
 
-> +    if (!locked) {
-> +        mmap_lock();
-> +        n =3D interval_tree_iter_first(&targetdata_root, page, page);
+Thanks
+Shuo
 
-So we only search if we haven't got a lock already.
+--0000000000003e0cf305ebde9775
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> +        if (n) {
-> +            mmap_unlock();
-> +            goto found;
-> +        }
-> +    }
-> +
-> +    t =3D g_new0(TargetPageDataNode, 1);
-> +    n =3D &t->itree;
-> +    n->start =3D region;
-> +    n->last =3D region | ~TBD_MASK;
-> +    interval_tree_insert(n, &targetdata_root);
-> +    if (!locked) {
-> +        mmap_unlock();
-> +    }
+<div dir=3D"ltr">Hi=C2=A0<div>We are doing some network experiment and foun=
+d something that we can&#39;t explain well.</div><div><br></div><div>We are=
+ using qemu+kvm to create a sandbox and use virtio vhost net to setup the n=
+etwork between guest and host. Then we start to send some traffics from hos=
+t to guest and guest to host.</div><div><br></div><div>An interesting findi=
+ng we got is=C2=A0 guest to host bandwidth(10Gbps) is much=C2=A0smaller=C2=
+=A0than host to guest bandwidth(40Gbps) and we didn&#39;t have any special =
+settings for vhost-net and qemu. So i wanna ask some insights about why we =
+see such performance difference and how we can improve the guest to host ne=
+twork.</div><div><br></div><div>Thanks</div><div>Shuo</div></div>
 
-To be honest the mmap_lock safe to use recursively and wrapping the
-locked portion in a LOCK_GUARD would make me happier that we didn't cock
-up unwinding.
-
-> +
-> + found:
-> +    t =3D container_of(n, TargetPageDataNode, itree);
-> +    return t->data[(page - region) >> TARGET_PAGE_BITS];
->  }
-> -#endif
-> +#else
-> +void page_reset_target_data(target_ulong start, target_ulong end) { }
-> +#endif /* TARGET_PAGE_DATA_SIZE */
->=20=20
->  /* The softmmu versions of these helpers are in cputlb.c.  */
-
-
---=20
-Alex Benn=C3=A9e
+--0000000000003e0cf305ebde9775--
 
