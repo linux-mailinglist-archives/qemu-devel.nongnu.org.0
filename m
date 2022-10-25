@@ -2,141 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6DF160D221
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 18:58:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 092BA60D22C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 19:00:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onN93-0001ei-OK; Tue, 25 Oct 2022 12:51:17 -0400
+	id 1onN99-0002Do-Fr; Tue, 25 Oct 2022 12:51:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Luben.Tuikov@amd.com>)
- id 1onN90-0001Rg-Kc
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 12:51:14 -0400
-Received: from mail-bn8nam12on2047.outbound.protection.outlook.com
- ([40.107.237.47] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Luben.Tuikov@amd.com>)
- id 1onN8u-0003lf-27
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 12:51:14 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QB5kPXrAjcR30MjRRqNQ1AjQPQCjH5NvTewO0ZDp3eaBKM+NwTJcBVcLYlApm0azZanhFnkXx5/tnLhs/CskT0wJo+jomx6nrzhv5f42Qakhw/9cuCYKD3Yuf+/+x1Nv4R/G3S6l1/G865tyE9tPUd66E/kPrZDAmAu9d83IM14wITISPKPcJPI6SJ0jOF3XEEIhXcwDV7P0J88hrbdww/R90Ycnv8sPSk/3+9CGInRaUIXhvnvPI0GS3/+Bg71PpV+yLbS/o5q//C4GuHh0qErjnXjyu4KvogJOn7+yrE8evXC72yKdnRJdZ+wy25indt+/tn1zoGaGnmG807VU4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h+denAMsoKo6cMjFs33HsexYWFmNPzlMLlgXWB51f1g=;
- b=TJ3FMdIZrFIPcfITR7QKc0kB9v8sAESj3QFGXP8ftbzdy/e3EhBw6sOlbwSga/l9xmhCvEDfmI0Ks+x8mxObd8OZB0GDOf6cgzNCJO82kyERIMIW0OYVfKZ6+EMSqrGOKrbSjqEwtCVjtyY4S4tE6SOO80Qn9gpYbaqNDFwfopsIFAM2AJl95QxC/GiJG2n6LPRfmd9SRWCwplHbiMzUhHnTQIZcFdA/hV/HUOPhV7mq3rtYDrhSv7W/OOScUcEGGFFltpjfFkIQOSeqbYhy+qASxvygC/kTOSAmzUSCavyH46yRRbJCUXUaNe5xFOhMZk4jsHbpisID2Ab89F3E3A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h+denAMsoKo6cMjFs33HsexYWFmNPzlMLlgXWB51f1g=;
- b=olfhGBo29AFp/+SfpzZR9SQOMIJNDxtdZBnzW779qL5e2SzFJ71bM8pU3AFewYjrznurnhG3JXrS6HPHpxFBS0TUPg6AMku6He2iyuL33jqdIMUvmXONAhDnBTpGlf1kc0ftuFGIIWbnFix+KsstBlukjJtc/hdKXc5jxho6FB0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
- MN2PR12MB4504.namprd12.prod.outlook.com (2603:10b6:208:24f::9) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5746.23; Tue, 25 Oct 2022 16:51:04 +0000
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::d309:77d2:93d8:2425]) by DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::d309:77d2:93d8:2425%7]) with mapi id 15.20.5746.028; Tue, 25 Oct 2022
- 16:51:03 +0000
-Message-ID: <3d7ced9c-b87b-cf4b-4d67-5d497f0f1066@amd.com>
-Date: Tue, 25 Oct 2022 12:51:00 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v3] kset: fix memory leak when kset_register() returns
- error
-Content-Language: en-CA
-To: Yang Yingliang <yangyingliang@huawei.com>, linux-kernel@vger.kernel.org,
- qemu-devel@nongnu.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-erofs@lists.ozlabs.org, ocfs2-devel@oss.oracle.com,
- linux-mtd@lists.infradead.org, amd-gfx@lists.freedesktop.org
-Cc: gregkh@linuxfoundation.org, rafael@kernel.org, somlo@cmu.edu,
- mst@redhat.com, jaegeuk@kernel.org, chao@kernel.org,
- hsiangkao@linux.alibaba.com, huangjianan@oppo.com, mark@fasheh.com,
- jlbec@evilplan.org, joseph.qi@linux.alibaba.com, akpm@linux-foundation.org,
- alexander.deucher@amd.com, richard@nod.at, liushixin2@huawei.com
-References: <20221025071549.1280528-1-yangyingliang@huawei.com>
-From: Luben Tuikov <luben.tuikov@amd.com>
-In-Reply-To: <20221025071549.1280528-1-yangyingliang@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT3PR01CA0122.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:83::12) To DM6PR12MB3370.namprd12.prod.outlook.com
- (2603:10b6:5:38::25)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
+ id 1onN95-000260-Ua; Tue, 25 Oct 2022 12:51:19 -0400
+Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
+ id 1onN93-0003mR-Pc; Tue, 25 Oct 2022 12:51:19 -0400
+Received: by mail-ot1-x32b.google.com with SMTP id
+ 101-20020a9d0bee000000b00661b54d945fso8071556oth.13; 
+ Tue, 25 Oct 2022 09:51:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+ bh=LOdwzSim6tf4VC7w0ynAot7e+idqrKLNtjhmbjk4iLk=;
+ b=np0kyH/H7KaqzJrNlkSN8t6Ut7QTshVwcDaabPf1lEaSqTKhwhqH5Jp6/pulHVZc8/
+ GCQiJVTs7saC9kdQ8+CPHw6ggsO4eGlcgEl5l9gMLcVnkGdQlvqMTWkxCQodApD+QHBS
+ J76HDmCYBalB41Aiie2/EXloaUd13xswflsHgTkdEvLdA3RBpCGhS5OeYxqzIkWyLIou
+ WAx9TbQob541s059JxBG17QxJNpgB2JD7PyDULs017qelIDBWQirPhDdE9ObPL+KtMj7
+ Szk0wMKZogYCS/6xx6lDd+D4Xs6vfEElzw/W67nPIQfRhXmjDMIToDc0RWdZT7XxF6Ew
+ PGhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:sender:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=LOdwzSim6tf4VC7w0ynAot7e+idqrKLNtjhmbjk4iLk=;
+ b=swXVfasWDW+7dQ23ZAqNtPS8ulceEpeyXZuMS6i3f3r/ve/k7Ti3nAZIA6CgreSF1K
+ +MgboptI/11QsO/1tm3USkmFExmf9bAQmaH2TpqplHKP1/exOr+6RqumybkaUe3awfto
+ 0Zl0tXBW2zBcrgKu2cuzAUk4WnuauVNnqmcctb61IO/2igcFy28x2lnEd2ST6Ds7lWhu
+ MXNdh4pPbngkS0rcRWTJtSiTt81VazyVOpogNGBycFOw00bzHMCobv4Wq1tnoDJ3bD8W
+ nWJixlmJT/wW/XJzaLVT9fslRJsJ4EbjDl3AYRK/lwlkA3+aewBVMJpVEHEqTDMY405q
+ 3KJg==
+X-Gm-Message-State: ACrzQf1z2950ns3z+stl68Sn2JcapsH83RUu/8Szun6fQsMP6QORlUzw
+ W8NZ/IzRr+8G/asAkZiO+h4=
+X-Google-Smtp-Source: AMsMyM4ay0KMaFPHoDnkvGqqLFG3qQg9OpfSPlLr9e25yXA7z1lGJ63mSG/rkcCADATZM7ft2cffbA==
+X-Received: by 2002:a9d:669:0:b0:643:6fb3:420 with SMTP id
+ 96-20020a9d0669000000b006436fb30420mr20021734otn.327.1666716673442; 
+ Tue, 25 Oct 2022 09:51:13 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ i23-20020a9d4a97000000b00661a30ea0d4sm1229067otf.2.2022.10.25.09.51.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Oct 2022 09:51:12 -0700 (PDT)
+From: Guenter Roeck <linux@roeck-us.net>
+To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Joel Stanley <joel@jms.id.au>, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ Guenter Roeck <linux@roeck-us.net>
+Subject: [PATCH] aspeed: Add Supermicro X11 SPI machine type
+Date: Tue, 25 Oct 2022 09:51:09 -0700
+Message-Id: <20221025165109.1226001-1-linux@roeck-us.net>
+X-Mailer: git-send-email 2.36.2
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|MN2PR12MB4504:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6d9e830f-9d6a-4df9-f6db-08dab6a91a7d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dqC8sMthq1baX6iM6uwLpub3mBj8jaDGXm88TYiiu4c9lKxsNGrpKANAYV5+2KSRSdImnE/lARYat5vR7FY2+Yi2IKXlObD7u0igXAtXIfI87s4Hgmm5rPanILjCQox+QG0k4ePARnA19vRyyksL4J4SS8m6KdzSp7QHloX6IhqInJMeZf35yBdQCJ/aW//P3jq3BlSSK8WLE3eSJ1cBCccsnlFmTatUT5ge7vv+4JyzGo2XHHKbJIrwSFK9MDXabD4xxVpVyk/IvG0HgC7EEJQ19HWbrO2qi+BDXl89YOqZ4cObB8G4ebwm0rYCb4uyqPkdR5d2S+xmKcfC1JJf/JZfqhxi1y7VJ1fNIc4DKOIqlkOy52kpD1203eEpoDY4G88eA7dbVkB3+Zrgfw4u4nVtMVxPaezmpYqZsVyY2i/Hia8MlsEZz/xcoTdTATylCsTSvMCaXD1ikUF0mjQ6khG2LTlvpNStsxt1xT1wTOecKBvwrc4rmB6YZ+7wf1JicYUBcDAzskW68a63KL+ppCoISftb1RlS0ZqDiYAMbflXfiOEJMYGU0amfiIRBza+v0ufpIalau9hMkl0NX6VQf65a2gDECIxwWHgen96bAafZQ4qpqGAmvOpKh+bG+QHyg04DG2Kp80DV6LWr+XQutRI61cVCmPcp2uH8KeR79xi86DGXzx159IRqXaQFp4anFWGuzSuc58mKMKXAEgc9dbWwXimHkr34NK3shWjWlliwJVrpSxcCzP1sxi6ThXfO124LAUejsOZXQoEE5vGiqDloy6jo2oVvMO/Ibi4gVI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(396003)(346002)(136003)(39860400002)(376002)(451199015)(31696002)(86362001)(38100700002)(36756003)(4001150100001)(2906002)(6486002)(7416002)(44832011)(478600001)(316002)(8676002)(4326008)(66556008)(66946007)(8936002)(5660300002)(66476007)(41300700001)(83380400001)(6512007)(2616005)(6506007)(53546011)(26005)(186003)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NTZJbk5YQXhnYnJlOFMvN2E4Zll2NjYyanozVGZTNkx6aWNIRW9rREFZTnZy?=
- =?utf-8?B?YkdlMm15d25sZWQxdjBFSFgxYjhGV0U2cXk4aW5VL2hNbUwyUm9TblB0Vk9w?=
- =?utf-8?B?VjBnVG81YlVCTkRvcVlGQVJaaVBHWm9kNmVxWXFBUms4VmNkdVVCR1Z2akox?=
- =?utf-8?B?bUhSWC9NUWlLS3lVU2IvblcrdlZScFF0TUUvdnNvaUNUa3FpQWxtaUtaQTdP?=
- =?utf-8?B?SUMwcjJmbWphMVZUK2FRZllhNlhFSHdJNHVKTzkzVFV6cGlrbFc2NFJzZ3lr?=
- =?utf-8?B?aTBERVB6VnpDRDJzK3dIUldKWnBHcVo1TnBqQitGWGJZOVJMdlVOUVl0N0w3?=
- =?utf-8?B?M041WHZMVlZ3UjVTY3RHZEJlMUU2UjM0dDQxZlRCYUpkd3U1MTdnTnNuMUZh?=
- =?utf-8?B?M0ovRFlxNmhNREZhVzRXYjhiN3F4SDJNcEZoM2U5eDFyNzk2dzZWNFczVVZl?=
- =?utf-8?B?VzgxNFhjaVVXeWdqenpyZ0NKdGluL1JmUEx5N3JFeDhxWElHRUYzNmpwdzFt?=
- =?utf-8?B?dkJ2MFVVYzkwVitEU1JIQ0hmUkxWdnl6M2dOYzBQYkdhM2dyVDVJdzAvaEI2?=
- =?utf-8?B?cXNJelgzNy9kaE1rYnBTUjRETUdkN21BNURSRlR5VWxPNEJSYmJoekJCdVRz?=
- =?utf-8?B?VThXcUZuUi9TNkdDb2F6WUlkNkZRZXdpeHd2L2hPS3VxUUd5bFI4RG5vaHM4?=
- =?utf-8?B?STY0NzVCdUp5SWRzY1ZUcWJQM1hmSjhKNDNtYnJtTnd4V1NaQ2ZFMTVZbnFI?=
- =?utf-8?B?RGJ0NmcrWmNqMy9SU1NaeXFxNUZ4RTh6REZYaXQrR0s2SlJOc1RJd3hzNVoy?=
- =?utf-8?B?cVcwNHRnQzRTc0JiSzBaV0NiQS9SbStzOFk0VVFMblJBMDVlbDIzWDRpeG52?=
- =?utf-8?B?Q1FWMmRLd3Y5dUx4L1kyNlU2M0Y1UHBGU0lkK2cwdm5lSkFFb1djWk82b1R2?=
- =?utf-8?B?MEFXQkV5SC9IUnYxSUcrclE0eVFkTzBpQlN0cmlGci9STWlhby9XOW15d01T?=
- =?utf-8?B?T1lEaml4SXF4eTliS3I5a1NBUWROelE5YXVMZ0RqclNncFA1a3oxMDdkV2dU?=
- =?utf-8?B?TUt0elEvdHlZUUpxMGR5KzlJbVRZTHU2dnVFRDhPRTNUNEVLcCtVdDBNcThz?=
- =?utf-8?B?dEZmbGM4SjRKVDBVV2dlTjA3Qk5wYjViVnFnam1vNEFQeUszSGNaUlFKai9U?=
- =?utf-8?B?V1YvMTlDSE5pUTFyZzVYTkVaYW9ybjJUcDk0MWtBRjByM1JubmZjMnZMamEr?=
- =?utf-8?B?RFU3WDdZVCtnZTkyS01FNEE3VkY3Rk1FZVF4OHdabFlCY2syMUtkdDloRDB3?=
- =?utf-8?B?dnNIVENYSXdGcWN4YTg4eEVBNFJmRU56QW9OMEpRT3VGdXZsU3gvbmRIOWtS?=
- =?utf-8?B?bHpCRUpmQ2t2aWxoQkJLYit4NHNCZW0vaDRqNmdIVzFBOC93UkNPOWlQNy9m?=
- =?utf-8?B?QU5FSzBaZ09PL2R5cWZYbldqRTllU3FYeTM2S2U1VzZvalpoeER3aUF1TXRO?=
- =?utf-8?B?QUFqTmV0TTFzSEFPbEp5YXJzVEhxNG5ibkhRM09zZ0ZwbCtKcHBwTGYxRTRK?=
- =?utf-8?B?Sm1icWJ3UCtocndremlnYVpDSEZOWHdCcm50OGpHQmtTOTI4UHYrdWQyeFFQ?=
- =?utf-8?B?c1gzeFlwRUxEK1ZjcDJwZytrcmFkV3lGbmNoK3JnZzVzdTQwVm42ZXJObDlj?=
- =?utf-8?B?b0ZWcTEzQXkzRmN1VGRteVc0RW54dEYxVUdYVjdBdko5M1dwUXZOeWgwVnc5?=
- =?utf-8?B?cHBHQTh4YytsVnp6dkdDK2VFMEltVXI2SE1HYmc1a1UxUWtVN1dMaGFGVVJU?=
- =?utf-8?B?b3Rvam1nZEVrUGNrRUwydnRiM2p0cG5OTjhmL3R1OXhnemJFTnBqMzA1Y1ZW?=
- =?utf-8?B?K3duQ0c1RkN5anhXWjNzZm5WZFBFcGR0N3pPK0V0cUtZQXdnODd5alAycWlx?=
- =?utf-8?B?U2UyOXpXUlQ5M2twb0xGbGVib0pLT01yU1NYTnpWWDdYZ3ZRcHVjOGt6NDd3?=
- =?utf-8?B?WkM3SlZUVEFZSkFhL0FwdW9EYnNlcnpCY2JTRm1rYWtnaUpaV3VJRm1NeGFu?=
- =?utf-8?B?K3RORkRBVnQ0aXhtemhaZlpTRVp2QkxoZDcrYnA5ZnRDcExSbXZvMmlzcjVo?=
- =?utf-8?Q?83O6HNvFLk0rS7xIb6/JW9hcX?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6d9e830f-9d6a-4df9-f6db-08dab6a91a7d
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Oct 2022 16:51:03.8568 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bW1C+h29M2xCgYzzH/x/2IoWiXtkrcQYB1hIs2doWMjVhtNVRbQI9GCvX08jhmR5
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4504
-Received-SPF: softfail client-ip=40.107.237.47;
- envelope-from=Luben.Tuikov@amd.com;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
+ envelope-from=groeck7@gmail.com; helo=mail-ot1-x32b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_SPF_HELO=1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.001, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -152,97 +88,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2022-10-25 03:15, Yang Yingliang wrote:
-> Inject fault while loading module, kset_register() may fail.
-> If it fails, the kset.kobj.name allocated by kobject_set_name()
-> which must be called before a call to kset_register() may be
-> leaked, since refcount of kobj was set in kset_init().
+supermicrox11-bmc is configured with ast2400-a1 SoC. This does not match
+the Supermicro documentation for X11 BMCs, and it does not match the
+devicetree file in the Linux kernel.
 
-Technically, this is saying "If it fails, the kset.kobj.name may be leaked."
-We want then to clarify that this is "allocated by kobj_set_name() which
-must be called before a call to kset_register", so that needs to
-be surrounded by commas (like a literary segue):
+As it turns out, some Supermicro X11 motherboards use AST2400 SoCs,
+while others use AST2500.
 
-"If kset_register() fails, the kset.kobj.name allocated by kobject_set_name(),
- which must be called before a call to kset_register(), may be
- leaked."
+Introduce new machine type supermicrox11-spi-bmc with AST2500 SoC
+to match the devicetree description in the Linux kernel. Hardware
+configuration details for this machine type are guesswork and taken
+from defaults as well as from the Linux kernel devicetree file.
 
-I don't feel that the reason for the leak is "refcount of kobj was set in kset_init()".
-It's a true statement, but not the reason for the leak--the reason for the leak is that
-no one frees it on the error path.
+The new machine type was tested with aspeed-bmc-supermicro-x11spi.dts
+from the Linux kernel and with Linux versions 6.0.3 and 6.1-rc2.
+Linux booted successfully from initrd and from both SPI interfaces.
+Ethernet interfaces were confirmed to be operational.
+
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+---
+ hw/arm/aspeed.c | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
+
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index c282ead38f..56d007de5a 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -71,6 +71,16 @@ struct AspeedMachineState {
+         SCU_HW_STRAP_VGA_SIZE_SET(VGA_16M_DRAM) |                       \
+         SCU_AST2400_HW_STRAP_BOOT_MODE(AST2400_SPI_BOOT))
  
-> To mitigate this, we free the name in kset_register() when an
-> error is encountered, i.e. when kset_register() returns an error.
-> 
-> A kset may be embedded in a larger structure which may be dynamically
-> allocated in callers, it needs to be freed in ktype.release() or error
-
-"_by_ callers", since it's something they _do_: allocate.
-
-> path in callers, in this case, we can not call kset_put() in kset_register(),
-> or it will cause double free, so just call kfree_const() to free the
-> name and set it to NULL to avoid accessing bad pointer in callers.
-
-That's good.
-
-> With this fix, the callers don't need care about freeing the name
-> and may call kset_put() if kset_register() fails.
-
-"don't need to care about freeing the name" --> "don't need to free the name"
-
-> Suggested-by: Luben Tuikov <luben.tuikov@amd.com>
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> ---
-> v2 -> v3:
->   Update commit message and comment of kset_register().
-> 
-> v1 -> v2:
->   Free name inside of kset_register() instead of calling kset_put()
->   in drivers.
-> ---
->  lib/kobject.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/lib/kobject.c b/lib/kobject.c
-> index a0b2dbfcfa23..3cd19b9ca5ab 100644
-> --- a/lib/kobject.c
-> +++ b/lib/kobject.c
-> @@ -834,6 +834,9 @@ EXPORT_SYMBOL_GPL(kobj_sysfs_ops);
->  /**
->   * kset_register() - Initialize and add a kset.
->   * @k: kset.
-> + *
-> + * NOTE: On error, the kset.kobj.name allocated by() kobj_set_name()
-> + * is freed, it can not be used any more.
-
-There's no need for "NOTE:"--it's just natural explanation of
-what's happening, and what's expected in the doc comment to a function.
-Drop it.
-
-"is freed" is correct--that's a good change.
-
-With these fixed, this patch is
-Reviewed-by: <luben.tuikov@amd.com>
-
-Regards,
-Luben
-
->   */
->  int kset_register(struct kset *k)
->  {
-> @@ -844,8 +847,12 @@ int kset_register(struct kset *k)
->  
->  	kset_init(k);
->  	err = kobject_add_internal(&k->kobj);
-> -	if (err)
-> +	if (err) {
-> +		kfree_const(k->kobj.name);
-> +		/* Set it to NULL to avoid accessing bad pointer in callers. */
-> +		k->kobj.name = NULL;
->  		return err;
-> +	}
->  	kobject_uevent(&k->kobj, KOBJ_ADD);
->  	return 0;
->  }
++/* TODO: Find the actual hardware value */
++#define SUPERMICROX11_SPI_BMC_HW_STRAP1 (                               \
++        AST2500_HW_STRAP1_DEFAULTS |                                    \
++        SCU_AST2500_HW_STRAP_SPI_AUTOFETCH_ENABLE |                     \
++        SCU_AST2500_HW_STRAP_GPIO_STRAP_ENABLE |                        \
++        SCU_AST2500_HW_STRAP_UART_DEBUG |                               \
++        SCU_AST2500_HW_STRAP_DDR4_ENABLE |                              \
++        SCU_HW_STRAP_SPI_WIDTH |                                        \
++        SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_M_S_EN))
++
+ /* AST2500 evb hardware value: 0xF100C2E6 */
+ #define AST2500_EVB_HW_STRAP1 ((                                        \
+         AST2500_HW_STRAP1_DEFAULTS |                                    \
+@@ -1172,6 +1182,25 @@ static void aspeed_machine_supermicrox11_bmc_class_init(ObjectClass *oc,
+     mc->default_ram_size = 256 * MiB;
+ }
+ 
++static void aspeed_machine_supermicrox11_spi_bmc_class_init(ObjectClass *oc,
++                                                            void *data)
++{
++    MachineClass *mc = MACHINE_CLASS(oc);
++    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
++
++    mc->desc       = "Supermicro X11 SPI BMC (ARM1176)";
++    amc->soc_name  = "ast2500-a1";
++    amc->hw_strap1 = SUPERMICROX11_SPI_BMC_HW_STRAP1;
++    amc->fmc_model = "mx25l25635e";
++    amc->spi_model = "mx25l25635e";
++    amc->num_cs    = 1;
++    amc->macs_mask = ASPEED_MAC0_ON | ASPEED_MAC1_ON;
++    amc->i2c_init  = palmetto_bmc_i2c_init;
++    mc->default_ram_size = 512 * MiB;
++    mc->default_cpus = mc->min_cpus = mc->max_cpus =
++        aspeed_soc_num_cpus(amc->soc_name);
++}
++
+ static void aspeed_machine_ast2500_evb_class_init(ObjectClass *oc, void *data)
+ {
+     MachineClass *mc = MACHINE_CLASS(oc);
+@@ -1546,6 +1575,10 @@ static const TypeInfo aspeed_machine_types[] = {
+         .name          = MACHINE_TYPE_NAME("supermicrox11-bmc"),
+         .parent        = TYPE_ASPEED_MACHINE,
+         .class_init    = aspeed_machine_supermicrox11_bmc_class_init,
++    }, {
++        .name          = MACHINE_TYPE_NAME("supermicrox11-spi-bmc"),
++        .parent        = TYPE_ASPEED_MACHINE,
++        .class_init    = aspeed_machine_supermicrox11_spi_bmc_class_init,
+     }, {
+         .name          = MACHINE_TYPE_NAME("ast2500-evb"),
+         .parent        = TYPE_ASPEED_MACHINE,
+-- 
+2.36.2
 
 
