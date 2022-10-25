@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E226460C6B6
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 10:42:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D51260C713
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 10:59:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onFVX-00010V-SN; Tue, 25 Oct 2022 04:41:59 -0400
+	id 1onFVI-0007Z2-Kq; Tue, 25 Oct 2022 04:41:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1onEwy-0004iP-OT
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1onEwy-0004iK-NS
  for qemu-devel@nongnu.org; Tue, 25 Oct 2022 04:06:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1onEwj-0007uX-L1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1onEwj-0007v7-KX
  for qemu-devel@nongnu.org; Tue, 25 Oct 2022 04:06:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666685145;
+ s=mimecast20190719; t=1666685147;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9aLe/+vdJfukiF2FX5J4SJQPQCe/zKPFVAjYNmyu7d0=;
- b=IPuLuQ7w3udGRC6Sbtvt/w684NkCLETSKrSxPUI967c8C5Ha2qinsi15U1dGFuHsvkukbe
- 9ZIXFZJFg330FHKUR8zM+1qdzCM34buQf0zJ2hwHmVpFhzvVW21bvTw9l9dmUTpQ4qCThZ
- v70n6G86FcGso10yn4RQ2R6fe6VgdzY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mrAqjCUdVAWUXrDGHE3Cfgv//z6CFCqm0hnYl3MwCjs=;
+ b=JDHszhs45PCsgcXl03zWXZFN4uf/lkigbJLGJG5g3esKOIrCZqietmr4rGOtNcv2TteMv5
+ EmURtO0ex8Ly628BK68+K5umjz7uTJrWrfIz27HcYGLyteJwisQ8LxYLVqcM/DnXlIYNF0
+ XwAONYkI0Jf9nqnSRsi5zDTEmE0gyIo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-84-kojEwU76MzmDAN_9llZVfw-1; Tue, 25 Oct 2022 04:05:43 -0400
-X-MC-Unique: kojEwU76MzmDAN_9llZVfw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-587-y1BSQE3XPJOwsa1zb5Ev4A-1; Tue, 25 Oct 2022 04:05:44 -0400
+X-MC-Unique: y1BSQE3XPJOwsa1zb5Ev4A-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9CECE86F123
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 08:05:43 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B9BD11C05AFD;
+ Tue, 25 Oct 2022 08:05:43 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.195.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6A8F8202903F;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7127D492CA4;
  Tue, 25 Oct 2022 08:05:43 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 31EB721E64A4; Tue, 25 Oct 2022 10:05:41 +0200 (CEST)
+ id 3441B21E64A5; Tue, 25 Oct 2022 10:05:41 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 11/28] qapi dump: Elide redundant has_FOO in generated C
-Date: Tue, 25 Oct 2022 10:05:24 +0200
-Message-Id: <20221025080541.271547-12-armbru@redhat.com>
+Cc: stefanha@redhat.com, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-block@nongnu.org
+Subject: [PULL 12/28] qapi job: Elide redundant has_FOO in generated C
+Date: Tue, 25 Oct 2022 10:05:25 +0200
+Message-Id: <20221025080541.271547-13-armbru@redhat.com>
 In-Reply-To: <20221025080541.271547-1-armbru@redhat.com>
 References: <20221025080541.271547-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.503,
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.503,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,46 +83,48 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 The has_FOO for pointer-valued FOO are redundant, except for arrays.
 They are also a nuisance to work with.  Recent commit "qapi: Start to
 elide redundant has_FOO in generated C" provided the means to elide
-them step by step.  This is the step for qapi/dump.json.
+them step by step.  This is the step for qapi/job.json.
 
 Said commit explains the transformation in more detail.  The invariant
 violations mentioned there do not occur here.
 
-Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
+Cc: John Snow <jsnow@redhat.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-block@nongnu.org
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20221018062849.3420573-12-armbru@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Message-Id: <20221018062849.3420573-13-armbru@redhat.com>
 ---
- dump/dump.c            | 4 ++--
+ job-qmp.c              | 3 +--
  scripts/qapi/schema.py | 1 -
- 2 files changed, 2 insertions(+), 3 deletions(-)
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/dump/dump.c b/dump/dump.c
-index 236559b03a..3baf625967 100644
---- a/dump/dump.c
-+++ b/dump/dump.c
-@@ -1884,8 +1884,8 @@ static void dump_process(DumpState *s, Error **errp)
-     result = qmp_query_dump(NULL);
-     /* should never fail */
-     assert(result);
--    qapi_event_send_dump_completed(result, !!*errp, (*errp ?
--                                                     error_get_pretty(*errp) : NULL));
-+    qapi_event_send_dump_completed(result,
-+                                   *errp ? error_get_pretty(*errp) : NULL);
-     qapi_free_DumpQueryResult(result);
+diff --git a/job-qmp.c b/job-qmp.c
+index d498fc89c0..9e26fa899f 100644
+--- a/job-qmp.c
++++ b/job-qmp.c
+@@ -156,8 +156,7 @@ static JobInfo *job_query_single_locked(Job *job, Error **errp)
+         .status             = job->status,
+         .current_progress   = progress_current,
+         .total_progress     = progress_total,
+-        .has_error          = !!job->err,
+-        .error              = job->err ? \
++        .error              = job->err ?
+                               g_strdup(error_get_pretty(job->err)) : NULL,
+     };
  
-     dump_cleanup(s);
 diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 21d0b28790..07e2a0f263 100644
+index 07e2a0f263..ff73fdb0b3 100644
 --- a/scripts/qapi/schema.py
 +++ b/scripts/qapi/schema.py
 @@ -759,7 +759,6 @@ def need_has(self):
          assert self.type
          # Temporary hack to support dropping the has_FOO in reviewable chunks
          opt_out = [
--            'qapi/dump.json',
-             'qapi/job.json',
+-            'qapi/job.json',
              'qapi/machine.json',
              'qapi/machine-target.json',
+             'qapi/migration.json',
 -- 
 2.37.3
 
