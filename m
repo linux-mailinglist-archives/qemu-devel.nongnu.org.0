@@ -2,91 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2E5D60C2DA
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 06:53:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14CEB60C33C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 07:28:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onBt8-0006NS-US; Tue, 25 Oct 2022 00:50:06 -0400
+	id 1onCR1-00036v-K6; Tue, 25 Oct 2022 01:25:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1onBt5-0006Gw-Pu
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 00:50:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1onBt4-0002vE-5y
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 00:50:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666673401;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rhDoG+PrbRzibg6I8lz2xrP5yTvQnEEi4Wd2QPyWLnM=;
- b=QQrOfy6+2oDKwJSN4EgFJOKZfiDwLpvtbfGK33jZfAiBwdhOr/HRZp9W0yY5YIOHpSmjSL
- BLJlkpk1/jKLqCstav82TUVclYJ/ToSXO+mnJLFp3FV2PqKRehG+Al6iN0GKvdChxWJOt0
- hWWYL83Zn2NS/BH85hE6OdzcUHuLnmU=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-380-2truoTIxPEig8hbRCiwOhg-1; Tue, 25 Oct 2022 00:48:12 -0400
-X-MC-Unique: 2truoTIxPEig8hbRCiwOhg-1
-Received: by mail-qk1-f197.google.com with SMTP id
- f12-20020a05620a408c00b006ced53b80e5so10636097qko.17
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 21:48:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1onCQz-00036S-Jn
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 01:25:05 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1onCQu-0000H2-UF
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 01:25:05 -0400
+Received: by mail-pg1-x531.google.com with SMTP id q71so10540904pgq.8
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 22:25:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=oqBmqReHGfEzGqIGVt1nPXsS0CDpG6ycZ7J51Eb6H4M=;
+ b=OO7CJCSLwjaXehqGS3jdZBGB4OJ2VDi9QqLQpOPIs/bGCqTU5RnAa8VgNBmpCKIUDT
+ ITEhpWLFDRNtqCSDZ5tskEQB/yVFyUhZNJP9NlrUmeuhpmRazIKiMu2CLqrjhyO4DHXG
+ I8eOTeyq2xTPj32mFpEsGOihGJ82jXUPsVa4+bWACg5OKuvQ5i8+SrwdOH7ZpEuGgeuk
+ eSt+diVmmaX+WkDdpF2nsOLFvzPCM6vN70uZrJ6wcFxB6t/1OT4QKHt186IROvem4nTD
+ GvalRSm+GKsr6gt1PLAItOaOWX6RmNv1SrtvBZNqU0jQbWBc5zd1bN5qWv+/lVLwxwNt
+ Ge0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rhDoG+PrbRzibg6I8lz2xrP5yTvQnEEi4Wd2QPyWLnM=;
- b=R3XZvRfBNU2f+ifVIGdnSgyWoCgYxghwmoF5G2yt+6ETjkDPnvTqI7dHMk0hQTTJtr
- TkT8rtnstH5ReUTSQrsTAG0VJg8KIA3jtK9rfBLOQndLXy/3Wz9nfxALw4h2iNgBlmRM
- avl8TLROkfRa1TMO/a40afsPunbLaLMCFYQ3Sw0cuzHdtW58QlI5CT5VlwCEQ4uqqZOK
- d/cWcYnz09lpLYhPPQ8N4BRcM4LbKut1SQfsjAJBc5OEmLcAOl4UpDuopckNjeUow6H3
- E9KjmxUfZLvqaOpAGIExxk10gaBn71UsNUvuAFIVAMkUzDMSB7vprby9WPeVEgG53Cbc
- OlLQ==
-X-Gm-Message-State: ACrzQf1c2R79reQK2UcK3rjJ+dFpo99dFy9VoRkySvZsVHvnyy6DGtWF
- a9wG+NK9akpg2Ra+sFA5JEjJnupVs/XK623z+tPBKcygHLJscVeLEDAyHhjoAKOqvPbTFNrxjCG
- CsLwG2OtPbK5lAFE=
-X-Received: by 2002:ae9:e107:0:b0:6ed:638:930 with SMTP id
- g7-20020ae9e107000000b006ed06380930mr24680782qkm.211.1666673276930; 
- Mon, 24 Oct 2022 21:47:56 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6l2vfpZCORdHGlrDtwXNc2ykEbJBl5R5EoMNV1NNs7qSblFsrMB9KSuz+x4o3Zah6UE99VwA==
-X-Received: by 2002:ae9:e107:0:b0:6ed:638:930 with SMTP id
- g7-20020ae9e107000000b006ed06380930mr24680778qkm.211.1666673276713; 
- Mon, 24 Oct 2022 21:47:56 -0700 (PDT)
-Received: from LeoBras.redhat.com ([2804:1b3:a801:de5e:6447:4a67:eb7c:b690])
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oqBmqReHGfEzGqIGVt1nPXsS0CDpG6ycZ7J51Eb6H4M=;
+ b=EDwq8oQI8tlWZhN02YfGD45LcT7nqPgmM+qWGQ1EdYkJDLTBKWXZ7z3hI6OXaRQTfN
+ lpYXHA5qhTQSKnZJqinY8Y1lWDdIkxmrKzEQU/Q1xo8ZNhfD/A9uFDlNjj01oB5q0uS9
+ eAzHTe8LOwVtL1JDEYaWtxAL1gSVsQcimssqqff1tSQNfKtgejN1dLTp2D7EGckqDNwx
+ tffCiEyBi4ir73XWp1Tv+eQPwCLFFkacDYrAL7+5+iQ4e219oD6DR+fBb99f0yt6sb8/
+ neB1dQyZ7LWTo0r/eMH+ytqQTIZQEBja4tV6XGjrpewFTf9tHnAzPfuMfeUJLhB/z1MG
+ Sz6Q==
+X-Gm-Message-State: ACrzQf1Hrv17pG1ELRjQN41fQA+wb8UbPomkSf+XbJkYtvWxLOOl4E2O
+ CDpzTuCvOOL+o2nIePM5NgFiTw==
+X-Google-Smtp-Source: AMsMyM7wj+IruN4+2/9rW5skNSlW9CapoGJOo3pJO0MUexNYdKJoKUM7RFSObZwAh9zQe1pQf3MdWA==
+X-Received: by 2002:a05:6a00:1389:b0:566:1549:c5bc with SMTP id
+ t9-20020a056a00138900b005661549c5bcmr37488078pfg.8.1666675498966; 
+ Mon, 24 Oct 2022 22:24:58 -0700 (PDT)
+Received: from [172.31.50.139] ([103.100.225.182])
  by smtp.gmail.com with ESMTPSA id
- d23-20020a05620a141700b006cbcdc6efedsm1350968qkj.41.2022.10.24.21.47.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Oct 2022 21:47:56 -0700 (PDT)
-From: Leonardo Bras <leobras@redhat.com>
-To: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Peter Xu <peterx@redhat.com>
-Cc: Leonardo Bras <leobras@redhat.com>,
-	qemu-devel@nongnu.org
-Subject: [RFC PATCH 4/4] migration/multifd/zero-copy: Flush only the LRU half
- of the header array
-Date: Tue, 25 Oct 2022 01:47:31 -0300
-Message-Id: <20221025044730.319941-5-leobras@redhat.com>
-X-Mailer: git-send-email 2.38.0
-In-Reply-To: <20221025044730.319941-1-leobras@redhat.com>
-References: <20221025044730.319941-1-leobras@redhat.com>
+ 204-20020a6216d5000000b005625ef68eecsm653715pfw.31.2022.10.24.22.24.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Oct 2022 22:24:58 -0700 (PDT)
+Message-ID: <187daca0-b513-9eba-05b9-5f07eeab634b@linaro.org>
+Date: Tue, 25 Oct 2022 15:24:52 +1000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=leobras@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v3] linux-user: Add guest memory layout to exception dump
+Content-Language: en-US
+To: Helge Deller <deller@gmx.de>, Laurent Vivier <laurent@vivier.eu>,
+ qemu-devel@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>
+References: <Y1bzAWbw07WBKPxw@p100>
+ <8c348149-6edf-c6f7-f539-d40a4479c46c@linaro.org>
+ <07dbe94d-c215-2be3-1769-4f2a8290573e@gmx.de>
+ <e3d81adf-d47f-98ad-9f41-f55c1f73e9c8@linaro.org>
+ <f7136170-74ea-fe88-4053-4c38be1541fe@gmx.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <f7136170-74ea-fe88-4053-4c38be1541fe@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.503,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,85 +97,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Zero-copy multifd migration sends both the header and the memory pages in a
-single syscall. Since it's necessary to flush before reusing the header, a
-header array was implemented, so each write call uses a different
-array, and flushing only take place after all headers have been used,
-meaning 1 flush for each N writes.
+On 10/25/22 12:51, Helge Deller wrote:
+> On 10/25/22 04:25, Richard Henderson wrote:
+>> On 10/25/22 11:57, Helge Deller wrote:
+>>> On 10/25/22 00:35, Richard Henderson wrote:
+>>>> On 10/25/22 06:18, Helge Deller wrote:
+>>>>> When the emulation stops with a hard exception it's very useful for
+>>>>> debugging purposes to dump the current guest memory layout (for an
+>>>>> example see /proc/self/maps) beside the CPU registers.
+>>>>>
+>>>>> The open_self_maps() function provides such a memory dump, but since
+>>>>> it's located in the syscall.c file, various changes (add #includes, make
+>>>>> this function externally visible, ...) are needed to be able to call it
+>>>>> from the existing EXCP_DUMP() macro.
+>>>>
+>>>> /proc/self/maps has all of the qemu mappings in it as well.
+>>>
+>>> I'm not quite sure on how to understand your comments above.
+>>> Just comments or NAK to the patch?
+>>
+>> A question.
+>>
+>> Did you really wanted the host mappings included?
+> 
+> No.
+> I wanted just the guest mappings.
+> 
+>> If so, fine.
+>> If not, pointing out there's a better function to use.
+> 
+> I'm not sure if it's the better choice.
+> It depends on the targetted audience of such output.
+> 
+> This is linux-user, so if someone runs a program he would expect
+> output of crash dumps like as he would see them on a native machine.
+> Showing "external host emulation mappings" seems strange.
 
-This method has a bottleneck, though: After the last write, a flush will
-have to wait for all writes to finish, which will be a lot, meaning the
-recvmsg() syscall called in qio_channel_socket_flush() will be called a
-lot. On top of that, it will create a time period when the I/O queue is
-empty and nothing is getting send: between the flush and the next write.
+Oh, I see.  My comments above confused read_self_maps (host) with open_self_maps (filtered 
+guest).
 
-To avoid that, use qio_channel_flush()'s new max_pending parameter to wait
-until at most half of the array is still in use. (i.e. the LRU half of the
-array can be reused)
+I'll note that the output of page_dump() could be improved to exactly match 
+/proc/self/maps format (which would probably be less confusing), and then re-implement 
+open_self_maps in terms of that.  This would avoid read_self_maps entirely.
 
-Flushing for the LRU half of the array is much faster, since it does not
-have to wait for the most recent writes to finish, making up for having
-to flush twice per array.
+It would also fix a bug in that the host page permissions do not exactly match guest page 
+permissions, and you're reporting host page permissions.
 
-As a main benefit, this approach keeps the I/O queue from being empty while
-there are still data to be sent, making it easier to keep the I/O maximum
-throughput while consuming less cpu time.
 
-Signed-off-by: Leonardo Bras <leobras@redhat.com>
----
- migration/multifd.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
-
-diff --git a/migration/multifd.c b/migration/multifd.c
-index c5d1f911a4..fe9df460f6 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -569,12 +569,13 @@ void multifd_save_cleanup(void)
-     multifd_send_state = NULL;
- }
- 
--static int multifd_zero_copy_flush(QIOChannel *c)
-+static int multifd_zero_copy_flush(QIOChannel *c,
-+                                   int max_remaining)
- {
-     int ret;
-     Error *err = NULL;
- 
--    ret = qio_channel_flush(c, 0, &err);
-+    ret = qio_channel_flush(c, max_remaining, &err);
-     if (ret < 0) {
-         error_report_err(err);
-         return -1;
-@@ -636,7 +637,7 @@ int multifd_send_sync_main(QEMUFile *f)
-         qemu_mutex_unlock(&p->mutex);
-         qemu_sem_post(&p->sem);
- 
--        if (flush_zero_copy && p->c && (multifd_zero_copy_flush(p->c) < 0)) {
-+        if (flush_zero_copy && p->c && (multifd_zero_copy_flush(p->c, 0) < 0)) {
-             return -1;
-         }
-     }
-@@ -719,12 +720,17 @@ static void *multifd_send_thread(void *opaque)
- 
-             if (use_zero_copy_send) {
-                 p->packet_idx = (p->packet_idx + 1) % HEADER_ARR_SZ;
--
--                if (!p->packet_idx && (multifd_zero_copy_flush(p->c) < 0)) {
-+                /*
-+                 * When half the array have been used, flush to make sure the
-+                 * next half is available
-+                 */
-+                if (!(p->packet_idx % (HEADER_ARR_SZ / 2)) &&
-+                    (multifd_zero_copy_flush(p->c, HEADER_ARR_SZ / 2) < 0)) {
-                     break;
-                 }
-                 header = (void *)p->packet + p->packet_idx * p->packet_len;
-             }
-+
-             qemu_mutex_lock(&p->mutex);
-             p->pending_job--;
-             qemu_mutex_unlock(&p->mutex);
--- 
-2.38.0
-
+r~
 
