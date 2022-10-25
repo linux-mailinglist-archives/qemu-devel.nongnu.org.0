@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AED4460D1F0
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 18:50:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0491F60D1CB
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 18:46:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onMyY-0005pO-D1; Tue, 25 Oct 2022 12:40:26 -0400
+	id 1onMyS-0005if-Cd; Tue, 25 Oct 2022 12:40:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1onMyN-0005St-3v
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 12:40:15 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ id 1onMyI-0005Oe-AQ
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 12:40:13 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1onMy7-0001OZ-SL
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 12:40:14 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- l16-20020a05600c4f1000b003c6c0d2a445so8664441wmq.4
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 09:39:59 -0700 (PDT)
+ id 1onMyA-0001Od-HD
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 12:40:10 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id l32so8489501wms.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 09:40:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=BkdsxeivDrs8B1ekF6DlyQ39i4YB9EYQepwnyoXzyuw=;
- b=jCUxJwlBRj9DLNOLPVPQlLd6FPKz0e6uAZo8ZfHPiZlu6YcDigTC3dDQM1xxo3KNys
- z3xd/74gxow04mgfxkX47vtuHJEPDynMgikw/adB4bDCbdnUaYMkuQhpvp8WOBRTpE9A
- aooA2jF7ugTZMRfUdQlHXlkGyzbVs0LZmAxfpz8ougRwLE8+zA8l1g89MOT3gIkOJf0H
- PMH0hSO6zM6H6Jhb4IZiTQeZo5pNvPuAcURF+c63RxrTSMFcaamvksHrMuVsStjK41yr
- N/aN+V5YDJX2ljqOS6UAubvrh7fKQVGblo1h7oLailDfUdmHfImJPRkKjAM5acDX4Zzi
- Yx7Q==
+ :reply-to; bh=2ZLMGmvdBh5UWAIoQyzMmECFb98GcnB/juq4BvMu3x4=;
+ b=OE8gAHnuWmScYcgLtsW5t1HAlN0BuIM+rd1R5fnSZgsivUL8TbgPhzUc+y91JWG0Lz
+ NFSn1hvEARGX57Jrawq/VBh4G4qILWL4eKOcquKeLRv2yU0rX7bD5gsqYl2MoVUs9Pli
+ +TPa5vJSL+v9PJH4rFvxCf48ECKop0hUh2dpOUSvQPIN+Y4zcr+W7lf0oE4OivBRJ6uo
+ GF1hsbN4ffGBV9kKibWzXJChpk0SgbYXDE2T3dInNw+QDL30EvmnMnsMQ0iFAROjg7In
+ QCovxmim006iaNtHvY3A0XGh/aQ+fb6+iLUF1uh88u+uiUM5et6LGx3S0oAxqt6zbSfo
+ IQaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BkdsxeivDrs8B1ekF6DlyQ39i4YB9EYQepwnyoXzyuw=;
- b=huWbHxS8+bDSE7TUETQKww6vs0Q50RGtizeqV5rWZ7UWpCMcW0NGe1F0LVishNe+vg
- t7RI4uoV4bPxE1Zn2+LOj8rD4BgMZsiZ02IGYgBSfD9mCVkz1tXpqolRXcG5k/CtNB+k
- akcXVfZs38tr+Y7bKeoFEu8vNWckBw55GV4o7GVl1oAw4vnQ2+qm3r2ReILAN+tFwoeP
- QMoYNIBpKoIXmAD2agWROtVtJVl5NxGy/bL4ardPEIoI2DV8lobWz0CLhloUdUDC9xAJ
- Za5cP4KH8k1H6PcK0YUgQruT0ZesjNoMeiHwmjPEiMCfesvCS4NU/5yvwepCky167itp
- Qe8g==
-X-Gm-Message-State: ACrzQf0acCfINJF787hv00erxkZKSEWdhweHusjmur1XSZGdY8BX2Xp/
- /OEKsYv5Oy8y8wNcnetKGGk3uSStXpc/aA==
-X-Google-Smtp-Source: AMsMyM7eAYm3e3pcxvJD0PLhOq6Fe5brlGpUoVqJAdCHiQhUCeemwnDnrVouYZMQHHcwL6CopkrVZA==
-X-Received: by 2002:a05:600c:3509:b0:3c6:fd36:ef19 with SMTP id
- h9-20020a05600c350900b003c6fd36ef19mr27261282wmq.191.1666715998429; 
- Tue, 25 Oct 2022 09:39:58 -0700 (PDT)
+ bh=2ZLMGmvdBh5UWAIoQyzMmECFb98GcnB/juq4BvMu3x4=;
+ b=7yqMgBcTy3qgGflbwrAGqXYJKvKilEBNQbKRomu/lzLFMKu1hjVdvBuMm5c6H785Fr
+ LGzmzdTGm143Du9vSLOt6n0yXZrZB4hAbGWcmorpBfrAnPWRcnOsM6VdBYnsK8mKjmIw
+ rpYJ4pZm4ojjcnI+L8Yau/wzMPLUei9wsHbO7NzIUqf+x+pQFvtS7SiwJ7gPxEyfJT3r
+ wIMvAYRafJUTjH/DZQcdde7eBFu4cTro0Nwp1QBNksmNnC8L1rGOiKQIB9bJNZIMWx96
+ 3QObXYRQ2T2VvMyKwP2L1KRPxc7za/iMmKAvlvJplfraH/64V0Dq8hg2ZoAUckRqz+Eh
+ PjpQ==
+X-Gm-Message-State: ACrzQf02qUxbkccEgn+TcvBvqVY5lbdYKdRFH4j/KtkICrFAovgOUBKY
+ SdBazPA+1iUVAQQ7lyp2WzzWtWnF/SNsEQ==
+X-Google-Smtp-Source: AMsMyM4zgke6ALTnK3bP6TTubD5Aqx6ECEuRxYcjeBlnEjJFWPVsctaKi5w9ZSHiQo0VB0r1GJtw3A==
+X-Received: by 2002:a05:600c:230d:b0:3c4:2975:321a with SMTP id
+ 13-20020a05600c230d00b003c42975321amr47466204wmo.155.1666715999460; 
+ Tue, 25 Oct 2022 09:39:59 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- z12-20020a05600c220c00b003cd9c26a0basm2971084wml.40.2022.10.25.09.39.57
+ z12-20020a05600c220c00b003cd9c26a0basm2971084wml.40.2022.10.25.09.39.58
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Oct 2022 09:39:57 -0700 (PDT)
+ Tue, 25 Oct 2022 09:39:58 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/30] target/arm: honor HCR_E2H and HCR_TGE in
- arm_excp_unmasked()
-Date: Tue, 25 Oct 2022 17:39:25 +0100
-Message-Id: <20221025163952.4131046-4-peter.maydell@linaro.org>
+Subject: [PULL 04/30] hw/core/resettable: fix reset level counting
+Date: Tue, 25 Oct 2022 17:39:26 +0100
+Message-Id: <20221025163952.4131046-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221025163952.4131046-1-peter.maydell@linaro.org>
 References: <20221025163952.4131046-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,67 +89,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Ake Koomsin <ake@igel.co.jp>
+From: Damien Hedde <damien.hedde@greensocs.com>
 
-An exception targeting EL2 from lower EL is actually maskable when
-HCR_E2H and HCR_TGE are both set. This applies to both secure and
-non-secure Security state.
+The code for handling the reset level count in the Resettable code
+has two issues:
 
-We can remove the conditions that try to suppress masking of
-interrupts when we are Secure and the exception targets EL2 and
-Secure EL2 is disabled.  This is OK because in that situation
-arm_phys_excp_target_el() will never return 2 as the target EL.  The
-'not if secure' check in this function was originally written before
-arm_hcr_el2_eff(), and back then the target EL returned by
-arm_phys_excp_target_el() could be 2 even if we were in Secure
-EL0/EL1; but it is no longer needed.
+The reset count is only decremented for the 1->0 case.  This means
+that if there's ever a nested reset that takes the count to 2 then it
+will never again be decremented.  Eventually the count will exceed
+the '50' limit in resettable_phase_enter() and QEMU will trip over
+the assertion failure.  The repro case in issue 1266 is an example of
+this that happens now the SCSI subsystem uses three-phase reset.
 
-Signed-off-by: Ake Koomsin <ake@igel.co.jp>
-Message-id: 20221017092432.546881-1-ake@igel.co.jp
-[PMM: Add commit message paragraph explaining why it's OK to
- remove the checks on secure and SCR_EEL2]
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Secondly, the count is decremented only after the exit phase handler
+is called.  Moving the reset count decrement from "just after" to
+"just before" calling the exit phase handler allows
+resettable_is_in_reset() to return false during the handler
+execution.
+
+This simplifies reset handling in resettable devices.  Typically, a
+function that updates the device state will just need to read the
+current reset state and not anymore treat the "in a reset-exit
+transition" as a special case.
+
+Note that the semantics change to the *_is_in_reset() functions
+will have no effect on the current codebase, because only two
+devices (hw/char/cadence_uart.c and hw/misc/zynq_sclr.c) currently
+call those functions, and in neither case do they do it from the
+device's exit phase methed.
+
+Fixes: 4a5fc890 ("scsi: Use device_cold_reset() and bus_cold_reset()")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1266
+Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reported-by: Michael Peter <michael.peter@hensoldt-cyber.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-id: 20221020142749.3357951-1-peter.maydell@linaro.org
+Buglink: https://bugs.launchpad.net/qemu/+bug/1905297
+Reported-by: Michael Peter <michael.peter@hensoldt-cyber.com>
+[PMM: adjust the docs paragraph changed to get the name of the
+ 'enter' phase right and to clarify exactly when the count is
+ adjusted; rewrite the commit message]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.c | 24 +++++++++++++++++-------
- 1 file changed, 17 insertions(+), 7 deletions(-)
+ docs/devel/reset.rst | 8 +++++---
+ hw/core/resettable.c | 3 +--
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 0bc5e9b125b..8aa8a1419df 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -562,14 +562,24 @@ static inline bool arm_excp_unmasked(CPUState *cs, unsigned int excp_idx,
-     if ((target_el > cur_el) && (target_el != 1)) {
-         /* Exceptions targeting a higher EL may not be maskable */
-         if (arm_feature(env, ARM_FEATURE_AARCH64)) {
--            /*
--             * 64-bit masking rules are simple: exceptions to EL3
--             * can't be masked, and exceptions to EL2 can only be
--             * masked from Secure state. The HCR and SCR settings
--             * don't affect the masking logic, only the interrupt routing.
--             */
--            if (target_el == 3 || !secure || (env->cp15.scr_el3 & SCR_EEL2)) {
-+            switch (target_el) {
-+            case 2:
-+                /*
-+                 * According to ARM DDI 0487H.a, an interrupt can be masked
-+                 * when HCR_E2H and HCR_TGE are both set regardless of the
-+                 * current Security state. Note that we need to revisit this
-+                 * part again once we need to support NMI.
-+                 */
-+                if ((hcr_el2 & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
-+                        unmasked = true;
-+                }
-+                break;
-+            case 3:
-+                /* Interrupt cannot be masked when the target EL is 3 */
-                 unmasked = true;
-+                break;
-+            default:
-+                g_assert_not_reached();
-             }
-         } else {
-             /*
+diff --git a/docs/devel/reset.rst b/docs/devel/reset.rst
+index abea1102dc4..7cc6a6b3140 100644
+--- a/docs/devel/reset.rst
++++ b/docs/devel/reset.rst
+@@ -210,9 +210,11 @@ Polling the reset state
+ Resettable interface provides the ``resettable_is_in_reset()`` function.
+ This function returns true if the object parameter is currently under reset.
+ 
+-An object is under reset from the beginning of the *init* phase to the end of
+-the *exit* phase. During all three phases, the function will return that the
+-object is in reset.
++An object is under reset from the beginning of the *enter* phase (before
++either its children or its own enter method is called) to the *exit*
++phase. During *enter* and *hold* phase only, the function will return that the
++object is in reset. The state is changed after the *exit* is propagated to
++its children and just before calling the object's own *exit* method.
+ 
+ This function may be used if the object behavior has to be adapted
+ while in reset state. For example if a device has an irq input,
+diff --git a/hw/core/resettable.c b/hw/core/resettable.c
+index 96a99ce39ea..c3df75c6ba8 100644
+--- a/hw/core/resettable.c
++++ b/hw/core/resettable.c
+@@ -201,12 +201,11 @@ static void resettable_phase_exit(Object *obj, void *opaque, ResetType type)
+     resettable_child_foreach(rc, obj, resettable_phase_exit, NULL, type);
+ 
+     assert(s->count > 0);
+-    if (s->count == 1) {
++    if (--s->count == 0) {
+         trace_resettable_phase_exit_exec(obj, obj_typename, !!rc->phases.exit);
+         if (rc->phases.exit && !resettable_get_tr_func(rc, obj)) {
+             rc->phases.exit(obj);
+         }
+-        s->count = 0;
+     }
+     s->exit_phase_in_progress = false;
+     trace_resettable_phase_exit_end(obj, obj_typename, s->count);
 -- 
 2.25.1
 
