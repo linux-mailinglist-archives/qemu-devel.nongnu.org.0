@@ -2,69 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD51660D0B5
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 17:35:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A41BE60D09E
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 17:30:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onLmX-0003hn-1B; Tue, 25 Oct 2022 11:23:57 -0400
+	id 1onLp5-0006qM-WF; Tue, 25 Oct 2022 11:26:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1onLmV-0003hS-0h
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 11:23:55 -0400
-Received: from speedy.comstyle.com ([2607:f938:3000:8::2]
- helo=mail.comstyle.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1onLmS-0005Cv-RX
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 11:23:54 -0400
-Received: from mail.comstyle.com (localhost [127.0.0.1])
- by mail.comstyle.com (Postfix) with ESMTP id 4MxbLv4BVMz8PbN;
- Tue, 25 Oct 2022 11:23:51 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=from:to:cc
- :date:message-id:in-reply-to:references:subject:mime-version
- :content-type; s=default; bh=uNoVZ061HZmjvCEUJRcLHHOrbkY=; b=kyN
- 6LDmwO+jD2Q8uxISb785o4bBW3C7f0WNGOUzLzZ+Yl6jR3zjTjGOqQNNfuQmivyv
- GfGEBD/pExTWFrYgxthPy32D2GTG7kK8QdK9wE8fDMrUbsN3LFjSb4yoP9zBOm1J
- kAwZEHiB5kVRFS9EtDKGNXiEqnMcFg5ULo25RrbI=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=from:to:cc
- :date:message-id:in-reply-to:references:subject:mime-version
- :content-type; q=dns; s=default; b=BmFigRjFKLrCu1WpRqLo6TJ9uO8Ry
- w54vLKXA1O5oxIojkEU+MSDtbKeHnPy9LRjCQtq/twCmkrzielW29Kek80CU39lk
- HnjxjbsqIa7yf9T6qG0AH4rFPnJEilLBQL9Zuajd5EFGxbVOnCeYMnMEisQplEPE
- 6Lds2Nz4HsRm44=
-Received: from [192.168.100.93]
- (ipagstaticip-fb0cb5d9-e423-dda2-c442-adc5999de965.sdsl.bell.ca
- [76.65.209.165])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: brad)
- by mail.comstyle.com (Postfix) with ESMTPSA id 4MxbLv31Ppz8PbK;
- Tue, 25 Oct 2022 11:23:51 -0400 (EDT)
-From: Brad Smith <brad@comstyle.com>
-To: Thomas Huth <thuth@redhat.com>, Warner Losh <imp@bsdimp.com>,
- Kyle Evans <kevans@freebsd.org>, Ed Maste <emaste@freebsd.org>,
- "Li-Wen Hsu" <lwhsu@freebsd.org>, "Alex Benn_e" <alex.bennee@linaro.org>,
- "Philippe Mathieu-Daud_" <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-CC: <qemu-devel@nongnu.org>
-Date: Tue, 25 Oct 2022 11:23:49 -0400
-Message-ID: <1840fbe1f88.27f3.c0f5e3539a5acb9c2563017afaca17d6@comstyle.com>
-In-Reply-To: <791d0182-e6ae-4db3-96f0-8b69cb33d06c@redhat.com>
-References: <Yz/TeblRI77AIHJe@humpty.home.comstyle.com>
- <Y1f6dxjvD01DtXyG@humpty.home.comstyle.com>
- <791d0182-e6ae-4db3-96f0-8b69cb33d06c@redhat.com>
-User-Agent: AquaMail/1.39.1 (build: 103901207)
-Subject: Re: [PATCH v2] tests: Add sndio to the FreeBSD CI containers / VM
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1onLp3-0006pj-Na
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 11:26:33 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1onLp1-0005oI-OX
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 11:26:33 -0400
+Received: by mail-pg1-x533.google.com with SMTP id f193so11831882pgc.0
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 08:26:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=f0Fk+0/Amw7nskzxgUFtOOx5Md+yUa8AJYsojRyR41E=;
+ b=at2Vihq0ZysdnRIAuOMyqUBdq1/FFvX63hDc58gBWKAYTaAmkdYraFO/pRcQUDSDYE
+ 0fkDw3uZaS0h9nyoTmESSO/FjPD1QqpECPNASv+D/6l+zaxAf+VJn/1HbEpmn5RksRqM
+ Kzp2cehpcT91+FjF962CIIiyPLseroHnn8m58E8xAwNn8/VzQz0SjVNwnMGfPlyntwWG
+ 1v+JEBR3ZSQGmfEMYXT1afvMpcQP3UQ/MndzyKc736Oi9OUW1NIyDDMvB7aFBM+fsgL1
+ HkgjZvE5tmNi+7E1mPJH+qwH0v1PNDsMYQONw16TaTIl5SmDaOKIjaZzxn0BT619gx8g
+ +GOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=f0Fk+0/Amw7nskzxgUFtOOx5Md+yUa8AJYsojRyR41E=;
+ b=yL5MS+EJ4Zw3EMuEZ+0bXKii/k86UoSU/UAM/EmwJM7EtVRYOKd3+85Eo7l2wcOPaf
+ TeDFJJkveWphgU0fXCACYCXJ0NiBn4NVvlQwM23sqMATkvHAqW8VTFH5Sfv65ec4ss9T
+ VOyDJll6F+IaL+Y9m+xmMgFxbEBCZ98PgJMJo50VTqQ6p12LzmyHlK1EpyOiJvUICN8J
+ D/UX5YClqRKHzT+jDXCwM+Po1jIM1KY4DDPiAul6jmww/XDJKi36Z0uBT4u2HV7N+86S
+ qAv2EnEkNlyTApsV89hhFF55PH3E0ZGMv29M/T+NQnfbvHSAOO7ruxtJ7oohJIe8I76H
+ ZECQ==
+X-Gm-Message-State: ACrzQf1r7RbibQMHt2TiGXhqPPpe7YgGeAXHuPZ5yCh+UG2BiMlOa2SF
+ AK1Oon0IRpuH0UN3JoSZDxo4wraTvrZ3I84wNOVstQ==
+X-Google-Smtp-Source: AMsMyM7S5IISqnVExEMx/Y/NdDoxoi+mPZLZks2JQtwFF+Q9Vn8DzGWDrBRBdHkSKruNqn9cxFFTv641nHc01V+gClk=
+X-Received: by 2002:a63:1d5a:0:b0:46e:d157:39ef with SMTP id
+ d26-20020a631d5a000000b0046ed15739efmr17120402pgm.231.1666711590299; Tue, 25
+ Oct 2022 08:26:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="1840fbe21c64cdc27f34619f77"
-Received-SPF: pass client-ip=2607:f938:3000:8::2;
- envelope-from=brad@comstyle.com; helo=mail.comstyle.com
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
+In-Reply-To: <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 25 Oct 2022 16:26:18 +0100
+Message-ID: <CAFEAcA-=Sc9Sc4oLq13HAFW49ZBw8u6DtN7bf_vjVYX_AAaKSg@mail.gmail.com>
+Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, 
+ Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, 
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>, 
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, 
+ Vishal Annapurve <vannapurve@google.com>, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, 
+ dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
+ aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ Michael Roth <michael.roth@amd.com>, 
+ mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,75 +107,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a multi-part message in MIME format.
---1840fbe21c64cdc27f34619f77
-Content-Type: text/plain; format=flowed; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-Thank you.
-
-On October 25, 2022 11:10:49 a.m. Thomas Huth <thuth@redhat.com> wrote:
-
-> On 25/10/2022 17.02, Brad Smith wrote:
->> tests: Add sndio to the FreeBSD CI containers / VM
->>
->> Signed-off-by: Brad Smith <brad@comstyle.com>
->> ---
+On Tue, 25 Oct 2022 at 16:21, Chao Peng <chao.p.peng@linux.intel.com> wrote:
 >
-> Thanks, queued to my testing-next branch:
+> This new KVM exit allows userspace to handle memory-related errors. It
+> indicates an error happens in KVM at guest memory range [gpa, gpa+size).
+> The flags includes additional information for userspace to handle the
+> error. Currently bit 0 is defined as 'private memory' where '1'
+> indicates error happens due to private memory access and '0' indicates
+> error happens due to shared memory access.
 >
->  https://gitlab.com/thuth/qemu/-/commits/testing-next
+> When private memory is enabled, this new exit will be used for KVM to
+> exit to userspace for shared <-> private memory conversion in memory
+> encryption usage. In such usage, typically there are two kind of memory
+> conversions:
+>   - explicit conversion: happens when guest explicitly calls into KVM
+>     to map a range (as private or shared), KVM then exits to userspace
+>     to perform the map/unmap operations.
+>   - implicit conversion: happens in KVM page fault handler where KVM
+>     exits to userspace for an implicit conversion when the page is in a
+>     different state than requested (private or shared).
 >
->  Thomas
+> Suggested-by: Sean Christopherson <seanjc@google.com>
+> Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> ---
+>  Documentation/virt/kvm/api.rst | 23 +++++++++++++++++++++++
+>  include/uapi/linux/kvm.h       |  9 +++++++++
+>  2 files changed, 32 insertions(+)
+>
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index f3fa75649a78..975688912b8c 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -6537,6 +6537,29 @@ array field represents return values. The userspace should update the return
+>  values of SBI call before resuming the VCPU. For more details on RISC-V SBI
+>  spec refer, https://github.com/riscv/riscv-sbi-doc.
+>
+> +::
+> +
+> +               /* KVM_EXIT_MEMORY_FAULT */
+> +               struct {
+> +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE (1 << 0)
+> +                       __u32 flags;
+> +                       __u32 padding;
+> +                       __u64 gpa;
+> +                       __u64 size;
+> +               } memory;
+> +
+> +If exit reason is KVM_EXIT_MEMORY_FAULT then it indicates that the VCPU has
+> +encountered a memory error which is not handled by KVM kernel module and
+> +userspace may choose to handle it. The 'flags' field indicates the memory
+> +properties of the exit.
+> +
+> + - KVM_MEMORY_EXIT_FLAG_PRIVATE - indicates the memory error is caused by
+> +   private memory access when the bit is set. Otherwise the memory error is
+> +   caused by shared memory access when the bit is clear.
+> +
+> +'gpa' and 'size' indicate the memory range the error occurs at. The userspace
+> +may handle the error and return to KVM to retry the previous memory access.
+> +
 
+What's the difference between this and a plain old MMIO exit ?
+Just that we can specify a wider size and some flags ?
 
-Sent with Aqua Mail for Android
-https://www.aqua-mail.com
-
---1840fbe21c64cdc27f34619f77
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.=
-w3.org/TR/html4/loose.dtd">
-<html>
-<body>
-<div dir=3D"auto">
-<div dir=3D"auto"><span style=3D"font-size: 12pt;">Thank you.</span></div><=
-div dir=3D"auto"><br></div>
-<div id=3D"aqm-original" style=3D"color: black;">
-<div dir=3D"auto">On October 25, 2022 11:10:49 a.m. Thomas Huth &lt;thuth@r=
-edhat.com&gt; wrote:</div>
-<div><br></div>
-<blockquote type=3D"cite" class=3D"gmail_quote" style=3D"margin: 0 0 0 0.75=
-ex; border-left: 1px solid #808080; padding-left: 0.75ex;">
-<div dir=3D"auto">On 25/10/2022 17.02, Brad Smith wrote:</div>
-<blockquote type=3D"cite" class=3D"gmail_quote" style=3D"margin: 0 0 0 0.75=
-ex; border-left: 1px solid #0099CC; padding-left: 0.75ex;">
-<div dir=3D"auto">tests: Add sndio to the FreeBSD CI containers / VM</div>
-<div dir=3D"auto"><br></div>
-<div dir=3D"auto">Signed-off-by: Brad Smith &lt;brad@comstyle.com&gt;</div>
-<div dir=3D"auto">---</div>
-</blockquote>
-<div dir=3D"auto"><br></div>
-<div dir=3D"auto">Thanks, queued to my testing-next branch:</div>
-<div dir=3D"auto"><br></div>
-<div dir=3D"auto">&nbsp; https://gitlab.com/thuth/qemu/-/commits/testing-ne=
-xt</div>
-<div dir=3D"auto"><br></div>
-<div dir=3D"auto">&nbsp; Thomas</div>
-</blockquote>
-</div><div dir=3D"auto"><br></div>
-</div>
-<div style=3D"color: black;">
-<p style=3D"margin: 0 0 1em 0; color: black; font-family: sans-serif;">Sent=
- with <a href=3D"https://play.google.com/store/apps/details?id=3Dorg.kman.A=
-quaMail">Aqua Mail for Android</a><br>
-<a href=3D"https://www.aqua-mail.com">https://www.aqua-mail.com</a></p>
-</div>
-</body>
-</html>
-
---1840fbe21c64cdc27f34619f77--
-
+-- PMM
 
