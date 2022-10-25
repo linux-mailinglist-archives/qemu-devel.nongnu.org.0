@@ -2,96 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E40EC60C627
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 10:16:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D733360C668
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 10:28:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onF31-0000L1-0Y; Tue, 25 Oct 2022 04:12:31 -0400
+	id 1onFFI-0005PT-A1; Tue, 25 Oct 2022 04:25:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1onDqe-0002LJ-G4
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 02:55:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1onDqc-0005hv-Nd
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 02:55:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666680937;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8pyUxYxzMfXEEhRrLj+D3l6yccH7aZTr+EiU2jtfRa8=;
- b=SLZYrm54deSsOOFs06WcljAmQauC9KOWOl9D3+ZykmhOWXadZ+0b7/39oJOO/rJNI5TMR2
- PitbEb1FtW3/uU/Kdes0STGwpLUnPOO8XWwNfcyoewG9TgDPKv+qD38NF1zMuAgTDOt54e
- WQkedaWVgb2CrEbWcfu4/HYfWv7g6H0=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-119-u28CGMwZNdWkjph7LX2HiA-1; Tue, 25 Oct 2022 02:55:35 -0400
-X-MC-Unique: u28CGMwZNdWkjph7LX2HiA-1
-Received: by mail-pj1-f72.google.com with SMTP id
- f64-20020a17090a28c600b0020db64bf9faso4952198pjd.8
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 23:55:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8pyUxYxzMfXEEhRrLj+D3l6yccH7aZTr+EiU2jtfRa8=;
- b=P59xyNG/OOnSADsKR0NsXl2v7+lsjdYz+hd2ocGSASSb5fe77SwpTwteYkiH0ZOEok
- nj3OpOvm0O7bGhRHqC0SZk8Jo0aBgTkphPCbN0g5QPB4R1ZxrUBOiypNqQ72iCyWSknd
- CUHoiMuL1Nhhtak+jVqdEURkG7+FUfy+VXrifYBuMDyg5C3vncr0FCFDfJ6JyNV/isaQ
- l9nyXfU9vS0aXDoHd04RIm0JAaoRkizHemHjBQKfc+54Odg8yEqFSYEsfeHqxelMTPL0
- 0Ls8t29wGuvfGE//umpxmVeO68um1ReXZDqsMUAQxMc5QQPq+QkMJjXhRHIylb8OACN1
- TapQ==
-X-Gm-Message-State: ACrzQf3uDzNwUPVf1Yi7JL+/PJx1YDOrRXC2/pEGMtKGLkcSf4FIQJ1q
- cHZUXSFKYwTw3PhBqBRim/YCwQ81es4eINes0zYI19K61HElzxXx3gICRi2fcmstWicGowa1dhq
- YMJEzEYMuo4DjSRE/VYX2yXfEeWBGrSQ=
-X-Received: by 2002:a63:c5d:0:b0:460:17cc:73a6 with SMTP id
- 29-20020a630c5d000000b0046017cc73a6mr31364393pgm.332.1666680933864; 
- Mon, 24 Oct 2022 23:55:33 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4xp32JWmQRfF+PwrvB0Md5bJZk46GSCrcmd1yjS763W7cqWUPb+CTzGBrNkmWjAdU7ZflJdfgQYV4FCN7I6qw=
-X-Received: by 2002:a63:c5d:0:b0:460:17cc:73a6 with SMTP id
- 29-20020a630c5d000000b0046017cc73a6mr31364370pgm.332.1666680933433; Mon, 24
- Oct 2022 23:55:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1onDy3-0006XH-5n; Tue, 25 Oct 2022 03:03:19 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1onDy0-0006jM-5x; Tue, 25 Oct 2022 03:03:18 -0400
+Received: from [192.168.124.8] (unknown [139.227.114.201])
+ by APP-01 (Coremail) with SMTP id qwCowABnbHQnildjLZ7pBg--.14035S2;
+ Tue, 25 Oct 2022 15:03:05 +0800 (CST)
+Message-ID: <42442ea9-fa08-a79b-c8d9-b1641fae3c76@iscas.ac.cn>
+Date: Tue, 25 Oct 2022 15:03:03 +0800
 MIME-Version: 1.0
-References: <20221019125210.226291-1-eperezma@redhat.com>
- <20221019125210.226291-3-eperezma@redhat.com>
- <CACGkMEvQOksFuE37SCCW+4x=Ku5CfHpcbgCDq6tic_H5fW7hYw@mail.gmail.com>
- <CAJaqyWd6bFH7ZL=rKr8kXrQEi2sOFkq=x=PHUmgz8N9K6Ct70w@mail.gmail.com>
- <CACGkMEs9mc5pqRr8XNhVw8pvQZ+hvnPRiMmyuzJvNsSU=Cfoxg@mail.gmail.com>
- <CAJaqyWfCn0gPc=+GY-0ASutwSP+1-AyFhp0XO4v6K+3JJZktuA@mail.gmail.com>
- <CACGkMEuwq_s6P9AxQD4Pmhb5R3naETeiQG+Nx0TJLbpdF6Xesg@mail.gmail.com>
- <CAJaqyWfo4WJo_LJpBtLirHtNCUO23NZQETv7k_jWo0LjQ1tVLw@mail.gmail.com>
- <CACGkMEtiJeSebHVFMQ79Zkx4LoKeywxRvyi6m63JF_Kvfc3YdA@mail.gmail.com>
-In-Reply-To: <CACGkMEtiJeSebHVFMQ79Zkx4LoKeywxRvyi6m63JF_Kvfc3YdA@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Tue, 25 Oct 2022 08:54:56 +0200
-Message-ID: <CAJaqyWfjjtAQjYwKx9W=ywa93un3t2Hd-LrqgpRxF9S-JrmFbQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 2/8] vdpa: Save emulated features list in vhost_vdpa
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel@nongnu.org, Zhu Lingshan <lingshan.zhu@intel.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>,
- Stefano Garzarella <sgarzare@redhat.com>, 
- Si-Wei Liu <si-wei.liu@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Cindy Lu <lulu@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Eli Cohen <eli@mellanox.com>, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>, 
- Gautam Dawar <gdawar@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.503,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Cc: liweiwei@iscas.ac.cn, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+Subject: Re: [RFC 6/8] target/riscv: delete redundant check for zcd
+ instructions in decode_opc
+To: Alistair Francis <alistair23@gmail.com>
+References: <20220930012345.5248-1-liweiwei@iscas.ac.cn>
+ <20220930012345.5248-7-liweiwei@iscas.ac.cn>
+ <CAKmqyKORk8eDQz-GU0CR9Ch9wmtdB9Fc6EGmPHcgSp9Dsr7bWQ@mail.gmail.com>
+Content-Language: en-US
+From: weiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <CAKmqyKORk8eDQz-GU0CR9Ch9wmtdB9Fc6EGmPHcgSp9Dsr7bWQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowABnbHQnildjLZ7pBg--.14035S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7KFyrZF43CF1fuw15Cry5twb_yoW8Xr4kpr
+ W8CF47CrZ8Ja4jkas7GF4Yqr4UWws8Kr1kGryv9wnavrZrWrs8ZFWDKaySkF4jyFs2gw10
+ vFsIyr98Cr4xZaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxV
+ WxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
+ Yx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbV
+ WUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07Al
+ zVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
+ 0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFyl
+ IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
+ AFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j
+ 6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbU
+ UUUUU==
+X-Originating-IP: [139.227.114.201]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,114 +80,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Oct 25, 2022 at 4:45 AM Jason Wang <jasowang@redhat.com> wrote:
->
-> On Mon, Oct 24, 2022 at 5:26 PM Eugenio Perez Martin
-> <eperezma@redhat.com> wrote:
-> >
-> > On Mon, Oct 24, 2022 at 4:14 AM Jason Wang <jasowang@redhat.com> wrote:
-> > >
-> > > On Fri, Oct 21, 2022 at 4:56 PM Eugenio Perez Martin
-> > > <eperezma@redhat.com> wrote:
-> > > >
-> > > > On Fri, Oct 21, 2022 at 4:57 AM Jason Wang <jasowang@redhat.com> wr=
-ote:
-> > > > >
-> > > > > On Thu, Oct 20, 2022 at 2:34 PM Eugenio Perez Martin
-> > > > > <eperezma@redhat.com> wrote:
-> > > > > >
-> > > > > > On Thu, Oct 20, 2022 at 6:23 AM Jason Wang <jasowang@redhat.com=
-> wrote:
-> > > > > > >
-> > > > > > > On Wed, Oct 19, 2022 at 8:52 PM Eugenio P=C3=A9rez <eperezma@=
-redhat.com> wrote:
-> > > > > > > >
-> > > > > > > > At this moment only _F_LOG is added there.
-> > > > > > > >
-> > > > > > > > However future patches add features that depend on the kind=
- of device.
-> > > > > > > > In particular, only net devices can add VIRTIO_F_GUEST_ANNO=
-UNCE. So
-> > > > > > > > let's allow vhost_vdpa creator to set custom emulated devic=
-e features.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > > > > > > ---
-> > > > > > > >  include/hw/virtio/vhost-vdpa.h | 2 ++
-> > > > > > > >  hw/virtio/vhost-vdpa.c         | 8 ++++----
-> > > > > > > >  net/vhost-vdpa.c               | 4 ++++
-> > > > > > > >  3 files changed, 10 insertions(+), 4 deletions(-)
-> > > > > > > >
-> > > > > > > > diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/vi=
-rtio/vhost-vdpa.h
-> > > > > > > > index 1111d85643..50083e1e3b 100644
-> > > > > > > > --- a/include/hw/virtio/vhost-vdpa.h
-> > > > > > > > +++ b/include/hw/virtio/vhost-vdpa.h
-> > > > > > > > @@ -31,6 +31,8 @@ typedef struct vhost_vdpa {
-> > > > > > > >      bool iotlb_batch_begin_sent;
-> > > > > > > >      MemoryListener listener;
-> > > > > > > >      struct vhost_vdpa_iova_range iova_range;
-> > > > > > > > +    /* VirtIO device features that can be emulated by qemu=
- */
-> > > > > > > > +    uint64_t added_features;
-> > > > > > >
-> > > > > > > Any reason we need a per vhost_vdpa storage for this? Or is t=
-here a
-> > > > > > > chance that this field could be different among the devices?
-> > > > > > >
-> > > > > >
-> > > > > > Yes, one device could support SVQ and the other one could not s=
-upport
-> > > > > > it because of different feature sets for example.
-> > > > >
-> > > > > Right, but for those devices that don't support SVQ, we don't eve=
-n
-> > > > > need mediation for feature like F_LOG and _F_STATUS?
-> > > > >
-> > > >
-> > > > No, and we cannot offer it to the guest either.
-> > >
-> > > Just to make sure we are on the same page, what I meant is, consider
-> > > in the future SVQ get the support of all features, so we can remove
-> > > this field? This is because _F_STATUS can be mediated unconditionally
-> > > anyhow.
-> > >
-> >
-> > For _F_STATUS that is right. But we cannot handle full
-> > _F_GUEST_ANNOUNCE since control SVQ (will) needs features from the
-> > device that cannot be emulated, like ASID.
-> >
-> > I think your point is "Since qemu cannot migrate these devices it will
-> > never set VIRTIO_NET_S_ANNOUNCE, so the guest will never send
-> > VIRTIO_NET_CTRL_ANNOUNCE messages". And I think that is totally right,
-> > but I still feel it is weird to expose it if we cannot handle it.
-> >
-> > Maybe a good first step is to move added_features to vhost_net, or
-> > maybe to convert it to "bool guest_announce_emulated" or something
-> > similar?  This way hw/virtio/vhost-vdpa is totally unaware of this and
-> > changes are more self contained.
->
-> This reminds me of something. For vhost, if Qemu can handle some
-> feature bits, we don't need to validate if vhost has such support.
->
-> E.g we don't have _F_SATAUS and _F_GUEST_ANNOUNCE in kernel_feature_bits.
->
-> I wonder if we can do something similar for vhost-vDPA? Then we don't
-> need to bother new fields.
->
 
-That is valid for _F_GUEST_ANNOUNCE, because all of it is emulated and
-we must forbid the ack of it for simplicity.
+On 2022/10/25 11:39, Alistair Francis wrote:
+> On Fri, Sep 30, 2022 at 11:28 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>> All the check for Zcd instructions have been done in their trans function
+>>
+>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>> ---
+>>   target/riscv/translate.c | 7 -------
+>>   1 file changed, 7 deletions(-)
+>>
+>> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+>> index 347bc913eb..a55b4a7849 100644
+>> --- a/target/riscv/translate.c
+>> +++ b/target/riscv/translate.c
+>> @@ -1087,13 +1087,6 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+>>                ((opcode & 0xe003) == 0xe000) ||
+>>                ((opcode & 0xe003) == 0xe002))) {
+>>               gen_exception_illegal(ctx);
+>> -        } else if (!(has_ext(ctx, RVC) || ctx->cfg_ptr->ext_zcd ||
+>> -                     ctx->cfg_ptr->ext_zcmp || ctx->cfg_ptr->ext_zcmt) &&
+>> -                   (((opcode & 0xe003) == 0x2000) ||
+>> -                    ((opcode & 0xe003) == 0x2002) ||
+>> -                    ((opcode & 0xe003) == 0xa000) ||
+>> -                    ((opcode & 0xe003) == 0xa002))) {
+>> -            gen_exception_illegal(ctx);
+> It's probably best to never add this in the first place.
+>
+> Remember that the extension can't be enabled until the last patch, so
+> it's ok if we don't support it all in one go
+>
+> Alistair
 
-But _F_STATUS has two parts, one bit that must be exposed to the guest
-from the physical NIC, since qemu cannot know when to change it
-(VIRTIO_NET_S_LINK_UP) and another one that must be 100% emulated
-(VIRTIO_NET_S_ANNOUNCE). VIRTIO_NET_F_STATUS is 100% emulated only if
-it is not offered by the device.
+OK.  I'll update it in next version.
 
-I'm moving to vhost_net for the next series, and I'll try to make all
-of this more explicit.
+Regards,
 
-Thanks!
+Weiwei Li
+
+>
+>>           } else {
+>>               ctx->opcode = opcode;
+>>               ctx->pc_succ_insn = ctx->base.pc_next + 2;
+>> --
+>> 2.25.1
+>>
+>>
 
 
