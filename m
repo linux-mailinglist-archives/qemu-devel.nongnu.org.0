@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B54EC60D210
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 18:56:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5334960D1F6
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 18:51:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onN2x-00072C-9Z; Tue, 25 Oct 2022 12:44:59 -0400
+	id 1onN2z-00079n-5I; Tue, 25 Oct 2022 12:45:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1onN2r-0006hk-To; Tue, 25 Oct 2022 12:44:53 -0400
+ id 1onN2t-0006kt-18; Tue, 25 Oct 2022 12:44:55 -0400
 Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1onN2p-0002GG-QC; Tue, 25 Oct 2022 12:44:53 -0400
+ id 1onN2q-0002GN-RY; Tue, 25 Oct 2022 12:44:54 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 40E6C75A159;
- Tue, 25 Oct 2022 18:44:50 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 5432C75A15B;
+ Tue, 25 Oct 2022 18:44:51 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 218C375A154; Tue, 25 Oct 2022 18:44:50 +0200 (CEST)
-Message-Id: <7a7fc430a128de81c8bea75e14b2147ba8285398.1666715145.git.balaton@eik.bme.hu>
+ id 2E73775A154; Tue, 25 Oct 2022 18:44:51 +0200 (CEST)
+Message-Id: <7114fc8a10d7359f354a7dbee364a520dcf362df.1666715145.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1666715145.git.balaton@eik.bme.hu>
 References: <cover.1666715145.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v4 15/19] mac_newworld: Turn CORE99_VIA_CONFIG defines into an
- enum
+Subject: [PATCH v4 16/19] mac_newworld: Add machine types for different mac99
+ configs
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Date: Tue, 25 Oct 2022 18:44:50 +0200 (CEST)
+Date: Tue, 25 Oct 2022 18:44:51 +0200 (CEST)
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
@@ -54,39 +54,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This might allow the compiler to check values.
+The mac99 machine emulates different machines depending on machine
+properties or even if it is run as qemu-system-ppc64 or
+qemu-system-ppc. This is very confusing for users and many hours were
+lost trying to explain it or finding out why commands users came up
+with are not working as expected. (E.g. Windows users might think
+qemu-system-ppc64 is just the 64 bit version of qemu-system-ppc and
+then fail to boot a 32 bit OS with -M mac99 trying to follow an
+example that had qemu-system-ppc.) To avoid such confusion, add
+explicit machine types for the different configs which will work the
+same with both qemu-system-ppc and qemu-system-ppc64 and also make the
+command line clearer for new users.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/ppc/mac_newworld.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ hw/ppc/mac_newworld.c | 94 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 94 insertions(+)
 
 diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index 4f5876670f..bcd6566ead 100644
+index bcd6566ead..7321ac925e 100644
 --- a/hw/ppc/mac_newworld.c
 +++ b/hw/ppc/mac_newworld.c
-@@ -95,15 +95,17 @@ typedef struct Core99MachineState Core99MachineState;
- DECLARE_INSTANCE_CHECKER(Core99MachineState, CORE99_MACHINE,
-                          TYPE_CORE99_MACHINE)
- 
--#define CORE99_VIA_CONFIG_CUDA     0x0
--#define CORE99_VIA_CONFIG_PMU      0x1
--#define CORE99_VIA_CONFIG_PMU_ADB  0x2
-+typedef enum {
-+    CORE99_VIA_CONFIG_CUDA = 0,
-+    CORE99_VIA_CONFIG_PMU,
-+    CORE99_VIA_CONFIG_PMU_ADB
-+} Core99ViaConfig;
- 
- struct Core99MachineState {
-     /*< private >*/
-     MachineState parent;
- 
--    uint8_t via_config;
-+    Core99ViaConfig via_config;
+@@ -649,9 +649,103 @@ static const TypeInfo core99_machine_info = {
+     },
  };
  
- static void fw_cfg_boot_set(void *opaque, const char *boot_device,
++static void powermac3_1_machine_class_init(ObjectClass *oc, void *data)
++{
++    MachineClass *mc = MACHINE_CLASS(oc);
++
++    core99_machine_class_init(oc, data);
++    mc->desc = "Apple Power Mac G4 AGP (Sawtooth)";
++    mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("7400_v2.9");
++}
++
++static void powermac3_1_instance_init(Object *obj)
++{
++    Core99MachineState *cms = CORE99_MACHINE(obj);
++
++    cms->via_config = CORE99_VIA_CONFIG_PMU;
++    return;
++}
++
++static const TypeInfo powermac3_1_machine_info = {
++    .name          = MACHINE_TYPE_NAME("powermac3_1"),
++    .parent        = TYPE_MACHINE,
++    .class_init    = powermac3_1_machine_class_init,
++    .instance_init = powermac3_1_instance_init,
++    .instance_size = sizeof(Core99MachineState),
++    .interfaces = (InterfaceInfo[]) {
++        { TYPE_FW_PATH_PROVIDER },
++        { }
++    },
++};
++
++static void powerbook3_2_machine_class_init(ObjectClass *oc, void *data)
++{
++    MachineClass *mc = MACHINE_CLASS(oc);
++
++    core99_machine_class_init(oc, data);
++    mc->desc = "Apple PowerBook G4 Titanium (Mercury)";
++    mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("7400_v2.9");
++}
++
++static void powerbook3_2_instance_init(Object *obj)
++{
++    Core99MachineState *cms = CORE99_MACHINE(obj);
++
++    cms->via_config = CORE99_VIA_CONFIG_PMU_ADB;
++    return;
++}
++
++static const TypeInfo powerbook3_2_machine_info = {
++    .name          = MACHINE_TYPE_NAME("powerbook3_2"),
++    .parent        = TYPE_MACHINE,
++    .class_init    = powerbook3_2_machine_class_init,
++    .instance_init = powerbook3_2_instance_init,
++    .instance_size = sizeof(Core99MachineState),
++    .interfaces = (InterfaceInfo[]) {
++        { TYPE_FW_PATH_PROVIDER },
++        { }
++    },
++};
++
++#ifdef TARGET_PPC64
++static void powermac7_3_machine_class_init(ObjectClass *oc, void *data)
++{
++    MachineClass *mc = MACHINE_CLASS(oc);
++
++    core99_machine_class_init(oc, data);
++    mc->desc = "Apple Power Mac G5 (Niagara)";
++    mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("970fx_v3.1");
++}
++
++static void powermac7_3_instance_init(Object *obj)
++{
++    Core99MachineState *cms = CORE99_MACHINE(obj);
++
++    cms->via_config = CORE99_VIA_CONFIG_PMU;
++    return;
++}
++
++static const TypeInfo powermac7_3_machine_info = {
++    .name          = MACHINE_TYPE_NAME("powermac7_3"),
++    .parent        = TYPE_MACHINE,
++    .class_init    = powermac7_3_machine_class_init,
++    .instance_init = powermac7_3_instance_init,
++    .instance_size = sizeof(Core99MachineState),
++    .interfaces = (InterfaceInfo[]) {
++        { TYPE_FW_PATH_PROVIDER },
++        { }
++    },
++};
++#endif
++
+ static void mac_machine_register_types(void)
+ {
+     type_register_static(&core99_machine_info);
++    type_register_static(&powermac3_1_machine_info);
++    type_register_static(&powerbook3_2_machine_info);
++#ifdef TARGET_PPC64
++    type_register_static(&powermac7_3_machine_info);
++#endif
+ }
+ 
+ type_init(mac_machine_register_types)
 -- 
 2.30.4
 
