@@ -2,107 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7080D60D51C
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 22:03:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 148DB60D53E
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 22:09:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onQ4S-0006Rb-NF; Tue, 25 Oct 2022 15:58:44 -0400
+	id 1onQDD-0005ks-C4; Tue, 25 Oct 2022 16:07:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1onQ4Q-0006RJ-Eu; Tue, 25 Oct 2022 15:58:42 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1onQ4O-0008N6-HO; Tue, 25 Oct 2022 15:58:42 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29PIUbqa021265;
- Tue, 25 Oct 2022 19:58:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=JWqb3y/z8GNZrZ7+5y77h4Ti0NUGbmfUZCdPQ5x7qbs=;
- b=fv9HUqFn0q1CSVfGVrUyfEVvj4a7KLQ/O0LYoPUZjJbjKkQe2Q2z4VLVjclkMEEfeJMS
- KXFHI0Yw2yGDWc3WTF9uI0Jco+7LLi/7nzrx1rO9teVGLq+W5RCzCbNUX9KM2Kt904Yp
- pf25PWt/DfyWeQVRfetypKxboMKQaMxfWHaBhup2Ns8PUJ6ItiDyxcwl/E3scImfgrv6
- Hnm5lw8rdFKx2s9060ALTG9qS2+pkLVR6N2A31nmUZysj0gDyUtrnWXIFWscvIkTqQG6
- sJL4XGaszo1bGGrknJxps/4mmvZzkcwAzBgbwypSaluwHpuKVSXbWwAPrhflv1SKeUTN PQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kee99aat3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Oct 2022 19:58:33 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29PJDT1O030628;
- Tue, 25 Oct 2022 19:58:33 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kee99aasa-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Oct 2022 19:58:33 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29PJoe5p023216;
- Tue, 25 Oct 2022 19:58:30 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma03ams.nl.ibm.com with ESMTP id 3kdugatt9s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Oct 2022 19:58:30 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 29PJx1JK34931074
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 25 Oct 2022 19:59:01 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 02FE4AE051;
- Tue, 25 Oct 2022 19:58:27 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2C817AE045;
- Tue, 25 Oct 2022 19:58:26 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.41.31]) by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 25 Oct 2022 19:58:26 +0000 (GMT)
-Message-ID: <ad2a9892184cd5dc7597d411f42e330558146acf.camel@linux.ibm.com>
-Subject: Re: [PATCH v10 1/9] s390x/cpu topology: core_id sets s390x CPU
- topology
-From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-Date: Tue, 25 Oct 2022 21:58:25 +0200
-In-Reply-To: <20221012162107.91734-2-pmorel@linux.ibm.com>
-References: <20221012162107.91734-1-pmorel@linux.ibm.com>
- <20221012162107.91734-2-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1onQD9-0005QL-4U
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 16:07:43 -0400
+Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1onQD7-0001c9-73
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 16:07:42 -0400
+Received: by mail-yb1-xb2c.google.com with SMTP id r3so16113218yba.5
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 13:07:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=b/x683W/vDHr/QtxjDODVNxR341Q2iZCtH/kEZe6Q4Y=;
+ b=Ezx5QdxWMWkP74tBT27uZw4+vK5onAb6/AIH/3N9sn1aiotXm/4sD486LfAxl1KWLv
+ DT/rBfoV1PN5vmIj2MnXYUVIR6rM33pCTBjIfHcAqmzTcNy6pVA+ktr8UhZnXeZRrzRF
+ fj5lOf0UbXRIChr1ZZhuClUsN5UPDMrlw8l314NvDO/5tkwuTEh3SLEyI/udPNWXFhIQ
+ Yisa7y/dXz5A40cBkMN+0SEzGSVrUbvzBKJI+dyjDSRXI9NijIDLNW0kAMCOUko3quZC
+ 1AKOMBNGcwZklkuPwFD0OjaWy0wXj6/sMu7jolmxn5icRq/ms2VOw+vdNmsdeHMXqmLl
+ q6VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=b/x683W/vDHr/QtxjDODVNxR341Q2iZCtH/kEZe6Q4Y=;
+ b=w4vCGzg/3PPG/A/vUwBYUSo/8RVbzAfapSckpLGKLeHI6Sod0bg4OGm7ihnbo1RZo5
+ E2FxgOrYFbHyjYU93yXgFvnnVHj5ftoMlSB/DbiKOBpz5K3Yt0C0fzDlv4LAfH9eYJQR
+ kQTHQShemo21lY4ESDiaOIh/J8aTByzygH/ULKVLGYj4v6JlsJHVwBtULXS9keGlAVu+
+ S0zE4kXk/WBSv5rD0dm1gMCFcAfFA00UcGfTcmmMChe7oqwxbqGdJSCbAh1bTF7Td6po
+ MJPcIwz2/ygVMWvWDVeHPVqY2HAvv3aEzHy2iBut91qKLEx3ZtPl7h9kR6gCCOfQabCd
+ dTGg==
+X-Gm-Message-State: ACrzQf0+r7ucJ5u7BJWjci1i6TupwOZACtIhA9c5hGnJ6qGRZ/PZOUob
+ oWS91XMLEgWPXuzLWHn7wgbJRBSVAB/Pv8FWEGc=
+X-Google-Smtp-Source: AMsMyM4jJbI4N5cliq2OdSzlSM5IdTyS0nSmD7u5rx+PBwXp10P94tILTIGjkb6j76E7+hdfTuNT2M7PU/UiNaEbdpI=
+X-Received: by 2002:a25:1e89:0:b0:6bf:9e55:5cb4 with SMTP id
+ e131-20020a251e89000000b006bf9e555cb4mr36860078ybe.642.1666728459341; Tue, 25
+ Oct 2022 13:07:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: w6Ws5AHCMyn7xTg-U1dvybSI5PjBpFpi
-X-Proofpoint-ORIG-GUID: ZbYpU7S_91N_pPiML05QxnAavYt-s_Bu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-25_12,2022-10-25_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- bulkscore=0 suspectscore=0 mlxlogscore=999 spamscore=0 adultscore=0
- mlxscore=0 malwarescore=0 lowpriorityscore=0 impostorscore=0 clxscore=1015
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210250110
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=scgl@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20221025080541.271547-1-armbru@redhat.com>
+In-Reply-To: <20221025080541.271547-1-armbru@redhat.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Tue, 25 Oct 2022 16:07:27 -0400
+Message-ID: <CAJSP0QVkhzTw6_n+UgEVYDBhMqFuve1oVT2SnorwtMarWHgDcA@mail.gmail.com>
+Subject: Re: [PULL 00/28] QAPI patches patches for 2022-10-25
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,61 +84,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 2022-10-12 at 18:20 +0200, Pierre Morel wrote:
-> In the S390x CPU topology the core_id specifies the CPU address
-> and the position of the core withing the topology.
-> 
-> Let's build the topology based on the core_id.
-> s390x/cpu topology: core_id sets s390x CPU topology
-> 
-> In the S390x CPU topology the core_id specifies the CPU address
-> and the position of the cpu withing the topology.
-> 
-> Let's build the topology based on the core_id.
-> 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->  include/hw/s390x/cpu-topology.h |  45 +++++++++++
->  hw/s390x/cpu-topology.c         | 132 ++++++++++++++++++++++++++++++++
->  hw/s390x/s390-virtio-ccw.c      |  21 +++++
->  hw/s390x/meson.build            |   1 +
->  4 files changed, 199 insertions(+)
->  create mode 100644 include/hw/s390x/cpu-topology.h
->  create mode 100644 hw/s390x/cpu-topology.c
-> 
-[...]
+The following CI failures were reported. I think they may be related
+to this pull request:
 
-> +/**
-> + * s390_topology_realize:
-> + * @dev: the device state
-> + * @errp: the error pointer (not used)
-> + *
-> + * During realize the machine CPU topology is initialized with the
-> + * QEMU -smp parameters.
-> + * The maximum count of CPU TLE in the all Topology can not be greater
-> + * than the maximum CPUs.
-> + */
-> +static void s390_topology_realize(DeviceState *dev, Error **errp)
-> +{
-> +    MachineState *ms = MACHINE(qdev_get_machine());
-> +    S390Topology *topo = S390_CPU_TOPOLOGY(dev);
-> +
-> +    topo->cpus = ms->smp.cores * ms->smp.threads;
+cc -m64 -mcx16 -Ilibblock.fa.p -I. -I.. -Iqapi -Itrace -Iui
+-Iui/shader -Iblock -I/usr/include/p11-kit-1
+-I/usr/include/x86_64-linux-gnu -I/usr/include/uuid
+-I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include
+-fdiagnostics-color=3Dauto -Wall -Winvalid-pch -Werror -std=3Dgnu11 -O2 -g
+-isystem /builds/qemu-project/qemu/linux-headers -isystem
+linux-headers -iquote . -iquote /builds/qemu-project/qemu -iquote
+/builds/qemu-project/qemu/include -pthread -U_FORTIFY_SOURCE
+-D_FORTIFY_SOURCE=3D2 -D_GNU_SOURCE -D_LARGEFILE_SOURCE
+-Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings
+-Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv
+-Wold-style-declaration -Wold-style-definition -Wtype-limits
+-Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers
+-Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined
+-Wimplicit-fallthrough=3D2 -Wno-missing-include-dirs
+-Wno-shift-negative-value -Wno-psabi -fstack-protector-strong -fPIE
+-D_FILE_OFFSET_BITS=3D64 -D__USE_FILE_OFFSET64 -D__USE_LARGEFILE64
+-DUSE_POSIX_ACLS=3D1 -MD -MQ libblock.fa.p/block_rbd.c.o -MF
+libblock.fa.p/block_rbd.c.o.d -o libblock.fa.p/block_rbd.c.o -c
+../block/rbd.c
+../block/rbd.c: In function =E2=80=98qemu_rbd_do_create=E2=80=99:
+../block/rbd.c:545:15: error: =E2=80=98BlockdevCreateOptionsRbd=E2=80=99 {a=
+ka =E2=80=98struct
+BlockdevCreateOptionsRbd=E2=80=99} has no member named =E2=80=98has_encrypt=
+=E2=80=99; did you
+mean =E2=80=98encrypt=E2=80=99?
+545 | if (opts->has_encrypt) {
+| ^~~~~~~~~~~
+| encrypt
 
-Currently threads are not supported, effectively increasing the number of cpus,
-so this is currently correct. Once the machine version limits the threads to 1,
-it is also correct. However, once we support multiple threads, this becomes incorrect.
-I wonder if it's ok from a backward compatibility point of view to modify the smp values
-by doing cores *= threads, threads = 1 for old machines.
-Then you can just use the cores value and it is always correct.
-In any case, if you keep it as is, I'd like to see a comment here saying that this
-is correct only so long as we don't support threads.
-> +
-> +    topo->socket = g_new0(S390TopoContainer, ms->smp.sockets);
-> +    topo->tle = g_new0(S390TopoTLE, ms->smp.max_cpus);
-> +
-> +    topo->ms = ms;
-> +}
-> +
-[...]
+https://gitlab.com/qemu-project/qemu/-/jobs/3225215747
+
+I think this will solve it:
+diff --cc block/rbd.c
+index f826410f40,d809b8e0a3..3aa6aae0e0
+--- a/block/rbd.c
++++ b/block/rbd.c
+@@@ -542,7 -542,7 +542,7 @@@ static int qemu_rbd_do_create(BlockdevC
+      }
+
+  #ifndef LIBRBD_SUPPORTS_ENCRYPTION
+--    if (opts->has_encrypt) {
+++    if (opts->encrypt) {
+          error_setg(errp, "RBD library does not support image encryption")=
+;
+          return -ENOTSUP;
+      }
+
+cc -m64 -mcx16 -Ilibqemuutil.a.p -I. -I.. -Iqapi -Itrace -Iui/shader
+-I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include
+-fdiagnostics-color=3Dauto -Wall -Winvalid-pch -Werror -std=3Dgnu11 -O2 -g
+-isystem /builds/qemu-project/qemu/linux-headers -isystem
+linux-headers -iquote . -iquote /builds/qemu-project/qemu -iquote
+/builds/qemu-project/qemu/include -iquote
+/builds/qemu-project/qemu/tcg/i386 -pthread -U_FORTIFY_SOURCE
+-D_FORTIFY_SOURCE=3D2 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64
+-D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef
+-Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common
+-fwrapv -Wold-style-declaration -Wold-style-definition -Wtype-limits
+-Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers
+-Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined
+-Wimplicit-fallthrough=3D2 -Wno-missing-include-dirs
+-Wno-shift-negative-value -Wno-psabi -fstack-protector-strong -fPIE
+-MD -MQ libqemuutil.a.p/stubs_qdev.c.o -MF
+libqemuutil.a.p/stubs_qdev.c.o.d -o libqemuutil.a.p/stubs_qdev.c.o -c
+../stubs/qdev.c
+../stubs/qdev.c:18:6: error: conflicting types for
+'qapi_event_send_device_deleted'
+18 | void qapi_event_send_device_deleted(bool has_device,
+| ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ../stubs/qdev.c:16:
+./qapi/qapi-events-qdev.h:20:6: note: previous declaration of
+'qapi_event_send_device_deleted' was here
+20 | void qapi_event_send_device_deleted(const char *device, const char *pa=
+th);
+| ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../stubs/qdev.c:25:6: error: conflicting types for
+'qapi_event_send_device_unplug_guest_error'
+25 | void qapi_event_send_device_unplug_guest_error(bool has_device,
+| ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ../stubs/qdev.c:16:
+./qapi/qapi-events-qdev.h:22:6: note: previous declaration of
+'qapi_event_send_device_unplug_guest_error' was here
+22 | void qapi_event_send_device_unplug_guest_error(const char
+*device, const char *path);
+| ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+https://gitlab.com/qemu-project/qemu/-/jobs/3225215726
 
