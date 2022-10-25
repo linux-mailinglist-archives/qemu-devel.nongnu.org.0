@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 724D760C6B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 10:41:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94B3560C70A
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 10:57:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onFMT-0003bD-JA; Tue, 25 Oct 2022 04:32:37 -0400
+	id 1onFMX-0004iV-Nj; Tue, 25 Oct 2022 04:32:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1onETz-0001JO-5S
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:36:24 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1onEU5-0001L6-8I
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:36:30 -0400
 Received: from mout.kundenserver.de ([212.227.126.133])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1onETw-0003Gx-PT
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:36:18 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1onEU3-0003Hj-Gc
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:36:25 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MLAF0-1oV9dB2Cjy-00ICSO; Tue, 25
- Oct 2022 09:36:11 +0200
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1N32y5-1pEQrZ0Eub-013LBv; Tue, 25
+ Oct 2022 09:36:12 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+Cc: WANG Xuerui <xen0n@gentoo.org>,
+ =?UTF-8?q?Andreas=20K=20=2E=20H=C3=BCttel?= <dilfridge@gentoo.org>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 6/8] linux-user: remove conditionals for many fs.h ioctls
-Date: Tue, 25 Oct 2022 09:36:04 +0200
-Message-Id: <20221025073606.3114355-7-laurent@vivier.eu>
+Subject: [PULL 7/8] linux-user: Implement faccessat2
+Date: Tue, 25 Oct 2022 09:36:05 +0200
+Message-Id: <20221025073606.3114355-8-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221025073606.3114355-1-laurent@vivier.eu>
 References: <20221025073606.3114355-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:1p8GCLFQVIWBjHEWTGWIcGZOI9FslGEHLLfcknTtckVTz0uFXRw
- UM/7k4JNOwmCGqOSosnqbb/8BL91DEKV8xqSM8Z+069ckz4J57njjh+QluxG1APJ2/wtvnA
- Lnjzm5xFPpOjg5OKJzw6jNxt3tQfTGafDLPV3OzEnHTAdc1KD1XXsSL5Xv/x2ssUdQY1Nik
- 4NILndIkny0/HdGkcuNtA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ykZfpIo+SZM=:CEqTtFuPbn8vlGBqttEwrc
- c94stDNC78GDvxgt0ZwARqV3NGKCZZgHeta/43RJjHvXIOteZVEFfLyj5gjd9C00G87rcTGb1
- iGNAIRLU5WAjWYGAF8s8gjEfaWuGtNmjSuaBNM8ZYZxfwCusr73kg6ewK/rQo/LSYut2pg+A8
- olOnw57q8SCH/u/qIgl42jeKBJ4jtYg8oMPUwbWQ30FMibuL3eq+67gxTzizzQe2NwiTq4TUE
- EcSrmsIy3/RGYbrJDRyvogeG6t+UkqoV+9BzsteIOWJJt5qPQjalcmHwmvOilhFk/rZNnQ0ZC
- 1hDxqvj6Ue47ZfXV30iwRgW1aTJ0y1xHrLrw0LgetVITGO9emKLJcxpC9auiI7/GaE6wleQ2z
- 9+3HG5Sn+JL9mtXYd9IqqEelLvKUur10W0yaHvDVoYyYoEoY+yJpDgnx+QCmcerLJzcEs+gUU
- eByNpbQGgH8y340H1gtCQNIS4bA4EJdV1q9abqlMCP/AeVieQ7zYNAlW1wazRV1D8AzLMZxAT
- RvcaBvuSbGk+IBNIRJMA1ARAb6/uZwZ7ily+3dmYgTLv3n814xCRS6VT5to0v38Dwo15b7Mkh
- 4gejpwDyrgHsvCbK6pxMu6/KHAiGLZa57Tdr7ncTA7nWUgqs33b4EVXGHuxw8tgfsGvKW4ItZ
- j69YF+c69EpgwhaO5t4Yr2+VnXXUE1yU50vO7fcCbEkbldYQGfDHptNNuILpUOnEmg0W4+3g2
- vap3CCukkn5CYMlDx0tzdTjPVJaono206xoLOUg/y035Bp+pT/5tR3tyPQ/fVdls93qwa/ikw
- TPONPUc
+X-Provags-ID: V03:K1:QDvODlbm5JC+HJJRhSY10kxwrSCubyBAMP2E/pFg0zBF3AUNykh
+ usNXY1XRFw9C6M2TX8/AuAgRfSKNozmtEEEId7mAtdzATORQ5AOxg+EfWw1KE0zDjipswA9
+ 4GokYy+tAix57UZdqrdCSL4Fh0O7yney707PCvRUOJbrBLHwqSxe93tAOc2a/B+UT1WtVJl
+ am9QtJIsesLXDa9IJ//Rg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:XRgM17klfF4=:7DzSbKkIRtOfka6j6jabAt
+ XFf05RGv2TSEx7xO/GrX8KaXfH8Q8np+tD4WD02xwRx5119AiwpxN8UwLqZJulJ+6+6fw9NwA
+ U1Yq1RmLrGWihFmTkGvjFhYxFYlyLfeibYQF50lfslGsiVVyEkPowbF+RALoNxnAakMYL9p5k
+ 6/3Su1edTl3bMknhUvXZqJrJahdI3Kx62kzjq7yW3IYKBhIH52q7pWA4Ao4+j5eseFfNUVitR
+ zdPNMV4X6iPrFeikPcg6utrXQOd2MgcgnjtnrmI6KIdxyS9GeVfI7Mrq2jm2kCB5baPaAetGz
+ gP1jXSaIK9f7PZVcZsMpdbrYEsbygtOvyqaQNIEYZYk8Qs1+flEzvOyYFUDHCqEtVw/4jKUyX
+ JBYUWC7SND+pZNamTeKCeg5scXw4SosJvuKzOtq+NPM2FTPRwv+Bouo2t6j6sa83ZHVeX+kJ5
+ MwWrCVZxhL8OUD9RFxmFuBMeerEQZhZNe4NI9A7Nl6b4tdPvCSeNnlOag27KrmnhT1QZXA5C1
+ Bd6UziVFhUdFsfX2D/Jb33BBgAagmSqCmoTUqm15F5MXcBcbGZ8AEMXJG4HZJCJL78OaC5fSt
+ 5qWufMt9NKskqsF3TyBmJrBL/vLj67AxUK58FGVP5kebfbVmrPsjoxL/kE/WQNmt6uIGS0fXf
+ 42hRwhpU/lzr8l6Gr0msl5tDX0i1c9FpqdfbH31DFtb96iR9HEgoz+iO1Nn8z85VqJB6cxi4W
+ G/U2mubxVxnrjzI5LNE9/s3H5iZbHHoj3Np3/0qyNVHW2src0PAf/hTujDZ2UwOkaqPdbDMf6
+ EsSKEum
 Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -72,101 +73,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+From: WANG Xuerui <xen0n@gentoo.org>
 
-These ioctls have been defined in linux/fs.h for a long time
+User space has been preferring this syscall for a while, due to its
+closer match with C semantics, and newer platforms such as LoongArch
+apparently have libc implementations that don't fallback to faccessat
+so normal access checks are failing without the emulation in place.
 
-  * BLKGETSIZE64 - <2.6.12 (linux.git epoch)
-  * BLKDISCARD - 2.6.28 (d30a2605be9d5132d95944916e8f578fcfe4f976)
-  * BLKIOMIN - 2.6.32 (ac481c20ef8f6c6f2be75d581863f40c43874ef7)
-  * BLKIOOPT - 2.6.32 (ac481c20ef8f6c6f2be75d581863f40c43874ef7)
-  * BLKALIGNOFF - 2.6.32 (ac481c20ef8f6c6f2be75d581863f40c43874ef7)
-  * BLKPBSZGET - 2.6.32 (ac481c20ef8f6c6f2be75d581863f40c43874ef7)
-  * BLKDISCARDZEROES - 2.6.32 (98262f2762f0067375f83824d81ea929e37e6bfe)
-  * BLKSECDISCARD - 2.6.36 (8d57a98ccd0b4489003473979da8f5a1363ba7a3)
-  * BLKROTATIONAL - 3.2 (ef00f59c95fe6e002e7c6e3663cdea65e253f4cc)
-  * BLKZEROOUT - 3.6 (66ba32dc167202c3cf8c86806581a9393ec7f488)
-  * FIBMAP - <2.6.12 (linux.git epoch)
-  * FIGETBSZ - <2.6.12 (linux.git epoch)
+Tested by successfully emerging several packages within a Gentoo loong
+stage3 chroot, emulated on amd64 with help of static qemu-loongarch64.
 
-and when building with latest glibc, we'll see compat definitions
-in syscall.c anyway thanks to the previous patch. Thus we can
-assume they always exist and remove the conditional checks.
-
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20221004093206.652431-3-berrange@redhat.com>
+Reported-by: Andreas K. Hüttel <dilfridge@gentoo.org>
+Signed-off-by: WANG Xuerui <xen0n@gentoo.org>
+Message-Id: <20221009060813.2289077-1-xen0n@gentoo.org>
+[lv: removing defined(__NR_faccessat2) in syscall.c,
+     adding defined(TARGET_NR_faccessat2) on print_faccessat()]
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/ioctls.h | 24 ------------------------
- 1 file changed, 24 deletions(-)
+ linux-user/strace.c    | 2 +-
+ linux-user/strace.list | 3 +++
+ linux-user/syscall.c   | 9 +++++++++
+ 3 files changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index f182d40190ed..071f7ca25375 100644
---- a/linux-user/ioctls.h
-+++ b/linux-user/ioctls.h
-@@ -96,9 +96,7 @@
-      IOCTL(BLKROGET, IOC_R, MK_PTR(TYPE_INT))
-      IOCTL(BLKRRPART, 0, TYPE_NULL)
-      IOCTL(BLKGETSIZE, IOC_R, MK_PTR(TYPE_ULONG))
--#ifdef BLKGETSIZE64
-      IOCTL(BLKGETSIZE64, IOC_R, MK_PTR(TYPE_ULONGLONG))
--#endif
-      IOCTL(BLKFLSBUF, 0, TYPE_NULL)
-      IOCTL(BLKRASET, 0, TYPE_INT)
-      IOCTL(BLKRAGET, IOC_R, MK_PTR(TYPE_LONG))
-@@ -107,33 +105,15 @@
-      IOCTL_SPECIAL(BLKPG, IOC_W, do_ioctl_blkpg,
-                    MK_PTR(MK_STRUCT(STRUCT_blkpg_ioctl_arg)))
- 
--#ifdef BLKDISCARD
-      IOCTL(BLKDISCARD, IOC_W, MK_PTR(MK_ARRAY(TYPE_ULONGLONG, 2)))
--#endif
--#ifdef BLKIOMIN
-      IOCTL(BLKIOMIN, IOC_R, MK_PTR(TYPE_INT))
--#endif
--#ifdef BLKIOOPT
-      IOCTL(BLKIOOPT, IOC_R, MK_PTR(TYPE_INT))
--#endif
--#ifdef BLKALIGNOFF
-      IOCTL(BLKALIGNOFF, IOC_R, MK_PTR(TYPE_INT))
--#endif
--#ifdef BLKPBSZGET
-      IOCTL(BLKPBSZGET, IOC_R, MK_PTR(TYPE_INT))
--#endif
--#ifdef BLKDISCARDZEROES
-      IOCTL(BLKDISCARDZEROES, IOC_R, MK_PTR(TYPE_INT))
--#endif
--#ifdef BLKSECDISCARD
-      IOCTL(BLKSECDISCARD, IOC_W, MK_PTR(MK_ARRAY(TYPE_ULONGLONG, 2)))
--#endif
--#ifdef BLKROTATIONAL
-      IOCTL(BLKROTATIONAL, IOC_R, MK_PTR(TYPE_SHORT))
--#endif
--#ifdef BLKZEROOUT
-      IOCTL(BLKZEROOUT, IOC_W, MK_PTR(MK_ARRAY(TYPE_ULONGLONG, 2)))
--#endif
- 
-      IOCTL(FDMSGON, 0, TYPE_NULL)
-      IOCTL(FDMSGOFF, 0, TYPE_NULL)
-@@ -149,17 +129,13 @@
-      IOCTL(FDTWADDLE, 0, TYPE_NULL)
-      IOCTL(FDEJECT, 0, TYPE_NULL)
- 
--#ifdef FIBMAP
-      IOCTL(FIBMAP, IOC_W | IOC_R, MK_PTR(TYPE_LONG))
--#endif
- #ifdef FICLONE
-      IOCTL(FICLONE, IOC_W, TYPE_INT)
-      IOCTL(FICLONERANGE, IOC_W, MK_PTR(MK_STRUCT(STRUCT_file_clone_range)))
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 86c081c83f74..9ae5a812cd71 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -1969,7 +1969,7 @@ print_execv(CPUArchState *cpu_env, const struct syscallname *name,
+ }
  #endif
  
--#ifdef FIGETBSZ
-      IOCTL(FIGETBSZ, IOC_R, MK_PTR(TYPE_LONG))
--#endif
- #ifdef CONFIG_FIEMAP
-      IOCTL_SPECIAL(FS_IOC_FIEMAP, IOC_W | IOC_R, do_ioctl_fs_ioc_fiemap,
-                    MK_PTR(MK_STRUCT(STRUCT_fiemap)))
+-#ifdef TARGET_NR_faccessat
++#if defined(TARGET_NR_faccessat) || defined(TARGET_NR_faccessat2)
+ static void
+ print_faccessat(CPUArchState *cpu_env, const struct syscallname *name,
+                 abi_long arg0, abi_long arg1, abi_long arg2,
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index a87415bf3d50..3df2184580aa 100644
+--- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -178,6 +178,9 @@
+ #ifdef TARGET_NR_faccessat
+ { TARGET_NR_faccessat, "faccessat" , NULL, print_faccessat, NULL },
+ #endif
++#ifdef TARGET_NR_faccessat2
++{ TARGET_NR_faccessat2, "faccessat2" , NULL, print_faccessat, NULL },
++#endif
+ #ifdef TARGET_NR_fadvise64
+ { TARGET_NR_fadvise64, "fadvise64" , NULL, NULL, NULL },
+ #endif
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index d499cac1d5d1..e985ad167f21 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -9143,6 +9143,15 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+         unlock_user(p, arg2, 0);
+         return ret;
+ #endif
++#if defined(TARGET_NR_faccessat2)
++    case TARGET_NR_faccessat2:
++        if (!(p = lock_user_string(arg2))) {
++            return -TARGET_EFAULT;
++        }
++        ret = get_errno(faccessat(arg1, p, arg3, arg4));
++        unlock_user(p, arg2, 0);
++        return ret;
++#endif
+ #ifdef TARGET_NR_nice /* not on alpha */
+     case TARGET_NR_nice:
+         return get_errno(nice(arg1));
 -- 
 2.37.3
 
