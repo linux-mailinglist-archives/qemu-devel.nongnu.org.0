@@ -2,95 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FB9660C9A4
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 12:12:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95A5460C9B3
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 12:15:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onGqp-0004NT-Vf; Tue, 25 Oct 2022 06:08:04 -0400
+	id 1onGuq-0002vB-Gs; Tue, 25 Oct 2022 06:12:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1onGqn-0004Kk-P7
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 06:08:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1onGql-0004yB-EQ
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 06:08:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666692477;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZX7IIdkbjzb59G1MqLsOVjHPrefydUVp8+Wwv/8rcXk=;
- b=RvygOF+oaOuRTTADu4M7OhBE5kCwqzWyCR7bUrzoSbTgnYEL+vpfJ3fX8LfeyTOfF/F+Q+
- f3yCv3bHdFZNqAkMQ4OQP9Ebs96UEZecmzDwMAdkKDvI+iHl+zE5udmLl/tpfuWvXysVCk
- C/OxVfJxbulsJOepfrB6CqQ8CHG8jPE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-271-2NzoFMG1PGCyyZxuTkaBgw-1; Tue, 25 Oct 2022 06:07:56 -0400
-X-MC-Unique: 2NzoFMG1PGCyyZxuTkaBgw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- h26-20020adfaa9a000000b002364ad63bbcso4449531wrc.10
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 03:07:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1onGua-0002jh-K5
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 06:12:01 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1onGuL-0005ZO-HP
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 06:11:56 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ m14-20020a17090a3f8e00b00212dab39bcdso9145268pjc.0
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 03:11:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=LUyYHFTajOMRagUGuKMbxRYybcrw0AAj8PH7k6FOjEM=;
+ b=mlTep6hZZsIIzwCg7W4PmY+kAeHE4rVgJmCPBYz5asuFvlyaQlTblEWmZC1Q4cTrHl
+ Xg5wXwLOiU+5yhB4SyK8Y+VVSfWvZzZ1GHuP4pvYpOtdkt76LqUHhRJpdvvBU5QVLzeV
+ irSK2ast/lCHvhYDPISw/Zdmo1Wvag7+HzeHSZoL6vTT4xEDPu1ofiN0Rpj0c3h0xNZO
+ 3lGzTeibjo3DBGOTYv1xAttWxEw7659Q6zY0KRWhn9Srsj1nPJmvLXbplueMjQPgToi3
+ hNHbjISUipNe5CJTPrLyTjnJK4VNXJvjmvdhD39P+hNOF4v0PU9kpsrFp0+mLkhlp6BS
+ f0BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:reply-to
- :user-agent:references:in-reply-to:subject:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZX7IIdkbjzb59G1MqLsOVjHPrefydUVp8+Wwv/8rcXk=;
- b=l3L9J2E4gEGBraMrbFUevBxZp6r33QBlqFXTWsR1YLdm219ErzGUJK99UfgSf1HaBD
- blJZ7eBeyM/euT4H2I0rHmXNF5mIsI6vxbIO3Dsrl0g3Y8mYnrHL3g++yOIj89YfCnlO
- 8uHqiUoHpxQOjAdohquHP/MSByyYMob4AC280hODTXzwQdQ70LOSOpfdnLi8wp6+j33a
- q0C67EPoN/s4lVRiGabHq+qWGlA20p2Gl5zcZFmPn1s5AOJ1KoiIK7wYj65jYZi7U2P1
- KCw5z2P5Bakxmf343bB+9dyhF/5GTyu1p3SlxtlJUb3maptrEswXWlz7D68dqp+MLqkd
- yWzA==
-X-Gm-Message-State: ACrzQf2NaOyOGyfGJGNNBkMsuwtimOvt/ivfqSWFEmBWsvhZ701WpN6k
- h03L2GOfxoXmSo1q3YD4BSwfhGoBtQjmRlVLsk1oOJs0ZcvuAcFECz9h1J+Mg/+DCf0L3dRBkHM
- +s7nEy6znjQ7LMe0=
-X-Received: by 2002:a05:600c:88a:b0:3c6:cc34:abf with SMTP id
- l10-20020a05600c088a00b003c6cc340abfmr44244409wmp.147.1666692474866; 
- Tue, 25 Oct 2022 03:07:54 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4mzFi0diBbXDIKFJiyJGvn706frGLpKwnzZHCSRqR6pb3YPhCdxm5M40f592nlZ1xWc0swkg==
-X-Received: by 2002:a05:600c:88a:b0:3c6:cc34:abf with SMTP id
- l10-20020a05600c088a00b003c6cc340abfmr44244380wmp.147.1666692474587; 
- Tue, 25 Oct 2022 03:07:54 -0700 (PDT)
-Received: from localhost (static-28-206-230-77.ipcom.comunitel.net.
- [77.230.206.28]) by smtp.gmail.com with ESMTPSA id
- b2-20020a05600003c200b0022cdb687bf9sm2858110wrg.0.2022.10.25.03.07.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Oct 2022 03:07:54 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Leonardo Bras <leobras@redhat.com>,  "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>,  Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH 4/4] migration/multifd/zero-copy: Flush only the LRU
- half of the header array
-In-Reply-To: <Y1ef6/8gxsCiNjiO@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Tue, 25 Oct 2022 09:35:55 +0100")
-References: <20221025044730.319941-1-leobras@redhat.com>
- <20221025044730.319941-5-leobras@redhat.com>
- <Y1ef6/8gxsCiNjiO@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
-Date: Tue, 25 Oct 2022 12:07:53 +0200
-Message-ID: <875yg8dxmu.fsf@secure.mitica>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=LUyYHFTajOMRagUGuKMbxRYybcrw0AAj8PH7k6FOjEM=;
+ b=XI8YieLcY6yQYHRe+ekCBUo33+orlQ9byTl1lwdF/jeEeTFCfVxxy9K2kxwnYNh1wR
+ HisakCcmu4i1NPQnyjGN4WYpE05LNqMLaHKrAPAQ9iRnleCoVWr9q8wsZvlsDtzFSKau
+ ocMLz4L71z0W6l7L22EFkpGHmRAVB6TjJuk9oDnBIpwsw3CqFyeQptOlJnU/1ral0n/w
+ Bu8U4eIGAuIMgZXBw2+NBjcxcfSOJQFHoVU3l6UP5ro0MKqjGTCKSn96MUjlMFzkCpad
+ 2w7K15hFbRMGK0OFb4aV1Ah6FB/MjU9tNDoE/wH1T8qVt/izQcfZna4RTT5Yydq8D6bn
+ Gbmw==
+X-Gm-Message-State: ACrzQf1YzBMbrutJxwi7apcyiy07yKt2/Xr+wnk6590T/whGsn7ly6lR
+ ZHwy9T3ATZm9SMI+MSII/gpp2Lwtq7c7lCUccruVjg==
+X-Google-Smtp-Source: AMsMyM6nDeeg2e2M71q4Wm4Y/ElZB7z1YLlffNWmIwndCd4VAe71Vu0LmMuwmLtLCjlB1NEm70YBoRmMr3KUr3oUl0Q=
+X-Received: by 2002:a17:902:7c97:b0:17f:5abf:9450 with SMTP id
+ y23-20020a1709027c9700b0017f5abf9450mr36504465pll.19.1666692699443; Tue, 25
+ Oct 2022 03:11:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.503,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220609135851.42193-1-alxndr@bu.edu>
+ <CAFEAcA-QOqGWzeeQLLK2pH0WwABzXP2ZjFKxLY7d62bWhGRWxw@mail.gmail.com>
+ <20220621155306.2mvr22dd5xuc6pqm@mozz.bu.edu>
+ <Ys1AOOWLZRBxYNbC@stefanha-x1.localdomain>
+ <20221020220928.7gxd33eszrv7que5@mozz.bu.edu> <Y1bdgdWXG2FYHm/K@fedora>
+In-Reply-To: <Y1bdgdWXG2FYHm/K@fedora>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 25 Oct 2022 11:11:27 +0100
+Message-ID: <CAFEAcA9AUpK6d81hZQG7Ba06w5xTdXkgMaMu+nDKrVh8QwabhQ@mail.gmail.com>
+Subject: Re: [PATCH v2] memory: prevent dma-reentracy issues
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Mauro Matteo Cascella <mcascell@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ Peter Xu <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+ David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, 
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Bandan Das <bsd@redhat.com>, 
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Darren Kenny <darren.kenny@oracle.com>, 
+ Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,93 +97,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> On Tue, Oct 25, 2022 at 01:47:31AM -0300, Leonardo Bras wrote:
->> Zero-copy multifd migration sends both the header and the memory pages i=
-n a
->> single syscall. Since it's necessary to flush before reusing the header,=
- a
->> header array was implemented, so each write call uses a different
->> array, and flushing only take place after all headers have been used,
->> meaning 1 flush for each N writes.
->>=20
->> This method has a bottleneck, though: After the last write, a flush will
->> have to wait for all writes to finish, which will be a lot, meaning the
->> recvmsg() syscall called in qio_channel_socket_flush() will be called a
->> lot. On top of that, it will create a time period when the I/O queue is
->> empty and nothing is getting send: between the flush and the next write.
->>=20
->> To avoid that, use qio_channel_flush()'s new max_pending parameter to wa=
-it
->> until at most half of the array is still in use. (i.e. the LRU half of t=
-he
->> array can be reused)
->>=20
->> Flushing for the LRU half of the array is much faster, since it does not
->> have to wait for the most recent writes to finish, making up for having
->> to flush twice per array.
->>=20
->> As a main benefit, this approach keeps the I/O queue from being empty wh=
-ile
->> there are still data to be sent, making it easier to keep the I/O maximum
->> throughput while consuming less cpu time.
+On Mon, 24 Oct 2022 at 19:46, Stefan Hajnoczi <stefanha@redhat.com> wrote:
 >
-> Doesn't this defeat the reason for adding the flush in the first
-> place, which was to ensure that a migration iteration was fully
-> sent before starting the next iteration over RAM ? If it is OK to
-> only partially flush on each iteration, then why do we need to
-> flush at all ?
+> On Thu, Oct 20, 2022 at 06:11:06PM -0400, Alexander Bulekov wrote:
+> > Taking a stab at this. Here is the list of DMA APIs that appear to need
+> > changes:
+> > dma_memory_valid (1 usage)
+> > dma_memory_rw (~5 uses)
+> > dma_memory_read (~92 uses)
+> > dma_memory_write (~71 uses)
+> > dma_memory_set (~4 uses)
+> > dma_memory_map (~18 uses)
+> > dma_memory_unmap (~21 uses)
+> > {ld,st}_{le,be}_{uw,l,q}_dma (~10 uses)
+> > ldub_dma (does not appear to be used anywhere)
+> > stb_dma (1 usage)
+> > dma_buf_read (~18 uses)
+> > dma_buf_write (~7 uses)
+> >
+> > These appear to be internal to the DMA API and probably don't need to be
+> > changed:
+> > dma_memory_read_relaxed (does not appear to be used anywhere)
+> > dma_memory_write_relaxed (does not appear to be used anywhere)
+> > dma_memory_rw_relaxed
+> >
+> > I don't think the sglist APIs need to be changed since we can get
+> > DeviceState from the QEMUSGList.
+> >
+> > Does this look more-or-less right?
+>
+> That's along the lines of what I would expect. Interesting that
+> map/unmap is also on the list; it makes sense when considering bounce
+> buffers.
 
-Now we need to do the flush in two places:
-- on sync_main (the old place)
-- on the migration thread, when we run out of array entries.
-  This one has nothing to do with correctness, it is just that we have
-  more space than needed.
+Not all devices that DMA do it via the dma_memory_* wrappers, of course:
+some just use address_space_* functions directly. I guess maybe
+we can just make the devices where we care about this problem
+be more consistent about what function family they use.
 
-So, in this regard, I think that the patches are correct.
-
-But on the other hand, I am not sure that I like the size of the array.
-Leonardo is using 1024 entries for each migration channel.  That means
-that it allows it to have 1024 entries * 512 KB each packet is 512MB of
-unflushed data in each channel.  I think that this is still too much.
-
-I will need some data from testing, but my understanding on how Zero
-Copy work is that having around 10MB in each channel would be more than
-enough to saturate the link.  And once that the data inflight is
-smaller, we can just flush it when we get out of channels.
-
-My idea here was to work the size the other way around, add a parameter
-to the user about how much memory is he available for mlocking, and
-just do a memory/channels array entries on each channel.  That will:
-
-a - limit the amount of mlocked memory that we need
-    10MB/channel for 10 channels is 100MB of mlocked memory, for a guest
-    that has lots of Gigabytes of RAM looks reasonable.
-
-b - We don't synchronize after each write, because I still claim than
-    doing a non asynchronous write on the channel just syncs everything
-    (otherwise I can't see how the hardware can even work).
-
-So I guess that the best thing to decide this is:
-- get a couple of nice 100Gigabit networking cards
-- Enable 16 channels or so, so we know that the CPU is not going to be
-  the bottleneck
-- test with this patch
-- remove last two patches and test with several array sizes
-  (10, 20, 30,..) and we will see that after some size, performance will
-  not improve at all.
-- Got that value as default one.
-
-What do you think?
-
-Later, Juan.
-
-PD.  Yes, I don't like to add another parameter, so you can recompile
-     with different values, or we will not add the parameter once that
-     we find a right value.
-
+-- PMM
 
