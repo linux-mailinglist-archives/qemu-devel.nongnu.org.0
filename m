@@ -2,89 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F39260CD2A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 15:15:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2836460CD25
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 15:14:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onJkS-00041O-Ly; Tue, 25 Oct 2022 09:13:41 -0400
+	id 1onJkW-0004Zr-Ce; Tue, 25 Oct 2022 09:13:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1onJjz-0003am-3i
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 09:13:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1onJjt-0007p6-Kd
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 09:13:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666703583;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JaNicNcBgylp8LrLfqL/97FlX2kFPYiyBy9AN30OHOg=;
- b=jNUUnuDLaC++LW8KgdBLvnrfk97xdX2heaVDLgD8ozBbQRAIJymPIJXitaSX5Qj2CftYno
- wX6/hhs/C8h5luZIWJM5Hnru30vuPvCbpUHpPjSYPMY3qrqcauYFza+pT7u2ck0kImtn0u
- CtkG3BgV7i1uviStGv/83azcj0e/EX0=
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-21-BBCKb8OdNbuRv569sbVLog-1; Tue, 25 Oct 2022 09:13:00 -0400
-X-MC-Unique: BBCKb8OdNbuRv569sbVLog-1
-Received: by mail-vk1-f197.google.com with SMTP id
- r16-20020a1f2b10000000b003b69c62fcb8so1026761vkr.9
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 06:13:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1onJkJ-0004NG-J2
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 09:13:33 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1onJkG-0007qO-Hk
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 09:13:31 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id y16so10407020wrt.12
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 06:13:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=18MAZ578oFY/aR/BXCz5HEv7GcIEgV4rz1YjxSZtAv0=;
+ b=JP07SaUOgix5xHB0P56HUUnN0F26KfeAyoDkVPs87WxRAPN6ohxwX70s0cQ3wti6b6
+ pwBo7AM6nR8FryOs4GgoKRfRtCiaM4uKIs5W+72AfPK2sXDwZeiK8mQSYquFtjvAUu/T
+ eN5YXF90XBRuID7geJYnP2Kj8x4IagbOt6yjtZG72CCtHvLDb2ZBXQhkvfrp19YY7V2s
+ EjsSFqdC3VI/v+iih4cPRkhv5Z8/vHswfHXSwgYdPDlRMQE1TRhESd4mJsm6gzO4ZvcE
+ 1auGaFb8PNex9rw9tYsXLHo/IZeJg22nXu7kquD/bQpDZvfY16jk81JnTMILqS2oDWOI
+ leYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=JaNicNcBgylp8LrLfqL/97FlX2kFPYiyBy9AN30OHOg=;
- b=oRfEv5bYuky9EYikTJvzfbgZGCwnGOaphNjmr8IDn1fMcEupfGpBtoa1Jmby6WJ8tb
- oXImrcNCprVSosuOCIssMuR0IgnnDXYzJ954wkD9S8qlDDdGo/OjBXvEwRnrjgEJ3hWU
- IxX0Vyp8ou6+PblI1II+xQUScJFToDUHKhe+8HAvj6Lze3vpU8Nw5/i3whlmrNBbBiRo
- 1G+TPKxE0jf22wl8zMcKx75170d5BXWbmNmXjZuO/hnVmttsEIUh1dRa4ygYqaapn4GD
- AcnJNqCKuqEGLHrdK6tvlcyRfHiPe2pCgaMRUjbFf48Kew86Ycxnk6xh60Ew2WZHKh0F
- Zpfg==
-X-Gm-Message-State: ACrzQf1ba8q9XCKo7sz6M6zV9u0EQOm3U11Uf7Va6m7RDlkZg0BBsT5N
- Mx3+GnAnzKHOkZTPJ7cDsM/Md0dfYbgidMEbhCg48DVA39E8KUcMn6xL+wuw4zXoMI+Bou8B4Jm
- AyNf0+sLv7qIAQznhUGnFNYLDRom0gts=
-X-Received: by 2002:ab0:6592:0:b0:40c:4374:3aa4 with SMTP id
- v18-20020ab06592000000b0040c43743aa4mr4431260uam.42.1666703580090; 
- Tue, 25 Oct 2022 06:13:00 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5prOdVh1qJgrvRbZ2q/Y7n28JezybsPWk9tqih4liwZmPjVstnrW0H38cU5POpvsUmiK8/QjjLXBKtAGrMJOo=
-X-Received: by 2002:ab0:6592:0:b0:40c:4374:3aa4 with SMTP id
- v18-20020ab06592000000b0040c43743aa4mr4431231uam.42.1666703579836; Tue, 25
- Oct 2022 06:12:59 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=18MAZ578oFY/aR/BXCz5HEv7GcIEgV4rz1YjxSZtAv0=;
+ b=Gxfp0wYAfgXrCMfhjpY37B0TnwG7D0hws4mv0qLXOLY4RwTjOniyAWBvsQNrXY1zM3
+ hhjFJX+oY3Fm3AXpqH+mloOy9wujjjIUpbcBGF6Qguqv50TA3H9N5TrlJmr2CeMjXZmH
+ nG5TOBS9ZJWEdz7mh35iy5Kq0qheg0BhLHHlAfUZsUIqrtXu8CpcW3P8YqzDz3gj8naO
+ kAa7E2z2ju1OayNL4p1TVJtDQKK6taxoKg/Y8chRgVUTFNMdDHrbzqF0XRIFJbiPfQCF
+ INcN5/vvrtwzafJ8GBLQ3qHQBqfSwr0SOPjHpOdLQnJZJKGPIQW9s/9xhBnSua7DexT5
+ RhRw==
+X-Gm-Message-State: ACrzQf2OaQjI+3oRcPuYPjYH6/06JuHU6epf2orrfO5JBTyMh2bwlVq0
+ IgFdJm+mw/oCAEtwqpcl6Y5Wdw==
+X-Google-Smtp-Source: AMsMyM6n+wX66RehpvzUqPvJtRhdpWEFmoAfZeUZlTnZlEXNT8CGVc9eHa9N+f2GNjEwvJF5Cnu/mg==
+X-Received: by 2002:a05:600c:4588:b0:3c6:f8b2:dd34 with SMTP id
+ r8-20020a05600c458800b003c6f8b2dd34mr30039337wmo.178.1666703606052; 
+ Tue, 25 Oct 2022 06:13:26 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ iv11-20020a05600c548b00b003a601a1c2f7sm12015742wmb.19.2022.10.25.06.13.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Oct 2022 06:13:25 -0700 (PDT)
+Message-ID: <6d4f3fc9-b91e-3978-affd-fbe8e29671c2@linaro.org>
+Date: Tue, 25 Oct 2022 15:13:24 +0200
 MIME-Version: 1.0
-References: <20220812133453.82671-1-imbrenda@linux.ibm.com>
- <c60fa9e2-b5c4-6765-da23-e6cc31746f53@redhat.com>
- <Y1fb9OAKTgUXC/w6@redhat.com>
-In-Reply-To: <Y1fb9OAKTgUXC/w6@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Tue, 25 Oct 2022 15:12:48 +0200
-Message-ID: <CABgObfaDjYJX2GjUne6pMEZh6KDN0d0H=y_aX0pK0U9KMmvJhA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/1] os-posix: asynchronous teardown for shutdown on
- Linux
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Claudio Imbrenda <imbrenda@linux.ibm.com>, qemu-devel@nongnu.org,
- david@redhat.com, 
- cohuck@redhat.com, thuth@redhat.com, borntraeger@de.ibm.com, 
- frankja@linux.ibm.com, fiuczy@linux.ibm.com, pasic@linux.ibm.com, 
- alex.bennee@linaro.org, armbru@redhat.com, 
- Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.2
+Subject: Re: [PATCH] seccomp: Get actual errno value from failed seccomp
+ functions
+Content-Language: en-US
+To: Michal Privoznik <mprivozn@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <b971585976862e52df4c373286104dd0540be8b7.1666699164.git.mprivozn@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <b971585976862e52df4c373286104dd0540be8b7.1666699164.git.mprivozn@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,21 +91,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Oct 25, 2022 at 2:52 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
-> If doing it in libvirt the flow would be
->
->   libvirtd -> fork -> fork -> execve(qemu)
->                         \-> clone(async handler)
->
-> In the latter case the async handler would be running code from
-> the libvirt binary. When the parent calls execve that will load
-> the code from QEMU, and because of CLONE_VM, this affect the
-> memory mappings in the async handler process too. I think that
-> will end up quite explody, no ?
+Cc'ing Daniel (maintainer)
 
-Oh yes it will. :)
+On 25/10/22 13:59, Michal Privoznik wrote:
+> Upon failure, a libseccomp API returns actual errno value very
+> rarely. Fortunately, after its commit 34bf78ab (contained in
+> 2.5.0 release), the SCMP_FLTATR_API_SYSRAWRC attribute can be set
+> which makes subsequent APIs return true errno on failure.
+> 
+> This is especially critical when seccomp_load() fails, because
+> generic -ECANCELED says nothing.
+> 
+> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+> ---
+>   meson.build            | 9 +++++++++
+>   softmmu/qemu-seccomp.c | 9 +++++++++
+>   2 files changed, 18 insertions(+)
+> 
+> diff --git a/meson.build b/meson.build
+> index b686dfef75..5f114c89d9 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -636,10 +636,16 @@ if vmnet.found() and not cc.has_header_symbol('vmnet/vmnet.h',
+>   endif
+>   
+>   seccomp = not_found
+> +seccomp_has_sysrawrc = false
+>   if not get_option('seccomp').auto() or have_system or have_tools
+>     seccomp = dependency('libseccomp', version: '>=2.3.0',
+>                          required: get_option('seccomp'),
+>                          method: 'pkg-config', kwargs: static_kwargs)
+> +  if seccomp.found()
+> +    seccomp_has_sysrawrc = cc.has_header_symbol('seccomp.h',
+> +                                                'SCMP_FLTATR_API_SYSRAWRC',
+> +                                                dependencies: seccomp)
+> +  endif
+>   endif
+>   
+>   libcap_ng = not_found
+> @@ -1849,6 +1855,9 @@ config_host_data.set('CONFIG_RDMA', rdma.found())
+>   config_host_data.set('CONFIG_SDL', sdl.found())
+>   config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
+>   config_host_data.set('CONFIG_SECCOMP', seccomp.found())
+> +if seccomp.found()
+> +  config_host_data.set('CONFIG_SECCOMP_SYSRAWRC', seccomp_has_sysrawrc)
+> +endif
+>   config_host_data.set('CONFIG_SNAPPY', snappy.found())
+>   config_host_data.set('CONFIG_TPM', have_tpm)
+>   config_host_data.set('CONFIG_USB_LIBUSB', libusb.found())
+> diff --git a/softmmu/qemu-seccomp.c b/softmmu/qemu-seccomp.c
+> index deaf8a4ef5..05abf257c4 100644
+> --- a/softmmu/qemu-seccomp.c
+> +++ b/softmmu/qemu-seccomp.c
+> @@ -312,6 +312,15 @@ static int seccomp_start(uint32_t seccomp_opts, Error **errp)
+>           goto seccomp_return;
+>       }
+>   
+> +#if defined(CONFIG_SECCOMP_SYSRAWRC)
 
-Paolo
+Maybe add some comment here such:
+
+  /*
+   * This must be the first seccomp_attr_set() call to have full
+   * error propagation.
+   */
+
+> +    rc = seccomp_attr_set(ctx, SCMP_FLTATR_API_SYSRAWRC, 1);
+> +    if (rc != 0) {
+> +        error_setg_errno(errp, -rc,
+> +                         "failed to set seccomp rawrc attribute");
+> +        goto seccomp_return;
+> +    }
+> +#endif
+> +
+>       rc = seccomp_attr_set(ctx, SCMP_FLTATR_CTL_TSYNC, 1);
+>       if (rc != 0) {
+>           error_setg_errno(errp, -rc,
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
 
