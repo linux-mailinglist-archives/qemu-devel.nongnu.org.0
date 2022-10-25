@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E68560CBBA
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 14:26:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EAA060CBCB
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 14:27:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onIy9-00085L-36; Tue, 25 Oct 2022 08:23:45 -0400
+	id 1onJ0K-0004Bi-Oe; Tue, 25 Oct 2022 08:26:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1onIxu-0007Xz-Ar
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 08:23:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1onIxq-0006vy-II
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 08:23:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666700599;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=xHGNddDEfa4VTCTp9Gyhbl48CFHCUlTHRNZmhhLnFy0=;
- b=GB/JINrgrDkAWQn9WL5zE52+z4slrilEGWi38Zhyv73hOWbmnXa5BchGXjbiFNishI1ayj
- K0eg92XuvTXZLmzXTKngMFNZxKn/N5gF//vfPWFNT8UobN77yKJoZq8XGe3yI0CgmAcJxS
- K4mp+GqG/RpLnJ4oSgLXROpYx3+gc+s=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-475--dR1mbcpNESAgDiY1FK4sA-1; Tue, 25 Oct 2022 08:23:15 -0400
-X-MC-Unique: -dR1mbcpNESAgDiY1FK4sA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4DCBF80A0AE;
- Tue, 25 Oct 2022 12:23:13 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D16FF202903F;
- Tue, 25 Oct 2022 12:23:12 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BB4B121E6936; Tue, 25 Oct 2022 14:23:11 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>,  qemu-devel@nongnu.org,
- qemu-block@nongnu.org,  qemu-arm@nongnu.org,  "Michael S . Tsirkin"
- <mst@redhat.com>,  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,  Gerd
- Hoffmann <kraxel@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,  Eduardo Habkost
- <eduardo@habkost.net>,  John Snow <jsnow@redhat.com>,  Dmitry Fleytman
- <dmitry.fleytman@gmail.com>,  Jason Wang <jasowang@redhat.com>,  Stefan
- Weil <sw@weilnetz.de>,  Keith Busch <kbusch@kernel.org>,  Klaus Jensen
- <its@irrelevant.dk>,  Peter Maydell <peter.maydell@linaro.org>,  Andrey
- Smirnov <andrew.smirnov@gmail.com>,  Paul Burton <paulburton@kernel.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,  Yan Vugenfirer
- <yan@daynix.com>,  Yuri Benditovich <yuri.benditovich@daynix.com>
-Subject: Re: [PATCH v2 02/17] hw/i386/amd_iommu: Omit errp for
- pci_add_capability
-References: <20221022044053.81650-1-akihiko.odaki@daynix.com>
- <20221022044053.81650-3-akihiko.odaki@daynix.com>
-Date: Tue, 25 Oct 2022 14:23:11 +0200
-In-Reply-To: <20221022044053.81650-3-akihiko.odaki@daynix.com> (Akihiko
- Odaki's message of "Sat, 22 Oct 2022 13:40:38 +0900")
-Message-ID: <874jvs149c.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1onIzy-0003P3-NN
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 08:25:38 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1onIzw-0007UX-3U
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 08:25:38 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id h2so5194477pgp.4
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 05:25:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=PYMsfhsJgAm2octu+hI1RrFjB1QfRWWlr1UErAST/fA=;
+ b=cKkJb6pDUw2WP4fJA7UcZf3JLyfXbLZUgOAcEFLqw/SFmyqzDRE2ebsq/Di/mjyeqM
+ +Ren30VDUTadI1VG3396oWboTRYGT6fG4NaY3XBUcDfiRflAE+kAKwz8eG3Iqg4WpoVQ
+ c9rxdjlouTEpva88rTuaEFWZuKLUFRzRwIN/Z3nDGxvreUPbQT2CZeBTxtpNcY/3pPDc
+ 2fTyceK7Bp+SC7zR7gMjXb/2A6GvjWjDGB9FAzPS8av7lkzGpnup5OEjmeMdLnYVF76L
+ TSOZNQA3nB7jeLeiCX2c8OhtbhIqdSTFXRVqSDbPw776/x5oMB/JnbkMj/K/Ou0KpwlD
+ sBzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=PYMsfhsJgAm2octu+hI1RrFjB1QfRWWlr1UErAST/fA=;
+ b=Cjfea1AUaI9euwSjAuoHmikE7OKH3gD+2hNMAhfai5tB31KfeS+K52JhdW3iqFVc6s
+ eBS05m4HTh9F0y3GLKBrALQ+a8Drzq96VfkfJMkjRhzZthqmlXGJsKTScy3fq199Z7AH
+ iL3TggqUpD/LbVRDBuM+At/Yey9esv+rdJ/RPxkzA9YbZISV71xI4Fwity61B+HYD371
+ 2FcALV3oo9gYCGkF+xiacNliqTCOppExcVTcpigh84uKtiz4iG6dekvPrTPFThzQ5Lqy
+ Evl3m84+MzRDHzklIODnrLTqJWXKIG+BGyNxAv/bpbDgQ7ckd20CgqMQIreC6D7LFaII
+ SZtg==
+X-Gm-Message-State: ACrzQf02anZUUModwDYfQloykh7jtYXKOjiTK15FCGwIgIp7XA8R2LPz
+ HKLvdJGxE6WFH7Ls68xTMu20CSZ514UtUtEMQPUsmg==
+X-Google-Smtp-Source: AMsMyM5lvqCHu0pTqk5ErEudeGjfFnoCiIdyrYyl4rbXm+oWjSStvt/Ts1+Pshj5GHCWEMPOGFMeKV9o4zDhM7a+uyM=
+X-Received: by 2002:a05:6a00:181b:b0:56b:fcbe:2e7f with SMTP id
+ y27-20020a056a00181b00b0056bfcbe2e7fmr7011322pfa.3.1666700734185; Tue, 25 Oct
+ 2022 05:25:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+References: <20221017093003.547009-1-ake@igel.co.jp>
+In-Reply-To: <20221017093003.547009-1-ake@igel.co.jp>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 25 Oct 2022 13:25:22 +0100
+Message-ID: <CAFEAcA_E5P2+ybnhH05DNsb_LuKjROU9-NKke46x+_LO7zr-qw@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: honor HCR_E2H for AT S1E2R and AT S1E2W
+ address translation
+To: Ake Koomsin <ake@igel.co.jp>
+Cc: qemu-devel@nongnu.org, "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, 
+ Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,76 +84,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Akihiko Odaki <akihiko.odaki@daynix.com> writes:
-
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-> ---
->  hw/i386/amd_iommu.c | 21 ++++-----------------
->  1 file changed, 4 insertions(+), 17 deletions(-)
+On Mon, 17 Oct 2022 at 10:30, Ake Koomsin <ake@igel.co.jp> wrote:
 >
-> diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
-> index 725f69095b..8a88cbea0a 100644
-> --- a/hw/i386/amd_iommu.c
-> +++ b/hw/i386/amd_iommu.c
-> @@ -1539,7 +1539,6 @@ static void amdvi_sysbus_reset(DeviceState *dev)
->  
->  static void amdvi_sysbus_realize(DeviceState *dev, Error **errp)
->  {
-> -    int ret = 0;
->      AMDVIState *s = AMD_IOMMU_DEVICE(dev);
->      MachineState *ms = MACHINE(qdev_get_machine());
->      PCMachineState *pcms = PC_MACHINE(ms);
-       X86MachineState *x86ms = X86_MACHINE(ms);
-       PCIBus *bus = pcms->bus;
+> When HCR_E2H is set, AT S1E2R and AT S1E2W should translate an address
+> based on both TTBR0_EL2 and TTBR1_EL2.
+>
+> Signed-off-by: Ake Koomsin <ake@igel.co.jp>
+> ---
+>  target/arm/helper.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index dde64a487a..147f96e752 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -3486,7 +3486,12 @@ static void ats_write64(CPUARMState *env, const ARMCPRegInfo *ri,
+>              }
+>              break;
+>          case 4: /* AT S1E2R, AT S1E2W */
+> -            mmu_idx = ARMMMUIdx_E2;
+> +            if (arm_hcr_el2_eff(env) & HCR_E2H) {
+> +                mmu_idx = env->pstate & PSTATE_PAN ?
+> +                    ARMMMUIdx_E20_2_PAN : ARMMMUIdx_E20_2;
+> +            } else {
+> +                mmu_idx = ARMMMUIdx_E2;
+> +            }
+>              break;
 
-       s->iotlb = g_hash_table_new_full(amdvi_uint64_hash,
-                                        amdvi_uint64_equal, g_free, g_free);
+I agree that the AT insns should be handling E2H, but I'm not sure this
+is the right fix, and with Richard's recent refactorings I've
+kind of lost track of what all our MMUIdxes do.
 
-> @@ -1553,23 +1552,11 @@ static void amdvi_sysbus_realize(DeviceState *dev, Error **errp)
->      if (!qdev_realize(DEVICE(&s->pci), &bus->qbus, errp)) {
->          return;
->      }
-> -    ret = pci_add_capability(&s->pci.dev, AMDVI_CAPAB_ID_SEC, 0,
-> -                                         AMDVI_CAPAB_SIZE, errp);
-> -    if (ret < 0) {
-> -        return;
-> -    }
-> -    s->capab_offset = ret;
-> +    s->capab_offset = pci_add_capability(&s->pci.dev, AMDVI_CAPAB_ID_SEC, 0,
-> +                                         AMDVI_CAPAB_SIZE);
->  
-> -    ret = pci_add_capability(&s->pci.dev, PCI_CAP_ID_MSI, 0,
-> -                             AMDVI_CAPAB_REG_SIZE, errp);
-> -    if (ret < 0) {
-> -        return;
-> -    }
-> -    ret = pci_add_capability(&s->pci.dev, PCI_CAP_ID_HT, 0,
-> -                             AMDVI_CAPAB_REG_SIZE, errp);
-> -    if (ret < 0) {
-> -        return;
-> -    }
-> +    pci_add_capability(&s->pci.dev, PCI_CAP_ID_MSI, 0, AMDVI_CAPAB_REG_SIZE);
-> +    pci_add_capability(&s->pci.dev, PCI_CAP_ID_HT, 0, AMDVI_CAPAB_REG_SIZE);
->  
->      /* Pseudo address space under root PCI bus. */
->      x86ms->ioapic_as = amdvi_host_dma_iommu(bus, s, AMDVI_IOAPIC_SB_DEVID);
+In the pseudocode, E2H is handled by changing the behaviour not
+just of the S1E2 ops, but also of the S1E1 ops. If E2H is set:
+ * the S1E2 ops use the EL2&0 regime, but continue to ignore
+   PSTATE.PAN
+ * the S1E1 ops also use the EL2&0 regime, with the S1E1RP and
+   S1E1WP ops looking at PSTATE.PAN and the others not
 
-Your patch replaces error handling by abort().  The commit message
-should explain why this is okay.
+Richard -- do we want to just do the same thing, or do
+our MMUIdx uses differ from the architectural translation
+regimes in a way that means we need to do something else?
 
-It is, because these are programming errors, and aborting on programming
-errors is appropriate.
-
-Moreover, the error handling is incorrect: it leaks s->iotlb.  To be clear:
-replacing it would be okay even if it cleaned up properly.
-
-The other patches also need to explain.  Yes, this repetitive, but
-anyone looking at one of these commits later will be grateful.  Yes,
-they could find an explanation in PATCH 01.  If they find it in git
-history.  Each commit should make sense on its own whenever practical.
-
-The explanation will be a bit more involved for device assignment (PATCH
-15, maybe more), where we need to point out that the caller guards
-against these errors.
-
+thanks
+-- PMM
 
