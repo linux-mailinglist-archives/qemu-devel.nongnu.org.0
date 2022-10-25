@@ -2,72 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEFF460D547
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 22:12:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7080D60D51C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 22:03:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onQEb-0000XB-OT; Tue, 25 Oct 2022 16:09:14 -0400
+	id 1onQ4S-0006Rb-NF; Tue, 25 Oct 2022 15:58:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenshuo8@gmail.com>)
- id 1onN0O-0008J7-UL
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 12:42:20 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chenshuo8@gmail.com>)
- id 1onN0M-00022R-IZ
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 12:42:20 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- l14-20020a05600c1d0e00b003c6ecc94285so939837wms.1
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 09:42:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=OvdDUdoUkyCCREj0yEPRR6IIbREmI6VMyjEceGF02JU=;
- b=cjkzldNtiy1V5OxjjdhpW7vkChkqfzD4EwIPHIdZcizpPj6SMWV3AWuPs0GV8d2uSQ
- K9iUW+SLdSIhg3hrJXBOuODkT/0n4vorDMC9Xwx9IFocPIwqzLSivpUgsE12XJGtCc0V
- fA1e6HVBvl975eI22pUz58lL2fKjlRptlP01cOAaQev9YAN8F1LANoPRHU1rJWG6H2tE
- /FlthohTIBBT0jMyfvLxh1zWURw/Wsc9xI+OHbIsimsVien/SRzXj0F4FvTxE6Sk3AXu
- zsJAnSTcZJPhnUhcdLU2foBM3FHU6NhAnJkgEQOiVBZ1U0Jp/LSSe9MhMeSRqD7UGs3J
- htWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=OvdDUdoUkyCCREj0yEPRR6IIbREmI6VMyjEceGF02JU=;
- b=DL6DwMjyxB3Xlfgn9e3/x1HL603JLWC7Fifs/ASc1X338QHSY3WlLXXvJ5ZtYZ1huk
- O9VbxLEazsAUmcaJAfIF0N7mCGLgNKkF4uRyn1cEf6s9jCfF9ef1AOxGdlCguZCE5A6C
- +fYFe34Vgo2jPO/TfS4LXFJRJbx297zBRWGv2nTJ2oiRgniY4TLnohvVEzvhzUHwoSta
- nmD5L/fF0Ez3qnCp0pHdXg2grKpMZlJsLD05fBIBFFRsrstCJzNHOCyLCN8pDY3PTEBB
- qgxSh7ZjE8BfsoPqjb70+GoMFhaCYuGIAbsrDthxR3BZXT7usRX6y3aEo3zIs7dwJGOE
- p49g==
-X-Gm-Message-State: ACrzQf3wf2b31lZsi9+lkbxvtQzNqhqJEa5AsBvUzerL7jDKjCVkWeIj
- k+uxhieXpHG8fOREt/KfOUAY/6X6akj6oA+DXBitIdjCZts=
-X-Google-Smtp-Source: AMsMyM6QRdaNNBWOpbuqp7FGgV836M9Icm0+4dPT1ACxn0ru5BLdPLDb216eKo3jvrMrgkdj07vPS25WV3nt2k4iLgk=
-X-Received: by 2002:a05:600c:3789:b0:3c6:beed:fecf with SMTP id
- o9-20020a05600c378900b003c6beedfecfmr25563163wmr.174.1666716136245; Tue, 25
- Oct 2022 09:42:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
+ id 1onQ4Q-0006RJ-Eu; Tue, 25 Oct 2022 15:58:42 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
+ id 1onQ4O-0008N6-HO; Tue, 25 Oct 2022 15:58:42 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29PIUbqa021265;
+ Tue, 25 Oct 2022 19:58:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=JWqb3y/z8GNZrZ7+5y77h4Ti0NUGbmfUZCdPQ5x7qbs=;
+ b=fv9HUqFn0q1CSVfGVrUyfEVvj4a7KLQ/O0LYoPUZjJbjKkQe2Q2z4VLVjclkMEEfeJMS
+ KXFHI0Yw2yGDWc3WTF9uI0Jco+7LLi/7nzrx1rO9teVGLq+W5RCzCbNUX9KM2Kt904Yp
+ pf25PWt/DfyWeQVRfetypKxboMKQaMxfWHaBhup2Ns8PUJ6ItiDyxcwl/E3scImfgrv6
+ Hnm5lw8rdFKx2s9060ALTG9qS2+pkLVR6N2A31nmUZysj0gDyUtrnWXIFWscvIkTqQG6
+ sJL4XGaszo1bGGrknJxps/4mmvZzkcwAzBgbwypSaluwHpuKVSXbWwAPrhflv1SKeUTN PQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kee99aat3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Oct 2022 19:58:33 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29PJDT1O030628;
+ Tue, 25 Oct 2022 19:58:33 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kee99aasa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Oct 2022 19:58:33 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29PJoe5p023216;
+ Tue, 25 Oct 2022 19:58:30 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 3kdugatt9s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Oct 2022 19:58:30 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 29PJx1JK34931074
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 25 Oct 2022 19:59:01 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 02FE4AE051;
+ Tue, 25 Oct 2022 19:58:27 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2C817AE045;
+ Tue, 25 Oct 2022 19:58:26 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.41.31]) by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 25 Oct 2022 19:58:26 +0000 (GMT)
+Message-ID: <ad2a9892184cd5dc7597d411f42e330558146acf.camel@linux.ibm.com>
+Subject: Re: [PATCH v10 1/9] s390x/cpu topology: core_id sets s390x CPU
+ topology
+From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+Date: Tue, 25 Oct 2022 21:58:25 +0200
+In-Reply-To: <20221012162107.91734-2-pmorel@linux.ibm.com>
+References: <20221012162107.91734-1-pmorel@linux.ibm.com>
+ <20221012162107.91734-2-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 MIME-Version: 1.0
-From: =?UTF-8?B?6ZmI56GV?= <chenshuo8@gmail.com>
-Date: Tue, 25 Oct 2022 09:42:05 -0700
-Message-ID: <CAKNF+u_Ky4F+1k=cCxUahOiEp_Cbu2Rp_Q6WrvwdXETKCm6q6A@mail.gmail.com>
-Subject: question about assymetric network throughput when using qemu +
- vhost-net
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="0000000000003e0cf305ebde9775"
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=chenshuo8@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: w6Ws5AHCMyn7xTg-U1dvybSI5PjBpFpi
+X-Proofpoint-ORIG-GUID: ZbYpU7S_91N_pPiML05QxnAavYt-s_Bu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-25_12,2022-10-25_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ bulkscore=0 suspectscore=0 mlxlogscore=999 spamscore=0 adultscore=0
+ mlxscore=0 malwarescore=0 lowpriorityscore=0 impostorscore=0 clxscore=1015
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2210250110
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=scgl@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 25 Oct 2022 16:09:12 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,40 +118,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000003e0cf305ebde9775
-Content-Type: text/plain; charset="UTF-8"
+On Wed, 2022-10-12 at 18:20 +0200, Pierre Morel wrote:
+> In the S390x CPU topology the core_id specifies the CPU address
+> and the position of the core withing the topology.
+> 
+> Let's build the topology based on the core_id.
+> s390x/cpu topology: core_id sets s390x CPU topology
+> 
+> In the S390x CPU topology the core_id specifies the CPU address
+> and the position of the cpu withing the topology.
+> 
+> Let's build the topology based on the core_id.
+> 
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+>  include/hw/s390x/cpu-topology.h |  45 +++++++++++
+>  hw/s390x/cpu-topology.c         | 132 ++++++++++++++++++++++++++++++++
+>  hw/s390x/s390-virtio-ccw.c      |  21 +++++
+>  hw/s390x/meson.build            |   1 +
+>  4 files changed, 199 insertions(+)
+>  create mode 100644 include/hw/s390x/cpu-topology.h
+>  create mode 100644 hw/s390x/cpu-topology.c
+> 
+[...]
 
-Hi
-We are doing some network experiment and found something that we can't
-explain well.
+> +/**
+> + * s390_topology_realize:
+> + * @dev: the device state
+> + * @errp: the error pointer (not used)
+> + *
+> + * During realize the machine CPU topology is initialized with the
+> + * QEMU -smp parameters.
+> + * The maximum count of CPU TLE in the all Topology can not be greater
+> + * than the maximum CPUs.
+> + */
+> +static void s390_topology_realize(DeviceState *dev, Error **errp)
+> +{
+> +    MachineState *ms = MACHINE(qdev_get_machine());
+> +    S390Topology *topo = S390_CPU_TOPOLOGY(dev);
+> +
+> +    topo->cpus = ms->smp.cores * ms->smp.threads;
 
-We are using qemu+kvm to create a sandbox and use virtio vhost net to setup
-the network between guest and host. Then we start to send some traffics
-from host to guest and guest to host.
-
-An interesting finding we got is  guest to host bandwidth(10Gbps) is
-much smaller than host to guest bandwidth(40Gbps) and we didn't have any
-special settings for vhost-net and qemu. So i wanna ask some insights about
-why we see such performance difference and how we can improve the guest to
-host network.
-
-Thanks
-Shuo
-
---0000000000003e0cf305ebde9775
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi=C2=A0<div>We are doing some network experiment and foun=
-d something that we can&#39;t explain well.</div><div><br></div><div>We are=
- using qemu+kvm to create a sandbox and use virtio vhost net to setup the n=
-etwork between guest and host. Then we start to send some traffics from hos=
-t to guest and guest to host.</div><div><br></div><div>An interesting findi=
-ng we got is=C2=A0 guest to host bandwidth(10Gbps) is much=C2=A0smaller=C2=
-=A0than host to guest bandwidth(40Gbps) and we didn&#39;t have any special =
-settings for vhost-net and qemu. So i wanna ask some insights about why we =
-see such performance difference and how we can improve the guest to host ne=
-twork.</div><div><br></div><div>Thanks</div><div>Shuo</div></div>
-
---0000000000003e0cf305ebde9775--
+Currently threads are not supported, effectively increasing the number of cpus,
+so this is currently correct. Once the machine version limits the threads to 1,
+it is also correct. However, once we support multiple threads, this becomes incorrect.
+I wonder if it's ok from a backward compatibility point of view to modify the smp values
+by doing cores *= threads, threads = 1 for old machines.
+Then you can just use the cores value and it is always correct.
+In any case, if you keep it as is, I'd like to see a comment here saying that this
+is correct only so long as we don't support threads.
+> +
+> +    topo->socket = g_new0(S390TopoContainer, ms->smp.sockets);
+> +    topo->tle = g_new0(S390TopoTLE, ms->smp.max_cpus);
+> +
+> +    topo->ms = ms;
+> +}
+> +
+[...]
 
