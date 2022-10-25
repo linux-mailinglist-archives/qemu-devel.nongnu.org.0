@@ -2,97 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F83D60C7EB
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 11:23:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A4CC60C7F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 11:25:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onG6o-00076h-Hk; Tue, 25 Oct 2022 05:20:30 -0400
+	id 1onG8F-0006B9-Hp; Tue, 25 Oct 2022 05:21:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1onG6d-0006c6-1p
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 05:20:19 -0400
+ id 1onG7q-0004JN-Rb
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 05:21:36 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1onG6b-0004tk-6K
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 05:20:18 -0400
+ id 1onG7l-00057B-Va
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 05:21:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666689615;
+ s=mimecast20190719; t=1666689688;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Lq17XnltjAgvXEm56sdochWF+JIJeZVdlDol005QixI=;
- b=U2eFo274xAf7xzhIYyJgKRqLQUZJlf/uekEZd00KpgA+25sfwDbv4MP3+i5o0UKdl7n2VP
- 8KvbHlReY5YmxMiXgXw/wVpLX05GpwMxCitP547BTFoaWgqj2KMPFoIlAdQC9Lst6SNez3
- pByPJmDdPzJNVyOP3OyYehVLZCqdgV4=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Ga9m9IXNXR3JW79/k0+o+pMR7WOnjVEePK4If57Obsg=;
+ b=UAkKd6dkw/O9kEnAh5HzZG7E8hfN9XYeFaVwSHex8pm4Wb1irsqWcCSHE0y0fFS9Z+1Ptq
+ K9RIG237MDBm+kDeQdWCSreuzun2Yr3k6b2D0OZbT/sBTKVl2jSkVQDx4R1gWI6C0kDnO4
+ /FEcDag6qEDS5yuA7fz6YVvJww3adMo=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-269-QsO4YR8JPWeJnkW34JZ02g-1; Tue, 25 Oct 2022 05:20:11 -0400
-X-MC-Unique: QsO4YR8JPWeJnkW34JZ02g-1
-Received: by mail-qt1-f199.google.com with SMTP id
- cb19-20020a05622a1f9300b0039cc64d84edso8628461qtb.15
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 02:20:11 -0700 (PDT)
+ us-mta-21-oByVPARqOGCPwVGmf5F25w-1; Tue, 25 Oct 2022 05:21:23 -0400
+X-MC-Unique: oByVPARqOGCPwVGmf5F25w-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ q16-20020a0ce210000000b004ba8976d3aaso6358415qvl.5
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 02:21:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Lq17XnltjAgvXEm56sdochWF+JIJeZVdlDol005QixI=;
- b=x9CKAxhZZlSa1dntMtaYO7BhQsdDMSszuEwjZ/ggEVsZZtJyDJqLnvWEneZfzcCCAf
- UDm6zBsE4KivplSvUVBXA/rlDFPsE8kweGPoXnhph/V09SWqPhl3Jj8xKqVO1fkmghla
- xL5AZ2oDM6LBur7C0Er6Z0wHuvIaTNw4krjmLcnxGqNSxJiTDNMvTFvJ4aNf82yGAsQu
- PbbGcs99Y4zdnW7jatmGfFkVNz03MJnodNbiiyk8+3zw5iIX43JsafO+jvutTM2eerBF
- B8aiJWVmo5Y662CtjUPfSZdUx12MwbpcKzpTjEjvtfojZGNNMSKipeJnwMgHPl9Vanu0
- ni0w==
-X-Gm-Message-State: ACrzQf1W8eBaKd4xYJCGQYbAUSbzFsqSCr98aCSMZCq5TPa2YgXx2CsV
- xr4bWRBA9DztfK7aK3HjRXmPEWRE9BNvr0ZjgjZ6YfvvlDc1TF65r2VX5VOIUwHXC3mLzGUexSH
- /wwnoE8aYLyPqCNA=
-X-Received: by 2002:a05:620a:4fb:b0:6eb:194e:4565 with SMTP id
- b27-20020a05620a04fb00b006eb194e4565mr26555459qkh.726.1666689610698; 
- Tue, 25 Oct 2022 02:20:10 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5qTLAk+OqXRP23AphEwwhdNhaZEV74xjW+njmQ3AmELCdfV1lOibwUpPVilVVIjBTpDeFLBA==
-X-Received: by 2002:a05:620a:4fb:b0:6eb:194e:4565 with SMTP id
- b27-20020a05620a04fb00b006eb194e4565mr26555453qkh.726.1666689610456; 
- Tue, 25 Oct 2022 02:20:10 -0700 (PDT)
-Received: from [10.201.49.36] (nat-pool-mxp-u.redhat.com. [149.6.153.187])
- by smtp.googlemail.com with ESMTPSA id
- x10-20020ac84a0a000000b00398ed306034sm1298928qtq.81.2022.10.25.02.20.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Oct 2022 02:20:09 -0700 (PDT)
-Message-ID: <39e06c4f-b476-8ab5-d690-7e4fb3ce5a5f@redhat.com>
-Date: Tue, 25 Oct 2022 11:20:07 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v2 2/2] util/log: Always send errors to logfile when
- daemonized
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Greg Kurz <groug@kaod.org>, Richard Henderson
- <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20221019151651.334334-1-groug@kaod.org>
- <20221019151651.334334-3-groug@kaod.org>
- <47ea1c0e-9e32-ce9a-7bef-bd2ac70bdbb9@linaro.org>
- <20221020114937.3558737e@bahia> <Y1Ebv28whPgwdaMW@redhat.com>
- <1b76bdd4-f5ca-cb0a-2593-b025d6575e9b@redhat.com> <87wn8pa72j.fsf@linaro.org>
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Ga9m9IXNXR3JW79/k0+o+pMR7WOnjVEePK4If57Obsg=;
+ b=mOwCT9zzdCOXH4tV+q3a64BUEUKJDvqjn2vAG9lTuh+kirHR6JL0jpFKmWzacShn3b
+ 2Wdo0bR0QwH0zYFjzaMwS2137ifPE1wsqpvGs5vofNjf3iceWA8gYn4mfoCdMrarrzIE
+ NFUFGKC5ttDT3Xq/93YcUlJDoKWtj1hIvoUYeo+hhTJ1d8qAx5EgGIU+wY9M51yN+BS/
+ AKvHB8jh2KiNf7ZqI53b7pT7E04qRyZizhYRDKVNnDUEmiikx2ZEiWZXJnaB2u6FRBtk
+ nZA10ZVhVjK7KiV2qV2MKNwgbeZn/s5qZarqM7PAfZYw1gChucEmQzRMixxpVQF8k9sE
+ GVZw==
+X-Gm-Message-State: ACrzQf2bspdl1oVL3CO8aKk+wnlx+8wbkP7qEg34cVcQa13ldZqEBQUu
+ U/SV08XLIbvq1ZtYdZkFVbn2kSrazZymB8kO6mORv08wf0yG5rxsxUlNMZ0kiib3QHW1Tzt+/Ku
+ ZAqfVexWsB2/CWnHKD4IhQgVxWKo3GlNL8vNXAo/1u1EoS3hzrv3DZxA70/+Er17r1nY=
+X-Received: by 2002:a0c:ab84:0:b0:4b3:f42b:2f18 with SMTP id
+ j4-20020a0cab84000000b004b3f42b2f18mr31983424qvb.125.1666689682243; 
+ Tue, 25 Oct 2022 02:21:22 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6R56ky5pgpCTvtxG9C/qr69pepgvHe3dTUicMI/Cd/ivrS+f2d5Jj7gvv+oBeBrwwbKWIVLg==
+X-Received: by 2002:a0c:ab84:0:b0:4b3:f42b:2f18 with SMTP id
+ j4-20020a0cab84000000b004b3f42b2f18mr31983410qvb.125.1666689681959; 
+ Tue, 25 Oct 2022 02:21:21 -0700 (PDT)
+Received: from avogadro.local (nat-pool-mxp-u.redhat.com. [149.6.153.187])
+ by smtp.gmail.com with ESMTPSA id
+ b6-20020ac812c6000000b0039ccbf75f92sm1339944qtj.11.2022.10.25.02.21.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Oct 2022 02:21:21 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <87wn8pa72j.fsf@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: qemu-devel@nongnu.org
+Cc: groug@kaod.org,
+	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH] util/log: do not close and reopen log files when flags are
+ turned off
+Date: Tue, 25 Oct 2022 11:21:19 +0200
+Message-Id: <20221025092119.236224-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.37.3
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.503,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, PP_MIME_FAKE_ASCII_TEXT=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,60 +99,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/24/22 11:44, Alex Bennée wrote:
-> 
-> Paolo Bonzini <pbonzini@redhat.com> writes:
-> 
-> <snip>
->>> If we want to connect stdout/err to something when daemonized
->>> then lets either have a dedicated option for that, or simply
->>> tell apps not to use -daemonize and to take care of daemonzing
->>> themselves, thus having full control over stdout/err. The latter
->>> is what libvirt uses, because we actually want stderr/out on a
->>> pipe, not a file, in order to enforce rollover.
->>
->> I would gladly get rid of -daemonize, unfortunately it has many users.
->> Adding further complication to it is not beautiful, but overall I
->> think Greg's patch does make sense.  In particular I would continue
->> the refactoring by moving
->>
->>
->>              /*
->>               * If per-thread, filename contains a single %d that should be
->>               * converted.
->>               */
->>              if (per_thread) {
->>                  fname = g_strdup_printf(filename, getpid());
->>              } else {
->>                  fname = g_strdup(filename);
->>              }
->>
->>              return fopen(fname, log_append ? "a" : "w");
->>
->> to a new function that can be used in both qemu_log_trylock() and
->> qemu_set_log_internal().  (In fact this refactoring is a bugfix
->> because per-thread log files do not currently obey log_append).
-> 
-> What is the use case for log_append. AFAICT it only ever applied if you
-> did a dynamic set_log. Was it ever really used or should it be dropped
-> as an excessive complication?
+log_append makes sure that if you turn off the logging (which clears
+log_flags and makes need_to_open_file false) the old log is not
+overwritten.  The usecase is that if you remove or move the file
+QEMU will not keep writing to the old file.  However, this is
+not always the desited behavior, in particular having log_append==1
+after changing the file name makes little sense.
 
-log_append is used if you turn off the logging, which clears log_flags, 
-and then turn it on again.  The usecase is that if you remove the file 
-QEMU won't keep writing to a deleted file.  ¯\_(ツ)_/¯
+When qemu_set_log_internal is called from the logfile monitor
+command, filename must be non-NULL and therefore changed_name must
+be true.  Therefore, the only case where the file is closed and
+need_to_open_file == false is indeed when log_flags becomes
+zero.  In this case, just flush the file and do not bother
+closing it, thus faking the same append behavior as previously.
 
-However, it's messy.  In particular after changing the file name 
-log_append will be 1 and that makes little sense.  The simplest thing to 
-do here is just to not close the file, I sent a patch for that.
+The behavioral change is that changing the logfile twice, for
+example log1 -> log2 -> log1, will cause log1 to be overwritten.
+This can simply be documented, since it is not a particularly
+surprising behavior.
 
-Paolo
+Suggested-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ util/log.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
->  From my point of view appending to an existing per-thread log is just
-> going to cause confusion.
-> 
->>
->> Paolo
-> 
-> 
+diff --git a/util/log.c b/util/log.c
+index d6eb0378c3a3..06d0173788dc 100644
+--- a/util/log.c
++++ b/util/log.c
+@@ -44,7 +44,6 @@ static FILE *global_file;
+ static __thread FILE *thread_file;
+ 
+ int qemu_loglevel;
+-static bool log_append;
+ static bool log_per_thread;
+ static GArray *debug_regions;
+ 
+@@ -259,19 +258,19 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
+     daemonized = is_daemonized();
+     need_to_open_file = log_flags && !per_thread && (!daemonized || filename);
+ 
+-    if (logfile && (!need_to_open_file || changed_name)) {
+-        qatomic_rcu_set(&global_file, NULL);
+-        if (logfile != stderr) {
++    if (logfile) {
++        fflush(logfile);
++        if (changed_name && logfile != stderr) {
+             RCUCloseFILE *r = g_new0(RCUCloseFILE, 1);
+             r->fd = logfile;
+             call_rcu(r, rcu_close_file, rcu);
++            logfile = NULL;
+         }
+-        logfile = NULL;
+     }
+ 
+     if (!logfile && need_to_open_file) {
+         if (filename) {
+-            logfile = fopen(filename, log_append ? "a" : "w");
++            logfile = fopen(filename, "w");
+             if (!logfile) {
+                 error_setg_errno(errp, errno, "Error opening logfile %s",
+                                  filename);
+@@ -290,8 +289,6 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
+             logfile = stderr;
+         }
+ 
+-        log_append = 1;
+-
+         qatomic_rcu_set(&global_file, logfile);
+     }
+     return true;
+-- 
+2.37.3
 
 
