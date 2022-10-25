@@ -2,77 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6659360C88D
+	by mail.lfdr.de (Postfix) with ESMTPS id 73C2360C88E
 	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 11:41:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onGIz-0003iM-5N; Tue, 25 Oct 2022 05:33:05 -0400
+	id 1onGK6-0000su-0f; Tue, 25 Oct 2022 05:34:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1onGIr-00033V-Ag
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 05:32:57 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1onGIn-0007Pq-7H
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 05:32:56 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 899CC220B4;
- Tue, 25 Oct 2022 09:32:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1666690371; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YivD2t9UkjkmheXsRdPBlocPmjFmCZQ7IFCV6MD73aE=;
- b=No+/bupRZSnzwL2HuxHRIQHN8xNJex4E0VeNr48BCgkwkicIhw9SFU2U6KM4+Rhjj6Qw5/
- db3XfMyYIQTlz9Jgdmke9E8oxsSxUgcaZTd9zUT52441kElnnWzOn5jaHYkxsS6utId0aH
- 5YWRn8WsRNf195F46GXp9e8RPgvKRuw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1666690371;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YivD2t9UkjkmheXsRdPBlocPmjFmCZQ7IFCV6MD73aE=;
- b=FLgWLeA8x4ezhpHOQkGa1ZgvqHHGqtNk1mgDJljCxkMCIaaerpM+BmnuadJ0IbrruCdUGK
- VnqJPawP2sor6PAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 69D3E134CA;
- Tue, 25 Oct 2022 09:32:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id adwWGEOtV2OwQgAAMHmgww
- (envelope-from <cfontana@suse.de>); Tue, 25 Oct 2022 09:32:51 +0000
-Message-ID: <68b53f84-1c49-5e71-313e-9ae8c0bbbd44@suse.de>
-Date: Tue, 25 Oct 2022 11:32:50 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1onGJr-0000FZ-6D; Tue, 25 Oct 2022 05:34:00 -0400
+Received: from mout.kundenserver.de ([212.227.126.131])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1onGJp-0007Vl-2i; Tue, 25 Oct 2022 05:33:58 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1M1HuU-1oouDK3kYk-002sUB; Tue, 25 Oct 2022 11:33:53 +0200
+Message-ID: <0caceb01-c363-9b28-1989-661ecf00bf22@vivier.eu>
+Date: Tue, 25 Oct 2022 11:33:52 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 24/29] accel/tcg: Introduce cpu_unwind_state_data
-Content-Language: en-US
-From: Claudio Fontana <cfontana@suse.de>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20221024132459.3229709-1-richard.henderson@linaro.org>
- <20221024132459.3229709-26-richard.henderson@linaro.org>
- <b8e90076-2f42-0eb9-60df-4e9df4e9e5b5@suse.de>
-In-Reply-To: <b8e90076-2f42-0eb9-60df-4e9df4e9e5b5@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PULL 00/11] Trivial branch for 7.2 patches
+Content-Language: fr
+To: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org
+References: <20221025073955.3115315-1-laurent@vivier.eu>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20221025073955.3115315-1-laurent@vivier.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:f0Xzghwij6QDkBepPH9eHGThNNxDveIvWxwAxEnCLDhBsThMwrG
+ j41ohPr6gAB3NK9rsVvFkVyh5CBHZTfzUEc7PyG8WOHz6yXWb5j9rxeMlUp4vgCSykmd/Rn
+ 56tVMg+v8HtFwwUxvH01omkkDgvuXVpRzFTkwfW9WKRqykM5vxdxgAp5SRCZD6AJjYEY8hL
+ P/IpFOvil/9h2uqLsCoMA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:8eY1eVCeiN0=:8Fk7UxXlA7WGYnGDBS4ka0
+ 4e3wNpGx3E20dhqxeO0xyV5t36skH2Z7goxPZX3r/JU5Yt91WbAhSJuWYhyWqv73u/wbl3Z4N
+ F6aKf1u3/oIc56Qz5zXJQ7Zhz4x0m00VeawmcEeLnheGJTKIfLIKY7P57+8/U4ebowJbwEgeA
+ OrO1yqTa8DQ6volJOE8L/vC2fpcgKaQmC+UpyQQqeoXuHcTjcCyzRdf2Ei/KlLvPuJyB3ZU8g
+ nNdBaW1H0nywYH+MGnluuC/MYLGT6RXV2WESRaKiW47lICa7k3Ke2OhZRDIhO2ZEyQ1yyKg2e
+ THHX1TY8uSXjwxj+Bt/18Wu0+he58ziGOQSDQ40Ki3K+ZNiGe41VIb1ScLtMTgCW6e6DGuaeZ
+ zwqxZv9zIrl3bbp0ibRkR4SSNvxdBj/NA3Nk7OG6tuQuwX/uv9Q+1xHGzpze6rAk32HHmMdZ5
+ W3KSmiZ0EPvi2MXuUelOnEtgowJiYCFbLBt8qVPvxsz19gl5cbdr1Mf7QZr+HzOM/xnykEnq5
+ XKdoPJ0K97sX6HA/Cb4Jv8R1VM3cQwNv+vxpSgt1koiE6quQmb/PXTGs6iHDFeTo2oae6eGay
+ SDOKvawR04MF3upV0yFLNhAO/vcAtXJeWXZMliLLvOirZtHig/1LJS2jQgyu6b1uGPYG9Ukqf
+ QqE2c7c6cDrtATNBif2ByxekEhURvHtwKzQ3pqna8W+Jc9SZal27blyTROhAgQh0DmGTsQWpf
+ GtnFJW+hipunfnwGNgW1z6BrWzvQ7/HQC9DjP1K+WCI8D2JUAWM+ByVsSQ21M6evVU/9Tasd8
+ QF7jA4q
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,175 +73,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/25/22 11:23, Claudio Fontana wrote:
-> On 10/24/22 15:24, Richard Henderson wrote:
->> Add a way to examine the unwind data without actually
->> restoring the data back into env.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>  include/exec/exec-all.h   | 13 ++++++++
->>  accel/tcg/translate-all.c | 68 ++++++++++++++++++++++++++-------------
->>  2 files changed, 58 insertions(+), 23 deletions(-)
->>
->> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
->> index 300832bd0b..d49cf113dd 100644
->> --- a/include/exec/exec-all.h
->> +++ b/include/exec/exec-all.h
->> @@ -39,6 +39,19 @@ typedef ram_addr_t tb_page_addr_t;
->>  #define TB_PAGE_ADDR_FMT RAM_ADDR_FMT
->>  #endif
->>  
->> +/**
->> + * cpu_unwind_state_data:
->> + * @cpu: the vCPU state is to be restore to
-
-"the vCPU state to be restored to" ?
-
->> + * @host_pc: the host PC the fault occurred at
->> + * @data: output data
->> + *
->> + * Attempt to load the the unwind state for a host pc occurring in
->> + * translated code.  If the searched_pc is not in translated code,
->> + * the function returns false; otherwise @data is loaded.
->> + * This is the same unwind info as given to restore_state_to_opc.
->> + */
->> +bool cpu_unwind_state_data(CPUState *cpu, uintptr_t host_pc, uint64_t *data);
->> +
->>  /**
->>   * cpu_restore_state:
->>   * @cpu: the vCPU state is to be restore to
->> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
->> index e4386b3198..c772e3769c 100644
->> --- a/accel/tcg/translate-all.c
->> +++ b/accel/tcg/translate-all.c
->> @@ -320,29 +320,20 @@ static int encode_search(TranslationBlock *tb, uint8_t *block)
->>      return p - block;
->>  }
->>  
->> -/* The cpu state corresponding to 'searched_pc' is restored.
->> - * When reset_icount is true, current TB will be interrupted and
->> - * icount should be recalculated.
->> - */
->> -static int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
->> -                                     uintptr_t searched_pc, bool reset_icount)
->> +static int cpu_unwind_data_from_tb(TranslationBlock *tb, uintptr_t host_pc,
->> +                                   uint64_t *data)
->>  {
->> -    uint64_t data[TARGET_INSN_START_WORDS];
->> -    uintptr_t host_pc = (uintptr_t)tb->tc.ptr;
->> +    uintptr_t iter_pc = (uintptr_t)tb->tc.ptr;
->>      const uint8_t *p = tb->tc.ptr + tb->tc.size;
->>      int i, j, num_insns = tb->icount;
->> -#ifdef CONFIG_PROFILER
->> -    TCGProfile *prof = &tcg_ctx->prof;
->> -    int64_t ti = profile_getclock();
->> -#endif
->>  
->> -    searched_pc -= GETPC_ADJ;
->> +    host_pc -= GETPC_ADJ;
->>  
->> -    if (searched_pc < host_pc) {
->> +    if (host_pc < iter_pc) {
->>          return -1;
->>      }
->>  
->> -    memset(data, 0, sizeof(data));
->> +    memset(data, 0, sizeof(uint64_t) * TARGET_INSN_START_WORDS);
->>      if (!TARGET_TB_PCREL) {
->>          data[0] = tb_pc(tb);
->>      }
+Le 25/10/2022 à 09:39, Laurent Vivier a écrit :
+> The following changes since commit 0529245488865038344d64fff7ee05864d3d17f6:
 > 
-> It's not visible in this hunk, but what follows is:
+>    Merge tag 'pull-target-arm-20221020' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-10-20 14:36:12 -0400)
 > 
->     /* Reconstruct the stored insn data while looking for the point at                                                                      
->        which the end of the insn exceeds the searched_pc.  */
+> are available in the Git repository at:
 > 
-> Should this comment be adapted, minimally with s,searched_pc,host_pc, ?
+>    https://gitlab.com/laurent_vivier/qemu.git tags/trivial-branch-for-7.2-pull-request
 > 
+> for you to fetch changes up to 046ab3b80891f4aa6d0cfd7db15c622b1933e598:
 > 
->> @@ -353,19 +344,40 @@ static int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
->>          for (j = 0; j < TARGET_INSN_START_WORDS; ++j) {
->>              data[j] += decode_sleb128(&p);
->>          }
->> -        host_pc += decode_sleb128(&p);
->> -        if (host_pc > searched_pc) {
->> -            goto found;
->> +        iter_pc += decode_sleb128(&p);
->> +        if (iter_pc > host_pc) {
->> +            return num_insns - i;
->>          }
->>      }
->>      return -1;
->> +}
->> +
->> +/*
->> + * The cpu state corresponding to 'host_pc' is restored.
->> + * When reset_icount is true, current TB will be interrupted and
->> + * icount should be recalculated.
->> + */
->> +static void cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
->> +                                      uintptr_t host_pc, bool reset_icount)
->> +{
->> +    uint64_t data[TARGET_INSN_START_WORDS];
->> +#ifdef CONFIG_PROFILER
->> +    TCGProfile *prof = &tcg_ctx->prof;
->> +    int64_t ti = profile_getclock();
->> +#endif
->> +    int insns_left = cpu_unwind_data_from_tb(tb, host_pc, data);
->> +
->> +    if (insns_left < 0) {
->> +        return;
->> +    }
+>    accel/tcg/tcg-accel-ops-rr: fix trivial typo (2022-10-24 13:43:42 +0200)
 > 
-> Is the -1 return value some error condition to do anything about, log, tcg assert, or ...,
-> under some DEBUG_* condition, or ignored as done here?
+> ----------------------------------------------------------------
+> Trivial branch pull request 20221025
 > 
-> Thanks,
-> 
-> Claudio
-> 
->>  
->> - found:
->>      if (reset_icount && (tb_cflags(tb) & CF_USE_ICOUNT)) {
->>          assert(icount_enabled());
->> -        /* Reset the cycle counter to the start of the block
->> -           and shift if to the number of actually executed instructions */
->> -        cpu_neg(cpu)->icount_decr.u16.low += num_insns - i;
->> +        /*
->> +         * Reset the cycle counter to the start of the block and
->> +         * shift if to the number of actually executed instructions.
->> +         */
->> +        cpu_neg(cpu)->icount_decr.u16.low += insns_left;
->>      }
->>  
->>      cpu->cc->tcg_ops->restore_state_to_opc(cpu, tb, data);
->> @@ -375,7 +387,6 @@ static int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
->>                  prof->restore_time + profile_getclock() - ti);
->>      qatomic_set(&prof->restore_count, prof->restore_count + 1);
->>  #endif
->> -    return 0;
->>  }
->>  
->>  bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit)
->> @@ -408,6 +419,17 @@ bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit)
->>      return false;
->>  }
->>  
->> +bool cpu_unwind_state_data(CPUState *cpu, uintptr_t host_pc, uint64_t *data)
->> +{
->> +    if (in_code_gen_buffer((const void *)(host_pc - tcg_splitwx_diff))) {
->> +        TranslationBlock *tb = tcg_tb_lookup(host_pc);
->> +        if (tb) {
->> +            return cpu_unwind_data_from_tb(tb, host_pc, data) >= 0;
->> +        }
->> +    }
->> +    return false;
->> +}
->> +
->>  void page_init(void)
->>  {
->>      page_size_init();
+> ----------------------------------------------------------------
 > 
 
+Sorry for the duplicate messages but I have some issues with git-publish that doesn't send the emails.
+
+This PR is correct and the tags has been updated correctly in my repo (HEAD 046ab3b80891)
+
+Thanks,
+Laurent
 
