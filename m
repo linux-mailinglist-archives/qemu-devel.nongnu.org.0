@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A970860C000
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 02:46:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9C060C01F
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 02:51:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on82r-0002Ii-Dr; Mon, 24 Oct 2022 20:43:53 -0400
+	id 1on82t-0002lA-8b; Mon, 24 Oct 2022 20:43:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=a4uw=22=zx2c4.com=Jason@kernel.org>)
- id 1on82o-00022X-J2
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 20:43:50 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217])
+ id 1on82r-0002Ur-Ey
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 20:43:53 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=a4uw=22=zx2c4.com=Jason@kernel.org>)
- id 1on82l-0005Bz-UX
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 20:43:50 -0400
+ id 1on82p-0005CO-Qh
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 20:43:53 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C677B6160B;
- Tue, 25 Oct 2022 00:43:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5619C433D6;
- Tue, 25 Oct 2022 00:43:38 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id F061E616D7;
+ Tue, 25 Oct 2022 00:43:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84911C433C1;
+ Tue, 25 Oct 2022 00:43:42 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
  dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="VPZQVTBb"
+ header.b="e3cEMzH7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1666658618;
+ t=1666658621;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sj3/1iCHqDw7B+yCjXD5iTio/qli9LXP66NKKmy3/Go=;
- b=VPZQVTBbpbp3XQPDwQEylVUaSe0huMldh0dDMgynZXqkpBFHSNhwPIScyDy+cowxR3wRCg
- DWxAps9FSeLXbRB/GK1bS6Ot0LBklA14m4TVKnC08BbEBauRk06g3P0kgxSqsl0NN7Nzfl
- BBTUDwpiBggi+WpgabyBhxXEAmdUdkA=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 368be95c
+ bh=mbbFBZxOYFy4Zfuf8OqG4mrJyea5K03RVWzfP1v5dzM=;
+ b=e3cEMzH7D9YrNitdh9pUoIi52oGo/wYsdnfALpUdVwb6lpzI/fnqbN9XJV2sIPz4QaZ1BO
+ zEUX3Kc00pjWpilLTcKFAGL29YnXOo1yJo4f/xsF0JqjblZZHS/QTZtWA3rhN6rWSUl5me
+ 6h4aYUGv2/dHTqAKRyAybZ8eqi1pxiw=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id cd7de717
  (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Tue, 25 Oct 2022 00:43:37 +0000 (UTC)
+ Tue, 25 Oct 2022 00:43:41 +0000 (UTC)
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 To: peter.maydell@linaro.org, pbonzini@redhat.com, qemu-devel@nongnu.org,
  richard.henderson@linaro.org
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: [PATCH v4 01/11] reset: allow registering handlers that aren't called
- by snapshot loading
-Date: Tue, 25 Oct 2022 02:43:17 +0200
-Message-Id: <20221025004327.568476-2-Jason@zx2c4.com>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ David Gibson <david@gibson.dropbear.id.au>
+Subject: [PATCH v4 02/11] device-tree: add re-randomization helper function
+Date: Tue, 25 Oct 2022 02:43:18 +0200
+Message-Id: <20221025004327.568476-3-Jason@zx2c4.com>
 In-Reply-To: <20221025004327.568476-1-Jason@zx2c4.com>
 References: <20221025004327.568476-1-Jason@zx2c4.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=139.178.84.217;
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
  envelope-from=SRS0=a4uw=22=zx2c4.com=Jason@kernel.org;
  helo=dfw.source.kernel.org
 X-Spam_score_int: -67
@@ -80,359 +81,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Snapshot loading only expects to call deterministic handlers, not
-non-deterministic ones. So introduce a way of registering handlers that
-won't be called when reseting for snapshots.
+When the system reboots, the rng-seed that the FDT has should be
+re-randomized, so that the new boot gets a new seed. Several
+architectures require this functionality, so export a function for
+injecting a new seed into the given FDT.
 
+Cc: Alistair Francis <alistair.francis@wdc.com>
+Cc: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 ---
- hw/arm/aspeed.c            |  4 ++--
- hw/arm/mps2-tz.c           |  4 ++--
- hw/core/reset.c            | 15 ++++++++++++++-
- hw/hppa/machine.c          |  4 ++--
- hw/i386/microvm.c          |  4 ++--
- hw/i386/pc.c               |  6 +++---
- hw/ppc/pegasos2.c          |  4 ++--
- hw/ppc/pnv.c               |  4 ++--
- hw/ppc/spapr.c             |  4 ++--
- hw/s390x/s390-virtio-ccw.c |  4 ++--
- include/hw/boards.h        |  2 +-
- include/sysemu/reset.h     |  5 ++++-
- migration/savevm.c         |  2 +-
- qapi/run-state.json        |  5 ++++-
- softmmu/runstate.c         | 11 ++++++++---
- 15 files changed, 51 insertions(+), 27 deletions(-)
+ include/sysemu/device_tree.h |  9 +++++++++
+ softmmu/device_tree.c        | 21 +++++++++++++++++++++
+ 2 files changed, 30 insertions(+)
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index bc3ecdb619..69cadb1c37 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -1349,12 +1349,12 @@ static void aspeed_machine_bletchley_class_init(ObjectClass *oc, void *data)
-         aspeed_soc_num_cpus(amc->soc_name);
+diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
+index e7c5441f56..ca5339beae 100644
+--- a/include/sysemu/device_tree.h
++++ b/include/sysemu/device_tree.h
+@@ -197,6 +197,15 @@ int qemu_fdt_setprop_sized_cells_from_array(void *fdt,
+                                                 qdt_tmp);                 \
+     })
+ 
++
++/**
++ * qemu_fdt_randomize_seeds:
++ * @fdt: device tree blob
++ *
++ * Re-randomize all "rng-seed" properties with new seeds.
++ */
++void qemu_fdt_randomize_seeds(void *fdt);
++
+ #define FDT_PCI_RANGE_RELOCATABLE          0x80000000
+ #define FDT_PCI_RANGE_PREFETCHABLE         0x40000000
+ #define FDT_PCI_RANGE_ALIASED              0x20000000
+diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
+index ce74f3d48d..30aa3aea9f 100644
+--- a/softmmu/device_tree.c
++++ b/softmmu/device_tree.c
+@@ -22,6 +22,7 @@
+ #include "qemu/option.h"
+ #include "qemu/bswap.h"
+ #include "qemu/cutils.h"
++#include "qemu/guest-random.h"
+ #include "sysemu/device_tree.h"
+ #include "hw/loader.h"
+ #include "hw/boards.h"
+@@ -680,3 +681,23 @@ void hmp_dumpdtb(Monitor *mon, const QDict *qdict)
+ 
+     info_report("dtb dumped to %s", filename);
  }
- 
--static void fby35_reset(MachineState *state)
-+static void fby35_reset(MachineState *state, ShutdownCause reason)
- {
-     AspeedMachineState *bmc = ASPEED_MACHINE(state);
-     AspeedGPIOState *gpio = &bmc->soc.gpio;
- 
--    qemu_devices_reset();
-+    qemu_devices_reset(reason);
- 
-     /* Board ID: 7 (Class-1, 4 slots) */
-     object_property_set_bool(OBJECT(gpio), "gpioV4", true, &error_fatal);
-diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index 394192b9b2..284c09c91d 100644
---- a/hw/arm/mps2-tz.c
-+++ b/hw/arm/mps2-tz.c
-@@ -1239,7 +1239,7 @@ static void mps2_set_remap(Object *obj, const char *value, Error **errp)
-     }
- }
- 
--static void mps2_machine_reset(MachineState *machine)
-+static void mps2_machine_reset(MachineState *machine, ShutdownCause reason)
- {
-     MPS2TZMachineState *mms = MPS2TZ_MACHINE(machine);
- 
-@@ -1249,7 +1249,7 @@ static void mps2_machine_reset(MachineState *machine)
-      * reset see the correct mapping.
-      */
-     remap_memory(mms, mms->remap);
--    qemu_devices_reset();
-+    qemu_devices_reset(reason);
- }
- 
- static void mps2tz_class_init(ObjectClass *oc, void *data)
-diff --git a/hw/core/reset.c b/hw/core/reset.c
-index 36be82c491..bcf323d6dd 100644
---- a/hw/core/reset.c
-+++ b/hw/core/reset.c
-@@ -33,6 +33,7 @@ typedef struct QEMUResetEntry {
-     QTAILQ_ENTRY(QEMUResetEntry) entry;
-     QEMUResetHandler *func;
-     void *opaque;
-+    bool skip_on_snapshot_load;
- } QEMUResetEntry;
- 
- static QTAILQ_HEAD(, QEMUResetEntry) reset_handlers =
-@@ -47,6 +48,16 @@ void qemu_register_reset(QEMUResetHandler *func, void *opaque)
-     QTAILQ_INSERT_TAIL(&reset_handlers, re, entry);
- }
- 
-+void qemu_register_reset_nosnapshotload(QEMUResetHandler *func, void *opaque)
++
++void qemu_fdt_randomize_seeds(void *fdt)
 +{
-+    QEMUResetEntry *re = g_new0(QEMUResetEntry, 1);
++    int noffset, poffset, len;
++    const char *name;
++    uint8_t *data;
 +
-+    re->func = func;
-+    re->opaque = opaque;
-+    re->skip_on_snapshot_load = true;
-+    QTAILQ_INSERT_TAIL(&reset_handlers, re, entry);
++    for (noffset = fdt_next_node(fdt, 0, NULL);
++         noffset >= 0;
++         noffset = fdt_next_node(fdt, noffset, NULL)) {
++        for (poffset = fdt_first_property_offset(fdt, noffset);
++             poffset >= 0;
++             poffset = fdt_next_property_offset(fdt, poffset)) {
++            data = (uint8_t *)fdt_getprop_by_offset(fdt, poffset, &name, &len);
++            if (!data || strcmp(name, "rng-seed"))
++                continue;
++            qemu_guest_getrandom_nofail(data, len);
++        }
++    }
 +}
-+
- void qemu_unregister_reset(QEMUResetHandler *func, void *opaque)
- {
-     QEMUResetEntry *re;
-@@ -60,12 +71,14 @@ void qemu_unregister_reset(QEMUResetHandler *func, void *opaque)
-     }
- }
- 
--void qemu_devices_reset(void)
-+void qemu_devices_reset(ShutdownCause reason)
- {
-     QEMUResetEntry *re, *nre;
- 
-     /* reset all devices */
-     QTAILQ_FOREACH_SAFE(re, &reset_handlers, entry, nre) {
-+        if (reason == SHUTDOWN_CAUSE_SNAPSHOT_LOAD && re->skip_on_snapshot_load)
-+            continue;
-         re->func(re->opaque);
-     }
- }
-diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index e53d5f0fa7..19ea7c2c66 100644
---- a/hw/hppa/machine.c
-+++ b/hw/hppa/machine.c
-@@ -411,12 +411,12 @@ static void machine_hppa_init(MachineState *machine)
-     cpu[0]->env.gr[19] = FW_CFG_IO_BASE;
- }
- 
--static void hppa_machine_reset(MachineState *ms)
-+static void hppa_machine_reset(MachineState *ms, ShutdownCause reason)
- {
-     unsigned int smp_cpus = ms->smp.cpus;
-     int i;
- 
--    qemu_devices_reset();
-+    qemu_devices_reset(reason);
- 
-     /* Start all CPUs at the firmware entry point.
-      *  Monarch CPU will initialize firmware, secondary CPUs
-diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-index 52f9aa9d8c..ffd1884100 100644
---- a/hw/i386/microvm.c
-+++ b/hw/i386/microvm.c
-@@ -467,7 +467,7 @@ static void microvm_machine_state_init(MachineState *machine)
-     microvm_devices_init(mms);
- }
- 
--static void microvm_machine_reset(MachineState *machine)
-+static void microvm_machine_reset(MachineState *machine, ShutdownCause reason)
- {
-     MicrovmMachineState *mms = MICROVM_MACHINE(machine);
-     CPUState *cs;
-@@ -480,7 +480,7 @@ static void microvm_machine_reset(MachineState *machine)
-         mms->kernel_cmdline_fixed = true;
-     }
- 
--    qemu_devices_reset();
-+    qemu_devices_reset(reason);
- 
-     CPU_FOREACH(cs) {
-         cpu = X86_CPU(cs);
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 768982ae9a..3e86083db3 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1847,12 +1847,12 @@ static void pc_machine_initfn(Object *obj)
-     cxl_machine_init(obj, &pcms->cxl_devices_state);
- }
- 
--static void pc_machine_reset(MachineState *machine)
-+static void pc_machine_reset(MachineState *machine, ShutdownCause reason)
- {
-     CPUState *cs;
-     X86CPU *cpu;
- 
--    qemu_devices_reset();
-+    qemu_devices_reset(reason);
- 
-     /* Reset APIC after devices have been reset to cancel
-      * any changes that qemu_devices_reset() might have done.
-@@ -1867,7 +1867,7 @@ static void pc_machine_reset(MachineState *machine)
- static void pc_machine_wakeup(MachineState *machine)
- {
-     cpu_synchronize_all_states();
--    pc_machine_reset(machine);
-+    pc_machine_reset(machine, SHUTDOWN_CAUSE_NONE);
-     cpu_synchronize_all_post_reset();
- }
- 
-diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-index ecf682b148..bb4d008ba9 100644
---- a/hw/ppc/pegasos2.c
-+++ b/hw/ppc/pegasos2.c
-@@ -248,14 +248,14 @@ static void pegasos2_pci_config_write(Pegasos2MachineState *pm, int bus,
-     pegasos2_mv_reg_write(pm, pcicfg + 4, len, val);
- }
- 
--static void pegasos2_machine_reset(MachineState *machine)
-+static void pegasos2_machine_reset(MachineState *machine, ShutdownCause reason)
- {
-     Pegasos2MachineState *pm = PEGASOS2_MACHINE(machine);
-     void *fdt;
-     uint64_t d[2];
-     int sz;
- 
--    qemu_devices_reset();
-+    qemu_devices_reset(reason);
-     if (!pm->vof) {
-         return; /* Firmware should set up machine so nothing to do */
-     }
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 40bb573d1a..3d01e26f84 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -643,13 +643,13 @@ static void pnv_powerdown_notify(Notifier *n, void *opaque)
-     }
- }
- 
--static void pnv_reset(MachineState *machine)
-+static void pnv_reset(MachineState *machine, ShutdownCause reason)
- {
-     PnvMachineState *pnv = PNV_MACHINE(machine);
-     IPMIBmc *bmc;
-     void *fdt;
- 
--    qemu_devices_reset();
-+    qemu_devices_reset(reason);
- 
-     /*
-      * The machine should provide by default an internal BMC simulator.
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index f79ac85ca1..66b414d2e9 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -1623,7 +1623,7 @@ void spapr_check_mmu_mode(bool guest_radix)
-     }
- }
- 
--static void spapr_machine_reset(MachineState *machine)
-+static void spapr_machine_reset(MachineState *machine, ShutdownCause reason)
- {
-     SpaprMachineState *spapr = SPAPR_MACHINE(machine);
-     PowerPCCPU *first_ppc_cpu;
-@@ -1649,7 +1649,7 @@ static void spapr_machine_reset(MachineState *machine)
-         spapr_setup_hpt(spapr);
-     }
- 
--    qemu_devices_reset();
-+    qemu_devices_reset(reason);
- 
-     spapr_ovec_cleanup(spapr->ov5_cas);
-     spapr->ov5_cas = spapr_ovec_new();
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 03855c7231..8017acb1d5 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -405,7 +405,7 @@ static void s390_pv_prepare_reset(S390CcwMachineState *ms)
-     s390_pv_prep_reset();
- }
- 
--static void s390_machine_reset(MachineState *machine)
-+static void s390_machine_reset(MachineState *machine, ShutdownCause reason)
- {
-     S390CcwMachineState *ms = S390_CCW_MACHINE(machine);
-     enum s390_reset reset_type;
-@@ -427,7 +427,7 @@ static void s390_machine_reset(MachineState *machine)
-             s390_machine_unprotect(ms);
-         }
- 
--        qemu_devices_reset();
-+        qemu_devices_reset(reason);
-         s390_crypto_reset();
- 
-         /* configure and start the ipl CPU only */
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 311ed17e18..90f1dd3aeb 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -231,7 +231,7 @@ struct MachineClass {
-     const char *deprecation_reason;
- 
-     void (*init)(MachineState *state);
--    void (*reset)(MachineState *state);
-+    void (*reset)(MachineState *state, ShutdownCause reason);
-     void (*wakeup)(MachineState *state);
-     int (*kvm_type)(MachineState *machine, const char *arg);
- 
-diff --git a/include/sysemu/reset.h b/include/sysemu/reset.h
-index 0b0d6d7598..609e4d50c2 100644
---- a/include/sysemu/reset.h
-+++ b/include/sysemu/reset.h
-@@ -1,10 +1,13 @@
- #ifndef QEMU_SYSEMU_RESET_H
- #define QEMU_SYSEMU_RESET_H
- 
-+#include "qapi/qapi-events-run-state.h"
-+
- typedef void QEMUResetHandler(void *opaque);
- 
- void qemu_register_reset(QEMUResetHandler *func, void *opaque);
-+void qemu_register_reset_nosnapshotload(QEMUResetHandler *func, void *opaque);
- void qemu_unregister_reset(QEMUResetHandler *func, void *opaque);
--void qemu_devices_reset(void);
-+void qemu_devices_reset(ShutdownCause reason);
- 
- #endif
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 48e85c052c..a0cdb714f7 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -3058,7 +3058,7 @@ bool load_snapshot(const char *name, const char *vmstate,
-         goto err_drain;
-     }
- 
--    qemu_system_reset(SHUTDOWN_CAUSE_NONE);
-+    qemu_system_reset(SHUTDOWN_CAUSE_SNAPSHOT_LOAD);
-     mis->from_src_file = f;
- 
-     if (!yank_register_instance(MIGRATION_YANK_INSTANCE, errp)) {
-diff --git a/qapi/run-state.json b/qapi/run-state.json
-index 49989d30e6..e44c0de914 100644
---- a/qapi/run-state.json
-+++ b/qapi/run-state.json
-@@ -86,12 +86,15 @@
- #                   ignores --no-reboot. This is useful for sanitizing
- #                   hypercalls on s390 that are used during kexec/kdump/boot
- #
-+# @snapshot-load: A snapshot is being loaded by the record & replay
-+#                 subsystem; internal value (since 7.2)
-+#
- ##
- { 'enum': 'ShutdownCause',
-   # Beware, shutdown_caused_by_guest() depends on enumeration order
-   'data': [ 'none', 'host-error', 'host-qmp-quit', 'host-qmp-system-reset',
-             'host-signal', 'host-ui', 'guest-shutdown', 'guest-reset',
--            'guest-panic', 'subsystem-reset'] }
-+            'guest-panic', 'subsystem-reset', 'snapshot-load'] }
- 
- ##
- # @StatusInfo:
-diff --git a/softmmu/runstate.c b/softmmu/runstate.c
-index 1e68680b9d..3dd83d5e5d 100644
---- a/softmmu/runstate.c
-+++ b/softmmu/runstate.c
-@@ -441,11 +441,16 @@ void qemu_system_reset(ShutdownCause reason)
-     cpu_synchronize_all_states();
- 
-     if (mc && mc->reset) {
--        mc->reset(current_machine);
-+        mc->reset(current_machine, reason);
-     } else {
--        qemu_devices_reset();
-+        qemu_devices_reset(reason);
-     }
--    if (reason && reason != SHUTDOWN_CAUSE_SUBSYSTEM_RESET) {
-+    switch (reason) {
-+    case SHUTDOWN_CAUSE_NONE:
-+    case SHUTDOWN_CAUSE_SUBSYSTEM_RESET:
-+    case SHUTDOWN_CAUSE_SNAPSHOT_LOAD:
-+        break;
-+    default:
-         qapi_event_send_reset(shutdown_caused_by_guest(reason), reason);
-     }
-     cpu_synchronize_all_post_reset();
 -- 
 2.38.1
 
