@@ -2,63 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AEE760CEC8
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 16:20:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47A6260CF19
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 16:34:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onKhl-0005rh-2O; Tue, 25 Oct 2022 10:14:57 -0400
+	id 1onKum-0005zm-U5; Tue, 25 Oct 2022 10:28:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1onKhg-0005oA-0J
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 10:14:52 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1onKhS-00021A-2p
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 10:14:51 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.173])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 2861D136370D1;
- Tue, 25 Oct 2022 16:14:20 +0200 (CEST)
-Received: from kaod.org (37.59.142.100) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Tue, 25 Oct
- 2022 16:14:20 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R003005edf09-bd91-4c0b-b6b6-767824917878,
- C51D709EDC378CBF81E5C879F3A6BC578FFA89E0) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <7b6eb8bf-1f5a-8c6b-4346-876f1bd34f55@kaod.org>
-Date: Tue, 25 Oct 2022 16:14:18 +0200
+ (Exim 4.90_1) (envelope-from <amarjargal16@gmail.com>)
+ id 1onKuj-0005ee-AR
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 10:28:22 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <amarjargal16@gmail.com>)
+ id 1onKuh-0004LI-NL
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 10:28:21 -0400
+Received: by mail-ej1-x630.google.com with SMTP id d26so12882274eje.10
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 07:28:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=wYKTuID7HKH/TCeA0Rqh1TOZpVL/LMea7cgoZ2fkTWA=;
+ b=Y475V0NWTgWWDkki/j1ztHaLb5S2FGeMKSq33oyo6Cmwy9R0zfAgbQPeGYn7Gjh9kZ
+ nfUeHRz977mSU4rFv0PRBlBYvo7smH/Wz9LYUBZKg7+apUtbwhDrn/KjFCgkIhrpW6v4
+ IrkTVTbCmstxMzfXHnVN10+VqRWSuOu2eTVKHBqxq+95bL3TlrNZrHJcF4lwjKWMesmv
+ SD0G9RXYzx7LVF3d/AR/HYcx/vGUPEW9o2SOUr6urjtwAo7X7QmDc7nyFHFJSDuTIIG7
+ 6lvAVMZKlkstnMIR3dOfa6q+ldDff513np1zlq6gN/rxspzRCNWq6xwvA8Qj4qljTLX1
+ vEhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wYKTuID7HKH/TCeA0Rqh1TOZpVL/LMea7cgoZ2fkTWA=;
+ b=2NcPv+2nLj7OU7vPTAx8PaCAeKg42zA3kBN9mkSHme1MY3Nm02GrqfHguD2k2TNFxl
+ EfjFpVPnX2fCbb3wqNq8McnoEoQXDjZZ/e5LBLLE0kQO4q1LhseM4pKTSFFD4c7CBM9j
+ NM91/u75/8K136VRNwT6UrBZFDa9gqafcZlH/zdjShokZESDJ8h95r0SdglBt4j4I5g4
+ QBv5VeZsnKYr6+Rimz2y76pd7JfMrYfNGgCzHt6VJCO+w94MoPM+hw5IW8Rs2Lysj8vS
+ V3ApkAB0lpPqj6XQzQQvL7oXL1E7RCzCo4dgmrMUcYnkAnrKYZSivQ2myfH4hbEYbHLK
+ DFRA==
+X-Gm-Message-State: ACrzQf0YJUFgTsM2XEp1Pt9OLJrEfnCgd/JTJGVyoeuLccdzqGcEbdy9
+ vw7kNE9Zjc36twgYIxl84Za8bw6qIjcI5OAxPiE=
+X-Google-Smtp-Source: AMsMyM5pYHnkBHaFCTeUaQRe9khUxSmGFJ5tgfRglK3NUOtjdMSPjMiC1ieKy9KmqHN3oxYJOW4qMg==
+X-Received: by 2002:a17:907:2672:b0:780:8bb5:25a3 with SMTP id
+ ci18-20020a170907267200b007808bb525a3mr32472532ejc.281.1666708097780; 
+ Tue, 25 Oct 2022 07:28:17 -0700 (PDT)
+Received: from localhost.localdomain ([202.21.109.40])
+ by smtp.gmail.com with ESMTPSA id
+ v7-20020aa7cd47000000b0044bfdbd8a33sm1746220edw.88.2022.10.25.07.28.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Oct 2022 07:28:17 -0700 (PDT)
+From: Amarjargal Gundjalam <amarjargal16@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: kraxel@redhat.com, berrange@redhat.com, thuth@redhat.com,
+ vr_qemu@t-online.de, Amarjargal Gundjalam <amarjargal16@gmail.com>
+Subject: [PATCH v4 0/4] ui:hw: fix tab indentation
+Date: Tue, 25 Oct 2022 22:28:07 +0800
+Message-Id: <cover.1666707782.git.amarjargal16@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: soc_name for supermicrox11-bmc machine: ast2400-a1 or ast2500-a1 ?
-Content-Language: en-US
-To: Guenter Roeck <linux@roeck-us.net>, QEMU Developers <qemu-devel@nongnu.org>
-CC: Erik Smit <erik.lucas.smit@gmail.com>, Joel Stanley <joel@jms.id.au>, Ryan
- Sie <ryans@supermicro.com.tw>
-References: <f9a80497-bdfa-f3e3-1e32-75687d5f7256@roeck-us.net>
- <527a218f-96b8-8123-730d-ade3fe7f0d39@kaod.org>
- <6c770eba-c3e4-bf11-151c-18aae4d82ddf@roeck-us.net>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <6c770eba-c3e4-bf11-151c-18aae4d82ddf@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: f6927022-d940-4d4a-972a-5bbf467372c8
-X-Ovh-Tracer-Id: 17238653477363813283
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrtddtgdegiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepvddvgfejudegudfgteduueehjedugffftdefgeetffeivdfhvdduhffhheegleefnecuffhomhgrihhnpehsuhhpvghrmhhitghrohdrtghomhenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugiesrhhovggtkhdquhhsrdhnvghtpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdgvrhhikhdrlhhutggrshdrshhmihhtsehgmhgrihhlrdgtohhmpdhjohgvlhesjhhmshdrihgurdgruhdprhihrghnshesshhuphgvrhhmihgtrhhordgtohhmrdhtfidpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=amarjargal16@gmail.com; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,65 +89,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/25/22 15:37, Guenter Roeck wrote:
-> On 10/24/22 23:25, Cédric Le Goater wrote:
->> Hello Guenter
->>
->> On 10/24/22 22:56, Guenter Roeck wrote:
->>> Hi,
->>>
->>> I always wondered why I am having trouble running Linux on supermicrox11-bmc.
->>> Building the kernel with aspeed_g4_defconfig results in its clock running
->>> at ~20x the real clock speed, and kernels built with aspeed_g5_defconfig
->>> do not boot at all.
->>>
->>> I ended up spending some time on it last weekend and noticed that the SOC
->>> is configured to ast2400-a1. However, the Supermicro documentation as well
->>> as the devicetree file in the Linux kernel suggest that the SOC on the X11
->>> board is an ast2500.
->>
->> It is true that the Linux DT file includes an AST2500 SoC.
->>
->> However, the QEMU BMC machine was added to support such boards :
->>
->>     https://www.supermicro.com/en/products/motherboard/X11SSL-F
->>
->> where it says ASPEED AST2400 BMC for IPMI and graphics. The firmware
->> detects the SoC as an AST2300, which means it doesn't have support for
->> the ast2400 ...
->>
-> 
-> Interesting. I was looking at
-> 
-> https://www.supermicro.com/en/solutions/management-software/bmc-resources
-> 
-> where X11 boards are associated with AST2500, and X10 boards with AST2400,
-> However, I do see that the motherboard list shows that it is indeed a mixed
-> bag.
-> 
->>
->>> Indeed, it turns out that all my problems are gone if I change the SOC
->>> to ast2500-a1 and use aspeed_g5_defconfig to build the Linux kernel.
->>>
->>> Was there a reason to select ast2400-a1 for this machine, or is that
->>> a bug ?
->>
->>
->> May be there were multiple generations of the X11 mother boards.
->>
-> 
-> Looks like it.
-> 
->> It wouldn't be difficult adding a new supermicrox11-<something>-bmc
->> machine with an AST2500 SoC for your needs.
+V4 fixes the issues addressed by Volker.
 
-I would suggest supermicrox11-spi-bmc to match the DT.
+Amarjargal Gundjalam (4):
+  ui: fix tab indentation
+  hw/audio: fix tab indentation
+  hw/display: fix tab indentation
+  hw/usb: fix tab indentation
 
-mac0 and mac1 are active. It would be nice to have some flash models
-commonly attached to these boards. May be Ryan can tell.
+ hw/audio/fmopl.c             | 1664 +++---
+ hw/audio/fmopl.h             |  138 +-
+ hw/audio/intel-hda-defs.h    |  990 ++--
+ hw/audio/wm8750.c            |  270 +-
+ hw/display/blizzard.c        |  352 +-
+ hw/display/cirrus_vga.c      | 1606 +++---
+ hw/display/omap_dss.c        |  598 +--
+ hw/display/pxa2xx_lcd.c      |  196 +-
+ hw/display/vga_regs.h        |    6 +-
+ hw/display/xenfb.c           |  260 +-
+ hw/usb/dev-hub.c             |   82 +-
+ hw/usb/dev-network.c         |  286 +-
+ hw/usb/dev-wacom.c           |    4 +-
+ hw/usb/hcd-musb.c            |  328 +-
+ hw/usb/quirks-pl2303-ids.h   |  180 +-
+ include/hw/usb.h             |  100 +-
+ include/hw/usb/dwc2-regs.h   | 1608 +++---
+ ui/vgafont.h                 | 9214 +++++++++++++++++-----------------
+ ui/vnc-enc-zywrle-template.c |   20 +-
+ ui/vnc-enc-zywrle.h          |   16 +-
+ ui/vnc_keysym.h              |    2 +-
+ 21 files changed, 8960 insertions(+), 8960 deletions(-)
 
-Thanks,
+-- 
+2.25.1
 
-C.
-   
 
