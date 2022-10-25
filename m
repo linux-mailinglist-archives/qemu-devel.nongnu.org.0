@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53B5960CD2E
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 15:15:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE93060CB86
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 14:10:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onJii-0000Cp-7U; Tue, 25 Oct 2022 09:11:52 -0400
+	id 1onIgW-0002Ls-7J; Tue, 25 Oct 2022 08:05:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1onJiW-0007bt-5j
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 09:11:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1onJiS-0007fr-9k
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 09:11:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666703493;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4Wj3K6e0+DID0Fb4Tb2nQpTRNBc2dpmntC/297GfQ7k=;
- b=br1qG7rLQRXHcdk/oqLv2Tw2phoH/dIc4iir5M5a0ShPaswsUXIzJxyiOoyXdMC7+QLcU3
- Lnh2RVn10zDGfBhFm1/6FTBjAbSkcIvij7+9pYAZenzdkDrAyVYINuHjUNcoP23vsfGykY
- prL6q/w63o52/1NHTvaowde8aqk2GFE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-27-ZseLWBnZNuG9__hSUbgRZw-1; Tue, 25 Oct 2022 09:11:27 -0400
-X-MC-Unique: ZseLWBnZNuG9__hSUbgRZw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E41511C08991;
- Tue, 25 Oct 2022 13:11:23 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 399C620290A6;
- Tue, 25 Oct 2022 13:11:23 +0000 (UTC)
-Date: Mon, 24 Oct 2022 17:07:46 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Greg Kurz <groug@kaod.org>, Linus Heckemann <git@sphalerite.org>,
- Bin Meng <bin.meng@windriver.com>
-Subject: Re: [PULL 00/23] 9p queue 2022-10-24
-Message-ID: <Y1b+ovFFbizpz5vK@fedora>
-References: <cover.1666608862.git.qemu_oss@crudebyte.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1onIfY-0000Fo-Gc
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 08:04:33 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1onIfP-0003Gl-CV
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 08:04:32 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id 128so11287553pga.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 05:04:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=59JaS4Wkj7dq0vEEMxDP2wfyvXcoHNuhHUP+ukzSxW0=;
+ b=fy64zbJDJD40q1P2xiC75eD3E5BpAkm5cL2qWvavncEViUMXmnIH58U0CrnOjUeile
+ jWBTefzAexpYdw3SpLATtACoD2AuA2AF/e98GrdZI0wlbHtqlhVLWc5POGYGevJnky0i
+ n6ylwrS6bXo0SZ+vExNSirrktqmie7gxyizi705ZVc/fwMdQtf9HRpqHRPBHv+WD3juq
+ mZ1QJzm12jGLb9pVaSqCtH0yKoboyPqeLva9xfYe3GFrVl88MOFJo6oYVTCKLMFOGaAR
+ 0oohFJ7mbb6jTwxN3mp7o1izAHV/1cpT4qWEUjZj45927m9sHOO384wE7uJQ2L0n7obu
+ bHjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=59JaS4Wkj7dq0vEEMxDP2wfyvXcoHNuhHUP+ukzSxW0=;
+ b=jVMkQ0n9yEoWwnzU1uzIYgB7+GdzOeZi7fE54G25Cp7ZJyM3XCv+c47t2mh5sUxBkj
+ 6Y42L3KE16hJaTIR2aHMt24HUqoZrLM9piLR9LEMUCa5zQMAOPjySEKD+KIbCvFahQNm
+ yrbIx9O+7EN5cvr/zDS2yntlM5eZMevAFyobwbs0fgEjBwpbT7h9CizK5TAtCEYiekX+
+ /siL8EBVPY7v88M0lJ3LBIvWXM8K1Iw8Q8QtW5XCibiK1G2ENfxyV0iC4nf+5eNS112l
+ mZZFPxmJ1GDheeeD8C+k85TQzPsXiPqoym6fGcn+LliGaea4WsMOvOy6zVpFS0CrBakA
+ 2ZLw==
+X-Gm-Message-State: ACrzQf3abFvN6xtQO29r4TLWoG3SxwCDQq1SnEQpI2AtjCwWpcG1AQQ7
+ Zag+or3o2prvDP1ZMfNHHPzt5Yg/jeda07Ceab1baw==
+X-Google-Smtp-Source: AMsMyM682zkJm+bNsDU9yBkdGYvspjhecdu06evvH7CdEyd8X2XUH3KqqmPg3W2vhYzi0TlDAcKQokaS+flAgPrP9/g=
+X-Received: by 2002:a05:6a00:b54:b0:566:917:e57e with SMTP id
+ p20-20020a056a000b5400b005660917e57emr38310686pfo.26.1666699461573; Tue, 25
+ Oct 2022 05:04:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="VRDRZ7kApmjsCSWY"
-Content-Disposition: inline
-In-Reply-To: <cover.1666608862.git.qemu_oss@crudebyte.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
- DKIMWL_WL_HIGH=-0.517, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <166663118138.13362.1229967229046092876-0@git.sr.ht>
+In-Reply-To: <166663118138.13362.1229967229046092876-0@git.sr.ht>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 25 Oct 2022 13:04:10 +0100
+Message-ID: <CAFEAcA_W6QqBHeN0D+XR77MVyhk2Bj_kZC164SJtoMk8ByaVxw@mail.gmail.com>
+Subject: Re: [PATCH qemu.git] target/imx: reload cmp timer outside of the
+ reload ptimer transaction
+To: "~axelheider" <axelheider@gmx.de>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,30 +82,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Mon, 24 Oct 2022 at 18:06, ~axelheider <axelheider@git.sr.ht> wrote:
+>
+> From: Axel Heider <axel.heider@hensoldt.net>
+>
+> When running seL4 tests (https://docs.sel4.systems/projects/sel4test)
+> on the sabrelight platform, the timer tests fail. The arm/imx6 EPIT
+> timer interrupt does not fire properly, instead of a e.g. second in
+> can take up to a minute to finally see the interrupt.
+>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1263
+>
+> Signed-off-by: Axel Heider <axel.heider@hensoldt.net>
+> ---
+> Fixed the comment style and the commit message.
+>
+> > Do we also need to change the other places that call
+> > imx_epit_reload_compare_timer() in the handling of CR
+> > register writes ? (Those are a little more tricky.)
+>
+> The current patch fixed the issue we are seeing. I'm not really
+> an expert on the QEMU code here and still try to understand
+> all details. Might also be that we never hit the other code paths
+> in the end.
 
---VRDRZ7kApmjsCSWY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+I suspect your guest happens to initialize the timer in
+such a way that it doesn't matter if we don't get the
+comparison stuff right on the write to the control
+register: conceptually I think the CR write code has the
+same bug where we call imx_epit_reload_compare_timer()
+before we've finalized the value of the timer_reload value.
 
-Applied, thanks.
+Anyway, this patch is definitely correct for the LR
+register write, so I've applied it to target-arm.next.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
-
---VRDRZ7kApmjsCSWY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNW/qIACgkQnKSrs4Gr
-c8h6WAgAlREWrkxpsY+fed/4mwQVbmd/0W6pS5cVGkgQE/OuBHNoU28q3w13/Zd+
-06lEAx3OwVOWTneFxJt5ebejLRWP3QlBpgL9mX1nNCLqiyROpc2pFPZDhShQoLDL
-++sFnDw9o7J+KTxrNaW9J73D30s/Pz+84EX1xhxEGfikVLs+hhy+HvPGjzIr8Tue
-ozwxLOsYszIcJnCU7NcsuxLFsQOUxdnkd1lk3qTs42JAejtUxDKHvJtT/GHRl99/
-DWoNh4qFaHz8XHUPAgTNUK9UIfintLPVaGQs/JKwH4P0jCR5ISVG547tPKfHGGMf
-b01DmvbtgUmgU1va28vq2J7WRjHwhw==
-=bW21
------END PGP SIGNATURE-----
-
---VRDRZ7kApmjsCSWY--
-
+thanks
+-- PMM
 
