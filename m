@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A18E60C681
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 10:33:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E63760C68B
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 10:35:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onFMS-0002wy-9H; Tue, 25 Oct 2022 04:32:36 -0400
+	id 1onFMQ-0002d8-7q; Tue, 25 Oct 2022 04:32:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1onETx-0001JF-SK
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:36:24 -0400
-Received: from mout.kundenserver.de ([212.227.126.187])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1onETx-0001JG-WC
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:36:27 -0400
+Received: from mout.kundenserver.de ([212.227.126.133])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1onETu-0003GT-0R
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:36:17 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1onETu-0003GM-Ie
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:36:15 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MPowd-1oQSfi3qdf-00MrIH; Tue, 25
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1Mw9Dg-1p3fN01ByO-00s5hu; Tue, 25
  Oct 2022 09:36:10 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>,
-	Helge Deller <deller@gmx.de>
-Subject: [PULL 2/8] linux-user: fix pidfd_send_signal()
-Date: Tue, 25 Oct 2022 09:36:00 +0200
-Message-Id: <20221025073606.3114355-3-laurent@vivier.eu>
+Cc: Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 3/8] linux-user: handle /proc/self/exe with execve() syscall
+Date: Tue, 25 Oct 2022 09:36:01 +0200
+Message-Id: <20221025073606.3114355-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221025073606.3114355-1-laurent@vivier.eu>
 References: <20221025073606.3114355-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:C0zMStXtK+BLeF6sFH/S8vlAV/96IZfZaA6uWRptajzRx1Gg5b6
- fN/6oolABRr6lugUCVfu+vjO3doGtNrZAiPoqgfYdt61clcwA+t2V/x1+z4H+C+nZgtPpwg
- 8QQth32dL564vUQ/uSdn/lFBp2d/Hfu6/ICjYbfvVbmvUGneH9Zu0oA1qx6fQbEBlo0gMtJ
- nCd9UJq1slrS+NywqpG1g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BD8KFicWM4Y=:WMuO1bbv2odndudheMnKUR
- bM2r9ODkkzGduF7EfChus2BAUMPCUgKoLEOtFBUoSia1VRLZ2GrY91AjJ6giTYuEZe6TMkzPr
- A/uM1y/+2UYvk7yg9xFuJjowG9rfEuFH5to8i7YnaE41kx/+X6PIvGIibkCwNl4SeqnyxdID8
- jk0jlR1andAj2NwMHDdzOM9S7hQQyhFSsklIfOKxu/C4xTHuvIY81HaWMz3pTD++q5eXUlhtP
- aUiLgmFTQ1KsmIRudRKduuNLDoKadQxzDjWt2pACGUdjjRxk3jJ5xvYXHb0JauvLzrjuTNmz/
- w06SNzM4F3YmdLTNYS3kfNpMhLY+hM9qO+mWlLb6xdcg/mJWfwdXw4i56MrDRpN2s7k5w1wjs
- CcEMm1ImUvRv0uPSfzHoYhMunNH3fdGCagZ+H0tLtz4YNaFnAnmKOLk2jZHWIkncIf7ZvQ34A
- BHjLSJDs0u/0MGUvVCUzSEEQVPsJf+nR+O07irWukICLnmqQliiighlMCjejlsY5IV/2YyRpz
- PS3UWHNPx45ReDnQy5c85QQ/+GCNGCkNqM5VRX/yEZDTF5rm6FoY9C2fZlFQ0+y5dyHU71oZA
- gbAKuRD1CIyK8YgcSUXJg3edd+hmqoU1gbx9cgTmrcvzm88W8GgItPwTZL62DV4BA4knKs/QT
- YTHZz4PoonIySXWpOgnJL8Rl5ePf46TgxivnktbGiGWSh9n+xaBAM2VZLZ2wQhhziYhHZXKx2
- acgu3Jv6ORBcftxGnN8DsnYUcBMIAihCpbnPIctoZCoI3qGsFCr5/pweIlnLCJdzUgAj4XZds
- r2+Y5jD
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:3StfFPlIReSm6A+oxQIyyz58djW7xGdZS0pdCg+AEOetKGflG9O
+ ACY/haEe2aklj1phez5R8BcyChsd1bsbm/fNlD9Yit/AKKu+Ag0uzBArlXkQXwOLICu3BU+
+ e6d9xHshpItxcVsBlncf1BcinD7HSIWUKoOs8tnDFKiBgrqx76ODiRiG3fZi0fynvgcGomx
+ yCz/+Ub9PTWFtLq3PSkoQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:enHGnr2kr1c=:PRM3nDTdbwjmu3ettL6/AM
+ 3fwiMZWIv8mrM4RIaWoNKytbr41APacHGK8uXzbS0OT8dwMQ2rn1eFyH/eAcdllmWBqS3vqG/
+ qOP19JpvXqbtHEePy0TiLo9u8nvN8iLe1QxMkbn4+a8/RFyEmTN0XbMYF+zJPgy9GGwHU14+L
+ KnOoGi1bC67eRSCdcaUsj+rEwV0k79TfvCNqkgAFQczIfHl59MSs/RAGngpxpVGvW+mHIy3HU
+ H1S1r3PEaus2363rdIPHJUOtkecWVOSPnuVu18jCwUo3v/5l6G0AQppaQOEBtCdr9mzWT9vm+
+ haPMGVcNZremzmZYd9wFl/NQ7XwuIJdsxdlTE882HGVYcIiYUFF1T7Kbi2rekqsNhq8OohBJG
+ 3iFjpKhA1yoTeG+dMReXIzuBsjA64r8wWUC3czEDLMdnd9Tniwtn84rcMH1wljyqeUFLGw5+w
+ mZuEn3hVvR34e36BdJMn9TJBtsa8kqQApqW6ZOvz8NokmwGOyBUqvRb484dz6XZpZEr1WUGIl
+ VLNcW/JrJgyrSXikEoQEKMZLjCjggrRl/xw9nY3TnQBLDf1X/hRRgHa5ywwR69fuaQXIdJZAb
+ T97G/u7sFG5yYN91Pl2HnRppdnA7Jm4keuWd/kDGDlRwMo5B2CSUfv7iJQAMAMVufdrdLDRzh
+ MPIIvjEZS5Q7Pzl+qJWruY/ONNzaabWq+rINNkMcg8aSyQ5wxku8UHkcVYCHOhX5aVvdL5CMi
+ oVmSCwKVCUO5Dc4Ih473QL8nS8UMBhHPUFOX+OPgqMSdoSCRqFGyzGjpoxDRa/N3MJoXVCI5x
+ 3rpvZOf
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -71,70 +70,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-According to pidfd_send_signal(2), info argument can be a NULL pointer.
-Fix strace to correctly manage ending comma in parameters.
+If path is /proc/self/exe, use the executable path
+provided by exec_path.
 
-Fixes: cc054c6f13 ("linux-user: Add pidfd_open(), pidfd_send_signal() and pidfd_getfd() syscalls")
-cc: Helge Deller <deller@gmx.de>
+Don't use execfd as it is closed by loader_exec() and otherwise
+will survive to the exec() syscall and be usable child process.
+
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Helge Deller <deller@gmx.de>
-Message-Id: <20221005163826.1455313-1-laurent@vivier.eu>
+Message-Id: <20220927124357.688536-2-laurent@vivier.eu>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.c  |  4 ++--
- linux-user/syscall.c | 19 ++++++++++++-------
- 2 files changed, 14 insertions(+), 9 deletions(-)
+ linux-user/syscall.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 37bc96df9bb6..86c081c83f74 100644
---- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -3383,10 +3383,10 @@ print_pidfd_send_signal(CPUArchState *cpu_env, const struct syscallname *name,
- 
-         unlock_user(p, arg2, 0);
-     } else {
--        print_pointer(arg2, 1);
-+        print_pointer(arg2, 0);
-     }
- 
--    print_raw_param("%u", arg3, 0);
-+    print_raw_param("%u", arg3, 1);
-     print_syscall_epilogue(name);
- }
- #endif
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 8b2d39fe73b3..ad06ec7bd54c 100644
+index ad06ec7bd54c..a7a29091c91e 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -8679,16 +8679,21 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
- #if defined(__NR_pidfd_send_signal) && defined(TARGET_NR_pidfd_send_signal)
-     case TARGET_NR_pidfd_send_signal:
-         {
--            siginfo_t uinfo;
-+            siginfo_t uinfo, *puinfo;
- 
--            p = lock_user(VERIFY_READ, arg3, sizeof(target_siginfo_t), 1);
--            if (!p) {
--                return -TARGET_EFAULT;
-+            if (arg3) {
-+                p = lock_user(VERIFY_READ, arg3, sizeof(target_siginfo_t), 1);
-+                if (!p) {
-+                    return -TARGET_EFAULT;
-+                 }
-+                 target_to_host_siginfo(&uinfo, p);
-+                 unlock_user(p, arg3, 0);
-+                 puinfo = &uinfo;
+@@ -8860,7 +8860,11 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+              * before the execve completes and makes it the other
+              * program's problem.
+              */
+-            ret = get_errno(safe_execve(p, argp, envp));
++            if (is_proc_myself(p, "exe")) {
++                ret = get_errno(safe_execve(exec_path, argp, envp));
 +            } else {
-+                 puinfo = NULL;
-             }
--            target_to_host_siginfo(&uinfo, p);
--            unlock_user(p, arg3, 0);
-             ret = get_errno(pidfd_send_signal(arg1, target_to_host_signal(arg2),
--                &uinfo, arg4));
-+                                              puinfo, arg4));
-         }
-         return ret;
- #endif
++                ret = get_errno(safe_execve(p, argp, envp));
++            }
+             unlock_user(p, arg1, 0);
+ 
+             goto execve_end;
 -- 
 2.37.3
 
