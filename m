@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F13E960D1CF
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 18:46:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45B1C60D202
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 18:54:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onMz2-0006fO-EC; Tue, 25 Oct 2022 12:40:56 -0400
+	id 1onMz0-0006ak-7A; Tue, 25 Oct 2022 12:40:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1onMyg-0006Cr-2g
+ id 1onMyg-0006Ct-2L
  for qemu-devel@nongnu.org; Tue, 25 Oct 2022 12:40:34 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1onMyP-0001Q3-Cj
+ id 1onMyR-0001eh-Tg
  for qemu-devel@nongnu.org; Tue, 25 Oct 2022 12:40:27 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id h9so10987674wrt.0
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 09:40:16 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id j15so11554328wrq.3
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 09:40:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=syvb6lOf2ketormAVnCyzgEWolcoDj1zCWAiB10+6EU=;
- b=Rh1iIr4htKAJwpB4Eo85wETY+IjuVQ2J7lreviTnKGscDDH+0rJGfDoIp1xnI1erwC
- EvZKusJOtZVxAuryF8EgAV8tQjI5QQkI1pfTgY6H1mIQ+4t5/ycsJKnanaoV4OWEwVR5
- YBxp7XxLcn61ztbN9AW8gTIfKf9H2Xu1bgOz/5UFyxTR0/mbQuj/NYICOE1cnzYEKuRw
- wDckwJUXRISGE0rpl5AgTnoDeXenbaXa0RzwT6ayqwp2znA81xyQr/dDlCYzm/IjelfA
- TVSwnNCA6K3m2EgMt6U1ZWCnSTariifzu2/LLhNrs6OBm031kB57H9VpVjRFqoCtURoK
- 92aQ==
+ :reply-to; bh=5W0kVIix3U3mXWnUq0kB/Q/Vahrm6fZkJGySoHAD2KY=;
+ b=UUZIdy+NtnEd7MIaUHhgXh7UiCNrX5WM21dlowj33+sbzTpEzGyqyXMyNtl6ezXQTl
+ 6VZ7rX20JcjB335EaNV7LsEgXHp0YvDuKHmpRYfBRk0pHgAmDQreMGQ1HxV6e3UGrZhy
+ PIF4zU3aqbgEOq+eZXsoru0yYR8aND1P/kzwWjXfW0MkJQJmyigpW6QlHoESiqRYNzhp
+ Lx1Lp8ju8Oh06qiCPaz+JPbIxcQ1WEBCtvaryMQEiuOMlFfdao8iTgmoi0CCERfK8UER
+ F6HUkQChnr9Mz06i4IpmXOQLBAH2zQLvFYjGv3JZMxR7VIg2kXlX5RvlBOEqQhulwWQZ
+ bGuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=syvb6lOf2ketormAVnCyzgEWolcoDj1zCWAiB10+6EU=;
- b=XduBXgYKnFgHY4+q+u5RVAtQCrakAbnF5f26bNju01Qa6m9dnWSL240pV+cPagOYpc
- yGOovV7O1XUSJUOsqzu+Wt0ZJ0XSA128yL2MaIz2BChN7FQf6LP1LvrOqnMcSfQCdCky
- 6GuhEqk/+gIXP3cKeHZRO2ZxIEZxLTm7WcODWK51CoCjMCJeRJdSxQpUtNGU9KhqX7L/
- eRlTm+5KisXB/7JtqHSohAe4H55/RBnjCFdmFshRAmMvx1RBmyi3ibytyL8CsaNyWCIi
- laGugnT/LYF/0Pl7oPiDG/tLmrjbIZSaaRqJk+YXDEoF0XuevJQ0h1d56QdiRJyVasRq
- yH+A==
-X-Gm-Message-State: ACrzQf3ouYuuK26x/jzFGD9xHeDiUhOpJH4D9qWFoY9YtoBYO8x+62vv
- pK+uPcSdSGb9NtbFHyKp/IIkbZpvjTEgbw==
-X-Google-Smtp-Source: AMsMyM7fT5UaVjN3p7q8CeI1AtoJNirnOMJOBwp4lJwfjzep2efuCnyM0Zt0HFzq/xhEe/G8yUblow==
-X-Received: by 2002:a5d:59a7:0:b0:230:3652:1aa with SMTP id
- p7-20020a5d59a7000000b00230365201aamr25826300wrr.308.1666716016571; 
- Tue, 25 Oct 2022 09:40:16 -0700 (PDT)
+ bh=5W0kVIix3U3mXWnUq0kB/Q/Vahrm6fZkJGySoHAD2KY=;
+ b=M1Eo+gSnzOL0lMzjpdAEWmBVBasTFb5jxY9i95SiYTPgLlGbF6gwNn+osLnoawiYBb
+ ygWmJjN0q+rBl93runFHqFrz3w0kZ/i/wsBtYTyCKWtR5A/aXKjQ9ccq5lfRCoa5jHa1
+ sxNJSNBsCSO3RnZ/Llz51U4ueS4gUHFjrJ1jYfqCp8Juwohwrkmn87+K+YxMnew7XYrH
+ sOhaHD/wd+HkYGIcqbzpl4rPYZlDvHhwpRwVyaUyYniqukM4AHWsYXW6dW7TyV0koqUd
+ u1l2MHFFSTtetIRAKNNOi2AnNNEnKAkWy6w60F0L/yKRi0wEPcKkO+/zYSguN5TtkjZv
+ MV5w==
+X-Gm-Message-State: ACrzQf1yOV+opWoG4I4sF3Ekgvgg+GR6POrZA/cB2unMgKYQXfyKg3tA
+ BAfbn1qvmAmz2MGHbsGtA1gdMeH1Q/OFPQ==
+X-Google-Smtp-Source: AMsMyM6Ih+eBPllpCwyVe58+V/hBZbGc62t8jeDWT994oartzbbkN7i9E+mV4PCR8NYLNemh7CApxw==
+X-Received: by 2002:a05:6000:1565:b0:22f:1407:9bfd with SMTP id
+ 5-20020a056000156500b0022f14079bfdmr25689116wrz.620.1666716017619; 
+ Tue, 25 Oct 2022 09:40:17 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- z12-20020a05600c220c00b003cd9c26a0basm2971084wml.40.2022.10.25.09.40.15
+ z12-20020a05600c220c00b003cd9c26a0basm2971084wml.40.2022.10.25.09.40.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Oct 2022 09:40:16 -0700 (PDT)
+ Tue, 25 Oct 2022 09:40:17 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/30] target/arm: Implement FEAT_HAFDBS, access flag portion
-Date: Tue, 25 Oct 2022 17:39:40 +0100
-Message-Id: <20221025163952.4131046-19-peter.maydell@linaro.org>
+Subject: [PULL 19/30] target/arm: Implement FEAT_HAFDBS, dirty bit portion
+Date: Tue, 25 Oct 2022 17:39:41 +0100
+Message-Id: <20221025163952.4131046-20-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221025163952.4131046-1-peter.maydell@linaro.org>
 References: <20221025163952.4131046-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,327 +90,56 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Perform the atomic update for hardware management of the access flag.
+Perform the atomic update for hardware management of the dirty bit.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20221024051851.3074715-13-richard.henderson@linaro.org
+Message-id: 20221024051851.3074715-14-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/system/arm/emulation.rst |   1 +
- target/arm/cpu64.c            |   1 +
- target/arm/ptw.c              | 176 +++++++++++++++++++++++++++++-----
- 3 files changed, 156 insertions(+), 22 deletions(-)
+ target/arm/cpu64.c |  2 +-
+ target/arm/ptw.c   | 16 ++++++++++++++++
+ 2 files changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
-index fd61360a086..e3af79bb8c9 100644
---- a/docs/system/arm/emulation.rst
-+++ b/docs/system/arm/emulation.rst
-@@ -33,6 +33,7 @@ the following architecture extensions:
- - FEAT_FlagM (Flag manipulation instructions v2)
- - FEAT_FlagM2 (Enhancements to flag manipulation instructions)
- - FEAT_GTG (Guest translation granule size)
-+- FEAT_HAFDBS (Hardware management of the access flag and dirty bit state)
- - FEAT_HCX (Support for the HCRX_EL2 register)
- - FEAT_HPDS (Hierarchical permission disables)
- - FEAT_I8MM (AArch64 Int8 matrix multiplication instructions)
 diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index da95eabab5e..f2c3e41f5a7 100644
+index f2c3e41f5a7..3d74f134f57 100644
 --- a/target/arm/cpu64.c
 +++ b/target/arm/cpu64.c
-@@ -1165,6 +1165,7 @@ static void aarch64_max_initfn(Object *obj)
+@@ -1165,7 +1165,7 @@ static void aarch64_max_initfn(Object *obj)
      cpu->isar.id_aa64mmfr0 = t;
  
      t = cpu->isar.id_aa64mmfr1;
-+    t = FIELD_DP64(t, ID_AA64MMFR1, HAFDBS, 1);   /* FEAT_HAFDBS, AF only */
+-    t = FIELD_DP64(t, ID_AA64MMFR1, HAFDBS, 1);   /* FEAT_HAFDBS, AF only */
++    t = FIELD_DP64(t, ID_AA64MMFR1, HAFDBS, 2);   /* FEAT_HAFDBS */
      t = FIELD_DP64(t, ID_AA64MMFR1, VMIDBITS, 2); /* FEAT_VMID16 */
      t = FIELD_DP64(t, ID_AA64MMFR1, VH, 1);       /* FEAT_VHE */
      t = FIELD_DP64(t, ID_AA64MMFR1, HPDS, 1);     /* FEAT_HPDS */
 diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 73b3c37b23f..03776f47a01 100644
+index 03776f47a01..6b8f14fb3cd 100644
 --- a/target/arm/ptw.c
 +++ b/target/arm/ptw.c
-@@ -21,7 +21,9 @@ typedef struct S1Translate {
-     bool in_secure;
-     bool in_debug;
-     bool out_secure;
-+    bool out_rw;
-     bool out_be;
-+    hwaddr out_virt;
-     hwaddr out_phys;
-     void *out_host;
- } S1Translate;
-@@ -219,6 +221,8 @@ static bool S1_ptw_translate(CPUARMState *env, S1Translate *ptw,
-     uint8_t pte_attrs;
-     bool pte_secure;
- 
-+    ptw->out_virt = addr;
-+
-     if (unlikely(ptw->in_debug)) {
-         /*
-          * From gdbstub, do not use softmmu so that we don't modify the
-@@ -247,6 +251,7 @@ static bool S1_ptw_translate(CPUARMState *env, S1Translate *ptw,
-             pte_secure = is_secure;
+@@ -1444,6 +1444,22 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
+                 goto do_fault;
+             }
          }
-         ptw->out_host = NULL;
-+        ptw->out_rw = false;
-     } else {
-         CPUTLBEntryFull *full;
-         int flags;
-@@ -261,6 +266,7 @@ static bool S1_ptw_translate(CPUARMState *env, S1Translate *ptw,
-             goto fail;
-         }
-         ptw->out_phys = full->phys_addr;
-+        ptw->out_rw = full->prot & PROT_WRITE;
-         pte_attrs = full->pte_attrs;
-         pte_secure = full->attrs.secure;
-     }
-@@ -304,14 +310,16 @@ static uint32_t arm_ldl_ptw(CPUARMState *env, S1Translate *ptw,
-                             ARMMMUFaultInfo *fi)
- {
-     CPUState *cs = env_cpu(env);
-+    void *host = ptw->out_host;
-     uint32_t data;
- 
--    if (likely(ptw->out_host)) {
-+    if (likely(host)) {
-         /* Page tables are in RAM, and we have the host address. */
-+        data = qatomic_read((uint32_t *)host);
-         if (ptw->out_be) {
--            data = ldl_be_p(ptw->out_host);
-+            data = be32_to_cpu(data);
-         } else {
--            data = ldl_le_p(ptw->out_host);
-+            data = le32_to_cpu(data);
-         }
-     } else {
-         /* Page tables are in MMIO. */
-@@ -337,15 +345,25 @@ static uint64_t arm_ldq_ptw(CPUARMState *env, S1Translate *ptw,
-                             ARMMMUFaultInfo *fi)
- {
-     CPUState *cs = env_cpu(env);
-+    void *host = ptw->out_host;
-     uint64_t data;
- 
--    if (likely(ptw->out_host)) {
-+    if (likely(host)) {
-         /* Page tables are in RAM, and we have the host address. */
-+#ifdef CONFIG_ATOMIC64
-+        data = qatomic_read__nocheck((uint64_t *)host);
-         if (ptw->out_be) {
--            data = ldq_be_p(ptw->out_host);
-+            data = be64_to_cpu(data);
-         } else {
--            data = ldq_le_p(ptw->out_host);
-+            data = le64_to_cpu(data);
-         }
-+#else
-+        if (ptw->out_be) {
-+            data = ldq_be_p(host);
-+        } else {
-+            data = ldq_le_p(host);
-+        }
-+#endif
-     } else {
-         /* Page tables are in MMIO. */
-         MemTxAttrs attrs = { .secure = ptw->out_secure };
-@@ -366,6 +384,91 @@ static uint64_t arm_ldq_ptw(CPUARMState *env, S1Translate *ptw,
-     return data;
- }
- 
-+static uint64_t arm_casq_ptw(CPUARMState *env, uint64_t old_val,
-+                             uint64_t new_val, S1Translate *ptw,
-+                             ARMMMUFaultInfo *fi)
-+{
-+    uint64_t cur_val;
-+    void *host = ptw->out_host;
 +
-+    if (unlikely(!host)) {
-+        fi->type = ARMFault_UnsuppAtomicUpdate;
-+        fi->s1ptw = true;
-+        return 0;
-+    }
-+
-+    /*
-+     * Raising a stage2 Protection fault for an atomic update to a read-only
-+     * page is delayed until it is certain that there is a change to make.
-+     */
-+    if (unlikely(!ptw->out_rw)) {
-+        int flags;
-+        void *discard;
-+
-+        env->tlb_fi = fi;
-+        flags = probe_access_flags(env, ptw->out_virt, MMU_DATA_STORE,
-+                                   arm_to_core_mmu_idx(ptw->in_ptw_idx),
-+                                   true, &discard, 0);
-+        env->tlb_fi = NULL;
-+
-+        if (unlikely(flags & TLB_INVALID_MASK)) {
-+            assert(fi->type != ARMFault_None);
-+            fi->s2addr = ptw->out_virt;
-+            fi->stage2 = true;
-+            fi->s1ptw = true;
-+            fi->s1ns = !ptw->in_secure;
-+            return 0;
-+        }
-+
-+        /* In case CAS mismatches and we loop, remember writability. */
-+        ptw->out_rw = true;
-+    }
-+
-+#ifdef CONFIG_ATOMIC64
-+    if (ptw->out_be) {
-+        old_val = cpu_to_be64(old_val);
-+        new_val = cpu_to_be64(new_val);
-+        cur_val = qatomic_cmpxchg__nocheck((uint64_t *)host, old_val, new_val);
-+        cur_val = be64_to_cpu(cur_val);
-+    } else {
-+        old_val = cpu_to_le64(old_val);
-+        new_val = cpu_to_le64(new_val);
-+        cur_val = qatomic_cmpxchg__nocheck((uint64_t *)host, old_val, new_val);
-+        cur_val = le64_to_cpu(cur_val);
-+    }
-+#else
-+    /*
-+     * We can't support the full 64-bit atomic cmpxchg on the host.
-+     * Because this is only used for FEAT_HAFDBS, which is only for AA64,
-+     * we know that TCG_OVERSIZED_GUEST is set, which means that we are
-+     * running in round-robin mode and could only race with dma i/o.
-+     */
-+#ifndef TCG_OVERSIZED_GUEST
-+# error "Unexpected configuration"
-+#endif
-+    bool locked = qemu_mutex_iothread_locked();
-+    if (!locked) {
-+       qemu_mutex_lock_iothread();
-+    }
-+    if (ptw->out_be) {
-+        cur_val = ldq_be_p(host);
-+        if (cur_val == old_val) {
-+            stq_be_p(host, new_val);
-+        }
-+    } else {
-+        cur_val = ldq_le_p(host);
-+        if (cur_val == old_val) {
-+            stq_le_p(host, new_val);
-+        }
-+    }
-+    if (!locked) {
-+        qemu_mutex_unlock_iothread();
-+    }
-+#endif
-+
-+    return cur_val;
-+}
-+
- static bool get_level1_table_address(CPUARMState *env, ARMMMUIdx mmu_idx,
-                                      uint32_t *table, uint32_t address)
- {
-@@ -1058,7 +1161,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
-     uint32_t el = regime_el(env, mmu_idx);
-     uint64_t descaddrmask;
-     bool aarch64 = arm_el_is_aa64(env, el);
--    uint64_t descriptor;
-+    uint64_t descriptor, new_descriptor;
-     bool nstable;
- 
-     /* TODO: This code does not support shareability levels. */
-@@ -1272,7 +1375,9 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
-     if (fi->type != ARMFault_None) {
-         goto do_fault;
-     }
-+    new_descriptor = descriptor;
- 
-+ restart_atomic_update:
-     if (!(descriptor & 1) || (!(descriptor & 2) && (level == 3))) {
-         /* Invalid, or the Reserved level 3 encoding */
-         goto do_translation_fault;
-@@ -1318,17 +1423,36 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
-      * to give a correct page or table address, the address field
-      * in a block descriptor is smaller; so we need to explicitly
-      * clear the lower bits here before ORing in the low vaddr bits.
-+     *
-+     * Afterward, descaddr is the final physical address.
-      */
-     page_size = (1ULL << ((stride * (4 - level)) + 3));
-     descaddr &= ~(hwaddr)(page_size - 1);
-     descaddr |= (address & (page_size - 1));
- 
-+    if (likely(!ptw->in_debug)) {
 +        /*
-+         * Access flag.
-+         * If HA is enabled, prepare to update the descriptor below.
-+         * Otherwise, pass the access fault on to software.
++         * Dirty Bit.
++         * If HD is enabled, pre-emptively set/clear the appropriate AP/S2AP
++         * bit for writeback. The actual write protection test may still be
++         * overridden by tableattrs, to be merged below.
 +         */
-+        if (!(descriptor & (1 << 10))) {
-+            if (param.ha) {
-+                new_descriptor |= 1 << 10; /* AF */
++        if (param.hd
++            && extract64(descriptor, 51, 1)  /* DBM */
++            && access_type == MMU_DATA_STORE) {
++            if (regime_is_stage2(mmu_idx)) {
++                new_descriptor |= 1ull << 7;    /* set S2AP[1] */
 +            } else {
-+                fi->type = ARMFault_AccessFlag;
-+                goto do_fault;
++                new_descriptor &= ~(1ull << 7); /* clear AP[2] */
 +            }
 +        }
-+    }
-+
+     }
+ 
      /*
--     * Extract attributes from the descriptor, and apply table descriptors.
--     * Stage 2 table descriptors do not include any attribute fields.
--     * HPD disables all the table attributes except NSTable.
-+     * Extract attributes from the (modified) descriptor, and apply
-+     * table descriptors. Stage 2 table descriptors do not include
-+     * any attribute fields. HPD disables all the table attributes
-+     * except NSTable.
-      */
--    attrs = descriptor & (MAKE_64BIT_MASK(2, 10) | MAKE_64BIT_MASK(50, 14));
-+    attrs = new_descriptor & (MAKE_64BIT_MASK(2, 10) | MAKE_64BIT_MASK(50, 14));
-     if (!regime_is_stage2(mmu_idx)) {
-         attrs |= nstable << 5; /* NS */
-         if (!param.hpd) {
-@@ -1342,18 +1466,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
-         }
-     }
- 
--    /*
--     * Here descaddr is the final physical address, and attributes
--     * are all in attrs.
--     */
--    if ((attrs & (1 << 10)) == 0) {
--        /* Access flag */
--        fi->type = ARMFault_AccessFlag;
--        goto do_fault;
--    }
--
-     ap = extract32(attrs, 6, 2);
--
-     if (regime_is_stage2(mmu_idx)) {
-         ns = mmu_idx == ARMMMUIdx_Stage2;
-         xn = extract64(attrs, 53, 2);
-@@ -1370,6 +1483,25 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
-         goto do_fault;
-     }
- 
-+    /* If FEAT_HAFDBS has made changes, update the PTE. */
-+    if (new_descriptor != descriptor) {
-+        new_descriptor = arm_casq_ptw(env, descriptor, new_descriptor, ptw, fi);
-+        if (fi->type != ARMFault_None) {
-+            goto do_fault;
-+        }
-+        /*
-+         * I_YZSVV says that if the in-memory descriptor has changed,
-+         * then we must use the information in that new value
-+         * (which might include a different output address, different
-+         * attributes, or generate a fault).
-+         * Restart the handling of the descriptor value from scratch.
-+         */
-+        if (new_descriptor != descriptor) {
-+            descriptor = new_descriptor;
-+            goto restart_atomic_update;
-+        }
-+    }
-+
-     if (ns) {
-         /*
-          * The NS bit will (as required by the architecture) have no effect if
 -- 
 2.25.1
 
