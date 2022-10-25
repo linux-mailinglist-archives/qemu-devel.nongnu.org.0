@@ -2,71 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41AE560BF7B
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 02:23:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD51860BF89
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 02:28:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on7hN-0004A7-E1; Mon, 24 Oct 2022 20:21:41 -0400
+	id 1on7kv-0000qb-Nw; Mon, 24 Oct 2022 20:25:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1on7hL-0003uX-2Y; Mon, 24 Oct 2022 20:21:39 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1on7hJ-0001ve-3a; Mon, 24 Oct 2022 20:21:38 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id b11so3248374pjp.2;
- Mon, 24 Oct 2022 17:21:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=maX1Oy5jJ7+la+t1zUdUWBT/4zFHft9He5LgyOV8Cdc=;
- b=NcnvdTe70T2hBnjoTuFJ8CcVPsbURpM1irljCu8u+TvZxmukSBxKi0YB0KiCUk+t9G
- OH2siRZLbBR5BY3/37DxFUnJGmwWAhBoosYtMl58xPxEsR1c65vhvAZzIolbErD5MSQJ
- VZSe2CqzQGkfp0JXtmKFINQOEpejwkYVzubgW41DmXAJOLARW3nT7zPHaMMpGYKQyEEy
- bG+rwglghl0yU8vOQtUg3DYyoiq7Z/qXePHWAlOd64XE6zGfsvZUDNTukyXGFTpxe469
- 7/1JA3sAT4NI3LPefXq++F+Igx6CHDwkPMuOEFqfhYSVRSVyQndH2aBL/5odx9Djrr7A
- pkqA==
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1on7kt-0000qF-N8
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 20:25:19 -0400
+Received: from esa7.hc2706-39.iphmx.com ([216.71.137.80])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1on7kq-0002Pv-LE
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 20:25:19 -0400
+X-IronPort-RemoteIP: 209.85.166.198
+X-IronPort-MID: 234562202
+X-IronPort-Reputation: None
+X-IronPort-Listener: OutgoingMail
+X-IronPort-SenderGroup: RELAY_GSUITE
+X-IronPort-MailFlowPolicy: $RELAYED
+IronPort-Data: A9a23:tVjZha8oCms2Z8/DczfmDrUDPXyTJUtcMsCJ2f8bNWPcYEJGY0x3n
+ GdLDz+PMqqKYjH1c913aIXl808Cvp/czYBrG1NtqioxFiIbosf7XuiUfxz6V8+wwmwvb67FA
+ +E2MISowBUcFyeEzvuVGuG96yM6jclkf5KkYMbcICd9WAR4fykojBNnioYRj5VhxNO0GGthg
+ /uryyHkEALjimMc3l48sfrZ8ko35qiq41v0g3RlDRx1lA6G/5UqJM9HTU2BByOQapVZGOe8W
+ 9HCwNmRlo8O105wYj8Nuu+TnnwiG9Y+DyDX4pZlc/HKbix5m8AH+v1T2MzwyKtgo27hc9hZk
+ L2hvHErIOsjFvSkdO81CnG0H8ziVEHvFXCuzXWX6KSuI0P6n3TE3f5RE2MpZZ0j5qVmAWNL9
+ tEYIjc8V0XW7w626OrTpuhEg80iKIzqONpatCgxnXfWCvEpRZ2FSKLPjTNa9G1o14YeQLCHO
+ ZRfMGs/BPjDS0Qn1lM/AZYumuuyrnPiNTBUtTp5oIJtuDSOklYriOKF3Nz9V/XUROtUsH6iv
+ WPXwkPJIRweDuSx1m/Qmp6rrqqV9c/hY6oLGbils/JnnlCX7moUDhIQSB28u/bRt6Klc9dWK
+ khR+y536KZrpRztQd76UBm15nWDu3bwRuZtLgHz0ynVooK83upTLjJYJtKdQLTKbPMLeAE=
+IronPort-HdrOrdr: A9a23:TUJXZaOMfg/Q1cBcThijsMiBIKoaSvp037BL7TENdfUxSKelfq
+ +V/cjzqiWE7gr5NEtNpTnCAtj4fZqkz+8P3WBJB8bZYOCEghrVEGgB1+vfKlTbckWVygc678
+ hdmsNFZeEYY2IVsS6GiDPIa+rIFOP3kpxB+Y/lvhBQpHlRGsJdBvBCe2Km++RNNWx7OaY=
+Received: from mail-il1-f198.google.com ([209.85.166.198])
+ by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 24 Oct 2022 20:25:03 -0400
+Received: by mail-il1-f198.google.com with SMTP id
+ z19-20020a056e02089300b002fffe186ac4so3008148ils.8
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 17:25:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=6g91ZMq55e1s4oaZe5Wt6J8s2RgSs1kLU1Egrbumo8I=;
+ b=LbqAVzdECMFLg364j8Xbt23qdc0Z/0sK6LDDBmEFlVHor/YbLZ/DG3HzKptXnVnMnk
+ ZvicneOlFhUR1fnBG4dIREW/LI8pqZPI9iKBNKC6Q/Dr4YN4auOJaofNufHCpJcLKBDt
+ V2WpM3lkFSt9wAptICoJ3W53vxIp1Ch8i8iN1gkKg0wlITHK6iWKDE3gcRoe1ph4JDv+
+ NBbFRHnwK8DI50jxYqUVeXLzMXqOcGoM7YDuSTP17pj2cGeUpzHtQ7HSrMX0zpcTJjCN
+ +qAebBidtCC57rG1cEftiw5XmCrV7ep75QjvL0PM3RY+1YoosM0cN1kg7qlBlCcYSs9w
+ NFDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=maX1Oy5jJ7+la+t1zUdUWBT/4zFHft9He5LgyOV8Cdc=;
- b=6tguPeTO/WapBDnxumVQUWBxnwNRBefYT/3RBBp2/RTV6+Vxo73nkni/E8GQyUSpct
- VhfMhrveD+YwEW6Au8W6LaFXIZkc9QQN8BWHB61UsLofDL0y/fHqoviVua2MbbbX/nLq
- vVk1Z6Db2SG7pKBEq1ctqfS67AGpleWD9WbcURcpyif/Pp6oBMa4HBFKfAX9mniPPo6w
- 5y4T0J2TAO/3YHqS66TflcU0kS3Dd+OgvUVZ3NgiUat1XejtxMG82/UUNqwaHkC+N1XO
- C59MuO6dxCL1cX1CA0jxy3cYo4N9j+CIyroeC006FiYJmzbPIr6YjusSOnCySWOgNKbM
- t/3Q==
-X-Gm-Message-State: ACrzQf0l9VobKu696CJ5I+Ip25BzucE8bjGAaAhJzZ+ODbGeGYRefHjh
- gZyg8TgO8TaBijdcv1lpqM+0+SzJYucGG2gqH3U=
-X-Google-Smtp-Source: AMsMyM6d4SL0dchraLWKKzMN72ZQ4vACAwOM9xgu/2knFhsDY8Pd3sNJZCjVZOsirB5+7Z3TiDAmUKWoumi+IVsarMs=
-X-Received: by 2002:a17:903:32cd:b0:185:5421:a5d6 with SMTP id
- i13-20020a17090332cd00b001855421a5d6mr36206220plr.99.1666657294500; Mon, 24
- Oct 2022 17:21:34 -0700 (PDT)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6g91ZMq55e1s4oaZe5Wt6J8s2RgSs1kLU1Egrbumo8I=;
+ b=pVu6XVEYzcb2qUqxKhUOPN3ugPemYax5Ictrzn+9+XaqhDwj8ZZtNicJc+vTpH7aD+
+ qfRpODWL7ZPmNIq8oj0oUPOVD2y1zv/LunRPc1mRieh2fjnMVG/NMJoUtyRBjcyYa1XG
+ mCsPKTv92xPCCxBRGvpF1ww9jkcLe7NZSgbF0GMfR9tgy3xJZ6cFyPc5Z/Ci266aeyHE
+ JT65VryWtVeCJKuqKa6wdew065rvKHEEfJgddx1TG8yXAsBwcS5QVzn/MY5DNE1GFI4E
+ PhPjPmEhIIO6Oje/rJn3i5B87T53F0SXKOhVvQpmViQ1Apv92PzpGEYuwK7vysseeohx
+ 9RbA==
+X-Gm-Message-State: ACrzQf3TywL36Z4hhlZUHgPJBIq6k3hJ7p/UcgjXizmhyGDLGwWDQVqh
+ xZqpxJsI0OVu3nwpFCTcOS+T9B8mE9O+9WXkExdjCGGDoYlxqslr+kzrHmlVPLwxyXnbk+GnIvf
+ Svj+0Y9/lLnzcaXD96GSkmB0pMledjQ==
+X-Received: by 2002:a5e:d502:0:b0:689:72da:ab3f with SMTP id
+ e2-20020a5ed502000000b0068972daab3fmr21288017iom.109.1666657503516; 
+ Mon, 24 Oct 2022 17:25:03 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM41GWSanl7lyecv8sIPo9ztwqGQ6rQlavcyWsKbgUICHeBsOrah1mXZy99jguTvC3sUdtf2Gw==
+X-Received: by 2002:a5e:d502:0:b0:689:72da:ab3f with SMTP id
+ e2-20020a5ed502000000b0068972daab3fmr21288003iom.109.1666657503217; 
+ Mon, 24 Oct 2022 17:25:03 -0700 (PDT)
+Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
+ by smtp.gmail.com with ESMTPSA id
+ x7-20020a056e020f0700b002f90d038403sm481151ilj.63.2022.10.24.17.25.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Oct 2022 17:25:02 -0700 (PDT)
+Date: Mon, 24 Oct 2022 20:24:42 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: "Christian A. Ehrhardt" <lk@c--e.de>
+Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Eric DeVolder <eric.devolder@oracle.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: Re: [PATCH v2] hw/acpi/erst.c: Fix memory handling issues
+Message-ID: <20221025002442.nym4emonrbzbnib6@mozz.bu.edu>
+References: <20221024100323-mutt-send-email-mst@kernel.org>
+ <20221024154233.1043347-1-lk@c--e.de>
+ <20221024162453.4cwxxam6u3s5ia7v@mozz.bu.edu>
 MIME-Version: 1.0
-References: <20221022095821.2441874-1-richard.henderson@linaro.org>
-In-Reply-To: <20221022095821.2441874-1-richard.henderson@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 25 Oct 2022 10:21:08 +1000
-Message-ID: <CAKmqyKN9+HoAKciyzZYR4ZT4BPmbQHK41pmDv0LbopNywWq+Gw@mail.gmail.com>
-Subject: Re: [PATCH] tcg/riscv: Fix range matched by TCG_CT_CONST_M12
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, Alistair.Francis@wdc.com, qemu-riscv@nongnu.org, 
- palmer@dabbelt.com, LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=alistair23@gmail.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221024162453.4cwxxam6u3s5ia7v@mozz.bu.edu>
+X-CES-GSUITE_AUTH: bf3aNvsZpxl8
+Received-SPF: pass client-ip=216.71.137.80; envelope-from=alxndr@bu.edu;
+ helo=esa7.hc2706-39.iphmx.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,60 +121,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Oct 22, 2022 at 8:19 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> We were matching a signed 13-bit range, not a 12-bit range.
-> Expand the commentary within the function and be explicit
-> about all of the ranges.
->
-> Reported-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 221024 1224, Alexander Bulekov wrote:
+> On 221024 1742, Christian A. Ehrhardt wrote:
+> > - Fix memset argument order: The second argument is
+> >   the value, the length goes last.
+> > - Fix an integer overflow reported by Alexander Bulekov.
+> > 
+> > Both issues allow the guest to overrun the host buffer
+> > allocated for the ERST memory device.
+> > 
+> > Cc: Eric DeVolder <eric.devolder@oracle.com
+> > Cc: Alexander Bulekov <alxndr@bu.edu>
+> > Cc: qemu-stable@nongnu.org
+> > Fixes: f7e26ffa590 ("ACPI ERST: support for ACPI ERST feature")
+> > Tested-by: Alexander Bulekov <alxndr@bu.edu>
+> 
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Also:
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1268
 
-Alistair
-
-> ---
->  tcg/riscv/tcg-target.c.inc | 19 ++++++++++++++++---
->  1 file changed, 16 insertions(+), 3 deletions(-)
->
-> diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-> index 1cdaf7b57b..2a84c57bec 100644
-> --- a/tcg/riscv/tcg-target.c.inc
-> +++ b/tcg/riscv/tcg-target.c.inc
-> @@ -154,13 +154,26 @@ static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
->      if ((ct & TCG_CT_CONST_ZERO) && val == 0) {
->          return 1;
->      }
-> -    if ((ct & TCG_CT_CONST_S12) && val == sextreg(val, 0, 12)) {
-> +    /*
-> +     * Sign extended from 12 bits: [-0x800, 0x7ff].
-> +     * Used for most arithmetic, as this is the isa field.
-> +     */
-> +    if ((ct & TCG_CT_CONST_S12) && val >= -0x800 && val <= 0x7ff) {
->          return 1;
->      }
-> -    if ((ct & TCG_CT_CONST_N12) && -val == sextreg(-val, 0, 12)) {
-> +    /*
-> +     * Sign extended from 12 bits, negated: [-0x7ff, 0x800].
-> +     * Used for subtraction, where a constant must be handled by ADDI.
-> +     */
-> +    if ((ct & TCG_CT_CONST_N12) && val >= -0x7ff && val <= 0x800) {
->          return 1;
->      }
-> -    if ((ct & TCG_CT_CONST_M12) && val >= -0xfff && val <= 0xfff) {
-> +    /*
-> +     * Sign extended from 12 bits, +/- matching: [-0x7ff, 0x7ff].
-> +     * Used by addsub2, which may need the negative operation,
-> +     * and requires the modified constant to be representable.
-> +     */
-> +    if ((ct & TCG_CT_CONST_M12) && val >= -0x7ff && val <= 0x7ff) {
->          return 1;
->      }
->      return 0;
-> --
-> 2.34.1
->
->
+> Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
+> 
+> > Signed-off-by: Christian A. Ehrhardt <lk@c--e.de>
+> > ---
+> >  hw/acpi/erst.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
+> > index df856b2669..aefcc03ad6 100644
+> > --- a/hw/acpi/erst.c
+> > +++ b/hw/acpi/erst.c
+> > @@ -635,7 +635,7 @@ static unsigned read_erst_record(ERSTDeviceState *s)
+> >          if (record_length < UEFI_CPER_RECORD_MIN_SIZE) {
+> >              rc = STATUS_FAILED;
+> >          }
+> > -        if ((s->record_offset + record_length) > exchange_length) {
+> > +        if (record_length > exchange_length - s->record_offset) {
+> >              rc = STATUS_FAILED;
+> >          }
+> >          /* If all is ok, copy the record to the exchange buffer */
+> > @@ -684,7 +684,7 @@ static unsigned write_erst_record(ERSTDeviceState *s)
+> >      if (record_length < UEFI_CPER_RECORD_MIN_SIZE) {
+> >          return STATUS_FAILED;
+> >      }
+> > -    if ((s->record_offset + record_length) > exchange_length) {
+> > +    if (record_length > exchange_length - s->record_offset) {
+> >          return STATUS_FAILED;
+> >      }
+> >  
+> > @@ -716,7 +716,7 @@ static unsigned write_erst_record(ERSTDeviceState *s)
+> >      if (nvram) {
+> >          /* Write the record into the slot */
+> >          memcpy(nvram, exchange, record_length);
+> > -        memset(nvram + record_length, exchange_length - record_length, 0xFF);
+> > +        memset(nvram + record_length, 0xFF, exchange_length - record_length);
+> >          /* If a new record, increment the record_count */
+> >          if (!record_found) {
+> >              uint32_t record_count;
+> > -- 
+> > 2.34.1
+> > 
+> > 
 
