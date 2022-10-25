@@ -2,95 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F33F360C1E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 04:48:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B33E460C1F1
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 04:52:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on9we-0004UU-8X; Mon, 24 Oct 2022 22:45:36 -0400
+	id 1onA36-0004qo-1x; Mon, 24 Oct 2022 22:52:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1on9wc-0004UH-Ch
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 22:45:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1onA34-0004os-Le
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 22:52:14 -0400
+Received: from mout.gmx.net ([212.227.17.21])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1on9wY-0000W6-RI
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 22:45:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666665930;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tFIPaa1MTvuP1jRm4KktRdY3E4MRaqtoItSDtCD+qSo=;
- b=Irfo8zDFfKSZwYSAl8Yx/U/zm3CUTg5y7QCM2oFaI6qfP+DHwV+BbQRSllwP41bEww3CEo
- 6gTZvqpROR7lAL4H5uNVMD8R0YUZ2iVcmz000azEeXoMYV0kNmnaPLlEelo4rqrD/KMT08
- yUIyjhHnUFJwtNukQ1Ao8h8P1Kko2j0=
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
- [209.85.161.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-214-UmkYuW78O3mB-G5EnfFu_w-1; Mon, 24 Oct 2022 22:45:27 -0400
-X-MC-Unique: UmkYuW78O3mB-G5EnfFu_w-1
-Received: by mail-oo1-f72.google.com with SMTP id
- c20-20020a4ad214000000b0048086d0c456so5257303oos.2
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 19:45:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=tFIPaa1MTvuP1jRm4KktRdY3E4MRaqtoItSDtCD+qSo=;
- b=oXgD2fDokue2tZO4cfAPyBRgHpPzAhU49Mh5NKnX3J+7S5j4w3GwM+F/bhCWICa4ZA
- 2QiCJGtvQHaL5JFlCX5WI97AUvmLs3U5Y2QubTXamWL52ryyfLB9761nUerR+ie4uw2j
- vQV/CJPev+0p3UDjc+bfN1SPN41sUYnioyFPTMU9mv9K6tb7uSDtRGKvZCB5iF2jX/pw
- +jbaXWbXhCYI/awg94/XMElF2f71E5veMmm66z2Tc1eRRzu2gzTt8E2nomIJ6/TxDtUM
- TT0yygG4NYVCgfhMPAVD3XNZoiUgJy4p00oMY4i9pQEZF91uvsdZDWsrsCXcFhxgGnbH
- P1AA==
-X-Gm-Message-State: ACrzQf2vMAZKplsPM2TnXtrz5kwcJ4EIabxqPAbLG5hNOJufPPtxR3IT
- LxuvGsJDSgbl+szpDfzR+ZXWOLm6qhcd97OK0fv9OIHO8B7AEXtP0XZQ5D7kpRWSzY0n5hDMWJD
- YPjM5kUI8jHs/NW6vHEOw6GV0CmWHtrI=
-X-Received: by 2002:a05:6870:eca8:b0:132:df46:5c66 with SMTP id
- eo40-20020a056870eca800b00132df465c66mr22380838oab.280.1666665921575; 
- Mon, 24 Oct 2022 19:45:21 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4YYX6DA5mbStdj6xt+S+Q6y3bWVZOdAEqHxhStoL/ccik6zPl991gN98JL3IhYxQsLDNTW3ZawNI2KhQX1gNc=
-X-Received: by 2002:a05:6870:eca8:b0:132:df46:5c66 with SMTP id
- eo40-20020a056870eca800b00132df465c66mr22380821oab.280.1666665921286; Mon, 24
- Oct 2022 19:45:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1onA2l-0001jj-Mb
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 22:52:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1666666310;
+ bh=GAnmH62xjfCYS+PLHnLO6lVYAZW/LCcciY2xgG4RMOs=;
+ h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
+ b=KJy81ai/dD1H/SJTUquUNE8+jHFcYQYs0n2Q/zSe1nZa+OiswxU4BBBa6CKfhgmjW
+ gOjrnOzrwxIhaWIz187cmOpjFBnj5vt4FMMjrTi/i/XsYUypJRKp/lwsGk+J5EdJsz
+ AaOo3LJUDbwZvvw5eFSFZ4DQJsFHznKUdYVaPylc=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.136.30]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MxDou-1p2dbC0v3w-00xecd; Tue, 25
+ Oct 2022 04:51:50 +0200
+Message-ID: <f7136170-74ea-fe88-4053-4c38be1541fe@gmx.de>
+Date: Tue, 25 Oct 2022 04:51:49 +0200
 MIME-Version: 1.0
-References: <20221019125210.226291-1-eperezma@redhat.com>
- <20221019125210.226291-3-eperezma@redhat.com>
- <CACGkMEvQOksFuE37SCCW+4x=Ku5CfHpcbgCDq6tic_H5fW7hYw@mail.gmail.com>
- <CAJaqyWd6bFH7ZL=rKr8kXrQEi2sOFkq=x=PHUmgz8N9K6Ct70w@mail.gmail.com>
- <CACGkMEs9mc5pqRr8XNhVw8pvQZ+hvnPRiMmyuzJvNsSU=Cfoxg@mail.gmail.com>
- <CAJaqyWfCn0gPc=+GY-0ASutwSP+1-AyFhp0XO4v6K+3JJZktuA@mail.gmail.com>
- <CACGkMEuwq_s6P9AxQD4Pmhb5R3naETeiQG+Nx0TJLbpdF6Xesg@mail.gmail.com>
- <CAJaqyWfo4WJo_LJpBtLirHtNCUO23NZQETv7k_jWo0LjQ1tVLw@mail.gmail.com>
-In-Reply-To: <CAJaqyWfo4WJo_LJpBtLirHtNCUO23NZQETv7k_jWo0LjQ1tVLw@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 25 Oct 2022 10:45:09 +0800
-Message-ID: <CACGkMEtiJeSebHVFMQ79Zkx4LoKeywxRvyi6m63JF_Kvfc3YdA@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 2/8] vdpa: Save emulated features list in vhost_vdpa
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, Zhu Lingshan <lingshan.zhu@intel.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>,
- Stefano Garzarella <sgarzare@redhat.com>, 
- Si-Wei Liu <si-wei.liu@oracle.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Cindy Lu <lulu@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Eli Cohen <eli@mellanox.com>, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>, 
- Gautam Dawar <gdawar@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v3] linux-user: Add guest memory layout to exception dump
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <Y1bzAWbw07WBKPxw@p100>
+ <8c348149-6edf-c6f7-f539-d40a4479c46c@linaro.org>
+ <07dbe94d-c215-2be3-1769-4f2a8290573e@gmx.de>
+ <e3d81adf-d47f-98ad-9f41-f55c1f73e9c8@linaro.org>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <e3d81adf-d47f-98ad-9f41-f55c1f73e9c8@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+X-Provags-ID: V03:K1:EOLXbtq92kR3u/dovPrZcBqZklJpsnE9nCmkOatDKzZVz5seOCm
+ S55b4qLdZSG8GewxNxgfBnnfx98lcrNwIzft9V0SJ9+ND7bqbm/w4IcusT3TRv68aJnSY09
+ oTuTcJ6FmQ7jkUlNduOSKYko1dDx+UOwJXYtvtPNi5Uo9aa16JNUYSWAFpJoK4p+vpq58kJ
+ 5OkAux94DH5rzdgK5rKHQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wSbFVXGseTI=:5trbFAObgVn5jxIeN2twGe
+ pylkzMMkLt71l73J4tIf+qtlXsqLg1mRk0eY3E6dNlDSf0PpwHBuk8Bv87xl+z8mrK0PHZ7ap
+ X+GQteA83EQOvCTdZb4bkLnAvql5XWjjW5o9w4S0uZRauas38s5xRvw2kLh6nCRInRNnK6gJr
+ bGQGjEA0SSEWWjmBqKhN+/RKbbwBl7A1d7+F+GRpoxq1dN+w8CYTvqWhfty5kcEloot9HDnH8
+ RSbLLB5h7XLIlx4t10zNTBmwhcR7DHqoECEl/NuWCfU6ZuZNO/GsjYOsd+UblTrvSh57u61/V
+ kPu9CYxv4jP74SPeMKldde2lBabvHtXA8c4N77DzGkB+pndbJwIY6XXR2WpwbsxdHyQZwlhjB
+ Pqj8P3D1P+kDfE/uEHhLYitwVhqhWliY+dmGDkdNTUnFGkvJAwTDfRVxiwIz2nN+e0WM/sPYY
+ 8oDsmu1T2H5mtQIpy/xFXuFQ1OatxXsXtKnjDOjevcZs9jc+ZX1SYTVA5q8tH1zJWyIPZ1qe5
+ xjeCdO1lpVPM7QuynZqIJgxZQ3affuQsHP0GytT8wIkl+wk2caMebs07PgBY4n8D5oXBGOH69
+ 1laNoXsLmRpeH84z2pQGEU52IZWTl6mgFx6XNbqkc1ObjQZI7Fuvllwt6LBQVe7j2T+pXu+H9
+ zxZuMw7QqecvQfCn48eX1/IiKGYvoLcfk/fbJ7gKOE+3+4UcHl2BE2Hw1/9sapkkKislazZxK
+ zFHmwCtbdt960gFRin1dm7yA5xjtHjCRkmkOAXPDB68JgzX/E5p3TGK43nZ3olVRGBQdzEnz9
+ vTa5c98VAfZ7NzNPQU5pH1iDOnc8hwPqeY+zC3obrjQlK1DE8rq9Vmv/oYaJhAiOfkW5+K4zH
+ O56XJ2tuJENQOiCmFaQW0qIgs8J/8blz6JhSNfcRyNuq317vY9b/XYS67UOVj7ePj1XWsgMgZ
+ WzfbO37qsl1rX/t14C4l191WD28mP9IeT6cNYPumcCMIl339iqQ8y8GRTZIdtl3p10T0zsyph
+ gXJdSzHcIOQsv08URN2m+nWm5f80iSwiFzmvCKF8Q+GkQq0eQKrhmPbKXVUmYusxri3X7V8u4
+ S2QZM4CZ46QWrglNXQDKJUFGbKB9Of5upAX/9Ws8nwNilw7ACNaKcV15ruqnHY53rG2vXNZjV
+ qZ4oBwrtd7Jx9no4Mi4Bujk2WxuxkmHI7otuuMqULvLEiGFJ6g/lazFoITJzSM3vak/8jpLIW
+ cDJeTSg2gf+uavogwsqAlMO9RRdoX4XDUnklkWvAlltF369fMwg+V3VwJeWauKkbhQTcwOEWj
+ vBbVNTf3P9ax/lSe94OAL/NytzVQlIH22q/r3PJPrb7K1m3g6/tt0s1QXxREA0KIzdIxA2GIf
+ GqVPc2j3xGj5UO3S8N7wyTBwtZKE6hCZLOG/rbKcN3zquIwu5JVbz4Zh+qwu/+1rYj5KKVW4O
+ /7gSthI69EOf4HQLSg8jMVA27cq7PaEKuYIG9n5fREHlnTBjpMt6CDqVYqcFMvLZMY2sfeQEH
+ FMhi49elKk5LIK1V47J/rnf9kRBt9zNxgiff2/G8aZeaY
+Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.503,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,173 +96,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Oct 24, 2022 at 5:26 PM Eugenio Perez Martin
-<eperezma@redhat.com> wrote:
+On 10/25/22 04:25, Richard Henderson wrote:
+> On 10/25/22 11:57, Helge Deller wrote:
+>> On 10/25/22 00:35, Richard Henderson wrote:
+>>> On 10/25/22 06:18, Helge Deller wrote:
+>>>> When the emulation stops with a hard exception it's very useful for
+>>>> debugging purposes to dump the current guest memory layout (for an
+>>>> example see /proc/self/maps) beside the CPU registers.
+>>>>
+>>>> The open_self_maps() function provides such a memory dump, but since
+>>>> it's located in the syscall.c file, various changes (add #includes, m=
+ake
+>>>> this function externally visible, ...) are needed to be able to call =
+it
+>>>> from the existing EXCP_DUMP() macro.
+>>>
+>>> /proc/self/maps has all of the qemu mappings in it as well.
+>>
+>> I'm not quite sure on how to understand your comments above.
+>> Just comments or NAK to the patch?
 >
-> On Mon, Oct 24, 2022 at 4:14 AM Jason Wang <jasowang@redhat.com> wrote:
-> >
-> > On Fri, Oct 21, 2022 at 4:56 PM Eugenio Perez Martin
-> > <eperezma@redhat.com> wrote:
-> > >
-> > > On Fri, Oct 21, 2022 at 4:57 AM Jason Wang <jasowang@redhat.com> wrot=
-e:
-> > > >
-> > > > On Thu, Oct 20, 2022 at 2:34 PM Eugenio Perez Martin
-> > > > <eperezma@redhat.com> wrote:
-> > > > >
-> > > > > On Thu, Oct 20, 2022 at 6:23 AM Jason Wang <jasowang@redhat.com> =
-wrote:
-> > > > > >
-> > > > > > On Wed, Oct 19, 2022 at 8:52 PM Eugenio P=C3=A9rez <eperezma@re=
-dhat.com> wrote:
-> > > > > > >
-> > > > > > > At this moment only _F_LOG is added there.
-> > > > > > >
-> > > > > > > However future patches add features that depend on the kind o=
-f device.
-> > > > > > > In particular, only net devices can add VIRTIO_F_GUEST_ANNOUN=
-CE. So
-> > > > > > > let's allow vhost_vdpa creator to set custom emulated device =
-features.
-> > > > > > >
-> > > > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > > > > > ---
-> > > > > > >  include/hw/virtio/vhost-vdpa.h | 2 ++
-> > > > > > >  hw/virtio/vhost-vdpa.c         | 8 ++++----
-> > > > > > >  net/vhost-vdpa.c               | 4 ++++
-> > > > > > >  3 files changed, 10 insertions(+), 4 deletions(-)
-> > > > > > >
-> > > > > > > diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virt=
-io/vhost-vdpa.h
-> > > > > > > index 1111d85643..50083e1e3b 100644
-> > > > > > > --- a/include/hw/virtio/vhost-vdpa.h
-> > > > > > > +++ b/include/hw/virtio/vhost-vdpa.h
-> > > > > > > @@ -31,6 +31,8 @@ typedef struct vhost_vdpa {
-> > > > > > >      bool iotlb_batch_begin_sent;
-> > > > > > >      MemoryListener listener;
-> > > > > > >      struct vhost_vdpa_iova_range iova_range;
-> > > > > > > +    /* VirtIO device features that can be emulated by qemu *=
-/
-> > > > > > > +    uint64_t added_features;
-> > > > > >
-> > > > > > Any reason we need a per vhost_vdpa storage for this? Or is the=
-re a
-> > > > > > chance that this field could be different among the devices?
-> > > > > >
-> > > > >
-> > > > > Yes, one device could support SVQ and the other one could not sup=
-port
-> > > > > it because of different feature sets for example.
-> > > >
-> > > > Right, but for those devices that don't support SVQ, we don't even
-> > > > need mediation for feature like F_LOG and _F_STATUS?
-> > > >
-> > >
-> > > No, and we cannot offer it to the guest either.
-> >
-> > Just to make sure we are on the same page, what I meant is, consider
-> > in the future SVQ get the support of all features, so we can remove
-> > this field? This is because _F_STATUS can be mediated unconditionally
-> > anyhow.
-> >
+> A question.
 >
-> For _F_STATUS that is right. But we cannot handle full
-> _F_GUEST_ANNOUNCE since control SVQ (will) needs features from the
-> device that cannot be emulated, like ASID.
->
-> I think your point is "Since qemu cannot migrate these devices it will
-> never set VIRTIO_NET_S_ANNOUNCE, so the guest will never send
-> VIRTIO_NET_CTRL_ANNOUNCE messages". And I think that is totally right,
-> but I still feel it is weird to expose it if we cannot handle it.
->
-> Maybe a good first step is to move added_features to vhost_net, or
-> maybe to convert it to "bool guest_announce_emulated" or something
-> similar?  This way hw/virtio/vhost-vdpa is totally unaware of this and
-> changes are more self contained.
+> Did you really wanted the host mappings included?
 
-This reminds me of something. For vhost, if Qemu can handle some
-feature bits, we don't need to validate if vhost has such support.
+No.
+I wanted just the guest mappings.
 
-E.g we don't have _F_SATAUS and _F_GUEST_ANNOUNCE in kernel_feature_bits.
+> If so, fine.
+> If not, pointing out there's a better function to use.
 
-I wonder if we can do something similar for vhost-vDPA? Then we don't
-need to bother new fields.
+I'm not sure if it's the better choice.
+It depends on the targetted audience of such output.
 
-Thanks
+This is linux-user, so if someone runs a program he would expect
+output of crash dumps like as he would see them on a native machine.
+Showing "external host emulation mappings" seems strange.
 
->
-> Thanks!
->
->
->
-> > Thanks
-> >
-> > >
-> > > > Thanks
-> > > >
-> > > > >
-> > > > > Thanks!
-> > > > >
-> > > > > > Thanks
-> > > > > >
-> > > > > > >      uint64_t acked_features;
-> > > > > > >      bool shadow_vqs_enabled;
-> > > > > > >      /* IOVA mapping used by the Shadow Virtqueue */
-> > > > > > > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > > > > > > index 7468e44b87..ddb5e29288 100644
-> > > > > > > --- a/hw/virtio/vhost-vdpa.c
-> > > > > > > +++ b/hw/virtio/vhost-vdpa.c
-> > > > > > > @@ -660,8 +660,8 @@ static int vhost_vdpa_set_features(struct=
- vhost_dev *dev,
-> > > > > > >
-> > > > > > >          v->acked_features =3D features;
-> > > > > > >
-> > > > > > > -        /* We must not ack _F_LOG if SVQ is enabled */
-> > > > > > > -        features &=3D ~BIT_ULL(VHOST_F_LOG_ALL);
-> > > > > > > +        /* Do not ack features emulated by qemu */
-> > > > > > > +        features &=3D ~v->added_features;
-> > > > > > >      }
-> > > > > > >
-> > > > > > >      trace_vhost_vdpa_set_features(dev, features);
-> > > > > > > @@ -1244,8 +1244,8 @@ static int vhost_vdpa_get_features(stru=
-ct vhost_dev *dev,
-> > > > > > >      int ret =3D vhost_vdpa_get_dev_features(dev, features);
-> > > > > > >
-> > > > > > >      if (ret =3D=3D 0 && v->shadow_vqs_enabled) {
-> > > > > > > -        /* Add SVQ logging capabilities */
-> > > > > > > -        *features |=3D BIT_ULL(VHOST_F_LOG_ALL);
-> > > > > > > +        /* Add emulated capabilities */
-> > > > > > > +        *features |=3D v->added_features;
-> > > > > > >      }
-> > > > > > >
-> > > > > > >      return ret;
-> > > > > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > > > > > > index eebf29f5c1..3803452800 100644
-> > > > > > > --- a/net/vhost-vdpa.c
-> > > > > > > +++ b/net/vhost-vdpa.c
-> > > > > > > @@ -599,6 +599,10 @@ static NetClientState *net_vhost_vdpa_in=
-it(NetClientState *peer,
-> > > > > > >      s->vhost_vdpa.index =3D queue_pair_index;
-> > > > > > >      s->vhost_vdpa.shadow_vqs_enabled =3D svq;
-> > > > > > >      s->vhost_vdpa.iova_tree =3D iova_tree;
-> > > > > > > +    if (svq) {
-> > > > > > > +        /* Add SVQ logging capabilities */
-> > > > > > > +        s->vhost_vdpa.added_features |=3D BIT_ULL(VHOST_F_LO=
-G_ALL);
-> > > > > > > +    }
-> > > > > > >      if (!is_datapath) {
-> > > > > > >          s->cvq_cmd_out_buffer =3D qemu_memalign(qemu_real_ho=
-st_page_size(),
-> > > > > > >                                              vhost_vdpa_net_c=
-vq_cmd_page_len());
-> > > > > > > --
-> > > > > > > 2.31.1
-> > > > > > >
-> > > > > >
-> > > > >
-> > > >
-> > >
-> >
->
+I'm running a debian hppa buildd server with linux-user.
+I've seen many guest crashes like SEGVs, out-of-memory (in guest),
+glibc's ABORT() calls [which e.g. triggers a CPU exception] or other
+things. In all those cases the guest mapping was relevant, not
+the host mapping.
 
+Helge
 
