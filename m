@@ -2,28 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 416B9612ED8
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F4A6612EDC
 	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 03:17:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opKLB-00017q-Ad; Sun, 30 Oct 2022 22:15:53 -0400
+	id 1opKL9-00015j-Su; Sun, 30 Oct 2022 22:15:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1opKL8-00014s-30; Sun, 30 Oct 2022 22:15:50 -0400
+ id 1opKL6-00014S-TJ; Sun, 30 Oct 2022 22:15:48 -0400
 Received: from mail-b.sr.ht ([173.195.146.151])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1opKL5-00033u-G1; Sun, 30 Oct 2022 22:15:49 -0400
+ id 1opKL5-00033v-FT; Sun, 30 Oct 2022 22:15:48 -0400
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id B03D611F259;
+ by mail-b.sr.ht (Postfix) with ESMTPSA id E112C11F25A;
  Mon, 31 Oct 2022 02:15:45 +0000 (UTC)
 From: ~axelheider <axelheider@git.sr.ht>
-Date: Tue, 25 Oct 2022 13:51:05 +0200
-Subject: [PATCH qemu.git 01/11] hw/timer/imx_epit: fix typo in comment
-Message-ID: <166718254546.5893.5075929684621857903-1@git.sr.ht>
+Date: Tue, 25 Oct 2022 17:33:43 +0200
+Subject: [PATCH qemu.git 02/11] hw/timer/imx_epit: improve comments
+Message-ID: <166718254546.5893.5075929684621857903-2@git.sr.ht>
 X-Mailer: git.sr.ht
 In-Reply-To: <166718254546.5893.5075929684621857903-0@git.sr.ht>
 To: qemu-devel@nongnu.org
@@ -59,23 +59,35 @@ From: Axel Heider <axel.heider@hensoldt.net>
 
 Signed-off-by: Axel Heider <axel.heider@hensoldt.net>
 ---
- hw/timer/imx_epit.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/timer/imx_epit.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/hw/timer/imx_epit.c b/hw/timer/imx_epit.c
-index ec0fa440d7..06785fe6f6 100644
+index 06785fe6f6..b6c013292f 100644
 --- a/hw/timer/imx_epit.c
 +++ b/hw/timer/imx_epit.c
-@@ -254,7 +254,7 @@ static void imx_epit_write(void *opaque, hwaddr offset, u=
-int64_t value,
-         break;
+@@ -352,8 +352,18 @@ static void imx_epit_realize(DeviceState *dev, Error **e=
+rrp)
+                           0x00001000);
+     sysbus_init_mmio(sbd, &s->iomem);
 =20
-     case 1: /* SR - ACK*/
--        /* writing 1 to OCIF clear the OCIF bit */
-+        /* writing 1 to OCIF clears the OCIF bit */
-         if (value & 0x01) {
-             s->sr =3D 0;
-             imx_epit_update_int(s);
++    /*
++     * The reload timer keeps running when the peripheral is enabled. It is a
++     * kind of wall clock that does not generate any interrupts. The callback
++     * needs to be provided, but it does nothing as the ptimer already suppo=
+rts
++     * all necessary reloading functionality.
++     */
+     s->timer_reload =3D ptimer_init(imx_epit_reload, s, PTIMER_POLICY_LEGACY=
+);
+=20
++    /*
++     * The compare timer is running only when the peripheral configuration is
++     * in a state that will generate compare interrupts.
++     */
+     s->timer_cmp =3D ptimer_init(imx_epit_cmp, s, PTIMER_POLICY_LEGACY);
+ }
+=20
 --=20
 2.34.5
 
