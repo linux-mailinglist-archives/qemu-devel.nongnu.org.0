@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85CEA60C006
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 02:47:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0805760C00C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 02:48:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on82u-0002v4-5Z; Mon, 24 Oct 2022 20:43:56 -0400
+	id 1on832-0004H0-TW; Mon, 24 Oct 2022 20:44:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=a4uw=22=zx2c4.com=Jason@kernel.org>)
- id 1on82r-0002Sw-B2; Mon, 24 Oct 2022 20:43:53 -0400
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+ id 1on830-00045R-GX; Mon, 24 Oct 2022 20:44:02 -0400
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=a4uw=22=zx2c4.com=Jason@kernel.org>)
- id 1on82p-0005DN-Pf; Mon, 24 Oct 2022 20:43:53 -0400
+ id 1on82y-0005Fd-UQ; Mon, 24 Oct 2022 20:44:02 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B166D616D3;
- Tue, 25 Oct 2022 00:43:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76187C433D6;
- Tue, 25 Oct 2022 00:43:49 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 05B33B80EDF;
+ Tue, 25 Oct 2022 00:43:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 767FDC433C1;
+ Tue, 25 Oct 2022 00:43:54 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
  dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="NWa7MnIy"
+ header.b="G1KF+vIo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1666658628;
+ t=1666658632;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RanAds+xBge68b64kZDRt7NuRJe5o63knTfwLsKT7L4=;
- b=NWa7MnIyGEd3vccWSpj5Gc7PwWbnO8Bjp8gT5cchwNJECLjvXZgU4XtgPlv7RpLQ1PB2Rs
- bASTF1zO0e3IwQ9pFWRtK77oWxpcP4zVA9y78hf5CKtH/ka2u6urJH2kftyZVvuIX/63Im
- 0UKN9mrSkQSuLiFXBz0YDx+OiKQwpx0=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id a79714c3
+ bh=pWgHHf5sujP6iTUGGEkOEJD6tNbkAvI7pDJ41Ebu1BU=;
+ b=G1KF+vIoe+LYD4qwrJ+MF0ODWCndwMsGgmHjSo5GL4P1TZ5EiXEuna3rQHmUH3Z4Ze9vBi
+ vyyAW7TpJAEELB4f9pY7q/g1PSjUxjxEzDHgHR4WIoDPzhzjLWF5pjPGHw+Lk8Yt5SqwTD
+ kwqR6GAWa9c+hn6vwA5iSOvgMEJRNlQ=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 3e6d250c
  (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Tue, 25 Oct 2022 00:43:48 +0000 (UTC)
+ Tue, 25 Oct 2022 00:43:52 +0000 (UTC)
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 To: peter.maydell@linaro.org, pbonzini@redhat.com, qemu-devel@nongnu.org,
  richard.henderson@linaro.org
 Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
-	qemu-arm@nongnu.org
-Subject: [PATCH v4 04/11] arm: re-randomize rng-seed on reboot
-Date: Tue, 25 Oct 2022 02:43:20 +0200
-Message-Id: <20221025004327.568476-5-Jason@zx2c4.com>
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org
+Subject: [PATCH v4 05/11] riscv: re-randomize rng-seed on reboot
+Date: Tue, 25 Oct 2022 02:43:21 +0200
+Message-Id: <20221025004327.568476-6-Jason@zx2c4.com>
 In-Reply-To: <20221025004327.568476-1-Jason@zx2c4.com>
 References: <20221025004327.568476-1-Jason@zx2c4.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
  envelope-from=SRS0=a4uw=22=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
+ helo=ams.source.kernel.org
 X-Spam_score_int: -67
 X-Spam_score: -6.8
 X-Spam_bar: ------
@@ -83,26 +85,36 @@ re-randomized, so that the new boot gets a new seed. Since the FDT is in
 the ROM region at this point, we add a hook right after the ROM has been
 added, so that we have a pointer to that copy of the FDT.
 
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org
+Cc: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>
+Cc: Bin Meng <bin.meng@windriver.com>
+Cc: qemu-riscv@nongnu.org
 Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 ---
- hw/arm/boot.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/riscv/boot.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index b0b92af188..b106f31468 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -683,6 +683,8 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
-      * the DTB is copied again upon reset, even if addr points into RAM.
-      */
-     rom_add_blob_fixed_as("dtb", fdt, size, addr, as);
+diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+index e82bf27338..ebd351c840 100644
+--- a/hw/riscv/boot.c
++++ b/hw/riscv/boot.c
+@@ -30,6 +30,7 @@
+ #include "sysemu/device_tree.h"
+ #include "sysemu/qtest.h"
+ #include "sysemu/kvm.h"
++#include "sysemu/reset.h"
+ 
+ #include <libfdt.h>
+ 
+@@ -241,6 +242,8 @@ uint64_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+ 
+     rom_add_blob_fixed_as("fdt", fdt, fdtsize, fdt_addr,
+                           &address_space_memory);
 +    qemu_register_reset_nosnapshotload(qemu_fdt_randomize_seeds,
-+                                       rom_ptr_for_as(as, addr, size));
++                        rom_ptr_for_as(&address_space_memory, fdt_addr, fdtsize));
  
-     g_free(fdt);
- 
+     return fdt_addr;
+ }
 -- 
 2.38.1
 
