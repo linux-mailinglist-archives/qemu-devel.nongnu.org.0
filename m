@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 306E160C17A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 04:00:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE89160C17C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 04:00:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on9CG-0006vJ-4p; Mon, 24 Oct 2022 21:57:40 -0400
+	id 1on9E3-0000KH-Ke; Mon, 24 Oct 2022 21:59:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1on9CB-0006uQ-3Z
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 21:57:35 -0400
-Received: from mout.gmx.net ([212.227.17.22])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1on9C8-0000dy-8u
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 21:57:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1666663046;
- bh=x41EEiJ145g+A29apEYcYOxb8rD74pxvFGIuiESQ+b0=;
- h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
- b=RiFd8JyrFQJf3NCHADxaSeNdKhqg8Os1WrSjwco2nbkd1JujNUuWVdz9GFhJ6R3r9
- yuSDCxc7NrrdFASSziYVarU4pMPaNL/j+B1DnlQuzhKtSWoUmv+C9CX1ZZaouDPwKI
- ogbWadQl9LFL8KTu6/UOjB06/IJpNkMsPJxPjpHE=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.136.30]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Md6R1-1pLejN1bjH-00aCx1; Tue, 25
- Oct 2022 03:57:26 +0200
-Message-ID: <07dbe94d-c215-2be3-1769-4f2a8290573e@gmx.de>
-Date: Tue, 25 Oct 2022 03:57:21 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1on9E1-0000HC-Jn
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 21:59:29 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1on9Dz-0000nU-Lc
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 21:59:29 -0400
+Received: by mail-pg1-x536.google.com with SMTP id s196so10250127pgs.3
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 18:59:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:references:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=V2m7yBsreqrp2v1AUGBxWUCch9mGH1vA0QD//LJkJnM=;
+ b=mulFV8I3jrlps/+oFumtg+cQO6LwMJZq1HhUaB1637mrG7JNodnjghpNUqE6++2VFW
+ GJix73XgtETtJk8tR5HNY2eaVPizYf0Gs2B6w14/WqWru4vIl500+wod1kSEim+AYfjY
+ HK78WJjSjwURcSZxcI40ekr9OQjp1TWwyFSAWgdoHz7c2YNkkvPjsSbOT3MSdLzzrvtl
+ QT3a4BnjI7TRKqYm+q8vrGbz0FG7KMK2iZ5i1GO5IsNd59/LFQUUqv+OS/W5FfZK+BVd
+ XuEZIyf5gxO4EKkdn0lwEVgKeuD5fOrp2TQsTvqA1Z9U5jQ/cH4gOQ8sZKH1Al6VEzYh
+ LWgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=V2m7yBsreqrp2v1AUGBxWUCch9mGH1vA0QD//LJkJnM=;
+ b=oioTTv2itUtPfaf/O9Viud1+nK/0u38AwIqa5UYZjVYPltQF5lFgE13fJjJ3tuqiZA
+ mzv+TMnWUBBmKP5QY94krsFUK6fSRIFQfFxqcvZAfCtDS7Xdrhe2XQ6oW4uaTa+Ummzf
+ 0eTv27Og6i24aioPb2AB31I4hOaajuKc8JFydT+UDaI5IgNlRWd6HBduhPu7VN1arjGi
+ X54Dc3MiLJanq/WcqE1GvNocB2aXjD9hTF+gQjiG+r52xwXdwIumjsL8GanKW9iGJpId
+ kGo7opMA5us41OFVO7PMa/9myrh08+f8Ho1DTY53A4mUXqkKl7QvKDufuRJkMZpsEjB/
+ 2ueA==
+X-Gm-Message-State: ACrzQf1JvK6rtmmtyjI6/HjDxHGGONWhfufPfn9Uf6ue22p95iUmQ/Te
+ EFc+aBpRSz4x6r8+GrI1QjZSHokLHLMfqA==
+X-Google-Smtp-Source: AMsMyM4RWRf9x+AFl7gM6m00EfES/iVXsz4UNx2qPpO7+yj/QzAf3haOZXVKp817MSzaRRQdthftDQ==
+X-Received: by 2002:a63:64d:0:b0:46b:158f:102e with SMTP id
+ 74-20020a63064d000000b0046b158f102emr31644958pgg.150.1666663165985; 
+ Mon, 24 Oct 2022 18:59:25 -0700 (PDT)
+Received: from [172.31.50.139] ([103.100.225.182])
+ by smtp.gmail.com with ESMTPSA id
+ r24-20020aa79638000000b0056bab544100sm407368pfg.197.2022.10.24.18.59.24
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Oct 2022 18:59:25 -0700 (PDT)
+Message-ID: <4d00256a-8213-c56c-7d50-3d09370552d9@linaro.org>
+Date: Tue, 25 Oct 2022 11:59:21 +1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v3] linux-user: Add guest memory layout to exception dump
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 4/4] include/qemu/atomic128: Avoid
+ __sync_val_compare_and_swap_16
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <Y1bzAWbw07WBKPxw@p100>
- <8c348149-6edf-c6f7-f539-d40a4479c46c@linaro.org>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <8c348149-6edf-c6f7-f539-d40a4479c46c@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+References: <20221024232435.3334600-1-richard.henderson@linaro.org>
+ <20221024232435.3334600-5-richard.henderson@linaro.org>
+In-Reply-To: <20221024232435.3334600-5-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:5owh04l3Fp+PaFUReR0WbYSxxeve2R1PtWp0YwCdavj6h13M/ge
- 8lhKtuGIQbKokQSc4qkICfeONPFh1BiwK7i07gHkk3OwPrwMpl3Er2Gy5kfIgwyUrLcCkaC
- FXcHW5v+TCJ0NVKE3ywxLEiSd19PAJpfgqWm0oduX1V0VQflbjeq6nlL1X543OaqHSDtuLG
- goUEt98+lPo64z+SfYYZQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ZddAKAc+dCM=:apj9aPD0mrUS7Xu9ulotRt
- Z/gKOlvPNJ1DcvOChQs4xSXfo7zMJ5/jdDPRN4sN7pP0vNR9ImkAr+kMymElf2wgY3w4nMOXs
- Ee93mv895dSTW6/AA/SHTQEUhHzDrU4WoHCdIFsqP48hdLQhsqsmDhwIrkdTbakHMIQodXspt
- PT/5yuDI9796aeyCkJzIJ8nhmhbwA0VC+uxe3y472bWLGXKi5VqJ8nWAyL7IBjJSB+GjH8dJD
- YX4SSQucROHrAqpkn3uDnmbM3fIrfJiOk4OG09hKW7FSJO5++v7Zyl6djycSFyrIoqPALlGD7
- jUo0guvNNxhEubC2DKhBYFFgYcf1xwPb9eGH6X1CMD+MZTctJOypP7/1Tk4jGMXEjFJ5+jNZC
- bkFas8ZUswD+0FGYn7GIQ64T4bJo9XV/sx/5JaH4gvo39LtOgkTPUVy//NJOoN1H6zCJ61qSj
- dWCwt5zJnRTolZz1tPQykoUCg+Hpe8Nab8+v/HvpfFHQac1qULlAmYNzphZ1VoD2vg82jtvXR
- oHT1CD6nTDwPvx/7L/JSUork8Eg48pMZe+AYym6PwHTGe64JctE6WNT0iwtgoZI3DbSrXEvWF
- 4oC74lbVFthLATDmYKmuodPMxrSPjekXnM66hzGsYHhnbhQkms1uoBiIbk87KEoqVjX9ztnEC
- TkbHJAnTeDE4qcTl0cLRuqbaANF1UYTsA55XmHaxZk+F2GfslgaBUYJvcZj2XF1wqI48f2cKW
- 5Kxa05HLdokhgqEVMFI9//8Ux7Pmq3tWmH7CU8XvVFrPNbiR5y6B6Y7hROwX5fQDtoezScNUC
- xuMM0RfkMttd5glOh95p3bbGpIKZErAJj6m04+gWcZIogaRJaBiKZ9bvYPl6eKeMk5W7otDqo
- f/Y0mqWWdINBw/C0A6gqt4vE5hovv91Ds3jAroBMC2hw2zMehxVDLJxjcfzDuNLk+lRJjRhbp
- i+SVx2k+T/Sru7XZYZ8oLc5HDgP1MubxuYl6xIvmfwmCotewKtAWdCuWh6d6gX02k1dds5wtQ
- Pc88+u+STFrNQQhMyu8mQp4NS99+oEsNlpxkfew7F0Tc5ma1rpW1WkvfgplYEIRk5IE66oZBz
- ufxl0g5Byn8FJT3kcptg0Nq/t0CFsyUNyVGeetwgzeyooPYMYl0A1yQdcp+morP9Ubu7TDwX4
- IvhSzWrkDPKgEQ1QgQchWTE0rmmvhcCeSOUctZzXO24BK0nGlbp8RZ+niz1GTeVerC+jyezvQ
- D/MKCXGT0Y4207qafnO/6aIG6/86UHi4yuyUjWNdKToeIIQKRsnoIJc34QB+y+BMP5JpgmyLG
- XaGw/bV12Pg8r8lFUssiNzHTTV6FrPcdNkSxzKfJMlePhS4cQddcQjks9N9JKY2fA8pr7zD7M
- EwxM6MWnEOf8MD6fTRqskW5ntr9MKqwXHFyLynsS0cQq5rIL6JFfwtJuqjZeaLrUFM/LVl/b3
- ZnUszPVvDFwVz7SI1oakCRsPWkUAPu0AkksjurgAxc24XbACgm1G7keghfn8bmen6pBCuVrar
- ++tKYZlvBDwHSkQA6CHKUM8IGoD5yLEO4OZw9K95nZqaI
-Received-SPF: pass client-ip=212.227.17.22; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,32 +94,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/25/22 00:35, Richard Henderson wrote:
-> On 10/25/22 06:18, Helge Deller wrote:
->> When the emulation stops with a hard exception it's very useful for
->> debugging purposes to dump the current guest memory layout (for an
->> example see /proc/self/maps) beside the CPU registers.
->>
->> The open_self_maps() function provides such a memory dump, but since
->> it's located in the syscall.c file, various changes (add #includes, mak=
-e
->> this function externally visible, ...) are needed to be able to call it
->> from the existing EXCP_DUMP() macro.
->
-> /proc/self/maps has all of the qemu mappings in it as well.
+On 10/25/22 09:24, Richard Henderson wrote:
+> Merge the CONFIG_ATOMIC128 and CONFIG_CMPXCHG128 cases
+> with respect to atomic16_cmpxchg and use
+> __atomic_compare_exchange_nomic (via qatomic_cmpxchg)
+> instead of the "legacy" __sync_val_compare_and_swap_16.
+> 
+> Update the meson has_cmpxchg128 test to match.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   include/qemu/atomic128.h | 8 +-------
+>   meson.build              | 3 ++-
+>   2 files changed, 3 insertions(+), 8 deletions(-)
 
-I'm not quite sure on how to understand your comments above.
-Just comments or NAK to the patch?
+Ho hum.  Must drop this one since for reasons that I cannot fathom, x86_64 does not 
+implement the __atomic version.
 
-*Main* feature of this patch is that output like /proc/self/maps
-ends up on stdout and in the log file (if qemu log was enabled)
-at all, before the program exits and /proc/self/maps is gone.
-Quite useful for bug reports from other users too...
 
-> The page_dump() function provides exclusively the guest mappings.
-
-Which is usually sufficient in this case, and has the advantage that it
-shows the guest-stack and -heap areas.
-
-Helge
+r~
 
