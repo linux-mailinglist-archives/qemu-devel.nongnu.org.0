@@ -2,82 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ACC560D7B5
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 01:11:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 801B660D7F3
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 01:33:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onT1w-0001S7-47; Tue, 25 Oct 2022 19:08:20 -0400
+	id 1onTN7-0005Eg-Tw; Tue, 25 Oct 2022 19:30:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1onT1t-0001RX-7j
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 19:08:17 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1onTN5-00052O-PH
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 19:30:11 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1onT1q-0005jE-T8
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 19:08:16 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id l6so8730916pjj.0
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 16:08:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1onTN0-00005h-LH
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 19:30:11 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ v130-20020a1cac88000000b003bcde03bd44so272348wme.5
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 16:30:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=gV1qoi58poGkroyEMs7wUaTlHjvhzd7qaT2YZXCzr+k=;
- b=gBBkzEO0Wfqq/IgGydhjqAgyzClfaL2AYXh6SBRkZPT2dNevLb08q2Gsj6Uo9XMVkS
- Nj3G8zhTmIWZ5EWHsNHKGvPttD97GIlnENdPJIDYQfOFAKz2Th2BuCBK6dGzK04xjnlO
- T/MELkT7nAtijofzq3gA1ndtUmDHfhrZdIgY/pDWR3/iHRca1YLjhCXjjQ/A71+k55xT
- FTwUb/qj8n+GRVL39JHrrkPQNH5rLwfnuUs2dwQwTFabdG2oMF7bpdFhuRfLIoW8GdCc
- CtzvYdcAvpiuudkt+HoibguN4Rsyu7NEj1a1DfSVaPzDg35xETx3m36ckxctrT2CAf2D
- 1lgg==
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=APGCYcij2GsVt8OaufgS3UmBfsHUAq1IFBMthXFCCEs=;
+ b=x2vg6AB1P3wBZNH/3F7icolJJmh6aA215Qht149XzCAeh5ZU8omyt2lDq7rRk+Vf+/
+ 0rmTjmesyliCdHHlX5jHJC5tOi6lR1QqigtsGEW6V+xpuAlpr90I4mrkfvJldHDVlTnB
+ kojvhVTxgqFPZOLd7Y8FzNqpsFMtkoACGzemNsw8tEiqriUGUj+j4TT+CgUZSmttpN4z
+ 7zDCvCeoy72Yr6cFdrlmm35LCUrtr3eL+vLdq+UuK7DlRn0JKxkPQNmf20L5lG2+ZhS9
+ muSs1C/0b2YXeP6GIp6gwiCo0JRekxi+hVUkHPW1hmbcoLodRoFpZMypLnuPgJHYAEjW
+ NWEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:subject:from:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gV1qoi58poGkroyEMs7wUaTlHjvhzd7qaT2YZXCzr+k=;
- b=i/xQ58xX++WCE1Yl7GuuryBUgrq3ifZWQcKD2cM+IFDz4zw/EeUdp8A65azXbpELku
- WiYty53TOGQ0ZAthk2uMH6ol6LYj/4D/eHFsmr98S9sjgW/cPLRAl2z+FM4XNGmS5Dww
- 97w6HuPDNg+2h8GZBMLxcjzECSKB/gcYm5aORAi6mLmxvI37UnMk6ygZF3nDH8hdJx7r
- 0QFO0jGWuVAF54Yp86vf5OMwxCDf1eCy/esuDa6nIb4OKeIG0IJZ33nBmp/uXcR9jqv+
- vWHf/jtR+orHIEP+zpuIjLZu/cpN8J5WwOgzepORcnpFu6DPILdeSl+uG10UtHNfd4dH
- EfhQ==
-X-Gm-Message-State: ACrzQf3ZV+y/fP7WfwD5m1TtQpdtCXi2gzhiZU98pXrxCZDlNSRARQvq
- 0AkLdqlGU0fqQJTquE3PAX6mjQ==
-X-Google-Smtp-Source: AMsMyM7UZjRhmaH1Uwa/Cvs7R5wHhBhSAKJd7OsoBFaCfRmt2OHr++wkZUxsl9xzIn8RPNjKAuKSAg==
-X-Received: by 2002:a17:902:ea03:b0:180:b53f:6da with SMTP id
- s3-20020a170902ea0300b00180b53f06damr40256413plg.69.1666739293173; 
- Tue, 25 Oct 2022 16:08:13 -0700 (PDT)
-Received: from [172.31.50.139] ([103.100.225.182])
+ bh=APGCYcij2GsVt8OaufgS3UmBfsHUAq1IFBMthXFCCEs=;
+ b=V9BLgUzXO5E7ybqU2Y/GBaOWRH4/LRqIOJgGu2vnGegIF8ScGYJGnAezTzhyXKNC27
+ OWC6oBAA3s60mCuSJkhj98lw/S/jhNkkGPfXzvcM/4+GUzWrJcWUMH9EqFiN32/Q6Php
+ 0aaMmYap1Y+pkQ37Lf/toQqTRp8/mOF5AMM39aH1Zow++UkYtgXcFWWI9UNPiJ9rImWk
+ DcEJgxmjHXuxQy+zHtsky1fvsELtsFCe4XJLQK06Bkn7kN9hv9rJj1IYosbIb7CStnSf
+ 8DLbzOH57yVG0wjanHPrzTTMzVxNb4u0ga7wyhhas9e8crLi9+/4URhs1vtYP0+sp04y
+ Fpnw==
+X-Gm-Message-State: ACrzQf0CsZQP6YzGu4UZjrIrUUiDfK4GNxSkUcjElCWxCnwE4Ht/EBy9
+ sAPwabrVd8PHySby24fMs9sGNQ==
+X-Google-Smtp-Source: AMsMyM7+0F2m1r7rfj1n/fF2PT9aAcNxLPK2J+qSctwNSYtigyH+u00Yy15UdHl2yyKQKAq+0UVr6A==
+X-Received: by 2002:a05:600c:681:b0:3c6:bafd:cb48 with SMTP id
+ a1-20020a05600c068100b003c6bafdcb48mr409234wmn.57.1666740604792; 
+ Tue, 25 Oct 2022 16:30:04 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- q14-20020a170902bd8e00b0017e232b6724sm1685336pls.69.2022.10.25.16.08.11
+ o8-20020a5d58c8000000b0022cd27bc8c1sm4697310wrf.9.2022.10.25.16.30.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Oct 2022 16:08:12 -0700 (PDT)
-Message-ID: <0b40f9ef-0838-395c-11ec-052124a48c63@linaro.org>
-Date: Wed, 26 Oct 2022 09:08:07 +1000
+ Tue, 25 Oct 2022 16:30:04 -0700 (PDT)
+Message-ID: <c7e07496-ca62-ce91-b2d4-a49b12d51c49@linaro.org>
+Date: Wed, 26 Oct 2022 01:30:02 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH 24/29] accel/tcg: Introduce cpu_unwind_state_data
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.0
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+Subject: Re: [PATCH v2 08/43] hw/ide/piix: Introduce TYPE_ macros for PIIX IDE
+ controllers
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Igor Mammedov <imammedo@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, John Snow <jsnow@redhat.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Ani Sinha <ani@anisinha.ca>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-block@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+References: <20221022150508.26830-1-shentey@gmail.com>
+ <20221022150508.26830-9-shentey@gmail.com>
 Content-Language: en-US
-To: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
-References: <20221024132459.3229709-1-richard.henderson@linaro.org>
- <20221024132459.3229709-26-richard.henderson@linaro.org>
- <b8e90076-2f42-0eb9-60df-4e9df4e9e5b5@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <b8e90076-2f42-0eb9-60df-4e9df4e9e5b5@suse.de>
+In-Reply-To: <20221022150508.26830-9-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,38 +102,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/25/22 19:23, Claudio Fontana wrote:
->> +/*
->> + * The cpu state corresponding to 'host_pc' is restored.
->> + * When reset_icount is true, current TB will be interrupted and
->> + * icount should be recalculated.
->> + */
->> +static void cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
->> +                                      uintptr_t host_pc, bool reset_icount)
->> +{
->> +    uint64_t data[TARGET_INSN_START_WORDS];
->> +#ifdef CONFIG_PROFILER
->> +    TCGProfile *prof = &tcg_ctx->prof;
->> +    int64_t ti = profile_getclock();
->> +#endif
->> +    int insns_left = cpu_unwind_data_from_tb(tb, host_pc, data);
->> +
->> +    if (insns_left < 0) {
->> +        return;
->> +    }
-> 
-> Is the -1 return value some error condition to do anything about, log, tcg assert, or ...,
-> under some DEBUG_* condition, or ignored as done here?
+On 22/10/22 17:04, Bernhard Beschow wrote:
+> Suggested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>   hw/i386/pc_piix.c     | 3 ++-
+>   hw/ide/piix.c         | 5 +++--
+>   hw/isa/piix4.c        | 3 ++-
+>   include/hw/ide/piix.h | 7 +++++++
+>   4 files changed, 14 insertions(+), 4 deletions(-)
+>   create mode 100644 include/hw/ide/piix.h
 
-Interesting question.
+> diff --git a/include/hw/ide/piix.h b/include/hw/ide/piix.h
+> new file mode 100644
+> index 0000000000..ef3ef3d62d
+> --- /dev/null
+> +++ b/include/hw/ide/piix.h
+> @@ -0,0 +1,7 @@
+> +#ifndef HW_IDE_PIIX_H
+> +#define HW_IDE_PIIX_H
+> +
+> +#define TYPE_PIIX3_IDE "piix3-ide"
+> +#define TYPE_PIIX4_IDE "piix4-ide"
 
-By presenting this tb, have we asserted that host_pc is within (otherwise, why select this 
-tb).  But if we didn't find host_pc within the unwind data... that suggests that the tcg 
-backend code generation may be wrong, generating an exception at an unexpected point.
-
-But for the purposes of this patch, it is no change in behaviour.  Previously we returned 
-from the function without goto found.
+I'd have added that to include/hw/southbridge/piix.h, but I
+understand some machines want to include parts of PIIX, so:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
-r~
 
