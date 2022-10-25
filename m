@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EDB960D75C
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 00:49:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ACC560D7B5
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 01:11:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onSgq-0000Q6-HC; Tue, 25 Oct 2022 18:46:32 -0400
+	id 1onT1w-0001S7-47; Tue, 25 Oct 2022 19:08:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1onSgo-0000GH-Py; Tue, 25 Oct 2022 18:46:30 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1onT1t-0001RX-7j
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 19:08:17 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1onSgm-0002tu-7r; Tue, 25 Oct 2022 18:46:30 -0400
-Received: by mail-pf1-x433.google.com with SMTP id y13so8874897pfp.7;
- Tue, 25 Oct 2022 15:46:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=xL5pju1ZGlr10niKOO7BDyu/UjM6zSvTW38fF30MvtU=;
- b=nv8TVrAzyGpdvn5ziUMtQQ3BYnpm18hxPLfn/y2Hvk//QcNkUvuJReGBz3IJEUIf1m
- j1xnYLY3gjomE9JFSh1pHQfqNywxMQ/0WaCNBgcS9a0KgQMWba/dg4v9UWTMz2NjWIod
- n03UT8Te6LK18tCcj1xY2YQKBlOuUoYBADHjuDfHUvZSO02xqYb76V7dAHWqRRNC3gCD
- Ec10e7JC2rbvLSIEj5jmofkvvQh5fQ/ncFtkfnUyzB3RZYxk4RtWlQbCyNzobr2ZyDs6
- RUL7lXzFnOEf0txh/haT+zk8tyicLT/8RmCrUEpPF+p+WMiPb2k13yNcfLc40VLpmlaC
- xxgg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1onT1q-0005jE-T8
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 19:08:16 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id l6so8730916pjj.0
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 16:08:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=gV1qoi58poGkroyEMs7wUaTlHjvhzd7qaT2YZXCzr+k=;
+ b=gBBkzEO0Wfqq/IgGydhjqAgyzClfaL2AYXh6SBRkZPT2dNevLb08q2Gsj6Uo9XMVkS
+ Nj3G8zhTmIWZ5EWHsNHKGvPttD97GIlnENdPJIDYQfOFAKz2Th2BuCBK6dGzK04xjnlO
+ T/MELkT7nAtijofzq3gA1ndtUmDHfhrZdIgY/pDWR3/iHRca1YLjhCXjjQ/A71+k55xT
+ FTwUb/qj8n+GRVL39JHrrkPQNH5rLwfnuUs2dwQwTFabdG2oMF7bpdFhuRfLIoW8GdCc
+ CtzvYdcAvpiuudkt+HoibguN4Rsyu7NEj1a1DfSVaPzDg35xETx3m36ckxctrT2CAf2D
+ 1lgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xL5pju1ZGlr10niKOO7BDyu/UjM6zSvTW38fF30MvtU=;
- b=CyFKWtEcBRSNR13oHtBvxm1tlheZY2Ebbku0d/OpF4ox9MslQo0Vd5eSZbrZTycXsR
- 1cM289OM7x1xlXEfkLXh52ctd36nbaza5nsVOgRsJNHHp3Vdi7MxFB5XARbwT/03v49F
- io5GuRVq0OdByOGj5n2B+2aUbetfmbUVgB57WAmW/BaSFViRgv+qhxgdcDZJxecjnHWK
- iOC9yvEFXgzXkX1/aR6pBmCOgOtFoRaAODYkXr245P+5WCujUp0d8kZhm9m4/L2Io1Ri
- w7Zq5jULyVPkDqCH2r58FRcBubEyEWpA3dPXnSLtQi7S+6cqgtiEgxBiZmcTKALSoXUG
- Ao9Q==
-X-Gm-Message-State: ACrzQf3rKvLOUu/sR5tu3m9E1NTRWjWUlYiaj5LvFnPCoBWZZnuImwFp
- 1Pt7i2JtFoX2fo51hr3K7KcdvHgw4n3FcAFKUBE=
-X-Google-Smtp-Source: AMsMyM7BFYHTHlgvzp9sWHOWsCgl3ASk+rgmQqjglwaJFO10MNu+u9uZTtkV2M8X32OLD8W7CgBb821EZu1QbHe4Cxw=
-X-Received: by 2002:a65:604e:0:b0:43c:428d:16a9 with SMTP id
- a14-20020a65604e000000b0043c428d16a9mr7360198pgp.423.1666737983575; Tue, 25
- Oct 2022 15:46:23 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gV1qoi58poGkroyEMs7wUaTlHjvhzd7qaT2YZXCzr+k=;
+ b=i/xQ58xX++WCE1Yl7GuuryBUgrq3ifZWQcKD2cM+IFDz4zw/EeUdp8A65azXbpELku
+ WiYty53TOGQ0ZAthk2uMH6ol6LYj/4D/eHFsmr98S9sjgW/cPLRAl2z+FM4XNGmS5Dww
+ 97w6HuPDNg+2h8GZBMLxcjzECSKB/gcYm5aORAi6mLmxvI37UnMk6ygZF3nDH8hdJx7r
+ 0QFO0jGWuVAF54Yp86vf5OMwxCDf1eCy/esuDa6nIb4OKeIG0IJZ33nBmp/uXcR9jqv+
+ vWHf/jtR+orHIEP+zpuIjLZu/cpN8J5WwOgzepORcnpFu6DPILdeSl+uG10UtHNfd4dH
+ EfhQ==
+X-Gm-Message-State: ACrzQf3ZV+y/fP7WfwD5m1TtQpdtCXi2gzhiZU98pXrxCZDlNSRARQvq
+ 0AkLdqlGU0fqQJTquE3PAX6mjQ==
+X-Google-Smtp-Source: AMsMyM7UZjRhmaH1Uwa/Cvs7R5wHhBhSAKJd7OsoBFaCfRmt2OHr++wkZUxsl9xzIn8RPNjKAuKSAg==
+X-Received: by 2002:a17:902:ea03:b0:180:b53f:6da with SMTP id
+ s3-20020a170902ea0300b00180b53f06damr40256413plg.69.1666739293173; 
+ Tue, 25 Oct 2022 16:08:13 -0700 (PDT)
+Received: from [172.31.50.139] ([103.100.225.182])
+ by smtp.gmail.com with ESMTPSA id
+ q14-20020a170902bd8e00b0017e232b6724sm1685336pls.69.2022.10.25.16.08.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Oct 2022 16:08:12 -0700 (PDT)
+Message-ID: <0b40f9ef-0838-395c-11ec-052124a48c63@linaro.org>
+Date: Wed, 26 Oct 2022 09:08:07 +1000
 MIME-Version: 1.0
-References: <20221023233337.2846860-1-richard.henderson@linaro.org>
-In-Reply-To: <20221023233337.2846860-1-richard.henderson@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 26 Oct 2022 08:45:56 +1000
-Message-ID: <CAKmqyKNUrA+jUEYc0hxSbq-kUwjyhwJRfLO0aXb4t+Y=4MzawQ@mail.gmail.com>
-Subject: Re: [PATCH] tcg/riscv: Fix base register for user-only qemu_ld/st
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, 
- LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=alistair23@gmail.com; helo=mail-pf1-x433.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 24/29] accel/tcg: Introduce cpu_unwind_state_data
+Content-Language: en-US
+To: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
+References: <20221024132459.3229709-1-richard.henderson@linaro.org>
+ <20221024132459.3229709-26-richard.henderson@linaro.org>
+ <b8e90076-2f42-0eb9-60df-4e9df4e9e5b5@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <b8e90076-2f42-0eb9-60df-4e9df4e9e5b5@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,140 +93,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Oct 24, 2022 at 1:26 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> When guest_base != 0, we were not coordinating the usage of
-> TCG_REG_TMP0 as base properly, leading to a previous zero-extend
-> of the input address being discarded.
->
-> Shuffle the alignment check to the front, because that does not
-> depend on the zero-extend, and it keeps the register usage clear.
-> Set base after each step of the address arithmetic instead of before.
->
-> Return the base register used from tcg_out_tlb_load, so as to
-> keep that register choice localized to that function.
->
-> Reported-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 10/25/22 19:23, Claudio Fontana wrote:
+>> +/*
+>> + * The cpu state corresponding to 'host_pc' is restored.
+>> + * When reset_icount is true, current TB will be interrupted and
+>> + * icount should be recalculated.
+>> + */
+>> +static void cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
+>> +                                      uintptr_t host_pc, bool reset_icount)
+>> +{
+>> +    uint64_t data[TARGET_INSN_START_WORDS];
+>> +#ifdef CONFIG_PROFILER
+>> +    TCGProfile *prof = &tcg_ctx->prof;
+>> +    int64_t ti = profile_getclock();
+>> +#endif
+>> +    int insns_left = cpu_unwind_data_from_tb(tb, host_pc, data);
+>> +
+>> +    if (insns_left < 0) {
+>> +        return;
+>> +    }
+> 
+> Is the -1 return value some error condition to do anything about, log, tcg assert, or ...,
+> under some DEBUG_* condition, or ignored as done here?
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Interesting question.
 
-Alistair
+By presenting this tb, have we asserted that host_pc is within (otherwise, why select this 
+tb).  But if we didn't find host_pc within the unwind data... that suggests that the tcg 
+backend code generation may be wrong, generating an exception at an unexpected point.
 
-> ---
->  tcg/riscv/tcg-target.c.inc | 39 +++++++++++++++++++++-----------------
->  1 file changed, 22 insertions(+), 17 deletions(-)
->
-> diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-> index 2a84c57bec..e3b608034f 100644
-> --- a/tcg/riscv/tcg-target.c.inc
-> +++ b/tcg/riscv/tcg-target.c.inc
-> @@ -923,9 +923,9 @@ static void tcg_out_goto(TCGContext *s, const tcg_insn_unit *target)
->      tcg_debug_assert(ok);
->  }
->
-> -static void tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
-> -                             TCGReg addrh, MemOpIdx oi,
-> -                             tcg_insn_unit **label_ptr, bool is_load)
-> +static TCGReg tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
-> +                               TCGReg addrh, MemOpIdx oi,
-> +                               tcg_insn_unit **label_ptr, bool is_load)
->  {
->      MemOp opc = get_memop(oi);
->      unsigned s_bits = opc & MO_SIZE;
-> @@ -975,6 +975,7 @@ static void tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
->          addrl = TCG_REG_TMP0;
->      }
->      tcg_out_opc_reg(s, OPC_ADD, TCG_REG_TMP0, TCG_REG_TMP2, addrl);
-> +    return TCG_REG_TMP0;
->  }
->
->  static void add_qemu_ldst_label(TCGContext *s, int is_ld, MemOpIdx oi,
-> @@ -1177,7 +1178,7 @@ static void tcg_out_qemu_ld(TCGContext *s, const TCGArg *args, bool is_64)
->  #else
->      unsigned a_bits;
->  #endif
-> -    TCGReg base = TCG_REG_TMP0;
-> +    TCGReg base;
->
->      data_regl = *args++;
->      data_regh = (TCG_TARGET_REG_BITS == 32 && is_64 ? *args++ : 0);
-> @@ -1187,23 +1188,25 @@ static void tcg_out_qemu_ld(TCGContext *s, const TCGArg *args, bool is_64)
->      opc = get_memop(oi);
->
->  #if defined(CONFIG_SOFTMMU)
-> -    tcg_out_tlb_load(s, addr_regl, addr_regh, oi, label_ptr, 1);
-> +    base = tcg_out_tlb_load(s, addr_regl, addr_regh, oi, label_ptr, 1);
->      tcg_out_qemu_ld_direct(s, data_regl, data_regh, base, opc, is_64);
->      add_qemu_ldst_label(s, 1, oi,
->                          (is_64 ? TCG_TYPE_I64 : TCG_TYPE_I32),
->                          data_regl, data_regh, addr_regl, addr_regh,
->                          s->code_ptr, label_ptr);
->  #else
-> -    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
-> -        tcg_out_ext32u(s, base, addr_regl);
-> -        addr_regl = base;
-> -    }
->      a_bits = get_alignment_bits(opc);
->      if (a_bits) {
->          tcg_out_test_alignment(s, true, addr_regl, a_bits);
->      }
-> +    base = addr_regl;
-> +    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
-> +        tcg_out_ext32u(s, TCG_REG_TMP0, base);
-> +        base = TCG_REG_TMP0;
-> +    }
->      if (guest_base != 0) {
-> -        tcg_out_opc_reg(s, OPC_ADD, base, TCG_GUEST_BASE_REG, addr_regl);
-> +        tcg_out_opc_reg(s, OPC_ADD, TCG_REG_TMP0, TCG_GUEST_BASE_REG, base);
-> +        base = TCG_REG_TMP0;
->      }
->      tcg_out_qemu_ld_direct(s, data_regl, data_regh, base, opc, is_64);
->  #endif
-> @@ -1249,7 +1252,7 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args, bool is_64)
->  #else
->      unsigned a_bits;
->  #endif
-> -    TCGReg base = TCG_REG_TMP0;
-> +    TCGReg base;
->
->      data_regl = *args++;
->      data_regh = (TCG_TARGET_REG_BITS == 32 && is_64 ? *args++ : 0);
-> @@ -1259,23 +1262,25 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args, bool is_64)
->      opc = get_memop(oi);
->
->  #if defined(CONFIG_SOFTMMU)
-> -    tcg_out_tlb_load(s, addr_regl, addr_regh, oi, label_ptr, 0);
-> +    base = tcg_out_tlb_load(s, addr_regl, addr_regh, oi, label_ptr, 0);
->      tcg_out_qemu_st_direct(s, data_regl, data_regh, base, opc);
->      add_qemu_ldst_label(s, 0, oi,
->                          (is_64 ? TCG_TYPE_I64 : TCG_TYPE_I32),
->                          data_regl, data_regh, addr_regl, addr_regh,
->                          s->code_ptr, label_ptr);
->  #else
-> -    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
-> -        tcg_out_ext32u(s, base, addr_regl);
-> -        addr_regl = base;
-> -    }
->      a_bits = get_alignment_bits(opc);
->      if (a_bits) {
->          tcg_out_test_alignment(s, false, addr_regl, a_bits);
->      }
-> +    base = addr_regl;
-> +    if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
-> +        tcg_out_ext32u(s, TCG_REG_TMP0, base);
-> +        base = TCG_REG_TMP0;
-> +    }
->      if (guest_base != 0) {
-> -        tcg_out_opc_reg(s, OPC_ADD, base, TCG_GUEST_BASE_REG, addr_regl);
-> +        tcg_out_opc_reg(s, OPC_ADD, TCG_REG_TMP0, TCG_GUEST_BASE_REG, base);
-> +        base = TCG_REG_TMP0;
->      }
->      tcg_out_qemu_st_direct(s, data_regl, data_regh, base, opc);
->  #endif
-> --
-> 2.34.1
->
->
+But for the purposes of this patch, it is no change in behaviour.  Previously we returned 
+from the function without goto found.
+
+
+r~
 
