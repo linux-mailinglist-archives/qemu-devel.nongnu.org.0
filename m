@@ -2,97 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19E5960C0D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 03:18:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C0DD60C0D4
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 03:19:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on8U2-0003wV-RO; Mon, 24 Oct 2022 21:11:58 -0400
+	id 1on8aB-0003xP-BY; Mon, 24 Oct 2022 21:18:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=290a5aa6e=wilfred.mallawa@opensource.wdc.com>)
- id 1on8U0-0003wH-Kg
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 21:11:56 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124])
+ id 1on8Zv-0003Oq-D2
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 21:18:05 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=290a5aa6e=wilfred.mallawa@opensource.wdc.com>)
- id 1on8Tx-0001Ai-HK
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 21:11:55 -0400
+ id 1on8Zt-0002MV-2c
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 21:18:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1666660313; x=1698196313;
+ t=1666660681; x=1698196681;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Vt19p99Al03qFGOL4os6AYGva6CgF2vqTmfV4DW4iy8=;
- b=PbGC1tY2rvjLH1GhG4QU9CROekVh9Bs0efDcrquGu3++Ztd8aDzq7o45
- Hms+WBDkaGYwmeSMZYehRhk0y0DFYQKFmmnRgERlL+D+2PW6GH4mmDPNR
- p46ZSwyGoWRfWMApY/OU1JMrb+5iawa2obmbtADz1+xAmz5URyUugmXWh
- 5tdGAnE65Jfxbn/9BoWese7dnJYda2N8z1DKI5+OI3Gze6kxvjmw5pLA1
- EZjMQqZWu8yB/rttJ51U1TgcExYOBx7ItzbiIuj1usAsoUD2PSc2+3lNg
- 3NPOuGCvFMNoTUJK6YAo4vOnKho79MvBvrNGN5cssRKXS76Zsclm1qGzh w==;
-X-IronPort-AV: E=Sophos;i="5.95,210,1661788800"; d="scan'208";a="318966285"
+ bh=2IoVntvzUZfdQw0F/4ik/CJ/v5mblgi9D5PP7I1U8vI=;
+ b=Sx5hKDv3B0Vz7zsgSAKv68++1Nfa1TDVUoGl/Y9qLV3SFtKnFIrAAEYb
+ afRchkUH87YU6EwlYg0qxRXz7Ewa2Vv1YE98c6OEg8V+q/m+rxJJ90r5l
+ 2Gnw5FPxO354BNiiScEbPe5hHAcH8KfH0loAGALKQv2A5Vl0zVrRBROT+
+ TwFwb9nibo09xDXkC/qfu6HAx0929oiH15YGxnVxiV9EeG50+PXFJnNDz
+ HCG+H6NPe5wZl5RUW6l0TbB7NvUGlzMWE+kxDO3LAoeg2mBp3N+BDxG8J
+ DQZdFJW4PToQ7qD/xsOZqOOp9Z8vNm/RmWOaLIDFbwMzbqu7B2UmTeQD8 Q==;
+X-IronPort-AV: E=Sophos;i="5.95,210,1661788800"; d="scan'208";a="212946918"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 25 Oct 2022 09:11:43 +0800
-IronPort-SDR: qva5UChwiQrRZPd3cnIzqAS4g3euUSsP58I8IPPfMS5CcoHapV8Cf89OIR3UYc1R/RZVAW7vGI
- nbSxl6chdd/NUB43Z1G/sxEdnEjX6Jus4MigC3Pa5OCcNXPQgnX2dDt1tTMPMfoVEuUfsQTbVh
- IvihxJxCrAnfx9VNCAA9ayxIPWB4fdUn6LJQBIeRj5W2abMrMAM4EMAvr0KtGc38ox5KkUWQ2p
- mI1eP7NsdMue9Hq0WlVZLkz77+gkB9fJYE8bHqFhXlZl2N9C2NaBwV3WiAL+0MgQ2Xq/YgfB3w
- XlUm0wlmsdFMsCS2RwJ3cT28
+ by ob1.hgst.iphmx.com with ESMTP; 25 Oct 2022 09:17:56 +0800
+IronPort-SDR: mK3ss2oE8t+iym++pqrpCzqpyn5DpKpK/espagneoh8YtnmcD0ScVo+KXx7kPOZxLwpEdq+fLH
+ 8w9j1nqyfeufNCcg5qn7zrQjpSw++LXcHBqAiG0TgXO2iV53EvNUVQkTVCiKa9C72DAaljRcvs
+ mA7u7o0OEdDZXv9Z/E4Ua/CyutRhhT22Uwcod5nwInoOJf7L94EPPVaJXEie/urcu0laKkywcw
+ 5FmPxOo2FuY3MGegVEcOXVcyqwJoEyROutjsCduv6CYmbscmKofiU0Z4JKqf7RuTzOhXZ+TC3l
+ TzsdBILRSZc131igKj1lHzC5
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 24 Oct 2022 17:31:07 -0700
-IronPort-SDR: JaBKE4zlf7G5fwPkur3RJPhinqF7rN+yht3oUFC391PQY8xW1/ZyBPb+0j+E0cH4FlYR1E6aka
- lZ23ymZRFVuQtf0FqzSNotSEl8LXUX0PSFWjCu90h87T/suWBIKWMrx8T41BCQW/9QcdppsF9a
- 3sEMRH7iWsaYDtbbQ50tnGfHuf2LbQTBvH9zvOShWSG9hcyHNUKD1XDXg2CtCPc22lnkc9Xbs4
- eSq4TYG9SorZBQmPJ2c5bcSTRty/fuWGWSDbU7ZMZ7krOlJiKKeftBtYtkiL2atYAdh4zlRD/y
- tR4=
+ 24 Oct 2022 17:37:19 -0700
+IronPort-SDR: ulTvG7ypqxKtmXksHavn6JP07OZzVpMg0IXkk0/QGNlBc15Z0fXe6QrOfZLJ5rEOmNMQ1fDY6p
+ kMR0wlvpnBk3EfiCMOqQqS+uUDAX8V2/XRThxNrXNRkt1zeXsVcgSlqPH4YqjXAY3T8Sh37E5f
+ SeIbRWIPywewKhhiTDlEiRmpfUisVtzPYdQ9xgHV01Eslvz5JXAWU75sbwZOqquDfUi9bEvWYx
+ N1VTyF1D2v2ZWlv+hFib6nZ1c0MqqbMJA9itvMMoZlnMtSnP05XmTdwn1HbAv9wP34h4rvht7F
+ K0A=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 24 Oct 2022 18:11:43 -0700
+ 24 Oct 2022 18:11:56 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4MxDRf72Mhz1Rwrq
- for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 18:11:42 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4MxDRv1zSyz1RvTp
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 18:11:55 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1666660302; x=1669252303; bh=Vt19p99Al03qFGOL4o
- s6AYGva6CgF2vqTmfV4DW4iy8=; b=OV1MUjzHYvIQTFhxuxzDR5gZgGne2Bh7NJ
- vHjt7TIvILJPwjD8VSBUn74DK3Xy+MX20KKg6zIt4sBwPpZeMsMpkS+hMeQO3MD8
- RdQYeHJL0gvOFPwtKNWoHT5H2kU5+2NMfvHMZZjPzA1TpLyrG6tUIuxokHJEYPP5
- 19Pktg9NI6SAIGkYic0XlgU42RCLeN/hG65pMVILrdHpZZ9mYLlvZitvHjF91BLg
- R4njfbAQGFAKGA9O1jvJ7uBZUo2vamE+NOZrBpI6EsEZv/4JbdX83TCZk9lq5R9N
- lWjEPUwjkodzdM7EYJ5VVNlkLMVGQm7MOm+iVAlD5FMNTCI26kyA==
+ :from; s=dkim; t=1666660314; x=1669252315; bh=2IoVntvzUZfdQw0F/4
+ ik/CJ/v5mblgi9D5PP7I1U8vI=; b=sfz5kofCtp2FBa4/ZUTrK/LEKFozwpoB9a
+ r9tVMUy22+HyAQP6Lj3N4qsDgKNvXgxAMsJ74FMBVEj1lSgzH7IodxSp0bovXXbK
+ X3sH+tVUUmNbMsXqVMk9ts8nhN+YflRgBnudxiNDVcNTH1GW5KxghcR9DKQw08q2
+ RyVz2RXcq3VxNNfNTZLOe6+ATF9uSoDLJcTvIn4JX+Zd/UtAjGf4TtqsKRpd5uLF
+ cPAdtGOi6t1MGvutmuC9lS2Zi2OgLz7MAu1LdmJdiWysl3qt1IrEWTQo54Fsjvzx
+ TxAunlUTcMsbkrd6HRbkPiS3z1TO3sBEVx4z2NXvcPzL+8DZKMSQ==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id r_8jRIoq7m5Q for <qemu-devel@nongnu.org>;
- Mon, 24 Oct 2022 18:11:42 -0700 (PDT)
+ port 10026) with ESMTP id 53SXkpo50Wsy for <qemu-devel@nongnu.org>;
+ Mon, 24 Oct 2022 18:11:54 -0700 (PDT)
 Received: from oni.wdc.com (unknown [10.225.165.77])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4MxDRZ71zJz1RvLy;
- Mon, 24 Oct 2022 18:11:38 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4MxDRq6rVVz1RvLy;
+ Mon, 24 Oct 2022 18:11:51 -0700 (PDT)
 From: Wilfred Mallawa <wilfred.mallawa@opensource.wdc.com>
 To: Alistair.Francis@wdc.com, palmer@dabbelt.com, bin.meng@windriver.com,
  qemu-riscv@nongnu.org
 Cc: qemu-devel@nongnu.org,
 	Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Subject: [PATCH v0 1/2] hw/riscv/opentitan: bump opentitan
-Date: Tue, 25 Oct 2022 11:10:41 +1000
-Message-Id: <20221025011040.246503-2-wilfred.mallawa@opensource.wdc.com>
+Subject: [PATCH v0 2/2] hw/riscv/opentitan: add aon_timer base unimpl
+Date: Tue, 25 Oct 2022 11:10:43 +1000
+Message-Id: <20221025011040.246503-3-wilfred.mallawa@opensource.wdc.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221025011040.246503-1-wilfred.mallawa@opensource.wdc.com>
 References: <20221025011040.246503-1-wilfred.mallawa@opensource.wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=68.232.143.124;
+Received-SPF: pass client-ip=216.71.154.42;
  envelope-from=prvs=290a5aa6e=wilfred.mallawa@opensource.wdc.com;
- helo=esa2.hgst.iphmx.com
+ helo=esa4.hgst.iphmx.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -117,110 +117,50 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-This patch updates the OpenTitan model to match
-the specified register layout as per [1]. Which is also the latest
-commit of OpenTitan supported by TockOS.
-
-Note: Pinmux and Padctrl has been merged into Pinmux [2][3], this patch r=
-emoves
-any references to Padctrl. Note: OpenTitan doc [2] has not yet specified
-much detail regarding this, except for a note that states `TODO: this
-section needs to be updated to reflect the pinmux/padctrl merger`
-
-[1] https://github.com/lowRISC/opentitan/blob/d072ac505f82152678d6e04be95=
-c72b728a347b8/hw/top_earlgrey/sw/autogen/top_earlgrey_memory.h
-[2] https://docs.opentitan.org/hw/top_earlgrey/doc/design/
-[3] https://docs.opentitan.org/hw/ip/pinmux/doc/#overview
+Adds the updated `aon_timer` base as an unimplemented device. This is
+used by TockOS, patch ensures the guest doesn't hit load faults.
 
 Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 ---
- hw/riscv/opentitan.c         | 13 +++++--------
- include/hw/riscv/opentitan.h |  9 ++++-----
- 2 files changed, 9 insertions(+), 13 deletions(-)
+ hw/riscv/opentitan.c         | 3 +++
+ include/hw/riscv/opentitan.h | 1 +
+ 2 files changed, 4 insertions(+)
 
 diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-index be7ff1eea0..373fed36b6 100644
+index 373fed36b6..50452f792a 100644
 --- a/hw/riscv/opentitan.c
 +++ b/hw/riscv/opentitan.c
-@@ -29,7 +29,7 @@
- #include "sysemu/sysemu.h"
-=20
- static const MemMapEntry ibex_memmap[] =3D {
--    [IBEX_DEV_ROM] =3D            {  0x00008000,   0x8000 },
-+    [IBEX_DEV_ROM] =3D            {  0x00008000,  0x8000 },
-     [IBEX_DEV_RAM] =3D            {  0x10000000,  0x20000 },
-     [IBEX_DEV_FLASH] =3D          {  0x20000000,  0x100000 },
-     [IBEX_DEV_UART] =3D           {  0x40000000,  0x1000  },
-@@ -38,17 +38,17 @@ static const MemMapEntry ibex_memmap[] =3D {
-     [IBEX_DEV_I2C] =3D            {  0x40080000,  0x1000  },
-     [IBEX_DEV_PATTGEN] =3D        {  0x400e0000,  0x1000  },
-     [IBEX_DEV_TIMER] =3D          {  0x40100000,  0x1000  },
--    [IBEX_DEV_SENSOR_CTRL] =3D    {  0x40110000,  0x1000  },
-     [IBEX_DEV_OTP_CTRL] =3D       {  0x40130000,  0x4000  },
-     [IBEX_DEV_LC_CTRL] =3D        {  0x40140000,  0x1000  },
--    [IBEX_DEV_USBDEV] =3D         {  0x40150000,  0x1000  },
-+    [IBEX_DEV_ALERT_HANDLER] =3D  {  0x40150000,  0x1000  },
-     [IBEX_DEV_SPI_HOST0] =3D      {  0x40300000,  0x1000  },
-     [IBEX_DEV_SPI_HOST1] =3D      {  0x40310000,  0x1000  },
-+    [IBEX_DEV_USBDEV] =3D         {  0x40320000,  0x1000  },
-     [IBEX_DEV_PWRMGR] =3D         {  0x40400000,  0x1000  },
+@@ -48,6 +48,7 @@ static const MemMapEntry ibex_memmap[] =3D {
      [IBEX_DEV_RSTMGR] =3D         {  0x40410000,  0x1000  },
      [IBEX_DEV_CLKMGR] =3D         {  0x40420000,  0x1000  },
      [IBEX_DEV_PINMUX] =3D         {  0x40460000,  0x1000  },
--    [IBEX_DEV_PADCTRL] =3D        {  0x40470000,  0x1000  },
-+    [IBEX_DEV_SENSOR_CTRL] =3D    {  0x40490000,  0x1000  },
++    [IBEX_DEV_AON_TIMER] =3D      {  0x40470000,  0x1000  },
+     [IBEX_DEV_SENSOR_CTRL] =3D    {  0x40490000,  0x1000  },
      [IBEX_DEV_FLASH_CTRL] =3D     {  0x41000000,  0x1000  },
      [IBEX_DEV_AES] =3D            {  0x41100000,  0x1000  },
-     [IBEX_DEV_HMAC] =3D           {  0x41110000,  0x1000  },
-@@ -59,10 +59,9 @@ static const MemMapEntry ibex_memmap[] =3D {
-     [IBEX_DEV_ENTROPY] =3D        {  0x41160000,  0x1000  },
-     [IBEX_DEV_EDNO] =3D           {  0x41170000,  0x1000  },
-     [IBEX_DEV_EDN1] =3D           {  0x41180000,  0x1000  },
--    [IBEX_DEV_ALERT_HANDLER] =3D  {  0x411b0000,  0x1000  },
-     [IBEX_DEV_NMI_GEN] =3D        {  0x411c0000,  0x1000  },
-     [IBEX_DEV_PERI] =3D           {  0x411f0000,  0x10000 },
--    [IBEX_DEV_PLIC] =3D           {  0x48000000,  0x4005000  },
-+    [IBEX_DEV_PLIC] =3D           {  0x48000000,  0x4005000 },
-     [IBEX_DEV_FLASH_VIRTUAL] =3D  {  0x80000000,  0x80000 },
- };
-=20
-@@ -265,8 +264,6 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev=
+@@ -264,6 +265,8 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev=
 _soc, Error **errp)
          memmap[IBEX_DEV_CLKMGR].base, memmap[IBEX_DEV_CLKMGR].size);
      create_unimplemented_device("riscv.lowrisc.ibex.pinmux",
          memmap[IBEX_DEV_PINMUX].base, memmap[IBEX_DEV_PINMUX].size);
--    create_unimplemented_device("riscv.lowrisc.ibex.padctrl",
--        memmap[IBEX_DEV_PADCTRL].base, memmap[IBEX_DEV_PADCTRL].size);
++    create_unimplemented_device("riscv.lowrisc.ibex.aon_timer",
++        memmap[IBEX_DEV_AON_TIMER].base, memmap[IBEX_DEV_AON_TIMER].size=
+);
      create_unimplemented_device("riscv.lowrisc.ibex.usbdev",
          memmap[IBEX_DEV_USBDEV].base, memmap[IBEX_DEV_USBDEV].size);
      create_unimplemented_device("riscv.lowrisc.ibex.flash_ctrl",
 diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
-index 6665cd5794..1fc055cdff 100644
+index 1fc055cdff..7659d1bc5b 100644
 --- a/include/hw/riscv/opentitan.h
 +++ b/include/hw/riscv/opentitan.h
-@@ -81,7 +81,6 @@ enum {
+@@ -81,6 +81,7 @@ enum {
      IBEX_DEV_RSTMGR,
      IBEX_DEV_CLKMGR,
      IBEX_DEV_PINMUX,
--    IBEX_DEV_PADCTRL,
++    IBEX_DEV_AON_TIMER,
      IBEX_DEV_USBDEV,
      IBEX_DEV_FLASH_CTRL,
      IBEX_DEV_PLIC,
-@@ -109,10 +108,10 @@ enum {
-     IBEX_UART0_RX_TIMEOUT_IRQ     =3D 7,
-     IBEX_UART0_RX_PARITY_ERR_IRQ  =3D 8,
-     IBEX_TIMER_TIMEREXPIRED0_0    =3D 127,
--    IBEX_SPI_HOST0_ERR_IRQ        =3D 151,
--    IBEX_SPI_HOST0_SPI_EVENT_IRQ  =3D 152,
--    IBEX_SPI_HOST1_ERR_IRQ        =3D 153,
--    IBEX_SPI_HOST1_SPI_EVENT_IRQ  =3D 154,
-+    IBEX_SPI_HOST0_ERR_IRQ        =3D 134,
-+    IBEX_SPI_HOST0_SPI_EVENT_IRQ  =3D 135,
-+    IBEX_SPI_HOST1_ERR_IRQ        =3D 136,
-+    IBEX_SPI_HOST1_SPI_EVENT_IRQ  =3D 137,
- };
-=20
- #endif
 --=20
 2.37.3
 
