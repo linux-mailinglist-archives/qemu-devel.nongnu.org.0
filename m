@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CD8660CA75
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 12:57:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B51BC60CA7E
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 13:02:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onHZz-0007nk-O9; Tue, 25 Oct 2022 06:54:43 -0400
+	id 1onHb8-0003c8-F5; Tue, 25 Oct 2022 06:55:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1onHZp-0006YT-5r
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 06:54:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1onHb1-0003VI-ON
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 06:55:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1onHZn-0005yg-Gn
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 06:54:32 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1onHay-0006Wz-Pi
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 06:55:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666695269;
+ s=mimecast20190719; t=1666695342;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=K2zfXLXFk2e8p28x8um6eeBSVBVMhs2nk/4C/NGHwyA=;
- b=dlu0PtpTULC2JV5TRt/pwKTNtEEPlk9oFnG6z0lF4T4fU9nnKyAtj2jDpva2pHp5vw6eVd
- ENm9xF2d+2Q8aJuQm3O6Sa8jvI1ssBX+smscalyyZY1VuS4uZLUDB4qnJ3oxlThRtuCwye
- AOZ+VrcaTSLmAtFx0FvcZ3gmbW/adW0=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=EfIbE9oy5Uirbnv8e/Y+kEUsESAdb1TymdYZ7K3dvq4=;
+ b=HWYG7invjFrasLd/zrN63McMCVrdRjdsdXsSApuH3cKhTea5/iRmafh/pX92sI+rQmHFvw
+ tH7AuDYLleXhVEY7Gaf9Oys2az9J0yjtl7GejVMJIYJ+/h1rQ4J0bZgt0R/mFVk9QX8exL
+ 2pSpLQuNwb/AWrXDuXpu5Ao+BuLSGag=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-369-EHqfgFKnMKm22yMce_7KSA-1; Tue, 25 Oct 2022 06:54:28 -0400
-X-MC-Unique: EHqfgFKnMKm22yMce_7KSA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-114-5DdCRbM9Mbi1d7c6FPMm6Q-1; Tue, 25 Oct 2022 06:55:40 -0400
+X-MC-Unique: 5DdCRbM9Mbi1d7c6FPMm6Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AB4FA85A59D;
- Tue, 25 Oct 2022 10:54:27 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5091B10A58CE;
- Tue, 25 Oct 2022 10:54:27 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Gavin Shan <gshan@redhat.com>, qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, maz@kernel.org, eric.auger@redhat.com,
- zhenyzha@redhat.com, richard.henderson@linaro.org,
- peter.maydell@linaro.org, shan.gavin@gmail.com
-Subject: Re: [PATCH v6 7/7] hw/arm/virt: Add properties to disable high
- memory regions
-In-Reply-To: <20221024035416.34068-8-gshan@redhat.com>
-Organization: Red Hat GmbH
-References: <20221024035416.34068-1-gshan@redhat.com>
- <20221024035416.34068-8-gshan@redhat.com>
-User-Agent: Notmuch/0.37 (https://notmuchmail.org)
-Date: Tue, 25 Oct 2022 12:54:25 +0200
-Message-ID: <874jvsfa1q.fsf@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9433B82DFDB
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 10:55:29 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.192.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7EAD840C6EC6;
+ Tue, 25 Oct 2022 10:55:22 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: [PATCH] tests: Create fifo for test-io-channel-command
+Date: Tue, 25 Oct 2022 12:55:20 +0200
+Message-Id: <20221025105520.3016-1-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,66 +76,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Oct 24 2022, Gavin Shan <gshan@redhat.com> wrote:
+Previous commit removed the creation of the fifo.  Without it, I get
+random failure during tests with high load, please consider
+reintroduce it.
 
-> These 3 high memory regions are usually enabled by default, but
+My guess is that there is a race between the two socats when we leave
+them to create the channel, better return to the previous behavior.
 
-s/These 3/The/ ?
+I can't reproduce the problem when I run ./test-io-channel-command
+test alone, I need to do the make check.  And any (unrelated) change
+can make it dissapear.
 
-> they may be not used. For example, VIRT_HIGH_GIC_REDIST2 isn't
-> needed by GICv2. This leads to waste in the PA space.
+commit 76f5148c21b4543e62a6ad605ac4b44133421401
+Author: Marc-André Lureau <marcandre.lureau@redhat.com>
+Date:   Thu Oct 6 15:36:57 2022 +0400
 
-When building the command line, do we have enough information on when
-the regions provide something useful, and when they just waste space?
+    tests/unit: make test-io-channel-command work on win32
 
->
-> Add properties to allow users selectively disable them if needed:
-> "highmem-redists", "highmem-ecam", "highmem-mmio".
->
-> Suggested-by: Marc Zyngier <maz@kernel.org>
-> Signed-off-by: Gavin Shan <gshan@redhat.com>
-> ---
->  docs/system/arm/virt.rst | 12 ++++++++
->  hw/arm/virt.c            | 64 ++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 76 insertions(+)
->
-> diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
-> index 4454706392..a1668a969d 100644
-> --- a/docs/system/arm/virt.rst
-> +++ b/docs/system/arm/virt.rst
-> @@ -98,6 +98,18 @@ compact-highmem
->    Set ``on``/``off`` to enable/disable the compact layout for high memory regions.
->    The default is ``on`` for machine types later than ``virt-7.2``.
->  
-> +highmem-redists
-> +  Set ``on``/``off`` to enable/disable the high memry region for GICv3/4
+    This has been tested under msys2 & windows 11. I haven't tried to make
+    it work with other environments yet, but that should be enough to
+    validate the channel-command implementation anyway.
 
-s/memry/memory/
+    Here are the changes:
+    - drop tests/ from fifo/pipe path, to avoid directory issues
+    - use g_find_program() to lookup the socat executable (otherwise we
+    would need to change ChanneCommand to use G_SPAWN_SEARCH_PATH, and deal
+    with missing socat differently)
+    - skip the "echo" test when socat is missing as well
 
-> +  redistributor. The default is ``on``.
+    Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+    Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+    Message-Id: <20221006113657.2656108-7-marcandre.lureau@redhat.com>
 
-Do we need to add a note about what effects setting this to "off" may
-have, e.g. "Setting this to ``off`` may limit the maximum number of
-cpus." or so? And/or "Setting this to ``off`` when using GICv2 will save
-some space."?
+Failure:
 
-> +
-> +highmem-ecam
-> +  Set ``on``/``off`` to enable/disable the high memry region for PCI ECAM.
+[178/178] 🌓 qemu:unit / test-io-channel-command
+[178/178] 🌔 qemu:unit / test-io-channel-command
+[178/178] 🌕 qemu:unit / test-io-channel-command
+[178/178] 🌖 qemu:unit / test-io-channel-command
+[178/178] 🌗 qemu:unit / test-io-channel-command
+[178/178] 🌘 qemu:unit / test-io-channel-command
+[178/178] 🌑 qemu:unit / test-io-channel-command
+[178/178] 🌒 qemu:unit / test-io-channel-command
+[178/178] 🌓 qemu:unit / test-io-channel-command
+^CWARNING: Received SIGTERM, exiting
+178/178 qemu:unit / test-io-channel-command                                    INTERRUPT      1127.75s   killed by signal 15 SIGTERM
+>>> MALLOC_PERTURB_=149 G_TEST_BUILDDIR=/scratch/qemu/multifd/x64/tests/unit G_TEST_SRCDIR=/mnt/code/qemu/multifd/tests/unit /scratch/qemu/multifd/x64/tests/unit/test-io-channel-command --tap -k
+――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――
+stderr:
+2022/10/25 12:32:48 socat[463140] E mkfifo(test-io-channel-command.fifo, 438): File exists
 
-s/memry/memory/
+TAP parsing error: Too few tests run (expected 4, got 0)
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 
-> +  The default is ``on`` for machine types later than ``virt-3.0``.
-> +
-> +highmem-mmio
-> +  Set ``on``/``off`` to enable/disable the high memry region for PCI MMIO.
+Summary of Failures:
 
-s/memry/memory/
+178/178 qemu:unit / test-io-channel-command                           INTERRUPT      1127.75s   killed by signal 15 SIGTERM
 
-> +  The default is ``on``.
-> +
->  gic-version
->    Specify the version of the Generic Interrupt Controller (GIC) to provide.
->    Valid values are:
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+---
+ tests/unit/test-io-channel-command.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-channel-command.c
+index 7eee939c07..7e75f960f4 100644
+--- a/tests/unit/test-io-channel-command.c
++++ b/tests/unit/test-io-channel-command.c
+@@ -48,6 +48,9 @@ static void test_io_channel_command_fifo(bool async)
+     }
+ 
+     unlink(TEST_FIFO);
++    if (mkfifo(TEST_FIFO, 0600) < 0) {
++        abort();
++    }
+     src = QIO_CHANNEL(qio_channel_command_new_spawn(srcargv,
+                                                     O_WRONLY,
+                                                     &error_abort));
+-- 
+2.37.3
 
 
