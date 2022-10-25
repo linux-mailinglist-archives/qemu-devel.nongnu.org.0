@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 234B260CA24
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 12:32:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1FE060CA21
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 12:32:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onHDo-0006Dl-UK; Tue, 25 Oct 2022 06:31:48 -0400
+	id 1onHDr-0007Mm-2d; Tue, 25 Oct 2022 06:31:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1onHD3-0003h8-Qk
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 06:31:06 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1onHCk-0001Ce-Us
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 06:30:55 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- m6-20020a17090a5a4600b00212f8dffec9so5877583pji.0
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 03:30:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=zGce/iq3cVZdVnhZxpIPrE4njY8J4i3KrDGTHryABAw=;
- b=Zo4qcMVhlMNVUtq35/YtVF5dG6Q76LbeTscVmJh1qf79vVqRNq487NVtDpWu0G3ruO
- vUzs53PFV6ULD98mhLoPwkRIXoBFX1ooEnT/S0Gp9tL+WCvKtZovswIVqlF71G3eKOSg
- uTK29xeCU6Cr1C8AysKKL3cPUUQSJgx6esCJF3cdwRf4nve0hML/FsrlDPoQxSJ43Io7
- H4FB+qmrr130juDT/2oHH7nwgXNWJGGMA9nzwD0G/87Tng5tdcLMDonBAPRxue4Pjpje
- Wwauuy1GtwkqzOGwQ92emD6v9/bjyl4Vv0pERqfH9r7p1fAApbgkHK50zm2r8fRPaHHv
- ctlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zGce/iq3cVZdVnhZxpIPrE4njY8J4i3KrDGTHryABAw=;
- b=Xaf1r0T5MDPLJOAGaQtZC6RdrceMOcLq8oGH5NoHUkxBx7FXZw5LZ2HBTaXMtwWEHJ
- QdBzW/GMvEnjfWcFExjbmIZZ4YCuAHVWJ0ixPJ5Urq88cqImgjdGXSf7QpdX0Qe5amsa
- 4/0nio6/HDZ60XyhbHha6klpS8C0cAb0xhhtHf7qLbp6L/slPBtzXOxn65RDNF+/pA3p
- gGel+/pG8NmQenRHxh0kc+1z/By8scKIOiBA0UUCRh/4GbLMQ8pMF4/HgIwlS9abBwaF
- jIK7F6Y27ggCwPHWgMiQVgr93yrZtu5bOQ12lsReGy790jZhn4pBw8q+nzLYXisjpqdt
- q9Eg==
-X-Gm-Message-State: ACrzQf2JMHyYfaUZVhbgvbGH3mFM/Mn2M0V2WYUXk5dEBuYIsiEkDUXj
- RSRJ9k1VflqKjsnXdD1ecrOw1g==
-X-Google-Smtp-Source: AMsMyM74l+dNrHZ5xI/dqYvpXvQ41XHsjyt8wy8pRS74lgaEYN2T3qkyvtuZmXkAANadr5MU1u3x2A==
-X-Received: by 2002:a17:90a:4607:b0:210:99f9:a915 with SMTP id
- w7-20020a17090a460700b0021099f9a915mr34444310pjg.62.1666693838853; 
- Tue, 25 Oct 2022 03:30:38 -0700 (PDT)
-Received: from [172.31.50.139] ([103.100.225.182])
- by smtp.gmail.com with ESMTPSA id
- z11-20020a630a4b000000b004597e92f99dsm1008338pgk.66.2022.10.25.03.30.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Oct 2022 03:30:38 -0700 (PDT)
-Message-ID: <43a73137-033c-4b20-8a03-3ddb88ed9e16@linaro.org>
-Date: Tue, 25 Oct 2022 20:30:26 +1000
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1onHDB-0003q5-5r
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 06:31:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1onHD4-0001JS-77
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 06:31:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666693861;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=34bxmZJ8Te0DlkWAXV5zPc9nvq5gDe/mlESQQwuecQM=;
+ b=cHGV7IzoO4+/TthCYL1jYK4sf8KqNKzxOLNNcYfiim5EfUcTyivrbu6pfnkg7aCSK7KBq6
+ 6XNmWd87jrRSL0hK5+PwzAL00j1xHqHlCCcrL0DeIpkTuDfDxaRILfc3qd3yU0/ZN3ZebO
+ 0wqgQu0pIkyWaFmui/coY8rA5F44F0A=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-564-pho-LKNYMT2SsZCSVukDMQ-1; Tue, 25 Oct 2022 06:30:58 -0400
+X-MC-Unique: pho-LKNYMT2SsZCSVukDMQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 47547185A7A9;
+ Tue, 25 Oct 2022 10:30:57 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E115810197;
+ Tue, 25 Oct 2022 10:30:56 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Gavin Shan <gshan@redhat.com>, qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, maz@kernel.org, eric.auger@redhat.com,
+ zhenyzha@redhat.com, richard.henderson@linaro.org,
+ peter.maydell@linaro.org, shan.gavin@gmail.com
+Subject: Re: [PATCH v6 6/7] hw/arm/virt: Add 'compact-highmem' property
+In-Reply-To: <20221024035416.34068-7-gshan@redhat.com>
+Organization: Red Hat GmbH
+References: <20221024035416.34068-1-gshan@redhat.com>
+ <20221024035416.34068-7-gshan@redhat.com>
+User-Agent: Notmuch/0.37 (https://notmuchmail.org)
+Date: Tue, 25 Oct 2022 12:30:55 +0200
+Message-ID: <877d0ofb4w.fsf@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] util/log: do not close and reopen log files when flags
- are turned off
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: groug@kaod.org, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20221025092119.236224-1-pbonzini@redhat.com>
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221025092119.236224-1-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,33 +79,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/25/22 19:21, Paolo Bonzini wrote:
-> log_append makes sure that if you turn off the logging (which clears
-> log_flags and makes need_to_open_file false) the old log is not
-> overwritten.  The usecase is that if you remove or move the file
-> QEMU will not keep writing to the old file.  However, this is
-> not always the desited behavior, in particular having log_append==1
-> after changing the file name makes little sense.
-> 
-> When qemu_set_log_internal is called from the logfile monitor
-> command, filename must be non-NULL and therefore changed_name must
-> be true.  Therefore, the only case where the file is closed and
-> need_to_open_file == false is indeed when log_flags becomes
-> zero.  In this case, just flush the file and do not bother
-> closing it, thus faking the same append behavior as previously.
-> 
-> The behavioral change is that changing the logfile twice, for
-> example log1 -> log2 -> log1, will cause log1 to be overwritten.
-> This can simply be documented, since it is not a particularly
-> surprising behavior.
-> 
-> Suggested-by: Alex Bennée<alex.bennee@linaro.org>
-> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
+On Mon, Oct 24 2022, Gavin Shan <gshan@redhat.com> wrote:
+
+> After the improvement to high memory region address assignment is
+> applied, the memory layout can be changed, introducing possible
+> migration breakage. For example, VIRT_HIGH_PCIE_MMIO memory region
+> is disabled or enabled when the optimization is applied or not, with
+> the following configuration. The configuration is only achievable by
+> modifying the source code until more properties are added to allow
+> users selectively disable those high memory regions.
+>
+>   pa_bits              = 40;
+>   vms->highmem_redists = false;
+>   vms->highmem_ecam    = false;
+>   vms->highmem_mmio    = true;
+>
+>   # qemu-system-aarch64 -accel kvm -cpu host    \
+>     -machine virt-7.2,compact-highmem={on, off} \
+>     -m 4G,maxmem=511G -monitor stdio
+>
+>   Region             compact-highmem=off         compact-highmem=on
+>   ----------------------------------------------------------------
+>   MEM                [1GB         512GB]        [1GB         512GB]
+>   HIGH_GIC_REDISTS2  [512GB       512GB+64MB]   [disabled]
+>   HIGH_PCIE_ECAM     [512GB+256MB 512GB+512MB]  [disabled]
+>   HIGH_PCIE_MMIO     [disabled]                 [512GB       1TB]
+>
+> In order to keep backwords compatibility, we need to disable the
+> optimization on machine, which is virt-7.1 or ealier than it. It
+> means the optimization is enabled by default from virt-7.2. Besides,
+> 'compact-highmem' property is added so that the optimization can be
+> explicitly enabled or disabled on all machine types by users.
+>
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+> Tested-by: Zhenyu Zhang <zhenyzha@redhat.com>
 > ---
->   util/log.c | 13 +++++--------
->   1 file changed, 5 insertions(+), 8 deletions(-)
+>  docs/system/arm/virt.rst |  4 ++++
+>  hw/arm/virt.c            | 32 ++++++++++++++++++++++++++++++++
+>  include/hw/arm/virt.h    |  1 +
+>  3 files changed, 37 insertions(+)
+>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+(...)
 
-r~
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 4896f600b4..11b5685432 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -174,6 +174,12 @@ static const MemMapEntry base_memmap[] = {
+>   * Note the extended_memmap is sized so that it eventually also includes the
+>   * base_memmap entries (VIRT_HIGH_GIC_REDIST2 index is greater than the last
+>   * index of base_memmap).
+> + *
+> + * The memory map for these Highmem IO Regions can be in legacy or compact
+> + * layout, depending on 'compact-highmem' property. With legacy layout, the
+> + * PA space for one specific region is always reserved, even the region has
+
+s/even/even if/
+
+> + * been disabled or doesn't fit into the PA space. However, the PA space for
+> + * the region won't be reserved in these circumstances with compact layout.
+>   */
+>  static MemMapEntry extended_memmap[] = {
+>      /* Additional 64 MB redist region (can contain up to 512 redistributors) */
+
 
