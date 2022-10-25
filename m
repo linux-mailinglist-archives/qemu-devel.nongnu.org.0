@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5DEA60CB65
+	by mail.lfdr.de (Postfix) with ESMTPS id DF43B60CB66
 	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 13:58:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onIW6-0000D5-Ae; Tue, 25 Oct 2022 07:54:46 -0400
+	id 1onIX1-0001MM-3P; Tue, 25 Oct 2022 07:55:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1onIW4-0008W2-82
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 07:54:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1onIVq-0001HK-4J
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 07:54:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666698869;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/3rdeu789YwDakQOOWyOWVMnODm6vcMkM0uNurbwK74=;
- b=aZSwJtUiJAZqXL0xPVMNs4L/ZOvZiCG4JUuM0AcKatrkfTNaaX6SayFOwypVxkmfOrcO6J
- Z8Emho/xnUNif4E2QqqijQ+Ad1NFPWR8hL2GPjTcxxZ+usH7Xtc8IJTgIDP/Y2LtN1ToVN
- NywFJ7GvZsKCun72naPfS+KnK5YEAws=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-655-zS73vb6fMsqaowhPHHH-Vg-1; Tue, 25 Oct 2022 07:54:24 -0400
-X-MC-Unique: zS73vb6fMsqaowhPHHH-Vg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 156373814595;
- Tue, 25 Oct 2022 11:54:23 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E5F4210197;
- Tue, 25 Oct 2022 11:54:21 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C6CDC21E6936; Tue, 25 Oct 2022 13:54:20 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>,  qemu-devel@nongnu.org,
- qemu-block@nongnu.org,  qemu-arm@nongnu.org,  "Michael S . Tsirkin"
- <mst@redhat.com>,  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,  Gerd
- Hoffmann <kraxel@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,  Eduardo Habkost
- <eduardo@habkost.net>,  John Snow <jsnow@redhat.com>,  Dmitry Fleytman
- <dmitry.fleytman@gmail.com>,  Jason Wang <jasowang@redhat.com>,  Stefan
- Weil <sw@weilnetz.de>,  Keith Busch <kbusch@kernel.org>,  Klaus Jensen
- <its@irrelevant.dk>,  Peter Maydell <peter.maydell@linaro.org>,  Andrey
- Smirnov <andrew.smirnov@gmail.com>,  Paul Burton <paulburton@kernel.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,  Yan Vugenfirer
- <yan@daynix.com>,  Yuri Benditovich <yuri.benditovich@daynix.com>
-Subject: Re: [PATCH v2 16/17] virtio-pci: Omit errp for pci_add_capability
-References: <20221022044053.81650-1-akihiko.odaki@daynix.com>
- <20221022044053.81650-17-akihiko.odaki@daynix.com>
-Date: Tue, 25 Oct 2022 13:54:20 +0200
-In-Reply-To: <20221022044053.81650-17-akihiko.odaki@daynix.com> (Akihiko
- Odaki's message of "Sat, 22 Oct 2022 13:40:52 +0900")
-Message-ID: <878rl415lf.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1onIWx-0001Je-I0
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 07:55:39 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1onIWv-0001aK-1x
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 07:55:38 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id h14so10657512pjv.4
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 04:55:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=SE8Tw9mMY4292iv11tQjmF5XYTBuieKTjKReF3CTMs0=;
+ b=v9XPvkfJpBFnPEd+VZ5KpwaWK0Aty54T8LzArYioH49h7KFz39ygE5poLzecuCWhiM
+ BalPoX6VH687p9vUGdOUDl7GFyW3DUuYRLSlUEr+osOM9rMeOme2A/Yh2o3DvIz2SJbv
+ zsWtdYYRb2nNGHEyuqhUOljwJHVJnG8ndA0U454i0ITKCaODOyC5yQshfJ6gxHUn7III
+ TBkiv4Z4saduqLmxiIO6QfZWoIKZz7Pk+aMEXtJNjJiFswVfZBfb1yq/yUZTfqsT4D7B
+ u+euq49cNbI6SZ6QfDT/zbE1+Pccm82xV3N9oUB3cKNWrHoQWg8k6sy8ThkE1tC/ynYJ
+ ry9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=SE8Tw9mMY4292iv11tQjmF5XYTBuieKTjKReF3CTMs0=;
+ b=s2/Ghq8AmFOXCG3Er9Pg7yYjIEzkO/ZgXiQDYXJ59gaayFOAUYtbDYjitk/97YHBBW
+ /jrCIEvKM/3HCW5TQFUhX5JJfaUKMHECwHRZ2dXudYqT3S2dLYCJVyU5AiJHTDCqF8nU
+ Q1jyYzjQAhQKJClYO1/BjUUWi+EfWzDsa51D2ZwDb2xEsQNnB1pwQgzDGrGhN1xf0HNY
+ TePyqFyZ51fxWVeKxsQqS6hHV2EuyZlY+6hmqtiXvbMDAZXFrOjeWiBanNNUv2g1viXs
+ V8MNWjuRBukCQYGLkTFmByZUewAnsma0Z/inT/+DSsNps5HTGK17VSJGZj7EMuazsuz0
+ 5tKA==
+X-Gm-Message-State: ACrzQf0QYs776IOYpJzTUzLhv2+NqRF3VLvNEFZTiBdML+XViekOKVgq
+ LbesrtDNaZjqKKeLzNN+Ja+hJxaQwardRd0Rslgz+k5GLRc=
+X-Google-Smtp-Source: AMsMyM7is/OA4QfT93IpYLq1ZF/3rjMupR+jbR+hvJRfJgmUghKWuIZcA2hy1x4onkcfhwKCYbplGco5zl3asNZPsnM=
+X-Received: by 2002:a17:903:4d7:b0:178:8564:f754 with SMTP id
+ jm23-20020a17090304d700b001788564f754mr38408534plb.60.1666698934116; Tue, 25
+ Oct 2022 04:55:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+References: <20221013171817.1447562-1-peter.maydell@linaro.org>
+ <6fa916a8-7415-3398-d213-71bd506d82bb@maciej.szmigiero.name>
+ <b7f64ff2-cf8d-6200-3a8d-eace44c9e07a@maciej.szmigiero.name>
+In-Reply-To: <b7f64ff2-cf8d-6200-3a8d-eace44c9e07a@maciej.szmigiero.name>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 25 Oct 2022 12:55:22 +0100
+Message-ID: <CAFEAcA8Owp6i8Hg96b8UnrKERAEXFh+mvo8rkffzCTR_yQ8=Ww@mail.gmail.com>
+Subject: Re: [PATCH] hw/hyperv/hyperv.c: Use device_cold_reset() instead of
+ device_legacy_reset()
+To: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,49 +85,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Akihiko Odaki <akihiko.odaki@daynix.com> writes:
+On Mon, 17 Oct 2022 at 15:03, Maciej S. Szmigiero
+<mail@maciej.szmigiero.name> wrote:
+>
+> On 13.10.2022 21:39, Maciej S. Szmigiero wrote:
+> > On 13.10.2022 19:18, Peter Maydell wrote:
+> >> The semantic difference between the deprecated device_legacy_reset()
+> >> function and the newer device_cold_reset() function is that the new
+> >> function resets both the device itself and any qbuses it owns,
+> >> whereas the legacy function resets just the device itself and nothing
+> >> else.  In hyperv_synic_reset() we reset a SynICState, which has no
+> >> qbuses, so for this purpose the two functions behave identically and
+> >> we can stop using the deprecated one.
+> >>
+> >> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> >> ---
+> >> NB: tested only with 'make check' and 'make check-avocado', which
+> >> may well not exercise this.
+> >>
+> >
+> > In general the patch LGTM, but I will runtime-test it on Monday
+> > just to be sure.
+> >
+>
+> Tested and works fine on QEMU with SynIC reset fix [1] applied, so:
+> Reviewed-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+Thanks for testing; I'll take this through target-arm.next since
+I'm doing a pullreq anyway, unless somebody would prefer otherwise.
 
-I get "undefined reference to `pci_add_capability'" link errors.  I
-believe that ...
-
-
-[...]
-
-> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> index 51fd106f16..2a5d4b329f 100644
-> --- a/include/hw/pci/pci.h
-> +++ b/include/hw/pci/pci.h
-> @@ -2,7 +2,6 @@
->  #define QEMU_PCI_H
->  
->  #include "exec/memory.h"
-> -#include "qapi/error.h"
->  #include "sysemu/dma.h"
->  
->  /* PCI includes legacy ISA access.  */
-> @@ -391,15 +390,8 @@ void pci_register_vga(PCIDevice *pci_dev, MemoryRegion *mem,
->  void pci_unregister_vga(PCIDevice *pci_dev);
->  pcibus_t pci_get_bar_addr(PCIDevice *pci_dev, int region_num);
->  
-> -int pci_add_capability_legacy(PCIDevice *pdev, uint8_t cap_id,
-> -                              uint8_t offset, uint8_t size,
-> -                              Error **errp);
-> -
-> -#define PCI_ADD_CAPABILITY_VA(pdev, cap_id, offset, size, errp, ...) \
-> -    pci_add_capability_legacy(pdev, cap_id, offset, size, errp)
-> -
-> -#define pci_add_capability(...) \
-> -    PCI_ADD_CAPABILITY_VA(__VA_ARGS__, &error_abort)
-> +uint8_t pci_add_capability(PCIDevice *pdev, uint8_t cap_id,
-> +                           uint8_t offset, uint8_t size);
->  
->  void pci_del_capability(PCIDevice *pci_dev, uint8_t cap_id, uint8_t cap_size);
->  
-
-... this part needs go into the next patch.
-
-[...]
-
+-- PMM
 
