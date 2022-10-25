@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D86AF60D581
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 22:28:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57F9C60D584
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 22:29:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onQTg-0006fM-56; Tue, 25 Oct 2022 16:24:48 -0400
+	id 1onQTj-0006tt-CZ; Tue, 25 Oct 2022 16:24:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1onQTe-0006Td-4V; Tue, 25 Oct 2022 16:24:46 -0400
+ id 1onQTg-0006mX-T1; Tue, 25 Oct 2022 16:24:48 -0400
 Received: from [200.168.210.66] (helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <leandro.lupori@eldorado.org.br>)
- id 1onQTb-0004vc-Jz; Tue, 25 Oct 2022 16:24:44 -0400
+ id 1onQTf-0004vc-51; Tue, 25 Oct 2022 16:24:48 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Tue, 25 Oct 2022 17:24:37 -0300
+ Tue, 25 Oct 2022 17:24:38 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id E2322800048;
- Tue, 25 Oct 2022 17:24:36 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 0EA3B800048;
+ Tue, 25 Oct 2022 17:24:37 -0300 (-03)
 From: Leandro Lupori <leandro.lupori@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
 Cc: richard.henderson@linaro.org, pbonzini@redhat.com, clg@kaod.org,
  danielhb413@gmail.com, david@gibson.dropbear.id.au, groug@kaod.org,
  Leandro Lupori <leandro.lupori@eldorado.org.br>
-Subject: [PATCH v2 2/3] target/ppc: Add new PMC HFLAGS
-Date: Tue, 25 Oct 2022 17:24:23 -0300
-Message-Id: <20221025202424.195984-3-leandro.lupori@eldorado.org.br>
+Subject: [PATCH v2 3/3] target/ppc: Increment PMC5 with inline insns
+Date: Tue, 25 Oct 2022 17:24:24 -0300
+Message-Id: <20221025202424.195984-4-leandro.lupori@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221025202424.195984-1-leandro.lupori@eldorado.org.br>
 References: <20221025202424.195984-1-leandro.lupori@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-OriginalArrivalTime: 25 Oct 2022 20:24:37.0528 (UTC)
- FILETIME=[CDB10180:01D8E8AF]
+X-OriginalArrivalTime: 25 Oct 2022 20:24:38.0606 (UTC)
+ FILETIME=[CE557EE0:01D8E8AF]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=leandro.lupori@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -61,83 +61,216 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add 2 new PMC related HFLAGS:
-- HFLAGS_PMCJCE - value of MMCR0 PMCjCE bit
-- HFLAGS_PMC_OTHER - set if a PMC other than PMC5-6 is enabled
-
-These flags allow further optimization of PMC5 update code, by
-allowing frequently tested conditions to be performed at
-translation time.
+Profiling QEMU during Fedora 35 for PPC64 boot revealed that
+6.39% of total time was being spent in helper_insns_inc(), on a
+POWER9 machine. To avoid calling this helper every time PMCs had
+to be incremented, an inline implementation of PMC5 increment and
+check for overflow was developed. This led to a reduction of
+about 12% in Fedora's boot time.
 
 Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/cpu.h         | 4 +++-
- target/ppc/helper_regs.c | 6 ++++++
- target/ppc/translate.c   | 4 ++++
- 3 files changed, 13 insertions(+), 1 deletion(-)
+ target/ppc/helper.h     |  1 +
+ target/ppc/power8-pmu.c | 74 +++++++++++++++++++++--------------------
+ target/ppc/power8-pmu.h |  3 ++
+ target/ppc/translate.c  | 28 ++++++++++++++--
+ 4 files changed, 67 insertions(+), 39 deletions(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index cca6c4e51c..28b9b8d4e3 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -696,7 +696,9 @@ enum {
-     HFLAGS_PR = 14,  /* MSR_PR */
-     HFLAGS_PMCC0 = 15,  /* MMCR0 PMCC bit 0 */
-     HFLAGS_PMCC1 = 16,  /* MMCR0 PMCC bit 1 */
--    HFLAGS_INSN_CNT = 17, /* PMU instruction count enabled */
-+    HFLAGS_PMCJCE = 17, /* MMCR0 PMCjCE bit */
-+    HFLAGS_PMC_OTHER = 18, /* PMC other than PMC5-6 is enabled */
-+    HFLAGS_INSN_CNT = 19, /* PMU instruction count enabled */
-     HFLAGS_VSX = 23, /* MSR_VSX if cpu has VSX */
-     HFLAGS_VR = 25,  /* MSR_VR if cpu has VRE */
- 
-diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
-index 12235ea2e9..65f5f7b2c0 100644
---- a/target/ppc/helper_regs.c
-+++ b/target/ppc/helper_regs.c
-@@ -109,6 +109,9 @@ static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
-     if (env->spr[SPR_POWER_MMCR0] & MMCR0_PMCC1) {
-         hflags |= 1 << HFLAGS_PMCC1;
-     }
-+    if (env->spr[SPR_POWER_MMCR0] & MMCR0_PMCjCE) {
-+        hflags |= 1 << HFLAGS_PMCJCE;
-+    }
- 
- #ifndef CONFIG_USER_ONLY
-     if (!env->has_hv_mode || (msr & (1ull << MSR_HV))) {
-@@ -119,6 +122,9 @@ static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
-     if (env->pmc_ins_cnt) {
-         hflags |= 1 << HFLAGS_INSN_CNT;
-     }
-+    if (env->pmc_ins_cnt & 0x1e) {
-+        hflags |= 1 << HFLAGS_PMC_OTHER;
-+    }
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 57eee07256..f8cd00c976 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -29,6 +29,7 @@ DEF_HELPER_2(store_mmcr1, void, env, tl)
+ DEF_HELPER_3(store_pmc, void, env, i32, i64)
+ DEF_HELPER_2(read_pmc, tl, env, i32)
+ DEF_HELPER_2(insns_inc, void, env, i32)
++DEF_HELPER_1(handle_pmc5_overflow, void, env)
  #endif
+ DEF_HELPER_1(check_tlb_flush_local, void, env)
+ DEF_HELPER_1(check_tlb_flush_global, void, env)
+diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
+index beeab5c494..1381072b9e 100644
+--- a/target/ppc/power8-pmu.c
++++ b/target/ppc/power8-pmu.c
+@@ -22,8 +22,6 @@
  
-     /*
+ #if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
+ 
+-#define PMC_COUNTER_NEGATIVE_VAL 0x80000000UL
+-
+ static bool pmc_has_overflow_enabled(CPUPPCState *env, int sprn)
+ {
+     if (sprn == SPR_POWER_PMC1) {
+@@ -88,49 +86,47 @@ static bool pmu_increment_insns(CPUPPCState *env, uint32_t num_insns)
+     bool overflow_triggered = false;
+     target_ulong tmp;
+ 
+-    if (unlikely(ins_cnt & 0x1e)) {
+-        if (ins_cnt & (1 << 1)) {
+-            tmp = env->spr[SPR_POWER_PMC1];
+-            tmp += num_insns;
+-            if (tmp >= PMC_COUNTER_NEGATIVE_VAL && (mmcr0 & MMCR0_PMC1CE)) {
+-                tmp = PMC_COUNTER_NEGATIVE_VAL;
+-                overflow_triggered = true;
+-            }
+-            env->spr[SPR_POWER_PMC1] = tmp;
++    if (ins_cnt & (1 << 1)) {
++        tmp = env->spr[SPR_POWER_PMC1];
++        tmp += num_insns;
++        if (tmp >= PMC_COUNTER_NEGATIVE_VAL && (mmcr0 & MMCR0_PMC1CE)) {
++            tmp = PMC_COUNTER_NEGATIVE_VAL;
++            overflow_triggered = true;
+         }
++        env->spr[SPR_POWER_PMC1] = tmp;
++    }
+ 
+-        if (ins_cnt & (1 << 2)) {
+-            tmp = env->spr[SPR_POWER_PMC2];
+-            tmp += num_insns;
+-            if (tmp >= PMC_COUNTER_NEGATIVE_VAL && (mmcr0 & MMCR0_PMCjCE)) {
+-                tmp = PMC_COUNTER_NEGATIVE_VAL;
+-                overflow_triggered = true;
+-            }
+-            env->spr[SPR_POWER_PMC2] = tmp;
++    if (ins_cnt & (1 << 2)) {
++        tmp = env->spr[SPR_POWER_PMC2];
++        tmp += num_insns;
++        if (tmp >= PMC_COUNTER_NEGATIVE_VAL && (mmcr0 & MMCR0_PMCjCE)) {
++            tmp = PMC_COUNTER_NEGATIVE_VAL;
++            overflow_triggered = true;
++        }
++        env->spr[SPR_POWER_PMC2] = tmp;
++    }
++
++    if (ins_cnt & (1 << 3)) {
++        tmp = env->spr[SPR_POWER_PMC3];
++        tmp += num_insns;
++        if (tmp >= PMC_COUNTER_NEGATIVE_VAL && (mmcr0 & MMCR0_PMCjCE)) {
++            tmp = PMC_COUNTER_NEGATIVE_VAL;
++            overflow_triggered = true;
+         }
++        env->spr[SPR_POWER_PMC3] = tmp;
++    }
+ 
+-        if (ins_cnt & (1 << 3)) {
+-            tmp = env->spr[SPR_POWER_PMC3];
++    if (ins_cnt & (1 << 4)) {
++        target_ulong mmcr1 = env->spr[SPR_POWER_MMCR1];
++        int sel = extract64(mmcr1, MMCR1_PMC4EVT_EXTR, MMCR1_EVT_SIZE);
++        if (sel == 0x02 || (env->spr[SPR_CTRL] & CTRL_RUN)) {
++            tmp = env->spr[SPR_POWER_PMC4];
+             tmp += num_insns;
+             if (tmp >= PMC_COUNTER_NEGATIVE_VAL && (mmcr0 & MMCR0_PMCjCE)) {
+                 tmp = PMC_COUNTER_NEGATIVE_VAL;
+                 overflow_triggered = true;
+             }
+-            env->spr[SPR_POWER_PMC3] = tmp;
+-        }
+-
+-        if (ins_cnt & (1 << 4)) {
+-            target_ulong mmcr1 = env->spr[SPR_POWER_MMCR1];
+-            int sel = extract64(mmcr1, MMCR1_PMC4EVT_EXTR, MMCR1_EVT_SIZE);
+-            if (sel == 0x02 || (env->spr[SPR_CTRL] & CTRL_RUN)) {
+-                tmp = env->spr[SPR_POWER_PMC4];
+-                tmp += num_insns;
+-                if (tmp >= PMC_COUNTER_NEGATIVE_VAL && (mmcr0 & MMCR0_PMCjCE)) {
+-                    tmp = PMC_COUNTER_NEGATIVE_VAL;
+-                    overflow_triggered = true;
+-                }
+-                env->spr[SPR_POWER_PMC4] = tmp;
+-            }
++            env->spr[SPR_POWER_PMC4] = tmp;
+         }
+     }
+ 
+@@ -310,6 +306,12 @@ static void fire_PMC_interrupt(PowerPCCPU *cpu)
+     raise_ebb_perfm_exception(env);
+ }
+ 
++void helper_handle_pmc5_overflow(CPUPPCState *env)
++{
++    env->spr[SPR_POWER_PMC5] = PMC_COUNTER_NEGATIVE_VAL;
++    fire_PMC_interrupt(env_archcpu(env));
++}
++
+ /* This helper assumes that the PMC is running. */
+ void helper_insns_inc(CPUPPCState *env, uint32_t num_insns)
+ {
+diff --git a/target/ppc/power8-pmu.h b/target/ppc/power8-pmu.h
+index 9692dd765e..c0093e2219 100644
+--- a/target/ppc/power8-pmu.h
++++ b/target/ppc/power8-pmu.h
+@@ -14,6 +14,9 @@
+ #define POWER8_PMU_H
+ 
+ #if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
++
++#define PMC_COUNTER_NEGATIVE_VAL 0x80000000UL
++
+ void cpu_ppc_pmu_init(CPUPPCState *env);
+ void pmu_update_summaries(CPUPPCState *env);
+ #else
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index e810842925..8fda2cf836 100644
+index 8fda2cf836..5c74684eee 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -177,6 +177,8 @@ struct DisasContext {
-     bool hr;
-     bool mmcr0_pmcc0;
-     bool mmcr0_pmcc1;
-+    bool mmcr0_pmcjce;
-+    bool pmc_other;
-     bool pmu_insn_cnt;
-     ppc_spr_t *spr_cb; /* Needed to check rights for mfspr/mtspr */
-     int singlestep_enabled;
-@@ -7574,6 +7576,8 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->hr = (hflags >> HFLAGS_HR) & 1;
-     ctx->mmcr0_pmcc0 = (hflags >> HFLAGS_PMCC0) & 1;
-     ctx->mmcr0_pmcc1 = (hflags >> HFLAGS_PMCC1) & 1;
-+    ctx->mmcr0_pmcjce = (hflags >> HFLAGS_PMCJCE) & 1;
-+    ctx->pmc_other = (hflags >> HFLAGS_PMC_OTHER) & 1;
-     ctx->pmu_insn_cnt = (hflags >> HFLAGS_INSN_CNT) & 1;
+@@ -36,6 +36,7 @@
+ #include "exec/log.h"
+ #include "qemu/atomic128.h"
+ #include "spr_common.h"
++#include "power8-pmu.h"
  
-     ctx->singlestep_enabled = 0;
+ #include "qemu/qemu-print.h"
+ #include "qapi/error.h"
+@@ -4263,6 +4264,9 @@ static void pmu_count_insns(DisasContext *ctx)
+     }
+ 
+  #if !defined(CONFIG_USER_ONLY)
++    TCGLabel *l;
++    TCGv t0;
++
+     /*
+      * The PMU insns_inc() helper stops the internal PMU timer if a
+      * counter overflows happens. In that case, if the guest is
+@@ -4271,8 +4275,26 @@ static void pmu_count_insns(DisasContext *ctx)
+      */
+     gen_icount_io_start(ctx);
+ 
+-    gen_helper_insns_inc(cpu_env, tcg_constant_i32(ctx->base.num_insns));
+-#else
++    /* Avoid helper calls when only PMC5-6 are enabled. */
++    if (!ctx->pmc_other) {
++        l = gen_new_label();
++        t0 = tcg_temp_new();
++
++        gen_load_spr(t0, SPR_POWER_PMC5);
++        tcg_gen_addi_tl(t0, t0, ctx->base.num_insns);
++        gen_store_spr(SPR_POWER_PMC5, t0);
++        /* Check for overflow, if it's enabled */
++        if (ctx->mmcr0_pmcjce) {
++            tcg_gen_brcondi_tl(TCG_COND_LT, t0, PMC_COUNTER_NEGATIVE_VAL, l);
++            gen_helper_handle_pmc5_overflow(cpu_env);
++        }
++
++        gen_set_label(l);
++        tcg_temp_free(t0);
++    } else {
++        gen_helper_insns_inc(cpu_env, tcg_constant_i32(ctx->base.num_insns));
++    }
++  #else
+     /*
+      * User mode can read (but not write) PMC5 and start/stop
+      * the PMU via MMCR0_FC. In this case just increment
+@@ -4285,7 +4307,7 @@ static void pmu_count_insns(DisasContext *ctx)
+     gen_store_spr(SPR_POWER_PMC5, t0);
+ 
+     tcg_temp_free(t0);
+-#endif /* #if !defined(CONFIG_USER_ONLY) */
++  #endif /* #if !defined(CONFIG_USER_ONLY) */
+ }
+ #else
+ static void pmu_count_insns(DisasContext *ctx)
 -- 
 2.25.1
 
