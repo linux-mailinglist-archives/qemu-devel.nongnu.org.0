@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60CD460C6A4
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 10:39:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DB9060C727
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 11:03:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onFMa-0005C3-SF; Tue, 25 Oct 2022 04:32:44 -0400
+	id 1onFMs-00089v-8G; Tue, 25 Oct 2022 04:33:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1onEUD-0001MZ-NC
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:36:42 -0400
-Received: from mout.kundenserver.de ([212.227.126.131])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1onEXc-0002Yt-DF; Tue, 25 Oct 2022 03:40:06 -0400
+Received: from mout.kundenserver.de ([217.72.192.75])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1onETw-0003Gs-Oc
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:36:33 -0400
-Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1N3KkM-1pD31S2MRG-010IeO; Tue, 25
- Oct 2022 09:36:12 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1onEXY-0003eE-B8; Tue, 25 Oct 2022 03:40:03 -0400
+Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue106
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1M4Ja3-1omxYb1Hmb-000IOi; Tue, 25
+ Oct 2022 09:39:56 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Helge Deller <deller@gmx.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 8/8] linux-user: Add guest memory layout to exception dump
-Date: Tue, 25 Oct 2022 09:36:06 +0200
-Message-Id: <20221025073606.3114355-9-laurent@vivier.eu>
+Cc: qemu-trivial@nongnu.org,
+	Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 00/11] Trivial branch for 7.2 patches
+Date: Tue, 25 Oct 2022 09:39:44 +0200
+Message-Id: <20221025073955.3115315-1-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221025073606.3114355-1-laurent@vivier.eu>
-References: <20221025073606.3114355-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:G9jKMuYoVWoWt2jJqSAba3APw0eXrshayjM7liBGYlBiviBAsGI
- iIFayHDaL0QZydRe+Apu0mApCHQ+FaLUEQ/JA2hC4am6ifU5TZAx9JBZO2eDdqT5uyty1Zn
- cxshEtw38hT/II6D1TFBkQ0m0lPaNj0T4cFWt6CMG+/7LF62jcT37SjmdItL4pKF9WJnZc2
- jUM/hzkNXoS3p+3xR+HHg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:RoO/3xaegsE=:He8PWj8xmEHc7qp8b2Qmt2
- fznUKl4DtxyHd+lbh+VtFUXLz+5Ym1X6xOdUn0VtlQKjCHI0Of7d9madRKP8ceHCe4IkcUgg2
- Qy4Ma+/rfJmzvNNPA6KgFlYTEnUoKNFvXfAVjRbq9O32VFpEuZoh67N3NSqKtisO6mFmLC/L9
- owJnFLqIrVbF1HokKwKFLS1RwTg7uJLmqQI9bRqDkMJfhkAsfrIKx3DScZt+S2R73tmv5wwoL
- rgOBjslhwcoxREC8Zn7/Q9dZWsUCyZtnNuJagb7O6xg5wb/cm2Gk67KsSDN11O2jLvjAhuNuw
- n2s1ShkDLArHj9eZtYel0+6LQhabAsyZDPjotbdrr6sDJwVfCn1Y+4Ry31Jvyn0bqFbSvUp1A
- /ufKBrGYa86Jjs/FkCx55rUjEOMgXlU0KKQsEH3PvzziiQn+K14PAAIwD8+rhmPoyUQRa2kdF
- PKs4iifidVdUUO2m26ZhJF3lkE8z9mrg3moH6cjPlTZPQ7an+151eldQMWcsY74cbYQ1MesER
- mJfGgIK0rPhXysRZm2TT+fHKaxc5qvv0VzkEs2t+eRT1KtsF4uMQ551/CBofby1OSKDT2y2mF
- Hzj5eBvtznPbjPnVnb03TDwCArp6RHto3JnxU13LBFPxGGPGP4JI4+i6UEu1T3RbQs8tpW1cG
- jMJPEnL4XRcdWGxUyQxDJV0bNn0JCppr+k1b//UqRyiVcPfMh+F4PpKnbsOUCpUHF8O3BzmJc
- //3eqxP4UE0iKsvoLM+btY+w9qVKGzuywAUa+9lgSzfpISvrE/VF1WZYqTPJOzX/QSlrYk01E
- zAYELWA
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:LU/VIbVlg6HwwffNb6E60bUYDAG/nl/ZOEHYnGSXwItQAdjMLfm
+ +MdM1rIpTFhjPAHmcoS02fZRrnqzvNlqGwGVNSg80x8O+v+QmkH4AUDPjhGYb0VzmIijJPs
+ qgCF0d8IQP1jBGqGUBaU3iE3DgjHHgXPUGtrASh2EmGuRCHtGQj3qbHdYNm6QQ4vx9+qYGy
+ zLBm8DQaXN02mHmQ/+oYA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:nexSQETKBAY=:Hj8wtXHf3ZE/i2sSPDgRT3
+ Gmw/zoVG6chVAtDWy4+IWjTcfeRvCQAV3CjkJGa8nxLuNtbsklSEP1FAQCA0OLetRDcXOgP6I
+ z6taxYuT73CMhXUDiXyVwIUwVwmkIrvmN9QxrzUsyslV/EBlDg0nLhfFCf94Zlse2yqvDbMiY
+ r/WOPH/3utkomVHqoUBl74pVXWz+lSwouliFfBvlg0wyPyrSzbFShDzlKaAZmdz7bIjZs8JBr
+ y8qZAK4nK5VBY5l+s/TZPplQIBCJYiQ6c41QF62AN5lQuCN6TZS6uABOJMoXWKzaHDBhYZhdQ
+ PHyzgv912Ufeb2PBUIRf2aXmrdMlc5nSMq8sJdLEifrkQhyjdtYm/3UvxYN+7E1EhYF45ou/c
+ /uWrHuOJu3r8FQDOg3Iy5ZK35Lm6nb0vnNQ56/6nXJQBA4KcIZ88IIrbws7uXNiRjKEi8ioWj
+ tNmH6Eu2HgeR1zULH8ueB11rn5k+XpLfCLYaV009tEOL+yuJgIgiOlhfz7lUDw3hAcZwl+wND
+ ZewnPIwpwInIWojdd9D36nPHCpcCbJQIzhg3S4WU/RTsQu4Dgttg9+zSrPajAAiwQkcZNsr3e
+ H7RR+wi2udXjyajVtVc27mcPh/ENG91f2VaH+7QN/jj2SI9AqzK975iR/scAE54vaY0Zg8j76
+ xo6LbMsGJoX9MVV9hu5Cur4YpBNJjF9IAoBI1yRFoCqv0r5r6hY9WiG/OROR3UFcAvXUI2Hwn
+ fhDHVLQaGmC0WWwbF8m9EtAvN31p999Wlw4DVYyler1gl0PVXoectsCBFeMUpgGDEd+EnaRWO
+ m0SMiX5
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,132 +70,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Helge Deller <deller@gmx.de>
+The following changes since commit 0529245488865038344d64fff7ee05864d3d17f6:
 
-When the emulation stops with a hard exception it's very useful for
-debugging purposes to dump the current guest memory layout (for an
-example see /proc/self/maps) beside the CPU registers.
+  Merge tag 'pull-target-arm-20221020' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-10-20 14:36:12 -0400)
 
-The open_self_maps() function provides such a memory dump, but since
-it's located in the syscall.c file, various changes (add #includes, make
-this function externally visible, ...) are needed to be able to call it
-from the existing EXCP_DUMP() macro.
+are available in the Git repository at:
 
-This patch takes another approach by re-defining EXCP_DUMP() to call
-target_exception_dump(), which is in syscall.c, consolidates the log
-print functions and allows to add the call to dump the memory layout.
+  https://gitlab.com/laurent_vivier/qemu.git tags/trivial-branch-for-7.2-pull-request
 
-Beside a reduced code footprint, this approach keeps the changes across
-the various callers minimal, and keeps EXCP_DUMP() highlighted as
-important macro/function.
+for you to fetch changes up to 046ab3b80891f4aa6d0cfd7db15c622b1933e598:
 
-Signed-off-by: Helge Deller <deller@gmx.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <Y1bzAWbw07WBKPxw@p100>
-[lv: remove pc declaration and setting]
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/cpu_loop-common.h | 15 +++------------
- linux-user/i386/cpu_loop.c   |  6 ++----
- linux-user/syscall.c         | 28 ++++++++++++++++++++++++++++
- 3 files changed, 33 insertions(+), 16 deletions(-)
+  accel/tcg/tcg-accel-ops-rr: fix trivial typo (2022-10-24 13:43:42 +0200)
 
-diff --git a/linux-user/cpu_loop-common.h b/linux-user/cpu_loop-common.h
-index 36ff5b14f2a7..e644d2ef9096 100644
---- a/linux-user/cpu_loop-common.h
-+++ b/linux-user/cpu_loop-common.h
-@@ -23,18 +23,9 @@
- #include "exec/log.h"
- #include "special-errno.h"
- 
--#define EXCP_DUMP(env, fmt, ...)                                        \
--do {                                                                    \
--    CPUState *cs = env_cpu(env);                                        \
--    fprintf(stderr, fmt , ## __VA_ARGS__);                              \
--    fprintf(stderr, "Failing executable: %s\n", exec_path);             \
--    cpu_dump_state(cs, stderr, 0);                                      \
--    if (qemu_log_separate()) {                                          \
--        qemu_log(fmt, ## __VA_ARGS__);                                  \
--        qemu_log("Failing executable: %s\n", exec_path);                \
--        log_cpu_state(cs, 0);                                           \
--    }                                                                   \
--} while (0)
-+void target_exception_dump(CPUArchState *env, const char *fmt, int code);
-+#define EXCP_DUMP(env, fmt, code) \
-+    target_exception_dump(env, fmt, code)
- 
- void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs);
- #endif
-diff --git a/linux-user/i386/cpu_loop.c b/linux-user/i386/cpu_loop.c
-index 42837399bcae..865413c08f07 100644
---- a/linux-user/i386/cpu_loop.c
-+++ b/linux-user/i386/cpu_loop.c
-@@ -201,7 +201,6 @@ void cpu_loop(CPUX86State *env)
- {
-     CPUState *cs = env_cpu(env);
-     int trapnr;
--    abi_ulong pc;
-     abi_ulong ret;
- 
-     for(;;) {
-@@ -307,9 +306,8 @@ void cpu_loop(CPUX86State *env)
-             cpu_exec_step_atomic(cs);
-             break;
-         default:
--            pc = env->segs[R_CS].base + env->eip;
--            EXCP_DUMP(env, "qemu: 0x%08lx: unhandled CPU exception 0x%x - aborting\n",
--                      (long)pc, trapnr);
-+            EXCP_DUMP(env, "qemu: unhandled CPU exception 0x%x - aborting\n",
-+                      trapnr);
-             abort();
-         }
-         process_pending_signals(env);
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index e985ad167f21..8402c1399d3c 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -183,6 +183,7 @@ struct file_clone_range {
- #include "qapi/error.h"
- #include "fd-trans.h"
- #include "tcg/tcg.h"
-+#include "cpu_loop-common.h"
- 
- #ifndef CLONE_IO
- #define CLONE_IO                0x80000000      /* Clone io context */
-@@ -8169,6 +8170,33 @@ static int is_proc_myself(const char *filename, const char *entry)
-     return 0;
- }
- 
-+static void excp_dump_file(FILE *logfile, CPUArchState *env,
-+                      const char *fmt, int code)
-+{
-+    if (logfile) {
-+        CPUState *cs = env_cpu(env);
-+
-+        fprintf(logfile, fmt, code);
-+        fprintf(logfile, "Failing executable: %s\n", exec_path);
-+        cpu_dump_state(cs, logfile, 0);
-+        open_self_maps(env, fileno(logfile));
-+    }
-+}
-+
-+void target_exception_dump(CPUArchState *env, const char *fmt, int code)
-+{
-+    /* dump to console */
-+    excp_dump_file(stderr, env, fmt, code);
-+
-+    /* dump to log file */
-+    if (qemu_log_separate()) {
-+        FILE *logfile = qemu_log_trylock();
-+
-+        excp_dump_file(logfile, env, fmt, code);
-+        qemu_log_unlock(logfile);
-+    }
-+}
-+
- #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN || \
-     defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
- static int is_proc(const char *filename, const char *entry)
+----------------------------------------------------------------
+Trivial branch pull request 20221025
+
+----------------------------------------------------------------
+
+Bin Meng (3):
+  tests/qtest: migration-test: Fix [-Werror=format-overflow=] build
+    warning
+  tests/qtest: vhost-user-test: Fix [-Werror=format-overflow=] build
+    warning
+  treewide: Remove the unnecessary space before semicolon
+
+Markus Armbruster (2):
+  hw/core: Tidy up unnecessary casting away of const
+  Drop useless casts from g_malloc() & friends to pointer
+
+Matheus Tavares Bernardino (1):
+  accel/tcg/tcg-accel-ops-rr: fix trivial typo
+
+Peter Maydell (1):
+  include/hw/scsi/scsi.h: Remove unused scsi_legacy_handle_cmdline()
+    prototype
+
+Volker Rümelin (1):
+  ui: remove useless typecasts
+
+Wang, Lei (1):
+  .gitignore: add multiple items to .gitignore
+
+dinglimin (1):
+  vmstate-static-checker:remove this redundant return
+
+lu zhipeng (1):
+  elf2dmp: free memory in failure
+
+ .gitignore                        | 3 +++
+ accel/tcg/tcg-accel-ops-rr.c      | 2 +-
+ contrib/elf2dmp/main.c            | 1 +
+ hw/9pfs/9p.c                      | 2 +-
+ hw/arm/nseries.c                  | 4 ++--
+ hw/char/exynos4210_uart.c         | 2 +-
+ hw/core/sysbus-fdt.c              | 5 +++--
+ hw/display/blizzard.c             | 2 +-
+ hw/dma/pl330.c                    | 2 +-
+ hw/misc/cbus.c                    | 6 +++---
+ hw/net/can/can_sja1000.c          | 2 +-
+ hw/nvram/eeprom93xx.c             | 2 +-
+ hw/timer/renesas_cmt.c            | 2 +-
+ hw/timer/renesas_tmr.c            | 8 ++++----
+ hw/usb/ccid-card-emulated.c       | 2 +-
+ hw/virtio/virtio-pci.c            | 2 +-
+ include/hw/elf_ops.h              | 2 +-
+ include/hw/scsi/scsi.h            | 1 -
+ scripts/vmstate-static-checker.py | 1 -
+ target/i386/kvm/kvm.c             | 3 +--
+ target/i386/whpx/whpx-all.c       | 5 ++---
+ target/riscv/vector_helper.c      | 2 +-
+ target/rx/op_helper.c             | 4 ++--
+ target/s390x/kvm/kvm.c            | 2 +-
+ tests/qtest/migration-test.c      | 4 ++--
+ tests/qtest/vhost-user-test.c     | 4 ++--
+ ui/console.c                      | 2 +-
+ ui/gtk.c                          | 2 +-
+ ui/vnc-enc-hextile.c              | 4 ++--
+ ui/vnc-jobs.c                     | 2 +-
+ ui/vnc.c                          | 2 +-
+ 31 files changed, 44 insertions(+), 43 deletions(-)
+
 -- 
 2.37.3
 
