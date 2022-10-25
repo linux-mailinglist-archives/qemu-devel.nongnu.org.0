@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9445860C695
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 10:35:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 724D760C6B1
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 10:41:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onFMW-0004LD-DC; Tue, 25 Oct 2022 04:32:40 -0400
+	id 1onFMT-0003bD-JA; Tue, 25 Oct 2022 04:32:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1onEU5-0001L5-3W
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:36:30 -0400
-Received: from mout.kundenserver.de ([212.227.126.131])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1onETw-0003Gt-Or
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1onETz-0001JO-5S
  for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:36:24 -0400
+Received: from mout.kundenserver.de ([212.227.126.133])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1onETw-0003Gx-PT
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 03:36:18 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MLRDv-1oUsW00Gzz-00ITZZ; Tue, 25
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MLAF0-1oV9dB2Cjy-00ICSO; Tue, 25
  Oct 2022 09:36:11 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 5/8] linux-user: add more compat ioctl definitions
-Date: Tue, 25 Oct 2022 09:36:03 +0200
-Message-Id: <20221025073606.3114355-6-laurent@vivier.eu>
+Subject: [PULL 6/8] linux-user: remove conditionals for many fs.h ioctls
+Date: Tue, 25 Oct 2022 09:36:04 +0200
+Message-Id: <20221025073606.3114355-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221025073606.3114355-1-laurent@vivier.eu>
 References: <20221025073606.3114355-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:U03RBkbM0HhcdIqqQzHoBpd+sAwSy2RCFZT35yev4XV941zUn8i
- wNUGukZ2K7HLmmedZLeKu0gwaeI9wP1LO+YaC4JUGKvrkhRxZQQ4LDiryftyS7nd2GxQIH3
- w/gc6RQzlmsC7rjAgIvX6hOOHryaDPu3cetcZ5oB0ZmHhPJpuxhVwYZWkNzZf+vESi1JoZi
- u4Irp+vc9ooBBFXQ54vSg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gq0JphV1rOU=:hVi9N1fjUkSDaUYvUf1DaE
- aacyLBH7g80UJAg0OHoKrWBQu4Dpi+BR9iHcskq24Y5xBLx/x2x9DTXYLJYnEZeeHlbuo0wgz
- GiRBtb3EFk3VKjOOtvc4RTNjcDe98fR4Z8Yj0hKQUTg3NIs0r4O6XMSLFGMkhlM+V+lYmEnEb
- sXlHEqalodt0X97bBuCjUeH8I28N4I2g01F4Oba3CzzD3W+vOwjmyn3N2RQqzq3ZjeUiFTCm+
- 9r4lTt2JTy4xTurAZN+kt2gI3USKH7TzofVbHWzUhgpkdjQBY92X9SwuaKkWCIIb3OHh83n+J
- KqMDsEn1sHiVbGoRGu6yhZXTb4LZMimw6rpvf0qTaEXTbpUteg3ETOMly+kGzMXIDY48B1sQM
- 64fBt8QnPJ/ceaACLMKFmVnHlUANPfgU30VdJx7i0p/Pbs8niQlk+uqrl44pz6WaMpclVYE5f
- N9CYNUKC/MIDAULrzZk2DuXYzT6+3kKZl+D7kX3nfEy6Nk0WCGX22g1jdD+gBjgglSYrTNfO3
- cn1NUEeTO+ATJ3UYsA27qbHtCHBD3jbPqpf4PzcLNwaDe0aGuBcg0xAhWYGIORW6sdusLjR+s
- e4KDHdQT6Z9eGn04gLaQnxnL80A04xBVjyIUNYMKABLY4E9Clcdd7RQ15Kcu8TTGZn+/3D617
- atPXfrswC5KgaA7Z5OqYG23PAMPeSRjpS3owK2DTC44+QCXKH6Wv4nXhrA94f3REaKEAM25Dh
- VvODytla/S1BYv1hDI0C173W0cWIK1/VY7q+eMqDNs96jy0OBnQpwWLfFXtnqebnoYpzyxalm
- hue2lVq
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:1p8GCLFQVIWBjHEWTGWIcGZOI9FslGEHLLfcknTtckVTz0uFXRw
+ UM/7k4JNOwmCGqOSosnqbb/8BL91DEKV8xqSM8Z+069ckz4J57njjh+QluxG1APJ2/wtvnA
+ Lnjzm5xFPpOjg5OKJzw6jNxt3tQfTGafDLPV3OzEnHTAdc1KD1XXsSL5Xv/x2ssUdQY1Nik
+ 4NILndIkny0/HdGkcuNtA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ykZfpIo+SZM=:CEqTtFuPbn8vlGBqttEwrc
+ c94stDNC78GDvxgt0ZwARqV3NGKCZZgHeta/43RJjHvXIOteZVEFfLyj5gjd9C00G87rcTGb1
+ iGNAIRLU5WAjWYGAF8s8gjEfaWuGtNmjSuaBNM8ZYZxfwCusr73kg6ewK/rQo/LSYut2pg+A8
+ olOnw57q8SCH/u/qIgl42jeKBJ4jtYg8oMPUwbWQ30FMibuL3eq+67gxTzizzQe2NwiTq4TUE
+ EcSrmsIy3/RGYbrJDRyvogeG6t+UkqoV+9BzsteIOWJJt5qPQjalcmHwmvOilhFk/rZNnQ0ZC
+ 1hDxqvj6Ue47ZfXV30iwRgW1aTJ0y1xHrLrw0LgetVITGO9emKLJcxpC9auiI7/GaE6wleQ2z
+ 9+3HG5Sn+JL9mtXYd9IqqEelLvKUur10W0yaHvDVoYyYoEoY+yJpDgnx+QCmcerLJzcEs+gUU
+ eByNpbQGgH8y340H1gtCQNIS4bA4EJdV1q9abqlMCP/AeVieQ7zYNAlW1wazRV1D8AzLMZxAT
+ RvcaBvuSbGk+IBNIRJMA1ARAb6/uZwZ7ily+3dmYgTLv3n814xCRS6VT5to0v38Dwo15b7Mkh
+ 4gejpwDyrgHsvCbK6pxMu6/KHAiGLZa57Tdr7ncTA7nWUgqs33b4EVXGHuxw8tgfsGvKW4ItZ
+ j69YF+c69EpgwhaO5t4Yr2+VnXXUE1yU50vO7fcCbEkbldYQGfDHptNNuILpUOnEmg0W4+3g2
+ vap3CCukkn5CYMlDx0tzdTjPVJaono206xoLOUg/y035Bp+pT/5tR3tyPQ/fVdls93qwa/ikw
+ TPONPUc
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -74,64 +74,99 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-GLibc changes prevent us from including linux/fs.h anymore,
-and we previously adjusted to this in
+These ioctls have been defined in linux/fs.h for a long time
 
-  commit 3cd3df2a9584e6f753bb62a0028bd67124ab5532
-  Author: Daniel P. Berrangé <berrange@redhat.com>
-  Date:   Tue Aug 2 12:41:34 2022 -0400
+  * BLKGETSIZE64 - <2.6.12 (linux.git epoch)
+  * BLKDISCARD - 2.6.28 (d30a2605be9d5132d95944916e8f578fcfe4f976)
+  * BLKIOMIN - 2.6.32 (ac481c20ef8f6c6f2be75d581863f40c43874ef7)
+  * BLKIOOPT - 2.6.32 (ac481c20ef8f6c6f2be75d581863f40c43874ef7)
+  * BLKALIGNOFF - 2.6.32 (ac481c20ef8f6c6f2be75d581863f40c43874ef7)
+  * BLKPBSZGET - 2.6.32 (ac481c20ef8f6c6f2be75d581863f40c43874ef7)
+  * BLKDISCARDZEROES - 2.6.32 (98262f2762f0067375f83824d81ea929e37e6bfe)
+  * BLKSECDISCARD - 2.6.36 (8d57a98ccd0b4489003473979da8f5a1363ba7a3)
+  * BLKROTATIONAL - 3.2 (ef00f59c95fe6e002e7c6e3663cdea65e253f4cc)
+  * BLKZEROOUT - 3.6 (66ba32dc167202c3cf8c86806581a9393ec7f488)
+  * FIBMAP - <2.6.12 (linux.git epoch)
+  * FIGETBSZ - <2.6.12 (linux.git epoch)
 
-    linux-user: fix compat with glibc >= 2.36 sys/mount.h
-
-That change required adding compat ioctl definitions on the
-QEMU side for any ioctls that we would otherwise obtain
-from linux/fs.h.  This commit adds more that were initially
-missed, due to their usage being conditionalized in QEMU.
+and when building with latest glibc, we'll see compat definitions
+in syscall.c anyway thanks to the previous patch. Thus we can
+assume they always exist and remove the conditional checks.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20221004093206.652431-2-berrange@redhat.com>
+Message-Id: <20221004093206.652431-3-berrange@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ linux-user/ioctls.h | 24 ------------------------
+ 1 file changed, 24 deletions(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 665db67c0598..d499cac1d5d1 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -111,6 +111,31 @@
- #define FS_IOC32_SETFLAGS              _IOW('f', 2, int)
- #define FS_IOC32_GETVERSION            _IOR('v', 1, int)
- #define FS_IOC32_SETVERSION            _IOW('v', 2, int)
-+
-+#define BLKGETSIZE64 _IOR(0x12,114,size_t)
-+#define BLKDISCARD _IO(0x12,119)
-+#define BLKIOMIN _IO(0x12,120)
-+#define BLKIOOPT _IO(0x12,121)
-+#define BLKALIGNOFF _IO(0x12,122)
-+#define BLKPBSZGET _IO(0x12,123)
-+#define BLKDISCARDZEROES _IO(0x12,124)
-+#define BLKSECDISCARD _IO(0x12,125)
-+#define BLKROTATIONAL _IO(0x12,126)
-+#define BLKZEROOUT _IO(0x12,127)
-+
-+#define FIBMAP     _IO(0x00,1)
-+#define FIGETBSZ   _IO(0x00,2)
-+
-+struct file_clone_range {
-+        __s64 src_fd;
-+        __u64 src_offset;
-+        __u64 src_length;
-+        __u64 dest_offset;
-+};
-+
-+#define FICLONE         _IOW(0x94, 9, int)
-+#define FICLONERANGE    _IOW(0x94, 13, struct file_clone_range)
-+
- #else
- #include <linux/fs.h>
+diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
+index f182d40190ed..071f7ca25375 100644
+--- a/linux-user/ioctls.h
++++ b/linux-user/ioctls.h
+@@ -96,9 +96,7 @@
+      IOCTL(BLKROGET, IOC_R, MK_PTR(TYPE_INT))
+      IOCTL(BLKRRPART, 0, TYPE_NULL)
+      IOCTL(BLKGETSIZE, IOC_R, MK_PTR(TYPE_ULONG))
+-#ifdef BLKGETSIZE64
+      IOCTL(BLKGETSIZE64, IOC_R, MK_PTR(TYPE_ULONGLONG))
+-#endif
+      IOCTL(BLKFLSBUF, 0, TYPE_NULL)
+      IOCTL(BLKRASET, 0, TYPE_INT)
+      IOCTL(BLKRAGET, IOC_R, MK_PTR(TYPE_LONG))
+@@ -107,33 +105,15 @@
+      IOCTL_SPECIAL(BLKPG, IOC_W, do_ioctl_blkpg,
+                    MK_PTR(MK_STRUCT(STRUCT_blkpg_ioctl_arg)))
+ 
+-#ifdef BLKDISCARD
+      IOCTL(BLKDISCARD, IOC_W, MK_PTR(MK_ARRAY(TYPE_ULONGLONG, 2)))
+-#endif
+-#ifdef BLKIOMIN
+      IOCTL(BLKIOMIN, IOC_R, MK_PTR(TYPE_INT))
+-#endif
+-#ifdef BLKIOOPT
+      IOCTL(BLKIOOPT, IOC_R, MK_PTR(TYPE_INT))
+-#endif
+-#ifdef BLKALIGNOFF
+      IOCTL(BLKALIGNOFF, IOC_R, MK_PTR(TYPE_INT))
+-#endif
+-#ifdef BLKPBSZGET
+      IOCTL(BLKPBSZGET, IOC_R, MK_PTR(TYPE_INT))
+-#endif
+-#ifdef BLKDISCARDZEROES
+      IOCTL(BLKDISCARDZEROES, IOC_R, MK_PTR(TYPE_INT))
+-#endif
+-#ifdef BLKSECDISCARD
+      IOCTL(BLKSECDISCARD, IOC_W, MK_PTR(MK_ARRAY(TYPE_ULONGLONG, 2)))
+-#endif
+-#ifdef BLKROTATIONAL
+      IOCTL(BLKROTATIONAL, IOC_R, MK_PTR(TYPE_SHORT))
+-#endif
+-#ifdef BLKZEROOUT
+      IOCTL(BLKZEROOUT, IOC_W, MK_PTR(MK_ARRAY(TYPE_ULONGLONG, 2)))
+-#endif
+ 
+      IOCTL(FDMSGON, 0, TYPE_NULL)
+      IOCTL(FDMSGOFF, 0, TYPE_NULL)
+@@ -149,17 +129,13 @@
+      IOCTL(FDTWADDLE, 0, TYPE_NULL)
+      IOCTL(FDEJECT, 0, TYPE_NULL)
+ 
+-#ifdef FIBMAP
+      IOCTL(FIBMAP, IOC_W | IOC_R, MK_PTR(TYPE_LONG))
+-#endif
+ #ifdef FICLONE
+      IOCTL(FICLONE, IOC_W, TYPE_INT)
+      IOCTL(FICLONERANGE, IOC_W, MK_PTR(MK_STRUCT(STRUCT_file_clone_range)))
  #endif
+ 
+-#ifdef FIGETBSZ
+      IOCTL(FIGETBSZ, IOC_R, MK_PTR(TYPE_LONG))
+-#endif
+ #ifdef CONFIG_FIEMAP
+      IOCTL_SPECIAL(FS_IOC_FIEMAP, IOC_W | IOC_R, do_ioctl_fs_ioc_fiemap,
+                    MK_PTR(MK_STRUCT(STRUCT_fiemap)))
 -- 
 2.37.3
 
