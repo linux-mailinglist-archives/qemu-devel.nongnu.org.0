@@ -2,62 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A7F660C025
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 02:51:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B85CE60C043
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 02:58:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1on83N-0004yP-3v; Mon, 24 Oct 2022 20:44:25 -0400
+	id 1on8FR-0007uu-Ei; Mon, 24 Oct 2022 20:56:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=a4uw=22=zx2c4.com=Jason@kernel.org>)
- id 1on83L-0004xx-2R
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 20:44:23 -0400
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+ id 1on8FM-0007u6-OY
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 20:56:48 -0400
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=a4uw=22=zx2c4.com=Jason@kernel.org>)
- id 1on83H-0005IX-Qu
- for qemu-devel@nongnu.org; Mon, 24 Oct 2022 20:44:22 -0400
+ id 1on8FK-0007Nm-IA
+ for qemu-devel@nongnu.org; Mon, 24 Oct 2022 20:56:48 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E2235616D5;
- Tue, 25 Oct 2022 00:44:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A8DFC433D6;
- Tue, 25 Oct 2022 00:44:17 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 67D71B810B2
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 00:56:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA792C433C1
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 00:56:42 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
  dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="Vh2qZ0e7"
+ header.b="B16NsPQ3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1666658655;
+ t=1666659399;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=F5e4XKRRUsbA42Uj4xQzXOtzJtgRZcaiKVrqwgHgg5g=;
- b=Vh2qZ0e72kVgiSk6ysZsrZCzv9wF7DKHupGJf5OOHcAxHsq1j0B4Gw6aPGRSVqIzEu0cnU
- yLs3k46Ap/bSCPEUlDC2tlj/EdkJgFUrbZjvStB4zhlOn/cSEOK6VZ3yErheyiI4yZbqpL
- VQPLJjjBE6OZbRegxWAc5U49fBjcyq4=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 3bc31a94
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Tue, 25 Oct 2022 00:44:15 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: peter.maydell@linaro.org, pbonzini@redhat.com, qemu-devel@nongnu.org,
- richard.henderson@linaro.org
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>
-Subject: [PATCH v4 11/11] rx: re-randomize rng-seed on reboot
-Date: Tue, 25 Oct 2022 02:43:27 +0200
-Message-Id: <20221025004327.568476-12-Jason@zx2c4.com>
-In-Reply-To: <20221025004327.568476-1-Jason@zx2c4.com>
-References: <20221025004327.568476-1-Jason@zx2c4.com>
+ bh=gpCqHnjAPsoHreUJpgSVFD2fD+Nh/VvQNZU4aLFHHmQ=;
+ b=B16NsPQ34ooTNmH/2jJqHe8yt4TsjrRiyZVYWvKKRiH7e4iBN/INjNuv8V7sO2MaF/Wm32
+ aLFzla80vAsW4KutDJ0EFbHqCjHpETVInXDNxsGMKsu09Pup8kNBM8R4Hxc9QSA/3Pgjt/
+ viF0oadjZ5MepRziNfAfp3yv1yVDvEM=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 42d127e4
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO) for <qemu-devel@nongnu.org>;
+ Tue, 25 Oct 2022 00:56:39 +0000 (UTC)
+Received: by mail-vs1-f54.google.com with SMTP id 128so9532548vsz.12
+ for <qemu-devel@nongnu.org>; Mon, 24 Oct 2022 17:56:39 -0700 (PDT)
+X-Gm-Message-State: ACrzQf3TctNSQoWKTHl1x2Le6DmbC+aGHoiRoZccIUZdQMZ8sWKAsv3v
+ 6x6Des9W0Ed4twAObnRztxTZA4hC4ZYNLBUnhhE=
+X-Google-Smtp-Source: AMsMyM7KivtzRbWzZ9JA7657DKvtP/C5/Tqbspp4EVc1tj+/WfPms/+7Xysk846QIx6/E34UlJirnv0FKizRT5DfvNw=
+X-Received: by 2002:a67:c290:0:b0:3aa:123a:6e31 with SMTP id
+ k16-20020a67c290000000b003aa123a6e31mr6782835vsj.76.1666659398435; Mon, 24
+ Oct 2022 17:56:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+References: <20221014021653.1461512-1-Jason@zx2c4.com>
+ <20221014021653.1461512-2-Jason@zx2c4.com>
+ <CAFEAcA8jra50q_DvNTGG8Wi+eF+PEKPHnfLNBhUjG9muqiPe0A@mail.gmail.com>
+ <87sfjdqubj.fsf@pond.sub.org>
+ <CAFEAcA-TT_zRZQ076k6thP2ANk07EqMg8u7MP_6j24u2CCiEGA@mail.gmail.com>
+ <8735bd8ikk.fsf@pond.sub.org>
+ <CAFEAcA-xbu_nPFSg8K04nXgHGk3xm0HNRwGeGFgPNmoP3Ay_Fw@mail.gmail.com>
+ <871qqx6ryw.fsf@pond.sub.org>
+In-Reply-To: <871qqx6ryw.fsf@pond.sub.org>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Tue, 25 Oct 2022 02:56:27 +0200
+X-Gmail-Original-Message-ID: <CAHmME9oYgdoB5Sv6zFz4N=rHkKuv6ip5PK3qmBDm=VKhebEqUw@mail.gmail.com>
+Message-ID: <CAHmME9oYgdoB5Sv6zFz4N=rHkKuv6ip5PK3qmBDm=VKhebEqUw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/8] reset: allow registering handlers that aren't
+ called by snapshot loading
+To: Markus Armbruster <armbru@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, pbonzini@redhat.com,
+ qemu-devel@nongnu.org, richard.henderson@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
  envelope-from=SRS0=a4uw=22=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
+ helo=ams.source.kernel.org
 X-Spam_score_int: -67
 X-Spam_score: -6.8
 X-Spam_bar: ------
@@ -80,39 +95,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When the system reboots, the rng-seed that the FDT has should be
-re-randomized, so that the new boot gets a new seed. Since the FDT is in
-the ROM region at this point, we add a hook right after the ROM has been
-added, so that we have a pointer to that copy of the FDT.
+On Mon, Oct 24, 2022 at 7:40 PM Markus Armbruster <armbru@redhat.com> wrote:
+>
+> Peter Maydell <peter.maydell@linaro.org> writes:
+>
+> > On Mon, 24 Oct 2022 at 14:20, Markus Armbruster <armbru@redhat.com> wrote:
+> >>
+> >> Peter Maydell <peter.maydell@linaro.org> writes:
+> >>
+> >> > On Mon, 24 Oct 2022 at 13:28, Markus Armbruster <armbru@redhat.com> wrote:
+> >> >>
+> >> >> Peter Maydell <peter.maydell@linaro.org> writes:
+> >> >> > Markus: if we add a new value to the ShutdownCause enumeration,
+> >> >> > how annoying is it if we decide we don't want it later? I guess
+> >> >> > we can just leave it in the enum unused... (In this case we're
+> >> >> > using it for purely internal purposes and it won't ever actually
+> >> >> > wind up in any QMP events.)
+> >> >>
+> >> >> Deleting enumeration values is a compatibility issue only if the value
+> >> >> is usable in QMP input.
+> >> >>
+> >> >> "Purely internal" means it cannot occur in QMP output, and any attempt
+> >> >> to use it in input fails.  Aside: feels a bit fragile.
+> >> >
+> >> > In this case there are as far as I can see no QMP input commands
+> >> > which use the enum at all -- it's only used in events, which are
+> >> > always output, I think.
+> >>
+> >> They are.
+> >>
+> >> Ascertaining "not used in QMP input" is pretty easy, and "not used in
+> >> CLI" isn't hard.  My point is that uses could creep in later.  This is
+> >> what makes "purely internal" fragile.
+> >
+> > True. But otoh if there's a meaningful use of the enum constant in
+> > input in future we'll want to keep it around anyway.
+> >
+> > I guess what I'm asking is: do you specifically want this patch
+> > done some other way, or to require that "mark some values as
+> > internal-only" feature in the QAPI generator, or are you OK with
+> > it as-is?  QMP/QAPI is your area, so your call...
+>
+> QAPI was designed to specify QMP.  We pretty soon discovered that QAPI
+> types can be useful elsewhere, and added some to the schema without
+> marking them.  Introspection doesn't show these.  Generated
+> documentation does.  Known shortcoming of the doc generator.
+>
+> This case differs in that we're adding an internal-only member to a type
+> that is used by QMP.  Both introspection and documentation will show it.
+>
+> Interface introspection and (especially!) documentation showing stuff
+> that doesn't exist in the interface is certainly less than ideal.
+> However, I don't want to hold this patch hostage to getting QAPI
+> shortcomings addressed.
+>
+> Instead, I want QMP documentation to make clear that this value cannot
+> actually occur.
+>
+> Fair?
 
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- hw/rx/rx-gdbsim.c | 3 +++
- 1 file changed, 3 insertions(+)
+Made mention of it in v4, just posted.
 
-diff --git a/hw/rx/rx-gdbsim.c b/hw/rx/rx-gdbsim.c
-index 8ffe1b8035..47c17026c7 100644
---- a/hw/rx/rx-gdbsim.c
-+++ b/hw/rx/rx-gdbsim.c
-@@ -25,6 +25,7 @@
- #include "hw/rx/rx62n.h"
- #include "sysemu/qtest.h"
- #include "sysemu/device_tree.h"
-+#include "sysemu/reset.h"
- #include "hw/boards.h"
- #include "qom/object.h"
- 
-@@ -148,6 +149,8 @@ static void rx_gdbsim_init(MachineState *machine)
-             dtb_offset = ROUND_DOWN(machine->ram_size - dtb_size, 16);
-             rom_add_blob_fixed("dtb", dtb, dtb_size,
-                                SDRAM_BASE + dtb_offset);
-+            qemu_register_reset_nosnapshotload(qemu_fdt_randomize_seeds,
-+                                rom_ptr(SDRAM_BASE + dtb_offset, dtb_size));
-             /* Set dtb address to R1 */
-             RX_CPU(first_cpu)->env.regs[1] = SDRAM_BASE + dtb_offset;
-         }
--- 
-2.38.1
-
+https://lore.kernel.org/all/20221025004327.568476-2-Jason@zx2c4.com/#Z31qapi:run-state.json
 
