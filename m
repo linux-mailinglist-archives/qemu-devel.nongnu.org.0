@@ -2,87 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1584C60CF2E
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 16:36:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2B1D60CF38
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Oct 2022 16:40:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onKya-0002AD-BR; Tue, 25 Oct 2022 10:32:20 -0400
+	id 1onL30-0002Lf-7j; Tue, 25 Oct 2022 10:36:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <amarjargal16@gmail.com>)
- id 1onKyY-00029i-JQ
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 10:32:18 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <amarjargal16@gmail.com>)
- id 1onKyW-00054N-Nk
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 10:32:18 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id y69so17511487ede.5
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 07:32:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=a62MrLf/oj733bG19pKm7Lu16G+ICPxvMyKnqoPvQw4=;
- b=odT4rOMX2vuPOw9pJEcWHtExO7/pUijKK72M7tAEvOyUrsNf3ARx0qPPToyrI9cwYN
- KyqNKyBlq/uCGcUsNNRXS/6miy+PiO6q5Mdf0Wer92/3j96oqaWI+u2nrBQDQOG8KRv8
- WBb7U0oV/l+Envq0GWPEfU+lkyswpJxozL833o9a1+q8aaT2leeSbSNHGec+CiER0YXO
- /vOYFe5EgpTK6OcLbLmH1nXiCRGEAuws/LoKGNH+w3/EFSQPyRykV2uX8A5D0QhgGGgm
- P8gL/HZ3+rDH+vcn+SRV/iAr7oaAwefT9oTTaaNu47VLIZemR4Lmj39ujhZWeiIIhUth
- PRkg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1onL2y-0002Kt-19
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 10:36:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1onL2w-0005w2-Gs
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 10:36:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666708608;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ATF6Kc3YZD7oBiD20/4XA0RK19rj0UKalxg7Rq6Hyfs=;
+ b=FKw7hMi2Z0pjOj7gdfKXnNI7WT0VbApmZZEmrijJ14Qf/wzM5boPVc2ygp7Mrpm+mD2OJf
+ 2AeuLznJeAoDiAacwX0Gh3XB+KRcZsTTUg1OVDR/5sMim0aTNTx9E3bYQrxF7vxUVIb16s
+ jAaPYNGBZrFyg8QnYdz8SbWQ8iLz4Zg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-615-E1G8YScHOQCT2GM-qzg6vw-1; Tue, 25 Oct 2022 10:36:45 -0400
+X-MC-Unique: E1G8YScHOQCT2GM-qzg6vw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ d10-20020adfa34a000000b00236616a168bso3486047wrb.18
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 07:36:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=a62MrLf/oj733bG19pKm7Lu16G+ICPxvMyKnqoPvQw4=;
- b=7G9GhW8YuhIyWYKllnpcsz4Y9CVKvCmMPWyxEBnLcAxhII9haCm0yoGdf62Bg/VmuM
- phStRArMgKVHofOn7/uKHGWcZIs2tRM7eOuT8VQJBf7ldBrItYKhuKbp4trtl1F5KHsP
- qMHs6eYE6QyG5DEEQbAOUqdKemIEM1Ja+Tr8+Lu3ZQkPXY6TJSGdwmqCrtXDhpZ/c7wK
- YRZ4vXxBmfjpEeGuYJ1JpbwDY3TxGgIY2WTY8qahiN2SD/S+pLaK9BuU6G+EdBCxrMGT
- RQJvuy8sxrwN1ielFit/GPHkDhPJ7I5s7zG8/WuMzMXfKwgrcbaSjMdCOqMIUeqbb7HQ
- FSJQ==
-X-Gm-Message-State: ACrzQf1GN99ZeTcVwm7IYB1fu2NGONNxClW2bxvThsVMtt/46NtHgeSn
- l/mmFSjeugG8GlZcrydjSE5VE2f/FbgbM1ey/qk=
-X-Google-Smtp-Source: AMsMyM5ZwozhjNi01XT80Cc84TOatK7wZJpeHD4+DNv7biZ2FJ7+DhV4m3CJZzvz9dln18yCP9vSMA==
-X-Received: by 2002:a05:6402:3217:b0:461:d6d7:7f19 with SMTP id
- g23-20020a056402321700b00461d6d77f19mr8672688eda.109.1666708334115; 
- Tue, 25 Oct 2022 07:32:14 -0700 (PDT)
-Received: from [192.168.1.9] ([202.21.109.40])
- by smtp.gmail.com with ESMTPSA id
- o20-20020a170906769400b007acbac07f07sm739397ejm.51.2022.10.25.07.32.12
+ bh=ATF6Kc3YZD7oBiD20/4XA0RK19rj0UKalxg7Rq6Hyfs=;
+ b=KHRmEpMB2uBcf0lPK+vSeejTw1c/lirD/LWaEVmnTAefDLm8hYyRla192DQugMgok3
+ tcxhASNUYHz4xi0sz5QM3piqPa1rcFjYy6aJcYnDV1W8g5VZiadRaGSrI4eryVtLVmjd
+ 1pOjbGAPdqxrEwLnevBSJHNFxzOYw4+FKq7SaE6JLwsDiq2juXiYIEUEBFKig8aBAe5y
+ omvb3GycS4YNTbN3LXJHXqHdve8r/n6PGJv+3Lc+MBCmjyAxKx685uDdSCJlaeu6rM5j
+ kjcP5UH8Rr/yNY8y9OdaGr9X4TgOh+k4Y9moe0qAZ3ZUCqlqWSRiqZHCXJ84XUFVgyy5
+ t59g==
+X-Gm-Message-State: ACrzQf1n+hSVdVFtMm1VrZU/RMjqyDn/X/Xaz6qpwS5AieQfoOmizuuX
+ E/kCP9cNiGKfiv079PBf9loncUdjnXmkQyHF3FA55Jw4jVGiKS45jfrWCL7aFBg4w+xTGWYOdzr
+ ZJkLTJ5rkuhq3QTE=
+X-Received: by 2002:a05:6000:2a6:b0:22e:ddd1:d9ff with SMTP id
+ l6-20020a05600002a600b0022eddd1d9ffmr24561805wry.447.1666708604680; 
+ Tue, 25 Oct 2022 07:36:44 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4lU6BTbgCQAUQdo5SD5atsgX3OczSjeou/b4GexoHElqJ/M/KPQMhBOG+VJiKwlkpgwKbxPw==
+X-Received: by 2002:a05:6000:2a6:b0:22e:ddd1:d9ff with SMTP id
+ l6-20020a05600002a600b0022eddd1d9ffmr24561784wry.447.1666708604426; 
+ Tue, 25 Oct 2022 07:36:44 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-176-58.web.vodafone.de.
+ [109.43.176.58]) by smtp.gmail.com with ESMTPSA id
+ p20-20020a1c5454000000b003a5f3f5883dsm11219420wmi.17.2022.10.25.07.36.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Oct 2022 07:32:13 -0700 (PDT)
-Message-ID: <0848444f-1940-329d-9e3d-0b6b86cf36c6@gmail.com>
-Date: Tue, 25 Oct 2022 22:32:11 +0800
+ Tue, 25 Oct 2022 07:36:43 -0700 (PDT)
+Message-ID: <0c946fe0-930e-7cc9-0f72-b16f3b2587e3@redhat.com>
+Date: Tue, 25 Oct 2022 16:36:42 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v3 2/4] hw/audio: fix tab indentation
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2] tests: Add sndio to the FreeBSD CI containers / VM
 Content-Language: en-US
-From: Amarjargal Gundjalam <amarjargal16@gmail.com>
-To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <cover.1666371095.git.amarjargal16@gmail.com>
- <5072d17c33b7bdb068f45308961259889ce1fd8a.1666371096.git.amarjargal16@gmail.com>
- <2448bc23-3849-a25b-8e77-f487ae7efb46@t-online.de>
- <407d964d-7a00-4e94-a0d7-054eb6f881cf@gmail.com>
-In-Reply-To: <407d964d-7a00-4e94-a0d7-054eb6f881cf@gmail.com>
+To: Brad Smith <brad@comstyle.com>, Warner Losh <imp@bsdimp.com>,
+ Kyle Evans <kevans@freebsd.org>, Ed Maste <emaste@freebsd.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Alex Benn_e <alex.bennee@linaro.org>,
+ Philippe Mathieu-Daud_ <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Cc: qemu-devel@nongnu.org
+References: <Yz/TeblRI77AIHJe@humpty.home.comstyle.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <Yz/TeblRI77AIHJe@humpty.home.comstyle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=amarjargal16@gmail.com; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,73 +104,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 07/10/2022 09.21, Brad Smith wrote:
+> tests: Add sndio to the FreeBSD CI containers / VM
+> 
+> ---
 
-On 24/10/22 23:42, Amarjargal Gundjalam wrote:
->
-> On 23/10/22 15:53, Volker Rümelin wrote:
->> Am 21.10.22 um 18:59 schrieb Amarjargal Gundjalam:
->>
->>> The TABs should be replaced with spaces, to make sure that we have a
->>> consistent coding style with an indentation of 4 spaces everywhere.
->>>
->>> Resolves:https://gitlab.com/qemu-project/qemu/-/issues/370
->>> Reviewed-by: Daniel P. Berrangé<berrange@redhat.com>
->>>
->>> Signed-off-by: Amarjargal Gundjalam<amarjargal16@gmail.com>
->>> ---
->>>   hw/audio/fmopl.c          | 1664 
->>> ++++++++++++++++++-------------------
->>>   hw/audio/fmopl.h          |  138 +--
->>>   hw/audio/intel-hda-defs.h | 1008 +++++++++++-----------
->>>   hw/audio/wm8750.c         |  270 +++---
->>>   4 files changed, 1540 insertions(+), 1540 deletions(-)
->>
->> Hi Amarjargal,
->>
->> I had a look at hw/audio/fmopl.c and I think the result doesn't look 
->> right. A few comments are no longer correctly aligned. I guess you 
->> just replaced all TABs with four spaces. But this is not how TABs work.
->>
->> For reference: I used the vim command
->>
->> :%s/^I/    /g
->>
->> and the result is identical to your file. The commands
->>
->> :se ts=4 expandtab
->> :retab
->>
->> would have been a much better starting point for the last few manual 
->> changes.
->>
->> Here is another example. For the file hw/audio/wm8750.c I would have 
->> started with the following vim commands
->>
->> :se ts=8 expandtab
->> :retab
->>
->> With best regards,
->> Volker
->
-> Hi Volker,
->
-> Thank you for your review!
->
-> Yes, I did indeed replaced all the tabs with spaces. I'll fix all of 
-> them and update.
->
-> Best Regards,
->
-> Amarjargal
->
->
-Hello again,
+Patch description is missing "Signed-off-by" line ... to follow our QEMU 
+development process, could you please reply with such a line to this mail? 
+Thanks!
 
-I redid the whole thing with vim retab and sent a new version of the 
-patches. I hope they're alright this time.
-
-Thank you,
-
-Amarjargal
+  Thomas
 
 
