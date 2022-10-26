@@ -2,70 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BC5060E0D9
+	by mail.lfdr.de (Postfix) with ESMTPS id 26FDB60E0D8
 	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 14:38:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onfbc-0007dh-96; Wed, 26 Oct 2022 08:34:00 -0400
+	id 1onfdp-00012X-7V; Wed, 26 Oct 2022 08:36:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1onfbX-00079Y-AV
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 08:33:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1onfbS-0004pB-PN
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 08:33:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666787629;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=T4AZwKift2SGQt1FYp6BuqZKbKCO2pdx6ZAU+iAllVk=;
- b=QcpNX1ZSeDW3OObO+n4JsPqa6r0A3F1NQ8rRN/H9I1Rkf3aocZob64QZ7i2iTxTsJFUBEh
- 2z3cwszzN+z5u2ZWBoPGFxpW3NXpyfiuv422Nbx5cFJ5ikw866qYmVH3s/ormc+tWhClSc
- pJ3yfzPC2k/cVUmoLEfLjKWMgrY7jPQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-222-DYWLa1ZEP2iG-vhVx6xXhw-1; Wed, 26 Oct 2022 08:33:47 -0400
-X-MC-Unique: DYWLa1ZEP2iG-vhVx6xXhw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B231F1C08965
- for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 12:33:46 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DDF5C15BB1;
- Wed, 26 Oct 2022 12:33:46 +0000 (UTC)
-Date: Wed, 26 Oct 2022 13:33:44 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Michal Privoznik <mprivozn@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2] seccomp: Get actual errno value from failed seccomp
- functions
-Message-ID: <Y1kpKGP+a2toN/4w@redhat.com>
-References: <80c86614e3b21dda074b81fe9c3866fdbbb7420e.1666769319.git.mprivozn@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1onfdm-00011i-E1
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 08:36:14 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1onfdj-0005QU-Me
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 08:36:13 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id o4so17861981wrq.6
+ for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 05:36:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2qS2y2JZu7dNV6hSrMOcBx5s6/+5Bl5l6p+CSVw4nOY=;
+ b=CXez/eqi2yHwJO6SX2NM+pRS61LQMP5N28I8WRb1oxNx1sF6aIUB7p+PhyUgy3QQZi
+ k5SJWBSsZUR3dtcNbgMcKG4cOsoNeUM8MzPPTfUtvyr2UbL8GOrnwhCMnZ48O+hqlI99
+ +EmisgO8hkSLSV3+PNpPsoQKB4e8Ue/Y8ssni8Xb1J8kUUml75s7GUjChtMgfDn1Ywer
+ uIUJqPhlDGkAUYBd7KRCETmsEbnQLgn8W++UY9hWYwXeVGwbndtxrJF5VXqPkgvjM3Sh
+ twODFNWNsGLzPUoxfXv9bDfhhqvvcpDhGTax07wTikz9FGy9PlCp8HUXuYFuHrpYCLOn
+ 1IlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=2qS2y2JZu7dNV6hSrMOcBx5s6/+5Bl5l6p+CSVw4nOY=;
+ b=lizbFN5z8WgPxzMi7EvFMD59CxsjEWxvZmegFrVMZuQFNwnS0RVF3LulUycVMXDJnQ
+ nLmlXAoVWHhD9G+w+bRyu/jF8QiLK+d9joXbNF8ldmRtChIpSNLaGgCB8mQvV/g5IsbZ
+ NYHGvJ1deOpKQq1Wel3zAjSWdL7U4+ZwaXlRgjSTHsXaBOJw4rH/w9o5TgHfzSkntVCM
+ Q6IBoASh2uXV7KyMMhKuSmCbF7jJAT8+CcFLLErKj0umttB/M99kQW5BIIcwCIq87A2O
+ ELwXW0DPUwPDjNXWMq8mRGLWl20kjOIji+DeVcoiMDdWcZp4E3iH+nXkjhaH4VWptpyS
+ q05g==
+X-Gm-Message-State: ACrzQf0T5ofFtHmEiAWFfUOYeN4/5i2gEVRcMttrfoojmgXKkjllwKNC
+ UiE7QdmTMYt1QY8vKsNnoHObEQ==
+X-Google-Smtp-Source: AMsMyM78PT7c6a3Q9sd+4GpEAJU1YxAWE1XKPGRj96+F2xJgyOD2xW70qrYaPLmzhB3PpiHgAbuv7Q==
+X-Received: by 2002:adf:f98a:0:b0:236:677c:2407 with SMTP id
+ f10-20020adff98a000000b00236677c2407mr13571524wrr.578.1666787765615; 
+ Wed, 26 Oct 2022 05:36:05 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ d17-20020adf9b91000000b0022e55f40bc7sm5303943wrc.82.2022.10.26.05.36.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Oct 2022 05:36:05 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 94BFE1FFB7;
+ Wed, 26 Oct 2022 13:36:04 +0100 (BST)
+References: <20221006031113.1139454-1-richard.henderson@linaro.org>
+ <20221006031113.1139454-22-richard.henderson@linaro.org>
+User-agent: mu4e 1.9.1; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, laurent@vivier.eu, pbonzini@redhat.com,
+ imp@bsdimp.com, f4bug@amsat.org
+Subject: Re: [PATCH 21/24] accel/tcg: Move page_{get, set}_flags to user-exec.c
+Date: Wed, 26 Oct 2022 13:35:59 +0100
+In-reply-to: <20221006031113.1139454-22-richard.henderson@linaro.org>
+Message-ID: <87pmee4v9n.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <80c86614e3b21dda074b81fe9c3866fdbbb7420e.1666769319.git.mprivozn@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,42 +92,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Oct 26, 2022 at 09:30:24AM +0200, Michal Privoznik wrote:
-> Upon failure, a libseccomp API returns actual errno value very
-> rarely. Fortunately, after its commit 34bf78ab (contained in
-> 2.5.0 release), the SCMP_FLTATR_API_SYSRAWRC attribute can be set
-> which makes subsequent APIs return true errno on failure.
-> 
-> This is especially critical when seccomp_load() fails, because
-> generic -ECANCELED says nothing.
-> 
-> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
-> 
-> v2 of:
-> 
-> https://lists.gnu.org/archive/html/qemu-devel/2022-10/msg04509.html
-> 
-> diff to v1:
-> - added comment when setting SYSRAWRC attribute per Philippe's
->   suggestion
-> 
->  meson.build            |  9 +++++++++
->  softmmu/qemu-seccomp.c | 13 +++++++++++++
->  2 files changed, 22 insertions(+)
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> This page tracking implementation is specific to user-only,
+> since the system softmmu version is in cputlb.c.  Move it
+> out of translate-all.c to user-exec.c.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
