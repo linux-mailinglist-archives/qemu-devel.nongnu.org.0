@@ -2,69 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 771DF60DF4F
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 13:12:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96B8D60E02E
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 14:05:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oneJ0-0000j5-HT; Wed, 26 Oct 2022 07:10:42 -0400
+	id 1onf35-0002Im-6l; Wed, 26 Oct 2022 07:58:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oneIu-0000Sf-P7
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 07:10:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1onf32-0002IE-FQ
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 07:58:16 -0400
+Received: from mga06b.intel.com ([134.134.136.31] helo=mga06.intel.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oneIs-0006n0-Kh
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 07:10:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666782633;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2xHUCU3Hv8gzgJokIeUC/UBexVko28zT6yor1FdTAFM=;
- b=LUOXZNmuDsXEvyLFMMYzulkMNZuNjPbjXfmMl5kP8RuFkXiByqk+NxCHAd12iruNGzqa/9
- BXcQz0EOlCPKKhx+Dq/uJOmGT/6YzqVbTYPK8WoZWB4TLsXBYlamU9MCwTvYvLeIqnkL3v
- /mU9My5eL3j320EJc56Fno4hM4QKfr8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-632-HqGHKPfONh-ng_tkjdnrSg-1; Wed, 26 Oct 2022 07:10:29 -0400
-X-MC-Unique: HqGHKPfONh-ng_tkjdnrSg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A13941C04B7C;
- Wed, 26 Oct 2022 11:10:23 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 61E7D477F55;
- Wed, 26 Oct 2022 11:10:18 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Gavin Shan <gshan@redhat.com>, qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, maz@kernel.org, eric.auger@redhat.com,
- zhenyzha@redhat.com, richard.henderson@linaro.org,
- peter.maydell@linaro.org, shan.gavin@gmail.com
-Subject: Re: [PATCH v6 7/7] hw/arm/virt: Add properties to disable high
- memory regions
-In-Reply-To: <9472b6fc-00dd-bf92-ed23-0f5a9328c45f@redhat.com>
-Organization: Red Hat GmbH
-References: <20221024035416.34068-1-gshan@redhat.com>
- <20221024035416.34068-8-gshan@redhat.com> <874jvsfa1q.fsf@redhat.com>
- <9472b6fc-00dd-bf92-ed23-0f5a9328c45f@redhat.com>
-User-Agent: Notmuch/0.37 (https://notmuchmail.org)
-Date: Wed, 26 Oct 2022 13:10:16 +0200
-Message-ID: <87r0yusuw7.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1onf2z-0006OX-Om
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 07:58:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666785493; x=1698321493;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=qpe+uYYSF2ldwKkB0xjCpu/yX9aDBsOtvWK3n9gT+k4=;
+ b=VMozqZ/Pe/Euf39KCpHJ0Ywt++aoNJAu1AnKGz9ajKNQ7YryCnrmGmpg
+ v2lCqsy1Y5o8gosZ7gy74LRxRNCMXdKHCWNj4NR/B3Bn+5LnUWaLRDLb9
+ 5MlZW6GX9SlNS27K7QzjQyq2H/AcfLc2PV3U8D8wKCR+fEVG7DCTo05H1
+ R5kFKXhmRBqswqgjegTvraxLWqodVBVS8XymTp/51fS9w8Rz0ySXrrJG6
+ qR5Knan0/oDRPwA+9tnYIqA7NLlxKJlx3LqiFnaHf3j2Ss0qwTqfoUVEr
+ 7sM3NAad/5Jd8TsO0D9qdfGzyc7VSW73Am4kMmcx0xMN06SSkbI6vkXDz g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="369992925"
+X-IronPort-AV: E=Sophos;i="5.95,214,1661842800"; d="scan'208";a="369992925"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Oct 2022 04:57:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="737208966"
+X-IronPort-AV: E=Sophos;i="5.95,214,1661842800"; d="scan'208";a="737208966"
+Received: from icx.bj.intel.com ([10.240.192.136])
+ by fmsmga002.fm.intel.com with ESMTP; 26 Oct 2022 04:57:48 -0700
+From: Yang Zhong <yang.zhong@intel.com>
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, weijiang.yang@intel.com, yang.zhong@linux.intel.com,
+ Yang Zhong <yang.zhong@intel.com>
+Subject: [RESEND PATCH v2] target/i386: Switch back XFRM value
+Date: Wed, 26 Oct 2022 07:57:45 -0400
+Message-Id: <20221026115745.528314-1-yang.zhong@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=134.134.136.31; envelope-from=yang.zhong@intel.com;
+ helo=mga06.intel.com
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,114 +74,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Oct 26 2022, Gavin Shan <gshan@redhat.com> wrote:
+The previous patch wrongly replaced FEAT_XSAVE_XCR0_{LO|HI} with
+FEAT_XSAVE_XSS_{LO|HI} in CPUID(EAX=12,ECX=1):{ECX,EDX}, which made
+SGX enclave only supported SSE and x87 feature(xfrm=0x3).
 
-> Hi Connie,
->
-> On 10/25/22 6:54 PM, Cornelia Huck wrote:
->> On Mon, Oct 24 2022, Gavin Shan <gshan@redhat.com> wrote:
->> 
->>> These 3 high memory regions are usually enabled by default, but
->> 
->> s/These 3/The/ ?
->> 
->
-> Ok.
->
->>> they may be not used. For example, VIRT_HIGH_GIC_REDIST2 isn't
->>> needed by GICv2. This leads to waste in the PA space.
->> 
->> When building the command line, do we have enough information on when
->> the regions provide something useful, and when they just waste space?
->> 
->
-> I think the help messages are already indicative. For example, the help
-> messages for 'highmem-redist2' indicate the region is only needed by
-> GICv3 or GICv4. 'highmem-ecam' and 'highmem-mmio' are needed by PCI ECAM
-> and MMIO and the key words 'high' indicates they're the corresponding
-> second window.
->
-> #./qemu-system-aarch64 -M virt,?
-> highmem-ecam=<bool>    - Set on/off to enable/disable high memory region for PCI ECAM
-> highmem-mmio=<bool>    - Set on/off to enable/disable high memory region for PCI MMIO
-> highmem-redists=<bool> - Set on/off to enable/disable high memory region for GICv3 or GICv4 redistributor
+Fixes: 301e90675c3f ("target/i386: Enable support for XSAVES based features")
 
-OK, hopefully this is enough for anyone building a command line
-directly. (Do we want to encourage management software like libvirt to
-switch off regions that are not needed?)
+Signed-off-by: Yang Zhong <yang.zhong@linux.intel.com>
+---
+ target/i386/cpu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
->
->>>
->>> Add properties to allow users selectively disable them if needed:
->>> "highmem-redists", "highmem-ecam", "highmem-mmio".
->>>
->>> Suggested-by: Marc Zyngier <maz@kernel.org>
->>> Signed-off-by: Gavin Shan <gshan@redhat.com>
->>> ---
->>>   docs/system/arm/virt.rst | 12 ++++++++
->>>   hw/arm/virt.c            | 64 ++++++++++++++++++++++++++++++++++++++++
->>>   2 files changed, 76 insertions(+)
->>>
->>> diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
->>> index 4454706392..a1668a969d 100644
->>> --- a/docs/system/arm/virt.rst
->>> +++ b/docs/system/arm/virt.rst
->>> @@ -98,6 +98,18 @@ compact-highmem
->>>     Set ``on``/``off`` to enable/disable the compact layout for high memory regions.
->>>     The default is ``on`` for machine types later than ``virt-7.2``.
->>>   
->>> +highmem-redists
->>> +  Set ``on``/``off`` to enable/disable the high memry region for GICv3/4
->> 
->> s/memry/memory/
->> 
->
-> Ok, copy-and-paste error. Will be fixed.
->
->>> +  redistributor. The default is ``on``.
->> 
->> Do we need to add a note about what effects setting this to "off" may
->> have, e.g. "Setting this to ``off`` may limit the maximum number of
->> cpus." or so? And/or "Setting this to ``off`` when using GICv2 will save
->> some space."?
->> 
->
-> We may not mention GICv2 since GICv3/v4 are already mentioned. It's a
-> good idea to mention that the maximum number of CPUs is reduced when
-> it's turned off. I will have something like below in next respin if
-> you agree.
->
-> highmem-redists
->    Set ``on``/``off`` to enable/disable the high memroy region for GICv3 or
->    GICv4 redistributor. The default is ``on``. Setting this to ``off`` will
->    limit the maximum number of CPUs when GICv3 or GICv4 is used.
-
-OK, sounds reasonable to me.
-
->
-> Since 'vms->highmem_redists' is changeable, the 'virt_max_cpus' in
-> machvirt_init() needs to be recalculated based on that. The code change
-> will be included into next respin. Besides, the follow-up error message
-> will be improved to something like below.
->
->    error_report("Number of SMP CPUs requested (%d) exceeds max CPUs "
->                 "supported by machine 'mach-virt' (%d). The high memory "
->                 "region for GICv3 or GICv4 redistributor has been %s",
->                 max_cpus, virt_max_cpus,
->                 vms->highmem_redists ? "enabled" : "disabled");
-
-Hm, the doc for error_report() states that "The resulting message should
-be a single phrase, with no newline or trailing punctuation." Maybe
-
-    if (max_cpus > virt_max_cpus) {
-        error_report("Number of SMP CPUs requested (%d) exceeds max CPUs "
-                     "supported by machine 'mach-virt' (%d)",
-                     max_cpus, virt_max_cpus);
-        if (vms->gic_version != VIRT_GIC_VERSION_2 &&
-            !vms->higmem_redists) {
-            error_printf("Try 'highmem-redists=on' for more CPUs\n");
-        }
-        exit(1);
-    }
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index ad623d91e4..19aaed877b 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5584,8 +5584,8 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+         } else {
+             *eax &= env->features[FEAT_SGX_12_1_EAX];
+             *ebx &= 0; /* ebx reserve */
+-            *ecx &= env->features[FEAT_XSAVE_XSS_LO];
+-            *edx &= env->features[FEAT_XSAVE_XSS_HI];
++            *ecx &= env->features[FEAT_XSAVE_XCR0_LO];
++            *edx &= env->features[FEAT_XSAVE_XCR0_HI];
+ 
+             /* FP and SSE are always allowed regardless of XSAVE/XCR0. */
+             *ecx |= XSTATE_FP_MASK | XSTATE_SSE_MASK;
+-- 
+2.30.2
 
 
