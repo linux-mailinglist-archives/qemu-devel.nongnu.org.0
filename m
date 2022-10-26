@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0742260EA3C
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 22:26:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B91EC60EA29
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 22:21:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onmqh-0003Zb-Ig; Wed, 26 Oct 2022 16:18:03 -0400
+	id 1onmqi-0003Ze-Hb; Wed, 26 Oct 2022 16:18:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1onmpg-0001yf-E3
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 16:17:02 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ id 1onmpm-00022u-CY
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 16:17:07 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1onmpe-0003MB-QK
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 16:17:00 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id ez6so15168112pjb.1
- for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 13:16:58 -0700 (PDT)
+ id 1onmpk-0003BV-1R
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 16:17:05 -0400
+Received: by mail-pl1-x629.google.com with SMTP id y4so15300962plb.2
+ for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 13:17:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rm7TXfPfJEnn+bdinfLf47b7tVNRCBtAKZ++jzyT4uk=;
- b=5gp+aI0BwznbykBgW9/3Mm2xRuNQ1QsojiUb+5uj4SWN4WquJirAHQmonFqpJQm9cR
- KxjbOUbp5GwTLJuQjGPGl161CGZ6isZceNXwEDmWRFOgtS0wJ49ekkgk23795J/yZ/zT
- uVzslhnBtjJzwOYR2nE6QuggqZNTTeBEAN9pRn21nnBzTs5SraYNd+/UJyQX7qtNfwnh
- Iwyv5FeCoVNRo79At0XNwmY9m5LX2Da9vkIDaxT5SnFEzOxcwxsTy/WQNxA+KP+Y2Vxp
- 5pABP3Gdgrz7b7sNOEt5tzXto9TcLwcS+IEekbPk/+PBA/JW3+3trmZ2BIHY4LCNWiKA
- wabQ==
+ bh=NqszKtwi0YXXdx0iWSFUDJDEOg8IoBblvu8lJaEmuhg=;
+ b=q7Hq+o3eP6zf4jrVp6qhuK//2yHpTDo+4TFVsk8xmufhdYg0EbA4HXRfwYiIrf6RIi
+ SdIG2o+bN04dMhFHmAErxl1bkehFc9bSgYNPXd4mX706DJBP64+C0DRbaTRU8cN1yrxY
+ PzOm6oII7Si95aWzMrWEyInsq5PYoLEvIgitKmAxyunfWdwPPdiWrJUHmJ5sEj2q06A5
+ y9hEj13ePO0YMJUt3BrWEzAOvKwhsrkKAoWVG356q0DZlxibU98nGfInQmkRuzgPsCQI
+ DtcWYztLvSRan6XI27Bjp2H0uwfu+1yXlLIfazFAvDd2HmKQqnEi6lKJ4VDwe+okUDDq
+ GU7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rm7TXfPfJEnn+bdinfLf47b7tVNRCBtAKZ++jzyT4uk=;
- b=Hu0ODbS43ZJfxAHoreqhVbLS2R0AKvN/MnH+Lcbjql2zjb8v8dy1DVmAHLnnwRTgyn
- pmYvm1ad71xcCyeGRzG8Wlj+S9877z4dnrTVP+QJXd55MAOJ0kd65dVfIZJYfzXAfQbj
- lBAN6r6EHX3HDhZDyvHtZ3LOgSb546/QR+b99mKOc+36BcHaIFdDRwFCVne1DZ6iHyxe
- 9sYkfQ1+g9jyWQ3Yx3bYeo/wIwCDT8TBsFY/JPr3qcsjbag6SlnZyluy+X1h/6rS3r/M
- uwB29IgIr2qnbIfSHY/OtTpK2/RhEUM74aUu2b8J0diMXoFts4i49VaOLNgF3URjrFSZ
- iGHg==
-X-Gm-Message-State: ACrzQf3kusiCbYiD5QLY6Q+jtPwoWfO4Gd5zaXgNqo0/MoZ3kSRhTjoF
- kvXwR+WZA7sldQbeWgX6adPgSw==
-X-Google-Smtp-Source: AMsMyM5ZFCyRp9sXTDnryNHng/gMz8Mkh8TymTvKukuogdol9Thn46nBQjqwxc/OmRI3DYUsIQXohg==
-X-Received: by 2002:a17:90b:3504:b0:213:5b03:639 with SMTP id
- ls4-20020a17090b350400b002135b030639mr4486443pjb.16.1666815417665; 
- Wed, 26 Oct 2022 13:16:57 -0700 (PDT)
+ bh=NqszKtwi0YXXdx0iWSFUDJDEOg8IoBblvu8lJaEmuhg=;
+ b=AA4xVi5vP9hnN2kVdqAPmA1FTT42QaBLaQqrT9BUGf62yTkCY2ENZ35M7iHmaSBA2y
+ pTBDNRy9hN7o85mHALXVZ6nVIEu3oDSn5kn1ZPA9HnSqYDHG+SeOzwqpqcT3pR3isRvN
+ Hz+cYvYa2WC0+5ncBTKIei1xkk3DzJ+Ylm/a9vmo5x5FkQ9kzyhzFWPQez7lJm1eST01
+ 9QJHSssHAv9Iwb1Doinpzp0O+wBmNXO+gKk1qABFdXniPgrhRLFcI8UoQd/AFEY5M+0J
+ 6Q7a+RcNtEBO+20j811AFm5+pUPnllzLYp3MqS3RdrCgNN+VvFecx56bAGLnBM8BRrz5
+ NaOQ==
+X-Gm-Message-State: ACrzQf0GuDIKEqINlt36eDgxHxTOTha8TwTnu5CmiED7lxtwRabtRUVJ
+ 0XL2GatlIut44p3+jzZC1IxfWA==
+X-Google-Smtp-Source: AMsMyM4+65ZXYnfwyas0ds07t7tBxAMDQLkZ06HDEMbSlw+TqWbq5OYrEqZFgACxybsuzXPGKqR9SA==
+X-Received: by 2002:a17:90a:6045:b0:212:fe9a:5792 with SMTP id
+ h5-20020a17090a604500b00212fe9a5792mr5934966pjm.178.1666815422831; 
+ Wed, 26 Oct 2022 13:17:02 -0700 (PDT)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
  by smtp.gmail.com with ESMTPSA id
- y5-20020aa78f25000000b00541c68a0689sm3375770pfr.7.2022.10.26.13.16.52
+ y5-20020aa78f25000000b00541c68a0689sm3375770pfr.7.2022.10.26.13.16.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Oct 2022 13:16:57 -0700 (PDT)
+ Wed, 26 Oct 2022 13:17:02 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org,
@@ -74,22 +74,22 @@ Cc: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org,
  Yan Vugenfirer <yan@daynix.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v3 15/16] virtio-pci: Omit errp for pci_add_capability
-Date: Thu, 27 Oct 2022 05:15:26 +0900
-Message-Id: <20221026201527.24063-16-akihiko.odaki@daynix.com>
+Subject: [PATCH v3 16/16] pci: Remove legacy errp from pci_add_capability
+Date: Thu, 27 Oct 2022 05:15:27 +0900
+Message-Id: <20221026201527.24063-17-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221026201527.24063-1-akihiko.odaki@daynix.com>
 References: <20221026201527.24063-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::102e;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102e.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::629;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,57 +105,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Omitting errp for pci_add_capability() causes it to abort if
-capabilities overlap. This behavior is appropriate heare because all of
-the capabilities set in this device are defined in the program and
-their overlap should not happen unless there is a programming error.
-
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- hw/virtio/virtio-pci.c         | 9 ++-------
- include/hw/virtio/virtio-pci.h | 2 +-
- 2 files changed, 3 insertions(+), 8 deletions(-)
+ hw/pci/pci.c         | 29 +++++++----------------------
+ include/hw/pci/pci.h | 12 ++----------
+ 2 files changed, 9 insertions(+), 32 deletions(-)
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index c37bdc77ea..b393ff01be 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1154,8 +1154,7 @@ static int virtio_pci_add_mem_cap(VirtIOPCIProxy *proxy,
-     PCIDevice *dev = &proxy->pci_dev;
-     int offset;
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 8ee2171011..8ff71e4553 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -2513,38 +2513,23 @@ static void pci_del_option_rom(PCIDevice *pdev)
+ }
  
--    offset = pci_add_capability(dev, PCI_CAP_ID_VNDR, 0,
--                                cap->cap_len, &error_abort);
-+    offset = pci_add_capability(dev, PCI_CAP_ID_VNDR, 0, cap->cap_len);
+ /*
+- * On success, pci_add_capability_legacy() returns a positive value
+- * that the offset of the pci capability.
+- * On failure, it sets an error and returns a negative error
+- * code.
++ * pci_add_capability() returns a positive value that the offset of the pci
++ * capability.
+  */
+-int pci_add_capability_legacy(PCIDevice *pdev, uint8_t cap_id,
+-                              uint8_t offset, uint8_t size,
+-                              Error **errp)
++uint8_t pci_add_capability(PCIDevice *pdev, uint8_t cap_id,
++                           uint8_t offset, uint8_t size)
+ {
+     uint8_t *config;
+-    int i, overlapping_cap;
++    int i;
  
-     assert(cap->cap_len >= sizeof *cap);
-     memcpy(dev->config + offset + PCI_CAP_FLAGS, &cap->cap_len,
-@@ -1864,11 +1863,7 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
+     if (!offset) {
+         offset = pci_find_space(pdev, size);
+         /* out of PCI config space is programming error */
+         assert(offset);
+     } else {
+-        /* Verify that capabilities don't overlap.  Note: device assignment
+-         * depends on this check to verify that the device is not broken.
+-         * Should never trigger for emulated devices, but it's helpful
+-         * for debugging these. */
++        /* Verify that capabilities don't overlap. */
+         for (i = offset; i < offset + size; i++) {
+-            overlapping_cap = pci_find_capability_at_offset(pdev, i);
+-            if (overlapping_cap) {
+-                error_setg(errp, "%s:%02x:%02x.%x "
+-                           "Attempt to add PCI capability %x at offset "
+-                           "%x overlaps existing capability %x at offset %x",
+-                           pci_root_bus_path(pdev), pci_dev_bus_num(pdev),
+-                           PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn),
+-                           cap_id, offset, overlapping_cap, i);
+-                return -EINVAL;
+-            }
++            assert(!pci_find_capability_at_offset(pdev, i));
+         }
+     }
  
-         pcie_endpoint_cap_init(pci_dev, 0);
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index 51fd106f16..2a5d4b329f 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -2,7 +2,6 @@
+ #define QEMU_PCI_H
  
--        pos = pci_add_capability(pci_dev, PCI_CAP_ID_PM, 0,
--                                 PCI_PM_SIZEOF, errp);
--        if (pos < 0) {
--            return;
--        }
-+        pos = pci_add_capability(pci_dev, PCI_CAP_ID_PM, 0, PCI_PM_SIZEOF);
+ #include "exec/memory.h"
+-#include "qapi/error.h"
+ #include "sysemu/dma.h"
  
-         pci_dev->exp.pm_cap = pos;
+ /* PCI includes legacy ISA access.  */
+@@ -391,15 +390,8 @@ void pci_register_vga(PCIDevice *pci_dev, MemoryRegion *mem,
+ void pci_unregister_vga(PCIDevice *pci_dev);
+ pcibus_t pci_get_bar_addr(PCIDevice *pci_dev, int region_num);
  
-diff --git a/include/hw/virtio/virtio-pci.h b/include/hw/virtio/virtio-pci.h
-index 2446dcd9ae..9f3736723c 100644
---- a/include/hw/virtio/virtio-pci.h
-+++ b/include/hw/virtio/virtio-pci.h
-@@ -141,7 +141,7 @@ struct VirtIOPCIProxy {
-     uint32_t msix_bar_idx;
-     uint32_t modern_io_bar_idx;
-     uint32_t modern_mem_bar_idx;
--    int config_cap;
-+    uint8_t config_cap;
-     uint32_t flags;
-     bool disable_modern;
-     bool ignore_backend_features;
+-int pci_add_capability_legacy(PCIDevice *pdev, uint8_t cap_id,
+-                              uint8_t offset, uint8_t size,
+-                              Error **errp);
+-
+-#define PCI_ADD_CAPABILITY_VA(pdev, cap_id, offset, size, errp, ...) \
+-    pci_add_capability_legacy(pdev, cap_id, offset, size, errp)
+-
+-#define pci_add_capability(...) \
+-    PCI_ADD_CAPABILITY_VA(__VA_ARGS__, &error_abort)
++uint8_t pci_add_capability(PCIDevice *pdev, uint8_t cap_id,
++                           uint8_t offset, uint8_t size);
+ 
+ void pci_del_capability(PCIDevice *pci_dev, uint8_t cap_id, uint8_t cap_size);
+ 
 -- 
 2.37.3
 
