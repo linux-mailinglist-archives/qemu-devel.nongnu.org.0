@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CD5F60D88F
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 02:48:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2131B60D894
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 02:50:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onUXN-0003wi-6A; Tue, 25 Oct 2022 20:44:53 -0400
+	id 1onUbI-0002OJ-Kv; Tue, 25 Oct 2022 20:48:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1onUXI-0003jV-JL
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 20:44:48 -0400
-Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735])
+ (Exim 4.90_1) (envelope-from <gourry.memverge@gmail.com>)
+ id 1onUb1-000217-9H
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 20:48:46 -0400
+Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1onUXG-0002lN-Uc
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 20:44:48 -0400
-Received: by mail-qk1-x735.google.com with SMTP id s17so9476531qkj.12
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 17:44:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <gourry.memverge@gmail.com>)
+ id 1onUay-0003Tv-Sh
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 20:48:38 -0400
+Received: by mail-qk1-x743.google.com with SMTP id b25so9499317qkk.7
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 17:48:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=B6T+Nl7cyBwXv0OViZ4jdzNNLcQzTEArslmFKclrTZQ=;
- b=GvroCbMGSwnYzb8OpSXsYX2S/Z5dx7OQttj37kEPg6qfWHLlKS/YNBS38Mnot2nVNX
- Hiwtqi3Zm+IVxUZ624AmADjF10bWkZZvCdHYCn8OmZ+Us6AsSymdGYn+gGjIT/nuzVvM
- LGD2KWQQJVGaUKHmsKJtRbNra1FEoZ45ZFpAJj1ZiPysoff4ItU3luYy3G203/zEOY+h
- u/IV9VY6zngLpv07c+Zos+uld8RVQ7Ki6XerxWfCOMxulLTUCcyI0mRVHTLkEKNwj8xN
- cf6XN4disgkp4RRLK1CEWDacoYZf6AJEFUFauZoT8foN8ptvdWO6PsLRpxeVIBrOwgx3
- DEjw==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=9pRJ+Cja9hGKvP9Uv81zKjO1XrsOT/gV10dj8HPGULI=;
+ b=OUHzed6BTa1Vii+0mF+dyAQPkqwQz9PUyKz+jFraAJaz4Hlxa7WCTfOya5IHrXdMqQ
+ 7y3RGAK/5x6lOppqxoGsJbDFmbBcPXvqv3Y+mjO/FuIDxKXUwq257dINXNW7nmI8iW3j
+ TQEQ0inBOEQYRsr4heEoCXskUHM2aY+PKSz2VXwKjdnc3oOsQ7V004oy7hJhvNGVRj3X
+ HNOMbNubbe4U+cgWu2MN6kJzIiIC+ZMKyMJGAi5ALcOXuYGhiz0uefjnEhUTfXSZy5t5
+ GJrNwMa3PPqBeE1a1Vs80syUSdLxzohFUK1dMBlbbr+7sTiw4gpKTSDtEqRWcV+m7t5g
+ fvaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=B6T+Nl7cyBwXv0OViZ4jdzNNLcQzTEArslmFKclrTZQ=;
- b=dG7nTpLepMHzKc4xKuw9wunz/xxkaSRBRlMJJxv0iEVfbUftl+olLtRP8AR1Xb05IO
- yNQf+QnojtYEvam6jvs8XkF2yMIpNzuH3hpAALMZcDyy0ewMcnt8vE9ycUKKGbwz3j7/
- 0lR4D5k5XHszK+3saT3NOMQMdG4/3vwS6WiBblnBYhIdkOeaW/BjuawonT3lm35yjimW
- Vjy4ecUeZqomHWTPiZQUU13rZ2qmg1NFI3kBs35mcMXMQQmllTV7rbOoXzscc+Lxauss
- ok0dlnBCqpvLnUUgwtxIwPvi2yRkYXL843efx0EAtCEtBvpW9WKt5S0w6vq5LSm/FTMU
- voGQ==
-X-Gm-Message-State: ACrzQf0hIgfIiptjIS8xfrC2HTGxyoRUQkwFtSE6TslZPutsWsE8mPmk
- YUplqxlN/YBEVp2gOZqOCnDbZoSpDFR6jEmvMDQ=
-X-Google-Smtp-Source: AMsMyM4vHz+qcvwGEgfY4agO0S2J6eU+BuUrwEmBhHbOQWiNIjp92j97Mv/lA0MPoqIEXgkanNi9He6WzRfwXdl59IA=
-X-Received: by 2002:a05:620a:19a6:b0:6ee:d3d6:6b03 with SMTP id
- bm38-20020a05620a19a600b006eed3d66b03mr28353103qkb.376.1666745086076; Tue, 25
- Oct 2022 17:44:46 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9pRJ+Cja9hGKvP9Uv81zKjO1XrsOT/gV10dj8HPGULI=;
+ b=MoYUWNzOLPkq/+ZRp+7XYawTJzz97OVDIV6g2KkiH7NZSpy65l77bMNa8nG50bpfuB
+ eqM5zMRPTx9Ed2i0gZf5w6PQRWb9U/csWvkmkIRDbtMOk/2lAqmaXPEDmEm4Eg3i//9y
+ b2KD9CmRv2HpbJMr/XjrZlM6rEKfz0Z5Gsav+b82ZnKYHrq+N+pNVHgMM7m7X4tfSjhB
+ b0UJncrmMaWhl+IlFn7X/jWS3RRiKNDilSIFSOxP2Omud0L0KdAbOnlHN4XOceAzpeDP
+ TBaoVVLo978Myz4i8+YFQ0zrcE14eaQLo4pKdljexiugQX1hB+8HMw0dFVKizxGAok0M
+ 0wfg==
+X-Gm-Message-State: ACrzQf0hX9UOv96O5PkMCLIR4XsaEFbdnfS3Inj6C6vnwxyioTrEBqMr
+ NAW1PhG01TgM2gbb4EfUkzVp444Uyw==
+X-Google-Smtp-Source: AMsMyM7/Q/kn4Ts0Em/8Uuw1vWpdkIYCyjwK4MQvuKnFzD3/UIcjSbYjIIFMYVBxnj909hHuPIZBeQ==
+X-Received: by 2002:a05:620a:c4f:b0:6cf:33cd:2bc9 with SMTP id
+ u15-20020a05620a0c4f00b006cf33cd2bc9mr29455547qki.99.1666745310325; 
+ Tue, 25 Oct 2022 17:48:30 -0700 (PDT)
+Received: from fedora.mshome.net (pool-173-79-56-208.washdc.fios.verizon.net.
+ [173.79.56.208]) by smtp.gmail.com with ESMTPSA id
+ j15-20020ac8550f000000b0039a610a04b1sm2408651qtq.37.2022.10.25.17.47.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Oct 2022 17:47:58 -0700 (PDT)
+From: Gregory Price <gourry.memverge@gmail.com>
+X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
+To: qemu-devel@nongnu.org
+Cc: jonathan.cameron@huawei.com, linux-cxl@vger.kernel.org, mst@redhat.com,
+ marcel.apfelbaum@gmail.com, imammedo@redhat.com, ani@anisinha.ca,
+ alison.schofield@intel.com, dave@stgolabs.net, a.manzanares@samsung.com,
+ bwidawsk@kernel.org, gregory.price@memverge.com,
+ hchkuo@avery-design.com.tw, cbrowy@avery-design.com, ira.weiny@intel.com
+Subject: [PATCH 0/4 v3] Multi-Region and Volatile Memory support for CXL
+ Type-3 Devices
+Date: Tue, 25 Oct 2022 20:47:33 -0400
+Message-Id: <20221026004737.3646-1-gregory.price@memverge.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-References: <20221006151927.2079583-1-bmeng.cn@gmail.com>
- <20221006151927.2079583-5-bmeng.cn@gmail.com>
- <19172ac9-519c-2a32-9336-7d92aaea05f8@linaro.org>
-In-Reply-To: <19172ac9-519c-2a32-9336-7d92aaea05f8@linaro.org>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 26 Oct 2022 08:44:35 +0800
-Message-ID: <CAEUhbmWYdYL6v3V_3jPAvW8RTCmWxYFK9jiVk1A89oz=+kkbdA@mail.gmail.com>
-Subject: Re: [PATCH v5 04/18] tests/qtest: migration-test: Avoid using
- hardcoded /tmp
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Bin Meng <bin.meng@windriver.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
- Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x735.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::743;
+ envelope-from=gourry.memverge@gmail.com; helo=mail-qk1-x743.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,70 +92,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Oct 26, 2022 at 7:44 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 10/7/22 01:19, Bin Meng wrote:
-> > From: Bin Meng <bin.meng@windriver.com>
-> >
-> > This case was written to use hardcoded /tmp directory for temporary
-> > files. Update to use g_dir_make_tmp() for a portable implementation.
-> >
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >
-> > Changes in v5:
-> > - Use g_autoptr(GError)
-> >
-> > Changes in v4:
-> > - Update the error reporting by using the GError "error" argument
-> >    of g_dir_make_tmp()
-> > - Remove the const from tmpfs declaration
-> >
-> > Changes in v3:
-> > - Split to a separate patch
->
-> This patch breaks with gcc 12:
+Submitted as an extention to the multi-feature branch maintained
+by Jonathan Cameron at:
+https://gitlab.com/jic23/qemu/-/tree/cxl-2022-10-24 
 
-Weird GCC ...
 
-GCC 9 reported [1], but not GCC 11, and now GCC 12 reported again.
+Summary of Changes:
+1) E820 CFMW Bug fix.  
+2) Add CXL_CAPACITY_MULTIPLIER definition to replace magic numbers
+3) Multi-Region and Volatile Memory support for CXL Type-3 Devices
+4) CXL Type-3 SRAT Generation when NUMA node is attached to memdev
 
->
->
-> > @@ -2479,9 +2479,10 @@ int main(int argc, char **argv)
-> >           return g_test_run();
-> >       }
-> >
-> > -    tmpfs =3D g_mkdtemp(template);
-> > +    tmpfs =3D g_dir_make_tmp("migration-test-XXXXXX", &err);
-> >       if (!tmpfs) {
-> > -        g_test_message("g_mkdtemp on path (%s): %s", template, strerro=
-r(errno));
-> > +        g_test_message("g_dir_make_tmp on path (%s): %s", tmpfs,
-> > +                       err->message);
-> >       }
-> >       g_assert(tmpfs);
-> >
->
-> ../src/tests/qtest/migration-test.c: In function =E2=80=98main=E2=80=99:
-> ../src/tests/qtest/migration-test.c:2484:49: error: =E2=80=98%s=E2=80=99 =
-directive argument is null
-> [-Werror=3Dformat-overflow=3D]
->   2484 |         g_test_message("g_dir_make_tmp on path (%s): %s", tmpfs,
->        |                                                 ^~
->
-> The compiler correctly notices that tmpfs was tested and found to be null=
-, but tried to
-> print it anyway.
->
 
-Patch [1] already queued in qemu-trivial
+Regarding the E820 fix
+  * This bugfix is required for memory regions to work on x86
+  * input from Dan Williams and others suggest that E820 entry for
+    the CFMW should not exist, as it is expected to be dynamically
+    assigned at runtime.  If this entry exists, it instead blocks
+    region creation by nature of the memory region being marked as
+    reserved.
 
-[1] http://patchwork.ozlabs.org/project/qemu-devel/patch/20221017132023.222=
-8641-1-bmeng.cn@gmail.com/
+Regarding Multi-Region and Volatile Memory
+  * Developed with input from Jonathan Cameron and Davidlohr Bueso.
 
-Regards,
-Bin
+Regarding SRAT Generation for Type-3 Devices
+  * Co-Developed by Davidlohr Bueso.  Built from his base patch and
+    extended to work with both volatile and persistent regions.
+  * This can be used to demonstrate static type-3 device mapping and
+    testing numa-access to type-3 device memory regions.
+
+
+This series brings 3 features to CXL Type-3 Devices:
+    1) Volatile Memory Region support
+    2) Multi-Region support (1 Volatile, 1 Persistent)
+    3) (optional) SRAT Entry generation for type-3 device regions
+
+In this series we implement multi-region and volatile region support
+through 7 major changes to CXL devices
+    1) The HostMemoryBackend [hostmem] has been replaced by two
+       [hostvmem] and [hostpmem] to store volatile and persistent
+       memory respectively
+    2) The single AddressSpace has been replaced by two AddressSpaces
+       [hostvmem_as] and [hostpmem_as] to map respective memdevs.
+    3) Each memory region size and total region are stored separately
+    4) The CDAT and DVSEC memory map entries have been updated:
+       a) if vmem is present, vmem is mapped at DPA(0)
+       b) if pmem is present
+          i)  and vmem is present, pmem is mapped at DPA(vmem->size)
+          ii) else, pmem is mapped at DPA(0)
+       c) partitioning of pmem is not supported in this patch set but
+          has been discussed and this design should suffice.
+    5) Read/Write functions have been updated to access AddressSpaces
+       according to the mapping described in #4
+    6) cxl-mailbox has been updated to report the respective size of
+       volatile and persistent memory regions
+    7) SRAT entries may optionally be generated by manually assigning
+       memdevs to a cpuless numa node
+
+To support the Device Physical Address (DPA) Mapping decisions, see
+CXL Spec (3.0) Section 8.2.9.8.2.0 - Get Partition Info:
+  Active Volatile Memory
+    The device shall provide this volatile capacity starting at DPA 0
+  Active Persistent Memory
+    The device shall provide this persistent capacity starting at the
+    DPA immediately following the volatile capacity
+
+Partitioning of Persistent Memory regions may be supported on
+following patch sets.
+
+
+Gregory Price (4):
+  hw/i386/pc.c: CXL Fixed Memory Window should not reserve e820 in bios
+  hw/cxl: Add CXL_CAPACITY_MULTIPLIER definition
+  hw/cxl: Multi-Region CXL Type-3 Devices (Volatile and Persistent)
+  hw/acpi/cxl.c: Fill in SRAT for vmem/pmem if NUMA node is assigned
+
+ docs/system/devices/cxl.rst |  74 ++++++++--
+ hw/acpi/cxl.c               |  67 +++++++++
+ hw/cxl/cxl-mailbox-utils.c  |  23 +--
+ hw/i386/acpi-build.c        |   4 +
+ hw/i386/pc.c                |   2 -
+ hw/mem/cxl_type3.c          | 274 +++++++++++++++++++++++++++---------
+ include/hw/acpi/cxl.h       |   1 +
+ include/hw/cxl/cxl_device.h |  11 +-
+ tests/qtest/cxl-test.c      | 111 +++++++++++----
+ 9 files changed, 443 insertions(+), 124 deletions(-)
+
+-- 
+2.37.3
+
 
