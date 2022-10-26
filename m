@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E8F060DEFF
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 12:47:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 771DF60DF4F
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 13:12:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onduK-0000YA-Jd; Wed, 26 Oct 2022 06:45:12 -0400
+	id 1oneJ0-0000j5-HT; Wed, 26 Oct 2022 07:10:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arbn@yandex-team.com>)
- id 1onduH-0000Wz-Pi
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 06:45:09 -0400
-Received: from forwardcorp1a.mail.yandex.net ([178.154.239.72])
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oneIu-0000Sf-P7
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 07:10:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arbn@yandex-team.com>)
- id 1onduB-0001ta-Kf
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 06:45:09 -0400
-Received: from vla1-81430ab5870b.qloud-c.yandex.net
- (vla1-81430ab5870b.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:35a1:0:640:8143:ab5])
- by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id 327CD5FFFB;
- Wed, 26 Oct 2022 13:44:55 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:0:107:3e85:844d:5b1d:60a] (unknown
- [2a02:6b8:0:107:3e85:844d:5b1d:60a])
- by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- kWrjXC8ofr-isNmvbPi; Wed, 26 Oct 2022 13:44:54 +0300
-Precedence: bulk
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.com;
- s=default; 
- t=1666781094; bh=FSfhKUkQiyo6uXyjWA4AcT8DMrnPtNSR88NZVeYi/oI=;
- h=In-Reply-To:Cc:Date:References:To:Subject:From:Message-ID;
- b=Z7AJyoZKRlbYcgcTTSmhiC6F2EvIYCruIdBHqJ78uclyLZTE82a9Grm/VGT9jqlyf
- xtBkfs6f8PbARKHwwK4NYZH8MhUyzJlBWSxNFtPs/3a7oXft9ceHcu9xc+WvNWs9QV
- xkU4s+n+LL2G29SqTkQt3r71kduSRYYmJHB3R6/Y=
-Authentication-Results: vla1-81430ab5870b.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.com
-Message-ID: <2d56bafa-a036-e37c-5d23-d0a9ee7c47d2@yandex-team.com>
-Date: Wed, 26 Oct 2022 13:44:55 +0300
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oneIs-0006n0-Kh
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 07:10:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666782633;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2xHUCU3Hv8gzgJokIeUC/UBexVko28zT6yor1FdTAFM=;
+ b=LUOXZNmuDsXEvyLFMMYzulkMNZuNjPbjXfmMl5kP8RuFkXiByqk+NxCHAd12iruNGzqa/9
+ BXcQz0EOlCPKKhx+Dq/uJOmGT/6YzqVbTYPK8WoZWB4TLsXBYlamU9MCwTvYvLeIqnkL3v
+ /mU9My5eL3j320EJc56Fno4hM4QKfr8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-632-HqGHKPfONh-ng_tkjdnrSg-1; Wed, 26 Oct 2022 07:10:29 -0400
+X-MC-Unique: HqGHKPfONh-ng_tkjdnrSg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A13941C04B7C;
+ Wed, 26 Oct 2022 11:10:23 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 61E7D477F55;
+ Wed, 26 Oct 2022 11:10:18 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Gavin Shan <gshan@redhat.com>, qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, maz@kernel.org, eric.auger@redhat.com,
+ zhenyzha@redhat.com, richard.henderson@linaro.org,
+ peter.maydell@linaro.org, shan.gavin@gmail.com
+Subject: Re: [PATCH v6 7/7] hw/arm/virt: Add properties to disable high
+ memory regions
+In-Reply-To: <9472b6fc-00dd-bf92-ed23-0f5a9328c45f@redhat.com>
+Organization: Red Hat GmbH
+References: <20221024035416.34068-1-gshan@redhat.com>
+ <20221024035416.34068-8-gshan@redhat.com> <874jvsfa1q.fsf@redhat.com>
+ <9472b6fc-00dd-bf92-ed23-0f5a9328c45f@redhat.com>
+User-Agent: Notmuch/0.37 (https://notmuchmail.org)
+Date: Wed, 26 Oct 2022 13:10:16 +0200
+Message-ID: <87r0yusuw7.fsf@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-From: Andrey Ryabinin <arbn@yandex-team.com>
-Subject: Re: [PATCH 0/4] Allow to pass pre-created VFIO container/group to QEMU
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Steve Sistare <steven.sistare@oracle.com>,
- yc-core@yandex-team.ru, Tony Krowiak <akrowiak@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>, Jason Herne <jjherne@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Eric Farman <farman@linux.ibm.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20221017105407.3858-1-arbn@yandex-team.com>
- <Y0027XOMm/lfftGK@redhat.com>
-Content-Language: en-US
-In-Reply-To: <Y0027XOMm/lfftGK@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.72; envelope-from=arbn@yandex-team.com;
- helo=forwardcorp1a.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,68 +81,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/17/22 14:05, Daniel P. Berrangé wrote:
-> On Mon, Oct 17, 2022 at 01:54:03PM +0300, Andrey Ryabinin wrote:
->> These patches add possibility to pass VFIO device to QEMU using file
->> descriptors of VFIO container/group, instead of creating those by QEMU.
->> This allows to take away permissions to open /dev/vfio/* from QEMU and
->> delegate that to managment layer like libvirt.
->>
->> The VFIO API doen't allow to pass just fd of device, since we also need to have
->> VFIO container and group. So these patches allow to pass created VFIO container/group
->> to QEMU via command line/QMP, e.g. like this:
->>             -object vfio-container,id=ct,fd=5 \
->>             -object vfio-group,id=grp,fd=6,container=ct \
->>             -device vfio-pci,host=05:00.0,group=grp
->>
->> A bit more detailed example can be found in the test:
->> tests/avocado/vfio.py
->>
->>  *Possible future steps*
->>
->> Also these patches could be a step for making local migration (within one host)
->> of the QEMU with VFIO devices.
->> I've built some prototype on top of these patches to try such idea.
->> In short the scheme of such migration is following:
->>  - migrate source VM to file.
->>  - retrieve fd numbers of VFIO container/group/device via new property and qom-get command
->>  - get the actual file descriptor via SCM_RIGHTS using new qmp command 'returnfd' which
->>    sends fd from QEMU by the number: { 'command': 'returnfd', 'data': {'fd': 'int'}}
->>  - shutdown source VM
->>  - launch destination VM, plug VFIO devices using obtained file descriptors.
->>  - PCI device reset duriing plugging the device avoided with the help of new parameter
->>     on vfio-pci device.
-> 
-> Is there a restriction by VFIO on how many processes can have the FD
-> open concurrently ? I guess it must be, as with SCM_RIGHTS, both src
-> QEMU and libvirt will have the FD open concurrently for at least a
-> short period, as you can't atomically close the FD at the exact same
-> time as SCM_RIGHTS sends it.
-> 
+On Wed, Oct 26 2022, Gavin Shan <gshan@redhat.com> wrote:
 
-There is no such restriction. Several opened descriptors is what allows us to survive
-PCI device reset. The kernel reset device on the first open.
-Obviously we shouldn't use these descriptors concurrently and can't in many cases
-(ioctl()s will fail), but there is no problem with just saving/passing FD between processes.
+> Hi Connie,
+>
+> On 10/25/22 6:54 PM, Cornelia Huck wrote:
+>> On Mon, Oct 24 2022, Gavin Shan <gshan@redhat.com> wrote:
+>> 
+>>> These 3 high memory regions are usually enabled by default, but
+>> 
+>> s/These 3/The/ ?
+>> 
+>
+> Ok.
+>
+>>> they may be not used. For example, VIRT_HIGH_GIC_REDIST2 isn't
+>>> needed by GICv2. This leads to waste in the PA space.
+>> 
+>> When building the command line, do we have enough information on when
+>> the regions provide something useful, and when they just waste space?
+>> 
+>
+> I think the help messages are already indicative. For example, the help
+> messages for 'highmem-redist2' indicate the region is only needed by
+> GICv3 or GICv4. 'highmem-ecam' and 'highmem-mmio' are needed by PCI ECAM
+> and MMIO and the key words 'high' indicates they're the corresponding
+> second window.
+>
+> #./qemu-system-aarch64 -M virt,?
+> highmem-ecam=<bool>    - Set on/off to enable/disable high memory region for PCI ECAM
+> highmem-mmio=<bool>    - Set on/off to enable/disable high memory region for PCI MMIO
+> highmem-redists=<bool> - Set on/off to enable/disable high memory region for GICv3 or GICv4 redistributor
 
+OK, hopefully this is enough for anyone building a command line
+directly. (Do we want to encourage management software like libvirt to
+switch off regions that are not needed?)
 
-> With migration it is *highly* desirable to never stop the source VM's
-> QEMU until the new QEMU has completed migration and got its vCPUs
-> running, in order to have best chance of successful rollback upon
-> failure
-> 
-> So assuming both QEMU's can have the FD open, provided they don't
-> both concurrently operate on it, could src QEMU just pass the FDs
-> to the target QEMU as part of the migration stream. eg use a UNIX
-> socket between the 2 QEMUs, and SCM_RIGHTS to pass the FDs across,
-> avoiding libvirt needing to be in the middle of the FD passing
-> dance. Since target QEMU gets the FDs as part of the migration
-> stream, it would inherantly know that it shold skip device reset
-> in that flow, without requiring any new param.
-> 
+>
+>>>
+>>> Add properties to allow users selectively disable them if needed:
+>>> "highmem-redists", "highmem-ecam", "highmem-mmio".
+>>>
+>>> Suggested-by: Marc Zyngier <maz@kernel.org>
+>>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>>> ---
+>>>   docs/system/arm/virt.rst | 12 ++++++++
+>>>   hw/arm/virt.c            | 64 ++++++++++++++++++++++++++++++++++++++++
+>>>   2 files changed, 76 insertions(+)
+>>>
+>>> diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
+>>> index 4454706392..a1668a969d 100644
+>>> --- a/docs/system/arm/virt.rst
+>>> +++ b/docs/system/arm/virt.rst
+>>> @@ -98,6 +98,18 @@ compact-highmem
+>>>     Set ``on``/``off`` to enable/disable the compact layout for high memory regions.
+>>>     The default is ``on`` for machine types later than ``virt-7.2``.
+>>>   
+>>> +highmem-redists
+>>> +  Set ``on``/``off`` to enable/disable the high memry region for GICv3/4
+>> 
+>> s/memry/memory/
+>> 
+>
+> Ok, copy-and-paste error. Will be fixed.
+>
+>>> +  redistributor. The default is ``on``.
+>> 
+>> Do we need to add a note about what effects setting this to "off" may
+>> have, e.g. "Setting this to ``off`` may limit the maximum number of
+>> cpus." or so? And/or "Setting this to ``off`` when using GICv2 will save
+>> some space."?
+>> 
+>
+> We may not mention GICv2 since GICv3/v4 are already mentioned. It's a
+> good idea to mention that the maximum number of CPUs is reduced when
+> it's turned off. I will have something like below in next respin if
+> you agree.
+>
+> highmem-redists
+>    Set ``on``/``off`` to enable/disable the high memroy region for GICv3 or
+>    GICv4 redistributor. The default is ``on``. Setting this to ``off`` will
+>    limit the maximum number of CPUs when GICv3 or GICv4 is used.
 
-Yeah, I had similar idea, but this would require a lot of rework of VFIO initialization
-phase in QEMU. The main problem here is all initialization happens on device addition, which will fail
-if device already used by another QEMU. I guess we would  need to move lot's of initialization to the
-->post_load() hook.
+OK, sounds reasonable to me.
+
+>
+> Since 'vms->highmem_redists' is changeable, the 'virt_max_cpus' in
+> machvirt_init() needs to be recalculated based on that. The code change
+> will be included into next respin. Besides, the follow-up error message
+> will be improved to something like below.
+>
+>    error_report("Number of SMP CPUs requested (%d) exceeds max CPUs "
+>                 "supported by machine 'mach-virt' (%d). The high memory "
+>                 "region for GICv3 or GICv4 redistributor has been %s",
+>                 max_cpus, virt_max_cpus,
+>                 vms->highmem_redists ? "enabled" : "disabled");
+
+Hm, the doc for error_report() states that "The resulting message should
+be a single phrase, with no newline or trailing punctuation." Maybe
+
+    if (max_cpus > virt_max_cpus) {
+        error_report("Number of SMP CPUs requested (%d) exceeds max CPUs "
+                     "supported by machine 'mach-virt' (%d)",
+                     max_cpus, virt_max_cpus);
+        if (vms->gic_version != VIRT_GIC_VERSION_2 &&
+            !vms->higmem_redists) {
+            error_printf("Try 'highmem-redists=on' for more CPUs\n");
+        }
+        exit(1);
+    }
+
 
