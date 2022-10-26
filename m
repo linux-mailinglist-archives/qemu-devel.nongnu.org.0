@@ -2,133 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8D4C60EAAE
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 23:10:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B288560EAE2
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 23:34:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onndD-00048P-7e; Wed, 26 Oct 2022 17:08:11 -0400
+	id 1ono1K-0005SC-Le; Wed, 26 Oct 2022 17:33:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1onnd8-0003vd-2e
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 17:08:09 -0400
-Received: from mail-mw2nam12on2060.outbound.protection.outlook.com
- ([40.107.244.60] helo=NAM12-MW2-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1onnd5-0006GC-EP
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 17:08:05 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XsrhHMTOTMA9HkZI9sma150G7Z+patwPhLYD2pd9k/CupX+oGPqOOoRDVdjWJ0q0EXOpL0za6dBv3p6mj5EUIchbc1ugGoaSssd2MX7h3I49i+16Pb0lRWls21xNdmF2tNkYU3zhzlYXY70KkQPq1A619wiXDZwKHmcgTx2a3F+6ydPr6Ri9ykVG/yqbek8UAr/LBZh3J5kLyxCb7UOZYhin811zmbniyfbTP15+j4tRqJFgyyTAj9aQnFNrYrC9Ye38uOXoru+hiRqFXCwKs5NjH1JCtbyxnc7RCQEVE0dT+UL9NVdxIbwoeBbMy8vb1Wwi3S8mHs6GW8b92jzrLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0tXLf/q2qomREGN1Cd3AyTjw4/EKaiTQznv0jifv50M=;
- b=CDjhLdQsInnIKPC8/WRV+RhRi/mKqykYBzfqiiWmRaPdbh9yj3KK3vXSK++FJ9xFuRemjo9exiTNdJyArlRUEmMs3dEU4v7dkU1DJgbuSV0/zWkuZprk4uipPBYO4EXP94pgGn69n7MwZEj8a3IDYvH+zD2GQkYP3T9HlqbPbZJY0q/Z79dpG4YuDSEAh17nYR3k1jpwpW2ynQzabUQTSyXlH+jN+dM3st+SH9iWcVMMah1CTe48ayvI9GIo50JRxquzzFbYcF90f9MAZ4A9G/s/ybtsZ+w3ZvJz1Piz3zk3B+XlMpPSptnx1Du+n6CzFmZjyO18yGQ3N2b5gvtRmw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0tXLf/q2qomREGN1Cd3AyTjw4/EKaiTQznv0jifv50M=;
- b=cOXaxBxzuaNKVUiCX8+QO1U8lI3rTH8Lc5yX5YDTOslj2RP8l52y19sFDb+tlCFwPvbBd8i6D7veHgv7seLRxyV5AuAHSwJ5aAexnZ6G3UgkiEMLKt5ZuXerWORXpR1DHLxSLNyGuO+XhqS7SKcd4PKt+U/WxePKlVtZYTfNkt4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
- by CH2PR17MB3927.namprd17.prod.outlook.com (2603:10b6:610:86::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.21; Wed, 26 Oct
- 2022 21:07:58 +0000
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::138a:e3a2:9ec4:a18]) by BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::138a:e3a2:9ec4:a18%7]) with mapi id 15.20.5746.028; Wed, 26 Oct 2022
- 21:07:58 +0000
-Date: Wed, 26 Oct 2022 17:07:53 -0400
-From: Gregory Price <gregory.price@memverge.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Gregory Price <gourry.memverge@gmail.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "alison.schofield@intel.com" <alison.schofield@intel.com>,
- "dave@stgolabs.net" <dave@stgolabs.net>,
- "a.manzanares@samsung.com" <a.manzanares@samsung.com>,
- "bwidawsk@kernel.org" <bwidawsk@kernel.org>
-Subject: Re: [PATCH 1/2] hw/cxl: set cxl-type3 device type to
- PCI_CLASS_MEMORY_CXL
-Message-ID: <Y1mhqcCirwpQU5lH@memverge.com>
-References: <20221006233702.18532-1-gregory.price@memverge.com>
- <20221026160545-mutt-send-email-mst@kernel.org>
- <BN6PR17MB312197C4CA958ED267BB576683309@BN6PR17MB3121.namprd17.prod.outlook.com>
- <20221026161044-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221026161044-mutt-send-email-mst@kernel.org>
-X-ClientProxiedBy: SJ0PR13CA0208.namprd13.prod.outlook.com
- (2603:10b6:a03:2c3::33) To BN6PR17MB3121.namprd17.prod.outlook.com
- (2603:10b6:405:7c::19)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1ono1G-00056a-PR
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 17:33:02 -0400
+Received: from mail-ua1-x931.google.com ([2607:f8b0:4864:20::931])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1ono1E-0003K2-Ec
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 17:33:02 -0400
+Received: by mail-ua1-x931.google.com with SMTP id t26so8001703uaj.9
+ for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 14:32:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=LhSE0L9HmSGPM8KDDRx22fnkljsgSRPMQ0bIevO6fXU=;
+ b=Gzw/eW6SGQ+PzFCv9BAVR7p5+davWux86MB/DOkBtDw/kjtKjy9ZPbBPz00U9bmVJc
+ R6nKiFyWhZCLDlaVWPzKlkJurVeYK0wa4ckf8M230Fc/EmMD+JuasGA2cGBukLuuKTOY
+ ZEQQbKckb3qP5RBhRuNuX0aXDrybmXOyUeTj+G2l7U4pON87OTs6fMyhuNB4qZPn8Irx
+ pUAnfAYoo3ezyGhbrn9+oH5rGxGLKbfxBq1MmgQhhHjyVp8NtysVOOxECYnkDQtEC8s1
+ FETUSlugyspyCfJS+EjzJp6GtAAi8OCo4PGrsrXevNXJDBfW9anE0DCGtlY4/D0UKffg
+ UcVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=LhSE0L9HmSGPM8KDDRx22fnkljsgSRPMQ0bIevO6fXU=;
+ b=phL8c9oamzLiJ8TPSm9oy1zQIggi+PsXH0e7wJmdcgzyu76kjW3VZ1rE0QZZCrVk/C
+ 9Pcd3599N1gyDMFg/J4BWSoyDZzFw+4SH52KMRv5KR/GV+BAhDRLYMX4pk97IAua+8If
+ 21ds6EuLkx9/HeNpkDIH3c0e2ZQ0xyCq/D9dXWSnG5KPm+gJOjvqYC7kPGjYRc1XCpXm
+ GjosH9aUhJjbRGEX5TNwTpyBHIbzChJGdoh/nRT5Y4dFvb7+GQcBUPabiCmSgWzXBMVz
+ A+3L8GdKCgGl1tZt2CAy8zumdX8Qkn62ljOVVRLIWeRu9oWiRsEREdSIVeBM9DdQvEnc
+ 07+A==
+X-Gm-Message-State: ACrzQf0y6oKmx5fu1enfMUcx2i+JRd6qEbSdyI4kVpiqn+LO0bg6ceGe
+ xvkpCiunTtmA+CkIaAzDNtfF+KTfDnhNOQeJUsA=
+X-Google-Smtp-Source: AMsMyM7N+vF3AX0sIiRJqXb77kOCkGVtCMl8s3L1erCN3LqnRF7UK6xDJQe6+Fnsyu6E0IZGNrWc/ydD2Pf2N5+AnMA=
+X-Received: by 2002:a05:6130:c0b:b0:3e8:c90e:2d7a with SMTP id
+ cg11-20020a0561300c0b00b003e8c90e2d7amr26651871uab.105.1666819978382; Wed, 26
+ Oct 2022 14:32:58 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|CH2PR17MB3927:EE_
-X-MS-Office365-Filtering-Correlation-Id: a423e456-8f12-4ece-605c-08dab79628cd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vknjgLffcSoUOq7P5L/MwEVwQXMZsASsPtvFBrpI2b6Sko85nQdkINjkhPVwuESYzXRVReynJHo3kK7fg+qtqO2riUUeN32u4E1nwZmCalbaH+x3aoPVZvAT+G4XttOJts/Y5Y1yycRJ5hwPsf97B79KvYTKc0VmiQNHkeGn/TGbqOOOWGVMizHhSprlQDLpl5hxcpWkmnIXLtjLGPisIYh+5uH6yoT0D8vDGRaYnUqmKPIQJ26LUmszRIu00pDrQwOYLlGi6FbIJtNlkB83HkVMduRClETQRHEmYXaYF3vjYd6ij6+VcR4vSnvb05EFYrtxfM0q6d/PWHml7njrf0rwYyc4whkSLm600ph5GVYvFSIRiXLoquNZ3tho9MC+rFPlIQbviK64zE0YdxNjnh30c3Yp5XkV1uFeJcgOQ4gxH+8nRz/puVch74VxmAKC1aZWr1o+omrXZcfoecg7ZHSzlozLjnIgNVEafHZah6x/XOfbDZCb+bzwZSld1c0Tzvaaa7y9WBGVoTwczfOFaDOVyzbUhZ8BT+aK+AYlJoIS3pGwXUeh4TAgCAPEzX5ppez1FSfXZ1YS4fBmKj7nDhJN2fXnEuxUBmYuU9rnB9EqEyjup3aGKmtEAxJQ8MhvBC37HYUrvBAQZ1D8uomswEAfrjyps//EMj4fAfWh2E9Oj8NLfRKqclX9EzdyUPJa
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN6PR17MB3121.namprd17.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(136003)(366004)(376002)(346002)(396003)(39840400004)(451199015)(6486002)(2616005)(2906002)(186003)(8936002)(478600001)(5660300002)(44832011)(83380400001)(6512007)(26005)(558084003)(41300700001)(38100700002)(36756003)(4326008)(6916009)(54906003)(86362001)(66946007)(66556008)(66476007)(6506007)(316002)(8676002)(6666004);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5umm4O7ucVUpTD1YKmE7y+BTiFla5Wr9UiZGWnm5DMduwrZqpIrZ1FTLLLoM?=
- =?us-ascii?Q?QZ+Lyh6bdE7EWs7gyzAd/7Ti2A34yjgAaeILN1eh4jftv4+wPsZAme1PSq7U?=
- =?us-ascii?Q?Bcv+TKcacoy0dGhvpAbqqalTOPXG5ZMpPIMmkefNssbs3XmSYqBjt90MzaCd?=
- =?us-ascii?Q?6rrTI6nodEodBi3SAVdppeb6Wh7HnR3ZxyH3MyueUZ2Ls4xyCFpaH2ExuYXe?=
- =?us-ascii?Q?K6HabYGn3VcumsmcOEjYWjqBAzgU6Yzusxrhcc0/yMyxTk/ZlUDz0Au1mVKa?=
- =?us-ascii?Q?uIrzPqOoPwqlL9wkZCVJoRbiN2IAZMbHdYPdgc+Aaf0YOoM5CinrtHXZ5lkf?=
- =?us-ascii?Q?i5zyCZFbXSSxjZmhxOOC/B7xBPsn5V20dFxH2kEVuYoEfkK7f8PX9VBZvYxB?=
- =?us-ascii?Q?DAQ12e/qeAcepId6cqyU/VYzmrKuymQMAM+id6FcPeqx1Th/0Tw+3yoleoSI?=
- =?us-ascii?Q?QqPc6zjPlg7C79yrtqW8uBT2K1eJ5TEHn6DFaZE8aNYvxkNcdAkgDbwSSI8+?=
- =?us-ascii?Q?EZtQfsC5Ro5XI/jbR05k7RSh15yK81VRYM70t6gddI2Vp6XIP84p56kbDDnU?=
- =?us-ascii?Q?GVOgygniZn2vCXOt847f4pOBcoB7WXj/aiEZYqeqJ8N2+Ueb+10egaBaDQjz?=
- =?us-ascii?Q?0bvWwsXn2rSNIe+cWiqRRwmcEDvNE4i8wrvp5UOGInDJEMWeTIAD+541bqvM?=
- =?us-ascii?Q?xv72fQXjnxKgGeXvzjdFwqfONhpMWjIcnXEFenXpS/sU/qS+Jjc3e45TxKgL?=
- =?us-ascii?Q?6P4O2AkxoDk+oAG4R+vF8uZwytgcNu7bSqLU+31pquj6wk+1JN3dhw4D2lmd?=
- =?us-ascii?Q?zQ5z6usmUud4Yh2eHBLFXvD5CWKwr5qBC2qkHXo+LONUwoM1i5weq+4kc80A?=
- =?us-ascii?Q?bzUh0Sh9hQmuVg5EU5IuF2SxfLgzAt5BmXVvDwPhTEN0QISJUAeuJWqRl/xX?=
- =?us-ascii?Q?H40UqL+D2LK6AEe65pAXqVO/5D8PaUchQ5eLRurAdodqLeMF31aNO7X30+0L?=
- =?us-ascii?Q?Zlw1Rp9aTklDmm4gLTUtx/hlzt7qIcsMnNdFIaPaFDwLmxPLLCvbj6Ie4B6t?=
- =?us-ascii?Q?2fwBr3eoccXcAXEHsmCKbXkgfJenWDP8voGV8vGeT3rcH/gC3x8OzbxuhEBB?=
- =?us-ascii?Q?RUKhw1iD5GjIgXeKsZjOw6568cqJaCRcAfOGJCgzaOroiE8YrJHD6UufyIdX?=
- =?us-ascii?Q?ArLAjsPlN3TAWioK4wKC4yWFeKwLcDcc2TM79tpf4lKwTOn04xZOVcX3w86q?=
- =?us-ascii?Q?V5ESjFVx9O8tCQOGGt14OD6dSXESf8cOUQINDUz1xqcPfLHtH4Nu/dG/K3Aw?=
- =?us-ascii?Q?ivfthwAdq8MSNHm3d9A1WyVeqGmKTZ125JG2YJv+B3yxwHgHTHMLjy1iXbYH?=
- =?us-ascii?Q?kSOkvmJH0Ia4bC/UM473MHQExA9csL1NMIHyZwhR7nsdiHVniTzH+xx4Y0dt?=
- =?us-ascii?Q?6Q8CYUckV6xSnU6NU8Q3HTcCXJuVLyBwK9fHx1I5E7VGlb9D3rQrR6HrTgqh?=
- =?us-ascii?Q?+jIlAF5RsasxuzhviBh9sOyh63aZ3ESmVuv7xjWyD3I6QIn+Nyuw0S3uaTjY?=
- =?us-ascii?Q?y+vEpFkhBNK+VKdVyZ4WrPi6vbk5bN0tJwvYfJuO5zOD3d9TePe1fK0bqWQk?=
- =?us-ascii?Q?gQ=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a423e456-8f12-4ece-605c-08dab79628cd
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2022 21:07:58.5437 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XGF/1THz9cVZlTvItUPIX8NkZiWX4SF+fSFvOrenXcNPtbQc0ELNYNh78pJGMtodqnWTCMl4h8eYgZedGLGEk3wuyJdcVVs4lIQyn7K4k7M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR17MB3927
-Received-SPF: pass client-ip=40.107.244.60;
- envelope-from=gregory.price@memverge.com;
- helo=NAM12-MW2-obe.outbound.protection.outlook.com
+References: <20221026194619.28880-1-philmd@linaro.org>
+ <20221026194619.28880-4-philmd@linaro.org>
+In-Reply-To: <20221026194619.28880-4-philmd@linaro.org>
+From: Bernhard Beschow <shentey@gmail.com>
+Date: Wed, 26 Oct 2022 23:32:45 +0200
+Message-ID: <CAG4p6K5NKs59r8ODzOY6AneDuALDgjimsUUu6pO_dvwq5AuWjQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] hw/isa/piix4: Correct IRQRC[A:D] reset values
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>, 
+ Aurelien Jarno <aurelien@aurel32.net>
+Content-Type: multipart/alternative; boundary="000000000000b750c405ebf6c4f6"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::931;
+ envelope-from=shentey@gmail.com; helo=mail-ua1-x931.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -145,11 +83,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Oct 26, 2022 at 04:11:29PM -0400, Michael S. Tsirkin wrote:
-> He does but in the end he sends patches not pull requests.
-> I don't care really as long as someone will send it up.
-> 
+--000000000000b750c405ebf6c4f6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Jonathan will submit this, it's not a critical issue so it can wait for
-the larger feature set.
+On Wed, Oct 26, 2022 at 9:46 PM Philippe Mathieu-Daud=C3=A9 <philmd@linaro.=
+org>
+wrote:
+
+> IRQRC[A:D] registers reset value is 0x80. We were forcing
+> the MIPS Malta machine routing to be able to boot a Linux
+> kernel without any bootloader.
+> We now have these registers initialized in the Malta machine
+> write_bootloader(), so we can use the correct reset values.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> ---
+>  hw/isa/piix4.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+> index 15f344dbb7..a2165c6a49 100644
+> --- a/hw/isa/piix4.c
+> +++ b/hw/isa/piix4.c
+> @@ -115,10 +115,10 @@ static void piix4_isa_reset(DeviceState *dev)
+>      pci_conf[0x4c] =3D 0x4d;
+>      pci_conf[0x4e] =3D 0x03;
+>      pci_conf[0x4f] =3D 0x00;
+> -    pci_conf[0x60] =3D 0x0a; // PCI A -> IRQ 10
+> -    pci_conf[0x61] =3D 0x0a; // PCI B -> IRQ 10
+> -    pci_conf[0x62] =3D 0x0b; // PCI C -> IRQ 11
+> -    pci_conf[0x63] =3D 0x0b; // PCI D -> IRQ 11
+> +    pci_conf[0x60] =3D 0x80;
+> +    pci_conf[0x61] =3D 0x80;
+> +    pci_conf[0x62] =3D 0x80;
+> +    pci_conf[0x63] =3D 0x80;
+>
+
+Running `qemu-system-mips64el -M malta -kernel vmlinux-3.2.0-4-5kc-malta
+-hda debian_wheezy_mipsel_standard.qcow2 -append "root=3D/dev/sda1
+console=3DttyS0"` with this patch Linux outputs:
+
+[    7.944000] uhci_hcd: USB Universal Host Controller Interface driver
+[    7.944000] uhci_hcd 0000:00:0a.2: Found HC with no IRQ. Check BIOS/PCI
+0000:00:0a.2 setup!
+[    7.944000] uhci_hcd 0000:00:0a.2: init 0000:00:0a.2 fail, -19
+
+Omitting this patch from the series the USB host is found.
+
+Best regards,
+Bernhard
+
+
+>      pci_conf[0x69] =3D 0x02;
+>      pci_conf[0x70] =3D 0x80;
+>      pci_conf[0x76] =3D 0x0c;
+> --
+> 2.37.3
+>
+>
+
+--000000000000b750c405ebf6c4f6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Wed, Oct 26, 2022 at 9:46 PM Philippe =
+Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@linaro.org">philmd@linaro.o=
+rg</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">IRQRC[A:D] registers reset value is 0x80. We w=
+ere forcing<br>
+the MIPS Malta machine routing to be able to boot a Linux<br>
+kernel without any bootloader.<br>
+We now have these registers initialized in the Malta machine<br>
+write_bootloader(), so we can use the correct reset values.<br>
+<br>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@lin=
+aro.org" target=3D"_blank">philmd@linaro.org</a>&gt;<br>
+---<br>
+=C2=A0hw/isa/piix4.c | 8 ++++----<br>
+=C2=A01 file changed, 4 insertions(+), 4 deletions(-)<br>
+<br>
+diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c<br>
+index 15f344dbb7..a2165c6a49 100644<br>
+--- a/hw/isa/piix4.c<br>
++++ b/hw/isa/piix4.c<br>
+@@ -115,10 +115,10 @@ static void piix4_isa_reset(DeviceState *dev)<br>
+=C2=A0 =C2=A0 =C2=A0pci_conf[0x4c] =3D 0x4d;<br>
+=C2=A0 =C2=A0 =C2=A0pci_conf[0x4e] =3D 0x03;<br>
+=C2=A0 =C2=A0 =C2=A0pci_conf[0x4f] =3D 0x00;<br>
+-=C2=A0 =C2=A0 pci_conf[0x60] =3D 0x0a; // PCI A -&gt; IRQ 10<br>
+-=C2=A0 =C2=A0 pci_conf[0x61] =3D 0x0a; // PCI B -&gt; IRQ 10<br>
+-=C2=A0 =C2=A0 pci_conf[0x62] =3D 0x0b; // PCI C -&gt; IRQ 11<br>
+-=C2=A0 =C2=A0 pci_conf[0x63] =3D 0x0b; // PCI D -&gt; IRQ 11<br>
++=C2=A0 =C2=A0 pci_conf[0x60] =3D 0x80;<br>
++=C2=A0 =C2=A0 pci_conf[0x61] =3D 0x80;<br>
++=C2=A0 =C2=A0 pci_conf[0x62] =3D 0x80;<br>
++=C2=A0 =C2=A0 pci_conf[0x63] =3D 0x80;<br></blockquote><div><br></div><div=
+>Running `qemu-system-mips64el -M malta -kernel vmlinux-3.2.0-4-5kc-malta -=
+hda debian_wheezy_mipsel_standard.qcow2 -append &quot;root=3D/dev/sda1 cons=
+ole=3DttyS0&quot;` with this patch Linux outputs:</div><div><br></div><div>=
+[ =C2=A0 =C2=A07.944000] uhci_hcd: USB Universal Host Controller Interface =
+driver<br>[ =C2=A0 =C2=A07.944000] uhci_hcd 0000:00:0a.2: Found HC with no =
+IRQ. Check BIOS/PCI 0000:00:0a.2 setup!<br>[ =C2=A0 =C2=A07.944000] uhci_hc=
+d 0000:00:0a.2: init 0000:00:0a.2 fail, -19</div><div><br></div><div>Omitti=
+ng this patch from the series  the USB host is found.</div><div><br></div><=
+div>Best regards,</div><div>Bernhard<br></div><div>=C2=A0</div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
+id rgb(204,204,204);padding-left:1ex">
+=C2=A0 =C2=A0 =C2=A0pci_conf[0x69] =3D 0x02;<br>
+=C2=A0 =C2=A0 =C2=A0pci_conf[0x70] =3D 0x80;<br>
+=C2=A0 =C2=A0 =C2=A0pci_conf[0x76] =3D 0x0c;<br>
+-- <br>
+2.37.3<br>
+<br>
+</blockquote></div></div>
+
+--000000000000b750c405ebf6c4f6--
 
