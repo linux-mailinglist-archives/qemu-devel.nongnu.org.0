@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09F9760DD9C
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 10:58:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E94F560DD9D
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 10:58:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oncD4-0007mx-2l; Wed, 26 Oct 2022 04:56:30 -0400
+	id 1oncDH-0001qK-7a; Wed, 26 Oct 2022 04:56:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oncCY-0007Gk-Ct
+ id 1oncCZ-0007Lv-Jm
  for qemu-devel@nongnu.org; Wed, 26 Oct 2022 04:55:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oncCS-0000Iy-PZ
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 04:55:54 -0400
+ id 1oncCX-0000JQ-2F
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 04:55:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666774547;
+ s=mimecast20190719; t=1666774552;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=7AU6JFx5PPuHVKGKmGTv3Eb8rXXaz7nh0bhMar1mjPU=;
- b=X5sdzc/+MESEjkJrTE/D2s8Zd0hW4PHH1u2ik9/YmwwsIG5NVtbeXLpe4ux+fxBo4+srpC
- 4+QNKZnIgF9V5kDJ2vMGQWkyh4EBbU/APxYpINxOTSUomhNgfsIeqqLNWy8XybELsW/USJ
- wKrQf8yDtYpnRaiuB+NgZeRx6ZTd9A0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YB4V5ihMQ6DA/f+0fE4sJLzVdNzD5DFNFZBuoZGA7ts=;
+ b=bic26UrVdDGRVqqoYYilyAGd7V+7pRfRZ19qUrhqmANXDtNYXpkJALKHMfZjLtcVjHO23J
+ Imdb9o0TSDLSF08pB8zgyXbyVRakTJhlEdrA7a/YLp5IXo79YqDFr1ECtGHz6zIIKKWDu5
+ 7PQlfQvp/V99Z6TYc7vuYQSBjMMWBkA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-655-j17CIgNYNlueutqWOow02Q-1; Wed, 26 Oct 2022 04:55:44 -0400
-X-MC-Unique: j17CIgNYNlueutqWOow02Q-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-272-hZbhxJwhM8qLRdSaA7sJcA-1; Wed, 26 Oct 2022 04:55:48 -0400
+X-MC-Unique: hZbhxJwhM8qLRdSaA7sJcA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A2B91C07825;
- Wed, 26 Oct 2022 08:55:44 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6B1E086EB2F;
+ Wed, 26 Oct 2022 08:55:48 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 101A649BB60;
- Wed, 26 Oct 2022 08:55:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 20CB22166B2B;
+ Wed, 26 Oct 2022 08:55:46 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
@@ -48,15 +49,18 @@ Cc: Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
  Eric Farman <farman@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
  David Hildenbrand <david@redhat.com>, qemu-s390x@nongnu.org,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL v3 00/11] Dump patches
-Date: Wed, 26 Oct 2022 12:55:28 +0400
-Message-Id: <20221026085540.254253-1-marcandre.lureau@redhat.com>
+ Richard Henderson <richard.henderson@linaro.org>,
+ Janosch Frank <frankja@linux.ibm.com>
+Subject: [PULL v3 01/11] dump: Use a buffer for ELF section data and headers
+Date: Wed, 26 Oct 2022 12:55:29 +0400
+Message-Id: <20221026085540.254253-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20221026085540.254253-1-marcandre.lureau@redhat.com>
+References: <20221026085540.254253-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
@@ -81,62 +85,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+From: Janosch Frank <frankja@linux.ibm.com>
 
-The following changes since commit e750a7ace492f0b450653d4ad368a77d6f660fb8:
+Currently we're writing the NULL section header if we overflow the
+physical header number in the ELF header. But in the future we'll add
+custom section headers AND section data.
 
-  Merge tag 'pull-9p-20221024' of https://github.com/cschoenebeck/qemu into staging (2022-10-24 14:27:12 -0400)
+To facilitate this we need to rearange section handling a bit. As with
+the other ELF headers we split the code into a prepare and a write
+step.
 
-are available in the Git repository at:
+Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20221017083822.43118-2-frankja@linux.ibm.com>
+---
+ include/sysemu/dump.h |  2 ++
+ dump/dump.c           | 75 +++++++++++++++++++++++++++++--------------
+ 2 files changed, 53 insertions(+), 24 deletions(-)
 
-  https://gitlab.com/marcandre.lureau/qemu.git tags/dump-pull-request
-
-for you to fetch changes up to e38c24cb580735883769558801d9e2f2ba9f04c1:
-
-  dump/win_dump: limit number of processed PRCBs (2022-10-26 12:55:00 +0400)
-
-----------------------------------------------------------------
-dump queue
-
-Hi
-
-The "dump" queue, with:
-- [PATCH v3/v4 0/9] dump: Cleanup and consolidation
-- [PATCH v4 0/4] dump: add 32-bit guest Windows support
-
-----------------------------------------------------------------
-
-Janosch Frank (10):
-  dump: Use a buffer for ELF section data and headers
-  dump: Write ELF section headers right after ELF header
-  dump: Reorder struct DumpState
-  dump: Reintroduce memory_offset and section_offset
-  dump: Add architecture section and section string table support
-  s390x: Add protected dump cap
-  s390x: Introduce PV query interface
-  include/elf.h: add s390x note types
-  s390x: Add KVM PV dump interface
-  s390x: pv: Add dump support
-
-Viktor Prutyanov (1):
-  dump/win_dump: limit number of processed PRCBs
-
- include/elf.h                |   2 +
- include/hw/s390x/pv.h        |  19 +++
- include/sysemu/dump-arch.h   |   3 +
- include/sysemu/dump.h        |  26 +++-
- target/s390x/kvm/kvm_s390x.h |   1 +
- dump/dump.c                  | 288 +++++++++++++++++++++++++++--------
- dump/win_dump.c              |   7 +
- hw/s390x/pv.c                | 112 ++++++++++++++
- hw/s390x/s390-virtio-ccw.c   |   6 +
- target/s390x/arch_dump.c     | 262 +++++++++++++++++++++++++++----
- target/s390x/kvm/kvm.c       |   7 +
- target/s390x/kvm/stubs.c     |  12 ++
- target/s390x/kvm/meson.build |   2 +
- 13 files changed, 649 insertions(+), 98 deletions(-)
- create mode 100644 target/s390x/kvm/stubs.c
-
+diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
+index b62513d87d..9995f65dc8 100644
+--- a/include/sysemu/dump.h
++++ b/include/sysemu/dump.h
+@@ -177,6 +177,8 @@ typedef struct DumpState {
+     int64_t filter_area_begin;  /* Start address of partial guest memory area */
+     int64_t filter_area_length; /* Length of partial guest memory area */
+ 
++    void *elf_section_hdrs;     /* Pointer to section header buffer */
++
+     uint8_t *note_buf;          /* buffer for notes */
+     size_t note_buf_offset;     /* the writing place in note_buf */
+     uint32_t nr_cpus;           /* number of guest's cpu */
+diff --git a/dump/dump.c b/dump/dump.c
+index 236559b03a..e7a3b54ebe 100644
+--- a/dump/dump.c
++++ b/dump/dump.c
+@@ -380,31 +380,60 @@ static void write_elf_phdr_note(DumpState *s, Error **errp)
+     }
+ }
+ 
+-static void write_elf_section(DumpState *s, int type, Error **errp)
++static void prepare_elf_section_hdr_zero(DumpState *s)
+ {
+-    Elf32_Shdr shdr32;
+-    Elf64_Shdr shdr64;
+-    int shdr_size;
+-    void *shdr;
+-    int ret;
++    if (dump_is_64bit(s)) {
++        Elf64_Shdr *shdr64 = s->elf_section_hdrs;
+ 
+-    if (type == 0) {
+-        shdr_size = sizeof(Elf32_Shdr);
+-        memset(&shdr32, 0, shdr_size);
+-        shdr32.sh_info = cpu_to_dump32(s, s->phdr_num);
+-        shdr = &shdr32;
++        shdr64->sh_info = cpu_to_dump32(s, s->phdr_num);
+     } else {
+-        shdr_size = sizeof(Elf64_Shdr);
+-        memset(&shdr64, 0, shdr_size);
+-        shdr64.sh_info = cpu_to_dump32(s, s->phdr_num);
+-        shdr = &shdr64;
++        Elf32_Shdr *shdr32 = s->elf_section_hdrs;
++
++        shdr32->sh_info = cpu_to_dump32(s, s->phdr_num);
++    }
++}
++
++static void prepare_elf_section_hdrs(DumpState *s)
++{
++    size_t len, sizeof_shdr;
++
++    /*
++     * Section ordering:
++     * - HDR zero
++     */
++    sizeof_shdr = dump_is_64bit(s) ? sizeof(Elf64_Shdr) : sizeof(Elf32_Shdr);
++    len = sizeof_shdr * s->shdr_num;
++    s->elf_section_hdrs = g_malloc0(len);
++
++    /*
++     * The first section header is ALWAYS a special initial section
++     * header.
++     *
++     * The header should be 0 with one exception being that if
++     * phdr_num is PN_XNUM then the sh_info field contains the real
++     * number of segment entries.
++     *
++     * As we zero allocate the buffer we will only need to modify
++     * sh_info for the PN_XNUM case.
++     */
++    if (s->phdr_num >= PN_XNUM) {
++        prepare_elf_section_hdr_zero(s);
+     }
++}
+ 
+-    ret = fd_write_vmcore(shdr, shdr_size, s);
++static void write_elf_section_headers(DumpState *s, Error **errp)
++{
++    size_t sizeof_shdr = dump_is_64bit(s) ? sizeof(Elf64_Shdr) : sizeof(Elf32_Shdr);
++    int ret;
++
++    prepare_elf_section_hdrs(s);
++
++    ret = fd_write_vmcore(s->elf_section_hdrs, s->shdr_num * sizeof_shdr, s);
+     if (ret < 0) {
+-        error_setg_errno(errp, -ret,
+-                         "dump: failed to write section header table");
++        error_setg_errno(errp, -ret, "dump: failed to write section headers");
+     }
++
++    g_free(s->elf_section_hdrs);
+ }
+ 
+ static void write_data(DumpState *s, void *buf, int length, Error **errp)
+@@ -591,12 +620,10 @@ static void dump_begin(DumpState *s, Error **errp)
+         return;
+     }
+ 
+-    /* write section to vmcore */
+-    if (s->shdr_num) {
+-        write_elf_section(s, 1, errp);
+-        if (*errp) {
+-            return;
+-        }
++    /* write section headers to vmcore */
++    write_elf_section_headers(s, errp);
++    if (*errp) {
++        return;
+     }
+ 
+     /* write notes to vmcore */
 -- 
 2.37.3
 
