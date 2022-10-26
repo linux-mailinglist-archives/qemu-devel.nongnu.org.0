@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 554C460DE1B
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 11:32:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A49C160DE5B
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 11:41:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onciX-0006MS-Kg; Wed, 26 Oct 2022 05:28:57 -0400
+	id 1oncsz-0007LK-V5; Wed, 26 Oct 2022 05:39:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1onciV-0006Kr-86
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 05:28:55 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1oncsu-0006t2-3P
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 05:39:40 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1onciQ-0005vY-DB
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 05:28:54 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id bp11so24761483wrb.9
- for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 02:28:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=znWmNC7ul93utvQ4iKvLR5S3PUyWayLBWviS/gxEWVo=;
- b=bvZy32xOaVye/xlHS00Otv7DDTDb2LLlSBzvepQHOTIYlSdstDdPeqTfEyQJZYpIWS
- Aq+NS63jR8XMhkh3BLEt+R8Z2CBMDESBotvIe3EGAYJBwy1ec3RtB+V2sk8n5vb8NTjU
- og0j7cx7OKSNCFl3zC1+jSXm05Jv5ewTAie5r5Qds6WF1zUtyum7FQigjpRx3EY220bE
- tswWdH/ZYiSI2MQJcNQ6t1YQArpFsjmVliRnYhHrN6saDhqLzw81Zp17EHanBnbvpdGn
- 07RUF3tGpf+2pWtYagVXoAYiQPrB2QsqeNzvBBWN4y9QSNo4lIKrWV8Kd18yAihC0vES
- +zQA==
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1oncsr-0007eM-I5
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 05:39:39 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id n12so14292932eja.11
+ for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 02:39:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=mI71J4ozVII3JoqEb4hQo2fLkx6NG7vUqJyuwXcKMg4=;
+ b=1Pms/d/ytde22fwMfUBqOq1xMu6Y0RtmHVlVbRa61ktROqrQqvrXrZPaHbKHj4fYSU
+ pe7p3CvpCbGxnrmFxjypc3cUklbYtRmAHc6JWe819I9knym9QkZjFY9/Ve1Ii0Po0PDr
+ ROZ+NdvzFUCiUJQCBQbsqEoLtq+PzselGXrmoRTm4HQmYLKDmUK+KmM9q3qGl3OL4Psa
+ s5QepcepLxitKtNNOPjzMlnuJm5wKZ6XmgyLkU1wDLK/kElgujH/8PKUqz5F6l/qzFRP
+ vTisWdpJ93j4WJH0WEo921ECcwBzZUjhslJt7oJWkDzNGFxXyzUdGW855XQfknY5YQFa
+ GWlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=znWmNC7ul93utvQ4iKvLR5S3PUyWayLBWviS/gxEWVo=;
- b=QKlI4RSnPPbZUiBIBXgb3hSGyaZ7s6PW7grEjH8hRRZBwE3khwb2VxsxpZu9QoTHlR
- 8rqQ5u3BKSKC17L76NP/VJl+EGqC7clF6rMSfFoiG5QHQ0+JgBJprW+/FObnc2n84rj3
- MSPE6Ri4qn8MTFrzyrnpExD0RMnOi6ybvd8OrCpL49jZTCnHiioAC1ONklJodcSRLgNH
- UtVp8lV6gaNdB5tT8iu/Ny7UV52LhjGIanCbfJipMF6qlIi6Kzqvs32JE4j6ClmWzhds
- oCLYAcILL/fSS39b5SCCwtYXrNAn6Ox5Fs8ghMshXSEYjVDfMFpBlt77VWmEWjR28wk2
- Xs7g==
-X-Gm-Message-State: ACrzQf2gwAzSSwzuAKdZ3HY5ZoY5i0lB4MGH3tWhN88YsQjvDkJ8M3zO
- wB7HQdJgsn5e130lKwsAW7QOew==
-X-Google-Smtp-Source: AMsMyM71zBUgcIH4qoRbBqowV2WdFKKy7GxLvn9mSxHEhAemnFMX28B3Ljn1AHE0GmzSAmK8lZbEpw==
-X-Received: by 2002:a5d:64e1:0:b0:22e:762f:7d3f with SMTP id
- g1-20020a5d64e1000000b0022e762f7d3fmr28146313wri.526.1666776528681; 
- Wed, 26 Oct 2022 02:28:48 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- x17-20020adfbb51000000b0023677693532sm5159702wrg.14.2022.10.26.02.28.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Oct 2022 02:28:48 -0700 (PDT)
-Message-ID: <4ef52f4b-3582-b2ca-a3c1-2e3f83418cc0@linaro.org>
-Date: Wed, 26 Oct 2022 11:28:46 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mI71J4ozVII3JoqEb4hQo2fLkx6NG7vUqJyuwXcKMg4=;
+ b=Zq4v5D2VK7IQwO4hoM7MnRNmqkoOBgawfSxte6pYuIPGmZAzveYpxv/fNFWDJyymCc
+ Tai9FyA3wHGUsFztmWaNzqatPFkFd3iXtWzWH6buiprW1JCfKW59onHnGmWNFVq+ZkK+
+ v99DV9KOV6AZmqboQiW+WT7fnzmTlbidhpCNCEnMhvGILbzCkjGpZq1PcLrdD+/jkDHc
+ LYgT8nawutl1SpWHIE2nWG0fIspQxuzauoqlGY4xAk5mPiYEMdp/VGFEfCWzyhgdfNb1
+ MNiViWD7IlnskhJBnz2tDu/rqRdrmBz9F9erFqXXtqT1GWbj0aVOuFZUHp99sp4iIR1t
+ AmVg==
+X-Gm-Message-State: ACrzQf1VUqitUsrhgMlB7MXV25dWrbwYviXKc6v9DKAqXMXpoyHkE7Fq
+ 68iPnG76NDyrmGIlgWOLWbO+rz8B+ZUcXn9sQz/N
+X-Google-Smtp-Source: AMsMyM6Jyphtq+o/1PxhWOmqT++ashlvqTdBClACEWRIdgnvYiRbQaxv26o+UbVsHLqSmttSlPsrTY7RRtG5uA3mWdA=
+X-Received: by 2002:a17:906:9c83:b0:779:c14c:55e4 with SMTP id
+ fj3-20020a1709069c8300b00779c14c55e4mr35765291ejc.619.1666777174965; Wed, 26
+ Oct 2022 02:39:34 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH] aspeed: Add Supermicro X11 SPI machine type
-Content-Language: en-US
-To: Guenter Roeck <linux@roeck-us.net>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery
- <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20221025165109.1226001-1-linux@roeck-us.net>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221025165109.1226001-1-linux@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <CAGxU2F4zRGASAv4YLoQpfRB-2cvaMij6YZo6t9E+69MZ+8Mong@mail.gmail.com>
+In-Reply-To: <CAGxU2F4zRGASAv4YLoQpfRB-2cvaMij6YZo6t9E+69MZ+8Mong@mail.gmail.com>
+From: Yongji Xie <xieyongji@bytedance.com>
+Date: Wed, 26 Oct 2022 17:39:23 +0800
+Message-ID: <CACycT3vMVbm94OYtUgB9bS6_pU6FKh1Y6kWPyAxi4rvjUfQ3qg@mail.gmail.com>
+Subject: Re: Issue with VDUSE (QSD vduse-blk export) and vhost-vdpa
+To: Stefano Garzarella <sgarzare@redhat.com>
+Cc: Linux Virtualization <virtualization@lists.linux-foundation.org>, 
+ qemu devel list <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=xieyongji@bytedance.com; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,29 +85,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 25/10/22 18:51, Guenter Roeck wrote:
-> supermicrox11-bmc is configured with ast2400-a1 SoC. This does not match
-> the Supermicro documentation for X11 BMCs, and it does not match the
-> devicetree file in the Linux kernel.
-> 
-> As it turns out, some Supermicro X11 motherboards use AST2400 SoCs,
-> while others use AST2500.
-> 
-> Introduce new machine type supermicrox11-spi-bmc with AST2500 SoC
-> to match the devicetree description in the Linux kernel. Hardware
-> configuration details for this machine type are guesswork and taken
-> from defaults as well as from the Linux kernel devicetree file.
-> 
-> The new machine type was tested with aspeed-bmc-supermicro-x11spi.dts
-> from the Linux kernel and with Linux versions 6.0.3 and 6.1-rc2.
-> Linux booted successfully from initrd and from both SPI interfaces.
-> Ethernet interfaces were confirmed to be operational.
-> 
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> ---
->   hw/arm/aspeed.c | 33 +++++++++++++++++++++++++++++++++
->   1 file changed, 33 insertions(+)
+Hi Stefano,
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+On Wed, Oct 26, 2022 at 5:12 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
+>
+> Hi Xie,
+> I was testing libblkio [1] with QSD vduse-blk export and had some
+> issues.
+>
+> In a nutshell, QSD prints me the following messages when using
+> vhost-vdpa to access the device:
+>
+>   Failed to get vq[0] iova mapping
+>   Failed to update vring for vq[0]
+>
+> This happens only with vhost-vdpa, using virtio-vdpa instead the device
+> works fine.
+> I'm using Linux v6.0 and QEMU master (commit
+> 214a8da23651f2472b296b3293e619fd58d9e212).
+>
+> I haven't had much time to investigate, I hope to do it next week, but
+> maybe it's much faster for you.
+>
+> I saw that ioctl(VDUSE_IOTLB_GET_FD) in libvduse.c returns -1 (EPERM),
+> so IIUC in the kernel vduse_dev_broken() was called, and the device is
+> in a broken state.
+>
+>
+> We will use libblkio in QEMU [2] to access vDPA devices via vhost-vdpa.
+> But I'm doing these tests without QEMU for now, using an example inside
+> the libblkio repo:
+>
+> # Build libblkio and examples
+>     # Fedora/CentOS/RHEL
+>     dnf install -y git meson rust cargo python3-docutils rustfmt
+>     # Debian/Ubuntu
+>     apt-get install -y git meson rustc cargo python3-docutils
+>
+>     git clone https://gitlab.com/libblkio/libblkio.git
+>
+>     cd libblkio
+>     git checkout v1.1.0
+>
+>     meson setup build
+>     meson compile -C build
+>
+>
+> # On terminal 1
+>     modprobe vduse
+>     modprobe vhost-vdpa
+>
+>     qemu-img create -f qcow2 -o preallocation=full /path/to/test.qcow2 1g
+>
+>     qemu-storage-daemon \
+>       --blockdev file,filename=/path/to/test.qcow2,cache.direct=on,aio=native,node-name=file \
+>       --blockdev qcow2,file=file,node-name=qcow2 \
+>       --object iothread,id=iothread0 \
+>       --export vduse-blk,id=vduse0,name=vduse0,num-queues=1,node-name=qcow2,writable=on,iothread=iothread0
+>
+>
+> # On terminal 2
+>     vdpa dev add name vduse0 mgmtdev vduse
+>
+>     cd libblkio/build
+>
+>     # blkio-bench executes
+>     ./examples/blkio-bench virtio-blk-vhost-vdpa \
+>       path=/dev/vhost-vdpa-0 --runtime=5 --readwrite=randread
+>
+>     # after this step, QSD (running on terminal 1) prints the following messages:
+>       Failed to get vq[0] iova mapping
+>       Failed to update vring for vq[0]
+>
+> I don't know if I'm doing something wrong or in libblkio we have some
+> issue, but using vdpa-sim-blk works correctly, so maybe there is
+> something in vduse that is missing.
+>
+> Any help or suggestion is welcome :-)
+>
 
+I'd like to know whether bio-bench uses the shared memory
+(tmpfs/hugetlbfs) as the vdpa memory region. This is what VDUSE needs.
+
+Thanks,
+Yongji
 
