@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 667F560E6EE
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 20:03:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C253860E6ED
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 20:03:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onkcv-0008Vc-6t; Wed, 26 Oct 2022 13:55:41 -0400
+	id 1onkcx-00004u-6n; Wed, 26 Oct 2022 13:55:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1onkcs-0008Ii-A7
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 13:55:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1onkcu-0008VN-GS
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 13:55:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1onkcq-0005ee-OZ
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 13:55:38 -0400
+ id 1onkcs-0005fO-VP
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 13:55:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666806935;
+ s=mimecast20190719; t=1666806938;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uzJAzjMNjcDM7GPHxFlvvDuJ8dRcnmI+OdDNr+sXSbA=;
- b=CXZrgwl0OyBCA4LYKUVPP9CAlWoy8eih/hVmVfEmq2fCR8QRHEoiKqxb+lnCQJb0ICzcfw
- w+7UZ9BP2XybTPVo9FPZEjd7jmrrjbugFmXdPrQaxHHT6nlrqpYWvbwXtUYSYn5ud5b6Z/
- ojEvtly6M1btWF5l2J3HxRrOTS1FUGQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Ejm/cEzdb3Hv0kLNQBLSKUcI2nJyG5881heACUYA0ts=;
+ b=ByrqbtZ4cuAXatGhR5r7nsqlqGc02Hgfs4KAdLtF4ZLfmFDrJMFoMwRKqUMRNgvMGReIoA
+ MxoZnTRu0uBzX0T2LNE4pRGD/tZXaDC6/D8J+FrEUDd78yUogzX2zAsrCUGkgR46tS2QSS
+ repXJLpF8TFx9KeASLpEXWoznBYtaJU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-22-prtJywTSM7WFFbmZZwW98g-1; Wed, 26 Oct 2022 13:55:34 -0400
-X-MC-Unique: prtJywTSM7WFFbmZZwW98g-1
+ us-mta-547-xs4r5TqENDqhzU495Hy1RA-1; Wed, 26 Oct 2022 13:55:35 -0400
+X-MC-Unique: xs4r5TqENDqhzU495Hy1RA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4B8BC1C08993;
- Wed, 26 Oct 2022 17:55:33 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A7E69857D15;
+ Wed, 26 Oct 2022 17:55:34 +0000 (UTC)
 Received: from kostyanf14nb.redhat.com (ovpn-192-17.brq.redhat.com
  [10.40.192.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B8BA2166B2B;
- Wed, 26 Oct 2022 17:55:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A7A6F2166B39;
+ Wed, 26 Oct 2022 17:55:33 +0000 (UTC)
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
 To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL 4/8] qga: Add shutdown/halt/reboot support for FreeBSD
-Date: Wed, 26 Oct 2022 20:55:14 +0300
-Message-Id: <20221026175518.2636846-5-kkostiuk@redhat.com>
+Subject: [PULL 5/8] qga: Add support for user password setting in FreeBSD
+Date: Wed, 26 Oct 2022 20:55:15 +0300
+Message-Id: <20221026175518.2636846-6-kkostiuk@redhat.com>
 In-Reply-To: <20221026175518.2636846-1-kkostiuk@redhat.com>
 References: <20221026175518.2636846-1-kkostiuk@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -81,42 +81,101 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 
-Add appropriate shutdown command arguments to qmp_guest_shutdown()
-for FreeBSD.
+Move qmp_guest_set_user_password() from __linux__ condition to
+(__linux__ || __FreeBSD__) condition. Add command and arguments
+for password setting in FreeBSD.
 
 Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 ---
- qga/commands-posix.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ qga/commands-posix.c | 35 +++++++++++++++++++++++++----------
+ 1 file changed, 25 insertions(+), 10 deletions(-)
 
 diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 6875ea8888..b0b467ebdb 100644
+index b0b467ebdb..e0ee0bea00 100644
 --- a/qga/commands-posix.c
 +++ b/qga/commands-posix.c
-@@ -90,6 +90,10 @@ void qmp_guest_shutdown(bool has_mode, const char *mode, Error **errp)
-     const char *powerdown_flag = "-i5";
-     const char *halt_flag = "-i0";
-     const char *reboot_flag = "-i6";
-+#elif defined(CONFIG_BSD)
-+    const char *powerdown_flag = "-p";
-+    const char *halt_flag = "-h";
-+    const char *reboot_flag = "-r";
- #else
-     const char *powerdown_flag = "-P";
-     const char *halt_flag = "-H";
-@@ -120,6 +124,9 @@ void qmp_guest_shutdown(bool has_mode, const char *mode, Error **errp)
- #ifdef CONFIG_SOLARIS
-         execl("/sbin/shutdown", "shutdown", shutdown_flag, "-g0", "-y",
-               "hypervisor initiated shutdown", (char *)NULL);
-+#elif defined(CONFIG_BSD)
-+        execl("/sbin/shutdown", "shutdown", shutdown_flag, "+0",
-+               "hypervisor initiated shutdown", (char *)NULL);
- #else
-         execl("/sbin/shutdown", "shutdown", "-h", shutdown_flag, "+0",
-                "hypervisor initiated shutdown", (char *)NULL);
+@@ -2122,7 +2122,9 @@ int64_t qmp_guest_set_vcpus(GuestLogicalProcessorList *vcpus, Error **errp)
+ 
+     return processed;
+ }
++#endif /* __linux__ */
+ 
++#if defined(__linux__) || defined(__FreeBSD__)
+ void qmp_guest_set_user_password(const char *username,
+                                  const char *password,
+                                  bool crypted,
+@@ -2156,10 +2158,15 @@ void qmp_guest_set_user_password(const char *username,
+         goto out;
+     }
+ 
++#ifdef __FreeBSD__
++    chpasswddata = g_strdup(rawpasswddata);
++    passwd_path = g_find_program_in_path("pw");
++#else
+     chpasswddata = g_strdup_printf("%s:%s\n", username, rawpasswddata);
+-    chpasswdlen = strlen(chpasswddata);
+-
+     passwd_path = g_find_program_in_path("chpasswd");
++#endif
++
++    chpasswdlen = strlen(chpasswddata);
+ 
+     if (!passwd_path) {
+         error_setg(errp, "cannot find 'passwd' program in PATH");
+@@ -2180,11 +2187,17 @@ void qmp_guest_set_user_password(const char *username,
+         reopen_fd_to_null(1);
+         reopen_fd_to_null(2);
+ 
++#ifdef __FreeBSD__
++        const char *h_arg;
++        h_arg = (crypted) ? "-H" : "-h";
++        execl(passwd_path, "pw", "usermod", "-n", username, h_arg, "0", NULL);
++#else
+         if (crypted) {
+             execl(passwd_path, "chpasswd", "-e", NULL);
+         } else {
+             execl(passwd_path, "chpasswd", NULL);
+         }
++#endif
+         _exit(EXIT_FAILURE);
+     } else if (pid < 0) {
+         error_setg_errno(errp, errno, "failed to create child process");
+@@ -2227,7 +2240,17 @@ out:
+         close(datafd[1]);
+     }
+ }
++#else /* __linux__ || __FreeBSD__ */
++void qmp_guest_set_user_password(const char *username,
++                                 const char *password,
++                                 bool crypted,
++                                 Error **errp)
++{
++    error_setg(errp, QERR_UNSUPPORTED);
++}
++#endif /* __linux__ || __FreeBSD__ */
+ 
++#ifdef __linux__
+ static void ga_read_sysfs_file(int dirfd, const char *pathname, char *buf,
+                                int size, Error **errp)
+ {
+@@ -2764,14 +2787,6 @@ int64_t qmp_guest_set_vcpus(GuestLogicalProcessorList *vcpus, Error **errp)
+     return -1;
+ }
+ 
+-void qmp_guest_set_user_password(const char *username,
+-                                 const char *password,
+-                                 bool crypted,
+-                                 Error **errp)
+-{
+-    error_setg(errp, QERR_UNSUPPORTED);
+-}
+-
+ GuestMemoryBlockList *qmp_guest_get_memory_blocks(Error **errp)
+ {
+     error_setg(errp, QERR_UNSUPPORTED);
 -- 
 2.25.1
 
