@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BEEB60E253
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 15:39:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A99A160E259
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 15:41:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ongVr-0005w9-GI; Wed, 26 Oct 2022 09:32:07 -0400
+	id 1ongVv-0005x4-SR; Wed, 26 Oct 2022 09:32:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ongVp-0005rN-Of; Wed, 26 Oct 2022 09:32:05 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
+ id 1ongVr-0005wI-Ce; Wed, 26 Oct 2022 09:32:07 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ongVh-0007kS-UE; Wed, 26 Oct 2022 09:31:59 -0400
-Received: by mail-ed1-x533.google.com with SMTP id y69so22461290ede.5;
- Wed, 26 Oct 2022 06:31:57 -0700 (PDT)
+ id 1ongVp-0007km-Qa; Wed, 26 Oct 2022 09:32:07 -0400
+Received: by mail-ej1-x629.google.com with SMTP id b2so21280344eja.6;
+ Wed, 26 Oct 2022 06:31:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=bRfDr5SFILAQcnsuAkN6VzuhG0H6yTFDwJWwXL/GynY=;
- b=FmsF2UVwdnc/mS/3njy3a6RJSKAnIzpmo6/9ESVaNKemGvFIVBopRwgOyz9AoqmXqg
- +Z1OuyJqGcl3RvEmwUhUo1kevgFaPVlMbiC00eoWlnJ3FwxjwJOxv8XL2inOMW8hQCoL
- qNnuTzmIdeixB3efqB2anZGILcYNvYP9DZSJDC+Zx6u1wyDuM8ZcQG/fmUVteldyd0vl
- j2iIosGR5Kcahf/QW1CTd7cK6SRTLea5HegtlwSC98gCWBlM0x2Y3BJCpfF3IB4CBunG
- eSgzSqe+rWc1EbRbhKUcuXkz32AqLV6Q5Qo42NdiHj50rxaW+uYMlwI1XUhrfMN2u+pJ
- Z4kA==
+ bh=HxXdl7oEF+i6qVetlrC96ePVGZivy2YPeOTXA2wfdQw=;
+ b=djAFXNHsRZNdgTLlZZyAl1kAC9+IKkmhG7NKQLKLs/X9+/dMnE6/GJQja0d3oZEcYE
+ lMT1xTVsGpm1HhaIbfWUOwWgMX10DamRGmyPEiJl9wEmQHcgJIV2GA6R+9k9GTaY5+vd
+ E/mG0hlLyBzMcrKXr16jlgvac9+vmyvDLDAUwJs28YqrxT8ZnUZbCzSixUzUjCsCKWYE
+ WXJSkz4RdF8qy90HN1a3OjJyMxi9nm6mhxX+TnKZPSmAHortwGlv6xyUu8fRtQrNxleO
+ 9w15rgx79eaeeYTlcm1u9ZOYzabQ36mdIyxz0oblBQmSwH6Hc7wsAMnDeGlnJ04lOkjL
+ aqjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=bRfDr5SFILAQcnsuAkN6VzuhG0H6yTFDwJWwXL/GynY=;
- b=Wm+3uuedvGQCGvUhknEC92o79NVBNGZqoDEWWaF3pgatlvoawkGLLQrr49AQAUy9tc
- D0P94VwqrylLYlivHjMMM9PSPnHxJ9akVtQ85fX/91WYv/urLFwlZAcK5o/+hdUGr31W
- ZiaJozs6lYcK16BVypsP4wC7bCIdIhsqZYzIckPficsjb5uhDsQ+srxEq74P4JSK5gmZ
- GiuubC1miDJc5YW1nUzLxkshbvyIQ0LKOpxXrnomtpgdNXwvbT7F572M+rUPM3krtjAV
- +zQft8xy4aEofBjOe2loi4VIrhw8pBERDeGuycmo16t4UBqa3O4e1TLtvRNIkO/Uo+gx
- XjEA==
-X-Gm-Message-State: ACrzQf1jkFpg4Oms4EktFgsgBvALE6iyAQzvDshHUSK8zjRDqBO6W9ti
- ni4ay3Xw1DX8Bn8fgMHsWFnUnU31jSo=
-X-Google-Smtp-Source: AMsMyM67G9ljArt/DT1NpfMccJozz9hcw/K6ql+Ds1OE0V0sGU0FKIzmizR36hm1qvYdxfX+V9hABA==
-X-Received: by 2002:aa7:de81:0:b0:461:2122:a807 with SMTP id
- j1-20020aa7de81000000b004612122a807mr29775585edv.382.1666791115855; 
- Wed, 26 Oct 2022 06:31:55 -0700 (PDT)
+ bh=HxXdl7oEF+i6qVetlrC96ePVGZivy2YPeOTXA2wfdQw=;
+ b=zz4FUT2fcOklB5kvUEhFA4DmFOT34slEuN8zcVh3vzigyR7wBiYrcy1cp7+F65D4Hu
+ qc1IxWEEKJ+0FbtJzt3QE2tVtCdzNYpOmzqu4z5XeuLrweV+YDuuaJfZ5dILBHFR4FZX
+ Ve/dqybf08GzkOOL3lXX4pir3MhcTVHhoLzyWjApPzPkFuTemaTaRwEBYWjDLoEh/je+
+ D5YFoUzFeZ0+n8VhJhMCtSUU81+eVjzvTB4oNF0UgqKk37V4xS3ngeSv8gKUwsCRAfG/
+ 7IaOyxNrcDpjPYziBHDfFs0635V3mXx0/9hGkqRy6C6qHfCdwq7vqVqCjh2CBqBO9iQ+
+ J9BA==
+X-Gm-Message-State: ACrzQf3pMPR25qDuukMV/FSS/xwg4KHZ39R8C0MkzEUCS1OAgZn3Y6ae
+ Vbma0nIaRG1HyO7JWo+8NUasfIGU5VE=
+X-Google-Smtp-Source: AMsMyM7i/q8y+1ihWhoMlIXTo0Dt/petsbX3Sm/NBFwVkZ4R9sn4NnFmJCiSqwKufZYZxW+viz9C+Q==
+X-Received: by 2002:a17:907:2da5:b0:78e:1208:8783 with SMTP id
+ gt37-20020a1709072da500b0078e12088783mr37981670ejc.743.1666791116845; 
+ Wed, 26 Oct 2022 06:31:56 -0700 (PDT)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- 13-20020a170906328d00b00730b3bdd8d7sm3032524ejw.179.2022.10.26.06.31.54
+ 13-20020a170906328d00b00730b3bdd8d7sm3032524ejw.179.2022.10.26.06.31.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Oct 2022 06:31:55 -0700 (PDT)
+ Wed, 26 Oct 2022 06:31:56 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: "Michael S. Tsirkin" <mst@redhat.com>,
@@ -62,16 +62,16 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 1/4] hw/i386/acpi-build: Remove unused struct
-Date: Wed, 26 Oct 2022 15:31:07 +0200
-Message-Id: <20221026133110.91828-2-shentey@gmail.com>
+Subject: [PATCH 2/4] hw/i386/acpi-build: Resolve redundant attribute
+Date: Wed, 26 Oct 2022 15:31:08 +0200
+Message-Id: <20221026133110.91828-3-shentey@gmail.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221026133110.91828-1-shentey@gmail.com>
 References: <20221026133110.91828-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,32 +94,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Ammends commit b23046abe78f48498a423b802d6d86ba0172d57f 'pc: acpi-build:
-simplify PCI bus tree generation'.
+The is_piix4 attribute is set once in one location and read once in
+another. Doing both in one location allows for removing the attribute
+altogether.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/i386/acpi-build.c | 7 -------
- 1 file changed, 7 deletions(-)
+ hw/i386/acpi-build.c | 20 ++++++--------------
+ 1 file changed, 6 insertions(+), 14 deletions(-)
 
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 4f54b61904..b4d9a05760 100644
+index b4d9a05760..f3131fee60 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -121,13 +121,6 @@ typedef struct AcpiMiscInfo {
-     unsigned dsdt_size;
- } AcpiMiscInfo;
+@@ -112,7 +112,6 @@ typedef struct AcpiPmInfo {
+ } AcpiPmInfo;
  
--typedef struct AcpiBuildPciBusHotplugState {
--    GArray *device_table;
--    GArray *notify_table;
--    struct AcpiBuildPciBusHotplugState *parent;
--    bool pcihp_bridge_en;
--} AcpiBuildPciBusHotplugState;
+ typedef struct AcpiMiscInfo {
+-    bool is_piix4;
+     bool has_hpet;
+ #ifdef CONFIG_TPM
+     TPMVersion tpm_version;
+@@ -281,17 +280,6 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
+ 
+ static void acpi_get_misc_info(AcpiMiscInfo *info)
+ {
+-    Object *piix = object_resolve_type_unambiguous(TYPE_PIIX4_PM);
+-    Object *lpc = object_resolve_type_unambiguous(TYPE_ICH9_LPC_DEVICE);
+-    assert(!!piix != !!lpc);
 -
- typedef struct FwCfgTPMConfig {
-     uint32_t tpmppi_address;
-     uint8_t tpm_version;
+-    if (piix) {
+-        info->is_piix4 = true;
+-    }
+-    if (lpc) {
+-        info->is_piix4 = false;
+-    }
+-
+     info->has_hpet = hpet_find();
+ #ifdef CONFIG_TPM
+     info->tpm_version = tpm_get_version(tpm_find());
+@@ -1449,6 +1437,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+            AcpiPmInfo *pm, AcpiMiscInfo *misc,
+            Range *pci_hole, Range *pci_hole64, MachineState *machine)
+ {
++    Object *piix = object_resolve_type_unambiguous(TYPE_PIIX4_PM);
++    Object *ich9 = object_resolve_type_unambiguous(TYPE_ICH9_LPC_DEVICE);
+     CrsRangeEntry *entry;
+     Aml *dsdt, *sb_scope, *scope, *dev, *method, *field, *pkg, *crs;
+     CrsRangeSet crs_range_set;
+@@ -1469,11 +1459,13 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+     AcpiTable table = { .sig = "DSDT", .rev = 1, .oem_id = x86ms->oem_id,
+                         .oem_table_id = x86ms->oem_table_id };
+ 
++    assert(!!piix != !!ich9);
++
+     acpi_table_begin(&table, table_data);
+     dsdt = init_aml_allocator();
+ 
+     build_dbg_aml(dsdt);
+-    if (misc->is_piix4) {
++    if (piix) {
+         sb_scope = aml_scope("_SB");
+         dev = aml_device("PCI0");
+         aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
+@@ -1487,7 +1479,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+             build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
+         }
+         build_piix4_pci0_int(dsdt);
+-    } else {
++    } else if (ich9) {
+         sb_scope = aml_scope("_SB");
+         dev = aml_device("PCI0");
+         aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
 -- 
 2.38.1
 
