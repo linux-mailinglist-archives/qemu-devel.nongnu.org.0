@@ -2,81 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C06FF60E8F9
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 21:26:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2C3760E903
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 21:31:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onlvI-0008BG-HI; Wed, 26 Oct 2022 15:18:44 -0400
+	id 1onm34-0003PG-I1; Wed, 26 Oct 2022 15:26:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1onlvH-0008As-3t
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 15:18:43 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1onlvF-00025N-DI
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 15:18:42 -0400
-Received: by mail-wm1-x332.google.com with SMTP id jb18so7501340wmb.4
- for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 12:18:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=J9a2BgiZ2Wkwz71ZOqgHOarEdR2H1gReHI5qtGn0+1g=;
- b=eUrSxLeGAASuSSsuAZ2jUAQktZMYC4sxkjFDoQlakOV790FbgyJ+rbHv/ie2YUO97+
- TyuwXgjLVrZhHBPh4UPTDtO7cvARTfCI8iRrgBQJctj1C5lWK0S6wi6LgMAyx0xDrAfn
- iqi0J99i9F6nfP1+pkgn+eJVOYhPAAFNPbkgcwUrxtruFb6Ct2IYl4XHOy83HQZEFMfu
- MNXyFLBAU1pM6s1q8PHoxJLNH9M+gY5u5ZPTJsGQhR7Mu7FjLNV4TEhVC9zH6NUpkl2Q
- mAvNJLfShUPUEVO82X72e34+SiW5J62VqPMhI428oLoALGmLFyHm76cAlc7xFE+NgTuc
- Mk1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=J9a2BgiZ2Wkwz71ZOqgHOarEdR2H1gReHI5qtGn0+1g=;
- b=krZpWsN4M0Nfnvm84ZxFhf/oZkSLIkDOB30JrEooFmtxsB7QvDx229Fxi8bnsQPTXP
- f+fj0i58ek7lfuXD8OahObloF8LCNqlqJaCeyUFpkCR5NOBhUIg1QHcytRQG4D8lif1d
- WuoxZxodcDD7jsrB/rmieigfghvfpcY392g85btl2tttCe0946Neevbgt4mt+Q86/VzE
- BTG1XDK2bEa7AkCQRzeW3pIxRKxvS6qRlQ8z6PmmrCMvWly84fMBXRX7EXGTEN0hDPrT
- hkdsflRTLVX1PK6b7LTlNBWJ3pOgK9PRZbaHhxNOBFgkxA0PBneYEDulRyVcB6AlpURm
- JmQw==
-X-Gm-Message-State: ACrzQf2F0t5CiRMGWfyb5G31KxV3C0Dr4wBwSzsYJS195pPHrjMU7Ui5
- ZJT5b3pmrqxifpcQtPZiVBb9yiTNeWS350cn
-X-Google-Smtp-Source: AMsMyM4lRkWAq8wBDlMk4xbyuMsVuQpMQcpfLJNXXmm1rSIdH7SwZsqZxGzpj4nxGCgfDV1/M3elcA==
-X-Received: by 2002:a05:600c:34c1:b0:3cf:3921:ef22 with SMTP id
- d1-20020a05600c34c100b003cf3921ef22mr3469183wmq.204.1666811919874; 
- Wed, 26 Oct 2022 12:18:39 -0700 (PDT)
-Received: from localhost.localdomain ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- q16-20020a05600c46d000b003c6f426467fsm2706402wmo.40.2022.10.26.12.18.38
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 26 Oct 2022 12:18:39 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Aurelien Jarno <aurelien@aurel32.net>, Paul Burton <paulburton@kernel.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Huacai Chen <chenhuacai@kernel.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-Subject: [PATCH v4 3/3] hw/mips/malta: Use bootloader helper to set BAR
- registers
-Date: Wed, 26 Oct 2022 21:18:21 +0200
-Message-Id: <20221026191821.28167-4-philmd@linaro.org>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221026191821.28167-1-philmd@linaro.org>
-References: <20221026191821.28167-1-philmd@linaro.org>
+ (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1onm30-0001mV-3p; Wed, 26 Oct 2022 15:26:42 -0400
+Received: from [200.168.210.66] (helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1onm2w-0003oy-Uj; Wed, 26 Oct 2022 15:26:41 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Wed, 26 Oct 2022 16:26:32 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id CDE168001F1;
+ Wed, 26 Oct 2022 16:26:31 -0300 (-03)
+From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, richard.henderson@linaro.org, aurelien@aurel32.net,
+ peter.maydell@linaro.org, alex.bennee@linaro.org, balaton@eik.bme.hu,
+ victor.colombo@eldorado.org.br, matheus.ferst@eldorado.org.br,
+ lucas.araujo@eldorado.org.br, leandro.lupori@eldorado.org.br,
+ lucas.coutinho@eldorado.org.br
+Subject: [RFC PATCH v2 0/5] Idea for using hardfloat in PPC
+Date: Wed, 26 Oct 2022 16:25:43 -0300
+Message-Id: <20221026192548.67303-1-victor.colombo@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 26 Oct 2022 19:26:32.0358 (UTC)
+ FILETIME=[DAC80460:01D8E970]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,118 +63,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+As can be seem in the mailing thread that added hardfloat support in
+QEMU [1], a requirement for it to work is to have float_flag_inexact
+set when entering the API in softfloat.c. However, in the same thread,
+it was explained that PPC target would not work by default with this
+implementation.
+The problem is that PPC has a non-sticky inexact bit (there is a
+discussion about it in [2]), meaning that we can't just set the flag
+and call the API in softfloat.c, as it would return the same flag set
+to 1, and we wouldn't know if it is supposed to be updated on FPSCR or
+not.
+Over the last couple years, there were attempts to enable hardfpu
+for Power, like [3]. But nothing got to master.
+[5] shows a suggestion by Yonggang Luo and commentaries by Richard and
+Zoltan, about caching the last FP instruction and reexecuting it when
+necessary.
 
-Translate embedded assembly into IO writes which is more
-readable.
+This patch set is a proposition on the idea to cache the last FP insn,
+to be reexecuted later when the value of FPSCR is to be read by a
+program. When executed in hardfloat, the instruction "context" is saved
+inside `env`, and is expected to be reexecuted later, in softfloat,
+to calculate the correct value of the inexact flag in FPSCR.
+The instruction to be cached is the last instruction that changes FI.
+If the instructions does not change FI, it keeps the cache intact.
+If it changes FI, it caches itself and tries to execute in hardfpu.
+It might or might not use hardfloat, but as the inexact flag was
+artificially set, it will require to be reexecuted later. 'Later'
+means when FPSCR is to be read, like during a call to MFFS, or when
+a signal occurs. There are probably other places, e.g. other mffs-like
+instructions, but this RFC only addresses these two scenarios.
+This is supposed to be more efficient because programs very seldomly
+read FPSCR, meaning the amount of reexecutions will be low.
 
-Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Message-Id: <20210127065424.114125-4-jiaxun.yang@flygoat.com>
-[PMD: Explode addresses/values to ease review/maintainance]
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- hw/mips/malta.c | 79 +++++++++++++++++++++++--------------------------
- 1 file changed, 37 insertions(+), 42 deletions(-)
+For now, this was implemented and tested for linux-user, no softmmu
+work or analysis was done.
+I implemented the base code to keep all instructions working with
+this new behavior (patch 1), and also implemented some instructions
+as an example on what it would be necessary to do for every instruction
+to use hardfpu (patches 2, 3 and 4).
 
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index e24572c885..272d93eea7 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -867,56 +867,51 @@ static void write_bootloader(uint8_t *base, uint64_t run_addr,
-     /* Second part of the bootloader */
-     p = (uint32_t *) (base + 0x580);
- 
--    /* Load BAR registers as done by YAMON */
--    stl_p(p++, 0x3c09b400);                  /* lui t1, 0xb400 */
-+    /*
-+     * Load BAR registers as done by YAMON:
-+     *
-+     *  - set up PCI0 I/O BARs from 0x18000000 to 0x181fffff
-+     *  - set up PCI0 MEM0 at 0x10000000, size 0x7e00000
-+     *  - set up PCI0 MEM1 at 0x18200000, size 0xbc00000
-+     *
-+     */
- 
-+    /* Bus endianess is always reversed */
- #if TARGET_BIG_ENDIAN
--    stl_p(p++, 0x3c08df00);                  /* lui t0, 0xdf00 */
-+#define cpu_to_gt32 cpu_to_le32
- #else
--    stl_p(p++, 0x340800df);                  /* ori t0, r0, 0x00df */
-+#define cpu_to_gt32 cpu_to_be32
- #endif
--    stl_p(p++, 0xad280068);                  /* sw t0, 0x0068(t1) */
- 
--    stl_p(p++, 0x3c09bbe0);                  /* lui t1, 0xbbe0 */
-+    /* move GT64120 registers from 0x14000000 to 0x1be00000 */
-+    bl_gen_write_u32(&p, /* GT_ISD */
-+                     cpu_mips_phys_to_kseg1(NULL, 0x14000000 + 0x68),
-+                     cpu_to_gt32(0x1be00000 << 3));
- 
--#if TARGET_BIG_ENDIAN
--    stl_p(p++, 0x3c08c000);                  /* lui t0, 0xc000 */
--#else
--    stl_p(p++, 0x340800c0);                  /* ori t0, r0, 0x00c0 */
--#endif
--    stl_p(p++, 0xad280048);                  /* sw t0, 0x0048(t1) */
--#if TARGET_BIG_ENDIAN
--    stl_p(p++, 0x3c084000);                  /* lui t0, 0x4000 */
--#else
--    stl_p(p++, 0x34080040);                  /* ori t0, r0, 0x0040 */
--#endif
--    stl_p(p++, 0xad280050);                  /* sw t0, 0x0050(t1) */
-+    /* setup MEM-to-PCI0 mapping */
-+    /* setup PCI0 io window to 0x18000000-0x181fffff */
-+    bl_gen_write_u32(&p, /* GT_PCI0IOLD */
-+                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x48),
-+                     cpu_to_gt32(0x18000000 << 3));
-+    bl_gen_write_u32(&p, /* GT_PCI0IOHD */
-+                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x50),
-+                     cpu_to_gt32(0x08000000 << 3));
-+    /* setup PCI0 mem windows */
-+    bl_gen_write_u32(&p, /* GT_PCI0M0LD */
-+                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x58),
-+                     cpu_to_gt32(0x10000000 << 3));
-+    bl_gen_write_u32(&p, /* GT_PCI0M0HD */
-+                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x60),
-+                     cpu_to_gt32(0x07e00000 << 3));
- 
--#if TARGET_BIG_ENDIAN
--    stl_p(p++, 0x3c088000);                  /* lui t0, 0x8000 */
--#else
--    stl_p(p++, 0x34080080);                  /* ori t0, r0, 0x0080 */
--#endif
--    stl_p(p++, 0xad280058);                  /* sw t0, 0x0058(t1) */
--#if TARGET_BIG_ENDIAN
--    stl_p(p++, 0x3c083f00);                  /* lui t0, 0x3f00 */
--#else
--    stl_p(p++, 0x3408003f);                  /* ori t0, r0, 0x003f */
--#endif
--    stl_p(p++, 0xad280060);                  /* sw t0, 0x0060(t1) */
-+    bl_gen_write_u32(&p, /* GT_PCI0M1LD */
-+                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x80),
-+                     cpu_to_gt32(0x18200000 << 3));
-+    bl_gen_write_u32(&p, /* GT_PCI0M1HD */
-+                     cpu_mips_phys_to_kseg1(NULL, 0x1be00000 + 0x88),
-+                     cpu_to_gt32(0x0bc00000 << 3));
- 
--#if TARGET_BIG_ENDIAN
--    stl_p(p++, 0x3c08c100);                  /* lui t0, 0xc100 */
--#else
--    stl_p(p++, 0x340800c1);                  /* ori t0, r0, 0x00c1 */
--#endif
--    stl_p(p++, 0xad280080);                  /* sw t0, 0x0080(t1) */
--#if TARGET_BIG_ENDIAN
--    stl_p(p++, 0x3c085e00);                  /* lui t0, 0x5e00 */
--#else
--    stl_p(p++, 0x3408005e);                  /* ori t0, r0, 0x005e */
--#endif
--    stl_p(p++, 0xad280088);                  /* sw t0, 0x0088(t1) */
-+#undef cpu_to_gt32
- 
-     bl_gen_jump_kernel(&p,
-                        true, ENVP_VADDR - 64,
+My tests with risu and other manual tests showed the behavior seems to
+be correct. I tested mainly if FPSCR is the same after using softfloat
+or hardfloat.
+
+On the v1 of this RFC I reported a performance regression with the
+implementation. However, the test I crafted [4] was supposed to be a
+mix of many hardfloats and some softfloat fallbacks (instructions
+fallback to softfloat in special cases, like e.g. negative argument
+for sqrt). What actually was happening was that there was a huge amount
+of fallbacks and not many hardfloats actually happening. The expected
+'normal scenario' is to have a lot of valid, 'happy path' instructions
+that can use hardfloat.
+So, what I did for v2 is to create two tests, one that would hit 100%
+hardfloat, and one that would fallback 100% to softfloat. I present
+the results below. The tests are not comparable, neither the new ones
+or the previous one from v1. So they are supposed to be analyzed
+uniquely.
+
+100% hardfloat (1:1 mix of fsqrt and fmadd) [6]
+|                | min [s] | max [s] | avg [s] |
+| before (master)| 30.731 | 31.420   | 31.186  |
+| after changes  | 20.860 | 21.100   | 20.989  |
+(approx. 1.5x speedup)
+
+100% softfloat (1:1 mix of fsqrt and fmadd) [7]
+|                | min [s] | max [s] | avg [s] |
+| before (master)| 22.684  | 23.152   | 22.868  |
+| after changes  | 25.098  | 25.397   | 25.281  |
+(approx 0.9x of old performance)
+
+This is way better than what I previously reported, and is a result
+that might justify going forward with this idea. The only problem
+is the performance impact when hardfloat cannot be used. I expect
+that most real-life use cases will hit hardfloat almost 100% of the
+time, so this might not be a big issue. Opinions on this?
+
+You can see that I actually added a new commit to this RFC,
+implementing the idea also for add, sub, mul, and div. I tested the old
+test with this new commit, and the result was not better. So the new
+patch was not responsible for the performance gain, the test itself
+was bad.
+
+As I did not test the code in softmmu or bsd-user (does bsd-user work
+for PPC?), I added some build time checks to only enable this RFC for
+linux-user. I'm pretty confident that making this work for softmmu will
+need changes in other places in the code. But I'm focusing on linux-
+user for now.
+
+Thank you very much!
+
+[1] https://patchwork.kernel.org/project/qemu-devel/patch/20181124235553.17371-8-cota@braap.org/
+[2] https://lists.nongnu.org/archive/html/qemu-ppc/2022-05/msg00246.html
+[3] https://patchwork.kernel.org/project/qemu-devel/patch/20200218171702.979F074637D@zero.eik.bme.hu/
+[4] https://gist.github.com/vcoracolombo/6ad884a402f1bba531e2e3da7e196656
+[5] https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg00064.html
+[6] https://gist.github.com/vcoracolombo/f0d8b7c9f1cb63dac6ff0221209ec4ff
+[7] https://gist.github.com/vcoracolombo/4b592644517c0efb3854872a4b30f6cc
+
+Víctor Colombo (5):
+  target/ppc: prepare instructions to work with caching last FP insn
+  target/ppc: Implement instruction caching for fsqrt
+  target/ppc: Implement instruction caching for muladd
+  target/ppc: Implement instruction caching for add/sub/mul/div
+  target/ppc: Enable hardfpu for Power
+
+ fpu/softfloat.c                    |  10 +-
+ target/ppc/cpu.h                   |  37 ++++++
+ target/ppc/excp_helper.c           |   2 +
+ target/ppc/fpu_helper.c            | 186 +++++++++++++++++++++++++++++
+ target/ppc/helper.h                |   1 +
+ target/ppc/translate/fp-impl.c.inc |   1 +
+ 6 files changed, 233 insertions(+), 4 deletions(-)
+
 -- 
-2.37.3
+2.25.1
 
 
