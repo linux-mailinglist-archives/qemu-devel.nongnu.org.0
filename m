@@ -2,79 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27C9A60EA7A
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 22:44:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E00D160EA88
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 22:49:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onnDM-0002tk-4F; Wed, 26 Oct 2022 16:41:28 -0400
+	id 1onnIO-000133-Sx; Wed, 26 Oct 2022 16:46:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1onnDH-0002LE-HT
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 16:41:23 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1onnIK-0000RS-Cs
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 16:46:37 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1onnCU-00085m-By
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 16:41:22 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1onnIB-00012W-F2
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 16:46:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666816827;
+ s=mimecast20190719; t=1666817185;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zp24GueRSDXr/SsGMpQHu3N0C7lCHXG5Ay57+x9v7Vw=;
- b=C7nu96nn3A9pmzpbx4weGQzAlf3teRR+A1OsnRuhjgn+TPoC57gbhv6ZXIzI9SO2pU7QVt
- 2RMyZX13HDuGIQWIljh9j2ovt0rtjvV+DlW0DfQQjyAOH2sffFzMYqx0NtIn89dHtBbhnU
- LW4JYAFtGaO14YTf97lfl8cTECu8VDw=
+ bh=CLDfktWHU69scAACtHvTmKiGE7E7RxH9U5HNYSEfkHs=;
+ b=IIcZBbwky4/rbndpVztscVEwg+O3CMHIma5BDHux591Du+bi1P9FvSdBoSWY91izO11rVb
+ AgrOKUNh8Ns0S5wwlpK6H60iQTdlTmHbxDEaXLZAVCf7viYWXbP08HoI6nxbnjJK3fgIt3
+ Czq3dnDCTLPvzrYBcIYR0OsW73Q58C4=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-336-sPX_JN0AMmqo9O52TVn8pQ-1; Wed, 26 Oct 2022 16:40:26 -0400
-X-MC-Unique: sPX_JN0AMmqo9O52TVn8pQ-1
+ us-mta-658-9ulRCV52MTKRkjaUaZmE5w-1; Wed, 26 Oct 2022 16:46:24 -0400
+X-MC-Unique: 9ulRCV52MTKRkjaUaZmE5w-1
 Received: by mail-wm1-f72.google.com with SMTP id
- i83-20020a1c3b56000000b003cf4ff1b917so175496wma.2
- for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 13:40:26 -0700 (PDT)
+ o18-20020a05600c4fd200b003c6ceb1339bso1724241wmq.1
+ for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 13:46:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zp24GueRSDXr/SsGMpQHu3N0C7lCHXG5Ay57+x9v7Vw=;
- b=aviQPbb9RRXQscXZjL82Kfbt2uK5xsBt4NWr8DbKyyU0hbYQR0UoYT4LTobpotxHnA
- eZ8OMAfEcJdZ2mp1eY9ANGhr3I/SBXKKloTrA/2FGYLk9ICx5OqsjHCHHvIxfwkfHI8L
- M4dqQE2iRVXrpqmnnv872X8xjJ6y1a8RxM/idL4vjS0DkWy4ndZeznWT6oGu1a6VHjgH
- 13HpkMVHc5IPLKnJ5XfZw9RozoKPtfNTtSQCLnT+SCAuoRINr0ZR9pHZn01ewzamGKQr
- NjGGnfJ1FP6x24wxcxDqergEVcUK6PCBkAqjnmoTuYqzblBwboR2vh7+k0wlX6qnhKch
- /7rQ==
-X-Gm-Message-State: ACrzQf3B6y8tV+mtX/JxpcuMFJYc7ZbEBJiAVR1bNO3bp0cBc3frnAWL
- L4RdzFc+LyzKg+FU6r6xDrdRjeUGDjzwSvK9bsd9+ZRel+xobcaA5kD+BvLjoPLdBAdkDdfT4V0
- uIWUwg0+AbHBF2GU=
-X-Received: by 2002:adf:e64e:0:b0:236:76a9:446 with SMTP id
- b14-20020adfe64e000000b0023676a90446mr10945850wrn.696.1666816825360; 
- Wed, 26 Oct 2022 13:40:25 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4FHb10PxeKTrdWTgjMlFKFcEcUcp4ip0PyYukup64yhOxr91GJ+eTzYxk4CLc10YEO5iZxeg==
-X-Received: by 2002:adf:e64e:0:b0:236:76a9:446 with SMTP id
- b14-20020adfe64e000000b0023676a90446mr10945833wrn.696.1666816825080; 
- Wed, 26 Oct 2022 13:40:25 -0700 (PDT)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=CLDfktWHU69scAACtHvTmKiGE7E7RxH9U5HNYSEfkHs=;
+ b=qTaDp1o2gCHLSjLO0h6vc/CuPPB6+cZZG2B7PrUDsBSnn4ECazAzW8Xbu1frDmZbcr
+ cb6j4a+eaLXXkfHpXHJCzThGlatPFlH2x1W77+YJI0QbD4tL+QPZkC4iY5p435YlgzC3
+ CHJFE8Bs4U1osjibgLeen0T0PJXbE14E+oI5LA4mjOjdxRGxMGo1yyvd2GbP7LfCtc/Z
+ Zz4acOg4DvEDEUz3gtNiIamj6/sCdAdf+HG4MvV6Yk+DusK50pZo8GKQUa3BMQs2FAZV
+ QaN7d061eqI/XDKveGrmIkpWrUUQ8jmndsk9R1HN4iHIby0JSwlmoEkopFTNqGs9T9nx
+ XkAg==
+X-Gm-Message-State: ACrzQf3wrhxpXY4VHM7ltsqL3/Kz+etJXbWN2W7TIC1lOCcmhBVpxa9a
+ 7nx0uYZnDBHRxbpsGJaTOcAMqe/778vc4Am7+Q+O+JTmy/7Vk4he4FiipEbVLpg266mVkg9eA2i
+ P5TEh4LKcU19RhaE=
+X-Received: by 2002:a05:600c:474a:b0:3c7:6df:4493 with SMTP id
+ w10-20020a05600c474a00b003c706df4493mr3792130wmo.44.1666817181977; 
+ Wed, 26 Oct 2022 13:46:21 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5QCqNOYY94UCR49mSaq/OC/1mLBl4zB6wjxzitYJuuBxMkh2TJoZAirE8P9K6g3pz+7U6/sw==
+X-Received: by 2002:a05:600c:474a:b0:3c7:6df:4493 with SMTP id
+ w10-20020a05600c474a00b003c706df4493mr3792112wmo.44.1666817181651; 
+ Wed, 26 Oct 2022 13:46:21 -0700 (PDT)
 Received: from redhat.com ([2.52.15.7]) by smtp.gmail.com with ESMTPSA id
- d5-20020a05600c34c500b003cf4d99fd2asm1913441wmq.6.2022.10.26.13.40.23
+ s15-20020a05600c29cf00b003c6c3fb3cf6sm2738905wmd.18.2022.10.26.13.46.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Oct 2022 13:40:24 -0700 (PDT)
-Date: Wed, 26 Oct 2022 16:40:21 -0400
+ Wed, 26 Oct 2022 13:46:21 -0700 (PDT)
+Date: Wed, 26 Oct 2022 16:46:17 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Cc: Cindy Lu <lulu@redhat.com>, jasowang@redhat.com, pbonzini@redhat.com,
- peterx@redhat.com, david@redhat.com, f4bug@amsat.org,
- sgarzare@redhat.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 1/2] vfio: move the function vfio_get_xlat_addr() to
- memory.c
-Message-ID: <20221026164001-mutt-send-email-mst@kernel.org>
-References: <20221025163734.965367-1-lulu@redhat.com>
- <20221025163734.965367-2-lulu@redhat.com>
- <20221025105518.0a56c662.alex.williamson@redhat.com>
+To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, Zhu Lingshan <lingshan.zhu@intel.com>,
+ Eli Cohen <eli@mellanox.com>, Cindy Lu <lulu@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Si-Wei Liu <si-wei.liu@oracle.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Jason Wang <jasowang@redhat.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>,
+ Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH 0/7] Guest announce feature emulation using Shadow
+ VirtQueue
+Message-ID: <20221026164544-mutt-send-email-mst@kernel.org>
+References: <20221020103429.347525-1-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20221025105518.0a56c662.alex.williamson@redhat.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221020103429.347525-1-eperezma@redhat.com>
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
@@ -99,37 +103,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Oct 25, 2022 at 10:55:18AM -0600, Alex Williamson wrote:
-> On Wed, 26 Oct 2022 00:37:33 +0800
-> Cindy Lu <lulu@redhat.com> wrote:
-> > diff --git a/softmmu/memory.c b/softmmu/memory.c
-> > index 7ba2048836..03940c551d 100644
-> > --- a/softmmu/memory.c
-> > +++ b/softmmu/memory.c
-> ...
-> > +        /*
-> > +         * Malicious VMs might trigger discarding of IOMMU-mapped memory. The
-> > +         * pages will remain pinned inside vfio until unmapped, resulting in a
-> > +         * higher memory consumption than expected. If memory would get
-> > +         * populated again later, there would be an inconsistency between pages
-> > +         * pinned by vfio and pages seen by QEMU. This is the case until
-> > +         * unmapped from the IOMMU (e.g., during device reset).
-> > +         *
-> > +         * With malicious guests, we really only care about pinning more memory
-> > +         * than expected. RLIMIT_MEMLOCK set for the user/process can never be
-> > +         * exceeded and can be used to mitigate this problem.
-> > +         */
-> > +        warn_report_once("Using vfio with vIOMMUs and coordinated discarding of"
-> > +                         " RAM (e.g., virtio-mem) works, however, malicious"
-> > +                         " guests can trigger pinning of more memory than"
-> > +                         " intended via an IOMMU. It's possible to mitigate "
-> > +                         " by setting/adjusting RLIMIT_MEMLOCK.");
+On Thu, Oct 20, 2022 at 12:34:22PM +0200, Eugenio Pérez wrote:
+> A gratuitous ARP is recommended after a live migration to reduce the amount of
+> time needed by the network links to be aware of the new location. A hypervisor
+> may not have the knowledge of the guest network configuration, and this is
+> especially true on passthrough devices, so its simpler to ask the guest to
+> do it.
 > 
-> Looks like the comment and warning still need to be generalized for
-> shared use here.  Thanks,
+> However, the device control part of this feature can be totally emulated by
+> qemu and shadow virtqueue, not needing any special feature from the actual
+> vdpa device.
 > 
-> Alex
+> VIRTIO_NET_F_STATUS is also needed for the guest to access the status of
+> virtio net config where announcement status bit is set. Emulating it as
+> always active in case backend does not support it.
+> 
+> This series need two fixes applied:
+> * https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg03242.html
+> * https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg03241.html
 
-can be a patch on top? concerned about meeting the soft freeze here.
+
+Jason you seem to have queued these so you will have to take
+this patchset too.
+
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+
+
+
+> v1:
+> * Move code from vhost_net_get_config to virtio_net_get_config.
+> 
+> RFC v2:
+> * Add VIRTIO_NET_F_STATUS emulation.
+> 
+> Eugenio Pérez (7):
+>   vdpa: Save emulated features list in vhost_vdpa
+>   virtio_net: Modify virtio_net_get_config to early return
+>   virtio_net: Handle _F_STATUS emulation in virtio_net_get_config
+>   vdpa: Expose VIRTIO_NET_F_STATUS unconditionally
+>   vdpa: handle VIRTIO_NET_CTRL_ANNOUNCE in
+>     vhost_vdpa_net_handle_ctrl_avail
+>   virtio_net: copy VIRTIO_NET_S_ANNOUNCE if device model has it
+>   vdpa: Offer VIRTIO_NET_F_GUEST_ANNOUNCE feature if SVQ is enabled
+> 
+>  include/hw/virtio/vhost-vdpa.h |  2 ++
+>  hw/net/virtio-net.c            | 40 +++++++++++++++++++++-------------
+>  hw/virtio/vhost-vdpa.c         |  8 +++----
+>  net/vhost-vdpa.c               | 25 ++++++++++++++++++---
+>  4 files changed, 53 insertions(+), 22 deletions(-)
+> 
+> -- 
+> 2.31.1
+> 
 
 
