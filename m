@@ -2,86 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2245D60E25D
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 15:42:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D8A60E292
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 15:50:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ongcO-0000QI-0K; Wed, 26 Oct 2022 09:38:53 -0400
+	id 1onglt-0001pZ-90; Wed, 26 Oct 2022 09:48:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ongcJ-0000FZ-3H
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 09:38:47 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1onglg-0001hc-Sa
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 09:48:28 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ongcH-0000Up-H1
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 09:38:46 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- fn7-20020a05600c688700b003b4fb113b86so1613406wmb.0
- for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 06:38:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ongld-0002Kd-N1
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 09:48:27 -0400
+Received: by mail-wr1-x430.google.com with SMTP id j15so15912913wrq.3
+ for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 06:48:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=KqyjZIAdyRWNH0fej2C/fxbu+h3V2hClhXIiAquQo+E=;
- b=DB6hyl1hbNy8REj+Dk1vOmFDfqojiRSNgI40A/0dj89d75bcpOfQbxO/MYWuxafGKe
- pRCHxadWBJlaDZ/CjFOZbUSGYfjZyIjTrrjiA6V9FkFMrA4ZNV1LPDRFWZdvLq/7DjRp
- 0he8LiIkWJEHxV8SAxLkYYrGGweH5nlB0yA3HJTGnMOOw2gcKwm+IFxBSMc38mSskqX+
- H9m9OSEO/CfVW6qGsyICqWgqx2QiGnpu+uIJLt/hWi1MmNgkF5YDkozu26Z+VA3mSqAK
- h/BW42JuzxWuLaMBmQ6Wi26NXRtt+K3DXM9qlFevdKgeeA/iE7/SF09QuJ6BpqUtNT0E
- oUow==
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=inOVGoehyAc0OMMzrVchjr5br64FkXhdfZWiqEETiog=;
+ b=hAuLP1UlTQwy2hOcCbmbV4yNcmGCat+LzY3Lk+nMppuahmPbq+tGM1uZwzHH9uFO3R
+ V0BhWbxyCfQmj9ab/XBm5PKpM5RV/omvLY5eXbKgm0VzEhZjZyfqgAQQ+Lj60bc+5ynM
+ svsUI3COR7TolPAo9nv9uphjbSIwBXhKQvCP1aFSR6Ir1RnVj2jl7rzh864eFaoT5eb3
+ MMEzLbvisM7qkU/lL0nh8NTn0j4L/g2zifaKXl4vKY+BGztmNsgW82oqimG1WeLcoAmv
+ G0Mz0l5hlh0rj8acdvDLi+ZeqRjh5+/jP0j9oWkN4VTSjD+73J42EmZfAMEExU0SXQoZ
+ unPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KqyjZIAdyRWNH0fej2C/fxbu+h3V2hClhXIiAquQo+E=;
- b=8OffUY9e0S3jz5z+RdKBuUk9c6f+4MN8X31e64pVAn0e1rQUunoGDiWyznEJzFizO/
- rhvSbcGI1grxouZ5V2GE1F3/Vvuii0wVnoOMxiPoyKOYpd4wLdn1LkMedSKch+TqZl6+
- vx1Y0EsW0pEDHmFMTDHA9i95zLJZWLrLuQKqnQkr4Z70rUE67PV4wq0uwAZtwM3M6Yw9
- WeJSl6uiL92WMZW7pDYpATzdwIj9YTDSR/GEUFMg0i9ffP6ZWzRO4XWFevoh8BjyEN5y
- xqFG1pieh4ikoiL7dATQhiB4WO7rlRgS7UGdi7SeqBFB8nswalDzQRQ9ac4zSQOw0GtF
- INUA==
-X-Gm-Message-State: ACrzQf3SrFM4s/U8R4RarxFCHV3oBet5GnEZ870BZx6tHHDx9EA1pDeX
- mA7jef5c39XWJdF3aSsv6T53jw==
-X-Google-Smtp-Source: AMsMyM5Q3ODYxvUlI4EKKQvh2qvKsoxeGTOhyf8KMng35XrV4KiL31BZjpCyAibvBWgG/nhrWbMeSg==
-X-Received: by 2002:a05:600c:1906:b0:3c6:f154:d4b5 with SMTP id
- j6-20020a05600c190600b003c6f154d4b5mr2508748wmq.94.1666791523301; 
- Wed, 26 Oct 2022 06:38:43 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=inOVGoehyAc0OMMzrVchjr5br64FkXhdfZWiqEETiog=;
+ b=hEUKQv7idJlzqFP/0He5GJH+rvk23UTkNpPypDM6HgQ9HI8I/R+ocB4tzXxY2WcMFR
+ 9MLPwBETrivnqjl4HJKsEw1uU2z9715Nm5L89Fk5sMYlovWlJTX5NHWiTXQFUzsYZaHn
+ psgRI6KkEoyX92ITJtYcf9Y5s/wasNjCH1EvjZf8A9pmLcqEUtRWHHJVh4bcm7mpZyD6
+ 237+8eymW1SMvcEa7rxpuCP9yPJ3WJ4LZ+7sEbFITHkuFDVBjCGlHEb1zoggEysvc9Bz
+ hvheuQWg+IkX1F3oy73fTHGik6onE1Qk2WClvBEt7tOuUd3xczJirKxwUilGnABumGK+
+ 8qtA==
+X-Gm-Message-State: ACrzQf2hk9FWOQbw8f+9LhgUX0It/qab89L2KKX5oKc5EwZCcDJsZ9IA
+ Qh2yYmUhSAf+Gu902d4l4hTSXA==
+X-Google-Smtp-Source: AMsMyM5cqByWo3WVmXNo8lQ55RiraShBhVHdPSw7RaQmNWQqmGBbdA8xwbcZgWRDBclwPYAD4RCvbg==
+X-Received: by 2002:a5d:5a18:0:b0:22f:4f72:213a with SMTP id
+ bq24-20020a5d5a18000000b0022f4f72213amr29690673wrb.57.1666792104208; 
+ Wed, 26 Oct 2022 06:48:24 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- n19-20020a05600c4f9300b003b4c979e6bcsm2081898wmq.10.2022.10.26.06.38.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Oct 2022 06:38:42 -0700 (PDT)
-Message-ID: <c64e1314-9786-1489-3044-d76eef66cf27@linaro.org>
-Date: Wed, 26 Oct 2022 15:38:41 +0200
+ h5-20020a05600c2ca500b003b435c41103sm2651541wmc.0.2022.10.26.06.48.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Oct 2022 06:48:23 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5E2B51FFB7;
+ Wed, 26 Oct 2022 14:48:23 +0100 (BST)
+References: <20221006031113.1139454-1-richard.henderson@linaro.org>
+ <20221006031113.1139454-25-richard.henderson@linaro.org>
+User-agent: mu4e 1.9.1; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, laurent@vivier.eu, pbonzini@redhat.com,
+ imp@bsdimp.com, f4bug@amsat.org
+Subject: Re: [PATCH 24/24] accel/tcg: Move remainder of page locking to
+ tb-maint.c
+Date: Wed, 26 Oct 2022 14:48:19 +0100
+In-reply-to: <20221006031113.1139454-25-richard.henderson@linaro.org>
+Message-ID: <87a65i4rx4.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH 1/3] virtio_net: Modify virtio_net_get_config to early
- return
-Content-Language: en-US
-To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
-Cc: Gautam Dawar <gdawar@xilinx.com>, Parav Pandit <parav@mellanox.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Jason Wang <jasowang@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>,
- Eli Cohen <eli@mellanox.com>, Laurent Vivier <lvivier@redhat.com>,
- Si-Wei Liu <si-wei.liu@oracle.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
- Harpreet Singh Anand <hanand@xilinx.com>
-References: <20221026095303.37907-1-eperezma@redhat.com>
- <20221026095303.37907-2-eperezma@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221026095303.37907-2-eperezma@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -99,15 +96,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 26/10/22 11:53, Eugenio Pérez wrote:
-> Next patches introduce more code on vhost-vdpa branch, with already have
-> too much indentation.
-> 
-> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-> ---
->   hw/net/virtio-net.c | 28 +++++++++++++++-------------
->   1 file changed, 15 insertions(+), 13 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Richard Henderson <richard.henderson@linaro.org> writes:
 
+> The only thing that still touches PageDesc in translate-all.c
+> are some locking routines related to tb-maint.c which have not
+> yet been moved.  Do so now.
+>
+> Move some code up in tb-maint.c as well, to untangle the maze
+> of ifdefs, and allow a sensible final ordering.
+>
+> Move some declarations from exec/translate-all.h to internal.h,
+> as they are only used within accel/tcg/.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
