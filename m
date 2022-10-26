@@ -2,94 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B91EC60EA29
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 22:21:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9CFF60EA41
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 22:28:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onmqi-0003Ze-Hb; Wed, 26 Oct 2022 16:18:04 -0400
+	id 1onmtR-0006cD-Eg; Wed, 26 Oct 2022 16:20:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1onmpm-00022u-CY
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 16:17:07 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1onmpk-0003BV-1R
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 16:17:05 -0400
-Received: by mail-pl1-x629.google.com with SMTP id y4so15300962plb.2
- for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 13:17:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NqszKtwi0YXXdx0iWSFUDJDEOg8IoBblvu8lJaEmuhg=;
- b=q7Hq+o3eP6zf4jrVp6qhuK//2yHpTDo+4TFVsk8xmufhdYg0EbA4HXRfwYiIrf6RIi
- SdIG2o+bN04dMhFHmAErxl1bkehFc9bSgYNPXd4mX706DJBP64+C0DRbaTRU8cN1yrxY
- PzOm6oII7Si95aWzMrWEyInsq5PYoLEvIgitKmAxyunfWdwPPdiWrJUHmJ5sEj2q06A5
- y9hEj13ePO0YMJUt3BrWEzAOvKwhsrkKAoWVG356q0DZlxibU98nGfInQmkRuzgPsCQI
- DtcWYztLvSRan6XI27Bjp2H0uwfu+1yXlLIfazFAvDd2HmKQqnEi6lKJ4VDwe+okUDDq
- GU7w==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1onmtP-0006bm-34
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 16:20:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1onmtN-0003vO-EF
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 16:20:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666815648;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=iMK9jr9zoAfLQlG2jo7i7WIctUibwX1/9pxN9jjJW9I=;
+ b=PPNqzb2uOdfOdjEYL7e5lrdaln7smz199GDMgLrvRs771A3O1ByIJ/9uYbldjMxoCHUZiu
+ CtkwfE/vtXBjPWgXm5a/8E44Lrv/ByNkDjf4N2TdX1INH1EGqIr/Pqou/A3h+3IqiLrWJE
+ SlByhMp7Lv7sM6ynm9tVD+96ezGYQwk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-235-Q7LybRIwO9m4aeQ2cRELAg-1; Wed, 26 Oct 2022 16:20:47 -0400
+X-MC-Unique: Q7LybRIwO9m4aeQ2cRELAg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ i83-20020a1c3b56000000b003cf4ff1b917so153405wma.2
+ for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 13:20:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=NqszKtwi0YXXdx0iWSFUDJDEOg8IoBblvu8lJaEmuhg=;
- b=AA4xVi5vP9hnN2kVdqAPmA1FTT42QaBLaQqrT9BUGf62yTkCY2ENZ35M7iHmaSBA2y
- pTBDNRy9hN7o85mHALXVZ6nVIEu3oDSn5kn1ZPA9HnSqYDHG+SeOzwqpqcT3pR3isRvN
- Hz+cYvYa2WC0+5ncBTKIei1xkk3DzJ+Ylm/a9vmo5x5FkQ9kzyhzFWPQez7lJm1eST01
- 9QJHSssHAv9Iwb1Doinpzp0O+wBmNXO+gKk1qABFdXniPgrhRLFcI8UoQd/AFEY5M+0J
- 6Q7a+RcNtEBO+20j811AFm5+pUPnllzLYp3MqS3RdrCgNN+VvFecx56bAGLnBM8BRrz5
- NaOQ==
-X-Gm-Message-State: ACrzQf0GuDIKEqINlt36eDgxHxTOTha8TwTnu5CmiED7lxtwRabtRUVJ
- 0XL2GatlIut44p3+jzZC1IxfWA==
-X-Google-Smtp-Source: AMsMyM4+65ZXYnfwyas0ds07t7tBxAMDQLkZ06HDEMbSlw+TqWbq5OYrEqZFgACxybsuzXPGKqR9SA==
-X-Received: by 2002:a17:90a:6045:b0:212:fe9a:5792 with SMTP id
- h5-20020a17090a604500b00212fe9a5792mr5934966pjm.178.1666815422831; 
- Wed, 26 Oct 2022 13:17:02 -0700 (PDT)
-Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
- by smtp.gmail.com with ESMTPSA id
- y5-20020aa78f25000000b00541c68a0689sm3375770pfr.7.2022.10.26.13.16.57
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=iMK9jr9zoAfLQlG2jo7i7WIctUibwX1/9pxN9jjJW9I=;
+ b=dEhniUq1PG7eHb/n4GjTftqOimc86MA8IUcS1IZ2ZtohzvZ0Tn+uAk5Nz1GBoU1l5U
+ uADdgCVikyRjmOOjDVHvM6MAeaXQ/k+tW+pMV7fVHbs8ZaKDZQnr6+4on/ByfrxxLEk4
+ /uDHoUtSkjg3cilFv3q7JATCKmUBsB25aSdOeqAMHN8+ghOooyUvx0+MQS+S+/zDBnKW
+ x+OhaZx+vcd0Nz3r9i3mQeZVk0yIj/2Goy15EnP7M47nrAQCPiBvSaqVinRXXGOGOtol
+ qQTI6rXhicZdjtvtn807ug4tx3wHcCfqpONikVuBC7uAtTJ471a4w/d3fjxiiJ0Rj65d
+ 4Y5w==
+X-Gm-Message-State: ACrzQf3lRbZ+nBUWHneDi9drOKTMgU9nHHPE6HaDdvwrMyKDFv7W6PfK
+ /WDzVIKgC5OLtZK97ki51UEgAy2VLxRYXjRaNeocdfUCAWmFTNrCD90ZlIXMYB+8MMFhFMrq3KE
+ COk8P1gkOqDZ1l9U=
+X-Received: by 2002:a05:6000:1882:b0:230:9595:4131 with SMTP id
+ a2-20020a056000188200b0023095954131mr30793982wri.17.1666815645753; 
+ Wed, 26 Oct 2022 13:20:45 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6eHxrK+FeNK+3jt7r188S8PQKVbeNP7lC3PpzTCL3K4HydYehPuzJlOU6c/+K27YZdkuRp6Q==
+X-Received: by 2002:a05:6000:1882:b0:230:9595:4131 with SMTP id
+ a2-20020a056000188200b0023095954131mr30793962wri.17.1666815645511; 
+ Wed, 26 Oct 2022 13:20:45 -0700 (PDT)
+Received: from redhat.com ([2.52.15.7]) by smtp.gmail.com with ESMTPSA id
+ q16-20020a05600c46d000b003c6f426467fsm2815080wmo.40.2022.10.26.13.20.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Oct 2022 13:17:02 -0700 (PDT)
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-To: 
-Cc: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, qemu-arm@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- Jason Wang <jasowang@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
- Peter Maydell <peter.maydell@linaro.org>,
- Andrey Smirnov <andrew.smirnov@gmail.com>,
- Paul Burton <paulburton@kernel.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Yan Vugenfirer <yan@daynix.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v3 16/16] pci: Remove legacy errp from pci_add_capability
-Date: Thu, 27 Oct 2022 05:15:27 +0900
-Message-Id: <20221026201527.24063-17-akihiko.odaki@daynix.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221026201527.24063-1-akihiko.odaki@daynix.com>
-References: <20221026201527.24063-1-akihiko.odaki@daynix.com>
+ Wed, 26 Oct 2022 13:20:44 -0700 (PDT)
+Date: Wed, 26 Oct 2022 16:20:40 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Gregory Price <gourry.memverge@gmail.com>
+Cc: qemu-devel@nongnu.org, jonathan.cameron@huawei.com,
+ linux-cxl@vger.kernel.org, marcel.apfelbaum@gmail.com,
+ imammedo@redhat.com, ani@anisinha.ca, alison.schofield@intel.com,
+ dave@stgolabs.net, a.manzanares@samsung.com, bwidawsk@kernel.org,
+ gregory.price@memverge.com, hchkuo@avery-design.com.tw,
+ cbrowy@avery-design.com, ira.weiny@intel.com
+Subject: Re: [PATCH 0/4 v3] Multi-Region and Volatile Memory support for CXL
+ Type-3 Devices
+Message-ID: <20221026161815-mutt-send-email-mst@kernel.org>
+References: <20221026004737.3646-1-gregory.price@memverge.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::629;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221026004737.3646-1-gregory.price@memverge.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,93 +100,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
----
- hw/pci/pci.c         | 29 +++++++----------------------
- include/hw/pci/pci.h | 12 ++----------
- 2 files changed, 9 insertions(+), 32 deletions(-)
+On Tue, Oct 25, 2022 at 08:47:33PM -0400, Gregory Price wrote:
+> Submitted as an extention to the multi-feature branch maintained
+> by Jonathan Cameron at:
+> https://gitlab.com/jic23/qemu/-/tree/cxl-2022-10-24 
+> 
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 8ee2171011..8ff71e4553 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -2513,38 +2513,23 @@ static void pci_del_option_rom(PCIDevice *pdev)
- }
- 
- /*
-- * On success, pci_add_capability_legacy() returns a positive value
-- * that the offset of the pci capability.
-- * On failure, it sets an error and returns a negative error
-- * code.
-+ * pci_add_capability() returns a positive value that the offset of the pci
-+ * capability.
-  */
--int pci_add_capability_legacy(PCIDevice *pdev, uint8_t cap_id,
--                              uint8_t offset, uint8_t size,
--                              Error **errp)
-+uint8_t pci_add_capability(PCIDevice *pdev, uint8_t cap_id,
-+                           uint8_t offset, uint8_t size)
- {
-     uint8_t *config;
--    int i, overlapping_cap;
-+    int i;
- 
-     if (!offset) {
-         offset = pci_find_space(pdev, size);
-         /* out of PCI config space is programming error */
-         assert(offset);
-     } else {
--        /* Verify that capabilities don't overlap.  Note: device assignment
--         * depends on this check to verify that the device is not broken.
--         * Should never trigger for emulated devices, but it's helpful
--         * for debugging these. */
-+        /* Verify that capabilities don't overlap. */
-         for (i = offset; i < offset + size; i++) {
--            overlapping_cap = pci_find_capability_at_offset(pdev, i);
--            if (overlapping_cap) {
--                error_setg(errp, "%s:%02x:%02x.%x "
--                           "Attempt to add PCI capability %x at offset "
--                           "%x overlaps existing capability %x at offset %x",
--                           pci_root_bus_path(pdev), pci_dev_bus_num(pdev),
--                           PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn),
--                           cap_id, offset, overlapping_cap, i);
--                return -EINVAL;
--            }
-+            assert(!pci_find_capability_at_offset(pdev, i));
-         }
-     }
- 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 51fd106f16..2a5d4b329f 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -2,7 +2,6 @@
- #define QEMU_PCI_H
- 
- #include "exec/memory.h"
--#include "qapi/error.h"
- #include "sysemu/dma.h"
- 
- /* PCI includes legacy ISA access.  */
-@@ -391,15 +390,8 @@ void pci_register_vga(PCIDevice *pci_dev, MemoryRegion *mem,
- void pci_unregister_vga(PCIDevice *pci_dev);
- pcibus_t pci_get_bar_addr(PCIDevice *pci_dev, int region_num);
- 
--int pci_add_capability_legacy(PCIDevice *pdev, uint8_t cap_id,
--                              uint8_t offset, uint8_t size,
--                              Error **errp);
--
--#define PCI_ADD_CAPABILITY_VA(pdev, cap_id, offset, size, errp, ...) \
--    pci_add_capability_legacy(pdev, cap_id, offset, size, errp)
--
--#define pci_add_capability(...) \
--    PCI_ADD_CAPABILITY_VA(__VA_ARGS__, &error_abort)
-+uint8_t pci_add_capability(PCIDevice *pdev, uint8_t cap_id,
-+                           uint8_t offset, uint8_t size);
- 
- void pci_del_capability(PCIDevice *pci_dev, uint8_t cap_id, uint8_t cap_size);
- 
--- 
-2.37.3
+I am not supposed to merge this patchset yet, right?
+That branch has a bunch of patches not yet posted for review.
+Pls add "RFC" in the subject when that is the case.
+
+Thanks!
+
+
+> Summary of Changes:
+> 1) E820 CFMW Bug fix.  
+> 2) Add CXL_CAPACITY_MULTIPLIER definition to replace magic numbers
+> 3) Multi-Region and Volatile Memory support for CXL Type-3 Devices
+> 4) CXL Type-3 SRAT Generation when NUMA node is attached to memdev
+> 
+> 
+> Regarding the E820 fix
+>   * This bugfix is required for memory regions to work on x86
+>   * input from Dan Williams and others suggest that E820 entry for
+>     the CFMW should not exist, as it is expected to be dynamically
+>     assigned at runtime.  If this entry exists, it instead blocks
+>     region creation by nature of the memory region being marked as
+>     reserved.
+> 
+> Regarding Multi-Region and Volatile Memory
+>   * Developed with input from Jonathan Cameron and Davidlohr Bueso.
+> 
+> Regarding SRAT Generation for Type-3 Devices
+>   * Co-Developed by Davidlohr Bueso.  Built from his base patch and
+>     extended to work with both volatile and persistent regions.
+>   * This can be used to demonstrate static type-3 device mapping and
+>     testing numa-access to type-3 device memory regions.
+> 
+> 
+> This series brings 3 features to CXL Type-3 Devices:
+>     1) Volatile Memory Region support
+>     2) Multi-Region support (1 Volatile, 1 Persistent)
+>     3) (optional) SRAT Entry generation for type-3 device regions
+> 
+> In this series we implement multi-region and volatile region support
+> through 7 major changes to CXL devices
+>     1) The HostMemoryBackend [hostmem] has been replaced by two
+>        [hostvmem] and [hostpmem] to store volatile and persistent
+>        memory respectively
+>     2) The single AddressSpace has been replaced by two AddressSpaces
+>        [hostvmem_as] and [hostpmem_as] to map respective memdevs.
+>     3) Each memory region size and total region are stored separately
+>     4) The CDAT and DVSEC memory map entries have been updated:
+>        a) if vmem is present, vmem is mapped at DPA(0)
+>        b) if pmem is present
+>           i)  and vmem is present, pmem is mapped at DPA(vmem->size)
+>           ii) else, pmem is mapped at DPA(0)
+>        c) partitioning of pmem is not supported in this patch set but
+>           has been discussed and this design should suffice.
+>     5) Read/Write functions have been updated to access AddressSpaces
+>        according to the mapping described in #4
+>     6) cxl-mailbox has been updated to report the respective size of
+>        volatile and persistent memory regions
+>     7) SRAT entries may optionally be generated by manually assigning
+>        memdevs to a cpuless numa node
+> 
+> To support the Device Physical Address (DPA) Mapping decisions, see
+> CXL Spec (3.0) Section 8.2.9.8.2.0 - Get Partition Info:
+>   Active Volatile Memory
+>     The device shall provide this volatile capacity starting at DPA 0
+>   Active Persistent Memory
+>     The device shall provide this persistent capacity starting at the
+>     DPA immediately following the volatile capacity
+> 
+> Partitioning of Persistent Memory regions may be supported on
+> following patch sets.
+> 
+> 
+> Gregory Price (4):
+>   hw/i386/pc.c: CXL Fixed Memory Window should not reserve e820 in bios
+>   hw/cxl: Add CXL_CAPACITY_MULTIPLIER definition
+>   hw/cxl: Multi-Region CXL Type-3 Devices (Volatile and Persistent)
+>   hw/acpi/cxl.c: Fill in SRAT for vmem/pmem if NUMA node is assigned
+> 
+>  docs/system/devices/cxl.rst |  74 ++++++++--
+>  hw/acpi/cxl.c               |  67 +++++++++
+>  hw/cxl/cxl-mailbox-utils.c  |  23 +--
+>  hw/i386/acpi-build.c        |   4 +
+>  hw/i386/pc.c                |   2 -
+>  hw/mem/cxl_type3.c          | 274 +++++++++++++++++++++++++++---------
+>  include/hw/acpi/cxl.h       |   1 +
+>  include/hw/cxl/cxl_device.h |  11 +-
+>  tests/qtest/cxl-test.c      | 111 +++++++++++----
+>  9 files changed, 443 insertions(+), 124 deletions(-)
+> 
+> -- 
+> 2.37.3
 
 
