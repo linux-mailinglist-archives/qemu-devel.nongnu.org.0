@@ -2,110 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC4B60DDB2
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 11:05:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F064F60DDD9
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 11:17:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oncLL-0004Kv-2G; Wed, 26 Oct 2022 05:04:59 -0400
+	id 1oncSo-0005LG-Ch; Wed, 26 Oct 2022 05:12:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oncLG-0003mF-0A; Wed, 26 Oct 2022 05:04:54 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1oncSX-0004zQ-9f
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 05:12:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oncLD-0001hr-6J; Wed, 26 Oct 2022 05:04:52 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29Q850N8001587;
- Wed, 26 Oct 2022 09:04:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=Eg3tSd88jZlSvJAjDu66NjYYojqavBcvCBSoX5Vg3Dk=;
- b=WuIag5GTcqEWQ2j+1MFb2T77iKep6KrwAkLkpc2TuDs3pS2qS4p74Ce4D3GhaPT+vW9A
- zE82beequf57ZjzwBaT29+aTwXycN/xDVZS8UhmEHvKmTCzfC5ee+19t0KZX2eYQ+1nA
- ZFyg7M08tGPfL8mEYImM/yYm+1k4y4Ar4ZHEd0s4jFCn0FXwLaQt+3Kx9hwWWRBv9YFo
- IDhulzAS2TZJOnLY8Rtdp7aGadKM30YlxZeCqxubLITsSL+qibYF5AOfALDVv8O4pooe
- sh+MUR3arsdFRINW65NC+/z/nXn1N3zRRwpNMtQ3Uu+6h6mNNVEy4BYyypwvH1H6cjss 2Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kf12t9uwq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Oct 2022 09:04:40 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29Q8IPFe030816;
- Wed, 26 Oct 2022 09:04:39 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kf12t9uu9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Oct 2022 09:04:39 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29Q8ovqO018581;
- Wed, 26 Oct 2022 09:04:36 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma06ams.nl.ibm.com with ESMTP id 3kc7sj74gw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Oct 2022 09:04:36 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 29Q8xIkJ32375066
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 26 Oct 2022 08:59:18 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7CBCCAE056;
- Wed, 26 Oct 2022 09:04:33 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 899CCAE045;
- Wed, 26 Oct 2022 09:04:32 +0000 (GMT)
-Received: from [9.171.85.254] (unknown [9.171.85.254])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 26 Oct 2022 09:04:32 +0000 (GMT)
-Message-ID: <a28d41e1-f9dd-c620-8c54-bee4a0e46006@linux.ibm.com>
-Date: Wed, 26 Oct 2022 11:04:32 +0200
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1oncSV-0003ON-Jn
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 05:12:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666775542;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=5xNkruRiJnIiOSQrrYHGPH2e+vVoDqGR1JcaSONjqvk=;
+ b=MiPubo6XDuMGeoXo/q8ChiNRDp9UtbpSSQwPuIpZlyViMqlYKWeAP4TiqlSyDCPez3JT6c
+ vYvA2fkEiz9uiwmh+a7dD4EJ+S2RZtwZ6jiU4F/Mn0P0y0syveiGc9HSDkVy1/CJZlH2lu
+ AOU5yZBDFhnBexRaKsu538c4RbP8pxc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-647-SOKCHuZlO6y-W1vkQ2eiZg-1; Wed, 26 Oct 2022 05:12:19 -0400
+X-MC-Unique: SOKCHuZlO6y-W1vkQ2eiZg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ r66-20020a1c4445000000b003cf4c205936so206671wma.2
+ for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 02:12:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5xNkruRiJnIiOSQrrYHGPH2e+vVoDqGR1JcaSONjqvk=;
+ b=UdOPFCrM1SowltJHfAU/PlRWBzXNH2zJ3bBIWQQ3qh31qSqtKpPuSj7MixBatnJlUA
+ /CoyKgsvn/sfY3NsdVYTqgJMy95VD5kEITasavNuCRfDhfgZWTkhr60WoB7+gI/IOwZf
+ aD/iIXEWEL0Kyw4Wg0CNzOzSiKhnqsIrAa8yS5eODKqtPlVLQPGbEWmY1as42SKNiev8
+ pZlRHuUE3wx/fIbcmLdYRQnQilQL24NVjqmFwFJxqdK29JjN4hVaaAkCguHrGkChmiFc
+ K7HpqSvjbnVFjAk4hKqZJgzTfXMF57HHSz097YTOI3034FqegAV/+mry2VgNVLMMla74
+ DT4w==
+X-Gm-Message-State: ACrzQf3LI5xBGExWWDiSLi80uHX+kAm3MSCuD03oQQNGJ/eJjmYkLB6b
+ cg7yRM3iWPkHscBoxVx9FtEnUG+NaY6Gqf5bup69qEi5hpKCC/XSOYe0ET+xp0qEXu8G4AhaK7C
+ LmjjSLmimaqi5Yjw=
+X-Received: by 2002:a05:600c:3147:b0:3c6:f871:1fec with SMTP id
+ h7-20020a05600c314700b003c6f8711fecmr1709606wmo.71.1666775538557; 
+ Wed, 26 Oct 2022 02:12:18 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7idyMh4A58fzq3JEftOywVimGTAari7nGWN9abaxQpXAUmUwLzSihveVvwWD8Ab2kRm6uTLQ==
+X-Received: by 2002:a05:600c:3147:b0:3c6:f871:1fec with SMTP id
+ h7-20020a05600c314700b003c6f8711fecmr1709579wmo.71.1666775538308; 
+ Wed, 26 Oct 2022 02:12:18 -0700 (PDT)
+Received: from sgarzare-redhat (host-87-11-6-34.retail.telecomitalia.it.
+ [87.11.6.34]) by smtp.gmail.com with ESMTPSA id
+ m17-20020a056000009100b0022eafed36ebsm4798032wrx.73.2022.10.26.02.12.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Oct 2022 02:12:17 -0700 (PDT)
+Date: Wed, 26 Oct 2022 11:12:15 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Xie Yongji <xieyongji@bytedance.com>
+Cc: Linux Virtualization <virtualization@lists.linux-foundation.org>,
+ qemu devel list <qemu-devel@nongnu.org>,
+ Michael Tsirkin <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Subject: Issue with VDUSE (QSD vduse-blk export) and vhost-vdpa
+Message-ID: <CAGxU2F4zRGASAv4YLoQpfRB-2cvaMij6YZo6t9E+69MZ+8Mong@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v10 7/9] s390x/cpu topology: add max_threads machine class
- attribute
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com
-References: <20221012162107.91734-1-pmorel@linux.ibm.com>
- <20221012162107.91734-8-pmorel@linux.ibm.com>
- <b52ea256-c6c1-51ef-6e15-78a303143701@kaod.org>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <b52ea256-c6c1-51ef-6e15-78a303143701@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Ob-DvMwDdM3ki8B7S_g9ENujMBu22vHm
-X-Proofpoint-ORIG-GUID: jNCXL8fRJ8sG_gnsYj5EYBUCpjODVE8v
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-26_04,2022-10-25_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 mlxscore=0
- priorityscore=1501 mlxlogscore=999 spamscore=0 lowpriorityscore=0
- phishscore=0 clxscore=1015 adultscore=0 impostorscore=0 bulkscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210260051
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,92 +96,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi Xie,
+I was testing libblkio [1] with QSD vduse-blk export and had some 
+issues.
+
+In a nutshell, QSD prints me the following messages when using 
+vhost-vdpa to access the device:
+
+  Failed to get vq[0] iova mapping
+  Failed to update vring for vq[0]
+
+This happens only with vhost-vdpa, using virtio-vdpa instead the device 
+works fine.
+I'm using Linux v6.0 and QEMU master (commit 
+214a8da23651f2472b296b3293e619fd58d9e212).
+
+I haven't had much time to investigate, I hope to do it next week, but 
+maybe it's much faster for you.
+
+I saw that ioctl(VDUSE_IOTLB_GET_FD) in libvduse.c returns -1 (EPERM), 
+so IIUC in the kernel vduse_dev_broken() was called, and the device is 
+in a broken state.
 
 
-On 10/18/22 19:36, Cédric Le Goater wrote:
-> On 10/12/22 18:21, Pierre Morel wrote:
->> The S390 CPU topology accepts the smp.threads argument while
->> in reality it does not effectively allow multthreading.
->>
->> Let's keep this behavior for machines older than 7.3 and
->> refuse to use threads in newer machines until multithreading
->> is really proposed to the guest by the machine.
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>   include/hw/s390x/s390-virtio-ccw.h |  1 +
->>   hw/s390x/s390-virtio-ccw.c         | 10 ++++++++++
->>   2 files changed, 11 insertions(+)
->>
->> diff --git a/include/hw/s390x/s390-virtio-ccw.h 
->> b/include/hw/s390x/s390-virtio-ccw.h
->> index 6c4b4645fc..319dfac1bb 100644
->> --- a/include/hw/s390x/s390-virtio-ccw.h
->> +++ b/include/hw/s390x/s390-virtio-ccw.h
->> @@ -48,6 +48,7 @@ struct S390CcwMachineClass {
->>       bool css_migration_enabled;
->>       bool hpage_1m_allowed;
->>       bool topology_allowed;
->> +    int max_threads;
->>   };
->>   /* runtime-instrumentation allowed by the machine */
->> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
->> index 3a13fad4df..d6ce31d168 100644
->> --- a/hw/s390x/s390-virtio-ccw.c
->> +++ b/hw/s390x/s390-virtio-ccw.c
->> @@ -85,8 +85,15 @@ out:
->>   static void s390_init_cpus(MachineState *machine)
->>   {
->>       MachineClass *mc = MACHINE_GET_CLASS(machine);
->> +    S390CcwMachineClass *s390mc = S390_CCW_MACHINE_CLASS(mc);
->>       int i;
->> +    if (machine->smp.threads > s390mc->max_threads) {
->> +        error_report("S390 does not support more than %d threads.",
->> +                     s390mc->max_threads);
->> +        exit(1);
->> +    }
->> +
->>       /* initialize possible_cpus */
->>       mc->possible_cpu_arch_ids(machine);
->> @@ -617,6 +624,7 @@ static void ccw_machine_class_init(ObjectClass 
->> *oc, void *data)
->>       s390mc->css_migration_enabled = true;
->>       s390mc->hpage_1m_allowed = true;
->>       s390mc->topology_allowed = true;
->> +    s390mc->max_threads = 1;
->>       mc->init = ccw_init;
->>       mc->reset = s390_machine_reset;
->>       mc->block_default_type = IF_VIRTIO;
->> @@ -887,12 +895,14 @@ static void 
->> ccw_machine_7_2_class_options(MachineClass *mc)
->>       S390CcwMachineClass *s390mc = S390_CCW_MACHINE_CLASS(mc);
->>       static GlobalProperty compat[] = {
->>           { TYPE_S390_CPU_TOPOLOGY, "topology-allowed", "off", },
->> +        { TYPE_S390_CPU_TOPOLOGY, "max_threads", "off", },
-> 
-> I don't understand this change.
+We will use libblkio in QEMU [2] to access vDPA devices via vhost-vdpa.  
+But I'm doing these tests without QEMU for now, using an example inside 
+the libblkio repo:
 
-hum, this was a try to understand how GlobalProperty_compat works and I 
-forgot to remove it.
-I must say I did not understand exactly how it works.
+# Build libblkio and examples
+    # Fedora/CentOS/RHEL
+    dnf install -y git meson rust cargo python3-docutils rustfmt
+    # Debian/Ubuntu
+    apt-get install -y git meson rustc cargo python3-docutils
 
-> 
-> 
-> C.
-> 
-> 
->>       };
->>       ccw_machine_7_3_class_options(mc);
->>       compat_props_add(mc->compat_props, hw_compat_7_2, 
->> hw_compat_7_2_len);
->>       compat_props_add(mc->compat_props, compat, G_N_ELEMENTS(compat));
->>       s390mc->topology_allowed = false;
->> +    s390mc->max_threads = S390_MAX_CPUS;
->>   }
->>   DEFINE_CCW_MACHINE(7_2, "7.2", false);
-> 
+    git clone https://gitlab.com/libblkio/libblkio.git
 
--- 
-Pierre Morel
-IBM Lab Boeblingen
+    cd libblkio
+    git checkout v1.1.0
+
+    meson setup build
+    meson compile -C build
+
+
+# On terminal 1
+    modprobe vduse
+    modprobe vhost-vdpa
+
+    qemu-img create -f qcow2 -o preallocation=full /path/to/test.qcow2 1g
+
+    qemu-storage-daemon \
+      --blockdev file,filename=/path/to/test.qcow2,cache.direct=on,aio=native,node-name=file \
+      --blockdev qcow2,file=file,node-name=qcow2 \
+      --object iothread,id=iothread0 \
+      --export vduse-blk,id=vduse0,name=vduse0,num-queues=1,node-name=qcow2,writable=on,iothread=iothread0
+
+
+# On terminal 2
+    vdpa dev add name vduse0 mgmtdev vduse
+
+    cd libblkio/build
+
+    # blkio-bench executes
+    ./examples/blkio-bench virtio-blk-vhost-vdpa \
+      path=/dev/vhost-vdpa-0 --runtime=5 --readwrite=randread
+
+    # after this step, QSD (running on terminal 1) prints the following messages:
+      Failed to get vq[0] iova mapping
+      Failed to update vring for vq[0]
+
+I don't know if I'm doing something wrong or in libblkio we have some 
+issue, but using vdpa-sim-blk works correctly, so maybe there is 
+something in vduse that is missing.
+
+Any help or suggestion is welcome :-)
+
+Thanks,
+Stefano
+
+[1] https://libblkio.gitlab.io/libblkio/
+[2] 
+https://lore.kernel.org/qemu-devel/20221013185908.1297568-1-stefanha@redhat.com/
+
 
