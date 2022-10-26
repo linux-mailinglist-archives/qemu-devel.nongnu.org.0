@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75ECE60D87B
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 02:35:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CD5F60D88F
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 02:48:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onUMj-0002HS-7j; Tue, 25 Oct 2022 20:33:53 -0400
+	id 1onUXN-0003wi-6A; Tue, 25 Oct 2022 20:44:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1onUMh-0002Cd-E7
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 20:33:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1onUMd-0000o2-Po
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 20:33:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666744426;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gEjg6fY62W5smZeVN88fd94IzgQM1PGn1VJvt2BVu8g=;
- b=YwZCEvI/0q73ve8wQ0/r2ydIyUNEQAKgNkPgjGp/Z5MG/8baqZ1SXVRQA7xiExPlIohT/v
- LUHTjWiupJYWNTCAc11pIXnF4/5IRQfTgsR3Mo9B8CKQbE2dfB2kWOJ5cak55+UcZu0u6a
- 5laF1Wd6hX//YTcLcrE411Iaoszv34E=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-203-qU2Tb7dBPrOHAn_E6nnE2g-1; Tue, 25 Oct 2022 20:33:42 -0400
-X-MC-Unique: qU2Tb7dBPrOHAn_E6nnE2g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BA3763C0D192;
- Wed, 26 Oct 2022 00:33:41 +0000 (UTC)
-Received: from [10.64.54.151] (vpn2-54-151.bne.redhat.com [10.64.54.151])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A46C6C15BAB;
- Wed, 26 Oct 2022 00:33:38 +0000 (UTC)
-Subject: Re: [PATCH v6 5/7] hw/arm/virt: Improve high memory region address
- assignment
-To: eric.auger@redhat.com, qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, maz@kernel.org, cohuck@redhat.com,
- zhenyzha@redhat.com, richard.henderson@linaro.org, peter.maydell@linaro.org,
- shan.gavin@gmail.com
-References: <20221024035416.34068-1-gshan@redhat.com>
- <20221024035416.34068-6-gshan@redhat.com>
- <42375c62-c9d4-3276-2ce6-04ee0c9222f7@redhat.com>
-From: Gavin Shan <gshan@redhat.com>
-Message-ID: <581dc823-1b6c-3a24-3532-af0938c3dec2@redhat.com>
-Date: Wed, 26 Oct 2022 08:33:36 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1onUXI-0003jV-JL
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 20:44:48 -0400
+Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1onUXG-0002lN-Uc
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 20:44:48 -0400
+Received: by mail-qk1-x735.google.com with SMTP id s17so9476531qkj.12
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 17:44:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=B6T+Nl7cyBwXv0OViZ4jdzNNLcQzTEArslmFKclrTZQ=;
+ b=GvroCbMGSwnYzb8OpSXsYX2S/Z5dx7OQttj37kEPg6qfWHLlKS/YNBS38Mnot2nVNX
+ Hiwtqi3Zm+IVxUZ624AmADjF10bWkZZvCdHYCn8OmZ+Us6AsSymdGYn+gGjIT/nuzVvM
+ LGD2KWQQJVGaUKHmsKJtRbNra1FEoZ45ZFpAJj1ZiPysoff4ItU3luYy3G203/zEOY+h
+ u/IV9VY6zngLpv07c+Zos+uld8RVQ7Ki6XerxWfCOMxulLTUCcyI0mRVHTLkEKNwj8xN
+ cf6XN4disgkp4RRLK1CEWDacoYZf6AJEFUFauZoT8foN8ptvdWO6PsLRpxeVIBrOwgx3
+ DEjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=B6T+Nl7cyBwXv0OViZ4jdzNNLcQzTEArslmFKclrTZQ=;
+ b=dG7nTpLepMHzKc4xKuw9wunz/xxkaSRBRlMJJxv0iEVfbUftl+olLtRP8AR1Xb05IO
+ yNQf+QnojtYEvam6jvs8XkF2yMIpNzuH3hpAALMZcDyy0ewMcnt8vE9ycUKKGbwz3j7/
+ 0lR4D5k5XHszK+3saT3NOMQMdG4/3vwS6WiBblnBYhIdkOeaW/BjuawonT3lm35yjimW
+ Vjy4ecUeZqomHWTPiZQUU13rZ2qmg1NFI3kBs35mcMXMQQmllTV7rbOoXzscc+Lxauss
+ ok0dlnBCqpvLnUUgwtxIwPvi2yRkYXL843efx0EAtCEtBvpW9WKt5S0w6vq5LSm/FTMU
+ voGQ==
+X-Gm-Message-State: ACrzQf0hIgfIiptjIS8xfrC2HTGxyoRUQkwFtSE6TslZPutsWsE8mPmk
+ YUplqxlN/YBEVp2gOZqOCnDbZoSpDFR6jEmvMDQ=
+X-Google-Smtp-Source: AMsMyM4vHz+qcvwGEgfY4agO0S2J6eU+BuUrwEmBhHbOQWiNIjp92j97Mv/lA0MPoqIEXgkanNi9He6WzRfwXdl59IA=
+X-Received: by 2002:a05:620a:19a6:b0:6ee:d3d6:6b03 with SMTP id
+ bm38-20020a05620a19a600b006eed3d66b03mr28353103qkb.376.1666745086076; Tue, 25
+ Oct 2022 17:44:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <42375c62-c9d4-3276-2ce6-04ee0c9222f7@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+References: <20221006151927.2079583-1-bmeng.cn@gmail.com>
+ <20221006151927.2079583-5-bmeng.cn@gmail.com>
+ <19172ac9-519c-2a32-9336-7d92aaea05f8@linaro.org>
+In-Reply-To: <19172ac9-519c-2a32-9336-7d92aaea05f8@linaro.org>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 26 Oct 2022 08:44:35 +0800
+Message-ID: <CAEUhbmWYdYL6v3V_3jPAvW8RTCmWxYFK9jiVk1A89oz=+kkbdA@mail.gmail.com>
+Subject: Re: [PATCH v5 04/18] tests/qtest: migration-test: Avoid using
+ hardcoded /tmp
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Bin Meng <bin.meng@windriver.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
+ Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x735.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,119 +89,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Gavin Shan <gshan@redhat.com>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Eric,
+On Wed, Oct 26, 2022 at 7:44 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 10/7/22 01:19, Bin Meng wrote:
+> > From: Bin Meng <bin.meng@windriver.com>
+> >
+> > This case was written to use hardcoded /tmp directory for temporary
+> > files. Update to use g_dir_make_tmp() for a portable implementation.
+> >
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >
+> > Changes in v5:
+> > - Use g_autoptr(GError)
+> >
+> > Changes in v4:
+> > - Update the error reporting by using the GError "error" argument
+> >    of g_dir_make_tmp()
+> > - Remove the const from tmpfs declaration
+> >
+> > Changes in v3:
+> > - Split to a separate patch
+>
+> This patch breaks with gcc 12:
 
-On 10/26/22 12:29 AM, Eric Auger wrote:
-> On 10/24/22 05:54, Gavin Shan wrote:
->> There are three high memory regions, which are VIRT_HIGH_REDIST2,
->> VIRT_HIGH_PCIE_ECAM and VIRT_HIGH_PCIE_MMIO. Their base addresses
->> are floating on highest RAM address. However, they can be disabled
->> in several cases.
->>
->> (1) One specific high memory region is likely to be disabled by
->>      code by toggling vms->highmem_{redists, ecam, mmio}.
->>
->> (2) VIRT_HIGH_PCIE_ECAM region is disabled on machine, which is
->>      'virt-2.12' or ealier than it.
->>
->> (3) VIRT_HIGH_PCIE_ECAM region is disabled when firmware is loaded
->>      on 32-bits system.
->>
->> (4) One specific high memory region is disabled when it breaks the
->>      PA space limit.
->>
->> The current implementation of virt_set_{memmap, high_memmap}() isn't
->> optimized because the high memory region's PA space is always reserved,
->> regardless of whatever the actual state in the corresponding
->> vms->highmem_{redists, ecam, mmio} flag. In the code, 'base' and
->> 'vms->highest_gpa' are always increased for case (1), (2) and (3).
->> It's unnecessary since the assigned PA space for the disabled high
->> memory region won't be used afterwards.
->>
->> Improve the address assignment for those three high memory region by
->> skipping the address assignment for one specific high memory region if
->> it has been disabled in case (1), (2) and (3). The memory layout may
->> be changed after the improvement is applied, which leads to potential
->> migration breakage. So 'vms->highmem_compact' is added to control if
->> the improvement should be applied. For now, 'vms->highmem_compact' is
->> set to false, meaning that we don't have memory layout change until it
->> becomes configurable through property 'compact-highmem' in next patch.
->>
->> Signed-off-by: Gavin Shan <gshan@redhat.com>
->> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-> the code has quite changed since Connie's R-b
+Weird GCC ...
 
-Right. Connie, could you please check if the changes make sense to you
-and I can regain your R-B? :)
+GCC 9 reported [1], but not GCC 11, and now GCC 12 reported again.
 
->> Tested-by: Zhenyu Zhang <zhenyzha@redhat.com>
->> ---
->>   hw/arm/virt.c         | 15 ++++++++++-----
->>   include/hw/arm/virt.h |  1 +
->>   2 files changed, 11 insertions(+), 5 deletions(-)
->>
->> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
->> index ee98a8a3b6..4896f600b4 100644
->> --- a/hw/arm/virt.c
->> +++ b/hw/arm/virt.c
->> @@ -1721,18 +1721,23 @@ static void virt_set_high_memmap(VirtMachineState *vms,
->>           vms->memmap[i].size = region_size;
->>   
->>           /*
->> -         * Check each device to see if they fit in the PA space,
->> -         * moving highest_gpa as we go.
->> +         * Check each device to see if it fits in the PA space,
->> +         * moving highest_gpa as we go. For compatibility, move
->> +         * highest_gpa for disabled fitting devices as well, if
->> +         * the compact layout has been disabled.
->>            *
->>            * For each device that doesn't fit, disable it.
->>            */
->>           fits = (region_base + region_size) <= BIT_ULL(pa_bits);
->> -        if (fits) {
->> -            vms->highest_gpa = region_base + region_size - 1;
->> +        *region_enabled &= fits;
->> +        if (vms->highmem_compact && !*region_enabled) {
->> +            continue;
->>           }
->>   
->> -        *region_enabled &= fits;
->>           base = region_base + region_size;
->> +        if (fits) {
->> +            vms->highest_gpa = region_base + region_size - 1;
-> 
-> vms->highest_gpa = base - 1;
-> 
+>
+>
+> > @@ -2479,9 +2479,10 @@ int main(int argc, char **argv)
+> >           return g_test_run();
+> >       }
+> >
+> > -    tmpfs =3D g_mkdtemp(template);
+> > +    tmpfs =3D g_dir_make_tmp("migration-test-XXXXXX", &err);
+> >       if (!tmpfs) {
+> > -        g_test_message("g_mkdtemp on path (%s): %s", template, strerro=
+r(errno));
+> > +        g_test_message("g_dir_make_tmp on path (%s): %s", tmpfs,
+> > +                       err->message);
+> >       }
+> >       g_assert(tmpfs);
+> >
+>
+> ../src/tests/qtest/migration-test.c: In function =E2=80=98main=E2=80=99:
+> ../src/tests/qtest/migration-test.c:2484:49: error: =E2=80=98%s=E2=80=99 =
+directive argument is null
+> [-Werror=3Dformat-overflow=3D]
+>   2484 |         g_test_message("g_dir_make_tmp on path (%s): %s", tmpfs,
+>        |                                                 ^~
+>
+> The compiler correctly notices that tmpfs was tested and found to be null=
+, but tried to
+> print it anyway.
+>
 
-It's personal taste actually. I was thinking of using 'base - 1', but
-'region_base + region_size - 1' looks more like a direct way. I don't
-have strong sense though and lets use 'base - 1' in next respin.
+Patch [1] already queued in qemu-trivial
 
->> +        }
->>       }
->>   }
->>   
->> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
->> index 6ec479ca2b..709f623741 100644
->> --- a/include/hw/arm/virt.h
->> +++ b/include/hw/arm/virt.h
->> @@ -144,6 +144,7 @@ struct VirtMachineState {
->>       PFlashCFI01 *flash[2];
->>       bool secure;
->>       bool highmem;
->> +    bool highmem_compact;
->>       bool highmem_ecam;
->>       bool highmem_mmio;
->>       bool highmem_redists;
-> Besides
-> Reviewed-by: Eric Auger <eric.auger@redhat.com>
-> 
+[1] http://patchwork.ozlabs.org/project/qemu-devel/patch/20221017132023.222=
+8641-1-bmeng.cn@gmail.com/
 
-Thanks,
-Gavin
-
+Regards,
+Bin
 
