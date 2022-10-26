@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67BF860DDAD
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 11:04:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D03F60DD9A
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 10:58:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oncDr-0005qF-2j; Wed, 26 Oct 2022 04:57:15 -0400
+	id 1oncDj-0004xJ-5I; Wed, 26 Oct 2022 04:57:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oncDJ-0002jc-Hx
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 04:56:49 -0400
+ id 1oncDB-0001Ef-MG
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 04:56:34 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oncD8-0000N7-M5
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 04:56:41 -0400
+ id 1oncD8-0000NB-MV
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 04:56:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666774589;
+ s=mimecast20190719; t=1666774590;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LZJgPKLzPU4FFqUHCLH3fQ6VerF4lcNEh7In/aB3oYA=;
- b=Get9eoE1LpaQi+3nmv4yEFoBliWhnsh7E9NDGrLqXT3HxBH3wkffkj4Z4eu2bnZkMoUFXK
- RZG4OxQmYwoIG14FvrQ3DcpDtfNeffnKL+OhOVQCkp9ioxFe2sQgjaJVpC522JqE+VKUoH
- 7IrwwMoA0RSV17DtORiu8KVYuEaWmig=
+ bh=p1EGsGNJqZR2tziqXLokPkR5z2ueiD1sLUFLeVnCqPg=;
+ b=Ak3SLkUCpGcfmlHQq0qLFEIC0gyizHW85CT05k4atXzxFWdtoT9J8jbpuku8s4HVTcgodz
+ fR1e9NHHNhIGCKD2a+dOVP1oKeVlmcM0f2Iz1Htt6IdHBTDMoI2feqabTO3wcxZtXqf2DP
+ Lrkh9mukNyXvoS7OMY+g5qzrl5tAgsQ=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-408-5DSJO3UWP3qq5SIXrUBmFg-1; Wed, 26 Oct 2022 04:56:25 -0400
-X-MC-Unique: 5DSJO3UWP3qq5SIXrUBmFg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-358-Kqz3oQdbNuK30EPr_MH1gg-1; Wed, 26 Oct 2022 04:56:24 -0400
+X-MC-Unique: Kqz3oQdbNuK30EPr_MH1gg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 01EAB3C1E72E;
- Wed, 26 Oct 2022 08:56:25 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 50F6E293249C;
+ Wed, 26 Oct 2022 08:56:24 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 86C8717595;
- Wed, 26 Oct 2022 08:56:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ABA39492B19;
+ Wed, 26 Oct 2022 08:56:16 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
@@ -51,15 +51,14 @@ Cc: Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Janosch Frank <frankja@linux.ibm.com>
-Subject: [PULL v3 06/11] s390x: Add protected dump cap
-Date: Wed, 26 Oct 2022 12:55:34 +0400
-Message-Id: <20221026085540.254253-7-marcandre.lureau@redhat.com>
+Subject: [PULL v3 07/11] s390x: Introduce PV query interface
+Date: Wed, 26 Oct 2022 12:55:35 +0400
+Message-Id: <20221026085540.254253-8-marcandre.lureau@redhat.com>
 In-Reply-To: <20221026085540.254253-1-marcandre.lureau@redhat.com>
 References: <20221026085540.254253-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -68,7 +67,7 @@ X-Spam_score: -2.6
 X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,98 +86,159 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Janosch Frank <frankja@linux.ibm.com>
 
-Add a protected dump capability for later feature checking.
+Introduce an interface over which we can get information about UV data.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 Reviewed-by: Steffen Eiden <seiden@linux.ibm.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-Message-Id: <20221017083822.43118-7-frankja@linux.ibm.com>
-[ Marc-André - Add missing stubs when !kvm ]
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20221017083822.43118-8-frankja@linux.ibm.com>
 ---
- target/s390x/kvm/kvm_s390x.h |  1 +
- target/s390x/kvm/kvm.c       |  7 +++++++
- target/s390x/kvm/stubs.c     | 12 ++++++++++++
- target/s390x/kvm/meson.build |  2 ++
- 4 files changed, 22 insertions(+)
- create mode 100644 target/s390x/kvm/stubs.c
+ include/hw/s390x/pv.h      | 10 +++++++
+ hw/s390x/pv.c              | 61 ++++++++++++++++++++++++++++++++++++++
+ hw/s390x/s390-virtio-ccw.c |  6 ++++
+ 3 files changed, 77 insertions(+)
 
-diff --git a/target/s390x/kvm/kvm_s390x.h b/target/s390x/kvm/kvm_s390x.h
-index aaae8570de..f9785564d0 100644
---- a/target/s390x/kvm/kvm_s390x.h
-+++ b/target/s390x/kvm/kvm_s390x.h
-@@ -26,6 +26,7 @@ int kvm_s390_set_cpu_state(S390CPU *cpu, uint8_t cpu_state);
- void kvm_s390_vcpu_interrupt_pre_save(S390CPU *cpu);
- int kvm_s390_vcpu_interrupt_post_load(S390CPU *cpu);
- int kvm_s390_get_hpage_1m(void);
-+int kvm_s390_get_protected_dump(void);
- int kvm_s390_get_ri(void);
- int kvm_s390_get_zpci_op(void);
- int kvm_s390_get_clock(uint8_t *tod_high, uint64_t *tod_clock);
-diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
-index 508c24cfec..04cae0b999 100644
---- a/target/s390x/kvm/kvm.c
-+++ b/target/s390x/kvm/kvm.c
-@@ -158,6 +158,7 @@ static int cap_hpage_1m;
- static int cap_vcpu_resets;
- static int cap_protected;
- static int cap_zpci_op;
-+static int cap_protected_dump;
- 
- static bool mem_op_storage_key_support;
- 
-@@ -364,6 +365,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-     cap_vcpu_resets = kvm_check_extension(s, KVM_CAP_S390_VCPU_RESETS);
-     cap_protected = kvm_check_extension(s, KVM_CAP_S390_PROTECTED);
-     cap_zpci_op = kvm_check_extension(s, KVM_CAP_S390_ZPCI_OP);
-+    cap_protected_dump = kvm_check_extension(s, KVM_CAP_S390_PROTECTED_DUMP);
- 
-     kvm_vm_enable_cap(s, KVM_CAP_S390_USER_SIGP, 0);
-     kvm_vm_enable_cap(s, KVM_CAP_S390_VECTOR_REGISTERS, 0);
-@@ -2045,6 +2047,11 @@ int kvm_s390_assign_subch_ioeventfd(EventNotifier *notifier, uint32_t sch,
-     return kvm_vm_ioctl(kvm_state, KVM_IOEVENTFD, &kick);
+diff --git a/include/hw/s390x/pv.h b/include/hw/s390x/pv.h
+index 1f1f545bfc..e5ea0eca16 100644
+--- a/include/hw/s390x/pv.h
++++ b/include/hw/s390x/pv.h
+@@ -38,6 +38,7 @@ static inline bool s390_is_pv(void)
+     return ccw->pv;
  }
  
-+int kvm_s390_get_protected_dump(void)
-+{
-+    return cap_protected_dump;
-+}
++int s390_pv_query_info(void);
+ int s390_pv_vm_enable(void);
+ void s390_pv_vm_disable(void);
+ int s390_pv_set_sec_parms(uint64_t origin, uint64_t length);
+@@ -46,8 +47,13 @@ void s390_pv_prep_reset(void);
+ int s390_pv_verify(void);
+ void s390_pv_unshare(void);
+ void s390_pv_inject_reset_error(CPUState *cs);
++uint64_t kvm_s390_pv_dmp_get_size_cpu(void);
++uint64_t kvm_s390_pv_dmp_get_size_mem_state(void);
++uint64_t kvm_s390_pv_dmp_get_size_completion_data(void);
++bool kvm_s390_pv_info_basic_valid(void);
+ #else /* CONFIG_KVM */
+ static inline bool s390_is_pv(void) { return false; }
++static inline int s390_pv_query_info(void) { return 0; }
+ static inline int s390_pv_vm_enable(void) { return 0; }
+ static inline void s390_pv_vm_disable(void) {}
+ static inline int s390_pv_set_sec_parms(uint64_t origin, uint64_t length) { return 0; }
+@@ -56,6 +62,10 @@ static inline void s390_pv_prep_reset(void) {}
+ static inline int s390_pv_verify(void) { return 0; }
+ static inline void s390_pv_unshare(void) {}
+ static inline void s390_pv_inject_reset_error(CPUState *cs) {};
++static inline uint64_t kvm_s390_pv_dmp_get_size_cpu(void) { return 0; }
++static inline uint64_t kvm_s390_pv_dmp_get_size_mem_state(void) { return 0; }
++static inline uint64_t kvm_s390_pv_dmp_get_size_completion_data(void) { return 0; }
++static inline bool kvm_s390_pv_info_basic_valid(void) { return false; }
+ #endif /* CONFIG_KVM */
+ 
+ int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
+diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
+index 401b63d6cb..4c012f2eeb 100644
+--- a/hw/s390x/pv.c
++++ b/hw/s390x/pv.c
+@@ -20,6 +20,11 @@
+ #include "exec/confidential-guest-support.h"
+ #include "hw/s390x/ipl.h"
+ #include "hw/s390x/pv.h"
++#include "target/s390x/kvm/kvm_s390x.h"
 +
- int kvm_s390_get_ri(void)
++static bool info_valid;
++static struct kvm_s390_pv_info_vm info_vm;
++static struct kvm_s390_pv_info_dump info_dump;
+ 
+ static int __s390_pv_cmd(uint32_t cmd, const char *cmdname, void *data)
  {
-     return cap_ri;
-diff --git a/target/s390x/kvm/stubs.c b/target/s390x/kvm/stubs.c
-new file mode 100644
-index 0000000000..5fd63b9a7e
---- /dev/null
-+++ b/target/s390x/kvm/stubs.c
-@@ -0,0 +1,12 @@
-+/*
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include "kvm_s390x.h"
-+
-+int kvm_s390_get_protected_dump(void)
+@@ -56,6 +61,42 @@ static int __s390_pv_cmd(uint32_t cmd, const char *cmdname, void *data)
+     }                                  \
+ }
+ 
++int s390_pv_query_info(void)
 +{
-+    return false;
++    struct kvm_s390_pv_info info = {
++        .header.id = KVM_PV_INFO_VM,
++        .header.len_max = sizeof(info.header) + sizeof(info.vm),
++    };
++    int rc;
++
++    /* Info API's first user is dump so they are bundled */
++    if (!kvm_s390_get_protected_dump()) {
++        return 0;
++    }
++
++    rc = s390_pv_cmd(KVM_PV_INFO, &info);
++    if (rc) {
++        error_report("KVM PV INFO cmd %x failed: %s",
++                     info.header.id, strerror(-rc));
++        return rc;
++    }
++    memcpy(&info_vm, &info.vm, sizeof(info.vm));
++
++    info.header.id = KVM_PV_INFO_DUMP;
++    info.header.len_max = sizeof(info.header) + sizeof(info.dump);
++    rc = s390_pv_cmd(KVM_PV_INFO, &info);
++    if (rc) {
++        error_report("KVM PV INFO cmd %x failed: %s",
++                     info.header.id, strerror(-rc));
++        return rc;
++    }
++
++    memcpy(&info_dump, &info.dump, sizeof(info.dump));
++    info_valid = true;
++
++    return rc;
 +}
-diff --git a/target/s390x/kvm/meson.build b/target/s390x/kvm/meson.build
-index d1356356b1..aef52b6686 100644
---- a/target/s390x/kvm/meson.build
-+++ b/target/s390x/kvm/meson.build
-@@ -1,6 +1,8 @@
++
+ int s390_pv_vm_enable(void)
+ {
+     return s390_pv_cmd(KVM_PV_ENABLE, NULL);
+@@ -114,6 +155,26 @@ void s390_pv_inject_reset_error(CPUState *cs)
+     env->regs[r1 + 1] = DIAG_308_RC_INVAL_FOR_PV;
+ }
  
- s390x_ss.add(when: 'CONFIG_KVM', if_true: files(
-   'kvm.c'
-+), if_false: files(
-+  'stubs.c'
- ))
++uint64_t kvm_s390_pv_dmp_get_size_cpu(void)
++{
++    return info_dump.dump_cpu_buffer_len;
++}
++
++uint64_t kvm_s390_pv_dmp_get_size_completion_data(void)
++{
++    return info_dump.dump_config_finalize_len;
++}
++
++uint64_t kvm_s390_pv_dmp_get_size_mem_state(void)
++{
++    return info_dump.dump_config_mem_buffer_per_1m;
++}
++
++bool kvm_s390_pv_info_basic_valid(void)
++{
++    return info_valid;
++}
++
+ #define TYPE_S390_PV_GUEST "s390-pv-guest"
+ OBJECT_DECLARE_SIMPLE_TYPE(S390PVGuest, S390_PV_GUEST)
  
- # Newer kernels on s390 check for an S390_PGSTE program header and
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index 03855c7231..1cc20d8717 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -366,6 +366,12 @@ static int s390_machine_protect(S390CcwMachineState *ms)
+ 
+     ms->pv = true;
+ 
++    /* Will return 0 if API is not available since it's not vital */
++    rc = s390_pv_query_info();
++    if (rc) {
++        goto out_err;
++    }
++
+     /* Set SE header and unpack */
+     rc = s390_ipl_prepare_pv_header();
+     if (rc) {
 -- 
 2.37.3
 
