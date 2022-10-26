@@ -2,82 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50B8A60D897
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 02:52:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C175A60D8D1
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 03:27:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onUc4-0006DR-08; Tue, 25 Oct 2022 20:49:44 -0400
+	id 1onVBK-00085e-LJ; Tue, 25 Oct 2022 21:26:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gourry.memverge@gmail.com>)
- id 1onUc1-0006AP-I4
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 20:49:41 -0400
-Received: from mail-qv1-xf2b.google.com ([2607:f8b0:4864:20::f2b])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1onVBI-0007wy-Hb
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 21:26:08 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <gourry.memverge@gmail.com>)
- id 1onUbz-0003cT-PD
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 20:49:41 -0400
-Received: by mail-qv1-xf2b.google.com with SMTP id i12so10252819qvs.2
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 17:49:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=itdJjoWTzr0ylNc2qCCbqq49u8Zk8OI8xM4xXE0AET8=;
- b=DErcIejy+jTfZFrrHblUaN3ryaHEn6mgd2TCHyOHrRofiS/ZHNaoRKG8PfnL8yQP0X
- 2Yv6HFnPkkC+29wcpuzRi6ItVra8KrfgsNUwmlM8yephllXnY0cOTYRsLLbqGL2wMXdn
- cx7m7O0X4TxiYd+mLeC1m5Oq/wqLB0BA7Nmbjd3u92rDjmGYZf87nlJx4EfKhQTKv89g
- hcYuwn+YVnQikqdrgPe51EEYdRQv9FIrjG7HCieEIEyLLDaievMubaB+tMFBzj9y9fG2
- bnIUG9Ym7bnLWSHGesGLhhYOt0F7Z7EKGPsp+u+L5kNcpexCXeDgW3ZBmu7ME3ZaQFt6
- +NGg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1onVBE-0001ms-99
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 21:26:08 -0400
+Received: by mail-pl1-x636.google.com with SMTP id c2so4398239plz.11
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 18:26:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=sSalD0NBKk6LLOQs/1HV5ztLv06SbZj3dx3tz7LHekM=;
+ b=OLIK49z73Exb8SvuZubX+jMMlnZR9Q2MoytlTyilpB0BRlMGHF9d/nYNZEOBAcaXsc
+ TPzzZuZroYl4SCZ+kr6OijCzPObc4j7rBvTgnHykX2A3Jfz4RYvsY2di9vwjEZjBoKbD
+ jpOXGkW0jMmmNV1oMr2rfCWk1g1CyP6vy6pZU5dZDxZ2ac56WoDgdgfr70inI/+9CmFv
+ 2sWogJJldkRnX01govpaqLyb9of4216eaP2Qstf8hmNS0Xzkj4vN/nHKz+p6aerx32I/
+ tLxtuPDcmxqquIn9J2Lb5cxHysc+8e+dcmF/SF5voX9RbFU0kZTexTGn8YnukhDwUyjt
+ EAnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=itdJjoWTzr0ylNc2qCCbqq49u8Zk8OI8xM4xXE0AET8=;
- b=n9SlyEkLBg2Gf++99yQe1OxQvIkDfe8fyvKqcUECIEXEiEQa8DtGhJpoVuZXUDEqJs
- etyITjolgnKiOaeO4WU1YkgOJHc/88R1NF3rFPflHJ+cLTCjEQSzz8vvbPr46CiZ6vY9
- UAUFr+axuJVc0ptb+QltEhRu3HYUiP1pO8ECzeGzlPAF2J28zod4nVEJHugFF97pZQqO
- tPLpSCA6JQmG4PdjTwafszM5WN+0H4Nvj7UfXi8//7JA6njah867wIxycO3DadRHOTnE
- ymdGWTSyK/eMAoGIAXUynHjmx0qeqdhgXFq/upDubSySwnhlVAZKbfVEX6/MCXw42bQa
- 7HrA==
-X-Gm-Message-State: ACrzQf0D2IZ1hAMCfBoO26CcWfAenFXkAFpNNWT6dx/QT9uYAjoNh2ZO
- NRK46XTfiCQUUKbBw2vAXTHQ3yinBQ==
-X-Google-Smtp-Source: AMsMyM5JSL7W12XrKKbKyXJP9wWmNB6SvooPIuwe6FpViFuujBLsvC9GOqJBnqlfQPAVFkWcVoC2Ng==
-X-Received: by 2002:ad4:5fc8:0:b0:4b7:6ca0:adc6 with SMTP id
- jq8-20020ad45fc8000000b004b76ca0adc6mr27173507qvb.120.1666745378233; 
- Tue, 25 Oct 2022 17:49:38 -0700 (PDT)
-Received: from fedora.mshome.net (pool-173-79-56-208.washdc.fios.verizon.net.
- [173.79.56.208]) by smtp.gmail.com with ESMTPSA id
- j15-20020ac8550f000000b0039a610a04b1sm2408651qtq.37.2022.10.25.17.49.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Oct 2022 17:49:31 -0700 (PDT)
-From: Gregory Price <gourry.memverge@gmail.com>
-X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
-To: qemu-devel@nongnu.org
-Cc: jonathan.cameron@huawei.com, linux-cxl@vger.kernel.org, mst@redhat.com,
- marcel.apfelbaum@gmail.com, imammedo@redhat.com, ani@anisinha.ca,
- alison.schofield@intel.com, dave@stgolabs.net, a.manzanares@samsung.com,
- bwidawsk@kernel.org, gregory.price@memverge.com,
- hchkuo@avery-design.com.tw, cbrowy@avery-design.com, ira.weiny@intel.com
-Subject: [PATCH 4/4] hw/acpi/cxl.c: Fill in SRAT for vmem/pmem if NUMA node is
- assigned
-Date: Tue, 25 Oct 2022 20:47:37 -0400
-Message-Id: <20221026004737.3646-5-gregory.price@memverge.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221026004737.3646-1-gregory.price@memverge.com>
-References: <20221026004737.3646-1-gregory.price@memverge.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sSalD0NBKk6LLOQs/1HV5ztLv06SbZj3dx3tz7LHekM=;
+ b=DqVjrwRK1FtUDjwtd5Ii+bBnBFaxg8wEi1M+lwjJder8hl+PTp1Dr1nMwiwbAKTMnk
+ 3FzOpnZhajxdU6RcoS9V9LL7g+SWxJm4x+W5bIfKninwyMlht7xki99+z1s57fSgRw6/
+ TkX8eFOUJ808nHJ6cFg7enCuBLnsjcMqI1TFpBQxlU+KhG+YArrlsfoeypwDwYVaaxxt
+ XPDSfPSiXITgfvLATjw4CqZD1V6KDWJbzLRsX/TM5trgUvlZqwteA3QvK+W2XpXlTHR7
+ vlgWU5gwC46YAPYwPOQhpmdAfdmrVs0A20X4pnP6M6jT6zNurxL5jT77T6JSbCjvYb6W
+ tx+A==
+X-Gm-Message-State: ACrzQf0yNe3XP6PWu5qxRMIQpffQiZcfeQr+L6QI6cOqzi9s/E7wkph3
+ SYgO8x76GkgkG1Qocse1wQYnEg==
+X-Google-Smtp-Source: AMsMyM5H7Z/oYXCTamdmFD2sTitfXOmehZwmOKxTuojmFRgaFZtYK/feA03J0ItSsbs+yxKwzTNl/Q==
+X-Received: by 2002:a17:90b:1d03:b0:212:cd82:aa0c with SMTP id
+ on3-20020a17090b1d0300b00212cd82aa0cmr1279375pjb.214.1666747562276; 
+ Tue, 25 Oct 2022 18:26:02 -0700 (PDT)
+Received: from [172.31.50.139] ([103.100.225.182])
+ by smtp.gmail.com with ESMTPSA id
+ t7-20020a1709027fc700b001869b988d93sm1767543plb.187.2022.10.25.18.25.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Oct 2022 18:26:01 -0700 (PDT)
+Message-ID: <8a44ba6a-4d90-05c0-e943-cce72358d137@linaro.org>
+Date: Wed, 26 Oct 2022 11:25:54 +1000
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v5 04/18] tests/qtest: migration-test: Avoid using
+ hardcoded /tmp
+Content-Language: en-US
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
+ <marcandre.lureau@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+References: <20221006151927.2079583-1-bmeng.cn@gmail.com>
+ <20221006151927.2079583-5-bmeng.cn@gmail.com>
+ <19172ac9-519c-2a32-9336-7d92aaea05f8@linaro.org>
+ <CAEUhbmWYdYL6v3V_3jPAvW8RTCmWxYFK9jiVk1A89oz=+kkbdA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAEUhbmWYdYL6v3V_3jPAvW8RTCmWxYFK9jiVk1A89oz=+kkbdA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2b;
- envelope-from=gourry.memverge@gmail.com; helo=mail-qv1-xf2b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,154 +100,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This patch enables the direct assignment of a NUMA node to a volatile or
-persistent memory region on a CXL type-3 device.  This is useful for
-testing static mapping for type-3 device memory regions as memory and
-leveraging them directly via its NUMA node.
+On 10/26/22 10:44, Bin Meng wrote:
+>> ../src/tests/qtest/migration-test.c: In function ‘main’:
+>> ../src/tests/qtest/migration-test.c:2484:49: error: ‘%s’ directive argument is null
+>> [-Werror=format-overflow=]
+>>    2484 |         g_test_message("g_dir_make_tmp on path (%s): %s", tmpfs,
+>>         |                                                 ^~
+>>
+>> The compiler correctly notices that tmpfs was tested and found to be null, but tried to
+>> print it anyway.
+>>
+> 
+> Patch [1] already queued in qemu-trivial
+> 
+> [1] http://patchwork.ozlabs.org/project/qemu-devel/patch/20221017132023.2228641-1-bmeng.cn@gmail.com/
 
-Co-developed-By: Davidlohr Bueso <dave@stgolabs.net>
-Signed-off-by: Gregory Price <gregory.price@memverge.com>
----
- docs/system/devices/cxl.rst | 21 ++++++++++++
- hw/acpi/cxl.c               | 67 +++++++++++++++++++++++++++++++++++++
- hw/i386/acpi-build.c        |  4 +++
- include/hw/acpi/cxl.h       |  1 +
- 4 files changed, 93 insertions(+)
+Oh, excellent, thanks.
 
-diff --git a/docs/system/devices/cxl.rst b/docs/system/devices/cxl.rst
-index 9e165064c8..32bf84a97c 100644
---- a/docs/system/devices/cxl.rst
-+++ b/docs/system/devices/cxl.rst
-@@ -332,6 +332,27 @@ The same volatile setup may optionally include an LSA region::
-   -device cxl-type3,bus=root_port13,volatile-memdev=vmem0,lsa=cxl-lsa0,id=cxl-vmem0 \
-   -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G
- 
-+
-+Volatile and Persistent Memory regions may also be assigned an SRAT entry and statically
-+mapped into the system by manually assigning them a CPU-less NUMA node. This is an example
-+of a CXL Type 3 Volatile Memory device being assigned an SRAT entry via a NUMA node mapping::
-+
-+    qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
-+    ...
-+    -smp 4 \
-+    -enable-kvm \
-+    -nographic \
-+    -object memory-backend-ram,id=mem0,size=2G,share=on \
-+    -object memory-backend-ram,id=mem1,size=2G,share=on \
-+    -numa node,memdev=mem0,cpus=0-3,nodeid=0 \
-+    -numa node,memdev=mem1,nodeid=1, \
-+    -device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 \
-+    -device cxl-rp,port=0,id=rp0,bus=cxl.0,chassis=0,slot=0 \
-+    -device cxl-rp,port=1,id=rp1,bus=cxl.0,chassis=0,slot=1 \
-+    -device cxl-type3,bus=rp0,volatile-memdev=mem1,id=cxl-mem0 
-+
-+
-+
- A setup suitable for 4 way interleave. Only one fixed window provided, to enable 2 way
- interleave across 2 CXL host bridges.  Each host bridge has 2 CXL Root Ports, with
- the CXL Type3 device directly attached (no switches).::
-diff --git a/hw/acpi/cxl.c b/hw/acpi/cxl.c
-index 2bf8c07993..a8c6166b7f 100644
---- a/hw/acpi/cxl.c
-+++ b/hw/acpi/cxl.c
-@@ -254,3 +254,70 @@ void build_cxl_osc_method(Aml *dev)
-     aml_append(dev, aml_name_decl("CTRC", aml_int(0)));
-     aml_append(dev, __build_cxl_osc_method());
- }
-+
-+static int cxl_device_list(Object *obj, void *opaque)
-+{
-+    GSList **list = opaque;
-+
-+    if (object_dynamic_cast(obj, TYPE_CXL_TYPE3)) {
-+        *list = g_slist_append(*list, DEVICE(obj));
-+    }
-+
-+    object_child_foreach(obj, cxl_device_list, opaque);
-+    return 0;
-+}
-+
-+static GSList *cxl_get_device_list(void)
-+{
-+    GSList *list = NULL;
-+
-+    object_child_foreach(qdev_get_machine(), cxl_device_list, &list);
-+    return list;
-+}
-+
-+void cxl_build_srat(GArray *table_data, NodeInfo* numa_info, int nb_numa_nodes)
-+{
-+    GSList *device_list, *list = cxl_get_device_list();
-+    int node = 0;
-+
-+    for (device_list = list; device_list; device_list = device_list->next) {
-+        DeviceState *dev = device_list->data;
-+        CXLType3Dev *ct3d = CXL_TYPE3(dev);
-+        MemoryRegion *mr = NULL;
-+
-+        if (ct3d->hostvmem) {
-+            /* Find the numa node associated with this memdev */
-+            for (node = 0; node < nb_numa_nodes; node++) {
-+                if (numa_info[node].node_memdev == ct3d->hostvmem) {
-+                    break;
-+                }
-+            }
-+            if (node != nb_numa_nodes) {
-+                mr = host_memory_backend_get_memory(ct3d->hostvmem);
-+                if (mr) {
-+                    build_srat_memory(table_data, mr->addr, mr->size, node,
-+                          (MEM_AFFINITY_ENABLED | MEM_AFFINITY_HOTPLUGGABLE));
-+                }
-+            }
-+        }
-+
-+        if (ct3d->hostpmem) {
-+            /* Find the numa node associated with this memdev */
-+            for (node = 0; node < nb_numa_nodes; node++) {
-+                if (numa_info[node].node_memdev == ct3d->hostpmem) {
-+                    break;
-+                }
-+            }
-+            if (node != nb_numa_nodes) {
-+                mr = host_memory_backend_get_memory(ct3d->hostpmem);
-+                if (mr) {
-+                    build_srat_memory(table_data, mr->addr, mr->size, node,
-+                          (MEM_AFFINITY_ENABLED | MEM_AFFINITY_HOTPLUGGABLE |
-+                           MEM_AFFINITY_NON_VOLATILE));
-+                }
-+            }
-+        }
-+    }
-+
-+    g_slist_free(list);
-+}
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 4f54b61904..af62c888e5 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -2080,6 +2080,10 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
-      * Memory devices may override proximity set by this entry,
-      * providing _PXM method if necessary.
-      */
-+    if (pcms->cxl_devices_state.is_enabled) {
-+        cxl_build_srat(table_data, numa_info, nb_numa_nodes);
-+    }
-+
-     if (hotpluggable_address_space_size) {
-         build_srat_memory(table_data, machine->device_memory->base,
-                           hotpluggable_address_space_size, nb_numa_nodes - 1,
-diff --git a/include/hw/acpi/cxl.h b/include/hw/acpi/cxl.h
-index acf4418886..b4974297db 100644
---- a/include/hw/acpi/cxl.h
-+++ b/include/hw/acpi/cxl.h
-@@ -25,5 +25,6 @@ void cxl_build_cedt(GArray *table_offsets, GArray *table_data,
-                     BIOSLinker *linker, const char *oem_id,
-                     const char *oem_table_id, CXLState *cxl_state);
- void build_cxl_osc_method(Aml *dev);
-+void cxl_build_srat(GArray *table_data, NodeInfo* numa_info, int nb_numa_nodes);
- 
- #endif
--- 
-2.37.3
+r~
 
 
