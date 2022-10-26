@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 285DC60E796
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 20:44:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EE1560E794
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 20:44:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onlGd-0007sT-Sw; Wed, 26 Oct 2022 14:36:43 -0400
+	id 1onlGV-0007s9-KM; Wed, 26 Oct 2022 14:36:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1onlFz-0007W7-9O
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 14:36:03 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1onlFu-0007NE-K2
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 14:36:00 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1onlFc-0003Ck-JM
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 14:36:01 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1onlFb-0003BY-KS
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 14:35:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666809339;
+ s=mimecast20190719; t=1666809338;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XllueJ8W6F7wFA9Q4Nm6I5lgdAakmPWSn5ODBp+DUmM=;
- b=aEPB4f93+9PH6s1z8LGByx3qtA6KpeZS6oimH0Fq54HFv88UTi5epNbi2tkK2+g+cex6Fw
- KL+QIeHxCKWLNpq2iGINd08n+P8vOgz8DnZzkqIwxMlDbcYs+eSTHmByuWite1V6SRiy0M
- UariiboxTaQJ9LkXibKrdPrlLWkaevo=
+ bh=Li+OxAZmyH5xo3KRNbHsRqj8RTC5q1wme5dzkt4nzrM=;
+ b=f4a5qYU6ZUGlduL8j7gFV5R6UL2BF4Kwcr/xunu8bULFKNok2usT/kYYQB0wkrP59LhRZE
+ vbhOIHjsx/XJR/cgV+EFuVT9xG6bKwdk7Q8zigUvCqHMaN+Y1aVGHjxBIalAuK1njRgKnf
+ EKdDVlgOHWROEbH6K0eCmOvljAM0yJ8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-592-wvlHDh-fNlixuq6oSPTH7A-1; Wed, 26 Oct 2022 14:35:36 -0400
-X-MC-Unique: wvlHDh-fNlixuq6oSPTH7A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-422-BGYB_kDlMQGFW0eNMurYzw-1; Wed, 26 Oct 2022 14:35:36 -0400
+X-MC-Unique: BGYB_kDlMQGFW0eNMurYzw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 386B387B2A6;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6EF8887B2AE;
  Wed, 26 Oct 2022 18:35:36 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.195.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DC882166B2B;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 130BA40C83BA;
  Wed, 26 Oct 2022 18:35:36 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 56B8521E65D2; Wed, 26 Oct 2022 20:35:32 +0200 (CEST)
+ id 5832021E65D5; Wed, 26 Oct 2022 20:35:32 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+Cc: stefanha@redhat.com, Mark Kanda <mark.kanda@oracle.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL v2 21/28] qapi run-state: Elide redundant has_FOO in generated C
-Date: Wed, 26 Oct 2022 20:35:25 +0200
-Message-Id: <20221026183532.487708-22-armbru@redhat.com>
+Subject: [PULL v2 22/28] qapi stats: Elide redundant has_FOO in generated C
+Date: Wed, 26 Oct 2022 20:35:26 +0200
+Message-Id: <20221026183532.487708-23-armbru@redhat.com>
 In-Reply-To: <20221026183532.487708-1-armbru@redhat.com>
 References: <20221026183532.487708-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
@@ -82,78 +83,50 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 The has_FOO for pointer-valued FOO are redundant, except for arrays.
 They are also a nuisance to work with.  Recent commit "qapi: Start to
 elide redundant has_FOO in generated C" provided the means to elide
-them step by step.  This is the step for qapi/run-state.json.
+them step by step.  This is the step for qapi/stats.json.
 
 Said commit explains the transformation in more detail.  The invariant
 violations mentioned there do not occur here.
 
-Drop a superfluous conditional around
-qapi_free_GuestPanicInformation() while there.
-
+Cc: Mark Kanda <mark.kanda@oracle.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20221018062849.3420573-22-armbru@redhat.com>
+Reviewed-by: Mark Kanda <mark.kanda@oracle.com>
+Message-Id: <20221018062849.3420573-23-armbru@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-[Commit message tweaked]
 ---
- softmmu/runstate.c     | 18 +++++-------------
- scripts/qapi/schema.py |  1 -
- 2 files changed, 5 insertions(+), 14 deletions(-)
+ monitor/qmp-cmds.c     | 5 +----
+ scripts/qapi/schema.py | 1 -
+ 2 files changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/softmmu/runstate.c b/softmmu/runstate.c
-index 1e68680b9d..682a810d3c 100644
---- a/softmmu/runstate.c
-+++ b/softmmu/runstate.c
-@@ -479,18 +479,15 @@ void qemu_system_guest_panicked(GuestPanicInformation *info)
-      */
-     if (panic_action == PANIC_ACTION_PAUSE
-         || (panic_action == PANIC_ACTION_SHUTDOWN && shutdown_action == SHUTDOWN_ACTION_PAUSE)) {
--        qapi_event_send_guest_panicked(GUEST_PANIC_ACTION_PAUSE,
--                                        !!info, info);
-+        qapi_event_send_guest_panicked(GUEST_PANIC_ACTION_PAUSE, info);
-         vm_stop(RUN_STATE_GUEST_PANICKED);
-     } else if (panic_action == PANIC_ACTION_SHUTDOWN ||
-                panic_action == PANIC_ACTION_EXIT_FAILURE) {
--        qapi_event_send_guest_panicked(GUEST_PANIC_ACTION_POWEROFF,
--                                       !!info, info);
-+        qapi_event_send_guest_panicked(GUEST_PANIC_ACTION_POWEROFF, info);
-         vm_stop(RUN_STATE_GUEST_PANICKED);
-         qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_PANIC);
-     } else {
--        qapi_event_send_guest_panicked(GUEST_PANIC_ACTION_RUN,
--                                        !!info, info);
-+        qapi_event_send_guest_panicked(GUEST_PANIC_ACTION_RUN, info);
-     }
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index f8ab5dd50f..3bf2ae9bb7 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -560,10 +560,7 @@ void add_stats_entry(StatsResultList **stats_results, StatsProvider provider,
+     StatsResult *entry = g_new0(StatsResult, 1);
  
-     if (info) {
-@@ -517,13 +514,8 @@ void qemu_system_guest_panicked(GuestPanicInformation *info)
- void qemu_system_guest_crashloaded(GuestPanicInformation *info)
- {
-     qemu_log_mask(LOG_GUEST_ERROR, "Guest crash loaded");
--
--    qapi_event_send_guest_crashloaded(GUEST_PANIC_ACTION_RUN,
--                                   !!info, info);
--
--    if (info) {
--        qapi_free_GuestPanicInformation(info);
+     entry->provider = provider;
+-    if (qom_path) {
+-        entry->has_qom_path = true;
+-        entry->qom_path = g_strdup(qom_path);
 -    }
-+    qapi_event_send_guest_crashloaded(GUEST_PANIC_ACTION_RUN, info);
-+    qapi_free_GuestPanicInformation(info);
- }
++    entry->qom_path = g_strdup(qom_path);
+     entry->stats = stats_list;
  
- void qemu_system_reset_request(ShutdownCause reason)
+     QAPI_LIST_PREPEND(*stats_results, entry);
 diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 1b3195bc87..f405ab7f49 100644
+index f405ab7f49..0544037e71 100644
 --- a/scripts/qapi/schema.py
 +++ b/scripts/qapi/schema.py
 @@ -759,7 +759,6 @@ def need_has(self):
          assert self.type
          # Temporary hack to support dropping the has_FOO in reviewable chunks
          opt_out = [
--            'qapi/run-state.json',
-             'qapi/stats.json',
+-            'qapi/stats.json',
              'qapi/tpm.json',
              'qapi/transaction.json',
+             'qapi/ui.json',
 -- 
 2.37.3
 
