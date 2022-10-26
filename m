@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38FA760E6EF
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 20:03:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BD4360E6F0
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 20:03:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onkhj-00082H-7E; Wed, 26 Oct 2022 14:00:39 -0400
+	id 1onkhw-0000G6-53; Wed, 26 Oct 2022 14:00:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1onkhZ-0007oU-1C
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 14:00:29 -0400
+ id 1onkhr-0000EA-AL
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 14:00:47 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1onkhX-0006G1-2R
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 14:00:28 -0400
+ id 1onkhh-0006Gn-KC
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 14:00:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666807217;
+ s=mimecast20190719; t=1666807232;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=UqtrKzgZUj9ZvBeT8ltxatSYQyX+1yzOso0CNAUr6b8=;
- b=SpzR9cU5sN2I4KUGtuSXG+eROxor6rjOGZjvCWriom70sXeZXd4Ez699Cofgko87wDNfVH
- 3/gT4Hh3Xmb/VtJiDfGkc7Rdlk66+W9vvQ/OwbNH/8dybMjgnZMlbmJboJdSC/8KZDM+S0
- 3LzTqYGAfGXlRHMvP7zm+tLUHVQMBGk=
-Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
- [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=d3gG4Wnf3zQ+7XkJXmPedeeWZkruwCa2XHQKTCdGYxE=;
+ b=AMac3lbqGjyzogHTdR158XGn+S+2manBfdUb7M8tAoh/CYTblFF/XcYYAXzp3K+5H54qDs
+ Rt5gH7O7z5vRrRhTbX6l79vvEJJNKe1FTwNAaoB3zWX0J/gBqT0rcLRm+MGkabaxAyho0A
+ VwnUay48Sy5t7Gzar4/jRQucPO6OYNk=
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-274-hlTPvwC7O8a9mZ0-Mjxxkw-1; Wed, 26 Oct 2022 14:00:15 -0400
-X-MC-Unique: hlTPvwC7O8a9mZ0-Mjxxkw-1
-Received: by mail-oa1-f70.google.com with SMTP id
- 586e51a60fabf-13af11be44dso9146703fac.21
- for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 11:00:15 -0700 (PDT)
+ us-mta-424-DlHwR9gAO6KF_XoODTJgHg-1; Wed, 26 Oct 2022 14:00:29 -0400
+X-MC-Unique: DlHwR9gAO6KF_XoODTJgHg-1
+Received: by mail-ot1-f72.google.com with SMTP id
+ c8-20020a9d6c88000000b00660efaeb7d6so8767751otr.2
+ for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 11:00:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=UqtrKzgZUj9ZvBeT8ltxatSYQyX+1yzOso0CNAUr6b8=;
- b=DKiMMu6x2OOfZjK6uc2EuOIU28RByWKxH0FkHAwMi+BNbE4ClkbDLos+HjzxliH4DU
- x8gaSHggPRo0HQOSbIghRxOiI6C6/TQ+SwW4eAJOJH8N7qfG5UZv1bS9N3wGQua2znoE
- 7QPQ3qp4uPOpBaFcjMCUzSnOnwhuGCzMjTEjelzbukOTpRuw19850KSSp5xcNgMXdFyR
- 1YCtPUglCw46iIL45lH6H/8CnOk0R/K3jIZ14IhMfWFyhJbMf95DiptFH7T8TeYTxqgM
- DLQfy/3XRiXnfefz0G0SzTa/7ZZnTnWGtgrX30VOe+QxcKfwaCk/GO8QzzKeWURtKm0s
- 6x4A==
-X-Gm-Message-State: ACrzQf2reiAS14mgXhgHJDBS7SLEH8oDKWRcGjq8Zc36czgW9uWOrs/p
- 7h68diw5nLmjAbSu88cu8XMkMlqEx9pLkYhLatVWoX4GSQtmX5dhHi6etgzTruR05m40s0rYfqi
- LYwSADceqCAE8SV5M+8aDPgUqyylGxPo=
-X-Received: by 2002:a4a:980c:0:b0:476:20e:25ed with SMTP id
- y12-20020a4a980c000000b00476020e25edmr19271845ooi.21.1666807214591; 
- Wed, 26 Oct 2022 11:00:14 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM49w1Z9oG7oXad0skaZPanPq9qKvrsTsZ+PQGiKlbIjxv8B2hJllN2rNzaS05764eqzMilWocsaRo3R0Rq7PMQ=
-X-Received: by 2002:a4a:980c:0:b0:476:20e:25ed with SMTP id
- y12-20020a4a980c000000b00476020e25edmr19271833ooi.21.1666807214244; Wed, 26
- Oct 2022 11:00:14 -0700 (PDT)
+ bh=d3gG4Wnf3zQ+7XkJXmPedeeWZkruwCa2XHQKTCdGYxE=;
+ b=pvw680jrn4knzkccWs9P1NOuBIzSdTByy/MOGtaLGxG/9cYZul908rKbn+WQl7pL13
+ DOrkED9o4avn3wgTelh9EPgmZ6QxhN2GIk2c/EXRkNkTWDWW4m+Aqw8GdEGZhGHW9zqK
+ NacP2r+s1h8ZSTcbohPEOTD/wJWKegz2YlockCV8vzjGfxmGTEvEwboHwuVckkSpBj2F
+ 4TAhc5ZJwxyNIthvt1gUftfh7Q0cFbwSik79PoKAbi9cm8JtecLSrgUBzYuiyK5tb8zB
+ 1emD9EU5jWLgNHhnVyrZbiwDUE8xUbrCWXj7/tZNhUhJQ4aVGT7X5cXF/36AadBecCmF
+ oYAQ==
+X-Gm-Message-State: ACrzQf3XnQ8ehCoPp8QusZSyJ79Ujx373t9YwafJJO6bEovZhjlodrL5
+ EWmYUk121AJUlxEzd80TE56OBkqIeO/dO4TrDh4TXmesi2WXGP5kKNy0XIBvCdeT5ndIOVydwOK
+ nFtR4D/g72Ihyz7if/aPfp2vcyM/M6QE=
+X-Received: by 2002:a05:6808:308c:b0:354:99ec:bbb7 with SMTP id
+ bl12-20020a056808308c00b0035499ecbbb7mr2588389oib.68.1666807228351; 
+ Wed, 26 Oct 2022 11:00:28 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4kBj60Sxx+XXHc+pzGcARHWx+k/GaxqZwMhdJ1kJ5/0vqZkhGpiLTNYt7RoA1BYaLl4XRX9mydSeERFYfljSM=
+X-Received: by 2002:a05:6808:308c:b0:354:99ec:bbb7 with SMTP id
+ bl12-20020a056808308c00b0035499ecbbb7mr2588382oib.68.1666807228113; Wed, 26
+ Oct 2022 11:00:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221017072825.72867-1-alexander.ivanov@virtuozzo.com>
- <0e38476c-0066-e90e-c100-9c23412df108@virtuozzo.com>
-In-Reply-To: <0e38476c-0066-e90e-c100-9c23412df108@virtuozzo.com>
+References: <20221020220346.124381-1-bjorn.forsman@gmail.com>
+ <CAPMcbCpPje_vo8RPQtT4AM_b1hH427exC2==1YRrotQKXLv7nQ@mail.gmail.com>
+In-Reply-To: <CAPMcbCpPje_vo8RPQtT4AM_b1hH427exC2==1YRrotQKXLv7nQ@mail.gmail.com>
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Wed, 26 Oct 2022 21:00:03 +0300
-Message-ID: <CAPMcbCoamQBb1k-34gQNNxfUaxL7y21r0PbaL1KWnMhN5LWz8Q@mail.gmail.com>
-Subject: Re: [PATCH v5 0/7] qga: Add FreeBSD support
-To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
-Cc: qemu-devel@nongnu.org, den@virtuozzo.com, michael.roth@amd.com, 
- marcandre.lureau@gmail.com
-Content-Type: multipart/alternative; boundary="000000000000ea1b5105ebf3cbef"
+Date: Wed, 26 Oct 2022 21:00:16 +0300
+Message-ID: <CAPMcbCqpxKhVK+JB5-5srm60wRS5Y=KS5Q0uTX+k47t9AYd95A@mail.gmail.com>
+Subject: Re: [PATCH] qga: add channel path to error messages
+To: =?UTF-8?Q?Bj=C3=B8rn_Forsman?= <bjorn.forsman@gmail.com>
+Cc: qemu-devel@nongnu.org, michael.roth@amd.com
+Content-Type: multipart/alternative; boundary="000000000000bdb74305ebf3cc7c"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
@@ -93,175 +92,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000ea1b5105ebf3cbef
+--000000000000bdb74305ebf3cc7c
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for the reminder. PR was sent
+PR was sent
 https://patchew.org/QEMU/20221026175518.2636846-1-kkostiuk@redhat.com/
 
-Best Regards,
-Konstantin Kostiuk.
+On Wed, Oct 26, 2022 at 8:31 PM Konstantin Kostiuk <kkostiuk@redhat.com>
+wrote:
 
+> Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+>
+> On Fri, Oct 21, 2022 at 1:04 AM Bj=C3=B8rn Forsman <bjorn.forsman@gmail.c=
+om>
+> wrote:
+>
+>> It's useful to know which device was used if/when it fails.
+>>
+>> channel-win32.c had this since 2015, with
+>> c69403fcd4a0cb89f838a212ab71e4a1a3464c95 ("qemu-ga: debug printouts to
+>> help troubleshoot installation"), this brings channel-posix.c up to
+>> speed.
+>>
+>> Signed-off-by: Bj=C3=B8rn Forsman <bjorn.forsman@gmail.com>
+>> ---
+>>  qga/channel-posix.c | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/qga/channel-posix.c b/qga/channel-posix.c
+>> index 6796a02cff..e6dce985ae 100644
+>> --- a/qga/channel-posix.c
+>> +++ b/qga/channel-posix.c
+>> @@ -138,7 +138,7 @@ static gboolean ga_channel_open(GAChannel *c, const
+>> gchar *path,
+>>              0
+>>          );
+>>          if (fd =3D=3D -1) {
+>> -            error_setg_errno(errp, errno, "error opening channel");
+>> +            error_setg_errno(errp, errno, "error opening channel '%s'",
+>> path);
+>>              return false;
+>>          }
+>>  #ifdef CONFIG_SOLARIS
+>> @@ -163,7 +163,7 @@ static gboolean ga_channel_open(GAChannel *c, const
+>> gchar *path,
+>>          assert(fd < 0);
+>>          fd =3D qga_open_cloexec(path, O_RDWR | O_NOCTTY | O_NONBLOCK, 0=
+);
+>>          if (fd =3D=3D -1) {
+>> -            error_setg_errno(errp, errno, "error opening channel");
+>> +            error_setg_errno(errp, errno, "error opening channel '%s'",
+>> path);
+>>              return false;
+>>          }
+>>          tcgetattr(fd, &tio);
+>> --
+>> 2.36.2
+>>
+>>
 
-On Wed, Oct 26, 2022 at 4:25 PM Alexander Ivanov <
-alexander.ivanov@virtuozzo.com> wrote:
-
-> Could you please clarify the status of the patchset?
->
-> Thank you.
->
-> On 17.10.2022 09:28, Alexander Ivanov wrote:
-> > Add freeze/thaw, shutdown/halt/reboot, password setting and
-> > guest-network-get-interfaces command support for FreeBSD.
-> >
-> > v5:
-> > 2: Left ga_wait_child() static in commands-posix.c.
-> >
-> > v4:
-> > 6,7: Return bool instead int in guest_get_hw_addr().
-> >
-> > v3:
-> > 1: Add a comment about echo suppressing.
-> > 5: Replace code moving by splitting the code into a few blocks under
-> >     architecture conditions.
-> > 5,6: Move actions with dumb qmp_guest_set_user_password() to
-> >       the appropriate patch.
-> > 6: Fix error/obtained return.
-> >
-> > v2:
-> > 1: Reject the idea to move all the Linux-specific code to a separate
-> file.
-> >     First commit now adds initial support of FreeBSD. Fixed device paths
-> >     and fixed virtio device initialization (disable echo). Add comment
-> why
-> >     we should disable the code under HAVE_GETIFADDRS in FreeBSD.
-> > 2: Replace the second commit (which now is the first) by moving
-> >     Linux-specific freeze/thaw code to a separate file commands-linux.c.
-> > 3: Add error raising if stat() returns error. Replaced strcmp() calls by
-> >     g_str_equal(). Add a comment explaining why UFSRESUME isn't
-> necessary.
-> > 4: Replace #elifdef by #elif defined().
-> > 5: Now the code doesn't move from one file to aanother but still is
-> >     moving inside file so the patch doesn't become easier to review. =(
-> >     Fixed typos.
-> > 6,7: New patches. Add guest-network-get-interfaces command support.
-> >
-> > Alexander Ivanov (7):
-> >    qga: Add initial FreeBSD support
-> >    qga: Move Linux-specific FS freeze/thaw code to a separate file
-> >    qga: Add UFS freeze/thaw support for FreeBSD
-> >    qga: Add shutdown/halt/reboot support for FreeBSD
-> >    qga: Add support for user password setting in FreeBSD
-> >    qga: Move HW address getting to a separate function
-> >    qga: Add HW address getting for FreeBSD
-> >
-> >   meson.build           |   2 +-
-> >   qga/channel-posix.c   |  19 ++
-> >   qga/commands-bsd.c    | 200 +++++++++++++
-> >   qga/commands-common.h |  51 ++++
-> >   qga/commands-linux.c  | 286 +++++++++++++++++++
-> >   qga/commands-posix.c  | 639 ++++++++++++++----------------------------
-> >   qga/main.c            |  13 +-
-> >   qga/meson.build       |   6 +
-> >   8 files changed, 778 insertions(+), 438 deletions(-)
-> >   create mode 100644 qga/commands-bsd.c
-> >   create mode 100644 qga/commands-linux.c
-> >
->
->
-
---000000000000ea1b5105ebf3cbef
+--000000000000bdb74305ebf3cc7c
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Thanks for the reminder. PR was sent <a href=3D"https=
-://patchew.org/QEMU/20221026175518.2636846-1-kkostiuk@redhat.com/">https://=
-patchew.org/QEMU/20221026175518.2636846-1-kkostiuk@redhat.com/</a></div><di=
-v><br></div><div><div><div dir=3D"ltr" class=3D"gmail_signature" data-smart=
-mail=3D"gmail_signature"><div dir=3D"ltr"><div>Best Regards,</div><div>Kons=
-tantin Kostiuk.</div></div></div></div><br></div></div><br><div class=3D"gm=
-ail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Oct 26, 2022 at 4:=
-25 PM Alexander Ivanov &lt;<a href=3D"mailto:alexander.ivanov@virtuozzo.com=
-">alexander.ivanov@virtuozzo.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">Could you please clarify the status of the=
- patchset?<br>
+<div dir=3D"ltr">PR was sent <a href=3D"https://patchew.org/QEMU/2022102617=
+5518.2636846-1-kkostiuk@redhat.com/">https://patchew.org/QEMU/2022102617551=
+8.2636846-1-kkostiuk@redhat.com/</a></div><br><div class=3D"gmail_quote"><d=
+iv dir=3D"ltr" class=3D"gmail_attr">On Wed, Oct 26, 2022 at 8:31 PM Konstan=
+tin Kostiuk &lt;<a href=3D"mailto:kkostiuk@redhat.com">kkostiuk@redhat.com<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><=
+div dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkost=
+iuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;</div><br><div=
+ class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 21=
+, 2022 at 1:04 AM Bj=C3=B8rn Forsman &lt;<a href=3D"mailto:bjorn.forsman@gm=
+ail.com" target=3D"_blank">bjorn.forsman@gmail.com</a>&gt; wrote:<br></div>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left:1px solid rgb(204,204,204);padding-left:1ex">It&#39;s useful to know w=
+hich device was used if/when it fails.<br>
 <br>
-Thank you.<br>
+channel-win32.c had this since 2015, with<br>
+c69403fcd4a0cb89f838a212ab71e4a1a3464c95 (&quot;qemu-ga: debug printouts to=
 <br>
-On 17.10.2022 09:28, Alexander Ivanov wrote:<br>
-&gt; Add freeze/thaw, shutdown/halt/reboot, password setting and<br>
-&gt; guest-network-get-interfaces command support for FreeBSD.<br>
-&gt;<br>
-&gt; v5:<br>
-&gt; 2: Left ga_wait_child() static in commands-posix.c.<br>
-&gt;<br>
-&gt; v4:<br>
-&gt; 6,7: Return bool instead int in guest_get_hw_addr().<br>
-&gt;<br>
-&gt; v3:<br>
-&gt; 1: Add a comment about echo suppressing.<br>
-&gt; 5: Replace code moving by splitting the code into a few blocks under<b=
-r>
-&gt;=C2=A0 =C2=A0 =C2=A0architecture conditions.<br>
-&gt; 5,6: Move actions with dumb qmp_guest_set_user_password() to<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0the appropriate patch.<br>
-&gt; 6: Fix error/obtained return.<br>
-&gt;<br>
-&gt; v2:<br>
-&gt; 1: Reject the idea to move all the Linux-specific code to a separate f=
-ile.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0First commit now adds initial support of FreeBSD. F=
-ixed device paths<br>
-&gt;=C2=A0 =C2=A0 =C2=A0and fixed virtio device initialization (disable ech=
-o). Add comment why<br>
-&gt;=C2=A0 =C2=A0 =C2=A0we should disable the code under HAVE_GETIFADDRS in=
- FreeBSD.<br>
-&gt; 2: Replace the second commit (which now is the first) by moving<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Linux-specific freeze/thaw code to a separate file =
-commands-linux.c.<br>
-&gt; 3: Add error raising if stat() returns error. Replaced strcmp() calls =
-by<br>
-&gt;=C2=A0 =C2=A0 =C2=A0g_str_equal(). Add a comment explaining why UFSRESU=
-ME isn&#39;t necessary.<br>
-&gt; 4: Replace #elifdef by #elif defined().<br>
-&gt; 5: Now the code doesn&#39;t move from one file to aanother but still i=
-s<br>
-&gt;=C2=A0 =C2=A0 =C2=A0moving inside file so the patch doesn&#39;t become =
-easier to review. =3D(<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Fixed typos.<br>
-&gt; 6,7: New patches. Add guest-network-get-interfaces command support.<br=
+help troubleshoot installation&quot;), this brings channel-posix.c up to<br=
 >
-&gt;<br>
-&gt; Alexander Ivanov (7):<br>
-&gt;=C2=A0 =C2=A0 qga: Add initial FreeBSD support<br>
-&gt;=C2=A0 =C2=A0 qga: Move Linux-specific FS freeze/thaw code to a separat=
-e file<br>
-&gt;=C2=A0 =C2=A0 qga: Add UFS freeze/thaw support for FreeBSD<br>
-&gt;=C2=A0 =C2=A0 qga: Add shutdown/halt/reboot support for FreeBSD<br>
-&gt;=C2=A0 =C2=A0 qga: Add support for user password setting in FreeBSD<br>
-&gt;=C2=A0 =C2=A0 qga: Move HW address getting to a separate function<br>
-&gt;=C2=A0 =C2=A0 qga: Add HW address getting for FreeBSD<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 =C2=A02 +-<br>
-&gt;=C2=A0 =C2=A0qga/channel-posix.c=C2=A0 =C2=A0|=C2=A0 19 ++<br>
-&gt;=C2=A0 =C2=A0qga/commands-bsd.c=C2=A0 =C2=A0 | 200 +++++++++++++<br>
-&gt;=C2=A0 =C2=A0qga/commands-common.h |=C2=A0 51 ++++<br>
-&gt;=C2=A0 =C2=A0qga/commands-linux.c=C2=A0 | 286 +++++++++++++++++++<br>
-&gt;=C2=A0 =C2=A0qga/commands-posix.c=C2=A0 | 639 ++++++++++++++-----------=
------------------<br>
-&gt;=C2=A0 =C2=A0qga/main.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
-=A0 13 +-<br>
-&gt;=C2=A0 =C2=A0qga/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A06 =
-+<br>
-&gt;=C2=A0 =C2=A08 files changed, 778 insertions(+), 438 deletions(-)<br>
-&gt;=C2=A0 =C2=A0create mode 100644 qga/commands-bsd.c<br>
-&gt;=C2=A0 =C2=A0create mode 100644 qga/commands-linux.c<br>
-&gt;<br>
+speed.<br>
+<br>
+Signed-off-by: Bj=C3=B8rn Forsman &lt;<a href=3D"mailto:bjorn.forsman@gmail=
+.com" target=3D"_blank">bjorn.forsman@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0qga/channel-posix.c | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/qga/channel-posix.c b/qga/channel-posix.c<br>
+index 6796a02cff..e6dce985ae 100644<br>
+--- a/qga/channel-posix.c<br>
++++ b/qga/channel-posix.c<br>
+@@ -138,7 +138,7 @@ static gboolean ga_channel_open(GAChannel *c, const gch=
+ar *path,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (fd =3D=3D -1) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
+uot;error opening channel&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
+uot;error opening channel &#39;%s&#39;&quot;, path);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0#ifdef CONFIG_SOLARIS<br>
+@@ -163,7 +163,7 @@ static gboolean ga_channel_open(GAChannel *c, const gch=
+ar *path,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0assert(fd &lt; 0);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fd =3D qga_open_cloexec(path, O_RDWR | O_=
+NOCTTY | O_NONBLOCK, 0);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (fd =3D=3D -1) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
+uot;error opening channel&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
+uot;error opening channel &#39;%s&#39;&quot;, path);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcgetattr(fd, &amp;tio);<br>
+-- <br>
+2.36.2<br>
 <br>
 </blockquote></div>
+</blockquote></div>
 
---000000000000ea1b5105ebf3cbef--
+--000000000000bdb74305ebf3cc7c--
 
 
