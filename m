@@ -2,87 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C175A60D8D1
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 03:27:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C23B60D918
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 04:15:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onVBK-00085e-LJ; Tue, 25 Oct 2022 21:26:10 -0400
+	id 1onVtB-0004B1-I4; Tue, 25 Oct 2022 22:11:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1onVBI-0007wy-Hb
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 21:26:08 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
+ id 1onVt9-00046b-TC
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 22:11:27 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1onVBE-0001ms-99
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 21:26:08 -0400
-Received: by mail-pl1-x636.google.com with SMTP id c2so4398239plz.11
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 18:26:03 -0700 (PDT)
+ id 1onVt7-00010i-AQ
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 22:11:27 -0400
+Received: by mail-pg1-x535.google.com with SMTP id f193so13494358pgc.0
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 19:11:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=sSalD0NBKk6LLOQs/1HV5ztLv06SbZj3dx3tz7LHekM=;
- b=OLIK49z73Exb8SvuZubX+jMMlnZR9Q2MoytlTyilpB0BRlMGHF9d/nYNZEOBAcaXsc
- TPzzZuZroYl4SCZ+kr6OijCzPObc4j7rBvTgnHykX2A3Jfz4RYvsY2di9vwjEZjBoKbD
- jpOXGkW0jMmmNV1oMr2rfCWk1g1CyP6vy6pZU5dZDxZ2ac56WoDgdgfr70inI/+9CmFv
- 2sWogJJldkRnX01govpaqLyb9of4216eaP2Qstf8hmNS0Xzkj4vN/nHKz+p6aerx32I/
- tLxtuPDcmxqquIn9J2Lb5cxHysc+8e+dcmF/SF5voX9RbFU0kZTexTGn8YnukhDwUyjt
- EAnw==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Bs7vzpnSeACkvlkZ6unDxm+y9qAAnSE+Ji02emplPFU=;
+ b=gAHaY57bK+qFRQjUPsdiUABOux6ua+dOlTamNQYAwXDLVj8UoqvUQa85QpjnNjbCCY
+ 5Z+qjO0Bp7XCBAugTYN70m6T+lHGXjhmOMAIfTq7OucNhV/xBgLoVjLa36Hbar5tjv5p
+ +aOr6iUzbecIga8VnZAOeNFGpWCQrQigdvBXz8SAP4xCeFyZzdo1226IeMCO+JL1vBnL
+ 7oMuUuARd45f+FXyGfKkQM5xMJMLJNa5xLUBsjtnkFJbn7cJ6BDF881Jg45OfN/gDsfF
+ zfMqdoJHOyViZPShZOQRGQvt0KkFFTHVgSx3kNCP/IN2KwOr3lf8hqy8exwyupl6izk0
+ 1FHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sSalD0NBKk6LLOQs/1HV5ztLv06SbZj3dx3tz7LHekM=;
- b=DqVjrwRK1FtUDjwtd5Ii+bBnBFaxg8wEi1M+lwjJder8hl+PTp1Dr1nMwiwbAKTMnk
- 3FzOpnZhajxdU6RcoS9V9LL7g+SWxJm4x+W5bIfKninwyMlht7xki99+z1s57fSgRw6/
- TkX8eFOUJ808nHJ6cFg7enCuBLnsjcMqI1TFpBQxlU+KhG+YArrlsfoeypwDwYVaaxxt
- XPDSfPSiXITgfvLATjw4CqZD1V6KDWJbzLRsX/TM5trgUvlZqwteA3QvK+W2XpXlTHR7
- vlgWU5gwC46YAPYwPOQhpmdAfdmrVs0A20X4pnP6M6jT6zNurxL5jT77T6JSbCjvYb6W
- tx+A==
-X-Gm-Message-State: ACrzQf0yNe3XP6PWu5qxRMIQpffQiZcfeQr+L6QI6cOqzi9s/E7wkph3
- SYgO8x76GkgkG1Qocse1wQYnEg==
-X-Google-Smtp-Source: AMsMyM5H7Z/oYXCTamdmFD2sTitfXOmehZwmOKxTuojmFRgaFZtYK/feA03J0ItSsbs+yxKwzTNl/Q==
-X-Received: by 2002:a17:90b:1d03:b0:212:cd82:aa0c with SMTP id
- on3-20020a17090b1d0300b00212cd82aa0cmr1279375pjb.214.1666747562276; 
- Tue, 25 Oct 2022 18:26:02 -0700 (PDT)
-Received: from [172.31.50.139] ([103.100.225.182])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Bs7vzpnSeACkvlkZ6unDxm+y9qAAnSE+Ji02emplPFU=;
+ b=iVYLUx7IlMhgOTIkHD0D5ChWqMAH9vmgBuerbmIWmhVgXnTxHmYoLt+fzVVTzwwpwF
+ OpblG0ntxp+1h4SIIwx0zdTMkqsmT5hMgcbkX/MTCvx7JcQaQMcPlHfEEG/bILpEmEn1
+ 832hNyiqMOULGaGGoZR9SBAWDCKO6S3br214m17JWyhRJVG25NAItopE23nhhlyvPmwX
+ ICmqdsvzddDZ9p36LOj0fnuHOaAZSMgWuFDePIYGGZEzLmw0AkDBXg5evXVbClmd8eoB
+ EZKGqrZmYA3kaMWoVjKeXPUwyQKYM9uQVrpkZXpFD7gMOsSz0gRaWQLa/LwPgvuxpo68
+ g8ng==
+X-Gm-Message-State: ACrzQf3dzTS2lmFQXwJckR5dIwpE9Gt12vTQZnNGjJ2nIpFkkBzWsya8
+ upAd0kbFZ9aRekNLJTPwODGh7LvQ8U/tLpqU
+X-Google-Smtp-Source: AMsMyM54FIJIrn08yE4SFgookB3XPMOrFFvb/kjrNO2P6ms2u2v+1hEFDZTz5XWyTBeKsl2Ik3nlnw==
+X-Received: by 2002:a05:6a00:1389:b0:566:1549:c5bc with SMTP id
+ t9-20020a056a00138900b005661549c5bcmr42182839pfg.8.1666750283258; 
+ Tue, 25 Oct 2022 19:11:23 -0700 (PDT)
+Received: from stoup.hotspotlogin.services ([103.100.225.182])
  by smtp.gmail.com with ESMTPSA id
- t7-20020a1709027fc700b001869b988d93sm1767543plb.187.2022.10.25.18.25.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Oct 2022 18:26:01 -0700 (PDT)
-Message-ID: <8a44ba6a-4d90-05c0-e943-cce72358d137@linaro.org>
-Date: Wed, 26 Oct 2022 11:25:54 +1000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v5 04/18] tests/qtest: migration-test: Avoid using
- hardcoded /tmp
-Content-Language: en-US
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-References: <20221006151927.2079583-1-bmeng.cn@gmail.com>
- <20221006151927.2079583-5-bmeng.cn@gmail.com>
- <19172ac9-519c-2a32-9336-7d92aaea05f8@linaro.org>
- <CAEUhbmWYdYL6v3V_3jPAvW8RTCmWxYFK9jiVk1A89oz=+kkbdA@mail.gmail.com>
+ o29-20020a635d5d000000b0043c9da02729sm1897833pgm.6.2022.10.25.19.11.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 Oct 2022 19:11:22 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAEUhbmWYdYL6v3V_3jPAvW8RTCmWxYFK9jiVk1A89oz=+kkbdA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: qemu-devel@nongnu.org
+Cc: stefanha@redhat.com
+Subject: [PULL 00/47] tcg patch queue
+Date: Wed, 26 Oct 2022 12:10:29 +1000
+Message-Id: <20221026021116.1988449-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,23 +87,151 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/26/22 10:44, Bin Meng wrote:
->> ../src/tests/qtest/migration-test.c: In function ‘main’:
->> ../src/tests/qtest/migration-test.c:2484:49: error: ‘%s’ directive argument is null
->> [-Werror=format-overflow=]
->>    2484 |         g_test_message("g_dir_make_tmp on path (%s): %s", tmpfs,
->>         |                                                 ^~
->>
->> The compiler correctly notices that tmpfs was tested and found to be null, but tried to
->> print it anyway.
->>
-> 
-> Patch [1] already queued in qemu-trivial
-> 
-> [1] http://patchwork.ozlabs.org/project/qemu-devel/patch/20221017132023.2228641-1-bmeng.cn@gmail.com/
+The following changes since commit e750a7ace492f0b450653d4ad368a77d6f660fb8:
 
-Oh, excellent, thanks.
+  Merge tag 'pull-9p-20221024' of https://github.com/cschoenebeck/qemu into staging (2022-10-24 14:27:12 -0400)
 
-r~
+are available in the Git repository at:
 
+  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20221026
+
+for you to fetch changes up to 04f105758b0089f73ee47260671580cde35f96cc:
+
+  accel/tcg: Remove restore_state_to_opc function (2022-10-26 11:11:28 +1000)
+
+----------------------------------------------------------------
+Revert incorrect cflags initialization.
+Add direct jumps for tcg/loongarch64.
+Speed up breakpoint check.
+Improve assertions for atomic.h.
+Move restore_state_to_opc to TCGCPUOps.
+Cleanups to TranslationBlock maintenance.
+
+----------------------------------------------------------------
+Leandro Lupori (1):
+      accel/tcg: Add a quicker check for breakpoints
+
+Peter Maydell (1):
+      Revert "accel/tcg: Init TCG cflags in vCPU thread handler"
+
+Qi Hu (2):
+      tcg/loongarch64: Add direct jump support
+      tcg/aarch64: Remove unused code in tcg_out_op
+
+Richard Henderson (43):
+      include/qemu/osdep: Add qemu_build_assert
+      include/qemu/atomic: Use qemu_build_assert
+      include/qemu/thread: Use qatomic_* functions
+      accel/tcg: Make page_alloc_target_data allocation constant
+      accel/tcg: Remove disabled debug in translate-all.c
+      accel/tcg: Split out PageDesc to internal.h
+      accel/tcg: Split out tb-maint.c
+      accel/tcg: Move assert_no_pages_locked to internal.h
+      accel/tcg: Drop cpu_get_tb_cpu_state from TARGET_HAS_PRECISE_SMC
+      accel/tcg: Remove duplicate store to tb->page_addr[]
+      accel/tcg: Introduce tb_{set_}page_addr{0,1}
+      accel/tcg: Rename tb_invalidate_phys_page
+      accel/tcg: Rename tb_invalidate_phys_page_range and drop end parameter
+      accel/tcg: Unify declarations of tb_invalidate_phys_range
+      accel/tcg: Use tb_invalidate_phys_page in page_set_flags
+      accel/tcg: Call tb_invalidate_phys_page for PAGE_RESET
+      accel/tcg: Use page_reset_target_data in page_set_flags
+      accel/tcg: Use tb_invalidate_phys_range in page_set_flags
+      accel/tcg: Move TARGET_PAGE_DATA_SIZE impl to user-exec.c
+      accel/tcg: Simplify page_get/alloc_target_data
+      accel/tcg: Add restore_state_to_opc to TCGCPUOps
+      target/alpha: Convert to tcg_ops restore_state_to_opc
+      target/arm: Convert to tcg_ops restore_state_to_opc
+      target/avr: Convert to tcg_ops restore_state_to_opc
+      target/cris: Convert to tcg_ops restore_state_to_opc
+      target/hexagon: Convert to tcg_ops restore_state_to_opc
+      target/hppa: Convert to tcg_ops restore_state_to_opc
+      target/i386: Convert to tcg_ops restore_state_to_opc
+      target/loongarch: Convert to tcg_ops restore_state_to_opc
+      target/m68k: Convert to tcg_ops restore_state_to_opc
+      target/microblaze: Convert to tcg_ops restore_state_to_opc
+      target/mips: Convert to tcg_ops restore_state_to_opc
+      target/nios2: Convert to tcg_ops restore_state_to_opc
+      target/openrisc: Convert to tcg_ops restore_state_to_opc
+      target/ppc: Convert to tcg_ops restore_state_to_opc
+      target/riscv: Convert to tcg_ops restore_state_to_opc
+      target/rx: Convert to tcg_ops restore_state_to_opc
+      target/s390x: Convert to tcg_ops restore_state_to_opc
+      target/sh4: Convert to tcg_ops restore_state_to_opc
+      target/sparc: Convert to tcg_ops restore_state_to_opc
+      target/tricore: Convert to tcg_ops restore_state_to_opc
+      target/xtensa: Convert to tcg_ops restore_state_to_opc
+      accel/tcg: Remove restore_state_to_opc function
+
+ accel/tcg/internal.h             |   91 ++++
+ include/exec/cpu-all.h           |   22 +-
+ include/exec/exec-all.h          |   35 +-
+ include/exec/ram_addr.h          |    2 -
+ include/exec/translate-all.h     |    2 +-
+ include/hw/core/tcg-cpu-ops.h    |   11 +
+ include/qemu/atomic.h            |   16 +-
+ include/qemu/osdep.h             |    8 +
+ include/qemu/thread.h            |    8 +-
+ target/arm/cpu.h                 |    8 +
+ target/arm/internals.h           |    4 -
+ target/mips/tcg/tcg-internal.h   |    3 +
+ target/s390x/s390x-internal.h    |    4 +-
+ target/sparc/cpu.h               |    3 +
+ tcg/loongarch64/tcg-target.h     |    9 +-
+ accel/tcg/cpu-exec.c             |   24 +-
+ accel/tcg/tb-maint.c             |  704 ++++++++++++++++++++++++++
+ accel/tcg/tcg-accel-ops-mttcg.c  |    5 +-
+ accel/tcg/tcg-accel-ops-rr.c     |    7 +-
+ accel/tcg/translate-all.c        | 1017 ++------------------------------------
+ accel/tcg/translator.c           |    9 +-
+ accel/tcg/user-exec.c            |   42 ++
+ bsd-user/mmap.c                  |    2 -
+ cpu.c                            |    4 +-
+ linux-user/mmap.c                |    4 -
+ target/alpha/cpu.c               |    9 +
+ target/alpha/translate.c         |    6 -
+ target/arm/cpu.c                 |   26 +
+ target/arm/mte_helper.c          |    5 -
+ target/arm/translate.c           |   22 -
+ target/avr/cpu.c                 |   11 +
+ target/avr/translate.c           |    6 -
+ target/cris/cpu.c                |   11 +
+ target/cris/translate.c          |    6 -
+ target/hexagon/cpu.c             |    9 +-
+ target/hppa/cpu.c                |   19 +
+ target/hppa/translate.c          |   13 -
+ target/i386/tcg/tcg-cpu.c        |   19 +
+ target/i386/tcg/translate.c      |   15 -
+ target/loongarch/cpu.c           |   11 +
+ target/loongarch/translate.c     |    6 -
+ target/m68k/cpu.c                |   14 +
+ target/m68k/translate.c          |   10 -
+ target/microblaze/cpu.c          |   11 +
+ target/microblaze/translate.c    |    7 -
+ target/mips/cpu.c                |    1 +
+ target/mips/tcg/translate.c      |    8 +-
+ target/nios2/cpu.c               |   11 +
+ target/nios2/translate.c         |    6 -
+ target/openrisc/cpu.c            |   13 +
+ target/openrisc/translate.c      |   10 -
+ target/ppc/cpu_init.c            |   10 +
+ target/ppc/translate.c           |    6 -
+ target/riscv/cpu.c               |    9 +-
+ target/rx/cpu.c                  |   10 +
+ target/rx/translate.c            |    6 -
+ target/s390x/cpu.c               |    1 +
+ target/s390x/tcg/translate.c     |    7 +-
+ target/sh4/cpu.c                 |   16 +
+ target/sh4/translate.c           |   10 -
+ target/sparc/cpu.c               |    1 +
+ target/sparc/translate.c         |    7 +-
+ target/tricore/cpu.c             |   11 +
+ target/tricore/translate.c       |    6 -
+ target/xtensa/cpu.c              |   10 +
+ target/xtensa/translate.c        |    6 -
+ tcg/aarch64/tcg-target.c.inc     |   31 +-
+ tcg/loongarch64/tcg-target.c.inc |   48 +-
+ accel/tcg/meson.build            |    1 +
+ 69 files changed, 1304 insertions(+), 1221 deletions(-)
+ create mode 100644 accel/tcg/tb-maint.c
 
