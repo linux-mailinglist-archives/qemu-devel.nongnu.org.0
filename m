@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49C1560E895
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 21:09:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C22E60E855
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 21:06:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onlcx-0007XK-6M; Wed, 26 Oct 2022 14:59:47 -0400
+	id 1onlct-00078X-P8; Wed, 26 Oct 2022 14:59:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1onlcu-0007M5-N9
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 14:59:44 -0400
+ id 1onlck-000638-Bo
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 14:59:34 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1onlcs-00071g-U7
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 14:59:44 -0400
+ id 1onlci-00070e-LI
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 14:59:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666810782;
+ s=mimecast20190719; t=1666810771;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+cMUqz3GnXATVGGENC5rpF1sgO3VFbstR1MnIzMRLts=;
- b=Pm4zom/7Yv7IVa66buspuSMxrLI9rBJ8rEJgnzfQIsJQlSkJZBSWf3651KQycZ84V2om/q
- 5fD++DcmtIXv1aFzIeL3iM9R3Yba9+cyFI72Ffsl6sgldbBPj7C/D5VteC+HCf56FnAAcR
- moUmctSXj13MmTQ6WS9uYWQzqPdOinU=
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/18YyRywffHNhsyvHx4AyjY7kfpJ7ZfNJb/6QrwbewA=;
+ b=IOXCmcg78otCiuPWUVONf00cYQpe9TQpX1cmAXkovo/WQB0eol5ZPWsE0rKePLvg7GUbJY
+ PSRDC6Q4juWhbT/Gtg3iaNfEe8PU8nQSyirNlT0WWizNYgonU0/Eg4bRR06CRonu7DGx+Y
+ qb/qNvcn44q36r4kAqTYsm6+06yMkeI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-39-wO_2lKSkNs6UlagKDN4sfQ-1; Wed, 26 Oct 2022 14:59:38 -0400
-X-MC-Unique: wO_2lKSkNs6UlagKDN4sfQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-137-LORDXktTPFOnsL3xHo3C6A-1; Wed, 26 Oct 2022 14:59:28 -0400
+X-MC-Unique: LORDXktTPFOnsL3xHo3C6A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B9407185A78B;
- Wed, 26 Oct 2022 18:59:37 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F093B811E67;
+ Wed, 26 Oct 2022 18:59:26 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.42])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F1C4917595;
- Wed, 26 Oct 2022 18:59:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5C6562166B2B;
+ Wed, 26 Oct 2022 18:59:26 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
@@ -61,13 +62,14 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Fam Zheng <fam@euphon.net>, Xie Changlong <xiechanglong.d@gmail.com>,
  Jeff Cody <codyprime@gmail.com>, John Snow <jsnow@redhat.com>,
  "Denis V. Lunev" <den@openvz.org>
-Subject: [PULL 00/13] Block patches
-Date: Wed, 26 Oct 2022 14:58:33 -0400
-Message-Id: <20221026185846.120544-1-stefanha@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+Subject: [PULL 01/13] coroutine: add flag to re-queue at front of CoQueue
+Date: Wed, 26 Oct 2022 14:58:34 -0400
+Message-Id: <20221026185846.120544-2-stefanha@redhat.com>
+In-Reply-To: <20221026185846.120544-1-stefanha@redhat.com>
+References: <20221026185846.120544-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
@@ -92,86 +94,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 79fc2fb685f35a5e71e23629760ef4025d6aba31:
+When a coroutine wakes up it may determine that it must re-queue.
+Normally coroutines are pushed onto the back of the CoQueue, but for
+fairness it may be necessary to push it onto the front of the CoQueue.
 
-  Merge tag 'trivial-branch-for-7.2-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2022-10-25 11:37:17 -0400)
+Add a flag to specify that the coroutine should be pushed onto the front
+of the CoQueue. A later patch will use this to ensure fairness in the
+bounce buffer CoQueue used by the blkio BlockDriver.
 
-are available in the Git repository at:
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-id: 20221013185908.1297568-2-stefanha@redhat.com
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ include/qemu/coroutine.h   | 15 +++++++++++++--
+ util/qemu-coroutine-lock.c |  9 +++++++--
+ 2 files changed, 20 insertions(+), 4 deletions(-)
 
-  https://gitlab.com/stefanha/qemu.git tags/block-pull-request
-
-for you to fetch changes up to baf422684d73c7bf38e2c18815e18d44fcf395b6:
-
-  virtio-blk: use BDRV_REQ_REGISTERED_BUF optimization hint (2022-10-26 14:56:42 -0400)
-
-----------------------------------------------------------------
-Pull request
-
-----------------------------------------------------------------
-
-Stefan Hajnoczi (13):
-  coroutine: add flag to re-queue at front of CoQueue
-  blkio: add libblkio block driver
-  numa: call ->ram_block_removed() in ram_block_notifer_remove()
-  block: pass size to bdrv_unregister_buf()
-  block: use BdrvRequestFlags type for supported flag fields
-  block: add BDRV_REQ_REGISTERED_BUF request flag
-  block: return errors from bdrv_register_buf()
-  numa: use QLIST_FOREACH_SAFE() for RAM block notifiers
-  block: add BlockRAMRegistrar
-  exec/cpu-common: add qemu_ram_get_fd()
-  stubs: add qemu_ram_block_from_host() and qemu_ram_get_fd()
-  blkio: implement BDRV_REQ_REGISTERED_BUF optimization
-  virtio-blk: use BDRV_REQ_REGISTERED_BUF optimization hint
-
- MAINTAINERS                                 |    7 +
- meson_options.txt                           |    2 +
- qapi/block-core.json                        |   77 +-
- meson.build                                 |    9 +
- include/block/block-common.h                |    9 +
- include/block/block-global-state.h          |   10 +-
- include/block/block_int-common.h            |   15 +-
- include/exec/cpu-common.h                   |    1 +
- include/hw/virtio/virtio-blk.h              |    2 +
- include/qemu/coroutine.h                    |   15 +-
- include/sysemu/block-backend-global-state.h |    4 +-
- include/sysemu/block-ram-registrar.h        |   37 +
- block.c                                     |   14 +
- block/blkio.c                               | 1008 +++++++++++++++++++
- block/blkverify.c                           |    4 +-
- block/block-backend.c                       |    8 +-
- block/block-ram-registrar.c                 |   58 ++
- block/crypto.c                              |    4 +-
- block/file-posix.c                          |    1 -
- block/gluster.c                             |    1 -
- block/io.c                                  |  101 +-
- block/mirror.c                              |    2 +
- block/nbd.c                                 |    1 -
- block/nvme.c                                |   20 +-
- block/parallels.c                           |    1 -
- block/qcow.c                                |    2 -
- block/qed.c                                 |    1 -
- block/raw-format.c                          |    2 +
- block/replication.c                         |    1 -
- block/ssh.c                                 |    1 -
- block/vhdx.c                                |    1 -
- hw/block/virtio-blk.c                       |   39 +-
- hw/core/numa.c                              |   26 +-
- qemu-img.c                                  |    6 +-
- softmmu/physmem.c                           |    5 +
- stubs/physmem.c                             |   13 +
- tests/qtest/modules-test.c                  |    3 +
- util/qemu-coroutine-lock.c                  |    9 +-
- util/vfio-helpers.c                         |    5 +-
- block/meson.build                           |    2 +
- scripts/meson-buildoptions.sh               |    3 +
- stubs/meson.build                           |    1 +
- 42 files changed, 1435 insertions(+), 96 deletions(-)
- create mode 100644 include/sysemu/block-ram-registrar.h
- create mode 100644 block/blkio.c
- create mode 100644 block/block-ram-registrar.c
- create mode 100644 stubs/physmem.c
-
+diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
+index aae33cce17..608fe45dcf 100644
+--- a/include/qemu/coroutine.h
++++ b/include/qemu/coroutine.h
+@@ -198,14 +198,25 @@ typedef struct CoQueue {
+  */
+ void qemu_co_queue_init(CoQueue *queue);
+ 
++typedef enum {
++    /*
++     * Enqueue at front instead of back. Use this to re-queue a request when
++     * its wait condition is not satisfied after being woken up.
++     */
++    CO_QUEUE_WAIT_FRONT = 0x1,
++} CoQueueWaitFlags;
++
+ /**
+  * Adds the current coroutine to the CoQueue and transfers control to the
+  * caller of the coroutine.  The mutex is unlocked during the wait and
+  * locked again afterwards.
+  */
+ #define qemu_co_queue_wait(queue, lock) \
+-    qemu_co_queue_wait_impl(queue, QEMU_MAKE_LOCKABLE(lock))
+-void coroutine_fn qemu_co_queue_wait_impl(CoQueue *queue, QemuLockable *lock);
++    qemu_co_queue_wait_impl(queue, QEMU_MAKE_LOCKABLE(lock), 0)
++#define qemu_co_queue_wait_flags(queue, lock, flags) \
++    qemu_co_queue_wait_impl(queue, QEMU_MAKE_LOCKABLE(lock), (flags))
++void coroutine_fn qemu_co_queue_wait_impl(CoQueue *queue, QemuLockable *lock,
++                                          CoQueueWaitFlags flags);
+ 
+ /**
+  * Removes the next coroutine from the CoQueue, and queue it to run after
+diff --git a/util/qemu-coroutine-lock.c b/util/qemu-coroutine-lock.c
+index 15c82d9348..45c6b57374 100644
+--- a/util/qemu-coroutine-lock.c
++++ b/util/qemu-coroutine-lock.c
+@@ -39,10 +39,15 @@ void qemu_co_queue_init(CoQueue *queue)
+     QSIMPLEQ_INIT(&queue->entries);
+ }
+ 
+-void coroutine_fn qemu_co_queue_wait_impl(CoQueue *queue, QemuLockable *lock)
++void coroutine_fn qemu_co_queue_wait_impl(CoQueue *queue, QemuLockable *lock,
++                                          CoQueueWaitFlags flags)
+ {
+     Coroutine *self = qemu_coroutine_self();
+-    QSIMPLEQ_INSERT_TAIL(&queue->entries, self, co_queue_next);
++    if (flags & CO_QUEUE_WAIT_FRONT) {
++        QSIMPLEQ_INSERT_HEAD(&queue->entries, self, co_queue_next);
++    } else {
++        QSIMPLEQ_INSERT_TAIL(&queue->entries, self, co_queue_next);
++    }
+ 
+     if (lock) {
+         qemu_lockable_unlock(lock);
 -- 
 2.37.3
 
