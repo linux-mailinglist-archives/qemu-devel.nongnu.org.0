@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4FFB60E7A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 20:52:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4976260E84D
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 21:06:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onlNG-0005tG-S6; Wed, 26 Oct 2022 14:43:34 -0400
+	id 1onlcb-000587-S5; Wed, 26 Oct 2022 14:59:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1onlNE-0005sY-2g
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 14:43:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1onlcZ-00054f-8V
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 14:59:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1onlNC-0004RQ-FA
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 14:43:31 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1onlcX-0006zB-Dw
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 14:59:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666809808;
+ s=mimecast20190719; t=1666810760;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=j5XGgE6eT0JA5nXkl5BAUkyI/LDBGdZSY4C42iv5zz0=;
- b=ewBrpeVOv0wNejZPRoOzVcpG2w0XBwlX4tcytvEjri7QQAYkD5ivQzPB5TJlX+MmoHSfx4
- pG9kmIZWrYALD0FDht1Gbkgu7i0ixGBXt6FBduwHHe+Ra6JCghkXfbJlQM9Oy7w/ydtLgF
- frQ8JGKtuXyJnHuJ0t8P+CPnW6zc+As=
+ bh=A+Jia8aXAt7xo/gcEWdpLbcZEyf6YjlyTihSxHRirXI=;
+ b=DekVo3fUr4VcOkQZBBvlWsxWM5wFYJAFIpRwrQNTkMjytakPDe3RMqmvOA7Se+r/ncohyy
+ ThiBCq9d2ip6shNmehFUGIDlXtzKH61MbqEcQvfvJ3bRM5Lzo6wriYFyKlaTNF3Y8Bicxi
+ haDCD8ADRiI6eKzntXVvqZ0p2IRS1os=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-650-8qk2e-k_OWy5OwA9d-JaIQ-1; Wed, 26 Oct 2022 14:43:26 -0400
-X-MC-Unique: 8qk2e-k_OWy5OwA9d-JaIQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-369-jCb2AlxoOoqJmlyNjxJixA-1; Wed, 26 Oct 2022 14:59:16 -0400
+X-MC-Unique: jCb2AlxoOoqJmlyNjxJixA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CE779382F1AF;
- Wed, 26 Oct 2022 18:43:25 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A2D3E2024CB7;
- Wed, 26 Oct 2022 18:43:25 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 972BB21E6921; Wed, 26 Oct 2022 20:43:24 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: qemu-devel@nongnu.org,  stefanha@redhat.com
-Subject: Re: [PULL 00/28] QAPI patches patches for 2022-10-25
-References: <20221025080541.271547-1-armbru@redhat.com>
- <CAJSP0QVkhzTw6_n+UgEVYDBhMqFuve1oVT2SnorwtMarWHgDcA@mail.gmail.com>
-Date: Wed, 26 Oct 2022 20:43:24 +0200
-In-Reply-To: <CAJSP0QVkhzTw6_n+UgEVYDBhMqFuve1oVT2SnorwtMarWHgDcA@mail.gmail.com>
- (Stefan Hajnoczi's message of "Tue, 25 Oct 2022 16:07:27 -0400")
-Message-ID: <87pmeee88j.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E94522932488;
+ Wed, 26 Oct 2022 18:59:15 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 46B5E40C2140;
+ Wed, 26 Oct 2022 18:59:15 +0000 (UTC)
+Date: Wed, 26 Oct 2022 14:54:24 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>,
+ Alistair Francis <alistair@alistair23.me>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ qemu-block@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PULL 00/16] aspeed queue
+Message-ID: <Y1mCYGRrb+XKwupK@fedora>
+References: <20221025152042.278287-1-clg@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="KAFDhxCVB4aekimU"
+Content-Disposition: inline
+In-Reply-To: <20221025152042.278287-1-clg@kaod.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -79,12 +82,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Stefan Hajnoczi <stefanha@gmail.com> writes:
 
-> The following CI failures were reported. I think they may be related
-> to this pull request:
-[...]
+--KAFDhxCVB4aekimU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-They are.  v2 sent & fingers crossed.  Thanks!
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
+
+--KAFDhxCVB4aekimU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNZgmAACgkQnKSrs4Gr
+c8gUVQf/VCqO7IgWoJ/O8zAj/aLBLTkmPLm1IM0vp1jed5dWraMa2IbrfB9e7u+y
+ZzQw3p5QQj5YRbGmREz+jspWAbM+oc1WFxn4q7Svuc/c9crNeYr2EY987NB2b435
++HDO9oSzmWURcHmeCnCkQ/XFmps+ObNi5l9C9Rf1Ogw8R2ADNpNLGfZYhk9IJBMR
+uY5UykPxJ1F5N+ceQAPNYaotH27glF+gYz9/9K7zZriwAov/3olE/W9SAEaN6vuZ
+KBPdSKEbx8Dvm+NvXdxYRA4D3muPn3whCGC9vEiEhaHGb3QL7IYWNtVdNrCHoi4U
+tCcrz5JokSbVwQabz3PZyYHhrjztUA==
+=SJBT
+-----END PGP SIGNATURE-----
+
+--KAFDhxCVB4aekimU--
 
 
