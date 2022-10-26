@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D64760E847
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 21:06:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9642960E86B
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 21:08:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onldJ-0008D3-4m; Wed, 26 Oct 2022 15:00:09 -0400
+	id 1onldR-0008Fh-6w; Wed, 26 Oct 2022 15:00:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1onldE-0008B2-Ei
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 15:00:04 -0400
+ id 1onldN-0008EB-4C
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 15:00:13 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1onldC-00076L-N8
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 15:00:04 -0400
+ id 1onldK-0007JR-Tx
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 15:00:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666810802;
+ s=mimecast20190719; t=1666810810;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ov9LlVdAmY4zKszPQs7UIbK54KodWua/XGmUavCUwS0=;
- b=GcLeFiNszJUUJ8kcYdsKHOa6bTbytgxuUb3vwNmqp+ZAbM+bcb4MyUFwfRExIdLf7UjHIJ
- C1YxSJK6Y61Sxz+PLqhBtyMq7t1bRwxW8chE2EGYJ22tU7xZzJYO9xlQVweAJijOPzmalG
- NNHPQHKBJYwzM7pTnKAsoBnAtdcuWXs=
+ bh=gWKtvg5iWjvmJcz8W8gKULwkjp6yfMIRDvIe2VBthg0=;
+ b=c468Y/SLmhkGtWmvBUjP0JwCl1NgUfsSvethXQ58V93KSeiih+hjBNlwW7cH8NkjlcyMu3
+ fcgZspkAbunwInhaxSKtV5SezWCNGLjyMNaYmQ/taPl+dvbfIlub7sGDuTCBOxk5ZEJg/6
+ xOpushjYdJ0EnP5Zu8ZY80w7ZJ+RBkI=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-112-QgKYaK-qOWyQxvaH1hxULQ-1; Wed, 26 Oct 2022 14:59:58 -0400
-X-MC-Unique: QgKYaK-qOWyQxvaH1hxULQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-346-TgPMP8x-Nw2W7Hipp1MwKg-1; Wed, 26 Oct 2022 15:00:05 -0400
+X-MC-Unique: TgPMP8x-Nw2W7Hipp1MwKg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD7273C00086;
- Wed, 26 Oct 2022 18:59:57 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D74D53815D31;
+ Wed, 26 Oct 2022 19:00:00 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.42])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4B570145BEE0;
- Wed, 26 Oct 2022 18:59:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B16F140C2140;
+ Wed, 26 Oct 2022 18:59:59 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
@@ -61,16 +61,15 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Fam Zheng <fam@euphon.net>, Xie Changlong <xiechanglong.d@gmail.com>,
  Jeff Cody <codyprime@gmail.com>, John Snow <jsnow@redhat.com>,
- "Denis V. Lunev" <den@openvz.org>
-Subject: [PULL 11/13] stubs: add qemu_ram_block_from_host() and
- qemu_ram_get_fd()
-Date: Wed, 26 Oct 2022 14:58:44 -0400
-Message-Id: <20221026185846.120544-12-stefanha@redhat.com>
+ "Denis V. Lunev" <den@openvz.org>, Stefano Garzarella <sgarzare@redhat.com>
+Subject: [PULL 12/13] blkio: implement BDRV_REQ_REGISTERED_BUF optimization
+Date: Wed, 26 Oct 2022 14:58:45 -0400
+Message-Id: <20221026185846.120544-13-stefanha@redhat.com>
 In-Reply-To: <20221026185846.120544-1-stefanha@redhat.com>
 References: <20221026185846.120544-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
@@ -95,56 +94,287 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The blkio block driver will need to look up the file descriptor for a
-given pointer. This is possible in softmmu builds where the RAMBlock API
-is available for querying guest RAM.
+Avoid bounce buffers when QEMUIOVector elements are within previously
+registered bdrv_register_buf() buffers.
 
-Add stubs so tools like qemu-img that link the block layer still build
-successfully. In this case there is no guest RAM but that is fine.
-Bounce buffers and their file descriptors will be allocated with
-libblkio's blkio_alloc_mem_region() so we won't rely on QEMU's
-qemu_ram_get_fd() in that case.
+The idea is that emulated storage controllers will register guest RAM
+using bdrv_register_buf() and set the BDRV_REQ_REGISTERED_BUF on I/O
+requests. Therefore no blkio_map_mem_region() calls are necessary in the
+performance-critical I/O code path.
+
+This optimization doesn't apply if the I/O buffer is internally
+allocated by QEMU (e.g. qcow2 metadata). There we still take the slow
+path because BDRV_REQ_REGISTERED_BUF is not set.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-id: 20221013185908.1297568-12-stefanha@redhat.com
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Message-id: 20221013185908.1297568-13-stefanha@redhat.com
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- stubs/physmem.c   | 13 +++++++++++++
- stubs/meson.build |  1 +
- 2 files changed, 14 insertions(+)
- create mode 100644 stubs/physmem.c
+ block/blkio.c | 183 +++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 180 insertions(+), 3 deletions(-)
 
-diff --git a/stubs/physmem.c b/stubs/physmem.c
-new file mode 100644
-index 0000000000..1fc5f2df29
---- /dev/null
-+++ b/stubs/physmem.c
-@@ -0,0 +1,13 @@
-+#include "qemu/osdep.h"
-+#include "exec/cpu-common.h"
+diff --git a/block/blkio.c b/block/blkio.c
+index b0cfd74b36..82f26eedd2 100644
+--- a/block/blkio.c
++++ b/block/blkio.c
+@@ -11,9 +11,13 @@
+ #include "qemu/osdep.h"
+ #include <blkio.h>
+ #include "block/block_int.h"
++#include "exec/memory.h"
++#include "exec/cpu-common.h" /* for qemu_ram_get_fd() */
+ #include "qapi/error.h"
++#include "qemu/error-report.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qemu/module.h"
++#include "exec/memory.h" /* for ram_block_discard_disable() */
+ 
+ /*
+  * Keep the QEMU BlockDriver names identical to the libblkio driver names.
+@@ -73,6 +77,12 @@ typedef struct {
+ 
+     /* Can we skip adding/deleting blkio_mem_regions? */
+     bool needs_mem_regions;
 +
-+RAMBlock *qemu_ram_block_from_host(void *ptr, bool round_offset,
-+                                   ram_addr_t *offset)
++    /* Are file descriptors necessary for blkio_mem_regions? */
++    bool needs_mem_region_fd;
++
++    /* Are madvise(MADV_DONTNEED)-style operations unavailable? */
++    bool may_pin_mem_regions;
+ } BDRVBlkioState;
+ 
+ /* Called with s->bounce_lock held */
+@@ -347,7 +357,8 @@ blkio_co_preadv(BlockDriverState *bs, int64_t offset, int64_t bytes,
+         .coroutine = qemu_coroutine_self(),
+     };
+     BDRVBlkioState *s = bs->opaque;
+-    bool use_bounce_buffer = s->needs_mem_regions;
++    bool use_bounce_buffer =
++        s->needs_mem_regions && !(flags & BDRV_REQ_REGISTERED_BUF);
+     BlkioBounceBuf bounce;
+     struct iovec *iov = qiov->iov;
+     int iovcnt = qiov->niov;
+@@ -390,7 +401,8 @@ static int coroutine_fn blkio_co_pwritev(BlockDriverState *bs, int64_t offset,
+         .coroutine = qemu_coroutine_self(),
+     };
+     BDRVBlkioState *s = bs->opaque;
+-    bool use_bounce_buffer = s->needs_mem_regions;
++    bool use_bounce_buffer =
++        s->needs_mem_regions && !(flags & BDRV_REQ_REGISTERED_BUF);
+     BlkioBounceBuf bounce;
+     struct iovec *iov = qiov->iov;
+     int iovcnt = qiov->niov;
+@@ -473,6 +485,130 @@ static void blkio_io_unplug(BlockDriverState *bs)
+     }
+ }
+ 
++typedef enum {
++    BMRR_OK,
++    BMRR_SKIP,
++    BMRR_FAIL,
++} BlkioMemRegionResult;
++
++/*
++ * Produce a struct blkio_mem_region for a given address and size.
++ *
++ * This function produces identical results when called multiple times with the
++ * same arguments. This property is necessary because blkio_unmap_mem_region()
++ * must receive the same struct blkio_mem_region field values that were passed
++ * to blkio_map_mem_region().
++ */
++static BlkioMemRegionResult
++blkio_mem_region_from_host(BlockDriverState *bs,
++                           void *host, size_t size,
++                           struct blkio_mem_region *region,
++                           Error **errp)
 +{
-+    return NULL;
++    BDRVBlkioState *s = bs->opaque;
++    int fd = -1;
++    ram_addr_t fd_offset = 0;
++
++    if (((uintptr_t)host | size) % s->mem_region_alignment) {
++        error_setg(errp, "unaligned buf %p with size %zu", host, size);
++        return BMRR_FAIL;
++    }
++
++    /* Attempt to find the fd for the underlying memory */
++    if (s->needs_mem_region_fd) {
++        RAMBlock *ram_block;
++        RAMBlock *end_block;
++        ram_addr_t offset;
++
++        /*
++         * bdrv_register_buf() is called with the BQL held so mr lives at least
++         * until this function returns.
++         */
++        ram_block = qemu_ram_block_from_host(host, false, &fd_offset);
++        if (ram_block) {
++            fd = qemu_ram_get_fd(ram_block);
++        }
++        if (fd == -1) {
++            /*
++             * Ideally every RAMBlock would have an fd. pc-bios and other
++             * things don't. Luckily they are usually not I/O buffers and we
++             * can just ignore them.
++             */
++            return BMRR_SKIP;
++        }
++
++        /* Make sure the fd covers the entire range */
++        end_block = qemu_ram_block_from_host(host + size - 1, false, &offset);
++        if (ram_block != end_block) {
++            error_setg(errp, "registered buffer at %p with size %zu extends "
++                       "beyond RAMBlock", host, size);
++            return BMRR_FAIL;
++        }
++    }
++
++    *region = (struct blkio_mem_region){
++        .addr = host,
++        .len = size,
++        .fd = fd,
++        .fd_offset = fd_offset,
++    };
++    return BMRR_OK;
 +}
 +
-+int qemu_ram_get_fd(RAMBlock *rb)
++static bool blkio_register_buf(BlockDriverState *bs, void *host, size_t size,
++                               Error **errp)
 +{
-+    return -1;
++    BDRVBlkioState *s = bs->opaque;
++    struct blkio_mem_region region;
++    BlkioMemRegionResult region_result;
++    int ret;
++
++    /*
++     * Mapping memory regions conflicts with RAM discard (virtio-mem) when
++     * there is pinning, so only do it when necessary.
++     */
++    if (!s->needs_mem_regions && s->may_pin_mem_regions) {
++        return true;
++    }
++
++    region_result = blkio_mem_region_from_host(bs, host, size, &region, errp);
++    if (region_result == BMRR_SKIP) {
++        return true;
++    } else if (region_result != BMRR_OK) {
++        return false;
++    }
++
++    WITH_QEMU_LOCK_GUARD(&s->blkio_lock) {
++        ret = blkio_map_mem_region(s->blkio, &region);
++    }
++
++    if (ret < 0) {
++        error_setg(errp, "Failed to add blkio mem region %p with size %zu: %s",
++                   host, size, blkio_get_error_msg());
++        return false;
++    }
++    return true;
 +}
-diff --git a/stubs/meson.build b/stubs/meson.build
-index d8f3fd5c44..4314161f5f 100644
---- a/stubs/meson.build
-+++ b/stubs/meson.build
-@@ -29,6 +29,7 @@ stub_ss.add(files('migr-blocker.c'))
- stub_ss.add(files('module-opts.c'))
- stub_ss.add(files('monitor.c'))
- stub_ss.add(files('monitor-core.c'))
-+stub_ss.add(files('physmem.c'))
- stub_ss.add(files('qemu-timer-notify-cb.c'))
- stub_ss.add(files('qmp_memory_device.c'))
- stub_ss.add(files('qmp-command-available.c'))
++
++static void blkio_unregister_buf(BlockDriverState *bs, void *host, size_t size)
++{
++    BDRVBlkioState *s = bs->opaque;
++    struct blkio_mem_region region;
++
++    /* See blkio_register_buf() */
++    if (!s->needs_mem_regions && s->may_pin_mem_regions) {
++        return;
++    }
++
++    if (blkio_mem_region_from_host(bs, host, size, &region, NULL) != BMRR_OK) {
++        return;
++    }
++
++    WITH_QEMU_LOCK_GUARD(&s->blkio_lock) {
++        blkio_unmap_mem_region(s->blkio, &region);
++    }
++}
++
+ static int blkio_io_uring_open(BlockDriverState *bs, QDict *options, int flags,
+                                Error **errp)
+ {
+@@ -609,6 +745,17 @@ static int blkio_file_open(BlockDriverState *bs, QDict *options, int flags,
+         return ret;
+     }
+ 
++    ret = blkio_get_bool(s->blkio,
++                         "needs-mem-region-fd",
++                         &s->needs_mem_region_fd);
++    if (ret < 0) {
++        error_setg_errno(errp, -ret,
++                         "failed to get needs-mem-region-fd: %s",
++                         blkio_get_error_msg());
++        blkio_destroy(&s->blkio);
++        return ret;
++    }
++
+     ret = blkio_get_uint64(s->blkio,
+                            "mem-region-alignment",
+                            &s->mem_region_alignment);
+@@ -620,15 +767,39 @@ static int blkio_file_open(BlockDriverState *bs, QDict *options, int flags,
+         return ret;
+     }
+ 
++    ret = blkio_get_bool(s->blkio,
++                         "may-pin-mem-regions",
++                         &s->may_pin_mem_regions);
++    if (ret < 0) {
++        /* Be conservative (assume pinning) if the property is not supported */
++        s->may_pin_mem_regions = s->needs_mem_regions;
++    }
++
++    /*
++     * Notify if libblkio drivers pin memory and prevent features like
++     * virtio-mem from working.
++     */
++    if (s->may_pin_mem_regions) {
++        ret = ram_block_discard_disable(true);
++        if (ret < 0) {
++            error_setg_errno(errp, -ret, "ram_block_discard_disable() failed");
++            blkio_destroy(&s->blkio);
++            return ret;
++        }
++    }
++
+     ret = blkio_start(s->blkio);
+     if (ret < 0) {
+         error_setg_errno(errp, -ret, "blkio_start failed: %s",
+                          blkio_get_error_msg());
+         blkio_destroy(&s->blkio);
++        if (s->may_pin_mem_regions) {
++            ram_block_discard_disable(false);
++        }
+         return ret;
+     }
+ 
+-    bs->supported_write_flags = BDRV_REQ_FUA;
++    bs->supported_write_flags = BDRV_REQ_FUA | BDRV_REQ_REGISTERED_BUF;
+     bs->supported_zero_flags = BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP |
+                                BDRV_REQ_NO_FALLBACK;
+ 
+@@ -652,6 +823,10 @@ static void blkio_close(BlockDriverState *bs)
+     qemu_mutex_destroy(&s->blkio_lock);
+     blkio_detach_aio_context(bs);
+     blkio_destroy(&s->blkio);
++
++    if (s->may_pin_mem_regions) {
++        ram_block_discard_disable(false);
++    }
+ }
+ 
+ static int64_t blkio_getlength(BlockDriverState *bs)
+@@ -799,6 +974,8 @@ static void blkio_refresh_limits(BlockDriverState *bs, Error **errp)
+         .bdrv_co_pwrite_zeroes   = blkio_co_pwrite_zeroes, \
+         .bdrv_io_unplug          = blkio_io_unplug, \
+         .bdrv_refresh_limits     = blkio_refresh_limits, \
++        .bdrv_register_buf       = blkio_register_buf, \
++        .bdrv_unregister_buf     = blkio_unregister_buf, \
+         __VA_ARGS__ \
+     }
+ 
 -- 
 2.37.3
 
