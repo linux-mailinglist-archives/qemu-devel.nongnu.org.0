@@ -2,100 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BE6060E675
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 19:29:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2E9560E68F
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 19:33:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onk6o-0000Li-V0; Wed, 26 Oct 2022 13:22:30 -0400
+	id 1onkFr-0000kB-Gv; Wed, 26 Oct 2022 13:31:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1onk6n-0000LT-4n
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 13:22:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1onkFb-0007OT-MW
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 13:31:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1onk6k-0008IJ-Fo
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 13:22:28 -0400
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1onkFZ-0001cY-NN
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 13:31:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666804945;
+ s=mimecast20190719; t=1666805490;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uZy6sCXe4dMHOfiGJjoPUlSiBTuSdlWaK61a+pMpmp8=;
- b=dB0yLhhdzEW+QkU7oC3IMlDmo8crid2zV3ZI5w0JHLUlzhRw8GCGiU/Qz2prlBKD0TI5A9
- Nbdxqqg3iaYP5h9OqIOtfV9QRKhJugaQC4w/+yHfLw7PbsdGYgwe0TtNgXeBfg7ZFBZKRt
- gSKM0j30SeWLTCIY/bw/E2iVs+epG8s=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=LLn6KRZwZKDn7PWxdNxnuv5aWnGn2t3RTK5vTzuw5TY=;
+ b=DvrSeRKBeZbx2XwO7L3m56Tyuw2ZKQLSvqhUpVvDDGGfOxzOumFI17pnigyxHIln4guCz/
+ hSSkdbEWusN6S1BHRXk7Bf4PNzaomz1A82/65kNdNphoVybAZeIkFl851ZFbUMMWkkaZLr
+ sI3giR3Kr9PhE/7a1dYbb4nT6M/f9o8=
+Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
+ [209.85.160.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-595-IHe5uKG-OjKWNmKGhQKIBQ-1; Wed, 26 Oct 2022 13:22:23 -0400
-X-MC-Unique: IHe5uKG-OjKWNmKGhQKIBQ-1
-Received: by mail-il1-f199.google.com with SMTP id
- h8-20020a056e021b8800b002f9c2e31750so13827015ili.1
- for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 10:22:23 -0700 (PDT)
+ us-mta-550-MIKHBeOeOsSPdMTJq9LSkA-1; Wed, 26 Oct 2022 13:31:28 -0400
+X-MC-Unique: MIKHBeOeOsSPdMTJq9LSkA-1
+Received: by mail-oa1-f69.google.com with SMTP id
+ 586e51a60fabf-13bdcfbd787so3698650fac.18
+ for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 10:31:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=uZy6sCXe4dMHOfiGJjoPUlSiBTuSdlWaK61a+pMpmp8=;
- b=mMJL5+ZBq0IupT0KvmK6WwOCs2PRdgAVs64Re/H+kibNlV6FYCOnGz6gLC5qIwiX+4
- Qc82XB1lqmbMLTxHx4ncOJ3IVX9vxUPb89//8fukkvdWtD12SBLB9l+pqm/kZaT9SJnM
- qlA3SXw1xF1DYz5aDVJUsL1Z+brJDa4f1DOF2ynPEq4yHkE/by3T/I7CKGaf4d1H3HsD
- rTVjmOFwO2lokp8gYxbjeW764JnCyavSYucrSD6YHIud3BDLC+NF8xHcvJ3+gMgSKItw
- ZbbvZUnVUt0YMMjnrnX+yuN3VRKl75Zw8mE7rOtSMjxiC+eT8+QtGhfM7y0zDrtOBpZL
- IyWg==
-X-Gm-Message-State: ACrzQf3Glgy1NXSUhhsMIy/v2jGQWn7gpK7B+gWW42SCEXRNyqJ9X26/
- WKC6UWZYqH9o9OxVX/RxJZk7ayPFnhqFItUIFPaTZcKNcOHDMmYFjxfGlC03yvd8nxi1surFoeY
- 1xmJHJEWKILdqcek=
-X-Received: by 2002:a05:6e02:1be7:b0:300:348d:99d with SMTP id
- y7-20020a056e021be700b00300348d099dmr2216469ilv.297.1666804943089; 
- Wed, 26 Oct 2022 10:22:23 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6c93+EUyu8hVOtf71n0B37zOirfktMNdM9EeTMn1/FbRZeC0M0dfarruXnqLSOjGbll2tirA==
-X-Received: by 2002:a05:6e02:1be7:b0:300:348d:99d with SMTP id
- y7-20020a056e021be700b00300348d099dmr2216439ilv.297.1666804942750; 
- Wed, 26 Oct 2022 10:22:22 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- a15-20020a92c70f000000b002f9f44625fbsm2221180ilp.52.2022.10.26.10.22.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Oct 2022 10:22:22 -0700 (PDT)
-Date: Wed, 26 Oct 2022 11:22:20 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Andrey Ryabinin <arbn@yandex-team.com>
-Cc: qemu-devel@nongnu.org, Steve Sistare <steven.sistare@oracle.com>,
- yc-core@yandex-team.ru, Tony Krowiak <akrowiak@linux.ibm.com>, Halil Pasic
- <pasic@linux.ibm.com>, Jason Herne <jjherne@linux.ibm.com>, Cornelia Huck
- <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>, Eric Farman
- <farman@linux.ibm.com>, Matthew Rosato <mjrosato@linux.ibm.com>, Paolo
- Bonzini <pbonzini@redhat.com>, "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?="
- <berrange@redhat.com>, Eduardo Habkost <eduardo@habkost.net>, Eric Blake
- <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>, Cleber Rosa
- <crosa@redhat.com>, Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?=
- <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: Re: [PATCH 0/4] Allow to pass pre-created VFIO container/group to QEMU
-Message-ID: <20221026112220.36d8d21b.alex.williamson@redhat.com>
-In-Reply-To: <2cc9ecc1-97d8-44de-4609-35e703dd627b@yandex-team.com>
-References: <20221017105407.3858-1-arbn@yandex-team.com>
- <20221017092105.0476385c.alex.williamson@redhat.com>
- <2cc9ecc1-97d8-44de-4609-35e703dd627b@yandex-team.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=LLn6KRZwZKDn7PWxdNxnuv5aWnGn2t3RTK5vTzuw5TY=;
+ b=Qi3y9Gsh4hmlYrOjX6rbzY3LKhj7BJvnJgGzcVlN3yApqKq07FCNiVYYsxxDDNTPmF
+ Co5psjC7/jLv6l+xm5ehpxfyDt8Hc3smsZuPu1EoGgtlgJ7/1FvaGQq3eIYMnjK66F3R
+ 1GKtcSfyJDAZD85P9v9EIbGyzEd42mZ9/L+il57BE8qbl6eQylgz9okMQ/JinuULdCNV
+ kYk+WDqieF7vYKUjBkC8u2x2M20JH0dckoNwgZYb66M6MI+vRkgebSncWQQI+guBFmSE
+ 17UoV7l5LdF9kaKHkpbSwwqyOr5yf++VRfIpmC8npmPS3r9iWhphRbeCLzIx5XAafm/R
+ KfxQ==
+X-Gm-Message-State: ACrzQf2U2X8U3xyQv9I6VVwn0CJ7P8CPO1PHYVXCb7cUFBObcI3E8eL3
+ QTLXlUB3Cvj3ewx7B/Z4R53+gDRC6fRAfQttYzqD7WxEqaMtLMnolo6+VHB6JdNV7aJhGYus1fc
+ 4twQ4cX3cmsZq6WNBL8dth3yYVqYvOzU=
+X-Received: by 2002:a05:6808:1813:b0:359:a368:a111 with SMTP id
+ bh19-20020a056808181300b00359a368a111mr2320887oib.14.1666805488044; 
+ Wed, 26 Oct 2022 10:31:28 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4TTK6zC/ej6BV6oCjX+W8upew755SDUlon7+J2i3gBMEZGKtQfpGtprPXOvzUo3O2eA4xibPbFXUlBtZa+l74=
+X-Received: by 2002:a05:6808:1813:b0:359:a368:a111 with SMTP id
+ bh19-20020a056808181300b00359a368a111mr2320878oib.14.1666805487804; Wed, 26
+ Oct 2022 10:31:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
+References: <20221020220346.124381-1-bjorn.forsman@gmail.com>
+In-Reply-To: <20221020220346.124381-1-bjorn.forsman@gmail.com>
+From: Konstantin Kostiuk <kkostiuk@redhat.com>
+Date: Wed, 26 Oct 2022 20:31:16 +0300
+Message-ID: <CAPMcbCpPje_vo8RPQtT4AM_b1hH427exC2==1YRrotQKXLv7nQ@mail.gmail.com>
+Subject: Re: [PATCH] qga: add channel path to error messages
+To: =?UTF-8?Q?Bj=C3=B8rn_Forsman?= <bjorn.forsman@gmail.com>
+Cc: qemu-devel@nongnu.org, michael.roth@amd.com
+Content-Type: multipart/alternative; boundary="00000000000002c67405ebf3651d"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,93 +91,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 26 Oct 2022 15:07:32 +0300
-Andrey Ryabinin <arbn@yandex-team.com> wrote:
+--00000000000002c67405ebf3651d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> On 10/17/22 18:21, Alex Williamson wrote:
-> > On Mon, 17 Oct 2022 13:54:03 +0300
-> > Andrey Ryabinin <arbn@yandex-team.com> wrote:
-> >   
-> >> These patches add possibility to pass VFIO device to QEMU using file
-> >> descriptors of VFIO container/group, instead of creating those by QEMU.
-> >> This allows to take away permissions to open /dev/vfio/* from QEMU and
-> >> delegate that to managment layer like libvirt.
-> >>
-> >> The VFIO API doen't allow to pass just fd of device, since we also need to have
-> >> VFIO container and group. So these patches allow to pass created VFIO container/group
-> >> to QEMU via command line/QMP, e.g. like this:
-> >>             -object vfio-container,id=ct,fd=5 \
-> >>             -object vfio-group,id=grp,fd=6,container=ct \
-> >>             -device vfio-pci,host=05:00.0,group=grp  
-> > 
-> > This suggests that management tools need to become intimately familiar
-> > with container and group association restrictions for implicit
-> > dependencies, such as device AddressSpace.  We had considered this
-> > before and intentionally chosen to allow QEMU to manage that
-> > relationship.  Things like PCI bus type and presence of a vIOMMU factor
-> > into these relationships.
-> >   
-> 
-> This is already the case. These patches doesn't change much.
-> QEMU doesn't allow to adding device from one group to several address spaces.
-> So the management tool needs to know whether devices are in the same group or not
-> and whether QEMU will create separate address spaces for these devices or not.
-> 
-> E.g.
-> qemu-system-x86_64 -nodefaults -M q35,accel=kvm,kernel-irqchip=split \
->         -device intel-iommu,intremap=on,caching-mode=on \
->         -device vfio-pci,host=00:1f.3 \
->         -device vfio-pci,host=00:1f.4 
-> qemu-system-x86_64: -device vfio-pci,host=00:1f.4: vfio 0000:00:1f.4: group 14 used in multiple address spaces
+Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 
-Obviously QEMU fails this configuration.  It must.  How does that
-suggest that a management tool, like libvirt, is already aware of this
-requirement.  In fact, libvirt will happily validate xml creating such
-a configuration.  The point was that tools like libvirt would need to
-provide these group and container file descriptors and they currently
-impose no restrictions or working knowledge on the relationship between
-devices, groups, containers, and address spaces.
+On Fri, Oct 21, 2022 at 1:04 AM Bj=C3=B8rn Forsman <bjorn.forsman@gmail.com=
+>
+wrote:
 
-> > In the above example, what happens in a mixed environment, for example
-> > if we then add '-device vfio-pci,host=06:00.0' to the command line?
-> > Isn't QEMU still going to try to re-use the container if it exists in
-> > the same address space? Potentially this device could also be a member
-> > of the same group.  How would the management tool know when to expect
-> > the provided fds be released?
-> >   
-> 
-> Valid point, container indeed will be reused and second device will occupy it.
-> But we could make new container instead. Using several containers in one address
-> space won't be a problem, right?
-> Of course several devices from same group won't be allowed to be added in mixed way.
+> It's useful to know which device was used if/when it fails.
+>
+> channel-win32.c had this since 2015, with
+> c69403fcd4a0cb89f838a212ab71e4a1a3464c95 ("qemu-ga: debug printouts to
+> help troubleshoot installation"), this brings channel-posix.c up to
+> speed.
+>
+> Signed-off-by: Bj=C3=B8rn Forsman <bjorn.forsman@gmail.com>
+> ---
+>  qga/channel-posix.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/qga/channel-posix.c b/qga/channel-posix.c
+> index 6796a02cff..e6dce985ae 100644
+> --- a/qga/channel-posix.c
+> +++ b/qga/channel-posix.c
+> @@ -138,7 +138,7 @@ static gboolean ga_channel_open(GAChannel *c, const
+> gchar *path,
+>              0
+>          );
+>          if (fd =3D=3D -1) {
+> -            error_setg_errno(errp, errno, "error opening channel");
+> +            error_setg_errno(errp, errno, "error opening channel '%s'",
+> path);
+>              return false;
+>          }
+>  #ifdef CONFIG_SOLARIS
+> @@ -163,7 +163,7 @@ static gboolean ga_channel_open(GAChannel *c, const
+> gchar *path,
+>          assert(fd < 0);
+>          fd =3D qga_open_cloexec(path, O_RDWR | O_NOCTTY | O_NONBLOCK, 0)=
+;
+>          if (fd =3D=3D -1) {
+> -            error_setg_errno(errp, errno, "error opening channel");
+> +            error_setg_errno(errp, errno, "error opening channel '%s'",
+> path);
+>              return false;
+>          }
+>          tcgetattr(fd, &tio);
+> --
+> 2.36.2
+>
+>
 
-Potentially, yes, that is a problem.  Each container represents a
-separate IOMMU context, separate DMA map and unmap operations, and
-separate locked page accounting.  So if libvirt chooses the more
-trivial solution to impose a new container for every group, that
-translates to space, time, and process accounting overhead.
+--00000000000002c67405ebf3651d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> > We also have an outstanding RFC for iommufd that already proposes an fd
-> > passing interface, where iommufd removes many of the issues of the vfio
-> > container by supporting multiple address spaces within a single fd
-> > context, avoiding the duplicate locked page accounting issues between
-> > containers, and proposing a direct device fd interface for vfio.  Why at
-> > this point in time would we choose to expand the QEMU vfio interface in
-> > this way?  Thanks,
-> >   
-> 
-> It sounds nice, but iommufd is new API which doesn't exist in any kernel yet.
-> These patches is something that can be used on existing, already deployed kernels.
+<div dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkos=
+tiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;</div><br><di=
+v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 2=
+1, 2022 at 1:04 AM Bj=C3=B8rn Forsman &lt;<a href=3D"mailto:bjorn.forsman@g=
+mail.com">bjorn.forsman@gmail.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">It&#39;s useful to know which device was u=
+sed if/when it fails.<br>
+<br>
+channel-win32.c had this since 2015, with<br>
+c69403fcd4a0cb89f838a212ab71e4a1a3464c95 (&quot;qemu-ga: debug printouts to=
+<br>
+help troubleshoot installation&quot;), this brings channel-posix.c up to<br=
+>
+speed.<br>
+<br>
+Signed-off-by: Bj=C3=B8rn Forsman &lt;<a href=3D"mailto:bjorn.forsman@gmail=
+.com" target=3D"_blank">bjorn.forsman@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0qga/channel-posix.c | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/qga/channel-posix.c b/qga/channel-posix.c<br>
+index 6796a02cff..e6dce985ae 100644<br>
+--- a/qga/channel-posix.c<br>
++++ b/qga/channel-posix.c<br>
+@@ -138,7 +138,7 @@ static gboolean ga_channel_open(GAChannel *c, const gch=
+ar *path,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (fd =3D=3D -1) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
+uot;error opening channel&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
+uot;error opening channel &#39;%s&#39;&quot;, path);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0#ifdef CONFIG_SOLARIS<br>
+@@ -163,7 +163,7 @@ static gboolean ga_channel_open(GAChannel *c, const gch=
+ar *path,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0assert(fd &lt; 0);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fd =3D qga_open_cloexec(path, O_RDWR | O_=
+NOCTTY | O_NONBLOCK, 0);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (fd =3D=3D -1) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
+uot;error opening channel&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
+uot;error opening channel &#39;%s&#39;&quot;, path);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcgetattr(fd, &amp;tio);<br>
+-- <br>
+2.36.2<br>
+<br>
+</blockquote></div>
 
-OTOH, we expect iommufd in the near term, non-RFC patches are posted.
-The vfio kernel modules have undergone significant churn in recent
-kernels to align with the development goals of iommufd.  QEMU support to
-accept file descriptors for "legacy" implementations of vfio is only
-the beginning, where the next step would require the management tools
-to be sufficiently enlightened to implement file descriptor passing.
-All of that suggests development and maintenance effort for something
-we're actively trying to replace.  Thanks,
-
-Alex
+--00000000000002c67405ebf3651d--
 
 
