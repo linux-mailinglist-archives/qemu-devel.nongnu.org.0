@@ -2,84 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F064F60DDD9
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 11:17:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 554C460DE1B
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 11:32:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oncSo-0005LG-Ch; Wed, 26 Oct 2022 05:12:42 -0400
+	id 1onciX-0006MS-Kg; Wed, 26 Oct 2022 05:28:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1oncSX-0004zQ-9f
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 05:12:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1oncSV-0003ON-Jn
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 05:12:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666775542;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=5xNkruRiJnIiOSQrrYHGPH2e+vVoDqGR1JcaSONjqvk=;
- b=MiPubo6XDuMGeoXo/q8ChiNRDp9UtbpSSQwPuIpZlyViMqlYKWeAP4TiqlSyDCPez3JT6c
- vYvA2fkEiz9uiwmh+a7dD4EJ+S2RZtwZ6jiU4F/Mn0P0y0syveiGc9HSDkVy1/CJZlH2lu
- AOU5yZBDFhnBexRaKsu538c4RbP8pxc=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-647-SOKCHuZlO6y-W1vkQ2eiZg-1; Wed, 26 Oct 2022 05:12:19 -0400
-X-MC-Unique: SOKCHuZlO6y-W1vkQ2eiZg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- r66-20020a1c4445000000b003cf4c205936so206671wma.2
- for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 02:12:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1onciV-0006Kr-86
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 05:28:55 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1onciQ-0005vY-DB
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 05:28:54 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id bp11so24761483wrb.9
+ for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 02:28:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=znWmNC7ul93utvQ4iKvLR5S3PUyWayLBWviS/gxEWVo=;
+ b=bvZy32xOaVye/xlHS00Otv7DDTDb2LLlSBzvepQHOTIYlSdstDdPeqTfEyQJZYpIWS
+ Aq+NS63jR8XMhkh3BLEt+R8Z2CBMDESBotvIe3EGAYJBwy1ec3RtB+V2sk8n5vb8NTjU
+ og0j7cx7OKSNCFl3zC1+jSXm05Jv5ewTAie5r5Qds6WF1zUtyum7FQigjpRx3EY220bE
+ tswWdH/ZYiSI2MQJcNQ6t1YQArpFsjmVliRnYhHrN6saDhqLzw81Zp17EHanBnbvpdGn
+ 07RUF3tGpf+2pWtYagVXoAYiQPrB2QsqeNzvBBWN4y9QSNo4lIKrWV8Kd18yAihC0vES
+ +zQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5xNkruRiJnIiOSQrrYHGPH2e+vVoDqGR1JcaSONjqvk=;
- b=UdOPFCrM1SowltJHfAU/PlRWBzXNH2zJ3bBIWQQ3qh31qSqtKpPuSj7MixBatnJlUA
- /CoyKgsvn/sfY3NsdVYTqgJMy95VD5kEITasavNuCRfDhfgZWTkhr60WoB7+gI/IOwZf
- aD/iIXEWEL0Kyw4Wg0CNzOzSiKhnqsIrAa8yS5eODKqtPlVLQPGbEWmY1as42SKNiev8
- pZlRHuUE3wx/fIbcmLdYRQnQilQL24NVjqmFwFJxqdK29JjN4hVaaAkCguHrGkChmiFc
- K7HpqSvjbnVFjAk4hKqZJgzTfXMF57HHSz097YTOI3034FqegAV/+mry2VgNVLMMla74
- DT4w==
-X-Gm-Message-State: ACrzQf3LI5xBGExWWDiSLi80uHX+kAm3MSCuD03oQQNGJ/eJjmYkLB6b
- cg7yRM3iWPkHscBoxVx9FtEnUG+NaY6Gqf5bup69qEi5hpKCC/XSOYe0ET+xp0qEXu8G4AhaK7C
- LmjjSLmimaqi5Yjw=
-X-Received: by 2002:a05:600c:3147:b0:3c6:f871:1fec with SMTP id
- h7-20020a05600c314700b003c6f8711fecmr1709606wmo.71.1666775538557; 
- Wed, 26 Oct 2022 02:12:18 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7idyMh4A58fzq3JEftOywVimGTAari7nGWN9abaxQpXAUmUwLzSihveVvwWD8Ab2kRm6uTLQ==
-X-Received: by 2002:a05:600c:3147:b0:3c6:f871:1fec with SMTP id
- h7-20020a05600c314700b003c6f8711fecmr1709579wmo.71.1666775538308; 
- Wed, 26 Oct 2022 02:12:18 -0700 (PDT)
-Received: from sgarzare-redhat (host-87-11-6-34.retail.telecomitalia.it.
- [87.11.6.34]) by smtp.gmail.com with ESMTPSA id
- m17-20020a056000009100b0022eafed36ebsm4798032wrx.73.2022.10.26.02.12.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Oct 2022 02:12:17 -0700 (PDT)
-Date: Wed, 26 Oct 2022 11:12:15 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Xie Yongji <xieyongji@bytedance.com>
-Cc: Linux Virtualization <virtualization@lists.linux-foundation.org>,
- qemu devel list <qemu-devel@nongnu.org>,
- Michael Tsirkin <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Subject: Issue with VDUSE (QSD vduse-blk export) and vhost-vdpa
-Message-ID: <CAGxU2F4zRGASAv4YLoQpfRB-2cvaMij6YZo6t9E+69MZ+8Mong@mail.gmail.com>
+ bh=znWmNC7ul93utvQ4iKvLR5S3PUyWayLBWviS/gxEWVo=;
+ b=QKlI4RSnPPbZUiBIBXgb3hSGyaZ7s6PW7grEjH8hRRZBwE3khwb2VxsxpZu9QoTHlR
+ 8rqQ5u3BKSKC17L76NP/VJl+EGqC7clF6rMSfFoiG5QHQ0+JgBJprW+/FObnc2n84rj3
+ MSPE6Ri4qn8MTFrzyrnpExD0RMnOi6ybvd8OrCpL49jZTCnHiioAC1ONklJodcSRLgNH
+ UtVp8lV6gaNdB5tT8iu/Ny7UV52LhjGIanCbfJipMF6qlIi6Kzqvs32JE4j6ClmWzhds
+ oCLYAcILL/fSS39b5SCCwtYXrNAn6Ox5Fs8ghMshXSEYjVDfMFpBlt77VWmEWjR28wk2
+ Xs7g==
+X-Gm-Message-State: ACrzQf2gwAzSSwzuAKdZ3HY5ZoY5i0lB4MGH3tWhN88YsQjvDkJ8M3zO
+ wB7HQdJgsn5e130lKwsAW7QOew==
+X-Google-Smtp-Source: AMsMyM71zBUgcIH4qoRbBqowV2WdFKKy7GxLvn9mSxHEhAemnFMX28B3Ljn1AHE0GmzSAmK8lZbEpw==
+X-Received: by 2002:a5d:64e1:0:b0:22e:762f:7d3f with SMTP id
+ g1-20020a5d64e1000000b0022e762f7d3fmr28146313wri.526.1666776528681; 
+ Wed, 26 Oct 2022 02:28:48 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ x17-20020adfbb51000000b0023677693532sm5159702wrg.14.2022.10.26.02.28.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Oct 2022 02:28:48 -0700 (PDT)
+Message-ID: <4ef52f4b-3582-b2ca-a3c1-2e3f83418cc0@linaro.org>
+Date: Wed, 26 Oct 2022 11:28:46 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.0
+Subject: Re: [PATCH] aspeed: Add Supermicro X11 SPI machine type
+Content-Language: en-US
+To: Guenter Roeck <linux@roeck-us.net>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery
+ <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20221025165109.1226001-1-linux@roeck-us.net>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221025165109.1226001-1-linux@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,85 +93,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Xie,
-I was testing libblkio [1] with QSD vduse-blk export and had some 
-issues.
+On 25/10/22 18:51, Guenter Roeck wrote:
+> supermicrox11-bmc is configured with ast2400-a1 SoC. This does not match
+> the Supermicro documentation for X11 BMCs, and it does not match the
+> devicetree file in the Linux kernel.
+> 
+> As it turns out, some Supermicro X11 motherboards use AST2400 SoCs,
+> while others use AST2500.
+> 
+> Introduce new machine type supermicrox11-spi-bmc with AST2500 SoC
+> to match the devicetree description in the Linux kernel. Hardware
+> configuration details for this machine type are guesswork and taken
+> from defaults as well as from the Linux kernel devicetree file.
+> 
+> The new machine type was tested with aspeed-bmc-supermicro-x11spi.dts
+> from the Linux kernel and with Linux versions 6.0.3 and 6.1-rc2.
+> Linux booted successfully from initrd and from both SPI interfaces.
+> Ethernet interfaces were confirmed to be operational.
+> 
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> ---
+>   hw/arm/aspeed.c | 33 +++++++++++++++++++++++++++++++++
+>   1 file changed, 33 insertions(+)
 
-In a nutshell, QSD prints me the following messages when using 
-vhost-vdpa to access the device:
-
-  Failed to get vq[0] iova mapping
-  Failed to update vring for vq[0]
-
-This happens only with vhost-vdpa, using virtio-vdpa instead the device 
-works fine.
-I'm using Linux v6.0 and QEMU master (commit 
-214a8da23651f2472b296b3293e619fd58d9e212).
-
-I haven't had much time to investigate, I hope to do it next week, but 
-maybe it's much faster for you.
-
-I saw that ioctl(VDUSE_IOTLB_GET_FD) in libvduse.c returns -1 (EPERM), 
-so IIUC in the kernel vduse_dev_broken() was called, and the device is 
-in a broken state.
-
-
-We will use libblkio in QEMU [2] to access vDPA devices via vhost-vdpa.  
-But I'm doing these tests without QEMU for now, using an example inside 
-the libblkio repo:
-
-# Build libblkio and examples
-    # Fedora/CentOS/RHEL
-    dnf install -y git meson rust cargo python3-docutils rustfmt
-    # Debian/Ubuntu
-    apt-get install -y git meson rustc cargo python3-docutils
-
-    git clone https://gitlab.com/libblkio/libblkio.git
-
-    cd libblkio
-    git checkout v1.1.0
-
-    meson setup build
-    meson compile -C build
-
-
-# On terminal 1
-    modprobe vduse
-    modprobe vhost-vdpa
-
-    qemu-img create -f qcow2 -o preallocation=full /path/to/test.qcow2 1g
-
-    qemu-storage-daemon \
-      --blockdev file,filename=/path/to/test.qcow2,cache.direct=on,aio=native,node-name=file \
-      --blockdev qcow2,file=file,node-name=qcow2 \
-      --object iothread,id=iothread0 \
-      --export vduse-blk,id=vduse0,name=vduse0,num-queues=1,node-name=qcow2,writable=on,iothread=iothread0
-
-
-# On terminal 2
-    vdpa dev add name vduse0 mgmtdev vduse
-
-    cd libblkio/build
-
-    # blkio-bench executes
-    ./examples/blkio-bench virtio-blk-vhost-vdpa \
-      path=/dev/vhost-vdpa-0 --runtime=5 --readwrite=randread
-
-    # after this step, QSD (running on terminal 1) prints the following messages:
-      Failed to get vq[0] iova mapping
-      Failed to update vring for vq[0]
-
-I don't know if I'm doing something wrong or in libblkio we have some 
-issue, but using vdpa-sim-blk works correctly, so maybe there is 
-something in vduse that is missing.
-
-Any help or suggestion is welcome :-)
-
-Thanks,
-Stefano
-
-[1] https://libblkio.gitlab.io/libblkio/
-[2] 
-https://lore.kernel.org/qemu-devel/20221013185908.1297568-1-stefanha@redhat.com/
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
