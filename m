@@ -2,73 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19A3D60E3C4
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 16:53:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7C1F60E3C9
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 16:53:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onhlK-0007rt-TT; Wed, 26 Oct 2022 10:52:10 -0400
+	id 1onhlT-0000JC-NM; Wed, 26 Oct 2022 10:52:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1onhlJ-0007ff-4r
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 10:52:09 -0400
-Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1onhlB-0006fr-Qh
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 10:52:08 -0400
-Received: by mail-yb1-xb2d.google.com with SMTP id n130so19151394yba.10
- for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 07:52:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=e2ktY7KwejtSOSzuHGYnj7DOSQ7ZtFKFSqvt8QxG2pQ=;
- b=k0F5tc2f3ayulJmJPTXX45YEvEmXQ4ku/lK/b9tAfMIThrhwddkDPEJpPrE/ZCXGf6
- MD9mwo0dxU4lMDpzLCRUyOXvWKASL83q9POOSQz5SJ7xZcUibVXLeoXrabyfElplKTxv
- FLEEhdcjqhOJ2+J2prdrpECxqq8DePFXPCQdI75tryF01VqtI7fqhBCEmM1dQ8SKVUMH
- IRfHpOz8Sy3ZZcsHo3cbcnH73aPguwFcpuZ7rYUY5lYP2nNfYTOFNoOIZzIrepOjIeCm
- LDJBmaoDiMpNihieIebnOnuqNZuoX2fyLhRdb14nxKAAMQLJeBROsqB31Fx4f3KmjPLr
- qWdg==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1onhlR-00009c-5k
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 10:52:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1onhlO-0006hq-U7
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 10:52:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666795933;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mLNMErJTGEfSHR3mflHUcPYOK5n09aMmWg060KqPBbM=;
+ b=AVvaHeLvBtxtRh7RSHW1zIw7glRt/1zBchKd8QglyCq5iug3Zp1fcFnp5huwOeH45luEFt
+ bNmJ1TnEgZ+0d++z3jVVRksSjY1FSTA2955GQ0EU6NhsLz7QblTDRnTgyCM/54EVf4lbPg
+ tygydv1oOiivADpo7Lk+lCR/BIomX7g=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-73-5rRr692zPtOb6ceGdcrdZQ-1; Wed, 26 Oct 2022 10:52:12 -0400
+X-MC-Unique: 5rRr692zPtOb6ceGdcrdZQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 189-20020a1c02c6000000b003cf4d3b6644so295741wmc.6
+ for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 07:52:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=e2ktY7KwejtSOSzuHGYnj7DOSQ7ZtFKFSqvt8QxG2pQ=;
- b=g811biRwohcbRcUie3aJct5IW0+t+gk0QrU/nFrmeOk0k+KShI3sjW50OAI6oyg21t
- VdITjLTFO8QAeYCwmY4J0o5WvTO/tfG6jbLgHG4CXzV/nvAHnwXAb94ifmizadHdq5sg
- 3rN0/R9J5pCw+wPpyiDuhWHhc0Zge5qE0dK8DYmzo1N53g3adLby/73Z2hlcmYl8ygPo
- IR3krHTX03xwkKeTxXlXs/g+dqsPZFr0BOdFM1i61eSBFVBgWEeQcn3wS/cYGToU/ZD2
- Q+SPh/fetCTqT1OEJHhx536SK/rzQuG9CFljsDUw2aqSr3OYIKMvtWujf6deSaIYD9tR
- c69A==
-X-Gm-Message-State: ACrzQf2FKWKA34whVXrZbDFE1n76CzUZewWMzQEEP8Eh/PAdXJmmq0+0
- +TVLZIoYm1W/bFEXWUaKnHviq5pSZAhYr1xvXyE=
-X-Google-Smtp-Source: AMsMyM7Kn3a2kkeQDhYDzskoIbI1GXQKLH3OG7wHW/P84INfwc2ggNBpUqvYbE22zjcAmDVm4qPR8vERHn6YZZfgmuk=
-X-Received: by 2002:a25:b098:0:b0:6ca:4484:486c with SMTP id
- f24-20020a25b098000000b006ca4484486cmr29796553ybj.209.1666795920492; Wed, 26
- Oct 2022 07:52:00 -0700 (PDT)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mLNMErJTGEfSHR3mflHUcPYOK5n09aMmWg060KqPBbM=;
+ b=w5UnTo10+O1Woo9OQlzmYoGtxHWSHdKEHG2A4Vnm+7Yw4SV49kGVEvxIV67c1AjHCN
+ BJSHSHXWmofD124ApJoTcAeenakWxFR44+ZRrpbzCzGhRyms6mUjujxBX9VsHPKFxRJs
+ 4TKkMjH2rAhDINq2y5zyQ/gU5jWHcYf68vy+P1Smaecrks8WR/F2U81uPB6tiZDXVpdh
+ id2eWpKkZumbMCRHzC7GrII4V0MN5c4z/XTdMu/OX4V3wDw28ZfO9kKna2OEfG0B4Pak
+ UGelEQOaLEMzixrnNINW6j8Er8JAUBar39S5bnvOCcqsUDvcdyLNzP49qhUdnFNSw4ME
+ Ezfw==
+X-Gm-Message-State: ACrzQf3RKsm/fIivkap70Oi4CAc1n0DbOfpUS3xHHj/q6G1CpHgIxYsg
+ vfJ9TdkXuibtp8nIxUiCXV07YqBNwfZhjKd+lGt+/VomdOtjQmyvFzros2sNfjb1iQyR7N+tEuZ
+ vjnHHKDYTNbc+sUU=
+X-Received: by 2002:a05:600c:4f94:b0:3c8:34b2:94bf with SMTP id
+ n20-20020a05600c4f9400b003c834b294bfmr2803949wmq.39.1666795931131; 
+ Wed, 26 Oct 2022 07:52:11 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5x+6EKUiDdIaHN+VxjZvu/YhleCTfSCpTcmtJdFT/dcyNXd7Kq2BPIIxV4SOXY8mBeiqW9wQ==
+X-Received: by 2002:a05:600c:4f94:b0:3c8:34b2:94bf with SMTP id
+ n20-20020a05600c4f9400b003c834b294bfmr2803931wmq.39.1666795930898; 
+ Wed, 26 Oct 2022 07:52:10 -0700 (PDT)
+Received: from redhat.com ([2.52.15.7]) by smtp.gmail.com with ESMTPSA id
+ bl21-20020adfe255000000b002365b759b65sm1175524wrb.86.2022.10.26.07.52.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Oct 2022 07:52:10 -0700 (PDT)
+Date: Wed, 26 Oct 2022 10:52:06 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Yicong Yang <yangyicong@huawei.com>
+Cc: imammedo@redhat.com, ani@anisinha.ca, eduardo@habkost.net,
+ marcel.apfelbaum@gmail.com, f4bug@amsat.org, wangyanan55@huawei.com,
+ qemu-devel@nongnu.org, jonathan.cameron@huawei.com,
+ linuxarm@huawei.com, yangyicong@hisilicon.com,
+ prime.zeng@huawei.com, hesham.almatary@huawei.com,
+ ionela.voinescu@arm.com, darren@os.amperecomputing.com
+Subject: Re: [PATCH 0/4] Only generate cluster node in PPTT when specified
+Message-ID: <20221026105012-mutt-send-email-mst@kernel.org>
+References: <20220922131143.58003-1-yangyicong@huawei.com>
 MIME-Version: 1.0
-References: <20221025163952.4131046-1-peter.maydell@linaro.org>
-In-Reply-To: <20221025163952.4131046-1-peter.maydell@linaro.org>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Wed, 26 Oct 2022 10:51:48 -0400
-Message-ID: <CAJSP0QW1wAhsYUV=WPhitKfC2LdAdGJnXoPGBAxPVPg0YZ4n6Q@mail.gmail.com>
-Subject: Re: [PULL 00/30] target-arm queue
-To: Peter Maydell <peter.maydell@linaro.org>, 
- Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220922131143.58003-1-yangyicong@huawei.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,68 +99,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 25 Oct 2022 at 12:51, Peter Maydell <peter.maydell@linaro.org> wrot=
-e:
-> target-arm queue:
->  * Implement FEAT_E0PD
->  * Implement FEAT_HAFDBS
+On Thu, Sep 22, 2022 at 09:11:39PM +0800, Yicong Yang wrote:
+> From: Yicong Yang <yangyicong@hisilicon.com>
+> 
+> This series mainly change the policy for building a cluster topology node
+> in PPTT. Previously we'll always build a cluster node in PPTT without
+> asking the user, after this set the cluster node will be built only the
+> the user specify through "-smp clusters=X".
+> 
+> Update the tests and test tables accordingly.
 
-A second CI failure:
 
-arm-linux-gnueabi-gcc -Ilibqemu-aarch64-softmmu.fa.p -I. -I..
--Itarget/arm -I../target/arm -Iqapi -Itrace -Iui -Iui/shader
--I/usr/include/pixman-1 -I/usr/include/capstone
--I/usr/include/spice-server -I/usr/include/spice-1
--I/usr/include/glib-2.0 -I/usr/lib/arm-linux-gnueabi/glib-2.0/include
--fdiagnostics-color=3Dauto -Wall -Winvalid-pch -Werror -std=3Dgnu11 -O2 -g
--isystem /builds/qemu-project/qemu/linux-headers -isystem
-linux-headers -iquote . -iquote /builds/qemu-project/qemu -iquote
-/builds/qemu-project/qemu/include -iquote
-/builds/qemu-project/qemu/tcg/arm -pthread -U_FORTIFY_SOURCE
--D_FORTIFY_SOURCE=3D2 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64
--D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef
--Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common
--fwrapv -Wold-style-declaration -Wold-style-definition -Wtype-limits
--Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers
--Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined
--Wimplicit-fallthrough=3D2 -Wno-missing-include-dirs
--Wno-shift-negative-value -Wno-psabi -fstack-protector-strong -fPIE
--isystem../linux-headers -isystemlinux-headers -DNEED_CPU_H
-'-DCONFIG_TARGET=3D"aarch64-softmmu-config-target.h"'
-'-DCONFIG_DEVICES=3D"aarch64-softmmu-config-devices.h"' -MD -MQ
-libqemu-aarch64-softmmu.fa.p/target_arm_ptw.c.o -MF
-libqemu-aarch64-softmmu.fa.p/target_arm_ptw.c.o.d -o
-libqemu-aarch64-softmmu.fa.p/target_arm_ptw.c.o -c ../target/arm/ptw.c
-../target/arm/ptw.c: In function =E2=80=98arm_casq_ptw=E2=80=99:
-../target/arm/ptw.c:449:19: error: implicit declaration of function
-=E2=80=98qemu_mutex_iothread_locked=E2=80=99; did you mean =E2=80=98qemu_mu=
-tex_trylock=E2=80=99?
-[-Werror=3Dimplicit-function-declaration]
-449 | bool locked =3D qemu_mutex_iothread_locked();
-| ^~~~~~~~~~~~~~~~~~~~~~~~~~
-| qemu_mutex_trylock
-../target/arm/ptw.c:449:19: error: nested extern declaration of
-=E2=80=98qemu_mutex_iothread_locked=E2=80=99 [-Werror=3Dnested-externs]
-../target/arm/ptw.c:451:8: error: implicit declaration of function
-=E2=80=98qemu_mutex_lock_iothread=E2=80=99; did you mean =E2=80=98qemu_mute=
-x_lock__raw=E2=80=99?
-[-Werror=3Dimplicit-function-declaration]
-451 | qemu_mutex_lock_iothread();
-| ^~~~~~~~~~~~~~~~~~~~~~~~
-| qemu_mutex_lock__raw
-../target/arm/ptw.c:451:8: error: nested extern declaration of
-=E2=80=98qemu_mutex_lock_iothread=E2=80=99 [-Werror=3Dnested-externs]
-../target/arm/ptw.c:465:9: error: implicit declaration of function
-=E2=80=98qemu_mutex_unlock_iothread=E2=80=99; did you mean =E2=80=98qemu_mu=
-tex_unlock_impl=E2=80=99?
-[-Werror=3Dimplicit-function-declaration]
-465 | qemu_mutex_unlock_iothread();
-| ^~~~~~~~~~~~~~~~~~~~~~~~~~
-| qemu_mutex_unlock_impl
-../target/arm/ptw.c:465:9: error: nested extern declaration of
-=E2=80=98qemu_mutex_unlock_iothread=E2=80=99 [-Werror=3Dnested-externs]
+This will need an ack from virt maintainers.
 
-https://gitlab.com/qemu-project/qemu/-/jobs/3230968787
+And I think what people are asking is about the impact
+of this patch on guests.
 
-Stefan
+> Yicong Yang (4):
+>   hw/acpi/aml-build: Only generate cluster node in PPTT when specified
+>   tests: virt: update expected ACPI tables for virt test
+>   tests: acpi: aarch64: add topology test for aarch64
+>   tests: acpi: aarch64: add *.topology tables
+> 
+>  hw/acpi/aml-build.c                |   2 +-
+>  hw/core/machine-smp.c              |   3 +++
+>  include/hw/boards.h                |   2 ++
+>  tests/data/acpi/virt/APIC.pxb      | Bin 0 -> 168 bytes
+>  tests/data/acpi/virt/APIC.topology | Bin 0 -> 700 bytes
+>  tests/data/acpi/virt/DBG2.memhp    | Bin 0 -> 87 bytes
+>  tests/data/acpi/virt/DBG2.numamem  | Bin 0 -> 87 bytes
+>  tests/data/acpi/virt/DBG2.pxb      | Bin 0 -> 87 bytes
+>  tests/data/acpi/virt/DBG2.topology | Bin 0 -> 87 bytes
+>  tests/data/acpi/virt/DSDT.topology | Bin 0 -> 5398 bytes
+>  tests/data/acpi/virt/FACP.pxb      | Bin 0 -> 268 bytes
+>  tests/data/acpi/virt/FACP.topology | Bin 0 -> 268 bytes
+>  tests/data/acpi/virt/GTDT.pxb      | Bin 0 -> 96 bytes
+>  tests/data/acpi/virt/GTDT.topology | Bin 0 -> 96 bytes
+>  tests/data/acpi/virt/IORT.topology | Bin 0 -> 128 bytes
+>  tests/data/acpi/virt/MCFG.pxb      | Bin 0 -> 60 bytes
+>  tests/data/acpi/virt/MCFG.topology | Bin 0 -> 60 bytes
+>  tests/data/acpi/virt/PPTT          | Bin 96 -> 76 bytes
+>  tests/data/acpi/virt/PPTT.memhp    | Bin 0 -> 76 bytes
+>  tests/data/acpi/virt/PPTT.numamem  | Bin 0 -> 76 bytes
+>  tests/data/acpi/virt/PPTT.pxb      | Bin 0 -> 76 bytes
+>  tests/data/acpi/virt/PPTT.topology | Bin 0 -> 336 bytes
+>  tests/data/acpi/virt/SPCR.pxb      | Bin 0 -> 80 bytes
+>  tests/data/acpi/virt/SPCR.topology | Bin 0 -> 80 bytes
+>  tests/qtest/bios-tables-test.c     |  22 ++++++++++++++++++++++
+>  25 files changed, 28 insertions(+), 1 deletion(-)
+>  create mode 100644 tests/data/acpi/virt/APIC.pxb
+>  create mode 100644 tests/data/acpi/virt/APIC.topology
+>  create mode 100644 tests/data/acpi/virt/DBG2.memhp
+>  create mode 100644 tests/data/acpi/virt/DBG2.numamem
+>  create mode 100644 tests/data/acpi/virt/DBG2.pxb
+>  create mode 100644 tests/data/acpi/virt/DBG2.topology
+>  create mode 100644 tests/data/acpi/virt/DSDT.topology
+>  create mode 100644 tests/data/acpi/virt/FACP.pxb
+>  create mode 100644 tests/data/acpi/virt/FACP.topology
+>  create mode 100644 tests/data/acpi/virt/GTDT.pxb
+>  create mode 100644 tests/data/acpi/virt/GTDT.topology
+>  create mode 100644 tests/data/acpi/virt/IORT.topology
+>  create mode 100644 tests/data/acpi/virt/MCFG.pxb
+>  create mode 100644 tests/data/acpi/virt/MCFG.topology
+>  create mode 100644 tests/data/acpi/virt/PPTT.memhp
+>  create mode 100644 tests/data/acpi/virt/PPTT.numamem
+>  create mode 100644 tests/data/acpi/virt/PPTT.pxb
+>  create mode 100644 tests/data/acpi/virt/PPTT.topology
+>  create mode 100644 tests/data/acpi/virt/SPCR.pxb
+>  create mode 100644 tests/data/acpi/virt/SPCR.topology
+> 
+> -- 
+> 2.24.0
+
 
