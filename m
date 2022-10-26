@@ -2,92 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E00D160EA88
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C8160EA86
 	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 22:49:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onnIO-000133-Sx; Wed, 26 Oct 2022 16:46:41 -0400
+	id 1onnIN-0000ow-JM; Wed, 26 Oct 2022 16:46:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1onnIK-0000RS-Cs
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 16:46:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1onnIB-00012W-F2
+ (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
+ id 1onnIK-0000Q1-8J
  for qemu-devel@nongnu.org; Wed, 26 Oct 2022 16:46:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666817185;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CLDfktWHU69scAACtHvTmKiGE7E7RxH9U5HNYSEfkHs=;
- b=IIcZBbwky4/rbndpVztscVEwg+O3CMHIma5BDHux591Du+bi1P9FvSdBoSWY91izO11rVb
- AgrOKUNh8Ns0S5wwlpK6H60iQTdlTmHbxDEaXLZAVCf7viYWXbP08HoI6nxbnjJK3fgIt3
- Czq3dnDCTLPvzrYBcIYR0OsW73Q58C4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-658-9ulRCV52MTKRkjaUaZmE5w-1; Wed, 26 Oct 2022 16:46:24 -0400
-X-MC-Unique: 9ulRCV52MTKRkjaUaZmE5w-1
-Received: by mail-wm1-f72.google.com with SMTP id
- o18-20020a05600c4fd200b003c6ceb1339bso1724241wmq.1
- for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 13:46:23 -0700 (PDT)
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
+ id 1onnIA-00011x-Fa
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 16:46:35 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ r61-20020a17090a43c300b00212f4e9cccdso3943475pjg.5
+ for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 13:46:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=osbqX8leV6g/SkiEHlFgEuxy7LRzWU2Y7Uh+l7tX15w=;
+ b=jpYjPBLG06J9WOn/bBWpwBCbAYRsRYqGtpSJMTFmnFYTA2ZFnazgRXI8p//toCQ2TJ
+ y0spJgx5cSlhzZ3SljvtDIADHdIjucdfN8NSuX9QNmLHoPzorq79XbjryWXjfHFl30lq
+ a+yGNHUmONi8/9fjz20oKzw3ydyHBmBZfyBBhDMaJiuRleHwSAzhKieuIBUJl+OaRWkx
+ J8ePiRgrp1obhqOjSj/zBR/mn+zZs1yFys+iRMsX91dPwar3019jAkA21DzvD4AEs3Ci
+ EqQhVJdb++3PMZsV4Ve+oth/VTO9h3hSFBdHXErMhMsb9uXlU65Dc3fy+9wGFc3kxwVE
+ 7xyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CLDfktWHU69scAACtHvTmKiGE7E7RxH9U5HNYSEfkHs=;
- b=qTaDp1o2gCHLSjLO0h6vc/CuPPB6+cZZG2B7PrUDsBSnn4ECazAzW8Xbu1frDmZbcr
- cb6j4a+eaLXXkfHpXHJCzThGlatPFlH2x1W77+YJI0QbD4tL+QPZkC4iY5p435YlgzC3
- CHJFE8Bs4U1osjibgLeen0T0PJXbE14E+oI5LA4mjOjdxRGxMGo1yyvd2GbP7LfCtc/Z
- Zz4acOg4DvEDEUz3gtNiIamj6/sCdAdf+HG4MvV6Yk+DusK50pZo8GKQUa3BMQs2FAZV
- QaN7d061eqI/XDKveGrmIkpWrUUQ8jmndsk9R1HN4iHIby0JSwlmoEkopFTNqGs9T9nx
- XkAg==
-X-Gm-Message-State: ACrzQf3wrhxpXY4VHM7ltsqL3/Kz+etJXbWN2W7TIC1lOCcmhBVpxa9a
- 7nx0uYZnDBHRxbpsGJaTOcAMqe/778vc4Am7+Q+O+JTmy/7Vk4he4FiipEbVLpg266mVkg9eA2i
- P5TEh4LKcU19RhaE=
-X-Received: by 2002:a05:600c:474a:b0:3c7:6df:4493 with SMTP id
- w10-20020a05600c474a00b003c706df4493mr3792130wmo.44.1666817181977; 
- Wed, 26 Oct 2022 13:46:21 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5QCqNOYY94UCR49mSaq/OC/1mLBl4zB6wjxzitYJuuBxMkh2TJoZAirE8P9K6g3pz+7U6/sw==
-X-Received: by 2002:a05:600c:474a:b0:3c7:6df:4493 with SMTP id
- w10-20020a05600c474a00b003c706df4493mr3792112wmo.44.1666817181651; 
- Wed, 26 Oct 2022 13:46:21 -0700 (PDT)
-Received: from redhat.com ([2.52.15.7]) by smtp.gmail.com with ESMTPSA id
- s15-20020a05600c29cf00b003c6c3fb3cf6sm2738905wmd.18.2022.10.26.13.46.19
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=osbqX8leV6g/SkiEHlFgEuxy7LRzWU2Y7Uh+l7tX15w=;
+ b=S63HRMUnTWY7pVTngz/3Khx8CePgPgEqXGkpZBoRFh+TmTaFiOL9CS2H2tRzpoV5nz
+ V9xsB6GjTA/AmIHX6YmFRbCcOPNDAA7IG7l3UIvsuP9TRCZX1Mf0TEu/wDucS6TBrgyF
+ b0+ytSM2/mgVqn8XghocnZFfOi2e4Ao//JlvihGCVHL+U3wvbO9ckHqsK8v0hSKHjTf4
+ LXEmVL3V64YQIf54d5jlipUZOA7GAWYjuiHbk9V5+cHVFvwAoj9jsa/ik3wyVFy9yPZE
+ mLpOoepebp+6DROGStqzbdBQXD3TiiyUCeAA+7XgaSB0/TrVHTK4aE+9bXjx+pfEjOeo
+ 8IeA==
+X-Gm-Message-State: ACrzQf22WSOzgY6nBQ8AdF0XHKFeDHxo+qkIpF3ZkRHHhB/UaK9Ln7Vl
+ H37C2+trgCFGO5GQQnLk1Kw=
+X-Google-Smtp-Source: AMsMyM7NaRTKclIWYEWcxpgdPdqgRZFy22OSD7N8p45NptTu2RyVSV2oujVK1I0Ov2AG9q7XgNRCoQ==
+X-Received: by 2002:a17:902:7b95:b0:178:ab50:76b5 with SMTP id
+ w21-20020a1709027b9500b00178ab5076b5mr46490591pll.161.1666817182250; 
+ Wed, 26 Oct 2022 13:46:22 -0700 (PDT)
+Received: from localhost ([192.55.54.55]) by smtp.gmail.com with ESMTPSA id
+ a8-20020a170902710800b00172973d3cd9sm3308650pll.55.2022.10.26.13.46.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 26 Oct 2022 13:46:21 -0700 (PDT)
-Date: Wed, 26 Oct 2022 16:46:17 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, Zhu Lingshan <lingshan.zhu@intel.com>,
- Eli Cohen <eli@mellanox.com>, Cindy Lu <lulu@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
- Si-Wei Liu <si-wei.liu@oracle.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Jason Wang <jasowang@redhat.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>,
- Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH 0/7] Guest announce feature emulation using Shadow
- VirtQueue
-Message-ID: <20221026164544-mutt-send-email-mst@kernel.org>
-References: <20221020103429.347525-1-eperezma@redhat.com>
+Date: Wed, 26 Oct 2022 13:46:20 -0700
+From: Isaku Yamahata <isaku.yamahata@gmail.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
+ isaku.yamahata@gmail.com
+Subject: Re: [PATCH v9 6/8] KVM: Update lpage info when private/shared memory
+ are mixed
+Message-ID: <20221026204620.GB3819453@ls.amr.corp.intel.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-7-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221020103429.347525-1-eperezma@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+In-Reply-To: <20221025151344.3784230-7-chao.p.peng@linux.intel.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=isaku.yamahata@gmail.com; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,57 +115,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Oct 20, 2022 at 12:34:22PM +0200, Eugenio Pérez wrote:
-> A gratuitous ARP is recommended after a live migration to reduce the amount of
-> time needed by the network links to be aware of the new location. A hypervisor
-> may not have the knowledge of the guest network configuration, and this is
-> especially true on passthrough devices, so its simpler to ask the guest to
-> do it.
+On Tue, Oct 25, 2022 at 11:13:42PM +0800,
+Chao Peng <chao.p.peng@linux.intel.com> wrote:
+
+> When private/shared memory are mixed in a large page, the lpage_info may
+> not be accurate and should be updated with this mixed info. A large page
+> has mixed pages can't be really mapped as large page since its
+> private/shared pages are from different physical memory.
 > 
-> However, the device control part of this feature can be totally emulated by
-> qemu and shadow virtqueue, not needing any special feature from the actual
-> vdpa device.
+> Update lpage_info when private/shared memory attribute is changed. If
+> both private and shared pages are within a large page region, it can't
+> be mapped as large page. It's a bit challenge to track the mixed
+> info in a 'count' like variable, this patch instead reserves a bit in
+> 'disallow_lpage' to indicate a large page has mixed private/share pages.
 > 
-> VIRTIO_NET_F_STATUS is also needed for the guest to access the status of
-> virtio net config where announcement status bit is set. Emulating it as
-> always active in case backend does not support it.
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> ---
+>  arch/x86/include/asm/kvm_host.h |   8 +++
+>  arch/x86/kvm/mmu/mmu.c          | 112 +++++++++++++++++++++++++++++++-
+>  arch/x86/kvm/x86.c              |   2 +
+>  include/linux/kvm_host.h        |  19 ++++++
+>  virt/kvm/kvm_main.c             |  16 +++--
+>  5 files changed, 152 insertions(+), 5 deletions(-)
 > 
-> This series need two fixes applied:
-> * https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg03242.html
-> * https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg03241.html
+...
+> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> index 33b1aec44fb8..67a9823a8c35 100644
+> --- a/arch/x86/kvm/mmu/mmu.c
+> +++ b/arch/x86/kvm/mmu/mmu.c
+...
+> @@ -6910,3 +6915,108 @@ void kvm_mmu_pre_destroy_vm(struct kvm *kvm)
+>  	if (kvm->arch.nx_lpage_recovery_thread)
+>  		kthread_stop(kvm->arch.nx_lpage_recovery_thread);
+>  }
+> +
+> +static inline bool linfo_is_mixed(struct kvm_lpage_info *linfo)
+> +{
+> +	return linfo->disallow_lpage & KVM_LPAGE_PRIVATE_SHARED_MIXED;
+> +}
+> +
+> +static inline void linfo_update_mixed(struct kvm_lpage_info *linfo, bool mixed)
+> +{
+> +	if (mixed)
+> +		linfo->disallow_lpage |= KVM_LPAGE_PRIVATE_SHARED_MIXED;
+> +	else
+> +		linfo->disallow_lpage &= ~KVM_LPAGE_PRIVATE_SHARED_MIXED;
+> +}
+> +
+> +static bool mem_attr_is_mixed_2m(struct kvm *kvm, unsigned int attr,
+> +				 gfn_t start, gfn_t end)
+> +{
+> +	XA_STATE(xas, &kvm->mem_attr_array, start);
+> +	gfn_t gfn = start;
+> +	void *entry;
+> +	bool shared = attr == KVM_MEM_ATTR_SHARED;
+> +	bool mixed = false;
+> +
+> +	rcu_read_lock();
+> +	entry = xas_load(&xas);
+> +	while (gfn < end) {
+> +		if (xas_retry(&xas, entry))
+> +			continue;
+> +
+> +		KVM_BUG_ON(gfn != xas.xa_index, kvm);
+> +
+> +		if ((entry && !shared) || (!entry && shared)) {
+> +			mixed = true;
+> +			goto out;
+
+nitpick: goto isn't needed. break should work.
+
+> +		}
+> +
+> +		entry = xas_next(&xas);
+> +		gfn++;
+> +	}
+> +out:
+> +	rcu_read_unlock();
+> +	return mixed;
+> +}
+> +
+> +static bool mem_attr_is_mixed(struct kvm *kvm, struct kvm_memory_slot *slot,
+> +			      int level, unsigned int attr,
+> +			      gfn_t start, gfn_t end)
+> +{
+> +	unsigned long gfn;
+> +	void *entry;
+> +
+> +	if (level == PG_LEVEL_2M)
+> +		return mem_attr_is_mixed_2m(kvm, attr, start, end);
+> +
+> +	entry = xa_load(&kvm->mem_attr_array, start);
+> +	for (gfn = start; gfn < end; gfn += KVM_PAGES_PER_HPAGE(level - 1)) {
+> +		if (linfo_is_mixed(lpage_info_slot(gfn, slot, level - 1)))
+> +			return true;
+> +		if (xa_load(&kvm->mem_attr_array, gfn) != entry)
+> +			return true;
+> +	}
+> +	return false;
+> +}
+> +
+> +void kvm_arch_update_mem_attr(struct kvm *kvm, struct kvm_memory_slot *slot,
+> +			      unsigned int attr, gfn_t start, gfn_t end)
+> +{
+> +
+> +	unsigned long lpage_start, lpage_end;
+> +	unsigned long gfn, pages, mask;
+> +	int level;
+> +
+> +	WARN_ONCE(!(attr & (KVM_MEM_ATTR_PRIVATE | KVM_MEM_ATTR_SHARED)),
+> +			"Unsupported mem attribute.\n");
+> +
+> +	/*
+> +	 * The sequence matters here: we update the higher level basing on the
+> +	 * lower level's scanning result.
+> +	 */
+> +	for (level = PG_LEVEL_2M; level <= KVM_MAX_HUGEPAGE_LEVEL; level++) {
+> +		pages = KVM_PAGES_PER_HPAGE(level);
+> +		mask = ~(pages - 1);
+
+nitpick: KVM_HPAGE_MASK(level).  Maybe matter of preference.
 
 
-Jason you seem to have queued these so you will have to take
-this patchset too.
+> +		lpage_start = max(start & mask, slot->base_gfn);
+> +		lpage_end = (end - 1) & mask;
+> +
+> +		/*
+> +		 * We only need to scan the head and tail page, for middle pages
+> +		 * we know they are not mixed.
+> +		 */
+> +		linfo_update_mixed(lpage_info_slot(lpage_start, slot, level),
+> +				   mem_attr_is_mixed(kvm, slot, level, attr,
+> +						     lpage_start, start));
+> +
+> +		if (lpage_start == lpage_end)
+> +			return;
+> +
+> +		for (gfn = lpage_start + pages; gfn < lpage_end; gfn += pages)
+> +			linfo_update_mixed(lpage_info_slot(gfn, slot, level),
+> +					   false);
+> +
+> +		linfo_update_mixed(lpage_info_slot(lpage_end, slot, level),
+> +				   mem_attr_is_mixed(kvm, slot, level, attr,
+> +						     end, lpage_end + pages));
+> +	}
+> +}
 
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-
-
-
-> v1:
-> * Move code from vhost_net_get_config to virtio_net_get_config.
-> 
-> RFC v2:
-> * Add VIRTIO_NET_F_STATUS emulation.
-> 
-> Eugenio Pérez (7):
->   vdpa: Save emulated features list in vhost_vdpa
->   virtio_net: Modify virtio_net_get_config to early return
->   virtio_net: Handle _F_STATUS emulation in virtio_net_get_config
->   vdpa: Expose VIRTIO_NET_F_STATUS unconditionally
->   vdpa: handle VIRTIO_NET_CTRL_ANNOUNCE in
->     vhost_vdpa_net_handle_ctrl_avail
->   virtio_net: copy VIRTIO_NET_S_ANNOUNCE if device model has it
->   vdpa: Offer VIRTIO_NET_F_GUEST_ANNOUNCE feature if SVQ is enabled
-> 
->  include/hw/virtio/vhost-vdpa.h |  2 ++
->  hw/net/virtio-net.c            | 40 +++++++++++++++++++++-------------
->  hw/virtio/vhost-vdpa.c         |  8 +++----
->  net/vhost-vdpa.c               | 25 ++++++++++++++++++---
->  4 files changed, 53 insertions(+), 22 deletions(-)
-> 
-> -- 
-> 2.31.1
-> 
-
+-- 
+Isaku Yamahata <isaku.yamahata@gmail.com>
 
