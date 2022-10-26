@@ -2,86 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83E7660DC6E
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 09:47:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 218D660DC61
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 09:43:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onb4j-0007Kk-NT; Wed, 26 Oct 2022 03:43:45 -0400
+	id 1onb3d-0002Xr-4a; Wed, 26 Oct 2022 03:42:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1onb4g-00070T-6F
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 03:43:42 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1onb4c-0004eE-78
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 03:43:41 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id o4so16691140wrq.6
- for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 00:43:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Q5vrcq4pNowyiZB4TqLdKWEnMMXrMiqxKlzblHvQVnE=;
- b=OXpDi9jAjGp700DLv9LPcA84BuKYPo9RBbW5UwqfW3Mqlb+XRkSRrs0OhwwGAZLpco
- AunjDRL0XUu1ZhxiVIXAVihNIiaMRuTwpZuN9hzQMNLKr1F+JG1LCPQaue6Wusi7IP0q
- cAqPpXb9XJ67n6OsxGDPrjzfsUOcFT8sauhCOXzv+6rkaN9jtlzz+uW8mXsoqzA/b4fn
- W0ZQxpSgSjKJthgeGXMAD9Uhw7IvfsBSCgkUuzNniPotVDy1sKhKFCbBmOMvY4YaJu/e
- eaT++iqSnybRxDeyrdsCTS0JVfg3xqVPwAXWESKxAnKlEL+VMdqxl15FwObRF4i5OBSD
- XAGw==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1onb3S-0002IY-W9
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 03:42:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1onb3Q-0004YJ-Gk
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 03:42:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666770143;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=C5InzWrzEYDLZWYliFoCxb0G2fSwBXHTwBGrQCnZ6yM=;
+ b=S1vfhCLt0Oci++/doXTbEi3CmO9HFEgZDgnwg/uq5cnZha686JKt93kRNKtW8SJHEIvEoD
+ EGwKrLF3t6e0APcBo0jClxa7j9Ht4gDAp0XqwpPOB+iDBCO9ZXAkLRCjOJ7olL8xD/qmWn
+ nA59VjeXz4E3KWa7G20KhvTK9y8yd+U=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-120--c6cip4wOHmx_0ehEjZhjg-1; Wed, 26 Oct 2022 03:42:18 -0400
+X-MC-Unique: -c6cip4wOHmx_0ehEjZhjg-1
+Received: by mail-il1-f197.google.com with SMTP id
+ g13-20020a056e021e0d00b002fc57cd18e3so13014871ila.11
+ for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 00:42:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=Q5vrcq4pNowyiZB4TqLdKWEnMMXrMiqxKlzblHvQVnE=;
- b=0PKLx/koH3nG7pMKimBMQBSewn6Pwaocx/YrsFh3qVlqov8ocPUhyoWdpY8Ru3Yovl
- Ahd8fVPzBMbRCVbjutiRetUZQjTDcBMR/2in6TcBO3oB+rq6py6RwlitEhOaK/ne9hV+
- ltCvlSGT6xqOzS0LvN3XWqL7EXC/XV6zcjO2M/zXFeFJ9tOQ3JXGzWr0mgJSD8i6lpsE
- vCVJyAWu/6WBbKBunMGUkIxe6aSsZDjSSj5XZ6p3ceOj1mmgAIeFw4pIHTo1bnEadAmg
- 79DA9qIPe+h5aq1oh7p70GypLawh9S+4MuBA0ybumUfwIeOWxyuUHVyYaH8vrVNfQkjl
- T0Gg==
-X-Gm-Message-State: ACrzQf2OixYm8uKd1KCRsNby501F1Ya9cJdWpPZ4m6YTm0Im3qmoE7DL
- l6kaKO1T8vpkFUqYEDQxJKsLx/MZ08f4mA==
-X-Google-Smtp-Source: AMsMyM62ZjxktGurIB9Ok5fhVztK0IEt8girSupm154F3ZtsGf1xb/1nUjnreBUF6PwIrC6TBgy+iA==
-X-Received: by 2002:a05:6000:178c:b0:231:ce45:7e00 with SMTP id
- e12-20020a056000178c00b00231ce457e00mr28138793wrg.598.1666770215131; 
- Wed, 26 Oct 2022 00:43:35 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- m17-20020a056000009100b0022eafed36ebsm4559292wrx.73.2022.10.26.00.43.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Oct 2022 00:43:34 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 757E01FFB7;
- Wed, 26 Oct 2022 08:43:33 +0100 (BST)
-References: <20220728135503.1060062-1-alex.bennee@linaro.org>
- <20220728135503.1060062-2-alex.bennee@linaro.org>
- <DM4PR12MB5168A6071D5A3A961E0CCB69B6309@DM4PR12MB5168.namprd12.prod.outlook.com>
-User-agent: mu4e 1.9.1; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Yajun Wu <yajunw@nvidia.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "mst@redhat.com"
- <mst@redhat.com>, Parav Pandit <parav@nvidia.com>
-Subject: Re: [PATCH  v2 1/4] hw/virtio: incorporate backend features in
- features
-Date: Wed, 26 Oct 2022 08:41:53 +0100
-In-reply-to: <DM4PR12MB5168A6071D5A3A961E0CCB69B6309@DM4PR12MB5168.namprd12.prod.outlook.com>
-Message-ID: <877d0n58t6.fsf@linaro.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=C5InzWrzEYDLZWYliFoCxb0G2fSwBXHTwBGrQCnZ6yM=;
+ b=7oOJGJUAPXFgCaqrTYNnPyPumYc9yxPVThnnX16Z6jet9GFn26yfcECk5i1z2SOuxf
+ a/S2E5dwX6cduWZHT8rl1EQoyOu1yAia8jJ/vwGhFo8cNI9vEPoqkxhl8KMWhxSJm6WJ
+ kY6FFhjppGUp1ZMO8ZDTHqI/6txUaBQfzt9tbrJFkpUt2VeRCg2FEi5impD9NoxleDS2
+ 8wIKTsoTCm8jcU9fwVswTNBIftjZbXXQ8wIEw9QjJHhI0Yo/lJ0v1SUEBxkmhBiyUO/p
+ nVxTTXml9fVE/X2k+0Gbc71rvMvxWixZSHwh57LFg+R5VsZqjXBfW+OKIVELYTHanYOd
+ gRcA==
+X-Gm-Message-State: ACrzQf2WoZqMiyvCi+9VZ6cRXQFv6fQUGoC1OHiTPNkmYXOjAWJvgrJV
+ ew9mIMlILRGOVe0gOrbAl/wC4GZpAYJnmGKksQiv7eyulf3BlJOKghCtLHsJYhQvlsTsZs/E98P
+ AsPks5LQFpY5ul7m+oj1MArZyCnDcR/s=
+X-Received: by 2002:a05:6602:3ca:b0:6a4:16a0:9862 with SMTP id
+ g10-20020a05660203ca00b006a416a09862mr25990967iov.217.1666770135892; 
+ Wed, 26 Oct 2022 00:42:15 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM67XGeMoHLnQu/eypeN5gH+4EDtYJ++tWVCdv3K6nI1iIkYIpaSlLXYiCTtsOVw846bnQjXOu9uquH4NuUiTjw=
+X-Received: by 2002:a05:6602:3ca:b0:6a4:16a0:9862 with SMTP id
+ g10-20020a05660203ca00b006a416a09862mr25990959iov.217.1666770135594; Wed, 26
+ Oct 2022 00:42:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20221025075003.18161-1-marcandre.lureau@redhat.com>
+ <CAJSP0QUGGN7KuBzr=8q5erpUiVZUK+kvfgxwfjW6Z3TODYZwJA@mail.gmail.com>
+In-Reply-To: <CAJSP0QUGGN7KuBzr=8q5erpUiVZUK+kvfgxwfjW6Z3TODYZwJA@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Wed, 26 Oct 2022 11:42:04 +0400
+Message-ID: <CAMxuvawBJC13Xpv4PoaU-piJWaXEBQjaXfbCRbpvOYEzrvqq5A@mail.gmail.com>
+Subject: Re: [PULL v2 00/11] Dump patches
+To: Janosch Frank <frankja@linux.ibm.com>
+Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org, 
+ Stefan Hajnoczi <stefanha@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000dacf1e05ebeb2977"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,85 +93,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+--000000000000dacf1e05ebeb2977
+Content-Type: text/plain; charset="UTF-8"
 
-Yajun Wu <yajunw@nvidia.com> writes:
+Hi Janosch
 
-> Hi Alex,
->
-> With this change, VHOST_USER_F_PROTOCOL_FEATURES bit will be set to
-> backend for virtio block device (previously not).
->
-> From https://www.qemu.org/docs/master/interop/vhost-user.html spec:
-> If VHOST_USER_F_PROTOCOL_FEATURES has not been negotiated, the ring start=
-s directly in the enabled state.
-> If VHOST_USER_F_PROTOCOL_FEATURES has been negotiated, the ring is
-> initialized in a disabled state and is enabled by
-> VHOST_USER_SET_VRING_ENABLE with parameter 1.
->
-> Vhost-user-blk won't send out VHOST_USER_SET_VRING_ENABLE today.=20
-> Backend gets VHOST_USER_F_PROTOCOL_FEATURES negotiated and can't get VHOS=
-T_USER_SET_VRING_ENABLE.
-> VQs keep in disabled state.
+On Wed, Oct 26, 2022 at 1:37 AM Stefan Hajnoczi <stefanha@gmail.com> wrote:
 
-If the backend advertises protocol features but the stub doesn't support
-it how does it get enabled?
+> Please solve this CI failure:
+>
+> c++ -o qemu-system-s390x ...
+> /usr/bin/ld: libqemu-s390x-softmmu.fa.p/target_s390x_arch_dump.c.o: in
+> function `arch_sections_add':
+>
+> /home/gitlab-runner/builds/Y1MP9VSY/0/qemu-project/qemu/build/../target/s390x/arch_dump.c:392:
+> undefined reference to `kvm_s390_get_protected_dump'
+> /usr/bin/ld: libqemu-s390x-softmmu.fa.p/target_s390x_arch_dump.c.o: in
+> function `cpu_get_dump_info':
+>
+> /home/gitlab-runner/builds/Y1MP9VSY/0/qemu-project/qemu/build/../target/s390x/arch_dump.c:452:
+> undefined reference to `kvm_s390_get_protected_dump'
+> collect2: error: ld returned 1 exit status
+>
+> https://gitlab.com/qemu-project/qemu/-/jobs/3226673649
+>
+>
+Ok to squash this with "s390x: Add protected dump cap" patch ? that should
+solve it hopefully.
 
-The testing I did was mostly by hand with the gpio backend and using the
-qtests. I Think we need to add some acceptance testing into avocado with
-some real daemons because I don't think we have enough coverage with the
-current qtest approach.
+diff --git a/target/s390x/kvm/stubs.c b/target/s390x/kvm/stubs.c
+new file mode 100644
+index 0000000000..5fd63b9a7e
+--- /dev/null
++++ b/target/s390x/kvm/stubs.c
+@@ -0,0 +1,12 @@
++/*
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++
++#include "kvm_s390x.h"
++
++int kvm_s390_get_protected_dump(void)
++{
++    return false;
++}
+diff --git a/target/s390x/kvm/meson.build b/target/s390x/kvm/meson.build
+index d1356356b1..aef52b6686 100644
+--- a/target/s390x/kvm/meson.build
++++ b/target/s390x/kvm/meson.build
+@@ -1,6 +1,8 @@
 
->
-> Can you check on this scenario?
->
-> Thanks
->
-> -----Original Message-----
-> From: Qemu-devel <qemu-devel-bounces+yajunw=3Dnvidia.com@nongnu.org> On B=
-ehalf Of Alex Benn=C3=A9e
-> Sent: Thursday, July 28, 2022 9:55 PM
-> To: qemu-devel@nongnu.org
-> Cc: mst@redhat.com; Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Subject: [PATCH v2 1/4] hw/virtio: incorporate backend features in featur=
-es
->
-> External email: Use caution opening links or attachments
->
->
-> There are some extra bits used over a vhost-user connection which are hid=
-den from the device itself. We need to set them here to ensure we enable th=
-ings like the protocol extensions.
->
-> Currently net/vhost-user.c has it's own inscrutable way of persisting thi=
-s data but it really should live in the core vhost_user code.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Message-Id: <20220726192150.2435175-7-alex.bennee@linaro.org>
-> ---
->  hw/virtio/vhost-user.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c index 75b8df=
-21a4..1936a44e82 100644
-> --- a/hw/virtio/vhost-user.c
-> +++ b/hw/virtio/vhost-user.c
-> @@ -1460,7 +1460,14 @@ static int vhost_user_set_features(struct vhost_de=
-v *dev,
->       */
->      bool log_enabled =3D features & (0x1ULL << VHOST_F_LOG_ALL);
->
-> -    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES, features,
-> +    /*
-> +     * We need to include any extra backend only feature bits that
-> +     * might be needed by our device. Currently this includes the
-> +     * VHOST_USER_F_PROTOCOL_FEATURES bit for enabling protocol
-> +     * features.
-> +     */
-> +    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES,
-> +                              features | dev->backend_features,
->                                log_enabled);  }
+ s390x_ss.add(when: 'CONFIG_KVM', if_true: files(
+   'kvm.c'
++), if_false: files(
++  'stubs.c'
+ ))
 
+--000000000000dacf1e05ebeb2977
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---=20
-Alex Benn=C3=A9e
+<div dir=3D"ltr"><div>Hi Janosch<br></div><br><div class=3D"gmail_quote"><d=
+iv dir=3D"ltr" class=3D"gmail_attr">On Wed, Oct 26, 2022 at 1:37 AM Stefan =
+Hajnoczi &lt;<a href=3D"mailto:stefanha@gmail.com">stefanha@gmail.com</a>&g=
+t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Please=
+ solve this CI failure:<br>
+<br>
+c++ -o qemu-system-s390x ...<br>
+/usr/bin/ld: libqemu-s390x-softmmu.fa.p/target_s390x_arch_dump.c.o: in<br>
+function `arch_sections_add&#39;:<br>
+/home/gitlab-runner/builds/Y1MP9VSY/0/qemu-project/qemu/build/../target/s39=
+0x/arch_dump.c:392:<br>
+undefined reference to `kvm_s390_get_protected_dump&#39;<br>
+/usr/bin/ld: libqemu-s390x-softmmu.fa.p/target_s390x_arch_dump.c.o: in<br>
+function `cpu_get_dump_info&#39;:<br>
+/home/gitlab-runner/builds/Y1MP9VSY/0/qemu-project/qemu/build/../target/s39=
+0x/arch_dump.c:452:<br>
+undefined reference to `kvm_s390_get_protected_dump&#39;<br>
+collect2: error: ld returned 1 exit status<br>
+<br>
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/3226673649" rel=3D"n=
+oreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu/-/jobs/32=
+26673649</a><br>
+<br></blockquote><div><br></div><div>Ok to squash this with &quot;s390x: Ad=
+d protected dump cap&quot; patch ? that should solve it hopefully.</div><di=
+v><br></div><div>diff --git a/target/s390x/kvm/stubs.c b/target/s390x/kvm/s=
+tubs.c<br>new file mode 100644<br>index 0000000000..5fd63b9a7e<br>--- /dev/=
+null<br>+++ b/target/s390x/kvm/stubs.c<br>@@ -0,0 +1,12 @@<br>+/*<br>+ * SP=
+DX-License-Identifier: GPL-2.0-or-later<br>+ */<br>+<br>+#include &quot;qem=
+u/osdep.h&quot;<br>+<br>+#include &quot;kvm_s390x.h&quot;<br>+<br>+int kvm_=
+s390_get_protected_dump(void)<br>+{<br>+ =C2=A0 =C2=A0return false;<br>+}<b=
+r>diff --git a/target/s390x/kvm/meson.build b/target/s390x/kvm/meson.build<=
+br>index d1356356b1..aef52b6686 100644<br>--- a/target/s390x/kvm/meson.buil=
+d<br>+++ b/target/s390x/kvm/meson.build<br>@@ -1,6 +1,8 @@<br>=C2=A0<br>=C2=
+=A0s390x_ss.add(when: &#39;CONFIG_KVM&#39;, if_true: files(<br>=C2=A0 =C2=
+=A0&#39;kvm.c&#39;<br>+), if_false: files(<br>+ =C2=A0&#39;stubs.c&#39;<br>=
+=C2=A0))<br>=C2=A0<br></div></div></div>
+
+--000000000000dacf1e05ebeb2977--
+
 
