@@ -2,90 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE39B60E23D
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 15:36:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B34D860E248
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 15:37:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ongUw-0004W2-5U; Wed, 26 Oct 2022 09:31:10 -0400
+	id 1ongVp-0005bZ-Mj; Wed, 26 Oct 2022 09:32:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1ongUu-0004Vm-Ge
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 09:31:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1ongUl-0007ZL-VG
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 09:31:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666791058;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oSFnPaNWRvv/sgchMHLcXk2YE74QAFtqk3SVpS/lT54=;
- b=CTUI5XLofqM/6DKrs8Ug04ho9p0ilCU8BNm4UiVPGIndwIX6uEVWf2Qn9+DeXg5k+Wfet2
- x6TvHwXQn93GWY+3e4r0gzHflvR5patnP2TvIJ4mVaBPbI1b3Io6ieJYTR0m9/xldejS75
- 3Eo/0M3ZWJ0oa5T/ytU1DDm3oeE2xcU=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-475-ajYQgccJNfer_e08Yf4iJA-1; Wed, 26 Oct 2022 09:30:57 -0400
-X-MC-Unique: ajYQgccJNfer_e08Yf4iJA-1
-Received: by mail-ej1-f71.google.com with SMTP id
- ho8-20020a1709070e8800b0078db5e53032so4536072ejc.9
- for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 06:30:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1ongVi-0005ZD-R9; Wed, 26 Oct 2022 09:31:58 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1ongVh-0007kQ-Bi; Wed, 26 Oct 2022 09:31:58 -0400
+Received: by mail-ed1-x529.google.com with SMTP id a5so28370080edb.11;
+ Wed, 26 Oct 2022 06:31:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=7XFjlVpcxaj5zu3U9gU7k60uMx2pDm5CTfU/4CJL5Uk=;
+ b=q1l8rx5p/vt+FXr18VdAMFHEhBHuPsHJ/Eg1YEXVdcPpHpYvGarnPC6gqky2lh0n4L
+ yRBg+3lxvgSPMBUiZAZvoFstF/5neDtA1JPiTNX11lu7KVdo1ohYNIUZSxV5VxGLGjs8
+ 94M5K3d/4ZcFXvuCi4O+W+SJ3AgQnxW44gSVBmYmQ7xfFwS/hDRKhIdoaHPh3o7OksjV
+ ahkxL36vGO23szbhdV4a2fw71ezZIdnOnCVfpdHOGHmD3MlNCWTlZglQDBsSUfjE+Nvl
+ KJu+9CoNSbeDLRMM47L6wh+KrLgIpTlnEW9NLEheUB56PNQ30J7meHSXok0lDq+Uo9vO
+ bedg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oSFnPaNWRvv/sgchMHLcXk2YE74QAFtqk3SVpS/lT54=;
- b=LjgolQi/erAbw5ggYDbIJcfSlq+olfur6QiIraYMKuFoz6IXdKMRJv3IR54rvJlXJy
- 2LZHrdDYUKs4dMYlxrqGREQIQ0RC8OEUbsFajkivjFSTBeBCDiNKe5JPKq10flMiJRMU
- XXEVD5v8V29G+y8QIIVsNwx6S3MMoZ7GISPazPVnlyEVB1UJPKx/sLXsYgTJTWHWYxTf
- S0RFoKdU922qv6o1ejKQ+B/UJ2qFfU0Luox+BJjTLEWmg1bUPedODJGmfM7MBfqtN+uh
- ghTurhZnVhIR7eaCRy/rzDpPHL1KZKGxa0CkSNkRF+kQ1B69Kpnjruc44QDeOkmXxFvW
- XiYg==
-X-Gm-Message-State: ACrzQf2aV2AXQd5pla5hjvDo0nQ4iE8EjUETUT05QhK0Ie6f2X/DC0Rs
- nGG2rZZznRPgDS+VpAFN4X0uvu3KP5oC/3Cbqapy5B1BQyvylw+L1fm5ZvFAcOQ6/7N1xzYzyKK
- 4nlrkFmSZRfMYWLc=
-X-Received: by 2002:a05:6402:11cc:b0:462:76cd:1215 with SMTP id
- j12-20020a05640211cc00b0046276cd1215mr1311342edw.318.1666791056067; 
- Wed, 26 Oct 2022 06:30:56 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7u47gy8bnPWRiYV+d51cNdCB4GQjNRFpZK7HcYN48xo9397SpHLYEOLI8RA1xnS0YyiPBqjg==
-X-Received: by 2002:a05:6402:11cc:b0:462:76cd:1215 with SMTP id
- j12-20020a05640211cc00b0046276cd1215mr1311306edw.318.1666791055679; 
- Wed, 26 Oct 2022 06:30:55 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3?
- ([2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7XFjlVpcxaj5zu3U9gU7k60uMx2pDm5CTfU/4CJL5Uk=;
+ b=UMmTXQduqdYszzEJAE4bZdn2sCwwudnPD/UXxmpBUQ+Sqte1JeDQqppjhxKrqLBgGE
+ L7uovEHQsWC9VgJ5WxiA74J6Q5tEwZCpqtMGpXPBbnfxSsc52/dk6q16sMCE2AZZ3ZKs
+ IYQvRgfA9es+9ZvAbkCvrzN9C6JOuDyOlr05YuFarXclIbhXRcWhxzNmj80DtVbYc88p
+ MNMCWrpR2avDY/khUg/SScVFPX1FMLVmwAN2yBvHaEyLW8EmJBTjxXeszxYrMwcrcOt7
+ 75OFVUqPdZj4/odJoO7OWxzQg4gN0lo/IBqqdDMw3yF7FYd/djRFHasohgpDHyclxK7w
+ LR5g==
+X-Gm-Message-State: ACrzQf3IkhYaCf3rvhzemjzvkcp5ISmwJTGnJko+cPpudwwQgIMdLu/b
+ cjkkBlzrFLZ6NyYcAoa7gLqoNr64nsY=
+X-Google-Smtp-Source: AMsMyM7c4rMgPwe0uTsE/9aksYLm81y6p6UNMAp+4qacsve3YQdYmZdl4g1nTBfal6B6GBWkp1ow8Q==
+X-Received: by 2002:a05:6402:26c6:b0:45d:374b:fb73 with SMTP id
+ x6-20020a05640226c600b0045d374bfb73mr40390433edd.424.1666791114842; 
+ Wed, 26 Oct 2022 06:31:54 -0700 (PDT)
+Received: from osoxes.fritz.box
+ (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
+ [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- l10-20020a1709063d2a00b00741a0c3f4cdsm2945240ejf.189.2022.10.26.06.30.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Oct 2022 06:30:55 -0700 (PDT)
-Message-ID: <81bd7016-70e7-b3de-2181-5610724f55d8@redhat.com>
-Date: Wed, 26 Oct 2022 15:30:54 +0200
+ 13-20020a170906328d00b00730b3bdd8d7sm3032524ejw.179.2022.10.26.06.31.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Oct 2022 06:31:54 -0700 (PDT)
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-trivial@nongnu.org,
+ Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Bernhard Beschow <shentey@gmail.com>
+Subject: [PATCH 0/4] Cleanup AML generation for north and south bridges
+Date: Wed, 26 Oct 2022 15:31:06 +0200
+Message-Id: <20221026133110.91828-1-shentey@gmail.com>
+X-Mailer: git-send-email 2.38.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 2/3] iotests: Test qemu-img checksum
-Content-Language: en-US
-To: Nir Soffer <nsoffer@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>
-References: <20220901143223.201295-1-nsoffer@redhat.com>
- <20220901143223.201295-3-nsoffer@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220901143223.201295-3-nsoffer@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,115 +92,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 01.09.22 16:32, Nir Soffer wrote:
-> Add simple tests creating an image with all kinds of extents, different
-> formats, different backing chain, different protocol, and different
-> image options. Since all images have the same guest visible content they
-> must have the same checksum.
->
-> To help debugging in case of failures, the output includes a json map of
-> every test image.
->
-> Signed-off-by: Nir Soffer <nsoffer@redhat.com>
-> ---
->   tests/qemu-iotests/tests/qemu-img-checksum    | 149 ++++++++++++++++++
->   .../qemu-iotests/tests/qemu-img-checksum.out  |  74 +++++++++
->   2 files changed, 223 insertions(+)
->   create mode 100755 tests/qemu-iotests/tests/qemu-img-checksum
->   create mode 100644 tests/qemu-iotests/tests/qemu-img-checksum.out
->
-> diff --git a/tests/qemu-iotests/tests/qemu-img-checksum b/tests/qemu-iotests/tests/qemu-img-checksum
-> new file mode 100755
-> index 0000000000..3a85ba33f2
-> --- /dev/null
-> +++ b/tests/qemu-iotests/tests/qemu-img-checksum
-> @@ -0,0 +1,149 @@
-> +#!/usr/bin/env python3
-> +# group: rw auto quick
-> +#
-> +# Test cases for qemu-img checksum.
-> +#
-> +# Copyright (C) 2022 Red Hat, Inc.
-> +#
-> +# This program is free software; you can redistribute it and/or modify
-> +# it under the terms of the GNU General Public License as published by
-> +# the Free Software Foundation; either version 2 of the License, or
-> +# (at your option) any later version.
-> +#
-> +# This program is distributed in the hope that it will be useful,
-> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> +# GNU General Public License for more details.
-> +#
-> +# You should have received a copy of the GNU General Public License
-> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-> +
-> +import re
-> +
-> +import iotests
-> +
-> +from iotests import (
-> +    filter_testfiles,
-> +    qemu_img,
-> +    qemu_img_log,
-> +    qemu_io,
-> +    qemu_nbd_popen,
-> +)
-> +
-> +
-> +def checksum_available():
-> +    out = qemu_img("--help").stdout
-> +    return re.search(r"\bchecksum .+ filename\b", out) is not None
-> +
-> +
-> +if not checksum_available():
-> +    iotests.notrun("checksum command not available")
-> +
-> +iotests.script_initialize(
-> +    supported_fmts=["raw", "qcow2"],
-> +    supported_cache_modes=["none", "writeback"],
-
-It doesn’t work with writeback, though, because it uses -T none below.
-
-Which by the way is a heavy cost, because I usually run tests in tmpfs, 
-where this won’t work.  Is there any way of not doing the -T none below?
-
-> +    supported_protocols=["file", "nbd"],
-> +    required_fmts=["raw", "qcow2"],
-> +)
-> +
-> +print()
-> +print("=== Test images ===")
-> +print()
-> +
-> +disk_raw = iotests.file_path('raw')
-> +qemu_img("create", "-f", "raw", disk_raw, "10m")
-> +qemu_io("-f", "raw",
-> +        "-c", "write -P 0x1 0 2m",      # data
-> +        "-c", "write -P 0x0 2m 2m",     # data with zeroes
-> +        "-c", "write -z 4m 2m",         # zero allocated
-> +        "-c", "write -z -u 6m 2m",      # zero hole
-> +                                        # unallocated
-> +        disk_raw)
-> +print(filter_testfiles(disk_raw))
-> +qemu_img_log("map", "--output", "json", disk_raw)
-> +
-> +disk_qcow2 = iotests.file_path('qcow2')
-> +qemu_img("create", "-f", "qcow2", disk_qcow2, "10m")
-> +qemu_io("-f", "qcow2",
-> +        "-c", "write -P 0x1 0 2m",      # data
-> +        "-c", "write -P 0x0 2m 2m",     # data with zeroes
-> +        "-c", "write -z 4m 2m",         # zero allocated
-> +        "-c", "write -z -u 6m 2m",      # zero hole
-> +                                        # unallocated
-> +        disk_qcow2)
-> +print(filter_testfiles(disk_qcow2))
-> +qemu_img_log("map", "--output", "json", disk_qcow2)
-
-This isn’t how iotests work, generally.  When run with -qcow2 -file, it 
-should only test qcow2 on file, not raw on file, not raw on nbd. Perhaps 
-this way this test could even support other formats than qcow2 and raw.
-
-Hanna
-
+While refactoring of PCI AML generation seems to be still ongoing, this ser=
+ies=0D
+attempts to be an intermediate, short-term step to improve comprehensibilit=
+y of=0D
+the code. It also simplifies experimentation with different south bridges (=
+PIIX4=0D
+and VT82xx) in the pc machine.=0D
+=0D
+Testing done:=0D
+* `mache check`=0D
+* Start a live CD using "pc" and "q35" machine types=0D
+=0D
+Bernhard Beschow (4):=0D
+  hw/i386/acpi-build: Remove unused struct=0D
+  hw/i386/acpi-build: Resolve redundant attribute=0D
+  hw/i386/acpi-build: Resolve PIIX ISA bridge rather than ACPI=0D
+    controller=0D
+  hw/i386/acpi-build: Generate AML for north and south bridges=0D
+    separately=0D
+=0D
+ hw/i386/acpi-build.c | 45 ++++++++++++++++++--------------------------=0D
+ 1 file changed, 18 insertions(+), 27 deletions(-)=0D
+=0D
+-- =0D
+2.38.1=0D
+=0D
 
