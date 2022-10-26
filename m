@@ -2,89 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB91760E9A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 21:58:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2CAC60E9EF
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 22:08:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onmVf-0001Dw-MH; Wed, 26 Oct 2022 15:56:20 -0400
+	id 1onmg5-0007cZ-1I; Wed, 26 Oct 2022 16:07:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1onmVV-00016O-5u; Wed, 26 Oct 2022 15:56:11 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1onmVT-0008Kk-Gt; Wed, 26 Oct 2022 15:56:08 -0400
-Received: by mail-wr1-x433.google.com with SMTP id g12so15459985wrs.10;
- Wed, 26 Oct 2022 12:56:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0Mv0Tsmxtv5h6gp4lFayt82N8mBlkFqSYotCqKUhajQ=;
- b=jwra2ZRcCOhED+IhQcvGdsuvUIJcgNHwQE/WJUxAf2X/v7aH9qeo8slJ0P+MMdXe0l
- 93hlG/3r1KCPEbu16c7uw2ayhIng85VVhR92HGg0GRtllLzOKBXZuBDy5IkNkva/R83m
- ib0Y7bfxbOxKs4UsdUo6OGZGEQ//d48gG1vyAd/f+8h76SB/y0rNVsxXPzdiVrcLjkaU
- dA4Kxlbl0CR5r0vZQOy44OspsAd3TTR/Dw+uOCBwQtKGXCp5lafjF6Hzrjap5dW3dPPV
- Mk/p24t/X69pS1IAbAhaZ2p7CYLqOBr/r3KhpLzse5DRujSZ4MNmRtFJzFAaGtglXj+/
- eFIw==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1onmfV-0007AH-22
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 16:06:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1onmfT-0001Rq-3Y
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 16:06:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666814785;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kJbtSYiPhNxQ2HMlsmhAY3yYtRvixnk1SRvZ0hFQjaI=;
+ b=G32FHutI8CLBun32mOrSVolQAsW//gBk7PAAGCEgneM3ic8KWFuZG7hvdAl3Bm99nZHB6s
+ 5FAoDLQvfLrP+CLP5P0d1PUAOPa2W78rdg+zIbCq619ZoWvyLz9yLbxGOCikF5vKKm5y6e
+ HbXlS9FMtqekQdTcFbiv8XGp0stWs5c=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-591-U4hn9S0LNzauj2QGClcjaQ-1; Wed, 26 Oct 2022 16:06:24 -0400
+X-MC-Unique: U4hn9S0LNzauj2QGClcjaQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ iw9-20020a05600c54c900b003cf4eea332cso580281wmb.1
+ for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 13:06:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=0Mv0Tsmxtv5h6gp4lFayt82N8mBlkFqSYotCqKUhajQ=;
- b=oesqIMH+wpq5Dxphr7oZHW8aMJz5n33ux10URqeNlr9teFgBBnCPE7DizE6Ky06fwL
- Nue64/JKBEz30qmpXD5aTINToP5h4gwryXVm9Oez50IIRv6tpbq5t43TAhOIcTTP+AE/
- M8+Olp5siUUg/qv+FBiGEfg75hUPFKyovHMNciupV2HCKPBiiKcOEX+It04lYk3Z/aeV
- mvL7R0oCHTn5DEap4ixE32T77wWCMHs+m/MVDhI0ChzAMfi0L043w162UlxzO+bKcA6X
- CvOTzYbooPQBEM71uGi4/GV60KVMP4dbEaYZupucs4Sd7GbjyJ5nxjzPLiI3nKkQJcqN
- u0zA==
-X-Gm-Message-State: ACrzQf3O/TddrFsQCuXl9APT104K/rSbjKFN3xv7YId3gKJXiPNCbXVU
- 0e5W6p65K/1B0wlM8wvDids=
-X-Google-Smtp-Source: AMsMyM7RA2w7QMWezyRbwgdTSfmVVjxj/7az5rj9xTa7ZTt3daUzffs9A6wCXo+8UnnuPvUl6/PxqQ==
-X-Received: by 2002:a5d:4143:0:b0:236:4b40:bbd1 with SMTP id
- c3-20020a5d4143000000b002364b40bbd1mr22049489wrq.26.1666814165059; 
- Wed, 26 Oct 2022 12:56:05 -0700 (PDT)
-Received: from ?IPv6:::1?
- (p200300faaf0bb200a5b52e958d7b8718.dip0.t-ipconnect.de.
- [2003:fa:af0b:b200:a5b5:2e95:8d7b:8718])
- by smtp.gmail.com with ESMTPSA id
- f15-20020a056000128f00b0022cd0c8c696sm6128213wrx.103.2022.10.26.12.56.04
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 26 Oct 2022 12:56:04 -0700 (PDT)
-Date: Wed, 26 Oct 2022 19:56:02 +0000
-From: B <shentey@gmail.com>
-To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-CC: Eduardo Habkost <eduardo@habkost.net>,
- =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Igor Mammedov <imammedo@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, John Snow <jsnow@redhat.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Ani Sinha <ani@anisinha.ca>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-block@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 14/43] hw/intc/i8259: Introduce i8259 proxy "isa-pic"
-In-Reply-To: <bdd0c528-82fe-db76-00d0-4caa6f1fb2ef@linaro.org>
-References: <20221022150508.26830-1-shentey@gmail.com>
- <20221022150508.26830-15-shentey@gmail.com>
- <bdd0c528-82fe-db76-00d0-4caa6f1fb2ef@linaro.org>
-Message-ID: <0C25591D-0B8C-4C56-8467-683F70D3EBF4@gmail.com>
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kJbtSYiPhNxQ2HMlsmhAY3yYtRvixnk1SRvZ0hFQjaI=;
+ b=MU3YJEjZ8tykGUTwSqzK3e4xksN0qdIk2FCe8lhireeB1ZpyIVz7egsWNqkqfj2plH
+ 83GRVuAHdWcoaDP0jP/5Gl5oIal9beiCILTnIi4o4qBxCv8Avrfn52tyWgwaiyO8tWZ8
+ DyDPXBmfBHxWp8R/5yWB4hy88KJgsfYw/okPf4k2QY04IemtSqJ7sATbkoDDhmtz0j72
+ f6pGqebP0adRT5fMAOR+UDEsb/KwoYi4cscR2DQ38mnyT+ZuKArayviOU4dpfwfcK+xw
+ PRs59ksKtvqCor9a2voG7Uygmy20eorVAf/32HihsJlJyhpyaGIqCYYauYnNBkKKiBFx
+ NRBQ==
+X-Gm-Message-State: ACrzQf0x6wkFNPCE25wADyiDSuTUGQ4s47ddv62uQniugeaQtl1JiHuq
+ 7aEelAymrxqme/FZpTAYZ0TrcsOYGRvFzjCgVd77OcyybCVR+9P1McKpt8o77tA86tmVSB0VHV0
+ Wca6CJUa6Qtuje6o=
+X-Received: by 2002:a05:600c:19d1:b0:3c7:b52:3aa4 with SMTP id
+ u17-20020a05600c19d100b003c70b523aa4mr3699405wmq.56.1666814783415; 
+ Wed, 26 Oct 2022 13:06:23 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7CDoZL0RCSiT7Kxb1lDkPQKvatbpa5r0k7WVPhTpSMtuycc4dq+Zgv5Oxk5oEe8hdvfCN8+Q==
+X-Received: by 2002:a05:600c:19d1:b0:3c7:b52:3aa4 with SMTP id
+ u17-20020a05600c19d100b003c70b523aa4mr3699385wmq.56.1666814783199; 
+ Wed, 26 Oct 2022 13:06:23 -0700 (PDT)
+Received: from redhat.com ([2.52.15.7]) by smtp.gmail.com with ESMTPSA id
+ d5-20020a05600c34c500b003cf4d99fd2asm1855476wmq.6.2022.10.26.13.06.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Oct 2022 13:06:21 -0700 (PDT)
+Date: Wed, 26 Oct 2022 16:06:18 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Gregory Price <gourry.memverge@gmail.com>
+Cc: qemu-devel@nongnu.org, jonathan.cameron@huawei.com,
+ linux-cxl@vger.kernel.org, alison.schofield@intel.com,
+ dave@stgolabs.net, a.manzanares@samsung.com, bwidawsk@kernel.org,
+ Gregory Price <gregory.price@memverge.com>
+Subject: Re: [PATCH 1/2] hw/cxl: set cxl-type3 device type to
+ PCI_CLASS_MEMORY_CXL
+Message-ID: <20221026160545-mutt-send-email-mst@kernel.org>
+References: <20221006233702.18532-1-gregory.price@memverge.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=shentey@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221006233702.18532-1-gregory.price@memverge.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,86 +98,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Thu, Oct 06, 2022 at 07:37:01PM -0400, Gregory Price wrote:
+> Current code sets to STORAGE_EXPRESS and then overrides it.
+> 
+> Signed-off-by: Gregory Price <gregory.price@memverge.com>
 
+If you expect me to merge it you need to CC me.
+Also, do we need this separately from the series?
 
-Am 24=2E Oktober 2022 07:35:48 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <=
-philmd@linaro=2Eorg>:
->Hi Bernhard,
->
->On 22/10/22 17:04, Bernhard Beschow wrote:
->> Having an i8259 proxy allows for ISA PICs to be created and wired up in
->> southbridges=2E This is especially interesting for PIIX3 for two reason=
-s:
->> First, the southbridge doesn't need to care about the virtualization
->> technology used (KVM, TCG, Xen) due to in-IRQs (where devices get
->> attached) and out-IRQs (which will trigger the IRQs of the respective
->> virtzalization technology) are separated=2E Second, since the in-IRQs a=
-re
->> populated with fully initialized qemu_irq's, they can already be wired
->> up inside PIIX3=2E
->>=20
->> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
->> ---
->>   hw/intc/i8259=2Ec         | 27 +++++++++++++++++++++++++++
->>   include/hw/intc/i8259=2Eh | 14 ++++++++++++++
->>   2 files changed, 41 insertions(+)
->
->> +static void isapic_set_irq(void *opaque, int irq, int level)
->> +{
->> +    ISAPICState *s =3D opaque;
->> +
->> +    qemu_set_irq(s->out_irqs[irq], level);
->> +}
->> +
->> +static void isapic_init(Object *obj)
->> +{
->> +    ISAPICState *s =3D ISA_PIC(obj);
->> +
->> +    qdev_init_gpio_in(DEVICE(s), isapic_set_irq, ISA_NUM_IRQS);
->> +    qdev_init_gpio_out(DEVICE(s), s->out_irqs, ISA_NUM_IRQS);
->> +
->> +    for (int i =3D 0; i < ISA_NUM_IRQS; ++i) {
->> +        s->in_irqs[i] =3D qdev_get_gpio_in(DEVICE(s), i);
->> +    }
->> +}
->> +
->> +static const TypeInfo isapic_info =3D {
->> +    =2Ename          =3D TYPE_ISA_PIC,
->> +    =2Eparent        =3D TYPE_ISA_DEVICE,
->> +    =2Einstance_size =3D sizeof(ISAPICState),
->> +    =2Einstance_init =3D isapic_init,
->> +};
->
->> --- a/include/hw/intc/i8259=2Eh
->> +++ b/include/hw/intc/i8259=2Eh
->> @@ -1,6 +1,20 @@
->>   #ifndef HW_I8259_H
->>   #define HW_I8259_H
->>   +#include "qom/object=2Eh"
->> +#include "hw/isa/isa=2Eh"
->> +#include "qemu/typedefs=2Eh"
->> +
->> +#define TYPE_ISA_PIC "isa-pic"
->> +OBJECT_DECLARE_SIMPLE_TYPE(ISAPICState, ISA_PIC)
->> +
->> +struct ISAPICState {
->> +    ISADevice parent_obj;
->> +
->> +    qemu_irq in_irqs[ISA_NUM_IRQS];
->> +    qemu_irq out_irqs[ISA_NUM_IRQS];
->> +};
->
->There is nothing I8259 / ISA specific in your model=2E
->
->What about adding a generic qdev proxy-irq (having a configurable
->number of IRQs to proxy)? See for example hw/core/split-irq=2Ec=2E
+> ---
+>  hw/mem/cxl_type3.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+> index ada2108fac..1837c1c83a 100644
+> --- a/hw/mem/cxl_type3.c
+> +++ b/hw/mem/cxl_type3.c
+> @@ -146,7 +146,6 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+>      }
+>  
+>      pci_config_set_prog_interface(pci_conf, 0x10);
+> -    pci_config_set_class(pci_conf, PCI_CLASS_MEMORY_CXL);
+>  
+>      pcie_endpoint_cap_init(pci_dev, 0x80);
+>      cxl_cstate->dvsec_offset = 0x100;
+> @@ -335,7 +334,7 @@ static void ct3_class_init(ObjectClass *oc, void *data)
+>  
+>      pc->realize = ct3_realize;
+>      pc->exit = ct3_exit;
+> -    pc->class_id = PCI_CLASS_STORAGE_EXPRESS;
+> +    pc->class_id = PCI_CLASS_MEMORY_CXL;
+>      pc->vendor_id = PCI_VENDOR_ID_INTEL;
+>      pc->device_id = 0xd93; /* LVF for now */
+>      pc->revision = 1;
+> -- 
+> 2.37.3
+> 
+> 
 
-Will do!
-
-Best regards,
-Bernhard
->
->Regards,
->
->Phil=2E
 
