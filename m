@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B5CF60DE73
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 11:55:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 126B460DE76
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 11:57:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ond6v-000505-Gg; Wed, 26 Oct 2022 05:54:09 -0400
+	id 1ond7A-0007G5-NS; Wed, 26 Oct 2022 05:54:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ond6W-0003uW-LR
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 05:53:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1ond78-00079t-5Z; Wed, 26 Oct 2022 05:54:22 -0400
+Received: from mout.kundenserver.de ([212.227.126.133])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ond6V-0001lf-11
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 05:53:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666778022;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bKc8QhW0a44IXrmCQDktTysNmCO3rhAoscJ2ndiXmSE=;
- b=ZtF7IbZqkKCLcK+XMkuwsJnf61XGp/TKeJ8dkNf7JEaB0DDTXf4RrjezUM3Nz+L7WmeoUf
- qeirhASLiJMBu5vQAHZVgIebxIwUbZjuCTUYkedLZOUTnb3wI5dKmoFOgl6Du9HpJJNezS
- xRlfl4xjJYnkZkiOFE5EG+EdnBPRfd8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-176-a5Ez1-zAOD6TLJ4kny3LQw-1; Wed, 26 Oct 2022 05:53:37 -0400
-X-MC-Unique: a5Ez1-zAOD6TLJ4kny3LQw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 057663C0F237;
- Wed, 26 Oct 2022 09:53:36 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.194.233])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6E48F492B1E;
- Wed, 26 Oct 2022 09:53:29 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Gautam Dawar <gdawar@xilinx.com>, Parav Pandit <parav@mellanox.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Jason Wang <jasowang@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>,
- Eli Cohen <eli@mellanox.com>, Laurent Vivier <lvivier@redhat.com>,
- Si-Wei Liu <si-wei.liu@oracle.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Harpreet Singh Anand <hanand@xilinx.com>
-Subject: [PATCH 3/3] vdpa: Expose VIRTIO_NET_F_STATUS unconditionally
-Date: Wed, 26 Oct 2022 11:53:03 +0200
-Message-Id: <20221026095303.37907-4-eperezma@redhat.com>
-In-Reply-To: <20221026095303.37907-1-eperezma@redhat.com>
-References: <20221026095303.37907-1-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1ond76-0001qI-Hb; Wed, 26 Oct 2022 05:54:21 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1Ml6i4-1pUiAo3hXQ-00lW7j; Wed, 26 Oct 2022 11:54:11 +0200
+Message-ID: <1afb769c-37ff-5bff-f023-7eb7dcc63cc9@vivier.eu>
+Date: Wed, 26 Oct 2022 11:54:07 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH 1/3] target/m68k: Rename qregs.def -> qregs.h.inc
+Content-Language: fr
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: David Hildenbrand <david@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-trivial@nongnu.org
+References: <20221025235006.7215-1-philmd@linaro.org>
+ <20221025235006.7215-2-philmd@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20221025235006.7215-2-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Provags-ID: V03:K1:mG8AYAcl9rMjzOSFBzUdt1gu1YI98JG4Vnd6r09DaeZ9Yo+qoOp
+ y1dzF6sKl/KG5nih8ekOVaiaZ991NE1Tb2CeHKM6GVsYKgr+5Bc+N14arMBembWXMgLYA2c
+ LO9Y89zekecpuy4W2YtPMPmoEQyfSZoVWiMfUhT6N61X0DQiwK/24QaT3I+v3o8SyVhaoZy
+ I+9GD/mGBgyy/SXMLJTew==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:hdAQLNh4r9g=:oSVE6tmHPjt3LgritGlqz4
+ L9bVddGXIqieFHtrdBelwz0ekt3HgTKA17MSY93wzxabGjIq10rRlTktdRheiX0wWNhMDZOrI
+ CehmFs66IaO5JwUY0nBeohT8LAvRa5dstumsJHfLhQZG8LwG8y5AnQGIxNIorYvIhKxy5OERM
+ QH9y2eA3O7YS8VEFYW5Uk20GqipFCU+YT++N7OrpMwNLN4WxTjmSk8kAneScip6D1pUaWhAut
+ W2VStnEx7/k/Mg7e+xtml6zJbU08d/O+5Um1H41vKxrfszwO+t9IXSwue3Mirk7vBEJG6d9o4
+ rwf2QZAnkUAYwbint75rBHj+D2QLPflHdEEdOfus7G44EhB/5djwTgLl5uhANIbDLqVf4RWNE
+ 9aHEQ6dvYYKXY3vsYhpukW8uiQUrqdh1WF4gpx5DxdweAdvkfynmpGNsQE66oVu85Xd1tNehJ
+ KLv4T/e9o7baheXGPkz2fpIR+aA6moL+sOFjTYLvMIGyPCU7l23leCjv6Lt3nlBMcrhms21e4
+ wYaG4sz93DrIRKkEHrbkE+/HKP5qEr9FPZSS5w1HuDMmEquXq54qdP2AGd715EeM1+7K4JpES
+ 5SMbuHR3/ehjy8mnYaoNh2cvmWD1qsTefHhREdpEo9Iv/IbIXDleYrZMco9KAh2Fs+5TaaHP6
+ J+VT987K20TMBGBjFG/k7xY0GoJ6w+T8RKgwJTxZhRAvUhx3NcyVdXYhDY+YZuZsEfe3oC8Hh
+ +LOl9R9+YN5SaSHTv9pbC4EULf5sbVbfYXN2yI0DH2jvMQQ6uSFlaYWgPAmYKiBeNkzySEq+4
+ xvlz+Yc
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,71 +79,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Now that qemu can handle and emulate it if the vdpa backend does not
-support it we can offer it always.
+Le 26/10/2022 à 01:50, Philippe Mathieu-Daudé a écrit :
+> We use the .h.inc extension to include C headers. To be consistent
+> with the rest of the codebase, rename the C headers using the .def
+> extension.
+> 
+> IDE/tools using our .editorconfig / .gitattributes will leverage
+> this consistency.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   target/m68k/{qregs.def => qregs.h.inc} | 0
+>   target/m68k/translate.c                | 4 ++--
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+>   rename target/m68k/{qregs.def => qregs.h.inc} (100%)
+> 
+> diff --git a/target/m68k/qregs.def b/target/m68k/qregs.h.inc
+> similarity index 100%
+> rename from target/m68k/qregs.def
+> rename to target/m68k/qregs.h.inc
+> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+> index 9df17aa4b2..f018fa9eb0 100644
+> --- a/target/m68k/translate.c
+> +++ b/target/m68k/translate.c
+> @@ -39,7 +39,7 @@
+>   
+>   #define DEFO32(name, offset) static TCGv QREG_##name;
+>   #define DEFO64(name, offset) static TCGv_i64 QREG_##name;
+> -#include "qregs.def"
+> +#include "qregs.h.inc"
+>   #undef DEFO32
+>   #undef DEFO64
+>   
+> @@ -75,7 +75,7 @@ void m68k_tcg_init(void)
+>   #define DEFO64(name, offset) \
+>       QREG_##name = tcg_global_mem_new_i64(cpu_env, \
+>           offsetof(CPUM68KState, offset), #name);
+> -#include "qregs.def"
+> +#include "qregs.h.inc"
+>   #undef DEFO32
+>   #undef DEFO64
+>   
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
----
- include/net/vhost-vdpa.h |  1 +
- hw/net/vhost_net.c       | 16 ++++++++++++++--
- net/vhost-vdpa.c         |  3 +++
- 3 files changed, 18 insertions(+), 2 deletions(-)
-
-diff --git a/include/net/vhost-vdpa.h b/include/net/vhost-vdpa.h
-index b81f9a6f2a..cfbcce6427 100644
---- a/include/net/vhost-vdpa.h
-+++ b/include/net/vhost-vdpa.h
-@@ -17,5 +17,6 @@
- struct vhost_net *vhost_vdpa_get_vhost_net(NetClientState *nc);
- 
- extern const int vdpa_feature_bits[];
-+extern const uint64_t vhost_vdpa_net_added_feature_bits;
- 
- #endif /* VHOST_VDPA_H */
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index d28f8b974b..7c15cc6e8f 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -109,10 +109,22 @@ static const int *vhost_net_get_feature_bits(struct vhost_net *net)
-     return feature_bits;
- }
- 
-+static uint64_t vhost_net_add_feature_bits(struct vhost_net *net)
-+{
-+    if (net->nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
-+        return vhost_vdpa_net_added_feature_bits;
-+    }
-+
-+    return 0;
-+}
-+
- uint64_t vhost_net_get_features(struct vhost_net *net, uint64_t features)
- {
--    return vhost_get_features(&net->dev, vhost_net_get_feature_bits(net),
--            features);
-+    uint64_t ret = vhost_get_features(&net->dev,
-+                                      vhost_net_get_feature_bits(net),
-+                                      features);
-+
-+    return ret | vhost_net_add_feature_bits(net);
- }
- int vhost_net_get_config(struct vhost_net *net,  uint8_t *config,
-                          uint32_t config_len)
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 6d64000202..24d2857593 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -99,6 +99,9 @@ static const uint64_t vdpa_svq_device_features =
-     BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
-     BIT_ULL(VIRTIO_NET_F_STANDBY);
- 
-+const uint64_t vhost_vdpa_net_added_feature_bits =
-+    BIT_ULL(VIRTIO_NET_F_STATUS);
-+
- VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
- {
-     VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
--- 
-2.31.1
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
