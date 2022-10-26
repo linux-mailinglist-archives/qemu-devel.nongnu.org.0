@@ -2,104 +2,139 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14C8160EA86
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 22:49:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C11A60EA8B
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 22:49:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onnIN-0000ow-JM; Wed, 26 Oct 2022 16:46:39 -0400
+	id 1onnJk-0003Kn-Vd; Wed, 26 Oct 2022 16:48:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1onnIK-0000Q1-8J
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 16:46:36 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1onnIA-00011x-Fa
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 16:46:35 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- r61-20020a17090a43c300b00212f4e9cccdso3943475pjg.5
- for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 13:46:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=osbqX8leV6g/SkiEHlFgEuxy7LRzWU2Y7Uh+l7tX15w=;
- b=jpYjPBLG06J9WOn/bBWpwBCbAYRsRYqGtpSJMTFmnFYTA2ZFnazgRXI8p//toCQ2TJ
- y0spJgx5cSlhzZ3SljvtDIADHdIjucdfN8NSuX9QNmLHoPzorq79XbjryWXjfHFl30lq
- a+yGNHUmONi8/9fjz20oKzw3ydyHBmBZfyBBhDMaJiuRleHwSAzhKieuIBUJl+OaRWkx
- J8ePiRgrp1obhqOjSj/zBR/mn+zZs1yFys+iRMsX91dPwar3019jAkA21DzvD4AEs3Ci
- EqQhVJdb++3PMZsV4Ve+oth/VTO9h3hSFBdHXErMhMsb9uXlU65Dc3fy+9wGFc3kxwVE
- 7xyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=osbqX8leV6g/SkiEHlFgEuxy7LRzWU2Y7Uh+l7tX15w=;
- b=S63HRMUnTWY7pVTngz/3Khx8CePgPgEqXGkpZBoRFh+TmTaFiOL9CS2H2tRzpoV5nz
- V9xsB6GjTA/AmIHX6YmFRbCcOPNDAA7IG7l3UIvsuP9TRCZX1Mf0TEu/wDucS6TBrgyF
- b0+ytSM2/mgVqn8XghocnZFfOi2e4Ao//JlvihGCVHL+U3wvbO9ckHqsK8v0hSKHjTf4
- LXEmVL3V64YQIf54d5jlipUZOA7GAWYjuiHbk9V5+cHVFvwAoj9jsa/ik3wyVFy9yPZE
- mLpOoepebp+6DROGStqzbdBQXD3TiiyUCeAA+7XgaSB0/TrVHTK4aE+9bXjx+pfEjOeo
- 8IeA==
-X-Gm-Message-State: ACrzQf22WSOzgY6nBQ8AdF0XHKFeDHxo+qkIpF3ZkRHHhB/UaK9Ln7Vl
- H37C2+trgCFGO5GQQnLk1Kw=
-X-Google-Smtp-Source: AMsMyM7NaRTKclIWYEWcxpgdPdqgRZFy22OSD7N8p45NptTu2RyVSV2oujVK1I0Ov2AG9q7XgNRCoQ==
-X-Received: by 2002:a17:902:7b95:b0:178:ab50:76b5 with SMTP id
- w21-20020a1709027b9500b00178ab5076b5mr46490591pll.161.1666817182250; 
- Wed, 26 Oct 2022 13:46:22 -0700 (PDT)
-Received: from localhost ([192.55.54.55]) by smtp.gmail.com with ESMTPSA id
- a8-20020a170902710800b00172973d3cd9sm3308650pll.55.2022.10.26.13.46.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Oct 2022 13:46:21 -0700 (PDT)
-Date: Wed, 26 Oct 2022 13:46:20 -0700
-From: Isaku Yamahata <isaku.yamahata@gmail.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
- isaku.yamahata@gmail.com
-Subject: Re: [PATCH v9 6/8] KVM: Update lpage info when private/shared memory
- are mixed
-Message-ID: <20221026204620.GB3819453@ls.amr.corp.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-7-chao.p.peng@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
+ id 1onnJI-0003Db-H5
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 16:47:36 -0400
+Received: from mail-mw2nam04on2085.outbound.protection.outlook.com
+ ([40.107.101.85] helo=NAM04-MW2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
+ id 1onnJG-0001Hh-0o
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 16:47:36 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Czaa8ITIrcNZZZPZE0Vze5RFGy3N0ljXSIMt29bBs6n5gQSJrk2SgQyBoD0VXakGNVKtIO9a/zcpZaNCou9fpFTP8vyvka/at+uSbKRQOuh9hY6VWAuXTHPh6ogLl+Ri0cVLzgrAm8EHDEQ3qGGzgK7nFWjX9W7Y7MYQK2aXI6fSsjvp1NX8SKuV6Wr3kubcPrP8WioTsY/TMZPFjulvC053ek8WWxakPyJndagQgRmK/iOzXfl/cfgzr5oF9FLhXYBfRB2df5xg2+dRlvJZs/AOW144kcTmWEbdHUg4U1Aq1F/BxMf04i6WA5W9AX4XlOSgNJX1E/U0T1Hx5i9O0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8Te3zUu7zSE03ufqpR62panhnRwz+AfmQrhoQsCzEXg=;
+ b=mtg2FFvsYPgF5xt5x34h/EfMwxSaHpth2HV6l5E8vJEle/jS6krms5Lux1wr8ZlymMu5wwEQqn/Dtp3PFM52hwT6UCALtbfSH3QtIKTg3LAjkrcGQUbMU4pMsQVA26l4gYZ2xrgpn3KQs/La5El9ThTCsB8nxC8HBMn45IPRJdf6AcpyXBGm8xw7LjhNXY4kwC8Kmtua2p7GrO20TOMHoCzuVStKJ7jAgq0uGdDhzudImsI9OKGKO9P40/NmkpA44wW9t7h2nIO5CEVjegchjyHOPRkitX8JXds+Eyx1+3D0Y3sQi3pvQHUQlK5FC8XYcDO7Y9cNTA9Gi/TTr+XXvw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8Te3zUu7zSE03ufqpR62panhnRwz+AfmQrhoQsCzEXg=;
+ b=np6f/e1/YTQhkeNt3hRsga2CG/Fjgr9HlaErspnWkzbvRq1CnMa2qVvbg4d8jniX+JP31jPCWA/XR3gXT7WeU6q5Z6Q0nfy2BNI2kOmi/oiRD4FHJxgtxpC/FF4aeA7/B2AFbgedERqiDsM3ghjazcIsLF1a/7l8oOCX1DL1F3w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
+ by SJ0PR17MB4478.namprd17.prod.outlook.com (2603:10b6:a03:296::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.21; Wed, 26 Oct
+ 2022 20:47:28 +0000
+Received: from BN6PR17MB3121.namprd17.prod.outlook.com
+ ([fe80::138a:e3a2:9ec4:a18]) by BN6PR17MB3121.namprd17.prod.outlook.com
+ ([fe80::138a:e3a2:9ec4:a18%7]) with mapi id 15.20.5746.028; Wed, 26 Oct 2022
+ 20:47:28 +0000
+Date: Wed, 26 Oct 2022 16:47:18 -0400
+From: Gregory Price <gregory.price@memverge.com>
+To: Adam Manzanares <a.manzanares@samsung.com>
+Cc: Gregory Price <gourry.memverge@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "mst@redhat.com" <mst@redhat.com>,
+ "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
+ "imammedo@redhat.com" <imammedo@redhat.com>,
+ "ani@anisinha.ca" <ani@anisinha.ca>,
+ "alison.schofield@intel.com" <alison.schofield@intel.com>,
+ "dave@stgolabs.net" <dave@stgolabs.net>,
+ "bwidawsk@kernel.org" <bwidawsk@kernel.org>,
+ "hchkuo@avery-design.com.tw" <hchkuo@avery-design.com.tw>,
+ "cbrowy@avery-design.com" <cbrowy@avery-design.com>,
+ "ira.weiny@intel.com" <ira.weiny@intel.com>
+Subject: Re: [PATCH 0/4 v3] Multi-Region and Volatile Memory support for CXL
+ Type-3 Devices
+Message-ID: <Y1mc1mvxsGS+7JBp@memverge.com>
+References: <CGME20221026004835uscas1p1d37255ba8daaba8fc7e16e5129cb94b5@uscas1p1.samsung.com>
+ <20221026004737.3646-1-gregory.price@memverge.com>
+ <20221026201318.GA308524@bgt-140510-bm01>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221025151344.3784230-7-chao.p.peng@linux.intel.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=isaku.yamahata@gmail.com; helo=mail-pj1-x102f.google.com
+In-Reply-To: <20221026201318.GA308524@bgt-140510-bm01>
+X-ClientProxiedBy: BYAPR07CA0062.namprd07.prod.outlook.com
+ (2603:10b6:a03:60::39) To BN6PR17MB3121.namprd17.prod.outlook.com
+ (2603:10b6:405:7c::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|SJ0PR17MB4478:EE_
+X-MS-Office365-Filtering-Correlation-Id: ff63e770-13f2-4f08-03ad-08dab7934b69
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: y2ofOPN0k4EB4fPh+OBxgEajA0NyCbxWRJEJpNGiPHWcQFa+KnFwhWkMhYgMbOny3XyTZJ+TfYvI9wK02g3Zp2Cbp4LSFK9Vwn0VVGOiprkRWQSn2gxU/tDqHw4OWFcTcuVDyo6C7gedRDB54eClV1YojyYH6TPAIwLZkhryV6TmBfvOpa93kx/iQqSTjCusIu0frT1n1PMWhcGQC2Lj0do7lvx1oMydbCAXE6y3kM1xJCitwncJq3mggtnORLP9SniDS+HV3uxBZpuhM+usrvo6WmbFaVc1cN3vbzu2V3XdH+bYDMVU54NlkvB68n2oW8n5rqHdGw7eO6FBrihMgBJ5xKg7w4KMf5x5BTWJ0tKc+1eGxor5lOhPhXAc0DTpH6xeDtnpI1nPfeqlGZHIku+Q4cy38vc2+5z78aUmZgetuGXtc6ALHCyt4MLsd1WjcSikIF6vPm2hC4krfVQdDp90k5yMKsmGQSHCoVSW16vrgTA3/tFi/NWfVcr2Z+Swxj46MKEx9BwrmOutK62eKB18fR94lcyJzpqq89R13TbWbwRXu1GKEpjN1sPpCJ5hQEAcYdHeQxpqq4W07OX4+In2ka3iW4dKLzNWSszwjNgw2AfN3VOWCbq3HGU6Ki+QdqKhO/X5f0pg0nQX0HpVXEfWESDeDif+AeCPM9zont9yW5WJPU5PrNHSmhzCW9sAetQgDMnPG37nFV8KmzFp5AvCcun8q/Fs7oyefMGnNdd4DiWJEo99p8MISF482ZNAAohMjCDA8GZuw2fkNI7yzw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN6PR17MB3121.namprd17.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(346002)(39840400004)(376002)(396003)(136003)(366004)(451199015)(86362001)(8936002)(83380400001)(66476007)(38100700002)(66946007)(7416002)(66556008)(5660300002)(41300700001)(44832011)(4326008)(2906002)(8676002)(6506007)(6666004)(2616005)(6512007)(186003)(26005)(6486002)(54906003)(6916009)(478600001)(966005)(316002)(36756003)(67856001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yONrlwCuGnZ0lnDgciFjdpjh3dZR0+k0LUbPD31hiatUkvwWVtpwbh0y+eTR?=
+ =?us-ascii?Q?9ettuNSjiqxD/WfQs9yLOXKo4MItK86xWQOIOJrqPwjV6/HxGk+TRyj6FaCe?=
+ =?us-ascii?Q?tlhoJ66dZ/n/ShIDch0lLdslixwz1Orwl03CIWTGn18kX3KsIwS9NAIr52o9?=
+ =?us-ascii?Q?3MvPUlkIUDmo6wo1b4U4BQN0sDtpX2nhMpfusGmNRdFjw4Mt8WxDt6UqHDg6?=
+ =?us-ascii?Q?ooxJcdG+YXZZOqx5tgp2AD3dnhnOS9vmc3ohvrUmSCYOKcBN/BGUmeuKWoVe?=
+ =?us-ascii?Q?rUBHZq+I+VSAYJ9x5m6IPfD6xmY9waWOnwQBwvRB2Q421LsSu8vXCx1HHddk?=
+ =?us-ascii?Q?s6Y8NV0Y0DquRzu5ySD0yrYd2/j1870B3IrK4++yErH+kNYjaUW7tnLCimsO?=
+ =?us-ascii?Q?C5T7lmugYiKlErybsG86KqzGWsghOi5F0aspkaNUacN1Utj0/hVSuQI/Vqlv?=
+ =?us-ascii?Q?AntUiwHgN6LNntIH4TxnaeS5615zybqswdmfWrTD9/TqKDUf9hhA1oQuZ/pi?=
+ =?us-ascii?Q?apfFcyCIs7HRHyVSSfd639zt/iKX6oQioTt5GzjWArFJJhohWyKF9bI9TRHE?=
+ =?us-ascii?Q?KlQNWrT1oJqXpSFloez2X54lh3polHeEHf0SzuozWH6yJHTPLO7yfdKs0+dK?=
+ =?us-ascii?Q?j5d6GeszcSKv+oc5vK6hcqorFxHHr4J/YC9UkUmtgsuULbrpPPqvj7JE75th?=
+ =?us-ascii?Q?LeFDaN7yKLb1/ON5qYOEuskXknRk7LJrwpfcGssbOujqLmuwNASbybZ78TRa?=
+ =?us-ascii?Q?3oIoBQWvc0FyZzawM6vRkoQkZ8CVNcY9kfZAqyXiq5up2TvN5fWWilUYB0PW?=
+ =?us-ascii?Q?/W7OWyRnpebgS92rNBT+j71w6jPdE166q85UVOXbtDR1ThhJ2RNXG+zbG4e/?=
+ =?us-ascii?Q?1TnmXbBnsNp8/rBiZ0m4O2NXuZ/XrXeZ0GvMmhD8B90Ma7804dvTeqM2JmVy?=
+ =?us-ascii?Q?qOdaNA6AK7m3B9vafugOWhjhEveuXiS566vdc6NpUim0A6cVSVPggnMjSTXi?=
+ =?us-ascii?Q?4Df+AFbyp3NUTM80e4RnGUxw6cSKVdeXPWw52l7JBr2f66fc+uN91Rz1QafX?=
+ =?us-ascii?Q?QH/qbN1opJG3a9LSuJdX1V+4Uudt1DP9grc/4sRfd6P93JDJZCvwlFCpQK5s?=
+ =?us-ascii?Q?zcmvREvQ2kcZjwHk2eiwOUknm7Gt1jREmibuxpWOE96tpnqQWP7BHXmtDY6n?=
+ =?us-ascii?Q?l3sE91zsJ4rnPBJmaofmF2LoPZuMplxPvXWeIjc2kIBaiQWz++x78E2KOAcO?=
+ =?us-ascii?Q?uaKLSb2gg/si4HEVPdA/jtWgn3I0kG5Zp2eKTTP9YlAovXE2l+QvxvWh6CBw?=
+ =?us-ascii?Q?QJXlL9igLuqYMd51lvkHBz/cNedymwNUxtXj+99rISsNNAeVoNMyp2Kx3soy?=
+ =?us-ascii?Q?AOA+ohUMl+hS2Httgh3nB0Ydybb3l9ALXnXoO1m4rlgogFFxUup+UAVOM90P?=
+ =?us-ascii?Q?51cPTQhaxPocN+iV/Bu2oixnXkT3sqIZkdXNjWYfmxUqVlCj9nzoMJ4ZT/3/?=
+ =?us-ascii?Q?gzh/TzbJ2XQCFG8smXzOQ0HrrWLXTvFObi2HVLNa+qUjF+iAN5UzVwesxD0s?=
+ =?us-ascii?Q?qPD0LB0O+MDRJFoZJoidGEjaz3v+rLXE6/f5nrXtumQqjqtEPeVvxqXkzZyB?=
+ =?us-ascii?Q?fA=3D=3D?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ff63e770-13f2-4f08-03ad-08dab7934b69
+X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2022 20:47:28.3345 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7T+TwIfRHD5T+K7WogCQ6oOCj3tHDzKA5ic208e8wtBp/9KNQw1SYpsJuq2eea0P9C97iOaYXBulECeNhZ5EI7LOkQRd19eplbx/1nXzer0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR17MB4478
+Received-SPF: pass client-ip=40.107.101.85;
+ envelope-from=gregory.price@memverge.com;
+ helo=NAM04-MW2-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,152 +150,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Oct 25, 2022 at 11:13:42PM +0800,
-Chao Peng <chao.p.peng@linux.intel.com> wrote:
-
-> When private/shared memory are mixed in a large page, the lpage_info may
-> not be accurate and should be updated with this mixed info. A large page
-> has mixed pages can't be really mapped as large page since its
-> private/shared pages are from different physical memory.
+On Wed, Oct 26, 2022 at 08:13:24PM +0000, Adam Manzanares wrote:
+> On Tue, Oct 25, 2022 at 08:47:33PM -0400, Gregory Price wrote:
+> > Submitted as an extention to the multi-feature branch maintained
+> > by Jonathan Cameron at:
+> > https://urldefense.com/v3/__https://gitlab.com/jic23/qemu/-/tree/cxl-2022-10-24__;!!EwVzqGoTKBqv-0DWAJBm!RyiGL5B1XmQnVFwgxikKJeosPMKtoO1cTr61gIq8fwqfju8l4cbGZGwAEkKXIJB-Dbkfi_LNN2rGCbzMISz65cTxpAxI9pQ$   
+> > 
+> > 
+> > Summary of Changes:
+> > 1) E820 CFMW Bug fix.  
+> > 2) Add CXL_CAPACITY_MULTIPLIER definition to replace magic numbers
+> > 3) Multi-Region and Volatile Memory support for CXL Type-3 Devices
+> > 4) CXL Type-3 SRAT Generation when NUMA node is attached to memdev
+> > 
+> > 
+> > Regarding the E820 fix
+> >   * This bugfix is required for memory regions to work on x86
+> >   * input from Dan Williams and others suggest that E820 entry for
+> >     the CFMW should not exist, as it is expected to be dynamically
+> >     assigned at runtime.  If this entry exists, it instead blocks
+> >     region creation by nature of the memory region being marked as
+> >     reserved.
 > 
-> Update lpage_info when private/shared memory attribute is changed. If
-> both private and shared pages are within a large page region, it can't
-> be mapped as large page. It's a bit challenge to track the mixed
-> info in a 'count' like variable, this patch instead reserves a bit in
-> 'disallow_lpage' to indicate a large page has mixed private/share pages.
+> For CXL 2.0 it is my understanding that volatile capacity present at boot will
+> be advertised by the firmware. In the absence of EFI I would assume this would
+> be provided in the e820 map. 
+
+The issue in this case is very explicitly that a double-mapping occurs
+for the same region.  An E820 mapping for RESERVED is set *and* the
+region driver allocates a CXL CFMW mapping.  As a result the region
+drive straight up fails to allocate regions.
+
+So in either case - at least from my view - the entry added as RESERVED
+is just wrong.
+
+This is separate from type-3 device SRAT entries and default mappings
+for volatile regions.  For this situation, if you explicitly assign the
+memdev backing a type-3 device to a numa node, then an SRAT area is
+generated and an explicit e820 entry is generated and marked usable -
+though I think there are likely issues with this kind of
+double-referencing.
+
 > 
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> ---
->  arch/x86/include/asm/kvm_host.h |   8 +++
->  arch/x86/kvm/mmu/mmu.c          | 112 +++++++++++++++++++++++++++++++-
->  arch/x86/kvm/x86.c              |   2 +
->  include/linux/kvm_host.h        |  19 ++++++
->  virt/kvm/kvm_main.c             |  16 +++--
->  5 files changed, 152 insertions(+), 5 deletions(-)
+> Is the region driver meant to cover volatile capacity present at boot? I was
+> under the impression that it would be used for hot added volatile memory. It
+> would be good to cover all of these assumptions for the e820 fix.
+
+This region appears to cover hotplug memory behind the CFMW.  The
+problem is that this e820 RESERVED mapping blocks the CFMW region from
+being used at all.
+
+Without this, you can't use a type-3 persistent region, even with
+support, let alone a volatile region.  In attempting to use a persistent
+region as volatile via ndctl and friends, I'm seeing further issues (it
+cannot be assigned to a numa node successfully), but that's a separate
+issue.
+
 > 
-...
-> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-> index 33b1aec44fb8..67a9823a8c35 100644
-> --- a/arch/x86/kvm/mmu/mmu.c
-> +++ b/arch/x86/kvm/mmu/mmu.c
-...
-> @@ -6910,3 +6915,108 @@ void kvm_mmu_pre_destroy_vm(struct kvm *kvm)
->  	if (kvm->arch.nx_lpage_recovery_thread)
->  		kthread_stop(kvm->arch.nx_lpage_recovery_thread);
->  }
-> +
-> +static inline bool linfo_is_mixed(struct kvm_lpage_info *linfo)
-> +{
-> +	return linfo->disallow_lpage & KVM_LPAGE_PRIVATE_SHARED_MIXED;
-> +}
-> +
-> +static inline void linfo_update_mixed(struct kvm_lpage_info *linfo, bool mixed)
-> +{
-> +	if (mixed)
-> +		linfo->disallow_lpage |= KVM_LPAGE_PRIVATE_SHARED_MIXED;
-> +	else
-> +		linfo->disallow_lpage &= ~KVM_LPAGE_PRIVATE_SHARED_MIXED;
-> +}
-> +
-> +static bool mem_attr_is_mixed_2m(struct kvm *kvm, unsigned int attr,
-> +				 gfn_t start, gfn_t end)
-> +{
-> +	XA_STATE(xas, &kvm->mem_attr_array, start);
-> +	gfn_t gfn = start;
-> +	void *entry;
-> +	bool shared = attr == KVM_MEM_ATTR_SHARED;
-> +	bool mixed = false;
-> +
-> +	rcu_read_lock();
-> +	entry = xas_load(&xas);
-> +	while (gfn < end) {
-> +		if (xas_retry(&xas, entry))
-> +			continue;
-> +
-> +		KVM_BUG_ON(gfn != xas.xa_index, kvm);
-> +
-> +		if ((entry && !shared) || (!entry && shared)) {
-> +			mixed = true;
-> +			goto out;
+> Lastly it is my understanding that the region driver does not have support for
+> volatile memory. It would be great to add that functionality if we make this
+> change in QEMU.
+> 
 
-nitpick: goto isn't needed. break should work.
+Right now this is true, but it seems a bit of a chicken/egg scenario.
+Nothing to test against vs no support.  Nudging this along such that we
+can at least report an (unusable) hot-add volatile memory region would
+provide someone working with the region driver something to poke and
+prod at.
 
-> +		}
-> +
-> +		entry = xas_next(&xas);
-> +		gfn++;
-> +	}
-> +out:
-> +	rcu_read_unlock();
-> +	return mixed;
-> +}
-> +
-> +static bool mem_attr_is_mixed(struct kvm *kvm, struct kvm_memory_slot *slot,
-> +			      int level, unsigned int attr,
-> +			      gfn_t start, gfn_t end)
-> +{
-> +	unsigned long gfn;
-> +	void *entry;
-> +
-> +	if (level == PG_LEVEL_2M)
-> +		return mem_attr_is_mixed_2m(kvm, attr, start, end);
-> +
-> +	entry = xa_load(&kvm->mem_attr_array, start);
-> +	for (gfn = start; gfn < end; gfn += KVM_PAGES_PER_HPAGE(level - 1)) {
-> +		if (linfo_is_mixed(lpage_info_slot(gfn, slot, level - 1)))
-> +			return true;
-> +		if (xa_load(&kvm->mem_attr_array, gfn) != entry)
-> +			return true;
-> +	}
-> +	return false;
-> +}
-> +
-> +void kvm_arch_update_mem_attr(struct kvm *kvm, struct kvm_memory_slot *slot,
-> +			      unsigned int attr, gfn_t start, gfn_t end)
-> +{
-> +
-> +	unsigned long lpage_start, lpage_end;
-> +	unsigned long gfn, pages, mask;
-> +	int level;
-> +
-> +	WARN_ONCE(!(attr & (KVM_MEM_ATTR_PRIVATE | KVM_MEM_ATTR_SHARED)),
-> +			"Unsupported mem attribute.\n");
-> +
-> +	/*
-> +	 * The sequence matters here: we update the higher level basing on the
-> +	 * lower level's scanning result.
-> +	 */
-> +	for (level = PG_LEVEL_2M; level <= KVM_MAX_HUGEPAGE_LEVEL; level++) {
-> +		pages = KVM_PAGES_PER_HPAGE(level);
-> +		mask = ~(pages - 1);
+> > Regarding SRAT Generation for Type-3 Devices
+> >   * Co-Developed by Davidlohr Bueso.  Built from his base patch and
+> >     extended to work with both volatile and persistent regions.
+> >   * This can be used to demonstrate static type-3 device mapping and
+> >     testing numa-access to type-3 device memory regions.
 
-nitpick: KVM_HPAGE_MASK(level).  Maybe matter of preference.
+Regarding "volatile memory present at boot" - there is still two ways
+for that memory to be onlined: Statically (entered as an explicit e820
+region after reading the SRAT), or Dynamically (hot-add by the region
+driver).
 
+This patch would at least allow an SRAT to be generated if you
+explicitly add a NUMA node mapping to it.  Although I concede that I'm
+not entirely sure what is "correct" here.
 
-> +		lpage_start = max(start & mask, slot->base_gfn);
-> +		lpage_end = (end - 1) & mask;
-> +
-> +		/*
-> +		 * We only need to scan the head and tail page, for middle pages
-> +		 * we know they are not mixed.
-> +		 */
-> +		linfo_update_mixed(lpage_info_slot(lpage_start, slot, level),
-> +				   mem_attr_is_mixed(kvm, slot, level, attr,
-> +						     lpage_start, start));
-> +
-> +		if (lpage_start == lpage_end)
-> +			return;
-> +
-> +		for (gfn = lpage_start + pages; gfn < lpage_end; gfn += pages)
-> +			linfo_update_mixed(lpage_info_slot(gfn, slot, level),
-> +					   false);
-> +
-> +		linfo_update_mixed(lpage_info_slot(lpage_end, slot, level),
-> +				   mem_attr_is_mixed(kvm, slot, level, attr,
-> +						     end, lpage_end + pages));
-> +	}
-> +}
+What this ends up looking like is mapping a memdev to both a numa node
+and to a type-3 device.  Though that seems wrong.
 
--- 
-Isaku Yamahata <isaku.yamahata@gmail.com>
+After further testing it seems like creating a CPU-less, Memory-less
+NUMA node with the intent of mapping volatile memory regions to it is
+not supported (yet?).
 
