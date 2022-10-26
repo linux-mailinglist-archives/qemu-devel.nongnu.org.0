@@ -2,80 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BD4360E6F0
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 20:03:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DF7660E792
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 20:43:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onkhw-0000G6-53; Wed, 26 Oct 2022 14:00:52 -0400
+	id 1onlFo-0006MZ-Cr; Wed, 26 Oct 2022 14:35:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1onkhr-0000EA-AL
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 14:00:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1onlFl-0005nN-SU
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 14:35:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1onkhh-0006Gn-KC
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 14:00:47 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1onlFZ-0003B2-Cl
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 14:35:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666807232;
+ s=mimecast20190719; t=1666809336;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=d3gG4Wnf3zQ+7XkJXmPedeeWZkruwCa2XHQKTCdGYxE=;
- b=AMac3lbqGjyzogHTdR158XGn+S+2manBfdUb7M8tAoh/CYTblFF/XcYYAXzp3K+5H54qDs
- Rt5gH7O7z5vRrRhTbX6l79vvEJJNKe1FTwNAaoB3zWX0J/gBqT0rcLRm+MGkabaxAyho0A
- VwnUay48Sy5t7Gzar4/jRQucPO6OYNk=
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-424-DlHwR9gAO6KF_XoODTJgHg-1; Wed, 26 Oct 2022 14:00:29 -0400
-X-MC-Unique: DlHwR9gAO6KF_XoODTJgHg-1
-Received: by mail-ot1-f72.google.com with SMTP id
- c8-20020a9d6c88000000b00660efaeb7d6so8767751otr.2
- for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 11:00:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=d3gG4Wnf3zQ+7XkJXmPedeeWZkruwCa2XHQKTCdGYxE=;
- b=pvw680jrn4knzkccWs9P1NOuBIzSdTByy/MOGtaLGxG/9cYZul908rKbn+WQl7pL13
- DOrkED9o4avn3wgTelh9EPgmZ6QxhN2GIk2c/EXRkNkTWDWW4m+Aqw8GdEGZhGHW9zqK
- NacP2r+s1h8ZSTcbohPEOTD/wJWKegz2YlockCV8vzjGfxmGTEvEwboHwuVckkSpBj2F
- 4TAhc5ZJwxyNIthvt1gUftfh7Q0cFbwSik79PoKAbi9cm8JtecLSrgUBzYuiyK5tb8zB
- 1emD9EU5jWLgNHhnVyrZbiwDUE8xUbrCWXj7/tZNhUhJQ4aVGT7X5cXF/36AadBecCmF
- oYAQ==
-X-Gm-Message-State: ACrzQf3XnQ8ehCoPp8QusZSyJ79Ujx373t9YwafJJO6bEovZhjlodrL5
- EWmYUk121AJUlxEzd80TE56OBkqIeO/dO4TrDh4TXmesi2WXGP5kKNy0XIBvCdeT5ndIOVydwOK
- nFtR4D/g72Ihyz7if/aPfp2vcyM/M6QE=
-X-Received: by 2002:a05:6808:308c:b0:354:99ec:bbb7 with SMTP id
- bl12-20020a056808308c00b0035499ecbbb7mr2588389oib.68.1666807228351; 
- Wed, 26 Oct 2022 11:00:28 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4kBj60Sxx+XXHc+pzGcARHWx+k/GaxqZwMhdJ1kJ5/0vqZkhGpiLTNYt7RoA1BYaLl4XRX9mydSeERFYfljSM=
-X-Received: by 2002:a05:6808:308c:b0:354:99ec:bbb7 with SMTP id
- bl12-20020a056808308c00b0035499ecbbb7mr2588382oib.68.1666807228113; Wed, 26
- Oct 2022 11:00:28 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PBxQDfypmCCd+/IAbrvgKlVIdvHNY0tfzECVfZGOVHI=;
+ b=Xr9OyQRohuN6s7OQnQqGtaFu6SMz4nLXLzwk+BzzC8ECVQGRAXh/Oop4OqkqCil4N0Zusb
+ wo1Od3zZb48vYfvpVJ4Lwcx4RW6GggHB3YMLlu/d/d42jaPy02iIqynq2Lq4LcIysprNZD
+ RuqfZIkpwwxbl4U69TXONkMFFnOtMQI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-621-MWkfIG0XOU6hd6HnT8cLjQ-1; Wed, 26 Oct 2022 14:35:34 -0400
+X-MC-Unique: MWkfIG0XOU6hd6HnT8cLjQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD68887B2A1
+ for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 18:35:33 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6320540C2140;
+ Wed, 26 Oct 2022 18:35:33 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2170921E6921; Wed, 26 Oct 2022 20:35:32 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: stefanha@redhat.com
+Subject: [PULL v2 00/28] QAPI patches patches for 2022-10-25
+Date: Wed, 26 Oct 2022 20:35:04 +0200
+Message-Id: <20221026183532.487708-1-armbru@redhat.com>
 MIME-Version: 1.0
-References: <20221020220346.124381-1-bjorn.forsman@gmail.com>
- <CAPMcbCpPje_vo8RPQtT4AM_b1hH427exC2==1YRrotQKXLv7nQ@mail.gmail.com>
-In-Reply-To: <CAPMcbCpPje_vo8RPQtT4AM_b1hH427exC2==1YRrotQKXLv7nQ@mail.gmail.com>
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Wed, 26 Oct 2022 21:00:16 +0300
-Message-ID: <CAPMcbCqpxKhVK+JB5-5srm60wRS5Y=KS5Q0uTX+k47t9AYd95A@mail.gmail.com>
-Subject: Re: [PATCH] qga: add channel path to error messages
-To: =?UTF-8?Q?Bj=C3=B8rn_Forsman?= <bjorn.forsman@gmail.com>
-Cc: qemu-devel@nongnu.org, michael.roth@amd.com
-Content-Type: multipart/alternative; boundary="000000000000bdb74305ebf3cc7c"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,134 +74,157 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000bdb74305ebf3cc7c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit e750a7ace492f0b450653d4ad368a77d6f660fb8:
 
-PR was sent
-https://patchew.org/QEMU/20221026175518.2636846-1-kkostiuk@redhat.com/
+  Merge tag 'pull-9p-20221024' of https://github.com/cschoenebeck/qemu into staging (2022-10-24 14:27:12 -0400)
 
-On Wed, Oct 26, 2022 at 8:31 PM Konstantin Kostiuk <kkostiuk@redhat.com>
-wrote:
+are available in the Git repository at:
 
-> Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
->
-> On Fri, Oct 21, 2022 at 1:04 AM Bj=C3=B8rn Forsman <bjorn.forsman@gmail.c=
-om>
-> wrote:
->
->> It's useful to know which device was used if/when it fails.
->>
->> channel-win32.c had this since 2015, with
->> c69403fcd4a0cb89f838a212ab71e4a1a3464c95 ("qemu-ga: debug printouts to
->> help troubleshoot installation"), this brings channel-posix.c up to
->> speed.
->>
->> Signed-off-by: Bj=C3=B8rn Forsman <bjorn.forsman@gmail.com>
->> ---
->>  qga/channel-posix.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/qga/channel-posix.c b/qga/channel-posix.c
->> index 6796a02cff..e6dce985ae 100644
->> --- a/qga/channel-posix.c
->> +++ b/qga/channel-posix.c
->> @@ -138,7 +138,7 @@ static gboolean ga_channel_open(GAChannel *c, const
->> gchar *path,
->>              0
->>          );
->>          if (fd =3D=3D -1) {
->> -            error_setg_errno(errp, errno, "error opening channel");
->> +            error_setg_errno(errp, errno, "error opening channel '%s'",
->> path);
->>              return false;
->>          }
->>  #ifdef CONFIG_SOLARIS
->> @@ -163,7 +163,7 @@ static gboolean ga_channel_open(GAChannel *c, const
->> gchar *path,
->>          assert(fd < 0);
->>          fd =3D qga_open_cloexec(path, O_RDWR | O_NOCTTY | O_NONBLOCK, 0=
-);
->>          if (fd =3D=3D -1) {
->> -            error_setg_errno(errp, errno, "error opening channel");
->> +            error_setg_errno(errp, errno, "error opening channel '%s'",
->> path);
->>              return false;
->>          }
->>          tcgetattr(fd, &tio);
->> --
->> 2.36.2
->>
->>
+  https://repo.or.cz/qemu/armbru.git tags/pull-qapi-2022-10-25-v2
 
---000000000000bdb74305ebf3cc7c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+for you to fetch changes up to c0f24f8f31ca82e34ef037bfe34ef71eeecb401d:
 
-<div dir=3D"ltr">PR was sent <a href=3D"https://patchew.org/QEMU/2022102617=
-5518.2636846-1-kkostiuk@redhat.com/">https://patchew.org/QEMU/2022102617551=
-8.2636846-1-kkostiuk@redhat.com/</a></div><br><div class=3D"gmail_quote"><d=
-iv dir=3D"ltr" class=3D"gmail_attr">On Wed, Oct 26, 2022 at 8:31 PM Konstan=
-tin Kostiuk &lt;<a href=3D"mailto:kkostiuk@redhat.com">kkostiuk@redhat.com<=
-/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><=
-div dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkost=
-iuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;</div><br><div=
- class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 21=
-, 2022 at 1:04 AM Bj=C3=B8rn Forsman &lt;<a href=3D"mailto:bjorn.forsman@gm=
-ail.com" target=3D"_blank">bjorn.forsman@gmail.com</a>&gt; wrote:<br></div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex">It&#39;s useful to know w=
-hich device was used if/when it fails.<br>
-<br>
-channel-win32.c had this since 2015, with<br>
-c69403fcd4a0cb89f838a212ab71e4a1a3464c95 (&quot;qemu-ga: debug printouts to=
-<br>
-help troubleshoot installation&quot;), this brings channel-posix.c up to<br=
->
-speed.<br>
-<br>
-Signed-off-by: Bj=C3=B8rn Forsman &lt;<a href=3D"mailto:bjorn.forsman@gmail=
-.com" target=3D"_blank">bjorn.forsman@gmail.com</a>&gt;<br>
----<br>
-=C2=A0qga/channel-posix.c | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/qga/channel-posix.c b/qga/channel-posix.c<br>
-index 6796a02cff..e6dce985ae 100644<br>
---- a/qga/channel-posix.c<br>
-+++ b/qga/channel-posix.c<br>
-@@ -138,7 +138,7 @@ static gboolean ga_channel_open(GAChannel *c, const gch=
-ar *path,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (fd =3D=3D -1) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
-uot;error opening channel&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
-uot;error opening channel &#39;%s&#39;&quot;, path);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0#ifdef CONFIG_SOLARIS<br>
-@@ -163,7 +163,7 @@ static gboolean ga_channel_open(GAChannel *c, const gch=
-ar *path,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0assert(fd &lt; 0);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fd =3D qga_open_cloexec(path, O_RDWR | O_=
-NOCTTY | O_NONBLOCK, 0);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (fd =3D=3D -1) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
-uot;error opening channel&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
-uot;error opening channel &#39;%s&#39;&quot;, path);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcgetattr(fd, &amp;tio);<br>
--- <br>
-2.36.2<br>
-<br>
-</blockquote></div>
-</blockquote></div>
+  qapi: Drop temporary logic to support conversion step by step (2022-10-26 20:08:52 +0200)
 
---000000000000bdb74305ebf3cc7c--
+----------------------------------------------------------------
+QAPI patches patches for 2022-10-25
+
+----------------------------------------------------------------
+Markus Armbruster (28):
+      docs/devel/qapi-code-gen: Update example to match current code
+      qapi: Tidy up whitespace in generated code
+      docs/devel/qapi-code-gen: Extend example for next commit's change
+      qapi: Start to elide redundant has_FOO in generated C
+      qapi tests: Elide redundant has_FOO in generated C
+      qapi acpi: Elide redundant has_FOO in generated C
+      qapi audio: Elide redundant has_FOO in generated C
+      qapi block: Elide redundant has_FOO in generated C
+      qapi chardev: Elide redundant has_FOO in generated C
+      qapi crypto: Elide redundant has_FOO in generated C
+      qapi dump: Elide redundant has_FOO in generated C
+      qapi job: Elide redundant has_FOO in generated C
+      qapi machine: Elide redundant has_FOO in generated C
+      qapi migration: Elide redundant has_FOO in generated C
+      qapi misc: Elide redundant has_FOO in generated C
+      qapi net: Elide redundant has_FOO in generated C
+      qapi pci: Elide redundant has_FOO in generated C
+      qapi qdev qom: Elide redundant has_FOO in generated C
+      qapi replay: Elide redundant has_FOO in generated C
+      qapi rocker: Elide redundant has_FOO in generated C
+      qapi run-state: Elide redundant has_FOO in generated C
+      qapi stats: Elide redundant has_FOO in generated C
+      qapi tpm: Elide redundant has_FOO in generated C
+      qapi transaction: Elide redundant has_FOO in generated C
+      qapi ui: Elide redundant has_FOO in generated C
+      qapi virtio: Elide redundant has_FOO in generated C
+      qapi qga: Elide redundant has_FOO in generated C
+      qapi: Drop temporary logic to support conversion step by step
+
+ docs/devel/qapi-code-gen.rst             |  29 +++++-
+ docs/devel/writing-monitor-commands.rst  |  14 +--
+ include/monitor/monitor.h                |   3 +-
+ audio/alsaaudio.c                        |   2 +-
+ audio/audio.c                            |   6 +-
+ audio/audio_legacy.c                     |  17 ++-
+ audio/ossaudio.c                         |   8 +-
+ audio/paaudio.c                          |  12 +--
+ audio/wavaudio.c                         |   2 +-
+ backends/tpm/tpm_passthrough.c           |   2 -
+ block/block-backend.c                    |   2 +-
+ block/copy-before-write.c                |   2 +-
+ block/dirty-bitmap.c                     |   1 -
+ block/export/export.c                    |   2 +-
+ block/export/vduse-blk.c                 |   3 +-
+ block/gluster.c                          |   3 -
+ block/monitor/block-hmp-cmds.c           |  48 ++++-----
+ block/qapi-sysemu.c                      |  73 +++++--------
+ block/qapi.c                             |  62 ++++-------
+ block/qcow.c                             |  10 +-
+ block/qcow2.c                            |  18 ++--
+ block/qed.c                              |   2 +-
+ block/quorum.c                           |   2 +-
+ block/rbd.c                              |  17 ++-
+ block/ssh.c                              |   2 +-
+ blockdev-nbd.c                           |   9 +-
+ blockdev.c                               | 173 ++++++++++++-------------------
+ blockjob.c                               |   2 -
+ chardev/char-file.c                      |   4 +-
+ chardev/char-socket.c                    |  10 +-
+ chardev/char-udp.c                       |   1 -
+ chardev/char.c                           |   6 +-
+ crypto/block-luks.c                      |  16 +--
+ dump/dump.c                              |   4 +-
+ hw/acpi/core.c                           |  14 +--
+ hw/acpi/cpu.c                            |   1 -
+ hw/acpi/memory_hotplug.c                 |   3 +-
+ hw/core/machine-hmp-cmds.c               |   2 +-
+ hw/core/machine-qmp-cmds.c               |   9 +-
+ hw/core/machine.c                        |  10 +-
+ hw/core/numa.c                           |   8 +-
+ hw/core/qdev.c                           |   2 +-
+ hw/mem/pc-dimm.c                         |   1 -
+ hw/net/rocker/rocker_of_dpa.c            |  13 +--
+ hw/net/virtio-net.c                      |   3 +-
+ hw/nvram/fw_cfg.c                        |   2 +-
+ hw/pci/pci.c                             |   2 -
+ hw/ppc/spapr.c                           |   2 +-
+ hw/ppc/spapr_drc.c                       |   3 +-
+ hw/virtio/virtio-mem-pci.c               |   4 +-
+ hw/virtio/virtio-pmem-pci.c              |   1 -
+ hw/virtio/virtio.c                       |   1 -
+ job-qmp.c                                |   3 +-
+ migration/block-dirty-bitmap.c           |   4 +-
+ migration/colo.c                         |   1 -
+ migration/migration.c                    |  27 ++---
+ monitor/hmp-cmds.c                       |  84 +++++++--------
+ monitor/misc.c                           |  21 ++--
+ monitor/qmp-cmds.c                       |  11 +-
+ nbd/server.c                             |   2 +-
+ net/announce.c                           |   8 +-
+ net/hub.c                                |   2 +-
+ net/l2tpv3.c                             |   2 +-
+ net/net.c                                |  25 +++--
+ net/slirp.c                              |   4 +-
+ net/socket.c                             |  18 ++--
+ net/tap-win32.c                          |   2 +-
+ net/tap.c                                |  51 +++++----
+ qemu-img.c                               |  13 ++-
+ qemu-nbd.c                               |   2 -
+ qga/commands-posix.c                     |  33 ++----
+ qga/commands-win32.c                     |  40 ++-----
+ qga/commands.c                           |  11 +-
+ qom/qom-qmp-cmds.c                       |   7 +-
+ replay/replay-debugging.c                |   1 -
+ softmmu/runstate.c                       |  18 +---
+ softmmu/vl.c                             |   2 +-
+ stubs/qdev.c                             |   6 +-
+ target/arm/monitor.c                     |   1 -
+ target/i386/cpu-sysemu.c                 |   7 +-
+ target/i386/cpu.c                        |   1 -
+ target/s390x/cpu_models_sysemu.c         |   1 -
+ tests/qtest/fuzz/qos_fuzz.c              |   3 +-
+ tests/qtest/qmp-cmd-test.c               |   2 +-
+ tests/unit/test-char.c                   |   1 -
+ tests/unit/test-crypto-block.c           |   6 --
+ tests/unit/test-qmp-cmds.c               |  26 +++--
+ tests/unit/test-qmp-event.c              |   4 +-
+ tests/unit/test-qobject-input-visitor.c  |   2 +-
+ tests/unit/test-qobject-output-visitor.c |   2 -
+ tests/unit/test-visitor-serialization.c  |   3 +-
+ ui/console.c                             |   4 +-
+ ui/input.c                               |   4 +-
+ ui/spice-core.c                          |   5 -
+ ui/vnc.c                                 |  10 --
+ util/qemu-config.c                       |  17 +--
+ scripts/qapi/commands.py                 |   9 +-
+ scripts/qapi/events.py                   |   3 +-
+ scripts/qapi/gen.py                      |   2 +-
+ scripts/qapi/schema.py                   |  14 +++
+ scripts/qapi/types.py                    |   2 +-
+ scripts/qapi/visit.py                    |  17 ++-
+ 102 files changed, 471 insertions(+), 721 deletions(-)
+
+-- 
+2.37.3
 
 
