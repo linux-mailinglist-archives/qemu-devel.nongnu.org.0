@@ -2,93 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6343B60E62C
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 19:07:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F84560E629
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 19:07:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onjmM-0004ri-Pu; Wed, 26 Oct 2022 13:01:22 -0400
+	id 1onjoU-00065Z-Fb; Wed, 26 Oct 2022 13:03:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1onjlr-0004kl-Nn
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 13:01:00 -0400
-Received: from sonic314-19.consmr.mail.gq1.yahoo.com ([98.137.69.82])
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1onjoT-00065A-8B; Wed, 26 Oct 2022 13:03:33 -0400
+Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1onjlm-0004zU-FG
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 13:00:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1666803643; bh=HXJgswFBRRtT9kaDj9qpnwme4wa3QKPBT14ZHv3IuAU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To;
- b=h2sC5ENKC6sY9lhvU1I21u4Jhkme4x/zyVVxVAanjFIqME+TnVLzTAqaHGlriTRjCPcN+AnOc/5W4PYDqUlbxygaYm+tVaD6kre+qdf5DZyjavwrQF7pe7yITcEifXt7mm4hwusT+gSuSFWSa9l8jfhcwaVROr9DQ9ImVaX0i1ke5yOQphSDubGAoeufSwU89k4/H0Ta/C54UD1de0XWcli6gM8u7I8H2snBhrs0/L8X9Lt/PvDPLg1OR+zAyAHD7lJt9kXqdfk/vZZVw030iFFwhYvrd+2ViWleZpw1/L2q4Jh/ccaRHy5wAAZQaVdjy18lLHPt7CeiWyiN5LTYzQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1666803643; bh=hI/bVGYJ937dVcuMfGwaxi78BNd+35SdIf3yn2Pl+fy=;
- h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
- b=HcJO0HuRj1berk1VgSley9XOCw0PmJRq1kjQw8BeJTGfuHEEcrDdv7GXdiQshQ7YzBcNDTib0XEcbSD//Vtq0tgWosdXhfJxO0BgMqZ2ByJztrvyWzPPoyx/5rTg3m0UsFW70R4zhf0/xtU1LefPA/EyBFxWOrvocNzI6yofKNDW0TGsi9vEdahePJMOhR824X3uJoVeyrWuTsNcGzIU4un1I91AN0Ihouv6DGNdwnhsMm3lTBVgLjWrCMd/oG7Qap/fyx+5h9c1H8F226wvRrjQcR26bNYhkGP9GnsIVwpDyqwWs6hkp3NF7YgHGyJV7zwN5azlM7SwjXsVhB3iUQ==
-X-YMail-OSG: c29YqMkVM1leNLHSXhYnexgZfpg7xzousfaeplUPHAbmtTJF7_4Fs4b788dSVES
- .r1EZG7l8T4pU9uWTNartiXk4vpN2Zc.zmEqT9dLjcy8IVWHzCiu8hm2xjwAdv6z6c8DSpCvWd7H
- QeQQjOUQ_PodbEvgd_Oj9b46Voe5fgVpHHgadS955ctiFef2nMNLznf4BA2Alz0dBcxL9xS7TWub
- BwuiMNEpjOZmyheCH4T_sDyTFdgefoQbaTea1OyhKRXCLXCeUuYn5LNDOmmejsd_5R78jRRCrVsz
- S_Xc6B_F85FGCngo.Es_bZjsAitCF0bpLQj4neFDhDoVl4_j8lRyFpeaXUJ1r_b3KUhuavN2HRUT
- 56TZcEaBka4UWPC7OqZDYnSK4EazrXEjXLOXYs5HzDYYmcBu7cXiSVnlGFrZjAfz_3Ciy3K5cS.s
- 2XynfC7s9VDMpjKltNkaPge564AxdeIbVevLx52O88tc7tOPT18jXZG.rr8KL0HKdwaUFieMItMm
- lwvRk5WrfFz1EnTLxrxRzjlVFF.n.fiyci9HfYO4wESiEoqVSyIJ1FVl7hPpc1j4jRQnR29Pu2Pj
- h7.1gouPY9ZAJnSsSY3ga2v1IXWx_dFo9TlRFTIuWiN8v62NZ5IbW_u0skQxSKi7egVvmUaiWlOv
- IZT5I.IEg2tR0.Iq9P93ek8iu9sJAktJoAmGOh9fR9u6EK91M8FlR1uHu3bmczDzLIMf_ej2CG.z
- RhxVaO0ySxpuEp5.123sn9.h7yQ09dFNHcSoVhiIerdwaxL2rx8HF5FjmKI2ah79qOda5m7VbgQg
- NDd3e_84UnJtPHT_uMospkM0lEB4qwHUy9T5IXeniHIF0qZnFV.hXaxyhgK2oxGXF4iNIchpN3d_
- HgL5Y7Gh_xEm.9P8grDRntUzRwBCLyv4ub1QFsA1w9xc0d.tfSaw.kKR0SqsZSMwhqOauZluuvf1
- 2ULAxAmu6xCcJBfrxWA1a4ii3cC46pz3KcTQ8MX5MeakYZoIQVpKv_m_KUIGbYwPTw_Nqxdzv97Q
- rhfRhnHqF9kCTBobeCP.vnvzIz2EHYfDq9Ag91JBFjTZ.EqHCs2O0iHdHnNTYxjIKJai70XdRlar
- yM7XL94jMuky0mOLt3CgvFN5gVJdMTzCTvXy0aBQ5CmaFS0aS3DpWt2ykZjLJaG62pKSr5JxoC5q
- NCn4YFLAY3s6sK1pEETFRfb_hS.WTQEazVYEAHwLTTje0A88KJfZna1VH8is_NUEslySU6tzvoMU
- gVtjwsbgGsg6WC0m2N1Y8q3_4SnhWWGT.24saLA9ArPJMtVdT_YrK2XyzCmlpQdpSDS1pgpl19xM
- t3wbfGTw9dVVB0XIsyH1pyEofV1xHY1QZC8nxOe5XTyaW9qyke83Uvce6_IlO98u1zYHLHJkeCTy
- VWy3M2jx41ax4hv7k.peSA27DGVSWANg1x3IwbBQjP58Bk_nR6gJO97Vn0h7hR.jyqh9nmO6ppd9
- RgA97WKK2Xlha0CF.3Z49mIGuH6nQEdC06MePFJWWsE8NWHii5ARsgaEa244xRzpONhrGQy0Vn3L
- s6HQm_wySZWaDosicXPlGGnSQNgPCJ8tHHgVMHscns9WvV4sAylKwQF7mavI3Jw4nEBEzlGfEYoP
- nvyI6Feq3rZ4TfeN0AIhrwltm8Q_6thdR4M1HsiqN3RbvHG8ophOlfBdIiBM0dmdqPdpp7MPX.Sp
- ACF03FS0Vbzd5GRxQ3KAqtNa0ZXHZu3u1gRC7x62UurAoE7DRMG_NhGpJW_t4e4HF2.eWPiT2otI
- BRTa7H5ILs8mMVrRa.SYNmQtiOhvI43EsSOWz6QPraVIv_HjKg680bxfqpDvvNaRjKxCLVzuS0H2
- Jtf8eAwqjx.53K0hKBF_RnvS8PHzMgNdovVQjJjsrlEbAxjtUwCWxsE6Wmhi1Z4mFONz9de5IQqA
- v9WlJG4f6L9t114nJhcjF1AnQl3gcIfRf4Op5PBtJCrATc.LhEiSV2NWkeXItazFTJ8C4StSDu_p
- ZX8pOqcSBoUEEhRjO3o5yWhpvCOzcqERB6pkaWm4.R6mDCtua98AnSRj91.3XjC9tmL7kq2lGeA9
- RMBOFQZPkDnyv2.TjBuE2cghITNxt9X17G3e3n8pHVTTSbWFV6e58fKxQgzkZHO_dgwICSPmsq.J
- PIvVV45tWGZK9rjUJpbuTaWzj9WtTJOdq4q9VbQCuGeJzGRU9vZrpKM5ZoBN8kwpO2v1qZ8P53GU
- XvaetrS2E55Dm
-X-Sonic-MF: <brchuckz@aim.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic314.consmr.mail.gq1.yahoo.com with HTTP; Wed, 26 Oct 2022 17:00:43 +0000
-Received: by hermes--production-ne1-c47ffd5f5-8c2cz (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 93f63f5da119448f595de422776c389f; 
- Wed, 26 Oct 2022 17:00:40 +0000 (UTC)
-From: Chuck Zmudzinski <brchuckz@aol.com>
-To: qemu-devel@nongnu.org
-Cc: Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, xen-devel@lists.xenproject.org,
- Chuck Zmudzinski <brchuckz@netscape.net>
-Subject: [PATCH v3 2/2] xen/pt: reserve PCI slot 2 for Intel igd-passthru
-Date: Wed, 26 Oct 2022 13:00:27 -0400
-Message-Id: <69ddfbd373a61dc3ec29b405191abf5eaa9a2650.1666802059.git.brchuckz@netscape.net>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <cover.1666802059.git.brchuckz@netscape.net>
-References: <cover.1666802059.git.brchuckz@netscape.net>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1onjoR-0005OC-Ac; Wed, 26 Oct 2022 13:03:33 -0400
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-13ba86b5ac0so12308485fac.1; 
+ Wed, 26 Oct 2022 10:03:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=g9OfcjC5UD9xsctY0vEe81KqHTHGeVu/1OEKOzD3d3c=;
+ b=c6+jCF57oInS0wpqCOIHtp+iUac24zoELSRi6Xd5LzqfJUNLfe2SIczCw5QPjrZKjP
+ MVZknFOJmAttvNULZHDPNzKoWH1quvqv9VOoU34YkkGhaqFdWpi5xmZ8PSi5vwLo9QWb
+ SzXsCmdBSYfev2og9OacPK4XxVrU2/VgH8s/OxLwe2mPPZ4EfV1gvmRcK733AGh2XRXU
+ PiKpbs5nryMSkR6Qxg/t2CUHLJwdrAKbSbLALFaCkxuflE5Q1hV7bzUMXI755cToWfqI
+ flvfZUKUGkkjCrlvebedlhpWKeNTNSRGEFf36/Pi25HOqgEYe2GiMFGhiEP2VqDHLgMj
+ E1/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=g9OfcjC5UD9xsctY0vEe81KqHTHGeVu/1OEKOzD3d3c=;
+ b=xcCre2JRJCsY6FDl7FR09tEMXNnnfi+xKENEOASUWfdvN00SwYKQuiTV9xGUjB+Cuv
+ 9Nx0pU/d2ftKriEv5CgKbbkaGUqIYCCs8Vt+x7KNxxLNjTO2pJjVMVFfn+hGK8gCYqNN
+ kw3kWsMm26GaDecdcvH8ONkQrvKhSD5uZIXM1Ct6L7AqsH6CXeD3Yxj/7PElCmDahCNL
+ 8WpWNxRYTFH0q37cU60uFPqkj4Zh0j9VoogLTxVBNe0L9OesK97jautlkprqySczYRvX
+ qETiBtEbdsAzldAUNgMwRf7w4KJhCGEGDkeiB/gQ+QjdR6E+aU00r/9WEmF3MeRpp25h
+ QXCw==
+X-Gm-Message-State: ACrzQf0CMMdv6JTSSjdmYo0mPV1COmQ+Pn1PDV8Q+FpCzLcO/+9d4T9i
+ f9FdKpAxZ2A2kU8n7OPsMIk=
+X-Google-Smtp-Source: AMsMyM6RagxXiKiyemNCKHsoBeL+j/om1Tc+sFeOWGW6tlEJXfIrOo9Ow/BfM+iVapIZuB5jk+mbkQ==
+X-Received: by 2002:a05:6870:7387:b0:13b:6a54:362b with SMTP id
+ z7-20020a056870738700b0013b6a54362bmr2776364oam.32.1666803808255; 
+ Wed, 26 Oct 2022 10:03:28 -0700 (PDT)
+Received: from [192.168.10.102] ([177.45.165.63])
+ by smtp.gmail.com with ESMTPSA id
+ d22-20020a4ad356000000b004805e9e9f3dsm2359918oos.1.2022.10.26.10.03.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Oct 2022 10:03:27 -0700 (PDT)
+Message-ID: <110e1d45-d516-44f6-67bf-5996f66ae096@gmail.com>
+Date: Wed, 26 Oct 2022 14:03:18 -0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v4 5/7] hw/ppc/e500: Implement pflash handling
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-ppc@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Antony Pavlov <antonynpavlov@gmail.com>, BALATON Zoltan
+ <balaton@eik.bme.hu>, Alistair Francis <alistair@alistair23.me>,
+ Bin Meng <bin.meng@windriver.com>, Kevin Wolf <kwolf@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Jan Kiszka <jan.kiszka@web.de>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-arm@nongnu.org,
+ Magnus Damm <magnus.damm@gmail.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org
+References: <20221018210146.193159-1-shentey@gmail.com>
+ <20221018210146.193159-6-shentey@gmail.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20221018210146.193159-6-shentey@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=98.137.69.82; envelope-from=brchuckz@aim.com;
- helo=sonic314-19.consmr.mail.gq1.yahoo.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
+Received-SPF: pass client-ip=2001:4860:4864:20::32;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x32.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,203 +103,187 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Intel specifies that the Intel IGD must occupy slot 2 on the PCI bus,
-as noted in docs/igd-assign.txt in the Qemu source code.
 
-Currently, when the xl toolstack is used to configure a Xen HVM guest with
-Intel IGD passthrough to the guest with the Qemu upstream device model,
-a Qemu emulated PCI device will occupy slot 2 and the Intel IGD will occupy
-a different slot. This problem often prevents the guest from booting.
 
-The only available workaround is not good: Configure Xen HVM guests to use
-the old and no longer maintained Qemu traditional device model available
-from xenbits.xen.org which does reserve slot 2 for the Intel IGD.
+On 10/18/22 18:01, Bernhard Beschow wrote:
+> Allows e500 boards to have their root file system reside on flash using
+> only builtin devices located in the eLBC memory region.
+> 
+> Note that the flash memory area is only created when a -pflash argument is
+> given, and that the size is determined by the given file. The idea is to
+> put users into control.
+> 
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
 
-To implement this feature in the Qemu upstream device model for Xen HVM
-guests, introduce the following new class, functions, types, and macros:
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-* XEN_PT_DEVICE_CLASS declaration, based on the existing TYPE_XEN_PT_DEVICE
-* XEN_PT_DEVICE_GET_CLASS macro helper function for XEN_PT_DEVICE_CLASS
-* typedef XenPTQdevRealize function pointer
-* XEN_PCI_IGD_SLOT_MASK, the value of slot_reserved_mask to reserve slot 2
-* xen_igd_reserve_slot and xen_igd_clear_slot functions
-
-The new xen_igd_reserve_slot function uses the existing slot_reserved_mask
-member of PCIBus to reserve PCI slot 2 for Xen HVM guests configured using
-the xl toolstack with the gfx_passthru option enabled, which sets the
-igd-passthru=on option to Qemu for the Xen HVM machine type.
-
-The new xen_igd_reserve_slot function also needs to be implemented in
-hw/xen/xen_pt_stub.c to prevent FTBFS during the link stage for the case
-when Qemu is configured with --enable-xen and --disable-xen-pci-passthrough,
-in which case it does nothing.
-
-The new xen_igd_clear_slot function overrides qdev->realize of the parent
-PCI device class to enable the Intel IGD to occupy slot 2 on the PCI bus
-since slot 2 was reserved by xen_igd_reserve_slot when the PCI bus was
-created in hw/i386/pc_piix.c for the case when igd-passthru=on.
-
-Signed-off-by: Chuck Zmudzinski <brchuckz@netscape.net>
----
-Notes that might be helpful to reviewers of patched code in hw/xen:
-
-The new functions and types are based on recommendations from Qemu docs:
-https://qemu.readthedocs.io/en/latest/devel/qom.html
-
-Notes that might be helpful to reviewers of patched code in hw/i386:
-
-The small patch to hw/i386/pc_piix.c is protected by CONFIG_XEN so it does
-not affect builds that do not have CONFIG_XEN defined.
-
-xen_igd_gfx_pt_enabled() in the patched hw/i386/pc_piix.c file is an
-existing function that is only true when Qemu is built with
-xen-pci-passthrough enabled and the administrator has configured the Xen
-HVM guest with Qemu's igd-passthru=on option.
-
-v2: Remove From: <email address> tag at top of commit message
-
-v3: Changed the test for the Intel IGD in xen_igd_clear_slot:
-
-    if (is_igd_vga_passthrough(&s->real_device) &&
-        (s->real_device.vendor_id == PCI_VENDOR_ID_INTEL)) {
-
-    is changed to
-
-    if (xen_igd_gfx_pt_enabled() && (s->hostaddr.slot == 2)
-        && (s->hostaddr.function == 0)) {
-
-    I hoped that I could use the test in v2, since it matches the
-    other tests for the Intel IGD in Qemu and Xen, but those tests
-    do not work because the necessary data structures are not set with
-    their values yet. So instead use the test that the administrator
-    has enabled gfx_passthru and the device address on the host is
-    02.0. This test does detect the Intel IGD correctly.
-
-    Sorry for the extra noise.
-
- hw/i386/pc_piix.c    |  3 +++
- hw/xen/xen_pt.c      | 25 +++++++++++++++++++++++++
- hw/xen/xen_pt.h      | 16 ++++++++++++++++
- hw/xen/xen_pt_stub.c |  4 ++++
- 4 files changed, 48 insertions(+)
-
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 0b1a79c0fa..a0f04ad62e 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -402,6 +402,9 @@ static void pc_xen_hvm_init(MachineState *machine)
-     }
- 
-     pc_xen_hvm_init_pci(machine);
-+    if (xen_igd_gfx_pt_enabled()) {
-+        xen_igd_reserve_slot(pcms->bus);
-+    }
-     pci_create_simple(pcms->bus, -1, "xen-platform");
- }
- #endif
-diff --git a/hw/xen/xen_pt.c b/hw/xen/xen_pt.c
-index 0ec7e52183..c62f03dd9f 100644
---- a/hw/xen/xen_pt.c
-+++ b/hw/xen/xen_pt.c
-@@ -950,11 +950,35 @@ static void xen_pci_passthrough_instance_init(Object *obj)
-     PCI_DEVICE(obj)->cap_present |= QEMU_PCI_CAP_EXPRESS;
- }
- 
-+void xen_igd_reserve_slot(PCIBus *pci_bus)
-+{
-+    XEN_PT_LOG(0, "Reserving PCI slot 2 for IGD\n");
-+    pci_bus->slot_reserved_mask |= XEN_PCI_IGD_SLOT_MASK;
-+}
-+
-+static void xen_igd_clear_slot(DeviceState *qdev, Error **errp)
-+{
-+    PCIDevice *pci_dev = (PCIDevice *)qdev;
-+    XenPCIPassthroughState *s = XEN_PT_DEVICE(pci_dev);
-+    XenPTDeviceClass *xptc = XEN_PT_DEVICE_GET_CLASS(s);
-+    PCIBus *pci_bus = pci_get_bus(pci_dev);
-+
-+    if (xen_igd_gfx_pt_enabled() && (s->hostaddr.slot == 2)
-+        && (s->hostaddr.function == 0)) {
-+        pci_bus->slot_reserved_mask &= ~XEN_PCI_IGD_SLOT_MASK;
-+        XEN_PT_LOG(pci_dev, "Intel IGD found, using slot 2\n");
-+    }
-+    xptc->pci_qdev_realize(qdev, errp);
-+}
-+
- static void xen_pci_passthrough_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
- 
-+    XenPTDeviceClass *xptc = XEN_PT_DEVICE_CLASS(klass);
-+    xptc->pci_qdev_realize = dc->realize;
-+    dc->realize = xen_igd_clear_slot;
-     k->realize = xen_pt_realize;
-     k->exit = xen_pt_unregister_device;
-     k->config_read = xen_pt_pci_read_config;
-@@ -977,6 +1001,7 @@ static const TypeInfo xen_pci_passthrough_info = {
-     .instance_size = sizeof(XenPCIPassthroughState),
-     .instance_finalize = xen_pci_passthrough_finalize,
-     .class_init = xen_pci_passthrough_class_init,
-+    .class_size = sizeof(XenPTDeviceClass),
-     .instance_init = xen_pci_passthrough_instance_init,
-     .interfaces = (InterfaceInfo[]) {
-         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-diff --git a/hw/xen/xen_pt.h b/hw/xen/xen_pt.h
-index e7c4316a7d..40b31b5263 100644
---- a/hw/xen/xen_pt.h
-+++ b/hw/xen/xen_pt.h
-@@ -3,6 +3,7 @@
- 
- #include "hw/xen/xen_common.h"
- #include "hw/pci/pci.h"
-+#include "hw/pci/pci_bus.h"
- #include "xen-host-pci-device.h"
- #include "qom/object.h"
- 
-@@ -41,7 +42,20 @@ typedef struct XenPTReg XenPTReg;
- #define TYPE_XEN_PT_DEVICE "xen-pci-passthrough"
- OBJECT_DECLARE_SIMPLE_TYPE(XenPCIPassthroughState, XEN_PT_DEVICE)
- 
-+#define XEN_PT_DEVICE_CLASS(klass) \
-+    OBJECT_CLASS_CHECK(XenPTDeviceClass, klass, TYPE_XEN_PT_DEVICE)
-+#define XEN_PT_DEVICE_GET_CLASS(obj) \
-+    OBJECT_GET_CLASS(XenPTDeviceClass, obj, TYPE_XEN_PT_DEVICE)
-+
-+typedef void (*XenPTQdevRealize)(DeviceState *qdev, Error **errp);
-+
-+typedef struct XenPTDeviceClass {
-+    PCIDeviceClass parent_class;
-+    XenPTQdevRealize pci_qdev_realize;
-+} XenPTDeviceClass;
-+
- uint32_t igd_read_opregion(XenPCIPassthroughState *s);
-+void xen_igd_reserve_slot(PCIBus *pci_bus);
- void igd_write_opregion(XenPCIPassthroughState *s, uint32_t val);
- void xen_igd_passthrough_isa_bridge_create(XenPCIPassthroughState *s,
-                                            XenHostPCIDevice *dev);
-@@ -76,6 +90,8 @@ typedef int (*xen_pt_conf_byte_read)
- 
- #define XEN_PCI_INTEL_OPREGION 0xfc
- 
-+#define XEN_PCI_IGD_SLOT_MASK 0x4UL /* Intel IGD slot_reserved_mask */
-+
- typedef enum {
-     XEN_PT_GRP_TYPE_HARDWIRED = 0,  /* 0 Hardwired reg group */
-     XEN_PT_GRP_TYPE_EMU,            /* emul reg group */
-diff --git a/hw/xen/xen_pt_stub.c b/hw/xen/xen_pt_stub.c
-index 2d8cac8d54..5c108446a8 100644
---- a/hw/xen/xen_pt_stub.c
-+++ b/hw/xen/xen_pt_stub.c
-@@ -20,3 +20,7 @@ void xen_igd_gfx_pt_set(bool value, Error **errp)
-         error_setg(errp, "Xen PCI passthrough support not built in");
-     }
- }
-+
-+void xen_igd_reserve_slot(PCIBus *pci_bus)
-+{
-+}
--- 
-2.37.2
-
+>   docs/system/ppc/ppce500.rst | 16 ++++++++
+>   hw/ppc/Kconfig              |  1 +
+>   hw/ppc/e500.c               | 79 +++++++++++++++++++++++++++++++++++++
+>   3 files changed, 96 insertions(+)
+> 
+> diff --git a/docs/system/ppc/ppce500.rst b/docs/system/ppc/ppce500.rst
+> index 7b5eb3c4ee..38f8ceb0cf 100644
+> --- a/docs/system/ppc/ppce500.rst
+> +++ b/docs/system/ppc/ppce500.rst
+> @@ -165,3 +165,19 @@ if “-device eTSEC” is given to QEMU:
+>   .. code-block:: bash
+>   
+>     -netdev tap,ifname=tap0,script=no,downscript=no,id=net0 -device eTSEC,netdev=net0
+> +
+> +Root file system on flash drive
+> +-------------------------------
+> +
+> +Rather than using a root file system on ram disk, it is possible to have it on
+> +CFI flash. Given an ext2 image whose size must be a power of two, it can be used
+> +as follows:
+> +
+> +.. code-block:: bash
+> +
+> +  $ qemu-system-ppc64 -M ppce500 -cpu e500mc -smp 4 -m 2G \
+> +      -display none -serial stdio \
+> +      -kernel vmlinux \
+> +      -drive if=pflash,file=/path/to/rootfs.ext2,format=raw \
+> +      -append "rootwait root=/dev/mtdblock0"
+> +
+> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+> index 791fe78a50..769a1ead1c 100644
+> --- a/hw/ppc/Kconfig
+> +++ b/hw/ppc/Kconfig
+> @@ -126,6 +126,7 @@ config E500
+>       select ETSEC
+>       select GPIO_MPC8XXX
+>       select OPENPIC
+> +    select PFLASH_CFI01
+>       select PLATFORM_BUS
+>       select PPCE500_PCI
+>       select SERIAL
+> diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+> index 3e950ea3ba..73198adac8 100644
+> --- a/hw/ppc/e500.c
+> +++ b/hw/ppc/e500.c
+> @@ -23,8 +23,10 @@
+>   #include "e500-ccsr.h"
+>   #include "net/net.h"
+>   #include "qemu/config-file.h"
+> +#include "hw/block/flash.h"
+>   #include "hw/char/serial.h"
+>   #include "hw/pci/pci.h"
+> +#include "sysemu/block-backend-io.h"
+>   #include "sysemu/sysemu.h"
+>   #include "sysemu/kvm.h"
+>   #include "sysemu/reset.h"
+> @@ -267,6 +269,31 @@ static void sysbus_device_create_devtree(SysBusDevice *sbdev, void *opaque)
+>       }
+>   }
+>   
+> +static void create_devtree_flash(SysBusDevice *sbdev,
+> +                                 PlatformDevtreeData *data)
+> +{
+> +    g_autofree char *name = NULL;
+> +    uint64_t num_blocks = object_property_get_uint(OBJECT(sbdev),
+> +                                                   "num-blocks",
+> +                                                   &error_fatal);
+> +    uint64_t sector_length = object_property_get_uint(OBJECT(sbdev),
+> +                                                      "sector-length",
+> +                                                      &error_fatal);
+> +    uint64_t bank_width = object_property_get_uint(OBJECT(sbdev),
+> +                                                   "width",
+> +                                                   &error_fatal);
+> +    hwaddr flashbase = 0;
+> +    hwaddr flashsize = num_blocks * sector_length;
+> +    void *fdt = data->fdt;
+> +
+> +    name = g_strdup_printf("%s/nor@%" PRIx64, data->node, flashbase);
+> +    qemu_fdt_add_subnode(fdt, name);
+> +    qemu_fdt_setprop_string(fdt, name, "compatible", "cfi-flash");
+> +    qemu_fdt_setprop_sized_cells(fdt, name, "reg",
+> +                                 1, flashbase, 1, flashsize);
+> +    qemu_fdt_setprop_cell(fdt, name, "bank-width", bank_width);
+> +}
+> +
+>   static void platform_bus_create_devtree(PPCE500MachineState *pms,
+>                                           void *fdt, const char *mpic)
+>   {
+> @@ -276,6 +303,8 @@ static void platform_bus_create_devtree(PPCE500MachineState *pms,
+>       uint64_t addr = pmc->platform_bus_base;
+>       uint64_t size = pmc->platform_bus_size;
+>       int irq_start = pmc->platform_bus_first_irq;
+> +    SysBusDevice *sbdev;
+> +    bool ambiguous;
+>   
+>       /* Create a /platform node that we can put all devices into */
+>   
+> @@ -302,6 +331,13 @@ static void platform_bus_create_devtree(PPCE500MachineState *pms,
+>       /* Loop through all dynamic sysbus devices and create nodes for them */
+>       foreach_dynamic_sysbus_device(sysbus_device_create_devtree, &data);
+>   
+> +    sbdev = SYS_BUS_DEVICE(object_resolve_path_type("", TYPE_PFLASH_CFI01,
+> +                                                    &ambiguous));
+> +    if (sbdev) {
+> +        assert(!ambiguous);
+> +        create_devtree_flash(sbdev, &data);
+> +    }
+> +
+>       g_free(node);
+>   }
+>   
+> @@ -856,6 +892,7 @@ void ppce500_init(MachineState *machine)
+>       unsigned int pci_irq_nrs[PCI_NUM_PINS] = {1, 2, 3, 4};
+>       IrqLines *irqs;
+>       DeviceState *dev, *mpicdev;
+> +    DriveInfo *dinfo;
+>       CPUPPCState *firstenv = NULL;
+>       MemoryRegion *ccsr_addr_space;
+>       SysBusDevice *s;
+> @@ -1024,6 +1061,48 @@ void ppce500_init(MachineState *machine)
+>                                   pmc->platform_bus_base,
+>                                   &pms->pbus_dev->mmio);
+>   
+> +    dinfo = drive_get(IF_PFLASH, 0, 0);
+> +    if (dinfo) {
+> +        BlockBackend *blk = blk_by_legacy_dinfo(dinfo);
+> +        BlockDriverState *bs = blk_bs(blk);
+> +        uint64_t size = bdrv_getlength(bs);
+> +        uint64_t mmio_size = pms->pbus_dev->mmio.size;
+> +        uint32_t sector_len = 64 * KiB;
+> +
+> +        if (!is_power_of_2(size)) {
+> +            error_report("Size of pflash file must be a power of two.");
+> +            exit(1);
+> +        }
+> +
+> +        if (size > mmio_size) {
+> +            error_report("Size of pflash file must not be bigger than %" PRIu64
+> +                         " bytes.", mmio_size);
+> +            exit(1);
+> +        }
+> +
+> +        if (!QEMU_IS_ALIGNED(size, sector_len)) {
+> +            error_report("Size of pflash file must be a multiple of %" PRIu32
+> +                         ".", sector_len);
+> +            exit(1);
+> +        }
+> +
+> +        dev = qdev_new(TYPE_PFLASH_CFI01);
+> +        qdev_prop_set_drive(dev, "drive", blk);
+> +        qdev_prop_set_uint32(dev, "num-blocks", size / sector_len);
+> +        qdev_prop_set_uint64(dev, "sector-length", sector_len);
+> +        qdev_prop_set_uint8(dev, "width", 2);
+> +        qdev_prop_set_bit(dev, "big-endian", true);
+> +        qdev_prop_set_uint16(dev, "id0", 0x89);
+> +        qdev_prop_set_uint16(dev, "id1", 0x18);
+> +        qdev_prop_set_uint16(dev, "id2", 0x0000);
+> +        qdev_prop_set_uint16(dev, "id3", 0x0);
+> +        qdev_prop_set_string(dev, "name", "e500.flash");
+> +        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> +
+> +        memory_region_add_subregion(&pms->pbus_dev->mmio, 0,
+> +                                    pflash_cfi01_get_memory(PFLASH_CFI01(dev)));
+> +    }
+> +
+>       /*
+>        * Smart firmware defaults ahead!
+>        *
 
