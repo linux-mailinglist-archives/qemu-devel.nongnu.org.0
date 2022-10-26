@@ -2,90 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D738160E169
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 15:03:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4FA560E252
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 15:39:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ong1a-0002Nh-TH; Wed, 26 Oct 2022 09:00:51 -0400
+	id 1ongUQ-0003LE-2W; Wed, 26 Oct 2022 09:30:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1ong15-0001mc-GJ
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 09:00:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
+ id 1ongUH-0003Hj-Kq
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 09:30:31 -0400
+Received: from mail-he1eur04on0705.outbound.protection.outlook.com
+ ([2a01:111:f400:fe0d::705]
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1ong11-0001aX-SP
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 09:00:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666789214;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=urKEmvvqLnxAsAEOhPu6VDATPYb75KJ2quKPgQNd6Gk=;
- b=D54ErZcRHtrh0afapo9j3XErvLZqG+9MT+DI9c1PmssXqhqr9Xqw15zAxwU21ubOi//5rZ
- Bn4QggGqDFf26lduSW+ZIhJ8wcy6P1iiY2DhSgAXcE7/Rbkf/aVo+bRjTyOH12cAIXiYS2
- 1+eRIp3g3ZNvouozNXkf1YZec4cxrEw=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-454-1SJsABMXPr6c9P7WmgeNXg-1; Wed, 26 Oct 2022 09:00:12 -0400
-X-MC-Unique: 1SJsABMXPr6c9P7WmgeNXg-1
-Received: by mail-ed1-f70.google.com with SMTP id
- h9-20020a05640250c900b00461d8ee12e2so6607233edb.23
- for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 06:00:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=urKEmvvqLnxAsAEOhPu6VDATPYb75KJ2quKPgQNd6Gk=;
- b=6ojEpjjBv56cmeJHZyiyX6XVUlSgqIMT4vbH8P1LXe96UMxGlKfbiC4OiLguHF5uHB
- IeXRDbc30v9LPrZjD20iQjQGakJX/0x59Mw1kma5EHeETd26KHe+WjreYwH8sFCqNreT
- QlEuw//JI4n/+6jdwmUVF4Jo1PGNbsvIBAtx6d62VYlRkZJdwGLS7yySFxsWt9O8F8Mj
- Dw6N6TqA1HkG4hK+h7n2PKm+U0mJbgTwkrF5PH2s9Anr5Lbtaf+F4dPZYZH/4WzHQeAc
- 6qOLkepkjl0/IUhfJ99fT3Z6//y5PqblcrPimO8UprTgclBEQeTP7MpFRnjRqvNPC+2u
- Z6pA==
-X-Gm-Message-State: ACrzQf3/fEcd+sMWtw+h/XNfy3Ti/z2IVx/8RQ5foX+0julGPwC20cpK
- Fkh6nrR6Z1P/Hi+Ye7ymHdDd/XvBoKeJNCKksGMrJqy8kibf0yxh4E6QvUp8XbLTFuDg4R91JY+
- YXsbm+4Xz9SmC5wE=
-X-Received: by 2002:aa7:ccd2:0:b0:462:73bd:3acb with SMTP id
- y18-20020aa7ccd2000000b0046273bd3acbmr1540633edt.378.1666789211240; 
- Wed, 26 Oct 2022 06:00:11 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4hJKS0sbfYwexo71Sfa2NthsfRzWOSO3FwZ3OtyjSQQKRTLKYOBNVI43MA8xomuyin7lFHPg==
-X-Received: by 2002:aa7:ccd2:0:b0:462:73bd:3acb with SMTP id
- y18-20020aa7ccd2000000b0046273bd3acbmr1540598edt.378.1666789210845; 
- Wed, 26 Oct 2022 06:00:10 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3?
- ([2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3])
- by smtp.gmail.com with ESMTPSA id
- o7-20020a170906768700b0078c1e174e11sm2992858ejm.136.2022.10.26.06.00.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Oct 2022 06:00:09 -0700 (PDT)
-Message-ID: <6f9ad126-eb51-25d5-d7d2-bb478c3ecc19@redhat.com>
-Date: Wed, 26 Oct 2022 15:00:08 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/3] qemu-img: Add checksum command
+ (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
+ id 1ongUE-0007Uk-5G
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 09:30:28 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dfLSPzh0c3ugGmP18/F1U/sdwIdeYSvf9BkMLGNg/KXq+V2V6CD/9gOlCQQv/ogYPi/QPvJr9UnN9ZhCQVzJrq+xqY9XHU1xv+a+UMy0s1rMVPJbh8ttnVc+wnRzdfFBGJoRcv0hl9LDno6+T7Du08pLTm43R8KTCMe5/f6+e+Hk+yAXCO2gu9pLN0Jscz9tmqScLvgAh4jjITVF2OqZ5Ae3TZ3ynyM3E4nv9VE8fbLhWScL0JzoGe8aT/hnURcBJhTsmfqg94ZdvGZRzr2Gpn8V6FZeHAL/O1IDttghLf17QEzVbuvONuJeqU50Gm78ol68EP1rRK4dostwCIjiig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=z9L+0nx2/GeulPAnUEE4e77XnCKSRslf4zpNstVOtso=;
+ b=mNtLVN6HSDE9ZxT3a7W4/O2jwlTDopim4I0qn62RJLTh10Hy/y62FjYHZWxx+TOEu9ZxXZXznn9FX910f/jBiW6bPAl8E/DxRSH0CqX7VDPXkLz0saoMAHzCFJlUE345h9lNu8ZTk1ZX7ZzSMBRwtQF8er3CoGuQKBf0jCV4NbsOVRlV/CCVYY6RZ5BObJqfk3KBfzYrPWB+GyUZgggxwWb8Xvu+XZY3acRsjvlOweO34gpQNfLRAI9BcEtWhpl3eYWt6BeiI8+1pZja8GECHtLix1VyrkwAdwOGYzX7XGn8+0RTv2a4Mj2mpw0o+zPIi3FaJjh9/KuCJBHlZOzQww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z9L+0nx2/GeulPAnUEE4e77XnCKSRslf4zpNstVOtso=;
+ b=t0vWV+U3Cm5nclleIxjuDzbkLTT0cNbq13aTfxXRuWIBNqYGWeZn+2Rbje/q2W2TowAG37GlPH4IGKQiknhjIDbMdbwuFwC4XQ718V7TTQBP6OfV6+SR5C4PPCG800v0QdYxOQK1eLqTStLPgB7Iy1G873L6PuccIcDd6Str0LJZi3xlKo/6nrmoavdAqyXqWW+OUBNB8kG4vcuZSmuTlpcXNf5dUpJaGrGfAI1kJinZTSSsQ4CeV8eI9zrE61doO7yxlqFRVOhVzMZS1lA6e1j0A1wKU7Mbd88a1MB57RDqZy2QXmWf1MaA/4+lhdr4udVhboJG0NhzqjupWLEwdw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AS8PR08MB7095.eurprd08.prod.outlook.com (2603:10a6:20b:402::11)
+ by AM9PR08MB6290.eurprd08.prod.outlook.com (2603:10a6:20b:2d5::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.28; Wed, 26 Oct
+ 2022 13:25:20 +0000
+Received: from AS8PR08MB7095.eurprd08.prod.outlook.com
+ ([fe80::5174:25c7:6df8:741b]) by AS8PR08MB7095.eurprd08.prod.outlook.com
+ ([fe80::5174:25c7:6df8:741b%8]) with mapi id 15.20.5676.040; Wed, 26 Oct 2022
+ 13:25:19 +0000
+Message-ID: <0e38476c-0066-e90e-c100-9c23412df108@virtuozzo.com>
+Date: Wed, 26 Oct 2022 15:25:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v5 0/7] qga: Add FreeBSD support
 Content-Language: en-US
-To: Nir Soffer <nsoffer@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>
-References: <20220901143223.201295-1-nsoffer@redhat.com>
- <20220901143223.201295-2-nsoffer@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20220901143223.201295-2-nsoffer@redhat.com>
+From: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Cc: den@virtuozzo.com, michael.roth@amd.com, kkostiuk@redhat.com,
+ marcandre.lureau@gmail.com
+References: <20221017072825.72867-1-alexander.ivanov@virtuozzo.com>
+In-Reply-To: <20221017072825.72867-1-alexander.ivanov@virtuozzo.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AS9PR06CA0466.eurprd06.prod.outlook.com
+ (2603:10a6:20b:49a::26) To AS8PR08MB7095.eurprd08.prod.outlook.com
+ (2603:10a6:20b:402::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR08MB7095:EE_|AM9PR08MB6290:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7695f53a-dcb8-4008-6bb0-08dab7558758
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: voUg3BUGRIHSOmsNR25LSULgO6qAOMELqD4scVSKVhHLlW8KbbWwHPde5GUrKkD7vvrgAF8E2NrBTVoR9wvFjC7N/MTFO+p2pmBOPvcRsQwswF+cj9a0jM1fNMWnN/qsQ3sa21eJ5m0W3WkxlOIGCIr8CKF0K0+K8bsGoTgqCcAcqMIoR8cHoXZ198owuK5TmoU7/8zLA0lB96MTd35VJRJtIi8yimuIAgmrfVyvFGD8jUDzcYjRBp5SoqwvdJQCE92/NJcETXpkkUyR/VHR3fPHQjKbqDFvWVFyDUCuWXIB896Y0HEEJsLoO6nF5anrMEYmu1SdRVuZ55nm9kaqhm+8cm/DQza0nRuLjhb3Q0wuwcFe6A6gruB7s8XXVoN0zMnryJD3hBt4vWk0zu5CkDGM5Ko51/hQ8qzx5icYdkNn12Fm5zZV2DVpN4q7kDrkun8gAx+o5HDlXAOT1FwYNBzk67K8q6N2v7qFjFBp1JdSMXIlMWvw16r0MNp+TAyJMK1Z/y+48s9vjYwFu3LAP5AfDVgTnG3FyD/KloSx9m8aWpM7zS3laIFVoJRZ9TOdJIjDuliwLD/LlY+HpUBuLtrLycSOHiCLvSQ/stLje5hGW47RMALckUX8a5re81+6vD8ALAK7xNVitGp3hxB69Bmp4n33q3WI3lguNwefXDNFMiLpPeELdovZccvMRmf3w+5S/nntJVvtrKPijkE+uHVSh/GveFeagGXjsabeT4xYvpjP1FH7wLp+77O4LrtJbEid5T2VMx9Hn/9CNKsDa5ymLRlQDfDydN6NllQoXFaH9cdmup1kMRDRJxbYQg9d
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AS8PR08MB7095.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(136003)(396003)(346002)(376002)(39850400004)(366004)(451199015)(6512007)(31686004)(36756003)(38350700002)(44832011)(86362001)(41300700001)(53546011)(31696002)(66946007)(83380400001)(38100700002)(186003)(2906002)(2616005)(52116002)(6486002)(478600001)(26005)(6506007)(5660300002)(66556008)(8936002)(6916009)(316002)(8676002)(4326008)(66476007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MEpYVkpXd2d0RHJ2eDNyRDJnOVJ5YVBvSjlCNWRFeWJHT2plVEJHN3c5Tmww?=
+ =?utf-8?B?WXowQk0wbURwbW5RakI0b3lYZWdHMzhSRm9pa0RoQklxSzB5RS9jNUl0SFBi?=
+ =?utf-8?B?UEdtSVZKM0FNZkptM1l0MFJiUEIvMUw3NlkzTGV5d2xIWDdYTnMyU1RmMUhx?=
+ =?utf-8?B?RytLd29PMGx4MnJNUjZZdFlSNHRsei91djlUN3hLSDRXNFVUdWFkdTBlNEpC?=
+ =?utf-8?B?bXM1d0VVbkVPMGRpN281cmtFWDNsT0x4RjRYNTRVTmRGeGMxbEtVLzZ4M1Br?=
+ =?utf-8?B?RXpuU1VtYjRQWnoxdkRteFdSd1QxN3NjaXZGUUpab0hscFRFc2xwdVNGdjRH?=
+ =?utf-8?B?Q1lKdFcwNmVzK202QlFYL2hSYTlkd3dMUXluM21UYW9iL2tKOVVsd3J6U3FT?=
+ =?utf-8?B?V0pRcm5zRWlNZTY0VXYycXRYeFlaNHZ2Vm9wcGhsK254cEl4Q3VTWXAyUjRC?=
+ =?utf-8?B?cjlja082cTZGUmdYS1dlNGJ5RWhhNTFpenJMWXB6bTNEdlFXTVRWSzMzOVNv?=
+ =?utf-8?B?K09WcUtLb1BGeElRQkVPK2pNTFl1VStVQnV6ZW1vcFM1NDcxNk9jakJGS1V1?=
+ =?utf-8?B?Mm1wYyt2cDhqZDFXYjliRHBTdjFLUXU1aldyeTdaU1dMWWNUazVwYlgxQ2hk?=
+ =?utf-8?B?U3FVYWdKTkw0TllkOGFuc2VGeHFKams5OEtsVVFRc1dUSGdzUGplSVVtNStQ?=
+ =?utf-8?B?bUxoWmhmakppeFR5MEd2cUJrSlRjY3gvclJpOUJCTzhDaDY1aHpuUFBXVnpa?=
+ =?utf-8?B?Wlh5QmJXT2lERGl0aUdudzRZdGJXL09RMDh0eHFYRG9HTHRST2xnaEJqRmVz?=
+ =?utf-8?B?UjFsUmloZkVmMmlxUFlPY2pSSTZzOHBQaFlQU285R0d2aytoNklNZnF2Uy9r?=
+ =?utf-8?B?Tlc2bFA2c3FWYitGRGlDelZyNXdtTGJBM293Y2l4OHFhODMweXpRY285TGIz?=
+ =?utf-8?B?dWNVcWswRXl5Vk9kd3ZWMmkyZ1FxSUd6M1d6VzVJUU9sTS8vSHhWRWtWdWw4?=
+ =?utf-8?B?bmROYUxWL2VNYTc5b25QVWtlQ0hsbHpLdUZZM2ZnQnU4QTE5NzV2MnJhUmZM?=
+ =?utf-8?B?TEorb3BOalhDdlVTMXAvYXpEbGpXSzJQV2dIN3NWQkgrQW11d1VRNXJKKzI4?=
+ =?utf-8?B?RFJUelR5eVZxL0pQeThtMEM0bmJDbWtOM2c3cHdEckZrMytlc2s1clpjYnN6?=
+ =?utf-8?B?ZmZGTjF6aHRZSkx3TzNCbVhKOURjNlFNTlI4eE1nYTl5bnNzLysrcmYxbEov?=
+ =?utf-8?B?VDFkSXVhUFphMVBpOEZhMEVhMURMT0lYZVRzN2lrV0l3b0lMWUZmTmdvZWlP?=
+ =?utf-8?B?aEJBTERCRjFtenVXQ0F1TmdpTTRhVTlJaXZFOVdpOWNFQ0poTGlPVHgxWi90?=
+ =?utf-8?B?VFlpb2Z2RlZqaEc4MmxzQzZwRGpsT2sreGFJR1BuYkxaM1B1aDhVa2wzZGxZ?=
+ =?utf-8?B?Z0tWWHBDSVlxWnk4VXJmQU41R1FBTWJTTmlha25oZk0wTE9idy9aU3NoT0Zk?=
+ =?utf-8?B?cFZ6WlZML3gvWXZNSU81T1k2b28wZ08yWHNEQm5Edis4NlVuVVA1emdmaytp?=
+ =?utf-8?B?R0hIckVoNk91UHV5ZXFTb0F0UXNPbTdXR0ZuV0NWajJUaWtBYjhyN0NHcUJL?=
+ =?utf-8?B?aVl0NFhnS0J2RHp5SkpzMk83dS93dkRtdUFnK0RUQUF2QzZmb0d5bVFjam5u?=
+ =?utf-8?B?VzNBNDJKeml3UmZKQUlPZEwwSlM1RjIyK0hRRTFuZjFxZ3hCTC9GZW8rUXNs?=
+ =?utf-8?B?WkxHVGdlL3JzaUtyVENiNzd2UzkvSHQ0YmwwKys1TUVxclJqSERjdjI2MW9i?=
+ =?utf-8?B?VnhnQlRhY1pqSDJFSlV1elM3dUdmczlNcUE5M2tYajRjY09uM1VMN2NleGNO?=
+ =?utf-8?B?Y2Z4OWNiZUlOcS9RTzBucndjUjYrVVgwMzd1QjJNaldJVFRKdWx0NzBaRzhp?=
+ =?utf-8?B?WThCV01PNTB4NjZqd1UzUWdKMk5PQ3hIVTFUbmhCQmVQU25jWWxHZ2lRSktU?=
+ =?utf-8?B?amRPRmpKWFNiNjA1eEdCdEVVK05OODFiUzNaMlRQaEhTR013SVUwc01keXRG?=
+ =?utf-8?B?ZGN6WjcvaTNpTGYxVnpVVDlYa21Da0ZqVmhLZ3BkbkxsT3lDVzFPYXYxektO?=
+ =?utf-8?B?RVJ4YXNDalNncnVzL0phck5oWUF2WlBnS2Q5VVRkSWo0a2tuMU1hUW5zSDE4?=
+ =?utf-8?B?Z3c9PQ==?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7695f53a-dcb8-4008-6bb0-08dab7558758
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR08MB7095.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2022 13:25:19.8590 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mYrUk6q2z9paI78FPlIJyr2qKIQiFGrrk8DtStrRr8AzgXgt2Qec4AFxTcS95RyHEodEc9DADonxrL5x3oF+mPvMzZ0QJSeZ4rV/kFAsst8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6290
+Received-SPF: pass client-ip=2a01:111:f400:fe0d::705;
+ envelope-from=alexander.ivanov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,435 +148,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 01.09.22 16:32, Nir Soffer wrote:
-> The checksum command compute a checksum for disk image content using the
-> blkhash library[1]. The blkhash library is not packaged yet, but it is
-> available via copr[2].
+Could you please clarify the status of the patchset?
+
+Thank you.
+
+On 17.10.2022 09:28, Alexander Ivanov wrote:
+> Add freeze/thaw, shutdown/halt/reboot, password setting and
+> guest-network-get-interfaces command support for FreeBSD.
 >
-> Example run:
+> v5:
+> 2: Left ga_wait_child() static in commands-posix.c.
 >
->      $ ./qemu-img checksum -p fedora-35.qcow2
->      6e5c00c995056319d52395f8d91c7f84725ae3da69ffcba4de4c7d22cff713a5  fedora-35.qcow2
+> v4:
+> 6,7: Return bool instead int in guest_get_hw_addr().
 >
-> The block checksum is constructed by splitting the image to fixed sized
-> blocks and computing a digest of every block. The image checksum is the
-> digest of the all block digests.
+> v3:
+> 1: Add a comment about echo suppressing.
+> 5: Replace code moving by splitting the code into a few blocks under
+>     architecture conditions.
+> 5,6: Move actions with dumb qmp_guest_set_user_password() to
+>       the appropriate patch.
+> 6: Fix error/obtained return.
 >
-> The checksum uses internally the "sha256" algorithm but it cannot be
-> compared with checksums created by other tools such as `sha256sum`.
+> v2:
+> 1: Reject the idea to move all the Linux-specific code to a separate file.
+>     First commit now adds initial support of FreeBSD. Fixed device paths
+>     and fixed virtio device initialization (disable echo). Add comment why
+>     we should disable the code under HAVE_GETIFADDRS in FreeBSD.
+> 2: Replace the second commit (which now is the first) by moving
+>     Linux-specific freeze/thaw code to a separate file commands-linux.c.
+> 3: Add error raising if stat() returns error. Replaced strcmp() calls by
+>     g_str_equal(). Add a comment explaining why UFSRESUME isn't necessary.
+> 4: Replace #elifdef by #elif defined().
+> 5: Now the code doesn't move from one file to aanother but still is
+>     moving inside file so the patch doesn't become easier to review. =(
+>     Fixed typos.
+> 6,7: New patches. Add guest-network-get-interfaces command support.
 >
-> The blkhash library supports sparse images, zero detection, and
-> optimizes zero block hashing (they are practically free). The library
-> uses multiple threads to speed up the computation.
+> Alexander Ivanov (7):
+>    qga: Add initial FreeBSD support
+>    qga: Move Linux-specific FS freeze/thaw code to a separate file
+>    qga: Add UFS freeze/thaw support for FreeBSD
+>    qga: Add shutdown/halt/reboot support for FreeBSD
+>    qga: Add support for user password setting in FreeBSD
+>    qga: Move HW address getting to a separate function
+>    qga: Add HW address getting for FreeBSD
 >
-> Comparing to `sha256sum`, `qemu-img checksum` is 3.5-4800[3] times
-> faster, depending on the amount of data in the image:
+>   meson.build           |   2 +-
+>   qga/channel-posix.c   |  19 ++
+>   qga/commands-bsd.c    | 200 +++++++++++++
+>   qga/commands-common.h |  51 ++++
+>   qga/commands-linux.c  | 286 +++++++++++++++++++
+>   qga/commands-posix.c  | 639 ++++++++++++++----------------------------
+>   qga/main.c            |  13 +-
+>   qga/meson.build       |   6 +
+>   8 files changed, 778 insertions(+), 438 deletions(-)
+>   create mode 100644 qga/commands-bsd.c
+>   create mode 100644 qga/commands-linux.c
 >
->      $ ./qemu-img info /scratch/50p.raw
->      file format: raw
->      virtual size: 6 GiB (6442450944 bytes)
->      disk size: 2.91 GiB
->
->      $ hyperfine -w2 -r5 -p "sleep 1" "./qemu-img checksum /scratch/50p.raw" \
->                                       "sha256sum /scratch/50p.raw"
->      Benchmark 1: ./qemu-img checksum /scratch/50p.raw
->        Time (mean ± σ):      1.849 s ±  0.037 s    [User: 7.764 s, System: 0.962 s]
->        Range (min … max):    1.813 s …  1.908 s    5 runs
->
->      Benchmark 2: sha256sum /scratch/50p.raw
->        Time (mean ± σ):     14.585 s ±  0.072 s    [User: 13.537 s, System: 1.003 s]
->        Range (min … max):   14.501 s … 14.697 s    5 runs
->
->      Summary
->        './qemu-img checksum /scratch/50p.raw' ran
->          7.89 ± 0.16 times faster than 'sha256sum /scratch/50p.raw'
->
-> The new command is available only when `blkhash` is available during
-> build. To test the new command please install the `blkhash-devel`
-> package:
->
->      $ dnf copr enable nsoffer/blkhash
->      $ sudo dnf install blkhash-devel
->
-> [1] https://gitlab.com/nirs/blkhash
-> [2] https://copr.fedorainfracloud.org/coprs/nsoffer/blkhash/
-> [3] Computing checksum for 8T empty image: qemu-img checksum: 3.7s,
->      sha256sum (estimate): 17,749s
->
-> Signed-off-by: Nir Soffer <nsoffer@redhat.com>
-> ---
->   docs/tools/qemu-img.rst |  22 +++++
->   meson.build             |  10 ++-
->   meson_options.txt       |   2 +
->   qemu-img-cmds.hx        |   8 ++
->   qemu-img.c              | 191 ++++++++++++++++++++++++++++++++++++++++
->   5 files changed, 232 insertions(+), 1 deletion(-)
->
-> diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
-> index 85a6e05b35..8be9c45cbf 100644
-> --- a/docs/tools/qemu-img.rst
-> +++ b/docs/tools/qemu-img.rst
-> @@ -347,20 +347,42 @@ Command description:
->       Check completed, image is corrupted
->     3
->       Check completed, image has leaked clusters, but is not corrupted
->     63
->       Checks are not supported by the image format
->   
->     If ``-r`` is specified, exit codes representing the image state refer to the
->     state after (the attempt at) repairing it. That is, a successful ``-r all``
->     will yield the exit code 0, independently of the image state before.
->   
-> +.. option:: checksum [--object OBJECTDEF] [--image-opts] [-f FMT] [-T SRC_CACHE] [-p] FILENAME
-> +
-> +  Print a checksum for image *FILENAME* guest visible content.
-
-Why not say which kind of checksum it is?
-
->                                                                  Images with
-> +  different format or settings wil have the same checksum.
-
-s/wil/will/
-
-> +
-> +  The format is probed unless you specify it by ``-f``.
-> +
-> +  The checksum is computed for guest visible content. Allocated areas full of
-> +  zeroes, zero clusters, and unallocated areas are read as zeros so they will
-> +  have the same checksum. Images with single or multiple files or backing files
-> +  will have the same checksums if the guest will see the same content when
-> +  reading the image.
-> +
-> +  Image metadata that is not visible to the guest such as dirty bitmaps does
-> +  not affect the checksum.
-> +
-> +  Computing a checksum requires a read-only image. You cannot compute a
-> +  checksum of an active image used by a guest,
-
-Makes me ask: Why not?  Other subcommands have the -U flag for this.
-
->                                                  but you can compute a checksum
-> +  of a guest during pull mode incremental backup using NBD URL.
-> +
-> +  The checksum is not compatible with other tools such as *sha256sum*.
-
-Why not?  I can see it differs even for raw images, but why?  I would 
-have very much assumed that this gives me exactly what sha256sum in the 
-guest on the guest device would yield.
-
-> +
->   .. option:: commit [--object OBJECTDEF] [--image-opts] [-q] [-f FMT] [-t CACHE] [-b BASE] [-r RATE_LIMIT] [-d] [-p] FILENAME
->   
->     Commit the changes recorded in *FILENAME* in its base image or backing file.
->     If the backing file is smaller than the snapshot, then the backing file will be
->     resized to be the same size as the snapshot.  If the snapshot is smaller than
->     the backing file, the backing file will not be truncated.  If you want the
->     backing file to match the size of the smaller snapshot, you can safely truncate
->     it yourself once the commit operation successfully completes.
->   
->     The image *FILENAME* is emptied after the operation has succeeded. If you do
-
-[...]
-
-> diff --git a/qemu-img.c b/qemu-img.c
-> index 7d4b33b3da..7edcfe4bc8 100644
-> --- a/qemu-img.c
-> +++ b/qemu-img.c
-> @@ -17,20 +17,21 @@
->    * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
->    * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
->    * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
->    * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
->    * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
->    * THE SOFTWARE.
->    */
->   
->   #include "qemu/osdep.h"
->   #include <getopt.h>
-> +#include <blkhash.h>
-
-This must be guarded by CONFIG_BLKHASH.
-
->   #include "qemu/help-texts.h"
->   #include "qemu/qemu-progress.h"
->   #include "qemu-version.h"
->   #include "qapi/error.h"
->   #include "qapi/qapi-commands-block-core.h"
->   #include "qapi/qapi-visit-block-core.h"
->   #include "qapi/qobject-output-visitor.h"
->   #include "qapi/qmp/qjson.h"
->   #include "qapi/qmp/qdict.h"
-> @@ -1611,20 +1612,210 @@ out:
->       qemu_vfree(buf1);
->       qemu_vfree(buf2);
->       blk_unref(blk2);
->   out2:
->       blk_unref(blk1);
->   out3:
->       qemu_progress_end();
->       return ret;
->   }
->   
-> +#ifdef CONFIG_BLKHASH
-> +/*
-> + * Compute image checksum.
-> + */
-> +static int img_checksum(int argc, char **argv)
-> +{
-> +    const char *digest_name = "sha256";
-
-Why don’t we make this configurable?
-
-> +    const size_t block_size = 64 * KiB;
-> +
-> +    const char *format = NULL;
-> +    const char *cache = BDRV_DEFAULT_CACHE;
-> +    const char *filename;
-> +    BlockBackend *blk;
-> +    BlockDriverState *bs;
-> +    uint8_t *buf = NULL;
-> +    int64_t pnum;
-> +    bool progress = false;
-> +    int flags = 0;
-> +    bool writethrough;
-> +    int64_t total_size;
-> +    int64_t offset = 0;
-> +    int c;
-> +    bool image_opts = false;
-> +    struct blkhash *h = NULL;
-> +    unsigned char digest[64];
-> +    unsigned int digest_len;
-> +    int ret = 1;
-> +    int err;
-> +
-> +    for (;;) {
-> +        static const struct option long_options[] = {
-> +            {"help", no_argument, 0, 'h'},
-> +            {"object", required_argument, 0, OPTION_OBJECT},
-> +            {"image-opts", no_argument, 0, OPTION_IMAGE_OPTS},
-> +            {0, 0, 0, 0}
-> +        };
-> +        c = getopt_long(argc, argv, ":hf:T:p",
-> +                        long_options, NULL);
-> +        if (c == -1) {
-> +            break;
-> +        }
-> +        switch (c) {
-> +        case ':':
-> +            missing_argument(argv[optind - 1]);
-> +            break;
-> +        case '?':
-> +            unrecognized_option(argv[optind - 1]);
-> +            break;
-> +        case 'h':
-> +            help();
-> +            break;
-> +        case 'f':
-> +            format = optarg;
-> +            break;
-> +        case 'T':
-> +            cache = optarg;
-> +            break;
-> +        case 'p':
-> +            progress = true;
-> +            break;
-> +        case OPTION_OBJECT:
-> +            {
-> +                Error *local_err = NULL;
-> +
-> +                if (!user_creatable_add_from_str(optarg, &local_err)) {
-> +                    if (local_err) {
-> +                        error_report_err(local_err);
-> +                        exit(2);
-> +                    } else {
-> +                        /* Help was printed */
-> +                        exit(EXIT_SUCCESS);
-> +                    }
-> +                }
-
-How about simply using user_creatable_process_cmdline(optarg)? (which 
-most other subcommands use)
-
-(I believe img_compare() has to have its own code, because exit code 1 
-is reserved there.  But that isn’t a concern here.)
-
-> +                break;
-> +            }
-> +        case OPTION_IMAGE_OPTS:
-> +            image_opts = true;
-> +            break;
-> +        }
-> +    }
-> +
-> +    if (optind != argc - 1) {
-> +        error_exit("Expecting image file name");
-> +    }
-> +
-> +    filename = argv[optind++];
-> +
-> +    err = bdrv_parse_cache_mode(cache, &flags, &writethrough);
-> +    if (err < 0) {
-> +        error_report("Invalid source cache option: %s", cache);
-> +        return ret;
-
-Personally, I’m not too big of a fan of using `ret` here, because it was 
-set so far above.  Why not just `return 1;`?
-
-(Same in other error cases below.)
-
-> +    }
-> +
-> +    blk = img_open(image_opts, filename, format, flags, writethrough, false,
-> +                   false);
-> +    if (!blk) {
-> +        return ret;
-> +    }
-> +
-> +    /* Initialize before using goto out. */
-> +    qemu_progress_init(progress, 2.0);
-> +
-> +    bs = blk_bs(blk);
-> +    buf = blk_blockalign(blk, IO_BUF_SIZE);
-
-It looks like this macro is kind of specific to `img_compare()`, and is 
-currently somewhere in the middle of its code.  I don’t mind reusing it 
-here, but if so, we might want to move it up to the top of this file, 
-and add a comment that this is the buffer size used for commands like 
-compare or checksum.
-
-> +
-> +    total_size = blk_getlength(blk);
-> +    if (total_size < 0) {
-> +        error_report("Can't get size of %s: %s",
-> +                     filename, strerror(-total_size));
-> +        goto out;
-
-I suggest adding `ret = 1;` before such a `goto out;` (not just here), 
-so it is clear exactly what value we are going to return (it isn’t 
-trivial to track that `ret` isn’t used for anything else). But I can see 
-that it’s extra code, so maybe you don’t like that.
-
-If we keep this as-is, perhaps we could rename `ret` to something more 
-explicit like `exit_status`, though?  That way, it’s pretty clear that 
-we won’t accidentally reuse it for anything else.  (I know this isn’t 
-the first subcommand to use `ret` for the process exist status, but I 
-don’t think those other subcommands are great role models in this regard.)
-
-> +    }
-> +
-> +    h = blkhash_new(block_size, digest_name);
-
-Should we somehow make sure that IO_BUF_SIZE is a multiple of 
-block_size?  I mean, it is, but it isn’t obvious at least, and I guess 
-maybe at some point someone might want to make block_size a parameter.  
-Would a static assertion work?  (Would stop working once someone decide 
-to make block_size a parameter, which is good, because it draws attention.)
-
-> +    if (!h) {
-> +        error_report("Can't create blkhash: %s", strerror(errno));
-> +        goto out;
-> +    }
-> +
-> +    qemu_progress_print(0, 100);
-> +
-> +    while (offset < total_size) {
-> +        int status;
-> +        int64_t chunk;
-> +
-> +        status = bdrv_block_status_above(bs, NULL, offset,
-> +                                         total_size - offset, &pnum, NULL,
-> +                                         NULL);
-> +        if (status < 0) {
-> +            error_report("Error checking status at offset %" PRId64 " for %s",
-> +                         offset, filename);
-> +            goto out;
-> +        }
-> +
-> +        assert(pnum);
-> +        chunk = pnum;
-
-Can’t we drop `pnum` and replace it by `chunk` in all cases?
-
-> +
-> +        if (status & BDRV_BLOCK_ZERO) {
-> +            chunk = MIN(chunk, SIZE_MAX);
-
-Itches me a bit to propose rounding SIZE_MAX down to block_size, but I 
-guess given the magnitude of SIZE_MAX on 64-bit systems, it doesn’t matter.
-
-> +            err = blkhash_zero(h, chunk);
-> +            if (err) {
-> +                error_report("Error zeroing hash at offset %" PRId64
-> +                             " of %s: %s",
-> +                             offset, filename, strerror(err));
-> +                goto out;
-> +            }
-> +        } else {
-> +            chunk = MIN(chunk, IO_BUF_SIZE);
-> +            err = blk_pread(blk, offset, chunk, buf, 0);
-> +            if (err < 0) {
-> +                error_report("Error reading at offset %" PRId64 " of %s: %s",
-> +                             offset, filename, strerror(-err));
-> +                goto out;
-> +            }
-> +            err = blkhash_update(h, buf, chunk);
-> +            if (err) {
-> +                error_report("Error updating hash at offset %" PRId64
-> +                             " of %s: %s",
-> +                             offset, filename, strerror(err));
-> +                goto out;
-> +            }
-> +        }
-> +
-> +        offset += chunk;
-> +        qemu_progress_print(((float) chunk / total_size) * 100, 100);
-> +    }
-> +
-> +    err = blkhash_final(h, digest, &digest_len);
-
-How does this verify that `digest` is sufficiently large?
-
-I mean, it is, given that we only have sha256 now.  But it still seems 
-rather dangerous to me.
-
-> +    if (err) {
-> +        error_report("Error finalizing hash of %s: %s",
-> +                     filename, strerror(err));
-> +        goto out;
-> +    }
-> +
-> +    for (unsigned i = 0; i < digest_len; i++) {
-
-I always such declarations weren’t allowed in qemu, but this isn’t the 
-first place, and I don’t mind.  Good to know. :)
-
-Hanna
-
-> +        printf("%02x", digest[i]);
-> +    }
-> +    printf("  %s%s", filename, progress ? "" : "\n");
-> +
-> +    ret = 0;
-> +
-> +out:
-> +    blkhash_free(h);
-> +    qemu_vfree(buf);
-> +    blk_unref(blk);
-> +    qemu_progress_end();
-> +
-> +    return ret;
-> +}
-> +#endif /* CONFIG_BLKHASH */
-> +
->   /* Convenience wrapper around qmp_block_dirty_bitmap_merge */
->   static void do_dirty_bitmap_merge(const char *dst_node, const char *dst_name,
->                                     const char *src_node, const char *src_name,
->                                     Error **errp)
->   {
->       BlockDirtyBitmapOrStr *merge_src;
->       BlockDirtyBitmapOrStrList *list = NULL;
->   
->       merge_src = g_new0(BlockDirtyBitmapOrStr, 1);
->       merge_src->type = QTYPE_QDICT;
-
 
