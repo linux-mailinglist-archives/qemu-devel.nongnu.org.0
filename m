@@ -2,64 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B230960DC26
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 09:33:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75C0A60DC5A
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 09:41:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onasS-0002A3-8P; Wed, 26 Oct 2022 03:31:04 -0400
+	id 1onb0R-0001aa-Hm; Wed, 26 Oct 2022 03:39:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1onasH-00021k-VK
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 03:30:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1onasF-0002iX-F8
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 03:30:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666769450;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=/kr2jtd/zPDWs9WSyBzud1VT+xvvLZMz04sPwPHqtHY=;
- b=Py9HMcOUjG6Euh9kYpMrObltoo1PIKUZOttYhDUx6E5YVMRbP/Ahwh6wSvCDAidsrYLEQH
- jQnqYjL+4uhLqXyvfKVQr6Cvy+DAZvrFfBWsO1MqoV+yFGFAJJO9CkiBFYj5ODvjZtjol5
- +gEoZrw4pSsdQ+t2dKdaZ+FZya8/oDE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-93-nyUUrFoJNgO2tOa9lYI7RQ-1; Wed, 26 Oct 2022 03:30:40 -0400
-X-MC-Unique: nyUUrFoJNgO2tOa9lYI7RQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 481633C0DDD7
- for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 07:30:30 +0000 (UTC)
-Received: from maggie.redhat.com (unknown [10.43.2.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F07E4145888C;
- Wed, 26 Oct 2022 07:30:26 +0000 (UTC)
-From: Michal Privoznik <mprivozn@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: berrange@redhat.com
-Subject: [PATCH v2] seccomp: Get actual errno value from failed seccomp
- functions
-Date: Wed, 26 Oct 2022 09:30:24 +0200
-Message-Id: <80c86614e3b21dda074b81fe9c3866fdbbb7420e.1666769319.git.mprivozn@redhat.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1onb0O-0001Nn-GK
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 03:39:16 -0400
+Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1onb0M-0003s3-Ot
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 03:39:16 -0400
+Received: by mail-lf1-x136.google.com with SMTP id f37so26898597lfv.8
+ for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 00:39:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=91CPOdDQ9LMzbOEab1snaRjNdjfUahwY+QSQro0dnUU=;
+ b=EcPUvuMPYtGCVh5nVeV/jDQeaqz3d+99hL+Z4JTZ2DupahQjVwHhir2XvYarpR89I5
+ 6X2cmpDuCFwTJCLwjeM5XKpiopPDm5TP8nHHeQNhuZ5+LYLHIKzeoE0D7D0LujtOE1zu
+ +Zn1gUDlVvm8W8647zj4hdNmjJVufNhSZaL+U6hxA+HkarR3N23VoZzXPJUpgY9ZPIVD
+ Ba5OPxOSdpuHDRpLEpNfPF5hlavc8hFBHs0mF2WybzvGQfhFjV5MRxY6TpKjimtd4565
+ wKJLVKUmR1rwkJU6DBcgd//Wb7ZW/HT83RNqu3ZDWc6/x0yCB9PPHRVeRPmF4+q9UOSR
+ zKnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=91CPOdDQ9LMzbOEab1snaRjNdjfUahwY+QSQro0dnUU=;
+ b=v/hlzXgwe64ClFKHohyUkz+EAfRi92nRoANymfNhjzgmAmZUydLy2zuvl3iLfSKwOt
+ 7g9zP4yz94sEVCMxRWw0kn2JawyGlZsPaRwwOnnEZEXoG3KIUWXbh7R6VN6Jje5cmhmL
+ lJmy+d+pChgvxrhUy0u8cR2IXXVI6rjtjNNjjZeUmcsZZUZmkKQ00FSaJQyrk2IdSxPe
+ mLRwNsJKkkBIkDA7MqarS/zDiYOEcvXzFsOEv4u+l3O0Bnj0xV+E8hf1l9pyUFXEFbMk
+ k+LwlIXxnXKiqzml0ixAmGbeggTTiqBos0pBFGbACMSb+e7WbR2bzynE7odvOP9rt96V
+ eUuw==
+X-Gm-Message-State: ACrzQf2255xbFsHnHXaK3hfHaF7Ue04/PhxGBZdqmUq4N5QtHJwJV9VI
+ r92L618sxJTFwiv/IdeaH6YJripdEYti6RF0sd8=
+X-Google-Smtp-Source: AMsMyM4DxwgPoC4zhWptCB6WMQvW3MA6HPCVt4slxRsCQ3fp8sdUnNeEttcc6awc9mYWKyc3C+G15E2fIKSLt6X3/s4=
+X-Received: by 2002:a05:6512:3d1d:b0:4a2:588b:d78 with SMTP id
+ d29-20020a0565123d1d00b004a2588b0d78mr17285214lfv.375.1666769951224; Wed, 26
+ Oct 2022 00:39:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mprivozn@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+References: <20221025141015.612291-1-bin.meng@windriver.com>
+In-Reply-To: <20221025141015.612291-1-bin.meng@windriver.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 26 Oct 2022 11:38:59 +0400
+Message-ID: <CAJ+F1CKueW5uhTe8CCdnthJmmaLO7vvHtANqZ4N6wUjGc9qpGQ@mail.gmail.com>
+Subject: Re: [PATCH] chardev/char-win-stdio: Pass Ctrl+C to guest with a
+ multiplexed monitor
+To: Bin Meng <bin.meng@windriver.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::136;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x136.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,86 +85,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Upon failure, a libseccomp API returns actual errno value very
-rarely. Fortunately, after its commit 34bf78ab (contained in
-2.5.0 release), the SCMP_FLTATR_API_SYSRAWRC attribute can be set
-which makes subsequent APIs return true errno on failure.
+On Tue, Oct 25, 2022 at 6:15 PM Bin Meng <bin.meng@windriver.com> wrote:
+>
+> At present when pressing Ctrl+C from a guest running on QEMU Windows
+> with a multiplexed monitor, e.g.: -serial mon:stdio, QEMU executable
+> just exits. This behavior is inconsistent with the Linux version.
+>
+> Such behavior is caused by unconditionally setting the input mode
+> ENABLE_PROCESSED_INPUT for a console's input buffer. Fix this by
+> testing whether the chardev is allowed to do so.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-This is especially critical when seccomp_load() fails, because
-generic -ECANCELED says nothing.
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
 
-v2 of:
+> ---
+>
+>  chardev/char-win-stdio.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/chardev/char-win-stdio.c b/chardev/char-win-stdio.c
+> index a4771ab82e..eb830eabd9 100644
+> --- a/chardev/char-win-stdio.c
+> +++ b/chardev/char-win-stdio.c
+> @@ -146,6 +146,8 @@ static void qemu_chr_open_stdio(Chardev *chr,
+>                                  bool *be_opened,
+>                                  Error **errp)
+>  {
+> +    ChardevStdio *opts =3D backend->u.stdio.data;
+> +    bool stdio_allow_signal =3D !opts->has_signal || opts->signal;
+>      WinStdioChardev *stdio =3D WIN_STDIO_CHARDEV(chr);
+>      DWORD              dwMode;
+>      int                is_console =3D 0;
+> @@ -193,7 +195,11 @@ static void qemu_chr_open_stdio(Chardev *chr,
+>      if (is_console) {
+>          /* set the terminal in raw mode */
+>          /* ENABLE_QUICK_EDIT_MODE | ENABLE_EXTENDED_FLAGS */
+> -        dwMode |=3D ENABLE_PROCESSED_INPUT;
+> +        if (stdio_allow_signal) {
+> +            dwMode |=3D ENABLE_PROCESSED_INPUT;
+> +        } else {
+> +            dwMode &=3D ~ENABLE_PROCESSED_INPUT;
+> +        }
+>      }
+>
+>      SetConsoleMode(stdio->hStdIn, dwMode);
+> --
+> 2.25.1
+>
+>
 
-https://lists.gnu.org/archive/html/qemu-devel/2022-10/msg04509.html
 
-diff to v1:
-- added comment when setting SYSRAWRC attribute per Philippe's
-  suggestion
-
- meson.build            |  9 +++++++++
- softmmu/qemu-seccomp.c | 13 +++++++++++++
- 2 files changed, 22 insertions(+)
-
-diff --git a/meson.build b/meson.build
-index b686dfef75..5f114c89d9 100644
---- a/meson.build
-+++ b/meson.build
-@@ -636,10 +636,16 @@ if vmnet.found() and not cc.has_header_symbol('vmnet/vmnet.h',
- endif
- 
- seccomp = not_found
-+seccomp_has_sysrawrc = false
- if not get_option('seccomp').auto() or have_system or have_tools
-   seccomp = dependency('libseccomp', version: '>=2.3.0',
-                        required: get_option('seccomp'),
-                        method: 'pkg-config', kwargs: static_kwargs)
-+  if seccomp.found()
-+    seccomp_has_sysrawrc = cc.has_header_symbol('seccomp.h',
-+                                                'SCMP_FLTATR_API_SYSRAWRC',
-+                                                dependencies: seccomp)
-+  endif
- endif
- 
- libcap_ng = not_found
-@@ -1849,6 +1855,9 @@ config_host_data.set('CONFIG_RDMA', rdma.found())
- config_host_data.set('CONFIG_SDL', sdl.found())
- config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
- config_host_data.set('CONFIG_SECCOMP', seccomp.found())
-+if seccomp.found()
-+  config_host_data.set('CONFIG_SECCOMP_SYSRAWRC', seccomp_has_sysrawrc)
-+endif
- config_host_data.set('CONFIG_SNAPPY', snappy.found())
- config_host_data.set('CONFIG_TPM', have_tpm)
- config_host_data.set('CONFIG_USB_LIBUSB', libusb.found())
-diff --git a/softmmu/qemu-seccomp.c b/softmmu/qemu-seccomp.c
-index deaf8a4ef5..d66a2a1226 100644
---- a/softmmu/qemu-seccomp.c
-+++ b/softmmu/qemu-seccomp.c
-@@ -312,6 +312,19 @@ static int seccomp_start(uint32_t seccomp_opts, Error **errp)
-         goto seccomp_return;
-     }
- 
-+#if defined(CONFIG_SECCOMP_SYSRAWRC)
-+    /*
-+     * This must be the first seccomp_attr_set() call to have full
-+     * error propagation from subsequent seccomp APIs.
-+     */
-+    rc = seccomp_attr_set(ctx, SCMP_FLTATR_API_SYSRAWRC, 1);
-+    if (rc != 0) {
-+        error_setg_errno(errp, -rc,
-+                         "failed to set seccomp rawrc attribute");
-+        goto seccomp_return;
-+    }
-+#endif
-+
-     rc = seccomp_attr_set(ctx, SCMP_FLTATR_CTL_TSYNC, 1);
-     if (rc != 0) {
-         error_setg_errno(errp, -rc,
--- 
-2.37.4
-
+--=20
+Marc-Andr=C3=A9 Lureau
 
