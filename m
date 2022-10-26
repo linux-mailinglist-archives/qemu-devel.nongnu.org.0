@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE51D60E83F
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 21:04:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B68A60E821
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 21:02:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onldA-0007x9-1t; Wed, 26 Oct 2022 15:00:00 -0400
+	id 1onldS-0008Lo-Oa; Wed, 26 Oct 2022 15:00:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1onld7-0007ur-Nb
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 14:59:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1onldO-0008EW-5h
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 15:00:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1onld5-00073z-97
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 14:59:57 -0400
+ id 1onldL-0007Jc-CL
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 15:00:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666810794;
+ s=mimecast20190719; t=1666810810;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DTY/Fwi5nokNWZg7g0VKb37cGCU1tWXR9jTgPEGV73A=;
- b=FkvHNg36G7K7JKI/hAgg3YWLWI2wMKq8wdoUYNktKjbkArytnMFD62rZ7KBdBWGCvJm6wZ
- KUnb7sWWlyTBbwXBpJW77h2j/NS5QUeNZYHt68CVP48bcHc5Pq69rge+NxUBK0zNRpbBBM
- BeyhOiLabhQy3TAMo+mui8sRsuDwTfs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ibngEnT4vLmBoFuW42guJ80HgLLzn0EqC6ocnLL6JE8=;
+ b=dz5up6ZTesoJCJD9fY3NmIQHsdEsk3uS2G2lM4KDfP4CHuP4uIRk2DVTdqqLYnTRe85Jvr
+ 0eMshfJrZ8BJSQHCmdyMhzzdR7KIgQQBZyg/zzROrM6i/Zd35aq929e1GkOEKnZohjfuO8
+ WKCn/d/8Q7Z1TPXIeqimMzX9tDaVyZE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-636-wdnT0L1RM_i1kxLqKzKa5Q-1; Wed, 26 Oct 2022 14:59:50 -0400
-X-MC-Unique: wdnT0L1RM_i1kxLqKzKa5Q-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-283-BPpzyNZUOMKN4aN-p3s0Tw-1; Wed, 26 Oct 2022 15:00:07 -0400
+X-MC-Unique: BPpzyNZUOMKN4aN-p3s0Tw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E6253185A78B;
- Wed, 26 Oct 2022 18:59:49 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1AB98296A612;
+ Wed, 26 Oct 2022 19:00:06 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.42])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 487B24A9255;
- Wed, 26 Oct 2022 18:59:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5648B40C6FA0;
+ Wed, 26 Oct 2022 19:00:05 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
@@ -61,16 +61,16 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Fam Zheng <fam@euphon.net>, Xie Changlong <xiechanglong.d@gmail.com>,
  Jeff Cody <codyprime@gmail.com>, John Snow <jsnow@redhat.com>,
- "Denis V. Lunev" <den@openvz.org>
-Subject: [PULL 08/13] numa: use QLIST_FOREACH_SAFE() for RAM block notifiers
-Date: Wed, 26 Oct 2022 14:58:41 -0400
-Message-Id: <20221026185846.120544-9-stefanha@redhat.com>
+ "Denis V. Lunev" <den@openvz.org>, Stefano Garzarella <sgarzare@redhat.com>
+Subject: [PULL 09/13] block: add BlockRAMRegistrar
+Date: Wed, 26 Oct 2022 14:58:42 -0400
+Message-Id: <20221026185846.120544-10-stefanha@redhat.com>
 In-Reply-To: <20221026185846.120544-1-stefanha@redhat.com>
 References: <20221026185846.120544-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -94,54 +94,157 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Make list traversal work when a callback removes a notifier
-mid-traversal. This is a cleanup to prevent bugs in the future.
+Emulated devices and other BlockBackend users wishing to take advantage
+of blk_register_buf() all have the same repetitive job: register
+RAMBlocks with the BlockBackend using RAMBlockNotifier.
+
+Add a BlockRAMRegistrar API to do this. A later commit will use this
+from hw/block/virtio-blk.c.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Message-id: 20221013185908.1297568-9-stefanha@redhat.com
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Message-id: 20221013185908.1297568-10-stefanha@redhat.com
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/core/numa.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ MAINTAINERS                          |  1 +
+ include/sysemu/block-ram-registrar.h | 37 ++++++++++++++++++
+ block/block-ram-registrar.c          | 58 ++++++++++++++++++++++++++++
+ block/meson.build                    |  1 +
+ 4 files changed, 97 insertions(+)
+ create mode 100644 include/sysemu/block-ram-registrar.h
+ create mode 100644 block/block-ram-registrar.c
 
-diff --git a/hw/core/numa.c b/hw/core/numa.c
-index 31e6fe1caa..ea24a5fa8c 100644
---- a/hw/core/numa.c
-+++ b/hw/core/numa.c
-@@ -857,8 +857,9 @@ void ram_block_notifier_remove(RAMBlockNotifier *n)
- void ram_block_notify_add(void *host, size_t size, size_t max_size)
- {
-     RAMBlockNotifier *notifier;
-+    RAMBlockNotifier *next;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8b4363c0ff..cda146ebbb 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2510,6 +2510,7 @@ F: block*
+ F: block/
+ F: hw/block/
+ F: include/block/
++F: include/sysemu/block-*.h
+ F: qemu-img*
+ F: docs/tools/qemu-img.rst
+ F: qemu-io*
+diff --git a/include/sysemu/block-ram-registrar.h b/include/sysemu/block-ram-registrar.h
+new file mode 100644
+index 0000000000..d8b2f7942b
+--- /dev/null
++++ b/include/sysemu/block-ram-registrar.h
+@@ -0,0 +1,37 @@
++/*
++ * BlockBackend RAM Registrar
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#ifndef BLOCK_RAM_REGISTRAR_H
++#define BLOCK_RAM_REGISTRAR_H
++
++#include "exec/ramlist.h"
++
++/**
++ * struct BlockRAMRegistrar:
++ *
++ * Keeps RAMBlock memory registered with a BlockBackend using
++ * blk_register_buf() including hotplugged memory.
++ *
++ * Emulated devices or other BlockBackend users initialize a BlockRAMRegistrar
++ * with blk_ram_registrar_init() before submitting I/O requests with the
++ * BDRV_REQ_REGISTERED_BUF flag set.
++ */
++typedef struct {
++    BlockBackend *blk;
++    RAMBlockNotifier notifier;
++    bool ok;
++} BlockRAMRegistrar;
++
++void blk_ram_registrar_init(BlockRAMRegistrar *r, BlockBackend *blk);
++void blk_ram_registrar_destroy(BlockRAMRegistrar *r);
++
++/* Have all RAMBlocks been registered successfully? */
++static inline bool blk_ram_registrar_ok(BlockRAMRegistrar *r)
++{
++    return r->ok;
++}
++
++#endif /* BLOCK_RAM_REGISTRAR_H */
+diff --git a/block/block-ram-registrar.c b/block/block-ram-registrar.c
+new file mode 100644
+index 0000000000..25dbafa789
+--- /dev/null
++++ b/block/block-ram-registrar.c
+@@ -0,0 +1,58 @@
++/*
++ * BlockBackend RAM Registrar
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "sysemu/block-backend.h"
++#include "sysemu/block-ram-registrar.h"
++#include "qapi/error.h"
++
++static void ram_block_added(RAMBlockNotifier *n, void *host, size_t size,
++                            size_t max_size)
++{
++    BlockRAMRegistrar *r = container_of(n, BlockRAMRegistrar, notifier);
++    Error *err = NULL;
++
++    if (!r->ok) {
++        return; /* don't try again if we've already failed */
++    }
++
++    if (!blk_register_buf(r->blk, host, max_size, &err)) {
++        error_report_err(err);
++        ram_block_notifier_remove(&r->notifier);
++        r->ok = false;
++    }
++}
++
++static void ram_block_removed(RAMBlockNotifier *n, void *host, size_t size,
++                              size_t max_size)
++{
++    BlockRAMRegistrar *r = container_of(n, BlockRAMRegistrar, notifier);
++    blk_unregister_buf(r->blk, host, max_size);
++}
++
++void blk_ram_registrar_init(BlockRAMRegistrar *r, BlockBackend *blk)
++{
++    r->blk = blk;
++    r->notifier = (RAMBlockNotifier){
++        .ram_block_added = ram_block_added,
++        .ram_block_removed = ram_block_removed,
++
++        /*
++         * .ram_block_resized() is not necessary because we use the max_size
++         * value that does not change across resize.
++         */
++    };
++    r->ok = true;
++
++    ram_block_notifier_add(&r->notifier);
++}
++
++void blk_ram_registrar_destroy(BlockRAMRegistrar *r)
++{
++    if (r->ok) {
++        ram_block_notifier_remove(&r->notifier);
++    }
++}
+diff --git a/block/meson.build b/block/meson.build
+index 500878f082..b7c68b83a3 100644
+--- a/block/meson.build
++++ b/block/meson.build
+@@ -46,6 +46,7 @@ block_ss.add(files(
+ ), zstd, zlib, gnutls)
  
--    QLIST_FOREACH(notifier, &ram_list.ramblock_notifiers, next) {
-+    QLIST_FOREACH_SAFE(notifier, &ram_list.ramblock_notifiers, next, next) {
-         if (notifier->ram_block_added) {
-             notifier->ram_block_added(notifier, host, size, max_size);
-         }
-@@ -868,8 +869,9 @@ void ram_block_notify_add(void *host, size_t size, size_t max_size)
- void ram_block_notify_remove(void *host, size_t size, size_t max_size)
- {
-     RAMBlockNotifier *notifier;
-+    RAMBlockNotifier *next;
+ softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('blkreplay.c'))
++softmmu_ss.add(files('block-ram-registrar.c'))
  
--    QLIST_FOREACH(notifier, &ram_list.ramblock_notifiers, next) {
-+    QLIST_FOREACH_SAFE(notifier, &ram_list.ramblock_notifiers, next, next) {
-         if (notifier->ram_block_removed) {
-             notifier->ram_block_removed(notifier, host, size, max_size);
-         }
-@@ -879,8 +881,9 @@ void ram_block_notify_remove(void *host, size_t size, size_t max_size)
- void ram_block_notify_resize(void *host, size_t old_size, size_t new_size)
- {
-     RAMBlockNotifier *notifier;
-+    RAMBlockNotifier *next;
- 
--    QLIST_FOREACH(notifier, &ram_list.ramblock_notifiers, next) {
-+    QLIST_FOREACH_SAFE(notifier, &ram_list.ramblock_notifiers, next, next) {
-         if (notifier->ram_block_resized) {
-             notifier->ram_block_resized(notifier, host, old_size, new_size);
-         }
+ if get_option('qcow1').allowed()
+   block_ss.add(files('qcow.c'))
 -- 
 2.37.3
 
