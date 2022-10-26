@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6743E60D936
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 04:21:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F378B60D93B
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 04:23:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onVyD-0007bu-EB; Tue, 25 Oct 2022 22:16:42 -0400
+	id 1onVyd-0007r8-Ej; Tue, 25 Oct 2022 22:17:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1onVxx-0007b2-N2
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 22:16:25 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
+ id 1onVy4-0007kc-9a
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 22:16:32 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1onVxw-0001sV-4w
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 22:16:25 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id 4so6797537pli.0
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 19:16:23 -0700 (PDT)
+ id 1onVxy-0001sm-Ot
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 22:16:31 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ z5-20020a17090a8b8500b00210a3a2364fso2725284pjn.0
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 19:16:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VKbB7K0HwBJ/XftUm9+xrFi2M3poh8MvJJd+df6GbYo=;
- b=ghebxw3aMF/Vj2Mx5yKpFoADo/5jee7aQT9s68CWW2rWxjzbFGUc/1YnIfc083aGiV
- 7DUVnyR+q5lPoBW9VIYDVynNmEGnot9qQaHabcKz+fnQCeBGgSGv0oWwbdqK0eTLXYUq
- FlbdYBWEzL8mwZLEas232TFwvNbrBx/rbc5y27ZVZbQCH8eLg6N2BHgJ0J40A2yulE52
- gdgMqrRKJJlNvtsc7xbjKfauV54bZLjupYcXHrtSCCDOTKaIq60yKgC5V1YmKizskyvY
- AwOB7pbkhLb6QDWAtJ3hFvwq1oMbD+IBsA39dSIKoTnrN26bDqjnqqQ0nGa71BjyX3ww
- Q84g==
+ bh=tF/RwGukDicY+8ye6QbG84ecHxoGGEYhOUNZE7mAzY8=;
+ b=uRCZQwE2USy78A7HnNR/actACjm7hjRzF2iRcKK/9ris7ElfDHz/5RF+sWdC5pN2k2
+ Tsr26snSxC9s+yu4WvqnFoJggfRwxZTGWyf6xmN9HKBu7zmC38IpV3JxD2vXrEzi5ZoC
+ Rua0U7yXbuFfjT+vsyiMl+4kVVrOL/RfTPwH/zphfOEl1bxQEf1i5Fbpw+29T6+JxRJE
+ GbnF9RCytnt4VXPn14mTylTus3hT187LsWEskAgU9XwhUWaUsbdowPRFq88sbBI3jPzU
+ r/Es5J7eJcdSif5EzPvbmL3ClSgfKjYSN/IOyE/R5/jTKcPm61fa0MdFNwWAu3E0AMBP
+ gcig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VKbB7K0HwBJ/XftUm9+xrFi2M3poh8MvJJd+df6GbYo=;
- b=KZP0nCxRBSqq+1y/8DL5z3w8vBd/LeiOwSTgcp+O5UcW2M2aYPnYMIwMk1pheWs6tx
- sSTJQ4e6+sl2MFYh3cmRswzZK9jR39vZAGxwLXt+Wk5NomQoJqiVd7WMcf7uu2NN5e/2
- lZ8DHydVqjPodZC1QMrJ5D7gFebiqBCmgeskR8YeWB4IkuAM48o4GFU2+1uj2CXu1Lgb
- FQF+YrK+Jjxu+nJs/Dg3suE+GgNVYCVnE8fm2I+O2BiDbROqLvQqt4G2j8QB9ZzPpqee
- pApqDF8J062U4o8KxdCpYFoIokk0w0As75bxGo6uf7zzVeAAPX7kSvzY/JDcO0ElzC8U
- 9/sA==
-X-Gm-Message-State: ACrzQf2KwNgJod2/wdnTKbBxsnQGU/9hlkzSPXmo7baMuaQwvyQF6ab7
- 72BBsNGgO+ak/JKGF9BDvM6vFnPIYF3QGZfK
-X-Google-Smtp-Source: AMsMyM7lOx3tKCRdT/p1PDVK0NHmEp2uV3F8PwMZyoOp1VpyZjhgZnohk0ws2tRp5bt/jvByauLBVg==
-X-Received: by 2002:a17:90a:e7c4:b0:20d:451f:a988 with SMTP id
- kb4-20020a17090ae7c400b0020d451fa988mr1477442pjb.57.1666750582718; 
- Tue, 25 Oct 2022 19:16:22 -0700 (PDT)
+ bh=tF/RwGukDicY+8ye6QbG84ecHxoGGEYhOUNZE7mAzY8=;
+ b=yvAI5AsuU0akw5Ro3mCzdyNSSICE6Jl9P1vvi71hrS0qR6dhUQuy2wko4jCMEFGMYP
+ d1bt68YEIxIbLe8cQQNKFLpYALLkKFKc9kB2bn4VWq62zfXByqh2Tz2j4H+PL5wclkF8
+ YDdE2aFxZEzPWDN20ehqNgfT4w0AGf7yKA8zB1eDBihTsWoXlD9YX6+GNswqAdYpEP7G
+ UsmT+3hAgm8GN0g5eo8lw7fitiWcCmm0w1Xa0IIuC7TO9eI7ds4ZKdsdXgAjCdCE+oPd
+ f2qodeRDVhhl/7L62IgHCQ6j3rGeZagi2HjaAx2uCxJYAcv0h5OZ3VVJjb2dZtIYgVFC
+ u9Tg==
+X-Gm-Message-State: ACrzQf1i6PTbmsEMTITSn+RZ5fGVgrmaAZ/uIo0g8lEt0QIdmYGCE33R
+ K/4QoFwGRcerBUcJqFl9IVJRvcBKmOCBichQ
+X-Google-Smtp-Source: AMsMyM52QheWcx3mRT8QsUrSnl8twwbq/VswR3pqxH4MFKisj6REBRW2poUYSEFU0q3BNrKTEPdFjg==
+X-Received: by 2002:a17:903:2284:b0:185:3948:be7c with SMTP id
+ b4-20020a170903228400b001853948be7cmr42440360plh.51.1666750585386; 
+ Tue, 25 Oct 2022 19:16:25 -0700 (PDT)
 Received: from stoup.hotspotlogin.services ([103.100.225.182])
  by smtp.gmail.com with ESMTPSA id
- q18-20020a17090311d200b0018123556931sm1819732plh.204.2022.10.25.19.16.20
+ q18-20020a17090311d200b0018123556931sm1819732plh.204.2022.10.25.19.16.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Oct 2022 19:16:22 -0700 (PDT)
+ Tue, 25 Oct 2022 19:16:24 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 42/47] target/s390x: Convert to tcg_ops restore_state_to_opc
-Date: Wed, 26 Oct 2022 12:11:11 +1000
-Message-Id: <20221026021116.1988449-43-richard.henderson@linaro.org>
+Subject: [PULL 43/47] target/sh4: Convert to tcg_ops restore_state_to_opc
+Date: Wed, 26 Oct 2022 12:11:12 +1000
+Message-Id: <20221026021116.1988449-44-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221026021116.1988449-1-richard.henderson@linaro.org>
 References: <20221026021116.1988449-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,57 +95,62 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/s390x/s390x-internal.h | 4 +++-
- target/s390x/cpu.c            | 1 +
- target/s390x/tcg/translate.c  | 7 +++++--
- 3 files changed, 9 insertions(+), 3 deletions(-)
+ target/sh4/cpu.c       | 16 ++++++++++++++++
+ target/sh4/translate.c | 10 ----------
+ 2 files changed, 16 insertions(+), 10 deletions(-)
 
-diff --git a/target/s390x/s390x-internal.h b/target/s390x/s390x-internal.h
-index b5ae0ae364..5d4361d35b 100644
---- a/target/s390x/s390x-internal.h
-+++ b/target/s390x/s390x-internal.h
-@@ -398,7 +398,9 @@ void handle_diag_308(CPUS390XState *env, uint64_t r1, uint64_t r3,
- 
- /* translate.c */
- void s390x_translate_init(void);
--
-+void s390x_restore_state_to_opc(CPUState *cs,
-+                                const TranslationBlock *tb,
-+                                const uint64_t *data);
- 
- /* sigp.c */
- int handle_sigp(CPUS390XState *env, uint8_t order, uint64_t r1, uint64_t r3);
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index df00040e95..96562c516d 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -272,6 +272,7 @@ static void s390_cpu_reset_full(DeviceState *dev)
- 
- static const struct TCGCPUOps s390_tcg_ops = {
-     .initialize = s390x_translate_init,
-+    .restore_state_to_opc = s390x_restore_state_to_opc,
- 
- #ifdef CONFIG_USER_ONLY
-     .record_sigsegv = s390_cpu_record_sigsegv,
-diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index 1d2dddab1c..5798928473 100644
---- a/target/s390x/tcg/translate.c
-+++ b/target/s390x/tcg/translate.c
-@@ -6691,9 +6691,12 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns,
-     translator_loop(cs, tb, max_insns, pc, host_pc, &s390x_tr_ops, &dc.base);
+diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
+index 56c50530da..453268392b 100644
+--- a/target/sh4/cpu.c
++++ b/target/sh4/cpu.c
+@@ -50,6 +50,21 @@ static void superh_cpu_synchronize_from_tb(CPUState *cs,
+     cpu->env.flags = tb->flags;
  }
  
--void restore_state_to_opc(CPUS390XState *env, TranslationBlock *tb,
--                          target_ulong *data)
-+void s390x_restore_state_to_opc(CPUState *cs,
-+                                const TranslationBlock *tb,
-+                                const uint64_t *data)
- {
-+    S390CPU *cpu = S390_CPU(cs);
-+    CPUS390XState *env = &cpu->env;
-     int cc_op = data[1];
++static void superh_restore_state_to_opc(CPUState *cs,
++                                        const TranslationBlock *tb,
++                                        const uint64_t *data)
++{
++    SuperHCPU *cpu = SUPERH_CPU(cs);
++
++    cpu->env.pc = data[0];
++    cpu->env.flags = data[1];
++    /*
++     * Theoretically delayed_pc should also be restored. In practice the
++     * branch instruction is re-executed after exception, so the delayed
++     * branch target will be recomputed.
++     */
++}
++
+ #ifndef CONFIG_USER_ONLY
+ static bool superh_io_recompile_replay_branch(CPUState *cs,
+                                               const TranslationBlock *tb)
+@@ -243,6 +258,7 @@ static const struct SysemuCPUOps sh4_sysemu_ops = {
+ static const struct TCGCPUOps superh_tcg_ops = {
+     .initialize = sh4_translate_init,
+     .synchronize_from_tb = superh_cpu_synchronize_from_tb,
++    .restore_state_to_opc = superh_restore_state_to_opc,
  
-     env->psw.addr = data[0];
+ #ifndef CONFIG_USER_ONLY
+     .tlb_fill = superh_cpu_tlb_fill,
+diff --git a/target/sh4/translate.c b/target/sh4/translate.c
+index 26231b2a5a..7db3468b01 100644
+--- a/target/sh4/translate.c
++++ b/target/sh4/translate.c
+@@ -2381,13 +2381,3 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns,
+ 
+     translator_loop(cs, tb, max_insns, pc, host_pc, &sh4_tr_ops, &ctx.base);
+ }
+-
+-void restore_state_to_opc(CPUSH4State *env, TranslationBlock *tb,
+-                          target_ulong *data)
+-{
+-    env->pc = data[0];
+-    env->flags = data[1];
+-    /* Theoretically delayed_pc should also be restored. In practice the
+-       branch instruction is re-executed after exception, so the delayed
+-       branch target will be recomputed. */
+-}
 -- 
 2.34.1
 
