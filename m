@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB7A260D93C
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 04:24:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D3F760D94C
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 04:30:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onVuG-0005Ar-GO; Tue, 25 Oct 2022 22:12:36 -0400
+	id 1onVuI-0005H5-5j; Tue, 25 Oct 2022 22:12:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1onVuD-00053l-VB
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 22:12:33 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535])
+ id 1onVuG-0005Bp-1T
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 22:12:36 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1onVuC-0001Fb-6d
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 22:12:33 -0400
-Received: by mail-pg1-x535.google.com with SMTP id f9so9052640pgj.2
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 19:12:31 -0700 (PDT)
+ id 1onVuE-00019J-8i
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 22:12:35 -0400
+Received: by mail-pg1-x531.google.com with SMTP id 20so13457922pgc.5
+ for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 19:12:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Vryp12SHv8mRaikMdMN6WhOo1Wb00PiLQIFS7b2+pVU=;
- b=iZhbpTRCT8I1b9yLHmfCO1uy5szw5kJ/tpiKmd83oDv48V7i5C3tjLeKeI/D2TCKvB
- mp6NQQ6G9Sb4deLlfXK1WWyV274hyg5Lp/2cuuZybhLPYN9D/evwopcmDKSDt02gjxOW
- fOTMUO/pGeVirRE0wI/S7vztstEcJyF9A94L15a67Mrs6X/R7PvqKd6ecGcF0fEmAPXh
- 2DNvI8dn9Sc1E3rhuVFuE6Z8kf6MzC4vc5gSbs2NB5ad5XyR7H2rk0Fz1Mv4bAFS+c+C
- MSUgsCLr1pqt8ldmKqmTT3CRH6pRV+RkPIZAu47HszT8QDMbXJG7HtjEPiUO0g3yf0YG
- 7s9A==
+ bh=Ov3aeYf9Oo0htgsB4UrYWgNfrt2xvA4eqzI8BqeKPbs=;
+ b=pLnUxxiO+GAbNyYkn/vCTvFwd3giqz1rQ1ZKx0C9rb0hZE/pWu3cIgUSoSMFrTMyyj
+ velu/smSxVo6Pb8P08nF1pJkRVk/Rmo7ArBweIJ732N0z4uL3frypgi9XE+jpWH9l6Rx
+ GpaFOHn2ct3TediaFUb/iGtePhcaLwUHwoY919VUTfvXefpd1tYg7b3cT4j3Wq5yxEzH
+ Od6w5AWkoArJwJwoKsjzE8rGdnSmP6Fke/j2jwlMt14duAJlyjRyFx5qOrlX0fjbwnXp
+ BpZVzE/HoybdOxKABjAJlS3KDldWUAqyYhGzstMf9E8MsO6IKAaSoqA/5zjFS5n9nLOf
+ V8Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Vryp12SHv8mRaikMdMN6WhOo1Wb00PiLQIFS7b2+pVU=;
- b=JnTx3kwcQbQ1Ao7gcoZVGy3isKqkcvjUEaIyeikjSygx5OEAhVI/UZRrqPexR6wiiS
- BsP7XV+zMMpw4GnQb6CDGW5pdCM6+Nh3s0xoJKdKUHDshzw6WFkEJGVxFJEB/rERsRrh
- uVElJOY6ihGL0gGjwCNsZiAtt+qDlqkSo9cetqpPS1rlSa+qbQ4h3p4lmWDVuE+0Rxf3
- OR0tTMCKmOMgBauQO/bFv8DyLLwFHhuEO1KdMU7JxM93ipQW5OtbpTddfwWfWvNUoOlj
- dBLBSeeGNBewk2KIaoeRhQpAnw1dnwvRof6F3idWpzkGamC1Ui88KJfsgM6GZXDWVVXZ
- Vezw==
-X-Gm-Message-State: ACrzQf3Vr83DlMSt88OY+KrAQ4crA7ygiAfKxlQWtto+oiqS/Dg+UG6N
- zETTGEEt3Chxf9VHfTivYPEPZkXjQbOtJvc+
-X-Google-Smtp-Source: AMsMyM7f8brYSk/gMwOLPy0dVnpdbR5+SsEwF3812BkuEhazBv54ECie5/yDGYq7wUr3V/wGEQoW4w==
-X-Received: by 2002:a63:2b48:0:b0:434:eb45:9c6a with SMTP id
- r69-20020a632b48000000b00434eb459c6amr34521876pgr.508.1666750350808; 
- Tue, 25 Oct 2022 19:12:30 -0700 (PDT)
+ bh=Ov3aeYf9Oo0htgsB4UrYWgNfrt2xvA4eqzI8BqeKPbs=;
+ b=b6stdoiVFBLa6jNgNfiNyS4mp1ttfrKWk082S8IJGlzfezyNmWVslzM0LXs86aS/d/
+ 44M71Cm46x/MapyjC2Ce03Sl6Yiv5uBNlF7BGBFakbQQldMBFLJk9Hn0Zg6uQAILBtJ1
+ eNdRYbmzzC7ploenMJ4N0YSJQICGyaeAI3QhZb08k2IjqrCIV1YQrV1QZE3duNoSsrZ+
+ QhtBWAOWTqwx0SwlsZfZHAY6YrlMinpTD+xD2uajrX0ZVNMBEeGuZNO0TRpjrXlL93MR
+ 8hq0jg4au5meOMh0qsoz386BauVfWTtsfHAjrTXax8gcjWVb2bdwcYWUJafV/9OU9yhX
+ s46w==
+X-Gm-Message-State: ACrzQf2ZqilUb9ZIfmHl64D8XJOFax/I3mHmkpm4vvepaP+ZoC76e1wG
+ LDyyq4VLraCcN44wXi3B37ncSaBF+JQfud/j
+X-Google-Smtp-Source: AMsMyM6Tp1n/MD9nWtMUIrFxb0dCCjYE3pXn3O4dKzfpr8xZrfl1Endy6SUSFpZ1qEE75XRBYURBvg==
+X-Received: by 2002:a05:6a00:27a1:b0:566:8937:27c2 with SMTP id
+ bd33-20020a056a0027a100b00566893727c2mr40959692pfb.24.1666750353465; 
+ Tue, 25 Oct 2022 19:12:33 -0700 (PDT)
 Received: from stoup.hotspotlogin.services ([103.100.225.182])
  by smtp.gmail.com with ESMTPSA id
- o29-20020a635d5d000000b0043c9da02729sm1897833pgm.6.2022.10.25.19.12.28
+ o29-20020a635d5d000000b0043c9da02729sm1897833pgm.6.2022.10.25.19.12.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Oct 2022 19:12:30 -0700 (PDT)
+ Tue, 25 Oct 2022 19:12:33 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 24/47] accel/tcg: Simplify page_get/alloc_target_data
-Date: Wed, 26 Oct 2022 12:10:53 +1000
-Message-Id: <20221026021116.1988449-25-richard.henderson@linaro.org>
+	Claudio Fontana <cfontana@suse.de>
+Subject: [PULL 25/47] accel/tcg: Add restore_state_to_opc to TCGCPUOps
+Date: Wed, 26 Oct 2022 12:10:54 +1000
+Message-Id: <20221026021116.1988449-26-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221026021116.1988449-1-richard.henderson@linaro.org>
 References: <20221026021116.1988449-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,100 +90,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since the only user, Arm MTE, always requires allocation,
-merge the get and alloc functions to always produce a
-non-null result.  Also assume that the user has already
-checked page validity.
+Add a tcg_ops hook to replace the restore_state_to_opc
+function call.  Because these generic hooks cannot depend
+on target-specific types, temporarily, copy the current
+target_ulong data[] into uint64_t d64[].
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Claudio Fontana <cfontana@suse.de>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-all.h  | 21 ++++++---------------
- accel/tcg/user-exec.c   | 16 ++++------------
- target/arm/mte_helper.c |  4 ----
- 3 files changed, 10 insertions(+), 31 deletions(-)
+ include/exec/exec-all.h       |  2 +-
+ include/hw/core/tcg-cpu-ops.h | 11 +++++++++++
+ accel/tcg/translate-all.c     | 24 ++++++++++++++++++++++--
+ 3 files changed, 34 insertions(+), 3 deletions(-)
 
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index 854adc4ac2..2eb1176538 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -281,27 +281,18 @@ void page_reset_target_data(target_ulong start, target_ulong end);
- int page_check_range(target_ulong start, target_ulong len, int flags);
- 
- /**
-- * page_alloc_target_data(address)
-+ * page_get_target_data(address)
-  * @address: guest virtual address
-  *
-- * Allocate TARGET_PAGE_DATA_SIZE bytes of out-of-band data to associate
-- * with the guest page at @address.  If the page is not mapped, NULL will
-- * be returned.  If there is existing data associated with @address,
-- * no new memory will be allocated.
-+ * Return TARGET_PAGE_DATA_SIZE bytes of out-of-band data to associate
-+ * with the guest page at @address, allocating it if necessary.  The
-+ * caller should already have verified that the address is valid.
-  *
-  * The memory will be freed when the guest page is deallocated,
-  * e.g. with the munmap system call.
-  */
--void *page_alloc_target_data(target_ulong address);
--
--/**
-- * page_get_target_data(address)
-- * @address: guest virtual address
-- *
-- * Return any out-of-bound memory assocated with the guest page
-- * at @address, as per page_alloc_target_data.
-- */
--void *page_get_target_data(target_ulong address);
-+void *page_get_target_data(target_ulong address)
-+    __attribute__((returns_nonnull));
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 5ae484e34d..3b5e84240b 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -40,7 +40,7 @@ typedef ram_addr_t tb_page_addr_t;
  #endif
  
- CPUArchState *cpu_copy(CPUArchState *env);
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index 927b91900f..fb7d6ee9e9 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -242,19 +242,11 @@ void page_reset_target_data(target_ulong start, target_ulong end)
- void *page_get_target_data(target_ulong address)
+ void restore_state_to_opc(CPUArchState *env, TranslationBlock *tb,
+-                          target_ulong *data);
++                          target_ulong *data) __attribute__((weak));
+ 
+ /**
+  * cpu_restore_state:
+diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
+index 78c6c6635d..20e3c0ffbb 100644
+--- a/include/hw/core/tcg-cpu-ops.h
++++ b/include/hw/core/tcg-cpu-ops.h
+@@ -31,6 +31,17 @@ struct TCGCPUOps {
+      * function to restore all the state, and register it here.
+      */
+     void (*synchronize_from_tb)(CPUState *cpu, const TranslationBlock *tb);
++    /**
++     * @restore_state_to_opc: Synchronize state from INDEX_op_start_insn
++     *
++     * This is called when we unwind state in the middle of a TB,
++     * usually before raising an exception.  Set all part of the CPU
++     * state which are tracked insn-by-insn in the target-specific
++     * arguments to start_insn, passed as @data.
++     */
++    void (*restore_state_to_opc)(CPUState *cpu, const TranslationBlock *tb,
++                                 const uint64_t *data);
++
+     /** @cpu_exec_enter: Callback for cpu_exec preparation */
+     void (*cpu_exec_enter)(CPUState *cpu);
+     /** @cpu_exec_exit: Callback for cpu_exec cleanup */
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 433fa247f4..4d8783efc7 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -256,7 +256,6 @@ int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
  {
-     PageDesc *p = page_find(address >> TARGET_PAGE_BITS);
--    return p ? p->target_data : NULL;
--}
-+    void *ret = p->target_data;
- 
--void *page_alloc_target_data(target_ulong address)
--{
--    PageDesc *p = page_find(address >> TARGET_PAGE_BITS);
--    void *ret = NULL;
--
--    if (p->flags & PAGE_VALID) {
--        ret = p->target_data;
--        if (!ret) {
--            p->target_data = ret = g_malloc0(TARGET_PAGE_DATA_SIZE);
--        }
-+    if (!ret) {
-+        ret = g_malloc0(TARGET_PAGE_DATA_SIZE);
-+        p->target_data = ret;
+     target_ulong data[TARGET_INSN_START_WORDS];
+     uintptr_t host_pc = (uintptr_t)tb->tc.ptr;
+-    CPUArchState *env = cpu->env_ptr;
+     const uint8_t *p = tb->tc.ptr + tb->tc.size;
+     int i, j, num_insns = tb->icount;
+ #ifdef CONFIG_PROFILER
+@@ -295,7 +294,20 @@ int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
+            and shift if to the number of actually executed instructions */
+         cpu_neg(cpu)->icount_decr.u16.low += num_insns - i;
      }
-     return ret;
- }
-diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
-index a9c5fc2cb2..86b3754838 100644
---- a/target/arm/mte_helper.c
-+++ b/target/arm/mte_helper.c
-@@ -95,10 +95,6 @@ static uint8_t *allocation_tag_mem(CPUARMState *env, int ptr_mmu_idx,
-     }
+-    restore_state_to_opc(env, tb, data);
++
++    {
++        const struct TCGCPUOps *ops = cpu->cc->tcg_ops;
++        __typeof(ops->restore_state_to_opc) restore = ops->restore_state_to_opc;
++        if (restore) {
++            uint64_t d64[TARGET_INSN_START_WORDS];
++            for (i = 0; i < TARGET_INSN_START_WORDS; ++i) {
++                d64[i] = data[i];
++            }
++            restore(cpu, tb, d64);
++        } else {
++            restore_state_to_opc(cpu->env_ptr, tb, data);
++        }
++    }
  
-     tags = page_get_target_data(clean_ptr);
--    if (tags == NULL) {
--        tags = page_alloc_target_data(clean_ptr);
--        assert(tags != NULL);
--    }
+ #ifdef CONFIG_PROFILER
+     qatomic_set(&prof->restore_time,
+@@ -307,6 +319,14 @@ int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
  
-     index = extract32(ptr, LOG2_TAG_GRANULE + 1,
-                       TARGET_PAGE_BITS - LOG2_TAG_GRANULE - 1);
+ bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit)
+ {
++    /*
++     * The pc update associated with restore without exit will
++     * break the relative pc adjustments performed by TARGET_TB_PCREL.
++     */
++    if (TARGET_TB_PCREL) {
++        assert(will_exit);
++    }
++
+     /*
+      * The host_pc has to be in the rx region of the code buffer.
+      * If it is not we will not be able to resolve it here.
 -- 
 2.34.1
 
