@@ -2,91 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D1EE60EAA5
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 23:03:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B0A760EAA8
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 23:03:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onnUI-0002zp-Vd; Wed, 26 Oct 2022 16:58:59 -0400
+	id 1onnYL-0006AE-S1; Wed, 26 Oct 2022 17:03:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1onnUF-0002ic-IT
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 16:58:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1onnUD-0003kb-2d
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 16:58:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666817932;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DHemR/YHTWVoK2K4/8yhYWmaedmwrRQIAD0F6b7xDGg=;
- b=AqGl83QAx2U6WHh7kWqGRqxdszQk5KxEhqiN8bE7bmRP5mByACsJ7aZlK1IBmyepvpGxvs
- aBRzZxeMwCINahwQFmiev+jco1AO5agg6hqh+oiG7HVM3Q0IZrdiCP+LrbYqAj+W9+nWYm
- /b8RAhYTtxVC98ChFftpwNwEI0gBYbM=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-557-8gSD9SCxPqG4SvgdTfpnZQ-1; Wed, 26 Oct 2022 16:58:50 -0400
-X-MC-Unique: 8gSD9SCxPqG4SvgdTfpnZQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- x12-20020a05600c21cc00b003c8340cb973so825832wmj.7
- for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 13:58:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <gourry.memverge@gmail.com>)
+ id 1onnYF-0005Ac-Sx
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 17:03:04 -0400
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <gourry.memverge@gmail.com>)
+ id 1onnYE-0004rG-2O
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 17:03:03 -0400
+Received: by mail-qk1-x741.google.com with SMTP id l9so9137912qkk.11
+ for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 14:03:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=d7/73U88aWKwNDfroPuUtEdVueHFIV0vL1R64OOolus=;
+ b=MLL6rHHFzlTIlFjnX45D5dWzOTzb7hjWEd9LjdjkkrHD1PRnmPagXf7TnDurZkzP+U
+ R3WkGfgLWcI4nPWBgOLemAI3FG1PPLghS/ePBF9ai2JDHtHa+NAMYGoOlCdBSTyq/GVI
+ VNFj6aHyV6YOEtXGOx0MFELJVxwe8BxVQ7xutdCd+QmRajvnkIs5W8UjLnwUVW9Luk4+
+ i39pI6srbvm8ZEqUyi10qB0taIxmlR4gvM8Gu/npBJEjQo0lp20C4KTR3HQiBOldgJR0
+ QPlDhMbteAXrd4wS85xKctWJyW5QE35aK93gLx0jeBo9p3i+r+Z25bU5IHH4F82lE1HL
+ ql4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DHemR/YHTWVoK2K4/8yhYWmaedmwrRQIAD0F6b7xDGg=;
- b=N/xqE87ejMQirMGjftbH+Fl8WX2iJkYi3feej07XvJ8kr5cYHYBCwbAEle4yJYeuBp
- 0tsBKOrGhCdvwX5NojRdSuUwF9cM3tGUd/M2FCNH9PYy3AHwTclMwBJOJU64OO4A7Nqf
- aYI3dPal8HzTBX2p8jMqEx5m/Kk7IF47dDNyZbLetEGiI5ek+gp0UkQsGslkEjuwZ1Wh
- ZJ+27YierrCSk7+TimV55plpcAHXDYkxcvH41g3IxiLzSZGhsciiX5gdonufq+DKIb+T
- l9wGdbfRxX97qyA/Hd+9GQ56HFLwnTM/kZIJyCWRdeCQbI1CZlo1juynFh+DPyBtbj9o
- m+CQ==
-X-Gm-Message-State: ACrzQf03KY98wu7gNGJe+A5pWff+0sH9DS5iCa8CYVkK/nsmgJX1DE9X
- uAs+o8rKxAhrAkVJSfqx7NuljRZQX/eESuC6Sd/KDoIALnfO61/QxMSa+Z56xdRTWPsiva7oVxg
- 4Xg9NxlB6gSO8iMs=
-X-Received: by 2002:a05:6000:2c1:b0:22e:7507:a182 with SMTP id
- o1-20020a05600002c100b0022e7507a182mr29841023wry.550.1666817929685; 
- Wed, 26 Oct 2022 13:58:49 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7BkO3Et1huaCFvqKdkqK+V0I0G/MeWAkmEw80z2XNuG/O5jqBgQAuIEyC3nm/YBuOnoy6j1Q==
-X-Received: by 2002:a05:6000:2c1:b0:22e:7507:a182 with SMTP id
- o1-20020a05600002c100b0022e7507a182mr29841011wry.550.1666817929476; 
- Wed, 26 Oct 2022 13:58:49 -0700 (PDT)
-Received: from redhat.com ([2.52.15.7]) by smtp.gmail.com with ESMTPSA id
- b15-20020adfde0f000000b0022ac38fb20asm6128763wrm.111.2022.10.26.13.58.47
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=d7/73U88aWKwNDfroPuUtEdVueHFIV0vL1R64OOolus=;
+ b=zlDgSOvFEC+bqjXyNjuHno+ZLNq/pYkVmxAEpUlQ9IjDMlIXmOM2tiTKuwkw76n+uW
+ 9Il1PFTUtWhdhsqrdA9sf1nWfthw4EDWHzAS+sWXq51sAgSjXYDfNBB/pjbi00Ap+w6N
+ TNykVqreW453a43KhL0IXB20jwc4nFjp/c35lzOzOGduTfVYqoXUtpjN4AtJhyx46Sgm
+ rf3mSrIsq28KPmVlXIT1Eng5NgDm7irIYErJp44BZywMRcM3OPl7lkwb2IA70UE2vW3p
+ eZ2O/sBGgw8fifQ4NQj1XIDmJxPXLsdM9s17o+66zBcTN8scE6hFMveC0ZQmYA4FYrh8
+ tkNg==
+X-Gm-Message-State: ACrzQf2sm2g7/eSNtJEP6lHB4dd6hrqmHKOWRTufYgulByWUBZyc4ehV
+ Rx5sWUOQiKpMlEJYnXqtMZn0RB68Jg==
+X-Google-Smtp-Source: AMsMyM7VyTdk/Wn3qoOTlb9Al2zqipCfyiurRTHWSirl4Cd1LBW6/x+6OhstOtIN2i9JM0/p439LrQ==
+X-Received: by 2002:a05:620a:2587:b0:6cf:7ece:e1f9 with SMTP id
+ x7-20020a05620a258700b006cf7ecee1f9mr31770925qko.182.1666818180277; 
+ Wed, 26 Oct 2022 14:03:00 -0700 (PDT)
+Received: from fedora.mshome.net ([104.184.156.161])
+ by smtp.gmail.com with ESMTPSA id
+ e12-20020ac8130c000000b003a4efd59754sm1325020qtj.12.2022.10.26.14.02.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Oct 2022 13:58:48 -0700 (PDT)
-Date: Wed, 26 Oct 2022 16:58:45 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, Liuxiangdong <liuxiangdong5@huawei.com>,
- Parav Pandit <parav@mellanox.com>,
- Harpreet Singh Anand <hanand@xilinx.com>,
- Laurent Vivier <lvivier@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
- Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Cindy Lu <lulu@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Si-Wei Liu <si-wei.liu@oracle.com>
-Subject: Re: [PATCH 0/4] Shadow VirtQueue event index support
-Message-ID: <20221026165830-mutt-send-email-mst@kernel.org>
-References: <20221020155251.398735-1-eperezma@redhat.com>
+ Wed, 26 Oct 2022 14:02:58 -0700 (PDT)
+From: Gregory Price <gourry.memverge@gmail.com>
+X-Google-Original-From: Gregory Price <gregory.price@memverge.com>
+To: qemu-devel@nongnu.org
+Cc: mst@redhat.com, linux-cxl@vger.kernel.org, jonathan.cameron@huawei.com,
+ dave@stgolabs.net, a.manzanares@samsung.com,
+ Gregory Price <gregory.price@memverge.com>
+Subject: [PATCH] hw/i386/pc.c: CXL Fixed Memory Window should not reserve e820
+ in bios
+Date: Wed, 26 Oct 2022 16:59:13 -0400
+Message-Id: <20221026205912.8579-1-gregory.price@memverge.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221020155251.398735-1-eperezma@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Received-SPF: pass client-ip=2607:f8b0:4864:20::741;
+ envelope-from=gourry.memverge@gmail.com; helo=mail-qk1-x741.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,36 +90,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Oct 20, 2022 at 05:52:47PM +0200, Eugenio Pérez wrote:
-> Event idx helps to reduce the number of notifications between the device
-> and the driver. It allows them to specify an index on the circular
-> descriptors rings where to issue the notification, instead of a single
-> binary indicator.
-> 
-> Adding support for SVQ.
+Early-boot e820 records will be inserted by the bios/efi/early boot
+software and be reported to the kernel via insert_resource.  Later, when
+CXL drivers iterate through the regions again, they will insert another
+resource and make the RESERVED memory area a child.
 
+This RESERVED memory area causes the memory region to become unusable,
+and as a result attempting to create memory regions with
 
-Jason seems to be taking this through net
+    `cxl create-region ...`
 
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Will fail due to the RESERVED area intersecting with the CXL window.
 
-> These patches are sent on top of [1] series, so trivial conflicts could arise
-> if it is applied directly on master. Future versions can be not based on
-> it is more convenient.
-> 
-> [1] https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg03280.html
-> 
-> Eugenio Pérez (4):
->   vhost: allocate event_idx fields on vring
->   vhost: toggle device callbacks using used event idx
->   vhost: use avail event idx on vhost_svq_kick
->   vhost: Accept event idx flag
-> 
->  hw/virtio/vhost-shadow-virtqueue.c | 39 ++++++++++++++++++++++++------
->  1 file changed, 31 insertions(+), 8 deletions(-)
-> 
-> -- 
-> 2.31.1
-> 
+During boot the following traceback is observed:
+
+0xffffffff81101650 in insert_resource_expand_to_fit ()
+0xffffffff83d964c5 in e820__reserve_resources_late ()
+0xffffffff83e03210 in pcibios_resource_survey ()
+0xffffffff83e04f4a in pcibios_init ()
+
+Which produces a call to reserve the CFMWS area:
+
+(gdb) p *new
+$54 = {start = 0x290000000, end = 0x2cfffffff, name = "Reserved",
+       flags = 0x200, desc = 0x7, parent = 0x0, sibling = 0x0,
+       child = 0x0}
+
+Later the Kernel parses ACPI tables and reserves the exact same area as
+the CXL Fixed Memory Window:
+
+0xffffffff811016a4 in insert_resource_conflict ()
+                      insert_resource ()
+0xffffffff81a81389 in cxl_parse_cfmws ()
+0xffffffff818c4a81 in call_handler ()
+                      acpi_parse_entries_array ()
+
+(gdb) p/x *new
+$59 = {start = 0x290000000, end = 0x2cfffffff, name = "CXL Window 0",
+       flags = 0x200, desc = 0x0, parent = 0x0, sibling = 0x0,
+       child = 0x0}
+
+This produces the following output in /proc/iomem:
+
+590000000-68fffffff : CXL Window 0
+  590000000-68fffffff : Reserved
+
+This reserved area causes `get_free_mem_region()` to fail due to a check
+against `__region_intersects()`.  Due to this reserved area, the
+intersect check will only ever return REGION_INTERSECTS, which causes
+`cxl create-region` to always fail.
+
+Signed-off-by: Gregory Price <gregory.price@memverge.com>
+---
+ hw/i386/pc.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 768982ae9a..203c90fedb 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1062,7 +1062,6 @@ void pc_memory_init(PCMachineState *pcms,
+         hwaddr cxl_size = MiB;
+ 
+         cxl_base = pc_get_cxl_range_start(pcms);
+-        e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
+         memory_region_init(mr, OBJECT(machine), "cxl_host_reg", cxl_size);
+         memory_region_add_subregion(system_memory, cxl_base, mr);
+         cxl_resv_end = cxl_base + cxl_size;
+@@ -1078,7 +1077,6 @@ void pc_memory_init(PCMachineState *pcms,
+                 memory_region_init_io(&fw->mr, OBJECT(machine), &cfmws_ops, fw,
+                                       "cxl-fixed-memory-region", fw->size);
+                 memory_region_add_subregion(system_memory, fw->base, &fw->mr);
+-                e820_add_entry(fw->base, fw->size, E820_RESERVED);
+                 cxl_fmw_base += fw->size;
+                 cxl_resv_end = cxl_fmw_base;
+             }
+-- 
+2.37.3
 
 
