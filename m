@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BDF760D83C
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 01:54:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBC6A60D87C
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 02:35:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onTgg-000630-NO; Tue, 25 Oct 2022 19:50:26 -0400
+	id 1onUJD-0003tx-LM; Tue, 25 Oct 2022 20:30:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1onTgf-00062Y-HC
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 19:50:25 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1onTgd-0003AU-Vj
- for qemu-devel@nongnu.org; Tue, 25 Oct 2022 19:50:25 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id z14so10175787wrn.7
- for <qemu-devel@nongnu.org>; Tue, 25 Oct 2022 16:50:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vh73FyzeCa96lyMftRBslatxPlyeRzpgoLs0z6zLidE=;
- b=HMVOiDeE3V1JH++uUgxjWnJW6G4ec7mcKLTYRfvpLG82g/ZjrgGM9eU7ZiHSLMlaDb
- MoVyuElbihL4e2VoHFCSkv445EQUXLJrgjrFnjq9368SEOsHa7/o3ToJB/+usB5R0ob/
- MPlSNE1xsTo4k1I7q16mhgQiNbIyiRIQRJnvak1MG0uFmiC82JPqLJwOTxSTo3T9qE17
- IoDqwdsauryDeBZkOnyy2ynIwaOPf9Qt10fpQJn+pSOHQamjxoHdF/fOvstmUdg4sgL8
- NeZZ7u2PIVcB1dONLXWPJAwZOPiDo7fhA+tAtx0e7YQuL/RnuePNzjlJli8odrQryf4l
- vNgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vh73FyzeCa96lyMftRBslatxPlyeRzpgoLs0z6zLidE=;
- b=g5irH+9O62H/kzd6wejNQa3HIMxm4qt8B7BsIg78W9krucpGqcpuIsUDYZ8sX5JiYY
- PZdIdDYnTJHezM4j/C8v0rVyuoh9uR1k5UyKj6/oSvn4Ldp1gpnwEUSJ7TxhsFiqDs/y
- pUQ0AS1oJcLodnzSpJzgkatEIzjzf4j6tcrElEHQvjwEsQ3FsWcjAZeIrG0nRJaJt8qK
- t9ZUKSRhgM5WYdIa4qs/0UUBiUMfaiSUNsxh0x1JBRrxV2lugX5vgiezr+qnNEAJ1+nC
- bk0jRUeCbU/37eabuS5kajWiXKDwMc/9DOx/NGZ4H8T/ukGXcC0stbvEmqM/hMOwjIIh
- OaVQ==
-X-Gm-Message-State: ACrzQf2zKVmScbl3m43+AaksQj6khaz/Lqm98kjjvkKUralTBvw5Vtf1
- Wv9u23ITLvfQhWIF217muvBadaou4FI29/LX
-X-Google-Smtp-Source: AMsMyM7atsIWnHxc5tlGKhKd2SER+6gCpgUemRSoyAux99kZnvCJlQ4Hqegz7AUMclEs+CQ/k9WlIQ==
-X-Received: by 2002:adf:e84a:0:b0:236:5f2d:9027 with SMTP id
- d10-20020adfe84a000000b002365f2d9027mr13170317wrn.89.1666741823233; 
- Tue, 25 Oct 2022 16:50:23 -0700 (PDT)
-Received: from localhost.localdomain ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- a2-20020a056000050200b0023662245d3csm3718909wrf.95.2022.10.25.16.50.22
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 25 Oct 2022 16:50:22 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: David Hildenbrand <david@redhat.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Cornelia Huck <cohuck@redhat.com>,
- qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 3/3] target/tricore: Rename csfr.def -> csfr.h.inc
-Date: Wed, 26 Oct 2022 01:50:06 +0200
-Message-Id: <20221025235006.7215-4-philmd@linaro.org>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221025235006.7215-1-philmd@linaro.org>
-References: <20221025235006.7215-1-philmd@linaro.org>
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1onUJ9-0003nm-Ha
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 20:30:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1onUJ5-0000MO-EF
+ for qemu-devel@nongnu.org; Tue, 25 Oct 2022 20:30:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666744204;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KpGdKj/mpUhhpki17knBogDgVkSHFPgzk2f/PypGgWo=;
+ b=O5PfGbNFN8GmSOZrZSo5k6jrosGOwLSD+kKN3ur++5ZSukHlMJ9ViDOGot18b8/c1VQsi4
+ JtCwrmiMjvQBikbELjaaqRL9ksZHsLF7HtS4XyLckQreMXiwaznrpgGjjUVz2wqNXhQBRn
+ Fav1b6rOYaTtPtALnmHJDtnyIx8jDEo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-110-Qz4oIPBnNTWoWcFZjdBW1A-1; Tue, 25 Oct 2022 20:30:02 -0400
+X-MC-Unique: Qz4oIPBnNTWoWcFZjdBW1A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3471429AB406;
+ Wed, 26 Oct 2022 00:30:02 +0000 (UTC)
+Received: from [10.64.54.151] (vpn2-54-151.bne.redhat.com [10.64.54.151])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E0CAD112132E;
+ Wed, 26 Oct 2022 00:29:58 +0000 (UTC)
+Subject: Re: [PATCH v6 0/7] hw/arm/virt: Improve address assignment for high
+ memory regions
+From: Gavin Shan <gshan@redhat.com>
+To: qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, maz@kernel.org, eric.auger@redhat.com,
+ cohuck@redhat.com, zhenyzha@redhat.com, richard.henderson@linaro.org,
+ peter.maydell@linaro.org, shan.gavin@gmail.com
+References: <20221024035416.34068-1-gshan@redhat.com>
+Message-ID: <fcf82677-dd16-82db-c502-a8baf35192f3@redhat.com>
+Date: Wed, 26 Oct 2022 08:29:56 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20221024035416.34068-1-gshan@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.517,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,47 +82,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We use the .h.inc extension to include C headers. To be consistent
-with the rest of the codebase, rename the C headers using the .def
-extension.
+Hi Peter and Marc,
 
-IDE/tools using our .editorconfig / .gitattributes will leverage
-this consistency.
+On 10/24/22 11:54 AM, Gavin Shan wrote:
+> There are three high memory regions, which are VIRT_HIGH_REDIST2,
+> VIRT_HIGH_PCIE_ECAM and VIRT_HIGH_PCIE_MMIO. Their base addresses
+> are floating on highest RAM address. However, they can be disabled
+> in several cases.
+> 
+> (1) One specific high memory region is disabled by developer by
+>      toggling vms->highmem_{redists, ecam, mmio}.
+> 
+> (2) VIRT_HIGH_PCIE_ECAM region is disabled on machine, which is
+>      'virt-2.12' or ealier than it.
+> 
+> (3) VIRT_HIGH_PCIE_ECAM region is disabled when firmware is loaded
+>      on 32-bits system.
+> 
+> (4) One specific high memory region is disabled when it breaks the
+>      PA space limit.
+> 
+> The current implementation of virt_set_memmap() isn't comprehensive
+> because the space for one specific high memory region is always
+> reserved from the PA space for case (1), (2) and (3). In the code,
+> 'base' and 'vms->highest_gpa' are always increased for those three
+> cases. It's unnecessary since the assigned space of the disabled
+> high memory region won't be used afterwards.
+> 
+> The series intends to improve the address assignment for these
+> high memory regions and introduces new properties for user to
+> selectively disable those 3 high memory regions.
+> 
+> PATCH[1-4] preparatory work for the improvment
+> PATCH[5]   improve high memory region address assignment
+> PATCH[6]   adds 'compact-highmem' to enable or disable the optimization
+> PATCH[7]   adds properties so that high memory regions can be disabled
+> 
+> v5: https://lists.nongnu.org/archive/html/qemu-arm/2022-10/msg00280.html
+> v4: https://lists.nongnu.org/archive/html/qemu-arm/2022-10/msg00067.html
+> v3: https://lists.nongnu.org/archive/html/qemu-arm/2022-09/msg00258.html
+> v2: https://lore.kernel.org/all/20220815062958.100366-1-gshan@redhat.com/T/
+> v1: https://lists.nongnu.org/archive/html/qemu-arm/2022-08/msg00013.html
+> 
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- target/tricore/{csfr.def => csfr.h.inc} | 0
- target/tricore/translate.c              | 4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename target/tricore/{csfr.def => csfr.h.inc} (100%)
+Could you help to take a look when getting a chance? I think Connie and
+Eric are close to complete the reviews, but v7 is still needed to address
+extra comments from them. I hope to make v7 mergeable if possible :)
 
-diff --git a/target/tricore/csfr.def b/target/tricore/csfr.h.inc
-similarity index 100%
-rename from target/tricore/csfr.def
-rename to target/tricore/csfr.h.inc
-diff --git a/target/tricore/translate.c b/target/tricore/translate.c
-index a0558ead71..f02090945d 100644
---- a/target/tricore/translate.c
-+++ b/target/tricore/translate.c
-@@ -388,7 +388,7 @@ static inline void gen_mfcr(DisasContext *ctx, TCGv ret, int32_t offset)
-         gen_helper_psw_read(ret, cpu_env);
-     } else {
-         switch (offset) {
--#include "csfr.def"
-+#include "csfr.h.inc"
-         }
-     }
- }
-@@ -418,7 +418,7 @@ static inline void gen_mtcr(DisasContext *ctx, TCGv r1,
-             gen_helper_psw_write(cpu_env, r1);
-         } else {
-             switch (offset) {
--#include "csfr.def"
-+#include "csfr.h.inc"
-             }
-         }
-     } else {
--- 
-2.37.3
+Thanks,
+Gavin
+
+> Changelog
+> ==========
+> v6:
+>    * Pick review-by from Connie/Eric                            (Connie/Eric)
+>    * Make the changes obvious in PATCH[v6 5/7]                  (Eric)
+>    * Move the example to commit log and describe the legacy
+>      and compact layout in code's comments in PATCH[v6 6/7]     (Eric)
+>    * Comment and commit message improvements                    (Connie/Eric)
+>    * Add 3 properties in PATCH[v6 7/7], allowing user to disable
+>      those 3 high memory regions                                (Marc)
+> v5:
+>    * Pick review-by and tested-by                               (Connie/Zhenyu)
+>    * Add extra check in PATCH[v5 4/6]                           (Connie)
+>    * Improve comments about compatibility for disabled regions
+>      in PATCH[v5 5/6]                                           (Connie)
+> v4:
+>    * Add virt_get_high_memmap_enabled() helper                  (Eric)
+>    * Move 'vms->highmem_compact' and related logic from
+>      PATCH[v4 6/6] to PATCH[v4 5/6] to avoid git-bisect
+>      breakage                                                   (Eric)
+>    * Document the legacy and optimized high memory region
+>      layout in commit log and source code                       (Eric)
+> v3:
+>    * Reorder the patches                                        (Gavin)
+>    * Add 'highmem-compact' property for backwards compatibility (Eric)
+> v2:
+>    * Split the patches for easier review                        (Gavin)
+>    * Improved changelog                                         (Marc)
+>    * Use 'bool fits' in virt_set_high_memmap()                  (Eric)
+> 
+> Gavin Shan (7):
+>    hw/arm/virt: Introduce virt_set_high_memmap() helper
+>    hw/arm/virt: Rename variable size to region_size in
+>      virt_set_high_memmap()
+>    hw/arm/virt: Introduce variable region_base in virt_set_high_memmap()
+>    hw/arm/virt: Introduce virt_get_high_memmap_enabled() helper
+>    hw/arm/virt: Improve high memory region address assignment
+>    hw/arm/virt: Add 'compact-highmem' property
+>    hw/arm/virt: Add properties to disable high memory regions
+> 
+>   docs/system/arm/virt.rst |  16 ++++
+>   hw/arm/virt.c            | 182 ++++++++++++++++++++++++++++++++-------
+>   include/hw/arm/virt.h    |   2 +
+>   3 files changed, 167 insertions(+), 33 deletions(-)
+> 
 
 
