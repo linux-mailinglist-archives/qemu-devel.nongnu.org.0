@@ -2,83 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FD9D60E567
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 18:22:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 735CF60E583
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Oct 2022 18:33:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onj7h-0000FS-KK; Wed, 26 Oct 2022 12:19:21 -0400
+	id 1onjJr-0006IW-Ku; Wed, 26 Oct 2022 12:31:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1onj7f-0008Qa-UN
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 12:19:19 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1onj7e-00062O-83
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 12:19:19 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id a14so24448899wru.5
- for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 09:19:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=22ESIzwm3U8Y8FxEG3qGdFMQGfeG9gttgOxmfW2ms2E=;
- b=vhETb0hUzCT6KEClCyMzbvAYs7MjiS0KcQKlo6PVpL7WAxcClNlDKAY8FINgS4w4uT
- kZ5KJu5eoycrNwkn7Jt9he2xl6Ax4YtFAXCYWbvG4Fm/t85ZAIAGDP7Otc829VaAG/Wx
- /kS1tKcqgVlcKbNcwLtQqmbqU3Ivoa9DofTWTKxBMcUkHNgobgfk5o+ubxpkgQ8Ihi4s
- FM60MauAE7ImzCmqSRFiv+0/87+JMkOyppKcVpOnduHTtrh7cqzGKu9rSXDvjq+kIct9
- ldsyU5RQ0bNthOpV+UDcxEBRAErP0PnCSJDkXxCIjoYVDRmTLiKuLvrjvav1et3YwgkB
- mV+g==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1onjJG-0004WT-B5
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 12:31:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1onjJD-0000EW-E4
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 12:31:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666801866;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=M2HRgcaixl1vmoQ7jhurTIL9hqVdP6Nox8K0BT9eQXg1hCs8TGxmMmeXX24HAGFw9D6VL5
+ tpkVuUEF9nKDsQOgsrgGDESkgqqrPJIXa3rm7CcMJqZC2yM3ozBSyYshxG70R9T/FufWBv
+ qoYATRVvIoT6YjAsP9yoEUVJ5aXXJ9A=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-260-JbIpNMLcN1COBp8Wq3b-5g-1; Wed, 26 Oct 2022 12:31:05 -0400
+X-MC-Unique: JbIpNMLcN1COBp8Wq3b-5g-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ n13-20020adf8b0d000000b0023658a75751so5636268wra.23
+ for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 09:31:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=22ESIzwm3U8Y8FxEG3qGdFMQGfeG9gttgOxmfW2ms2E=;
- b=E9qYIUb3U9JgF23g/WiZBHKT90QMFY4v0Pk/rtYguSDfuJCXsADh+axsyeDpLZyFYH
- 8ZzkFnfa50+51Na0PzDQJ9c2w0gaS6Avxt8Qb+zcc948C294sT98Mb5FH6qwYMlrn2/n
- obxAQCm+8sUzgqQ29J1SybVVcWfx3c+F3KM/42PQACWO8ODmk+q1fKjtohcmj9KndGlT
- 8DFcppA4dARNfYYGKlLHHuMuzvePwLKNqsivqC0BBDdYz1lTKeW40ZX+2OSmrZcdfVPr
- 91DHUJPak8Op81aWM2b5SN1UHiMetKdoJSOvZI6alwmkDxK7eCVQQOtIEvnpNX35upy2
- BMpQ==
-X-Gm-Message-State: ACrzQf3toaRyEeYJPzNEHUq1znd5JhA1QHX3jcusXae1gMIAyzDgSZ9s
- fM24fTbeBg9tR6w0qdLorKsrVpQiUL0XWQ==
-X-Google-Smtp-Source: AMsMyM7kLql3VBlKdUaNltj4t0UOVgJT9/b209gejq6Pom9ltIyy9EgWfgyiRB6dcwzAiu8TJrHZyw==
-X-Received: by 2002:a05:6000:1d94:b0:22e:34ef:b07f with SMTP id
- bk20-20020a0560001d9400b0022e34efb07fmr29910583wrb.272.1666801155931; 
- Wed, 26 Oct 2022 09:19:15 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=GcTDmHHW/F8HchWV4GFER+P2TPcoqz7KJZnGx6Wwf2j5ikttdB0LgYbEPXUeCHJQ48
+ godmZXkxa8wy7eh4p+0+/mUFJpF0TnghFxQ1z0Q1Cn+1+GlqHtpd3zShk7mQ+RPt7Ftk
+ zyV0tfIerYGOVd6EiTJbca1ccQYpy8QOwHGNDCpwqeykGiolV4/SHgN1ChtE7PFq+0I3
+ w73SzwjJUNE2DHaP8ZOvsu2ai9FyInGAMfcI4uF2HTbXCheCUOSQJMVc4Obvd8ufDTcT
+ C2GlCBeyw7KN42RhM2dTZiETr7D5yGA+IWJM4whWTgCo7YGQTi4iTba6FJbl0zkksUXs
+ fP6A==
+X-Gm-Message-State: ACrzQf3GO6IEFn2Jnba4cmn6KRB9cU4C5pClvyyYG72+oL+0Qqy3QIbe
+ Ek+wmpkYWsv5Bh5kHdUSyZknPclW1/4mgG4iLfA+CZXRJw+QGKOndsBB2LQLjQkjL/g1ur4eZOM
+ FSZgi2TCsMXZqYRE=
+X-Received: by 2002:a05:600c:4ec7:b0:3c6:e3d4:d59d with SMTP id
+ g7-20020a05600c4ec700b003c6e3d4d59dmr3070102wmq.181.1666801864159; 
+ Wed, 26 Oct 2022 09:31:04 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM53Qxk8pe+041h+gVHRqCVcWzQgGtQn9ZfMb230IwD/XwmIrI1hxUEuEFHTRIipXqcAMYw3Iw==
+X-Received: by 2002:a05:600c:4ec7:b0:3c6:e3d4:d59d with SMTP id
+ g7-20020a05600c4ec700b003c6e3d4d59dmr3070082wmq.181.1666801863930; 
+ Wed, 26 Oct 2022 09:31:03 -0700 (PDT)
+Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- d8-20020adfef88000000b002365921c9aesm5794163wro.77.2022.10.26.09.19.15
+ l5-20020adfe9c5000000b00236863c02f5sm3958618wrn.96.2022.10.26.09.31.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Oct 2022 09:19:15 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D810A1FFB7;
- Wed, 26 Oct 2022 17:19:14 +0100 (BST)
-References: <20221025105520.3016-1-quintela@redhat.com>
- <87mt9k6owd.fsf@linaro.org> <Y1ff32V9WXYH/hva@redhat.com>
-User-agent: mu4e 1.9.1; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>, Juan
- Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH] tests: Create fifo for test-io-channel-command
-Date: Wed, 26 Oct 2022 17:18:54 +0100
-In-reply-to: <Y1ff32V9WXYH/hva@redhat.com>
-Message-ID: <875yg64kxp.fsf@linaro.org>
+ Wed, 26 Oct 2022 09:31:03 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: Zeng Guang <guang.zeng@intel.com>
+Cc: Sean Christopherson <seanjc@google.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org, Gao Chao <chao.gao@intel.com>
+Subject: Re: [PATCH v3] target/i386: Set maximum APIC ID to KVM prior to vCPU
+ creation
+Date: Wed, 26 Oct 2022 18:30:59 +0200
+Message-Id: <20221026163059.325663-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20220825025246.26618-1-guang.zeng@intel.com>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,41 +105,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Queued, thanks.
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+Paolo
 
-> CC'ing Marc-Andr=C3=A9 as original author of the change
->
-> On Tue, Oct 25, 2022 at 01:57:23PM +0100, Alex Benn=C3=A9e wrote:
->>=20
->> Juan Quintela <quintela@redhat.com> writes:
->>=20
->> > Previous commit removed the creation of the fifo.  Without it, I get
->> > random failure during tests with high load, please consider
->> > reintroduce it.
->> >
->> > My guess is that there is a race between the two socats when we leave
->> > them to create the channel, better return to the previous behavior.
->> >
->> > I can't reproduce the problem when I run ./test-io-channel-command
->> > test alone, I need to do the make check.  And any (unrelated) change
->> > can make it dissapear.
->>=20
->> I was chasing a similar problem with this test although I don't see it
->> timeout while running (I don't think our unit tests time out). I'm
->> provisionally queuing this to testing/next unless anyone objects.
->
-> It won't build on Win32 since that platform lacks mkfifo.
->
-> The test normally works since socat will call mknod to create
-> the fifo.
->
-> I think the problem is that we have a race condition where the
-> client socat runs before the server socat, and so won't see the
-> fifo. This will be where high load triggers problems.
-
-Ok I shall drop the patch from testing/next - we need a better solution.
-
---=20
-Alex Benn=C3=A9e
 
