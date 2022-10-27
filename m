@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3CD560EE8C
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 05:28:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E95DB60EE8B
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 05:28:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ontY2-00075I-0N; Wed, 26 Oct 2022 23:27:14 -0400
+	id 1ontXv-0006an-BP; Wed, 26 Oct 2022 23:27:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
- id 1ontXx-0006uJ-BZ
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 23:27:09 -0400
+ id 1ontXt-0006KG-73
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 23:27:05 -0400
 Received: from szxga08-in.huawei.com ([45.249.212.255])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
- id 1ontXl-0003L8-JQ
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 23:27:09 -0400
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.56])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MyWF051PHz15MBt;
+ id 1ontXl-0003L9-QR
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 23:27:04 -0400
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.53])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MyWF06FXCz15M2s;
  Thu, 27 Oct 2022 11:21:56 +0800 (CST)
 Received: from localhost.localdomain (10.67.164.66) by
  canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
@@ -32,10 +32,9 @@ CC: <jonathan.cameron@huawei.com>, <linuxarm@huawei.com>,
  <yangyicong@hisilicon.com>, <prime.zeng@huawei.com>,
  <hesham.almatary@huawei.com>, <ionela.voinescu@arm.com>,
  <darren@os.amperecomputing.com>
-Subject: [PATCH v2 1/4] hw/acpi/aml-build: Only generate cluster node in PPTT
- when specified
-Date: Thu, 27 Oct 2022 11:26:10 +0800
-Message-ID: <20221027032613.18377-2-yangyicong@huawei.com>
+Subject: [PATCH v2 2/4] tests: virt: update expected ACPI tables for virt test
+Date: Thu, 27 Oct 2022 11:26:11 +0800
+Message-ID: <20221027032613.18377-3-yangyicong@huawei.com>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20221027032613.18377-1-yangyicong@huawei.com>
 References: <20221027032613.18377-1-yangyicong@huawei.com>
@@ -72,96 +71,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Yicong Yang <yangyicong@hisilicon.com>
 
-Currently we'll always generate a cluster node no matter user has
-specified '-smp clusters=X' or not. Cluster is an optional level
-and will participant the building of Linux scheduling domains and
-only appears on a few platforms. It's unncessary to always build
-it which cannot reflect the real topology on platforms have no
-cluster and to avoid affecting the linux scheduling domains in the
-VM. So only generate it when user specified explicitly.
-
-Tested qemu-system-aarch64 with `-smp 8` and linux 6.1-rc1, without
-this patch:
-estuary:/sys/devices/system/cpu/cpu0/topology$ cat cluster_*
-ff	# cluster_cpus
-0-7	# cluster_cpus_list
-56	# cluster_id
-
-with this patch:
-estuary:/sys/devices/system/cpu/cpu0/topology$ cat cluster_*
-ff	# cluster_cpus
-0-7	# cluster_cpus_list
-36	# cluster_id, with no cluster node kernel will make it to
-	  physical package id
+Update the ACPI tables according to the acpi aml_build change.
 
 Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
 ---
- hw/acpi/aml-build.c   | 2 +-
- hw/core/machine-smp.c | 3 +++
- include/hw/boards.h   | 2 ++
- qemu-options.hx       | 2 ++
- 4 files changed, 8 insertions(+), 1 deletion(-)
+ tests/data/acpi/virt/PPTT | Bin 96 -> 76 bytes
+ 1 file changed, 0 insertions(+), 0 deletions(-)
 
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index e6bfac95c7..aab73af66d 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -2030,7 +2030,7 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
-                 0, socket_id, NULL, 0);
-         }
- 
--        if (mc->smp_props.clusters_supported) {
-+        if (mc->smp_props.clusters_supported && ms->smp.build_cluster) {
-             if (cpus->cpus[n].props.cluster_id != cluster_id) {
-                 assert(cpus->cpus[n].props.cluster_id > cluster_id);
-                 cluster_id = cpus->cpus[n].props.cluster_id;
-diff --git a/hw/core/machine-smp.c b/hw/core/machine-smp.c
-index b39ed21e65..5d37e8d07a 100644
---- a/hw/core/machine-smp.c
-+++ b/hw/core/machine-smp.c
-@@ -158,6 +158,9 @@ void machine_parse_smp_config(MachineState *ms,
-     ms->smp.threads = threads;
-     ms->smp.max_cpus = maxcpus;
- 
-+    if (config->has_clusters)
-+        ms->smp.build_cluster = true;
-+
-     /* sanity-check of the computed topology */
-     if (sockets * dies * clusters * cores * threads != maxcpus) {
-         g_autofree char *topo_msg = cpu_hierarchy_to_string(ms);
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 311ed17e18..c53f047b90 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -305,6 +305,7 @@ typedef struct DeviceMemoryState {
-  * @cores: the number of cores in one cluster
-  * @threads: the number of threads in one core
-  * @max_cpus: the maximum number of logical processors on the machine
-+ * @build_cluster: build cluster topology or not
-  */
- typedef struct CpuTopology {
-     unsigned int cpus;
-@@ -314,6 +315,7 @@ typedef struct CpuTopology {
-     unsigned int cores;
-     unsigned int threads;
-     unsigned int max_cpus;
-+    bool build_cluster;
- } CpuTopology;
- 
- /**
-diff --git a/qemu-options.hx b/qemu-options.hx
-index eb38e5dc40..0a710e7be3 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -342,6 +342,8 @@ SRST
-     were preferred over threads), however, this behaviour is considered
-     liable to change. Prior to 6.2 the preference was sockets over cores
-     over threads. Since 6.2 the preference is cores over sockets over threads.
-+    The cluster topology will only be generated if explicitly specified
-+    by the "-cluster" option.
- 
-     For example, the following option defines a machine board with 2 sockets
-     of 1 core before 6.2 and 1 socket of 2 cores after 6.2:
+diff --git a/tests/data/acpi/virt/PPTT b/tests/data/acpi/virt/PPTT
+index f56ea63b369a604877374ad696c396e796ab1c83..7a1258ecf123555b24462c98ccbb76b4ac1d0c2b 100644
+GIT binary patch
+delta 32
+fcmYfB;R*-{3GrcIU|?D?k;`ae01J-_kOKn%ZFdCM
+
+delta 53
+pcmeZC;0g!`2}xjJU|{l?$YrDgWH5jU5Ca567#O&Klm(arApowi1QY-O
+
 -- 
 2.24.0
 
