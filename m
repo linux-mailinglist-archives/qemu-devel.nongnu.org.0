@@ -2,102 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5AA360FAC1
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 16:47:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5052560FAE7
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 16:56:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo47q-0004r7-7W; Thu, 27 Oct 2022 10:44:54 -0400
+	id 1oo4F8-0007zA-97; Thu, 27 Oct 2022 10:52:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oo47f-0004bv-48
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:44:43 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oo47P-0005TD-AH
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:44:42 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29RE4afe001938;
- Thu, 27 Oct 2022 14:44:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- content-transfer-encoding : in-reply-to; s=pp1;
- bh=WM8ZaS8UrgDa2ACAVEXZj8oHKou5M/q6jBcRgw9fapU=;
- b=lyiPoXYP5n8l6BvQsPGl0tPD9pYpqYImLs8MvN9If7xbXZXcp56QVBUO3cnZPvJwlzmT
- Qmthz4Q1CmAqX3iQGnEhzc01pXM0ZI3u52GiWR0t7ZLfEHKwe2wCRBLMzBh5xfXtjKvR
- AgHogDhdSty+wL6mSi8+aX5ntqqrOyigPPN1eudBAoI5fehFJcBynJtBoRVhZVi0aBdC
- JTRMl9+WU7ThXRC7vo3rKbZwysrEsT0PKRo7jlMSWpcJjv+T3FzqH3Li71sxXgEuv5/S
- V/SNRhE+5rlB4wgibQFZdPiqNaZH7NXMmkAFP/q74CcAeSw4q1GeEwR5wgUyVJbjYp7f dg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kfts3u882-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Oct 2022 14:44:21 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29REb9hP026643;
- Thu, 27 Oct 2022 14:44:20 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kfts3u869-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Oct 2022 14:44:20 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29REbJMr005423;
- Thu, 27 Oct 2022 14:44:18 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma01fra.de.ibm.com with ESMTP id 3kfaht1fqk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Oct 2022 14:44:18 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 29REcwd548759244
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 27 Oct 2022 14:38:58 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C08F9A4055;
- Thu, 27 Oct 2022 14:44:15 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7503CA4051;
- Thu, 27 Oct 2022 14:44:15 +0000 (GMT)
-Received: from heavy (unknown [9.171.39.72])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Thu, 27 Oct 2022 14:44:15 +0000 (GMT)
-Date: Thu, 27 Oct 2022 16:44:14 +0200
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: stefanha@redhat.com, Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PULL 15/20] include/hw/core: Create struct CPUJumpCache
-Message-ID: <20221027144414.bwc5lklt7dx2wc3j@heavy>
-References: <20221004195241.46491-1-richard.henderson@linaro.org>
- <20221004195241.46491-16-richard.henderson@linaro.org>
- <20221027141856.w5umjgklawgu7pqv@heavy>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oo4F5-0007iV-OP
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:52:23 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oo4F1-0007Du-QB
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:52:22 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 32B461F8E5;
+ Thu, 27 Oct 2022 14:52:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1666882337; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=w174bZYQZFxXmUGP78xeRD9rc/xEh0aoL12hlN/u5tI=;
+ b=ncMZtl9uhDZgA7b1uhHfN1XviPCDNQB9xZYy+Xr0X0lU8U29XeS1RIYWvFSCWbL4xWhNvw
+ OUgHMVqOjtiq8xUkQj4N1qFt/+xC71xordTqKd6NSxD7UqfBG2BENc3W0b8QX9nuzuJMce
+ eBbJJj2e0jHr5WxrccY5ylAVwDSQ0yE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1666882337;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=w174bZYQZFxXmUGP78xeRD9rc/xEh0aoL12hlN/u5tI=;
+ b=uPMpRS6Vi2oydRSK8m9tbB/KJFqtmvSanPGlGAl1SGAMvPL0uqefTR064TO2FAEn4GN7Ma
+ I68+YuDCKiN3CYBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DA786134CA;
+ Thu, 27 Oct 2022 14:52:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id P9K9MyCbWmPhHgAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 27 Oct 2022 14:52:16 +0000
+Message-ID: <b68f4730-be61-b635-057e-270f3f74f63b@suse.de>
+Date: Thu, 27 Oct 2022 16:52:16 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221027141856.w5umjgklawgu7pqv@heavy>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: ySnKtdJQiHixCihYl3f52Ob_n5bcnYn1
-X-Proofpoint-ORIG-GUID: qWOvuCRXsr-8jkJnTH9X8lOf2rvDM67i
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-27_07,2022-10-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 spamscore=0 impostorscore=0 mlxscore=0 bulkscore=0
- clxscore=1015 adultscore=0 suspectscore=0 phishscore=0 lowpriorityscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2210270079
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v9 0/5] improve error handling for module load
+Content-Language: en-US
+From: Claudio Fontana <cfontana@suse.de>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-devel@nongnu.org, dinechin@redhat.com,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20220929093035.4231-1-cfontana@suse.de>
+ <3568bac0-1b64-d096-b78a-29f628a70448@suse.de>
+In-Reply-To: <3568bac0-1b64-d096-b78a-29f628a70448@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -114,151 +94,146 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Oct 27, 2022 at 04:18:56PM +0200, Ilya Leoshkevich wrote:
-> On Tue, Oct 04, 2022 at 12:52:36PM -0700, Richard Henderson wrote:
-> > Wrap the bare TranslationBlock pointer into a structure.
-> > 
-> > Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> > Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> > ---
-> >  accel/tcg/tb-hash.h       |  1 +
-> >  accel/tcg/tb-jmp-cache.h  | 24 ++++++++++++++++++++++++
-> >  include/exec/cpu-common.h |  1 +
-> >  include/hw/core/cpu.h     | 15 +--------------
-> >  include/qemu/typedefs.h   |  1 +
-> >  accel/stubs/tcg-stub.c    |  4 ++++
-> >  accel/tcg/cpu-exec.c      | 10 +++++++---
-> >  accel/tcg/cputlb.c        |  9 +++++----
-> >  accel/tcg/translate-all.c | 28 +++++++++++++++++++++++++---
-> >  hw/core/cpu-common.c      |  3 +--
-> >  plugins/core.c            |  2 +-
-> >  trace/control-target.c    |  2 +-
-> >  12 files changed, 72 insertions(+), 28 deletions(-)
-> >  create mode 100644 accel/tcg/tb-jmp-cache.h
-> 
-> Hi,
-> 
-> After this patch, I get:
-> 
->     qemu-s390x: qemu/include/qemu/rcu.h:102: rcu_read_unlock: Assertion `p_rcu_reader->depth != 0' failed.
-> 
-> in one of the wasmtime tests (host=x86_64, guest=s390x).
-> GDB shows that the root cause is actually this:
-> 
->     Thread 181 "wasi_tokio::pat" received signal SIGSEGV, Segmentation fault.
->     [Switching to Thread 0x7ffff6c54640 (LWP 168352)]
->     0x0000555555626736 in do_tb_phys_invalidate (tb=tb@entry=0x7fffea4b8500 <code_gen_buffer+38503635>, rm_from_page_list=rm_from_page_list@entry=true) at qemu/accel/tcg/translate-all.c:1192
->     1192	        if (qatomic_read(&jc->array[h].tb) == tb) {
->     (gdb) bt
->     #0  0x0000555555626736 in do_tb_phys_invalidate (tb=tb@entry=0x7fffea4b8500 <code_gen_buffer+38503635>, rm_from_page_list=rm_from_page_list@entry=true) at qemu/accel/tcg/translate-all.c:1192
->     #1  0x0000555555626b98 in tb_phys_invalidate__locked (tb=0x7fffea4b8500 <code_gen_buffer+38503635>) at qemu/accel/tcg/translate-all.c:1211
->     #2  tb_invalidate_phys_page_range__locked (p=<optimized out>, start=start@entry=836716683264, end=end@entry=836716687360, retaddr=0, pages=0x0) at qemu/accel/tcg/translate-all.c:1678
->     #3  0x0000555555626dfb in tb_invalidate_phys_range (start=836716683264, start@entry=836716584960, end=end@entry=836716982272) at qemu/accel/tcg/translate-all.c:1753
->     #4  0x0000555555639e43 in target_munmap (start=start@entry=836716584960, len=len@entry=397312) at qemu/linux-user/mmap.c:769
-> 
-> Let me know if you need more information, I can try to extract a
-> minimal reproducer.
-> 
-> Best regards,
-> Ilya
+A ping on this one, is there anything more that needs to be urgently addressed before it can be queued for inclusion?
+This is currently creating problems for upstream kubevirt, due to the error handling not properly reporting permissions errors on module file access.
 
-Putting CPUJumpCache inside CPUState made problem go away:
+Thanks,
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 18ca701b443..3ea528566c3 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -32,6 +32,7 @@
- #include "qemu/thread.h"
- #include "qemu/plugin.h"
- #include "qom/object.h"
-+#include "accel/tcg/tb-jmp-cache.h"
- 
- typedef int (*WriteCoreDumpFunction)(const void *buf, size_t size,
-                                      void *opaque);
-@@ -366,7 +367,7 @@ struct CPUState {
-     CPUArchState *env_ptr;
-     IcountDecr *icount_decr_ptr;
- 
--    CPUJumpCache *tb_jmp_cache;
-+    CPUJumpCache tb_jmp_cache;
- 
-     struct GDBRegisterState *gdb_regs;
-     int gdb_num_regs;
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 2d7e610ee24..47165fc03e3 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -253,7 +253,7 @@ static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
-     tcg_debug_assert(!(cflags & CF_INVALID));
- 
-     hash = tb_jmp_cache_hash_func(pc);
--    tb = qatomic_rcu_read(&cpu->tb_jmp_cache->array[hash].tb);
-+    tb = qatomic_rcu_read(&cpu->tb_jmp_cache.array[hash].tb);
- 
-     if (likely(tb &&
-                tb->pc == pc &&
-@@ -267,7 +267,7 @@ static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
-     if (tb == NULL) {
-         return NULL;
-     }
--    qatomic_set(&cpu->tb_jmp_cache->array[hash].tb, tb);
-+    qatomic_set(&cpu->tb_jmp_cache.array[hash].tb, tb);
-     return tb;
- }
- 
-@@ -998,7 +998,7 @@ int cpu_exec(CPUState *cpu)
-                  * for the fast lookup
-                  */
-                 h = tb_jmp_cache_hash_func(pc);
--                qatomic_set(&cpu->tb_jmp_cache->array[h].tb, tb);
-+                qatomic_set(&cpu->tb_jmp_cache.array[h].tb, tb);
-             }
- 
- #ifndef CONFIG_USER_ONLY
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 63ecc152366..fffd9cb15f8 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1188,7 +1188,7 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
-     /* remove the TB from the hash list */
-     h = tb_jmp_cache_hash_func(tb->pc);
-     CPU_FOREACH(cpu) {
--        CPUJumpCache *jc = cpu->tb_jmp_cache;
-+        CPUJumpCache *jc = &cpu->tb_jmp_cache;
-         if (qatomic_read(&jc->array[h].tb) == tb) {
-             qatomic_set(&jc->array[h].tb, NULL);
-         }
-@@ -2445,23 +2445,12 @@ int page_unprotect(target_ulong address, uintptr_t pc)
- }
- #endif /* CONFIG_USER_ONLY */
- 
--/*
-- * Called by generic code at e.g. cpu reset after cpu creation,
-- * therefore we must be prepared to allocate the jump cache.
-- */
- void tcg_flush_jmp_cache(CPUState *cpu)
- {
--    CPUJumpCache *jc = cpu->tb_jmp_cache;
-+    CPUJumpCache *jc = &cpu->tb_jmp_cache;
- 
--    if (likely(jc)) {
--        for (int i = 0; i < TB_JMP_CACHE_SIZE; i++) {
--            qatomic_set(&jc->array[i].tb, NULL);
--        }
--    } else {
--        /* This should happen once during realize, and thus never race. */
--        jc = g_new0(CPUJumpCache, 1);
--        jc = qatomic_xchg(&cpu->tb_jmp_cache, jc);
--        assert(jc == NULL);
-+    for (int i = 0; i < TB_JMP_CACHE_SIZE; i++) {
-+        qatomic_set(&jc->array[i].tb, NULL);
-     }
- }
- 
-So there must be a race in tcg_flush_jmp_cache() after all?
+Claudio
 
-Best regards,
-Ilya
+On 10/21/22 10:24, Claudio Fontana wrote:
+> ping, can this series move on?
+> 
+> Thanks,
+> 
+> Claudio
+> 
+> 
+> On 9/29/22 11:30, Claudio Fontana wrote:
+>> CHANGELOG:
+>>
+>> v8 -> v9:
+>>
+>> * add Signed-off-by tag for Kevin's commit
+>> * fully reviewed, added tags.
+>>
+>> v7 -> v8:
+>>
+>> * fix a problem in module_load, where the module_name in v7 was mistakenly freed
+>>   via g_free() also in the success code path, and instead module_name memory
+>>   is owned by g_hash_table afer g_hash_table_add.
+>>
+>> * add more text to the commit message to indicate areas of further improvements,
+>>   and more details about changes.
+>>
+>> * in PATCH 5/5, change the commit message to align with the change in v7,
+>>   ie, we exit(), we do not abort().
+>>
+>> v6 -> v7:
+>>
+>> * changed instances of abort() to exit(1), for the CONFIG_MODULES case (Philippe).
+>>
+>> * dmg: do not use a separate local error, use the existing errp (Kevin)
+>>
+>> * block: do not use a separate local error, use the existing errp for
+>>   bdrv_find_protocol (Markus)
+>>
+>> v5 -> v6:
+>>
+>> * added a patch by Kevin to handle the dmg warning about missing
+>>   decompression submodules. (Kevin)
+>>
+>> * added more verbose comments about all the affected callers of module_load
+>>   and module_load_qom (Markus)
+>>
+>> (OPEN ISSUE): change abort() to exit() when type not present even after loading module?
+>>
+>> (Philippe)
+>>
+>> v4 -> v5:
+>>
+>> * added a patch to rename module_load_one and friends to module_load
+>>
+>> * qdev_new: just reuse module_object_class_by_name, to avoid duplicating code
+>>
+>> * changed return value of module_load to an int:
+>>   -1 error (Error **errp set).
+>>    0 module or dependencies not installed,
+>>    1 loaded
+>>    2 already loaded (or built-in)
+>>
+>>    Adapted all callers.
+>>
+>> * module_load: fixed some pre-existing memory leaks, used an out: label
+>>   to do the cleanup.
+>>
+>> v3 -> v4: (Richard)
+>>
+>> * module_object_class_by_name: return NULL immediately on load error.
+>> * audio_driver_lookup: same.
+>> * bdrv_find_format: same.
+>>
+>> * dmg_open: handle optional compression submodules better: f.e.,
+>>   if "dmg-bz2" is not present, continue but offer a warning.
+>>   If "dmg-bz2" load fails with error, error out and return.
+>>
+>> * module_load_dso: add newline to error_append_hint.
+>>
+>> v2 -> v3:
+>>
+>> * take the file existence check outside of module_load_file,
+>>   rename module_load_file to module_load_dso, will be called only on
+>>   an existing file. This will simplify the return value. (Richard)
+>>
+>> * move exported function documentation into header files (Richard)
+>>
+>> v1 -> v2:
+>>
+>> * do not treat the display help text any differently and do report
+>>   module load _errors_. If the module does not exist (ENOENT, ENOTDIR),
+>>   no error will be produced.
+>>
+>> DESCRIPTION:
+>>
+>> while investigating a permission issue in accel, where accel-tcg-x86_64.so
+>> was not accessible, I noticed that no errors were produced regarding the
+>> module load failure.
+>>
+>> This series attempts to improve module_load_one and module_load_qom_one
+>> to handle the error cases better and produce some errors.
+>>
+>> Patch 1 is already reviewed and is about removing an unused existing
+>> argument "mayfail" from the call stack.
+>>
+>> Patch 2 is the real meat, and that one I would say is RFC.
+>> Will follow up with comments on the specific questions I have.
+>>
+>> Patch 3 finally adds a simple check in accel/, aborting if a module
+>> is not found, but relying on the existing error report from
+>> module_load_qom_one.
+>>
+>> Claudio Fontana (4):
+>>   module: removed unused function argument "mayfail"
+>>   module: rename module_load_one to module_load
+>>   module: add Error arguments to module_load and module_load_qom
+>>   accel: abort if we fail to load the accelerator plugin
+>>
+>> Kevin Wolf (1):
+>>   dmg: warn when opening dmg images containing blocks of unknown type
+>>
+>>  accel/accel-softmmu.c |   8 +-
+>>  audio/audio.c         |  16 ++--
+>>  block.c               |  20 +++-
+>>  block/dmg.c           |  33 ++++++-
+>>  hw/core/qdev.c        |  17 +++-
+>>  include/qemu/module.h |  37 +++++++-
+>>  qom/object.c          |  18 +++-
+>>  softmmu/qtest.c       |   8 +-
+>>  ui/console.c          |  18 +++-
+>>  util/module.c         | 211 +++++++++++++++++++++++-------------------
+>>  10 files changed, 260 insertions(+), 126 deletions(-)
+>>
+> 
+> 
+
 
