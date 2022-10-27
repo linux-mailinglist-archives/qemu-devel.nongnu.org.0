@@ -2,62 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A4C860FA89
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 16:38:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A298260FA95
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 16:40:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo40J-00021R-VR; Thu, 27 Oct 2022 10:37:08 -0400
+	id 1oo42n-0002s5-Es; Thu, 27 Oct 2022 10:39:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1oo40E-0001tb-7r
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:37:03 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oo42f-000282-IP
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:39:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1oo406-0003xl-EG
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:37:02 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.123])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 15A8A13715254;
- Thu, 27 Oct 2022 16:36:31 +0200 (CEST)
-Received: from kaod.org (37.59.142.108) by DAG8EX2.mxp5.local (172.16.2.72)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Thu, 27 Oct
- 2022 16:36:31 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-108S002ba7d64b6-4bdd-49c8-a7f5-92e99578f79c,
- 12214A5382596B9A7152AE05734170724E9AD55A) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Thu, 27 Oct 2022 16:36:30 +0200
-From: Greg Kurz <groug@kaod.org>
-To: <qemu-devel@nongnu.org>
-CC: Paolo Bonzini <pbonzini@redhat.com>, Alex =?UTF-8?B?QmVubsOpZQ==?=
- <alex.bennee@linaro.org>, "Daniel P . =?UTF-8?B?QmVycmFuZ8Op?="
- <berrange@redhat.com>, <richard.henderson@linaro.org>,
- <qemu-stable@nongnu.org>
-Subject: Re: [PATCH] util/log: Close per-thread log file on thread termination
-Message-ID: <20221027163630.4863d4be@bahia>
-In-Reply-To: <20221021105734.555797-1-groug@kaod.org>
-References: <20221021105734.555797-1-groug@kaod.org>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oo42X-0004NC-OT
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:39:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666881564;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HzvA0YOEugPiZ1hN3pYW7TIB1f7q/b266g5PXsLHw5c=;
+ b=T/6rEaR0CVEX3ABiEhu9sBbOnBu7iHADszGpLA34yv2uGcxwqv6WNC8i0a2p7zRLJjS3QG
+ mpPiLv/g3FUQZgIX5CabR9jQylXDX5ZfizD27xlRS8qMFNc0Me3f0bntocwtTr5jVYSRzU
+ b1nD93UTRYHLtOCW34y3ZQ+PwwjVY18=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-299-wZXZQzrKPOWkyl9zl96OTg-1; Thu, 27 Oct 2022 10:39:21 -0400
+X-MC-Unique: wZXZQzrKPOWkyl9zl96OTg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 734B91012464;
+ Thu, 27 Oct 2022 14:39:20 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.195.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 25B3AC15BAB;
+ Thu, 27 Oct 2022 14:39:20 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id EACB321E6921; Thu, 27 Oct 2022 16:39:18 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org,  David Hildenbrand <david@redhat.com>,  Bastian
+ Koppelmann <kbastian@mail.uni-paderborn.de>,  Thomas Huth
+ <thuth@redhat.com>,  qemu-s390x@nongnu.org,  Richard Henderson
+ <richard.henderson@linaro.org>,  Laurent Vivier <laurent@vivier.eu>,
+ Cornelia Huck <cohuck@redhat.com>,  qemu-trivial@nongnu.org
+Subject: Re: [PATCH 0/3] target: Rename headers using .def extension to .h.inc
+References: <20221025235006.7215-1-philmd@linaro.org>
+Date: Thu, 27 Oct 2022 16:39:18 +0200
+In-Reply-To: <20221025235006.7215-1-philmd@linaro.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Wed, 26 Oct 2022 01:50:03
+ +0200")
+Message-ID: <87bkpxl4a1.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.108]
-X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG8EX2.mxp5.local
- (172.16.2.72)
-X-Ovh-Tracer-GUID: 162aacd5-1783-4dc8-a203-9f98acd2d467
-X-Ovh-Tracer-Id: 10911940422978345254
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrtdeggdejjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeegkeejtdevgeekieelffdvtedvvdegtdduudeigffhhffgvdfhgeejteekheefkeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehgrhhouhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpphgsohhniihinhhisehrvgguhhgrthdrtghomhdprghlvgigrdgsvghnnhgvvgeslhhinhgrrhhordhorhhgpdgsvghrrhgrnhhgvgesrhgvughhrghtrdgtohhmpdhrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdpqhgvmhhuqdhsthgrsghlvgesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,61 +85,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Cc'ing stable
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
-On Fri, 21 Oct 2022 12:57:34 +0200
-Greg Kurz <groug@kaod.org> wrote:
+> We use the .h.inc extension to include C headers. To be consistent
+> with the rest of the codebase, rename the C headers using the .def
+> extension.
+>
+> IDE/tools using our .editorconfig / .gitattributes will leverage
+> this consistency.
+>
+> Philippe Mathieu-Daud=C3=A9 (3):
+>   target/m68k: Rename qregs.def -> qregs.h.inc
+>   target/s390x: Rename insn-data/format.def -> insn-data/format.h.inc
+>   target/tricore: Rename csfr.def -> csfr.h.inc
+>
+>  target/m68k/{qregs.def =3D> qregs.h.inc}                 |  0
+>  target/m68k/translate.c                                |  4 ++--
+>  target/s390x/tcg/{insn-data.def =3D> insn-data.h.inc}    |  2 +-
+>  .../s390x/tcg/{insn-format.def =3D> insn-format.h.inc}   |  0
+>  target/s390x/tcg/translate.c                           | 10 +++++-----
+>  target/tricore/{csfr.def =3D> csfr.h.inc}                |  0
+>  target/tricore/translate.c                             |  4 ++--
+>  7 files changed, 10 insertions(+), 10 deletions(-)
+>  rename target/m68k/{qregs.def =3D> qregs.h.inc} (100%)
+>  rename target/s390x/tcg/{insn-data.def =3D> insn-data.h.inc} (99%)
+>  rename target/s390x/tcg/{insn-format.def =3D> insn-format.h.inc} (100%)
+>  rename target/tricore/{csfr.def =3D> csfr.h.inc} (100%)
 
-> When `-D ${logfile} -d tid` is passed, qemu_log_trylock() creates
-> a dedicated log file for the current thread and opens it. The
-> corresponding file descriptor is cached in a __thread variable.
-> Nothing is done to close the corresponding file descriptor when the
-> thread terminates though and the file descriptor is leaked.
-> 
-> The issue was found during code inspection and reproduced manually.
-> 
-> Fix that with an atexit notifier.
-> 
-> Fixes: 4e51069d6793 ("util/log: Support per-thread log files")
-> Cc: richard.henderson@linaro.org
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> ---
->  util/log.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/util/log.c b/util/log.c
-> index d6eb0378c3a3..39866bdaf2fa 100644
-> --- a/util/log.c
-> +++ b/util/log.c
-> @@ -42,6 +42,7 @@ static QemuMutex global_mutex;
->  static char *global_filename;
->  static FILE *global_file;
->  static __thread FILE *thread_file;
-> +static __thread Notifier qemu_log_thread_cleanup_notifier;
->  
->  int qemu_loglevel;
->  static bool log_append;
-> @@ -77,6 +78,12 @@ static int log_thread_id(void)
->  #endif
->  }
->  
-> +static void qemu_log_thread_cleanup(Notifier *n, void *unused)
-> +{
-> +    fclose(thread_file);
-> +    thread_file = NULL;
-> +}
-> +
->  /* Lock/unlock output. */
->  
->  FILE *qemu_log_trylock(void)
-> @@ -93,6 +100,8 @@ FILE *qemu_log_trylock(void)
->                  return NULL;
->              }
->              thread_file = logfile;
-> +            qemu_log_thread_cleanup_notifier.notify = qemu_log_thread_cleanup;
-> +            qemu_thread_atexit_add(&qemu_log_thread_cleanup_notifier);
->          } else {
->              rcu_read_lock();
->              /*
+I wonder why we use any of .def, .h.inc, .inc.h, .c.inc, .inc.c.  Why
+not .h and call it a day?  No need to configure each and every editor to
+tread these as C code.
 
 
