@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 370F260FA1D
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 16:08:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFC0B60FA38
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 16:13:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo3Wg-0002RO-CG; Thu, 27 Oct 2022 10:06:30 -0400
+	id 1oo3bv-0007Ad-1P; Thu, 27 Oct 2022 10:11:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oo3We-0002Fa-7E
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:06:28 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oo3br-0006sG-Ii
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:11:51 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oo3Wc-0005qA-F7
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:06:27 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oo3bp-0006sH-Uz
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:11:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666879584;
+ s=mimecast20190719; t=1666879908;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=jGTMdcPRY/D2JKp3hSpN41iXRvK2/lXTRWxZYJgEOy+zrKAW5IVKrXmFt5wW/KJ9U/kXUA
- J0BzCTpu5vz7odJFHlgkakD4aleIkmZR72cPwdi6TAZ/tUn0EnpTj9iQLtGCZ2LaxLn5+Y
- LfY2xOM8R4DeWo8bBdV8Ryozj1gmJeo=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6Ng4b8p0bjVsphbzABU5a7GImNBBrD0eZeYIp//Nyso=;
+ b=R7oXqLoFSH6qJhK7k05VbOkjHFvyiA9DqNL1+lMW7QDmr3hRqCjQmhbTGgFL/+mDK+bt3v
+ PDjGWYEuaYHpbpp7o+jaKgx7TGsuAsJT37euuLjA7WIBMoxYMDkDpNBJ7aX9p/fvf1X55R
+ pxAq15/ix2mqZCidXz6tmy+0+4iul4w=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-297-JAA4meyUNriXboB5VgNdTA-1; Thu, 27 Oct 2022 10:06:21 -0400
-X-MC-Unique: JAA4meyUNriXboB5VgNdTA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- r18-20020a05600c35d200b003cb2ba79692so783237wmq.5
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 07:06:20 -0700 (PDT)
+ us-mta-211-UaOjAre1MqWOzxUemYIWpg-1; Thu, 27 Oct 2022 10:11:47 -0400
+X-MC-Unique: UaOjAre1MqWOzxUemYIWpg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r22-20020adfa156000000b0023660e969ddso425099wrr.19
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 07:11:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=YHO8QEWOzlFNQbWTJ/NNk415gJnxzAWjv0urLi0eGwm4qfBkH1dJf0ImNWf+pAitnn
- 75y1ayu/yJIlfqactb1qj1a8VGkAiLi0jr1uy8puOY4Z0qnwLpASg90lryw4BwsOTJVx
- xY802I1V7PoQwu/bAhoruZcRLt9HmAoAAMQDwHpu1X1QKQq/lki8zpfGcYUyIqBSdXg8
- RaW4yRF6G/m5dEANE6MH3DwY2pySL1s7BjT+qWrTt53AxgEeJ2onPIv+ZfU4Awdiv8iI
- yQf1RzWEmApdsvODz5EJzz3Mh/iAPO4lhW151VVJCbFkRWjm/XIQHeRSGCfRjJuIzm2u
- Vwlg==
-X-Gm-Message-State: ACrzQf308rN0rTGUtB9mccwir9GMBg5NdkfGZY/O44lymEwPR/ATRcHf
- BGtPeVatRiC5M3bU4RB5mmq1pujBZqLFdU7ZFe12qri8P2zkIgs1dXceeHiMZjVA7B/ZuiOOXx5
- BcnaZQnY5kbQ9FvI=
-X-Received: by 2002:adf:f482:0:b0:236:7a2f:69f with SMTP id
- l2-20020adff482000000b002367a2f069fmr11565937wro.115.1666879579837; 
- Thu, 27 Oct 2022 07:06:19 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM78ROGR/ODHD9Sl5IhMz5hpRNpEAWQAXslhrc/CCq+NC5jD3zd3wDnqze+kfDnVY/ISy/M98Q==
-X-Received: by 2002:adf:f482:0:b0:236:7a2f:69f with SMTP id
- l2-20020adff482000000b002367a2f069fmr11565913wro.115.1666879579562; 
- Thu, 27 Oct 2022 07:06:19 -0700 (PDT)
-Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ bh=6Ng4b8p0bjVsphbzABU5a7GImNBBrD0eZeYIp//Nyso=;
+ b=qbVbhyq2j+zDXBI1npQB7OOk4baD/lF8IHIto0r5/r5nmxt2XclKSi+URR7XQACMnn
+ Yt5BV2hTAOuMjWW41MhXby7wdN7v4l8rALXLDA9QADOHzpg016AYIBmuYPO8jrWn1CsR
+ 79i13C2UTcqEtzH71/oZ4LZ2bpNOO03YF3WE6eS4tZJGjRjn/O9gRV/3UBturFz7Etmp
+ y7L12AAhCVT0xn9MW04jgrX/UJaVYjftP2l0oh5JBprchQASkWZTEUV4K6buxEPPHyFx
+ QQspXcNf0ZRWvQPsC0hk9jBPEi+QbCCgOIKCAbs+lkVXgT3/kaDnke2fbzyG87VmgaXt
+ UwnA==
+X-Gm-Message-State: ACrzQf0E2L0KIPLoiIFZ1Hsq4tRu0pltHx1gVNThXE0M4iNoifM1RBzk
+ n2gVvhuQvMZX+2uvdLcH6vwQMZbNCXr6eSaNm8F5hjDNe3irQ99CCnAclC7LU22jd9ZIwl8iUGu
+ A6iPx74WwZKWUnfo=
+X-Received: by 2002:a7b:c341:0:b0:3c4:552d:2ea7 with SMTP id
+ l1-20020a7bc341000000b003c4552d2ea7mr6186370wmj.82.1666879906073; 
+ Thu, 27 Oct 2022 07:11:46 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM49+IkWqt/5T0VZvqAnCq2DzBW9U7idGyGOjGTVb61NYSmDfpIxrhKukwmKxFnxveH7rCBL+A==
+X-Received: by 2002:a7b:c341:0:b0:3c4:552d:2ea7 with SMTP id
+ l1-20020a7bc341000000b003c4552d2ea7mr6186339wmj.82.1666879905821; 
+ Thu, 27 Oct 2022 07:11:45 -0700 (PDT)
+Received: from fedora (nat-pool-brq-t.redhat.com. [213.175.37.10])
  by smtp.gmail.com with ESMTPSA id
- dn10-20020a05600c654a00b003a3170a7af9sm1644522wmb.4.2022.10.27.07.06.14
+ l8-20020a5d6d88000000b0022b315b4649sm1566149wrs.26.2022.10.27.07.11.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Oct 2022 07:06:16 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- richard.henderson@linaro.org
-Subject: Re: [PATCH] util/log: Close per-thread log file on thread termination
-Date: Thu, 27 Oct 2022 16:06:13 +0200
-Message-Id: <20221027140613.433481-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221021105734.555797-1-groug@kaod.org>
-References: 
+ Thu, 27 Oct 2022 07:11:45 -0700 (PDT)
+Date: Thu, 27 Oct 2022 16:11:44 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Julia Suvorova <jusual@redhat.com>, qemu-devel@nongnu.org, Ani Sinha
+ <ani@anisinha.ca>
+Subject: Re: [PATCH v3 5/5] tests/acpi: update tables for new core count test
+Message-ID: <20221027161144.58743fb1@fedora>
+In-Reply-To: <20221027021016-mutt-send-email-mst@kernel.org>
+References: <20221011111731.101412-1-jusual@redhat.com>
+ <20221011111731.101412-6-jusual@redhat.com>
+ <20221027021016-mutt-send-email-mst@kernel.org>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -101,8 +102,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Queued, thanks.
+On Thu, 27 Oct 2022 02:11:23 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-Paolo
+> On Tue, Oct 11, 2022 at 01:17:31PM +0200, Julia Suvorova wrote:
+> > Changes in the tables (for 275 cores):
+> > FACP:
+> > +                 Use APIC Cluster Model (V4) : 1
+> > 
+> > APIC:
+> > +[02Ch 0044   1]                Subtable Type : 00 [Processor Local APIC]
+> > +[02Dh 0045   1]                       Length : 08
+> > +[02Eh 0046   1]                 Processor ID : 00
+> > +[02Fh 0047   1]                Local Apic ID : 00
+> > +[030h 0048   4]        Flags (decoded below) : 00000001
+> > +                           Processor Enabled : 1
+> > ...
+> > +
+> > +[81Ch 2076   1]                Subtable Type : 00 [Processor Local APIC]
+> > +[81Dh 2077   1]                       Length : 08
+> > +[81Eh 2078   1]                 Processor ID : FE
+> > +[81Fh 2079   1]                Local Apic ID : FE
+> > +[820h 2080   4]        Flags (decoded below) : 00000001
+> > +                           Processor Enabled : 1
+> > +                      Runtime Online Capable : 0
+> > +
+> > +[824h 2084   1]                Subtable Type : 09 [Processor Local x2APIC]
+> > +[825h 2085   1]                       Length : 10
+> > +[826h 2086   2]                     Reserved : 0000
+> > +[828h 2088   4]          Processor x2Apic ID : 000000FF
+> > +[82Ch 2092   4]        Flags (decoded below) : 00000001
+> > +                           Processor Enabled : 1
+> > +[830h 2096   4]                Processor UID : 000000FF
+> > ...
+> > 
+> > DSDT:
+> > +            Processor (C001, 0x01, 0x00000000, 0x00)
+> > +            {
+> > +                Method (_STA, 0, Serialized)  // _STA: Status
+> > +                {
+> > +                    Return (CSTA (One))
+> > +                }
+> > +
+> > +                Name (_MAT, Buffer (0x08)  // _MAT: Multiple APIC Table Entry
+> > +                {
+> > +                     0x00, 0x08, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00   // ........
+> > +                })
+> > +                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device, x=0-9
+> > +                {
+> > +                    CEJ0 (One)
+> > +                }
+> > +
+> > +                Method (_OST, 3, Serialized)  // _OST: OSPM Status Indication
+> > +                {
+> > +                    COST (One, Arg0, Arg1, Arg2)
+> > +                }
+> > +            }
+> > ...
+> > +            Processor (C0FE, 0xFE, 0x00000000, 0x00)
+> > +            {
+> > +                Method (_STA, 0, Serialized)  // _STA: Status
+> > +                {
+> > +                    Return (CSTA (0xFE))
+> > +                }
+> > +
+> > +                Name (_MAT, Buffer (0x08)  // _MAT: Multiple APIC Table Entry
+> > +                {
+> > +                     0x00, 0x08, 0xFE, 0xFE, 0x01, 0x00, 0x00, 0x00   // ........
+> > +                })
+> > +                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device, x=0-9
+> > +                {
+> > +                    CEJ0 (0xFE)
+> > +                }
+> > +
+> > +                Method (_OST, 3, Serialized)  // _OST: OSPM Status Indication
+> > +                {
+> > +                    COST (0xFE, Arg0, Arg1, Arg2)
+> > +                }
+> > +            }
+> > +
+> > +            Device (C0FF)
+> > +            {
+> > +                Name (_HID, "ACPI0007" /* Processor Device */)  // _HID: Hardware ID
+> > +                Name (_UID, 0xFF)  // _UID: Unique ID
+> > +                Method (_STA, 0, Serialized)  // _STA: Status
+> > +                {
+> > +                    Return (CSTA (0xFF))
+> > +                }
+> > +
+> > +                Name (_MAT, Buffer (0x10)  // _MAT: Multiple APIC Table Entry
+> > +                {
+> > +                    /* 0000 */  0x09, 0x10, 0x00, 0x00, 0xFF, 0x00, 0x00, 0x00,  // ........
+> > +                    /* 0008 */  0x01, 0x00, 0x00, 0x00, 0xFF, 0x00, 0x00, 0x00   // ........
+> > +                })
+> > +                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device, x=0-9
+> > +                {
+> > +                    CEJ0 (0xFF)
+> > +                }
+> > +
+> > +                Method (_OST, 3, Serialized)  // _OST: OSPM Status Indication
+> > +                {
+> > +                    COST (0xFF, Arg0, Arg1, Arg2)
+> > +                }
+> > +            }
+> > +
+> > ...
+> > 
+> > Signed-off-by: Julia Suvorova <jusual@redhat.com>
+> > Message-Id: <20220731162141.178443-6-jusual@redhat.com>  
+> 
+> 
+> 
+> I had to rebase pushed last update to my tree. Could you pls
+> disassemble and verify it's correct? Thanks!
+
+new lobs look correct,
+though I'd mention in commit log relevant FACP bits:
+ +                 Use APIC Cluster Model (V4) : 1
 
 
