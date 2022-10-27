@@ -2,92 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D25A260FCC2
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 18:15:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28E4B60FCF5
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 18:20:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo5U2-0002pZ-KK; Thu, 27 Oct 2022 12:11:54 -0400
+	id 1oo5bl-0004X4-1d; Thu, 27 Oct 2022 12:19:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oo5Tt-0001w7-3N
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 12:11:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oo5Tr-0005OE-LJ
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 12:11:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666887102;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BX1gi+Nf37EaZfQeL22TQHTZ5k62jwipJW7/Kh9uwNI=;
- b=eDsHTsVaAXipDfiJvSV+Ls2F9Nx4t8T53LgKm52KsdRddqPZvF9aYdh6CRAmcAF/MKfka3
- NIFC/zwB0dim4S1ZyqIoTKQ2oHUGJZx+UyMzVxj9YpSzTvN/ZPamJOpyVt4Z2oj7WMjPQw
- mq+/j/mYYEBFvlNl7M0NWUWjHp+P+hs=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-586-t2mX04MlO5-FeF01-tnCIA-1; Thu, 27 Oct 2022 12:11:40 -0400
-X-MC-Unique: t2mX04MlO5-FeF01-tnCIA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- r18-20020a05600c35d200b003cb2ba79692so906058wmq.5
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 09:11:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oo5bi-0004Bc-5G
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 12:19:50 -0400
+Received: from mail-qv1-xf2b.google.com ([2607:f8b0:4864:20::f2b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oo5bX-0006Zo-Rs
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 12:19:49 -0400
+Received: by mail-qv1-xf2b.google.com with SMTP id ml12so1799067qvb.0
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 09:19:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=4v8yXs7g8BM28vOdAjKAvdNBnSxfwuTTcxXCMGKahF8=;
+ b=J8pxl6HFnY0l1ASWvmWeweUhPCuNh7/cOsKepojKbFvi02H0htn/hbHWmUoZ0DNuvO
+ 4gRv80ncikKLlnCsR+5HjNOBpaNH5zh/7CdtmQt5CCIYVu6BhFT/B5aTcbwjIuWHtYzd
+ 1xcH3rTbFPlmYDYL4j3b24dgTGFj5l+6PZ+MmS+FoG3uxwmvG16w10aYbr2ZfQlwgDVV
+ 4RGPuRJla3+ZhF9BQiiSEfbWeEv5VZpWmCRyQ+wTmkEuGl0JO7zx+NV3f60qJhR7yu31
+ TcCIwTAx1TgCBUeBZGTjSslUOy3FsxTk8H5BT4e99QGmRiwGIlHFF/bUx2uf9ikzf76P
+ /lBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BX1gi+Nf37EaZfQeL22TQHTZ5k62jwipJW7/Kh9uwNI=;
- b=VKrfBsWN4lkdalujcqEUz6MJE5umSAmW4gmW2cPNFidjz+XdmFFzqwOAM4bHLrUP96
- To9iNQ7+68Cw2WzCZKLD1QGcYnuY1dvBMzNEt2zXXqbW1+a3ayvQzj0kTomctSnBL1h/
- FqMABf8kRdWnsZMD9ylg101KhPzcdu9zZezI86CsdGjHMI7cr9lXGs53D6DY3Evr4ZI+
- vq2gYwqJiTUGSGT/fm6fbnoXL7wD/etwQ64sXBU3FsUYeRDuxVkyfIyg8uX5MdJVlR2r
- hQyCVwcvtbck6SfshDdL8JMfd29+yPYTjf2PkoBYXHpkIobIHnDLks6qTZ+IcAOkM6L0
- QYug==
-X-Gm-Message-State: ACrzQf15Sb8a3WgLEsOD2+pPUxOYofIKPJSkuygHWS7VDytiULiJdqR0
- wWdHz/m7syiefocgcED9Z1WRHXixQYLZF14ItSUCRcyWWX+8pT/7ecnJJlGRQ0bh/26u1hO5eJO
- cgEqEkq+Mi3Kl2RU=
-X-Received: by 2002:a7b:c4cf:0:b0:3cf:497c:ae3a with SMTP id
- g15-20020a7bc4cf000000b003cf497cae3amr6419781wmk.177.1666887099350; 
- Thu, 27 Oct 2022 09:11:39 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5m75m0/cp6qzye4D6+HDDMsvmyc6J9hL7hMiqneyeULj4n82mAUtDL5HyRvGoLClMhZ428/w==
-X-Received: by 2002:a7b:c4cf:0:b0:3cf:497c:ae3a with SMTP id
- g15-20020a7bc4cf000000b003cf497cae3amr6419762wmk.177.1666887099153; 
- Thu, 27 Oct 2022 09:11:39 -0700 (PDT)
-Received: from [192.168.8.100] (tmo-066-116.customers.d1-online.com.
- [80.187.66.116]) by smtp.gmail.com with ESMTPSA id
- a12-20020a5d4d4c000000b0022e55f40bc7sm1444134wru.82.2022.10.27.09.11.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Oct 2022 09:11:38 -0700 (PDT)
-Message-ID: <fe0b446d-19f8-13d3-5513-5b651bbe847e@redhat.com>
-Date: Thu, 27 Oct 2022 18:11:37 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4v8yXs7g8BM28vOdAjKAvdNBnSxfwuTTcxXCMGKahF8=;
+ b=kXKmR/4+vSz9E/+8a+WbzTijVji41Kdb5VoJsKW+MI+RyO0cMLEFV9PcN5fqCTUAb6
+ oFDgNrK9TKPcusUDNcw6Y21zOuLYd4m6PPbQaVN+QxEKNGHLIClupi/KQuXvfd1QlcdL
+ IP6XXV0jqX0lOEzJzlGjQ/b9BroidvLf4tJ5PDS3Fq/ju9wq524IUNi7AUEEE/iQh0EZ
+ LEuqszQHDNVAA7h0je5tyoG6pNJnjgsAnmZpduirrNjnq7UFg2LKyM3X9tMFIqVvdG+u
+ qNzwdNRT/yuMF80M2T8O84n/oDZTrlmLxDZPrxNHZ9oor0RTPqZgqp/6qPPCu+83rsdM
+ GjvA==
+X-Gm-Message-State: ACrzQf3arh+ZB+SAOR9tMPW+otnOHomM/0s4ecv4IMROjGuXkGxeiRJ8
+ lPCqPwGZ8NuH9ViIAKkXpk9TPH8DTOfzgEtQwiY=
+X-Google-Smtp-Source: AMsMyM6e7X6ooh6585InkTe8TbYxf3WJZwkQyYHeSiuAtC5ZgqgmklW/AbAnfowomUySIJZ3+pWaXtK8j569Y9RE4ew=
+X-Received: by 2002:a05:6214:2245:b0:4b7:b2a1:7aff with SMTP id
+ c5-20020a056214224500b004b7b2a17affmr34057318qvc.114.1666887578685; Thu, 27
+ Oct 2022 09:19:38 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v3 26/26] tests/tcg: include CONFIG_PLUGIN in
- config-host.mak
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
- aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
- crosa@redhat.com
-References: <20221020115209.1761864-1-alex.bennee@linaro.org>
- <20221020115209.1761864-27-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20221020115209.1761864-27-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+References: <20221024045759.448014-1-bin.meng@windriver.com>
+In-Reply-To: <20221024045759.448014-1-bin.meng@windriver.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 28 Oct 2022 00:19:27 +0800
+Message-ID: <CAEUhbmV632N-w7yAj2jcmRMa_XMGi+jRJ-riFK5jBZFjgoyrAg@mail.gmail.com>
+Subject: Re: [PATCH 00/16] hw/9pfs: Add 9pfs support for Windows
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>, 
+ Keno Fischer <keno@juliacomputing.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Thomas Huth <thuth@redhat.com>, Will Cohen <wwcohen@gmail.com>,
+ Bin Meng <bin.meng@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf2b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,36 +86,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/10/2022 13.52, Alex Bennée wrote:
-> From: Paolo Bonzini <pbonzini@redhat.com>
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Message-Id: <20221013131304.623740-1-pbonzini@redhat.com>
-> ---
->   configure | 3 +++
->   1 file changed, 3 insertions(+)
-> 
-> diff --git a/configure b/configure
-> index 8c2c4c1a04..4275f5419f 100755
-> --- a/configure
-> +++ b/configure
-> @@ -2486,6 +2486,9 @@ echo "HOST_CC=$host_cc" >> $config_host_mak
->   if test -n "$gdb_bin"; then
->       echo "HAVE_GDB_BIN=$gdb_bin" >> $config_host_mak
->   fi
-> +if test "$plugins" = "yes" ; then
-> +    echo "CONFIG_PLUGIN=y" >> $config_host_mak
-> +fi
+Hi Christian,
 
-Ugh, this is super-confusing that the configuration for 
-tests/tcg/config-host.mak uses the same variable as the configuration for 
-the top level config-host.mak ... not the fault of this patch, but we should 
-maybe disentangle this in the future and rename the variable to 
-tcg_config_host_mak or something like that.
+On Mon, Oct 24, 2022 at 1:16 PM Bin Meng <bin.meng@windriver.com> wrote:
+>
+> At present there is no Windows support for 9p file system.
+> This series adds initial Windows support for 9p file system.
+>
+> 'local' file system backend driver is supported on Windows,
+> including open, read, write, close, rename, remove, etc.
+> All security models are supported. The mapped (mapped-xattr)
+> security model is implemented using NTFS Alternate Data Stream
+> (ADS) so the 9p export path shall be on an NTFS partition.
+>
+> 'synth' driver is adapted for Windows too so that we can now
+> run qtests on Windows for 9p related regression testing.
+>
+> Example command line to test:
+>
+>   "-fsdev local,path=c:\msys64,security_model=mapped,id=p9 -device virtio-9p-pci,fsdev=p9,mount_tag=p9fs"
+>
+>
+> Bin Meng (5):
+>   qemu/xattr.h: Exclude <sys/xattr.h> for Windows
+>   hw/9pfs: Drop unnecessary *xattr wrapper API declarations
+>   hw/9pfs: Replace the direct call to xxxat() APIs with a wrapper
+>   hw/9pfs: Introduce an opaque type 9P_FILE_ID
+>   hw/9pfs: Update P9_FILE_ID to support Windows
+>
+> Guohuai Shi (11):
+>   hw/9pfs: Add missing definitions for Windows
+>   hw/9pfs: Implement Windows specific utilities functions for 9pfs
+>   hw/9pfs: Handle current directory offset for Windows
+>   hw/9pfs: Disable unsupported flags and features for Windows
+>   hw/9pfs: Update the local fs driver to support Windows
+>   hw/9pfs: Add Linux error number definition
+>   hw/9pfs: Translate Windows errno to Linux value
+>   fsdev: Disable proxy fs driver on Windows
+>   hw/9pfs: Update synth fs driver for Windows
+>   tests/qtest: virtio-9p-test: Adapt the case for win32
+>   meson.build: Turn on virtfs for Windows
+>
 
-Anyway, for this patch:
+With the latest 9p test case refactoring in the mainline, I will have
+to cherry-pick the following 2 patches in this series, to v6 of
+"tests/qtest: Enable running qtest on Windows" series [1], in order to
+get qtest on Windows build successfully.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+[06/16] hw/9pfs: Add missing definitions for Windows
+[15/16] tests/qtest: virtio-9p-test: Adapt the case for win32
 
+I will include the above 2 patches in the v6 qtest windows support series.
+
+[1] http://patchwork.ozlabs.org/project/qemu-devel/list/?series=321695
+
+Regards,
+Bin
 
