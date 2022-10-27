@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19E83610087
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 20:42:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35381610055
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 20:35:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo7jB-0008LY-J5; Thu, 27 Oct 2022 14:35:41 -0400
+	id 1oo7ia-0006Nr-NL; Thu, 27 Oct 2022 14:35:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oo7gW-0001sn-56
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oo7gV-0001sk-Kq
  for qemu-devel@nongnu.org; Thu, 27 Oct 2022 14:33:05 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oo7gN-0002WT-5A
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oo7gO-0002Wj-AT
  for qemu-devel@nongnu.org; Thu, 27 Oct 2022 14:32:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666895566;
+ s=mimecast20190719; t=1666895567;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AVeyoBTKOdx8anpi/n6WyYeyTx3dFbBStPF8HmpYap0=;
- b=UccWkEGw6o2dkyQGDrCZ1pFXECd4LVr1pvcpyoeOKIwQy9fml8jWyx8hk/yXmaJovFV0SD
- OPagY9k8qGdGk43BIqDCJREJhrqc5+5tB9qpD9KaeWf3W42mgPXqsv3bvHKME9iR6XzkFE
- gQrn+2X+NjGUjeV+B3CNu5J4CLgmbgA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6W2XdDwgrDxRQH6xa34ZCjOrtnLEjWiAI/mlAxDuD7I=;
+ b=C1W8DpIb9ClG6ikjm7MfFmoUKdHjmBVbxIkcuSSH3OLeRUMaO3pgYwKvOgEitOYZIhnV25
+ 0vVPZOsPFiT1a7XSLAb0mArmhiLgHHCXEy/81A1TzTKQ9A65gQEOT7rgawGrX1/HqKT6GX
+ MtVqghjBaxIPUHQh23FxxDNDyP1inmw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-252-IQDd0-hrNrilAxrsKdHheQ-1; Thu, 27 Oct 2022 14:32:44 -0400
-X-MC-Unique: IQDd0-hrNrilAxrsKdHheQ-1
+ us-mta-484-hdWow3-LMxS3-jtItyFxxQ-1; Thu, 27 Oct 2022 14:32:43 -0400
+X-MC-Unique: hdWow3-LMxS3-jtItyFxxQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A8BB72A2AD72;
- Thu, 27 Oct 2022 18:32:42 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A5AEB185A78B;
+ Thu, 27 Oct 2022 18:32:43 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.194.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E2AC6112132D;
- Thu, 27 Oct 2022 18:32:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E07D6112132D;
+ Thu, 27 Oct 2022 18:32:42 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	stefanha@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PULL 32/58] block: remove bdrv_try_set_aio_context and replace it
- with bdrv_try_change_aio_context
-Date: Thu, 27 Oct 2022 20:31:20 +0200
-Message-Id: <20221027183146.463129-33-kwolf@redhat.com>
+Subject: [PULL 33/58] block/nfs: Fix 32-bit Windows build
+Date: Thu, 27 Oct 2022 20:31:21 +0200
+Message-Id: <20221027183146.463129-34-kwolf@redhat.com>
 In-Reply-To: <20221027183146.463129-1-kwolf@redhat.com>
 References: <20221027183146.463129-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -62,7 +61,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,287 +77,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+From: Bin Meng <bin.meng@windriver.com>
 
-No functional change intended.
+libnfs.h declares nfs_fstat() as the following for win32:
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+  int nfs_fstat(struct nfs_context *nfs, struct nfsfh *nfsfh,
+                struct __stat64 *st);
+
+The 'st' parameter should be of type 'struct __stat64'. The
+codes happen to build successfully for 64-bit Windows, but it
+does not build for 32-bit Windows.
+
+Fixes: 6542aa9c75bc ("block: add native support for NFS")
+Fixes: 18a8056e0bc7 ("block/nfs: cache allocated filesize for read-only files")
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Message-Id: <20220908132817.1831008-6-bmeng.cn@gmail.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20221025084952.2139888-11-eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- docs/devel/multiple-iothreads.txt  |  4 ++--
- include/block/block-global-state.h |  2 --
- block.c                            | 14 ++++----------
- block/export/export.c              |  2 +-
- blockdev.c                         | 22 +++++++++++-----------
- job.c                              |  2 +-
- tests/unit/test-bdrv-drain.c       |  6 +++---
- tests/unit/test-block-iothread.c   | 10 +++++-----
- 8 files changed, 27 insertions(+), 35 deletions(-)
+ block/nfs.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/docs/devel/multiple-iothreads.txt b/docs/devel/multiple-iothreads.txt
-index aeb997bed5..343120f2ef 100644
---- a/docs/devel/multiple-iothreads.txt
-+++ b/docs/devel/multiple-iothreads.txt
-@@ -109,7 +109,7 @@ The AioContext originates from the QEMU block layer, even though nowadays
- AioContext is a generic event loop that can be used by any QEMU subsystem.
+diff --git a/block/nfs.c b/block/nfs.c
+index 596ebe98cb..ece22353ac 100644
+--- a/block/nfs.c
++++ b/block/nfs.c
+@@ -418,7 +418,11 @@ static int64_t nfs_client_open(NFSClient *client, BlockdevOptionsNfs *opts,
+                                int flags, int open_flags, Error **errp)
+ {
+     int64_t ret = -EINVAL;
++#ifdef _WIN32
++    struct __stat64 st;
++#else
+     struct stat st;
++#endif
+     char *file = NULL, *strp = NULL;
  
- The block layer has support for AioContext integrated.  Each BlockDriverState
--is associated with an AioContext using bdrv_try_set_aio_context() and
-+is associated with an AioContext using bdrv_try_change_aio_context() and
- bdrv_get_aio_context().  This allows block layer code to process I/O inside the
- right AioContext.  Other subsystems may wish to follow a similar approach.
+     qemu_mutex_init(&client->mutex);
+@@ -781,7 +785,11 @@ static int nfs_reopen_prepare(BDRVReopenState *state,
+                               BlockReopenQueue *queue, Error **errp)
+ {
+     NFSClient *client = state->bs->opaque;
++#ifdef _WIN32
++    struct __stat64 st;
++#else
+     struct stat st;
++#endif
+     int ret = 0;
  
-@@ -134,5 +134,5 @@ Long-running jobs (usually in the form of coroutines) are best scheduled in
- the BlockDriverState's AioContext to avoid the need to acquire/release around
- each bdrv_*() call.  The functions bdrv_add/remove_aio_context_notifier,
- or alternatively blk_add/remove_aio_context_notifier if you use BlockBackends,
--can be used to get a notification whenever bdrv_try_set_aio_context() moves a
-+can be used to get a notification whenever bdrv_try_change_aio_context() moves a
- BlockDriverState to a different AioContext.
-diff --git a/include/block/block-global-state.h b/include/block/block-global-state.h
-index 8db3132e8f..73795a0095 100644
---- a/include/block/block-global-state.h
-+++ b/include/block/block-global-state.h
-@@ -220,8 +220,6 @@ void coroutine_fn bdrv_co_lock(BlockDriverState *bs);
-  */
- void coroutine_fn bdrv_co_unlock(BlockDriverState *bs);
- 
--int bdrv_try_set_aio_context(BlockDriverState *bs, AioContext *ctx,
--                             Error **errp);
- AioContext *bdrv_child_get_parent_aio_context(BdrvChild *c);
- bool bdrv_child_change_aio_context(BdrvChild *c, AioContext *ctx,
-                                    GHashTable *visited, Transaction *tran,
-diff --git a/block.c b/block.c
-index cf97a35f82..5da15d0f4e 100644
---- a/block.c
-+++ b/block.c
-@@ -2904,7 +2904,7 @@ static void bdrv_attach_child_common_abort(void *opaque)
-     bdrv_replace_child_noperm(s->child, NULL);
- 
-     if (bdrv_get_aio_context(bs) != s->old_child_ctx) {
--        bdrv_try_set_aio_context(bs, s->old_child_ctx, &error_abort);
-+        bdrv_try_change_aio_context(bs, s->old_child_ctx, NULL, &error_abort);
-     }
- 
-     if (bdrv_child_get_parent_aio_context(s->child) != s->old_parent_ctx) {
-@@ -2975,7 +2975,8 @@ static BdrvChild *bdrv_attach_child_common(BlockDriverState *child_bs,
-     parent_ctx = bdrv_child_get_parent_aio_context(new_child);
-     if (child_ctx != parent_ctx) {
-         Error *local_err = NULL;
--        int ret = bdrv_try_set_aio_context(child_bs, parent_ctx, &local_err);
-+        int ret = bdrv_try_change_aio_context(child_bs, parent_ctx, NULL,
-+                                              &local_err);
- 
-         if (ret < 0 && child_class->change_aio_ctx) {
-             Transaction *tran = tran_new();
-@@ -3065,7 +3066,7 @@ static void bdrv_detach_child(BdrvChild *child)
-          * When the parent requiring a non-default AioContext is removed, the
-          * node moves back to the main AioContext
-          */
--        bdrv_try_set_aio_context(old_bs, qemu_get_aio_context(), NULL);
-+        bdrv_try_change_aio_context(old_bs, qemu_get_aio_context(), NULL, NULL);
-     }
- }
- 
-@@ -7407,13 +7408,6 @@ int bdrv_try_change_aio_context(BlockDriverState *bs, AioContext *ctx,
-     return 0;
- }
- 
--int bdrv_try_set_aio_context(BlockDriverState *bs, AioContext *ctx,
--                             Error **errp)
--{
--    GLOBAL_STATE_CODE();
--    return bdrv_try_change_aio_context(bs, ctx, NULL, errp);
--}
--
- void bdrv_add_aio_context_notifier(BlockDriverState *bs,
-         void (*attached_aio_context)(AioContext *new_context, void *opaque),
-         void (*detach_aio_context)(void *opaque), void *opaque)
-diff --git a/block/export/export.c b/block/export/export.c
-index 4744862915..7cc0c25c1c 100644
---- a/block/export/export.c
-+++ b/block/export/export.c
-@@ -129,7 +129,7 @@ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
- 
-         /* Ignore errors with fixed-iothread=false */
-         set_context_errp = fixed_iothread ? errp : NULL;
--        ret = bdrv_try_set_aio_context(bs, new_ctx, set_context_errp);
-+        ret = bdrv_try_change_aio_context(bs, new_ctx, NULL, set_context_errp);
-         if (ret == 0) {
-             aio_context_release(ctx);
-             aio_context_acquire(new_ctx);
-diff --git a/blockdev.c b/blockdev.c
-index a32bafc07a..9dd88d14d0 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -1630,8 +1630,8 @@ static void external_snapshot_abort(BlkActionState *common)
-                 aio_context_release(aio_context);
-                 aio_context_acquire(tmp_context);
- 
--                ret = bdrv_try_set_aio_context(state->old_bs,
--                                               aio_context, NULL);
-+                ret = bdrv_try_change_aio_context(state->old_bs,
-+                                                  aio_context, NULL, NULL);
-                 assert(ret == 0);
- 
-                 aio_context_release(tmp_context);
-@@ -1792,12 +1792,12 @@ static void drive_backup_prepare(BlkActionState *common, Error **errp)
-         goto out;
-     }
- 
--    /* Honor bdrv_try_set_aio_context() context acquisition requirements. */
-+    /* Honor bdrv_try_change_aio_context() context acquisition requirements. */
-     old_context = bdrv_get_aio_context(target_bs);
-     aio_context_release(aio_context);
-     aio_context_acquire(old_context);
- 
--    ret = bdrv_try_set_aio_context(target_bs, aio_context, errp);
-+    ret = bdrv_try_change_aio_context(target_bs, aio_context, NULL, errp);
-     if (ret < 0) {
-         bdrv_unref(target_bs);
-         aio_context_release(old_context);
-@@ -1892,12 +1892,12 @@ static void blockdev_backup_prepare(BlkActionState *common, Error **errp)
-         return;
-     }
- 
--    /* Honor bdrv_try_set_aio_context() context acquisition requirements. */
-+    /* Honor bdrv_try_change_aio_context() context acquisition requirements. */
-     aio_context = bdrv_get_aio_context(bs);
-     old_context = bdrv_get_aio_context(target_bs);
-     aio_context_acquire(old_context);
- 
--    ret = bdrv_try_set_aio_context(target_bs, aio_context, errp);
-+    ret = bdrv_try_change_aio_context(target_bs, aio_context, NULL, errp);
-     if (ret < 0) {
-         aio_context_release(old_context);
-         return;
-@@ -3194,12 +3194,12 @@ void qmp_drive_mirror(DriveMirror *arg, Error **errp)
-                     !bdrv_has_zero_init(target_bs)));
- 
- 
--    /* Honor bdrv_try_set_aio_context() context acquisition requirements. */
-+    /* Honor bdrv_try_change_aio_context() context acquisition requirements. */
-     old_context = bdrv_get_aio_context(target_bs);
-     aio_context_release(aio_context);
-     aio_context_acquire(old_context);
- 
--    ret = bdrv_try_set_aio_context(target_bs, aio_context, errp);
-+    ret = bdrv_try_change_aio_context(target_bs, aio_context, NULL, errp);
-     if (ret < 0) {
-         bdrv_unref(target_bs);
-         aio_context_release(old_context);
-@@ -3266,12 +3266,12 @@ void qmp_blockdev_mirror(bool has_job_id, const char *job_id,
- 
-     zero_target = (sync == MIRROR_SYNC_MODE_FULL);
- 
--    /* Honor bdrv_try_set_aio_context() context acquisition requirements. */
-+    /* Honor bdrv_try_change_aio_context() context acquisition requirements. */
-     old_context = bdrv_get_aio_context(target_bs);
-     aio_context = bdrv_get_aio_context(bs);
-     aio_context_acquire(old_context);
- 
--    ret = bdrv_try_set_aio_context(target_bs, aio_context, errp);
-+    ret = bdrv_try_change_aio_context(target_bs, aio_context, NULL, errp);
- 
-     aio_context_release(old_context);
-     aio_context_acquire(aio_context);
-@@ -3767,7 +3767,7 @@ void qmp_x_blockdev_set_iothread(const char *node_name, StrOrNull *iothread,
-     old_context = bdrv_get_aio_context(bs);
-     aio_context_acquire(old_context);
- 
--    bdrv_try_set_aio_context(bs, new_context, errp);
-+    bdrv_try_change_aio_context(bs, new_context, NULL, errp);
- 
-     aio_context_release(old_context);
- }
-diff --git a/job.c b/job.c
-index 78feae05fb..72d57f0934 100644
---- a/job.c
-+++ b/job.c
-@@ -588,7 +588,7 @@ static void coroutine_fn job_do_yield_locked(Job *job, uint64_t ns)
-     next_aio_context = job->aio_context;
-     /*
-      * Coroutine has resumed, but in the meanwhile the job AioContext
--     * might have changed via bdrv_try_set_aio_context(), so we need to move
-+     * might have changed via bdrv_try_change_aio_context(), so we need to move
-      * the coroutine too in the new aiocontext.
-      */
-     while (qemu_get_current_aio_context() != next_aio_context) {
-diff --git a/tests/unit/test-bdrv-drain.c b/tests/unit/test-bdrv-drain.c
-index 0eecf14310..09dc4a4891 100644
---- a/tests/unit/test-bdrv-drain.c
-+++ b/tests/unit/test-bdrv-drain.c
-@@ -1538,16 +1538,16 @@ static void test_set_aio_context(void)
-                               &error_abort);
- 
-     bdrv_drained_begin(bs);
--    bdrv_try_set_aio_context(bs, ctx_a, &error_abort);
-+    bdrv_try_change_aio_context(bs, ctx_a, NULL, &error_abort);
- 
-     aio_context_acquire(ctx_a);
-     bdrv_drained_end(bs);
- 
-     bdrv_drained_begin(bs);
--    bdrv_try_set_aio_context(bs, ctx_b, &error_abort);
-+    bdrv_try_change_aio_context(bs, ctx_b, NULL, &error_abort);
-     aio_context_release(ctx_a);
-     aio_context_acquire(ctx_b);
--    bdrv_try_set_aio_context(bs, qemu_get_aio_context(), &error_abort);
-+    bdrv_try_change_aio_context(bs, qemu_get_aio_context(), NULL, &error_abort);
-     aio_context_release(ctx_b);
-     bdrv_drained_end(bs);
- 
-diff --git a/tests/unit/test-block-iothread.c b/tests/unit/test-block-iothread.c
-index def0709b2b..8ca5adec5e 100644
---- a/tests/unit/test-block-iothread.c
-+++ b/tests/unit/test-block-iothread.c
-@@ -765,7 +765,7 @@ static void test_propagate_mirror(void)
-     filter = bdrv_find_node("filter_node");
- 
-     /* Change the AioContext of src */
--    bdrv_try_set_aio_context(src, ctx, &error_abort);
-+    bdrv_try_change_aio_context(src, ctx, NULL, &error_abort);
-     g_assert(bdrv_get_aio_context(src) == ctx);
-     g_assert(bdrv_get_aio_context(target) == ctx);
-     g_assert(bdrv_get_aio_context(filter) == ctx);
-@@ -773,7 +773,7 @@ static void test_propagate_mirror(void)
- 
-     /* Change the AioContext of target */
-     aio_context_acquire(ctx);
--    bdrv_try_set_aio_context(target, main_ctx, &error_abort);
-+    bdrv_try_change_aio_context(target, main_ctx, NULL, &error_abort);
-     aio_context_release(ctx);
-     g_assert(bdrv_get_aio_context(src) == main_ctx);
-     g_assert(bdrv_get_aio_context(target) == main_ctx);
-@@ -783,7 +783,7 @@ static void test_propagate_mirror(void)
-     blk = blk_new(qemu_get_aio_context(), 0, BLK_PERM_ALL);
-     blk_insert_bs(blk, src, &error_abort);
- 
--    bdrv_try_set_aio_context(target, ctx, &local_err);
-+    bdrv_try_change_aio_context(target, ctx, NULL, &local_err);
-     error_free_or_abort(&local_err);
- 
-     g_assert(blk_get_aio_context(blk) == main_ctx);
-@@ -794,7 +794,7 @@ static void test_propagate_mirror(void)
-     /* ...unless we explicitly allow it */
-     aio_context_acquire(ctx);
-     blk_set_allow_aio_context_change(blk, true);
--    bdrv_try_set_aio_context(target, ctx, &error_abort);
-+    bdrv_try_change_aio_context(target, ctx, NULL, &error_abort);
-     aio_context_release(ctx);
- 
-     g_assert(blk_get_aio_context(blk) == ctx);
-@@ -806,7 +806,7 @@ static void test_propagate_mirror(void)
- 
-     aio_context_acquire(ctx);
-     blk_set_aio_context(blk, main_ctx, &error_abort);
--    bdrv_try_set_aio_context(target, main_ctx, &error_abort);
-+    bdrv_try_change_aio_context(target, main_ctx, NULL, &error_abort);
-     aio_context_release(ctx);
- 
-     blk_unref(blk);
+     if (state->flags & BDRV_O_RDWR && bdrv_is_read_only(state->bs)) {
 -- 
 2.37.3
 
