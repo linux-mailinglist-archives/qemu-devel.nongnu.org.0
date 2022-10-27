@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E95DB60EE8B
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 05:28:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B878A60EE91
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 05:30:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ontXv-0006an-BP; Wed, 26 Oct 2022 23:27:07 -0400
+	id 1ontXz-0006wm-SG; Wed, 26 Oct 2022 23:27:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
- id 1ontXt-0006KG-73
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 23:27:05 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255])
+ id 1ontXv-0006nJ-UO
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 23:27:07 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
- id 1ontXl-0003L9-QR
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 23:27:04 -0400
+ id 1ontXl-0003L7-QQ
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 23:27:07 -0400
 Received: from canpemm500009.china.huawei.com (unknown [172.30.72.53])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MyWF06FXCz15M2s;
- Thu, 27 Oct 2022 11:21:56 +0800 (CST)
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MyWGh2hL1zpW37;
+ Thu, 27 Oct 2022 11:23:24 +0800 (CST)
 Received: from localhost.localdomain (10.67.164.66) by
  canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -32,9 +32,9 @@ CC: <jonathan.cameron@huawei.com>, <linuxarm@huawei.com>,
  <yangyicong@hisilicon.com>, <prime.zeng@huawei.com>,
  <hesham.almatary@huawei.com>, <ionela.voinescu@arm.com>,
  <darren@os.amperecomputing.com>
-Subject: [PATCH v2 2/4] tests: virt: update expected ACPI tables for virt test
-Date: Thu, 27 Oct 2022 11:26:11 +0800
-Message-ID: <20221027032613.18377-3-yangyicong@huawei.com>
+Subject: [PATCH v2 3/4] tests: acpi: aarch64: add topology test for aarch64
+Date: Thu, 27 Oct 2022 11:26:12 +0800
+Message-ID: <20221027032613.18377-4-yangyicong@huawei.com>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20221027032613.18377-1-yangyicong@huawei.com>
 References: <20221027032613.18377-1-yangyicong@huawei.com>
@@ -45,8 +45,8 @@ X-Originating-IP: [10.67.164.66]
 X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
  canpemm500009.china.huawei.com (7.192.105.203)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255;
- envelope-from=yangyicong@huawei.com; helo=szxga08-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=yangyicong@huawei.com; helo=szxga01-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -71,22 +71,54 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Yicong Yang <yangyicong@hisilicon.com>
 
-Update the ACPI tables according to the acpi aml_build change.
+Add test for aarch64's ACPI topology building for all the supported
+levels.
 
 Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
 ---
- tests/data/acpi/virt/PPTT | Bin 96 -> 76 bytes
- 1 file changed, 0 insertions(+), 0 deletions(-)
+ tests/qtest/bios-tables-test.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/tests/data/acpi/virt/PPTT b/tests/data/acpi/virt/PPTT
-index f56ea63b369a604877374ad696c396e796ab1c83..7a1258ecf123555b24462c98ccbb76b4ac1d0c2b 100644
-GIT binary patch
-delta 32
-fcmYfB;R*-{3GrcIU|?D?k;`ae01J-_kOKn%ZFdCM
-
-delta 53
-pcmeZC;0g!`2}xjJU|{l?$YrDgWH5jU5Ca567#O&Klm(arApowi1QY-O
-
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index e6096e7f73..099b723444 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1533,6 +1533,27 @@ static void test_acpi_virt_tcg(void)
+     free_test_data(&data);
+ }
+ 
++static void test_acpi_virt_tcg_topology(void)
++{
++    test_data data = {
++        .machine = "virt",
++        .variant = ".topology",
++        .tcg_only = true,
++        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
++        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
++        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
++        .ram_start = 0x40000000ULL,
++        .scan_len = 128ULL * 1024 * 1024,
++    };
++
++    data.smbios_cpu_max_speed = 2900;
++    data.smbios_cpu_curr_speed = 2700;
++    test_acpi_one("-cpu cortex-a57 "
++                  "-smbios type=4,max-speed=2900,current-speed=2700 "
++                  "-smp sockets=1,clusters=2,cores=2,threads=2", &data);
++    free_test_data(&data);
++}
++
+ static void test_acpi_q35_viot(void)
+ {
+     test_data data = {
+@@ -1864,6 +1885,7 @@ int main(int argc, char *argv[])
+     } else if (strcmp(arch, "aarch64") == 0) {
+         if (has_tcg) {
+             qtest_add_func("acpi/virt", test_acpi_virt_tcg);
++            qtest_add_func("acpi/virt/topology", test_acpi_virt_tcg_topology);
+             qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
+             qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
+             qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
 -- 
 2.24.0
 
