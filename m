@@ -2,87 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 120C56103FE
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 23:06:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E57261042C
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 23:13:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooA30-00065o-NY; Thu, 27 Oct 2022 17:04:18 -0400
+	id 1ooA9o-0001uD-Sw; Thu, 27 Oct 2022 17:11:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ooA1j-0005vs-Ii
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 17:03:10 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooA9h-0001sf-2c
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 17:11:13 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ooA1h-0001FH-O1
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 17:02:59 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id c24so2888515pls.9
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 14:02:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooA9d-0002lI-TS
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 17:11:12 -0400
+Received: by mail-wr1-x431.google.com with SMTP id o4so4261517wrq.6
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 14:11:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=DB7DAhj/1F9bqs3vodMstHLtW+8Unr375uEqjiDmZgo=;
- b=gDbDKxbMMsuPXC4GRf+mlS1w4vLzkHT71Zr+QkXHx2tMjU/lv+XJXvhjAznT8vPum+
- FkLdZUUR83mzBcqMXHX+MCmAgtoOBdzUXajcwBW7VgW9ezrLKZD1yoRw4Jb8qfxx4jr1
- ycM278Vai1VADTHILM6dDzX4jAYoKnR4JDU+6Rs7gVeATMbT9Zd7n6tuzBzf+4LTRY2w
- DCQ4QPwuDJrD70VN5yUQNzFrf5rtWcb3eZ5v2npzA8RcecRazPm8AmKSCyU9DO5Yp/Cs
- 3JTNwWprC5jaqe4shCiVFIDIQr9wUHbmMxoIeWp9XBgPijt8e8p21G9o4mCFJ8qCJyDj
- rGIw==
+ bh=7PCPypECvjj7tY1/i48/WVKNJxCsE5ZU7zFU9OledUs=;
+ b=urTQFd2217HdJPEzu13RsIJwONkqv7+6d7b8o4Gbjwoy39IjfLzKxZ1MTHOar5Eb59
+ LNQl4UlepyhZhQk5DyA+fdrsDBzsDnQNEg3Ea+2fgbgTwJYDcqUfwc8sl/JjhEq0mSPE
+ CqhXrcglpjMpJq/SrJ++VcV/qDz2cG8EWOTbn0WN5u9KWwTzI/uOBTsHUZoIEhZbG6+a
+ 6tIlbMtmuuwdg+oITZ0hrW6OwhVLqJOGqKzR71hq/kp8O8fiXBwZHAGvH1bXzWIoHI+F
+ 4q1x31fZv7MEpL4bkWfaXfSvnGhqithnWPsYbENqxCMyc6jQppqfxeS38hxU9abW28JU
+ oZsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DB7DAhj/1F9bqs3vodMstHLtW+8Unr375uEqjiDmZgo=;
- b=xBnw6Nu2xgdf3ivy7bkliHwJanGWv9xUslA8QhTWskzDiyno/ndZEdMCZIXPlH43ke
- WFJWBDextP4NZLsC+5DYX47pM9ABxR07lUho/Egu3hLr+51++2WoYEFRbItG2S8FAx0a
- M/2tXY/xEWfFBo+1+HQCHnsYWo0mAMWb4r1kZDX6GZZlQIV4Cbf+UxzxdnVwmzur7AKc
- 22VCIvqUs3lxsY5X0btYN4MfT+uHnrTnweDm6mUl7+A1bLYVfzyni3JLc0dUvMwtvLs/
- oFuoB7ZUxdOSszjUMCBLBNpxENeC18YUvZGpzYYg96sIfitDfTKNaELPruPTNEAIKC28
- erww==
-X-Gm-Message-State: ACrzQf2WRzDN5xUoYE+XyJI+UNrUmbCBFaBLOzgApU7up4gVGNVKIxBf
- k8EadL69r+U8PatHWXO5YJloyw==
-X-Google-Smtp-Source: AMsMyM67a6E3a4wKSNDKhTuh+0GdD9KBUVFmMYeqvGD9FfpJksClvRn1haCu/sRpuR7xdasvemz4mQ==
-X-Received: by 2002:a17:902:edcd:b0:17a:6fa:228d with SMTP id
- q13-20020a170902edcd00b0017a06fa228dmr51193253plk.29.1666904576167; 
- Thu, 27 Oct 2022 14:02:56 -0700 (PDT)
-Received: from ?IPV6:2001:8003:501a:d301:93c4:c1c9:4368:47fa?
- ([2001:8003:501a:d301:93c4:c1c9:4368:47fa])
+ bh=7PCPypECvjj7tY1/i48/WVKNJxCsE5ZU7zFU9OledUs=;
+ b=iPpqN2KMD7/cND660vToh4CcqS+TtHyfpyanqa3dAV6GZHgvTfmIYtJVGH9MfN2V+4
+ Ml457iEnQAcO1O2dX5tbfwXanIXv/eyjt5kO29jj20mYCo0FKPEaG/xZVI0yJ1wU+/II
+ mW2a/f2eM9TEk78jeI8DLnJzVxrfYS7CaC72G7dUV8PQ/385kWRUpDPnICzKhQrpApI3
+ xmJCPlT0qPVo5ZecbAxPq6jKtyZz0kXU9YNXs4KJM2LE+Ijhr8Iq60ZrEKQllrGuBX3M
+ S3+68UnTcx3rwEsGIUg3xLI3BCDSjbDmiYGniReVtFGLOeeyiBz3Ej0gACbMQ8BVihkV
+ vzBA==
+X-Gm-Message-State: ACrzQf1Yef7jee+3otGGALfTofQLJvn1WR8SF0cGZucRD2XCzBcDHAJ2
+ bcxeBxIqWVpG5/qeI2zueEJueA==
+X-Google-Smtp-Source: AMsMyM463jYfoOF4OuXsnaaHL30dTX4Jdxdgk6epyf4mGJNp0I/6OrKx1nRf4k48wXsRnMKKRPngjg==
+X-Received: by 2002:a5d:654d:0:b0:235:197d:72d1 with SMTP id
+ z13-20020a5d654d000000b00235197d72d1mr27607557wrv.680.1666905067226; 
+ Thu, 27 Oct 2022 14:11:07 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- j185-20020a62c5c2000000b0055f209690c0sm1599510pfg.50.2022.10.27.14.02.52
+ m6-20020a7bce06000000b003c6c76b43a1sm2326246wmc.13.2022.10.27.14.11.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Oct 2022 14:02:55 -0700 (PDT)
-Message-ID: <59b2016d-949c-13aa-30df-050fc720bdae@linaro.org>
-Date: Fri, 28 Oct 2022 07:02:49 +1000
+ Thu, 27 Oct 2022 14:11:06 -0700 (PDT)
+Message-ID: <48db0d2f-2d02-9d3c-2269-810256403a0d@linaro.org>
+Date: Thu, 27 Oct 2022 23:11:04 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PULL 15/20] include/hw/core: Create struct CPUJumpCache
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.0
+Subject: Re: [PATCH v4 5/7] hw/ppc/e500: Implement pflash handling
 Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: stefanha@redhat.com, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>
-References: <20221004195241.46491-1-richard.henderson@linaro.org>
- <20221004195241.46491-16-richard.henderson@linaro.org>
- <20221027141856.w5umjgklawgu7pqv@heavy>
- <20221027144414.bwc5lklt7dx2wc3j@heavy>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221027144414.bwc5lklt7dx2wc3j@heavy>
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Antony Pavlov <antonynpavlov@gmail.com>, BALATON Zoltan
+ <balaton@eik.bme.hu>, Alistair Francis <alistair@alistair23.me>,
+ Bin Meng <bin.meng@windriver.com>, Kevin Wolf <kwolf@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Jan Kiszka <jan.kiszka@web.de>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-arm@nongnu.org,
+ Magnus Damm <magnus.damm@gmail.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org
+References: <20221018210146.193159-1-shentey@gmail.com>
+ <20221018210146.193159-6-shentey@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221018210146.193159-6-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,56 +100,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/28/22 00:44, Ilya Leoshkevich wrote:
-> Putting CPUJumpCache inside CPUState made problem go away:
+On 18/10/22 23:01, Bernhard Beschow wrote:
+> Allows e500 boards to have their root file system reside on flash using
+> only builtin devices located in the eLBC memory region.
 > 
-> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-> index 18ca701b443..3ea528566c3 100644
-> --- a/include/hw/core/cpu.h
-> +++ b/include/hw/core/cpu.h
-> @@ -32,6 +32,7 @@
->   #include "qemu/thread.h"
->   #include "qemu/plugin.h"
->   #include "qom/object.h"
-> +#include "accel/tcg/tb-jmp-cache.h"
+> Note that the flash memory area is only created when a -pflash argument is
+> given, and that the size is determined by the given file. The idea is to
+> put users into control.
+> 
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>   docs/system/ppc/ppce500.rst | 16 ++++++++
+>   hw/ppc/Kconfig              |  1 +
+>   hw/ppc/e500.c               | 79 +++++++++++++++++++++++++++++++++++++
+>   3 files changed, 96 insertions(+)
+
+> @@ -1024,6 +1061,48 @@ void ppce500_init(MachineState *machine)
+>                                   pmc->platform_bus_base,
+>                                   &pms->pbus_dev->mmio);
 >   
->   typedef int (*WriteCoreDumpFunction)(const void *buf, size_t size,
->                                        void *opaque);
-> @@ -366,7 +367,7 @@ struct CPUState {
->       CPUArchState *env_ptr;
->       IcountDecr *icount_decr_ptr;
->   
-> -    CPUJumpCache *tb_jmp_cache;
-> +    CPUJumpCache tb_jmp_cache;
+> +    dinfo = drive_get(IF_PFLASH, 0, 0);
+> +    if (dinfo) {
+> +        BlockBackend *blk = blk_by_legacy_dinfo(dinfo);
+> +        BlockDriverState *bs = blk_bs(blk);
+> +        uint64_t size = bdrv_getlength(bs);
+> +        uint64_t mmio_size = pms->pbus_dev->mmio.size;
+> +        uint32_t sector_len = 64 * KiB;
+> +
+> +        if (!is_power_of_2(size)) {
+> +            error_report("Size of pflash file must be a power of two.");
+> +            exit(1);
+> +        }
+> +
+> +        if (size > mmio_size) {
+> +            error_report("Size of pflash file must not be bigger than %" PRIu64
+> +                         " bytes.", mmio_size);
+> +            exit(1);
+> +        }
+> +
+> +        if (!QEMU_IS_ALIGNED(size, sector_len)) {
+> +            error_report("Size of pflash file must be a multiple of %" PRIu32
+> +                         ".", sector_len);
+> +            exit(1);
+> +        }
 
-Yes, well.  That structure is quite large (128kB?) and I had been hoping to (1) save that 
-extra memory for e.g. KVM and (2) hide the tcg-specific stuff from core.
+Again, this check is unrelated to the board code and belong to the flash 
+device (the board has no idea of the underlying flash restrictions).
 
-But clearly something went wrong during some threadedness with your test case.
+(see below)
 
+> +        dev = qdev_new(TYPE_PFLASH_CFI01);
+> +        qdev_prop_set_drive(dev, "drive", blk);
+> +        qdev_prop_set_uint32(dev, "num-blocks", size / sector_len);
+> +        qdev_prop_set_uint64(dev, "sector-length", sector_len);
+> +        qdev_prop_set_uint8(dev, "width", 2);
+> +        qdev_prop_set_bit(dev, "big-endian", true);
+> +        qdev_prop_set_uint16(dev, "id0", 0x89);
+> +        qdev_prop_set_uint16(dev, "id1", 0x18);
+> +        qdev_prop_set_uint16(dev, "id2", 0x0000);
+> +        qdev_prop_set_uint16(dev, "id3", 0x0);
+> +        qdev_prop_set_string(dev, "name", "e500.flash");
+> +        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
 
->   void tcg_flush_jmp_cache(CPUState *cpu)
->   {
-> -    CPUJumpCache *jc = cpu->tb_jmp_cache;
->   
-> -    if (likely(jc)) {
-> -        for (int i = 0; i < TB_JMP_CACHE_SIZE; i++) {
-> -            qatomic_set(&jc->array[i].tb, NULL);
-> -        }
-> -    } else {
-> -        /* This should happen once during realize, and thus never race. */
-> -        jc = g_new0(CPUJumpCache, 1);
-> -        jc = qatomic_xchg(&cpu->tb_jmp_cache, jc);
-> -        assert(jc == NULL);
->       }
->   }
->   
-> So there must be a race in tcg_flush_jmp_cache() after all?
+If you want to report the error differently, you can use a local Error*
+and display it with error_report_err() before exiting.
 
-If there had been a race here, we would abort with the assert.
-It must be something else...
+Anyhow can be cleaned later, so:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-
-r~
+> +        memory_region_add_subregion(&pms->pbus_dev->mmio, 0,
+> +                                    pflash_cfi01_get_memory(PFLASH_CFI01(dev)));
+> +    }
 
 
