@@ -2,50 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25E4E60FD2C
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 18:34:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55A6B60FD4A
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 18:40:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo5nI-0002vh-1H; Thu, 27 Oct 2022 12:31:48 -0400
+	id 1oo5t3-00075D-Mi; Thu, 27 Oct 2022 12:37:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1oo5nF-0002qn-VX
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 12:31:45 -0400
+ id 1oo5t1-0006aK-ER
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 12:37:43 -0400
 Received: from kylie.crudebyte.com ([5.189.157.229])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1oo5nB-0008UK-Qh
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 12:31:45 -0400
+ id 1oo5sz-0000xq-RF
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 12:37:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
  Content-ID:Content-Description;
- bh=aIX7DoWyd+eolGrjWtXM+k8pxhGeWRtJ/wx9mu6dgFY=; b=riZE3kObVib2f1HPU1L3sETEsF
- w925muPxdt3mn0v/1AMvLkjXRsLdZSRBMbET1D5Bjs6YWDrUCTEJe5pbJo6xt9hKQ/RAZZGV/xado
- H8b+Z/9cbEXKnpQtAmZ5X9066FhktXbh69AduPdkUHDp3gWqG+WkQjAfUXl3o/P5rsJW/D7F+ObaO
- bBO084DhtjZl2gwDOFDggAlelG7iodSUUFBzFaD9g7rTas6hRyRdZ/saciG4nY8T1Y5selbnPB3fP
- zcEtEGS8LGKe049w6cQfV2IwmzLjr6Qj5ahz0m4Fa7zcKpkk6FEmqIubJKYRMRe6fdZiNsWcPR/ys
- XZBYZUeeRGTdS16q3iGdBiGqI3vPm1twINjYjkII90A4q8fmn2khtSWYt88J833qqIUTHa/VJ5xzd
- XAXeUA+p4bZ23ZDBddQ/yYQVkfj8Jccb2v68P1DSBRpunnin46zDCGTGB9G68qv0yiPC53b76a53y
- JIM8fExP0lxBu5FBHL3o5SLLvPpkRhyFsnjlybYM1NgU3dpSfy/albZy4C/yBgDCixtl2NmRlJd4S
- OQuA3q73Mf8uwjBthRgEVioVtnGKh8QshRQMxHPe3jf5kJUrXRgsJ3h8HLExPwdKJg64z5JLm5kFo
- Ok4Ztno5HzW/2ddjjndaI0Qxmzcm5hY38hdHxhF5Q=;
+ bh=LCI+ZmQfy66B4+Zj0bTcdBAfekOGj2wa5HiCJYm1L2A=; b=rGqo7IzPTc54Q0dvWl6xa0WeEW
+ XnoR9okY+NEDvve0erTtzUCC+BgTWbmWqn9WeMjCvjdyhtfmTl8Hai214JVd4XW1mbGKDejS2rg4/
+ 14rMFuCm10kHFyR3AhfwGRe+vAgye/f1eXi7ityRhMLY2uzfJ6B9dz6jJdc2DW8oToEmlaDAqc7ey
+ Lnjekx7N7vXFrOjprbMTWLZJBqVD3dB4IcpX+27dr1OqOTpYl2xMiJ2QVEtT6BPq5sYIXVv1CnNLp
+ iUx3vOrXC7P7uWrmM8zUjnpkzr8ypoa5rZ4HLo6YaH+OEg+602qpYDIVHZfD0Zs46fk8UWED9JaD4
+ KvesbXOp8Z4Xm3uRXQ4Fu3CbCj7S1gLDqGyiIfPonJpd7XOt+SeMWEdqCUW74nRMchsBZyYhxzx12
+ yuj5OpcxhWjFUmKsWNVimT3rCgojtXQG+iQupi+ApTRYRQI96Pjk6hjsUcxIQySUrXGZM5ea9rN2E
+ mQefZPUFS5swJQ2zEUoEURD3c/I5UUyAScbyT20U2MM8U68mRUfS12XzUQ65TM7Fa+3GEwcUpaLv1
+ K/yjNALQLd4CocXFPFeV8TzU488TkdosxwPKkND0g7mSX+6SGPpQbU3BkTym1jSETazVIBwAKCe8J
+ hkASdCOWE0suKdXdv+MmROExhqPoKLjZrA5/iVN/g=;
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
- Keno Fischer <keno@juliacomputing.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
- Thomas Huth <thuth@redhat.com>, Will Cohen <wwcohen@gmail.com>,
- Bin Meng <bin.meng@windriver.com>
-Subject: Re: [PATCH 00/16] hw/9pfs: Add 9pfs support for Windows
-Date: Thu, 27 Oct 2022 18:30:02 +0200
-Message-ID: <13126592.PNbLGPOa45@silver>
-In-Reply-To: <CAEUhbmV632N-w7yAj2jcmRMa_XMGi+jRJ-riFK5jBZFjgoyrAg@mail.gmail.com>
-References: <20221024045759.448014-1-bin.meng@windriver.com>
- <CAEUhbmV632N-w7yAj2jcmRMa_XMGi+jRJ-riFK5jBZFjgoyrAg@mail.gmail.com>
+To: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Linus Heckemann <git@sphalerite.org>, Bin Meng <bin.meng@windriver.com>
+Subject: Re: [PULL 00/23] 9p queue 2022-10-24
+Date: Thu, 27 Oct 2022 18:37:06 +0200
+Message-ID: <3438372.x9l1EUDYgq@silver>
+In-Reply-To: <4ad773a9-2173-3667-47f8-2713efffa053@redhat.com>
+References: <cover.1666608862.git.qemu_oss@crudebyte.com>
+ <4ad773a9-2173-3667-47f8-2713efffa053@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -72,77 +68,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thursday, October 27, 2022 6:19:27 PM CEST Bin Meng wrote:
-> Hi Christian,
+On Thursday, October 27, 2022 5:53:47 PM CEST Thomas Huth wrote:
+> On 24/10/2022 12.54, Christian Schoenebeck wrote:
+> > The following changes since commit 0529245488865038344d64fff7ee05864d3d17f6:
+> > 
+> >    Merge tag 'pull-target-arm-20221020' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-10-20 14:36:12 -0400)
+> > 
+> > are available in the Git repository at:
+> > 
+> >    https://github.com/cschoenebeck/qemu.git tags/pull-9p-20221024
+> > 
+> > for you to fetch changes up to 3ce77865bf813f313cf79c00fd951bfc95a50165:
+> > 
+> >    tests/9p: remove unnecessary g_strdup() calls (2022-10-24 12:24:32 +0200)
+> > 
+> > ----------------------------------------------------------------
+> > 9pfs: performance, Windows host prep, tests restructure
+> > 
+> > * Highlight of this PR is Linus Heckemann's GHashTable patch which
+> >    brings massive general performance improvements of 9p server
+> >    somewhere between factor 6 .. 12.
+> > 
+> > * Bin Meng's g_mkdir patch is a preparatory patch for upcoming
+> >    Windows host support of 9p server.
+> > 
+> > * The rest of the patches in this PR are 9p test code restructuring
+> >    and refactoring changes to improve readability and to ease
+> >    maintenance of 9p test code on the long-term.
 > 
-> On Mon, Oct 24, 2022 at 1:16 PM Bin Meng <bin.meng@windriver.com> wrote:
-> >
-> > At present there is no Windows support for 9p file system.
-> > This series adds initial Windows support for 9p file system.
-> >
-> > 'local' file system backend driver is supported on Windows,
-> > including open, read, write, close, rename, remove, etc.
-> > All security models are supported. The mapped (mapped-xattr)
-> > security model is implemented using NTFS Alternate Data Stream
-> > (ADS) so the 9p export path shall be on an NTFS partition.
-> >
-> > 'synth' driver is adapted for Windows too so that we can now
-> > run qtests on Windows for 9p related regression testing.
-> >
-> > Example command line to test:
-> >
-> >   "-fsdev local,path=c:\msys64,security_model=mapped,id=p9 -device virtio-9p-pci,fsdev=p9,mount_tag=p9fs"
-> >
-> >
-> > Bin Meng (5):
-> >   qemu/xattr.h: Exclude <sys/xattr.h> for Windows
-> >   hw/9pfs: Drop unnecessary *xattr wrapper API declarations
-> >   hw/9pfs: Replace the direct call to xxxat() APIs with a wrapper
-> >   hw/9pfs: Introduce an opaque type 9P_FILE_ID
-> >   hw/9pfs: Update P9_FILE_ID to support Windows
-> >
-> > Guohuai Shi (11):
-> >   hw/9pfs: Add missing definitions for Windows
-> >   hw/9pfs: Implement Windows specific utilities functions for 9pfs
-> >   hw/9pfs: Handle current directory offset for Windows
-> >   hw/9pfs: Disable unsupported flags and features for Windows
-> >   hw/9pfs: Update the local fs driver to support Windows
-> >   hw/9pfs: Add Linux error number definition
-> >   hw/9pfs: Translate Windows errno to Linux value
-> >   fsdev: Disable proxy fs driver on Windows
-> >   hw/9pfs: Update synth fs driver for Windows
-> >   tests/qtest: virtio-9p-test: Adapt the case for win32
-> >   meson.build: Turn on virtfs for Windows
-> >
+>   Hi Christian,
 > 
-> With the latest 9p test case refactoring in the mainline, I will have
-> to cherry-pick the following 2 patches in this series, to v6 of
-> "tests/qtest: Enable running qtest on Windows" series [1], in order to
-> get qtest on Windows build successfully.
+> I think this PR broke the FreeBSD CI jobs:
 > 
-> [06/16] hw/9pfs: Add missing definitions for Windows
-> [15/16] tests/qtest: virtio-9p-test: Adapt the case for win32
+>   https://gitlab.com/qemu-project/qemu/-/jobs/3219611457#L3116
 > 
-> I will include the above 2 patches in the v6 qtest windows support series.
+>   https://gitlab.com/qemu-project/qemu/-/jobs/3219611460#L3372
+> 
+> Could you please have a look?
+> 
+>   Thanks!
+>    Thomas
 
-No need to add those patches as they are already being queued separately. Just
-add appropriate tag(s) to the first patch:
+I try, but will certainly take some days, especially as I currently don't have
+a BSD installation at hand to try the changes.
 
-Based-on: <MESSAGE-ID>
-
-I already had a quick look on this version, will try to give feedback
-tomorrow.
-
-This feature won't make it into 7.2 release anyway, so patience please. ;-)
+Right now I don't see something obvious. I would expect statfs being defined
+in <sys/types.h> on BSD which is already included via "qemu/osdep.h" from
+virtio-9p-client.c.
 
 Best regards,
 Christian Schoenebeck
-
-> [1] http://patchwork.ozlabs.org/project/qemu-devel/list/?series=321695
-> 
-> Regards,
-> Bin
-> 
 
 
 
