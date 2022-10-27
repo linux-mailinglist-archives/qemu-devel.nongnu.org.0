@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5245F60FF49
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 19:27:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 666D460FF52
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 19:32:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo6cP-0008AW-Em; Thu, 27 Oct 2022 13:24:37 -0400
+	id 1oo6i2-0007R6-7r; Thu, 27 Oct 2022 13:30:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oo6cM-00089j-Ox
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 13:24:34 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+ (Exim 4.90_1) (envelope-from <idan.horowitz@gmail.com>)
+ id 1oo6ht-00066j-I2; Thu, 27 Oct 2022 13:30:20 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oo6cI-0008At-2I
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 13:24:34 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- m14-20020a17090a3f8e00b00212dab39bcdso7237546pjc.0
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 10:24:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <idan.horowitz@gmail.com>)
+ id 1oo6he-0000Vz-0l; Thu, 27 Oct 2022 13:30:17 -0400
+Received: by mail-ej1-x632.google.com with SMTP id n12so6614538eja.11;
+ Thu, 27 Oct 2022 10:30:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Kwfk3gz7PC13LMB2IWM5ktSZ8KPzYZNjFGpc+j9dang=;
- b=TOp+3teF/valMu22OFyHulMSXZwx2syQYPl2darOTgbqNBmlNFVbcV5zxq5sKJ7EFN
- 9+uVVpiuwYE001Y8AIbUsnmINIXLbn2QnBV4hqCwdUH6TbUB+HTnl4laQ8FahVmN8BZy
- +Hv2RLCMuso1UAGaW4maUV/6iaMIzCUMnqjd6Ro5AfK5XYyR3G4wqwtslwY/cJAGVL4Q
- EJ2utOYUCeIhppScKbnmvHhKVa6D1CLhE+eED5OtJ655ogxpgqcgNWmxsyz3t8wB6GB0
- VKo1KPNieVgBJQJne2cLV37XSJ78w8JQ2MvtL/bB/zu4hc/7E2ybsxZf80BN3vqXpJJ/
- TGSg==
+ bh=HJO2tKtQ7C9PRCed4J1puz67aPPWiZbJVdU6xmlhOQ4=;
+ b=ZsBDTLLOEnzDpHQOwtv4xVaZGSgC8G713gWw05yvoj688VDP4G5z+/Tf17DddlR54y
+ 0387i8TgWHZDCyvy2e+15HN0oPRtEBZjMIYcIBzGq22mtz2mlHX5ixJBvhV0jdZg7gFT
+ Z7Nrsq18S97H9pmjqMKhV+p9sJQYZL+4K60ABB++OI21CF6BiuwiN9T11jLrmCakEJJO
+ KFkfHXCdNMutMEBoZs2dS1VWsN0U4Zk27arBZaO3bNuHQI6vUk//iw6lrN+fe5OQj1ml
+ OQSikuVOlaCmZwWJciVHU8u26pesemVvaeEWEQSZu3telq7EZ50HOzGgYYM0SiN9Q3JS
+ /nmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Kwfk3gz7PC13LMB2IWM5ktSZ8KPzYZNjFGpc+j9dang=;
- b=pPFv01+w5cVVNbSWk0eHLe6rZ80eQCgt8820G8EckYaqUIkfAhlG7vWIltXfbc1u7v
- EZPTL+6VovwoWmV3ZzNJ6ozJ5cG7Cn49cKf+YVxg5U6hoYZUIhVoyCWStkOH1jGrda5d
- V5K4IBP/sBmI7VzJCYqngVlG0/o9ssohCgu41ZMepfsGr19/P68Bn8ANHMgEbcr8V/gk
- Tw0aKeBkystjgxMZPOnSW89CaygdUyiJtIB/HGhy14rlosVKc4kdyf3n4AKEPK6u7DPS
- XHey506DnpGDyeBwJ/4u9Ba4rC+jJTPrRzqju000VjzXmzafioPScUdxQDOw72F8Vm3q
- KG6A==
-X-Gm-Message-State: ACrzQf2zDD/+WiBuIrkK7VRP/CqADbPqY5pQVtZFo+GU0v94NQOsJEkE
- 0VcLi4OLp+uaLn4EgOi4my3EVbuGA/gJECmJjSIQAg==
-X-Google-Smtp-Source: AMsMyM7I9AsmV8XvX1JCWXghdrMnt2pIegOJgVYgnQ3w63ANiLIwLXIcwGlXVLUWLmJ6BLOagqeqXCPJDfmjSY2fyzU=
-X-Received: by 2002:a17:902:7c97:b0:17f:5abf:9450 with SMTP id
- y23-20020a1709027c9700b0017f5abf9450mr48734918pll.19.1666891468480; Thu, 27
- Oct 2022 10:24:28 -0700 (PDT)
+ bh=HJO2tKtQ7C9PRCed4J1puz67aPPWiZbJVdU6xmlhOQ4=;
+ b=54Sulr3MJY0RrecwxLvmWxxJID++NVo0eQnMTI1udTiancdsNU9oTxNmA7AjIsDZBm
+ iKHCnqsSJfEnGXGn2O1HXL3NhzlXM3B5dhk7GAz1jdFQ4AQl//hOWMMkQkkVMQ79GqTd
+ glTzlQSl+OIpTy9X6IMvBPc5Vb8CJrcv9/MPhmqoDGI2ugQCDQJdvQ1VPSvg62VNE/5j
+ o5ssMcsN8Pyf48cItiYT0ALBbRzbQaKkw+raCDiwMi59xb4p1NMct+Fm7I9WFtnVE/JF
+ a/i7c5afwUtRoaecFNl1ldyC7OILyWSdXnyQxkij/pOImazJUzM5Rrmwd23hyHiD1413
+ /h8A==
+X-Gm-Message-State: ACrzQf1m9E3bbBCLJznplQq104XKy1WdKm4M6cTWWFjadlYPCrP/E2xH
+ D9f1atq5E90nSeY8Xewc4pNgdRSx5NGcjss6hUo=
+X-Google-Smtp-Source: AMsMyM61Wm48EhptcHvWnPLi2PdqKHCI6e9geSNokXRlGLIGFqiXkLcn8FMgSRzbrZQ/72Ba6NUlZlUookoDORnoR9Q=
+X-Received: by 2002:a17:906:6a09:b0:78d:ed9c:d880 with SMTP id
+ qw9-20020a1709066a0900b0078ded9cd880mr41646827ejc.424.1666891799237; Thu, 27
+ Oct 2022 10:29:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221025235006.7215-1-philmd@linaro.org>
- <87bkpxl4a1.fsf@pond.sub.org>
- <CAFEAcA_WefVz8fefKTVq8vkiOkdXhrXkcwj4G6bSZPaFoRTSMg@mail.gmail.com>
- <87r0ytjie3.fsf@pond.sub.org>
-In-Reply-To: <87r0ytjie3.fsf@pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 27 Oct 2022 18:24:16 +0100
-Message-ID: <CAFEAcA_-udYfzGNzfARvK1G2ZVKCP+_spEUKa3THroRQ+9SMMQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] target: Rename headers using .def extension to .h.inc
-To: Markus Armbruster <armbru@redhat.com>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>, 
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org, 
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, 
- Cornelia Huck <cohuck@redhat.com>, qemu-trivial@nongnu.org
+References: <20220527181907.189259-1-richard.henderson@linaro.org>
+ <20220527181907.189259-58-richard.henderson@linaro.org>
+In-Reply-To: <20220527181907.189259-58-richard.henderson@linaro.org>
+From: Idan Horowitz <idan.horowitz@gmail.com>
+Date: Thu, 27 Oct 2022 20:29:47 +0300
+Message-ID: <CA+4MfE+XFOXgskehNoXYkVXx81ffvNAXTwgxuQaQk1utQvfyow@mail.gmail.com>
+Subject: Re: [PATCH 057/114] target/arm: Move sve zip high_ofs into simd_data
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=idan.horowitz@gmail.com; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, FREEMAIL_FROM=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,39 +80,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 27 Oct 2022 at 18:17, Markus Armbruster <armbru@redhat.com> wrote:
+On Fri, 27 May 2022 at 22:05, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Peter Maydell <peter.maydell@linaro.org> writes:
+> This is in line with how we treat uzp, and will
+> eliminate the special case code during translation.
 >
-> > On Thu, 27 Oct 2022 at 15:40, Markus Armbruster <armbru@redhat.com> wrote:
-> >> I wonder why we use any of .def, .h.inc, .inc.h, .c.inc, .inc.c.  Why
-> >> not .h and call it a day?  No need to configure each and every editor to
-> >> tread these as C code.
-> >
-> > It says "this isn't actually a header in the usual sense". That's
-> > useful for automated scripted checks (eg we don't want
-> > scripts/clean-header-guards.pl to add the standard #include header
-> > guards to this sort of file) and for humans (if you see one of these
-> > files included as part of the normal #include block at the top of
-> > a .c file that's probably a mistake; if you see it being used then
-> > you know there's likely multiple-inclusion shenanigans going on.)
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+
+Sorry, a bit late, but I believe this change broke the implementation
+of the ZIP2 SVE instructions:
+
+>  target/arm/sve_helper.c    |  6 ++++--
+>  target/arm/translate-sve.c | 12 ++++++------
+>  2 files changed, 10 insertions(+), 8 deletions(-)
 >
-> scripts/clean-header-guards.pl needs exclude patterns anyway.
+> diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+> index e0f9aa9983..3bdcd4ce9d 100644
+> --- a/target/arm/sve_helper.c
+> +++ b/target/arm/sve_helper.c
+> @@ -3382,6 +3382,7 @@ void HELPER(sve_punpk_p)(void *vd, void *vn, uint32_t pred_desc)
+>  void HELPER(NAME)(void *vd, void *vn, void *vm, uint32_t desc)       \
+>  {                                                                    \
+>      intptr_t oprsz = simd_oprsz(desc);                               \
+> +    intptr_t odd_ofs = simd_data(desc);                              \
+>      intptr_t i, oprsz_2 = oprsz / 2;                                 \
+>      ARMVectorReg tmp_n, tmp_m;                                       \
+>      /* We produce output faster than we consume input.               \
+> @@ -3393,8 +3394,9 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, uint32_t desc)       \
+>          vm = memcpy(&tmp_m, vm, oprsz_2);                            \
+>      }                                                                \
 
-Yes, in theory instead of having a systematic convention for
-filenames we could instead give the files names that don't
-let you easily distinguish them from plain old header files and
-require every use like this to update clean-header-guards.pl,
-but that seems to me to be clearly worse than maintaining the
-filename convention that we already have.
+Unlike the for loop below, we are not taking the odd_ofs into account
+in the 2 memcpys above. As an optimization these memcpys only copy
+half of the vector, so when the instruction is using the same vector
+register for 2 of the operands, and odd_ofs is not 0, we end up
+reading the upper bytes of tmp_n/tmp_m, which are uninitialized
+garbage. (Which is ironically a good thing in this case, since
+non-deterministic incorrect behaviour was easier to find than
+deterministic wrong results)
 
-> Comments would likely work better for humans than obscure naming
-> conventions.
+>      for (i = 0; i < oprsz_2; i += sizeof(TYPE)) {                    \
+> -        *(TYPE *)(vd + H(2 * i + 0)) = *(TYPE *)(vn + H(i));         \
+> -        *(TYPE *)(vd + H(2 * i + sizeof(TYPE))) = *(TYPE *)(vm + H(i)); \
+> +        *(TYPE *)(vd + H(2 * i + 0)) = *(TYPE *)(vn + odd_ofs + H(i)); \
+> +        *(TYPE *)(vd + H(2 * i + sizeof(TYPE))) =                    \
+> +            *(TYPE *)(vm + odd_ofs + H(i));                          \
+>      }                                                                \
+>      if (sizeof(TYPE) == 16 && unlikely(oprsz & 16)) {                \
+>          memset(vd + oprsz - 16, 0, 16);                              \
+> diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+> index 1e6bcedb9d..c2ced3e2bb 100644
+> --- a/target/arm/translate-sve.c
+> +++ b/target/arm/translate-sve.c
+> @@ -2298,9 +2298,9 @@ static bool do_zip(DisasContext *s, arg_rrr_esz *a, bool high)
+>          unsigned vsz = vec_full_reg_size(s);
+>          unsigned high_ofs = high ? vsz / 2 : 0;
+>          tcg_gen_gvec_3_ool(vec_full_reg_offset(s, a->rd),
+> -                           vec_full_reg_offset(s, a->rn) + high_ofs,
+> -                           vec_full_reg_offset(s, a->rm) + high_ofs,
+> -                           vsz, vsz, 0, fns[a->esz]);
+> +                           vec_full_reg_offset(s, a->rn),
+> +                           vec_full_reg_offset(s, a->rm),
+> +                           vsz, vsz, high_ofs, fns[a->esz]);
+>      }
+>      return true;
+>  }
+> @@ -2324,9 +2324,9 @@ static bool do_zip_q(DisasContext *s, arg_rrr_esz *a, bool high)
+>          unsigned vsz = vec_full_reg_size(s);
+>          unsigned high_ofs = high ? QEMU_ALIGN_DOWN(vsz, 32) / 2 : 0;
+>          tcg_gen_gvec_3_ool(vec_full_reg_offset(s, a->rd),
+> -                           vec_full_reg_offset(s, a->rn) + high_ofs,
+> -                           vec_full_reg_offset(s, a->rm) + high_ofs,
+> -                           vsz, vsz, 0, gen_helper_sve2_zip_q);
+> +                           vec_full_reg_offset(s, a->rn),
+> +                           vec_full_reg_offset(s, a->rm),
+> +                           vsz, vsz, high_ofs, gen_helper_sve2_zip_q);
+>      }
+>      return true;
+>  }
+> --
+> 2.34.1
 >
-> Make them stylized, and they work for scripts, too.
+>
 
-We already have a stylized convention, it's the filename...
-Comments inside the .inc file are also helpful, of course.
-
--- PMM
+Best Regards, Idan Horowitz
 
