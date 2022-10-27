@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C47BB6101AF
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 21:30:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B5EB6100E5
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 20:58:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo7i8-0005gG-5F; Thu, 27 Oct 2022 14:34:36 -0400
+	id 1oo7jN-0000e2-Rr; Thu, 27 Oct 2022 14:35:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oo7gY-0001t5-1U
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oo7ga-0001tO-2f
  for qemu-devel@nongnu.org; Thu, 27 Oct 2022 14:33:14 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oo7gQ-0002XK-9m
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 14:32:57 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oo7gU-0002YW-5N
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 14:32:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666895569;
+ s=mimecast20190719; t=1666895573;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tBOM5z+cjwSgFvyt75YBNsfF+YRzvVhleazYxWAKFF8=;
- b=Vpxr5qBQVCxtfyVzly8al4IvoApNHX+ZaWiBc7f77Aql5fbWQB6HO/tmvqQUMx3HacqRYR
- jy3niel80/bosfq+7jGxx8QUWfouCEb+SWrE57Qzg9t/6g9NYofJs8rUe09VcRloCObWhx
- gQYXNtqCv0btScLUuq7VA9Wm0sgKkfs=
+ bh=ZqV6ASmQjwO+yqtsPRPcyzD8uQd7Pa89KvUhZBxMyfw=;
+ b=c+h6CXVPoDBflbm8Hum0uz7xPWjjEDl0AH9wNOQok66enoFlVhmL2bGA6VY6NLu1OZKFvx
+ yDQoHfXRlKuyoKUW9Ap+VpHoEIH/Nh8FX9wDexgcHMd8iVmZMaRZRQ3jm0bSpIBdeLRMbb
+ IOtQ47z/yumf9538T79Fl2VxWG4Ea+4=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-27-ZoGrLkD7PdewLrYkeyqhqQ-1; Thu, 27 Oct 2022 14:32:47 -0400
-X-MC-Unique: ZoGrLkD7PdewLrYkeyqhqQ-1
+ us-mta-467-et3Ht17kMfOnDwhHOhmjXQ-1; Thu, 27 Oct 2022 14:32:49 -0400
+X-MC-Unique: et3Ht17kMfOnDwhHOhmjXQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 923F33802B81;
- Thu, 27 Oct 2022 18:32:47 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8C5E61C0690C;
+ Thu, 27 Oct 2022 18:32:48 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.194.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CF1D11121320;
- Thu, 27 Oct 2022 18:32:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CBCEC1121320;
+ Thu, 27 Oct 2022 18:32:47 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	stefanha@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PULL 37/58] ssh: add missing coroutine_fn annotation
-Date: Thu, 27 Oct 2022 20:31:25 +0200
-Message-Id: <20221027183146.463129-38-kwolf@redhat.com>
+Subject: [PULL 38/58] block: add missing coroutine_fn annotation to prototypes
+Date: Thu, 27 Oct 2022 20:31:26 +0200
+Message-Id: <20221027183146.463129-39-kwolf@redhat.com>
 In-Reply-To: <20221027183146.463129-1-kwolf@redhat.com>
 References: <20221027183146.463129-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -61,7 +61,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,34 +79,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Alberto Faria <afaria@redhat.com>
 
-ssh_write is only called from ssh_co_writev.
+The functions are marked coroutine_fn in the definition.
 
 Signed-off-by: Alberto Faria <afaria@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20221013123711.620631-5-pbonzini@redhat.com>
+Message-Id: <20221013123711.620631-6-pbonzini@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/ssh.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ include/block/block-io.h | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/block/ssh.c b/block/ssh.c
-index a2dc646536..ceb4f4c5bc 100644
---- a/block/ssh.c
-+++ b/block/ssh.c
-@@ -1129,9 +1129,9 @@ static coroutine_fn int ssh_co_readv(BlockDriverState *bs,
-     return ret;
- }
+diff --git a/include/block/block-io.h b/include/block/block-io.h
+index 492f95fc05..770ddeb7c8 100644
+--- a/include/block/block-io.h
++++ b/include/block/block-io.h
+@@ -83,12 +83,13 @@ void bdrv_aio_cancel(BlockAIOCB *acb);
+ void bdrv_aio_cancel_async(BlockAIOCB *acb);
  
--static int ssh_write(BDRVSSHState *s, BlockDriverState *bs,
--                     int64_t offset, size_t size,
--                     QEMUIOVector *qiov)
-+static coroutine_fn int ssh_write(BDRVSSHState *s, BlockDriverState *bs,
-+                                  int64_t offset, size_t size,
-+                                  QEMUIOVector *qiov)
- {
-     ssize_t r;
-     size_t written;
+ /* sg packet commands */
+-int bdrv_co_ioctl(BlockDriverState *bs, int req, void *buf);
++int coroutine_fn bdrv_co_ioctl(BlockDriverState *bs, int req, void *buf);
+ 
+ /* Ensure contents are flushed to disk.  */
+ int coroutine_fn bdrv_co_flush(BlockDriverState *bs);
+ 
+-int bdrv_co_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes);
++int coroutine_fn bdrv_co_pdiscard(BdrvChild *child, int64_t offset,
++                                  int64_t bytes);
+ bool bdrv_can_write_zeroes_with_unmap(BlockDriverState *bs);
+ int bdrv_block_status(BlockDriverState *bs, int64_t offset,
+                       int64_t bytes, int64_t *pnum, int64_t *map,
 -- 
 2.37.3
 
