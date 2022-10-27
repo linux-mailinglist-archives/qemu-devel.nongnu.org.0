@@ -2,80 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D0E260FC6E
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 17:54:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEB0160FC6D
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 17:54:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo5Bn-0002Mb-D0; Thu, 27 Oct 2022 11:53:03 -0400
+	id 1oo5Cg-00087B-KK; Thu, 27 Oct 2022 11:53:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oo5Bl-0001zU-7x; Thu, 27 Oct 2022 11:53:01 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oo5Bj-0002MH-JV; Thu, 27 Oct 2022 11:53:00 -0400
-Received: by mail-pl1-x636.google.com with SMTP id u6so1917960plq.12;
- Thu, 27 Oct 2022 08:52:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9Fss7SWkcWPOiRxCjosHdHx2iUNVuQMQCnMg6vKHl34=;
- b=d/2iI4mCwLDdGuYrs7/Svd2VMiHXVD81dDuUa7IvPf1UD3EeD/whXSvUBe8NZ1xv7h
- ovqGm/8u5nLXdo+22BiQqMOIQBd7FHvVpK0ZNREkOEoyp7hi+gNpj43AYp2j+Ss0BPwY
- lae5P+ukZgukxq7jieaUHfa4bQ5KYFuMcvAETLmjPORtfKm3Ox58UPQgOuvz5ZtQHc83
- aQ7JrnKsv+afVxrEkZYuM0zp2bMO8wsn+ZZMyFUI8+nF6j1GRbtfE61UgJ6c3kdNMKNh
- 2DEeGAavcmEU1FBO3pWo08nhrOwTh1Y946wbQV+Bmvypdqwk/PZT5IH0oMs1qmyqKxGm
- diOA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oo5Ce-0007zr-BB
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 11:53:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oo5Cb-0002SH-Jv
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 11:53:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666886032;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=v5U/cHaH2xx/U4HzSsSjRnl5nNaLx3HyEsr7YlFbybk=;
+ b=bYVL1Sb2lJsWmrww6GSgOsPpIYmQjxlM/jTIoweIyWe/vMOQUcHuXRJYoSu23Lb7z48PiR
+ Vicbh5JI0x6pdSx56rHfct46IT1T20XVmB00PG0QkkgxisVaQh//yHfAGKDEardZqvxVWl
+ kglkKHsqCiu9IOrQfzFfrDdYlN61Guo=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-427-fKn_V2qHNOGToGYe9rgWdg-1; Thu, 27 Oct 2022 11:53:50 -0400
+X-MC-Unique: fKn_V2qHNOGToGYe9rgWdg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ d10-20020adfa34a000000b00236616a168bso580238wrb.18
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 08:53:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9Fss7SWkcWPOiRxCjosHdHx2iUNVuQMQCnMg6vKHl34=;
- b=R0mBP9EnBuhFakwN9pwAHY3ohLWO8YSC6VJ951tYNlDEvxvn418QbZAj/jdnZfnuhg
- iOTFkCCF8bT6aaU1NbFhiFcw9xIwF2Y5eyH3BwoAtl5es1hWEJRA6EEarQeGW8i9p7OS
- Q9tqVtd0Bd4oqyJh1Le0hXCr5niHgwihmLhH1o/FNEFNy/cSEmPJrlbNJTpOlgbY3zvg
- nj9SD1Ukk1+JGSigF9iPLB/frznXUTkkMx3S2wlrqk2S2zkDQhRDDqDsuvrVnvjeFOGF
- yV+3L+AzNPZdQHBtP0C2Jq0Bij4ttUF8WcqkAfN4gIS6Vwfaq9nDXZmIKE9VfXjaLHdv
- VpyQ==
-X-Gm-Message-State: ACrzQf1Z/9e7mv+SH1Sfwquu5EswjtMRg10yfxNK6kXGt4CSy3VrzGJ1
- LhdzaLiPl1nRQy19rq7pLkD6Ghq0Pq6J3JDp
-X-Google-Smtp-Source: AMsMyM4S3CSHyec+Xj8O3gatHF9yXungcQsZspkeOkDARiqE70pI/pjRm+LoSWqFq1JMWWrNJWueJg==
-X-Received: by 2002:a17:90b:4a0d:b0:213:587b:206a with SMTP id
- kk13-20020a17090b4a0d00b00213587b206amr9784731pjb.195.1666885976091; 
- Thu, 27 Oct 2022 08:52:56 -0700 (PDT)
-Received: from roots.. ([112.44.202.248]) by smtp.gmail.com with ESMTPSA id
- f21-20020a623815000000b0056c058ab000sm1327744pfa.155.2022.10.27.08.52.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Oct 2022 08:52:55 -0700 (PDT)
-From: Sam Li <faithilikerun@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: damien.lemoal@opensource.wdc.com, Stefano Garzarella <sgarzare@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, dmitry.fomichev@wdc.com,
- qemu-block@nongnu.org, Julia Suvorova <jusual@redhat.com>, hare@suse.de,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Fam Zheng <fam@euphon.net>, Aarushi Mehta <mehta.aaru20@gmail.com>,
- Sam Li <faithilikerun@gmail.com>
-Subject: [PATCH v5 4/4] block: add some trace events for zone append
-Date: Thu, 27 Oct 2022 23:52:15 +0800
-Message-Id: <20221027155215.21374-5-faithilikerun@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221027155215.21374-1-faithilikerun@gmail.com>
-References: <20221027155215.21374-1-faithilikerun@gmail.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=v5U/cHaH2xx/U4HzSsSjRnl5nNaLx3HyEsr7YlFbybk=;
+ b=6+9rMND7Km5M58aKddneXYVQSNdaXjVUjTh8JQIpxVfYO9P3kKUUPXEftV8pRq81no
+ NFxbwi8sLR+kYlRswS+SX3Y8WmXI6vX9ZLicy2iLUCv9ka9v8zL5tFqgWU/Sy90H7SoC
+ TPoEPy9/3Ta9Ae/Uod7I0liKEMyNzPacqh/qAcxGrUKsRWOTjIl5/xqX0uJM/q9WWuyW
+ CoceCNiwK++UF6ve1cOXU3VmYrhmG5aqc5LYpwpl6HPBLKP3+60eLrDwZtMOLMqIV5Rw
+ I6i7f9ttTtbjlVjyJLjJI+sZ4Z/jR2WdSp2Zta70WCo5OzIUrZ7VX8XQg8Cq2CJuTra/
+ eeDQ==
+X-Gm-Message-State: ACrzQf1oIsABDh2xIiwWePyWKTqLPclhncUZQcUoTbuHknGHTSX68ReB
+ IEiAhe75ZusFiT8La+dJFBOUCn28VDeG2xi5Sa3NLxvoF2/K8T5VT7rSPUVbVgsvXNjWG8esR5a
+ i/2uqZQTkcNt9Akk=
+X-Received: by 2002:a05:600c:3787:b0:3c6:f85c:ebfe with SMTP id
+ o7-20020a05600c378700b003c6f85cebfemr6588967wmr.105.1666886029727; 
+ Thu, 27 Oct 2022 08:53:49 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5Fa445jnrqd20TJ2NFJ5rdTq1B7/LsUhd/W3Rh4vJuBpv52PpzgM6g+XC0JRvI/efPCcjYZQ==
+X-Received: by 2002:a05:600c:3787:b0:3c6:f85c:ebfe with SMTP id
+ o7-20020a05600c378700b003c6f85cebfemr6588958wmr.105.1666886029487; 
+ Thu, 27 Oct 2022 08:53:49 -0700 (PDT)
+Received: from [192.168.8.100] (tmo-066-116.customers.d1-online.com.
+ [80.187.66.116]) by smtp.gmail.com with ESMTPSA id
+ l15-20020a05600c4f0f00b003cf4c1e211fsm2069041wmq.38.2022.10.27.08.53.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Oct 2022 08:53:49 -0700 (PDT)
+Message-ID: <4ad773a9-2173-3667-47f8-2713efffa053@redhat.com>
+Date: Thu, 27 Oct 2022 17:53:47 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=faithilikerun@gmail.com; helo=mail-pl1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PULL 00/23] 9p queue 2022-10-24
+Content-Language: en-US
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Greg Kurz <groug@kaod.org>, Linus Heckemann <git@sphalerite.org>,
+ Bin Meng <bin.meng@windriver.com>
+References: <cover.1666608862.git.qemu_oss@crudebyte.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <cover.1666608862.git.qemu_oss@crudebyte.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,47 +101,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Sam Li <faithilikerun@gmail.com>
----
- block/file-posix.c | 3 +++
- block/trace-events | 2 ++
- 2 files changed, 5 insertions(+)
+On 24/10/2022 12.54, Christian Schoenebeck wrote:
+> The following changes since commit 0529245488865038344d64fff7ee05864d3d17f6:
+> 
+>    Merge tag 'pull-target-arm-20221020' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-10-20 14:36:12 -0400)
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/cschoenebeck/qemu.git tags/pull-9p-20221024
+> 
+> for you to fetch changes up to 3ce77865bf813f313cf79c00fd951bfc95a50165:
+> 
+>    tests/9p: remove unnecessary g_strdup() calls (2022-10-24 12:24:32 +0200)
+> 
+> ----------------------------------------------------------------
+> 9pfs: performance, Windows host prep, tests restructure
+> 
+> * Highlight of this PR is Linus Heckemann's GHashTable patch which
+>    brings massive general performance improvements of 9p server
+>    somewhere between factor 6 .. 12.
+> 
+> * Bin Meng's g_mkdir patch is a preparatory patch for upcoming
+>    Windows host support of 9p server.
+> 
+> * The rest of the patches in this PR are 9p test code restructuring
+>    and refactoring changes to improve readability and to ease
+>    maintenance of 9p test code on the long-term.
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 9c1afb7749..b23cfb02e3 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -2489,6 +2489,8 @@ out:
-             if (!BDRV_ZT_IS_CONV(wps->wp[index])) {
-                 if (type & QEMU_AIO_ZONE_APPEND) {
-                     *s->offset = wps->wp[index];
-+                    trace_zbd_zone_append_complete(bs, *s->offset
-+                        >> BDRV_SECTOR_BITS);
-                 }
-                 /* Advance the wp if needed */
-                 if (offset + bytes > wps->wp[index]) {
-@@ -3540,6 +3542,7 @@ static int coroutine_fn raw_co_zone_append(BlockDriverState *bs,
-         len += iov_len;
-     }
- 
-+    trace_zbd_zone_append(bs, *offset >> BDRV_SECTOR_BITS);
-     return raw_co_prw(bs, *offset, len, qiov, QEMU_AIO_ZONE_APPEND);
- }
- #endif
-diff --git a/block/trace-events b/block/trace-events
-index 3f4e1d088a..32665158d6 100644
---- a/block/trace-events
-+++ b/block/trace-events
-@@ -211,6 +211,8 @@ file_hdev_is_sg(int type, int version) "SG device found: type=%d, version=%d"
- file_flush_fdatasync_failed(int err) "errno %d"
- zbd_zone_report(void *bs, unsigned int nr_zones, int64_t sector) "bs %p report %d zones starting at sector offset 0x%" PRIx64 ""
- zbd_zone_mgmt(void *bs, const char *op_name, int64_t sector, int64_t len) "bs %p %s starts at sector offset 0x%" PRIx64 " over a range of 0x%" PRIx64 " sectors"
-+zbd_zone_append(void *bs, int64_t sector) "bs %p append at sector offset 0x%" PRIx64 ""
-+zbd_zone_append_complete(void *bs, int64_t sector) "bs %p returns append sector 0x%" PRIx64 ""
- 
- # ssh.c
- sftp_error(const char *op, const char *ssh_err, int ssh_err_code, int sftp_err_code) "%s failed: %s (libssh error code: %d, sftp error code: %d)"
--- 
-2.38.1
+  Hi Christian,
+
+I think this PR broke the FreeBSD CI jobs:
+
+  https://gitlab.com/qemu-project/qemu/-/jobs/3219611457#L3116
+
+  https://gitlab.com/qemu-project/qemu/-/jobs/3219611460#L3372
+
+Could you please have a look?
+
+  Thanks!
+   Thomas
+
 
 
