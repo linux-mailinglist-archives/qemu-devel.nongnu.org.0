@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DD7060F385
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 11:20:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0984F60F3A7
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 11:25:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onyyC-0001pY-Pe; Thu, 27 Oct 2022 05:14:36 -0400
+	id 1onz7g-000332-Lm; Thu, 27 Oct 2022 05:24:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1onyyA-0001j7-Fb
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 05:14:34 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ id 1onz7c-0002RT-Rg
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 05:24:20 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1onyy7-00054a-4W
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 05:14:33 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id bk15so1059390wrb.13
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 02:14:29 -0700 (PDT)
+ id 1onz7a-0006Yk-Hh
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 05:24:20 -0400
+Received: by mail-wr1-x432.google.com with SMTP id bk15so1096780wrb.13
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 02:24:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZGwdbEOXw949lT3yWyt5S6iSBH6m+8XdWD5xqo2RPRw=;
- b=SiK+nFIrGpFk78OASZMx5dh1BfdXLD14xkp3hWfVdWG63emC3PAEjRvlLYf8encrUC
- lE68u07gY7kv2wTgQbetb6WgSJ0U80/HS/ptq1qGaZwqvfjCuJeLWJAuS4LSc2yfpvmK
- HevRDhuoGJpwawcR/EGEdEy77c46yE4qGg4qlM6b761Gn1/Dc47QwmTjQLuG7+b0pCoa
- GIkNOGS1worNcHzcX5qnQg5GG4azuRP72AQebLT1oikoxtNoy+3OeSwvhlsTW2EMBow/
- 28ztzxUuwRKewq00w1pCN5CcSFSq31Ej0dWDgzjZ6dwgNtqxWIpvBAmWUyFJ+MiNHDuD
- jPwA==
+ bh=jDTjrVScAlJawu8O4rOrl/s+z1ctwZBTr4dK/zNh2kk=;
+ b=dbNT40tpHaizjJf90K0GLRgx8AmjLic8rHnbmqMrjgOlq8louULOewrNvFFSM7M+gT
+ gTKv82My1kp9pHHyoX4vCyyoJcswugjNnJE2qecfdl0nwsN5wBHgc+wx//mUT2tuXP7B
+ D304uZejigrgCcEwBike5XRZEFdRCpnQxgIzOpvsQcevPVm0NljDNWpJ0f47KyC9GVa5
+ otETWhh6XPk8F4jgRTWVNBtZk33/iOltNy502agfrectvcogqiK9X4ZdMhTv0/SKoQg2
+ Fe++HYepBuBZ1o5gYSS71EPctyq+G1zIM7jxgEiRAiAbPMfqt3vj2jqiLqHqCzrBVVQY
+ 3mqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=ZGwdbEOXw949lT3yWyt5S6iSBH6m+8XdWD5xqo2RPRw=;
- b=B0rA+BNsPMzBVY4GTF+M5MAONON8SjepO3id6sOb0kNWqCR27vgtvlxNJbgbR8KaQv
- 2wCrEJi0KVd+dVblUbu4G9IX+dMHpln+YJ8fjsVpxuUT0Pn5jnncAmXcso1mKZzZNxD5
- 2bBejAUV4psTPo6Zdp9VE1PmHzx4Q7YF4tVnuT7l/HeriXcBcSsPSm5rPBkYDGT+DdEQ
- dKdcXi4HIYx8IeMYo/mORpS84VaYKJhUJx8COJQHI7QZV97SPG+Hp6ws6qs9PgVUv/DU
- Ptv0EO5MdBBhBgbiENL0LsSx0JjxN0RhRJoMPS/XeAH78PpPMrywLn4dV0a1zdsKTITk
- z36g==
-X-Gm-Message-State: ACrzQf0y9ov2tvM3JMvxM9dfwwjp34iUtDJUA/iJQYdBd24R1K+7jXw9
- bXwUr5hCJaZHLTwflDxra/RvRA==
-X-Google-Smtp-Source: AMsMyM6u7ZhWLfIdgCKLSw8N5NFDf333geBEWeiu0NdL0/9VFrxXMHyYnYkmq/Yx0I7xnG3tppNcIw==
-X-Received: by 2002:a5d:51c2:0:b0:236:7000:8e82 with SMTP id
- n2-20020a5d51c2000000b0023670008e82mr13358127wrv.191.1666862067237; 
- Thu, 27 Oct 2022 02:14:27 -0700 (PDT)
+ bh=jDTjrVScAlJawu8O4rOrl/s+z1ctwZBTr4dK/zNh2kk=;
+ b=vRU6CsFgr5wxIfJGvfY/IuoRABOBZ/r1S4IDDTIlfArIIm+nwDi7qQEuEIIXUS8BO5
+ sy6EHKyYmWrcNKOHlvCzPN8dnNJse8LdU4LJzFSC872aeKTnWCOuOJYp9ZRT9DBtHfRa
+ mnT00/DOhUKC/iW0jicVNBg+WJjTK9HVy53rFQeo2sfq/1DkIopBnam7xc5OXNBegOhp
+ mOrqxQygIp5TENa/dGWmEx7F9+c9NwuDjqjqRjpuHvKKsPfpg5uyQzWZLEKyW/IgjrLX
+ 8ii560TuavLpqEFsRs0yPEV+sKTQojZDeHD/zaYstGiT6DbAoUOpHhyl6rplmFWYGSl+
+ hPFA==
+X-Gm-Message-State: ACrzQf3qj1nzUufnEXdlbATTvmwl82g9pQMXQ4A+nk2MMLaxECVYeh1z
+ R0mae1YeEMWZXE2qTBZYbELx2Q==
+X-Google-Smtp-Source: AMsMyM6N4jvLFy+y/t7rQnlbUN+Se1FB5PabUpFJR3tGTSgQmy2PSOfE7OmGVTDLLzGAeL4+arSrKQ==
+X-Received: by 2002:adf:b646:0:b0:221:76eb:b3ba with SMTP id
+ i6-20020adfb646000000b0022176ebb3bamr30840721wre.237.1666862656717; 
+ Thu, 27 Oct 2022 02:24:16 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- e4-20020a5d5004000000b0023655e51c33sm675268wrt.4.2022.10.27.02.14.26
+ y16-20020adfd090000000b0022ae401e9e0sm625789wrh.78.2022.10.27.02.24.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Oct 2022 02:14:26 -0700 (PDT)
+ Thu, 27 Oct 2022 02:24:16 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 56F571FFB7;
- Thu, 27 Oct 2022 10:14:26 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id BF57E1FFB7;
+ Thu, 27 Oct 2022 10:24:15 +0100 (BST)
 References: <20221015050750.4185-1-vikram.garhwal@amd.com>
- <20221015050750.4185-13-vikram.garhwal@amd.com>
+ <20221015050750.4185-10-vikram.garhwal@amd.com>
 User-agent: mu4e 1.9.1; emacs 28.2.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Vikram Garhwal <vikram.garhwal@amd.com>
-Cc: stefano.stabellini@amd.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH v1 12/12] meson.build: do not set
- have_xen_pci_passthrough for aarch64 targets
-Date: Thu, 27 Oct 2022 10:14:03 +0100
-In-reply-to: <20221015050750.4185-13-vikram.garhwal@amd.com>
-Message-ID: <87tu3p1vd9.fsf@linaro.org>
+Cc: qemu-devel@nongnu.org, stefano.stabellini@amd.com, Stefano Stabellini
+ <sstabellini@kernel.org>, Anthony Perard <anthony.perard@citrix.com>, Paul
+ Durrant <paul@xen.org>, xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v1 09/12] accel/xen/xen-all: export
+ xenstore_record_dm_state
+Date: Thu, 27 Oct 2022 10:14:40 +0100
+In-reply-to: <20221015050750.4185-10-vikram.garhwal@amd.com>
+Message-ID: <87pmed1uww.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,35 +100,63 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Vikram Garhwal <vikram.garhwal@amd.com> writes:
 
-> From: Stefano Stabellini <stefano.stabellini@amd.com>
+> xenstore_record_dm_state() will also be used in aarch64 xenpv machine.
 >
-> have_xen_pci_passthrough is only used for Xen x86 VMs.
->
+> Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
 > Signed-off-by: Stefano Stabellini <stefano.stabellini@amd.com>
-
-I think this might want to before 11/12. Anyway:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
 > ---
->  meson.build | 2 ++
->  1 file changed, 2 insertions(+)
+>  accel/xen/xen-all.c  | 2 +-
+>  include/hw/xen/xen.h | 2 ++
+>  2 files changed, 3 insertions(+), 1 deletion(-)
 >
-> diff --git a/meson.build b/meson.build
-> index 0027d7d195..43e70936ee 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1454,6 +1454,8 @@ have_xen_pci_passthrough =3D get_option('xen_pci_pa=
-ssthrough') \
->             error_message: 'Xen PCI passthrough requested but Xen not ena=
-bled') \
->    .require(targetos =3D=3D 'linux',
->             error_message: 'Xen PCI passthrough not available on this pla=
-tform') \
-> +  .require(cpu =3D=3D 'x86'  or cpu =3D=3D 'x86_64',
-> +           error_message: 'Xen PCI passthrough not available on this pla=
-tform') \
->    .allowed()
+> diff --git a/accel/xen/xen-all.c b/accel/xen/xen-all.c
+> index 69aa7d018b..276625b78b 100644
+> --- a/accel/xen/xen-all.c
+> +++ b/accel/xen/xen-all.c
+> @@ -100,7 +100,7 @@ void xenstore_store_pv_console_info(int i, Chardev *c=
+hr)
+>  }
+>=20=20
+>=20=20
+> -static void xenstore_record_dm_state(struct xs_handle *xs, const char *s=
+tate)
+> +void xenstore_record_dm_state(struct xs_handle *xs, const char *state)
+>  {
+>      char path[50];
+>=20=20
+> diff --git a/include/hw/xen/xen.h b/include/hw/xen/xen.h
+> index afdf9c436a..31e9538a5c 100644
+> --- a/include/hw/xen/xen.h
+> +++ b/include/hw/xen/xen.h
+> @@ -9,6 +9,7 @@
+>   */
+>=20=20
+>  #include "exec/cpu-common.h"
+> +#include <xenstore.h>
+
+This is breaking a bunch of the builds and generally we try and avoid
+adding system includes in headers (apart from osdep.h) for this reason.
+In fact there is a comment just above to that fact.
+
+I think you can just add struct xs_handle to typedefs.h (or maybe just
+xen.h) and directly include xenstore.h in xen-all.c following the usual
+rules:
+
+  https://qemu.readthedocs.io/en/latest/devel/style.html#include-directives
+
+It might be worth doing an audit to see what else is including xen.h
+needlessly or should be using sysemu/xen.h.=20
+
+>=20=20
+>  /* xen-machine.c */
+>  enum xen_mode {
+> @@ -31,5 +32,6 @@ qemu_irq *xen_interrupt_controller_init(void);
+>  void xenstore_store_pv_console_info(int i, Chardev *chr);
+>=20=20
+>  void xen_register_framebuffer(struct MemoryRegion *mr);
+> +void xenstore_record_dm_state(struct xs_handle *xs, const char *state);
+>=20=20
+>  #endif /* QEMU_HW_XEN_H */
 
 
 --=20
