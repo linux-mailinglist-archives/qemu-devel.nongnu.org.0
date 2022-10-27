@@ -2,94 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C7AA60F732
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 14:27:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 678A560F81A
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 14:53:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo1xh-0005rA-Pt; Thu, 27 Oct 2022 08:26:17 -0400
+	id 1oo2JP-0004eg-PQ; Thu, 27 Oct 2022 08:48:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oo1ws-00043B-0Y
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 08:25:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oo1wq-0004pU-9G
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 08:25:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666873522;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gYlxBxXcqsNYGiJfUjYZ/xfJ3WWzBo7FRdpQT4YD9WM=;
- b=AFCuj5Om1bmIeHcTDq4MP91GqER1wjO2Do0Zgv3woK9jsAPdldhU+HerQhPLZLxWKih8lk
- XmgUoafyWmNdGtFvMV9nK3tO6EL6T0V2uezLrjulLGYJYUe+3EJQ7wzFkY/hOCVpDoCGCN
- EHFBPrn7iXUFN695vh2jvKs7i1Dw5Vk=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-513-omxtzAZMOoSsC9pLVqKZLQ-1; Thu, 27 Oct 2022 08:25:20 -0400
-X-MC-Unique: omxtzAZMOoSsC9pLVqKZLQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- u13-20020adfa18d000000b00236566b5b40so327601wru.9
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 05:25:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <antoine.damhet@shadow.tech>)
+ id 1oo2Cj-0000Co-0N
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 08:41:52 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <antoine.damhet@shadow.tech>)
+ id 1oo2Cd-0008Ny-Dr
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 08:41:48 -0400
+Received: by mail-wr1-x435.google.com with SMTP id g12so1936263wrs.10
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 05:41:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=shadow-tech.20210112.gappssmtp.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=AWNGVQCrDoKSgM53yuEaxycWiGpPtYNcpto4RGghZEU=;
+ b=ej3nbXzrhpYqTBFFolRmhZm0iv4UQAF/Zk6ZKec+Pp0x8nJkz7d9d59zimfOQ9e0KY
+ FZwumil9MOT633e4d22VOctUg+aS9MPk62oU5+sTCYM0AWGZ5Ch7xy4Rn8z9R3nupl8V
+ 4P0gc6+htuMWZfNYjk7oZdWvCwtdez6m4dZo88wnbv+kqp4VIJDrU6ee8GUuvVxL+xXI
+ XC3pNJ8hmuGMqEfDZuV9diXjrAl2mUdHlYCiEaP1U5zqIBCHTYUVB0nPJpZs1Cab3h3r
+ zBHuzywQpX9rN4l88Fnxij14MW0c2CMEEBM/NjRSuYjT0nabqzONydAsxT4YvHQ/0Y8J
+ zvmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gYlxBxXcqsNYGiJfUjYZ/xfJ3WWzBo7FRdpQT4YD9WM=;
- b=JFabhCF/fCPxX0eRG7iBhNXk7XRdRnOYkH+ll1CqN7ql2QPXb15HygeKXpZWGhDF9d
- HfO1Wh9RB+ai8/mFCTpwgpMQtNJ0IOnohMtt1aPwysUkGh1QRWGLpecEMRPULaYW1KHh
- sUH8hEqjK1VTLZ+MRfSX/8/ZWLp5UPNO/UPGWseVXlSNEaASjOvtDruOlJdV+7BOboZv
- JpvxLhslvpNAL//a1Z5fE8tnZ9RHC6rGfiP4wigXaeFP4OGQ1S4VnGf+eDrJiSVSWxbV
- UybbsRExGGIaqCS+aV3+llAoaqikV0VOKow6dzz5dABSaHYYaJzLNbJwwFH4Jfsc25nB
- 9d/Q==
-X-Gm-Message-State: ACrzQf0VhVMBjxOD/+S4/RC+zyYLo6fZbr635Cxz74phxGUs9ZnQjAmB
- YG9FbkwAIJM8Pbhu7GiF7k9oo38sp5FU+xaWAidjNe1CtwONqU79ZL0uNuM+023egUbZXXyk/rY
- /lA+0dgQisIyj02E=
-X-Received: by 2002:a1c:acc5:0:b0:3c6:eebf:feee with SMTP id
- v188-20020a1cacc5000000b003c6eebffeeemr5708259wme.122.1666873519623; 
- Thu, 27 Oct 2022 05:25:19 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5Lwgy/50q80wLNGIO5Lt839X/9+PptJeI7IpHyy3QB81JtVPmDc/GeFdtdgaNeYr+XTsI6NQ==
-X-Received: by 2002:a1c:acc5:0:b0:3c6:eebf:feee with SMTP id
- v188-20020a1cacc5000000b003c6eebffeeemr5708241wme.122.1666873519406; 
- Thu, 27 Oct 2022 05:25:19 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-176-195.web.vodafone.de.
- [109.43.176.195]) by smtp.gmail.com with ESMTPSA id
- j17-20020a05600c191100b003b47b913901sm11302132wmq.1.2022.10.27.05.25.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Oct 2022 05:25:18 -0700 (PDT)
-Message-ID: <df8502a8-3ac2-8912-2fb9-3743198fc3d7@redhat.com>
-Date: Thu, 27 Oct 2022 14:25:17 +0200
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=AWNGVQCrDoKSgM53yuEaxycWiGpPtYNcpto4RGghZEU=;
+ b=dBVsTw2QFNEv9X0/X0VOk1YxR/vGK+EEXoHFdsDD9Dxo9P/dOFSistuQnmQvlgLpbI
+ mxE+ApHKM1ZKUC8roTWnmn21O/6EeWJHHeym5plWo17kDJMcymde+MjIgyKobPjUqOsS
+ zJwHj/cM36NPsql0Eypfs3IgyVqQG6vgsYkuyhdW9u71vtAOhq3u1Pqz+nzXDpJm9EVR
+ 4guzFU62jGrfVla/ogwebKFUQVjLKjGAB5YwNk5cR3Ec7byhKC39WW/TKXfaiez5RKUL
+ DBN+TFIOk2gBAEeKm7UyN8AEOnhzyfNnP1RrEhiGD/b3rageEXe0Fxs/BNOwZuGDWJWZ
+ h5NQ==
+X-Gm-Message-State: ACrzQf32QHb6Ay57Xgq2jH4HJmuME8mmHvNI9a/TH16SCxcAOBJg9oy1
+ Bf2y022KN1+jlmVK+PWnnMu3GA==
+X-Google-Smtp-Source: AMsMyM7EHzlKyV8XUzYIjjMk7TVh7n9DWwTJfh85PjISYy9pE7V3GeUsdOJG7qGBtb6HsuqcHig0gQ==
+X-Received: by 2002:a5d:644b:0:b0:236:862b:9ef1 with SMTP id
+ d11-20020a5d644b000000b00236862b9ef1mr7585739wrw.691.1666874501193; 
+ Thu, 27 Oct 2022 05:41:41 -0700 (PDT)
+Received: from localhost ([185.123.26.202]) by smtp.gmail.com with ESMTPSA id
+ t13-20020a5d42cd000000b0023622d65d4bsm1341698wrr.81.2022.10.27.05.41.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Oct 2022 05:41:40 -0700 (PDT)
+Date: Thu, 27 Oct 2022 14:41:40 +0200
+From: Antoine Damhet <antoine.damhet@shadow.tech>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH] block/block-backend: blk_set_enable_write_cache is IO_CODE
+Message-ID: <20221027124140.cdepgecdgrysis5o@tartarus.xdbob.net>
+References: <20221027072726.2681500-1-eesposit@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] tests: Create fifo for test-io-channel-command
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-References: <20221025105520.3016-1-quintela@redhat.com>
- <87mt9k6owd.fsf@linaro.org> <Y1ff32V9WXYH/hva@redhat.com>
- <875yg64kxp.fsf@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <875yg64kxp.fsf@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="afgdlskus564m43e"
+Content-Disposition: inline
+In-Reply-To: <20221027072726.2681500-1-eesposit@redhat.com>
+Received-SPF: permerror client-ip=2a00:1450:4864:20::435;
+ envelope-from=antoine.damhet@shadow.tech; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 27 Oct 2022 08:48:41 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,45 +90,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 26/10/2022 18.18, Alex Bennée wrote:
-> 
-> Daniel P. Berrangé <berrange@redhat.com> writes:
-> 
->> CC'ing Marc-André as original author of the change
->>
->> On Tue, Oct 25, 2022 at 01:57:23PM +0100, Alex Bennée wrote:
->>>
->>> Juan Quintela <quintela@redhat.com> writes:
->>>
->>>> Previous commit removed the creation of the fifo.  Without it, I get
->>>> random failure during tests with high load, please consider
->>>> reintroduce it.
->>>>
->>>> My guess is that there is a race between the two socats when we leave
->>>> them to create the channel, better return to the previous behavior.
->>>>
->>>> I can't reproduce the problem when I run ./test-io-channel-command
->>>> test alone, I need to do the make check.  And any (unrelated) change
->>>> can make it dissapear.
->>>
->>> I was chasing a similar problem with this test although I don't see it
->>> timeout while running (I don't think our unit tests time out). I'm
->>> provisionally queuing this to testing/next unless anyone objects.
->>
->> It won't build on Win32 since that platform lacks mkfifo.
->>
->> The test normally works since socat will call mknod to create
->> the fifo.
->>
->> I think the problem is that we have a race condition where the
->> client socat runs before the server socat, and so won't see the
->> fifo. This will be where high load triggers problems.
-> 
-> Ok I shall drop the patch from testing/next - we need a better solution.
 
-Could we maybe at least revert the patch that introduced the problem? ... 
-the failing test is annoying ...
+--afgdlskus564m43e
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  Thomas
+Thanks, it works for us
 
+On Thu, Oct 27, 2022 at 03:27:26AM -0400, Emanuele Giuseppe Esposito wrote:
+> blk_set_enable_write_cache() is defined as GLOBAL_STATE_CODE
+> but can be invoked from iothreads when handling scsi requests.
+> This triggers an assertion failure:
+>=20
+>  0x00007fd6c3515ce1 in raise () from /lib/x86_64-linux-gnu/libc.so.6
+>  0x00007fd6c34ff537 in abort () from /lib/x86_64-linux-gnu/libc.so.6
+>  0x00007fd6c34ff40f in ?? () from /lib/x86_64-linux-gnu/libc.so.6
+>  0x00007fd6c350e662 in __assert_fail () from /lib/x86_64-linux-gnu/libc.s=
+o.6
+>  0x000056149e2cea03 in blk_set_enable_write_cache (wce=3Dtrue, blk=3D0x56=
+14a01c27f0)
+>    at ../src/block/block-backend.c:1949
+>  0x000056149e2d0a67 in blk_set_enable_write_cache (blk=3D0x5614a01c27f0,
+>    wce=3D<optimized out>) at ../src/block/block-backend.c:1951
+>  0x000056149dfe9c59 in scsi_disk_apply_mode_select (p=3D0x7fd6b400c00e "\=
+004",
+>    page=3D<optimized out>, s=3D<optimized out>) at ../src/hw/scsi/scsi-di=
+sk.c:1520
+>  mode_select_pages (change=3Dtrue, len=3D18, p=3D0x7fd6b400c00e "\004", r=
+=3D0x7fd6b4001ff0)
+>    at ../src/hw/scsi/scsi-disk.c:1570
+>  scsi_disk_emulate_mode_select (inbuf=3D<optimized out>, r=3D0x7fd6b4001f=
+f0) at
+>    ../src/hw/scsi/scsi-disk.c:1640
+>  scsi_disk_emulate_write_data (req=3D0x7fd6b4001ff0) at ../src/hw/scsi/sc=
+si-disk.c:1934
+>  0x000056149e18ff16 in virtio_scsi_handle_cmd_req_submit (req=3D<optimize=
+d out>,
+>    req=3D<optimized out>, s=3D0x5614a12f16b0) at ../src/hw/scsi/virtio-sc=
+si.c:719
+>  virtio_scsi_handle_cmd_vq (vq=3D0x7fd6bab92140, s=3D0x5614a12f16b0) at
+>    ../src/hw/scsi/virtio-scsi.c:761
+>  virtio_scsi_handle_cmd (vq=3D<optimized out>, vdev=3D<optimized out>) at
+>    ../src/hw/scsi/virtio-scsi.c:775
+>  virtio_scsi_handle_cmd (vdev=3D0x5614a12f16b0, vq=3D0x7fd6bab92140) at
+>    ../src/hw/scsi/virtio-scsi.c:765
+>  0x000056149e1a8aa6 in virtio_queue_notify_vq (vq=3D0x7fd6bab92140) at
+>    ../src/hw/virtio/virtio.c:2365
+>  0x000056149e3ccea5 in aio_dispatch_handler (ctx=3Dctx@entry=3D0x5614a01b=
+abe0,
+>    node=3D<optimized out>) at ../src/util/aio-posix.c:369
+>  0x000056149e3cd868 in aio_dispatch_ready_handlers (ready_list=3D0x7fd6c0=
+9b2680,
+>    ctx=3D0x5614a01babe0) at ../src/util/aio-posix.c:399
+>  aio_poll (ctx=3D0x5614a01babe0, blocking=3Dblocking@entry=3Dtrue) at
+>    ../src/util/aio-posix.c:713
+>  0x000056149e2a7796 in iothread_run (opaque=3Dopaque@entry=3D0x56149ffde5=
+00) at
+>    ../src/iothread.c:67
+>  0x000056149e3d0859 in qemu_thread_start (args=3D0x7fd6c09b26f0) at
+>    ../src/util/qemu-thread-posix.c:504
+>  0x00007fd6c36b9ea7 in start_thread () from /lib/x86_64-linux-gnu/libpthr=
+ead.so.0
+>  0x00007fd6c35d9aef in clone () from /lib/x86_64-linux-gnu/libc.so.6
+>=20
+> Changing GLOBAL_STATE_CODE in IO_CODE is allowed, since GSC callers are
+> allowed to call IO_CODE.
+>=20
+> Resolves: #1272
+>=20
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+
+Tested-by: Antoine Damhet <antoine.damhet@shadow.tech>
+
+> ---
+>  block/block-backend.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+
+
+
+--=20
+Antoine 'xdbob' Damhet
+
+--afgdlskus564m43e
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEArm1WbQx2GmOsfF83AmjLzzljz4FAmNafIAACgkQ3AmjLzzl
+jz7amwgAjJcKGKjkZMixFBhmUGrXwg1j7AJaOI0x47Zu3Qg6MCqFkmPyHGtd4gEf
+0mOIIS48EmLx/02nnqYP/DTmKyoj0we3T0cCbty3G6C1+Bb/GNjs/tJ28frhnBGM
+jw+Cncvrwh0v1bwxoJ37uhC/qr0HmQZJTaYOST5suleOGoxVLXzipn+g95RvApjl
+J2SOpsqRDhSkt0M/Yz+69WVoY4jaPg2WoK25r2cu4k/D85BvcForU7+gKfgiJsat
+mfvxsDfz2D+/Edyka+mlPUZ/ianpF7g3GWHrXlRhrk8nbF1eBAuRFa6sBHQu2v0w
+MhXVmsLONq+gJ+xbPwInHn5jEUfYtA==
+=6Dg2
+-----END PGP SIGNATURE-----
+
+--afgdlskus564m43e--
 
