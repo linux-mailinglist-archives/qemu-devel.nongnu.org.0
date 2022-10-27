@@ -2,95 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE8560F55D
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 12:34:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B59760F565
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 12:37:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo0Br-0007C1-4d; Thu, 27 Oct 2022 06:32:47 -0400
+	id 1oo0FK-0007HZ-NI; Thu, 27 Oct 2022 06:36:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1oo0Bm-0006cQ-Pi
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 06:32:43 -0400
-Received: from mail-lf1-x12b.google.com ([2a00:1450:4864:20::12b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1oo0Bh-0000g7-Ba
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 06:32:42 -0400
-Received: by mail-lf1-x12b.google.com with SMTP id r14so1894890lfm.2
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 03:32:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=w9inep0ICkxp/dh4usTOKJg2DS4O/PjgYL7PaxVj8nE=;
- b=He3KNTA1uzdE+/30x0YAVnNT5LBT5F0pcE0sreR/6bcka+epVOp76U2hyy/CJSoIWG
- JAihFvvF9sM2iIjsygXbKnpSRxID6/+2sxio+dS4ewdgbad1wi2NXa5tJu3x5tqeYAlv
- UtwVYg/Gcz+8DVhBpHR18MqsvICc+m4RrJNsqjJdudUlbeYy6aTkaIaf3eIv+ud8E0dS
- v0xM+7J9B5tIEL/Qk7yS0snDMleZCnQFQY8rFnBErl150YutcwpBck5S45m5SyeCV7IY
- /qppO0QgFlw/GYMI8ahdr8CaUo6HI4z+itdyiAxSpobBblxfNNpqOMXqWbb/ABnAhazV
- 1utw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=w9inep0ICkxp/dh4usTOKJg2DS4O/PjgYL7PaxVj8nE=;
- b=AiiYYUD6fo/LpvAVejorrUX/wHniYxdMGYnJGm9O7hCcW+FbV2w+JE+AMNaV6P8g1G
- yJ21IX8XAMcSXELA+FXwBzIH/RAd7BPbaD7rLWLCgerJZ4eLVf9amBXkTw2ixCqqhFN2
- iG3rvZsoJpBHZP/dDW2+MZZHdymu7ahYDqyWNeOmJ2j5vgE+iQgDnJG0GeMTZ2ImHP/+
- If3JcsBQhjhozGF+S51RNIv07gfJwtLIk7darnBRHIqevHdJDv3gbxj3lf/CBl2RDc06
- Eo47x48Y8sxfmKfksbvo/Am0QLlOAJ6QK+KpXCY5B717YnBGMzvJO4GiFO4C6DUblF3H
- d2DQ==
-X-Gm-Message-State: ACrzQf309GbOxvI+h57gtfXKuU9L95iqKVzkO9U/OZqpseiWhN4w0E8Y
- NZ/QN+MV9AvqHoK3zuXQl7h1Jeml7B0qi9zKKS+7Mw==
-X-Google-Smtp-Source: AMsMyM5dAHAxPv2Bh6GmPPoRfi0elzyRurwu9CzNvbiRQf0ph34a5+/yC7zAjnQ5zj+Z1llGVrUaWyE+xmS18u2wiYI=
-X-Received: by 2002:a05:6512:3119:b0:4a2:d749:ff82 with SMTP id
- n25-20020a056512311900b004a2d749ff82mr18771133lfb.637.1666866751285; Thu, 27
- Oct 2022 03:32:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-9-chao.p.peng@linux.intel.com>
-In-Reply-To: <20221025151344.3784230-9-chao.p.peng@linux.intel.com>
-From: Fuad Tabba <tabba@google.com>
-Date: Thu, 27 Oct 2022 11:31:54 +0100
-Message-ID: <CA+EHjTyL8A+dOMo98P0P-YMrAfYOyoBTeg=gwjfEe4mMxsSw2A@mail.gmail.com>
-Subject: Re: [PATCH v9 8/8] KVM: Enable and expose KVM_MEM_PRIVATE
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, 
- Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, 
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>, 
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, 
- Vishal Annapurve <vannapurve@google.com>, Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, 
- dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
- aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
- Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
- mhocko@suse.com, 
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12b;
- envelope-from=tabba@google.com; helo=mail-lf1-x12b.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1oo0FC-0006Se-5C
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 06:36:18 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1oo0FA-0001A3-7x
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 06:36:13 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 77D8B5C017D;
+ Thu, 27 Oct 2022 06:36:10 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Thu, 27 Oct 2022 06:36:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ cc:cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1666866970; x=
+ 1666953370; bh=QjF0/PefXPriS9SBXdCeHqrCG14ESGARifMmtSqQxHw=; b=j
+ 7z+UySPSf5zT2dYougfF2ydY/IEc0pBwox19hZqumF/N+4fXUQDHbowOz+3d9Sj2
+ C00OiCGkqXYDcn5vBj5kSvbs2vH/WkMeB3hS2Y7gXM/loBkYjuLxJOI/MZ8Gr7Hq
+ O4jsBHu8sxCvuuAHwEt2ZLMPXgNlImk6rIgLNIdbbH2PHYq3ibCqggn5gkTKbw3h
+ dxI0migR/L2qEzSnQetN0hcRO9OyMmrBgqrS/DMdnHytPDkPwKt3Wk3XO0+x1r5T
+ G+9cW/KDU2w5weLNV301n+z2z51kH5XWzE3Ovx5u0+y9G57L+ZDONKYnhON42zPO
+ Tnxb4/9Z3RRgI2jgZlQzg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1666866970; x=
+ 1666953370; bh=QjF0/PefXPriS9SBXdCeHqrCG14ESGARifMmtSqQxHw=; b=f
+ TmYhLgGw6J7ZnVdo6ZaQMx+W74f+95WwISLuXHh8WKgcW1Frk33yKR3Xsb8k8ZRh
+ IYJIRRKoR3/omRmZTa/n1RJwBX9HgUKTDsHjQw/B2qCf1Z5Y1ENh4phUp97jT+dg
+ KssmeegP8rfVfTxqe/cE2gXQAKk0tI58mnB88r4Zk5FKC3jLmEWSdz6gUv/n/56u
+ kpNZbDFmLU0DGngiyc8KocbuQfWjB5hLpCYAhvo5Kf8S0X9Jlzy/PTQG+XJI0igp
+ l/IJTiBtqrnMhudlqVsGNtswbsCF/WdfTAJ/6rVcvoiyv3LUBb5nVPqdZvQTwwnd
+ 0fwjJBsteOlCOnydbyHiA==
+X-ME-Sender: <xms:Gl9aY1KFquJqybPKaMFg54Tsfa5K5Ta96QeJx1XjUbOp2C_uktrJSQ>
+ <xme:Gl9aYxKM8AE6t9r4jBE9uNQv6PUFx34viUiP7ums4wLckKYKge9g_9dVxlivMvKYJ
+ 29Ou4BqCqAsqssU_F4>
+X-ME-Received: <xmr:Gl9aY9snPKUTsFU6NpkWZUwgFwNMn24SwqjEDbdW5VQBvkSa-roJPHlZDvpPcR6EFh7C>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrtdeggddvjecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpegtggfuhfgjffevgffkfhfvofesthhqmhdthhdtjeenucfhrhhomheplfhirgig
+ uhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenuc
+ ggtffrrghtthgvrhhnpeekveeileevieeukeevjeegkeffhfffkeekieekjeffvdektdeg
+ veefjeeugfeggeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrh
+ fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghes
+ fhhlhihgohgrthdrtghomh
+X-ME-Proxy: <xmx:Gl9aY2YmM1P5o8bTk0DiT67QtEx-U4J1aYzbAI89iCVh7sDP3hQhvA>
+ <xmx:Gl9aY8bBknfK7oIQyRN5zAwiKHxObx431pfc-uFvs5-VtzoVOU1pTA>
+ <xmx:Gl9aY6ABA5vb3-41Vhyt5Q-F7FuxnHZcyzYpRzUsq8HFBBxia3TRgw>
+ <xmx:Gl9aYzUA0PhLRhnokmANOwC88fTTMFFjuI01aFzmgCdS5bNIAXjKkg>
+Feedback-ID: ifd894703:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 27 Oct 2022 06:36:09 -0400 (EDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
+Subject: Re: [PATCH v4 0/3] MIPS Bootloader helper
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+In-Reply-To: <20221026191821.28167-1-philmd@linaro.org>
+Date: Thu, 27 Oct 2022 11:35:58 +0100
+Cc: qemu-devel@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>,
+ Paul Burton <paulburton@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <0408209F-88BB-4C97-A8F4-D55B7C71CE56@flygoat.com>
+References: <20221026191821.28167-1-philmd@linaro.org>
+To: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+X-Mailer: Apple Mail (2.3731.200.110.1.12)
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=jiaxun.yang@flygoat.com;
+ helo=out1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,330 +106,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
-
-On Tue, Oct 25, 2022 at 4:20 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
->
-> Expose KVM_MEM_PRIVATE and memslot fields restricted_fd/offset to
-> userspace. KVM register/unregister private memslot to fd-based
-> memory backing store and responses to invalidation event from
-> restrictedmem_notifier to zap the existing memory mappings in the
-> secondary page table.
->
-> Whether KVM_MEM_PRIVATE is actually exposed to userspace is determined
-> by architecture code which can turn on it by overriding the default
-> kvm_arch_has_private_mem().
->
-> A 'kvm' reference is added in memslot structure since in
-> restrictedmem_notifier callback we can only obtain a memslot reference
-> but 'kvm' is needed to do the zapping.
->
-> Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> ---
->  include/linux/kvm_host.h |   3 +-
->  virt/kvm/kvm_main.c      | 174 +++++++++++++++++++++++++++++++++++++--
->  2 files changed, 171 insertions(+), 6 deletions(-)
-
-Reviewed-by: Fuad Tabba <tabba@google.com>
-
-Thanks,
-/fuad
 
 
->
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 69300fc6d572..e27d62c30484 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -246,7 +246,7 @@ int kvm_async_pf_wakeup_all(struct kvm_vcpu *vcpu);
->  #endif
->
->
-> -#if defined(KVM_ARCH_WANT_MMU_NOTIFIER) || defined(CONFIG_KVM_GENERIC_PRIVATE_MEM)
-> +#if defined(KVM_ARCH_WANT_MMU_NOTIFIER) || defined(CONFIG_HAVE_KVM_RESTRICTED_MEM)
->  struct kvm_gfn_range {
->         struct kvm_memory_slot *slot;
->         gfn_t start;
-> @@ -583,6 +583,7 @@ struct kvm_memory_slot {
->         struct file *restricted_file;
->         loff_t restricted_offset;
->         struct restrictedmem_notifier notifier;
-> +       struct kvm *kvm;
->  };
->
->  static inline bool kvm_slot_can_be_private(const struct kvm_memory_slot *slot)
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index 13a37b4d9e97..dae6a2c196ad 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -1028,6 +1028,111 @@ static int kvm_vm_ioctl_set_mem_attr(struct kvm *kvm, gpa_t gpa, gpa_t size,
->  }
->  #endif /* CONFIG_KVM_GENERIC_PRIVATE_MEM */
->
-> +#ifdef CONFIG_HAVE_KVM_RESTRICTED_MEM
-> +static bool restrictedmem_range_is_valid(struct kvm_memory_slot *slot,
-> +                                        pgoff_t start, pgoff_t end,
-> +                                        gfn_t *gfn_start, gfn_t *gfn_end)
-> +{
-> +       unsigned long base_pgoff = slot->restricted_offset >> PAGE_SHIFT;
-> +
-> +       if (start > base_pgoff)
-> +               *gfn_start = slot->base_gfn + start - base_pgoff;
-> +       else
-> +               *gfn_start = slot->base_gfn;
-> +
-> +       if (end < base_pgoff + slot->npages)
-> +               *gfn_end = slot->base_gfn + end - base_pgoff;
-> +       else
-> +               *gfn_end = slot->base_gfn + slot->npages;
-> +
-> +       if (*gfn_start >= *gfn_end)
-> +               return false;
-> +
-> +       return true;
-> +}
-> +
-> +static void kvm_restrictedmem_invalidate_begin(struct restrictedmem_notifier *notifier,
-> +                                              pgoff_t start, pgoff_t end)
-> +{
-> +       struct kvm_memory_slot *slot = container_of(notifier,
-> +                                                   struct kvm_memory_slot,
-> +                                                   notifier);
-> +       struct kvm *kvm = slot->kvm;
-> +       gfn_t gfn_start, gfn_end;
-> +       struct kvm_gfn_range gfn_range;
-> +       int idx;
-> +
-> +       if (!restrictedmem_range_is_valid(slot, start, end,
-> +                                               &gfn_start, &gfn_end))
-> +               return;
-> +
-> +       idx = srcu_read_lock(&kvm->srcu);
-> +       KVM_MMU_LOCK(kvm);
-> +
-> +       kvm_mmu_invalidate_begin(kvm, gfn_start, gfn_end);
-> +
-> +       gfn_range.start = gfn_start;
-> +       gfn_range.end = gfn_end;
-> +       gfn_range.slot = slot;
-> +       gfn_range.pte = __pte(0);
-> +       gfn_range.may_block = true;
-> +
-> +       if (kvm_unmap_gfn_range(kvm, &gfn_range))
-> +               kvm_flush_remote_tlbs(kvm);
-> +
-> +       KVM_MMU_UNLOCK(kvm);
-> +       srcu_read_unlock(&kvm->srcu, idx);
-> +}
-> +
-> +static void kvm_restrictedmem_invalidate_end(struct restrictedmem_notifier *notifier,
-> +                                            pgoff_t start, pgoff_t end)
-> +{
-> +       struct kvm_memory_slot *slot = container_of(notifier,
-> +                                                   struct kvm_memory_slot,
-> +                                                   notifier);
-> +       struct kvm *kvm = slot->kvm;
-> +       gfn_t gfn_start, gfn_end;
-> +
-> +       if (!restrictedmem_range_is_valid(slot, start, end,
-> +                                               &gfn_start, &gfn_end))
-> +               return;
-> +
-> +       KVM_MMU_LOCK(kvm);
-> +       kvm_mmu_invalidate_end(kvm, gfn_start, gfn_end);
-> +       KVM_MMU_UNLOCK(kvm);
-> +}
-> +
-> +static struct restrictedmem_notifier_ops kvm_restrictedmem_notifier_ops = {
-> +       .invalidate_start = kvm_restrictedmem_invalidate_begin,
-> +       .invalidate_end = kvm_restrictedmem_invalidate_end,
-> +};
-> +
-> +static inline void kvm_restrictedmem_register(struct kvm_memory_slot *slot)
-> +{
-> +       slot->notifier.ops = &kvm_restrictedmem_notifier_ops;
-> +       restrictedmem_register_notifier(slot->restricted_file, &slot->notifier);
-> +}
-> +
-> +static inline void kvm_restrictedmem_unregister(struct kvm_memory_slot *slot)
-> +{
-> +       restrictedmem_unregister_notifier(slot->restricted_file,
-> +                                         &slot->notifier);
-> +}
-> +
-> +#else /* !CONFIG_HAVE_KVM_RESTRICTED_MEM */
-> +
-> +static inline void kvm_restrictedmem_register(struct kvm_memory_slot *slot)
-> +{
-> +       WARN_ON_ONCE(1);
-> +}
-> +
-> +static inline void kvm_restrictedmem_unregister(struct kvm_memory_slot *slot)
-> +{
-> +       WARN_ON_ONCE(1);
-> +}
-> +
-> +#endif /* CONFIG_HAVE_KVM_RESTRICTED_MEM */
-> +
->  #ifdef CONFIG_HAVE_KVM_PM_NOTIFIER
->  static int kvm_pm_notifier_call(struct notifier_block *bl,
->                                 unsigned long state,
-> @@ -1072,6 +1177,11 @@ static void kvm_destroy_dirty_bitmap(struct kvm_memory_slot *memslot)
->  /* This does not remove the slot from struct kvm_memslots data structures */
->  static void kvm_free_memslot(struct kvm *kvm, struct kvm_memory_slot *slot)
->  {
-> +       if (slot->flags & KVM_MEM_PRIVATE) {
-> +               kvm_restrictedmem_unregister(slot);
-> +               fput(slot->restricted_file);
-> +       }
-> +
->         kvm_destroy_dirty_bitmap(slot);
->
->         kvm_arch_free_memslot(kvm, slot);
-> @@ -1643,10 +1753,16 @@ bool __weak kvm_arch_has_private_mem(struct kvm *kvm)
->         return false;
->  }
->
-> -static int check_memory_region_flags(const struct kvm_user_mem_region *mem)
-> +static int check_memory_region_flags(struct kvm *kvm,
-> +                                    const struct kvm_user_mem_region *mem)
->  {
->         u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
->
-> +#ifdef CONFIG_KVM_GENERIC_PRIVATE_MEM
-> +       if (kvm_arch_has_private_mem(kvm))
-> +               valid_flags |= KVM_MEM_PRIVATE;
-> +#endif
-> +
->  #ifdef __KVM_HAVE_READONLY_MEM
->         valid_flags |= KVM_MEM_READONLY;
->  #endif
-> @@ -1722,6 +1838,9 @@ static int kvm_prepare_memory_region(struct kvm *kvm,
->  {
->         int r;
->
-> +       if (change == KVM_MR_CREATE && new->flags & KVM_MEM_PRIVATE)
-> +               kvm_restrictedmem_register(new);
-> +
->         /*
->          * If dirty logging is disabled, nullify the bitmap; the old bitmap
->          * will be freed on "commit".  If logging is enabled in both old and
-> @@ -1750,6 +1869,9 @@ static int kvm_prepare_memory_region(struct kvm *kvm,
->         if (r && new && new->dirty_bitmap && (!old || !old->dirty_bitmap))
->                 kvm_destroy_dirty_bitmap(new);
->
-> +       if (r && change == KVM_MR_CREATE && new->flags & KVM_MEM_PRIVATE)
-> +               kvm_restrictedmem_unregister(new);
-> +
->         return r;
->  }
->
-> @@ -2047,7 +2169,7 @@ int __kvm_set_memory_region(struct kvm *kvm,
->         int as_id, id;
->         int r;
->
-> -       r = check_memory_region_flags(mem);
-> +       r = check_memory_region_flags(kvm, mem);
->         if (r)
->                 return r;
->
-> @@ -2066,6 +2188,10 @@ int __kvm_set_memory_region(struct kvm *kvm,
->              !access_ok((void __user *)(unsigned long)mem->userspace_addr,
->                         mem->memory_size))
->                 return -EINVAL;
-> +       if (mem->flags & KVM_MEM_PRIVATE &&
-> +               (mem->restricted_offset & (PAGE_SIZE - 1) ||
-> +                mem->restricted_offset > U64_MAX - mem->memory_size))
-> +               return -EINVAL;
->         if (as_id >= KVM_ADDRESS_SPACE_NUM || id >= KVM_MEM_SLOTS_NUM)
->                 return -EINVAL;
->         if (mem->guest_phys_addr + mem->memory_size < mem->guest_phys_addr)
-> @@ -2104,6 +2230,9 @@ int __kvm_set_memory_region(struct kvm *kvm,
->                 if ((kvm->nr_memslot_pages + npages) < kvm->nr_memslot_pages)
->                         return -EINVAL;
->         } else { /* Modify an existing slot. */
-> +               /* Private memslots are immutable, they can only be deleted. */
-> +               if (mem->flags & KVM_MEM_PRIVATE)
-> +                       return -EINVAL;
->                 if ((mem->userspace_addr != old->userspace_addr) ||
->                     (npages != old->npages) ||
->                     ((mem->flags ^ old->flags) & KVM_MEM_READONLY))
-> @@ -2132,10 +2261,28 @@ int __kvm_set_memory_region(struct kvm *kvm,
->         new->npages = npages;
->         new->flags = mem->flags;
->         new->userspace_addr = mem->userspace_addr;
-> +       if (mem->flags & KVM_MEM_PRIVATE) {
-> +               new->restricted_file = fget(mem->restricted_fd);
-> +               if (!new->restricted_file ||
-> +                   !file_is_restrictedmem(new->restricted_file)) {
-> +                       r = -EINVAL;
-> +                       goto out;
-> +               }
-> +               new->restricted_offset = mem->restricted_offset;
-> +       }
-> +
-> +       new->kvm = kvm;
->
->         r = kvm_set_memslot(kvm, old, new, change);
->         if (r)
-> -               kfree(new);
-> +               goto out;
-> +
-> +       return 0;
-> +
-> +out:
-> +       if (new->restricted_file)
-> +               fput(new->restricted_file);
-> +       kfree(new);
->         return r;
->  }
->  EXPORT_SYMBOL_GPL(__kvm_set_memory_region);
-> @@ -4604,6 +4751,11 @@ static long kvm_vm_ioctl_check_extension_generic(struct kvm *kvm, long arg)
->         case KVM_CAP_BINARY_STATS_FD:
->         case KVM_CAP_SYSTEM_EVENT_DATA:
->                 return 1;
-> +#ifdef CONFIG_KVM_GENERIC_PRIVATE_MEM
-> +       case KVM_CAP_PRIVATE_MEM:
-> +               return 1;
-> +#endif
-> +
->         default:
->                 break;
->         }
-> @@ -4795,16 +4947,28 @@ static long kvm_vm_ioctl(struct file *filp,
->         }
->         case KVM_SET_USER_MEMORY_REGION: {
->                 struct kvm_user_mem_region mem;
-> -               unsigned long size = sizeof(struct kvm_userspace_memory_region);
-> +               unsigned int flags_offset = offsetof(typeof(mem), flags);
-> +               unsigned long size;
-> +               u32 flags;
->
->                 kvm_sanity_check_user_mem_region_alias();
->
-> +               memset(&mem, 0, sizeof(mem));
-> +
->                 r = -EFAULT;
-> +               if (get_user(flags, (u32 __user *)(argp + flags_offset)))
-> +                       goto out;
-> +
-> +               if (flags & KVM_MEM_PRIVATE)
-> +                       size = sizeof(struct kvm_userspace_memory_region_ext);
-> +               else
-> +                       size = sizeof(struct kvm_userspace_memory_region);
-> +
->                 if (copy_from_user(&mem, argp, size))
->                         goto out;
->
->                 r = -EINVAL;
-> -               if (mem.flags & KVM_MEM_PRIVATE)
-> +               if ((flags ^ mem.flags) & KVM_MEM_PRIVATE)
->                         goto out;
->
->                 r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
-> --
-> 2.25.1
->
+> 2022=E5=B9=B410=E6=9C=8826=E6=97=A5 20:18=EF=BC=8CPhilippe =
+Mathieu-Daud=C3=A9 <philmd@linaro.org> =E5=86=99=E9=81=93=EF=BC=9A
+>=20
+> This is a respin of Jiaxun v3 [1] addressing the semihosting review
+> comment [2].
+>=20
+> [1] =
+https://lore.kernel.org/qemu-devel/20210127065424.114125-1-jiaxun.yang@fly=
+goat.com/
+> [2] =
+https://lore.kernel.org/qemu-devel/5a22bbe1-5023-6fc3-a41b-8d72ec2bb4a1@fl=
+ygoat.com/
+
+For the series:
+
+Tested-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Reviewed-by: Jiaxun Yang <jiaxun,yang@flygoat.com>
+
+I thought this series was committed in whole.. Just forgot that there =
+are still something remaining :-)
+
+Thanks
+- Jiaxun
+
+
+>=20
+> *** BLURB HERE ***
+>=20
+> Jiaxun Yang (2):
+>  hw/mips: Use bl_gen_kernel_jump to generate bootloaders
+>  hw/mips/malta: Use bootloader helper to set BAR registers
+>=20
+> Philippe Mathieu-Daud=C3=A9 (1):
+>  hw/mips/bootloader: Allow bl_gen_jump_kernel to optionally set
+>    register
+>=20
+> hw/mips/bootloader.c         |  28 ++++++--
+> hw/mips/boston.c             |   5 +-
+> hw/mips/fuloong2e.c          |   8 ++-
+> hw/mips/malta.c              | 122 ++++++++++++++---------------------
+> include/hw/mips/bootloader.h |   8 ++-
+> 5 files changed, 86 insertions(+), 85 deletions(-)
+>=20
+> --=20
+> 2.37.3
+>=20
+
+---
+Jiaxun Yang
+
 
